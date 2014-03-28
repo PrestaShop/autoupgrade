@@ -2475,13 +2475,13 @@ class AdminSelfUpgrade extends AdminSelfTab
 				if (version_compare(INSTALL_VERSION, '1.6.0.0', '>'))
 				{
 					Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'shop` 
-						SET id_theme = (SELECT id_theme FROM `'._DB_PREFIX_.'theme` WHERE name LIKE \'default-bootstrap\') WHERE id_shop = 1 AND id_theme = 1');
+						SET id_theme = (SELECT id_theme FROM `'._DB_PREFIX_.'theme` WHERE name LIKE \'default-bootstrap\') WHERE id_shop = 1');
 					Db::getInstance()->execute('DELETE FROM `'._DB_PREFIX_.'theme` WHERE  name LIKE \'default\' OR name LIKE \'prestashop\' LIMIT 1');
 				}
 				elseif (version_compare(INSTALL_VERSION, '1.5.0.0', '>'))
 				{
 					Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'shop` 
-						SET id_theme = (SELECT id_theme FROM `'._DB_PREFIX_.'theme` WHERE name LIKE \'default\') WHERE id_shop = 1 AND id_theme = 1');
+						SET id_theme = (SELECT id_theme FROM `'._DB_PREFIX_.'theme` WHERE name LIKE \'default\') WHERE id_shop = 1');
 					Db::getInstance()->execute('DELETE FROM `'._DB_PREFIX_.'theme` WHERE  name LIKE \'prestashop\' LIMIT 1');
 				}
 			}
