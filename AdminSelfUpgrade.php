@@ -2465,10 +2465,71 @@ class AdminSelfUpgrade extends AdminSelfTab
 								unlink($dir.basename($file));
 			}
 
-			if (class_exists('ToolsCore') && method_exists('ToolsCore', 'generateHtaccess'))
-				ToolsCore::generateHtaccess();
-			else
-				Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'configuration` SET value="0" WHERE name=\'PS_REWRITING_SETTINGS\'');
+			if (version_compare(INSTALL_VERSION, '1.6.0.0', '>') && class_exists('Tools2') && method_exists('Tools2', 'generateHtaccess'))
+			{
+				$url_rewrite = (bool)Db::getInstance()->getvalue('SELECT `value` FROM `'._DB_PREFIX_.'configuration`WHERE name=\'PS_REWRITING_SETTINGS\'');
+
+				if (!defined('_MEDIA_SERVER_1_'))
+					define('_MEDIA_SERVER_1_', '');
+				if (!defined('_MEDIA_SERVER_2_'))
+					define('_MEDIA_SERVER_2_', '');
+				if (!defined('_MEDIA_SERVER_3_'))
+					define('_MEDIA_SERVER_3_', '');
+				if (!defined('_PS_USE_SQL_SLAVE_'))
+					define('_PS_USE_SQL_SLAVE_', false);
+
+				if (file_exists(_PS_ROOT_DIR_.'/classes/ObjectModel.php'))
+					require_once(_PS_ROOT_DIR_.'/classes/ObjectModel.php');
+				if (!class_exists('ObjectModel', false) AND class_exists('ObjectModelCore'))
+					eval('abstract class ObjectModel extends ObjectModelCore{}');
+
+				if (file_exists(_PS_ROOT_DIR_.'/classes/Configuration.php'))
+					require_once(_PS_ROOT_DIR_.'/classes/Configuration.php');
+				if (!class_exists('Configuration', false) AND class_exists('ConfigurationCore'))
+					eval('class Configuration extends ConfigurationCore{}');
+
+				if (file_exists(_PS_ROOT_DIR_.'/classes/cache/Cache.php'))
+					require_once(_PS_ROOT_DIR_.'/classes/cache/Cache.php');
+				if (!class_exists('Cache', false) AND class_exists('CacheCore'))
+					eval('abstract class Cache extends CacheCore{}');
+
+				if (file_exists(_PS_ROOT_DIR_.'/classes/PrestaShopCollection.php'))
+					require_once(_PS_ROOT_DIR_.'/classes/PrestaShopCollection.php');
+				if(!class_exists('PrestaShopCollection', false) AND class_exists('PrestaShopCollectionCore'))
+					eval('class PrestaShopCollection extends PrestaShopCollectionCore{}');
+
+				if (file_exists(_PS_ROOT_DIR_.'/classes/shop/ShopUrl.php'))
+					require_once(_PS_ROOT_DIR_.'/classes/shop/ShopUrl.php');
+				if (!class_exists('ShopUrl', false) AND class_exists('ShopUrlCore'))
+					eval('class ShopUrl extends ShopUrlCore{}');
+
+				if (file_exists(_PS_ROOT_DIR_.'/classes/shop/Shop.php'))
+					require_once(_PS_ROOT_DIR_.'/classes/shop/Shop.php');
+				if (!class_exists('Shop', false) AND class_exists('ShopCore'))
+					eval('class Shop extends ShopCore{}');
+
+				if (file_exists(_PS_ROOT_DIR_.'/classes/Hook.php'))
+					require_once(_PS_ROOT_DIR_.'/classes/Hook.php');
+				if (!class_exists('Hook', false) AND class_exists('HookCore'))
+					eval('class Hook extends HookCore{}');
+
+				if (file_exists(_PS_ROOT_DIR_.'/classes/Context.php'))
+					require_once(_PS_ROOT_DIR_.'/classes/Context.php');
+				if (!class_exists('Context', false) AND class_exists('ContextCore'))
+					eval('class Context extends ContextCore{}');
+
+				if (file_exists(_PS_ROOT_DIR_.'/classes/Group.php'))
+					require_once(_PS_ROOT_DIR_.'/classes/Group.php');
+				if (!class_exists('Group', false) AND class_exists('GroupCore'))
+					eval('class Group extends GroupCore{}');
+
+				if (file_exists(_PS_ROOT_DIR_.'/classes/Validate.php'))
+					require_once(_PS_ROOT_DIR_.'/classes/Validate.php');
+				if (!class_exists('Validate', false) AND class_exists('ValidateCore'))
+					eval('class Validate extends ValidateCore{}');
+		
+				Tools2::generateHtaccess(null, $url_rewrite); 
+			}
 		
 			if ($this->updateDefaultTheme)
 			{
