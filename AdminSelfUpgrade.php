@@ -1888,6 +1888,9 @@ class AdminSelfUpgrade extends AdminSelfTab
 					Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'configuration` SET value = 1 WHERE `name` LIKE \'PS_DISABLE_OVERRIDES\' AND value = 0');
 				else
 					Db::getInstance()->execute('INSERT INTO `'._DB_PREFIX_.'configuration` (name, value, date_add, date_upd) VALUES ("PS_DISABLE_OVERRIDES", 1, NOW(), NOW())');
+
+				if (file_exists(_PS_ROOT_DIR_.'/cache/class_index.php'))
+					unlink(_PS_ROOT_DIR_.'/cache/class_index.php');
 			}
 			
 			$this->stepDone = true;
