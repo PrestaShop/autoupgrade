@@ -418,7 +418,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 		}
 		/* Bug with backwardcompatibility overrinding currentIndex */
 		if (version_compare(_PS_VERSION_,'1.5.0.0','>'))	
-			$this->currentIndex = $_SERVER['SCRIPT_NAME'].(($controller = Tools::getValue('controller')) ? '?controller='.$controller: '');
+			$this->currentIndex = $_SERVER['SCRIPT_NAME'].(($controller = Tools14::getValue('controller')) ? '?controller='.$controller: '');
 		else
 			$this->currentIndex = $currentIndex;
 	}
@@ -927,7 +927,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 			if (is_array($langs))
 				foreach ($langs as $lang)
 				{
-					$lang_pack = Tools14::jsonDecode(Tools::file_get_contents('http'.(extension_loaded('openssl')? 's' : '').'://www.prestashop.com/download/lang_packs/get_language_pack.php?version='.$this->install_version.'&iso_lang='.$lang['iso_code']));
+					$lang_pack = Tools14::jsonDecode(Tools14::file_get_contents('http'.(extension_loaded('openssl')? 's' : '').'://www.prestashop.com/download/lang_packs/get_language_pack.php?version='.$this->install_version.'&iso_lang='.$lang['iso_code']));
 	
 					if (!$lang_pack)
 						continue;
@@ -2462,7 +2462,11 @@ class AdminSelfUpgrade extends AdminSelfTab
 								unlink($dir.basename($file));
 			}
 
-			Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'configuration` SET value=0 WHERE name=\'PS_REWRITING_SETTINGS\'');
+			if (class_exists('ToolsCore') && method_exists('ToolsCore', 'generateHtaccess'))
+				ToolsCore::generateHtaccess();
+			else
+				Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'configuration` SET value="0" WHERE name=\'PS_REWRITING_SETTINGS\'');
+		
 			if ($this->updateDefaultTheme)
 			{
 				if (version_compare(INSTALL_VERSION, '1.6.0.0', '>'))
