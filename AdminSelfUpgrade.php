@@ -2465,6 +2465,11 @@ class AdminSelfUpgrade extends AdminSelfTab
 								unlink($dir.basename($file));
 			}
 
+			if (file_exists(_PS_ROOT_DIR_.'/classes/Tools.php'))
+				require_once(_PS_ROOT_DIR_.'/classes/Tools.php');
+			if(!class_exists('Tools2', false) AND class_exists('ToolsCore'))
+				eval('class Tools2 extends ToolsCore{}');
+
 			if (version_compare(INSTALL_VERSION, '1.6.0.0', '>') && class_exists('Tools2') && method_exists('Tools2', 'generateHtaccess'))
 			{
 				$url_rewrite = (bool)Db::getInstance()->getvalue('SELECT `value` FROM `'._DB_PREFIX_.'configuration`WHERE name=\'PS_REWRITING_SETTINGS\'');
