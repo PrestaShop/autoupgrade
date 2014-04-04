@@ -535,6 +535,8 @@ class AdminSelfUpgrade extends AdminSelfTab
 											$this->l('This is not recommended as the upgrade will immediately fail if a PHP error occurs during an ajax call.'),
 			);
 		}
+		elseif ($this->getConfig('PS_DISPLAY_ERRORS'))
+			$this->writeConfig(array('PS_DISPLAY_ERRORS' => '0'));
 	}
 
 	public function configOk()
