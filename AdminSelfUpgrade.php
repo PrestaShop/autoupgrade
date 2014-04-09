@@ -535,6 +535,8 @@ class AdminSelfUpgrade extends AdminSelfTab
 											$this->l('This is not recommended as the upgrade will immediately fail if a PHP error occurs during an ajax call.'),
 			);
 		}
+		elseif ($this->getConfig('PS_DISPLAY_ERRORS'))
+			$this->writeConfig(array('PS_DISPLAY_ERRORS' => '0'));
 	}
 
 	public function configOk()
@@ -2512,6 +2514,11 @@ class AdminSelfUpgrade extends AdminSelfTab
 					require_once(_PS_ROOT_DIR_.'/classes/shop/Shop.php');
 				if (!class_exists('Shop', false) AND class_exists('ShopCore'))
 					eval('class Shop extends ShopCore{}');
+
+				if (file_exists(_PS_ROOT_DIR_.'/classes/module/Module.php'))
+					require_once(_PS_ROOT_DIR_.'/classes/module/Module.php');
+				if (!class_exists('Module', false) AND class_exists('ModuleCore'))
+					eval('class Module extends ModuleCore{}');
 
 				if (file_exists(_PS_ROOT_DIR_.'/classes/Hook.php'))
 					require_once(_PS_ROOT_DIR_.'/classes/Hook.php');
