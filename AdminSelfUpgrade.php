@@ -2515,6 +2515,11 @@ class AdminSelfUpgrade extends AdminSelfTab
 				if (!class_exists('Shop', false) AND class_exists('ShopCore'))
 					eval('class Shop extends ShopCore{}');
 
+				if (file_exists(_PS_ROOT_DIR_.'/classes/module/Module.php'))
+					require_once(_PS_ROOT_DIR_.'/classes/module/Module.php');
+				if (!class_exists('Module', false) AND class_exists('ModuleCore'))
+					eval('class Module extends ModuleCore{}');
+
 				if (file_exists(_PS_ROOT_DIR_.'/classes/Hook.php'))
 					require_once(_PS_ROOT_DIR_.'/classes/Hook.php');
 				if (!class_exists('Hook', false) AND class_exists('HookCore'))
