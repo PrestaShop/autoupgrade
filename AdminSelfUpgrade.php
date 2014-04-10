@@ -2520,6 +2520,16 @@ class AdminSelfUpgrade extends AdminSelfTab
 				if (!class_exists('Translate', false) AND class_exists('TranslateCore'))
 					eval('class Translate extends TranslateCore{}');
 
+				if (file_exists(_PS_ROOT_DIR_.'/classes/module/Module.php'))
+					require_once(_PS_ROOT_DIR_.'/classes/module/Module.php');
+				if (!class_exists('Module', false) AND class_exists('ModuleCore'))
+					eval('class Module extends ModuleCore{}');
+
+				if (file_exists(_PS_ROOT_DIR_.'/classes/Validate.php'))
+					require_once(_PS_ROOT_DIR_.'/classes/Validate.php');
+				if (!class_exists('Validate', false) AND class_exists('ValidateCore'))
+					eval('class Validate extends ValidateCore{}');
+
 				if (file_exists(_PS_ROOT_DIR_.'/classes/Language.php'))
 					require_once(_PS_ROOT_DIR_.'/classes/Language.php');
 				if (!class_exists('Language', false) AND class_exists('LanguageCore'))
@@ -2534,11 +2544,6 @@ class AdminSelfUpgrade extends AdminSelfTab
 					require_once(_PS_ROOT_DIR_.'/classes/Dispatcher.php');
 				if (!class_exists('Dispatcher', false) AND class_exists('DispatcherCore'))
 					eval('class Dispatcher extends DispatcherCore{}');
-
-				if (file_exists(_PS_ROOT_DIR_.'/classes/module/Module.php'))
-					require_once(_PS_ROOT_DIR_.'/classes/module/Module.php');
-				if (!class_exists('Module', false) AND class_exists('ModuleCore'))
-					eval('class Module extends ModuleCore{}');
 
 				if (file_exists(_PS_ROOT_DIR_.'/classes/Hook.php'))
 					require_once(_PS_ROOT_DIR_.'/classes/Hook.php');
@@ -2555,10 +2560,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 				if (!class_exists('Group', false) AND class_exists('GroupCore'))
 					eval('class Group extends GroupCore{}');
 
-				if (file_exists(_PS_ROOT_DIR_.'/classes/Validate.php'))
-					require_once(_PS_ROOT_DIR_.'/classes/Validate.php');
-				if (!class_exists('Validate', false) AND class_exists('ValidateCore'))
-					eval('class Validate extends ValidateCore{}');
+
 		
 				Tools2::generateHtaccess(null, $url_rewrite); 
 			}
