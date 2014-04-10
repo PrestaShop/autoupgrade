@@ -512,8 +512,8 @@ class AdminSelfUpgrade extends AdminSelfTab
 		);
 
 		$this->_fieldsUpgradeOptions['PS_AUTOUP_UPDATE_DEFAULT_THEME'] = array(
-			'title' => $this->l('Upgrade the "default" theme'), 'cast' => 'intval', 'validation' => 'isBool', 'defaultValue' => '1',
-			'type' => 'bool', 'desc' => $this->l('This will upgrade the theme named "default" (PrestaShop default theme).').'<br />'.$this->l('If you are using this theme and customized it, you will loose your modifications.'),
+			'title' => $this->l('Upgrade and swith to the major version default theme'), 'cast' => 'intval', 'validation' => 'isBool', 'defaultValue' => '1',
+			'type' => 'bool', 'desc' => $this->l('This will upgrade to the major version default theme.').'<br />'.$this->l('If you are using the default theme and customized it, you will loose your modifications. If your are using your own theme, it will switch to default theme.'),
 		);
 		
 		$this->_fieldsUpgradeOptions['PS_AUTOUP_KEEP_MAILS'] = array(
@@ -2515,10 +2515,35 @@ class AdminSelfUpgrade extends AdminSelfTab
 				if (!class_exists('Shop', false) AND class_exists('ShopCore'))
 					eval('class Shop extends ShopCore{}');
 
+				if (file_exists(_PS_ROOT_DIR_.'/classes/Translate.php'))
+					require_once(_PS_ROOT_DIR_.'/classes/Translate.php');
+				if (!class_exists('Translate', false) AND class_exists('TranslateCore'))
+					eval('class Translate extends TranslateCore{}');
+
 				if (file_exists(_PS_ROOT_DIR_.'/classes/module/Module.php'))
 					require_once(_PS_ROOT_DIR_.'/classes/module/Module.php');
 				if (!class_exists('Module', false) AND class_exists('ModuleCore'))
 					eval('class Module extends ModuleCore{}');
+
+				if (file_exists(_PS_ROOT_DIR_.'/classes/Validate.php'))
+					require_once(_PS_ROOT_DIR_.'/classes/Validate.php');
+				if (!class_exists('Validate', false) AND class_exists('ValidateCore'))
+					eval('class Validate extends ValidateCore{}');
+
+				if (file_exists(_PS_ROOT_DIR_.'/classes/Language.php'))
+					require_once(_PS_ROOT_DIR_.'/classes/Language.php');
+				if (!class_exists('Language', false) AND class_exists('LanguageCore'))
+					eval('class Language extends LanguageCore{}');
+				
+				if (file_exists(_PS_ROOT_DIR_.'/classes/Tab.php'))
+					require_once(_PS_ROOT_DIR_.'/classes/Tab.php');
+				if (!class_exists('Tab', false) AND class_exists('TabCore'))
+					eval('class Tab extends TabCore{}');
+				
+				if (file_exists(_PS_ROOT_DIR_.'/classes/Dispatcher.php'))
+					require_once(_PS_ROOT_DIR_.'/classes/Dispatcher.php');
+				if (!class_exists('Dispatcher', false) AND class_exists('DispatcherCore'))
+					eval('class Dispatcher extends DispatcherCore{}');
 
 				if (file_exists(_PS_ROOT_DIR_.'/classes/Hook.php'))
 					require_once(_PS_ROOT_DIR_.'/classes/Hook.php');
@@ -2535,10 +2560,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 				if (!class_exists('Group', false) AND class_exists('GroupCore'))
 					eval('class Group extends GroupCore{}');
 
-				if (file_exists(_PS_ROOT_DIR_.'/classes/Validate.php'))
-					require_once(_PS_ROOT_DIR_.'/classes/Validate.php');
-				if (!class_exists('Validate', false) AND class_exists('ValidateCore'))
-					eval('class Validate extends ValidateCore{}');
+
 		
 				Tools2::generateHtaccess(null, $url_rewrite); 
 			}
@@ -3262,6 +3284,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 						$this->next = 'error';
 						$this->error = 1;
 						$this->next_desc = $this->l('Error during database restoration');
+						unlink($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->toRestoreQueryList);
 						return false;
 					}
 					// note : theses queries can be too big and can cause issues for display
@@ -3532,16 +3555,19 @@ class AdminSelfUpgrade extends AdminSelfTab
 						$time_elapsed = time() - $start_time;
 					}
 					else
+					{
+						unset($this->nextParams['backup_table']);
+						unset($this->currentParams['backup_table']);
 						break;
+					}
 				}
-				while(($time_elapsed < self::$loopBackupDbTime) || ($written < self::$max_written_allowed));
+				while(($time_elapsed < self::$loopBackupDbTime) && ($written < self::$max_written_allowed));
 			}
 			$found++;
-			unset($this->nextParams['backup_table']);
 			$time_elapsed = time() - $start_time;
 			$this->nextQuickInfo[] = sprintf($this->l('%1$s table has been saved.'), $table);
 		}
-		while(($time_elapsed < self::$loopBackupDbTime) || ($written < self::$max_written_allowed));
+		while(($time_elapsed < self::$loopBackupDbTime) && ($written < self::$max_written_allowed));
 
 		// end of loop
 		if (isset($fp))
@@ -3549,8 +3575,11 @@ class AdminSelfUpgrade extends AdminSelfTab
 			fclose($fp);
 			unset($fp);
 		}
+
 		file_put_contents($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->toBackupDbList, base64_encode(serialize($tablesToBackup)));
-		if (count($tablesToBackup) > 0){
+
+		if (count($tablesToBackup) > 0)
+		{
 			$this->nextQuickInfo[] = sprintf($this->l('%1$s tables has been saved.'), $found);
 			$this->next = 'backupDb';
 			$this->stepDone = false;
@@ -3587,10 +3616,6 @@ class AdminSelfUpgrade extends AdminSelfTab
 			$this->next = 'upgradeFiles';
 			return true;
 		}
-		// for backup db, use autoupgrade/backup directory
-		// @TODO : autoupgrade must not be static
-		// maybe for big tables we should save them in more than one file ?
-		// if an error occur, we assume the file is not saved
 	}
 
 	public function ajaxProcessBackupFiles()
