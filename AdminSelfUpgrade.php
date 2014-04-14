@@ -2474,7 +2474,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 
 			if (version_compare(INSTALL_VERSION, '1.6.0.0', '>') && class_exists('Tools2') && method_exists('Tools2', 'generateHtaccess'))
 			{
-				$url_rewrite = (bool)Db::getInstance()->getvalue('SELECT `value` FROM `'._DB_PREFIX_.'configuration`WHERE name=\'PS_REWRITING_SETTINGS\'');
+				$url_rewrite = (bool)Db::getInstance()->getvalue('SELECT `value` FROM `'._DB_PREFIX_.'configuration` WHERE name=\'PS_REWRITING_SETTINGS\'');
 
 				if (!defined('_MEDIA_SERVER_1_'))
 					define('_MEDIA_SERVER_1_', '');
@@ -2560,8 +2560,6 @@ class AdminSelfUpgrade extends AdminSelfTab
 				if (!class_exists('Group', false) AND class_exists('GroupCore'))
 					eval('class Group extends GroupCore{}');
 
-
-		
 				Tools2::generateHtaccess(null, $url_rewrite); 
 			}
 		
