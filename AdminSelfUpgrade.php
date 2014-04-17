@@ -421,6 +421,17 @@ class AdminSelfUpgrade extends AdminSelfTab
 			$this->currentIndex = $_SERVER['SCRIPT_NAME'].(($controller = Tools14::getValue('controller')) ? '?controller='.$controller: '');
 		else
 			$this->currentIndex = $currentIndex;
+
+		if (defined('_PS_ADMIN_DIR_'))
+		{
+			$autoupgrade_dir = _PS_ADMIN_DIR_.DIRECTORY_SEPARATOR.'autoupgrade';	
+			$file_tab = @filemtime($autoupgrade_dir.DIRECTORY_SEPARATOR.'ajax-upgradetab.php');
+			$file =  @filemtime(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR.'autoupgrade'.DIRECTORY_SEPARATOR.'ajax-upgradetab.php');
+		
+			if ($file_tab < $file)
+				@copy(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR.'autoupgrade'.DIRECTORY_SEPARATOR.'ajax-upgradetab.php', 
+					$autoupgrade_dir.DIRECTORY_SEPARATOR.'ajax-upgradetab.php');
+		}
 	}
 
 	protected function l($string, $class = 'AdminTab', $addslashes = FALSE, $htmlentities = TRUE)
