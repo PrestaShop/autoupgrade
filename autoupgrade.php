@@ -31,7 +31,7 @@ class Autoupgrade extends Module
 		$this->name = 'autoupgrade';
 		$this->tab = 'administration';
 		$this->author = 'PrestaShop';
-		$this->version = '1.3.9';
+		$this->version = '1.3.10';
 		
 		if (version_compare(_PS_VERSION_, '1.5.0.0 ', '>='))
 			$this->multishop_context = Shop::CONTEXT_ALL;
@@ -48,7 +48,6 @@ class Autoupgrade extends Module
 
 		$this->displayName = $this->l('1-click Upgrade');
 		$this->description = $this->l('Provides an automated method to upgrade your shop to the latest PrestaShop version');
-		$this->ps_versions_compliancy = array('min' => '1.4', 'max' => _PS_VERSION_);
 
 		if (version_compare(_PS_VERSION_, '1.6.0.0 ', '<') && PS_VERSION == $this->ps_versions_compliancy['max'])
 			$this->ps_versions_compliancy['max'] = '1.6';
