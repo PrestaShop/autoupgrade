@@ -913,55 +913,6 @@ class AdminSelfUpgrade extends AdminSelfTab
 	 */
 	public function ajaxProcessUpgradeComplete()
 	{
-		if (version_compare($this->install_version, '1.5.4.0', '>='))
-		{
-			// Upgrade languages
-			if (!defined('_PS_TOOL_DIR_'))
-				define('_PS_TOOL_DIR_', _PS_ROOT_DIR_.'/tools/');
-			if (!defined('_PS_TRANSLATIONS_DIR_'))
-				define('_PS_TRANSLATIONS_DIR_', _PS_ROOT_DIR_.'/translations/');
-			if (!defined('_PS_MODULES_DIR_'))
-				define('_PS_MODULES_DIR_', _PS_ROOT_DIR_.'/modules/');
-			if (!defined('_PS_MAILS_DIR_'))
-				define('_PS_MAILS_DIR_', _PS_ROOT_DIR_.'/mails/');
-			$langs = Db::getInstance()->executeS('SELECT * FROM `'._DB_PREFIX_.'lang` WHERE `active` = 1');
-			require_once(_PS_TOOL_DIR_.'tar/Archive_Tar.php');
-			if (is_array($langs))
-				foreach ($langs as $lang)
-				{
-					$lang_pack = Tools14::jsonDecode(Tools14::file_get_contents('http'.(extension_loaded('openssl')? 's' : '').'://www.prestashop.com/download/lang_packs/get_language_pack.php?version='.$this->install_version.'&iso_lang='.$lang['iso_code']));
-	
-					if (!$lang_pack)
-						continue;
-					elseif ($content = Tools14::file_get_contents('http'.(extension_loaded('openssl')? 's' : '').'://translations.prestashop.com/download/lang_packs/gzip/'.$lang_pack->version.'/'.$lang['iso_code'].'.gzip'))
-					{
-						$file = _PS_TRANSLATIONS_DIR_.$lang['iso_code'].'.gzip';
-						if ((bool)file_put_contents($file, $content))
-						{
-							$gz = new Archive_Tar($file, true);
-							$files_list = $gz->listContent();					
-							if (!$this->keepMails)
-							{
-								$files_listing = array();
-								foreach($files_list as $i => $file)
-									if (preg_match('/^mails\/'.$lang['iso_code'].'\/.*/', $file['filename']))
-										unset($files_list[$i]);
-								foreach($files_list as $file)
-									if (isset($file['filename']) && is_string($file['filename']))
-										$files_listing[] = $file['filename'];
-								if (is_array($files_listing))
-									$gz->extractList($files_listing, _PS_TRANSLATIONS_DIR_.'../', '');
-							}
-							else
-								$gz->extract(_PS_TRANSLATIONS_DIR_.'../', false);
-						}
-					}
-				}
-			// Remove class_index Autoload cache
-			if (file_exists(_PS_ROOT_DIR_.'/cache/class_index.php'))
-				unlink(_PS_ROOT_DIR_.'/cache/class_index.php');
-		}
-
 		if (!$this->warning_exists)
 			$this->next_desc = $this->l('Upgrade process done. Congratulations ! You can now reactive your shop.');
 		else
@@ -1867,33 +1818,6 @@ class AdminSelfUpgrade extends AdminSelfTab
 					}
 				}
 			}
-
-			if (version_compare($this->install_version, '1.5.5.0', '='))
-			{
-				Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'configuration` SET `name` = \'PS_LEGACY_IMAGES\' WHERE name LIKE \'0\' AND `value` = 1');
-				Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'configuration` SET `value` = 0 WHERE `name` LIKE \'PS_LEGACY_IMAGES\' AND `value` = 1');
-				if (Db::getInstance()->getValue('SELECT COUNT(id_product_download) FROM `'._DB_PREFIX_.'product_download` WHERE `active` = 1') > 0)
-					Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'configuration` SET `value` = 1 WHERE `name` LIKE \'PS_VIRTUAL_PROD_FEATURE_ACTIVE\'');
-			}
-
-			if (version_compare($this->install_version, '1.6.0.2', '>'))
-			{
-				$path = $this->adminDir.DIRECTORY_SEPARATOR.'themes'.DIRECTORY_SEPARATOR.'default'.DIRECTORY_SEPARATOR.'template'.DIRECTORY_SEPARATOR.'controllers'.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR.'header.tpl';
-				if (file_exists($path))
-					unlink($path);
-			}
-			
-			if ($this->deactivateCustomModule)
-			{
-				$exist = Db::getInstance()->getValue('SELECT `id_configuration` FROM `'._DB_PREFIX_.'configuration` WHERE `name` LIKE \'PS_DISABLE_OVERRIDES\'');
-				if ($exist)
-					Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'configuration` SET value = 1 WHERE `name` LIKE \'PS_DISABLE_OVERRIDES\'');
-				else
-					Db::getInstance()->execute('INSERT INTO `'._DB_PREFIX_.'configuration` (name, value, date_add, date_upd) VALUES ("PS_DISABLE_OVERRIDES", 1, NOW(), NOW())');
-
-				if (file_exists(_PS_ROOT_DIR_.'/cache/class_index.php'))
-					unlink(_PS_ROOT_DIR_.'/cache/class_index.php');
-			}
 			
 			$this->stepDone = true;
 			$this->status = 'ok';
@@ -2428,12 +2352,16 @@ class AdminSelfUpgrade extends AdminSelfTab
 						$this->nextQuickInfo[] = sprintf($this->l('[cleaning cache] %s removed'), $file);
 					}
 		
+		if (version_compare($this->install_version, '1.5.5.0', '='))
+		{
+			Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'configuration` SET `name` = \'PS_LEGACY_IMAGES\' WHERE name LIKE \'0\' AND `value` = 1');
+			Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'configuration` SET `value` = 0 WHERE `name` LIKE \'PS_LEGACY_IMAGES\' AND `value` = 1');
+			if (Db::getInstance()->getValue('SELECT COUNT(id_product_download) FROM `'._DB_PREFIX_.'product_download` WHERE `active` = 1') > 0)
+				Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'configuration` SET `value` = 1 WHERE `name` LIKE \'PS_VIRTUAL_PROD_FEATURE_ACTIVE\'');
+		}
+
 		if (version_compare(INSTALL_VERSION, '1.5.0.0', '>'))
 		{
-			// Remove class_index Autoload cache
-			if (file_exists(_PS_ROOT_DIR_.'/cache/class_index.php'))
-				unlink(_PS_ROOT_DIR_.'/cache/class_index.php');
-
 			if (defined('_THEME_NAME_') && $this->updateDefaultTheme && preg_match('#(default|prestashop|default-boostrap)$#', _THEME_NAME_))
 			{
 				$separator = addslashes(DIRECTORY_SEPARATOR);
@@ -2467,116 +2395,195 @@ class AdminSelfUpgrade extends AdminSelfTab
 								unlink($dir.basename($file));
 			}
 
-			if (file_exists(_PS_ROOT_DIR_.'/classes/Tools.php'))
-				require_once(_PS_ROOT_DIR_.'/classes/Tools.php');
-			if(!class_exists('Tools2', false) AND class_exists('ToolsCore'))
-				eval('class Tools2 extends ToolsCore{}');
-
-			if (version_compare(INSTALL_VERSION, '1.6.0.0', '>') && class_exists('Tools2') && method_exists('Tools2', 'generateHtaccess'))
+			if (version_compare($this->install_version, '1.5.4.0', '>='))
 			{
-				$url_rewrite = (bool)Db::getInstance()->getvalue('SELECT `value` FROM `'._DB_PREFIX_.'configuration` WHERE name=\'PS_REWRITING_SETTINGS\'');
-
-				if (!defined('_MEDIA_SERVER_1_'))
-					define('_MEDIA_SERVER_1_', '');
-				if (!defined('_MEDIA_SERVER_2_'))
-					define('_MEDIA_SERVER_2_', '');
-				if (!defined('_MEDIA_SERVER_3_'))
-					define('_MEDIA_SERVER_3_', '');
-				if (!defined('_PS_USE_SQL_SLAVE_'))
-					define('_PS_USE_SQL_SLAVE_', false);
-
-				if (file_exists(_PS_ROOT_DIR_.'/classes/ObjectModel.php'))
-					require_once(_PS_ROOT_DIR_.'/classes/ObjectModel.php');
-				if (!class_exists('ObjectModel', false) AND class_exists('ObjectModelCore'))
-					eval('abstract class ObjectModel extends ObjectModelCore{}');
-
-				if (file_exists(_PS_ROOT_DIR_.'/classes/Configuration.php'))
-					require_once(_PS_ROOT_DIR_.'/classes/Configuration.php');
-				if (!class_exists('Configuration', false) AND class_exists('ConfigurationCore'))
-					eval('class Configuration extends ConfigurationCore{}');
-
-				if (file_exists(_PS_ROOT_DIR_.'/classes/cache/Cache.php'))
-					require_once(_PS_ROOT_DIR_.'/classes/cache/Cache.php');
-				if (!class_exists('Cache', false) AND class_exists('CacheCore'))
-					eval('abstract class Cache extends CacheCore{}');
-
-				if (file_exists(_PS_ROOT_DIR_.'/classes/PrestaShopCollection.php'))
-					require_once(_PS_ROOT_DIR_.'/classes/PrestaShopCollection.php');
-				if(!class_exists('PrestaShopCollection', false) AND class_exists('PrestaShopCollectionCore'))
-					eval('class PrestaShopCollection extends PrestaShopCollectionCore{}');
-
-				if (file_exists(_PS_ROOT_DIR_.'/classes/shop/ShopUrl.php'))
-					require_once(_PS_ROOT_DIR_.'/classes/shop/ShopUrl.php');
-				if (!class_exists('ShopUrl', false) AND class_exists('ShopUrlCore'))
-					eval('class ShopUrl extends ShopUrlCore{}');
-
-				if (file_exists(_PS_ROOT_DIR_.'/classes/shop/Shop.php'))
-					require_once(_PS_ROOT_DIR_.'/classes/shop/Shop.php');
-				if (!class_exists('Shop', false) AND class_exists('ShopCore'))
-					eval('class Shop extends ShopCore{}');
-
-				if (file_exists(_PS_ROOT_DIR_.'/classes/Translate.php'))
-					require_once(_PS_ROOT_DIR_.'/classes/Translate.php');
-				if (!class_exists('Translate', false) AND class_exists('TranslateCore'))
-					eval('class Translate extends TranslateCore{}');
-
-				if (file_exists(_PS_ROOT_DIR_.'/classes/module/Module.php'))
-					require_once(_PS_ROOT_DIR_.'/classes/module/Module.php');
-				if (!class_exists('Module', false) AND class_exists('ModuleCore'))
-					eval('class Module extends ModuleCore{}');
-
-				if (file_exists(_PS_ROOT_DIR_.'/classes/Validate.php'))
-					require_once(_PS_ROOT_DIR_.'/classes/Validate.php');
-				if (!class_exists('Validate', false) AND class_exists('ValidateCore'))
-					eval('class Validate extends ValidateCore{}');
-
-				if (file_exists(_PS_ROOT_DIR_.'/classes/Language.php'))
-					require_once(_PS_ROOT_DIR_.'/classes/Language.php');
-				if (!class_exists('Language', false) AND class_exists('LanguageCore'))
-					eval('class Language extends LanguageCore{}');
-				
-				if (file_exists(_PS_ROOT_DIR_.'/classes/Tab.php'))
-					require_once(_PS_ROOT_DIR_.'/classes/Tab.php');
-				if (!class_exists('Tab', false) AND class_exists('TabCore'))
-					eval('class Tab extends TabCore{}');
-				
-				if (file_exists(_PS_ROOT_DIR_.'/classes/Dispatcher.php'))
-					require_once(_PS_ROOT_DIR_.'/classes/Dispatcher.php');
-				if (!class_exists('Dispatcher', false) AND class_exists('DispatcherCore'))
-					eval('class Dispatcher extends DispatcherCore{}');
-
-				if (file_exists(_PS_ROOT_DIR_.'/classes/Hook.php'))
-					require_once(_PS_ROOT_DIR_.'/classes/Hook.php');
-				if (!class_exists('Hook', false) AND class_exists('HookCore'))
-					eval('class Hook extends HookCore{}');
-
-				if (file_exists(_PS_ROOT_DIR_.'/classes/Context.php'))
-					require_once(_PS_ROOT_DIR_.'/classes/Context.php');
-				if (!class_exists('Context', false) AND class_exists('ContextCore'))
-					eval('class Context extends ContextCore{}');
-
-				if (file_exists(_PS_ROOT_DIR_.'/classes/Group.php'))
-					require_once(_PS_ROOT_DIR_.'/classes/Group.php');
-				if (!class_exists('Group', false) AND class_exists('GroupCore'))
-					eval('class Group extends GroupCore{}');
-
-				Tools2::generateHtaccess(null, $url_rewrite); 
-			}
+				// Upgrade languages
+				if (!defined('_PS_TOOL_DIR_'))
+					define('_PS_TOOL_DIR_', _PS_ROOT_DIR_.'/tools/');
+				if (!defined('_PS_TRANSLATIONS_DIR_'))
+					define('_PS_TRANSLATIONS_DIR_', _PS_ROOT_DIR_.'/translations/');
+				if (!defined('_PS_MODULES_DIR_'))
+					define('_PS_MODULES_DIR_', _PS_ROOT_DIR_.'/modules/');
+				if (!defined('_PS_MAILS_DIR_'))
+					define('_PS_MAILS_DIR_', _PS_ROOT_DIR_.'/mails/');
+				$langs = Db::getInstance()->executeS('SELECT * FROM `'._DB_PREFIX_.'lang` WHERE `active` = 1');
+				require_once(_PS_TOOL_DIR_.'tar/Archive_Tar.php');
+				if (is_array($langs))
+					foreach ($langs as $lang)
+					{
+						$lang_pack = Tools14::jsonDecode(Tools14::file_get_contents('http'.(extension_loaded('openssl')? 's' : '').'://www.prestashop.com/download/lang_packs/get_language_pack.php?version='.$this->install_version.'&iso_lang='.$lang['iso_code']));
 		
-			if ($this->updateDefaultTheme)
+						if (!$lang_pack)
+							continue;
+						elseif ($content = Tools14::file_get_contents('http'.(extension_loaded('openssl')? 's' : '').'://translations.prestashop.com/download/lang_packs/gzip/'.$lang_pack->version.'/'.$lang['iso_code'].'.gzip'))
+						{
+							$file = _PS_TRANSLATIONS_DIR_.$lang['iso_code'].'.gzip';
+							if ((bool)file_put_contents($file, $content))
+							{
+								$gz = new Archive_Tar($file, true);
+								$files_list = $gz->listContent();					
+								if (!$this->keepMails)
+								{
+									$files_listing = array();
+									foreach($files_list as $i => $file)
+										if (preg_match('/^mails\/'.$lang['iso_code'].'\/.*/', $file['filename']))
+											unset($files_list[$i]);
+									foreach($files_list as $file)
+										if (isset($file['filename']) && is_string($file['filename']))
+											$files_listing[] = $file['filename'];
+									if (is_array($files_listing))
+										$gz->extractList($files_listing, _PS_TRANSLATIONS_DIR_.'../', '');
+								}
+								else
+									$gz->extract(_PS_TRANSLATIONS_DIR_.'../', false);
+							}
+						}
+					}
+			}
+
+			if (version_compare(INSTALL_VERSION, '1.6.0.0', '>'))
 			{
-				if (version_compare(INSTALL_VERSION, '1.6.0.0', '>'))
+				if (file_exists(_PS_ROOT_DIR_.'/classes/Tools.php'))
+					require_once(_PS_ROOT_DIR_.'/classes/Tools.php');
+				if (!class_exists('Tools2', false) AND class_exists('ToolsCore'))
+					eval('class Tools2 extends ToolsCore{}');
+
+				if (class_exists('Tools2') && method_exists('Tools2', 'generateHtaccess'))
 				{
-					Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'shop` 
-						SET id_theme = (SELECT id_theme FROM `'._DB_PREFIX_.'theme` WHERE name LIKE \'default-bootstrap\')');
-					Db::getInstance()->execute('DELETE FROM `'._DB_PREFIX_.'theme` WHERE  name LIKE \'default\' OR name LIKE \'prestashop\'');
+					$url_rewrite = (bool)Db::getInstance()->getvalue('SELECT `value` FROM `'._DB_PREFIX_.'configuration` WHERE name=\'PS_REWRITING_SETTINGS\'');
+	
+					if (!defined('_MEDIA_SERVER_1_'))
+						define('_MEDIA_SERVER_1_', '');
+					if (!defined('_MEDIA_SERVER_2_'))
+						define('_MEDIA_SERVER_2_', '');
+					if (!defined('_MEDIA_SERVER_3_'))
+						define('_MEDIA_SERVER_3_', '');
+					if (!defined('_PS_USE_SQL_SLAVE_'))
+						define('_PS_USE_SQL_SLAVE_', false);
+	
+					if (file_exists(_PS_ROOT_DIR_.'/classes/ObjectModel.php'))
+						require_once(_PS_ROOT_DIR_.'/classes/ObjectModel.php');
+					if (!class_exists('ObjectModel', false) AND class_exists('ObjectModelCore'))
+						eval('abstract class ObjectModel extends ObjectModelCore{}');
+	
+					if (file_exists(_PS_ROOT_DIR_.'/classes/Configuration.php'))
+						require_once(_PS_ROOT_DIR_.'/classes/Configuration.php');
+					if (!class_exists('Configuration', false) AND class_exists('ConfigurationCore'))
+						eval('class Configuration extends ConfigurationCore{}');
+	
+					if (file_exists(_PS_ROOT_DIR_.'/classes/cache/Cache.php'))
+						require_once(_PS_ROOT_DIR_.'/classes/cache/Cache.php');
+					if (!class_exists('Cache', false) AND class_exists('CacheCore'))
+						eval('abstract class Cache extends CacheCore{}');
+	
+					if (file_exists(_PS_ROOT_DIR_.'/classes/PrestaShopCollection.php'))
+						require_once(_PS_ROOT_DIR_.'/classes/PrestaShopCollection.php');
+					if(!class_exists('PrestaShopCollection', false) AND class_exists('PrestaShopCollectionCore'))
+						eval('class PrestaShopCollection extends PrestaShopCollectionCore{}');
+	
+					if (file_exists(_PS_ROOT_DIR_.'/classes/shop/ShopUrl.php'))
+						require_once(_PS_ROOT_DIR_.'/classes/shop/ShopUrl.php');
+					if (!class_exists('ShopUrl', false) AND class_exists('ShopUrlCore'))
+						eval('class ShopUrl extends ShopUrlCore{}');
+	
+					if (file_exists(_PS_ROOT_DIR_.'/classes/shop/Shop.php'))
+						require_once(_PS_ROOT_DIR_.'/classes/shop/Shop.php');
+					if (!class_exists('Shop', false) AND class_exists('ShopCore'))
+						eval('class Shop extends ShopCore{}');
+	
+					if (file_exists(_PS_ROOT_DIR_.'/classes/Translate.php'))
+						require_once(_PS_ROOT_DIR_.'/classes/Translate.php');
+					if (!class_exists('Translate', false) AND class_exists('TranslateCore'))
+						eval('class Translate extends TranslateCore{}');
+	
+					if (file_exists(_PS_ROOT_DIR_.'/classes/module/Module.php'))
+						require_once(_PS_ROOT_DIR_.'/classes/module/Module.php');
+					if (!class_exists('Module', false) AND class_exists('ModuleCore'))
+						eval('class Module extends ModuleCore{}');
+	
+					if (file_exists(_PS_ROOT_DIR_.'/classes/Validate.php'))
+						require_once(_PS_ROOT_DIR_.'/classes/Validate.php');
+					if (!class_exists('Validate', false) AND class_exists('ValidateCore'))
+						eval('class Validate extends ValidateCore{}');
+	
+					if (file_exists(_PS_ROOT_DIR_.'/classes/Language.php'))
+						require_once(_PS_ROOT_DIR_.'/classes/Language.php');
+					if (!class_exists('Language', false) AND class_exists('LanguageCore'))
+						eval('class Language extends LanguageCore{}');
+					
+					if (file_exists(_PS_ROOT_DIR_.'/classes/Tab.php'))
+						require_once(_PS_ROOT_DIR_.'/classes/Tab.php');
+					if (!class_exists('Tab', false) AND class_exists('TabCore'))
+						eval('class Tab extends TabCore{}');
+					
+					if (file_exists(_PS_ROOT_DIR_.'/classes/Dispatcher.php'))
+						require_once(_PS_ROOT_DIR_.'/classes/Dispatcher.php');
+					if (!class_exists('Dispatcher', false) AND class_exists('DispatcherCore'))
+						eval('class Dispatcher extends DispatcherCore{}');
+	
+					if (file_exists(_PS_ROOT_DIR_.'/classes/Hook.php'))
+						require_once(_PS_ROOT_DIR_.'/classes/Hook.php');
+					if (!class_exists('Hook', false) AND class_exists('HookCore'))
+						eval('class Hook extends HookCore{}');
+	
+					if (file_exists(_PS_ROOT_DIR_.'/classes/Context.php'))
+						require_once(_PS_ROOT_DIR_.'/classes/Context.php');
+					if (!class_exists('Context', false) AND class_exists('ContextCore'))
+						eval('class Context extends ContextCore{}');
+	
+					if (file_exists(_PS_ROOT_DIR_.'/classes/Group.php'))
+						require_once(_PS_ROOT_DIR_.'/classes/Group.php');
+					if (!class_exists('Group', false) AND class_exists('GroupCore'))
+						eval('class Group extends GroupCore{}');
+	
+					Tools2::generateHtaccess(null, $url_rewrite); 
 				}
-				elseif (version_compare(INSTALL_VERSION, '1.5.0.0', '>'))
-				{
-					Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'shop` 
-						SET id_theme = (SELECT id_theme FROM `'._DB_PREFIX_.'theme` WHERE name LIKE \'default\')');
-					Db::getInstance()->execute('DELETE FROM `'._DB_PREFIX_.'theme` WHERE  name LIKE \'prestashop\'');
-				}
+			}
+
+			if (version_compare($this->install_version, '1.6.0.2', '>'))
+			{
+				$path = $this->adminDir.DIRECTORY_SEPARATOR.'themes'.DIRECTORY_SEPARATOR.'default'.DIRECTORY_SEPARATOR.'template'.DIRECTORY_SEPARATOR.'controllers'.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR.'header.tpl';
+				if (file_exists($path))
+					unlink($path);
+			}
+		}
+
+		if (file_exists(_PS_ROOT_DIR_.'/cache/class_index.php'))
+			unlink(_PS_ROOT_DIR_.'/cache/class_index.php');
+
+		if ($this->deactivateCustomModule)
+		{
+			$exist = Db::getInstance()->getValue('SELECT `id_configuration` FROM `'._DB_PREFIX_.'configuration` WHERE `name` LIKE \'PS_DISABLE_OVERRIDES\'');
+			if ($exist)
+				Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'configuration` SET value = 1 WHERE `name` LIKE \'PS_DISABLE_OVERRIDES\'');
+			else
+				Db::getInstance()->execute('INSERT INTO `'._DB_PREFIX_.'configuration` (name, value, date_add, date_upd) VALUES ("PS_DISABLE_OVERRIDES", 1, NOW(), NOW())');
+
+			if (file_exists(_PS_ROOT_DIR_.'/classes/PrestaShopAutoload.php'))
+				require_once(_PS_ROOT_DIR_.'/classes/PrestaShopAutoload.php');
+
+			if (version_compare($this->install_version, '1.6.0.0', '>') && class_exists('PrestaShopAutoload') && method_exists('PrestaShopAutoload', 'generateIndex'))
+			{
+				if (!defined('_PS_CORE_DIR_'))
+					define('_PS_CORE_DIR_', _PS_ROOT_DIR_);
+				PrestaShopAutoload::getInstance()->_include_override_path = false;
+				PrestaShopAutoload::getInstance()->generateIndex();
+			}
+		}
+	
+		if ($this->updateDefaultTheme)
+		{
+			if (version_compare(INSTALL_VERSION, '1.6.0.0', '>'))
+			{
+				Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'shop` 
+					SET id_theme = (SELECT id_theme FROM `'._DB_PREFIX_.'theme` WHERE name LIKE \'default-bootstrap\')');
+				Db::getInstance()->execute('DELETE FROM `'._DB_PREFIX_.'theme` WHERE  name LIKE \'default\' OR name LIKE \'prestashop\'');
+			}
+			elseif (version_compare(INSTALL_VERSION, '1.5.0.0', '>'))
+			{
+				Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'shop` 
+					SET id_theme = (SELECT id_theme FROM `'._DB_PREFIX_.'theme` WHERE name LIKE \'default\')');
+				Db::getInstance()->execute('DELETE FROM `'._DB_PREFIX_.'theme` WHERE  name LIKE \'prestashop\'');
 			}
 		}
 
@@ -2595,13 +2602,10 @@ class AdminSelfUpgrade extends AdminSelfTab
 					self::createCacheFsDirectories((int)$depth);
 			}
 		}
-		// we do not use class Configuration because it's not loaded;
-		$this->db->execute('UPDATE `'._DB_PREFIX_.'configuration`
-			SET value="0" WHERE name = "PS_HIDE_OPTIMIZATION_TIS"', false);
-		$this->db->execute('UPDATE `'._DB_PREFIX_.'configuration`
-			SET value="1" WHERE name = "PS_NEED_REBUILD_INDEX"', false);
-		$this->db->execute('UPDATE `'._DB_PREFIX_.'configuration`
-			SET value="'.INSTALL_VERSION.'" WHERE name = "PS_VERSION_DB"', false);
+
+		$this->db->execute('UPDATE `'._DB_PREFIX_.'configuration` SET value="0" WHERE name = "PS_HIDE_OPTIMIZATION_TIS"', false);
+		$this->db->execute('UPDATE `'._DB_PREFIX_.'configuration` SET value="1" WHERE name = "PS_NEED_REBUILD_INDEX"', false);
+		$this->db->execute('UPDATE `'._DB_PREFIX_.'configuration` SET value="'.INSTALL_VERSION.'" WHERE name = "PS_VERSION_DB"', false);
 
 		if ($warningExist)
 		{
@@ -5403,8 +5407,7 @@ $(document).ready(function(){
 		}
 
 		$(document).ready(function(){
-			$("#advanced").hide();
-			$("#normal").show();
+			'.($this->getConfig('channel') == 'major' ? 'switch_to_normal();' : 'switch_to_advanced();').'
 		});
 	';
 		$js .= '
