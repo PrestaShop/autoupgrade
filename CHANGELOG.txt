@@ -1,3 +1,4 @@
+2014-04-22 18:56:42 +0200	// Changelog updated
 2014-04-17 18:51:39 +0200	[-] Autoupgrade fix bug #PSCSX-1822
 2014-04-17 15:03:02 +0200	[-] Autoupgrade, fix bug #PSCSX-1747, class_index badly generated
 2014-04-17 11:53:49 +0200	[-] MO : autoupgrade - Fix 1.5 ps_version_compliancy issue
