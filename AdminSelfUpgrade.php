@@ -1885,7 +1885,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 			{
 				if ((bool)file_put_contents($zip_fullpath, $content))
 				{
-					if (filesize($zip_fullpath) <= 101)
+					if (filesize($zip_fullpath) <= 300)
 						unlink($zip_fullpath);
 					// unzip in modules/[mod name] old files will be conserved
 					elseif($this->ZipExtract($zip_fullpath, $dest_extract))
