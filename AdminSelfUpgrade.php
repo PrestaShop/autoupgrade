@@ -523,7 +523,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 		);
 
 		$this->_fieldsUpgradeOptions['PS_AUTOUP_UPDATE_DEFAULT_THEME'] = array(
-			'title' => $this->l('Upgrade and swith to the major version default theme'), 'cast' => 'intval', 'validation' => 'isBool', 'defaultValue' => '1',
+			'title' => $this->l('Upgrade and switch to the major version default theme'), 'cast' => 'intval', 'validation' => 'isBool', 'defaultValue' => '1',
 			'type' => 'bool', 'desc' => $this->l('This will upgrade to the major version default theme.').'<br />'.$this->l('If you are using the default theme and customized it, you will loose your modifications. If your are using your own theme, it will switch to default theme.'),
 		);
 		
