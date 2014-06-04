@@ -41,13 +41,13 @@ class Autoupgrade extends Module
 			if (defined('PS_ADMIN_DIR'))
 				define('_PS_ADMIN_DIR_', PS_ADMIN_DIR);
 			else
-				$this->_errors[] = $this->l('This version of PrestaShop cannot be upgraded : PS_ADMIN_DIR constant is missing');
+				$this->_errors[] = $this->l('This version of PrestaShop cannot be upgraded: the PS_ADMIN_DIR constant is missing.');
 		}
 
 		parent::__construct();
 
-		$this->displayName = $this->l('1-click Upgrade');
-		$this->description = $this->l('Provides an automated method to upgrade your shop to the latest PrestaShop version');
+		$this->displayName = $this->l('1-Click Upgrade');
+		$this->description = $this->l('Provides an automated method to upgrade your shop to the latest version of PrestaShop.');
 		
 	}
 
@@ -58,7 +58,7 @@ class Autoupgrade extends Module
 		{
 			$tab = new Tab((int)$id_tab);
 			if (!$tab->delete())
-				$this->_errors[] = sprintf($this->l('Unable to delete outdated AdminUpgrade tab %d'), (int)$id_tab);
+				$this->_errors[] = sprintf($this->l('Unable to delete outdated "AdminUpgrade" tab (tab ID: %d).'), (int)$id_tab);
 		}
 
 		/* If the "AdminSelfUpgrade" tab does not exist yet, create it */
