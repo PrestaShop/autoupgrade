@@ -424,13 +424,12 @@ class AdminSelfUpgrade extends AdminSelfTab
 
 		if (defined('_PS_ADMIN_DIR_'))
 		{
-			$autoupgrade_dir = _PS_ADMIN_DIR_.DIRECTORY_SEPARATOR.'autoupgrade';	
-			$file_tab = @filemtime($autoupgrade_dir.DIRECTORY_SEPARATOR.'ajax-upgradetab.php');
-			$file =  @filemtime(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR.'autoupgrade'.DIRECTORY_SEPARATOR.'ajax-upgradetab.php');
+			$file_tab = @filemtime($this->autoupgradePath.DIRECTORY_SEPARATOR.'ajax-upgradetab.php');
+			$file =  @filemtime(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR.$this->autoupgradeDir.DIRECTORY_SEPARATOR.'ajax-upgradetab.php');
 		
 			if ($file_tab < $file)
-				@copy(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR.'autoupgrade'.DIRECTORY_SEPARATOR.'ajax-upgradetab.php', 
-					$autoupgrade_dir.DIRECTORY_SEPARATOR.'ajax-upgradetab.php');
+				@copy(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR.$this->autoupgradeDir.DIRECTORY_SEPARATOR.'ajax-upgradetab.php', 
+					$this->autoupgradePath.DIRECTORY_SEPARATOR.'ajax-upgradetab.php');
 		}
 	}
 
@@ -566,6 +565,8 @@ class AdminSelfUpgrade extends AdminSelfTab
 			$allowed_array = array();
 			$allowed_array['fopen'] = ConfigurationTest::test_fopen() || ConfigurationTest::test_curl();
 			$allowed_array['root_writable'] = $this->getRootWritable();
+			$admin_dir = trim(str_replace($this->prodRootDir, '', $this->adminDir), DIRECTORY_SEPARATOR);
+			$allowed_array['admin_au_writable'] = ConfigurationTest::test_dir($admin_dir.DIRECTORY_SEPARATOR.$this->autoupgradeDir, false, $report);
 			$allowed_array['shop_deactivated'] = (!Configuration::get('PS_SHOP_ENABLE') || (isset($_SERVER['HTTP_HOST']) && in_array($_SERVER['HTTP_HOST'], array('127.0.0.1', 'localhost'))));
 			$allowed_array['cache_deactivated'] = !(defined('_PS_CACHE_ENABLED_') && _PS_CACHE_ENABLED_);
 			$allowed_array['module_version_ok'] = $this->checkAutoupgradeLastVersion();
@@ -738,7 +739,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 		$this->backupIgnoreFiles[] = '..';
 		$this->backupIgnoreFiles[] = '.svn';
 		$this->backupIgnoreFiles[] = '.git';
-		$this->backupIgnoreFiles[] = 'autoupgrade';
+		$this->backupIgnoreFiles[] = $this->autoupgradeDir;
 
 		$this->excludeFilesFromUpgrade[] = '.';
 		$this->excludeFilesFromUpgrade[] = '..';
@@ -751,7 +752,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 		$this->excludeAbsoluteFilesFromUpgrade[] = '/config/modules_list.xml';
 		$this->excludeAbsoluteFilesFromUpgrade[] = '/config/xml/modules_list.xml';		
 		// this will exclude autoupgrade dir from admin, and autoupgrade from modules
-		$this->excludeFilesFromUpgrade[] = 'autoupgrade';
+		$this->excludeFilesFromUpgrade[] = $this->autoupgradeDir;
 
 		if ($this->keepImages === '0')
 		{
@@ -800,7 +801,10 @@ class AdminSelfUpgrade extends AdminSelfTab
 		// directory missing
 		if (!file_exists($this->autoupgradePath))
 			if (!mkdir($this->autoupgradePath))
-				$this->_errors[] = sprintf($this->l('unable to create directory %s'),$this->autoupgradePath);
+				$this->_errors[] = sprintf($this->l('unable to create directory %s'), $this->autoupgradePath);
+
+		if (!is_writable($this->autoupgradePath))
+			$this->_errors[] = sprintf($this->l('Unable to write in the directory "%s"'), $this->autoupgradePath);
 
 		$this->downloadPath = $this->autoupgradePath.DIRECTORY_SEPARATOR.'download';
 		if (!file_exists($this->downloadPath))
@@ -1527,7 +1531,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 			$filename = substr($file, strrpos($file, '/')+1);
 			$toRemove[$key] = preg_replace('#^/admin#', $admin_dir, $file);
 			// this is a really sensitive part, so we add an extra checks: preserve everything that contains "autoupgrade"
-			if ($this->_skipFile($filename, $file, 'backup') || strpos($file, 'autoupgrade'))
+			if ($this->_skipFile($filename, $file, 'backup') || strpos($file, $this->autoupgradeDir))
 				unset($toRemove[$key]);
 		}
 		return $toRemove;
@@ -1727,7 +1731,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 				if(is_array($this->modules_addons))
 					$id_addons = array_search($module_name, $this->modules_addons);
 				if (isset($id_addons) && $id_addons)
-					if ($module_name != 'autoupgrade')
+					if ($module_name != $this->autoupgradeDir)
 						$list[] = array('id' => $id_addons, 'name' => $module_name);
 			}
 		}
@@ -4185,6 +4189,16 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 				<td>'.$this->l('Your store root directory must be writeable (appropriate CHMOD permissions)').'</td>
 				<td>'.($current_ps_config['root_writable'] ? $pic_ok : $pic_nok.' '.$this->root_writable_report).'</td>
 			</tr>';
+
+		$admin_dir = trim(str_replace($this->prodRootDir, '', $this->adminDir), DIRECTORY_SEPARATOR);
+		$report = '';
+		ConfigurationTest::test_dir($admin_dir.DIRECTORY_SEPARATOR.$this->autoupgradeDir, true, $report);
+		if ($report)
+			$this->_html .= '
+				<tr>
+					<td>'.$this->l('The admin autoupgrade directory must be writeable (appropriate CHMOD permissions)').'</td>
+					<td>'.($current_ps_config['admin_au_writable'] ? $pic_ok : $pic_nok.' '.$report).'</td>
+				</tr>';
 
 		//check safe_mod
 		if (!$safe_mode = @ini_get('safe_mode'))
