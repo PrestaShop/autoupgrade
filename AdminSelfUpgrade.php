@@ -524,7 +524,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 		$this->_fieldsUpgradeOptions['PS_AUTOUP_UPDATE_DEFAULT_THEME'] = array(
 			'title' => $this->l('Upgrade and switch to the default theme of the new version'), 'cast' => 'intval', 'validation' => 'isBool', 'defaultValue' => '1',
 			'type' => 'bool', 'desc' => $this->l('This will change your theme: your shop will then use the default theme of the versio of PrestaShop you are upgrading to.to the major version default theme.').'<br />'
-			.$this->l('If you are using the default theme of the current version of PrestaShop, you will lose any customization you made to it. If your are using your own theme, enabling option will switch your shop to default theme, and your own theme will be safe.'),
+			.$this->l('If you are using the default theme of the current version of PrestaShop, you will lose any customization you made to it. If you are using your own theme, enabling this option will switch your shop to the default theme, and your own theme will be safe.'),
 		);
 		
 		$this->_fieldsUpgradeOptions['PS_AUTOUP_KEEP_MAILS'] = array(
