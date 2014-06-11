@@ -511,7 +511,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 		$this->_fieldsUpgradeOptions['PS_AUTOUP_PERFORMANCE'] = array(
 			'title' => $this->l('Server performance'), 'cast' => 'intval', 'validation' => 'isInt', 'defaultValue' => '1',
 			'type' => 'select', 'desc' => $this->l('Unless you are using a dedicated server, select "Low".').'<br />'.
-			$this->l('A high value can cause the upgrade to fail if your server is not fast enough to process the upgrade tasks in a short amount of time.'),
+			$this->l('A high value can cause the upgrade to fail if your server is not powerful enough to process the upgrade tasks in a short amount of time.'),
 			'choices' => array(1 => $this->l('Low (recommended)'), 2 => $this->l('Medium'), 3 => $this->l('High'))
 		);
 		
@@ -523,7 +523,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 
 		$this->_fieldsUpgradeOptions['PS_AUTOUP_UPDATE_DEFAULT_THEME'] = array(
 			'title' => $this->l('Upgrade and switch to the default theme of the new version'), 'cast' => 'intval', 'validation' => 'isBool', 'defaultValue' => '1',
-			'type' => 'bool', 'desc' => $this->l('This will change your theme: your shop will then use the default theme of the versio of PrestaShop you are upgrading to.to the major version default theme.').'<br />'
+			'type' => 'bool', 'desc' => $this->l('This will change your theme: your shop will then use the default theme of the version of PrestaShop you are upgrading to.').'<br />'
 			.$this->l('If you are using the default theme of the current version of PrestaShop, you will lose any customization you made to it. If you are using your own theme, enabling this option will switch your shop to the default theme, and your own theme will be safe.'),
 		);
 		
@@ -3609,8 +3609,8 @@ class AdminSelfUpgrade extends AdminSelfTab
 		{
 			if (file_exists($backupfile))
 				unlink($backupfile);
-			$this->nextErrors[] = sprintf($this->l('No valid tables were found to backup. Backup of file %s cancelled.'), $backupfile);
-			$this->nextQuickInfo[] = sprintf($this->l('No valid tables were found to backup. Backup of file %s cancelled.'), $backupfile);
+			$this->nextErrors[] = sprintf($this->l('No valid tables were found to back up. Backup of file %s cancelled.'), $backupfile);
+			$this->nextQuickInfo[] = sprintf($this->l('No valid tables were found to back up. Backup of file %s cancelled.'), $backupfile);
 			$this->error = 1;
 			$this->next_desc = sprintf($this->l('Error during database backup for file %s.'), $backupfile);
 			return false;
@@ -4040,7 +4040,7 @@ txtError[2] = "'.$this->l('Fields are different!').'";
 txtError[3] = "'.$this->l('This email adress is wrong!').'";
 txtError[4] = "'.$this->l('Impossible to send the email!').'";
 txtError[5] = "'.$this->l('Cannot create settings file, if /config/settings.inc.php exists, please give the public write permissions to this file, else please create a file named settings.inc.php in config directory.').'";
-txtError[6] = "'.$this->l('Cannot write settings file, please create a file named settings.inc.php in config directory.').'";
+txtError[6] = "'.$this->l('Cannot write settings file, please create a file named settings.inc.php in the "config" directory.').'";
 txtError[7] = "'.$this->l('Impossible to upload the file!').'";
 txtError[8] = "'.$this->l('Data integrity is not valided. Hack attempt?').'";
 txtError[9] = "'.$this->l('Impossible to read the content of a MySQL content file.').'";
@@ -4078,11 +4078,11 @@ txtError[999] = "'.$this->l('No error code available').'";
 //upgrader
 txtError[27] = "'.$this->l('This installer is too old.').'";
 txtError[28] = "'.sprintf($this->l('You already have the %s version.'),$INSTALL_VERSION).'";
-txtError[29] = "'.$this->l('There is no older version. Did you delete or rename the configsettings.inc.php file?').'";
+txtError[29] = "'.$this->l('There is no older version. Did you delete or rename the config/settings.inc.php file?').'";
 txtError[30] = "'.$this->l('The config/settings.inc.php file was not found. Did you delete or rename this file?').'";
-txtError[31] = "'.$this->l('Cannot find the sql upgrade files. Please verify that the /install/sql/upgrade folder is not empty)').'";
+txtError[31] = "'.$this->l('Cannot find the SQL upgrade files. Please verify that the /install/sql/upgrade folder is not empty.').'";
 txtError[32] = "'.$this->l('No upgrade is possible.').'";
-txtError[33] = "'.$this->l('Error while loading sql upgrade file.').'";
+txtError[33] = "'.$this->l('Error while loading SQL upgrade file.').'";
 txtError[34] = "'.$this->l('Error while inserting content into the database').'";
 txtError[35] = "'.$this->l('Unfortunately,').'";
 txtError[36] = "'.$this->l('SQL errors have occurred.').'";

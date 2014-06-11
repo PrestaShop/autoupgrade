@@ -652,23 +652,23 @@ abstract class AdminSelfTab
 		foreach ($rules['required'] AS $field)
 			if (($value = Tools14::getValue($field)) == false AND (string)$value != '0')
 				if (!Tools14::getValue($this->identifier) OR ($field != 'passwd' AND $field != 'no-picture'))
-					$this->_errors[] = $this->l('the field').' <b>'.call_user_func(array($className, 'displayFieldName'), $field, $className).'</b> '.$this->l('is required');
+					$this->_errors[] = sprintf($this->l('The field named %s is required.'), call_user_func(array($className, 'displayFieldName'), $field, $className));
 
 		/* Checking for multilingual required fields */
 		foreach ($rules['requiredLang'] AS $fieldLang)
 			if (($empty = Tools14::getValue($fieldLang.'_'.$defaultLanguage->id)) === false OR $empty !== '0' AND empty($empty))
-				$this->_errors[] = $this->l('the field').' <b>'.call_user_func(array($className, 'displayFieldName'), $fieldLang, $className).'</b> '.$this->l('is required at least in').' '.$defaultLanguage->name;
+				$this->_errors[] = sprintf($this->l('The field named %1$s is required at least in the %2$s language.'), call_user_func(array($className, 'displayFieldName'), $fieldLang, $className), $defaultLanguage->name);
 
 		/* Checking for maximum fields sizes */
 		foreach ($rules['size'] AS $field => $maxLength)
 			if (Tools14::getValue($field) !== false AND Tools14::strlen(Tools14::getValue($field)) > $maxLength)
-				$this->_errors[] = $this->l('the field').' <b>'.call_user_func(array($className, 'displayFieldName'), $field, $className).'</b> '.$this->l('is too long').' ('.$maxLength.' '.$this->l('chars max').')';
+				$this->_errors[] = sprintf($this->l('The field named %1$s is too long (%2$s chars max).'), call_user_func(array($className, 'displayFieldName'), $field, $className), $maxLength);
 
 		/* Checking for maximum multilingual fields size */
 		foreach ($rules['sizeLang'] AS $fieldLang => $maxLength)
 			foreach ($languages AS $language)
 				if (Tools14::getValue($fieldLang.'_'.$language['id_lang']) !== false AND Tools14::strlen(Tools14::getValue($fieldLang.'_'.$language['id_lang'])) > $maxLength)
-					$this->_errors[] = $this->l('the field').' <b>'.call_user_func(array($className, 'displayFieldName'), $fieldLang, $className).' ('.$language['name'].')</b> '.$this->l('is too long').' ('.$maxLength.' '.$this->l('chars max, html chars including').')';
+					$this->_errors[] = sprintf($this->l('The field named %1$s (for %2$s language) is too long (%3$s chars max, including HTML chars).'), call_user_func(array($className, 'displayFieldName'), $fieldLang, $className), $language['name'], $maxLength);
 
 		/* Overload this method for custom checking */
 		$this->_childValidation();
