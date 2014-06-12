@@ -31,8 +31,8 @@ class Autoupgrade extends Module
 		$this->name = 'autoupgrade';
 		$this->tab = 'administration';
 		$this->author = 'PrestaShop';
-		$this->version = '1.3.12';
-		
+		$this->version = '1.3.13';
+
 		if (version_compare(_PS_VERSION_, '1.5.0.0 ', '>='))
 			$this->multishop_context = Shop::CONTEXT_ALL;
 
@@ -41,24 +41,23 @@ class Autoupgrade extends Module
 			if (defined('PS_ADMIN_DIR'))
 				define('_PS_ADMIN_DIR_', PS_ADMIN_DIR);
 			else
-				$this->_errors[] = $this->l('This version of PrestaShop cannot be upgraded : PS_ADMIN_DIR constant is missing');
+				$this->_errors[] = $this->l('This version of PrestaShop cannot be upgraded: the PS_ADMIN_DIR constant is missing.');
 		}
 
 		parent::__construct();
 
-		$this->displayName = $this->l('1-click Upgrade');
-		$this->description = $this->l('Provides an automated method to upgrade your shop to the latest PrestaShop version');
-		
+		$this->displayName = $this->l('1-Click Upgrade');
+		$this->description = $this->l('Provides an automated method to upgrade your shop to the latest version of PrestaShop.');
 	}
 
 	public function install()
-	{		
+	{
 		/* Before creating a new tab "AdminSelfUpgrade" we need to remove any existing "AdminUpgrade" tab (present in v1.4.4.0 and v1.4.4.1) */
 		if ($id_tab = Tab::getIdFromClassName('AdminUpgrade'))
 		{
 			$tab = new Tab((int)$id_tab);
 			if (!$tab->delete())
-				$this->_errors[] = sprintf($this->l('Unable to delete outdated AdminUpgrade tab %d'), (int)$id_tab);
+				$this->_errors[] = sprintf($this->l('Unable to delete outdated "AdminUpgrade" tab (tab ID: %d).'), (int)$id_tab);
 		}
 
 		/* If the "AdminSelfUpgrade" tab does not exist yet, create it */
@@ -88,7 +87,7 @@ class Autoupgrade extends Module
 		$autoupgrade_dir = _PS_ADMIN_DIR_.DIRECTORY_SEPARATOR.'autoupgrade';
 		if (!file_exists($autoupgrade_dir) && !@mkdir($autoupgrade_dir))
 			return $this->_abortInstall(sprintf($this->l('Unable to create the directory "%s"'), $autoupgrade_dir));
-		
+
 		/* Make sure that the 1-click upgrade working directory is writeable */
 		if (!is_writable($autoupgrade_dir))
 			return $this->_abortInstall(sprintf($this->l('Unable to write in the directory "%s"'), $autoupgrade_dir));
@@ -96,7 +95,7 @@ class Autoupgrade extends Module
 		/* If a previous version of ajax-upgradetab.php exists, delete it */
 		if (file_exists($autoupgrade_dir.DIRECTORY_SEPARATOR.'ajax-upgradetab.php'))
 			@unlink($autoupgrade_dir.DIRECTORY_SEPARATOR.'ajax-upgradetab.php');
-		
+
 		/* Then, try to copy the newest version from the module's directory */
 		if (!@copy(dirname(__FILE__).DIRECTORY_SEPARATOR.'ajax-upgradetab.php', $autoupgrade_dir.DIRECTORY_SEPARATOR.'ajax-upgradetab.php'))
 			return $this->_abortInstall(sprintf($this->l('Unable to copy ajax-upgradetab.php in %s'), $autoupgrade_dir));
@@ -107,7 +106,7 @@ class Autoupgrade extends Module
 			return $this->_abortInstall(sprintf($this->l('Unable to create the directory "%s"'), _PS_ROOT_DIR_.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'xml'));
 		else
 			@chmod(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'xml', 0775);
-		
+
 		/* Create a dummy index.php file in the XML config directory to avoid directory listing */
 		if (!file_exists(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'xml'.DIRECTORY_SEPARATOR.'index.php') &&
 		(file_exists(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'index.php') &&
@@ -128,7 +127,7 @@ class Autoupgrade extends Module
 
 		/* Remove the 1-click upgrade working directory */
 		self::_removeDirectory(_PS_ADMIN_DIR_.DIRECTORY_SEPARATOR.'autoupgrade');
-		
+
 		return parent::uninstall();
 	}
 
@@ -138,7 +137,7 @@ class Autoupgrade extends Module
 		header('Location: index.php?tab=AdminSelfUpgrade&token='.md5(pSQL(_COOKIE_KEY_.'AdminSelfUpgrade'.(int)Tab::getIdFromClassName('AdminSelfUpgrade').(int)$cookie->id_employee)));
 		exit;
 	}
-	
+
 	/**
 	* Set installation errors and return false
 	*
@@ -154,9 +153,9 @@ class Autoupgrade extends Module
 
 		return false;
 	}
-	
+
 	private static function _removeDirectory($dir)
-	{     
+	{
 		if ($handle = @opendir($dir))
 		{
 			while (false !== ($entry = @readdir($handle)))
