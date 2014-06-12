@@ -1884,7 +1884,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 		{
 			// file_get_contents can return false if https is not supported (or warning)
 			$content = Tools14::file_get_contents($protocol.$addons_url, false, $context);
-			if ($content == false)
+			if ($content == false || substr($content, 5) == '<?xml')
 				continue;
 			if ($content !== null)
 			{
@@ -1893,7 +1893,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 					if (filesize($zip_fullpath) <= 300)
 						unlink($zip_fullpath);
 					// unzip in modules/[mod name] old files will be conserved
-					elseif($this->ZipExtract($zip_fullpath, $dest_extract))
+					elseif ($this->ZipExtract($zip_fullpath, $dest_extract))
 					{
 						$this->nextQuickInfo[] = sprintf($this->l('The files of module %s have been upgraded.'), $name);
 						if (file_exists($zip_fullpath))
