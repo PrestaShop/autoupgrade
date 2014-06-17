@@ -4186,7 +4186,7 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 
 		$this->_html .= '
 			<tr>
-				<td>'.$this->l('Your store\'s root directory must be writeable (with appropriate CHMOD permissions)').'</td>
+				<td>'.$this->l('Your store\'s root directory is writeable (with appropriate CHMOD permissions)').'</td>
 				<td>'.($current_ps_config['root_writable'] ? $pic_ok : $pic_nok.' '.$this->root_writable_report).'</td>
 			</tr>';
 
@@ -4196,7 +4196,7 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 		if ($report)
 			$this->_html .= '
 				<tr>
-					<td>'.$this->l('The admin autoupgrade directory must be writeable (appropriate CHMOD permissions)').'</td>
+					<td>'.$this->l('The "/admin/autoupgrade" directory is writeable (appropriate CHMOD permissions)').'</td>
 					<td>'.($current_ps_config['admin_au_writable'] ? $pic_ok : $pic_nok.' '.$report).'</td>
 				</tr>';
 
@@ -4230,7 +4230,7 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 		// for informaiton, display time limit
 		$max_exec_time = ini_get('max_execution_time');
 		$this->_html .= '
-			<tr><td>'.sprintf($this->l('PHP\'s time limit setting (max_execution_time) must be high or disabled entirely (Current value: %s)'), ($max_exec_time == 0 ? $this->l('unlimited') : sprintf($this->l('%s seconds'), $max_exec_time))).'</td>
+			<tr><td>'.sprintf($this->l('PHP\'s max_execution_time setting has a high value or is disabled entirely (current value: %s)'), ($max_exec_time == 0 ? $this->l('unlimited') : sprintf($this->l('%s seconds'), $max_exec_time))).'</td>
 			<td>'.($max_exec_time == 0 ? $pic_ok : $pic_warn).'</td></tr>
 				</table>
 				<p>'.$this->l('Please also make sure you make a full manual backup of your files and database.').'</p>
