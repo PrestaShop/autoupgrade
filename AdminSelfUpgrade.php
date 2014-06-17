@@ -2365,7 +2365,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 							unlink($dir.$file);
 						elseif(is_dir($dir.$file.DIRECTORY_SEPARATOR))
 							self::deleteDirectory($dir.$file.DIRECTORY_SEPARATOR);
-						$this->nextQuickInfo[] = sprintf($this->l('[cleaning cache] %s removed'), $file);
+						$this->nextQuickInfo[] = sprintf($this->l('[CLEANING CACHE] File %s removed'), $file);
 					}
 		
 		if (version_compare(INSTALL_VERSION, '1.5.0.0', '>'))
