@@ -4215,7 +4215,7 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 
 		// shop enabled
 		$this->_html .= '
-			<tr><td>'.$this->l('Your store in maintenance mode').' '.(!$current_ps_config['shop_deactivated'] ? '<br><form method="post" action="'.$this->currentIndex.'&token='.$this->token.'"><input type="submit" class="button" name="putUnderMaintenance" value="'.$this->l('Click here to put your shop under maintenance').'"></form>' : '').'</td>
+			<tr><td>'.$this->l('Your store is in maintenance mode').' '.(!$current_ps_config['shop_deactivated'] ? '<br><form method="post" action="'.$this->currentIndex.'&token='.$this->token.'"><input type="submit" class="button" name="putUnderMaintenance" value="'.$this->l('Click here to put your shop under maintenance').'"></form>' : '').'</td>
 			<td>'.($current_ps_config['shop_deactivated'] ? $pic_ok : $pic_nok).'</td></tr>';
 
 		$this->_html .= '
