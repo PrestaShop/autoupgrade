@@ -2907,13 +2907,13 @@ class AdminSelfUpgrade extends AdminSelfTab
 					$res = $this->mergeTranslationFile($orig, $dest, $type_trad);
 					if ($res)
 					{
-						$this->nextQuickInfo[] = sprintf($this->l('[TRANSLATE] Translations has been merged for file %1$s.'), $dest);
+						$this->nextQuickInfo[] = sprintf($this->l('[TRANSLATION] The translation files have been merged into file %1$s.'), $dest);
 						return true;
 					}
 					else
 					{
-						$this->nextQuickInfo[] = sprintf($this->l('[TRANSLATE] Translations has not been merged for file %1$s. Switch to copy %2$s.'), $dest, $dest);
-						$this->nextErrors[] = sprintf($this->l('[TRANSLATE] Translations has not been merged for file %1$s. Switch to copy %2$s.'), $dest, $dest);
+						$this->nextQuickInfo[] = sprintf($this->l('[TRANSLATION] The translation files have not been merged into file %1$s. Switch to copy %2$s.'), $dest, $dest);
+						$this->nextErrors[] = sprintf($this->l('[TRANSLATION] The translation files have not been merged into file %1$s. Switch to copy %2$s.'), $dest, $dest);
 					}
 				}
 
