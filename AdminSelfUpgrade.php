@@ -1407,7 +1407,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 		if (file_exists($destExtract))
 		{
 			self::deleteDirectory($destExtract, false);
-			$this->nextQuickInfo[] = $this->l('Latest directory has been emptied');
+			$this->nextQuickInfo[] = $this->l('"/latest" directory has been emptied');
 		}
 		$relative_extract_path = str_replace(_PS_ROOT_DIR_, '', $destExtract);
 		$report = '';
