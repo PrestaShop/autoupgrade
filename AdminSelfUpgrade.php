@@ -518,19 +518,20 @@ class AdminSelfUpgrade extends AdminSelfTab
 		$this->_fieldsUpgradeOptions['PS_AUTOUP_CUSTOM_MOD_DESACT'] = array(
 			'title' => $this->l('Disable non-native modules'), 'cast' => 'intval', 'validation' => 'isBool',
 			'type' => 'bool', 'desc' => $this->l('As non-native modules can experience some compatibility issues, we recommend to disable them by default.').'<br />'.
-			$this->l('Keeping them enabled might prevent you from loading the "Modules" tab properly after the upgrade.'),
+			$this->l('Keeping them enabled might prevent you from loading the "Modules" page properly after the upgrade.'),
 		);
 
 		$this->_fieldsUpgradeOptions['PS_AUTOUP_UPDATE_DEFAULT_THEME'] = array(
 			'title' => $this->l('Upgrade and switch to the default theme of the new version'), 'cast' => 'intval', 'validation' => 'isBool', 'defaultValue' => '1',
 			'type' => 'bool', 'desc' => $this->l('This will change your theme: your shop will then use the default theme of the version of PrestaShop you are upgrading to.').'<br />'
-			.$this->l('If you are using the default theme of the current version of PrestaShop, you will lose any customization you made to it. If you are using your own theme, enabling this option will switch your shop to the default theme, and your own theme will be safe.'),
+			.$this->l('If you customized the default PrestaShop theme in its folder (folder name "prestashop" in 1.4, "default" in 1.5, "bootstrap-default" in 1.6), enabling this option will lose your modifications.').'<br />'
+			.$this->l('If you are using your own theme, enabling this option will switch your shop to the updated default theme, and your own theme will be safe.'),
 		);
 		
 		$this->_fieldsUpgradeOptions['PS_AUTOUP_KEEP_MAILS'] = array(
 			'title' => $this->l('Upgrade the default e-mails'), 'cast' => 'intval', 'validation' => 'isBool',
 			'type' => 'bool', 'desc' => $this->l('This will upgrade the default PrestaShop e-mails.').'<br />'
-			.$this->l('If you customized the current PrestaShop e-mail, enabling this option will lose your modifications.'),
+			.$this->l('If you customized the default PrestaShop e-mail templates, enabling this option will lose your modifications.'),
 		);
 		
 		/* Developers only options */
