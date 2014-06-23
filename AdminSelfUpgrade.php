@@ -3985,7 +3985,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 			if(property_exists($this,$v))
 				$this->nextParams[$v] = $this->$v;
 			else
-				$this->nextQuickInfo[] = sprintf($this->l('[WARNING] property %s is missing'), $v);
+				$this->nextQuickInfo[] = sprintf($this->l('[WARNING] Property %s is missing'), $v);
 
 		$return['nextParams'] = $this->nextParams;
 		if (!isset($return['nextParams']['dbStep']))
