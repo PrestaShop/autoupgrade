@@ -1408,7 +1408,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 		if (file_exists($destExtract))
 		{
 			self::deleteDirectory($destExtract, false);
-			$this->nextQuickInfo[] = $this->l('Latest directory has been emptied');
+			$this->nextQuickInfo[] = $this->l('"/latest" directory has been emptied');
 		}
 		$relative_extract_path = str_replace(_PS_ROOT_DIR_, '', $destExtract);
 		$report = '';
@@ -3986,7 +3986,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 			if(property_exists($this,$v))
 				$this->nextParams[$v] = $this->$v;
 			else
-				$this->nextQuickInfo[] = sprintf($this->l('[WARNING] property %s is missing'), $v);
+				$this->nextQuickInfo[] = sprintf($this->l('[WARNING] Property %s is missing'), $v);
 
 		$return['nextParams'] = $this->nextParams;
 		if (!isset($return['nextParams']['dbStep']))
@@ -4081,7 +4081,7 @@ txtError[27] = "'.$this->l('This installer is too old.').'";
 txtError[28] = "'.sprintf($this->l('You already have the %s version.'),$INSTALL_VERSION).'";
 txtError[29] = "'.$this->l('There is no older version. Did you delete or rename the config/settings.inc.php file?').'";
 txtError[30] = "'.$this->l('The config/settings.inc.php file was not found. Did you delete or rename this file?').'";
-txtError[31] = "'.$this->l('Cannot find the SQL upgrade files. Please verify that the /install/sql/upgrade folder is not empty.').'";
+txtError[31] = "'.$this->l('Cannot find the SQL upgrade files. Please verify that the /install/upgrade/sql folder is not empty.').'";
 txtError[32] = "'.$this->l('No upgrade is possible.').'";
 txtError[33] = "'.$this->l('Error while loading SQL upgrade file.').'";
 txtError[34] = "'.$this->l('Error while inserting content into the database').'";
