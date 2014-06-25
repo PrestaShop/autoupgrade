@@ -518,19 +518,20 @@ class AdminSelfUpgrade extends AdminSelfTab
 		$this->_fieldsUpgradeOptions['PS_AUTOUP_CUSTOM_MOD_DESACT'] = array(
 			'title' => $this->l('Disable non-native modules'), 'cast' => 'intval', 'validation' => 'isBool',
 			'type' => 'bool', 'desc' => $this->l('As non-native modules can experience some compatibility issues, we recommend to disable them by default.').'<br />'.
-			$this->l('Keeping them enabled might prevent you from loading the "Modules" tab properly after the upgrade.'),
+			$this->l('Keeping them enabled might prevent you from loading the "Modules" page properly after the upgrade.'),
 		);
 
 		$this->_fieldsUpgradeOptions['PS_AUTOUP_UPDATE_DEFAULT_THEME'] = array(
 			'title' => $this->l('Upgrade and switch to the default theme of the new version'), 'cast' => 'intval', 'validation' => 'isBool', 'defaultValue' => '1',
 			'type' => 'bool', 'desc' => $this->l('This will change your theme: your shop will then use the default theme of the version of PrestaShop you are upgrading to.').'<br />'
-			.$this->l('If you are using the default theme of the current version of PrestaShop, you will lose any customization you made to it. If you are using your own theme, enabling this option will switch your shop to the default theme, and your own theme will be safe.'),
+			.$this->l('If you customized the default PrestaShop theme in its folder (folder name "prestashop" in 1.4, "default" in 1.5, "bootstrap-default" in 1.6), enabling this option will lose your modifications.').'<br />'
+			.$this->l('If you are using your own theme, enabling this option will switch your shop to the updated default theme, and your own theme will be safe.'),
 		);
 
 		$this->_fieldsUpgradeOptions['PS_AUTOUP_KEEP_MAILS'] = array(
 			'title' => $this->l('Upgrade the default e-mails'), 'cast' => 'intval', 'validation' => 'isBool',
 			'type' => 'bool', 'desc' => $this->l('This will upgrade the default PrestaShop e-mails.').'<br />'
-			.$this->l('If you customized the current PrestaShop e-mail, enabling this option will lose your modifications.'),
+			.$this->l('If you customized the default PrestaShop e-mail templates, enabling this option will lose your modifications.'),
 		);
 
 		/* Developers only options */
@@ -1407,7 +1408,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 		if (file_exists($destExtract))
 		{
 			self::deleteDirectory($destExtract, false);
-			$this->nextQuickInfo[] = $this->l('Latest directory has been emptied');
+			$this->nextQuickInfo[] = $this->l('"/latest" directory has been emptied');
 		}
 		$relative_extract_path = str_replace(_PS_ROOT_DIR_, '', $destExtract);
 		$report = '';
@@ -2365,7 +2366,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 							unlink($dir.$file);
 						elseif(is_dir($dir.$file.DIRECTORY_SEPARATOR))
 							self::deleteDirectory($dir.$file.DIRECTORY_SEPARATOR);
-						$this->nextQuickInfo[] = sprintf($this->l('[cleaning cache] %s removed'), $file);
+						$this->nextQuickInfo[] = sprintf($this->l('[CLEANING CACHE] File %s removed'), $file);
 					}
 
 		if (version_compare(INSTALL_VERSION, '1.5.0.0', '>'))
@@ -2907,13 +2908,13 @@ class AdminSelfUpgrade extends AdminSelfTab
 					$res = $this->mergeTranslationFile($orig, $dest, $type_trad);
 					if ($res)
 					{
-						$this->nextQuickInfo[] = sprintf($this->l('[TRANSLATE] Translations has been merged for file %1$s.'), $dest);
+						$this->nextQuickInfo[] = sprintf($this->l('[TRANSLATION] The translation files have been merged into file %1$s.'), $dest);
 						return true;
 					}
 					else
 					{
-						$this->nextQuickInfo[] = sprintf($this->l('[TRANSLATE] Translations has not been merged for file %1$s. Switch to copy %2$s.'), $dest, $dest);
-						$this->nextErrors[] = sprintf($this->l('[TRANSLATE] Translations has not been merged for file %1$s. Switch to copy %2$s.'), $dest, $dest);
+						$this->nextQuickInfo[] = sprintf($this->l('[TRANSLATION] The translation files have not been merged into file %1$s. Switch to copy %2$s.'), $dest, $dest);
+						$this->nextErrors[] = sprintf($this->l('[TRANSLATION] The translation files have not been merged into file %1$s. Switch to copy %2$s.'), $dest, $dest);
 					}
 				}
 
@@ -3985,7 +3986,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 			if(property_exists($this,$v))
 				$this->nextParams[$v] = $this->$v;
 			else
-				$this->nextQuickInfo[] = sprintf($this->l('[WARNING] property %s is missing'), $v);
+				$this->nextQuickInfo[] = sprintf($this->l('[WARNING] Property %s is missing'), $v);
 
 		$return['nextParams'] = $this->nextParams;
 		if (!isset($return['nextParams']['dbStep']))
@@ -4044,7 +4045,7 @@ txtError[6] = "'.$this->l('Cannot write settings file, please create a file name
 txtError[7] = "'.$this->l('Impossible to upload the file!').'";
 txtError[8] = "'.$this->l('Data integrity is not valided. Hack attempt?').'";
 txtError[9] = "'.$this->l('Impossible to read the content of a MySQL content file.').'";
-txtError[10] = "'.$this->l('Impossible the access the a MySQL content file.').'";
+txtError[10] = "'.$this->l('Cannot access a MySQL content file.').'";
 txtError[11] = "'.$this->l('Error while inserting data in the database:').'";
 txtError[12] = "'.$this->l('The password is incorrect (alphanumeric string at least 8 characters).').'";
 txtError[14] = "'.$this->l('A Prestashop database already exists, please drop it or change the prefix.').'";
@@ -4080,7 +4081,7 @@ txtError[27] = "'.$this->l('This installer is too old.').'";
 txtError[28] = "'.sprintf($this->l('You already have the %s version.'),$INSTALL_VERSION).'";
 txtError[29] = "'.$this->l('There is no older version. Did you delete or rename the config/settings.inc.php file?').'";
 txtError[30] = "'.$this->l('The config/settings.inc.php file was not found. Did you delete or rename this file?').'";
-txtError[31] = "'.$this->l('Cannot find the SQL upgrade files. Please verify that the /install/sql/upgrade folder is not empty.').'";
+txtError[31] = "'.$this->l('Cannot find the SQL upgrade files. Please verify that the /install/upgrade/sql folder is not empty.').'";
 txtError[32] = "'.$this->l('No upgrade is possible.').'";
 txtError[33] = "'.$this->l('Error while loading SQL upgrade file.').'";
 txtError[34] = "'.$this->l('Error while inserting content into the database').'";
@@ -4186,7 +4187,7 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 
 		$this->_html .= '
 			<tr>
-				<td>'.$this->l('Your store\'s root directory must be writeable (with appropriate CHMOD permissions)').'</td>
+				<td>'.$this->l('Your store\'s root directory is writeable (with appropriate CHMOD permissions)').'</td>
 				<td>'.($current_ps_config['root_writable'] ? $pic_ok : $pic_nok.' '.$this->root_writable_report).'</td>
 			</tr>';
 
@@ -4196,7 +4197,7 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 		if ($report)
 			$this->_html .= '
 				<tr>
-					<td>'.$this->l('The admin autoupgrade directory must be writeable (appropriate CHMOD permissions)').'</td>
+					<td>'.$this->l('The "/admin/autoupgrade" directory is writeable (appropriate CHMOD permissions)').'</td>
 					<td>'.($current_ps_config['admin_au_writable'] ? $pic_ok : $pic_nok.' '.$report).'</td>
 				</tr>';
 
@@ -4215,7 +4216,7 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 
 		// shop enabled
 		$this->_html .= '
-			<tr><td>'.$this->l('Your store in maintenance mode').' '.(!$current_ps_config['shop_deactivated'] ? '<br><form method="post" action="'.$this->currentIndex.'&token='.$this->token.'"><input type="submit" class="button" name="putUnderMaintenance" value="'.$this->l('Click here to put your shop under maintenance').'"></form>' : '').'</td>
+			<tr><td>'.$this->l('Your store is in maintenance mode').' '.(!$current_ps_config['shop_deactivated'] ? '<br><form method="post" action="'.$this->currentIndex.'&token='.$this->token.'"><input type="submit" class="button" name="putUnderMaintenance" value="'.$this->l('Click here to put your shop under maintenance').'"></form>' : '').'</td>
 			<td>'.($current_ps_config['shop_deactivated'] ? $pic_ok : $pic_nok).'</td></tr>';
 
 		$this->_html .= '
@@ -4230,7 +4231,7 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 		// for informaiton, display time limit
 		$max_exec_time = ini_get('max_execution_time');
 		$this->_html .= '
-			<tr><td>'.sprintf($this->l('PHP\'s time limit setting (max_execution_time) must be high or disabled entirely (Current value: %s)'), ($max_exec_time == 0 ? $this->l('unlimited') : sprintf($this->l('%s seconds'), $max_exec_time))).'</td>
+			<tr><td>'.sprintf($this->l('PHP\'s max_execution_time setting has a high value or is disabled entirely (current value: %s)'), ($max_exec_time == 0 ? $this->l('unlimited') : sprintf($this->l('%s seconds'), $max_exec_time))).'</td>
 			<td>'.($max_exec_time == 0 ? $pic_ok : $pic_warn).'</td></tr>
 				</table>
 				<p>'.$this->l('Please also make sure you make a full manual backup of your files and database.').'</p>
