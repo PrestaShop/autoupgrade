@@ -1550,8 +1550,8 @@ class AdminSelfUpgrade extends AdminSelfTab
 		static $list = array();
 		if (!is_dir($dir))
 		{
-			$this->nextQuickInfo[] = sprintf($this->l('[ERROR] %s doesn\'t exist or is not a directory.'), $dir);
-			$this->nextErrors[] = sprintf($this->l('[ERROR] %s doesn\'t exist or is not a directory.'), $dir);
+			$this->nextQuickInfo[] = sprintf($this->l('[ERROR] %s does not exist or is not a directory.'), $dir);
+			$this->nextErrors[] = sprintf($this->l('[ERROR] %s does not exist or is not a directory.'), $dir);
 			$this->next_desc = $this->l('Nothing has been extracted. It seems the unzipping step has been skipped.');
 			$this->next = 'error';
 			return false;
@@ -1716,8 +1716,8 @@ class AdminSelfUpgrade extends AdminSelfTab
 
 		if (!is_dir($dir))
 		{
-			$this->nextQuickInfo[] = sprintf($this->l('[ERROR] %s doesn\'t exists or is not a directory'), $dir);
-			$this->nextErrors[] = sprintf($this->l('[ERROR] %s doesn\'t exists or is not a directory'), $dir);
+			$this->nextQuickInfo[] = sprintf($this->l('[ERROR] %s does not exist or is not a directory.'), $dir);
+			$this->nextErrors[] = sprintf($this->l('[ERROR] %s does not exist or is not a directory.'), $dir);
 			$this->next_desc = $this->l('Nothing has been extracted. It seems the unzip step has been skipped.');
 			$this->next = 'error';
 			return false;
