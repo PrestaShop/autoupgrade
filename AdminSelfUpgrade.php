@@ -500,11 +500,11 @@ class AdminSelfUpgrade extends AdminSelfTab
 	private function _setFields()
 	{
 		$this->_fieldsBackupOptions['PS_AUTOUP_BACKUP'] = array(
-			'title' => $this->l('Backup my files and database'), 'cast' => 'intval', 'validation' => 'isBool', 'defaultValue' => '1',
+			'title' => $this->l('Back up my files and database'), 'cast' => 'intval', 'validation' => 'isBool', 'defaultValue' => '1',
 			'type' => 'bool', 'desc' => $this->l('Automatically back up your database and files in order to restore your shop if needed. This is experimental: you should still perform your own manual backup for safety.'),
 		);
 		$this->_fieldsBackupOptions['PS_AUTOUP_KEEP_IMAGES'] = array(
-			'title' => $this->l('Backup my images'), 'cast' => 'intval', 'validation' => 'isBool', 'defaultValue' => '1',
+			'title' => $this->l('Back up my images'), 'cast' => 'intval', 'validation' => 'isBool', 'defaultValue' => '1',
 			'type' => 'bool', 'desc' => $this->l('To save time, you can decide not to back your images up. In any case, always make sure you did back them up manually.'),
 		);
 
@@ -1432,9 +1432,9 @@ class AdminSelfUpgrade extends AdminSelfTab
 		}
 		else
 		{
-			$this->next_desc = $this->l('Extraction directory is not writeable.');
-			$this->nextQuickInfo[] = $this->l('Extraction directory is not writeable.');
-			$this->nextErrors[] = sprintf($this->l('Extraction directory %s is not writeable.'), $destExtract);
+			$this->next_desc = $this->l('Extraction directory is not writable.');
+			$this->nextQuickInfo[] = $this->l('Extraction directory is not writable.');
+			$this->nextErrors[] = sprintf($this->l('Extraction directory %s is not writable.'), $destExtract);
 			$this->next = 'error';
 		}
 	}
@@ -3353,9 +3353,9 @@ class AdminSelfUpgrade extends AdminSelfTab
 		$report = '';
 		if (!ConfigurationTest::test_dir($relative_backup_path, false, $report))
 		{
-			$this->next_desc = $this->l('Backup directory is not writeable ');
-			$this->nextQuickInfo[] = 'Backup directory is not writeable ';
-			$this->nextErrors[] = 'Backup directory is not writeable "'.$this->backupPath.'"';
+			$this->next_desc = $this->l('Backup directory is not writable ');
+			$this->nextQuickInfo[] = 'Backup directory is not writable ';
+			$this->nextErrors[] = 'Backup directory is not writable "'.$this->backupPath.'"';
 			$this->next = 'error';
 			$this->error = 1;
 			return false;
@@ -3596,7 +3596,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 
 		if (count($tablesToBackup) > 0)
 		{
-			$this->nextQuickInfo[] = sprintf($this->l('%1$s tables has been saved.'), $found);
+			$this->nextQuickInfo[] = sprintf($this->l('%1$s tables have been saved.'), $found);
 			$this->next = 'backupDb';
 			$this->stepDone = false;
 			if (count($tablesToBackup))
@@ -3610,8 +3610,8 @@ class AdminSelfUpgrade extends AdminSelfTab
 		{
 			if (file_exists($backupfile))
 				unlink($backupfile);
-			$this->nextErrors[] = sprintf($this->l('No valid tables were found to back up. Backup of file %s cancelled.'), $backupfile);
-			$this->nextQuickInfo[] = sprintf($this->l('No valid tables were found to back up. Backup of file %s cancelled.'), $backupfile);
+			$this->nextErrors[] = sprintf($this->l('No valid tables were found to back up. Backup of file %s canceled.'), $backupfile);
+			$this->nextQuickInfo[] = sprintf($this->l('No valid tables were found to back up. Backup of file %s canceled.'), $backupfile);
 			$this->error = 1;
 			$this->next_desc = sprintf($this->l('Error during database backup for file %s.'), $backupfile);
 			return false;
@@ -3955,9 +3955,9 @@ class AdminSelfUpgrade extends AdminSelfTab
 			}
 			else
 			{
-				$this->next_desc = $this->l('Download directory is not writeable.');
-				$this->nextQuickInfo[] = $this->l('Download directory is not writeable.');
-				$this->nextErrors[] = sprintf($this->l('Download directory %s is not writeable.'), $this->downloadPath);
+				$this->next_desc = $this->l('Download directory is not writable.');
+				$this->nextQuickInfo[] = $this->l('Download directory is not writable.');
+				$this->nextErrors[] = sprintf($this->l('Download directory %s is not writable.'), $this->downloadPath);
 				$this->next = 'error';
 			}
 		}
@@ -4187,7 +4187,7 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 
 		$this->_html .= '
 			<tr>
-				<td>'.$this->l('Your store\'s root directory is writeable (with appropriate CHMOD permissions)').'</td>
+				<td>'.$this->l('Your store\'s root directory is writable (with appropriate CHMOD permissions)').'</td>
 				<td>'.($current_ps_config['root_writable'] ? $pic_ok : $pic_nok.' '.$this->root_writable_report).'</td>
 			</tr>';
 
@@ -4197,7 +4197,7 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 		if ($report)
 			$this->_html .= '
 				<tr>
-					<td>'.$this->l('The "/admin/autoupgrade" directory is writeable (appropriate CHMOD permissions)').'</td>
+					<td>'.$this->l('The "/admin/autoupgrade" directory is writable (appropriate CHMOD permissions)').'</td>
 					<td>'.($current_ps_config['admin_au_writable'] ? $pic_ok : $pic_nok.' '.$report).'</td>
 				</tr>';
 
@@ -5014,8 +5014,8 @@ function afterUpgradeComplete(res)
 	todo_list = [
 		"'.$this->l('Cookies have changed, you will need to log in again once you refreshed the page', 'AdminSelfUpgrade', true).'",
 		"'.$this->l('Javascript and CSS files have changed, please clear your browser cache with CTRL-F5', 'AdminSelfUpgrade', true).'",
-		"'.$this->l('Please check that your front office theme is functionnal (try to create an account, place an order...)', 'AdminSelfUpgrade', true).'",
-		"'.$this->l('Product images do not appear in the front office? Try regenerating the thumbnails in Preferences > Images', 'AdminSelfUpgrade', true).'",
+		"'.$this->l('Please check that your front-office theme is functionnal (try to create an account, place an order...)', 'AdminSelfUpgrade', true).'",
+		"'.$this->l('Product images do not appear in the front-office? Try regenerating the thumbnails in Preferences > Images', 'AdminSelfUpgrade', true).'",
 		"'.$this->l('Do not forget to reactivate your shop once you have checked everything!', 'AdminSelfUpgrade', true).'",
 	];
 		
@@ -5258,14 +5258,14 @@ function handleError(res, action)
 	// auto rollback only if current action is upgradeFiles or upgradeDb
 	if (action == "upgradeFiles" || action == "upgradeDb" || action == "upgradeModules" )
 	{
-		$(".button-autoupgrade").html("'.$this->l('Operation cancelled. checking for restoration ...').'");
+		$(".button-autoupgrade").html("'.$this->l('Operation canceled. checking for restoration ...').'");
 		res.nextParams.restoreName = res.nextParams.backupName;
 		if (confirm("'.$this->l('Do you want to restore').' " + "'.$this->backupName.'" + " ?"))
 			doAjaxRequest("rollback",res.nextParams);
 	}
 	else
 	{
-		$(".button-autoupgrade").html("'.$this->l('Operation cancelled. An error happens.').'");
+		$(".button-autoupgrade").html("'.$this->l('Operation canceled. An error happens.').'");
 		$(window).unbind();
 	}
 }';
