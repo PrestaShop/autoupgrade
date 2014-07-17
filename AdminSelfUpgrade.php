@@ -4605,7 +4605,7 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 		/* PrestaShop demo mode */
 		if (defined('_PS_MODE_DEMO_') && _PS_MODE_DEMO_)
 		{
-			echo '<div class="error">'.$this->l('This functionnality has been disabled.').'</div>';
+			echo '<div class="error">'.$this->l('This functionality has been disabled.').'</div>';
 			return;
 		}
 
@@ -5014,7 +5014,7 @@ function afterUpgradeComplete(res)
 	todo_list = [
 		"'.$this->l('Cookies have changed, you will need to log in again once you refreshed the page', 'AdminSelfUpgrade', true).'",
 		"'.$this->l('Javascript and CSS files have changed, please clear your browser cache with CTRL-F5', 'AdminSelfUpgrade', true).'",
-		"'.$this->l('Please check that your front-office theme is functionnal (try to create an account, place an order...)', 'AdminSelfUpgrade', true).'",
+		"'.$this->l('Please check that your front-office theme is functional (try to create an account, place an order...)', 'AdminSelfUpgrade', true).'",
 		"'.$this->l('Product images do not appear in the front-office? Try regenerating the thumbnails in Preferences > Images', 'AdminSelfUpgrade', true).'",
 		"'.$this->l('Do not forget to reactivate your shop once you have checked everything!', 'AdminSelfUpgrade', true).'",
 	];
