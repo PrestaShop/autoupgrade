@@ -2565,6 +2565,24 @@ class AdminSelfUpgrade extends AdminSelfTab
 		if (file_exists(_PS_ROOT_DIR_.'/cache/class_index.php'))
 			unlink(_PS_ROOT_DIR_.'/cache/class_index.php');
 
+		// Clear XML files
+		if (file_exists(_PS_ROOT_DIR_.'/config/xml/blog-fr.xml'))
+			unlink(_PS_ROOT_DIR_.'/config/xml/blog-fr.xml');
+		if (file_exists(_PS_ROOT_DIR_.'/config/xml/default_country_modules_list.xml'))
+			unlink(_PS_ROOT_DIR_.'/config/xml/default_country_modules_list.xml');
+		if (file_exists(_PS_ROOT_DIR_.'/config/xml/modules_list.xml'))
+			unlink(_PS_ROOT_DIR_.'/config/xml/modules_list.xml');
+		if (file_exists(_PS_ROOT_DIR_.'/config/xml/modules_native_addons.xml'))
+			unlink(_PS_ROOT_DIR_.'/config/xml/modules_native_addons.xml');
+		if (file_exists(_PS_ROOT_DIR_.'/config/xml/must_have_modules_list.xml'))
+			unlink(_PS_ROOT_DIR_.'/config/xml/must_have_modules_list.xml');
+		if (file_exists(_PS_ROOT_DIR_.'/config/xml/tab_modules_list.xml'))
+			unlink(_PS_ROOT_DIR_.'/config/xml/tab_modules_list.xml');
+		if (file_exists(_PS_ROOT_DIR_.'/config/xml/trusted_modules_list.xml'))
+			unlink(_PS_ROOT_DIR_.'/config/xml/trusted_modules_list.xml');
+		if (file_exists(_PS_ROOT_DIR_.'/config/xml/untrusted_modules_list.xml'))
+			unlink(_PS_ROOT_DIR_.'/config/xml/untrusted_modules_list.xml');
+
 		if ($this->deactivateCustomModule)
 		{
 			$exist = Db::getInstance()->getValue('SELECT `id_configuration` FROM `'._DB_PREFIX_.'configuration` WHERE `name` LIKE \'PS_DISABLE_OVERRIDES\'');
