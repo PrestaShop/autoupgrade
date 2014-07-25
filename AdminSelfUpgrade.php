@@ -5276,14 +5276,14 @@ function handleError(res, action)
 	// auto rollback only if current action is upgradeFiles or upgradeDb
 	if (action == "upgradeFiles" || action == "upgradeDb" || action == "upgradeModules" )
 	{
-		$(".button-autoupgrade").html("'.$this->l('Operation canceled. checking for restoration ...').'");
+		$(".button-autoupgrade").html("'.$this->l('Operation canceled. Checking for restoration...').'");
 		res.nextParams.restoreName = res.nextParams.backupName;
 		if (confirm("'.$this->l('Do you want to restore').' " + "'.$this->backupName.'" + " ?"))
 			doAjaxRequest("rollback",res.nextParams);
 	}
 	else
 	{
-		$(".button-autoupgrade").html("'.$this->l('Operation canceled. An error happens.').'");
+		$(".button-autoupgrade").html("'.$this->l('Operation canceled. An error happened.').'");
 		$(window).unbind();
 	}
 }';
@@ -5361,7 +5361,7 @@ $(document).ready(function(){
 			{
 				if (textStatus == "timeout" && action == "download")
 				{
-					updateInfoStep("'.$this->l('Your server cannot download the file. Please upload it first by ftp in your admin/autoupgrade directory').'");
+					updateInfoStep("'.$this->l('Your server cannot download the file. Please upload it to your FTP server, and put it in your /[admin]/autoupgrade directory.').'");
 				}
 				else
 				{
@@ -5489,7 +5489,7 @@ $(document).ready(function()
 				archive_num = $("input[name=archive_num]").val();
 				if (archive_num == "")
 				{
-					showConfigResult("'.$this->l('You need to enter the version number associated to the archive.').'", "error");
+					showConfigResult("'.$this->l('You need to enter the version number associated with the archive.').'", "error");
 					return false;
 				}
 				if (archive_prestashop == "")
@@ -5508,7 +5508,7 @@ $(document).ready(function()
 				directory_num = $("input[name=directory_num]").val();
 				if (directory_num == "" || directory_num.indexOf(".") == -1)
 				{
-					showConfigResult("'.$this->l('You need to enter the version number associated to the directory.').'", "error");
+					showConfigResult("'.$this->l('You need to enter the version number associated with the directory.').'", "error");
 					return false;
 				}
 				params.directory_num = $("input[name=directory_num]").val();
