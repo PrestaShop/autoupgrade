@@ -4905,7 +4905,7 @@ $(document).ready(function(){
 			.'&amp;deletebackup&amp;name="+$(this).val()+"\">'
 			.'<img src=\"../img/admin/disabled.gif\" />'.$this->l('Delete').'</a>");
 			$(this).next().click(function(e){
-				if (!confirm("'.$this->l('Are you sure you want to delete this backup ?').'"))
+				if (!confirm("'.$this->l('Are you sure you want to delete this backup ?', 'AdminSelfUpgrade', true, false).'"))
 					e.preventDefault();
 			});
 		}
