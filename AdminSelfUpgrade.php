@@ -456,9 +456,18 @@ class AdminSelfUpgrade extends AdminSelfTab
 		if (!is_array($_MODULES))
 		{
 			// note: $_COOKIE[iso_code] is set in createCustomToken();
-			$file = _PS_MODULE_DIR_.'autoupgrade'.DIRECTORY_SEPARATOR.$_COOKIE['iso_code'].'.php';
-			if (file_exists($file) && include($file))
-				$_MODULES = !empty($_MODULES)?array_merge($_MODULES, $_MODULE):$_MODULE;
+			$files_to_try = array(
+				_PS_MODULE_DIR_.'autoupgrade'.DIRECTORY_SEPARATOR.'translations'.DIRECTORY_SEPARATOR.$_COOKIE['iso_code'].'.php', // 1.5
+				_PS_MODULE_DIR_.'autoupgrade'.DIRECTORY_SEPARATOR.$_COOKIE['iso_code'].'.php' // 1.4
+			);
+			// translations may be in "autoupgrade/translations/iso_code.php" or "autoupgrade/iso_code.php",
+			// try both locations.
+			foreach ($files_to_try as $file)
+				if (file_exists($file) && include($file))
+				{
+					$_MODULES = !empty($_MODULES) ? array_merge($_MODULES, $_MODULE) : $_MODULE;
+					break;
+				}
 		}
 		$cache_key = $name.'|'.$string.'|'.$source;
 
