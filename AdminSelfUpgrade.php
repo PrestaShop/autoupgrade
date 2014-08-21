@@ -456,9 +456,18 @@ class AdminSelfUpgrade extends AdminSelfTab
 		if (!is_array($_MODULES))
 		{
 			// note: $_COOKIE[iso_code] is set in createCustomToken();
-			$file = _PS_MODULE_DIR_.'autoupgrade'.DIRECTORY_SEPARATOR.$_COOKIE['iso_code'].'.php';
-			if (file_exists($file) && include($file))
-				$_MODULES = !empty($_MODULES)?array_merge($_MODULES, $_MODULE):$_MODULE;
+			$files_to_try = array(
+				_PS_MODULE_DIR_.'autoupgrade'.DIRECTORY_SEPARATOR.'translations'.DIRECTORY_SEPARATOR.$_COOKIE['iso_code'].'.php', // 1.5
+				_PS_MODULE_DIR_.'autoupgrade'.DIRECTORY_SEPARATOR.$_COOKIE['iso_code'].'.php' // 1.4
+			);
+			// translations may be in "autoupgrade/translations/iso_code.php" or "autoupgrade/iso_code.php",
+			// try both locations.
+			foreach ($files_to_try as $file)
+				if (file_exists($file) && include($file))
+				{
+					$_MODULES = !empty($_MODULES) ? array_merge($_MODULES, $_MODULE) : $_MODULE;
+					break;
+				}
 		}
 		$cache_key = $name.'|'.$string.'|'.$source;
 
@@ -903,7 +912,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 					if (is_file($this->backupPath.DIRECTORY_SEPARATOR.$filename))
 						$res &= unlink($this->backupPath.DIRECTORY_SEPARATOR.$filename);
 					elseif (!empty($name) && is_dir($this->backupPath.DIRECTORY_SEPARATOR.$name.DIRECTORY_SEPARATOR))
-						self::deleteDirectory($this->backupPath.DIRECTORY_SEPARATOR.$name.DIRECTORY_SEPARATOR);
+						$res = self::deleteDirectory($this->backupPath.DIRECTORY_SEPARATOR.$name.DIRECTORY_SEPARATOR);
 				}
 			if ($res)
 				Tools14::redirectAdmin($this->currentIndex.'&conf=1&token='.Tools14::getValue('token'));
@@ -4896,7 +4905,7 @@ $(document).ready(function(){
 			.'&amp;deletebackup&amp;name="+$(this).val()+"\">'
 			.'<img src=\"../img/admin/disabled.gif\" />'.$this->l('Delete').'</a>");
 			$(this).next().click(function(e){
-				if (!confirm("'.$this->l('Are you sure you want to delete this backup ?').'"))
+				if (!confirm("'.$this->l('Are you sure you want to delete this backup ?', 'AdminSelfUpgrade', true, false).'"))
 					e.preventDefault();
 			});
 		}
@@ -5276,14 +5285,14 @@ function handleError(res, action)
 	// auto rollback only if current action is upgradeFiles or upgradeDb
 	if (action == "upgradeFiles" || action == "upgradeDb" || action == "upgradeModules" )
 	{
-		$(".button-autoupgrade").html("'.$this->l('Operation canceled. checking for restoration ...').'");
+		$(".button-autoupgrade").html("'.$this->l('Operation canceled. Checking for restoration...').'");
 		res.nextParams.restoreName = res.nextParams.backupName;
 		if (confirm("'.$this->l('Do you want to restore').' " + "'.$this->backupName.'" + " ?"))
 			doAjaxRequest("rollback",res.nextParams);
 	}
 	else
 	{
-		$(".button-autoupgrade").html("'.$this->l('Operation canceled. An error happens.').'");
+		$(".button-autoupgrade").html("'.$this->l('Operation canceled. An error happened.').'");
 		$(window).unbind();
 	}
 }';
@@ -5361,7 +5370,7 @@ $(document).ready(function(){
 			{
 				if (textStatus == "timeout" && action == "download")
 				{
-					updateInfoStep("'.$this->l('Your server cannot download the file. Please upload it first by ftp in your admin/autoupgrade directory').'");
+					updateInfoStep("'.$this->l('Your server cannot download the file. Please upload it to your FTP server, and put it in your /[admin]/autoupgrade directory.').'");
 				}
 				else
 				{
@@ -5489,7 +5498,7 @@ $(document).ready(function()
 				archive_num = $("input[name=archive_num]").val();
 				if (archive_num == "")
 				{
-					showConfigResult("'.$this->l('You need to enter the version number associated to the archive.').'", "error");
+					showConfigResult("'.$this->l('You need to enter the version number associated with the archive.').'", "error");
 					return false;
 				}
 				if (archive_prestashop == "")
@@ -5508,7 +5517,7 @@ $(document).ready(function()
 				directory_num = $("input[name=directory_num]").val();
 				if (directory_num == "" || directory_num.indexOf(".") == -1)
 				{
-					showConfigResult("'.$this->l('You need to enter the version number associated to the directory.').'", "error");
+					showConfigResult("'.$this->l('You need to enter the version number associated with the directory.').'", "error");
 					return false;
 				}
 				params.directory_num = $("input[name=directory_num]").val();
