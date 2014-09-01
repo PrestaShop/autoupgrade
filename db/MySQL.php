@@ -34,7 +34,7 @@ class MySQLCore extends Db
 		if (!defined('_PS_MYSQL_REAL_ESCAPE_STRING_'))
 			define('_PS_MYSQL_REAL_ESCAPE_STRING_', function_exists('mysql_real_escape_string'));
 
-		if (!$this->link = mysql_connect($this->server, $this->user, $this->password))
+		if (!$this->link = @mysql_connect($this->server, $this->user, $this->password))
 		{
 			Tools14::displayError('Link to database cannot be established.');
 			exit();
