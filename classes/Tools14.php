@@ -1265,6 +1265,11 @@ class Tools14
 		if (in_array(ini_get('allow_url_fopen'), array('On', 'on', '1')) || !preg_match('/^https?:\/\//', $url))
 		{
 			$var = @file_get_contents($url, $use_include_path, $stream_context);
+
+			/* PSCSX-3205 buffer output ? */
+			if (ob_get_level() && ob_get_length() > 0)
+				ob_clean();
+
 			if ($var)
 				return $var;
 		}
