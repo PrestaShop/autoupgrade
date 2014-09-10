@@ -1267,7 +1267,7 @@ class Tools14
 			$var = @file_get_contents($url, $use_include_path, $stream_context);
 
 			/* PSCSX-3205 buffer output ? */
-			if (ob_get_level() && ob_get_length() > 0)
+			if (Tools14::getValue('ajaxMode') && ob_get_level() && ob_get_length() > 0)
 				ob_clean();
 
 			if ($var)
