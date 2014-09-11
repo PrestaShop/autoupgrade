@@ -4054,7 +4054,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 			}
 		}
 
-		if (!method_exists('Tools', 'apacheModExists') || Tools14::apacheModExists('evasive'))
+		if (!method_exists('Tools14', 'apacheModExists') || Tools14::apacheModExists('evasive'))
 			sleep(1);
 	}
 
