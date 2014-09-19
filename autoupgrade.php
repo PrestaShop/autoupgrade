@@ -51,6 +51,9 @@ class Autoupgrade extends Module
 
 	public function install()
 	{
+		if (defined('PS_HOST_MODE') && PS_HOST_MODE)
+			return false;
+
 		/* Before creating a new tab "AdminSelfUpgrade" we need to remove any existing "AdminUpgrade" tab (present in v1.4.4.0 and v1.4.4.1) */
 		if ($id_tab = Tab::getIdFromClassName('AdminUpgrade'))
 		{
