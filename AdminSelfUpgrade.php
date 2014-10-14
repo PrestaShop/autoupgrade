@@ -2689,14 +2689,18 @@ class AdminSelfUpgrade extends AdminSelfTab
 			array('_MYSQL_ENGINE_', $mysqlEngine),
 			array('_PS_CACHING_SYSTEM_', (defined('_PS_CACHING_SYSTEM_') AND _PS_CACHING_SYSTEM_ != 'CacheMemcache') ? _PS_CACHING_SYSTEM_ : 'CacheMemcache'),
 			array('_PS_CACHE_ENABLED_', defined('_PS_CACHE_ENABLED_') ? _PS_CACHE_ENABLED_ : '0'),
-			array('_MEDIA_SERVER_1_', defined('_MEDIA_SERVER_1_') ? _MEDIA_SERVER_1_ : ''),
-			array('_MEDIA_SERVER_2_', defined('_MEDIA_SERVER_2_') ? _MEDIA_SERVER_2_ : ''),
-			array('_MEDIA_SERVER_3_', defined('_MEDIA_SERVER_3_') ? _MEDIA_SERVER_3_ : ''),
 			array('_COOKIE_KEY_', _COOKIE_KEY_),
 			array('_COOKIE_IV_', _COOKIE_IV_),
 			array('_PS_CREATION_DATE_', defined("_PS_CREATION_DATE_") ? _PS_CREATION_DATE_ : date('Y-m-d')),
 			array('_PS_VERSION_', INSTALL_VERSION)
 		);
+
+		if (version_compare(INSTALL_VERSION, '1.6.0.11', '<'))
+		{
+			$datas[] = array('_MEDIA_SERVER_1_', defined('_MEDIA_SERVER_1_') ? _MEDIA_SERVER_1_ : '');
+			$datas[] = array('_MEDIA_SERVER_2_', defined('_MEDIA_SERVER_2_') ? _MEDIA_SERVER_2_ : '');
+			$datas[] = array('_MEDIA_SERVER_3_', defined('_MEDIA_SERVER_3_') ? _MEDIA_SERVER_3_ : '');
+		}
 		if (defined('_RIJNDAEL_KEY_'))
 			$datas[] = array('_RIJNDAEL_KEY_', _RIJNDAEL_KEY_);
 		if (defined('_RIJNDAEL_IV_'))
