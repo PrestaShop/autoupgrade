@@ -30,7 +30,7 @@ class AddConfToFile
 	public $file;
 	public $mode;
 	public $error = false;
-	
+
 	public function __construct($file, $mode = 'r+')
 	{
 		$this->file = $file;
@@ -40,13 +40,13 @@ class AddConfToFile
 			if (!$res = @fwrite($this->fd, '<?php'."\n"))
 				$this->error = 6;
 	}
-	
+
 	public function __destruct()
 	{
 		if (!$this->error)
 			@fclose($this->fd);
 	}
-	
+
 	private function checkFile($file)
 	{
 		if (!$fd = @fopen($this->file, $this->mode))
@@ -55,7 +55,7 @@ class AddConfToFile
 			$this->error = 6;
 		$this->fd = $fd;
 	}
-	
+
 	public function writeInFile($name, $data)
 	{
 		if (!$res = @fwrite($this->fd,
@@ -66,7 +66,7 @@ class AddConfToFile
 		}
 		return true;
 	}
-	
+
 	public function writeEndTagPhp()
 	{
 		if (!$res = @fwrite($this->fd, '?>'."\n")) {
@@ -75,7 +75,7 @@ class AddConfToFile
 		}
 		return true;
 	}
-	
+
 	public function checkString($string)
 	{
 		if (get_magic_quotes_gpc())
@@ -83,7 +83,7 @@ class AddConfToFile
 		if (!is_numeric($string))
 		{
 			$string = addslashes($string);
-			$string = strip_tags(nl2br($string));
+			$string = str_replace(array("\n", "\r"), '', $string);
 		}
 		return $string;
 	}
