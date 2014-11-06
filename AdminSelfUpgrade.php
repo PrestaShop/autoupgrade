@@ -2109,7 +2109,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 		//check DB access
 		$this->db;
 		error_reporting(E_ALL);
-		$resultDB = MySql::tryToConnect(_DB_SERVER_, _DB_USER_, _DB_PASSWD_, _DB_NAME_);
+		$resultDB = Db::checkConnection(_DB_SERVER_, _DB_USER_, _DB_PASSWD_, _DB_NAME_);
 		if ($resultDB !== 0)
 		{
 			// $logger->logError('Invalid database configuration.');
