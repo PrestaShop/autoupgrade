@@ -26,7 +26,7 @@
 
 // @since 1.4.5.0
 // add the following comment in a module file to skip it in translations
-// IGNORE_THIS_FILE_FOR_TRANSLATION 
+// IGNORE_THIS_FILE_FOR_TRANSLATION
 abstract class AdminSelfTab
 {
 	/** @var integer Tab id */
@@ -251,9 +251,9 @@ abstract class AdminSelfTab
 		echo '
 		<script type="text/javascript">
 			id_language = Number('.$defaultLanguage.');
-			
+
 			function addRemoteAddr(){
-				var length = $(\'input[name=PS_MAINTENANCE_IP]\').attr(\'value\').length;	
+				var length = $(\'input[name=PS_MAINTENANCE_IP]\').attr(\'value\').length;
 				if (length > 0)
 					$(\'input[name=PS_MAINTENANCE_IP]\').attr(\'value\',$(\'input[name=PS_MAINTENANCE_IP]\').attr(\'value\') +\','.Tools14::getRemoteAddr().'\');
 				else
@@ -384,7 +384,7 @@ abstract class AdminSelfTab
 				case 'container_end':
 					echo (isset($field['content']) === true ? $field['content'] : '').'</div>';
 				break;
-				
+
 				case 'maintenance_ip':
 					echo '<input type="'.$field['type'].'"'.(isset($field['id']) === true ? ' id="'.$field['id'].'"' : '').' size="'.(isset($field['size']) ? (int)($field['size']) : 5).'" name="'.$key.'" value="'.($field['type'] == 'password' ? '' : htmlentities($val, ENT_COMPAT, 'UTF-8')).'" />'.(isset($field['next']) ? '&nbsp;'.strval($field['next']) : '').' &nbsp;<a href="#" class="button" onclick="addRemoteAddr(); return false;">'.$this->l('Add my IP').'</a>';
 				break;
@@ -729,8 +729,8 @@ abstract class AdminSelfTab
 	}
 
 	/**
-	 * ajaxPreProcess is a method called in ajax-tab.php before displayConf(). 
-	 * 
+	 * ajaxPreProcess is a method called in ajax-tab.php before displayConf().
+	 *
 	 * @return void
 	 */
 	public function ajaxPreProcess()
@@ -739,7 +739,7 @@ abstract class AdminSelfTab
 
 	/**
 	 * ajaxProcess is the default handle method for request with ajax-tab.php
-	 * 
+	 *
 	 * @return void
 	 */
 	public function ajaxProcess()
@@ -1835,5 +1835,11 @@ abstract class AdminSelfTab
 				Tools14::redirectAdmin($currentIndex.'&conf=6'.'&token='.$this->token);
 			}
 		}
+	}
+
+	/* Dirty fix bug PNM-267 */
+	public function addCSS($tmp)
+	{
+		return $tmp;
 	}
 }
