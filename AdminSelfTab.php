@@ -1837,7 +1837,7 @@ abstract class AdminSelfTab
 		}
 	}
 
-	/* Dirty fix bug PNM-267 */
+	/* Dirty fix bug PNM-2673 */
 	public function addCSS($tmp)
 	{
 		return $tmp;
