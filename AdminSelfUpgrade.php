@@ -4891,8 +4891,8 @@ $(document).ready(function(){
 		// $.scrollTo("#options")
 	});
 
-	// set timeout to 20 minutes (before aborting an ajax request)
-	$.ajaxSetup({timeout:1200000});
+	// set timeout to 60 minutes (before aborting an ajax request)
+	$.ajaxSetup({timeout:3600000});
 
 	// prepare available button here, without params ?
 	prepareNextButton("#upgradeNow",firstTimeParams);
