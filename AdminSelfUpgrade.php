@@ -454,6 +454,9 @@ class AdminSelfUpgrade extends AdminSelfTab
 	public static function findTranslation($name, $string, $source)
 	{
 		static $_MODULES;
+
+		$string = str_replace('\'', '\\\'', $string);
+
 		if (!is_array($_MODULES))
 		{
 			// note: $_COOKIE[iso_code] is set in createCustomToken();
