@@ -1844,7 +1844,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 						if (self::deleteDirectory($path))
 							$this->nextQuickInfo[] = sprintf($this->l('%1$s module is not compatible with 1.5.X, it will be removed from your ftp.'), $module);
 						else
-							$this->nextErrors[] = sprintf($this->l('%1$s module is not compatible with 1.5.X, please remove it on your ftp.'), $module);
+							$this->nextErrors[] = sprintf($this->l('%1$s module is not compatible with 1.5.X, please remove it from your ftp.'), $module);
 					}
 				}
 			}
@@ -2368,7 +2368,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 		foreach ($arrayToClean as $dir)
 			if (!file_exists($dir))
 			{
-				$this->nextQuickInfo[] = sprintf($this->l('[SKIP] directory "%s" doesn\'t exist and cannot be emptied.'), str_replace($this->prodRootDir, '', $dir));
+				$this->nextQuickInfo[] = sprintf($this->l('[SKIP] directory "%s" does not exist and cannot be emptied.'), str_replace($this->prodRootDir, '', $dir));
 				continue;
 			}
 			else
@@ -4073,7 +4073,7 @@ var txtError = new Array();
 txtError[0] = "'.$this->l('Required field').'";
 txtError[1] = "'.$this->l('Too long!').'";
 txtError[2] = "'.$this->l('Fields are different!').'";
-txtError[3] = "'.$this->l('This email adress is wrong!').'";
+txtError[3] = "'.$this->l('This email address is wrong!').'";
 txtError[4] = "'.$this->l('Impossible to send the email!').'";
 txtError[5] = "'.$this->l('Cannot create settings file, if /config/settings.inc.php exists, please give the public write permissions to this file, else please create a file named settings.inc.php in config directory.').'";
 txtError[6] = "'.$this->l('Cannot write settings file, please create a file named settings.inc.php in the "config" directory.').'";
@@ -4083,12 +4083,12 @@ txtError[9] = "'.$this->l('Impossible to read the content of a MySQL content fil
 txtError[10] = "'.$this->l('Cannot access a MySQL content file.').'";
 txtError[11] = "'.$this->l('Error while inserting data in the database:').'";
 txtError[12] = "'.$this->l('The password is incorrect (alphanumeric string at least 8 characters).').'";
-txtError[14] = "'.$this->l('A Prestashop database already exists, please drop it or change the prefix.').'";
+txtError[14] = "'.$this->l('A PrestaShop database already exists, please drop it or change the prefix.').'";
 txtError[15] = "'.$this->l('This is not a valid file name.').'";
 txtError[16] = "'.$this->l('This is not a valid image file.').'";
 txtError[17] = "'.$this->l('Error while creating the /config/settings.inc.php file.').'";
 txtError[18] = "'.$this->l('Error:').'";
-txtError[19] = "'.$this->l('This PrestaShop database already exists. Please revalidate your authentication informations to the database.').'";
+txtError[19] = "'.$this->l('This PrestaShop database already exists. Please revalidate your authentication information to the database.').'";
 txtError[22] = "'.$this->l('An error occurred while resizing the picture.').'";
 txtError[23] = "'.$this->l('Database connection is available!').'";
 txtError[24] = "'.$this->l('Database Server is available but database is not found').'";
@@ -4107,7 +4107,7 @@ txtError[46] = "'.$this->l('Invalid shop name').'";
 txtError[47] = "'.$this->l('Your firstname contains some invalid characters').'";
 txtError[48] = "'.$this->l('Your lastname contains some invalid characters').'";
 txtError[49] = "'.$this->l('Your database server does not support the utf-8 charset.').'";
-txtError[50] = "'.$this->l('Your MySQL server doesn\'t support this engine, please use another one like MyISAM').'";
+txtError[50] = "'.$this->l('Your MySQL server does not support this engine, please use another one like MyISAM').'";
 txtError[51] = "'.$this->l('The file /img/logo.jpg is not writable, please CHMOD 755 this file or CHMOD 777').'";
 txtError[52] = "'.$this->l('Invalid catalog mode').'";
 txtError[999] = "'.$this->l('No error code available').'";
@@ -4520,7 +4520,7 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 			$this->_html .= '<p>'.$this->l('Congratulations, you are already using the latest version available!').'</p>';
 		elseif (version_compare(_PS_VERSION_, $this->upgrader->version_num, '>'))
 			$this->_html .= '<p>'.$this->l('You come from the future! You are using a more recent version than the latest available!').'</p>';
-		$this->_html .= '<table class="table" cellpadding="0" cellspacing="0"><tr><th>'.$this->l('Your current prestashop version').'</th><td>'._PS_VERSION_.'</td></tr>';
+		$this->_html .= '<table class="table" cellpadding="0" cellspacing="0"><tr><th>'.$this->l('Your current PrestaShop version').'</th><td>'._PS_VERSION_.'</td></tr>';
 
 		$channel = $this->getConfig('channel');
 		$this->_html .= '<tr><th>'.sprintf($this->l('Latest official version for %1$s channel.'), $channel).'</th>';
@@ -4542,7 +4542,7 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 			if (version_compare(_PS_VERSION_, $this->upgrader->version_num, '<'))
 			{
 				$show_big_button_new_version = false;
-				$this->_html .= '<p class="clear"><a href="" id="upgradeNow" class="button-autoupgrade upgradestep">'.$this->l('Upgrade PrestaShop now !').'</a></p>';
+				$this->_html .= '<p class="clear"><a href="" id="upgradeNow" class="button-autoupgrade upgradestep">'.$this->l('Upgrade PrestaShop now!').'</a></p>';
 
 				// smarty2 uses is a warning only, and will be displayed only if current version is 1.3 or 1.4 and target is <1.5;
 				$use_smarty3 = !(Configuration::get('PS_FORCE_SMARTY_2') === '1' || Configuration::get('PS_FORCE_SMARTY_2') === false);
@@ -4913,7 +4913,7 @@ $(document).ready(function(){
 			.'&amp;deletebackup&amp;name="+$(this).val()+"\">'
 			.'<img src=\"../img/admin/disabled.gif\" />'.$this->l('Delete').'</a>");
 			$(this).next().click(function(e){
-				if (!confirm("'.$this->l('Are you sure you want to delete this backup ?', 'AdminSelfUpgrade', true, false).'"))
+				if (!confirm("'.$this->l('Are you sure you want to delete this backup?', 'AdminSelfUpgrade', true, false).'"))
 					e.preventDefault();
 			});
 		}
