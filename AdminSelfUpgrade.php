@@ -344,7 +344,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 			return true;
 		else
 		{
-			// simple access : we'll allow only admin
+			// simple access : we'll allow only 46admin
 			global $cookie;
 			if ($cookie->profile == 1)
 				return true;
@@ -460,10 +460,12 @@ class AdminSelfUpgrade extends AdminSelfTab
 		if (!is_array($_MODULES))
 		{
 			// note: $_COOKIE[iso_code] is set in createCustomToken();
-			$files_to_try = array(
-				_PS_MODULE_DIR_.'autoupgrade'.DIRECTORY_SEPARATOR.'translations'.DIRECTORY_SEPARATOR.$_COOKIE['iso_code'].'.php', // 1.5
-				_PS_MODULE_DIR_.'autoupgrade'.DIRECTORY_SEPARATOR.$_COOKIE['iso_code'].'.php' // 1.4
-			);
+			$files_to_try = array();
+			if (isset($_COOKIE['iso_code']) && $_COOKIE['iso_code'])
+				$files_to_try = array(
+					_PS_MODULE_DIR_.'autoupgrade'.DIRECTORY_SEPARATOR.'translations'.DIRECTORY_SEPARATOR.$_COOKIE['iso_code'].'.php', // 1.5
+					_PS_MODULE_DIR_.'autoupgrade'.DIRECTORY_SEPARATOR.$_COOKIE['iso_code'].'.php' // 1.4
+				);
 			// translations may be in "autoupgrade/translations/iso_code.php" or "autoupgrade/iso_code.php",
 			// try both locations.
 			foreach ($files_to_try as $file)
