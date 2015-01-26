@@ -331,10 +331,10 @@ class AdminSelfUpgrade extends AdminSelfTab
 			$iso_code = 'en';
 		$admin_dir = trim(str_replace($this->prodRootDir, '', $this->adminDir), DIRECTORY_SEPARATOR);
 		$cookiePath = __PS_BASE_URI__.$admin_dir;
-		setcookie('id_employee', $id_employee, time() + 7200, $cookiePath);
-		setcookie('id_tab', $this->id, time() + 7200, $cookiePath);
-		setcookie('iso_code', $iso_code, time() + 7200, $cookiePath);
-		setcookie('autoupgrade', $this->encrypt($id_employee), time() + 7200, $cookiePath);
+		setcookie('id_employee', $id_employee, 0, $cookiePath);
+		setcookie('id_tab', $this->id, 0, $cookiePath);
+		setcookie('iso_code', $iso_code, 0, $cookiePath);
+		setcookie('autoupgrade', $this->encrypt($id_employee), 0, $cookiePath);
 		return false;
 	}
 
