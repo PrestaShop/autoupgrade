@@ -4395,18 +4395,18 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 		else
 			$content .= '<div class="warn">'.$this->l('No archive found in your admin/autoupgrade/download directory').'</div>';
 
-		$content .= '<div class="margin-form">'.$this->l('This option will skip the download step.').'</div></div>';
+		$content .= '<div class="margin-form">* '.$this->l('This option will skip the download step.').
+			sprintf($this->l('The archive in the directory %1$s will be used for upgrading to version '),
+				'<b>/admin/autoupgrade/donwload/prestashop/</b>' ).'</div></div>';
 		// $directory_dirname = $this->getConfig('directory.dirname');
 		$content .= '<div id="for-useDirectory">
-			<p> '.
+			<div> '.
 			sprintf($this->l('The directory %1$s will be used for upgrading to version '),
 				'<b>/admin/autoupgrade/latest/prestashop/</b>' ).
 			' <input type="text" size="10" name="directory_num"
 			value="'.($this->getConfig('directory.version_num')?$this->getConfig('directory.version_num'):'').'" /> <small>(1.6.0.6 for instance)</small> *
-			<br/>
-			<p>* '
-			.$this->l('This option will skip both download and unzip steps and will use admin/autoupgrade/download/prestashop/ as the source directory.').'</div>
-			</p>';
+			<div class="margin-form">* '.$this->l('This option will skip both download and unzip steps.').'</div>
+			</div></div>';
 		// backupFiles
 		// backupDb
 		$content .= '<div style="clear:both;">
