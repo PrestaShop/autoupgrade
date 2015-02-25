@@ -2168,16 +2168,11 @@ class AdminSelfUpgrade extends AdminSelfTab
 			if (version_compare($version, $oldversion) == 1 && version_compare(INSTALL_VERSION, $version) != -1)
 				$neededUpgradeFiles[] = $version;
 
-		if (empty($neededUpgradeFiles) || count($neededUpgradeFiles) === 0)
+
+		if (strpos(INSTALL_VERSION, '.') === false)
 		{
-			$this->next = 'error';
-			$this->nextQuickInfo[] = $this->l('No upgrade is possible.');
-			$this->nextErrors[] = $this->l('No upgrade is possible.');
-			if (strpos(INSTALL_VERSION, '.') === false)
-			{
-				$this->nextQuickInfo[] = sprintf($this->l('%s is not a valid version number.'), INSTALL_VERSION);
-				$this->nextErrors[] = sprintf($this->l('%s is not a valid version number.'), INSTALL_VERSION);
-			}
+			$this->nextQuickInfo[] = sprintf($this->l('%s is not a valid version number.'), INSTALL_VERSION);
+			$this->nextErrors[] = sprintf($this->l('%s is not a valid version number.'), INSTALL_VERSION);
 			return false;
 		}
 
