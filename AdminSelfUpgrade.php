@@ -891,7 +891,11 @@ class AdminSelfUpgrade extends AdminSelfTab
 		}
 
 		if (Tools14::isSubmit('putUnderMaintenance'))
-			Configuration::updateValue('PS_SHOP_ENABLE', 0);
+		{
+			foreach (Shop::getCompleteListOfShopsID() as $id_shop)
+				Configuration::updateValue('PS_SHOP_ENABLE', 0, false, null, (int)$id_shop);
+			Configuration::updateGlobalValue('PS_SHOP_ENABLE', 0);
+		}
 
 		if (Tools14::isSubmit('customSubmitAutoUpgrade'))
 		{
