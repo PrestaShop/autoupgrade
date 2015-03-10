@@ -957,14 +957,14 @@ class AdminSelfUpgrade extends AdminSelfTab
 		$this->next = '';
 
 		if ($this->getConfig('channel') != 'archive' && file_exists($this->getFilePath()) && unlink($this->getFilePath()))
-			$this->nextQuickInfo[] = sprintf('%s removed', $this->getFilePath());
+			$this->nextQuickInfo[] = sprintf($this->l('%s removed'), $this->getFilePath());
 		elseif (is_file($this->getFilePath()))
-			$this->nextQuickInfo[] = '<strong>'.sprintf('Please remove %s by ftp', $this->getFilePath()).'</strong>';
+			$this->nextQuickInfo[] = '<strong>'.sprintf($this->l('Please remove %s by FTP'), $this->getFilePath()).'</strong>';
 
 		if ($this->getConfig('channel') != 'directory' && file_exists($this->latestRootDir) && self::deleteDirectory($this->latestRootDir))
-			$this->nextQuickInfo[] = sprintf('%s removed', $this->latestRootDir);
+			$this->nextQuickInfo[] = sprintf($this->l('%s removed'), $this->latestRootDir);
 		elseif(is_dir($this->latestRootDir))
-			$this->nextQuickInfo[] = '<strong>'.sprintf('Please remove %s by ftp', $this->latestRootDir).'</strong>';
+			$this->nextQuickInfo[] = '<strong>'.sprintf($this->l('Please remove %s by FTP'), $this->latestRootDir).'</strong>';
 	}
 
 	// Simplification of _displayForm original function
