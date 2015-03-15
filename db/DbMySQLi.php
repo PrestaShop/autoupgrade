@@ -34,6 +34,8 @@ class DbMySQLiCore extends Db
 	 */
 	public function	connect()
 	{
+		$socket = false;
+                $port = false;
                 if (strpos($this->server, ':') !== false)
                 {
                         list($server, $port) = explode(':', $this->server);
