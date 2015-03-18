@@ -890,12 +890,14 @@ class AdminSelfUpgrade extends AdminSelfTab
 				));
 		}
 
-		if (Tools14::isSubmit('putUnderMaintenance'))
+		if (Tools14::isSubmit('putUnderMaintenance') && version_compare(_PS_VERSION_, '1.5.0.0', '>='))
 		{
 			foreach (Shop::getCompleteListOfShopsID() as $id_shop)
 				Configuration::updateValue('PS_SHOP_ENABLE', 0, false, null, (int)$id_shop);
 			Configuration::updateGlobalValue('PS_SHOP_ENABLE', 0);
 		}
+		elseif (Tools14::isSubmit('putUnderMaintenance'))
+			Configuration::updateValue('PS_SHOP_ENABLE', 0);
 
 		if (Tools14::isSubmit('customSubmitAutoUpgrade'))
 		{
