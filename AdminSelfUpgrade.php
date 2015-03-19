@@ -3537,6 +3537,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 					}
 					$views .= preg_replace('#DEFINER=[^\s]+\s#', 'DEFINER=CURRENT_USER ', $schema[0]['Create View']).";\n\n";
 					$written += fwrite($fp, "\n".$views);
+					$ignore_stats_table[] = $schema[0]['View'];
 				}
 				// case table
 				elseif (isset($schema[0]['Table']))
