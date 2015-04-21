@@ -4514,7 +4514,9 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 	private function _displayBlockUpgradeButton()
 	{
 		global $cookie;
-		$admin_dir = trim(str_replace($this->prodRootDir, '', $this->adminDir), DIRECTORY_SEPARATOR);
+
+		if (!version_compare(substr(phpversion(), 0, 5), '5.4.0', '>='))
+			$this->_html .= '<fieldset style="background-color: #f8eba8;"><legend style="background-color: #f8eba8;">'.$this->l('Warning!').'</legend><span style="font-weight:bold">' .sprintf($this->l('You are using PHP %s version. Soon, the latest PHP version supported by PrestaShop will be PHP 5.4. To make sure you’re ready for the future, we recommend you to upgrade to PHP 5.4 now!'), phpversion()).'</span></fieldset>';
 
 		$this->_html .= '
 		<fieldset id="upgradeButtonBlock">
