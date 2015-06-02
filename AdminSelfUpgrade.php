@@ -2473,10 +2473,10 @@ class AdminSelfUpgrade extends AdminSelfTab
 
 			if (version_compare(INSTALL_VERSION, '1.6.0.0', '>'))
 			{
-				if (version_compare(INSTALL_VERSION, '1.6.1.0', '>='))
-				{
+				if (version_compare(INSTALL_VERSION, '1.6.1.0', '>=') && defined('_PS_CORE_DIR_'))
+					require_once(_PS_CORE_DIR_.'/Core/Foundation/Database/Core_Foundation_Database_EntityInterface.php');
+				elseif (version_compare(INSTALL_VERSION, '1.6.1.0', '>=') && defined('_PS_ROOT_DIR_'))
 					require_once(_PS_ROOT_DIR_.'/Core/Foundation/Database/Core_Foundation_Database_EntityInterface.php');
-				}
 
 				if (file_exists(_PS_ROOT_DIR_.'/classes/Tools.php'))
 					require_once(_PS_ROOT_DIR_.'/classes/Tools.php');
