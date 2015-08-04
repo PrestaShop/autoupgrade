@@ -242,6 +242,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 	public $install_version;
 	public $keepImages = null;
 	public $updateDefaultTheme = null;
+	public $changeToDefaultTheme = null;
 	public $keepMails = null;
 	public $manualMode = null;
 	public $deactivateCustomModule = null;
@@ -540,10 +541,14 @@ class AdminSelfUpgrade extends AdminSelfTab
 		);
 
 		$this->_fieldsUpgradeOptions['PS_AUTOUP_UPDATE_DEFAULT_THEME'] = array(
-			'title' => $this->l('Upgrade and switch to the default theme of the new version'), 'cast' => 'intval', 'validation' => 'isBool', 'defaultValue' => '1',
-			'type' => 'bool', 'desc' => $this->l('This will change your theme: your shop will then use the default theme of the version of PrestaShop you are upgrading to.').'<br />'
-			.$this->l('If you customized the default PrestaShop theme in its folder (folder name "prestashop" in 1.4, "default" in 1.5, "bootstrap-default" in 1.6), enabling this option will lose your modifications.').'<br />'
+			'title' => $this->l('Upgrade the default theme of the new version'), 'cast' => 'intval', 'validation' => 'isBool', 'defaultValue' => '1',
+			'type' => 'bool', 'desc' => $this->l('If you customized the default PrestaShop theme in its folder (folder name "prestashop" in 1.4, "default" in 1.5, "bootstrap-default" in 1.6), enabling this option will lose your modifications.').'<br />'
 			.$this->l('If you are using your own theme, enabling this option will switch your shop to the updated default theme, and your own theme will be safe.'),
+		);
+
+		$this->_fieldsUpgradeOptions['PS_AUTOUP_CHANGE_TO_DEFAULT_THEME'] = array(
+			'title' => $this->l('Switch to the default theme of the new version'), 'cast' => 'intval', 'validation' => 'isBool', 'defaultValue' => '0',
+			'type' => 'bool', 'desc' => $this->l('This will change your theme: your shop will then use the default theme of the version of PrestaShop you are upgrading to.'),
 		);
 
 		$this->_fieldsUpgradeOptions['PS_AUTOUP_KEEP_MAILS'] = array(
@@ -731,6 +736,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 
 		$this->keepImages = $this->getConfig('PS_AUTOUP_KEEP_IMAGES');
 		$this->updateDefaultTheme = $this->getConfig('PS_AUTOUP_UPDATE_DEFAULT_THEME');
+		$this->changeToDefaultTheme = $this->getConfig('PS_AUTOUP_CHANGE_TO_DEFAULT_THEME');
 		$this->keepMails = $this->getConfig('PS_AUTOUP_KEEP_MAILS');
 		$this->manualMode = (defined('_PS_MODE_DEV_') && _PS_MODE_DEV_)? (bool)$this->getConfig('PS_AUTOUP_MANUAL_MODE') : false;
 		$this->deactivateCustomModule = $this->getConfig('PS_AUTOUP_CUSTOM_MOD_DESACT');
@@ -887,6 +893,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 				'PS_AUTOUP_PERFORMANCE' => '1',
 				'PS_AUTOUP_CUSTOM_MOD_DESACT' => '1',
 				'PS_AUTOUP_UPDATE_DEFAULT_THEME' => '1',
+				'PS_AUTOUP_CHANGE_TO_DEFAULT_THEME' => '0',
 				'PS_AUTOUP_KEEP_MAILS' => '1',
 				'PS_AUTOUP_BACKUP' => '1',
 				'PS_AUTOUP_KEEP_IMAGES' => '0'
@@ -2627,7 +2634,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 			}
 		}
 
-		if ($this->updateDefaultTheme)
+		if ($this->changeToDefaultTheme)
 		{
 			if (version_compare(INSTALL_VERSION, '1.6.0.0', '>'))
 			{
@@ -4721,7 +4728,7 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 		</fieldset>';
 
 		/* Make sure the user has configured the upgrade options, or set default values */
-		$configuration_keys = array('PS_AUTOUP_UPDATE_DEFAULT_THEME' => 1, 'PS_AUTOUP_KEEP_MAILS' => 1, 'PS_AUTOUP_CUSTOM_MOD_DESACT' => 1,
+		$configuration_keys = array('PS_AUTOUP_UPDATE_DEFAULT_THEME' => 1, 'PS_AUTOUP_CHANGE_TO_DEFAULT_THEME' => 0, 'PS_AUTOUP_KEEP_MAILS' => 1, 'PS_AUTOUP_CUSTOM_MOD_DESACT' => 1,
 		'PS_AUTOUP_MANUAL_MODE' => 0, 'PS_AUTOUP_PERFORMANCE' => 1, 'PS_DISPLAY_ERRORS' => 0);
 		foreach ($configuration_keys as $k => $default_value)
 			if (Configuration::get($k) == '')
