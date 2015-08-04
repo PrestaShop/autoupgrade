@@ -433,7 +433,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 					$this->autoupgradePath.DIRECTORY_SEPARATOR.'ajax-upgradetab.php');
 		}
 
-		if (version_compare(_PS_VERSION_,'1.6.1.0','>'))
+		if (version_compare(_PS_VERSION_,'1.6.1.0','>='))
 			Context::getContext()->smarty->assign('display_header_javascript', true);
 	}
 
