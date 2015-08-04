@@ -31,7 +31,7 @@ class Autoupgrade extends Module
 		$this->name = 'autoupgrade';
 		$this->tab = 'administration';
 		$this->author = 'PrestaShop';
-		$this->version = '1.6.2';
+		$this->version = '1.6.3';
 		if (version_compare(_PS_VERSION_, '1.5.0.0 ', '>='))
 			$this->multishop_context = Shop::CONTEXT_ALL;
 
