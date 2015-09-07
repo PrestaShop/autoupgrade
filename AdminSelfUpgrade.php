@@ -5729,8 +5729,8 @@ $(document).ready(function()
 				$this->nextQuickInfo[] = $this->l('Using class PclZip...');
 				if (!class_exists('PclZip',false))
 					require_once(dirname(__FILE__).'/classes/pclzip.lib.php');
-				if ($zip = new PclZip($zipfile));
-				return $zip->listContent();
+				if ($zip = new PclZip($zipfile))
+					return $zip->listContent();
 			}
 		}
 		return false;
