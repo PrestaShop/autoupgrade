@@ -541,13 +541,13 @@ class AdminSelfUpgrade extends AdminSelfTab
 		);
 
 		$this->_fieldsUpgradeOptions['PS_AUTOUP_UPDATE_DEFAULT_THEME'] = array(
-			'title' => $this->l('Upgrade the default theme of the new version'), 'cast' => 'intval', 'validation' => 'isBool', 'defaultValue' => '1',
+			'title' => $this->l('Upgrade the default theme'), 'cast' => 'intval', 'validation' => 'isBool', 'defaultValue' => '1',
 			'type' => 'bool', 'desc' => $this->l('If you customized the default PrestaShop theme in its folder (folder name "prestashop" in 1.4, "default" in 1.5, "bootstrap-default" in 1.6), enabling this option will lose your modifications.').'<br />'
-			.$this->l('If you are using your own theme, enabling this option will switch your shop to the updated default theme, and your own theme will be safe.'),
+			.$this->l('If you are using your own theme, enabling this option will simply update the default theme files, and your own theme will be safe.'),
 		);
 
 		$this->_fieldsUpgradeOptions['PS_AUTOUP_CHANGE_DEFAULT_THEME'] = array(
-			'title' => $this->l('Switch to the default theme of the new version'), 'cast' => 'intval', 'validation' => 'isBool', 'defaultValue' => '0',
+			'title' => $this->l('Switch to the default theme'), 'cast' => 'intval', 'validation' => 'isBool', 'defaultValue' => '0',
 			'type' => 'bool', 'desc' => $this->l('This will change your theme: your shop will then use the default theme of the version of PrestaShop you are upgrading to.'),
 		);
 
@@ -4414,7 +4414,7 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 
 		$content .= '<div class="margin-form">* '.$this->l('This option will skip the download step.').' '.
 			sprintf($this->l('The archive in the directory %1$s will be used for upgrading.'),
-			'<b>/admin/autoupgrade/donwload/</b>' ).'</div></div>';
+			'<b>/admin/autoupgrade/download/</b>' ).'</div></div>';
 		// $directory_dirname = $this->getConfig('directory.dirname');
 		$content .= '<div id="for-useDirectory">
 			<div> '.
@@ -5729,8 +5729,8 @@ $(document).ready(function()
 				$this->nextQuickInfo[] = $this->l('Using class PclZip...');
 				if (!class_exists('PclZip',false))
 					require_once(dirname(__FILE__).'/classes/pclzip.lib.php');
-				if ($zip = new PclZip($zipfile));
-				return $zip->listContent();
+				if ($zip = new PclZip($zipfile))
+					return $zip->listContent();
 			}
 		}
 		return false;
