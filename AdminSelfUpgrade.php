@@ -11,7 +11,7 @@
 * If you did not receive a copy of the license and are unable to
 * obtain it through the world-wide-web, please send an email
 * to license@prestashop.com so we can send you a copy immediately.
-*f
+*
 * DISCLAIMER
 *
 * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
@@ -2703,6 +2703,9 @@ class AdminSelfUpgrade extends AdminSelfTab
 			$this->nextErrors[] = $this->l('Error when opening settings.inc.php file in write mode').': '.$confFile->error;
 			return false;
 		}
+
+		$caches = array('CacheMemcache', 'CacheApc', 'CacheFs', 'CacheMemcached', 'CacheXcache');
+
 		$datas = array(
 			array('_DB_SERVER_', _DB_SERVER_),
 			array('_DB_NAME_', _DB_NAME_),
@@ -2710,7 +2713,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 			array('_DB_PASSWD_', _DB_PASSWD_),
 			array('_DB_PREFIX_', _DB_PREFIX_),
 			array('_MYSQL_ENGINE_', $mysqlEngine),
-			array('_PS_CACHING_SYSTEM_', (defined('_PS_CACHING_SYSTEM_') AND _PS_CACHING_SYSTEM_ != 'CacheMemcache') ? _PS_CACHING_SYSTEM_ : 'CacheMemcache'),
+			array('_PS_CACHING_SYSTEM_', (defined('_PS_CACHING_SYSTEM_') && in_array(_PS_CACHING_SYSTEM_, $caches)) ? _PS_CACHING_SYSTEM_ : 'CacheMemcache'),
 			array('_PS_CACHE_ENABLED_', defined('_PS_CACHE_ENABLED_') ? _PS_CACHE_ENABLED_ : '0'),
 			array('_COOKIE_KEY_', _COOKIE_KEY_),
 			array('_COOKIE_IV_', _COOKIE_IV_),
