@@ -11,7 +11,7 @@
 * If you did not receive a copy of the license and are unable to
 * obtain it through the world-wide-web, please send an email
 * to license@prestashop.com so we can send you a copy immediately.
-*
+*f
 * DISCLAIMER
 *
 * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
@@ -696,9 +696,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 					$upgrader->checkPSVersion(true, array('minor'));
 				$this->install_version = $upgrader->version_num;
 		}
-
-		if (is_null($this->install_version) || empty($this->install_version))
-			$this->install_version = _PS_VERSION_;
+		$this->upgrader = $upgrader;
 
 		// If you have defined this somewhere, you know what you do
 		/* load options from configuration if we're not in ajax mode */
@@ -1115,7 +1113,12 @@ class AdminSelfUpgrade extends AdminSelfTab
 	public function writeConfig($new_config)
 	{
 		if (!file_exists($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->configFilename))
+		{
+			$this->upgrader->channel = $new_config['channel'];
+			$this->upgrader->checkPSVersion();
+			$this->install_version = $this->upgrader->version_num;
 			return $this->resetConfig($new_config);
+		}
 
 		$config = file_get_contents($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->configFilename);
 		$config_unserialized = @unserialize(base64_decode($config));
@@ -2035,6 +2038,9 @@ class AdminSelfUpgrade extends AdminSelfTab
 		define('INSTALL_PATH', realpath($this->latestRootDir.DIRECTORY_SEPARATOR.'install'));
 		// 1.5 ...
 		define('_PS_INSTALL_PATH_', INSTALL_PATH.DIRECTORY_SEPARATOR);
+		// 1.6
+		if (!defined('_PS_CORE_DIR_'))
+			define('_PS_CORE_DIR_', _PS_ROOT_DIR_);
 
 
 		define('PS_INSTALLATION_IN_PROGRESS', true);
@@ -2481,11 +2487,9 @@ class AdminSelfUpgrade extends AdminSelfTab
 					}
 			}
 
-			if (version_compare(INSTALL_VERSION, '1.6.0.0', '>'))
+			if (version_compare($this->install_version, '1.6.0.0', '>'))
 			{
-				if (version_compare(INSTALL_VERSION, '1.6.1.0', '>=') && defined('_PS_CORE_DIR_'))
-					require_once(_PS_CORE_DIR_.'/Core/Foundation/Database/Core_Foundation_Database_EntityInterface.php');
-				elseif (version_compare(INSTALL_VERSION, '1.6.1.0', '>=') && defined('_PS_ROOT_DIR_'))
+				if (version_compare($this->install_version, '1.6.1.0', '>='))
 					require_once(_PS_ROOT_DIR_.'/Core/Foundation/Database/Core_Foundation_Database_EntityInterface.php');
 
 				if (file_exists(_PS_ROOT_DIR_.'/classes/Tools.php'))
@@ -2627,8 +2631,6 @@ class AdminSelfUpgrade extends AdminSelfTab
 
 			if (version_compare($this->install_version, '1.6.0.0', '>') && class_exists('PrestaShopAutoload') && method_exists('PrestaShopAutoload', 'generateIndex'))
 			{
-				if (!defined('_PS_CORE_DIR_'))
-					define('_PS_CORE_DIR_', _PS_ROOT_DIR_);
 				PrestaShopAutoload::getInstance()->_include_override_path = false;
 				PrestaShopAutoload::getInstance()->generateIndex();
 			}
@@ -4709,7 +4711,6 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 						$upgrader->checkPSVersion(false, array('minor'));
 				}
 		}
-
 
 		$this->upgrader = $upgrader;
 
