@@ -34,13 +34,34 @@ class DbMySQLiCore extends Db
 	 */
 	public function	connect()
 	{
-		if (strpos($this->server, ':') !== false)
+		$socket = false;
+		$port = false;
+		if (Tools14::strpos($this->server, ':') !== false)
 		{
 			list($server, $port) = explode(':', $this->server);
+			if (is_numeric($port) === false)
+			{
+				$socket = $port;
+				$port = false;
+			}
+		}
+		elseif (Tools14::strpos($this->server, '/') !== false)
+		{
+			$socket = $this->server;
+		}
+
+		if ($socket)
+		{
+			$this->link = @new mysqli(null, $this->user, $this->password, $this->database, null, $socket);
+		}
+		elseif ($port)
+		{
 			$this->link = @new mysqli($server, $this->user, $this->password, $this->database, $port);
 		}
 		else
+		{
 			$this->link = @new mysqli($this->server, $this->user, $this->password, $this->database);
+		}
 
 		// Do not use object way for error because this work bad before PHP 5.2.9
 		if (mysqli_connect_error())
@@ -193,7 +214,7 @@ class DbMySQLiCore extends Db
 		$link->close();
 		return 0;
 	}
-	
+
 	public static function checkCreatePrivilege($server, $user, $pwd, $db, $prefix, $engine)
 	{
 		$link = @new mysqli($server, $user, $pwd, $db);
