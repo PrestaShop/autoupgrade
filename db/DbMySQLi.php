@@ -36,7 +36,7 @@ class DbMySQLiCore extends Db
 	{
 		$socket = false;
 		$port = false;
-		if (Tools14::strpos($this->server, ':') !== false)
+		if (strpos($this->server, ':') !== false)
 		{
 			list($server, $port) = explode(':', $this->server);
 			if (is_numeric($port) === false)
@@ -45,7 +45,7 @@ class DbMySQLiCore extends Db
 				$port = false;
 			}
 		}
-		elseif (Tools14::strpos($this->server, '/') !== false)
+		elseif (strpos($this->server, '/') !== false)
 		{
 			$socket = $this->server;
 		}
