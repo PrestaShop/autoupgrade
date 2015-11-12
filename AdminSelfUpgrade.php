@@ -2346,7 +2346,7 @@ class AdminSelfUpgrade extends AdminSelfTab
                 $logger->logError(sprintf('Error while loading sql upgrade file %s.', $version));
             }
             $sqlContent = str_replace(array($filePrefix, $engineType), array(_DB_PREFIX_, $mysqlEngine), $sqlContent);
-            $sqlContent = preg_split("/;\s*[\r\n]+/",$sqlContent);
+            $sqlContent = preg_split('/;\s*[\r\n]+/',$sqlContent);
             $sqlContentVersion[$version] = $sqlContent;
         }
 
@@ -4798,7 +4798,7 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
                 $upgrader->channel = 'archive';
                 $upgrader->version_num = $this->getConfig('archive.version_num');
                 break;
-            case 'directory';
+            case 'directory':
                 $upgrader->channel = 'directory';
                 $upgrader->version_num = $this->getConfig('directory.version_num');
                 break;
