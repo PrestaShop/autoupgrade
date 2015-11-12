@@ -4687,9 +4687,7 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
         $max_exec_time = ini_get('max_execution_time');
         $this->html .= '
             <tr><td>'.sprintf($this->l('PHP\'s max_execution_time setting has a high value or is disabled entirely (current value: %s)'), ($max_exec_time == 0 ? $this->l('unlimited') : sprintf($this->l('%s seconds'), $max_exec_time))).'</td>
-            <td>'.($max_exec_time == 0 ? $pic_ok : $pic_warn).'</td></tr>
-                </table>
-                <p>'.$this->l('Please also make sure you make a full manual backup of your files and database.').'</p>';
+            <td>'.($max_exec_time == 0 ? $pic_ok : $pic_warn).'</td></tr>';
 
         // these are possible causes of "random" upgrade failures like new classes not found or archives not found
         $this->html .= '
@@ -4698,8 +4696,10 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
             </table>';
 
         $this->html .= '
+                </table>
+                <p>\'.$this->l(\'Please also make sure you make a full manual backup of your files and database.\').\'</p>\'
             </div>
-            </fieldset>';
+        </fieldset>';
     }
 
     public function divChannelInfos($upgrade_info)
