@@ -4692,8 +4692,7 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
         // these are possible causes of "random" upgrade failures like new classes not found or archives not found
         $this->html .= '
             <tr><td>' . $this->l('OpCache settings could cause random upgrade failures. If you experience these, we suggest to modify these settings in your php.ini: opcache.revalidate_freq=0, opcache.enable_file_override=0, opcache.validate_timestamps=1') . '</td>
-            <td>' . (@ini_get('opcache.revalidate_freq') == 0 && @ini_get('opcache.validate_timestamps') == 0 && @ini_get('opcache.validate_timestamps') == 1 ? $pic_ok : $pic_warn) . '</td></tr>
-            </table>';
+            <td>' . (@ini_get('opcache.revalidate_freq') == 0 && @ini_get('opcache.validate_timestamps') == 0 && @ini_get('opcache.validate_timestamps') == 1 ? $pic_ok : $pic_warn) . '</td></tr>';
 
         $this->html .= '
                 </table>
