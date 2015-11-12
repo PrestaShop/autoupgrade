@@ -2304,8 +2304,8 @@ class AdminSelfUpgrade extends AdminSelfTab
             return false;
         } elseif ($versionCompare == 0) {
             $this->next = 'error';
-            $this->nextQuickInfo[] = $this->l(sprintf('You already have the %s version.', INSTALL_VERSION));
-            $this->nextErrors[] = $this->l(sprintf('You already have the %s version.', INSTALL_VERSION));
+            $this->nextQuickInfo[] = sprintf($this->l('You already have the %s version.'), INSTALL_VERSION);
+            $this->nextErrors[] = sprintf($this->l('You already have the %s version.'), INSTALL_VERSION);
             return false;
         } elseif ($versionCompare === false) {
             $this->next = 'error';
@@ -2413,8 +2413,8 @@ class AdminSelfUpgrade extends AdminSelfTab
             }
             if (!$sqlContent = file_get_contents($file) . "\n") {
                 $this->next = 'error';
-                $this->nextQuickInfo[] = $this->l(sprintf('Error while loading SQL upgrade file %s.', $version));
-                $this->nextErrors[] = $this->l(sprintf('Error while loading sql SQL file %s.', $version));
+                $this->nextQuickInfo[] = sprintf($this->l('Error while loading SQL upgrade file %s.'), $version);
+                $this->nextErrors[] = sprintf($this->l('Error while loading sql SQL file %s.'), $version);
                 return false;
                 $logger->logError(sprintf('Error while loading sql upgrade file %s.', $version));
             }
