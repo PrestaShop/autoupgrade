@@ -26,8 +26,9 @@
 */
 
 // _PS_ADMIN_DIR_ is defined in ajax-upgradetab, but may be not defined in direct call
-if (!defined('_PS_ADMIN_DIR_') && defined('PS_ADMIN_DIR'))
+if (!defined('_PS_ADMIN_DIR_') && defined('PS_ADMIN_DIR')) {
     define('_PS_ADMIN_DIR_', PS_ADMIN_DIR);
+}
 
 // Note : we cannot use the native AdminTab because
 // we don't know the current PrestaShop version number
@@ -35,17 +36,18 @@ require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/AdminSelfTab.php');
 
 require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/classes/Upgrader.php');
 
-if (!class_exists('Upgrader', false))
-{
-    if (file_exists(_PS_ROOT_DIR_.'/override/classes/Upgrader.php'))
-        require_once(_PS_ROOT_DIR_.'/override/classes/Upgrader.php');
-    else
+if (!class_exists('Upgrader', false)) {
+    if (file_exists(_PS_ROOT_DIR_ . '/override/classes/Upgrader.php')) {
+        require_once(_PS_ROOT_DIR_ . '/override/classes/Upgrader.php');
+    } else {
         eval('class Upgrader extends UpgraderCore{}');
+    }
 }
 
 require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/classes/Tools14.php');
-if (!class_exists('Tools', false))
+if (!class_exists('Tools', false)) {
     eval('class Tools extends Tools14{}');
+}
 
 class AdminSelfUpgrade extends AdminSelfTab
 {
@@ -62,6 +64,7 @@ class AdminSelfUpgrade extends AdminSelfTab
     public $nextResponseType = 'json'; // json, xml
     public $next = 'N/A';
 
+    /** @var UpgraderCore  */
     public $upgrader = null;
     public $standalone = true;
 
@@ -301,20 +304,25 @@ class AdminSelfUpgrade extends AdminSelfTab
      * replace tools encrypt
      *
      * @param mixed $string
-     * @return void
+     * @return string
      */
     public function encrypt($string)
     {
         return md5(_COOKIE_KEY_.$string);
     }
 
+    /**
+     * Simple checkToken in ajax-mode, to be free of Cookie class (and no Tools::encrypt() too )
+     *
+     * @return bool
+     */
     public function checkToken()
     {
-        // simple checkToken in ajax-mode, to be free of Cookie class (and no Tools::encrypt() too )
-        if ($this->ajax && isset($_COOKIE['id_employee']))
+        if ($this->ajax && isset($_COOKIE['id_employee'])) {
             return ($_COOKIE['autoupgrade'] == $this->encrypt($_COOKIE['id_employee']));
-        else
+        } else {
             return parent::checkToken();
+        }
     }
 
     /**
@@ -326,10 +334,11 @@ class AdminSelfUpgrade extends AdminSelfTab
         // so, we'll create a cookie in admin dir, based on cookie key
         global $cookie;
         $id_employee = $cookie->id_employee;
-        if ($cookie->id_lang)
+        if ($cookie->id_lang) {
             $iso_code = $_COOKIE['iso_code'] = Language::getIsoById((int)$cookie->id_lang);
-        else
+        } else {
             $iso_code = 'en';
+        }
         $admin_dir = trim(str_replace($this->prodRootDir, '', $this->adminDir), DIRECTORY_SEPARATOR);
         $cookiePath = __PS_BASE_URI__.$admin_dir;
         setcookie('id_employee', $id_employee, 0, $cookiePath);
@@ -339,20 +348,27 @@ class AdminSelfUpgrade extends AdminSelfTab
         return false;
     }
 
+    /**
+     * Simple access view check, we'll allow only employees with admin profiles
+     * @param bool|false $disable
+     * @return bool
+     */
     public function viewAccess($disable = false)
     {
-        if ($this->ajax)
+        if ($this->ajax) {
             return true;
-        else
-        {
-            // simple access : we'll allow only 46admin
+        } else {
             global $cookie;
-            if ($cookie->profile == 1)
+            if ($cookie->profile == 1) {
                 return true;
+            }
         }
         return false;
     }
 
+    /**
+     * AdminSelfUpgrade constructor.
+     */
     public function __construct()
     {
         @set_time_limit(0);
@@ -403,42 +419,57 @@ class AdminSelfUpgrade extends AdminSelfTab
             'loopUpgradeModulesTime' => array(6, 12, 25),
             'loopRemoveSamples' => array(400, 800, 1600)
         );
-        switch ($this->getConfig('PS_AUTOUP_PERFORMANCE'))
-        {
+        switch ($this->getConfig('PS_AUTOUP_PERFORMANCE')) {
             case 3:
-                foreach ($perf_array as $property => $values)
+                foreach ($perf_array as $property => $values) {
                     self::$$property = $values[2];
+                }
                 break;
             case 2:
-                foreach ($perf_array as $property => $values)
+                foreach ($perf_array as $property => $values) {
                     self::$$property = $values[1];
+                }
                 break;
             case 1:
             default:
-                foreach ($perf_array as $property => $values)
+                foreach ($perf_array as $property => $values) {
                     self::$$property = $values[0];
+                }
         }
-        /* Bug with backwardcompatibility overrinding currentIndex */
-        if (version_compare(_PS_VERSION_,'1.5.0.0','>'))
-            $this->currentIndex = $_SERVER['SCRIPT_NAME'].(($controller = Tools14::getValue('controller')) ? '?controller='.$controller: '');
-        else
+        /* Bug with backward-compatibility overriding currentIndex */
+        if (version_compare(_PS_VERSION_, '1.5.0.0', '>')) {
+            $this->currentIndex = $_SERVER['SCRIPT_NAME'] . (($controller = Tools14::getValue('controller')) ? '?controller=' . $controller : '');
+        } else {
             $this->currentIndex = $currentIndex;
-
-        if (defined('_PS_ADMIN_DIR_'))
-        {
-            $file_tab = @filemtime($this->autoupgradePath.DIRECTORY_SEPARATOR.'ajax-upgradetab.php');
-            $file =  @filemtime(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR.$this->autoupgradeDir.DIRECTORY_SEPARATOR.'ajax-upgradetab.php');
-
-            if ($file_tab < $file)
-                @copy(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR.$this->autoupgradeDir.DIRECTORY_SEPARATOR.'ajax-upgradetab.php',
-                    $this->autoupgradePath.DIRECTORY_SEPARATOR.'ajax-upgradetab.php');
         }
 
-        if (version_compare(_PS_VERSION_,'1.6.1.0','>=') && !$this->ajax)
+        if (defined('_PS_ADMIN_DIR_')) {
+            $file_tab = @filemtime($this->autoupgradePath . DIRECTORY_SEPARATOR . 'ajax-upgradetab.php');
+            $file = @filemtime(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $this->autoupgradeDir . DIRECTORY_SEPARATOR . 'ajax-upgradetab.php');
+
+            if ($file_tab < $file) {
+                @copy(
+                    _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR .
+                    $this->autoupgradeDir . DIRECTORY_SEPARATOR . 'ajax-upgradetab.php',
+                    $this->autoupgradePath . DIRECTORY_SEPARATOR . 'ajax-upgradetab.php'
+                );
+            }
+        }
+
+        if (version_compare(_PS_VERSION_, '1.6.1.0', '>=') && !$this->ajax) {
             Context::getContext()->smarty->assign('display_header_javascript', true);
+        }
     }
 
-    protected function l($string, $class = 'AdminTab', $addslashes = FALSE, $htmlentities = TRUE)
+    /**
+     * Simple translations method
+     * @param mixed $string
+     * @param string $class
+     * @param bool|false $addslashes
+     * @param bool|true $htmlentities
+     * @return mixed|string
+     */
+    protected function l($string, $class = 'AdminTab', $addslashes = false, $htmlentities = true)
     {
         // need to be called in order to populate $classInModule
         $str = self::findTranslation('autoupgrade', $string, 'AdminSelfUpgrade');
@@ -461,50 +492,54 @@ class AdminSelfUpgrade extends AdminSelfTab
 
         $string = str_replace('\'', '\\\'', $string);
 
-        if (!is_array($_MODULES))
-        {
+        if (!is_array($_MODULES)) {
             // note: $_COOKIE[iso_code] is set in createCustomToken();
             $files_to_try = array();
-            if (isset($_COOKIE['iso_code']) && $_COOKIE['iso_code'])
+            if (isset($_COOKIE['iso_code']) && $_COOKIE['iso_code']) {
                 $files_to_try = array(
-                    _PS_MODULE_DIR_.'autoupgrade'.DIRECTORY_SEPARATOR.'translations'.DIRECTORY_SEPARATOR.$_COOKIE['iso_code'].'.php', // 1.5
-                    _PS_MODULE_DIR_.'autoupgrade'.DIRECTORY_SEPARATOR.$_COOKIE['iso_code'].'.php' // 1.4
+                    _PS_MODULE_DIR_ . 'autoupgrade' . DIRECTORY_SEPARATOR . 'translations' . DIRECTORY_SEPARATOR . $_COOKIE['iso_code'] . '.php',
+                    // 1.5
+                    _PS_MODULE_DIR_ . 'autoupgrade' . DIRECTORY_SEPARATOR . $_COOKIE['iso_code'] . '.php'
+                    // 1.4
                 );
+            }
             // translations may be in "autoupgrade/translations/iso_code.php" or "autoupgrade/iso_code.php",
             // try both locations.
-            foreach ($files_to_try as $file)
-                if (file_exists($file) && include($file))
-                {
+            foreach ($files_to_try as $file) {
+                if (file_exists($file) && include($file)) {
                     $_MODULES = !empty($_MODULES) ? array_merge($_MODULES, $_MODULE) : $_MODULE;
                     break;
                 }
+            }
         }
         $cache_key = $name.'|'.$string.'|'.$source;
 
-        if (!isset(self::$l_cache[$cache_key]))
-        {
-            if (!is_array($_MODULES))
+        if (!isset(self::$l_cache[$cache_key])) {
+            if (!is_array($_MODULES)) {
                 return $string;
+            }
             // set array key to lowercase for 1.3 compatibility
             $_MODULES = array_change_key_case($_MODULES);
-            if (defined('_THEME_NAME_'))
-                $currentKey = '<{'.strtolower($name).'}'.strtolower(_THEME_NAME_).'>'.strtolower($source).'_'.md5($string);
-            else
-                $currentKey = '<{'.strtolower($name).'}default>'.strtolower($source).'_'.md5($string);
+            if (defined('_THEME_NAME_')) {
+                $currentKey = '<{' . strtolower($name) . '}' . strtolower(_THEME_NAME_) . '>' . strtolower($source) . '_' . md5($string);
+            } else {
+                $currentKey = '<{' . strtolower($name) . '}default>' . strtolower($source) . '_' . md5($string);
+            }
             // note : we should use a variable to define the default theme (instead of "prestashop")
-            $defaultKey = '<{'.strtolower($name).'}prestashop>'.strtolower($source).'_'.md5($string);
+            $defaultKey = '<{' . strtolower($name) . '}prestashop>' . strtolower($source) . '_' . md5($string);
             $currentKey = $defaultKey;
 
-            if (isset($_MODULES[$currentKey]))
+            if (isset($_MODULES[$currentKey])) {
                 $ret = stripslashes($_MODULES[$currentKey]);
-            elseif (isset($_MODULES[strtolower($currentKey)]))
+            } elseif (isset($_MODULES[strtolower($currentKey)])) {
                 $ret = stripslashes($_MODULES[strtolower($currentKey)]);
-            elseif (isset($_MODULES[$defaultKey]))
+            } elseif (isset($_MODULES[$defaultKey])) {
                 $ret = stripslashes($_MODULES[$defaultKey]);
-            elseif (isset($_MODULES[strtolower($defaultKey)]))
+            } elseif (isset($_MODULES[strtolower($defaultKey)])) {
                 $ret = stripslashes($_MODULES[strtolower($defaultKey)]);
-            else
+            } else {
                 $ret = stripslashes($string);
+            }
 
             self::$l_cache[$cache_key] = $ret;
         }
@@ -558,23 +593,32 @@ class AdminSelfUpgrade extends AdminSelfTab
         );
 
         /* Developers only options */
-        if (defined('_PS_MODE_DEV_') && _PS_MODE_DEV_)
-        {
+        if (defined('_PS_MODE_DEV_') && _PS_MODE_DEV_) {
             $this->_fieldsUpgradeOptions['PS_AUTOUP_MANUAL_MODE'] = array(
-                'title' => $this->l('Step by step mode'), 'cast' => 'intval', 'validation' => 'isBool',
-                'type' => 'bool', 'desc' => $this->l('Allows to perform the upgrade step by step (debug mode).'),
+                'title' => $this->l('Step by step mode'),
+                'cast' => 'intval',
+                'validation' => 'isBool',
+                'type' => 'bool',
+                'desc' => $this->l('Allows to perform the upgrade step by step (debug mode).'),
             );
 
             $this->_fieldsUpgradeOptions['PS_DISPLAY_ERRORS'] = array(
-                'title' => $this->l('Display PHP errors'), 'cast' => 'intval', 'validation' => 'isBool', 'defaultValue' => '0',
-                'type' => 'bool', 'desc' => $this->l('This option will keep PHP\'s "display_errors" setting to On (or force it).').'<br />'
-                .$this->l('This is not recommended as the upgrade will immediately fail if a PHP error occurs during an Ajax call.'),
+                'title' => $this->l('Display PHP errors'),
+                'cast' => 'intval',
+                'validation' => 'isBool',
+                'defaultValue' => '0',
+                'type' => 'bool',
+                'desc' => $this->l('This option will keep PHP\'s "display_errors" setting to On (or force it).') . '<br />'
+                    . $this->l('This is not recommended as the upgrade will immediately fail if a PHP error occurs during an Ajax call.'),
             );
-        }
-        elseif ($this->getConfig('PS_DISPLAY_ERRORS'))
+        } elseif ($this->getConfig('PS_DISPLAY_ERRORS')) {
             $this->writeConfig(array('PS_DISPLAY_ERRORS' => '0'));
+        }
     }
 
+    /**
+     * @return number
+     */
     public function configOk()
     {
         $allowed_array = $this->getCheckCurrentPsConfig();
@@ -582,12 +626,14 @@ class AdminSelfUpgrade extends AdminSelfTab
         return $allowed;
     }
 
+    /**
+     * @return array
+     */
     public function getCheckCurrentPsConfig()
     {
         static $allowed_array;
 
-        if(empty($allowed_array))
-        {
+        if (empty($allowed_array)) {
             $allowed_array = array();
             $allowed_array['fopen'] = ConfigurationTest::test_fopen() || ConfigurationTest::test_curl();
             $allowed_array['root_writable'] = $this->getRootWritable();
@@ -596,12 +642,16 @@ class AdminSelfUpgrade extends AdminSelfTab
             $allowed_array['shop_deactivated'] = (!Configuration::get('PS_SHOP_ENABLE') || (isset($_SERVER['HTTP_HOST']) && in_array($_SERVER['HTTP_HOST'], array('127.0.0.1', 'localhost'))));
             $allowed_array['cache_deactivated'] = !(defined('_PS_CACHE_ENABLED_') && _PS_CACHE_ENABLED_);
             $allowed_array['module_version_ok'] = $this->checkAutoupgradeLastVersion();
-            if (version_compare(_PS_VERSION_,'1.5.0.0','<'))
+            if (version_compare(_PS_VERSION_, '1.5.0.0', '<')) {
                 $allowed_array['test_mobile'] = ConfigurationTest::test_mobile();
+            }
         }
         return $allowed_array;
     }
 
+    /**
+     * @return bool|null
+     */
     public function getRootWritable()
     {
         // Root directory permissions cannot be checked recursively anymore, it takes too much time
@@ -611,35 +661,48 @@ class AdminSelfUpgrade extends AdminSelfTab
         return $this->root_writable;
     }
 
+    /**
+     * @return bool|null|string
+     */
     public function getModuleVersion()
     {
-        if (is_null($this->module_version))
-        {
-            if (file_exists(_PS_ROOT_DIR_.'/modules/autoupgrade/config.xml')
-                && $xml_module_version = simplexml_load_file(_PS_ROOT_DIR_.'/modules/autoupgrade/config.xml')
-            )
+        if (is_null($this->module_version)) {
+            if (file_exists(_PS_ROOT_DIR_ . '/modules/autoupgrade/config.xml')
+                && $xml_module_version = simplexml_load_file(_PS_ROOT_DIR_ . '/modules/autoupgrade/config.xml')
+            ) {
                 $this->module_version = (string)$xml_module_version->version;
-            else
+            } else {
                 $this->module_version = false;
+            }
         }
         return $this->module_version;
     }
 
+    /**
+     * @return bool|mixed|string
+     */
     public function checkAutoupgradeLastVersion()
     {
-        if ($this->getModuleVersion())
-            $this->lastAutoupgradeVersion = version_compare($this->module_version, $this->upgrader->autoupgrade_last_version, '>=');
-        else
+        if ($this->getModuleVersion()) {
+            $this->lastAutoupgradeVersion = version_compare(
+                $this->module_version,
+                $this->upgrader->autoupgrade_last_version,
+                '>='
+            );
+        } else {
             $this->lastAutoupgradeVersion = true;
+        }
 
         return $this->lastAutoupgradeVersion;
     }
 
     public function cleanTmpFiles()
     {
-        foreach($this->tmp_files as $tmp_file)
-            if (file_exists($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->$tmp_file))
-                unlink($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->$tmp_file);
+        foreach ($this->tmp_files as $tmp_file) {
+            if (file_exists($this->autoupgradePath . DIRECTORY_SEPARATOR . $this->$tmp_file)) {
+                unlink($this->autoupgradePath . DIRECTORY_SEPARATOR . $this->$tmp_file);
+            }
+        }
     }
 
     /**
@@ -653,90 +716,95 @@ class AdminSelfUpgrade extends AdminSelfTab
         // This way it will be easier to upgrade a different path if needed
         $this->prodRootDir = _PS_ROOT_DIR_;
         $this->adminDir = _PS_ADMIN_DIR_;
-        if (!defined('__PS_BASE_URI__'))
-        {
+        if (!defined('__PS_BASE_URI__')) {
             // _PS_DIRECTORY_ replaces __PS_BASE_URI__ in 1.5
-            if (defined('_PS_DIRECTORY_'))
+            if (defined('_PS_DIRECTORY_')) {
                 define('__PS_BASE_URI__', _PS_DIRECTORY_);
-            else
-                define('__PS_BASE_URI__', realpath(dirname($_SERVER['SCRIPT_NAME'])).'/../../');
+            } else {
+                define('__PS_BASE_URI__', realpath(dirname($_SERVER['SCRIPT_NAME'])) . '/../../');
+            }
         }
         // from $_POST or $_GET
         $this->action = empty($_REQUEST['action'])?null:$_REQUEST['action'];
         $this->currentParams = empty($_REQUEST['params'])?null:$_REQUEST['params'];
         // test writable recursively
-        if(version_compare(_PS_VERSION_,'1.4.6.0','<') || !class_exists('ConfigurationTest', false))
-        {
-            require_once(dirname(__FILE__).'/classes/ConfigurationTest.php');
-            if(!class_exists('ConfigurationTest', false) AND class_exists('ConfigurationTestCore'))
+        if (version_compare(_PS_VERSION_, '1.4.6.0', '<') || !class_exists('ConfigurationTest', false)) {
+            require_once(dirname(__FILE__) . '/classes/ConfigurationTest.php');
+            if (!class_exists('ConfigurationTest', false) and class_exists('ConfigurationTestCore')) {
                 eval('class ConfigurationTest extends ConfigurationTestCore{}');
+            }
         }
         $this->initPath();
         $upgrader = new Upgrader();
         preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', _PS_VERSION_, $matches);
-        if (isset($matches[1]))
+        if (isset($matches[1])) {
             $upgrader->branch = $matches[1];
+        }
         $channel = $this->getConfig('channel');
-        switch ($channel)
-        {
+        switch ($channel) {
             case 'archive':
                 $this->install_version = $this->getConfig('archive.version_num');
                 $this->destDownloadFilename = $this->getConfig('archive.filename');
                 $upgrader->checkPSVersion(true, array('archive'));
                 break;
-            case 'directory';
+            case 'directory':
                 $this->install_version = $this->getConfig('directory.version_num');
                 $upgrader->checkPSVersion(true, array('directory'));
-            break;
+                break;
             default:
                 $upgrader->channel = $channel;
-                if ($this->getConfig('channel') == 'private' && !$this->getConfig('private_allow_major'))
+                if ($this->getConfig('channel') == 'private' && !$this->getConfig('private_allow_major')) {
                     $upgrader->checkPSVersion(true, array('private', 'minor'));
-                else
+                } else {
                     $upgrader->checkPSVersion(true, array('minor'));
+                }
                 $this->install_version = $upgrader->version_num;
         }
         $this->upgrader = $upgrader;
 
         // If you have defined this somewhere, you know what you do
         /* load options from configuration if we're not in ajax mode */
-        if (!$this->ajax)
-        {
+        if (!$this->ajax) {
             $this->createCustomToken();
 
-            $postData = 'version='._PS_VERSION_.'&method=listing&action=native&iso_code=all';
-            $xml_local = $this->prodRootDir.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'xml'.DIRECTORY_SEPARATOR.'modules_native_addons.xml';
+            $postData = 'version=' . _PS_VERSION_ . '&method=listing&action=native&iso_code=all';
+            $xml_local = $this->prodRootDir . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml' . DIRECTORY_SEPARATOR . 'modules_native_addons.xml';
             $xml = $upgrader->getApiAddons($xml_local, $postData, true);
 
-            if (is_object($xml))
-                foreach ($xml as $mod)
+            if (is_object($xml)) {
+                foreach ($xml as $mod) {
                     $this->modules_addons[(string)$mod->id] = (string)$mod->name;
+                }
+            }
 
             // installedLanguagesIso is used to merge translations files
             $iso_ids = Language::getIsoIds(false);
-            foreach($iso_ids as $v)
+            foreach ($iso_ids as $v) {
                 $this->installedLanguagesIso[] = $v['iso_code'];
+            }
 
-            $rand = dechex ( mt_rand(0, min(0xffffffff, mt_getrandmax() ) ) );
+            $rand = dechex(mt_rand(0, min(0xffffffff, mt_getrandmax())));
             $date = date('Ymd-His');
-            $this->backupName = 'V'._PS_VERSION_.'_'.$date.'-'.$rand;
-            $this->backupFilesFilename = 'auto-backupfiles_'.$this->backupName.'.zip';
-            $this->backupDbFilename = 'auto-backupdb_XXXXXX_'.$this->backupName.'.sql';
+            $this->backupName = 'V' . _PS_VERSION_ . '_' . $date . '-' . $rand;
+            $this->backupFilesFilename = 'auto-backupfiles_' . $this->backupName . '.zip';
+            $this->backupDbFilename = 'auto-backupdb_XXXXXX_' . $this->backupName . '.sql';
             // removing temporary files
             $this->cleanTmpFiles();
-        }
-        else
-        {
-            foreach($this->ajaxParams as $prop)
-                if(property_exists($this, $prop))
-                    $this->{$prop} = isset($this->currentParams[$prop])?$this->currentParams[$prop]:'';
+        } else {
+            foreach ($this->ajaxParams as $prop) {
+                if (property_exists($this, $prop)) {
+                    $this->{$prop} = isset($this->currentParams[$prop]) ? $this->currentParams[$prop] : '';
+                }
+            }
         }
 
         $this->keepImages = $this->getConfig('PS_AUTOUP_KEEP_IMAGES');
         $this->updateDefaultTheme = $this->getConfig('PS_AUTOUP_UPDATE_DEFAULT_THEME');
         $this->changeToDefaultTheme = $this->getConfig('PS_AUTOUP_CHANGE_DEFAULT_THEME');
         $this->keepMails = $this->getConfig('PS_AUTOUP_KEEP_MAILS');
-        $this->manualMode = (defined('_PS_MODE_DEV_') && _PS_MODE_DEV_)? (bool)$this->getConfig('PS_AUTOUP_MANUAL_MODE') : false;
+        $this->manualMode = (defined('_PS_MODE_DEV_') && _PS_MODE_DEV_)
+            ? (bool)$this->getConfig('PS_AUTOUP_MANUAL_MODE')
+            : false;
         $this->deactivateCustomModule = $this->getConfig('PS_AUTOUP_CUSTOM_MOD_DESACT');
 
         // during restoration, do not remove :
@@ -779,25 +847,23 @@ class AdminSelfUpgrade extends AdminSelfTab
         // this will exclude autoupgrade dir from admin, and autoupgrade from modules
         $this->excludeFilesFromUpgrade[] = $this->autoupgradeDir;
 
-        if ($this->keepImages === '0')
-        {
+        if ($this->keepImages === '0') {
             $this->backupIgnoreAbsoluteFiles[] = '/img';
             $this->restoreIgnoreAbsoluteFiles[] = '/img';
-        }
-        else
-        {
+        } else {
             $this->backupIgnoreAbsoluteFiles[] = '/img/tmp';
             $this->restoreIgnoreAbsoluteFiles[] = '/img/tmp';
         }
 
-        if (!$this->updateDefaultTheme) /* If set to false, we need to preserve the default themes */
-        {
-            if (version_compare(_PS_VERSION_, '1.6.0.0', '>'))
+        /* If set to false, we need to preserve the default themes */
+        if (!$this->updateDefaultTheme) {
+            if (version_compare(_PS_VERSION_, '1.6.0.0', '>')) {
                 $this->excludeAbsoluteFilesFromUpgrade[] = '/themes/default-bootstrap';
-            elseif (version_compare(_PS_VERSION_, '1.5.0.0', '>'))
+            } elseif (version_compare(_PS_VERSION_, '1.5.0.0', '>')) {
                 $this->excludeAbsoluteFilesFromUpgrade[] = '/themes/default';
-            else
+            } else {
                 $this->excludeAbsoluteFilesFromUpgrade[] = '/themes/prestashop';
+            }
         }
     }
 
@@ -812,52 +878,74 @@ class AdminSelfUpgrade extends AdminSelfTab
     {
         // If not exists in this sessions, "create"
         // session handling : from current to next params
-        if (isset($this->currentParams['removeList']))
+        if (isset($this->currentParams['removeList'])) {
             $this->nextParams['removeList'] = $this->currentParams['removeList'];
+        }
 
-        if (isset($this->currentParams['filesToUpgrade']))
+        if (isset($this->currentParams['filesToUpgrade'])) {
             $this->nextParams['filesToUpgrade'] = $this->currentParams['filesToUpgrade'];
+        }
 
-        if (isset($this->currentParams['modulesToUpgrade']))
+        if (isset($this->currentParams['modulesToUpgrade'])) {
             $this->nextParams['modulesToUpgrade'] = $this->currentParams['modulesToUpgrade'];
+        }
 
         // set autoupgradePath, to be used in backupFiles and backupDb config values
         $this->autoupgradePath = $this->adminDir.DIRECTORY_SEPARATOR.$this->autoupgradeDir;
         // directory missing
-        if (!file_exists($this->autoupgradePath))
-            if (!mkdir($this->autoupgradePath))
+        if (!file_exists($this->autoupgradePath)) {
+            if (!mkdir($this->autoupgradePath)) {
                 $this->_errors[] = sprintf($this->l('unable to create directory %s'), $this->autoupgradePath);
+            }
+        }
 
-        if (!is_writable($this->autoupgradePath))
+        if (!is_writable($this->autoupgradePath)) {
             $this->_errors[] = sprintf($this->l('Unable to write in the directory "%s"'), $this->autoupgradePath);
+        }
 
-        $this->downloadPath = $this->autoupgradePath.DIRECTORY_SEPARATOR.'download';
-        if (!file_exists($this->downloadPath))
-            if (!mkdir($this->downloadPath))
-                $this->_errors[] = sprintf($this->l('unable to create directory %s'),$this->downloadPath);
+        $this->downloadPath = $this->autoupgradePath . DIRECTORY_SEPARATOR . 'download';
+        if (!file_exists($this->downloadPath)) {
+            if (!mkdir($this->downloadPath)) {
+                $this->_errors[] = sprintf($this->l('unable to create directory %s'), $this->downloadPath);
+            }
+        }
 
-        $this->backupPath = $this->autoupgradePath.DIRECTORY_SEPARATOR.'backup';
+        $this->backupPath = $this->autoupgradePath . DIRECTORY_SEPARATOR . 'backup';
         $tmp = "order deny,allow\ndeny from all";
-        if (!file_exists($this->backupPath))
-            if (!mkdir($this->backupPath))
-                $this->_errors[] = sprintf($this->l('unable to create directory %s'),$this->backupPath);
-        if (!file_exists($this->backupPath.DIRECTORY_SEPARATOR.'index.php'))
-            if (!copy(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'index.php', $this->backupPath.DIRECTORY_SEPARATOR.'index.php'))
-                $this->_errors[] = sprintf($this->l('unable to create file %s'), $this->backupPath.DIRECTORY_SEPARATOR.'index.php');
-        if (!file_exists($this->backupPath.DIRECTORY_SEPARATOR.'.htaccess'))
-            if (!file_put_contents($this->backupPath.DIRECTORY_SEPARATOR.'.htaccess', $tmp))
-                $this->_errors[] = sprintf($this->l('unable to create file %s'), $this->backupPath.DIRECTORY_SEPARATOR.'.htaccess');
+        if (!file_exists($this->backupPath)) {
+            if (!mkdir($this->backupPath)) {
+                $this->_errors[] = sprintf($this->l('unable to create directory %s'), $this->backupPath);
+            }
+        }
+        if (!file_exists($this->backupPath . DIRECTORY_SEPARATOR . 'index.php')) {
+            if (!copy(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'index.php',
+                $this->backupPath . DIRECTORY_SEPARATOR . 'index.php')
+            ) {
+                $this->_errors[] = sprintf($this->l('unable to create file %s'),
+                    $this->backupPath . DIRECTORY_SEPARATOR . 'index.php');
+            }
+        }
+        if (!file_exists($this->backupPath . DIRECTORY_SEPARATOR . '.htaccess')) {
+            if (!file_put_contents($this->backupPath . DIRECTORY_SEPARATOR . '.htaccess', $tmp)) {
+                $this->_errors[] = sprintf($this->l('unable to create file %s'),
+                    $this->backupPath . DIRECTORY_SEPARATOR . '.htaccess');
+            }
+        }
 
         // directory missing
-        $this->latestPath = $this->autoupgradePath.DIRECTORY_SEPARATOR.'latest';
-        if (!file_exists($this->latestPath))
-            if (!mkdir($this->latestPath))
-                $this->_errors[] = sprintf($this->l('unable to create directory %s'),$this->latestPath);
+        $this->latestPath = $this->autoupgradePath . DIRECTORY_SEPARATOR . 'latest';
+        if (!file_exists($this->latestPath)) {
+            if (!mkdir($this->latestPath)) {
+                $this->_errors[] = sprintf($this->l('unable to create directory %s'), $this->latestPath);
+            }
+        }
 
-        $this->tmpPath = $this->autoupgradePath.DIRECTORY_SEPARATOR.'tmp';
-        if (!file_exists($this->tmpPath))
-            if (!mkdir($this->tmpPath))
-                $this->_errors[] = sprintf($this->l('unable to create directory %s'),$this->tmpPath);
+        $this->tmpPath = $this->autoupgradePath . DIRECTORY_SEPARATOR . 'tmp';
+        if (!file_exists($this->tmpPath)) {
+            if (!mkdir($this->tmpPath)) {
+                $this->_errors[] = sprintf($this->l('unable to create directory %s'), $this->tmpPath);
+            }
+        }
 
         $this->latestRootDir = $this->latestPath.DIRECTORY_SEPARATOR.'prestashop';
     }
@@ -865,13 +953,16 @@ class AdminSelfUpgrade extends AdminSelfTab
     /**
      * getFilePath return the path to the zipfile containing prestashop.
      *
-     * @return void
+     * @return string
      */
     private function getFilePath()
     {
         return $this->downloadPath.DIRECTORY_SEPARATOR.$this->destDownloadFilename;
     }
 
+    /**
+     * @see AdminSelfTab::postProcess()
+     */
     public function postProcess()
     {
         $this->_setFields();
@@ -879,15 +970,15 @@ class AdminSelfUpgrade extends AdminSelfTab
         // set default configuration to default channel & dafault configuration for backup and upgrade
         // (can be modified in expert mode)
         $config = $this->getConfig('channel');
-        if ($config === false)
-        {
+        if ($config === false) {
             $config = array();
             $config['channel'] = Upgrader::DEFAULT_CHANNEL;
             $this->writeConfig($config);
-            if (class_exists('Configuration', false))
+            if (class_exists('Configuration', false)) {
                 Configuration::updateValue('PS_UPGRADE_CHANNEL', $config['channel']);
+            }
 
-            $this->writeConfig(array (
+            $this->writeConfig(array(
                 'PS_AUTOUP_PERFORMANCE' => '1',
                 'PS_AUTOUP_CUSTOM_MOD_DESACT' => '1',
                 'PS_AUTOUP_UPDATE_DEFAULT_THEME' => '1',
@@ -895,49 +986,53 @@ class AdminSelfUpgrade extends AdminSelfTab
                 'PS_AUTOUP_KEEP_MAILS' => '1',
                 'PS_AUTOUP_BACKUP' => '1',
                 'PS_AUTOUP_KEEP_IMAGES' => '0'
-                ));
+            ));
         }
 
-        if (Tools14::isSubmit('putUnderMaintenance') && version_compare(_PS_VERSION_, '1.5.0.0', '>='))
-        {
-            foreach (Shop::getCompleteListOfShopsID() as $id_shop)
+        if (Tools14::isSubmit('putUnderMaintenance') && version_compare(_PS_VERSION_, '1.5.0.0', '>=')) {
+            foreach (Shop::getCompleteListOfShopsID() as $id_shop) {
                 Configuration::updateValue('PS_SHOP_ENABLE', 0, false, null, (int)$id_shop);
+            }
             Configuration::updateGlobalValue('PS_SHOP_ENABLE', 0);
-        }
-        elseif (Tools14::isSubmit('putUnderMaintenance'))
+        } elseif (Tools14::isSubmit('putUnderMaintenance')) {
             Configuration::updateValue('PS_SHOP_ENABLE', 0);
+        }
 
-        if (Tools14::isSubmit('customSubmitAutoUpgrade'))
-        {
+        if (Tools14::isSubmit('customSubmitAutoUpgrade')) {
             $config_keys = array_keys(array_merge($this->_fieldsUpgradeOptions, $this->_fieldsBackupOptions));
             $config = array();
-            foreach ($config_keys as $key)
-                if (isset($_POST[$key]))
+            foreach ($config_keys as $key) {
+                if (isset($_POST[$key])) {
                     $config[$key] = $_POST[$key];
+                }
+            }
             $res = $this->writeConfig($config);
-            if ($res)
-                Tools14::redirectAdmin($this->currentIndex.'&conf=6&token='.Tools14::getValue('token'));
+            if ($res) {
+                Tools14::redirectAdmin($this->currentIndex . '&conf=6&token=' . Tools14::getValue('token'));
+            }
         }
 
-        if (Tools14::isSubmit('deletebackup'))
-        {
+        if (Tools14::isSubmit('deletebackup')) {
             $res = false;
             $name = Tools14::getValue('name');
             $filelist = scandir($this->backupPath);
-            foreach($filelist as $filename)
-                // the following will match file or dir related to the selected backup
+            // the following will match file or dir related to the selected backup
+            foreach ($filelist as $filename) {
                 if (!empty($filename) && $filename[0] != '.' && $filename != 'index.php' && $filename != '.htaccess'
-                    && preg_match('#^(auto-backupfiles_|)'.preg_quote($name).'(\.zip|)$#', $filename, $matches))
-                {
-                    if (is_file($this->backupPath.DIRECTORY_SEPARATOR.$filename))
-                        $res &= unlink($this->backupPath.DIRECTORY_SEPARATOR.$filename);
-                    elseif (!empty($name) && is_dir($this->backupPath.DIRECTORY_SEPARATOR.$name.DIRECTORY_SEPARATOR))
-                        $res = self::deleteDirectory($this->backupPath.DIRECTORY_SEPARATOR.$name.DIRECTORY_SEPARATOR);
+                    && preg_match('#^(auto-backupfiles_|)' . preg_quote($name) . '(\.zip|)$#', $filename, $matches)
+                ) {
+                    if (is_file($this->backupPath . DIRECTORY_SEPARATOR . $filename)) {
+                        $res &= unlink($this->backupPath . DIRECTORY_SEPARATOR . $filename);
+                    } elseif (!empty($name) && is_dir($this->backupPath . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR)) {
+                        $res = self::deleteDirectory($this->backupPath . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR);
+                    }
                 }
-            if ($res)
-                Tools14::redirectAdmin($this->currentIndex.'&conf=1&token='.Tools14::getValue('token'));
-            else
+            }
+            if ($res) {
+                Tools14::redirectAdmin($this->currentIndex . '&conf=1&token=' . Tools14::getValue('token'));
+            } else {
                 $this->_errors[] = sprintf($this->l('Error when trying to delete backups %s'), $name);
+            }
         }
         parent::postProcess();
     }
@@ -960,24 +1055,36 @@ class AdminSelfUpgrade extends AdminSelfTab
      */
     public function ajaxProcessUpgradeComplete()
     {
-        if (!$this->warning_exists)
+        if (!$this->warning_exists) {
             $this->next_desc = $this->l('Upgrade process done. Congratulations! You can now reactivate your shop.');
-        else
+        } else {
             $this->next_desc = $this->l('Upgrade process done, but some warnings have been found.');
+        }
         $this->next = '';
 
-        if ($this->getConfig('channel') != 'archive' && file_exists($this->getFilePath()) && unlink($this->getFilePath()))
+        if ($this->getConfig('channel') != 'archive' && file_exists($this->getFilePath()) && unlink($this->getFilePath())) {
             $this->nextQuickInfo[] = sprintf($this->l('%s removed'), $this->getFilePath());
-        elseif (is_file($this->getFilePath()))
-            $this->nextQuickInfo[] = '<strong>'.sprintf($this->l('Please remove %s by FTP'), $this->getFilePath()).'</strong>';
+        } elseif (is_file($this->getFilePath())) {
+            $this->nextQuickInfo[] = '<strong>' .
+                sprintf($this->l('Please remove %s by FTP'), $this->getFilePath()) . '</strong>';
+        }
 
-        if ($this->getConfig('channel') != 'directory' && file_exists($this->latestRootDir) && self::deleteDirectory($this->latestRootDir))
+        if ($this->getConfig('channel') != 'directory' && file_exists($this->latestRootDir) && self::deleteDirectory($this->latestRootDir)) {
             $this->nextQuickInfo[] = sprintf($this->l('%s removed'), $this->latestRootDir);
-        elseif(is_dir($this->latestRootDir))
-            $this->nextQuickInfo[] = '<strong>'.sprintf($this->l('Please remove %s by FTP'), $this->latestRootDir).'</strong>';
+        } elseif (is_dir($this->latestRootDir)) {
+            $this->nextQuickInfo[] = '<strong>' .
+                sprintf($this->l('Please remove %s by FTP'), $this->latestRootDir) . '</strong>';
+        }
     }
 
-    // Simplification of _displayForm original function
+    /**
+     * Simplification of _displayForm original function
+     * @param $name
+     * @param $fields
+     * @param $tabname
+     * @param $size
+     * @param $icon
+     */
     protected function _displayForm($name, $fields, $tabname, $size, $icon)
     {
         $confValues = $this->getConfig();
@@ -985,76 +1092,92 @@ class AdminSelfUpgrade extends AdminSelfTab
 
         $this->_html .= '
             <fieldset id="'.$name.'Block"><legend><img src="../img/admin/'.strval($icon).'.gif" />'.$tabname.'</legend>';
-        foreach ($fields as $key => $field)
-        {
-            if (isset($field['required']) && $field['required'])
+        foreach ($fields as $key => $field) {
+            if (isset($field['required']) && $field['required']) {
                 $required = true;
+            }
 
-            if (isset($field['disabled']) && $field['disabled'])
+            if (isset($field['disabled']) && $field['disabled']) {
                 $disabled = true;
-            else
+            } else {
                 $disabled = false;
+            }
 
 
-            if (isset($confValues[$key]))
+            if (isset($confValues[$key])) {
                 $val = $confValues[$key];
-            else
-                $val = isset($field['defaultValue'])?$field['defaultValue']:false;
+            } else {
+                $val = isset($field['defaultValue']) ? $field['defaultValue'] : false;
+            }
 
-            if (!in_array($field['type'], array('image', 'radio', 'container', 'container_end')) || isset($field['show']))
-                $this->_html .= '<div style="clear: both; padding-top:15px;">'.($field['title'] ? '<label >'.$field['title'].'</label>' : '').'<div class="margin-form" style="padding-top:5px;">';
+            if (!in_array($field['type'], array('image', 'radio', 'container', 'container_end')) || isset($field['show'])) {
+                $this->_html .= '<div style="clear: both; padding-top:15px;">' . ($field['title'] ? '<label >' . $field['title'] . '</label>' : '') . '<div class="margin-form" style="padding-top:5px;">';
+            }
 
             /* Display the appropriate input type for each field */
-            switch ($field['type'])
-            {
+            switch ($field['type']) {
                 case 'disabled':
                     $this->_html .= $field['disabled'];
                     break;
 
 
                 case 'bool':
-                    $this->_html .= '<label class="t" for="'.$key.'_on">
-                        <img src="../img/admin/enabled.gif" alt="'.$this->l('Yes').'" title="'.$this->l('Yes').'" /></label>
-                    <input type="radio" '.($disabled?'disabled="disabled"':'').' name="'.$key.'" id="'.$key.'_on" value="1"'.($val ? ' checked="checked"' : '').(isset($field['js']['on']) ? $field['js']['on'] : '').' />
-                    <label class="t" for="'.$key.'_on"> '.$this->l('Yes').'</label>
-                    <label class="t" for="'.$key.'_off"><img src="../img/admin/disabled.gif" alt="'.$this->l('No').'" title="'.$this->l('No').'" style="margin-left: 10px;" /></label>
-                    <input type="radio" '.($disabled?'disabled="disabled"':'').' name="'.$key.'" id="'.$key.'_off" value="0" '.(!$val ? 'checked="checked"' : '').(isset($field['js']['off']) ? $field['js']['off'] : '').'/>
-                    <label class="t" for="'.$key.'_off"> '.$this->l('No').'</label>';
+                    $this->_html .= '<label class="t" for="' . $key . '_on">
+                        <img src="../img/admin/enabled.gif" alt="' . $this->l('Yes') . '" title="' . $this->l('Yes') . '" /></label>
+                    <input type="radio" ' . ($disabled ? 'disabled="disabled"' : '') . ' name="' . $key . '" id="' . $key . '_on" value="1"' . ($val ? ' checked="checked"' : '') . (isset($field['js']['on']) ? $field['js']['on'] : '') . ' />
+                    <label class="t" for="' . $key . '_on"> ' . $this->l('Yes') . '</label>
+                    <label class="t" for="' . $key . '_off"><img src="../img/admin/disabled.gif" alt="' . $this->l('No') . '" title="' . $this->l('No') . '" style="margin-left: 10px;" /></label>
+                    <input type="radio" ' . ($disabled ? 'disabled="disabled"' : '') . ' name="' . $key . '" id="' . $key . '_off" value="0" ' . (!$val ? 'checked="checked"' : '') . (isset($field['js']['off']) ? $field['js']['off'] : '') . '/>
+                    <label class="t" for="' . $key . '_off"> ' . $this->l('No') . '</label>';
                     break;
 
                 case 'radio':
-                    foreach ($field['choices'] as $cValue => $cKey)
-                        $this->_html .= '<input '.($disabled?'disabled="disabled"':'').' type="radio" name="'.$key.'" id="'.$key.$cValue.'_on" value="'.(int)($cValue).'"'.(($cValue == $val) ? ' checked="checked"' : '').(isset($field['js'][$cValue]) ? ' '.$field['js'][$cValue] : '').' /><label class="t" for="'.$key.$cValue.'_on"> '.$cKey.'</label><br />';
+                    foreach ($field['choices'] as $cValue => $cKey) {
+                        $this->_html .= '<input ' . ($disabled ? 'disabled="disabled"' : '') . ' type="radio" name="' . $key . '" id="' . $key . $cValue . '_on" value="' . (int)($cValue) . '"' . (($cValue == $val) ? ' checked="checked"' : '') . (isset($field['js'][$cValue]) ? ' ' . $field['js'][$cValue] : '') . ' /><label class="t" for="' . $key . $cValue . '_on"> ' . $cKey . '</label><br />';
+                    }
                     $this->_html .= '<br />';
                     break;
 
                 case 'select':
-                    $this->_html .= '<select name='.$key.'>';
-                    foreach ($field['choices'] as $cValue => $cKey)
-                        $this->_html .= '<option value="'.(int)$cValue.'"'.(($cValue == $val) ? ' selected="selected"' : '').'>'.$cKey.'</option>';
+                    $this->_html .= '<select name=' . $key . '>';
+                    foreach ($field['choices'] as $cValue => $cKey) {
+                        $this->_html .= '<option value="' . (int)$cValue . '"' . (($cValue == $val) ? ' selected="selected"' : '') . '>' . $cKey . '</option>';
+                    }
                     $this->_html .= '</select>';
                     break;
 
                 case 'textarea':
-                    $this->_html .= '<textarea '.($disabled?'disabled="disabled"':'').' name='.$key.' cols="'.$field['cols'].'" rows="'.$field['rows'].'">'.htmlentities($val, ENT_COMPAT, 'UTF-8').'</textarea>';
+                    $this->_html .= '<textarea ' . ($disabled ? 'disabled="disabled"' : '') . ' name=' . $key .
+                        ' cols="' . $field['cols'] . '" rows="' . $field['rows'] . '">' .
+                        htmlentities($val, ENT_COMPAT, 'UTF-8') . '</textarea>';
                     break;
 
                 case 'container':
-                    $this->_html .= '<div id="'.$key.'">';
+                    $this->_html .= '<div id="' . $key . '">';
                     break;
 
                 case 'container_end':
-                    $this->_html .= (isset($field['content']) === true ? $field['content'] : '').'</div>';
+                    $this->_html .= (isset($field['content']) === true ? $field['content'] : '') . '</div>';
                     break;
 
                 case 'text':
                 default:
-                    $this->_html .= '<input '.($disabled?'disabled="disabled"':'').' type="'.$field['type'].'"'.(isset($field['id']) === true ? ' id="'.$field['id'].'"' : '').' size="'.(isset($field['size']) ? (int)($field['size']) : 5).'" name="'.$key.'" value="'.($field['type'] == 'password' ? '' : htmlentities($val, ENT_COMPAT, 'UTF-8')).'" />'.(isset($field['next']) ? '&nbsp;'.strval($field['next']) : '');
+                    $this->_html .= '<input ' . ($disabled ? 'disabled="disabled"' : '') .
+                        ' type="' . $field['type'] . '"' .
+                        (isset($field['id']) === true ? ' id="' . $field['id'] . '"' : '') .
+                        ' size="' . (isset($field['size']) ? (int)($field['size']) : 5) .
+                        '" name="' . $key . '" value="' .
+                        ($field['type'] == 'password' ? '' : htmlentities($val, ENT_COMPAT, 'UTF-8')) .
+                        '" />' . (isset($field['next']) ? '&nbsp;' . strval($field['next']) : '');
             }
-            $this->_html .= ((isset($field['required']) && $field['required'] && !in_array($field['type'], array('image', 'radio')))  ? ' <sup>*</sup>' : '');
-            $this->_html .= (isset($field['desc']) ? '<p style="clear:both">'.((isset($field['thumb']) && $field['thumb'] && $field['thumb']['pos'] == 'after') ? '<img src="'.$field['thumb']['file'].'" alt="'.$field['title'].'" title="'.$field['title'].'" style="float:left;" />' : '' ).$field['desc'].'</p>' : '');
-            if (!in_array($field['type'], array('image', 'radio', 'container', 'container_end')) || isset($field['show']))
+            $this->_html .= ((isset($field['required']) && $field['required'] && !in_array($field['type'],
+                    array('image', 'radio'))) ? ' <sup>*</sup>' : '');
+            $this->_html .= (isset($field['desc']) ? '<p style="clear:both">' . ((isset($field['thumb']) && $field['thumb'] && $field['thumb']['pos'] == 'after') ? '<img src="' . $field['thumb']['file'] . '" alt="' . $field['title'] . '" title="' . $field['title'] . '" style="float:left;" />' : '') . $field['desc'] . '</p>' : '');
+            if (!in_array($field['type'], array('image', 'radio', 'container', 'container_end'))
+                || isset($field['show'])
+            ) {
                 $this->_html .= '</div></div>';
+            }
         }
 
         $this->_html .= '    <div align="center" style="margin-top: 20px;">
@@ -1076,20 +1199,19 @@ class AdminSelfUpgrade extends AdminSelfTab
     public function getConfig($key = '')
     {
         static $config = array();
-        if (count($config) == 0)
-        {
-            if (file_exists($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->configFilename))
-            {
-                $config_content = Tools14::file_get_contents($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->configFilename);
+        if (count($config) == 0) {
+            if (file_exists($this->autoupgradePath . DIRECTORY_SEPARATOR . $this->configFilename)) {
+                $config_content = Tools14::file_get_contents($this->autoupgradePath . DIRECTORY_SEPARATOR . $this->configFilename);
                 $config = @unserialize(base64_decode($config_content));
-            }
-            else
+            } else {
                 $config = array();
+            }
         }
-        if (empty($key))
+        if (empty($key)) {
             return $config;
-        elseif (isset($config[$key]))
+        } elseif (isset($config[$key])) {
             return trim($config[$key]);
+        }
         return false;
     }
 
@@ -1112,22 +1234,23 @@ class AdminSelfUpgrade extends AdminSelfTab
      */
     public function writeConfig($new_config)
     {
-        if (!file_exists($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->configFilename))
-        {
+        if (!file_exists($this->autoupgradePath . DIRECTORY_SEPARATOR . $this->configFilename)) {
             $this->upgrader->channel = $new_config['channel'];
             $this->upgrader->checkPSVersion();
             $this->install_version = $this->upgrader->version_num;
             return $this->resetConfig($new_config);
         }
 
-        $config = file_get_contents($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->configFilename);
+        $config = file_get_contents($this->autoupgradePath . DIRECTORY_SEPARATOR . $this->configFilename);
         $config_unserialized = @unserialize(base64_decode($config));
-        if (!is_array($config_unserialized))
-            $config_unserialized = @unserialize($config); // retrocompat, before base64_decode implemented
+        if (!is_array($config_unserialized)) {
+            $config_unserialized = @unserialize($config);
+        } // retrocompat, before base64_decode implemented
         $config = $config_unserialized;
 
-        foreach($new_config as $key => $val)
+        foreach ($new_config as $key => $val) {
             $config[$key] = $val;
+        }
         $this->next_desc = $this->l('Configuration successfully updated.').' <strong>'.$this->l('This page will now be reloaded and the module will check if a new version is available.').'</strong>';
         return (bool)file_put_contents($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->configFilename, base64_encode(serialize($config)));
     }
@@ -1143,29 +1266,27 @@ class AdminSelfUpgrade extends AdminSelfTab
         // nothing next
         $this->next = '';
         // update channel
-        if (isset($this->currentParams['channel']))
+        if (isset($this->currentParams['channel'])) {
             $config['channel'] = $this->currentParams['channel'];
-        if (isset($this->currentParams['private_release_link']) && isset($this->currentParams['private_release_md5']))
-        {
+        }
+        if (isset($this->currentParams['private_release_link']) && isset($this->currentParams['private_release_md5'])) {
             $config['channel'] = 'private';
             $config['private_release_link'] = $this->currentParams['private_release_link'];
             $config['private_release_md5'] = $this->currentParams['private_release_md5'];
             $config['private_allow_major'] = $this->currentParams['private_allow_major'];
         }
         // if (!empty($this->currentParams['archive_name']) && !empty($this->currentParams['archive_num']))
-        if (!empty($this->currentParams['archive_prestashop']))
-        {
+        if (!empty($this->currentParams['archive_prestashop'])) {
             $file = $this->currentParams['archive_prestashop'];
-            if (!file_exists($this->downloadPath.DIRECTORY_SEPARATOR.$file))
-            {
+            if (!file_exists($this->downloadPath . DIRECTORY_SEPARATOR . $file)) {
                 $this->error = 1;
                 $this->next_desc = sprintf($this->l('File %s does not exist. Unable to select that channel.'), $file);
                 return false;
             }
-            if (empty($this->currentParams['archive_num']))
-            {
+            if (empty($this->currentParams['archive_num'])) {
                 $this->error = 1;
-                $this->next_desc = sprintf($this->l('Version number is missing. Unable to select that channel.'), $file);
+                $this->next_desc = sprintf($this->l('Version number is missing. Unable to select that channel.'),
+                    $file);
                 return false;
             }
             $config['channel'] = 'archive';
@@ -1174,11 +1295,11 @@ class AdminSelfUpgrade extends AdminSelfTab
             // $config['archive_name'] = $this->currentParams['archive_name'];
             $this->next_desc = $this->l('Upgrade process will use archive.');
         }
-        if (isset($this->currentParams['directory_num']))
-        {
+        if (isset($this->currentParams['directory_num'])) {
             $config['channel'] = 'directory';
-            if (empty($this->currentParams['directory_num']) || strpos($this->currentParams['directory_num'], '.') === false)
-            {
+            if (empty($this->currentParams['directory_num']) || strpos($this->currentParams['directory_num'],
+                    '.') === false
+            ) {
                 $this->error = 1;
                 $this->next_desc = sprintf($this->l('Version number is missing. Unable to select that channel.'));
                 return false;
@@ -1186,20 +1307,20 @@ class AdminSelfUpgrade extends AdminSelfTab
 
             $config['directory.version_num'] = $this->currentParams['directory_num'];
         }
-        if (isset($this->currentParams['skip_backup']))
+        if (isset($this->currentParams['skip_backup'])) {
             $config['skip_backup'] = $this->currentParams['skip_backup'];
+        }
 
-        if (!$this->writeConfig($config))
-        {
+        if (!$this->writeConfig($config)) {
             $this->error = 1;
             $this->next_desc = $this->l('Error on saving configuration');
         }
-
     }
-    /** returns an array containing information related to the channel $channel
-     *
+
+    /**
+     * Returns an array containing information related to the channel $channel
      * @param string $channel name of the channel
-     * @return <array> available, version_num, version_name, link, md5, changelog
+     * @return array available, version_num, version_name, link, md5, changelog
      */
     public function getInfoForChannel($channel)
     {
@@ -1209,12 +1330,12 @@ class AdminSelfUpgrade extends AdminSelfTab
         preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', _PS_VERSION_, $matches);
         $upgrader->branch = $matches[1];
         $upgrader->channel = $channel;
-        if (in_array($channel, $public_channel))
-        {
-            if ($this->getConfig('channel') == 'private' && !$this->getConfig('private_allow_major'))
+        if (in_array($channel, $public_channel)) {
+            if ($this->getConfig('channel') == 'private' && !$this->getConfig('private_allow_major')) {
                 $upgrader->checkPSVersion(false, array('private', 'minor'));
-            else
+            } else {
                 $upgrader->checkPSVersion(false, array('minor'));
+            }
 
             $upgrade_info = array();
             $upgrade_info['branch'] = $upgrader->branch;
@@ -1224,16 +1345,14 @@ class AdminSelfUpgrade extends AdminSelfTab
             $upgrade_info['link'] = $upgrader->link;
             $upgrade_info['md5'] = $upgrader->md5;
             $upgrade_info['changelog'] = $upgrader->changelog;
-        }
-        else
-        {
-            switch ($channel)
-            {
+        } else {
+            switch ($channel) {
                 case 'private':
-                    if (!$this->getConfig('private_allow_major'))
+                    if (!$this->getConfig('private_allow_major')) {
                         $upgrader->checkPSVersion(false, array('private', 'minor'));
-                    else
+                    } else {
                         $upgrader->checkPSVersion(false, array('minor'));
+                    }
 
                     $upgrade_info['available'] = $upgrader->available;
                     $upgrade_info['branch'] = $upgrader->branch;
@@ -1285,8 +1404,7 @@ class AdminSelfUpgrade extends AdminSelfTab
         $this->next = '';
         $channel = $this->getConfig('channel');
         $this->upgrader = new Upgrader();
-        switch ($channel)
-        {
+        switch ($channel) {
             case 'archive':
                 $version = $this->getConfig('archive.version_num');
                 break;
@@ -1297,27 +1415,28 @@ class AdminSelfUpgrade extends AdminSelfTab
                 preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', _PS_VERSION_, $matches);
                 $this->upgrader->branch = $matches[1];
                 $this->upgrader->channel = $channel;
-                if ($this->getConfig('channel') == 'private' && !$this->getConfig('private_allow_major'))
+                if ($this->getConfig('channel') == 'private' && !$this->getConfig('private_allow_major')) {
                     $this->upgrader->checkPSVersion(false, array('private', 'minor'));
-                else
+                } else {
                     $this->upgrader->checkPSVersion(false, array('minor'));
+                }
                 $version = $this->upgrader->version_num;
         }
 
         $diffFileList = $this->upgrader->getDiffFilesList(_PS_VERSION_, $version);
-        if (!is_array($diffFileList))
-        {
+        if (!is_array($diffFileList)) {
             $this->nextParams['status'] = 'error';
-            $this->nextParams['msg'] = sprintf('Unable to generate diff file list between %1$s and %2$s.', _PS_VERSION_, $version);
-        }
-        else
-        {
-            file_put_contents($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->diffFileList, base64_encode(serialize($diffFileList)));
-            if (count($diffFileList) > 0)
+            $this->nextParams['msg'] = sprintf('Unable to generate diff file list between %1$s and %2$s.', _PS_VERSION_,
+                $version);
+        } else {
+            file_put_contents($this->autoupgradePath . DIRECTORY_SEPARATOR . $this->diffFileList,
+                base64_encode(serialize($diffFileList)));
+            if (count($diffFileList) > 0) {
                 $this->nextParams['msg'] = sprintf($this->l('%1$s files will be modified, %2$s files will be deleted (if they are found).'),
-                                                                     count($diffFileList['modified']), count($diffFileList['deleted']));
-            else
+                    count($diffFileList['modified']), count($diffFileList['deleted']));
+            } else {
                 $this->nextParams['msg'] = $this->l('No diff files found.');
+            }
             $this->nextParams['result'] = $diffFileList;
         }
     }
@@ -1334,47 +1453,44 @@ class AdminSelfUpgrade extends AdminSelfTab
         $this->upgrader = new Upgrader();
 
         $changedFileList = $this->upgrader->getChangedFilesList();
-        if ($this->upgrader->isAuthenticPrestashopVersion() === true
-            && !is_array($changedFileList) )
-        {
+        if ($this->upgrader->isAuthenticPrestashopVersion() === true && !is_array($changedFileList)) {
             $this->nextParams['status'] = 'error';
             $this->nextParams['msg'] = $this->l('Unable to check files for the installed version of PrestaShop.');
             $testOrigCore = false;
-        }
-        else
-        {
-            if ($this->upgrader->isAuthenticPrestashopVersion() === true)
-            {
+        } else {
+            if ($this->upgrader->isAuthenticPrestashopVersion() === true) {
                 $this->nextParams['status'] = 'ok';
                 $testOrigCore = true;
-            }
-            else
-            {
+            } else {
                 $testOrigCore = false;
                 $this->nextParams['status'] = 'warn';
             }
 
-            if (!isset($changedFileList['core']))
+            if (!isset($changedFileList['core'])) {
                 $changedFileList['core'] = array();
+            }
 
-            if (!isset($changedFileList['translation']))
+            if (!isset($changedFileList['translation'])) {
                 $changedFileList['translation'] = array();
-            file_put_contents($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->tradCustomList, base64_encode(serialize($changedFileList['translation'])));
+            }
+            file_put_contents($this->autoupgradePath . DIRECTORY_SEPARATOR . $this->tradCustomList,
+                base64_encode(serialize($changedFileList['translation'])));
 
-            if (!isset($changedFileList['mail']))
+            if (!isset($changedFileList['mail'])) {
                 $changedFileList['mail'] = array();
-            file_put_contents($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->mailCustomList, base64_encode(serialize($changedFileList['mail'])));
+            }
+            file_put_contents($this->autoupgradePath . DIRECTORY_SEPARATOR . $this->mailCustomList,
+                base64_encode(serialize($changedFileList['mail'])));
 
 
-            if ($changedFileList === false)
-            {
+            if ($changedFileList === false) {
                 $changedFileList = array();
                 $this->nextParams['msg'] = $this->l('Unable to check files');
                 $this->nextParams['status'] = 'error';
-            }
-            else
-            {
-                $this->nextParams['msg'] = ($testOrigCore ? $this->l('Core files are ok') : sprintf($this->l('%1$s file modifications have been detected, including %2$s from core and native modules:'), count(array_merge($changedFileList['core'], $changedFileList['mail'], $changedFileList['translation'])), count($changedFileList['core'])));
+            } else {
+                $this->nextParams['msg'] = ($testOrigCore ? $this->l('Core files are ok') : sprintf($this->l('%1$s file modifications have been detected, including %2$s from core and native modules:'),
+                    count(array_merge($changedFileList['core'], $changedFileList['mail'],
+                        $changedFileList['translation'])), count($changedFileList['core'])));
             }
             $this->nextParams['result'] = $changedFileList;
         }
@@ -1393,18 +1509,19 @@ class AdminSelfUpgrade extends AdminSelfTab
 
         $channel = $this->getConfig('channel');
         $this->next = 'download';
-        if (!is_object($this->upgrader))
+        if (!is_object($this->upgrader)) {
             $this->upgrader = new Upgrader();
+        }
         preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', _PS_VERSION_, $matches);
         $this->upgrader->branch = $matches[1];
         $this->upgrader->channel = $channel;
-        if ($this->getConfig('channel') == 'private' && !$this->getConfig('private_allow_major'))
+        if ($this->getConfig('channel') == 'private' && !$this->getConfig('private_allow_major')) {
             $this->upgrader->checkPSVersion(false, array('private', 'minor'));
-        else
+        } else {
             $this->upgrader->checkPSVersion(false, array('minor'));
+        }
 
-        switch ($channel)
-        {
+        switch ($channel) {
             case 'directory' :
                 // if channel directory is chosen, we assume it's "ready for use" (samples already removed for example)
                 $this->next = 'removeSamples';
@@ -1419,12 +1536,12 @@ class AdminSelfUpgrade extends AdminSelfTab
             default :
                 $this->next = 'download';
                 $this->next_desc = $this->l('Shop deactivated. Now downloading... (this can take a while)');
-                if ($this->upgrader->channel == 'private')
-                {
+                if ($this->upgrader->channel == 'private') {
                     $this->upgrader->link = $this->getConfig('private_release_link');
                     $this->upgrader->md5 = $this->getConfig('private_release_md5');
                 }
-                $this->nextQuickInfo[] = sprintf($this->l('Downloaded archive will come from %s'), $this->upgrader->link);
+                $this->nextQuickInfo[] = sprintf($this->l('Downloaded archive will come from %s'),
+                    $this->upgrader->link);
                 $this->nextQuickInfo[] = sprintf($this->l('MD5 hash will be checked against %s'), $this->upgrader->md5);
         }
     }
@@ -1432,40 +1549,34 @@ class AdminSelfUpgrade extends AdminSelfTab
     /**
      * extract chosen version into $this->latestPath directory
      *
-     * @return void
+     * @return boolean|void
      */
     public function ajaxProcessUnzip()
     {
         $filepath = $this->getFilePath();
         $destExtract = $this->latestPath;
 
-        if (file_exists($destExtract))
-        {
+        if (file_exists($destExtract)) {
             self::deleteDirectory($destExtract, false);
             $this->nextQuickInfo[] = $this->l('"/latest" directory has been emptied');
         }
         $relative_extract_path = str_replace(_PS_ROOT_DIR_, '', $destExtract);
         $report = '';
-        if (ConfigurationTest::test_dir($relative_extract_path, false, $report))
-        {
+        if (ConfigurationTest::test_dir($relative_extract_path, false, $report)) {
 
-            if ($this->ZipExtract($filepath, $destExtract))
-            {
+            if ($this->ZipExtract($filepath, $destExtract)) {
                 // Unsetting to force listing
                 unset($this->nextParams['removeList']);
                 $this->next = 'removeSamples';
                 $this->next_desc = $this->l('File extraction complete. Removing sample files...');
                 return true;
-            }
-            else
-            {
+            } else {
                 $this->next = 'error';
-                $this->next_desc = sprintf($this->l('Unable to extract %1$s file into %2$s folder...'), $filepath, $destExtract);
+                $this->next_desc = sprintf($this->l('Unable to extract %1$s file into %2$s folder...'), $filepath,
+                    $destExtract);
                 return true;
             }
-        }
-        else
-        {
+        } else {
             $this->next_desc = $this->l('Extraction directory is not writable.');
             $this->nextQuickInfo[] = $this->l('Extraction directory is not writable.');
             $this->nextErrors[] = sprintf($this->l('Extraction directory %s is not writable.'), $destExtract);
@@ -1486,51 +1597,51 @@ class AdminSelfUpgrade extends AdminSelfTab
         $res = false;
         $dir = rtrim($dir,'/').DIRECTORY_SEPARATOR;
         $toDel = false;
-        if (is_dir($dir) && is_readable($dir))
+        if (is_dir($dir) && is_readable($dir)) {
             $toDel = scandir($dir);
+        }
         // copied (and kind of) adapted from AdminImages.php
-        if (is_array($toDel))
-            foreach ($toDel AS $file)
-            {
-                if ($file[0] != '.')
-                {
-                    if (preg_match('#'.preg_quote($fileext,'#').'$#i',$file))
-                    {
-                        $this->sampleFileList[] = $dir.$file;
-                    }
-                    else if (is_dir($dir.$file))
-                    {
-                        $res &= $this->_listSampleFiles($dir.$file, $fileext);
+        if (is_array($toDel)) {
+            foreach ($toDel AS $file) {
+                if ($file[0] != '.') {
+                    if (preg_match('#' . preg_quote($fileext, '#') . '$#i', $file)) {
+                        $this->sampleFileList[] = $dir . $file;
+                    } else {
+                        if (is_dir($dir . $file)) {
+                            $res &= $this->_listSampleFiles($dir . $file, $fileext);
+                        }
                     }
                 }
             }
+        }
         return $res;
     }
 
     public function _listFilesInDir($dir, $way = 'backup', $list_directories = false)
     {
         $list = array();
-        $dir = rtrim($dir,'/').DIRECTORY_SEPARATOR;
+        $dir = rtrim($dir, '/').DIRECTORY_SEPARATOR;
         $allFiles = false;
-        if (is_dir($dir) && is_readable($dir))
+        if (is_dir($dir) && is_readable($dir)) {
             $allFiles = scandir($dir);
-        if (is_array($allFiles))
-            foreach ($allFiles as $file)
-                if ($file[0] != '.')
-                {
-                    $fullPath = $dir.$file;
-                    if (!$this->_skipFile($file, $fullPath, $way))
-                    {
-                        if (is_dir($fullPath))
-                        {
+        }
+        if (is_array($allFiles)) {
+            foreach ($allFiles as $file) {
+                if ($file[0] != '.') {
+                    $fullPath = $dir . $file;
+                    if (!$this->_skipFile($file, $fullPath, $way)) {
+                        if (is_dir($fullPath)) {
                             $list = array_merge($list, $this->_listFilesInDir($fullPath, $way, $list_directories));
-                            if ($list_directories)
+                            if ($list_directories) {
                                 $list[] = $fullPath;
-                        }
-                        else
+                            }
+                        } else {
                             $list[] = $fullPath;
+                        }
                     }
                 }
+            }
+        }
         return $list;
     }
 
@@ -1539,16 +1650,18 @@ class AdminSelfUpgrade extends AdminSelfTab
      * this function list all files that will be remove to retrieve the filesystem states before the upgrade
      *
      * @access public
-     * @return void
+     * @return boolean
      */
     public function _listFilesToRemove()
     {
         $prev_version = preg_match('#auto-backupfiles_V([0-9.]*)_#', $this->restoreFilesFilename, $matches);
-        if ($prev_version)
+        if ($prev_version) {
             $prev_version = $matches[1];
+        }
 
-        if (!$this->upgrader)
+        if (!$this->upgrader) {
             $this->upgrader = new Upgrader();
+        }
 
         $toRemove = false;
         // note : getDiffFilesList does not include files moved by upgrade scripts,
@@ -1556,19 +1669,20 @@ class AdminSelfUpgrade extends AdminSelfTab
         // $toRemove = $this->upgrader->getDiffFilesList(_PS_VERSION_, $prev_version, false);
         // if we can't find the diff file list corresponding to _PS_VERSION_ and prev_version,
         // let's assume to remove every files
-        if (!$toRemove)
+        if (!$toRemove) {
             $toRemove = $this->_listFilesInDir($this->prodRootDir, 'restore', true);
+        }
 
         $admin_dir = str_replace($this->prodRootDir, '', $this->adminDir);
         // if a file in "ToRemove" has been skipped during backup,
         // just keep it
-        foreach ($toRemove as $key => $file)
-        {
-            $filename = substr($file, strrpos($file, '/')+1);
+        foreach ($toRemove as $key => $file) {
+            $filename = substr($file, strrpos($file, '/') + 1);
             $toRemove[$key] = preg_replace('#^/admin#', $admin_dir, $file);
             // this is a really sensitive part, so we add an extra checks: preserve everything that contains "autoupgrade"
-            if ($this->_skipFile($filename, $file, 'backup') || strpos($file, $this->autoupgradeDir))
+            if ($this->_skipFile($filename, $file, 'backup') || strpos($file, $this->autoupgradeDir)) {
                 unset($toRemove[$key]);
+            }
         }
         return $toRemove;
     }
@@ -1582,8 +1696,7 @@ class AdminSelfUpgrade extends AdminSelfTab
     public function _listFilesToUpgrade($dir)
     {
         static $list = array();
-        if (!is_dir($dir))
-        {
+        if (!is_dir($dir)) {
             $this->nextQuickInfo[] = sprintf($this->l('[ERROR] %s does not exist or is not a directory.'), $dir);
             $this->nextErrors[] = sprintf($this->l('[ERROR] %s does not exist or is not a directory.'), $dir);
             $this->next_desc = $this->l('Nothing has been extracted. It seems the unzipping step has been skipped.');
@@ -1592,67 +1705,75 @@ class AdminSelfUpgrade extends AdminSelfTab
         }
 
         $allFiles = scandir($dir);
-        foreach ($allFiles as $file)
-        {
+        foreach ($allFiles as $file) {
             $fullPath = $dir.DIRECTORY_SEPARATOR.$file;
 
-            if (!$this->_skipFile($file, $fullPath, "upgrade"))
-            {
+            if (!$this->_skipFile($file, $fullPath, "upgrade")) {
                 $list[] = str_replace($this->latestRootDir, '', $fullPath);
                 // if is_dir, we will create it :)
-                if (is_dir($fullPath))
-                    if (strpos($dir.DIRECTORY_SEPARATOR.$file, 'install') === false)
+                if (is_dir($fullPath)) {
+                    if (strpos($dir . DIRECTORY_SEPARATOR . $file, 'install') === false) {
                         $this->_listFilesToUpgrade($fullPath);
+                    }
+                }
             }
         }
         return $list;
     }
 
-
+    /**
+     * @return bool
+     */
     public function ajaxProcessUpgradeFiles()
     {
         $this->nextParams = $this->currentParams;
 
         $admin_dir = str_replace($this->prodRootDir.DIRECTORY_SEPARATOR, '', $this->adminDir);
-        if (file_exists($this->latestRootDir.DIRECTORY_SEPARATOR.'admin'))
-            rename($this->latestRootDir.DIRECTORY_SEPARATOR.'admin', $this->latestRootDir.DIRECTORY_SEPARATOR.$admin_dir);
-        elseif (file_exists($this->latestRootDir.DIRECTORY_SEPARATOR.'admin-dev'))
-            rename($this->latestRootDir.DIRECTORY_SEPARATOR.'admin-dev', $this->latestRootDir.DIRECTORY_SEPARATOR.$admin_dir);
-        if (file_exists($this->latestRootDir.DIRECTORY_SEPARATOR.'install-dev'))
-            rename($this->latestRootDir.DIRECTORY_SEPARATOR.'install-dev', $this->latestRootDir.DIRECTORY_SEPARATOR.'install');
+        if (file_exists($this->latestRootDir . DIRECTORY_SEPARATOR . 'admin')) {
+            rename($this->latestRootDir . DIRECTORY_SEPARATOR . 'admin',
+                $this->latestRootDir . DIRECTORY_SEPARATOR . $admin_dir);
+        } elseif (file_exists($this->latestRootDir . DIRECTORY_SEPARATOR . 'admin-dev')) {
+            rename($this->latestRootDir . DIRECTORY_SEPARATOR . 'admin-dev',
+                $this->latestRootDir . DIRECTORY_SEPARATOR . $admin_dir);
+        }
+        if (file_exists($this->latestRootDir . DIRECTORY_SEPARATOR . 'install-dev')) {
+            rename($this->latestRootDir . DIRECTORY_SEPARATOR . 'install-dev',
+                $this->latestRootDir . DIRECTORY_SEPARATOR . 'install');
+        }
 
-        if (!isset($this->nextParams['filesToUpgrade']))
-        {
+        if (!isset($this->nextParams['filesToUpgrade'])) {
             // list saved in $this->toUpgradeFileList
             // get files differences (previously generated)
             $admin_dir = trim(str_replace($this->prodRootDir, '', $this->adminDir), DIRECTORY_SEPARATOR);
-            $filepath_list_diff = $this->autoupgradePath.DIRECTORY_SEPARATOR.$this->diffFileList;
-            if (file_exists($filepath_list_diff))
-            {
+            $filepath_list_diff = $this->autoupgradePath . DIRECTORY_SEPARATOR . $this->diffFileList;
+            if (file_exists($filepath_list_diff)) {
                 $list_files_diff = unserialize(base64_decode(file_get_contents($filepath_list_diff)));
                 // only keep list of files to delete. The modified files will be listed with _listFilesToUpgrade
                 $list_files_diff = $list_files_diff['deleted'];
-                foreach ($list_files_diff as $k => $path)
-                    if (preg_match("#autoupgrade#", $path))
+                foreach ($list_files_diff as $k => $path) {
+                    if (preg_match("#autoupgrade#", $path)) {
                         unset($list_files_diff[$k]);
-                    else
-                        $list_files_diff[$k] = str_replace('/'.'admin', '/'.$admin_dir, $path); // do not replace by DIRECTORY_SEPARATOR
-            }
-            else
+                    } else {
+                        $list_files_diff[$k] = str_replace('/' . 'admin', '/' . $admin_dir, $path);
+                    }
+                } // do not replace by DIRECTORY_SEPARATOR
+            } else {
                 $list_files_diff = array();
+            }
 
-            if (!($list_files_to_upgrade = $this->_listFilesToUpgrade($this->latestRootDir)))
+            if (!($list_files_to_upgrade = $this->_listFilesToUpgrade($this->latestRootDir))) {
                 return false;
+            }
 
             // also add files to remove
             $list_files_to_upgrade = array_merge($list_files_diff, $list_files_to_upgrade);
             // save in a serialized array in $this->toUpgradeFileList
-            file_put_contents($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->toUpgradeFileList, base64_encode(serialize($list_files_to_upgrade)));
+            file_put_contents($this->autoupgradePath . DIRECTORY_SEPARATOR . $this->toUpgradeFileList,
+                base64_encode(serialize($list_files_to_upgrade)));
             $this->nextParams['filesToUpgrade'] = $this->toUpgradeFileList;
             $total_files_to_upgrade = count($list_files_to_upgrade);
 
-            if ($total_files_to_upgrade == 0)
-            {
+            if ($total_files_to_upgrade == 0) {
                 $this->nextQuickInfo[] = $this->l('[ERROR] Unable to find files to upgrade.');
                 $this->nextErrors[] = $this->l('[ERROR] Unable to find files to upgrade.');
                 $this->next_desc = $this->l('Unable to list files to upgrade');
@@ -1672,8 +1793,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 
         $this->next = 'upgradeFiles';
         $filesToUpgrade = @unserialize(base64_decode(file_get_contents($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->nextParams['filesToUpgrade'])));
-        if (!is_array($filesToUpgrade))
-        {
+        if (!is_array($filesToUpgrade)) {
             $this->next = 'error';
             $this->next_desc = $this->l('filesToUpgrade is not an array');
             $this->nextQuickInfo[] = $this->l('filesToUpgrade is not an array');
@@ -1682,13 +1802,12 @@ class AdminSelfUpgrade extends AdminSelfTab
         }
 
         // @TODO : does not upgrade files in modules, translations if they have not a correct md5 (or crc32, or whatever) from previous version
-        for ($i = 0; $i < self::$loopUpgradeFiles; $i++)
-        {
-            if (count($filesToUpgrade) <= 0)
-            {
+        for ($i = 0; $i < self::$loopUpgradeFiles; $i++) {
+            if (count($filesToUpgrade) <= 0) {
                 $this->next = 'upgradeDb';
-                if (file_exists(($this->nextParams['filesToUpgrade'])))
+                if (file_exists(($this->nextParams['filesToUpgrade']))) {
                     unlink($this->nextParams['filesToUpgrade']);
+                }
                 $this->next_desc = $this->l('All files upgraded. Now upgrading database...');
                 $this->nextResponseType = 'json';
                 $this->stepDone = true;
@@ -1696,8 +1815,7 @@ class AdminSelfUpgrade extends AdminSelfTab
             }
 
             $file = array_shift($filesToUpgrade);
-            if (!$this->upgradeThisFile($file))
-            {
+            if (!$this->upgradeThisFile($file)) {
                 // put the file back to the begin of the list
                 $totalFiles = array_unshift($filesToUpgrade, $file);
                 $this->next = 'error';
@@ -1707,12 +1825,11 @@ class AdminSelfUpgrade extends AdminSelfTab
             }
         }
         file_put_contents($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->nextParams['filesToUpgrade'], base64_encode(serialize($filesToUpgrade)));
-        if (count($filesToUpgrade) > 0)
-        {
-            if (count($filesToUpgrade))
-            {
+        if (count($filesToUpgrade) > 0) {
+            if (count($filesToUpgrade)) {
                 $this->next_desc = sprintf($this->l('%1$s files left to upgrade.'), count($filesToUpgrade));
-                $this->nextQuickInfo[] = sprintf($this->l('%2$s files left to upgrade.'), (isset($file)?$file:''), count($filesToUpgrade));
+                $this->nextQuickInfo[] = sprintf($this->l('%2$s files left to upgrade.'), (isset($file) ? $file : ''),
+                    count($filesToUpgrade));
                 $this->stepDone = false;
             }
         }
@@ -1721,25 +1838,24 @@ class AdminSelfUpgrade extends AdminSelfTab
 
     private function createCacheFsDirectories($level_depth, $directory = false)
     {
-        if (!$directory)
-        {
-            if (!defined('_PS_CACHEFS_DIRECTORY_'))
-                define('_PS_CACHEFS_DIRECTORY_', $this->prodRootDir.'/cache/cachefs/');
+        if (!$directory) {
+            if (!defined('_PS_CACHEFS_DIRECTORY_')) {
+                define('_PS_CACHEFS_DIRECTORY_', $this->prodRootDir . '/cache/cachefs/');
+            }
             $directory = _PS_CACHEFS_DIRECTORY_;
         }
         $chars = '0123456789abcdef';
-        for ($i = 0; $i < strlen($chars); $i++)
-        {
-            $new_dir = $directory.$chars[$i].'/';
-            if (mkdir($new_dir, 0775) && chmod($new_dir, 0775) && $level_depth - 1 > 0)
+        for ($i = 0; $i < strlen($chars); $i++) {
+            $new_dir = $directory . $chars[$i] . '/';
+            if (mkdir($new_dir, 0775) && chmod($new_dir, 0775) && $level_depth - 1 > 0) {
                 self::createCacheFsDirectories($level_depth - 1, $new_dir);
+            }
         }
     }
 
     /**
      * list modules to upgrade and save them in a serialized array in $this->toUpgradeModuleList
      *
-     * @param string $dir
      * @return number of files found
      */
     public function _listModulesToUpgrade()
@@ -1780,7 +1896,7 @@ class AdminSelfUpgrade extends AdminSelfTab
      * upgrade all partners modules according to the installed prestashop version
      *
      * @access public
-     * @return void
+     * @return boolean
      */
     public function ajaxProcessUpgradeModules()
     {
@@ -1915,40 +2031,35 @@ class AdminSelfUpgrade extends AdminSelfTab
             )
         );
         $context = stream_context_create($opts);
-        foreach ($protocolsList as $protocol => $port)
-        {
+        foreach ($protocolsList as $protocol => $port) {
             // file_get_contents can return false if https is not supported (or warning)
             $content = Tools14::file_get_contents($protocol.$addons_url, false, $context);
-            if ($content == false || substr($content, 5) == '<?xml')
+            if ($content == false || substr($content, 5) == '<?xml') {
                 continue;
-            if ($content !== null)
-            {
-                if ((bool)file_put_contents($zip_fullpath, $content))
-                {
-                    if (filesize($zip_fullpath) <= 300)
+            }
+            if ($content !== null) {
+                if ((bool)file_put_contents($zip_fullpath, $content)) {
+                    if (filesize($zip_fullpath) <= 300) {
                         unlink($zip_fullpath);
-                    // unzip in modules/[mod name] old files will be conserved
-                    elseif ($this->ZipExtract($zip_fullpath, $dest_extract))
-                    {
+                    } // unzip in modules/[mod name] old files will be conserved
+                    elseif ($this->ZipExtract($zip_fullpath, $dest_extract)) {
                         $this->nextQuickInfo[] = sprintf($this->l('The files of module %s have been upgraded.'), $name);
-                        if (file_exists($zip_fullpath))
+                        if (file_exists($zip_fullpath)) {
                             unlink($zip_fullpath);
-                    }
-                    else
-                    {
-                        $this->nextQuickInfo[] = sprintf($this->l('[WARNING] Error when trying to upgrade module %s.'), $name);
+                        }
+                    } else {
+                        $this->nextQuickInfo[] = sprintf($this->l('[WARNING] Error when trying to upgrade module %s.'),
+                            $name);
                         $this->warning_exists = 1;
                     }
-                }
-                else
-                {
-                    $this->nextQuickInfo[] = sprintf($this->l('[ERROR] Unable to write module %s\'s zip file in temporary directory.'), $name);
-                    $this->nextErrors[] = sprintf($this->l('[ERROR] Unable to write module %s\'s zip file in temporary directory.'), $name);
+                } else {
+                    $this->nextQuickInfo[] = sprintf($this->l('[ERROR] Unable to write module %s\'s zip file in temporary directory.'),
+                        $name);
+                    $this->nextErrors[] = sprintf($this->l('[ERROR] Unable to write module %s\'s zip file in temporary directory.'),
+                        $name);
                     $this->warning_exists = 1;
                 }
-            }
-            else
-            {
+            } else {
                 $this->nextQuickInfo[] = sprintf($this->l('[ERROR] No response from Addons server.'));
                 $this->nextErrors[] = sprintf($this->l('[ERROR] No response from Addons server.'));
                 $this->warning_exists = 1;
@@ -1961,8 +2072,7 @@ class AdminSelfUpgrade extends AdminSelfTab
     public function ajaxProcessUpgradeDb()
     {
         $this->nextParams = $this->currentParams;
-        if (!$this->doUpgrade())
-        {
+        if (!$this->doUpgrade()) {
             $this->next = 'error';
             $this->next_desc = $this->l('Error during database upgrade. You may need to restore your database.');
             return false;
@@ -1982,11 +2092,11 @@ class AdminSelfUpgrade extends AdminSelfTab
         global $warningExists;
 
         /* Clean tabs order */
-        foreach ($this->db->ExecuteS('SELECT DISTINCT id_parent FROM '._DB_PREFIX_.'tab') as $parent)
-        {
+        foreach ($this->db->ExecuteS('SELECT DISTINCT `id_parent` FROM ' . _DB_PREFIX_ . 'tab') as $parent) {
             $i = 1;
-            foreach ($this->db->ExecuteS('SELECT id_tab FROM '._DB_PREFIX_.'tab WHERE id_parent = '.(int)$parent['id_parent'].' ORDER BY IF(class_name IN ("AdminHome", "AdminDashboard"), 1, 2), position ASC') as $child)
-                $this->db->Execute('UPDATE '._DB_PREFIX_.'tab SET position = '.(int)($i++).' WHERE id_tab = '.(int)$child['id_tab'].' AND id_parent = '.(int)$parent['id_parent']);
+            foreach ($this->db->ExecuteS('SELECT id_tab FROM ' . _DB_PREFIX_ . 'tab WHERE id_parent = ' . (int)$parent['id_parent'] . ' ORDER BY IF(class_name IN ("AdminHome", "AdminDashboard"), 1, 2), position ASC') as $child) {
+                $this->db->Execute('UPDATE ' . _DB_PREFIX_ . 'tab SET position = ' . (int)($i++) . ' WHERE id_tab = ' . (int)$child['id_tab'] . ' AND id_parent = ' . (int)$parent['id_parent']);
+            }
         }
 
         /* Clean configuration integrity */
@@ -2910,7 +3020,7 @@ class AdminSelfUpgrade extends AdminSelfTab
      * upgradeThisFile
      *
      * @param mixed $file
-     * @return void
+     * @return boolean
      */
     public function upgradeThisFile($file)
     {
@@ -4688,7 +4798,7 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
                 $upgrader->channel = 'archive';
                 $upgrader->version_num = $this->getConfig('archive.version_num');
                 break;
-            case 'directory':
+            case 'directory';
                 $upgrader->channel = 'directory';
                 $upgrader->version_num = $this->getConfig('directory.version_num');
                 break;
