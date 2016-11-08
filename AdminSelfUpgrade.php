@@ -778,7 +778,7 @@ class AdminSelfUpgrade extends AdminSelfTab
         $this->excludeFilesFromUpgrade[] = '.svn';
         $this->excludeFilesFromUpgrade[] = '.git';
 
-        // do not copy install, neither settings.inc.php in case it would be present
+        // do not copy install, neither app/config/parameters.php in case it would be present
         $this->excludeAbsoluteFilesFromUpgrade[] = '/app/config/parameters.php';
         $this->excludeAbsoluteFilesFromUpgrade[] = '/app/config/parameters.yml';
         $this->excludeAbsoluteFilesFromUpgrade[] = '/install';
@@ -2105,8 +2105,8 @@ class AdminSelfUpgrade extends AdminSelfTab
             return false;
         } elseif ($versionCompare === false) {
             $this->next = 'error';
-            $this->nextQuickInfo[] = $this->l('There is no older version. Did you delete or rename the config/settings.inc.php file?');
-            $this->nextErrors[] = $this->l('There is no older version. Did you delete or rename the config/settings.inc.php file?');
+            $this->nextQuickInfo[] = $this->l('There is no older version. Did you delete or rename the app/config/parameters.php file?');
+            $this->nextErrors[] = $this->l('There is no older version. Did you delete or rename the app/config/parameters.php file?');
             return false;
         }
 
@@ -3983,8 +3983,8 @@ txtError[999] = "'.$this->l('No error code available').'";
 //upgrader
 txtError[27] = "'.$this->l('This installer is too old.').'";
 txtError[28] = "'.sprintf($this->l('You already have the %s version.'), $INSTALL_VERSION).'";
-txtError[29] = "'.$this->l('There is no older version. Did you delete or rename the config/settings.inc.php file?').'";
-txtError[30] = "'.$this->l('The config/settings.inc.php file was not found. Did you delete or rename this file?').'";
+txtError[29] = "'.$this->l('There is no older version. Did you delete or rename the app/config/parameters.php file?').'";
+txtError[30] = "'.$this->l('The app/config/parameters.php file was not found. Did you delete or rename this file?').'";
 txtError[31] = "'.$this->l('Cannot find the SQL upgrade files. Please verify that the /install/upgrade/sql folder is not empty.').'";
 txtError[32] = "'.$this->l('No upgrade is possible.').'";
 txtError[33] = "'.$this->l('Error while loading SQL upgrade file.').'";
@@ -5564,7 +5564,7 @@ $(document).ready(function()
      *	bool _skipFile : check whether a file is in backup or restore skip list
      *
      * @param type $file : current file or directory name eg:'.svn' , 'settings.inc.php'
-     * @param type $fullpath : current file or directory fullpath eg:'/home/web/www/prestashop/config/settings.inc.php'
+     * @param type $fullpath : current file or directory fullpath eg:'/home/web/www/prestashop/app/config/parameters.php'
      * @param type $way : 'backup' , 'upgrade'
      */
     protected function _skipFile($file, $fullpath, $way = 'backup')
