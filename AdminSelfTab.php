@@ -403,8 +403,8 @@ abstract class AdminSelfTab
 		if (get_class($this) == 'Adminemails')
 			echo '<script type="text/javascript">if (getE(\'PS_MAIL_METHOD2_on\').checked) getE(\'smtp\').style.display = \'block\'; else getE(\'smtp\').style.display = \'none\';</script></div>';
 
-		if (!is_writable(_PS_ADMIN_DIR_.'/../config/settings.inc.php') AND $name == 'themes')
-			echo '<p><img src="../img/admin/warning.gif" alt="" /> '.$this->l('if you change the theme, the settings.inc.php file must be writable (CHMOD 755 / 777)').'</p>';
+		if (!is_writable(_PS_ADMIN_DIR_.'/../app/config/parameters.php') AND $name == 'themes')
+			echo '<p><img src="../img/admin/warning.gif" alt="" /> '.$this->l('if you change the theme, the parameters.php file must be writable (CHMOD 755 / 777)').'</p>';
 
 		echo '	<div align="center" style="margin-top: 20px;">
 					<input type="submit" value="'.$this->l('   Save   ', 'AdminPreferences').'" name="submit'.ucfirst($name).$this->table.'" class="button" />

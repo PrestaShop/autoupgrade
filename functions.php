@@ -59,7 +59,7 @@ function rewriteSettingsFile($baseUrls = NULL, $theme = NULL, $arrayDB = NULL)
 	foreach ($defines as $k => $value)
 		$content .= 'define(\''.$k.'\', \''.addslashes($value).'\');'."\n";
 	$content .= "\n?>";
-	if ($fd = @fopen(PS_ADMIN_DIR.'/../config/settings.inc.php', 'w'))
+	if ($fd = @fopen(PS_ADMIN_DIR.'/../app/config/parameters.php', 'w'))
 	{
 		fwrite($fd, $content);
 		fclose($fd);
