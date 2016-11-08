@@ -297,8 +297,6 @@ class AdminPreferences extends AdminTab
 		}
 		$tab['__PS_BASE_URI__'] = __PS_BASE_URI__;
 		$tab['_MEDIA_SERVER_1_'] = _MEDIA_SERVER_1_;
-		$tab['_MEDIA_SERVER_2_'] = _MEDIA_SERVER_2_;
-		$tab['_MEDIA_SERVER_3_'] = _MEDIA_SERVER_3_;
 		$tab['PS_THEME'] = _THEME_NAME_;
 		$tab['db_type'] = _DB_TYPE_;
 		$tab['db_server'] = _DB_SERVER_;

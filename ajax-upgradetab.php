@@ -36,7 +36,8 @@ if (!defined('_PS_MODULE_DIR_'))
 
 define('AUTOUPGRADE_MODULE_DIR', _PS_MODULE_DIR_.'autoupgrade/');
 require_once(AUTOUPGRADE_MODULE_DIR.'functions.php');
-//
+
+
 // the following test confirm the directory exists
 if (!isset($_POST['dir']))
 	die('no directory');

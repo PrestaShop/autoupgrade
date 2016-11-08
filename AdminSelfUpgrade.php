@@ -2424,12 +2424,7 @@ class AdminSelfUpgrade extends AdminSelfTab
             if (!defined('_MEDIA_SERVER_1_')) {
                 define('_MEDIA_SERVER_1_', '');
             }
-            if (!defined('_MEDIA_SERVER_2_')) {
-                define('_MEDIA_SERVER_2_', '');
-            }
-            if (!defined('_MEDIA_SERVER_3_')) {
-                define('_MEDIA_SERVER_3_', '');
-            }
+
             if (!defined('_PS_USE_SQL_SLAVE_')) {
                 define('_PS_USE_SQL_SLAVE_', false);
             }
@@ -4589,11 +4584,10 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
     private function _getJsInit()
     {
         global $cookie;
-        $js = '';
 
         $token_preferences = Tools14::getAdminTokenLite('AdminPreferences');
 
-        $js .= '
+        $js = '
 function ucFirst(str) {
 	if (str.length > 0) {
 		return str[0].toUpperCase() + str.substring(1);
@@ -5028,6 +5022,7 @@ function doAjaxRequest(action, nextParams){
 				alert("'.$this->l('Javascript error (parseJSON) detected for action ', __CLASS__, true, false).'\""+action+"\".'
             .$this->l('Starting restoration...', __CLASS__, true, false).'");
 			}
+
 			addQuickInfo(res.nextQuickInfo);
 			addError(res.nextErrors);
 			updateInfoStep(res.next_desc);

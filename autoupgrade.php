@@ -24,7 +24,7 @@
 *  International Registered Trademark & Property of PrestaShop SA
 */
 
-class autoupgrade extends Module
+class Autoupgrade extends Module
 {
     public function __construct()
     {
