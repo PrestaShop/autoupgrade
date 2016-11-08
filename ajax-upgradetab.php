@@ -31,12 +31,13 @@ if (function_exists('date_default_timezone_set'))
 	date_default_timezone_set($timezone);
 }
 
+require(dirname(__FILE__).'/../../config/config.inc.php');
+
 if (!defined('_PS_MODULE_DIR_'))
 	define('_PS_MODULE_DIR_', realpath(dirname(__FILE__).'/../../').'/modules/');
 
 define('AUTOUPGRADE_MODULE_DIR', _PS_MODULE_DIR_.'autoupgrade/');
 require_once(AUTOUPGRADE_MODULE_DIR.'functions.php');
-
 
 // the following test confirm the directory exists
 if (!isset($_POST['dir']))
@@ -57,9 +58,6 @@ if (realpath(dirname(__FILE__).'/../../').DIRECTORY_SEPARATOR.$dir!== realpath(r
 	die('wrong directory :'.(isset($_POST['dir']) ? $dir : ''));
 
 define('_PS_ADMIN_DIR_', realpath(dirname(__FILE__).'/../../').DIRECTORY_SEPARATOR.$dir);
-
-// ajax-upgrade-tab is located in admin/autoupgrade directory
-require_once(_PS_ROOT_DIR_.'/app/config/parameters.php');
 
 if (!defined('_MYSQL_ENGINE_'))
 	define('_MYSQL_ENGINE_', 'MyISAM');

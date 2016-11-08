@@ -394,6 +394,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 
             require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/alias.php');
         }
+
         $this->db = Db::getInstance();
 
         // Performance settings, if your server has a low memory size, lower these values
@@ -1350,6 +1351,7 @@ class AdminSelfUpgrade extends AdminSelfTab
         $this->upgrader = new Upgrader();
 
         $changedFileList = $this->upgrader->getChangedFilesList();
+
         if ($this->upgrader->isAuthenticPrestashopVersion() === true
             && !is_array($changedFileList)) {
             $this->nextParams['status'] = 'error';
@@ -2068,8 +2070,7 @@ class AdminSelfUpgrade extends AdminSelfTab
         //old version detection
         global $oldversion, $logger;
         $oldversion = false;
-        if (file_exists(SETTINGS_FILE)) {
-            include_once(SETTINGS_FILE);
+        if (file_exists(SETTINGS_FILE)) { // keep because need it for migration
 
             // include_once(DEFINES_FILE);
             $oldversion = _PS_VERSION_;
