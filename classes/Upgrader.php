@@ -30,7 +30,7 @@ class UpgraderCore
 	const DEFAULT_CHANNEL = 'major';
 	// @todo channel handling :)
 	public $addons_api = 'api.addons.prestashop.com';
-	public $rss_channel_link = 'https://api.prestashop.com/xml/channel.xml';
+	public $rss_channel_link = 'https://api.prestashop.com/xml/channel17.xml';
 	public $rss_md5file_link_dir = 'https://api.prestashop.com/xml/md5/';
 	
 	/**
