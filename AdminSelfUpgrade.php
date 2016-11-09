@@ -2177,7 +2177,6 @@ class AdminSelfUpgrade extends AdminSelfTab
             }
         }
 
-
         if (strpos(INSTALL_VERSION, '.') === false) {
             $this->nextQuickInfo[] = sprintf($this->l('%s is not a valid version number.'), INSTALL_VERSION);
             $this->nextErrors[] = sprintf($this->l('%s is not a valid version number.'), INSTALL_VERSION);
@@ -2372,7 +2371,7 @@ class AdminSelfUpgrade extends AdminSelfTab
             Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'configuration` SET `value` = 1 WHERE `name` LIKE \'PS_VIRTUAL_PROD_FEATURE_ACTIVE\'');
         }
 
-        if (defined('_THEME_NAME_') && $this->updateDefaultTheme && preg_match('#(classic)$#', _THEME_NAME_)) {
+        if (defined('_THEME_NAME_') && $this->updateDefaultTheme && 'classic' === _THEME_NAME_) {
             $separator = addslashes(DIRECTORY_SEPARATOR);
             $file = _PS_ROOT_DIR_.$separator.'themes'.$separator._THEME_NAME_.$separator.'cache'.$separator;
             if (file_exists($file)) {
@@ -2435,6 +2434,7 @@ class AdminSelfUpgrade extends AdminSelfTab
                         $this->nextErrors[] = $this->l('Error updating translations');
                         $this->nextQuickInfo[] = $this->l('Error updating translations');
                         $this->next_desc = $this->l('Error updating translations');
+                        return false;
                     }
                 }
             }
