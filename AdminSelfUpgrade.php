@@ -2030,7 +2030,8 @@ class AdminSelfUpgrade extends AdminSelfTab
 
 
         define('PS_INSTALLATION_IN_PROGRESS', true);
-        define('SETTINGS_FILE', $this->prodRootDir . '/app/config/parameters.php');
+        define('SETTINGS_FILE_PHP', $this->prodRootDir . '/app/config/parameters.php');
+        define('SETTINGS_FILE_YML', $this->prodRootDir . '/app/config/parameters.yml');
         define('DEFINES_FILE', $this->prodRootDir .'/config/defines.inc.php');
         define('INSTALLER__PS_BASE_URI', substr($_SERVER['REQUEST_URI'], 0, -1 * (strlen($_SERVER['REQUEST_URI']) - strrpos($_SERVER['REQUEST_URI'], '/')) - strlen(substr(dirname($_SERVER['REQUEST_URI']), strrpos(dirname($_SERVER['REQUEST_URI']), '/')+1))));
         //	define('INSTALLER__PS_BASE_URI_ABSOLUTE', 'http://'.ToolsInstall::getHttpHost(false, true).INSTALLER__PS_BASE_URI);
@@ -2071,10 +2072,16 @@ class AdminSelfUpgrade extends AdminSelfTab
         global $oldversion, $logger;
         $oldversion = false;
 
-        if (!file_exists(SETTINGS_FILE)) {
+        if (!file_exists(SETTINGS_FILE_PHP)) {
             $this->next = 'error';
             $this->nextQuickInfo[] = $this->l('The app/config/parameters.php file was not found.');
             $this->nextErrors[] = $this->l('The app/config/parameters.php file was not found.');
+            return false;
+        }
+        if (!file_exists(SETTINGS_FILE_YML)) {
+            $this->next = 'error';
+            $this->nextQuickInfo[] = $this->l('The app/config/parameters.yml file was not found.');
+            $this->nextErrors[] = $this->l('The app/config/parameters.yml file was not found.');
             return false;
         }
 
@@ -2638,15 +2645,16 @@ class AdminSelfUpgrade extends AdminSelfTab
         $oldLevel = error_reporting(E_ALL);
         //refresh conf file
         require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/classes/AddConfToFile.php');
-        copy(SETTINGS_FILE, str_replace('.php', '.old.php', SETTINGS_FILE));
-        $confFile = new AddConfToFile(SETTINGS_FILE, 'w');
+        copy(SETTINGS_FILE_PHP, str_replace('.php', '.old.php', SETTINGS_FILE_PHP));
+        $confFile = new AddConfToFile(SETTINGS_FILE_PHP, 'w');
         if ($confFile->error) {
             $this->next = 'error';
-            $this->next_desc = $this->l('Error when opening settings.inc.php file in write mode');
+            $this->next_desc = $this->l('Error when opening parameters.php file in write mode');
             $this->nextQuickInfo[] = $confFile->error;
-            $this->nextErrors[] = $this->l('Error when opening settings.inc.php file in write mode').': '.$confFile->error;
+            $this->nextErrors[] = $this->l('Error when opening parameters.php file in write mode').': '.$confFile->error;
             return false;
         }
+        copy(SETTINGS_FILE_YML, str_replace('.yml', '.old.yml', SETTINGS_FILE_YML));
 
         $caches = array('CacheMemcache', 'CacheApc', 'CacheFs', 'CacheMemcached', 'CacheXcache');
 
@@ -2688,9 +2696,9 @@ class AdminSelfUpgrade extends AdminSelfTab
 
         if ($confFile->error != false) {
             $this->next = 'error';
-            $this->next_desc = $this->l('Error when generating new settings.inc.php file.');
+            $this->next_desc = $this->l('Error when generating new parameters.php file.');
             $this->nextQuickInfo[] = $confFile->error;
-            $this->nextErrors[] = $this->l('Error when generating new settings.inc.php file.').' '.$confFile->error;
+            $this->nextErrors[] = $this->l('Error when generating new parameters.php file.').' '.$confFile->error;
             return false;
         } else {
             $this->nextQuickInfo[] = $this->l('Settings file updated');
