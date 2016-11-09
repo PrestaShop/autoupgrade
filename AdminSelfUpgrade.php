@@ -2427,9 +2427,9 @@ class AdminSelfUpgrade extends AdminSelfTab
                         Language::loadLanguages();
 
                         // TODO: Update AdminTranslationsController::addNewTabs to install tabs translated
-                        $languageCode = explode('-', Language::getLanguageCodeByIso($isoCode));
+
                         $cldrUpdate = new \PrestaShop\PrestaShop\Core\Cldr\Update(_PS_TRANSLATIONS_DIR_);
-                        $cldrUpdate->fetchLocale($languageCode[0] . '-' . Tools::strtoupper($languageCode[1]));
+                        $cldrUpdate->fetchLocale(Language::getLocaleByIso($isoCode));
                     } else {
                         $this->nextErrors[] = $this->l('Error updating translations');
                         $this->nextQuickInfo[] = $this->l('Error updating translations');
