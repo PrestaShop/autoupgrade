@@ -550,7 +550,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 
         $this->_fieldsUpgradeOptions['PS_AUTOUP_UPDATE_DEFAULT_THEME'] = array(
             'title' => $this->l('Upgrade the default theme'), 'cast' => 'intval', 'validation' => 'isBool', 'defaultValue' => '1',
-            'type' => 'bool', 'desc' => $this->l('If you customized the default PrestaShop theme in its folder (folder name "prestashop" in 1.4, "default" in 1.5, "bootstrap-default" in 1.6), enabling this option will lose your modifications.').'<br />'
+            'type' => 'bool', 'desc' => $this->l('If you customized the default PrestaShop theme in its folder (folder name "classic" in 1.7), enabling this option will lose your modifications.').'<br />'
             .$this->l('If you are using your own theme, enabling this option will simply update the default theme files, and your own theme will be safe.'),
         );
 
@@ -998,6 +998,8 @@ class AdminSelfUpgrade extends AdminSelfTab
         } elseif (is_dir($this->latestRootDir)) {
             $this->nextQuickInfo[] = '<strong>'.sprintf($this->l('Please remove %s by FTP'), $this->latestRootDir).'</strong>';
         }
+
+        $this->clearMigrationCache();
     }
 
     // Simplification of _displayForm original function
@@ -2327,6 +2329,18 @@ class AdminSelfUpgrade extends AdminSelfTab
             return false;
         }
 
+        $sf2Refresh = new \PrestaShopBundle\Service\Cache\Refresh();
+        $sf2Refresh->addDoctrineSchemaUpdate();
+        $output = $sf2Refresh->execute();
+
+        if (0 !== $output['doctrine:schema:update']['exitCode']) {
+            $msgErrors = explode("\n", $output['doctrine:schema:update']['output']);
+            $this->nextErrors[] = $this->l('Error upgrading doctrine schema');
+            $this->nextQuickInfo[] = $msgErrors;
+            $this->next_desc = $msgErrors;
+            return false;
+        }
+
         $this->nextQuickInfo[] = $this->l('Database upgrade OK'); // no error !
 
         // Settings updated, compile and cache directories must be emptied
@@ -2370,6 +2384,10 @@ class AdminSelfUpgrade extends AdminSelfTab
                     }
                 }
             }
+
+            // Reset theme to default configuration
+            $theme_manager = (new \PrestaShop\PrestaShop\Core\Addon\Theme\ThemeManagerBuilder(Context::getContext(), Db::getInstance()))->build();
+            $theme_manager->reset(_THEME_NAME_);
         }
 
         // Upgrade languages
@@ -2394,18 +2412,29 @@ class AdminSelfUpgrade extends AdminSelfTab
                 $isoCode = $lang['iso_code'];
 
                 if (Validate::isLangIsoCode($isoCode)) {
-                    if ($success = Language::downloadAndInstallLanguagePack($isoCode, $version = _PS_VERSION_, $params = null, $install = true)) {
+
+                    $errorsLanguage = array();
+
+                    Language::downloadLanguagePack($isoCode, _PS_VERSION_, $errorsLanguage);
+
+                    $lang_pack = Language::getLangDetails($isoCode);
+                    Language::installSfLanguagePack($lang_pack['locale'], $errorsLanguage);
+
+                    if (!$this->keepMails) {
+                        Language::installEmailsLanguagePack($lang_pack, $errorsLanguage);
+                    }
+
+                    if (empty($errorsLanguage)) {
                         Language::loadLanguages();
 
                         // TODO: Update AdminTranslationsController::addNewTabs to install tabs translated
-
                         $languageCode = explode('-', Language::getLanguageCodeByIso($isoCode));
                         $cldrUpdate = new \PrestaShop\PrestaShop\Core\Cldr\Update(_PS_TRANSLATIONS_DIR_);
-                        $cldrUpdate->fetchLocale($languageCode[0].'-'.Tools::strtoupper($languageCode[1]));
-
-                        /**
-                         * @see AdminController::$_conf
-                         */
+                        $cldrUpdate->fetchLocale($languageCode[0] . '-' . Tools::strtoupper($languageCode[1]));
+                    } else {
+                        $this->nextErrors[] = $this->l('Error updating translations');
+                        $this->nextQuickInfo[] = $this->l('Error updating translations');
+                        $this->next_desc = $this->l('Error updating translations');
                     }
                 }
             }
@@ -2596,9 +2625,14 @@ class AdminSelfUpgrade extends AdminSelfTab
         }
 
         if ($this->changeToDefaultTheme) {
-            Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'shop`
-                SET id_theme = (SELECT id_theme FROM `'._DB_PREFIX_.'theme` WHERE name LIKE \'classic\')');
-            Db::getInstance()->execute('DELETE FROM `'._DB_PREFIX_.'theme` WHERE  name LIKE \'default\' OR name LIKE \'prestashop\'');
+            $theme_manager = (new \PrestaShop\PrestaShop\Core\Addon\Theme\ThemeManagerBuilder(Context::getContext(), Db::getInstance()))->build();
+            $isThemeEnabled = $theme_manager->enable('classic');
+            // get errors if theme wasn't enabled
+            if (!$isThemeEnabled) {
+                $this->nextErrors[] = $theme_manager->getErrors('classic');
+            } else {
+                Tools::clearCache();
+            }
         }
 
         // delete cache filesystem if activated
@@ -2782,8 +2816,6 @@ class AdminSelfUpgrade extends AdminSelfTab
      */
     public function upgradeThisFile($file)
     {
-
-        // note : keepMails is handled in skipFiles
         // translations_custom and mails_custom list are currently not used
         // later, we could handle customization with some kind of diff functions
         // for now, just copy $file in str_replace($this->latestRootDir,_PS_ROOT_DIR_)
@@ -5530,13 +5562,6 @@ $(document).ready(function()
                 }
                 break;
             case 'upgrade':
-                // keep mail : will skip only if already exists
-                if (!$this->keepMails) /* If set to false, we will not upgrade/replace the "mails" directory */
-                {
-                    if (strpos(str_replace('/', DIRECTORY_SEPARATOR, $fullpath), DIRECTORY_SEPARATOR.'mails'.DIRECTORY_SEPARATOR)) {
-                        return true;
-                    }
-                }
                 if (in_array($file, $this->excludeFilesFromUpgrade)) {
                     if ($file[0] != '.') {
                         $this->nextQuickInfo[] = sprintf($this->l('File %s is preserved'), $file);
@@ -5569,5 +5594,17 @@ $(document).ready(function()
         } else {
             ini_set('display_errors', 'off');
         }
+    }
+
+    private function clearMigrationCache()
+    {
+        Tools::clearCache();
+        Tools::clearXMLCache();
+        Media::clearCache();
+        Tools::generateIndex();
+
+        $sf2Refresh = new \PrestaShopBundle\Service\Cache\Refresh();
+        $sf2Refresh->addCacheClear(_PS_MODE_DEV_ ? 'dev' : 'prod');
+        $sf2Refresh->execute();
     }
 }
