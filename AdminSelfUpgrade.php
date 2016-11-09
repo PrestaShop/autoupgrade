@@ -2329,10 +2329,6 @@ class AdminSelfUpgrade extends AdminSelfTab
 
         $this->nextQuickInfo[] = $this->l('Database upgrade OK'); // no error !
 
-        # At this point, database upgrade is over.
-            # Now we need to add all previous missing settings items, and reset cache and compile directories
-            $this->writeNewSettings();
-
         // Settings updated, compile and cache directories must be emptied
         $arrayToClean[] = $this->prodRootDir.'/app/cache/';
         $arrayToClean[] = $this->prodRootDir.'/cache/smarty/cache/';
@@ -2635,75 +2631,6 @@ class AdminSelfUpgrade extends AdminSelfTab
         }
 
         return true;
-    }
-
-    public function writeNewSettings()
-    {
-        // note : duplicated line
-        $mysqlEngine = (defined('_MYSQL_ENGINE_') ? _MYSQL_ENGINE_ : 'MyISAM');
-
-        $oldLevel = error_reporting(E_ALL);
-        //refresh conf file
-        require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/classes/AddConfToFile.php');
-        copy(SETTINGS_FILE_PHP, str_replace('.php', '.old.php', SETTINGS_FILE_PHP));
-        $confFile = new AddConfToFile(SETTINGS_FILE_PHP, 'w');
-        if ($confFile->error) {
-            $this->next = 'error';
-            $this->next_desc = $this->l('Error when opening parameters.php file in write mode');
-            $this->nextQuickInfo[] = $confFile->error;
-            $this->nextErrors[] = $this->l('Error when opening parameters.php file in write mode').': '.$confFile->error;
-            return false;
-        }
-        copy(SETTINGS_FILE_YML, str_replace('.yml', '.old.yml', SETTINGS_FILE_YML));
-
-        $caches = array('CacheMemcache', 'CacheApc', 'CacheFs', 'CacheMemcached', 'CacheXcache');
-
-        $datas = array(
-            array('_DB_SERVER_', _DB_SERVER_),
-            array('_DB_NAME_', _DB_NAME_),
-            array('_DB_USER_', _DB_USER_),
-            array('_DB_PASSWD_', _DB_PASSWD_),
-            array('_DB_PREFIX_', _DB_PREFIX_),
-            array('_MYSQL_ENGINE_', $mysqlEngine),
-            array('_PS_CACHING_SYSTEM_', (defined('_PS_CACHING_SYSTEM_') && in_array(_PS_CACHING_SYSTEM_, $caches)) ? _PS_CACHING_SYSTEM_ : 'CacheMemcache'),
-            array('_PS_CACHE_ENABLED_', defined('_PS_CACHE_ENABLED_') ? _PS_CACHE_ENABLED_ : '0'),
-            array('_COOKIE_KEY_', _COOKIE_KEY_),
-            array('_COOKIE_IV_', _COOKIE_IV_),
-            array('_PS_CREATION_DATE_', defined("_PS_CREATION_DATE_") ? _PS_CREATION_DATE_ : date('Y-m-d')),
-            array('_PS_VERSION_', INSTALL_VERSION)
-        );
-
-        if (defined('_RIJNDAEL_KEY_')) {
-            $datas[] = array('_RIJNDAEL_KEY_', _RIJNDAEL_KEY_);
-        }
-        if (defined('_RIJNDAEL_IV_')) {
-            $datas[] = array('_RIJNDAEL_IV_', _RIJNDAEL_IV_);
-        }
-        if (!defined('_PS_CACHE_ENABLED_')) {
-            define('_PS_CACHE_ENABLED_', '0');
-        }
-
-        // @Todo REMI
-        if (!defined('_MYSQL_ENGINE_')) {
-            define('_MYSQL_ENGINE_', 'MyISAM');
-        }
-
-        $datas[] = array('_PS_DIRECTORY_', __PS_BASE_URI__);
-
-        foreach ($datas as $data) {
-            $confFile->writeInFile($data[0], $data[1]);
-        }
-
-        if ($confFile->error != false) {
-            $this->next = 'error';
-            $this->next_desc = $this->l('Error when generating new parameters.php file.');
-            $this->nextQuickInfo[] = $confFile->error;
-            $this->nextErrors[] = $this->l('Error when generating new parameters.php file.').' '.$confFile->error;
-            return false;
-        } else {
-            $this->nextQuickInfo[] = $this->l('Settings file updated');
-        }
-        error_reporting($oldLevel);
     }
 
     /**
