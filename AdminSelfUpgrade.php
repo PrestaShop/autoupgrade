@@ -2385,8 +2385,7 @@ class AdminSelfUpgrade extends AdminSelfTab
             }
 
             // Reset theme to default configuration
-            $theme_manager = (new \PrestaShop\PrestaShop\Core\Addon\Theme\ThemeManagerBuilder(Context::getContext(), Db::getInstance()))->build();
-            $theme_manager->reset(_THEME_NAME_);
+            $this->getThemeManager()->reset(_THEME_NAME_);
         }
 
         // Upgrade languages
@@ -2625,15 +2624,17 @@ class AdminSelfUpgrade extends AdminSelfTab
         }
 
         if ($this->changeToDefaultTheme) {
-            $theme_manager = (new \PrestaShop\PrestaShop\Core\Addon\Theme\ThemeManagerBuilder(Context::getContext(), Db::getInstance()))->build();
-            $isThemeEnabled = $theme_manager->enable('classic');
+            $themeManager = $this->getThemeManager();
+            $isThemeEnabled = $themeManager->enable('classic');
             // get errors if theme wasn't enabled
             if (!$isThemeEnabled) {
-                $themeErrors = $theme_manager->getErrors('classic');
+                $themeErrors = $themeManager->getErrors('classic');
                 $this->nextQuickInfo[] = $themeErrors;
-                $this->next_desc = $themeErrors;
                 $this->nextErrors[] = $themeErrors;
+                $this->next_desc = $themeErrors;
+
                 return false;
+
             } else {
                 Tools::clearCache();
             }
@@ -5598,6 +5599,16 @@ $(document).ready(function()
         } else {
             ini_set('display_errors', 'off');
         }
+    }
+
+    private function getThemeManager()
+    {
+        $id_employee = $_COOKIE['id_employee'];
+
+        $context = Context::getContext();
+        $context->employee = new Employee((int) $id_employee);
+
+        return (new \PrestaShop\PrestaShop\Core\Addon\Theme\ThemeManagerBuilder($context, Db::getInstance()))->build();
     }
 
     private function clearMigrationCache()
