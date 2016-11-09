@@ -2070,16 +2070,15 @@ class AdminSelfUpgrade extends AdminSelfTab
         //old version detection
         global $oldversion, $logger;
         $oldversion = false;
-        if (file_exists(SETTINGS_FILE)) { // keep because need it for migration
 
-            // include_once(DEFINES_FILE);
-            $oldversion = _PS_VERSION_;
-        } else {
+        if (!file_exists(SETTINGS_FILE)) {
             $this->next = 'error';
             $this->nextQuickInfo[] = $this->l('The app/config/parameters.php file was not found.');
             $this->nextErrors[] = $this->l('The app/config/parameters.php file was not found.');
             return false;
         }
+
+        $oldversion = Configuration::get('PS_VERSION_DB');
 
         if (!defined('__PS_BASE_URI__')) {
             define('__PS_BASE_URI__', realpath(dirname($_SERVER['SCRIPT_NAME'])).'/../../');
@@ -2089,7 +2088,6 @@ class AdminSelfUpgrade extends AdminSelfTab
             define('_THEMES_DIR_', __PS_BASE_URI__.'themes/');
         }
 
-        $oldversion = _PS_VERSION_;
         $versionCompare =  version_compare(INSTALL_VERSION, $oldversion);
 
         if ($versionCompare == '-1') {
