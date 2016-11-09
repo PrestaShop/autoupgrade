@@ -2629,7 +2629,11 @@ class AdminSelfUpgrade extends AdminSelfTab
             $isThemeEnabled = $theme_manager->enable('classic');
             // get errors if theme wasn't enabled
             if (!$isThemeEnabled) {
-                $this->nextErrors[] = $theme_manager->getErrors('classic');
+                $themeErrors = $theme_manager->getErrors('classic');
+                $this->nextQuickInfo[] = $themeErrors;
+                $this->next_desc = $themeErrors;
+                $this->nextErrors[] = $themeErrors;
+                return false;
             } else {
                 Tools::clearCache();
             }
