@@ -563,9 +563,9 @@ class AdminSelfUpgrade extends AdminSelfTab
         );
 
         $this->_fieldsUpgradeOptions['PS_AUTOUP_KEEP_MAILS'] = array(
-            'title' => $this->l('Upgrade the default e-mails'), 'cast' => 'intval', 'validation' => 'isBool',
-            'type' => 'bool', 'desc' => $this->l('This will upgrade the default PrestaShop e-mails.').'<br />'
-            .$this->l('If you customized the default PrestaShop e-mail templates, enabling this option will lose your modifications.'),
+            'title' => $this->l('Keep the default e-mails'), 'cast' => 'intval', 'validation' => 'isBool',
+            'type' => 'bool', 'desc' => $this->l('This will not upgrade the default PrestaShop e-mails.').'<br />'
+            .$this->l('If you customized the default PrestaShop e-mail templates, enabling this option will keep your modifications.'),
         );
 
         /* Developers only options */
@@ -914,7 +914,7 @@ class AdminSelfUpgrade extends AdminSelfTab
                 'PS_AUTOUP_CUSTOM_MOD_DESACT' => '1',
                 'PS_AUTOUP_UPDATE_DEFAULT_THEME' => '1',
                 'PS_AUTOUP_CHANGE_DEFAULT_THEME' => '0',
-                'PS_AUTOUP_KEEP_MAILS' => '1',
+                'PS_AUTOUP_KEEP_MAILS' => '0',
                 'PS_AUTOUP_BACKUP' => '1',
                 'PS_AUTOUP_KEEP_IMAGES' => '0'
                 ));
@@ -4522,8 +4522,16 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 		</fieldset>';
 
         /* Make sure the user has configured the upgrade options, or set default values */
-        $configuration_keys = array('PS_AUTOUP_UPDATE_DEFAULT_THEME' => 1, 'PS_AUTOUP_CHANGE_DEFAULT_THEME' => 0, 'PS_AUTOUP_KEEP_MAILS' => 1, 'PS_AUTOUP_CUSTOM_MOD_DESACT' => 1,
-        'PS_AUTOUP_MANUAL_MODE' => 0, 'PS_AUTOUP_PERFORMANCE' => 1, 'PS_DISPLAY_ERRORS' => 0);
+        $configuration_keys = array(
+            'PS_AUTOUP_UPDATE_DEFAULT_THEME' => 1,
+            'PS_AUTOUP_CHANGE_DEFAULT_THEME' => 0,
+            'PS_AUTOUP_KEEP_MAILS' => 0,
+            'PS_AUTOUP_CUSTOM_MOD_DESACT' => 1,
+            'PS_AUTOUP_MANUAL_MODE' => 0,
+            'PS_AUTOUP_PERFORMANCE' => 1,
+            'PS_DISPLAY_ERRORS' => 0
+        );
+
         foreach ($configuration_keys as $k => $default_value) {
             if (Configuration::get($k) == '') {
                 Configuration::updateValue($k, $default_value);
