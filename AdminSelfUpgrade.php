@@ -1484,24 +1484,25 @@ class AdminSelfUpgrade extends AdminSelfTab
                     } else {
                         $this->next = 'error';
                         $this->next_desc = sprintf($this->l('Unable to extract %1$s file into %2$s folder...'), $filepath, $destExtract);
-                        return true;
+                        return false;
                     }
 
                 } else {
                     $this->next = 'error';
                     $this->next_desc = sprintf($this->l('It\'s not a valid upgrade %s archive...'), INSTALL_VERSION);
-                    return true;
+                    return false;
                 }
             } else {
                 $this->next = 'error';
                 $this->next_desc = sprintf($this->l('Unable to extract %1$s file into %2$s folder...'), $filepath, $destExtract);
-                return true;
+                return false;
             }
         } else {
             $this->next_desc = $this->l('Extraction directory is not writable.');
             $this->nextQuickInfo[] = $this->l('Extraction directory is not writable.');
             $this->nextErrors[] = sprintf($this->l('Extraction directory %s is not writable.'), $destExtract);
             $this->next = 'error';
+            return false;
         }
     }
 
@@ -2988,16 +2989,24 @@ class AdminSelfUpgrade extends AdminSelfTab
             // cleanup current PS tree
             $fromArchive = $this->_listArchivedFiles($this->backupPath.DIRECTORY_SEPARATOR.$this->restoreFilesFilename);
             foreach ($fromArchive as $k => $v) {
-                $fromArchive[$k] = '/'.$v;
+                $fromArchive['/'.$v] = '/'.$v;
             }
+
             file_put_contents($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->fromArchiveFileList, base64_encode(serialize($fromArchive)));
             // get list of files to remove
             $toRemove = $this->_listFilesToRemove();
+            $toRemoveOnly = array();
+
             // let's reverse the array in order to make possible to rmdir
             // remove fullpath. This will be added later in the loop.
             // we do that for avoiding fullpath to be revealed in a text file
             foreach ($toRemove as $k => $v) {
-                $toRemove[$k] = str_replace($this->prodRootDir, '', $v);
+                $vfile = str_replace($this->prodRootDir, '', $v);
+                $toRemove[] = str_replace($this->prodRootDir, '', $vfile);
+
+                if (!isset($fromArchive[$vfile]) && is_file($v)) {
+                    $toRemoveOnly[$vfile] = str_replace($this->prodRootDir, '', $vfile);
+                }
             }
 
             $this->nextQuickInfo[] = sprintf($this->l('%s file(s) will be removed before restoring the backup files.'), count($toRemove));
@@ -3018,77 +3027,30 @@ class AdminSelfUpgrade extends AdminSelfTab
             }
         }
 
-        // first restoreFiles step
-        if (!isset($toRemove)) {
-            $toRemove = unserialize(base64_decode(file_get_contents($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->toRemoveFileList)));
-        }
+        if (!empty($fromArchive)) {
 
-        if (count($toRemove) > 0) {
-            for ($i=0;$i<self::$loopRestoreFiles ;$i++) {
-                if (count($toRemove) <= 0) {
-                    $this->stepDone = true;
-                    $this->status = 'ok';
-                    $this->next = 'restoreFiles';
-                    $this->next_desc = $this->l('Files from upgrade has been removed.');
-                    $this->nextQuickInfo[] = $this->l('Files from upgrade has been removed.');
-                    file_put_contents($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->toRemoveFileList, base64_encode(serialize($toRemove)));
-                    return true;
-                } else {
-                    $filename = array_shift($toRemove);
-                    $file = rtrim($this->prodRootDir, DIRECTORY_SEPARATOR).$filename;
-                    if (file_exists($file)) {
-                        if (is_file($file)) {
-                            @chmod($file, 0777); // NT ?
-                            if (@unlink($file)) {
-                                $this->nextQuickInfo[] = sprintf($this->l('%s files removed'), $filename);
-                            } else {
-                                $this->next = 'error';
-                                $this->next_desc = sprintf($this->l('Error when removing %1$s.'), $filename);
-                                $this->nextQuickInfo[] = sprintf($this->l('File %s not removed.'), $filename);
-                                $this->nextErrors[] = sprintf($this->l('File %s not removed.'), $filename);
-                                return false;
-                            }
-                        } elseif (is_dir($file)) {
-                            if ($this->isDirEmpty($file)) {
-                                self::deleteDirectory($file, true);
-                                $this->nextQuickInfo[] = sprintf($this->l('[NOTICE]  %s deleted.'), $filename);
-                            } else {
-                                $this->nextQuickInfo[] = sprintf($this->l('[NOTICE] Directory %s skipped (directory not empty).'), $filename);
-                            }
-                        }
-                    } else {
-                        $this->nextQuickInfo[] = sprintf($this->l('[NOTICE] %s does not exist'), $filename);
+            $filepath = $this->backupPath.DIRECTORY_SEPARATOR.$this->restoreFilesFilename;
+            $destExtract = $this->prodRootDir;
+
+            if ($this->ZipExtract($filepath, $destExtract)) {
+
+                if (!empty($toRemoveOnly)) {
+                    foreach ($toRemoveOnly as $fileToRemove) {
+                        @unlink($this->prodRootDir . $fileToRemove);
                     }
                 }
-            }
-            file_put_contents($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->toRemoveFileList, base64_encode(serialize($toRemove)));
-            if (count($toRemove)) {
-                $this->next_desc = sprintf($this->l('%s file(s) left to remove.'), count($toRemove));
-            }
-            $this->next = 'restoreFiles';
-            return true;
-        }
 
+                $this->next = 'restoreDb';
+                $this->next_desc = $this->l('Files restored. Now restoring database...');
+                $this->nextQuickInfo[] = $this->l('Files restored.');
+                return true;
+            } else {
+                $this->next = 'error';
+                $this->next_desc = sprintf($this->l('Unable to extract file %1$s into directory %2$s .'), $filepath, $destExtract);
+                return false;
+            }
 
-        // very second restoreFiles step : extract backup
-        // if (!isset($fromArchive))
-        //	$fromArchive = unserialize(base64_decode(file_get_contents($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->fromArchiveFileList)));
-        $filepath = $this->backupPath.DIRECTORY_SEPARATOR.$this->restoreFilesFilename;
-        $destExtract = $this->prodRootDir;
-        if ($this->ZipExtract($filepath, $destExtract)) {
-            $this->next = 'restoreDb';
-            $this->next_desc = $this->l('Files restored. Now restoring database...');
-            // get new file list
-            $this->nextQuickInfo[] = $this->l('Files restored.');
-            // once it's restored, do not delete the archive file. This has to be done manually
-            // and we do not empty the var, to avoid infinite loop.
-            return true;
-        } else {
-            $this->next = 'error';
-            $this->next_desc = sprintf($this->l('Unable to extract file %1$s into directory %2$s .'), $filepath, $destExtract);
-            return false;
         }
-        return true;
     }
 
     public function isDirEmpty($dir, $ignore = array('.svn', '.git'))
