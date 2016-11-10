@@ -1464,11 +1464,34 @@ class AdminSelfUpgrade extends AdminSelfTab
         $report = '';
         if (ConfigurationTest::test_dir($relative_extract_path, false, $report)) {
             if ($this->ZipExtract($filepath, $destExtract)) {
-                // Unsetting to force listing
-                unset($this->nextParams['removeList']);
-                $this->next = 'removeSamples';
-                $this->next_desc = $this->l('File extraction complete. Removing sample files...');
-                return true;
+
+                // new system release archive
+                $newZip = $destExtract.DIRECTORY_SEPARATOR.'prestashop.zip';
+                if (is_file($newZip)) {
+
+                    @unlink($destExtract.DIRECTORY_SEPARATOR.'/index.php');
+                    @unlink($destExtract.DIRECTORY_SEPARATOR.'/Install_PrestaShop.html');
+
+                    if ($this->ZipExtract($newZip, $destExtract)) {
+                        // Unsetting to force listing
+                        unset($this->nextParams['removeList']);
+                        $this->next = 'removeSamples';
+                        $this->next_desc = $this->l('File extraction complete. Removing sample files...');
+
+                        @unlink($newZip);
+
+                        return true;
+                    } else {
+                        $this->next = 'error';
+                        $this->next_desc = sprintf($this->l('Unable to extract %1$s file into %2$s folder...'), $filepath, $destExtract);
+                        return true;
+                    }
+
+                } else {
+                    $this->next = 'error';
+                    $this->next_desc = sprintf($this->l('It\'s not a valid upgrade %s archive...'), INSTALL_VERSION);
+                    return true;
+                }
             } else {
                 $this->next = 'error';
                 $this->next_desc = sprintf($this->l('Unable to extract %1$s file into %2$s folder...'), $filepath, $destExtract);
