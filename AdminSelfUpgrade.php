@@ -3164,9 +3164,22 @@ class AdminSelfUpgrade extends AdminSelfTab
 
             // Get tables before backup
             if ($this->nextParams['dbStep'] == '1') {
-                $tables_before_backup = $this->getAllTables();
-                if (!empty($tables_before_backup)) {
-                    file_put_contents($this->autoupgradePath . DIRECTORY_SEPARATOR . $this->toCleanTable, base64_encode(serialize($tables_before_backup)));
+
+                $tables_after_restore = array();
+                foreach ($listQuery as $q) {
+                    if (preg_match('/`('._DB_PREFIX_.'[a-zA-Z0-9]+)`/', $q, $matches)) {
+                        $tables_after_restore[] = $matches[0];
+                    }
+                }
+
+                $tables_after_restore = array_unique($tables_after_restore);
+                var_dump($tables_after_restore);die('ok');
+
+                $tables_before_restore = $this->getAllTables();
+
+                $tablesToRemove = array_diff($tables_before_restore, $tables_after_restore);
+                if (!empty($tablesToRemove)) {
+                    file_put_contents($this->autoupgradePath . DIRECTORY_SEPARATOR . $this->toCleanTable, base64_encode(serialize($tablesToRemove)));
                 }
             }
         }
@@ -3174,8 +3187,8 @@ class AdminSelfUpgrade extends AdminSelfTab
         // @todo : error if listQuery is not an array (that can happen if toRestoreQueryList is empty for example)
         $time_elapsed = time() - $start_time;
         if (is_array($listQuery) && (count($listQuery) > 0)) {
-            $this->db->executeS('SET SESSION sql_mode = \'\'');
-            $this->db->executeS('SET FOREIGN_KEY_CHECKS=0');
+            $this->db->execute('SET SESSION sql_mode = \'\'');
+            $this->db->execute('SET FOREIGN_KEY_CHECKS=0');
 
             do {
                 if (count($listQuery) == 0) {
@@ -3193,13 +3206,13 @@ class AdminSelfUpgrade extends AdminSelfTab
                     $this->stepDone = true;
                     $this->status = 'ok';
                     $this->next = 'restoreDb';
+
                     if (count($this->restoreDbFilenames) == 0) {
                         $this->next = 'rollbackComplete';
                         $this->nextQuickInfo[] = $this->next_desc = $this->l('Database has been restored.');
 
                         $this->cleanTablesAfterBackup();
-
-                        $this->db->executeS('SET FOREIGN_KEY_CHECKS=1');
+                        $this->db->execute('SET FOREIGN_KEY_CHECKS=1');
                     }
                     return true;
                 }
@@ -3209,7 +3222,7 @@ class AdminSelfUpgrade extends AdminSelfTab
                     continue;
                 }
 
-                $query = array_shift($listQuery);
+                $query = trim(array_shift($listQuery));
                 if (!empty($query)) {
                     if (!$this->db->execute($query, false)) {
                         if (is_array($listQuery)) {
@@ -3224,9 +3237,10 @@ class AdminSelfUpgrade extends AdminSelfTab
                         return false;
                     }
                 }
-                    // note : theses queries can be too big and can cause issues for display
-                    // else
-                    // $this->nextQuickInfo[] = '[OK] '.$query;
+
+                // note : theses queries can be too big and can cause issues for display
+                // else
+                // $this->nextQuickInfo[] = '[OK] '.$query;
 
                 $time_elapsed = time() - $start_time;
             } while ($time_elapsed < self::$loopRestoreQueryTime);
@@ -3244,6 +3258,7 @@ class AdminSelfUpgrade extends AdminSelfTab
             $this->nextQuickInfo[] = $this->next_desc = sprintf($this->l('%1$s queries left for file %2$s...'), $queries_left, $this->nextParams['dbStep']);
             unset($query);
             unset($listQuery);
+
         } else {
             $this->stepDone = true;
             $this->status = 'ok';
@@ -3251,8 +3266,7 @@ class AdminSelfUpgrade extends AdminSelfTab
             $this->nextQuickInfo[] = $this->next_desc = $this->l('Database restoration done.');
 
             $this->cleanTablesAfterBackup();
-
-            $this->db->executeS('SET FOREIGN_KEY_CHECKS=1');
+            $this->db->execute('SET FOREIGN_KEY_CHECKS=1');
         }
         return true;
     }
@@ -5607,32 +5621,33 @@ $(document).ready(function()
 
     private function getAllTables()
     {
-        $all_tables_before_backup = $this->db->executeS('SHOW TABLES LIKE "' . _DB_PREFIX_ . '%"');
-        $tables_before_backup = array();
-        foreach ($all_tables_before_backup as $table) {
-            $tables_before_backup[$table] = $table;
+        $tables = $this->db->executeS('SHOW TABLES LIKE "' . _DB_PREFIX_ . '%"', true, false);
+
+        $all_tables = array();
+        foreach ($tables as $v) {
+            $table = array_shift($v);
+            $all_tables[$table] = $table;
         }
 
-        return $tables_before_backup;
+        return $all_tables;
     }
 
     private function cleanTablesAfterBackup()
     {
         // If no more query in list, clean table. (created by user after)
-        $tables_after_backup = $this->getAllTable();
-        if (!empty($tables_after_backup)) {
-            if (file_exists($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->toCleanTable)) {
-                $tables_before_backup = unserialize(base64_decode(file_get_contents($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->toCleanTable)));
+        if (file_exists($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->toCleanTable)) {
+            $tablesToClean = unserialize(base64_decode(file_get_contents($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->toCleanTable)));
 
-                $tablesToRemove = array_diff($tables_before_backup, $tables_after_backup);
-                if (!empty($tablesToRemove)) {
-                    var_dump($tablesToRemove);
+            if (!empty($tablesToClean)) {
+                var_dump($tablesToClean);
+//                    $drops['drop table '.$k] = 'DROP TABLE IF EXISTS `'.bqSql($table).'`';
+//                    -                    $drops['drop view '.$k] = 'DROP VIEW IF EXISTS `'.bqSql($table).'`';
 
-
-                    die('ok');
+                die('ok');
 //                    unlink($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->toCleanTable);
-                }
             }
+
+            @unlink($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->toCleanTable);
         }
     }
 
@@ -5658,17 +5673,17 @@ $(document).ready(function()
         $modules = array();
         foreach ($installedProducts as $installedProduct) {
             if (!(
-                $installedProduct->attributes->has('origin_filter_value')
-                && in_array(
-                    $installedProduct->attributes->get('origin_filter_value'),
-                    array(
-                        AddonListFilterOrigin::ADDONS_NATIVE,
-                        AddonListFilterOrigin::ADDONS_NATIVE_ALL,
+                    $installedProduct->attributes->has('origin_filter_value')
+                    && in_array(
+                        $installedProduct->attributes->get('origin_filter_value'),
+                        array(
+                            AddonListFilterOrigin::ADDONS_NATIVE,
+                            AddonListFilterOrigin::ADDONS_NATIVE_ALL,
+                        )
                     )
+                    && 'PrestaShop' === $installedProduct->attributes->get('author')
                 )
-                && 'PrestaShop' === $installedProduct->attributes->get('author')
-            )
-            && 'autoupgrade' !== $installedProduct->attributes->get('name')) {
+                && 'autoupgrade' !== $installedProduct->attributes->get('name')) {
                 $modules[] = $installedProduct->database->get('id');
             }
         }
