@@ -3177,6 +3177,9 @@ class AdminSelfUpgrade extends AdminSelfTab
         // @todo : error if listQuery is not an array (that can happen if toRestoreQueryList is empty for example)
         $time_elapsed = time() - $start_time;
         if (is_array($listQuery) && (count($listQuery) > 0)) {
+            $this->db->executeS('SET SESSION sql_mode = \'\'');
+            $this->db->executeS('SET FOREIGN_KEY_CHECKS=0');
+
             do {
                 if (count($listQuery) == 0) {
                     if (file_exists($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->toRestoreQueryList)) {
@@ -3244,6 +3247,7 @@ class AdminSelfUpgrade extends AdminSelfTab
             $this->status = 'ok';
             $this->next = 'rollbackComplete';
             $this->nextQuickInfo[] = $this->next_desc = $this->l('Database restoration done.');
+            $this->db->executeS('SET FOREIGN_KEY_CHECKS=1');
         }
         return true;
     }
@@ -3361,7 +3365,9 @@ class AdminSelfUpgrade extends AdminSelfTab
                 }
 
                 $written += fwrite($fp, '/* Backup ' . $this->nextParams['dbStep'] . ' for ' . Tools14::getHttpHost(false, false) . __PS_BASE_URI__ . "\n *  at " . date('r') . "\n */\n");
+                $written += fwrite($fp, "\n".'SET SESSION sql_mode = \'\';'."\n\n");
                 $written += fwrite($fp, "\n".'SET NAMES \'utf8\';'."\n\n");
+                $written += fwrite($fp, "\n".'SET FOREIGN_KEY_CHECKS=0;'."\n\n");
                 // end init file
             }
 
@@ -3478,6 +3484,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 
         // end of loop
         if (isset($fp)) {
+            $written += fwrite($fp, "\n".'SET FOREIGN_KEY_CHECKS=1;'."\n\n");
             fclose($fp);
             unset($fp);
         }
