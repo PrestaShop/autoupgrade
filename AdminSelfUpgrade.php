@@ -49,6 +49,9 @@ if (!class_exists('Tools', false)) {
     eval('class Tools extends Tools14{}');
 }
 
+use PrestaShop\PrestaShop\Core\Addon\AddonListFilterType;
+use PrestaShop\PrestaShop\Core\Addon\AddonListFilterOrigin;
+
 class AdminSelfUpgrade extends AdminSelfTab
 {
     public $multishop_context;
@@ -1847,12 +1850,12 @@ class AdminSelfUpgrade extends AdminSelfTab
             $modules_to_delete['blockvariouslinks'] = 'Block Various Links';
 
             foreach ($modules_to_delete as $key => $module) {
-                Db::getInstance()->execute('DELETE ms.*, hm.*
+                $this->db->execute('DELETE ms.*, hm.*
                 FROM `'._DB_PREFIX_.'module_shop` ms
                 INNER JOIN `'._DB_PREFIX_.'hook_module` hm USING (`id_module`)
                 INNER JOIN `'._DB_PREFIX_.'module` m USING (`id_module`)
                 WHERE m.`name` LIKE \''.pSQL($key).'\'');
-                Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'module` SET `active` = 0 WHERE `name` LIKE \''.pSQL($key).'\'');
+                $this->db->execute('UPDATE `'._DB_PREFIX_.'module` SET `active` = 0 WHERE `name` LIKE \''.pSQL($key).'\'');
 
                 $path = $this->prodRootDir.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR.$key.DIRECTORY_SEPARATOR;
                 if (file_exists($path.$key.'.php')) {
@@ -2185,8 +2188,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 
         $sqlContentVersion = array();
         if ($this->deactivateCustomModule) {
-            require_once(_PS_INSTALLER_PHP_UPGRADE_DIR_.'deactivate_custom_modules.php');
-            deactivate_custom_modules();
+            $this->disableNonNativeModules();
         }
 
         foreach ($neededUpgradeFiles as $version) {
@@ -2365,10 +2367,10 @@ class AdminSelfUpgrade extends AdminSelfTab
             }
         }
 
-        Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'configuration` SET `name` = \'PS_LEGACY_IMAGES\' WHERE name LIKE \'0\' AND `value` = 1');
-        Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'configuration` SET `value` = 0 WHERE `name` LIKE \'PS_LEGACY_IMAGES\'');
-        if (Db::getInstance()->getValue('SELECT COUNT(id_product_download) FROM `'._DB_PREFIX_.'product_download` WHERE `active` = 1') > 0) {
-            Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'configuration` SET `value` = 1 WHERE `name` LIKE \'PS_VIRTUAL_PROD_FEATURE_ACTIVE\'');
+        $this->db->execute('UPDATE `'._DB_PREFIX_.'configuration` SET `name` = \'PS_LEGACY_IMAGES\' WHERE name LIKE \'0\' AND `value` = 1');
+        $this->db->execute('UPDATE `'._DB_PREFIX_.'configuration` SET `value` = 0 WHERE `name` LIKE \'PS_LEGACY_IMAGES\'');
+        if ($this->db->getValue('SELECT COUNT(id_product_download) FROM `'._DB_PREFIX_.'product_download` WHERE `active` = 1') > 0) {
+            $this->db->execute('UPDATE `'._DB_PREFIX_.'configuration` SET `value` = 1 WHERE `name` LIKE \'PS_VIRTUAL_PROD_FEATURE_ACTIVE\'');
         }
 
         if (defined('_THEME_NAME_') && $this->updateDefaultTheme && 'classic' === _THEME_NAME_) {
@@ -2383,9 +2385,6 @@ class AdminSelfUpgrade extends AdminSelfTab
                     }
                 }
             }
-
-            // Reset theme to default configuration
-            $this->getThemeManager()->reset(_THEME_NAME_);
         }
 
         // Upgrade languages
@@ -2402,7 +2401,7 @@ class AdminSelfUpgrade extends AdminSelfTab
             define('_PS_MAILS_DIR_', _PS_ROOT_DIR_.'/mails/');
         }
 
-        $langs = Db::getInstance()->executeS('SELECT * FROM `'._DB_PREFIX_.'lang` WHERE `active` = 1');
+        $langs = $this->db->executeS('SELECT * FROM `'._DB_PREFIX_.'lang` WHERE `active` = 1');
 
         if (is_array($langs)) {
             foreach ($langs as $lang) {
@@ -2449,7 +2448,7 @@ class AdminSelfUpgrade extends AdminSelfTab
         }
 
         if (class_exists('Tools2') && method_exists('Tools2', 'generateHtaccess')) {
-            $url_rewrite = (bool)Db::getInstance()->getvalue('SELECT `value` FROM `'._DB_PREFIX_.'configuration` WHERE name=\'PS_REWRITING_SETTINGS\'');
+            $url_rewrite = (bool)$this->db->getvalue('SELECT `value` FROM `'._DB_PREFIX_.'configuration` WHERE name=\'PS_REWRITING_SETTINGS\'');
 
             if (!defined('_MEDIA_SERVER_1_')) {
                 define('_MEDIA_SERVER_1_', '');
@@ -2606,11 +2605,11 @@ class AdminSelfUpgrade extends AdminSelfTab
         }
 
         if ($this->deactivateCustomModule) {
-            $exist = Db::getInstance()->getValue('SELECT `id_configuration` FROM `'._DB_PREFIX_.'configuration` WHERE `name` LIKE \'PS_DISABLE_OVERRIDES\'');
+            $exist = $this->db->getValue('SELECT `id_configuration` FROM `'._DB_PREFIX_.'configuration` WHERE `name` LIKE \'PS_DISABLE_OVERRIDES\'');
             if ($exist) {
-                Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'configuration` SET value = 1 WHERE `name` LIKE \'PS_DISABLE_OVERRIDES\'');
+                $this->db->execute('UPDATE `'._DB_PREFIX_.'configuration` SET value = 1 WHERE `name` LIKE \'PS_DISABLE_OVERRIDES\'');
             } else {
-                Db::getInstance()->execute('INSERT INTO `'._DB_PREFIX_.'configuration` (name, value, date_add, date_upd) VALUES ("PS_DISABLE_OVERRIDES", 1, NOW(), NOW())');
+                $this->db->execute('INSERT INTO `'._DB_PREFIX_.'configuration` (name, value, date_add, date_upd) VALUES ("PS_DISABLE_OVERRIDES", 1, NOW(), NOW())');
             }
 
             if (file_exists(_PS_ROOT_DIR_.'/classes/PrestaShopAutoload.php')) {
@@ -5601,6 +5600,49 @@ $(document).ready(function()
         }
     }
 
+    private function disableNonNativeModules()
+    {
+        global $kernel;
+
+        if (is_null($kernel)) {
+            require_once _PS_ROOT_DIR_.'/app/AppKernel.php';
+            $kernel = new AppKernel(_PS_MODE_DEV_?'dev':'prod', _PS_MODE_DEV_);
+            $kernel->loadClassCache();
+            $kernel->boot();
+        }
+
+        $moduleRepository = $kernel->getContainer()->get('prestashop.core.admin.module.repository');
+
+        $filters = new \PrestaShop\PrestaShop\Core\Addon\AddonListFilter;
+        $filters->setType(AddonListFilterType::MODULE)
+            ->removeStatus(\PrestaShop\PrestaShop\Core\Addon\AddonListFilterStatus::UNINSTALLED);
+
+        $installedProducts = $moduleRepository->getFilteredList($filters);
+
+        $modules = array();
+        foreach ($installedProducts as $installedProduct) {
+            if (!(
+                $installedProduct->attributes->has('origin_filter_value')
+                && in_array(
+                    $installedProduct->attributes->get('origin_filter_value'),
+                    array(
+                        AddonListFilterOrigin::ADDONS_NATIVE,
+                        AddonListFilterOrigin::ADDONS_NATIVE_ALL,
+                    )
+                )
+                && 'PrestaShop' === $installedProduct->attributes->get('author')
+            )
+            && 'autoupgrade' !== $installedProduct->attributes->get('name')) {
+                $modules[] = $installedProduct->database->get('id');
+            }
+        }
+
+        if (!empty($modules)) {
+            $this->db->execute('UPDATE `' . _DB_PREFIX_ . 'module` SET `active` = 0 WHERE `id_module` IN (' . implode(',', $modules) . ')');
+            $this->db->execute('DELETE FROM `' . _DB_PREFIX_ . 'module_shop` WHERE `id_module` IN (' . implode(',', $modules) . ')');
+        }
+    }
+
     private function getThemeManager()
     {
         $id_employee = $_COOKIE['id_employee'];
@@ -5608,7 +5650,7 @@ $(document).ready(function()
         $context = Context::getContext();
         $context->employee = new Employee((int) $id_employee);
 
-        return (new \PrestaShop\PrestaShop\Core\Addon\Theme\ThemeManagerBuilder($context, Db::getInstance()))->build();
+        return (new \PrestaShop\PrestaShop\Core\Addon\Theme\ThemeManagerBuilder($context, $this->db))->build();
     }
 
     private function clearMigrationCache()
