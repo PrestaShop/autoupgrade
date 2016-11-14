@@ -31,7 +31,7 @@ class UpgraderCore
 	// @todo channel handling :)
 	public $addons_api = 'api.addons.prestashop.com';
 	public $rss_channel_link = 'https://api.prestashop.com/xml/channel17.xml';
-	public $rss_md5file_link_dir = 'https://api.prestashop.com/xml/md5/';
+	public $rss_md5file_link_dir = 'https://api.prestashop.com/xml/md5-17/';
 	
 	/**
 	 * @var boolean contains true if last version is not installed
@@ -73,10 +73,10 @@ class UpgraderCore
 			// checkPSVersion to get need_upgrade
 			$this->checkPSVersion();
 		}
-		if (!extension_loaded('openssl'))		
+		if (!extension_loaded('openssl'))
 		{
-			$this->rss_channel_link = str_replace('https', 'http', $this->rss_channel_link);
-			$this->rss_md5file_link_dir = str_replace('https', 'http', $this->rss_md5file_link_dir);			
+			$this->rss_channel_link = str_replace('https://', 'http://', $this->rss_channel_link);
+			$this->rss_md5file_link_dir = str_replace('https://', 'http://', $this->rss_md5file_link_dir);
 		}		
 	}
 	public function __get($var)
@@ -101,14 +101,11 @@ class UpgraderCore
 
 		$destPath = realpath($dest).DIRECTORY_SEPARATOR.$filename;
 
-		if ($zip = Tools14::file_get_contents($this->link, false, null, 1000))
-		{
-			if((bool)file_put_contents($destPath, $zip) === true)
-				return true;
-		}
-		else
-			return false;
+        Tools::copy($this->link, $destPath);
+
+        return is_file($destPath);
 	}
+
 	public function isLastVersion()
 	{
 		if (empty($this->link))
@@ -200,8 +197,8 @@ class UpgraderCore
 						$this->changelog = (string)$branch->changelog;
 						if (extension_loaded('openssl'))
 						{
-							$this->link = str_replace('http', 'https', $this->link);
-							$this->changelog = str_replace('http', 'https', $this->changelog);
+							$this->link = str_replace('http://', 'https://', $this->link);
+							$this->changelog = str_replace('http://', 'https://', $this->changelog);
 						}
 						$this->available = $channel_available && (string)$branch['available'];
 					}
