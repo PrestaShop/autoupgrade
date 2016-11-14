@@ -1018,7 +1018,8 @@ class AdminSelfUpgrade extends AdminSelfTab
             <div class="panel">            
                 <div class="panel-heading">
                   '.$tabname.'
-                </div>';
+                </div>
+                <div class="form-wrapper">';
         foreach ($fields as $key => $field) {
             if (isset($field['required']) && $field['required']) {
                 $required = true;
@@ -1037,7 +1038,7 @@ class AdminSelfUpgrade extends AdminSelfTab
                 $val = isset($field['defaultValue'])?$field['defaultValue']:false;
             }
 
-            if (!in_array($field['type'], array('image', 'radio', 'container', 'container_end')) || isset($field['show'])) {
+            if (!in_array($field['type'], array('image', 'radio', 'select', 'container', 'bool', 'container_end')) || isset($field['show'])) {
                 $this->_html .= '<div style="clear: both; padding-top:15px;">'.($field['title'] ? '<label >'.$field['title'].'</label>' : '').'<div class="margin-form" style="padding-top:5px;">';
             }
 
@@ -1049,13 +1050,23 @@ class AdminSelfUpgrade extends AdminSelfTab
 
 
                 case 'bool':
-                    $this->_html .= '<label class="t" for="'.$key.'_on">
-						<img src="../img/admin/enabled.gif" alt="'.$this->l('Yes').'" title="'.$this->l('Yes').'" /></label>
-					<input type="radio" '.($disabled?'disabled="disabled"':'').' name="'.$key.'" id="'.$key.'_on" value="1"'.($val ? ' checked="checked"' : '').(isset($field['js']['on']) ? $field['js']['on'] : '').' />
-					<label class="t" for="'.$key.'_on"> '.$this->l('Yes').'</label>
-					<label class="t" for="'.$key.'_off"><img src="../img/admin/disabled.gif" alt="'.$this->l('No').'" title="'.$this->l('No').'" style="margin-left: 10px;" /></label>
-					<input type="radio" '.($disabled?'disabled="disabled"':'').' name="'.$key.'" id="'.$key.'_off" value="0" '.(!$val ? 'checked="checked"' : '').(isset($field['js']['off']) ? $field['js']['off'] : '').'/>
-					<label class="t" for="'.$key.'_off"> '.$this->l('No').'</label>';
+                    $this->_html .= '<div class="form-group">
+                        <label class="col-lg-3 control-label">'.$field['title'].'</label>
+                            <div class="col-lg-9">
+                                <span class="switch prestashop-switch fixed-width-lg">
+                                    <input type="radio" name="'.$key.'" id="'.$key.'_on" value="1" '.($val ? ' checked="checked"' : '').(isset($field['js']['on']) ? $field['js']['on'] : '').' />
+                                    <label for="'.$key.'_on" class="radioCheck">
+                                        <i class="color_success"></i> '.$this->l('Yes').'
+                                    </label>
+                                    <input type="radio" name="'.$key.'" id="'.$key.'_off" value="0" '.(!$val ? 'checked="checked"' : '').(isset($field['js']['off']) ? $field['js']['off'] : '').'/>
+                                    <label for="'.$key.'_off" class="radioCheck">
+                                        <i class="color_danger"></i> '.$this->l('No').'
+                                    </label>
+                                    <a class="slide-button btn"></a>
+                                </span>
+                                <div class="help-block">'.$field['desc'].'</div>
+                            </div>
+                        </div>';
                     break;
 
                 case 'radio':
@@ -1066,11 +1077,17 @@ class AdminSelfUpgrade extends AdminSelfTab
                     break;
 
                 case 'select':
-                    $this->_html .= '<select name='.$key.'>';
+                    $this->_html .= '<div class="form-group">
+                        <label class="col-lg-3 control-label">'.$field['title'].'</label>
+                            <div class="col-lg-9">
+                                <select name='.$key.'>';
                     foreach ($field['choices'] as $cValue => $cKey) {
                         $this->_html .= '<option value="'.(int)$cValue.'"'.(($cValue == $val) ? ' selected="selected"' : '').'>'.$cKey.'</option>';
                     }
-                    $this->_html .= '</select>';
+                    $this->_html .= '</select>
+                        <div class="help-block">'.$field['desc'].'</div>
+                        </div>
+                    </div>';
                     break;
 
                 case 'textarea':
@@ -1089,18 +1106,24 @@ class AdminSelfUpgrade extends AdminSelfTab
                 default:
                     $this->_html .= '<input '.($disabled?'disabled="disabled"':'').' type="'.$field['type'].'"'.(isset($field['id']) === true ? ' id="'.$field['id'].'"' : '').' size="'.(isset($field['size']) ? (int)($field['size']) : 5).'" name="'.$key.'" value="'.($field['type'] == 'password' ? '' : htmlentities($val, ENT_COMPAT, 'UTF-8')).'" />'.(isset($field['next']) ? '&nbsp;'.strval($field['next']) : '');
             }
+
             $this->_html .= ((isset($field['required']) && $field['required'] && !in_array($field['type'], array('image', 'radio')))  ? ' <sup>*</sup>' : '');
-            $this->_html .= (isset($field['desc']) ? '<p style="clear:both">'.((isset($field['thumb']) && $field['thumb'] && $field['thumb']['pos'] == 'after') ? '<img src="'.$field['thumb']['file'].'" alt="'.$field['title'].'" title="'.$field['title'].'" style="float:left;" />' : '').$field['desc'].'</p>' : '');
-            if (!in_array($field['type'], array('image', 'radio', 'container', 'container_end')) || isset($field['show'])) {
+
+            if (!in_array($field['type'], array('bool', 'select'))) {
+                $this->_html .= (isset($field['desc']) ? '<p style="clear:both">'.((isset($field['thumb']) && $field['thumb'] && $field['thumb']['pos'] == 'after') ? '<img src="'.$field['thumb']['file'].'" alt="'.$field['title'].'" title="'.$field['title'].'" style="float:left;" />' : '').$field['desc'].'</p>' : '');
+            }
+
+            if (!in_array($field['type'], array('image', 'radio', 'select', 'container', 'bool', 'container_end')) || isset($field['show'])) {
                 $this->_html .= '</div></div>';
             }
         }
 
-        $this->_html .= '<p><input type="submit" value="'.$this->l('   Save   ', 'AdminPreferences').'" name="customSubmitAutoUpgrade" class="button btn btn-primary" />
-            '.($required ? '<div class="small"><sup>*</sup> '.$this->l('Required field', 'AdminPreferences').'</div>' : '').'
-            </p>
-        </div>
-        </div>';
+        $this->_html .= '</div>
+            <div class="panel-footer">
+                <button type="submit" class="btn btn-default pull-right" value="'.$this->l('Save').'" name="customSubmitAutoUpgrade"><i class="process-icon-save"></i> 
+                    '.$this->l('Save').'</button>
+            </div>
+        </div></div>';
     }
 
     /**
@@ -4013,22 +4036,27 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 					'.$this->l('After upgrading your shop, you can rollback to the previous database and files. Use this function if your theme or an essential module is not working correctly.').'
 				</p>
 				
-                 <div id="restoreBackupContainer">
-					'.$this->l('Choose your backup:').'
-					<select name="restoreName">
-						<option value="0">'.$this->l('-- Choose a backup to restore --').'</option>';
-        if (is_array($backup_available) && count($backup_available)) {
-            foreach ($backup_available as $backup_name) {
-                $this->_html .= '<option value="'.$backup_name.'">'.$backup_name.'</option>';
-            }
-        }
+				<div class="row" id="restoreBackupContainer">
+                    <label class="col-lg-3 control-label text-right">'.$this->l('Choose your backup:').'</label>
+                    <div class="col-lg-9">
+                        <select name="restoreName">
+                            <option value="0">'.$this->l('-- Choose a backup to restore --').'</option>';
+                        if (is_array($backup_available) && count($backup_available)) {
+                            foreach ($backup_available as $backup_name) {
+                                $this->_html .= '<option value="'.$backup_name.'">'.$backup_name.'</option>';
+                            }
+                        }
         $this->_html .= '</select>
+                        <span id="buttonDeleteBackup"></span>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <p id="rollbackContainer" class="col-lg-offset-3 col-lg-9">
+                        <a disabled="disabled" class="upgradestep button btn btn-primary" href="" id="rollback">'.$this->l('Rollback').'</a>
+                    </p>
+                </div>
             </div>
-            <br>
-            <p id="rollbackContainer">
-                <a disabled="disabled" class="upgradestep button btn btn-primary" href="" id="rollback">'.$this->l('Rollback').'</a>
-            </p> 
-        </div>
         </div>';
     }
 
@@ -4198,7 +4226,7 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
         $opt_channels[] = '<option id="useDirectory" value="directory" '.($channel == 'directory'?'class="current" selected="selected">* ':'>')
             .$this->l('Local directory').'</option>';
 
-        $content .= '<label class="label-small">'.$this->l('Channel:').'</label><select name="channel" >';
+        $content .= '<label>'.$this->l('Channel:').'</label><select name="channel" >';
         $content .= implode('', $opt_channels);
         $content .= '</select>';
         $upgrade_info = $this->getInfoForChannel($channel);
@@ -4206,13 +4234,13 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 
         $content .= '<div id="for-useMinor" ><div class="margin-form margin-form-small">'.$this->l('This option regroup all stable versions.').'</div></div>';
         $content .= '<div id="for-usePrivate">
-			<p><label class="label-small">'.$this->l('Link:').' *</label>
+			<p><label>'.$this->l('Link:').' *</label>
 			<input size="50" type="text" name="private_release_link" value="'.$this->getConfig('private_release_link').'"/>
 			</p>
-			<p><label class="label-small">'.$this->l('Hash key:').' *</label>
+			<p><label>'.$this->l('Hash key:').' *</label>
 			<input size="32" type="text" name="private_release_md5" value="'.$this->getConfig('private_release_md5').'"/> 
 			</p>
-			<p><label class="label-small">'.$this->l('Allow major upgrade:').'</label>
+			<p><label>'.$this->l('Allow major upgrade:').'</label>
 			<input type="checkbox" name="private_allow_major" value="1"'.($this->getConfig('private_allow_major')?' checked="checked"':'').'/>
 			</p>
 
@@ -4223,14 +4251,14 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
         $content .= '<div id="for-useArchive">';
         if ($dir !== false && count($dir) > 0) {
             $archive_filename = $this->getConfig('archive.filename');
-            $content .= '<label class="label-small">'.$this->l('Archive to use:').'</label><div><select name="archive_prestashop" >
+            $content .= '<label>'.$this->l('Archive to use:').'</label><div><select name="archive_prestashop" >
 				<option value="">'.$this->l('choose an archive').'</option>';
             foreach ($dir as $file) {
                 $content .= '<option '.($archive_filename ? 'selected="selected"' : '').' value="'.str_replace($download, '', $file).'">'.str_replace($download, '', $file).'</option>';
             }
-            $content .= '</select> '
-                .$this->l('to upgrade for version').' <input type="text" size="10" name="archive_num"
-				value="'.($this->getConfig('archive.version_num')?$this->getConfig('archive.version_num'):'').'" /> *
+            $content .= '</select><br>
+                <label>'.$this->l('to upgrade for version').' * </label><input type="text" size="10" name="archive_num"
+				value="'.($this->getConfig('archive.version_num')?$this->getConfig('archive.version_num'):'').'" />
 			 	</div>';
         } else {
             $content .= '<div class="alert alert-warning">'.$this->l('No archive found in your admin/autoupgrade/download directory').'</div>';
@@ -4336,9 +4364,9 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
                 <div class="panel-heading">
                     '.$this->l('Activity Log').'
                 </div>
-                <p id="upgradeResultCheck"></p>
+                <p id="upgradeResultCheck" style="display: none;" class="alert alert-success"></p>
 
-                <div class="row"><div id="upgradeResultToDoList" class="col-xs-12"></div></div><br>
+                <div><div id="upgradeResultToDoList" style="display: none;" class="alert alert-info col-xs-12"></div></div><br>
 
                 <div class="row">
                     <div id="currentlyProcessing" class="col-xs-12" style="display:none;">
@@ -4421,7 +4449,11 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
                     }
 
                     $this->_html .= '<small><a href="'.$this->upgrader->link.'">'.sprintf($this->l('PrestaShop will be downloaded from %s'), $this->upgrader->link).'</a></small></p><br />';
-                    $this->_html .= '<p><a href="'.$this->upgrader->changelog.'" target="_blank" >'.$this->l('open changelog in a new window').'</a></p>';
+
+                    if (!empty($this->upgrader->changelog)) {
+                        $this->_html .= '<p><a href="' . $this->upgrader->changelog . '" target="_blank" >' . $this->l('open changelog in a new window') . '</a></p>';
+                    }
+
                 } else {
                     $this->_html .= sprintf($this->l('No file will be downloaded (channel %s is used)'), $channel);
                 }
@@ -4574,7 +4606,7 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
         $this->_displayRollbackForm();
 
         $this->_html .= '<br/>';
-        $this->_html .= '<form action="'.$this->currentIndex.'&amp;customSubmitAutoUpgrade=1&amp;token='.$this->token.'" method="post" enctype="multipart/form-data">';
+        $this->_html .= '<form action="'.$this->currentIndex.'&amp;customSubmitAutoUpgrade=1&amp;token='.$this->token.'" method="post" class="form-horizontal" enctype="multipart/form-data">';
 
         $this->_displayForm('backupOptions', $this->_fieldsBackupOptions, '<a href="#" name="backup-options" id="backup-options">'.$this->l('Backup Options').'</a>', '', 'database_gear');
         $this->_displayForm('upgradeOptions', $this->_fieldsUpgradeOptions, '<a href="#" name="upgrade-options" id="upgrade-options">'.$this->l('Upgrade Options').'</a>', '', 'prefs');
@@ -4664,6 +4696,11 @@ firstTimeParams.firstTime = "1";
 $(document).ready(function(){
 
     $(".nobootstrap.no-header-toolbar").removeClass("nobootstrap").addClass("bootstrap");
+
+    $(document).on("click", "a.confirmBeforeDelete", function(e){
+        if (!confirm("'.$this->l('Are you sure you want to delete this backup?', 'AdminSelfUpgrade', true, false).'"))
+            e.preventDefault();
+    });
 
 	$("select[name=channel]").change(function(e){
 		$("select[name=channel]").find("option").each(function()
@@ -4760,18 +4797,13 @@ $(document).ready(function(){
 	 * reset rollbackParams js array (used to init rollback button)
 	 */
 	$("select[name=restoreName]").change(function(){
-		$(this).next().remove();
 		// show delete button if the value is not 0
 		if($(this).val() != 0)
 		{
-			$(this).after("<br><a class=\"button confirmBeforeDelete\" href=\"index.php?tab=AdminSelfUpgrade&token='
+			$("span#buttonDeleteBackup").html("<br><a class=\"button confirmBeforeDelete\" href=\"index.php?tab=AdminSelfUpgrade&token='
             .$this->token
             .'&amp;deletebackup&amp;name="+$(this).val()+"\">'
             .'<img src=\"../img/admin/disabled.gif\" />'.$this->l('Delete').'</a>");
-			$(this).next().click(function(e){
-				if (!confirm("'.$this->l('Are you sure you want to delete this backup?', 'AdminSelfUpgrade', true, false).'"))
-					e.preventDefault();
-			});
 		}
 
 		if ($("select[name=restoreName]").val() != 0)
@@ -4884,22 +4916,18 @@ function afterUpgradeComplete(res)
 	if (params.warning_exists == "false")
 	{
 		$("#upgradeResultCheck")
-			.addClass("conf")
-			.removeClass("fail")
 			.html("<p>'.$this->l('Upgrade complete').'</p>")
 			.show();
-		$("#infoStep").html("<h3>'.$this->l('Upgrade Complete!', 'AdminSelfUpgrade', true).'</h3>");
+		$("#infoStep").html("<p class=\"alert alert-success\">'.$this->l('Upgrade Complete!').'</p>");
 	}
 	else
 	{
 		params = res.nextParams
 		$("#pleaseWait").hide();
 		$("#upgradeResultCheck")
-			.addClass("fail")
-			.removeClass("ok")
 			.html("<p>'.$this->l('Upgrade complete, but warning notifications has been found.').'</p>")
 			.show("slow");
-		$("#infoStep").html("<h3>'.$this->l('Upgrade complete, but warning notifications has been found.', 'AdminSelfUpgrade', true).'</h3>");
+		$("#infoStep").html("<p class=\"alert alert-warning\">'.$this->l('Upgrade complete, but warning notifications has been found.', 'AdminSelfUpgrade', true).'</p>");
 	}
 
 	todo_list = [
@@ -4912,8 +4940,7 @@ function afterUpgradeComplete(res)
 
 	todo_ul = "<ul>";
 	$("#upgradeResultToDoList")
-		.addClass("hint clear")
-		.html("<h3>'.$this->l('ToDo list:').'</h3>")
+		.html("<strong>'.$this->l('ToDo list:').'</strong>")
 	for(var i in todo_list)
 	{
 		todo_ul += "<li>"+todo_list[i]+"</li>";
@@ -4945,11 +4972,9 @@ function afterRollbackComplete(res)
 	params = res.nextParams
 	$("#pleaseWait").hide();
 	$("#upgradeResultCheck")
-		.addClass("ok")
-		.removeClass("fail")
 		.html("<p>'.$this->l('Restoration complete.').'</p>")
 		.show("slow");
-	updateInfoStep("<h3>'.$this->l('Restoration complete.').'</h3>");
+	updateInfoStep("<p class=\"alert alert-success\">'.$this->l('Restoration complete.').'</p>");
 	$(window).unbind();
 }
 
