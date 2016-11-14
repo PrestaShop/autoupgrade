@@ -1370,7 +1370,7 @@ abstract class AdminSelfTab
     {
         if ($conf = Tools14::getValue('conf')) {
             echo '
-			<div class="conf">
+			<div class="alert alert-success">
 				'.$this->_conf[(int)($conf)].'
 			</div>';
         }

@@ -1014,8 +1014,11 @@ class AdminSelfUpgrade extends AdminSelfTab
         $confValues = $this->getConfig();
         $required = false;
 
-        $this->_html .= '
-			<fieldset id="'.$name.'Block"><legend>'.$tabname.'</legend>';
+        $this->_html .= '<div class="bootstrap" id="'.$name.'Block">
+            <div class="panel">            
+                <div class="panel-heading">
+                  '.$tabname.'
+                </div>';
         foreach ($fields as $key => $field) {
             if (isset($field['required']) && $field['required']) {
                 $required = true;
@@ -1093,12 +1096,11 @@ class AdminSelfUpgrade extends AdminSelfTab
             }
         }
 
-        $this->_html .= '	<div align="center" style="margin-top: 20px;">
-					<input type="submit" value="'.$this->l('   Save   ', 'AdminPreferences').'" name="customSubmitAutoUpgrade" class="button" />
-				</div>
-				'.($required ? '<div class="small"><sup>*</sup> '.$this->l('Required field', 'AdminPreferences').'</div>' : '').'
-			</fieldset>
-			<br/>';
+        $this->_html .= '<p><input type="submit" value="'.$this->l('   Save   ', 'AdminPreferences').'" name="customSubmitAutoUpgrade" class="button btn btn-primary" />
+            '.($required ? '<div class="small"><sup>*</sup> '.$this->l('Required field', 'AdminPreferences').'</div>' : '').'
+            </p>
+        </div>
+        </div>';
     }
 
     /**
@@ -1471,7 +1473,6 @@ class AdminSelfUpgrade extends AdminSelfTab
                 // new system release archive
                 $newZip = $destExtract.DIRECTORY_SEPARATOR.'prestashop.zip';
                 if (is_file($newZip)) {
-
                     @unlink($destExtract.DIRECTORY_SEPARATOR.'/index.php');
                     @unlink($destExtract.DIRECTORY_SEPARATOR.'/Install_PrestaShop.html');
 
@@ -1489,7 +1490,6 @@ class AdminSelfUpgrade extends AdminSelfTab
                         $this->next_desc = sprintf($this->l('Unable to extract %1$s file into %2$s folder...'), $filepath, $destExtract);
                         return false;
                     }
-
                 } else {
                     $this->next = 'error';
                     $this->next_desc = sprintf($this->l('It\'s not a valid upgrade %s archive...'), INSTALL_VERSION);
@@ -2432,11 +2432,9 @@ class AdminSelfUpgrade extends AdminSelfTab
 
         if (is_array($langs)) {
             foreach ($langs as $lang) {
-
                 $isoCode = $lang['iso_code'];
 
                 if (Validate::isLangIsoCode($isoCode)) {
-
                     $errorsLanguage = array();
 
                     Language::downloadLanguagePack($isoCode, _PS_VERSION_, $errorsLanguage);
@@ -2660,7 +2658,6 @@ class AdminSelfUpgrade extends AdminSelfTab
                 $this->next_desc = $themeErrors;
 
                 return false;
-
             } else {
                 Tools::clearCache();
             }
@@ -3031,12 +3028,10 @@ class AdminSelfUpgrade extends AdminSelfTab
         }
 
         if (!empty($fromArchive)) {
-
             $filepath = $this->backupPath.DIRECTORY_SEPARATOR.$this->restoreFilesFilename;
             $destExtract = $this->prodRootDir;
 
             if ($this->ZipExtract($filepath, $destExtract)) {
-
                 if (!empty($toRemoveOnly)) {
                     foreach ($toRemoveOnly as $fileToRemove) {
                         @unlink($this->prodRootDir . $fileToRemove);
@@ -3052,7 +3047,6 @@ class AdminSelfUpgrade extends AdminSelfTab
                 $this->next_desc = sprintf($this->l('Unable to extract file %1$s into directory %2$s .'), $filepath, $destExtract);
                 return false;
             }
-
         }
     }
 
@@ -3164,7 +3158,6 @@ class AdminSelfUpgrade extends AdminSelfTab
 
             // Get tables before backup
             if ($this->nextParams['dbStep'] == '1') {
-
                 $tables_after_restore = array();
                 foreach ($listQuery as $q) {
                     if (preg_match('/`(?<table>'._DB_PREFIX_.'[a-zA-Z0-9_-]+)`/', $q, $matches)) {
@@ -3258,7 +3251,6 @@ class AdminSelfUpgrade extends AdminSelfTab
             $this->nextQuickInfo[] = $this->next_desc = sprintf($this->l('%1$s queries left for file %2$s...'), $queries_left, $this->nextParams['dbStep']);
             unset($query);
             unset($listQuery);
-
         } else {
             $this->stepDone = true;
             $this->status = 'ok';
@@ -4011,19 +4003,17 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
         if (!$this->getConfig('PS_AUTOUP_BACKUP') && is_array($backup_available) && count($backup_available) && !in_array($this->backupName, $backup_available)) {
             $this->backupName = end($backup_available);
         }
-        $this->_html .= '
-		<fieldset style="margin-top:10px">
-			<legend>'.$this->l('Rollback').'</legend>
-			<div id="rollbackForm">
-				<p>
+
+        $this->_html .= '<div class="bootstrap" id="rollbackForm">
+            <div class="panel">            
+                <div class="panel-heading">
+                  '.$this->l('Rollback').'
+                </div>
+                <p class="alert alert-info">
 					'.$this->l('After upgrading your shop, you can rollback to the previous database and files. Use this function if your theme or an essential module is not working correctly.').'
 				</p>
-				<br/>
-				<div id="rollbackContainer">
-					<a disabled="disabled" class="upgradestep button" href="" id="rollback">'.$this->l('Rollback').'</a>
-				</div>
-				<br/>
-				<div id="restoreBackupContainer">
+				
+                 <div id="restoreBackupContainer">
 					'.$this->l('Choose your backup:').'
 					<select name="restoreName">
 						<option value="0">'.$this->l('-- Choose a backup to restore --').'</option>';
@@ -4033,10 +4023,13 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
             }
         }
         $this->_html .= '</select>
-				</div>
-				<div class="clear">&nbsp;</div>
-			</div>
-		</fieldset>';
+            </div>
+            <br>
+            <p id="rollbackContainer">
+                <a disabled="disabled" class="upgradestep button btn btn-primary" href="" id="rollback">'.$this->l('Rollback').'</a>
+            </p> 
+        </div>
+        </div>';
     }
 
     /** this returns fieldset containing the configuration points you need to use autoupgrade
@@ -4046,21 +4039,26 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
     {
         $current_ps_config = $this->getcheckCurrentPsConfig();
 
-        $this->_html .= '
-		<fieldset id="currentConfigurationBlock" class="width autoupgrade" style="float: left; width: 60%; margin-left: 6%">
-			<legend>'.$this->l('The pre-Upgrade checklist').'</legend>';
+
+        $this->_html .= '<div class="bootstrap" id="currentConfigurationBlock">
+            <div class="panel">            
+                <div class="panel-heading">
+                  '.$this->l('The pre-Upgrade checklist').'
+                </div>';
+
         if (!$this->configOk()) {
-            $this->_html .= '<div class="clear"><br></div><p class="warn">'.$this->l('The checklist is not OK. You can only upgrade your shop once all indicators are green.').'</p>';
+            $this->_html .= '<p class="alert alert-warning">'.$this->l('The checklist is not OK. You can only upgrade your shop once all indicators are green.').'</p>';
         }
 
         $this->_html .= '<div id="currentConfiguration">
-							<p>'.$this->l('Before starting the upgrade process, please make sure this checklist is all green.').'</p>
-				<table class="table" cellpadding="0" cellspacing="0">';
+							<p class="alert alert-info">'.$this->l('Before starting the upgrade process, please make sure this checklist is all green.').'</p>';
+
         $pic_ok = '<img src="../img/admin/enabled.gif" alt="ok"/>';
         $pic_nok = '<img src="../img/admin/disabled.gif" alt="nok"/>';
         $pic_warn = '<img src="../img/admin/warning.gif" alt="warn"/>';
         // module version : checkAutoupgradeLastVersion
-        $this->_html .= '
+
+        $this->_html .= '<table class="table" cellpadding="0" cellspacing="0">
 				<tr>
 					<td>'.sprintf($this->l('The 1-click upgrade module is up-to-date (your current version is v%s)'), $this->getModuleVersion()).'
 					'.($current_ps_config['module_version_ok'] ? '' : '&nbsp;&nbsp;'.(version_compare(_PS_VERSION_, '1.5.3.0', '>') ? '<strong><a href="index.php?controller=AdminModules&amp;token='.Tools14::getAdminTokenLite('AdminModules').'&update=autoupgrade">'.$this->l('Update').'</a></strong> - ' : '').'<strong><a class="_blank" href="http://addons.prestashop.com/en/administration-tools-prestashop-modules/5496-1-click-upgrade-autoupgrade.html">'.$this->l('Download').'</a><strong> ').'
@@ -4115,10 +4113,12 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
         $this->_html .= '
 			<tr><td>'.sprintf($this->l('PHP\'s max_execution_time setting has a high value or is disabled entirely (current value: %s)'), ($max_exec_time == 0 ? $this->l('unlimited') : sprintf($this->l('%s seconds'), $max_exec_time))).'</td>
 			<td>'.($max_exec_time == 0 ? $pic_ok : $pic_warn).'</td></tr>
-				</table>
-				<p>'.$this->l('Please also make sure you make a full manual backup of your files and database.').'</p>
-			</div>
-		</fieldset>';
+        </table>
+        <br/>
+        <p class="alert alert-info">'.$this->l('Please also make sure you make a full manual backup of your files and database.').'</p>
+        </div>
+        </div>        
+		</div>';
     }
 
     public function divChannelInfos($upgrade_info)
@@ -4131,52 +4131,47 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
         if (isset($upgrade_info['branch'])) {
             $content .= '<div style="clear:both">
 				<label class="label-small">'.$this->l('branch:').'</label>
-				<div class="margin-form margin-form-small" style="padding-top:5px">
 					<span class="available">
 						<img src="../img/admin/'.(!empty($upgrade_info['available'])?'enabled':'disabled').'.gif" />'
                 .' '.(!empty($upgrade_info['available'])?$this->l('available'):$this->l('unavailable')).'
 					</span>
-				</div></div>';
+				</div>';
         }
         $content .= '<div class="all-infos">';
         if (isset($upgrade_info['version_name'])) {
             $content .= '<div style="clear:both;">
 			<label class="label-small">'.$this->l('Name:').'</label>
-				<div class="margin-form margin-form-small" style="padding-top:5px">
-				<span class="name">'.$upgrade_info['version_name'].'&nbsp;</span></div>
-				</div>';
+				<span class="name">'.$upgrade_info['version_name'].'&nbsp;</span>
+            </div>';
         }
         if (isset($upgrade_info['version_number'])) {
             $content .= '<div style="clear:both;">
 			<label class="label-small">'.$this->l('Version number:').'</label>
-				<div class="margin-form margin-form-small" style="padding-top:5px">
-				<span class="version">'.$upgrade_info['version_num'].'&nbsp;</span></div>
-				</div>';
+				<span class="version">'.$upgrade_info['version_num'].'&nbsp;</span>
+            </div>';
         }
         if (!empty($upgrade_info['link'])) {
             $content .= '<div style="clear:both;">
 			<label class="label-small">'.$this->l('URL:').'</label>
-				<div class="margin-form margin-form-small" style="padding-top:5px">
-					<a class="url" href="'.$upgrade_info['link'].'">'.$upgrade_info['link'].'</a>
-				</div>
-				</div>';
+                <a class="url" href="'.$upgrade_info['link'].'">'.$upgrade_info['link'].'</a>
+            </div>';
         }
         if (!empty($upgrade_info['md5'])) {
             $content .= '<div style="clear:both;">
 			<label class="label-small">'.$this->l('MD5 hash:').'</label>
-				<div class="margin-form margin-form-small" style="padding-top:5px">
-				<span class="md5">'.$upgrade_info['md5'].'&nbsp;</span></div></div>';
+				<span class="md5">'.$upgrade_info['md5'].'&nbsp;</span>
+            </div>';
         }
 
         if (!empty($upgrade_info['changelog'])) {
             $content .= '<div style="clear:both;">
 			<label class="label-small">'.$this->l('Changelog:').'</label>
-				<div class="margin-form margin-form-small" style="padding-top:5px">
 				<a class="changelog" href="'.$upgrade_info['changelog'].'">'.$this->l('see changelog').'</a>
-				</div></div>';
+			</div>';
         }
 
-        $content .= '</div></div>';
+        $content .= '</div>
+          </div>';
         return $content;
     }
 
@@ -4211,11 +4206,11 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 
         $content .= '<div id="for-useMinor" ><div class="margin-form margin-form-small">'.$this->l('This option regroup all stable versions.').'</div></div>';
         $content .= '<div id="for-usePrivate">
-			<p><label class="label-small">'.$this->l('Link:').'</label>
-			<input size="50" type="text" name="private_release_link" value="'.$this->getConfig('private_release_link').'"/> *
+			<p><label class="label-small">'.$this->l('Link:').' *</label>
+			<input size="50" type="text" name="private_release_link" value="'.$this->getConfig('private_release_link').'"/>
 			</p>
-			<p><label class="label-small">'.$this->l('Hash key:').'</label>
-			<input size="32" type="text" name="private_release_md5" value="'.$this->getConfig('private_release_md5').'"/> *
+			<p><label class="label-small">'.$this->l('Hash key:').' *</label>
+			<input size="32" type="text" name="private_release_md5" value="'.$this->getConfig('private_release_md5').'"/> 
 			</p>
 			<p><label class="label-small">'.$this->l('Allow major upgrade:').'</label>
 			<input type="checkbox" name="private_allow_major" value="1"'.($this->getConfig('private_allow_major')?' checked="checked"':'').'/>
@@ -4238,7 +4233,7 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 				value="'.($this->getConfig('archive.version_num')?$this->getConfig('archive.version_num'):'').'" /> *
 			 	</div>';
         } else {
-            $content .= '<div class="warn">'.$this->l('No archive found in your admin/autoupgrade/download directory').'</div>';
+            $content .= '<div class="alert alert-warning">'.$this->l('No archive found in your admin/autoupgrade/download directory').'</div>';
         }
 
         $content .= '<div class="margin-form">* '.$this->l('This option will skip the download step.').' '.
@@ -4249,33 +4244,31 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 			<div> '.
             sprintf($this->l('The directory %1$s will be used to upgrade to version '),
                 '<b>/admin/autoupgrade/latest/prestashop/</b>').
-            ' <input type="text" size="10" name="directory_num"
-			value="'.($this->getConfig('directory.version_num')?$this->getConfig('directory.version_num'):'').'" /> <small>(1.6.0.6 for instance)</small> *
+            ' - <small>(1.6.0.6 for instance)</small> * <input type="text" size="10" name="directory_num"
+			value="'.($this->getConfig('directory.version_num')?$this->getConfig('directory.version_num'):'').'" /> 
 			<div class="margin-form">* '.$this->l('This option will skip both download and unzip steps.').'</div>
 			</div></div>';
         // backupFiles
         // backupDb
-        $content .= '<div style="clear:both;">
-				<div class="margin-form" style="">
-					<input type="button" class="button" value="'.$this->l('Save').'" name="submitConf-channel" />
-				</div>
-			</div>';
+        $content .= '<br /><p><input type="button" class="button btn btn-primary" value="'.$this->l('Save').'" name="submitConf-channel" /></p>';
         return $content;
     }
 
     public function getBlockConfigurationAdvanced()
     {
         $content = '
-		<div>
-			<input type="button" class="button" style="float:right" name="btn_adv" value="'.$this->l('More options (Expert mode)').'"/>
-			</div>
-			<div style="float: left; margin-top: 13px; display:none;" id="configResult">&nbsp;</div>
-			<div class="clear" id="advanced">
-				<h3>'.$this->l('Expert mode').'</h3>
-				<h4 style="margin-top: 0px;">'.$this->l('Please select your channel:').'</h4>
-				<p>'.$this->l('Channels are offering you different ways to perform an upgrade. You can either upload the new version manually or let the 1-Click Upgrade module download it for you.').'<br />'.
-                $this->l('The Alpha, Beta and Private channels give you the ability to upgrade to a non-official or unstable release (for testing purposes only).').'<br />'.
-                $this->l('By default, you should use the "Minor release" channel which is offering the latest stable version available.').'</p><br />';
+        <div class="row">
+            <div class="pull-right">
+                <p><input type="button" class="button btn btn-warning" name="btn_adv" value="'.$this->l('More options (Expert mode)').'"/></p>
+            </div>
+            <div class="col-xs-12">
+                <p class="alert alert-info" style="display:none;" id="configResult">&nbsp;</p>
+                <div id="advanced" style="margin-top: 30px;">
+                    <h3>'.$this->l('Expert mode').'</h3>
+                    <h4 style="margin-top: 0px;">'.$this->l('Please select your channel:').'</h4>
+                    <p>'.$this->l('Channels are offering you different ways to perform an upgrade. You can either upload the new version manually or let the 1-Click Upgrade module download it for you.').'<br />'.
+                    $this->l('The Alpha, Beta and Private channels give you the ability to upgrade to a non-official or unstable release (for testing purposes only).').'<br />'.
+                    $this->l('By default, you should use the "Minor release" channel which is offering the latest stable version available.').'</p><br />';
 
         $config = $this->getConfig();
         $channel = $config['channel'];
@@ -4284,7 +4277,9 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
         }
 
         $content .= $this->getBlockSelectChannel($channel).'
-		</div>';
+                </div>
+            </div>
+        </div>';
 
         return $content;
     }
@@ -4313,18 +4308,25 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 
     private function _displayComparisonBlock()
     {
-        $this->_html .= '
-		<fieldset id="comparisonBlock">
-			<legend>'.$this->l('Version comparison').'</legend>
-			<b>'.$this->l('PrestaShop Original version').':</b><br/>
-			<span id="checkPrestaShopFilesVersion">
-				<img id="pleaseWait" src="'.__PS_BASE_URI__.'img/loader.gif"/>
-			</span><br/>
-			<b>'.$this->l('Differences between versions').':</b><br/>
-			<span id="checkPrestaShopModifiedFiles">
-				<img id="pleaseWait" src="'.__PS_BASE_URI__.'img/loader.gif"/>
-			</span>
-		</fieldset><br>';
+        $this->_html .= '<div class="bootstrap" id="comparisonBlock">
+            <div class="panel">            
+                <div class="panel-heading">
+                  '.$this->l('Version comparison').'
+                </div>
+                <p>
+                    <b>'.$this->l('PrestaShop Original version').':</b><br>
+                    <span id="checkPrestaShopFilesVersion">
+                        <img id="pleaseWait" src="'.__PS_BASE_URI__.'img/loader.gif"/>
+                    </span>
+                </p>
+                <p>
+                    <b>'.$this->l('Differences between versions').':</b><br>
+                    <span id="checkPrestaShopModifiedFiles">
+                        <img id="pleaseWait" src="'.__PS_BASE_URI__.'img/loader.gif"/>
+                    </span>
+                </p>          
+            </div>
+        </div>';
     }
 
     private function _displayBlockActivityLog()
@@ -4360,36 +4362,40 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
     {
         global $cookie;
 
-        $this->_html .= '
-		<fieldset id="upgradeButtonBlock">
-			<legend>'.$this->l('Start your Upgrade').'</legend>
-			<div class="blocOneClickUpgrade">';
+        $this->_html .= '<div class="bootstrap" id="upgradeButtonBlock">
+            <div class="panel">
+                <div class="panel-heading">
+                  '.$this->l('Start your Upgrade').'
+                </div>';
+
+        $this->_html .= '<div class="blocOneClickUpgrade">';
+
         if (version_compare(_PS_VERSION_, $this->upgrader->version_num, '==')) {
-            $this->_html .= '<p>'.$this->l('Congratulations, you are already using the latest version available!').'</p>';
+            $this->_html .= '<p class="alert alert-success">'.$this->l('Congratulations, you are already using the latest version available!').'</p>';
         } elseif (version_compare(_PS_VERSION_, $this->upgrader->version_num, '>')) {
-            $this->_html .= '<p>'.$this->l('You come from the future! You are using a more recent version than the latest available!').'</p>';
+            $this->_html .= '<p class="alert alert-warning">'.$this->l('You come from the future! You are using a more recent version than the latest available!').'</p>';
         }
-        $this->_html .= '<table class="table" cellpadding="0" cellspacing="0"><tr><th>'.$this->l('Your current PrestaShop version').'</th><td>'._PS_VERSION_.'</td></tr>';
+        $this->_html .= '<p>'.$this->l('Your current PrestaShop version').' : <strong>'._PS_VERSION_.'</strong></p>';
 
         $channel = $this->getConfig('channel');
-        $this->_html .= '<tr><th>'.sprintf($this->l('Latest official version for %1$s channel.'), $channel).'</th>';
+
+        $this->_html .= '<p>'.sprintf($this->l('Latest official version for %1$s channel.'), $channel).' : <strong>';
         if (!in_array($channel, array('archive', 'directory'))) {
             if (!empty($this->upgrader->version_num)) {
-                $this->_html .= '<td><b>'.$this->upgrader->version_name.'</b> '.'('. $this->upgrader->version_num.')</td>';
+                $this->_html .= $this->upgrader->version_name.' - ('. $this->upgrader->version_num.')</strong></p>';
             }
         } else {
-            $this->_html .= '<td>'.$this->l('N/A').'</td>';
+            $this->_html .= $this->l('N/A').'</strong></p>';
         }
 
-        $this->_html .= '</tr></table>
-		</div>';
+        $this->_html .= '</div><br />';
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////
         // decide to display "Start Upgrade" or not
         if ($this->configOk()) {
             if (version_compare(_PS_VERSION_, $this->upgrader->version_num, '<')) {
                 $show_big_button_new_version = false;
-                $this->_html .= '<p class="clear"><a href="" id="upgradeNow" class="button-autoupgrade upgradestep">'.$this->l('Upgrade PrestaShop now!').'</a></p>';
+                $this->_html .= '<p><a href="#" id="upgradeNow" class="button-autoupgrade upgradestep btn btn-primary">'.$this->l('Upgrade PrestaShop now!').'</a> ';
 
                 // smarty2 uses is a warning only, and will be displayed only if current version is 1.3 or 1.4 and target is <1.5;
                 $use_smarty3 = !(Configuration::get('PS_FORCE_SMARTY_2') === '1' || Configuration::get('PS_FORCE_SMARTY_2') === false);
@@ -4406,26 +4412,24 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
                         $this->upgrader->link = $this->getConfig('private_release_link');
                     }
 
-                    $this->_html .= '<small><a href="'.$this->upgrader->link.'">'.sprintf($this->l('PrestaShop will be downloaded from %s'), $this->upgrader->link).'</a></small><br/>';
-                    $this->_html .= '<div class="clear">&nbsp;</div>';
-                    $this->_html .= '<small><a href="'.$this->upgrader->changelog.'" target="_blank" >'.$this->l('open changelog in a new window').'</a></small>';
-                    $this->_html .= '<div class="clear">&nbsp;</div>';
+                    $this->_html .= '<small><a href="'.$this->upgrader->link.'">'.sprintf($this->l('PrestaShop will be downloaded from %s'), $this->upgrader->link).'</a></small></p><br />';
+                    $this->_html .= '<p><a href="'.$this->upgrader->changelog.'" target="_blank" >'.$this->l('open changelog in a new window').'</a></p>';
                 } else {
                     $this->_html .= sprintf($this->l('No file will be downloaded (channel %s is used)'), $channel);
                 }
 
                 // if skipActions property is used, we will handle that in the display :)
                 if (count(AdminSelfUpgrade::$skipAction) > 0) {
-                    $this->_html .= '<div id="skipAction-list" class="warn" style="display:block;font-weight:normal">
-						<img src="../img/admin/warning.gif"/>'
-                        .$this->l('The following action are automatically replaced')
+                    $this->_html .= '<div id="skipAction-list" class="alert alert-warning">
+                        <p>'.$this->l('The following action are automatically replaced').'</p>'
                         .'<ul>';
                     foreach (AdminSelfUpgrade::$skipAction as $k => $v) {
                         $this->_html .= '<li>'
-                        .sprintf($this->l('%1$s will be replaced by %2$s'), '<b>'.$k.'</b>', '<b>'.$v.'</b>').'</li>';
+                                .sprintf($this->l('%1$s will be replaced by %2$s'), '<b>'.$k.'</b>', '<b>'.$v.'</b>').'</li>';
                     }
-                    $this->_html .= '</ul><p>'.$this->l('To change this behavior, you need to manually edit your php files').'</p>
-						</div>';
+                    $this->_html .= '</ul>
+                      <p>'.$this->l('To change this behavior, you need to manually edit your php files').'</p>
+                    </div>';
                 }
             } else {
                 $show_big_button_new_version = true;
@@ -4434,28 +4438,29 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
             $show_big_button_new_version = true;
         }
 
+        $this->_html .='<br />';
         if ($show_big_button_new_version) {
-            $this->_html .=
-                '<div class="clear"></div>
-				<a class="button button-autoupgrade"
-					href="index.php?tab=AdminSelfUpgrade&amp;token='.$this->token.'&amp;refreshCurrentVersion=1">'.$this->l('Check if a new version is available').'</a>';
-
-            $this->_html .= '<div><span style="font-style: italic; font-size: 11px;">'.sprintf($this->l('Last check: %s'), Configuration::get('PS_LAST_VERSION_CHECK') ? date('Y-m-d H:i:s', Configuration::get('PS_LAST_VERSION_CHECK')) : $this->l('never')).'</span></div>';
+            $this->_html .='
+				<p><a class="button button-autoupgrade btn btn-primary"
+					href="index.php?tab=AdminSelfUpgrade&amp;token='.$this->token.'&amp;refreshCurrentVersion=1">'.$this->l('Check if a new version is available').'</a> - 
+					<span style="font-style: italic; font-size: 11px;">'.sprintf($this->l('Last check: %s'), Configuration::get('PS_LAST_VERSION_CHECK') ? date('Y-m-d H:i:s', Configuration::get('PS_LAST_VERSION_CHECK')) : $this->l('never')).'</span>
+				</p>';
         } else {
-            $this->_html .= '<div class="clear"></div><a class="button button-autoupgrade" href="index.php?tab=AdminSelfUpgrade&token='
+            $this->_html .= '<p><a class="button button-autoupgrade btn btn-default" href="index.php?tab=AdminSelfUpgrade&token='
                 .$this->token
-                .'&refreshCurrentVersion=1">'.$this->l('refresh the page').'</a>';
-            $this->_html .= '<div>
-				<span>'.sprintf($this->l('Last datetime check: %s '), date('Y-m-d H:i:s', Configuration::get('PS_LAST_VERSION_CHECK')))
-                .'</span></div>';
+                .'&refreshCurrentVersion=1">'.$this->l('refresh the page').'</a> - 
+                <span style="font-style: italic; font-size: 11px;">'.sprintf($this->l('Last datetime check: %s '), date('Y-m-d H:i:s', Configuration::get('PS_LAST_VERSION_CHECK'))).'</span>
+            </p>';
         }
 
         $this->_html .= $this->getBlockConfigurationAdvanced();
-        $this->_html .= '</fieldset><br>';
+
 
         if ($this->manualMode) {
             $this->_html .= $this->displayDevTools();
         }
+
+        $this->_html .= '</div></div>';
 
 
         // information to keep will be in #infoStep
@@ -4520,17 +4525,19 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 
         $this->_html .= '<link type="text/css" rel="stylesheet" href="'.__PS_BASE_URI__.'modules/autoupgrade/css/styles.css" />';
 
-        $this->_html .= '
-		<h1>'.$this->l('1-click Upgrade').'</h1>
-		<fieldset id="informationBlock" class="information" style="float: left; width: 30%;">
-			<legend>'.$this->l('Welcome!').'</legend>
-			<p>
-				'.$this->l('With the PrestaShop 1-Click Upgrade module, upgrading your store to the latest version available has never been easier!').'<br /><br />
-				<span style="color:#CC0000;font-weight:bold">'.$this->l('Please always perform a full manual backup of your files and database before starting any upgrade.').'</span><br />
-				'.$this->l('Double-check the integrity of your backup and that you can easily manually roll-back if necessary.').'<br />
-				'.$this->l('If you do not know how to proceed, ask your hosting provider.').'
-			</p>
-		</fieldset>';
+        $this->_html .= '<div class="bootstrap" id="informationBlock">
+            <div class="panel">
+                <div class="panel-heading">
+                  '.$this->l('Welcome!').'
+                </div>
+                <p>
+                    '.$this->l('With the PrestaShop 1-Click Upgrade module, upgrading your store to the latest version available has never been easier!').'<br /><br />
+                    <span style="color:#CC0000;font-weight:bold">'.$this->l('Please always perform a full manual backup of your files and database before starting any upgrade.').'</span><br />
+                    '.$this->l('Double-check the integrity of your backup and that you can easily manually roll-back if necessary.').'<br />
+                    '.$this->l('If you do not know how to proceed, ask your hosting provider.').'
+                </p>
+            </div>
+            </div>';
 
         /* Make sure the user has configured the upgrade options, or set default values */
         $configuration_keys = array(
@@ -4551,7 +4558,6 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 
         /* Checks/requirements and "Upgrade PrestaShop now" blocks */
         $this->_displayCurrentConfiguration();
-        $this->_html .= '<div class="clear"></div><br>';
         $this->_displayBlockUpgradeButton();
 
         $this->_displayComparisonBlock();
