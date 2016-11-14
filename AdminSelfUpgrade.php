@@ -4331,25 +4331,33 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 
     private function _displayBlockActivityLog()
     {
-        $this->_html .= '
-			<fieldset id="activityLogBlock" style="display:none">
-			<legend>'.$this->l('Activity Log').'</legend>
-			<p id="upgradeResultCheck"></p>
-			<div id="upgradeResultToDoList" style="width:890px!important;"></div>
-			<div id="currentlyProcessing" style="display:none;float:left">
-			<h4 id="pleaseWait">'.$this->l('Currently processing').' <img class="pleaseWait" src="'.__PS_BASE_URI__.'img/loader.gif"/></h4>
-			<div id="infoStep" class="processing" >'.$this->l('Analyzing the situation...').'</div>
-			</div>';
+        $this->_html .= '<div class="bootstrap" id="activityLogBlock" style="display:none">
+           <div class="panel">
+                <div class="panel-heading">
+                    '.$this->l('Activity Log').'
+                </div>
+                <p id="upgradeResultCheck"></p>
+
+                <div class="row"><div id="upgradeResultToDoList" class="col-xs-12"></div></div><br>
+
+                <div class="row">
+                    <div id="currentlyProcessing" class="col-xs-12" style="display:none;">
+                        <h4 id="pleaseWait">'.$this->l('Currently processing').' <img class="pleaseWait" src="'.__PS_BASE_URI__.'img/loader.gif"/></h4>
+                        <div id="infoStep" class="processing" >'.$this->l('Analyzing the situation...').'</div>
+                    </div>
+                </div><br>';
+
+        $this->_html .= '<div id="quickInfo" class="clear processing col-xs-12"></div>';
+
         // this block will show errors and important warnings that happens during upgrade
-        $this->_html .= '
-			<div id="errorDuringUpgrade" style="display:none;float:right">
-			<h4>'.$this->l('Errors').'</h4>
-			<div id="infoError" class="processing" ></div>';
-        $this->_html .= '
-			</div>
-			<div class="clear">&nbsp;</div>
-			<div id="quickInfo" class="processing"></div>
-			</fieldset>';
+        $this->_html .= '<div class="row">
+            <div id="errorDuringUpgrade" class="col-xs-12" style="display:none;">
+                <h4>'.$this->l('Errors').'</h4>
+                <div id="infoError" class="processing" ></div>
+            </div>
+        </div>';
+
+        $this->_html .= '</div></div>';
     }
     /**
      * _displayBlockUpgradeButton
@@ -4567,8 +4575,10 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 
         $this->_html .= '<br/>';
         $this->_html .= '<form action="'.$this->currentIndex.'&amp;customSubmitAutoUpgrade=1&amp;token='.$this->token.'" method="post" enctype="multipart/form-data">';
+
         $this->_displayForm('backupOptions', $this->_fieldsBackupOptions, '<a href="#" name="backup-options" id="backup-options">'.$this->l('Backup Options').'</a>', '', 'database_gear');
         $this->_displayForm('upgradeOptions', $this->_fieldsUpgradeOptions, '<a href="#" name="upgrade-options" id="upgrade-options">'.$this->l('Upgrade Options').'</a>', '', 'prefs');
+
         $this->_html .= '</form>';
 
         $this->_html .= '<script type="text/javascript" src="'.__PS_BASE_URI__.'modules/autoupgrade/js/jquery.xml2json.js"></script>';
@@ -4652,6 +4662,8 @@ firstTimeParams.firstTime = "1";
 
 // js initialization : prepare upgrade and rollback buttons
 $(document).ready(function(){
+
+    $(".nobootstrap.no-header-toolbar").removeClass("nobootstrap").addClass("bootstrap");
 
 	$("select[name=channel]").change(function(e){
 		$("select[name=channel]").find("option").each(function()
@@ -4752,7 +4764,7 @@ $(document).ready(function(){
 		// show delete button if the value is not 0
 		if($(this).val() != 0)
 		{
-			$(this).after("<a class=\"button confirmBeforeDelete\" href=\"index.php?tab=AdminSelfUpgrade&token='
+			$(this).after("<br><a class=\"button confirmBeforeDelete\" href=\"index.php?tab=AdminSelfUpgrade&token='
             .$this->token
             .'&amp;deletebackup&amp;name="+$(this).val()+"\">'
             .'<img src=\"../img/admin/disabled.gif\" />'.$this->l('Delete').'</a>");
