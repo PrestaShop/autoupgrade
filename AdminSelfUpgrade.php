@@ -884,7 +884,7 @@ class AdminSelfUpgrade extends AdminSelfTab
             }
         }
 
-        $this->latestRootDir = $this->latestPath.DIRECTORY_SEPARATOR.'prestashop';
+        $this->latestRootDir = $this->latestPath.DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -4047,7 +4047,7 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
         $current_ps_config = $this->getcheckCurrentPsConfig();
 
         $this->_html .= '
-		<fieldset id="currentConfigurationBlock" class="width autoupgrade" style="float: left; width: 60%; margin-left: 30px;">
+		<fieldset id="currentConfigurationBlock" class="width autoupgrade" style="float: left; width: 60%; margin-left: 6%">
 			<legend>'.$this->l('The pre-Upgrade checklist').'</legend>';
         if (!$this->configOk()) {
             $this->_html .= '<div class="clear"><br></div><p class="warn">'.$this->l('The checklist is not OK. You can only upgrade your shop once all indicators are green.').'</p>';
@@ -4324,7 +4324,7 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 			<span id="checkPrestaShopModifiedFiles">
 				<img id="pleaseWait" src="'.__PS_BASE_URI__.'img/loader.gif"/>
 			</span>
-		</fieldset>';
+		</fieldset><br>';
     }
 
     private function _displayBlockActivityLog()
@@ -4451,7 +4451,7 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
         }
 
         $this->_html .= $this->getBlockConfigurationAdvanced();
-        $this->_html .= '</fieldset>';
+        $this->_html .= '</fieldset><br>';
 
         if ($this->manualMode) {
             $this->_html .= $this->displayDevTools();
@@ -4551,7 +4551,7 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 
         /* Checks/requirements and "Upgrade PrestaShop now" blocks */
         $this->_displayCurrentConfiguration();
-        $this->_html .= '<div class="clear"></div>';
+        $this->_html .= '<div class="clear"></div><br>';
         $this->_displayBlockUpgradeButton();
 
         $this->_displayComparisonBlock();
