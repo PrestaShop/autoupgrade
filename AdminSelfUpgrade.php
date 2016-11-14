@@ -3167,17 +3167,17 @@ class AdminSelfUpgrade extends AdminSelfTab
 
                 $tables_after_restore = array();
                 foreach ($listQuery as $q) {
-                    if (preg_match('/`('._DB_PREFIX_.'[a-zA-Z0-9]+)`/', $q, $matches)) {
-                        $tables_after_restore[] = $matches[0];
+                    if (preg_match('/`(?<table>'._DB_PREFIX_.'[a-zA-Z0-9_-]+)`/', $q, $matches)) {
+                        if (isset($matches['table'])) {
+                            $tables_after_restore[$matches['table']] = $matches['table'];
+                        }
                     }
                 }
 
                 $tables_after_restore = array_unique($tables_after_restore);
-                var_dump($tables_after_restore);die('ok');
-
                 $tables_before_restore = $this->getAllTables();
-
                 $tablesToRemove = array_diff($tables_before_restore, $tables_after_restore);
+
                 if (!empty($tablesToRemove)) {
                     file_put_contents($this->autoupgradePath . DIRECTORY_SEPARATOR . $this->toCleanTable, base64_encode(serialize($tablesToRemove)));
                 }
@@ -5639,12 +5639,10 @@ $(document).ready(function()
             $tablesToClean = unserialize(base64_decode(file_get_contents($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->toCleanTable)));
 
             if (!empty($tablesToClean)) {
-                var_dump($tablesToClean);
-//                    $drops['drop table '.$k] = 'DROP TABLE IF EXISTS `'.bqSql($table).'`';
-//                    -                    $drops['drop view '.$k] = 'DROP VIEW IF EXISTS `'.bqSql($table).'`';
-
-                die('ok');
-//                    unlink($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->toCleanTable);
+                foreach ($tablesToClean as $table) {
+                    $this->db->execute('DROP TABLE IF EXISTS `'.bqSql($table).'`');
+                    $this->db->execute('DROP VIEW IF EXISTS `'.bqSql($table).'`');
+                }
             }
 
             @unlink($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->toCleanTable);
