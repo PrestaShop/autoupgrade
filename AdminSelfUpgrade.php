@@ -1771,6 +1771,8 @@ class AdminSelfUpgrade extends AdminSelfTab
                 $this->next_desc = sprintf($this->l('%1$s files left to upgrade.'), count($filesToUpgrade));
                 $this->nextQuickInfo[] = sprintf($this->l('%2$s files left to upgrade.'), (isset($file)?$file:''), count($filesToUpgrade));
                 $this->stepDone = false;
+                @unlink(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR. 'app'.DIRECTORY_SEPARATOR.'cache'.DIRECTORY_SEPARATOR.'dev'.DIRECTORY_SEPARATOR.'class_index.php');
+                @unlink(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR. 'app'.DIRECTORY_SEPARATOR.'cache'.DIRECTORY_SEPARATOR.'prod'.DIRECTORY_SEPARATOR.'class_index.php');
             }
         }
         return true;
