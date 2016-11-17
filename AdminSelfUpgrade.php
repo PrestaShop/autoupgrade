@@ -1709,6 +1709,17 @@ class AdminSelfUpgrade extends AdminSelfTab
 
             // also add files to remove
             $list_files_to_upgrade = array_merge($list_files_diff, $list_files_to_upgrade);
+
+            if ($key = array_search(DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'autoload.php', $list_files_to_upgrade)) {
+              $list_files_to_upgrade[] = $list_files_to_upgrade[$key];
+              unset($list_files_to_upgrade[$key]);
+            }
+
+            if ($key = array_search(DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'composer'.DIRECTORY_SEPARATOR.'autoload_real.php', $list_files_to_upgrade)) {
+              $list_files_to_upgrade[] = $list_files_to_upgrade[$key];
+              unset($list_files_to_upgrade[$key]);
+            }
+
             // save in a serialized array in $this->toUpgradeFileList
             file_put_contents($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->toUpgradeFileList, base64_encode(serialize($list_files_to_upgrade)));
             $this->nextParams['filesToUpgrade'] = $this->toUpgradeFileList;
