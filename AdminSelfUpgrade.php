@@ -3033,7 +3033,7 @@ class AdminSelfUpgrade extends AdminSelfTab
             // cleanup current PS tree
             $fromArchive = $this->_listArchivedFiles($this->backupPath.DIRECTORY_SEPARATOR.$this->restoreFilesFilename);
             foreach ($fromArchive as $k => $v) {
-                $fromArchive['/'.$v] = '/'.$v;
+                $fromArchive[DIRECTORY_SEPARATOR.$v] = DIRECTORY_SEPARATOR.$v;
             }
 
             file_put_contents($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->fromArchiveFileList, base64_encode(serialize($fromArchive)));
