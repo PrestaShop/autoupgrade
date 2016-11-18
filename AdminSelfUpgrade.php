@@ -1990,25 +1990,33 @@ class AdminSelfUpgrade extends AdminSelfTab
                     }
                     // unzip in modules/[mod name] old files will be conserved
                     elseif ($this->ZipExtract($zip_fullpath, $dest_extract)) {
-                        $this->nextQuickInfo[] = sprintf($this->l('The files of module %s have been upgraded.'), $name);
+                        $this->nextQuickInfo[] = '<strong>'.sprintf($this->l('[WARNING] Error when trying to upgrade module %s.'), $name).'</strong>';
                         if (file_exists($zip_fullpath)) {
                             unlink($zip_fullpath);
                         }
                     } else {
-                        $this->nextQuickInfo[] = sprintf($this->l('[WARNING] Error when trying to upgrade module %s.'), $name);
+                        $this->nextQuickInfo[] = '<strong>'.sprintf($this->l('[WARNING] Error when trying to upgrade module %s.'), $name).'</strong>';
                         $this->warning_exists = 1;
                     }
                 } else {
-                    $this->nextQuickInfo[] = sprintf($this->l('[ERROR] Unable to write module %s\'s zip file in temporary directory.'), $name);
-                    $this->nextErrors[] = sprintf($this->l('[ERROR] Unable to write module %s\'s zip file in temporary directory.'), $name);
+                    $this->nextQuickInfo[] = '<strong>'.sprintf($this->l('[ERROR] Unable to write module %s\'s zip file in temporary directory.'), $name).'</strong>';
+                    $this->nextErrors[] = '<strong>'.sprintf($this->l('[ERROR] Unable to write module %s\'s zip file in temporary directory.'), $name).'</strong>';
                     $this->warning_exists = 1;
                 }
             } else {
-                $this->nextQuickInfo[] = sprintf($this->l('[ERROR] No response from Addons server.'));
-                $this->nextErrors[] = sprintf($this->l('[ERROR] No response from Addons server.'));
+                $this->nextQuickInfo[] = '<strong>'.sprintf($this->l('[ERROR] No response from Addons server.')).'</strong>';
+                $this->nextErrors[] = '<strong>'.sprintf($this->l('[ERROR] No response from Addons server.')).'</strong>';
                 $this->warning_exists = 1;
             }
         }
+
+        $isUpgraded = $this->getModuleDataUpdater()->upgrade($name);
+
+        if (!$isUpgraded) {
+            $this->nextQuickInfo[] = '<strong>'.sprintf($this->l('[WARNING] Error when trying to upgrade module %s.'), $name).'</strong>';
+            $this->warning_exists = 1;
+        }
+
         return true;
     }
 
@@ -5760,6 +5768,27 @@ $(document).ready(function()
         $context->employee = new Employee((int) $id_employee);
 
         return (new \PrestaShop\PrestaShop\Core\Addon\Theme\ThemeManagerBuilder($context, $this->db))->build();
+    }
+
+    private function getModuleDataUpdater()
+    {
+        static $moduleDataUpdater;
+
+        global $kernel;
+
+        if (null === $moduleDataUpdater) {
+
+            if (is_null($kernel)) {
+                require_once _PS_ROOT_DIR_.'/app/AppKernel.php';
+                $kernel = new AppKernel(_PS_MODE_DEV_?'dev':'prod', _PS_MODE_DEV_);
+                $kernel->loadClassCache();
+                $kernel->boot();
+            }
+
+            $moduleDataUpdater = $kernel->getContainer()->get('prestashop.core.module.updater');
+        }
+
+        return $moduleDataUpdater;
     }
 
     private function clearMigrationCache()
