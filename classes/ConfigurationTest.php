@@ -44,7 +44,7 @@ class ConfigurationTestCore
 	// Misc functions
 	static function test_phpversion()
 	{
-		return version_compare(substr(phpversion(), 0, 3), '5.0', '>=');
+		return version_compare(substr(phpversion(), 0, 3), '5.4', '>=');
 	}
 
 	static function test_mysql_support()

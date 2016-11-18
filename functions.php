@@ -36,8 +36,6 @@ function rewriteSettingsFile($baseUrls = NULL, $theme = NULL, $arrayDB = NULL)
  	$defines = array();
 	$defines['__PS_BASE_URI__'] = ($baseUrls AND $baseUrls['__PS_BASE_URI__']) ? $baseUrls['__PS_BASE_URI__'] : __PS_BASE_URI__;
 	$defines['_MEDIA_SERVER_1_'] = ($baseUrls AND isset($baseUrls['_MEDIA_SERVER_1_'])) ? $baseUrls['_MEDIA_SERVER_1_'] : _MEDIA_SERVER_1_;
-	$defines['_MEDIA_SERVER_2_'] = ($baseUrls AND isset($baseUrls['_MEDIA_SERVER_2_'])) ? $baseUrls['_MEDIA_SERVER_2_'] : _MEDIA_SERVER_2_;
-	$defines['_MEDIA_SERVER_3_'] = ($baseUrls AND isset($baseUrls['_MEDIA_SERVER_3_'])) ? $baseUrls['_MEDIA_SERVER_3_'] : _MEDIA_SERVER_3_;
 	$defines['_PS_CACHING_SYSTEM_'] = _PS_CACHING_SYSTEM_;
 	$defines['_PS_CACHE_ENABLED_'] = _PS_CACHE_ENABLED_;
 	$defines['_THEME_NAME_'] = $theme ? $theme : _THEME_NAME_;
@@ -59,7 +57,7 @@ function rewriteSettingsFile($baseUrls = NULL, $theme = NULL, $arrayDB = NULL)
 	foreach ($defines as $k => $value)
 		$content .= 'define(\''.$k.'\', \''.addslashes($value).'\');'."\n";
 	$content .= "\n?>";
-	if ($fd = @fopen(PS_ADMIN_DIR.'/../config/settings.inc.php', 'w'))
+	if ($fd = @fopen(PS_ADMIN_DIR.'/../app/config/parameters.php', 'w'))
 	{
 		fwrite($fd, $content);
 		fclose($fd);

@@ -1727,10 +1727,6 @@ class Tools14
 		{
 			if (_MEDIA_SERVER_1_ == '')
 				self::$_cache_nb_media_servers = 0;
-			elseif (_MEDIA_SERVER_2_ == '')
-				self::$_cache_nb_media_servers = 1;
-			elseif (_MEDIA_SERVER_3_ == '')
-				self::$_cache_nb_media_servers = 2;
 			else
 				self::$_cache_nb_media_servers = 3;
 		}
