@@ -31,7 +31,7 @@ if (function_exists('date_default_timezone_set'))
 	date_default_timezone_set($timezone);
 }
 
-require(dirname(__FILE__).'/../../config/config.inc.php');
+require_once(realpath(dirname(__FILE__).'/../../config/config.inc.php'));
 
 if (!defined('_PS_MODULE_DIR_'))
 	define('_PS_MODULE_DIR_', realpath(dirname(__FILE__).'/../../').'/modules/');
