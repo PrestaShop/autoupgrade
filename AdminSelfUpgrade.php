@@ -2683,21 +2683,21 @@ class AdminSelfUpgrade extends AdminSelfTab
             }
         }
 
-        if ($this->changeToDefaultTheme) {
-            $themeManager = $this->getThemeManager();
-            $isThemeEnabled = $themeManager->enable('classic');
-            // get errors if theme wasn't enabled
-            if (!$isThemeEnabled) {
-                $themeErrors = $themeManager->getErrors('classic');
-                $this->nextQuickInfo[] = $themeErrors;
-                $this->nextErrors[] = $themeErrors;
-                $this->next_desc = $themeErrors;
+        $themeManager = $this->getThemeManager();
+        $themeName = ($this->changeToDefaultTheme ? 'classic' : _THEME_NAME_);
 
-                return false;
-            } else {
-                Tools::clearCache();
-            }
+        $isThemeEnabled = $themeManager->enable($themeName);
+        if (!$isThemeEnabled) {
+            $themeErrors = $themeManager->getErrors($themeName);
+            $this->nextQuickInfo[] = $themeErrors;
+            $this->nextErrors[] = $themeErrors;
+            $this->next_desc = $themeErrors;
+
+            return false;
+        } else {
+            Tools::clearCache();
         }
+
 
         // delete cache filesystem if activated
         if (defined('_PS_CACHE_ENABLED_') && _PS_CACHE_ENABLED_) {
