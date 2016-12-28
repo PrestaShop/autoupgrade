@@ -1990,8 +1990,8 @@ class AdminSelfUpgrade extends AdminSelfTab
                     }
                     // unzip in modules/[mod name] old files will be conserved
                     elseif ($this->ZipExtract($zip_fullpath, $dest_extract)) {
-                        $this->nextQuickInfo[] = '<strong>'.sprintf($this->l('[WARNING] Error when trying to upgrade module %s.'), $name).'</strong>';
-                        if (file_exists($zip_fullpath)) {
+                        $this->nextQuickInfo[] = sprintf($this->l('The files of module %s have been upgraded.'), $name);
+			if (file_exists($zip_fullpath)) {
                             unlink($zip_fullpath);
                         }
                     } else {
