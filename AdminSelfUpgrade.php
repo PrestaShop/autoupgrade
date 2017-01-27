@@ -2654,9 +2654,10 @@ class AdminSelfUpgrade extends AdminSelfTab
 			$this->db->execute('UPDATE `' . _DB_PREFIX_ . 'configuration` SET value="' . INSTALL_VERSION . '" WHERE name = "PS_VERSION_DB"', false);
 		}
 
-		if (!empty($warningExist) || $this->warning_exists)
+		if ($this->next == 'error')
+			return false;
+		else if (!empty($warningExist) || $this->warning_exists)
 		{
-			$this->warning_exists = true;
 			$this->nextQuickInfo[] = $this->l('Warning detected during upgrade.');
 			$this->nextErrors[] = $this->l('Warning detected during upgrade.');
 			$this->next_desc = $this->l('Warning detected during upgrade.');
