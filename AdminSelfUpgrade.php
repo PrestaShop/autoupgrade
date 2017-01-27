@@ -696,6 +696,11 @@ class AdminSelfUpgrade extends AdminSelfTab
 					$upgrader->checkPSVersion(true, array('minor'));
 				$this->install_version = $upgrader->version_num;
 		}
+		if (version_compare($this->install_version, '1.7.0.0', '>=')) {
+			$this->latestRootDir = $this->latestPath . DIRECTORY_SEPARATOR;
+		} else {
+			$this->latestRootDir = $this->latestPath . DIRECTORY_SEPARATOR . 'prestashop';
+		}
 		$this->upgrader = $upgrader;
 
 		// If you have defined this somewhere, you know what you do
@@ -858,8 +863,6 @@ class AdminSelfUpgrade extends AdminSelfTab
 		if (!file_exists($this->tmpPath))
 			if (!mkdir($this->tmpPath))
 				$this->_errors[] = sprintf($this->l('unable to create directory %s'),$this->tmpPath);
-
-		$this->latestRootDir = $this->latestPath.DIRECTORY_SEPARATOR.'prestashop';
 	}
 
 	/**
@@ -1451,7 +1454,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 
 			if ($this->ZipExtract($filepath, $destExtract))
 			{
-				if (version_compare(INSTALL_VERSION, '1.7.0.0', '>=')) {
+				if (version_compare($this->install_version, '1.7.0.0', '>=')) {
 					// new system release archive
 					$newZip = $destExtract.DIRECTORY_SEPARATOR.'prestashop.zip';
 					if (is_file($newZip)) {
@@ -1471,7 +1474,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 						}
 					} else {
 						$this->next = 'error';
-						$this->next_desc = sprintf($this->l('It\'s not a valid upgrade %s archive...'), INSTALL_VERSION);
+						$this->next_desc = sprintf($this->l('It\'s not a valid upgrade %s archive...'), $this->install_version);
 						return false;
 					}
 				} else {
