@@ -256,10 +256,10 @@ class AdminSelfUpgrade extends AdminSelfTab
 	private $excludeAbsoluteFilesFromUpgrade = array();
 
 	public static $classes14 = array('Cache', 'CacheFS', 'CarrierModule', 'Db', 'FrontController', 'Helper','ImportModule',
-	'MCached', 'Module', 'ModuleGraph', 'ModuleGraphEngine', 'ModuleGrid', 'ModuleGridEngine',
-	'MySQL', 'Order', 'OrderDetail', 'OrderDiscount', 'OrderHistory', 'OrderMessage', 'OrderReturn',
-	'OrderReturnState', 'OrderSlip', 'OrderState', 'PDF', 'RangePrice', 'RangeWeight', 'StockMvt',
-	'StockMvtReason', 'SubDomain', 'Shop', 'Tax', 'TaxRule', 'TaxRulesGroup', 'WebserviceKey', 'WebserviceRequest', '');
+		'MCached', 'Module', 'ModuleGraph', 'ModuleGraphEngine', 'ModuleGrid', 'ModuleGridEngine',
+		'MySQL', 'Order', 'OrderDetail', 'OrderDiscount', 'OrderHistory', 'OrderMessage', 'OrderReturn',
+		'OrderReturnState', 'OrderSlip', 'OrderState', 'PDF', 'RangePrice', 'RangeWeight', 'StockMvt',
+		'StockMvtReason', 'SubDomain', 'Shop', 'Tax', 'TaxRule', 'TaxRulesGroup', 'WebserviceKey', 'WebserviceRequest', '');
 
 	private $restoreName = null;
 	private $backupName = null;
@@ -530,20 +530,20 @@ class AdminSelfUpgrade extends AdminSelfTab
 		$this->_fieldsUpgradeOptions['PS_AUTOUP_PERFORMANCE'] = array(
 			'title' => $this->l('Server performance'), 'cast' => 'intval', 'validation' => 'isInt', 'defaultValue' => '1',
 			'type' => 'select', 'desc' => $this->l('Unless you are using a dedicated server, select "Low".').'<br />'.
-			$this->l('A high value can cause the upgrade to fail if your server is not powerful enough to process the upgrade tasks in a short amount of time.'),
+				$this->l('A high value can cause the upgrade to fail if your server is not powerful enough to process the upgrade tasks in a short amount of time.'),
 			'choices' => array(1 => $this->l('Low (recommended)'), 2 => $this->l('Medium'), 3 => $this->l('High'))
 		);
 
 		$this->_fieldsUpgradeOptions['PS_AUTOUP_CUSTOM_MOD_DESACT'] = array(
 			'title' => $this->l('Disable non-native modules'), 'cast' => 'intval', 'validation' => 'isBool',
 			'type' => 'bool', 'desc' => $this->l('As non-native modules can experience some compatibility issues, we recommend to disable them by default.').'<br />'.
-			$this->l('Keeping them enabled might prevent you from loading the "Modules" page properly after the upgrade.'),
+				$this->l('Keeping them enabled might prevent you from loading the "Modules" page properly after the upgrade.'),
 		);
 
 		$this->_fieldsUpgradeOptions['PS_AUTOUP_UPDATE_DEFAULT_THEME'] = array(
 			'title' => $this->l('Upgrade the default theme'), 'cast' => 'intval', 'validation' => 'isBool', 'defaultValue' => '1',
 			'type' => 'bool', 'desc' => $this->l('If you customized the default PrestaShop theme in its folder (folder name "prestashop" in 1.4, "default" in 1.5, "bootstrap-default" in 1.6), enabling this option will lose your modifications.').'<br />'
-			.$this->l('If you are using your own theme, enabling this option will simply update the default theme files, and your own theme will be safe.'),
+				.$this->l('If you are using your own theme, enabling this option will simply update the default theme files, and your own theme will be safe.'),
 		);
 
 		$this->_fieldsUpgradeOptions['PS_AUTOUP_CHANGE_DEFAULT_THEME'] = array(
@@ -554,7 +554,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 		$this->_fieldsUpgradeOptions['PS_AUTOUP_KEEP_MAILS'] = array(
 			'title' => $this->l('Upgrade the default e-mails'), 'cast' => 'intval', 'validation' => 'isBool',
 			'type' => 'bool', 'desc' => $this->l('This will upgrade the default PrestaShop e-mails.').'<br />'
-			.$this->l('If you customized the default PrestaShop e-mail templates, enabling this option will lose your modifications.'),
+				.$this->l('If you customized the default PrestaShop e-mail templates, enabling this option will lose your modifications.'),
 		);
 
 		/* Developers only options */
@@ -568,7 +568,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 			$this->_fieldsUpgradeOptions['PS_DISPLAY_ERRORS'] = array(
 				'title' => $this->l('Display PHP errors'), 'cast' => 'intval', 'validation' => 'isBool', 'defaultValue' => '0',
 				'type' => 'bool', 'desc' => $this->l('This option will keep PHP\'s "display_errors" setting to On (or force it).').'<br />'
-				.$this->l('This is not recommended as the upgrade will immediately fail if a PHP error occurs during an Ajax call.'),
+					.$this->l('This is not recommended as the upgrade will immediately fail if a PHP error occurs during an Ajax call.'),
 			);
 		}
 		elseif ($this->getConfig('PS_DISPLAY_ERRORS'))
@@ -687,7 +687,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 			case 'directory';
 				$this->install_version = $this->getConfig('directory.version_num');
 				$upgrader->checkPSVersion(true, array('directory'));
-			break;
+				break;
 			default:
 				$upgrader->channel = $channel;
 				if ($this->getConfig('channel') == 'private' && !$this->getConfig('private_allow_major'))
@@ -895,7 +895,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 				'PS_AUTOUP_KEEP_MAILS' => '1',
 				'PS_AUTOUP_BACKUP' => '1',
 				'PS_AUTOUP_KEEP_IMAGES' => '0'
-				));
+			));
 		}
 
 		if (Tools14::isSubmit('putUnderMaintenance') && version_compare(_PS_VERSION_, '1.5.0.0', '>='))
@@ -1315,7 +1315,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 			file_put_contents($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->diffFileList, base64_encode(serialize($diffFileList)));
 			if (count($diffFileList) > 0)
 				$this->nextParams['msg'] = sprintf($this->l('%1$s files will be modified, %2$s files will be deleted (if they are found).'),
-																	 count($diffFileList['modified']), count($diffFileList['deleted']));
+					count($diffFileList['modified']), count($diffFileList['deleted']));
 			else
 				$this->nextParams['msg'] = $this->l('No diff files found.');
 			$this->nextParams['result'] = $diffFileList;
@@ -1999,12 +1999,38 @@ class AdminSelfUpgrade extends AdminSelfTab
 	}
 
 	/**
-	 * This function now replaces doUpgrade.php or upgrade.php
+	 * Implement the upgrade based on upgrade.php from the downloaded archive
 	 *
-	 * @return void
+	 * @return bool
+	 *
 	 */
-	public function doUpgrade()
+	public function doUpgrade17()
 	{
+		if (!defined('__PS_BASE_URI__')) {
+			define('__PS_BASE_URI__', realpath(dirname($_SERVER['SCRIPT_NAME'])) . '/../../');
+		}
+		$json = Tools14::file_get_contents(__PS_BASE_URI__ .
+			'/install/upgrade/upgrade.php?autoupgrade=1&deactivateCustomModule=' .
+			(int)$this->deactivateCustomModule.'&updateDefaultTheme='.(int)$this->updateDefaultTheme.
+			'&keepMails='.(int)$this->keepMails.'&changeToDefaultTheme='.(int)$this->changeToDefaultTheme.
+			'&adminDir='.base64_encode($this->adminDir).'&idEmployee='.(int)$_COOKIE['id_employee']);
+		$result = json_decode($json, true);
+		if ($result) {
+			$this->nextQuickInfo = $result['nextQuickInfo'];
+			$this->nextErrors = $result['nextErrors'];
+			$this->next_desc = $result['nextDesc'];
+			$this->warning_exists = $result['warningExists'];
+			if (!empty($result['next'])) {
+				$this->next = $result['next'];
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function doUpgradeSetupConst() {
 		// Initialize
 		// setting the memory limit to 128M only if current is lower
 		$memory_limit = ini_get('memory_limit');
@@ -2052,11 +2078,6 @@ class AdminSelfUpgrade extends AdminSelfTab
 		// XML Header
 		// header('Content-Type: text/xml');
 
-		$filePrefix = 'PREFIX_';
-		$engineType = 'ENGINE_TYPE';
-
-		$mysqlEngine = (defined('_MYSQL_ENGINE_') ? _MYSQL_ENGINE_ : 'MyISAM');
-
 		if (function_exists('date_default_timezone_set'))
 			date_default_timezone_set('Europe/Paris');
 
@@ -2080,599 +2101,560 @@ class AdminSelfUpgrade extends AdminSelfTab
 			}
 		}
 		define('_PS_INSTALLER_PHP_UPGRADE_DIR_',  INSTALL_PATH.DIRECTORY_SEPARATOR.$upgrade_dir_php.DIRECTORY_SEPARATOR);
+		return true;
+	}
 
-		//old version detection
-		global $oldversion, $logger;
-		$oldversion = false;
-		if (file_exists(SETTINGS_FILE))
-		{
-			include_once(SETTINGS_FILE);
+	/**
+	 * This function now replaces doUpgrade.php or upgrade.php
+	 *
+	 * @return bool
+	 */
+	public function doUpgrade()
+	{
+		if (!$this->doUpgradeSetupConst()) {
+			return false;
+		}
 
-			// include_once(DEFINES_FILE);
+		if (version_compare(INSTALL_VERSION, '1.7.0.0', '>=')) {
+			$this->doUpgrade17();
+		} else {
+			$filePrefix = 'PREFIX_';
+			$engineType = 'ENGINE_TYPE';
+
+			$mysqlEngine = (defined('_MYSQL_ENGINE_') ? _MYSQL_ENGINE_ : 'MyISAM');
+
+			//old version detection
+			global $oldversion, $logger;
+			$oldversion = false;
+			if (file_exists(SETTINGS_FILE)) {
+				include_once(SETTINGS_FILE);
+
+				// include_once(DEFINES_FILE);
+				$oldversion = _PS_VERSION_;
+
+			} else {
+				$this->next = 'error';
+				$this->nextQuickInfo[] = $this->l('The config/settings.inc.php file was not found.');
+				$this->nextErrors[] = $this->l('The config/settings.inc.php file was not found.');
+				return false;
+			}
+
+			if (!defined('__PS_BASE_URI__'))
+				define('__PS_BASE_URI__', realpath(dirname($_SERVER['SCRIPT_NAME'])) . '/../../');
+
+			if (!defined('_THEMES_DIR_'))
+				define('_THEMES_DIR_', __PS_BASE_URI__ . 'themes/');
+
 			$oldversion = _PS_VERSION_;
+			$versionCompare = version_compare(INSTALL_VERSION, $oldversion);
 
-		}
-		else
-		{
-			$this->next = 'error';
-			$this->nextQuickInfo[] = $this->l('The config/settings.inc.php file was not found.');
-			$this->nextErrors[] = $this->l('The config/settings.inc.php file was not found.');
-			return false;
-		}
-
-		if (!defined('__PS_BASE_URI__'))
-			define('__PS_BASE_URI__', realpath(dirname($_SERVER['SCRIPT_NAME'])).'/../../');
-
-		if (!defined('_THEMES_DIR_'))
-			define('_THEMES_DIR_', __PS_BASE_URI__.'themes/');
-
-		$oldversion = _PS_VERSION_;
-		$versionCompare =  version_compare(INSTALL_VERSION, $oldversion);
-
-		if ($versionCompare == '-1')
-		{
-			$this->next = 'error';
-			$this->nextQuickInfo[] = sprintf($this->l('Current version: %1$s. Version to install: %2$s.'), $oldversion, INSTALL_VERSION);
-			$this->nextErrors[] = sprintf($this->l('Current version: %1$s. Version to install: %2$s'), $oldversion, INSTALL_VERSION);
-			$this->nextQuickInfo[] = $this->l('[ERROR] Version to install is too old.');
-			$this->nextErrors[] = $this->l('[ERROR] Version to install is too old.');
-			return false;
-		}
-		elseif ($versionCompare == 0)
-		{
-			$this->next = 'error';
-			$this->nextQuickInfo[] = $this->l(sprintf('You already have the %s version.',INSTALL_VERSION));
-			$this->nextErrors[] = $this->l(sprintf('You already have the %s version.',INSTALL_VERSION));
-			return false;
-		}
-		elseif ($versionCompare === false)
-		{
-			$this->next = 'error';
-			$this->nextQuickInfo[] = $this->l('There is no older version. Did you delete or rename the config/settings.inc.php file?');
-			$this->nextErrors[] = $this->l('There is no older version. Did you delete or rename the config/settings.inc.php file?');
-			return false;
-		}
-
-		//check DB access
-		$this->db;
-		error_reporting(E_ALL);
-		$resultDB = Db::checkConnection(_DB_SERVER_, _DB_USER_, _DB_PASSWD_, _DB_NAME_);
-		if ($resultDB !== 0)
-		{
-			// $logger->logError('Invalid database configuration.');
-			$this->next = 'error';
-			$this->nextQuickInfo[] = $this->l('Invalid database configuration');
-			$this->nextErrors[] = $this->l('Invalid database configuration');
-			return false;
-		}
-
-		//custom sql file creation
-		$upgradeFiles = array();
-
-		$upgrade_dir_sql = INSTALL_PATH.'/upgrade/sql';
-		// if 1.4;
-		if (!file_exists($upgrade_dir_sql))
-			$upgrade_dir_sql = INSTALL_PATH.'/sql/upgrade';
-
-		if (!file_exists($upgrade_dir_sql))
-		{
-			$this->next = 'error';
-			$this->next_desc = $this->l('Unable to find upgrade directory in the installation path.');
-			return false;
-		}
-
-		if ($handle = opendir($upgrade_dir_sql))
-		{
-			while (false !== ($file = readdir($handle)))
-				if ($file != '.' AND $file != '..')
-					$upgradeFiles[] = str_replace(".sql", "", $file);
-			closedir($handle);
-		}
-		if (empty($upgradeFiles))
-		{
-			$this->next = 'error';
-			$this->nextQuickInfo[] = sprintf($this->l('Cannot find the SQL upgrade files. Please check that the %s folder is not empty.'), $upgrade_dir_sql);
-			$this->nextErrors[] = sprintf($this->l('Cannot find the SQL upgrade files. Please check that the %s folder is not empty.'), $upgrade_dir_sql);
-			// fail 31
-			return false;
-		}
-		natcasesort($upgradeFiles);
-		$neededUpgradeFiles = array();
-
-		$arrayVersion = explode('.', $oldversion);
-		$versionNumbers = count($arrayVersion);
-		if ($versionNumbers != 4)
-			$arrayVersion = array_pad($arrayVersion, 4, '0');
-
-		$oldversion = implode('.', $arrayVersion);
-
-		foreach ($upgradeFiles as $version)
-			if (version_compare($version, $oldversion) == 1 && version_compare(INSTALL_VERSION, $version) != -1)
-				$neededUpgradeFiles[] = $version;
-
-
-		if (strpos(INSTALL_VERSION, '.') === false)
-		{
-			$this->nextQuickInfo[] = sprintf($this->l('%s is not a valid version number.'), INSTALL_VERSION);
-			$this->nextErrors[] = sprintf($this->l('%s is not a valid version number.'), INSTALL_VERSION);
-			return false;
-		}
-
-		$sqlContentVersion = array();
-		if ($this->deactivateCustomModule)
-		{
-			require_once(_PS_INSTALLER_PHP_UPGRADE_DIR_.'deactivate_custom_modules.php');
-			deactivate_custom_modules();
-		}
-
-		if (version_compare(INSTALL_VERSION, '1.5.6.1', '='))
-		{
-			$filename = _PS_INSTALLER_PHP_UPGRADE_DIR_.'migrate_orders.php';
-			$content = file_get_contents($filename);
-			$str_old[] = '$values_order_detail = array();';
-			$str_old[] = '$values_order = array();';
-			$str_old[] = '$col_order_detail = array();';
-			$content = str_replace($str_old, '', $content);
-			file_put_contents($filename, $content);
-		}
-
-		foreach($neededUpgradeFiles as $version)
-		{
-			$file = $upgrade_dir_sql.DIRECTORY_SEPARATOR.$version.'.sql';
-			if (!file_exists($file))
-			{
+			if ($versionCompare == '-1') {
 				$this->next = 'error';
-				$this->nextQuickInfo[] = sprintf($this->l('Error while loading SQL upgrade file "%s.sql".'), $version);
-				$this->nextErrors[] = sprintf($this->l('Error while loading SQL upgrade file "%s.sql".'), $version);
+				$this->nextQuickInfo[] = sprintf($this->l('Current version: %1$s. Version to install: %2$s.'), $oldversion, INSTALL_VERSION);
+				$this->nextErrors[] = sprintf($this->l('Current version: %1$s. Version to install: %2$s'), $oldversion, INSTALL_VERSION);
+				$this->nextQuickInfo[] = $this->l('[ERROR] Version to install is too old.');
+				$this->nextErrors[] = $this->l('[ERROR] Version to install is too old.');
 				return false;
-				$logger->logError('Error while loading SQL upgrade file.');
-			}
-			if (!$sqlContent = file_get_contents($file)."\n")
-			{
+			} elseif ($versionCompare == 0) {
 				$this->next = 'error';
-				$this->nextQuickInfo[] = $this->l(sprintf('Error while loading SQL upgrade file %s.', $version));
-				$this->nextErrors[] = $this->l(sprintf('Error while loading sql SQL file %s.', $version));
+				$this->nextQuickInfo[] = $this->l(sprintf('You already have the %s version.', INSTALL_VERSION));
+				$this->nextErrors[] = $this->l(sprintf('You already have the %s version.', INSTALL_VERSION));
 				return false;
-				$logger->logError(sprintf('Error while loading sql upgrade file %s.', $version));
+			} elseif ($versionCompare === false) {
+				$this->next = 'error';
+				$this->nextQuickInfo[] = $this->l('There is no older version. Did you delete or rename the config/settings.inc.php file?');
+				$this->nextErrors[] = $this->l('There is no older version. Did you delete or rename the config/settings.inc.php file?');
+				return false;
 			}
-			$sqlContent = str_replace(array($filePrefix, $engineType), array(_DB_PREFIX_, $mysqlEngine), $sqlContent);
-			$sqlContent = preg_split("/;\s*[\r\n]+/",$sqlContent);
-			$sqlContentVersion[$version] = $sqlContent;
-		}
 
-		//sql file execution
-		global $requests, $warningExist;
-		$requests = '';
-		$warningExist = false;
+			//check DB access
+			$this->db;
+			error_reporting(E_ALL);
+			$resultDB = Db::checkConnection(_DB_SERVER_, _DB_USER_, _DB_PASSWD_, _DB_NAME_);
+			if ($resultDB !== 0) {
+				// $logger->logError('Invalid database configuration.');
+				$this->next = 'error';
+				$this->nextQuickInfo[] = $this->l('Invalid database configuration');
+				$this->nextErrors[] = $this->l('Invalid database configuration');
+				return false;
+			}
 
-		// Configuration::loadConfiguration();
-		$request = '';
+			//custom sql file creation
+			$upgradeFiles = array();
 
-		foreach ($sqlContentVersion as $upgrade_file => $sqlContent)
-			foreach ($sqlContent as $query)
-			{
-				$query = trim($query);
-				if(!empty($query))
-				{
-					/* If php code have to be executed */
-					if (strpos($query, '/* PHP:') !== false)
-					{
-						/* Parsing php code */
-						$pos = strpos($query, '/* PHP:') + strlen('/* PHP:');
-						$phpString = substr($query, $pos, strlen($query) - $pos - strlen(' */;'));
-						$php = explode('::', $phpString);
-						preg_match('/\((.*)\)/', $phpString, $pattern);
-						$paramsString = trim($pattern[0], '()');
-						preg_match_all('/([^,]+),? ?/', $paramsString, $parameters);
-						if (isset($parameters[1]))
-							$parameters = $parameters[1];
-						else
-							$parameters = array();
-						if (is_array($parameters))
-							foreach ($parameters AS &$parameter)
-								$parameter = str_replace('\'', '', $parameter);
+			$upgrade_dir_sql = INSTALL_PATH . '/upgrade/sql';
+			// if 1.4;
+			if (!file_exists($upgrade_dir_sql))
+				$upgrade_dir_sql = INSTALL_PATH . '/sql/upgrade';
 
-						// reset phpRes to a null value
-						$phpRes = null;
-						/* Call a simple function */
-						if (strpos($phpString, '::') === false)
-						{
-							$func_name = str_replace($pattern[0], '', $php[0]);
-							if (version_compare(INSTALL_VERSION, '1.5.5.0', '=') && $func_name == 'fix_download_product_feature_active')
-								continue;
+			if (!file_exists($upgrade_dir_sql)) {
+				$this->next = 'error';
+				$this->next_desc = $this->l('Unable to find upgrade directory in the installation path.');
+				return false;
+			}
 
-							if (!file_exists(_PS_INSTALLER_PHP_UPGRADE_DIR_.strtolower($func_name).'.php'))
-							{
-								$this->nextQuickInfo[] = '<div class="upgradeDbError">[ERROR] '.$upgrade_file.' PHP - missing file '.$query.'</div>';
-								$this->nextErrors[] = '[ERROR] '.$upgrade_file.' PHP - missing file '.$query;
-								$warningExist = true;
-							}
-							else
-							{
-								require_once(_PS_INSTALLER_PHP_UPGRADE_DIR_.strtolower($func_name).'.php');
-								$phpRes = call_user_func_array($func_name, $parameters);
-							}
-						}
-						/* Or an object method */
-						else
-						{
-							$func_name = array($php[0], str_replace($pattern[0], '', $php[1]));
-							$this->nextQuickInfo[] = '<div class="upgradeDbError">[ERROR] '.$upgrade_file.' PHP - Object Method call is forbidden ( '.$php[0].'::'.str_replace($pattern[0], '', $php[1]).')</div>';
-							$this->nextErrors[] = '[ERROR] '.$upgrade_file.' PHP - Object Method call is forbidden ('.$php[0].'::'.str_replace($pattern[0], '', $php[1]).')';
-							$warningExist = true;
-						}
+			if ($handle = opendir($upgrade_dir_sql)) {
+				while (false !== ($file = readdir($handle)))
+					if ($file != '.' AND $file != '..')
+						$upgradeFiles[] = str_replace(".sql", "", $file);
+				closedir($handle);
+			}
+			if (empty($upgradeFiles)) {
+				$this->next = 'error';
+				$this->nextQuickInfo[] = sprintf($this->l('Cannot find the SQL upgrade files. Please check that the %s folder is not empty.'), $upgrade_dir_sql);
+				$this->nextErrors[] = sprintf($this->l('Cannot find the SQL upgrade files. Please check that the %s folder is not empty.'), $upgrade_dir_sql);
+				// fail 31
+				return false;
+			}
+			natcasesort($upgradeFiles);
+			$neededUpgradeFiles = array();
 
-						if (isset($phpRes) && (is_array($phpRes) && !empty($phpRes['error'])) || $phpRes === false)
-						{
-							// $this->next = 'error';
-							$this->nextQuickInfo[] = '
-								<div class="upgradeDbError">
-									[ERROR] PHP '.$upgrade_file.' '.$query."\n".'
-									'.(empty($phpRes['error']) ? '' : $phpRes['error']."\n").'
-									'.(empty($phpRes['msg']) ? '' : ' - '.$phpRes['msg']."\n").'
-								</div>';
-							$this->nextErrors[] = '
-								[ERROR] PHP '.$upgrade_file.' '.$query."\n".'
-								'.(empty($phpRes['error']) ? '' : $phpRes['error']."\n").'
-								'.(empty($phpRes['msg']) ? '' : ' - '.$phpRes['msg']."\n");
-							$warningExist = true;
-						}
-						else
-							$this->nextQuickInfo[] = '<div class="upgradeDbOk">[OK] PHP '.$upgrade_file.' : '.$query.'</div>';
-						if (isset($phpRes))
-							unset($phpRes);
-					}
-					else
-					{
+			$arrayVersion = explode('.', $oldversion);
+			$versionNumbers = count($arrayVersion);
+			if ($versionNumbers != 4)
+				$arrayVersion = array_pad($arrayVersion, 4, '0');
 
-						if (strstr($query, 'CREATE TABLE') !== false)
-						{
-							$pattern = '/CREATE TABLE.*[`]*'._DB_PREFIX_.'([^`]*)[`]*\s\(/';
-							preg_match($pattern, $query, $matches);;
-							if (isset($matches[1]) && $matches[1])
-							{
-								$drop = 'DROP TABLE IF EXISTS `'._DB_PREFIX_.$matches[1].'`;';
-								$result = $this->db->execute($drop, false);
-								if ($result)
-									$this->nextQuickInfo[] = '<div class="upgradeDbOk">'.sprintf($this->l('[DROP] SQL %s table has been dropped.'), '`'._DB_PREFIX_.$matches[1].'`').'</div>';
-							}
-						}
-						$result = $this->db->execute($query, false);
-						if (!$result)
-						{
-							$error = $this->db->getMsgError();
-							$error_number = $this->db->getNumberError();
-							$this->nextQuickInfo[] = '
-								<div class="upgradeDbError">
-								[WARNING] SQL '.$upgrade_file.'
-								'.$error_number.' in '.$query.': '.$error.'</div>';
+			$oldversion = implode('.', $arrayVersion);
 
-							$duplicates = array('1050', '1054', '1060', '1061', '1062', '1091');
-							if (!in_array($error_number, $duplicates))
-							{
-								$this->nextErrors[] = 'SQL '.$upgrade_file.' '.$error_number.' in '.$query.': '.$error;
-								$warningExist = true;
-							}
-						}
-						else
-							$this->nextQuickInfo[] = '<div class="upgradeDbOk">[OK] SQL '.$upgrade_file.' '.$query.'</div>';
-					}
-					if (isset($query))
-						unset($query);
+			foreach ($upgradeFiles as $version)
+				if (version_compare($version, $oldversion) == 1 && version_compare(INSTALL_VERSION, $version) != -1)
+					$neededUpgradeFiles[] = $version;
+
+
+			if (strpos(INSTALL_VERSION, '.') === false) {
+				$this->nextQuickInfo[] = sprintf($this->l('%s is not a valid version number.'), INSTALL_VERSION);
+				$this->nextErrors[] = sprintf($this->l('%s is not a valid version number.'), INSTALL_VERSION);
+				return false;
+			}
+
+			$sqlContentVersion = array();
+			if ($this->deactivateCustomModule) {
+				require_once(_PS_INSTALLER_PHP_UPGRADE_DIR_ . 'deactivate_custom_modules.php');
+				deactivate_custom_modules();
+			}
+
+			if (version_compare(INSTALL_VERSION, '1.5.6.1', '=')) {
+				$filename = _PS_INSTALLER_PHP_UPGRADE_DIR_ . 'migrate_orders.php';
+				$content = file_get_contents($filename);
+				$str_old[] = '$values_order_detail = array();';
+				$str_old[] = '$values_order = array();';
+				$str_old[] = '$col_order_detail = array();';
+				$content = str_replace($str_old, '', $content);
+				file_put_contents($filename, $content);
+			}
+
+			foreach ($neededUpgradeFiles as $version) {
+				$file = $upgrade_dir_sql . DIRECTORY_SEPARATOR . $version . '.sql';
+				if (!file_exists($file)) {
+					$this->next = 'error';
+					$this->nextQuickInfo[] = sprintf($this->l('Error while loading SQL upgrade file "%s.sql".'), $version);
+					$this->nextErrors[] = sprintf($this->l('Error while loading SQL upgrade file "%s.sql".'), $version);
+					return false;
+					$logger->logError('Error while loading SQL upgrade file.');
 				}
+				if (!$sqlContent = file_get_contents($file) . "\n") {
+					$this->next = 'error';
+					$this->nextQuickInfo[] = $this->l(sprintf('Error while loading SQL upgrade file %s.', $version));
+					$this->nextErrors[] = $this->l(sprintf('Error while loading sql SQL file %s.', $version));
+					return false;
+					$logger->logError(sprintf('Error while loading sql upgrade file %s.', $version));
+				}
+				$sqlContent = str_replace(array($filePrefix, $engineType), array(_DB_PREFIX_, $mysqlEngine), $sqlContent);
+				$sqlContent = preg_split("/;\s*[\r\n]+/", $sqlContent);
+				$sqlContentVersion[$version] = $sqlContent;
 			}
-			if ($this->next == 'error')
-			{
+
+			//sql file execution
+			global $requests, $warningExist;
+			$requests = '';
+			$warningExist = false;
+
+			// Configuration::loadConfiguration();
+			$request = '';
+
+			foreach ($sqlContentVersion as $upgrade_file => $sqlContent)
+				foreach ($sqlContent as $query) {
+					$query = trim($query);
+					if (!empty($query)) {
+						/* If php code have to be executed */
+						if (strpos($query, '/* PHP:') !== false) {
+							/* Parsing php code */
+							$pos = strpos($query, '/* PHP:') + strlen('/* PHP:');
+							$phpString = substr($query, $pos, strlen($query) - $pos - strlen(' */;'));
+							$php = explode('::', $phpString);
+							preg_match('/\((.*)\)/', $phpString, $pattern);
+							$paramsString = trim($pattern[0], '()');
+							preg_match_all('/([^,]+),? ?/', $paramsString, $parameters);
+							if (isset($parameters[1]))
+								$parameters = $parameters[1];
+							else
+								$parameters = array();
+							if (is_array($parameters))
+								foreach ($parameters AS &$parameter)
+									$parameter = str_replace('\'', '', $parameter);
+
+							// reset phpRes to a null value
+							$phpRes = null;
+							/* Call a simple function */
+							if (strpos($phpString, '::') === false) {
+								$func_name = str_replace($pattern[0], '', $php[0]);
+								if (version_compare(INSTALL_VERSION, '1.5.5.0', '=') && $func_name == 'fix_download_product_feature_active')
+									continue;
+
+								if (!file_exists(_PS_INSTALLER_PHP_UPGRADE_DIR_ . strtolower($func_name) . '.php')) {
+									$this->nextQuickInfo[] = '<div class="upgradeDbError">[ERROR] ' . $upgrade_file . ' PHP - missing file ' . $query . '</div>';
+									$this->nextErrors[] = '[ERROR] ' . $upgrade_file . ' PHP - missing file ' . $query;
+									$warningExist = true;
+								} else {
+									require_once(_PS_INSTALLER_PHP_UPGRADE_DIR_ . strtolower($func_name) . '.php');
+									$phpRes = call_user_func_array($func_name, $parameters);
+								}
+							} /* Or an object method */
+							else {
+								$func_name = array($php[0], str_replace($pattern[0], '', $php[1]));
+								$this->nextQuickInfo[] = '<div class="upgradeDbError">[ERROR] ' . $upgrade_file . ' PHP - Object Method call is forbidden ( ' . $php[0] . '::' . str_replace($pattern[0], '', $php[1]) . ')</div>';
+								$this->nextErrors[] = '[ERROR] ' . $upgrade_file . ' PHP - Object Method call is forbidden (' . $php[0] . '::' . str_replace($pattern[0], '', $php[1]) . ')';
+								$warningExist = true;
+							}
+
+							if (isset($phpRes) && (is_array($phpRes) && !empty($phpRes['error'])) || $phpRes === false) {
+								// $this->next = 'error';
+								$this->nextQuickInfo[] = '
+								<div class="upgradeDbError">
+									[ERROR] PHP ' . $upgrade_file . ' ' . $query . "\n" . '
+									' . (empty($phpRes['error']) ? '' : $phpRes['error'] . "\n") . '
+									' . (empty($phpRes['msg']) ? '' : ' - ' . $phpRes['msg'] . "\n") . '
+								</div>';
+								$this->nextErrors[] = '
+								[ERROR] PHP ' . $upgrade_file . ' ' . $query . "\n" . '
+								' . (empty($phpRes['error']) ? '' : $phpRes['error'] . "\n") . '
+								' . (empty($phpRes['msg']) ? '' : ' - ' . $phpRes['msg'] . "\n");
+								$warningExist = true;
+							} else
+								$this->nextQuickInfo[] = '<div class="upgradeDbOk">[OK] PHP ' . $upgrade_file . ' : ' . $query . '</div>';
+							if (isset($phpRes))
+								unset($phpRes);
+						} else {
+
+							if (strstr($query, 'CREATE TABLE') !== false) {
+								$pattern = '/CREATE TABLE.*[`]*' . _DB_PREFIX_ . '([^`]*)[`]*\s\(/';
+								preg_match($pattern, $query, $matches);;
+								if (isset($matches[1]) && $matches[1]) {
+									$drop = 'DROP TABLE IF EXISTS `' . _DB_PREFIX_ . $matches[1] . '`;';
+									$result = $this->db->execute($drop, false);
+									if ($result)
+										$this->nextQuickInfo[] = '<div class="upgradeDbOk">' . sprintf($this->l('[DROP] SQL %s table has been dropped.'), '`' . _DB_PREFIX_ . $matches[1] . '`') . '</div>';
+								}
+							}
+							$result = $this->db->execute($query, false);
+							if (!$result) {
+								$error = $this->db->getMsgError();
+								$error_number = $this->db->getNumberError();
+								$this->nextQuickInfo[] = '
+								<div class="upgradeDbError">
+								[WARNING] SQL ' . $upgrade_file . '
+								' . $error_number . ' in ' . $query . ': ' . $error . '</div>';
+
+								$duplicates = array('1050', '1054', '1060', '1061', '1062', '1091');
+								if (!in_array($error_number, $duplicates)) {
+									$this->nextErrors[] = 'SQL ' . $upgrade_file . ' ' . $error_number . ' in ' . $query . ': ' . $error;
+									$warningExist = true;
+								}
+							} else
+								$this->nextQuickInfo[] = '<div class="upgradeDbOk">[OK] SQL ' . $upgrade_file . ' ' . $query . '</div>';
+						}
+						if (isset($query))
+							unset($query);
+					}
+				}
+			if ($this->next == 'error') {
 				$this->next_desc = $this->l('An error happened during the database upgrade.');
 				return false;
 			}
 
-		$this->nextQuickInfo[] = $this->l('Database upgrade OK'); // no error !
+			$this->nextQuickInfo[] = $this->l('Database upgrade OK'); // no error !
 
-		# At this point, database upgrade is over.
+			# At this point, database upgrade is over.
 			# Now we need to add all previous missing settings items, and reset cache and compile directories
 			$this->writeNewSettings();
 
-		// Settings updated, compile and cache directories must be emptied
-		$arrayToClean[] = $this->prodRootDir.'/tools/smarty/cache/';
-		$arrayToClean[] = $this->prodRootDir.'/tools/smarty/compile/';
-		$arrayToClean[] = $this->prodRootDir.'/tools/smarty_v2/cache/';
-		$arrayToClean[] = $this->prodRootDir.'/tools/smarty_v2/compile/';
-		if (version_compare(INSTALL_VERSION, '1.5.0.0', '>'))
-		{
-			$arrayToClean[] = $this->prodRootDir.'/cache/smarty/cache/';
-			$arrayToClean[] = $this->prodRootDir.'/cache/smarty/compile/';
-		}
-
-		foreach ($arrayToClean as $dir)
-			if (!file_exists($dir))
-			{
-				$this->nextQuickInfo[] = sprintf($this->l('[SKIP] directory "%s" does not exist and cannot be emptied.'), str_replace($this->prodRootDir, '', $dir));
-				continue;
-			}
-			else
-				foreach (scandir($dir) as $file)
-					if ($file[0] != '.' && $file != 'index.php' && $file != '.htaccess')
-					{
-						if (is_file($dir.$file))
-							unlink($dir.$file);
-						elseif(is_dir($dir.$file.DIRECTORY_SEPARATOR))
-							self::deleteDirectory($dir.$file.DIRECTORY_SEPARATOR);
-						$this->nextQuickInfo[] = sprintf($this->l('[CLEANING CACHE] File %s removed'), $file);
-					}
-
-		if (version_compare(INSTALL_VERSION, '1.5.0.0', '>'))
-		{
-			Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'configuration` SET `name` = \'PS_LEGACY_IMAGES\' WHERE name LIKE \'0\' AND `value` = 1');
-			Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'configuration` SET `value` = 0 WHERE `name` LIKE \'PS_LEGACY_IMAGES\'');
-			if (Db::getInstance()->getValue('SELECT COUNT(id_product_download) FROM `'._DB_PREFIX_.'product_download` WHERE `active` = 1') > 0)
-				Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'configuration` SET `value` = 1 WHERE `name` LIKE \'PS_VIRTUAL_PROD_FEATURE_ACTIVE\'');
-
-			if (defined('_THEME_NAME_') && $this->updateDefaultTheme && preg_match('#(default|prestashop|default-boostrap)$#', _THEME_NAME_))
-			{
-				$separator = addslashes(DIRECTORY_SEPARATOR);
-				$file = _PS_ROOT_DIR_.$separator.'themes'.$separator._THEME_NAME_.$separator.'cache'.$separator;
-				if (file_exists($file))
-					foreach (scandir($file) as $cache)
-						if ($cache[0] != '.' && $cache != 'index.php' && $cache != '.htaccess' && file_exists($file.$cache) && !is_dir($file.$cache))
-							if (file_exists($dir.$cache))
-								unlink($file.$cache);
+			// Settings updated, compile and cache directories must be emptied
+			$arrayToClean[] = $this->prodRootDir . '/tools/smarty/cache/';
+			$arrayToClean[] = $this->prodRootDir . '/tools/smarty/compile/';
+			$arrayToClean[] = $this->prodRootDir . '/tools/smarty_v2/cache/';
+			$arrayToClean[] = $this->prodRootDir . '/tools/smarty_v2/compile/';
+			if (version_compare(INSTALL_VERSION, '1.5.0.0', '>')) {
+				$arrayToClean[] = $this->prodRootDir . '/cache/smarty/cache/';
+				$arrayToClean[] = $this->prodRootDir . '/cache/smarty/compile/';
 			}
 
-			if (version_compare(_PS_VERSION_, '1.5.0.0', '<='))
-			{
-				$dir = _PS_ROOT_DIR_.'/controllers/';
-				if (file_exists($dir))
+			foreach ($arrayToClean as $dir)
+				if (!file_exists($dir)) {
+					$this->nextQuickInfo[] = sprintf($this->l('[SKIP] directory "%s" does not exist and cannot be emptied.'), str_replace($this->prodRootDir, '', $dir));
+					continue;
+				} else
 					foreach (scandir($dir) as $file)
-						if (!is_dir($file) && $file[0] != '.' && $file != 'index.php' && $file != '.htaccess')
-							if (file_exists($dir.basename(str_replace('.php', '', $file).'.php')))
-								unlink($dir.basename($file));
+						if ($file[0] != '.' && $file != 'index.php' && $file != '.htaccess') {
+							if (is_file($dir . $file))
+								unlink($dir . $file);
+							elseif (is_dir($dir . $file . DIRECTORY_SEPARATOR))
+								self::deleteDirectory($dir . $file . DIRECTORY_SEPARATOR);
+							$this->nextQuickInfo[] = sprintf($this->l('[CLEANING CACHE] File %s removed'), $file);
+						}
 
-				$dir = _PS_ROOT_DIR_.'/classes/';
-				foreach(self::$classes14 as $class)
-					if (file_exists($dir.basename($class).'.php'))
-						unlink($dir.basename($class).'.php');
+			if (version_compare(INSTALL_VERSION, '1.5.0.0', '>')) {
+				Db::getInstance()->execute('UPDATE `' . _DB_PREFIX_ . 'configuration` SET `name` = \'PS_LEGACY_IMAGES\' WHERE name LIKE \'0\' AND `value` = 1');
+				Db::getInstance()->execute('UPDATE `' . _DB_PREFIX_ . 'configuration` SET `value` = 0 WHERE `name` LIKE \'PS_LEGACY_IMAGES\'');
+				if (Db::getInstance()->getValue('SELECT COUNT(id_product_download) FROM `' . _DB_PREFIX_ . 'product_download` WHERE `active` = 1') > 0)
+					Db::getInstance()->execute('UPDATE `' . _DB_PREFIX_ . 'configuration` SET `value` = 1 WHERE `name` LIKE \'PS_VIRTUAL_PROD_FEATURE_ACTIVE\'');
 
-				$dir = _PS_ADMIN_DIR_.'/tabs/';
-				if (file_exists($dir))
-					foreach (scandir($dir) as $file)
-						if (!is_dir($file) && $file[0] != '.' && $file != 'index.php' && $file != '.htaccess')
-							if (file_exists($dir.basename(str_replace('.php', '', $file).'.php')))
-								unlink($dir.basename($file));
-			}
+				if (defined('_THEME_NAME_') && $this->updateDefaultTheme && preg_match('#(default|prestashop|default-boostrap)$#', _THEME_NAME_)) {
+					$separator = addslashes(DIRECTORY_SEPARATOR);
+					$file = _PS_ROOT_DIR_ . $separator . 'themes' . $separator . _THEME_NAME_ . $separator . 'cache' . $separator;
+					if (file_exists($file))
+						foreach (scandir($file) as $cache)
+							if ($cache[0] != '.' && $cache != 'index.php' && $cache != '.htaccess' && file_exists($file . $cache) && !is_dir($file . $cache))
+								if (file_exists($dir . $cache))
+									unlink($file . $cache);
+				}
 
-			if (version_compare($this->install_version, '1.5.4.0', '>='))
-			{
-				// Upgrade languages
-				if (!defined('_PS_TOOL_DIR_'))
-					define('_PS_TOOL_DIR_', _PS_ROOT_DIR_.'/tools/');
-				if (!defined('_PS_TRANSLATIONS_DIR_'))
-					define('_PS_TRANSLATIONS_DIR_', _PS_ROOT_DIR_.'/translations/');
-				if (!defined('_PS_MODULES_DIR_'))
-					define('_PS_MODULES_DIR_', _PS_ROOT_DIR_.'/modules/');
-				if (!defined('_PS_MAILS_DIR_'))
-					define('_PS_MAILS_DIR_', _PS_ROOT_DIR_.'/mails/');
-				$langs = Db::getInstance()->executeS('SELECT * FROM `'._DB_PREFIX_.'lang` WHERE `active` = 1');
-				require_once(_PS_TOOL_DIR_.'tar/Archive_Tar.php');
-				if (is_array($langs))
-					foreach ($langs as $lang)
-					{
-						$lang_pack = Tools14::jsonDecode(Tools14::file_get_contents('http'.(extension_loaded('openssl')? 's' : '').'://www.prestashop.com/download/lang_packs/get_language_pack.php?version='.$this->install_version.'&iso_lang='.$lang['iso_code']));
+				if (version_compare(_PS_VERSION_, '1.5.0.0', '<=')) {
+					$dir = _PS_ROOT_DIR_ . '/controllers/';
+					if (file_exists($dir))
+						foreach (scandir($dir) as $file)
+							if (!is_dir($file) && $file[0] != '.' && $file != 'index.php' && $file != '.htaccess')
+								if (file_exists($dir . basename(str_replace('.php', '', $file) . '.php')))
+									unlink($dir . basename($file));
 
-						if (!$lang_pack)
-							continue;
-						elseif ($content = Tools14::file_get_contents('http'.(extension_loaded('openssl')? 's' : '').'://translations.prestashop.com/download/lang_packs/gzip/'.$lang_pack->version.'/'.$lang['iso_code'].'.gzip'))
-						{
-							$file = _PS_TRANSLATIONS_DIR_.$lang['iso_code'].'.gzip';
-							if ((bool)file_put_contents($file, $content))
-							{
-								$gz = new Archive_Tar($file, true);
-								$files_list = $gz->listContent();
-								if (!$this->keepMails)
-								{
-									$files_listing = array();
-									foreach($files_list as $i => $file)
-										if (preg_match('/^mails\/'.$lang['iso_code'].'\/.*/', $file['filename']))
-											unset($files_list[$i]);
-									foreach($files_list as $file)
-										if (isset($file['filename']) && is_string($file['filename']))
-											$files_listing[] = $file['filename'];
-									if (is_array($files_listing))
-										$gz->extractList($files_listing, _PS_TRANSLATIONS_DIR_.'../', '');
+					$dir = _PS_ROOT_DIR_ . '/classes/';
+					foreach (self::$classes14 as $class)
+						if (file_exists($dir . basename($class) . '.php'))
+							unlink($dir . basename($class) . '.php');
+
+					$dir = _PS_ADMIN_DIR_ . '/tabs/';
+					if (file_exists($dir))
+						foreach (scandir($dir) as $file)
+							if (!is_dir($file) && $file[0] != '.' && $file != 'index.php' && $file != '.htaccess')
+								if (file_exists($dir . basename(str_replace('.php', '', $file) . '.php')))
+									unlink($dir . basename($file));
+				}
+
+				if (version_compare($this->install_version, '1.5.4.0', '>=')) {
+					// Upgrade languages
+					if (!defined('_PS_TOOL_DIR_'))
+						define('_PS_TOOL_DIR_', _PS_ROOT_DIR_ . '/tools/');
+					if (!defined('_PS_TRANSLATIONS_DIR_'))
+						define('_PS_TRANSLATIONS_DIR_', _PS_ROOT_DIR_ . '/translations/');
+					if (!defined('_PS_MODULES_DIR_'))
+						define('_PS_MODULES_DIR_', _PS_ROOT_DIR_ . '/modules/');
+					if (!defined('_PS_MAILS_DIR_'))
+						define('_PS_MAILS_DIR_', _PS_ROOT_DIR_ . '/mails/');
+					$langs = Db::getInstance()->executeS('SELECT * FROM `' . _DB_PREFIX_ . 'lang` WHERE `active` = 1');
+					require_once(_PS_TOOL_DIR_ . 'tar/Archive_Tar.php');
+					if (is_array($langs))
+						foreach ($langs as $lang) {
+							$lang_pack = Tools14::jsonDecode(Tools14::file_get_contents('http' . (extension_loaded('openssl') ? 's' : '') . '://www.prestashop.com/download/lang_packs/get_language_pack.php?version=' . $this->install_version . '&iso_lang=' . $lang['iso_code']));
+
+							if (!$lang_pack)
+								continue;
+							elseif ($content = Tools14::file_get_contents('http' . (extension_loaded('openssl') ? 's' : '') . '://translations.prestashop.com/download/lang_packs/gzip/' . $lang_pack->version . '/' . $lang['iso_code'] . '.gzip')) {
+								$file = _PS_TRANSLATIONS_DIR_ . $lang['iso_code'] . '.gzip';
+								if ((bool)file_put_contents($file, $content)) {
+									$gz = new Archive_Tar($file, true);
+									$files_list = $gz->listContent();
+									if (!$this->keepMails) {
+										$files_listing = array();
+										foreach ($files_list as $i => $file)
+											if (preg_match('/^mails\/' . $lang['iso_code'] . '\/.*/', $file['filename']))
+												unset($files_list[$i]);
+										foreach ($files_list as $file)
+											if (isset($file['filename']) && is_string($file['filename']))
+												$files_listing[] = $file['filename'];
+										if (is_array($files_listing))
+											$gz->extractList($files_listing, _PS_TRANSLATIONS_DIR_ . '../', '');
+									} else
+										$gz->extract(_PS_TRANSLATIONS_DIR_ . '../', false);
 								}
-								else
-									$gz->extract(_PS_TRANSLATIONS_DIR_.'../', false);
 							}
 						}
+				}
+
+				if (version_compare($this->install_version, '1.6.0.0', '>')) {
+					if (version_compare($this->install_version, '1.6.1.0', '>='))
+						require_once(_PS_ROOT_DIR_ . '/Core/Foundation/Database/Core_Foundation_Database_EntityInterface.php');
+
+					if (file_exists(_PS_ROOT_DIR_ . '/classes/Tools.php'))
+						require_once(_PS_ROOT_DIR_ . '/classes/Tools.php');
+					if (!class_exists('Tools2', false) AND class_exists('ToolsCore'))
+						eval('class Tools2 extends ToolsCore{}');
+
+					if (class_exists('Tools2') && method_exists('Tools2', 'generateHtaccess')) {
+						$url_rewrite = (bool)Db::getInstance()->getvalue('SELECT `value` FROM `' . _DB_PREFIX_ . 'configuration` WHERE name=\'PS_REWRITING_SETTINGS\'');
+
+						if (!defined('_MEDIA_SERVER_1_'))
+							define('_MEDIA_SERVER_1_', '');
+						if (!defined('_MEDIA_SERVER_2_'))
+							define('_MEDIA_SERVER_2_', '');
+						if (!defined('_MEDIA_SERVER_3_'))
+							define('_MEDIA_SERVER_3_', '');
+						if (!defined('_PS_USE_SQL_SLAVE_'))
+							define('_PS_USE_SQL_SLAVE_', false);
+
+						if (file_exists(_PS_ROOT_DIR_ . '/classes/ObjectModel.php'))
+							require_once(_PS_ROOT_DIR_ . '/classes/ObjectModel.php');
+						if (!class_exists('ObjectModel', false) AND class_exists('ObjectModelCore'))
+							eval('abstract class ObjectModel extends ObjectModelCore{}');
+
+						if (file_exists(_PS_ROOT_DIR_ . '/classes/Configuration.php'))
+							require_once(_PS_ROOT_DIR_ . '/classes/Configuration.php');
+						if (!class_exists('Configuration', false) AND class_exists('ConfigurationCore'))
+							eval('class Configuration extends ConfigurationCore{}');
+
+						if (file_exists(_PS_ROOT_DIR_ . '/classes/cache/Cache.php'))
+							require_once(_PS_ROOT_DIR_ . '/classes/cache/Cache.php');
+						if (!class_exists('Cache', false) AND class_exists('CacheCore'))
+							eval('abstract class Cache extends CacheCore{}');
+
+						if (file_exists(_PS_ROOT_DIR_ . '/classes/PrestaShopCollection.php'))
+							require_once(_PS_ROOT_DIR_ . '/classes/PrestaShopCollection.php');
+						if (!class_exists('PrestaShopCollection', false) AND class_exists('PrestaShopCollectionCore'))
+							eval('class PrestaShopCollection extends PrestaShopCollectionCore{}');
+
+						if (file_exists(_PS_ROOT_DIR_ . '/classes/shop/ShopUrl.php'))
+							require_once(_PS_ROOT_DIR_ . '/classes/shop/ShopUrl.php');
+						if (!class_exists('ShopUrl', false) AND class_exists('ShopUrlCore'))
+							eval('class ShopUrl extends ShopUrlCore{}');
+
+						if (file_exists(_PS_ROOT_DIR_ . '/classes/shop/Shop.php'))
+							require_once(_PS_ROOT_DIR_ . '/classes/shop/Shop.php');
+						if (!class_exists('Shop', false) AND class_exists('ShopCore'))
+							eval('class Shop extends ShopCore{}');
+
+						if (file_exists(_PS_ROOT_DIR_ . '/classes/Translate.php'))
+							require_once(_PS_ROOT_DIR_ . '/classes/Translate.php');
+						if (!class_exists('Translate', false) AND class_exists('TranslateCore'))
+							eval('class Translate extends TranslateCore{}');
+
+						if (file_exists(_PS_ROOT_DIR_ . '/classes/module/Module.php'))
+							require_once(_PS_ROOT_DIR_ . '/classes/module/Module.php');
+						if (!class_exists('Module', false) AND class_exists('ModuleCore'))
+							eval('class Module extends ModuleCore{}');
+
+						if (file_exists(_PS_ROOT_DIR_ . '/classes/Validate.php'))
+							require_once(_PS_ROOT_DIR_ . '/classes/Validate.php');
+						if (!class_exists('Validate', false) AND class_exists('ValidateCore'))
+							eval('class Validate extends ValidateCore{}');
+
+						if (file_exists(_PS_ROOT_DIR_ . '/classes/Language.php'))
+							require_once(_PS_ROOT_DIR_ . '/classes/Language.php');
+						if (!class_exists('Language', false) AND class_exists('LanguageCore'))
+							eval('class Language extends LanguageCore{}');
+
+						if (file_exists(_PS_ROOT_DIR_ . '/classes/Tab.php'))
+							require_once(_PS_ROOT_DIR_ . '/classes/Tab.php');
+						if (!class_exists('Tab', false) AND class_exists('TabCore'))
+							eval('class Tab extends TabCore{}');
+
+						if (file_exists(_PS_ROOT_DIR_ . '/classes/Dispatcher.php'))
+							require_once(_PS_ROOT_DIR_ . '/classes/Dispatcher.php');
+						if (!class_exists('Dispatcher', false) AND class_exists('DispatcherCore'))
+							eval('class Dispatcher extends DispatcherCore{}');
+
+						if (file_exists(_PS_ROOT_DIR_ . '/classes/Hook.php'))
+							require_once(_PS_ROOT_DIR_ . '/classes/Hook.php');
+						if (!class_exists('Hook', false) AND class_exists('HookCore'))
+							eval('class Hook extends HookCore{}');
+
+						if (file_exists(_PS_ROOT_DIR_ . '/classes/Context.php'))
+							require_once(_PS_ROOT_DIR_ . '/classes/Context.php');
+						if (!class_exists('Context', false) AND class_exists('ContextCore'))
+							eval('class Context extends ContextCore{}');
+
+						if (file_exists(_PS_ROOT_DIR_ . '/classes/Group.php'))
+							require_once(_PS_ROOT_DIR_ . '/classes/Group.php');
+						if (!class_exists('Group', false) AND class_exists('GroupCore'))
+							eval('class Group extends GroupCore{}');
+
+						Tools2::generateHtaccess(null, $url_rewrite);
 					}
-			}
+				}
 
-			if (version_compare($this->install_version, '1.6.0.0', '>'))
-			{
-				if (version_compare($this->install_version, '1.6.1.0', '>='))
-					require_once(_PS_ROOT_DIR_.'/Core/Foundation/Database/Core_Foundation_Database_EntityInterface.php');
-
-				if (file_exists(_PS_ROOT_DIR_.'/classes/Tools.php'))
-					require_once(_PS_ROOT_DIR_.'/classes/Tools.php');
-				if (!class_exists('Tools2', false) AND class_exists('ToolsCore'))
-					eval('class Tools2 extends ToolsCore{}');
-
-				if (class_exists('Tools2') && method_exists('Tools2', 'generateHtaccess'))
-				{
-					$url_rewrite = (bool)Db::getInstance()->getvalue('SELECT `value` FROM `'._DB_PREFIX_.'configuration` WHERE name=\'PS_REWRITING_SETTINGS\'');
-
-					if (!defined('_MEDIA_SERVER_1_'))
-						define('_MEDIA_SERVER_1_', '');
-					if (!defined('_MEDIA_SERVER_2_'))
-						define('_MEDIA_SERVER_2_', '');
-					if (!defined('_MEDIA_SERVER_3_'))
-						define('_MEDIA_SERVER_3_', '');
-					if (!defined('_PS_USE_SQL_SLAVE_'))
-						define('_PS_USE_SQL_SLAVE_', false);
-
-					if (file_exists(_PS_ROOT_DIR_.'/classes/ObjectModel.php'))
-						require_once(_PS_ROOT_DIR_.'/classes/ObjectModel.php');
-					if (!class_exists('ObjectModel', false) AND class_exists('ObjectModelCore'))
-						eval('abstract class ObjectModel extends ObjectModelCore{}');
-
-					if (file_exists(_PS_ROOT_DIR_.'/classes/Configuration.php'))
-						require_once(_PS_ROOT_DIR_.'/classes/Configuration.php');
-					if (!class_exists('Configuration', false) AND class_exists('ConfigurationCore'))
-						eval('class Configuration extends ConfigurationCore{}');
-
-					if (file_exists(_PS_ROOT_DIR_.'/classes/cache/Cache.php'))
-						require_once(_PS_ROOT_DIR_.'/classes/cache/Cache.php');
-					if (!class_exists('Cache', false) AND class_exists('CacheCore'))
-						eval('abstract class Cache extends CacheCore{}');
-
-					if (file_exists(_PS_ROOT_DIR_.'/classes/PrestaShopCollection.php'))
-						require_once(_PS_ROOT_DIR_.'/classes/PrestaShopCollection.php');
-					if(!class_exists('PrestaShopCollection', false) AND class_exists('PrestaShopCollectionCore'))
-						eval('class PrestaShopCollection extends PrestaShopCollectionCore{}');
-
-					if (file_exists(_PS_ROOT_DIR_.'/classes/shop/ShopUrl.php'))
-						require_once(_PS_ROOT_DIR_.'/classes/shop/ShopUrl.php');
-					if (!class_exists('ShopUrl', false) AND class_exists('ShopUrlCore'))
-						eval('class ShopUrl extends ShopUrlCore{}');
-
-					if (file_exists(_PS_ROOT_DIR_.'/classes/shop/Shop.php'))
-						require_once(_PS_ROOT_DIR_.'/classes/shop/Shop.php');
-					if (!class_exists('Shop', false) AND class_exists('ShopCore'))
-						eval('class Shop extends ShopCore{}');
-
-					if (file_exists(_PS_ROOT_DIR_.'/classes/Translate.php'))
-						require_once(_PS_ROOT_DIR_.'/classes/Translate.php');
-					if (!class_exists('Translate', false) AND class_exists('TranslateCore'))
-						eval('class Translate extends TranslateCore{}');
-
-					if (file_exists(_PS_ROOT_DIR_.'/classes/module/Module.php'))
-						require_once(_PS_ROOT_DIR_.'/classes/module/Module.php');
-					if (!class_exists('Module', false) AND class_exists('ModuleCore'))
-						eval('class Module extends ModuleCore{}');
-
-					if (file_exists(_PS_ROOT_DIR_.'/classes/Validate.php'))
-						require_once(_PS_ROOT_DIR_.'/classes/Validate.php');
-					if (!class_exists('Validate', false) AND class_exists('ValidateCore'))
-						eval('class Validate extends ValidateCore{}');
-
-					if (file_exists(_PS_ROOT_DIR_.'/classes/Language.php'))
-						require_once(_PS_ROOT_DIR_.'/classes/Language.php');
-					if (!class_exists('Language', false) AND class_exists('LanguageCore'))
-						eval('class Language extends LanguageCore{}');
-
-					if (file_exists(_PS_ROOT_DIR_.'/classes/Tab.php'))
-						require_once(_PS_ROOT_DIR_.'/classes/Tab.php');
-					if (!class_exists('Tab', false) AND class_exists('TabCore'))
-						eval('class Tab extends TabCore{}');
-
-					if (file_exists(_PS_ROOT_DIR_.'/classes/Dispatcher.php'))
-						require_once(_PS_ROOT_DIR_.'/classes/Dispatcher.php');
-					if (!class_exists('Dispatcher', false) AND class_exists('DispatcherCore'))
-						eval('class Dispatcher extends DispatcherCore{}');
-
-					if (file_exists(_PS_ROOT_DIR_.'/classes/Hook.php'))
-						require_once(_PS_ROOT_DIR_.'/classes/Hook.php');
-					if (!class_exists('Hook', false) AND class_exists('HookCore'))
-						eval('class Hook extends HookCore{}');
-
-					if (file_exists(_PS_ROOT_DIR_.'/classes/Context.php'))
-						require_once(_PS_ROOT_DIR_.'/classes/Context.php');
-					if (!class_exists('Context', false) AND class_exists('ContextCore'))
-						eval('class Context extends ContextCore{}');
-
-					if (file_exists(_PS_ROOT_DIR_.'/classes/Group.php'))
-						require_once(_PS_ROOT_DIR_.'/classes/Group.php');
-					if (!class_exists('Group', false) AND class_exists('GroupCore'))
-						eval('class Group extends GroupCore{}');
-
-					Tools2::generateHtaccess(null, $url_rewrite);
+				if (version_compare($this->install_version, '1.6.0.2', '>')) {
+					$path = $this->adminDir . DIRECTORY_SEPARATOR . 'themes' . DIRECTORY_SEPARATOR . 'default' . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . 'controllers' . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . 'header.tpl';
+					if (file_exists($path))
+						unlink($path);
 				}
 			}
 
-			if (version_compare($this->install_version, '1.6.0.2', '>'))
-			{
-				$path = $this->adminDir.DIRECTORY_SEPARATOR.'themes'.DIRECTORY_SEPARATOR.'default'.DIRECTORY_SEPARATOR.'template'.DIRECTORY_SEPARATOR.'controllers'.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR.'header.tpl';
-				if (file_exists($path))
-					unlink($path);
+			if (file_exists(_PS_ROOT_DIR_ . '/cache/class_index.php'))
+				unlink(_PS_ROOT_DIR_ . '/cache/class_index.php');
+
+			// Clear XML files
+			if (file_exists(_PS_ROOT_DIR_ . '/config/xml/blog-fr.xml'))
+				unlink(_PS_ROOT_DIR_ . '/config/xml/blog-fr.xml');
+			if (file_exists(_PS_ROOT_DIR_ . '/config/xml/default_country_modules_list.xml'))
+				unlink(_PS_ROOT_DIR_ . '/config/xml/default_country_modules_list.xml');
+			if (file_exists(_PS_ROOT_DIR_ . '/config/xml/modules_list.xml'))
+				unlink(_PS_ROOT_DIR_ . '/config/xml/modules_list.xml');
+			if (file_exists(_PS_ROOT_DIR_ . '/config/xml/modules_native_addons.xml'))
+				unlink(_PS_ROOT_DIR_ . '/config/xml/modules_native_addons.xml');
+			if (file_exists(_PS_ROOT_DIR_ . '/config/xml/must_have_modules_list.xml'))
+				unlink(_PS_ROOT_DIR_ . '/config/xml/must_have_modules_list.xml');
+			if (file_exists(_PS_ROOT_DIR_ . '/config/xml/tab_modules_list.xml'))
+				unlink(_PS_ROOT_DIR_ . '/config/xml/tab_modules_list.xml');
+			if (file_exists(_PS_ROOT_DIR_ . '/config/xml/trusted_modules_list.xml'))
+				unlink(_PS_ROOT_DIR_ . '/config/xml/trusted_modules_list.xml');
+			if (file_exists(_PS_ROOT_DIR_ . '/config/xml/untrusted_modules_list.xml'))
+				unlink(_PS_ROOT_DIR_ . '/config/xml/untrusted_modules_list.xml');
+
+			if ($this->deactivateCustomModule) {
+				$exist = Db::getInstance()->getValue('SELECT `id_configuration` FROM `' . _DB_PREFIX_ . 'configuration` WHERE `name` LIKE \'PS_DISABLE_OVERRIDES\'');
+				if ($exist)
+					Db::getInstance()->execute('UPDATE `' . _DB_PREFIX_ . 'configuration` SET value = 1 WHERE `name` LIKE \'PS_DISABLE_OVERRIDES\'');
+				else
+					Db::getInstance()->execute('INSERT INTO `' . _DB_PREFIX_ . 'configuration` (name, value, date_add, date_upd) VALUES ("PS_DISABLE_OVERRIDES", 1, NOW(), NOW())');
+
+				if (file_exists(_PS_ROOT_DIR_ . '/classes/PrestaShopAutoload.php'))
+					require_once(_PS_ROOT_DIR_ . '/classes/PrestaShopAutoload.php');
+
+				if (version_compare($this->install_version, '1.6.0.0', '>') && class_exists('PrestaShopAutoload') && method_exists('PrestaShopAutoload', 'generateIndex')) {
+					PrestaShopAutoload::getInstance()->_include_override_path = false;
+					PrestaShopAutoload::getInstance()->generateIndex();
+				}
 			}
-		}
 
-		if (file_exists(_PS_ROOT_DIR_.'/cache/class_index.php'))
-			unlink(_PS_ROOT_DIR_.'/cache/class_index.php');
-
-		// Clear XML files
-		if (file_exists(_PS_ROOT_DIR_.'/config/xml/blog-fr.xml'))
-			unlink(_PS_ROOT_DIR_.'/config/xml/blog-fr.xml');
-		if (file_exists(_PS_ROOT_DIR_.'/config/xml/default_country_modules_list.xml'))
-			unlink(_PS_ROOT_DIR_.'/config/xml/default_country_modules_list.xml');
-		if (file_exists(_PS_ROOT_DIR_.'/config/xml/modules_list.xml'))
-			unlink(_PS_ROOT_DIR_.'/config/xml/modules_list.xml');
-		if (file_exists(_PS_ROOT_DIR_.'/config/xml/modules_native_addons.xml'))
-			unlink(_PS_ROOT_DIR_.'/config/xml/modules_native_addons.xml');
-		if (file_exists(_PS_ROOT_DIR_.'/config/xml/must_have_modules_list.xml'))
-			unlink(_PS_ROOT_DIR_.'/config/xml/must_have_modules_list.xml');
-		if (file_exists(_PS_ROOT_DIR_.'/config/xml/tab_modules_list.xml'))
-			unlink(_PS_ROOT_DIR_.'/config/xml/tab_modules_list.xml');
-		if (file_exists(_PS_ROOT_DIR_.'/config/xml/trusted_modules_list.xml'))
-			unlink(_PS_ROOT_DIR_.'/config/xml/trusted_modules_list.xml');
-		if (file_exists(_PS_ROOT_DIR_.'/config/xml/untrusted_modules_list.xml'))
-			unlink(_PS_ROOT_DIR_.'/config/xml/untrusted_modules_list.xml');
-
-		if ($this->deactivateCustomModule)
-		{
-			$exist = Db::getInstance()->getValue('SELECT `id_configuration` FROM `'._DB_PREFIX_.'configuration` WHERE `name` LIKE \'PS_DISABLE_OVERRIDES\'');
-			if ($exist)
-				Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'configuration` SET value = 1 WHERE `name` LIKE \'PS_DISABLE_OVERRIDES\'');
-			else
-				Db::getInstance()->execute('INSERT INTO `'._DB_PREFIX_.'configuration` (name, value, date_add, date_upd) VALUES ("PS_DISABLE_OVERRIDES", 1, NOW(), NOW())');
-
-			if (file_exists(_PS_ROOT_DIR_.'/classes/PrestaShopAutoload.php'))
-				require_once(_PS_ROOT_DIR_.'/classes/PrestaShopAutoload.php');
-
-			if (version_compare($this->install_version, '1.6.0.0', '>') && class_exists('PrestaShopAutoload') && method_exists('PrestaShopAutoload', 'generateIndex'))
-			{
-				PrestaShopAutoload::getInstance()->_include_override_path = false;
-				PrestaShopAutoload::getInstance()->generateIndex();
+			if ($this->changeToDefaultTheme) {
+				if (version_compare(INSTALL_VERSION, '1.6.0.0', '>')) {
+					Db::getInstance()->execute('UPDATE `' . _DB_PREFIX_ . 'shop`
+					SET id_theme = (SELECT id_theme FROM `' . _DB_PREFIX_ . 'theme` WHERE name LIKE \'default-bootstrap\')');
+					Db::getInstance()->execute('DELETE FROM `' . _DB_PREFIX_ . 'theme` WHERE  name LIKE \'default\' OR name LIKE \'prestashop\'');
+				} elseif (version_compare(INSTALL_VERSION, '1.5.0.0', '>')) {
+					Db::getInstance()->execute('UPDATE `' . _DB_PREFIX_ . 'shop`
+					SET id_theme = (SELECT id_theme FROM `' . _DB_PREFIX_ . 'theme` WHERE name LIKE \'default\')');
+					Db::getInstance()->execute('DELETE FROM `' . _DB_PREFIX_ . 'theme` WHERE  name LIKE \'prestashop\'');
+				}
 			}
-		}
 
-		if ($this->changeToDefaultTheme)
-		{
-			if (version_compare(INSTALL_VERSION, '1.6.0.0', '>'))
-			{
-				Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'shop`
-					SET id_theme = (SELECT id_theme FROM `'._DB_PREFIX_.'theme` WHERE name LIKE \'default-bootstrap\')');
-				Db::getInstance()->execute('DELETE FROM `'._DB_PREFIX_.'theme` WHERE  name LIKE \'default\' OR name LIKE \'prestashop\'');
-			}
-			elseif (version_compare(INSTALL_VERSION, '1.5.0.0', '>'))
-			{
-				Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'shop`
-					SET id_theme = (SELECT id_theme FROM `'._DB_PREFIX_.'theme` WHERE name LIKE \'default\')');
-				Db::getInstance()->execute('DELETE FROM `'._DB_PREFIX_.'theme` WHERE  name LIKE \'prestashop\'');
-			}
-		}
-
-		// delete cache filesystem if activated
-		if (defined('_PS_CACHE_ENABLED_') && _PS_CACHE_ENABLED_)
-		{
-			$depth = (int)$this->db->getValue('SELECT value
-				FROM '._DB_PREFIX_.'configuration
+			// delete cache filesystem if activated
+			if (defined('_PS_CACHE_ENABLED_') && _PS_CACHE_ENABLED_) {
+				$depth = (int)$this->db->getValue('SELECT value
+				FROM ' . _DB_PREFIX_ . 'configuration
 				WHERE name = "PS_CACHEFS_DIRECTORY_DEPTH"');
-			if($depth)
-			{
-				if (!defined('_PS_CACHEFS_DIRECTORY_'))
-					define('_PS_CACHEFS_DIRECTORY_', $this->prodRootDir.'/cache/cachefs/');
-				self::deleteDirectory(_PS_CACHEFS_DIRECTORY_, false);
-				if (class_exists('CacheFs', false))
-					self::createCacheFsDirectories((int)$depth);
+				if ($depth) {
+					if (!defined('_PS_CACHEFS_DIRECTORY_'))
+						define('_PS_CACHEFS_DIRECTORY_', $this->prodRootDir . '/cache/cachefs/');
+					self::deleteDirectory(_PS_CACHEFS_DIRECTORY_, false);
+					if (class_exists('CacheFs', false))
+						self::createCacheFsDirectories((int)$depth);
+				}
 			}
+
+			$this->db->execute('UPDATE `' . _DB_PREFIX_ . 'configuration` SET value="0" WHERE name = "PS_HIDE_OPTIMIZATION_TIS"', false);
+			$this->db->execute('UPDATE `' . _DB_PREFIX_ . 'configuration` SET value="1" WHERE name = "PS_NEED_REBUILD_INDEX"', false);
+			$this->db->execute('UPDATE `' . _DB_PREFIX_ . 'configuration` SET value="' . INSTALL_VERSION . '" WHERE name = "PS_VERSION_DB"', false);
 		}
 
-		$this->db->execute('UPDATE `'._DB_PREFIX_.'configuration` SET value="0" WHERE name = "PS_HIDE_OPTIMIZATION_TIS"', false);
-		$this->db->execute('UPDATE `'._DB_PREFIX_.'configuration` SET value="1" WHERE name = "PS_NEED_REBUILD_INDEX"', false);
-		$this->db->execute('UPDATE `'._DB_PREFIX_.'configuration` SET value="'.INSTALL_VERSION.'" WHERE name = "PS_VERSION_DB"', false);
-
-		if ($warningExist)
+		if (!empty($warningExist) || $this->warning_exists)
 		{
 			$this->warning_exists = true;
 			$this->nextQuickInfo[] = $this->l('Warning detected during upgrade.');
@@ -3361,9 +3343,9 @@ class AdminSelfUpgrade extends AdminSelfTab
 						unlink($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->toRestoreQueryList);
 						return false;
 					}
-					// note : theses queries can be too big and can cause issues for display
-					// else
-					// $this->nextQuickInfo[] = '[OK] '.$query;
+				// note : theses queries can be too big and can cause issues for display
+				// else
+				// $this->nextQuickInfo[] = '[OK] '.$query;
 
 				$time_elapsed = time() - $start_time;
 			}
@@ -3429,10 +3411,10 @@ class AdminSelfUpgrade extends AdminSelfTab
 		if (!$psBackupAll)
 		{
 			$ignore_stats_table = array(_DB_PREFIX_.'connections',
-														_DB_PREFIX_.'connections_page',
-														_DB_PREFIX_.'connections_source',
-														_DB_PREFIX_.'guest',
-														_DB_PREFIX_.'statssearch');
+				_DB_PREFIX_.'connections_page',
+				_DB_PREFIX_.'connections_source',
+				_DB_PREFIX_.'guest',
+				_DB_PREFIX_.'statssearch');
 		}
 		else
 			$ignore_stats_table = array();
@@ -3981,7 +3963,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 				if ($res)
 				{
 					$md5file = md5_file(realpath($this->downloadPath).DIRECTORY_SEPARATOR.$this->destDownloadFilename);
-				 	if ($md5file == $this->upgrader->md5)
+					if ($md5file == $this->upgrader->md5)
 					{
 						$this->nextQuickInfo[] = $this->l('Download complete.');
 						$this->next = 'unzip';
@@ -4204,9 +4186,9 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 					'.$this->l('Choose your backup:').'
 					<select name="restoreName">
 						<option value="0">'.$this->l('-- Choose a backup to restore --').'</option>';
-						if (is_array($backup_available) && count($backup_available))
-							foreach ($backup_available as $backup_name)
-								$this->_html .= '<option value="'.$backup_name.'">'.$backup_name.'</option>';
+		if (is_array($backup_available) && count($backup_available))
+			foreach ($backup_available as $backup_name)
+				$this->_html .= '<option value="'.$backup_name.'">'.$backup_name.'</option>';
 		$this->_html .= '</select>
 				</div>
 				<div class="clear">&nbsp;</div>
@@ -4225,7 +4207,7 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 		<fieldset id="currentConfigurationBlock" class="width autoupgrade" style="float: left; width: 60%; margin-left: 30px;">
 			<legend>'.$this->l('The pre-Upgrade checklist').'</legend>';
 		if (!$this->configOk())
-				$this->_html .= '<div class="clear"><br></div><p class="warn">'.$this->l('The checklist is not OK. You can only upgrade your shop once all indicators are green.').'</p>';
+			$this->_html .= '<div class="clear"><br></div><p class="warn">'.$this->l('The checklist is not OK. You can only upgrade your shop once all indicators are green.').'</p>';
 
 		$this->_html .= '<div id="currentConfiguration">
 							<p>'.$this->l('Before starting the upgrade process, please make sure this checklist is all green.').'</p>
@@ -4419,7 +4401,7 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 
 		$content .= '<div class="margin-form">* '.$this->l('This option will skip the download step.').' '.
 			sprintf($this->l('The archive in the directory %1$s will be used for upgrading.'),
-			'<b>/admin/autoupgrade/download/</b>' ).'</div></div>';
+				'<b>/admin/autoupgrade/download/</b>' ).'</div></div>';
 		// $directory_dirname = $this->getConfig('directory.dirname');
 		$content .= '<div id="for-useDirectory">
 			<div> '.
@@ -4450,8 +4432,8 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 				<h3>'.$this->l('Expert mode').'</h3>
 				<h4 style="margin-top: 0px;">'.$this->l('Please select your channel:').'</h4>
 				<p>'.$this->l('Channels are offering you different ways to perform an upgrade. You can either upload the new version manually or let the 1-Click Upgrade module download it for you.').'<br />'.
-				$this->l('The Alpha, Beta and Private channels give you the ability to upgrade to a non-official or unstable release (for testing purposes only).').'<br />'.
-				$this->l('By default, you should use the "Minor release" channel which is offering the latest stable version available.').'</p><br />';
+			$this->l('The Alpha, Beta and Private channels give you the ability to upgrade to a non-official or unstable release (for testing purposes only).').'<br />'.
+			$this->l('By default, you should use the "Minor release" channel which is offering the latest stable version available.').'</p><br />';
 
 		$config = $this->getConfig();
 		$channel = $config['channel'];
@@ -4616,7 +4598,7 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 						.'<ul>';
 					foreach(AdminSelfUpgrade::$skipAction as $k => $v)
 						$this->_html .= '<li>'
-						.sprintf($this->l('%1$s will be replaced by %2$s'), '<b>'.$k.'</b>', '<b>'.$v.'</b>').'</li>';
+							.sprintf($this->l('%1$s will be replaced by %2$s'), '<b>'.$k.'</b>', '<b>'.$v.'</b>').'</li>';
 					$this->_html .= '</ul><p>'.$this->l('To change this behavior, you need to manually edit your php files').'</p>
 						</div>';
 				}
@@ -4733,7 +4715,7 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 
 		/* Make sure the user has configured the upgrade options, or set default values */
 		$configuration_keys = array('PS_AUTOUP_UPDATE_DEFAULT_THEME' => 1, 'PS_AUTOUP_CHANGE_DEFAULT_THEME' => 0, 'PS_AUTOUP_KEEP_MAILS' => 1, 'PS_AUTOUP_CUSTOM_MOD_DESACT' => 1,
-		'PS_AUTOUP_MANUAL_MODE' => 0, 'PS_AUTOUP_PERFORMANCE' => 1, 'PS_DISPLAY_ERRORS' => 0);
+			'PS_AUTOUP_MANUAL_MODE' => 0, 'PS_AUTOUP_PERFORMANCE' => 1, 'PS_DISPLAY_ERRORS' => 0);
 		foreach ($configuration_keys as $k => $default_value)
 			if (Configuration::get($k) == '')
 				Configuration::updateValue($k, $default_value);
@@ -5765,9 +5747,9 @@ $(document).ready(function()
 						return true;
 				}
 				break;
-				// restore or upgrade way : ignore the same files
-				// note the restore process use skipFiles only if xml md5 files
-				// are unavailable
+			// restore or upgrade way : ignore the same files
+			// note the restore process use skipFiles only if xml md5 files
+			// are unavailable
 			case 'restore':
 				if (in_array($file, $this->restoreIgnoreFiles))
 					return true;
@@ -5806,7 +5788,7 @@ $(document).ready(function()
 				}
 
 				break;
-				// default : if it's not a backup or an upgrade, do not skip the file
+			// default : if it's not a backup or an upgrade, do not skip the file
 			default:
 				return false;
 		}
