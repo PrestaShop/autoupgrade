@@ -64,6 +64,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 
 	public $upgrader = null;
 	public $standalone = true;
+	private $install_autoupgrade_dir;
 
 	/**
 	 * set to false if the current step is a loop
@@ -353,12 +354,18 @@ class AdminSelfUpgrade extends AdminSelfTab
 		return false;
 	}
 
-	public function __construct()
+	public function __construct($autoupgradeDir)
 	{
 		@set_time_limit(0);
 		@ini_set('max_execution_time', '0');
 		@ini_set('magic_quotes_runtime', '0');
 		@ini_set('magic_quotes_sybase', '0');
+
+		if (empty($autoupgradeDir)) {
+			$autoupgradeDir = 'autoupg-inst-' . uniqid();
+		}
+
+		$this->install_autoupgrade_dir = $autoupgradeDir;
 
 		global $ajax, $currentIndex;
 
@@ -778,6 +785,8 @@ class AdminSelfUpgrade extends AdminSelfTab
 		// do not copy install, neither settings.inc.php in case it would be present
 		$this->excludeAbsoluteFilesFromUpgrade[] = '/config/settings.inc.php';
 		$this->excludeAbsoluteFilesFromUpgrade[] = '/install';
+		$this->excludeAbsoluteFilesFromUpgrade[] = '/'.$this->install_autoupgrade_dir.'/index.php';
+		$this->excludeAbsoluteFilesFromUpgrade[] = '/'.$this->install_autoupgrade_dir.'/index_cli.php';
 		$this->excludeAbsoluteFilesFromUpgrade[] = '/install-dev';
 		$this->excludeAbsoluteFilesFromUpgrade[] = '/config/modules_list.xml';
 		$this->excludeAbsoluteFilesFromUpgrade[] = '/config/xml/modules_list.xml';
@@ -1647,7 +1656,10 @@ class AdminSelfUpgrade extends AdminSelfTab
 		elseif (file_exists($this->latestRootDir.DIRECTORY_SEPARATOR.'admin-dev'))
 			rename($this->latestRootDir.DIRECTORY_SEPARATOR.'admin-dev', $this->latestRootDir.DIRECTORY_SEPARATOR.$admin_dir);
 		if (file_exists($this->latestRootDir.DIRECTORY_SEPARATOR.'install-dev'))
-			rename($this->latestRootDir.DIRECTORY_SEPARATOR.'install-dev', $this->latestRootDir.DIRECTORY_SEPARATOR.'install');
+			rename($this->latestRootDir.DIRECTORY_SEPARATOR.'install-dev', $this->latestRootDir.DIRECTORY_SEPARATOR.$this->install_autoupgrade_dir);
+		if (file_exists($this->latestRootDir.DIRECTORY_SEPARATOR.'install'))
+			rename($this->latestRootDir.DIRECTORY_SEPARATOR.'install', $this->latestRootDir.DIRECTORY_SEPARATOR.$this->install_autoupgrade_dir);
+
 
 		if (!isset($this->nextParams['filesToUpgrade']))
 		{
@@ -2026,6 +2038,19 @@ class AdminSelfUpgrade extends AdminSelfTab
 		$this->nextQuickInfo[] = $this->l('The database has been cleaned.');
 	}
 
+	public function getServerFullBaseUrl()
+	{
+		$s = $_SERVER;
+		$ssl = (!empty($s['HTTPS']) && $s['HTTPS'] == 'on');
+		$sp = strtolower($s['SERVER_PROTOCOL']);
+		$protocol = substr($sp, 0, strpos($sp, '/')) . (($ssl) ? 's' : '');
+		$port = $s['SERVER_PORT'];
+		$port = ((!$ssl && $port == '80') || ($ssl && $port == '443')) ? '' : ':' . $port;
+		$host = isset($s['HTTP_HOST']) ? $s['HTTP_HOST'] : null;
+		$host = isset($host) ? $host : $s['SERVER_NAME'] . $port;
+		return $protocol . '://' . $host;
+	}
+
 	/**
 	 * Implement the upgrade based on upgrade.php from the downloaded archive
 	 *
@@ -2037,12 +2062,13 @@ class AdminSelfUpgrade extends AdminSelfTab
 		if (!defined('__PS_BASE_URI__')) {
 			define('__PS_BASE_URI__', realpath(dirname($_SERVER['SCRIPT_NAME'])) . '/../../');
 		}
-		$json = Tools14::file_get_contents(__PS_BASE_URI__ .
-			'/install/upgrade/upgrade.php?autoupgrade=1&deactivateCustomModule=' .
+		$hostName = $this->getServerFullBaseUrl();
+		$url = $hostName .
+			'/'.$this->install_autoupgrade_dir.'/upgrade/upgrade.php?autoupgrade=1&deactivateCustomModule=' .
 			(int)$this->deactivateCustomModule.'&updateDefaultTheme='.(int)$this->updateDefaultTheme.
 			'&keepMails='.(int)$this->keepMails.'&changeToDefaultTheme='.(int)$this->changeToDefaultTheme.
-			'&adminDir='.base64_encode($this->adminDir).'&idEmployee='.(int)$_COOKIE['id_employee']);
-		@file_put_contents('/Users/jocelynfournier/Documents/workspace/prestashop.txt', $json);
+			'&adminDir='.base64_encode($this->adminDir).'&idEmployee='.(int)$_COOKIE['id_employee'];
+		$json = Tools14::file_get_contents($url);
 		$result = json_decode($json, true);
 		if ($result) {
 			$this->nextQuickInfo = $result['nextQuickInfo'];
@@ -2053,6 +2079,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 				$this->next = $result['next'];
 			}
 		}
+		self::deleteDirectory(_PS_ROOT_DIR_.'/'.$this->install_autoupgrade_dir);
 		return true;
 	}
 
@@ -2090,7 +2117,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 
 		define('INSTALL_VERSION', $this->install_version);
 		// 1.4
-		define('INSTALL_PATH', realpath($this->latestRootDir.DIRECTORY_SEPARATOR.'install'));
+		define('INSTALL_PATH', _PS_ROOT_DIR_.DIRECTORY_SEPARATOR.$this->install_autoupgrade_dir);
 		// 1.5 ...
 		define('_PS_INSTALL_PATH_', INSTALL_PATH.DIRECTORY_SEPARATOR);
 		// 1.6
@@ -2123,9 +2150,9 @@ class AdminSelfUpgrade extends AdminSelfTab
 			if (!file_exists(INSTALL_PATH.DIRECTORY_SEPARATOR.$upgrade_dir_php))
 			{
 				$this->next = 'error';
-				$this->next_desc = $this->l('/install/upgrade/php directory is missing in archive or directory');
-				$this->nextQuickInfo[] = '/install/upgrade/php directory is missing in archive or directory';
-				$this->nextErrors[] = '/install/upgrade/php directory is missing in archive or directory.';
+				$this->next_desc = INSTALL_PATH.$this->l(' directory is missing in archive or directory');
+				$this->nextQuickInfo[] = INSTALL_PATH.' directory is missing in archive or directory';
+				$this->nextErrors[] = INSTALL_PATH.' directory is missing in archive or directory.';
 				return false;
 			}
 		}
@@ -4868,6 +4895,7 @@ $(document).ready(function(){
 			data : {
 				dir:"'.$admin_dir.'",
 				token : "'.$this->token.'",
+				autoupgradeDir : "'.$this->install_autoupgrade_dir.'",
 				tab : "AdminSelfUpgrade",
 				action : "getChannelInfo",
 				ajaxMode : "1",
@@ -5185,6 +5213,7 @@ function doAjaxRequest(action, nextParams){
 			dir:"'.$admin_dir.'",
 			ajaxMode : "1",
 			token : "'.$this->token.'",
+			autoupgradeDir : "'.$this->install_autoupgrade_dir.'",
 			tab : "AdminSelfUpgrade",
 			action : action,
 			params : nextParams
@@ -5377,6 +5406,7 @@ $(document).ready(function(){
 			data : {
 				dir:"'.$admin_dir.'",
 				token : "'.$this->token.'",
+				autoupgradeDir : "'.$this->install_autoupgrade_dir.'",
 				tab : "'.get_class($this).'",
 				action : "checkFilesVersion",
 				ajaxMode : "1",
@@ -5431,6 +5461,7 @@ $(document).ready(function(){
 			data : {
 				dir:"'.$admin_dir.'",
 				token : "'.$this->token.'",
+				autoupgradeDir : "'.$this->install_autoupgrade_dir.'",
 				tab : "'.get_class($this).'",
 				action : "compareReleases",
 				ajaxMode : "1",

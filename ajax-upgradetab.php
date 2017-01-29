@@ -73,7 +73,8 @@ include(AUTOUPGRADE_MODULE_DIR.'init.php');
 global $ajax;
 
 $ajax = true;
-$adminObj = new AdminSelfUpgrade();
+$autoupgradeDir = Tools14::getValue('autoupgradeDir', 'autoupg-inst-' . uniqid());
+$adminObj = new AdminSelfUpgrade($autoupgradeDir);
 
 if (is_object($adminObj))
 {
