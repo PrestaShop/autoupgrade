@@ -365,6 +365,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 			$autoupgradeDir = 'autoupg-inst-' . uniqid();
 		}
 
+
 		$this->install_autoupgrade_dir = $autoupgradeDir;
 
 		global $ajax, $currentIndex;
@@ -703,7 +704,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 					$upgrader->checkPSVersion(true, array('minor'));
 				$this->install_version = $upgrader->version_num;
 		}
-		if (version_compare($this->install_version, '1.7.0.0', '>=')) {
+		if (version_compare($this->install_version, '1.7.1.0', '>=')) {
 			$this->latestRootDir = $this->latestPath . DIRECTORY_SEPARATOR;
 		} else {
 			$this->latestRootDir = $this->latestPath . DIRECTORY_SEPARATOR . 'prestashop';
@@ -1463,7 +1464,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 
 			if ($this->ZipExtract($filepath, $destExtract))
 			{
-				if (version_compare($this->install_version, '1.7.0.0', '>=')) {
+				if (version_compare($this->install_version, '1.7.1.0', '>=')) {
 					// new system release archive
 					$newZip = $destExtract.DIRECTORY_SEPARATOR.'prestashop.zip';
 					if (is_file($newZip)) {
@@ -2068,7 +2069,10 @@ class AdminSelfUpgrade extends AdminSelfTab
 			(int)$this->deactivateCustomModule.'&updateDefaultTheme='.(int)$this->updateDefaultTheme.
 			'&keepMails='.(int)$this->keepMails.'&changeToDefaultTheme='.(int)$this->changeToDefaultTheme.
 			'&adminDir='.base64_encode($this->adminDir).'&idEmployee='.(int)$_COOKIE['id_employee'];
+		//@file_put_contents('/Users/jocelynfournier/Documents/workspace/prestashop.txt', $url);
 		$json = Tools14::file_get_contents($url);
+		@file_put_contents('/Users/jocelynfournier/Documents/workspace/prestashop.txt', $url.' : '.$json);
+		exit;
 		$result = json_decode($json, true);
 		if ($result) {
 			$this->nextQuickInfo = $result['nextQuickInfo'];
@@ -2171,7 +2175,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 			return false;
 		}
 
-		if (version_compare(INSTALL_VERSION, '1.7.0.0', '>=')) {
+		if (version_compare(INSTALL_VERSION, '1.7.1.0', '>=')) {
 			$this->doUpgrade17();
 		} else {
 			$filePrefix = 'PREFIX_';
