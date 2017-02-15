@@ -354,7 +354,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 		return false;
 	}
 
-	public function __construct($autoupgradeDir)
+	public function __construct($autoupgradeDir = false)
 	{
 		@set_time_limit(0);
 		@ini_set('max_execution_time', '0');
