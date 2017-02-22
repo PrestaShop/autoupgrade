@@ -101,7 +101,7 @@ class UpgraderCore
 
 		$destPath = realpath($dest).DIRECTORY_SEPARATOR.$filename;
 
-        Tools::copy($this->link, $destPath);
+        Tools14::copy($this->link, $destPath);
 
         return is_file($destPath);
 	}

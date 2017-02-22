@@ -1256,47 +1256,110 @@ class Tools14
 		return self::$file_exists_cache[$filename];
 	}
 
-	public static function file_get_contents($url, $use_include_path = false, $stream_context = null, $curl_timeout = 5)
-	{
-		if (!extension_loaded('openssl') AND strpos('https://', $url) === true)
-			$url = str_replace('https', 'http', $url);
-		if ($stream_context == null && preg_match('/^https?:\/\//', $url))
-			$stream_context = @stream_context_create(array('http' => array('timeout' => $curl_timeout, 'header' => "User-Agent:MyAgent/1.0\r\n")));
-		if (in_array(ini_get('allow_url_fopen'), array('On', 'on', '1')) || !preg_match('/^https?:\/\//', $url))
-		{
-			$var = @file_get_contents($url, $use_include_path, $stream_context);
+	private static function file_get_contents_curl(
+		$url,
+		$curl_timeout,
+		$opts
+	) {
+		$content = false;
 
-			/* PSCSX-3205 buffer output ? */
-			if (Tools14::getValue('ajaxMode') && ob_get_level() && ob_get_length() > 0)
-				ob_clean();
-
-			if ($var)
-				return $var;
-		}
-		elseif (function_exists('curl_init'))
-		{
+		if (function_exists('curl_init')) {
+			Tools::refreshCACertFile();
 			$curl = curl_init();
+
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($curl, CURLOPT_URL, $url);
 			curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 5);
 			curl_setopt($curl, CURLOPT_TIMEOUT, $curl_timeout);
-			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
-			$opts = stream_context_get_options($stream_context);
-			if (isset($opts['http']['method']) && self::strtolower($opts['http']['method']) == 'post')
-			{
-				curl_setopt($curl, CURLOPT_POST, true);
-				if (isset($opts['http']['content']))
-				{
-					parse_str($opts['http']['content'], $datas);
-					curl_setopt($curl, CURLOPT_POSTFIELDS, $datas);
+			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+			curl_setopt($curl, CURLOPT_CAINFO, _PS_CACHE_CA_CERT_FILE_);
+			if ($opts != null) {
+				if (isset($opts['http']['method']) && Tools::strtolower($opts['http']['method']) == 'post') {
+					curl_setopt($curl, CURLOPT_POST, true);
+					if (isset($opts['http']['content'])) {
+						parse_str($opts['http']['content'], $post_data);
+						curl_setopt($curl, CURLOPT_POSTFIELDS, $post_data);
+					}
 				}
 			}
 			$content = curl_exec($curl);
 			curl_close($curl);
-			return $content;
 		}
-		else
-			return false;
+
+		return $content;
+	}
+
+	private static function file_get_contents_fopen(
+		$url,
+		$use_include_path,
+		$stream_context
+	) {
+		$content = false;
+
+		if (in_array(ini_get('allow_url_fopen'), array('On', 'on', '1'))) {
+			$content = @file_get_contents($url, $use_include_path, $stream_context);
+		}
+
+		return $content;
+	}
+
+
+	/**
+	 * This method allows to get the content from either a URL or a local file
+	 * @param string $url the url to get the content from
+	 * @param bool $use_include_path second parameter of http://php.net/manual/en/function.file-get-contents.php
+	 * @param resource $stream_context third parameter of http://php.net/manual/en/function.file-get-contents.php
+	 * @param int $curl_timeout
+	 * @param bool $fallback whether or not to use the fallback if the main solution fails
+	 * @return bool|string false or the string content
+	 */
+	public static function file_get_contents(
+		$url,
+		$use_include_path = false,
+		$stream_context = null,
+		$curl_timeout = 60,
+		$fallback = false
+	) {
+		$is_local_file = !preg_match('/^https?:\/\//', $url);
+		$require_fopen = false;
+		$opts = null;
+
+		if ($stream_context) {
+			$opts = stream_context_get_options($stream_context);
+			if (isset($opts['http'])) {
+				$require_fopen = true;
+				$opts_layer = array_diff_key($opts, array('http' => null));
+				$http_layer = array_diff_key($opts['http'], array('method' => null, 'content' => null));
+				if (empty($opts_layer) && empty($http_layer)) {
+					$require_fopen = false;
+				}
+			}
+		} elseif (!$is_local_file) {
+			$stream_context = @stream_context_create(
+				array(
+					'http' => array('timeout' => $curl_timeout),
+					'ssl' => array(
+						'verify_peer' => true,
+						'cafile' => CaBundle::getBundledCaBundlePath()
+					)
+				)
+			);
+		}
+
+		if ($is_local_file) {
+			$content = @file_get_contents($url, $use_include_path, $stream_context);
+		} else {
+			if ($require_fopen) {
+				$content = self::file_get_contents_fopen($url, $use_include_path, $stream_context);
+			} else {
+				$content = self::file_get_contents_curl($url, $curl_timeout, $opts);
+				if (empty($content) && $fallback) {
+					$content = self::file_get_contents_fopen($url, $use_include_path, $stream_context);
+				}
+			}
+		}
+
+		return (empty($content) ? false : $content);
 	}
 
 	public static function simplexml_load_file($url, $class_name = null)
@@ -2254,6 +2317,14 @@ FileETag INode MTime Size
 	public static function nl2br($str)
 	{
 		return str_replace(array("\r\n", "\r", "\n"), '<br />', $str);
-	}	
+	}
+
+	public static function copy($source, $destination, $stream_context = null)
+	{
+		if (is_null($stream_context) && !preg_match('/^https?:\/\//', $source)) {
+			return @copy($source, $destination);
+		}
+		return @file_put_contents($destination, self::file_get_contents($source, false, $stream_context));
+	}
 }
 }
