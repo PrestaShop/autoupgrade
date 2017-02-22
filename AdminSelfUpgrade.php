@@ -51,6 +51,7 @@ if (!class_exists('Tools', false)) {
 
 use PrestaShop\PrestaShop\Core\Addon\AddonListFilterType;
 use PrestaShop\PrestaShop\Core\Addon\AddonListFilterOrigin;
+use PrestaShop\PrestaShop\Core\Addon\Module\ModuleManagerBuilder;
 
 class AdminSelfUpgrade extends AdminSelfTab
 {
@@ -5728,16 +5729,9 @@ $(document).ready(function()
 
     private function disableNonNativeModules()
     {
-        global $kernel;
-
-        if (is_null($kernel)) {
-            require_once _PS_ROOT_DIR_.'/app/AppKernel.php';
-            $kernel = new AppKernel(_PS_MODE_DEV_?'dev':'prod', _PS_MODE_DEV_);
-            $kernel->loadClassCache();
-            $kernel->boot();
-        }
-
-        $moduleRepository = $kernel->getContainer()->get('prestashop.core.admin.module.repository');
+        $moduleManagerBuilder = ModuleManagerBuilder::getInstance();
+        $moduleRepository = $moduleManagerBuilder->buildRepository();
+        $moduleRepository->clearCache();
 
         $filters = new \PrestaShop\PrestaShop\Core\Addon\AddonListFilter;
         $filters->setType(AddonListFilterType::MODULE)
