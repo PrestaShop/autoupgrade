@@ -2008,8 +2008,12 @@ class AdminSelfUpgrade extends AdminSelfTab
 			$this->next_desc = $this->l('Error during database upgrade. You may need to restore your database.');
 			return false;
 		}
-		$this->next = 'upgradeModules';
-		$this->next_desc = $this->l('Database upgraded. Now upgrading your Addons modules...');
+
+		if (version_compare(INSTALL_VERSION, '1.7.1.0', '<')) {
+			$this->next = 'upgradeModules';
+			$this->next_desc = $this->l('Database upgraded. Now upgrading your Addons modules...');
+		}
+
 		return true;
 	}
 
