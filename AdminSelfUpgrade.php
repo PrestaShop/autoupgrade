@@ -51,6 +51,7 @@ if (!class_exists('Tools', false)) {
 
 use PrestaShop\PrestaShop\Core\Addon\AddonListFilterType;
 use PrestaShop\PrestaShop\Core\Addon\AddonListFilterOrigin;
+use PrestaShop\PrestaShop\Core\Addon\Module\ModuleManagerBuilder;
 
 class AdminSelfUpgrade extends AdminSelfTab
 {
@@ -1710,14 +1711,23 @@ class AdminSelfUpgrade extends AdminSelfTab
             // also add files to remove
             $list_files_to_upgrade = array_merge($list_files_diff, $list_files_to_upgrade);
 
-            if ($key = array_search(DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'autoload.php', $list_files_to_upgrade)) {
-              $list_files_to_upgrade[] = $list_files_to_upgrade[$key];
-              unset($list_files_to_upgrade[$key]);
-            }
+            $filesToMoveToTheEnd = array(
+                DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'autoload.php',
+                DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'composer'.DIRECTORY_SEPARATOR.'ClassLoader.php',
+                DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'composer'.DIRECTORY_SEPARATOR.'autoload_classmap.php',
+                DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'composer'.DIRECTORY_SEPARATOR.'autoload_files.php',
+                DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'composer'.DIRECTORY_SEPARATOR.'autoload_namespaces.php',
+                DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'composer'.DIRECTORY_SEPARATOR.'autoload_psr4.php',
+                DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'composer'.DIRECTORY_SEPARATOR.'autoload_real.php',
+                DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'composer'.DIRECTORY_SEPARATOR.'autoload_static.php',
+                DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'composer'.DIRECTORY_SEPARATOR.'include_paths.php',
+            );
 
-            if ($key = array_search(DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'composer'.DIRECTORY_SEPARATOR.'autoload_real.php', $list_files_to_upgrade)) {
-              $list_files_to_upgrade[] = $list_files_to_upgrade[$key];
-              unset($list_files_to_upgrade[$key]);
+            foreach ($filesToMoveToTheEnd as $file) {
+                if ($key = array_search($file, $list_files_to_upgrade)) {
+                  $list_files_to_upgrade[] = $list_files_to_upgrade[$key];
+                  unset($list_files_to_upgrade[$key]);
+                }
             }
 
             // save in a serialized array in $this->toUpgradeFileList
@@ -5719,16 +5729,9 @@ $(document).ready(function()
 
     private function disableNonNativeModules()
     {
-        global $kernel;
-
-        if (is_null($kernel)) {
-            require_once _PS_ROOT_DIR_.'/app/AppKernel.php';
-            $kernel = new AppKernel(_PS_MODE_DEV_?'dev':'prod', _PS_MODE_DEV_);
-            $kernel->loadClassCache();
-            $kernel->boot();
-        }
-
-        $moduleRepository = $kernel->getContainer()->get('prestashop.core.admin.module.repository');
+        $moduleManagerBuilder = ModuleManagerBuilder::getInstance();
+        $moduleRepository = $moduleManagerBuilder->buildRepository();
+        $moduleRepository->clearCache();
 
         $filters = new \PrestaShop\PrestaShop\Core\Addon\AddonListFilter;
         $filters->setType(AddonListFilterType::MODULE)
