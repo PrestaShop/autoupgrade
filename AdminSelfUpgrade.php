@@ -1639,7 +1639,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 				$list[] = str_replace($this->latestRootDir, '', $fullPath);
 				// if is_dir, we will create it :)
 				if (is_dir($fullPath))
-					if (strpos($dir.DIRECTORY_SEPARATOR.$file, 'install') === false)
+					if (strpos($dir.DIRECTORY_SEPARATOR.$file, 'install') === false || strpos($dir.DIRECTORY_SEPARATOR.$file, 'modules') !== false)
 						$this->_listFilesToUpgrade($fullPath);
 			}
 		}
@@ -2060,20 +2060,33 @@ class AdminSelfUpgrade extends AdminSelfTab
 	 */
 	public function doUpgrade17()
 	{
-		if (!defined('__PS_BASE_URI__')) {
-			define('__PS_BASE_URI__', realpath(dirname($_SERVER['SCRIPT_NAME'])) . '/../../');
-		}
+
+		$base_uri = str_replace($_SERVER['DOCUMENT_ROOT'], '', _PS_ROOT_DIR_);
 		$hostName = $this->getServerFullBaseUrl();
-		$url = $hostName .
-			'/'.$this->install_autoupgrade_dir.'/upgrade/upgrade.php?autoupgrade=1&deactivateCustomModule=' .
-			(int)$this->deactivateCustomModule.'&updateDefaultTheme='.(int)$this->updateDefaultTheme.
-			'&keepMails='.(int)$this->keepMails.'&changeToDefaultTheme='.(int)$this->changeToDefaultTheme.
-			'&adminDir='.base64_encode($this->adminDir).'&idEmployee='.(int)$_COOKIE['id_employee'];
-		//@file_put_contents('/Users/jocelynfournier/Documents/workspace/prestashop.txt', $url);
+
+		// $url = $hostName . $base_uri .
+		// '/'.$this->install_autoupgrade_dir.'/upgrade/upgrade.php?autoupgrade=1'.
+		// 	'&deactivateCustomModule='.(int)$this->deactivateCustomModule
+		// 	'&updateDefaultTheme='.(int)$this->updateDefaultTheme
+		// 	'&keepMails='.(int)$this->keepMails
+		// 	'&changeToDefaultTheme='.(int)$this->changeToDefaultTheme
+		// 	'&adminDir='.base64_encode($this->adminDir).
+		// 	'&idEmployee='.(int)$_COOKIE['id_employee'];
+
+		$url = $hostName . $base_uri .
+		'/'.$this->install_autoupgrade_dir.'/upgrade/upgrade.php?autoupgrade=1'.
+			'&deactivateCustomModule=1'.
+			'&updateDefaultTheme=1'.
+			'&keepMails=0'.
+			'&changeToDefaultTheme=1'.
+			'&adminDir='.base64_encode($this->adminDir).
+			'&idEmployee='.(int)$_COOKIE['id_employee'];
+
 		$json = Tools14::file_get_contents($url);
-		@file_put_contents('/Users/jocelynfournier/Documents/workspace/prestashop.txt', $url.' : '.$json);
-		exit;
 		$result = json_decode($json, true);
+
+		@file_put_contents('../../prestashop.txt', $url.' : '.$json);
+
 		if ($result) {
 			$this->nextQuickInfo = $result['nextQuickInfo'];
 			$this->nextErrors = $result['nextErrors'];
@@ -2083,7 +2096,9 @@ class AdminSelfUpgrade extends AdminSelfTab
 				$this->next = $result['next'];
 			}
 		}
+
 		self::deleteDirectory(_PS_ROOT_DIR_.'/'.$this->install_autoupgrade_dir);
+
 		return true;
 	}
 
