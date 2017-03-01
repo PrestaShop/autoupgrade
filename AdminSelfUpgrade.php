@@ -4650,8 +4650,6 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
         if ($this->configOk()) {
             if (version_compare(_PS_VERSION_, $this->upgrader->version_num, '<')) {
                 $show_big_button_new_version = false;
-                $this->_html .= '<p class="clear"><a href="" id="upgradeNow" class="button-autoupgrade upgradestep">'.$this->l('Upgrade PrestaShop now!').'</a></p>';
-
                 // smarty2 uses is a warning only, and will be displayed only if current version is 1.3 or 1.4 and target is <1.5;
                 $use_smarty3 = !(Configuration::get('PS_FORCE_SMARTY_2') === '1' || Configuration::get('PS_FORCE_SMARTY_2') === false);
                 if ($use_smarty3) {
@@ -4683,7 +4681,8 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
                     $this->_html .= '<small><a href="'.$this->upgrader->changelog.'" target="_blank" >'.$this->l('open changelog in a new window').'</a></small>';
                     $this->_html .= '<div class="clear">&nbsp;</div>';
                 } else {
-                    $this->_html .= sprintf($this->l('No file will be downloaded (channel %s is used)'), $channel);
+                    $this->_html .= '<div class="clear">&nbsp;</div>';
+                    $this->_html .= '<div>'.sprintf($this->l('No file will be downloaded (channel %s is used)'), $channel).'</div>';
                 }
 
                 // if skipActions property is used, we will handle that in the display :)
@@ -4821,13 +4820,19 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
         $this->_displayComparisonBlock();
         $this->_displayBlockActivityLog();
 
-        $this->_displayRollbackForm();
-
         $this->_html .= '<br/>';
         $this->_html .= '<form action="'.$this->currentIndex.'&amp;customSubmitAutoUpgrade=1&amp;token='.$this->token.'" method="post" enctype="multipart/form-data">';
-        $this->_displayForm('backupOptions', $this->_fieldsBackupOptions, '<a href="#" name="backup-options" id="backup-options">'.$this->l('Backup Options').'</a>', '', 'database_gear');
         $this->_displayForm('upgradeOptions', $this->_fieldsUpgradeOptions, '<a href="#" name="upgrade-options" id="upgrade-options">'.$this->l('Upgrade Options').'</a>', '', 'prefs');
+        $this->_displayForm('backupOptions', $this->_fieldsBackupOptions, '<a href="#" name="backup-options" id="backup-options">'.$this->l('Backup Options').'</a>', '', 'database_gear');
         $this->_html .= '</form>';
+
+        if ($this->configOk()) {
+            if (version_compare(_PS_VERSION_, $this->upgrader->version_num, '<')) {
+                $this->_html .= '<p class="clear"><a href="" id="upgradeNow" class="button-autoupgrade upgradestep">' . sprintf($this->l('Upgrade to PrestaShop %s'), $this->upgrader->version_num) . '</a></p>';
+            }
+        }
+
+        $this->_displayRollbackForm();
 
         $this->_html .= '<script type="text/javascript" src="'.__PS_BASE_URI__.'modules/autoupgrade/js/jquery.xml2json.js"></script>';
         $this->_html .= '<script type="text/javascript">'.$this->_getJsInit().'</script>';
