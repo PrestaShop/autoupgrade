@@ -4395,16 +4395,6 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
             $upgrade_info['md5'] = $this->getConfig('private_release_md5');
         }
         $content = '<div id="channel-infos" ><br/>';
-        if (isset($upgrade_info['branch'])) {
-            $content .= '<div style="clear:both">
-				<label class="label-small">'.$this->l('branch:').'</label>
-				<div class="margin-form margin-form-small" style="padding-top:5px">
-					<span class="available">
-						<img src="../img/admin/'.(!empty($upgrade_info['available'])?'enabled':'disabled').'.gif" />'
-                .' '.(!empty($upgrade_info['available'])?$this->l('available'):$this->l('unavailable')).'
-					</span>
-				</div></div>';
-        }
         $content .= '<div class="all-infos">';
         if (isset($upgrade_info['version_name'])) {
             $content .= '<div style="clear:both;">
