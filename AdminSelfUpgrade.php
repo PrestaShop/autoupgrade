@@ -1656,10 +1656,13 @@ class AdminSelfUpgrade extends AdminSelfTab
 			rename($this->latestRootDir.DIRECTORY_SEPARATOR.'admin', $this->latestRootDir.DIRECTORY_SEPARATOR.$admin_dir);
 		elseif (file_exists($this->latestRootDir.DIRECTORY_SEPARATOR.'admin-dev'))
 			rename($this->latestRootDir.DIRECTORY_SEPARATOR.'admin-dev', $this->latestRootDir.DIRECTORY_SEPARATOR.$admin_dir);
-		if (file_exists($this->latestRootDir.DIRECTORY_SEPARATOR.'install-dev'))
-			rename($this->latestRootDir.DIRECTORY_SEPARATOR.'install-dev', $this->latestRootDir.DIRECTORY_SEPARATOR.$this->install_autoupgrade_dir);
-		if (file_exists($this->latestRootDir.DIRECTORY_SEPARATOR.'install'))
-			rename($this->latestRootDir.DIRECTORY_SEPARATOR.'install', $this->latestRootDir.DIRECTORY_SEPARATOR.$this->install_autoupgrade_dir);
+		if (file_exists($this->latestRootDir.DIRECTORY_SEPARATOR.'install-dev')) {
+            rename($this->latestRootDir . DIRECTORY_SEPARATOR . 'install-dev', $this->latestRootDir . DIRECTORY_SEPARATOR . $this->install_autoupgrade_dir);
+        }
+		if (file_exists($this->latestRootDir.DIRECTORY_SEPARATOR.'install')) {
+            rename($this->latestRootDir . DIRECTORY_SEPARATOR . 'install', $this->latestRootDir . DIRECTORY_SEPARATOR . $this->install_autoupgrade_dir);
+        }
+
 
 
 		if (!isset($this->nextParams['filesToUpgrade']))
@@ -2068,15 +2071,6 @@ class AdminSelfUpgrade extends AdminSelfTab
 		$base_uri = str_replace($_SERVER['DOCUMENT_ROOT'], '', _PS_ROOT_DIR_);
 		$hostName = $this->getServerFullBaseUrl();
 
-		// $url = $hostName . $base_uri .
-		// '/'.$this->install_autoupgrade_dir.'/upgrade/upgrade.php?autoupgrade=1'.
-		// 	'&deactivateCustomModule='.(int)$this->deactivateCustomModule
-		// 	'&updateDefaultTheme='.(int)$this->updateDefaultTheme
-		// 	'&keepMails='.(int)$this->keepMails
-		// 	'&changeToDefaultTheme='.(int)$this->changeToDefaultTheme
-		// 	'&adminDir='.base64_encode($this->adminDir).
-		// 	'&idEmployee='.(int)$_COOKIE['id_employee'];
-
 		$url = $hostName . $base_uri .
 		'/'.$this->install_autoupgrade_dir.'/upgrade/upgrade.php?autoupgrade=1'.
 			'&deactivateCustomModule=1'.
@@ -2086,10 +2080,8 @@ class AdminSelfUpgrade extends AdminSelfTab
 			'&adminDir='.base64_encode($this->adminDir).
 			'&idEmployee='.(int)$_COOKIE['id_employee'];
 
-		$json = Tools14::file_get_contents($url);
+		$json = Tools14::file_get_contents($url, false, null, $curl_timeout = 3600);
 		$result = json_decode($json, true);
-
-		@file_put_contents('../../prestashop.txt', $url.' : '.$json);
 
 		if ($result) {
 			$this->nextQuickInfo = $result['nextQuickInfo'];
@@ -2098,6 +2090,26 @@ class AdminSelfUpgrade extends AdminSelfTab
 			$this->warning_exists = $result['warningExists'];
 			if (!empty($result['next'])) {
 				$this->next = $result['next'];
+			} else {
+				if ($this->getConfig('channel') != 'archive' && file_exists($this->getFilePath()) && unlink($this->getFilePath())) {
+					$this->nextQuickInfo[] = sprintf($this->l('%s removed'), $this->getFilePath());
+				} elseif (is_file($this->getFilePath())) {
+					$this->nextQuickInfo[] = '<strong>'.sprintf($this->l('Please remove %s by FTP'), $this->getFilePath()).'</strong>';
+				}
+
+				if ($this->getConfig('channel') != 'directory' && file_exists($this->latestRootDir) && self::deleteDirectory($this->latestRootDir)) {
+					$this->nextQuickInfo[] = sprintf($this->l('%s removed'), $this->latestRootDir);
+				} elseif(is_dir($this->latestRootDir)) {
+					$this->nextQuickInfo[] = '<strong>'.sprintf($this->l('Please remove %s by FTP'), $this->latestRootDir).'</strong>';
+				}
+
+				if (!$this->warning_exists) {
+					$this->nextQuickInfo[] = '<br /><strong>'.$this->l('Upgrade process done. Congratulations! You can now reactivate your shop.').'</strong>';
+				} else {
+					$this->nextQuickInfo[] = '<br /><strong>'.$this->l('Upgrade process done, but some warnings have been found.').'</strong>';
+				}
+
+				$this->nextQuickInfo[] = $this->l('Don\'t forget to clear your cache (Advanced parameters > Performance > Clear cache)');
 			}
 		}
 
@@ -2196,6 +2208,10 @@ class AdminSelfUpgrade extends AdminSelfTab
 
 		if (version_compare(INSTALL_VERSION, '1.7.1.0', '>=')) {
 			$this->doUpgrade17();
+		} else if (version_compare(INSTALL_VERSION, '1.7.0.0', '>=')) {
+			$this->next = 'error';
+			$this->next_desc = $this->l('You can\'t upgrade to this version.');
+			return false;
 		} else {
 			$filePrefix = 'PREFIX_';
 			$engineType = 'ENGINE_TYPE';
