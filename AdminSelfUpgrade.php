@@ -35,6 +35,7 @@ if (!defined('_PS_ADMIN_DIR_') && defined('PS_ADMIN_DIR')) {
 require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/AdminSelfTab.php');
 
 require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/classes/Upgrader.php');
+require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/classes/upgrade-17/CheckTests17.php');
 
 if (!class_exists('Upgrader', false)) {
     if (file_exists(_PS_ROOT_DIR_.'/override/classes/Upgrader.php')) {
@@ -1028,6 +1029,18 @@ class AdminSelfUpgrade extends AdminSelfTab
         }
     }
 
+    private function getConfigFor17()
+    {
+        return array(
+            'PS_AUTOUP_CUSTOM_MOD_DESACT' => 1,
+            'PS_AUTOUP_UPDATE_DEFAULT_THEME' => 1,
+            'PS_AUTOUP_CHANGE_DEFAULT_THEME' => 1,
+            'PS_AUTOUP_KEEP_MAILS' => 1,
+            'PS_AUTOUP_BACKUP' => 1,
+            'PS_AUTOUP_KEEP_IMAGES' => 1,
+        );
+    }
+
     // Simplification of _displayForm original function
     protected function _displayForm($name, $fields, $tabname, $size, $icon)
     {
@@ -1041,14 +1054,19 @@ class AdminSelfUpgrade extends AdminSelfTab
                 $required = true;
             }
 
-            if (isset($field['disabled']) && $field['disabled']) {
+            if ( (isset($field['disabled']) && $field['disabled']) || version_compare($this->upgrader->version_num, '1.7.1.0', '>=')) {
                 $disabled = true;
             } else {
                 $disabled = false;
             }
 
+            if (version_compare($this->upgrader->version_num, '1.7.1.0', '>=')) {
+                $confValues17 = $this->getConfigFor17();
+            }
 
-            if (isset($confValues[$key])) {
+            if (isset($confValues17[$key])) {
+                $val = $confValues17[$key];
+            } else if (isset($confValues[$key])) {
                 $val = $confValues[$key];
             } else {
                 $val = isset($field['defaultValue'])?$field['defaultValue']:false;
@@ -1429,7 +1447,6 @@ class AdminSelfUpgrade extends AdminSelfTab
     public function ajaxProcessUpgradeNow()
     {
         $this->next_desc = $this->l('Starting upgrade...');
-
         $channel = $this->getConfig('channel');
         $this->next = 'download';
         if (!is_object($this->upgrader)) {
@@ -1466,6 +1483,11 @@ class AdminSelfUpgrade extends AdminSelfTab
                 $this->nextQuickInfo[] = sprintf($this->l('Downloaded archive will come from %s'), $this->upgrader->link);
                 $this->nextQuickInfo[] = sprintf($this->l('MD5 hash will be checked against %s'), $this->upgrader->md5);
         }
+    }
+
+    public function ajaxProcessUpgradeNow17()
+    {
+        return $this->ajaxProcessUpgradeNow();
     }
 
     /**
@@ -2091,24 +2113,24 @@ class AdminSelfUpgrade extends AdminSelfTab
                 $this->next = $result['next'];
             } else {
                 if ($this->getConfig('channel') != 'archive' && file_exists($this->getFilePath()) && unlink($this->getFilePath())) {
-                    $this->nextQuickInfo[] = sprintf($this->l('%s removed'), $this->getFilePath());
+                    $this->nextQuickInfo[] = '<div class="upgradeDbOk">'.sprintf($this->l('%s removed'), $this->getFilePath()).'</div>';
                 } elseif (is_file($this->getFilePath())) {
-                    $this->nextQuickInfo[] = '<strong>'.sprintf($this->l('Please remove %s by FTP'), $this->getFilePath()).'</strong>';
+                    $this->nextQuickInfo[] = '<div class="upgradeDbOk"><strong>'.sprintf($this->l('Please remove %s by FTP'), $this->getFilePath()).'</strong></div>';
                 }
 
                 if ($this->getConfig('channel') != 'directory' && file_exists($this->latestRootDir) && self::deleteDirectory($this->latestRootDir)) {
-                    $this->nextQuickInfo[] = sprintf($this->l('%s removed'), $this->latestRootDir);
+                    $this->nextQuickInfo[] = '<div class="upgradeDbOk">'.sprintf($this->l('%s removed'), $this->latestRootDir).'</div>';
                 } elseif (is_dir($this->latestRootDir)) {
-                    $this->nextQuickInfo[] = '<strong>'.sprintf($this->l('Please remove %s by FTP'), $this->latestRootDir).'</strong>';
+                    $this->nextQuickInfo[] = '<div class="upgradeDbOk"><strong>'.sprintf($this->l('Please remove %s by FTP'), $this->latestRootDir).'</strong></div>';
                 }
 
                 if (!$this->warning_exists) {
-                    $this->nextQuickInfo[] = '<br /><strong>'.$this->l('Upgrade process done. Congratulations! You can now reactivate your shop.').'</strong>';
+                    $this->nextQuickInfo[] = '<br /><div class="upgradeDbOk"><strong>'.$this->l('Upgrade process done. Congratulations! You can now reactivate your shop.').'</strong></div>';
                 } else {
-                    $this->nextQuickInfo[] = '<br /><strong>'.$this->l('Upgrade process done, but some warnings have been found.').'</strong>';
+                    $this->nextQuickInfo[] = '<br /><div class="upgradeDbOk"><strong>'.$this->l('Upgrade process done, but some warnings have been found.').'</strong></div>';
                 }
 
-                $this->nextQuickInfo[] = $this->l('Don\'t forget to clear your cache (Advanced parameters > Performance > Clear cache)');
+                $this->nextQuickInfo[] = '<div class="upgradeDbOk">'.$this->l('Don\'t forget to clear your cache (Advanced parameters > Performance > Clear cache)').'</div>';
             }
         }
 
@@ -2211,7 +2233,7 @@ class AdminSelfUpgrade extends AdminSelfTab
             $this->doUpgrade17();
         } elseif (version_compare(INSTALL_VERSION, '1.7.0.0', '>=')) {
             $this->next = 'error';
-            $this->next_desc = $this->l('You can\'t upgrade to this version.');
+            $this->next_desc = $this->l('You cannot upgrade to this version.');
             return false;
         } else {
             $filePrefix = 'PREFIX_';
@@ -3541,7 +3563,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 
     public function ajaxProcessBackupDb()
     {
-        if (!$this->getConfig('PS_AUTOUP_BACKUP')) {
+        if (!$this->getConfig('PS_AUTOUP_BACKUP') && version_compare($this->upgrader->version_num, '1.7.0.0', '<')) {
             $this->stepDone = true;
             $this->nextParams['dbStep'] = 0;
             $this->next_desc = sprintf($this->l('Database backup skipped. Now upgrading files...'), $this->backupName);
@@ -3809,7 +3831,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 
     public function ajaxProcessBackupFiles()
     {
-        if (!$this->getConfig('PS_AUTOUP_BACKUP')) {
+        if (!$this->getConfig('PS_AUTOUP_BACKUP') && version_compare($this->upgrader->version_num, '1.7.0.0', '<')) {
             $this->stepDone = true;
             $this->next = 'backupDb';
             $this->next_desc = 'File backup skipped.';
@@ -4817,26 +4839,164 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
         $this->_html .= '<div class="clear"></div>';
         $this->_displayBlockUpgradeButton();
 
-        $this->_displayComparisonBlock();
-        $this->_displayBlockActivityLog();
-
-        $this->_html .= '<br/>';
-        $this->_html .= '<form action="'.$this->currentIndex.'&amp;customSubmitAutoUpgrade=1&amp;token='.$this->token.'" method="post" enctype="multipart/form-data">';
-        $this->_displayForm('upgradeOptions', $this->_fieldsUpgradeOptions, '<a href="#" name="upgrade-options" id="upgrade-options">'.$this->l('Upgrade Options').'</a>', '', 'prefs');
-        $this->_displayForm('backupOptions', $this->_fieldsBackupOptions, '<a href="#" name="backup-options" id="backup-options">'.$this->l('Backup Options').'</a>', '', 'database_gear');
-        $this->_html .= '</form>';
-
-        if ($this->configOk()) {
-            if (version_compare(_PS_VERSION_, $this->upgrader->version_num, '<')) {
-                $this->_html .= '<p class="clear"><a href="" id="upgradeNow" class="button-autoupgrade upgradestep">' . sprintf($this->l('Upgrade to PrestaShop %s'), $this->upgrader->version_num) . '</a></p>';
+        if (!$this->configOk() ||
+            (version_compare($this->upgrader->version_num, '1.7.1.0', '<') &&
+			version_compare($this->upgrader->version_num, '1.7.0.0', '>='))
+        ) {
+			$this->_html .= '<p style="text-align:center;font-weight: bold; font-size: 1.2em;">'.$this->l('You cannot upgrade to this version.').'</p>';
+            if (!$this->configOk()) {
+                $this->_html .= '<p style="text-align:center;font-weight: bold; font-size: 1.2em;">'.$this->l('Please check the pre-upgrade checklist.').'</p>';
             }
-        }
+		} else {
 
-        $this->_displayRollbackForm();
+			if (version_compare($this->upgrader->version_num, '1.7.1.0', '>=')) {
+                $this->_html .= '<p class="clear" style="text-align: center;"><a href="" id="showStep17-1" class="button-autoupgrade17">'.$this->l('Next').'</a></p>';
+				$this->_html .= '<div id="hideStep17" style="display:none;">';
+
+                $this->_upgradingTo17Step1();
+                $this->_upgradingTo17Step2();
+
+                $checks = new CheckTests17();
+                $checkRequiredTests = $checks->checkRequiredTests();
+			}
+
+            // if < 1.7 or 1.7 but not requirements ok show content
+            if (version_compare($this->upgrader->version_num, '1.7.0.0', '<') || !empty($checkRequiredTests['success'])) {
+                $this->_html .= '<div id="hideStep17basic">';
+
+                $this->_displayComparisonBlock();
+    	        $this->_displayBlockActivityLog();
+
+    	        $this->_html .= '<br/>';
+    	        $this->_html .= '<form action="'.$this->currentIndex.'&amp;customSubmitAutoUpgrade=1&amp;token='.$this->token.'" method="post" enctype="multipart/form-data">';
+    	        $this->_displayForm('upgradeOptions', $this->_fieldsUpgradeOptions, '<a href="#" name="upgrade-options" id="upgrade-options">'.$this->l('Upgrade Options').'</a>', '', 'prefs');
+    	        $this->_displayForm('backupOptions', $this->_fieldsBackupOptions, '<a href="#" name="backup-options" id="backup-options">'.$this->l('Backup Options').'</a>', '', 'database_gear');
+    	        $this->_html .= '</form>';
+
+    	        if ($this->configOk()) {
+    	            if (version_compare(_PS_VERSION_, $this->upgrader->version_num, '<') &&
+                        version_compare($this->upgrader->version_num, '1.7.0.0', '<')) {
+    	                $this->_html .= '<p class="clear" style="text-align: center;"><a href="" id="upgradeNow" class="button-autoupgrade upgradestep">' . sprintf($this->l('Upgrade to PrestaShop %s'), $this->upgrader->version_num) . '</a></p>';
+    	            }
+    	        }
+
+    	        $this->_displayRollbackForm();
+
+                $this->_html .= '</div>';
+
+    			if (version_compare($this->upgrader->version_num, '1.7.1.0', '>=')) {
+                    $this->_buttonUpgradingTo17Step2();
+
+    				$this->_html .= '</div>';
+    			}
+            }
+		}
 
         $this->_html .= '<script type="text/javascript" src="'.__PS_BASE_URI__.'modules/autoupgrade/js/jquery.xml2json.js"></script>';
-        $this->_html .= '<script type="text/javascript">'.$this->_getJsInit().'</script>';
-        echo $this->_html;
+		if (version_compare($this->upgrader->version_num, '1.7.1.0', '>=')) {
+            $this->_html .= '<script type="text/javascript" src="'.__PS_BASE_URI__.'modules/autoupgrade/js/upgrade-1.7.js"></script>';
+        }
+		$this->_html .= '<script type="text/javascript">'.$this->_getJsInit().'</script>';
+
+		echo $this->_html;
+    }
+
+    private function _upgradingTo17Step1()
+    {
+        $checks = new CheckTests17();
+        $checkRequiredTests = $checks->checkRequiredTests();
+
+        $this->_html .= '
+        <fieldset id="hideStep17-1">
+            <legend>'.sprintf($this->l('Upgrading to PrestaShop %s'), $this->upgrader->version_num).'</legend>';
+
+            $this->_html .= '<p>'.sprintf($this->l('Migrating from PrestaShop %s to the PrestaShop %s version will have a HUGE impact on your store.'), _PS_VERSION_, $this->upgrader->version_num).'</p>';
+
+            $this->_html .= '<p><b>'.sprintf($this->l('You will not be able to use your current theme, modules and advanced stock data as soon as your store is upgraded to %s'), $this->upgrader->version_num).'</b></p>';
+
+            $this->_html .= '<p>'.$this->l('Please also make sure that your server installation meets the minimum requirements:').'</p>';
+
+            $this->_html .= '<ul style="list-style-type: none;">';
+
+            if (!empty($checkRequiredTests)) {
+                $pic_ok = '<img src="../img/admin/enabled.gif" alt="ok"/>';
+                $pic_nok = '<img src="../img/admin/disabled.gif" alt="nok"/>';
+
+                $translationsTests = array(
+                    'upload' => sprintf($this->l('%s folder exists'), '/upload/'),
+                    'img_dir' => sprintf($this->l('%s folder exists'), '/img/'),
+                    'module_dir' => sprintf($this->l('%s folder exists'), '/modules/'),
+                    'theme_dir' => sprintf($this->l('%s folder exists'), '/themes/'),
+                    'translations_dir' => sprintf($this->l('%s folder exists'), '/translations/'),
+                    'customizable_products_dir' => sprintf($this->l('%s folder exists'), '/upload/'),
+                    'virtual_products_dir' => sprintf($this->l('%s folder exists'), '/download/'),
+                    'config_dir' => sprintf($this->l('%s folder exists'), '/config/'),
+                    'mails_dir' => sprintf($this->l('%s folder exists'), '/mails/'),
+
+                    'system' => $this->l('Required system functions are enabled (fopen, file_exists, chmod)'),
+
+                    'phpversion' => sprintf($this->l('%s function is enabled'), 'version_compare'),
+                    'apache_mod_rewrite' => sprintf($this->l('%s function is enabled'), 'apache_mod_rewrite'),
+
+                    'curl' => sprintf($this->l('%s extension is enabled'), 'cURL'),
+                    'gd' => sprintf($this->l('%s extension is enabled'), 'gd'),
+                    'json' => sprintf($this->l('%s extension is enabled'), 'json'),
+                    'pdo_mysql' => sprintf($this->l('%s extension is enabled'), 'PDO MySQL'),
+                    'openssl' => sprintf($this->l('%s extension is enabled'), 'open SSL'),
+                    'simplexml' => sprintf($this->l('%s extension is enabled'), 'simpleXML'),
+                    'zip' => sprintf($this->l('%s extension is enabled'), 'zip'),
+                    'intl' => sprintf($this->l('%s extension is enabled'), 'intl'),
+                    'fileinfo' => sprintf($this->l('%s extension is enabled'), 'fileinfo'),
+                );
+
+                foreach ($checkRequiredTests['checks'] as $key => $test) {
+                    $this->_html .= '<li>'.($test === 'ok' ? $pic_ok : $pic_nok).' ' .(isset($translationsTests[$key]) ? $translationsTests[$key] : $key).'</li>';
+                }
+
+                if (empty($checkRequiredTests['success'])) {
+                    $this->_html .= '<p style="text-align:center;font-weight: bold; font-size: 1.2em;">'.$this->l('Your installation lacks some of the minimum requirements. Please check and try again.').'</p>';
+                }
+            }
+
+            $this->_html .= '</ul>
+        </fieldset>';
+    }
+
+    private function _upgradingTo17Step2()
+    {
+        $this->_html .= '
+        <fieldset id="hideStep17-2" style="background: white; border: solid 3px red; font-size: 1.2em; display:none; width: 50%; margin-left: 25%; margin-top: 50px; margin-bottom: 50px;">
+            <h3>Are you ready to take the jump? Please check all this, it\'s important for your shop:<h3>
+            <ul style="list-style-type: none;">';
+
+            $lines = array(
+                $this->l('My pre-Upgrade checklist is all good'),
+                $this->l('My files and database are backed up'),
+                sprintf($this->l('I understand my current theme will not work with my %s shop'), $this->upgrader->version_num),
+                sprintf($this->l('I am aware most of my modules will not be compatible with my %s shop'), $this->upgrader->version_num),
+                $this->l('I understand I will no longer have my advanced stock management configuration and data'),
+                $this->l('I will have to reconfigure my permissions'),
+                $this->l('If I have a custom menu in my back office, I will no longer be able to use it'),
+            );
+
+            foreach ($lines as $k => $line) {
+                $this->_html .= '<li>
+                    <input type="checkbox" name="goToUpgrade[]" id="goToUpgrade-'.$k.'" value="'.$k.'">
+                    <label style="font-size: 1em;" class="t" for="goToUpgrade-'.$k.'">'.$line.'</label><br>
+                </li>';
+            }
+
+            $this->_html .= '</ul>
+
+            <p class="clear" style="text-align: center;">
+                <a href="" id="showStep17-abort" style="font-size: 0.9em; margin-right: 20px;" class="">Abort, I am not ready!</a>
+                <a href="" id="upgradeNow17" style="margin-right: 20px;" class="button-autoupgrade17 upgradestep">'.sprintf($this->l('Switch to %s for good!'), $this->upgrader->version_num).'</a></p>
+        </fieldset>';
+    }
+
+    private function _buttonUpgradingTo17Step2()
+    {
+        $this->_html .= '<p class="clear" style="text-align: center;"><a href="" id="showStep17-2" class="button-autoupgrade17">'.sprintf($this->l('Upgrade to PrestaShop %s'), $this->upgrader->version_num).'</a></p>';
     }
 
     private function _getJsInit()
@@ -4983,6 +5143,17 @@ $(document).ready(function(){
 	$(document).ready(function(){
 		$("div[id|=for]").hide();
 		$("select[name=channel]").change();
+
+        $("#upgradeNow17").click(function(e) {
+            if (!isAllConditionOk()) {
+                e.preventDefault();
+                alert("'.$this->l('You need to check all condition', 'AdminSelfUpgrade', true).'")
+            } else {
+                prepareNextButton("#upgradeNow17",firstTimeParams);
+                $(this).click();
+            }
+        });
+
 	});
 
 	// the following prevents to leave the page at the innappropriate time
@@ -5007,7 +5178,7 @@ $(document).ready(function(){
 	$.ajaxSetup({timeout:7200000});
 
 	// prepare available button here, without params ?
-	prepareNextButton("#upgradeNow",firstTimeParams);
+    prepareNextButton("#upgradeNow",firstTimeParams);
 
 	/**
 	 * reset rollbackParams js array (used to init rollback button)
@@ -5094,7 +5265,8 @@ function startProcess(type){
 	// hide useless divs, show activity log
 	$("#informationBlock,#comparisonBlock,#currentConfigurationBlock,#backupOptionsBlock,#upgradeOptionsBlock,#upgradeButtonBlock").slideUp("fast");
 	$(".autoupgradeSteps a").addClass("button");
-	$("#activityLogBlock").fadeIn("slow");
+    $("#hideStep17, #hideStep17basic, #activityLogBlock").show();
+    $("#hideStep17-2").hide();
 
 	$(window).bind("beforeunload", function(e)
 	{
@@ -5123,11 +5295,30 @@ function startProcess(type){
 	});
 }
 
+function isAllConditionOk() {
+    var isOk = true;
+
+    $("input[name=\"goToUpgrade[]\"]").each(function() {
+        if (!($(this).is(":checked"))) {
+            isOk = false;
+        }
+    });
+
+    return isOk;
+}
+
 function afterUpgradeNow(res)
 {
 	startProcess("upgrade");
-	$("#upgradeNow").unbind();
-	$("#upgradeNow").replaceWith("<span id=\"upgradeNow\" class=\"button-autoupgrade\">'.$this->l('Upgrading PrestaShop', 'AdminSelfUpgrade', true).' ...</span>");
+    $("#upgradeNow").unbind();
+    $("#upgradeNow").replaceWith("<span id=\"upgradeNow\" class=\"button-autoupgrade\">'.$this->l('Upgrading PrestaShop', 'AdminSelfUpgrade', true).' ...</span>");
+}
+
+function afterUpgradeNow17(res)
+{
+    startProcess("upgrade");
+    $("#upgradeNow17").unbind();
+    $("#upgradeNow17").replaceWith("<span id=\"upgradeNow17\" class=\"button-autoupgrade\">'.$this->l('Upgrading PrestaShop', 'AdminSelfUpgrade', true).' ...</span>");
 }
 
 function afterUpgradeComplete(res)
