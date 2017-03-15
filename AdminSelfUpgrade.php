@@ -1516,7 +1516,7 @@ class AdminSelfUpgrade extends AdminSelfTab
                     }
                 } else {
                     $this->next = 'error';
-                    $this->next_desc = sprintf($this->l('It\'s not a valid upgrade %s archive...'), INSTALL_VERSION);
+                    $this->next_desc = sprintf($this->l('This is not a valid archive for version %s.'), INSTALL_VERSION);
                     return false;
                 }
             } else {
@@ -1933,7 +1933,7 @@ class AdminSelfUpgrade extends AdminSelfTab
                 $path = $this->prodRootDir.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR.$key.DIRECTORY_SEPARATOR;
                 if (file_exists($path.$key.'.php')) {
                     if (self::deleteDirectory($path)) {
-                        $this->nextQuickInfo[] = sprintf($this->l('%1$s module is not compatible with %2$s, it will be removed from your ftp.'), $module, $this->install_version);
+                        $this->nextQuickInfo[] = sprintf($this->l('The %1$s module is not compatible with version %2$s, it will be removed from your FTP.'), $module, $this->install_version);
                     } else {
                         $this->nextErrors[] = sprintf($this->l('%1$s module is not compatible with %2$s, please remove it from your ftp.'), $module, $this->install_version);
                     }
@@ -2417,7 +2417,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 
         if (0 !== $output['doctrine:schema:update']['exitCode']) {
             $msgErrors = explode("\n", $output['doctrine:schema:update']['output']);
-            $this->nextErrors[] = $this->l('Error upgrading doctrine schema');
+            $this->nextErrors[] = $this->l('Error upgrading Doctrine schema');
             $this->nextQuickInfo[] = $msgErrors;
             $this->next_desc = $msgErrors;
             return false;
