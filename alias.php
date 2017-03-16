@@ -26,27 +26,27 @@
 
 function fd($var)
 {
-	return (Tools14::fd($var));
+    return (Tools14::fd($var));
 }
 
 function p($var)
 {
-	return (Tools14::p($var));
+    return (Tools14::p($var));
 }
 
 function d($var)
 {
-	Tools14::d($var);
+    Tools14::d($var);
 }
 
 function ppp($var)
 {
-	return (Tools14::p($var));
+    return (Tools14::p($var));
 }
 
 function ddd($var)
 {
-	Tools14::d($var);
+    Tools14::d($var);
 }
 
 /**
@@ -58,12 +58,12 @@ function ddd($var)
  */
 function pSQL($string, $htmlOK = false)
 {
-	return Db::getInstance()->escape($string, $htmlOK);
+    return Db::getInstance()->escape($string, $htmlOK);
 }
 
 function bqSQL($string)
 {
-	return str_replace('`', '\`', pSQL($string));
+    return str_replace('`', '\`', pSQL($string));
 }
 
 /**
@@ -71,5 +71,5 @@ function bqSQL($string)
  */
 function nl2br2($string)
 {
-	return Tools14::nl2br($string);
+    return Tools14::nl2br($string);
 }

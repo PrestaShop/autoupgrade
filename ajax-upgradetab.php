@@ -24,47 +24,53 @@
 *  International Registered Trademark & Property of PrestaShop SA
 */
 
-if (function_exists('date_default_timezone_set'))
-{
-	// date_default_timezone_get calls date_default_timezone_set, which can provide warning
-	$timezone = @date_default_timezone_get();
-	date_default_timezone_set($timezone);
+if (function_exists('date_default_timezone_set')) {
+    // date_default_timezone_get calls date_default_timezone_set, which can provide warning
+    $timezone = @date_default_timezone_get();
+    date_default_timezone_set($timezone);
 }
 
-if (!defined('_PS_MODULE_DIR_'))
-	define('_PS_MODULE_DIR_', realpath(dirname(__FILE__).'/../../').'/modules/');
+if (!defined('_PS_MODULE_DIR_')) {
+    define('_PS_MODULE_DIR_', realpath(dirname(__FILE__).'/../../').'/modules/');
+}
 
 define('AUTOUPGRADE_MODULE_DIR', _PS_MODULE_DIR_.'autoupgrade/');
 require_once(AUTOUPGRADE_MODULE_DIR.'functions.php');
 //
 // the following test confirm the directory exists
-if (!isset($_POST['dir']))
-	die('no directory');
+if (!isset($_POST['dir'])) {
+    die('no directory');
+}
 
 // defines.inc.php can not exists (1.3.0.1 for example)
 // but we need _PS_ROOT_DIR_
-if (!defined('_PS_ROOT_DIR_'))
-	define('_PS_ROOT_DIR_', realpath(dirname(__FILE__).'/../../'));
+if (!defined('_PS_ROOT_DIR_')) {
+    define('_PS_ROOT_DIR_', realpath(dirname(__FILE__).'/../../'));
+}
 
 require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/classes/Tools14.php');
-if (!class_exists('Tools', false))
-	eval('class Tools extends Tools14{}');
+if (!class_exists('Tools', false)) {
+    eval('class Tools extends Tools14{}');
+}
 
 $dir = Tools14::safeOutput(Tools14::getValue('dir'));
 
-if (realpath(dirname(__FILE__).'/../../').DIRECTORY_SEPARATOR.$dir!== realpath(realpath(dirname(__FILE__).'/../../').DIRECTORY_SEPARATOR.$dir))
-	die('wrong directory :'.(isset($_POST['dir']) ? $dir : ''));
+if (realpath(dirname(__FILE__).'/../../').DIRECTORY_SEPARATOR.$dir!== realpath(realpath(dirname(__FILE__).'/../../').DIRECTORY_SEPARATOR.$dir)) {
+    die('wrong directory :'.(isset($_POST['dir']) ? $dir : ''));
+}
 
 define('_PS_ADMIN_DIR_', realpath(dirname(__FILE__).'/../../').DIRECTORY_SEPARATOR.$dir);
 
 // ajax-upgrade-tab is located in admin/autoupgrade directory
 require_once(_PS_ROOT_DIR_.'/config/settings.inc.php');
 
-if (!defined('_MYSQL_ENGINE_'))
-	define('_MYSQL_ENGINE_', 'MyISAM');
-	
-if (!defined('_PS_TOOL_DIR_'))
-	define('_PS_TOOL_DIR_', _PS_ROOT_DIR_.'/tools/');	
+if (!defined('_MYSQL_ENGINE_')) {
+    define('_MYSQL_ENGINE_', 'MyISAM');
+}
+    
+if (!defined('_PS_TOOL_DIR_')) {
+    define('_PS_TOOL_DIR_', _PS_ROOT_DIR_.'/tools/');
+}
 
 //require(_PS_ADMIN_DIR_.'/functions.php');
 include(AUTOUPGRADE_MODULE_DIR.'init.php');
@@ -73,37 +79,37 @@ include(AUTOUPGRADE_MODULE_DIR.'init.php');
 global $ajax;
 
 $ajax = true;
-$adminObj = new AdminSelfUpgrade();
+$autoupgradeDir = Tools14::getValue('autoupgradeDir', 'autoupg-inst-' . uniqid());
+$adminObj = new AdminSelfUpgrade($autoupgradeDir);
 
-if (is_object($adminObj))
-{
-	$adminObj->optionDisplayErrors();
-	$adminObj->ajax = 1;
-	if ($adminObj->checkToken())
-	{
-		// the differences with index.php is here
-		$adminObj->ajaxPreProcess();
-		$action = Tools14::getValue('action');
+if (is_object($adminObj)) {
+    $adminObj->optionDisplayErrors();
+    $adminObj->ajax = 1;
+    if ($adminObj->checkToken()) {
+        // the differences with index.php is here
+        $adminObj->ajaxPreProcess();
+        $action = Tools14::getValue('action');
 
-		// no need to use displayConf() here
+        // no need to use displayConf() here
 
-		if (!empty($action) && method_exists($adminObj, 'ajaxProcess'.$action) )
-			$adminObj->{'ajaxProcess'.$action}();
-		else
-			$adminObj->ajaxProcess();
+        if (!empty($action) && method_exists($adminObj, 'ajaxProcess'.$action)) {
+            $adminObj->{'ajaxProcess'.$action}();
+        } else {
+            $adminObj->ajaxProcess();
+        }
 
-		// @TODO We should use a displayAjaxError
-		$adminObj->displayErrors();
-		if (!empty($action) && method_exists($adminObj, 'displayAjax'.$action))
-			$adminObj->{'displayAjax'.$action}();
-		else
-			$adminObj->displayAjax();
-	}
-	else
-	{
-		// If this is an XSS attempt, then we should only display a simple, secure page
-		if (ob_get_level() && ob_get_length() > 0)
-			ob_clean();
-		die('{wrong token}');
-	}
+        // @TODO We should use a displayAjaxError
+        $adminObj->displayErrors();
+        if (!empty($action) && method_exists($adminObj, 'displayAjax'.$action)) {
+            $adminObj->{'displayAjax'.$action}();
+        } else {
+            $adminObj->displayAjax();
+        }
+    } else {
+        // If this is an XSS attempt, then we should only display a simple, secure page
+        if (ob_get_level() && ob_get_length() > 0) {
+            ob_clean();
+        }
+        die('{wrong token}');
+    }
 }
