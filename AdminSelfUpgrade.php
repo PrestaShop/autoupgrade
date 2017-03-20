@@ -2089,10 +2089,10 @@ class AdminSelfUpgrade extends AdminSelfTab
      */
     public function doUpgrade17()
     {
-        $base_uri = str_replace($_SERVER['DOCUMENT_ROOT'], '', _PS_ROOT_DIR_);
+        $base_uri = str_replace(realpath($_SERVER['DOCUMENT_ROOT']), '', realpath(_PS_ROOT_DIR_));
         $hostName = $this->getServerFullBaseUrl();
 
-        $url = $hostName . $base_uri .
+        $url = $hostName . str_replace('\\', '/', $base_uri) .
         '/'.$this->install_autoupgrade_dir.'/upgrade/upgrade.php?autoupgrade=1'.
             '&deactivateCustomModule=1'.
             '&updateDefaultTheme=1'.
