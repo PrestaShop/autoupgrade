@@ -4966,7 +4966,7 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
     {
         $this->_html .= '
         <fieldset id="hideStep17-2" style="background: white; border: solid 3px red; font-size: 1.2em; display:none; width: 50%; margin-left: 25%; margin-top: 50px; margin-bottom: 50px;">
-            <h3>Are you ready to take the jump? Please check all this, it\'s important for your shop:<h3>
+            <h3>Are you ready? Please check all this, it\'s important for your shop:<h3>
             <ul style="list-style-type: none;">';
 
             $lines = array(
