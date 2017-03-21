@@ -2089,10 +2089,10 @@ class AdminSelfUpgrade extends AdminSelfTab
      */
     public function doUpgrade17()
     {
-        $base_uri = str_replace($_SERVER['DOCUMENT_ROOT'], '', _PS_ROOT_DIR_);
+        $base_uri = str_replace(realpath($_SERVER['DOCUMENT_ROOT']), '', realpath(_PS_ROOT_DIR_));
         $hostName = $this->getServerFullBaseUrl();
 
-        $url = $hostName . $base_uri .
+        $url = $hostName . str_replace('\\', '/', $base_uri) .
         '/'.$this->install_autoupgrade_dir.'/upgrade/upgrade.php?autoupgrade=1'.
             '&deactivateCustomModule=1'.
             '&updateDefaultTheme=1'.
@@ -4965,8 +4965,8 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
     private function _upgradingTo17Step2()
     {
         $this->_html .= '
-        <fieldset id="hideStep17-2" style="background: white; border: solid 3px red; font-size: 1.2em; display:none; width: 50%; margin-left: 25%; margin-top: 50px; margin-bottom: 50px;">
-            <h3>Are you ready to take the jump? Please check all this, it\'s important for your shop:<h3>
+        <fieldset id="hideStep17-2" style="background: white; border: solid 3px #585A69; font-size: 1.2em; display:none; width: 50%; margin-left: 25%; margin-top: 50px; margin-bottom: 50px;">
+            <h3>Are you ready? Please check all this, it\'s important for your shop:<h3>
             <ul style="list-style-type: none;">';
 
             $lines = array(
