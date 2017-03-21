@@ -172,19 +172,19 @@ abstract class AdminSelfTab
         global $cookie;
         $this->id = Tab::getCurrentTabId();
         $this->_conf = array(
-        1 => $this->l('Deletion successful'), 2 => $this->l('Selection successfully deleted'),
-        3 => $this->l('Creation successful'), 4 => $this->l('Update successful'),
-        5 => $this->l('The new version check has been completed successfully'), 6 => $this->l('Settings update successful'),
-        7 => $this->l('Image successfully deleted'), 8 => $this->l('Module downloaded successfully'),
-        9 => $this->l('Thumbnails successfully regenerated'), 10 => $this->l('Message sent to the customer'),
-        11 => $this->l('Comment added'), 12 => $this->l('Module installed successfully'),
-        13 => $this->l('Module uninstalled successfully'), 14 => $this->l('Language successfully copied'),
-        15 => $this->l('Translations successfully added'), 16 => $this->l('Module transplanted successfully to hook'),
-        17 => $this->l('Module removed successfully from hook'), 18 => $this->l('Upload successful'),
-        19 => $this->l('Duplication completed successfully'), 20 => $this->l('Translation added successfully but the language has not been created'),
-        21 => $this->l('Module reset successfully'), 22 => $this->l('Module deleted successfully'),
-        23 => $this->l('Localization pack imported successfully'), 24 => $this->l('Refund Successful'),
-        25 => $this->l('Images successfully moved'));
+        1 => $this->trans('Deletion successful', array(), 'Modules.Autoupgrade.Admin'), 2 => $this->trans('Selection successfully deleted', array(), 'Modules.Autoupgrade.Admin'),
+        3 => $this->trans('Creation successful', array(), 'Modules.Autoupgrade.Admin'), 4 => $this->trans('Update successful', array(), 'Modules.Autoupgrade.Admin'),
+        5 => $this->trans('The new version check has been completed successfully', array(), 'Modules.Autoupgrade.Admin'), 6 => $this->trans('Settings update successful', array(), 'Modules.Autoupgrade.Admin'),
+        7 => $this->trans('Image successfully deleted', array(), 'Modules.Autoupgrade.Admin'), 8 => $this->trans('Module downloaded successfully', array(), 'Modules.Autoupgrade.Admin'),
+        9 => $this->trans('Thumbnails successfully regenerated', array(), 'Modules.Autoupgrade.Admin'), 10 => $this->trans('Message sent to the customer', array(), 'Modules.Autoupgrade.Admin'),
+        11 => $this->trans('Comment added', array(), 'Modules.Autoupgrade.Admin'), 12 => $this->trans('Module installed successfully', array(), 'Modules.Autoupgrade.Admin'),
+        13 => $this->trans('Module uninstalled successfully', array(), 'Modules.Autoupgrade.Admin'), 14 => $this->trans('Language successfully copied', array(), 'Modules.Autoupgrade.Admin'),
+        15 => $this->trans('Translations successfully added', array(), 'Modules.Autoupgrade.Admin'), 16 => $this->trans('Module transplanted successfully to hook', array(), 'Modules.Autoupgrade.Admin'),
+        17 => $this->trans('Module removed successfully from hook', array(), 'Modules.Autoupgrade.Admin'), 18 => $this->trans('Upload successful', array(), 'Modules.Autoupgrade.Admin'),
+        19 => $this->trans('Duplication completed successfully', array(), 'Modules.Autoupgrade.Admin'), 20 => $this->trans('Translation added successfully but the language has not been created', array(), 'Modules.Autoupgrade.Admin'),
+        21 => $this->trans('Module reset successfully', array(), 'Modules.Autoupgrade.Admin'), 22 => $this->trans('Module deleted successfully', array(), 'Modules.Autoupgrade.Admin'),
+        23 => $this->trans('Localization pack imported successfully', array(), 'Modules.Autoupgrade.Admin'), 24 => $this->trans('Refund Successful', array(), 'Modules.Autoupgrade.Admin'),
+        25 => $this->trans('Images successfully moved', array(), 'Modules.Autoupgrade.Admin'));
         if (!$this->identifier) {
             $this->identifier = 'id_'.$this->table;
         }
@@ -311,12 +311,12 @@ abstract class AdminSelfTab
                     break;
 
                 case 'bool':
-                    echo '<label class="t" for="'.$key.'_on"><img src="../img/admin/enabled.gif" alt="'.$this->l('Yes').'" title="'.$this->l('Yes').'" /></label>
+                    echo '<label class="t" for="'.$key.'_on"><img src="../img/admin/enabled.gif" alt="'.$this->trans('Yes', array(), 'Admin.Global').'" title="'.$this->trans('Yes', array(), 'Admin.Global').'" /></label>
 					<input type="radio" name="'.$key.'" id="'.$key.'_on" value="1"'.($val ? ' checked="checked"' : '').(isset($field['js']['on']) ? $field['js']['on'] : '').' />
-					<label class="t" for="'.$key.'_on"> '.$this->l('Yes').'</label>
-					<label class="t" for="'.$key.'_off"><img src="../img/admin/disabled.gif" alt="'.$this->l('No').'" title="'.$this->l('No').'" style="margin-left: 10px;" /></label>
+					<label class="t" for="'.$key.'_on"> '.$this->trans('Yes', array(), 'Admin.Global').'</label>
+					<label class="t" for="'.$key.'_off"><img src="../img/admin/disabled.gif" alt="'.$this->trans('No', array(), 'Admin.Global').'" title="'.$this->trans('No', array(), 'Admin.Global').'" style="margin-left: 10px;" /></label>
 					<input type="radio" name="'.$key.'" id="'.$key.'_off" value="0" '.(!$val ? 'checked="checked"' : '').(isset($field['js']['off']) ? $field['js']['off'] : '').'/>
-					<label class="t" for="'.$key.'_off"> '.$this->l('No').'</label>';
+					<label class="t" for="'.$key.'_off"> '.$this->trans('No', array(), 'Admin.Global').'</label>';
                     break;
 
                 case 'radio':
@@ -333,10 +333,10 @@ abstract class AdminSelfTab
                     if ($name == 'themes') {
                         echo '
 						<td colspan="'.sizeof($field['list']).'">
-							<b>'.$this->l('In order to use a new theme, please follow these steps:', get_class()).'</b>
+							<b>'.$this->trans('In order to use a new theme, please follow these steps:', array(), 'Modules.Autoupgrade.Admin').'</b>
 							<ul>
-								<li>'.$this->l('Import your theme using this module:', get_class()).' <a href="index.php?tab=AdminModules&token='.Tools14::getAdminTokenLite('AdminModules').'&filtername=themeinstallator" style="text-decoration: underline;">'.$this->l('Theme installer', get_class()).'</a></li>
-								<li>'.$this->l('When your theme is imported, please select the theme in this page', get_class()).'</li>
+								<li>'.$this->trans('Import your theme using this module:', array(), 'Modules.Autoupgrade.Admin').' <a href="index.php?tab=AdminModules&token='.Tools14::getAdminTokenLite('AdminModules').'&filtername=themeinstallator" style="text-decoration: underline;">'.$this->trans('Theme installer', array(), 'Modules.Autoupgrade.Admin').'</a></li>
+								<li>'.$this->trans('When your theme is imported, please select the theme in this page', array(), 'Modules.Autoupgrade.Admin').'</li>
 							</ul>
 						</td>
 						</tr>
@@ -365,7 +365,7 @@ abstract class AdminSelfTab
 
                 case 'price':
                     $default_currency = new Currency((int)(Configuration::get("PS_CURRENCY_DEFAULT")));
-                    echo $default_currency->getSign('left').'<input type="'.$field['type'].'" size="'.(isset($field['size']) ? (int)($field['size']) : 5).'" name="'.$key.'" value="'.($field['type'] == 'password' ? '' : htmlentities($val, ENT_COMPAT, 'UTF-8')).'" />'.$default_currency->getSign('right').' '.$this->l('(tax excl.)');
+                    echo $default_currency->getSign('left').'<input type="'.$field['type'].'" size="'.(isset($field['size']) ? (int)($field['size']) : 5).'" name="'.$key.'" value="'.($field['type'] == 'password' ? '' : htmlentities($val, ENT_COMPAT, 'UTF-8')).'" />'.$default_currency->getSign('right').' '.$this->trans('(tax excl.)', array(), 'Admin.Global');
                     break;
 
                 case 'textLang':
@@ -398,7 +398,7 @@ abstract class AdminSelfTab
                 break;
 
                 case 'maintenance_ip':
-                    echo '<input type="'.$field['type'].'"'.(isset($field['id']) === true ? ' id="'.$field['id'].'"' : '').' size="'.(isset($field['size']) ? (int)($field['size']) : 5).'" name="'.$key.'" value="'.($field['type'] == 'password' ? '' : htmlentities($val, ENT_COMPAT, 'UTF-8')).'" />'.(isset($field['next']) ? '&nbsp;'.strval($field['next']) : '').' &nbsp;<a href="#" class="button" onclick="addRemoteAddr(); return false;">'.$this->l('Add my IP').'</a>';
+                    echo '<input type="'.$field['type'].'"'.(isset($field['id']) === true ? ' id="'.$field['id'].'"' : '').' size="'.(isset($field['size']) ? (int)($field['size']) : 5).'" name="'.$key.'" value="'.($field['type'] == 'password' ? '' : htmlentities($val, ENT_COMPAT, 'UTF-8')).'" />'.(isset($field['next']) ? '&nbsp;'.strval($field['next']) : '').' &nbsp;<a href="#" class="button" onclick="addRemoteAddr(); return false;">'.$this->trans('Add my IP', array(), 'Modules.Autoupgrade.Admin').'</a>';
                 break;
 
                 case 'text':
@@ -418,13 +418,13 @@ abstract class AdminSelfTab
         }
 
         if (!is_writable(_PS_ADMIN_DIR_.'/../app/config/parameters.php') and $name == 'themes') {
-            echo '<p><img src="../img/admin/warning.gif" alt="" /> '.$this->l('if you change the theme, the parameters.php file must be writable (CHMOD 755 / 777)').'</p>';
+            echo '<p><img src="../img/admin/warning.gif" alt="" /> '.$this->trans('If you change the theme, the parameters.php file must be writable (CHMOD 755 / 777)', array(), 'Modules.Autoupgrade.Admin').'</p>';
         }
 
         echo '	<div align="center" style="margin-top: 20px;">
-					<input type="submit" value="'.$this->l('   Save   ', 'AdminPreferences').'" name="submit'.ucfirst($name).$this->table.'" class="button" />
+					<input type="submit" value="'.$this->trans('Save', array(), 'Admin.Actions').'" name="submit'.ucfirst($name).$this->table.'" class="button" />
 				</div>
-				'.($required ? '<div class="small"><sup>*</sup> '.$this->l('Required field', 'AdminPreferences').'</div>' : '').'
+				'.($required ? '<div class="small"><sup>*</sup> '.$this->trans('Required field', array(), 'Modules.Autoupgrade.Admin').'</div>' : '').'
 			</fieldset>
 		</form>';
 
@@ -467,6 +467,17 @@ abstract class AdminSelfTab
         return str_replace('"', '&quot;', ($addslashes ? addslashes($str) : stripslashes($str)));
     }
 
+    public function getTranslator()
+    {
+        return Context::getContext()->getTranslator();
+    }
+
+    protected function trans($id, array $parameters = array(), $domain = null, $locale = null)
+    {
+        $parameters['legacy'] = 'htmlspecialchars';
+        return $this->getTranslator()->trans($id, $parameters, $domain, $locale);
+    }
+
     /**
      * ajaxDisplay is the default ajax return sytem
      *
@@ -493,19 +504,19 @@ abstract class AdminSelfTab
             if ($this->tabAccess['add'] === '1') {
                 $this->displayForm();
                 if ($this->tabAccess['view']) {
-                    echo '<br /><br /><a href="'.((Tools14::getValue('back')) ? Tools14::getValue('back') : $currentIndex.'&token='.$this->token).'"><img src="../img/admin/arrow2.gif" /> '.((Tools14::getValue('back')) ? $this->l('Back') : $this->l('Back to list')).'</a><br />';
+                    echo '<br /><br /><a href="'.((Tools14::getValue('back')) ? Tools14::getValue('back') : $currentIndex.'&token='.$this->token).'"><img src="../img/admin/arrow2.gif" /> '.((Tools14::getValue('back')) ? $this->trans('Back', array(), 'Modules.Autoupgrade.Admin') : $this->trans('Back to list', array(), 'Modules.Autoupgrade.Admin')).'</a><br />';
                 }
             } else {
-                echo $this->l('You do not have permission to add here');
+                echo $this->trans('You do not have permission to add here', array(), 'Modules.Autoupgrade.Admin');
             }
         } elseif (isset($_GET['update'.$this->table])) {
             if ($this->tabAccess['edit'] === '1' or ($this->table == 'employee' and $cookie->id_employee == Tools14::getValue('id_employee'))) {
                 $this->displayForm();
                 if ($this->tabAccess['view']) {
-                    echo '<br /><br /><a href="'.((Tools14::getValue('back')) ? Tools14::getValue('back') : $currentIndex.'&token='.$this->token).'"><img src="../img/admin/arrow2.gif" /> '.((Tools14::getValue('back')) ? $this->l('Back') : $this->l('Back to list')).'</a><br />';
+                    echo '<br /><br /><a href="'.((Tools14::getValue('back')) ? Tools14::getValue('back') : $currentIndex.'&token='.$this->token).'"><img src="../img/admin/arrow2.gif" /> '.((Tools14::getValue('back')) ? $this->trans('Back', array(), 'Modules.Autoupgrade.Admin') : $this->trans('Back to list', array(), 'Modules.Autoupgrade.Admin')).'</a><br />';
                 }
             } else {
-                echo $this->l('You do not have permission to edit here');
+                echo $this->trans('You do not have permission to edit here', array(), 'Modules.Autoupgrade.Admin');
             }
         } elseif (isset($_GET['view'.$this->table])) {
             $this->{'view'.$this->table}();
@@ -531,15 +542,15 @@ abstract class AdminSelfTab
         }
 
         echo '<br />
-		<p><a href="#" onclick="if ($(\'.requiredFieldsParameters:visible\').length == 0) $(\'.requiredFieldsParameters\').slideDown(\'slow\'); else $(\'.requiredFieldsParameters\').slideUp(\'slow\'); return false;"><img src="../img/admin/duplicate.gif" alt="" /> '.$this->l('Set required fields for this section').'</a></p>
+		<p><a href="#" onclick="if ($(\'.requiredFieldsParameters:visible\').length == 0) $(\'.requiredFieldsParameters\').slideDown(\'slow\'); else $(\'.requiredFieldsParameters\').slideUp(\'slow\'); return false;"><img src="../img/admin/duplicate.gif" alt="" /> '.$this->trans('Set required fields for this section', array(), 'Modules.Autoupgrade.Admin').'</a></p>
 		<fieldset style="display:none" class="width1 requiredFieldsParameters">
-		<legend>'.$this->l('Required Fields').'</legend>
+		<legend>'.$this->trans('Required Fields', array(), 'Modules.Autoupgrade.Admin').'</legend>
 		<form name="updateFields" action="'.$currentIndex.'&submitFields'.$this->table.'=1&token='.$this->token.'" method="post">
-		<p><b>'.$this->l('Select the fields you would like to be required for this section.').'<br />
+		<p><b>'.$this->trans('Select the fields you would like to be required for this section.', array(), 'Modules.Autoupgrade.Admin').'<br />
 		<table cellspacing="0" cellpadding="0" class="table width1 clear">
 		<tr>
 			<th><input type="checkbox" onclick="checkDelBoxes(this.form, \'fieldsBox[]\', this.checked)" class="noborder" name="checkme"></th>
-			<th>'.$this->l('Field Name').'</th>
+			<th>'.$this->trans('Field Name', array(), 'Modules.Autoupgrade.Admin').'</th>
 		</tr>';
 
         $object = new $this->className();
@@ -563,7 +574,7 @@ abstract class AdminSelfTab
 					</tr>';
         }
         echo '</table><br />
-				<center><input style="margin-left:15px;" class="button" type="submit" value="'.$this->l('   Save   ').'" name="submitFields" /></center>
+				<center><input style="margin-left:15px;" class="button" type="submit" value="'.$this->trans('Save', array(), 'Admin.Actions').'" name="submitFields" /></center>
 		</fieldset>';
     }
 
@@ -678,7 +689,7 @@ abstract class AdminSelfTab
         foreach ($rules['required'] as $field) {
             if (($value = Tools14::getValue($field)) == false and (string)$value != '0') {
                 if (!Tools14::getValue($this->identifier) or ($field != 'passwd' and $field != 'no-picture')) {
-                    $this->_errors[] = sprintf($this->l('The field named %s is required.'), call_user_func(array($className, 'displayFieldName'), $field, $className));
+                    $this->_errors[] = $this->trans('The field named %s is required.', array(call_user_func(array($className, 'displayFieldName'), $field, $className)), 'Modules.Autoupgrade.Admin');
                 }
             }
         }
@@ -686,14 +697,28 @@ abstract class AdminSelfTab
         /* Checking for multilingual required fields */
         foreach ($rules['requiredLang'] as $fieldLang) {
             if (($empty = Tools14::getValue($fieldLang.'_'.$defaultLanguage->id)) === false or $empty !== '0' and empty($empty)) {
-                $this->_errors[] = sprintf($this->l('The field named %1$s is required at least in the %2$s language.'), call_user_func(array($className, 'displayFieldName'), $fieldLang, $className), $defaultLanguage->name);
+                $this->_errors[] = $this->trans(
+                    'The field named %fieldname% is required at least in the %languagename% language.',
+                    array(
+                        '%fieldname%' => call_user_func(array($className, 'displayFieldName'), $fieldLang, $className),
+                        '%languagename%' => $defaultLanguage->name,
+                    ),
+                    'Modules.Autoupgrade.Admin'
+                );
             }
         }
 
         /* Checking for maximum fields sizes */
         foreach ($rules['size'] as $field => $maxLength) {
             if (Tools14::getValue($field) !== false and Tools14::strlen(Tools14::getValue($field)) > $maxLength) {
-                $this->_errors[] = sprintf($this->l('The field named %1$s is too long (%2$s chars max).'), call_user_func(array($className, 'displayFieldName'), $field, $className), $maxLength);
+                $this->_errors[] = $this->trans(
+                    'The field named %fieldname% is too long (%charsnumber% chars max).',
+                    array(
+                        '%fieldname%' => call_user_func(array($className, 'displayFieldName'), $field, $className),
+                        '%charsnumber%' => $maxLength,
+                    ),
+                    'Modules.Autoupgrade.Admin'
+                );
             }
         }
 
@@ -701,7 +726,15 @@ abstract class AdminSelfTab
         foreach ($rules['sizeLang'] as $fieldLang => $maxLength) {
             foreach ($languages as $language) {
                 if (Tools14::getValue($fieldLang.'_'.$language['id_lang']) !== false and Tools14::strlen(Tools14::getValue($fieldLang.'_'.$language['id_lang'])) > $maxLength) {
-                    $this->_errors[] = sprintf($this->l('The field named %1$s (for %2$s language) is too long (%3$s chars max, including HTML chars).'), call_user_func(array($className, 'displayFieldName'), $fieldLang, $className), $language['name'], $maxLength);
+                    $this->_errors[] = $this->trans(
+                        'The field named %fieldname% (for %languagename% language) is too long (%charsnumber% chars max, including HTML chars).',
+                        array(
+                            '%fieldname%' => call_user_func(array($className, 'displayFieldName'), $fieldLang, $className),
+                            '%languagename%' => $language['name'],
+                            '%charsnumber%' => $maxLength,
+                        ),
+                        'Modules.Autoupgrade.Admin'
+                    );
                 }
             }
         }
@@ -713,7 +746,7 @@ abstract class AdminSelfTab
         foreach ($rules['validate'] as $field => $function) {
             if (($value = Tools14::getValue($field)) !== false and ($field != 'passwd')) {
                 if (!Validate::$function($value)) {
-                    $this->_errors[] = $this->l('the field').' <b>'.call_user_func(array($className, 'displayFieldName'), $field, $className).'</b> '.$this->l('is invalid');
+                    $this->_errors[] = $this->trans('The field %s is invalid', array('<b>'.call_user_func(array($className, 'displayFieldName'), $field, $className).'</b>'), 'Modules.Autoupgrade.Admin');
                 }
             }
         }
@@ -721,9 +754,9 @@ abstract class AdminSelfTab
         /* Checking for passwd_old validity */
         if (($value = Tools14::getValue('passwd')) != false) {
             if ($className == 'Employee' and !Validate::isPasswdAdmin($value)) {
-                $this->_errors[] = $this->l('the field').' <b>'.call_user_func(array($className, 'displayFieldName'), 'passwd', $className).'</b> '.$this->l('is invalid');
+                $this->_errors[] = $this->trans('The field %s is invalid', array('<b>'.call_user_func(array($className, 'displayFieldName'), 'passwd', $className).'</b>'), 'Modules.Autoupgrade.Admin');
             } elseif ($className == 'Customer' and !Validate::isPasswd($value)) {
-                $this->_errors[] = $this->l('the field').' <b>'.call_user_func(array($className, 'displayFieldName'), 'passwd', $className).'</b> '.$this->l('is invalid');
+                $this->_errors[] = $this->trans('The field %s is invalid', array('<b>'.call_user_func(array($className, 'displayFieldName'), 'passwd', $className).'</b>'), 'Modules.Autoupgrade.Admin');
             }
         }
 
@@ -732,7 +765,7 @@ abstract class AdminSelfTab
             foreach ($languages as $language) {
                 if (($value = Tools14::getValue($fieldLang.'_'.$language['id_lang'])) !== false and !empty($value)) {
                     if (!Validate::$function($value)) {
-                        $this->_errors[] = $this->l('the field').' <b>'.call_user_func(array($className, 'displayFieldName'), $fieldLang, $className).' ('.$language['name'].')</b> '.$this->l('is invalid');
+                        $this->_errors[] = $this->trans('The field %s is invalid', array('<b>'.call_user_func(array($className, 'displayFieldName'), $fieldLang, $className).' ('.$language['name'].')</b>'), 'Modules.Autoupgrade.Admin');
                     }
                 }
             }
@@ -1295,7 +1328,7 @@ abstract class AdminSelfTab
             if (count($this->_errors) == 1) {
                 echo $this->_errors[0];
             } else {
-                echo $nbErrors.' '.$this->l('errors').'<br /><ol>';
+                echo $nbErrors.' '.$this->trans('errors', array(), 'Modules.Autoupgrade.Admin').'<br /><ol>';
                 foreach ($this->_errors as $error) {
                     echo '<li>'.$error.'</li>';
                 }
@@ -1348,11 +1381,15 @@ abstract class AdminSelfTab
 
                 $str_output .= $warn;
             } else {
-                $str_output .= '<span style="float:right"><a id="hideWarn" href=""><img alt="X" src="../img/admin/close.png" /></a></span><img src="../img/admin/warn2.png" />'.
-                (count($warn) > 1 ? $this->l('There are') : $this->l('There is')).' '.count($warn).' '.(count($warn) > 1 ? $this->l('warnings') : $this->l('warning'))
-                .'<span style="margin-left:20px;" id="labelSeeMore">
-				<a id="linkSeeMore" href="#" style="text-decoration:underline">'.$this->l('Click here to see more').'</a>
-				<a id="linkHide" href="#" style="text-decoration:underline;display:none">'.$this->l('Hide warning').'</a></span><ul style="display:none;" id="seeMore">';
+                $str_output .= '<span style="float:right"><a id="hideWarn" href=""><img alt="X" src="../img/admin/close.png" /></a></span><img src="../img/admin/warn2.png" />';
+                if (count($warn) > 1) {
+                    $str_output .= $this->trans('There are %count% warnings', array('%count%' => count($warn)), 'Modules.Autoupgrade.Admin');
+                } else {
+                    $str_output .= $this->trans('There is %count% warning', array('%count%' => count($warn)), 'Modules.Autoupgrade.Admin');
+                }
+                $str_output .= '<span style="margin-left:20px;" id="labelSeeMore">
+				<a id="linkSeeMore" href="#" style="text-decoration:underline">'.$this->trans('Click here to see more', array(), 'Modules.Autoupgrade.Admin').'</a>
+				<a id="linkHide" href="#" style="text-decoration:underline;display:none">'.$this->trans('Hide warning', array(), 'Modules.Autoupgrade.Admin').'</a></span><ul style="display:none;" id="seeMore">';
                 foreach ($warn as $val) {
                     $str_output .= '<li>'.$val.'</li>';
                 }
@@ -1388,15 +1425,15 @@ abstract class AdminSelfTab
         echo '<a href="'.$currentIndex.'&'.$this->identifier.'='.$id.'&'.$active.$this->table.
             ((int)$id_category and (int)$id_product ? '&id_category='.$id_category : '').'&token='.($token!=null ? $token : $this->token).'">
 			<img src="../img/admin/'.($value ? 'enabled.gif' : 'disabled.gif').'"
-			alt="'.($value ? $this->l('Enabled') : $this->l('Disabled')).'" title="'.($value ? $this->l('Enabled') : $this->l('Disabled')).'" /></a>';
+			alt="'.($value ? $this->trans('Enabled', array(), 'Admin.Global') : $this->trans('Disabled', array(), 'Admin.Global')).'" title="'.($value ? $this->trans('Enabled', array(), 'Admin.Global') : $this->trans('Disabled', array(), 'Admin.Global')).'" /></a>';
     }
 
     protected function _displayDuplicate($token = null, $id)
     {
         global $currentIndex;
 
-        $_cacheLang['Duplicate'] = $this->l('Duplicate');
-        $_cacheLang['Copy images too?'] = $this->l('Copy images too?', __CLASS__, true, false);
+        $_cacheLang['Duplicate'] = $this->trans('Duplicate', array(), 'Admin.Actions');
+        $_cacheLang['Copy images too?'] = $this->trans('Copy images too?', array(), 'Modules.Autoupgrade.Admin');
 
         $duplicate = $currentIndex.'&'.$this->identifier.'='.$id.'&duplicate'.$this->table;
 
@@ -1409,7 +1446,7 @@ abstract class AdminSelfTab
     {
         global $currentIndex;
 
-        $_cacheLang['View'] = $this->l('View');
+        $_cacheLang['View'] = $this->trans('View', array(), 'Admin.Actions');
 
         echo '
 			<a href="'.$currentIndex.'&'.$this->identifier.'='.$id.'&view'.$this->table.'&token='.($token!=null ? $token : $this->token).'">
@@ -1420,7 +1457,7 @@ abstract class AdminSelfTab
     {
         global $currentIndex;
 
-        $_cacheLang['Edit'] = $this->l('Edit');
+        $_cacheLang['Edit'] = $this->trans('Edit', array(), 'Admin.Actions');
 
         echo '
 			<a href="'.$currentIndex.'&'.$this->identifier.'='.$id.'&update'.$this->table.'&token='.($token!=null ? $token : $this->token).'">
@@ -1431,8 +1468,8 @@ abstract class AdminSelfTab
     {
         global $currentIndex;
 
-        $_cacheLang['Delete'] = $this->l('Delete');
-        $_cacheLang['DeleteItem'] = $this->l('Delete item #', __CLASS__, true, false);
+        $_cacheLang['Delete'] = $this->trans('Delete', array(), 'Admin.Actions');
+        $_cacheLang['DeleteItem'] = $this->trans('Delete item #', array(), 'Modules.Autoupgrade.Admin');
 
         echo '
 			<a href="'.$currentIndex.'&'.$this->identifier.'='.$id.'&delete'.$this->table.'&token='.($token!=null ? $token : $this->token).'" onclick="return confirm(\''.$_cacheLang['DeleteItem'].$id.' ?'.
@@ -1447,7 +1484,7 @@ abstract class AdminSelfTab
     {
         echo '</table>';
         if ($this->delete) {
-            echo '<p><input type="submit" class="button" name="submitDel'.$this->table.'" value="'.$this->l('Delete selection').'" onclick="return confirm(\''.$this->l('Delete selected items?', __CLASS__, true, false).'\');" /></p>';
+            echo '<p><input type="submit" class="button" name="submitDel'.$this->table.'" value="'.$this->trans('Delete selection', array(), 'Admin.Actions').'" onclick="return confirm(\''.$this->trans('Delete selected items?', array(), 'Modules.Autoupgrade.Admin').'\');" /></p>';
         }
         echo '
 				</td>
@@ -1505,12 +1542,12 @@ abstract class AdminSelfTab
                     echo '</select>';
                     break;
                 case 'bool':
-                    echo '<label class="t" for="'.$key.'_on"><img src="../img/admin/enabled.gif" alt="'.$this->l('Yes').'" title="'.$this->l('Yes').'" /></label>
+                    echo '<label class="t" for="'.$key.'_on"><img src="../img/admin/enabled.gif" alt="'.$this->trans('Yes', array(), 'Admin.Global').'" title="'.$this->trans('Yes', array(), 'Admin.Global').'" /></label>
 					<input type="radio" name="'.$key.'" id="'.$key.'_on" value="1"'.($val ? ' checked="checked"' : '').' />
-					<label class="t" for="'.$key.'_on"> '.$this->l('Yes').'</label>
-					<label class="t" for="'.$key.'_off"><img src="../img/admin/disabled.gif" alt="'.$this->l('No').'" title="'.$this->l('No').'" style="margin-left: 10px;" /></label>
+					<label class="t" for="'.$key.'_on"> '.$this->trans('Yes', array(), 'Admin.Global').'</label>
+					<label class="t" for="'.$key.'_off"><img src="../img/admin/disabled.gif" alt="'.$this->trans('No', array(), 'Admin.Global').'" title="'.$this->trans('No', array(), 'Admin.Global').'" style="margin-left: 10px;" /></label>
 					<input type="radio" name="'.$key.'" id="'.$key.'_off" value="0" '.(!$val ? 'checked="checked"' : '').'/>
-					<label class="t" for="'.$key.'_off"> '.$this->l('No').'</label>';
+					<label class="t" for="'.$key.'_off"> '.$this->trans('No', array(), 'Admin.Global').'</label>';
                     break;
                 case 'textLang':
                     foreach ($this->_languages as $language) {
@@ -1550,7 +1587,7 @@ abstract class AdminSelfTab
             echo '</div>';
         }
         echo '<div class="margin-form">
-					<input type="submit" value="'.$this->l('   Save   ').'" name="submitOptions'.$this->table.'" class="button" />
+					<input type="submit" value="'.$this->trans('Save', array(), 'Admin.Actions').'" name="submitOptions'.$this->table.'" class="button" />
 				</div>
 			</fieldset>
 			<input type="hidden" name="token" value="'.$this->token.'" />
@@ -1759,7 +1796,7 @@ abstract class AdminSelfTab
 			<img src="../img/l/'.$defaultLanguage.'.jpg" class="pointer" id="language_current_'.$id.'" onclick="toggleLanguageFlags(this);" alt="" />
 		</div>
 		<div id="languages_'.$id.'" class="language_flags">
-			'.$this->l('Choose language:').'<br /><br />';
+			'.$this->trans('Choose language:', array(), 'Admin.Actions').'<br /><br />';
         foreach ($languages as $language) {
             $output .= '<img src="../img/l/'.(int)($language['id_lang']).'.jpg" class="pointer" alt="'.$language['name'].'" title="'.$language['name'].'" onclick="changeLanguage(\''.$id.'\', \''.$ids.'\', '.$language['id_lang'].', \''.$language['iso_code'].'\');" /> ';
         }
@@ -1787,10 +1824,10 @@ abstract class AdminSelfTab
     protected function warnDomainName()
     {
         if ($_SERVER['HTTP_HOST'] != Configuration::get('PS_SHOP_DOMAIN') and $_SERVER['HTTP_HOST'] != Configuration::get('PS_SHOP_DOMAIN_SSL')) {
-            $this->displayWarning($this->l('Your are currently connected with the following domain name:').' <span style="color: #CC0000;">'.$_SERVER['HTTP_HOST'].'</span><br />'.
-            $this->l('This one is different from the main shop domain name set in "Preferences > SEO & URLs":').' <span style="color: #CC0000;">'.Configuration::get('PS_SHOP_DOMAIN').'</span><br />
+            $this->displayWarning($this->trans('Your are currently connected with the following domain name:', array(), 'Modules.Autoupgrade.Admin').' <span style="color: #CC0000;">'.$_SERVER['HTTP_HOST'].'</span><br />'.
+            $this->trans('This one is different from the main shop domain name set in "Preferences > SEO & URLs":', array(), 'Modules.Autoupgrade.Admin').' <span style="color: #CC0000;">'.Configuration::get('PS_SHOP_DOMAIN').'</span><br />
 			<a href="index.php?tab=AdminMeta&token='.Tools14::getAdminTokenLite('AdminMeta').'#SEO%20%26%20URLs">'.
-            $this->l('Click here if you want to modify the main shop domain name').'</a>');
+            $this->trans('Click here if you want to modify the main shop domain name', array(), 'Modules.Autoupgrade.Admin').'</a>');
         }
     }
     /*

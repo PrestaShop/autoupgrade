@@ -26,7 +26,7 @@
 
 // @since 1.4.5.0
 // add the following comment in a module file to skip it in translations
-// IGNORE_THIS_FILE_FOR_TRANSLATION 
+// IGNORE_THIS_FILE_FOR_TRANSLATION
 
 class AdminPreferences extends AdminTab
 {
@@ -36,6 +36,8 @@ class AdminPreferences extends AdminTab
 
 		$this->className = 'Configuration';
 		$this->table = 'configuration';
+
+        parent::__construct();
 
 		$timezones = Db::getInstance(_PS_USE_SQL_SLAVE_)->ExecuteS('SELECT name FROM '._DB_PREFIX_.'timezone');
 		$taxes[] = array('id' => 0, 'name' => $this->l('None'));
@@ -74,8 +76,9 @@ class AdminPreferences extends AdminTab
 				'name' => $this->l('None')
 			)
 		);
-		foreach (CMS::listCms($cookie->id_lang) as $cms_file)
-			$cms_tab[] = array('id' => $cms_file['id_cms'], 'name' => $cms_file['meta_title']);
+		foreach (CMS::listCms($cookie->id_lang) as $cms_file) {
+            $cms_tab[] = array('id' => $cms_file['id_cms'], 'name' => $cms_file['meta_title']);
+        }
 		$this->_fieldsGeneral = array(
 			'PS_SHOP_ENABLE' => array('title' => $this->l('Enable Shop'), 'desc' => $this->l('Activate or deactivate your shop. Deactivate your shop while you perform maintenance on it. Please note that the webservice will not be disabled'), 'validation' => 'isBool', 'cast' => 'intval', 'type' => 'bool'),
 			'PS_MAINTENANCE_IP' => array('title' => $this->l('Maintenance IP'), 'desc' => $this->l('IP addresses allowed to access the Front Office even if shop is disabled. Use a comma to separate them (e.g., 42.24.4.2,127.0.0.1,99.98.97.96)'), 'validation' => 'isGenericName', 'type' => 'maintenance_ip', 'size' => 30, 'default' => ''),
@@ -101,17 +104,17 @@ class AdminPreferences extends AdminTab
 			'PS_DISPLAY_SUPPLIERS' => array('title' => $this->l('Display suppliers and manufacturers'), 'desc' => $this->l('Display manufacturers and suppliers list even if corresponding blocks are disabled'), 'validation' => 'isBool', 'cast' => 'intval', 'type' => 'bool'),
 			'PS_FORCE_SMARTY_2' => array('title' => $this->l('Use Smarty 2 instead of 3'), 'desc' => $this->l('Enable if your theme is incompatible with Smarty 3 (you should update your theme, since Smarty 2 will be unsupported from PrestaShop v1.5)'), 'validation' => 'isBool', 'cast' => 'intval', 'type' => 'bool'),
 		);
-			if (function_exists('date_default_timezone_set'))
-				$this->_fieldsGeneral['PS_TIMEZONE'] = array('title' => $this->l('Time Zone:'), 'validation' => 'isAnything', 'type' => 'select', 'list' => $timezones, 'identifier' => 'name');
-			
-			// No HTTPS activation if you haven't already.
-			if (empty($_SERVER['HTTPS']) OR strtolower($_SERVER['HTTPS']) == 'off')
-			{
-				$this->_fieldsGeneral['PS_SSL_ENABLED']['type'] = 'disabled';
-				$this->_fieldsGeneral['PS_SSL_ENABLED']['disabled'] = '<a href="https://'.Tools14::getShopDomainSsl().Tools14::safeOutput($_SERVER['REQUEST_URI']).'">'.$this->l('Please click here to use HTTPS protocol before enabling SSL.').'</a>';
-			}
 
-		parent::__construct();
+        if (function_exists('date_default_timezone_set')) {
+            $this->_fieldsGeneral['PS_TIMEZONE'] = array('title' => $this->l('Time Zone:'), 'validation' => 'isAnything', 'type' => 'select', 'list' => $timezones, 'identifier' => 'name');
+        }
+
+        // No HTTPS activation if you haven't already.
+        if (empty($_SERVER['HTTPS']) OR strtolower($_SERVER['HTTPS']) == 'off')
+        {
+            $this->_fieldsGeneral['PS_SSL_ENABLED']['type'] = 'disabled';
+            $this->_fieldsGeneral['PS_SSL_ENABLED']['disabled'] = '<a href="https://'.Tools14::getShopDomainSsl().Tools14::safeOutput($_SERVER['REQUEST_URI']).'">'.$this->l('Please click here to use HTTPS protocol before enabling SSL.').'</a>';
+        }
 	}
 
 	public function display()
@@ -471,7 +474,7 @@ class AdminPreferences extends AdminTab
 				case 'container_end':
 					echo (isset($field['content']) === true ? $field['content'] : '').'</div>';
 				break;
-				
+
 				case 'maintenance_ip':
 					echo '<input type="'.$field['type'].'"'.(isset($field['id']) === true ? ' id="'.$field['id'].'"' : '').' size="'.(isset($field['size']) ? (int)($field['size']) : 5).'" name="'.$key.'" value="'.($field['type'] == 'password' ? '' : htmlentities($val, ENT_COMPAT, 'UTF-8')).'" />'.(isset($field['next']) ? '&nbsp;'.strval($field['next']) : '').' &nbsp;<a href="#" class="button" onclick="addRemoteAddr(); return false;">'.$this->l('Add my IP').'</a>';
 				break;
