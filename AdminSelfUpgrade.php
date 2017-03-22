@@ -492,24 +492,13 @@ class AdminSelfUpgrade extends AdminSelfTab
         );
 
         $this->_fieldsUpgradeOptions['PS_AUTOUP_KEEP_MAILS'] = array(
-            'title' => $this->trans('Keep the default e-mails', array(), 'Modules.Autoupgrade.Admin'), 'cast' => 'intval', 'validation' => 'isBool',
+            'title' => $this->trans('Keep the customized email templates', array(), 'Modules.Autoupgrade.Admin'), 'cast' => 'intval', 'validation' => 'isBool',
             'type' => 'bool', 'desc' => $this->trans('This will not upgrade the default PrestaShop e-mails.', array(), 'Modules.Autoupgrade.Admin').'<br />'
             .$this->trans('If you customized the default PrestaShop e-mail templates, enabling this option will keep your modifications.', array(), 'Modules.Autoupgrade.Admin'),
         );
 
         /* Developers only options */
-        if (defined('_PS_MODE_DEV_') && _PS_MODE_DEV_) {
-//            $this->_fieldsUpgradeOptions['PS_AUTOUP_MANUAL_MODE'] = array(
-//                'title' => $this->l('Step by step mode'), 'cast' => 'intval', 'validation' => 'isBool',
-//                'type' => 'bool', 'desc' => $this->l('Allows to perform the upgrade step by step (debug mode).'),
-//            );
-
-//            $this->_fieldsUpgradeOptions['PS_DISPLAY_ERRORS'] = array(
-//                'title' => $this->l('Display PHP errors'), 'cast' => 'intval', 'validation' => 'isBool', 'defaultValue' => '0',
-//                'type' => 'bool', 'desc' => $this->l('This option will keep PHP\'s "display_errors" setting to On (or force it).').'<br />'
-//                .$this->l('This is not recommended as the upgrade will immediately fail if a PHP error occurs during an Ajax call.'),
-//            );
-        } elseif ($this->getConfig('PS_DISPLAY_ERRORS')) {
+        if ($this->getConfig('PS_DISPLAY_ERRORS') && defined('_PS_MODE_DEV_') && !_PS_MODE_DEV_) {
             $this->writeConfig(array('PS_DISPLAY_ERRORS' => '0'));
         }
     }
