@@ -427,10 +427,6 @@ abstract class AdminSelfTab
 				'.($required ? '<div class="small"><sup>*</sup> '.$this->trans('Required field', array(), 'Modules.Autoupgrade.Admin').'</div>' : '').'
 			</fieldset>
 		</form>';
-
-        if (get_class($this) == 'AdminPreferences') {
-            echo '<script type="text/javascript">changeCMSActivationAuthorization();</script>';
-        }
     }
 
     /**

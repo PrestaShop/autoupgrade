@@ -4837,8 +4837,6 @@ txtError[37] = "'.$this->trans('The config/defines.inc.php file was not found. W
     {
         global $cookie;
 
-        $token_preferences = Tools14::getAdminTokenLite('AdminPreferences');
-
         $js = '
 function ucFirst(str) {
 	if (str.length > 0) {
