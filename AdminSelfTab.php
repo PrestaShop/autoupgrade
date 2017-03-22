@@ -638,7 +638,7 @@ abstract class AdminSelfTab
             $inc = false;
             if ((isset($ok_inc) and $ok_inc) or !sizeof($actions)) {
                 if (!$adminTab->viewAccess()) {
-                    echo Tools14::displayError('Access denied');
+                    echo $this->trans('Access denied', array(), 'Admin.Notifications.Error');
                     return false;
                 }
                 if (!sizeof($actions)) {
@@ -849,7 +849,7 @@ abstract class AdminSelfTab
                     Tools14::redirectAdmin($currentIndex.'&add'.$this->table.'&'.$this->identifier.'='.Tools14::getValue($this->identifier).'&conf=7&token='.$token);
                 }
             }
-            $this->_errors[] = Tools14::displayError('An error occurred during image deletion (cannot load object).');
+            $this->_errors[] = $this->trans('An error occurred during image deletion (cannot load object).', array(), 'Modules.Autoupgrade.Admin');
         }
 
         /* Delete object */
@@ -858,7 +858,7 @@ abstract class AdminSelfTab
                 if (Validate::isLoadedObject($object = $this->loadObject()) and isset($this->fieldImageSettings)) {
                     // check if request at least one object with noZeroObject
                     if (isset($object->noZeroObject) and sizeof(call_user_func(array($this->className, $object->noZeroObject))) <= 1) {
-                        $this->_errors[] = Tools14::displayError('You need at least one object.').' <b>'.$this->table.'</b><br />'.Tools14::displayError('You cannot delete all of the items.');
+                        $this->_errors[] = $this->trans('You need at least one object.', array(), 'Modules.Autoupgrade.Admin').' <b>'.$this->table.'</b><br />'.$this->trans('You cannot delete all of the items.', array(), 'Modules.Autoupgrade.Admin');
                     } else {
                         if ($this->deleted) {
                             $object->deleteImage();
@@ -869,13 +869,13 @@ abstract class AdminSelfTab
                         } elseif ($object->delete()) {
                             Tools14::redirectAdmin($currentIndex.'&conf=1&token='.$token);
                         }
-                        $this->_errors[] = Tools14::displayError('An error occurred during deletion.');
+                        $this->_errors[] = $this->trans('An error occurred during deletion.', array(), 'Modules.Autoupgrade.Admin');
                     }
                 } else {
-                    $this->_errors[] = Tools14::displayError('An error occurred while deleting object.').' <b>'.$this->table.'</b> '.Tools14::displayError('(cannot load object)');
+                    $this->_errors[] = $this->trans('An error occurred while deleting object.', array(), 'Modules.Autoupgrade.Admin').' <b>'.$this->table.'</b> '.$this->trans('(cannot load object)', array(), 'Modules.Autoupgrade.Admin');
                 }
             } else {
-                $this->_errors[] = Tools14::displayError('You do not have permission to delete here.');
+                $this->_errors[] = $this->trans('You do not have permission to delete here.', array(), 'Modules.Autoupgrade.Admin');
             }
         }
 
@@ -886,23 +886,23 @@ abstract class AdminSelfTab
                     if ($object->toggleStatus()) {
                         Tools14::redirectAdmin($currentIndex.'&conf=5'.((($id_category = (int)(Tools14::getValue('id_category'))) and Tools14::getValue('id_product')) ? '&id_category='.$id_category : '').'&token='.$token);
                     } else {
-                        $this->_errors[] = Tools14::displayError('An error occurred while updating status.');
+                        $this->_errors[] = $this->trans('An error occurred while updating status.', array(), 'Modules.Autoupgrade.Admin');
                     }
                 } else {
-                    $this->_errors[] = Tools14::displayError('An error occurred while updating status for object.').' <b>'.$this->table.'</b> '.Tools14::displayError('(cannot load object)');
+                    $this->_errors[] = $this->trans('An error occurred while updating status for object.', array(), 'Modules.Autoupgrade.Admin').' <b>'.$this->table.'</b> '.$this->trans('(cannot load object)', array(), 'Modules.Autoupgrade.Admin');
                 }
             } else {
-                $this->_errors[] = Tools14::displayError('You do not have permission to edit here.');
+                $this->_errors[] = $this->trans('You do not have permission to edit here.', array(), 'Modules.Autoupgrade.Admin');
             }
         }
         /* Move an object */
         elseif (isset($_GET['position'])) {
             if ($this->tabAccess['edit'] !== '1') {
-                $this->_errors[] = Tools14::displayError('You do not have permission to edit here.');
+                $this->_errors[] = $this->trans('You do not have permission to edit here.', array(), 'Modules.Autoupgrade.Admin');
             } elseif (!Validate::isLoadedObject($object = $this->loadObject())) {
-                $this->_errors[] = Tools14::displayError('An error occurred while updating status for object.').' <b>'.$this->table.'</b> '.Tools14::displayError('(cannot load object)');
+                $this->_errors[] = $this->trans('An error occurred while updating status for object.', array(), 'Modules.Autoupgrade.Admin').' <b>'.$this->table.'</b> '.$this->trans('(cannot load object)', array(), 'Modules.Autoupgrade.Admin');
             } elseif (!$object->updatePosition((int)(Tools14::getValue('way')), (int)(Tools14::getValue('position')))) {
-                $this->_errors[] = Tools14::displayError('Failed to update the position.');
+                $this->_errors[] = $this->trans('Failed to update the position.', array(), 'Modules.Autoupgrade.Admin');
             } else {
                 Tools14::redirectAdmin($currentIndex.'&'.$this->table.'Orderby=position&'.$this->table.'Orderway=asc&conf=5'.(($id_category = (int)(Tools14::getValue($this->identifier))) ? ('&'.$this->identifier.'='.$id_category) : '').'&token='.$token);
             }
@@ -916,7 +916,7 @@ abstract class AdminSelfTab
                     if (isset($object->noZeroObject) and
                         // Check if all object will be deleted
                         (sizeof(call_user_func(array($this->className, $object->noZeroObject))) <= 1 or sizeof($_POST[$this->table.'Box']) == sizeof(call_user_func(array($this->className, $object->noZeroObject))))) {
-                        $this->_errors[] = Tools14::displayError('You need at least one object.').' <b>'.$this->table.'</b><br />'.Tools14::displayError('You cannot delete all of the items.');
+                        $this->_errors[] = $this->trans('You need at least one object.', array(), 'Modules.Autoupgrade.Admin').' <b>'.$this->table.'</b><br />'.$this->trans('You cannot delete all of the items.', array(), 'Modules.Autoupgrade.Admin');
                     } else {
                         $result = true;
                         if ($this->deleted) {
@@ -932,13 +932,13 @@ abstract class AdminSelfTab
                         if ($result) {
                             Tools14::redirectAdmin($currentIndex.'&conf=2&token='.$token);
                         }
-                        $this->_errors[] = Tools14::displayError('An error occurred while deleting selection.');
+                        $this->_errors[] = $this->trans('An error occurred while deleting selection.', array(), 'Modules.Autoupgrade.Admin');
                     }
                 } else {
-                    $this->_errors[] = Tools14::displayError('You must select at least one element to delete.');
+                    $this->_errors[] = $this->trans('You must select at least one element to delete.', array(), 'Modules.Autoupgrade.Admin');
                 }
             } else {
-                $this->_errors[] = Tools14::displayError('You do not have permission to delete here.');
+                $this->_errors[] = $this->trans('You do not have permission to delete here.', array(), 'Modules.Autoupgrade.Admin');
             }
         }
 
@@ -978,7 +978,7 @@ abstract class AdminSelfTab
                                 $this->afterUpdate($object);
                             }
                             if (!$result) {
-                                $this->_errors[] = Tools14::displayError('An error occurred while updating object.').' <b>'.$this->table.'</b> ('.Db::getInstance()->getMsgError().')';
+                                $this->_errors[] = $this->trans('An error occurred while updating object.', array(), 'Modules.Autoupgrade.Admin').' <b>'.$this->table.'</b> ('.Db::getInstance()->getMsgError().')';
                             } elseif ($this->postImage($object->id) and !sizeof($this->_errors)) {
                                 $parent_id = (int)(Tools14::getValue('id_parent', 1));
                                 // Specific back redirect
@@ -1001,10 +1001,10 @@ abstract class AdminSelfTab
                                 Tools14::redirectAdmin($currentIndex.($parent_id ? '&'.$this->identifier.'='.$object->id : '').'&conf=4&token='.$token);
                             }
                         } else {
-                            $this->_errors[] = Tools14::displayError('An error occurred while updating object.').' <b>'.$this->table.'</b> '.Tools14::displayError('(cannot load object)');
+                            $this->_errors[] = $this->trans('An error occurred while updating object.', array(), 'Modules.Autoupgrade.Admin').' <b>'.$this->table.'</b> '.$this->trans('(cannot load object)', array(), 'Modules.Autoupgrade.Admin');
                         }
                     } else {
-                        $this->_errors[] = Tools14::displayError('You do not have permission to edit here.');
+                        $this->_errors[] = $this->trans('You do not have permission to edit here.', array(), 'Modules.Autoupgrade.Admin');
                     }
                 }
 
@@ -1014,7 +1014,7 @@ abstract class AdminSelfTab
                         $object = new $this->className();
                         $this->copyFromPost($object, $this->table);
                         if (!$object->add()) {
-                            $this->_errors[] = Tools14::displayError('An error occurred while creating object.').' <b>'.$this->table.' ('.mysql_error().')</b>';
+                            $this->_errors[] = $this->trans('An error occurred while creating object.', array(), 'Modules.Autoupgrade.Admin').' <b>'.$this->table.' ('.mysql_error().')</b>';
                         } elseif (($_POST[$this->identifier] = $object->id /* voluntary */) and $this->postImage($object->id) and !sizeof($this->_errors) and $this->_redirect) {
                             $parent_id = (int)(Tools14::getValue('id_parent', 1));
                             $this->afterAdd($object);
@@ -1030,7 +1030,7 @@ abstract class AdminSelfTab
                             Tools14::redirectAdmin($currentIndex.($parent_id ? '&'.$this->identifier.'='.$object->id : '').'&conf=3&token='.$token);
                         }
                     } else {
-                        $this->_errors[] = Tools14::displayError('You do not have permission to add here.');
+                        $this->_errors[] = $this->trans('You do not have permission to add here.', array(), 'Modules.Autoupgrade.Admin');
                     }
                 }
             }
@@ -1096,7 +1096,7 @@ abstract class AdminSelfTab
                         if (is_array($value)) {
                             if (isset($value[0]) and !empty($value[0])) {
                                 if (!Validate::isDate($value[0])) {
-                                    $this->_errors[] = Tools14::displayError('\'from:\' date format is invalid (YYYY-MM-DD)');
+                                    $this->_errors[] = $this->trans('\'from:\' date format is invalid (YYYY-MM-DD)', array(), 'Modules.Autoupgrade.Admin');
                                 } else {
                                     $sqlFilter .= ' AND '.pSQL($key).' >= \''.pSQL(Tools14::dateFrom($value[0])).'\'';
                                 }
@@ -1104,7 +1104,7 @@ abstract class AdminSelfTab
 
                             if (isset($value[1]) and !empty($value[1])) {
                                 if (!Validate::isDate($value[1])) {
-                                    $this->_errors[] = Tools14::displayError('\'to:\' date format is invalid (YYYY-MM-DD)');
+                                    $this->_errors[] = $this->trans('\'to:\' date format is invalid (YYYY-MM-DD)', array(), 'Modules.Autoupgrade.Admin');
                                 } else {
                                     $sqlFilter .= ' AND '.pSQL($key).' <= \''.pSQL(Tools14::dateTo($value[1])).'\'';
                                 }
@@ -1131,7 +1131,7 @@ abstract class AdminSelfTab
 
             $object = new $this->className();
             if (!$object->addFieldsRequiredDatabase($fields)) {
-                $this->_errors[] = Tools14::displayError('Error in updating required fields');
+                $this->_errors[] = $this->trans('Error in updating required fields', array(), 'Modules.Autoupgrade.Admin');
             } else {
                 Tools14::redirectAdmin($currentIndex.'&conf=4&token='.$token);
             }
@@ -1157,7 +1157,14 @@ abstract class AdminSelfTab
                             if (Validate::isCleanHtml($val)) {
                                 $list[$language['id_lang']] = $val;
                             } else {
-                                $this->_errors[] = Tools14::displayError('Can not add configuration '.$key.' for lang '.Language::getIsoById((int)$language['id_lang']));
+                                $this->_errors[] = $this->trans(
+                                    'Can not add configuration %configurationkey% for lang %isocode%',
+                                    array(
+                                        '%configurationkey%' => $key,
+                                        '%isocode%' => Language::getIsoById((int)$language['id_lang']),
+                                    ),
+                                    'Modules.Autoupgrade.Admin'
+                                );
                             }
                         }
                         Configuration::updateValue($key, $list);
@@ -1166,7 +1173,7 @@ abstract class AdminSelfTab
                         if (Validate::isCleanHtml($val)) {
                             Configuration::updateValue($key, $val);
                         } else {
-                            $this->_errors[] = Tools14::displayError('Can not add configuration '.$key);
+                            $this->_errors[] = $this->trans('Can not add configuration %configurationkey%', array('%configurationkey%' => $key), 'Modules.Autoupgrade.Admin');
                         }
                     }
                 }
@@ -1176,7 +1183,7 @@ abstract class AdminSelfTab
                 Tools14::redirectAdmin($currentIndex.'&conf=6&token='.$token);
             }
         } else {
-            $this->_errors[] = Tools14::displayError('You do not have permission to edit here.');
+            $this->_errors[] = $this->trans('You do not have permission to edit here.', array(), 'Modules.Autoupgrade.Admin');
         }
     }
 
@@ -1186,7 +1193,7 @@ abstract class AdminSelfTab
             $validate = new Validate();
             if (method_exists($validate, $field['validation'])) {
                 if (!Validate::$field['validation']($value)) {
-                    $this->_errors[] = Tools14::displayError($field['title'].' : Incorrect value');
+                    $this->_errors[] = $this->trans('%title% : Incorrect value', array('%title%' => $field['title']), 'Modules.Autoupgrade.Admin');
                     return false;
                 }
             }
@@ -1214,7 +1221,7 @@ abstract class AdminSelfTab
                 $_FILES[$name]['tmp_name'] = $tmpName;
                 // Copy new image
                 if (!imageResize($tmpName, _PS_IMG_DIR_.$dir.$id.'.'.$this->imageType, null, null, ($ext ? $ext : $this->imageType))) {
-                    $this->_errors[] = Tools14::displayError('An error occurred while uploading image.');
+                    $this->_errors[] = $this->trans('An error occurred while uploading image.', array(), 'Modules.Autoupgrade.Admin');
                 }
                 if (sizeof($this->_errors)) {
                     return false;
@@ -1241,7 +1248,14 @@ abstract class AdminSelfTab
 
             /* Copy new ico */
             elseif (!copy($_FILES[$name]['tmp_name'], $dest)) {
-                $this->_errors[] = Tools14::displayError('an error occurred while uploading favicon: '.$_FILES[$name]['tmp_name'].' to '.$dest);
+                $this->_errors[] = $this->trans(
+                    'An error occurred while uploading favicon: %iconname% to %destination%',
+                    array(
+                        '%iconname%' => $_FILES[$name]['tmp_name'],
+                        '%destination%' => $dest,
+                    ),
+                    'Modules.Autoupgrade.Admin'
+                );
             }
         }
         return !sizeof($this->_errors) ? true : false;
@@ -1606,12 +1620,12 @@ abstract class AdminSelfTab
             if (Validate::isLoadedObject($this->_object)) {
                 return $this->_object;
             }
-            $this->_errors[] = Tools14::displayError('Object cannot be loaded (not found)');
+            $this->_errors[] = $this->trans('Object cannot be loaded (not found)', array(), 'Modules.Autoupgrade.Admin');
         } elseif ($opt) {
             $this->_object = new $this->className();
             return $this->_object;
         } else {
-            $this->_errors[] = Tools14::displayError('Object cannot be loaded (identifier missing or invalid)');
+            $this->_errors[] = $this->trans('Object cannot be loaded (identifier missing or invalid)', array(), 'Modules.Autoupgrade.Admin');
         }
 
         $this->displayErrors();
@@ -1844,11 +1858,23 @@ abstract class AdminSelfTab
                 if (isset($values['type']) and $values['type'] == 'textLang') {
                     foreach ($languages as $language) {
                         if (($value = Tools14::getValue($field.'_'.$language['id_lang'])) == false and (string)$value != '0') {
-                            $this->_errors[] = Tools14::displayError('field').' <b>'.$values['title'].'</b> '.Tools14::displayError('is required.');
+                            $this->_errors[] = $this->trans(
+                                'Field %name% is required',
+                                array(
+                                    '%name%' => '<b>'.$values['title'].'</b>'
+                                ),
+                                'Modules.Autoupgrade.Admin'
+                            );
                         }
                     }
                 } elseif (($value = Tools14::getValue($field)) == false and (string)$value != '0') {
-                    $this->_errors[] = Tools14::displayError('field').' <b>'.$values['title'].'</b> '.Tools14::displayError('is required.');
+                    $this->_errors[] = $this->trans(
+                        'Field %name% is required',
+                        array(
+                            '%name%' => '<b>'.$values['title'].'</b>'
+                        ),
+                        'Modules.Autoupgrade.Admin'
+                    );
                 }
             }
         }
@@ -1859,13 +1885,25 @@ abstract class AdminSelfTab
                 foreach ($languages as $language) {
                     if (Tools14::getValue($field.'_'.$language['id_lang']) and isset($values['validation'])) {
                         if (!Validate::$values['validation'](Tools14::getValue($field.'_'.$language['id_lang']))) {
-                            $this->_errors[] = Tools14::displayError('field').' <b>'.$values['title'].'</b> '.Tools14::displayError('is invalid.');
+                            $this->_errors[] = $this->trans(
+                                'Field %name% is invalid',
+                                array(
+                                    '%name%' => '<b>'.$values['title'].'</b>'
+                                ),
+                                'Modules.Autoupgrade.Admin'
+                            );
                         }
                     }
                 }
             } elseif (Tools14::getValue($field) and isset($values['validation'])) {
                 if (!Validate::$values['validation'](Tools14::getValue($field))) {
-                    $this->_errors[] = Tools14::displayError('field').' <b>'.$values['title'].'</b> '.Tools14::displayError('is invalid.');
+                    $this->_errors[] = $this->trans(
+                        'Field %name% is invalid',
+                        array(
+                            '%name%' => '<b>'.$values['title'].'</b>'
+                        ),
+                        'Modules.Autoupgrade.Admin'
+                    );
                 }
             }
         }
