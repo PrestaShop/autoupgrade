@@ -172,18 +172,18 @@ abstract class AdminSelfTab
         global $cookie;
         $this->id = Tab::getCurrentTabId();
         $this->_conf = array(
-        1 => $this->trans('Deletion successful', array(), 'Modules.Autoupgrade.Admin'), 2 => $this->trans('Selection successfully deleted', array(), 'Modules.Autoupgrade.Admin'),
-        3 => $this->trans('Creation successful', array(), 'Modules.Autoupgrade.Admin'), 4 => $this->trans('Update successful', array(), 'Modules.Autoupgrade.Admin'),
-        5 => $this->trans('The new version check has been completed successfully', array(), 'Modules.Autoupgrade.Admin'), 6 => $this->trans('Settings update successful', array(), 'Modules.Autoupgrade.Admin'),
-        7 => $this->trans('Image successfully deleted', array(), 'Modules.Autoupgrade.Admin'), 8 => $this->trans('Module downloaded successfully', array(), 'Modules.Autoupgrade.Admin'),
-        9 => $this->trans('Thumbnails successfully regenerated', array(), 'Modules.Autoupgrade.Admin'), 10 => $this->trans('Message sent to the customer', array(), 'Modules.Autoupgrade.Admin'),
-        11 => $this->trans('Comment added', array(), 'Modules.Autoupgrade.Admin'), 12 => $this->trans('Module installed successfully', array(), 'Modules.Autoupgrade.Admin'),
-        13 => $this->trans('Module uninstalled successfully', array(), 'Modules.Autoupgrade.Admin'), 14 => $this->trans('Language successfully copied', array(), 'Modules.Autoupgrade.Admin'),
-        15 => $this->trans('Translations successfully added', array(), 'Modules.Autoupgrade.Admin'), 16 => $this->trans('Module transplanted successfully to hook', array(), 'Modules.Autoupgrade.Admin'),
-        17 => $this->trans('Module removed successfully from hook', array(), 'Modules.Autoupgrade.Admin'), 18 => $this->trans('Upload successful', array(), 'Modules.Autoupgrade.Admin'),
-        19 => $this->trans('Duplication completed successfully', array(), 'Modules.Autoupgrade.Admin'), 20 => $this->trans('Translation added successfully but the language has not been created', array(), 'Modules.Autoupgrade.Admin'),
-        21 => $this->trans('Module reset successfully', array(), 'Modules.Autoupgrade.Admin'), 22 => $this->trans('Module deleted successfully', array(), 'Modules.Autoupgrade.Admin'),
-        23 => $this->trans('Localization pack imported successfully', array(), 'Modules.Autoupgrade.Admin'), 24 => $this->trans('Refund Successful', array(), 'Modules.Autoupgrade.Admin'),
+        1 => $this->trans('Successful deletion.', array(), 'Admin.Notifications.Success'), 2 => $this->trans('Selection successfully deleted', array(), 'Modules.Autoupgrade.Admin'),
+        3 => $this->trans('Successful creation.', array(), 'Admin.Notifications.Success'), 4 => $this->trans('Successful update.', array(), 'Admin.Notifications.Success'),
+        5 => $this->trans('The new version check has been completed successfully', array(), 'Modules.Autoupgrade.Admin'), 6 => $this->trans('The settings have been successfully updated.', array(), 'Admin.Notifications.Success'),
+        7 => $this->trans('The image was successfully deleted.', array(), 'Admin.Notifications.Success'), 8 => $this->trans('The module was successfully downloaded.', array(), 'Admin.Notifications.Success'),
+        9 => $this->trans('The thumbnails were successfully regenerated.', array(), 'Admin.Notifications.Success'), 10 => $this->trans('Message sent to the customer', array(), 'Modules.Autoupgrade.Admin'),
+        11 => $this->trans('Comment successfully added.', array(), 'Admin.Notifications.Success'), 12 => $this->trans('Module(s) installed successfully.', array(), 'Admin.Modules.Notification'),
+        13 => $this->trans('Module(s) uninstalled successfully.', array(), 'Admin.Modules.Notification'), 14 => $this->trans('Language successfully copied', array(), 'Modules.Autoupgrade.Admin'),
+        15 => $this->trans('The translations have been successfully added.', array(), 'Admin.International.Notification'), 16 => $this->trans('The module transplanted successfully to the hook.', array(), 'Admin.Modules.Notification'),
+        17 => $this->trans('The module was successfully removed from the hook.', array(), 'Admin.Modules.Notification'), 18 => $this->trans('Successful upload.', array(), 'Admin.Notifications.Success'),
+        19 => $this->trans('Duplication was completed successfully.', array(), 'Admin.Notifications.Success'), 20 => $this->trans('The translation was added successfully, but the language has not been created.', array(), 'Admin.International.Notification'),
+        21 => $this->trans('Module reset successfully.', array(), 'Admin.Modules.Notification'), 22 => $this->trans('Module deleted successfully.', array(), 'Admin.Modules.Notification'),
+        23 => $this->trans('Localization pack imported successfully.', array(), 'Admin.International.Notification'), 24 => $this->trans('Refund Successful', array(), 'Modules.Autoupgrade.Admin'),
         25 => $this->trans('Images successfully moved', array(), 'Modules.Autoupgrade.Admin'));
         if (!$this->identifier) {
             $this->identifier = 'id_'.$this->table;
@@ -500,7 +500,7 @@ abstract class AdminSelfTab
             if ($this->tabAccess['add'] === '1') {
                 $this->displayForm();
                 if ($this->tabAccess['view']) {
-                    echo '<br /><br /><a href="'.((Tools14::getValue('back')) ? Tools14::getValue('back') : $currentIndex.'&token='.$this->token).'"><img src="../img/admin/arrow2.gif" /> '.((Tools14::getValue('back')) ? $this->trans('Back', array(), 'Modules.Autoupgrade.Admin') : $this->trans('Back to list', array(), 'Modules.Autoupgrade.Admin')).'</a><br />';
+                    echo '<br /><br /><a href="'.((Tools14::getValue('back')) ? Tools14::getValue('back') : $currentIndex.'&token='.$this->token).'"><img src="../img/admin/arrow2.gif" /> '.((Tools14::getValue('back')) ? $this->trans('Back', array(), 'Modules.Autoupgrade.Admin') : $this->trans('Back to list', array(), 'Admin.Actions')).'</a><br />';
                 }
             } else {
                 echo $this->trans('You do not have permission to add here', array(), 'Modules.Autoupgrade.Admin');
@@ -509,10 +509,10 @@ abstract class AdminSelfTab
             if ($this->tabAccess['edit'] === '1' or ($this->table == 'employee' and $cookie->id_employee == Tools14::getValue('id_employee'))) {
                 $this->displayForm();
                 if ($this->tabAccess['view']) {
-                    echo '<br /><br /><a href="'.((Tools14::getValue('back')) ? Tools14::getValue('back') : $currentIndex.'&token='.$this->token).'"><img src="../img/admin/arrow2.gif" /> '.((Tools14::getValue('back')) ? $this->trans('Back', array(), 'Modules.Autoupgrade.Admin') : $this->trans('Back to list', array(), 'Modules.Autoupgrade.Admin')).'</a><br />';
+                    echo '<br /><br /><a href="'.((Tools14::getValue('back')) ? Tools14::getValue('back') : $currentIndex.'&token='.$this->token).'"><img src="../img/admin/arrow2.gif" /> '.((Tools14::getValue('back')) ? $this->trans('Back', array(), 'Modules.Autoupgrade.Admin') : $this->trans('Back to list', array(), 'Admin.Actions')).'</a><br />';
                 }
             } else {
-                echo $this->trans('You do not have permission to edit here', array(), 'Modules.Autoupgrade.Admin');
+                echo $this->trans('You do not have permission to edit this.', array(), 'Admin.Notifications.Error');
             }
         } elseif (isset($_GET['view'.$this->table])) {
             $this->{'view'.$this->table}();
@@ -723,7 +723,7 @@ abstract class AdminSelfTab
             foreach ($languages as $language) {
                 if (Tools14::getValue($fieldLang.'_'.$language['id_lang']) !== false and Tools14::strlen(Tools14::getValue($fieldLang.'_'.$language['id_lang'])) > $maxLength) {
                     $this->_errors[] = $this->trans(
-                        'The field named %fieldname% (for %languagename% language) is too long (%charsnumber% chars max, including HTML chars).',
+                        'Your entry in field %fieldname% (language %languagename%) exceeds max length %charsnumber% chars (incl. HTML tags).',
                         array(
                             '%fieldname%' => call_user_func(array($className, 'displayFieldName'), $fieldLang, $className),
                             '%languagename%' => $language['name'],
@@ -742,7 +742,7 @@ abstract class AdminSelfTab
         foreach ($rules['validate'] as $field => $function) {
             if (($value = Tools14::getValue($field)) !== false and ($field != 'passwd')) {
                 if (!Validate::$function($value)) {
-                    $this->_errors[] = $this->trans('The field %s is invalid', array('<b>'.call_user_func(array($className, 'displayFieldName'), $field, $className).'</b>'), 'Modules.Autoupgrade.Admin');
+                    $this->_errors[] = $this->trans('The %s field is invalid.', array('<b>'.call_user_func(array($className, 'displayFieldName'), $field, $className).'</b>'), 'Admin.Notifications.Error');
                 }
             }
         }
@@ -750,9 +750,9 @@ abstract class AdminSelfTab
         /* Checking for passwd_old validity */
         if (($value = Tools14::getValue('passwd')) != false) {
             if ($className == 'Employee' and !Validate::isPasswdAdmin($value)) {
-                $this->_errors[] = $this->trans('The field %s is invalid', array('<b>'.call_user_func(array($className, 'displayFieldName'), 'passwd', $className).'</b>'), 'Modules.Autoupgrade.Admin');
+                $this->_errors[] = $this->trans('The %s field is invalid.', array('<b>'.call_user_func(array($className, 'displayFieldName'), 'passwd', $className).'</b>'), 'Admin.Notifications.Error');
             } elseif ($className == 'Customer' and !Validate::isPasswd($value)) {
-                $this->_errors[] = $this->trans('The field %s is invalid', array('<b>'.call_user_func(array($className, 'displayFieldName'), 'passwd', $className).'</b>'), 'Modules.Autoupgrade.Admin');
+                $this->_errors[] = $this->trans('The %s field is invalid.', array('<b>'.call_user_func(array($className, 'displayFieldName'), 'passwd', $className).'</b>'), 'Admin.Notifications.Error');
             }
         }
 
@@ -761,7 +761,7 @@ abstract class AdminSelfTab
             foreach ($languages as $language) {
                 if (($value = Tools14::getValue($fieldLang.'_'.$language['id_lang'])) !== false and !empty($value)) {
                     if (!Validate::$function($value)) {
-                        $this->_errors[] = $this->trans('The field %s is invalid', array('<b>'.call_user_func(array($className, 'displayFieldName'), $fieldLang, $className).' ('.$language['name'].')</b>'), 'Modules.Autoupgrade.Admin');
+                        $this->_errors[] = $this->trans('The %s field is invalid.', array('<b>'.call_user_func(array($className, 'displayFieldName'), $fieldLang, $className).' ('.$language['name'].')</b>'), 'Admin.Notifications.Error');
                     }
                 }
             }
@@ -872,10 +872,10 @@ abstract class AdminSelfTab
                         $this->_errors[] = $this->trans('An error occurred during deletion.', array(), 'Modules.Autoupgrade.Admin');
                     }
                 } else {
-                    $this->_errors[] = $this->trans('An error occurred while deleting object.', array(), 'Modules.Autoupgrade.Admin').' <b>'.$this->table.'</b> '.$this->trans('(cannot load object)', array(), 'Modules.Autoupgrade.Admin');
+                    $this->_errors[] = $this->trans('An error occurred while deleting the object.', array(), 'Admin.Notifications.Error').' <b>'.$this->table.'</b> '.$this->trans('(cannot load object)', array(), 'Modules.Autoupgrade.Admin');
                 }
             } else {
-                $this->_errors[] = $this->trans('You do not have permission to delete here.', array(), 'Modules.Autoupgrade.Admin');
+                $this->_errors[] = $this->trans('You do not have permission to delete this.', array(), 'Admin.Notifications.Error');
             }
         }
 
@@ -886,23 +886,23 @@ abstract class AdminSelfTab
                     if ($object->toggleStatus()) {
                         Tools14::redirectAdmin($currentIndex.'&conf=5'.((($id_category = (int)(Tools14::getValue('id_category'))) and Tools14::getValue('id_product')) ? '&id_category='.$id_category : '').'&token='.$token);
                     } else {
-                        $this->_errors[] = $this->trans('An error occurred while updating status.', array(), 'Modules.Autoupgrade.Admin');
+                        $this->_errors[] = $this->trans('An error occurred while updating the status.', array(), 'Admin.Notifications.Error');
                     }
                 } else {
-                    $this->_errors[] = $this->trans('An error occurred while updating status for object.', array(), 'Modules.Autoupgrade.Admin').' <b>'.$this->table.'</b> '.$this->trans('(cannot load object)', array(), 'Modules.Autoupgrade.Admin');
+                    $this->_errors[] = $this->trans('An error occurred while updating the status for an object.', array(), 'Admin.Catalog.Notification').' <b>'.$this->table.'</b> '.$this->trans('(cannot load object)', array(), 'Modules.Autoupgrade.Admin');
                 }
             } else {
-                $this->_errors[] = $this->trans('You do not have permission to edit here.', array(), 'Modules.Autoupgrade.Admin');
+                $this->_errors[] = $this->trans('You do not have permission to edit this.', array(), 'Admin.Notifications.Error');
             }
         }
         /* Move an object */
         elseif (isset($_GET['position'])) {
             if ($this->tabAccess['edit'] !== '1') {
-                $this->_errors[] = $this->trans('You do not have permission to edit here.', array(), 'Modules.Autoupgrade.Admin');
+                $this->_errors[] = $this->trans('You do not have permission to edit this.', array(), 'Admin.Notifications.Error');
             } elseif (!Validate::isLoadedObject($object = $this->loadObject())) {
-                $this->_errors[] = $this->trans('An error occurred while updating status for object.', array(), 'Modules.Autoupgrade.Admin').' <b>'.$this->table.'</b> '.$this->trans('(cannot load object)', array(), 'Modules.Autoupgrade.Admin');
+                $this->_errors[] = $this->trans('An error occurred while updating the status for an object.', array(), 'Admin.Catalog.Notification').' <b>'.$this->table.'</b> '.$this->trans('(cannot load object)', array(), 'Modules.Autoupgrade.Admin');
             } elseif (!$object->updatePosition((int)(Tools14::getValue('way')), (int)(Tools14::getValue('position')))) {
-                $this->_errors[] = $this->trans('Failed to update the position.', array(), 'Modules.Autoupgrade.Admin');
+                $this->_errors[] = $this->trans('Failed to update the position.', array(), 'Admin.Notifications.Error');
             } else {
                 Tools14::redirectAdmin($currentIndex.'&'.$this->table.'Orderby=position&'.$this->table.'Orderway=asc&conf=5'.(($id_category = (int)(Tools14::getValue($this->identifier))) ? ('&'.$this->identifier.'='.$id_category) : '').'&token='.$token);
             }
@@ -916,7 +916,7 @@ abstract class AdminSelfTab
                     if (isset($object->noZeroObject) and
                         // Check if all object will be deleted
                         (sizeof(call_user_func(array($this->className, $object->noZeroObject))) <= 1 or sizeof($_POST[$this->table.'Box']) == sizeof(call_user_func(array($this->className, $object->noZeroObject))))) {
-                        $this->_errors[] = $this->trans('You need at least one object.', array(), 'Modules.Autoupgrade.Admin').' <b>'.$this->table.'</b><br />'.$this->trans('You cannot delete all of the items.', array(), 'Modules.Autoupgrade.Admin');
+                        $this->_errors[] = $this->trans('You need at least one object.', array(), 'Admin.Notifications.Error').' <b>'.$this->table.'</b><br />'.$this->trans('You cannot delete all of the items.', array(), 'Admin.Notifications.Error');
                     } else {
                         $result = true;
                         if ($this->deleted) {
@@ -932,13 +932,13 @@ abstract class AdminSelfTab
                         if ($result) {
                             Tools14::redirectAdmin($currentIndex.'&conf=2&token='.$token);
                         }
-                        $this->_errors[] = $this->trans('An error occurred while deleting selection.', array(), 'Modules.Autoupgrade.Admin');
+                        $this->_errors[] = $this->trans('An error occurred while deleting this selection.', array(), 'Admin.Notifications.Error');
                     }
                 } else {
-                    $this->_errors[] = $this->trans('You must select at least one element to delete.', array(), 'Modules.Autoupgrade.Admin');
+                    $this->_errors[] = $this->trans('You must select at least one element to delete.', array(), 'Admin.Notifications.Error');
                 }
             } else {
-                $this->_errors[] = $this->trans('You do not have permission to delete here.', array(), 'Modules.Autoupgrade.Admin');
+                $this->_errors[] = $this->trans('You do not have permission to delete this.', array(), 'Admin.Notifications.Error');
             }
         }
 
@@ -978,7 +978,7 @@ abstract class AdminSelfTab
                                 $this->afterUpdate($object);
                             }
                             if (!$result) {
-                                $this->_errors[] = $this->trans('An error occurred while updating object.', array(), 'Modules.Autoupgrade.Admin').' <b>'.$this->table.'</b> ('.Db::getInstance()->getMsgError().')';
+                                $this->_errors[] = $this->trans('An error occurred while updating an object.', array(), 'Admin.Notifications.Error').' <b>'.$this->table.'</b> ('.Db::getInstance()->getMsgError().')';
                             } elseif ($this->postImage($object->id) and !sizeof($this->_errors)) {
                                 $parent_id = (int)(Tools14::getValue('id_parent', 1));
                                 // Specific back redirect
@@ -1001,10 +1001,10 @@ abstract class AdminSelfTab
                                 Tools14::redirectAdmin($currentIndex.($parent_id ? '&'.$this->identifier.'='.$object->id : '').'&conf=4&token='.$token);
                             }
                         } else {
-                            $this->_errors[] = $this->trans('An error occurred while updating object.', array(), 'Modules.Autoupgrade.Admin').' <b>'.$this->table.'</b> '.$this->trans('(cannot load object)', array(), 'Modules.Autoupgrade.Admin');
+                            $this->_errors[] = $this->trans('An error occurred while updating an object.', array(), 'Admin.Notifications.Error').' <b>'.$this->table.'</b> '.$this->trans('(cannot load object)', array(), 'Modules.Autoupgrade.Admin');
                         }
                     } else {
-                        $this->_errors[] = $this->trans('You do not have permission to edit here.', array(), 'Modules.Autoupgrade.Admin');
+                        $this->_errors[] = $this->trans('You do not have permission to edit this.', array(), 'Admin.Notifications.Error');
                     }
                 }
 
@@ -1014,7 +1014,7 @@ abstract class AdminSelfTab
                         $object = new $this->className();
                         $this->copyFromPost($object, $this->table);
                         if (!$object->add()) {
-                            $this->_errors[] = $this->trans('An error occurred while creating object.', array(), 'Modules.Autoupgrade.Admin').' <b>'.$this->table.' ('.mysql_error().')</b>';
+                            $this->_errors[] = $this->trans('An error occurred while creating an object.', array(), 'Admin.Notifications.Error').' <b>'.$this->table.' ('.mysql_error().')</b>';
                         } elseif (($_POST[$this->identifier] = $object->id /* voluntary */) and $this->postImage($object->id) and !sizeof($this->_errors) and $this->_redirect) {
                             $parent_id = (int)(Tools14::getValue('id_parent', 1));
                             $this->afterAdd($object);
@@ -1096,7 +1096,7 @@ abstract class AdminSelfTab
                         if (is_array($value)) {
                             if (isset($value[0]) and !empty($value[0])) {
                                 if (!Validate::isDate($value[0])) {
-                                    $this->_errors[] = $this->trans('\'from:\' date format is invalid (YYYY-MM-DD)', array(), 'Modules.Autoupgrade.Admin');
+                                    $this->_errors[] = $this->trans('The \'From\' date format is invalid (YYYY-MM-DD)', array(), 'Admin.Notifications.Error');
                                 } else {
                                     $sqlFilter .= ' AND '.pSQL($key).' >= \''.pSQL(Tools14::dateFrom($value[0])).'\'';
                                 }
@@ -1104,7 +1104,7 @@ abstract class AdminSelfTab
 
                             if (isset($value[1]) and !empty($value[1])) {
                                 if (!Validate::isDate($value[1])) {
-                                    $this->_errors[] = $this->trans('\'to:\' date format is invalid (YYYY-MM-DD)', array(), 'Modules.Autoupgrade.Admin');
+                                    $this->_errors[] = $this->trans('The \'To\' date format is invalid (YYYY-MM-DD)', array(), 'Admin.Notifications.Error');
                                 } else {
                                     $sqlFilter .= ' AND '.pSQL($key).' <= \''.pSQL(Tools14::dateTo($value[1])).'\'';
                                 }
@@ -1183,7 +1183,7 @@ abstract class AdminSelfTab
                 Tools14::redirectAdmin($currentIndex.'&conf=6&token='.$token);
             }
         } else {
-            $this->_errors[] = $this->trans('You do not have permission to edit here.', array(), 'Modules.Autoupgrade.Admin');
+            $this->_errors[] = $this->trans('You do not have permission to edit this.', array(), 'Admin.Notifications.Error');
         }
     }
 
@@ -1221,7 +1221,7 @@ abstract class AdminSelfTab
                 $_FILES[$name]['tmp_name'] = $tmpName;
                 // Copy new image
                 if (!imageResize($tmpName, _PS_IMG_DIR_.$dir.$id.'.'.$this->imageType, null, null, ($ext ? $ext : $this->imageType))) {
-                    $this->_errors[] = $this->trans('An error occurred while uploading image.', array(), 'Modules.Autoupgrade.Admin');
+                    $this->_errors[] = $this->trans('An error occurred while uploading the image.', array(), 'Admin.Notifications.Error');
                 }
                 if (sizeof($this->_errors)) {
                     return false;
@@ -1443,7 +1443,7 @@ abstract class AdminSelfTab
         global $currentIndex;
 
         $_cacheLang['Duplicate'] = $this->trans('Duplicate', array(), 'Admin.Actions');
-        $_cacheLang['Copy images too?'] = $this->trans('Copy images too?', array(), 'Modules.Autoupgrade.Admin');
+        $_cacheLang['Copy images too?'] = $this->trans('This will copy the images too. If you wish to proceed, click "Yes". If not, click "No".', array(), 'Admin.Catalog.Notification');
 
         $duplicate = $currentIndex.'&'.$this->identifier.'='.$id.'&duplicate'.$this->table;
 
@@ -1494,7 +1494,7 @@ abstract class AdminSelfTab
     {
         echo '</table>';
         if ($this->delete) {
-            echo '<p><input type="submit" class="button" name="submitDel'.$this->table.'" value="'.$this->trans('Delete selection', array(), 'Admin.Actions').'" onclick="return confirm(\''.$this->trans('Delete selected items?', array(), 'Modules.Autoupgrade.Admin').'\');" /></p>';
+            echo '<p><input type="submit" class="button" name="submitDel'.$this->table.'" value="'.$this->trans('Delete selection', array(), 'Admin.Actions').'" onclick="return confirm(\''.$this->trans('Delete selected items?', array(), 'Admin.Notifications.Warning').'\');" /></p>';
         }
         echo '
 				</td>
