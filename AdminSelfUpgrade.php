@@ -1035,8 +1035,8 @@ class AdminSelfUpgrade extends AdminSelfTab
 
         $this->_html .= '</div>
             <div class="panel-footer">
-                <button type="submit" class="btn btn-default pull-right" value="'.$this->trans('Save', array(), 'Admin.Global').'" name="customSubmitAutoUpgrade"><i class="process-icon-save"></i>
-                    '.$this->trans('Save', array(), 'Admin.Global').'</button>
+                <button type="submit" class="btn btn-default pull-right" value="'.$this->trans('Save', array(), 'Admin.Actions').'" name="customSubmitAutoUpgrade"><i class="process-icon-save"></i>
+                    '.$this->trans('Save', array(), 'Admin.Actions').'</button>
             </div>
         </div></div>';
     }
@@ -1883,7 +1883,7 @@ class AdminSelfUpgrade extends AdminSelfTab
                         );
                     } else {
                         $this->nextErrors[] = $this->trans(
-                            '%modulename% module is not compatible with %version%, please remove it from your ftp.',
+                            'The %modulename% module is not compatible with version %version%, please remove it from your FTP.',
                             array(
                                 '%modulename%' => $module,
                                 '%version%' => $this->install_version,
@@ -2938,7 +2938,7 @@ class AdminSelfUpgrade extends AdminSelfTab
                     return true;
                 } else {
                     $this->next = 'error';
-                    $this->nextQuickInfo[] = $this->trans('error for copying %s', array($file), 'Modules.Autoupgrade.Admin');
+                    $this->nextQuickInfo[] = $this->trans('Error while copying file %s', array($file), 'Modules.Autoupgrade.Admin');
                     $this->nextErrors[] = $this->next_desc = $this->trans('Error while copying file %s', array($file), 'Modules.Autoupgrade.Admin');
                     return false;
                 }
@@ -3352,9 +3352,9 @@ class AdminSelfUpgrade extends AdminSelfTab
         $relative_backup_path = str_replace(_PS_ROOT_DIR_, '', $this->backupPath);
         $report = '';
         if (!ConfigurationTest::test_dir($relative_backup_path, false, $report)) {
-            $this->next_desc = $this->trans('Backup directory is not writable "%path%"', array('%path%' => $this->backupPath), 'Modules.Autoupgrade.Admin');
-            $this->nextQuickInfo[] = $this->trans('Backup directory is not writable "%path%"', array('%path%' => $this->backupPath), 'Modules.Autoupgrade.Admin');
-            $this->nextErrors[] = $this->trans('Backup directory is not writable "%path%"', array('%path%' => $this->backupPath), 'Modules.Autoupgrade.Admin');
+            $this->next_desc = $this->trans('Backup directory is not writable (%path%).', array('%path%' => $this->backupPath), 'Modules.Autoupgrade.Admin');
+            $this->nextQuickInfo[] = $this->trans('Backup directory is not writable (%path%).', array('%path%' => $this->backupPath), 'Modules.Autoupgrade.Admin');
+            $this->nextErrors[] = $this->trans('Backup directory is not writable (%path%).', array('%path%' => $this->backupPath), 'Modules.Autoupgrade.Admin');
             $this->next = 'error';
             $this->error = 1;
             return false;
@@ -4055,8 +4055,8 @@ txtError[8] = "'.$this->trans('Data integrity is not valided. Hack attempt?', ar
 txtError[9] = "'.$this->trans('Impossible to read the content of a MySQL content file.', array(), 'Modules.Autoupgrade.Admin').'";
 txtError[10] = "'.$this->trans('Cannot access a MySQL content file.', array(), 'Modules.Autoupgrade.Admin').'";
 txtError[11] = "'.$this->trans('Error while inserting data in the database:', array(), 'Modules.Autoupgrade.Admin').'";
-txtError[12] = "'.$this->trans('The password is incorrect (alphanumeric string at least 8 characters).', array(), 'Modules.Autoupgrade.Admin').'";
-txtError[14] = "'.$this->trans('A PrestaShop database already exists, please drop it or change the prefix.', array(), 'Modules.Autoupgrade.Admin').'";
+txtError[12] = "'.$this->trans('The password is incorrect (must be alphanumeric string with at least 8 characters)', array(), 'Install').'";
+txtError[14] = "'.$this->trans('At least one table with same prefix was already found, please change your prefix or drop your database', array(), 'Install').'";
 txtError[15] = "'.$this->trans('This is not a valid file name.', array(), 'Modules.Autoupgrade.Admin').'";
 txtError[16] = "'.$this->trans('This is not a valid image file.', array(), 'Modules.Autoupgrade.Admin').'";
 txtError[17] = "'.$this->trans('Error while creating the /app/config/parameters.php file.', array(), 'Modules.Autoupgrade.Admin').'";
@@ -4076,11 +4076,11 @@ txtError[42] = "'.$this->trans('Missing a temporary folder', array(), 'Modules.A
 txtError[43] = "'.$this->trans('Failed to write file to disk', array(), 'Modules.Autoupgrade.Admin').'";
 txtError[44] = "'.$this->trans('File upload stopped by extension', array(), 'Modules.Autoupgrade.Admin').'";
 txtError[45] = "'.$this->trans('Cannot convert your database\'s data to utf-8.', array(), 'Modules.Autoupgrade.Admin').'";
-txtError[46] = "'.$this->trans('Invalid shop name', array(), 'Modules.Autoupgrade.Admin').'";
-txtError[47] = "'.$this->trans('Your firstname contains some invalid characters', array(), 'Modules.Autoupgrade.Admin').'";
-txtError[48] = "'.$this->trans('Your lastname contains some invalid characters', array(), 'Modules.Autoupgrade.Admin').'";
-txtError[49] = "'.$this->trans('Your database server does not support the utf-8 charset.', array(), 'Modules.Autoupgrade.Admin').'";
+txtError[47] = "'.$this->trans('Your firstname contains some invalid characters', array(), 'Install').'";
+txtError[46] = "'.$this->trans('Invalid shop name', array(), 'Install').'";
+txtError[49] = "'.$this->trans('Your database server does not support the utf-8 charset.', array(), 'Install').'";
 txtError[50] = "'.$this->trans('Your MySQL server does not support this engine, please use another one like MyISAM', array(), 'Modules.Autoupgrade.Admin').'";
+txtError[48] = "'.$this->trans('Your lastname contains some invalid characters', array(), 'Modules.Autoupgrade.Admin').'";
 txtError[51] = "'.$this->trans('The file /img/logo.jpg is not writable, please CHMOD 755 this file or CHMOD 777', array(), 'Modules.Autoupgrade.Admin').'";
 txtError[52] = "'.$this->trans('Invalid catalog mode', array(), 'Modules.Autoupgrade.Admin').'";
 txtError[999] = "'.$this->trans('No error code available', array(), 'Modules.Autoupgrade.Admin').'";
@@ -4283,7 +4283,7 @@ txtError[37] = "'.$this->trans('The config/defines.inc.php file was not found. W
         $content .= '<div class="all-infos">';
         if (isset($upgrade_info['version_name'])) {
             $content .= '<div style="clear:both;">
-			<label class="label-small">'.$this->trans('Name:', array(), 'Modules.Autoupgrade.Admin').'</label>
+			<label class="label-small">'.$this->trans('Name:', array(), 'Admin.Global').'</label>
 				<span class="name">'.$upgrade_info['version_name'].'&nbsp;</span>
             </div>';
         }
@@ -4372,7 +4372,7 @@ txtError[37] = "'.$this->trans('The config/defines.inc.php file was not found. W
                 $content .= '<option '.($archive_filename ? 'selected="selected"' : '').' value="'.str_replace($download, '', $file).'">'.str_replace($download, '', $file).'</option>';
             }
             $content .= '</select><br>
-                <label>'.$this->trans('to upgrade for version', array(), 'Modules.Autoupgrade.Admin').' * </label><input type="text" size="10" name="archive_num"
+                <label>'.$this->trans('Number of the version you want to upgrade to:', array(), 'Modules.Autoupgrade.Admin').' * </label><input type="text" size="10" name="archive_num"
 				value="'.($this->getConfig('archive.version_num')?$this->getConfig('archive.version_num'):'').'" />
 			 	</div>';
         } else {
@@ -4387,7 +4387,7 @@ txtError[37] = "'.$this->trans('The config/defines.inc.php file was not found. W
         $content .= '<div id="for-useDirectory">
 			<div> '.
             $this->trans('Save in the following directory the uncompressed PrestaShop files of the version you want to upgrade to: %s', array('<b>/admin/autoupgrade/latest/prestashop/</b>'), 'Modules.Autoupgrade.Admin').
-            '<br /><br /><label>'.$this->trans('Please tell us which version you are upgrading to', array(), 'Modules.Autoupgrade.Admin').' <small>(1.7.0.1 for instance)</small></label> <input type="text" size="10" name="directory_num"
+            '<br /><br /><label>'.$this->trans('Please tell us which version you are upgrading to [1](1.7.0.1 for instance)[/1]', array('[1]' => '<small>', '[/1]' => '</small>'), 'Modules.Autoupgrade.Admin').' </label> <input type="text" size="10" name="directory_num"
 			value="'.($this->getConfig('directory.version_num')?$this->getConfig('directory.version_num'):'').'" />
 			<div class="margin-form">'.$this->trans('Click "Save" once the archive is there.', array(), 'Modules.Autoupgrade.Admin').'<br />* '.
             $this->trans('This option will skip both download and unzip steps and will use %1$s as the source directory', array('<b>/admin/autoupgrade/download/prestashop/</b>'), 'Modules.Autoupgrade.Admin').'</div>
@@ -5304,7 +5304,7 @@ function handleError(res, action)
 	{
 		$(".button-autoupgrade").html("'.$this->trans('Operation canceled. Checking for restoration...', array(), 'Modules.Autoupgrade.Admin').'");
 		res.nextParams.restoreName = res.nextParams.backupName;
-		if (confirm("'.$this->trans('Do you want to restore', array(), 'Modules.Autoupgrade.Admin').' " + "'.$this->backupName.'" + " ?"))
+		if (confirm("'.$this->trans('Do you want to restore %backupname%?', array('%backupname%' => $this->backupName), 'Modules.Autoupgrade.Admin').'"))
 			doAjaxRequest("rollback",res.nextParams);
 	}
 	else
@@ -5328,7 +5328,7 @@ function handleError(res, action)
 }';
         if (!file_exists($this->autoupgradePath.DIRECTORY_SEPARATOR.'ajax-upgradetab.php')) {
             $js .= '$(document).ready(function(){
-			$("#checkPrestaShopFilesVersion").html("<img src=\"../img/admin/warning.gif\" /> [TECHNICAL ERROR] ajax-upgradetab.php '.$this->trans('is missing. please reinstall the module', array(), 'Modules.Autoupgrade.Admin').'");
+			$("#checkPrestaShopFilesVersion").html("<img src=\"../img/admin/warning.gif\" />'.$this->trans('[TECHNICAL ERROR] ajax-upgradetab.php is missing. please reinstall the module', array(), 'Modules.Autoupgrade.Admin').'");
 			})';
         } else {
             $js .= '
