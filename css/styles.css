@@ -5,7 +5,7 @@ fieldset{margin-top:10px}
 #upgradeNow:not(.button-autoupgrade17) {border-color: #FFF6D3 #DFD5AF #DFD5AF #FFF6D3;border-right: 1px solid #DFD5AF;border-style: solid;border-width: 1px;color: #268CCD;font-size: medium;padding: 5px; font-weight: bold;}
 .button-autoupgrade {border-color: #FFF6D3 #DFD5AF #DFD5AF #FFF6D3;border-right: 1px solid #DFD5AF;border-style: solid;border-width: 1px;color: #268CCD;display:inline-block;font-size: medium;margin:10px 0;padding: 5px;}
 .processing {border:2px outset gray;margin-top:1px;overflow: auto;}
-#infoStep {height:100px;width:300px}
+#infoStep {height:200px;width:900px}
 #infoError {height:100px;width:550px}
 #quickInfo {height:200px;width:900px;}
 #upgradeResultCheck{ padding-left:20px;}

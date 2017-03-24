@@ -75,6 +75,10 @@ if (!defined('_PS_TOOL_DIR_')) {
 //require(_PS_ADMIN_DIR_.'/functions.php');
 include(AUTOUPGRADE_MODULE_DIR.'init.php');
 
+if (!defined('_PS_VERSION_') && isset($_POST['params']['install_version'])) {
+    define('_PS_VERSION_', $_POST['params']['install_version']);
+}
+
 // this is used to set this->ajax = true in the constructor
 global $ajax;
 

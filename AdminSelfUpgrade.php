@@ -18,11 +18,11 @@
 * versions in the future. If you wish to customize PrestaShop for your
 * needs please refer to http://www.prestashop.com for more information.
 *
-*	@author PrestaShop SA <contact@prestashop.com>
-*	@copyright	2007-2015 PrestaShop SA
-*	@version	Release: $Revision: 11834 $
-*	@license		http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-*	International Registered Trademark & Property of PrestaShop SA
+*   @author PrestaShop SA <contact@prestashop.com>
+*   @copyright  2007-2015 PrestaShop SA
+*   @version    Release: $Revision: 11834 $
+*   @license        http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+*   International Registered Trademark & Property of PrestaShop SA
 */
 
 // _PS_ADMIN_DIR_ is defined in ajax-upgradetab, but may be not defined in direct call
@@ -284,9 +284,9 @@ class AdminSelfUpgrade extends AdminSelfTab
 
     /* usage :  key = the step you want to ski
      * value = the next step you want instead
-     *	example : public static $skipAction = array();
-     *	initial order upgrade:
-     *		download, unzip, removeSamples, backupFiles, backupDb, upgradeFiles, upgradeDb, upgradeModules, cleanDatabase, upgradeComplete
+     *  example : public static $skipAction = array();
+     *  initial order upgrade:
+     *      download, unzip, removeSamples, backupFiles, backupDb, upgradeFiles, upgradeDb, upgradeModules, cleanDatabase, upgradeComplete
      * initial order rollback: rollback, restoreFiles, restoreDb, rollbackComplete
      */
     public static $skipAction = array();
@@ -316,6 +316,10 @@ class AdminSelfUpgrade extends AdminSelfTab
     {
         // simple checkToken in ajax-mode, to be free of Cookie class (and no Tools::encrypt() too )
         if ($this->ajax && isset($_COOKIE['id_employee'])) {
+            // >= 1.7.1.0 because more step
+            if (isset($_POST['params']['install_version']) && version_compare($_POST['params']['install_version'], '1.7.1.0', '>=')) {
+                return true;
+            }
             return ($_COOKIE['autoupgrade'] == $this->encrypt($_COOKIE['id_employee']));
         } else {
             return parent::checkToken();
@@ -370,7 +374,6 @@ class AdminSelfUpgrade extends AdminSelfTab
             $autoupgradeDir = 'autoupg-inst-' . uniqid();
         }
 
-
         $this->install_autoupgrade_dir = $autoupgradeDir;
 
         global $ajax, $currentIndex;
@@ -390,20 +393,35 @@ class AdminSelfUpgrade extends AdminSelfTab
 
         // Database instanciation (need to be cached because there will be at least 100k calls in the upgrade process
         if (!class_exists('Db', false)) {
-            require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/db/Db.php');
-            eval('abstract class Db extends DbCore{}');
-            require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/db/MySQL.php');
-            eval('class MySQL extends MySQLCore{}');
-            require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/db/DbMySQLi.php');
-            eval('class DbMySQLi extends DbMySQLiCore{}');
-            require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/db/DbPDO.php');
-            eval('class DbPDO extends DbPDOCore{}');
-            require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/db/DbQuery.php');
-            eval('class DbQuery extends DbQueryCore{}');
+            if (file_exists(_PS_ROOT_DIR_.'/modules/autoupgrade/db/Db.php')) {
+                require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/db/Db.php');
+                eval('abstract class Db extends DbCore{}');
+            }
 
-            require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/alias.php');
+            if (file_exists(_PS_ROOT_DIR_.'/modules/autoupgrade/db/MySQL.php')) {
+                require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/db/MySQL.php');
+                eval('class MySQL extends MySQLCore{}');
+            }
+
+            if (file_exists(_PS_ROOT_DIR_.'/modules/autoupgrade/db/DbMySQLi.php')) {
+                require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/db/DbMySQLi.php');
+                eval('class DbMySQLi extends DbMySQLiCore{}');
+            }
+
+            if (file_exists(_PS_ROOT_DIR_.'/modules/autoupgrade/db/DbPDO.php')) {
+                require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/db/DbPDO.php');
+                eval('class DbPDO extends DbPDOCore{}');
+            }
+
+            if (file_exists(_PS_ROOT_DIR_.'/modules/autoupgrade/db/DbQuery.php')) {
+                require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/db/DbQuery.php');
+                eval('class DbQuery extends DbQueryCore{}');
+            }
+
+            if (file_exists(_PS_ROOT_DIR_.'/modules/autoupgrade/alias.php')) {
+                require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/alias.php');
+            }
         }
-        $this->db = Db::getInstance();
 
         // Performance settings, if your server has a low memory size, lower these values
         $perf_array = array(
@@ -1048,7 +1066,7 @@ class AdminSelfUpgrade extends AdminSelfTab
         $required = false;
 
         $this->_html .= '
-			<fieldset id="'.$name.'Block"><legend><img src="../img/admin/'.strval($icon).'.gif" />'.$tabname.'</legend>';
+            <fieldset id="'.$name.'Block"><legend><img src="../img/admin/'.strval($icon).'.gif" />'.$tabname.'</legend>';
         foreach ($fields as $key => $field) {
             if (isset($field['required']) && $field['required']) {
                 $required = true;
@@ -1085,12 +1103,12 @@ class AdminSelfUpgrade extends AdminSelfTab
 
                 case 'bool':
                     $this->_html .= '<label class="t" for="'.$key.'_on">
-						<img src="../img/admin/enabled.gif" alt="'.$this->l('Yes').'" title="'.$this->l('Yes').'" /></label>
-					<input type="radio" '.($disabled?'disabled="disabled"':'').' name="'.$key.'" id="'.$key.'_on" value="1"'.($val ? ' checked="checked"' : '').(isset($field['js']['on']) ? $field['js']['on'] : '').' />
-					<label class="t" for="'.$key.'_on"> '.$this->l('Yes').'</label>
-					<label class="t" for="'.$key.'_off"><img src="../img/admin/disabled.gif" alt="'.$this->l('No').'" title="'.$this->l('No').'" style="margin-left: 10px;" /></label>
-					<input type="radio" '.($disabled?'disabled="disabled"':'').' name="'.$key.'" id="'.$key.'_off" value="0" '.(!$val ? 'checked="checked"' : '').(isset($field['js']['off']) ? $field['js']['off'] : '').'/>
-					<label class="t" for="'.$key.'_off"> '.$this->l('No').'</label>';
+                        <img src="../img/admin/enabled.gif" alt="'.$this->l('Yes').'" title="'.$this->l('Yes').'" /></label>
+                    <input type="radio" '.($disabled?'disabled="disabled"':'').' name="'.$key.'" id="'.$key.'_on" value="1"'.($val ? ' checked="checked"' : '').(isset($field['js']['on']) ? $field['js']['on'] : '').' />
+                    <label class="t" for="'.$key.'_on"> '.$this->l('Yes').'</label>
+                    <label class="t" for="'.$key.'_off"><img src="../img/admin/disabled.gif" alt="'.$this->l('No').'" title="'.$this->l('No').'" style="margin-left: 10px;" /></label>
+                    <input type="radio" '.($disabled?'disabled="disabled"':'').' name="'.$key.'" id="'.$key.'_off" value="0" '.(!$val ? 'checked="checked"' : '').(isset($field['js']['off']) ? $field['js']['off'] : '').'/>
+                    <label class="t" for="'.$key.'_off"> '.$this->l('No').'</label>';
                     break;
 
                 case 'radio':
@@ -1131,12 +1149,12 @@ class AdminSelfUpgrade extends AdminSelfTab
             }
         }
 
-        $this->_html .= '	<div align="center" style="margin-top: 20px;">
-					<input type="submit" value="'.$this->l('   Save   ', 'AdminPreferences').'" name="customSubmitAutoUpgrade" class="button" />
-				</div>
-				'.($required ? '<div class="small"><sup>*</sup> '.$this->l('Required field', 'AdminPreferences').'</div>' : '').'
-			</fieldset>
-			<br/>';
+        $this->_html .= '   <div align="center" style="margin-top: 20px;">
+                    <input type="submit" value="'.$this->l('   Save   ', 'AdminPreferences').'" name="customSubmitAutoUpgrade" class="button" />
+                </div>
+                '.($required ? '<div class="small"><sup>*</sup> '.$this->l('Required field', 'AdminPreferences').'</div>' : '').'
+            </fieldset>
+            <br/>';
     }
 
     /**
@@ -1926,10 +1944,10 @@ class AdminSelfUpgrade extends AdminSelfTab
 
                 foreach ($modules_to_delete as $key => $module) {
                     Db::getInstance()->execute('DELETE ms.*, hm.*
-					FROM `'._DB_PREFIX_.'module_shop` ms
-					INNER JOIN `'._DB_PREFIX_.'hook_module` hm USING (`id_module`)
-					INNER JOIN `'._DB_PREFIX_.'module` m USING (`id_module`)
-					WHERE m.`name` LIKE \''.pSQL($key).'\'');
+                    FROM `'._DB_PREFIX_.'module_shop` ms
+                    INNER JOIN `'._DB_PREFIX_.'hook_module` hm USING (`id_module`)
+                    INNER JOIN `'._DB_PREFIX_.'module` m USING (`id_module`)
+                    WHERE m.`name` LIKE \''.pSQL($key).'\'');
                     Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'module` SET `active` = 0 WHERE `name` LIKE \''.pSQL($key).'\'');
 
                     $path = $this->prodRootDir.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR.$key.DIRECTORY_SEPARATOR;
@@ -2052,15 +2070,15 @@ class AdminSelfUpgrade extends AdminSelfTab
         global $warningExists;
 
         /* Clean tabs order */
-        foreach ($this->db->ExecuteS('SELECT DISTINCT id_parent FROM '._DB_PREFIX_.'tab') as $parent) {
+        foreach (Db::getInstance()->ExecuteS('SELECT DISTINCT id_parent FROM '._DB_PREFIX_.'tab') as $parent) {
             $i = 1;
-            foreach ($this->db->ExecuteS('SELECT id_tab FROM '._DB_PREFIX_.'tab WHERE id_parent = '.(int)$parent['id_parent'].' ORDER BY IF(class_name IN ("AdminHome", "AdminDashboard"), 1, 2), position ASC') as $child) {
-                $this->db->Execute('UPDATE '._DB_PREFIX_.'tab SET position = '.(int)($i++).' WHERE id_tab = '.(int)$child['id_tab'].' AND id_parent = '.(int)$parent['id_parent']);
+            foreach (Db::getInstance()->ExecuteS('SELECT id_tab FROM '._DB_PREFIX_.'tab WHERE id_parent = '.(int)$parent['id_parent'].' ORDER BY IF(class_name IN ("AdminHome", "AdminDashboard"), 1, 2), position ASC') as $child) {
+                Db::getInstance()->Execute('UPDATE '._DB_PREFIX_.'tab SET position = '.(int)($i++).' WHERE id_tab = '.(int)$child['id_tab'].' AND id_parent = '.(int)$parent['id_parent']);
             }
         }
 
         /* Clean configuration integrity */
-        $this->db->Execute('DELETE FROM `'._DB_PREFIX_.'configuration_lang` WHERE (`value` IS NULL AND `date_upd` IS NULL) OR `value` LIKE ""', false);
+        Db::getInstance()->Execute('DELETE FROM `'._DB_PREFIX_.'configuration_lang` WHERE (`value` IS NULL AND `date_upd` IS NULL) OR `value` LIKE ""', false);
 
         $this->status = 'ok';
         $this->next = 'upgradeComplete';
@@ -2082,12 +2100,109 @@ class AdminSelfUpgrade extends AdminSelfTab
     }
 
     /**
+     * functions used for 17
+     */
+    public function ajaxProcessDisableModules17()
+    {
+        return $this->doUpgrade17('DisableModules');
+    }
+
+    public function ajaxProcessEnableModules17()
+    {
+        return $this->doUpgrade17('EnableModules');
+    }
+
+    public function ajaxProcessUpdateImage17()
+    {
+        return $this->doUpgrade17('UpdateImage');
+    }
+
+    public function ajaxProcessUpdateLangHtaccess17()
+    {
+        return $this->doUpgrade17('UpdateLangHtaccess');
+    }
+
+    public function ajaxProcessUpdateTheme17()
+    {
+        return $this->doUpgrade17('UpdateTheme');
+    }
+    /**
+     * -- end
+     */
+
+    public function ajaxProcessUpgradeComplete17()
+    {
+        if ($this->getConfig('channel') != 'archive' && file_exists($this->getFilePath()) && unlink($this->getFilePath())) {
+            $this->nextQuickInfo[] = '<div class="upgradeDbOk">'.sprintf($this->l('%s removed'), $this->getFilePath()).'</div>';
+        } elseif (is_file($this->getFilePath())) {
+            $this->nextQuickInfo[] = '<div class="upgradeDbOk"><strong>'.sprintf($this->l('Please remove %s by FTP'), $this->getFilePath()).'</strong></div>';
+        }
+
+        if ($this->getConfig('channel') != 'directory' && file_exists($this->latestRootDir) && self::deleteDirectory($this->latestRootDir)) {
+            $this->nextQuickInfo[] = '<div class="upgradeDbOk">'.sprintf($this->l('%s removed'), $this->latestRootDir).'</div>';
+        } elseif (is_dir($this->latestRootDir)) {
+            $this->nextQuickInfo[] = '<div class="upgradeDbOk"><strong>'.sprintf($this->l('Please remove %s by FTP'), $this->latestRootDir).'</strong></div>';
+        }
+
+        if (!$this->warning_exists) {
+            $this->nextQuickInfo[] = '<br /><div class="upgradeDbOk"><strong>'.$this->l('Upgrade process done. Congratulations! You can now reactivate your shop.').'</strong></div>';
+        } else {
+            $this->nextQuickInfo[] = '<br /><div class="upgradeDbOk"><strong>'.$this->l('Upgrade process done, but some warnings have been found.').'</strong></div>';
+        }
+
+        $this->nextQuickInfo[] = '<div class="upgradeDbOk">'.$this->l('Don\'t forget to clear your cache (Advanced parameters > Performance > Clear cache)').'</div>';
+
+        self::deleteDirectory(_PS_ROOT_DIR_.'/'.$this->install_autoupgrade_dir);
+
+        return true;
+    }
+
+    private function doUpgrade17($step)
+    {
+        $base_uri = str_replace(realpath($_SERVER['DOCUMENT_ROOT']), '', realpath(_PS_ROOT_DIR_));
+        $hostName = $this->getServerFullBaseUrl();
+
+        $url = $hostName . str_replace('\\', '/', $base_uri) .
+        '/'.$this->install_autoupgrade_dir.'/upgrade/upgrade.php?autoupgrade=1'.
+            '&deactivateCustomModule=1'.
+            '&updateDefaultTheme=1'.
+            '&keepMails=0'.
+            '&changeToDefaultTheme=1'.
+            '&adminDir='.base64_encode($this->adminDir).
+            '&idEmployee='.(int)$_COOKIE['id_employee'].
+            '&action='.$step;
+
+        $result = null;
+        while(!$result) {
+            $json = Tools14::file_get_contents($url, false, null, $curl_timeout = 3600);
+            $result = json_decode($json, true);
+        }
+
+        if ($result) {
+            $this->nextQuickInfo = $result['nextQuickInfo'];
+            $this->nextErrors = $result['nextErrors'];
+            $this->next_desc = $result['nextDesc'];
+            $this->warning_exists = $result['warningExists'];
+            $this->status = 'ok';
+
+            if (!empty($result['next'])) {
+                $this->next = lcfirst($result['next']).'17';
+            } else {
+                return $this->ajaxProcessUpgradeComplete17();
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Implement the upgrade based on upgrade.php from the downloaded archive
+     * NOT USED, EXAMPLE. SEE doUpgrade17 TO WORKS ON WINDOWS ..
      *
      * @return bool
      *
      */
-    public function doUpgrade17()
+    public function doUpgrade17Back()
     {
         $base_uri = str_replace(realpath($_SERVER['DOCUMENT_ROOT']), '', realpath(_PS_ROOT_DIR_));
         $hostName = $this->getServerFullBaseUrl();
@@ -2101,40 +2216,24 @@ class AdminSelfUpgrade extends AdminSelfTab
             '&adminDir='.base64_encode($this->adminDir).
             '&idEmployee='.(int)$_COOKIE['id_employee'];
 
-        $json = Tools14::file_get_contents($url, false, null, $curl_timeout = 3600);
-        $result = json_decode($json, true);
+        $result = null;
+        while(!$result) {
+            $json = Tools14::file_get_contents($url, false, null, $curl_timeout = 3600);
+            $result = json_decode($json, true);
+        }
 
         if ($result) {
             $this->nextQuickInfo = $result['nextQuickInfo'];
             $this->nextErrors = $result['nextErrors'];
             $this->next_desc = $result['nextDesc'];
             $this->warning_exists = $result['warningExists'];
+
             if (!empty($result['next'])) {
                 $this->next = $result['next'];
             } else {
-                if ($this->getConfig('channel') != 'archive' && file_exists($this->getFilePath()) && unlink($this->getFilePath())) {
-                    $this->nextQuickInfo[] = '<div class="upgradeDbOk">'.sprintf($this->l('%s removed'), $this->getFilePath()).'</div>';
-                } elseif (is_file($this->getFilePath())) {
-                    $this->nextQuickInfo[] = '<div class="upgradeDbOk"><strong>'.sprintf($this->l('Please remove %s by FTP'), $this->getFilePath()).'</strong></div>';
-                }
-
-                if ($this->getConfig('channel') != 'directory' && file_exists($this->latestRootDir) && self::deleteDirectory($this->latestRootDir)) {
-                    $this->nextQuickInfo[] = '<div class="upgradeDbOk">'.sprintf($this->l('%s removed'), $this->latestRootDir).'</div>';
-                } elseif (is_dir($this->latestRootDir)) {
-                    $this->nextQuickInfo[] = '<div class="upgradeDbOk"><strong>'.sprintf($this->l('Please remove %s by FTP'), $this->latestRootDir).'</strong></div>';
-                }
-
-                if (!$this->warning_exists) {
-                    $this->nextQuickInfo[] = '<br /><div class="upgradeDbOk"><strong>'.$this->l('Upgrade process done. Congratulations! You can now reactivate your shop.').'</strong></div>';
-                } else {
-                    $this->nextQuickInfo[] = '<br /><div class="upgradeDbOk"><strong>'.$this->l('Upgrade process done, but some warnings have been found.').'</strong></div>';
-                }
-
-                $this->nextQuickInfo[] = '<div class="upgradeDbOk">'.$this->l('Don\'t forget to clear your cache (Advanced parameters > Performance > Clear cache)').'</div>';
+                return $this->ajaxProcessUpgradeComplete17();
             }
         }
-
-        self::deleteDirectory(_PS_ROOT_DIR_.'/'.$this->install_autoupgrade_dir);
 
         return true;
     }
@@ -2187,7 +2286,7 @@ class AdminSelfUpgrade extends AdminSelfTab
         define('SETTINGS_FILE', $this->prodRootDir . '/config/settings.inc.php');
         define('DEFINES_FILE', $this->prodRootDir .'/config/defines.inc.php');
         define('INSTALLER__PS_BASE_URI', substr($_SERVER['REQUEST_URI'], 0, -1 * (strlen($_SERVER['REQUEST_URI']) - strrpos($_SERVER['REQUEST_URI'], '/')) - strlen(substr(dirname($_SERVER['REQUEST_URI']), strrpos(dirname($_SERVER['REQUEST_URI']), '/')+1))));
-        //	define('INSTALLER__PS_BASE_URI_ABSOLUTE', 'http://'.ToolsInstall::getHttpHost(false, true).INSTALLER__PS_BASE_URI);
+        //  define('INSTALLER__PS_BASE_URI_ABSOLUTE', 'http://'.ToolsInstall::getHttpHost(false, true).INSTALLER__PS_BASE_URI);
 
         // XML Header
         // header('Content-Type: text/xml');
@@ -2230,7 +2329,7 @@ class AdminSelfUpgrade extends AdminSelfTab
         }
 
         if (version_compare(INSTALL_VERSION, '1.7.1.0', '>=')) {
-            $this->doUpgrade17();
+            return $this->doUpgrade17('UpgradeDb');
         } elseif (version_compare(INSTALL_VERSION, '1.7.0.0', '>=')) {
             $this->next = 'error';
             $this->next_desc = $this->l('You cannot upgrade to this version.');
@@ -2287,7 +2386,7 @@ class AdminSelfUpgrade extends AdminSelfTab
             }
 
             //check DB access
-            $this->db;
+            Db::getInstance();
             error_reporting(E_ALL);
             $resultDB = Db::checkConnection(_DB_SERVER_, _DB_USER_, _DB_PASSWD_, _DB_NAME_);
             if ($resultDB !== 0) {
@@ -2449,15 +2548,15 @@ class AdminSelfUpgrade extends AdminSelfTab
                             if (isset($phpRes) && (is_array($phpRes) && !empty($phpRes['error'])) || $phpRes === false) {
                                 // $this->next = 'error';
                                 $this->nextQuickInfo[] = '
-								<div class="upgradeDbError">
-									[ERROR] PHP ' . $upgrade_file . ' ' . $query . "\n" . '
-									' . (empty($phpRes['error']) ? '' : $phpRes['error'] . "\n") . '
-									' . (empty($phpRes['msg']) ? '' : ' - ' . $phpRes['msg'] . "\n") . '
-								</div>';
+                                <div class="upgradeDbError">
+                                    [ERROR] PHP ' . $upgrade_file . ' ' . $query . "\n" . '
+                                    ' . (empty($phpRes['error']) ? '' : $phpRes['error'] . "\n") . '
+                                    ' . (empty($phpRes['msg']) ? '' : ' - ' . $phpRes['msg'] . "\n") . '
+                                </div>';
                                 $this->nextErrors[] = '
-								[ERROR] PHP ' . $upgrade_file . ' ' . $query . "\n" . '
-								' . (empty($phpRes['error']) ? '' : $phpRes['error'] . "\n") . '
-								' . (empty($phpRes['msg']) ? '' : ' - ' . $phpRes['msg'] . "\n");
+                                [ERROR] PHP ' . $upgrade_file . ' ' . $query . "\n" . '
+                                ' . (empty($phpRes['error']) ? '' : $phpRes['error'] . "\n") . '
+                                ' . (empty($phpRes['msg']) ? '' : ' - ' . $phpRes['msg'] . "\n");
                                 $warningExist = true;
                             } else {
                                 $this->nextQuickInfo[] = '<div class="upgradeDbOk">[OK] PHP ' . $upgrade_file . ' : ' . $query . '</div>';
@@ -2472,20 +2571,20 @@ class AdminSelfUpgrade extends AdminSelfTab
                                 ;
                                 if (isset($matches[1]) && $matches[1]) {
                                     $drop = 'DROP TABLE IF EXISTS `' . _DB_PREFIX_ . $matches[1] . '`;';
-                                    $result = $this->db->execute($drop, false);
+                                    $result = Db::getInstance()->execute($drop, false);
                                     if ($result) {
                                         $this->nextQuickInfo[] = '<div class="upgradeDbOk">' . sprintf($this->l('[DROP] SQL %s table has been dropped.'), '`' . _DB_PREFIX_ . $matches[1] . '`') . '</div>';
                                     }
                                 }
                             }
-                            $result = $this->db->execute($query, false);
+                            $result = Db::getInstance()->execute($query, false);
                             if (!$result) {
-                                $error = $this->db->getMsgError();
-                                $error_number = $this->db->getNumberError();
+                                $error = Db::getInstance()->getMsgError();
+                                $error_number = Db::getInstance()->getNumberError();
                                 $this->nextQuickInfo[] = '
-								<div class="upgradeDbError">
-								[WARNING] SQL ' . $upgrade_file . '
-								' . $error_number . ' in ' . $query . ': ' . $error . '</div>';
+                                <div class="upgradeDbError">
+                                [WARNING] SQL ' . $upgrade_file . '
+                                ' . $error_number . ' in ' . $query . ': ' . $error . '</div>';
 
                                 $duplicates = array('1050', '1054', '1060', '1061', '1062', '1091');
                                 if (!in_array($error_number, $duplicates)) {
@@ -2840,20 +2939,20 @@ class AdminSelfUpgrade extends AdminSelfTab
             if ($this->changeToDefaultTheme) {
                 if (version_compare(INSTALL_VERSION, '1.6.0.0', '>')) {
                     Db::getInstance()->execute('UPDATE `' . _DB_PREFIX_ . 'shop`
-					SET id_theme = (SELECT id_theme FROM `' . _DB_PREFIX_ . 'theme` WHERE name LIKE \'default-bootstrap\')');
+                    SET id_theme = (SELECT id_theme FROM `' . _DB_PREFIX_ . 'theme` WHERE name LIKE \'default-bootstrap\')');
                     Db::getInstance()->execute('DELETE FROM `' . _DB_PREFIX_ . 'theme` WHERE  name LIKE \'default\' OR name LIKE \'prestashop\'');
                 } elseif (version_compare(INSTALL_VERSION, '1.5.0.0', '>')) {
                     Db::getInstance()->execute('UPDATE `' . _DB_PREFIX_ . 'shop`
-					SET id_theme = (SELECT id_theme FROM `' . _DB_PREFIX_ . 'theme` WHERE name LIKE \'default\')');
+                    SET id_theme = (SELECT id_theme FROM `' . _DB_PREFIX_ . 'theme` WHERE name LIKE \'default\')');
                     Db::getInstance()->execute('DELETE FROM `' . _DB_PREFIX_ . 'theme` WHERE  name LIKE \'prestashop\'');
                 }
             }
 
             // delete cache filesystem if activated
             if (defined('_PS_CACHE_ENABLED_') && _PS_CACHE_ENABLED_) {
-                $depth = (int)$this->db->getValue('SELECT value
-				FROM ' . _DB_PREFIX_ . 'configuration
-				WHERE name = "PS_CACHEFS_DIRECTORY_DEPTH"');
+                $depth = (int)Db::getInstance()->getValue('SELECT value
+                FROM ' . _DB_PREFIX_ . 'configuration
+                WHERE name = "PS_CACHEFS_DIRECTORY_DEPTH"');
                 if ($depth) {
                     if (!defined('_PS_CACHEFS_DIRECTORY_')) {
                         define('_PS_CACHEFS_DIRECTORY_', $this->prodRootDir . '/cache/cachefs/');
@@ -2865,9 +2964,9 @@ class AdminSelfUpgrade extends AdminSelfTab
                 }
             }
 
-            $this->db->execute('UPDATE `' . _DB_PREFIX_ . 'configuration` SET value="0" WHERE name = "PS_HIDE_OPTIMIZATION_TIS"', false);
-            $this->db->execute('UPDATE `' . _DB_PREFIX_ . 'configuration` SET value="1" WHERE name = "PS_NEED_REBUILD_INDEX"', false);
-            $this->db->execute('UPDATE `' . _DB_PREFIX_ . 'configuration` SET value="' . INSTALL_VERSION . '" WHERE name = "PS_VERSION_DB"', false);
+            Db::getInstance()->execute('UPDATE `' . _DB_PREFIX_ . 'configuration` SET value="0" WHERE name = "PS_HIDE_OPTIMIZATION_TIS"', false);
+            Db::getInstance()->execute('UPDATE `' . _DB_PREFIX_ . 'configuration` SET value="1" WHERE name = "PS_NEED_REBUILD_INDEX"', false);
+            Db::getInstance()->execute('UPDATE `' . _DB_PREFIX_ . 'configuration` SET value="' . INSTALL_VERSION . '" WHERE name = "PS_VERSION_DB"', false);
         }
 
         if ($this->next == 'error') {
@@ -3090,9 +3189,9 @@ class AdminSelfUpgrade extends AdminSelfTab
                     $v = stripslashes($v);
                 }
                 if ('mail' == $type) {
-                    fwrite($fd, '$'.$var_name.'[\''.$this->db->escape($k).'\'] = \''.$this->db->escape($v).'\';'."\n");
+                    fwrite($fd, '$'.$var_name.'[\''.Db::getInstance()->escape($k).'\'] = \''.Db::getInstance()->escape($v).'\';'."\n");
                 } else {
-                    fwrite($fd, '$'.$var_name.'[\''.$this->db->escape($k, true).'\'] = \''.$this->db->escape($v, true).'\';'."\n");
+                    fwrite($fd, '$'.$var_name.'[\''.Db::getInstance()->escape($k, true).'\'] = \''.Db::getInstance()->escape($v, true).'\';'."\n");
                 }
             }
             fwrite($fd, "\n?>");
@@ -3343,7 +3442,7 @@ class AdminSelfUpgrade extends AdminSelfTab
 
         // very second restoreFiles step : extract backup
         // if (!isset($fromArchive))
-        //	$fromArchive = unserialize(base64_decode(file_get_contents($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->fromArchiveFileList)));
+        //  $fromArchive = unserialize(base64_decode(file_get_contents($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->fromArchiveFileList)));
         $filepath = $this->backupPath.DIRECTORY_SEPARATOR.$this->restoreFilesFilename;
         $destExtract = $this->prodRootDir;
         if ($this->ZipExtract($filepath, $destExtract)) {
@@ -3398,7 +3497,7 @@ class AdminSelfUpgrade extends AdminSelfTab
         );
         $this->nextParams['dbStep'] = $this->currentParams['dbStep'];
         $start_time = time();
-        $db = $this->db;
+        $db = Db::getInstance();
         $listQuery = array();
         $errors = array();
 
@@ -3471,7 +3570,7 @@ class AdminSelfUpgrade extends AdminSelfTab
             // @TODO : drop all old tables (created in upgrade)
             // This part has to be executed only onces (if dbStep=0)
             if ($this->nextParams['dbStep'] == '1') {
-                $all_tables = $this->db->executeS('SHOW TABLES LIKE "'._DB_PREFIX_.'%"', true, false);
+                $all_tables = Db::getInstance()->executeS('SHOW TABLES LIKE "'._DB_PREFIX_.'%"', true, false);
                 $drops = array();
                 foreach ($all_tables as $k => $v) {
                     $table = array_shift($v);
@@ -3515,12 +3614,12 @@ class AdminSelfUpgrade extends AdminSelfTab
 
                 $query = array_shift($listQuery);
                 if (!empty($query)) {
-                    if (!$this->db->execute($query, false)) {
+                    if (!Db::getInstance()->execute($query, false)) {
                         if (is_array($listQuery)) {
                             $listQuery = array_unshift($listQuery, $query);
                         }
-                        $this->nextErrors[] = $this->l('[SQL ERROR] ').$query.' - '.$this->db->getMsgError();
-                        $this->nextQuickInfo[] = $this->l('[SQL ERROR] ').$query.' - '.$this->db->getMsgError();
+                        $this->nextErrors[] = $this->l('[SQL ERROR] ').$query.' - '.Db::getInstance()->getMsgError();
+                        $this->nextQuickInfo[] = $this->l('[SQL ERROR] ').$query.' - '.Db::getInstance()->getMsgError();
                         $this->next = 'error';
                         $this->error = 1;
                         $this->next_desc = $this->l('Error during database restoration');
@@ -3605,7 +3704,7 @@ class AdminSelfUpgrade extends AdminSelfTab
                 mkdir($this->backupPath.DIRECTORY_SEPARATOR.$this->backupName);
             }
             $this->nextParams['dbStep'] = 0;
-            $tablesToBackup = $this->db->executeS('SHOW TABLES LIKE "'._DB_PREFIX_.'%"', true, false);
+            $tablesToBackup = Db::getInstance()->executeS('SHOW TABLES LIKE "'._DB_PREFIX_.'%"', true, false);
             file_put_contents($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->toBackupDbList, base64_encode(serialize($tablesToBackup)));
         }
 
@@ -3683,7 +3782,7 @@ class AdminSelfUpgrade extends AdminSelfTab
             // start schema : drop & create table only
             if (empty($this->currentParams['backup_table'])) {
                 // Export the table schema
-                $schema = $this->db->executeS('SHOW CREATE TABLE `' . $table . '`', true, false);
+                $schema = Db::getInstance()->executeS('SHOW CREATE TABLE `' . $table . '`', true, false);
 
                 if (count($schema) != 1 ||
                     !((isset($schema[0]['Table']) && isset($schema[0]['Create Table']))
@@ -3734,18 +3833,18 @@ class AdminSelfUpgrade extends AdminSelfTab
             if (!in_array($table, $ignore_stats_table)) {
                 do {
                     $backup_loop_limit = $this->nextParams['backup_loop_limit'];
-                    $data = $this->db->executeS('SELECT * FROM `'.$table.'` LIMIT '.(int)$backup_loop_limit.',200', false, false);
+                    $data = Db::getInstance()->executeS('SELECT * FROM `'.$table.'` LIMIT '.(int)$backup_loop_limit.',200', false, false);
                     $this->nextParams['backup_loop_limit'] += 200;
-                    $sizeof = $this->db->numRows();
+                    $sizeof = Db::getInstance()->numRows();
                     if ($data && ($sizeof > 0)) {
                         // Export the table data
                         $written += fwrite($fp, 'INSERT INTO `'.$table."` VALUES\n");
                         $i = 1;
-                        while ($row = $this->db->nextRow($data)) {
+                        while ($row = Db::getInstance()->nextRow($data)) {
                             // this starts a row
                             $s = '(';
                             foreach ($row as $field => $value) {
-                                $tmp = "'" . $this->db->escape($value, true) . "',";
+                                $tmp = "'" . Db::getInstance()->escape($value, true) . "',";
                                 if ($tmp != "'',") {
                                     $s .= $tmp;
                                 } else {
@@ -4295,31 +4394,31 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
             $this->backupName = end($backup_available);
         }
         $this->_html .= '
-		<fieldset style="margin-top:10px">
-			<legend><img src="../img/admin/previous.gif"/>'.$this->l('Rollback').'</legend>
-			<div id="rollbackForm">
-				<p>
-					'.$this->l('After upgrading your shop, you can rollback to the previous database and files. Use this function if your theme or an essential module is not working correctly.').'
-				</p>
-				<br/>
-				<div id="rollbackContainer">
-					<a disabled="disabled" class="upgradestep button" href="" id="rollback">'.$this->l('Rollback').'</a>
-				</div>
-				<br/>
-				<div id="restoreBackupContainer">
-					'.$this->l('Choose your backup:').'
-					<select name="restoreName">
-						<option value="0">'.$this->l('-- Choose a backup to restore --').'</option>';
+        <fieldset style="margin-top:10px">
+            <legend><img src="../img/admin/previous.gif"/>'.$this->l('Rollback').'</legend>
+            <div id="rollbackForm">
+                <p>
+                    '.$this->l('After upgrading your shop, you can rollback to the previous database and files. Use this function if your theme or an essential module is not working correctly.').'
+                </p>
+                <br/>
+                <div id="rollbackContainer">
+                    <a disabled="disabled" class="upgradestep button" href="" id="rollback">'.$this->l('Rollback').'</a>
+                </div>
+                <br/>
+                <div id="restoreBackupContainer">
+                    '.$this->l('Choose your backup:').'
+                    <select name="restoreName">
+                        <option value="0">'.$this->l('-- Choose a backup to restore --').'</option>';
         if (is_array($backup_available) && count($backup_available)) {
             foreach ($backup_available as $backup_name) {
                 $this->_html .= '<option value="'.$backup_name.'">'.$backup_name.'</option>';
             }
         }
         $this->_html .= '</select>
-				</div>
-				<div class="clear">&nbsp;</div>
-			</div>
-		</fieldset>';
+                </div>
+                <div class="clear">&nbsp;</div>
+            </div>
+        </fieldset>';
     }
 
     /** this returns fieldset containing the configuration points you need to use autoupgrade
@@ -4330,44 +4429,44 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
         $current_ps_config = $this->getcheckCurrentPsConfig();
 
         $this->_html .= '
-		<fieldset id="currentConfigurationBlock" class="width autoupgrade" style="float: left; width: 60%; margin-left: 30px;">
-			<legend>'.$this->l('The pre-Upgrade checklist').'</legend>';
+        <fieldset id="currentConfigurationBlock" class="width autoupgrade" style="float: left; width: 60%; margin-left: 30px;">
+            <legend>'.$this->l('The pre-Upgrade checklist').'</legend>';
         if (!$this->configOk()) {
             $this->_html .= '<div class="clear"><br></div><p class="warn">'.$this->l('The checklist is not OK. You can only upgrade your shop once all indicators are green.').'</p>';
         }
 
         $this->_html .= '<div id="currentConfiguration">
-							<p>'.$this->l('Before starting the upgrade process, please make sure this checklist is all green.').'</p>
-				<table class="table" cellpadding="0" cellspacing="0">';
+                            <p>'.$this->l('Before starting the upgrade process, please make sure this checklist is all green.').'</p>
+                <table class="table" cellpadding="0" cellspacing="0">';
         $pic_ok = '<img src="../img/admin/enabled.gif" alt="ok"/>';
         $pic_nok = '<img src="../img/admin/disabled.gif" alt="nok"/>';
         $pic_warn = '<img src="../img/admin/warning.gif" alt="warn"/>';
         // module version : checkAutoupgradeLastVersion
         $this->_html .= '
-				<tr>
-					<td>'.sprintf($this->l('The 1-click upgrade module is up-to-date (your current version is v%s)'), $this->getModuleVersion()).'
-					'.($current_ps_config['module_version_ok'] ? '' : '&nbsp;&nbsp;'.(version_compare(_PS_VERSION_, '1.5.3.0', '>') ? '<strong><a href="index.php?controller=AdminModules&amp;token='.Tools14::getAdminTokenLite('AdminModules').'&update=autoupgrade">'.$this->l('Update').'</a></strong> - ' : '').'<strong><a class="_blank" href="http://addons.prestashop.com/en/administration-tools-prestashop-modules/5496-1-click-upgrade-autoupgrade.html">'.$this->l('Download').'</a><strong> ').'
-					</td>
-					<td>'.($current_ps_config['module_version_ok'] ? $pic_ok : $pic_nok).'</td>
-				</tr>';
+                <tr>
+                    <td>'.sprintf($this->l('The 1-click upgrade module is up-to-date (your current version is v%s)'), $this->getModuleVersion()).'
+                    '.($current_ps_config['module_version_ok'] ? '' : '&nbsp;&nbsp;'.(version_compare(_PS_VERSION_, '1.5.3.0', '>') ? '<strong><a href="index.php?controller=AdminModules&amp;token='.Tools14::getAdminTokenLite('AdminModules').'&update=autoupgrade">'.$this->l('Update').'</a></strong> - ' : '').'<strong><a class="_blank" href="http://addons.prestashop.com/en/administration-tools-prestashop-modules/5496-1-click-upgrade-autoupgrade.html">'.$this->l('Download').'</a><strong> ').'
+                    </td>
+                    <td>'.($current_ps_config['module_version_ok'] ? $pic_ok : $pic_nok).'</td>
+                </tr>';
 
         // root : getRootWritable()
 
         $this->_html .= '
-			<tr>
-				<td>'.$this->l('Your store\'s root directory is writable (with appropriate CHMOD permissions)').'</td>
-				<td>'.($current_ps_config['root_writable'] ? $pic_ok : $pic_nok.' '.$this->root_writable_report).'</td>
-			</tr>';
+            <tr>
+                <td>'.$this->l('Your store\'s root directory is writable (with appropriate CHMOD permissions)').'</td>
+                <td>'.($current_ps_config['root_writable'] ? $pic_ok : $pic_nok.' '.$this->root_writable_report).'</td>
+            </tr>';
 
         $admin_dir = trim(str_replace($this->prodRootDir, '', $this->adminDir), DIRECTORY_SEPARATOR);
         $report = '';
         ConfigurationTest::test_dir($admin_dir.DIRECTORY_SEPARATOR.$this->autoupgradeDir, true, $report);
         if ($report) {
             $this->_html .= '
-				<tr>
-					<td>'.$this->l('The "/admin/autoupgrade" directory is writable (appropriate CHMOD permissions)').'</td>
-					<td>'.($current_ps_config['admin_au_writable'] ? $pic_ok : $pic_nok.' '.$report).'</td>
-				</tr>';
+                <tr>
+                    <td>'.$this->l('The "/admin/autoupgrade" directory is writable (appropriate CHMOD permissions)').'</td>
+                    <td>'.($current_ps_config['admin_au_writable'] ? $pic_ok : $pic_nok.' '.$report).'</td>
+                </tr>';
         }
 
         //check safe_mod
@@ -4377,37 +4476,37 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
         $safe_mode = in_array(Tools14::strtolower($safe_mode), array(1, 'on'));
 
         $this->_html .= '
-			<tr><td>'.$this->l('PHP\'s "Safe mode" option is turned off').'</td>
-			<td>'.(!$safe_mode ? $pic_ok : $pic_warn).'</td></tr>';
+            <tr><td>'.$this->l('PHP\'s "Safe mode" option is turned off').'</td>
+            <td>'.(!$safe_mode ? $pic_ok : $pic_warn).'</td></tr>';
 
         $this->_html .= '
-			<tr><td>'.$this->l('PHP\'s "allow_url_fopen" option is turned on, or cURL is installed').'</td>
-			<td>'.((ConfigurationTest::test_fopen() || ConfigurationTest::test_curl()) ? $pic_ok : $pic_nok).'</td></tr>';
+            <tr><td>'.$this->l('PHP\'s "allow_url_fopen" option is turned on, or cURL is installed').'</td>
+            <td>'.((ConfigurationTest::test_fopen() || ConfigurationTest::test_curl()) ? $pic_ok : $pic_nok).'</td></tr>';
 
         // shop enabled
         $this->_html .= '
-			<tr><td>'.$this->l('Your store is in maintenance mode').' '.(!$current_ps_config['shop_deactivated'] ? '<br><form method="post" action="'.$this->currentIndex.'&token='.$this->token.'"><input type="submit" class="button" name="putUnderMaintenance" value="'.$this->l('Click here to put your shop under maintenance').'"></form>' : '').'</td>
-			<td>'.($current_ps_config['shop_deactivated'] ? $pic_ok : $pic_nok).'</td></tr>';
+            <tr><td>'.$this->l('Your store is in maintenance mode').' '.(!$current_ps_config['shop_deactivated'] ? '<br><form method="post" action="'.$this->currentIndex.'&token='.$this->token.'"><input type="submit" class="button" name="putUnderMaintenance" value="'.$this->l('Click here to put your shop under maintenance').'"></form>' : '').'</td>
+            <td>'.($current_ps_config['shop_deactivated'] ? $pic_ok : $pic_nok).'</td></tr>';
 
         $this->_html .= '
-			<tr><td>'.$this->l('PrestaShop\'s caching features are disabled').'</td>
-			<td>'.($current_ps_config['cache_deactivated'] ? $pic_ok : $pic_nok).'</td></tr>';
+            <tr><td>'.$this->l('PrestaShop\'s caching features are disabled').'</td>
+            <td>'.($current_ps_config['cache_deactivated'] ? $pic_ok : $pic_nok).'</td></tr>';
 
         if (version_compare(_PS_VERSION_, '1.5.0.0', '<')) {
             $this->_html .= '
-				<tr><td>'.$this->l('The mobile theme is disabled').'</td>
-				<td>'.($current_ps_config['test_mobile'] ? $pic_ok : $pic_nok).'</td></tr>';
+                <tr><td>'.$this->l('The mobile theme is disabled').'</td>
+                <td>'.($current_ps_config['test_mobile'] ? $pic_ok : $pic_nok).'</td></tr>';
         }
 
         // for informaiton, display time limit
         $max_exec_time = ini_get('max_execution_time');
         $this->_html .= '
-			<tr><td>'.sprintf($this->l('PHP\'s max_execution_time setting has a high value or is disabled entirely (current value: %s)'), ($max_exec_time == 0 ? $this->l('unlimited') : sprintf($this->l('%s seconds'), $max_exec_time))).'</td>
-			<td>'.($max_exec_time == 0 ? $pic_ok : $pic_warn).'</td></tr>
-				</table>
-				<p>'.$this->l('Please also make sure you make a full manual backup of your files and database.').'</p>
-			</div>
-		</fieldset>';
+            <tr><td>'.sprintf($this->l('PHP\'s max_execution_time setting has a high value or is disabled entirely (current value: %s)'), ($max_exec_time == 0 ? $this->l('unlimited') : sprintf($this->l('%s seconds'), $max_exec_time))).'</td>
+            <td>'.($max_exec_time == 0 ? $pic_ok : $pic_warn).'</td></tr>
+                </table>
+                <p>'.$this->l('Please also make sure you make a full manual backup of your files and database.').'</p>
+            </div>
+        </fieldset>';
     }
 
     public function divChannelInfos($upgrade_info)
@@ -4420,39 +4519,39 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
         $content .= '<div class="all-infos">';
         if (isset($upgrade_info['version_name'])) {
             $content .= '<div style="clear:both;">
-			<label class="label-small">'.$this->l('Name:').'</label>
-				<div class="margin-form margin-form-small" style="padding-top:5px">
-				<span class="name">'.$upgrade_info['version_name'].'&nbsp;</span></div>
-				</div>';
+            <label class="label-small">'.$this->l('Name:').'</label>
+                <div class="margin-form margin-form-small" style="padding-top:5px">
+                <span class="name">'.$upgrade_info['version_name'].'&nbsp;</span></div>
+                </div>';
         }
         if (isset($upgrade_info['version_number'])) {
             $content .= '<div style="clear:both;">
-			<label class="label-small">'.$this->l('Version number:').'</label>
-				<div class="margin-form margin-form-small" style="padding-top:5px">
-				<span class="version">'.$upgrade_info['version_num'].'&nbsp;</span></div>
-				</div>';
+            <label class="label-small">'.$this->l('Version number:').'</label>
+                <div class="margin-form margin-form-small" style="padding-top:5px">
+                <span class="version">'.$upgrade_info['version_num'].'&nbsp;</span></div>
+                </div>';
         }
         if (!empty($upgrade_info['link'])) {
             $content .= '<div style="clear:both;">
-			<label class="label-small">'.$this->l('URL:').'</label>
-				<div class="margin-form margin-form-small" style="padding-top:5px">
-					<a class="url" href="'.$upgrade_info['link'].'">'.$upgrade_info['link'].'</a>
-				</div>
-				</div>';
+            <label class="label-small">'.$this->l('URL:').'</label>
+                <div class="margin-form margin-form-small" style="padding-top:5px">
+                    <a class="url" href="'.$upgrade_info['link'].'">'.$upgrade_info['link'].'</a>
+                </div>
+                </div>';
         }
         if (!empty($upgrade_info['md5'])) {
             $content .= '<div style="clear:both;">
-			<label class="label-small">'.$this->l('MD5 hash:').'</label>
-				<div class="margin-form margin-form-small" style="padding-top:5px">
-				<span class="md5">'.$upgrade_info['md5'].'&nbsp;</span></div></div>';
+            <label class="label-small">'.$this->l('MD5 hash:').'</label>
+                <div class="margin-form margin-form-small" style="padding-top:5px">
+                <span class="md5">'.$upgrade_info['md5'].'&nbsp;</span></div></div>';
         }
 
         if (!empty($upgrade_info['changelog'])) {
             $content .= '<div style="clear:both;">
-			<label class="label-small">'.$this->l('Changelog:').'</label>
-				<div class="margin-form margin-form-small" style="padding-top:5px">
-				<a class="changelog" href="'.$upgrade_info['changelog'].'">'.$this->l('see changelog').'</a>
-				</div></div>';
+            <label class="label-small">'.$this->l('Changelog:').'</label>
+                <div class="margin-form margin-form-small" style="padding-top:5px">
+                <a class="changelog" href="'.$upgrade_info['changelog'].'">'.$this->l('see changelog').'</a>
+                </div></div>';
         }
 
         $content .= '</div></div>';
@@ -4490,17 +4589,17 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 
         $content .= '<div id="for-useMinor" ><div class="margin-form margin-form-small">'.$this->l('This option regroup all stable versions.').'</div></div>';
         $content .= '<div id="for-usePrivate">
-			<p><label class="label-small">'.$this->l('Link:').'</label>
-			<input size="50" type="text" name="private_release_link" value="'.$this->getConfig('private_release_link').'"/> *
-			</p>
-			<p><label class="label-small">'.$this->l('Hash key:').'</label>
-			<input size="32" type="text" name="private_release_md5" value="'.$this->getConfig('private_release_md5').'"/> *
-			</p>
-			<p><label class="label-small">'.$this->l('Allow major upgrade:').'</label>
-			<input type="checkbox" name="private_allow_major" value="1"'.($this->getConfig('private_allow_major')?' checked="checked"':'').'/>
-			</p>
+            <p><label class="label-small">'.$this->l('Link:').'</label>
+            <input size="50" type="text" name="private_release_link" value="'.$this->getConfig('private_release_link').'"/> *
+            </p>
+            <p><label class="label-small">'.$this->l('Hash key:').'</label>
+            <input size="32" type="text" name="private_release_md5" value="'.$this->getConfig('private_release_md5').'"/> *
+            </p>
+            <p><label class="label-small">'.$this->l('Allow major upgrade:').'</label>
+            <input type="checkbox" name="private_allow_major" value="1"'.($this->getConfig('private_allow_major')?' checked="checked"':'').'/>
+            </p>
 
-			</div>';
+            </div>';
 
         $download = $this->downloadPath.DIRECTORY_SEPARATOR;
         $dir = glob($download.'*.zip');
@@ -4508,14 +4607,14 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
         if ($dir !== false && count($dir) > 0) {
             $archive_filename = $this->getConfig('archive.filename');
             $content .= '<label class="label-small">'.$this->l('Archive to use:').'</label><div><select name="archive_prestashop" >
-				<option value="">'.$this->l('choose an archive').'</option>';
+                <option value="">'.$this->l('choose an archive').'</option>';
             foreach ($dir as $file) {
                 $content .= '<option '.($archive_filename ? 'selected="selected"' : '').' value="'.str_replace($download, '', $file).'">'.str_replace($download, '', $file).'</option>';
             }
             $content .= '</select> '
                 .$this->l('to upgrade for version').' <input type="text" size="10" name="archive_num"
-				value="'.($this->getConfig('archive.version_num')?$this->getConfig('archive.version_num'):'').'" /> *
-			 	</div>';
+                value="'.($this->getConfig('archive.version_num')?$this->getConfig('archive.version_num'):'').'" /> *
+                </div>';
         } else {
             $content .= '<div class="warn">'.$this->l('No archive found in your admin/autoupgrade/download directory').'</div>';
         }
@@ -4525,34 +4624,34 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
                 '<b>/admin/autoupgrade/download/</b>').'</div></div>';
         // $directory_dirname = $this->getConfig('directory.dirname');
         $content .= '<div id="for-useDirectory">
-			<div> '.
+            <div> '.
             sprintf($this->l('The directory %1$s will be used to upgrade to version '),
                 '<b>/admin/autoupgrade/latest/prestashop/</b>').
             ' <input type="text" size="10" name="directory_num"
-			value="'.($this->getConfig('directory.version_num')?$this->getConfig('directory.version_num'):'').'" /> <small>(1.6.0.6 for instance)</small> *
-			<div class="margin-form">* '.$this->l('This option will skip both download and unzip steps.').'</div>
-			</div></div>';
+            value="'.($this->getConfig('directory.version_num')?$this->getConfig('directory.version_num'):'').'" /> <small>(1.6.0.6 for instance)</small> *
+            <div class="margin-form">* '.$this->l('This option will skip both download and unzip steps.').'</div>
+            </div></div>';
         // backupFiles
         // backupDb
         $content .= '<div style="clear:both;">
-				<div class="margin-form" style="">
-					<input type="button" class="button" value="'.$this->l('Save').'" name="submitConf-channel" />
-				</div>
-			</div>';
+                <div class="margin-form" style="">
+                    <input type="button" class="button" value="'.$this->l('Save').'" name="submitConf-channel" />
+                </div>
+            </div>';
         return $content;
     }
 
     public function getBlockConfigurationAdvanced()
     {
         $content = '
-		<div>
-			<input type="button" class="button" style="float:right" name="btn_adv" value="'.$this->l('More options (Expert mode)').'"/>
-			</div>
-			<div style="float: left; margin-top: 13px; display:none;" id="configResult">&nbsp;</div>
-			<div class="clear" id="advanced">
-				<h3>'.$this->l('Expert mode').'</h3>
-				<h4 style="margin-top: 0px;">'.$this->l('Please select your channel:').'</h4>
-				<p>'.$this->l('Channels are offering you different ways to perform an upgrade. You can either upload the new version manually or let the 1-Click Upgrade module download it for you.').'<br />'.
+        <div>
+            <input type="button" class="button" style="float:right" name="btn_adv" value="'.$this->l('More options (Expert mode)').'"/>
+            </div>
+            <div style="float: left; margin-top: 13px; display:none;" id="configResult">&nbsp;</div>
+            <div class="clear" id="advanced">
+                <h3>'.$this->l('Expert mode').'</h3>
+                <h4 style="margin-top: 0px;">'.$this->l('Please select your channel:').'</h4>
+                <p>'.$this->l('Channels are offering you different ways to perform an upgrade. You can either upload the new version manually or let the 1-Click Upgrade module download it for you.').'<br />'.
             $this->l('The Alpha, Beta and Private channels give you the ability to upgrade to a non-official or unstable release (for testing purposes only).').'<br />'.
             $this->l('By default, you should use the "Minor release" channel which is offering the latest stable version available.').'</p><br />';
 
@@ -4563,7 +4662,7 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
         }
 
         $content .= $this->getBlockSelectChannel($channel).'
-		</div>';
+        </div>';
 
         return $content;
     }
@@ -4593,40 +4692,40 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
     private function _displayComparisonBlock()
     {
         $this->_html .= '
-		<fieldset id="comparisonBlock">
-			<legend>'.$this->l('Version comparison').'</legend>
-			<b>'.$this->l('PrestaShop Original version').':</b><br/>
-			<span id="checkPrestaShopFilesVersion">
-				<img id="pleaseWait" src="'.__PS_BASE_URI__.'img/loader.gif"/>
-			</span><br/>
-			<b>'.$this->l('Differences between versions').':</b><br/>
-			<span id="checkPrestaShopModifiedFiles">
-				<img id="pleaseWait" src="'.__PS_BASE_URI__.'img/loader.gif"/>
-			</span>
-		</fieldset>';
+        <fieldset id="comparisonBlock">
+            <legend>'.$this->l('Version comparison').'</legend>
+            <b>'.$this->l('PrestaShop Original version').':</b><br/>
+            <span id="checkPrestaShopFilesVersion">
+                <img id="pleaseWait" src="'.__PS_BASE_URI__.'img/loader.gif"/>
+            </span><br/>
+            <b>'.$this->l('Differences between versions').':</b><br/>
+            <span id="checkPrestaShopModifiedFiles">
+                <img id="pleaseWait" src="'.__PS_BASE_URI__.'img/loader.gif"/>
+            </span>
+        </fieldset>';
     }
 
     private function _displayBlockActivityLog()
     {
         $this->_html .= '
-			<fieldset id="activityLogBlock" style="display:none">
-			<legend><img src="../img/admin/slip.gif" /> '.$this->l('Activity Log').'</legend>
-			<p id="upgradeResultCheck"></p>
-			<div id="upgradeResultToDoList" style="width:890px!important;"></div>
-			<div id="currentlyProcessing" style="display:none;float:left">
-			<h4 id="pleaseWait">'.$this->l('Currently processing').' <img class="pleaseWait" src="'.__PS_BASE_URI__.'img/loader.gif"/></h4>
-			<div id="infoStep" class="processing" >'.$this->l('Analyzing the situation...').'</div>
-			</div>';
+            <fieldset id="activityLogBlock" style="display:none">
+            <legend><img src="../img/admin/slip.gif" /> '.$this->l('Activity Log').'</legend>
+            <p id="upgradeResultCheck"></p>
+            <div id="upgradeResultToDoList" style="width:890px!important;"></div>
+            <div id="currentlyProcessing" style="display:none;float:left">
+            <h4 id="pleaseWait">'.$this->l('Currently processing').' <img class="pleaseWait" src="'.__PS_BASE_URI__.'img/loader.gif"/></h4>
+            <div id="infoStep" class="processing" >'.$this->l('Analyzing the situation...').'</div>
+            </div>';
         // this block will show errors and important warnings that happens during upgrade
         $this->_html .= '
-			<div id="errorDuringUpgrade" style="display:none;float:right">
-			<h4>'.$this->l('Errors').'</h4>
-			<div id="infoError" class="processing" ></div>';
+            <div id="errorDuringUpgrade" style="display:none;float:right">
+            <h4>'.$this->l('Errors').'</h4>
+            <div id="infoError" class="processing" ></div>';
         $this->_html .= '
-			</div>
-			<div class="clear">&nbsp;</div>
-			<div id="quickInfo" class="processing"></div>
-			</fieldset>';
+            </div>
+            <div class="clear">&nbsp;</div>
+            <div id="quickInfo" class="processing"></div>
+            </fieldset>';
     }
     /**
      * _displayBlockUpgradeButton
@@ -4644,9 +4743,9 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
         }
 
         $this->_html .= '
-		<fieldset id="upgradeButtonBlock">
-			<legend>'.$this->l('Start your Upgrade').'</legend>
-			<div class="blocOneClickUpgrade">';
+        <fieldset id="upgradeButtonBlock">
+            <legend>'.$this->l('Start your Upgrade').'</legend>
+            <div class="blocOneClickUpgrade">';
         if (version_compare(_PS_VERSION_, $this->upgrader->version_num, '==')) {
             $this->_html .= '<p>'.$this->l('Congratulations, you are already using the latest version available!').'</p>';
         } elseif (version_compare(_PS_VERSION_, $this->upgrader->version_num, '>')) {
@@ -4665,7 +4764,7 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
         }
 
         $this->_html .= '</tr></table>
-		</div>';
+        </div>';
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////
         // decide to display "Start Upgrade" or not
@@ -4688,7 +4787,7 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
                     $this->_html .= '<div class="clear">&nbsp;</div><b>'.$this->l('Smarty 3 Usage:').'</b> <img src="'.$srcShopStatus.'" />'.$label;
                     if (version_compare(_PS_VERSION_, '1.4.0.0', '>') && version_compare(_PS_VERSION_, '1.5.0.0', '<')) {
                         $this->_html .= '<div class="clear">&nbsp;</div>
-							<a href="index.php?tab=AdminPreferences&token='.$token_preferences.'#PS_FORCE_SMARTY_2" class="button">'
+                            <a href="index.php?tab=AdminPreferences&token='.$token_preferences.'#PS_FORCE_SMARTY_2" class="button">'
                             .$this->l('Edit your Smarty configuration').'</a>';
                     }
                     $this->_html .= '<div class="clear">&nbsp;</div>';
@@ -4710,7 +4809,7 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
                 // if skipActions property is used, we will handle that in the display :)
                 if (count(AdminSelfUpgrade::$skipAction) > 0) {
                     $this->_html .= '<div id="skipAction-list" class="warn" style="display:block;font-weight:normal">
-						<img src="../img/admin/warning.gif"/>'
+                        <img src="../img/admin/warning.gif"/>'
                         .$this->l('The following action are automatically replaced')
                         .'<ul>';
                     foreach (AdminSelfUpgrade::$skipAction as $k => $v) {
@@ -4718,7 +4817,7 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
                             .sprintf($this->l('%1$s will be replaced by %2$s'), '<b>'.$k.'</b>', '<b>'.$v.'</b>').'</li>';
                     }
                     $this->_html .= '</ul><p>'.$this->l('To change this behavior, you need to manually edit your php files').'</p>
-						</div>';
+                        </div>';
                 }
             } else {
                 $show_big_button_new_version = true;
@@ -4730,8 +4829,8 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
         if ($show_big_button_new_version) {
             $this->_html .=
                 '<div class="clear"></div>
-				<a class="button button-autoupgrade"
-					href="index.php?tab=AdminSelfUpgrade&amp;token='.$this->token.'&amp;refreshCurrentVersion=1">'.$this->l('Check if a new version is available').'</a>';
+                <a class="button button-autoupgrade"
+                    href="index.php?tab=AdminSelfUpgrade&amp;token='.$this->token.'&amp;refreshCurrentVersion=1">'.$this->l('Check if a new version is available').'</a>';
 
             $this->_html .= '<div><span style="font-style: italic; font-size: 11px;">'.sprintf($this->l('Last check: %s'), Configuration::get('PS_LAST_VERSION_CHECK') ? date('Y-m-d H:i:s', Configuration::get('PS_LAST_VERSION_CHECK')) : $this->l('never')).'</span></div>';
         } else {
@@ -4739,7 +4838,7 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
                 .$this->token
                 .'&refreshCurrentVersion=1">'.$this->l('refresh the page').'</a>';
             $this->_html .= '<div>
-				<span>'.sprintf($this->l('Last datetime check: %s '), date('Y-m-d H:i:s', Configuration::get('PS_LAST_VERSION_CHECK')))
+                <span>'.sprintf($this->l('Last datetime check: %s '), date('Y-m-d H:i:s', Configuration::get('PS_LAST_VERSION_CHECK')))
                 .'</span></div>';
         }
 
@@ -4758,8 +4857,8 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
     public function display()
     {
         $this->_html .= '<script type="text/javascript">var jQueryVersionPS = parseInt($().jquery.replace(/\./g, ""));</script>
-		<script type="text/javascript" src="'.__PS_BASE_URI__.'modules/autoupgrade/js/jquery-1.6.2.min.js"></script>
-		<script type="text/javascript">if (jQueryVersionPS >= 162) jq162 = jQuery.noConflict(true);</script>';
+        <script type="text/javascript" src="'.__PS_BASE_URI__.'modules/autoupgrade/js/jquery-1.6.2.min.js"></script>
+        <script type="text/javascript">if (jQueryVersionPS >= 162) jq162 = jQuery.noConflict(true);</script>';
 
         /* PrestaShop demo mode */
         if (defined('_PS_MODE_DEMO_') && _PS_MODE_DEMO_) {
@@ -4814,16 +4913,16 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
         $this->_html .= '<link type="text/css" rel="stylesheet" href="'.__PS_BASE_URI__.'modules/autoupgrade/css/styles.css" />';
 
         $this->_html .= '
-		<h1>'.$this->l('1-click Upgrade').'</h1>
-		<fieldset id="informationBlock" class="information" style="float: left; width: 30%;">
-			<legend>'.$this->l('Welcome!').'</legend>
-			<p>
-				'.$this->l('With the PrestaShop 1-Click Upgrade module, upgrading your store to the latest version available has never been easier!').'<br /><br />
-				<span style="color:#CC0000;font-weight:bold">'.$this->l('Please always perform a full manual backup of your files and database before starting any upgrade.').'</span><br />
-				'.$this->l('Double-check the integrity of your backup and that you can easily manually roll-back if necessary.').'<br />
-				'.$this->l('If you do not know how to proceed, ask your hosting provider.').'
-			</p>
-		</fieldset>';
+        <h1>'.$this->l('1-click Upgrade').'</h1>
+        <fieldset id="informationBlock" class="information" style="float: left; width: 30%;">
+            <legend>'.$this->l('Welcome!').'</legend>
+            <p>
+                '.$this->l('With the PrestaShop 1-Click Upgrade module, upgrading your store to the latest version available has never been easier!').'<br /><br />
+                <span style="color:#CC0000;font-weight:bold">'.$this->l('Please always perform a full manual backup of your files and database before starting any upgrade.').'</span><br />
+                '.$this->l('Double-check the integrity of your backup and that you can easily manually roll-back if necessary.').'<br />
+                '.$this->l('If you do not know how to proceed, ask your hosting provider.').'
+            </p>
+        </fieldset>';
 
         /* Make sure the user has configured the upgrade options, or set default values */
         $configuration_keys = array('PS_AUTOUP_UPDATE_DEFAULT_THEME' => 1, 'PS_AUTOUP_CHANGE_DEFAULT_THEME' => 0, 'PS_AUTOUP_KEEP_MAILS' => 1, 'PS_AUTOUP_CUSTOM_MOD_DESACT' => 1,
@@ -4841,64 +4940,64 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 
         if (!$this->configOk() ||
             (version_compare($this->upgrader->version_num, '1.7.1.0', '<') &&
-			version_compare($this->upgrader->version_num, '1.7.0.0', '>='))
+            version_compare($this->upgrader->version_num, '1.7.0.0', '>='))
         ) {
-			$this->_html .= '<p style="text-align:center;font-weight: bold; font-size: 1.2em;">'.$this->l('You cannot upgrade to this version.').'</p>';
+            $this->_html .= '<p style="text-align:center;font-weight: bold; font-size: 1.2em;">'.$this->l('You cannot upgrade to this version.').'</p>';
             if (!$this->configOk()) {
                 $this->_html .= '<p style="text-align:center;font-weight: bold; font-size: 1.2em;">'.$this->l('Please check the pre-upgrade checklist.').'</p>';
             }
-		} else {
+        } else {
 
-			if (version_compare($this->upgrader->version_num, '1.7.1.0', '>=')) {
+            if (version_compare($this->upgrader->version_num, '1.7.1.0', '>=')) {
                 $this->_html .= '<p class="clear" style="text-align: center;"><a href="" id="showStep17-1" class="button-autoupgrade17">'.$this->l('Next').'</a></p>';
-				$this->_html .= '<div id="hideStep17" style="display:none;">';
+                $this->_html .= '<div id="hideStep17" style="display:none;">';
 
                 $this->_upgradingTo17Step1();
                 $this->_upgradingTo17Step2();
 
                 $checks = new CheckTests17();
                 $checkRequiredTests = $checks->checkRequiredTests();
-			}
+            }
 
             // if < 1.7 or 1.7 but not requirements ok show content
             if (version_compare($this->upgrader->version_num, '1.7.0.0', '<') || !empty($checkRequiredTests['success'])) {
                 $this->_html .= '<div id="hideStep17basic">';
 
                 $this->_displayComparisonBlock();
-    	        $this->_displayBlockActivityLog();
+                $this->_displayBlockActivityLog();
 
-    	        $this->_html .= '<br/>';
-    	        $this->_html .= '<form action="'.$this->currentIndex.'&amp;customSubmitAutoUpgrade=1&amp;token='.$this->token.'" method="post" enctype="multipart/form-data">';
-    	        $this->_displayForm('upgradeOptions', $this->_fieldsUpgradeOptions, '<a href="#" name="upgrade-options" id="upgrade-options">'.$this->l('Upgrade Options').'</a>', '', 'prefs');
-    	        $this->_displayForm('backupOptions', $this->_fieldsBackupOptions, '<a href="#" name="backup-options" id="backup-options">'.$this->l('Backup Options').'</a>', '', 'database_gear');
-    	        $this->_html .= '</form>';
+                $this->_html .= '<br/>';
+                $this->_html .= '<form action="'.$this->currentIndex.'&amp;customSubmitAutoUpgrade=1&amp;token='.$this->token.'" method="post" enctype="multipart/form-data">';
+                $this->_displayForm('upgradeOptions', $this->_fieldsUpgradeOptions, '<a href="#" name="upgrade-options" id="upgrade-options">'.$this->l('Upgrade Options').'</a>', '', 'prefs');
+                $this->_displayForm('backupOptions', $this->_fieldsBackupOptions, '<a href="#" name="backup-options" id="backup-options">'.$this->l('Backup Options').'</a>', '', 'database_gear');
+                $this->_html .= '</form>';
 
-    	        if ($this->configOk()) {
-    	            if (version_compare(_PS_VERSION_, $this->upgrader->version_num, '<') &&
+                if ($this->configOk()) {
+                    if (version_compare(_PS_VERSION_, $this->upgrader->version_num, '<') &&
                         version_compare($this->upgrader->version_num, '1.7.0.0', '<')) {
-    	                $this->_html .= '<p class="clear" style="text-align: center;"><a href="" id="upgradeNow" class="button-autoupgrade upgradestep">' . sprintf($this->l('Upgrade to PrestaShop %s'), $this->upgrader->version_num) . '</a></p>';
-    	            }
-    	        }
+                        $this->_html .= '<p class="clear" style="text-align: center;"><a href="" id="upgradeNow" class="button-autoupgrade upgradestep">' . sprintf($this->l('Upgrade to PrestaShop %s'), $this->upgrader->version_num) . '</a></p>';
+                    }
+                }
 
-    	        $this->_displayRollbackForm();
+                $this->_displayRollbackForm();
 
                 $this->_html .= '</div>';
 
-    			if (version_compare($this->upgrader->version_num, '1.7.1.0', '>=')) {
+                if (version_compare($this->upgrader->version_num, '1.7.1.0', '>=')) {
                     $this->_buttonUpgradingTo17Step2();
 
-    				$this->_html .= '</div>';
-    			}
+                    $this->_html .= '</div>';
+                }
             }
-		}
+        }
 
         $this->_html .= '<script type="text/javascript" src="'.__PS_BASE_URI__.'modules/autoupgrade/js/jquery.xml2json.js"></script>';
-		if (version_compare($this->upgrader->version_num, '1.7.1.0', '>=')) {
+        if (version_compare($this->upgrader->version_num, '1.7.1.0', '>=')) {
             $this->_html .= '<script type="text/javascript" src="'.__PS_BASE_URI__.'modules/autoupgrade/js/upgrade-1.7.js"></script>';
         }
-		$this->_html .= '<script type="text/javascript">'.$this->_getJsInit().'</script>';
+        $this->_html .= '<script type="text/javascript">'.$this->_getJsInit().'</script>';
 
-		echo $this->_html;
+        echo $this->_html;
     }
 
     private function _upgradingTo17Step1()
@@ -5008,46 +5107,46 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
 
         $js .= '
 function ucFirst(str) {
-	if (str.length > 0) {
-		return str[0].toUpperCase() + str.substring(1);
-	}
-	else {
-		return str;
-	}
+    if (str.length > 0) {
+        return str[0].toUpperCase() + str.substring(1);
+    }
+    else {
+        return str;
+    }
 }
 
 function cleanInfo(){
-	$("#infoStep").html("reset<br/>");
+    $("#infoStep").html("reset<br/>");
 }
 
 function updateInfoStep(msg){
-	if (msg)
-	{
-		$("#infoStep").append(msg+"<div class=\"clear\"></div>");
-		$("#infoStep").prop({ scrollTop: $("#infoStep").prop("scrollHeight")},1);
-	}
+    if (msg)
+    {
+        $("#infoStep").append(msg+"<div class=\"clear\"></div>");
+        $("#infoStep").prop({ scrollTop: $("#infoStep").prop("scrollHeight")},1);
+    }
 }
 
 function addError(arrError){
-	if (typeof(arrError) != "undefined" && arrError.length)
-	{
-		$("#errorDuringUpgrade").show();
-		for(i=0;i<arrError.length;i++)
-			$("#infoError").append(arrError[i]+"<div class=\"clear\"></div>");
-		// Note : jquery 1.6 make uses of prop() instead of attr()
-		$("#infoError").prop({ scrollTop: $("#infoError").prop("scrollHeight")},1);
-	}
+    if (typeof(arrError) != "undefined" && arrError.length)
+    {
+        $("#errorDuringUpgrade").show();
+        for(i=0;i<arrError.length;i++)
+            $("#infoError").append(arrError[i]+"<div class=\"clear\"></div>");
+        // Note : jquery 1.6 make uses of prop() instead of attr()
+        $("#infoError").prop({ scrollTop: $("#infoError").prop("scrollHeight")},1);
+    }
 }
 
 function addQuickInfo(arrQuickInfo){
-	if (arrQuickInfo)
-	{
-		$("#quickInfo").show();
-		for(i=0;i<arrQuickInfo.length;i++)
-			$("#quickInfo").append(arrQuickInfo[i]+"<div class=\"clear\"></div>");
-		// Note : jquery 1.6 make uses of prop() instead of attr()
-		$("#quickInfo").prop({ scrollTop: $("#quickInfo").prop("scrollHeight")},1);
-	}
+    if (arrQuickInfo)
+    {
+        $("#quickInfo").show();
+        for(i=0;i<arrQuickInfo.length;i++)
+            $("#quickInfo").append(arrQuickInfo[i]+"<div class=\"clear\"></div>");
+        // Note : jquery 1.6 make uses of prop() instead of attr()
+        $("#quickInfo").prop({ scrollTop: $("#quickInfo").prop("scrollHeight")},1);
+    }
 }'."\n";
 
         if ($this->manualMode) {
@@ -5077,72 +5176,72 @@ firstTimeParams.firstTime = "1";
 // js initialization : prepare upgrade and rollback buttons
 $(document).ready(function(){
 
-	$("select[name=channel]").change(function(e){
-		$("select[name=channel]").find("option").each(function()
-		{
-			if ($(this).is(":selected"))
-				$("#for-"+$(this).attr("id")).show();
-			else
-				$("#for-"+$(this).attr("id")).hide();
-	});
+    $("select[name=channel]").change(function(e){
+        $("select[name=channel]").find("option").each(function()
+        {
+            if ($(this).is(":selected"))
+                $("#for-"+$(this).attr("id")).show();
+            else
+                $("#for-"+$(this).attr("id")).hide();
+    });
 
-		refreshChannelInfos();
-	});
+        refreshChannelInfos();
+    });
 
-	function refreshChannelInfos()
-	{
-		val = $("select[name=channel]").find("option:selected").val();
-		$.ajax({
-			type:"POST",
-			url : "'. __PS_BASE_URI__ . $admin_dir.'/autoupgrade/ajax-upgradetab.php",
-			async: true,
-			data : {
-				dir:"'.$admin_dir.'",
-				token : "'.$this->token.'",
-				autoupgradeDir : "'.$this->install_autoupgrade_dir.'",
-				tab : "AdminSelfUpgrade",
-				action : "getChannelInfo",
-				ajaxMode : "1",
-				params : { channel : val}
-			},
-			success : function(res,textStatus,jqXHR)
-			{
-				if (isJsonString(res))
-					res = $.parseJSON(res);
-				else
-					res = {nextParams:{status:"error"}};
+    function refreshChannelInfos()
+    {
+        val = $("select[name=channel]").find("option:selected").val();
+        $.ajax({
+            type:"POST",
+            url : "'. __PS_BASE_URI__ . $admin_dir.'/autoupgrade/ajax-upgradetab.php",
+            async: true,
+            data : {
+                dir:"'.$admin_dir.'",
+                token : "'.$this->token.'",
+                autoupgradeDir : "'.$this->install_autoupgrade_dir.'",
+                tab : "AdminSelfUpgrade",
+                action : "getChannelInfo",
+                ajaxMode : "1",
+                params : { channel : val}
+            },
+            success : function(res,textStatus,jqXHR)
+            {
+                if (isJsonString(res))
+                    res = $.parseJSON(res);
+                else
+                    res = {nextParams:{status:"error"}};
 
-				answer = res.nextParams.result;
-				if (typeof(answer) != "undefined")
-				$("#channel-infos").replaceWith(answer.div);
-				if (typeof(answer) != "undefined" && answer.available)
-				{
-					$("#channel-infos .all-infos").show();
-				}
-				else if (typeof(answer) != "undefined")
-				{
-					$("#channel-infos").html(answer.div);
-					$("#channel-infos .all-infos").hide();
-				}
-			},
-			error: function(res, textStatus, jqXHR)
-			{
-				if (textStatus == "timeout" && action == "download")
-				{
-					updateInfoStep("'.$this->l('Your server cannot download the file. Please upload it first by ftp in your admin/autoupgrade directory', 'AdminSelfUpgrade', true).'");
-				}
-				else
-				{
-					// technical error : no translation needed
-					$("#checkPrestaShopFilesVersion").html("<img src=\"../img/admin/warning.gif\" /> Error Unable to check md5 files");
-				}
-			}
-		})
-	}
+                answer = res.nextParams.result;
+                if (typeof(answer) != "undefined")
+                $("#channel-infos").replaceWith(answer.div);
+                if (typeof(answer) != "undefined" && answer.available)
+                {
+                    $("#channel-infos .all-infos").show();
+                }
+                else if (typeof(answer) != "undefined")
+                {
+                    $("#channel-infos").html(answer.div);
+                    $("#channel-infos .all-infos").hide();
+                }
+            },
+            error: function(res, textStatus, jqXHR)
+            {
+                if (textStatus == "timeout" && action == "download")
+                {
+                    updateInfoStep("'.$this->l('Your server cannot download the file. Please upload it first by ftp in your admin/autoupgrade directory', 'AdminSelfUpgrade', true).'");
+                }
+                else
+                {
+                    // technical error : no translation needed
+                    $("#checkPrestaShopFilesVersion").html("<img src=\"../img/admin/warning.gif\" /> Error Unable to check md5 files");
+                }
+            }
+        })
+    }
 
-	$(document).ready(function(){
-		$("div[id|=for]").hide();
-		$("select[name=channel]").change();
+    $(document).ready(function(){
+        $("div[id|=for]").hide();
+        $("select[name=channel]").change();
 
         $("#upgradeNow17").click(function(e) {
             if (!isAllConditionOk()) {
@@ -5154,85 +5253,85 @@ $(document).ready(function(){
             }
         });
 
-	});
+    });
 
-	// the following prevents to leave the page at the innappropriate time
-	$.xhrPool = [];
-	$.xhrPool.abortAll = function()
-	{
-		$.each(this, function(jqXHR)
-		{
-			if (jqXHR && (jqXHR.readystate != 4))
-			{
-				jqXHR.abort();
-			}
-		});
-	}
-	$(".upgradestep").click(function(e)
-	{
-		e.preventDefault();
-		// $.scrollTo("#options")
-	});
+    // the following prevents to leave the page at the innappropriate time
+    $.xhrPool = [];
+    $.xhrPool.abortAll = function()
+    {
+        $.each(this, function(jqXHR)
+        {
+            if (jqXHR && (jqXHR.readystate != 4))
+            {
+                jqXHR.abort();
+            }
+        });
+    }
+    $(".upgradestep").click(function(e)
+    {
+        e.preventDefault();
+        // $.scrollTo("#options")
+    });
 
-	// set timeout to 120 minutes (before aborting an ajax request)
-	$.ajaxSetup({timeout:7200000});
+    // set timeout to 120 minutes (before aborting an ajax request)
+    $.ajaxSetup({timeout:7200000});
 
-	// prepare available button here, without params ?
+    // prepare available button here, without params ?
     prepareNextButton("#upgradeNow",firstTimeParams);
 
-	/**
-	 * reset rollbackParams js array (used to init rollback button)
-	 */
-	$("select[name=restoreName]").change(function(){
-		$(this).next().remove();
-		// show delete button if the value is not 0
-		if($(this).val() != 0)
-		{
-			$(this).after("<a class=\"button confirmBeforeDelete\" href=\"index.php?tab=AdminSelfUpgrade&token='
+    /**
+     * reset rollbackParams js array (used to init rollback button)
+     */
+    $("select[name=restoreName]").change(function(){
+        $(this).next().remove();
+        // show delete button if the value is not 0
+        if($(this).val() != 0)
+        {
+            $(this).after("<a class=\"button confirmBeforeDelete\" href=\"index.php?tab=AdminSelfUpgrade&token='
             .$this->token
             .'&amp;deletebackup&amp;name="+$(this).val()+"\">'
             .'<img src=\"../img/admin/disabled.gif\" />'.$this->l('Delete').'</a>");
-			$(this).next().click(function(e){
-				if (!confirm("'.$this->l('Are you sure you want to delete this backup?', 'AdminSelfUpgrade', true, false).'"))
-					e.preventDefault();
-			});
-		}
+            $(this).next().click(function(e){
+                if (!confirm("'.$this->l('Are you sure you want to delete this backup?', 'AdminSelfUpgrade', true, false).'"))
+                    e.preventDefault();
+            });
+        }
 
-		if ($("select[name=restoreName]").val() != 0)
-		{
-			$("#rollback").removeAttr("disabled");
-			rollbackParams = jQuery.extend(true, {}, firstTimeParams);
+        if ($("select[name=restoreName]").val() != 0)
+        {
+            $("#rollback").removeAttr("disabled");
+            rollbackParams = jQuery.extend(true, {}, firstTimeParams);
 
-			delete rollbackParams.backupName;
-			delete rollbackParams.backupFilesFilename;
-			delete rollbackParams.backupDbFilename;
-			delete rollbackParams.restoreFilesFilename;
-			delete rollbackParams.restoreDbFilenames;
+            delete rollbackParams.backupName;
+            delete rollbackParams.backupFilesFilename;
+            delete rollbackParams.backupDbFilename;
+            delete rollbackParams.restoreFilesFilename;
+            delete rollbackParams.restoreDbFilenames;
 
-			// init new name to backup
-			rollbackParams.restoreName = $("select[name=restoreName]").val();
-			prepareNextButton("#rollback", rollbackParams);
-			// Note : theses buttons have been removed.
-			// they will be available in a future release (when DEV_MODE and MANUAL_MODE enabled)
-			// prepareNextButton("#restoreDb", rollbackParams);
-			// prepareNextButton("#restoreFiles", rollbackParams);
-		}
-		else
-			$("#rollback").attr("disabled", "disabled");
-	});
+            // init new name to backup
+            rollbackParams.restoreName = $("select[name=restoreName]").val();
+            prepareNextButton("#rollback", rollbackParams);
+            // Note : theses buttons have been removed.
+            // they will be available in a future release (when DEV_MODE and MANUAL_MODE enabled)
+            // prepareNextButton("#restoreDb", rollbackParams);
+            // prepareNextButton("#restoreFiles", rollbackParams);
+        }
+        else
+            $("#rollback").attr("disabled", "disabled");
+    });
 
 });
 
 function showConfigResult(msg, type){
-	if (type == null)
-		type = "conf";
-	$("#configResult").html("<div class=\""+type+"\">"+msg+"</div>").show();
-	if (type == "conf")
-	{
-		$("#configResult").delay(3000).fadeOut("slow", function() {
-			location.reload();
-		});
-	}
+    if (type == null)
+        type = "conf";
+    $("#configResult").html("<div class=\""+type+"\">"+msg+"</div>").show();
+    if (type == "conf")
+    {
+        $("#configResult").delay(3000).fadeOut("slow", function() {
+            location.reload();
+        });
+    }
 }
 
 // reuse previousParams, and handle xml returns to calculate next step
@@ -5242,57 +5341,57 @@ function showConfigResult(msg, type){
 
 function afterUpdateConfig(res)
 {
-	params = res.nextParams
-	config = params.config
-	oldChannel = $("select[name=channel] option.current");
-	if (config.channel != oldChannel.val())
-	{
-		newChannel = $("select[name=channel] option[value="+config.channel+"]");
-		oldChannel.removeClass("current");
-		oldChannel.html(oldChannel.html().substr(2));
-		newChannel.addClass("current");
-		newChannel.html("* "+newChannel.html());
-	}
-	if (res.error == 1)
-		showConfigResult(res.next_desc, "error");
-	else
-		showConfigResult(res.next_desc);
-	$("#upgradeNow").unbind();
-	$("#upgradeNow").replaceWith("<a class=\"button-autoupgrade\" href=\"'.$this->currentIndex.'&token='.$this->token.'\" >'.$this->l('Click to refresh the page and use the new configuration', 'AdminSelfUpgrade', true).'</a>");
+    params = res.nextParams
+    config = params.config
+    oldChannel = $("select[name=channel] option.current");
+    if (config.channel != oldChannel.val())
+    {
+        newChannel = $("select[name=channel] option[value="+config.channel+"]");
+        oldChannel.removeClass("current");
+        oldChannel.html(oldChannel.html().substr(2));
+        newChannel.addClass("current");
+        newChannel.html("* "+newChannel.html());
+    }
+    if (res.error == 1)
+        showConfigResult(res.next_desc, "error");
+    else
+        showConfigResult(res.next_desc);
+    $("#upgradeNow").unbind();
+    $("#upgradeNow").replaceWith("<a class=\"button-autoupgrade\" href=\"'.$this->currentIndex.'&token='.$this->token.'\" >'.$this->l('Click to refresh the page and use the new configuration', 'AdminSelfUpgrade', true).'</a>");
 }
 function startProcess(type){
 
-	// hide useless divs, show activity log
-	$("#informationBlock,#comparisonBlock,#currentConfigurationBlock,#backupOptionsBlock,#upgradeOptionsBlock,#upgradeButtonBlock").slideUp("fast");
-	$(".autoupgradeSteps a").addClass("button");
+    // hide useless divs, show activity log
+    $("#informationBlock,#comparisonBlock,#currentConfigurationBlock,#backupOptionsBlock,#upgradeOptionsBlock,#upgradeButtonBlock").slideUp("fast");
+    $(".autoupgradeSteps a").addClass("button");
     $("#hideStep17, #hideStep17basic, #activityLogBlock").show();
     $("#hideStep17-2").hide();
 
-	$(window).bind("beforeunload", function(e)
-	{
-		if (confirm("'.$this->l('An update is currently in progress... Click "OK" to abort.', 'AdminTab', true, false).'"))
-		{
-			$.xhrPool.abortAll();
-			$(window).unbind("beforeunload");
-			return true;
-		}
-		else
-		{
-			if (type == "upgrade")
-			{
-				e.returnValue = false;
-				e.cancelBubble = true;
-				if (e.stopPropagation)
-				{
-					e.stopPropagation();
-				}
-				if (e.preventDefault)
-				{
-					e.preventDefault();
-				}
-			}
-		}
-	});
+    $(window).bind("beforeunload", function(e)
+    {
+        if (confirm("'.$this->l('An update is currently in progress... Click "OK" to abort.', 'AdminTab', true, false).'"))
+        {
+            $.xhrPool.abortAll();
+            $(window).unbind("beforeunload");
+            return true;
+        }
+        else
+        {
+            if (type == "upgrade")
+            {
+                e.returnValue = false;
+                e.cancelBubble = true;
+                if (e.stopPropagation)
+                {
+                    e.stopPropagation();
+                }
+                if (e.preventDefault)
+                {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
 }
 
 function isAllConditionOk() {
@@ -5309,7 +5408,7 @@ function isAllConditionOk() {
 
 function afterUpgradeNow(res)
 {
-	startProcess("upgrade");
+    startProcess("upgrade");
     $("#upgradeNow").unbind();
     $("#upgradeNow").replaceWith("<span id=\"upgradeNow\" class=\"button-autoupgrade\">'.$this->l('Upgrading PrestaShop', 'AdminSelfUpgrade', true).' ...</span>");
 }
@@ -5323,95 +5422,95 @@ function afterUpgradeNow17(res)
 
 function afterUpgradeComplete(res)
 {
-	params = res.nextParams
-	$("#pleaseWait").hide();
-	if (params.warning_exists == "false")
-	{
-		$("#upgradeResultCheck")
-			.addClass("conf")
-			.removeClass("fail")
-			.html("<p>'.$this->l('Upgrade complete').'</p>")
-			.show();
-		$("#infoStep").html("<h3>'.$this->l('Upgrade Complete!', 'AdminSelfUpgrade', true).'</h3>");
-	}
-	else
-	{
-		params = res.nextParams
-		$("#pleaseWait").hide();
-		$("#upgradeResultCheck")
-			.addClass("fail")
-			.removeClass("ok")
-			.html("<p>'.$this->l('Upgrade complete, but warning notifications has been found.').'</p>")
-			.show("slow");
-		$("#infoStep").html("<h3>'.$this->l('Upgrade complete, but warning notifications has been found.', 'AdminSelfUpgrade', true).'</h3>");
-	}
+    params = res.nextParams
+    $("#pleaseWait").hide();
+    if (params.warning_exists == "false")
+    {
+        $("#upgradeResultCheck")
+            .addClass("conf")
+            .removeClass("fail")
+            .html("<p>'.$this->l('Upgrade complete').'</p>")
+            .show();
+        $("#infoStep").html("<h3>'.$this->l('Upgrade Complete!', 'AdminSelfUpgrade', true).'</h3>");
+    }
+    else
+    {
+        params = res.nextParams
+        $("#pleaseWait").hide();
+        $("#upgradeResultCheck")
+            .addClass("fail")
+            .removeClass("ok")
+            .html("<p>'.$this->l('Upgrade complete, but warning notifications has been found.').'</p>")
+            .show("slow");
+        $("#infoStep").html("<h3>'.$this->l('Upgrade complete, but warning notifications has been found.', 'AdminSelfUpgrade', true).'</h3>");
+    }
 
-	todo_list = [
-		"'.$this->l('Cookies have changed, you will need to log in again once you refreshed the page', 'AdminSelfUpgrade', true).'",
-		"'.$this->l('Javascript and CSS files have changed, please clear your browser cache with CTRL-F5', 'AdminSelfUpgrade', true).'",
-		"'.$this->l('Please check that your front-office theme is functional (try to create an account, place an order...)', 'AdminSelfUpgrade', true).'",
-		"'.$this->l('Product images do not appear in the front-office? Try regenerating the thumbnails in Preferences > Images', 'AdminSelfUpgrade', true).'",
-		"'.$this->l('Do not forget to reactivate your shop once you have checked everything!', 'AdminSelfUpgrade', true).'",
-	];
+    todo_list = [
+        "'.$this->l('Cookies have changed, you will need to log in again once you refreshed the page', 'AdminSelfUpgrade', true).'",
+        "'.$this->l('Javascript and CSS files have changed, please clear your browser cache with CTRL-F5', 'AdminSelfUpgrade', true).'",
+        "'.$this->l('Please check that your front-office theme is functional (try to create an account, place an order...)', 'AdminSelfUpgrade', true).'",
+        "'.$this->l('Product images do not appear in the front-office? Try regenerating the thumbnails in Preferences > Images', 'AdminSelfUpgrade', true).'",
+        "'.$this->l('Do not forget to reactivate your shop once you have checked everything!', 'AdminSelfUpgrade', true).'",
+    ];
 
-	todo_ul = "<ul>";
-	$("#upgradeResultToDoList")
-		.addClass("hint clear")
-		.html("<h3>'.$this->l('ToDo list:').'</h3>")
-	for(var i in todo_list)
-	{
-		todo_ul += "<li>"+todo_list[i]+"</li>";
-	}
-	todo_ul += "</ul>";
-	$("#upgradeResultToDoList").append(todo_ul)
-	$("#upgradeResultToDoList").show();
+    todo_ul = "<ul>";
+    $("#upgradeResultToDoList")
+        .addClass("hint clear")
+        .html("<h3>'.$this->l('ToDo list:').'</h3>")
+    for(var i in todo_list)
+    {
+        todo_ul += "<li>"+todo_list[i]+"</li>";
+    }
+    todo_ul += "</ul>";
+    $("#upgradeResultToDoList").append(todo_ul)
+    $("#upgradeResultToDoList").show();
 
-	$(window).unbind("beforeunload");
+    $(window).unbind("beforeunload");
 }
 
 function afterError(res)
 {
-	params = res.nextParams;
-	if (params.next == "")
-		$(window).unbind("beforeunload");
-	$("#pleaseWait").hide();
+    params = res.nextParams;
+    if (params.next == "")
+        $(window).unbind("beforeunload");
+    $("#pleaseWait").hide();
 
-	addQuickInfo(["unbind :) "]);
+    addQuickInfo(["unbind :) "]);
 }
 
 function afterRollback(res)
 {
-	startProcess("rollback");
+    startProcess("rollback");
 }
 
 function afterRollbackComplete(res)
 {
-	params = res.nextParams
-	$("#pleaseWait").hide();
-	$("#upgradeResultCheck")
-		.addClass("ok")
-		.removeClass("fail")
-		.html("<p>'.$this->l('Restoration complete.').'</p>")
-		.show("slow");
-	updateInfoStep("<h3>'.$this->l('Restoration complete.').'</h3>");
-	$(window).unbind();
+    params = res.nextParams
+    $("#pleaseWait").hide();
+    $("#upgradeResultCheck")
+        .addClass("ok")
+        .removeClass("fail")
+        .html("<p>'.$this->l('Restoration complete.').'</p>")
+        .show("slow");
+    updateInfoStep("<h3>'.$this->l('Restoration complete.').'</h3>");
+    $(window).unbind();
 }
 
 
 function afterRestoreDb(params)
 {
-	// $("#restoreBackupContainer").hide();
+    // $("#restoreBackupContainer").hide();
 }
 
 function afterRestoreFiles(params)
 {
-	// $("#restoreFilesContainer").hide();
+    // $("#restoreFilesContainer").hide();
 }
 
 function afterBackupFiles(res)
 {
-	params = res.nextParams;
-	// if (params.stepDone)
+    params = res.nextParams;
+    // if (params.stepDone)
 }
 
 /**
@@ -5420,109 +5519,110 @@ function afterBackupFiles(res)
  */
 function afterBackupDb(res)
 {
-	params = res.nextParams;
-	if (res.stepDone && typeof(PS_AUTOUP_BACKUP) != "undefined" && PS_AUTOUP_BACKUP == true)
-	{
-		$("#restoreBackupContainer").show();
-		$("select[name=restoreName]").children("options").removeAttr("selected");
-		$("select[name=restoreName]")
-			.append("<option selected=\"selected\" value=\""+params.backupName+"\">"+params.backupName+"</option>")
-		$("select[name=restoreName]").change();
-	}
+    params = res.nextParams;
+    if (res.stepDone && typeof(PS_AUTOUP_BACKUP) != "undefined" && PS_AUTOUP_BACKUP == true)
+    {
+        $("#restoreBackupContainer").show();
+        $("select[name=restoreName]").children("options").removeAttr("selected");
+        $("select[name=restoreName]")
+            .append("<option selected=\"selected\" value=\""+params.backupName+"\">"+params.backupName+"</option>")
+        $("select[name=restoreName]").change();
+    }
 }
 
 
 function call_function(func){
-	this[func].apply(this, Array.prototype.slice.call(arguments, 1));
+    this[func].apply(this, Array.prototype.slice.call(arguments, 1));
 }
 
 function doAjaxRequest(action, nextParams){
-	if (typeof(_PS_MODE_DEV_) != "undefined" && _PS_MODE_DEV_ == true)
-		addQuickInfo(["[DEV] ajax request : " + action]);
-	$("#pleaseWait").show();
-	req = $.ajax({
-		type:"POST",
-		url : "'. __PS_BASE_URI__.$admin_dir.'/autoupgrade/ajax-upgradetab.php'.'",
-		async: true,
-		data : {
-			dir:"'.$admin_dir.'",
-			ajaxMode : "1",
-			token : "'.$this->token.'",
-			autoupgradeDir : "'.$this->install_autoupgrade_dir.'",
-			tab : "AdminSelfUpgrade",
-			action : action,
-			params : nextParams
-		},
-		beforeSend: function(jqXHR)
-		{
-			$.xhrPool.push(jqXHR);
-		},
-		complete: function(jqXHR)
-		{
-			// just remove the item to the "abort list"
-			$.xhrPool.pop();
-			// $(window).unbind("beforeunload");
-		},
-		success : function(res, textStatus, jqXHR)
-		{
-			$("#pleaseWait").hide();
-			try{
-				res = $.parseJSON(res);
-			}
-			catch(e){
-				res = {status : "error", nextParams:nextParams};
-				alert("'.$this->l('Javascript error (parseJSON) detected for action ', __CLASS__, true, false).'\""+action+"\".'
+    if (typeof(_PS_MODE_DEV_) != "undefined" && _PS_MODE_DEV_ == true)
+        addQuickInfo(["[DEV] ajax request : " + action]);
+    $("#pleaseWait").show();
+    req = $.ajax({
+        type:"POST",
+        url : "'. __PS_BASE_URI__.$admin_dir.'/autoupgrade/ajax-upgradetab.php'.'",
+        async: true,
+        data : {
+            dir:"'.$admin_dir.'",
+            ajaxMode : "1",
+            token : "'.$this->token.'",
+            autoupgradeDir : "'.$this->install_autoupgrade_dir.'",
+            tab : "AdminSelfUpgrade",
+            action : action,
+            params : nextParams
+        },
+        beforeSend: function(jqXHR)
+        {
+            $.xhrPool.push(jqXHR);
+        },
+        complete: function(jqXHR)
+        {
+            // just remove the item to the "abort list"
+            $.xhrPool.pop();
+            // $(window).unbind("beforeunload");
+        },
+        success : function(res, textStatus, jqXHR)
+        {
+            $("#pleaseWait").hide();
+            try{
+                res = $.parseJSON(res);
+            }
+            catch(e){
+                res = {status : "error", nextParams:nextParams};
+                alert("'.$this->l('Javascript error (parseJSON) detected for action ', __CLASS__, true, false).'\""+action+"\".'
             .$this->l('Starting restoration...', __CLASS__, true, false).'");
-			}
-			addQuickInfo(res.nextQuickInfo);
-			addError(res.nextErrors);
-			updateInfoStep(res.next_desc);
-			currentParams = res.nextParams;
-			if (res.status == "ok")
-			{
-				$("#"+action).addClass("done");
-				if (res.stepDone)
-					$("#"+action).addClass("stepok");
-				// if a function "after[action name]" exists, it should be called now.
-				// This is used for enabling restore buttons for example
-				funcName = "after" + ucFirst(action);
-				if (typeof funcName == "string" && eval("typeof " + funcName) == "function")
-					call_function(funcName, res);
+            }
 
-				handleSuccess(res, action);
-			}
-			else
-			{
-				// display progression
-				$("#"+action).addClass("done");
-				$("#"+action).addClass("steperror");
-				if (action != "rollback"
-					&& action != "rollbackComplete"
-					&& action != "restoreFiles"
-					&& action != "restoreDb"
-					&& action != "rollback"
-					&& action != "noRollbackFound"
-				)
-					handleError(res, action);
-				else
-					alert("'.$this->l('Error detected during', __CLASS__, true, false).' [" + action + "].");
-			}
-		},
-		error: function(jqXHR, textStatus, errorThrown)
-		{
-			$("#pleaseWait").hide();
-			if (textStatus == "timeout")
-			{
-				if (action == "download")
-					updateInfoStep("'.addslashes($this->l('Your server cannot download the file. Please upload it first by ftp in your admin/autoupgrade directory')).'");
-				else
-					updateInfoStep("[Server Error] Timeout:'.addslashes($this->l('The request exceeded the max_time_limit. Please change your server configuration.')).'");
-			}
-			else
-				updateInfoStep("[Ajax / Server Error for action " + action + "] textStatus: \"" + textStatus + " \" errorThrown:\"" + errorThrown + " \" jqXHR: \" " + jqXHR.responseText + "\"");
-		}
-	});
-	return req;
+            addQuickInfo(res.nextQuickInfo);
+            addError(res.nextErrors);
+            updateInfoStep(res.next_desc);
+            currentParams = res.nextParams;
+            if (res.status == "ok")
+            {
+                $("#"+action).addClass("done");
+                if (res.stepDone)
+                    $("#"+action).addClass("stepok");
+                // if a function "after[action name]" exists, it should be called now.
+                // This is used for enabling restore buttons for example
+                funcName = "after" + ucFirst(action);
+                if (typeof funcName == "string" && eval("typeof " + funcName) == "function")
+                    call_function(funcName, res);
+
+                handleSuccess(res, action);
+            }
+            else
+            {
+                // display progression
+                $("#"+action).addClass("done");
+                $("#"+action).addClass("steperror");
+                if (action != "rollback"
+                    && action != "rollbackComplete"
+                    && action != "restoreFiles"
+                    && action != "restoreDb"
+                    && action != "rollback"
+                    && action != "noRollbackFound"
+                )
+                    handleError(res, action);
+                else
+                    alert("'.$this->l('Error detected during', __CLASS__, true, false).' [" + action + "].");
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown)
+        {
+            $("#pleaseWait").hide();
+            if (textStatus == "timeout")
+            {
+                if (action == "download")
+                    updateInfoStep("'.addslashes($this->l('Your server cannot download the file. Please upload it first by ftp in your admin/autoupgrade directory')).'");
+                else
+                    updateInfoStep("[Server Error] Timeout:'.addslashes($this->l('The request exceeded the max_time_limit. Please change your server configuration.')).'");
+            }
+            else
+                updateInfoStep("[Ajax / Server Error for action " + action + "] textStatus: \"" + textStatus + " \" errorThrown:\"" + errorThrown + " \" jqXHR: \" " + jqXHR.responseText + "\"");
+        }
+    });
+    return req;
 };
 
 /**
@@ -5534,14 +5634,14 @@ function doAjaxRequest(action, nextParams){
  */
 function prepareNextButton(button_selector, nextParams)
 {
-	$(button_selector).unbind();
-	$(button_selector).click(function(e){
-		e.preventDefault();
-		$("#currentlyProcessing").show();';
+    $(button_selector).unbind();
+    $(button_selector).click(function(e){
+        e.preventDefault();
+        $("#currentlyProcessing").show();';
         $js .= '
-	action = button_selector.substr(1);
-	res = doAjaxRequest(action, nextParams);
-	});
+    action = button_selector.substr(1);
+    res = doAjaxRequest(action, nextParams);
+    });
 }
 
 /**
@@ -5552,316 +5652,316 @@ function prepareNextButton(button_selector, nextParams)
  */
 function handleSuccess(res, action)
 {
-	if (res.next != "")
-	{
+    if (res.next != "")
+    {
 
-		$("#"+res.next).addClass("nextStep");
-		if (manualMode && (action != "rollback"
-						&& action != "rollbackComplete"
-						&& action != "restoreFiles"
-						&& action != "restoreDb"
-						&& action != "rollback"
-						&& action != "noRollbackFound"))
-		{
-			prepareNextButton("#"+res.next,res.nextParams);
-			alert("'.sprintf($this->l('Manually go to %s button', __CLASS__, true, false), '"+res.next+"').'");
-		}
-		else
-		{
-			// if next is rollback, prepare nextParams with rollbackDbFilename and rollbackFilesFilename
-			if ( res.next == "rollback")
-			{
-				res.nextParams.restoreName = ""
-			}
-			doAjaxRequest(res.next, res.nextParams);
-			// 2) remove all step link (or show them only in dev mode)
-			// 3) when steps link displayed, they should change color when passed if they are visible
-		}
-	}
-	else
-	{
-		// Way To Go, end of upgrade process
-		addQuickInfo(["'.$this->l('End of process').'"]);
-	}
+        $("#"+res.next).addClass("nextStep");
+        if (manualMode && (action != "rollback"
+                        && action != "rollbackComplete"
+                        && action != "restoreFiles"
+                        && action != "restoreDb"
+                        && action != "rollback"
+                        && action != "noRollbackFound"))
+        {
+            prepareNextButton("#"+res.next,res.nextParams);
+            alert("'.sprintf($this->l('Manually go to %s button', __CLASS__, true, false), '"+res.next+"').'");
+        }
+        else
+        {
+            // if next is rollback, prepare nextParams with rollbackDbFilename and rollbackFilesFilename
+            if ( res.next == "rollback")
+            {
+                res.nextParams.restoreName = ""
+            }
+            doAjaxRequest(res.next, res.nextParams);
+            // 2) remove all step link (or show them only in dev mode)
+            // 3) when steps link displayed, they should change color when passed if they are visible
+        }
+    }
+    else
+    {
+        // Way To Go, end of upgrade process
+        addQuickInfo(["'.$this->l('End of process').'"]);
+    }
 }
 
 // res = {nextParams, next_desc}
 function handleError(res, action)
 {
-	// display error message in the main process thing
-	// In case the rollback button has been deactivated, just re-enable it
-	$("#rollback").removeAttr("disabled");
-	// auto rollback only if current action is upgradeFiles or upgradeDb
-	if (action == "upgradeFiles" || action == "upgradeDb" || action == "upgradeModules" )
-	{
-		$(".button-autoupgrade").html("'.$this->l('Operation canceled. Checking for restoration...').'");
-		res.nextParams.restoreName = res.nextParams.backupName;
-		if (confirm("'.$this->l('Do you want to restore').' " + "'.$this->backupName.'" + " ?"))
-			doAjaxRequest("rollback",res.nextParams);
-	}
-	else
-	{
-		$(".button-autoupgrade").html("'.$this->l('Operation canceled. An error happened.').'");
-		$(window).unbind();
-	}
+    // display error message in the main process thing
+    // In case the rollback button has been deactivated, just re-enable it
+    $("#rollback").removeAttr("disabled");
+    // auto rollback only if current action is upgradeFiles or upgradeDb
+    if (action == "upgradeFiles" || action == "upgradeDb" || action == "upgradeModules" )
+    {
+        $(".button-autoupgrade").html("'.$this->l('Operation canceled. Checking for restoration...').'");
+        res.nextParams.restoreName = res.nextParams.backupName;
+        if (confirm("'.$this->l('Do you want to restore').' " + "'.$this->backupName.'" + " ?"))
+            doAjaxRequest("rollback",res.nextParams);
+    }
+    else
+    {
+        $(".button-autoupgrade").html("'.$this->l('Operation canceled. An error happened.').'");
+        $(window).unbind();
+    }
 }';
 // ajax to check md5 files
         $js .= 'function addModifiedFileList(title, fileList, css_class, container)
 {
-	subList = $("<ul class=\"changedFileList "+css_class+"\"></ul>");
+    subList = $("<ul class=\"changedFileList "+css_class+"\"></ul>");
 
-	$(fileList).each(function(k,v){
-		$(subList).append("<li>"+v+"</li>");
-	});
-	$(container).append("<h3><a class=\"toggleSublist\" href=\"#\" >"+title+"</a> (" + fileList.length + ")</h3>");
-	$(container).append(subList);
-	$(container).append("<br/>");
+    $(fileList).each(function(k,v){
+        $(subList).append("<li>"+v+"</li>");
+    });
+    $(container).append("<h3><a class=\"toggleSublist\" href=\"#\" >"+title+"</a> (" + fileList.length + ")</h3>");
+    $(container).append(subList);
+    $(container).append("<br/>");
 
 }';
         if (!file_exists($this->autoupgradePath.DIRECTORY_SEPARATOR.'ajax-upgradetab.php')) {
             $js .= '$(document).ready(function(){
-			$("#checkPrestaShopFilesVersion").html("<img src=\"../img/admin/warning.gif\" /> [TECHNICAL ERROR] ajax-upgradetab.php '.$this->l('is missing. please reinstall the module').'");
-			})';
+            $("#checkPrestaShopFilesVersion").html("<img src=\"../img/admin/warning.gif\" /> [TECHNICAL ERROR] ajax-upgradetab.php '.$this->l('is missing. please reinstall the module').'");
+            })';
         } else {
             $js .= '
-			function isJsonString(str) {
-				try {
-						typeof(str) != "undefined" && JSON.parse(str);
-				} catch (e) {
-						return false;
-				}
-				return true;
-		}
+            function isJsonString(str) {
+                try {
+                        typeof(str) != "undefined" && JSON.parse(str);
+                } catch (e) {
+                        return false;
+                }
+                return true;
+        }
 
 $(document).ready(function(){
-	$.ajax({
-			type:"POST",
-			url : "'. __PS_BASE_URI__ . $admin_dir.'/autoupgrade/ajax-upgradetab.php",
-			async: true,
-			data : {
-				dir:"'.$admin_dir.'",
-				token : "'.$this->token.'",
-				autoupgradeDir : "'.$this->install_autoupgrade_dir.'",
-				tab : "'.get_class($this).'",
-				action : "checkFilesVersion",
-				ajaxMode : "1",
-				params : {}
-			},
-			success : function(res,textStatus,jqXHR)
-			{
-				if (isJsonString(res))
-					res = $.parseJSON(res);
-				else
-				{
-					res = {nextParams:{status:"error"}};
-				}
-					answer = res.nextParams;
-					$("#checkPrestaShopFilesVersion").html("<span> "+answer.msg+" </span> ");
-					if ((answer.status == "error") || (typeof(answer.result) == "undefined"))
-						$("#checkPrestaShopFilesVersion").prepend("<img src=\"../img/admin/warning.gif\" /> ");
-					else
-					{
-						$("#checkPrestaShopFilesVersion").prepend("<img src=\"../img/admin/warning.gif\" /> ");
-						$("#checkPrestaShopFilesVersion").append("<a id=\"toggleChangedList\" class=\"button\" href=\"\">'.$this->l('See or hide the list').'</a><br/>");
-						$("#checkPrestaShopFilesVersion").append("<div id=\"changedList\" style=\"display:none \"><br/>");
-						if(answer.result.core.length)
-							addModifiedFileList("'.$this->l('Core file(s)').'", answer.result.core, "changedImportant", "#changedList");
-						if(answer.result.mail.length)
-							addModifiedFileList("'.$this->l('Mail file(s)').'", answer.result.mail, "changedNotice", "#changedList");
-						if(answer.result.translation.length)
-							addModifiedFileList("'.$this->l('Translation file(s)').'", answer.result.translation, "changedNotice", "#changedList");
+    $.ajax({
+            type:"POST",
+            url : "'. __PS_BASE_URI__ . $admin_dir.'/autoupgrade/ajax-upgradetab.php",
+            async: true,
+            data : {
+                dir:"'.$admin_dir.'",
+                token : "'.$this->token.'",
+                autoupgradeDir : "'.$this->install_autoupgrade_dir.'",
+                tab : "'.get_class($this).'",
+                action : "checkFilesVersion",
+                ajaxMode : "1",
+                params : {}
+            },
+            success : function(res,textStatus,jqXHR)
+            {
+                if (isJsonString(res))
+                    res = $.parseJSON(res);
+                else
+                {
+                    res = {nextParams:{status:"error"}};
+                }
+                    answer = res.nextParams;
+                    $("#checkPrestaShopFilesVersion").html("<span> "+answer.msg+" </span> ");
+                    if ((answer.status == "error") || (typeof(answer.result) == "undefined"))
+                        $("#checkPrestaShopFilesVersion").prepend("<img src=\"../img/admin/warning.gif\" /> ");
+                    else
+                    {
+                        $("#checkPrestaShopFilesVersion").prepend("<img src=\"../img/admin/warning.gif\" /> ");
+                        $("#checkPrestaShopFilesVersion").append("<a id=\"toggleChangedList\" class=\"button\" href=\"\">'.$this->l('See or hide the list').'</a><br/>");
+                        $("#checkPrestaShopFilesVersion").append("<div id=\"changedList\" style=\"display:none \"><br/>");
+                        if(answer.result.core.length)
+                            addModifiedFileList("'.$this->l('Core file(s)').'", answer.result.core, "changedImportant", "#changedList");
+                        if(answer.result.mail.length)
+                            addModifiedFileList("'.$this->l('Mail file(s)').'", answer.result.mail, "changedNotice", "#changedList");
+                        if(answer.result.translation.length)
+                            addModifiedFileList("'.$this->l('Translation file(s)').'", answer.result.translation, "changedNotice", "#changedList");
 
-						$("#toggleChangedList").bind("click",function(e){e.preventDefault();$("#changedList").toggle();});
-						$(".toggleSublist").die().live("click",function(e){e.preventDefault();$(this).parent().next().toggle();});
-					}
-			}
-			,
-			error: function(res, textStatus, jqXHR)
-			{
-				if (textStatus == "timeout" && action == "download")
-				{
-					updateInfoStep("'.$this->l('Your server cannot download the file. Please upload it to your FTP server, and put it in your /[admin]/autoupgrade directory.').'");
-				}
-				else
-				{
-					// technical error : no translation needed
-					$("#checkPrestaShopFilesVersion").html("<img src=\"../img/admin/warning.gif\" /> Error: Unable to check md5 files");
-				}
-			}
-		})
-	$.ajax({
-			type:"POST",
-			url : "'. __PS_BASE_URI__ . $admin_dir.'/autoupgrade/ajax-upgradetab.php",
-			async: true,
-			data : {
-				dir:"'.$admin_dir.'",
-				token : "'.$this->token.'",
-				autoupgradeDir : "'.$this->install_autoupgrade_dir.'",
-				tab : "'.get_class($this).'",
-				action : "compareReleases",
-				ajaxMode : "1",
-				params : {}
-			},
-			success : function(res,textStatus,jqXHR)
-			{
-				if (isJsonString(res))
-					res = $.parseJSON(res);
-				else
-				{
-					res = {nextParams:{status:"error"}};
-				}
-				answer = res.nextParams;
-				$("#checkPrestaShopModifiedFiles").html("<span> "+answer.msg+" </span> ");
-				if ((answer.status == "error") || (typeof(answer.result) == "undefined"))
-					$("#checkPrestaShopModifiedFiles").prepend("<img src=\"../img/admin/warning.gif\" /> ");
-				else
-				{
-					$("#checkPrestaShopModifiedFiles").prepend("<img src=\"../img/admin/warning.gif\" /> ");
-					$("#checkPrestaShopModifiedFiles").append("<a id=\"toggleDiffList\" class=\"button\" href=\"\">'.$this->l('See or hide the list').'</a><br/>");
-					$("#checkPrestaShopModifiedFiles").append("<div id=\"diffList\" style=\"display:none \"><br/>");
-						if(answer.result.deleted.length)
-							addModifiedFileList("'.$this->l('Theses files will be deleted').'", answer.result.deleted, "diffImportant", "#diffList");
-						if(answer.result.modified.length)
-							addModifiedFileList("'.$this->l('Theses files will be modified').'", answer.result.modified, "diffImportant", "#diffList");
+                        $("#toggleChangedList").bind("click",function(e){e.preventDefault();$("#changedList").toggle();});
+                        $(".toggleSublist").die().live("click",function(e){e.preventDefault();$(this).parent().next().toggle();});
+                    }
+            }
+            ,
+            error: function(res, textStatus, jqXHR)
+            {
+                if (textStatus == "timeout" && action == "download")
+                {
+                    updateInfoStep("'.$this->l('Your server cannot download the file. Please upload it to your FTP server, and put it in your /[admin]/autoupgrade directory.').'");
+                }
+                else
+                {
+                    // technical error : no translation needed
+                    $("#checkPrestaShopFilesVersion").html("<img src=\"../img/admin/warning.gif\" /> Error: Unable to check md5 files");
+                }
+            }
+        })
+    $.ajax({
+            type:"POST",
+            url : "'. __PS_BASE_URI__ . $admin_dir.'/autoupgrade/ajax-upgradetab.php",
+            async: true,
+            data : {
+                dir:"'.$admin_dir.'",
+                token : "'.$this->token.'",
+                autoupgradeDir : "'.$this->install_autoupgrade_dir.'",
+                tab : "'.get_class($this).'",
+                action : "compareReleases",
+                ajaxMode : "1",
+                params : {}
+            },
+            success : function(res,textStatus,jqXHR)
+            {
+                if (isJsonString(res))
+                    res = $.parseJSON(res);
+                else
+                {
+                    res = {nextParams:{status:"error"}};
+                }
+                answer = res.nextParams;
+                $("#checkPrestaShopModifiedFiles").html("<span> "+answer.msg+" </span> ");
+                if ((answer.status == "error") || (typeof(answer.result) == "undefined"))
+                    $("#checkPrestaShopModifiedFiles").prepend("<img src=\"../img/admin/warning.gif\" /> ");
+                else
+                {
+                    $("#checkPrestaShopModifiedFiles").prepend("<img src=\"../img/admin/warning.gif\" /> ");
+                    $("#checkPrestaShopModifiedFiles").append("<a id=\"toggleDiffList\" class=\"button\" href=\"\">'.$this->l('See or hide the list').'</a><br/>");
+                    $("#checkPrestaShopModifiedFiles").append("<div id=\"diffList\" style=\"display:none \"><br/>");
+                        if(answer.result.deleted.length)
+                            addModifiedFileList("'.$this->l('Theses files will be deleted').'", answer.result.deleted, "diffImportant", "#diffList");
+                        if(answer.result.modified.length)
+                            addModifiedFileList("'.$this->l('Theses files will be modified').'", answer.result.modified, "diffImportant", "#diffList");
 
-					$("#toggleDiffList").bind("click",function(e){e.preventDefault();$("#diffList").toggle();});
-					$(".toggleSublist").die().live("click",function(e){
-						e.preventDefault();
-						// this=a, parent=h3, next=ul
-						$(this).parent().next().toggle();
-					});
-				}
-			},
-			error: function(res, textStatus, jqXHR)
-			{
-				if (textStatus == "timeout" && action == "download")
-				{
-					updateInfoStep("'.$this->l('Your server cannot download the file. Please upload it first by ftp in your admin/autoupgrade directory').'");
-				}
-				else
-				{
-					// technical error : no translation needed
-					$("#checkPrestaShopFilesVersion").html("<img src=\"../img/admin/warning.gif\" /> Error: Unable to check md5 files");
-				}
-			}
-		})
-	});';
+                    $("#toggleDiffList").bind("click",function(e){e.preventDefault();$("#diffList").toggle();});
+                    $(".toggleSublist").die().live("click",function(e){
+                        e.preventDefault();
+                        // this=a, parent=h3, next=ul
+                        $(this).parent().next().toggle();
+                    });
+                }
+            },
+            error: function(res, textStatus, jqXHR)
+            {
+                if (textStatus == "timeout" && action == "download")
+                {
+                    updateInfoStep("'.$this->l('Your server cannot download the file. Please upload it first by ftp in your admin/autoupgrade directory').'");
+                }
+                else
+                {
+                    // technical error : no translation needed
+                    $("#checkPrestaShopFilesVersion").html("<img src=\"../img/admin/warning.gif\" /> Error: Unable to check md5 files");
+                }
+            }
+        })
+    });';
         }
 
         // advanced/normal mode
         $js .= '
-	$("input[name=btn_adv]").click(function(e)
-		{
-			if ($("#advanced:visible").length)
-				switch_to_normal();
-			else
-				switch_to_advanced();
-		});
+    $("input[name=btn_adv]").click(function(e)
+        {
+            if ($("#advanced:visible").length)
+                switch_to_normal();
+            else
+                switch_to_advanced();
+        });
 
-		function switch_to_advanced(){
-			$("input[name=btn_adv]").val("'.$this->l('Less options', 'AdminTab', true, false).'");
-			$("#advanced").show();
-		}
+        function switch_to_advanced(){
+            $("input[name=btn_adv]").val("'.$this->l('Less options', 'AdminTab', true, false).'");
+            $("#advanced").show();
+        }
 
-		function switch_to_normal(){
-			$("input[name=btn_adv]").val("'.$this->l('More options (Expert mode)', 'AdminTab', true, false).'");
-			$("#advanced").hide();
-		}
+        function switch_to_normal(){
+            $("input[name=btn_adv]").val("'.$this->l('More options (Expert mode)', 'AdminTab', true, false).'");
+            $("#advanced").hide();
+        }
 
-		$(document).ready(function(){
-			'.($this->getConfig('channel') == 'major' ? 'switch_to_normal();' : 'switch_to_advanced();').'
-		});
-	';
+        $(document).ready(function(){
+            '.($this->getConfig('channel') == 'major' ? 'switch_to_normal();' : 'switch_to_advanced();').'
+        });
+    ';
         $js .= '
 $(document).ready(function()
 {
-	$("input[name|=submitConf]").bind("click", function(e){
-		params = {};
-		newChannel = $("select[name=channel] option:selected").val();
-		oldChannel = $("select[name=channel] option.current").val();
-		oldChannel = "";
-		if (oldChannel != newChannel)
-		{
-			if( newChannel == "major"
-				|| newChannel == "minor"
-				|| newChannel == "rc"
-				|| newChannel == "beta"
-				|| newChannel == "alpha" )
-				params.channel = newChannel;
+    $("input[name|=submitConf]").bind("click", function(e){
+        params = {};
+        newChannel = $("select[name=channel] option:selected").val();
+        oldChannel = $("select[name=channel] option.current").val();
+        oldChannel = "";
+        if (oldChannel != newChannel)
+        {
+            if( newChannel == "major"
+                || newChannel == "minor"
+                || newChannel == "rc"
+                || newChannel == "beta"
+                || newChannel == "alpha" )
+                params.channel = newChannel;
 
-			if(newChannel == "private")
-			{
-				if (($("input[name=private_release_link]").val() == "") || ($("input[name=private_release_md5]").val() == ""))
-				{
-					showConfigResult("'.$this->l('Link and MD5 hash cannot be empty').'", "error");
-					return false;
-				}
-				params.channel = "private";
-				params.private_release_link = $("input[name=private_release_link]").val();
-				params.private_release_md5 = $("input[name=private_release_md5]").val();
-				if ($("input[name=private_allow_major]").is(":checked"))
-					params.private_allow_major = 1;
-				else
-					params.private_allow_major = 0;
-			}
-			if(newChannel == "archive")
-			{
-				archive_prestashop = $("select[name=archive_prestashop] option:selected").val();
-				archive_num = $("input[name=archive_num]").val();
-				if (archive_num == "")
-				{
-					showConfigResult("'.$this->l('You need to enter the version number associated with the archive.').'", "error");
-					return false;
-				}
-				if (archive_prestashop == "")
-				{
-					showConfigResult("'.$this->l('No archive has been selected.').'", "error");
-					return false;
-				}
-				params.channel = "archive";
-				params.archive_prestashop = archive_prestashop;
-				params.archive_num = archive_num;
-			}
-			if(newChannel == "directory")
-			{
-				params.channel = "directory";
-				params.directory_prestashop = $("select[name=directory_prestashop] option:selected").val();
-				directory_num = $("input[name=directory_num]").val();
-				if (directory_num == "" || directory_num.indexOf(".") == -1)
-				{
-					showConfigResult("'.$this->l('You need to enter the version number associated with the directory.').'", "error");
-					return false;
-				}
-				params.directory_num = $("input[name=directory_num]").val();
-			}
-		}
-		// note: skipBackup is currently not used
-		if ($(this).attr("name") == "submitConf-skipBackup")
-		{
-			skipBackup = $("input[name=submitConf-skipBackup]:checked").length;
-			if (skipBackup == 0 || confirm("'.$this->l('Please confirm that you want to skip the backup.').'"))
-				params.skip_backup = $("input[name=submitConf-skipBackup]:checked").length;
-			else
-			{
-				$("input[name=submitConf-skipBackup]:checked").removeAttr("checked");
-				return false;
-			}
-		}
+            if(newChannel == "private")
+            {
+                if (($("input[name=private_release_link]").val() == "") || ($("input[name=private_release_md5]").val() == ""))
+                {
+                    showConfigResult("'.$this->l('Link and MD5 hash cannot be empty').'", "error");
+                    return false;
+                }
+                params.channel = "private";
+                params.private_release_link = $("input[name=private_release_link]").val();
+                params.private_release_md5 = $("input[name=private_release_md5]").val();
+                if ($("input[name=private_allow_major]").is(":checked"))
+                    params.private_allow_major = 1;
+                else
+                    params.private_allow_major = 0;
+            }
+            if(newChannel == "archive")
+            {
+                archive_prestashop = $("select[name=archive_prestashop] option:selected").val();
+                archive_num = $("input[name=archive_num]").val();
+                if (archive_num == "")
+                {
+                    showConfigResult("'.$this->l('You need to enter the version number associated with the archive.').'", "error");
+                    return false;
+                }
+                if (archive_prestashop == "")
+                {
+                    showConfigResult("'.$this->l('No archive has been selected.').'", "error");
+                    return false;
+                }
+                params.channel = "archive";
+                params.archive_prestashop = archive_prestashop;
+                params.archive_num = archive_num;
+            }
+            if(newChannel == "directory")
+            {
+                params.channel = "directory";
+                params.directory_prestashop = $("select[name=directory_prestashop] option:selected").val();
+                directory_num = $("input[name=directory_num]").val();
+                if (directory_num == "" || directory_num.indexOf(".") == -1)
+                {
+                    showConfigResult("'.$this->l('You need to enter the version number associated with the directory.').'", "error");
+                    return false;
+                }
+                params.directory_num = $("input[name=directory_num]").val();
+            }
+        }
+        // note: skipBackup is currently not used
+        if ($(this).attr("name") == "submitConf-skipBackup")
+        {
+            skipBackup = $("input[name=submitConf-skipBackup]:checked").length;
+            if (skipBackup == 0 || confirm("'.$this->l('Please confirm that you want to skip the backup.').'"))
+                params.skip_backup = $("input[name=submitConf-skipBackup]:checked").length;
+            else
+            {
+                $("input[name=submitConf-skipBackup]:checked").removeAttr("checked");
+                return false;
+            }
+        }
 
-		// note: preserveFiles is currently not used
-		if ($(this).attr("name") == "submitConf-preserveFiles")
-		{
-			preserveFiles = $("input[name=submitConf-preserveFiles]:checked").length;
-			if (confirm("'.$this->l('Please confirm that you want to preserve file options.').'"))
-				params.preserve_files = $("input[name=submitConf-preserveFiles]:checked").length;
-			else
-			{
-				$("input[name=submitConf-skipBackup]:checked").removeAttr("checked");
-				return false;
-			}
-		}
-		res = doAjaxRequest("updateConfig", params);
-	});
+        // note: preserveFiles is currently not used
+        if ($(this).attr("name") == "submitConf-preserveFiles")
+        {
+            preserveFiles = $("input[name=submitConf-preserveFiles]:checked").length;
+            if (confirm("'.$this->l('Please confirm that you want to preserve file options.').'"))
+                params.preserve_files = $("input[name=submitConf-preserveFiles]:checked").length;
+            else
+            {
+                $("input[name=submitConf-skipBackup]:checked").removeAttr("checked");
+                return false;
+            }
+        }
+        res = doAjaxRequest("updateConfig", params);
+    });
 });
 ';
         return $js;
@@ -6009,7 +6109,7 @@ $(document).ready(function()
     }
 
     /**
-     *	bool _skipFile : check whether a file is in backup or restore skip list
+     *  bool _skipFile : check whether a file is in backup or restore skip list
      *
      * @param type $file : current file or directory name eg:'.svn' , 'settings.inc.php'
      * @param type $fullpath : current file or directory fullpath eg:'/home/web/www/prestashop/config/settings.inc.php'
