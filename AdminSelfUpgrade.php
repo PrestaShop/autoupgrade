@@ -5664,7 +5664,7 @@ $(document).ready(function()
                         $file = str_replace($this->prodRootDir, '', $extractedFile['filename']);
                         if ($extractedFile['status'] != 'ok' && $extractedFile['status'] != 'already_a_directory') {
                             $this->nextQuickInfo[] = $this->trans('[ERROR] %file% has not been unzipped: %status%', array('%file%' => $file, '%status%' => $extractedFile['status']), 'Modules.Autoupgrade.Admin');
-                            $this->nextErrors[] = $this->trans('[ERROR] %file% has not been unzipped: %status', array('%file%' => $file, '%status%' => $extractedFile['status']), 'Modules.Autoupgrade.Admin');
+                            $this->nextErrors[] = $this->trans('[ERROR] %file% has not been unzipped: %status%', array('%file%' => $file, '%status%' => $extractedFile['status']), 'Modules.Autoupgrade.Admin');
                             $this->next = 'error';
                         } else {
                             $this->nextQuickInfo[] = sprintf('%1$s unzipped into %2$s', $file, str_replace(_PS_ROOT_DIR_, '', $to_dir));
