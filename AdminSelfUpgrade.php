@@ -1939,7 +1939,6 @@ class AdminSelfUpgrade extends AdminSelfTab
                 $modules_to_delete['mobile_theme'] = 'The 1.4 mobile_theme';
                 $modules_to_delete['trustedshops'] = 'Trustedshops';
                 $modules_to_delete['dejala'] = 'Dejala';
-                $modules_to_delete['stripejs'] = 'Stripejs';
                 $modules_to_delete['blockvariouslinks'] = 'Block Various Links';
 
                 foreach ($modules_to_delete as $key => $module) {
