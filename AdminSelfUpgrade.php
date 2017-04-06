@@ -3768,6 +3768,7 @@ class AdminSelfUpgrade extends AdminSelfTab
                 }
 
                 $written += fwrite($fp, '/* Backup ' . $this->nextParams['dbStep'] . ' for ' . Tools14::getHttpHost(false, false) . __PS_BASE_URI__ . "\n *  at " . date('r') . "\n */\n");
+                $written += fwrite($fp, "\n".'SET SESSION sql_mode = \'\';'."\n");
                 $written += fwrite($fp, "\n".'SET NAMES \'utf8\';'."\n\n");
                 // end init file
             }
