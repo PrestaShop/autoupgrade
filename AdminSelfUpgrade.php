@@ -5909,7 +5909,9 @@ $(document).ready(function()
     {
         $keys = $this->db->executeS('SELECT CONSTRAINT_NAME, TABLE_NAME
             FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
-            WHERE CONSTRAINT_TYPE = "FOREIGN KEY" AND TABLE_SCHEMA = "' . _DB_NAME_ . '"');
+            WHERE CONSTRAINT_TYPE = "FOREIGN KEY" 
+	    	AND TABLE_SCHEMA = "'._DB_NAME_.'"
+		AND TABLE_NAME LIKE "'._DB_PREFIX_.'%"');
 
         if (!empty($keys)) {
             foreach ($keys as $key) {
