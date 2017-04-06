@@ -2391,6 +2391,9 @@ class AdminSelfUpgrade extends AdminSelfTab
             return false;
         }
 
+        // remove foreign keys
+        $this->removeForeignKeys();
+
         $this->nextQuickInfo[] = $this->trans('Database upgrade OK', array(), 'Modules.Autoupgrade.Admin'); // no error!
 
         // Settings updated, compile and cache directories must be emptied
@@ -3383,6 +3386,10 @@ class AdminSelfUpgrade extends AdminSelfTab
                 mkdir($this->backupPath.DIRECTORY_SEPARATOR.$this->backupName);
             }
             $this->nextParams['dbStep'] = 0;
+
+            // remove foreign keys
+            $this->removeForeignKeys();
+
             $tablesToBackup = $this->db->executeS('SHOW TABLES LIKE "'._DB_PREFIX_.'%"', true, false);
             file_put_contents($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->toBackupDbList, base64_encode(serialize($tablesToBackup)));
         }
@@ -5896,5 +5903,18 @@ $(document).ready(function()
         $sf2Refresh = new \PrestaShopBundle\Service\Cache\Refresh();
         $sf2Refresh->addCacheClear(_PS_MODE_DEV_ ? 'dev' : 'prod');
         $sf2Refresh->execute();
+    }
+
+    private function removeForeignKeys()
+    {
+        $keys = $this->db->executeS('SELECT CONSTRAINT_NAME, TABLE_NAME
+            FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+            WHERE CONSTRAINT_TYPE = "FOREIGN KEY" AND TABLE_SCHEMA = "' . _DB_NAME_ . '"');
+
+        if (!empty($keys)) {
+            foreach ($keys as $key) {
+                $this->db->executeS('ALTER TABLE `'.$key['TABLE_NAME'].'` DROP FOREIGN KEY `'.$key['CONSTRAINT_NAME'].'`');
+            }
+        }
     }
 }
