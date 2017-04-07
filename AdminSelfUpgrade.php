@@ -2411,12 +2411,19 @@ class AdminSelfUpgrade extends AdminSelfTab
             return false;
         }
 
-        $sf2Refresh = new \PrestaShopBundle\Service\Cache\Refresh();
-        $sf2Refresh->addDoctrineSchemaUpdate();
-        $output = $sf2Refresh->execute();
+        if (version_compare(INSTALL_VERSION, '1.7.1.1', '>=')) {
+            $schemaUpgrade = new \PrestaShopBundle\Service\Database\Upgrade();
+            $outputCommand = 'prestashop:schema:update-without-foreign';
+        } else {
+            $schemaUpgrade = new \PrestaShopBundle\Service\Cache\Refresh();
+            $outputCommand = 'doctrine:schema:update';
+        }
 
-        if (0 !== $output['doctrine:schema:update']['exitCode']) {
-            $msgErrors = explode("\n", $output['doctrine:schema:update']['output']);
+        $schemaUpgrade->addDoctrineSchemaUpdate();
+        $output = $schemaUpgrade->execute();
+
+        if (0 !== $output[$outputCommand]['exitCode']) {
+            $msgErrors = explode("\n", $output[$outputCommand]['output']);
             $this->nextErrors[] = $this->l('Error upgrading doctrine schema');
             $this->nextQuickInfo[] = $msgErrors;
             $this->next_desc = $msgErrors;
