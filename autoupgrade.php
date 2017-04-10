@@ -31,7 +31,7 @@ class Autoupgrade extends Module
         $this->name = 'autoupgrade';
         $this->tab = 'administration';
         $this->author = 'PrestaShop';
-        $this->version = '2.0.5';
+        $this->version = '2.1.0';
         $this->need_instance = 1;
 
         $this->bootstrap = true;
