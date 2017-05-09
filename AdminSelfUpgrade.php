@@ -4421,6 +4421,24 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
         </fieldset>';
     }
 
+    protected function _displayRollbackWarning()
+    {
+        $this->_html .= '
+            <fieldset style="margin-top:10px">
+                <legend><img src="../img/admin/previous.gif"/>'.$this->l('Rollback').'</legend>
+                <div id="rollbackForm">
+                    <p>
+                        '.sprintf(
+                            $this->l('You are upgrading to a major version, please, be aware that the automatic rollback will not be available. You will still be able to manually rollback by following this %s how-to %s.'),
+                            '<a href="http://doc.prestashop.com/display/PS16/Making+and+restoring+your+own+backup#Makingandrestoringyourownbackup-Restoringyourbackup" target="_blank">',
+                            '</a>'
+                        ).'
+                    </p>
+                    <div class="clear">&nbsp;</div>
+                </div>
+            </fieldset>';
+    }
+
     /** this returns fieldset containing the configuration points you need to use autoupgrade
      * @return string
      */
@@ -4979,7 +4997,11 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
                     }
                 }
 
-                $this->_displayRollbackForm();
+                if(version_compare('1.7.0.0', _PS_VERSION_, '>=') || version_compare('1.7.0.0', $this->upgrader->version_num, '>=')) {
+                    $this->_displayRollbackWarning();
+                } else {
+                    $this->_displayRollbackForm();
+                }
 
                 $this->_html .= '</div>';
 
@@ -5076,6 +5098,11 @@ txtError[37] = "'.$this->l('The config/defines.inc.php file was not found. Where
                 $this->l('I understand I will no longer have my advanced stock management configuration and data'),
                 $this->l('I will have to reconfigure my permissions'),
                 $this->l('If I have a custom menu in my back office, I will no longer be able to use it'),
+                sprintf(
+                    $this->l('As I upgrade to a major version, I am aware that the automatic rollback will not be available. I will still be able to manually rollback by following this %s how-to %s'),
+                    '<a href="http://doc.prestashop.com/display/PS16/Making+and+restoring+your+own+backup#Makingandrestoringyourownbackup-Restoringyourbackup" target="_blank">',
+                    '</a>'
+                ),
             );
 
             foreach ($lines as $k => $line) {
@@ -5683,8 +5710,17 @@ function handleSuccess(res, action)
         // Way To Go, end of upgrade process
         addQuickInfo(["'.$this->l('End of process').'"]);
     }
-}
+}';
 
+        if (version_compare($this->upgrader->version_num, '1.7.0.0', '>=')) {
+            $js .= '
+// res = {nextParams, next_desc}
+function handleError(res, action)
+{
+    alert(\'An error happened and as you tried to upgrade to a major version, the automatic rollback is not available.\nYou are still able to manually rollback by following this how-to:\nhttp://doc.prestashop.com/display/PS16/Making+and+restoring+your+own+backup#Makingandrestoringyourownbackup-Restoringyourbackup\');
+}';
+        } else {
+            $js .= '
 // res = {nextParams, next_desc}
 function handleError(res, action)
 {
@@ -5694,17 +5730,18 @@ function handleError(res, action)
     // auto rollback only if current action is upgradeFiles or upgradeDb
     if (action == "upgradeFiles" || action == "upgradeDb" || action == "upgradeModules" )
     {
-        $(".button-autoupgrade").html("'.$this->l('Operation canceled. Checking for restoration...').'");
+        $(".button-autoupgrade").html("' . $this->l('Operation canceled. Checking for restoration...') . '");
         res.nextParams.restoreName = res.nextParams.backupName;
-        if (confirm("'.$this->l('Do you want to restore').' " + "'.$this->backupName.'" + " ?"))
+        if (confirm("' . $this->l('Do you want to restore') . ' " + "' . $this->upgrader->version_num. $this->backupName . '" + " ?"))
             doAjaxRequest("rollback",res.nextParams);
     }
     else
     {
-        $(".button-autoupgrade").html("'.$this->l('Operation canceled. An error happened.').'");
+        $(".button-autoupgrade").html("' . $this->l('Operation canceled. An error happened.') . '");
         $(window).unbind();
     }
 }';
+        }
 // ajax to check md5 files
         $js .= 'function addModifiedFileList(title, fileList, css_class, container)
 {
