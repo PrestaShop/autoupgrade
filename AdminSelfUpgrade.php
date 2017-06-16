@@ -1381,7 +1381,7 @@ class AdminSelfUpgrade extends AdminSelfTab
             case 'directory':
                 // if channel directory is chosen, we assume it's "ready for use" (samples already removed for example)
                 $this->next = 'removeSamples';
-                $this->nextQuickInfo[] = $this->trans('Skip downloading and unzipping steps, upgrade process will now remove sample data.', array(), 'Modules.Autoupgrade.Admin');
+                $this->nextQuickInfo[] = $this->trans('Downloading and unzipping steps have been skipped, upgrade process will now remove sample data.', array(), 'Modules.Autoupgrade.Admin');
                 $this->next_desc = $this->trans('Shop deactivated. Removing sample files...', array(), 'Modules.Autoupgrade.Admin');
                 break;
             case 'archive':
@@ -2148,7 +2148,7 @@ class AdminSelfUpgrade extends AdminSelfTab
                 'Modules.Autoupgrade.Admin'
             );
             $this->nextErrors[] = $this->trans(
-                'Current version: %oldversion%. Version to install: %newversion%',
+                'Current version: %oldversion%. Version to install: %newversion%.',
                 array(
                     '%oldversion%' => $oldversion,
                     '%newversion%' => INSTALL_VERSION,
@@ -2252,7 +2252,7 @@ class AdminSelfUpgrade extends AdminSelfTab
             if (!$sqlContent = file_get_contents($file)."\n") {
                 $this->next = 'error';
                 $this->nextQuickInfo[] = $this->trans('Error while loading SQL upgrade file %s.', array($version), 'Modules.Autoupgrade.Admin');
-                $this->nextErrors[] = $this->trans('Error while loading sql SQL file %s.', array($version), 'Modules.Autoupgrade.Admin');
+                $this->nextErrors[] = $this->trans('Error while loading SQL file %s.', array($version), 'Modules.Autoupgrade.Admin');
                 return false;
                 $logger->logError(sprintf('Error while loading sql upgrade file %s.', $version));
             }
@@ -3096,7 +3096,7 @@ class AdminSelfUpgrade extends AdminSelfTab
             } else {
                 $this->next = 'error';
                 $this->next_desc = $this->trans(
-                    'Unable to extract file %filename% into directory %directoryname% .',
+                    'Unable to extract file %filename% into directory %directoryname%.',
                     array(
                         '%filename%' => $filepath,
                         '%directoryname%' => $destExtract,
@@ -3820,7 +3820,7 @@ class AdminSelfUpgrade extends AdminSelfTab
                 $this->nextParams['removeList'] = $removeList;
                 if (count($removeList) > 0) {
                     $this->nextQuickInfo[] = $this->trans(
-                        '%itemname% items removed. %itemscount% items left.',
+                        '%itemname% item removed. %itemscount% items left.',
                         array(
                             '%itemname%' => $item,
                             '%itemscount%' => count($removeList)
@@ -4283,7 +4283,7 @@ txtError[37] = "'.addslashes($this->trans('The config/defines.inc.php file was n
 				<label class="label-small">'.$this->trans('Branch:', array(), 'Modules.Autoupgrade.Admin').'</label>
 					<span class="available">
 						<img src="../img/admin/'.(!empty($upgrade_info['available'])?'enabled':'disabled').'.gif" />'
-                .' '.(!empty($upgrade_info['available'])?$this->trans('available', array(), 'Modules.Autoupgrade.Admin'):$this->trans('unavailable', array(), 'Modules.Autoupgrade.Admin')).'
+                .' '.(!empty($upgrade_info['available'])?$this->trans('Available', array(), 'Admin.Global'):$this->trans('Unavailable', array(), 'Admin.Global')).'
 					</span>
 				</div>';
         }
@@ -5185,7 +5185,7 @@ function doAjaxRequest(action, nextParams){
 			}
 			catch(e){
 				res = {status : "error", nextParams:nextParams};
-				alert("'.$this->trans('Javascript error (parseJSON) detected for action ', array(), 'Modules.Autoupgrade.Admin').'\""+action+"\".'
+				alert("'.$this->trans('Javascript error (parseJSON) detected for action %action%', array('%action%' => '+action+'), 'Modules.Autoupgrade.Admin').'\""+action+"\".'
             .$this->trans('Starting restoration...', array(), 'Modules.Autoupgrade.Admin').'");
 			}
 
@@ -5335,7 +5335,7 @@ function handleError(res, action)
 }';
         if (!file_exists($this->autoupgradePath.DIRECTORY_SEPARATOR.'ajax-upgradetab.php')) {
             $js .= '$(document).ready(function(){
-			$("#checkPrestaShopFilesVersion").html("<img src=\"../img/admin/warning.gif\" />'.$this->trans('[TECHNICAL ERROR] ajax-upgradetab.php is missing. please reinstall the module', array(), 'Modules.Autoupgrade.Admin').'");
+			$("#checkPrestaShopFilesVersion").html("<img src=\"../img/admin/warning.gif\" />'.$this->trans('[TECHNICAL ERROR] ajax-upgradetab.php is missing. Please reinstall the module.', array(), 'Modules.Autoupgrade.Admin').'");
 			})';
         } else {
             $js .= '
