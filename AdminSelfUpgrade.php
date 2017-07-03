@@ -4832,7 +4832,7 @@ $(document).ready(function(){
     $(".nobootstrap.no-header-toolbar").removeClass("nobootstrap").addClass("bootstrap");
 
     $(document).on("click", "a.confirmBeforeDelete", function(e){
-        if (!confirm("'.$this->trans('Are you sure you want to delete this backup?', array(), 'Modules.Autoupgrade.Admin').'"))
+        if (!confirm("'.addslashes($this->trans('Are you sure you want to delete this backup?', array(), 'Modules.Autoupgrade.Admin')).'"))
             e.preventDefault();
     });
 
@@ -4887,7 +4887,7 @@ $(document).ready(function(){
 			{
 				if (textStatus == "timeout" && action == "download")
 				{
-					updateInfoStep("'.$this->trans('Your server cannot download the file. Please upload it first by ftp in your admin/autoupgrade directory', array(), 'Modules.Autoupgrade.Admin').'");
+					updateInfoStep("'.addslashes($this->trans('Your server cannot download the file. Please upload it first by ftp in your admin/autoupgrade directory', array(), 'Modules.Autoupgrade.Admin')).'");
 				}
 				else
 				{
@@ -5065,11 +5065,11 @@ function afterUpgradeComplete(res)
 	}
 
 	todo_list = [
-		"'.$this->trans('Cookies have changed, you will need to log in again once you refreshed the page', array(), 'Modules.Autoupgrade.Admin').'",
-		"'.$this->trans('Javascript and CSS files have changed, please clear your browser cache with CTRL-F5', array(), 'Modules.Autoupgrade.Admin').'",
-		"'.$this->trans('Please check that your front-office theme is functional (try to create an account, place an order...)', array(), 'Modules.Autoupgrade.Admin').'",
-		"'.$this->trans('Product images do not appear in the front-office? Try regenerating the thumbnails in Preferences > Images', array(), 'Modules.Autoupgrade.Admin').'",
-		"'.$this->trans('Do not forget to reactivate your shop once you have checked everything!', array(), 'Modules.Autoupgrade.Admin').'",
+		"'.addslashes($this->trans('Cookies have changed, you will need to log in again once you refreshed the page', array(), 'Modules.Autoupgrade.Admin')).'",
+		"'.addslashes($this->trans('Javascript and CSS files have changed, please clear your browser cache with CTRL-F5', array(), 'Modules.Autoupgrade.Admin')).'",
+		"'.addslashes($this->trans('Please check that your front-office theme is functional (try to create an account, place an order...)', array(), 'Modules.Autoupgrade.Admin')).'",
+		"'.addslashes($this->trans('Product images do not appear in the front-office? Try regenerating the thumbnails in Preferences > Images', array(), 'Modules.Autoupgrade.Admin')).'",
+		"'.addslashes($this->trans('Do not forget to reactivate your shop once you have checked everything!', array(), 'Modules.Autoupgrade.Admin')).'",
 	];
 
 	todo_ul = "<ul>";
@@ -5185,7 +5185,7 @@ function doAjaxRequest(action, nextParams){
 			}
 			catch(e){
 				res = {status : "error", nextParams:nextParams};
-				alert("'.$this->trans('Javascript error (parseJSON) detected for action ', array(), 'Modules.Autoupgrade.Admin').'\""+action+"\".'
+				alert("'.addslashes($this->trans('Javascript error (parseJSON) detected for action ', array(), 'Modules.Autoupgrade.Admin')).'\""+action+"\".'
             .$this->trans('Starting restoration...', array(), 'Modules.Autoupgrade.Admin').'");
 			}
 
