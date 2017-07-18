@@ -4645,6 +4645,12 @@ txtError[37] = "'.addslashes($this->trans('The config/defines.inc.php file was n
 
     public function display()
     {
+	$this->_html .= '<script type="text/javascript">
+            var show_new_orders = '.Configuration::get('PS_SHOW_NEW_ORDERS', null, null, null, 1).';        
+            var show_new_customers = '.Configuration::get('PS_SHOW_NEW_CUSTOMERS', null, null, null, 1).';
+            var show_new_messages = '.Configuration::get('PS_SHOW_NEW_MESSAGES ', null, null, null, 1).';    
+        </script>';
+	    
         $this->_html .= '<script type="text/javascript">var jQueryVersionPS = parseInt($().jquery.replace(/\./g, ""));</script>
 		<script type="text/javascript" src="'.__PS_BASE_URI__.'modules/autoupgrade/js/jquery-1.6.2.min.js"></script>
 		<script type="text/javascript">if (jQueryVersionPS >= 162) jq162 = jQuery.noConflict(true);</script>';
