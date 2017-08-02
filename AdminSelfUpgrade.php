@@ -1780,7 +1780,9 @@ class AdminSelfUpgrade extends AdminSelfTab
         foreach ($allModules as $module_name) {
             if (is_file($dir.DIRECTORY_SEPARATOR.$module_name)) {
                 continue;
-            } elseif (is_dir($dir.DIRECTORY_SEPARATOR.$module_name.DIRECTORY_SEPARATOR)) {
+            } elseif (is_dir($dir.DIRECTORY_SEPARATOR.$module_name.DIRECTORY_SEPARATOR)
+                && is_file($dir.DIRECTORY_SEPARATOR.$module_name.DIRECTORY_SEPARATOR.$module_name.'.php')
+            ) {
                 if (is_array($this->modules_addons)) {
                     $id_addons = array_search($module_name, $this->modules_addons);
                 }
