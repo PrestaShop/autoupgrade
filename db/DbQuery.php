@@ -36,7 +36,7 @@ class DbQueryCore
 	 */
 	protected $query = array(
 		'select' => array(),
-		'from' => 	'',
+		'from' => 	array(),
 		'join' => 	array(),
 		'where' => 	array(),
 		'group' => 	array(),
