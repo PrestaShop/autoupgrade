@@ -362,35 +362,13 @@ class AdminSelfUpgrade extends ModuleAdminController
 
     public function __construct()
     {
+        parent::__construct();
         @set_time_limit(0);
         @ini_set('max_execution_time', '0');
         @ini_set('magic_quotes_runtime', '0');
         @ini_set('magic_quotes_sybase', '0');
 
         $this->init();
-        // retrocompatibility when used in module : Tab can't work,
-        // but we saved the tab id in a cookie.
-        if (class_exists('Tab', false)) {
-           parent::__construct();
-        } elseif (isset($_COOKIE['id_tab'])) {
-            $this->id = $_COOKIE['id_tab'];
-        }
-
-        // Database instanciation (need to be cached because there will be at least 100k calls in the upgrade process
-        if (!class_exists('Db', false)) {
-            require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/db/Db.php');
-            eval('abstract class Db extends DbCore{}');
-            require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/db/MySQL.php');
-            eval('class MySQL extends MySQLCore{}');
-            require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/db/DbMySQLi.php');
-            eval('class DbMySQLi extends DbMySQLiCore{}');
-            require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/db/DbPDO.php');
-            eval('class DbPDO extends DbPDOCore{}');
-            require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/db/DbQuery.php');
-            eval('class DbQuery extends DbQueryCore{}');
-
-            require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/alias.php');
-        }
 
         $this->db = Db::getInstance();
 
@@ -567,6 +545,7 @@ class AdminSelfUpgrade extends ModuleAdminController
      */
     public function init()
     {
+        parent::init();
         // For later use, let's set up prodRootDir and adminDir
         // This way it will be easier to upgrade a different path if needed
         $this->prodRootDir = _PS_ROOT_DIR_;
@@ -4749,7 +4728,9 @@ txtError[37] = "'.addslashes($this->trans('The config/defines.inc.php file was n
 
         $this->_html .= '<script type="text/javascript" src="'.__PS_BASE_URI__.'modules/autoupgrade/js/jquery.xml2json.js"></script>';
         $this->_html .= '<script type="text/javascript">'.$this->_getJsInit().'</script>';
-        echo $this->_html;
+        $this->ajax = true;
+        $this->content = $this->_html;
+        return parent::display();
     }
 
     private function _getJsInit()
