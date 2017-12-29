@@ -1,0 +1,806 @@
+/* 
+ * 2007-2017 PrestaShop
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@prestashop.com so we can send you a copy immediately.
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
+ * versions in the future. If you wish to customize PrestaShop for your
+ * needs please refer to http://www.prestashop.com for more information.
+ * 
+ *  @author PrestaShop SA <contact@prestashop.com>
+ *  @copyright  2007-2017 PrestaShop SA
+ *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ *  International Registered Trademark & Property of PrestaShop SA
+ */
+
+
+function ucFirst(str) {
+    if (str.length > 0) {
+        return str[0].toUpperCase() + str.substring(1);
+    }
+    return str;
+}
+
+function cleanInfo(){
+	$("#infoStep").html("reset<br/>");
+}
+
+function updateInfoStep(msg){
+	if (msg)
+	{
+		$("#infoStep").append(msg+"<div class=\"clear\"></div>");
+		$("#infoStep").prop({ scrollTop: $("#infoStep").prop("scrollHeight")},1);
+	}
+}
+
+function addError(arrError){
+	if (typeof(arrError) != "undefined" && arrError.length)
+	{
+		$("#errorDuringUpgrade").show();
+		for(i=0;i<arrError.length;i++)
+			$("#infoError").append(arrError[i]+"<div class=\"clear\"></div>");
+		// Note : jquery 1.6 make uses of prop() instead of attr()
+		$("#infoError").prop({ scrollTop: $("#infoError").prop("scrollHeight")},1);
+	}
+}
+
+function addQuickInfo(arrQuickInfo){
+	if (arrQuickInfo)
+	{
+		$("#quickInfo").show();
+		for(i=0;i<arrQuickInfo.length;i++)
+			$("#quickInfo").append(arrQuickInfo[i]+"<div class=\"clear\"></div>");
+		// Note : jquery 1.6 make uses of prop() instead of attr()
+		$("#quickInfo").prop({ scrollTop: $("#quickInfo").prop("scrollHeight")},1);
+	}
+}
+
+// js initialization : prepare upgrade and rollback buttons
+$(document).ready(function(){
+
+    $(".nobootstrap.no-header-toolbar").removeClass("nobootstrap").addClass("bootstrap");
+
+    $(document).on("click", "a.confirmBeforeDelete", function(e){
+        if (!confirm("'.addslashes($this->trans('Are you sure you want to delete this backup?', array(), 'Modules.Autoupgrade.Admin')).'"))
+            e.preventDefault();
+    });
+
+	$("select[name=channel]").change(function(e){
+		$("select[name=channel]").find("option").each(function()
+		{
+			if ($(this).is(":selected"))
+				$("#for-"+$(this).attr("id")).show();
+			else
+				$("#for-"+$(this).attr("id")).hide();
+	});
+
+		refreshChannelInfos();
+	});
+
+	function refreshChannelInfos()
+	{
+		val = $("select[name=channel]").find("option:selected").val();
+		$.ajax({
+			type:"POST",
+			url : "'. __PS_BASE_URI__ . $admin_dir.'/autoupgrade/ajax-upgradetab.php",
+			async: true,
+			data : {
+				dir:"'.$admin_dir.'",
+				token : "'.$this->token.'",
+				tab : "AdminSelfUpgrade",
+				action : "getChannelInfo",
+				ajaxMode : "1",
+				params : { channel : val}
+			},
+			success : function(res,textStatus,jqXHR)
+			{
+				if (isJsonString(res))
+					res = $.parseJSON(res);
+				else
+					res = {nextParams:{status:"error"}};
+
+				answer = res.nextParams.result;
+				if (typeof(answer) != "undefined")
+				$("#channel-infos").replaceWith(answer.div);
+				if (typeof(answer) != "undefined" && answer.available)
+				{
+					$("#channel-infos .all-infos").show();
+				}
+				else if (typeof(answer) != "undefined")
+				{
+					$("#channel-infos").html(answer.div);
+					$("#channel-infos .all-infos").hide();
+				}
+			},
+			error: function(res, textStatus, jqXHR)
+			{
+				if (textStatus == "timeout" && action == "download")
+				{
+					updateInfoStep("'.addslashes($this->trans('Your server cannot download the file. Please upload it first by ftp in your admin/autoupgrade directory', array(), 'Modules.Autoupgrade.Admin')).'");
+				}
+				else
+				{
+					// technical error : no translation needed
+					$("#checkPrestaShopFilesVersion").html("<img src=\"../img/admin/warning.gif\" /> Error Unable to check md5 files");
+				}
+			}
+		})
+	}
+
+	$(document).ready(function(){
+		$("div[id|=for]").hide();
+		$("select[name=channel]").change();
+	});
+
+	// the following prevents to leave the page at the innappropriate time
+	$.xhrPool = [];
+	$.xhrPool.abortAll = function()
+	{
+		$.each(this, function(jqXHR)
+		{
+			if (jqXHR && (jqXHR.readystate != 4))
+			{
+				jqXHR.abort();
+			}
+		});
+	}
+	$(".upgradestep").click(function(e)
+	{
+		e.preventDefault();
+		// $.scrollTo("#options")
+	});
+
+	// set timeout to 120 minutes (before aborting an ajax request)
+	$.ajaxSetup({timeout:7200000});
+
+	// prepare available button here, without params ?
+	prepareNextButton("#upgradeNow",firstTimeParams);
+
+	/**
+	 * reset rollbackParams js array (used to init rollback button)
+	 */
+	$("select[name=restoreName]").change(function(){
+		// show delete button if the value is not 0
+		if($(this).val() != 0)
+		{
+			$("span#buttonDeleteBackup").html("<br><a class=\"button confirmBeforeDelete\" href=\"index.php?tab=AdminSelfUpgrade&token="+
+            token
+            +"&amp;deletebackup&amp;name="+$(this).val()+"\">\
+            <img src=\"../img/admin/disabled.gif\" />"+translated[0]+"</a>");
+		}
+
+		if ($("select[name=restoreName]").val() != 0)
+		{
+			$("#rollback").removeAttr("disabled");
+			rollbackParams = jQuery.extend(true, {}, firstTimeParams);
+
+			delete rollbackParams.backupName;
+			delete rollbackParams.backupFilesFilename;
+			delete rollbackParams.backupDbFilename;
+			delete rollbackParams.restoreFilesFilename;
+			delete rollbackParams.restoreDbFilenames;
+
+			// init new name to backup
+			rollbackParams.restoreName = $("select[name=restoreName]").val();
+			prepareNextButton("#rollback", rollbackParams);
+			// Note : theses buttons have been removed.
+			// they will be available in a future release (when DEV_MODE and MANUAL_MODE enabled)
+			// prepareNextButton("#restoreDb", rollbackParams);
+			// prepareNextButton("#restoreFiles", rollbackParams);
+		}
+		else
+			$("#rollback").attr("disabled", "disabled");
+	});
+
+});
+
+function showConfigResult(msg, type){
+	if (type == null)
+		type = "conf";
+	$("#configResult").html("<div class=\""+type+"\">"+msg+"</div>").show();
+	if (type == "conf")
+	{
+		$("#configResult").delay(3000).fadeOut("slow", function() {
+			location.reload();
+		});
+	}
+}
+
+// reuse previousParams, and handle xml returns to calculate next step
+// (and the correct next param array)
+// a case has to be defined for each requests that returns xml
+
+
+function afterUpdateConfig(res)
+{
+	params = res.nextParams
+	config = params.config
+	oldChannel = $("select[name=channel] option.current");
+	if (config.channel != oldChannel.val())
+	{
+		newChannel = $("select[name=channel] option[value="+config.channel+"]");
+		oldChannel.removeClass("current");
+		oldChannel.html(oldChannel.html().substr(2));
+		newChannel.addClass("current");
+		newChannel.html("* "+newChannel.html());
+	}
+	if (res.error == 1)
+		showConfigResult(res.next_desc, "error");
+	else
+		showConfigResult(res.next_desc);
+	$("#upgradeNow").unbind();
+	$("#upgradeNow").replaceWith("<a class=\"button-autoupgrade\" href=\"'.self::$currentIndex.'&token='.$this->token.'\" >'.$this->trans('Click to refresh the page and use the new configuration', array(), 'Modules.Autoupgrade.Admin').'</a>");
+}
+function startProcess(type){
+
+	// hide useless divs, show activity log
+	$("#informationBlock,#comparisonBlock,#currentConfigurationBlock,#backupOptionsBlock,#upgradeOptionsBlock,#upgradeButtonBlock").slideUp("fast");
+	$(".autoupgradeSteps a").addClass("button");
+	$("#activityLogBlock").fadeIn("slow");
+
+	$(window).bind("beforeunload", function(e)
+	{
+		if (confirm("'.addslashes($this->trans('An update is currently in progress... Click \"OK\" to abort.', array(), 'Modules.Autoupgrade.Admin')).'"))
+		{
+			$.xhrPool.abortAll();
+			$(window).unbind("beforeunload");
+			return true;
+		}
+		else
+		{
+			if (type == "upgrade")
+			{
+				e.returnValue = false;
+				e.cancelBubble = true;
+				if (e.stopPropagation)
+				{
+					e.stopPropagation();
+				}
+				if (e.preventDefault)
+				{
+					e.preventDefault();
+				}
+			}
+		}
+	});
+}
+
+function afterUpgradeNow(res)
+{
+	startProcess("upgrade");
+	$("#upgradeNow").unbind();
+	$("#upgradeNow").replaceWith("<span id=\"upgradeNow\" class=\"button-autoupgrade\">'.$this->trans('Upgrading PrestaShop', array(), 'Modules.Autoupgrade.Admin').' ...</span>");
+}
+
+function afterUpgradeComplete(res)
+{
+	params = res.nextParams
+	$("#pleaseWait").hide();
+	if (params.warning_exists == "false")
+	{
+		$("#upgradeResultCheck")
+			.html("<p>'.$this->trans('Upgrade complete', array(), 'Modules.Autoupgrade.Admin').'</p>")
+			.show();
+		$("#infoStep").html("<p class=\"alert alert-success\">'.$this->trans('Upgrade Complete!', array(), 'Modules.Autoupgrade.Admin').'</p>");
+	}
+	else
+	{
+		params = res.nextParams
+		$("#pleaseWait").hide();
+		$("#upgradeResultCheck")
+			.html("<p>'.$this->trans('Upgrade complete, but warning notifications has been found.', array(), 'Modules.Autoupgrade.Admin').'</p>")
+			.show("slow");
+		$("#infoStep").html("<p class=\"alert alert-warning\">'.$this->trans('Upgrade complete, but warning notifications has been found.', array(), 'Modules.Autoupgrade.Admin').'</p>");
+	}
+
+	todo_list = [
+		"'.addslashes($this->trans('Cookies have changed, you will need to log in again once you refreshed the page', array(), 'Modules.Autoupgrade.Admin')).'",
+		"'.addslashes($this->trans('Javascript and CSS files have changed, please clear your browser cache with CTRL-F5', array(), 'Modules.Autoupgrade.Admin')).'",
+		"'.addslashes($this->trans('Please check that your front-office theme is functional (try to create an account, place an order...)', array(), 'Modules.Autoupgrade.Admin')).'",
+		"'.addslashes($this->trans('Product images do not appear in the front-office? Try regenerating the thumbnails in Preferences > Images', array(), 'Modules.Autoupgrade.Admin')).'",
+		"'.addslashes($this->trans('Do not forget to reactivate your shop once you have checked everything!', array(), 'Modules.Autoupgrade.Admin')).'",
+	];
+
+	todo_ul = "<ul>";
+	$("#upgradeResultToDoList")
+		.html("<strong>'.$this->trans('ToDo list:', array(), 'Modules.Autoupgrade.Admin').'</strong>")
+	for(var i in todo_list)
+	{
+		todo_ul += "<li>"+todo_list[i]+"</li>";
+	}
+	todo_ul += "</ul>";
+	$("#upgradeResultToDoList").append(todo_ul)
+	$("#upgradeResultToDoList").show();
+
+	$(window).unbind("beforeunload");
+}
+
+function afterError(res)
+{
+	params = res.nextParams;
+	if (params.next == "")
+		$(window).unbind("beforeunload");
+	$("#pleaseWait").hide();
+
+	addQuickInfo(["unbind :) "]);
+}
+
+function afterRollback(res)
+{
+	startProcess("rollback");
+}
+
+function afterRollbackComplete(res)
+{
+	params = res.nextParams
+	$("#pleaseWait").hide();
+	$("#upgradeResultCheck")
+		.html("<p>'.$this->trans('Restoration complete.', array(), 'Modules.Autoupgrade.Admin').'</p>")
+		.show("slow");
+	updateInfoStep("<p class=\"alert alert-success\">'.$this->trans('Restoration complete.', array(), 'Modules.Autoupgrade.Admin').'</p>");
+	$(window).unbind();
+}
+
+
+function afterRestoreDb(params)
+{
+	// $("#restoreBackupContainer").hide();
+}
+
+function afterRestoreFiles(params)
+{
+	// $("#restoreFilesContainer").hide();
+}
+
+function afterBackupFiles(res)
+{
+	params = res.nextParams;
+	// if (params.stepDone)
+}
+
+/**
+ * afterBackupDb display the button
+ *
+ */
+function afterBackupDb(res)
+{
+	params = res.nextParams;
+	if (res.stepDone && typeof(PS_AUTOUP_BACKUP) != "undefined" && PS_AUTOUP_BACKUP == true)
+	{
+		$("#restoreBackupContainer").show();
+		$("select[name=restoreName]").children("options").removeAttr("selected");
+		$("select[name=restoreName]")
+			.append("<option selected=\"selected\" value=\""+params.backupName+"\">"+params.backupName+"</option>")
+		$("select[name=restoreName]").change();
+	}
+}
+
+
+function call_function(func){
+	this[func].apply(this, Array.prototype.slice.call(arguments, 1));
+}
+
+function doAjaxRequest(action, nextParams){
+	if (typeof(_PS_MODE_DEV_) != "undefined" && _PS_MODE_DEV_ == true)
+		addQuickInfo(["[DEV] ajax request : " + action]);
+	$("#pleaseWait").show();
+	req = $.ajax({
+		type:"POST",
+		url : "'. __PS_BASE_URI__.$admin_dir.'/autoupgrade/ajax-upgradetab.php'.'",
+		async: true,
+		data : {
+			dir:"'.$admin_dir.'",
+			ajaxMode : "1",
+			token : "'.$this->token.'",
+			tab : "AdminSelfUpgrade",
+			action : action,
+			params : nextParams
+		},
+		beforeSend: function(jqXHR)
+		{
+			$.xhrPool.push(jqXHR);
+		},
+		complete: function(jqXHR)
+		{
+			// just remove the item to the "abort list"
+			$.xhrPool.pop();
+			// $(window).unbind("beforeunload");
+		},
+		success : function(res, textStatus, jqXHR)
+		{
+			$("#pleaseWait").hide();
+			try{
+				res = $.parseJSON(res);
+			}
+			catch(e){
+				res = {status : "error", nextParams:nextParams};
+				alert(translated[1]+"\""+action+"\""+translated[2]);
+			}
+
+			addQuickInfo(res.nextQuickInfo);
+			addError(res.nextErrors);
+			updateInfoStep(res.next_desc);
+			currentParams = res.nextParams;
+			if (res.status == "ok")
+			{
+				$("#"+action).addClass("done");
+				if (res.stepDone)
+					$("#"+action).addClass("stepok");
+				// if a function "after[action name]" exists, it should be called now.
+				// This is used for enabling restore buttons for example
+				funcName = "after" + ucFirst(action);
+				if (typeof funcName == "string" && eval("typeof " + funcName) == "function")
+					call_function(funcName, res);
+
+				handleSuccess(res, action);
+			} else {
+				// display progression
+				$("#"+action).addClass("done");
+				$("#"+action).addClass("steperror");
+				if (action != "rollback"
+					&& action != "rollbackComplete"
+					&& action != "restoreFiles"
+					&& action != "restoreDb"
+					&& action != "rollback"
+					&& action != "noRollbackFound"
+				)
+					handleError(res, action);
+				else
+					alert("'.$this->trans('Error detected during', array(), 'Modules.Autoupgrade.Admin').' [" + action + "].");
+			}
+		},
+		error: function(jqXHR, textStatus, errorThrown)
+		{
+			$("#pleaseWait").hide();
+			if (textStatus == "timeout")
+			{
+				if (action == "download")
+					updateInfoStep("'.addslashes($this->trans('Your server cannot download the file. Please upload it first by ftp in your admin/autoupgrade directory', array(), 'Modules.Autoupgrade.Admin')).'");
+				else
+					updateInfoStep("[Server Error] Timeout:'.addslashes($this->trans('The request exceeded the max_time_limit. Please change your server configuration.', array(), 'Modules.Autoupgrade.Admin')).'");
+			}
+			else
+				updateInfoStep("[Ajax / Server Error for action " + action + "] textStatus: \"" + textStatus + " \" errorThrown:\"" + errorThrown + " \" jqXHR: \" " + jqXHR.responseText + "\"");
+		}
+	});
+	return req;
+};
+
+/**
+ * prepareNextButton make the button button_selector available, and update the nextParams values
+ *
+ * @param button_selector $button_selector
+ * @param nextParams $nextParams
+ * @return void
+ */
+function prepareNextButton(button_selector, nextParams)
+{
+	$(button_selector).unbind();
+	$(button_selector).click(function(e){
+		e.preventDefault();
+		$("#currentlyProcessing").show();
+        
+	action = button_selector.substr(1);
+	res = doAjaxRequest(action, nextParams);
+	});
+}
+
+/**
+ * handleSuccess
+ * res = {error:, next:, next_desc:, nextParams:, nextQuickInfo:,status:"ok"}
+ * @param res $res
+ * @return void
+ */
+function handleSuccess(res, action)
+{
+	if (res.next != "")
+	{
+
+		$("#"+res.next).addClass("nextStep");
+		if (manualMode && (action != "rollback"
+						&& action != "rollbackComplete"
+						&& action != "restoreFiles"
+						&& action != "restoreDb"
+						&& action != "rollback"
+						&& action != "noRollbackFound"))
+		{
+			prepareNextButton("#"+res.next,res.nextParams);
+			alert("'.$this->trans('Manually go to %s button', array('"+res.next+"'), 'Modules.Autoupgrade.Admin').'");
+		}
+		else
+		{
+			// if next is rollback, prepare nextParams with rollbackDbFilename and rollbackFilesFilename
+			if ( res.next == "rollback")
+			{
+				res.nextParams.restoreName = ""
+			}
+			doAjaxRequest(res.next, res.nextParams);
+			// 2) remove all step link (or show them only in dev mode)
+			// 3) when steps link displayed, they should change color when passed if they are visible
+		}
+	}
+	else
+	{
+		// Way To Go, end of upgrade process
+		addQuickInfo(["'.$this->trans('End of process', array(), 'Modules.Autoupgrade.Admin').'"]);
+	}
+}
+
+// res = {nextParams, next_desc}
+function handleError(res, action)
+{
+	// display error message in the main process thing
+	// In case the rollback button has been deactivated, just re-enable it
+	$("#rollback").removeAttr("disabled");
+	// auto rollback only if current action is upgradeFiles or upgradeDb
+	if (action == "upgradeFiles" || action == "upgradeDb" || action == "upgradeModules" )
+	{
+		$(".button-autoupgrade").html("'.$this->trans('Operation canceled. Checking for restoration...', array(), 'Modules.Autoupgrade.Admin').'");
+		res.nextParams.restoreName = res.nextParams.backupName;
+		if (confirm("'.$this->trans('Do you want to restore %backupname%?', array('%backupname%' => $this->backupName), 'Modules.Autoupgrade.Admin').'"))
+			doAjaxRequest("rollback",res.nextParams);
+	}
+	else
+	{
+		$(".button-autoupgrade").html("'.$this->trans('Operation canceled. An error happened.', array(), 'Modules.Autoupgrade.Admin').'");
+		$(window).unbind();
+	}
+}
+
+function addModifiedFileList(title, fileList, css_class, container)
+{
+	subList = $("<ul class=\"changedFileList "+css_class+"\"></ul>");
+
+	$(fileList).each(function(k,v){
+		$(subList).append("<li>"+v+"</li>");
+	});
+	$(container).append("<h3><a class=\"toggleSublist\" href=\"#\" >"+title+"</a> (" + fileList.length + ")</h3>");
+	$(container).append(subList);
+	$(container).append("<br/>");
+
+}
+
+function isJsonString(str) {
+    try {
+            typeof(str) != "undefined" && JSON.parse(str);
+    } catch (e) {
+            return false;
+    }
+    return true;
+}
+
+$(document).ready(function(){
+	$.ajax({
+			type:"POST",
+			url : "'. __PS_BASE_URI__ . $admin_dir.'/autoupgrade/ajax-upgradetab.php",
+			async: true,
+			data : {
+				dir:"'.$admin_dir.'",
+				token : "'.$this->token.'",
+				tab : "'.get_class($this).'",
+				action : "checkFilesVersion",
+				ajaxMode : "1",
+				params : {}
+			},
+			success : function(res,textStatus,jqXHR)
+			{
+				if (isJsonString(res))
+					res = $.parseJSON(res);
+				else
+				{
+					res = {nextParams:{status:"error"}};
+				}
+					answer = res.nextParams;
+					$("#checkPrestaShopFilesVersion").html("<span> "+answer.msg+" </span> ");
+					if ((answer.status == "error") || (typeof(answer.result) == "undefined"))
+						$("#checkPrestaShopFilesVersion").prepend("<img src=\"../img/admin/warning.gif\" /> ");
+					else
+					{
+						$("#checkPrestaShopFilesVersion").prepend("<img src=\"../img/admin/warning.gif\" /> ");
+						$("#checkPrestaShopFilesVersion").append("<a id=\"toggleChangedList\" class=\"button\" href=\"\">'.$this->trans('See or hide the list', array(), 'Modules.Autoupgrade.Admin').'</a><br/>");
+						$("#checkPrestaShopFilesVersion").append("<div id=\"changedList\" style=\"display:none \"><br/>");
+						if(answer.result.core.length)
+							addModifiedFileList("'.$this->trans('Core file(s)', array(), 'Modules.Autoupgrade.Admin').'", answer.result.core, "changedImportant", "#changedList");
+						if(answer.result.mail.length)
+							addModifiedFileList("'.$this->trans('Mail file(s)', array(), 'Modules.Autoupgrade.Admin').'", answer.result.mail, "changedNotice", "#changedList");
+						if(answer.result.translation.length)
+							addModifiedFileList("'.$this->trans('Translation file(s)', array(), 'Modules.Autoupgrade.Admin').'", answer.result.translation, "changedNotice", "#changedList");
+
+						$("#toggleChangedList").bind("click",function(e){e.preventDefault();$("#changedList").toggle();});
+						$(".toggleSublist").die().live("click",function(e){e.preventDefault();$(this).parent().next().toggle();});
+					}
+			}
+			,
+			error: function(res, textStatus, jqXHR)
+			{
+				if (textStatus == "timeout" && action == "download")
+				{
+					updateInfoStep("'.$this->trans('Your server cannot download the file. Please upload it to your FTP server, and put it in your /[admin]/autoupgrade directory.', array(), 'Modules.Autoupgrade.Admin').'");
+				}
+				else
+				{
+					// technical error : no translation needed
+					$("#checkPrestaShopFilesVersion").html("<img src=\"../img/admin/warning.gif\" /> Error: Unable to check md5 files");
+				}
+			}
+		})
+	$.ajax({
+			type:"POST",
+			url : "'. __PS_BASE_URI__ . $admin_dir.'/autoupgrade/ajax-upgradetab.php",
+			async: true,
+			data : {
+				dir:"'.$admin_dir.'",
+				token : "'.$this->token.'",
+				tab : "'.get_class($this).'",
+				action : "compareReleases",
+				ajaxMode : "1",
+				params : {}
+			},
+			success : function(res,textStatus,jqXHR)
+			{
+				if (isJsonString(res))
+					res = $.parseJSON(res);
+				else
+				{
+					res = {nextParams:{status:"error"}};
+				}
+				answer = res.nextParams;
+				$("#checkPrestaShopModifiedFiles").html("<span> "+answer.msg+" </span> ");
+				if ((answer.status == "error") || (typeof(answer.result) == "undefined"))
+					$("#checkPrestaShopModifiedFiles").prepend("<img src=\"../img/admin/warning.gif\" /> ");
+				else
+				{
+					$("#checkPrestaShopModifiedFiles").prepend("<img src=\"../img/admin/warning.gif\" /> ");
+					$("#checkPrestaShopModifiedFiles").append("<a id=\"toggleDiffList\" class=\"button\" href=\"\">'.$this->trans('See or hide the list', array(), 'Modules.Autoupgrade.Admin').'</a><br/>");
+					$("#checkPrestaShopModifiedFiles").append("<div id=\"diffList\" style=\"display:none \"><br/>");
+						if(answer.result.deleted.length)
+							addModifiedFileList("'.$this->trans('Theses files will be deleted', array(), 'Modules.Autoupgrade.Admin').'", answer.result.deleted, "diffImportant", "#diffList");
+						if(answer.result.modified.length)
+							addModifiedFileList("'.$this->trans('Theses files will be modified', array(), 'Modules.Autoupgrade.Admin').'", answer.result.modified, "diffImportant", "#diffList");
+
+					$("#toggleDiffList").bind("click",function(e){e.preventDefault();$("#diffList").toggle();});
+					$(".toggleSublist").die().live("click",function(e){
+						e.preventDefault();
+						// this=a, parent=h3, next=ul
+						$(this).parent().next().toggle();
+					});
+				}
+			},
+			error: function(res, textStatus, jqXHR)
+			{
+				if (textStatus == "timeout" && action == "download")
+				{
+					updateInfoStep("'.$this->trans('Your server cannot download the file. Please upload it first by ftp in your admin/autoupgrade directory', array(), 'Modules.Autoupgrade.Admin').'");
+				}
+				else
+				{
+					// technical error : no translation needed
+					$("#checkPrestaShopFilesVersion").html("<img src=\"../img/admin/warning.gif\" /> Error: Unable to check md5 files");
+				}
+			}
+		})
+	});
+    
+        $("input[name=btn_adv]").click(function(e)
+		{
+			if ($("#advanced:visible").length)
+				switch_to_normal();
+			else
+				switch_to_advanced();
+		});
+
+		function switch_to_advanced(){
+			$("input[name=btn_adv]").val("'.$this->trans('Less options', array(), 'Modules.Autoupgrade.Admin').'");
+			$("#advanced").show();
+		}
+
+		function switch_to_normal(){
+			$("input[name=btn_adv]").val("'.$this->trans('More options (Expert mode)', array(), 'Modules.Autoupgrade.Admin').'");
+			$("#advanced").hide();
+		}
+
+		$(document).ready(function(){
+			defaultMode();
+		});
+
+
+$(document).ready(function()
+{
+	$("input[name|=submitConf]").bind("click", function(e){
+		params = {};
+		newChannel = $("select[name=channel] option:selected").val();
+		oldChannel = $("select[name=channel] option.current").val();
+		oldChannel = "";
+		if (oldChannel != newChannel)
+		{
+			if( newChannel == "major"
+				|| newChannel == "minor"
+				|| newChannel == "rc"
+				|| newChannel == "beta"
+				|| newChannel == "alpha" )
+				params.channel = newChannel;
+
+			if(newChannel == "private")
+			{
+				if (($("input[name=private_release_link]").val() == "") || ($("input[name=private_release_md5]").val() == ""))
+				{
+					showConfigResult("'.$this->trans('Link and MD5 hash cannot be empty', array(), 'Modules.Autoupgrade.Admin').'", "error");
+					return false;
+				}
+				params.channel = "private";
+				params.private_release_link = $("input[name=private_release_link]").val();
+				params.private_release_md5 = $("input[name=private_release_md5]").val();
+				if ($("input[name=private_allow_major]").is(":checked"))
+					params.private_allow_major = 1;
+				else
+					params.private_allow_major = 0;
+			}
+			if(newChannel == "archive")
+			{
+				archive_prestashop = $("select[name=archive_prestashop] option:selected").val();
+				archive_num = $("input[name=archive_num]").val();
+				if (archive_num == "")
+				{
+					showConfigResult("'.$this->trans('You need to enter the version number associated with the archive.', array(), 'Modules.Autoupgrade.Admin').'", "error");
+					return false;
+				}
+				if (archive_prestashop == "")
+				{
+					showConfigResult("'.$this->trans('No archive has been selected.', array(), 'Modules.Autoupgrade.Admin').'", "error");
+					return false;
+				}
+				params.channel = "archive";
+				params.archive_prestashop = archive_prestashop;
+				params.archive_num = archive_num;
+			}
+			if(newChannel == "directory")
+			{
+				params.channel = "directory";
+				params.directory_prestashop = $("select[name=directory_prestashop] option:selected").val();
+				directory_num = $("input[name=directory_num]").val();
+				if (directory_num == "" || directory_num.indexOf(".") == -1)
+				{
+					showConfigResult("'.$this->trans('You need to enter the version number associated with the directory.', array(), 'Modules.Autoupgrade.Admin').'", "error");
+					return false;
+				}
+				params.directory_num = $("input[name=directory_num]").val();
+			}
+		}
+		// note: skipBackup is currently not used
+		if ($(this).attr("name") == "submitConf-skipBackup")
+		{
+			skipBackup = $("input[name=submitConf-skipBackup]:checked").length;
+			if (skipBackup == 0 || confirm("'.$this->trans('Please confirm that you want to skip the backup.', array(), 'Modules.Autoupgrade.Admin').'"))
+				params.skip_backup = $("input[name=submitConf-skipBackup]:checked").length;
+			else
+			{
+				$("input[name=submitConf-skipBackup]:checked").removeAttr("checked");
+				return false;
+			}
+		}
+
+		// note: preserveFiles is currently not used
+		if ($(this).attr("name") == "submitConf-preserveFiles")
+		{
+			preserveFiles = $("input[name=submitConf-preserveFiles]:checked").length;
+			if (confirm("'.$this->trans('Please confirm that you want to preserve file options.', array(), 'Modules.Autoupgrade.Admin').'"))
+				params.preserve_files = $("input[name=submitConf-preserveFiles]:checked").length;
+			else
+			{
+				$("input[name=submitConf-skipBackup]:checked").removeAttr("checked");
+				return false;
+			}
+		}
+		res = doAjaxRequest("updateConfig", params);
+	});
+});
