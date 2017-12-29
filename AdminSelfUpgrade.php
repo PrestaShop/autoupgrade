@@ -30,10 +30,6 @@ if (!defined('_PS_ADMIN_DIR_') && defined('PS_ADMIN_DIR')) {
     define('_PS_ADMIN_DIR_', PS_ADMIN_DIR);
 }
 
-// Note : we cannot use the native AdminTab because
-// we don't know the current PrestaShop version number
-require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/AdminSelfTab.php');
-
 require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/classes/Upgrader.php');
 
 if (!class_exists('Upgrader', false)) {
@@ -53,7 +49,7 @@ use PrestaShop\PrestaShop\Core\Addon\AddonListFilterType;
 use PrestaShop\PrestaShop\Core\Addon\AddonListFilterOrigin;
 use PrestaShop\PrestaShop\Core\Addon\Module\ModuleManagerBuilder;
 
-class AdminSelfUpgrade extends AdminSelfTab
+class AdminSelfUpgrade extends ModuleAdminController
 {
     public $multishop_context;
     public $multishop_context_group = false;
@@ -371,12 +367,6 @@ class AdminSelfUpgrade extends AdminSelfTab
         @ini_set('magic_quotes_runtime', '0');
         @ini_set('magic_quotes_sybase', '0');
 
-        global $ajax, $currentIndex;
-
-        if (!empty($ajax)) {
-            $this->ajax = true;
-        }
-
         $this->init();
         // retrocompatibility when used in module : Tab can't work,
         // but we saved the tab id in a cookie.
@@ -434,7 +424,7 @@ class AdminSelfUpgrade extends AdminSelfTab
                 }
         }
 
-        $this->currentIndex = $_SERVER['SCRIPT_NAME'].(($controller = Tools14::getValue('controller')) ? '?controller='.$controller: '');
+        self::$currentIndex = $_SERVER['SCRIPT_NAME'].(($controller = Tools14::getValue('controller')) ? '?controller='.$controller: '');
 
         if (defined('_PS_ADMIN_DIR_')) {
             $file_tab = @filemtime($this->autoupgradePath.DIRECTORY_SEPARATOR.'ajax-upgradetab.php');
@@ -855,7 +845,7 @@ class AdminSelfUpgrade extends AdminSelfTab
             }
             $res = $this->writeConfig($config);
             if ($res) {
-                Tools14::redirectAdmin($this->currentIndex.'&conf=6&token='.Tools14::getValue('token'));
+                Tools14::redirectAdmin(self::$currentIndex.'&conf=6&token='.Tools14::getValue('token'));
             }
         }
 
@@ -875,7 +865,7 @@ class AdminSelfUpgrade extends AdminSelfTab
                 }
             }
             if ($res) {
-                Tools14::redirectAdmin($this->currentIndex.'&conf=1&token='.Tools14::getValue('token'));
+                Tools14::redirectAdmin(self::$currentIndex.'&conf=1&token='.Tools14::getValue('token'));
             } else {
                 $this->_errors[] = $this->trans('Error when trying to delete backups %s', array($name), 'Modules.Autoupgrade.Admin');
             }
@@ -4251,7 +4241,7 @@ txtError[37] = "'.addslashes($this->trans('The config/defines.inc.php file was n
 
         // shop enabled
         $this->_html .= '
-			<tr><td>'.$this->trans('Your store is in maintenance mode', array(), 'Modules.Autoupgrade.Admin').' '.(!$current_ps_config['shop_deactivated'] ? '<br><form method="post" action="'.$this->currentIndex.'&token='.$this->token.'"><input type="submit" class="button" name="putUnderMaintenance" value="'.$this->trans('Click here to put your shop under maintenance', array(), 'Modules.Autoupgrade.Admin').'"></form>' : '').'</td>
+			<tr><td>'.$this->trans('Your store is in maintenance mode', array(), 'Modules.Autoupgrade.Admin').' '.(!$current_ps_config['shop_deactivated'] ? '<br><form method="post" action="'.self::$currentIndex.'&token='.$this->token.'"><input type="submit" class="button" name="putUnderMaintenance" value="'.$this->trans('Click here to put your shop under maintenance', array(), 'Modules.Autoupgrade.Admin').'"></form>' : '').'</td>
 			<td>'.($current_ps_config['shop_deactivated'] ? $pic_ok : $pic_nok).'</td></tr>';
 
         $this->_html .= '
@@ -4695,7 +4685,7 @@ txtError[37] = "'.addslashes($this->trans('The config/defines.inc.php file was n
                         $upgrader->checkPSVersion(true, array('minor'));
                     }
 
-                    Tools14::redirectAdmin($this->currentIndex.'&conf=5&token='.Tools14::getValue('token'));
+                    Tools14::redirectAdmin(self::$currentIndex.'&conf=5&token='.Tools14::getValue('token'));
                 } else {
                     if ($this->getConfig('channel') == 'private' && !$this->getConfig('private_allow_major')) {
                         $upgrader->checkPSVersion(false, array('private', 'minor'));
@@ -4750,7 +4740,7 @@ txtError[37] = "'.addslashes($this->trans('The config/defines.inc.php file was n
         $this->_displayRollbackForm();
 
         $this->_html .= '<br/>';
-        $this->_html .= '<form action="'.$this->currentIndex.'&amp;customSubmitAutoUpgrade=1&amp;token='.$this->token.'" method="post" class="form-horizontal" enctype="multipart/form-data">';
+        $this->_html .= '<form action="'.self::$currentIndex.'&amp;customSubmitAutoUpgrade=1&amp;token='.$this->token.'" method="post" class="form-horizontal" enctype="multipart/form-data">';
 
         $this->_displayForm('backupOptions', $this->_fieldsBackupOptions, '<a href="#" name="backup-options" id="backup-options">'.$this->trans('Backup Options', array(), 'Modules.Autoupgrade.Admin').'</a>', '', 'database_gear');
         $this->_displayForm('upgradeOptions', $this->_fieldsUpgradeOptions, '<a href="#" name="upgrade-options" id="upgrade-options">'.$this->trans('Upgrade Options', array(), 'Modules.Autoupgrade.Admin').'</a>', '', 'prefs');
@@ -5008,7 +4998,7 @@ function afterUpdateConfig(res)
 	else
 		showConfigResult(res.next_desc);
 	$("#upgradeNow").unbind();
-	$("#upgradeNow").replaceWith("<a class=\"button-autoupgrade\" href=\"'.$this->currentIndex.'&token='.$this->token.'\" >'.$this->trans('Click to refresh the page and use the new configuration', array(), 'Modules.Autoupgrade.Admin').'</a>");
+	$("#upgradeNow").replaceWith("<a class=\"button-autoupgrade\" href=\"'.self::$currentIndex.'&token='.$this->token.'\" >'.$this->trans('Click to refresh the page and use the new configuration', array(), 'Modules.Autoupgrade.Admin').'</a>");
 }
 function startProcess(type){
 
