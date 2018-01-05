@@ -71,7 +71,7 @@ $(document).ready(function(){
     $(".nobootstrap.no-header-toolbar").removeClass("nobootstrap").addClass("bootstrap");
 
     $(document).on("click", "a.confirmBeforeDelete", function(e){
-        if (!confirm("'.addslashes($this->trans('Are you sure you want to delete this backup?', array(), 'Modules.Autoupgrade.Admin')).'"))
+        if (!confirm(translated[3]))
             e.preventDefault();
     });
 
@@ -126,7 +126,7 @@ $(document).ready(function(){
 			{
 				if (textStatus == "timeout" && action == "download")
 				{
-					updateInfoStep("'.addslashes($this->trans('Your server cannot download the file. Please upload it first by ftp in your admin/autoupgrade directory', array(), 'Modules.Autoupgrade.Admin')).'");
+					updateInfoStep(translated[4]);
 				}
 				else
 				{
@@ -239,7 +239,7 @@ function afterUpdateConfig(res)
 	else
 		showConfigResult(res.next_desc);
 	$("#upgradeNow").unbind();
-	$("#upgradeNow").replaceWith("<a class=\"button-autoupgrade\" href=\"'.self::$currentIndex.'&token='.$this->token.'\" >'.$this->trans('Click to refresh the page and use the new configuration', array(), 'Modules.Autoupgrade.Admin').'</a>");
+	$("#upgradeNow").replaceWith("<a class=\"button-autoupgrade\" href=\""+currentIndex+"&token="+token+"\" >"+translated[5]+"</a>");
 }
 function startProcess(type){
 
@@ -250,7 +250,7 @@ function startProcess(type){
 
 	$(window).bind("beforeunload", function(e)
 	{
-		if (confirm("'.addslashes($this->trans('An update is currently in progress... Click \"OK\" to abort.', array(), 'Modules.Autoupgrade.Admin')).'"))
+		if (confirm(translated[6]))
 		{
 			$.xhrPool.abortAll();
 			$(window).unbind("beforeunload");
@@ -279,7 +279,7 @@ function afterUpgradeNow(res)
 {
 	startProcess("upgrade");
 	$("#upgradeNow").unbind();
-	$("#upgradeNow").replaceWith("<span id=\"upgradeNow\" class=\"button-autoupgrade\">'.$this->trans('Upgrading PrestaShop', array(), 'Modules.Autoupgrade.Admin').' ...</span>");
+	$("#upgradeNow").replaceWith("<span id=\"upgradeNow\" class=\"button-autoupgrade\">"+translated[7]+"</span>");
 }
 
 function afterUpgradeComplete(res)
@@ -289,31 +289,31 @@ function afterUpgradeComplete(res)
 	if (params.warning_exists == "false")
 	{
 		$("#upgradeResultCheck")
-			.html("<p>'.$this->trans('Upgrade complete', array(), 'Modules.Autoupgrade.Admin').'</p>")
+			.html("<p>"+translated[8]+"</p>")
 			.show();
-		$("#infoStep").html("<p class=\"alert alert-success\">'.$this->trans('Upgrade Complete!', array(), 'Modules.Autoupgrade.Admin').'</p>");
+		$("#infoStep").html("<p class=\"alert alert-success\">"+translated[8]+"</p>");
 	}
 	else
 	{
 		params = res.nextParams
 		$("#pleaseWait").hide();
 		$("#upgradeResultCheck")
-			.html("<p>'.$this->trans('Upgrade complete, but warning notifications has been found.', array(), 'Modules.Autoupgrade.Admin').'</p>")
+			.html("<p>"+translated[10]+"</p>")
 			.show("slow");
-		$("#infoStep").html("<p class=\"alert alert-warning\">'.$this->trans('Upgrade complete, but warning notifications has been found.', array(), 'Modules.Autoupgrade.Admin').'</p>");
+		$("#infoStep").html("<p class=\"alert alert-warning\">"+translated[10]+"</p>");
 	}
 
 	todo_list = [
-		"'.addslashes($this->trans('Cookies have changed, you will need to log in again once you refreshed the page', array(), 'Modules.Autoupgrade.Admin')).'",
-		"'.addslashes($this->trans('Javascript and CSS files have changed, please clear your browser cache with CTRL-F5', array(), 'Modules.Autoupgrade.Admin')).'",
-		"'.addslashes($this->trans('Please check that your front-office theme is functional (try to create an account, place an order...)', array(), 'Modules.Autoupgrade.Admin')).'",
-		"'.addslashes($this->trans('Product images do not appear in the front-office? Try regenerating the thumbnails in Preferences > Images', array(), 'Modules.Autoupgrade.Admin')).'",
-		"'.addslashes($this->trans('Do not forget to reactivate your shop once you have checked everything!', array(), 'Modules.Autoupgrade.Admin')).'",
+		translated[11],
+		translated[12],
+		translated[13],
+		translated[14],
+		translated[15],
 	];
 
 	todo_ul = "<ul>";
 	$("#upgradeResultToDoList")
-		.html("<strong>'.$this->trans('ToDo list:', array(), 'Modules.Autoupgrade.Admin').'</strong>")
+		.html("<strong>"+translated[16]+"</strong>")
 	for(var i in todo_list)
 	{
 		todo_ul += "<li>"+todo_list[i]+"</li>";
@@ -345,9 +345,9 @@ function afterRollbackComplete(res)
 	params = res.nextParams
 	$("#pleaseWait").hide();
 	$("#upgradeResultCheck")
-		.html("<p>'.$this->trans('Restoration complete.', array(), 'Modules.Autoupgrade.Admin').'</p>")
+		.html("<p>"+translated[17]+"</p>")
 		.show("slow");
-	updateInfoStep("<p class=\"alert alert-success\">'.$this->trans('Restoration complete.', array(), 'Modules.Autoupgrade.Admin').'</p>");
+	updateInfoStep("<p class=\"alert alert-success\">"+translated[17]+"</p>");
 	$(window).unbind();
 }
 
@@ -396,12 +396,12 @@ function doAjaxRequest(action, nextParams){
 	$("#pleaseWait").show();
 	req = $.ajax({
 		type:"POST",
-		url : "'. __PS_BASE_URI__.$admin_dir.'/autoupgrade/ajax-upgradetab.php'.'",
+		url : adminUrl+"/autoupgrade/ajax-upgradetab.php",
 		async: true,
 		data : {
-			dir:"'.$admin_dir.'",
+			dir: adminDir,
 			ajaxMode : "1",
-			token : "'.$this->token.'",
+			token : token,
 			tab : "AdminSelfUpgrade",
 			action : action,
 			params : nextParams
@@ -456,7 +456,7 @@ function doAjaxRequest(action, nextParams){
 				)
 					handleError(res, action);
 				else
-					alert("'.$this->trans('Error detected during', array(), 'Modules.Autoupgrade.Admin').' [" + action + "].");
+					alert(translated[18]+ " [" + action + "].");
 			}
 		},
 		error: function(jqXHR, textStatus, errorThrown)
@@ -465,9 +465,9 @@ function doAjaxRequest(action, nextParams){
 			if (textStatus == "timeout")
 			{
 				if (action == "download")
-					updateInfoStep("'.addslashes($this->trans('Your server cannot download the file. Please upload it first by ftp in your admin/autoupgrade directory', array(), 'Modules.Autoupgrade.Admin')).'");
+					updateInfoStep(translated[4]);
 				else
-					updateInfoStep("[Server Error] Timeout:'.addslashes($this->trans('The request exceeded the max_time_limit. Please change your server configuration.', array(), 'Modules.Autoupgrade.Admin')).'");
+					updateInfoStep("[Server Error] Timeout: "+ translated[19]);
 			}
 			else
 				updateInfoStep("[Ajax / Server Error for action " + action + "] textStatus: \"" + textStatus + " \" errorThrown:\"" + errorThrown + " \" jqXHR: \" " + jqXHR.responseText + "\"");
@@ -515,7 +515,7 @@ function handleSuccess(res, action)
 						&& action != "noRollbackFound"))
 		{
 			prepareNextButton("#"+res.next,res.nextParams);
-			alert("'.$this->trans('Manually go to %s button', array('"+res.next+"'), 'Modules.Autoupgrade.Admin').'");
+			alert(translated[20].replace('%s', res.next));
 		}
 		else
 		{
@@ -532,7 +532,7 @@ function handleSuccess(res, action)
 	else
 	{
 		// Way To Go, end of upgrade process
-		addQuickInfo(["'.$this->trans('End of process', array(), 'Modules.Autoupgrade.Admin').'"]);
+		addQuickInfo([translated[21]]);
 	}
 }
 
@@ -545,14 +545,14 @@ function handleError(res, action)
 	// auto rollback only if current action is upgradeFiles or upgradeDb
 	if (action == "upgradeFiles" || action == "upgradeDb" || action == "upgradeModules" )
 	{
-		$(".button-autoupgrade").html("'.$this->trans('Operation canceled. Checking for restoration...', array(), 'Modules.Autoupgrade.Admin').'");
+		$(".button-autoupgrade").html(translated[22]);
 		res.nextParams.restoreName = res.nextParams.backupName;
-		if (confirm("'.$this->trans('Do you want to restore %backupname%?', array('%backupname%' => $this->backupName), 'Modules.Autoupgrade.Admin').'"))
+		if (confirm(translated[23].replace('%backupname%', res.nextParams.backupName)))
 			doAjaxRequest("rollback",res.nextParams);
 	}
 	else
 	{
-		$(".button-autoupgrade").html("'.$this->trans('Operation canceled. An error happened.', array(), 'Modules.Autoupgrade.Admin').'");
+		$(".button-autoupgrade").html(translated[24]);
 		$(window).unbind();
 	}
 }
@@ -582,12 +582,12 @@ function isJsonString(str) {
 $(document).ready(function(){
 	$.ajax({
 			type:"POST",
-			url : "'. __PS_BASE_URI__ . $admin_dir.'/autoupgrade/ajax-upgradetab.php",
+			url : adminUrl+"/autoupgrade/ajax-upgradetab.php",
 			async: true,
 			data : {
-				dir:"'.$admin_dir.'",
-				token : "'.$this->token.'",
-				tab : "'.get_class($this).'",
+				dir: adminDir,
+				token : token,
+				tab : "AdminSelfUpgrade",
 				action : "checkFilesVersion",
 				ajaxMode : "1",
 				params : {}
@@ -607,14 +607,14 @@ $(document).ready(function(){
 					else
 					{
 						$("#checkPrestaShopFilesVersion").prepend("<img src=\"../img/admin/warning.gif\" /> ");
-						$("#checkPrestaShopFilesVersion").append("<a id=\"toggleChangedList\" class=\"button\" href=\"\">'.$this->trans('See or hide the list', array(), 'Modules.Autoupgrade.Admin').'</a><br/>");
+						$("#checkPrestaShopFilesVersion").append("<a id=\"toggleChangedList\" class=\"button\" href=\"\">"+translated[25]+"</a><br/>");
 						$("#checkPrestaShopFilesVersion").append("<div id=\"changedList\" style=\"display:none \"><br/>");
 						if(answer.result.core.length)
-							addModifiedFileList("'.$this->trans('Core file(s)', array(), 'Modules.Autoupgrade.Admin').'", answer.result.core, "changedImportant", "#changedList");
+							addModifiedFileList(translated[26], answer.result.core, "changedImportant", "#changedList");
 						if(answer.result.mail.length)
-							addModifiedFileList("'.$this->trans('Mail file(s)', array(), 'Modules.Autoupgrade.Admin').'", answer.result.mail, "changedNotice", "#changedList");
+							addModifiedFileList(translated[27], answer.result.mail, "changedNotice", "#changedList");
 						if(answer.result.translation.length)
-							addModifiedFileList("'.$this->trans('Translation file(s)', array(), 'Modules.Autoupgrade.Admin').'", answer.result.translation, "changedNotice", "#changedList");
+							addModifiedFileList(translated[28], answer.result.translation, "changedNotice", "#changedList");
 
 						$("#toggleChangedList").bind("click",function(e){e.preventDefault();$("#changedList").toggle();});
 						$(".toggleSublist").die().live("click",function(e){e.preventDefault();$(this).parent().next().toggle();});
@@ -625,7 +625,7 @@ $(document).ready(function(){
 			{
 				if (textStatus == "timeout" && action == "download")
 				{
-					updateInfoStep("'.$this->trans('Your server cannot download the file. Please upload it to your FTP server, and put it in your /[admin]/autoupgrade directory.', array(), 'Modules.Autoupgrade.Admin').'");
+					updateInfoStep(translated[29]);
 				}
 				else
 				{
@@ -636,12 +636,12 @@ $(document).ready(function(){
 		})
 	$.ajax({
 			type:"POST",
-			url : "'. __PS_BASE_URI__ . $admin_dir.'/autoupgrade/ajax-upgradetab.php",
+			url : adminUrl+"/autoupgrade/ajax-upgradetab.php",
 			async: true,
 			data : {
-				dir:"'.$admin_dir.'",
-				token : "'.$this->token.'",
-				tab : "'.get_class($this).'",
+				dir: adminDir,
+				token : token,
+				tab : "AdminSelfUpgrade",
 				action : "compareReleases",
 				ajaxMode : "1",
 				params : {}
@@ -661,12 +661,12 @@ $(document).ready(function(){
 				else
 				{
 					$("#checkPrestaShopModifiedFiles").prepend("<img src=\"../img/admin/warning.gif\" /> ");
-					$("#checkPrestaShopModifiedFiles").append("<a id=\"toggleDiffList\" class=\"button\" href=\"\">'.$this->trans('See or hide the list', array(), 'Modules.Autoupgrade.Admin').'</a><br/>");
+					$("#checkPrestaShopModifiedFiles").append("<a id=\"toggleDiffList\" class=\"button\" href=\"\">"+translated[30]+"</a><br/>");
 					$("#checkPrestaShopModifiedFiles").append("<div id=\"diffList\" style=\"display:none \"><br/>");
 						if(answer.result.deleted.length)
-							addModifiedFileList("'.$this->trans('Theses files will be deleted', array(), 'Modules.Autoupgrade.Admin').'", answer.result.deleted, "diffImportant", "#diffList");
+							addModifiedFileList(translated[31], answer.result.deleted, "diffImportant", "#diffList");
 						if(answer.result.modified.length)
-							addModifiedFileList("'.$this->trans('Theses files will be modified', array(), 'Modules.Autoupgrade.Admin').'", answer.result.modified, "diffImportant", "#diffList");
+							addModifiedFileList(translated[32], answer.result.modified, "diffImportant", "#diffList");
 
 					$("#toggleDiffList").bind("click",function(e){e.preventDefault();$("#diffList").toggle();});
 					$(".toggleSublist").die().live("click",function(e){
@@ -680,7 +680,7 @@ $(document).ready(function(){
 			{
 				if (textStatus == "timeout" && action == "download")
 				{
-					updateInfoStep("'.$this->trans('Your server cannot download the file. Please upload it first by ftp in your admin/autoupgrade directory', array(), 'Modules.Autoupgrade.Admin').'");
+					updateInfoStep(translated[33]);
 				}
 				else
 				{
@@ -700,12 +700,12 @@ $(document).ready(function(){
 		});
 
 		function switch_to_advanced(){
-			$("input[name=btn_adv]").val("'.$this->trans('Less options', array(), 'Modules.Autoupgrade.Admin').'");
+			$("input[name=btn_adv]").val(translated[34]);
 			$("#advanced").show();
 		}
 
 		function switch_to_normal(){
-			$("input[name=btn_adv]").val("'.$this->trans('More options (Expert mode)', array(), 'Modules.Autoupgrade.Admin').'");
+			$("input[name=btn_adv]").val(translated[35]);
 			$("#advanced").hide();
 		}
 
@@ -734,7 +734,7 @@ $(document).ready(function()
 			{
 				if (($("input[name=private_release_link]").val() == "") || ($("input[name=private_release_md5]").val() == ""))
 				{
-					showConfigResult("'.$this->trans('Link and MD5 hash cannot be empty', array(), 'Modules.Autoupgrade.Admin').'", "error");
+					showConfigResult(translated[36], "error");
 					return false;
 				}
 				params.channel = "private";
@@ -751,12 +751,12 @@ $(document).ready(function()
 				archive_num = $("input[name=archive_num]").val();
 				if (archive_num == "")
 				{
-					showConfigResult("'.$this->trans('You need to enter the version number associated with the archive.', array(), 'Modules.Autoupgrade.Admin').'", "error");
+					showConfigResult(translated[37], "error");
 					return false;
 				}
 				if (archive_prestashop == "")
 				{
-					showConfigResult("'.$this->trans('No archive has been selected.', array(), 'Modules.Autoupgrade.Admin').'", "error");
+					showConfigResult(translated[38], "error");
 					return false;
 				}
 				params.channel = "archive";
@@ -770,7 +770,7 @@ $(document).ready(function()
 				directory_num = $("input[name=directory_num]").val();
 				if (directory_num == "" || directory_num.indexOf(".") == -1)
 				{
-					showConfigResult("'.$this->trans('You need to enter the version number associated with the directory.', array(), 'Modules.Autoupgrade.Admin').'", "error");
+					showConfigResult(translated[39], "error");
 					return false;
 				}
 				params.directory_num = $("input[name=directory_num]").val();
@@ -780,7 +780,7 @@ $(document).ready(function()
 		if ($(this).attr("name") == "submitConf-skipBackup")
 		{
 			skipBackup = $("input[name=submitConf-skipBackup]:checked").length;
-			if (skipBackup == 0 || confirm("'.$this->trans('Please confirm that you want to skip the backup.', array(), 'Modules.Autoupgrade.Admin').'"))
+			if (skipBackup == 0 || confirm(translated[40]))
 				params.skip_backup = $("input[name=submitConf-skipBackup]:checked").length;
 			else
 			{
@@ -793,7 +793,7 @@ $(document).ready(function()
 		if ($(this).attr("name") == "submitConf-preserveFiles")
 		{
 			preserveFiles = $("input[name=submitConf-preserveFiles]:checked").length;
-			if (confirm("'.$this->trans('Please confirm that you want to preserve file options.', array(), 'Modules.Autoupgrade.Admin').'"))
+			if (confirm(translated[41]))
 				params.preserve_files = $("input[name=submitConf-preserveFiles]:checked").length;
 			else
 			{

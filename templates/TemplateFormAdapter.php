@@ -100,12 +100,49 @@ txtError[37] = "'.addslashes(self::trans('The config/defines.inc.php file was no
 translated[0] = "'.addslashes(self::trans('Delete', array(), 'Admin.Actions')).'";
 translated[1] = "'.addslashes(self::trans('Javascript error (parseJSON) detected for action ', array(), 'Modules.Autoupgrade.Admin')).'";
 translated[2] = "'.addslashes(self::trans('Starting restoration...', array(), 'Modules.Autoupgrade.Admin')).'";
-
-
+translated[3] = "'.addslashes(self::trans('Are you sure you want to delete this backup?', array(), 'Modules.Autoupgrade.Admin')).'";
+translated[4] = "'.addslashes(self::trans('Your server cannot download the file. Please upload it first by ftp in your admin/autoupgrade directory', array(), 'Modules.Autoupgrade.Admin')).'";
+translated[5] = "'.addslashes(self::trans('Click to refresh the page and use the new configuration', array(), 'Modules.Autoupgrade.Admin')).'";
+translated[6] = "'.addslashes(self::trans('An update is currently in progress... Click "OK" to abort.', array(), 'Modules.Autoupgrade.Admin')).'";
+translated[7] = "'.addslashes(self::trans('Upgrading PrestaShop ...', array(), 'Modules.Autoupgrade.Admin')).'";
+translated[8] = "'.addslashes(self::trans('Upgrade complete', array(), 'Modules.Autoupgrade.Admin')).'";
+translated[9] = "'.addslashes(self::trans('Upgrade Complete!', array(), 'Modules.Autoupgrade.Admin')).'";
+translated[10] = "'.addslashes(self::trans('Upgrade complete, but warning notifications has been found.', array(), 'Modules.Autoupgrade.Admin')).'";
+translated[11] = "'.addslashes(self::trans('Cookies have changed, you will need to log in again once you refreshed the page', array(), 'Modules.Autoupgrade.Admin')).'";
+translated[12] = "'.addslashes(self::trans('Javascript and CSS files have changed, please clear your browser cache with CTRL-F5', array(), 'Modules.Autoupgrade.Admin')).'";
+translated[13] = "'.addslashes(self::trans('Please check that your front-office theme is functional (try to create an account, place an order...)', array(), 'Modules.Autoupgrade.Admin')).'";
+translated[14] = "'.addslashes(self::trans('Product images do not appear in the front-office? Try regenerating the thumbnails in Preferences > Images', array(), 'Modules.Autoupgrade.Admin')).'";
+translated[15] = "'.addslashes(self::trans('Do not forget to reactivate your shop once you have checked everything!', array(), 'Modules.Autoupgrade.Admin')).'";
+translated[16] = "'.addslashes(self::trans('ToDo list:', array(), 'Modules.Autoupgrade.Admin')).'";
+translated[17] = "'.addslashes(self::trans('Restoration complete.', array(), 'Modules.Autoupgrade.Admin')).'";
+translated[18] = "'.addslashes(self::trans('Error detected during', array(), 'Modules.Autoupgrade.Admin')).'";
+translated[19] = "'.addslashes(self::trans('The request exceeded the max_time_limit. Please change your server configuration.', array(), 'Modules.Autoupgrade.Admin')).'";
+translated[20] = "'.addslashes(self::trans('Manually go to %s button', array(), 'Modules.Autoupgrade.Admin')).'";
+translated[21] = "'.addslashes(self::trans('End of process', array(), 'Modules.Autoupgrade.Admin')).'";
+translated[22] = "'.addslashes(self::trans('Operation canceled. Checking for restoration...', array(), 'Modules.Autoupgrade.Admin')).'";
+translated[23] = "'.addslashes(self::trans('Do you want to restore %backupname%?', array(), 'Modules.Autoupgrade.Admin')).'";
+translated[24] = "'.addslashes(self::trans('Operation canceled. An error happened.', array(), 'Modules.Autoupgrade.Admin')).'";
+translated[25] = "'.addslashes(self::trans('See or hide the list', array(), 'Modules.Autoupgrade.Admin')).'";
+translated[26] = "'.addslashes(self::trans('Core file(s)', array(), 'Modules.Autoupgrade.Admin')).'";
+translated[27] = "'.addslashes(self::trans('Mail file(s)', array(), 'Modules.Autoupgrade.Admin')).'";
+translated[28] = "'.addslashes(self::trans('Translation file(s)', array(), 'Modules.Autoupgrade.Admin')).'";
+translated[29] = "'.addslashes(self::trans('Your server cannot download the file. Please upload it to your FTP server, and put it in your /[admin]/autoupgrade directory.', array(), 'Modules.Autoupgrade.Admin')).'";
+translated[30] = "'.addslashes(self::trans('See or hide the list', array(), 'Modules.Autoupgrade.Admin')).'";
+translated[31] = "'.addslashes(self::trans('Theses files will be deleted', array(), 'Modules.Autoupgrade.Admin')).'";
+translated[32] = "'.addslashes(self::trans('Theses files will be modified', array(), 'Modules.Autoupgrade.Admin')).'";
+translated[33] = "'.addslashes(self::trans('Your server cannot download the file. Please upload it first by ftp in your admin/autoupgrade directory', array(), 'Modules.Autoupgrade.Admin')).'";
+translated[34] = "'.addslashes(self::trans('Less options', array(), 'Modules.Autoupgrade.Admin')).'";
+translated[35] = "'.addslashes(self::trans('More options (Expert mode)', array(), 'Modules.Autoupgrade.Admin')).'";
+translated[36] = "'.addslashes(self::trans('Link and MD5 hash cannot be empty', array(), 'Modules.Autoupgrade.Admin')).'";
+translated[37] = "'.addslashes(self::trans('You need to enter the version number associated with the archive.', array(), 'Modules.Autoupgrade.Admin')).'";
+translated[38] = "'.addslashes(self::trans('No archive has been selected.', array(), 'Modules.Autoupgrade.Admin')).'";
+translated[39] = "'.addslashes(self::trans('You need to enter the version number associated with the directory.', array(), 'Modules.Autoupgrade.Admin')).'";
+translated[40] = "'.addslashes(self::trans('Please confirm that you want to skip the backup.', array(), 'Modules.Autoupgrade.Admin')).'";
+translated[41] = "'.addslashes(self::trans('Please confirm that you want to preserve file options.', array(), 'Modules.Autoupgrade.Admin')).'";
 ';
     }
 
-    public static function getJsInitValues($manualMode, $adminDir, $defaultAjaxResult, $backup, $token, $channel)
+    public static function getJsInitValues($manualMode, $adminDir, $defaultAjaxResult, $backup, $token, $channel, $currentIndex)
     {
         $js = '';
         if ($manualMode) {
@@ -129,6 +166,9 @@ translated[2] = "'.addslashes(self::trans('Starting restoration...', array(), 'M
             firstTimeParams.firstTime = "1";';
 
         $js .= 'var token = "'. $token .'";';
+        $js .= 'var currentIndex = "'. $currentIndex .'";';
+        $js .= 'var adminDir = "'. $adminDir .'";';
+        $js .= 'var adminUrl = "'. __PS_BASE_URI__.$adminDir .'";';
 
         $js .= 'var defaultMode = '. ($channel == 'major' ? 'switch_to_normal' : 'switch_to_advanced').';';
         return $js;

@@ -4669,13 +4669,15 @@ class AdminSelfUpgrade extends ModuleAdminController
         $this->_html .= '<script type="text/javascript" src="'.__PS_BASE_URI__.'modules/autoupgrade/js/jquery.xml2json.js"></script>';
         $this->_html .= '<script type="text/javascript" src="'.__PS_BASE_URI__.'modules/autoupgrade/js/upgrade.js"></script>';
         $this->_html .= '<script type="text/javascript">'.TemplateFormAdapter::getJsErrorMsgs($this->install_version).'</script>';
+        $this->_html .= '<script type="text/javascript">'.TemplateFormAdapter::translatedString().'</script>';
         $this->_html .= '<script type="text/javascript">'.
             TemplateFormAdapter::getJsInitValues(
                 $this->manualMode, trim(str_replace($this->prodRootDir, '', $this->adminDir), DIRECTORY_SEPARATOR),
                 $this->buildAjaxResult(),
                 $this->getConfig('PS_AUTOUP_BACKUP'),
                 $this->token,
-                $this->getConfig('channel')
+                $this->getConfig('channel'),
+                self::$currentIndex
             )
             .'</script>';
         $this->ajax = true;
