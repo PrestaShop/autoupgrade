@@ -92,11 +92,11 @@ $(document).ready(function(){
 		val = $("select[name=channel]").find("option:selected").val();
 		$.ajax({
 			type:"POST",
-			url : "'. __PS_BASE_URI__ . $admin_dir.'/autoupgrade/ajax-upgradetab.php",
+			url : adminUrl+"/autoupgrade/ajax-upgradetab.php",
 			async: true,
 			data : {
-				dir:"'.$admin_dir.'",
-				token : "'.$this->token.'",
+				dir: adminDir,
+				token : token,
 				tab : "AdminSelfUpgrade",
 				action : "getChannelInfo",
 				ajaxMode : "1",
