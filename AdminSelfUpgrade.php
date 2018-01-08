@@ -368,6 +368,7 @@ class AdminSelfUpgrade extends ModuleAdminController
         $this->init();
 
         $this->db = Db::getInstance();
+        $this->bootstrap = true;
 
         // Performance settings, if your server has a low memory size, lower these values
         $perf_array = array(
