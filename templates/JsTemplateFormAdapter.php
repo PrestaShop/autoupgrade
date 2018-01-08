@@ -32,7 +32,9 @@
  * Function names can give an idea of the future template purpose, while parameter inform about
  * the data to sent to this future tpl
  */
-class TemplateFormAdapter
+namespace PrestaShop\Module\AutoUpgrade\Temp;
+
+class JsTemplateFormAdapter
 {
     public static function getJsErrorMsgs($install_version)
     {

@@ -24,7 +24,12 @@
 *  International Registered Trademark & Property of PrestaShop SA
 */
 
-class UpgraderCore
+namespace PrestaShop\Module\AutoUpgrade;
+
+use Tools as Tools14;
+use Configuration;
+
+class Upgrader
 {
 	const DEFAULT_CHECK_VERSION_DELAY_HOURS = 12;
 	const DEFAULT_CHANNEL = 'major';

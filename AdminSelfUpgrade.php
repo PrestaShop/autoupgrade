@@ -25,26 +25,15 @@
 *	International Registered Trademark & Property of PrestaShop SA
 */
 
-// to be replace by autoloader
-require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/classes/Upgrader.php');
-require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/templates/TemplateFormAdapter.php');
-
-if (!class_exists('Upgrader', false)) {
-    if (file_exists(_PS_ROOT_DIR_.'/override/classes/Upgrader.php')) {
-        require_once(_PS_ROOT_DIR_.'/override/classes/Upgrader.php');
-    } else {
-        eval('class Upgrader extends UpgraderCore{}');
-    }
-}
-
-require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/classes/Tools14.php');
-if (!class_exists('Tools', false)) {
-    eval('class Tools extends Tools14{}');
-}
+use PrestaShop\Module\AutoUpgrade\Upgrader;
+use Tools as Tools14;
+use PrestaShop\Module\AutoUpgrade\Temp\JsTemplateFormAdapter;
 
 use PrestaShop\PrestaShop\Core\Addon\AddonListFilterType;
 use PrestaShop\PrestaShop\Core\Addon\AddonListFilterOrigin;
 use PrestaShop\PrestaShop\Core\Addon\Module\ModuleManagerBuilder;
+
+require __DIR__.'/vendor/autoload.php';
 
 class AdminSelfUpgrade extends ModuleAdminController
 {
@@ -4665,10 +4654,10 @@ class AdminSelfUpgrade extends ModuleAdminController
 
         $this->_html .= '<script type="text/javascript" src="'.__PS_BASE_URI__.'modules/autoupgrade/js/jquery.xml2json.js"></script>';
         $this->_html .= '<script type="text/javascript" src="'.__PS_BASE_URI__.'modules/autoupgrade/js/upgrade.js"></script>';
-        $this->_html .= '<script type="text/javascript">'.TemplateFormAdapter::getJsErrorMsgs($this->install_version).'</script>';
-        $this->_html .= '<script type="text/javascript">'.TemplateFormAdapter::translatedString().'</script>';
+        $this->_html .= '<script type="text/javascript">'.JsTemplateFormAdapter::getJsErrorMsgs($this->install_version).'</script>';
+        $this->_html .= '<script type="text/javascript">'.JsTemplateFormAdapter::translatedString().'</script>';
         $this->_html .= '<script type="text/javascript">'.
-            TemplateFormAdapter::getJsInitValues(
+            JsTemplateFormAdapter::getJsInitValues(
                 $this->manualMode, trim(str_replace($this->prodRootDir, '', $this->adminDir), DIRECTORY_SEPARATOR),
                 $this->buildAjaxResult(),
                 $this->getConfig('PS_AUTOUP_BACKUP'),
