@@ -15,5 +15,11 @@
   "config": {
     "preferred-install": "dist"
   },
-  "type": "prestashop-module"
+  "type": "prestashop-module",
+  "autoload": {
+    "psr-4": {
+      "PrestaShop\\Module\\AutoUpgrade\\": "classes/",
+      "PrestaShop\\Module\\AutoUpgrade\\Temp\\": "templates/"
+    }
+  }
 }
