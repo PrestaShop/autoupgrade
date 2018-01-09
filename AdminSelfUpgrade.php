@@ -26,6 +26,7 @@
 */
 
 use PrestaShop\Module\AutoUpgrade\Upgrader;
+use PrestaShop\Module\AutoUpgrade\PrestashopConfiguration;
 use Tools as Tools14;
 use PrestaShop\Module\AutoUpgrade\Temp\JsTemplateFormAdapter;
 
@@ -116,10 +117,7 @@ class AdminSelfUpgrade extends ModuleAdminController
     public $latestRootDir = '';
     public $prodRootDir = '';
     public $adminDir = '';
-    public $root_writable = null;
-    public $module_version = null;
 
-    public $lastAutoupgradeVersion = '';
     public $destDownloadFilename = 'prestashop.zip';
 
     /**
@@ -288,6 +286,11 @@ class AdminSelfUpgrade extends ModuleAdminController
 
     public $_fieldsUpgradeOptions = array();
     public $_fieldsBackupOptions = array();
+
+    /**
+     * @var PrestashopConfiguration
+     */
+    private $prestashopConfiguration;
     /**
      * replace tools encrypt
      *
@@ -358,6 +361,13 @@ class AdminSelfUpgrade extends ModuleAdminController
 
         $this->db = Db::getInstance();
         $this->bootstrap = true;
+
+        // Init PrestashopCompliancy class
+        $admin_dir = trim(str_replace($this->prodRootDir, '', $this->adminDir), DIRECTORY_SEPARATOR);
+        $this->prestashopConfiguration = new PrestashopConfiguration(
+            $admin_dir.DIRECTORY_SEPARATOR.$this->autoupgradeDir,
+            $this->upgrader->autoupgrade_last_version
+        );
 
         // Performance settings, if your server has a low memory size, lower these values
         $perf_array = array(
@@ -456,64 +466,6 @@ class AdminSelfUpgrade extends ModuleAdminController
         if ($this->getConfig('PS_DISPLAY_ERRORS') && defined('_PS_MODE_DEV_') && !_PS_MODE_DEV_) {
             $this->writeConfig(array('PS_DISPLAY_ERRORS' => '0'));
         }
-    }
-
-    public function configOk()
-    {
-        $allowed_array = $this->getCheckCurrentPsConfig();
-        $allowed = array_product($allowed_array);
-        return $allowed;
-    }
-
-    public function getCheckCurrentPsConfig()
-    {
-        static $allowed_array;
-
-        if (empty($allowed_array)) {
-            $allowed_array = array();
-            $allowed_array['fopen'] = ConfigurationTest::test_fopen() || ConfigurationTest::test_curl();
-            $allowed_array['root_writable'] = $this->getRootWritable();
-            $admin_dir = trim(str_replace($this->prodRootDir, '', $this->adminDir), DIRECTORY_SEPARATOR);
-            $allowed_array['admin_au_writable'] = ConfigurationTest::test_dir($admin_dir.DIRECTORY_SEPARATOR.$this->autoupgradeDir, false, $report);
-            $allowed_array['shop_deactivated'] = (!Configuration::get('PS_SHOP_ENABLE') || (isset($_SERVER['HTTP_HOST']) && in_array($_SERVER['HTTP_HOST'], array('127.0.0.1', 'localhost'))));
-            $allowed_array['cache_deactivated'] = !(defined('_PS_CACHE_ENABLED_') && _PS_CACHE_ENABLED_);
-            $allowed_array['module_version_ok'] = $this->checkAutoupgradeLastVersion();
-        }
-        return $allowed_array;
-    }
-
-    public function getRootWritable()
-    {
-        // Root directory permissions cannot be checked recursively anymore, it takes too much time
-        $this->root_writable =  ConfigurationTest::test_dir('/', false, $report);
-        $this->root_writable_report = $report;
-
-        return $this->root_writable;
-    }
-
-    public function getModuleVersion()
-    {
-        if (is_null($this->module_version)) {
-            if (file_exists(_PS_ROOT_DIR_.'/modules/autoupgrade/config.xml')
-                && $xml_module_version = simplexml_load_file(_PS_ROOT_DIR_.'/modules/autoupgrade/config.xml')
-            ) {
-                $this->module_version = (string)$xml_module_version->version;
-            } else {
-                $this->module_version = false;
-            }
-        }
-        return $this->module_version;
-    }
-
-    public function checkAutoupgradeLastVersion()
-    {
-        if ($this->getModuleVersion()) {
-            $this->lastAutoupgradeVersion = version_compare($this->module_version, $this->upgrader->autoupgrade_last_version, '>=');
-        } else {
-            $this->lastAutoupgradeVersion = true;
-        }
-
-        return $this->lastAutoupgradeVersion;
     }
 
     public function cleanTmpFiles()
@@ -4084,7 +4036,7 @@ class AdminSelfUpgrade extends ModuleAdminController
      */
     private function _displayCurrentConfiguration()
     {
-        $current_ps_config = $this->getcheckCurrentPsConfig();
+        $current_ps_config = $this->prestashopConfiguration->getCompliancyResults();
 
 
         $this->_html .= '<div class="bootstrap" id="currentConfigurationBlock">
@@ -4093,7 +4045,7 @@ class AdminSelfUpgrade extends ModuleAdminController
                   '.$this->trans('The pre-Upgrade checklist', array(), 'Modules.Autoupgrade.Admin').'
                 </div>';
 
-        if (!$this->configOk()) {
+        if (!$this->prestashopConfiguration->isCompliant()) {
             $this->_html .= '<p class="alert alert-warning">'.$this->trans('The checklist is not OK. You can only upgrade your shop once all indicators are green.', array(), 'Modules.Autoupgrade.Admin').'</p>';
         }
 
@@ -4107,7 +4059,7 @@ class AdminSelfUpgrade extends ModuleAdminController
 
         $this->_html .= '<table class="table" cellpadding="0" cellspacing="0">
 				<tr>
-					<td>'.$this->trans('The 1-click upgrade module is up-to-date (your current version is v%s)', array($this->getModuleVersion()), 'Modules.Autoupgrade.Admin').'
+					<td>'.$this->trans('The 1-click upgrade module is up-to-date (your current version is v%s)', array($this->prestashopConfiguration->getModuleVersion()), 'Modules.Autoupgrade.Admin').'
 					'.($current_ps_config['module_version_ok'] ? '' : '&nbsp;&nbsp;'.(version_compare(_PS_VERSION_, '1.5.3.0', '>') ? '<strong><a href="index.php?controller=AdminModules&amp;token='.Tools14::getAdminTokenLite('AdminModules').'&update=autoupgrade">'.$this->trans('Update', array(), 'Admin.Actions').'</a></strong> - ' : '').'<strong><a class="_blank" href="http://addons.prestashop.com/en/administration-tools-prestashop-modules/5496-1-click-upgrade-autoupgrade.html">'.$this->trans('Download', array(), 'Modules.Autoupgrade.Admin').'</a><strong> ').'
 					</td>
 					<td>'.($current_ps_config['module_version_ok'] ? $pic_ok : $pic_nok).'</td>
@@ -4118,7 +4070,7 @@ class AdminSelfUpgrade extends ModuleAdminController
         $this->_html .= '
 			<tr>
 				<td>'.$this->trans('Your store\'s root directory is writable (with appropriate CHMOD permissions)', array(), 'Modules.Autoupgrade.Admin').'</td>
-				<td>'.($current_ps_config['root_writable'] ? $pic_ok : $pic_nok.' '.$this->root_writable_report).'</td>
+				<td>'.($current_ps_config['root_writable'] ? $pic_ok : $pic_nok.' '.$current_ps_config['root_writable_report']).'</td>
 			</tr>';
 
         $admin_dir = trim(str_replace($this->prodRootDir, '', $this->adminDir), DIRECTORY_SEPARATOR);
@@ -4450,7 +4402,7 @@ class AdminSelfUpgrade extends ModuleAdminController
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////
         // decide to display "Start Upgrade" or not
-        if ($this->configOk()) {
+        if ($this->prestashopConfiguration->isCompliant()) {
             if (version_compare(_PS_VERSION_, $this->upgrader->version_num, '<')) {
                 $show_big_button_new_version = false;
                 $this->_html .= '<p><a href="#" id="upgradeNow" class="button-autoupgrade upgradestep btn btn-primary">'.$this->trans('Upgrade PrestaShop now!', array(), 'Modules.Autoupgrade.Admin').'</a> ';
