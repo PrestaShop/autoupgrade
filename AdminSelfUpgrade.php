@@ -27,7 +27,9 @@
 
 use PrestaShop\Module\AutoUpgrade\Upgrader;
 use PrestaShop\Module\AutoUpgrade\PrestashopConfiguration;
-use Tools as Tools14;
+use PrestaShop\Module\AutoUpgrade\Tools14;
+use PrestaShop\Module\AutoUpgrade\Parameters\ConfigurationStorage;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Temp\JsTemplateFormAdapter;
 
 use PrestaShop\PrestaShop\Core\Addon\AddonListFilterType;
@@ -291,6 +293,13 @@ class AdminSelfUpgrade extends ModuleAdminController
      * @var PrestashopConfiguration
      */
     private $prestashopConfiguration;
+
+    /**
+     * @var UpgradeConfiguration
+     */
+    private $upgradeConfiguration;
+    private $upgradeConfFilePath;
+
     /**
      * replace tools encrypt
      *
@@ -381,7 +390,7 @@ class AdminSelfUpgrade extends ModuleAdminController
             'loopUpgradeModulesTime' => array(6, 12, 25),
             'loopRemoveSamples' => array(400, 800, 1600)
         );
-        switch ($this->getConfig('PS_AUTOUP_PERFORMANCE')) {
+        switch ($this->upgradeConfiguration->get('PS_AUTOUP_PERFORMANCE')) {
             case 3:
                 foreach ($perf_array as $property => $values) {
                     self::$$property = $values[2];
@@ -463,7 +472,7 @@ class AdminSelfUpgrade extends ModuleAdminController
         );
 
         /* Developers only options */
-        if ($this->getConfig('PS_DISPLAY_ERRORS') && defined('_PS_MODE_DEV_') && !_PS_MODE_DEV_) {
+        if ($this->upgradeConfiguration->get('PS_DISPLAY_ERRORS') && defined('_PS_MODE_DEV_') && !_PS_MODE_DEV_) {
             $this->writeConfig(array('PS_DISPLAY_ERRORS' => '0'));
         }
     }
@@ -510,25 +519,26 @@ class AdminSelfUpgrade extends ModuleAdminController
             }
         }
         $this->initPath();
+        $this->upgradeConfiguration = ConfigurationStorage::load($this->upgradeConfFilePath);
         $upgrader = new Upgrader();
         preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', _PS_VERSION_, $matches);
         if (isset($matches[1])) {
             $upgrader->branch = $matches[1];
         }
-        $channel = $this->getConfig('channel');
+        $channel = $this->upgradeConfiguration->get('channel');
         switch ($channel) {
             case 'archive':
-                $this->install_version = $this->getConfig('archive.version_num');
-                $this->destDownloadFilename = $this->getConfig('archive.filename');
+                $this->install_version = $this->upgradeConfiguration->get('archive.version_num');
+                $this->destDownloadFilename = $this->upgradeConfiguration->get('archive.filename');
                 $upgrader->checkPSVersion(true, array('archive'));
                 break;
             case 'directory':
-                $this->install_version = $this->getConfig('directory.version_num');
+                $this->install_version = $this->upgradeConfiguration->get('directory.version_num');
                 $upgrader->checkPSVersion(true, array('directory'));
             break;
             default:
                 $upgrader->channel = $channel;
-                if ($this->getConfig('channel') == 'private' && !$this->getConfig('private_allow_major')) {
+                if ($this->upgradeConfiguration->get('channel') == 'private' && !$this->upgradeConfiguration->get('private_allow_major')) {
                     $upgrader->checkPSVersion(true, array('private', 'minor'));
                 } else {
                     $upgrader->checkPSVersion(true, array('minor'));
@@ -573,12 +583,12 @@ class AdminSelfUpgrade extends ModuleAdminController
             }
         }
 
-        $this->keepImages = $this->getConfig('PS_AUTOUP_KEEP_IMAGES');
-        $this->updateDefaultTheme = $this->getConfig('PS_AUTOUP_UPDATE_DEFAULT_THEME');
-        $this->changeToDefaultTheme = $this->getConfig('PS_AUTOUP_CHANGE_DEFAULT_THEME');
-        $this->keepMails = $this->getConfig('PS_AUTOUP_KEEP_MAILS');
-        $this->manualMode = (defined('_PS_MODE_DEV_') && _PS_MODE_DEV_)? (bool)$this->getConfig('PS_AUTOUP_MANUAL_MODE') : false;
-        $this->deactivateCustomModule = $this->getConfig('PS_AUTOUP_CUSTOM_MOD_DESACT');
+        $this->keepImages = $this->upgradeConfiguration->get('PS_AUTOUP_KEEP_IMAGES');
+        $this->updateDefaultTheme = $this->upgradeConfiguration->get('PS_AUTOUP_UPDATE_DEFAULT_THEME');
+        $this->changeToDefaultTheme = $this->upgradeConfiguration->get('PS_AUTOUP_CHANGE_DEFAULT_THEME');
+        $this->keepMails = $this->upgradeConfiguration->get('PS_AUTOUP_KEEP_MAILS');
+        $this->manualMode = (defined('_PS_MODE_DEV_') && _PS_MODE_DEV_)? (bool)$this->upgradeConfiguration->get('PS_AUTOUP_MANUAL_MODE') : false;
+        $this->deactivateCustomModule = $this->upgradeConfiguration->get('PS_AUTOUP_CUSTOM_MOD_DESACT');
 
         // during restoration, do not remove :
         $this->restoreIgnoreAbsoluteFiles[] = '/app/config/parameters.php';
@@ -710,6 +720,7 @@ class AdminSelfUpgrade extends ModuleAdminController
         }
 
         $this->latestRootDir = $this->latestPath.DIRECTORY_SEPARATOR;
+        $this->upgradeConfFilePath = $this->autoupgradePath.DIRECTORY_SEPARATOR.$this->configFilename;
     }
 
     /**
@@ -728,7 +739,7 @@ class AdminSelfUpgrade extends ModuleAdminController
 
         // set default configuration to default channel & dafault configuration for backup and upgrade
         // (can be modified in expert mode)
-        $config = $this->getConfig('channel');
+        $config = $this->upgradeConfiguration->get('channel');
         if ($config === false) {
             $config = array();
             $config['channel'] = Upgrader::DEFAULT_CHANNEL;
@@ -818,13 +829,13 @@ class AdminSelfUpgrade extends ModuleAdminController
         }
         $this->next = '';
 
-        if ($this->getConfig('channel') != 'archive' && file_exists($this->getFilePath()) && unlink($this->getFilePath())) {
+        if ($this->upgradeConfiguration->get('channel') != 'archive' && file_exists($this->getFilePath()) && unlink($this->getFilePath())) {
             $this->nextQuickInfo[] = $this->trans('%s removed', array($this->getFilePath()), 'Modules.Autoupgrade.Admin');
         } elseif (is_file($this->getFilePath())) {
             $this->nextQuickInfo[] = '<strong>'.$this->trans('Please remove %s by FTP', array($this->getFilePath()), 'Modules.Autoupgrade.Admin').'</strong>';
         }
 
-        if ($this->getConfig('channel') != 'directory' && file_exists($this->latestRootDir) && self::deleteDirectory($this->latestRootDir)) {
+        if ($this->upgradeConfiguration->get('channel') != 'directory' && file_exists($this->latestRootDir) && self::deleteDirectory($this->latestRootDir)) {
             $this->nextQuickInfo[] = $this->trans('%s removed', array($this->latestRootDir), 'Modules.Autoupgrade.Admin');
         } elseif (is_dir($this->latestRootDir)) {
             $this->nextQuickInfo[] = '<strong>'.$this->trans('Please remove %s by FTP', array($this->latestRootDir), 'Modules.Autoupgrade.Admin').'</strong>';
@@ -836,7 +847,7 @@ class AdminSelfUpgrade extends ModuleAdminController
     // Simplification of _displayForm original function
     protected function _displayForm($name, $fields, $tabname, $size, $icon)
     {
-        $confValues = $this->getConfig();
+        $confValues = $this->upgradeConfiguration->toArray();
         $required = false;
 
         $this->_html .= '<div class="bootstrap" id="'.$name.'Block">
@@ -952,70 +963,22 @@ class AdminSelfUpgrade extends ModuleAdminController
     }
 
     /**
-     * return the value of $key, configuration saved in $this->configFilename.
-     * if $key is empty, will return an array with all configuration;
-     *
-     * @param string $key
-     * @access public
-     * @return array or string
-     */
-    public function getConfig($key = '')
-    {
-        static $config = array();
-        if (count($config) == 0) {
-            if (file_exists($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->configFilename)) {
-                $config_content = Tools14::file_get_contents($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->configFilename);
-                $config = @unserialize(base64_decode($config_content));
-            } else {
-                $config = array();
-            }
-        }
-        if (empty($key)) {
-            return $config;
-        } elseif (isset($config[$key])) {
-            return trim($config[$key]);
-        }
-        return false;
-    }
-
-    /**
-     * reset module configuration with $new_config values (previous config will be totally lost)
-     *
-     * @param array $new_config
-     * @return boolean true if success
-     */
-    public function resetConfig($new_config)
-    {
-        return (bool)file_put_contents($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->configFilename, base64_encode(serialize($new_config)));
-    }
-
-    /**
      * update module configuration (saved in file $this->configFilename) with $new_config
      *
      * @param array $new_config
      * @return boolean true if success
      */
-    public function writeConfig($new_config)
+    public function writeConfig($config)
     {
-        if (!file_exists($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->configFilename)) {
-            $this->upgrader->channel = $new_config['channel'];
+        if (!file_exists($this->upgradeConfFilePath) && !empty($config['channel'])) {
+            $this->upgrader->channel = $config['channel'];
             $this->upgrader->checkPSVersion();
             $this->install_version = $this->upgrader->version_num;
-            return $this->resetConfig($new_config);
         }
 
-        $config = file_get_contents($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->configFilename);
-        $config_unserialized = @unserialize(base64_decode($config));
-        if (!is_array($config_unserialized)) {
-            $config_unserialized = @unserialize($config);
-        } // retrocompat, before base64_decode implemented
-        $config = $config_unserialized;
-
-        foreach ($new_config as $key => $val) {
-            $config[$key] = $val;
-        }
+        $this->upgradeConfiguration->merge($config);
         $this->next_desc = $this->trans('Configuration successfully updated.', array(), 'Modules.Autoupgrade.Admin').' <strong>'.$this->trans('This page will now be reloaded and the module will check if a new version is available.', array(), 'Modules.Autoupgrade.Admin').'</strong>';
-        return (bool)file_put_contents($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->configFilename, base64_encode(serialize($config)));
+        return ConfigurationStorage::save($this->upgradeConfiguration, $this->upgradeConfFilePath);
     }
 
     /**
@@ -1090,7 +1053,7 @@ class AdminSelfUpgrade extends ModuleAdminController
         $upgrader->branch = $matches[1];
         $upgrader->channel = $channel;
         if (in_array($channel, $public_channel)) {
-            if ($this->getConfig('channel') == 'private' && !$this->getConfig('private_allow_major')) {
+            if ($this->upgradeConfiguration->get('channel') == 'private' && !$this->upgradeConfiguration->get('private_allow_major')) {
                 $upgrader->checkPSVersion(false, array('private', 'minor'));
             } else {
                 $upgrader->checkPSVersion(false, array('minor'));
@@ -1107,7 +1070,7 @@ class AdminSelfUpgrade extends ModuleAdminController
         } else {
             switch ($channel) {
                 case 'private':
-                    if (!$this->getConfig('private_allow_major')) {
+                    if (!$this->upgradeConfiguration->get('private_allow_major')) {
                         $upgrader->checkPSVersion(false, array('private', 'minor'));
                     } else {
                         $upgrader->checkPSVersion(false, array('minor'));
@@ -1117,8 +1080,8 @@ class AdminSelfUpgrade extends ModuleAdminController
                     $upgrade_info['branch'] = $upgrader->branch;
                     $upgrade_info['version_num'] = $upgrader->version_num;
                     $upgrade_info['version_name'] = $upgrader->version_name;
-                    $upgrade_info['link'] = $this->getConfig('private_release_link');
-                    $upgrade_info['md5'] = $this->getConfig('private_release_md5');
+                    $upgrade_info['link'] = $this->upgradeConfiguration->get('private_release_link');
+                    $upgrade_info['md5'] = $this->upgradeConfiguration->get('private_release_md5');
                     $upgrade_info['changelog'] = $upgrader->changelog;
                     break;
                 case 'archive':
@@ -1160,20 +1123,20 @@ class AdminSelfUpgrade extends ModuleAdminController
     {
         // do nothing after this request (see javascript function doAjaxRequest )
         $this->next = '';
-        $channel = $this->getConfig('channel');
+        $channel = $this->upgradeConfiguration->get('channel');
         $this->upgrader = new Upgrader();
         switch ($channel) {
             case 'archive':
-                $version = $this->getConfig('archive.version_num');
+                $version = $this->upgradeConfiguration->get('archive.version_num');
                 break;
             case 'directory':
-                $version = $this->getConfig('directory.version_num');
+                $version = $this->upgradeConfiguration->get('directory.version_num');
                 break;
             default:
                 preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', _PS_VERSION_, $matches);
                 $this->upgrader->branch = $matches[1];
                 $this->upgrader->channel = $channel;
-                if ($this->getConfig('channel') == 'private' && !$this->getConfig('private_allow_major')) {
+                if ($this->upgradeConfiguration->get('channel') == 'private' && !$this->upgradeConfiguration->get('private_allow_major')) {
                     $this->upgrader->checkPSVersion(false, array('private', 'minor'));
                 } else {
                     $this->upgrader->checkPSVersion(false, array('minor'));
@@ -1273,7 +1236,7 @@ class AdminSelfUpgrade extends ModuleAdminController
     {
         $this->next_desc = $this->trans('Starting upgrade...', array(), 'Modules.Autoupgrade.Admin');
 
-        $channel = $this->getConfig('channel');
+        $channel = $this->upgradeConfiguration->get('channel');
         $this->next = 'download';
         if (!is_object($this->upgrader)) {
             $this->upgrader = new Upgrader();
@@ -1281,7 +1244,7 @@ class AdminSelfUpgrade extends ModuleAdminController
         preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', _PS_VERSION_, $matches);
         $this->upgrader->branch = $matches[1];
         $this->upgrader->channel = $channel;
-        if ($this->getConfig('channel') == 'private' && !$this->getConfig('private_allow_major')) {
+        if ($this->upgradeConfiguration->get('channel') == 'private' && !$this->upgradeConfiguration->get('private_allow_major')) {
             $this->upgrader->checkPSVersion(false, array('private', 'minor'));
         } else {
             $this->upgrader->checkPSVersion(false, array('minor'));
@@ -1303,8 +1266,8 @@ class AdminSelfUpgrade extends ModuleAdminController
                 $this->next = 'download';
                 $this->next_desc = $this->trans('Shop deactivated. Now downloading... (this can take a while)', array(), 'Modules.Autoupgrade.Admin');
                 if ($this->upgrader->channel == 'private') {
-                    $this->upgrader->link = $this->getConfig('private_release_link');
-                    $this->upgrader->md5 = $this->getConfig('private_release_md5');
+                    $this->upgrader->link = $this->upgradeConfiguration->get('private_release_link');
+                    $this->upgrader->md5 = $this->upgradeConfiguration->get('private_release_md5');
                 }
                 $this->nextQuickInfo[] = $this->trans('Downloaded archive will come from %s', array($this->upgrader->link), 'Modules.Autoupgrade.Admin');
                 $this->nextQuickInfo[] = $this->trans('MD5 hash will be checked against %s', array($this->upgrader->md5), 'Modules.Autoupgrade.Admin');
@@ -3260,7 +3223,7 @@ class AdminSelfUpgrade extends ModuleAdminController
 
     public function ajaxProcessBackupDb()
     {
-        if (!$this->getConfig('PS_AUTOUP_BACKUP')) {
+        if (!$this->upgradeConfiguration->get('PS_AUTOUP_BACKUP')) {
             $this->stepDone = true;
             $this->nextParams['dbStep'] = 0;
             $this->next_desc = $this->trans('Database backup skipped. Now upgrading files...', array(), 'Modules.Autoupgrade.Admin');
@@ -3531,7 +3494,7 @@ class AdminSelfUpgrade extends ModuleAdminController
 
     public function ajaxProcessBackupFiles()
     {
-        if (!$this->getConfig('PS_AUTOUP_BACKUP')) {
+        if (!$this->upgradeConfiguration->get('PS_AUTOUP_BACKUP')) {
             $this->stepDone = true;
             $this->next = 'backupDb';
             $this->next_desc = 'File backup skipped.';
@@ -3803,7 +3766,7 @@ class AdminSelfUpgrade extends ModuleAdminController
         for ($i = 0; $i < self::$loopRemoveSamples; $i++) {
             if (count($this->nextParams['removeList']) <= 0) {
                 $this->stepDone = true;
-                if ($this->getConfig('skip_backup')) {
+                if ($this->upgradeConfiguration->get('skip_backup')) {
                     $this->next = 'upgradeFiles';
                     $this->next_desc = $this->trans('All sample files removed. Backup process skipped. Now upgrading files.', array(), 'Modules.Autoupgrade.Admin');
                 } else {
@@ -3835,17 +3798,17 @@ class AdminSelfUpgrade extends ModuleAdminController
             }
             // regex optimization
             preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', _PS_VERSION_, $matches);
-            $this->upgrader->channel = $this->getConfig('channel');
+            $this->upgrader->channel = $this->upgradeConfiguration->get('channel');
             $this->upgrader->branch = $matches[1];
-            if ($this->getConfig('channel') == 'private' && !$this->getConfig('private_allow_major')) {
+            if ($this->upgradeConfiguration->get('channel') == 'private' && !$this->upgradeConfiguration->get('private_allow_major')) {
                 $this->upgrader->checkPSVersion(false, array('private', 'minor'));
             } else {
                 $this->upgrader->checkPSVersion(false, array('minor'));
             }
 
             if ($this->upgrader->channel == 'private') {
-                $this->upgrader->link = $this->getConfig('private_release_link');
-                $this->upgrader->md5 = $this->getConfig('private_release_md5');
+                $this->upgrader->link = $this->upgradeConfiguration->get('private_release_link');
+                $this->upgrader->md5 = $this->upgradeConfiguration->get('private_release_md5');
             }
             $this->nextQuickInfo[] = $this->trans('Downloading from %s', array($this->upgrader->link), 'Modules.Autoupgrade.Admin');
             $this->nextQuickInfo[] = $this->trans('File will be saved in %s', array($this->getFilePath()), 'Modules.Autoupgrade.Admin');
@@ -3905,7 +3868,7 @@ class AdminSelfUpgrade extends ModuleAdminController
         $return['status'] = $this->next == 'error' ? 'error' : 'ok';
         $return['next_desc'] = $this->next_desc;
 
-        $this->nextParams['config'] = $this->getConfig();
+        $this->nextParams['config'] = $this->upgradeConfiguration->toArray();
 
         foreach ($this->ajaxParams as $v) {
             if (property_exists($this, $v)) {
@@ -3994,7 +3957,7 @@ class AdminSelfUpgrade extends ModuleAdminController
     protected function _displayRollbackForm()
     {
         $backup_available = array_intersect($this->getBackupDbAvailable(), $this->getBackupFilesAvailable());
-        if (!$this->getConfig('PS_AUTOUP_BACKUP') && is_array($backup_available) && count($backup_available) && !in_array($this->backupName, $backup_available)) {
+        if (!$this->upgradeConfiguration->get('PS_AUTOUP_BACKUP') && is_array($backup_available) && count($backup_available) && !in_array($this->backupName, $backup_available)) {
             $this->backupName = end($backup_available);
         }
 
@@ -4124,9 +4087,9 @@ class AdminSelfUpgrade extends ModuleAdminController
 
     public function divChannelInfos($upgrade_info)
     {
-        if ($this->getConfig('channel') == 'private') {
-            $upgrade_info['link'] = $this->getConfig('private_release_link');
-            $upgrade_info['md5'] = $this->getConfig('private_release_md5');
+        if ($this->upgradeConfiguration->get('channel') == 'private') {
+            $upgrade_info['link'] = $this->upgradeConfiguration->get('private_release_link');
+            $upgrade_info['md5'] = $this->upgradeConfiguration->get('private_release_md5');
         }
         $content = '<div id="channel-infos" ><br/>';
         if (isset($upgrade_info['branch'])) {
@@ -4208,13 +4171,13 @@ class AdminSelfUpgrade extends ModuleAdminController
         $content .= '<div id="for-useMinor" ><div class="margin-form margin-form-small">'.$this->trans('This option regroup all stable versions.', array(), 'Modules.Autoupgrade.Admin').'</div></div>';
         $content .= '<div id="for-usePrivate">
 			<p><label>'.$this->trans('Link:', array(), 'Modules.Autoupgrade.Admin').' *</label>
-			<input size="50" type="text" name="private_release_link" value="'.$this->getConfig('private_release_link').'"/>
+			<input size="50" type="text" name="private_release_link" value="'.$this->upgradeConfiguration->get('private_release_link').'"/>
 			</p>
 			<p><label>'.$this->trans('Hash key:', array(), 'Modules.Autoupgrade.Admin').' *</label>
-			<input size="32" type="text" name="private_release_md5" value="'.$this->getConfig('private_release_md5').'"/>
+			<input size="32" type="text" name="private_release_md5" value="'.$this->upgradeConfiguration->get('private_release_md5').'"/>
 			</p>
 			<p><label>'.$this->trans('Allow major upgrade:', array(), 'Modules.Autoupgrade.Admin').'</label>
-			<input type="checkbox" name="private_allow_major" value="1"'.($this->getConfig('private_allow_major')?' checked="checked"':'').'/>
+			<input type="checkbox" name="private_allow_major" value="1"'.($this->upgradeConfiguration->get('private_allow_major')?' checked="checked"':'').'/>
 			</p>
 
 			</div>';
@@ -4223,7 +4186,7 @@ class AdminSelfUpgrade extends ModuleAdminController
         $dir = glob($download.'*.zip');
         $content .= '<div id="for-useArchive">';
         if ($dir !== false && count($dir) > 0) {
-            $archive_filename = $this->getConfig('archive.filename');
+            $archive_filename = $this->upgradeConfiguration->get('archive.filename');
             $content .= '<label>'.$this->trans('Archive to use:', array(), 'Modules.Autoupgrade.Admin').'</label><div><select name="archive_prestashop" >
 				<option value="">'.$this->trans('Choose an archive', array(), 'Modules.Autoupgrade.Admin').'</option>';
             foreach ($dir as $file) {
@@ -4231,7 +4194,7 @@ class AdminSelfUpgrade extends ModuleAdminController
             }
             $content .= '</select><br>
                 <label>'.$this->trans('Number of the version you want to upgrade to:', array(), 'Modules.Autoupgrade.Admin').' * </label><input type="text" size="10" name="archive_num"
-				value="'.($this->getConfig('archive.version_num')?$this->getConfig('archive.version_num'):'').'" />
+				value="'.($this->upgradeConfiguration->get('archive.version_num')?$this->upgradeConfiguration->get('archive.version_num'):'').'" />
 			 	</div>';
         } else {
             $content .= '<div class="alert alert-warning">'.$this->trans('No archive found in your admin/autoupgrade/download directory', array(), 'Modules.Autoupgrade.Admin').'</div>';
@@ -4241,12 +4204,12 @@ class AdminSelfUpgrade extends ModuleAdminController
             $this->trans('Save in the following directory the archive file of the version you want to upgrade to: %s', array('<b>/admin/autoupgrade/download/</b>'), 'Modules.Autoupgrade.Admin').'<br />'.
             $this->trans('Click "Save" once the archive is there.', array(), 'Modules.Autoupgrade.Admin').'<br />'.
             $this->trans('This option will skip the download step.', array(), 'Modules.Autoupgrade.Admin').'</div></div>';
-        // $directory_dirname = $this->getConfig('directory.dirname');
+        // $directory_dirname = $this->upgradeConfiguration->get('directory.dirname');
         $content .= '<div id="for-useDirectory">
 			<div> '.
             $this->trans('Save in the following directory the uncompressed PrestaShop files of the version you want to upgrade to: %s', array('<b>/admin/autoupgrade/latest/prestashop/</b>'), 'Modules.Autoupgrade.Admin').
             '<br /><br /><label>'.$this->trans('Please tell us which version you are upgrading to [1](1.7.0.1 for instance)[/1]', array('[1]' => '<small>', '[/1]' => '</small>'), 'Modules.Autoupgrade.Admin').' </label> <input type="text" size="10" name="directory_num"
-			value="'.($this->getConfig('directory.version_num')?$this->getConfig('directory.version_num'):'').'" />
+			value="'.($this->upgradeConfiguration->get('directory.version_num')?$this->upgradeConfiguration->get('directory.version_num'):'').'" />
 			<div class="margin-form">'.$this->trans('Click "Save" once the archive is there.', array(), 'Modules.Autoupgrade.Admin').'<br />* '.
             $this->trans('This option will skip both download and unzip steps and will use %1$s as the source directory', array('<b>/admin/autoupgrade/download/prestashop/</b>'), 'Modules.Autoupgrade.Admin').'</div>
 			</div></div>';
@@ -4272,8 +4235,7 @@ class AdminSelfUpgrade extends ModuleAdminController
                     $this->trans('The Alpha, Beta and Private channels give you the ability to upgrade to a non-official or unstable release (for testing purposes only).', array(), 'Modules.Autoupgrade.Admin').'<br />'.
                     $this->trans('By default, you should use the "Minor release" channel which is offering the latest stable version available.', array(), 'Modules.Autoupgrade.Admin').'</p><br />';
 
-        $config = $this->getConfig();
-        $channel = $config['channel'];
+        $channel = $this->upgradeConfiguration->get('channel');
         if (empty($channel)) {
             $channel = Upgrader::DEFAULT_CHANNEL;
         }
@@ -4387,7 +4349,7 @@ class AdminSelfUpgrade extends ModuleAdminController
         }
         $this->_html .= '<p>'.$this->trans('Your current PrestaShop version', array(), 'Modules.Autoupgrade.Admin').' : <strong>'._PS_VERSION_.'</strong></p>';
 
-        $channel = $this->getConfig('channel');
+        $channel = $this->upgradeConfiguration->get('channel');
 
         $this->_html .= '<p>'.$this->trans('Latest official version for %s channel.', array($channel), 'Modules.Autoupgrade.Admin').' : <strong>';
         if (!in_array($channel, array('archive', 'directory'))) {
@@ -4418,8 +4380,8 @@ class AdminSelfUpgrade extends ModuleAdminController
                 }
 
                 if (!in_array($channel, array('archive', 'directory'))) {
-                    if ($this->getConfig('channel') == 'private') {
-                        $this->upgrader->link = $this->getConfig('private_release_link');
+                    if ($this->upgradeConfiguration->get('channel') == 'private') {
+                        $this->upgrader->link = $this->upgradeConfiguration->get('private_release_link');
                     }
 
                     $this->_html .= '<small><a href="'.$this->upgrader->link.'">'.$this->trans('PrestaShop will be downloaded from %s', array($this->upgrader->link), 'Modules.Autoupgrade.Admin').'</a></small></p><br />';
@@ -4522,15 +4484,15 @@ class AdminSelfUpgrade extends ModuleAdminController
         $upgrader = new Upgrader();
         preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', _PS_VERSION_, $matches);
         $upgrader->branch = $matches[1];
-        $channel = $this->getConfig('channel');
+        $channel = $this->upgradeConfiguration->get('channel');
         switch ($channel) {
             case 'archive':
                 $upgrader->channel = 'archive';
-                $upgrader->version_num = $this->getConfig('archive.version_num');
+                $upgrader->version_num = $this->upgradeConfiguration->get('archive.version_num');
                 break;
             case 'directory':
                 $upgrader->channel = 'directory';
-                $upgrader->version_num = $this->getConfig('directory.version_num');
+                $upgrader->version_num = $this->upgradeConfiguration->get('directory.version_num');
                 break;
             default:
                 $upgrader->channel = $channel;
@@ -4538,7 +4500,7 @@ class AdminSelfUpgrade extends ModuleAdminController
                     // delete the potential xml files we saved in config/xml (from last release and from current)
                     $upgrader->clearXmlMd5File(_PS_VERSION_);
                     $upgrader->clearXmlMd5File($upgrader->version_num);
-                    if ($this->getConfig('channel') == 'private' && !$this->getConfig('private_allow_major')) {
+                    if ($this->upgradeConfiguration->get('channel') == 'private' && !$this->upgradeConfiguration->get('private_allow_major')) {
                         $upgrader->checkPSVersion(true, array('private', 'minor'));
                     } else {
                         $upgrader->checkPSVersion(true, array('minor'));
@@ -4546,7 +4508,7 @@ class AdminSelfUpgrade extends ModuleAdminController
 
                     Tools14::redirectAdmin(self::$currentIndex.'&conf=5&token='.Tools14::getValue('token'));
                 } else {
-                    if ($this->getConfig('channel') == 'private' && !$this->getConfig('private_allow_major')) {
+                    if ($this->upgradeConfiguration->get('channel') == 'private' && !$this->upgradeConfiguration->get('private_allow_major')) {
                         $upgrader->checkPSVersion(false, array('private', 'minor'));
                     } else {
                         $upgrader->checkPSVersion(false, array('minor'));
@@ -4614,9 +4576,9 @@ class AdminSelfUpgrade extends ModuleAdminController
             JsTemplateFormAdapter::getJsInitValues(
                 $this->manualMode, trim(str_replace($this->prodRootDir, '', $this->adminDir), DIRECTORY_SEPARATOR),
                 $this->buildAjaxResult(),
-                $this->getConfig('PS_AUTOUP_BACKUP'),
+                $this->upgradeConfiguration->get('PS_AUTOUP_BACKUP'),
                 $this->token,
-                $this->getConfig('channel'),
+                $this->upgradeConfiguration->get('channel'),
                 self::$currentIndex
             )
             .'</script>';
@@ -4832,7 +4794,7 @@ class AdminSelfUpgrade extends ModuleAdminController
 
     public function optionDisplayErrors()
     {
-        if ($this->getConfig('PS_DISPLAY_ERRORS')) {
+        if ($this->upgradeConfiguration->get('PS_DISPLAY_ERRORS')) {
             error_reporting(E_ALL);
             ini_set('display_errors', 'on');
         } else {
