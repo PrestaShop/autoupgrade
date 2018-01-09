@@ -59,12 +59,15 @@ class PrestashopConfiguration
     public function getCompliancyResults()
     {
         if (!count($this->allowed_array)) {
-            $this->allowed_array += $this->getRootWritableDetails();
-            $this->allowed_array['fopen'] = ConfigurationTest::test_fopen() || ConfigurationTest::test_curl();
-            $this->allowed_array['admin_au_writable'] = ConfigurationTest::test_dir($this->autoupgradeDir, false);
-            $this->allowed_array['shop_deactivated'] = (!Configuration::get('PS_SHOP_ENABLE') || (isset($_SERVER['HTTP_HOST']) && in_array($_SERVER['HTTP_HOST'], array('127.0.0.1', 'localhost'))));
-            $this->allowed_array['cache_deactivated'] = !(defined('_PS_CACHE_ENABLED_') && _PS_CACHE_ENABLED_);
-            $this->allowed_array['module_version_ok'] = $this->checkAutoupgradeLastVersion();
+            $this->allowed_array = array_merge(
+                $this->getRootWritableDetails(),
+                array(
+                    'fopen' => (ConfigurationTest::test_fopen() || ConfigurationTest::test_curl()),
+                    'admin_au_writable' => ConfigurationTest::test_dir($this->autoupgradeDir, false),
+                    'shop_deactivated' => (!Configuration::get('PS_SHOP_ENABLE') || (isset($_SERVER['HTTP_HOST']) && in_array($_SERVER['HTTP_HOST'], array('127.0.0.1', 'localhost')))),
+                    'cache_deactivated' => !(defined('_PS_CACHE_ENABLED_') && _PS_CACHE_ENABLED_),
+                    'module_version_ok' => $this->checkAutoupgradeLastVersion()
+            ));
         }
         return $this->allowed_array;
     }
@@ -78,9 +81,12 @@ class PrestashopConfiguration
             return $this->moduleVersion;
         }
 
+        // TODO: to be moved as property class in order to make tests possible
+        $path = _PS_ROOT_DIR_.'/modules/autoupgrade/config.xml';
+
         $this->moduleVersion = false;
-        if (file_exists(_PS_ROOT_DIR_.'/modules/autoupgrade/config.xml')
-            && $xml_module_version = simplexml_load_file(_PS_ROOT_DIR_.'/modules/autoupgrade/config.xml')
+        if (file_exists($path)
+            && $xml_module_version = simplexml_load_file($path)
         ) {
             $this->moduleVersion = (string)$xml_module_version->version;
         }
