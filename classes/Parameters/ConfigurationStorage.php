@@ -59,7 +59,7 @@ class ConfigurationStorage
     public static function save(UpgradeConfiguration $config, $configFilePath)
     {
         try {
-            Filesystem::dumpFile($configFilePath, base64_encode(serialize($config->toArray())));
+            (new Filesystem)->dumpFile($configFilePath, base64_encode(serialize($config->toArray())));
             return true;
         } catch (IOException $e) {
             // TODO: $e needs to be logged
