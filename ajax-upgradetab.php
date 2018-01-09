@@ -31,6 +31,7 @@ if (function_exists('date_default_timezone_set'))
 	date_default_timezone_set($timezone);
 }
 
+define('_PS_ADMIN_DIR_', __DIR__);
 require_once(realpath(dirname(__FILE__).'/../../config/config.inc.php'));
 
 if (!defined('_PS_MODULE_DIR_'))
@@ -57,8 +58,6 @@ $dir = Tools14::safeOutput(Tools14::getValue('dir'));
 if (realpath(dirname(__FILE__).'/../../').DIRECTORY_SEPARATOR.$dir!== realpath(realpath(dirname(__FILE__).'/../../').DIRECTORY_SEPARATOR.$dir))
 	die('wrong directory :'.(isset($_POST['dir']) ? $dir : ''));
 
-define('_PS_ADMIN_DIR_', realpath(dirname(__FILE__).'/../../').DIRECTORY_SEPARATOR.$dir);
-
 if (!defined('_MYSQL_ENGINE_'))
 	define('_MYSQL_ENGINE_', 'MyISAM');
 	
@@ -66,17 +65,15 @@ if (!defined('_PS_TOOL_DIR_'))
 	define('_PS_TOOL_DIR_', _PS_ROOT_DIR_.'/tools/');	
 
 //require(_PS_ADMIN_DIR_.'/functions.php');
+include(AUTOUPGRADE_MODULE_DIR.'AdminSelfUpgrade.php');
 
-// this is used to set this->ajax = true in the constructor
-global $ajax;
+$_GET['ajax'] = '1';
 
-$ajax = true;
 $adminObj = new AdminSelfUpgrade();
 
 if (is_object($adminObj))
 {
 	$adminObj->optionDisplayErrors();
-	$adminObj->ajax = 1;
 	if ($adminObj->checkToken())
 	{
 		// the differences with index.php is here
@@ -90,8 +87,6 @@ if (is_object($adminObj))
 		else
 			$adminObj->ajaxProcess();
 
-		// @TODO We should use a displayAjaxError
-		$adminObj->displayErrors();
 		if (!empty($action) && method_exists($adminObj, 'displayAjax'.$action))
 			$adminObj->{'displayAjax'.$action}();
 		else
