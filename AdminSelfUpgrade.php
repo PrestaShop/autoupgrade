@@ -4536,7 +4536,6 @@ class AdminSelfUpgrade extends ModuleAdminController
             'PS_AUTOUP_CUSTOM_MOD_DESACT' => 1,
             'PS_AUTOUP_MANUAL_MODE' => 0,
             'PS_AUTOUP_PERFORMANCE' => 1,
-            'PS_DISPLAY_ERRORS' => 0
         );
 
         foreach ($configuration_keys as $k => $default_value) {
@@ -4784,16 +4783,6 @@ class AdminSelfUpgrade extends ModuleAdminController
         }
         // by default, don't skip
         return false;
-    }
-
-    public function optionDisplayErrors()
-    {
-        if ($this->upgradeConfiguration->get('PS_DISPLAY_ERRORS')) {
-            error_reporting(E_ALL);
-            ini_set('display_errors', 'on');
-        } else {
-            ini_set('display_errors', 'off');
-        }
     }
 
     private function getAllTables()
