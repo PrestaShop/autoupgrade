@@ -28,7 +28,9 @@
 use PrestaShop\Module\AutoUpgrade\Upgrader;
 use PrestaShop\Module\AutoUpgrade\PrestashopConfiguration;
 use PrestaShop\Module\AutoUpgrade\Tools14;
-use PrestaShop\Module\AutoUpgrade\Parameters\ConfigurationStorage;
+use PrestaShop\Module\AutoUpgrade\Database\Database;
+use PrestaShop\Module\AutoUpgrade\Parameters\FileConfigurationStorage;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Temp\JsTemplateFormAdapter;
 
@@ -301,6 +303,11 @@ class AdminSelfUpgrade extends ModuleAdminController
     private $upgradeConfFilePath;
 
     /**
+     * @var Database
+     */
+    private $databaseTools;
+
+    /**
      * replace tools encrypt
      *
      * @param mixed $string
@@ -371,6 +378,7 @@ class AdminSelfUpgrade extends ModuleAdminController
         $this->db = Db::getInstance();
         $this->bootstrap = true;
 
+        $this->databaseTools = new Database($this->db);
         // Init PrestashopCompliancy class
         $admin_dir = trim(str_replace($this->prodRootDir, '', $this->adminDir), DIRECTORY_SEPARATOR);
         $this->prestashopConfiguration = new PrestashopConfiguration(
@@ -513,7 +521,7 @@ class AdminSelfUpgrade extends ModuleAdminController
             }
         }
         $this->initPath();
-        $this->upgradeConfiguration = ConfigurationStorage::load($this->upgradeConfFilePath);
+        $this->upgradeConfiguration = UpgradeConfigurationStorage::load($this->upgradeConfFilePath);
         $upgrader = new Upgrader();
         preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', _PS_VERSION_, $matches);
         if (isset($matches[1])) {
@@ -972,7 +980,7 @@ class AdminSelfUpgrade extends ModuleAdminController
 
         $this->upgradeConfiguration->merge($config);
         $this->next_desc = $this->trans('Configuration successfully updated.', array(), 'Modules.Autoupgrade.Admin').' <strong>'.$this->trans('This page will now be reloaded and the module will check if a new version is available.', array(), 'Modules.Autoupgrade.Admin').'</strong>';
-        return ConfigurationStorage::save($this->upgradeConfiguration, $this->upgradeConfFilePath);
+        return UpgradeConfigurationStorage::save($this->upgradeConfiguration, $this->upgradeConfFilePath);
     }
 
     /**
@@ -3102,7 +3110,7 @@ class AdminSelfUpgrade extends ModuleAdminController
                 }
 
                 $tables_after_restore = array_unique($tables_after_restore);
-                $tables_before_restore = $this->getAllTables();
+                $tables_before_restore = $this->databaseTools->getAllTables();
                 $tablesToRemove = array_diff($tables_before_restore, $tables_after_restore);
 
                 if (!empty($tablesToRemove)) {
@@ -3145,7 +3153,7 @@ class AdminSelfUpgrade extends ModuleAdminController
                         $this->next = 'rollbackComplete';
                         $this->nextQuickInfo[] = $this->next_desc = $this->trans('Database has been restored.', array(), 'Modules.Autoupgrade.Admin');
 
-                        $this->cleanTablesAfterBackup();
+                        $this->databaseTools->cleanTablesAfterBackup($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->toCleanTable);
                         $this->db->execute('SET FOREIGN_KEY_CHECKS=1');
                     }
                     return true;
@@ -3205,7 +3213,7 @@ class AdminSelfUpgrade extends ModuleAdminController
             $this->next = 'rollbackComplete';
             $this->nextQuickInfo[] = $this->next_desc = $this->trans('Database restoration done.', array(), 'Modules.Autoupgrade.Admin');
 
-            $this->cleanTablesAfterBackup();
+            $this->databaseTools->cleanTablesAfterBackup($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->toCleanTable);
             $this->db->execute('SET FOREIGN_KEY_CHECKS=1');
         }
         return true;
@@ -4783,36 +4791,6 @@ class AdminSelfUpgrade extends ModuleAdminController
         }
         // by default, don't skip
         return false;
-    }
-
-    private function getAllTables()
-    {
-        $tables = $this->db->executeS('SHOW TABLES LIKE "' . _DB_PREFIX_ . '%"', true, false);
-
-        $all_tables = array();
-        foreach ($tables as $v) {
-            $table = array_shift($v);
-            $all_tables[$table] = $table;
-        }
-
-        return $all_tables;
-    }
-
-    private function cleanTablesAfterBackup()
-    {
-        // If no more query in list, clean table. (created by user after)
-        if (file_exists($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->toCleanTable)) {
-            $tablesToClean = unserialize(base64_decode(file_get_contents($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->toCleanTable)));
-
-            if (!empty($tablesToClean)) {
-                foreach ($tablesToClean as $table) {
-                    $this->db->execute('DROP TABLE IF EXISTS `'.bqSql($table).'`');
-                    $this->db->execute('DROP VIEW IF EXISTS `'.bqSql($table).'`');
-                }
-            }
-
-            @unlink($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->toCleanTable);
-        }
     }
 
     private function disableNonNativeModules()

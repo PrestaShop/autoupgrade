@@ -26,11 +26,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Parameters;
 
-use PrestaShop\Module\AutoUpgrade\Tools14;
-use Symfony\Component\Filesystem\Exception\IOException;
-use Symfony\Component\Filesystem\Filesystem;
-
-class ConfigurationStorage
+class UpgradeConfigurationStorage extends FileConfigurationStorage
 {
     /**
      * UpgradeConfiguration loader.
@@ -40,14 +36,7 @@ class ConfigurationStorage
      */
     public static function load($configFilePath = '')
     {
-        $config = array();
-
-        if (!empty($configFilePath) && file_exists($configFilePath)) {
-            $content = Tools14::file_get_contents($configFilePath);
-            $config = @unserialize(base64_decode($content));
-        }
-
-        return new UpgradeConfiguration($config);
+        return new UpgradeConfiguration(parent::load($configFilePath));
     }
 
     /**
@@ -56,14 +45,11 @@ class ConfigurationStorage
      * @param string $configFilePath Destination path of the onfig file
      * @return boolean
      */
-    public static function save(UpgradeConfiguration $config, $configFilePath)
+    public static function save($config, $configFilePath)
     {
-        try {
-            (new Filesystem)->dumpFile($configFilePath, base64_encode(serialize($config->toArray())));
-            return true;
-        } catch (IOException $e) {
-            // TODO: $e needs to be logged
-            return false;
+        if (!$config instanceof UpgradeConfiguration) {
+            throw new \InvalidArgumentException('Config is not a instance of UpgradeConfiguration');
         }
+        return parent::save($config->toArray(), $configFilePath);
     }
 }
