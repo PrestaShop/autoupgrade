@@ -28,7 +28,7 @@
 use PrestaShop\Module\AutoUpgrade\Upgrader;
 use PrestaShop\Module\AutoUpgrade\PrestashopConfiguration;
 use PrestaShop\Module\AutoUpgrade\Tools14;
-use PrestaShop\Module\AutoUpgrade\Database\Database;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Database;
 use PrestaShop\Module\AutoUpgrade\Parameters\FileConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
