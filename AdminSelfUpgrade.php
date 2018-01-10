@@ -29,14 +29,11 @@ use PrestaShop\Module\AutoUpgrade\Upgrader;
 use PrestaShop\Module\AutoUpgrade\PrestashopConfiguration;
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Database;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\ModuleAdapter;
 use PrestaShop\Module\AutoUpgrade\Parameters\FileConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Temp\JsTemplateFormAdapter;
-
-use PrestaShop\PrestaShop\Core\Addon\AddonListFilterType;
-use PrestaShop\PrestaShop\Core\Addon\AddonListFilterOrigin;
-use PrestaShop\PrestaShop\Core\Addon\Module\ModuleManagerBuilder;
 
 require __DIR__.'/vendor/autoload.php';
 
@@ -308,6 +305,11 @@ class AdminSelfUpgrade extends ModuleAdminController
     private $databaseTools;
 
     /**
+     * @var ModuleAdapter
+     */
+    private $moduleAdapter;
+
+    /**
      * replace tools encrypt
      *
      * @param mixed $string
@@ -379,6 +381,7 @@ class AdminSelfUpgrade extends ModuleAdminController
         $this->bootstrap = true;
 
         $this->databaseTools = new Database($this->db);
+        $this->moduleAdapter = new ModuleAdapter($this->db);
         // Init PrestashopCompliancy class
         $admin_dir = trim(str_replace($this->prodRootDir, '', $this->adminDir), DIRECTORY_SEPARATOR);
         $this->prestashopConfiguration = new PrestashopConfiguration(
@@ -1851,7 +1854,7 @@ class AdminSelfUpgrade extends ModuleAdminController
             }
         }
 
-        $isUpgraded = $this->getModuleDataUpdater()->upgrade($name);
+        $isUpgraded = $this->moduleAdapter->getModuleDataUpdater()->upgrade($name);
 
         if (!$isUpgraded) {
             $this->nextQuickInfo[] = '<strong>'.$this->trans('[WARNING] Error when trying to upgrade module %s.', array($name), 'Modules.Autoupgrade.Admin').'</strong>';
@@ -2114,7 +2117,7 @@ class AdminSelfUpgrade extends ModuleAdminController
 
         $sqlContentVersion = array();
         if ($this->deactivateCustomModule) {
-            $this->disableNonNativeModules();
+            $this->moduleAdapter->disableNonNativeModules();
         }
 
         foreach ($neededUpgradeFiles as $version) {
@@ -4793,42 +4796,6 @@ class AdminSelfUpgrade extends ModuleAdminController
         return false;
     }
 
-    private function disableNonNativeModules()
-    {
-        $moduleManagerBuilder = ModuleManagerBuilder::getInstance();
-        $moduleRepository = $moduleManagerBuilder->buildRepository();
-        $moduleRepository->clearCache();
-
-        $filters = new \PrestaShop\PrestaShop\Core\Addon\AddonListFilter;
-        $filters->setType(AddonListFilterType::MODULE)
-            ->removeStatus(\PrestaShop\PrestaShop\Core\Addon\AddonListFilterStatus::UNINSTALLED);
-
-        $installedProducts = $moduleRepository->getFilteredList($filters);
-
-        $modules = array();
-        foreach ($installedProducts as $installedProduct) {
-            if (!(
-                    $installedProduct->attributes->has('origin_filter_value')
-                    && in_array(
-                        $installedProduct->attributes->get('origin_filter_value'),
-                        array(
-                            AddonListFilterOrigin::ADDONS_NATIVE,
-                            AddonListFilterOrigin::ADDONS_NATIVE_ALL,
-                        )
-                    )
-                    && 'PrestaShop' === $installedProduct->attributes->get('author')
-                )
-                && 'autoupgrade' !== $installedProduct->attributes->get('name')) {
-                $modules[] = $installedProduct->database->get('id');
-            }
-        }
-
-        if (!empty($modules)) {
-            $this->db->execute('UPDATE `' . _DB_PREFIX_ . 'module` SET `active` = 0 WHERE `id_module` IN (' . implode(',', $modules) . ')');
-            $this->db->execute('DELETE FROM `' . _DB_PREFIX_ . 'module_shop` WHERE `id_module` IN (' . implode(',', $modules) . ')');
-        }
-    }
-
     private function getThemeManager()
     {
         $id_employee = $_COOKIE['id_employee'];
@@ -4837,27 +4804,6 @@ class AdminSelfUpgrade extends ModuleAdminController
         $context->employee = new Employee((int) $id_employee);
 
         return (new \PrestaShop\PrestaShop\Core\Addon\Theme\ThemeManagerBuilder($context, $this->db))->build();
-    }
-
-    private function getModuleDataUpdater()
-    {
-        static $moduleDataUpdater;
-
-        global $kernel;
-
-        if (null === $moduleDataUpdater) {
-
-            if (is_null($kernel)) {
-                require_once _PS_ROOT_DIR_.'/app/AppKernel.php';
-                $kernel = new AppKernel(_PS_MODE_DEV_?'dev':'prod', _PS_MODE_DEV_);
-                $kernel->loadClassCache();
-                $kernel->boot();
-            }
-
-            $moduleDataUpdater = $kernel->getContainer()->get('prestashop.core.module.updater');
-        }
-
-        return $moduleDataUpdater;
     }
 
     private function clearMigrationCache()
