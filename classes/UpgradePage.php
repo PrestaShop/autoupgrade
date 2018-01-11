@@ -154,6 +154,8 @@ class UpgradePage
         $this->autoupgradePath = $autoupgradePath;
         $this->prodRootPath = $prodRootPath;
         $this->adminPath = $adminPath;
+        $this->currentIndex = $currentIndex;
+        $this->token = $token;
         $this->installVersion = $installVersion;
         $this->manualMode = $manualMode;
         $this->backupName = $backupName;
@@ -311,10 +313,10 @@ class UpgradePage
             'adminUrl'             => __PS_BASE_URI__.$adminDir,
             'token'                => $this->token,
             'txtError'             => $this->_getJsErrorMsgs(),
-            'firstTimeParams'      => $ajaxResult,
+            'firstTimeParams'      => json_decode($ajaxResult),
             'ajaxUpgradeTabExists' => file_exists($this->autoupgradePath.DIRECTORY_SEPARATOR.'ajax-upgradetab.php'),
             'currentIndex'         => $this->currentIndex,
-            'tabName'              => get_class($this),
+            'tab'              => 'AdminSelfUpgrade',
             'channel'              => $this->config->get('channel'),
             'translation' => array(
                 'confirmDeleteBackup' => $translator->trans('Are you sure you want to delete this backup?', array(), $translationDomain),
