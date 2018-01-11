@@ -26,10 +26,12 @@
 
 namespace PrestaShop\Module\AutoUpgrade;
 
-use PrestaShop\Module\AutoUpgrade\Block\UpgradeButtonBlock;
-use PrestaShop\Module\AutoUpgrade\Form\BackupOptionsForm;
-use PrestaShop\Module\AutoUpgrade\Form\FormRenderer;
-use PrestaShop\Module\AutoUpgrade\Form\UpgradeOptionsForm;
+use PrestaShop\Module\AutoUpgrade\Twig\Block\RollbackForm;
+use PrestaShop\Module\AutoUpgrade\Twig\Block\UpgradeButtonBlock;
+use PrestaShop\Module\AutoUpgrade\Twig\Block\UpgradeChecklist;
+use PrestaShop\Module\AutoUpgrade\Twig\Form\BackupOptionsForm;
+use PrestaShop\Module\AutoUpgrade\Twig\Form\FormRenderer;
+use PrestaShop\Module\AutoUpgrade\Twig\Form\UpgradeOptionsForm;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Upgrader;
 use PrestaShopBundle\Translation\TranslatorComponent;
@@ -205,7 +207,7 @@ class UpgradePage
      */
     private function getChecklistBlock()
     {
-        return (new Block\UpgradeChecklist(
+        return (new UpgradeChecklist(
             $this->twig,
             $this->upgradeSelfCheck,
             $this->prodRootPath,
@@ -238,7 +240,7 @@ class UpgradePage
      */
     private function getRollbackForm()
     {
-        return (new Block\RollbackForm($this->twig, $this->backupFinder))
+        return (new RollbackForm($this->twig, $this->backupFinder))
             ->render();
     }
 

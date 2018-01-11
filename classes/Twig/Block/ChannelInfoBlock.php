@@ -24,35 +24,61 @@
  * International Registered Trademark & Property of PrestaShop SA
  */
 
-namespace PrestaShop\Module\AutoUpgrade\Block;
+namespace PrestaShop\Module\AutoUpgrade\Twig\Block;
 
-use PrestaShop\Module\AutoUpgrade\BackupFinder;
+use PrestaShop\Module\AutoUpgrade\ChannelInfo;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use Twig_Environment;
 
-class RollbackForm
+class ChannelInfoBlock
 {
+
     /**
-     * @var Twig_Environment
+     * @var UpgradeConfiguration
+     */
+    private $config;
+
+    /**
+     * @var ChannelInfo
+     */
+    private $channelInfo;
+
+    /**
+     * @var \Twig_Environment
      */
     private $twig;
 
     /**
-     * @var BackupFinder
+     * ChannelInfoBlock constructor.
+     *
+     * @param UpgradeConfiguration $config
+     * @param ChannelInfo $channelInfo
+     * @param Twig_Environment $twig
      */
-    private $backupFinder;
-
-    public function __construct(Twig_Environment $twig, BackupFinder $backupFinder)
+    public function __construct(UpgradeConfiguration $config, ChannelInfo $channelInfo, Twig_Environment $twig)
     {
+        $this->config = $config;
+        $this->channelInfo = $channelInfo;
         $this->twig = $twig;
-        $this->backupFinder = $backupFinder;
     }
 
+    /**
+     * @return string HTML
+     */
     public function render()
     {
+        $channel = $this->channelInfo->getChannel();
+        $upgradeInfo = $this->channelInfo->getInfo();
+
+        if ($channel == 'private') {
+            $upgradeInfo['link'] = $this->config->get('private_release_link');
+            $upgradeInfo['md5'] = $this->config->get('private_release_md5');
+        }
+
         return $this->twig->render(
-            '@ModuleAutoUpgrade/block/rollbackForm.twig',
+            '@ModuleAutoUpgrade/block/channelInfo.twig',
             array(
-                'availableBackups' => $this->backupFinder->getAvailableBackups(),
+                'upgradeInfo' => $upgradeInfo,
             )
         );
     }

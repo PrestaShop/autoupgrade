@@ -25,7 +25,7 @@
  * International Registered Trademark & Property of PrestaShop SA
  */
 
-namespace PrestaShop\Module\AutoUpgrade\Form;
+namespace PrestaShop\Module\AutoUpgrade\Twig\Form;
 
 use PrestaShopBundle\Translation\TranslatorComponent;
 
@@ -52,6 +52,7 @@ class UpgradeOptionsForm
         $this->translator = $translator;
         $this->formRenderer = $formRenderer;
 
+        // TODO: Class const
         $translationDomain = 'Modules.Autoupgrade.Admin';
 
         $this->fields = array(
