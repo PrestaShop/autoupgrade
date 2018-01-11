@@ -1039,7 +1039,7 @@ class AdminSelfUpgrade extends ModuleAdminController
         $this->next = '';
 
         $channel = $this->currentParams['channel'];
-        $upgrade_info = new ChannelInfo($this->getUpgrader(), $this->upgradeConfiguration, $channel);
+        $upgrade_info = (new ChannelInfo($this->getUpgrader(), $this->upgradeConfiguration, $channel))->getInfo();
         $this->nextParams['result']['available'] =  $upgrade_info['available'];
 
         $this->nextParams['result']['div'] = $this->divChannelInfos($upgrade_info);
@@ -4047,8 +4047,8 @@ class AdminSelfUpgrade extends ModuleAdminController
             $this->prodRootDir,
             $this->adminDir,
             self::$currentIndex,
-            $this->install_version,
             $this->token,
+            $this->install_version,
             $this->manualMode,
             $this->backupName,
             $this->downloadPath
