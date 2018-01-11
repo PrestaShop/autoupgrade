@@ -34,6 +34,8 @@ use PrestaShop\Module\AutoUpgrade\PrestashopConfiguration;
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Database;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\ModuleAdapter;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\ThemeAdapter;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension;
@@ -830,125 +832,7 @@ class AdminSelfUpgrade extends ModuleAdminController
             $this->nextQuickInfo[] = '<strong>'.$this->trans('Please remove %s by FTP', array($this->latestRootDir), 'Modules.Autoupgrade.Admin').'</strong>';
         }
 
-        $this->clearMigrationCache();
-    }
-
-    // Simplification of _displayForm original function
-    protected function _displayForm($name, $fields, $tabname, $size, $icon)
-    {
-        $confValues = $this->upgradeConfiguration->toArray();
-        $required = false;
-
-        $this->_html .= '<div class="bootstrap" id="'.$name.'Block">
-            <div class="panel">
-                <div class="panel-heading">
-                  '.$tabname.'
-                </div>
-                <div class="form-wrapper">';
-        foreach ($fields as $key => $field) {
-            if (isset($field['required']) && $field['required']) {
-                $required = true;
-            }
-
-            if (isset($field['disabled']) && $field['disabled']) {
-                $disabled = true;
-            } else {
-                $disabled = false;
-            }
-
-
-            if (isset($confValues[$key])) {
-                $val = $confValues[$key];
-            } else {
-                $val = isset($field['defaultValue'])?$field['defaultValue']:false;
-            }
-
-            if (!in_array($field['type'], array('image', 'radio', 'select', 'container', 'bool', 'container_end')) || isset($field['show'])) {
-                $this->_html .= '<div style="clear: both; padding-top:15px;">'.($field['title'] ? '<label >'.$field['title'].'</label>' : '').'<div class="margin-form" style="padding-top:5px;">';
-            }
-
-            /* Display the appropriate input type for each field */
-            switch ($field['type']) {
-                case 'disabled':
-                    $this->_html .= $field['disabled'];
-                    break;
-
-
-                case 'bool':
-                    $this->_html .= '<div class="form-group">
-                        <label class="col-lg-3 control-label">'.$field['title'].'</label>
-                            <div class="col-lg-9">
-                                <span class="switch prestashop-switch fixed-width-lg">
-                                    <input type="radio" name="'.$key.'" id="'.$key.'_on" value="1" '.($val ? ' checked="checked"' : '').(isset($field['js']['on']) ? $field['js']['on'] : '').' />
-                                    <label for="'.$key.'_on" class="radioCheck">
-                                        <i class="color_success"></i> '.$this->trans('Yes', array(), 'Admin.Global').'
-                                    </label>
-                                    <input type="radio" name="'.$key.'" id="'.$key.'_off" value="0" '.(!$val ? 'checked="checked"' : '').(isset($field['js']['off']) ? $field['js']['off'] : '').'/>
-                                    <label for="'.$key.'_off" class="radioCheck">
-                                        <i class="color_danger"></i> '.$this->trans('No', array(), 'Admin.Global').'
-                                    </label>
-                                    <a class="slide-button btn"></a>
-                                </span>
-                                <div class="help-block">'.$field['desc'].'</div>
-                            </div>
-                        </div>';
-                    break;
-
-                case 'radio':
-                    foreach ($field['choices'] as $cValue => $cKey) {
-                        $this->_html .= '<input '.($disabled?'disabled="disabled"':'').' type="radio" name="'.$key.'" id="'.$key.$cValue.'_on" value="'.(int)($cValue).'"'.(($cValue == $val) ? ' checked="checked"' : '').(isset($field['js'][$cValue]) ? ' '.$field['js'][$cValue] : '').' /><label class="t" for="'.$key.$cValue.'_on"> '.$cKey.'</label><br />';
-                    }
-                    $this->_html .= '<br />';
-                    break;
-
-                case 'select':
-                    $this->_html .= '<div class="form-group">
-                        <label class="col-lg-3 control-label">'.$field['title'].'</label>
-                            <div class="col-lg-9">
-                                <select name='.$key.'>';
-                    foreach ($field['choices'] as $cValue => $cKey) {
-                        $this->_html .= '<option value="'.(int)$cValue.'"'.(($cValue == $val) ? ' selected="selected"' : '').'>'.$cKey.'</option>';
-                    }
-                    $this->_html .= '</select>
-                        <div class="help-block">'.$field['desc'].'</div>
-                        </div>
-                    </div>';
-                    break;
-
-                case 'textarea':
-                    $this->_html .= '<textarea '.($disabled?'disabled="disabled"':'').' name='.$key.' cols="'.$field['cols'].'" rows="'.$field['rows'].'">'.htmlentities($val, ENT_COMPAT, 'UTF-8').'</textarea>';
-                    break;
-
-                case 'container':
-                    $this->_html .= '<div id="'.$key.'">';
-                    break;
-
-                case 'container_end':
-                    $this->_html .= (isset($field['content']) === true ? $field['content'] : '').'</div>';
-                    break;
-
-                case 'text':
-                default:
-                    $this->_html .= '<input '.($disabled?'disabled="disabled"':'').' type="'.$field['type'].'"'.(isset($field['id']) === true ? ' id="'.$field['id'].'"' : '').' size="'.(isset($field['size']) ? (int)($field['size']) : 5).'" name="'.$key.'" value="'.($field['type'] == 'password' ? '' : htmlentities($val, ENT_COMPAT, 'UTF-8')).'" />'.(isset($field['next']) ? '&nbsp;'.strval($field['next']) : '');
-            }
-
-            $this->_html .= ((isset($field['required']) && $field['required'] && !in_array($field['type'], array('image', 'radio')))  ? ' <sup>*</sup>' : '');
-
-            if (!in_array($field['type'], array('bool', 'select'))) {
-                $this->_html .= (isset($field['desc']) ? '<p style="clear:both">'.((isset($field['thumb']) && $field['thumb'] && $field['thumb']['pos'] == 'after') ? '<img src="'.$field['thumb']['file'].'" alt="'.$field['title'].'" title="'.$field['title'].'" style="float:left;" />' : '').$field['desc'].'</p>' : '');
-            }
-
-            if (!in_array($field['type'], array('image', 'radio', 'select', 'container', 'bool', 'container_end')) || isset($field['show'])) {
-                $this->_html .= '</div></div>';
-            }
-        }
-
-        $this->_html .= '</div>
-            <div class="panel-footer">
-                <button type="submit" class="btn btn-default pull-right" value="'.$this->trans('Save', array(), 'Admin.Actions').'" name="customSubmitAutoUpgrade"><i class="process-icon-save"></i>
-                    '.$this->trans('Save', array(), 'Admin.Actions').'</button>
-            </div>
-        </div></div>';
+        (new SymfonyAdapter())->clearMigrationCache();
     }
 
     /**
@@ -2491,21 +2375,17 @@ class AdminSelfUpgrade extends ModuleAdminController
             }
         }
 
-        $themeManager = $this->getThemeManager();
         $themeName = ($this->changeToDefaultTheme ? 'classic' : _THEME_NAME_);
+        $themeErrors = (new ThemeAdapter())->enableTheme($themeName);
 
-        $isThemeEnabled = $themeManager->enable($themeName);
-        if (!$isThemeEnabled) {
-            $themeErrors = $themeManager->getErrors($themeName);
+        if ($themeErrors !== true) {
             $this->nextQuickInfo[] = $themeErrors;
             $this->nextErrors[] = $themeErrors;
             $this->next_desc = $themeErrors;
-
             return false;
-        } else {
-            Tools::clearCache();
         }
 
+        Tools::clearCache();
 
         // delete cache filesystem if activated
         if (defined('_PS_CACHE_ENABLED_') && _PS_CACHE_ENABLED_) {
@@ -3894,59 +3774,6 @@ class AdminSelfUpgrade extends ModuleAdminController
         return $array;
     }
 
-    public function displayDevTools()
-    {
-        $content = '';
-        $content .= '<br class="clear"/>';
-        $content .= '<fieldset class="autoupgradeSteps"><legend>'.$this->trans('Step', array(), 'Modules.Autoupgrade.Admin').'</legend>';
-        $content .= '<h4>'.$this->trans('Upgrade steps', array(), 'Modules.Autoupgrade.Admin').' : </h4>';
-        $content .= '<div>';
-        $content .= '<a id="download" class="upgradestep">download</a>';
-        $content .= '<a id="unzip" class="upgradestep">unzip</a>'; // unzip in autoupgrade/latest
-        $content .= '<a id="removeSamples" class="upgradestep">removeSamples</a>'; // remove samples (iWheel images)
-        $content .= '<a id="backupFiles" class="upgradestep">backupFiles</a>'; // backup files
-        $content .= '<a id="backupDb" class="upgradestep">backupDb</a>';
-        $content .= '<a id="upgradeFiles" class="upgradestep">upgradeFiles</a>';
-        $content .= '<a id="upgradeDb" class="upgradestep">upgradeDb</a>';
-        $content .= '<a id="upgradeModules" class="upgradestep">upgradeModules</a>';
-        $content .= '<a id="cleanDatabase" class="upgradestep">cleanDb</a>';
-        $content .= '<a id="upgradeComplete" class="upgradestep">upgradeComplete</a>';
-        $content .= '</div></fieldset>';
-
-        return $content;
-    }
-
-    private function _displayBlockActivityLog()
-    {
-        $this->_html .= '<div class="bootstrap" id="activityLogBlock" style="display:none">
-           <div class="panel">
-                <div class="panel-heading">
-                    '.$this->trans('Activity Log', array(), 'Modules.Autoupgrade.Admin').'
-                </div>
-                <p id="upgradeResultCheck" style="display: none;" class="alert alert-success"></p>
-
-                <div><div id="upgradeResultToDoList" style="display: none;" class="alert alert-info col-xs-12"></div></div><br>
-
-                <div class="row">
-                    <div id="currentlyProcessing" class="col-xs-12" style="display:none;">
-                        <h4 id="pleaseWait">'.$this->trans('Currently processing', array(), 'Modules.Autoupgrade.Admin').' <img class="pleaseWait" src="'.__PS_BASE_URI__.'img/loader.gif"/></h4>
-                        <div id="infoStep" class="processing" >'.$this->trans('Analyzing the situation...', array(), 'Modules.Autoupgrade.Admin').'</div>
-                    </div>
-                </div><br>';
-
-        $this->_html .= '<div id="quickInfo" class="clear processing col-xs-12"></div>';
-
-        // this block will show errors and important warnings that happens during upgrade
-        $this->_html .= '<div class="row">
-            <div id="errorDuringUpgrade" class="col-xs-12" style="display:none;">
-                <h4>'.$this->trans('Errors', array(), 'Modules.Autoupgrade.Admin').'</h4>
-                <div id="infoError" class="processing" ></div>
-            </div>
-        </div>';
-
-        $this->_html .= '</div></div>';
-    }
-
     public function display()
     {
         /* Make sure the user has configured the upgrade options, or set default values */
@@ -4219,19 +4046,8 @@ class AdminSelfUpgrade extends ModuleAdminController
         $context = Context::getContext();
         $context->employee = new Employee((int) $id_employee);
 
+        // No `use` statement, as ithis class may not exist
         return (new \PrestaShop\PrestaShop\Core\Addon\Theme\ThemeManagerBuilder($context, $this->db))->build();
-    }
-
-    private function clearMigrationCache()
-    {
-        Tools::clearCache();
-        Tools::clearXMLCache();
-        Media::clearCache();
-        Tools::generateIndex();
-
-        $sf2Refresh = new \PrestaShopBundle\Service\Cache\Refresh();
-        $sf2Refresh->addCacheClear(_PS_MODE_DEV_ ? 'dev' : 'prod');
-        $sf2Refresh->execute();
     }
 
     private function getUpgrader()
@@ -4266,7 +4082,7 @@ class AdminSelfUpgrade extends ModuleAdminController
                     } else {
                         $upgrader->checkPSVersion(true, array('minor'));
                     }
-                    Tools14::redirectAdmin($this->currentIndex.'&conf=5&token='.Tools14::getValue('token'));
+                    Tools14::redirectAdmin(self::$currentIndex.'&conf=5&token='.Tools14::getValue('token'));
                 } else {
                     if ($this->upgradeConfiguration->get('channel') == 'private' && !$this->upgradeConfiguration->get('private_allow_major')) {
                         $upgrader->checkPSVersion(false, array('private', 'minor'));
