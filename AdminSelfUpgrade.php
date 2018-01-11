@@ -35,6 +35,12 @@ use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Temp\JsTemplateFormAdapter;
 
+use PrestaShop\Module\AutoUpgrade\BackupFinder;
+use PrestaShop\Module\AutoUpgrade\State;
+use PrestaShop\Module\AutoUpgrade\UpgradePage;
+use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
+use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension;
+
 require __DIR__.'/vendor/autoload.php';
 
 class AdminSelfUpgrade extends ModuleAdminController
@@ -525,32 +531,7 @@ class AdminSelfUpgrade extends ModuleAdminController
         }
         $this->initPath();
         $this->upgradeConfiguration = UpgradeConfigurationStorage::load($this->upgradeConfFilePath);
-        $upgrader = new Upgrader();
-        preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', _PS_VERSION_, $matches);
-        if (isset($matches[1])) {
-            $upgrader->branch = $matches[1];
-        }
-        $channel = $this->upgradeConfiguration->get('channel');
-        switch ($channel) {
-            case 'archive':
-                $this->install_version = $this->upgradeConfiguration->get('archive.version_num');
-                $this->destDownloadFilename = $this->upgradeConfiguration->get('archive.filename');
-                $upgrader->checkPSVersion(true, array('archive'));
-                break;
-            case 'directory':
-                $this->install_version = $this->upgradeConfiguration->get('directory.version_num');
-                $upgrader->checkPSVersion(true, array('directory'));
-            break;
-            default:
-                $upgrader->channel = $channel;
-                if ($this->upgradeConfiguration->get('channel') == 'private' && !$this->upgradeConfiguration->get('private_allow_major')) {
-                    $upgrader->checkPSVersion(true, array('private', 'minor'));
-                } else {
-                    $upgrader->checkPSVersion(true, array('minor'));
-                }
-                $this->install_version = $upgrader->version_num;
-        }
-        $this->upgrader = $upgrader;
+        $upgrader = $this->getUpgrader();
 
         // If you have defined this somewhere, you know what you do
         /* load options from configuration if we're not in ajax mode */
@@ -4483,61 +4464,6 @@ class AdminSelfUpgrade extends ModuleAdminController
             echo '<div class="error">'.'<img src="../img/admin/warning.gif" /> '.$this->trans('[TECHNICAL ERROR] ajax-upgradetab.php is missing. Please reinstall or reset the module.', array(), 'Modules.Autoupgrade.Admin').'</div>';
             return false;
         }
-        /* PrestaShop demo mode*/
-
-        // in order to not use Tools class
-        $upgrader = new Upgrader();
-        preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', _PS_VERSION_, $matches);
-        $upgrader->branch = $matches[1];
-        $channel = $this->upgradeConfiguration->get('channel');
-        switch ($channel) {
-            case 'archive':
-                $upgrader->channel = 'archive';
-                $upgrader->version_num = $this->upgradeConfiguration->get('archive.version_num');
-                break;
-            case 'directory':
-                $upgrader->channel = 'directory';
-                $upgrader->version_num = $this->upgradeConfiguration->get('directory.version_num');
-                break;
-            default:
-                $upgrader->channel = $channel;
-                if (isset($_GET['refreshCurrentVersion'])) {
-                    // delete the potential xml files we saved in config/xml (from last release and from current)
-                    $upgrader->clearXmlMd5File(_PS_VERSION_);
-                    $upgrader->clearXmlMd5File($upgrader->version_num);
-                    if ($this->upgradeConfiguration->get('channel') == 'private' && !$this->upgradeConfiguration->get('private_allow_major')) {
-                        $upgrader->checkPSVersion(true, array('private', 'minor'));
-                    } else {
-                        $upgrader->checkPSVersion(true, array('minor'));
-                    }
-
-                    Tools14::redirectAdmin(self::$currentIndex.'&conf=5&token='.Tools14::getValue('token'));
-                } else {
-                    if ($this->upgradeConfiguration->get('channel') == 'private' && !$this->upgradeConfiguration->get('private_allow_major')) {
-                        $upgrader->checkPSVersion(false, array('private', 'minor'));
-                    } else {
-                        $upgrader->checkPSVersion(false, array('minor'));
-                    }
-                }
-        }
-
-        $this->upgrader = $upgrader;
-
-        $this->_html .= '<link type="text/css" rel="stylesheet" href="'.__PS_BASE_URI__.'modules/autoupgrade/css/styles.css" />';
-
-        $this->_html .= '<div class="bootstrap" id="informationBlock">
-            <div class="panel">
-                <div class="panel-heading">
-                  '.$this->trans('Welcome!', array(), 'Modules.Autoupgrade.Admin').'
-                </div>
-                <p>
-                    '.$this->trans('With the PrestaShop 1-Click Upgrade module, upgrading your store to the latest version available has never been easier!', array(), 'Modules.Autoupgrade.Admin').'<br /><br />
-                    <span style="color:#CC0000;font-weight:bold">'.$this->trans('Please always perform a full manual backup of your files and database before starting any upgrade.', array(), 'Modules.Autoupgrade.Admin').'</span><br />
-                    '.$this->trans('Double-check the integrity of your backup and that you can easily manually roll-back if necessary.', array(), 'Modules.Autoupgrade.Admin').'<br />
-                    '.$this->trans('If you do not know how to proceed, ask your hosting provider.', array(), 'Modules.Autoupgrade.Admin').'
-                </p>
-            </div>
-            </div>';
 
         /* Make sure the user has configured the upgrade options, or set default values */
         $configuration_keys = array(
@@ -4555,37 +4481,51 @@ class AdminSelfUpgrade extends ModuleAdminController
             }
         }
 
-        /* Checks/requirements and "Upgrade PrestaShop now" blocks */
-        $this->_displayCurrentConfiguration();
-        $this->_displayBlockUpgradeButton();
+        // Using independant template engine for 1.6 & 1.7 compatibility
+        $loader = new Twig_Loader_Filesystem();
+        $loader->addPath(realpath(__DIR__).'/views/templates', 'ModuleAutoUpgrade');
+        $twig = new Twig_Environment($loader, array(
+            //'cache' => '/path/to/compilation_cache',
+        ));
+        $twig->addExtension(new TransFilterExtension($this->getTranslator()));
 
-        $this->_displayComparisonBlock();
-        $this->_displayBlockActivityLog();
-
-        $this->_displayRollbackForm();
-
-        $this->_html .= '<br/>';
-        $this->_html .= '<form action="'.self::$currentIndex.'&amp;customSubmitAutoUpgrade=1&amp;token='.$this->token.'" method="post" class="form-horizontal" enctype="multipart/form-data">';
-
-        $this->_displayForm('backupOptions', $this->_fieldsBackupOptions, '<a href="#" name="backup-options" id="backup-options">'.$this->trans('Backup Options', array(), 'Modules.Autoupgrade.Admin').'</a>', '', 'database_gear');
-        $this->_displayForm('upgradeOptions', $this->_fieldsUpgradeOptions, '<a href="#" name="upgrade-options" id="upgrade-options">'.$this->trans('Upgrade Options', array(), 'Modules.Autoupgrade.Admin').'</a>', '', 'prefs');
-
-        $this->_html .= '</form>';
-
-        $this->_html .= '<script type="text/javascript" src="'.__PS_BASE_URI__.'modules/autoupgrade/js/jquery.xml2json.js"></script>';
-        $this->_html .= '<script type="text/javascript" src="'.__PS_BASE_URI__.'modules/autoupgrade/js/upgrade.js"></script>';
-        $this->_html .= '<script type="text/javascript">'.JsTemplateFormAdapter::getJsErrorMsgs($this->install_version).'</script>';
-        $this->_html .= '<script type="text/javascript">'.JsTemplateFormAdapter::translatedString().'</script>';
-        $this->_html .= '<script type="text/javascript">'.
-            JsTemplateFormAdapter::getJsInitValues(
-                $this->manualMode, trim(str_replace($this->prodRootDir, '', $this->adminDir), DIRECTORY_SEPARATOR),
-                $this->buildAjaxResult(),
-                $this->upgradeConfiguration->get('PS_AUTOUP_BACKUP'),
-                $this->token,
-                $this->upgradeConfiguration->get('channel'),
-                self::$currentIndex
-            )
-            .'</script>';
+        // update backup name
+        $backupFinder = new BackupFinder($this->backupPath);
+        $availableBackups = $backupFinder->getAvailableBackups();
+        if (!$this->upgradeConfiguration->get('PS_AUTOUP_BACKUP')
+            && !empty($availableBackups)
+            && !in_array($this->backupName, $availableBackups)
+        ) {
+            $this->backupName = end($availableBackups);
+        }
+        
+        $upgrader = $this->getUpgrader();
+        $upgradeSelfCheck = new UpgradeSelfCheck(
+            $upgrader,
+            $this->prodRootDir,
+            $this->adminDir,
+            $this->autoupgradePath
+        );
+        $this->_html = (new UpgradePage(
+            $this->upgradeConfiguration,
+            $twig,
+            $this->getTranslator(),
+            $upgradeSelfCheck,
+            $upgrader,
+            $backupFinder,
+            $this->autoupgradePath,
+            $this->prodRootDir,
+            $this->adminDir,
+            self::$currentIndex,
+            $this->install_version,
+            $this->token,
+            $this->manualMode,
+            $this->backupName,
+            $this->downloadPath
+        ))->display(
+            $this->buildAjaxResult()
+        );
+        
         $this->ajax = true;
         $this->content = $this->_html;
         return parent::display();
@@ -4816,5 +4756,57 @@ class AdminSelfUpgrade extends ModuleAdminController
         $sf2Refresh = new \PrestaShopBundle\Service\Cache\Refresh();
         $sf2Refresh->addCacheClear(_PS_MODE_DEV_ ? 'dev' : 'prod');
         $sf2Refresh->execute();
+    }
+
+    private function getUpgrader()
+    {
+        if (!is_null($this->upgrader)) {
+            return $this->upgrader;
+        }
+        // in order to not use Tools class
+        $upgrader = new Upgrader();
+        preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', _PS_VERSION_, $matches);
+        $upgrader->branch = $matches[1];
+        $channel = $this->upgradeConfiguration->get('channel');
+        switch ($channel) {
+            case 'archive':
+                $upgrader->channel = 'archive';
+                $upgrader->version_num = $this->upgradeConfiguration->get('archive.version_num');
+                $upgrader->checkPSVersion(true, array('archive'));
+                break;
+            case 'directory':
+                $upgrader->channel = 'directory';
+                $upgrader->version_num = $this->upgradeConfiguration->get('directory.version_num');
+                $upgrader->checkPSVersion(true, array('directory'));
+                break;
+            default:
+                $upgrader->channel = $channel;
+                if (isset($_GET['refreshCurrentVersion'])) {
+                    // delete the potential xml files we saved in config/xml (from last release and from current)
+                    $upgrader->clearXmlMd5File(_PS_VERSION_);
+                    $upgrader->clearXmlMd5File($upgrader->version_num);
+                    if ($this->upgradeConfiguration->get('channel') == 'private' && !$this->upgradeConfiguration->get('private_allow_major')) {
+                        $upgrader->checkPSVersion(true, array('private', 'minor'));
+                    } else {
+                        $upgrader->checkPSVersion(true, array('minor'));
+                    }
+                    Tools14::redirectAdmin($this->currentIndex.'&conf=5&token='.Tools14::getValue('token'));
+                } else {
+                    if ($this->upgradeConfiguration->get('channel') == 'private' && !$this->upgradeConfiguration->get('private_allow_major')) {
+                        $upgrader->checkPSVersion(false, array('private', 'minor'));
+                    } else {
+                        $upgrader->checkPSVersion(false, array('minor'));
+                    }
+                }
+                $this->install_version = $upgrader->version_num;
+        }
+        $this->upgrader = $upgrader;
+        return $this->upgrader;
+    }
+
+    public function getTranslator()
+    {
+        // TODO: 1.7 Only
+        return Context::getContext()->getTranslator();
     }
 }

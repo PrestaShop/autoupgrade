@@ -26,6 +26,8 @@
 
 namespace PrestaShop\Module\AutoUpgrade;
 
+use Tab;
+
 class Tools14
 {
     protected static $file_exists_cache = array();
