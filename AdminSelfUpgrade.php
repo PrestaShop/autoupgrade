@@ -35,6 +35,7 @@ use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Temp\JsTemplateFormAdapter;
 
+use PrestaShop\Module\AutoUpgrade\ChannelInfo;
 use PrestaShop\Module\AutoUpgrade\BackupFinder;
 use PrestaShop\Module\AutoUpgrade\State;
 use PrestaShop\Module\AutoUpgrade\UpgradePage;
@@ -1025,61 +1026,6 @@ class AdminSelfUpgrade extends ModuleAdminController
             $this->next_desc = $this->trans('Error on saving configuration', array(), 'Modules.Autoupgrade.Admin');
         }
     }
-    /** returns an array containing information related to the channel $channel
-     *
-     * @param string $channel name of the channel
-     * @return <array> available, version_num, version_name, link, md5, changelog
-     */
-    public function getInfoForChannel($channel)
-    {
-        $upgrade_info = array();
-        $public_channel = array('minor', 'major', 'rc', 'beta', 'alpha');
-        $upgrader = new Upgrader();
-        preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', _PS_VERSION_, $matches);
-        $upgrader->branch = $matches[1];
-        $upgrader->channel = $channel;
-        if (in_array($channel, $public_channel)) {
-            if ($this->upgradeConfiguration->get('channel') == 'private' && !$this->upgradeConfiguration->get('private_allow_major')) {
-                $upgrader->checkPSVersion(false, array('private', 'minor'));
-            } else {
-                $upgrader->checkPSVersion(false, array('minor'));
-            }
-
-            $upgrade_info = array();
-            $upgrade_info['branch'] = $upgrader->branch;
-            $upgrade_info['available'] = $upgrader->available;
-            $upgrade_info['version_num'] = $upgrader->version_num;
-            $upgrade_info['version_name'] = $upgrader->version_name;
-            $upgrade_info['link'] = $upgrader->link;
-            $upgrade_info['md5'] = $upgrader->md5;
-            $upgrade_info['changelog'] = $upgrader->changelog;
-        } else {
-            switch ($channel) {
-                case 'private':
-                    if (!$this->upgradeConfiguration->get('private_allow_major')) {
-                        $upgrader->checkPSVersion(false, array('private', 'minor'));
-                    } else {
-                        $upgrader->checkPSVersion(false, array('minor'));
-                    }
-
-                    $upgrade_info['available'] = $upgrader->available;
-                    $upgrade_info['branch'] = $upgrader->branch;
-                    $upgrade_info['version_num'] = $upgrader->version_num;
-                    $upgrade_info['version_name'] = $upgrader->version_name;
-                    $upgrade_info['link'] = $this->upgradeConfiguration->get('private_release_link');
-                    $upgrade_info['md5'] = $this->upgradeConfiguration->get('private_release_md5');
-                    $upgrade_info['changelog'] = $upgrader->changelog;
-                    break;
-                case 'archive':
-                    $upgrade_info['available'] = true;
-                    break;
-                case 'directory':
-                    $upgrade_info['available'] = true;
-                    break;
-            }
-        }
-        return $upgrade_info;
-    }
 
     /**
      * display informations related to the selected channel : link/changelog for remote channel,
@@ -1093,7 +1039,7 @@ class AdminSelfUpgrade extends ModuleAdminController
         $this->next = '';
 
         $channel = $this->currentParams['channel'];
-        $upgrade_info = $this->getInfoForChannel($channel);
+        $upgrade_info = new ChannelInfo($this->getUpgrader(), $this->upgradeConfiguration, $channel);
         $this->nextParams['result']['available'] =  $upgrade_info['available'];
 
         $this->nextParams['result']['div'] = $this->divChannelInfos($upgrade_info);
@@ -3944,137 +3890,6 @@ class AdminSelfUpgrade extends ModuleAdminController
         return $array;
     }
 
-    protected function _displayRollbackForm()
-    {
-        $backup_available = array_intersect($this->getBackupDbAvailable(), $this->getBackupFilesAvailable());
-        if (!$this->upgradeConfiguration->get('PS_AUTOUP_BACKUP') && is_array($backup_available) && count($backup_available) && !in_array($this->backupName, $backup_available)) {
-            $this->backupName = end($backup_available);
-        }
-
-        $this->_html .= '<div class="bootstrap" id="rollbackForm">
-            <div class="panel">
-                <div class="panel-heading">
-                  '.$this->trans('Rollback', array(), 'Modules.Autoupgrade.Admin').'
-                </div>
-                <p class="alert alert-info">
-					'.$this->trans('After upgrading your shop, you can rollback to the previous database and files. Use this function if your theme or an essential module is not working correctly.', array(), 'Modules.Autoupgrade.Admin').'
-				</p>
-
-				<div class="row" id="restoreBackupContainer">
-                    <label class="col-lg-3 control-label text-right">'.$this->trans('Choose your backup:', array(), 'Modules.Autoupgrade.Admin').'</label>
-                    <div class="col-lg-9">
-                        <select name="restoreName">
-                            <option value="0">'.$this->trans('-- Choose a backup to restore --', array(), 'Modules.Autoupgrade.Admin').'</option>';
-                        if (is_array($backup_available) && count($backup_available)) {
-                            foreach ($backup_available as $backup_name) {
-                                $this->_html .= '<option value="'.$backup_name.'">'.$backup_name.'</option>';
-                            }
-                        }
-        $this->_html .= '</select>
-                        <span id="buttonDeleteBackup"></span>
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <p id="rollbackContainer" class="col-lg-offset-3 col-lg-9">
-                        <a disabled="disabled" class="upgradestep button btn btn-primary" href="" id="rollback">'.$this->trans('Rollback', array(), 'Modules.Autoupgrade.Admin').'</a>
-                    </p>
-                </div>
-            </div>
-        </div>';
-    }
-
-    /** this returns fieldset containing the configuration points you need to use autoupgrade
-     * @return string
-     */
-    private function _displayCurrentConfiguration()
-    {
-        $current_ps_config = $this->prestashopConfiguration->getCompliancyResults();
-
-
-        $this->_html .= '<div class="bootstrap" id="currentConfigurationBlock">
-            <div class="panel">
-                <div class="panel-heading">
-                  '.$this->trans('The pre-Upgrade checklist', array(), 'Modules.Autoupgrade.Admin').'
-                </div>';
-
-        if (!$this->prestashopConfiguration->isCompliant()) {
-            $this->_html .= '<p class="alert alert-warning">'.$this->trans('The checklist is not OK. You can only upgrade your shop once all indicators are green.', array(), 'Modules.Autoupgrade.Admin').'</p>';
-        }
-
-        $this->_html .= '<div id="currentConfiguration">
-							<p class="alert alert-info">'.$this->trans('Before starting the upgrade process, please make sure this checklist is all green.', array(), 'Modules.Autoupgrade.Admin').'</p>';
-
-        $pic_ok = '<img src="../img/admin/enabled.gif" alt="ok"/>';
-        $pic_nok = '<img src="../img/admin/disabled.gif" alt="nok"/>';
-        $pic_warn = '<img src="../img/admin/warning.gif" alt="warn"/>';
-        // module version : checkAutoupgradeLastVersion
-
-        $this->_html .= '<table class="table" cellpadding="0" cellspacing="0">
-				<tr>
-					<td>'.$this->trans('The 1-click upgrade module is up-to-date (your current version is v%s)', array($this->prestashopConfiguration->getModuleVersion()), 'Modules.Autoupgrade.Admin').'
-					'.($current_ps_config['module_version_ok'] ? '' : '&nbsp;&nbsp;'.(version_compare(_PS_VERSION_, '1.5.3.0', '>') ? '<strong><a href="index.php?controller=AdminModules&amp;token='.Tools14::getAdminTokenLite('AdminModules').'&update=autoupgrade">'.$this->trans('Update', array(), 'Admin.Actions').'</a></strong> - ' : '').'<strong><a class="_blank" href="http://addons.prestashop.com/en/administration-tools-prestashop-modules/5496-1-click-upgrade-autoupgrade.html">'.$this->trans('Download', array(), 'Modules.Autoupgrade.Admin').'</a><strong> ').'
-					</td>
-					<td>'.($current_ps_config['module_version_ok'] ? $pic_ok : $pic_nok).'</td>
-				</tr>';
-
-        // root : getRootWritable()
-
-        $this->_html .= '
-			<tr>
-				<td>'.$this->trans('Your store\'s root directory is writable (with appropriate CHMOD permissions)', array(), 'Modules.Autoupgrade.Admin').'</td>
-				<td>'.($current_ps_config['root_writable'] ? $pic_ok : $pic_nok.' '.$current_ps_config['root_writable_report']).'</td>
-			</tr>';
-
-        $admin_dir = trim(str_replace($this->prodRootDir, '', $this->adminDir), DIRECTORY_SEPARATOR);
-        $report = '';
-        ConfigurationTest::test_dir($admin_dir.DIRECTORY_SEPARATOR.$this->autoupgradeDir, true, $report);
-        if ($report) {
-            $this->_html .= '
-				<tr>
-					<td>'.$this->trans('The "/admin/autoupgrade" directory is writable (appropriate CHMOD permissions)', array(), 'Modules.Autoupgrade.Admin').'</td>
-					<td>'.($current_ps_config['admin_au_writable'] ? $pic_ok : $pic_nok.' '.$report).'</td>
-				</tr>';
-        }
-
-        //check safe_mod
-        if (!$safe_mode = @ini_get('safe_mode')) {
-            $safe_mode = '';
-        }
-        $safe_mode = in_array(Tools14::strtolower($safe_mode), array(1, 'on'));
-
-        $this->_html .= '
-			<tr><td>'.$this->trans('PHP\'s "Safe mode" option is turned off', array(), 'Modules.Autoupgrade.Admin').'</td>
-			<td>'.(!$safe_mode ? $pic_ok : $pic_warn).'</td></tr>';
-
-        $this->_html .= '
-			<tr><td>'.$this->trans('PHP\'s "allow_url_fopen" option is turned on, or cURL is installed', array(), 'Modules.Autoupgrade.Admin').'</td>
-			<td>'.((ConfigurationTest::test_fopen() || ConfigurationTest::test_curl()) ? $pic_ok : $pic_nok).'</td></tr>';
-
-        // shop enabled
-        $this->_html .= '
-			<tr><td>'.$this->trans('Your store is in maintenance mode', array(), 'Modules.Autoupgrade.Admin').' '.(!$current_ps_config['shop_deactivated'] ? '<br><form method="post" action="'.self::$currentIndex.'&token='.$this->token.'"><input type="submit" class="button" name="putUnderMaintenance" value="'.$this->trans('Click here to put your shop under maintenance', array(), 'Modules.Autoupgrade.Admin').'"></form>' : '').'</td>
-			<td>'.($current_ps_config['shop_deactivated'] ? $pic_ok : $pic_nok).'</td></tr>';
-
-        $this->_html .= '
-			<tr><td>'.$this->trans('PrestaShop\'s caching features are disabled', array(), 'Modules.Autoupgrade.Admin').'</td>
-			<td>'.($current_ps_config['cache_deactivated'] ? $pic_ok : $pic_nok).'</td></tr>';
-
-        // for information, display time limit
-        $max_exec_time = ini_get('max_execution_time');
-        if ($max_exec_time == 0) {
-            $this->_html .= '<tr><td>'.$this->trans('PHP\'s max_execution_time setting has a high value or is disabled entirely (current value: unlimited)', array(), 'Modules.Autoupgrade.Admin').'</td><td>'.$pic_ok.'</td></tr>';
-        } else {
-            $this->_html .= '<tr><td>'.$this->trans('PHP\'s max_execution_time setting has a high value or is disabled entirely (current value: %s seconds)', array($max_exec_time), 'Modules.Autoupgrade.Admin').'</td><td>'.$pic_warn.'</td></tr>';
-        }
-        $this->_html .= '</table>
-        <br/>
-        <p class="alert alert-info">'.$this->trans('Please also make sure you make a full manual backup of your files and database.', array(), 'Modules.Autoupgrade.Admin').'</p>
-        </div>
-        </div>
-		</div>';
-    }
-
     public function divChannelInfos($upgrade_info)
     {
         if ($this->upgradeConfiguration->get('channel') == 'private') {
@@ -4129,115 +3944,6 @@ class AdminSelfUpgrade extends ModuleAdminController
         return $content;
     }
 
-    public function getBlockSelectChannel($channel = 'minor')
-    {
-        $admin_dir = trim(str_replace($this->prodRootDir, '', $this->adminDir), DIRECTORY_SEPARATOR);
-        $content = '';
-        $opt_channels = array();
-        // Hey ! I'm really using a fieldset element to regroup fields ?! !
-        $opt_channels[] = '<option id="useMajor" value="major" '.($channel == 'major'?'class="current" selected="selected">* ':'>')
-            .$this->trans('Major release', array(), 'Modules.Autoupgrade.Admin').'</option>';
-        $opt_channels[] = '<option id="useMinor" value="minor" '.($channel == 'minor'?'class="current" selected="selected">* ':'>')
-            .$this->trans('Minor release (recommended)', array(), 'Modules.Autoupgrade.Admin').'</option>';
-        $opt_channels[] = '<option id="useRC" value="rc" '.($channel == 'rc'?'class="current" selected="selected">* ':'>')
-            .$this->trans('Release candidates', array(), 'Modules.Autoupgrade.Admin').'</option>';
-        $opt_channels[] = '<option id="useBeta" value="beta" '.($channel == 'beta'?'class="current" selected="selected">* ':'>')
-            .$this->trans('Beta releases', array(), 'Modules.Autoupgrade.Admin').'</option>';
-        $opt_channels[] = '<option id="useAlpha" value="alpha" '.($channel == 'alpha'?'class="current" selected="selected">* ':'>')
-            .$this->trans('Alpha releases', array(), 'Modules.Autoupgrade.Admin').'</option>';
-        $opt_channels[] = '<option id="usePrivate" value="private" '.($channel == 'private'?'class="current" selected="selected">* ':'>')
-            .$this->trans('Private release (require link and MD5 hash)', array(), 'Modules.Autoupgrade.Admin').'</option>';
-        $opt_channels[] = '<option id="useArchive" value="archive" '.($channel == 'archive'?'class="current" selected="selected">* ':'>')
-            .$this->trans('Local archive', array(), 'Modules.Autoupgrade.Admin').'</option>';
-        $opt_channels[] = '<option id="useDirectory" value="directory" '.($channel == 'directory'?'class="current" selected="selected">* ':'>')
-            .$this->trans('Local directory', array(), 'Modules.Autoupgrade.Admin').'</option>';
-
-        $content .= '<label>'.$this->trans('Channel:', array(), 'Modules.Autoupgrade.Admin').'</label><select name="channel" >';
-        $content .= implode('', $opt_channels);
-        $content .= '</select>';
-        $upgrade_info = $this->getInfoForChannel($channel);
-        $content .= $this->divChannelInfos($upgrade_info);
-
-        $content .= '<div id="for-useMinor" ><div class="margin-form margin-form-small">'.$this->trans('This option regroup all stable versions.', array(), 'Modules.Autoupgrade.Admin').'</div></div>';
-        $content .= '<div id="for-usePrivate">
-			<p><label>'.$this->trans('Link:', array(), 'Modules.Autoupgrade.Admin').' *</label>
-			<input size="50" type="text" name="private_release_link" value="'.$this->upgradeConfiguration->get('private_release_link').'"/>
-			</p>
-			<p><label>'.$this->trans('Hash key:', array(), 'Modules.Autoupgrade.Admin').' *</label>
-			<input size="32" type="text" name="private_release_md5" value="'.$this->upgradeConfiguration->get('private_release_md5').'"/>
-			</p>
-			<p><label>'.$this->trans('Allow major upgrade:', array(), 'Modules.Autoupgrade.Admin').'</label>
-			<input type="checkbox" name="private_allow_major" value="1"'.($this->upgradeConfiguration->get('private_allow_major')?' checked="checked"':'').'/>
-			</p>
-
-			</div>';
-
-        $download = $this->downloadPath.DIRECTORY_SEPARATOR;
-        $dir = glob($download.'*.zip');
-        $content .= '<div id="for-useArchive">';
-        if ($dir !== false && count($dir) > 0) {
-            $archive_filename = $this->upgradeConfiguration->get('archive.filename');
-            $content .= '<label>'.$this->trans('Archive to use:', array(), 'Modules.Autoupgrade.Admin').'</label><div><select name="archive_prestashop" >
-				<option value="">'.$this->trans('Choose an archive', array(), 'Modules.Autoupgrade.Admin').'</option>';
-            foreach ($dir as $file) {
-                $content .= '<option '.($archive_filename ? 'selected="selected"' : '').' value="'.str_replace($download, '', $file).'">'.str_replace($download, '', $file).'</option>';
-            }
-            $content .= '</select><br>
-                <label>'.$this->trans('Number of the version you want to upgrade to:', array(), 'Modules.Autoupgrade.Admin').' * </label><input type="text" size="10" name="archive_num"
-				value="'.($this->upgradeConfiguration->get('archive.version_num')?$this->upgradeConfiguration->get('archive.version_num'):'').'" />
-			 	</div>';
-        } else {
-            $content .= '<div class="alert alert-warning">'.$this->trans('No archive found in your admin/autoupgrade/download directory', array(), 'Modules.Autoupgrade.Admin').'</div>';
-        }
-
-        $content .= '<div class="margin-form">'.
-            $this->trans('Save in the following directory the archive file of the version you want to upgrade to: %s', array('<b>/admin/autoupgrade/download/</b>'), 'Modules.Autoupgrade.Admin').'<br />'.
-            $this->trans('Click "Save" once the archive is there.', array(), 'Modules.Autoupgrade.Admin').'<br />'.
-            $this->trans('This option will skip the download step.', array(), 'Modules.Autoupgrade.Admin').'</div></div>';
-        // $directory_dirname = $this->upgradeConfiguration->get('directory.dirname');
-        $content .= '<div id="for-useDirectory">
-			<div> '.
-            $this->trans('Save in the following directory the uncompressed PrestaShop files of the version you want to upgrade to: %s', array('<b>/admin/autoupgrade/latest/prestashop/</b>'), 'Modules.Autoupgrade.Admin').
-            '<br /><br /><label>'.$this->trans('Please tell us which version you are upgrading to [1](1.7.0.1 for instance)[/1]', array('[1]' => '<small>', '[/1]' => '</small>'), 'Modules.Autoupgrade.Admin').' </label> <input type="text" size="10" name="directory_num"
-			value="'.($this->upgradeConfiguration->get('directory.version_num')?$this->upgradeConfiguration->get('directory.version_num'):'').'" />
-			<div class="margin-form">'.$this->trans('Click "Save" once the archive is there.', array(), 'Modules.Autoupgrade.Admin').'<br />* '.
-            $this->trans('This option will skip both download and unzip steps and will use %1$s as the source directory', array('<b>/admin/autoupgrade/download/prestashop/</b>'), 'Modules.Autoupgrade.Admin').'</div>
-			</div></div>';
-        // backupFiles
-        // backupDb
-        $content .= '<br /><p><input type="button" class="button btn btn-primary" value="'.$this->trans('Save', array(), 'Admin.Actions').'" name="submitConf-channel" /></p>';
-        return $content;
-    }
-
-    public function getBlockConfigurationAdvanced()
-    {
-        $content = '
-        <div class="row">
-            <div class="pull-right">
-                <p><input type="button" class="button btn btn-warning" name="btn_adv" value="'.$this->trans('More options (Expert mode)', array(), 'Modules.Autoupgrade.Admin').'"/></p>
-            </div>
-            <div class="col-xs-12">
-                <p class="alert alert-info" style="display:none;" id="configResult">&nbsp;</p>
-                <div id="advanced" style="margin-top: 30px;">
-                    <h3>'.$this->trans('Expert mode', array(), 'Modules.Autoupgrade.Admin').'</h3>
-                    <h4 style="margin-top: 0px;">'.$this->trans('Please select your channel:', array(), 'Modules.Autoupgrade.Admin').'</h4>
-                    <p>'.$this->trans('Channels are offering you different ways to perform an upgrade. You can either upload the new version manually or let the 1-Click Upgrade module download it for you.', array(), 'Modules.Autoupgrade.Admin').'<br />'.
-                    $this->trans('The Alpha, Beta and Private channels give you the ability to upgrade to a non-official or unstable release (for testing purposes only).', array(), 'Modules.Autoupgrade.Admin').'<br />'.
-                    $this->trans('By default, you should use the "Minor release" channel which is offering the latest stable version available.', array(), 'Modules.Autoupgrade.Admin').'</p><br />';
-
-        $channel = $this->upgradeConfiguration->get('channel');
-        if (empty($channel)) {
-            $channel = Upgrader::DEFAULT_CHANNEL;
-        }
-
-        $content .= $this->getBlockSelectChannel($channel).'
-                </div>
-            </div>
-        </div>';
-
-        return $content;
-    }
-
     public function displayDevTools()
     {
         $content = '';
@@ -4258,29 +3964,6 @@ class AdminSelfUpgrade extends ModuleAdminController
         $content .= '</div></fieldset>';
 
         return $content;
-    }
-
-    private function _displayComparisonBlock()
-    {
-        $this->_html .= '<div class="bootstrap" id="comparisonBlock">
-            <div class="panel">
-                <div class="panel-heading">
-                  '.$this->trans('Version comparison', array(), 'Modules.Autoupgrade.Admin').'
-                </div>
-                <p>
-                    <b>'.$this->trans('PrestaShop Original version', array(), 'Modules.Autoupgrade.Admin').':</b><br>
-                    <span id="checkPrestaShopFilesVersion">
-                        <img id="pleaseWait" src="'.__PS_BASE_URI__.'img/loader.gif"/>
-                    </span>
-                </p>
-                <p>
-                    <b>'.$this->trans('Differences between versions', array(), 'Modules.Autoupgrade.Admin').':</b><br>
-                    <span id="checkPrestaShopModifiedFiles">
-                        <img id="pleaseWait" src="'.__PS_BASE_URI__.'img/loader.gif"/>
-                    </span>
-                </p>
-            </div>
-        </div>';
     }
 
     private function _displayBlockActivityLog()
@@ -4313,162 +3996,9 @@ class AdminSelfUpgrade extends ModuleAdminController
 
         $this->_html .= '</div></div>';
     }
-    /**
-     * _displayBlockUpgradeButton
-     * display the summary current version / target vesrion + "Upgrade Now" button with a "more options" button
-     *
-     * @access private
-     * @return void
-     */
-    private function _displayBlockUpgradeButton()
-    {
-        global $cookie;
-
-        $this->_html .= '<div class="bootstrap" id="upgradeButtonBlock">
-            <div class="panel">
-                <div class="panel-heading">
-                  '.$this->trans('Start your Upgrade', array(), 'Modules.Autoupgrade.Admin').'
-                </div>';
-
-        $this->_html .= '<div class="blocOneClickUpgrade">';
-
-        if (version_compare(_PS_VERSION_, $this->upgrader->version_num, '==')) {
-            $this->_html .= '<p class="alert alert-success">'.$this->trans('Congratulations, you are already using the latest version available!', array(), 'Modules.Autoupgrade.Admin').'</p>';
-        } elseif (version_compare(_PS_VERSION_, $this->upgrader->version_num, '>')) {
-            $this->_html .= '<p class="alert alert-warning">'.$this->trans('You come from the future! You are using a more recent version than the latest available!', array(), 'Modules.Autoupgrade.Admin').'</p>';
-        }
-        $this->_html .= '<p>'.$this->trans('Your current PrestaShop version', array(), 'Modules.Autoupgrade.Admin').' : <strong>'._PS_VERSION_.'</strong></p>';
-
-        $channel = $this->upgradeConfiguration->get('channel');
-
-        $this->_html .= '<p>'.$this->trans('Latest official version for %s channel.', array($channel), 'Modules.Autoupgrade.Admin').' : <strong>';
-        if (!in_array($channel, array('archive', 'directory'))) {
-            if (!empty($this->upgrader->version_num)) {
-                $this->_html .= $this->upgrader->version_name.' - ('. $this->upgrader->version_num.')</strong></p>';
-            }
-        } else {
-            $this->_html .= $this->trans('N/A', array(), 'Admin.Global').'</strong></p>';
-        }
-
-        $this->_html .= '</div><br />';
-
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // decide to display "Start Upgrade" or not
-        if ($this->prestashopConfiguration->isCompliant()) {
-            if (version_compare(_PS_VERSION_, $this->upgrader->version_num, '<')) {
-                $show_big_button_new_version = false;
-                $this->_html .= '<p><a href="#" id="upgradeNow" class="button-autoupgrade upgradestep btn btn-primary">'.$this->trans('Upgrade PrestaShop now!', array(), 'Modules.Autoupgrade.Admin').'</a> ';
-
-                // smarty2 uses is a warning only, and will be displayed only if current version is 1.3 or 1.4 and target is <1.5;
-                $use_smarty3 = !(Configuration::get('PS_FORCE_SMARTY_2') === '1' || Configuration::get('PS_FORCE_SMARTY_2') === false);
-                if ($use_smarty3) {
-                    $srcShopStatus = '../img/admin/enabled.gif';
-                    $label = $this->trans('You use Smarty 3', array(), 'Modules.Autoupgrade.Admin');
-                } else {
-                    $srcShopStatus = '../img/admin/warning.gif';
-                    $label = $this->trans('Smarty 2 is deprecated in 1.4 and was removed in 1.5. You may need to upgrade your current theme or use a new one.', array(), 'Modules.Autoupgrade.Admin');
-                }
-
-                if (!in_array($channel, array('archive', 'directory'))) {
-                    if ($this->upgradeConfiguration->get('channel') == 'private') {
-                        $this->upgrader->link = $this->upgradeConfiguration->get('private_release_link');
-                    }
-
-                    $this->_html .= '<small><a href="'.$this->upgrader->link.'">'.$this->trans('PrestaShop will be downloaded from %s', array($this->upgrader->link), 'Modules.Autoupgrade.Admin').'</a></small></p><br />';
-
-                    if (!empty($this->upgrader->changelog)) {
-                        $this->_html .= '<p><a href="' . $this->upgrader->changelog . '" target="_blank" >' . $this->trans('Open changelog in a new window', array(), 'Modules.Autoupgrade.Admin') . '</a></p>';
-                    }
-
-                } else {
-                    $this->_html .= $this->trans('No file will be downloaded (channel %s is used)', array($channel), 'Modules.Autoupgrade.Admin');
-                }
-
-                // if skipActions property is used, we will handle that in the display :)
-                if (count(AdminSelfUpgrade::$skipAction) > 0) {
-                    $this->_html .= '<div id="skipAction-list" class="alert alert-warning">
-                        <p>'.$this->trans('The following action are automatically replaced', array(), 'Modules.Autoupgrade.Admin').'</p>'
-                        .'<ul>';
-                    foreach (AdminSelfUpgrade::$skipAction as $k => $v) {
-                        $this->_html .= '<li>'
-                                .$this->trans(
-                                    '%old% will be replaced by %new%',
-                                    array(
-                                        '%old%' => '<b>'.$k.'</b>',
-                                        '%new%' => '<b>'.$v.'</b>'
-                                    ),
-                                    'Modules.Autoupgrade.Admin'
-                                ).'</li>';
-                    }
-                    $this->_html .= '</ul>
-                      <p>'.$this->trans('To change this behavior, you need to manually edit your php files', array(), 'Modules.Autoupgrade.Admin').'</p>
-                    </div>';
-                }
-            } else {
-                $show_big_button_new_version = true;
-            }
-        } else {
-            $show_big_button_new_version = true;
-        }
-
-        $this->_html .='<br />';
-        if ($show_big_button_new_version) {
-            $this->_html .= '
-				<p><a class="button button-autoupgrade btn btn-primary"
-					href="index.php?tab=AdminSelfUpgrade&amp;token='.$this->token.'&amp;refreshCurrentVersion=1">'.$this->trans('Check if a new version is available', array(), 'Modules.Autoupgrade.Admin').'</a> -
-					<span style="font-style: italic; font-size: 11px;">';
-            if (Configuration::get('PS_LAST_VERSION_CHECK')) {
-                $this->_html .= $this->trans('Last check: %s', array(date('Y-m-d H:i:s', Configuration::get('PS_LAST_VERSION_CHECK'))), 'Modules.Autoupgrade.Admin');
-            } else {
-                $this->_html .= $this->trans('Last check: never', array(), 'Modules.Autoupgrade.Admin');
-            }
-            $this->_html .= '</span>
-				</p>';
-        } else {
-            $this->_html .= '<p><a class="button button-autoupgrade btn btn-default" href="index.php?tab=AdminSelfUpgrade&token='
-                .$this->token
-                .'&refreshCurrentVersion=1">'.$this->trans('Refresh the page', array(), 'Modules.Autoupgrade.Admin').'</a> -
-                <span style="font-style: italic; font-size: 11px;">'.$this->trans('Last datetime check: %s ', array(date('Y-m-d H:i:s', Configuration::get('PS_LAST_VERSION_CHECK'))), 'Modules.Autoupgrade.Admin').'</span>
-            </p>';
-        }
-
-        $this->_html .= $this->getBlockConfigurationAdvanced();
-
-
-        if ($this->manualMode) {
-            $this->_html .= $this->displayDevTools();
-        }
-
-        $this->_html .= '</div></div>';
-
-
-        // information to keep will be in #infoStep
-        // temporary infoUpdate will be in #tmpInformation
-    }
 
     public function display()
     {
-	$this->_html .= '<script type="text/javascript">
-            var show_new_orders = '.Configuration::get('PS_SHOW_NEW_ORDERS', null, null, null, 1).';        
-            var show_new_customers = '.Configuration::get('PS_SHOW_NEW_CUSTOMERS', null, null, null, 1).';
-            var show_new_messages = '.Configuration::get('PS_SHOW_NEW_MESSAGES ', null, null, null, 1).';    
-        </script>';
-	    
-        $this->_html .= '<script type="text/javascript">var jQueryVersionPS = parseInt($().jquery.replace(/\./g, ""));</script>
-		<script type="text/javascript" src="'.__PS_BASE_URI__.'modules/autoupgrade/js/jquery-1.6.2.min.js"></script>
-		<script type="text/javascript">if (jQueryVersionPS >= 162) jq162 = jQuery.noConflict(true);</script>';
-
-        /* PrestaShop demo mode */
-        if (defined('_PS_MODE_DEMO_') && _PS_MODE_DEMO_) {
-            echo '<div class="error">'.$this->trans('This functionality has been disabled.', array(), 'Modules.Autoupgrade.Admin').'</div>';
-            return;
-        }
-
-        if (!file_exists($this->autoupgradePath.DIRECTORY_SEPARATOR.'ajax-upgradetab.php')) {
-            echo '<div class="error">'.'<img src="../img/admin/warning.gif" /> '.$this->trans('[TECHNICAL ERROR] ajax-upgradetab.php is missing. Please reinstall or reset the module.', array(), 'Modules.Autoupgrade.Admin').'</div>';
-            return false;
-        }
-
         /* Make sure the user has configured the upgrade options, or set default values */
         $configuration_keys = array(
             'PS_AUTOUP_UPDATE_DEFAULT_THEME' => 1,
