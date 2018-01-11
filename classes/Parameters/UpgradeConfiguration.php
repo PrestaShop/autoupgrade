@@ -29,7 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade\Parameters;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Contains the module configuration
+ * Contains the module configurationf (form params)
  */
 class UpgradeConfiguration extends ArrayCollection
 {

@@ -68,7 +68,6 @@ class AdminSelfUpgrade extends ModuleAdminController
      */
     public $stepDone = true;
     public $status = true;
-    public $warning_exists = false;
     public $error = '0';
     public $next_desc = '';
     public $nextParams = array();
@@ -92,22 +91,6 @@ class AdminSelfUpgrade extends ModuleAdminController
         'modules_addons',
         'warning_exists',
     );
-
-    /**
-     * installedLanguagesIso is an array of iso_code of each installed languages
-     *
-     * @var array
-     * @access public
-     */
-    public $installedLanguagesIso = array();
-
-    /**
-     * modules_addons is an array of array(id_addons => name_module).
-     *
-     * @var array
-     * @access public
-     */
-    public $modules_addons = array();
 
     public $autoupgradePath = null;
     public $downloadPath = null;
@@ -235,7 +218,6 @@ class AdminSelfUpgrade extends ModuleAdminController
         'mailCustomList',
     );
 
-    public $install_version;
     public $keepImages = null;
     public $updateDefaultTheme = null;
     public $changeToDefaultTheme = null;
@@ -257,12 +239,28 @@ class AdminSelfUpgrade extends ModuleAdminController
     'OrderReturnState', 'OrderSlip', 'OrderState', 'PDF', 'RangePrice', 'RangeWeight', 'StockMvt',
     'StockMvtReason', 'SubDomain', 'Shop', 'Tax', 'TaxRule', 'TaxRulesGroup', 'WebserviceKey', 'WebserviceRequest', '');
 
-    private $restoreName = null;
+    public $install_version;
     private $backupName = null;
     private $backupFilesFilename = null;
     private $backupDbFilename = null;
+    private $restoreName = null;
     private $restoreFilesFilename = null;
     private $restoreDbFilenames = array();
+    /**
+     * installedLanguagesIso is an array of iso_code of each installed languages
+     *
+     * @var array
+     * @access public
+     */
+    public $installedLanguagesIso = array();
+    /**
+     * modules_addons is an array of array(id_addons => name_module).
+     *
+     * @var array
+     * @access public
+     */
+    public $modules_addons = array();
+    public $warning_exists = false;
 
     public static $loopBackupFiles = 400;
     public static $maxBackupFileSize = 15728640; // 15 Mo
@@ -4037,17 +4035,6 @@ class AdminSelfUpgrade extends ModuleAdminController
         }
         // by default, don't skip
         return false;
-    }
-
-    private function getThemeManager()
-    {
-        $id_employee = $_COOKIE['id_employee'];
-
-        $context = Context::getContext();
-        $context->employee = new Employee((int) $id_employee);
-
-        // No `use` statement, as ithis class may not exist
-        return (new \PrestaShop\PrestaShop\Core\Addon\Theme\ThemeManagerBuilder($context, $this->db))->build();
     }
 
     private function getUpgrader()
