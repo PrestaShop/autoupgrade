@@ -24,7 +24,7 @@
  * International Registered Trademark & Property of PrestaShop SA
  */
 
-namespace PrestaShop\Module\AutoUpgrade\Block;
+namespace PrestaShop\Module\AutoUpgrade\Twig\Block;
 
 use AdminSelfUpgrade;
 use Configuration;

@@ -25,22 +25,19 @@
 *	International Registered Trademark & Property of PrestaShop SA
 */
 
+use PrestaShop\Module\AutoUpgrade\ChannelInfo;
+use PrestaShop\Module\AutoUpgrade\BackupFinder;
+use PrestaShop\Module\AutoUpgrade\UpgradePage;
 use PrestaShop\Module\AutoUpgrade\Upgrader;
+use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
 use PrestaShop\Module\AutoUpgrade\PrestashopConfiguration;
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Database;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\ModuleAdapter;
-use PrestaShop\Module\AutoUpgrade\Parameters\FileConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
-use PrestaShop\Module\AutoUpgrade\Temp\JsTemplateFormAdapter;
-
-use PrestaShop\Module\AutoUpgrade\ChannelInfo;
-use PrestaShop\Module\AutoUpgrade\BackupFinder;
-use PrestaShop\Module\AutoUpgrade\State;
-use PrestaShop\Module\AutoUpgrade\UpgradePage;
-use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
 use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension;
+use PrestaShop\Module\AutoUpgrade\Twig\Block\ChannelInfoBlock;
 
 require __DIR__.'/vendor/autoload.php';
 
@@ -315,6 +312,11 @@ class AdminSelfUpgrade extends ModuleAdminController
      * @var ModuleAdapter
      */
     private $moduleAdapter;
+
+    /**
+     * @var Twig_Environment
+     */
+    private $twig;
 
     /**
      * replace tools encrypt
@@ -1039,10 +1041,16 @@ class AdminSelfUpgrade extends ModuleAdminController
         $this->next = '';
 
         $channel = $this->currentParams['channel'];
-        $upgrade_info = (new ChannelInfo($this->getUpgrader(), $this->upgradeConfiguration, $channel))->getInfo();
-        $this->nextParams['result']['available'] =  $upgrade_info['available'];
+        $channelInfo = (new ChannelInfo($this->getUpgrader(), $this->upgradeConfiguration, $channel));
+        $channelInfoArray = $channelInfo->getInfo();
+        $this->nextParams['result']['available'] = $channelInfoArray['available'];
 
-        $this->nextParams['result']['div'] = $this->divChannelInfos($upgrade_info);
+        $this->nextParams['result']['div'] = (new ChannelInfoBlock(
+            $this->upgradeConfiguration,
+            $channelInfo,
+            $this->getTwig(),
+            $this->getTranslator())
+        )->render();
     }
 
     /**
@@ -3886,60 +3894,6 @@ class AdminSelfUpgrade extends ModuleAdminController
         return $array;
     }
 
-    public function divChannelInfos($upgrade_info)
-    {
-        if ($this->upgradeConfiguration->get('channel') == 'private') {
-            $upgrade_info['link'] = $this->upgradeConfiguration->get('private_release_link');
-            $upgrade_info['md5'] = $this->upgradeConfiguration->get('private_release_md5');
-        }
-        $content = '<div id="channel-infos" ><br/>';
-        if (isset($upgrade_info['branch'])) {
-            $content .= '<div style="clear:both">
-				<label class="label-small">'.$this->trans('Branch:', array(), 'Modules.Autoupgrade.Admin').'</label>
-					<span class="available">
-						<img src="../img/admin/'.(!empty($upgrade_info['available'])?'enabled':'disabled').'.gif" />'
-                .' '.(!empty($upgrade_info['available'])?$this->trans('available', array(), 'Modules.Autoupgrade.Admin'):$this->trans('unavailable', array(), 'Modules.Autoupgrade.Admin')).'
-					</span>
-				</div>';
-        }
-        $content .= '<div class="all-infos">';
-        if (isset($upgrade_info['version_name'])) {
-            $content .= '<div style="clear:both;">
-			<label class="label-small">'.$this->trans('Name:', array(), 'Admin.Global').'</label>
-				<span class="name">'.$upgrade_info['version_name'].'&nbsp;</span>
-            </div>';
-        }
-        if (isset($upgrade_info['version_number'])) {
-            $content .= '<div style="clear:both;">
-			<label class="label-small">'.$this->trans('Version number:', array(), 'Modules.Autoupgrade.Admin').'</label>
-				<span class="version">'.$upgrade_info['version_num'].'&nbsp;</span>
-            </div>';
-        }
-        if (!empty($upgrade_info['link'])) {
-            $content .= '<div style="clear:both;">
-			<label class="label-small">'.$this->trans('URL:', array(), 'Modules.Autoupgrade.Admin').'</label>
-                <a class="url" href="'.$upgrade_info['link'].'">'.$upgrade_info['link'].'</a>
-            </div>';
-        }
-        if (!empty($upgrade_info['md5'])) {
-            $content .= '<div style="clear:both;">
-			<label class="label-small">'.$this->trans('MD5 hash:', array(), 'Modules.Autoupgrade.Admin').'</label>
-				<span class="md5">'.$upgrade_info['md5'].'&nbsp;</span>
-            </div>';
-        }
-
-        if (!empty($upgrade_info['changelog'])) {
-            $content .= '<div style="clear:both;">
-			<label class="label-small">'.$this->trans('Changelog:', array(), 'Modules.Autoupgrade.Admin').'</label>
-				<a class="changelog" href="'.$upgrade_info['changelog'].'">'.$this->trans('see changelog', array(), 'Modules.Autoupgrade.Admin').'</a>
-			</div>';
-        }
-
-        $content .= '</div>
-          </div>';
-        return $content;
-    }
-
     public function displayDevTools()
     {
         $content = '';
@@ -4011,14 +3965,6 @@ class AdminSelfUpgrade extends ModuleAdminController
             }
         }
 
-        // Using independant template engine for 1.6 & 1.7 compatibility
-        $loader = new Twig_Loader_Filesystem();
-        $loader->addPath(realpath(__DIR__).'/views/templates', 'ModuleAutoUpgrade');
-        $twig = new Twig_Environment($loader, array(
-            //'cache' => '/path/to/compilation_cache',
-        ));
-        $twig->addExtension(new TransFilterExtension($this->getTranslator()));
-
         // update backup name
         $backupFinder = new BackupFinder($this->backupPath);
         $availableBackups = $backupFinder->getAvailableBackups();
@@ -4038,7 +3984,7 @@ class AdminSelfUpgrade extends ModuleAdminController
         );
         $this->_html = (new UpgradePage(
             $this->upgradeConfiguration,
-            $twig,
+            $this->getTwig(),
             $this->getTranslator(),
             $upgradeSelfCheck,
             $upgrader,
@@ -4338,5 +4284,23 @@ class AdminSelfUpgrade extends ModuleAdminController
     {
         // TODO: 1.7 Only
         return Context::getContext()->getTranslator();
+    }
+
+    public function getTwig()
+    {
+        if (!is_null($this->twig)) {
+            return $this->twig;
+        }
+
+        // Using independant template engine for 1.6 & 1.7 compatibility
+        $loader = new Twig_Loader_Filesystem();
+        $loader->addPath(realpath(__DIR__).'/views/templates', 'ModuleAutoUpgrade');
+        $twig = new Twig_Environment($loader, array(
+            //'cache' => '/path/to/compilation_cache',
+        ));
+        $twig->addExtension(new TransFilterExtension($this->getTranslator()));
+
+        $this->twig = $twig;
+        return $this->twig;
     }
 }

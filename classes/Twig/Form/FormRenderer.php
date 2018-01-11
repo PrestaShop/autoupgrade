@@ -24,7 +24,7 @@
  * International Registered Trademark & Property of PrestaShop SA
  */
 
-namespace PrestaShop\Module\AutoUpgrade\Form;
+namespace PrestaShop\Module\AutoUpgrade\Twig\Form;
 
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShopBundle\Translation\TranslatorComponent;
