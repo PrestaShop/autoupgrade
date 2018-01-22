@@ -48,6 +48,8 @@ class State
      * @var array
      */
     private $modules_addons = array();
+
+    // ToDo: To be moved in ajax response ?
     private $warning_exists = false;
 
     /**
@@ -60,6 +62,7 @@ class State
                 $this->{$name} = $value;
             }
         }
+        return $this;
     }
 
     /**
