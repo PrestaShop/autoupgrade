@@ -39,8 +39,6 @@ class AjaxResponse
 
     private $next;
 
-    private $status;
-
     private $next_desc;
 
     private $nextParams;
@@ -61,9 +59,10 @@ class AjaxResponse
      */
     private $state;
 
-    public function __construct($translator)
+    public function __construct($translator, State $state)
     {
         $this->translator = $translator;
+        $this->state = $state;
     }
 
     /**
@@ -75,15 +74,16 @@ class AjaxResponse
             'error' => $this->error,
             'stepDone' => $this->stepDone,
             'next' => $this->next,
-            'status' => ($this->next == 'error' ? 'error' : 'ok'),
+            'status' => $this->getStatus(),
             'next_desc' => $this->next_desc,
             'nextQuickInfo' => $this->nextQuickInfo,
             'nextErrors' => $this->nextErrors,
             'nextParams' => array_merge(
-                $this->upgradeConfiguration->toArray(),
+                $this->nextParams,
                 $this->state->export(),
                 array(
                     'typeResult' => $this->nextResponseType,
+                    'config' => $this->upgradeConfiguration->toArray(),
                 )
             ),
         );
@@ -124,10 +124,10 @@ class AjaxResponse
 
     public function getStatus()
     {
-        return $this->status;
+        return ($this->getNext() == 'error' ? 'error' : 'ok');
     }
 
-    public function getNext_desc()
+    public function getNextDesc()
     {
         return $this->next_desc;
     }
@@ -145,6 +145,11 @@ class AjaxResponse
     public function getNextErrors()
     {
         return $this->nextErrors;
+    }
+
+    public function getUpgradeConfiguration()
+    {
+        return $this->upgradeConfiguration;
     }
 
     /*
@@ -169,13 +174,7 @@ class AjaxResponse
         return $this;
     }
 
-    public function setStatus($status)
-    {
-        $this->status = $status;
-        return $this;
-    }
-
-    public function setNext_desc($next_desc)
+    public function setNextDesc($next_desc)
     {
         $this->next_desc = $next_desc;
         return $this;
@@ -199,5 +198,9 @@ class AjaxResponse
         return $this;
     }
 
-
+    public function setUpgradeConfiguration(UpgradeConfiguration $upgradeConfiguration)
+    {
+        $this->upgradeConfiguration = $upgradeConfiguration;
+        return $this;
+    }
 }
