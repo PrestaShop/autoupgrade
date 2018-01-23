@@ -38,6 +38,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\Database;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\ModuleAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\ThemeAdapter;
+use PrestaShop\Module\AutoUpgrade\Parameters\FileConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension;
@@ -1449,7 +1450,7 @@ class AdminSelfUpgrade extends ModuleAdminController
                 break;
             }
         }
-        file_put_contents($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->nextParams['filesToUpgrade'], base64_encode(serialize($filesToUpgrade)));
+        (new FileConfigurationStorage())->save($filesToUpgrade, $this->autoupgradePath.DIRECTORY_SEPARATOR.$this->nextParams['filesToUpgrade']);
         if (count($filesToUpgrade) > 0) {
             if (count($filesToUpgrade)) {
                 $this->next_desc = $this->trans('%s files left to upgrade.', array(count($filesToUpgrade)), 'Modules.Autoupgrade.Admin');
@@ -1516,7 +1517,7 @@ class AdminSelfUpgrade extends ModuleAdminController
                 }
             }
         }
-        file_put_contents($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->toUpgradeModuleList, base64_encode(serialize($list)));
+        (new FileConfigurationStorage())->save($list, $this->autoupgradePath.DIRECTORY_SEPARATOR.$this->toUpgradeModuleList);
         $this->nextParams['modulesToUpgrade'] = $this->toUpgradeModuleList;
         return count($list);
     }
@@ -1543,11 +1544,7 @@ class AdminSelfUpgrade extends ModuleAdminController
         }
 
         $this->next = 'upgradeModules';
-        if (file_exists($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->nextParams['modulesToUpgrade'])) {
-            $listModules = @unserialize(base64_decode(file_get_contents($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->nextParams['modulesToUpgrade'])));
-        } else {
-            $listModules = array();
-        }
+        $listModules = (new FileConfigurationStorage())->load($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->nextParams['modulesToUpgrade']);
 
         if (!is_array($listModules)) {
             $this->next = 'upgradeComplete';
@@ -1572,7 +1569,7 @@ class AdminSelfUpgrade extends ModuleAdminController
             } while (($time_elapsed < self::$loopUpgradeModulesTime) && count($listModules) > 0);
 
             $modules_left = count($listModules);
-            file_put_contents($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->toUpgradeModuleList, base64_encode(serialize($listModules)));
+            (new FileConfigurationStorage())->save($listModules, $this->autoupgradePath.DIRECTORY_SEPARATOR.$this->toUpgradeModuleList);
             unset($listModules);
 
             $this->next = 'upgradeModules';
@@ -2784,7 +2781,7 @@ class AdminSelfUpgrade extends ModuleAdminController
                 $fromArchive[DIRECTORY_SEPARATOR.$v] = DIRECTORY_SEPARATOR.$v;
             }
 
-            file_put_contents($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->fromArchiveFileList, base64_encode(serialize($fromArchive)));
+            (new FileConfigurationStorage())->save($fromArchive, $this->autoupgradePath.DIRECTORY_SEPARATOR.$this->fromArchiveFileList);
             // get list of files to remove
             $toRemove = $this->_listFilesToRemove();
             $toRemoveOnly = array();
@@ -2802,7 +2799,7 @@ class AdminSelfUpgrade extends ModuleAdminController
             }
 
             $this->nextQuickInfo[] = $this->trans('%s file(s) will be removed before restoring the backup files.', array(count($toRemoveOnly)), 'Modules.Autoupgrade.Admin');
-            file_put_contents($this->autoupgradePath.DIRECTORY_SEPARATOR.$this->toRemoveFileList, base64_encode(serialize($toRemoveOnly)));
+            (new FileConfigurationStorage())->save($toRemoveOnly, $this->autoupgradePath.DIRECTORY_SEPARATOR.$this->toRemoveFileList);
 
             if ($fromArchive === false || $toRemove === false) {
                 if (!$fromArchive) {
