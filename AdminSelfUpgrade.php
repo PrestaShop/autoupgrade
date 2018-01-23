@@ -34,6 +34,7 @@ use PrestaShop\Module\AutoUpgrade\Upgrader;
 use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
 use PrestaShop\Module\AutoUpgrade\PrestashopConfiguration;
 use PrestaShop\Module\AutoUpgrade\Tools14;
+use PrestaShop\Module\AutoUpgrade\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Database;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\ModuleAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter;
@@ -398,7 +399,6 @@ class AdminSelfUpgrade extends ModuleAdminController
         $this->bootstrap = true;
 
         $this->databaseTools = new Database($this->db);
-        $this->moduleAdapter = new ModuleAdapter($this->db);
         // Init PrestashopCompliancy class
         $admin_dir = trim(str_replace($this->prodRootDir, '', $this->adminDir), DIRECTORY_SEPARATOR);
         $this->prestashopConfiguration = new PrestashopConfiguration(
@@ -1553,8 +1553,12 @@ class AdminSelfUpgrade extends ModuleAdminController
         if (count($listModules) > 0) {
             do {
                 $module_info = array_shift($listModules);
-
-                $this->upgradeThisModule($module_info['id'], $module_info['name']);
+                try {
+                    $this->getModuleAdapter()->upgradeModule($module_info['id'], $module_info['name']);
+                    $this->nextQuickInfo[] = $this->trans('The files of module %s have been upgraded.', array($name), 'Modules.Autoupgrade.Admin');
+                } catch (UpgradeException $e) {
+                    $this->handleException($e);
+                }
                 $time_elapsed = time() - $start_time;
             } while (($time_elapsed < self::$loopUpgradeModulesTime) && count($listModules) > 0);
 
@@ -1619,95 +1623,6 @@ class AdminSelfUpgrade extends ModuleAdminController
             }
             return true;
         }
-        return true;
-    }
-
-    /**
-     * upgrade module $name (identified by $id_module on addons server)
-     *
-     * @param mixed $id_module
-     * @param mixed $name
-     * @access public
-     * @return void
-     */
-    public function upgradeThisModule($id_module, $name)
-    {
-        $zip_fullpath = $this->tmpPath.DIRECTORY_SEPARATOR.$name.'.zip';
-
-        $dest_extract = $this->prodRootDir.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR;
-
-        $addons_url = 'api.addons.prestashop.com';
-        $protocolsList = array('https://' => 443, 'http://' => 80);
-        if (!extension_loaded('openssl')) {
-            unset($protocolsList['https://']);
-        } else {
-            unset($protocolsList['http://']);
-        }
-
-        $postData = 'version='.$this->install_version.'&method=module&id_module='.(int)$id_module;
-
-        // Make the request
-        $opts = array(
-            'http'=>array(
-                'method'=> 'POST',
-                'content' => $postData,
-                'header'  => 'Content-type: application/x-www-form-urlencoded',
-                'timeout' => 10,
-            )
-        );
-        $context = stream_context_create($opts);
-        foreach ($protocolsList as $protocol => $port) {
-            // file_get_contents can return false if https is not supported (or warning)
-            $content = Tools14::file_get_contents($protocol.$addons_url, false, $context);
-            if ($content == false || substr($content, 5) == '<?xml') {
-                continue;
-            }
-            if ($content !== null) {
-                if ((bool)file_put_contents($zip_fullpath, $content)) {
-                    if (filesize($zip_fullpath) <= 300) {
-                        unlink($zip_fullpath);
-                    }
-                    // unzip in modules/[mod name] old files will be conserved
-                    elseif ($this->ZipExtract($zip_fullpath, $dest_extract)) {
-                        $this->nextQuickInfo[] = $this->trans('The files of module %s have been upgraded.', array($name), 'Modules.Autoupgrade.Admin');
-			            if (file_exists($zip_fullpath)) {
-                            unlink($zip_fullpath);
-                        }
-                    } else {
-                        $this->nextQuickInfo[] = '<strong>'.$this->trans('[WARNING] Error when trying to upgrade module %s.', array($name), 'Modules.Autoupgrade.Admin').'</strong>';
-                        ////
-                        $this->warning_exists = 1;
-                        $this->state->setWarningExists(true);
-                        ////
-                    }
-                } else {
-                    $this->nextQuickInfo[] = '<strong>'.$this->trans('[ERROR] Unable to write module %s\'s zip file in temporary directory.', array($name), 'Modules.Autoupgrade.Admin').'</strong>';
-                    $this->nextErrors[] = '<strong>'.$this->trans('[ERROR] Unable to write module %s\'s zip file in temporary directory.', array($name), 'Modules.Autoupgrade.Admin').'</strong>';
-                    ////
-                    $this->warning_exists = 1;
-                    $this->state->setWarningExists(true);
-                    ////
-                }
-            } else {
-                $this->nextQuickInfo[] = '<strong>'.$this->trans('[ERROR] No response from Addons server.', array(), 'Modules.Autoupgrade.Admin').'</strong>';
-                $this->nextErrors[] = '<strong>'.$this->trans('[ERROR] No response from Addons server.', array(), 'Modules.Autoupgrade.Admin').'</strong>';
-                ////
-                $this->warning_exists = 1;
-                $this->state->setWarningExists(true);
-                ////
-            }
-        }
-
-        $isUpgraded = $this->moduleAdapter->getModuleDataUpdater()->upgrade($name);
-
-        if (!$isUpgraded) {
-            $this->nextQuickInfo[] = '<strong>'.$this->trans('[WARNING] Error when trying to upgrade module %s.', array($name), 'Modules.Autoupgrade.Admin').'</strong>';
-            ////
-            $this->warning_exists = 1;
-            $this->state->setWarningExists(true);
-            ////
-        }
-
         return true;
     }
 
@@ -1964,7 +1879,7 @@ class AdminSelfUpgrade extends ModuleAdminController
 
         $sqlContentVersion = array();
         if ($this->deactivateCustomModule) {
-            $this->moduleAdapter->disableNonNativeModules();
+            $this->getModuleAdapter()->disableNonNativeModules();
         }
 
         foreach ($neededUpgradeFiles as $version) {
@@ -4055,6 +3970,16 @@ class AdminSelfUpgrade extends ModuleAdminController
         return false;
     }
 
+    private function handleException(UpgradeException $e)
+    {
+        $this->nextQuickInfo[] = $e->getQuickInfos();
+        if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {
+            $this->next = 'error';
+            $this->error = true;
+            $this->nextErrors[] = $e->getMessage();
+        }
+    }
+
     private function getUpgrader()
     {
         if (!is_null($this->upgrader)) {
@@ -4102,6 +4027,22 @@ class AdminSelfUpgrade extends ModuleAdminController
         }
         $this->upgrader = $upgrader;
         return $this->upgrader;
+    }
+
+    public function getModuleAdapter()
+    {
+        if (!is_null($this->moduleAdapter)) {
+            return $this->moduleAdapter;
+        }
+
+        $this->moduleAdapter = new ModuleAdapter(
+            $this->db,
+            $this->getTranslator(),
+            $this->prodRootDir.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR,
+            $this->tmpPath,
+            $this->state->getInstallVersion());
+
+        return $this->moduleAdapter;
     }
 
     public function getTranslator()
