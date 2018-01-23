@@ -52,6 +52,9 @@ class Database
         return $all_tables;
     }
 
+    /**
+     * ToDo: Send tables list instead
+     */
     public function cleanTablesAfterBackup($file)
     {
         // If no more query in list, clean table. (created by user after)
