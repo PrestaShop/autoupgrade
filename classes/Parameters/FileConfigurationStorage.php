@@ -27,11 +27,15 @@
 namespace PrestaShop\Module\AutoUpgrade\Parameters;
 
 use PrestaShop\Module\AutoUpgrade\Tools14;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFiles;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
 class FileConfigurationStorage
 {
+    /**
+     * ToDo: Remove static keyword, and instanciate this class with future logger and project path (if we can confirm all files go to the same folder)
+     */
     /**
      * UpgradeConfiguration loader.
      *
@@ -65,5 +69,29 @@ class FileConfigurationStorage
             // TODO: $e needs to be logged
             return false;
         }
+    }
+
+    /**
+     * @param string $path to add before each file of the list
+     * @return array of temporary files
+     */
+    public static function getFilesList($path = '')
+    {
+        $files = array();
+        foreach (UpgradeFiles::$tmp_files as $file) {
+            $files[$file] = $path . constant('PrestaShop\\Module\\AutoUpgrade\\Parameters\\UpgradeFiles::' . $file);
+        }
+        return $files;
+    }
+
+    /**
+     * Delete all temporary files in a given folder
+     *
+     * @param string $path Path where all the files can be found
+     */
+    public static function cleanAll($path = '')
+    {
+        $filesystem = new Filesystem;
+        $filesystem->remove(self::getFilesList($path));
     }
 }
