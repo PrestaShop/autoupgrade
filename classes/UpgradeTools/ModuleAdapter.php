@@ -26,18 +26,29 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
+use PrestaShop\Module\AutoUpgrade\UpgradeException;
+
 use Db;
 
 class ModuleAdapter
 {
     private $db;
+    private $translator;
+    // PS version to update
+    private $upgradeVersion;
+    private $modulesPath;
+    private $tempPath;
 
     // Cached instance
     private $moduleDataUpdater = null;
 
-    public function __construct($db, $upgradeVersion = null)
+    public function __construct($db, $translator, $modulesPath, $tempPath, $upgradeVersion)
     {
         $this->db = $db;
+        $this->translator = $translator;
+        $this->modulesPath = $modulesPath;
+        $this->tempPath = $tempPath;
+        $this->upgradeVersion = $upgradeVersion;
     }
 
     /**
@@ -105,5 +116,79 @@ class ModuleAdapter
             $this->db->execute('UPDATE `' . _DB_PREFIX_ . 'module` SET `active` = 0 WHERE `id_module` IN (' . implode(',', $modules) . ')');
             $this->db->execute('DELETE FROM `' . _DB_PREFIX_ . 'module_shop` WHERE `id_module` IN (' . implode(',', $modules) . ')');
         }
+    }
+
+    /**
+     * Upgrade module $name (identified by $id_module on addons server)
+     * 
+     * @param int $id
+     * @param string $name
+     */
+    public function upgradeModule($id, $name)
+    {
+        $zip_fullpath = $this->tempPath.DIRECTORY_SEPARATOR.$name.'.zip';
+
+        $addons_url = 'api.addons.prestashop.com';
+        $protocolsList = array('https://' => 443, 'http://' => 80);
+        if (!extension_loaded('openssl')) {
+            unset($protocolsList['https://']);
+        } else {
+            unset($protocolsList['http://']);
+        }
+
+        $postData = 'version='.$this->upgradeVersion.'&method=module&id_module='.(int)$id;
+
+        // Make the request
+        $opts = array(
+            'http'=>array(
+                'method'=> 'POST',
+                'content' => $postData,
+                'header'  => 'Content-type: application/x-www-form-urlencoded',
+                'timeout' => 10,
+            )
+        );
+        $context = stream_context_create($opts);
+        foreach ($protocolsList as $protocol => $port) {
+            // file_get_contents can return false if https is not supported (or warning)
+            $content = Tools14::file_get_contents($protocol.$addons_url, false, $context);
+            if ($content == false || substr($content, 5) == '<?xml') {
+                continue;
+            }
+
+            if ($content === null) {
+                $msg =  '<strong>'.$this->translator->trans('[ERROR] No response from Addons server.', array(), 'Modules.Autoupgrade.Admin').'</strong>';
+                throw (new UpgradeException($msg))
+                    ->setQuickInfos($msg);
+            }
+
+            if (false === (bool)file_put_contents($zip_fullpath, $content)) {
+                $msg = '<strong>'.$this->translator->trans('[ERROR] Unable to write module %s\'s zip file in temporary directory.', array($name), 'Modules.Autoupgrade.Admin').'</strong>';
+                throw (new UpgradeException($msg))
+                    ->setQuickInfos($msg);
+            }
+
+            if (filesize($zip_fullpath) <= 300) {
+                unlink($zip_fullpath);
+            }
+            // unzip in modules/[mod name] old files will be conserved
+            if (!$this->ZipExtract($zip_fullpath, $this->modulesPath)) {
+                throw (new UpgradeException())
+                    ->setQuickInfos('<strong>'.$this->translator->trans('[WARNING] Error when trying to upgrade module %s.', array($name), 'Modules.Autoupgrade.Admin').'</strong>')
+                    ->setSeverity(UpgradeException::SEVERITY_WARNING);
+            }
+            if (file_exists($zip_fullpath)) {
+                unlink($zip_fullpath);
+            }
+        }
+
+        $isUpgraded = $this->getModuleDataUpdater()->upgrade($name);
+
+        if (!$isUpgraded) {
+            throw (new UpgradeException())
+                ->setQuickInfos('<strong>'.$this->translator->trans('[WARNING] Error when trying to upgrade module %s.', array($name), 'Modules.Autoupgrade.Admin').'</strong>')
+                ->setSeverity(UpgradeException::SEVERITY_WARNING);
+        }
+
+        return true;
     }
 }
