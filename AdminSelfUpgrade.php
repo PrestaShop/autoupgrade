@@ -1462,13 +1462,11 @@ class AdminSelfUpgrade extends ModuleAdminController
         }
         (new FileConfigurationStorage())->save($filesToUpgrade, $this->autoupgradePath.DIRECTORY_SEPARATOR.$this->nextParams['filesToUpgrade']);
         if (count($filesToUpgrade) > 0) {
-            if (count($filesToUpgrade)) {
-                $this->next_desc = $this->trans('%s files left to upgrade.', array(count($filesToUpgrade)), 'Modules.Autoupgrade.Admin');
-                $this->nextQuickInfo[] = $this->trans('%s files left to upgrade.', array((isset($file)?$file:''), count($filesToUpgrade)), 'Modules.Autoupgrade.Admin');
-                $this->stepDone = false;
-                @unlink(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR. 'app'.DIRECTORY_SEPARATOR.'cache'.DIRECTORY_SEPARATOR.'dev'.DIRECTORY_SEPARATOR.'class_index.php');
-                @unlink(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR. 'app'.DIRECTORY_SEPARATOR.'cache'.DIRECTORY_SEPARATOR.'prod'.DIRECTORY_SEPARATOR.'class_index.php');
-            }
+            $this->next_desc = $this->trans('%s files left to upgrade.', array(count($filesToUpgrade)), 'Modules.Autoupgrade.Admin');
+            $this->nextQuickInfo[] = $this->trans('%s files left to upgrade.', array((isset($file)?$file:''), count($filesToUpgrade)), 'Modules.Autoupgrade.Admin');
+            $this->stepDone = false;
+            @unlink(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR. 'app'.DIRECTORY_SEPARATOR.'cache'.DIRECTORY_SEPARATOR.'dev'.DIRECTORY_SEPARATOR.'class_index.php');
+            @unlink(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR. 'app'.DIRECTORY_SEPARATOR.'cache'.DIRECTORY_SEPARATOR.'prod'.DIRECTORY_SEPARATOR.'class_index.php');
         }
         return true;
     }
@@ -3694,35 +3692,6 @@ class AdminSelfUpgrade extends ModuleAdminController
     public function displayAjax()
     {
         echo $this->buildAjaxResult();
-    }
-
-    protected function getBackupFilesAvailable()
-    {
-        $array = array();
-        $files = scandir($this->backupPath);
-        foreach ($files as $file) {
-            if ($file[0] != '.') {
-                if (substr($file, 0, 16) == 'auto-backupfiles') {
-                    $array[] = preg_replace('#^auto-backupfiles_(.*-[0-9a-f]{1,8})\..*$#', '$1', $file);
-                }
-            }
-        }
-
-        return $array;
-    }
-
-    protected function getBackupDbAvailable()
-    {
-        $array = array();
-
-        $files = scandir($this->backupPath);
-
-        foreach ($files as $file) {
-            if ($file[0] == 'V' && is_dir($this->backupPath.DIRECTORY_SEPARATOR.$file)) {
-                $array[] = $file;
-            }
-        }
-        return $array;
     }
 
     public function display()

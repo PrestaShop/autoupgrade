@@ -30,6 +30,7 @@ use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 
 /**
  * Class creating the content to return at an ajax call.
+ * ToDo: Explain each variable
  */
 class AjaxResponse
 {
