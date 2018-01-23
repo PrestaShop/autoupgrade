@@ -24,5 +24,8 @@
       "PrestaShop\\Module\\AutoUpgrade\\": "classes/",
       "PrestaShop\\Module\\AutoUpgrade\\Temp\\": "templates/"
     }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^5"
   }
 }
