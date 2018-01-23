@@ -35,6 +35,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
 use PrestaShop\Module\AutoUpgrade\PrestashopConfiguration;
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
+use PrestaShop\Module\AutoUpgrade\Unzipper;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Database;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\ModuleAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter;
@@ -326,6 +327,11 @@ class AdminSelfUpgrade extends ModuleAdminController
      * @var State
      */
     private $state;
+
+    /**
+     * @var Unzipper
+     */
+    private $unzipper;
 
     /**
      * replace tools encrypt
@@ -1138,59 +1144,63 @@ class AdminSelfUpgrade extends ModuleAdminController
         $relative_extract_path = str_replace(_PS_ROOT_DIR_, '', $destExtract);
         $report = '';
         if (ConfigurationTest::test_dir($relative_extract_path, false, $report)) {
-            if ($this->ZipExtract($filepath, $destExtract)) {
-
-                // new system release archive
-                $newZip = $destExtract.DIRECTORY_SEPARATOR.'prestashop.zip';
-                if (is_file($newZip)) {
-                    @unlink($destExtract.DIRECTORY_SEPARATOR.'/index.php');
-                    @unlink($destExtract.DIRECTORY_SEPARATOR.'/Install_PrestaShop.html');
-
-                    if ($this->ZipExtract($newZip, $destExtract)) {
-                        // Unsetting to force listing
-                        unset($this->nextParams['removeList']);
-                        $this->next = 'removeSamples';
-                        $this->next_desc = $this->trans('File extraction complete. Removing sample files...', array(), 'Modules.Autoupgrade.Admin');
-
-                        @unlink($newZip);
-
-                        return true;
-                    } else {
-                        $this->next = 'error';
-                        $this->next_desc = $this->trans(
-                            'Unable to extract %filepath% file into %destination% folder...',
-                            array(
-                                '%filepath%' => $filepath,
-                                '%destination%' => $destExtract,
-                            ),
-                            'Modules.Autoupgrade.Admin'
-                        );
-                        return false;
-                    }
-                } else {
-                    $this->next = 'error';
-                    $this->next_desc = $this->trans('This is not a valid archive for version %s.', array(INSTALL_VERSION), 'Modules.Autoupgrade.Admin');
-                    return false;
-                }
-            } else {
-                $this->next = 'error';
-                $this->next_desc = $this->trans(
-                    'Unable to extract %filepath% file into %destination% folder...',
-                    array(
-                        '%filepath%' => $filepath,
-                        '%destination%' => $destExtract,
-                    ),
-                    'Modules.Autoupgrade.Admin'
-                );
-                return false;
-            }
-        } else {
             $this->next_desc = $this->trans('Extraction directory is not writable.', array(), 'Modules.Autoupgrade.Admin');
             $this->nextQuickInfo[] = $this->trans('Extraction directory is not writable.', array(), 'Modules.Autoupgrade.Admin');
             $this->nextErrors[] = $this->trans('Extraction directory %s is not writable.', array($destExtract), 'Modules.Autoupgrade.Admin');
             $this->next = 'error';
             return false;
         }
+        
+        $res = $this->getUnzipper()->zipExtract($filepath, $destExtract);
+        $this->nextQuickInfo += $this->getUnzipper()->getLogs();
+
+        if (!$res) {
+            $this->next = 'error';
+            $this->next_desc = $this->trans(
+                'Unable to extract %filepath% file into %destination% folder...',
+                array(
+                    '%filepath%' => $filepath,
+                    '%destination%' => $destExtract,
+                ),
+                'Modules.Autoupgrade.Admin'
+            );
+            return false;
+        }
+
+        // new system release archive
+        $newZip = $destExtract.DIRECTORY_SEPARATOR.'prestashop.zip';
+        if (is_file($newZip)) {
+            $this->next = 'error';
+            $this->next_desc = $this->trans('This is not a valid archive for version %s.', array(INSTALL_VERSION), 'Modules.Autoupgrade.Admin');
+            return false;
+        }
+
+        @unlink($destExtract.DIRECTORY_SEPARATOR.'/index.php');
+        @unlink($destExtract.DIRECTORY_SEPARATOR.'/Install_PrestaShop.html');
+
+        $subRes = $this->getUnzipper()->zipExtract($newZip, $destExtract);
+        $this->nextQuickInfo += $this->getUnzipper()->getLogs();
+        if (!$subRes) {
+            $this->next = 'error';
+            $this->next_desc = $this->trans(
+                'Unable to extract %filepath% file into %destination% folder...',
+                array(
+                    '%filepath%' => $filepath,
+                    '%destination%' => $destExtract,
+                ),
+                'Modules.Autoupgrade.Admin'
+            );
+            return false;
+        }
+
+        // Unsetting to force listing
+        unset($this->nextParams['removeList']);
+        $this->next = 'removeSamples';
+        $this->next_desc = $this->trans('File extraction complete. Removing sample files...', array(), 'Modules.Autoupgrade.Admin');
+
+        @unlink($newZip);
+
+        return true;
     }
 
 
@@ -2735,18 +2745,9 @@ class AdminSelfUpgrade extends ModuleAdminController
             $filepath = $this->backupPath.DIRECTORY_SEPARATOR.$this->restoreFilesFilename;
             $destExtract = $this->prodRootDir;
 
-            if ($this->ZipExtract($filepath, $destExtract)) {
-                if (!empty($toRemoveOnly)) {
-                    foreach ($toRemoveOnly as $fileToRemove) {
-                        @unlink($this->prodRootDir . $fileToRemove);
-                    }
-                }
-
-                $this->next = 'restoreDb';
-                $this->next_desc = $this->trans('Files restored. Now restoring database...', array(), 'Modules.Autoupgrade.Admin');
-                $this->nextQuickInfo[] = $this->trans('Files restored.', array(), 'Modules.Autoupgrade.Admin');
-                return true;
-            } else {
+            $res = $this->getUnzipper()->zipExtract($filepath, $destExtract);
+            $this->nextQuickInfo += $this->getUnzipper()->getLogs();
+            if (!$res) {
                 $this->next = 'error';
                 $this->next_desc = $this->trans(
                     'Unable to extract file %filename% into directory %directoryname% .',
@@ -2758,6 +2759,17 @@ class AdminSelfUpgrade extends ModuleAdminController
                 );
                 return false;
             }
+            
+            if (!empty($toRemoveOnly)) {
+                foreach ($toRemoveOnly as $fileToRemove) {
+                    @unlink($this->prodRootDir . $fileToRemove);
+                }
+            }
+
+            $this->next = 'restoreDb';
+            $this->next_desc = $this->trans('Files restored. Now restoring database...', array(), 'Modules.Autoupgrade.Admin');
+            $this->nextQuickInfo[] = $this->trans('Files restored.', array(), 'Modules.Autoupgrade.Admin');
+            return true;
         }
     }
 
@@ -3027,14 +3039,13 @@ class AdminSelfUpgrade extends ModuleAdminController
 
         $psBackupAll = true;
         $psBackupDropTable = true;
+        $ignore_stats_table = array();
         if (!$psBackupAll) {
             $ignore_stats_table = array(_DB_PREFIX_.'connections',
                                                         _DB_PREFIX_.'connections_page',
                                                         _DB_PREFIX_.'connections_source',
                                                         _DB_PREFIX_.'guest',
                                                         _DB_PREFIX_.'statssearch');
-        } else {
-            $ignore_stats_table = array();
         }
 
         // INIT LOOP
@@ -3775,111 +3786,6 @@ class AdminSelfUpgrade extends ModuleAdminController
         return parent::display();
     }
 
-    /**
-     * @desc extract a zip file to the given directory
-     * @return bool success
-     * we need a copy of it to be able to restore without keeping Tools and Autoload stuff
-     */
-    private function ZipExtract($from_file, $to_dir)
-    {
-        if (!is_file($from_file)) {
-            $this->next = 'error';
-            $this->nextQuickInfo[] = $this->trans('%s is not a file', array($from_file), 'Modules.Autoupgrade.Admin');
-            $this->nextErrors[] = $this->trans('%s is not a file', array($from_file), 'Modules.Autoupgrade.Admin');
-            return false;
-        }
-
-        if (!file_exists($to_dir)) {
-            if (!mkdir($to_dir)) {
-                $this->next = 'error';
-                $this->nextQuickInfo[] = $this->trans('Unable to create directory %s.', array($to_dir), 'Modules.Autoupgrade.Admin');
-                $this->nextErrors[] = $this->trans('Unable to create directory %s.', array($to_dir), 'Modules.Autoupgrade.Admin');
-                return false;
-            } else {
-                chmod($to_dir, 0775);
-            }
-        }
-
-        $res = false;
-        if (!self::$force_pclZip && class_exists('ZipArchive', false)) {
-            $this->nextQuickInfo[] = $this->trans('Using class ZipArchive...', array(), 'Modules.Autoupgrade.Admin');
-            $zip = new ZipArchive();
-            if ($zip->open($from_file) === true && isset($zip->filename) && $zip->filename) {
-                $extract_result = true;
-                $res = true;
-                // We extract file by file, it is very fast
-                for ($i = 0; $i < $zip->numFiles; $i++) {
-                    $extract_result &= $zip->extractTo($to_dir, array($zip->getNameIndex($i)));
-                }
-
-                if ($extract_result) {
-                    $this->nextQuickInfo[] = $this->trans('Archive extracted', array(), 'Modules.Autoupgrade.Admin');
-                    return true;
-                } else {
-                    $this->nextQuickInfo[] = $this->trans('zip->extractTo(): unable to use %s as extract destination.', array($to_dir), 'Modules.Autoupgrade.Admin');
-                    $this->nextErrors[] = $this->trans('zip->extractTo(): unable to use %s as extract destination.', array($to_dir), 'Modules.Autoupgrade.Admin');
-                    return false;
-                }
-            } elseif (isset($zip->filename) && $zip->filename) {
-                $this->nextQuickInfo[] = $this->trans('Unable to open zipFile %s', array($from_file), 'Modules.Autoupgrade.Admin');
-                $this->nextErrors[] = $this->trans('Unable to open zipFile %s', array($from_file), 'Modules.Autoupgrade.Admin');
-                return false;
-            }
-        }
-        if (!$res) {
-            if (!class_exists('PclZip', false)) {
-                require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/classes/pclzip.lib.php');
-            }
-
-            $this->nextQuickInfo[] = $this->trans('Using class PclZip...', array(), 'Modules.Autoupgrade.Admin');
-
-            $zip = new PclZip($from_file);
-
-            if (($file_list = $zip->listContent()) == 0) {
-                $this->next = 'error';
-                $this->nextQuickInfo[] = $this->trans('[ERROR] Error on extracting archive using PclZip: %s.', array($zip->errorInfo(true)), 'Modules.Autoupgrade.Admin');
-                return false;
-            }
-
-            // PCL is very slow, so we need to extract files 500 by 500
-            $i = 0;
-            $j = 1;
-            foreach ($file_list as $file) {
-                if (!isset($indexes[$i])) {
-                    $indexes[$i] = array();
-                }
-                $indexes[$i][] = $file['index'];
-                if ($j++ % 500 == 0) {
-                    $i++;
-                }
-            }
-
-            // replace also modified files
-            foreach ($indexes as $index) {
-                if (($extract_result = $zip->extract(PCLZIP_OPT_BY_INDEX, $index, PCLZIP_OPT_PATH, $to_dir, PCLZIP_OPT_REPLACE_NEWER)) == 0) {
-                    $this->next = 'error';
-                    $this->nextErrors[] = $this->trans('[ERROR] Error on extracting archive using PclZip: %s.', array($zip->errorInfo(true)), 'Modules.Autoupgrade.Admin');
-                    return false;
-                } else {
-                    foreach ($extract_result as $extractedFile) {
-                        $file = str_replace($this->prodRootDir, '', $extractedFile['filename']);
-                        if ($extractedFile['status'] != 'ok' && $extractedFile['status'] != 'already_a_directory') {
-                            $this->nextQuickInfo[] = $this->trans('[ERROR] %file% has not been unzipped: %status%', array('%file%' => $file, '%status%' => $extractedFile['status']), 'Modules.Autoupgrade.Admin');
-                            $this->nextErrors[] = $this->trans('[ERROR] %file% has not been unzipped: %status%', array('%file%' => $file, '%status%' => $extractedFile['status']), 'Modules.Autoupgrade.Admin');
-                            $this->next = 'error';
-                        } else {
-                            $this->nextQuickInfo[] = sprintf('%1$s unzipped into %2$s', $file, str_replace(_PS_ROOT_DIR_, '', $to_dir));
-                        }
-                    }
-                    if ($this->next === 'error') {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
-    }
-
     private function _listArchivedFiles($zipfile)
     {
         if (file_exists($zipfile)) {
@@ -4077,5 +3983,15 @@ class AdminSelfUpgrade extends ModuleAdminController
 
         $this->twig = $twig;
         return $this->twig;
+    }
+
+    public function getUnzipper()
+    {
+        if (!is_null($this->unzipper)) {
+            return $this->unzipper;
+        }
+
+        $this->unzipper = new Unzipper($this->getTranslator());
+        return $this->unzipper;
     }
 }
