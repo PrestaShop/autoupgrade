@@ -91,7 +91,7 @@ class FileConfigurationStorage
     {
         $files = array();
         foreach (UpgradeFiles::$tmp_files as $file) {
-            $files[$file] = $this->configPath . constant('PrestaShop\\Module\\AutoUpgrade\\Parameters\\UpgradeFiles::' . $file);
+            $files[$file] = $this->getFilePath(constant('PrestaShop\\Module\\AutoUpgrade\\Parameters\\UpgradeFiles::' . $file));
         }
         return $files;
     }
@@ -103,5 +103,36 @@ class FileConfigurationStorage
     {
         $filesystem = new Filesystem;
         $filesystem->remove(self::getFilesList());
+    }
+
+    /**
+     * Delete a file from the filesystem
+     * @param string $fileName
+     */
+    public function clean($fileName)
+    {
+        $filesystem = new Filesystem;
+        $filesystem->remove($this->getFilePath($fileName));
+    }
+
+    /**
+     * Check if a file exists on the filesystem
+     * @param string $fileName
+     */
+    public function exists($fileName)
+    {
+        $filesystem = new Filesystem;
+        $filesystem->exists($this->getFilePath($fileName));
+    }
+
+    /**
+     * Generate the complete path to a given file
+     * @param string $file Name
+     * @return string Pgit gui&
+     * ath
+     */
+    private function getFilePath($file)
+    {
+        return $this->configPath . $file;
     }
 }

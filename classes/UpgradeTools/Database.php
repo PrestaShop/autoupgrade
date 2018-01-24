@@ -26,8 +26,6 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
-use PrestaShop\Module\AutoUpgrade\Parameters\FileConfigurationStorage;
-use Symfony\Component\Filesystem\Filesystem;
 use Db;
 
 class Database
@@ -55,18 +53,12 @@ class Database
     /**
      * ToDo: Send tables list instead
      */
-    public function cleanTablesAfterBackup($file)
+    public function cleanTablesAfterBackup(array $tablesToClean)
     {
-        // If no more query in list, clean table. (created by user after)
-        $tablesToClean = FileConfigurationStorage::load($file);
-
-        if (!empty($tablesToClean)) {
-            foreach ($tablesToClean as $table) {
-                $this->db->execute('DROP TABLE IF EXISTS `'.bqSql($table).'`');
-                $this->db->execute('DROP VIEW IF EXISTS `'.bqSql($table).'`');
-            }
+        foreach ($tablesToClean as $table) {
+            $this->db->execute('DROP TABLE IF EXISTS `'.bqSql($table).'`');
+            $this->db->execute('DROP VIEW IF EXISTS `'.bqSql($table).'`');
         }
-
-        (new Filesystem)->remove($file);
+        $this->db->execute('SET FOREIGN_KEY_CHECKS=1');
     }
 }
