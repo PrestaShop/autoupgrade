@@ -31,19 +31,31 @@ use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFiles;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
+/**
+ * Class used for management of to do files for upgrade tasks.
+ * Load / Save / Delete etc.
+ */
 class FileConfigurationStorage
 {
     /**
-     * ToDo: Remove static keyword, and instanciate this class with future logger and project path (if we can confirm all files go to the same folder)
+     * @var String Location where all the configuration files are stored
      */
+    private $configPath;
+
+    public function __construct($path)
+    {
+        $this->configPath = $path;
+    }
+
     /**
      * UpgradeConfiguration loader.
      *
-     * @param string $configFilePath
+     * @param string $fileName File name to load
      * @return mixed or array() as default value
      */
-    public static function load($configFilePath = '')
+    public function load($fileName = '')
     {
+        $configFilePath = $this->configPath . $fileName;
         $config = array();
 
         if (!empty($configFilePath) && file_exists($configFilePath)) {
@@ -57,11 +69,12 @@ class FileConfigurationStorage
     /**
      *
      * @param mixed $config
-     * @param string $configFilePath Destination path of the onfig file
+     * @param string $fileName Destination name of the config file
      * @return boolean
      */
-    public static function save($config, $configFilePath)
+    public function save($config, $fileName)
     {
+        $configFilePath = $this->configPath . $fileName;
         try {
             (new Filesystem)->dumpFile($configFilePath, base64_encode(serialize($config)));
             return true;
@@ -72,26 +85,23 @@ class FileConfigurationStorage
     }
 
     /**
-     * @param string $path to add before each file of the list
-     * @return array of temporary files
+     * @return array Temporary files path & name
      */
-    public static function getFilesList($path = '')
+    public function getFilesList()
     {
         $files = array();
         foreach (UpgradeFiles::$tmp_files as $file) {
-            $files[$file] = $path . constant('PrestaShop\\Module\\AutoUpgrade\\Parameters\\UpgradeFiles::' . $file);
+            $files[$file] = $this->configPath . constant('PrestaShop\\Module\\AutoUpgrade\\Parameters\\UpgradeFiles::' . $file);
         }
         return $files;
     }
 
     /**
-     * Delete all temporary files in a given folder
-     *
-     * @param string $path Path where all the files can be found
+     * Delete all temporary files in the config folder
      */
-    public static function cleanAll($path = '')
+    public function cleanAll()
     {
         $filesystem = new Filesystem;
-        $filesystem->remove(self::getFilesList($path));
+        $filesystem->remove(self::getFilesList());
     }
 }
