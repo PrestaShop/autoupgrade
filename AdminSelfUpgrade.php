@@ -203,7 +203,6 @@ class AdminSelfUpgrade extends ModuleAdminController
      * @var UpgradeConfiguration
      */
     private $upgradeConfiguration;
-    private $upgradeConfFilePath;
 
     /**
      * @var Database
@@ -445,7 +444,7 @@ class AdminSelfUpgrade extends ModuleAdminController
             }
         }
         $this->initPath();
-        $this->upgradeConfiguration = UpgradeConfigurationStorage::load($this->upgradeConfFilePath);
+        $this->upgradeConfiguration = (new UpgradeConfigurationStorage($this->autoupgradePath.DIRECTORY_SEPARATOR))->load(UpgradeFiles::configFilename);
         $this->state = (new State())->importFromArray($this->currentParams);
         $upgrader = $this->getUpgrader();
 
@@ -628,7 +627,6 @@ class AdminSelfUpgrade extends ModuleAdminController
         }
 
         $this->latestRootDir = $this->latestPath.DIRECTORY_SEPARATOR;
-        $this->upgradeConfFilePath = $this->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFiles::configFilename;
     }
 
     /**
@@ -760,7 +758,7 @@ class AdminSelfUpgrade extends ModuleAdminController
      */
     public function writeConfig($config)
     {
-        if (!file_exists($this->upgradeConfFilePath) && !empty($config['channel'])) {
+        if (!$this->getFileConfigurationStorage()->exists(UpgradeFiles::configFilename) && !empty($config['channel'])) {
             $this->upgrader->channel = $config['channel'];
             $this->upgrader->checkPSVersion();
 
@@ -772,7 +770,7 @@ class AdminSelfUpgrade extends ModuleAdminController
 
         $this->upgradeConfiguration->merge($config);
         $this->next_desc = $this->trans('Configuration successfully updated.', array(), 'Modules.Autoupgrade.Admin').' <strong>'.$this->trans('This page will now be reloaded and the module will check if a new version is available.', array(), 'Modules.Autoupgrade.Admin').'</strong>';
-        return UpgradeConfigurationStorage::save($this->upgradeConfiguration, $this->upgradeConfFilePath);
+        return (new UpgradeConfigurationStorage($this->autoupgradePath.DIRECTORY_SEPARATOR))->save($this->upgradeConfiguration, UpgradeFiles::configFilename);
     }
 
     /**
@@ -2827,8 +2825,8 @@ class AdminSelfUpgrade extends ModuleAdminController
                         $this->next = 'rollbackComplete';
                         $this->nextQuickInfo[] = $this->next_desc = $this->trans('Database has been restored.', array(), 'Modules.Autoupgrade.Admin');
 
-                        $this->databaseTools->cleanTablesAfterBackup($this->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFiles::toCleanTable);
-                        $this->db->execute('SET FOREIGN_KEY_CHECKS=1');
+                        $this->databaseTools->cleanTablesAfterBackup($this->getFileConfigurationStorage()->load(UpgradeFiles::toCleanTable));
+                        $this->getFileConfigurationStorage()->clean(UpgradeFiles::toCleanTable);
                     }
                     return true;
                 }
@@ -2887,8 +2885,8 @@ class AdminSelfUpgrade extends ModuleAdminController
             $this->next = 'rollbackComplete';
             $this->nextQuickInfo[] = $this->next_desc = $this->trans('Database restoration done.', array(), 'Modules.Autoupgrade.Admin');
 
-            $this->databaseTools->cleanTablesAfterBackup($this->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFiles::toCleanTable);
-            $this->db->execute('SET FOREIGN_KEY_CHECKS=1');
+            $this->databaseTools->cleanTablesAfterBackup($this->getFileConfigurationStorage()->load(UpgradeFiles::toCleanTable));
+            $this->getFileConfigurationStorage()->clean(UpgradeFiles::toCleanTable);
         }
         return true;
     }

@@ -31,25 +31,25 @@ class UpgradeConfigurationStorage extends FileConfigurationStorage
     /**
      * UpgradeConfiguration loader.
      *
-     * @param string $configFilePath
+     * @param string $configFileName
      * @return \PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration
      */
-    public static function load($configFilePath = '')
+    public function load($configFileName = '')
     {
-        return new UpgradeConfiguration(parent::load($configFilePath));
+        return new UpgradeConfiguration(parent::load($configFileName));
     }
 
     /**
      *
      * @param \PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration $config
-     * @param string $configFilePath Destination path of the onfig file
+     * @param string $configFileName Destination path of the config file
      * @return boolean
      */
-    public static function save($config, $configFilePath)
+    public function save($config, $configFileName)
     {
         if (!$config instanceof UpgradeConfiguration) {
             throw new \InvalidArgumentException('Config is not a instance of UpgradeConfiguration');
         }
-        return parent::save($config->toArray(), $configFilePath);
+        return parent::save($config->toArray(), $configFileName);
     }
 }
