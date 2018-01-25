@@ -100,15 +100,27 @@ class ZipAction
         return true;
     }
 
+    public function listContent($zipfile)
+    {
+        if (!file_exists($zipfile)) {
+            return array();
+        }
+        $res = $this->listWithZipArchive($zipfile);
+        if (is_array($res)) {
+            return $res;
+        }
+        $resPcl = $this->listWithPclZip($zipfile);
+        if (is_array($resPcl)) {
+            return $resPcl;
+        }
+        $this->logs[] = $this->translator->trans('[ERROR] Unable to list archived files', array(), 'Modules.Autoupgrade.Admin');
+        return array();
+    }
+
     private function compressWithZipArchive(&$filesList, $toFile)
     {
-        if (self::$force_pclZip || !class_exists('ZipArchive', false)) {
-            return false;
-        }
-
-        $this->logs[] = $this->translator->trans('Using class ZipArchive...', array(), 'Modules.Autoupgrade.Admin');
-        $zip = new \ZipArchive();
-        if ($zip->open($toFile, ZIPARCHIVE::CREATE) !== true || empty($zip->filename)) {
+        $zip = $this->openWithZipArchive($toFile, \ZipArchive::CREATE);
+        if ($zip === false) {
             return false;
         }
         
@@ -151,15 +163,8 @@ class ZipAction
 
     private function compressWithPclZip(&$filesList, $toFile)
     {
-        $this->logs[] = $this->translator->trans('Using class PclZip...', array(), 'Modules.Autoupgrade.Admin');
-        // pclzip can be already loaded (server configuration)
-        if (!class_exists('PclZip', false)) {
-            require_once(dirname(__FILE__).'/classes/pclzip.lib.php');
-        }
-        $zip = new \PclZip($toFile);
-
+        $zip = $this->openWithPclZip($toFile);
         if (!$zip) {
-            $this->logs[] = $this->translator->trans('Unable to open archive', array(), 'Modules.Autoupgrade.Admin');
             return false;
         }
 
@@ -197,14 +202,8 @@ class ZipAction
 
     private function extractWithZipArchive($from_file, $to_dir)
     {
-        if (self::$force_pclZip || !class_exists('ZipArchive', false)) {
-            return false;
-        }
-
-        $this->logs[] = $this->translator->trans('Using class ZipArchive...', array(), 'Modules.Autoupgrade.Admin');
-        $zip = new \ZipArchive();
-        if ($zip->open($from_file) !== true || empty($zip->filename)) {
-            $this->logs[] = $this->translator->trans('Unable to open zipFile %s', array($from_file), 'Modules.Autoupgrade.Admin');
+        $zip = $this->openWithZipArchive($from_file);
+        if ($zip === false) {
             return false;
         }
 
@@ -219,15 +218,12 @@ class ZipAction
         return true;
     }
 
-    private function extractWithPclZip($from_file, $to_dir)
+    private function extractWithPclZip($fromFile, $toDir)
     {
-        if (!class_exists('PclZip', false)) {
-            require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/classes/pclzip.lib.php');
+        $zip = $this->openWithPclZip($fromFile);
+        if (!$zip) {
+            return false;
         }
-
-        $this->logs[] = $this->translator->trans('Using class PclZip...', array(), 'Modules.Autoupgrade.Admin');
-
-        $zip = new \PclZip($from_file);
 
         if (($file_list = $zip->listContent()) == 0) {
             $this->logs[] = $this->translator->trans('[ERROR] Error on extracting archive using PclZip: %s.', array($zip->errorInfo(true)), 'Modules.Autoupgrade.Admin');
@@ -250,7 +246,7 @@ class ZipAction
 
         // replace also modified files
         foreach ($indexes as $index) {
-            if (($extract_result = $zip->extract(PCLZIP_OPT_BY_INDEX, $index, PCLZIP_OPT_PATH, $to_dir, PCLZIP_OPT_REPLACE_NEWER)) == 0) {
+            if (($extract_result = $zip->extract(PCLZIP_OPT_BY_INDEX, $index, PCLZIP_OPT_PATH, $toDir, PCLZIP_OPT_REPLACE_NEWER)) == 0) {
                 $this->logs[] = $this->translator->trans('[ERROR] Error on extracting archive using PclZip: %s.', array($zip->errorInfo(true)), 'Modules.Autoupgrade.Admin');
                 return false;
             }
@@ -260,7 +256,7 @@ class ZipAction
                     $this->logs[] = $this->translation->trans('[ERROR] %file% has not been unzipped: %status%', array('%file%' => $file, '%status%' => $extractedFile['status']), 'Modules.Autoupgrade.Admin');
                     return false;
                 }
-                $this->logs[] = sprintf('%1$s unzipped into %2$s', $file, str_replace(_PS_ROOT_DIR_, '', $to_dir));
+                $this->logs[] = sprintf('%1$s unzipped into %2$s', $file, str_replace(_PS_ROOT_DIR_, '', $toDir));
             }
         }
         return true;
@@ -286,5 +282,57 @@ class ZipAction
             );
         }
         return $pass;
+    }
+
+    private function listWithZipArchive($zipfile)
+    {
+        $zip = $this->openWithZipArchive($zipfile);
+        if ($zip === false) {
+            return false;
+        }
+
+        for ($i = 0; $i < $zip->numFiles; $i++) {
+            $files[] = $zip->getNameIndex($i);
+        }
+        return $files;
+    }
+
+    private function listWithPclZip($zipfile)
+    {
+        $zip = $this->openWithPclZip($zipFile);
+        if ($zip !== false) {
+            return false;
+        }
+
+        return $zip->listContent();
+    }
+
+    private function openWithZipArchive($zipFile, $flags = null)
+    {
+        if (self::$force_pclZip || !class_exists('ZipArchive', false)) {
+            return false;
+        }
+
+        $this->logs[] = $this->translator->trans('Using class ZipArchive...', array(), 'Modules.Autoupgrade.Admin');
+        $zip = new \ZipArchive();
+        if ($zip->open($zipFile, $flags) !== true || empty($zip->filename)) {
+            $this->logs[] = $this->translator->trans('Unable to open zipFile %s', array($zipFile), 'Modules.Autoupgrade.Admin');
+            return false;
+        }
+        return $zip;
+    }
+
+    private function openWithPclZip($zipFile)
+    {
+        if (!class_exists('PclZip', false)) {
+            require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/classes/pclzip.lib.php');
+        }
+
+        $this->logs[] = $this->translator->trans('Using class PclZip...', array(), 'Modules.Autoupgrade.Admin');
+        $zip = new \PclZip($zipFile);
+        if (!$zip) {
+            $this->logs[] = $this->translator->trans('Unable to open archive', array(), 'Modules.Autoupgrade.Admin');
+        }
+        return $zip;
     }
 }
