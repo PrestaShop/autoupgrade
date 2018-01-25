@@ -3209,160 +3209,28 @@ class AdminSelfUpgrade extends ModuleAdminController
         $filesToBackup = $this->getFileConfigurationStorage()->load(UpgradeFiles::toBackupFileList);
 
         $this->next = 'backupFiles';
-        if (count(UpgradeFiles::toBackupFileList)) {
+        if (is_array($filesToBackup) && count($filesToBackup)) {
             $this->next_desc = $this->trans('Backup files in progress. %d files left', array(count($filesToBackup)), 'Modules.Autoupgrade.Admin');
-        }
-        if (is_array($filesToBackup)) {
-            $res = false;
-            if (!self::$force_pclZip && class_exists('ZipArchive', false)) {
-                $this->nextQuickInfo[] = $this->trans('Using class ZipArchive...', array(), 'Modules.Autoupgrade.Admin');
-                $zip_archive = true;
-                $zip = new ZipArchive();
-                $res = $zip->open($this->backupPath.DIRECTORY_SEPARATOR.$this->backupFilesFilename, ZIPARCHIVE::CREATE);
-                if ($res) {
-                    $res = (isset($zip->filename) && $zip->filename) ? true : false;
-                }
-            }
 
+            $this->stepDone = false;
+            $res = $this->getUnzipper()->zipCreate($filesToBackup, $this->backupPath.DIRECTORY_SEPARATOR.$this->backupFilesFilename);
+            $this->nextQuickInfo += $this->getUnzipper()->getLogs();
             if (!$res) {
-                $zip_archive = false;
-                $this->nextQuickInfo[] = $this->trans('Using class PclZip...', array(), 'Modules.Autoupgrade.Admin');
-                // pclzip can be already loaded (server configuration)
-                if (!class_exists('PclZip', false)) {
-                    require_once(dirname(__FILE__).'/classes/pclzip.lib.php');
-                }
-                $zip = new PclZip($this->backupPath.DIRECTORY_SEPARATOR.$this->backupFilesFilename);
-                $res = true;
-            }
-
-            if ($zip && $res) {
-                $this->next = 'backupFiles';
-                $this->stepDone = false;
-                $files_to_add = array();
-                $close_flag = true;
-                for ($i = 0; $i < self::$loopBackupFiles; $i++) {
-                    if (count($filesToBackup) <= 0) {
-                        $this->stepDone = true;
-                        $this->status = 'ok';
-                        $this->next = 'backupDb';
-                        $this->next_desc = $this->trans('All files saved. Now backing up database', array(), 'Modules.Autoupgrade.Admin');
-                        $this->nextQuickInfo[] = $this->trans('All files have been added to archive.', array(), 'Modules.Autoupgrade.Admin');
-                        break;
-                    }
-                    // filesForBackup already contains all the correct files
-                    $file = array_shift($filesToBackup);
-
-                    $archiveFilename = ltrim(str_replace($this->prodRootDir, '', $file), DIRECTORY_SEPARATOR);
-                    $size = filesize($file);
-                    if ($size < self::$maxBackupFileSize) {
-                        if ($zip_archive) {
-                            $added_to_zip = $zip->addFile($file, $archiveFilename);
-                            if ($added_to_zip) {
-                                if ($filesToBackup) {
-                                    $this->nextQuickInfo[] = $this->trans(
-                                        '%filename% added to archive. %filescount% files left.',
-                                        array(
-                                            '%filename%' => $archiveFilename,
-                                            '%filescount%' => count($filesToBackup),
-                                        ),
-                                        'Modules.Autoupgrade.Admin'
-                                    );
-                                }
-                            } else {
-                                // if an error occur, it's more safe to delete the corrupted backup
-                                $zip->close();
-                                if (file_exists($this->backupPath.DIRECTORY_SEPARATOR.$this->backupFilesFilename)) {
-                                    unlink($this->backupPath.DIRECTORY_SEPARATOR.$this->backupFilesFilename);
-                                }
-                                $this->next = 'error';
-                                $this->error = 1;
-                                $this->next_desc = $this->trans(
-                                    'Error when trying to add %filename% to archive %archive%.',
-                                    array(
-                                        '%filename%' => $file,
-                                        '%archive%' => $archiveFilename,
-                                    ),
-                                    'Modules.Autoupgrade.Admin'
-                                );
-                                $close_flag = false;
-                                break;
-                            }
-                        } else {
-                            $files_to_add[] = $file;
-                            if (count($filesToBackup)) {
-                                $this->nextQuickInfo[] = $this->trans(
-                                    'File %filename% (size: %filesize%) added to archive. %filescount% files left.',
-                                    array(
-                                        '%filename%' => $archiveFilename,
-                                        '%filesize%' => $size,
-                                        '%filescount%' => count($filesToBackup),
-                                    ),
-                                    'Modules.Autoupgrade.Admin'
-                                );
-                            } else {
-                                $this->nextQuickInfo[] = $this->trans(
-                                    'File %filename% (size: %filesize%) added to archive.',
-                                    array(
-                                        '%filename%' => $archiveFilename,
-                                        '%filesize%' => $size,
-                                    ),
-                                    'Modules.Autoupgrade.Admin'
-                                );
-                            }
-                        }
-                    } else {
-                        $this->nextQuickInfo[] = $this->trans(
-                            'File %filename% (size: %filesize%) has been skipped during backup.',
-                            array(
-                                '%filename%' => $archiveFilename,
-                                '%filesize%' => $size,
-                            ),
-                            'Modules.Autoupgrade.Admin'
-                        );
-                        $this->nextErrors[] = $this->trans(
-                            'File %filename% (size: %filesize%) has been skipped during backup.',
-                            array(
-                                '%filename%' => $archiveFilename,
-                                '%filesize%' => $size,
-                            ),
-                            'Modules.Autoupgrade.Admin'
-                        );
-                    }
-                }
-
-                if ($zip_archive && $close_flag && is_object($zip)) {
-                    $zip->close();
-                } elseif (!$zip_archive) {
-                    $added_to_zip = $zip->add($files_to_add, PCLZIP_OPT_REMOVE_PATH, $this->prodRootDir);
-                    if ($added_to_zip) {
-                        $zip->privCloseFd();
-                    }
-                    if (!$added_to_zip) {
-                        if (file_exists($this->backupPath.DIRECTORY_SEPARATOR.$this->backupFilesFilename)) {
-                            unlink($this->backupPath.DIRECTORY_SEPARATOR.$this->backupFilesFilename);
-                        }
-                        $this->nextQuickInfo[] = $this->trans('[ERROR] Error on backup using PclZip: %s.', array($zip->errorInfo(true)), 'Modules.Autoupgrade.Admin');
-                        $this->nextErrors[] = $this->trans('[ERROR] Error on backup using PclZip: %s.', array($zip->errorInfo(true)), 'Modules.Autoupgrade.Admin');
-                        $this->next = 'error';
-                    }
-                }
-
-                $this->getFileConfigurationStorage()->save($filesToBackup, UpgradeFiles::toBackupFileList);
-                return true;
-            } else {
                 $this->next = 'error';
                 $this->next_desc = $this->trans('Unable to open archive', array(), 'Modules.Autoupgrade.Admin');
                 return false;
             }
-        } else {
-            $this->stepDone = true;
-            $this->next = 'backupDb';
-            $this->next_desc = $this->trans('All files saved. Now backing up database.', array(), 'Modules.Autoupgrade.Admin');
-            return true;
+            $this->getFileConfigurationStorage()->save($filesToBackup, UpgradeFiles::toBackupFileList);
         }
-        // 4) save for display.
-    }
 
+        if (count($filesToBackup) <= 0) {
+            $this->stepDone = true;
+            $this->status = 'ok';
+            $this->next = 'backupDb';
+            $this->next_desc = $this->trans('All files saved. Now backing up database', array(), 'Modules.Autoupgrade.Admin');
+            $this->nextQuickInfo[] = $this->trans('All files have been added to archive.', array(), 'Modules.Autoupgrade.Admin');
+        }
+    }
 
     private function _removeOneSample($removeList)
     {
