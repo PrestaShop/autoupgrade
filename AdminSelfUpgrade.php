@@ -2589,7 +2589,7 @@ class AdminSelfUpgrade extends ModuleAdminController
         if (!file_exists($this->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFiles::fromArchiveFileList)
             || !file_exists($this->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFiles::toRemoveFileList)) {
             // cleanup current PS tree
-            $fromArchive = $this->_listArchivedFiles($this->backupPath.DIRECTORY_SEPARATOR.$this->restoreFilesFilename);
+            $fromArchive = $this->getZipAction()->listContent($this->backupPath.DIRECTORY_SEPARATOR.$this->restoreFilesFilename);
             foreach ($fromArchive as $k => $v) {
                 $fromArchive[DIRECTORY_SEPARATOR.$v] = DIRECTORY_SEPARATOR.$v;
             }
@@ -3512,41 +3512,6 @@ class AdminSelfUpgrade extends ModuleAdminController
         $this->ajax = true;
         $this->content = $this->_html;
         return parent::display();
-    }
-
-    private function _listArchivedFiles($zipfile)
-    {
-        if (file_exists($zipfile)) {
-            $res = false;
-            if (!self::$force_pclZip && class_exists('ZipArchive', false)) {
-                $this->nextQuickInfo[] = $this->trans('Using class ZipArchive...', array(), 'Modules.Autoupgrade.Admin');
-                $files = array();
-                $zip = new ZipArchive();
-                $res = $zip->open($zipfile);
-                if ($res) {
-                    $res = (isset($zip->filename) && $zip->filename) ? true : false;
-                }
-                if ($zip && $res === true) {
-                    for ($i = 0; $i < $zip->numFiles; $i++) {
-                        $files[] = $zip->getNameIndex($i);
-                    }
-                    return $files;
-                } elseif ($res) {
-                    $this->nextQuickInfo[] = $this->trans('[ERROR] Unable to list archived files', array(), 'Modules.Autoupgrade.Admin');
-                    return false;
-                }
-            }
-            if (!$res) {
-                $this->nextQuickInfo[] = $this->trans('Using class PclZip...', array(), 'Modules.Autoupgrade.Admin');
-                if (!class_exists('PclZip', false)) {
-                    require_once(dirname(__FILE__).'/classes/pclzip.lib.php');
-                }
-                if ($zip = new PclZip($zipfile)) {
-                    return $zip->listContent();
-                }
-            }
-        }
-        return false;
     }
 
     /**
