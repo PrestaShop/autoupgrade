@@ -29,7 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade;
 use Symfony\Component\Filesystem\Filesystem;
 
 // ToDo: Fix translations placeholders
-class Unzipper
+class ZipAction
 {
     // Number of files added in a zip per request
     const MAX_FILES_COMPRESS_IN_A_ROW = 400;
@@ -64,8 +64,9 @@ class Unzipper
     /**
      * ToDo: function to rename / move ?
      */
-    public function zipCreate(&$filesList, $toFile)
+    public function compress(&$filesList, $toFile)
     {
+        $this->logs = array();
         return $this->compressWithZipArchive($filesList, $toFile)
             || $this->compressWithPclZip($filesList, $toFile);
     }
@@ -75,7 +76,7 @@ class Unzipper
      * @return bool success
      * we need a copy of it to be able to restore without keeping Tools and Autoload stuff
      */
-    public function zipExtract($from_file, $to_dir)
+    public function extract($from_file, $to_dir)
     {
         $this->logs = array();
         if (!is_file($from_file)) {
@@ -105,7 +106,7 @@ class Unzipper
             return false;
         }
 
-        $this->nextQuickInfo[] = $this->translator->trans('Using class ZipArchive...', array(), 'Modules.Autoupgrade.Admin');
+        $this->logs[] = $this->translator->trans('Using class ZipArchive...', array(), 'Modules.Autoupgrade.Admin');
         $zip = new \ZipArchive();
         if ($zip->open($toFile, ZIPARCHIVE::CREATE) !== true || empty($zip->filename)) {
             return false;
@@ -150,7 +151,7 @@ class Unzipper
 
     private function compressWithPclZip(&$filesList, $toFile)
     {
-        $this->nextQuickInfo[] = $this->translator->trans('Using class PclZip...', array(), 'Modules.Autoupgrade.Admin');
+        $this->logs[] = $this->translator->trans('Using class PclZip...', array(), 'Modules.Autoupgrade.Admin');
         // pclzip can be already loaded (server configuration)
         if (!class_exists('PclZip', false)) {
             require_once(dirname(__FILE__).'/classes/pclzip.lib.php');
@@ -173,7 +174,7 @@ class Unzipper
             }
 
             $files_to_add[] = $file;
-            $this->nextQuickInfo[] = $this->translator->trans(
+            $this->logs[] = $this->translator->trans(
                 '%filename% added to archive. %filescount% files left.',
                 array(
                     '%filename%' => $archiveFilename,

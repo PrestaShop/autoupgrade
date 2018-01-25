@@ -35,7 +35,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
 use PrestaShop\Module\AutoUpgrade\PrestashopConfiguration;
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
-use PrestaShop\Module\AutoUpgrade\Unzipper;
+use PrestaShop\Module\AutoUpgrade\ZipAction;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Database;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\ModuleAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter;
@@ -225,9 +225,9 @@ class AdminSelfUpgrade extends ModuleAdminController
     private $state;
 
     /**
-     * @var Unzipper
+     * @var ZipAction
      */
-    private $unzipper;
+    private $zipAction;
 
     /**
      * @var FileConfigurationStorage
@@ -1041,8 +1041,8 @@ class AdminSelfUpgrade extends ModuleAdminController
             return false;
         }
         
-        $res = $this->getUnzipper()->zipExtract($filepath, $destExtract);
-        $this->nextQuickInfo += $this->getUnzipper()->getLogs();
+        $res = $this->getZipAction()->extract($filepath, $destExtract);
+        $this->nextQuickInfo += $this->getZipAction()->getLogs();
 
         if (!$res) {
             $this->next = 'error';
@@ -1068,8 +1068,8 @@ class AdminSelfUpgrade extends ModuleAdminController
         @unlink($destExtract.DIRECTORY_SEPARATOR.'/index.php');
         @unlink($destExtract.DIRECTORY_SEPARATOR.'/Install_PrestaShop.html');
 
-        $subRes = $this->getUnzipper()->zipExtract($newZip, $destExtract);
-        $this->nextQuickInfo += $this->getUnzipper()->getLogs();
+        $subRes = $this->getZipAction()->extract($newZip, $destExtract);
+        $this->nextQuickInfo += $this->getZipAction()->getLogs();
         if (!$subRes) {
             $this->next = 'error';
             $this->next_desc = $this->trans(
@@ -2629,8 +2629,8 @@ class AdminSelfUpgrade extends ModuleAdminController
             $filepath = $this->backupPath.DIRECTORY_SEPARATOR.$this->restoreFilesFilename;
             $destExtract = $this->prodRootDir;
 
-            $res = $this->getUnzipper()->zipExtract($filepath, $destExtract);
-            $this->nextQuickInfo += $this->getUnzipper()->getLogs();
+            $res = $this->getZipAction()->extract($filepath, $destExtract);
+            $this->nextQuickInfo += $this->getZipAction()->getLogs();
             if (!$res) {
                 $this->next = 'error';
                 $this->next_desc = $this->trans(
@@ -3209,8 +3209,8 @@ class AdminSelfUpgrade extends ModuleAdminController
             $this->next_desc = $this->trans('Backup files in progress. %d files left', array(count($filesToBackup)), 'Modules.Autoupgrade.Admin');
 
             $this->stepDone = false;
-            $res = $this->getUnzipper()->zipCreate($filesToBackup, $this->backupPath.DIRECTORY_SEPARATOR.$this->backupFilesFilename);
-            $this->nextQuickInfo += $this->getUnzipper()->getLogs();
+            $res = $this->getZipAction()->compress($filesToBackup, $this->backupPath.DIRECTORY_SEPARATOR.$this->backupFilesFilename);
+            $this->nextQuickInfo += $this->getZipAction()->getLogs();
             if (!$res) {
                 $this->next = 'error';
                 $this->next_desc = $this->trans('Unable to open archive', array(), 'Modules.Autoupgrade.Admin');
@@ -3718,13 +3718,13 @@ class AdminSelfUpgrade extends ModuleAdminController
         return $this->twig;
     }
 
-    public function getUnzipper()
+    public function getZipAction()
     {
-        if (!is_null($this->unzipper)) {
-            return $this->unzipper;
+        if (!is_null($this->zipAction)) {
+            return $this->zipAction;
         }
 
-        $this->unzipper = new Unzipper($this->getTranslator());
-        return $this->unzipper;
+        $this->zipAction = new ZipAction($this->getTranslator(), $this->prodRootDir);
+        return $this->zipAction;
     }
 }
