@@ -40,6 +40,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\Database;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\ModuleAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\ThemeAdapter;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translation;
 use PrestaShop\Module\AutoUpgrade\Parameters\FileConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
@@ -2270,55 +2271,6 @@ class AdminSelfUpgrade extends ModuleAdminController
     }
 
     /**
-     * getTranslationFileType
-     *
-     * @param string $file filepath to check
-     * @access public
-     * @return string type of translation item
-     */
-    public function getTranslationFileType($file)
-    {
-        $type = false;
-        // line shorter
-        $separator = addslashes(DIRECTORY_SEPARATOR);
-        $translation_dir = $separator.'translations'.$separator;
-
-        $regex_module = '#'.$separator.'modules'.$separator.'.*'.$translation_dir.'('.implode('|', $this->installedLanguagesIso).')\.php#';
-
-        if (preg_match($regex_module, $file)) {
-            $type = 'module';
-        } elseif (preg_match('#'.$translation_dir.'('.implode('|', $this->installedLanguagesIso).')'.$separator.'admin\.php#', $file)) {
-            $type = 'back office';
-        } elseif (preg_match('#'.$translation_dir.'('.implode('|', $this->installedLanguagesIso).')'.$separator.'errors\.php#', $file)) {
-            $type = 'error message';
-        } elseif (preg_match('#'.$translation_dir.'('.implode('|', $this->installedLanguagesIso).')'.$separator.'fields\.php#', $file)) {
-            $type = 'field';
-        } elseif (preg_match('#'.$translation_dir.'('.implode('|', $this->installedLanguagesIso).')'.$separator.'pdf\.php#', $file)) {
-            $type = 'pdf';
-        } elseif (preg_match('#'.$separator.'themes'.$separator.'(default|prestashop)'.$separator.'lang'.$separator.'('.implode('|', $this->installedLanguagesIso).')\.php#', $file)) {
-            $type = 'front office';
-        }
-
-        return $type;
-    }
-
-    /**
-     * return true if $file is a translation file
-     *
-     * @param string $file filepath (from prestashop root)
-     * @access public
-     * @return boolean
-     */
-    public function isTranslationFile($file)
-    {
-        if ($this->getTranslationFileType($file) !== false) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
      * merge the translations of $orig into $dest, according to the $type of translation file
      *
      * @param string $orig file from upgrade package
@@ -2463,8 +2415,9 @@ class AdminSelfUpgrade extends ModuleAdminController
                     return true;
                 }
             } elseif (is_file($orig)) {
-                if ($this->isTranslationFile($file) && file_exists($dest)) {
-                    $type_trad = $this->getTranslationFileType($file);
+                $translationAdapter = $this->getTranslationAdapter();
+                if ($translationAdapter->isTranslationFile($file) && file_exists($dest)) {
+                    $type_trad = $translationAdapter->getTranslationFileType($file);
                     $res = $this->mergeTranslationFile($orig, $dest, $type_trad);
                     if ($res) {
                         $this->nextQuickInfo[] = $this->trans('[TRANSLATION] The translation files have been merged into file %s.', array($dest), 'Modules.Autoupgrade.Admin');
@@ -2655,18 +2608,6 @@ class AdminSelfUpgrade extends ModuleAdminController
             $this->nextQuickInfo[] = $this->trans('Files restored.', array(), 'Modules.Autoupgrade.Admin');
             return true;
         }
-    }
-
-    public function isDirEmpty($dir, $ignore = array('.svn', '.git'))
-    {
-        $array_ignore = array_merge(array('.', '..'), $ignore);
-        $content = scandir($dir);
-        foreach ($content as $filename) {
-            if (!in_array($filename, $array_ignore)) {
-                return false;
-            }
-        }
-        return true;
     }
 
     /**
@@ -3657,6 +3598,11 @@ class AdminSelfUpgrade extends ModuleAdminController
             $this->state->getInstallVersion());
 
         return $this->moduleAdapter;
+    }
+
+    public function getTranslationAdapter()
+    {
+        return new Translation($this->state->getInstalledLanguagesIso());
     }
 
     public function getTranslator()
