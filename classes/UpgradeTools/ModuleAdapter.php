@@ -119,6 +119,41 @@ class ModuleAdapter
     }
 
     /**
+     * list modules to upgrade and save them in a serialized array in $this->toUpgradeModuleList
+     *
+     * @param array Modules available on the marketplace for download
+     * @return Array Module available on the local filesystem and on the marketplace
+     */
+    public function listModulesToUpgrade(array $modulesFromAddons)
+    {
+        $list = array();
+        $dir = $this->modulesPath;
+
+        if (!is_dir($dir)) {
+            throw (new UpgradeException($this->translator->trans('[ERROR] %dir% does not exist or is not a directory.', array('%dir%' => $dir), 'Modules.Autoupgrade.Admin')))
+                ->setQuickInfos($this->translator->trans('[ERROR] %s does not exist or is not a directory.', array($dir), 'Modules.Autoupgrade.Admin'))
+                ->setSeverity(UpgradeException::SEVERITY_ERROR);
+//            $this->next_desc = $this->trans('Nothing has been extracted. It seems the unzip step has been skipped.', array(), 'Modules.Autoupgrade.Admin');
+        }
+
+        foreach (scandir($dir) as $module_name) {
+            if (is_file($dir.DIRECTORY_SEPARATOR.$module_name)) {
+                continue;
+            } 
+            
+            if (!is_file($dir.$module_name.DIRECTORY_SEPARATOR.$module_name.'.php')) {
+                continue;
+            }
+            $id_addons = array_search($module_name, $modulesFromAddons);
+            if (false !== $id_addons && $module_name !== 'autoupgrade') {
+                $list[] = array('id' => $id_addons, 'name' => $module_name);
+            }
+        }
+        
+        return $list;
+    }
+
+    /**
      * Upgrade module $name (identified by $id_module on addons server)
      * 
      * @param int $id

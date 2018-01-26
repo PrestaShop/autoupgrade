@@ -1376,48 +1376,6 @@ class AdminSelfUpgrade extends ModuleAdminController
     }
 
     /**
-     * list modules to upgrade and save them in a serialized array in $this->toUpgradeModuleList
-     *
-     * @param string $dir
-     * @return number of files found
-     */
-    public function _listModulesToUpgrade()
-    {
-        static $list = array();
-
-        $dir = $this->prodRootDir.DIRECTORY_SEPARATOR.'modules';
-
-        if (!is_dir($dir)) {
-            $this->nextQuickInfo[] = $this->trans('[ERROR] %s does not exist or is not a directory.', array($dir), 'Modules.Autoupgrade.Admin');
-            $this->nextErrors[] = $this->trans('[ERROR] %s does not exist or is not a directory.', array($dir), 'Modules.Autoupgrade.Admin');
-            $this->next_desc = $this->trans('Nothing has been extracted. It seems the unzip step has been skipped.', array(), 'Modules.Autoupgrade.Admin');
-            $this->next = 'error';
-            return false;
-        }
-
-        $allModules = scandir($dir);
-        foreach ($allModules as $module_name) {
-            if (is_file($dir.DIRECTORY_SEPARATOR.$module_name)) {
-                continue;
-            } elseif (is_dir($dir.DIRECTORY_SEPARATOR.$module_name.DIRECTORY_SEPARATOR)
-                && is_file($dir.DIRECTORY_SEPARATOR.$module_name.DIRECTORY_SEPARATOR.$module_name.'.php')
-            ) {
-                if (is_array($this->modules_addons)) {
-                    $id_addons = array_search($module_name, $this->modules_addons);
-                }
-                if (isset($id_addons) && $id_addons) {
-                    if ($module_name != $this->autoupgradeDir) {
-                        $list[] = array('id' => $id_addons, 'name' => $module_name);
-                    }
-                }
-            }
-        }
-        $this->getFileConfigurationStorage()->save($list, $this->toUpgradeModuleList);
-        $this->nextParams['modulesToUpgrade'] = $this->toUpgradeModuleList;
-        return count($list);
-    }
-
-    /**
      * upgrade all partners modules according to the installed prestashop version
      *
      * @access public
@@ -1427,8 +1385,16 @@ class AdminSelfUpgrade extends ModuleAdminController
     {
         $start_time = time();
         if (!isset($this->nextParams['modulesToUpgrade'])) {
-            // list saved in UpgradeFiles::toUpgradeFileList
-            $total_modules_to_upgrade = $this->_listModulesToUpgrade();
+            try {
+                $modulesToUpgrade = $this->getModuleAdapter()->listModulesToUpgrade($this->state->getModules_addons());
+                $this->getFileConfigurationStorage()->save($modulesToUpgrade, UpgradeFiles::toUpgradeModuleList);
+                $this->nextParams['modulesToUpgrade'] = UpgradeFiles::toUpgradeModuleList;
+            } catch (UpgradeException $e) {
+                $this->handleException($e);
+                return false;
+            }
+
+            $total_modules_to_upgrade = count($modulesToUpgrade);
             if ($total_modules_to_upgrade) {
                 $this->nextQuickInfo[] = $this->trans('%s modules will be upgraded.', array($total_modules_to_upgrade), 'Modules.Autoupgrade.Admin');
                 $this->next_desc = $this->trans('%s modules will be upgraded.', array($total_modules_to_upgrade), 'Modules.Autoupgrade.Admin');
