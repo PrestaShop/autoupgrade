@@ -31,7 +31,7 @@ namespace PrestaShop\Module\AutoUpgrade;
  */
 class State
 {
-    private $install_version;
+    private $install_version; // Destination version of PrestaShop
     private $backupName = null;
     private $backupFilesFilename = null;
     private $backupDbFilename = null;

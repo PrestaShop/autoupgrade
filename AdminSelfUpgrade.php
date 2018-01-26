@@ -2241,112 +2241,6 @@ class AdminSelfUpgrade extends ModuleAdminController
     }
 
     /**
-     * merge the translations of $orig into $dest, according to the $type of translation file
-     *
-     * @param string $orig file from upgrade package
-     * @param string $dest filepath of destination
-     * @param string $type type of translation file (module, bo, fo, field, pdf, error)
-     * @access public
-     * @return boolean
-     */
-    public function mergeTranslationFile($orig, $dest, $type)
-    {
-        switch ($type) {
-            case 'front office':
-                $var_name = '_LANG';
-                break;
-            case 'back office':
-                $var_name = '_LANGADM';
-                break;
-            case 'error message':
-                $var_name = '_ERRORS';
-                break;
-            case 'field':
-                $var_name = '_FIELDS';
-                break;
-            case 'module':
-                $var_name = '_MODULE';
-                // if current version is before 1.5.0.5, module has no translations dir
-                if (version_compare(_PS_VERSION_, '1.5.0.5', '<') && (version_compare($this->install_version, '1.5.0.5', '>'))) {
-                    $dest = str_replace(DIRECTORY_SEPARATOR.'translations', '', $dest);
-                }
-
-                break;
-            case 'pdf':
-                $var_name = '_LANGPDF';
-                break;
-            case 'mail':
-                $var_name = '_LANGMAIL';
-                break;
-            default:
-                return false;
-        }
-
-        if (!file_exists($orig)) {
-            $this->nextQuickInfo[] = $this->trans('[NOTICE] File %s does not exist, merge skipped.', array($orig), 'Modules.Autoupgrade.Admin');
-            return true;
-        }
-        include($orig);
-        if (!isset($$var_name)) {
-            $this->nextQuickInfo[] = $this->trans(
-                '[WARNING] %variablename% variable missing in file %filename%. Merge skipped.',
-                array(
-                    '%variablename%' => $var_name,
-                    '%filename%' => $orig,
-                ),
-                'Modules.Autoupgrade.Admin'
-            );
-            return true;
-        }
-        $var_orig = $$var_name;
-
-        if (!file_exists($dest)) {
-            $this->nextQuickInfo[] = $this->trans('[NOTICE] File %s does not exist, merge skipped.', array($dest), 'Modules.Autoupgrade.Admin');
-            return false;
-        }
-        include($dest);
-        if (!isset($$var_name)) {
-            // in that particular case : file exists, but variable missing, we need to delete that file
-            // (if not, this invalid file will be copied in /translations during upgradeDb process)
-            if ('module' == $type && file_exists($dest)) {
-                unlink($dest);
-            }
-            $this->nextQuickInfo[] = $this->trans(
-                '[WARNING] %variablename% variable missing in file %filename%. File %filename% deleted and merge skipped.',
-                array(
-                    '%variablename%' => $var_name,
-                    '%filename%' => $dest,
-                ),
-                'Modules.Autoupgrade.Admin'
-            );
-            return false;
-        }
-        $var_dest = $$var_name;
-
-        $merge = array_merge($var_orig, $var_dest);
-
-        if ($fd = fopen($dest, 'w')) {
-            fwrite($fd, "<?php\n\nglobal \$".$var_name.";\n\$".$var_name." = array();\n");
-            foreach ($merge as $k => $v) {
-                if (get_magic_quotes_gpc()) {
-                    $v = stripslashes($v);
-                }
-                if ('mail' == $type) {
-                    fwrite($fd, '$'.$var_name.'[\''.$this->db->escape($k).'\'] = \''.$this->db->escape($v).'\';'."\n");
-                } else {
-                    fwrite($fd, '$'.$var_name.'[\''.$this->db->escape($k, true).'\'] = \''.$this->db->escape($v, true).'\';'."\n");
-                }
-            }
-            fwrite($fd, "\n?>");
-            fclose($fd);
-        } else {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * upgradeThisFile
      *
      * @param mixed $file
@@ -2388,22 +2282,15 @@ class AdminSelfUpgrade extends ModuleAdminController
                 $translationAdapter = $this->getTranslationAdapter();
                 if ($translationAdapter->isTranslationFile($file) && file_exists($dest)) {
                     $type_trad = $translationAdapter->getTranslationFileType($file);
-                    $res = $this->mergeTranslationFile($orig, $dest, $type_trad);
-                    if ($res) {
+                    if ($translationAdapter->mergeTranslationFile($orig, $dest, $type_trad)) {
                         $this->nextQuickInfo[] = $this->trans('[TRANSLATION] The translation files have been merged into file %s.', array($dest), 'Modules.Autoupgrade.Admin');
                         return true;
-                    } else {
-                        $this->nextQuickInfo[] = $this->trans(
-                            '[TRANSLATION] The translation files have not been merged into file %filename%. Switch to copy %filename%.',
-                            array('%filename%' => $dest),
-                            'Modules.Autoupgrade.Admin'
-                        );
-                        $this->nextErrors[] = $this->trans(
-                            '[TRANSLATION] The translation files have not been merged into file %filename%. Switch to copy %filename%.',
-                            array('%filename%' => $dest),
-                            'Modules.Autoupgrade.Admin'
-                        );
                     }
+                    $this->nextQuickInfo[] = $this->nextErrors[] = $this->trans(
+                        '[TRANSLATION] The translation files have not been merged into file %filename%. Switch to copy %filename%.',
+                        array('%filename%' => $dest),
+                        'Modules.Autoupgrade.Admin'
+                    );
                 }
 
                 // upgrade exception were above. This part now process all files that have to be upgraded (means to modify or to remove)
@@ -3572,7 +3459,7 @@ class AdminSelfUpgrade extends ModuleAdminController
 
     public function getTranslationAdapter()
     {
-        return new Translation($this->state->getInstalledLanguagesIso());
+        return new Translation($this->getTranslator(), $this->state->getInstalledLanguagesIso());
     }
 
     public function getTranslator()
