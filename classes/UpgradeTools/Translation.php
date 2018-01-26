@@ -26,12 +26,20 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
+use PrestaShop\Module\AutoUpgrade\Tools14;
+
 class Translation
 {
     private $installedLanguagesIso;
 
-    public function __construct($installedLanguagesIso)
+    private $translator;
+
+    /**
+     * ToDo: Add logger!!!!
+     */
+    public function __construct($translator, $installedLanguagesIso)
     {
+        $this->translator = $translator;
         $this->installedLanguagesIso = $installedLanguagesIso;
     }
     
@@ -71,5 +79,125 @@ class Translation
     public function isTranslationFile($file)
     {
         return ($this->getTranslationFileType($file) !== false);
+    }
+
+    /**
+     * merge the translations of $orig into $dest, according to the $type of translation file
+     *
+     * @param string $orig file from upgrade package
+     * @param string $dest filepath of destination
+     * @param string $type type of translation file (module, back office, front office, field, pdf, error)
+     * @return boolean
+     */
+    public function mergeTranslationFile($orig, $dest, $type)
+    {
+        switch ($type) {
+            case 'front office':
+                $var_name = '_LANG';
+                break;
+            case 'back office':
+                $var_name = '_LANGADM';
+                break;
+            case 'error message':
+                $var_name = '_ERRORS';
+                break;
+            case 'field':
+                $var_name = '_FIELDS';
+                break;
+            case 'module':
+                $var_name = '_MODULE';
+                break;
+            case 'pdf':
+                $var_name = '_LANGPDF';
+                break;
+            case 'mail':
+                $var_name = '_LANGMAIL';
+                break;
+            default:
+                return false;
+        }
+
+        if (!file_exists($orig)) {
+//            $this->nextQuickInfo[] = $this->translator->trans('[NOTICE] File %s does not exist, merge skipped.', array($orig), 'Modules.Autoupgrade.Admin');
+            return true;
+        }
+        include($orig);
+        if (!isset($$var_name)) {
+//            $this->nextQuickInfo[] = $this->translator->trans(
+//                '[WARNING] %variablename% variable missing in file %filename%. Merge skipped.',
+//                array(
+//                    '%variablename%' => $var_name,
+//                    '%filename%' => $orig,
+//                ),
+//                'Modules.Autoupgrade.Admin'
+//            );
+            return true;
+        }
+        $var_orig = $$var_name;
+
+        if (!file_exists($dest)) {
+//            $this->nextQuickInfo[] = $this->translator->trans('[NOTICE] File %s does not exist, merge skipped.', array($dest), 'Modules.Autoupgrade.Admin');
+            return false;
+        }
+        include($dest);
+        if (!isset($$var_name)) {
+            // in that particular case : file exists, but variable missing, we need to delete that file
+            // (if not, this invalid file will be copied in /translations during upgradeDb process)
+            if ('module' == $type && file_exists($dest)) {
+                unlink($dest);
+            }
+//            $this->nextQuickInfo[] = $this->translator->trans(
+//                '[WARNING] %variablename% variable missing in file %filename%. File %filename% deleted and merge skipped.',
+//                array(
+//                    '%variablename%' => $var_name,
+//                    '%filename%' => $dest,
+//                ),
+//                'Modules.Autoupgrade.Admin'
+//            );
+            return false;
+        }
+        $var_dest = $$var_name;
+
+        $merge = array_merge($var_orig, $var_dest);
+
+        $fd = fopen($dest, 'w');
+        if ($fd !== false) {
+            return false;
+        }
+        fwrite($fd, "<?php\n\nglobal \$".$var_name.";\n\$".$var_name." = array();\n");
+        foreach ($merge as $k => $v) {
+            if (get_magic_quotes_gpc()) {
+                $v = stripslashes($v);
+            }
+            if ('mail' == $type) {
+                fwrite($fd, '$'.$var_name.'[\''.$this->escape($k).'\'] = \''.$this->escape($v).'\';'."\n");
+            } else {
+                fwrite($fd, '$'.$var_name.'[\''.$this->escape($k, true).'\'] = \''.$this->escape($v, true).'\';'."\n");
+            }
+        }
+        fwrite($fd, "\n?>");
+        fclose($fd);
+
+        return true;
+    }
+
+    /**
+     * Escapes illegal characters in a string.
+     * Extracted from DB class, in order to avoid dependancies
+     *
+     * @see DbCore::_escape()
+     * @param string $str
+     * @param boolean $html_ok Does data contain HTML code ? (optional)
+     * @return string
+     */
+    private function escape($str, $html_ok = false)
+    {
+        $search = array("\\", "\0", "\n", "\r", "\x1a", "'", '"');
+        $replace = array("\\\\", "\\0", "\\n", "\\r", "\Z", "\'", '\"');
+        $str = str_replace($search, $replace, $str);
+        if (!$html_ok) {
+            return strip_tags(Tools14::nl2br($str));
+        }
+        return $str;
     }
 }
