@@ -30,25 +30,55 @@ use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 
 /**
  * Class creating the content to return at an ajax call.
- * ToDo: Explain each variable
  */
 class AjaxResponse
 {
+    /**
+     * Used during upgrade
+     * @var string (ToDo: fix this type) Supposed to store a boolean in case of error
+     */
     private $error;
 
+    /**
+     * Used during upgrade.
+     * @var bool Inform when the step is completed
+     */
     private $stepDone;
 
+    /**
+     * Used during upgrade. "N/A" as value otherwise.
+     * @var string Next step to call (can be the same as the previous one)
+     */
     private $next;
 
+    /**
+     * Used during upgrade. Will be displayed on the top left  panel
+     * @var String Stores the main information about the current step
+     */
     private $next_desc;
 
+    /**
+     * @var array Params to send (upgrade conf, details on the work to do ...)
+     */
     private $nextParams;
 
+    /**
+     * Used during upgrade. Will be displayed in the lower panel.
+     * @var array Details on what happened during the execution. Verbose levels: DEBUG / INFO / WARNING
+     */
     private $nextQuickInfo;
 
+    /**
+     * Used during upgrade. Will be displayed in the top right panel (not visible at the beginning)
+     * @var array Details of error which occured during the request. Verbose levels: ERROR
+     */
     private $nextErrors;
 
-    private $nextResponseType = 'json';
+    /**
+     * Request format of the data to return.
+     * Seems to be never modified. Converted as const.
+     */
+    const nextResponseType = 'json';
 
     /**
      * @var UpgradeConfiguration
@@ -83,7 +113,7 @@ class AjaxResponse
                 $this->nextParams,
                 $this->state->export(),
                 array(
-                    'typeResult' => $this->nextResponseType,
+                    'typeResult' => self::nextResponseType,
                     'config' => $this->upgradeConfiguration->toArray(),
                 )
             ),
