@@ -47,6 +47,7 @@ use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFiles;
 use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension;
 use PrestaShop\Module\AutoUpgrade\Twig\Block\ChannelInfoBlock;
+use Symfony\Component\Filesystem\Filesystem;
 
 require __DIR__.'/vendor/autoload.php';
 
@@ -3026,48 +3027,6 @@ class AdminSelfUpgrade extends ModuleAdminController
         }
     }
 
-    private function _removeOneSample($removeList)
-    {
-        if (is_array($removeList) and count($removeList) > 0) {
-            if (file_exists($removeList[0]) and unlink($removeList[0])) {
-                $item = str_replace($this->prodRootDir, '', array_shift($removeList));
-                $this->next = 'removeSamples';
-                $this->nextParams['removeList'] = $removeList;
-                if (count($removeList) > 0) {
-                    $this->nextQuickInfo[] = $this->trans(
-                        '%itemname% items removed. %itemscount% items left.',
-                        array(
-                            '%itemname%' => $item,
-                            '%itemscount%' => count($removeList)
-                        ),
-                        'Modules.Autoupgrade.Admin'
-                    );
-                }
-            } else {
-                $this->next = 'error';
-                $this->nextParams['removeList'] = $removeList;
-                $this->nextQuickInfo[] = $this->trans(
-                    'Error while removing item %itemname%, %itemscount% items left.',
-                    array(
-                        '%itemname%' => $removeList[0],
-                        '%itemscount%' => count($removeList)
-                    ),
-                    'Modules.Autoupgrade.Admin'
-                );
-                $this->nextErrors[] = $this->trans(
-                    'Error while removing item %itemname%, %itemscount% items left.',
-                    array(
-                        '%itemname%' => $removeList[0],
-                        '%itemscount%' => count($removeList)
-                    ),
-                    'Modules.Autoupgrade.Admin'
-                );
-                return false;
-            }
-        }
-        return true;
-    }
-
     /**
      * Remove all sample files.
      *
@@ -3076,7 +3035,10 @@ class AdminSelfUpgrade extends ModuleAdminController
     public function ajaxProcessRemoveSamples()
     {
         $this->stepDone = false;
+        $this->next = 'removeSamples';
+
         // remove all sample pics in img subdir
+        // This part runs at the first call of this step
         if (!isset($this->currentParams['removeList'])) {
             $this->_listSampleFiles($this->latestPath.'/prestashop/img/c', '.jpg');
             $this->_listSampleFiles($this->latestPath.'/prestashop/img/cms', '.jpg');
@@ -3102,27 +3064,47 @@ class AdminSelfUpgrade extends ModuleAdminController
             $this->nextParams['removeList'] = $this->sampleFileList;
         }
 
-        $resRemove = true;
-        for ($i = 0; $i < self::$loopRemoveSamples; $i++) {
-            if (count($this->nextParams['removeList']) <= 0) {
-                $this->stepDone = true;
-                if ($this->upgradeConfiguration->get('skip_backup')) {
-                    $this->next = 'upgradeFiles';
-                    $this->next_desc = $this->trans('All sample files removed. Backup process skipped. Now upgrading files.', array(), 'Modules.Autoupgrade.Admin');
-                } else {
-                    $this->next = 'backupFiles';
-                    $this->next_desc = $this->trans('All sample files removed. Now backing up files.', array(), 'Modules.Autoupgrade.Admin');
-                }
-                // break the loop, all sample already removed
-                return true;
+        $filesystem = new Filesystem;
+        for ($i = 0; $i < self::$loopRemoveSamples && 0 < count($this->nextParams['removeList']); $i++) {
+            $file = array_shift($this->nextParams['removeList']);
+            try {
+                $filesystem->remove($file);
+            } catch (Exception $e) {
+                $this->next = 'error';
+                $this->nextQuickInfo[] = $this->nextErrors[] = $this->trans(
+                    'Error while removing item %itemname%, %itemscount% items left.',
+                    array(
+                        '%itemname%' => $file,
+                        '%itemscount%' => count($this->nextParams['removeList'])
+                    ),
+                    'Modules.Autoupgrade.Admin'
+                );
+                return false;
             }
-            $resRemove &= $this->_removeOneSample($this->nextParams['removeList']);
-            if (!$resRemove) {
-                break;
+            
+            if (count($this->nextParams['removeList'])) {
+                $this->nextQuickInfo[] = $this->trans(
+                    '%itemname% items removed. %itemscount% items left.',
+                    array(
+                        '%itemname%' => $file,
+                        '%itemscount%' => count($this->nextParams['removeList'])
+                    ),
+                    'Modules.Autoupgrade.Admin'
+                );
             }
         }
 
-        return $resRemove;
+        if (0 < count($this->nextParams['removeList'])) {
+            $this->stepDone = true;
+            $this->next = 'backupFiles';
+            $this->next_desc = $this->trans('All sample files removed. Now backing up files.', array(), 'Modules.Autoupgrade.Admin');
+
+            if ($this->upgradeConfiguration->get('skip_backup')) {
+                $this->next = 'upgradeFiles';
+                $this->next_desc = $this->trans('All sample files removed. Backup process skipped. Now upgrading files.', array(), 'Modules.Autoupgrade.Admin');
+            }
+        }
+        return true;
     }
 
     /**
@@ -3219,7 +3201,6 @@ class AdminSelfUpgrade extends ModuleAdminController
             return;
         }
 
-        /* PrestaShop demo mode*/
         if (!empty($_POST['responseType']) && $_POST['responseType'] == 'json') {
             header('Content-Type: application/json');
         }
