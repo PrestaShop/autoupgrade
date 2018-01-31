@@ -100,6 +100,9 @@ class AdminSelfUpgrade extends ModuleAdminController
         'warning_exists',
     );
 
+    /**
+     * Initialized in initPath()
+     */
     public $autoupgradePath = null;
     public $downloadPath = null;
     public $backupPath = null;
@@ -563,72 +566,45 @@ class AdminSelfUpgrade extends ModuleAdminController
     {
         // If not exists in this sessions, "create"
         // session handling : from current to next params
-        if (isset($this->currentParams['removeList'])) {
-            $this->nextParams['removeList'] = $this->currentParams['removeList'];
-        }
-
-        if (isset($this->currentParams['filesToUpgrade'])) {
-            $this->nextParams['filesToUpgrade'] = $this->currentParams['filesToUpgrade'];
-        }
-
-        if (isset($this->currentParams['modulesToUpgrade'])) {
-            $this->nextParams['modulesToUpgrade'] = $this->currentParams['modulesToUpgrade'];
+        foreach (array('removeList', 'filesToUpgrade', 'modulesToUpgrade') as $attr) {
+            if (isset($this->currentParams[$attr])) {
+                $this->nextParams[$attr] = $this->currentParams[$attr];
+            }
         }
 
         // set autoupgradePath, to be used in backupFiles and backupDb config values
-        $this->autoupgradePath = $this->adminDir.DIRECTORY_SEPARATOR.$this->autoupgradeDir;
-        // directory missing
-        if (!file_exists($this->autoupgradePath)) {
-            if (!mkdir($this->autoupgradePath)) {
-                $this->_errors[] = $this->trans('Unable to create directory %s', array($this->autoupgradePath), 'Modules.Autoupgrade.Admin');
+        $paths = array(
+            'autoupgradePath' => $this->adminDir.DIRECTORY_SEPARATOR.$this->autoupgradeDir,
+            'backupPath' => $this->autoupgradePath.DIRECTORY_SEPARATOR.'backup',
+            'downloadPath' => $this->autoupgradePath.DIRECTORY_SEPARATOR.'download',
+            'latestPath' => $this->autoupgradePath.DIRECTORY_SEPARATOR.'latest',
+            'tmpPath' => $this->autoupgradePath.DIRECTORY_SEPARATOR.'tmp',
+            'latestRootDir' => $this->latestPath.DIRECTORY_SEPARATOR,
+        );
+
+        // Check directory is not missing
+        foreach ($paths as $key => $path) {
+            $this->$key = $path;
+            if (!file_exists($path) && !mkdir($path)) {
+                $this->_errors[] = $this->trans('Unable to create directory %s', array($path), 'Modules.Autoupgrade.Admin');
+            }
+            if (!is_writable($path)) {
+                $this->_errors[] = $this->trans('Unable to write in the directory "%s"', array($path), 'Modules.Autoupgrade.Admin');
             }
         }
 
-        if (!is_writable($this->autoupgradePath)) {
-            $this->_errors[] = $this->trans('Unable to write in the directory "%s"', array($this->autoupgradePath), 'Modules.Autoupgrade.Admin');
-        }
-
-        $this->downloadPath = $this->autoupgradePath.DIRECTORY_SEPARATOR.'download';
-        if (!file_exists($this->downloadPath)) {
-            if (!mkdir($this->downloadPath)) {
-                $this->_errors[] = $this->trans('Unable to create directory %s', array($this->downloadPath), 'Modules.Autoupgrade.Admin');
-            }
-        }
-
-        $this->backupPath = $this->autoupgradePath.DIRECTORY_SEPARATOR.'backup';
-        $tmp = "order deny,allow\ndeny from all";
-        if (!file_exists($this->backupPath)) {
-            if (!mkdir($this->backupPath)) {
-                $this->_errors[] = $this->trans('Unable to create directory %s', array($this->backupPath), 'Modules.Autoupgrade.Admin');
-            }
-        }
         if (!file_exists($this->backupPath.DIRECTORY_SEPARATOR.'index.php')) {
             if (!copy(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'index.php', $this->backupPath.DIRECTORY_SEPARATOR.'index.php')) {
                 $this->_errors[] = $this->trans('Unable to create file %s', array($this->backupPath.DIRECTORY_SEPARATOR.'index.php'), 'Modules.Autoupgrade.Admin');
             }
         }
+        
+        $tmp = "order deny,allow\ndeny from all";
         if (!file_exists($this->backupPath.DIRECTORY_SEPARATOR.'.htaccess')) {
             if (!file_put_contents($this->backupPath.DIRECTORY_SEPARATOR.'.htaccess', $tmp)) {
                 $this->_errors[] = $this->trans('Unable to create file %s', array($this->backupPath.DIRECTORY_SEPARATOR.'.htaccess'), 'Modules.Autoupgrade.Admin');
             }
         }
-
-        // directory missing
-        $this->latestPath = $this->autoupgradePath.DIRECTORY_SEPARATOR.'latest';
-        if (!file_exists($this->latestPath)) {
-            if (!mkdir($this->latestPath)) {
-                $this->_errors[] = $this->trans('Unable to create directory %s', array($this->latestPath), 'Modules.Autoupgrade.Admin');
-            }
-        }
-
-        $this->tmpPath = $this->autoupgradePath.DIRECTORY_SEPARATOR.'tmp';
-        if (!file_exists($this->tmpPath)) {
-            if (!mkdir($this->tmpPath)) {
-                $this->_errors[] = $this->trans('Unable to create directory %s', array($this->tmpPath), 'Modules.Autoupgrade.Admin');
-            }
-        }
-
-        $this->latestRootDir = $this->latestPath.DIRECTORY_SEPARATOR;
     }
 
     /**
