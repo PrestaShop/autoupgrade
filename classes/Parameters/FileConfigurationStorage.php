@@ -59,8 +59,7 @@ class FileConfigurationStorage
         $config = array();
 
         if (!empty($configFilePath) && file_exists($configFilePath)) {
-            $content = Tools14::file_get_contents($configFilePath);
-            $config = @unserialize(base64_decode($content));
+            $config = @unserialize(base64_decode(Tools14::file_get_contents($configFilePath)));
         }
 
         return $config;

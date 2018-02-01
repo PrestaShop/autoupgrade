@@ -46,6 +46,8 @@ class ZipAction
      * @var array logging what happened during the class execution
      */
     private $logs = array();
+
+    const force_pclZip = false;
     
     public function __construct($translator, $prodRootDir)
     {
@@ -309,7 +311,7 @@ class ZipAction
 
     private function openWithZipArchive($zipFile, $flags = null)
     {
-        if (self::$force_pclZip || !class_exists('ZipArchive', false)) {
+        if (self::force_pclZip || !class_exists('ZipArchive', false)) {
             return false;
         }
 

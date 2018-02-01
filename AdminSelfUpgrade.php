@@ -617,7 +617,7 @@ class AdminSelfUpgrade extends ModuleAdminController
      */
     private function getFilePath()
     {
-        return $this->downloadPath.DIRECTORY_SEPARATOR.$this->destDownloadFilename;
+        return $this->downloadPath.DIRECTORY_SEPARATOR.$this->upgradeConfiguration->get('archive.filename');
     }
 
     public function postProcess()
@@ -1014,19 +1014,21 @@ class AdminSelfUpgrade extends ModuleAdminController
         }
         $relative_extract_path = str_replace(_PS_ROOT_DIR_, '', $destExtract);
         $report = '';
-        if (ConfigurationTest::test_dir($relative_extract_path, false, $report)) {
+        if (!ConfigurationTest::test_dir($relative_extract_path, false, $report)) {
             $this->next_desc = $this->trans('Extraction directory is not writable.', array(), 'Modules.Autoupgrade.Admin');
             $this->nextQuickInfo[] = $this->trans('Extraction directory is not writable.', array(), 'Modules.Autoupgrade.Admin');
             $this->nextErrors[] = $this->trans('Extraction directory %s is not writable.', array($destExtract), 'Modules.Autoupgrade.Admin');
             $this->next = 'error';
+            $this->error = true;
             return false;
         }
         
         $res = $this->getZipAction()->extract($filepath, $destExtract);
-        $this->nextQuickInfo += $this->getZipAction()->getLogs();
+        $this->nextQuickInfo = array_merge($this->nextQuickInfo, $this->getZipAction()->getLogs());
 
         if (!$res) {
             $this->next = 'error';
+            $this->error= true;
             $this->next_desc = $this->trans(
                 'Unable to extract %filepath% file into %destination% folder...',
                 array(
@@ -1040,7 +1042,8 @@ class AdminSelfUpgrade extends ModuleAdminController
 
         // new system release archive
         $newZip = $destExtract.DIRECTORY_SEPARATOR.'prestashop.zip';
-        if (is_file($newZip)) {
+        // ToDo : only 1.7!!!
+        if (!is_file($newZip)) {
             $this->next = 'error';
             $this->next_desc = $this->trans('This is not a valid archive for version %s.', array(INSTALL_VERSION), 'Modules.Autoupgrade.Admin');
             return false;
@@ -1050,7 +1053,7 @@ class AdminSelfUpgrade extends ModuleAdminController
         @unlink($destExtract.DIRECTORY_SEPARATOR.'/Install_PrestaShop.html');
 
         $subRes = $this->getZipAction()->extract($newZip, $destExtract);
-        $this->nextQuickInfo += $this->getZipAction()->getLogs();
+        $this->nextQuickInfo = array_merge($this->nextQuickInfo, $this->getZipAction()->getLogs());
         if (!$subRes) {
             $this->next = 'error';
             $this->next_desc = $this->trans(
@@ -1082,7 +1085,7 @@ class AdminSelfUpgrade extends ModuleAdminController
      */
     public function _listFilesToUpgrade($dir)
     {
-        static $list = array();
+        $list = array();
         if (!is_dir($dir)) {
             $this->nextQuickInfo[] = $this->trans('[ERROR] %s does not exist or is not a directory.', array($dir), 'Modules.Autoupgrade.Admin');
             $this->nextErrors[] = $this->trans('[ERROR] %s does not exist or is not a directory.', array($dir), 'Modules.Autoupgrade.Admin');
@@ -1095,8 +1098,10 @@ class AdminSelfUpgrade extends ModuleAdminController
         foreach ($allFiles as $file) {
             $fullPath = $dir.DIRECTORY_SEPARATOR.$file;
 
-            if (!$this->getFilesystemAdapter()->isFileSkipped($file, $fullPath, "upgrade")) {
-                $this->nextQuickInfo[] = $this->trans('File %s is preserved', array($file), 'Modules.Autoupgrade.Admin');
+            if ($this->getFilesystemAdapter()->isFileSkipped($file, $fullPath, "upgrade")) {
+                if (!in_array($file, array('.', '..'))) {
+                    $this->nextQuickInfo[] = $this->trans('File %s is preserved', array($file), 'Modules.Autoupgrade.Admin');
+                }
                 continue;
             }
             $list[] = str_replace($this->latestRootDir, '', $fullPath);
@@ -1130,6 +1135,7 @@ class AdminSelfUpgrade extends ModuleAdminController
             // get files differences (previously generated)
             $admin_dir = trim(str_replace($this->prodRootDir, '', $this->adminDir), DIRECTORY_SEPARATOR);
             $filepath_list_diff = $this->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFiles::diffFileList;
+            $list_files_diff = array();
             if (file_exists($filepath_list_diff)) {
                 $list_files_diff = $this->getFileConfigurationStorage()->load(UpgradeFiles::diffFileList);
                 // only keep list of files to delete. The modified files will be listed with _listFilesToUpgrade
@@ -1141,8 +1147,6 @@ class AdminSelfUpgrade extends ModuleAdminController
                         $list_files_diff[$k] = str_replace('/'.'admin', '/'.$admin_dir, $path);
                     }
                 } // do not replace by DIRECTORY_SEPARATOR
-            } else {
-                $list_files_diff = array();
             }
 
             if (!($list_files_to_upgrade = $this->_listFilesToUpgrade($this->latestRootDir))) {
@@ -2969,7 +2973,7 @@ class AdminSelfUpgrade extends ModuleAdminController
             }
         }
 
-        if (0 < count($this->nextParams['removeList'])) {
+        if (0 >= count($this->nextParams['removeList'])) {
             $this->stepDone = true;
             $this->next = 'backupFiles';
             $this->next_desc = $this->trans('All sample files removed. Now backing up files.', array(), 'Modules.Autoupgrade.Admin');
