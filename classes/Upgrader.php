@@ -26,7 +26,6 @@
 
 namespace PrestaShop\Module\AutoUpgrade;
 
-use Tools as Tools14;
 use Configuration;
 
 class Upgrader

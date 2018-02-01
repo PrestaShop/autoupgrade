@@ -578,18 +578,16 @@ class AdminSelfUpgrade extends ModuleAdminController
         }
 
         // set autoupgradePath, to be used in backupFiles and backupDb config values
-        $paths = array(
-            'autoupgradePath' => $this->adminDir.DIRECTORY_SEPARATOR.$this->autoupgradeDir,
-            'backupPath' => $this->autoupgradePath.DIRECTORY_SEPARATOR.'backup',
-            'downloadPath' => $this->autoupgradePath.DIRECTORY_SEPARATOR.'download',
-            'latestPath' => $this->autoupgradePath.DIRECTORY_SEPARATOR.'latest',
-            'tmpPath' => $this->autoupgradePath.DIRECTORY_SEPARATOR.'tmp',
-            'latestRootDir' => $this->latestPath.DIRECTORY_SEPARATOR,
-        );
+        $this->autoupgradePath = $this->adminDir.DIRECTORY_SEPARATOR.$this->autoupgradeDir;
+        $this->backupPath = $this->autoupgradePath.DIRECTORY_SEPARATOR.'backup';
+        $this->downloadPath = $this->autoupgradePath.DIRECTORY_SEPARATOR.'download';
+        $this->latestPath = $this->autoupgradePath.DIRECTORY_SEPARATOR.'latest';
+        $this->tmpPath = $this->autoupgradePath.DIRECTORY_SEPARATOR.'tmp';
+        $this->latestRootDir = $this->latestPath.DIRECTORY_SEPARATOR;
 
         // Check directory is not missing
-        foreach ($paths as $key => $path) {
-            $this->$key = $path;
+        foreach (array('autoupgradePath', 'backupPath', 'downloadPath', 'latestPath', 'tmpPath', 'latestRootDir') as $pathName) {
+            $path = $this->{$pathName};
             if (!file_exists($path) && !mkdir($path)) {
                 $this->_errors[] = $this->trans('Unable to create directory %s', array($path), 'Modules.Autoupgrade.Admin');
             }
