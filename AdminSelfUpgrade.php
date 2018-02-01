@@ -37,6 +37,7 @@ use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\ZipAction;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Database;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\ModuleAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\ThemeAdapter;
@@ -128,7 +129,6 @@ class AdminSelfUpgrade extends ModuleAdminController
     public $manualMode = null;
     public $deactivateCustomModule = null;
 
-    public $sampleFileList = array();
     private $restoreIgnoreFiles = array();
     private $restoreIgnoreAbsoluteFiles = array();
     private $backupIgnoreFiles = array();
@@ -213,6 +213,11 @@ class AdminSelfUpgrade extends ModuleAdminController
      * @var Database
      */
     private $databaseTools;
+
+    /**
+     * @var FilesystemAdapter
+     */
+    private $filesystemAdapter;
 
     /**
      * @var ModuleAdapter
@@ -1071,108 +1076,6 @@ class AdminSelfUpgrade extends ModuleAdminController
         return true;
     }
 
-
-    /**
-     * _listSampleFiles will make a recursive call to scandir() function
-     * and list all file which match to the $fileext suffixe (this can be an extension or whole filename)
-     *
-     * @param string $dir directory to look in
-     * @param string $fileext suffixe filename
-     * @return void
-     */
-    private function _listSampleFiles($dir, $fileext = '.jpg')
-    {
-        $res = false;
-        $dir = rtrim($dir, '/').DIRECTORY_SEPARATOR;
-        $toDel = false;
-        if (is_dir($dir) && is_readable($dir)) {
-            $toDel = scandir($dir);
-        }
-        // copied (and kind of) adapted from AdminImages.php
-        if (is_array($toDel)) {
-            foreach ($toDel as $file) {
-                if ($file[0] != '.') {
-                    if (preg_match('#'.preg_quote($fileext, '#').'$#i', $file)) {
-                        $this->sampleFileList[] = $dir.$file;
-                    } elseif (is_dir($dir.$file)) {
-                        $res &= $this->_listSampleFiles($dir.$file, $fileext);
-                    }
-                }
-            }
-        }
-        return $res;
-    }
-
-    public function _listFilesInDir($dir, $way = 'backup', $list_directories = false)
-    {
-        $list = array();
-        $dir = rtrim($dir, '/').DIRECTORY_SEPARATOR;
-        $allFiles = false;
-        if (is_dir($dir) && is_readable($dir)) {
-            $allFiles = scandir($dir);
-        }
-        if (is_array($allFiles)) {
-            foreach ($allFiles as $file) {
-                if ($file[0] != '.') {
-                    $fullPath = $dir.$file;
-                    if (!$this->_skipFile($file, $fullPath, $way)) {
-                        if (is_dir($fullPath)) {
-                            $list = array_merge($list, $this->_listFilesInDir($fullPath, $way, $list_directories));
-                            if ($list_directories) {
-                                $list[] = $fullPath;
-                            }
-                        } else {
-                            $list[] = $fullPath;
-                        }
-                    }
-                }
-            }
-        }
-        return $list;
-    }
-
-
-    /**
-     * this function list all files that will be remove to retrieve the filesystem states before the upgrade
-     *
-     * @access public
-     * @return void
-     */
-    public function _listFilesToRemove()
-    {
-        $prev_version = preg_match('#auto-backupfiles_V([0-9.]*)_#', $this->restoreFilesFilename, $matches);
-        if ($prev_version) {
-            $prev_version = $matches[1];
-        }
-
-        if (!$this->upgrader) {
-            $this->upgrader = new Upgrader();
-        }
-
-        $toRemove = false;
-        // note : getDiffFilesList does not include files moved by upgrade scripts,
-        // so this method can't be trusted to fully restore directory
-        // $toRemove = $this->upgrader->getDiffFilesList(_PS_VERSION_, $prev_version, false);
-        // if we can't find the diff file list corresponding to _PS_VERSION_ and prev_version,
-        // let's assume to remove every files
-        if (!$toRemove) {
-            $toRemove = $this->_listFilesInDir($this->prodRootDir, 'restore', true);
-        }
-
-        $admin_dir = str_replace($this->prodRootDir, '', $this->adminDir);
-        // if a file in "ToRemove" has been skipped during backup,
-        // just keep it
-        foreach ($toRemove as $key => $file) {
-            $filename = substr($file, strrpos($file, '/')+1);
-            $toRemove[$key] = preg_replace('#^/admin#', $admin_dir, $file);
-            // this is a really sensitive part, so we add an extra checks: preserve everything that contains "autoupgrade"
-            if ($this->_skipFile($filename, $file, 'backup') || strpos($file, $this->autoupgradeDir)) {
-                unset($toRemove[$key]);
-            }
-        }
-        return $toRemove;
-    }
-
     /**
      * list files to upgrade and return it as array
      *
@@ -1194,13 +1097,15 @@ class AdminSelfUpgrade extends ModuleAdminController
         foreach ($allFiles as $file) {
             $fullPath = $dir.DIRECTORY_SEPARATOR.$file;
 
-            if (!$this->_skipFile($file, $fullPath, "upgrade")) {
-                $list[] = str_replace($this->latestRootDir, '', $fullPath);
-                // if is_dir, we will create it :)
-                if (is_dir($fullPath)) {
-                    if (strpos($dir.DIRECTORY_SEPARATOR.$file, 'install') === false) {
-                        $this->_listFilesToUpgrade($fullPath);
-                    }
+            if (!$this->getFilesystemAdapter()->isFileSkipped($file, $fullPath, "upgrade")) {
+                $this->nextQuickInfo[] = $this->trans('File %s is preserved', array($file), 'Modules.Autoupgrade.Admin');
+                continue;
+            }
+            $list[] = str_replace($this->latestRootDir, '', $fullPath);
+            // if is_dir, we will create it :)
+            if (is_dir($fullPath)) {
+                if (strpos($dir.DIRECTORY_SEPARATOR.$file, 'install') === false) {
+                    $this->_listFilesToUpgrade($fullPath);
                 }
             }
         }
@@ -2227,7 +2132,7 @@ class AdminSelfUpgrade extends ModuleAdminController
         $orig = $this->latestRootDir.$file;
         $dest = $this->destUpgradePath.$file;
 
-        if ($this->_skipFile($file, $dest, 'upgrade')) {
+        if ($this->getFilesystemAdapter()->isFileSkipped($file, $dest, 'upgrade')) {
             $this->nextQuickInfo[] = $this->trans('%s ignored', array($file), 'Modules.Autoupgrade.Admin');
             return true;
         } else {
@@ -2375,7 +2280,7 @@ class AdminSelfUpgrade extends ModuleAdminController
 
             $this->getFileConfigurationStorage()->save($fromArchive, UpgradeFiles::fromArchiveFileList);
             // get list of files to remove
-            $toRemove = $this->_listFilesToRemove();
+            $toRemove = $this->getFilesystemAdapter()->listFilesToRemove();
             $toRemoveOnly = array();
 
             // let's reverse the array in order to make possible to rmdir
@@ -2958,7 +2863,7 @@ class AdminSelfUpgrade extends ModuleAdminController
 
         if (empty($this->nextParams['filesForBackup'])) {
             // @todo : only add files and dir listed in "originalPrestashopVersion" list
-            $filesToBackup = $this->_listFilesInDir($this->prodRootDir, 'backup', false);
+            $filesToBackup = $this->getFilesystemAdapter()->listFilesInDir($this->prodRootDir, 'backup', false);
             $this->getFileConfigurationStorage()->save($filesToBackup, UpgradeFiles::toBackupFileList);
             if (count($filesToBackup)) {
                 $this->nextQuickInfo[] = $this->trans('%s Files to backup.', array(count($filesToBackup)), 'Modules.Autoupgrade.Admin');
@@ -3012,28 +2917,28 @@ class AdminSelfUpgrade extends ModuleAdminController
         // remove all sample pics in img subdir
         // This part runs at the first call of this step
         if (!isset($this->currentParams['removeList'])) {
-            $this->_listSampleFiles($this->latestPath.'/prestashop/img/c', '.jpg');
-            $this->_listSampleFiles($this->latestPath.'/prestashop/img/cms', '.jpg');
-            $this->_listSampleFiles($this->latestPath.'/prestashop/img/l', '.jpg');
-            $this->_listSampleFiles($this->latestPath.'/prestashop/img/m', '.jpg');
-            $this->_listSampleFiles($this->latestPath.'/prestashop/img/os', '.jpg');
-            $this->_listSampleFiles($this->latestPath.'/prestashop/img/p', '.jpg');
-            $this->_listSampleFiles($this->latestPath.'/prestashop/img/s', '.jpg');
-            $this->_listSampleFiles($this->latestPath.'/prestashop/img/scenes', '.jpg');
-            $this->_listSampleFiles($this->latestPath.'/prestashop/img/st', '.jpg');
-            $this->_listSampleFiles($this->latestPath.'/prestashop/img/su', '.jpg');
-            $this->_listSampleFiles($this->latestPath.'/prestashop/img', '404.gif');
-            $this->_listSampleFiles($this->latestPath.'/prestashop/img', 'favicon.ico');
-            $this->_listSampleFiles($this->latestPath.'/prestashop/img', 'logo.jpg');
-            $this->_listSampleFiles($this->latestPath.'/prestashop/img', 'logo_stores.gif');
-            $this->_listSampleFiles($this->latestPath.'/prestashop/modules/editorial', 'homepage_logo.jpg');
-            // remove all override present in the archive
-            $this->_listSampleFiles($this->latestPath.'/prestashop/override', '.php');
+            $this->nextParams['removeList'] = $this->getFilesystemAdapter()->listSampleFiles(array($this->latestPath.'/prestashop/img/c', '.jpg',
+                $this->latestPath.'/prestashop/img/cms', '.jpg',
+                $this->latestPath.'/prestashop/img/l', '.jpg',
+                $this->latestPath.'/prestashop/img/m', '.jpg',
+                $this->latestPath.'/prestashop/img/os', '.jpg',
+                $this->latestPath.'/prestashop/img/p', '.jpg',
+                $this->latestPath.'/prestashop/img/s', '.jpg',
+                $this->latestPath.'/prestashop/img/scenes', '.jpg',
+                $this->latestPath.'/prestashop/img/st', '.jpg',
+                $this->latestPath.'/prestashop/img/su', '.jpg',
+                $this->latestPath.'/prestashop/img', '404.gif',
+                $this->latestPath.'/prestashop/img', 'favicon.ico',
+                $this->latestPath.'/prestashop/img', 'logo.jpg',
+                $this->latestPath.'/prestashop/img', 'logo_stores.gif',
+                $this->latestPath.'/prestashop/modules/editorial', 'homepage_logo.jpg',
+                // remove all override present in the archive
+                $this->latestPath.'/prestashop/override', '.php',
+            ));
 
-            if (count($this->sampleFileList) > 0) {
-                $this->nextQuickInfo[] = $this->trans('Starting to remove %s sample files', array(count($this->sampleFileList)), 'Modules.Autoupgrade.Admin');
+            if (count($this->nextParams['removeList']) > 0) {
+                $this->nextQuickInfo[] = $this->trans('Starting to remove %s sample files', array(count($this->nextParams['removeList'])), 'Modules.Autoupgrade.Admin');
             }
-            $this->nextParams['removeList'] = $this->sampleFileList;
         }
 
         $filesystem = new Filesystem;
@@ -3261,71 +3166,6 @@ class AdminSelfUpgrade extends ModuleAdminController
         return parent::display();
     }
 
-    /**
-     *	bool _skipFile : check whether a file is in backup or restore skip list
-     *
-     * @param type $file : current file or directory name eg:'.svn' , 'settings.inc.php'
-     * @param type $fullpath : current file or directory fullpath eg:'/home/web/www/prestashop/app/config/parameters.php'
-     * @param type $way : 'backup' , 'upgrade'
-     */
-    protected function _skipFile($file, $fullpath, $way = 'backup')
-    {
-        $fullpath = str_replace('\\', '/', $fullpath); // wamp compliant
-        $rootpath = str_replace('\\', '/', $this->prodRootDir);
-        $admin_dir = str_replace($this->prodRootDir, '', $this->adminDir);
-        switch ($way) {
-            case 'backup':
-                if (in_array($file, $this->backupIgnoreFiles)) {
-                    return true;
-                }
-
-                foreach ($this->backupIgnoreAbsoluteFiles as $path) {
-                    $path = str_replace(DIRECTORY_SEPARATOR.'admin', DIRECTORY_SEPARATOR.$admin_dir, $path);
-                    if ($fullpath == $rootpath.$path) {
-                        return true;
-                    }
-                }
-                break;
-                // restore or upgrade way : ignore the same files
-                // note the restore process use skipFiles only if xml md5 files
-                // are unavailable
-            case 'restore':
-                if (in_array($file, $this->restoreIgnoreFiles)) {
-                    return true;
-                }
-
-                foreach ($this->restoreIgnoreAbsoluteFiles as $path) {
-                    $path = str_replace(DIRECTORY_SEPARATOR.'admin', DIRECTORY_SEPARATOR.$admin_dir, $path);
-                    if ($fullpath == $rootpath.$path) {
-                        return true;
-                    }
-                }
-                break;
-            case 'upgrade':
-                if (in_array($file, $this->excludeFilesFromUpgrade)) {
-                    if ($file[0] != '.') {
-                        $this->nextQuickInfo[] = $this->trans('File %s is preserved', array($file), 'Modules.Autoupgrade.Admin');
-                    }
-                    return true;
-                }
-
-                foreach ($this->excludeAbsoluteFilesFromUpgrade as $path) {
-                    $path = str_replace(DIRECTORY_SEPARATOR.'admin', DIRECTORY_SEPARATOR.$admin_dir, $path);
-                    if (strpos($fullpath, $rootpath.$path) !== false) {
-                        $this->nextQuickInfo[] = $this->trans('File %s is preserved', array($fullpath), 'Modules.Autoupgrade.Admin');
-                        return true;
-                    }
-                }
-
-                break;
-                // default : if it's not a backup or an upgrade, do not skip the file
-            default:
-                return false;
-        }
-        // by default, don't skip
-        return false;
-    }
-
     private function handleException(UpgradeException $e)
     {
         $this->nextQuickInfo[] = $e->getQuickInfos();
@@ -3392,6 +3232,22 @@ class AdminSelfUpgrade extends ModuleAdminController
         }
         $this->upgrader = $upgrader;
         return $this->upgrader;
+    }
+
+    public function getFilesystemAdapter()
+    {
+        if (!is_null($this->filesystemAdapter)) {
+            return $this->filesystemAdapter;
+        }
+
+        $this->filesystemAdapter = new FilesystemAdapter(
+            $this->backupIgnoreAbsoluteFiles, $this->backupIgnoreFiles,
+            $this->excludeAbsoluteFilesFromUpgrade, $this->excludeFilesFromUpgrade,
+            $this->restoreFilesFilename, $this->restoreIgnoreAbsoluteFiles,
+            $this->restoreIgnoreFiles, $this->autoupgradeDir,
+            str_replace($this->prodRootDir, '', $this->adminDir), $this->prodRootDir);
+
+        return $this->filesystemAdapter;
     }
 
     public function getModuleAdapter()
