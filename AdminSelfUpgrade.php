@@ -1651,7 +1651,7 @@ class AdminSelfUpgrade extends AdminSelfTab
             // also add files to remove
             $list_files_to_upgrade = array_merge($list_files_diff, $list_files_to_upgrade);
 
-            $filesToMoveToTheEnd = array(
+            $filesToMoveToTheBeginning = array(
                 DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'autoload.php',
                 DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'composer'.DIRECTORY_SEPARATOR.'ClassLoader.php',
                 DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'composer'.DIRECTORY_SEPARATOR.'autoload_classmap.php',
@@ -1663,10 +1663,10 @@ class AdminSelfUpgrade extends AdminSelfTab
                 DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'composer'.DIRECTORY_SEPARATOR.'include_paths.php',
             );
 
-            foreach ($filesToMoveToTheEnd as $file) {
+            foreach ($filesToMoveToTheBeginning as $file) {
                 if ($key = array_search($file, $list_files_to_upgrade)) {
-                  $list_files_to_upgrade[] = $list_files_to_upgrade[$key];
-                  unset($list_files_to_upgrade[$key]);
+                    unset($list_files_to_upgrade[$key]);
+                    $list_files_to_upgrade = array_merge(array($file), $list_files_to_upgrade);
                 }
             }
 
