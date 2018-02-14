@@ -24,6 +24,8 @@
  *  International Registered Trademark & Property of PrestaShop SA
  */
 
+use PrestaShop\Module\AutoUpgrade\Tools14;
+
 if (function_exists('date_default_timezone_set'))
 {
 	// date_default_timezone_get calls date_default_timezone_set, which can provide warning

@@ -26,7 +26,7 @@
 
 use PrestaShop\Module\AutoUpgrade\Tools14;
 
-require_once(realpath(dirname(__FILE__).'/../../modules/ajax-upgradetabconfig.php'));
+require_once(realpath(dirname(__FILE__).'/../../modules/autoupgrade').'/ajax-upgradetabconfig.php');
 
 $adminObj = new AdminSelfUpgrade();
 
