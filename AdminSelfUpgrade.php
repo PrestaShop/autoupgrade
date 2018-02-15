@@ -657,8 +657,8 @@ class AdminSelfUpgrade extends AdminSelfTab
             $this->cleanTmpFiles();
         } else {
             foreach ($this->ajaxParams as $prop) {
-                if (property_exists($this, $prop)) {
-                    $this->{$prop} = isset($this->currentParams[$prop])?$this->currentParams[$prop]:'';
+                if (property_exists($this, $prop) && isset($this->currentParams[$prop])) {
+                    $this->{$prop} = $this->currentParams[$prop];
                 }
             }
         }
