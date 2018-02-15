@@ -33,43 +33,51 @@ if (function_exists('date_default_timezone_set'))
 	date_default_timezone_set($timezone);
 }
 
-define('_PS_ADMIN_DIR_', realpath(__DIR__.'/../'));
-require_once(realpath(dirname(__FILE__).'/../../config/config.inc.php'));
+/**
+ * Set constants & general values used by the autoupgrade
+ *
+ * @param string $callerFilePath Path to the caller file. Needed as the two files are not in the same folder
+ */
+function autoupgrade_ajax_init($callerFilePath)
+{
+    define('_PS_ADMIN_DIR_', realpath($callerFilePath.'/../'));
+    require_once(realpath($callerFilePath.'/../../config/config.inc.php'));
 
-if (!defined('_PS_MODULE_DIR_'))
-	define('_PS_MODULE_DIR_', realpath(dirname(__FILE__).'/../../').'/modules/');
+    if (!defined('_PS_MODULE_DIR_'))
+        define('_PS_MODULE_DIR_', realpath($callerFilePath.'/../../').'/modules/');
 
-define('AUTOUPGRADE_MODULE_DIR', _PS_MODULE_DIR_.'autoupgrade/');
-require_once(AUTOUPGRADE_MODULE_DIR.'functions.php');
+    define('AUTOUPGRADE_MODULE_DIR', _PS_MODULE_DIR_.'autoupgrade/');
+    require_once(AUTOUPGRADE_MODULE_DIR.'functions.php');
 
-// the following test confirm the directory exists
-if (!isset($_POST['dir']))
-	die('no directory');
+    // the following test confirm the directory exists
+    if (!isset($_POST['dir']))
+        die('no directory');
 
-// defines.inc.php can not exists (1.3.0.1 for example)
-// but we need _PS_ROOT_DIR_
-if (!defined('_PS_ROOT_DIR_'))
-	define('_PS_ROOT_DIR_', realpath(dirname(__FILE__).'/../../'));
+    // defines.inc.php can not exists (1.3.0.1 for example)
+    // but we need _PS_ROOT_DIR_
+    if (!defined('_PS_ROOT_DIR_'))
+        define('_PS_ROOT_DIR_', realpath($callerFilePath.'/../../'));
 
-require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/classes/Tools14.php');
-if (!class_exists('Tools', false))
-	eval('class Tools extends Tools14{}');
+    require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/classes/Tools14.php');
+    if (!class_exists('Tools', false))
+        eval('class Tools extends Tools14{}');
 
-$dir = Tools14::safeOutput(Tools14::getValue('dir'));
+    $dir = Tools14::safeOutput(Tools14::getValue('dir'));
 
-if (realpath(dirname(__FILE__).'/../../').DIRECTORY_SEPARATOR.$dir!== realpath(realpath(dirname(__FILE__).'/../../').DIRECTORY_SEPARATOR.$dir))
-	die('wrong directory :'.(isset($_POST['dir']) ? $dir : ''));
+    if (realpath($callerFilePath.'/../../').DIRECTORY_SEPARATOR.$dir!== realpath(realpath($callerFilePath.'/../../').DIRECTORY_SEPARATOR.$dir))
+        die('wrong directory :'.(isset($_POST['dir']) ? $dir : ''));
 
-if (!defined('_MYSQL_ENGINE_'))
-	define('_MYSQL_ENGINE_', 'MyISAM');
+    if (!defined('_MYSQL_ENGINE_'))
+        define('_MYSQL_ENGINE_', 'MyISAM');
 
-if (!defined('_PS_TOOL_DIR_'))
-	define('_PS_TOOL_DIR_', _PS_ROOT_DIR_.'/tools/');
+    if (!defined('_PS_TOOL_DIR_'))
+        define('_PS_TOOL_DIR_', _PS_ROOT_DIR_.'/tools/');
 
-//require(_PS_ADMIN_DIR_.'/functions.php');
-include(AUTOUPGRADE_MODULE_DIR.'AdminSelfUpgrade.php');
+    //require(_PS_ADMIN_DIR_.'/functions.php');
+    include(AUTOUPGRADE_MODULE_DIR.'AdminSelfUpgrade.php');
 
-$_GET['ajax'] = '1';
+    $_GET['ajax'] = '1';
 
-// TODO: create error handler for logs, preventing the json response to be altered
-ini_set('display_errors', 'off');
+    // TODO: create error handler for logs, preventing the json response to be altered
+    ini_set('display_errors', 'off');
+}
