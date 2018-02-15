@@ -3176,8 +3176,8 @@ class AdminSelfUpgrade extends ModuleAdminController
                         $upgrader->checkPSVersion(false, array('minor'));
                     }
                 }
-                $this->state->setInstallVersion($upgrader->version_num);
         }
+        $this->state->setInstallVersion($upgrader->version_num);
         $this->upgrader = $upgrader;
         return $this->upgrader;
     }
