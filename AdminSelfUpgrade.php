@@ -83,23 +83,6 @@ class AdminSelfUpgrade extends ModuleAdminController
     public $nextQuickInfo = array();
     public $nextErrors = array();
     public $currentParams = array();
-    /**
-     * @var array theses values will be automatically added in "nextParams"
-     * if their properties exists
-     */
-    public $ajaxParams = array(
-        // autoupgrade options
-        'install_version',
-        'backupName',
-        'backupFilesFilename',
-        'backupDbFilename',
-        'restoreName',
-        'restoreFilesFilename',
-        'restoreDbFilenames',
-        'installedLanguagesIso',
-        'modules_addons',
-        'warning_exists',
-    );
 
     /**
      * Initialized in initPath()
@@ -142,29 +125,6 @@ class AdminSelfUpgrade extends ModuleAdminController
     'OrderReturnState', 'OrderSlip', 'OrderState', 'PDF', 'RangePrice', 'RangeWeight', 'StockMvt',
     'StockMvtReason', 'SubDomain', 'Shop', 'Tax', 'TaxRule', 'TaxRulesGroup', 'WebserviceKey', 'WebserviceRequest', '');
 
-    public $install_version;
-    private $backupName = null;
-    private $backupFilesFilename = null;
-    private $backupDbFilename = null;
-    private $restoreName = null;
-    private $restoreFilesFilename = null;
-    private $restoreDbFilenames = array();
-    /**
-     * installedLanguagesIso is an array of iso_code of each installed languages
-     *
-     * @var array
-     * @access public
-     */
-    public $installedLanguagesIso = array();
-    /**
-     * modules_addons is an array of array(id_addons => name_module).
-     *
-     * @var array
-     * @access public
-     */
-    public $modules_addons = array();
-    public $warning_exists = false;
-
     public static $loopBackupFiles = 400;
     public static $maxBackupFileSize = 15728640; // 15 Mo
     public static $loopBackupDbTime = 6;
@@ -198,7 +158,7 @@ class AdminSelfUpgrade extends ModuleAdminController
     /////////////////////////////////////////////////
     // CLASS INSTANCES
     /////////////////////////////////////////////////
-    
+
     /**
      * @var PrestashopConfiguration
      */
@@ -245,7 +205,7 @@ class AdminSelfUpgrade extends ModuleAdminController
     private $fileConfigurationStorage;
 
     /////////////////////////////////////////////////
-    // END OF CLASS INSTANCES 
+    // END OF CLASS INSTANCES
     /////////////////////////////////////////////////
 
 
@@ -467,34 +427,29 @@ class AdminSelfUpgrade extends ModuleAdminController
             $xml_local = $this->prodRootDir.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'xml'.DIRECTORY_SEPARATOR.'modules_native_addons.xml';
             $xml = $upgrader->getApiAddons($xml_local, $postData, true);
 
-            ////
+            $modules_addons = array();
             if (is_object($xml)) {
                 foreach ($xml as $mod) {
-                    $this->modules_addons[(string)$mod->id] = (string)$mod->name;
+                    $modules_addons[(string)$mod->id] = (string)$mod->name;
                 }
             }
-            $this->state->setModulesAddons($this->modules_addons);
-            ////
+            $this->state->setModulesAddons($modules_addons);
 
-            ////
             // installedLanguagesIso is used to merge translations files
-            foreach (Language::getIsoIds(false) as $v) {
-                $this->installedLanguagesIso[] = $v['iso_code'];
-            }
-            $this->state->setInstalledLanguagesIso($this->installedLanguagesIso);
-            ////
+            $installedLanguagesIso = array_map(
+                function($v) { return $v['iso_code']; },
+                Language::getIsoIds(false)
+            );
+            $this->state->setInstalledLanguagesIso($installedLanguagesIso);
 
             $rand = dechex(mt_rand(0, min(0xffffffff, mt_getrandmax())));
             $date = date('Ymd-His');
-            ////
-            $this->backupName = 'V'._PS_VERSION_.'_'.$date.'-'.$rand;
-            $this->backupFilesFilename = 'auto-backupfiles_'.$this->backupName.'.zip';
-            $this->backupDbFilename = 'auto-backupdb_XXXXXX_'.$this->backupName.'.sql';
+            $backupName = 'V'._PS_VERSION_.'_'.$date.'-'.$rand;
             // Todo: To be moved in state class? We could only require the backup name here
-            $this->state->setBackupName('V'._PS_VERSION_.'_'.$date.'-'.$rand)
-                ->setBackupFilesFilename('auto-backupfiles_'.$this->backupName.'.zip')
-                ->setBackupDbFilename('auto-backupdb_XXXXXX_'.$this->backupName.'.sql');
-            ////
+            // I.e = $this->state->setBackupName($backupName);, which triggers 2 other setters internally
+            $this->state->setBackupName($backupName)
+                ->setBackupFilesFilename('auto-backupfiles_'.$backupName.'.zip')
+                ->setBackupDbFilename('auto-backupdb_XXXXXX_'.$backupName.'.sql');
             // removing temporary files
             $this->getFileConfigurationStorage()->cleanAll();
         }
@@ -601,7 +556,7 @@ class AdminSelfUpgrade extends ModuleAdminController
                 $this->_errors[] = $this->trans('Unable to create file %s', array($this->backupPath.DIRECTORY_SEPARATOR.'index.php'), 'Modules.Autoupgrade.Admin');
             }
         }
-        
+
         $tmp = "order deny,allow\ndeny from all";
         if (!file_exists($this->backupPath.DIRECTORY_SEPARATOR.'.htaccess')) {
             if (!file_put_contents($this->backupPath.DIRECTORY_SEPARATOR.'.htaccess', $tmp)) {
@@ -709,11 +664,10 @@ class AdminSelfUpgrade extends ModuleAdminController
      */
     public function ajaxProcessUpgradeComplete()
     {
-        if (!$this->warning_exists) {
-            $this->next_desc = $this->trans('Upgrade process done. Congratulations! You can now reactivate your shop.', array(), 'Modules.Autoupgrade.Admin');
-        } else {
-            $this->next_desc = $this->trans('Upgrade process done, but some warnings have been found.', array(), 'Modules.Autoupgrade.Admin');
-        }
+        $this->next_desc = $this->state->getWarningExists() ?
+            $this->trans('Upgrade process done, but some warnings have been found.', array(), 'Modules.Autoupgrade.Admin') :
+            $this->trans('Upgrade process done. Congratulations! You can now reactivate your shop.', array(), 'Modules.Autoupgrade.Admin');
+
         $this->next = '';
 
         if ($this->upgradeConfiguration->get('channel') != 'archive' && file_exists($this->getFilePath()) && unlink($this->getFilePath())) {
@@ -743,10 +697,7 @@ class AdminSelfUpgrade extends ModuleAdminController
             $this->upgrader->channel = $config['channel'];
             $this->upgrader->checkPSVersion();
 
-            ////
-            $this->install_version = $this->upgrader->version_num;
             $this->state->setInstallVersion($this->upgrader->version_num);
-            ////
         }
 
         $this->upgradeConfiguration->merge($config);
@@ -1022,7 +973,7 @@ class AdminSelfUpgrade extends ModuleAdminController
             $this->error = true;
             return false;
         }
-        
+
         $res = $this->getZipAction()->extract($filepath, $destExtract);
         $this->nextQuickInfo = array_merge($this->nextQuickInfo, $this->getZipAction()->getLogs());
 
@@ -1293,10 +1244,7 @@ class AdminSelfUpgrade extends ModuleAdminController
 
         if (!is_array($listModules)) {
             $this->next = 'upgradeComplete';
-            ////
-            $this->warning_exists = true;
             $this->state->setWarningExists(true);
-            ////
             $this->next_desc = $this->trans('upgradeModule step has not ended correctly.', array(), 'Modules.Autoupgrade.Admin');
             $this->nextQuickInfo[] = $this->trans('listModules is not an array. No module has been updated.', array(), 'Modules.Autoupgrade.Admin');
             $this->nextErrors[] = $this->trans('listModules is not an array. No module has been updated.', array(), 'Modules.Autoupgrade.Admin');
@@ -1351,7 +1299,7 @@ class AdminSelfUpgrade extends ModuleAdminController
                             'The %modulename% module is not compatible with version %version%, it will be removed from your FTP.',
                             array(
                                 '%modulename%' => $module,
-                                '%version%' => $this->install_version,
+                                '%version%' => $this->state->getInstallVersion(),
                             ),
                             'Modules.Autoupgrade.Admin'
                         );
@@ -1360,7 +1308,7 @@ class AdminSelfUpgrade extends ModuleAdminController
                             'The %modulename% module is not compatible with version %version%, please remove it from your FTP.',
                             array(
                                 '%modulename%' => $module,
-                                '%version%' => $this->install_version,
+                                '%version%' => $this->state->getInstallVersion(),
                             ),
                             'Modules.Autoupgrade.Admin'
                         );
@@ -1455,7 +1403,7 @@ class AdminSelfUpgrade extends ModuleAdminController
         }
         $_SERVER['REQUEST_URI'] = str_replace('//', '/', $_SERVER['REQUEST_URI']);
 
-        define('INSTALL_VERSION', $this->install_version);
+        define('INSTALL_VERSION', $this->state->getInstallVersion());
         // 1.4
         define('INSTALL_PATH', realpath($this->latestRootDir.DIRECTORY_SEPARATOR.'install'));
         // 1.5 ...
@@ -2106,10 +2054,7 @@ class AdminSelfUpgrade extends ModuleAdminController
         $this->db->execute('UPDATE `'._DB_PREFIX_.'configuration` SET value="'.INSTALL_VERSION.'" WHERE name = "PS_VERSION_DB"', false);
 
         if ($warningExist) {
-            ////
-            $this->warning_exists = 1;
             $this->state->setWarningExists(true);
-            ////
             $this->nextQuickInfo[] = $this->trans('Warning detected during upgrade.', array(), 'Modules.Autoupgrade.Admin');
             $this->nextErrors[] = $this->trans('Warning detected during upgrade.', array(), 'Modules.Autoupgrade.Admin');
             $this->next_desc = $this->trans('Warning detected during upgrade.', array(), 'Modules.Autoupgrade.Admin');
@@ -2206,36 +2151,37 @@ class AdminSelfUpgrade extends ModuleAdminController
     {
         // 1st, need to analyse what was wrong.
         $this->nextParams = $this->currentParams;
-        $this->restoreFilesFilename = $this->restoreName;
-        $this->state->setRestoreFilesFilename($this->restoreName);
-        if (!empty($this->restoreName)) {
+        $restoreName = $this->state->getRestoreName();
+        $this->state->setRestoreFilesFilename($restoreName);
+        $restoreDbFilenames = $this->state->getRestoreDbFilenames();
+
+        if (!empty($restoreName)) {
             $files = scandir($this->backupPath);
             // find backup filenames, and be sure they exists
             foreach ($files as $file) {
-                if (preg_match('#'.preg_quote('auto-backupfiles_'.$this->restoreName).'#', $file)) {
-                    $this->restoreFilesFilename = $file;
+                if (preg_match('#'.preg_quote('auto-backupfiles_'.$restoreName).'#', $file)) {
+                    $this->state->setRestoreFilesFilename($file);
                     break;
                 }
             }
-            if (!is_file($this->backupPath.DIRECTORY_SEPARATOR.$this->restoreFilesFilename)) {
+            if (!is_file($this->backupPath.DIRECTORY_SEPARATOR.$this->state->getRestoreFilesFilename())) {
                 $this->next = 'error';
-                $this->nextQuickInfo[] = $this->trans('[ERROR] file %s is missing : unable to restore files. Operation aborted.', array($this->restoreFilesFilename), 'Modules.Autoupgrade.Admin');
-                $this->nextErrors[] = $this->next_desc = $this->trans('[ERROR] File %s is missing: unable to restore files. Operation aborted.', array($this->restoreFilesFilename), 'Modules.Autoupgrade.Admin');
+                $this->nextQuickInfo[] = $this->trans('[ERROR] file %s is missing : unable to restore files. Operation aborted.', array($this->state->getRestoreFilesFilename()), 'Modules.Autoupgrade.Admin');
+                $this->nextErrors[] = $this->next_desc = $this->trans('[ERROR] File %s is missing: unable to restore files. Operation aborted.', array($this->state->getRestoreFilesFilename()), 'Modules.Autoupgrade.Admin');
                 return false;
             }
-            $files = scandir($this->backupPath.DIRECTORY_SEPARATOR.$this->restoreName);
+            $files = scandir($this->backupPath.DIRECTORY_SEPARATOR.$restoreName);
             foreach ($files as $file) {
-                if (preg_match('#auto-backupdb_[0-9]{6}_'.preg_quote($this->restoreName).'#', $file)) {
-                    $this->restoreDbFilenames[] = $file;
+                if (preg_match('#auto-backupdb_[0-9]{6}_'.preg_quote($restoreName).'#', $file)) {
+                    $restoreDbFilenames[] = $file;
                 }
             }
 
+
             // order files is important !
-            if (is_array($this->restoreDbFilenames)) {
-                sort($this->restoreDbFilenames);
-            }
-            $this->state->setRestoreDbFilenames($this->restoreDbFilenames);
-            if (count($this->restoreDbFilenames) == 0) {
+            sort($restoreDbFilenames);
+            $this->state->setRestoreDbFilenames($restoreDbFilenames);
+            if (count($restoreDbFilenames) == 0) {
                 $this->next = 'error';
                 $this->nextQuickInfo[] = $this->trans('[ERROR] No backup database files found: it would be impossible to restore the database. Operation aborted.', array(), 'Modules.Autoupgrade.Admin');
                 $this->nextErrors[] = $this->next_desc = $this->trans('[ERROR] No backup database files found: it would be impossible to restore the database. Operation aborted.', array(), 'Modules.Autoupgrade.Admin');
@@ -2275,7 +2221,7 @@ class AdminSelfUpgrade extends ModuleAdminController
         if (!file_exists($this->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFiles::fromArchiveFileList)
             || !file_exists($this->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFiles::toRemoveFileList)) {
             // cleanup current PS tree
-            $fromArchive = $this->getZipAction()->listContent($this->backupPath.DIRECTORY_SEPARATOR.$this->restoreFilesFilename);
+            $fromArchive = $this->getZipAction()->listContent($this->backupPath.DIRECTORY_SEPARATOR.$this->state->getRestoreFilesFilename());
             foreach ($fromArchive as $k => $v) {
                 $fromArchive[DIRECTORY_SEPARATOR.$v] = DIRECTORY_SEPARATOR.$v;
             }
@@ -2316,7 +2262,7 @@ class AdminSelfUpgrade extends ModuleAdminController
         }
 
         if (!empty($fromArchive)) {
-            $filepath = $this->backupPath.DIRECTORY_SEPARATOR.$this->restoreFilesFilename;
+            $filepath = $this->backupPath.DIRECTORY_SEPARATOR.$this->state->getRestoreFilesFilename();
             $destExtract = $this->prodRootDir;
 
             $res = $this->getZipAction()->extract($filepath, $destExtract);
@@ -2333,7 +2279,7 @@ class AdminSelfUpgrade extends ModuleAdminController
                 );
                 return false;
             }
-            
+
             if (!empty($toRemoveOnly)) {
                 foreach ($toRemoveOnly as $fileToRemove) {
                     @unlink($this->prodRootDir . $fileToRemove);
@@ -2381,8 +2327,10 @@ class AdminSelfUpgrade extends ModuleAdminController
         }
 
         // deal with the next files stored in restoreDbFilenames
-        if (empty($listQuery) && is_array($this->restoreDbFilenames) && count($this->restoreDbFilenames) > 0) {
-            $currentDbFilename = array_shift($this->restoreDbFilenames);
+        $restoreDbFilenames = $this->state->getRestoreDbFilenames();
+        if (empty($listQuery) && count($restoreDbFilenames) > 0) {
+            $currentDbFilename = array_shift($restoreDbFilenames);
+            $this->state->setRestoreDbFilenames($restoreDbFilenames);
             if (!preg_match('#auto-backupdb_([0-9]{6})_#', $currentDbFilename, $match)) {
                 $this->next = 'error';
                 $this->error = 1;
@@ -2390,7 +2338,7 @@ class AdminSelfUpgrade extends ModuleAdminController
                 return false;
             }
             $this->nextParams['dbStep'] = $match[1];
-            $backupdb_path = $this->backupPath.DIRECTORY_SEPARATOR.$this->restoreName;
+            $backupdb_path = $this->backupPath.DIRECTORY_SEPARATOR.$this->state->getRestoreName();
 
             $dot_pos = strrpos($currentDbFilename, '.');
             $fileext = substr($currentDbFilename, $dot_pos+1);
@@ -2481,12 +2429,13 @@ class AdminSelfUpgrade extends ModuleAdminController
                         unlink($this->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFiles::toRestoreQueryList);
                     }
 
-                    if (count($this->restoreDbFilenames)) {
+                    $restoreDbFilenamesCount = count($this->state->getRestoreDbFilenames());
+                    if ($restoreDbFilenamesCount) {
                         $this->next_desc = $this->trans(
                             'Database restoration file %filename% done. %filescount% file(s) left...',
                             array(
                                 '%filename%' => $this->nextParams['dbStep'],
-                                '%filescount%' => count($this->restoreDbFilenames),
+                                '%filescount%' => $restoreDbFilenamesCount,
                             ),
                             'Modules.Autoupgrade.Admin'
                         );
@@ -2499,7 +2448,7 @@ class AdminSelfUpgrade extends ModuleAdminController
                     $this->status = 'ok';
                     $this->next = 'restoreDb';
 
-                    if (count($this->restoreDbFilenames) == 0) {
+                    if ($restoreDbFilenamesCount === 0) {
                         $this->next = 'rollbackComplete';
                         $this->nextQuickInfo[] = $this->next_desc = $this->trans('Database has been restored.', array(), 'Modules.Autoupgrade.Admin');
 
@@ -2612,8 +2561,8 @@ class AdminSelfUpgrade extends ModuleAdminController
 
         // INIT LOOP
         if (!file_exists($this->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFiles::toBackupDbList)) {
-            if (!is_dir($this->backupPath.DIRECTORY_SEPARATOR.$this->backupName)) {
-                mkdir($this->backupPath.DIRECTORY_SEPARATOR.$this->backupName);
+            if (!is_dir($this->backupPath.DIRECTORY_SEPARATOR.$this->state->getBackupName())) {
+                mkdir($this->backupPath.DIRECTORY_SEPARATOR.$this->state->getBackupName());
             }
             $this->nextParams['dbStep'] = 0;
             $tablesToBackup = $this->db->executeS('SHOW TABLES LIKE "'._DB_PREFIX_.'%"', true, false);
@@ -2649,7 +2598,7 @@ class AdminSelfUpgrade extends ModuleAdminController
                 if (isset($fp)) {
                     fclose($fp);
                 }
-                $backupfile = $this->backupPath.DIRECTORY_SEPARATOR.$this->backupName.DIRECTORY_SEPARATOR.$this->backupDbFilename;
+                $backupfile = $this->backupPath.DIRECTORY_SEPARATOR.$this->state->getBackupName().DIRECTORY_SEPARATOR.$this->state->getBackupDbFilename();
                 $backupfile = preg_replace("#_XXXXXX_#", '_'.str_pad($this->nextParams['dbStep'], 6, '0', STR_PAD_LEFT).'_', $backupfile);
 
                 // start init file
@@ -2837,7 +2786,7 @@ class AdminSelfUpgrade extends ModuleAdminController
             // reset dbStep at the end of this step
             $this->nextParams['dbStep'] = 0;
 
-            $this->next_desc = $this->trans('Database backup done in filename %s. Now upgrading files...', array($this->backupName), 'Modules.Autoupgrade.Admin');
+            $this->next_desc = $this->trans('Database backup done in filename %s. Now upgrading files...', array($this->state->getBackupName()), 'Modules.Autoupgrade.Admin');
             $this->next = 'upgradeFiles';
             return true;
         }
@@ -2854,7 +2803,8 @@ class AdminSelfUpgrade extends ModuleAdminController
 
         $this->nextParams = $this->currentParams;
         $this->stepDone = false;
-        if (empty($this->backupFilesFilename)) {
+        $backupFilesFilename = $this->state->getBackupFilesFilename();
+        if (empty($backupFilesFilename)) {
             $this->next = 'error';
             $this->error = 1;
             $this->next_desc = $this->trans('Error during backupFiles', array(), 'Modules.Autoupgrade.Admin');
@@ -2874,11 +2824,11 @@ class AdminSelfUpgrade extends ModuleAdminController
             $this->nextParams['filesForBackup'] = UpgradeFiles::toBackupFileList;
 
             // delete old backup, create new
-            if (!empty($this->backupFilesFilename) && file_exists($this->backupPath.DIRECTORY_SEPARATOR.$this->backupFilesFilename)) {
-                unlink($this->backupPath.DIRECTORY_SEPARATOR.$this->backupFilesFilename);
+            if (!empty($backupFilesFilename) && file_exists($this->backupPath.DIRECTORY_SEPARATOR.$backupFilesFilename)) {
+                unlink($this->backupPath.DIRECTORY_SEPARATOR.$backupFilesFilename);
             }
 
-            $this->nextQuickInfo[]    = $this->trans('Backup files initialized in %s', array($this->backupFilesFilename), 'Modules.Autoupgrade.Admin');
+            $this->nextQuickInfo[]    = $this->trans('Backup files initialized in %s', array($backupFilesFilename), 'Modules.Autoupgrade.Admin');
         }
         $filesToBackup = $this->getFileConfigurationStorage()->load(UpgradeFiles::toBackupFileList);
 
@@ -2887,7 +2837,7 @@ class AdminSelfUpgrade extends ModuleAdminController
             $this->next_desc = $this->trans('Backup files in progress. %d files left', array(count($filesToBackup)), 'Modules.Autoupgrade.Admin');
 
             $this->stepDone = false;
-            $res = $this->getZipAction()->compress($filesToBackup, $this->backupPath.DIRECTORY_SEPARATOR.$this->backupFilesFilename);
+            $res = $this->getZipAction()->compress($filesToBackup, $this->backupPath.DIRECTORY_SEPARATOR.$backupFilesFilename);
             $this->nextQuickInfo += $this->getZipAction()->getLogs();
             if (!$res) {
                 $this->next = 'error';
@@ -2960,7 +2910,7 @@ class AdminSelfUpgrade extends ModuleAdminController
                 );
                 return false;
             }
-            
+
             if (count($this->nextParams['removeList'])) {
                 $this->nextQuickInfo[] = $this->trans(
                     '%itemname% items removed. %itemscount% items left.',
@@ -3130,12 +3080,11 @@ class AdminSelfUpgrade extends ModuleAdminController
         $availableBackups = $backupFinder->getAvailableBackups();
         if (!$this->upgradeConfiguration->get('PS_AUTOUP_BACKUP')
             && !empty($availableBackups)
-            && !in_array($this->backupName, $availableBackups)
+            && !in_array($this->state->getBackupName(), $availableBackups)
         ) {
-            $this->backupName = end($availableBackups);
             $this->state->setBackupName(end($availableBackups));
         }
-        
+
         $upgrader = $this->getUpgrader();
         $upgradeSelfCheck = new UpgradeSelfCheck(
             $upgrader,
@@ -3155,14 +3104,14 @@ class AdminSelfUpgrade extends ModuleAdminController
             $this->adminDir,
             self::$currentIndex,
             $this->token,
-            $this->install_version,
+            $this->state->getInstallVersion(),
             $this->manualMode,
-            $this->backupName,
+            $this->state->getBackupName(),
             $this->downloadPath
         ))->display(
             $this->buildAjaxResult()
         );
-        
+
         $this->ajax = true;
         $this->content = $this->_html;
         return parent::display();
@@ -3182,7 +3131,7 @@ class AdminSelfUpgrade extends ModuleAdminController
         if (!is_null($this->fileConfigurationStorage)) {
             return $this->fileConfigurationStorage;
         }
-        
+
         $this->fileConfigurationStorage = new FileConfigurationStorage($this->autoupgradePath.DIRECTORY_SEPARATOR);
         return $this->fileConfigurationStorage;
     }
@@ -3227,10 +3176,7 @@ class AdminSelfUpgrade extends ModuleAdminController
                         $upgrader->checkPSVersion(false, array('minor'));
                     }
                 }
-                ////
-                $this->install_version = $upgrader->version_num;
                 $this->state->setInstallVersion($upgrader->version_num);
-                ////
         }
         $this->upgrader = $upgrader;
         return $this->upgrader;
@@ -3245,7 +3191,7 @@ class AdminSelfUpgrade extends ModuleAdminController
         $this->filesystemAdapter = new FilesystemAdapter(
             $this->backupIgnoreAbsoluteFiles, $this->backupIgnoreFiles,
             $this->excludeAbsoluteFilesFromUpgrade, $this->excludeFilesFromUpgrade,
-            $this->restoreFilesFilename, $this->restoreIgnoreAbsoluteFiles,
+            $this->state->getRestoreFilesFilename(), $this->restoreIgnoreAbsoluteFiles,
             $this->restoreIgnoreFiles, $this->autoupgradeDir,
             str_replace($this->prodRootDir, '', $this->adminDir), $this->prodRootDir);
 
