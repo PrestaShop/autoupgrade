@@ -1056,10 +1056,8 @@ class AdminSelfUpgrade extends AdminController
             }
             $list[] = str_replace($this->latestRootDir, '', $fullPath);
             // if is_dir, we will create it :)
-            if (is_dir($fullPath)) {
-                if (strpos($dir.DIRECTORY_SEPARATOR.$file, 'install') === false) {
-                    $this->_listFilesToUpgrade($fullPath);
-                }
+            if (is_dir($fullPath) && strpos($dir.DIRECTORY_SEPARATOR.$file, 'install') === false) {
+                $list = array_merge($list, $this->_listFilesToUpgrade($fullPath));
             }
         }
         return $list;
