@@ -1171,17 +1171,16 @@ class AdminSelfUpgrade extends AdminController
             $file = array_shift($filesToUpgrade);
             if (!$this->upgradeThisFile($file)) {
                 // put the file back to the begin of the list
-                $totalFiles = array_unshift($filesToUpgrade, $file);
                 $this->next = 'error';
-                $this->nextQuickInfo[] = $this->trans('Error when trying to upgrade file %s.', array($file), 'Modules.Autoupgrade.Admin');
+                $this->nextQuickInfo[] = 
                 $this->nextErrors[] = $this->trans('Error when trying to upgrade file %s.', array($file), 'Modules.Autoupgrade.Admin');
                 break;
             }
         }
         $this->getFileConfigurationStorage()->save($filesToUpgrade, $this->nextParams['filesToUpgrade']);
         if (count($filesToUpgrade) > 0) {
-            $this->next_desc = $this->trans('%s files left to upgrade.', array(count($filesToUpgrade)), 'Modules.Autoupgrade.Admin');
-            $this->nextQuickInfo[] = $this->trans('%s files left to upgrade.', array((isset($file)?$file:''), count($filesToUpgrade)), 'Modules.Autoupgrade.Admin');
+            $this->next_desc =
+            $this->nextQuickInfo[] = $this->trans('%s files left to upgrade.', array(count($filesToUpgrade)), 'Modules.Autoupgrade.Admin');
             $this->stepDone = false;
             @unlink(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR. 'app'.DIRECTORY_SEPARATOR.'cache'.DIRECTORY_SEPARATOR.'dev'.DIRECTORY_SEPARATOR.'class_index.php');
             @unlink(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR. 'app'.DIRECTORY_SEPARATOR.'cache'.DIRECTORY_SEPARATOR.'prod'.DIRECTORY_SEPARATOR.'class_index.php');
