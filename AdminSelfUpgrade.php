@@ -52,7 +52,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 require __DIR__.'/vendor/autoload.php';
 
-class AdminSelfUpgrade extends ModuleAdminController
+class AdminSelfUpgrade extends AdminController
 {
     public $multishop_context;
     public $multishop_context_group = false;
@@ -1256,7 +1256,7 @@ class AdminSelfUpgrade extends ModuleAdminController
                 $module_info = array_shift($listModules);
                 try {
                     $this->getModuleAdapter()->upgradeModule($module_info['id'], $module_info['name']);
-                    $this->nextQuickInfo[] = $this->trans('The files of module %s have been upgraded.', array($name), 'Modules.Autoupgrade.Admin');
+                    $this->nextQuickInfo[] = $this->trans('The files of module %s have been upgraded.', array($module_info['name']), 'Modules.Autoupgrade.Admin');
                 } catch (UpgradeException $e) {
                     $this->handleException($e);
                 }
@@ -1264,7 +1264,7 @@ class AdminSelfUpgrade extends ModuleAdminController
             } while (($time_elapsed < self::$loopUpgradeModulesTime) && count($listModules) > 0);
 
             $modules_left = count($listModules);
-            $this->getFileConfigurationStorage()->save($listModules, $this->toUpgradeModuleList);
+            $this->getFileConfigurationStorage()->save($listModules, UpgradeFiles::toUpgradeModuleList);
             unset($listModules);
 
             $this->next = 'upgradeModules';
@@ -2020,7 +2020,7 @@ class AdminSelfUpgrade extends ModuleAdminController
         }
 
         $themeName = ($this->changeToDefaultTheme ? 'classic' : _THEME_NAME_);
-        $themeErrors = (new ThemeAdapter())->enableTheme($themeName);
+        $themeErrors = (new ThemeAdapter($this->db))->enableTheme($themeName);
 
         if ($themeErrors !== true) {
             $this->nextQuickInfo[] = $themeErrors;
@@ -3207,7 +3207,8 @@ class AdminSelfUpgrade extends ModuleAdminController
             $this->getTranslator(),
             $this->prodRootDir.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR,
             $this->tmpPath,
-            $this->state->getInstallVersion());
+            $this->state->getInstallVersion(),
+            $this->getZipAction());
 
         return $this->moduleAdapter;
     }

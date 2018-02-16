@@ -26,9 +26,9 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
+use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
-
-use Db;
+use PrestaShop\Module\AutoUpgrade\ZipAction;
 
 class ModuleAdapter
 {
@@ -38,17 +38,22 @@ class ModuleAdapter
     private $upgradeVersion;
     private $modulesPath;
     private $tempPath;
+    /**
+     * @var ZipAction
+     */
+    private $zipAction;
 
     // Cached instance
     private $moduleDataUpdater = null;
 
-    public function __construct($db, $translator, $modulesPath, $tempPath, $upgradeVersion)
+    public function __construct($db, $translator, $modulesPath, $tempPath, $upgradeVersion, ZipAction $zipAction)
     {
         $this->db = $db;
         $this->translator = $translator;
         $this->modulesPath = $modulesPath;
         $this->tempPath = $tempPath;
         $this->upgradeVersion = $upgradeVersion;
+        $this->zipAction = $zipAction;
     }
 
     /**
@@ -65,7 +70,7 @@ class ModuleAdapter
 
             if (is_null($kernel)) {
                 require_once _PS_ROOT_DIR_.'/app/AppKernel.php';
-                $kernel = new AppKernel(_PS_MODE_DEV_?'dev':'prod', _PS_MODE_DEV_);
+                $kernel = new \AppKernel(_PS_MODE_DEV_?'dev':'prod', _PS_MODE_DEV_);
                 $kernel->loadClassCache();
                 $kernel->boot();
             }
@@ -206,7 +211,7 @@ class ModuleAdapter
                 unlink($zip_fullpath);
             }
             // unzip in modules/[mod name] old files will be conserved
-            if (!$this->ZipExtract($zip_fullpath, $this->modulesPath)) {
+            if (!$this->zipAction->extract($zip_fullpath, $this->modulesPath)) {
                 throw (new UpgradeException())
                     ->setQuickInfos('<strong>'.$this->translator->trans('[WARNING] Error when trying to upgrade module %s.', array($name), 'Modules.Autoupgrade.Admin').'</strong>')
                     ->setSeverity(UpgradeException::SEVERITY_WARNING);

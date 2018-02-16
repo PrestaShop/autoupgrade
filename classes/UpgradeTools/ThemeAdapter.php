@@ -28,6 +28,13 @@ namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
 class ThemeAdapter
 {
+    private $db;
+
+    public function __construct($db)
+    {
+        $this->db = $db;
+    }
+
     /**
      * Use 1.7 theme manager is order to enable the new theme
      * 
@@ -44,5 +51,13 @@ class ThemeAdapter
             return $errors ? $errors : 'Unknown error';
         }
         return true;
+    }
+
+    private function getThemeManager()
+    {
+        $id_employee = $_COOKIE['id_employee'];
+        $context = \Context::getContext();
+        $context->employee = new \Employee((int) $id_employee);
+        return (new \PrestaShop\PrestaShop\Core\Addon\Theme\ThemeManagerBuilder($context, $this->db))->build();
     }
 }

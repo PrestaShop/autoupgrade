@@ -36,10 +36,10 @@ class SymfonyAdapter
      */
     public function clearMigrationCache()
     {
-        Tools::clearCache();
-        Tools::clearXMLCache();
-        Media::clearCache();
-        Tools::generateIndex();
+        \Tools::clearCache();
+        \Tools::clearXMLCache();
+        \Media::clearCache();
+        \Tools::generateIndex();
 
         $sf2Refresh = new \PrestaShopBundle\Service\Cache\Refresh();
         $sf2Refresh->addCacheClear(_PS_MODE_DEV_ ? 'dev' : 'prod');
