@@ -64,7 +64,6 @@ class AdminSelfUpgrade extends ModuleAdminController
     public $id = -1;
 
     public $ajax = false;
-    public $nextResponseType = 'json'; // json, xml
     public $next = 'N/A';
 
     public $upgrader = null;
@@ -1167,7 +1166,6 @@ class AdminSelfUpgrade extends ModuleAdminController
                     unlink($this->nextParams['filesToUpgrade']);
                 }
                 $this->next_desc = $this->trans('All files upgraded. Now upgrading database...', array(), 'Modules.Autoupgrade.Admin');
-                $this->nextResponseType = 'json';
                 $this->stepDone = true;
                 break;
             }
