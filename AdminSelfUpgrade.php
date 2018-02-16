@@ -581,7 +581,7 @@ class AdminSelfUpgrade extends AdminController
         // set default configuration to default channel & dafault configuration for backup and upgrade
         // (can be modified in expert mode)
         $config = $this->upgradeConfiguration->get('channel');
-        if ($config === false) {
+        if ($config === null) {
             $config = array();
             $config['channel'] = Upgrader::DEFAULT_CHANNEL;
             $this->writeConfig($config);
