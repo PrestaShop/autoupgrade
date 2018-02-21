@@ -43,12 +43,32 @@ if (!$adminObj->checkToken()) {
 $adminObj->ajaxPreProcess();
 $action = Tools14::getValue('action');
 
-// Find and call ajaxProcessAction
-// Add exhaustive list
-if (!empty($action) && method_exists($adminObj, 'ajaxProcess'.$action) ) {
-    $adminObj->{'ajaxProcess'.$action}();
-} else {
-    $adminObj->ajaxProcess();
+switch ($action) {
+    // MISCELLANEOUS
+    case 'checkFilesVersion':
+        $controller = new PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous\CheckFilesVersion($adminObj);
+        break;
+    case 'compareReleases':
+        $controller = new PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous\CompareReleases($adminObj);
+        break;
+    case 'getChannelInfo':
+        $controller = new PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous\GetChannelInfo($adminObj);
+        break;
+    // UPGRADE
+    case 'upgradeNow':
+        $controller = new PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\UpgradeNow($adminObj);
+        break;
+    default:
+        $controller = null;
+        // For non transfered tasks
+        if (!empty($action) && method_exists($adminObj, 'ajaxProcess'.$action) ) {
+            error_log('ajaxProcess'.$action.' must be migrated!', 0);
+            $adminObj->{'ajaxProcess'.$action}();
+        }
+}
+
+if ($controller instanceof \PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask) {
+    $controller->run();
 }
 
 $adminObj->displayAjax();
