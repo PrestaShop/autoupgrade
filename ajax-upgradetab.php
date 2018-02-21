@@ -54,10 +54,17 @@ switch ($action) {
     case 'getChannelInfo':
         $controller = new PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous\GetChannelInfo($adminObj);
         break;
+    case 'updateConfig':
+        $controller = new \PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous\UpdateConfig($adminObj);
+        break;
+
+
     // UPGRADE
     case 'upgradeNow':
         $controller = new PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\UpgradeNow($adminObj);
         break;
+
+
     default:
         $controller = null;
         // For non transfered tasks
