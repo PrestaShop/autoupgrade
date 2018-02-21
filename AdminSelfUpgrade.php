@@ -703,65 +703,6 @@ class AdminSelfUpgrade extends AdminController
         $this->next_desc = $this->trans('Configuration successfully updated.', array(), 'Modules.Autoupgrade.Admin').' <strong>'.$this->trans('This page will now be reloaded and the module will check if a new version is available.', array(), 'Modules.Autoupgrade.Admin').'</strong>';
         return (new UpgradeConfigurationStorage($this->autoupgradePath.DIRECTORY_SEPARATOR))->save($this->upgradeConfiguration, UpgradeFiles::configFilename);
     }
-
-    /**
-     * update configuration after validating the new values
-     *
-     * @access public
-     */
-    public function ajaxProcessUpdateConfig()
-    {
-        $config = array();
-        // nothing next
-        $this->next = '';
-        // update channel
-        if (isset($this->currentParams['channel'])) {
-            $config['channel'] = $this->currentParams['channel'];
-        }
-        if (isset($this->currentParams['private_release_link']) && isset($this->currentParams['private_release_md5'])) {
-            $config['channel'] = 'private';
-            $config['private_release_link'] = $this->currentParams['private_release_link'];
-            $config['private_release_md5'] = $this->currentParams['private_release_md5'];
-            $config['private_allow_major'] = $this->currentParams['private_allow_major'];
-        }
-        // if (!empty($this->currentParams['archive_name']) && !empty($this->currentParams['archive_num']))
-        if (!empty($this->currentParams['archive_prestashop'])) {
-            $file = $this->currentParams['archive_prestashop'];
-            if (!file_exists($this->downloadPath.DIRECTORY_SEPARATOR.$file)) {
-                $this->error = 1;
-                $this->next_desc = $this->trans('File %s does not exist. Unable to select that channel.', array($file), 'Modules.Autoupgrade.Admin');
-                return false;
-            }
-            if (empty($this->currentParams['archive_num'])) {
-                $this->error = 1;
-                $this->next_desc = $this->trans('Version number is missing. Unable to select that channel.', array(), 'Modules.Autoupgrade.Admin');
-                return false;
-            }
-            $config['channel'] = 'archive';
-            $config['archive.filename'] = $this->currentParams['archive_prestashop'];
-            $config['archive.version_num'] = $this->currentParams['archive_num'];
-            // $config['archive_name'] = $this->currentParams['archive_name'];
-            $this->next_desc = $this->trans('Upgrade process will use archive.', array(), 'Modules.Autoupgrade.Admin');
-        }
-        if (isset($this->currentParams['directory_num'])) {
-            $config['channel'] = 'directory';
-            if (empty($this->currentParams['directory_num']) || strpos($this->currentParams['directory_num'], '.') === false) {
-                $this->error = 1;
-                $this->next_desc = $this->trans('Version number is missing. Unable to select that channel.', array(), 'Modules.Autoupgrade.Admin');
-                return false;
-            }
-
-            $config['directory.version_num'] = $this->currentParams['directory_num'];
-        }
-        if (isset($this->currentParams['skip_backup'])) {
-            $config['skip_backup'] = $this->currentParams['skip_backup'];
-        }
-
-        if (!$this->writeConfig($config)) {
-            $this->error = 1;
-            $this->next_desc = $this->trans('Error on saving configuration', array(), 'Modules.Autoupgrade.Admin');
-        }
-    }
     
     /**
      * extract chosen version into $this->latestPath directory
@@ -2753,69 +2694,70 @@ class AdminSelfUpgrade extends AdminController
      */
     public function ajaxProcessDownload()
     {
-        if (ConfigurationTest::test_fopen() || ConfigurationTest::test_curl()) {
-            if (!is_object($this->upgrader)) {
-                $this->upgrader = new Upgrader();
-            }
-            // regex optimization
-            preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', _PS_VERSION_, $matches);
-            $this->upgrader->channel = $this->upgradeConfiguration->get('channel');
-            $this->upgrader->branch = $matches[1];
-            if ($this->upgradeConfiguration->get('channel') == 'private' && !$this->upgradeConfiguration->get('private_allow_major')) {
-                $this->upgrader->checkPSVersion(false, array('private', 'minor'));
-            } else {
-                $this->upgrader->checkPSVersion(false, array('minor'));
-            }
-
-            if ($this->upgrader->channel == 'private') {
-                $this->upgrader->link = $this->upgradeConfiguration->get('private_release_link');
-                $this->upgrader->md5 = $this->upgradeConfiguration->get('private_release_md5');
-            }
-            $this->nextQuickInfo[] = $this->trans('Downloading from %s', array($this->upgrader->link), 'Modules.Autoupgrade.Admin');
-            $this->nextQuickInfo[] = $this->trans('File will be saved in %s', array($this->getFilePath()), 'Modules.Autoupgrade.Admin');
-            if (file_exists($this->downloadPath)) {
-                self::deleteDirectory($this->downloadPath, false);
-                $this->nextQuickInfo[] = $this->trans('Download directory has been emptied', array(), 'Modules.Autoupgrade.Admin');
-            }
-            $report = '';
-            $relative_download_path = str_replace(_PS_ROOT_DIR_, '', $this->downloadPath);
-            if (ConfigurationTest::test_dir($relative_download_path, false, $report)) {
-                $res = $this->upgrader->downloadLast($this->downloadPath, $this->destDownloadFilename);
-                if ($res) {
-                    $md5file = md5_file(realpath($this->downloadPath).DIRECTORY_SEPARATOR.$this->destDownloadFilename);
-                    if ($md5file == $this->upgrader->md5) {
-                        $this->nextQuickInfo[] = $this->trans('Download complete.', array(), 'Modules.Autoupgrade.Admin');
-                        $this->next = 'unzip';
-                        $this->next_desc = $this->trans('Download complete. Now extracting...', array(), 'Modules.Autoupgrade.Admin');
-                    } else {
-                        $this->nextQuickInfo[] = $this->trans('Download complete but MD5 sum does not match (%s).', array($md5file), 'Modules.Autoupgrade.Admin');
-                        $this->nextErrors[] = $this->trans('Download complete but MD5 sum does not match (%s).', array($md5file), 'Modules.Autoupgrade.Admin');
-                        $this->next = 'error';
-                        $this->next_desc = $this->trans('Download complete but MD5 sum does not match (%s). Operation aborted.', array(), 'Modules.Autoupgrade.Admin');
-                    }
-                } else {
-                    if ($this->upgrader->channel == 'private') {
-                        $this->next_desc = $this->trans('Error during download. The private key may be incorrect.', array(), 'Modules.Autoupgrade.Admin');
-                        $this->nextQuickInfo[] = $this->trans('Error during download. The private key may be incorrect.', array(), 'Modules.Autoupgrade.Admin');
-                        $this->nextErrors[] = $this->trans('Error during download. The private key may be incorrect.', array(), 'Modules.Autoupgrade.Admin');
-                    } else {
-                        $this->next_desc = $this->trans('Error during download', array(), 'Modules.Autoupgrade.Admin');
-                        $this->nextQuickInfo[] = $this->trans('Error during download', array(), 'Modules.Autoupgrade.Admin');
-                        $this->nextErrors[] = $this->trans('Error during download', array(), 'Modules.Autoupgrade.Admin');
-                    }
-                    $this->next = 'error';
-                }
-            } else {
-                $this->next_desc = $this->trans('Download directory %s is not writable.', array($this->downloadPath), 'Modules.Autoupgrade.Admin');
-                $this->nextQuickInfo[] = $this->trans('Download directory %s is not writable.', array($this->downloadPath), 'Modules.Autoupgrade.Admin');
-                $this->nextErrors[] = $this->trans('Download directory %s is not writable.', array($this->downloadPath), 'Modules.Autoupgrade.Admin');
-                $this->next = 'error';
-            }
-        } else {
+        if (!ConfigurationTest::test_fopen() && !ConfigurationTest::test_curl()) {
             $this->nextQuickInfo[] = $this->trans('You need allow_url_fopen or cURL enabled for automatic download to work. You can also manually upload it in filepath %s.', array($this->getFilePath()), 'Modules.Autoupgrade.Admin');
             $this->nextErrors[] = $this->trans('You need allow_url_fopen or cURL enabled for automatic download to work. You can also manually upload it in filepath %s.', array($this->getFilePath()), 'Modules.Autoupgrade.Admin');
             $this->next = 'error';
             $this->next_desc = $this->trans('You need allow_url_fopen or cURL enabled for automatic download to work. You can also manually upload it in filepath %s.', array($this->getFilePath()), 'Modules.Autoupgrade.Admin');
+            return;
+        }
+
+        if (!is_object($this->upgrader)) {
+            $this->upgrader = new Upgrader();
+        }
+        // regex optimization
+        preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', _PS_VERSION_, $matches);
+        $this->upgrader->channel = $this->upgradeConfiguration->get('channel');
+        $this->upgrader->branch = $matches[1];
+        if ($this->upgradeConfiguration->get('channel') == 'private' && !$this->upgradeConfiguration->get('private_allow_major')) {
+            $this->upgrader->checkPSVersion(false, array('private', 'minor'));
+        } else {
+            $this->upgrader->checkPSVersion(false, array('minor'));
+        }
+
+        if ($this->upgrader->channel == 'private') {
+            $this->upgrader->link = $this->upgradeConfiguration->get('private_release_link');
+            $this->upgrader->md5 = $this->upgradeConfiguration->get('private_release_md5');
+        }
+        $this->nextQuickInfo[] = $this->trans('Downloading from %s', array($this->upgrader->link), 'Modules.Autoupgrade.Admin');
+        $this->nextQuickInfo[] = $this->trans('File will be saved in %s', array($this->getFilePath()), 'Modules.Autoupgrade.Admin');
+        if (file_exists($this->downloadPath)) {
+            self::deleteDirectory($this->downloadPath, false);
+            $this->nextQuickInfo[] = $this->trans('Download directory has been emptied', array(), 'Modules.Autoupgrade.Admin');
+        }
+        $report = '';
+        $relative_download_path = str_replace(_PS_ROOT_DIR_, '', $this->downloadPath);
+        if (ConfigurationTest::test_dir($relative_download_path, false, $report)) {
+            $res = $this->upgrader->downloadLast($this->downloadPath, $this->destDownloadFilename);
+            if ($res) {
+                $md5file = md5_file(realpath($this->downloadPath).DIRECTORY_SEPARATOR.$this->destDownloadFilename);
+                if ($md5file == $this->upgrader->md5) {
+                    $this->nextQuickInfo[] = $this->trans('Download complete.', array(), 'Modules.Autoupgrade.Admin');
+                    $this->next = 'unzip';
+                    $this->next_desc = $this->trans('Download complete. Now extracting...', array(), 'Modules.Autoupgrade.Admin');
+                } else {
+                    $this->nextQuickInfo[] = $this->trans('Download complete but MD5 sum does not match (%s).', array($md5file), 'Modules.Autoupgrade.Admin');
+                    $this->nextErrors[] = $this->trans('Download complete but MD5 sum does not match (%s).', array($md5file), 'Modules.Autoupgrade.Admin');
+                    $this->next = 'error';
+                    $this->next_desc = $this->trans('Download complete but MD5 sum does not match (%s). Operation aborted.', array(), 'Modules.Autoupgrade.Admin');
+                }
+            } else {
+                if ($this->upgrader->channel == 'private') {
+                    $this->next_desc = $this->trans('Error during download. The private key may be incorrect.', array(), 'Modules.Autoupgrade.Admin');
+                    $this->nextQuickInfo[] = $this->trans('Error during download. The private key may be incorrect.', array(), 'Modules.Autoupgrade.Admin');
+                    $this->nextErrors[] = $this->trans('Error during download. The private key may be incorrect.', array(), 'Modules.Autoupgrade.Admin');
+                } else {
+                    $this->next_desc = $this->trans('Error during download', array(), 'Modules.Autoupgrade.Admin');
+                    $this->nextQuickInfo[] = $this->trans('Error during download', array(), 'Modules.Autoupgrade.Admin');
+                    $this->nextErrors[] = $this->trans('Error during download', array(), 'Modules.Autoupgrade.Admin');
+                }
+                $this->next = 'error';
+            }
+        } else {
+            $this->next_desc = $this->trans('Download directory %s is not writable.', array($this->downloadPath), 'Modules.Autoupgrade.Admin');
+            $this->nextQuickInfo[] = $this->trans('Download directory %s is not writable.', array($this->downloadPath), 'Modules.Autoupgrade.Admin');
+            $this->nextErrors[] = $this->trans('Download directory %s is not writable.', array($this->downloadPath), 'Modules.Autoupgrade.Admin');
+            $this->next = 'error';
         }
     }
 
@@ -2960,6 +2902,7 @@ class AdminSelfUpgrade extends AdminController
             case 'archive':
                 $upgrader->channel = 'archive';
                 $upgrader->version_num = $this->upgradeConfiguration->get('archive.version_num');
+                $this->destDownloadFilename = $this->upgradeConfiguration->get('archive.filename');
                 $upgrader->checkPSVersion(true, array('archive'));
                 break;
             case 'directory':
