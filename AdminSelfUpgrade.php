@@ -413,7 +413,7 @@ class AdminSelfUpgrade extends AdminController
             }
         }
         $this->initPath();
-        $this->upgradeConfiguration = (new UpgradeConfigurationStorage($this->autoupgradePath.DIRECTORY_SEPARATOR))->load(UpgradeFiles::configFilename);
+        $this->getUpgradeConfiguration();
         $this->state = (new State())->importFromArray($this->currentParams);
         $upgrader = $this->getUpgrader();
 
@@ -762,192 +762,7 @@ class AdminSelfUpgrade extends AdminController
             $this->next_desc = $this->trans('Error on saving configuration', array(), 'Modules.Autoupgrade.Admin');
         }
     }
-
-    /**
-     * display informations related to the selected channel : link/changelog for remote channel,
-     * or configuration values for special channels
-     *
-     * @access public
-     */
-    public function ajaxProcessGetChannelInfo()
-    {
-        // do nothing after this request (see javascript function doAjaxRequest )
-        $this->next = '';
-
-        $channel = $this->currentParams['channel'];
-        $channelInfo = (new ChannelInfo($this->getUpgrader(), $this->upgradeConfiguration, $channel));
-        $channelInfoArray = $channelInfo->getInfo();
-        $this->nextParams['result']['available'] = $channelInfoArray['available'];
-
-        $this->nextParams['result']['div'] = (new ChannelInfoBlock(
-            $this->upgradeConfiguration,
-            $channelInfo,
-            $this->getTwig(),
-            $this->getTranslator())
-        )->render();
-    }
-
-    /**
-     * get the list of all modified and deleted files between current version
-     * and target version (according to channel configuration)
-     *
-     * @access public
-     */
-    public function ajaxProcessCompareReleases()
-    {
-        // do nothing after this request (see javascript function doAjaxRequest )
-        $this->next = '';
-        $channel = $this->upgradeConfiguration->get('channel');
-        $this->upgrader = new Upgrader();
-        switch ($channel) {
-            case 'archive':
-                $version = $this->upgradeConfiguration->get('archive.version_num');
-                break;
-            case 'directory':
-                $version = $this->upgradeConfiguration->get('directory.version_num');
-                break;
-            default:
-                preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', _PS_VERSION_, $matches);
-                $this->upgrader->branch = $matches[1];
-                $this->upgrader->channel = $channel;
-                if ($this->upgradeConfiguration->get('channel') == 'private' && !$this->upgradeConfiguration->get('private_allow_major')) {
-                    $this->upgrader->checkPSVersion(false, array('private', 'minor'));
-                } else {
-                    $this->upgrader->checkPSVersion(false, array('minor'));
-                }
-                $version = $this->upgrader->version_num;
-        }
-
-        $diffFileList = $this->upgrader->getDiffFilesList(_PS_VERSION_, $version);
-        if (!is_array($diffFileList)) {
-            $this->nextParams['status'] = 'error';
-            $this->nextParams['msg'] = sprintf('Unable to generate diff file list between %1$s and %2$s.', _PS_VERSION_, $version);
-        } else {
-            $this->getFileConfigurationStorage()->save($diffFileList, UpgradeFiles::diffFileList);
-            if (count($diffFileList) > 0) {
-                $this->nextParams['msg'] = $this->trans(
-                    '%modifiedfiles% files will be modified, %deletedfiles% files will be deleted (if they are found).',
-                    array(
-                        '%modifiedfiles%' => count($diffFileList['modified']),
-                        '%deletedfiles%' => count($diffFileList['deleted']),
-                    ),
-                    'Modules.Autoupgrade.Admin');
-            } else {
-                $this->nextParams['msg'] = $this->trans('No diff files found.', array(), 'Modules.Autoupgrade.Admin');
-            }
-            $this->nextParams['result'] = $diffFileList;
-        }
-    }
-
-    /**
-     * list the files modified in the current installation regards to the original version
-     *
-     * @access public
-     */
-    public function ajaxProcessCheckFilesVersion()
-    {
-        // do nothing after this request (see javascript function doAjaxRequest )
-        $this->next = '';
-        $this->upgrader = new Upgrader();
-
-        $changedFileList = $this->upgrader->getChangedFilesList();
-
-        if ($this->upgrader->isAuthenticPrestashopVersion() === true
-            && !is_array($changedFileList)) {
-            $this->nextParams['status'] = 'error';
-            $this->nextParams['msg'] = $this->trans('Unable to check files for the installed version of PrestaShop.', array(), 'Modules.Autoupgrade.Admin');
-            $testOrigCore = false;
-        } else {
-            if ($this->upgrader->isAuthenticPrestashopVersion() === true) {
-                $this->nextParams['status'] = 'ok';
-                $testOrigCore = true;
-            } else {
-                $testOrigCore = false;
-                $this->nextParams['status'] = 'warn';
-            }
-
-            if (!isset($changedFileList['core'])) {
-                $changedFileList['core'] = array();
-            }
-
-            if (!isset($changedFileList['translation'])) {
-                $changedFileList['translation'] = array();
-            }
-            $this->getFileConfigurationStorage()->save($changedFileList['translation'], UpgradeFiles::tradCustomList);
-
-            if (!isset($changedFileList['mail'])) {
-                $changedFileList['mail'] = array();
-            }
-            $this->getFileConfigurationStorage()->save($changedFileList['mail'], UpgradeFiles::mailCustomList);
-
-
-            if ($changedFileList === false) {
-                $changedFileList = array();
-                $this->nextParams['msg'] = $this->trans('Unable to check files', array(), 'Modules.Autoupgrade.Admin');
-                $this->nextParams['status'] = 'error';
-            } else {
-                $this->nextParams['msg'] = ($testOrigCore ? $this->trans('Core files are ok', array(), 'Modules.Autoupgrade.Admin') : $this->trans(
-                    '%modificationscount% file modifications have been detected, including %coremodifications% from core and native modules:',
-                    array(
-                        '%modificationscount%' => count(array_merge($changedFileList['core'], $changedFileList['mail'], $changedFileList['translation'])),
-                        '%coremodifications%' => count($changedFileList['core']),
-                    ),
-                    'Modules.Autoupgrade.Admin')
-                );
-            }
-            $this->nextParams['result'] = $changedFileList;
-        }
-    }
-
-    /**
-     * very first step of the upgrade process. The only thing done is the selection
-     * of the next step
-     *
-     * @access public
-     * @return void
-     */
-    public function ajaxProcessUpgradeNow()
-    {
-        $this->next_desc = $this->trans('Starting upgrade...', array(), 'Modules.Autoupgrade.Admin');
-
-        $channel = $this->upgradeConfiguration->get('channel');
-        $this->next = 'download';
-        if (!is_object($this->upgrader)) {
-            $this->upgrader = new Upgrader();
-        }
-        preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', _PS_VERSION_, $matches);
-        $this->upgrader->branch = $matches[1];
-        $this->upgrader->channel = $channel;
-        if ($this->upgradeConfiguration->get('channel') == 'private' && !$this->upgradeConfiguration->get('private_allow_major')) {
-            $this->upgrader->checkPSVersion(false, array('private', 'minor'));
-        } else {
-            $this->upgrader->checkPSVersion(false, array('minor'));
-        }
-
-        switch ($channel) {
-            case 'directory':
-                // if channel directory is chosen, we assume it's "ready for use" (samples already removed for example)
-                $this->next = 'removeSamples';
-                $this->nextQuickInfo[] = $this->trans('Skip downloading and unzipping steps, upgrade process will now remove sample data.', array(), 'Modules.Autoupgrade.Admin');
-                $this->next_desc = $this->trans('Shop deactivated. Removing sample files...', array(), 'Modules.Autoupgrade.Admin');
-                break;
-            case 'archive':
-                $this->next = 'unzip';
-                $this->nextQuickInfo[] = $this->trans('Skip downloading step, upgrade process will now unzip the local archive.', array(), 'Modules.Autoupgrade.Admin');
-                $this->next_desc = $this->trans('Shop deactivated. Extracting files...', array(), 'Modules.Autoupgrade.Admin');
-                break;
-            default:
-                $this->next = 'download';
-                $this->next_desc = $this->trans('Shop deactivated. Now downloading... (this can take a while)', array(), 'Modules.Autoupgrade.Admin');
-                if ($this->upgrader->channel == 'private') {
-                    $this->upgrader->link = $this->upgradeConfiguration->get('private_release_link');
-                    $this->upgrader->md5 = $this->upgradeConfiguration->get('private_release_md5');
-                }
-                $this->nextQuickInfo[] = $this->trans('Downloaded archive will come from %s', array($this->upgrader->link), 'Modules.Autoupgrade.Admin');
-                $this->nextQuickInfo[] = $this->trans('MD5 hash will be checked against %s', array($this->upgrader->md5), 'Modules.Autoupgrade.Admin');
-        }
-    }
-
+    
     /**
      * extract chosen version into $this->latestPath directory
      *
@@ -3035,11 +2850,11 @@ class AdminSelfUpgrade extends AdminController
                 $this->next = self::$skipAction[$action];
                 $this->nextQuickInfo[] = $this->next_desc = $this->trans('Action %s skipped', array($action), 'Modules.Autoupgrade.Admin');
                 unset($_POST['action']);
-            } elseif (!method_exists(get_class($this), 'ajaxProcess'.$action)) {
+            }/* elseif (!method_exists(get_class($this), 'ajaxProcess'.$action) && class_exists($action)) {
                 $this->next_desc = $this->trans('Action "%s" not found', array($action), 'Modules.Autoupgrade.Admin');
                 $this->next = 'error';
                 $this->error = '1';
-            }
+            }*/
         }
 
         if (!method_exists('Tools14', 'apacheModExists') || Tools14::apacheModExists('evasive')) {
@@ -3121,7 +2936,7 @@ class AdminSelfUpgrade extends AdminController
             $this->nextErrors[] = $e->getMessage();
         }
     }
-    private function getFileConfigurationStorage()
+    public function getFileConfigurationStorage()
     {
         if (!is_null($this->fileConfigurationStorage)) {
             return $this->fileConfigurationStorage;
@@ -3131,7 +2946,7 @@ class AdminSelfUpgrade extends AdminController
         return $this->fileConfigurationStorage;
     }
 
-    private function getUpgrader()
+    public function getUpgrader()
     {
         if (!is_null($this->upgrader)) {
             return $this->upgrader;
@@ -3237,6 +3052,16 @@ class AdminSelfUpgrade extends AdminController
 
         $this->twig = $twig;
         return $this->twig;
+    }
+
+    public function getUpgradeConfiguration()
+    {
+        if (!is_null($this->upgradeConfiguration)) {
+            return $this->upgradeConfiguration;
+        }
+        $upgradeConfigurationStorage = new UpgradeConfigurationStorage($this->autoupgradePath.DIRECTORY_SEPARATOR);
+        $this->upgradeConfiguration = $upgradeConfigurationStorage->load(UpgradeFiles::configFilename);
+        return $this->upgradeConfiguration;
     }
 
     public function getZipAction()
