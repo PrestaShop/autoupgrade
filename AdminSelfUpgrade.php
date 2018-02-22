@@ -571,7 +571,7 @@ class AdminSelfUpgrade extends AdminController
      */
     private function getFilePath()
     {
-        return $this->downloadPath.DIRECTORY_SEPARATOR.$this->upgradeConfiguration->get('archive.filename');
+        return $this->downloadPath.DIRECTORY_SEPARATOR.$this->destDownloadFilename;
     }
 
     public function postProcess()
