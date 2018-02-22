@@ -60,6 +60,9 @@ switch ($action) {
 
 
     // UPGRADE
+    case 'upgradeModules':
+        $controller = new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\UpgradeModules($adminObj);
+        break;
     case 'upgradeNow':
         $controller = new PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\UpgradeNow($adminObj);
         break;

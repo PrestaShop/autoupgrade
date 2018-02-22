@@ -159,6 +159,11 @@ class AdminSelfUpgrade extends AdminController
     /////////////////////////////////////////////////
 
     /**
+     * @var Db
+     */
+    public $db;
+
+    /**
      * @var PrestashopConfiguration
      */
     private $prestashopConfiguration;
@@ -959,125 +964,6 @@ class AdminSelfUpgrade extends AdminController
                 self::createCacheFsDirectories($level_depth - 1, $new_dir);
             }
         }
-    }
-
-    /**
-     * upgrade all partners modules according to the installed prestashop version
-     *
-     * @access public
-     * @return void
-     */
-    public function ajaxProcessUpgradeModules()
-    {
-        $start_time = time();
-        if (!isset($this->nextParams['modulesToUpgrade'])) {
-            try {
-                $modulesToUpgrade = $this->getModuleAdapter()->listModulesToUpgrade($this->state->getModules_addons());
-                $this->getFileConfigurationStorage()->save($modulesToUpgrade, UpgradeFiles::toUpgradeModuleList);
-                $this->nextParams['modulesToUpgrade'] = UpgradeFiles::toUpgradeModuleList;
-            } catch (UpgradeException $e) {
-                $this->handleException($e);
-                return false;
-            }
-
-            $total_modules_to_upgrade = count($modulesToUpgrade);
-            if ($total_modules_to_upgrade) {
-                $this->nextQuickInfo[] = $this->trans('%s modules will be upgraded.', array($total_modules_to_upgrade), 'Modules.Autoupgrade.Admin');
-                $this->next_desc = $this->trans('%s modules will be upgraded.', array($total_modules_to_upgrade), 'Modules.Autoupgrade.Admin');
-            }
-            $this->stepDone = false;
-            $this->next = 'upgradeModules';
-            return true;
-        }
-
-        $this->next = 'upgradeModules';
-        $listModules = $this->getFileConfigurationStorage()->load($this->nextParams['modulesToUpgrade']);
-
-        if (!is_array($listModules)) {
-            $this->next = 'upgradeComplete';
-            $this->state->setWarningExists(true);
-            $this->next_desc = $this->trans('upgradeModule step has not ended correctly.', array(), 'Modules.Autoupgrade.Admin');
-            $this->nextQuickInfo[] = $this->trans('listModules is not an array. No module has been updated.', array(), 'Modules.Autoupgrade.Admin');
-            $this->nextErrors[] = $this->trans('listModules is not an array. No module has been updated.', array(), 'Modules.Autoupgrade.Admin');
-            return true;
-        }
-
-        $time_elapsed = time() - $start_time;
-        // module list
-        if (count($listModules) > 0) {
-            do {
-                $module_info = array_shift($listModules);
-                try {
-                    $this->getModuleAdapter()->upgradeModule($module_info['id'], $module_info['name']);
-                    $this->nextQuickInfo[] = $this->trans('The files of module %s have been upgraded.', array($module_info['name']), 'Modules.Autoupgrade.Admin');
-                } catch (UpgradeException $e) {
-                    $this->handleException($e);
-                }
-                $time_elapsed = time() - $start_time;
-            } while (($time_elapsed < self::$loopUpgradeModulesTime) && count($listModules) > 0);
-
-            $modules_left = count($listModules);
-            $this->getFileConfigurationStorage()->save($listModules, UpgradeFiles::toUpgradeModuleList);
-            unset($listModules);
-
-            $this->next = 'upgradeModules';
-            if ($modules_left) {
-                $this->next_desc = $this->trans('%s modules left to upgrade.', array($modules_left), 'Modules.Autoupgrade.Admin');
-            }
-            $this->stepDone = false;
-        } else {
-            $modules_to_delete['backwardcompatibility'] = 'Backward Compatibility';
-            $modules_to_delete['dibs'] = 'Dibs';
-            $modules_to_delete['cloudcache'] = 'Cloudcache';
-            $modules_to_delete['mobile_theme'] = 'The 1.4 mobile_theme';
-            $modules_to_delete['trustedshops'] = 'Trustedshops';
-            $modules_to_delete['dejala'] = 'Dejala';
-            $modules_to_delete['stripejs'] = 'Stripejs';
-            $modules_to_delete['blockvariouslinks'] = 'Block Various Links';
-
-            foreach ($modules_to_delete as $key => $module) {
-                $this->db->execute('DELETE ms.*, hm.*
-                FROM `'._DB_PREFIX_.'module_shop` ms
-                INNER JOIN `'._DB_PREFIX_.'hook_module` hm USING (`id_module`)
-                INNER JOIN `'._DB_PREFIX_.'module` m USING (`id_module`)
-                WHERE m.`name` LIKE \''.pSQL($key).'\'');
-                $this->db->execute('UPDATE `'._DB_PREFIX_.'module` SET `active` = 0 WHERE `name` LIKE \''.pSQL($key).'\'');
-
-                $path = $this->prodRootDir.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR.$key.DIRECTORY_SEPARATOR;
-                if (file_exists($path.$key.'.php')) {
-                    if (self::deleteDirectory($path)) {
-                        $this->nextQuickInfo[] = $this->trans(
-                            'The %modulename% module is not compatible with version %version%, it will be removed from your FTP.',
-                            array(
-                                '%modulename%' => $module,
-                                '%version%' => $this->state->getInstallVersion(),
-                            ),
-                            'Modules.Autoupgrade.Admin'
-                        );
-                    } else {
-                        $this->nextErrors[] = $this->trans(
-                            'The %modulename% module is not compatible with version %version%, please remove it from your FTP.',
-                            array(
-                                '%modulename%' => $module,
-                                '%version%' => $this->state->getInstallVersion(),
-                            ),
-                            'Modules.Autoupgrade.Admin'
-                        );
-                    }
-                }
-            }
-
-            $this->stepDone = true;
-            $this->status = 'ok';
-            $this->next = 'cleanDatabase';
-            $this->next_desc = $this->trans('Addons modules files have been upgraded.', array(), 'Modules.Autoupgrade.Admin');
-            $this->nextQuickInfo[] = $this->trans('Addons modules files have been upgraded.', array(), 'Modules.Autoupgrade.Admin');
-            if ($this->manualMode) {
-                $this->writeConfig(array('PS_AUTOUP_MANUAL_MODE' => '0'));
-            }
-            return true;
-        }
-        return true;
     }
 
     public function ajaxProcessUpgradeDb()
