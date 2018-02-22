@@ -28,6 +28,7 @@ namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback;
 
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFiles;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Database;
 
 /**
  * Restores database from backup file
@@ -36,6 +37,7 @@ class RestoreDb extends AbstractTask
 {
     public function run()
     {
+        $databaseTools = new Database($this->upgradeClass->db);
         $ignore_stats_table = array(
             _DB_PREFIX_.'connections',
             _DB_PREFIX_.'connections_page',
@@ -53,10 +55,10 @@ class RestoreDb extends AbstractTask
         }
 
         // deal with the next files stored in restoreDbFilenames
-        $restoreDbFilenames = $this->upgradeClass->state->getRestoreDbFilenames();
+        $restoreDbFilenames = $this->upgradeClass->getState()-> getRestoreDbFilenames();
         if (empty($listQuery) && count($restoreDbFilenames) > 0) {
             $currentDbFilename = array_shift($restoreDbFilenames);
-            $this->upgradeClass->state->setRestoreDbFilenames($restoreDbFilenames);
+            $this->upgradeClass->getState()-> setRestoreDbFilenames($restoreDbFilenames);
             if (!preg_match('#auto-backupdb_([0-9]{6})_#', $currentDbFilename, $match)) {
                 $this->upgradeClass->next = 'error';
                 $this->upgradeClass->error = 1;
@@ -64,7 +66,7 @@ class RestoreDb extends AbstractTask
                 return false;
             }
             $this->upgradeClass->nextParams['dbStep'] = $match[1];
-            $backupdb_path = $this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$this->upgradeClass->state->getRestoreName();
+            $backupdb_path = $this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$this->upgradeClass->getState()-> getRestoreName();
 
             $dot_pos = strrpos($currentDbFilename, '.');
             $fileext = substr($currentDbFilename, $dot_pos+1);
@@ -134,7 +136,7 @@ class RestoreDb extends AbstractTask
                 }
 
                 $tables_after_restore = array_unique($tables_after_restore);
-                $tables_before_restore = $this->upgradeClass->databaseTools->getAllTables();
+                $tables_before_restore = $databaseTools->getAllTables();
                 $tablesToRemove = array_diff($tables_before_restore, $tables_after_restore);
 
                 if (!empty($tablesToRemove)) {
@@ -155,7 +157,7 @@ class RestoreDb extends AbstractTask
                         unlink($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFiles::toRestoreQueryList);
                     }
 
-                    $restoreDbFilenamesCount = count($this->upgradeClass->state->getRestoreDbFilenames());
+                    $restoreDbFilenamesCount = count($this->upgradeClass->getState()-> getRestoreDbFilenames());
                     if ($restoreDbFilenamesCount) {
                         $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans(
                             'Database restoration file %filename% done. %filescount% file(s) left...',
@@ -178,7 +180,7 @@ class RestoreDb extends AbstractTask
                         $this->upgradeClass->next = 'rollbackComplete';
                         $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('Database has been restored.', array(), 'Modules.Autoupgrade.Admin');
 
-                        $this->upgradeClass->databaseTools->cleanTablesAfterBackup($this->upgradeClass->getFileConfigurationStorage()->load(UpgradeFiles::toCleanTable));
+                        $databaseTools->cleanTablesAfterBackup($this->upgradeClass->getFileConfigurationStorage()->load(UpgradeFiles::toCleanTable));
                         $this->upgradeClass->getFileConfigurationStorage()->clean(UpgradeFiles::toCleanTable);
                     }
                     return true;
@@ -237,7 +239,7 @@ class RestoreDb extends AbstractTask
             $this->upgradeClass->next = 'rollbackComplete';
             $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('Database restoration done.', array(), 'Modules.Autoupgrade.Admin');
 
-            $this->upgradeClass->databaseTools->cleanTablesAfterBackup($this->upgradeClass->getFileConfigurationStorage()->load(UpgradeFiles::toCleanTable));
+            $databaseTools->cleanTablesAfterBackup($this->upgradeClass->getFileConfigurationStorage()->load(UpgradeFiles::toCleanTable));
             $this->upgradeClass->getFileConfigurationStorage()->clean(UpgradeFiles::toCleanTable);
         }
         return true;

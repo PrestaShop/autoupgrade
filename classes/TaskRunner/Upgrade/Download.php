@@ -49,17 +49,17 @@ class Download extends AbstractTask
         }
         // regex optimization
         preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', _PS_VERSION_, $matches);
-        $this->upgradeClass->upgrader->channel = $this->upgradeClass->upgradeConfiguration->get('channel');
+        $this->upgradeClass->upgrader->channel = $this->upgradeClass->getUpgradeConfiguration()->get('channel');
         $this->upgradeClass->upgrader->branch = $matches[1];
-        if ($this->upgradeClass->upgradeConfiguration->get('channel') == 'private' && !$this->upgradeClass->upgradeConfiguration->get('private_allow_major')) {
+        if ($this->upgradeClass->getUpgradeConfiguration()->get('channel') == 'private' && !$this->upgradeClass->getUpgradeConfiguration()->get('private_allow_major')) {
             $this->upgradeClass->upgrader->checkPSVersion(false, array('private', 'minor'));
         } else {
             $this->upgradeClass->upgrader->checkPSVersion(false, array('minor'));
         }
 
         if ($this->upgradeClass->upgrader->channel == 'private') {
-            $this->upgradeClass->upgrader->link = $this->upgradeClass->upgradeConfiguration->get('private_release_link');
-            $this->upgradeClass->upgrader->md5 = $this->upgradeClass->upgradeConfiguration->get('private_release_md5');
+            $this->upgradeClass->upgrader->link = $this->upgradeClass->getUpgradeConfiguration()->get('private_release_link');
+            $this->upgradeClass->upgrader->md5 = $this->upgradeClass->getUpgradeConfiguration()->get('private_release_md5');
         }
         $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->getTranslator()->trans('Downloading from %s', array($this->upgradeClass->upgrader->link), 'Modules.Autoupgrade.Admin');
         $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->getTranslator()->trans('File will be saved in %s', array($this->upgradeClass->getFilePath()), 'Modules.Autoupgrade.Admin');

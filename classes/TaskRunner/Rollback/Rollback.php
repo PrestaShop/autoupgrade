@@ -38,11 +38,11 @@ class Rollback extends AbstractTask
     {
         // 1st, need to analyse what was wrong.
         $this->upgradeClass->nextParams = $this->upgradeClass->currentParams;
-        $restoreName = $this->upgradeClass->state->getRestoreName();
-        $this->upgradeClass->state->setRestoreFilesFilename($restoreName);
-        $restoreDbFilenames = $this->upgradeClass->state->getRestoreDbFilenames();
+        $restoreName = $this->upgradeClass->getState()-> getRestoreName();
+        $this->upgradeClass->getState()-> setRestoreFilesFilename($restoreName);
+        $restoreDbFilenames = $this->upgradeClass->getState()-> getRestoreDbFilenames();
 
-        if (!empty($restoreName)) {
+        if (empty($restoreName)) {
             $this->upgradeClass->next = 'noRollbackFound';
             return;
         }
@@ -51,15 +51,15 @@ class Rollback extends AbstractTask
         // find backup filenames, and be sure they exists
         foreach ($files as $file) {
             if (preg_match('#'.preg_quote('auto-backupfiles_'.$restoreName).'#', $file)) {
-                $this->upgradeClass->state->setRestoreFilesFilename($file);
+                $this->upgradeClass->getState()-> setRestoreFilesFilename($file);
                 break;
             }
         }
-        if (!is_file($this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$this->upgradeClass->state->getRestoreFilesFilename())) {
+        if (!is_file($this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$this->upgradeClass->getState()-> getRestoreFilesFilename())) {
             $this->upgradeClass->next = 'error';
             $this->upgradeClass->nextQuickInfo[] = 
             $this->upgradeClass->nextErrors[] = 
-            $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('[ERROR] File %s is missing: unable to restore files. Operation aborted.', array($this->upgradeClass->state->getRestoreFilesFilename()), 'Modules.Autoupgrade.Admin');
+            $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('[ERROR] File %s is missing: unable to restore files. Operation aborted.', array($this->upgradeClass->getState()-> getRestoreFilesFilename()), 'Modules.Autoupgrade.Admin');
             return false;
         }
         $files = scandir($this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$restoreName);
@@ -72,7 +72,7 @@ class Rollback extends AbstractTask
 
         // order files is important !
         sort($restoreDbFilenames);
-        $this->upgradeClass->state->setRestoreDbFilenames($restoreDbFilenames);
+        $this->upgradeClass->getState()-> setRestoreDbFilenames($restoreDbFilenames);
         if (count($restoreDbFilenames) == 0) {
             $this->upgradeClass->next = 'error';
             $this->upgradeClass->nextQuickInfo[] =

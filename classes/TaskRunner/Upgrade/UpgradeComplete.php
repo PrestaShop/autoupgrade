@@ -36,19 +36,19 @@ class UpgradeComplete extends AbstractTask
 {
     public function run()
     {
-        $this->upgradeClass->next_desc = $this->upgradeClass->state->getWarningExists() ?
+        $this->upgradeClass->next_desc = $this->upgradeClass->getState()-> getWarningExists() ?
             $this->upgradeClass->getTranslator()->trans('Upgrade process done, but some warnings have been found.', array(), 'Modules.Autoupgrade.Admin') :
             $this->upgradeClass->getTranslator()->trans('Upgrade process done. Congratulations! You can now reactivate your shop.', array(), 'Modules.Autoupgrade.Admin');
 
         $this->upgradeClass->next = '';
 
-        if ($this->upgradeClass->upgradeConfiguration->get('channel') != 'archive' && file_exists($this->upgradeClass->getFilePath()) && unlink($this->upgradeClass->getFilePath())) {
+        if ($this->upgradeClass->getUpgradeConfiguration()->get('channel') != 'archive' && file_exists($this->upgradeClass->getFilePath()) && unlink($this->upgradeClass->getFilePath())) {
             $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->getTranslator()->trans('%s removed', array($this->upgradeClass->getFilePath()), 'Modules.Autoupgrade.Admin');
         } elseif (is_file($this->upgradeClass->getFilePath())) {
             $this->upgradeClass->nextQuickInfo[] = '<strong>'.$this->upgradeClass->getTranslator()->trans('Please remove %s by FTP', array($this->upgradeClass->getFilePath()), 'Modules.Autoupgrade.Admin').'</strong>';
         }
 
-        if ($this->upgradeClass->upgradeConfiguration->get('channel') != 'directory' && file_exists($this->upgradeClass->latestRootDir) && \AdminSelfUpgrade::deleteDirectory($this->upgradeClass->latestRootDir)) {
+        if ($this->upgradeClass->getUpgradeConfiguration()->get('channel') != 'directory' && file_exists($this->upgradeClass->latestRootDir) && \AdminSelfUpgrade::deleteDirectory($this->upgradeClass->latestRootDir)) {
             $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->getTranslator()->trans('%s removed', array($this->upgradeClass->latestRootDir), 'Modules.Autoupgrade.Admin');
         } elseif (is_dir($this->upgradeClass->latestRootDir)) {
             $this->upgradeClass->nextQuickInfo[] = '<strong>'.$this->upgradeClass->getTranslator()->trans('Please remove %s by FTP', array($this->upgradeClass->latestRootDir), 'Modules.Autoupgrade.Admin').'</strong>';

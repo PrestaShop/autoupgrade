@@ -33,7 +33,7 @@ class BackupFiles extends AbstractTask
 {
     public function run()
     {
-        if (!$this->upgradeClass->upgradeConfiguration->get('PS_AUTOUP_BACKUP')) {
+        if (!$this->upgradeClass->getUpgradeConfiguration()->get('PS_AUTOUP_BACKUP')) {
             $this->upgradeClass->stepDone = true;
             $this->upgradeClass->next = 'backupDb';
             $this->upgradeClass->next_desc = 'File backup skipped.';
@@ -42,7 +42,7 @@ class BackupFiles extends AbstractTask
 
         $this->upgradeClass->nextParams = $this->upgradeClass->currentParams;
         $this->upgradeClass->stepDone = false;
-        $backupFilesFilename = $this->upgradeClass->state->getBackupFilesFilename();
+        $backupFilesFilename = $this->upgradeClass->getState()-> getBackupFilesFilename();
         if (empty($backupFilesFilename)) {
             $this->upgradeClass->next = 'error';
             $this->upgradeClass->error = 1;

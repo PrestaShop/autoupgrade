@@ -42,7 +42,7 @@ class RestoreFiles extends AbstractTask
         if (!file_exists($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFiles::fromArchiveFileList)
             || !file_exists($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFiles::toRemoveFileList)) {
             // cleanup current PS tree
-            $fromArchive = $this->upgradeClass->getZipAction()->listContent($this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$this->upgradeClass->state->getRestoreFilesFilename());
+            $fromArchive = $this->upgradeClass->getZipAction()->listContent($this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$this->upgradeClass->getState()-> getRestoreFilesFilename());
             foreach ($fromArchive as $k => $v) {
                 $fromArchive[DIRECTORY_SEPARATOR.$v] = DIRECTORY_SEPARATOR.$v;
             }
@@ -83,7 +83,7 @@ class RestoreFiles extends AbstractTask
         }
 
         if (!empty($fromArchive)) {
-            $filepath = $this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$this->upgradeClass->state->getRestoreFilesFilename();
+            $filepath = $this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$this->upgradeClass->getState()-> getRestoreFilesFilename();
             $destExtract = $this->upgradeClass->prodRootDir;
 
             $res = $this->upgradeClass->getZipAction()->extract($filepath, $destExtract);

@@ -82,7 +82,7 @@ switch (Tools14::getValue('action')) {
         $controller = new PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\CleanDatabase($adminObj);
         break;
     case 'download':
-        $controler = new PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\Download($adminObj);
+        $controller = new PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\Download($adminObj);
         break;
     case 'removeSamples':
         $controller = new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\RemoveSamples($adminObj);

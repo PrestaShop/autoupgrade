@@ -170,11 +170,6 @@ class AdminSelfUpgrade extends AdminController
     private $upgradeConfiguration;
 
     /**
-     * @var Database
-     */
-    private $databaseTools;
-
-    /**
      * @var FilesystemAdapter
      */
     private $filesystemAdapter;
@@ -280,7 +275,6 @@ class AdminSelfUpgrade extends AdminController
         $this->db = Db::getInstance();
         $this->bootstrap = true;
 
-        $this->databaseTools = new Database($this->db);
         // Init PrestashopCompliancy class
         $admin_dir = trim(str_replace($this->prodRootDir, '', $this->adminDir), DIRECTORY_SEPARATOR);
         $this->prestashopConfiguration = new PrestashopConfiguration(
@@ -415,7 +409,7 @@ class AdminSelfUpgrade extends AdminController
         }
         $this->initPath();
         $this->getUpgradeConfiguration();
-        $this->state = (new State())->importFromArray($this->currentParams);
+        $this->getState();
         $upgrader = $this->getUpgrader();
 
         // If you have defined this somewhere, you know what you do
@@ -1593,6 +1587,7 @@ class AdminSelfUpgrade extends AdminController
             $this->nextErrors[] = $e->getMessage();
         }
     }
+
     public function getFileConfigurationStorage()
     {
         if (!is_null($this->fileConfigurationStorage)) {
@@ -1681,6 +1676,16 @@ class AdminSelfUpgrade extends AdminController
             $this->getZipAction());
 
         return $this->moduleAdapter;
+    }
+
+    public function getState()
+    {
+        if (!is_null($this->state)) {
+            return $this->state;
+        }
+
+        $this->state = (new State())->importFromArray($this->currentParams);
+        return $this->state;
     }
 
     public function getTranslationAdapter()
