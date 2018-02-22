@@ -26,6 +26,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 
+use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFiles;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 
@@ -33,7 +34,7 @@ class BackupDb extends AbstractTask
 {
     public function run()
     {
-        if (!$this->upgradeClass->upgradeConfiguration->get('PS_AUTOUP_BACKUP')) {
+        if (!$this->upgradeClass->getUpgradeConfiguration()->get('PS_AUTOUP_BACKUP')) {
             $this->upgradeClass->stepDone = true;
             $this->upgradeClass->nextParams['dbStep'] = 0;
             $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('Database backup skipped. Now upgrading files...', array(), 'Modules.Autoupgrade.Admin');
@@ -71,8 +72,8 @@ class BackupDb extends AbstractTask
 
         // INIT LOOP
         if (!file_exists($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFiles::toBackupDbList)) {
-            if (!is_dir($this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$this->upgradeClass->state->getBackupName())) {
-                mkdir($this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$this->upgradeClass->state->getBackupName());
+            if (!is_dir($this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$this->upgradeClass->getState()-> getBackupName())) {
+                mkdir($this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$this->upgradeClass->getState()-> getBackupName());
             }
             $this->upgradeClass->nextParams['dbStep'] = 0;
             $tablesToBackup = $this->upgradeClass->db->executeS('SHOW TABLES LIKE "'._DB_PREFIX_.'%"', true, false);
@@ -108,7 +109,7 @@ class BackupDb extends AbstractTask
                 if (isset($fp)) {
                     fclose($fp);
                 }
-                $backupfile = $this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$this->upgradeClass->state->getBackupName().DIRECTORY_SEPARATOR.$this->upgradeClass->state->getBackupDbFilename();
+                $backupfile = $this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$this->upgradeClass->getState()-> getBackupName().DIRECTORY_SEPARATOR.$this->upgradeClass->getState()-> getBackupDbFilename();
                 $backupfile = preg_replace("#_XXXXXX_#", '_'.str_pad($this->upgradeClass->nextParams['dbStep'], 6, '0', STR_PAD_LEFT).'_', $backupfile);
 
                 // start init file
@@ -296,7 +297,7 @@ class BackupDb extends AbstractTask
             // reset dbStep at the end of this step
             $this->upgradeClass->nextParams['dbStep'] = 0;
 
-            $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('Database backup done in filename %s. Now upgrading files...', array($this->upgradeClass->state->getBackupName()), 'Modules.Autoupgrade.Admin');
+            $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('Database backup done in filename %s. Now upgrading files...', array($this->upgradeClass->getState()-> getBackupName()), 'Modules.Autoupgrade.Admin');
             $this->upgradeClass->next = 'upgradeFiles';
             return true;
         }

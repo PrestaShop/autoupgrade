@@ -39,7 +39,7 @@ class UpgradeModules extends AbstractTask
         $start_time = time();
         if (!isset($this->upgradeClass->nextParams['modulesToUpgrade'])) {
             try {
-                $modulesToUpgrade = $this->upgradeClass->getModuleAdapter()->listModulesToUpgrade($this->upgradeClass->state->getModules_addons());
+                $modulesToUpgrade = $this->upgradeClass->getModuleAdapter()->listModulesToUpgrade($this->upgradeClass->getState()-> getModules_addons());
                 $this->upgradeClass->getFileConfigurationStorage()->save($modulesToUpgrade, UpgradeFiles::toUpgradeModuleList);
                 $this->upgradeClass->nextParams['modulesToUpgrade'] = UpgradeFiles::toUpgradeModuleList;
             } catch (UpgradeException $e) {
@@ -62,7 +62,7 @@ class UpgradeModules extends AbstractTask
 
         if (!is_array($listModules)) {
             $this->upgradeClass->next = 'upgradeComplete';
-            $this->upgradeClass->state->setWarningExists(true);
+            $this->upgradeClass->getState()-> setWarningExists(true);
             $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('upgradeModule step has not ended correctly.', array(), 'Modules.Autoupgrade.Admin');
             $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->getTranslator()->trans('listModules is not an array. No module has been updated.', array(), 'Modules.Autoupgrade.Admin');
             $this->upgradeClass->nextErrors[] = $this->upgradeClass->getTranslator()->trans('listModules is not an array. No module has been updated.', array(), 'Modules.Autoupgrade.Admin');
@@ -119,7 +119,7 @@ class UpgradeModules extends AbstractTask
                             'The %modulename% module is not compatible with version %version%, it will be removed from your FTP.',
                             array(
                                 '%modulename%' => $module,
-                                '%version%' => $this->upgradeClass->state->getInstallVersion(),
+                                '%version%' => $this->upgradeClass->getState()-> getInstallVersion(),
                             ),
                             'Modules.Autoupgrade.Admin'
                         );
@@ -128,7 +128,7 @@ class UpgradeModules extends AbstractTask
                             'The %modulename% module is not compatible with version %version%, please remove it from your FTP.',
                             array(
                                 '%modulename%' => $module,
-                                '%version%' => $this->upgradeClass->state->getInstallVersion(),
+                                '%version%' => $this->upgradeClass->getState()-> getInstallVersion(),
                             ),
                             'Modules.Autoupgrade.Admin'
                         );
