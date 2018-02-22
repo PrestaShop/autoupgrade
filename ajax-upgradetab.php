@@ -44,7 +44,7 @@ $adminObj->ajaxPreProcess();
 $action = Tools14::getValue('action');
 
 switch ($action) {
-    // MISCELLANEOUS
+    // MISCELLANEOUS (upgrade configuration, checks etc.)
     case 'checkFilesVersion':
         $controller = new PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous\CheckFilesVersion($adminObj);
         break;
@@ -58,6 +58,22 @@ switch ($action) {
         $controller = new \PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous\UpdateConfig($adminObj);
         break;
 
+    // ROLLBACK
+    case 'noRollbackFound':
+        $controller = new PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback\NoRollbackFound($adminObj);
+        break;
+    case 'restoreDb':
+        $controller = new PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback\RestoreDb($adminObj);
+        break;
+    case 'restoreFiles':
+        $controller = new PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback\RestoreFiles($adminObj);
+        break;
+    case 'rollback':
+        $controller = new \PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback\Rollback($adminObj);
+        break;
+    case 'rollbackComplete':
+        $controller = new \PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback\RollbackComplete($adminObj);
+        break;
 
     // UPGRADE
     case 'backupDb':
