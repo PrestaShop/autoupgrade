@@ -39,11 +39,7 @@ if (!$adminObj->checkToken()) {
     die(1);
 }
 
-// the differences with index.php is here
-$adminObj->ajaxPreProcess();
-$action = Tools14::getValue('action');
-
-switch ($action) {
+switch (Tools14::getValue('action')) {
     // MISCELLANEOUS (upgrade configuration, checks etc.)
     case 'checkFilesVersion':
         $controller = new PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous\CheckFilesVersion($adminObj);
@@ -111,12 +107,7 @@ switch ($action) {
         break;
 
     default:
-        $controller = null;
-        // For non transfered tasks
-        if (!empty($action) && method_exists($adminObj, 'ajaxProcess'.$action) ) {
-            error_log('ajaxProcess'.$action.' must be migrated!', 0);
-            $adminObj->{'ajaxProcess'.$action}();
-        }
+        error_log('Action '.Tools14::getValue('action').' is unknown!', 0);
 }
 
 if ($controller instanceof \PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask) {

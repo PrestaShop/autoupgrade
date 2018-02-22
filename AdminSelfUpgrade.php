@@ -26,7 +26,6 @@
 */
 
 use PrestaShop\Module\AutoUpgrade\AjaxResponse;
-use PrestaShop\Module\AutoUpgrade\ChannelInfo;
 use PrestaShop\Module\AutoUpgrade\BackupFinder;
 use PrestaShop\Module\AutoUpgrade\State;
 use PrestaShop\Module\AutoUpgrade\UpgradePage;
@@ -39,7 +38,6 @@ use PrestaShop\Module\AutoUpgrade\ZipAction;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Database;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\ModuleAdapter;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\ThemeAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translation;
 use PrestaShop\Module\AutoUpgrade\Parameters\FileConfigurationStorage;
@@ -47,8 +45,6 @@ use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFiles;
 use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension;
-use PrestaShop\Module\AutoUpgrade\Twig\Block\ChannelInfoBlock;
-use Symfony\Component\Filesystem\Filesystem;
 
 require __DIR__.'/vendor/autoload.php';
 
@@ -775,9 +771,6 @@ class AdminSelfUpgrade extends AdminController
         define('DEFINES_FILE', $this->prodRootDir .'/config/defines.inc.php');
         define('INSTALLER__PS_BASE_URI', substr($_SERVER['REQUEST_URI'], 0, -1 * (strlen($_SERVER['REQUEST_URI']) - strrpos($_SERVER['REQUEST_URI'], '/')) - strlen(substr(dirname($_SERVER['REQUEST_URI']), strrpos(dirname($_SERVER['REQUEST_URI']), '/')+1))));
         //	define('INSTALLER__PS_BASE_URI_ABSOLUTE', 'http://'.ToolsInstall::getHttpHost(false, true).INSTALLER__PS_BASE_URI);
-
-        // XML Header
-        // header('Content-Type: text/xml');
 
         $filePrefix = 'PREFIX_';
         $engineType = 'ENGINE_TYPE';
@@ -1524,35 +1517,6 @@ class AdminSelfUpgrade extends AdminController
             ->setNextErrors($this->nextErrors)
             ->setUpgradeConfiguration($this->upgradeConfiguration)
             ->getJsonResponse();
-    }
-
-    public function ajaxPreProcess()
-    {
-        /* PrestaShop demo mode */
-        if (defined('_PS_MODE_DEMO_') && _PS_MODE_DEMO_) {
-            return;
-        }
-
-        if (!empty($_POST['responseType']) && $_POST['responseType'] == 'json') {
-            header('Content-Type: application/json');
-        }
-
-        if (!empty($_POST['action'])) {
-            $action = $_POST['action'];
-            if (isset(self::$skipAction[$action])) {
-                $this->next = self::$skipAction[$action];
-                $this->nextQuickInfo[] = $this->next_desc = $this->trans('Action %s skipped', array($action), 'Modules.Autoupgrade.Admin');
-                unset($_POST['action']);
-            }/* elseif (!method_exists(get_class($this), 'ajaxProcess'.$action) && class_exists($action)) {
-                $this->next_desc = $this->trans('Action "%s" not found', array($action), 'Modules.Autoupgrade.Admin');
-                $this->next = 'error';
-                $this->error = '1';
-            }*/
-        }
-
-        if (!method_exists('Tools14', 'apacheModExists') || Tools14::apacheModExists('evasive')) {
-            sleep(1);
-        }
     }
 
     public function displayAjax()

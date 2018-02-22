@@ -36,6 +36,24 @@ abstract class AbstractTask
     public function __construct(\AdminSelfUpgrade $upgradeClass)
     {
         $this->upgradeClass = $upgradeClass;
+        $this->checkTaskMayRun();
+    }
+
+    private function checkTaskMayRun()
+    {
+        /* PrestaShop demo mode */
+        if (defined('_PS_MODE_DEMO_') && _PS_MODE_DEMO_) {
+            return;
+        }
+
+        if (!empty($_POST['action'])) {
+            $action = $_POST['action'];
+            if (isset(\AdminSelfUpgrade::$skipAction[$action])) {
+                $this->upgradeClass->next = \AdminSelfUpgrade::$skipAction[$action];
+                $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('Action %s skipped', array($action), 'Modules.Autoupgrade.Admin');
+                unset($_POST['action']);
+            }
+        }
     }
 
     abstract public function run();
