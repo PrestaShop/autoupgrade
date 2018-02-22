@@ -2298,6 +2298,7 @@ class AdminSelfUpgrade extends AdminController
         $this->next = 'backupDb';
         $this->nextParams = $this->currentParams;
         $start_time = time();
+        $time_elapsed = 0;
 
         $psBackupAll = true;
         $psBackupDropTable = true;
