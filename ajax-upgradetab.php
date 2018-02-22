@@ -60,13 +60,39 @@ switch ($action) {
 
 
     // UPGRADE
+    case 'backupDb':
+        $controller = new PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\BackupDb($adminObj);
+        break;
+    case 'backupFiles':
+        $controller = new PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\BackupFiles($adminObj);
+        break;
+    case 'cleanDatabase':
+        $controller = new PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\CleanDatabase($adminObj);
+        break;
+    case 'download':
+        $controler = new PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\Download($adminObj);
+        break;
+    case 'removeSamples':
+        $controller = new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\RemoveSamples($adminObj);
+        break;
+    case 'upgradeComplete':
+        $controller = new PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\UpgradeComplete($adminObj);
+        break;
+    case 'upgradeDb':
+        $controller = new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\UpgradeDb($adminObj);
+        break;
+    case 'upgradeFiles':
+        $controller = new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\UpgradeFiles($adminObj);
+        break;
     case 'upgradeModules':
         $controller = new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\UpgradeModules($adminObj);
         break;
     case 'upgradeNow':
         $controller = new PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\UpgradeNow($adminObj);
         break;
-
+    case 'unzip':
+        $controller = new PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\Unzip($adminObj);
+        break;
 
     default:
         $controller = null;
