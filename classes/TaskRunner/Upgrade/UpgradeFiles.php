@@ -27,7 +27,7 @@
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFiles as UpgradeFilesData;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 
 class UpgradeFiles extends AbstractTask
 {
@@ -45,14 +45,14 @@ class UpgradeFiles extends AbstractTask
             rename($this->upgradeClass->latestRootDir.DIRECTORY_SEPARATOR.'install-dev', $this->upgradeClass->latestRootDir.DIRECTORY_SEPARATOR.'install');
         }
 
-        if (!isset($this->upgradeClass->nextParams['filesToUpgrade'])) {
-            // list saved in UpgradeFilesData::toUpgradeFileList
+        if (!$this->upgradeClass->getFileConfigurationStorage()->exists(UpgradeFileNames::toUpgradeFileList)) {
+            // list saved in UpgradeFileNames::toUpgradeFileList
             // get files differences (previously generated)
             $admin_dir = trim(str_replace($this->upgradeClass->prodRootDir, '', $this->upgradeClass->adminDir), DIRECTORY_SEPARATOR);
-            $filepath_list_diff = $this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFilesData::diffFileList;
+            $filepath_list_diff = $this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFileNames::diffFileList;
             $list_files_diff = array();
             if (file_exists($filepath_list_diff)) {
-                $list_files_diff = $this->upgradeClass->getFileConfigurationStorage()->load(UpgradeFilesData::diffFileList);
+                $list_files_diff = $this->upgradeClass->getFileConfigurationStorage()->load(UpgradeFileNames::diffFileList);
                 // only keep list of files to delete. The modified files will be listed with _listFilesToUpgrade
                 $list_files_diff = $list_files_diff['deleted'];
                 foreach ($list_files_diff as $k => $path) {
@@ -90,9 +90,9 @@ class UpgradeFiles extends AbstractTask
                 }
             }
 
-            // save in a serialized array in UpgradeFilesData::toUpgradeFileList
-            $this->upgradeClass->getFileConfigurationStorage()->save($list_files_to_upgrade, UpgradeFilesData::toUpgradeFileList);
-            $this->upgradeClass->nextParams['filesToUpgrade'] = UpgradeFilesData::toUpgradeFileList;
+            // save in a serialized array in UpgradeFileNames::toUpgradeFileList
+            $this->upgradeClass->getFileConfigurationStorage()->save($list_files_to_upgrade, UpgradeFileNames::toUpgradeFileList);
+            $this->upgradeClass->nextParams['filesToUpgrade'] = UpgradeFileNames::toUpgradeFileList;
             $total_files_to_upgrade = count($list_files_to_upgrade);
 
             if ($total_files_to_upgrade == 0) {
@@ -113,7 +113,7 @@ class UpgradeFiles extends AbstractTask
         $this->upgradeClass->destUpgradePath = $this->upgradeClass->prodRootDir;
 
         $this->upgradeClass->next = 'upgradeFiles';
-        $filesToUpgrade = $this->upgradeClass->getFileConfigurationStorage()->load($this->upgradeClass->nextParams['filesToUpgrade']);
+        $filesToUpgrade = $this->upgradeClass->getFileConfigurationStorage()->load(UpgradeFileNames::toUpgradeFileList);
         if (!is_array($filesToUpgrade)) {
             $this->upgradeClass->next = 'error';
             $this->upgradeClass->next_desc = 
@@ -126,8 +126,8 @@ class UpgradeFiles extends AbstractTask
         for ($i = 0; $i < \AdminSelfUpgrade::$loopUpgradeFiles; $i++) {
             if (count($filesToUpgrade) <= 0) {
                 $this->upgradeClass->next = 'upgradeDb';
-                if (file_exists(($this->upgradeClass->nextParams['filesToUpgrade']))) {
-                    unlink($this->upgradeClass->nextParams['filesToUpgrade']);
+                if (file_exists(UpgradeFileNames::toUpgradeFileList)) {
+                    unlink(UpgradeFileNames::toUpgradeFileList);
                 }
                 $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('All files upgraded. Now upgrading database...', array(), 'Modules.Autoupgrade.Admin');
                 $this->upgradeClass->stepDone = true;
@@ -143,7 +143,7 @@ class UpgradeFiles extends AbstractTask
                 break;
             }
         }
-        $this->upgradeClass->getFileConfigurationStorage()->save($filesToUpgrade, $this->upgradeClass->nextParams['filesToUpgrade']);
+        $this->upgradeClass->getFileConfigurationStorage()->save($filesToUpgrade, UpgradeFileNames::toUpgradeFileList);
         if (count($filesToUpgrade) > 0) {
             $this->upgradeClass->next_desc =
             $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->getTranslator()->trans('%s files left to upgrade.', array(count($filesToUpgrade)), 'Modules.Autoupgrade.Admin');

@@ -43,7 +43,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translation;
 use PrestaShop\Module\AutoUpgrade\Parameters\FileConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFiles;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension;
 
 require __DIR__.'/vendor/autoload.php';
@@ -279,7 +279,7 @@ class AdminSelfUpgrade extends AdminController
         $admin_dir = trim(str_replace($this->prodRootDir, '', $this->adminDir), DIRECTORY_SEPARATOR);
         $this->prestashopConfiguration = new PrestashopConfiguration(
             $admin_dir.DIRECTORY_SEPARATOR.$this->autoupgradeDir,
-            $this->upgrader->autoupgrade_last_version
+            $this->getUpgrader()->autoupgrade_last_version
         );
 
         // Performance settings, if your server has a low memory size, lower these values
@@ -410,40 +410,13 @@ class AdminSelfUpgrade extends AdminController
         $this->initPath();
         $this->getUpgradeConfiguration();
         $this->getState();
-        $upgrader = $this->getUpgrader();
 
         // If you have defined this somewhere, you know what you do
         /* load options from configuration if we're not in ajax mode */
         if (!$this->ajax) {
             $this->createCustomToken();
 
-            $postData = 'version='._PS_VERSION_.'&method=listing&action=native&iso_code=all';
-            $xml_local = $this->prodRootDir.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'xml'.DIRECTORY_SEPARATOR.'modules_native_addons.xml';
-            $xml = $upgrader->getApiAddons($xml_local, $postData, true);
-
-            $modules_addons = array();
-            if (is_object($xml)) {
-                foreach ($xml as $mod) {
-                    $modules_addons[(string)$mod->id] = (string)$mod->name;
-                }
-            }
-            $this->state->setModulesAddons($modules_addons);
-
-            // installedLanguagesIso is used to merge translations files
-            $installedLanguagesIso = array_map(
-                function($v) { return $v['iso_code']; },
-                Language::getIsoIds(false)
-            );
-            $this->state->setInstalledLanguagesIso($installedLanguagesIso);
-
-            $rand = dechex(mt_rand(0, min(0xffffffff, mt_getrandmax())));
-            $date = date('Ymd-His');
-            $backupName = 'V'._PS_VERSION_.'_'.$date.'-'.$rand;
-            // Todo: To be moved in state class? We could only require the backup name here
-            // I.e = $this->state->setBackupName($backupName);, which triggers 2 other setters internally
-            $this->state->setBackupName($backupName)
-                ->setBackupFilesFilename('auto-backupfiles_'.$backupName.'.zip')
-                ->setBackupDbFilename('auto-backupdb_XXXXXX_'.$backupName.'.sql');
+            $this->initDefaultState();
             // removing temporary files
             $this->getFileConfigurationStorage()->cleanAll();
         }
@@ -507,6 +480,37 @@ class AdminSelfUpgrade extends AdminController
         {
             $this->excludeAbsoluteFilesFromUpgrade[] = '/themes/classic';
         }
+    }
+
+    public function initDefaultState()
+    {
+        $postData = 'version='._PS_VERSION_.'&method=listing&action=native&iso_code=all';
+        $xml_local = $this->prodRootDir.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'xml'.DIRECTORY_SEPARATOR.'modules_native_addons.xml';
+        $xml = $this->getUpgrader()->getApiAddons($xml_local, $postData, true);
+
+        $modules_addons = array();
+        if (is_object($xml)) {
+            foreach ($xml as $mod) {
+                $modules_addons[(string)$mod->id] = (string)$mod->name;
+            }
+        }
+        $this->state->setModulesAddons($modules_addons);
+
+        // installedLanguagesIso is used to merge translations files
+        $installedLanguagesIso = array_map(
+            function($v) { return $v['iso_code']; },
+            Language::getIsoIds(false)
+        );
+        $this->state->setInstalledLanguagesIso($installedLanguagesIso);
+
+        $rand = dechex(mt_rand(0, min(0xffffffff, mt_getrandmax())));
+        $date = date('Ymd-His');
+        $backupName = 'V'._PS_VERSION_.'_'.$date.'-'.$rand;
+        // Todo: To be moved in state class? We could only require the backup name here
+        // I.e = $this->state->setBackupName($backupName);, which triggers 2 other setters internally
+        $this->state->setBackupName($backupName)
+            ->setBackupFilesFilename('auto-backupfiles_'.$backupName.'.zip')
+            ->setBackupDbFilename('auto-backupdb_XXXXXX_'.$backupName.'.sql');
     }
 
     /**
@@ -648,7 +652,7 @@ class AdminSelfUpgrade extends AdminController
      */
     public function writeConfig($config)
     {
-        if (!$this->getFileConfigurationStorage()->exists(UpgradeFiles::configFilename) && !empty($config['channel'])) {
+        if (!$this->getFileConfigurationStorage()->exists(UpgradeFileNames::configFilename) && !empty($config['channel'])) {
             $this->upgrader->channel = $config['channel'];
             $this->upgrader->checkPSVersion();
 
@@ -657,7 +661,7 @@ class AdminSelfUpgrade extends AdminController
 
         $this->upgradeConfiguration->merge($config);
         $this->next_desc = $this->trans('Configuration successfully updated.', array(), 'Modules.Autoupgrade.Admin').' <strong>'.$this->trans('This page will now be reloaded and the module will check if a new version is available.', array(), 'Modules.Autoupgrade.Admin').'</strong>';
-        return (new UpgradeConfigurationStorage($this->autoupgradePath.DIRECTORY_SEPARATOR))->save($this->upgradeConfiguration, UpgradeFiles::configFilename);
+        return (new UpgradeConfigurationStorage($this->autoupgradePath.DIRECTORY_SEPARATOR))->save($this->upgradeConfiguration, UpgradeFileNames::configFilename);
     }
 
     /**
@@ -1723,7 +1727,7 @@ class AdminSelfUpgrade extends AdminController
             return $this->upgradeConfiguration;
         }
         $upgradeConfigurationStorage = new UpgradeConfigurationStorage($this->autoupgradePath.DIRECTORY_SEPARATOR);
-        $this->upgradeConfiguration = $upgradeConfigurationStorage->load(UpgradeFiles::configFilename);
+        $this->upgradeConfiguration = $upgradeConfigurationStorage->load(UpgradeFileNames::configFilename);
         return $this->upgradeConfiguration;
     }
 

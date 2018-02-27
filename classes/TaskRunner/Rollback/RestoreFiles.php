@@ -26,7 +26,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback;
 
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFiles;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 
 /**
@@ -39,15 +39,15 @@ class RestoreFiles extends AbstractTask
     {
         // loop
         $this->upgradeClass->next = 'restoreFiles';
-        if (!file_exists($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFiles::fromArchiveFileList)
-            || !file_exists($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFiles::toRemoveFileList)) {
+        if (!file_exists($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFileNames::fromArchiveFileList)
+            || !file_exists($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFileNames::toRemoveFileList)) {
             // cleanup current PS tree
             $fromArchive = $this->upgradeClass->getZipAction()->listContent($this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$this->upgradeClass->getState()-> getRestoreFilesFilename());
             foreach ($fromArchive as $k => $v) {
                 $fromArchive[DIRECTORY_SEPARATOR.$v] = DIRECTORY_SEPARATOR.$v;
             }
 
-            $this->upgradeClass->getFileConfigurationStorage()->save($fromArchive, UpgradeFiles::fromArchiveFileList);
+            $this->upgradeClass->getFileConfigurationStorage()->save($fromArchive, UpgradeFileNames::fromArchiveFileList);
             // get list of files to remove
             $toRemove = $this->upgradeClass->getFilesystemAdapter()->listFilesToRemove();
             $toRemoveOnly = array();
@@ -65,16 +65,16 @@ class RestoreFiles extends AbstractTask
             }
 
             $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->getTranslator()->trans('%s file(s) will be removed before restoring the backup files.', array(count($toRemoveOnly)), 'Modules.Autoupgrade.Admin');
-            $this->upgradeClass->getFileConfigurationStorage()->save($toRemoveOnly, UpgradeFiles::toRemoveFileList);
+            $this->upgradeClass->getFileConfigurationStorage()->save($toRemoveOnly, UpgradeFileNames::toRemoveFileList);
 
             if ($fromArchive === false || $toRemove === false) {
                 if (!$fromArchive) {
                     $this->upgradeClass->nextQuickInfo[] =
-                    $this->upgradeClass->nextErrors[] = $this->upgradeClass->getTranslator()->trans('[ERROR] Backup file %s does not exist.', array(UpgradeFiles::fromArchiveFileList), 'Modules.Autoupgrade.Admin');
+                    $this->upgradeClass->nextErrors[] = $this->upgradeClass->getTranslator()->trans('[ERROR] Backup file %s does not exist.', array(UpgradeFileNames::fromArchiveFileList), 'Modules.Autoupgrade.Admin');
                 }
                 if (!$toRemove) {
                     $this->upgradeClass->nextQuickInfo[] =
-                    $this->upgradeClass->nextErrors[] = $this->upgradeClass->getTranslator()->trans('[ERROR] File "%s" does not exist.', array(UpgradeFiles::toRemoveFileList), 'Modules.Autoupgrade.Admin');
+                    $this->upgradeClass->nextErrors[] = $this->upgradeClass->getTranslator()->trans('[ERROR] File "%s" does not exist.', array(UpgradeFileNames::toRemoveFileList), 'Modules.Autoupgrade.Admin');
                 }
                 $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('Unable to remove upgraded files.', array(), 'Modules.Autoupgrade.Admin');
                 $this->upgradeClass->next = 'error';

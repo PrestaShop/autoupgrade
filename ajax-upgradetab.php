@@ -27,6 +27,13 @@
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\TaskRepository;
 
+/**
+ * This file is the entrypoint for all ajax requests during a upgrade, rollback or configuration.
+ * In order to get the admin context, this file is copied to the admin/autoupgrade folder of your shop when the module configuration is reached.
+ *
+ * Calling it from the module/autoupgrade folder will have unwanted consequences on the upgrade and your shop.
+ */
+
 require_once(realpath(dirname(__FILE__).'/../../modules/autoupgrade').'/ajax-upgradetabconfig.php');
 autoupgrade_ajax_init(dirname(__FILE__));
 

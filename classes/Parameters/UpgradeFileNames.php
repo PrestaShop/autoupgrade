@@ -29,7 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade\Parameters;
 /**
  * File names where upgrade temporary content is stored
  */
-class UpgradeFiles
+class UpgradeFileNames
 {
     /**
      * configFilename contains all configuration specific to the autoupgrade module

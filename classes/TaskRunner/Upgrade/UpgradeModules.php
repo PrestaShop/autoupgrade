@@ -27,7 +27,7 @@
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFiles;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 /**
  * Upgrade all partners modules according to the installed prestashop version
@@ -40,8 +40,8 @@ class UpgradeModules extends AbstractTask
         if (!isset($this->upgradeClass->nextParams['modulesToUpgrade'])) {
             try {
                 $modulesToUpgrade = $this->upgradeClass->getModuleAdapter()->listModulesToUpgrade($this->upgradeClass->getState()-> getModules_addons());
-                $this->upgradeClass->getFileConfigurationStorage()->save($modulesToUpgrade, UpgradeFiles::toUpgradeModuleList);
-                $this->upgradeClass->nextParams['modulesToUpgrade'] = UpgradeFiles::toUpgradeModuleList;
+                $this->upgradeClass->getFileConfigurationStorage()->save($modulesToUpgrade, UpgradeFileNames::toUpgradeModuleList);
+                $this->upgradeClass->nextParams['modulesToUpgrade'] = UpgradeFileNames::toUpgradeModuleList;
             } catch (UpgradeException $e) {
                 $this->upgradeClass->handleException($e);
                 return false;
@@ -84,7 +84,7 @@ class UpgradeModules extends AbstractTask
             } while (($time_elapsed < \AdminSelfUpgrade::$loopUpgradeModulesTime) && count($listModules) > 0);
 
             $modules_left = count($listModules);
-            $this->upgradeClass->getFileConfigurationStorage()->save($listModules, UpgradeFiles::toUpgradeModuleList);
+            $this->upgradeClass->getFileConfigurationStorage()->save($listModules, UpgradeFileNames::toUpgradeModuleList);
             unset($listModules);
 
             $this->upgradeClass->next = 'upgradeModules';

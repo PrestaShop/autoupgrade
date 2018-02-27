@@ -26,7 +26,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback;
 
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFiles;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Database;
 
@@ -50,8 +50,8 @@ class RestoreDb extends AbstractTask
         $listQuery = array();
 
         // deal with running backup rest if exist
-        if (file_exists($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFiles::toRestoreQueryList)) {
-            $listQuery = $this->upgradeClass->getFileConfigurationStorage()->load(UpgradeFiles::toRestoreQueryList);
+        if (file_exists($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFileNames::toRestoreQueryList)) {
+            $listQuery = $this->upgradeClass->getFileConfigurationStorage()->load(UpgradeFileNames::toRestoreQueryList);
         }
 
         // deal with the next files stored in restoreDbFilenames
@@ -140,7 +140,7 @@ class RestoreDb extends AbstractTask
                 $tablesToRemove = array_diff($tables_before_restore, $tables_after_restore);
 
                 if (!empty($tablesToRemove)) {
-                    $this->upgradeClass->getFileConfigurationStorage()->save($tablesToRemove, UpgradeFiles::toCleanTable);
+                    $this->upgradeClass->getFileConfigurationStorage()->save($tablesToRemove, UpgradeFileNames::toCleanTable);
                 }
             }
         }
@@ -153,8 +153,8 @@ class RestoreDb extends AbstractTask
 
             do {
                 if (count($listQuery) == 0) {
-                    if (file_exists($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFiles::toRestoreQueryList)) {
-                        unlink($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFiles::toRestoreQueryList);
+                    if (file_exists($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFileNames::toRestoreQueryList)) {
+                        unlink($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFileNames::toRestoreQueryList);
                     }
 
                     $restoreDbFilenamesCount = count($this->upgradeClass->getState()-> getRestoreDbFilenames());
@@ -180,8 +180,8 @@ class RestoreDb extends AbstractTask
                         $this->upgradeClass->next = 'rollbackComplete';
                         $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('Database has been restored.', array(), 'Modules.Autoupgrade.Admin');
 
-                        $databaseTools->cleanTablesAfterBackup($this->upgradeClass->getFileConfigurationStorage()->load(UpgradeFiles::toCleanTable));
-                        $this->upgradeClass->getFileConfigurationStorage()->clean(UpgradeFiles::toCleanTable);
+                        $databaseTools->cleanTablesAfterBackup($this->upgradeClass->getFileConfigurationStorage()->load(UpgradeFileNames::toCleanTable));
+                        $this->upgradeClass->getFileConfigurationStorage()->clean(UpgradeFileNames::toCleanTable);
                     }
                     return true;
                 }
@@ -202,7 +202,7 @@ class RestoreDb extends AbstractTask
                         $this->upgradeClass->next = 'error';
                         $this->upgradeClass->error = 1;
                         $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('Error during database restoration', array(), 'Modules.Autoupgrade.Admin');
-                        unlink($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFiles::toRestoreQueryList);
+                        unlink($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFileNames::toRestoreQueryList);
                         return false;
                     }
                 }
@@ -217,9 +217,9 @@ class RestoreDb extends AbstractTask
             $queries_left = count($listQuery);
 
             if ($queries_left > 0) {
-                $this->upgradeClass->getFileConfigurationStorage()->save($listQuery, UpgradeFiles::toRestoreQueryList);
-            } elseif (file_exists($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFiles::toRestoreQueryList)) {
-                unlink($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFiles::toRestoreQueryList);
+                $this->upgradeClass->getFileConfigurationStorage()->save($listQuery, UpgradeFileNames::toRestoreQueryList);
+            } elseif (file_exists($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFileNames::toRestoreQueryList)) {
+                unlink($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFileNames::toRestoreQueryList);
             }
 
             $this->upgradeClass->stepDone = false;
@@ -239,8 +239,8 @@ class RestoreDb extends AbstractTask
             $this->upgradeClass->next = 'rollbackComplete';
             $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('Database restoration done.', array(), 'Modules.Autoupgrade.Admin');
 
-            $databaseTools->cleanTablesAfterBackup($this->upgradeClass->getFileConfigurationStorage()->load(UpgradeFiles::toCleanTable));
-            $this->upgradeClass->getFileConfigurationStorage()->clean(UpgradeFiles::toCleanTable);
+            $databaseTools->cleanTablesAfterBackup($this->upgradeClass->getFileConfigurationStorage()->load(UpgradeFileNames::toCleanTable));
+            $this->upgradeClass->getFileConfigurationStorage()->clean(UpgradeFileNames::toCleanTable);
         }
         return true;
     }

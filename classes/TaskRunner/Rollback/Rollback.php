@@ -26,7 +26,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback;
 
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFiles;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 
 /**
@@ -84,11 +84,11 @@ class Rollback extends AbstractTask
         $this->upgradeClass->next = 'restoreFiles';
         $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('Restoring files ...', array(), 'Modules.Autoupgrade.Admin');
         // remove tmp files related to restoreFiles
-        if (file_exists($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFiles::fromArchiveFileList)) {
-            unlink($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFiles::fromArchiveFileList);
+        if (file_exists($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFileNames::fromArchiveFileList)) {
+            unlink($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFileNames::fromArchiveFileList);
         }
-        if (file_exists($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFiles::toRemoveFileList)) {
-            unlink($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFiles::toRemoveFileList);
+        if (file_exists($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFileNames::toRemoveFileList)) {
+            unlink($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFileNames::toRemoveFileList);
         }
     }
 }
