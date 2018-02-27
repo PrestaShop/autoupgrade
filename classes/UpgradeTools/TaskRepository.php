@@ -77,6 +77,7 @@ class TaskRepository
             case 'unzip':
                 return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\Unzip($adminObj);
         }
-        throw new Exception('Unknown step');
+        error_log('Unknown step '. $step);
+        return new \PrestaShop\Module\AutoUpgrade\TaskRunner\NullTask($adminObj);
     }
 }

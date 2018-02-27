@@ -40,6 +40,10 @@ if (function_exists('date_default_timezone_set'))
  */
 function autoupgrade_ajax_init($callerFilePath)
 {
+    if (php_sapi_name() === 'cli') {
+        parse_str($_SERVER['argv'][1], $_POST);
+    }
+
     define('_PS_ADMIN_DIR_', realpath($callerFilePath.'/../'));
     require_once(realpath($callerFilePath.'/../../config/config.inc.php'));
 
