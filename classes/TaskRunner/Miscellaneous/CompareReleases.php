@@ -27,7 +27,7 @@
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous;
 
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFiles;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Upgrader;
 
 /**
@@ -66,7 +66,7 @@ class CompareReleases extends AbstractTask
             $this->upgradeClass->nextParams['status'] = 'error';
             $this->upgradeClass->nextParams['msg'] = sprintf('Unable to generate diff file list between %1$s and %2$s.', _PS_VERSION_, $version);
         } else {
-            $this->upgradeClass->getFileConfigurationStorage()->save($diffFileList, UpgradeFiles::diffFileList);
+            $this->upgradeClass->getFileConfigurationStorage()->save($diffFileList, UpgradeFileNames::diffFileList);
             if (count($diffFileList) > 0) {
                 $this->upgradeClass->nextParams['msg'] = $this->upgradeClass->getTranslator()->trans(
                     '%modifiedfiles% files will be modified, %deletedfiles% files will be deleted (if they are found).',

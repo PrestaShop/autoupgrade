@@ -26,7 +26,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFiles;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 
 class BackupFiles extends AbstractTask
@@ -52,14 +52,14 @@ class BackupFiles extends AbstractTask
             return false;
         }
 
-        if (empty($this->upgradeClass->nextParams['filesForBackup'])) {
+        if (!$this->upgradeClass->getFileConfigurationStorage()->exists(UpgradeFileNames::toBackupFileList)) {
             // @todo : only add files and dir listed in "originalPrestashopVersion" list
             $filesToBackup = $this->upgradeClass->getFilesystemAdapter()->listFilesInDir($this->upgradeClass->prodRootDir, 'backup', false);
-            $this->upgradeClass->getFileConfigurationStorage()->save($filesToBackup, UpgradeFiles::toBackupFileList);
+            $this->upgradeClass->getFileConfigurationStorage()->save($filesToBackup, UpgradeFileNames::toBackupFileList);
             if (count($filesToBackup)) {
                 $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->getTranslator()->trans('%s Files to backup.', array(count($filesToBackup)), 'Modules.Autoupgrade.Admin');
             }
-            $this->upgradeClass->nextParams['filesForBackup'] = UpgradeFiles::toBackupFileList;
+            $this->upgradeClass->nextParams['filesForBackup'] = UpgradeFileNames::toBackupFileList;
 
             // delete old backup, create new
             if (!empty($backupFilesFilename) && file_exists($this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$backupFilesFilename)) {
@@ -68,7 +68,7 @@ class BackupFiles extends AbstractTask
 
             $this->upgradeClass->nextQuickInfo[]    = $this->upgradeClass->getTranslator()->trans('Backup files initialized in %s', array($backupFilesFilename), 'Modules.Autoupgrade.Admin');
         }
-        $filesToBackup = $this->upgradeClass->getFileConfigurationStorage()->load(UpgradeFiles::toBackupFileList);
+        $filesToBackup = $this->upgradeClass->getFileConfigurationStorage()->load(UpgradeFileNames::toBackupFileList);
 
         $this->upgradeClass->next = 'backupFiles';
         if (is_array($filesToBackup) && count($filesToBackup)) {
@@ -82,7 +82,7 @@ class BackupFiles extends AbstractTask
                 $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('Unable to open archive', array(), 'Modules.Autoupgrade.Admin');
                 return false;
             }
-            $this->upgradeClass->getFileConfigurationStorage()->save($filesToBackup, UpgradeFiles::toBackupFileList);
+            $this->upgradeClass->getFileConfigurationStorage()->save($filesToBackup, UpgradeFileNames::toBackupFileList);
         }
 
         if (count($filesToBackup) <= 0) {

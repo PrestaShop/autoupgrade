@@ -29,6 +29,10 @@ namespace PrestaShop\Module\AutoUpgrade\TaskRunner;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\TaskRepository;
 
+/**
+ * Execute the whole upgrade process in a single request.
+ * TODO: Handle customization
+ */
 class AllUpgradeTasks extends AbstractTask
 {
     const initialTask = 'upgradeNow';
@@ -36,6 +40,38 @@ class AllUpgradeTasks extends AbstractTask
     public function run()
     {
         $step = self::initialTask;
+
+        $this->init();
+        while ($this->canContinue($step)) {
+            $controller = TaskRepository::get($step, $this->upgradeClass);
+            $controller->run();
+
+            $this->displayLog($step);
+            $step = $this->upgradeClass->next;
+        }
+    }
+
+
+    /**
+     * Tell the while loop if it can continue
+     *
+     * @param string $step current step
+     * @return boolean
+     */
+    public function canContinue($step)
+    {
+        if (empty($step)) {
+            return false;
+        }
+
+        return ! in_array($step, array('error'));
+    }
+
+    /**
+     * Set default config for AdminSelfUpgrade
+     */
+    protected function init()
+    {
         $this->upgradeClass->writeConfig(array(
             'channel' => 'minor',
             'PS_AUTOUP_PERFORMANCE' => 1,
@@ -46,15 +82,17 @@ class AllUpgradeTasks extends AbstractTask
             'PS_AUTOUP_BACKUP' => 1,
             'PS_AUTOUP_KEEP_IMAGES' => 0,
         ));
-        while (!empty($step)) {
-            $controller = TaskRepository::get($step, $this->upgradeClass);
-            $controller->run();
 
-            $this->displayLog($step);
-            $step = $this->upgradeClass->next;
-        }
+        $_COOKIE['id_employee'] = 1;
+        $this->upgradeClass->initDefaultState();
     }
 
+    /**
+     * Displays the log content at the end of each step
+     *
+     * @param type $step
+     * @throws \Exception
+     */
     protected function displayLog($step)
     {
         echo "\n=== Step ".$step."\n";

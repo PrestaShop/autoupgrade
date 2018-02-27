@@ -26,7 +26,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous;
 
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFiles;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Upgrader;
 
@@ -64,12 +64,12 @@ class CheckFilesVersion extends AbstractTask
             if (!isset($changedFileList['translation'])) {
                 $changedFileList['translation'] = array();
             }
-            $this->upgradeClass->getFileConfigurationStorage()->save($changedFileList['translation'], UpgradeFiles::tradCustomList);
+            $this->upgradeClass->getFileConfigurationStorage()->save($changedFileList['translation'], UpgradeFileNames::tradCustomList);
 
             if (!isset($changedFileList['mail'])) {
                 $changedFileList['mail'] = array();
             }
-            $this->upgradeClass->getFileConfigurationStorage()->save($changedFileList['mail'], UpgradeFiles::mailCustomList);
+            $this->upgradeClass->getFileConfigurationStorage()->save($changedFileList['mail'], UpgradeFileNames::mailCustomList);
 
 
             if ($changedFileList === false) {

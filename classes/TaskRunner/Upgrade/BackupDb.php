@@ -27,7 +27,7 @@
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 
 use PrestaShop\Module\AutoUpgrade\Tools14;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFiles;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 
 class BackupDb extends AbstractTask
@@ -71,17 +71,17 @@ class BackupDb extends AbstractTask
         }
 
         // INIT LOOP
-        if (!file_exists($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFiles::toBackupDbList)) {
+        if (!$this->upgradeClass->getFileConfigurationStorage()->exists(UpgradeFileNames::toBackupDbList)) {
             if (!is_dir($this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$this->upgradeClass->getState()-> getBackupName())) {
                 mkdir($this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$this->upgradeClass->getState()-> getBackupName());
             }
             $this->upgradeClass->nextParams['dbStep'] = 0;
             $tablesToBackup = $this->upgradeClass->db->executeS('SHOW TABLES LIKE "'._DB_PREFIX_.'%"', true, false);
-            $this->upgradeClass->getFileConfigurationStorage()->save($tablesToBackup, UpgradeFiles::toBackupDbList);
+            $this->upgradeClass->getFileConfigurationStorage()->save($tablesToBackup, UpgradeFileNames::toBackupDbList);
         }
 
         if (!isset($tablesToBackup)) {
-            $tablesToBackup = $this->upgradeClass->getFileConfigurationStorage()->load(UpgradeFiles::toBackupDbList);
+            $tablesToBackup = $this->upgradeClass->getFileConfigurationStorage()->load(UpgradeFileNames::toBackupDbList);
         }
         $found = 0;
         $views = '';
@@ -265,7 +265,7 @@ class BackupDb extends AbstractTask
             unset($fp);
         }
 
-        $this->upgradeClass->getFileConfigurationStorage()->save($tablesToBackup, UpgradeFiles::toBackupDbList);
+        $this->upgradeClass->getFileConfigurationStorage()->save($tablesToBackup, UpgradeFileNames::toBackupDbList);
 
         if (count($tablesToBackup) > 0) {
             $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->getTranslator()->trans('%s tables have been saved.', array($found), 'Modules.Autoupgrade.Admin');

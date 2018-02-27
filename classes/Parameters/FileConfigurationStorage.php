@@ -27,7 +27,7 @@
 namespace PrestaShop\Module\AutoUpgrade\Parameters;
 
 use PrestaShop\Module\AutoUpgrade\Tools14;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFiles;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -89,8 +89,8 @@ class FileConfigurationStorage
     public function getFilesList()
     {
         $files = array();
-        foreach (UpgradeFiles::$tmp_files as $file) {
-            $files[$file] = $this->getFilePath(constant('PrestaShop\\Module\\AutoUpgrade\\Parameters\\UpgradeFiles::' . $file));
+        foreach (UpgradeFileNames::$tmp_files as $file) {
+            $files[$file] = $this->getFilePath(constant('PrestaShop\\Module\\AutoUpgrade\\Parameters\\UpgradeFileNames::' . $file));
         }
         return $files;
     }
@@ -121,7 +121,7 @@ class FileConfigurationStorage
     public function exists($fileName)
     {
         $filesystem = new Filesystem;
-        $filesystem->exists($this->getFilePath($fileName));
+        return $filesystem->exists($this->getFilePath($fileName));
     }
 
     /**
