@@ -32,6 +32,12 @@ autoupgrade_ajax_init(dirname(__FILE__));
 
 $adminObj = new AdminSelfUpgrade();
 
+if (php_sapi_name() === 'cli') {
+    $controller = new \PrestaShop\Module\AutoUpgrade\TaskRunner\AllUpgradeTasks($adminObj);
+    $controller->run();
+    exit(0);
+}
+
 if (!$adminObj->checkToken()) {
     // If this is an XSS attempt, then we should only display a simple, secure page
     if (ob_get_level() && ob_get_length() > 0)
