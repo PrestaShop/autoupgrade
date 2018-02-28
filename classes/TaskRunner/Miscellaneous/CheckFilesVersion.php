@@ -40,53 +40,37 @@ class CheckFilesVersion extends AbstractTask
         // do nothing after this request (see javascript function doAjaxRequest )
         $this->upgradeClass->next = '';
         $upgrader = new Upgrader();
-
         $changedFileList = $upgrader->getChangedFilesList();
 
-        if ($upgrader->isAuthenticPrestashopVersion() === true
-            && !is_array($changedFileList)) {
+        if ($changedFileList === false) {
             $this->upgradeClass->nextParams['status'] = 'error';
             $this->upgradeClass->nextParams['msg'] = $this->upgradeClass->getTranslator()->trans('Unable to check files for the installed version of PrestaShop.', array(), 'Modules.Autoupgrade.Admin');
-            $testOrigCore = false;
-        } else {
-            if ($upgrader->isAuthenticPrestashopVersion() === true) {
-                $this->upgradeClass->nextParams['status'] = 'ok';
-                $testOrigCore = true;
-            } else {
-                $testOrigCore = false;
-                $this->upgradeClass->nextParams['status'] = 'warn';
-            }
-
-            if (!isset($changedFileList['core'])) {
-                $changedFileList['core'] = array();
-            }
-
-            if (!isset($changedFileList['translation'])) {
-                $changedFileList['translation'] = array();
-            }
-            $this->upgradeClass->getFileConfigurationStorage()->save($changedFileList['translation'], UpgradeFileNames::tradCustomList);
-
-            if (!isset($changedFileList['mail'])) {
-                $changedFileList['mail'] = array();
-            }
-            $this->upgradeClass->getFileConfigurationStorage()->save($changedFileList['mail'], UpgradeFileNames::mailCustomList);
-
-
-            if ($changedFileList === false) {
-                $changedFileList = array();
-                $this->upgradeClass->nextParams['msg'] = $this->upgradeClass->getTranslator()->trans('Unable to check files', array(), 'Modules.Autoupgrade.Admin');
-                $this->upgradeClass->nextParams['status'] = 'error';
-            } else {
-                $this->upgradeClass->nextParams['msg'] = ($testOrigCore ? $this->upgradeClass->getTranslator()->trans('Core files are ok', array(), 'Modules.Autoupgrade.Admin') : $this->upgradeClass->getTranslator()->trans(
-                    '%modificationscount% file modifications have been detected, including %coremodifications% from core and native modules:',
-                    array(
-                        '%modificationscount%' => count(array_merge($changedFileList['core'], $changedFileList['mail'], $changedFileList['translation'])),
-                        '%coremodifications%' => count($changedFileList['core']),
-                    ),
-                    'Modules.Autoupgrade.Admin')
-                );
-            }
-            $this->upgradeClass->nextParams['result'] = $changedFileList;
+            return;
         }
+
+        foreach (array('core', 'translation', 'mail') as $type) {
+            if (!isset($changedFileList[$type])) {
+                $changedFileList[$type] = array();
+            }
+        }
+        
+        if ($upgrader->isAuthenticPrestashopVersion() === true) {
+            $this->upgradeClass->nextParams['status'] = 'ok';
+            $this->upgradeClass->nextParams['msg'] = $this->upgradeClass->getTranslator()->trans('Core files are ok', array(), 'Modules.Autoupgrade.Admin');
+        } else {
+            $this->upgradeClass->nextParams['status'] = 'warn';
+            $this->upgradeClass->nextParams['msg'] = $this->upgradeClass->getTranslator()->trans(
+                '%modificationscount% file modifications have been detected, including %coremodifications% from core and native modules:',
+                array(
+                    '%modificationscount%' => count(array_merge($changedFileList['core'], $changedFileList['mail'], $changedFileList['translation'])),
+                    '%coremodifications%' => count($changedFileList['core']),
+                ),
+                'Modules.Autoupgrade.Admin'
+            );
+        }
+        $this->upgradeClass->nextParams['result'] = $changedFileList;
+
+        $this->upgradeClass->getFileConfigurationStorage()->save($changedFileList['translation'], UpgradeFileNames::tradCustomList);
+        $this->upgradeClass->getFileConfigurationStorage()->save($changedFileList['mail'], UpgradeFileNames::mailCustomList);
     }
 }
