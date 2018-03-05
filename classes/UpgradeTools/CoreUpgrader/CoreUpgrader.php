@@ -673,8 +673,11 @@ class CoreUpgrader
 
     protected function updateTheme()
     {
-        $themeName = ($this->selfUpgradeClass->changeToDefaultTheme ? 'classic' : _THEME_NAME_);
-        $themeErrors = (new ThemeAdapter($this->selfUpgradeClass->db))->enableTheme($themeName);
+        $themeAdapter = new ThemeAdapter($this->db, $this->state->getInstallVersion());
+        $themeName = $this->changeToDefaultTheme ?
+            $themeAdapter->getDefaultTheme() :
+            _THEME_NAME_;
+        $themeErrors = $themeAdapter->enableTheme($themeName);
 
         if ($themeErrors !== true) {
             throw new UpgradeException($themeErrors);
