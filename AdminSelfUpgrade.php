@@ -1366,8 +1366,11 @@ class AdminSelfUpgrade extends AdminController
             }
         }
 
-        $themeName = ($this->changeToDefaultTheme ? 'classic' : _THEME_NAME_);
-        $themeErrors = (new ThemeAdapter($this->db))->enableTheme($themeName);
+        $themeAdapter = new ThemeAdapter($this->db, $this->state->getInstallVersion());
+        $themeName = $this->changeToDefaultTheme ?
+            $themeAdapter->getDefaultTheme() :
+            _THEME_NAME_;
+        $themeErrors = $themeAdapter->enableTheme($themeName);
 
         if ($themeErrors !== true) {
             $this->nextQuickInfo[] = $themeErrors;
