@@ -34,7 +34,7 @@ use PrestaShop\Module\AutoUpgrade\Twig\Form\FormRenderer;
 use PrestaShop\Module\AutoUpgrade\Twig\Form\UpgradeOptionsForm;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Upgrader;
-use PrestaShopBundle\Translation\TranslatorComponent;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 use Configuration;
 use Twig_Environment;
 
@@ -67,7 +67,7 @@ class UpgradePage
     private $config;
 
     /**
-     * @var TranslatorComponent
+     * @var Translator
      */
     private $translator;
 
@@ -134,7 +134,7 @@ class UpgradePage
     public function __construct(
         UpgradeConfiguration $config,
         Twig_Environment $twig,
-        TranslatorComponent $translator,
+        Translator $translator,
         UpgradeSelfCheck $upgradeSelfCheck,
         Upgrader $upgrader,
         BackupFinder $backupFinder,

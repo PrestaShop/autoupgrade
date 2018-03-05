@@ -24,6 +24,7 @@
 *  International Registered Trademark & Property of PrestaShop SA
 */
 
+require __DIR__.'/vendor/autoload.php';
 class Autoupgrade extends Module
 {
     public function __construct()
@@ -182,5 +183,19 @@ class Autoupgrade extends Module
             @closedir($handle);
             @rmdir($dir);
         }
+    }
+
+    /**
+     * Adapter for trans calls, existing only on PS 1.7.
+     * Making them available for PS 1.6 as well
+     *
+     * @param string $id
+     * @param array $parameters
+     * @param string $domain
+     * @param string $locale
+     */
+    public function trans($id, array $parameters = array(), $domain = null, $locale = null)
+    {
+        return (new \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator($this))->trans($id, $parameters, $domain, $locale);
     }
 }
