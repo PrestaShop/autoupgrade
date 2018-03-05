@@ -35,7 +35,6 @@ use PrestaShop\Module\AutoUpgrade\PrestashopConfiguration;
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\ZipAction;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\Database;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\ModuleAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\ThemeAdapter;
@@ -1699,8 +1698,7 @@ class AdminSelfUpgrade extends AdminController
 
     public function getTranslator()
     {
-        // TODO: 1.7 Only
-        return Context::getContext()->getTranslator();
+        return new \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator($this);
     }
 
     public function getTwig()
@@ -1739,5 +1737,19 @@ class AdminSelfUpgrade extends AdminController
 
         $this->zipAction = new ZipAction($this->getTranslator(), $this->prodRootDir);
         return $this->zipAction;
+    }
+
+    /**
+     * Adapter for trans calls, existing only on PS 1.7.
+     * Making them available for PS 1.6 as well
+     *
+     * @param string $id
+     * @param array $parameters
+     * @param string $domain
+     * @param string $locale
+     */
+    public function trans($id, array $parameters = array(), $domain = null, $locale = null)
+    {
+        return $this->getTranslator()->trans($id, $parameters, $domain, $locale);
     }
 }
