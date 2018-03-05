@@ -1018,8 +1018,7 @@ class AdminSelfUpgrade extends AdminController
 
     public function getTranslator()
     {
-        // TODO: 1.7 Only
-        return Context::getContext()->getTranslator();
+        return new \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator($this);
     }
 
     public function getTwig()
@@ -1058,5 +1057,19 @@ class AdminSelfUpgrade extends AdminController
 
         $this->zipAction = new ZipAction($this->getTranslator(), $this->getLogger(), $this->prodRootDir);
         return $this->zipAction;
+    }
+
+    /**
+     * Adapter for trans calls, existing only on PS 1.7.
+     * Making them available for PS 1.6 as well
+     *
+     * @param string $id
+     * @param array $parameters
+     * @param string $domain
+     * @param string $locale
+     */
+    public function trans($id, array $parameters = array(), $domain = null, $locale = null)
+    {
+        return $this->getTranslator()->trans($id, $parameters, $domain, $locale);
     }
 }
