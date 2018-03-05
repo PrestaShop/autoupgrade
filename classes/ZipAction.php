@@ -255,7 +255,7 @@ class ZipAction
             foreach ($extract_result as $extractedFile) {
                 $file = str_replace($this->prodRootDir, '', $extractedFile['filename']);
                 if ($extractedFile['status'] != 'ok' && $extractedFile['status'] != 'already_a_directory') {
-                    $this->logs[] = $this->translation->trans('[ERROR] %file% has not been unzipped: %status%', array('%file%' => $file, '%status%' => $extractedFile['status']), 'Modules.Autoupgrade.Admin');
+                    $this->logs[] = $this->translator->trans('[ERROR] %file% has not been unzipped: %status%', array('%file%' => $file, '%status%' => $extractedFile['status']), 'Modules.Autoupgrade.Admin');
                     return false;
                 }
                 $this->logs[] = sprintf('%1$s unzipped into %2$s', $file, str_replace(_PS_ROOT_DIR_, '', $toDir));
