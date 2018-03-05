@@ -71,7 +71,7 @@ class ModuleAdapter
             if (is_null($kernel)) {
                 require_once _PS_ROOT_DIR_.'/app/AppKernel.php';
                 $kernel = new \AppKernel(_PS_MODE_DEV_?'dev':'prod', _PS_MODE_DEV_);
-                $kernel->loadClassCache();
+//                $kernel->loadClassCache();
                 $kernel->boot();
             }
 
@@ -82,12 +82,33 @@ class ModuleAdapter
     }
 
     /**
+    * Upgrade action, disabling all modules not made by PrestaShop
+    */
+    public function disableNonNativeModules()
+    {
+        version_compare($this->upgradeVersion, '1.7.0.0', '>=') ?
+            $this->disableNonNativeModules17() :
+            $this->disableNonNativeModules16();
+    }
+
+    /**
+     * Upgrade action, disabling all modules not made by PrestaShop
+     *
+     * Backward compatibility function
+     */
+    protected function disableNonNativeModules16()
+    {
+        require_once(_PS_INSTALLER_PHP_UPGRADE_DIR_.'deactivate_custom_modules.php');
+        deactivate_custom_modules();
+    }
+
+    /**
      * Upgrade action, disabling all modules not made by PrestaShop
      *
      * Available only from 1.7. Can't be called on PS 1.6
      * `use` statements for namespaces are not used, as they can throw errors where the class does not exist
      */
-    public function disableNonNativeModules()
+    protected function disableNonNativeModules17()
     {
         $moduleManagerBuilder = \PrestaShop\PrestaShop\Core\Addon\Module\ModuleManagerBuilder::getInstance();
         $moduleRepository = $moduleManagerBuilder->buildRepository();
@@ -221,14 +242,12 @@ class ModuleAdapter
             }
         }
 
-        $isUpgraded = $this->getModuleDataUpdater()->upgrade($name);
-
-        if (!$isUpgraded) {
+        // Only 1.7 step
+        if (version_compare($this->upgradeVersion, '1.7.0.0', '>=')
+            && !$this->getModuleDataUpdater()->upgrade($name)) {
             throw (new UpgradeException())
                 ->setQuickInfos('<strong>'.$this->translator->trans('[WARNING] Error when trying to upgrade module %s.', array($name), 'Modules.Autoupgrade.Admin').'</strong>')
                 ->setSeverity(UpgradeException::SEVERITY_WARNING);
         }
-
-        return true;
     }
 }
