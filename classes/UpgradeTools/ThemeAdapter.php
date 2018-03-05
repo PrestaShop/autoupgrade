@@ -29,10 +29,49 @@ namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 class ThemeAdapter
 {
     private $db;
+    private $upgradeVersion;
 
-    public function __construct($db)
+    public function __construct($db, $upgradeVersion)
     {
         $this->db = $db;
+        $this->upgradeVersion = $upgradeVersion;
+    }
+
+    /**
+     * Enable the given theme on the shop
+     * 
+     * @param string $themeName
+     * @return mixed
+     */
+    public function enableTheme($themeName)
+    {
+        return version_compare($this->upgradeVersion, '1.7.0.0', '>=') ?
+            $this->enableTheme17($themeName) :
+            $this->enableTheme16($themeName);
+    }
+
+    /**
+     * Get the default theme name provided with PrestaShop
+     *
+     * @return string
+     */
+    public function getDefaultTheme()
+    {
+        return version_compare($this->upgradeVersion, '1.7.0.0', '>=') ?
+            'classic' : // 1.7
+            'default-bootstrap'; // 1.6
+    }
+
+    /**
+     * Backward compatibility function for theme enabling
+     *
+     * @param string $themeName
+     */
+    private function enableTheme16($themeName)
+    {
+        $this->db->execute('UPDATE `' . _DB_PREFIX_ . 'shop`
+        SET id_theme = (SELECT id_theme FROM `' . _DB_PREFIX_ . 'theme` WHERE name LIKE \''.$themeName.'\')');
+        $this->db->execute('DELETE FROM `' . _DB_PREFIX_ . 'theme` WHERE  name LIKE \'default\' OR name LIKE \'prestashop\'');
     }
 
     /**
@@ -41,7 +80,7 @@ class ThemeAdapter
      * @param string $themeName
      * @return boolean|array
      */
-    public function enableTheme($themeName)
+    private function enableTheme17($themeName)
     {
         $themeManager = $this->getThemeManager();
 
