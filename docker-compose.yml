@@ -10,7 +10,7 @@ services:
             MYSQL_DATABASE: psreference
     reference-release:
         container_name: prestashop_autoupgrade
-        image: prestashop/prestashop:1.7.2.0
+        image: prestashop/prestashop:${VERSION}
         volumes:
             - ./:/var/www/html/modules/autoupgrade
         environment:

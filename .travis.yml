@@ -6,6 +6,7 @@ php:
 
 env:
   - VERSION=1.7.2.2
+  - VERSION=1.6
 
 cache:
   directories:
