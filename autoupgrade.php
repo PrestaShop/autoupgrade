@@ -25,6 +25,7 @@
 */
 
 require __DIR__.'/vendor/autoload.php';
+
 class Autoupgrade extends Module
 {
     public function __construct()
@@ -51,7 +52,7 @@ class Autoupgrade extends Module
         $this->displayName = $this->trans('1-Click Upgrade', array(), 'Modules.Autoupgrade.Admin');
         $this->description = $this->trans('Provides an automated method to upgrade your shop to the latest version of PrestaShop.', array(), 'Modules.Autoupgrade.Admin');
 
-        $this->ps_versions_compliancy = array('min' => '1.7.1.0', 'max' => _PS_VERSION_);
+        $this->ps_versions_compliancy = array('min' => '1.6.0.0', 'max' => _PS_VERSION_);
     }
 
     public function install()
