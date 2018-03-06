@@ -34,8 +34,10 @@ class Upgrader
 	const DEFAULT_CHANNEL = 'major';
 	// @todo channel handling :)
 	public $addons_api = 'api.addons.prestashop.com';
-	public $rss_channel_link = 'https://api.prestashop.com/xml/channel17.xml';
-	public $rss_md5file_link_dir = 'https://api.prestashop.com/xml/md5-17/';
+	public $rss_channel_link = 'https://api.prestashop.com/xml/channel.xml';
+	public $rss_md5file_link_dir = 'https://api.prestashop.com/xml/md5/';
+         public $rss_channel_link_major = 'https://api.prestashop.com/xml/channel17.xml';
+	public $rss_md5file_link_dir_major = 'https://api.prestashop.com/xml/md5-17/';
 	
 	/**
 	 * @var boolean contains true if last version is not installed
@@ -309,7 +311,9 @@ class Upgrader
 
 	public function getXmlChannel($refresh = false)
 	{
-		$xml = $this->getXmlFile(_PS_ROOT_DIR_.'/config/xml/channel.xml', $this->rss_channel_link, $refresh);
+                  // TODO: To be removed, we should have only one file to get.
+		$file = ($this->channel === 'major' ? $this->rss_channel_link_major : $this->rss_channel_link);
+		$xml = $this->getXmlFile(_PS_ROOT_DIR_.'/config/xml/'.pathinfo($file, PATHINFO_BASENAME), $file, $refresh);
 		if ($refresh)
 		{
 			if (class_exists('Configuration', false))
