@@ -197,6 +197,6 @@ class Autoupgrade extends Module
      */
     public function trans($id, array $parameters = array(), $domain = null, $locale = null)
     {
-        return (new \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator($this))->trans($id, $parameters, $domain, $locale);
+        return (new \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator(get_class()))->trans($id, $parameters, $domain, $locale);
     }
 }
