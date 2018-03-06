@@ -60,7 +60,7 @@ class AllUpgradeTasks extends AbstractTask
                 'channel' => $options['channel'],
             ));
             $this->upgradeClass->getUpgrader()->channel = $options['channel'];
-            $this->upgradeClass->getUpgrader()->checkPSVersion();
+            $this->upgradeClass->getUpgrader()->checkPSVersion(true);
         }
     }
 
