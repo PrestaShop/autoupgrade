@@ -27,6 +27,7 @@
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
 * extract chosen version into $this->upgradeClass->latestPath directory
@@ -89,9 +90,15 @@ class Unzip extends AbstractTask
                 return false;
             }
         } else {
+            $filesystem = new Filesystem();
+            $zipSubfolder = $destExtract.'/prestashop/';
             // /!\ On PS 1.6, files are unzipped in a subfolder PrestaShop
-            $this->upgradeClass->latestPath .= DIRECTORY_SEPARATOR.'prestashop';
-            $this->upgradeClass->latestRootDir = $this->upgradeClass->latestPath.DIRECTORY_SEPARATOR;
+            foreach (scandir($zipSubfolder) as $file) {
+                if ($file[0] === '.') {
+                    continue;
+                }
+                $filesystem->rename($zipSubfolder.$file, $destExtract.'/'.$file);
+            }
         }
 
         // Unsetting to force listing
