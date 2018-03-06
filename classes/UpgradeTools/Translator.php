@@ -41,6 +41,32 @@ class Translator
             return \Context::getContext()->getTranslator()->trans($id, $parameters, $domain, $locale);
         }
 
-        return call_user_func_array('sprintf', array_merge(array(\Translate::getModuleTranslation('autoupgrade', $id, get_class($this->caller), false, false)), $parameters));
+        $translated = \Translate::getModuleTranslation('autoupgrade', $id, $this->caller, null);
+        if (!count($parameters)) {
+            return $translated;
+        }
+
+        return $this->applyParameters($translated, $parameters);
+    }
+
+    /**
+     * @param string $id
+     * @param array $parameters
+     * @return string Translated string with parameters applied
+     *
+     * @internal Public for tests
+     */
+    public function applyParameters($id, array $parameters = array())
+    {
+        // Replace placeholders for non numeric keys
+        foreach ($parameters as $placeholder => $value) {
+            if (is_int($placeholder)) {
+                continue;
+            }
+            $id = str_replace($placeholder, $value, $id);
+            unset($parameters[$placeholder]);
+        }
+
+        return call_user_func_array('sprintf', array_merge(array($id), $parameters));
     }
 }

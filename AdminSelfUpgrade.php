@@ -1701,7 +1701,7 @@ class AdminSelfUpgrade extends AdminController
 
     public function getTranslator()
     {
-        return new \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator($this);
+        return new \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator(get_class());
     }
 
     public function getTwig()
