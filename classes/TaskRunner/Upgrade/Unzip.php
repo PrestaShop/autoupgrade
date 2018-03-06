@@ -67,30 +67,27 @@ class Unzip extends AbstractTask
             return false;
         }
 
-        // new system release archive
+        // From PrestaShop 1.7, we zip all the files in another package
+        // which must be unzipped too
         $newZip = $destExtract.DIRECTORY_SEPARATOR.'prestashop.zip';
-        // ToDo : only 1.7!!!
-        if (!is_file($newZip)) {
-            $this->upgradeClass->next = 'error';
-            $this->logger->info($this->upgradeClass->getTranslator()->trans('This is not a valid archive for version %s.', array(INSTALL_VERSION), 'Modules.Autoupgrade.Admin'));
-            return false;
-        }
+        if (file_exists($newZip)) {
+            @unlink($destExtract.DIRECTORY_SEPARATOR.'/index.php');
+            @unlink($destExtract.DIRECTORY_SEPARATOR.'/Install_PrestaShop.html');
 
-        @unlink($destExtract.DIRECTORY_SEPARATOR.'/index.php');
-        @unlink($destExtract.DIRECTORY_SEPARATOR.'/Install_PrestaShop.html');
-
-        $subRes = $this->upgradeClass->getZipAction()->extract($newZip, $destExtract);
-        if (!$subRes) {
-            $this->upgradeClass->next = 'error';
-            $this->logger->info($this->upgradeClass->getTranslator()->trans(
-                'Unable to extract %filepath% file into %destination% folder...',
-                array(
-                    '%filepath%' => $filepath,
-                    '%destination%' => $destExtract,
-                ),
-                'Modules.Autoupgrade.Admin'
-            ));
-            return false;
+            $subRes = $this->upgradeClass->getZipAction()->extract($newZip, $destExtract);
+            $this->upgradeClass->nextQuickInfo = array_merge($this->upgradeClass->nextQuickInfo, $this->upgradeClass->getZipAction()->getLogs());
+            if (!$subRes) {
+                $this->upgradeClass->next = 'error';
+                $this->logger->info($this->upgradeClass->getTranslator()->trans(
+                    'Unable to extract %filepath% file into %destination% folder...',
+                    array(
+                        '%filepath%' => $filepath,
+                        '%destination%' => $destExtract,
+                    ),
+                    'Modules.Autoupgrade.Admin'
+                ));
+                return false;
+            }
         }
 
         // Unsetting to force listing
