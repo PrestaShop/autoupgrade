@@ -6,7 +6,11 @@ php:
 
 env:
   - VERSION=1.7.2.2
+    CHANNEL=major
   - VERSION=1.6
+    CHANNEL=major
+  - VERSION=1.6
+    CHANNEL=minor
 
 cache:
   directories:
@@ -22,7 +26,7 @@ before_script:
 
 script:
   - php vendor/phpunit/phpunit/phpunit tests
-  - docker exec -ti prestashop_autoupgrade php admin-dev/autoupgrade/cli-upgrade.php 'dir=admin-dev'
+  - docker exec -ti prestashop_autoupgrade php admin-dev/autoupgrade/cli-upgrade.php  --dir="admin-dev" --chanel="$CHANNEL"
 
 after_script:
   - docker ps

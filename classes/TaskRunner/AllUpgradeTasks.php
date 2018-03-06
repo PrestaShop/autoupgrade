@@ -49,6 +49,19 @@ class AllUpgradeTasks extends AbstractTask
 
             $step = $this->upgradeClass->next;
         }
+
+        return (int) ($this->upgradeClass->error || count($this->upgradeClass->nextErrors));
+    }
+
+    public function setOptions($options)
+    {
+        if (!empty($options['channel'])) {
+            $this->upgradeClass->writeConfig(array(
+                'channel' => $options['channel'],
+            ));
+            $this->upgradeClass->getUpgrader()->channel = $options['channel'];
+            $this->upgradeClass->getUpgrader()->checkPSVersion();
+        }
     }
 
 
@@ -58,7 +71,7 @@ class AllUpgradeTasks extends AbstractTask
      * @param string $step current step
      * @return boolean
      */
-    public function canContinue($step)
+    protected function canContinue($step)
     {
         if (empty($step)) {
             return false;
@@ -77,7 +90,7 @@ class AllUpgradeTasks extends AbstractTask
     protected function init()
     {
         $this->upgradeClass->writeConfig(array(
-            'channel' => 'minor',
+            'channel' => 'major',
             'PS_AUTOUP_PERFORMANCE' => 1,
             'PS_AUTOUP_CUSTOM_MOD_DESACT' => 1,
             'PS_AUTOUP_UPDATE_DEFAULT_THEME' => 1,

@@ -41,7 +41,7 @@ if (function_exists('date_default_timezone_set'))
 function autoupgrade_ajax_init($callerFilePath)
 {
     if (php_sapi_name() === 'cli') {
-        parse_str($_SERVER['argv'][1], $_POST);
+        $_POST['dir'] = getopt('', array('dir:'))['dir'];
     }
 
     define('_PS_ADMIN_DIR_', realpath($callerFilePath.'/../'));
@@ -54,8 +54,10 @@ function autoupgrade_ajax_init($callerFilePath)
     require_once(AUTOUPGRADE_MODULE_DIR.'functions.php');
 
     // the following test confirm the directory exists
-    if (!isset($_POST['dir']))
-        die('no directory');
+    if (!isset($_POST['dir'])) {
+        echo 'no directory';
+        exit(1);
+    }
 
     // defines.inc.php can not exists (1.3.0.1 for example)
     // but we need _PS_ROOT_DIR_
@@ -68,8 +70,10 @@ function autoupgrade_ajax_init($callerFilePath)
 
     $dir = Tools14::safeOutput(Tools14::getValue('dir'));
 
-    if (realpath($callerFilePath.'/../../').DIRECTORY_SEPARATOR.$dir!== realpath(realpath($callerFilePath.'/../../').DIRECTORY_SEPARATOR.$dir))
-        die('wrong directory :'.(isset($_POST['dir']) ? $dir : ''));
+    if (realpath($callerFilePath.'/../../').DIRECTORY_SEPARATOR.$dir!== realpath(realpath($callerFilePath.'/../../').DIRECTORY_SEPARATOR.$dir)) {
+        echo 'wrong directory :'.(isset($_POST['dir']) ? $dir : '');
+        exit(1);
+    }
 
     if (!defined('_MYSQL_ENGINE_'))
         define('_MYSQL_ENGINE_', 'MyISAM');
