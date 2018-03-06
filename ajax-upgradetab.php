@@ -41,8 +41,8 @@ $adminObj = new AdminSelfUpgrade();
 
 if (php_sapi_name() === 'cli') {
     $controller = new \PrestaShop\Module\AutoUpgrade\TaskRunner\AllUpgradeTasks($adminObj);
-    $controller->run();
-    exit(0);
+    $controller->setOptions(getopt('', array('channel::')));
+    exit($controller->run());
 }
 
 if (!$adminObj->checkToken()) {
