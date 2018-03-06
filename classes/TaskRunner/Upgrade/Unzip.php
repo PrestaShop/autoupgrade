@@ -88,6 +88,10 @@ class Unzip extends AbstractTask
                 ));
                 return false;
             }
+        } else {
+            // /!\ On PS 1.6, files are unzipped in a subfolder PrestaShop
+            $this->upgradeClass->latestPath .= DIRECTORY_SEPARATOR.'prestashop';
+            $this->upgradeClass->latestRootDir = $this->upgradeClass->latestPath.DIRECTORY_SEPARATOR;
         }
 
         // Unsetting to force listing
