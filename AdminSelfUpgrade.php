@@ -1517,6 +1517,9 @@ class AdminSelfUpgrade extends AdminSelfTab
             foreach ($allFiles as $file) {
                 if ($file[0] != '.') {
                     $fullPath = $dir.$file;
+                    if (is_link($fullPath) && !is_readable($fullPath)) {
+                        continue;
+                    }
                     if (!$this->_skipFile($file, $fullPath, $way)) {
                         if (is_dir($fullPath)) {
                             $list = array_merge($list, $this->_listFilesInDir($fullPath, $way, $list_directories));
