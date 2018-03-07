@@ -45,4 +45,20 @@ class SymfonyAdapter
         $sf2Refresh->addCacheClear(_PS_MODE_DEV_ ? 'dev' : 'prod');
         $sf2Refresh->execute();
     }
+
+    public function runSchemaUpgradeCommand()
+    {
+        if (version_compare(INSTALL_VERSION, '1.7.1.1', '>=')) {
+            $schemaUpgrade = new \PrestaShopBundle\Service\Database\Upgrade();
+            $outputCommand = 'prestashop:schema:update-without-foreign';
+        } else {
+            $schemaUpgrade = new \PrestaShopBundle\Service\Cache\Refresh();
+            $outputCommand = 'doctrine:schema:update';
+        }
+
+        $schemaUpgrade->addDoctrineSchemaUpdate();
+        $output = $schemaUpgrade->execute();
+
+        return $output[$outputCommand];
+    }
 }

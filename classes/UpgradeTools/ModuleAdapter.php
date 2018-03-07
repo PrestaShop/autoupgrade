@@ -136,7 +136,7 @@ class ModuleAdapter
 
         if (!is_dir($dir)) {
             throw (new UpgradeException($this->translator->trans('[ERROR] %dir% does not exist or is not a directory.', array('%dir%' => $dir), 'Modules.Autoupgrade.Admin')))
-                ->setQuickInfos($this->translator->trans('[ERROR] %s does not exist or is not a directory.', array($dir), 'Modules.Autoupgrade.Admin'))
+                ->addQuickInfo($this->translator->trans('[ERROR] %s does not exist or is not a directory.', array($dir), 'Modules.Autoupgrade.Admin'))
                 ->setSeverity(UpgradeException::SEVERITY_ERROR);
 //            $this->next_desc = $this->trans('Nothing has been extracted. It seems the unzip step has been skipped.', array(), 'Modules.Autoupgrade.Admin');
         }
@@ -198,13 +198,13 @@ class ModuleAdapter
             if ($content === null) {
                 $msg =  '<strong>'.$this->translator->trans('[ERROR] No response from Addons server.', array(), 'Modules.Autoupgrade.Admin').'</strong>';
                 throw (new UpgradeException($msg))
-                    ->setQuickInfos($msg);
+                    ->addQuickInfo($msg);
             }
 
             if (false === (bool)file_put_contents($zip_fullpath, $content)) {
                 $msg = '<strong>'.$this->translator->trans('[ERROR] Unable to write module %s\'s zip file in temporary directory.', array($name), 'Modules.Autoupgrade.Admin').'</strong>';
                 throw (new UpgradeException($msg))
-                    ->setQuickInfos($msg);
+                    ->addQuickInfo($msg);
             }
 
             if (filesize($zip_fullpath) <= 300) {
@@ -213,7 +213,7 @@ class ModuleAdapter
             // unzip in modules/[mod name] old files will be conserved
             if (!$this->zipAction->extract($zip_fullpath, $this->modulesPath)) {
                 throw (new UpgradeException())
-                    ->setQuickInfos('<strong>'.$this->translator->trans('[WARNING] Error when trying to upgrade module %s.', array($name), 'Modules.Autoupgrade.Admin').'</strong>')
+                    ->addQuickInfo('<strong>'.$this->translator->trans('[WARNING] Error when trying to upgrade module %s.', array($name), 'Modules.Autoupgrade.Admin').'</strong>')
                     ->setSeverity(UpgradeException::SEVERITY_WARNING);
             }
             if (file_exists($zip_fullpath)) {
@@ -225,7 +225,7 @@ class ModuleAdapter
 
         if (!$isUpgraded) {
             throw (new UpgradeException())
-                ->setQuickInfos('<strong>'.$this->translator->trans('[WARNING] Error when trying to upgrade module %s.', array($name), 'Modules.Autoupgrade.Admin').'</strong>')
+                ->addQuickInfo('<strong>'.$this->translator->trans('[WARNING] Error when trying to upgrade module %s.', array($name), 'Modules.Autoupgrade.Admin').'</strong>')
                 ->setSeverity(UpgradeException::SEVERITY_WARNING);
         }
 

@@ -24,32 +24,39 @@
  *  International Registered Trademark & Property of PrestaShop SA
  */
 
-namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
+use PHPUnit\Framework\TestCase;
 
-use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader;
 
-class UpgradeDb extends AbstractTask
+class CoreUpgraderTest extends TestCase
 {
-    public function run()
-    {
-        $this->upgradeClass->nextParams = $this->upgradeClass->currentParams;
+    protected $coreUpgrader;
 
-        try {
-            $this->getCoreUpgrader()->doUpgrade();
-        } catch (\Exception $e ) {
-            $this->upgradeClass->next = 'error';
-            $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('Error during database upgrade. You may need to restore your database.', array(), 'Modules.Autoupgrade.Admin');
-            $this->upgradeClass->nextQuickInfo[] =
-            $this->upgradeClass->nextErrors[] = $e->getMessage();
-        }
-        $this->upgradeClass->next = 'upgradeModules';
-        $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('Database upgraded. Now upgrading your Addons modules...', array(), 'Modules.Autoupgrade.Admin');
-        return true;
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $stub = $this->getMockBuilder(AdminSelfUpgrade::class)
+                     ->disableOriginalConstructor()
+                     ->getMock();
+        $this->coreUpgrader = new CoreUpgrader($stub);
     }
 
-    public function getCoreUpgrader()
+    /**
+     * @dataProvider versionProvider
+     */
+    public function testVersionNormalization($source, $expected)
     {
-        return new CoreUpgrader($this->upgradeClass);
+        $this->assertSame($expected, $this->coreUpgrader->normalizeVersion($source));
+    }
+
+    public function versionProvider()
+    {
+        return array(
+            array('1.7', '1.7.0.0'),
+            array('1.7.2', '1.7.2.0'),
+            array('1.6.1.0-beta', '1.6.1.0-beta'),
+            array('1.6.1-beta', '1.6.1-beta.0'), // Weird, but still a test
+        );
     }
 }
