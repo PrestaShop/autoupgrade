@@ -1517,6 +1517,7 @@ class AdminSelfUpgrade extends AdminSelfTab
             foreach ($allFiles as $file) {
                 if ($file[0] != '.') {
                     $fullPath = $dir.$file;
+                    // skip symbolic links
                     if (is_link($fullPath) && !is_readable($fullPath)) {
                         continue;
                     }
