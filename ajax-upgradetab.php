@@ -24,85 +24,37 @@
 *  International Registered Trademark & Property of PrestaShop SA
 */
 
-if (function_exists('date_default_timezone_set'))
-{
-	// date_default_timezone_get calls date_default_timezone_set, which can provide warning
-	$timezone = @date_default_timezone_get();
-	date_default_timezone_set($timezone);
-}
+use PrestaShop\Module\AutoUpgrade\Tools14;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\TaskRepository;
 
-require_once(realpath(dirname(__FILE__).'/../../config/config.inc.php'));
+/**
+ * This file is the entrypoint for all ajax requests during a upgrade, rollback or configuration.
+ * In order to get the admin context, this file is copied to the admin/autoupgrade folder of your shop when the module configuration is reached.
+ *
+ * Calling it from the module/autoupgrade folder will have unwanted consequences on the upgrade and your shop.
+ */
 
-if (!defined('_PS_MODULE_DIR_'))
-	define('_PS_MODULE_DIR_', realpath(dirname(__FILE__).'/../../').'/modules/');
+require_once(realpath(dirname(__FILE__).'/../../modules/autoupgrade').'/ajax-upgradetabconfig.php');
+autoupgrade_ajax_init(dirname(__FILE__));
 
-define('AUTOUPGRADE_MODULE_DIR', _PS_MODULE_DIR_.'autoupgrade/');
-require_once(AUTOUPGRADE_MODULE_DIR.'functions.php');
-
-// the following test confirm the directory exists
-if (!isset($_POST['dir']))
-	die('no directory');
-
-// defines.inc.php can not exists (1.3.0.1 for example)
-// but we need _PS_ROOT_DIR_
-if (!defined('_PS_ROOT_DIR_'))
-	define('_PS_ROOT_DIR_', realpath(dirname(__FILE__).'/../../'));
-
-require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/classes/Tools14.php');
-if (!class_exists('Tools', false))
-	eval('class Tools extends Tools14{}');
-
-$dir = Tools14::safeOutput(Tools14::getValue('dir'));
-
-if (realpath(dirname(__FILE__).'/../../').DIRECTORY_SEPARATOR.$dir!== realpath(realpath(dirname(__FILE__).'/../../').DIRECTORY_SEPARATOR.$dir))
-	die('wrong directory :'.(isset($_POST['dir']) ? $dir : ''));
-
-define('_PS_ADMIN_DIR_', realpath(dirname(__FILE__).'/../../').DIRECTORY_SEPARATOR.$dir);
-
-if (!defined('_MYSQL_ENGINE_'))
-	define('_MYSQL_ENGINE_', 'MyISAM');
-	
-if (!defined('_PS_TOOL_DIR_'))
-	define('_PS_TOOL_DIR_', _PS_ROOT_DIR_.'/tools/');	
-
-//require(_PS_ADMIN_DIR_.'/functions.php');
-include(AUTOUPGRADE_MODULE_DIR.'init.php');
-
-// this is used to set this->ajax = true in the constructor
-global $ajax;
-
-$ajax = true;
 $adminObj = new AdminSelfUpgrade();
 
-if (is_object($adminObj))
-{
-	$adminObj->optionDisplayErrors();
-	$adminObj->ajax = 1;
-	if ($adminObj->checkToken())
-	{
-		// the differences with index.php is here
-		$adminObj->ajaxPreProcess();
-		$action = Tools14::getValue('action');
-
-		// no need to use displayConf() here
-
-		if (!empty($action) && method_exists($adminObj, 'ajaxProcess'.$action) )
-			$adminObj->{'ajaxProcess'.$action}();
-		else
-			$adminObj->ajaxProcess();
-
-		// @TODO We should use a displayAjaxError
-		$adminObj->displayErrors();
-		if (!empty($action) && method_exists($adminObj, 'displayAjax'.$action))
-			$adminObj->{'displayAjax'.$action}();
-		else
-			$adminObj->displayAjax();
-	}
-	else
-	{
-		// If this is an XSS attempt, then we should only display a simple, secure page
-		if (ob_get_level() && ob_get_length() > 0)
-			ob_clean();
-		die('{wrong token}');
-	}
+if (php_sapi_name() === 'cli') {
+    $controller = new \PrestaShop\Module\AutoUpgrade\TaskRunner\AllUpgradeTasks($adminObj);
+    $controller->setOptions(getopt('', array('channel::')));
+    exit($controller->run());
 }
+
+if (!$adminObj->checkToken()) {
+    // If this is an XSS attempt, then we should only display a simple, secure page
+    if (ob_get_level() && ob_get_length() > 0)
+        ob_clean();
+    echo '{wrong token}';
+    die(1);
+}
+
+$controller = TaskRepository::get(Tools14::getValue('action'), $adminObj);
+$controller->run();
+
+$adminObj->displayAjax();
+exit(0);

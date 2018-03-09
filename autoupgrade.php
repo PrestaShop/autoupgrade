@@ -24,6 +24,8 @@
 *  International Registered Trademark & Property of PrestaShop SA
 */
 
+require __DIR__.'/vendor/autoload.php';
+
 class Autoupgrade extends Module
 {
     public function __construct()
@@ -50,7 +52,7 @@ class Autoupgrade extends Module
         $this->displayName = $this->trans('1-Click Upgrade', array(), 'Modules.Autoupgrade.Admin');
         $this->description = $this->trans('Provides an automated method to upgrade your shop to the latest version of PrestaShop.', array(), 'Modules.Autoupgrade.Admin');
 
-        $this->ps_versions_compliancy = array('min' => '1.7.1.0', 'max' => _PS_VERSION_);
+        $this->ps_versions_compliancy = array('min' => '1.6.0.0', 'max' => _PS_VERSION_);
     }
 
     public function install()
@@ -182,5 +184,19 @@ class Autoupgrade extends Module
             @closedir($handle);
             @rmdir($dir);
         }
+    }
+
+    /**
+     * Adapter for trans calls, existing only on PS 1.7.
+     * Making them available for PS 1.6 as well
+     *
+     * @param string $id
+     * @param array $parameters
+     * @param string $domain
+     * @param string $locale
+     */
+    public function trans($id, array $parameters = array(), $domain = null, $locale = null)
+    {
+        return (new \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator(get_class()))->trans($id, $parameters, $domain, $locale);
     }
 }
