@@ -580,7 +580,7 @@ class AdminSelfUpgrade extends AdminSelfTab
         // For later use, let's set up prodRootDir and adminDir
         // This way it will be easier to upgrade a different path if needed
         $this->prodRootDir = _PS_ROOT_DIR_;
-        $this->adminDir = _PS_ADMIN_DIR_;
+        $this->adminDir = realpath(_PS_ADMIN_DIR_);
         if (!defined('__PS_BASE_URI__')) {
             // _PS_DIRECTORY_ replaces __PS_BASE_URI__ in 1.5
             if (defined('_PS_DIRECTORY_')) {
