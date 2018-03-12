@@ -27,6 +27,7 @@
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader;
 
 class UpgradeDb extends AbstractTask
@@ -37,10 +38,10 @@ class UpgradeDb extends AbstractTask
 
         try {
             $this->getCoreUpgrader()->doUpgrade();
-        } catch (\Exception $e ) {
+        } catch (UpgradeException $e ) {
             $this->upgradeClass->next = 'error';
             $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('Error during database upgrade. You may need to restore your database.', array(), 'Modules.Autoupgrade.Admin');
-            $this->upgradeClass->nextQuickInfo[] =
+            $this->upgradeClass->nextQuickInfo = array_merge($this->upgradeClass->nextQuickInfo, $e->getQuickInfos());
             $this->upgradeClass->nextErrors[] = $e->getMessage();
         }
         $this->upgradeClass->next = 'upgradeModules';
