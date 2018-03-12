@@ -71,6 +71,8 @@ class CoreUpgrader
 
         // Settings updated, compile and cache directories must be emptied
         $this->cleanFolders();
+        $this->upgradeLanguages();
+        $this->generateHtaccess();
 
         $this->cleanXmlFiles();
 
@@ -369,7 +371,7 @@ class CoreUpgrader
         }
     }
 
-    public function runSqlQuery($upgrade_file, $query)
+    protected function runSqlQuery($upgrade_file, $query)
     {
         $db = $this->selfUpgradeClass->db;
         if (strstr($query, 'CREATE TABLE') !== false) {
