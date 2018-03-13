@@ -139,14 +139,6 @@ class AdminSelfUpgrade extends AdminController
      */
     public static $skipAction = array();
 
-    /**
-     * if set to true, will use pclZip library
-     * even if ZipArchive is available
-     */
-    public static $force_pclZip = false;
-
-    protected $_includeContainer = true;
-
     public $_fieldsUpgradeOptions = array();
     public $_fieldsBackupOptions = array();
 
