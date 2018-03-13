@@ -38,6 +38,7 @@ require_once(realpath(dirname(__FILE__).'/../../modules/autoupgrade').'/ajax-upg
 autoupgrade_ajax_init(dirname(__FILE__));
 
 $adminObj = new AdminSelfUpgrade();
+(new \PrestaShop\Module\AutoUpgrade\ErrorHandler($adminObj))->enable();
 
 if (!$adminObj->checkToken()) {
     // If this is an XSS attempt, then we should only display a simple, secure page
