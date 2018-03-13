@@ -47,6 +47,10 @@ class ZipAction
      */
     private $logs = array();
 
+    /**
+     * if set to true, will use pclZip library
+     * even if ZipArchive is available
+     */
     const force_pclZip = false;
     
     public function __construct($translator, $prodRootDir)
