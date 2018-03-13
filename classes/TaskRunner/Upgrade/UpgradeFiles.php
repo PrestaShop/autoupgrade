@@ -81,6 +81,8 @@ class UpgradeFiles extends AbstractTask
                 DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'composer'.DIRECTORY_SEPARATOR.'autoload_real.php',
                 DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'composer'.DIRECTORY_SEPARATOR.'autoload_static.php',
                 DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'composer'.DIRECTORY_SEPARATOR.'include_paths.php',
+                DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'composer',
+                DIRECTORY_SEPARATOR.'vendor',
             );
 
             foreach ($filesToMoveToTheBeginning as $file) {
