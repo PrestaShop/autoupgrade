@@ -35,10 +35,10 @@ use PrestaShop\Module\AutoUpgrade\PrestashopConfiguration;
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\ZipAction;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\Database;
+use PrestaShop\Module\AutoUpgrade\Log\LegacyLogger;
+use PrestaShop\Module\AutoUpgrade\Log\Logger;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\ModuleAdapter;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\ThemeAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translation;
 use PrestaShop\Module\AutoUpgrade\Parameters\FileConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfigurationStorage;
@@ -73,12 +73,11 @@ class AdminSelfUpgrade extends AdminController
     public $stepDone = true;
     public $status = true;
     public $error = '0';
-    public $next_desc = '';
     public $nextParams = array();
-    public $nextQuickInfo = array();
-    public $nextErrors = array();
     public $currentParams = array();
 
+    public $next_desc = '';
+    public $nextQuickInfo = array();
     /**
      * Initialized in initPath()
      */
@@ -165,6 +164,11 @@ class AdminSelfUpgrade extends AdminController
      * @var FilesystemAdapter
      */
     private $filesystemAdapter;
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
 
     /**
      * @var ModuleAdapter
@@ -666,9 +670,8 @@ class AdminSelfUpgrade extends AdminController
     {
         $list = array();
         if (!is_dir($dir)) {
-            $this->nextQuickInfo[] = $this->trans('[ERROR] %s does not exist or is not a directory.', array($dir), 'Modules.Autoupgrade.Admin');
-            $this->nextErrors[] = $this->trans('[ERROR] %s does not exist or is not a directory.', array($dir), 'Modules.Autoupgrade.Admin');
-            $this->next_desc = $this->trans('Nothing has been extracted. It seems the unzipping step has been skipped.', array(), 'Modules.Autoupgrade.Admin');
+            $this->getLogger()->error($this->trans('[ERROR] %s does not exist or is not a directory.', array($dir), 'Modules.Autoupgrade.Admin'));
+            $this->getLogger()->info($this->trans('Nothing has been extracted. It seems the unzipping step has been skipped.', array(), 'Modules.Autoupgrade.Admin'));
             $this->next = 'error';
             return false;
         }
@@ -739,8 +742,7 @@ class AdminSelfUpgrade extends AdminController
                         return true;
                     } else {
                         $this->next = 'error';
-                        $this->nextQuickInfo[] = $this->trans('Error while creating directory %s.', array($dest), 'Modules.Autoupgrade.Admin');
-                        $this->nextErrors[] = $this->next_desc = $this->trans('Error while creating directory %s.', array($dest), 'Modules.Autoupgrade.Admin');
+                        $this->getLogger()->error($this->trans('Error while creating directory %s.', array($dest), 'Modules.Autoupgrade.Admin'));
                         return false;
                     }
                 } else { // directory already exists
@@ -755,11 +757,11 @@ class AdminSelfUpgrade extends AdminController
                         $this->nextQuickInfo[] = $this->trans('[TRANSLATION] The translation files have been merged into file %s.', array($dest), 'Modules.Autoupgrade.Admin');
                         return true;
                     }
-                    $this->nextQuickInfo[] = $this->nextErrors[] = $this->trans(
+                    $this->getLogger()->warning($this->trans(
                         '[TRANSLATION] The translation files have not been merged into file %filename%. Switch to copy %filename%.',
                         array('%filename%' => $dest),
                         'Modules.Autoupgrade.Admin'
-                    );
+                    ));
                 }
 
                 // upgrade exception were above. This part now process all files that have to be upgraded (means to modify or to remove)
@@ -769,8 +771,7 @@ class AdminSelfUpgrade extends AdminController
                     return true;
                 } else {
                     $this->next = 'error';
-                    $this->nextQuickInfo[] = $this->trans('Error while copying file %s', array($file), 'Modules.Autoupgrade.Admin');
-                    $this->nextErrors[] = $this->next_desc = $this->trans('Error while copying file %s', array($file), 'Modules.Autoupgrade.Admin');
+                    $this->getLogger()->error($this->next_desc = $this->trans('Error while copying file %s', array($file), 'Modules.Autoupgrade.Admin'));
                     return false;
                 }
             } elseif (is_file($dest)) {
@@ -803,14 +804,11 @@ class AdminSelfUpgrade extends AdminController
 
     public function buildAjaxResult()
     {
-        $response = new AjaxResponse($this->getTranslator(), $this->state);
+        $response = new AjaxResponse($this->getTranslator(), $this->state, $this->getLogger());
         return $response->setError($this->error)
             ->setStepDone($this->stepDone)
             ->setNext($this->next)
-            ->setNextDesc($this->next_desc)
             ->setNextParams($this->nextParams)
-            ->setNextQuickInfo($this->nextQuickInfo)
-            ->setNextErrors($this->nextErrors)
             ->setUpgradeConfiguration($this->upgradeConfiguration)
             ->getJsonResponse();
     }
@@ -886,7 +884,7 @@ class AdminSelfUpgrade extends AdminController
         if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {
             $this->next = 'error';
             $this->error = true;
-            $this->nextErrors[] = $e->getMessage();
+            $this->getLogger()->error($e->getMessage());
         }
     }
 
@@ -961,6 +959,25 @@ class AdminSelfUpgrade extends AdminController
             str_replace($this->prodRootDir, '', $this->adminDir), $this->prodRootDir);
 
         return $this->filesystemAdapter;
+    }
+
+    /**
+     * @return Logger
+     */
+    public function getLogger()
+    {
+        if (! is_null($this->logger)) {
+            return $this->logger;
+        }
+
+        $logFile = $this->tmpPath.DIRECTORY_SEPARATOR.'log.txt';
+        $this->logger = new LegacyLogger($logFile);
+        return $this->logger;
+    }
+
+    public function setLogger(Logger $logger)
+    {
+        $this->logger = $logger;
     }
 
     public function getModuleAdapter()

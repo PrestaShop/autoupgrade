@@ -43,10 +43,10 @@ class AllUpgradeTasks extends AbstractTask
 
         $this->init();
         while ($this->canContinue($step)) {
+            echo "\n=== Step ".$step."\n";
             $controller = TaskRepository::get($step, $this->upgradeClass);
             $controller->run();
 
-            $this->displayLog($step);
             $step = $this->upgradeClass->next;
         }
     }
@@ -61,6 +61,10 @@ class AllUpgradeTasks extends AbstractTask
     public function canContinue($step)
     {
         if (empty($step)) {
+            return false;
+        }
+
+        if ($this->upgradeClass->error) {
             return false;
         }
 
@@ -85,24 +89,5 @@ class AllUpgradeTasks extends AbstractTask
 
         $_COOKIE['id_employee'] = 1;
         $this->upgradeClass->initDefaultState();
-    }
-
-    /**
-     * Displays the log content at the end of each step
-     *
-     * @param type $step
-     * @throws \Exception
-     */
-    protected function displayLog($step)
-    {
-        echo "\n=== Step ".$step."\n";
-        while (($log = array_shift($this->upgradeClass->nextQuickInfo)) !== null) {
-            echo $log."\n";
-        }
-        echo $this->upgradeClass->next_desc."\n";
-
-        if ($this->upgradeClass->error) {
-            throw new \Exception(end($this->upgradeClass->nextErrors));
-        }
     }
 }

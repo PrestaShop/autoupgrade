@@ -74,14 +74,14 @@ class RemoveSamples extends AbstractTask
                 $filesystem->remove($file);
             } catch (\Exception $e) {
                 $this->upgradeClass->next = 'error';
-                $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->nextErrors[] = $this->upgradeClass->getTranslator()->trans(
+                $this->logger->error($this->upgradeClass->getTranslator()->trans(
                     'Error while removing item %itemname%, %itemscount% items left.',
                     array(
                         '%itemname%' => $file,
                         '%itemscount%' => count($this->upgradeClass->nextParams['removeList'])
                     ),
                     'Modules.Autoupgrade.Admin'
-                );
+                ));
                 return false;
             }
 

@@ -46,9 +46,8 @@ class BackupFiles extends AbstractTask
         if (empty($backupFilesFilename)) {
             $this->upgradeClass->next = 'error';
             $this->upgradeClass->error = 1;
-            $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('Error during backupFiles', array(), 'Modules.Autoupgrade.Admin');
-            $this->upgradeClass->nextErrors[] = $this->upgradeClass->getTranslator()->trans('[ERROR] backupFiles filename has not been set', array(), 'Modules.Autoupgrade.Admin');
-            $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->getTranslator()->trans('[ERROR] backupFiles filename has not been set', array(), 'Modules.Autoupgrade.Admin');
+            $this->logger->info($this->upgradeClass->getTranslator()->trans('Error during backupFiles', array(), 'Modules.Autoupgrade.Admin'));
+            $this->logger->error($this->upgradeClass->getTranslator()->trans('[ERROR] backupFiles filename has not been set', array(), 'Modules.Autoupgrade.Admin'));
             return false;
         }
 

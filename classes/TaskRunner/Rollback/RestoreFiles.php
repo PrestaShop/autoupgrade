@@ -69,14 +69,12 @@ class RestoreFiles extends AbstractTask
 
             if ($fromArchive === false || $toRemove === false) {
                 if (!$fromArchive) {
-                    $this->upgradeClass->nextQuickInfo[] =
-                    $this->upgradeClass->nextErrors[] = $this->upgradeClass->getTranslator()->trans('[ERROR] Backup file %s does not exist.', array(UpgradeFileNames::fromArchiveFileList), 'Modules.Autoupgrade.Admin');
+                    $this->logger->error($this->upgradeClass->getTranslator()->trans('[ERROR] Backup file %s does not exist.', array(UpgradeFileNames::fromArchiveFileList), 'Modules.Autoupgrade.Admin'));
                 }
                 if (!$toRemove) {
-                    $this->upgradeClass->nextQuickInfo[] =
-                    $this->upgradeClass->nextErrors[] = $this->upgradeClass->getTranslator()->trans('[ERROR] File "%s" does not exist.', array(UpgradeFileNames::toRemoveFileList), 'Modules.Autoupgrade.Admin');
+                    $this->logger->error($this->upgradeClass->getTranslator()->trans('[ERROR] File "%s" does not exist.', array(UpgradeFileNames::toRemoveFileList), 'Modules.Autoupgrade.Admin'));
                 }
-                $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('Unable to remove upgraded files.', array(), 'Modules.Autoupgrade.Admin');
+                $this->logger->info($this->upgradeClass->getTranslator()->trans('Unable to remove upgraded files.', array(), 'Modules.Autoupgrade.Admin'));
                 $this->upgradeClass->next = 'error';
                 return false;
             }

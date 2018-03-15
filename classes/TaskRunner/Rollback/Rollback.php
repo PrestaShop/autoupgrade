@@ -57,9 +57,7 @@ class Rollback extends AbstractTask
         }
         if (!is_file($this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$this->upgradeClass->getState()-> getRestoreFilesFilename())) {
             $this->upgradeClass->next = 'error';
-            $this->upgradeClass->nextQuickInfo[] = 
-            $this->upgradeClass->nextErrors[] = 
-            $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('[ERROR] File %s is missing: unable to restore files. Operation aborted.', array($this->upgradeClass->getState()-> getRestoreFilesFilename()), 'Modules.Autoupgrade.Admin');
+            $this->logger->error($this->upgradeClass->getTranslator()->trans('[ERROR] File %s is missing: unable to restore files. Operation aborted.', array($this->upgradeClass->getState()-> getRestoreFilesFilename()), 'Modules.Autoupgrade.Admin'));
             return false;
         }
         $files = scandir($this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$restoreName);
@@ -75,9 +73,7 @@ class Rollback extends AbstractTask
         $this->upgradeClass->getState()-> setRestoreDbFilenames($restoreDbFilenames);
         if (count($restoreDbFilenames) == 0) {
             $this->upgradeClass->next = 'error';
-            $this->upgradeClass->nextQuickInfo[] =
-            $this->upgradeClass->nextErrors[] =
-            $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('[ERROR] No backup database files found: it would be impossible to restore the database. Operation aborted.', array(), 'Modules.Autoupgrade.Admin');
+            $this->logger->error($this->upgradeClass->getTranslator()->trans('[ERROR] No backup database files found: it would be impossible to restore the database. Operation aborted.', array(), 'Modules.Autoupgrade.Admin'));
             return false;
         }
 

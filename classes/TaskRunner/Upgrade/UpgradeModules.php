@@ -63,9 +63,7 @@ class UpgradeModules extends AbstractTask
         if (!is_array($listModules)) {
             $this->upgradeClass->next = 'upgradeComplete';
             $this->upgradeClass->getState()-> setWarningExists(true);
-            $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('upgradeModule step has not ended correctly.', array(), 'Modules.Autoupgrade.Admin');
-            $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->getTranslator()->trans('listModules is not an array. No module has been updated.', array(), 'Modules.Autoupgrade.Admin');
-            $this->upgradeClass->nextErrors[] = $this->upgradeClass->getTranslator()->trans('listModules is not an array. No module has been updated.', array(), 'Modules.Autoupgrade.Admin');
+            $this->logger->error($this->upgradeClass->getTranslator()->trans('listModules is not an array. No module has been updated.', array(), 'Modules.Autoupgrade.Admin'));
             return true;
         }
 
@@ -124,14 +122,14 @@ class UpgradeModules extends AbstractTask
                             'Modules.Autoupgrade.Admin'
                         );
                     } else {
-                        $this->upgradeClass->nextErrors[] = $this->upgradeClass->getTranslator()->trans(
+                        $this->logger->error($this->upgradeClass->getTranslator()->trans(
                             'The %modulename% module is not compatible with version %version%, please remove it from your FTP.',
                             array(
                                 '%modulename%' => $module,
                                 '%version%' => $this->upgradeClass->getState()-> getInstallVersion(),
                             ),
                             'Modules.Autoupgrade.Admin'
-                        );
+                        ));
                     }
                 }
             }
