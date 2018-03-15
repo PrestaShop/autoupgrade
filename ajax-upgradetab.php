@@ -40,6 +40,7 @@ autoupgrade_ajax_init(dirname(__FILE__));
 $adminObj = new AdminSelfUpgrade();
 
 if (php_sapi_name() === 'cli') {
+    $adminObj->setLogger(new PrestaShop\Module\AutoUpgrade\Log\StreamedLogger());
     $controller = new \PrestaShop\Module\AutoUpgrade\TaskRunner\AllUpgradeTasks($adminObj);
     $controller->run();
     exit(0);

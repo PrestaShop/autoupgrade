@@ -26,6 +26,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade;
 
+use PrestaShop\Module\AutoUpgrade\Log\Logger;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 
 /**
@@ -52,27 +53,9 @@ class AjaxResponse
     private $next;
 
     /**
-     * Used during upgrade. Will be displayed on the top left  panel
-     * @var String Stores the main information about the current step
-     */
-    private $next_desc;
-
-    /**
      * @var array Params to send (upgrade conf, details on the work to do ...)
      */
     private $nextParams;
-
-    /**
-     * Used during upgrade. Will be displayed in the lower panel.
-     * @var array Details on what happened during the execution. Verbose levels: DEBUG / INFO / WARNING
-     */
-    private $nextQuickInfo;
-
-    /**
-     * Used during upgrade. Will be displayed in the top right panel (not visible at the beginning)
-     * @var array Details of error which occured during the request. Verbose levels: ERROR
-     */
-    private $nextErrors;
 
     /**
      * Request format of the data to return.
@@ -86,14 +69,20 @@ class AjaxResponse
     private $upgradeConfiguration;
 
     /**
+     * @var Logger
+     */
+    private $logger;
+
+    /**
      * @var State
      */
     private $state;
 
-    public function __construct($translator, State $state)
+    public function __construct($translator, State $state, Logger $logger)
     {
         $this->translator = $translator;
         $this->state = $state;
+        $this->logger = $logger;
     }
 
     /**
@@ -106,9 +95,9 @@ class AjaxResponse
             'stepDone' => $this->stepDone,
             'next' => $this->next,
             'status' => $this->getStatus(),
-            'next_desc' => $this->next_desc,
-            'nextQuickInfo' => $this->nextQuickInfo,
-            'nextErrors' => $this->nextErrors,
+            'next_desc' => $this->logger->getLastInfo(),
+            'nextQuickInfo' => $this->logger->getInfos(),
+            'nextErrors' => $this->logger->getErrors(),
             'nextParams' => array_merge(
                 $this->nextParams,
                 $this->state->export(),
@@ -158,24 +147,9 @@ class AjaxResponse
         return ($this->getNext() == 'error' ? 'error' : 'ok');
     }
 
-    public function getNextDesc()
-    {
-        return $this->next_desc;
-    }
-
     public function getNextParams()
     {
         return $this->nextParams;
-    }
-
-    public function getNextQuickInfo()
-    {
-        return $this->nextQuickInfo;
-    }
-
-    public function getNextErrors()
-    {
-        return $this->nextErrors;
     }
 
     public function getUpgradeConfiguration()
@@ -205,27 +179,9 @@ class AjaxResponse
         return $this;
     }
 
-    public function setNextDesc($next_desc)
-    {
-        $this->next_desc = $next_desc;
-        return $this;
-    }
-
     public function setNextParams($nextParams)
     {
         $this->nextParams = $nextParams;
-        return $this;
-    }
-
-    public function setNextQuickInfo($nextQuickInfo)
-    {
-        $this->nextQuickInfo = $nextQuickInfo;
-        return $this;
-    }
-
-    public function setNextErrors($nextErrors)
-    {
-        $this->nextErrors = $nextErrors;
         return $this;
     }
 

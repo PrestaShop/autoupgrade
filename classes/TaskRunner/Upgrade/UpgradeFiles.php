@@ -96,9 +96,7 @@ class UpgradeFiles extends AbstractTask
             $total_files_to_upgrade = count($list_files_to_upgrade);
 
             if ($total_files_to_upgrade == 0) {
-                $this->upgradeClass->nextQuickInfo[] = 
-                $this->upgradeClass->nextErrors[] = $this->upgradeClass->getTranslator()->trans('[ERROR] Unable to find files to upgrade.', array(), 'Modules.Autoupgrade.Admin');
-                $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('Unable to list files to upgrade', array(), 'Modules.Autoupgrade.Admin');
+                $this->logger->error($this->upgradeClass->getTranslator()->trans('[ERROR] Unable to find files to upgrade.', array(), 'Modules.Autoupgrade.Admin'));
                 $this->upgradeClass->next = 'error';
                 return false;
             }
@@ -116,9 +114,7 @@ class UpgradeFiles extends AbstractTask
         $filesToUpgrade = $this->upgradeClass->getFileConfigurationStorage()->load(UpgradeFileNames::toUpgradeFileList);
         if (!is_array($filesToUpgrade)) {
             $this->upgradeClass->next = 'error';
-            $this->upgradeClass->next_desc = 
-            $this->upgradeClass->nextQuickInfo[] = 
-            $this->upgradeClass->nextErrors[] = $this->upgradeClass->getTranslator()->trans('filesToUpgrade is not an array', array(), 'Modules.Autoupgrade.Admin');
+            $this->logger->error($this->upgradeClass->getTranslator()->trans('filesToUpgrade is not an array', array(), 'Modules.Autoupgrade.Admin'));
             return false;
         }
 
@@ -138,8 +134,7 @@ class UpgradeFiles extends AbstractTask
             if (!$this->upgradeClass->upgradeThisFile($file)) {
                 // put the file back to the begin of the list
                 $this->upgradeClass->next = 'error';
-                $this->upgradeClass->nextQuickInfo[] =
-                $this->upgradeClass->nextErrors[] = $this->upgradeClass->getTranslator()->trans('Error when trying to upgrade file %s.', array($file), 'Modules.Autoupgrade.Admin');
+                $this->logger->error($this->upgradeClass->getTranslator()->trans('Error when trying to upgrade file %s.', array($file), 'Modules.Autoupgrade.Admin'));
                 break;
             }
         }

@@ -92,4 +92,38 @@ abstract class Logger implements LoggerInterface
     {
         return $this->log(self::WARNING, $message, $context);
     }
+
+    /**
+     * Equivalent of the old $nextErrors
+     * Used during upgrade. Will be displayed in the top right panel (not visible at the beginning)
+     *
+     * @var array Details of error which occured during the request. Verbose levels: ERROR
+     */
+    public function getErrors()
+    {
+        return array();
+    }
+
+    /**
+     * Equivalent of the old $nextQuickInfo
+     * Used during upgrade. Will be displayed in the lower panel.
+     *
+     * @var array Details on what happened during the execution. Verbose levels: DEBUG / INFO / WARNING
+     */
+    public function getInfos()
+    {
+        return array();
+    }
+
+    /**
+     * Return the last message stored with the INFO level.
+     * Equivalent of the old $next_desc
+     * Used during upgrade. Will be displayed on the top left panel
+     *
+     * @var String Stores the main information about the current step
+     */
+    public function getLastInfo()
+    {
+        return '';
+    }
 }

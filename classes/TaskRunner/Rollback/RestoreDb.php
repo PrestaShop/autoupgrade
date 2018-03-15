@@ -112,8 +112,7 @@ class RestoreDb extends AbstractTask
             $currentDbFilename = '';
 
             if (empty($content)) {
-                $this->upgradeClass->nextErrors[] =
-                $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->getTranslator()->trans('Database backup is empty.', array(), 'Modules.Autoupgrade.Admin');
+                $this->logger->error($this->upgradeClass->getTranslator()->trans('Database backup is empty.', array(), 'Modules.Autoupgrade.Admin'));
                 $this->upgradeClass->next = 'rollback';
                 return false;
             }
@@ -197,11 +196,10 @@ class RestoreDb extends AbstractTask
                         if (is_array($listQuery)) {
                             $listQuery = array_unshift($listQuery, $query);
                         }
-                        $this->upgradeClass->nextErrors[] =
-                        $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->getTranslator()->trans('[SQL ERROR]', array(), 'Modules.Autoupgrade.Admin').' '.$query.' - '.$this->upgradeClass->db->getMsgError();
+                        $this->logger->error($this->upgradeClass->getTranslator()->trans('[SQL ERROR]', array(), 'Modules.Autoupgrade.Admin').' '.$query.' - '.$this->upgradeClass->db->getMsgError());
+                        $this->logger->info($this->upgradeClass->getTranslator()->trans('Error during database restoration', array(), 'Modules.Autoupgrade.Admin'));
                         $this->upgradeClass->next = 'error';
                         $this->upgradeClass->error = 1;
-                        $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('Error during database restoration', array(), 'Modules.Autoupgrade.Admin');
                         unlink($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFileNames::toRestoreQueryList);
                         return false;
                     }

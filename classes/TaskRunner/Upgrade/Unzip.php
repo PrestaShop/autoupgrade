@@ -45,9 +45,7 @@ class Unzip extends AbstractTask
         $relative_extract_path = str_replace(_PS_ROOT_DIR_, '', $destExtract);
         $report = '';
         if (!\ConfigurationTest::test_dir($relative_extract_path, false, $report)) {
-            $this->upgradeClass->next_desc = 
-            $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->getTranslator()->trans('Extraction directory is not writable.', array(), 'Modules.Autoupgrade.Admin');
-            $this->upgradeClass->nextErrors[] = $this->upgradeClass->getTranslator()->trans('Extraction directory %s is not writable.', array($destExtract), 'Modules.Autoupgrade.Admin');
+            $this->logger->error($this->upgradeClass->getTranslator()->trans('Extraction directory %s is not writable.', array($destExtract), 'Modules.Autoupgrade.Admin'));
             $this->upgradeClass->next = 'error';
             $this->upgradeClass->error = true;
             return false;

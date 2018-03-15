@@ -26,6 +26,8 @@
 
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner;
 
+use Psr\Log\LoggerInterface;
+
 abstract class AbstractTask
 {
     /**
@@ -33,9 +35,15 @@ abstract class AbstractTask
      */
     protected $upgradeClass;
 
+    /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+
     public function __construct(\AdminSelfUpgrade $upgradeClass)
     {
         $this->upgradeClass = $upgradeClass;
+        $this->logger = $upgradeClass->getLogger();
         $this->checkTaskMayRun();
     }
 
@@ -50,7 +58,7 @@ abstract class AbstractTask
             $action = $_POST['action'];
             if (isset(\AdminSelfUpgrade::$skipAction[$action])) {
                 $this->upgradeClass->next = \AdminSelfUpgrade::$skipAction[$action];
-                $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('Action %s skipped', array($action), 'Modules.Autoupgrade.Admin');
+                $this->logger->info($this->upgradeClass->getTranslator()->trans('Action %s skipped', array($action), 'Modules.Autoupgrade.Admin'));
                 unset($_POST['action']);
             }
         }
