@@ -147,7 +147,7 @@ class ZipAction
                 return false;
             }
 
-            $this->logger->error($this->translator->trans(
+            $this->logger->debug($this->translator->trans(
                 '%filename% added to archive. %filescount% files left.',
                 array(
                     '%filename%' => $archiveFilename,
