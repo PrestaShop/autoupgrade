@@ -40,7 +40,7 @@ class Unzip extends AbstractTask
 
         if (file_exists($destExtract)) {
             \AdminSelfUpgrade::deleteDirectory($destExtract, false);
-            $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->getTranslator()->trans('"/latest" directory has been emptied', array(), 'Modules.Autoupgrade.Admin');
+            $this->logger->debug($this->upgradeClass->getTranslator()->trans('"/latest" directory has been emptied', array(), 'Modules.Autoupgrade.Admin'));
         }
         $relative_extract_path = str_replace(_PS_ROOT_DIR_, '', $destExtract);
         $report = '';

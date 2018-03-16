@@ -74,7 +74,7 @@ class CoreUpgrader
         $this->upgradeDb($oldversion);
 
         $this->runRecurrentQueries();
-        $this->selfUpgradeClass->nextQuickInfo[] = $this->selfUpgradeClass->getTranslator()->trans('Database upgrade OK', array(), 'Modules.Autoupgrade.Admin'); // no error!
+        $this->logger->debug($this->selfUpgradeClass->getTranslator()->trans('Database upgrade OK', array(), 'Modules.Autoupgrade.Admin')); // no error!
 
         // Settings updated, compile and cache directories must be emptied
         $this->cleanFolders();
@@ -364,7 +364,7 @@ class CoreUpgrader
                 '.(empty($phpRes['msg']) ? '' : ' - '.$phpRes['msg']."\n"));
             $this->selfUpgradeClass->getState()->setWarningExists(true);
         } else {
-            $this->nextQuickInfo[] = '<div class="upgradeDbOk">[OK] PHP '.$upgrade_file.' : '.$query.'</div>';
+            $this->logger->debug('<div class="upgradeDbOk">[OK] PHP '.$upgrade_file.' : '.$query.'</div>');
         }
     }
 
@@ -378,22 +378,22 @@ class CoreUpgrader
             if (!empty($matches[1])) {
                 $drop = 'DROP TABLE IF EXISTS `'._DB_PREFIX_.$matches[1].'`;';
                 if ($db->execute($drop, false)) {
-                    $this->selfUpgradeClass->nextQuickInfo[] = '<div class="upgradeDbOk">'.$this->selfUpgradeClass->getTranslator()->trans('[DROP] SQL %s table has been dropped.', array('`'._DB_PREFIX_.$matches[1].'`'), 'Modules.Autoupgrade.Admin').'</div>';
+                    $this->logger->debug('<div class="upgradeDbOk">'.$this->selfUpgradeClass->getTranslator()->trans('[DROP] SQL %s table has been dropped.', array('`'._DB_PREFIX_.$matches[1].'`'), 'Modules.Autoupgrade.Admin').'</div>');
                 }
             }
         }
 
         if ($db->execute($query, false)) {
-            $this->selfUpgradeClass->nextQuickInfo[] = '<div class="upgradeDbOk">[OK] SQL '.$upgrade_file.' '.$query.'</div>';
+            $this->logger->debug('<div class="upgradeDbOk">[OK] SQL '.$upgrade_file.' '.$query.'</div>');
             return;
         }
         
         $error = $db->getMsgError();
         $error_number = $db->getNumberError();
-        $this->selfUpgradeClass->nextQuickInfo[] = '
+        $this->logger->warning('
             <div class="upgradeDbError">
             [WARNING] SQL '.$upgrade_file.'
-            '.$error_number.' in '.$query.': '.$error.'</div>';
+            '.$error_number.' in '.$query.': '.$error.'</div>');
 
         $duplicates = array('1050', '1054', '1060', '1061', '1062', '1091');
         if (!in_array($error_number, $duplicates)) {
@@ -431,7 +431,7 @@ class CoreUpgrader
 
         foreach ($dirsToClean as $dir) {
             if (!file_exists($dir)) {
-                $this->selfUpgradeClass->nextQuickInfo[] = $this->selfUpgradeClass->getTranslator()->trans('[SKIP] directory "%s" does not exist and cannot be emptied.', array(str_replace($this->selfUpgradeClass->prodRootDir, '', $dir)), 'Modules.Autoupgrade.Admin');
+                $this->logger->debug($this->selfUpgradeClass->getTranslator()->trans('[SKIP] directory "%s" does not exist and cannot be emptied.', array(str_replace($this->selfUpgradeClass->prodRootDir, '', $dir)), 'Modules.Autoupgrade.Admin'));
                 continue;
             }
             foreach (scandir($dir) as $file) {
@@ -444,7 +444,7 @@ class CoreUpgrader
                 } elseif (is_dir($dir.$file.DIRECTORY_SEPARATOR)) {
                     \AdminSelfUpgrade::deleteDirectory($dir.$file.DIRECTORY_SEPARATOR);
                 }
-                $this->selfUpgradeClass->nextQuickInfo[] = $this->selfUpgradeClass->getTranslator()->trans('[CLEANING CACHE] File %s removed', array($file), 'Modules.Autoupgrade.Admin');
+                $this->logger->debug($this->selfUpgradeClass->getTranslator()->trans('[CLEANING CACHE] File %s removed', array($file), 'Modules.Autoupgrade.Admin'));
             }
         }
     }

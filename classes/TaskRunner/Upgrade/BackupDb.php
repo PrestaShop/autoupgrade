@@ -250,7 +250,7 @@ class BackupDb extends AbstractTask
             }
             $found++;
             $time_elapsed = time() - $start_time;
-            $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->getTranslator()->trans('%s table has been saved.', array($table), 'Modules.Autoupgrade.Admin');
+            $this->logger->debug($this->upgradeClass->getTranslator()->trans('%s table has been saved.', array($table), 'Modules.Autoupgrade.Admin'));
         } while (($time_elapsed < \AdminSelfUpgrade::$loopBackupDbTime) && ($written < \AdminSelfUpgrade::$max_written_allowed));
 
         // end of loop
@@ -263,7 +263,7 @@ class BackupDb extends AbstractTask
         $this->upgradeClass->getFileConfigurationStorage()->save($tablesToBackup, UpgradeFileNames::toBackupDbList);
 
         if (count($tablesToBackup) > 0) {
-            $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->getTranslator()->trans('%s tables have been saved.', array($found), 'Modules.Autoupgrade.Admin');
+            $this->logger->debug($this->upgradeClass->getTranslator()->trans('%s tables have been saved.', array($found), 'Modules.Autoupgrade.Admin'));
             $this->upgradeClass->next = 'backupDb';
             $this->upgradeClass->stepDone = false;
             if (count($tablesToBackup)) {

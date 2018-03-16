@@ -43,15 +43,15 @@ class UpgradeComplete extends AbstractTask
         $this->upgradeClass->next = '';
 
         if ($this->upgradeClass->getUpgradeConfiguration()->get('channel') != 'archive' && file_exists($this->upgradeClass->getFilePath()) && unlink($this->upgradeClass->getFilePath())) {
-            $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->getTranslator()->trans('%s removed', array($this->upgradeClass->getFilePath()), 'Modules.Autoupgrade.Admin');
+            $this->logger->debug($this->upgradeClass->getTranslator()->trans('%s removed', array($this->upgradeClass->getFilePath()), 'Modules.Autoupgrade.Admin'));
         } elseif (is_file($this->upgradeClass->getFilePath())) {
-            $this->upgradeClass->nextQuickInfo[] = '<strong>'.$this->upgradeClass->getTranslator()->trans('Please remove %s by FTP', array($this->upgradeClass->getFilePath()), 'Modules.Autoupgrade.Admin').'</strong>';
+            $this->logger->debug('<strong>'.$this->upgradeClass->getTranslator()->trans('Please remove %s by FTP', array($this->upgradeClass->getFilePath()), 'Modules.Autoupgrade.Admin').'</strong>');
         }
 
         if ($this->upgradeClass->getUpgradeConfiguration()->get('channel') != 'directory' && file_exists($this->upgradeClass->latestRootDir) && \AdminSelfUpgrade::deleteDirectory($this->upgradeClass->latestRootDir)) {
-            $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->getTranslator()->trans('%s removed', array($this->upgradeClass->latestRootDir), 'Modules.Autoupgrade.Admin');
+            $this->logger->debug($this->upgradeClass->getTranslator()->trans('%s removed', array($this->upgradeClass->latestRootDir), 'Modules.Autoupgrade.Admin'));
         } elseif (is_dir($this->upgradeClass->latestRootDir)) {
-            $this->upgradeClass->nextQuickInfo[] = '<strong>'.$this->upgradeClass->getTranslator()->trans('Please remove %s by FTP', array($this->upgradeClass->latestRootDir), 'Modules.Autoupgrade.Admin').'</strong>';
+            $this->logger->debug('<strong>'.$this->upgradeClass->getTranslator()->trans('Please remove %s by FTP', array($this->upgradeClass->latestRootDir), 'Modules.Autoupgrade.Admin').'</strong>');
         }
 
         (new SymfonyAdapter())->clearMigrationCache();

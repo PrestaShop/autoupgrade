@@ -27,18 +27,18 @@
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
 use PrestaShop\Module\AutoUpgrade\Tools14;
+use Psr\Log\LoggerInterface;
 
 class Translation
 {
     private $installedLanguagesIso;
 
+    private $logger;
     private $translator;
 
-    /**
-     * ToDo: Add logger!!!!
-     */
-    public function __construct($translator, $installedLanguagesIso)
+    public function __construct($translator, LoggerInterface $logger, $installedLanguagesIso)
     {
+        $this->logger = $logger;
         $this->translator = $translator;
         $this->installedLanguagesIso = $installedLanguagesIso;
     }
@@ -118,25 +118,25 @@ class Translation
         }
 
         if (!file_exists($orig)) {
-//            $this->nextQuickInfo[] = $this->translator->trans('[NOTICE] File %s does not exist, merge skipped.', array($orig), 'Modules.Autoupgrade.Admin');
+            $this->logger->notice($this->translator->trans('[NOTICE] File %s does not exist, merge skipped.', array($orig), 'Modules.Autoupgrade.Admin'));
             return true;
         }
         include($orig);
         if (!isset($$var_name)) {
-//            $this->nextQuickInfo[] = $this->translator->trans(
-//                '[WARNING] %variablename% variable missing in file %filename%. Merge skipped.',
-//                array(
-//                    '%variablename%' => $var_name,
-//                    '%filename%' => $orig,
-//                ),
-//                'Modules.Autoupgrade.Admin'
-//            );
+            $this->logger->warning($this->translator->trans(
+                '[WARNING] %variablename% variable missing in file %filename%. Merge skipped.',
+                array(
+                    '%variablename%' => $var_name,
+                    '%filename%' => $orig,
+                ),
+                'Modules.Autoupgrade.Admin'
+            ));
             return true;
         }
         $var_orig = $$var_name;
 
         if (!file_exists($dest)) {
-//            $this->nextQuickInfo[] = $this->translator->trans('[NOTICE] File %s does not exist, merge skipped.', array($dest), 'Modules.Autoupgrade.Admin');
+            $this->logger->notice($this->translator->trans('[NOTICE] File %s does not exist, merge skipped.', array($dest), 'Modules.Autoupgrade.Admin'));
             return false;
         }
         include($dest);
@@ -146,14 +146,14 @@ class Translation
             if ('module' == $type && file_exists($dest)) {
                 unlink($dest);
             }
-//            $this->nextQuickInfo[] = $this->translator->trans(
-//                '[WARNING] %variablename% variable missing in file %filename%. File %filename% deleted and merge skipped.',
-//                array(
-//                    '%variablename%' => $var_name,
-//                    '%filename%' => $dest,
-//                ),
-//                'Modules.Autoupgrade.Admin'
-//            );
+            $this->logger->warning($this->translator->trans(
+                '[WARNING] %variablename% variable missing in file %filename%. File %filename% deleted and merge skipped.',
+                array(
+                    '%variablename%' => $var_name,
+                    '%filename%' => $dest,
+                ),
+                'Modules.Autoupgrade.Admin'
+            ));
             return false;
         }
         $var_dest = $$var_name;
