@@ -37,7 +37,7 @@ class UpgradeNow extends AbstractTask
 {
     public function run()
     {
-        $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('Starting upgrade...', array(), 'Modules.Autoupgrade.Admin');
+        $this->logger->info($this->upgradeClass->getTranslator()->trans('Starting upgrade...', array(), 'Modules.Autoupgrade.Admin'));
 
         $channel = $this->upgradeClass->getUpgradeConfiguration()->get('channel');
         $this->upgradeClass->next = 'download';

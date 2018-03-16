@@ -37,7 +37,7 @@ class BackupDb extends AbstractTask
         if (!$this->upgradeClass->getUpgradeConfiguration()->get('PS_AUTOUP_BACKUP')) {
             $this->upgradeClass->stepDone = true;
             $this->upgradeClass->nextParams['dbStep'] = 0;
-            $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('Database backup skipped. Now upgrading files...', array(), 'Modules.Autoupgrade.Admin');
+            $this->logger->info($this->upgradeClass->getTranslator()->trans('Database backup skipped. Now upgrading files...', array(), 'Modules.Autoupgrade.Admin'));
             $this->upgradeClass->next = 'upgradeFiles';
             return true;
         }
@@ -132,7 +132,7 @@ class BackupDb extends AbstractTask
                     $this->logger->error($this->upgradeClass->getTranslator()->trans('Unable to create backup database file %s.', array(addslashes($backupfile)), 'Modules.Autoupgrade.Admin'));
                     $this->upgradeClass->next = 'error';
                     $this->upgradeClass->error = 1;
-                    $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('Error during database backup.', array(), 'Modules.Autoupgrade.Admin');
+                    $this->logger->info($this->upgradeClass->getTranslator()->trans('Error during database backup.', array(), 'Modules.Autoupgrade.Admin'));
                     return false;
                 }
 
