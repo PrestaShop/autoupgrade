@@ -75,6 +75,10 @@ class StreamedLogger extends Logger
      */
     public function log($level, $message, array $context = array())
     {
+        if (empty($message)) {
+            return;
+        }
+
         $log = self::$levels[$level] .' - '. $message."\n";
 
         if ($level > self::ERROR) {
