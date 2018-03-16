@@ -63,7 +63,7 @@ class RemoveSamples extends AbstractTask
             ));
 
             if (count($this->upgradeClass->nextParams['removeList']) > 0) {
-                $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->getTranslator()->trans('Starting to remove %s sample files', array(count($this->upgradeClass->nextParams['removeList'])), 'Modules.Autoupgrade.Admin');
+                $this->logger->debug($this->upgradeClass->getTranslator()->trans('Starting to remove %s sample files', array(count($this->upgradeClass->nextParams['removeList'])), 'Modules.Autoupgrade.Admin'));
             }
         }
 
@@ -86,14 +86,14 @@ class RemoveSamples extends AbstractTask
             }
 
             if (count($this->upgradeClass->nextParams['removeList'])) {
-                $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->getTranslator()->trans(
+                $this->logger->debug($this->upgradeClass->getTranslator()->trans(
                     '%itemname% items removed. %itemscount% items left.',
                     array(
                         '%itemname%' => $file,
                         '%itemscount%' => count($this->upgradeClass->nextParams['removeList'])
                     ),
                     'Modules.Autoupgrade.Admin'
-                );
+                ));
             }
         }
 

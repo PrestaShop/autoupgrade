@@ -77,7 +77,6 @@ class AdminSelfUpgrade extends AdminController
     public $currentParams = array();
 
     public $next_desc = '';
-    public $nextQuickInfo = array();
     /**
      * Initialized in initPath()
      */
@@ -682,7 +681,7 @@ class AdminSelfUpgrade extends AdminController
 
             if ($this->getFilesystemAdapter()->isFileSkipped($file, $fullPath, "upgrade")) {
                 if (!in_array($file, array('.', '..'))) {
-                    $this->nextQuickInfo[] = $this->trans('File %s is preserved', array($file), 'Modules.Autoupgrade.Admin');
+                    $this->getLogger()->debug($this->trans('File %s is preserved', array($file), 'Modules.Autoupgrade.Admin'));
                 }
                 continue;
             }
@@ -727,18 +726,18 @@ class AdminSelfUpgrade extends AdminController
         $dest = $this->destUpgradePath.$file;
 
         if ($this->getFilesystemAdapter()->isFileSkipped($file, $dest, 'upgrade')) {
-            $this->nextQuickInfo[] = $this->trans('%s ignored', array($file), 'Modules.Autoupgrade.Admin');
+            $this->getLogger()->debug($this->trans('%s ignored', array($file), 'Modules.Autoupgrade.Admin'));
             return true;
         } else {
             if (is_dir($orig)) {
                 // if $dest is not a directory (that can happen), just remove that file
                 if (!is_dir($dest) and file_exists($dest)) {
                     unlink($dest);
-                    $this->nextQuickInfo[] = $this->trans('[WARNING] File %1$s has been deleted.', array($file), 'Modules.Autoupgrade.Admin');
+                    $this->getLogger()->debug($this->trans('[WARNING] File %1$s has been deleted.', array($file), 'Modules.Autoupgrade.Admin'));
                 }
                 if (!file_exists($dest)) {
                     if (mkdir($dest)) {
-                        $this->nextQuickInfo[] = $this->trans('Directory %1$s created.', array($file), 'Modules.Autoupgrade.Admin');
+                        $this->getLogger()->debug($this->trans('Directory %1$s created.', array($file), 'Modules.Autoupgrade.Admin'));
                         return true;
                     } else {
                         $this->next = 'error';
@@ -746,7 +745,7 @@ class AdminSelfUpgrade extends AdminController
                         return false;
                     }
                 } else { // directory already exists
-                    $this->nextQuickInfo[] = $this->trans('Directory %s already exists.', array($file), 'Modules.Autoupgrade.Admin');
+                    $this->getLogger()->debug($this->trans('Directory %s already exists.', array($file), 'Modules.Autoupgrade.Admin'));
                     return true;
                 }
             } elseif (is_file($orig)) {
@@ -754,7 +753,7 @@ class AdminSelfUpgrade extends AdminController
                 if ($translationAdapter->isTranslationFile($file) && file_exists($dest)) {
                     $type_trad = $translationAdapter->getTranslationFileType($file);
                     if ($translationAdapter->mergeTranslationFile($orig, $dest, $type_trad)) {
-                        $this->nextQuickInfo[] = $this->trans('[TRANSLATION] The translation files have been merged into file %s.', array($dest), 'Modules.Autoupgrade.Admin');
+                        $this->getLogger()->info($this->trans('[TRANSLATION] The translation files have been merged into file %s.', array($dest), 'Modules.Autoupgrade.Admin'));
                         return true;
                     }
                     $this->getLogger()->warning($this->trans(
@@ -767,7 +766,7 @@ class AdminSelfUpgrade extends AdminController
                 // upgrade exception were above. This part now process all files that have to be upgraded (means to modify or to remove)
                 // delete before updating (and this will also remove deprecated files)
                 if (copy($orig, $dest)) {
-                    $this->nextQuickInfo[] = $this->trans('Copied %1$s.', array($file), 'Modules.Autoupgrade.Admin');
+                    $this->getLogger()->debug($this->trans('Copied %1$s.', array($file), 'Modules.Autoupgrade.Admin'));
                     return true;
                 } else {
                     $this->next = 'error';
@@ -778,13 +777,13 @@ class AdminSelfUpgrade extends AdminController
                 if (file_exists($dest)) {
                     unlink($dest);
                 }
-                $this->nextQuickInfo[] = sprintf('removed file %1$s.', $file);
+                $this->getLogger()->debug(sprintf('removed file %1$s.', $file));
                 return true;
             } elseif (is_dir($dest)) {
                 if (strpos($dest, DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR) === false) {
                     self::deleteDirectory($dest, true);
                 }
-                $this->nextQuickInfo[] = sprintf('removed dir %1$s.', $file);
+                $this->getLogger()->debug(sprintf('removed dir %1$s.', $file));
                 return true;
             } else {
                 return true;
@@ -880,11 +879,14 @@ class AdminSelfUpgrade extends AdminController
 
     public function handleException(UpgradeException $e)
     {
-        $this->nextQuickInfo = array_merge($this->nextQuickInfo, $e->getQuickInfos());
+        $logger = $this->getLogger();
+        foreach($e->getQuickInfos() as $log) {
+            $logger->debug($log);
+        }
         if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {
             $this->next = 'error';
             $this->error = true;
-            $this->getLogger()->error($e->getMessage());
+            $logger->error($e->getMessage());
         }
     }
 
@@ -1009,7 +1011,7 @@ class AdminSelfUpgrade extends AdminController
 
     public function getTranslationAdapter()
     {
-        return new Translation($this->getTranslator(), $this->state->getInstalledLanguagesIso());
+        return new Translation($this->getTranslator(), $this->getLogger(), $this->state->getInstalledLanguagesIso());
     }
 
     public function getTranslator()
@@ -1052,7 +1054,7 @@ class AdminSelfUpgrade extends AdminController
             return $this->zipAction;
         }
 
-        $this->zipAction = new ZipAction($this->getTranslator(), $this->prodRootDir);
+        $this->zipAction = new ZipAction($this->getTranslator(), $this->getLogger(), $this->prodRootDir);
         return $this->zipAction;
     }
 }

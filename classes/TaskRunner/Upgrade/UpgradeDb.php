@@ -36,24 +36,19 @@ class UpgradeDb extends AbstractTask
     {
         $this->upgradeClass->nextParams = $this->upgradeClass->currentParams;
 
-        /**
-         * if (!$this->getCoreUpgrader()->doUpgrade()) {
-         *      -> write in log
-         *      -> return false
-         * }
-         */
         try {
             $this->getCoreUpgrader()->doUpgrade();
         } catch (UpgradeException $e ) {
-            // ToDo: Remove UpgradeException and write directly in logger
             $this->upgradeClass->next = 'error';
+            foreach ($e->getQuickInfos() as $log) {
+                $this->logger->debug($log);
+            }
             $this->logger->error($this->upgradeClass->getTranslator()->trans('Error during database upgrade. You may need to restore your database.', array(), 'Modules.Autoupgrade.Admin'));
-            $this->upgradeClass->nextQuickInfo = array_merge($this->upgradeClass->nextQuickInfo, $e->getQuickInfos());
-            $this->upgradeClass->nextErrors[] = $e->getMessage();
+            $this->logger->error($e->getMessage());
             return false;
         }
         $this->upgradeClass->next = 'upgradeModules';
-        $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('Database upgraded. Now upgrading your Addons modules...', array(), 'Modules.Autoupgrade.Admin');
+        $this->logger->info($this->upgradeClass->getTranslator()->trans('Database upgraded. Now upgrading your Addons modules...', array(), 'Modules.Autoupgrade.Admin'));
         return true;
     }
 

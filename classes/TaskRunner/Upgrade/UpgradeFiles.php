@@ -100,8 +100,7 @@ class UpgradeFiles extends AbstractTask
                 $this->upgradeClass->next = 'error';
                 return false;
             }
-            $this->upgradeClass->nextQuickInfo[] = 
-            $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('%s files will be upgraded.', array($total_files_to_upgrade), 'Modules.Autoupgrade.Admin');
+            $this->logger->info($this->upgradeClass->getTranslator()->trans('%s files will be upgraded.', array($total_files_to_upgrade), 'Modules.Autoupgrade.Admin'));
             $this->upgradeClass->next = 'upgradeFiles';
             $this->upgradeClass->stepDone = false;
             return true;
@@ -140,8 +139,7 @@ class UpgradeFiles extends AbstractTask
         }
         $this->upgradeClass->getFileConfigurationStorage()->save($filesToUpgrade, UpgradeFileNames::toUpgradeFileList);
         if (count($filesToUpgrade) > 0) {
-            $this->upgradeClass->next_desc =
-            $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->getTranslator()->trans('%s files left to upgrade.', array(count($filesToUpgrade)), 'Modules.Autoupgrade.Admin');
+            $this->logger->info($this->upgradeClass->getTranslator()->trans('%s files left to upgrade.', array(count($filesToUpgrade)), 'Modules.Autoupgrade.Admin'));
             $this->upgradeClass->stepDone = false;
             @unlink(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR. 'app'.DIRECTORY_SEPARATOR.'cache'.DIRECTORY_SEPARATOR.'dev'.DIRECTORY_SEPARATOR.'class_index.php');
             @unlink(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR. 'app'.DIRECTORY_SEPARATOR.'cache'.DIRECTORY_SEPARATOR.'prod'.DIRECTORY_SEPARATOR.'class_index.php');

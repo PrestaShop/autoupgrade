@@ -64,7 +64,7 @@ class RestoreFiles extends AbstractTask
                 }
             }
 
-            $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->getTranslator()->trans('%s file(s) will be removed before restoring the backup files.', array(count($toRemoveOnly)), 'Modules.Autoupgrade.Admin');
+            $this->logger->debug($this->upgradeClass->getTranslator()->trans('%s file(s) will be removed before restoring the backup files.', array(count($toRemoveOnly)), 'Modules.Autoupgrade.Admin'));
             $this->upgradeClass->getFileConfigurationStorage()->save($toRemoveOnly, UpgradeFileNames::toRemoveFileList);
 
             if ($fromArchive === false || $toRemove === false) {
@@ -85,17 +85,16 @@ class RestoreFiles extends AbstractTask
             $destExtract = $this->upgradeClass->prodRootDir;
 
             $res = $this->upgradeClass->getZipAction()->extract($filepath, $destExtract);
-            $this->upgradeClass->nextQuickInfo += $this->upgradeClass->getZipAction()->getLogs();
             if (!$res) {
                 $this->upgradeClass->next = 'error';
-                $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans(
+                $this->logger->error($this->upgradeClass->getTranslator()->trans(
                     'Unable to extract file %filename% into directory %directoryname% .',
                     array(
                         '%filename%' => $filepath,
                         '%directoryname%' => $destExtract,
                     ),
                     'Modules.Autoupgrade.Admin'
-                );
+                ));
                 return false;
             }
 
@@ -106,8 +105,8 @@ class RestoreFiles extends AbstractTask
             }
 
             $this->upgradeClass->next = 'restoreDb';
-            $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('Files restored. Now restoring database...', array(), 'Modules.Autoupgrade.Admin');
-            $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->getTranslator()->trans('Files restored.', array(), 'Modules.Autoupgrade.Admin');
+            $this->logger->debug($this->upgradeClass->getTranslator()->trans('Files restored.', array(), 'Modules.Autoupgrade.Admin'));
+            $this->logger->info($this->upgradeClass->getTranslator()->trans('Files restored. Now restoring database...', array(), 'Modules.Autoupgrade.Admin'));
             return true;
         }
     }

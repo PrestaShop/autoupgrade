@@ -59,11 +59,11 @@ class Download extends AbstractTask
             $this->upgradeClass->upgrader->link = $this->upgradeClass->getUpgradeConfiguration()->get('private_release_link');
             $this->upgradeClass->upgrader->md5 = $this->upgradeClass->getUpgradeConfiguration()->get('private_release_md5');
         }
-        $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->getTranslator()->trans('Downloading from %s', array($this->upgradeClass->upgrader->link), 'Modules.Autoupgrade.Admin');
-        $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->getTranslator()->trans('File will be saved in %s', array($this->upgradeClass->getFilePath()), 'Modules.Autoupgrade.Admin');
+        $this->logger->debug($this->upgradeClass->getTranslator()->trans('Downloading from %s', array($this->upgradeClass->upgrader->link), 'Modules.Autoupgrade.Admin'));
+        $this->logger->debug($this->upgradeClass->getTranslator()->trans('File will be saved in %s', array($this->upgradeClass->getFilePath()), 'Modules.Autoupgrade.Admin'));
         if (file_exists($this->upgradeClass->downloadPath)) {
             \AdminSelfUpgrade::deleteDirectory($this->upgradeClass->downloadPath, false);
-            $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->getTranslator()->trans('Download directory has been emptied', array(), 'Modules.Autoupgrade.Admin');
+            $this->logger->debug($this->upgradeClass->getTranslator()->trans('Download directory has been emptied', array(), 'Modules.Autoupgrade.Admin'));
         }
         $report = '';
         $relative_download_path = str_replace(_PS_ROOT_DIR_, '', $this->upgradeClass->downloadPath);
