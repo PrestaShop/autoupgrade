@@ -26,6 +26,7 @@
 
 use PHPUnit\Framework\TestCase;
 
+use PrestaShop\Module\AutoUpgrade\Log\LegacyLogger;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader;
 
 class CoreUpgraderTest extends TestCase
@@ -39,7 +40,7 @@ class CoreUpgraderTest extends TestCase
         $stub = $this->getMockBuilder(AdminSelfUpgrade::class)
                      ->disableOriginalConstructor()
                      ->getMock();
-        $this->coreUpgrader = new CoreUpgrader($stub);
+        $this->coreUpgrader = new CoreUpgrader($stub, new LegacyLogger());
     }
 
     /**

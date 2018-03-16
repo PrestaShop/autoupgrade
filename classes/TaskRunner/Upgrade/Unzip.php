@@ -80,7 +80,6 @@ class Unzip extends AbstractTask
         @unlink($destExtract.DIRECTORY_SEPARATOR.'/Install_PrestaShop.html');
 
         $subRes = $this->upgradeClass->getZipAction()->extract($newZip, $destExtract);
-        $this->upgradeClass->nextQuickInfo = array_merge($this->upgradeClass->nextQuickInfo, $this->upgradeClass->getZipAction()->getLogs());
         if (!$subRes) {
             $this->upgradeClass->next = 'error';
             $this->logger->info($this->upgradeClass->getTranslator()->trans(
