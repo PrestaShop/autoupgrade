@@ -84,6 +84,10 @@ class LegacyLogger extends Logger
      */
     public function log($level, $message, array $context = array())
     {
+        if (empty($message)) {
+            return;
+        }
+
         // Specific case for INFO
         if ($level === self::INFO) {
             // If last info is already defined, move it to the messages list

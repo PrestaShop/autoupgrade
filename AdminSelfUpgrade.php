@@ -887,6 +887,9 @@ class AdminSelfUpgrade extends AdminController
             $this->error = true;
             $logger->error($e->getMessage());
         }
+        if ($e->getSeverity() === UpgradeException::SEVERITY_WARNING) {
+            $logger->warning($e->getMessage());
+        }
     }
 
     public function getFileConfigurationStorage()
