@@ -76,7 +76,6 @@ class AdminSelfUpgrade extends AdminController
     public $nextParams = array();
     public $currentParams = array();
 
-    public $next_desc = '';
     /**
      * Initialized in initPath()
      */
@@ -655,7 +654,7 @@ class AdminSelfUpgrade extends AdminController
         }
 
         $this->upgradeConfiguration->merge($config);
-        $this->next_desc = $this->trans('Configuration successfully updated.', array(), 'Modules.Autoupgrade.Admin').' <strong>'.$this->trans('This page will now be reloaded and the module will check if a new version is available.', array(), 'Modules.Autoupgrade.Admin').'</strong>';
+        $this->getLogger()->info($this->trans('Configuration successfully updated.', array(), 'Modules.Autoupgrade.Admin').' <strong>'.$this->trans('This page will now be reloaded and the module will check if a new version is available.', array(), 'Modules.Autoupgrade.Admin').'</strong>');
         return (new UpgradeConfigurationStorage($this->autoupgradePath.DIRECTORY_SEPARATOR))->save($this->upgradeConfiguration, UpgradeFileNames::configFilename);
     }
 
@@ -770,7 +769,7 @@ class AdminSelfUpgrade extends AdminController
                     return true;
                 } else {
                     $this->next = 'error';
-                    $this->getLogger()->error($this->next_desc = $this->trans('Error while copying file %s', array($file), 'Modules.Autoupgrade.Admin'));
+                    $this->getLogger()->error($this->trans('Error while copying file %s', array($file), 'Modules.Autoupgrade.Admin'));
                     return false;
                 }
             } elseif (is_file($dest)) {

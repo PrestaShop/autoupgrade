@@ -36,9 +36,10 @@ class UpgradeComplete extends AbstractTask
 {
     public function run()
     {
-        $this->upgradeClass->next_desc = $this->upgradeClass->getState()-> getWarningExists() ?
+        $this->logger->info($this->upgradeClass->getState()-> getWarningExists() ?
             $this->upgradeClass->getTranslator()->trans('Upgrade process done, but some warnings have been found.', array(), 'Modules.Autoupgrade.Admin') :
-            $this->upgradeClass->getTranslator()->trans('Upgrade process done. Congratulations! You can now reactivate your shop.', array(), 'Modules.Autoupgrade.Admin');
+            $this->upgradeClass->getTranslator()->trans('Upgrade process done. Congratulations! You can now reactivate your shop.', array(), 'Modules.Autoupgrade.Admin')
+        );
 
         $this->upgradeClass->next = '';
 

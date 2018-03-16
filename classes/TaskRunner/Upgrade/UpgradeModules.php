@@ -86,7 +86,7 @@ class UpgradeModules extends AbstractTask
 
             $this->upgradeClass->next = 'upgradeModules';
             if ($modules_left) {
-                $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('%s modules left to upgrade.', array($modules_left), 'Modules.Autoupgrade.Admin');
+                $this->logger->info($this->upgradeClass->getTranslator()->trans('%s modules left to upgrade.', array($modules_left), 'Modules.Autoupgrade.Admin'));
             }
             $this->upgradeClass->stepDone = false;
         } else {

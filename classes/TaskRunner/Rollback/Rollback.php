@@ -78,7 +78,7 @@ class Rollback extends AbstractTask
         }
 
         $this->upgradeClass->next = 'restoreFiles';
-        $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('Restoring files ...', array(), 'Modules.Autoupgrade.Admin');
+        $this->logger->info($this->upgradeClass->getTranslator()->trans('Restoring files ...', array(), 'Modules.Autoupgrade.Admin'));
         // remove tmp files related to restoreFiles
         if (file_exists($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFileNames::fromArchiveFileList)) {
             unlink($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFileNames::fromArchiveFileList);

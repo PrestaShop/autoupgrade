@@ -52,19 +52,18 @@ class Unzip extends AbstractTask
         }
 
         $res = $this->upgradeClass->getZipAction()->extract($filepath, $destExtract);
-        $this->upgradeClass->nextQuickInfo = array_merge($this->upgradeClass->nextQuickInfo, $this->upgradeClass->getZipAction()->getLogs());
 
         if (!$res) {
             $this->upgradeClass->next = 'error';
             $this->upgradeClass->error= true;
-            $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans(
+            $this->logger->info($this->upgradeClass->getTranslator()->trans(
                 'Unable to extract %filepath% file into %destination% folder...',
                 array(
                     '%filepath%' => $filepath,
                     '%destination%' => $destExtract,
                 ),
                 'Modules.Autoupgrade.Admin'
-            );
+            ));
             return false;
         }
 
@@ -73,7 +72,7 @@ class Unzip extends AbstractTask
         // ToDo : only 1.7!!!
         if (!is_file($newZip)) {
             $this->upgradeClass->next = 'error';
-            $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('This is not a valid archive for version %s.', array(INSTALL_VERSION), 'Modules.Autoupgrade.Admin');
+            $this->logger->info($this->upgradeClass->getTranslator()->trans('This is not a valid archive for version %s.', array(INSTALL_VERSION), 'Modules.Autoupgrade.Admin'));
             return false;
         }
 
@@ -84,21 +83,21 @@ class Unzip extends AbstractTask
         $this->upgradeClass->nextQuickInfo = array_merge($this->upgradeClass->nextQuickInfo, $this->upgradeClass->getZipAction()->getLogs());
         if (!$subRes) {
             $this->upgradeClass->next = 'error';
-            $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans(
+            $this->logger->info($this->upgradeClass->getTranslator()->trans(
                 'Unable to extract %filepath% file into %destination% folder...',
                 array(
                     '%filepath%' => $filepath,
                     '%destination%' => $destExtract,
                 ),
                 'Modules.Autoupgrade.Admin'
-            );
+            ));
             return false;
         }
 
         // Unsetting to force listing
         unset($this->upgradeClass->nextParams['removeList']);
         $this->upgradeClass->next = 'removeSamples';
-        $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('File extraction complete. Removing sample files...', array(), 'Modules.Autoupgrade.Admin');
+        $this->logger->info($this->upgradeClass->getTranslator()->trans('File extraction complete. Removing sample files...', array(), 'Modules.Autoupgrade.Admin'));
 
         @unlink($newZip);
 

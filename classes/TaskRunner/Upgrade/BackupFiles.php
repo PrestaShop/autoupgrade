@@ -36,7 +36,7 @@ class BackupFiles extends AbstractTask
         if (!$this->upgradeClass->getUpgradeConfiguration()->get('PS_AUTOUP_BACKUP')) {
             $this->upgradeClass->stepDone = true;
             $this->upgradeClass->next = 'backupDb';
-            $this->upgradeClass->next_desc = 'File backup skipped.';
+            $this->logger->info('File backup skipped.');
             return true;
         }
 
@@ -71,13 +71,13 @@ class BackupFiles extends AbstractTask
 
         $this->upgradeClass->next = 'backupFiles';
         if (is_array($filesToBackup) && count($filesToBackup)) {
-            $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('Backup files in progress. %d files left', array(count($filesToBackup)), 'Modules.Autoupgrade.Admin');
+            $this->logger->info($this->upgradeClass->getTranslator()->trans('Backup files in progress. %d files left', array(count($filesToBackup)), 'Modules.Autoupgrade.Admin'));
 
             $this->upgradeClass->stepDone = false;
             $res = $this->upgradeClass->getZipAction()->compress($filesToBackup, $this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$backupFilesFilename);
             if (!$res) {
                 $this->upgradeClass->next = 'error';
-                $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('Unable to open archive', array(), 'Modules.Autoupgrade.Admin');
+                $this->logger->info($this->upgradeClass->getTranslator()->trans('Unable to open archive', array(), 'Modules.Autoupgrade.Admin'));
                 return false;
             }
             $this->upgradeClass->getFileConfigurationStorage()->save($filesToBackup, UpgradeFileNames::toBackupFileList);

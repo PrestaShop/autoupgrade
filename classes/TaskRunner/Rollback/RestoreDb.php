@@ -158,16 +158,16 @@ class RestoreDb extends AbstractTask
 
                     $restoreDbFilenamesCount = count($this->upgradeClass->getState()-> getRestoreDbFilenames());
                     if ($restoreDbFilenamesCount) {
-                        $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans(
+                        $this->logger->info($this->upgradeClass->getTranslator()->trans(
                             'Database restoration file %filename% done. %filescount% file(s) left...',
                             array(
                                 '%filename%' => $this->upgradeClass->nextParams['dbStep'],
                                 '%filescount%' => $restoreDbFilenamesCount,
                             ),
                             'Modules.Autoupgrade.Admin'
-                        );
+                        ));
                     } else {
-                        $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('Database restoration file %1$s done.', array($this->upgradeClass->nextParams['dbStep']), 'Modules.Autoupgrade.Admin');
+                        $this->logger->info($this->upgradeClass->getTranslator()->trans('Database restoration file %1$s done.', array($this->upgradeClass->nextParams['dbStep']), 'Modules.Autoupgrade.Admin'));
                     }
 
                     $this->upgradeClass->stepDone = true;

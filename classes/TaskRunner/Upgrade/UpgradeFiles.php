@@ -124,7 +124,7 @@ class UpgradeFiles extends AbstractTask
                 if (file_exists(UpgradeFileNames::toUpgradeFileList)) {
                     unlink(UpgradeFileNames::toUpgradeFileList);
                 }
-                $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('All files upgraded. Now upgrading database...', array(), 'Modules.Autoupgrade.Admin');
+                $this->logger->info($this->upgradeClass->getTranslator()->trans('All files upgraded. Now upgrading database...', array(), 'Modules.Autoupgrade.Admin'));
                 $this->upgradeClass->stepDone = true;
                 break;
             }
