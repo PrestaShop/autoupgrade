@@ -26,11 +26,13 @@
 
 use PHPUnit\Framework\TestCase;
 use PrestaShop\Module\AutoUpgrade\ErrorHandler;
+use PrestaShop\Module\AutoUpgrade\Log\LegacyLogger;
 
 class ErrorHandlerTest extends TestCase
 {
     protected $errorHandler;
     protected $adminSelfUpgradeStub;
+    protected $logger;
 
     protected function setUp()
     {
@@ -38,29 +40,35 @@ class ErrorHandlerTest extends TestCase
 
         $this->adminSelfUpgradeStub = $this->getMockBuilder(AdminSelfUpgrade::class)
                      ->disableOriginalConstructor()
+                     ->setMethods(array('getLogger'))
                      ->getMock();
-        $this->adminSelfUpgradeStub->nextErrors = array();
+        $this->logger = new LegacyLogger();
+        $this->adminSelfUpgradeStub->method('getLogger')->willReturn($this->logger);
         $this->errorHandler = new ErrorHandler($this->adminSelfUpgradeStub);
     }
 
     public function testDefaultContentIsEmpty()
     {
-        $this->assertEmpty($this->adminSelfUpgradeStub->nextErrors);
+        $this->assertEmpty($this->adminSelfUpgradeStub->getLogger()->getErrors());
     }
 
     public function testCheckExceptionAndContent()
     {
         $exception = new Exception('ERMAGHERD');$line = __LINE__;
         $this->errorHandler->exceptionHandler($exception);
-        $this->assertEquals(1, count($this->adminSelfUpgradeStub->nextErrors));
-        $this->assertEquals(end($this->adminSelfUpgradeStub->nextErrors), '[INTERNAL] '.__FILE__.' line '.$line.' - Exception: ERMAGHERD');
+
+        $errors = $this->logger->getErrors();
+        $this->assertEquals(1, count($errors));
+        $this->assertEquals(end($errors), '[INTERNAL] '.__FILE__.' line '.$line.' - Exception: ERMAGHERD');
     }
 
-    public function testFatalErrorHandler()
+    public function testWarningInErrorHandler()
     {
         $line = __LINE__;
         $this->errorHandler->errorHandler(E_WARNING, 'Trololo', __FILE__, $line);
-        $this->assertEquals(1, count($this->adminSelfUpgradeStub->nextErrors));
-        $this->assertEquals(end($this->adminSelfUpgradeStub->nextErrors), '[INTERNAL] '.__FILE__.' line '.$line.' - WARNING: Trololo');
+        $msgs = $this->logger->getInfos();
+        $this->assertEquals(0, count($this->logger->getErrors()));
+        $this->assertEquals(1, count($msgs));
+        $this->assertEquals(end($msgs), '[INTERNAL] '.__FILE__.' line '.$line.' - Trololo');
     }
 }

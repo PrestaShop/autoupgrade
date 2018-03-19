@@ -26,23 +26,24 @@
 
 namespace PrestaShop\Module\AutoUpgrade;
 
+use PrestaShop\Module\AutoUpgrade\Log\LegacyLogger;
+use PrestaShop\Module\AutoUpgrade\Log\Logger;
+
 /**
  * In order to improve the debug of the module in case of case, we need to display the missed errors
- * directly on the user interface. This will allow him to know what happened, without having to open
- * its PHP logs.
+ * directly on the user interface. This will allow a merchant to know what happened, without having to open
+ * his PHP logs.
  */
 class ErrorHandler
 {
-    private $logger;
+    private $selfUpgrade;
 
     /**
-     * TODO: To be replaced by the logger later
-     *
-     * @param \AdminSelfUpgrade $adminSelfUpgrade
+     * @param LoggerInterface $logger
      */
-    public function __construct(\AdminSelfUpgrade $adminSelfUpgrade)
+    public function __construct(\AdminSelfUpgrade $selfUpgrade)
     {
-        $this->logger = $adminSelfUpgrade;
+        $this->selfUpgrade = $selfUpgrade;
     }
 
     /**
@@ -63,7 +64,8 @@ class ErrorHandler
      */
     public function exceptionHandler($e)
     {
-        $this->report($e->getFile(), $e->getLine(), get_class($e), $e->getMessage());
+        $message = get_class($e) .': '. $e->getMessage();
+        $this->report($e->getFile(), $e->getLine(), Logger::CRITICAL, $message);
     }
 
     /**
@@ -77,19 +79,25 @@ class ErrorHandler
      */
     public function errorHandler($errno, $errstr, $errfile, $errline)
     {
+        if (!(error_reporting() & $errno)) {
+            // This error code is not included in error_reporting, so let it fall
+            // through to the standard PHP error handler
+            return false;
+        }
+
         switch ($errno) {
             case E_USER_ERROR:
                 return false; // Will be taken by fatalHandler
             case E_USER_WARNING:
             case E_WARNING:
-                $type = 'WARNING';
+                $type = Logger::WARNING;
                 break;
             case E_NOTICE:
             case E_USER_NOTICE:
-                $type = 'NOTICE';
+                $type = Logger::NOTICE;
                 break;
             default:
-                $type = "Unknown error type ($errno)";
+                $type = Logger::DEBUG;
                 break;
         }
 
@@ -105,7 +113,7 @@ class ErrorHandler
     {
         $lastError = error_get_last();
         if ($lastError && in_array($lastError['type'], array(E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR), true)) {
-            $this->report($lastError['file'], $lastError['line'], 'CRITICAL', $lastError['message'], true);
+            $this->report($lastError['file'], $lastError['line'], Logger::CRITICAL, $lastError['message'], true);
         }
     }
 
@@ -114,21 +122,21 @@ class ErrorHandler
      * 
      * @param string $file
      * @param int $line
-     * @param string $type
+     * @param int $type Level of criticity
      * @param string $message
      * @param bool $display
      */
     protected function report($file, $line, $type, $message, $display = false)
     {
-        $log = "[INTERNAL] $file line $line - $type: $message";
+        $log = "[INTERNAL] $file line $line - $message";
         
         try {
-            $this->logger->nextErrors[] = $log;
-            if ($display) {
-                $this->logger->next = 'error';
-                $this->logger->error = true;
-                // FixMe: In CLI, we should display something else. A new logger
-                $this->logger->displayAjax();
+            $logger = $this->selfUpgrade->getLogger();
+            $logger->log($type, $log);
+            if ($display && $logger instanceof LegacyLogger) {
+                $this->selfUpgrade->next = 'error';
+                $this->selfUpgrade->error = true;
+                $this->selfUpgrade->displayAjax();
             }
         } catch (\Exception $e) {
             echo '{"nextErrors":["'.$log.'"],"error":true}';
