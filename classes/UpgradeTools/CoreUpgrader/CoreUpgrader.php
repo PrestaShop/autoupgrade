@@ -29,6 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\ThemeAdapter;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class used to modify the core of PrestaShop, on the files are copied on the filesystem.
@@ -41,9 +42,15 @@ class CoreUpgrader
      */
     protected $selfUpgradeClass;
 
-    public function __construct(\AdminSelfUpgrade $selfUpgradeClass)
+    /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+
+    public function __construct(\AdminSelfUpgrade $selfUpgradeClass, LoggerInterface $logger)
     {
         $this->selfUpgradeClass = $selfUpgradeClass;
+        $this->logger = $logger;
     }
 
     public function doUpgrade()
@@ -67,7 +74,7 @@ class CoreUpgrader
         $this->upgradeDb($oldversion);
 
         $this->runRecurrentQueries();
-        $this->selfUpgradeClass->nextQuickInfo[] = $this->selfUpgradeClass->getTranslator()->trans('Database upgrade OK', array(), 'Modules.Autoupgrade.Admin'); // no error!
+        $this->logger->debug($this->selfUpgradeClass->getTranslator()->trans('Database upgrade OK', array(), 'Modules.Autoupgrade.Admin')); // no error!
 
         // Settings updated, compile and cache directories must be emptied
         $this->cleanFolders();
@@ -85,11 +92,9 @@ class CoreUpgrader
         $this->runCoreCacheClean();
 
         if ($this->selfUpgradeClass->getState()->getWarningExists()) {
-            $this->selfUpgradeClass->nextQuickInfo[] = 
-            $this->selfUpgradeClass->nextErrors[] = 
-            $this->selfUpgradeClass->next_desc = $this->selfUpgradeClass->getTranslator()->trans('Warning detected during upgrade.', array(), 'Modules.Autoupgrade.Admin');
+            $this->logger->warning($this->selfUpgradeClass->getTranslator()->trans('Warning detected during upgrade.', array(), 'Modules.Autoupgrade.Admin'));
         } else {
-            $this->selfUpgradeClass->next_desc = $this->selfUpgradeClass->getTranslator()->trans('Database upgrade completed', array(), 'Modules.Autoupgrade.Admin');
+            $this->logger->info($this->selfUpgradeClass->getTranslator()->trans('Database upgrade completed', array(), 'Modules.Autoupgrade.Admin'));
         }
     }
 
@@ -338,8 +343,7 @@ class CoreUpgrader
             $func_name = str_replace($pattern[0], '', $php[0]);
 
             if (!file_exists(_PS_INSTALLER_PHP_UPGRADE_DIR_.strtolower($func_name).'.php')) {
-                $this->selfUpgradeClass->nextQuickInfo[] = '<div class="upgradeDbError">[ERROR] '.$upgrade_file.' PHP - missing file '.$query.'</div>';
-                $this->selfUpgradeClass->nextErrors[] = '[ERROR] '.$upgrade_file.' PHP - missing file '.$query;
+                $this->logger->error('[ERROR] '.$upgrade_file.' PHP - missing file '.$query);
                 $this->selfUpgradeClass->getState()->setWarningExists(true);
             } else {
                 require_once(_PS_INSTALLER_PHP_UPGRADE_DIR_.strtolower($func_name).'.php');
@@ -349,25 +353,18 @@ class CoreUpgrader
         /* Or an object method */
         else {
             $func_name = array($php[0], str_replace($pattern[0], '', $php[1]));
-            $this->selfUpgradeClass->nextQuickInfo[] = '<div class="upgradeDbError">[ERROR] '.$upgrade_file.' PHP - Object Method call is forbidden ( '.$php[0].'::'.str_replace($pattern[0], '', $php[1]).')</div>';
-            $this->selfUpgradeClass->nextErrors[] = '[ERROR] '.$upgrade_file.' PHP - Object Method call is forbidden ('.$php[0].'::'.str_replace($pattern[0], '', $php[1]).')';
+            $this->logger->error('[ERROR] '.$upgrade_file.' PHP - Object Method call is forbidden ('.$php[0].'::'.str_replace($pattern[0], '', $php[1]).')');
             $this->selfUpgradeClass->getState()->setWarningExists(true);
         }
 
         if (isset($phpRes) && (is_array($phpRes) && !empty($phpRes['error'])) || $phpRes === false) {
-            $this->selfUpgradeClass->nextQuickInfo[] = '
-                <div class="upgradeDbError">
-                    [ERROR] PHP '.$upgrade_file.' '.$query."\n".'
-                    '.(empty($phpRes['error']) ? '' : $phpRes['error']."\n").'
-                    '.(empty($phpRes['msg']) ? '' : ' - '.$phpRes['msg']."\n").'
-                </div>';
-            $this->selfUpgradeClass->nextErrors[] = '
+            $this->logger->error('
                 [ERROR] PHP '.$upgrade_file.' '.$query."\n".'
                 '.(empty($phpRes['error']) ? '' : $phpRes['error']."\n").'
-                '.(empty($phpRes['msg']) ? '' : ' - '.$phpRes['msg']."\n");
+                '.(empty($phpRes['msg']) ? '' : ' - '.$phpRes['msg']."\n"));
             $this->selfUpgradeClass->getState()->setWarningExists(true);
         } else {
-            $this->nextQuickInfo[] = '<div class="upgradeDbOk">[OK] PHP '.$upgrade_file.' : '.$query.'</div>';
+            $this->logger->debug('<div class="upgradeDbOk">[OK] PHP '.$upgrade_file.' : '.$query.'</div>');
         }
     }
 
@@ -381,26 +378,26 @@ class CoreUpgrader
             if (!empty($matches[1])) {
                 $drop = 'DROP TABLE IF EXISTS `'._DB_PREFIX_.$matches[1].'`;';
                 if ($db->execute($drop, false)) {
-                    $this->selfUpgradeClass->nextQuickInfo[] = '<div class="upgradeDbOk">'.$this->selfUpgradeClass->getTranslator()->trans('[DROP] SQL %s table has been dropped.', array('`'._DB_PREFIX_.$matches[1].'`'), 'Modules.Autoupgrade.Admin').'</div>';
+                    $this->logger->debug('<div class="upgradeDbOk">'.$this->selfUpgradeClass->getTranslator()->trans('[DROP] SQL %s table has been dropped.', array('`'._DB_PREFIX_.$matches[1].'`'), 'Modules.Autoupgrade.Admin').'</div>');
                 }
             }
         }
 
         if ($db->execute($query, false)) {
-            $this->selfUpgradeClass->nextQuickInfo[] = '<div class="upgradeDbOk">[OK] SQL '.$upgrade_file.' '.$query.'</div>';
+            $this->logger->debug('<div class="upgradeDbOk">[OK] SQL '.$upgrade_file.' '.$query.'</div>');
             return;
         }
         
         $error = $db->getMsgError();
         $error_number = $db->getNumberError();
-        $this->selfUpgradeClass->nextQuickInfo[] = '
+        $this->logger->warning('
             <div class="upgradeDbError">
             [WARNING] SQL '.$upgrade_file.'
-            '.$error_number.' in '.$query.': '.$error.'</div>';
+            '.$error_number.' in '.$query.': '.$error.'</div>');
 
         $duplicates = array('1050', '1054', '1060', '1061', '1062', '1091');
         if (!in_array($error_number, $duplicates)) {
-            $this->selfUpgradeClass->nextErrors[] = 'SQL '.$upgrade_file.' '.$error_number.' in '.$query.': '.$error;
+            $this->logger->error('SQL '.$upgrade_file.' '.$error_number.' in '.$query.': '.$error);
             $this->selfUpgradeClass->getState()->setWarningExists(true);
         }
     }
@@ -434,7 +431,7 @@ class CoreUpgrader
 
         foreach ($dirsToClean as $dir) {
             if (!file_exists($dir)) {
-                $this->selfUpgradeClass->nextQuickInfo[] = $this->selfUpgradeClass->getTranslator()->trans('[SKIP] directory "%s" does not exist and cannot be emptied.', array(str_replace($this->selfUpgradeClass->prodRootDir, '', $dir)), 'Modules.Autoupgrade.Admin');
+                $this->logger->debug($this->selfUpgradeClass->getTranslator()->trans('[SKIP] directory "%s" does not exist and cannot be emptied.', array(str_replace($this->selfUpgradeClass->prodRootDir, '', $dir)), 'Modules.Autoupgrade.Admin'));
                 continue;
             }
             foreach (scandir($dir) as $file) {
@@ -447,7 +444,7 @@ class CoreUpgrader
                 } elseif (is_dir($dir.$file.DIRECTORY_SEPARATOR)) {
                     \AdminSelfUpgrade::deleteDirectory($dir.$file.DIRECTORY_SEPARATOR);
                 }
-                $this->selfUpgradeClass->nextQuickInfo[] = $this->selfUpgradeClass->getTranslator()->trans('[CLEANING CACHE] File %s removed', array($file), 'Modules.Autoupgrade.Admin');
+                $this->logger->debug($this->selfUpgradeClass->getTranslator()->trans('[CLEANING CACHE] File %s removed', array($file), 'Modules.Autoupgrade.Admin'));
             }
         }
     }

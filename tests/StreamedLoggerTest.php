@@ -24,18 +24,31 @@
  *  International Registered Trademark & Property of PrestaShop SA
  */
 
-namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback;
+use PHPUnit\Framework\TestCase;
 
-use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\Log\Logger;
+use PrestaShop\Module\AutoUpgrade\Log\StreamedLogger;
 
-/**
- * Only displays the success message
- */
-class RollbackComplete extends AbstractTask
+class StreamedLoggerTest extends TestCase
 {
-    public function run()
+    /**
+     * @dataProvider filtersProvider
+     */
+    public function testFiltersProperlyApplied($level, $filterLevel, $expected)
     {
-        $this->logger->info($this->upgradeClass->getTranslator()->trans('Restoration process done. Congratulations! You can now reactivate your shop.', array(), 'Modules.Autoupgrade.Admin'));
-        $this->upgradeClass->next = '';
+        $logger = new StreamedLogger();
+        $logger->setFilter($filterLevel);
+        $this->assertSame($expected, $logger->isFiltered($level));
+    }
+
+    public function filtersProvider()
+    {
+        return array(
+            array(Logger::EMERGENCY, Logger::INFO, false),
+            array(Logger::INFO, Logger::EMERGENCY, true),
+            array(Logger::ERROR, Logger::ERROR, false),
+            array(Logger::ERROR, Logger::WARNING, false),
+            array(Logger::ERROR, Logger::CRITICAL, true),
+        );
     }
 }

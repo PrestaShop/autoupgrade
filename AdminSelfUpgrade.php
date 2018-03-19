@@ -35,10 +35,10 @@ use PrestaShop\Module\AutoUpgrade\PrestashopConfiguration;
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\ZipAction;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\Database;
+use PrestaShop\Module\AutoUpgrade\Log\LegacyLogger;
+use PrestaShop\Module\AutoUpgrade\Log\Logger;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\ModuleAdapter;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\ThemeAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translation;
 use PrestaShop\Module\AutoUpgrade\Parameters\FileConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfigurationStorage;
@@ -73,10 +73,7 @@ class AdminSelfUpgrade extends AdminController
     public $stepDone = true;
     public $status = true;
     public $error = '0';
-    public $next_desc = '';
     public $nextParams = array();
-    public $nextQuickInfo = array();
-    public $nextErrors = array();
     public $currentParams = array();
 
     /**
@@ -165,6 +162,11 @@ class AdminSelfUpgrade extends AdminController
      * @var FilesystemAdapter
      */
     private $filesystemAdapter;
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
 
     /**
      * @var ModuleAdapter
@@ -652,7 +654,7 @@ class AdminSelfUpgrade extends AdminController
         }
 
         $this->upgradeConfiguration->merge($config);
-        $this->next_desc = $this->trans('Configuration successfully updated.', array(), 'Modules.Autoupgrade.Admin').' <strong>'.$this->trans('This page will now be reloaded and the module will check if a new version is available.', array(), 'Modules.Autoupgrade.Admin').'</strong>';
+        $this->getLogger()->info($this->trans('Configuration successfully updated.', array(), 'Modules.Autoupgrade.Admin').' <strong>'.$this->trans('This page will now be reloaded and the module will check if a new version is available.', array(), 'Modules.Autoupgrade.Admin').'</strong>');
         return (new UpgradeConfigurationStorage($this->autoupgradePath.DIRECTORY_SEPARATOR))->save($this->upgradeConfiguration, UpgradeFileNames::configFilename);
     }
 
@@ -666,9 +668,8 @@ class AdminSelfUpgrade extends AdminController
     {
         $list = array();
         if (!is_dir($dir)) {
-            $this->nextQuickInfo[] = $this->trans('[ERROR] %s does not exist or is not a directory.', array($dir), 'Modules.Autoupgrade.Admin');
-            $this->nextErrors[] = $this->trans('[ERROR] %s does not exist or is not a directory.', array($dir), 'Modules.Autoupgrade.Admin');
-            $this->next_desc = $this->trans('Nothing has been extracted. It seems the unzipping step has been skipped.', array(), 'Modules.Autoupgrade.Admin');
+            $this->getLogger()->error($this->trans('[ERROR] %s does not exist or is not a directory.', array($dir), 'Modules.Autoupgrade.Admin'));
+            $this->getLogger()->info($this->trans('Nothing has been extracted. It seems the unzipping step has been skipped.', array(), 'Modules.Autoupgrade.Admin'));
             $this->next = 'error';
             return false;
         }
@@ -679,7 +680,7 @@ class AdminSelfUpgrade extends AdminController
 
             if ($this->getFilesystemAdapter()->isFileSkipped($file, $fullPath, "upgrade")) {
                 if (!in_array($file, array('.', '..'))) {
-                    $this->nextQuickInfo[] = $this->trans('File %s is preserved', array($file), 'Modules.Autoupgrade.Admin');
+                    $this->getLogger()->debug($this->trans('File %s is preserved', array($file), 'Modules.Autoupgrade.Admin'));
                 }
                 continue;
             }
@@ -724,27 +725,26 @@ class AdminSelfUpgrade extends AdminController
         $dest = $this->destUpgradePath.$file;
 
         if ($this->getFilesystemAdapter()->isFileSkipped($file, $dest, 'upgrade')) {
-            $this->nextQuickInfo[] = $this->trans('%s ignored', array($file), 'Modules.Autoupgrade.Admin');
+            $this->getLogger()->debug($this->trans('%s ignored', array($file), 'Modules.Autoupgrade.Admin'));
             return true;
         } else {
             if (is_dir($orig)) {
                 // if $dest is not a directory (that can happen), just remove that file
                 if (!is_dir($dest) and file_exists($dest)) {
                     unlink($dest);
-                    $this->nextQuickInfo[] = $this->trans('[WARNING] File %1$s has been deleted.', array($file), 'Modules.Autoupgrade.Admin');
+                    $this->getLogger()->debug($this->trans('[WARNING] File %1$s has been deleted.', array($file), 'Modules.Autoupgrade.Admin'));
                 }
                 if (!file_exists($dest)) {
                     if (mkdir($dest)) {
-                        $this->nextQuickInfo[] = $this->trans('Directory %1$s created.', array($file), 'Modules.Autoupgrade.Admin');
+                        $this->getLogger()->debug($this->trans('Directory %1$s created.', array($file), 'Modules.Autoupgrade.Admin'));
                         return true;
                     } else {
                         $this->next = 'error';
-                        $this->nextQuickInfo[] = $this->trans('Error while creating directory %s.', array($dest), 'Modules.Autoupgrade.Admin');
-                        $this->nextErrors[] = $this->next_desc = $this->trans('Error while creating directory %s.', array($dest), 'Modules.Autoupgrade.Admin');
+                        $this->getLogger()->error($this->trans('Error while creating directory %s.', array($dest), 'Modules.Autoupgrade.Admin'));
                         return false;
                     }
                 } else { // directory already exists
-                    $this->nextQuickInfo[] = $this->trans('Directory %s already exists.', array($file), 'Modules.Autoupgrade.Admin');
+                    $this->getLogger()->debug($this->trans('Directory %s already exists.', array($file), 'Modules.Autoupgrade.Admin'));
                     return true;
                 }
             } elseif (is_file($orig)) {
@@ -752,38 +752,37 @@ class AdminSelfUpgrade extends AdminController
                 if ($translationAdapter->isTranslationFile($file) && file_exists($dest)) {
                     $type_trad = $translationAdapter->getTranslationFileType($file);
                     if ($translationAdapter->mergeTranslationFile($orig, $dest, $type_trad)) {
-                        $this->nextQuickInfo[] = $this->trans('[TRANSLATION] The translation files have been merged into file %s.', array($dest), 'Modules.Autoupgrade.Admin');
+                        $this->getLogger()->info($this->trans('[TRANSLATION] The translation files have been merged into file %s.', array($dest), 'Modules.Autoupgrade.Admin'));
                         return true;
                     }
-                    $this->nextQuickInfo[] = $this->nextErrors[] = $this->trans(
+                    $this->getLogger()->warning($this->trans(
                         '[TRANSLATION] The translation files have not been merged into file %filename%. Switch to copy %filename%.',
                         array('%filename%' => $dest),
                         'Modules.Autoupgrade.Admin'
-                    );
+                    ));
                 }
 
                 // upgrade exception were above. This part now process all files that have to be upgraded (means to modify or to remove)
                 // delete before updating (and this will also remove deprecated files)
                 if (copy($orig, $dest)) {
-                    $this->nextQuickInfo[] = $this->trans('Copied %1$s.', array($file), 'Modules.Autoupgrade.Admin');
+                    $this->getLogger()->debug($this->trans('Copied %1$s.', array($file), 'Modules.Autoupgrade.Admin'));
                     return true;
                 } else {
                     $this->next = 'error';
-                    $this->nextQuickInfo[] = $this->trans('Error while copying file %s', array($file), 'Modules.Autoupgrade.Admin');
-                    $this->nextErrors[] = $this->next_desc = $this->trans('Error while copying file %s', array($file), 'Modules.Autoupgrade.Admin');
+                    $this->getLogger()->error($this->trans('Error while copying file %s', array($file), 'Modules.Autoupgrade.Admin'));
                     return false;
                 }
             } elseif (is_file($dest)) {
                 if (file_exists($dest)) {
                     unlink($dest);
                 }
-                $this->nextQuickInfo[] = sprintf('removed file %1$s.', $file);
+                $this->getLogger()->debug(sprintf('removed file %1$s.', $file));
                 return true;
             } elseif (is_dir($dest)) {
                 if (strpos($dest, DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR) === false) {
                     self::deleteDirectory($dest, true);
                 }
-                $this->nextQuickInfo[] = sprintf('removed dir %1$s.', $file);
+                $this->getLogger()->debug(sprintf('removed dir %1$s.', $file));
                 return true;
             } else {
                 return true;
@@ -803,14 +802,11 @@ class AdminSelfUpgrade extends AdminController
 
     public function buildAjaxResult()
     {
-        $response = new AjaxResponse($this->getTranslator(), $this->state);
+        $response = new AjaxResponse($this->getTranslator(), $this->state, $this->getLogger());
         return $response->setError($this->error)
             ->setStepDone($this->stepDone)
             ->setNext($this->next)
-            ->setNextDesc($this->next_desc)
             ->setNextParams($this->nextParams)
-            ->setNextQuickInfo($this->nextQuickInfo)
-            ->setNextErrors($this->nextErrors)
             ->setUpgradeConfiguration($this->upgradeConfiguration)
             ->getJsonResponse();
     }
@@ -882,11 +878,17 @@ class AdminSelfUpgrade extends AdminController
 
     public function handleException(UpgradeException $e)
     {
-        $this->nextQuickInfo = array_merge($this->nextQuickInfo, $e->getQuickInfos());
+        $logger = $this->getLogger();
+        foreach($e->getQuickInfos() as $log) {
+            $logger->debug($log);
+        }
         if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {
             $this->next = 'error';
             $this->error = true;
-            $this->nextErrors[] = $e->getMessage();
+            $logger->error($e->getMessage());
+        }
+        if ($e->getSeverity() === UpgradeException::SEVERITY_WARNING) {
+            $logger->warning($e->getMessage());
         }
     }
 
@@ -963,6 +965,25 @@ class AdminSelfUpgrade extends AdminController
         return $this->filesystemAdapter;
     }
 
+    /**
+     * @return Logger
+     */
+    public function getLogger()
+    {
+        if (! is_null($this->logger)) {
+            return $this->logger;
+        }
+
+        $logFile = $this->tmpPath.DIRECTORY_SEPARATOR.'log.txt';
+        $this->logger = new LegacyLogger($logFile);
+        return $this->logger;
+    }
+
+    public function setLogger(Logger $logger)
+    {
+        $this->logger = $logger;
+    }
+
     public function getModuleAdapter()
     {
         if (!is_null($this->moduleAdapter)) {
@@ -992,7 +1013,7 @@ class AdminSelfUpgrade extends AdminController
 
     public function getTranslationAdapter()
     {
-        return new Translation($this->getTranslator(), $this->state->getInstalledLanguagesIso());
+        return new Translation($this->getTranslator(), $this->getLogger(), $this->state->getInstalledLanguagesIso());
     }
 
     public function getTranslator()
@@ -1035,7 +1056,7 @@ class AdminSelfUpgrade extends AdminController
             return $this->zipAction;
         }
 
-        $this->zipAction = new ZipAction($this->getTranslator(), $this->prodRootDir);
+        $this->zipAction = new ZipAction($this->getTranslator(), $this->getLogger(), $this->prodRootDir);
         return $this->zipAction;
     }
 }

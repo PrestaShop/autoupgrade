@@ -96,14 +96,11 @@ class UpgradeFiles extends AbstractTask
             $total_files_to_upgrade = count($list_files_to_upgrade);
 
             if ($total_files_to_upgrade == 0) {
-                $this->upgradeClass->nextQuickInfo[] = 
-                $this->upgradeClass->nextErrors[] = $this->upgradeClass->getTranslator()->trans('[ERROR] Unable to find files to upgrade.', array(), 'Modules.Autoupgrade.Admin');
-                $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('Unable to list files to upgrade', array(), 'Modules.Autoupgrade.Admin');
+                $this->logger->error($this->upgradeClass->getTranslator()->trans('[ERROR] Unable to find files to upgrade.', array(), 'Modules.Autoupgrade.Admin'));
                 $this->upgradeClass->next = 'error';
                 return false;
             }
-            $this->upgradeClass->nextQuickInfo[] = 
-            $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('%s files will be upgraded.', array($total_files_to_upgrade), 'Modules.Autoupgrade.Admin');
+            $this->logger->info($this->upgradeClass->getTranslator()->trans('%s files will be upgraded.', array($total_files_to_upgrade), 'Modules.Autoupgrade.Admin'));
             $this->upgradeClass->next = 'upgradeFiles';
             $this->upgradeClass->stepDone = false;
             return true;
@@ -116,9 +113,7 @@ class UpgradeFiles extends AbstractTask
         $filesToUpgrade = $this->upgradeClass->getFileConfigurationStorage()->load(UpgradeFileNames::toUpgradeFileList);
         if (!is_array($filesToUpgrade)) {
             $this->upgradeClass->next = 'error';
-            $this->upgradeClass->next_desc = 
-            $this->upgradeClass->nextQuickInfo[] = 
-            $this->upgradeClass->nextErrors[] = $this->upgradeClass->getTranslator()->trans('filesToUpgrade is not an array', array(), 'Modules.Autoupgrade.Admin');
+            $this->logger->error($this->upgradeClass->getTranslator()->trans('filesToUpgrade is not an array', array(), 'Modules.Autoupgrade.Admin'));
             return false;
         }
 
@@ -129,7 +124,7 @@ class UpgradeFiles extends AbstractTask
                 if (file_exists(UpgradeFileNames::toUpgradeFileList)) {
                     unlink(UpgradeFileNames::toUpgradeFileList);
                 }
-                $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('All files upgraded. Now upgrading database...', array(), 'Modules.Autoupgrade.Admin');
+                $this->logger->info($this->upgradeClass->getTranslator()->trans('All files upgraded. Now upgrading database...', array(), 'Modules.Autoupgrade.Admin'));
                 $this->upgradeClass->stepDone = true;
                 break;
             }
@@ -138,15 +133,13 @@ class UpgradeFiles extends AbstractTask
             if (!$this->upgradeClass->upgradeThisFile($file)) {
                 // put the file back to the begin of the list
                 $this->upgradeClass->next = 'error';
-                $this->upgradeClass->nextQuickInfo[] =
-                $this->upgradeClass->nextErrors[] = $this->upgradeClass->getTranslator()->trans('Error when trying to upgrade file %s.', array($file), 'Modules.Autoupgrade.Admin');
+                $this->logger->error($this->upgradeClass->getTranslator()->trans('Error when trying to upgrade file %s.', array($file), 'Modules.Autoupgrade.Admin'));
                 break;
             }
         }
         $this->upgradeClass->getFileConfigurationStorage()->save($filesToUpgrade, UpgradeFileNames::toUpgradeFileList);
         if (count($filesToUpgrade) > 0) {
-            $this->upgradeClass->next_desc =
-            $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->getTranslator()->trans('%s files left to upgrade.', array(count($filesToUpgrade)), 'Modules.Autoupgrade.Admin');
+            $this->logger->info($this->upgradeClass->getTranslator()->trans('%s files left to upgrade.', array(count($filesToUpgrade)), 'Modules.Autoupgrade.Admin'));
             $this->upgradeClass->stepDone = false;
             @unlink(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR. 'app'.DIRECTORY_SEPARATOR.'cache'.DIRECTORY_SEPARATOR.'dev'.DIRECTORY_SEPARATOR.'class_index.php');
             @unlink(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR. 'app'.DIRECTORY_SEPARATOR.'cache'.DIRECTORY_SEPARATOR.'prod'.DIRECTORY_SEPARATOR.'class_index.php');

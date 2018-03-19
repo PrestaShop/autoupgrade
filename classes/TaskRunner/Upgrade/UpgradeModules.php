@@ -49,8 +49,7 @@ class UpgradeModules extends AbstractTask
 
             $total_modules_to_upgrade = count($modulesToUpgrade);
             if ($total_modules_to_upgrade) {
-                $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->getTranslator()->trans('%s modules will be upgraded.', array($total_modules_to_upgrade), 'Modules.Autoupgrade.Admin');
-                $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('%s modules will be upgraded.', array($total_modules_to_upgrade), 'Modules.Autoupgrade.Admin');
+                $this->logger->info($this->upgradeClass->getTranslator()->trans('%s modules will be upgraded.', array($total_modules_to_upgrade), 'Modules.Autoupgrade.Admin'));
             }
             $this->upgradeClass->stepDone = false;
             $this->upgradeClass->next = 'upgradeModules';
@@ -63,9 +62,7 @@ class UpgradeModules extends AbstractTask
         if (!is_array($listModules)) {
             $this->upgradeClass->next = 'upgradeComplete';
             $this->upgradeClass->getState()-> setWarningExists(true);
-            $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('upgradeModule step has not ended correctly.', array(), 'Modules.Autoupgrade.Admin');
-            $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->getTranslator()->trans('listModules is not an array. No module has been updated.', array(), 'Modules.Autoupgrade.Admin');
-            $this->upgradeClass->nextErrors[] = $this->upgradeClass->getTranslator()->trans('listModules is not an array. No module has been updated.', array(), 'Modules.Autoupgrade.Admin');
+            $this->logger->error($this->upgradeClass->getTranslator()->trans('listModules is not an array. No module has been updated.', array(), 'Modules.Autoupgrade.Admin'));
             return true;
         }
 
@@ -76,7 +73,7 @@ class UpgradeModules extends AbstractTask
                 $module_info = array_shift($listModules);
                 try {
                     $this->upgradeClass->getModuleAdapter()->upgradeModule($module_info['id'], $module_info['name']);
-                    $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->getTranslator()->trans('The files of module %s have been upgraded.', array($module_info['name']), 'Modules.Autoupgrade.Admin');
+                    $this->logger->debug($this->upgradeClass->getTranslator()->trans('The files of module %s have been upgraded.', array($module_info['name']), 'Modules.Autoupgrade.Admin'));
                 } catch (UpgradeException $e) {
                     $this->upgradeClass->handleException($e);
                 }
@@ -89,7 +86,7 @@ class UpgradeModules extends AbstractTask
 
             $this->upgradeClass->next = 'upgradeModules';
             if ($modules_left) {
-                $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('%s modules left to upgrade.', array($modules_left), 'Modules.Autoupgrade.Admin');
+                $this->logger->info($this->upgradeClass->getTranslator()->trans('%s modules left to upgrade.', array($modules_left), 'Modules.Autoupgrade.Admin'));
             }
             $this->upgradeClass->stepDone = false;
         } else {
@@ -115,23 +112,23 @@ class UpgradeModules extends AbstractTask
                 $path = $this->upgradeClass->prodRootDir.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR.$key.DIRECTORY_SEPARATOR;
                 if (file_exists($path.$key.'.php')) {
                     if (\AdminSelfUpgrade::deleteDirectory($path)) {
-                        $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->getTranslator()->trans(
+                        $this->logger->debug($this->upgradeClass->getTranslator()->trans(
                             'The %modulename% module is not compatible with version %version%, it will be removed from your FTP.',
                             array(
                                 '%modulename%' => $module,
                                 '%version%' => $this->upgradeClass->getState()-> getInstallVersion(),
                             ),
                             'Modules.Autoupgrade.Admin'
-                        );
+                        ));
                     } else {
-                        $this->upgradeClass->nextErrors[] = $this->upgradeClass->getTranslator()->trans(
+                        $this->logger->error($this->upgradeClass->getTranslator()->trans(
                             'The %modulename% module is not compatible with version %version%, please remove it from your FTP.',
                             array(
                                 '%modulename%' => $module,
                                 '%version%' => $this->upgradeClass->getState()-> getInstallVersion(),
                             ),
                             'Modules.Autoupgrade.Admin'
-                        );
+                        ));
                     }
                 }
             }
@@ -139,8 +136,7 @@ class UpgradeModules extends AbstractTask
             $this->upgradeClass->stepDone = true;
             $this->upgradeClass->status = 'ok';
             $this->upgradeClass->next = 'cleanDatabase';
-            $this->upgradeClass->next_desc = $this->upgradeClass->getTranslator()->trans('Addons modules files have been upgraded.', array(), 'Modules.Autoupgrade.Admin');
-            $this->upgradeClass->nextQuickInfo[] = $this->upgradeClass->getTranslator()->trans('Addons modules files have been upgraded.', array(), 'Modules.Autoupgrade.Admin');
+            $this->logger->info($this->upgradeClass->getTranslator()->trans('Addons modules files have been upgraded.', array(), 'Modules.Autoupgrade.Admin'));
             if ($this->upgradeClass->manualMode) {
                 $this->upgradeClass->writeConfig(array('PS_AUTOUP_MANUAL_MODE' => '0'));
             }
