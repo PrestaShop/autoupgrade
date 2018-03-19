@@ -504,7 +504,15 @@ function doAjaxRequest(action, nextParams) {
         }
       }
       else {
-        updateInfoStep("[Ajax / Server Error for action " + action + "] textStatus: \"" + textStatus + " \" errorThrown:\"" + errorThrown + " \" jqXHR: \" " + jqXHR.responseText + "\"");
+          try {
+            res = $.parseJSON(jqXHR.responseText);
+            addQuickInfo(res.nextQuickInfo);
+            addError(res.nextErrors);
+            updateInfoStep(res.next_desc);
+          }
+          catch (e) {
+            updateInfoStep("[Ajax / Server Error for action " + action + "] textStatus: \"" + textStatus + " \" errorThrown:\"" + errorThrown + " \" jqXHR: \" " + jqXHR.responseText + "\"");
+          }
       }
     }
   });
