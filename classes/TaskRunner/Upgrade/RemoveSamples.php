@@ -63,7 +63,7 @@ class RemoveSamples extends AbstractTask
             ));
 
             if (count($this->upgradeClass->nextParams['removeList']) > 0) {
-                $this->logger->debug($this->upgradeClass->getTranslator()->trans('Starting to remove %s sample files', array(count($this->upgradeClass->nextParams['removeList'])), 'Modules.Autoupgrade.Admin'));
+                $this->logger->debug($this->translator->trans('Starting to remove %s sample files', array(count($this->upgradeClass->nextParams['removeList'])), 'Modules.Autoupgrade.Admin'));
             }
         }
 
@@ -74,7 +74,7 @@ class RemoveSamples extends AbstractTask
                 $filesystem->remove($file);
             } catch (\Exception $e) {
                 $this->upgradeClass->next = 'error';
-                $this->logger->error($this->upgradeClass->getTranslator()->trans(
+                $this->logger->error($this->translator->trans(
                     'Error while removing item %itemname%, %itemscount% items left.',
                     array(
                         '%itemname%' => $file,
@@ -86,7 +86,7 @@ class RemoveSamples extends AbstractTask
             }
 
             if (count($this->upgradeClass->nextParams['removeList'])) {
-                $this->logger->debug($this->upgradeClass->getTranslator()->trans(
+                $this->logger->debug($this->translator->trans(
                     '%itemname% items removed. %itemscount% items left.',
                     array(
                         '%itemname%' => $file,
@@ -100,11 +100,11 @@ class RemoveSamples extends AbstractTask
         if (0 >= count($this->upgradeClass->nextParams['removeList'])) {
             $this->upgradeClass->stepDone = true;
             $this->upgradeClass->next = 'backupFiles';
-            $this->logger->info($this->upgradeClass->getTranslator()->trans('All sample files removed. Now backing up files.', array(), 'Modules.Autoupgrade.Admin'));
+            $this->logger->info($this->translator->trans('All sample files removed. Now backing up files.', array(), 'Modules.Autoupgrade.Admin'));
 
             if ($this->upgradeClass->getUpgradeConfiguration()->get('skip_backup')) {
                 $this->upgradeClass->next = 'upgradeFiles';
-                $this->logger->info($this->upgradeClass->getTranslator()->trans('All sample files removed. Backup process skipped. Now upgrading files.', array(), 'Modules.Autoupgrade.Admin'));
+                $this->logger->info($this->translator->trans('All sample files removed. Backup process skipped. Now upgrading files.', array(), 'Modules.Autoupgrade.Admin'));
             }
         }
         return true;

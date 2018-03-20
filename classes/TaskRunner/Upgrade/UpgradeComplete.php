@@ -37,22 +37,22 @@ class UpgradeComplete extends AbstractTask
     public function run()
     {
         $this->logger->info($this->upgradeClass->getState()-> getWarningExists() ?
-            $this->upgradeClass->getTranslator()->trans('Upgrade process done, but some warnings have been found.', array(), 'Modules.Autoupgrade.Admin') :
-            $this->upgradeClass->getTranslator()->trans('Upgrade process done. Congratulations! You can now reactivate your shop.', array(), 'Modules.Autoupgrade.Admin')
+            $this->translator->trans('Upgrade process done, but some warnings have been found.', array(), 'Modules.Autoupgrade.Admin') :
+            $this->translator->trans('Upgrade process done. Congratulations! You can now reactivate your shop.', array(), 'Modules.Autoupgrade.Admin')
         );
 
         $this->upgradeClass->next = '';
 
         if ($this->upgradeClass->getUpgradeConfiguration()->get('channel') != 'archive' && file_exists($this->upgradeClass->getFilePath()) && unlink($this->upgradeClass->getFilePath())) {
-            $this->logger->debug($this->upgradeClass->getTranslator()->trans('%s removed', array($this->upgradeClass->getFilePath()), 'Modules.Autoupgrade.Admin'));
+            $this->logger->debug($this->translator->trans('%s removed', array($this->upgradeClass->getFilePath()), 'Modules.Autoupgrade.Admin'));
         } elseif (is_file($this->upgradeClass->getFilePath())) {
-            $this->logger->debug('<strong>'.$this->upgradeClass->getTranslator()->trans('Please remove %s by FTP', array($this->upgradeClass->getFilePath()), 'Modules.Autoupgrade.Admin').'</strong>');
+            $this->logger->debug('<strong>'.$this->translator->trans('Please remove %s by FTP', array($this->upgradeClass->getFilePath()), 'Modules.Autoupgrade.Admin').'</strong>');
         }
 
         if ($this->upgradeClass->getUpgradeConfiguration()->get('channel') != 'directory' && file_exists($this->upgradeClass->latestRootDir) && \AdminSelfUpgrade::deleteDirectory($this->upgradeClass->latestRootDir)) {
-            $this->logger->debug($this->upgradeClass->getTranslator()->trans('%s removed', array($this->upgradeClass->latestRootDir), 'Modules.Autoupgrade.Admin'));
+            $this->logger->debug($this->translator->trans('%s removed', array($this->upgradeClass->latestRootDir), 'Modules.Autoupgrade.Admin'));
         } elseif (is_dir($this->upgradeClass->latestRootDir)) {
-            $this->logger->debug('<strong>'.$this->upgradeClass->getTranslator()->trans('Please remove %s by FTP', array($this->upgradeClass->latestRootDir), 'Modules.Autoupgrade.Admin').'</strong>');
+            $this->logger->debug('<strong>'.$this->translator->trans('Please remove %s by FTP', array($this->upgradeClass->latestRootDir), 'Modules.Autoupgrade.Admin').'</strong>');
         }
 
         (new SymfonyAdapter())->clearMigrationCache();

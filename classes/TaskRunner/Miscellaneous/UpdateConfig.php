@@ -53,25 +53,25 @@ class UpdateConfig extends AbstractTask
             $file = $this->upgradeClass->currentParams['archive_prestashop'];
             if (!file_exists($this->upgradeClass->downloadPath.DIRECTORY_SEPARATOR.$file)) {
                 $this->upgradeClass->error = 1;
-                $this->logger->info($this->upgradeClass->getTranslator()->trans('File %s does not exist. Unable to select that channel.', array($file), 'Modules.Autoupgrade.Admin'));
+                $this->logger->info($this->translator->trans('File %s does not exist. Unable to select that channel.', array($file), 'Modules.Autoupgrade.Admin'));
                 return false;
             }
             if (empty($this->upgradeClass->currentParams['archive_num'])) {
                 $this->upgradeClass->error = 1;
-                $this->logger->info($this->upgradeClass->getTranslator()->trans('Version number is missing. Unable to select that channel.', array(), 'Modules.Autoupgrade.Admin'));
+                $this->logger->info($this->translator->trans('Version number is missing. Unable to select that channel.', array(), 'Modules.Autoupgrade.Admin'));
                 return false;
             }
             $config['channel'] = 'archive';
             $config['archive.filename'] = $this->upgradeClass->currentParams['archive_prestashop'];
             $config['archive.version_num'] = $this->upgradeClass->currentParams['archive_num'];
             // $config['archive_name'] = $this->upgradeClass->currentParams['archive_name'];
-            $this->logger->info($this->upgradeClass->getTranslator()->trans('Upgrade process will use archive.', array(), 'Modules.Autoupgrade.Admin'));
+            $this->logger->info($this->translator->trans('Upgrade process will use archive.', array(), 'Modules.Autoupgrade.Admin'));
         }
         if (isset($this->upgradeClass->currentParams['directory_num'])) {
             $config['channel'] = 'directory';
             if (empty($this->upgradeClass->currentParams['directory_num']) || strpos($this->upgradeClass->currentParams['directory_num'], '.') === false) {
                 $this->upgradeClass->error = 1;
-                $this->logger->info($this->upgradeClass->getTranslator()->trans('Version number is missing. Unable to select that channel.', array(), 'Modules.Autoupgrade.Admin'));
+                $this->logger->info($this->translator->trans('Version number is missing. Unable to select that channel.', array(), 'Modules.Autoupgrade.Admin'));
                 return false;
             }
 
@@ -83,7 +83,7 @@ class UpdateConfig extends AbstractTask
 
         if (!$this->upgradeClass->writeConfig($config)) {
             $this->upgradeClass->error = 1;
-            $this->logger->info($this->upgradeClass->getTranslator()->trans('Error on saving configuration', array(), 'Modules.Autoupgrade.Admin'));
+            $this->logger->info($this->translator->trans('Error on saving configuration', array(), 'Modules.Autoupgrade.Admin'));
         }
     }
 }

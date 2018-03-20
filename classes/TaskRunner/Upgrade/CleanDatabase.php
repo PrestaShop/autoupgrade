@@ -48,6 +48,6 @@ class CleanDatabase extends AbstractTask
 
         $this->upgradeClass->status = 'ok';
         $this->upgradeClass->next = 'upgradeComplete';
-        $this->logger->info($this->upgradeClass->getTranslator()->trans('The database has been cleaned.', array(), 'Modules.Autoupgrade.Admin'));
+        $this->logger->info($this->translator->trans('The database has been cleaned.', array(), 'Modules.Autoupgrade.Admin'));
     }
 }

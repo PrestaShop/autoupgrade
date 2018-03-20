@@ -32,7 +32,7 @@ class NoRollbackFound extends AbstractTask
 {
     public function run()
     {
-        $this->logger->info($this->upgradeClass->getTranslator()->trans('Nothing to restore', array(), 'Modules.Autoupgrade.Admin'));
+        $this->logger->info($this->translator->trans('Nothing to restore', array(), 'Modules.Autoupgrade.Admin'));
         $this->upgradeClass->next = 'rollbackComplete';
     }
 }
