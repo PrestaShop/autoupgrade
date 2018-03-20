@@ -27,7 +27,6 @@
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader;
 
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\ThemeAdapter;
 use Psr\Log\LoggerInterface;
 
@@ -35,7 +34,7 @@ use Psr\Log\LoggerInterface;
  * Class used to modify the core of PrestaShop, on the files are copied on the filesystem.
  * It will run subtasks such as database upgrade, language upgrade etc.
  */
-class CoreUpgrader
+abstract class CoreUpgrader
 {
     /**
      * @var \AdminSelfUpgrade
@@ -57,7 +56,7 @@ class CoreUpgrader
     {
         $this->initConstants();
 
-        $oldversion = $this->normalizeVersion(\Configuration::get('PS_VERSION_DB'));
+        $oldversion = $this->getPreUpgradeVersion();
         $this->checkVersionIsNewer($oldversion);
 
         //check DB access
@@ -68,11 +67,14 @@ class CoreUpgrader
         }
 
         if ($this->selfUpgradeClass->deactivateCustomModule) {
-            $this->selfUpgradeClass->getModuleAdapter()->disableNonNativeModules();
+            $this->disableCustomModules();
         }
 
         $this->upgradeDb($oldversion);
 
+        # At this point, database upgrade is over.
+        # Now we need to add all previous missing settings items, and reset cache and compile directories
+        $this->writeNewSettings();
         $this->runRecurrentQueries();
         $this->logger->debug($this->selfUpgradeClass->getTranslator()->trans('Database upgrade OK', array(), 'Modules.Autoupgrade.Admin')); // no error!
 
@@ -80,7 +82,6 @@ class CoreUpgrader
         $this->cleanFolders();
         $this->upgradeLanguages();
         $this->generateHtaccess();
-
         $this->cleanXmlFiles();
 
         if ($this->selfUpgradeClass->deactivateCustomModule) {
@@ -166,14 +167,6 @@ class CoreUpgrader
         }
         define('_PS_INSTALLER_PHP_UPGRADE_DIR_',  INSTALL_PATH.DIRECTORY_SEPARATOR.$upgrade_dir_php.DIRECTORY_SEPARATOR);
 
-        if (!file_exists(SETTINGS_FILE_PHP)) {
-            throw new UpgradeException($this->selfUpgradeClass->getTranslator()->trans('The app/config/parameters.php file was not found.', array(), 'Modules.Autoupgrade.Admin'));
-        }
-        if (!file_exists(SETTINGS_FILE_YML)) {
-            throw new UpgradeException($this->selfUpgradeClass->getTranslator()->trans('The app/config/parameters.yml file was not found.', array(), 'Modules.Autoupgrade.Admin'));
-        }
-
-
         if (!defined('__PS_BASE_URI__')) {
             define('__PS_BASE_URI__', realpath(dirname($_SERVER['SCRIPT_NAME'])).'/../../');
         }
@@ -181,6 +174,11 @@ class CoreUpgrader
         if (!defined('_THEMES_DIR_')) {
             define('_THEMES_DIR_', __PS_BASE_URI__.'themes/');
         }
+    }
+
+    protected function getPreUpgradeVersion()
+    {
+        return $this->normalizeVersion(\Configuration::get('PS_VERSION_DB'));
     }
 
     /**
@@ -229,6 +227,8 @@ class CoreUpgrader
         }
     }
 
+    abstract protected function disableCustomModules();
+
     protected function upgradeDb($oldversion)
     {
         $upgrade_dir_sql = INSTALL_PATH.'/upgrade/sql';
@@ -239,12 +239,6 @@ class CoreUpgrader
             foreach ($sqlContent as $query) {
                 $this->runQuery($upgrade_file, $query);
             }
-        }
-
-        $commandResult = (new SymfonyAdapter())->runSchemaUpgradeCommand();
-        if (0 !== $commandResult['exitCode']) {
-            throw (new UpgradeException($this->selfUpgradeClass->getTranslator()->trans('Error upgrading Doctrine schema', array(), 'Modules.Autoupgrade.Admin')))
-                ->setQuickInfos(explode("\n", $commandResult['output']));
         }
     }
 
@@ -402,6 +396,11 @@ class CoreUpgrader
         }
     }
 
+    protected function writeNewSettings()
+    {
+        // Do nothing
+    }
+    
     protected function runRecurrentQueries()
     {
         $this->selfUpgradeClass->db->execute('UPDATE `'._DB_PREFIX_.'configuration` SET `name` = \'PS_LEGACY_IMAGES\' WHERE name LIKE \'0\' AND `value` = 1');
@@ -425,7 +424,14 @@ class CoreUpgrader
             $this->selfUpgradeClass->prodRootDir.'/cache/smarty/compile/',
         );
 
-        if (defined('_THEME_NAME_') && $this->selfUpgradeClass->updateDefaultTheme && 'classic' === _THEME_NAME_) {
+        $defaultThemeNames = array(
+            'default',
+            'prestashop',
+            'default-boostrap',
+            'classic',
+        );
+
+        if (defined('_THEME_NAME_') && $this->selfUpgradeClass->updateDefaultTheme && in_array(_THEME_NAME_, $defaultThemeNames)) {
             $dirsToClean[] = $this->selfUpgradeClass->prodRootDir.'/themes/'._THEME_NAME_.'/cache/';
         }
 
@@ -470,37 +476,15 @@ class CoreUpgrader
             return;
         }
         foreach ($langs as $lang) {
-            $isoCode = $lang['iso_code'];
-
-            if (! \Validate::isLangIsoCode($isoCode)) {
-                continue;
-            }
-            $errorsLanguage = array();
-
-            \Language::downloadLanguagePack($isoCode, _PS_VERSION_, $errorsLanguage);
-
-            $lang_pack = \Language::getLangDetails($isoCode);
-            \Language::installSfLanguagePack($lang_pack['locale'], $errorsLanguage);
-
-            if (!$this->selfUpgradeClass->keepMails) {
-                \Language::installEmailsLanguagePack($lang_pack, $errorsLanguage);
-            }
-
-            if (!empty($errorsLanguage)) {
-                throw new UpgradeException($this->selfUpgradeClass->getTranslator()->trans('Error updating translations', array(), 'Modules.Autoupgrade.Admin'));
-            }
-            \Language::loadLanguages();
-
-            // TODO: Update AdminTranslationsController::addNewTabs to install tabs translated
-
-            $cldrUpdate = new \PrestaShop\PrestaShop\Core\Cldr\Update(_PS_TRANSLATIONS_DIR_);
-            $cldrUpdate->fetchLocale(\Language::getLocaleByIso($isoCode));
+            $this->upgradeLanguage($lang);
         }
     }
 
+    abstract protected function upgradeLanguage($lang);
+
     protected function generateHtaccess()
     {
-        require_once(_PS_ROOT_DIR_.'/src/Core/Foundation/Database/EntityInterface.php');
+        $this->loadEntityInterface();
 
         if (file_exists(_PS_ROOT_DIR_.'/classes/Tools.php')) {
             require_once(_PS_ROOT_DIR_.'/classes/Tools.php');
@@ -630,12 +614,18 @@ class CoreUpgrader
         \Tools2::generateHtaccess(null, $url_rewrite);
     }
 
+    protected function loadEntityInterface()
+    {
+        require_once(_PS_ROOT_DIR_.'/src/Core/Foundation/Database/EntityInterface.php');
+    }
+
     protected function cleanXmlFiles()
     {
         $files = array(
             $this->selfUpgradeClass->adminDir.DIRECTORY_SEPARATOR.'themes'.DIRECTORY_SEPARATOR.'default'.DIRECTORY_SEPARATOR.'template'.DIRECTORY_SEPARATOR.'controllers'.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR.'header.tpl',
             _PS_ROOT_DIR_.'/app/cache/dev/class_index.php',
             _PS_ROOT_DIR_.'/app/cache/prod/class_index.php',
+            _PS_ROOT_DIR_.'/cache/class_index.php',
             _PS_ROOT_DIR_.'/config/xml/blog-fr.xml',
             _PS_ROOT_DIR_.'/config/xml/default_country_modules_list.xml',
             _PS_ROOT_DIR_.'/config/xml/modules_list.xml',

@@ -50,7 +50,7 @@ class AllUpgradeTasks extends AbstractTask
             $step = $this->upgradeClass->next;
         }
 
-        return (int) ($this->upgradeClass->error || count($this->upgradeClass->nextErrors));
+        return (int) ($this->upgradeClass->error || $this->upgradeClass->next === 'error');
     }
 
     public function setOptions($options)

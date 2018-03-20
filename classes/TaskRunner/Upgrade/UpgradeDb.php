@@ -28,7 +28,8 @@ namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader16;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader17;
 
 class UpgradeDb extends AbstractTask
 {
@@ -54,6 +55,9 @@ class UpgradeDb extends AbstractTask
 
     public function getCoreUpgrader()
     {
-        return new CoreUpgrader($this->upgradeClass, $this->logger);
+        if (version_compare($this->upgradeClass->getState()->getInstallVersion(), '1.7.0.0', '<=')) {
+            return new CoreUpgrader16($this->upgradeClass, $this->logger);
+        }
+        return new CoreUpgrader17($this->upgradeClass, $this->logger);
     }
 }
