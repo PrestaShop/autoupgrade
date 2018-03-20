@@ -72,6 +72,7 @@ class ThemeAdapter
         $this->db->execute('UPDATE `' . _DB_PREFIX_ . 'shop`
         SET id_theme = (SELECT id_theme FROM `' . _DB_PREFIX_ . 'theme` WHERE name LIKE \''.$themeName.'\')');
         $this->db->execute('DELETE FROM `' . _DB_PREFIX_ . 'theme` WHERE  name LIKE \'default\' OR name LIKE \'prestashop\'');
+        return true;
     }
 
     /**

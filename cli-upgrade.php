@@ -36,5 +36,4 @@ if (php_sapi_name() !== 'cli') {
 $adminObj->setLogger(new PrestaShop\Module\AutoUpgrade\Log\StreamedLogger());
 $controller = new \PrestaShop\Module\AutoUpgrade\TaskRunner\AllUpgradeTasks($adminObj);
 $controller->setOptions(getopt('', array('channel::')));
-$controller->run();
-exit(0);
+exit($controller->run());
