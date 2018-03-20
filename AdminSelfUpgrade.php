@@ -658,23 +658,6 @@ class AdminSelfUpgrade extends AdminController
         return (new UpgradeConfigurationStorage($this->autoupgradePath.DIRECTORY_SEPARATOR))->save($this->upgradeConfiguration, UpgradeFileNames::configFilename);
     }
 
-    private function createCacheFsDirectories($level_depth, $directory = false)
-    {
-        if (!$directory) {
-            if (!defined('_PS_CACHEFS_DIRECTORY_')) {
-                define('_PS_CACHEFS_DIRECTORY_', $this->prodRootDir.'/cache/cachefs/');
-            }
-            $directory = _PS_CACHEFS_DIRECTORY_;
-        }
-        $chars = '0123456789abcdef';
-        for ($i = 0; $i < strlen($chars); $i++) {
-            $new_dir = $directory.$chars[$i].'/';
-            if (mkdir($new_dir, 0775) && chmod($new_dir, 0775) && $level_depth - 1 > 0) {
-                self::createCacheFsDirectories($level_depth - 1, $new_dir);
-            }
-        }
-    }
-
     /**
      * upgradeThisFile
      *
