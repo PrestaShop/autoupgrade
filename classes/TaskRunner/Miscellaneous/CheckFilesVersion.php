@@ -44,7 +44,7 @@ class CheckFilesVersion extends AbstractTask
 
         if ($changedFileList === false) {
             $this->upgradeClass->nextParams['status'] = 'error';
-            $this->upgradeClass->nextParams['msg'] = $this->upgradeClass->getTranslator()->trans('Unable to check files for the installed version of PrestaShop.', array(), 'Modules.Autoupgrade.Admin');
+            $this->upgradeClass->nextParams['msg'] = $this->translator->trans('Unable to check files for the installed version of PrestaShop.', array(), 'Modules.Autoupgrade.Admin');
             return;
         }
 
@@ -56,10 +56,10 @@ class CheckFilesVersion extends AbstractTask
         
         if ($upgrader->isAuthenticPrestashopVersion() === true) {
             $this->upgradeClass->nextParams['status'] = 'ok';
-            $this->upgradeClass->nextParams['msg'] = $this->upgradeClass->getTranslator()->trans('Core files are ok', array(), 'Modules.Autoupgrade.Admin');
+            $this->upgradeClass->nextParams['msg'] = $this->translator->trans('Core files are ok', array(), 'Modules.Autoupgrade.Admin');
         } else {
             $this->upgradeClass->nextParams['status'] = 'warn';
-            $this->upgradeClass->nextParams['msg'] = $this->upgradeClass->getTranslator()->trans(
+            $this->upgradeClass->nextParams['msg'] = $this->translator->trans(
                 '%modificationscount% file modifications have been detected, including %coremodifications% from core and native modules:',
                 array(
                     '%modificationscount%' => count(array_merge($changedFileList['core'], $changedFileList['mail'], $changedFileList['translation'])),

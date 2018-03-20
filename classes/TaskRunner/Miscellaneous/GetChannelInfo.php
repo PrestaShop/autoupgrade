@@ -50,7 +50,7 @@ class GetChannelInfo extends AbstractTask
             $this->upgradeClass->getUpgradeConfiguration(),
             $channelInfo,
             $this->upgradeClass->getTwig(),
-            $this->upgradeClass->getTranslator())
+            $this->translator)
         )->render();
     }
 }

@@ -46,8 +46,8 @@ class BackupFiles extends AbstractTask
         if (empty($backupFilesFilename)) {
             $this->upgradeClass->next = 'error';
             $this->upgradeClass->error = 1;
-            $this->logger->info($this->upgradeClass->getTranslator()->trans('Error during backupFiles', array(), 'Modules.Autoupgrade.Admin'));
-            $this->logger->error($this->upgradeClass->getTranslator()->trans('[ERROR] backupFiles filename has not been set', array(), 'Modules.Autoupgrade.Admin'));
+            $this->logger->info($this->translator->trans('Error during backupFiles', array(), 'Modules.Autoupgrade.Admin'));
+            $this->logger->error($this->translator->trans('[ERROR] backupFiles filename has not been set', array(), 'Modules.Autoupgrade.Admin'));
             return false;
         }
 
@@ -56,7 +56,7 @@ class BackupFiles extends AbstractTask
             $filesToBackup = $this->upgradeClass->getFilesystemAdapter()->listFilesInDir($this->upgradeClass->prodRootDir, 'backup', false);
             $this->upgradeClass->getFileConfigurationStorage()->save($filesToBackup, UpgradeFileNames::toBackupFileList);
             if (count($filesToBackup)) {
-                $this->logger->debug($this->upgradeClass->getTranslator()->trans('%s Files to backup.', array(count($filesToBackup)), 'Modules.Autoupgrade.Admin'));
+                $this->logger->debug($this->translator->trans('%s Files to backup.', array(count($filesToBackup)), 'Modules.Autoupgrade.Admin'));
             }
             $this->upgradeClass->nextParams['filesForBackup'] = UpgradeFileNames::toBackupFileList;
 
@@ -65,19 +65,19 @@ class BackupFiles extends AbstractTask
                 unlink($this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$backupFilesFilename);
             }
 
-            $this->logger->debug($this->upgradeClass->getTranslator()->trans('Backup files initialized in %s', array($backupFilesFilename), 'Modules.Autoupgrade.Admin'));
+            $this->logger->debug($this->translator->trans('Backup files initialized in %s', array($backupFilesFilename), 'Modules.Autoupgrade.Admin'));
         }
         $filesToBackup = $this->upgradeClass->getFileConfigurationStorage()->load(UpgradeFileNames::toBackupFileList);
 
         $this->upgradeClass->next = 'backupFiles';
         if (is_array($filesToBackup) && count($filesToBackup)) {
-            $this->logger->info($this->upgradeClass->getTranslator()->trans('Backup files in progress. %d files left', array(count($filesToBackup)), 'Modules.Autoupgrade.Admin'));
+            $this->logger->info($this->translator->trans('Backup files in progress. %d files left', array(count($filesToBackup)), 'Modules.Autoupgrade.Admin'));
 
             $this->upgradeClass->stepDone = false;
             $res = $this->upgradeClass->getZipAction()->compress($filesToBackup, $this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$backupFilesFilename);
             if (!$res) {
                 $this->upgradeClass->next = 'error';
-                $this->logger->info($this->upgradeClass->getTranslator()->trans('Unable to open archive', array(), 'Modules.Autoupgrade.Admin'));
+                $this->logger->info($this->translator->trans('Unable to open archive', array(), 'Modules.Autoupgrade.Admin'));
                 return false;
             }
             $this->upgradeClass->getFileConfigurationStorage()->save($filesToBackup, UpgradeFileNames::toBackupFileList);
@@ -87,8 +87,8 @@ class BackupFiles extends AbstractTask
             $this->upgradeClass->stepDone = true;
             $this->upgradeClass->status = 'ok';
             $this->upgradeClass->next = 'backupDb';
-            $this->logger->debug($this->upgradeClass->getTranslator()->trans('All files have been added to archive.', array(), 'Modules.Autoupgrade.Admin'));
-            $this->logger->info($this->upgradeClass->getTranslator()->trans('All files saved. Now backing up database', array(), 'Modules.Autoupgrade.Admin'));
+            $this->logger->debug($this->translator->trans('All files have been added to archive.', array(), 'Modules.Autoupgrade.Admin'));
+            $this->logger->info($this->translator->trans('All files saved. Now backing up database', array(), 'Modules.Autoupgrade.Admin'));
         }
     }
 }

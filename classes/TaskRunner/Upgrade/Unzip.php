@@ -41,12 +41,12 @@ class Unzip extends AbstractTask
 
         if (file_exists($destExtract)) {
             \AdminSelfUpgrade::deleteDirectory($destExtract, false);
-            $this->logger->debug($this->upgradeClass->getTranslator()->trans('"/latest" directory has been emptied', array(), 'Modules.Autoupgrade.Admin'));
+            $this->logger->debug($this->translator->trans('"/latest" directory has been emptied', array(), 'Modules.Autoupgrade.Admin'));
         }
         $relative_extract_path = str_replace(_PS_ROOT_DIR_, '', $destExtract);
         $report = '';
         if (!\ConfigurationTest::test_dir($relative_extract_path, false, $report)) {
-            $this->logger->error($this->upgradeClass->getTranslator()->trans('Extraction directory %s is not writable.', array($destExtract), 'Modules.Autoupgrade.Admin'));
+            $this->logger->error($this->translator->trans('Extraction directory %s is not writable.', array($destExtract), 'Modules.Autoupgrade.Admin'));
             $this->upgradeClass->next = 'error';
             $this->upgradeClass->error = true;
             return false;
@@ -57,7 +57,7 @@ class Unzip extends AbstractTask
         if (!$res) {
             $this->upgradeClass->next = 'error';
             $this->upgradeClass->error= true;
-            $this->logger->info($this->upgradeClass->getTranslator()->trans(
+            $this->logger->info($this->translator->trans(
                 'Unable to extract %filepath% file into %destination% folder...',
                 array(
                     '%filepath%' => $filepath,
@@ -78,7 +78,7 @@ class Unzip extends AbstractTask
             $subRes = $this->upgradeClass->getZipAction()->extract($newZip, $destExtract);
             if (!$subRes) {
                 $this->upgradeClass->next = 'error';
-                $this->logger->info($this->upgradeClass->getTranslator()->trans(
+                $this->logger->info($this->translator->trans(
                     'Unable to extract %filepath% file into %destination% folder...',
                     array(
                         '%filepath%' => $filepath,
@@ -103,7 +103,7 @@ class Unzip extends AbstractTask
         // Unsetting to force listing
         unset($this->upgradeClass->nextParams['removeList']);
         $this->upgradeClass->next = 'removeSamples';
-        $this->logger->info($this->upgradeClass->getTranslator()->trans('File extraction complete. Removing sample files...', array(), 'Modules.Autoupgrade.Admin'));
+        $this->logger->info($this->translator->trans('File extraction complete. Removing sample files...', array(), 'Modules.Autoupgrade.Admin'));
 
         @unlink($newZip);
 

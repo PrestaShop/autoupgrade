@@ -68,7 +68,7 @@ class CompareReleases extends AbstractTask
         } else {
             $this->upgradeClass->getFileConfigurationStorage()->save($diffFileList, UpgradeFileNames::diffFileList);
             if (count($diffFileList) > 0) {
-                $this->upgradeClass->nextParams['msg'] = $this->upgradeClass->getTranslator()->trans(
+                $this->upgradeClass->nextParams['msg'] = $this->translator->trans(
                     '%modifiedfiles% files will be modified, %deletedfiles% files will be deleted (if they are found).',
                     array(
                         '%modifiedfiles%' => count($diffFileList['modified']),
@@ -76,7 +76,7 @@ class CompareReleases extends AbstractTask
                     ),
                     'Modules.Autoupgrade.Admin');
             } else {
-                $this->upgradeClass->nextParams['msg'] = $this->upgradeClass->getTranslator()->trans('No diff files found.', array(), 'Modules.Autoupgrade.Admin');
+                $this->upgradeClass->nextParams['msg'] = $this->translator->trans('No diff files found.', array(), 'Modules.Autoupgrade.Admin');
             }
             $this->upgradeClass->nextParams['result'] = $diffFileList;
         }

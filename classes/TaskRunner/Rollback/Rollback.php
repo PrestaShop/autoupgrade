@@ -57,7 +57,7 @@ class Rollback extends AbstractTask
         }
         if (!is_file($this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$this->upgradeClass->getState()-> getRestoreFilesFilename())) {
             $this->upgradeClass->next = 'error';
-            $this->logger->error($this->upgradeClass->getTranslator()->trans('[ERROR] File %s is missing: unable to restore files. Operation aborted.', array($this->upgradeClass->getState()-> getRestoreFilesFilename()), 'Modules.Autoupgrade.Admin'));
+            $this->logger->error($this->translator->trans('[ERROR] File %s is missing: unable to restore files. Operation aborted.', array($this->upgradeClass->getState()-> getRestoreFilesFilename()), 'Modules.Autoupgrade.Admin'));
             return false;
         }
         $files = scandir($this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$restoreName);
@@ -73,12 +73,12 @@ class Rollback extends AbstractTask
         $this->upgradeClass->getState()-> setRestoreDbFilenames($restoreDbFilenames);
         if (count($restoreDbFilenames) == 0) {
             $this->upgradeClass->next = 'error';
-            $this->logger->error($this->upgradeClass->getTranslator()->trans('[ERROR] No backup database files found: it would be impossible to restore the database. Operation aborted.', array(), 'Modules.Autoupgrade.Admin'));
+            $this->logger->error($this->translator->trans('[ERROR] No backup database files found: it would be impossible to restore the database. Operation aborted.', array(), 'Modules.Autoupgrade.Admin'));
             return false;
         }
 
         $this->upgradeClass->next = 'restoreFiles';
-        $this->logger->info($this->upgradeClass->getTranslator()->trans('Restoring files ...', array(), 'Modules.Autoupgrade.Admin'));
+        $this->logger->info($this->translator->trans('Restoring files ...', array(), 'Modules.Autoupgrade.Admin'));
         // remove tmp files related to restoreFiles
         if (file_exists($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFileNames::fromArchiveFileList)) {
             unlink($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFileNames::fromArchiveFileList);

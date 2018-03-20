@@ -40,10 +40,16 @@ abstract class AbstractTask
      */
     protected $logger;
 
+    /**
+     * @var \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator
+     */
+    protected $translator;
+
     public function __construct(\AdminSelfUpgrade $upgradeClass)
     {
         $this->upgradeClass = $upgradeClass;
         $this->logger = $upgradeClass->getLogger();
+        $this->translator = $upgradeClass->getTranslator();
         $this->checkTaskMayRun();
     }
 
@@ -58,7 +64,7 @@ abstract class AbstractTask
             $action = $_POST['action'];
             if (isset(\AdminSelfUpgrade::$skipAction[$action])) {
                 $this->upgradeClass->next = \AdminSelfUpgrade::$skipAction[$action];
-                $this->logger->info($this->upgradeClass->getTranslator()->trans('Action %s skipped', array($action), 'Modules.Autoupgrade.Admin'));
+                $this->logger->info($this->translator->trans('Action %s skipped', array($action), 'Modules.Autoupgrade.Admin'));
                 unset($_POST['action']);
             }
         }
