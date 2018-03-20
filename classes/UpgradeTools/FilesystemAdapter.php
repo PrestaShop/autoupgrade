@@ -44,17 +44,17 @@ class FilesystemAdapter
         array $excludeAbsoluteFilesFromUpgrade, array $excludeFilesFromUpgrade, $restoreFilesFilename,
         array $restoreIgnoreAbsoluteFiles, array $restoreIgnoreFiles, $autoupgradeDir, $adminSubDir, $prodRootDir)
     {
-            $this->backupIgnoreAbsoluteFiles = $backupIgnoreAbsoluteFiles;
-            $this->backupIgnoreFiles = $backupIgnoreFiles;
-            $this->excludeAbsoluteFilesFromUpgrade = $excludeAbsoluteFilesFromUpgrade;
-            $this->excludeFilesFromUpgrade = $excludeFilesFromUpgrade;
-            $this->restoreFilesFilename = $restoreFilesFilename;
-            $this->restoreIgnoreAbsoluteFiles = $restoreIgnoreAbsoluteFiles;
-            $this->restoreIgnoreFiles = $restoreIgnoreFiles;
+        $this->backupIgnoreAbsoluteFiles = $backupIgnoreAbsoluteFiles;
+        $this->backupIgnoreFiles = $backupIgnoreFiles;
+        $this->excludeAbsoluteFilesFromUpgrade = $excludeAbsoluteFilesFromUpgrade;
+        $this->excludeFilesFromUpgrade = $excludeFilesFromUpgrade;
+        $this->restoreFilesFilename = $restoreFilesFilename;
+        $this->restoreIgnoreAbsoluteFiles = $restoreIgnoreAbsoluteFiles;
+        $this->restoreIgnoreFiles = $restoreIgnoreFiles;
 
-            $this->autoupgradeDir = $autoupgradeDir;
-            $this->adminSubDir = $adminSubDir;
-            $this->prodRootDir = $prodRootDir;
+        $this->autoupgradeDir = $autoupgradeDir;
+        $this->adminSubDir = $adminSubDir;
+        $this->prodRootDir = $prodRootDir;
     }
 
     public function listFilesInDir($dir, $way = 'backup', $list_directories = false)

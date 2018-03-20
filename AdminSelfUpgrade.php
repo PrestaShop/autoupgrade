@@ -658,41 +658,6 @@ class AdminSelfUpgrade extends AdminController
         return (new UpgradeConfigurationStorage($this->autoupgradePath.DIRECTORY_SEPARATOR))->save($this->upgradeConfiguration, UpgradeFileNames::configFilename);
     }
 
-    /**
-     * list files to upgrade and return it as array
-     *
-     * @param string $dir
-     * @return number of files found
-     */
-    public function _listFilesToUpgrade($dir)
-    {
-        $list = array();
-        if (!is_dir($dir)) {
-            $this->getLogger()->error($this->trans('[ERROR] %s does not exist or is not a directory.', array($dir), 'Modules.Autoupgrade.Admin'));
-            $this->getLogger()->info($this->trans('Nothing has been extracted. It seems the unzipping step has been skipped.', array(), 'Modules.Autoupgrade.Admin'));
-            $this->next = 'error';
-            return false;
-        }
-
-        $allFiles = scandir($dir);
-        foreach ($allFiles as $file) {
-            $fullPath = $dir.DIRECTORY_SEPARATOR.$file;
-
-            if ($this->getFilesystemAdapter()->isFileSkipped($file, $fullPath, "upgrade")) {
-                if (!in_array($file, array('.', '..'))) {
-                    $this->getLogger()->debug($this->trans('File %s is preserved', array($file), 'Modules.Autoupgrade.Admin'));
-                }
-                continue;
-            }
-            $list[] = str_replace($this->latestRootDir, '', $fullPath);
-            // if is_dir, we will create it :)
-            if (is_dir($fullPath) && strpos($dir.DIRECTORY_SEPARATOR.$file, 'install') === false) {
-                $list = array_merge($list, $this->_listFilesToUpgrade($fullPath));
-            }
-        }
-        return $list;
-    }
-
     private function createCacheFsDirectories($level_depth, $directory = false)
     {
         if (!$directory) {
