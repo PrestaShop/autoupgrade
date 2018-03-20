@@ -689,8 +689,25 @@ abstract class CoreUpgrader
                 }
                 \AdminSelfUpgrade::deleteDirectory(_PS_CACHEFS_DIRECTORY_, false);
                 if (class_exists('CacheFs', false)) {
-                    \AdminSelfUpgrade::createCacheFsDirectories((int)$depth);
+                    $this->createCacheFsDirectories((int)$depth);
                 }
+            }
+        }
+    }
+
+    private function createCacheFsDirectories($level_depth, $directory = false)
+    {
+        if (!$directory) {
+            if (!defined('_PS_CACHEFS_DIRECTORY_')) {
+                define('_PS_CACHEFS_DIRECTORY_', $this->selfUpgradeClass->prodRootDir.'/cache/cachefs/');
+            }
+            $directory = _PS_CACHEFS_DIRECTORY_;
+        }
+        $chars = '0123456789abcdef';
+        for ($i = 0; $i < strlen($chars); $i++) {
+            $new_dir = $directory.$chars[$i].'/';
+            if (mkdir($new_dir, 0775) && chmod($new_dir, 0775) && $level_depth - 1 > 0) {
+                $this->createCacheFsDirectories($level_depth - 1, $new_dir);
             }
         }
     }
