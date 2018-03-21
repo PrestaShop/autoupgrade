@@ -26,6 +26,9 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader;
 
+use PrestaShop\Module\AutoUpgrade\Tools14;
+use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
+
 class CoreUpgrader16 extends CoreUpgrader
 {
     public function writeNewSettings()
@@ -60,21 +63,21 @@ class CoreUpgrader16 extends CoreUpgrader
             $datas['_RIJNDAEL_IV_'] = _RIJNDAEL_IV_;
         }
 
-        $writer = new \PrestaShop\Module\AutoUpgrade\UpgradeTools\SettingsFileWriter();
+        $writer = new \PrestaShop\Module\AutoUpgrade\UpgradeTools\SettingsFileWriter($this->container->getTranslator());
         $writer->writeSettingsFile(SETTINGS_FILE, $datas);
-        $this->logger->debug($this->selfUpgradeClass->trans('Settings file updated'));
+        $this->logger->debug($this->container->getTranslator()->trans('Settings file updated'));
     }
 
     protected function initConstants()
     {
         parent::initConstants();
-        define('SETTINGS_FILE', $this->selfUpgradeClass->prodRootDir .'/config/settings.inc.php');
+        define('SETTINGS_FILE', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) .'/config/settings.inc.php');
     }
 
     protected function getPreUpgradeVersion()
     {
         if (! file_exists(SETTINGS_FILE)) {
-            throw new UpgradeException($this->selfUpgradeClass->getTranslator()->trans('The config/settings.inc.php file was not found.', array(), 'Modules.Autoupgrade.Admin'));
+            throw new UpgradeException($this->container->getTranslator()->trans('The config/settings.inc.php file was not found.', array(), 'Modules.Autoupgrade.Admin'));
         }
         include_once(SETTINGS_FILE);
         return _PS_VERSION_;
@@ -90,7 +93,7 @@ class CoreUpgrader16 extends CoreUpgrader
     {
         require_once(_PS_TOOL_DIR_.'tar/Archive_Tar.php');
         $lang_pack = Tools14::jsonDecode(Tools14::file_get_contents('http'.(extension_loaded('openssl')
-                        ?'s':'').'://www.prestashop.com/download/lang_packs/get_language_pack.php?version='.$this->install_version.'&iso_lang='.$lang['iso_code']));
+                        ?'s':'').'://www.prestashop.com/download/lang_packs/get_language_pack.php?version='.$this->container->getState()->getInstallVersion().'&iso_lang='.$lang['iso_code']));
 
         if (!$lang_pack) {
             return;
@@ -102,9 +105,9 @@ class CoreUpgrader16 extends CoreUpgrader
             $file = _PS_TRANSLATIONS_DIR_.$lang['iso_code'].'.gzip';
             if ((bool)file_put_contents($file, $content))
             {
-                $gz         = new Archive_Tar($file, true);
+                $gz         = new \Archive_Tar($file, true);
                 $files_list = $gz->listContent();
-                if (!$this->selfUpgradeClass->keepMails) {
+                if (!$this->container->getUpgradeConfiguration()->shouldKeepMails()) {
                     $files_listing   = array();
                     foreach ($files_list as $i => $file) {
                         if (preg_match('/^mails\/'.$lang['iso_code'].'\/.*/', $file['filename'])) {

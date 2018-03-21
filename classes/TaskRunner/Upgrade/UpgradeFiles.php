@@ -38,7 +38,7 @@ class UpgradeFiles extends AbstractTask
         /*
          * The first call must init the list of files be upgraded
          */
-        if (!$this->upgradeClass->getFileConfigurationStorage()->exists(UpgradeFileNames::toUpgradeFileList)) {
+        if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::toUpgradeFileList)) {
             return $this->warmUp();
         }
 
@@ -46,10 +46,10 @@ class UpgradeFiles extends AbstractTask
         $this->upgradeClass->destUpgradePath = $this->upgradeClass->prodRootDir;
 
         $this->upgradeClass->next = 'upgradeFiles';
-        $filesToUpgrade = $this->upgradeClass->getFileConfigurationStorage()->load(UpgradeFileNames::toUpgradeFileList);
+        $filesToUpgrade = $this->container->getFileConfigurationStorage()->load(UpgradeFileNames::toUpgradeFileList);
         if (!is_array($filesToUpgrade)) {
             $this->upgradeClass->next = 'error';
-            $this->logger->error($this->translator->translator->trans('filesToUpgrade is not an array', array(), 'Modules.Autoupgrade.Admin'));
+            $this->logger->error($this->translator->trans('filesToUpgrade is not an array', array(), 'Modules.Autoupgrade.Admin'));
             return false;
         }
 
@@ -60,22 +60,22 @@ class UpgradeFiles extends AbstractTask
                 if (file_exists(UpgradeFileNames::toUpgradeFileList)) {
                     unlink(UpgradeFileNames::toUpgradeFileList);
                 }
-                $this->logger->info($this->translator->translator->trans('All files upgraded. Now upgrading database...', array(), 'Modules.Autoupgrade.Admin'));
+                $this->logger->info($this->translator->trans('All files upgraded. Now upgrading database...', array(), 'Modules.Autoupgrade.Admin'));
                 $this->upgradeClass->stepDone = true;
                 break;
             }
 
             $file = array_shift($filesToUpgrade);
-            if (!$this->upgradeClass->upgradeThisFile($file)) {
+            if (!$this->upgradeThisFile($file)) {
                 // put the file back to the begin of the list
                 $this->upgradeClass->next = 'error';
-                $this->logger->error($this->translator->translator->trans('Error when trying to upgrade file %s.', array($file), 'Modules.Autoupgrade.Admin'));
+                $this->logger->error($this->translator->trans('Error when trying to upgrade file %s.', array($file), 'Modules.Autoupgrade.Admin'));
                 break;
             }
         }
-        $this->upgradeClass->getFileConfigurationStorage()->save($filesToUpgrade, UpgradeFileNames::toUpgradeFileList);
+        $this->container->getFileConfigurationStorage()->save($filesToUpgrade, UpgradeFileNames::toUpgradeFileList);
         if (count($filesToUpgrade) > 0) {
-            $this->logger->info($this->translator->translator->trans('%s files left to upgrade.', array(count($filesToUpgrade)), 'Modules.Autoupgrade.Admin'));
+            $this->logger->info($this->translator->trans('%s files left to upgrade.', array(count($filesToUpgrade)), 'Modules.Autoupgrade.Admin'));
             $this->upgradeClass->stepDone = false;
             @unlink(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR. 'app'.DIRECTORY_SEPARATOR.'cache'.DIRECTORY_SEPARATOR.'dev'.DIRECTORY_SEPARATOR.'class_index.php');
             @unlink(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR. 'app'.DIRECTORY_SEPARATOR.'cache'.DIRECTORY_SEPARATOR.'prod'.DIRECTORY_SEPARATOR.'class_index.php');
@@ -104,7 +104,7 @@ class UpgradeFiles extends AbstractTask
         foreach ($allFiles as $file) {
             $fullPath = $dir.DIRECTORY_SEPARATOR.$file;
 
-            if ($this->upgradeClass->getFilesystemAdapter()->isFileSkipped($file, $fullPath, "upgrade")) {
+            if ($this->container->getFilesystemAdapter()->isFileSkipped($file, $fullPath, "upgrade")) {
                 if (!in_array($file, array('.', '..'))) {
                     $this->logger->debug($this->translator->trans('File %s is preserved', array($file), 'Modules.Autoupgrade.Admin'));
                 }
@@ -132,8 +132,8 @@ class UpgradeFiles extends AbstractTask
         $orig = $this->upgradeClass->latestRootDir.$file;
         $dest = $this->upgradeClass->destUpgradePath.$file;
 
-        if ($this->upgradeClass->getFilesystemAdapter()->isFileSkipped($file, $dest, 'upgrade')) {
-            $this->logger->debug($this->translator->translator->trans('%s ignored', array($file), 'Modules.Autoupgrade.Admin'));
+        if ($this->container->getFilesystemAdapter()->isFileSkipped($file, $dest, 'upgrade')) {
+            $this->logger->debug($this->translator->trans('%s ignored', array($file), 'Modules.Autoupgrade.Admin'));
             return true;
         }
         if (is_dir($orig)) {
@@ -156,7 +156,7 @@ class UpgradeFiles extends AbstractTask
                 return true;
             }
         } elseif (is_file($orig)) {
-            $translationAdapter = $this->getTranslationAdapter();
+            $translationAdapter = $this->container->getTranslationAdapter();
             if ($translationAdapter->isTranslationFile($file) && file_exists($dest)) {
                 $type_trad = $translationAdapter->getTranslationFileType($file);
                 if ($translationAdapter->mergeTranslationFile($orig, $dest, $type_trad)) {
@@ -220,7 +220,7 @@ class UpgradeFiles extends AbstractTask
         $filepath_list_diff = $this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFileNames::diffFileList;
         $list_files_diff = array();
         if (file_exists($filepath_list_diff)) {
-            $list_files_diff = $this->upgradeClass->getFileConfigurationStorage()->load(UpgradeFileNames::diffFileList);
+            $list_files_diff = $this->container->getFileConfigurationStorage()->load(UpgradeFileNames::diffFileList);
             // only keep list of files to delete. The modified files will be listed with _listFilesToUpgrade
             $list_files_diff = $list_files_diff['deleted'];
             foreach ($list_files_diff as $k => $path) {
@@ -261,16 +261,16 @@ class UpgradeFiles extends AbstractTask
         }
 
         // save in a serialized array in UpgradeFileNames::toUpgradeFileList
-        $this->upgradeClass->getFileConfigurationStorage()->save($list_files_to_upgrade, UpgradeFileNames::toUpgradeFileList);
+        $this->container->getFileConfigurationStorage()->save($list_files_to_upgrade, UpgradeFileNames::toUpgradeFileList);
         $this->upgradeClass->nextParams['filesToUpgrade'] = UpgradeFileNames::toUpgradeFileList;
         $total_files_to_upgrade = count($list_files_to_upgrade);
 
         if ($total_files_to_upgrade == 0) {
-            $this->logger->error($this->translator->translator->trans('[ERROR] Unable to find files to upgrade.', array(), 'Modules.Autoupgrade.Admin'));
+            $this->logger->error($this->translator->trans('[ERROR] Unable to find files to upgrade.', array(), 'Modules.Autoupgrade.Admin'));
             $this->upgradeClass->next = 'error';
             return false;
         }
-        $this->logger->info($this->translator->translator->trans('%s files will be upgraded.', array($total_files_to_upgrade), 'Modules.Autoupgrade.Admin'));
+        $this->logger->info($this->translator->trans('%s files will be upgraded.', array($total_files_to_upgrade), 'Modules.Autoupgrade.Admin'));
         $this->upgradeClass->next = 'upgradeFiles';
         $this->upgradeClass->stepDone = false;
         return true;

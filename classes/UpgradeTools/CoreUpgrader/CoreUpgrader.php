@@ -26,6 +26,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader;
 
+use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\ThemeAdapter;
 use Psr\Log\LoggerInterface;
@@ -37,18 +38,24 @@ use Psr\Log\LoggerInterface;
 abstract class CoreUpgrader
 {
     /**
-     * @var \AdminSelfUpgrade
+     * @var UpgradeContainer
      */
-    protected $selfUpgradeClass;
+    protected $container;
+    
+    /**
+     *
+     * @var \Db
+     */
+    protected $db;
 
     /**
      * @var LoggerInterface
      */
     protected $logger;
 
-    public function __construct(\AdminSelfUpgrade $selfUpgradeClass, LoggerInterface $logger)
+    public function __construct(UpgradeContainer $container, LoggerInterface $logger)
     {
-        $this->selfUpgradeClass = $selfUpgradeClass;
+        $this->container = $container;
         $this->logger = $logger;
     }
 
@@ -63,10 +70,10 @@ abstract class CoreUpgrader
         error_reporting(E_ALL);
         $resultDB = \Db::checkConnection(_DB_SERVER_, _DB_USER_, _DB_PASSWD_, _DB_NAME_);
         if ($resultDB !== 0) {
-            throw new UpgradeException($this->selfUpgradeClass->getTranslator()->trans('Invalid database configuration', array(), 'Modules.Autoupgrade.Admin'));
+            throw new UpgradeException($this->container->getTranslator()->trans('Invalid database configuration', array(), 'Modules.Autoupgrade.Admin'));
         }
 
-        if ($this->selfUpgradeClass->deactivateCustomModule) {
+        if ($this->container->getUpgradeConfiguration()->shouldDeactivateCustomModules()) {
             $this->disableCustomModules();
         }
 
@@ -76,7 +83,7 @@ abstract class CoreUpgrader
         # Now we need to add all previous missing settings items, and reset cache and compile directories
         $this->writeNewSettings();
         $this->runRecurrentQueries();
-        $this->logger->debug($this->selfUpgradeClass->getTranslator()->trans('Database upgrade OK', array(), 'Modules.Autoupgrade.Admin')); // no error!
+        $this->logger->debug($this->container->getTranslator()->trans('Database upgrade OK', array(), 'Modules.Autoupgrade.Admin')); // no error!
 
         // Settings updated, compile and cache directories must be emptied
         $this->cleanFolders();
@@ -84,7 +91,7 @@ abstract class CoreUpgrader
         $this->generateHtaccess();
         $this->cleanXmlFiles();
 
-        if ($this->selfUpgradeClass->deactivateCustomModule) {
+        if ($this->container->getUpgradeConfiguration()->shouldDeactivateCustomModules()) {
             $this->disableOverrides();
         }
 
@@ -92,10 +99,10 @@ abstract class CoreUpgrader
 
         $this->runCoreCacheClean();
 
-        if ($this->selfUpgradeClass->getState()->getWarningExists()) {
-            $this->logger->warning($this->selfUpgradeClass->getTranslator()->trans('Warning detected during upgrade.', array(), 'Modules.Autoupgrade.Admin'));
+        if ($this->container->getState()->getWarningExists()) {
+            $this->logger->warning($this->container->getTranslator()->trans('Warning detected during upgrade.', array(), 'Modules.Autoupgrade.Admin'));
         } else {
-            $this->logger->info($this->selfUpgradeClass->getTranslator()->trans('Database upgrade completed', array(), 'Modules.Autoupgrade.Admin'));
+            $this->logger->info($this->container->getTranslator()->trans('Database upgrade completed', array(), 'Modules.Autoupgrade.Admin'));
         }
     }
 
@@ -129,9 +136,9 @@ abstract class CoreUpgrader
         }
         $_SERVER['REQUEST_URI'] = str_replace('//', '/', $_SERVER['REQUEST_URI']);
 
-        define('INSTALL_VERSION', $this->selfUpgradeClass->getState()->getInstallVersion());
+        define('INSTALL_VERSION', $this->container->getState()->getInstallVersion());
         // 1.4
-        define('INSTALL_PATH', realpath($this->selfUpgradeClass->latestRootDir.DIRECTORY_SEPARATOR.'install'));
+        define('INSTALL_PATH', realpath($this->container->getProperty(UpgradeContainer::LATEST_PATH).DIRECTORY_SEPARATOR.'install'));
         // 1.5 ...
         define('_PS_INSTALL_PATH_', INSTALL_PATH.DIRECTORY_SEPARATOR);
         // 1.6
@@ -141,9 +148,9 @@ abstract class CoreUpgrader
 
 
         define('PS_INSTALLATION_IN_PROGRESS', true);
-        define('SETTINGS_FILE_PHP', $this->selfUpgradeClass->prodRootDir . '/app/config/parameters.php');
-        define('SETTINGS_FILE_YML', $this->selfUpgradeClass->prodRootDir . '/app/config/parameters.yml');
-        define('DEFINES_FILE', $this->selfUpgradeClass->prodRootDir .'/config/defines.inc.php');
+        define('SETTINGS_FILE_PHP', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/app/config/parameters.php');
+        define('SETTINGS_FILE_YML', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/app/config/parameters.yml');
+        define('DEFINES_FILE', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) .'/config/defines.inc.php');
         define('INSTALLER__PS_BASE_URI', substr($_SERVER['REQUEST_URI'], 0, -1 * (strlen($_SERVER['REQUEST_URI']) - strrpos($_SERVER['REQUEST_URI'], '/')) - strlen(substr(dirname($_SERVER['REQUEST_URI']), strrpos(dirname($_SERVER['REQUEST_URI']), '/')+1))));
         //	define('INSTALLER__PS_BASE_URI_ABSOLUTE', 'http://'.ToolsInstall::getHttpHost(false, true).INSTALLER__PS_BASE_URI);
 
@@ -162,7 +169,7 @@ abstract class CoreUpgrader
         if (!file_exists(INSTALL_PATH.DIRECTORY_SEPARATOR.$upgrade_dir_php)) {
             $upgrade_dir_php = 'php';
             if (!file_exists(INSTALL_PATH.DIRECTORY_SEPARATOR.$upgrade_dir_php)) {
-                throw new UpgradeException($this->selfUpgradeClass->getTranslator()->trans('/install/upgrade/php directory is missing in archive or directory', array(), 'Modules.Autoupgrade.Admin'));
+                throw new UpgradeException($this->container->getTranslator()->trans('/install/upgrade/php directory is missing in archive or directory', array(), 'Modules.Autoupgrade.Admin'));
             }
         }
         define('_PS_INSTALLER_PHP_UPGRADE_DIR_',  INSTALL_PATH.DIRECTORY_SEPARATOR.$upgrade_dir_php.DIRECTORY_SEPARATOR);
@@ -174,6 +181,7 @@ abstract class CoreUpgrader
         if (!defined('_THEMES_DIR_')) {
             define('_THEMES_DIR_', __PS_BASE_URI__.'themes/');
         }
+        $this->db = \Db::getInstance();
     }
 
     protected function getPreUpgradeVersion()
@@ -203,16 +211,16 @@ abstract class CoreUpgrader
     protected function checkVersionIsNewer($oldVersion)
     {
         if (strpos(INSTALL_VERSION, '.') === false) {
-            throw new UpgradeException($this->selfUpgradeClass->getTranslator()->trans('%s is not a valid version number.', array(INSTALL_VERSION), 'Modules.Autoupgrade.Admin'));
+            throw new UpgradeException($this->container->getTranslator()->trans('%s is not a valid version number.', array(INSTALL_VERSION), 'Modules.Autoupgrade.Admin'));
         }
 
         $versionCompare =  version_compare(INSTALL_VERSION, $oldVersion);
 
         if ($versionCompare == '-1') {
             throw new UpgradeException(
-                $this->selfUpgradeClass->getTranslator()->trans('[ERROR] Version to install is too old.', array(), 'Modules.Autoupgrade.Admin')
+                $this->container->getTranslator()->trans('[ERROR] Version to install is too old.', array(), 'Modules.Autoupgrade.Admin')
                 . ' '.
-                $this->selfUpgradeClass->getTranslator()->trans(
+                $this->container->getTranslator()->trans(
                 'Current version: %oldversion%. Version to install: %newversion%.',
                 array(
                     '%oldversion%' => $oldVersion,
@@ -221,9 +229,9 @@ abstract class CoreUpgrader
                 'Modules.Autoupgrade.Admin'
             ));
         } elseif ($versionCompare == 0) {
-            throw new UpgradeException($this->selfUpgradeClass->getTranslator()->trans('You already have the %s version.', array(INSTALL_VERSION), 'Modules.Autoupgrade.Admin'));
+            throw new UpgradeException($this->container->getTranslator()->trans('You already have the %s version.', array(INSTALL_VERSION), 'Modules.Autoupgrade.Admin'));
         } elseif ($versionCompare === false) {
-            throw new UpgradeException($this->selfUpgradeClass->getTranslator()->trans('There is no older version. Did you delete or rename the app/config/parameters.php file?', array(), 'Modules.Autoupgrade.Admin'));
+            throw new UpgradeException($this->container->getTranslator()->trans('There is no older version. Did you delete or rename the app/config/parameters.php file?', array(), 'Modules.Autoupgrade.Admin'));
         }
     }
 
@@ -245,7 +253,7 @@ abstract class CoreUpgrader
     protected function getUpgradeSqlFilesListToApply($upgrade_dir_sql, $oldversion)
     {
         if (!file_exists($upgrade_dir_sql)) {
-            throw new UpgradeException($this->selfUpgradeClass->getTranslator()->trans('Unable to find upgrade directory in the installation path.', array(), 'Modules.Autoupgrade.Admin'));
+            throw new UpgradeException($this->container->getTranslator()->trans('Unable to find upgrade directory in the installation path.', array(), 'Modules.Autoupgrade.Admin'));
         }
 
         $upgradeFiles = $neededUpgradeFiles = array();
@@ -255,14 +263,14 @@ abstract class CoreUpgrader
                     continue;
                 }
                 if (!is_readable($upgrade_dir_sql.DIRECTORY_SEPARATOR.$file)) {
-                    throw new UpgradeException($this->selfUpgradeClass->getTranslator()->trans('Error while loading SQL upgrade file "%s.sql".', array($version), 'Modules.Autoupgrade.Admin'));
+                    throw new UpgradeException($this->container->getTranslator()->trans('Error while loading SQL upgrade file "%s.sql".', array($version), 'Modules.Autoupgrade.Admin'));
                 }
                 $upgradeFiles[] = str_replace(".sql", "", $file);
             }
             closedir($handle);
         }
         if (empty($upgradeFiles)) {
-            throw new UpgradeException($this->selfUpgradeClass->getTranslator()->trans('Cannot find the SQL upgrade files. Please check that the %s folder is not empty.', array($upgrade_dir_sql), 'Modules.Autoupgrade.Admin'));
+            throw new UpgradeException($this->container->getTranslator()->trans('Cannot find the SQL upgrade files. Please check that the %s folder is not empty.', array($upgrade_dir_sql), 'Modules.Autoupgrade.Admin'));
         }
         natcasesort($upgradeFiles);
 
@@ -338,7 +346,7 @@ abstract class CoreUpgrader
 
             if (!file_exists(_PS_INSTALLER_PHP_UPGRADE_DIR_.strtolower($func_name).'.php')) {
                 $this->logger->error('[ERROR] '.$upgrade_file.' PHP - missing file '.$query);
-                $this->selfUpgradeClass->getState()->setWarningExists(true);
+                $this->container->getState()->setWarningExists(true);
             } else {
                 require_once(_PS_INSTALLER_PHP_UPGRADE_DIR_.strtolower($func_name).'.php');
                 $phpRes = call_user_func_array($func_name, $parameters);
@@ -348,7 +356,7 @@ abstract class CoreUpgrader
         else {
             $func_name = array($php[0], str_replace($pattern[0], '', $php[1]));
             $this->logger->error('[ERROR] '.$upgrade_file.' PHP - Object Method call is forbidden ('.$php[0].'::'.str_replace($pattern[0], '', $php[1]).')');
-            $this->selfUpgradeClass->getState()->setWarningExists(true);
+            $this->container->getState()->setWarningExists(true);
         }
 
         if (isset($phpRes) && (is_array($phpRes) && !empty($phpRes['error'])) || $phpRes === false) {
@@ -356,7 +364,7 @@ abstract class CoreUpgrader
                 [ERROR] PHP '.$upgrade_file.' '.$query."\n".'
                 '.(empty($phpRes['error']) ? '' : $phpRes['error']."\n").'
                 '.(empty($phpRes['msg']) ? '' : ' - '.$phpRes['msg']."\n"));
-            $this->selfUpgradeClass->getState()->setWarningExists(true);
+            $this->container->getState()->setWarningExists(true);
         } else {
             $this->logger->debug('<div class="upgradeDbOk">[OK] PHP '.$upgrade_file.' : '.$query.'</div>');
         }
@@ -364,26 +372,25 @@ abstract class CoreUpgrader
 
     protected function runSqlQuery($upgrade_file, $query)
     {
-        $db = $this->selfUpgradeClass->db;
         if (strstr($query, 'CREATE TABLE') !== false) {
             $pattern = '/CREATE TABLE.*[`]*'._DB_PREFIX_.'([^`]*)[`]*\s\(/';
             preg_match($pattern, $query, $matches);
             ;
             if (!empty($matches[1])) {
                 $drop = 'DROP TABLE IF EXISTS `'._DB_PREFIX_.$matches[1].'`;';
-                if ($db->execute($drop, false)) {
-                    $this->logger->debug('<div class="upgradeDbOk">'.$this->selfUpgradeClass->getTranslator()->trans('[DROP] SQL %s table has been dropped.', array('`'._DB_PREFIX_.$matches[1].'`'), 'Modules.Autoupgrade.Admin').'</div>');
+                if ($this->db->execute($drop, false)) {
+                    $this->logger->debug('<div class="upgradeDbOk">'.$this->container->getTranslator()->trans('[DROP] SQL %s table has been dropped.', array('`'._DB_PREFIX_.$matches[1].'`'), 'Modules.Autoupgrade.Admin').'</div>');
                 }
             }
         }
 
-        if ($db->execute($query, false)) {
+        if ($this->db->execute($query, false)) {
             $this->logger->debug('<div class="upgradeDbOk">[OK] SQL '.$upgrade_file.' '.$query.'</div>');
             return;
         }
         
-        $error = $db->getMsgError();
-        $error_number = $db->getNumberError();
+        $error = $this->db->getMsgError();
+        $error_number = $this->db->getNumberError();
         $this->logger->warning('
             <div class="upgradeDbError">
             [WARNING] SQL '.$upgrade_file.'
@@ -392,7 +399,7 @@ abstract class CoreUpgrader
         $duplicates = array('1050', '1054', '1060', '1061', '1062', '1091');
         if (!in_array($error_number, $duplicates)) {
             $this->logger->error('SQL '.$upgrade_file.' '.$error_number.' in '.$query.': '.$error);
-            $this->selfUpgradeClass->getState()->setWarningExists(true);
+            $this->container->getState()->setWarningExists(true);
         }
     }
 
@@ -403,25 +410,25 @@ abstract class CoreUpgrader
     
     protected function runRecurrentQueries()
     {
-        $this->selfUpgradeClass->db->execute('UPDATE `'._DB_PREFIX_.'configuration` SET `name` = \'PS_LEGACY_IMAGES\' WHERE name LIKE \'0\' AND `value` = 1');
-        $this->selfUpgradeClass->db->execute('UPDATE `'._DB_PREFIX_.'configuration` SET `value` = 0 WHERE `name` LIKE \'PS_LEGACY_IMAGES\'');
-        if ($this->selfUpgradeClass->db->getValue('SELECT COUNT(id_product_download) FROM `'._DB_PREFIX_.'product_download` WHERE `active` = 1') > 0) {
-            $this->selfUpgradeClass->db->execute('UPDATE `'._DB_PREFIX_.'configuration` SET `value` = 1 WHERE `name` LIKE \'PS_VIRTUAL_PROD_FEATURE_ACTIVE\'');
+        $this->db->execute('UPDATE `'._DB_PREFIX_.'configuration` SET `name` = \'PS_LEGACY_IMAGES\' WHERE name LIKE \'0\' AND `value` = 1');
+        $this->db->execute('UPDATE `'._DB_PREFIX_.'configuration` SET `value` = 0 WHERE `name` LIKE \'PS_LEGACY_IMAGES\'');
+        if ($this->db->getValue('SELECT COUNT(id_product_download) FROM `'._DB_PREFIX_.'product_download` WHERE `active` = 1') > 0) {
+            $this->db->execute('UPDATE `'._DB_PREFIX_.'configuration` SET `value` = 1 WHERE `name` LIKE \'PS_VIRTUAL_PROD_FEATURE_ACTIVE\'');
         }
 
         // Exported from the end of doUpgrade()
-        $this->selfUpgradeClass->db->execute('UPDATE `'._DB_PREFIX_.'configuration` SET value="0" WHERE name = "PS_HIDE_OPTIMIZATION_TIS"', false);
-        $this->selfUpgradeClass->db->execute('UPDATE `'._DB_PREFIX_.'configuration` SET value="1" WHERE name = "PS_NEED_REBUILD_INDEX"', false);
-        $this->selfUpgradeClass->db->execute('UPDATE `'._DB_PREFIX_.'configuration` SET value="'.INSTALL_VERSION.'" WHERE name = "PS_VERSION_DB"', false);
+        $this->db->execute('UPDATE `'._DB_PREFIX_.'configuration` SET value="0" WHERE name = "PS_HIDE_OPTIMIZATION_TIS"', false);
+        $this->db->execute('UPDATE `'._DB_PREFIX_.'configuration` SET value="1" WHERE name = "PS_NEED_REBUILD_INDEX"', false);
+        $this->db->execute('UPDATE `'._DB_PREFIX_.'configuration` SET value="'.INSTALL_VERSION.'" WHERE name = "PS_VERSION_DB"', false);
 
     }
 
     protected function cleanFolders()
     {
         $dirsToClean = array(
-            $this->selfUpgradeClass->prodRootDir.'/app/cache/',
-            $this->selfUpgradeClass->prodRootDir.'/cache/smarty/cache/',
-            $this->selfUpgradeClass->prodRootDir.'/cache/smarty/compile/',
+            $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH).'/app/cache/',
+            $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH).'/cache/smarty/cache/',
+            $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH).'/cache/smarty/compile/',
         );
 
         $defaultThemeNames = array(
@@ -431,13 +438,13 @@ abstract class CoreUpgrader
             'classic',
         );
 
-        if (defined('_THEME_NAME_') && $this->selfUpgradeClass->updateDefaultTheme && in_array(_THEME_NAME_, $defaultThemeNames)) {
-            $dirsToClean[] = $this->selfUpgradeClass->prodRootDir.'/themes/'._THEME_NAME_.'/cache/';
+        if (defined('_THEME_NAME_') && $this->container->getUpgradeConfiguration()->shouldUpdateDefaultTheme() && in_array(_THEME_NAME_, $defaultThemeNames)) {
+            $dirsToClean[] = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH).'/themes/'._THEME_NAME_.'/cache/';
         }
 
         foreach ($dirsToClean as $dir) {
             if (!file_exists($dir)) {
-                $this->logger->debug($this->selfUpgradeClass->getTranslator()->trans('[SKIP] directory "%s" does not exist and cannot be emptied.', array(str_replace($this->selfUpgradeClass->prodRootDir, '', $dir)), 'Modules.Autoupgrade.Admin'));
+                $this->logger->debug($this->container->getTranslator()->trans('[SKIP] directory "%s" does not exist and cannot be emptied.', array(str_replace($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH), '', $dir)), 'Modules.Autoupgrade.Admin'));
                 continue;
             }
             foreach (scandir($dir) as $file) {
@@ -450,7 +457,7 @@ abstract class CoreUpgrader
                 } elseif (is_dir($dir.$file.DIRECTORY_SEPARATOR)) {
                     \AdminSelfUpgrade::deleteDirectory($dir.$file.DIRECTORY_SEPARATOR);
                 }
-                $this->logger->debug($this->selfUpgradeClass->getTranslator()->trans('[CLEANING CACHE] File %s removed', array($file), 'Modules.Autoupgrade.Admin'));
+                $this->logger->debug($this->container->getTranslator()->trans('[CLEANING CACHE] File %s removed', array($file), 'Modules.Autoupgrade.Admin'));
             }
         }
     }
@@ -470,7 +477,7 @@ abstract class CoreUpgrader
             define('_PS_MAILS_DIR_', _PS_ROOT_DIR_.'/mails/');
         }
 
-        $langs = $this->selfUpgradeClass->db->executeS('SELECT * FROM `'._DB_PREFIX_.'lang` WHERE `active` = 1');
+        $langs = $this->db->executeS('SELECT * FROM `'._DB_PREFIX_.'lang` WHERE `active` = 1');
 
         if (!is_array($langs)) {
             return;
@@ -496,7 +503,7 @@ abstract class CoreUpgrader
         if (!class_exists('Tools2') || !method_exists('Tools2', 'generateHtaccess')) {
             return;
         }
-        $url_rewrite = (bool)$this->selfUpgradeClass->db->getvalue('SELECT `value` FROM `'._DB_PREFIX_.'configuration` WHERE name=\'PS_REWRITING_SETTINGS\'');
+        $url_rewrite = (bool)$this->db->getvalue('SELECT `value` FROM `'._DB_PREFIX_.'configuration` WHERE name=\'PS_REWRITING_SETTINGS\'');
 
         if (!defined('_MEDIA_SERVER_1_')) {
             define('_MEDIA_SERVER_1_', '');
@@ -622,7 +629,7 @@ abstract class CoreUpgrader
     protected function cleanXmlFiles()
     {
         $files = array(
-            $this->selfUpgradeClass->adminDir.DIRECTORY_SEPARATOR.'themes'.DIRECTORY_SEPARATOR.'default'.DIRECTORY_SEPARATOR.'template'.DIRECTORY_SEPARATOR.'controllers'.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR.'header.tpl',
+            $this->container->getProperty(UpgradeContainer::PS_ADMIN_PATH).DIRECTORY_SEPARATOR.'themes'.DIRECTORY_SEPARATOR.'default'.DIRECTORY_SEPARATOR.'template'.DIRECTORY_SEPARATOR.'controllers'.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR.'header.tpl',
             _PS_ROOT_DIR_.'/app/cache/dev/class_index.php',
             _PS_ROOT_DIR_.'/app/cache/prod/class_index.php',
             _PS_ROOT_DIR_.'/cache/class_index.php',
@@ -644,11 +651,11 @@ abstract class CoreUpgrader
 
     protected function disableOverrides()
     {
-        $exist = $this->selfUpgradeClass->db->getValue('SELECT `id_configuration` FROM `'._DB_PREFIX_.'configuration` WHERE `name` LIKE \'PS_DISABLE_OVERRIDES\'');
+        $exist = $this->db->getValue('SELECT `id_configuration` FROM `'._DB_PREFIX_.'configuration` WHERE `name` LIKE \'PS_DISABLE_OVERRIDES\'');
         if ($exist) {
-            $this->selfUpgradeClass->db->execute('UPDATE `'._DB_PREFIX_.'configuration` SET value = 1 WHERE `name` LIKE \'PS_DISABLE_OVERRIDES\'');
+            $this->db->execute('UPDATE `'._DB_PREFIX_.'configuration` SET value = 1 WHERE `name` LIKE \'PS_DISABLE_OVERRIDES\'');
         } else {
-            $this->selfUpgradeClass->db->execute('INSERT INTO `'._DB_PREFIX_.'configuration` (name, value, date_add, date_upd) VALUES ("PS_DISABLE_OVERRIDES", 1, NOW(), NOW())');
+            $this->db->execute('INSERT INTO `'._DB_PREFIX_.'configuration` (name, value, date_add, date_upd) VALUES ("PS_DISABLE_OVERRIDES", 1, NOW(), NOW())');
         }
 
         if (file_exists(_PS_ROOT_DIR_.'/classes/PrestaShopAutoload.php')) {
@@ -663,8 +670,8 @@ abstract class CoreUpgrader
 
     protected function updateTheme()
     {
-        $themeAdapter = new ThemeAdapter($this->selfUpgradeClass->db, $this->selfUpgradeClass->getState()->getInstallVersion());
-        $themeName = $this->selfUpgradeClass->changeToDefaultTheme ?
+        $themeAdapter = new ThemeAdapter($this->db, $this->container->getState()->getInstallVersion());
+        $themeName = $this->container->getUpgradeConfiguration()->shouldUpdateDefaultTheme() ?
             $themeAdapter->getDefaultTheme() :
             _THEME_NAME_;
         $themeErrors = $themeAdapter->enableTheme($themeName);
@@ -680,12 +687,12 @@ abstract class CoreUpgrader
 
         // delete cache filesystem if activated
         if (defined('_PS_CACHE_ENABLED_') && _PS_CACHE_ENABLED_) {
-            $depth = (int)$this->selfUpgradeClass->db->getValue('SELECT value
+            $depth = (int)$this->db->getValue('SELECT value
 				FROM '._DB_PREFIX_.'configuration
 				WHERE name = "PS_CACHEFS_DIRECTORY_DEPTH"');
             if ($depth) {
                 if (!defined('_PS_CACHEFS_DIRECTORY_')) {
-                    define('_PS_CACHEFS_DIRECTORY_', $this->selfUpgradeClass->prodRootDir.'/cache/cachefs/');
+                    define('_PS_CACHEFS_DIRECTORY_', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH).'/cache/cachefs/');
                 }
                 \AdminSelfUpgrade::deleteDirectory(_PS_CACHEFS_DIRECTORY_, false);
                 if (class_exists('CacheFs', false)) {
@@ -699,7 +706,7 @@ abstract class CoreUpgrader
     {
         if (!$directory) {
             if (!defined('_PS_CACHEFS_DIRECTORY_')) {
-                define('_PS_CACHEFS_DIRECTORY_', $this->selfUpgradeClass->prodRootDir.'/cache/cachefs/');
+                define('_PS_CACHEFS_DIRECTORY_', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH).'/cache/cachefs/');
             }
             $directory = _PS_CACHEFS_DIRECTORY_;
         }

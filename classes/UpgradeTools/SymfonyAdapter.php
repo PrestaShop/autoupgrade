@@ -36,6 +36,10 @@ class SymfonyAdapter
      */
     public function clearMigrationCache()
     {
+        if (version_compare(INSTALL_VERSION, '1.7.0.0', '<')) {
+            return;
+        }
+
         \Tools::clearCache();
         \Tools::clearXMLCache();
         \Media::clearCache();

@@ -27,24 +27,14 @@
 
 use PrestaShop\Module\AutoUpgrade\AjaxResponse;
 use PrestaShop\Module\AutoUpgrade\BackupFinder;
-use PrestaShop\Module\AutoUpgrade\State;
 use PrestaShop\Module\AutoUpgrade\UpgradePage;
 use PrestaShop\Module\AutoUpgrade\Upgrader;
 use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
-use PrestaShop\Module\AutoUpgrade\PrestashopConfiguration;
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
-use PrestaShop\Module\AutoUpgrade\ZipAction;
-use PrestaShop\Module\AutoUpgrade\Log\LegacyLogger;
-use PrestaShop\Module\AutoUpgrade\Log\Logger;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\ModuleAdapter;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translation;
-use PrestaShop\Module\AutoUpgrade\Parameters\FileConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfigurationStorage;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
-use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension;
+use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 require __DIR__.'/vendor/autoload.php';
 
@@ -62,7 +52,6 @@ class AdminSelfUpgrade extends AdminController
     public $ajax = false;
     public $next = 'N/A';
 
-    public $upgrader = null;
     public $standalone = true;
 
     /**
@@ -95,21 +84,12 @@ class AdminSelfUpgrade extends AdminController
     public $prodRootDir = '';
     public $adminDir = '';
 
-    public $destDownloadFilename = 'prestashop.zip';
-
     public $keepImages = null;
     public $updateDefaultTheme = null;
     public $changeToDefaultTheme = null;
     public $keepMails = null;
     public $manualMode = null;
     public $deactivateCustomModule = null;
-
-    private $restoreIgnoreFiles = array();
-    private $restoreIgnoreAbsoluteFiles = array();
-    private $backupIgnoreFiles = array();
-    private $backupIgnoreAbsoluteFiles = array();
-    private $excludeFilesFromUpgrade = array();
-    private $excludeAbsoluteFilesFromUpgrade = array();
 
     public static $classes14 = array('Cache', 'CacheFS', 'CarrierModule', 'Db', 'FrontController', 'Helper','ImportModule',
     'MCached', 'Module', 'ModuleGraph', 'ModuleGraphEngine', 'ModuleGrid', 'ModuleGridEngine',
@@ -139,64 +119,10 @@ class AdminSelfUpgrade extends AdminController
     public $_fieldsUpgradeOptions = array();
     public $_fieldsBackupOptions = array();
 
-    /////////////////////////////////////////////////
-    // CLASS INSTANCES
-    /////////////////////////////////////////////////
-
     /**
-     * @var Db
+     * @var UpgradeContainer
      */
-    public $db;
-
-    /**
-     * @var PrestashopConfiguration
-     */
-    private $prestashopConfiguration;
-
-    /**
-     * @var UpgradeConfiguration
-     */
-    private $upgradeConfiguration;
-
-    /**
-     * @var FilesystemAdapter
-     */
-    private $filesystemAdapter;
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
-
-    /**
-     * @var ModuleAdapter
-     */
-    private $moduleAdapter;
-
-    /**
-     * @var Twig_Environment
-     */
-    private $twig;
-
-    /**
-     * @var State
-     */
-    private $state;
-
-    /**
-     * @var ZipAction
-     */
-    private $zipAction;
-
-    /**
-     * @var FileConfigurationStorage
-     */
-    private $fileConfigurationStorage;
-
-    /////////////////////////////////////////////////
-    // END OF CLASS INSTANCES
-    /////////////////////////////////////////////////
-
+    private $upgradeContainer;
 
     /**
      * replace tools encrypt
@@ -269,13 +195,6 @@ class AdminSelfUpgrade extends AdminController
         $this->db = Db::getInstance();
         $this->bootstrap = true;
 
-        // Init PrestashopCompliancy class
-        $admin_dir = trim(str_replace($this->prodRootDir, '', $this->adminDir), DIRECTORY_SEPARATOR);
-        $this->prestashopConfiguration = new PrestashopConfiguration(
-            $admin_dir.DIRECTORY_SEPARATOR.$this->autoupgradeDir,
-            $this->getUpgrader()->autoupgrade_last_version
-        );
-
         // Performance settings, if your server has a low memory size, lower these values
         $perf_array = array(
             'loopBackupFiles' => array(400, 800, 1600),
@@ -288,7 +207,7 @@ class AdminSelfUpgrade extends AdminController
             'loopUpgradeModulesTime' => array(6, 12, 25),
             'loopRemoveSamples' => array(400, 800, 1600)
         );
-        switch ($this->upgradeConfiguration->get('PS_AUTOUP_PERFORMANCE')) {
+        switch ($this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_PERFORMANCE')) {
             case 3:
                 foreach ($perf_array as $property => $values) {
                     self::$$property = $values[2];
@@ -379,10 +298,12 @@ class AdminSelfUpgrade extends AdminController
         if (!$this->ajax) {
             parent::init();
         }
+
         // For later use, let's set up prodRootDir and adminDir
         // This way it will be easier to upgrade a different path if needed
         $this->prodRootDir = _PS_ROOT_DIR_;
         $this->adminDir = realpath(_PS_ADMIN_DIR_);
+        $this->upgradeContainer = new UpgradeContainer($this->prodRootDir, $this->adminDir);
         if (!defined('__PS_BASE_URI__')) {
             // _PS_DIRECTORY_ replaces __PS_BASE_URI__ in 1.5
             if (defined('_PS_DIRECTORY_')) {
@@ -394,117 +315,29 @@ class AdminSelfUpgrade extends AdminController
         // from $_POST or $_GET
         $this->action = empty($_REQUEST['action'])?null:$_REQUEST['action'];
         $this->currentParams = empty($_REQUEST['params'])?array():$_REQUEST['params'];
-        // test writable recursively
-        if (!class_exists('ConfigurationTest', false)) {
-            require_once(dirname(__FILE__).'/classes/ConfigurationTest.php');
-            if (!class_exists('ConfigurationTest', false) and class_exists('ConfigurationTestCore')) {
-                eval('class ConfigurationTest extends ConfigurationTestCore{}');
-            }
-        }
         $this->initPath();
-        $this->getUpgradeConfiguration();
-        $this->getState();
+        $this->upgradeContainer->getState()->importFromArray($this->currentParams);
 
         // If you have defined this somewhere, you know what you do
         /* load options from configuration if we're not in ajax mode */
         if (!$this->ajax) {
             $this->createCustomToken();
 
-            $this->initDefaultState();
+            $this->upgradeContainer->getState()->initDefault(
+                $this->upgradeContainer->getUpgrader(),
+                $this->upgradeContainer->getProperty(UpgradeContainer::PS_ROOT_PATH),
+                $this->upgradeContainer->getProperty(UpgradeContainer::PS_VERSION));
             // removing temporary files
-            $this->getFileConfigurationStorage()->cleanAll();
+            $this->upgradeContainer->getFileConfigurationStorage()->cleanAll();
         }
 
 
-        $this->keepImages = $this->upgradeConfiguration->get('PS_AUTOUP_KEEP_IMAGES');
-        $this->updateDefaultTheme = $this->upgradeConfiguration->get('PS_AUTOUP_UPDATE_DEFAULT_THEME');
-        $this->changeToDefaultTheme = $this->upgradeConfiguration->get('PS_AUTOUP_CHANGE_DEFAULT_THEME');
-        $this->keepMails = $this->upgradeConfiguration->get('PS_AUTOUP_KEEP_MAILS');
-        $this->manualMode = (defined('_PS_MODE_DEV_') && _PS_MODE_DEV_)? (bool)$this->upgradeConfiguration->get('PS_AUTOUP_MANUAL_MODE') : false;
-        $this->deactivateCustomModule = $this->upgradeConfiguration->get('PS_AUTOUP_CUSTOM_MOD_DESACT');
-
-        // during restoration, do not remove :
-        $this->restoreIgnoreAbsoluteFiles[] = '/app/config/parameters.php';
-        $this->restoreIgnoreAbsoluteFiles[] = '/app/config/parameters.yml';
-        $this->restoreIgnoreAbsoluteFiles[] = '/modules/autoupgrade';
-        $this->restoreIgnoreAbsoluteFiles[] = '/admin/autoupgrade';
-        $this->restoreIgnoreAbsoluteFiles[] = '.';
-        $this->restoreIgnoreAbsoluteFiles[] = '..';
-
-        // during backup, do not save
-        $this->backupIgnoreAbsoluteFiles[] = '/app/cache';
-        $this->backupIgnoreAbsoluteFiles[] = '/cache/smarty/compile';
-        $this->backupIgnoreAbsoluteFiles[] = '/cache/smarty/cache';
-        $this->backupIgnoreAbsoluteFiles[] = '/cache/tcpdf';
-        $this->backupIgnoreAbsoluteFiles[] = '/cache/cachefs';
-
-        // do not care about the two autoupgrade dir we use;
-        $this->backupIgnoreAbsoluteFiles[] = '/modules/autoupgrade';
-        $this->backupIgnoreAbsoluteFiles[] = '/admin/autoupgrade';
-
-        $this->backupIgnoreFiles[] = '.';
-        $this->backupIgnoreFiles[] = '..';
-        $this->backupIgnoreFiles[] = '.svn';
-        $this->backupIgnoreFiles[] = '.git';
-        $this->backupIgnoreFiles[] = $this->autoupgradeDir;
-
-        $this->excludeFilesFromUpgrade[] = '.';
-        $this->excludeFilesFromUpgrade[] = '..';
-        $this->excludeFilesFromUpgrade[] = '.svn';
-        $this->excludeFilesFromUpgrade[] = '.git';
-
-        // do not copy install, neither app/config/parameters.php in case it would be present
-        $this->excludeAbsoluteFilesFromUpgrade[] = '/app/config/parameters.php';
-        $this->excludeAbsoluteFilesFromUpgrade[] = '/app/config/parameters.yml';
-        $this->excludeAbsoluteFilesFromUpgrade[] = '/install';
-        $this->excludeAbsoluteFilesFromUpgrade[] = '/install-dev';
-
-        // this will exclude autoupgrade dir from admin, and autoupgrade from modules
-        $this->excludeFilesFromUpgrade[] = $this->autoupgradeDir;
-
-        if ($this->keepImages === '0') {
-            $this->backupIgnoreAbsoluteFiles[] = '/img';
-            $this->restoreIgnoreAbsoluteFiles[] = '/img';
-        } else {
-            $this->backupIgnoreAbsoluteFiles[] = '/img/tmp';
-            $this->restoreIgnoreAbsoluteFiles[] = '/img/tmp';
-        }
-
-        if (!$this->updateDefaultTheme) /* If set to false, we need to preserve the default themes */
-        {
-            $this->excludeAbsoluteFilesFromUpgrade[] = '/themes/classic';
-        }
-    }
-
-    public function initDefaultState()
-    {
-        $postData = 'version='._PS_VERSION_.'&method=listing&action=native&iso_code=all';
-        $xml_local = $this->prodRootDir.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'xml'.DIRECTORY_SEPARATOR.'modules_native_addons.xml';
-        $xml = $this->getUpgrader()->getApiAddons($xml_local, $postData, true);
-
-        $modules_addons = array();
-        if (is_object($xml)) {
-            foreach ($xml as $mod) {
-                $modules_addons[(string)$mod->id] = (string)$mod->name;
-            }
-        }
-        $this->state->setModulesAddons($modules_addons);
-
-        // installedLanguagesIso is used to merge translations files
-        $installedLanguagesIso = array_map(
-            function($v) { return $v['iso_code']; },
-            Language::getIsoIds(false)
-        );
-        $this->state->setInstalledLanguagesIso($installedLanguagesIso);
-
-        $rand = dechex(mt_rand(0, min(0xffffffff, mt_getrandmax())));
-        $date = date('Ymd-His');
-        $backupName = 'V'._PS_VERSION_.'_'.$date.'-'.$rand;
-        // Todo: To be moved in state class? We could only require the backup name here
-        // I.e = $this->state->setBackupName($backupName);, which triggers 2 other setters internally
-        $this->state->setBackupName($backupName)
-            ->setBackupFilesFilename('auto-backupfiles_'.$backupName.'.zip')
-            ->setBackupDbFilename('auto-backupdb_XXXXXX_'.$backupName.'.sql');
+        $this->keepImages = $this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_KEEP_IMAGES');
+        $this->updateDefaultTheme = $this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_UPDATE_DEFAULT_THEME');
+        $this->changeToDefaultTheme = $this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_CHANGE_DEFAULT_THEME');
+        $this->keepMails = $this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_KEEP_MAILS');
+        $this->manualMode = (defined('_PS_MODE_DEV_') && _PS_MODE_DEV_)? (bool)$this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_MANUAL_MODE') : false;
+        $this->deactivateCustomModule = $this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_CUSTOM_MOD_DESACT');
     }
 
     /**
@@ -557,23 +390,13 @@ class AdminSelfUpgrade extends AdminController
         }
     }
 
-    /**
-     * getFilePath return the path to the zipfile containing prestashop.
-     *
-     * @return void
-     */
-    public function getFilePath()
-    {
-        return $this->downloadPath.DIRECTORY_SEPARATOR.$this->destDownloadFilename;
-    }
-
     public function postProcess()
     {
         $this->_setFields();
 
         // set default configuration to default channel & dafault configuration for backup and upgrade
         // (can be modified in expert mode)
-        $config = $this->upgradeConfiguration->get('channel');
+        $config = $this->upgradeContainer->getUpgradeConfiguration()->get('channel');
         if ($config === null) {
             $config = array();
             $config['channel'] = Upgrader::DEFAULT_CHANNEL;
@@ -646,16 +469,16 @@ class AdminSelfUpgrade extends AdminController
      */
     public function writeConfig($config)
     {
-        if (!$this->getFileConfigurationStorage()->exists(UpgradeFileNames::configFilename) && !empty($config['channel'])) {
-            $this->upgrader->channel = $config['channel'];
-            $this->upgrader->checkPSVersion();
+        if (!$this->upgradeContainer->getFileConfigurationStorage()->exists(UpgradeFileNames::configFilename) && !empty($config['channel'])) {
+            $this->upgradeContainer->getUpgrader()->channel = $config['channel'];
+            $this->upgradeContainer->getUpgrader()->checkPSVersion();
 
-            $this->state->setInstallVersion($this->upgrader->version_num);
+            $this->upgradeContainer->getState()->setInstallVersion($this->upgradeContainer->getUpgrader()->version_num);
         }
 
-        $this->upgradeConfiguration->merge($config);
-        $this->getLogger()->info($this->trans('Configuration successfully updated.', array(), 'Modules.Autoupgrade.Admin').' <strong>'.$this->trans('This page will now be reloaded and the module will check if a new version is available.', array(), 'Modules.Autoupgrade.Admin').'</strong>');
-        return (new UpgradeConfigurationStorage($this->autoupgradePath.DIRECTORY_SEPARATOR))->save($this->upgradeConfiguration, UpgradeFileNames::configFilename);
+        $this->upgradeContainer->getUpgradeConfiguration()->merge($config);
+        $this->upgradeContainer->getLogger()->info($this->trans('Configuration successfully updated.', array(), 'Modules.Autoupgrade.Admin').' <strong>'.$this->trans('This page will now be reloaded and the module will check if a new version is available.', array(), 'Modules.Autoupgrade.Admin').'</strong>');
+        return (new UpgradeConfigurationStorage($this->autoupgradePath.DIRECTORY_SEPARATOR))->save($this->upgradeContainer->getUpgradeConfiguration(), UpgradeFileNames::configFilename);
     }
 
     /**
@@ -670,12 +493,12 @@ class AdminSelfUpgrade extends AdminController
 
     public function buildAjaxResult()
     {
-        $response = new AjaxResponse($this->getTranslator(), $this->state, $this->getLogger());
+        $response = new AjaxResponse($this->upgradeContainer->getTranslator(), $this->upgradeContainer->getState(), $this->upgradeContainer->getLogger());
         return $response->setError($this->error)
             ->setStepDone($this->stepDone)
             ->setNext($this->next)
             ->setNextParams($this->nextParams)
-            ->setUpgradeConfiguration($this->upgradeConfiguration)
+            ->setUpgradeConfiguration($this->upgradeContainer->getUpgradeConfiguration())
             ->getJsonResponse();
     }
 
@@ -705,14 +528,14 @@ class AdminSelfUpgrade extends AdminController
         // update backup name
         $backupFinder = new BackupFinder($this->backupPath);
         $availableBackups = $backupFinder->getAvailableBackups();
-        if (!$this->upgradeConfiguration->get('PS_AUTOUP_BACKUP')
+        if (!$this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_BACKUP')
             && !empty($availableBackups)
-            && !in_array($this->state->getBackupName(), $availableBackups)
+            && !in_array($this->upgradeContainer->getState()->getBackupName(), $availableBackups)
         ) {
-            $this->state->setBackupName(end($availableBackups));
+            $this->upgradeContainer->getState()->setBackupName(end($availableBackups));
         }
 
-        $upgrader = $this->getUpgrader();
+        $upgrader = $this->upgradeContainer->getUpgrader();
         $upgradeSelfCheck = new UpgradeSelfCheck(
             $upgrader,
             $this->prodRootDir,
@@ -720,9 +543,9 @@ class AdminSelfUpgrade extends AdminController
             $this->autoupgradePath
         );
         $this->_html = (new UpgradePage(
-            $this->upgradeConfiguration,
-            $this->getTwig(),
-            $this->getTranslator(),
+            $this->upgradeContainer->getUpgradeConfiguration(),
+            $this->upgradeContainer->getTwig(),
+            $this->upgradeContainer->getTranslator(),
             $upgradeSelfCheck,
             $upgrader,
             $backupFinder,
@@ -731,9 +554,9 @@ class AdminSelfUpgrade extends AdminController
             $this->adminDir,
             self::$currentIndex,
             $this->token,
-            $this->state->getInstallVersion(),
+            $this->upgradeContainer->getState()->getInstallVersion(),
             $this->manualMode,
-            $this->state->getBackupName(),
+            $this->upgradeContainer->getState()->getBackupName(),
             $this->downloadPath
         ))->display(
             $this->buildAjaxResult()
@@ -746,7 +569,7 @@ class AdminSelfUpgrade extends AdminController
 
     public function handleException(UpgradeException $e)
     {
-        $logger = $this->getLogger();
+        $logger = $this->upgradeContainer->getLogger();
         foreach($e->getQuickInfos() as $log) {
             $logger->debug($log);
         }
@@ -760,173 +583,6 @@ class AdminSelfUpgrade extends AdminController
         }
     }
 
-    public function getFileConfigurationStorage()
-    {
-        if (!is_null($this->fileConfigurationStorage)) {
-            return $this->fileConfigurationStorage;
-        }
-
-        $this->fileConfigurationStorage = new FileConfigurationStorage($this->autoupgradePath.DIRECTORY_SEPARATOR);
-        return $this->fileConfigurationStorage;
-    }
-
-    public function getUpgrader()
-    {
-        if (!is_null($this->upgrader)) {
-            return $this->upgrader;
-        }
-        // in order to not use Tools class
-        $upgrader = new Upgrader();
-        preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', _PS_VERSION_, $matches);
-        $upgrader->branch = $matches[1];
-        $channel = $this->upgradeConfiguration->get('channel');
-        switch ($channel) {
-            case 'archive':
-                $upgrader->channel = 'archive';
-                $upgrader->version_num = $this->upgradeConfiguration->get('archive.version_num');
-                $this->destDownloadFilename = $this->upgradeConfiguration->get('archive.filename');
-                $upgrader->checkPSVersion(true, array('archive'));
-                break;
-            case 'directory':
-                $upgrader->channel = 'directory';
-                $upgrader->version_num = $this->upgradeConfiguration->get('directory.version_num');
-                $upgrader->checkPSVersion(true, array('directory'));
-                break;
-            default:
-                $upgrader->channel = $channel;
-                if (isset($_GET['refreshCurrentVersion'])) {
-                    // delete the potential xml files we saved in config/xml (from last release and from current)
-                    $upgrader->clearXmlMd5File(_PS_VERSION_);
-                    $upgrader->clearXmlMd5File($upgrader->version_num);
-                    if ($this->upgradeConfiguration->get('channel') == 'private' && !$this->upgradeConfiguration->get('private_allow_major')) {
-                        $upgrader->checkPSVersion(true, array('private', 'minor'));
-                    } else {
-                        $upgrader->checkPSVersion(true, array('minor'));
-                    }
-                    Tools14::redirectAdmin(self::$currentIndex.'&conf=5&token='.Tools14::getValue('token'));
-                } else {
-                    if ($this->upgradeConfiguration->get('channel') == 'private' && !$this->upgradeConfiguration->get('private_allow_major')) {
-                        $upgrader->checkPSVersion(false, array('private', 'minor'));
-                    } else {
-                        $upgrader->checkPSVersion(false, array('minor'));
-                    }
-                }
-        }
-        $this->state->setInstallVersion($upgrader->version_num);
-        $this->upgrader = $upgrader;
-        return $this->upgrader;
-    }
-
-    public function getFilesystemAdapter()
-    {
-        if (!is_null($this->filesystemAdapter)) {
-            return $this->filesystemAdapter;
-        }
-
-        $this->filesystemAdapter = new FilesystemAdapter(
-            $this->backupIgnoreAbsoluteFiles, $this->backupIgnoreFiles,
-            $this->excludeAbsoluteFilesFromUpgrade, $this->excludeFilesFromUpgrade,
-            $this->state->getRestoreFilesFilename(), $this->restoreIgnoreAbsoluteFiles,
-            $this->restoreIgnoreFiles, $this->autoupgradeDir,
-            str_replace($this->prodRootDir, '', $this->adminDir), $this->prodRootDir);
-
-        return $this->filesystemAdapter;
-    }
-
-    /**
-     * @return Logger
-     */
-    public function getLogger()
-    {
-        if (! is_null($this->logger)) {
-            return $this->logger;
-        }
-
-        $logFile = $this->tmpPath.DIRECTORY_SEPARATOR.'log.txt';
-        $this->logger = new LegacyLogger($logFile);
-        return $this->logger;
-    }
-
-    public function setLogger(Logger $logger)
-    {
-        $this->logger = $logger;
-    }
-
-    public function getModuleAdapter()
-    {
-        if (!is_null($this->moduleAdapter)) {
-            return $this->moduleAdapter;
-        }
-
-        $this->moduleAdapter = new ModuleAdapter(
-            $this->db,
-            $this->getTranslator(),
-            $this->prodRootDir.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR,
-            $this->tmpPath,
-            $this->state->getInstallVersion(),
-            $this->getZipAction());
-
-        return $this->moduleAdapter;
-    }
-
-    public function getState()
-    {
-        if (!is_null($this->state)) {
-            return $this->state;
-        }
-
-        $this->state = (new State())->importFromArray($this->currentParams);
-        return $this->state;
-    }
-
-    public function getTranslationAdapter()
-    {
-        return new Translation($this->getTranslator(), $this->getLogger(), $this->state->getInstalledLanguagesIso());
-    }
-
-    public function getTranslator()
-    {
-        return new \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator(get_class());
-    }
-
-    public function getTwig()
-    {
-        if (!is_null($this->twig)) {
-            return $this->twig;
-        }
-
-        // Using independant template engine for 1.6 & 1.7 compatibility
-        $loader = new Twig_Loader_Filesystem();
-        $loader->addPath(realpath(__DIR__).'/views/templates', 'ModuleAutoUpgrade');
-        $twig = new Twig_Environment($loader, array(
-            //'cache' => '/path/to/compilation_cache',
-        ));
-        $twig->addExtension(new TransFilterExtension($this->getTranslator()));
-
-        $this->twig = $twig;
-        return $this->twig;
-    }
-
-    public function getUpgradeConfiguration()
-    {
-        if (!is_null($this->upgradeConfiguration)) {
-            return $this->upgradeConfiguration;
-        }
-        $upgradeConfigurationStorage = new UpgradeConfigurationStorage($this->autoupgradePath.DIRECTORY_SEPARATOR);
-        $this->upgradeConfiguration = $upgradeConfigurationStorage->load(UpgradeFileNames::configFilename);
-        return $this->upgradeConfiguration;
-    }
-
-    public function getZipAction()
-    {
-        if (!is_null($this->zipAction)) {
-            return $this->zipAction;
-        }
-
-        $this->zipAction = new ZipAction($this->getTranslator(), $this->getLogger(), $this->prodRootDir);
-        return $this->zipAction;
-    }
-
     /**
      * Adapter for trans calls, existing only on PS 1.7.
      * Making them available for PS 1.6 as well
@@ -938,6 +594,6 @@ class AdminSelfUpgrade extends AdminController
      */
     public function trans($id, array $parameters = array(), $domain = null, $locale = null)
     {
-        return $this->getTranslator()->trans($id, $parameters, $domain, $locale);
+        return (new \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator(get_class()))->trans($id, $parameters, $domain, $locale);
     }
 }

@@ -44,7 +44,7 @@ class ErrorHandlerTest extends TestCase
                      ->getMock();
         $this->logger = new LegacyLogger();
         $this->adminSelfUpgradeStub->method('getLogger')->willReturn($this->logger);
-        $this->errorHandler = new ErrorHandler($this->adminSelfUpgradeStub);
+        $this->errorHandler = new ErrorHandler($this->adminSelfUpgradeStub, $this->logger);
     }
 
     public function testDefaultContentIsEmpty()

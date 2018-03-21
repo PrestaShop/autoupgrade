@@ -42,14 +42,14 @@ class GetChannelInfo extends AbstractTask
         $this->upgradeClass->next = '';
 
         $channel = $this->upgradeClass->currentParams['channel'];
-        $channelInfo = (new ChannelInfo($this->upgradeClass->getUpgrader(), $this->upgradeClass->getUpgradeConfiguration(), $channel));
+        $channelInfo = (new ChannelInfo($this->container->getUpgrader(), $this->container->getUpgradeConfiguration(), $channel));
         $channelInfoArray = $channelInfo->getInfo();
         $this->upgradeClass->nextParams['result']['available'] = $channelInfoArray['available'];
 
         $this->upgradeClass->nextParams['result']['div'] = (new ChannelInfoBlock(
-            $this->upgradeClass->getUpgradeConfiguration(),
+            $this->container->getUpgradeConfiguration(),
             $channelInfo,
-            $this->upgradeClass->getTwig(),
+            $this->container->getTwig(),
             $this->translator)
         )->render();
     }

@@ -42,7 +42,7 @@ class RemoveSamples extends AbstractTask
         // remove all sample pics in img subdir
         // This part runs at the first call of this step
         if (!isset($this->upgradeClass->currentParams['removeList'])) {
-            $this->upgradeClass->nextParams['removeList'] = $this->upgradeClass->getFilesystemAdapter()->listSampleFiles(array(
+            $this->upgradeClass->nextParams['removeList'] = $this->container->getFilesystemAdapter()->listSampleFiles(array(
                 $this->upgradeClass->latestPath.'/prestashop/img/c', '.jpg',
                 $this->upgradeClass->latestPath.'/prestashop/img/cms', '.jpg',
                 $this->upgradeClass->latestPath.'/prestashop/img/l', '.jpg',
@@ -102,7 +102,7 @@ class RemoveSamples extends AbstractTask
             $this->upgradeClass->next = 'backupFiles';
             $this->logger->info($this->translator->trans('All sample files removed. Now backing up files.', array(), 'Modules.Autoupgrade.Admin'));
 
-            if ($this->upgradeClass->getUpgradeConfiguration()->get('skip_backup')) {
+            if ($this->container->getUpgradeConfiguration()->get('skip_backup')) {
                 $this->upgradeClass->next = 'upgradeFiles';
                 $this->logger->info($this->translator->trans('All sample files removed. Backup process skipped. Now upgrading files.', array(), 'Modules.Autoupgrade.Admin'));
             }

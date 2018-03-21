@@ -26,6 +26,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner;
 
+use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use Psr\Log\LoggerInterface;
 
 abstract class AbstractTask
@@ -45,11 +46,17 @@ abstract class AbstractTask
      */
     protected $translator;
 
-    public function __construct(\AdminSelfUpgrade $upgradeClass)
+    /**
+     * @var UpgradeContainer
+     */
+    protected $container;
+
+    public function __construct(UpgradeContainer $container, \AdminSelfUpgrade $upgradeClass)
     {
+        $this->container = $container;
         $this->upgradeClass = $upgradeClass;
-        $this->logger = $upgradeClass->getLogger();
-        $this->translator = $upgradeClass->getTranslator();
+        $this->logger = $this->container->getLogger();
+        $this->translator = $this->container->getTranslator();
         $this->checkTaskMayRun();
     }
 

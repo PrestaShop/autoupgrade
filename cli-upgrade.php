@@ -33,7 +33,8 @@ if (php_sapi_name() !== 'cli') {
     echo 'This script must be called from CLI';
 }
 
-$adminObj->setLogger(new PrestaShop\Module\AutoUpgrade\Log\StreamedLogger());
-$controller = new \PrestaShop\Module\AutoUpgrade\TaskRunner\AllUpgradeTasks($adminObj);
+$container = new PrestaShop\Module\AutoUpgrade\UpgradeContainer(_PS_ROOT_DIR_, _PS_ADMIN_DIR_);
+$container->setLogger(new PrestaShop\Module\AutoUpgrade\Log\StreamedLogger());
+$controller = new \PrestaShop\Module\AutoUpgrade\TaskRunner\AllUpgradeTasks($container, $adminObj);
 $controller->setOptions(getopt('', array('channel::')));
 exit($controller->run());

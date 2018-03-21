@@ -37,31 +37,16 @@ class UpgradeModules extends AbstractTask
     public function run()
     {
         $start_time = time();
-        if (!isset($this->upgradeClass->nextParams['modulesToUpgrade'])) {
-            try {
-                $modulesToUpgrade = $this->upgradeClass->getModuleAdapter()->listModulesToUpgrade($this->upgradeClass->getState()-> getModules_addons());
-                $this->upgradeClass->getFileConfigurationStorage()->save($modulesToUpgrade, UpgradeFileNames::toUpgradeModuleList);
-                $this->upgradeClass->nextParams['modulesToUpgrade'] = UpgradeFileNames::toUpgradeModuleList;
-            } catch (UpgradeException $e) {
-                $this->upgradeClass->handleException($e);
-                return false;
-            }
-
-            $total_modules_to_upgrade = count($modulesToUpgrade);
-            if ($total_modules_to_upgrade) {
-                $this->logger->info($this->translator->trans('%s modules will be upgraded.', array($total_modules_to_upgrade), 'Modules.Autoupgrade.Admin'));
-            }
-            $this->upgradeClass->stepDone = false;
-            $this->upgradeClass->next = 'upgradeModules';
-            return true;
+        if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::toUpgradeModuleList)) {
+            return $this->warmUp();
         }
 
         $this->upgradeClass->next = 'upgradeModules';
-        $listModules = $this->upgradeClass->getFileConfigurationStorage()->load($this->upgradeClass->nextParams['modulesToUpgrade']);
+        $listModules = $this->container->getFileConfigurationStorage()->load($this->upgradeClass->nextParams['modulesToUpgrade']);
 
         if (!is_array($listModules)) {
             $this->upgradeClass->next = 'upgradeComplete';
-            $this->upgradeClass->getState()-> setWarningExists(true);
+            $this->container->getState()-> setWarningExists(true);
             $this->logger->error($this->translator->trans('listModules is not an array. No module has been updated.', array(), 'Modules.Autoupgrade.Admin'));
             return true;
         }
@@ -72,7 +57,7 @@ class UpgradeModules extends AbstractTask
             do {
                 $module_info = array_shift($listModules);
                 try {
-                    $this->upgradeClass->getModuleAdapter()->upgradeModule($module_info['id'], $module_info['name']);
+                    $this->container->getModuleAdapter()->upgradeModule($module_info['id'], $module_info['name']);
                     $this->logger->debug($this->translator->trans('The files of module %s have been upgraded.', array($module_info['name']), 'Modules.Autoupgrade.Admin'));
                 } catch (UpgradeException $e) {
                     $this->upgradeClass->handleException($e);
@@ -81,7 +66,7 @@ class UpgradeModules extends AbstractTask
             } while (($time_elapsed < \AdminSelfUpgrade::$loopUpgradeModulesTime) && count($listModules) > 0);
 
             $modules_left = count($listModules);
-            $this->upgradeClass->getFileConfigurationStorage()->save($listModules, UpgradeFileNames::toUpgradeModuleList);
+            $this->container->getFileConfigurationStorage()->save($listModules, UpgradeFileNames::toUpgradeModuleList);
             unset($listModules);
 
             $this->upgradeClass->next = 'upgradeModules';
@@ -116,7 +101,7 @@ class UpgradeModules extends AbstractTask
                             'The %modulename% module is not compatible with version %version%, it will be removed from your FTP.',
                             array(
                                 '%modulename%' => $module,
-                                '%version%' => $this->upgradeClass->getState()-> getInstallVersion(),
+                                '%version%' => $this->container->getState()-> getInstallVersion(),
                             ),
                             'Modules.Autoupgrade.Admin'
                         ));
@@ -125,7 +110,7 @@ class UpgradeModules extends AbstractTask
                             'The %modulename% module is not compatible with version %version%, please remove it from your FTP.',
                             array(
                                 '%modulename%' => $module,
-                                '%version%' => $this->upgradeClass->getState()-> getInstallVersion(),
+                                '%version%' => $this->container->getState()-> getInstallVersion(),
                             ),
                             'Modules.Autoupgrade.Admin'
                         ));
@@ -142,6 +127,26 @@ class UpgradeModules extends AbstractTask
             }
             return true;
         }
+        return true;
+    }
+
+    public function warmUp()
+    {
+        try {
+            $modulesToUpgrade = $this->container->getModuleAdapter()->listModulesToUpgrade($this->container->getState()-> getModules_addons());
+            $this->container->getFileConfigurationStorage()->save($modulesToUpgrade, UpgradeFileNames::toUpgradeModuleList);
+            $this->upgradeClass->nextParams['modulesToUpgrade'] = UpgradeFileNames::toUpgradeModuleList;
+        } catch (UpgradeException $e) {
+            $this->upgradeClass->handleException($e);
+            return false;
+        }
+
+        $total_modules_to_upgrade = count($modulesToUpgrade);
+        if ($total_modules_to_upgrade) {
+            $this->logger->info($this->translator->trans('%s modules will be upgraded.', array($total_modules_to_upgrade), 'Modules.Autoupgrade.Admin'));
+        }
+        $this->upgradeClass->stepDone = false;
+        $this->upgradeClass->next = 'upgradeModules';
         return true;
     }
 }
