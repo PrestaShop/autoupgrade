@@ -33,6 +33,21 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class UpgradeConfiguration extends ArrayCollection
 {
+    public function shouldDeactivateCustomModules()
+    {
+        return (bool) $this->get('PS_AUTOUP_CUSTOM_MOD_DESACT');
+    }
+
+    public function shouldKeepMails()
+    {
+        return (bool) $this->get('PS_AUTOUP_KEEP_MAILS');
+    }
+
+    public function shouldUpdateDefaultTheme()
+    {
+        return (bool) $this->get('PS_AUTOUP_UPDATE_DEFAULT_THEME');
+    }
+
     public function merge(array $array = array())
     {
         foreach ($array as $key => $value) {

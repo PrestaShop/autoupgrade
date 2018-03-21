@@ -38,7 +38,8 @@ require_once(realpath(dirname(__FILE__).'/../../modules/autoupgrade').'/ajax-upg
 autoupgrade_ajax_init(dirname(__FILE__));
 
 $adminObj = new AdminSelfUpgrade();
-(new \PrestaShop\Module\AutoUpgrade\ErrorHandler($adminObj))->enable();
+$container = new PrestaShop\Module\AutoUpgrade\UpgradeContainer(_PS_ROOT_DIR_, _PS_ADMIN_DIR_);
+(new \PrestaShop\Module\AutoUpgrade\ErrorHandler($adminObj, $container->getLogger()))->enable();
 
 if (!$adminObj->checkToken()) {
     // If this is an XSS attempt, then we should only display a simple, secure page
@@ -48,7 +49,7 @@ if (!$adminObj->checkToken()) {
     die(1);
 }
 
-$controller = TaskRepository::get(Tools14::getValue('action'), $adminObj);
+$controller = TaskRepository::get(Tools14::getValue('action'), $container, $adminObj);
 $controller->run();
 
 $adminObj->displayAjax();

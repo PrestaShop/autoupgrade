@@ -26,39 +26,31 @@
 
 use PHPUnit\Framework\TestCase;
 
-use PrestaShop\Module\AutoUpgrade\Log\LegacyLogger;
-use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader17;
+use PrestaShop\Module\AutoUpgrade\PrestashopConfiguration;
 
-class CoreUpgraderTest extends TestCase
+class PrestaShopConfigurationTest extends TestCase
 {
-    protected $coreUpgrader;
-
-    protected function setUp()
+    public function testPrestaShopVersionInFile()
     {
-        parent::setUp();
+        $class = new PrestashopConfiguration(__DIR__, __DIR__);
+        $content = "<?php
+define('_DB_SERVER_', '127.0.0.1:3306');
+define('_DB_NAME_', 'prestashop');
+define('_DB_USER_', 'root');
+define('_DB_PASSWD_', 'admin');
+define('_DB_PREFIX_', 'ps_');
+define('_MYSQL_ENGINE_', 'InnoDB');
+define('_PS_CACHING_SYSTEM_', 'CacheMemcache');
+define('_PS_CACHE_ENABLED_', '0');
+define('_COOKIE_KEY_', 'hgfdsq');
+define('_COOKIE_IV_', 'mAJLfCuY');
+define('_PS_CREATION_DATE_', '2018-03-16');
+if (!defined('_PS_VERSION_'))
+	define('_PS_VERSION_', '1.6.1.18');
+define('_RIJNDAEL_KEY_', 'dfv');
+define('_RIJNDAEL_IV_', 'fdfd==');";
 
-        $stub = $this->getMockBuilder(UpgradeContainer::class)
-                     ->disableOriginalConstructor()
-                     ->getMock();
-        $this->coreUpgrader = new CoreUpgrader17($stub, new LegacyLogger());
+        $this->assertSame('1.6.1.18', $class->findPrestaShopVersionInFile($content));
     }
 
-    /**
-     * @dataProvider versionProvider
-     */
-    public function testVersionNormalization($source, $expected)
-    {
-        $this->assertSame($expected, $this->coreUpgrader->normalizeVersion($source));
-    }
-
-    public function versionProvider()
-    {
-        return array(
-            array('1.7', '1.7.0.0'),
-            array('1.7.2', '1.7.2.0'),
-            array('1.6.1.0-beta', '1.6.1.0-beta'),
-            array('1.6.1-beta', '1.6.1-beta.0'), // Weird, but still a test
-        );
-    }
 }

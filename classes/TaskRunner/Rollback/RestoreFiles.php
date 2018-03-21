@@ -42,14 +42,14 @@ class RestoreFiles extends AbstractTask
         if (!file_exists($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFileNames::fromArchiveFileList)
             || !file_exists($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFileNames::toRemoveFileList)) {
             // cleanup current PS tree
-            $fromArchive = $this->upgradeClass->getZipAction()->listContent($this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$this->upgradeClass->getState()-> getRestoreFilesFilename());
+            $fromArchive = $this->container->getZipAction()->listContent($this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$this->container->getState()-> getRestoreFilesFilename());
             foreach ($fromArchive as $k => $v) {
                 $fromArchive[DIRECTORY_SEPARATOR.$v] = DIRECTORY_SEPARATOR.$v;
             }
 
-            $this->upgradeClass->getFileConfigurationStorage()->save($fromArchive, UpgradeFileNames::fromArchiveFileList);
+            $this->container->getFileConfigurationStorage()->save($fromArchive, UpgradeFileNames::fromArchiveFileList);
             // get list of files to remove
-            $toRemove = $this->upgradeClass->getFilesystemAdapter()->listFilesToRemove();
+            $toRemove = $this->container->getFilesystemAdapter()->listFilesToRemove();
             $toRemoveOnly = array();
 
             // let's reverse the array in order to make possible to rmdir
@@ -65,7 +65,7 @@ class RestoreFiles extends AbstractTask
             }
 
             $this->logger->debug($this->translator->trans('%s file(s) will be removed before restoring the backup files.', array(count($toRemoveOnly)), 'Modules.Autoupgrade.Admin'));
-            $this->upgradeClass->getFileConfigurationStorage()->save($toRemoveOnly, UpgradeFileNames::toRemoveFileList);
+            $this->container->getFileConfigurationStorage()->save($toRemoveOnly, UpgradeFileNames::toRemoveFileList);
 
             if ($fromArchive === false || $toRemove === false) {
                 if (!$fromArchive) {
@@ -81,10 +81,10 @@ class RestoreFiles extends AbstractTask
         }
 
         if (!empty($fromArchive)) {
-            $filepath = $this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$this->upgradeClass->getState()-> getRestoreFilesFilename();
+            $filepath = $this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$this->container->getState()-> getRestoreFilesFilename();
             $destExtract = $this->upgradeClass->prodRootDir;
 
-            $res = $this->upgradeClass->getZipAction()->extract($filepath, $destExtract);
+            $res = $this->container->getZipAction()->extract($filepath, $destExtract);
             if (!$res) {
                 $this->upgradeClass->next = 'error';
                 $this->logger->error($this->translator->trans(

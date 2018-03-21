@@ -26,6 +26,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous;
 
+use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 
 /**
@@ -51,7 +52,7 @@ class UpdateConfig extends AbstractTask
         // if (!empty($this->upgradeClass->currentParams['archive_name']) && !empty($this->upgradeClass->currentParams['archive_num']))
         if (!empty($this->upgradeClass->currentParams['archive_prestashop'])) {
             $file = $this->upgradeClass->currentParams['archive_prestashop'];
-            if (!file_exists($this->upgradeClass->downloadPath.DIRECTORY_SEPARATOR.$file)) {
+            if (!file_exists($this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH).DIRECTORY_SEPARATOR.$file)) {
                 $this->upgradeClass->error = 1;
                 $this->logger->info($this->translator->trans('File %s does not exist. Unable to select that channel.', array($file), 'Modules.Autoupgrade.Admin'));
                 return false;

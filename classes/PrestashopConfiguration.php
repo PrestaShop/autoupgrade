@@ -37,12 +37,12 @@ class PrestashopConfiguration
 
     // Variables from main class
     private $autoupgradeDir;
-    private $extAutoupgradeLastVersion;
+    private $psRootDir;
 
-    public function __construct($moduleDir, $extAutoupgradeLastVersion)
+    public function __construct($moduleDir, $psRootDir)
     {
         $this->autoupgradeDir = $moduleDir;
-        $this->extAutoupgradeLastVersion = $extAutoupgradeLastVersion;
+        $this->psRootDir = $psRootDir;
     }
 
     /**
@@ -66,7 +66,7 @@ class PrestashopConfiguration
                     'admin_au_writable' => ConfigurationTest::test_dir($this->autoupgradeDir, false),
                     'shop_deactivated' => (!Configuration::get('PS_SHOP_ENABLE') || (isset($_SERVER['HTTP_HOST']) && in_array($_SERVER['HTTP_HOST'], array('127.0.0.1', 'localhost')))),
                     'cache_deactivated' => !(defined('_PS_CACHE_ENABLED_') && _PS_CACHE_ENABLED_),
-                    'module_version_ok' => $this->checkAutoupgradeLastVersion()
+                    'module_version_ok' => $this->checkAutoupgradeLastVersion($this->getUpgrader()->autoupgrade_last_version)
             ));
         }
         return $this->allowed_array;
@@ -93,16 +93,35 @@ class PrestashopConfiguration
         return $this->moduleVersion;
     }
 
+    public function getPrestaShopVersion()
+    {
+        if (defined('_PS_VERSION_')) {
+            return _PS_VERSION_;
+        }
+        $files = array(
+            $this->psRootDir.'/config/settings.inc.php',
+            $this->psRootDir.'/config/autoload.php',
+        );
+        foreach ($files as $file) {
+            $version = $this->findPrestaShopVersionInFile(file_get_contents($file));
+            if ($version) {
+                return $version;
+            }
+        }
+
+        throw new \Exception('Can\'t find PrestaShop Version');
+    }
+
     /**
      * Compares the installed module version with the one available on download
      * 
      * @return boolean True is the latest version of the module is currently installed
      */
-    public function checkAutoupgradeLastVersion()
+    public function checkAutoupgradeLastVersion($extAutoupgradeLastVersion)
     {
         $moduleVersion = $this->getModuleVersion();
         if ($moduleVersion) {
-            return version_compare($moduleVersion, $this->extAutoupgradeLastVersion, '>=');
+            return version_compare($moduleVersion, $extAutoupgradeLastVersion, '>=');
         }
         return true;
     }
@@ -118,5 +137,21 @@ class PrestashopConfiguration
         $result['root_writable_report'] = $report ? $report : true; // Avoid null in the array as it makes the shop non-compliant
 
         return $result;
+    }
+
+    /**
+     * 
+     * @param type $content
+     * @return boolean|string
+     *
+     * @internal Used for test
+     */
+    public function findPrestaShopVersionInFile($content)
+    {
+        $matches = array();
+        if (1 === preg_match("/define\([\"']_PS_VERSION_[\"'], [\"'](?<version>[0-9.]+)[\"']\)/", $content, $matches)) {
+            return $matches['version'];
+        }
+        return false;
     }
 }

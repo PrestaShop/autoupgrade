@@ -36,7 +36,7 @@ class Unzip extends AbstractTask
 {
     public function run()
     {
-        $filepath = $this->upgradeClass->getFilePath();
+        $filepath = $this->container->getFilePath();
         $destExtract = $this->upgradeClass->latestPath;
 
         if (file_exists($destExtract)) {
@@ -52,7 +52,7 @@ class Unzip extends AbstractTask
             return false;
         }
 
-        $res = $this->upgradeClass->getZipAction()->extract($filepath, $destExtract);
+        $res = $this->container->getZipAction()->extract($filepath, $destExtract);
 
         if (!$res) {
             $this->upgradeClass->next = 'error';
@@ -75,7 +75,7 @@ class Unzip extends AbstractTask
             @unlink($destExtract.DIRECTORY_SEPARATOR.'/index.php');
             @unlink($destExtract.DIRECTORY_SEPARATOR.'/Install_PrestaShop.html');
 
-            $subRes = $this->upgradeClass->getZipAction()->extract($newZip, $destExtract);
+            $subRes = $this->container->getZipAction()->extract($newZip, $destExtract);
             if (!$subRes) {
                 $this->upgradeClass->next = 'error';
                 $this->logger->info($this->translator->trans(

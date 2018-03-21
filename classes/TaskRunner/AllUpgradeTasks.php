@@ -27,6 +27,7 @@
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner;
 
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\TaskRepository;
 
 /**
@@ -44,7 +45,7 @@ class AllUpgradeTasks extends AbstractTask
         $this->init();
         while ($this->canContinue($step)) {
             echo "\n=== Step ".$step."\n";
-            $controller = TaskRepository::get($step, $this->upgradeClass);
+            $controller = TaskRepository::get($step, $this->container, $this->upgradeClass);
             $controller->run();
 
             $step = $this->upgradeClass->next;
@@ -59,8 +60,8 @@ class AllUpgradeTasks extends AbstractTask
             $this->upgradeClass->writeConfig(array(
                 'channel' => $options['channel'],
             ));
-            $this->upgradeClass->getUpgrader()->channel = $options['channel'];
-            $this->upgradeClass->getUpgrader()->checkPSVersion(true);
+            $this->container->getUpgrader()->channel = $options['channel'];
+            $this->container->getUpgrader()->checkPSVersion(true);
         }
     }
 
@@ -101,6 +102,9 @@ class AllUpgradeTasks extends AbstractTask
         ));
 
         $_COOKIE['id_employee'] = 1;
-        $this->upgradeClass->initDefaultState();
+        $this->container->getState()->initDefault(
+                $this->container->getUpgrader(),
+                $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH),
+                $this->container->getProperty(UpgradeContainer::PS_VERSION));
     }
 }

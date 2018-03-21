@@ -28,6 +28,7 @@ namespace PrestaShop\Module\AutoUpgrade;
 
 use PrestaShop\Module\AutoUpgrade\Log\LegacyLogger;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
+use Psr\Log\LoggerInterface;
 
 /**
  * In order to improve the debug of the module in case of case, we need to display the missed errors
@@ -41,9 +42,10 @@ class ErrorHandler
     /**
      * @param LoggerInterface $logger
      */
-    public function __construct(\AdminSelfUpgrade $selfUpgrade)
+    public function __construct(\AdminSelfUpgrade $selfUpgrade, LoggerInterface $logger)
     {
         $this->selfUpgrade = $selfUpgrade;
+        $this->logger = $logger;
     }
 
     /**
@@ -52,6 +54,7 @@ class ErrorHandler
      */
     public function enable()
     {
+        error_reporting(E_ALL);
         set_error_handler(array($this, 'errorHandler'));
         set_exception_handler(array($this, 'exceptionHandler'));
         register_shutdown_function(array($this, "fatalHandler"));
@@ -131,9 +134,8 @@ class ErrorHandler
         $log = "[INTERNAL] $file line $line - $message";
         
         try {
-            $logger = $this->selfUpgrade->getLogger();
-            $logger->log($type, $log);
-            if ($display && $logger instanceof LegacyLogger) {
+            $this->logger->log($type, $log);
+            if ($display && $this->logger instanceof LegacyLogger) {
                 $this->selfUpgrade->next = 'error';
                 $this->selfUpgrade->error = true;
                 $this->selfUpgrade->displayAjax();

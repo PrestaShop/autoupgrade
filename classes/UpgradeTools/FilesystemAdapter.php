@@ -26,31 +26,23 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\FileFilter;
+
 class FilesystemAdapter
 {
-    private $backupIgnoreAbsoluteFiles;
-    private $backupIgnoreFiles;
-    private $excludeAbsoluteFilesFromUpgrade;
-    private $excludeFilesFromUpgrade;
     private $restoreFilesFilename;
-    private $restoreIgnoreAbsoluteFiles;
-    private $restoreIgnoreFiles;
+
+    private $fileFilter;
 
     private $autoupgradeDir;
     private $adminSubDir;
     private $prodRootDir;
 
-    public function __construct(array $backupIgnoreAbsoluteFiles, array $backupIgnoreFiles,
-        array $excludeAbsoluteFilesFromUpgrade, array $excludeFilesFromUpgrade, $restoreFilesFilename,
-        array $restoreIgnoreAbsoluteFiles, array $restoreIgnoreFiles, $autoupgradeDir, $adminSubDir, $prodRootDir)
+    public function __construct(FileFilter $fileFilter, $restoreFilesFilename,
+        $autoupgradeDir, $adminSubDir, $prodRootDir)
     {
-        $this->backupIgnoreAbsoluteFiles = $backupIgnoreAbsoluteFiles;
-        $this->backupIgnoreFiles = $backupIgnoreFiles;
-        $this->excludeAbsoluteFilesFromUpgrade = $excludeAbsoluteFilesFromUpgrade;
-        $this->excludeFilesFromUpgrade = $excludeFilesFromUpgrade;
+        $this->fileFilter = $fileFilter;
         $this->restoreFilesFilename = $restoreFilesFilename;
-        $this->restoreIgnoreAbsoluteFiles = $restoreIgnoreAbsoluteFiles;
-        $this->restoreIgnoreFiles = $restoreIgnoreFiles;
 
         $this->autoupgradeDir = $autoupgradeDir;
         $this->adminSubDir = $adminSubDir;
@@ -172,11 +164,11 @@ class FilesystemAdapter
         $rootpath = str_replace('\\', '/', $this->prodRootDir);
         switch ($way) {
             case 'backup':
-                if (in_array($file, $this->backupIgnoreFiles)) {
+                if (in_array($file, $this->fileFilter->getExcludeFiles())) {
                     return true;
                 }
 
-                foreach ($this->backupIgnoreAbsoluteFiles as $path) {
+                foreach ($this->fileFilter->getFilesToIgnoreOnBackup() as $path) {
                     $path = str_replace(DIRECTORY_SEPARATOR.'admin', DIRECTORY_SEPARATOR.$this->adminSubDir, $path);
                     if ($fullpath == $rootpath.$path) {
                         return true;
@@ -187,11 +179,11 @@ class FilesystemAdapter
                 // note the restore process use skipFiles only if xml md5 files
                 // are unavailable
             case 'restore':
-                if (in_array($file, $this->restoreIgnoreFiles)) {
+                if (in_array($file, $this->fileFilter->getExcludeFiles())) {
                     return true;
                 }
 
-                foreach ($this->restoreIgnoreAbsoluteFiles as $path) {
+                foreach ($this->fileFilter->getFilesToIgnoreOnRestore() as $path) {
                     $path = str_replace(DIRECTORY_SEPARATOR.'admin', DIRECTORY_SEPARATOR.$this->adminSubDir, $path);
                     if ($fullpath == $rootpath.$path) {
                         return true;
@@ -199,11 +191,11 @@ class FilesystemAdapter
                 }
                 break;
             case 'upgrade':
-                if (in_array($file, $this->excludeFilesFromUpgrade)) {
+                if (in_array($file, $this->fileFilter->getExcludeFiles())) {
                     return true;
                 }
 
-                foreach ($this->excludeAbsoluteFilesFromUpgrade as $path) {
+                foreach ($this->fileFilter->getFilesToIgnoreOnUpgrade() as $path) {
                     $path = str_replace(DIRECTORY_SEPARATOR.'admin', DIRECTORY_SEPARATOR.$this->adminSubDir, $path);
                     if (strpos($fullpath, $rootpath.$path) !== false) {
                         return true;

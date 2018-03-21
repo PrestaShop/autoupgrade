@@ -39,18 +39,16 @@ class UpgradeNow extends AbstractTask
     {
         $this->logger->info($this->translator->trans('Starting upgrade...', array(), 'Modules.Autoupgrade.Admin'));
 
-        $channel = $this->upgradeClass->getUpgradeConfiguration()->get('channel');
+        $channel = $this->container->getUpgradeConfiguration()->get('channel');
+        $upgrader = $this->container->getUpgrader();
         $this->upgradeClass->next = 'download';
-        if (!is_object($this->upgradeClass->upgrader)) {
-            $this->upgradeClass->upgrader = new Upgrader();
-        }
         preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', _PS_VERSION_, $matches);
-        $this->upgradeClass->upgrader->branch = $matches[1];
-        $this->upgradeClass->upgrader->channel = $channel;
-        if ($this->upgradeClass->getUpgradeConfiguration()->get('channel') == 'private' && !$this->upgradeClass->getUpgradeConfiguration()->get('private_allow_major')) {
-            $this->upgradeClass->upgrader->checkPSVersion(false, array('private', 'minor'));
+        $upgrader->branch = $matches[1];
+        $upgrader->channel = $channel;
+        if ($this->container->getUpgradeConfiguration()->get('channel') == 'private' && !$this->container->getUpgradeConfiguration()->get('private_allow_major')) {
+            $upgrader->checkPSVersion(false, array('private', 'minor'));
         } else {
-            $this->upgradeClass->upgrader->checkPSVersion(false, array('minor'));
+            $upgrader->checkPSVersion(false, array('minor'));
         }
 
         switch ($channel) {
@@ -68,12 +66,12 @@ class UpgradeNow extends AbstractTask
             default:
                 $this->upgradeClass->next = 'download';
                 $this->logger->info($this->translator->trans('Shop deactivated. Now downloading... (this can take a while)', array(), 'Modules.Autoupgrade.Admin'));
-                if ($this->upgradeClass->upgrader->channel == 'private') {
-                    $this->upgradeClass->upgrader->link = $this->upgradeClass->getUpgradeConfiguration()->get('private_release_link');
-                    $this->upgradeClass->upgrader->md5 = $this->upgradeClass->getUpgradeConfiguration()->get('private_release_md5');
+                if ($upgrader->channel == 'private') {
+                    $upgrader->link = $this->container->getUpgradeConfiguration()->get('private_release_link');
+                    $upgrader->md5 = $this->container->getUpgradeConfiguration()->get('private_release_md5');
                 }
-                $this->logger->debug($this->translator->trans('Downloaded archive will come from %s', array($this->upgradeClass->upgrader->link), 'Modules.Autoupgrade.Admin'));
-                $this->logger->debug($this->translator->trans('MD5 hash will be checked against %s', array($this->upgradeClass->upgrader->md5), 'Modules.Autoupgrade.Admin'));
+                $this->logger->debug($this->translator->trans('Downloaded archive will come from %s', array($upgrader->link), 'Modules.Autoupgrade.Admin'));
+                $this->logger->debug($this->translator->trans('MD5 hash will be checked against %s', array($upgrader->md5), 'Modules.Autoupgrade.Admin'));
         }
     }
 }

@@ -40,20 +40,20 @@ class CompareReleases extends AbstractTask
     {
         // do nothing after this request (see javascript function doAjaxRequest )
         $this->upgradeClass->next = '';
-        $channel = $this->upgradeClass->getUpgradeConfiguration()->get('channel');
+        $channel = $this->container->getUpgradeConfiguration()->get('channel');
         $upgrader = new Upgrader();
         switch ($channel) {
             case 'archive':
-                $version = $this->upgradeClass->getUpgradeConfiguration()->get('archive.version_num');
+                $version = $this->container->getUpgradeConfiguration()->get('archive.version_num');
                 break;
             case 'directory':
-                $version = $this->upgradeClass->getUpgradeConfiguration()->get('directory.version_num');
+                $version = $this->container->getUpgradeConfiguration()->get('directory.version_num');
                 break;
             default:
                 preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', _PS_VERSION_, $matches);
                 $upgrader->branch = $matches[1];
                 $upgrader->channel = $channel;
-                if ($this->upgradeClass->getUpgradeConfiguration()->get('channel') == 'private' && !$this->upgradeClass->getUpgradeConfiguration()->get('private_allow_major')) {
+                if ($this->container->getUpgradeConfiguration()->get('channel') == 'private' && !$this->container->getUpgradeConfiguration()->get('private_allow_major')) {
                     $upgrader->checkPSVersion(false, array('private', 'minor'));
                 } else {
                     $upgrader->checkPSVersion(false, array('minor'));
@@ -66,7 +66,7 @@ class CompareReleases extends AbstractTask
             $this->upgradeClass->nextParams['status'] = 'error';
             $this->upgradeClass->nextParams['msg'] = sprintf('Unable to generate diff file list between %1$s and %2$s.', _PS_VERSION_, $version);
         } else {
-            $this->upgradeClass->getFileConfigurationStorage()->save($diffFileList, UpgradeFileNames::diffFileList);
+            $this->container->getFileConfigurationStorage()->save($diffFileList, UpgradeFileNames::diffFileList);
             if (count($diffFileList) > 0) {
                 $this->upgradeClass->nextParams['msg'] = $this->translator->trans(
                     '%modifiedfiles% files will be modified, %deletedfiles% files will be deleted (if they are found).',

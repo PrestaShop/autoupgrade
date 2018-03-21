@@ -85,7 +85,4 @@ function autoupgrade_ajax_init($callerFilePath)
     include(AUTOUPGRADE_MODULE_DIR.'AdminSelfUpgrade.php');
 
     $_GET['ajax'] = '1';
-
-    // TODO: create error handler for logs, preventing the json response to be altered
-    ini_set('display_errors', 'off');
 }

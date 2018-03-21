@@ -40,16 +40,16 @@ class CoreUpgrader17 extends CoreUpgrader
         parent::initConstants();
 
         /*if (!file_exists(SETTINGS_FILE_PHP)) {
-            throw new UpgradeException($this->selfUpgradeClass->getTranslator()->trans('The app/config/parameters.php file was not found.', array(), 'Modules.Autoupgrade.Admin'));
+            throw new UpgradeException($this->container->getTranslator()->trans('The app/config/parameters.php file was not found.', array(), 'Modules.Autoupgrade.Admin'));
         }
         if (!file_exists(SETTINGS_FILE_YML)) {
-            throw new UpgradeException($this->selfUpgradeClass->getTranslator()->trans('The app/config/parameters.yml file was not found.', array(), 'Modules.Autoupgrade.Admin'));
+            throw new UpgradeException($this->container->getTranslator()->trans('The app/config/parameters.yml file was not found.', array(), 'Modules.Autoupgrade.Admin'));
         }*/
     }
 
     protected function disableCustomModules()
     {
-        $this->selfUpgradeClass->getModuleAdapter()->disableNonNativeModules();
+        $this->container->getModuleAdapter()->disableNonNativeModules();
     }
 
     protected function upgradeDb($oldversion)
@@ -58,7 +58,7 @@ class CoreUpgrader17 extends CoreUpgrader
 
         $commandResult = (new SymfonyAdapter())->runSchemaUpgradeCommand();
         if (0 !== $commandResult['exitCode']) {
-            throw (new UpgradeException($this->selfUpgradeClass->getTranslator()->trans('Error upgrading Doctrine schema', array(), 'Modules.Autoupgrade.Admin')))
+            throw (new UpgradeException($this->container->getTranslator()->trans('Error upgrading Doctrine schema', array(), 'Modules.Autoupgrade.Admin')))
                 ->setQuickInfos(explode("\n", $commandResult['output']));
         }
     }
@@ -77,12 +77,12 @@ class CoreUpgrader17 extends CoreUpgrader
         $lang_pack = \Language::getLangDetails($isoCode);
         \Language::installSfLanguagePack($lang_pack['locale'], $errorsLanguage);
 
-        if (!$this->selfUpgradeClass->keepMails) {
+        if (!$this->container->getUpgradeConfiguration()->shouldKeepMails()) {
             \Language::installEmailsLanguagePack($lang_pack, $errorsLanguage);
         }
 
         if (!empty($errorsLanguage)) {
-            throw new UpgradeException($this->selfUpgradeClass->getTranslator()->trans('Error updating translations', array(), 'Modules.Autoupgrade.Admin'));
+            throw new UpgradeException($this->container->getTranslator()->trans('Error updating translations', array(), 'Modules.Autoupgrade.Admin'));
         }
         \Language::loadLanguages();
 

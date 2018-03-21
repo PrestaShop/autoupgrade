@@ -73,6 +73,35 @@ class State
         return get_object_vars($this);
     }
 
+    public function initDefault(Upgrader $upgrader, $prodRootDir, $version)
+    {
+        $postData = 'version='.$version.'&method=listing&action=native&iso_code=all';
+        $xml_local = $prodRootDir.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'xml'.DIRECTORY_SEPARATOR.'modules_native_addons.xml';
+        $xml = $upgrader->getApiAddons($xml_local, $postData, true);
+
+        $modules_addons = array();
+        if (is_object($xml)) {
+            foreach ($xml as $mod) {
+                $modules_addons[(string)$mod->id] = (string)$mod->name;
+            }
+        }
+        $this->setModulesAddons($modules_addons);
+
+        // installedLanguagesIso is used to merge translations files
+        $installedLanguagesIso = array_map(
+            function($v) { return $v['iso_code']; },
+            \Language::getIsoIds(false)
+        );
+        $this->setInstalledLanguagesIso($installedLanguagesIso);
+
+        $rand = dechex(mt_rand(0, min(0xffffffff, mt_getrandmax())));
+        $date = date('Ymd-His');
+        $backupName = 'V'.$version.'_'.$date.'-'.$rand;
+        // Todo: To be moved in state class? We could only require the backup name here
+        // I.e = $this->upgradeContainer->getState()->setBackupName($backupName);, which triggers 2 other setters internally
+        $this->setBackupName($backupName);
+    }
+
     /*
      * GETTERS
      */
@@ -138,6 +167,8 @@ class State
     public function setBackupName($backupName)
     {
         $this->backupName = $backupName;
+        $this->setBackupFilesFilename('auto-backupfiles_'.$backupName.'.zip')
+            ->setBackupDbFilename('auto-backupdb_XXXXXX_'.$backupName.'.sql');
         return $this;
     }
 
