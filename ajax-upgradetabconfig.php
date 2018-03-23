@@ -38,20 +38,21 @@ if (function_exists('date_default_timezone_set'))
  *
  * @param string $callerFilePath Path to the caller file. Needed as the two files are not in the same folder
  */
-function autoupgrade_ajax_init($callerFilePath)
+function autoupgrade_init_container($callerFilePath)
 {
     if (php_sapi_name() === 'cli') {
         $_POST['dir'] = getopt('', array('dir:'))['dir'];
     }
 
     define('_PS_ADMIN_DIR_', realpath($callerFilePath.'/../'));
-    require_once(realpath($callerFilePath.'/../../config/config.inc.php'));
+//    require_once(realpath($callerFilePath.'/../../config/config.inc.php'));
 
     if (!defined('_PS_MODULE_DIR_'))
         define('_PS_MODULE_DIR_', realpath($callerFilePath.'/../../').'/modules/');
 
     define('AUTOUPGRADE_MODULE_DIR', _PS_MODULE_DIR_.'autoupgrade/');
     require_once(AUTOUPGRADE_MODULE_DIR.'functions.php');
+    require_once(AUTOUPGRADE_MODULE_DIR.'vendor/autoload.php');
 
     // the following test confirm the directory exists
     if (!isset($_POST['dir'])) {
@@ -64,9 +65,9 @@ function autoupgrade_ajax_init($callerFilePath)
     if (!defined('_PS_ROOT_DIR_'))
         define('_PS_ROOT_DIR_', realpath($callerFilePath.'/../../'));
 
-    require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/classes/Tools14.php');
-    if (!class_exists('Tools', false))
-        eval('class Tools extends Tools14{}');
+//    require_once(_PS_ROOT_DIR_.'/modules/autoupgrade/classes/Tools14.php');
+//    if (!class_exists('Tools', false))
+//        eval('class Tools extends Tools14{}');
 
     $dir = Tools14::safeOutput(Tools14::getValue('dir'));
 
@@ -75,14 +76,16 @@ function autoupgrade_ajax_init($callerFilePath)
         exit(1);
     }
 
-    if (!defined('_MYSQL_ENGINE_'))
-        define('_MYSQL_ENGINE_', 'MyISAM');
-
-    if (!defined('_PS_TOOL_DIR_'))
-        define('_PS_TOOL_DIR_', _PS_ROOT_DIR_.'/tools/');
+//    if (!defined('_MYSQL_ENGINE_'))
+//        define('_MYSQL_ENGINE_', 'MyISAM');
+//
+//    if (!defined('_PS_TOOL_DIR_'))
+//        define('_PS_TOOL_DIR_', _PS_ROOT_DIR_.'/tools/');
 
     //require(_PS_ADMIN_DIR_.'/functions.php');
-    include(AUTOUPGRADE_MODULE_DIR.'AdminSelfUpgrade.php');
-
-    $_GET['ajax'] = '1';
+    //include(AUTOUPGRADE_MODULE_DIR.'AdminSelfUpgrade.php');
+    //$_GET['ajax'] = '1';
+    $container = new \PrestaShop\Module\AutoUpgrade\UpgradeContainer(_PS_ROOT_DIR_, _PS_ADMIN_DIR_);
+    $container->getState()->importFromArray(empty($_REQUEST['params'])?array():$_REQUEST['params']);
+    return $container;
 }

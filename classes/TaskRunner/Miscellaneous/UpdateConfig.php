@@ -26,7 +26,9 @@
 
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous;
 
+use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 
 /**
@@ -36,55 +38,83 @@ class UpdateConfig extends AbstractTask
 {
     public function run()
     {
-        $config = array();
         // nothing next
-        $this->upgradeClass->next = '';
+        $this->next = '';
+
+        // Was coming from AdminSelfUpgrade::currentParams before
+        $request = $this->getRequestParams();
+        $config = array();
         // update channel
-        if (isset($this->upgradeClass->currentParams['channel'])) {
-            $config['channel'] = $this->upgradeClass->currentParams['channel'];
+        if (isset($request['channel'])) {
+            $config['channel'] = $request['channel'];
         }
-        if (isset($this->upgradeClass->currentParams['private_release_link']) && isset($this->upgradeClass->currentParams['private_release_md5'])) {
+        if (isset($request['private_release_link']) && isset($request['private_release_md5'])) {
             $config['channel'] = 'private';
-            $config['private_release_link'] = $this->upgradeClass->currentParams['private_release_link'];
-            $config['private_release_md5'] = $this->upgradeClass->currentParams['private_release_md5'];
-            $config['private_allow_major'] = $this->upgradeClass->currentParams['private_allow_major'];
+            $config['private_release_link'] = $request['private_release_link'];
+            $config['private_release_md5'] = $request['private_release_md5'];
+            $config['private_allow_major'] = $request['private_allow_major'];
         }
-        // if (!empty($this->upgradeClass->currentParams['archive_name']) && !empty($this->upgradeClass->currentParams['archive_num']))
-        if (!empty($this->upgradeClass->currentParams['archive_prestashop'])) {
-            $file = $this->upgradeClass->currentParams['archive_prestashop'];
+        // if (!empty($request['archive_name']) && !empty($request['archive_num']))
+        if (!empty($request['archive_prestashop'])) {
+            $file = $request['archive_prestashop'];
             if (!file_exists($this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH).DIRECTORY_SEPARATOR.$file)) {
-                $this->upgradeClass->error = 1;
+                $this->error = true;
                 $this->logger->info($this->translator->trans('File %s does not exist. Unable to select that channel.', array($file), 'Modules.Autoupgrade.Admin'));
                 return false;
             }
-            if (empty($this->upgradeClass->currentParams['archive_num'])) {
-                $this->upgradeClass->error = 1;
+            if (empty($request['archive_num'])) {
+                $this->error = true;
                 $this->logger->info($this->translator->trans('Version number is missing. Unable to select that channel.', array(), 'Modules.Autoupgrade.Admin'));
                 return false;
             }
             $config['channel'] = 'archive';
-            $config['archive.filename'] = $this->upgradeClass->currentParams['archive_prestashop'];
-            $config['archive.version_num'] = $this->upgradeClass->currentParams['archive_num'];
-            // $config['archive_name'] = $this->upgradeClass->currentParams['archive_name'];
+            $config['archive.filename'] = $request['archive_prestashop'];
+            $config['archive.version_num'] = $request['archive_num'];
+            // $config['archive_name'] = $request['archive_name'];
             $this->logger->info($this->translator->trans('Upgrade process will use archive.', array(), 'Modules.Autoupgrade.Admin'));
         }
-        if (isset($this->upgradeClass->currentParams['directory_num'])) {
+        if (isset($request['directory_num'])) {
             $config['channel'] = 'directory';
-            if (empty($this->upgradeClass->currentParams['directory_num']) || strpos($this->upgradeClass->currentParams['directory_num'], '.') === false) {
-                $this->upgradeClass->error = 1;
+            if (empty($request['directory_num']) || strpos($request['directory_num'], '.') === false) {
+                $this->error = true;
                 $this->logger->info($this->translator->trans('Version number is missing. Unable to select that channel.', array(), 'Modules.Autoupgrade.Admin'));
                 return false;
             }
 
-            $config['directory.version_num'] = $this->upgradeClass->currentParams['directory_num'];
+            $config['directory.version_num'] = $request['directory_num'];
         }
-        if (isset($this->upgradeClass->currentParams['skip_backup'])) {
-            $config['skip_backup'] = $this->upgradeClass->currentParams['skip_backup'];
+        if (isset($request['skip_backup'])) {
+            $config['skip_backup'] = $request['skip_backup'];
         }
 
         if (!$this->upgradeClass->writeConfig($config)) {
-            $this->upgradeClass->error = 1;
+            $this->error = true;
             $this->logger->info($this->translator->trans('Error on saving configuration', array(), 'Modules.Autoupgrade.Admin'));
         }
+    }
+
+    protected function getRequestParams()
+    {
+        return empty($_REQUEST['params']) ? array() : $_REQUEST['params'];
+    }
+
+    /**
+     * update module configuration (saved in file UpgradeFiles::configFilename) with $new_config
+     *
+     * @param array $new_config
+     * @return boolean true if success
+     */
+    private function writeConfig($config)
+    {
+        if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::configFilename) && !empty($config['channel'])) {
+            $this->container->getUpgrader()->channel = $config['channel'];
+            $this->container->getUpgrader()->checkPSVersion();
+
+            $this->container->getState()->setInstallVersion($this->container->getUpgrader()->version_num);
+        }
+
+        $this->container->getUpgradeConfiguration()->merge($config);
+        $this->logger->info($this->container->getTranslator()->trans('Configuration successfully updated.', array(), 'Modules.Autoupgrade.Admin').' <strong>'.$this->trans('This page will now be reloaded and the module will check if a new version is available.', array(), 'Modules.Autoupgrade.Admin').'</strong>');
+        return (new UpgradeConfigurationStorage($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH).DIRECTORY_SEPARATOR))->save($this->container->getUpgradeConfiguration(), UpgradeFileNames::configFilename);
     }
 }

@@ -49,7 +49,7 @@ use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension;
  */
 class UpgradeContainer
 {
-    const WORKSPACE_PATH = 'workspace';
+    const WORKSPACE_PATH = 'workspace'; // AdminSelfUpgrade::$autoupgradePath
     const BACKUP_PATH = 'backup';
     const DOWNLOAD_PATH = 'download';
     const LATEST_PATH = 'latest'; // AdminSelfUpgrade::$latestRootDir
@@ -179,6 +179,11 @@ class UpgradeContainer
             case self::PS_VERSION:
                 return $this->getPrestaShopConfiguration()->getPrestaShopVersion();
         }
+    }
+
+    public function getDb()
+    {
+        return \Db::getInstance();
     }
 
     /**

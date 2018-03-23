@@ -45,19 +45,19 @@ class AllUpgradeTasks extends AbstractTask
         $this->init();
         while ($this->canContinue($step)) {
             echo "\n=== Step ".$step."\n";
-            $controller = TaskRepository::get($step, $this->container, $this->upgradeClass);
+            $controller = TaskRepository::get($step, $this->container);
             $controller->run();
 
-            $step = $this->upgradeClass->next;
+            $step = $this->next;
         }
 
-        return (int) ($this->upgradeClass->error || $this->upgradeClass->next === 'error');
+        return (int) ($this->error || $this->next === 'error');
     }
 
     public function setOptions($options)
     {
         if (!empty($options['channel'])) {
-            $this->upgradeClass->writeConfig(array(
+            $this->container->getUpgradeConfiguration()->merge(array(
                 'channel' => $options['channel'],
             ));
             $this->container->getUpgrader()->channel = $options['channel'];
@@ -78,7 +78,7 @@ class AllUpgradeTasks extends AbstractTask
             return false;
         }
 
-        if ($this->upgradeClass->error) {
+        if ($this->error) {
             return false;
         }
 
@@ -90,7 +90,7 @@ class AllUpgradeTasks extends AbstractTask
      */
     protected function init()
     {
-        $this->upgradeClass->writeConfig(array(
+        $this->container->getUpgradeConfiguration()->merge(array(
             'channel' => 'major',
             'PS_AUTOUP_PERFORMANCE' => 1,
             'PS_AUTOUP_CUSTOM_MOD_DESACT' => 1,
@@ -101,7 +101,6 @@ class AllUpgradeTasks extends AbstractTask
             'PS_AUTOUP_KEEP_IMAGES' => 0,
         ));
 
-        $_COOKIE['id_employee'] = 1;
         $this->container->getState()->initDefault(
                 $this->container->getUpgrader(),
                 $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH),

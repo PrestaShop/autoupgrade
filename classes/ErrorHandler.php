@@ -132,16 +132,15 @@ class ErrorHandler
     protected function report($file, $line, $type, $message, $display = false)
     {
         $log = "[INTERNAL] $file line $line - $message";
+        $jsonResponse = '{"nextErrors":["'.$log.'"],"error":true,"next":"error"}';
         
         try {
             $this->logger->log($type, $log);
             if ($display && $this->logger instanceof LegacyLogger) {
-                $this->selfUpgrade->next = 'error';
-                $this->selfUpgrade->error = true;
-                $this->selfUpgrade->displayAjax();
+                echo $jsonResponse;
             }
         } catch (\Exception $e) {
-            echo '{"nextErrors":["'.$log.'"],"error":true}';
+            echo $jsonResponse;
             
             $fd = fopen('php://stderr', 'w');
             fwrite($fd, $log);

@@ -27,6 +27,7 @@
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -36,74 +37,79 @@ class RemoveSamples extends AbstractTask
 {
     public function run()
     {
-        $this->upgradeClass->stepDone = false;
-        $this->upgradeClass->next = 'removeSamples';
+        $this->stepDone = false;
+        $this->next = 'removeSamples';
 
+        $removeList = $this->container->getState()->getRemoveList();
+        $latestPath = $this->container->getProperty(UpgradeContainer::LATEST_PATH);
         // remove all sample pics in img subdir
         // This part runs at the first call of this step
-        if (!isset($this->upgradeClass->currentParams['removeList'])) {
-            $this->upgradeClass->nextParams['removeList'] = $this->container->getFilesystemAdapter()->listSampleFiles(array(
-                $this->upgradeClass->latestPath.'/prestashop/img/c', '.jpg',
-                $this->upgradeClass->latestPath.'/prestashop/img/cms', '.jpg',
-                $this->upgradeClass->latestPath.'/prestashop/img/l', '.jpg',
-                $this->upgradeClass->latestPath.'/prestashop/img/m', '.jpg',
-                $this->upgradeClass->latestPath.'/prestashop/img/os', '.jpg',
-                $this->upgradeClass->latestPath.'/prestashop/img/p', '.jpg',
-                $this->upgradeClass->latestPath.'/prestashop/img/s', '.jpg',
-                $this->upgradeClass->latestPath.'/prestashop/img/scenes', '.jpg',
-                $this->upgradeClass->latestPath.'/prestashop/img/st', '.jpg',
-                $this->upgradeClass->latestPath.'/prestashop/img/su', '.jpg',
-                $this->upgradeClass->latestPath.'/prestashop/img', '404.gif',
-                $this->upgradeClass->latestPath.'/prestashop/img', 'favicon.ico',
-                $this->upgradeClass->latestPath.'/prestashop/img', 'logo.jpg',
-                $this->upgradeClass->latestPath.'/prestashop/img', 'logo_stores.gif',
-                $this->upgradeClass->latestPath.'/prestashop/modules/editorial', 'homepage_logo.jpg',
+        if (null === $removeList) {
+            $removeList = $this->container->getFilesystemAdapter()->listSampleFiles(array(
+                $latestPath.'/prestashop/img/c', '.jpg',
+                $latestPath.'/prestashop/img/cms', '.jpg',
+                $latestPath.'/prestashop/img/l', '.jpg',
+                $latestPath.'/prestashop/img/m', '.jpg',
+                $latestPath.'/prestashop/img/os', '.jpg',
+                $latestPath.'/prestashop/img/p', '.jpg',
+                $latestPath.'/prestashop/img/s', '.jpg',
+                $latestPath.'/prestashop/img/scenes', '.jpg',
+                $latestPath.'/prestashop/img/st', '.jpg',
+                $latestPath.'/prestashop/img/su', '.jpg',
+                $latestPath.'/prestashop/img', '404.gif',
+                $latestPath.'/prestashop/img', 'favicon.ico',
+                $latestPath.'/prestashop/img', 'logo.jpg',
+                $latestPath.'/prestashop/img', 'logo_stores.gif',
+                $latestPath.'/prestashop/modules/editorial', 'homepage_logo.jpg',
                 // remove all override present in the archive
-                $this->upgradeClass->latestPath.'/prestashop/override', '.php',
+                $latestPath.'/prestashop/override', '.php',
             ));
 
-            if (count($this->upgradeClass->nextParams['removeList']) > 0) {
-                $this->logger->debug($this->translator->trans('Starting to remove %s sample files', array(count($this->upgradeClass->nextParams['removeList'])), 'Modules.Autoupgrade.Admin'));
+            $this->container->getState()->setRemoveList($removeList);
+
+            if (count($removeList)) {
+                $this->logger->debug($this->translator->trans('Starting to remove %s sample files', array(count($removeList)), 'Modules.Autoupgrade.Admin'));
             }
         }
 
         $filesystem = new Filesystem;
-        for ($i = 0; $i < \AdminSelfUpgrade::$loopRemoveSamples && 0 < count($this->upgradeClass->nextParams['removeList']); $i++) {
-            $file = array_shift($this->upgradeClass->nextParams['removeList']);
+        for ($i = 0; $i < \AdminSelfUpgrade::$loopRemoveSamples && 0 < count($removeList); $i++) {
+            $file = array_shift($removeList);
             try {
                 $filesystem->remove($file);
             } catch (\Exception $e) {
-                $this->upgradeClass->next = 'error';
+                $this->next = 'error';
                 $this->logger->error($this->translator->trans(
                     'Error while removing item %itemname%, %itemscount% items left.',
                     array(
                         '%itemname%' => $file,
-                        '%itemscount%' => count($this->upgradeClass->nextParams['removeList'])
+                        '%itemscount%' => count($removeList)
                     ),
                     'Modules.Autoupgrade.Admin'
                 ));
                 return false;
             }
 
-            if (count($this->upgradeClass->nextParams['removeList'])) {
+            if (count($removeList)) {
                 $this->logger->debug($this->translator->trans(
                     '%itemname% items removed. %itemscount% items left.',
                     array(
                         '%itemname%' => $file,
-                        '%itemscount%' => count($this->upgradeClass->nextParams['removeList'])
+                        '%itemscount%' => count($removeList)
                     ),
                     'Modules.Autoupgrade.Admin'
                 ));
             }
         }
+        $this->container->getState()->setRemoveList($removeList);
 
-        if (0 >= count($this->upgradeClass->nextParams['removeList'])) {
-            $this->upgradeClass->stepDone = true;
-            $this->upgradeClass->next = 'backupFiles';
+        if (0 >= count($removeList)) {
+            $this->stepDone = true;
+            $this->next = 'backupFiles';
             $this->logger->info($this->translator->trans('All sample files removed. Now backing up files.', array(), 'Modules.Autoupgrade.Admin'));
 
             if ($this->container->getUpgradeConfiguration()->get('skip_backup')) {
-                $this->upgradeClass->next = 'upgradeFiles';
+                $this->next = 'upgradeFiles';
                 $this->logger->info($this->translator->trans('All sample files removed. Backup process skipped. Now upgrading files.', array(), 'Modules.Autoupgrade.Admin'));
             }
         }

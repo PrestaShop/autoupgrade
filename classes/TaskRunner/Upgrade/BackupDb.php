@@ -35,25 +35,24 @@ class BackupDb extends AbstractTask
     public function run()
     {
         if (!$this->container->getUpgradeConfiguration()->get('PS_AUTOUP_BACKUP')) {
-            $this->upgradeClass->stepDone = true;
-            $this->upgradeClass->nextParams['dbStep'] = 0;
+            $this->stepDone = true;
+            $this->container->getState()->setDbStep(0);
             $this->logger->info($this->translator->trans('Database backup skipped. Now upgrading files...', array(), 'Modules.Autoupgrade.Admin'));
-            $this->upgradeClass->next = 'upgradeFiles';
+            $this->next = 'upgradeFiles';
             return true;
         }
 
-        $relative_backup_path = str_replace(_PS_ROOT_DIR_, '', $this->upgradeClass->backupPath);
+        $relative_backup_path = str_replace(_PS_ROOT_DIR_, '', $this->container->getProperty(UpgradeContainer::BACKUP_PATH));
         $report = '';
         if (!\ConfigurationTest::test_dir($relative_backup_path, false, $report)) {
-            $this->logger->error($this->translator->trans('Backup directory is not writable (%path%).', array('%path%' => $this->upgradeClass->backupPath), 'Modules.Autoupgrade.Admin'));
-            $this->upgradeClass->next = 'error';
-            $this->upgradeClass->error = 1;
+            $this->logger->error($this->translator->trans('Backup directory is not writable (%path%).', array('%path%' => $this->container->getProperty(UpgradeContainer::BACKUP_PATH)), 'Modules.Autoupgrade.Admin'));
+            $this->next = 'error';
+            $this->error = true;
             return false;
         }
 
-        $this->upgradeClass->stepDone = false;
-        $this->upgradeClass->next = 'backupDb';
-        $this->upgradeClass->nextParams = $this->upgradeClass->currentParams;
+        $this->stepDone = false;
+        $this->next = 'backupDb';
         $start_time = time();
         $time_elapsed = 0;
 
@@ -70,11 +69,11 @@ class BackupDb extends AbstractTask
 
         // INIT LOOP
         if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::toBackupDbList)) {
-            if (!is_dir($this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$this->container->getState()-> getBackupName())) {
-                mkdir($this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$this->container->getState()-> getBackupName());
+            if (!is_dir($this->container->getProperty(UpgradeContainer::BACKUP_PATH).DIRECTORY_SEPARATOR.$this->container->getState()-> getBackupName())) {
+                mkdir($this->container->getProperty(UpgradeContainer::BACKUP_PATH).DIRECTORY_SEPARATOR.$this->container->getState()-> getBackupName());
             }
-            $this->upgradeClass->nextParams['dbStep'] = 0;
-            $tablesToBackup = $this->upgradeClass->db->executeS('SHOW TABLES LIKE "'._DB_PREFIX_.'%"', true, false);
+            $this->container->getState()->setDbStep(0);
+            $tablesToBackup = $this->container->getDb()->executeS('SHOW TABLES LIKE "'._DB_PREFIX_.'%"', true, false);
             $this->container->getFileConfigurationStorage()->save($tablesToBackup, UpgradeFileNames::toBackupDbList);
         }
 
@@ -87,34 +86,34 @@ class BackupDb extends AbstractTask
         // MAIN BACKUP LOOP //
         $written = 0;
         do {
-            if (!empty($this->upgradeClass->nextParams['backup_table'])) {
+            if (!is_null($this->container->getState()->getBackupTable())) {
                 // only insert (schema already done)
-                $table = $this->upgradeClass->nextParams['backup_table'];
-                $lines = $this->upgradeClass->nextParams['backup_lines'];
+                $table = $this->container->getState()->getBackupTable();
+                $lines = $this->container->getState()->getBackupLines();
             } else {
                 if (count($tablesToBackup) == 0) {
                     break;
                 }
                 $table = current(array_shift($tablesToBackup));
-                $this->upgradeClass->nextParams['backup_loop_limit'] = 0;
+                $this->container->getState()->setBackupLoopLimit(0);
             }
 
             if ($written == 0 || $written > \AdminSelfUpgrade::$max_written_allowed) {
                 // increment dbStep will increment filename each time here
-                $this->upgradeClass->nextParams['dbStep']++;
+                $this->container->getState()->setDbStep($this->container->getState()->getDbStep()++);
                 // new file, new step
                 $written = 0;
                 if (isset($fp)) {
                     fclose($fp);
                 }
-                $backupfile = $this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$this->container->getState()-> getBackupName().DIRECTORY_SEPARATOR.$this->container->getState()-> getBackupDbFilename();
-                $backupfile = preg_replace("#_XXXXXX_#", '_'.str_pad($this->upgradeClass->nextParams['dbStep'], 6, '0', STR_PAD_LEFT).'_', $backupfile);
+                $backupfile = $this->container->getProperty(UpgradeContainer::BACKUP_PATH).DIRECTORY_SEPARATOR.$this->container->getState()-> getBackupName().DIRECTORY_SEPARATOR.$this->container->getState()-> getBackupDbFilename();
+                $backupfile = preg_replace("#_XXXXXX_#", '_'.str_pad($this->container->getState()->getDbStep(), 6, '0', STR_PAD_LEFT).'_', $backupfile);
 
                 // start init file
                 // Figure out what compression is available and open the file
                 if (file_exists($backupfile)) {
-                    $this->upgradeClass->next = 'error';
-                    $this->upgradeClass->error = 1;
+                    $this->next = 'error';
+                    $this->error = true;
                     $this->logger->error($this->translator->trans('Backup file %s already exists. Operation aborted.', array($backupfile), 'Modules.Autoupgrade.Admin'));
                 }
 
@@ -130,13 +129,13 @@ class BackupDb extends AbstractTask
 
                 if ($fp === false) {
                     $this->logger->error($this->translator->trans('Unable to create backup database file %s.', array(addslashes($backupfile)), 'Modules.Autoupgrade.Admin'));
-                    $this->upgradeClass->next = 'error';
-                    $this->upgradeClass->error = 1;
+                    $this->next = 'error';
+                    $this->error = true;
                     $this->logger->info($this->translator->trans('Error during database backup.', array(), 'Modules.Autoupgrade.Admin'));
                     return false;
                 }
 
-                $written += fwrite($fp, '/* Backup ' . $this->upgradeClass->nextParams['dbStep'] . ' for ' . Tools14::getHttpHost(false, false) . __PS_BASE_URI__ . "\n *  at " . date('r') . "\n */\n");
+                $written += fwrite($fp, '/* Backup ' . $this->container->getState()->getDbStep() . ' for ' . Tools14::getHttpHost(false, false) . __PS_BASE_URI__ . "\n *  at " . date('r') . "\n */\n");
                 $written += fwrite($fp, "\n".'SET SESSION sql_mode = \'\';'."\n\n");
                 $written += fwrite($fp, "\n".'SET NAMES \'utf8\';'."\n\n");
                 $written += fwrite($fp, "\n".'SET FOREIGN_KEY_CHECKS=0;'."\n\n");
@@ -150,9 +149,9 @@ class BackupDb extends AbstractTask
             }
 
             // start schema : drop & create table only
-            if (empty($this->upgradeClass->currentParams['backup_table'])) {
+            if (null === $this->container->getState()->getBackupTable()) {
                 // Export the table schema
-                $schema = $this->upgradeClass->db->executeS('SHOW CREATE TABLE `' . $table . '`', true, false);
+                $schema = $this->container->getDb()->executeS('SHOW CREATE TABLE `' . $table . '`', true, false);
 
                 if (count($schema) != 1 ||
                     !((isset($schema[0]['Table']) && isset($schema[0]['Create Table']))
@@ -163,8 +162,8 @@ class BackupDb extends AbstractTask
                     }
                     $this->logger->error($this->translator->trans('An error occurred while backing up. Unable to obtain the schema of %s', array($table), 'Modules.Autoupgrade.Admin'));
                     $this->logger->info($this->translator->trans('Error during database backup.', array(), 'Modules.Autoupgrade.Admin'));
-                    $this->upgradeClass->next = 'error';
-                    $this->upgradeClass->error = 1;
+                    $this->next = 'error';
+                    $this->error = true;
                     return false;
                 }
 
@@ -192,8 +191,9 @@ class BackupDb extends AbstractTask
                         $written += fwrite($fp, $schema[0]['Create Table'] . ";\n\n");
                     }
                     // schema created, now we need to create the missing vars
-                    $this->upgradeClass->nextParams['backup_table'] = $table;
-                    $lines = $this->upgradeClass->nextParams['backup_lines'] = explode("\n", $schema[0]['Create Table']);
+                    $this->container->getState()->setBackupTable($table);
+                    $lines = explode("\n", $schema[0]['Create Table']);
+                    $this->container->getState()->setBackupLines($lines);
                 }
             }
             // end of schema
@@ -201,19 +201,19 @@ class BackupDb extends AbstractTask
             // POPULATE TABLE
             if (!in_array($table, $ignore_stats_table)) {
                 do {
-                    $backup_loop_limit = $this->upgradeClass->nextParams['backup_loop_limit'];
-                    $data = $this->upgradeClass->db->executeS('SELECT * FROM `'.$table.'` LIMIT '.(int)$backup_loop_limit.',200', false, false);
-                    $this->upgradeClass->nextParams['backup_loop_limit'] += 200;
-                    $sizeof = $this->upgradeClass->db->numRows();
+                    $backup_loop_limit = $this->container->getState()->getBackupLoopLimit();
+                    $data = $this->container->getDb()->executeS('SELECT * FROM `'.$table.'` LIMIT '.(int)$backup_loop_limit.',200', false, false);
+                    $this->container->getState()->setBackupLoopLimit($this->container->getState()->getBackupLoopLimit() += 200);
+                    $sizeof = $this->container->getDb()->numRows();
                     if ($data && ($sizeof > 0)) {
                         // Export the table data
                         $written += fwrite($fp, 'INSERT INTO `'.$table."` VALUES\n");
                         $i = 1;
-                        while ($row = $this->upgradeClass->db->nextRow($data)) {
+                        while ($row = $this->container->getDb()->nextRow($data)) {
                             // this starts a row
                             $s = '(';
                             foreach ($row as $field => $value) {
-                                $tmp = "'" . $this->upgradeClass->db->escape($value, true) . "',";
+                                $tmp = "'" . $this->container->getDb()->escape($value, true) . "',";
                                 if ($tmp != "'',") {
                                     $s .= $tmp;
                                 } else {
@@ -242,8 +242,7 @@ class BackupDb extends AbstractTask
                         }
                         $time_elapsed = time() - $start_time;
                     } else {
-                        unset($this->upgradeClass->nextParams['backup_table']);
-                        unset($this->upgradeClass->currentParams['backup_table']);
+                        $this->container->getState()->setBackupTable(null);
                         break;
                     }
                 } while (($time_elapsed < \AdminSelfUpgrade::$loopBackupDbTime) && ($written < \AdminSelfUpgrade::$max_written_allowed));
@@ -264,8 +263,8 @@ class BackupDb extends AbstractTask
 
         if (count($tablesToBackup) > 0) {
             $this->logger->debug($this->translator->trans('%s tables have been saved.', array($found), 'Modules.Autoupgrade.Admin'));
-            $this->upgradeClass->next = 'backupDb';
-            $this->upgradeClass->stepDone = false;
+            $this->next = 'backupDb';
+            $this->stepDone = false;
             if (count($tablesToBackup)) {
                 $this->logger->info($this->translator->trans('Database backup: %s table(s) left...', array(count($tablesToBackup)), 'Modules.Autoupgrade.Admin'));
             }
@@ -277,21 +276,22 @@ class BackupDb extends AbstractTask
             }
             $this->logger->error($this->translator->trans('No valid tables were found to back up. Backup of file %s canceled.', array($backupfile), 'Modules.Autoupgrade.Admin'));
             $this->logger->info($this->translator->trans('Error during database backup for file %s.', array($backupfile), 'Modules.Autoupgrade.Admin'));
-            $this->upgradeClass->error = 1;
+            $this->error = true;
             return false;
         } else {
-            unset($this->upgradeClass->nextParams['backup_loop_limit']);
-            unset($this->upgradeClass->nextParams['backup_lines']);
-            unset($this->upgradeClass->nextParams['backup_table']);
+            $this->container->getState()
+                ->setBackupLoopLimit(null)
+                ->setBackupLines(null)
+                ->setBackupTable(null);
             if ($found) {
                 $this->logger->info($this->translator->trans('%s tables have been saved.', array($found), 'Modules.Autoupgrade.Admin'));
             }
-            $this->upgradeClass->stepDone = true;
+            $this->stepDone = true;
             // reset dbStep at the end of this step
-            $this->upgradeClass->nextParams['dbStep'] = 0;
+            $this->container->getState()->setDbStep(0);
 
             $this->logger->info($this->translator->trans('Database backup done in filename %s. Now upgrading files...', array($this->container->getState()-> getBackupName()), 'Modules.Autoupgrade.Admin'));
-            $this->upgradeClass->next = 'upgradeFiles';
+            $this->next = 'upgradeFiles';
             return true;
         }
     }

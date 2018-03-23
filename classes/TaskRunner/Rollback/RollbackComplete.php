@@ -36,6 +36,6 @@ class RollbackComplete extends AbstractTask
     public function run()
     {
         $this->logger->info($this->translator->trans('Restoration process done. Congratulations! You can now reactivate your shop.', array(), 'Modules.Autoupgrade.Admin'));
-        $this->upgradeClass->next = '';
+        $this->next = '';
     }
 }

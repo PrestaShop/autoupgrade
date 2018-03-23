@@ -39,14 +39,14 @@ class GetChannelInfo extends AbstractTask
     public function run()
     {
         // do nothing after this request (see javascript function doAjaxRequest )
-        $this->upgradeClass->next = '';
+        $this->next = '';
 
-        $channel = $this->upgradeClass->currentParams['channel'];
+        $channel = $this->container->getUpgradeConfiguration()->getChannel();
         $channelInfo = (new ChannelInfo($this->container->getUpgrader(), $this->container->getUpgradeConfiguration(), $channel));
         $channelInfoArray = $channelInfo->getInfo();
-        $this->upgradeClass->nextParams['result']['available'] = $channelInfoArray['available'];
+        $this->nextParams['result']['available'] = $channelInfoArray['available'];
 
-        $this->upgradeClass->nextParams['result']['div'] = (new ChannelInfoBlock(
+        $this->nextParams['result']['div'] = (new ChannelInfoBlock(
             $this->container->getUpgradeConfiguration(),
             $channelInfo,
             $this->container->getTwig(),

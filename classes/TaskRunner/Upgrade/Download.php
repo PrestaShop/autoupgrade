@@ -38,7 +38,7 @@ class Download extends AbstractTask
     {
         if (!\ConfigurationTest::test_fopen() && !\ConfigurationTest::test_curl()) {
             $this->logger->error($this->translator->trans('You need allow_url_fopen or cURL enabled for automatic download to work. You can also manually upload it in filepath %s.', array($this->container->getFilePath()), 'Modules.Autoupgrade.Admin'));
-            $this->upgradeClass->next = 'error';
+            $this->next = 'error';
             return;
         }
 
@@ -70,13 +70,13 @@ class Download extends AbstractTask
             if ($res) {
                 $md5file = md5_file(realpath($this->container->getProperty(UpgradeContainer::ARCHIVE_FILEPATH)));
                 if ($md5file == $upgrader->md5) {
-                    $this->upgradeClass->next = 'unzip';
+                    $this->next = 'unzip';
                     $this->logger->debug($this->translator->trans('Download complete.', array(), 'Modules.Autoupgrade.Admin'));
                     $this->logger->info($this->translator->trans('Download complete. Now extracting...', array(), 'Modules.Autoupgrade.Admin'));
                 } else {
                     $this->logger->error($this->translator->trans('Download complete but MD5 sum does not match (%s).', array($md5file), 'Modules.Autoupgrade.Admin'));
                     $this->logger->info($this->translator->trans('Download complete but MD5 sum does not match (%s). Operation aborted.', array(), 'Modules.Autoupgrade.Admin'));
-                    $this->upgradeClass->next = 'error';
+                    $this->next = 'error';
                 }
             } else {
                 if ($upgrader->channel == 'private') {
@@ -84,11 +84,11 @@ class Download extends AbstractTask
                 } else {
                     $this->logger->error($this->translator->trans('Error during download', array(), 'Modules.Autoupgrade.Admin'));
                 }
-                $this->upgradeClass->next = 'error';
+                $this->next = 'error';
             }
         } else {
             $this->logger->error($this->translator->trans('Download directory %s is not writable.', array($this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH)), 'Modules.Autoupgrade.Admin'));
-            $this->upgradeClass->next = 'error';
+            $this->next = 'error';
         }
     }
 }

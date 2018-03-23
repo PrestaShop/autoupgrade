@@ -36,18 +36,18 @@ class CleanDatabase extends AbstractTask
     public function run()
     {
         /* Clean tabs order */
-        foreach ($this->upgradeClass->db->ExecuteS('SELECT DISTINCT id_parent FROM '._DB_PREFIX_.'tab') as $parent) {
+        foreach ($this->container->getDb()->ExecuteS('SELECT DISTINCT id_parent FROM '._DB_PREFIX_.'tab') as $parent) {
             $i = 1;
-            foreach ($this->upgradeClass->db->ExecuteS('SELECT id_tab FROM '._DB_PREFIX_.'tab WHERE id_parent = '.(int)$parent['id_parent'].' ORDER BY IF(class_name IN ("AdminHome", "AdminDashboard"), 1, 2), position ASC') as $child) {
-                $this->upgradeClass->db->Execute('UPDATE '._DB_PREFIX_.'tab SET position = '.(int)($i++).' WHERE id_tab = '.(int)$child['id_tab'].' AND id_parent = '.(int)$parent['id_parent']);
+            foreach ($this->container->getDb()->ExecuteS('SELECT id_tab FROM '._DB_PREFIX_.'tab WHERE id_parent = '.(int)$parent['id_parent'].' ORDER BY IF(class_name IN ("AdminHome", "AdminDashboard"), 1, 2), position ASC') as $child) {
+                $this->container->getDb()->Execute('UPDATE '._DB_PREFIX_.'tab SET position = '.(int)($i++).' WHERE id_tab = '.(int)$child['id_tab'].' AND id_parent = '.(int)$parent['id_parent']);
             }
         }
 
         /* Clean configuration integrity */
-        $this->upgradeClass->db->Execute('DELETE FROM `'._DB_PREFIX_.'configuration_lang` WHERE (`value` IS NULL AND `date_upd` IS NULL) OR `value` LIKE ""', false);
+        $this->container->getDb()->Execute('DELETE FROM `'._DB_PREFIX_.'configuration_lang` WHERE (`value` IS NULL AND `date_upd` IS NULL) OR `value` LIKE ""', false);
 
-        $this->upgradeClass->status = 'ok';
-        $this->upgradeClass->next = 'upgradeComplete';
+        $this->status = 'ok';
+        $this->next = 'upgradeComplete';
         $this->logger->info($this->translator->trans('The database has been cleaned.', array(), 'Modules.Autoupgrade.Admin'));
     }
 }

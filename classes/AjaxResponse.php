@@ -36,26 +36,26 @@ class AjaxResponse
 {
     /**
      * Used during upgrade
-     * @var string (ToDo: fix this type) Supposed to store a boolean in case of error
+     * @var bool Supposed to store a boolean in case of error
      */
-    private $error;
+    private $error = false;
 
     /**
      * Used during upgrade.
      * @var bool Inform when the step is completed
      */
-    private $stepDone;
+    private $stepDone = true;
 
     /**
      * Used during upgrade. "N/A" as value otherwise.
      * @var string Next step to call (can be the same as the previous one)
      */
-    private $next;
+    private $next = 'N/A';
 
     /**
      * @var array Params to send (upgrade conf, details on the work to do ...)
      */
-    private $nextParams;
+    private $nextParams = array();
 
     /**
      * Request format of the data to return.
@@ -108,10 +108,6 @@ class AjaxResponse
             ),
         );
 
-        if (!isset($return['nextParams']['dbStep'])) {
-            $return['nextParams']['dbStep'] = 0;
-        }
-
         return $return;
     }
 
@@ -163,7 +159,7 @@ class AjaxResponse
 
     public function setError($error)
     {
-        $this->error = $error;
+        $this->error = (bool) $error;
         return $this;
     }
 

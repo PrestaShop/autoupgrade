@@ -34,18 +34,17 @@ class BackupFiles extends AbstractTask
     public function run()
     {
         if (!$this->container->getUpgradeConfiguration()->get('PS_AUTOUP_BACKUP')) {
-            $this->upgradeClass->stepDone = true;
-            $this->upgradeClass->next = 'backupDb';
+            $this->stepDone = true;
+            $this->next = 'backupDb';
             $this->logger->info('File backup skipped.');
             return true;
         }
 
-        $this->upgradeClass->nextParams = $this->upgradeClass->currentParams;
-        $this->upgradeClass->stepDone = false;
+        $this->stepDone = false;
         $backupFilesFilename = $this->container->getState()-> getBackupFilesFilename();
         if (empty($backupFilesFilename)) {
-            $this->upgradeClass->next = 'error';
-            $this->upgradeClass->error = 1;
+            $this->next = 'error';
+            $this->error = true;
             $this->logger->info($this->translator->trans('Error during backupFiles', array(), 'Modules.Autoupgrade.Admin'));
             $this->logger->error($this->translator->trans('[ERROR] backupFiles filename has not been set', array(), 'Modules.Autoupgrade.Admin'));
             return false;
@@ -53,30 +52,29 @@ class BackupFiles extends AbstractTask
 
         if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::toBackupFileList)) {
             // @todo : only add files and dir listed in "originalPrestashopVersion" list
-            $filesToBackup = $this->container->getFilesystemAdapter()->listFilesInDir($this->upgradeClass->prodRootDir, 'backup', false);
+            $filesToBackup = $this->container->getFilesystemAdapter()->listFilesInDir($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH), 'backup', false);
             $this->container->getFileConfigurationStorage()->save($filesToBackup, UpgradeFileNames::toBackupFileList);
             if (count($filesToBackup)) {
                 $this->logger->debug($this->translator->trans('%s Files to backup.', array(count($filesToBackup)), 'Modules.Autoupgrade.Admin'));
             }
-            $this->upgradeClass->nextParams['filesForBackup'] = UpgradeFileNames::toBackupFileList;
 
             // delete old backup, create new
-            if (!empty($backupFilesFilename) && file_exists($this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$backupFilesFilename)) {
-                unlink($this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$backupFilesFilename);
+            if (!empty($backupFilesFilename) && file_exists($this->container->getProperty(UpgradeContainer::BACKUP_PATH).DIRECTORY_SEPARATOR.$backupFilesFilename)) {
+                unlink($this->container->getProperty(UpgradeContainer::BACKUP_PATH).DIRECTORY_SEPARATOR.$backupFilesFilename);
             }
 
             $this->logger->debug($this->translator->trans('Backup files initialized in %s', array($backupFilesFilename), 'Modules.Autoupgrade.Admin'));
         }
         $filesToBackup = $this->container->getFileConfigurationStorage()->load(UpgradeFileNames::toBackupFileList);
 
-        $this->upgradeClass->next = 'backupFiles';
+        $this->next = 'backupFiles';
         if (is_array($filesToBackup) && count($filesToBackup)) {
             $this->logger->info($this->translator->trans('Backup files in progress. %d files left', array(count($filesToBackup)), 'Modules.Autoupgrade.Admin'));
 
-            $this->upgradeClass->stepDone = false;
-            $res = $this->container->getZipAction()->compress($filesToBackup, $this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$backupFilesFilename);
+            $this->stepDone = false;
+            $res = $this->container->getZipAction()->compress($filesToBackup, $this->container->getProperty(UpgradeContainer::BACKUP_PATH).DIRECTORY_SEPARATOR.$backupFilesFilename);
             if (!$res) {
-                $this->upgradeClass->next = 'error';
+                $this->next = 'error';
                 $this->logger->info($this->translator->trans('Unable to open archive', array(), 'Modules.Autoupgrade.Admin'));
                 return false;
             }
@@ -84,9 +82,9 @@ class BackupFiles extends AbstractTask
         }
 
         if (count($filesToBackup) <= 0) {
-            $this->upgradeClass->stepDone = true;
-            $this->upgradeClass->status = 'ok';
-            $this->upgradeClass->next = 'backupDb';
+            $this->stepDone = true;
+            $this->status = 'ok';
+            $this->next = 'backupDb';
             $this->logger->debug($this->translator->trans('All files have been added to archive.', array(), 'Modules.Autoupgrade.Admin'));
             $this->logger->info($this->translator->trans('All files saved. Now backing up database', array(), 'Modules.Autoupgrade.Admin'));
         }
