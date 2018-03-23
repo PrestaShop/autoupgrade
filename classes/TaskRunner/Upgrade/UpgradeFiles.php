@@ -28,13 +28,14 @@ namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
+use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 class UpgradeFiles extends AbstractTask
 {
+    private $destUpgradePath;
+    
     public function run()
     {
-        $this->upgradeClass->nextParams = $this->upgradeClass->currentParams;
-
         /*
          * The first call must init the list of files be upgraded
          */
@@ -43,12 +44,12 @@ class UpgradeFiles extends AbstractTask
         }
 
         // later we could choose between _PS_ROOT_DIR_ or _PS_TEST_DIR_
-        $this->upgradeClass->destUpgradePath = $this->upgradeClass->prodRootDir;
+        $this->destUpgradePath = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH);
 
-        $this->upgradeClass->next = 'upgradeFiles';
+        $this->next = 'upgradeFiles';
         $filesToUpgrade = $this->container->getFileConfigurationStorage()->load(UpgradeFileNames::toUpgradeFileList);
         if (!is_array($filesToUpgrade)) {
-            $this->upgradeClass->next = 'error';
+            $this->next = 'error';
             $this->logger->error($this->translator->trans('filesToUpgrade is not an array', array(), 'Modules.Autoupgrade.Admin'));
             return false;
         }
@@ -56,19 +57,19 @@ class UpgradeFiles extends AbstractTask
         // @TODO : does not upgrade files in modules, translations if they have not a correct md5 (or crc32, or whatever) from previous version
         for ($i = 0; $i < \AdminSelfUpgrade::$loopUpgradeFiles; $i++) {
             if (count($filesToUpgrade) <= 0) {
-                $this->upgradeClass->next = 'upgradeDb';
+                $this->next = 'upgradeDb';
                 if (file_exists(UpgradeFileNames::toUpgradeFileList)) {
                     unlink(UpgradeFileNames::toUpgradeFileList);
                 }
                 $this->logger->info($this->translator->trans('All files upgraded. Now upgrading database...', array(), 'Modules.Autoupgrade.Admin'));
-                $this->upgradeClass->stepDone = true;
+                $this->stepDone = true;
                 break;
             }
 
             $file = array_shift($filesToUpgrade);
             if (!$this->upgradeThisFile($file)) {
                 // put the file back to the begin of the list
-                $this->upgradeClass->next = 'error';
+                $this->next = 'error';
                 $this->logger->error($this->translator->trans('Error when trying to upgrade file %s.', array($file), 'Modules.Autoupgrade.Admin'));
                 break;
             }
@@ -76,7 +77,7 @@ class UpgradeFiles extends AbstractTask
         $this->container->getFileConfigurationStorage()->save($filesToUpgrade, UpgradeFileNames::toUpgradeFileList);
         if (count($filesToUpgrade) > 0) {
             $this->logger->info($this->translator->trans('%s files left to upgrade.', array(count($filesToUpgrade)), 'Modules.Autoupgrade.Admin'));
-            $this->upgradeClass->stepDone = false;
+            $this->stepDone = false;
             @unlink(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR. 'app'.DIRECTORY_SEPARATOR.'cache'.DIRECTORY_SEPARATOR.'dev'.DIRECTORY_SEPARATOR.'class_index.php');
             @unlink(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR. 'app'.DIRECTORY_SEPARATOR.'cache'.DIRECTORY_SEPARATOR.'prod'.DIRECTORY_SEPARATOR.'class_index.php');
         }
@@ -96,7 +97,7 @@ class UpgradeFiles extends AbstractTask
         if (!is_dir($dir)) {
             $this->logger->error($this->translator->trans('[ERROR] %s does not exist or is not a directory.', array($dir), 'Modules.Autoupgrade.Admin'));
             $this->logger->info($this->translator->trans('Nothing has been extracted. It seems the unzipping step has been skipped.', array(), 'Modules.Autoupgrade.Admin'));
-            $this->upgradeClass->next = 'error';
+            $this->next = 'error';
             return false;
         }
 
@@ -110,7 +111,7 @@ class UpgradeFiles extends AbstractTask
                 }
                 continue;
             }
-            $list[] = str_replace($this->upgradeClass->latestRootDir, '', $fullPath);
+            $list[] = str_replace($this->container->getProperty(UpgradeContainer::LATEST_PATH), '', $fullPath);
             if (is_dir($fullPath) && strpos($dir.DIRECTORY_SEPARATOR.$file, 'install') === false) {
                 $list = array_merge($list, $this->listFilesToUpgrade($fullPath));
             }
@@ -129,8 +130,8 @@ class UpgradeFiles extends AbstractTask
         // translations_custom and mails_custom list are currently not used
         // later, we could handle customization with some kind of diff functions
         // for now, just copy $file in str_replace($this->latestRootDir,_PS_ROOT_DIR_)
-        $orig = $this->upgradeClass->latestRootDir.$file;
-        $dest = $this->upgradeClass->destUpgradePath.$file;
+        $orig = $this->container->getProperty(UpgradeContainer::LATEST_PATH).$file;
+        $dest = $this->destUpgradePath.$file;
 
         if ($this->container->getFilesystemAdapter()->isFileSkipped($file, $dest, 'upgrade')) {
             $this->logger->debug($this->translator->trans('%s ignored', array($file), 'Modules.Autoupgrade.Admin'));
@@ -204,20 +205,20 @@ class UpgradeFiles extends AbstractTask
      */
     protected function warmUp()
     {
-        $admin_dir = str_replace($this->upgradeClass->prodRootDir.DIRECTORY_SEPARATOR, '', $this->upgradeClass->adminDir);
-        if (file_exists($this->upgradeClass->latestRootDir.DIRECTORY_SEPARATOR.'admin')) {
-            rename($this->upgradeClass->latestRootDir.DIRECTORY_SEPARATOR.'admin', $this->upgradeClass->latestRootDir.DIRECTORY_SEPARATOR.$admin_dir);
-        } elseif (file_exists($this->upgradeClass->latestRootDir.DIRECTORY_SEPARATOR.'admin-dev')) {
-            rename($this->upgradeClass->latestRootDir.DIRECTORY_SEPARATOR.'admin-dev', $this->upgradeClass->latestRootDir.DIRECTORY_SEPARATOR.$admin_dir);
+        $admin_dir = str_replace($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH).DIRECTORY_SEPARATOR, '', $this->getProperty(self::PS_ADMIN_PATH));
+        if (file_exists($this->container->getProperty(UpgradeContainer::LATEST_PATH).DIRECTORY_SEPARATOR.'admin')) {
+            rename($this->container->getProperty(UpgradeContainer::LATEST_PATH).DIRECTORY_SEPARATOR.'admin', $this->container->getProperty(UpgradeContainer::LATEST_PATH).DIRECTORY_SEPARATOR.$admin_dir);
+        } elseif (file_exists($this->container->getProperty(UpgradeContainer::LATEST_PATH).DIRECTORY_SEPARATOR.'admin-dev')) {
+            rename($this->container->getProperty(UpgradeContainer::LATEST_PATH).DIRECTORY_SEPARATOR.'admin-dev', $this->container->getProperty(UpgradeContainer::LATEST_PATH).DIRECTORY_SEPARATOR.$admin_dir);
         }
-        if (file_exists($this->upgradeClass->latestRootDir.DIRECTORY_SEPARATOR.'install-dev')) {
-            rename($this->upgradeClass->latestRootDir.DIRECTORY_SEPARATOR.'install-dev', $this->upgradeClass->latestRootDir.DIRECTORY_SEPARATOR.'install');
+        if (file_exists($this->container->getProperty(UpgradeContainer::LATEST_PATH).DIRECTORY_SEPARATOR.'install-dev')) {
+            rename($this->container->getProperty(UpgradeContainer::LATEST_PATH).DIRECTORY_SEPARATOR.'install-dev', $this->container->getProperty(UpgradeContainer::LATEST_PATH).DIRECTORY_SEPARATOR.'install');
         }
         
         // list saved in UpgradeFileNames::toUpgradeFileList
         // get files differences (previously generated)
-        $admin_dir = trim(str_replace($this->upgradeClass->prodRootDir, '', $this->upgradeClass->adminDir), DIRECTORY_SEPARATOR);
-        $filepath_list_diff = $this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFileNames::diffFileList;
+        $admin_dir = trim(str_replace($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH), '', $this->getProperty(self::PS_ADMIN_PATH)), DIRECTORY_SEPARATOR);
+        $filepath_list_diff = $this->container->getProperty(UpgradeContainer::WORKSPACE_PATH).DIRECTORY_SEPARATOR.UpgradeFileNames::diffFileList;
         $list_files_diff = array();
         if (file_exists($filepath_list_diff)) {
             $list_files_diff = $this->container->getFileConfigurationStorage()->load(UpgradeFileNames::diffFileList);
@@ -232,7 +233,7 @@ class UpgradeFiles extends AbstractTask
             } // do not replace by DIRECTORY_SEPARATOR
         }
 
-        if (!($list_files_to_upgrade = $this->listFilesToUpgrade($this->upgradeClass->latestRootDir))) {
+        if (!($list_files_to_upgrade = $this->listFilesToUpgrade($this->container->getProperty(UpgradeContainer::LATEST_PATH)))) {
             return false;
         }
 
@@ -262,17 +263,16 @@ class UpgradeFiles extends AbstractTask
 
         // save in a serialized array in UpgradeFileNames::toUpgradeFileList
         $this->container->getFileConfigurationStorage()->save($list_files_to_upgrade, UpgradeFileNames::toUpgradeFileList);
-        $this->upgradeClass->nextParams['filesToUpgrade'] = UpgradeFileNames::toUpgradeFileList;
         $total_files_to_upgrade = count($list_files_to_upgrade);
 
         if ($total_files_to_upgrade == 0) {
             $this->logger->error($this->translator->trans('[ERROR] Unable to find files to upgrade.', array(), 'Modules.Autoupgrade.Admin'));
-            $this->upgradeClass->next = 'error';
+            $this->next = 'error';
             return false;
         }
         $this->logger->info($this->translator->trans('%s files will be upgraded.', array($total_files_to_upgrade), 'Modules.Autoupgrade.Admin'));
-        $this->upgradeClass->next = 'upgradeFiles';
-        $this->upgradeClass->stepDone = false;
+        $this->next = 'upgradeFiles';
+        $this->stepDone = false;
         return true;
     }
 }

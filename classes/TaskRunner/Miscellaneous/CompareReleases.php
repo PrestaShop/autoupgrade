@@ -39,7 +39,7 @@ class CompareReleases extends AbstractTask
     public function run()
     {
         // do nothing after this request (see javascript function doAjaxRequest )
-        $this->upgradeClass->next = '';
+        $this->next = '';
         $channel = $this->container->getUpgradeConfiguration()->get('channel');
         $upgrader = new Upgrader();
         switch ($channel) {
@@ -63,12 +63,12 @@ class CompareReleases extends AbstractTask
 
         $diffFileList = $upgrader->getDiffFilesList(_PS_VERSION_, $version);
         if (!is_array($diffFileList)) {
-            $this->upgradeClass->nextParams['status'] = 'error';
-            $this->upgradeClass->nextParams['msg'] = sprintf('Unable to generate diff file list between %1$s and %2$s.', _PS_VERSION_, $version);
+            $this->nextParams['status'] = 'error';
+            $this->nextParams['msg'] = sprintf('Unable to generate diff file list between %1$s and %2$s.', _PS_VERSION_, $version);
         } else {
             $this->container->getFileConfigurationStorage()->save($diffFileList, UpgradeFileNames::diffFileList);
             if (count($diffFileList) > 0) {
-                $this->upgradeClass->nextParams['msg'] = $this->translator->trans(
+                $this->nextParams['msg'] = $this->translator->trans(
                     '%modifiedfiles% files will be modified, %deletedfiles% files will be deleted (if they are found).',
                     array(
                         '%modifiedfiles%' => count($diffFileList['modified']),
@@ -76,9 +76,9 @@ class CompareReleases extends AbstractTask
                     ),
                     'Modules.Autoupgrade.Admin');
             } else {
-                $this->upgradeClass->nextParams['msg'] = $this->translator->trans('No diff files found.', array(), 'Modules.Autoupgrade.Admin');
+                $this->nextParams['msg'] = $this->translator->trans('No diff files found.', array(), 'Modules.Autoupgrade.Admin');
             }
-            $this->upgradeClass->nextParams['result'] = $diffFileList;
+            $this->nextParams['result'] = $diffFileList;
         }
     }
 }

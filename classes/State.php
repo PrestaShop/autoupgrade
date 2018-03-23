@@ -38,6 +38,34 @@ class State
     private $restoreName = null;
     private $restoreFilesFilename = null;
     private $restoreDbFilenames = array();
+
+    // STEP BackupDb
+    private $backup_lines = null;
+    private $backup_loop_limit = null;
+    private $backup_table = null;
+
+    /**
+     * Int during BackupDb, allowing the script to increent the number of different file names
+     * String during step RestoreDb, which contains the file to process (Data coming from toRestoreQueryList)
+     * @var String|int Contains the SQL progress
+     */
+    private $dbStep = 0;
+
+    /**
+     * Data filled in upgrade warmup, to avoid risky tasks during the process
+     * @var array|null File containing sample files to be deleted
+     */
+    private $removeList = null;
+    /**
+     *
+     * @var string|null File containing files to be upgraded
+     */
+    private $fileToUpgrade = null;
+    /**
+     * @var string|null File containing modules to be upgraded
+     */
+    private $modulesToUpgrade = null;
+
     /**
      * installedLanguagesIso is an array of iso_code of each installed languages
      * @var array
@@ -49,7 +77,9 @@ class State
      */
     private $modules_addons = array();
 
-    // ToDo: To be moved in ajax response ?
+    /**
+     * @var bool Determining if all steps went totally successfully
+     */
     private $warning_exists = false;
 
     /**
@@ -125,6 +155,31 @@ class State
         return $this->backupDbFilename;
     }
 
+    public function getBackupLines()
+    {
+        return $this->backup_lines;
+    }
+
+    public function getBackupLoopLimit()
+    {
+        return $this->backup_loop_limit;
+    }
+
+    public function getBackupTable()
+    {
+        return $this->backup_table;
+    }
+
+    public function getDbStep()
+    {
+        return $this->dbStep;
+    }
+
+    public function getRemoveList()
+    {
+        return $this->removeList;
+    }
+
     public function getRestoreName()
     {
         return $this->restoreName;
@@ -181,6 +236,37 @@ class State
     public function setBackupDbFilename($backupDbFilename)
     {
         $this->backupDbFilename = $backupDbFilename;
+        return $this;
+    }
+
+    public function setBackupLines($backup_lines)
+    {
+        $this->backup_lines = $backup_lines;
+        return $this;
+    }
+
+    public function setBackupLoopLimit($backup_loop_limit)
+    {
+        $this->backup_loop_limit = $backup_loop_limit;
+        return $this;
+    }
+
+    public function setBackupTable($backup_table)
+    {
+        $this->backup_table = $backup_table;
+        return $this;
+    }
+
+
+    public function setDbStep(String $dbStep)
+    {
+        $this->dbStep = $dbStep;
+        return $this;
+    }
+
+    public function setRemoveList($removeList)
+    {
+        $this->removeList = $removeList;
         return $this;
     }
 

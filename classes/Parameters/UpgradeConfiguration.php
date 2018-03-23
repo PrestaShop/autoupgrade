@@ -33,6 +33,11 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class UpgradeConfiguration extends ArrayCollection
 {
+    public function getChannel()
+    {
+        return $this->get('channel');
+    }
+
     public function shouldDeactivateCustomModules()
     {
         return (bool) $this->get('PS_AUTOUP_CUSTOM_MOD_DESACT');

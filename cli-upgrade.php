@@ -25,16 +25,13 @@
  */
 
 require_once(realpath(dirname(__FILE__).'/../../modules/autoupgrade').'/ajax-upgradetabconfig.php');
-autoupgrade_ajax_init(dirname(__FILE__));
-
-$adminObj = new AdminSelfUpgrade();
+$container = autoupgrade_init_container(dirname(__FILE__));
 
 if (php_sapi_name() !== 'cli') {
     echo 'This script must be called from CLI';
 }
 
-$container = new PrestaShop\Module\AutoUpgrade\UpgradeContainer(_PS_ROOT_DIR_, _PS_ADMIN_DIR_);
 $container->setLogger(new PrestaShop\Module\AutoUpgrade\Log\StreamedLogger());
-$controller = new \PrestaShop\Module\AutoUpgrade\TaskRunner\AllUpgradeTasks($container, $adminObj);
+$controller = new \PrestaShop\Module\AutoUpgrade\TaskRunner\AllUpgradeTasks($container);
 $controller->setOptions(getopt('', array('channel::')));
 exit($controller->run());

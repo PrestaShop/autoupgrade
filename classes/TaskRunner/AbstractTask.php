@@ -32,11 +32,6 @@ use Psr\Log\LoggerInterface;
 abstract class AbstractTask
 {
     /**
-     * @var \AdminSelfUpgrade
-     */
-    protected $upgradeClass;
-
-    /**
      * @var LoggerInterface
      */
     protected $logger;
@@ -51,13 +46,30 @@ abstract class AbstractTask
      */
     protected $container;
 
-    public function __construct(UpgradeContainer $container, \AdminSelfUpgrade $upgradeClass)
+    // Task progress details
+    protected $stepDone = true;
+    protected $status = true;
+    protected $error = false;
+    protected $nextParams = array();
+    protected $next = 'N/A';
+
+    public function __construct(UpgradeContainer $container)
     {
         $this->container = $container;
-        $this->upgradeClass = $upgradeClass;
         $this->logger = $this->container->getLogger();
         $this->translator = $this->container->getTranslator();
         $this->checkTaskMayRun();
+    }
+
+    public function getAjaxResponse()
+    {
+        $response = new AjaxResponse($this->container->getTranslator(), $this->container->getState(), $this->upgradeContainer->getLogger());
+        return $response->setError($this->error)
+            ->setStepDone($this->stepDone)
+            ->setNext($this->next)
+            ->setNextParams($this->nextParams)
+            ->setUpgradeConfiguration($this->container->getUpgradeConfiguration())
+            ->getJsonResponse();
     }
 
     private function checkTaskMayRun()
@@ -70,7 +82,7 @@ abstract class AbstractTask
         if (!empty($_POST['action'])) {
             $action = $_POST['action'];
             if (isset(\AdminSelfUpgrade::$skipAction[$action])) {
-                $this->upgradeClass->next = \AdminSelfUpgrade::$skipAction[$action];
+                $this->next = \AdminSelfUpgrade::$skipAction[$action];
                 $this->logger->info($this->translator->trans('Action %s skipped', array($action), 'Modules.Autoupgrade.Admin'));
                 unset($_POST['action']);
             }

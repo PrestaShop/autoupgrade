@@ -72,8 +72,6 @@ class Upgrader
 			$matches = array();
 			preg_match('#([0-9]+\.[0-9]+)\.[0-9]+\.[0-9]+#', _PS_VERSION_, $matches);
 			$this->branch = $matches[1];
-			if (class_exists('Configuration', false))
-				$this->channel = Configuration::get('PS_UPGRADE_CHANNEL');
 			if (empty($this->channel))
 				$this->channel = Upgrader::$default_channel;
 			// checkPSVersion to get need_upgrade

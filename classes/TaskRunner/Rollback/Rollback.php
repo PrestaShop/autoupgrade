@@ -37,17 +37,16 @@ class Rollback extends AbstractTask
     public function run()
     {
         // 1st, need to analyse what was wrong.
-        $this->upgradeClass->nextParams = $this->upgradeClass->currentParams;
         $restoreName = $this->container->getState()-> getRestoreName();
         $this->container->getState()-> setRestoreFilesFilename($restoreName);
         $restoreDbFilenames = $this->container->getState()-> getRestoreDbFilenames();
 
         if (empty($restoreName)) {
-            $this->upgradeClass->next = 'noRollbackFound';
+            $this->next = 'noRollbackFound';
             return;
         }
 
-        $files = scandir($this->upgradeClass->backupPath);
+        $files = scandir($this->container->getProperty(UpgradeContainer::BACKUP_PATH));
         // find backup filenames, and be sure they exists
         foreach ($files as $file) {
             if (preg_match('#'.preg_quote('auto-backupfiles_'.$restoreName).'#', $file)) {
@@ -55,12 +54,12 @@ class Rollback extends AbstractTask
                 break;
             }
         }
-        if (!is_file($this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$this->container->getState()-> getRestoreFilesFilename())) {
-            $this->upgradeClass->next = 'error';
+        if (!is_file($this->container->getProperty(UpgradeContainer::BACKUP_PATH).DIRECTORY_SEPARATOR.$this->container->getState()-> getRestoreFilesFilename())) {
+            $this->next = 'error';
             $this->logger->error($this->translator->trans('[ERROR] File %s is missing: unable to restore files. Operation aborted.', array($this->container->getState()-> getRestoreFilesFilename()), 'Modules.Autoupgrade.Admin'));
             return false;
         }
-        $files = scandir($this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$restoreName);
+        $files = scandir($this->container->getProperty(UpgradeContainer::BACKUP_PATH).DIRECTORY_SEPARATOR.$restoreName);
         foreach ($files as $file) {
             if (preg_match('#auto-backupdb_[0-9]{6}_'.preg_quote($restoreName).'#', $file)) {
                 $restoreDbFilenames[] = $file;
@@ -72,19 +71,19 @@ class Rollback extends AbstractTask
         sort($restoreDbFilenames);
         $this->container->getState()-> setRestoreDbFilenames($restoreDbFilenames);
         if (count($restoreDbFilenames) == 0) {
-            $this->upgradeClass->next = 'error';
+            $this->next = 'error';
             $this->logger->error($this->translator->trans('[ERROR] No backup database files found: it would be impossible to restore the database. Operation aborted.', array(), 'Modules.Autoupgrade.Admin'));
             return false;
         }
 
-        $this->upgradeClass->next = 'restoreFiles';
+        $this->next = 'restoreFiles';
         $this->logger->info($this->translator->trans('Restoring files ...', array(), 'Modules.Autoupgrade.Admin'));
         // remove tmp files related to restoreFiles
-        if (file_exists($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFileNames::fromArchiveFileList)) {
-            unlink($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFileNames::fromArchiveFileList);
+        if (file_exists($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH).DIRECTORY_SEPARATOR.UpgradeFileNames::fromArchiveFileList)) {
+            unlink($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH).DIRECTORY_SEPARATOR.UpgradeFileNames::fromArchiveFileList);
         }
-        if (file_exists($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFileNames::toRemoveFileList)) {
-            unlink($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFileNames::toRemoveFileList);
+        if (file_exists($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH).DIRECTORY_SEPARATOR.UpgradeFileNames::toRemoveFileList)) {
+            unlink($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH).DIRECTORY_SEPARATOR.UpgradeFileNames::toRemoveFileList);
         }
     }
 }

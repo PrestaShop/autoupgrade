@@ -35,12 +35,10 @@ class UpgradeDb extends AbstractTask
 {
     public function run()
     {
-        $this->upgradeClass->nextParams = $this->upgradeClass->currentParams;
-
         try {
             $this->getCoreUpgrader()->doUpgrade();
         } catch (UpgradeException $e ) {
-            $this->upgradeClass->next = 'error';
+            $this->next = 'error';
             foreach ($e->getQuickInfos() as $log) {
                 $this->logger->debug($log);
             }
@@ -48,7 +46,7 @@ class UpgradeDb extends AbstractTask
             $this->logger->error($e->getMessage());
             return false;
         }
-        $this->upgradeClass->next = 'upgradeModules';
+        $this->next = 'upgradeModules';
         $this->logger->info($this->translator->trans('Database upgraded. Now upgrading your Addons modules...', array(), 'Modules.Autoupgrade.Admin'));
         return true;
     }

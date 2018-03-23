@@ -28,6 +28,7 @@ namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback;
 
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 /**
  * ajaxProcessRestoreFiles restore the previously saved files,
@@ -38,11 +39,11 @@ class RestoreFiles extends AbstractTask
     public function run()
     {
         // loop
-        $this->upgradeClass->next = 'restoreFiles';
-        if (!file_exists($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFileNames::fromArchiveFileList)
-            || !file_exists($this->upgradeClass->autoupgradePath.DIRECTORY_SEPARATOR.UpgradeFileNames::toRemoveFileList)) {
+        $this->next = 'restoreFiles';
+        if (!file_exists($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH).DIRECTORY_SEPARATOR.UpgradeFileNames::fromArchiveFileList)
+            || !file_exists($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH).DIRECTORY_SEPARATOR.UpgradeFileNames::toRemoveFileList)) {
             // cleanup current PS tree
-            $fromArchive = $this->container->getZipAction()->listContent($this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$this->container->getState()-> getRestoreFilesFilename());
+            $fromArchive = $this->container->getZipAction()->listContent($this->container->getProperty(UpgradeContainer::BACKUP_PATH).DIRECTORY_SEPARATOR.$this->container->getState()-> getRestoreFilesFilename());
             foreach ($fromArchive as $k => $v) {
                 $fromArchive[DIRECTORY_SEPARATOR.$v] = DIRECTORY_SEPARATOR.$v;
             }
@@ -56,11 +57,11 @@ class RestoreFiles extends AbstractTask
             // remove fullpath. This will be added later in the loop.
             // we do that for avoiding fullpath to be revealed in a text file
             foreach ($toRemove as $k => $v) {
-                $vfile = str_replace($this->upgradeClass->prodRootDir, '', $v);
-                $toRemove[] = str_replace($this->upgradeClass->prodRootDir, '', $vfile);
+                $vfile = str_replace($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH), '', $v);
+                $toRemove[] = str_replace($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH), '', $vfile);
 
                 if (!isset($fromArchive[$vfile]) && is_file($v)) {
-                    $toRemoveOnly[$vfile] = str_replace($this->upgradeClass->prodRootDir, '', $vfile);
+                    $toRemoveOnly[$vfile] = str_replace($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH), '', $vfile);
                 }
             }
 
@@ -75,18 +76,18 @@ class RestoreFiles extends AbstractTask
                     $this->logger->error($this->translator->trans('[ERROR] File "%s" does not exist.', array(UpgradeFileNames::toRemoveFileList), 'Modules.Autoupgrade.Admin'));
                 }
                 $this->logger->info($this->translator->trans('Unable to remove upgraded files.', array(), 'Modules.Autoupgrade.Admin'));
-                $this->upgradeClass->next = 'error';
+                $this->next = 'error';
                 return false;
             }
         }
 
         if (!empty($fromArchive)) {
-            $filepath = $this->upgradeClass->backupPath.DIRECTORY_SEPARATOR.$this->container->getState()-> getRestoreFilesFilename();
-            $destExtract = $this->upgradeClass->prodRootDir;
+            $filepath = $this->container->getProperty(UpgradeContainer::BACKUP_PATH).DIRECTORY_SEPARATOR.$this->container->getState()-> getRestoreFilesFilename();
+            $destExtract = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH);
 
             $res = $this->container->getZipAction()->extract($filepath, $destExtract);
             if (!$res) {
-                $this->upgradeClass->next = 'error';
+                $this->next = 'error';
                 $this->logger->error($this->translator->trans(
                     'Unable to extract file %filename% into directory %directoryname% .',
                     array(
@@ -100,11 +101,11 @@ class RestoreFiles extends AbstractTask
 
             if (!empty($toRemoveOnly)) {
                 foreach ($toRemoveOnly as $fileToRemove) {
-                    @unlink($this->upgradeClass->prodRootDir . $fileToRemove);
+                    @unlink($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . $fileToRemove);
                 }
             }
 
-            $this->upgradeClass->next = 'restoreDb';
+            $this->next = 'restoreDb';
             $this->logger->debug($this->translator->trans('Files restored.', array(), 'Modules.Autoupgrade.Admin'));
             $this->logger->info($this->translator->trans('Files restored. Now restoring database...', array(), 'Modules.Autoupgrade.Admin'));
             return true;

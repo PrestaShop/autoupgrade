@@ -28,6 +28,7 @@ namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use Symfony\Component\Filesystem\Filesystem;
+use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 /**
 * extract chosen version into $this->upgradeClass->latestPath directory
@@ -37,7 +38,7 @@ class Unzip extends AbstractTask
     public function run()
     {
         $filepath = $this->container->getFilePath();
-        $destExtract = $this->upgradeClass->latestPath;
+        $destExtract = $this->container->getProperty(UpgradeContainer::LATEST_PATH);
 
         if (file_exists($destExtract)) {
             \AdminSelfUpgrade::deleteDirectory($destExtract, false);
@@ -47,16 +48,16 @@ class Unzip extends AbstractTask
         $report = '';
         if (!\ConfigurationTest::test_dir($relative_extract_path, false, $report)) {
             $this->logger->error($this->translator->trans('Extraction directory %s is not writable.', array($destExtract), 'Modules.Autoupgrade.Admin'));
-            $this->upgradeClass->next = 'error';
-            $this->upgradeClass->error = true;
+            $this->next = 'error';
+            $this->error = true;
             return false;
         }
 
         $res = $this->container->getZipAction()->extract($filepath, $destExtract);
 
         if (!$res) {
-            $this->upgradeClass->next = 'error';
-            $this->upgradeClass->error= true;
+            $this->next = 'error';
+            $this->error = true;
             $this->logger->info($this->translator->trans(
                 'Unable to extract %filepath% file into %destination% folder...',
                 array(
@@ -77,7 +78,7 @@ class Unzip extends AbstractTask
 
             $subRes = $this->container->getZipAction()->extract($newZip, $destExtract);
             if (!$subRes) {
-                $this->upgradeClass->next = 'error';
+                $this->next = 'error';
                 $this->logger->info($this->translator->trans(
                     'Unable to extract %filepath% file into %destination% folder...',
                     array(
@@ -101,8 +102,8 @@ class Unzip extends AbstractTask
         }
 
         // Unsetting to force listing
-        unset($this->upgradeClass->nextParams['removeList']);
-        $this->upgradeClass->next = 'removeSamples';
+        $this->container->getState()->setRemoveList(null);
+        $this->next = 'removeSamples';
         $this->logger->info($this->translator->trans('File extraction complete. Removing sample files...', array(), 'Modules.Autoupgrade.Admin'));
 
         @unlink($newZip);

@@ -41,11 +41,11 @@ class UpgradeModules extends AbstractTask
             return $this->warmUp();
         }
 
-        $this->upgradeClass->next = 'upgradeModules';
-        $listModules = $this->container->getFileConfigurationStorage()->load($this->upgradeClass->nextParams['modulesToUpgrade']);
+        $this->next = 'upgradeModules';
+        $listModules = $this->container->getFileConfigurationStorage()->load(UpgradeFileNames::toUpgradeModuleList);
 
         if (!is_array($listModules)) {
-            $this->upgradeClass->next = 'upgradeComplete';
+            $this->next = 'upgradeComplete';
             $this->container->getState()-> setWarningExists(true);
             $this->logger->error($this->translator->trans('listModules is not an array. No module has been updated.', array(), 'Modules.Autoupgrade.Admin'));
             return true;
@@ -60,7 +60,7 @@ class UpgradeModules extends AbstractTask
                     $this->container->getModuleAdapter()->upgradeModule($module_info['id'], $module_info['name']);
                     $this->logger->debug($this->translator->trans('The files of module %s have been upgraded.', array($module_info['name']), 'Modules.Autoupgrade.Admin'));
                 } catch (UpgradeException $e) {
-                    $this->upgradeClass->handleException($e);
+                    $this->handleException($e);
                 }
                 $time_elapsed = time() - $start_time;
             } while (($time_elapsed < \AdminSelfUpgrade::$loopUpgradeModulesTime) && count($listModules) > 0);
@@ -69,11 +69,11 @@ class UpgradeModules extends AbstractTask
             $this->container->getFileConfigurationStorage()->save($listModules, UpgradeFileNames::toUpgradeModuleList);
             unset($listModules);
 
-            $this->upgradeClass->next = 'upgradeModules';
+            $this->next = 'upgradeModules';
             if ($modules_left) {
                 $this->logger->info($this->translator->trans('%s modules left to upgrade.', array($modules_left), 'Modules.Autoupgrade.Admin'));
             }
-            $this->upgradeClass->stepDone = false;
+            $this->stepDone = false;
         } else {
             $modules_to_delete = array(
                 'backwardcompatibility' => 'Backward Compatibility',
@@ -87,14 +87,14 @@ class UpgradeModules extends AbstractTask
             );
 
             foreach ($modules_to_delete as $key => $module) {
-                $this->upgradeClass->db->execute('DELETE ms.*, hm.*
+                $this->container->getDb()->execute('DELETE ms.*, hm.*
                 FROM `'._DB_PREFIX_.'module_shop` ms
                 INNER JOIN `'._DB_PREFIX_.'hook_module` hm USING (`id_module`)
                 INNER JOIN `'._DB_PREFIX_.'module` m USING (`id_module`)
                 WHERE m.`name` LIKE \''.pSQL($key).'\'');
-                $this->upgradeClass->db->execute('UPDATE `'._DB_PREFIX_.'module` SET `active` = 0 WHERE `name` LIKE \''.pSQL($key).'\'');
+                $this->container->getDb()->execute('UPDATE `'._DB_PREFIX_.'module` SET `active` = 0 WHERE `name` LIKE \''.pSQL($key).'\'');
 
-                $path = $this->upgradeClass->prodRootDir.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR.$key.DIRECTORY_SEPARATOR;
+                $path = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH).DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR.$key.DIRECTORY_SEPARATOR;
                 if (file_exists($path.$key.'.php')) {
                     if (\AdminSelfUpgrade::deleteDirectory($path)) {
                         $this->logger->debug($this->translator->trans(
@@ -118,13 +118,10 @@ class UpgradeModules extends AbstractTask
                 }
             }
 
-            $this->upgradeClass->stepDone = true;
-            $this->upgradeClass->status = 'ok';
-            $this->upgradeClass->next = 'cleanDatabase';
+            $this->stepDone = true;
+            $this->status = 'ok';
+            $this->next = 'cleanDatabase';
             $this->logger->info($this->translator->trans('Addons modules files have been upgraded.', array(), 'Modules.Autoupgrade.Admin'));
-            if ($this->upgradeClass->manualMode) {
-                $this->upgradeClass->writeConfig(array('PS_AUTOUP_MANUAL_MODE' => '0'));
-            }
             return true;
         }
         return true;
@@ -135,9 +132,8 @@ class UpgradeModules extends AbstractTask
         try {
             $modulesToUpgrade = $this->container->getModuleAdapter()->listModulesToUpgrade($this->container->getState()-> getModules_addons());
             $this->container->getFileConfigurationStorage()->save($modulesToUpgrade, UpgradeFileNames::toUpgradeModuleList);
-            $this->upgradeClass->nextParams['modulesToUpgrade'] = UpgradeFileNames::toUpgradeModuleList;
         } catch (UpgradeException $e) {
-            $this->upgradeClass->handleException($e);
+            $this->handleException($e);
             return false;
         }
 
@@ -145,8 +141,24 @@ class UpgradeModules extends AbstractTask
         if ($total_modules_to_upgrade) {
             $this->logger->info($this->translator->trans('%s modules will be upgraded.', array($total_modules_to_upgrade), 'Modules.Autoupgrade.Admin'));
         }
-        $this->upgradeClass->stepDone = false;
-        $this->upgradeClass->next = 'upgradeModules';
+        $this->stepDone = false;
+        $this->next = 'upgradeModules';
         return true;
+    }
+
+    private function handleException(UpgradeException $e)
+    {
+        $logger = $this->upgradeContainer->getLogger();
+        foreach($e->getQuickInfos() as $log) {
+            $logger->debug($log);
+        }
+        if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {
+            $this->next = 'error';
+            $this->error = true;
+            $logger->error($e->getMessage());
+        }
+        if ($e->getSeverity() === UpgradeException::SEVERITY_WARNING) {
+            $logger->warning($e->getMessage());
+        }
     }
 }

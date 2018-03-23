@@ -41,7 +41,7 @@ class UpgradeNow extends AbstractTask
 
         $channel = $this->container->getUpgradeConfiguration()->get('channel');
         $upgrader = $this->container->getUpgrader();
-        $this->upgradeClass->next = 'download';
+        $this->next = 'download';
         preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', _PS_VERSION_, $matches);
         $upgrader->branch = $matches[1];
         $upgrader->channel = $channel;
@@ -54,17 +54,17 @@ class UpgradeNow extends AbstractTask
         switch ($channel) {
             case 'directory':
                 // if channel directory is chosen, we assume it's "ready for use" (samples already removed for example)
-                $this->upgradeClass->next = 'removeSamples';
+                $this->next = 'removeSamples';
                 $this->logger->debug($this->translator->trans('Skip downloading and unzipping steps, upgrade process will now remove sample data.', array(), 'Modules.Autoupgrade.Admin'));
                 $this->logger->info($this->translator->trans('Shop deactivated. Removing sample files...', array(), 'Modules.Autoupgrade.Admin'));
                 break;
             case 'archive':
-                $this->upgradeClass->next = 'unzip';
+                $this->next = 'unzip';
                 $this->logger->debug($this->translator->trans('Skip downloading step, upgrade process will now unzip the local archive.', array(), 'Modules.Autoupgrade.Admin'));
                 $this->logger->info($this->translator->trans('Shop deactivated. Extracting files...', array(), 'Modules.Autoupgrade.Admin'));
                 break;
             default:
-                $this->upgradeClass->next = 'download';
+                $this->next = 'download';
                 $this->logger->info($this->translator->trans('Shop deactivated. Now downloading... (this can take a while)', array(), 'Modules.Autoupgrade.Admin'));
                 if ($upgrader->channel == 'private') {
                     $upgrader->link = $this->container->getUpgradeConfiguration()->get('private_release_link');

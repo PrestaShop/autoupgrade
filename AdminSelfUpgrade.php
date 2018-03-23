@@ -50,20 +50,8 @@ class AdminSelfUpgrade extends AdminController
     public $id = -1;
 
     public $ajax = false;
-    public $next = 'N/A';
 
     public $standalone = true;
-
-    /**
-     * set to false if the current step is a loop
-     *
-     * @var boolean
-     */
-    public $stepDone = true;
-    public $status = true;
-    public $error = '0';
-    public $nextParams = array();
-    public $currentParams = array();
 
     /**
      * Initialized in initPath()
@@ -314,9 +302,10 @@ class AdminSelfUpgrade extends AdminController
         }
         // from $_POST or $_GET
         $this->action = empty($_REQUEST['action'])?null:$_REQUEST['action'];
-        $this->currentParams = empty($_REQUEST['params'])?array():$_REQUEST['params'];
         $this->initPath();
-        $this->upgradeContainer->getState()->importFromArray($this->currentParams);
+        $this->upgradeContainer->getState()->importFromArray(
+            empty($_REQUEST['params']) ? array() : $_REQUEST['params']
+        );
 
         // If you have defined this somewhere, you know what you do
         /* load options from configuration if we're not in ajax mode */
@@ -336,27 +325,15 @@ class AdminSelfUpgrade extends AdminController
         $this->updateDefaultTheme = $this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_UPDATE_DEFAULT_THEME');
         $this->changeToDefaultTheme = $this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_CHANGE_DEFAULT_THEME');
         $this->keepMails = $this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_KEEP_MAILS');
-        $this->manualMode = (defined('_PS_MODE_DEV_') && _PS_MODE_DEV_)? (bool)$this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_MANUAL_MODE') : false;
+        $this->manualMode = $this->upgradeContainer->getUpgradeConfiguration()->isManualModeEnabled();
         $this->deactivateCustomModule = $this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_CUSTOM_MOD_DESACT');
     }
 
     /**
      * create some required directories if they does not exists
-     *
-     * Also set nextParams (removeList and filesToUpgrade) if they
-     * exists in currentParams
-     *
      */
     public function initPath()
     {
-        // If not exists in this sessions, "create"
-        // session handling : from current to next params
-        foreach (array('removeList', 'filesToUpgrade', 'modulesToUpgrade') as $attr) {
-            if (isset($this->currentParams[$attr])) {
-                $this->nextParams[$attr] = $this->currentParams[$attr];
-            }
-        }
-
         // set autoupgradePath, to be used in backupFiles and backupDb config values
         $this->autoupgradePath = $this->adminDir.DIRECTORY_SEPARATOR.$this->autoupgradeDir;
         $this->backupPath = $this->autoupgradePath.DIRECTORY_SEPARATOR.'backup';
@@ -394,28 +371,6 @@ class AdminSelfUpgrade extends AdminController
     {
         $this->_setFields();
 
-        // set default configuration to default channel & dafault configuration for backup and upgrade
-        // (can be modified in expert mode)
-        $config = $this->upgradeContainer->getUpgradeConfiguration()->get('channel');
-        if ($config === null) {
-            $config = array();
-            $config['channel'] = Upgrader::DEFAULT_CHANNEL;
-            $this->writeConfig($config);
-            if (class_exists('Configuration', false)) {
-                Configuration::updateValue('PS_UPGRADE_CHANNEL', $config['channel']);
-            }
-
-            $this->writeConfig(array(
-                'PS_AUTOUP_PERFORMANCE' => '1',
-                'PS_AUTOUP_CUSTOM_MOD_DESACT' => '1',
-                'PS_AUTOUP_UPDATE_DEFAULT_THEME' => '1',
-                'PS_AUTOUP_CHANGE_DEFAULT_THEME' => '0',
-                'PS_AUTOUP_KEEP_MAILS' => '0',
-                'PS_AUTOUP_BACKUP' => '1',
-                'PS_AUTOUP_KEEP_IMAGES' => '0'
-                ));
-        }
-
         if (Tools14::isSubmit('putUnderMaintenance')) {
             foreach (Shop::getCompleteListOfShopsID() as $id_shop) {
                 Configuration::updateValue('PS_SHOP_ENABLE', 0, false, null, (int)$id_shop);
@@ -423,19 +378,19 @@ class AdminSelfUpgrade extends AdminController
             Configuration::updateGlobalValue('PS_SHOP_ENABLE', 0);
         }
 
-        if (Tools14::isSubmit('customSubmitAutoUpgrade')) {
-            $config_keys = array_keys(array_merge($this->_fieldsUpgradeOptions, $this->_fieldsBackupOptions));
-            $config = array();
-            foreach ($config_keys as $key) {
-                if (isset($_POST[$key])) {
-                    $config[$key] = $_POST[$key];
-                }
-            }
-            $res = $this->writeConfig($config);
-            if ($res) {
-                Tools14::redirectAdmin(self::$currentIndex.'&conf=6&token='.Tools14::getValue('token'));
-            }
-        }
+//        if (Tools14::isSubmit('customSubmitAutoUpgrade')) {
+//            $config_keys = array_keys(array_merge($this->_fieldsUpgradeOptions, $this->_fieldsBackupOptions));
+//            $config = array();
+//            foreach ($config_keys as $key) {
+//                if (isset($_POST[$key])) {
+//                    $config[$key] = $_POST[$key];
+//                }
+//            }
+//            $res = $this->writeConfig($config);
+//            if ($res) {
+//                Tools14::redirectAdmin(self::$currentIndex.'&conf=6&token='.Tools14::getValue('token'));
+//            }
+//        }
 
         if (Tools14::isSubmit('deletebackup')) {
             $res = false;
@@ -467,19 +422,19 @@ class AdminSelfUpgrade extends AdminController
      * @param array $new_config
      * @return boolean true if success
      */
-    public function writeConfig($config)
-    {
-        if (!$this->upgradeContainer->getFileConfigurationStorage()->exists(UpgradeFileNames::configFilename) && !empty($config['channel'])) {
-            $this->upgradeContainer->getUpgrader()->channel = $config['channel'];
-            $this->upgradeContainer->getUpgrader()->checkPSVersion();
-
-            $this->upgradeContainer->getState()->setInstallVersion($this->upgradeContainer->getUpgrader()->version_num);
-        }
-
-        $this->upgradeContainer->getUpgradeConfiguration()->merge($config);
-        $this->upgradeContainer->getLogger()->info($this->trans('Configuration successfully updated.', array(), 'Modules.Autoupgrade.Admin').' <strong>'.$this->trans('This page will now be reloaded and the module will check if a new version is available.', array(), 'Modules.Autoupgrade.Admin').'</strong>');
-        return (new UpgradeConfigurationStorage($this->autoupgradePath.DIRECTORY_SEPARATOR))->save($this->upgradeContainer->getUpgradeConfiguration(), UpgradeFileNames::configFilename);
-    }
+//    public function writeConfig($config)
+//    {
+//        if (!$this->upgradeContainer->getFileConfigurationStorage()->exists(UpgradeFileNames::configFilename) && !empty($config['channel'])) {
+//            $this->upgradeContainer->getUpgrader()->channel = $config['channel'];
+//            $this->upgradeContainer->getUpgrader()->checkPSVersion();
+//
+//            $this->upgradeContainer->getState()->setInstallVersion($this->upgradeContainer->getUpgrader()->version_num);
+//        }
+//
+//        $this->upgradeContainer->getUpgradeConfiguration()->merge($config);
+//        $this->upgradeContainer->getLogger()->info($this->trans('Configuration successfully updated.', array(), 'Modules.Autoupgrade.Admin').' <strong>'.$this->trans('This page will now be reloaded and the module will check if a new version is available.', array(), 'Modules.Autoupgrade.Admin').'</strong>');
+//        return (new UpgradeConfigurationStorage($this->autoupgradePath.DIRECTORY_SEPARATOR))->save($this->upgradeContainer->getUpgradeConfiguration(), UpgradeFileNames::configFilename);
+//    }
 
     /**
      * Delete directory and subdirectories
@@ -491,22 +446,6 @@ class AdminSelfUpgrade extends AdminController
         return Tools14::deleteDirectory($dirname, $delete_self);
     }
 
-    public function buildAjaxResult()
-    {
-        $response = new AjaxResponse($this->upgradeContainer->getTranslator(), $this->upgradeContainer->getState(), $this->upgradeContainer->getLogger());
-        return $response->setError($this->error)
-            ->setStepDone($this->stepDone)
-            ->setNext($this->next)
-            ->setNextParams($this->nextParams)
-            ->setUpgradeConfiguration($this->upgradeContainer->getUpgradeConfiguration())
-            ->getJsonResponse();
-    }
-
-    public function displayAjax()
-    {
-        echo $this->buildAjaxResult();
-    }
-
     public function display()
     {
         /* Make sure the user has configured the upgrade options, or set default values */
@@ -515,7 +454,6 @@ class AdminSelfUpgrade extends AdminController
             'PS_AUTOUP_CHANGE_DEFAULT_THEME' => 0,
             'PS_AUTOUP_KEEP_MAILS' => 0,
             'PS_AUTOUP_CUSTOM_MOD_DESACT' => 1,
-            'PS_AUTOUP_MANUAL_MODE' => 0,
             'PS_AUTOUP_PERFORMANCE' => 1,
         );
 
@@ -542,6 +480,7 @@ class AdminSelfUpgrade extends AdminController
             $this->adminDir,
             $this->autoupgradePath
         );
+        $response = new AjaxResponse($this->upgradeContainer->getTranslator(), $this->upgradeContainer->getState(), $this->upgradeContainer->getLogger());
         $this->_html = (new UpgradePage(
             $this->upgradeContainer->getUpgradeConfiguration(),
             $this->upgradeContainer->getTwig(),
@@ -559,28 +498,13 @@ class AdminSelfUpgrade extends AdminController
             $this->upgradeContainer->getState()->getBackupName(),
             $this->downloadPath
         ))->display(
-            $this->buildAjaxResult()
+            $response->setUpgradeConfiguration($this->upgradeContainer->getUpgradeConfiguration())
+                ->getJsonResponse()
         );
 
         $this->ajax = true;
         $this->content = $this->_html;
         return parent::display();
-    }
-
-    public function handleException(UpgradeException $e)
-    {
-        $logger = $this->upgradeContainer->getLogger();
-        foreach($e->getQuickInfos() as $log) {
-            $logger->debug($log);
-        }
-        if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {
-            $this->next = 'error';
-            $this->error = true;
-            $logger->error($e->getMessage());
-        }
-        if ($e->getSeverity() === UpgradeException::SEVERITY_WARNING) {
-            $logger->warning($e->getMessage());
-        }
     }
 
     /**
