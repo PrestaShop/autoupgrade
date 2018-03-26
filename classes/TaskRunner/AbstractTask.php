@@ -31,6 +31,12 @@ use Psr\Log\LoggerInterface;
 
 abstract class AbstractTask
 {
+    /* usage :  key = the step you want to skip
+     *               value = the next step you want instead
+     *	example : public static $skipAction = array();
+     */
+    public static $skipAction = array();
+    
     /**
      * @var LoggerInterface
      */
@@ -79,13 +85,10 @@ abstract class AbstractTask
             return;
         }
 
-        if (!empty($_POST['action'])) {
-            $action = $_POST['action'];
-            if (isset(\AdminSelfUpgrade::$skipAction[$action])) {
-                $this->next = \AdminSelfUpgrade::$skipAction[$action];
-                $this->logger->info($this->translator->trans('Action %s skipped', array($action), 'Modules.Autoupgrade.Admin'));
-                unset($_POST['action']);
-            }
+        $currentAction = get_class($this);
+        if (isset(self::$skipAction[$currentAction])) {
+            $this->next = self::$skipAction[$currentAction];
+            $this->logger->info($this->translator->trans('Action %s skipped', array($currentAction), 'Modules.Autoupgrade.Admin'));
         }
     }
 

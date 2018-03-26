@@ -37,17 +37,17 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\TaskRepository;
 require_once(realpath(dirname(__FILE__).'/../../modules/autoupgrade').'/ajax-upgradetabconfig.php');
 $container = autoupgrade_init_container(dirname(__FILE__));
 
-$adminObj = new AdminSelfUpgrade();
-(new \PrestaShop\Module\AutoUpgrade\ErrorHandler($adminObj, $container->getLogger()))->enable();
+(new \PrestaShop\Module\AutoUpgrade\ErrorHandler($container->getLogger()))->enable();
 
-if (!$adminObj->checkToken()) {
-    // If this is an XSS attempt, then we should only display a simple, secure page
-    if (ob_get_level() && ob_get_length() > 0)
-        ob_clean();
-    echo '{wrong token}';
-    die(1);
-}
+// ToDo: Cookie stuff to be removed from AdminSelfUpgrade
+//if (!$adminObj->checkToken()) {
+//    // If this is an XSS attempt, then we should only display a simple, secure page
+//    if (ob_get_level() && ob_get_length() > 0)
+//        ob_clean();
+//    echo '{wrong token}';
+//    die(1);
+//}
 
-$controller = TaskRepository::get(Tools14::getValue('action'), $container, $adminObj);
+$controller = TaskRepository::get(Tools14::getValue('action'), $container);
 $controller->run();
 echo $controller->getAjaxResponse();
