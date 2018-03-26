@@ -310,12 +310,26 @@ class AdminSelfUpgrade extends AdminController
         // If you have defined this somewhere, you know what you do
         /* load options from configuration if we're not in ajax mode */
         if (!$this->ajax) {
+            $upgrader = $this->upgradeContainer->getUpgrader();
             $this->createCustomToken();
 
             $this->upgradeContainer->getState()->initDefault(
-                $this->upgradeContainer->getUpgrader(),
+                $upgrader,
                 $this->upgradeContainer->getProperty(UpgradeContainer::PS_ROOT_PATH),
                 $this->upgradeContainer->getProperty(UpgradeContainer::PS_VERSION));
+
+            if (isset($_GET['refreshCurrentVersion'])) {
+                $upgradeConfiguration = $this->upgradeContainer->getUpgradeConfiguration();
+                // delete the potential xml files we saved in config/xml (from last release and from current)
+                $upgrader->clearXmlMd5File($this->upgradeContainer->getProperty(UpgradeContainer::PS_VERSION));
+                $upgrader->clearXmlMd5File($upgrader->version_num);
+                if ($upgradeConfiguration->get('channel') == 'private' && !$upgradeConfiguration->get('private_allow_major')) {
+                    $upgrader->checkPSVersion(true, array('private', 'minor'));
+                } else {
+                    $upgrader->checkPSVersion(true, array('minor'));
+                }
+                Tools14::redirectAdmin(self::$currentIndex.'&conf=5&token='.Tools14::getValue('token'));
+            }
             // removing temporary files
             $this->upgradeContainer->getFileConfigurationStorage()->cleanAll();
         }

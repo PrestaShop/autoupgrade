@@ -26,6 +26,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner;
 
+use PrestaShop\Module\AutoUpgrade\AjaxResponse;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use Psr\Log\LoggerInterface;
 
@@ -65,11 +66,12 @@ abstract class AbstractTask
         $this->logger = $this->container->getLogger();
         $this->translator = $this->container->getTranslator();
         $this->checkTaskMayRun();
+        $this->container->initPrestaShopCore();
     }
 
     public function getAjaxResponse()
     {
-        $response = new AjaxResponse($this->container->getTranslator(), $this->container->getState(), $this->upgradeContainer->getLogger());
+        $response = new AjaxResponse($this->container->getTranslator(), $this->container->getState(), $this->logger);
         return $response->setError($this->error)
             ->setStepDone($this->stepDone)
             ->setNext($this->next)

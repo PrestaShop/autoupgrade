@@ -148,17 +148,16 @@ class UpgradeModules extends AbstractTask
 
     private function handleException(UpgradeException $e)
     {
-        $logger = $this->upgradeContainer->getLogger();
         foreach($e->getQuickInfos() as $log) {
-            $logger->debug($log);
+            $this->logger->debug($log);
         }
         if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {
             $this->next = 'error';
             $this->error = true;
-            $logger->error($e->getMessage());
+            $this->logger->error($e->getMessage());
         }
         if ($e->getSeverity() === UpgradeException::SEVERITY_WARNING) {
-            $logger->warning($e->getMessage());
+            $this->logger->warning($e->getMessage());
         }
     }
 }
