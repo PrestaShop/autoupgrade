@@ -28,6 +28,7 @@ namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback;
 
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 /**
  * First step executed during a rollback
