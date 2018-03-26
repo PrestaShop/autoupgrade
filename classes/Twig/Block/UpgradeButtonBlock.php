@@ -26,12 +26,12 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Twig\Block;
 
-use AdminSelfUpgrade;
 use Configuration;
 use PrestaShop\Module\AutoUpgrade\ChannelInfo;
 use Twig_Environment;
 use PrestaShop\Module\AutoUpgrade\Upgrader;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 
@@ -145,7 +145,7 @@ class UpgradeButtonBlock
             }
 
             // if skipActions property is used, we will handle that in the display :)
-            $skipActions = AdminSelfUpgrade::$skipAction;
+            $skipActions = AbstractTask::$skipAction;
         }
 
         if (empty($channel)) {

@@ -37,19 +37,13 @@ class ErrorHandlerTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-
-        $this->adminSelfUpgradeStub = $this->getMockBuilder(AdminSelfUpgrade::class)
-                     ->disableOriginalConstructor()
-                     ->setMethods(array('getLogger'))
-                     ->getMock();
         $this->logger = new LegacyLogger();
-        $this->adminSelfUpgradeStub->method('getLogger')->willReturn($this->logger);
-        $this->errorHandler = new ErrorHandler($this->adminSelfUpgradeStub, $this->logger);
+        $this->errorHandler = new ErrorHandler($this->logger);
     }
 
     public function testDefaultContentIsEmpty()
     {
-        $this->assertEmpty($this->adminSelfUpgradeStub->getLogger()->getErrors());
+        $this->assertEmpty($this->logger->getErrors());
     }
 
     public function testCheckExceptionAndContent()

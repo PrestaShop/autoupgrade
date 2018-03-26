@@ -37,14 +37,11 @@ use Psr\Log\LoggerInterface;
  */
 class ErrorHandler
 {
-    private $selfUpgrade;
-
     /**
      * @param LoggerInterface $logger
      */
-    public function __construct(\AdminSelfUpgrade $selfUpgrade, LoggerInterface $logger)
+    public function __construct(LoggerInterface $logger)
     {
-        $this->selfUpgrade = $selfUpgrade;
         $this->logger = $logger;
     }
 

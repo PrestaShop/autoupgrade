@@ -30,56 +30,56 @@ use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 class TaskRepository
 {
-    public static function get($step, UpgradeContainer $container, \AdminSelfUpgrade $adminObj)
+    public static function get($step, UpgradeContainer $container)
     {
         switch ($step) {
             // MISCELLANEOUS (upgrade configuration, checks etc.)
             case 'checkFilesVersion':
-                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous\CheckFilesVersion($container, $adminObj);
+                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous\CheckFilesVersion($container);
             case 'compareReleases':
-                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous\CompareReleases($container, $adminObj);
+                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous\CompareReleases($container);
             case 'getChannelInfo':
-                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous\GetChannelInfo($container, $adminObj);
+                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous\GetChannelInfo($container);
             case 'updateConfig':
-                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous\UpdateConfig($container, $adminObj);
+                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous\UpdateConfig($container);
 
             // ROLLBACK
             case 'noRollbackFound':
-                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback\NoRollbackFound($container, $adminObj);
+                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback\NoRollbackFound($container);
             case 'restoreDb':
-                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback\RestoreDb($container, $adminObj);
+                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback\RestoreDb($container);
             case 'restoreFiles':
-                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback\RestoreFiles($container, $adminObj);
+                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback\RestoreFiles($container);
             case 'rollback':
-                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback\Rollback($container, $adminObj);
+                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback\Rollback($container);
             case 'rollbackComplete':
-                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback\RollbackComplete($container, $adminObj);
+                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback\RollbackComplete($container);
 
             // UPGRADE
             case 'backupDb':
-                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\BackupDb($container, $adminObj);
+                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\BackupDb($container);
             case 'backupFiles':
-                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\BackupFiles($container, $adminObj);
+                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\BackupFiles($container);
             case 'cleanDatabase':
-                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\CleanDatabase($container, $adminObj);
+                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\CleanDatabase($container);
             case 'download':
-                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\Download($container, $adminObj);
+                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\Download($container);
             case 'removeSamples':
-                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\RemoveSamples($container, $adminObj);
+                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\RemoveSamples($container);
             case 'upgradeComplete':
-                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\UpgradeComplete($container, $adminObj);
+                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\UpgradeComplete($container);
             case 'upgradeDb':
-                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\UpgradeDb($container, $adminObj);
+                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\UpgradeDb($container);
             case 'upgradeFiles':
-                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\UpgradeFiles($container, $adminObj);
+                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\UpgradeFiles($container);
             case 'upgradeModules':
-                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\UpgradeModules($container, $adminObj);
+                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\UpgradeModules($container);
             case 'upgradeNow':
-                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\UpgradeNow($container, $adminObj);
+                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\UpgradeNow($container);
             case 'unzip':
-                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\Unzip($container, $adminObj);
+                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\Unzip($container);
         }
         error_log('Unknown step '. $step);
-        return new \PrestaShop\Module\AutoUpgrade\TaskRunner\NullTask($container, $adminObj);
+        return new \PrestaShop\Module\AutoUpgrade\TaskRunner\NullTask($container);
     }
 }
