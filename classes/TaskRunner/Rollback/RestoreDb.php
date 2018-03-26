@@ -208,7 +208,7 @@ class RestoreDb extends AbstractTask
                 // $this->nextQuickInfo[] = '[OK] '.$query;
 
                 $time_elapsed = time() - $start_time;
-            } while ($time_elapsed < \AdminSelfUpgrade::$loopRestoreQueryTime);
+            } while ($time_elapsed < $this->container->getUpgradeConfiguration()->getTimePerCall());
 
             $queries_left = count($listQuery);
 

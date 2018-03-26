@@ -65,7 +65,7 @@ class UpgradeModules extends AbstractTask
                     $this->handleException($e);
                 }
                 $time_elapsed = time() - $start_time;
-            } while (($time_elapsed < \AdminSelfUpgrade::$loopUpgradeModulesTime) && count($listModules) > 0);
+            } while (($time_elapsed < $this->container->getUpgradeConfiguration()->getTimePerCall()) && count($listModules) > 0);
 
             $modules_left = count($listModules);
             $this->container->getFileConfigurationStorage()->save($listModules, UpgradeFileNames::toUpgradeModuleList);
