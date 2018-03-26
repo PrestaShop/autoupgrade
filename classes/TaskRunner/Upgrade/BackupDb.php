@@ -42,6 +42,7 @@ class BackupDb extends AbstractTask
             return true;
         }
 
+        $timeAllowed = $this->container->getUpgradeConfiguration()->getNumberOfFilesPerCall();
         $relative_backup_path = str_replace(_PS_ROOT_DIR_, '', $this->container->getProperty(UpgradeContainer::BACKUP_PATH));
         $report = '';
         if (!\ConfigurationTest::test_dir($relative_backup_path, false, $report)) {
@@ -98,7 +99,7 @@ class BackupDb extends AbstractTask
                 $this->container->getState()->setBackupLoopLimit(0);
             }
 
-            if ($written == 0 || $written > \AdminSelfUpgrade::$max_written_allowed) {
+            if ($written == 0 || $written > $this->container->getUpgradeConfiguration()->getMaxSizeToWritePerCall()) {
                 // increment dbStep will increment filename each time here
                 $this->container->getState()->setDbStep($this->container->getState()->getDbStep()++);
                 // new file, new step
@@ -245,12 +246,12 @@ class BackupDb extends AbstractTask
                         $this->container->getState()->setBackupTable(null);
                         break;
                     }
-                } while (($time_elapsed < \AdminSelfUpgrade::$loopBackupDbTime) && ($written < \AdminSelfUpgrade::$max_written_allowed));
+                } while (($time_elapsed < $timeAllowed) && ($written < $this->container->getUpgradeConfiguration()->getMaxSizeToWritePerCall()));
             }
             $found++;
             $time_elapsed = time() - $start_time;
             $this->logger->debug($this->translator->trans('%s table has been saved.', array($table), 'Modules.Autoupgrade.Admin'));
-        } while (($time_elapsed < \AdminSelfUpgrade::$loopBackupDbTime) && ($written < \AdminSelfUpgrade::$max_written_allowed));
+        } while (($time_elapsed < $timeAllowed) && ($written < $this->container->getUpgradeConfiguration()->getMaxSizeToWritePerCall()));
 
         // end of loop
         if (isset($fp)) {

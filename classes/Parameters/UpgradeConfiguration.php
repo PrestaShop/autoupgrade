@@ -33,21 +33,85 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class UpgradeConfiguration extends ArrayCollection
 {
+    /**
+     * Performance settings, if your server has a low memory size, lower these values
+     * @var array
+     */
+    protected $performanceValues = array(
+        'loopFiles' => array(400, 800, 1600), // files
+        'loopTime' => array(6, 12, 25), // seconds
+        'maxBackupFileSize' => array(15728640, 31457280, 62914560), // bytes
+        'maxWrittenAllowed' => array(4194304, 8388608, 16777216), // bytes
+    );
+
+    /**
+     * Get channel selected on config panel (Minor, major ...)
+     * @return string
+     */
     public function getChannel()
     {
         return $this->get('channel');
     }
 
+    /**
+     * @return int Number of files to handle in a single call to avoid timeouts
+     */
+    public function getNumberOfFilesPerCall()
+    {
+        return $this->performanceValues['loopFiles'][$this->getPerformanceLevel()];
+    }
+
+    /**
+     * @return int Number of seconds allowed before having to make another request
+     */
+    public function getTimePerCall()
+    {
+        return $this->performanceValues['loopTime'][$this->getPerformanceLevel()];
+    }
+
+    /**
+     * @return int Kind of reference for SQL file creation, giving a file size before another request is needed
+     */
+    public function getMaxSizeToWritePerCall()
+    {
+        return $this->performanceValues['maxWrittenAllowed'][$this->getPerformanceLevel()];
+    }
+
+    /**
+     * @return int Max file size allowed in backup
+     */
+    public function getMaxFileToBackup()
+    {
+        return $this->performanceValues['maxBackupFileSize'][$this->getPerformanceLevel()];
+    }
+
+    /**
+     * @return int level of performance selected (1 for low, 3 for high)
+     */
+    public function getPerformanceLevel()
+    {
+        return $this->get('PS_AUTOUP_PERFORMANCE');
+    }
+
+    /**
+     * @return bool True if non-native modules must be disabled during upgrade
+     */
     public function shouldDeactivateCustomModules()
     {
         return (bool) $this->get('PS_AUTOUP_CUSTOM_MOD_DESACT');
     }
 
+    /**
+     * @return bool True if we should keep the merchant emails untouched.
+     */
     public function shouldKeepMails()
     {
         return (bool) $this->get('PS_AUTOUP_KEEP_MAILS');
     }
 
+    /**
+     * @return bool True if we are allowed to update th default theme files
+     */
     public function shouldUpdateDefaultTheme()
     {
         return (bool) $this->get('PS_AUTOUP_UPDATE_DEFAULT_THEME');

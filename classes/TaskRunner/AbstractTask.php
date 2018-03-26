@@ -58,7 +58,7 @@ abstract class AbstractTask
     protected $status = true;
     protected $error = false;
     protected $nextParams = array();
-    protected $next = 'N/A';
+    protected $next;
 
     public function __construct(UpgradeContainer $container)
     {

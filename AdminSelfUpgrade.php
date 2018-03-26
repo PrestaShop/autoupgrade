@@ -82,24 +82,7 @@ class AdminSelfUpgrade extends AdminController
     'OrderReturnState', 'OrderSlip', 'OrderState', 'PDF', 'RangePrice', 'RangeWeight', 'StockMvt',
     'StockMvtReason', 'SubDomain', 'Shop', 'Tax', 'TaxRule', 'TaxRulesGroup', 'WebserviceKey', 'WebserviceRequest', '');
 
-    public static $loopBackupFiles = 400;
     public static $maxBackupFileSize = 15728640; // 15 Mo
-    public static $loopBackupDbTime = 6;
-    public static $max_written_allowed = 4194304; // 4096 ko
-    public static $loopUpgradeFiles = 600;
-    public static $loopRestoreFiles = 400;
-    public static $loopRestoreQueryTime = 6;
-    public static $loopUpgradeModulesTime = 6;
-    public static $loopRemoveSamples = 400;
-
-    /* usage :  key = the step you want to ski
-     * value = the next step you want instead
-     *	example : public static $skipAction = array();
-     *	initial order upgrade:
-     *		download, unzip, removeSamples, backupFiles, backupDb, upgradeFiles, upgradeDb, upgradeModules, cleanDatabase, upgradeComplete
-     * initial order rollback: rollback, restoreFiles, restoreDb, rollbackComplete
-     */
-    public static $skipAction = array();
 
     public $_fieldsUpgradeOptions = array();
     public $_fieldsBackupOptions = array();
@@ -179,36 +162,6 @@ class AdminSelfUpgrade extends AdminController
 
         $this->db = Db::getInstance();
         $this->bootstrap = true;
-
-        // Performance settings, if your server has a low memory size, lower these values
-        $perf_array = array(
-            'loopBackupFiles' => array(400, 800, 1600),
-            'maxBackupFileSize' => array(15728640, 31457280, 62914560),
-            'loopBackupDbTime' => array(6, 12, 25),
-            'max_written_allowed' => array(4194304, 8388608, 16777216),
-            'loopUpgradeFiles' => array(600, 1200, 2400),
-            'loopRestoreFiles' => array(400, 800, 1600),
-            'loopRestoreQueryTime' => array(6, 12, 25),
-            'loopUpgradeModulesTime' => array(6, 12, 25),
-            'loopRemoveSamples' => array(400, 800, 1600)
-        );
-        switch ($this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_PERFORMANCE')) {
-            case 3:
-                foreach ($perf_array as $property => $values) {
-                    self::$$property = $values[2];
-                }
-                break;
-            case 2:
-                foreach ($perf_array as $property => $values) {
-                    self::$$property = $values[1];
-                }
-                break;
-            case 1:
-            default:
-                foreach ($perf_array as $property => $values) {
-                    self::$$property = $values[0];
-                }
-        }
 
         self::$currentIndex = $_SERVER['SCRIPT_NAME'].(($controller = Tools14::getValue('controller')) ? '?controller='.$controller: '');
 

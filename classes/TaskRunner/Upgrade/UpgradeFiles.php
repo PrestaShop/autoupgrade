@@ -56,7 +56,7 @@ class UpgradeFiles extends AbstractTask
         }
 
         // @TODO : does not upgrade files in modules, translations if they have not a correct md5 (or crc32, or whatever) from previous version
-        for ($i = 0; $i < \AdminSelfUpgrade::$loopUpgradeFiles; $i++) {
+        for ($i = 0; $i < $this->container->getUpgradeConfiguration()->getNumberOfFilesPerCall(); $i++) {
             if (count($filesToUpgrade) <= 0) {
                 $this->next = 'upgradeDb';
                 if (file_exists(UpgradeFileNames::toUpgradeFileList)) {
@@ -206,7 +206,7 @@ class UpgradeFiles extends AbstractTask
      */
     protected function warmUp()
     {
-        $admin_dir = str_replace($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH).DIRECTORY_SEPARATOR, '', $this->getProperty(self::PS_ADMIN_PATH));
+        $admin_dir = str_replace($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH).DIRECTORY_SEPARATOR, '', $this->getProperty(UpgradeContainer::PS_ADMIN_PATH));
         if (file_exists($this->container->getProperty(UpgradeContainer::LATEST_PATH).DIRECTORY_SEPARATOR.'admin')) {
             rename($this->container->getProperty(UpgradeContainer::LATEST_PATH).DIRECTORY_SEPARATOR.'admin', $this->container->getProperty(UpgradeContainer::LATEST_PATH).DIRECTORY_SEPARATOR.$admin_dir);
         } elseif (file_exists($this->container->getProperty(UpgradeContainer::LATEST_PATH).DIRECTORY_SEPARATOR.'admin-dev')) {
@@ -218,7 +218,7 @@ class UpgradeFiles extends AbstractTask
         
         // list saved in UpgradeFileNames::toUpgradeFileList
         // get files differences (previously generated)
-        $admin_dir = trim(str_replace($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH), '', $this->getProperty(self::PS_ADMIN_PATH)), DIRECTORY_SEPARATOR);
+        $admin_dir = trim(str_replace($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH), '', $this->getProperty(UpgradeContainer::PS_ADMIN_PATH)), DIRECTORY_SEPARATOR);
         $filepath_list_diff = $this->container->getProperty(UpgradeContainer::WORKSPACE_PATH).DIRECTORY_SEPARATOR.UpgradeFileNames::diffFileList;
         $list_files_diff = array();
         if (file_exists($filepath_list_diff)) {
