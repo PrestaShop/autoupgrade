@@ -29,6 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 
 class UpgradeFiles extends AbstractTask
 {
@@ -189,7 +190,7 @@ class UpgradeFiles extends AbstractTask
             return true;
         } elseif (is_dir($dest)) {
             if (strpos($dest, DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR) === false) {
-                \AdminSelfUpgrade::deleteDirectory($dest, true);
+                FilesystemAdapter::deleteDirectory($dest, true);
             }
             $this->logger->debug(sprintf('removed dir %1$s.', $file));
             return true;

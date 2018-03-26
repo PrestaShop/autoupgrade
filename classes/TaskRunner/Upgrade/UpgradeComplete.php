@@ -27,6 +27,7 @@
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter;
 
 /**
@@ -49,7 +50,7 @@ class UpgradeComplete extends AbstractTask
             $this->logger->debug('<strong>'.$this->translator->trans('Please remove %s by FTP', array($this->container->getFilePath()), 'Modules.Autoupgrade.Admin').'</strong>');
         }
 
-        if ($this->container->getUpgradeConfiguration()->get('channel') != 'directory' && file_exists($this->container->getProperty(UpgradeContainer::LATEST_PATH)) && \AdminSelfUpgrade::deleteDirectory($this->container->getProperty(UpgradeContainer::LATEST_PATH))) {
+        if ($this->container->getUpgradeConfiguration()->get('channel') != 'directory' && file_exists($this->container->getProperty(UpgradeContainer::LATEST_PATH)) && FilesystemAdapter::deleteDirectory($this->container->getProperty(UpgradeContainer::LATEST_PATH))) {
             $this->logger->debug($this->translator->trans('%s removed', array($this->container->getProperty(UpgradeContainer::LATEST_PATH)), 'Modules.Autoupgrade.Admin'));
         } elseif (is_dir($this->container->getProperty(UpgradeContainer::LATEST_PATH))) {
             $this->logger->debug('<strong>'.$this->translator->trans('Please remove %s by FTP', array($this->container->getProperty(UpgradeContainer::LATEST_PATH)), 'Modules.Autoupgrade.Admin').'</strong>');
