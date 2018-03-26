@@ -65,12 +65,15 @@ class Upgrader
 	public $channel = '';
 	public $branch = '';
 
-	public function __construct($autoload = false)
+        protected $currentPsVersion;
+
+	public function __construct($version, $autoload = false)
 	{
+                $this->currentPsVersion = $version;
 		if ($autoload)
 		{
 			$matches = array();
-			preg_match('#([0-9]+\.[0-9]+)\.[0-9]+\.[0-9]+#', _PS_VERSION_, $matches);
+			preg_match('#([0-9]+\.[0-9]+)\.[0-9]+\.[0-9]+#', $this->currentPsVersion, $matches);
 			$this->branch = $matches[1];
 			if (empty($this->channel))
 				$this->channel = Upgrader::$default_channel;
@@ -214,7 +217,7 @@ class Upgrader
 		// retro-compatibility :
 		// return array(name,link) if you don't use the last version
 		// false otherwise
-		if (version_compare(_PS_VERSION_, $this->version_num, '<'))
+		if (version_compare($this->currentPsVersion, $this->version_num, '<'))
 		{
 			$this->need_upgrade = true;
 			return array('name' => $this->version_name, 'link' => $this->link);
@@ -340,7 +343,7 @@ class Upgrader
 	public function getChangedFilesList($version = null, $refresh = false)
 	{
 		if (empty($version))
-			$version = _PS_VERSION_;
+			$version = $this->currentPsVersion;
 		if (is_array($this->changed_files) && count($this->changed_files) == 0)
 		{
 			$checksum = $this->getXmlMd5File($version, $refresh);

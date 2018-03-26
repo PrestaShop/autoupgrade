@@ -41,7 +41,7 @@ class CompareReleases extends AbstractTask
         // do nothing after this request (see javascript function doAjaxRequest )
         $this->next = '';
         $channel = $this->container->getUpgradeConfiguration()->get('channel');
-        $upgrader = new Upgrader();
+        $upgrader = $this->container->getUpgrader();
         switch ($channel) {
             case 'archive':
                 $version = $this->container->getUpgradeConfiguration()->get('archive.version_num');

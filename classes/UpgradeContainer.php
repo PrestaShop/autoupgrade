@@ -224,7 +224,7 @@ class UpgradeContainer
             define('_PS_ROOT_DIR_', $this->getProperty(self::PS_ROOT_PATH));
         }
         // in order to not use Tools class
-        $upgrader = new Upgrader();
+        $upgrader = new Upgrader($this->getProperty(self::PS_VERSION));
         preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', $this->getProperty(self::PS_VERSION), $matches);
         $upgrader->branch = $matches[1];
         $upgradeConfiguration = $this->getUpgradeConfiguration();
