@@ -102,7 +102,7 @@ class BackupDb extends AbstractTask
 
             if ($written == 0 || $written > $this->container->getUpgradeConfiguration()->getMaxSizeToWritePerCall()) {
                 // increment dbStep will increment filename each time here
-                $this->container->getState()->setDbStep($this->container->getState()->getDbStep()++);
+                $this->container->getState()->setDbStep($this->container->getState()->getDbStep()+1);
                 // new file, new step
                 $written = 0;
                 if (isset($fp)) {
@@ -205,7 +205,7 @@ class BackupDb extends AbstractTask
                 do {
                     $backup_loop_limit = $this->container->getState()->getBackupLoopLimit();
                     $data = $this->container->getDb()->executeS('SELECT * FROM `'.$table.'` LIMIT '.(int)$backup_loop_limit.',200', false, false);
-                    $this->container->getState()->setBackupLoopLimit($this->container->getState()->getBackupLoopLimit() += 200);
+                    $this->container->getState()->setBackupLoopLimit($this->container->getState()->getBackupLoopLimit() + 200);
                     $sizeof = $this->container->getDb()->numRows();
                     if ($data && ($sizeof > 0)) {
                         // Export the table data
