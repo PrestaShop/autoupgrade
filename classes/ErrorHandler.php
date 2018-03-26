@@ -129,7 +129,7 @@ class ErrorHandler
     protected function report($file, $line, $type, $message, $display = false)
     {
         $log = "[INTERNAL] $file line $line - $message";
-        $jsonResponse = '{"nextErrors":["'.$log.'"],"error":true,"next":"error"}';
+        $jsonResponse = '{"nextErrors":["'.addslashes($log).'"],"error":true,"next":"error"}';
         
         try {
             $this->logger->log($type, $log);
