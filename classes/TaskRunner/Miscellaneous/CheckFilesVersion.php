@@ -39,7 +39,7 @@ class CheckFilesVersion extends AbstractTask
     {
         // do nothing after this request (see javascript function doAjaxRequest )
         $this->next = '';
-        $upgrader = new Upgrader();
+        $upgrader = $this->container->getUpgrader();
         $changedFileList = $upgrader->getChangedFilesList();
 
         if ($changedFileList === false) {
