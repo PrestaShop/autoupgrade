@@ -54,9 +54,9 @@ abstract class AbstractTask
     protected $container;
 
     // Task progress details
-    protected $stepDone = true;
-    protected $status = true;
-    protected $error = false;
+    protected $stepDone;
+    protected $status;
+    protected $error;
     protected $nextParams = array();
     protected $next;
 
