@@ -27,7 +27,7 @@
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
-use PrestaShop\Module\AutoUpgrade\Upgrader;
+use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 /**
 * very first step of the upgrade process. The only thing done is the selection
@@ -38,6 +38,8 @@ class UpgradeNow extends AbstractTask
     public function run()
     {
         $this->logger->info($this->translator->trans('Starting upgrade...', array(), 'Modules.Autoupgrade.Admin'));
+
+        $this->createFolders();
 
         $channel = $this->container->getUpgradeConfiguration()->get('channel');
         $upgrader = $this->container->getUpgrader();
@@ -72,6 +74,24 @@ class UpgradeNow extends AbstractTask
                 }
                 $this->logger->debug($this->translator->trans('Downloaded archive will come from %s', array($upgrader->link), 'Modules.Autoupgrade.Admin'));
                 $this->logger->debug($this->translator->trans('MD5 hash will be checked against %s', array($upgrader->md5), 'Modules.Autoupgrade.Admin'));
+        }
+    }
+
+    public function createFolders()
+    {
+        $paths = array(
+            UpgradeContainer::WORKSPACE_PATH, UpgradeContainer::BACKUP_PATH,
+            UpgradeContainer::DOWNLOAD_PATH, UpgradeContainer::LATEST_PATH,
+            UpgradeContainer::TMP_PATH);
+
+        foreach ($paths as $pathName) {
+            $path = $this->container->getProperty($pathName);
+            if (!file_exists($path) && !mkdir($path)) {
+                $this->logger->error($this->trans('Unable to create directory %s', array($path), 'Modules.Autoupgrade.Admin'));
+            }
+            if (!is_writable($path)) {
+                $this->logger->error($this->trans('Unable to write in the directory "%s"', array($path), 'Modules.Autoupgrade.Admin'));
+            }
         }
     }
 }

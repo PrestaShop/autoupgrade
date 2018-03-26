@@ -305,17 +305,6 @@ class AdminSelfUpgrade extends AdminController
         $this->tmpPath = $this->autoupgradePath.DIRECTORY_SEPARATOR.'tmp';
         $this->latestRootDir = $this->latestPath.DIRECTORY_SEPARATOR;
 
-        // Check directory is not missing
-        foreach (array('autoupgradePath', 'backupPath', 'downloadPath', 'latestPath', 'tmpPath', 'latestRootDir') as $pathName) {
-            $path = $this->{$pathName};
-            if (!file_exists($path) && !mkdir($path)) {
-                $this->_errors[] = $this->trans('Unable to create directory %s', array($path), 'Modules.Autoupgrade.Admin');
-            }
-            if (!is_writable($path)) {
-                $this->_errors[] = $this->trans('Unable to write in the directory "%s"', array($path), 'Modules.Autoupgrade.Admin');
-            }
-        }
-
         if (!file_exists($this->backupPath.DIRECTORY_SEPARATOR.'index.php')) {
             if (!copy(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'index.php', $this->backupPath.DIRECTORY_SEPARATOR.'index.php')) {
                 $this->_errors[] = $this->trans('Unable to create file %s', array($this->backupPath.DIRECTORY_SEPARATOR.'index.php'), 'Modules.Autoupgrade.Admin');
