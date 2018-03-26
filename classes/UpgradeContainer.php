@@ -243,23 +243,10 @@ class UpgradeContainer
                 break;
             default:
                 $upgrader->channel = $channel;
-                // TODO: To be moved
-                if (isset($_GET['refreshCurrentVersion'])) {
-                    // delete the potential xml files we saved in config/xml (from last release and from current)
-                    $upgrader->clearXmlMd5File($this->getProperty(self::PS_VERSION));
-                    $upgrader->clearXmlMd5File($upgrader->version_num);
-                    if ($upgradeConfiguration->get('channel') == 'private' && !$upgradeConfiguration->get('private_allow_major')) {
-                        $upgrader->checkPSVersion(true, array('private', 'minor'));
-                    } else {
-                        $upgrader->checkPSVersion(true, array('minor'));
-                    }
-                    Tools14::redirectAdmin(self::$currentIndex.'&conf=5&token='.Tools14::getValue('token'));
+                if ($upgradeConfiguration->get('channel') == 'private' && !$upgradeConfiguration->get('private_allow_major')) {
+                    $upgrader->checkPSVersion(false, array('private', 'minor'));
                 } else {
-                    if ($upgradeConfiguration->get('channel') == 'private' && !$upgradeConfiguration->get('private_allow_major')) {
-                        $upgrader->checkPSVersion(false, array('private', 'minor'));
-                    } else {
-                        $upgrader->checkPSVersion(false, array('minor'));
-                    }
+                    $upgrader->checkPSVersion(false, array('minor'));
                 }
         }
         $this->getState()->setInstallVersion($upgrader->version_num);
@@ -387,5 +374,10 @@ class UpgradeContainer
 
         $this->zipAction = new ZipAction($this->getTranslator(), $this->getLogger(), $this->getProperty(self::PS_ROOT_PATH));
         return $this->zipAction;
+    }
+
+    public function initPrestaShopCore()
+    {
+        require_once(realpath(__DIR__.'/../../../config/config.inc.php'));
     }
 }
