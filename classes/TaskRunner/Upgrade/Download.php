@@ -28,6 +28,7 @@ namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 
 /**
  * Download PrestaShop archive according to the chosen channel
@@ -60,7 +61,7 @@ class Download extends AbstractTask
         $this->logger->debug($this->translator->trans('Downloading from %s', array($upgrader->link), 'Modules.Autoupgrade.Admin'));
         $this->logger->debug($this->translator->trans('File will be saved in %s', array($this->container->getFilePath()), 'Modules.Autoupgrade.Admin'));
         if (file_exists($this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH))) {
-            \AdminSelfUpgrade::deleteDirectory($this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH), false);
+            FilesystemAdapter::deleteDirectory($this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH), false);
             $this->logger->debug($this->translator->trans('Download directory has been emptied', array(), 'Modules.Autoupgrade.Admin'));
         }
         $report = '';

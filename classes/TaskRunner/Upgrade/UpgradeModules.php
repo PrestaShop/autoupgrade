@@ -29,6 +29,8 @@ namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
+
 /**
  * Upgrade all partners modules according to the installed prestashop version
  */
@@ -96,7 +98,7 @@ class UpgradeModules extends AbstractTask
 
                 $path = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH).DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR.$key.DIRECTORY_SEPARATOR;
                 if (file_exists($path.$key.'.php')) {
-                    if (\AdminSelfUpgrade::deleteDirectory($path)) {
+                    if (FilesystemAdapter::deleteDirectory($path)) {
                         $this->logger->debug($this->translator->trans(
                             'The %modulename% module is not compatible with version %version%, it will be removed from your FTP.',
                             array(

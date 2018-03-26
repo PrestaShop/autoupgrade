@@ -29,6 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use Symfony\Component\Filesystem\Filesystem;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 
 /**
 * extract chosen version into $this->upgradeClass->latestPath directory
@@ -41,7 +42,7 @@ class Unzip extends AbstractTask
         $destExtract = $this->container->getProperty(UpgradeContainer::LATEST_PATH);
 
         if (file_exists($destExtract)) {
-            \AdminSelfUpgrade::deleteDirectory($destExtract, false);
+            FilesystemAdapter::deleteDirectory($destExtract, false);
             $this->logger->debug($this->translator->trans('"/latest" directory has been emptied', array(), 'Modules.Autoupgrade.Admin'));
         }
         $relative_extract_path = str_replace(_PS_ROOT_DIR_, '', $destExtract);

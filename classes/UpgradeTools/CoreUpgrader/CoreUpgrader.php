@@ -28,6 +28,7 @@ namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader;
 
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\ThemeAdapter;
 use Psr\Log\LoggerInterface;
 
@@ -455,7 +456,7 @@ abstract class CoreUpgrader
                 if (is_file($dir.$file)) {
                     unlink($dir.$file);
                 } elseif (is_dir($dir.$file.DIRECTORY_SEPARATOR)) {
-                    \AdminSelfUpgrade::deleteDirectory($dir.$file.DIRECTORY_SEPARATOR);
+                    FilesystemAdapter::deleteDirectory($dir.$file.DIRECTORY_SEPARATOR);
                 }
                 $this->logger->debug($this->container->getTranslator()->trans('[CLEANING CACHE] File %s removed', array($file), 'Modules.Autoupgrade.Admin'));
             }
@@ -694,7 +695,7 @@ abstract class CoreUpgrader
                 if (!defined('_PS_CACHEFS_DIRECTORY_')) {
                     define('_PS_CACHEFS_DIRECTORY_', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH).'/cache/cachefs/');
                 }
-                \AdminSelfUpgrade::deleteDirectory(_PS_CACHEFS_DIRECTORY_, false);
+                FilesystemAdapter::deleteDirectory(_PS_CACHEFS_DIRECTORY_, false);
                 if (class_exists('CacheFs', false)) {
                     $this->createCacheFsDirectories((int)$depth);
                 }

@@ -26,6 +26,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
+use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FileFilter;
 
 class FilesystemAdapter
@@ -47,6 +48,16 @@ class FilesystemAdapter
         $this->autoupgradeDir = $autoupgradeDir;
         $this->adminSubDir = $adminSubDir;
         $this->prodRootDir = $prodRootDir;
+    }
+
+    /**
+     * Delete directory and subdirectories
+     *
+     * @param string $dirname Directory name
+     */
+    public static function deleteDirectory($dirname, $delete_self = true)
+    {
+        return Tools14::deleteDirectory($dirname, $delete_self);
     }
 
     public function listFilesInDir($dir, $way = 'backup', $list_directories = false)

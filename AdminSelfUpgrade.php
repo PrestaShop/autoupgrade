@@ -28,13 +28,10 @@
 use PrestaShop\Module\AutoUpgrade\AjaxResponse;
 use PrestaShop\Module\AutoUpgrade\BackupFinder;
 use PrestaShop\Module\AutoUpgrade\UpgradePage;
-use PrestaShop\Module\AutoUpgrade\Upgrader;
 use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
 use PrestaShop\Module\AutoUpgrade\Tools14;
-use PrestaShop\Module\AutoUpgrade\UpgradeException;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfigurationStorage;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 
 require __DIR__.'/vendor/autoload.php';
 
@@ -416,7 +413,7 @@ class AdminSelfUpgrade extends AdminController
                     if (is_file($this->backupPath.DIRECTORY_SEPARATOR.$filename)) {
                         $res &= unlink($this->backupPath.DIRECTORY_SEPARATOR.$filename);
                     } elseif (!empty($name) && is_dir($this->backupPath.DIRECTORY_SEPARATOR.$name.DIRECTORY_SEPARATOR)) {
-                        $res = self::deleteDirectory($this->backupPath.DIRECTORY_SEPARATOR.$name.DIRECTORY_SEPARATOR);
+                        $res = FilesystemAdapter::deleteDirectory($this->backupPath.DIRECTORY_SEPARATOR.$name.DIRECTORY_SEPARATOR);
                     }
                 }
             }
@@ -448,16 +445,6 @@ class AdminSelfUpgrade extends AdminController
 //        $this->upgradeContainer->getLogger()->info($this->trans('Configuration successfully updated.', array(), 'Modules.Autoupgrade.Admin').' <strong>'.$this->trans('This page will now be reloaded and the module will check if a new version is available.', array(), 'Modules.Autoupgrade.Admin').'</strong>');
 //        return (new UpgradeConfigurationStorage($this->autoupgradePath.DIRECTORY_SEPARATOR))->save($this->upgradeContainer->getUpgradeConfiguration(), UpgradeFileNames::configFilename);
 //    }
-
-    /**
-     * Delete directory and subdirectories
-     *
-     * @param string $dirname Directory name
-     */
-    public static function deleteDirectory($dirname, $delete_self = true)
-    {
-        return Tools14::deleteDirectory($dirname, $delete_self);
-    }
 
     public function display()
     {
