@@ -258,7 +258,7 @@ class State
     }
 
 
-    public function setDbStep(String $dbStep)
+    public function setDbStep($dbStep)
     {
         $this->dbStep = $dbStep;
         return $this;
