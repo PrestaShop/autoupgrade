@@ -114,7 +114,7 @@ class AjaxResponse
     /**
      * @return string Json encoded response from $this->getResponse()
      */
-    public function getJsonResponse()
+    public function getJson()
     {
         return json_encode($this->getResponse());
     }

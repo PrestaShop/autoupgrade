@@ -451,8 +451,9 @@ class AdminSelfUpgrade extends AdminController
             $this->upgradeContainer->getState()->getBackupName(),
             $this->downloadPath
         ))->display(
-            $response->setUpgradeConfiguration($this->upgradeContainer->getUpgradeConfiguration())
-                ->getJsonResponse()
+            $response
+                ->setUpgradeConfiguration($this->upgradeContainer->getUpgradeConfiguration())
+                ->getJson()
         );
 
         $this->ajax = true;

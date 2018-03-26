@@ -69,15 +69,27 @@ abstract class AbstractTask
         $this->container->initPrestaShopCore();
     }
 
-    public function getAjaxResponse()
+    /**
+     * @return sting Json encoded data from AjaxResponse
+     */
+    public function getJsonResponse()
+    {
+        return $this->getResponse()->getJson();
+    }
+
+    /**
+     * Get result of the task and data to send to the next request
+     *
+     * @return AjaxResponse
+     */
+    public function getResponse()
     {
         $response = new AjaxResponse($this->container->getTranslator(), $this->container->getState(), $this->logger);
         return $response->setError($this->error)
             ->setStepDone($this->stepDone)
             ->setNext($this->next)
             ->setNextParams($this->nextParams)
-            ->setUpgradeConfiguration($this->container->getUpgradeConfiguration())
-            ->getJsonResponse();
+            ->setUpgradeConfiguration($this->container->getUpgradeConfiguration());
     }
 
     private function checkTaskMayRun()

@@ -48,7 +48,9 @@ class AllUpgradeTasks extends AbstractTask
             $controller = TaskRepository::get($step, $this->container);
             $controller->run();
 
-            $step = $this->next;
+            $result = $controller->getResponse();
+            $step = $result->getNext();
+            $this->error = $result->getError();
         }
 
         return (int) ($this->error || $this->next === 'error');
