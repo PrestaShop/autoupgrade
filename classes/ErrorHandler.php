@@ -118,6 +118,16 @@ class ErrorHandler
     }
 
     /**
+     * Create a json encoded
+     * @param string $log
+     * @return string
+     */
+    public function generateJsonLog($log)
+    {
+        return '{"nextErrors":["'.addcslashes($log, '"\\').'"],"error":true,"next":"error"}';
+    }
+
+    /**
      * Forwards message to the main class of the upgrade
      * 
      * @param string $file
@@ -129,7 +139,7 @@ class ErrorHandler
     protected function report($file, $line, $type, $message, $display = false)
     {
         $log = "[INTERNAL] $file line $line - $message";
-        $jsonResponse = '{"nextErrors":["'.addslashes($log).'"],"error":true,"next":"error"}';
+        $jsonResponse = $this->generateJsonLog($log);
         
         try {
             $this->logger->log($type, $log);

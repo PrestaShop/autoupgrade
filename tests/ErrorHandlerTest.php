@@ -65,4 +65,20 @@ class ErrorHandlerTest extends TestCase
         $this->assertEquals(1, count($msgs));
         $this->assertEquals(end($msgs), '[INTERNAL] '.__FILE__.' line '.$line.' - Trololo');
     }
+
+    /**
+     * @dataProvider logProvider
+     */
+    public function testGeneratedJsonLog($log)
+    {
+        $this->assertNotNull(json_decode($this->errorHandler->generateJsonLog($log)));
+    }
+
+    public function logProvider()
+    {
+        return array(
+            array("[INTERNAL] /var/www/html/modules/autoupgrade/classes/TaskRunner/Upgrade/BackupFiles.php line 55 - Class 'PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\UpgradeContainer' not found"),
+            array("[INTERNAL] /var/www/html/modules/autoupgrade/classes/TaskRunner/Upgrade/BackupDb.php line 105 - Can't use method return value in write context"),
+        );
+    }
 }
