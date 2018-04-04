@@ -95,7 +95,7 @@ class ThemeAdapter
 
     private function getThemeManager()
     {
-        $id_employee = $_COOKIE['id_employee'];
+        $id_employee = isset($_COOKIE['id_employee'])?$_COOKIE['id_employee']:1;
         $context = \Context::getContext();
         $context->employee = new \Employee((int) $id_employee);
         return (new \PrestaShop\PrestaShop\Core\Addon\Theme\ThemeManagerBuilder($context, $this->db))->build();
