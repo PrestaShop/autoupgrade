@@ -231,7 +231,7 @@ class ModuleAdapter
             }
             // unzip in modules/[mod name] old files will be conserved
             if (!$this->zipAction->extract($zip_fullpath, $this->modulesPath)) {
-                throw (new UpgradeException('<strong>'.$this->translator->trans('[WARNING] Error when trying to upgrade module %s.', array($name), 'Modules.Autoupgrade.Admin').'</strong>'))
+                throw (new UpgradeException('<strong>'.$this->translator->trans('[WARNING] Error when trying to extract module %s.', array($name), 'Modules.Autoupgrade.Admin').'</strong>'))
                     ->setSeverity(UpgradeException::SEVERITY_WARNING);
             }
             if (file_exists($zip_fullpath)) {
@@ -243,7 +243,8 @@ class ModuleAdapter
         if (version_compare($this->upgradeVersion, '1.7.0.0', '>=')
             && !$this->getModuleDataUpdater()->upgrade($name)) {
             throw (new UpgradeException('<strong>'.$this->translator->trans('[WARNING] Error when trying to upgrade module %s.', array($name), 'Modules.Autoupgrade.Admin').'</strong>'))
-                ->setSeverity(UpgradeException::SEVERITY_WARNING);
+                ->setSeverity(UpgradeException::SEVERITY_WARNING)
+                ->setQuickInfos(\Module::getInstanceByName($name)->getErrors());
         }
     }
 }
