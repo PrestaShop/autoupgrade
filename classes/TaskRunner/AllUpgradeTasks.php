@@ -126,7 +126,7 @@ class AllUpgradeTasks extends AbstractTask
                 unset($args[$key]);
             }
         }
-        $this->logger->info("$ ".implode(' ', $args). ' --data='. $this->getEncodedResponse());
+        $this->logger->info("$ ".implode(' ', $args). ' --action='. $response->getNext(). ' --data='. $this->getEncodedResponse());
 
         return true;
     }
