@@ -26,6 +26,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner;
 
+use PrestaShop\Module\AutoUpgrade\AjaxResponse;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\TaskRepository;
@@ -41,15 +42,18 @@ class AllUpgradeTasks extends AbstractTask
 
     public function run()
     {
+        $requireRestart = false;
         $this->init();
-        while ($this->canContinue($this->step)) {
+        while ($this->canContinue() && !$requireRestart) {
             echo "\n=== Step ".$this->step."\n";
             $controller = TaskRepository::get($this->step, $this->container);
             $controller->run();
 
             $result = $controller->getResponse();
-            $this->step = $result->getNext();
+            $requireRestart = $this->checkIfRestartRequested($result);
             $this->error = $result->getError();
+            $this->stepDone = $result->getStepDone();
+            $this->step = $result->getNext();
         }
 
         return (int) ($this->error || $this->next === 'error');
@@ -86,12 +90,11 @@ class AllUpgradeTasks extends AbstractTask
     /**
      * Tell the while loop if it can continue
      *
-     * @param string $step current step
      * @return boolean
      */
-    protected function canContinue($step)
+    protected function canContinue()
     {
-        if (empty($step)) {
+        if (empty($this->step)) {
             return false;
         }
 
@@ -99,7 +102,33 @@ class AllUpgradeTasks extends AbstractTask
             return false;
         }
 
-        return ! in_array($step, array('error'));
+        return ! in_array($this->step, array('error'));
+    }
+
+    /**
+     * For some steps, we may require a new request to be made.
+     * For instance, in case of obsolete autoloader or loaded classes after a file copy.
+     */
+    protected function checkIfRestartRequested(AjaxResponse $response)
+    {
+        if (!$response->getStepDone()) {
+            return false;
+        }
+
+        if (!in_array($this->step, array('upgradeFiles'))) {
+            return false;
+        }
+
+        $this->logger->info('Restart requested. Please run the following command to continue your upgrade:');
+        $args = $_SERVER['argv'];
+        foreach ($args as $key => $arg) {
+            if (strpos($arg, '--data') === 0) {
+                unset($args[$key]);
+            }
+        }
+        $this->logger->info("$ ".implode(' ', $args). ' --data='. $this->getEncodedResponse());
+
+        return true;
     }
 
     /**
