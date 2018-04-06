@@ -58,4 +58,14 @@ class UpgradeDb extends AbstractTask
         }
         return new CoreUpgrader17($this->container, $this->logger);
     }
+
+    public function init()
+    {
+        if (version_compare($this->container->getState()->getInstallVersion(), '1.7.0.0', '>')) {
+            // Before parent::init(), we must have the new parameters file
+            $this->container->initPrestaShopAutoloader();
+            \PrestaShopBundle\Install\Upgrade::migrateSettingsFile();
+        }
+        parent::init();
+    }
 }

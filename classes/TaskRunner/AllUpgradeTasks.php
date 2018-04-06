@@ -43,7 +43,6 @@ class AllUpgradeTasks extends AbstractTask
     public function run()
     {
         $requireRestart = false;
-        $this->init();
         while ($this->canContinue() && !$requireRestart) {
             echo "\n=== Step ".$this->step."\n";
             $controller = TaskRepository::get($this->step, $this->container);
@@ -134,8 +133,9 @@ class AllUpgradeTasks extends AbstractTask
     /**
      * Set default config
      */
-    protected function init()
+    public function init()
     {
+        parent::init();
         $this->container->getState()->initDefault(
                 $this->container->getUpgrader(),
                 $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH),
