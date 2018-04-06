@@ -52,4 +52,18 @@ class StateTest extends TestCase
         $this->assertArrayNotHasKey('wow', $exported);
         $this->assertSame('doge', $exported['backupName']);
     }
+
+    // Tests with encoded data
+
+
+    public function testClassReceivesPropertyFromEncodedData()
+    {
+        $encodedData = base64_encode(json_encode(['backupName' => 'doge']));
+        $state = new State();
+        $state->importFromEncodedData($encodedData);
+        $exported = $state->export();
+
+        $this->assertSame('doge', $state->getBackupName());
+        $this->assertSame('doge', $exported['backupName']);
+    }
 }

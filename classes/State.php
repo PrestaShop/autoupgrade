@@ -96,6 +96,14 @@ class State
     }
 
     /**
+     * @param string $encodedData
+     */
+    public function importFromEncodedData($encodedData)
+    {
+        return $this->importFromArray(json_decode(base64_decode($encodedData), true));
+    }
+
+    /**
      * @return array of class properties for export
      */
     public function export()
