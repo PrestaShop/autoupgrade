@@ -66,7 +66,6 @@ abstract class AbstractTask
         $this->logger = $this->container->getLogger();
         $this->translator = $this->container->getTranslator();
         $this->checkTaskMayRun();
-        $this->container->initPrestaShopCore();
     }
 
     /**
@@ -112,6 +111,11 @@ abstract class AbstractTask
             $this->next = self::$skipAction[$currentAction];
             $this->logger->info($this->translator->trans('Action %s skipped', array($currentAction), 'Modules.Autoupgrade.Admin'));
         }
+    }
+
+    public function init()
+    {
+        $this->container->initPrestaShopCore();
     }
 
     abstract public function run();

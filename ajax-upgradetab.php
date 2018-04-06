@@ -49,5 +49,6 @@ $container = autoupgrade_init_container(dirname(__FILE__));
 //}
 
 $controller = TaskRepository::get(Tools14::getValue('action'), $container);
+$controller->init();
 $controller->run();
 echo $controller->getAjaxResponse();

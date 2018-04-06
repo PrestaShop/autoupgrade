@@ -376,6 +376,11 @@ class UpgradeContainer
         return $this->zipAction;
     }
 
+    public function initPrestaShopAutoloader()
+    {
+        require_once(realpath(__DIR__.'/../../../vendor/autoload.php'));
+    }
+
     public function initPrestaShopCore()
     {
         require_once(realpath(__DIR__.'/../../../config/config.inc.php'));
