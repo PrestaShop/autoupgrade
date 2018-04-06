@@ -32,38 +32,53 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\TaskRepository;
 
 /**
  * Execute the whole upgrade process in a single request.
- * TODO: Handle customization
  */
 class AllUpgradeTasks extends AbstractTask
 {
     const initialTask = 'upgradeNow';
 
+    private $step = self::initialTask;
+
     public function run()
     {
-        $step = self::initialTask;
-
         $this->init();
-        while ($this->canContinue($step)) {
-            echo "\n=== Step ".$step."\n";
-            $controller = TaskRepository::get($step, $this->container);
+        while ($this->canContinue($this->step)) {
+            echo "\n=== Step ".$this->step."\n";
+            $controller = TaskRepository::get($this->step, $this->container);
             $controller->run();
 
             $result = $controller->getResponse();
-            $step = $result->getNext();
+            $this->step = $result->getNext();
             $this->error = $result->getError();
         }
 
         return (int) ($this->error || $this->next === 'error');
     }
 
+    /**
+     * Customize the execution context with several options
+     * > action: Replace the initial step to run
+     * > channel: Makes a specific upgrade (minor, major etc.)
+     * > data: Loads an encoded array of data coming from another request
+     *
+     * @param array $options
+     */
     public function setOptions($options)
     {
+        if (!empty($options['action'])) {
+            $this->step = $options['action'];
+        }
+
         if (!empty($options['channel'])) {
             $this->container->getUpgradeConfiguration()->merge(array(
                 'channel' => $options['channel'],
             ));
             $this->container->getUpgrader()->channel = $options['channel'];
             $this->container->getUpgrader()->checkPSVersion(true);
+        }
+
+        if (!empty($options['data'])) {
+            $this->container->getState()->importFromEncodedData($options['data']);
         }
     }
 
@@ -88,21 +103,10 @@ class AllUpgradeTasks extends AbstractTask
     }
 
     /**
-     * Set default config for AdminSelfUpgrade
+     * Set default config
      */
     protected function init()
     {
-        $this->container->getUpgradeConfiguration()->merge(array(
-            'channel' => 'major',
-            'PS_AUTOUP_PERFORMANCE' => 1,
-            'PS_AUTOUP_CUSTOM_MOD_DESACT' => 1,
-            'PS_AUTOUP_UPDATE_DEFAULT_THEME' => 1,
-            'PS_AUTOUP_CHANGE_DEFAULT_THEME' => 0,
-            'PS_AUTOUP_KEEP_MAILS' => 0,
-            'PS_AUTOUP_BACKUP' => 1,
-            'PS_AUTOUP_KEEP_IMAGES' => 0,
-        ));
-
         $this->container->getState()->initDefault(
                 $this->container->getUpgrader(),
                 $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH),
