@@ -71,7 +71,7 @@ class ModuleAdapter
             if (is_null($kernel)) {
                 require_once _PS_ROOT_DIR_.'/app/AppKernel.php';
                 $kernel = new \AppKernel(_PS_MODE_DEV_?'dev':'prod', _PS_MODE_DEV_);
-//                $kernel->loadClassCache();
+                $kernel->loadClassCache();
                 $kernel->boot();
             }
 
