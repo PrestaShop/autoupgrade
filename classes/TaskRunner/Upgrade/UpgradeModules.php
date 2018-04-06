@@ -104,7 +104,7 @@ class UpgradeModules extends AbstractTask
                             'The %modulename% module is not compatible with version %version%, it will be removed from your FTP.',
                             array(
                                 '%modulename%' => $module,
-                                '%version%' => $this->container->getState()-> getInstallVersion(),
+                                '%version%' => $this->container->getState()->getInstallVersion(),
                             ),
                             'Modules.Autoupgrade.Admin'
                         ));
@@ -113,7 +113,7 @@ class UpgradeModules extends AbstractTask
                             'The %modulename% module is not compatible with version %version%, please remove it from your FTP.',
                             array(
                                 '%modulename%' => $module,
-                                '%version%' => $this->container->getState()-> getInstallVersion(),
+                                '%version%' => $this->container->getState()->getInstallVersion(),
                             ),
                             'Modules.Autoupgrade.Admin'
                         ));
