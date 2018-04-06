@@ -70,6 +70,14 @@ abstract class AbstractTask
     }
 
     /**
+     * @return sting base64 encoded data from AjaxResponse
+     */
+    public function getEncodedResponse()
+    {
+        return base64_encode($this->getResponse()->getJson());
+    }
+
+    /**
      * @return sting Json encoded data from AjaxResponse
      */
     public function getJsonResponse()
