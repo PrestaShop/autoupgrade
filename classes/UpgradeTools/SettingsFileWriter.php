@@ -27,7 +27,9 @@
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use PrestaShop\Module\AutoUpgrade\LoggedEvent;
 
 class SettingsFileWriter
 {
@@ -37,6 +39,14 @@ class SettingsFileWriter
     {
         $this->translator = $translator;
     }
+
+    public function migrateSettingsFile(LoggerInterface $logger)
+    {
+        if (class_exists('PrestaShopBundle\Install\Upgrade')) {
+            \PrestaShopBundle\Install\Upgrade::migrateSettingsFile(new LoggedEvent($logger));
+        }
+    }
+
     /**
      * @param string $filePath
      * @param array $data

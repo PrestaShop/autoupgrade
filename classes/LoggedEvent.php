@@ -24,22 +24,28 @@
  *  International Registered Trademark & Property of PrestaShop SA
  */
 
-namespace PrestaShop\Module\AutoUpgrade;
-
-use Composer\Script\Event;
-use Psr\Log\AbstractLogger;
-
-class LoggedEvent extends Event
-{
-    private $logger;
-
-    public function __construct(AbstractLogger $logger)
-    {
-        $this->logger = $logger;
+namespace Composer\Script {
+    class Event {
+        
     }
+}
 
-    public function getIO()
+namespace PrestaShop\Module\AutoUpgrade {
+    use Composer\Script\Event;
+    use Psr\Log\LoggerInterface;
+    
+    class LoggedEvent extends Event
     {
-        return new LoggedEventIo($logger);
+        private $logger;
+
+        public function __construct(LoggerInterface $logger)
+        {
+            $this->logger = $logger;
+        }
+
+        public function getIO()
+        {
+            return new LoggedEventIo($this->logger);
+        }
     }
 }

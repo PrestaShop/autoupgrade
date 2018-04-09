@@ -26,13 +26,13 @@
 
 namespace PrestaShop\Module\AutoUpgrade;
 
-use Psr\Log\AbstractLogger;
+use Psr\Log\LoggerInterface;
 
 class LoggedEventIo
 {
     private $logger;
 
-    public function __construct(AbstractLogger $logger)
+    public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;
     }

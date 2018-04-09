@@ -376,9 +376,15 @@ class UpgradeContainer
         return $this->zipAction;
     }
 
+    /**
+     * Checks if the composer autoload exists, and loads it.
+     */
     public function initPrestaShopAutoloader()
     {
-        require_once(realpath(__DIR__.'/../../../vendor/autoload.php'));
+        $autoloader = realpath(__DIR__.'/../../../vendor/autoload.php');
+        if ($autoloader) {
+            require_once($autoloader);
+        }
     }
 
     public function initPrestaShopCore()

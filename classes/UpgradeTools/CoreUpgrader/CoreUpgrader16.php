@@ -28,6 +28,7 @@ namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader;
 
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\SettingsFileWriter;
 
 class CoreUpgrader16 extends CoreUpgrader
 {
@@ -63,7 +64,7 @@ class CoreUpgrader16 extends CoreUpgrader
             $datas['_RIJNDAEL_IV_'] = _RIJNDAEL_IV_;
         }
 
-        $writer = new \PrestaShop\Module\AutoUpgrade\UpgradeTools\SettingsFileWriter($this->container->getTranslator());
+        $writer = new SettingsFileWriter($this->container->getTranslator());
         $writer->writeSettingsFile(SETTINGS_FILE, $datas);
         $this->logger->debug($this->container->getTranslator()->trans('Settings file updated'));
     }
