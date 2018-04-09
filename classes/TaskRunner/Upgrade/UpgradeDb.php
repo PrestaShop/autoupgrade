@@ -26,6 +26,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 
+use PrestaShop\Module\AutoUpgrade\LoggedEvent;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader16;
@@ -64,7 +65,7 @@ class UpgradeDb extends AbstractTask
         if (version_compare($this->container->getState()->getInstallVersion(), '1.7.0.0', '>')) {
             // Before parent::init(), we must have the new parameters file
             $this->container->initPrestaShopAutoloader();
-            \PrestaShopBundle\Install\Upgrade::migrateSettingsFile();
+            \PrestaShopBundle\Install\Upgrade::migrateSettingsFile(new LoggedEvent($this->logger));
         }
         parent::init();
     }
