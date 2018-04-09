@@ -40,6 +40,7 @@ class UpgradeDb extends AbstractTask
             $this->getCoreUpgrader()->doUpgrade();
         } catch (UpgradeException $e ) {
             $this->next = 'error';
+            $this->error = true;
             foreach ($e->getQuickInfos() as $log) {
                 $this->logger->debug($log);
             }
