@@ -40,7 +40,10 @@ class UpgradeContainerTest extends TestCase
      */
     public function testObjectInstanciation($functionName, $expectedClass)
     {
-        $container = new UpgradeContainer(__DIR__, __DIR__.'/..');
+        $container = $this->getMockBuilder(UpgradeContainer::class)
+            ->setConstructorArgs(array(__DIR__, __DIR__.'/..'))
+            ->setMethods(array('getDb'))
+            ->getMock();
         $actualClass = get_class(call_user_func(array($container, $functionName)));
         $this->assertSame($actualClass, $expectedClass);
     }

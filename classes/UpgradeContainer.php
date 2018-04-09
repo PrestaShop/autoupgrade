@@ -295,7 +295,7 @@ class UpgradeContainer
         }
 
         $this->moduleAdapter = new ModuleAdapter(
-            $this->db,
+            $this->getDb(),
             $this->getTranslator(),
             $this->getProperty(self::PS_ROOT_PATH).DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR,
             $this->getProperty(self::TMP_PATH),
