@@ -30,6 +30,7 @@ use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader16;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader17;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\SettingsFileWriter;
 
 class UpgradeDb extends AbstractTask
 {
@@ -57,5 +58,13 @@ class UpgradeDb extends AbstractTask
             return new CoreUpgrader16($this->container, $this->logger);
         }
         return new CoreUpgrader17($this->container, $this->logger);
+    }
+
+    public function init()
+    {
+        // Migrating settings file
+        $this->container->initPrestaShopAutoloader();
+        (new SettingsFileWriter($this->translator))->migrateSettingsFile($this->logger);
+        parent::init();
     }
 }

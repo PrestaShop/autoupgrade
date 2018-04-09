@@ -29,7 +29,6 @@ namespace PrestaShop\Module\AutoUpgrade\TaskRunner;
 use PrestaShop\Module\AutoUpgrade\AjaxResponse;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\SettingsFileWriter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\TaskRepository;
 
 /**
@@ -47,6 +46,7 @@ class AllUpgradeTasks extends AbstractTask
         while ($this->canContinue() && !$requireRestart) {
             echo "\n=== Step ".$this->step."\n";
             $controller = TaskRepository::get($this->step, $this->container);
+            $controller->init();
             $controller->run();
 
             $result = $controller->getResponse();
@@ -83,9 +83,6 @@ class AllUpgradeTasks extends AbstractTask
 
         if (!empty($options['data'])) {
             $this->container->getState()->importFromEncodedData($options['data']);
-            // Migrating settings file (TODO: Is this the best place?)
-            $this->container->initPrestaShopAutoloader();
-            (new SettingsFileWriter($this->translator))->migrateSettingsFile($this->logger);
         }
     }
 
@@ -135,14 +132,16 @@ class AllUpgradeTasks extends AbstractTask
     }
 
     /**
-     * Set default config
+     * Set default config on first run
      */
     public function init()
     {
-        parent::init();
-        $this->container->getState()->initDefault(
+        if ($this->step === self::initialTask) {
+            parent::init();
+            $this->container->getState()->initDefault(
                 $this->container->getUpgrader(),
                 $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH),
                 $this->container->getProperty(UpgradeContainer::PS_VERSION));
+        }
     }
 }
