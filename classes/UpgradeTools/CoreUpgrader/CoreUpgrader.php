@@ -109,34 +109,34 @@ abstract class CoreUpgrader
 
     protected function initConstants()
     {
-//        // Initialize
-//        // setting the memory limit to 128M only if current is lower
-//        $memory_limit = ini_get('memory_limit');
-//        if ((substr($memory_limit, -1) != 'G')
-//            && ((substr($memory_limit, -1) == 'M' and substr($memory_limit, 0, -1) < 128)
-//                || is_numeric($memory_limit) and (intval($memory_limit) < 131072))
-//        ) {
-//            @ini_set('memory_limit', '128M');
-//        }
-//
-//        /* Redefine REQUEST_URI if empty (on some webservers...) */
-//        if (!isset($_SERVER['REQUEST_URI']) || empty($_SERVER['REQUEST_URI'])) {
-//            if (!isset($_SERVER['SCRIPT_NAME']) && isset($_SERVER['SCRIPT_FILENAME'])) {
-//                $_SERVER['SCRIPT_NAME'] = $_SERVER['SCRIPT_FILENAME'];
-//            }
-//            if (isset($_SERVER['SCRIPT_NAME'])) {
-//                if (basename($_SERVER['SCRIPT_NAME']) == 'index.php' && empty($_SERVER['QUERY_STRING'])) {
-//                    $_SERVER['REQUEST_URI'] = dirname($_SERVER['SCRIPT_NAME']).'/';
-//                } else {
-//                    $_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_NAME'];
-//                    if (isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING'])) {
-//                        $_SERVER['REQUEST_URI'] .= '?'.$_SERVER['QUERY_STRING'];
-//                    }
-//                }
-//            }
-//        }
-//        $_SERVER['REQUEST_URI'] = str_replace('//', '/', $_SERVER['REQUEST_URI']);
-//
+        // Initialize
+        // setting the memory limit to 128M only if current is lower
+        $memory_limit = ini_get('memory_limit');
+        if ((substr($memory_limit, -1) != 'G')
+            && ((substr($memory_limit, -1) == 'M' and substr($memory_limit, 0, -1) < 128)
+                || is_numeric($memory_limit) and (intval($memory_limit) < 131072))
+        ) {
+            @ini_set('memory_limit', '128M');
+        }
+
+        /* Redefine REQUEST_URI if empty (on some webservers...) */
+        if (!isset($_SERVER['REQUEST_URI']) || empty($_SERVER['REQUEST_URI'])) {
+            if (!isset($_SERVER['SCRIPT_NAME']) && isset($_SERVER['SCRIPT_FILENAME'])) {
+                $_SERVER['SCRIPT_NAME'] = $_SERVER['SCRIPT_FILENAME'];
+            }
+            if (isset($_SERVER['SCRIPT_NAME'])) {
+                if (basename($_SERVER['SCRIPT_NAME']) == 'index.php' && empty($_SERVER['QUERY_STRING'])) {
+                    $_SERVER['REQUEST_URI'] = dirname($_SERVER['SCRIPT_NAME']).'/';
+                } else {
+                    $_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_NAME'];
+                    if (isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING'])) {
+                        $_SERVER['REQUEST_URI'] .= '?'.$_SERVER['QUERY_STRING'];
+                    }
+                }
+            }
+        }
+        $_SERVER['REQUEST_URI'] = str_replace('//', '/', $_SERVER['REQUEST_URI']);
+
         define('INSTALL_VERSION', $this->container->getState()->getInstallVersion());
         // 1.4
         define('INSTALL_PATH', realpath($this->container->getProperty(UpgradeContainer::LATEST_PATH).DIRECTORY_SEPARATOR.'install'));
@@ -145,26 +145,31 @@ abstract class CoreUpgrader
             define('_PS_CORE_DIR_', _PS_ROOT_DIR_);
         }
 
-        require_once(INSTALL_PATH.DIRECTORY_SEPARATOR.'init.php');
-//
-//        define('PS_INSTALLATION_IN_PROGRESS', true);
-//        define('SETTINGS_FILE_PHP', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/app/config/parameters.php');
-//        define('SETTINGS_FILE_YML', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/app/config/parameters.yml');
-//        define('DEFINES_FILE', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) .'/config/defines.inc.php');
-//        define('INSTALLER__PS_BASE_URI', substr($_SERVER['REQUEST_URI'], 0, -1 * (strlen($_SERVER['REQUEST_URI']) - strrpos($_SERVER['REQUEST_URI'], '/')) - strlen(substr(dirname($_SERVER['REQUEST_URI']), strrpos(dirname($_SERVER['REQUEST_URI']), '/')+1))));
-//        //	define('INSTALLER__PS_BASE_URI_ABSOLUTE', 'http://'.ToolsInstall::getHttpHost(false, true).INSTALLER__PS_BASE_URI);
-//
-//        if (function_exists('date_default_timezone_set')) {
-//            date_default_timezone_set('Europe/Paris');
-//        }
-//
-//        // if _PS_ROOT_DIR_ is defined, use it instead of "guessing" the module dir.
-//        if (defined('_PS_ROOT_DIR_') and !defined('_PS_MODULE_DIR_')) {
-//            define('_PS_MODULE_DIR_', _PS_ROOT_DIR_.'/modules/');
-//        } elseif (!defined('_PS_MODULE_DIR_')) {
-//            define('_PS_MODULE_DIR_', INSTALL_PATH.'/../modules/');
-//        }
-//
+        define('PS_INSTALLATION_IN_PROGRESS', true);
+        define('SETTINGS_FILE_PHP', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/app/config/parameters.php');
+        define('SETTINGS_FILE_YML', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/app/config/parameters.yml');
+        define('DEFINES_FILE', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) .'/config/defines.inc.php');
+        define('INSTALLER__PS_BASE_URI', substr($_SERVER['REQUEST_URI'], 0, -1 * (strlen($_SERVER['REQUEST_URI']) - strrpos($_SERVER['REQUEST_URI'], '/')) - strlen(substr(dirname($_SERVER['REQUEST_URI']), strrpos(dirname($_SERVER['REQUEST_URI']), '/')+1))));
+        //	define('INSTALLER__PS_BASE_URI_ABSOLUTE', 'http://'.ToolsInstall::getHttpHost(false, true).INSTALLER__PS_BASE_URI);
+
+        define('_PS_INSTALL_PATH_', INSTALL_PATH.'/');
+        define('_PS_INSTALL_DATA_PATH_', _PS_INSTALL_PATH_.'data/');
+        define('_PS_INSTALL_CONTROLLERS_PATH_', _PS_INSTALL_PATH_.'controllers/');
+        define('_PS_INSTALL_MODELS_PATH_', _PS_INSTALL_PATH_.'models/');
+        define('_PS_INSTALL_LANGS_PATH_', _PS_INSTALL_PATH_.'langs/');
+        define('_PS_INSTALL_FIXTURES_PATH_', _PS_INSTALL_PATH_.'fixtures/');
+
+        if (function_exists('date_default_timezone_set')) {
+            date_default_timezone_set('Europe/Paris');
+        }
+
+        // if _PS_ROOT_DIR_ is defined, use it instead of "guessing" the module dir.
+        if (defined('_PS_ROOT_DIR_') and !defined('_PS_MODULE_DIR_')) {
+            define('_PS_MODULE_DIR_', _PS_ROOT_DIR_.'/modules/');
+        } elseif (!defined('_PS_MODULE_DIR_')) {
+            define('_PS_MODULE_DIR_', INSTALL_PATH.'/../modules/');
+        }
+
         $upgrade_dir_php = 'upgrade/php';
         if (!file_exists(INSTALL_PATH.DIRECTORY_SEPARATOR.$upgrade_dir_php)) {
             $upgrade_dir_php = 'php';
@@ -173,14 +178,14 @@ abstract class CoreUpgrader
             }
         }
         define('_PS_INSTALLER_PHP_UPGRADE_DIR_',  INSTALL_PATH.DIRECTORY_SEPARATOR.$upgrade_dir_php.DIRECTORY_SEPARATOR);
-//
-//        if (!defined('__PS_BASE_URI__')) {
-//            define('__PS_BASE_URI__', realpath(dirname($_SERVER['SCRIPT_NAME'])).'/../../');
-//        }
-//
-//        if (!defined('_THEMES_DIR_')) {
-//            define('_THEMES_DIR_', __PS_BASE_URI__.'themes/');
-//        }
+
+        if (!defined('__PS_BASE_URI__')) {
+            define('__PS_BASE_URI__', realpath(dirname($_SERVER['SCRIPT_NAME'])).'/../../');
+        }
+
+        if (!defined('_THEMES_DIR_')) {
+            define('_THEMES_DIR_', __PS_BASE_URI__.'themes/');
+        }
         $this->db = \Db::getInstance();
     }
 
