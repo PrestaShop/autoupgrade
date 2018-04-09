@@ -181,7 +181,7 @@ class FilesystemAdapter
 
                 foreach ($this->fileFilter->getFilesToIgnoreOnBackup() as $path) {
                     $path = str_replace(DIRECTORY_SEPARATOR.'admin', DIRECTORY_SEPARATOR.$this->adminSubDir, $path);
-                    if ($fullpath == $rootpath.$path) {
+                    if ($fullpath === $rootpath.$path) {
                         return true;
                     }
                 }
@@ -196,7 +196,7 @@ class FilesystemAdapter
 
                 foreach ($this->fileFilter->getFilesToIgnoreOnRestore() as $path) {
                     $path = str_replace(DIRECTORY_SEPARATOR.'admin', DIRECTORY_SEPARATOR.$this->adminSubDir, $path);
-                    if ($fullpath == $rootpath.$path) {
+                    if ($fullpath === $rootpath.$path) {
                         return true;
                     }
                 }
@@ -208,7 +208,7 @@ class FilesystemAdapter
 
                 foreach ($this->fileFilter->getFilesToIgnoreOnUpgrade() as $path) {
                     $path = str_replace(DIRECTORY_SEPARATOR.'admin', DIRECTORY_SEPARATOR.$this->adminSubDir, $path);
-                    if (strpos($fullpath, $rootpath.$path) !== false) {
+                    if ($fullpath === $rootpath.$path) {
                         return true;
                     }
                 }
