@@ -100,7 +100,8 @@ class State
      */
     public function importFromEncodedData($encodedData)
     {
-        return $this->importFromArray(json_decode(base64_decode($encodedData), true));
+        $decodedData = json_decode(base64_decode($encodedData), true);
+        return $this->importFromArray($decodedData['nextParams']);
     }
 
     /**
