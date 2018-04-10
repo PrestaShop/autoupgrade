@@ -139,7 +139,7 @@ abstract class CoreUpgrader
 
         define('INSTALL_VERSION', $this->container->getState()->getInstallVersion());
         // 1.4
-        define('INSTALL_PATH', realpath($this->container->getProperty(UpgradeContainer::LATEST_PATH).DIRECTORY_SEPARATOR.'install'));
+        define('INSTALL_PATH', realpath($this->container->getProperty(UpgradeContainer::LATEST_PATH).DIRECTORY_SEPARATOR.'install').DIRECTORY_SEPARATOR);
         // 1.5 ...
         if (!defined('_PS_CORE_DIR_')) {
             define('_PS_CORE_DIR_', _PS_ROOT_DIR_);
