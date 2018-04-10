@@ -36,29 +36,6 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter;
  */
 class CoreUpgrader17 extends CoreUpgrader
 {
-    public function doUpgrade()
-    {
-        // Use core upgrade class when possible
-        // Equivalent of calling install/upgrade/upgrade.php
-        if (class_exists('\PrestaShopBundle\Install\Upgrade')) {
-            $installPath = realpath($this->container->getProperty(UpgradeContainer::LATEST_PATH).DIRECTORY_SEPARATOR.'install');
-            //require_once($installPath.DIRECTORY_SEPARATOR.'init.php');
-            $this->initConstants();
-            $coreUpgrader = new \PrestaShopBundle\Install\Upgrade(
-                $this->container->getProperty(UpgradeContainer::TMP_PATH),
-                $installPath.'/'
-            );
-            $coreUpgrader->setInAutoUpgrade(true);
-            $coreUpgrader->setDisableCustomModules($this->container->getUpgradeConfiguration()->shouldDeactivateCustomModules());
-            $coreUpgrader->setUpdateDefaultTheme($this->container->getUpgradeConfiguration()->shouldUpdateDefaultTheme());
-            $coreUpgrader->setChangeToDefaultTheme($this->container->getUpgradeConfiguration()->shouldSwitchToDefaultTheme());
-            $coreUpgrader->setAdminDir($this->container->getProperty(UpgradeContainer::PS_ADMIN_PATH));
-            $coreUpgrader->run();
-            $this->sendUpgradeLogsToLogger($coreUpgrader);
-        } else {
-            parent::doUpgrade();
-        }
-    }
     protected function initConstants()
     {
         parent::initConstants();
@@ -114,23 +91,5 @@ class CoreUpgrader17 extends CoreUpgrader
 
         $cldrUpdate = new \PrestaShop\PrestaShop\Core\Cldr\Update(_PS_TRANSLATIONS_DIR_);
         $cldrUpdate->fetchLocale(\Language::getLocaleByIso($isoCode));
-    }
-
-    private function sendUpgradeLogsToLogger(\PrestaShopBundle\Install\Upgrade $upgrade)
-    {
-        ob_end_flush();
-        $logs = array(
-            'debug' => 'getNextQuickInfo',
-            'error' => 'getNextErrors',
-            'info' => 'getNextDesc'
-        );
-        foreach ($logs as $logType => $source) {
-            foreach($upgrade->{$source}() as $log) {
-                $this->logger->{$logType}($log);
-            }
-        }
-        if ($upgrade->getNext() === 'error') {
-            throw new UpgradeException();
-        }
     }
 }
