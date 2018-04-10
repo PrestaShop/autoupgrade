@@ -276,4 +276,9 @@ class UpgradeFiles extends AbstractTask
         $this->stepDone = false;
         return true;
     }
+
+    public function init()
+    {
+        // Do nothing. Overrides parent init for avoiding core to be loaded here.
+    }
 }
