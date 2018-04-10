@@ -40,6 +40,20 @@ class StateTest extends TestCase
         $this->assertSame('doge', $exported['backupName']);
     }
 
+    public function testClassReceivesModulesAddonsProperty()
+    {
+        $modules = [
+            22320 => 'ps_imageslider',
+            22323 => 'ps_socialfollow',
+        ];
+        $state = new State();
+        $state->importFromArray(['modules_addons' => $modules]);
+        $exported = $state->export();
+
+        $this->assertSame($modules, $state->getModules_addons());
+        $this->assertSame($modules, $exported['modules_addons']);
+    }
+
     public function testClassIgnoresRandomData()
     {
         $state = new State();
@@ -58,12 +72,24 @@ class StateTest extends TestCase
 
     public function testClassReceivesPropertyFromEncodedData()
     {
-        $encodedData = base64_encode(json_encode(['backupName' => 'doge']));
+        $modules = [
+            22320 => 'ps_imageslider',
+            22323 => 'ps_socialfollow',
+        ];
+        $data = [
+            'nextParams' => [
+                'backupName' => 'doge',
+                'modules_addons' => $modules,
+            ],
+        ];
+        $encodedData = base64_encode(json_encode($data));
         $state = new State();
         $state->importFromEncodedData($encodedData);
         $exported = $state->export();
 
         $this->assertSame('doge', $state->getBackupName());
         $this->assertSame('doge', $exported['backupName']);
+        $this->assertSame($modules, $state->getModules_addons());
+        $this->assertSame($modules, $exported['modules_addons']);
     }
 }
