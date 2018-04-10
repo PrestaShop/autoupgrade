@@ -41,10 +41,12 @@ class CoreUpgrader17 extends CoreUpgrader
         // Use core upgrade class when possible
         // Equivalent of calling install/upgrade/upgrade.php
         if (class_exists('\PrestaShopBundle\Install\Upgrade')) {
-            $installPath = realpath($this->container->getProperty(UpgradeContainer::LATEST_PATH).DIRECTORY_SEPARATOR.'install').DIRECTORY_SEPARATOR;
+            $installPath = realpath($this->container->getProperty(UpgradeContainer::LATEST_PATH).DIRECTORY_SEPARATOR.'install');
+            //require_once($installPath.DIRECTORY_SEPARATOR.'init.php');
+            $this->initConstants();
             $coreUpgrader = new \PrestaShopBundle\Install\Upgrade(
                 $this->container->getProperty(UpgradeContainer::TMP_PATH),
-                $installPath
+                $installPath.'/'
             );
             $coreUpgrader->setInAutoUpgrade(true);
             $coreUpgrader->setDisableCustomModules($this->container->getUpgradeConfiguration()->shouldDeactivateCustomModules());
@@ -116,6 +118,7 @@ class CoreUpgrader17 extends CoreUpgrader
 
     private function sendUpgradeLogsToLogger(\PrestaShopBundle\Install\Upgrade $upgrade)
     {
+        ob_end_flush();
         $logs = array(
             'debug' => 'getNextQuickInfo',
             'error' => 'getNextErrors',
