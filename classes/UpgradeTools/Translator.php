@@ -41,9 +41,13 @@ class Translator
             return \Context::getContext()->getTranslator()->trans($id, $parameters, $domain, $locale);
         }
 
-        $translated = \Translate::getModuleTranslation('autoupgrade', $id, $this->caller, null);
-        if (!count($parameters)) {
-            return $translated;
+        if (method_exists(\Translate::class, 'getModuleTranslation')) {
+            $translated = \Translate::getModuleTranslation('autoupgrade', $id, $this->caller, null);
+            if (!count($parameters)) {
+                return $translated;
+            }
+        } else {
+            $translated = $id;
         }
 
         return $this->applyParameters($translated, $parameters);
