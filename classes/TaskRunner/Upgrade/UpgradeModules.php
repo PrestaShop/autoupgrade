@@ -64,6 +64,9 @@ class UpgradeModules extends AbstractTask
                     $this->logger->debug($this->translator->trans('The files of module %s have been upgraded.', array($module_info['name']), 'Modules.Autoupgrade.Admin'));
                 } catch (UpgradeException $e) {
                     $this->handleException($e);
+                    if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {
+                        return false;
+                    }
                 }
                 $time_elapsed = time() - $start_time;
             } while (($time_elapsed < $this->container->getUpgradeConfiguration()->getTimePerCall()) && count($listModules) > 0);
