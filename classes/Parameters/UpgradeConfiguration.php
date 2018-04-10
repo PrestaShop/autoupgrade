@@ -110,6 +110,14 @@ class UpgradeConfiguration extends ArrayCollection
     }
 
     /**
+     * @return bool True if we have to set the native theme by default
+     */
+    public function shouldSwitchToDefaultTheme()
+    {
+        return (bool) $this->get('PS_AUTOUP_CHANGE_DEFAULT_THEME');
+    }
+
+    /**
      * @return bool True if we are allowed to update th default theme files
      */
     public function shouldUpdateDefaultTheme()
