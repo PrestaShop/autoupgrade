@@ -113,10 +113,10 @@ abstract class CoreUpgrader
         // setting the memory limit to 128M only if current is lower
         $memory_limit = ini_get('memory_limit');
         if ((substr($memory_limit, -1) != 'G')
-            && ((substr($memory_limit, -1) == 'M' and substr($memory_limit, 0, -1) < 128)
+            && ((substr($memory_limit, -1) == 'M' and substr($memory_limit, 0, -1) < 512)
                 || is_numeric($memory_limit) and (intval($memory_limit) < 131072))
         ) {
-            @ini_set('memory_limit', '128M');
+            @ini_set('memory_limit', '512M');
         }
 
         /* Redefine REQUEST_URI if empty (on some webservers...) */
@@ -139,7 +139,7 @@ abstract class CoreUpgrader
 
         define('INSTALL_VERSION', $this->container->getState()->getInstallVersion());
         // 1.4
-        define('INSTALL_PATH', realpath($this->container->getProperty(UpgradeContainer::LATEST_PATH).DIRECTORY_SEPARATOR.'install').DIRECTORY_SEPARATOR);
+        define('INSTALL_PATH', realpath($this->container->getProperty(UpgradeContainer::LATEST_PATH).DIRECTORY_SEPARATOR.'install'));
         // 1.5 ...
         if (!defined('_PS_CORE_DIR_')) {
             define('_PS_CORE_DIR_', _PS_ROOT_DIR_);

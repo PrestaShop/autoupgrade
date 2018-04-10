@@ -133,7 +133,7 @@ class UpgradeModules extends AbstractTask
     public function warmUp()
     {
         try {
-            $modulesToUpgrade = $this->container->getModuleAdapter()->listModulesToUpgrade($this->container->getState()-> getModules_addons());
+            $modulesToUpgrade = $this->container->getModuleAdapter()->listModulesToUpgrade($this->container->getState()->getModules_addons());
             $this->container->getFileConfigurationStorage()->save($modulesToUpgrade, UpgradeFileNames::toUpgradeModuleList);
         } catch (UpgradeException $e) {
             $this->handleException($e);
