@@ -87,7 +87,7 @@ class UpdateConfig extends AbstractTask
             $config['skip_backup'] = $request['skip_backup'];
         }
 
-        if (!$this->upgradeClass->writeConfig($config)) {
+        if (!$this->writeConfig($config)) {
             $this->error = true;
             $this->logger->info($this->translator->trans('Error on saving configuration', array(), 'Modules.Autoupgrade.Admin'));
         }
@@ -114,7 +114,7 @@ class UpdateConfig extends AbstractTask
         }
 
         $this->container->getUpgradeConfiguration()->merge($config);
-        $this->logger->info($this->container->getTranslator()->trans('Configuration successfully updated.', array(), 'Modules.Autoupgrade.Admin').' <strong>'.$this->trans('This page will now be reloaded and the module will check if a new version is available.', array(), 'Modules.Autoupgrade.Admin').'</strong>');
+        $this->logger->info($this->translator->trans('Configuration successfully updated.', array(), 'Modules.Autoupgrade.Admin').' <strong>'.$this->translator->trans('This page will now be reloaded and the module will check if a new version is available.', array(), 'Modules.Autoupgrade.Admin').'</strong>');
         return (new UpgradeConfigurationStorage($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH).DIRECTORY_SEPARATOR))->save($this->container->getUpgradeConfiguration(), UpgradeFileNames::configFilename);
     }
 }
