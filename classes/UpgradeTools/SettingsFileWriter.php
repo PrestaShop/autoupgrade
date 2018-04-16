@@ -42,7 +42,7 @@ class SettingsFileWriter
 
     public function migrateSettingsFile(LoggerInterface $logger)
     {
-        if (class_exists('PrestaShopBundle\Install\Upgrade')) {
+        if (class_exists('\PrestaShopBundle\Install\Upgrade')) {
             \PrestaShopBundle\Install\Upgrade::migrateSettingsFile(new LoggedEvent($logger));
         }
     }
