@@ -385,6 +385,9 @@ class UpgradeContainer
         if ($autoloader) {
             require_once($autoloader);
         }
+
+        require_once(realpath(__DIR__.'/../../../config/defines.inc.php'));
+        require_once(realpath(__DIR__.'/../../../config/autoload.php'));
     }
 
     public function initPrestaShopCore()
