@@ -65,7 +65,7 @@ class ErrorHandler
     public function exceptionHandler($e)
     {
         $message = get_class($e) .': '. $e->getMessage();
-        $this->report($e->getFile(), $e->getLine(), Logger::CRITICAL, $message);
+        $this->report($e->getFile(), $e->getLine(), Logger::CRITICAL, $message, true);
     }
 
     /**
@@ -138,6 +138,9 @@ class ErrorHandler
      */
     protected function report($file, $line, $type, $message, $display = false)
     {
+        if ($type >= Logger::CRITICAL) {
+            http_response_code(500);
+        }
         $log = "[INTERNAL] $file line $line - $message";
         $jsonResponse = $this->generateJsonLog($log);
         
