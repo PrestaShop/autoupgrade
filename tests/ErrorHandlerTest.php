@@ -53,7 +53,7 @@ class ErrorHandlerTest extends TestCase
 
         $errors = $this->logger->getErrors();
         $this->assertEquals(1, count($errors));
-        $this->assertEquals(end($errors), '[INTERNAL] '.__FILE__.' line '.$line.' - Exception: ERMAGHERD');
+        $this->assertContains('[INTERNAL] '.__FILE__.' line '.$line.' - Exception: ERMAGHERD', end($errors));
     }
 
     public function testWarningInErrorHandler()

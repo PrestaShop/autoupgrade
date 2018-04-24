@@ -65,7 +65,7 @@ class ErrorHandler
     public function exceptionHandler($e)
     {
         $message = get_class($e) .': '. $e->getMessage();
-        $this->report($e->getFile(), $e->getLine(), Logger::CRITICAL, $message, true);
+        $this->report($e->getFile(), $e->getLine(), Logger::CRITICAL, $message, $e->getTraceAsString(), true);
     }
 
     /**
@@ -112,8 +112,9 @@ class ErrorHandler
     public function fatalHandler()
     {
         $lastError = error_get_last();
+        $trace = isset($lastError['backtrace']) ? var_export($lastError['backtrace'], true) : null;
         if ($lastError && in_array($lastError['type'], array(E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR), true)) {
-            $this->report($lastError['file'], $lastError['line'], Logger::CRITICAL, $lastError['message'], true);
+            $this->report($lastError['file'], $lastError['line'], Logger::CRITICAL, $lastError['message'], $trace, true);
         }
     }
 
@@ -136,12 +137,15 @@ class ErrorHandler
      * @param string $message
      * @param bool $display
      */
-    protected function report($file, $line, $type, $message, $display = false)
+    protected function report($file, $line, $type, $message, $trace = null, $display = false)
     {
         if ($type >= Logger::CRITICAL) {
             http_response_code(500);
         }
         $log = "[INTERNAL] $file line $line - $message";
+        if (!empty($trace)) {
+            $log .= "\n".$trace;
+        }
         $jsonResponse = $this->generateJsonLog($log);
         
         try {
