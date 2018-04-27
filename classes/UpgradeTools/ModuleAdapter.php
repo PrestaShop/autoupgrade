@@ -64,17 +64,13 @@ class ModuleAdapter
      */
     public function getModuleDataUpdater()
     {
-        global $kernel;
-
         if (null === $this->moduleDataUpdater) {
-
-            if (is_null($kernel)) {
+            global $kernel;
+            if (!$kernel instanceof \AppKernel) {
                 require_once _PS_ROOT_DIR_.'/app/AppKernel.php';
                 $kernel = new \AppKernel(_PS_MODE_DEV_?'dev':'prod', _PS_MODE_DEV_);
-                $kernel->loadClassCache();
                 $kernel->boot();
             }
-
             $this->moduleDataUpdater = $kernel->getContainer()->get('prestashop.core.module.updater');
         }
 
