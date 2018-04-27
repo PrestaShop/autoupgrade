@@ -332,7 +332,11 @@ class Upgrader
 	 */
 	public function getXmlMd5File($version, $refresh = false)
 	{
-		return $this->getXmlFIle(_PS_ROOT_DIR_.'/config/xml/'.$version.'.xml', $this->rss_md5file_link_dir.$version.'.xml', $refresh);
+		$source = $this->rss_md5file_link_dir;
+		if (version_compare($version, '1.7.0.0', '>=')) {
+			$source = $this->rss_md5file_link_dir_major;
+		}
+		return $this->getXmlFIle(_PS_ROOT_DIR_.'/config/xml/'.$version.'.xml', $source.$version.'.xml', $refresh);
 	}
 
 	/**
