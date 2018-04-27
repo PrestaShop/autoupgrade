@@ -381,17 +381,17 @@ class UpgradeContainer
      */
     public function initPrestaShopAutoloader()
     {
-        $autoloader = realpath(__DIR__.'/../../../vendor/autoload.php');
-        if ($autoloader) {
+        $autoloader = $this->getProperty(self::PS_ROOT_PATH).'/vendor/autoload.php';
+        if (file_exists($autoloader)) {
             require_once($autoloader);
         }
 
-        require_once(realpath(__DIR__.'/../../../config/defines.inc.php'));
-        require_once(realpath(__DIR__.'/../../../config/autoload.php'));
+        require_once($this->getProperty(self::PS_ROOT_PATH).'/config/defines.inc.php');
+        require_once($this->getProperty(self::PS_ROOT_PATH).'/config/autoload.php');
     }
 
     public function initPrestaShopCore()
     {
-        require_once(realpath(__DIR__.'/../../../config/config.inc.php'));
+        require_once($this->getProperty(self::PS_ROOT_PATH).'/config/config.inc.php');
     }
 }
