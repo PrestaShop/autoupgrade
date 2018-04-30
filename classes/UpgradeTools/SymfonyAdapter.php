@@ -32,11 +32,21 @@ namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 class SymfonyAdapter
 {
     /**
+     * @var string Version on which PrestaShop is being upgraded
+     */
+    private $destinationPsVersion;
+
+    public function __construct($destinationPsVersion)
+    {
+        $this->destinationPsVersion = $destinationPsVersion;
+    }
+
+    /**
      * Can be called only on PS 1.7
      */
     public function clearMigrationCache()
     {
-        if (version_compare(INSTALL_VERSION, '1.7.0.0', '<')) {
+        if (version_compare($this->destinationPsVersion, '1.7.0.0', '<')) {
             return;
         }
 
@@ -52,7 +62,7 @@ class SymfonyAdapter
 
     public function runSchemaUpgradeCommand()
     {
-        if (version_compare(INSTALL_VERSION, '1.7.1.1', '>=')) {
+        if (version_compare($this->destinationPsVersion, '1.7.1.1', '>=')) {
             $schemaUpgrade = new \PrestaShopBundle\Service\Database\Upgrade();
             $outputCommand = 'prestashop:schema:update-without-foreign';
         } else {

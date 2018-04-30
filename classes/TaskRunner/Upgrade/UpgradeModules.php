@@ -30,7 +30,6 @@ use PrestaShop\Module\AutoUpgrade\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 /**
@@ -147,10 +146,6 @@ class UpgradeModules extends AbstractTask
         $total_modules_to_upgrade = count($modulesToUpgrade);
         if ($total_modules_to_upgrade) {
             $this->logger->info($this->translator->trans('%s modules will be upgraded.', array($total_modules_to_upgrade), 'Modules.Autoupgrade.Admin'));
-        }
-
-        if (version_compare($this->container->getState()->getInstallVersion(), '1.7.0.0', '>=')) {
-            (new SymfonyAdapter())->clearMigrationCache();
         }
 
         $this->stepDone = false;

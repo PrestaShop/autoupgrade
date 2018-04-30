@@ -29,13 +29,13 @@ namespace PrestaShop\Module\AutoUpgrade;
 use PrestaShop\Module\AutoUpgrade\State;
 use PrestaShop\Module\AutoUpgrade\Upgrader;
 use PrestaShop\Module\AutoUpgrade\PrestashopConfiguration;
-use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\ZipAction;
 use PrestaShop\Module\AutoUpgrade\Log\LegacyLogger;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FileFilter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\ModuleAdapter;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translation;
 use PrestaShop\Module\AutoUpgrade\Parameters\FileConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfigurationStorage;
@@ -111,6 +111,11 @@ class UpgradeContainer
      * @var State
      */
     private $state;
+
+    /**
+     * @var SymfonyAdapter
+     */
+    private $symfonyAdapter;
 
     /**
      * @var Upgrader
@@ -354,6 +359,16 @@ class UpgradeContainer
             $this->getProperty(self::PS_ROOT_PATH)
         );
         return $this->prestashopConfiguration;
+    }
+
+    public function getSymfonyAdapter()
+    {
+        if (!is_null($this->symfonyAdapter)) {
+            return $this->symfonyAdapter;
+        }
+
+        $this->symfonyAdapter = new SymfonyAdapter($this->getState()->getInstallVersion());
+        return $this->symfonyAdapter;
     }
 
     public function getUpgradeConfiguration()
