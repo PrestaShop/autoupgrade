@@ -393,5 +393,8 @@ class UpgradeContainer
     public function initPrestaShopCore()
     {
         require_once($this->getProperty(self::PS_ROOT_PATH).'/config/config.inc.php');
+
+        $id_employee = !empty($_COOKIE['id_employee']) ? $_COOKIE['id_employee'] : 1;
+        \Context::getContext()->employee = new \Employee((int) $id_employee);
     }
 }
