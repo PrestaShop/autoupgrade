@@ -26,9 +26,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader;
 
-use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter;
 
 /**
  * Class used to modify the core of PrestaShop, on the files are copied on the filesystem.
@@ -57,7 +55,7 @@ class CoreUpgrader17 extends CoreUpgrader
     {
         parent::upgradeDb($oldversion);
 
-        $commandResult = (new SymfonyAdapter())->runSchemaUpgradeCommand();
+        $commandResult = $this->container->getSymfonyAdapter()->runSchemaUpgradeCommand();
         if (0 !== $commandResult['exitCode']) {
             throw (new UpgradeException($this->container->getTranslator()->trans('Error upgrading Doctrine schema', array(), 'Modules.Autoupgrade.Admin')))
                 ->setQuickInfos(explode("\n", $commandResult['output']));

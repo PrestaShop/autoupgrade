@@ -28,7 +28,6 @@ namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 /**
@@ -57,8 +56,6 @@ class UpgradeComplete extends AbstractTask
             $this->logger->debug('<strong>'.$this->translator->trans('Please remove %s by FTP', array($this->container->getProperty(UpgradeContainer::LATEST_PATH)), 'Modules.Autoupgrade.Admin').'</strong>');
         }
 
-        if (version_compare($this->container->getState()->getInstallVersion(), '1.7.0.0', '>=')) {
-            (new SymfonyAdapter())->clearMigrationCache();
-        }
+        $this->container->getSymfonyAdapter()->clearMigrationCache();
     }
 }
