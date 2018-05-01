@@ -92,50 +92,6 @@ class AdminSelfUpgrade extends AdminController
      */
     private $upgradeContainer;
 
-    /**
-     * replace tools encrypt
-     *
-     * @param mixed $string
-     * @return void
-     */
-    public function encrypt($string)
-    {
-        return md5(_COOKIE_KEY_.$string);
-    }
-
-    public function checkToken()
-    {
-        // simple checkToken in ajax-mode, to be free of Cookie class (and no Tools::encrypt() too )
-        if ($this->ajax && isset($_COOKIE['id_employee'])) {
-            return ($_COOKIE['autoupgrade'] == $this->encrypt($_COOKIE['id_employee']));
-        } else {
-            return parent::checkToken();
-        }
-    }
-
-    /**
-     * create cookies id_employee, id_tab and autoupgrade (token)
-     */
-    public function createCustomToken()
-    {
-        // ajax-mode for autoupgrade, we can't use the classic authentication
-        // so, we'll create a cookie in admin dir, based on cookie key
-        global $cookie;
-        $id_employee = $cookie->id_employee;
-        if ($cookie->id_lang) {
-            $iso_code = $_COOKIE['iso_code'] = Language::getIsoById((int)$cookie->id_lang);
-        } else {
-            $iso_code = 'en';
-        }
-        $admin_dir = trim(str_replace($this->prodRootDir, '', $this->adminDir), DIRECTORY_SEPARATOR);
-        $cookiePath = __PS_BASE_URI__.$admin_dir;
-        setcookie('id_employee', $id_employee, 0, $cookiePath);
-        setcookie('id_tab', $this->id, 0, $cookiePath);
-        setcookie('iso_code', $iso_code, 0, $cookiePath);
-        setcookie('autoupgrade', $this->encrypt($id_employee), 0, $cookiePath);
-        return false;
-    }
-
     public function viewAccess($disable = false)
     {
         if ($this->ajax) {
@@ -261,7 +217,10 @@ class AdminSelfUpgrade extends AdminController
         /* load options from configuration if we're not in ajax mode */
         if (!$this->ajax) {
             $upgrader = $this->upgradeContainer->getUpgrader();
-            $this->createCustomToken();
+            $this->upgradeContainer->getCookie()->create(
+                $this->context->employee->id,
+                $this->context->employee->language->iso_code
+            );
 
             $this->upgradeContainer->getState()->initDefault(
                 $upgrader,
