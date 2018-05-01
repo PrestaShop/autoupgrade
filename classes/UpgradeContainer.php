@@ -404,7 +404,11 @@ class UpgradeContainer
             return $this->zipAction;
         }
 
-        $this->zipAction = new ZipAction($this->getTranslator(), $this->getLogger(), $this->getProperty(self::PS_ROOT_PATH));
+        $this->zipAction = new ZipAction(
+            $this->getTranslator(),
+            $this->getLogger(),
+            $this->getUpgradeConfiguration(),
+            $this->getProperty(self::PS_ROOT_PATH));
         return $this->zipAction;
     }
 

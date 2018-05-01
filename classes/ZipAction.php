@@ -28,14 +28,15 @@ namespace PrestaShop\Module\AutoUpgrade;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 
 // ToDo: Fix translations placeholders
 class ZipAction
 {
     // Number of files added in a zip per request
-    const MAX_FILES_COMPRESS_IN_A_ROW = 400;
+    private $configMaxNbFilesCompressedInARow;
     // Max file size allowed in a zip file
-    const MAX_FILE_SIZE_ALLOWED = 15728640; // 15 Mo
+    private $configMaxFileSizeAllowed;
 
     private $logger;
     private $translator;
@@ -45,21 +46,19 @@ class ZipAction
     private $prodRootDir;
 
     /**
-     * @var array logging what happened during the class execution
-     */
-    private $logs = array();
-
-    /**
      * if set to true, will use pclZip library
      * even if ZipArchive is available
      */
     const force_pclZip = false;
     
-    public function __construct($translator, LoggerInterface $logger, $prodRootDir)
+    public function __construct($translator, LoggerInterface $logger, UpgradeConfiguration $configuration, $prodRootDir)
     {
         $this->translator = $translator;
         $this->logger = $logger;
         $this->prodRootDir = $prodRootDir;
+
+        $this->configMaxNbFilesCompressedInARow = $configuration->getNumberOfFilesPerCall();
+        $this->configMaxFileSizeAllowed = $configuration->getMaxFileToBackup();
     }
 
     /**
@@ -123,7 +122,7 @@ class ZipAction
             return false;
         }
         
-        for ($i = 0; $i < self::MAX_FILES_COMPRESS_IN_A_ROW && count($filesList); $i++) {
+        for ($i = 0; $i < $this->configMaxNbFilesCompressedInARow && count($filesList); $i++) {
 
             $file = array_shift($filesList);
 
@@ -168,7 +167,7 @@ class ZipAction
         }
 
         $files_to_add = array();
-        for ($i = 0; $i < self::MAX_FILES_COMPRESS_IN_A_ROW && count($filesList); $i++) {
+        for ($i = 0; $i < $this->configMaxNbFilesCompressedInARow && count($filesList); $i++) {
 
             $file = array_shift($filesList);
 
@@ -269,7 +268,7 @@ class ZipAction
     private function isFileWithinFileSizeLimit($filepath)
     {
         $size = filesize($filepath);
-        $pass = ($size < self::MAX_FILE_SIZE_ALLOWED);
+        $pass = ($size < $this->configMaxFileSizeAllowed);
         if (!$pass) {
             $this->logger->debug($this->translator->trans(
                 'File %filename% (size: %filesize%) has been skipped during backup.',
