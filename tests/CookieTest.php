@@ -1,5 +1,5 @@
 <?php
-/* 
+/*
  * 2007-2018 PrestaShop
  * 
  * NOTICE OF LICENSE
@@ -24,16 +24,42 @@
  *  International Registered Trademark & Property of PrestaShop SA
  */
 
-require_once(realpath(dirname(__FILE__).'/../../modules/autoupgrade').'/ajax-upgradetabconfig.php');
-$container = autoupgrade_init_container(dirname(__FILE__));
+use PHPUnit\Framework\TestCase;
+use PrestaShop\Module\AutoUpgrade\Cookie;
 
-if (php_sapi_name() !== 'cli') {
-    echo 'This script must be called from CLI';
-    exit(1);
+class CookieTest extends TestCase
+{
+    const MY_TEST_KEY = 'wololo';
+
+    private $cookie;
+
+    public function setUp()
+    {
+        parent::setUp();
+        $this->cookie = new Cookie('admin', sys_get_temp_dir());
+        $this->assertTrue($this->cookie->storeKey(self::MY_TEST_KEY));
+    }
+
+    public function testKeyIsGenerated()
+    {
+        $this->assertSame(self::MY_TEST_KEY, $this->cookie->readKey());
+    }
+
+    public function testPermissionGranted()
+    {
+        $fakeCookie = [
+            'id_employee' => 2,
+            'autoupgrade' => md5(self::MY_TEST_KEY . 2),
+        ];
+        $this->assertTrue($this->cookie->check($fakeCookie));
+    }
+
+    public function testPermissionRefused()
+    {
+        $fakeCookie = [
+            'id_employee' => 2,
+            'autoupgrade' => 'IHaveNoIdeaWhatImDoing',
+        ];
+        $this->assertFalse($this->cookie->check($fakeCookie));
+    }
 }
-
-$container->setLogger(new PrestaShop\Module\AutoUpgrade\Log\StreamedLogger());
-$controller = new \PrestaShop\Module\AutoUpgrade\TaskRunner\AllUpgradeTasks($container);
-$controller->setOptions(getopt('', array('action::', 'channel::', 'data::')));
-$controller->init();
-exit($controller->run());

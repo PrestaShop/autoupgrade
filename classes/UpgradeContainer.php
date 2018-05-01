@@ -63,6 +63,11 @@ class UpgradeContainer
     const PS_VERSION = 'version';
 
     /**
+     * @var Cookie
+     */
+    private $cookie;
+
+    /**
      * @var Db
      */
     public $db;
@@ -184,6 +189,18 @@ class UpgradeContainer
             case self::PS_VERSION:
                 return $this->getPrestaShopConfiguration()->getPrestaShopVersion();
         }
+    }
+
+    public function getCookie()
+    {
+        if (!is_null($this->cookie)) {
+            return $this->cookie;
+        }
+
+        $this->cookie = new Cookie(
+            $this->getProperty(self::PS_ADMIN_SUBDIR),
+            $this->getProperty(self::TMP_PATH));
+        return $this->cookie;
     }
 
     public function getDb()

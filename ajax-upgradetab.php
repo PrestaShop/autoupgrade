@@ -39,14 +39,13 @@ $container = autoupgrade_init_container(dirname(__FILE__));
 
 (new \PrestaShop\Module\AutoUpgrade\ErrorHandler($container->getLogger()))->enable();
 
-// ToDo: Cookie stuff to be removed from AdminSelfUpgrade
-//if (!$adminObj->checkToken()) {
-//    // If this is an XSS attempt, then we should only display a simple, secure page
-//    if (ob_get_level() && ob_get_length() > 0)
-//        ob_clean();
-//    echo '{wrong token}';
-//    die(1);
-//}
+if (!$container->getCookie()->check($_COOKIE)) {
+    // If this is an XSS attempt, then we should only display a simple, secure page
+    if (ob_get_level() && ob_get_length() > 0)
+        ob_clean();
+    echo '{wrong token}';
+    die(1);
+}
 
 $controller = TaskRepository::get(Tools14::getValue('action'), $container);
 $controller->init();
