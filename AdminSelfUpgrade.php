@@ -32,6 +32,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
+use Symfony\Component\Filesystem\Filesystem;
 
 require __DIR__.'/vendor/autoload.php';
 
@@ -217,6 +218,7 @@ class AdminSelfUpgrade extends AdminController
         /* load options from configuration if we're not in ajax mode */
         if (!$this->ajax) {
             $upgrader = $this->upgradeContainer->getUpgrader();
+            (new Filesystem)->mkdir($this->tmpPath);
             $this->upgradeContainer->getCookie()->create(
                 $this->context->employee->id,
                 $this->context->employee->language->iso_code
