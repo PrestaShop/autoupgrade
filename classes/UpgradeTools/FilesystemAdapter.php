@@ -73,6 +73,10 @@ class FilesystemAdapter
         }
         foreach ($allFiles as $file) {
             $fullPath = $dir.$file;
+            // skip broken symbolic links
+            if (is_link($fullPath) && !is_readable($fullPath)) {
+                continue;
+            }
             if ($file[0] == '.' || $this->isFileSkipped($file, $fullPath, $way)) {
                 continue;
             }
