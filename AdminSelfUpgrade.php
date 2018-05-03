@@ -221,7 +221,7 @@ class AdminSelfUpgrade extends AdminController
             (new Filesystem)->mkdir($this->tmpPath);
             $this->upgradeContainer->getCookie()->create(
                 $this->context->employee->id,
-                $this->context->employee->language->iso_code
+                $this->context->language->iso_code
             );
 
             $this->upgradeContainer->getState()->initDefault(
