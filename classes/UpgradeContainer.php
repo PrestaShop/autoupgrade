@@ -398,6 +398,11 @@ class UpgradeContainer
         return $this->upgradeConfiguration;
     }
 
+    public function getUpgradeConfigurationStorage()
+    {
+        return new UpgradeConfigurationStorage($this->getProperty(self::WORKSPACE_PATH).DIRECTORY_SEPARATOR);
+    }
+
     public function getZipAction()
     {
         if (!is_null($this->zipAction)) {

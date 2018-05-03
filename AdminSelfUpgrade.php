@@ -27,6 +27,7 @@
 
 use PrestaShop\Module\AutoUpgrade\AjaxResponse;
 use PrestaShop\Module\AutoUpgrade\BackupFinder;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\UpgradePage;
 use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
 use PrestaShop\Module\AutoUpgrade\Tools14;
@@ -291,19 +292,21 @@ class AdminSelfUpgrade extends AdminController
             Configuration::updateGlobalValue('PS_SHOP_ENABLE', 0);
         }
 
-//        if (Tools14::isSubmit('customSubmitAutoUpgrade')) {
-//            $config_keys = array_keys(array_merge($this->_fieldsUpgradeOptions, $this->_fieldsBackupOptions));
-//            $config = array();
-//            foreach ($config_keys as $key) {
-//                if (isset($_POST[$key])) {
-//                    $config[$key] = $_POST[$key];
-//                }
-//            }
-//            $res = $this->writeConfig($config);
-//            if ($res) {
-//                Tools14::redirectAdmin(self::$currentIndex.'&conf=6&token='.Tools14::getValue('token'));
-//            }
-//        }
+        if (Tools14::isSubmit('customSubmitAutoUpgrade')) {
+            $config_keys = array_keys(array_merge($this->_fieldsUpgradeOptions, $this->_fieldsBackupOptions));
+            $config = array();
+            foreach ($config_keys as $key) {
+                if (isset($_POST[$key])) {
+                    $config[$key] = $_POST[$key];
+                }
+            }
+            $UpConfig = $this->upgradeContainer->getUpgradeConfiguration();
+            $UpConfig->merge($config);
+            
+            if ($this->upgradeContainer->getUpgradeConfigurationStorage()->save($UpConfig, UpgradeFileNames::configFilename)) {
+                Tools14::redirectAdmin(self::$currentIndex.'&conf=6&token='.Tools14::getValue('token'));
+            }
+        }
 
         if (Tools14::isSubmit('deletebackup')) {
             $res = false;
