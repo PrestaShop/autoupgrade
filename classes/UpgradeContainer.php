@@ -128,6 +128,11 @@ class UpgradeContainer
     private $upgrader;
 
     /**
+     * @var Workspace
+     */
+    private $workspace;
+
+    /**
      * @var ZipAction
      */
     private $zipAction;
@@ -401,6 +406,26 @@ class UpgradeContainer
     public function getUpgradeConfigurationStorage()
     {
         return new UpgradeConfigurationStorage($this->getProperty(self::WORKSPACE_PATH).DIRECTORY_SEPARATOR);
+    }
+
+    public function getWorkspace()
+    {
+        if (!is_null($this->workspace)) {
+            return $this->workspace;
+        }
+
+        $paths = array();
+        $properties = array(
+            self::WORKSPACE_PATH, self::BACKUP_PATH,
+            self::DOWNLOAD_PATH, self::LATEST_PATH,
+            self::TMP_PATH);
+
+        foreach ($properties as $property) {
+            $paths[] = $this->getProperty($property);
+        }
+
+        $this->workspace = new Workspace($this->getLogger(), $paths);
+        return $this->workspace;
     }
 
     public function getZipAction()

@@ -219,7 +219,6 @@ class AdminSelfUpgrade extends AdminController
         /* load options from configuration if we're not in ajax mode */
         if (!$this->ajax) {
             $upgrader = $this->upgradeContainer->getUpgrader();
-            (new Filesystem)->mkdir($this->tmpPath);
             $this->upgradeContainer->getCookie()->create(
                 $this->context->employee->id,
                 $this->context->language->iso_code
@@ -259,6 +258,8 @@ class AdminSelfUpgrade extends AdminController
      */
     public function initPath()
     {
+        $this->upgradeContainer->getWorkspace()->createFolders();
+
         // set autoupgradePath, to be used in backupFiles and backupDb config values
         $this->autoupgradePath = $this->adminDir.DIRECTORY_SEPARATOR.$this->autoupgradeDir;
         $this->backupPath = $this->autoupgradePath.DIRECTORY_SEPARATOR.'backup';

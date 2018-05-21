@@ -66,6 +66,7 @@ class UpgradeContainerTest extends TestCase
             array('getTwig', Twig_Environment::class),
             array('getPrestaShopConfiguration', PrestaShop\Module\AutoUpgrade\PrestashopConfiguration::class),
             array('getUpgradeConfiguration', PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration::class),
+            array('getWorkspace', PrestaShop\Module\AutoUpgrade\Workspace::class),
             array('getZipAction', PrestaShop\Module\AutoUpgrade\ZipAction::class),
         );
     }
