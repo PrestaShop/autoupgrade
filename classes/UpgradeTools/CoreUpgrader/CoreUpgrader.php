@@ -676,7 +676,7 @@ abstract class CoreUpgrader
     protected function updateTheme()
     {
         $themeAdapter = new ThemeAdapter($this->db, $this->container->getState()->getInstallVersion());
-        $themeName = $this->container->getUpgradeConfiguration()->shouldUpdateDefaultTheme() ?
+        $themeName = $this->container->getUpgradeConfiguration()->shouldSwitchToDefaultTheme() ?
             $themeAdapter->getDefaultTheme() :
             _THEME_NAME_;
         $themeErrors = $themeAdapter->enableTheme($themeName);
