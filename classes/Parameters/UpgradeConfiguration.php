@@ -86,11 +86,11 @@ class UpgradeConfiguration extends ArrayCollection
     }
 
     /**
-     * @return int level of performance selected (1 for low, 3 for high)
+     * @return int level of performance selected (0 for low, 2 for high)
      */
     public function getPerformanceLevel()
     {
-        return $this->get('PS_AUTOUP_PERFORMANCE');
+        return ($this->get('PS_AUTOUP_PERFORMANCE') - 1);
     }
 
     /**
