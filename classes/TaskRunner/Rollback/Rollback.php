@@ -80,11 +80,11 @@ class Rollback extends AbstractTask
         $this->next = 'restoreFiles';
         $this->logger->info($this->translator->trans('Restoring files ...', array(), 'Modules.Autoupgrade.Admin'));
         // remove tmp files related to restoreFiles
-        if (file_exists($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH).DIRECTORY_SEPARATOR.UpgradeFileNames::fromArchiveFileList)) {
-            unlink($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH).DIRECTORY_SEPARATOR.UpgradeFileNames::fromArchiveFileList);
+        if (file_exists($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH).DIRECTORY_SEPARATOR.UpgradeFileNames::FILES_FROM_ARCHIVE_LIST)) {
+            unlink($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH).DIRECTORY_SEPARATOR.UpgradeFileNames::FILES_FROM_ARCHIVE_LIST);
         }
-        if (file_exists($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH).DIRECTORY_SEPARATOR.UpgradeFileNames::toRemoveFileList)) {
-            unlink($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH).DIRECTORY_SEPARATOR.UpgradeFileNames::toRemoveFileList);
+        if (file_exists($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH).DIRECTORY_SEPARATOR.UpgradeFileNames::FILES_TO_REMOVE_LIST)) {
+            unlink($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH).DIRECTORY_SEPARATOR.UpgradeFileNames::FILES_TO_REMOVE_LIST);
         }
     }
 }

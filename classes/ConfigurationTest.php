@@ -97,6 +97,14 @@ class ConfigurationTestCore
 		return false;
 	}
 
+	/**
+	* Check the given directory and its subfolders are writable
+	*
+	* @param string $relative_dir
+	* @param bool $recursive
+	* @param null|string $full_report
+	* @return boolean
+	*/
 	public static function test_dir($relative_dir, $recursive = false, &$full_report = null)
 	{
 		$dir = rtrim(_PS_ROOT_DIR_, '\\/').DIRECTORY_SEPARATOR.trim($relative_dir, '\\/');

@@ -144,7 +144,7 @@ class ErrorHandler
         }
         $log = "[INTERNAL] $file line $line - $message";
         if (!empty($trace)) {
-            $log .= "\n".$trace;
+            $log .= PHP_EOL.$trace;
         }
         $jsonResponse = $this->generateJsonLog($log);
         

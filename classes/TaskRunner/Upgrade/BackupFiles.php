@@ -51,10 +51,10 @@ class BackupFiles extends AbstractTask
             return false;
         }
 
-        if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::toBackupFileList)) {
+        if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::FILES_TO_BACKUP_LIST)) {
             // @todo : only add files and dir listed in "originalPrestashopVersion" list
             $filesToBackup = $this->container->getFilesystemAdapter()->listFilesInDir($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH), 'backup', false);
-            $this->container->getFileConfigurationStorage()->save($filesToBackup, UpgradeFileNames::toBackupFileList);
+            $this->container->getFileConfigurationStorage()->save($filesToBackup, UpgradeFileNames::FILES_TO_BACKUP_LIST);
             if (count($filesToBackup)) {
                 $this->logger->debug($this->translator->trans('%s Files to backup.', array(count($filesToBackup)), 'Modules.Autoupgrade.Admin'));
             }
@@ -66,7 +66,7 @@ class BackupFiles extends AbstractTask
 
             $this->logger->debug($this->translator->trans('Backup files initialized in %s', array($backupFilesFilename), 'Modules.Autoupgrade.Admin'));
         }
-        $filesToBackup = $this->container->getFileConfigurationStorage()->load(UpgradeFileNames::toBackupFileList);
+        $filesToBackup = $this->container->getFileConfigurationStorage()->load(UpgradeFileNames::FILES_TO_BACKUP_LIST);
 
         $this->next = 'backupFiles';
         if (is_array($filesToBackup) && count($filesToBackup)) {
@@ -79,7 +79,7 @@ class BackupFiles extends AbstractTask
                 $this->logger->info($this->translator->trans('Unable to open archive', array(), 'Modules.Autoupgrade.Admin'));
                 return false;
             }
-            $this->container->getFileConfigurationStorage()->save($filesToBackup, UpgradeFileNames::toBackupFileList);
+            $this->container->getFileConfigurationStorage()->save($filesToBackup, UpgradeFileNames::FILES_TO_BACKUP_LIST);
         }
 
         if (count($filesToBackup) <= 0) {

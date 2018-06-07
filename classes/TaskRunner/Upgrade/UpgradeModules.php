@@ -40,12 +40,12 @@ class UpgradeModules extends AbstractTask
     public function run()
     {
         $start_time = time();
-        if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::toUpgradeModuleList)) {
+        if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::MODULES_TO_UPGRADE_LIST)) {
             return $this->warmUp();
         }
 
         $this->next = 'upgradeModules';
-        $listModules = $this->container->getFileConfigurationStorage()->load(UpgradeFileNames::toUpgradeModuleList);
+        $listModules = $this->container->getFileConfigurationStorage()->load(UpgradeFileNames::MODULES_TO_UPGRADE_LIST);
 
         if (!is_array($listModules)) {
             $this->next = 'upgradeComplete';
@@ -72,7 +72,7 @@ class UpgradeModules extends AbstractTask
             } while (($time_elapsed < $this->container->getUpgradeConfiguration()->getTimePerCall()) && count($listModules) > 0);
 
             $modules_left = count($listModules);
-            $this->container->getFileConfigurationStorage()->save($listModules, UpgradeFileNames::toUpgradeModuleList);
+            $this->container->getFileConfigurationStorage()->save($listModules, UpgradeFileNames::MODULES_TO_UPGRADE_LIST);
             unset($listModules);
 
             $this->next = 'upgradeModules';
@@ -137,7 +137,7 @@ class UpgradeModules extends AbstractTask
     {
         try {
             $modulesToUpgrade = $this->container->getModuleAdapter()->listModulesToUpgrade($this->container->getState()->getModules_addons());
-            $this->container->getFileConfigurationStorage()->save($modulesToUpgrade, UpgradeFileNames::toUpgradeModuleList);
+            $this->container->getFileConfigurationStorage()->save($modulesToUpgrade, UpgradeFileNames::MODULES_TO_UPGRADE_LIST);
         } catch (UpgradeException $e) {
             $this->handleException($e);
             return false;

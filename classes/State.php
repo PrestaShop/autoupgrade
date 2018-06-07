@@ -88,7 +88,7 @@ class State
     public function importFromArray(array $savedState)
     {
         foreach($savedState as $name => $value) {
-            if (!empty($value) && property_exists(__CLASS__, $name)) {
+            if (!empty($value) && property_exists($this, $name)) {
                 $this->{$name} = $value;
             }
         }
@@ -101,6 +101,10 @@ class State
     public function importFromEncodedData($encodedData)
     {
         $decodedData = json_decode(base64_decode($encodedData), true);
+        if (empty($decodedData['nextParams'])) {
+            return $this;
+        }
+
         return $this->importFromArray($decodedData['nextParams']);
     }
 
@@ -114,7 +118,12 @@ class State
 
     public function initDefault(Upgrader $upgrader, $prodRootDir, $version)
     {
-        $postData = 'version='.$this->getInstallVersion().'&method=listing&action=native&iso_code=all';
+        $postData = http_build_query(array(
+            'action' => 'native',
+            'iso_code' => 'all',
+            'method' => 'listing',
+            'version' => $this->getInstallVersion(),
+        ));
         $xml_local = $prodRootDir.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'xml'.DIRECTORY_SEPARATOR.'modules_native_addons.xml';
         $xml = $upgrader->getApiAddons($xml_local, $postData, true);
 

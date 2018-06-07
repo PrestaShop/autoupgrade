@@ -70,7 +70,7 @@ class CheckFilesVersion extends AbstractTask
         }
         $this->nextParams['result'] = $changedFileList;
 
-        $this->container->getFileConfigurationStorage()->save($changedFileList['translation'], UpgradeFileNames::tradCustomList);
-        $this->container->getFileConfigurationStorage()->save($changedFileList['mail'], UpgradeFileNames::mailCustomList);
+        $this->container->getFileConfigurationStorage()->save($changedFileList['translation'], UpgradeFileNames::TRANSLATION_FILES_CUSTOM_LIST);
+        $this->container->getFileConfigurationStorage()->save($changedFileList['mail'], UpgradeFileNames::MAILS_CUSTOM_LIST);
     }
 }

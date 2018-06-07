@@ -49,7 +49,7 @@ class ZipAction
      * if set to true, will use pclZip library
      * even if ZipArchive is available
      */
-    const force_pclZip = false;
+    const FORCE_PCLZIP = false;
     
     public function __construct($translator, LoggerInterface $logger, UpgradeConfiguration $configuration, $prodRootDir)
     {
@@ -307,7 +307,7 @@ class ZipAction
 
     private function openWithZipArchive($zipFile, $flags = null)
     {
-        if (self::force_pclZip || !class_exists('ZipArchive', false)) {
+        if (self::FORCE_PCLZIP || !class_exists('ZipArchive', false)) {
             return false;
         }
 

@@ -106,7 +106,7 @@ class UpdateConfig extends AbstractTask
      */
     private function writeConfig($config)
     {
-        if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::configFilename) && !empty($config['channel'])) {
+        if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::CONFIG_FILENAME) && !empty($config['channel'])) {
             $this->container->getUpgrader()->channel = $config['channel'];
             $this->container->getUpgrader()->checkPSVersion();
 
@@ -115,6 +115,6 @@ class UpdateConfig extends AbstractTask
 
         $this->container->getUpgradeConfiguration()->merge($config);
         $this->logger->info($this->translator->trans('Configuration successfully updated.', array(), 'Modules.Autoupgrade.Admin').' <strong>'.$this->translator->trans('This page will now be reloaded and the module will check if a new version is available.', array(), 'Modules.Autoupgrade.Admin').'</strong>');
-        return (new UpgradeConfigurationStorage($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH).DIRECTORY_SEPARATOR))->save($this->container->getUpgradeConfiguration(), UpgradeFileNames::configFilename);
+        return (new UpgradeConfigurationStorage($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH).DIRECTORY_SEPARATOR))->save($this->container->getUpgradeConfiguration(), UpgradeFileNames::CONFIG_FILENAME);
     }
 }

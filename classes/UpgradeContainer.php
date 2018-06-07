@@ -42,6 +42,10 @@ use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
+
+use Twig_Loader_Filesystem;
+use Twig_Environment;
 
 /**
  * Class responsible of the easy (& Lazy) loading of the different services
@@ -198,7 +202,7 @@ class UpgradeContainer
 
     public function getCookie()
     {
-        if (!is_null($this->cookie)) {
+        if (null !== $this->cookie) {
             return $this->cookie;
         }
 
@@ -224,7 +228,7 @@ class UpgradeContainer
 
     public function getFileConfigurationStorage()
     {
-        if (!is_null($this->fileConfigurationStorage)) {
+        if (null !== $this->fileConfigurationStorage) {
             return $this->fileConfigurationStorage;
         }
 
@@ -234,7 +238,7 @@ class UpgradeContainer
 
     public function getFileFilter()
     {
-        if (!is_null($this->fileFilter)) {
+        if ($this->fileFilter) {
             return $this->fileFilter;
         }
 
@@ -244,7 +248,7 @@ class UpgradeContainer
 
     public function getUpgrader()
     {
-        if (!is_null($this->upgrader)) {
+        if (null !== $this->upgrader) {
             return $this->upgrader;
         }
         if (!defined('_PS_ROOT_DIR_')) {
@@ -283,7 +287,7 @@ class UpgradeContainer
 
     public function getFilesystemAdapter()
     {
-        if (!is_null($this->filesystemAdapter)) {
+        if (null !== $this->filesystemAdapter) {
             return $this->filesystemAdapter;
         }
 
@@ -301,7 +305,7 @@ class UpgradeContainer
      */
     public function getLogger()
     {
-        if (! is_null($this->logger)) {
+        if (null !== $this->logger) {
             return $this->logger;
         }
 
@@ -317,7 +321,7 @@ class UpgradeContainer
 
     public function getModuleAdapter()
     {
-        if (!is_null($this->moduleAdapter)) {
+        if (null !== $this->moduleAdapter) {
             return $this->moduleAdapter;
         }
 
@@ -334,7 +338,7 @@ class UpgradeContainer
 
     public function getState()
     {
-        if (!is_null($this->state)) {
+        if (null !== $this->state) {
             return $this->state;
         }
 
@@ -349,20 +353,20 @@ class UpgradeContainer
 
     public function getTranslator()
     {
-        return new \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator('AdminSelfUpgrade');
+        return new Translator('AdminSelfUpgrade');
     }
 
     public function getTwig()
     {
-        if (!is_null($this->twig)) {
+        if (null !== $this->twig) {
             return $this->twig;
         }
 
         // Using independant template engine for 1.6 & 1.7 compatibility
-        $loader = new \Twig_Loader_Filesystem();
+        $loader = new Twig_Loader_Filesystem();
         $loader->addPath(realpath(__DIR__.'/..').'/views/templates', 'ModuleAutoUpgrade');
-        $twig = new \Twig_Environment($loader, array(
-            //'cache' => '/path/to/compilation_cache',
+        $twig = new Twig_Environment($loader, array(
+            'cache' => $this->getProperty(self::TMP_PATH),
         ));
         $twig->addExtension(new TransFilterExtension($this->getTranslator()));
 
@@ -372,7 +376,7 @@ class UpgradeContainer
 
     public function getPrestaShopConfiguration()
     {
-        if (!is_null($this->prestashopConfiguration)) {
+        if (null !== $this->prestashopConfiguration) {
             return $this->prestashopConfiguration;
         }
 
@@ -385,7 +389,7 @@ class UpgradeContainer
 
     public function getSymfonyAdapter()
     {
-        if (!is_null($this->symfonyAdapter)) {
+        if (null !== $this->symfonyAdapter) {
             return $this->symfonyAdapter;
         }
 
@@ -395,11 +399,11 @@ class UpgradeContainer
 
     public function getUpgradeConfiguration()
     {
-        if (!is_null($this->upgradeConfiguration)) {
+        if (null !== $this->upgradeConfiguration) {
             return $this->upgradeConfiguration;
         }
         $upgradeConfigurationStorage = new UpgradeConfigurationStorage($this->getProperty(self::WORKSPACE_PATH).DIRECTORY_SEPARATOR);
-        $this->upgradeConfiguration = $upgradeConfigurationStorage->load(UpgradeFileNames::configFilename);
+        $this->upgradeConfiguration = $upgradeConfigurationStorage->load(UpgradeFileNames::CONFIG_FILENAME);
         return $this->upgradeConfiguration;
     }
 
@@ -410,7 +414,7 @@ class UpgradeContainer
 
     public function getWorkspace()
     {
-        if (!is_null($this->workspace)) {
+        if (null !== $this->workspace) {
             return $this->workspace;
         }
 
@@ -430,7 +434,7 @@ class UpgradeContainer
 
     public function getZipAction()
     {
-        if (!is_null($this->zipAction)) {
+        if (null !== $this->zipAction) {
             return $this->zipAction;
         }
 

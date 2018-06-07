@@ -304,7 +304,7 @@ class AdminSelfUpgrade extends AdminController
             $UpConfig = $this->upgradeContainer->getUpgradeConfiguration();
             $UpConfig->merge($config);
             
-            if ($this->upgradeContainer->getUpgradeConfigurationStorage()->save($UpConfig, UpgradeFileNames::configFilename)) {
+            if ($this->upgradeContainer->getUpgradeConfigurationStorage()->save($UpConfig, UpgradeFileNames::CONFIG_FILENAME)) {
                 Tools14::redirectAdmin(self::$currentIndex.'&conf=6&token='.Tools14::getValue('token'));
             }
         }

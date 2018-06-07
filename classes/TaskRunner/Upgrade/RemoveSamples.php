@@ -45,30 +45,32 @@ class RemoveSamples extends AbstractTask
         // remove all sample pics in img subdir
         // This part runs at the first call of this step
         if (null === $removeList) {
-            $removeList = $this->container->getFilesystemAdapter()->listSampleFiles(array(
-                $latestPath.'/prestashop/img/c', '.jpg',
-                $latestPath.'/prestashop/img/cms', '.jpg',
-                $latestPath.'/prestashop/img/l', '.jpg',
-                $latestPath.'/prestashop/img/m', '.jpg',
-                $latestPath.'/prestashop/img/os', '.jpg',
-                $latestPath.'/prestashop/img/p', '.jpg',
-                $latestPath.'/prestashop/img/s', '.jpg',
-                $latestPath.'/prestashop/img/scenes', '.jpg',
-                $latestPath.'/prestashop/img/st', '.jpg',
-                $latestPath.'/prestashop/img/su', '.jpg',
-                $latestPath.'/prestashop/img', '404.gif',
-                $latestPath.'/prestashop/img', 'favicon.ico',
-                $latestPath.'/prestashop/img', 'logo.jpg',
-                $latestPath.'/prestashop/img', 'logo_stores.gif',
-                $latestPath.'/prestashop/modules/editorial', 'homepage_logo.jpg',
+            $removeList = $this->container->getFilesystemAdapter()->listSampleFilesFromArray(array(
+                array('path' => $latestPath.'/prestashop/img/c', 'filter' => '.jpg'),
+                array('path' => $latestPath.'/prestashop/img/cms', 'filter' => '.jpg'),
+                array('path' => $latestPath.'/prestashop/img/l', 'filter' => '.jpg'),
+                array('path' => $latestPath.'/prestashop/img/m', 'filter' => '.jpg'),
+                array('path' => $latestPath.'/prestashop/img/os', 'filter' => '.jpg'),
+                array('path' => $latestPath.'/prestashop/img/p', 'filter' => '.jpg'),
+                array('path' => $latestPath.'/prestashop/img/s', 'filter' => '.jpg'),
+                array('path' => $latestPath.'/prestashop/img/scenes', 'filter' => '.jpg'),
+                array('path' => $latestPath.'/prestashop/img/st', 'filter' => '.jpg'),
+                array('path' => $latestPath.'/prestashop/img/su', 'filter' => '.jpg'),
+                array('path' => $latestPath.'/prestashop/img', 'filter' => '404.gif'),
+                array('path' => $latestPath.'/prestashop/img', 'filter' => 'favicon.ico'),
+                array('path' => $latestPath.'/prestashop/img', 'filter' => 'logo.jpg'),
+                array('path' => $latestPath.'/prestashop/img', 'filter' => 'logo_stores.gif'),
+                array('path' => $latestPath.'/prestashop/modules/editorial', 'filter' => 'homepage_logo.jpg'),
                 // remove all override present in the archive
-                $latestPath.'/prestashop/override', '.php',
+                array('path' => $latestPath.'/prestashop/override', 'filter' => '.php'),
             ));
 
             $this->container->getState()->setRemoveList($removeList);
 
             if (count($removeList)) {
-                $this->logger->debug($this->translator->trans('Starting to remove %s sample files', array(count($removeList)), 'Modules.Autoupgrade.Admin'));
+                $this->logger->debug(
+                    $this->translator->trans('Starting to remove %s sample files',
+                        array(count($removeList)), 'Modules.Autoupgrade.Admin'));
             }
         }
 
@@ -105,12 +107,22 @@ class RemoveSamples extends AbstractTask
 
         if (0 >= count($removeList)) {
             $this->stepDone = true;
-            $this->next = 'backupFiles';
-            $this->logger->info($this->translator->trans('All sample files removed. Now backing up files.', array(), 'Modules.Autoupgrade.Admin'));
+            $this->next     = 'backupFiles';
+            $this->logger->info(
+                $this->translator->trans(
+                    'All sample files removed. Now backing up files.',
+                    array(),
+                    'Modules.Autoupgrade.Admin'
+            ));
 
             if ($this->container->getUpgradeConfiguration()->get('skip_backup')) {
                 $this->next = 'upgradeFiles';
-                $this->logger->info($this->translator->trans('All sample files removed. Backup process skipped. Now upgrading files.', array(), 'Modules.Autoupgrade.Admin'));
+                $this->logger->info(
+                    $this->translator->trans(
+                        'All sample files removed. Backup process skipped. Now upgrading files.',
+                        array(),
+                        'Modules.Autoupgrade.Admin'
+                ));
             }
         }
         return true;

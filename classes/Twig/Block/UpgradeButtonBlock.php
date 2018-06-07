@@ -49,7 +49,7 @@ class UpgradeButtonBlock
     private $translator;
 
     /**
-     * @var \Upgrader
+     * @var Upgrader
      */
     private $upgrader;
 
@@ -192,14 +192,14 @@ class UpgradeButtonBlock
         $translator = $this->translator;
         return array(
             // Hey ! I'm really using a fieldset element to regroup fields ?! !
-            array("useMajor", "major", $translator->trans('Major release', array(), 'Modules.Autoupgrade.Admin')),
-            array("useMinor", "minor", $translator->trans('Minor release (recommended)', array(), 'Modules.Autoupgrade.Admin')),
-            array("useRC", "rc", $translator->trans('Release candidates', array(), 'Modules.Autoupgrade.Admin')),
-            array("useBeta", "beta", $translator->trans('Beta releases', array(), 'Modules.Autoupgrade.Admin')),
-            array("useAlpha", "alpha", $translator->trans('Alpha releases', array(), 'Modules.Autoupgrade.Admin')),
-            array("usePrivate", "private", $translator->trans('Private release (require link and MD5 hash)', array(), 'Modules.Autoupgrade.Admin')),
-            array("useArchive", "archive", $translator->trans('Local archive', array(), 'Modules.Autoupgrade.Admin')),
-            array("useDirectory", "directory", $translator->trans('Local directory', array(), 'Modules.Autoupgrade.Admin')),
+            array('useMajor', 'major', $translator->trans('Major release', array(), 'Modules.Autoupgrade.Admin')),
+            array('useMinor', 'minor', $translator->trans('Minor release (recommended)', array(), 'Modules.Autoupgrade.Admin')),
+            array('useRC', 'rc', $translator->trans('Release candidates', array(), 'Modules.Autoupgrade.Admin')),
+            array('useBeta', 'beta', $translator->trans('Beta releases', array(), 'Modules.Autoupgrade.Admin')),
+            array('useAlpha', 'alpha', $translator->trans('Alpha releases', array(), 'Modules.Autoupgrade.Admin')),
+            array('usePrivate', 'private', $translator->trans('Private release (require link and MD5 hash)', array(), 'Modules.Autoupgrade.Admin')),
+            array('useArchive', 'archive', $translator->trans('Local archive', array(), 'Modules.Autoupgrade.Admin')),
+            array('useDirectory', 'directory', $translator->trans('Local directory', array(), 'Modules.Autoupgrade.Admin')),
         );
     }
 

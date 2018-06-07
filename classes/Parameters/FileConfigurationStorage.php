@@ -42,9 +42,15 @@ class FileConfigurationStorage
      */
     private $configPath;
 
+    /**
+     * @var Filesystem
+     */
+    private $filesystem;
+
     public function __construct($path)
     {
         $this->configPath = $path;
+        $this->filesystem = new Filesystem();
     }
 
     /**
@@ -58,7 +64,7 @@ class FileConfigurationStorage
         $configFilePath = $this->configPath . $fileName;
         $config = array();
 
-        if (!empty($configFilePath) && file_exists($configFilePath)) {
+        if (file_exists($configFilePath)) {
             $config = @unserialize(base64_decode(Tools14::file_get_contents($configFilePath)));
         }
 
@@ -75,7 +81,7 @@ class FileConfigurationStorage
     {
         $configFilePath = $this->configPath . $fileName;
         try {
-            (new Filesystem)->dumpFile($configFilePath, base64_encode(serialize($config)));
+            $this->filesystem->dumpFile($configFilePath, base64_encode(serialize($config)));
             return true;
         } catch (IOException $e) {
             // TODO: $e needs to be logged
@@ -100,8 +106,7 @@ class FileConfigurationStorage
      */
     public function cleanAll()
     {
-        $filesystem = new Filesystem;
-        $filesystem->remove(self::getFilesList());
+        $this->filesystem->remove(self::getFilesList());
     }
 
     /**
@@ -110,8 +115,7 @@ class FileConfigurationStorage
      */
     public function clean($fileName)
     {
-        $filesystem = new Filesystem;
-        $filesystem->remove($this->getFilePath($fileName));
+        $this->filesystem->remove($this->getFilePath($fileName));
     }
 
     /**
@@ -120,8 +124,7 @@ class FileConfigurationStorage
      */
     public function exists($fileName)
     {
-        $filesystem = new Filesystem;
-        return $filesystem->exists($this->getFilePath($fileName));
+        return $this->filesystem->exists($this->getFilePath($fileName));
     }
 
     /**

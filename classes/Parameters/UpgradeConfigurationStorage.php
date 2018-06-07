@@ -42,12 +42,12 @@ class UpgradeConfigurationStorage extends FileConfigurationStorage
         if (empty($data)) {
             $data = array(
                 'PS_AUTOUP_PERFORMANCE' => 1,
-                'PS_AUTOUP_CUSTOM_MOD_DESACT' => '1',
-                'PS_AUTOUP_UPDATE_DEFAULT_THEME' => '1',
-                'PS_AUTOUP_CHANGE_DEFAULT_THEME' => '0',
-                'PS_AUTOUP_KEEP_MAILS' => '0',
-                'PS_AUTOUP_BACKUP' => '1',
-                'PS_AUTOUP_KEEP_IMAGES' => '0',
+                'PS_AUTOUP_CUSTOM_MOD_DESACT' => 1,
+                'PS_AUTOUP_UPDATE_DEFAULT_THEME' => 1,
+                'PS_AUTOUP_CHANGE_DEFAULT_THEME' => 0,
+                'PS_AUTOUP_KEEP_MAILS' => 0,
+                'PS_AUTOUP_BACKUP' => 1,
+                'PS_AUTOUP_KEEP_IMAGES' => 0,
                 'channel' => Upgrader::DEFAULT_CHANNEL,
             );
         }

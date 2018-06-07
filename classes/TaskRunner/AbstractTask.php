@@ -73,7 +73,7 @@ abstract class AbstractTask
      */
     public function getEncodedResponse()
     {
-        return base64_encode($this->getResponse()->getJson());
+        return base64_encode($this->getJsonResponse());
     }
 
     /**

@@ -79,7 +79,7 @@ class StreamedLogger extends Logger
             return;
         }
 
-        $log = self::$levels[$level] .' - '. $message."\n";
+        $log = self::$levels[$level] .' - '. $message.PHP_EOL;
 
         if ($level > self::ERROR) {
             fwrite($this->err, $log);

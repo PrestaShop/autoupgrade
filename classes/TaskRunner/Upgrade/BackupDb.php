@@ -70,17 +70,17 @@ class BackupDb extends AbstractTask
         }
 
         // INIT LOOP
-        if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::toBackupDbList)) {
+        if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::DB_TABLES_TO_BACKUP_LIST)) {
             if (!is_dir($this->container->getProperty(UpgradeContainer::BACKUP_PATH).DIRECTORY_SEPARATOR.$this->container->getState()-> getBackupName())) {
                 mkdir($this->container->getProperty(UpgradeContainer::BACKUP_PATH).DIRECTORY_SEPARATOR.$this->container->getState()-> getBackupName());
             }
             $this->container->getState()->setDbStep(0);
             $tablesToBackup = $this->container->getDb()->executeS('SHOW TABLES LIKE "'._DB_PREFIX_.'%"', true, false);
-            $this->container->getFileConfigurationStorage()->save($tablesToBackup, UpgradeFileNames::toBackupDbList);
+            $this->container->getFileConfigurationStorage()->save($tablesToBackup, UpgradeFileNames::DB_TABLES_TO_BACKUP_LIST);
         }
 
         if (!isset($tablesToBackup)) {
-            $tablesToBackup = $this->container->getFileConfigurationStorage()->load(UpgradeFileNames::toBackupDbList);
+            $tablesToBackup = $this->container->getFileConfigurationStorage()->load(UpgradeFileNames::DB_TABLES_TO_BACKUP_LIST);
         }
         $found = 0;
         $views = '';
@@ -261,7 +261,7 @@ class BackupDb extends AbstractTask
             unset($fp);
         }
 
-        $this->container->getFileConfigurationStorage()->save($tablesToBackup, UpgradeFileNames::toBackupDbList);
+        $this->container->getFileConfigurationStorage()->save($tablesToBackup, UpgradeFileNames::DB_TABLES_TO_BACKUP_LIST);
 
         if (count($tablesToBackup) > 0) {
             $this->logger->debug($this->translator->trans('%s tables have been saved.', array($found), 'Modules.Autoupgrade.Admin'));

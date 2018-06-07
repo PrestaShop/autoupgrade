@@ -61,7 +61,7 @@ class AjaxResponse
      * Request format of the data to return.
      * Seems to be never modified. Converted as const.
      */
-    const nextResponseType = 'json';
+    const RESPONSE_FORMAT = 'json';
 
     /**
      * @var UpgradeConfiguration
@@ -102,7 +102,7 @@ class AjaxResponse
                 $this->nextParams,
                 $this->state->export(),
                 array(
-                    'typeResult' => self::nextResponseType,
+                    'typeResult' => self::RESPONSE_FORMAT,
                     'config' => $this->upgradeConfiguration->toArray(),
                 )
             ),

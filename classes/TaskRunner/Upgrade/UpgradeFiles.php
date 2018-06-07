@@ -40,7 +40,7 @@ class UpgradeFiles extends AbstractTask
         /*
          * The first call must init the list of files be upgraded
          */
-        if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::toUpgradeFileList)) {
+        if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::FILES_TO_UPGRADE_LIST)) {
             return $this->warmUp();
         }
 
@@ -48,7 +48,7 @@ class UpgradeFiles extends AbstractTask
         $this->destUpgradePath = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH);
 
         $this->next = 'upgradeFiles';
-        $filesToUpgrade = $this->container->getFileConfigurationStorage()->load(UpgradeFileNames::toUpgradeFileList);
+        $filesToUpgrade = $this->container->getFileConfigurationStorage()->load(UpgradeFileNames::FILES_TO_UPGRADE_LIST);
         if (!is_array($filesToUpgrade)) {
             $this->next = 'error';
             $this->logger->error($this->translator->trans('filesToUpgrade is not an array', array(), 'Modules.Autoupgrade.Admin'));
@@ -59,8 +59,8 @@ class UpgradeFiles extends AbstractTask
         for ($i = 0; $i < $this->container->getUpgradeConfiguration()->getNumberOfFilesPerCall(); $i++) {
             if (count($filesToUpgrade) <= 0) {
                 $this->next = 'upgradeDb';
-                if (file_exists(UpgradeFileNames::toUpgradeFileList)) {
-                    unlink(UpgradeFileNames::toUpgradeFileList);
+                if (file_exists(UpgradeFileNames::FILES_TO_UPGRADE_LIST)) {
+                    unlink(UpgradeFileNames::FILES_TO_UPGRADE_LIST);
                 }
                 $this->logger->info($this->translator->trans('All files upgraded. Now upgrading database...', array(), 'Modules.Autoupgrade.Admin'));
                 $this->stepDone = true;
@@ -75,7 +75,7 @@ class UpgradeFiles extends AbstractTask
                 break;
             }
         }
-        $this->container->getFileConfigurationStorage()->save($filesToUpgrade, UpgradeFileNames::toUpgradeFileList);
+        $this->container->getFileConfigurationStorage()->save($filesToUpgrade, UpgradeFileNames::FILES_TO_UPGRADE_LIST);
         if (count($filesToUpgrade) > 0) {
             $this->logger->info($this->translator->trans('%s files left to upgrade.', array(count($filesToUpgrade)), 'Modules.Autoupgrade.Admin'));
             $this->stepDone = false;
@@ -219,10 +219,10 @@ class UpgradeFiles extends AbstractTask
         // list saved in UpgradeFileNames::toUpgradeFileList
         // get files differences (previously generated)
         $admin_dir = trim(str_replace($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH), '', $this->container->getProperty(UpgradeContainer::PS_ADMIN_PATH)), DIRECTORY_SEPARATOR);
-        $filepath_list_diff = $this->container->getProperty(UpgradeContainer::WORKSPACE_PATH).DIRECTORY_SEPARATOR.UpgradeFileNames::diffFileList;
+        $filepath_list_diff = $this->container->getProperty(UpgradeContainer::WORKSPACE_PATH).DIRECTORY_SEPARATOR.UpgradeFileNames::FILES_DIFF_LIST;
         $list_files_diff = array();
         if (file_exists($filepath_list_diff)) {
-            $list_files_diff = $this->container->getFileConfigurationStorage()->load(UpgradeFileNames::diffFileList);
+            $list_files_diff = $this->container->getFileConfigurationStorage()->load(UpgradeFileNames::FILES_DIFF_LIST);
             // only keep list of files to delete. The modified files will be listed with _listFilesToUpgrade
             $list_files_diff = $list_files_diff['deleted'];
             foreach ($list_files_diff as $k => $path) {
@@ -263,7 +263,7 @@ class UpgradeFiles extends AbstractTask
         }
 
         // save in a serialized array in UpgradeFileNames::toUpgradeFileList
-        $this->container->getFileConfigurationStorage()->save($list_files_to_upgrade, UpgradeFileNames::toUpgradeFileList);
+        $this->container->getFileConfigurationStorage()->save($list_files_to_upgrade, UpgradeFileNames::FILES_TO_UPGRADE_LIST);
         $total_files_to_upgrade = count($list_files_to_upgrade);
 
         if ($total_files_to_upgrade == 0) {

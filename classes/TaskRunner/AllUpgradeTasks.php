@@ -44,7 +44,7 @@ class AllUpgradeTasks extends AbstractTask
     {
         $requireRestart = false;
         while ($this->canContinue() && !$requireRestart) {
-            echo "\n=== Step ".$this->step."\n";
+            echo PHP_EOL.'=== Step '.$this->step.PHP_EOL;
             $controller = TaskRepository::get($this->step, $this->container);
             $controller->init();
             $controller->run();
@@ -102,7 +102,7 @@ class AllUpgradeTasks extends AbstractTask
             return false;
         }
 
-        return ! in_array($this->step, array('error'));
+        return $this->step !== 'error';
     }
 
     /**

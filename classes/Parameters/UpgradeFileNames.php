@@ -37,7 +37,7 @@ class UpgradeFileNames
      * @var string
      * @access public
      */
-    const configFilename = 'config.var';
+    const CONFIG_FILENAME = 'config.var';
 
     /**
      * during upgradeFiles process,
@@ -45,7 +45,7 @@ class UpgradeFileNames
      * (this file is deleted in init() method if you reload the page)
      * @var string
      */
-    const toUpgradeQueriesList = 'queriesToUpgrade.list';
+    const QUERIES_TO_UPGRADE_LIST = 'queriesToUpgrade.list';
 
     /**
      * during upgradeFiles process,
@@ -53,7 +53,7 @@ class UpgradeFileNames
      * (this file is deleted in init() method if you reload the page)
      * @var string
      */
-    const toUpgradeFileList = 'filesToUpgrade.list';
+    const FILES_TO_UPGRADE_LIST = 'filesToUpgrade.list';
 
     /**
      * during upgradeModules process,
@@ -61,7 +61,7 @@ class UpgradeFileNames
      * (this file is deleted in init() method if you reload the page)
      * @var string
      */
-    const toUpgradeModuleList = 'modulesToUpgrade.list';
+    const MODULES_TO_UPGRADE_LIST = 'modulesToUpgrade.list';
 
     /**
      * during upgradeFiles process,
@@ -69,7 +69,7 @@ class UpgradeFileNames
      * (this file is deleted in init() method if you reload the page)
      * @var string
      */
-    const diffFileList = 'filesDiff.list';
+    const FILES_DIFF_LIST = 'filesDiff.list';
 
     /**
      * during backupFiles process,
@@ -77,7 +77,7 @@ class UpgradeFileNames
      * (this file is deleted in init() method if you reload the page)
      * @var string
      */
-    const toBackupFileList = 'filesToBackup.list';
+    const FILES_TO_BACKUP_LIST = 'filesToBackup.list';
 
     /**
      * during backupDb process,
@@ -85,7 +85,7 @@ class UpgradeFileNames
      * (this file is deleted in init() method if you reload the page)
      * @var string
      */
-    const toBackupDbList = 'tablesToBackup.list';
+    const DB_TABLES_TO_BACKUP_LIST = 'tablesToBackup.list';
 
     /**
      * during restoreDb process,
@@ -93,8 +93,8 @@ class UpgradeFileNames
      * (this file is deleted in init() method if you reload the page)
      * @var string
      */
-    const toRestoreQueryList = 'queryToRestore.list';
-    const toCleanTable = 'tableToClean.list';
+    const QUERIES_TO_RESTORE_LIST = 'queryToRestore.list';
+    const DB_TABLES_TO_CLEAN_LIST = 'tableToClean.list';
 
     /**
      * during restoreFiles process,
@@ -102,7 +102,7 @@ class UpgradeFileNames
      * (this file is deleted in init() method if you reload the page)
      * @var string
      */
-    const toRemoveFileList = 'filesToRemove.list';
+    const FILES_TO_REMOVE_LIST = 'filesToRemove.list';
 
     /**
      * during restoreFiles process,
@@ -110,7 +110,7 @@ class UpgradeFileNames
      *
      * @var string
      */
-    const fromArchiveFileList = 'filesFromArchive.list';
+    const FILES_FROM_ARCHIVE_LIST = 'filesFromArchive.list';
 
     /**
      * mailCustomList contains list of mails files which are customized,
@@ -118,15 +118,15 @@ class UpgradeFileNames
      *
      * @var string
      */
-    const mailCustomList = 'mails-custom.list';
+    const MAILS_CUSTOM_LIST = 'mails-custom.list';
 
     /**
-     * tradCustomList contains list of mails files which are customized,
+     * tradCustomList contains list of translation files which are customized,
      * relative to original files for the current PrestaShop version
      *
      * @var string
      */
-    const tradCustomList = 'translations-custom.list';
+    const TRANSLATION_FILES_CUSTOM_LIST = 'translations-custom.list';
 
     /**
      * tmp_files contains an array of filename which will be removed
@@ -135,17 +135,17 @@ class UpgradeFileNames
      * @var array
      */
     public static $tmp_files = array(
-        'toUpgradeFileList',
-        'toUpgradeQueriesList', // used ?
-        'diffFileList',
-        'toBackupFileList',
-        'toBackupDbList',
-        'toRestoreQueryList',
-        'toCleanTable',
-        'toRemoveFileList',
-        'fromArchiveFileList',
-        'mailCustomList',
-        'tradCustomList',
+        'QUERIES_TO_UPGRADE_LIST', // used ?
+        'FILES_TO_UPGRADE_LIST',
+        'FILES_DIFF_LIST',
+        'FILES_TO_BACKUP_LIST',
+        'DB_TABLES_TO_BACKUP_LIST',
+        'QUERIES_TO_RESTORE_LIST',
+        'DB_TABLES_TO_CLEAN_LIST',
+        'FILES_TO_REMOVE_LIST',
+        'FILES_FROM_ARCHIVE_LIST',
+        'MAILS_CUSTOM_LIST',
+        'TRANSLATION_FILES_CUSTOM_LIST',
     );
 
 }
