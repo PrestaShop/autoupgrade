@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -43,13 +44,13 @@ abstract class Logger implements LoggerInterface
     const EMERGENCY = 8;
 
     protected static $levels = array(
-        self::DEBUG     => 'DEBUG',
-        self::INFO      => 'INFO',
-        self::NOTICE    => 'NOTICE',
-        self::WARNING   => 'WARNING',
-        self::ERROR     => 'ERROR',
-        self::CRITICAL  => 'CRITICAL',
-        self::ALERT     => 'ALERT',
+        self::DEBUG => 'DEBUG',
+        self::INFO => 'INFO',
+        self::NOTICE => 'NOTICE',
+        self::WARNING => 'WARNING',
+        self::ERROR => 'ERROR',
+        self::CRITICAL => 'CRITICAL',
+        self::ALERT => 'ALERT',
         self::EMERGENCY => 'EMERGENCY',
     );
 
@@ -95,7 +96,7 @@ abstract class Logger implements LoggerInterface
 
     /**
      * Equivalent of the old $nextErrors
-     * Used during upgrade. Will be displayed in the top right panel (not visible at the beginning)
+     * Used during upgrade. Will be displayed in the top right panel (not visible at the beginning).
      *
      * @var array Details of error which occured during the request. Verbose levels: ERROR
      */
@@ -118,7 +119,7 @@ abstract class Logger implements LoggerInterface
     /**
      * Return the last message stored with the INFO level.
      * Equivalent of the old $next_desc
-     * Used during upgrade. Will be displayed on the top left panel
+     * Used during upgrade. Will be displayed on the top left panel.
      *
      * @var String Stores the main information about the current step
      */

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -28,10 +29,9 @@ namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous;
 
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
-use PrestaShop\Module\AutoUpgrade\Upgrader;
 
 /**
-* List the files modified in the current installation regards to the original version
+ * List the files modified in the current installation regards to the original version.
  */
 class CheckFilesVersion extends AbstractTask
 {
@@ -45,6 +45,7 @@ class CheckFilesVersion extends AbstractTask
         if ($changedFileList === false) {
             $this->nextParams['status'] = 'error';
             $this->nextParams['msg'] = $this->translator->trans('Unable to check files for the installed version of PrestaShop.', array(), 'Modules.Autoupgrade.Admin');
+
             return;
         }
 
@@ -53,7 +54,7 @@ class CheckFilesVersion extends AbstractTask
                 $changedFileList[$type] = array();
             }
         }
-        
+
         if ($upgrader->isAuthenticPrestashopVersion() === true) {
             $this->nextParams['status'] = 'ok';
             $this->nextParams['msg'] = $this->translator->trans('Core files are ok', array(), 'Modules.Autoupgrade.Admin');

@@ -1,6 +1,7 @@
 <?php
+
 /**
- * 2007-2017 PrestaShop
+ * 2007-2017 PrestaShop.
  *
  * NOTICE OF LICENSE
  *
@@ -29,12 +30,13 @@ namespace PrestaShop\Module\AutoUpgrade\Parameters;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Contains the module configuration (form params)
+ * Contains the module configuration (form params).
  */
 class UpgradeConfiguration extends ArrayCollection
 {
     /**
-     * Performance settings, if your server has a low memory size, lower these values
+     * Performance settings, if your server has a low memory size, lower these values.
+     *
      * @var array
      */
     protected $performanceValues = array(
@@ -45,7 +47,8 @@ class UpgradeConfiguration extends ArrayCollection
     );
 
     /**
-     * Get channel selected on config panel (Minor, major ...)
+     * Get channel selected on config panel (Minor, major ...).
+     *
      * @return string
      */
     public function getChannel()

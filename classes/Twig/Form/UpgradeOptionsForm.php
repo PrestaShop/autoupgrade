@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 2007-2017 PrestaShop
+ * 2007-2017 PrestaShop.
  *
  * NOTICE OF LICENSE
  *
@@ -31,7 +31,6 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 
 class UpgradeOptionsForm
 {
-
     /**
      * @var array
      */
@@ -56,16 +55,16 @@ class UpgradeOptionsForm
         $translationDomain = 'Modules.Autoupgrade.Admin';
 
         $this->fields = array(
-            'PS_AUTOUP_PERFORMANCE'          => array(
-                'title'        => $translator->trans(
+            'PS_AUTOUP_PERFORMANCE' => array(
+                'title' => $translator->trans(
                     'Server performance',
                     array(),
                     $translationDomain
                 ),
-                'cast'         => 'intval',
-                'validation'   => 'isInt',
+                'cast' => 'intval',
+                'validation' => 'isInt',
                 'defaultValue' => '1',
-                'type'         => 'select', 'desc' => $translator->trans(
+                'type' => 'select', 'desc' => $translator->trans(
                         'Unless you are using a dedicated server, select "Low".',
                         array(),
                         $translationDomain
@@ -75,7 +74,7 @@ class UpgradeOptionsForm
                         array(),
                         $translationDomain
                     ),
-                'choices'      => array(
+                'choices' => array(
                     1 => $translator->trans(
                         'Low (recommended)',
                         array(),
@@ -89,16 +88,16 @@ class UpgradeOptionsForm
                     ),
                 ),
             ),
-            'PS_AUTOUP_CUSTOM_MOD_DESACT'    => array(
-                'title'      => $translator->trans(
+            'PS_AUTOUP_CUSTOM_MOD_DESACT' => array(
+                'title' => $translator->trans(
                     'Disable non-native modules',
                     array(),
                     $translationDomain
                 ),
-                'cast'       => 'intval',
+                'cast' => 'intval',
                 'validation' => 'isBool',
-                'type'       => 'bool',
-                'desc'       => $translator->trans(
+                'type' => 'bool',
+                'desc' => $translator->trans(
                         'As non-native modules can experience some compatibility issues, we recommend to disable them by default.',
                         array(),
                         $translationDomain
@@ -110,16 +109,16 @@ class UpgradeOptionsForm
                     ),
             ),
             'PS_AUTOUP_UPDATE_DEFAULT_THEME' => array(
-                'title'        => $translator->trans(
+                'title' => $translator->trans(
                     'Upgrade the default theme',
                     array(),
                     $translationDomain
                 ),
-                'cast'         => 'intval',
-                'validation'   => 'isBool',
+                'cast' => 'intval',
+                'validation' => 'isBool',
                 'defaultValue' => '1',
-                'type'         => 'bool',
-                'desc'         => $translator->trans(
+                'type' => 'bool',
+                'desc' => $translator->trans(
                         'If you customized the default PrestaShop theme in its folder (folder name "classic" in 1.7), enabling this option will lose your modifications.',
                         array(),
                         $translationDomain
@@ -132,16 +131,16 @@ class UpgradeOptionsForm
             ),
 
             'PS_AUTOUP_CHANGE_DEFAULT_THEME' => array(
-                'title'        => $translator->trans(
+                'title' => $translator->trans(
                     'Switch to the default theme',
                     array(),
                     $translationDomain
                 ),
-                'cast'         => 'intval',
-                'validation'   => 'isBool',
+                'cast' => 'intval',
+                'validation' => 'isBool',
                 'defaultValue' => '0',
-                'type'         => 'bool',
-                'desc'         => $translator->trans(
+                'type' => 'bool',
+                'desc' => $translator->trans(
                     'This will change your theme: your shop will then use the default theme of the version of PrestaShop you are upgrading to.',
                     array(),
                     $translationDomain
@@ -149,15 +148,15 @@ class UpgradeOptionsForm
             ),
 
             'PS_AUTOUP_KEEP_MAILS' => array(
-                'title'      => $translator->trans(
+                'title' => $translator->trans(
                     'Keep the customized email templates',
                     array(),
                     $translationDomain
                 ),
-                'cast'       => 'intval',
+                'cast' => 'intval',
                 'validation' => 'isBool',
-                'type'       => 'bool',
-                'desc'       => $translator->trans(
+                'type' => 'bool',
+                'desc' => $translator->trans(
                         'This will not upgrade the default PrestaShop e-mails.',
                         array(),
                         $translationDomain

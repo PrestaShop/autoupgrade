@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -29,7 +30,7 @@ namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 
 /**
- * Only displays the success message
+ * Only displays the success message.
  */
 class RollbackComplete extends AbstractTask
 {

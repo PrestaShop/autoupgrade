@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -79,7 +80,8 @@ class TaskRepository
             case 'unzip':
                 return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\Unzip($container);
         }
-        error_log('Unknown step '. $step);
+        error_log('Unknown step '.$step);
+
         return new \PrestaShop\Module\AutoUpgrade\TaskRunner\NullTask($container);
     }
 }

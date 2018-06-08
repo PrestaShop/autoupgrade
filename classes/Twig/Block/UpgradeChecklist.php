@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 2007-2017 PrestaShop
+ * 2007-2017 PrestaShop.
  *
  * NOTICE OF LICENSE
  *
@@ -32,11 +32,10 @@ use PrestaShop\Module\AutoUpgrade\Tools14;
 use Twig_Environment;
 
 /**
- * Builds the upgrade checklist block
+ * Builds the upgrade checklist block.
  */
 class UpgradeChecklist
 {
-
     /**
      * @var Twig_Environment
      */
@@ -77,11 +76,11 @@ class UpgradeChecklist
      *
      * @param Twig_Environment $twig
      * @param UpgradeSelfCheck $upgradeSelfCheck
-     * @param string $prodRootPath
-     * @param string $adminPath
-     * @param string $autoupgradePath
-     * @param string $currentIndex
-     * @param string $token
+     * @param string           $prodRootPath
+     * @param string           $adminPath
+     * @param string           $autoupgradePath
+     * @param string           $currentIndex
+     * @param string           $token
      */
     public function __construct(
         Twig_Environment $twig,
@@ -102,28 +101,29 @@ class UpgradeChecklist
     }
 
     /**
-     * Returns the block's HTML
+     * Returns the block's HTML.
+     *
      * @return string
      */
     public function render()
     {
         $data = array(
-            'showErrorMessage'        => !$this->selfCheck->isOkForUpgrade(),
-            'moduleVersion'           => $this->selfCheck->getModuleVersion(),
-            'moduleIsUpToDate'        => $this->selfCheck->isModuleVersionLatest(),
+            'showErrorMessage' => !$this->selfCheck->isOkForUpgrade(),
+            'moduleVersion' => $this->selfCheck->getModuleVersion(),
+            'moduleIsUpToDate' => $this->selfCheck->isModuleVersionLatest(),
             'versionGreaterThan1_5_3' => version_compare(_PS_VERSION_, '1.5.3.0', '>'),
-            'adminToken'              => Tools14::getAdminTokenLite('AdminModules'),
+            'adminToken' => Tools14::getAdminTokenLite('AdminModules'),
             'rootDirectoryIsWritable' => $this->selfCheck->isRootDirectoryWritable(),
-            'rootDirectoryWritableReport'  => $this->selfCheck->getRootWritableReport(),
-            'adminDirectoryIsWritable'     => $this->selfCheck->isAdminAutoUpgradeDirectoryWritable(),
+            'rootDirectoryWritableReport' => $this->selfCheck->getRootWritableReport(),
+            'adminDirectoryIsWritable' => $this->selfCheck->isAdminAutoUpgradeDirectoryWritable(),
             'adminDirectoryWritableReport' => $this->selfCheck->getAdminAutoUpgradeDirectoryWritableReport(),
-            'safeModeIsDisabled'           => $this->selfCheck->isSafeModeDisabled(),
+            'safeModeIsDisabled' => $this->selfCheck->isSafeModeDisabled(),
             'allowUrlFopenOrCurlIsEnabled' => $this->selfCheck->isFOpenOrCurlEnabled(),
             'storeIsInMaintenance' => $this->selfCheck->isShopDeactivated(),
-            'currentIndex'         => $this->currentIndex,
-            'token'                => $this->token,
-            'cachingIsDisabled'    => $this->selfCheck->isCacheDisabled(),
-            'maxExecutionTime'     => $this->selfCheck->getMaxExecutionTime(),
+            'currentIndex' => $this->currentIndex,
+            'token' => $this->token,
+            'cachingIsDisabled' => $this->selfCheck->isCacheDisabled(),
+            'maxExecutionTime' => $this->selfCheck->getMaxExecutionTime(),
         );
 
         return $this->twig->render('@ModuleAutoUpgrade/block/checklist.twig', $data);

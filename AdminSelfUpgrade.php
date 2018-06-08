@@ -1,4 +1,5 @@
 <?php
+
 /*
 * 2007-2016 PrestaShop
 *
@@ -33,7 +34,6 @@ use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
-use Symfony\Component\Filesystem\Filesystem;
 
 require __DIR__.'/vendor/autoload.php';
 
@@ -53,7 +53,7 @@ class AdminSelfUpgrade extends AdminController
     public $standalone = true;
 
     /**
-     * Initialized in initPath()
+     * Initialized in initPath().
      */
     public $autoupgradePath = null;
     public $downloadPath = null;
@@ -62,7 +62,7 @@ class AdminSelfUpgrade extends AdminController
     public $tmpPath = null;
 
     /**
-     * autoupgradeDir
+     * autoupgradeDir.
      *
      * @var string directory relative to admin dir
      */
@@ -82,7 +82,7 @@ class AdminSelfUpgrade extends AdminController
     'MCached', 'Module', 'ModuleGraph', 'ModuleGraphEngine', 'ModuleGrid', 'ModuleGridEngine',
     'MySQL', 'Order', 'OrderDetail', 'OrderDiscount', 'OrderHistory', 'OrderMessage', 'OrderReturn',
     'OrderReturnState', 'OrderSlip', 'OrderState', 'PDF', 'RangePrice', 'RangeWeight', 'StockMvt',
-    'StockMvtReason', 'SubDomain', 'Shop', 'Tax', 'TaxRule', 'TaxRulesGroup', 'WebserviceKey', 'WebserviceRequest', '');
+    'StockMvtReason', 'SubDomain', 'Shop', 'Tax', 'TaxRule', 'TaxRulesGroup', 'WebserviceKey', 'WebserviceRequest', '', );
 
     public static $maxBackupFileSize = 15728640; // 15 Mo
 
@@ -105,6 +105,7 @@ class AdminSelfUpgrade extends AdminController
                 return true;
             }
         }
+
         return false;
     }
 
@@ -121,11 +122,11 @@ class AdminSelfUpgrade extends AdminController
         $this->db = Db::getInstance();
         $this->bootstrap = true;
 
-        self::$currentIndex = $_SERVER['SCRIPT_NAME'].(($controller = Tools14::getValue('controller')) ? '?controller='.$controller: '');
+        self::$currentIndex = $_SERVER['SCRIPT_NAME'].(($controller = Tools14::getValue('controller')) ? '?controller='.$controller : '');
 
         if (defined('_PS_ADMIN_DIR_')) {
             $file_tab = @filemtime($this->autoupgradePath.DIRECTORY_SEPARATOR.'ajax-upgradetab.php');
-            $file =  @filemtime(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR.$this->autoupgradeDir.DIRECTORY_SEPARATOR.'ajax-upgradetab.php');
+            $file = @filemtime(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR.$this->autoupgradeDir.DIRECTORY_SEPARATOR.'ajax-upgradetab.php');
 
             if ($file_tab < $file) {
                 @copy(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR.$this->autoupgradeDir.DIRECTORY_SEPARATOR.'ajax-upgradetab.php',
@@ -139,9 +140,7 @@ class AdminSelfUpgrade extends AdminController
     }
 
     /**
-     * function to set configuration fields display
-     *
-     * @return void
+     * function to set configuration fields display.
      */
     private function _setFields()
     {
@@ -160,7 +159,7 @@ class AdminSelfUpgrade extends AdminController
                 'title' => $this->trans('Server performance', array(), 'Modules.Autoupgrade.Admin'), 'cast' => 'intval', 'validation' => 'isInt', 'defaultValue' => '1',
                 'type' => 'select', 'desc' => $this->trans('Unless you are using a dedicated server, select "Low".', array(), 'Modules.Autoupgrade.Admin').'<br />'.
                 $this->trans('A high value can cause the upgrade to fail if your server is not powerful enough to process the upgrade tasks in a short amount of time.', array(), 'Modules.Autoupgrade.Admin'),
-                'choices' => array(1 => $this->trans('Low (recommended)', array(), 'Modules.Autoupgrade.Admin'), 2 => $this->trans('Medium', array(), 'Modules.Autoupgrade.Admin'), 3 => $this->trans('High', array(), 'Modules.Autoupgrade.Admin'))
+                'choices' => array(1 => $this->trans('Low (recommended)', array(), 'Modules.Autoupgrade.Admin'), 2 => $this->trans('Medium', array(), 'Modules.Autoupgrade.Admin'), 3 => $this->trans('High', array(), 'Modules.Autoupgrade.Admin')),
             ),
             'PS_AUTOUP_CUSTOM_MOD_DESACT' => array(
                 'title' => $this->trans('Disable non-native modules', array(), 'Modules.Autoupgrade.Admin'), 'cast' => 'intval', 'validation' => 'isBool',
@@ -185,9 +184,7 @@ class AdminSelfUpgrade extends AdminController
     }
 
     /**
-     * init to build informations we need
-     *
-     * @return void
+     * init to build informations we need.
      */
     public function init()
     {
@@ -209,7 +206,7 @@ class AdminSelfUpgrade extends AdminController
             }
         }
         // from $_POST or $_GET
-        $this->action = empty($_REQUEST['action'])?null:$_REQUEST['action'];
+        $this->action = empty($_REQUEST['action']) ? null : $_REQUEST['action'];
         $this->initPath();
         $this->upgradeContainer->getState()->importFromArray(
             empty($_REQUEST['params']) ? array() : $_REQUEST['params']
@@ -245,7 +242,6 @@ class AdminSelfUpgrade extends AdminController
             $this->upgradeContainer->getFileConfigurationStorage()->cleanAll();
         }
 
-
         $this->keepImages = $this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_KEEP_IMAGES');
         $this->updateDefaultTheme = $this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_UPDATE_DEFAULT_THEME');
         $this->changeToDefaultTheme = $this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_CHANGE_DEFAULT_THEME');
@@ -254,7 +250,7 @@ class AdminSelfUpgrade extends AdminController
     }
 
     /**
-     * create some required directories if they does not exists
+     * create some required directories if they does not exists.
      */
     public function initPath()
     {
@@ -288,7 +284,7 @@ class AdminSelfUpgrade extends AdminController
 
         if (Tools14::isSubmit('putUnderMaintenance')) {
             foreach (Shop::getCompleteListOfShopsID() as $id_shop) {
-                Configuration::updateValue('PS_SHOP_ENABLE', 0, false, null, (int)$id_shop);
+                Configuration::updateValue('PS_SHOP_ENABLE', 0, false, null, (int) $id_shop);
             }
             Configuration::updateGlobalValue('PS_SHOP_ENABLE', 0);
         }
@@ -303,7 +299,7 @@ class AdminSelfUpgrade extends AdminController
             }
             $UpConfig = $this->upgradeContainer->getUpgradeConfiguration();
             $UpConfig->merge($config);
-            
+
             if ($this->upgradeContainer->getUpgradeConfigurationStorage()->save($UpConfig, UpgradeFileNames::CONFIG_FILENAME)) {
                 Tools14::redirectAdmin(self::$currentIndex.'&conf=6&token='.Tools14::getValue('token'));
             }
@@ -334,10 +330,11 @@ class AdminSelfUpgrade extends AdminController
     }
 
     /**
-     * update module configuration (saved in file UpgradeFiles::configFilename) with $new_config
+     * update module configuration (saved in file UpgradeFiles::configFilename) with $new_config.
      *
      * @param array $new_config
-     * @return boolean true if success
+     *
+     * @return bool true if success
      */
 //    public function writeConfig($config)
 //    {
@@ -412,15 +409,16 @@ class AdminSelfUpgrade extends AdminController
 
         $this->ajax = true;
         $this->content = $this->_html;
+
         return parent::display();
     }
 
     /**
      * Adapter for trans calls, existing only on PS 1.7.
-     * Making them available for PS 1.6 as well
+     * Making them available for PS 1.6 as well.
      *
      * @param string $id
-     * @param array $parameters
+     * @param array  $parameters
      * @param string $domain
      * @param string $locale
      */

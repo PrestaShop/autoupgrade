@@ -1,4 +1,5 @@
 <?php
+
 /* 
  * 2007-2018 PrestaShop
  * 
@@ -24,7 +25,7 @@
  *  International Registered Trademark & Property of PrestaShop SA
  */
 
-require_once(realpath(dirname(__FILE__).'/../../modules/autoupgrade').'/ajax-upgradetabconfig.php');
+require_once realpath(dirname(__FILE__).'/../../modules/autoupgrade').'/ajax-upgradetabconfig.php';
 $container = autoupgrade_init_container(dirname(__FILE__));
 
 if (php_sapi_name() !== 'cli') {

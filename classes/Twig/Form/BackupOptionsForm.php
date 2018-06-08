@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 2007-2017 PrestaShop
+ * 2007-2017 PrestaShop.
  *
  * NOTICE OF LICENSE
  *
@@ -31,7 +31,6 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 
 class BackupOptionsForm
 {
-
     /**
      * @var array
      */
@@ -56,32 +55,32 @@ class BackupOptionsForm
 
         $this->fields = array(
             'PS_AUTOUP_BACKUP' => array(
-                'title'        => $this->translator->trans(
+                'title' => $this->translator->trans(
                     'Back up my files and database',
                     array(),
                     $translationDomain
                 ),
-                'cast'         => 'intval',
-                'validation'   => 'isBool',
+                'cast' => 'intval',
+                'validation' => 'isBool',
                 'defaultValue' => '1',
-                'type'         => 'bool',
-                'desc'         => $this->translator->trans(
+                'type' => 'bool',
+                'desc' => $this->translator->trans(
                     'Automatically back up your database and files in order to restore your shop if needed. This is experimental: you should still perform your own manual backup for safety.',
                     array(),
                     $translationDomain
                 ),
             ),
             'PS_AUTOUP_KEEP_IMAGES' => array(
-                'title'        => $this->translator->trans(
+                'title' => $this->translator->trans(
                     'Back up my images',
                     array(),
                     $translationDomain
                 ),
-                'cast'         => 'intval',
-                'validation'   => 'isBool',
+                'cast' => 'intval',
+                'validation' => 'isBool',
                 'defaultValue' => '1',
-                'type'         => 'bool',
-                'desc'         => $this->translator->trans(
+                'type' => 'bool',
+                'desc' => $this->translator->trans(
                     'To save time, you can decide not to back your images up. In any case, always make sure you did back them up manually.',
                     array(),
                     $translationDomain

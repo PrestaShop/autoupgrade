@@ -1,6 +1,7 @@
 <?php
+
 /**
- * 2007-2017 PrestaShop
+ * 2007-2017 PrestaShop.
  *
  * NOTICE OF LICENSE
  *
@@ -28,7 +29,6 @@ namespace PrestaShop\Module\AutoUpgrade;
 
 class BackupFinder
 {
-
     /**
      * @var string[]
      */
@@ -88,6 +88,7 @@ class BackupFinder
                 $array[] = $file;
             }
         }
+
         return $array;
     }
 

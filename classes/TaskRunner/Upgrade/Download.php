@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -31,7 +32,7 @@ use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 
 /**
- * Download PrestaShop archive according to the chosen channel
+ * Download PrestaShop archive according to the chosen channel.
  */
 class Download extends AbstractTask
 {
@@ -40,6 +41,7 @@ class Download extends AbstractTask
         if (!\ConfigurationTest::test_fopen() && !\ConfigurationTest::test_curl()) {
             $this->logger->error($this->translator->trans('You need allow_url_fopen or cURL enabled for automatic download to work. You can also manually upload it in filepath %s.', array($this->container->getFilePath()), 'Modules.Autoupgrade.Admin'));
             $this->next = 'error';
+
             return;
         }
 

@@ -1,6 +1,7 @@
 <?php
+
 /**
- * 2007-2017 PrestaShop
+ * 2007-2017 PrestaShop.
  *
  * NOTICE OF LICENSE
  *
@@ -33,17 +34,15 @@ use PrestaShop\Module\AutoUpgrade\Twig\Form\BackupOptionsForm;
 use PrestaShop\Module\AutoUpgrade\Twig\Form\FormRenderer;
 use PrestaShop\Module\AutoUpgrade\Twig\Form\UpgradeOptionsForm;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
-use PrestaShop\Module\AutoUpgrade\Upgrader;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 use Configuration;
 use Twig_Environment;
 
 /**
- * Constructs the upgrade page
+ * Constructs the upgrade page.
  */
 class UpgradePage
 {
-
     const TRANSLATION_DOMAIN = 'Modules.Autoupgrade.Admin';
 
     /**
@@ -148,7 +147,7 @@ class UpgradePage
         $backupName,
         $downloadPath
     ) {
-        $this->moduleDir = realpath(__DIR__ . '/../');
+        $this->moduleDir = realpath(__DIR__.'/../');
         $this->config = $config;
         $this->translator = $translator;
         $this->upgrader = $upgrader;
@@ -167,7 +166,8 @@ class UpgradePage
     }
 
     /**
-     * Renders the page
+     * Renders the page.
+     *
      * @return string HTML
      */
     public function display($ajaxResult)
@@ -183,20 +183,20 @@ class UpgradePage
 
         $templateData = array(
             'configuration' => array(
-                'PS_SHOW_NEW_ORDERS'    => Configuration::get('PS_SHOW_NEW_ORDERS', null, null, null, 1),
+                'PS_SHOW_NEW_ORDERS' => Configuration::get('PS_SHOW_NEW_ORDERS', null, null, null, 1),
                 'PS_SHOW_NEW_CUSTOMERS' => Configuration::get('PS_SHOW_NEW_CUSTOMERS', null, null, null, 1),
-                'PS_SHOW_NEW_MESSAGES'  => Configuration::get('PS_SHOW_NEW_MESSAGES', null, null, null, 1),
+                'PS_SHOW_NEW_MESSAGES' => Configuration::get('PS_SHOW_NEW_MESSAGES', null, null, null, 1),
             ),
-            'psBaseUri'          => __PS_BASE_URI__,
-            'translationDomain'  => $translationDomain,
-            'jsParams'           => $this->getJsParams($ajaxResult),
-            'currentConfig'      => $this->getChecklistBlock(),
+            'psBaseUri' => __PS_BASE_URI__,
+            'translationDomain' => $translationDomain,
+            'jsParams' => $this->getJsParams($ajaxResult),
+            'currentConfig' => $this->getChecklistBlock(),
             'upgradeButtonBlock' => $this->getUpgradeButtonBlock(),
-            'rollbackForm'       => $this->getRollbackForm(),
-            'backupOptions'      => $this->getBackupOptionsForm(),
-            'upgradeOptions'     => $this->getUpgradeOptionsForm(),
-            'currentIndex'       => $this->currentIndex,
-            'token'              => $this->token,
+            'rollbackForm' => $this->getRollbackForm(),
+            'backupOptions' => $this->getBackupOptionsForm(),
+            'upgradeOptions' => $this->getUpgradeOptionsForm(),
+            'currentIndex' => $this->currentIndex,
+            'token' => $this->token,
         );
 
         return $twig->render('@ModuleAutoUpgrade/main.twig', $templateData);
@@ -276,7 +276,7 @@ class UpgradePage
         /* PrestaShop demo mode */
         if (defined('_PS_MODE_DEMO_') && _PS_MODE_DEMO_) {
             return array(
-                'message' => $translator->trans('This functionality has been disabled.', array(), self::TRANSLATION_DOMAIN)
+                'message' => $translator->trans('This functionality has been disabled.', array(), self::TRANSLATION_DOMAIN),
             );
         }
 
@@ -308,18 +308,18 @@ class UpgradePage
         $translator = $this->translator;
 
         $jsParams = array(
-            'manualMode'           => (bool) $this->manualMode,
-            '_PS_MODE_DEV_'        => (defined('_PS_MODE_DEV_') && _PS_MODE_DEV_),
-            'PS_AUTOUP_BACKUP'     => (bool) $this->config->get('PS_AUTOUP_BACKUP'),
-            'adminDir'             => $adminDir,
-            'adminUrl'             => __PS_BASE_URI__.$adminDir,
-            'token'                => $this->token,
-            'txtError'             => $this->_getJsErrorMsgs(),
-            'firstTimeParams'      => json_decode($ajaxResult),
+            'manualMode' => (bool) $this->manualMode,
+            '_PS_MODE_DEV_' => (defined('_PS_MODE_DEV_') && _PS_MODE_DEV_),
+            'PS_AUTOUP_BACKUP' => (bool) $this->config->get('PS_AUTOUP_BACKUP'),
+            'adminDir' => $adminDir,
+            'adminUrl' => __PS_BASE_URI__.$adminDir,
+            'token' => $this->token,
+            'txtError' => $this->_getJsErrorMsgs(),
+            'firstTimeParams' => json_decode($ajaxResult),
             'ajaxUpgradeTabExists' => file_exists($this->autoupgradePath.DIRECTORY_SEPARATOR.'ajax-upgradetab.php'),
-            'currentIndex'         => $this->currentIndex,
-            'tab'              => 'AdminSelfUpgrade',
-            'channel'              => $this->config->get('channel'),
+            'currentIndex' => $this->currentIndex,
+            'tab' => 'AdminSelfUpgrade',
+            'channel' => $this->config->get('channel'),
             'translation' => array(
                 'confirmDeleteBackup' => $translator->trans('Are you sure you want to delete this backup?', array(), $translationDomain),
                 'delete' => $translator->trans('Delete', array(), 'Admin.Actions'),
@@ -361,7 +361,7 @@ class UpgradePage
                 'lessOptions' => $translator->trans('Less options', array(), $translationDomain),
                 'moreOptions' => $translator->trans('More options (Expert mode)', array(), $translationDomain),
                 'filesWillBeDeleted' => $translator->trans('Theses files will be deleted', array(), $translationDomain),
-            )
+            ),
         );
 
         return $jsParams;
@@ -429,6 +429,7 @@ class UpgradePage
             36 => $translator->trans('SQL errors have occurred.', array(), $translationDomain),
             37 => $translator->trans('The config/defines.inc.php file was not found. Where did you move it?', array(), $translationDomain),
         );
+
         return $ret;
     }
 }

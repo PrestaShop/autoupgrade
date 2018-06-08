@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -32,8 +33,8 @@ use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 
 /**
-* extract chosen version into $this->upgradeClass->latestPath directory
-*/
+ * extract chosen version into $this->upgradeClass->latestPath directory.
+ */
 class Unzip extends AbstractTask
 {
     public function run()
@@ -51,6 +52,7 @@ class Unzip extends AbstractTask
             $this->logger->error($this->translator->trans('Extraction directory %s is not writable.', array($destExtract), 'Modules.Autoupgrade.Admin'));
             $this->next = 'error';
             $this->error = true;
+
             return false;
         }
 
@@ -67,6 +69,7 @@ class Unzip extends AbstractTask
                 ),
                 'Modules.Autoupgrade.Admin'
             ));
+
             return false;
         }
 
@@ -88,6 +91,7 @@ class Unzip extends AbstractTask
                     ),
                     'Modules.Autoupgrade.Admin'
                 ));
+
                 return false;
             }
         } else {

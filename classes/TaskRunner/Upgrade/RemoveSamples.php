@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -31,7 +32,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * Remove all sample files from release archive
+ * Remove all sample files from release archive.
  */
 class RemoveSamples extends AbstractTask
 {
@@ -74,8 +75,8 @@ class RemoveSamples extends AbstractTask
             }
         }
 
-        $filesystem = new Filesystem;
-        for ($i = 0; $i < $this->container->getUpgradeConfiguration()->getNumberOfFilesPerCall() && 0 < count($removeList); $i++) {
+        $filesystem = new Filesystem();
+        for ($i = 0; $i < $this->container->getUpgradeConfiguration()->getNumberOfFilesPerCall() && 0 < count($removeList); ++$i) {
             $file = array_shift($removeList);
             try {
                 $filesystem->remove($file);
@@ -85,10 +86,11 @@ class RemoveSamples extends AbstractTask
                     'Error while removing item %itemname%, %itemscount% items left.',
                     array(
                         '%itemname%' => $file,
-                        '%itemscount%' => count($removeList)
+                        '%itemscount%' => count($removeList),
                     ),
                     'Modules.Autoupgrade.Admin'
                 ));
+
                 return false;
             }
 
@@ -97,7 +99,7 @@ class RemoveSamples extends AbstractTask
                     '%itemname% items removed. %itemscount% items left.',
                     array(
                         '%itemname%' => $file,
-                        '%itemscount%' => count($removeList)
+                        '%itemscount%' => count($removeList),
                     ),
                     'Modules.Autoupgrade.Admin'
                 ));
@@ -107,7 +109,7 @@ class RemoveSamples extends AbstractTask
 
         if (0 >= count($removeList)) {
             $this->stepDone = true;
-            $this->next     = 'backupFiles';
+            $this->next = 'backupFiles';
             $this->logger->info(
                 $this->translator->trans(
                     'All sample files removed. Now backing up files.',
@@ -125,6 +127,7 @@ class RemoveSamples extends AbstractTask
                 ));
             }
         }
+
         return true;
     }
 }

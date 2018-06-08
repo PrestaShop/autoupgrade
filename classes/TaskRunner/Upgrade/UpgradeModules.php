@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  *
@@ -33,7 +34,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 /**
- * Upgrade all partners modules according to the installed prestashop version
+ * Upgrade all partners modules according to the installed prestashop version.
  */
 class UpgradeModules extends AbstractTask
 {
@@ -49,8 +50,9 @@ class UpgradeModules extends AbstractTask
 
         if (!is_array($listModules)) {
             $this->next = 'upgradeComplete';
-            $this->container->getState()-> setWarningExists(true);
+            $this->container->getState()->setWarningExists(true);
             $this->logger->error($this->translator->trans('listModules is not an array. No module has been updated.', array(), 'Modules.Autoupgrade.Admin'));
+
             return true;
         }
 
@@ -128,8 +130,10 @@ class UpgradeModules extends AbstractTask
             $this->status = 'ok';
             $this->next = 'cleanDatabase';
             $this->logger->info($this->translator->trans('Addons modules files have been upgraded.', array(), 'Modules.Autoupgrade.Admin'));
+
             return true;
         }
+
         return true;
     }
 
@@ -140,6 +144,7 @@ class UpgradeModules extends AbstractTask
             $this->container->getFileConfigurationStorage()->save($modulesToUpgrade, UpgradeFileNames::MODULES_TO_UPGRADE_LIST);
         } catch (UpgradeException $e) {
             $this->handleException($e);
+
             return false;
         }
 
@@ -155,12 +160,13 @@ class UpgradeModules extends AbstractTask
 
         $this->stepDone = false;
         $this->next = 'upgradeModules';
+
         return true;
     }
 
     private function handleException(UpgradeException $e)
     {
-        foreach($e->getQuickInfos() as $log) {
+        foreach ($e->getQuickInfos() as $log) {
             $this->logger->debug($log);
         }
         if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {

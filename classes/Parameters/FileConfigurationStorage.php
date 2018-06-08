@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -27,7 +28,6 @@
 namespace PrestaShop\Module\AutoUpgrade\Parameters;
 
 use PrestaShop\Module\AutoUpgrade\Tools14;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -57,11 +57,12 @@ class FileConfigurationStorage
      * UpgradeConfiguration loader.
      *
      * @param string $fileName File name to load
+     *
      * @return mixed or array() as default value
      */
     public function load($fileName = '')
     {
-        $configFilePath = $this->configPath . $fileName;
+        $configFilePath = $this->configPath.$fileName;
         $config = array();
 
         if (file_exists($configFilePath)) {
@@ -72,16 +73,17 @@ class FileConfigurationStorage
     }
 
     /**
-     *
-     * @param mixed $config
+     * @param mixed  $config
      * @param string $fileName Destination name of the config file
-     * @return boolean
+     *
+     * @return bool
      */
     public function save($config, $fileName)
     {
-        $configFilePath = $this->configPath . $fileName;
+        $configFilePath = $this->configPath.$fileName;
         try {
             $this->filesystem->dumpFile($configFilePath, base64_encode(serialize($config)));
+
             return true;
         } catch (IOException $e) {
             // TODO: $e needs to be logged
@@ -96,13 +98,14 @@ class FileConfigurationStorage
     {
         $files = array();
         foreach (UpgradeFileNames::$tmp_files as $file) {
-            $files[$file] = $this->getFilePath(constant('PrestaShop\\Module\\AutoUpgrade\\Parameters\\UpgradeFileNames::' . $file));
+            $files[$file] = $this->getFilePath(constant('PrestaShop\\Module\\AutoUpgrade\\Parameters\\UpgradeFileNames::'.$file));
         }
+
         return $files;
     }
 
     /**
-     * Delete all temporary files in the config folder
+     * Delete all temporary files in the config folder.
      */
     public function cleanAll()
     {
@@ -110,7 +113,8 @@ class FileConfigurationStorage
     }
 
     /**
-     * Delete a file from the filesystem
+     * Delete a file from the filesystem.
+     *
      * @param string $fileName
      */
     public function clean($fileName)
@@ -119,7 +123,8 @@ class FileConfigurationStorage
     }
 
     /**
-     * Check if a file exists on the filesystem
+     * Check if a file exists on the filesystem.
+     *
      * @param string $fileName
      */
     public function exists($fileName)
@@ -128,13 +133,15 @@ class FileConfigurationStorage
     }
 
     /**
-     * Generate the complete path to a given file
+     * Generate the complete path to a given file.
+     *
      * @param string $file Name
+     *
      * @return string Pgit gui&
-     * ath
+     *                ath
      */
     private function getFilePath($file)
     {
-        return $this->configPath . $file;
+        return $this->configPath.$file;
     }
 }

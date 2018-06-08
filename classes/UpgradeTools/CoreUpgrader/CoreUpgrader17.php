@@ -1,4 +1,5 @@
 <?php
+
 /* 
  * 2007-2018 PrestaShop
  * 
@@ -66,7 +67,7 @@ class CoreUpgrader17 extends CoreUpgrader
     {
         $isoCode = $lang['iso_code'];
 
-        if (! \Validate::isLangIsoCode($isoCode)) {
+        if (!\Validate::isLangIsoCode($isoCode)) {
             return;
         }
         $errorsLanguage = array();

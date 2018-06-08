@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  *
@@ -27,7 +28,7 @@
 namespace PrestaShop\Module\AutoUpgrade;
 
 /**
- * Class storing the temporary data to keep between 2 ajax requests
+ * Class storing the temporary data to keep between 2 ajax requests.
  */
 class State
 {
@@ -46,18 +47,19 @@ class State
 
     /**
      * Int during BackupDb, allowing the script to increent the number of different file names
-     * String during step RestoreDb, which contains the file to process (Data coming from toRestoreQueryList)
+     * String during step RestoreDb, which contains the file to process (Data coming from toRestoreQueryList).
+     *
      * @var String|int Contains the SQL progress
      */
     private $dbStep = 0;
 
     /**
-     * Data filled in upgrade warmup, to avoid risky tasks during the process
+     * Data filled in upgrade warmup, to avoid risky tasks during the process.
+     *
      * @var array|null File containing sample files to be deleted
      */
     private $removeList = null;
     /**
-     *
      * @var string|null File containing files to be upgraded
      */
     private $fileToUpgrade = null;
@@ -67,12 +69,14 @@ class State
     private $modulesToUpgrade = null;
 
     /**
-     * installedLanguagesIso is an array of iso_code of each installed languages
+     * installedLanguagesIso is an array of iso_code of each installed languages.
+     *
      * @var array
      */
     private $installedLanguagesIso = array();
     /**
      * modules_addons is an array of array(id_addons => name_module).
+     *
      * @var array
      */
     private $modules_addons = array();
@@ -87,11 +91,12 @@ class State
      */
     public function importFromArray(array $savedState)
     {
-        foreach($savedState as $name => $value) {
+        foreach ($savedState as $name => $value) {
             if (!empty($value) && property_exists($this, $name)) {
                 $this->{$name} = $value;
             }
         }
+
         return $this;
     }
 
@@ -130,14 +135,14 @@ class State
         $modules_addons = array();
         if (is_object($xml)) {
             foreach ($xml as $mod) {
-                $modules_addons[(string)$mod->id] = (string)$mod->name;
+                $modules_addons[(string) $mod->id] = (string) $mod->name;
             }
         }
         $this->setModulesAddons($modules_addons);
 
         // installedLanguagesIso is used to merge translations files
         $installedLanguagesIso = array_map(
-            function($v) { return $v['iso_code']; },
+            function ($v) { return $v['iso_code']; },
             \Language::getIsoIds(false)
         );
         $this->setInstalledLanguagesIso($installedLanguagesIso);
@@ -234,6 +239,7 @@ class State
     public function setInstallVersion($install_version)
     {
         $this->install_version = $install_version;
+
         return $this;
     }
 
@@ -242,87 +248,98 @@ class State
         $this->backupName = $backupName;
         $this->setBackupFilesFilename('auto-backupfiles_'.$backupName.'.zip')
             ->setBackupDbFilename('auto-backupdb_XXXXXX_'.$backupName.'.sql');
+
         return $this;
     }
 
     public function setBackupFilesFilename($backupFilesFilename)
     {
         $this->backupFilesFilename = $backupFilesFilename;
+
         return $this;
     }
 
     public function setBackupDbFilename($backupDbFilename)
     {
         $this->backupDbFilename = $backupDbFilename;
+
         return $this;
     }
 
     public function setBackupLines($backup_lines)
     {
         $this->backup_lines = $backup_lines;
+
         return $this;
     }
 
     public function setBackupLoopLimit($backup_loop_limit)
     {
         $this->backup_loop_limit = $backup_loop_limit;
+
         return $this;
     }
 
     public function setBackupTable($backup_table)
     {
         $this->backup_table = $backup_table;
+
         return $this;
     }
-
 
     public function setDbStep($dbStep)
     {
         $this->dbStep = $dbStep;
+
         return $this;
     }
 
     public function setRemoveList($removeList)
     {
         $this->removeList = $removeList;
+
         return $this;
     }
 
     public function setRestoreName($restoreName)
     {
         $this->restoreName = $restoreName;
+
         return $this;
     }
 
     public function setRestoreFilesFilename($restoreFilesFilename)
     {
         $this->restoreFilesFilename = $restoreFilesFilename;
+
         return $this;
     }
 
     public function setRestoreDbFilenames($restoreDbFilenames)
     {
         $this->restoreDbFilenames = $restoreDbFilenames;
+
         return $this;
     }
 
     public function setInstalledLanguagesIso($installedLanguagesIso)
     {
         $this->installedLanguagesIso = $installedLanguagesIso;
+
         return $this;
     }
 
     public function setModulesAddons($modules_addons)
     {
         $this->modules_addons = $modules_addons;
+
         return $this;
     }
 
     public function setWarningExists($warning_exists)
     {
         $this->warning_exists = $warning_exists;
+
         return $this;
     }
-
-
 }

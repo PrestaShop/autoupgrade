@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -32,7 +33,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 /**
  * ajaxProcessRestoreFiles restore the previously saved files,
- * and delete files that weren't archived
+ * and delete files that weren't archived.
  */
 class RestoreFiles extends AbstractTask
 {
@@ -43,7 +44,7 @@ class RestoreFiles extends AbstractTask
         if (!file_exists($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH).DIRECTORY_SEPARATOR.UpgradeFileNames::FILES_FROM_ARCHIVE_LIST)
             || !file_exists($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH).DIRECTORY_SEPARATOR.UpgradeFileNames::FILES_TO_REMOVE_LIST)) {
             // cleanup current PS tree
-            $fromArchive = $this->container->getZipAction()->listContent($this->container->getProperty(UpgradeContainer::BACKUP_PATH).DIRECTORY_SEPARATOR.$this->container->getState()-> getRestoreFilesFilename());
+            $fromArchive = $this->container->getZipAction()->listContent($this->container->getProperty(UpgradeContainer::BACKUP_PATH).DIRECTORY_SEPARATOR.$this->container->getState()->getRestoreFilesFilename());
             foreach ($fromArchive as $k => $v) {
                 $fromArchive[DIRECTORY_SEPARATOR.$v] = DIRECTORY_SEPARATOR.$v;
             }
@@ -77,12 +78,13 @@ class RestoreFiles extends AbstractTask
                 }
                 $this->logger->info($this->translator->trans('Unable to remove upgraded files.', array(), 'Modules.Autoupgrade.Admin'));
                 $this->next = 'error';
+
                 return false;
             }
         }
 
         if (!empty($fromArchive)) {
-            $filepath = $this->container->getProperty(UpgradeContainer::BACKUP_PATH).DIRECTORY_SEPARATOR.$this->container->getState()-> getRestoreFilesFilename();
+            $filepath = $this->container->getProperty(UpgradeContainer::BACKUP_PATH).DIRECTORY_SEPARATOR.$this->container->getState()->getRestoreFilesFilename();
             $destExtract = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH);
 
             $res = $this->container->getZipAction()->extract($filepath, $destExtract);
@@ -96,18 +98,20 @@ class RestoreFiles extends AbstractTask
                     ),
                     'Modules.Autoupgrade.Admin'
                 ));
+
                 return false;
             }
 
             if (!empty($toRemoveOnly)) {
                 foreach ($toRemoveOnly as $fileToRemove) {
-                    @unlink($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . $fileToRemove);
+                    @unlink($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH).$fileToRemove);
                 }
             }
 
             $this->next = 'restoreDb';
             $this->logger->debug($this->translator->trans('Files restored.', array(), 'Modules.Autoupgrade.Admin'));
             $this->logger->info($this->translator->trans('Files restored. Now restoring database...', array(), 'Modules.Autoupgrade.Admin'));
+
             return true;
         }
     }

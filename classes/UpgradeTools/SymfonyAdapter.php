@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -42,7 +43,7 @@ class SymfonyAdapter
     }
 
     /**
-     * Can be called only on PS 1.7
+     * Can be called only on PS 1.7.
      */
     public function clearMigrationCache()
     {

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  *
@@ -31,13 +32,13 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 /**
- * Ends the upgrade process and displays the success message
+ * Ends the upgrade process and displays the success message.
  */
 class UpgradeComplete extends AbstractTask
 {
     public function run()
     {
-        $this->logger->info($this->container->getState()-> getWarningExists() ?
+        $this->logger->info($this->container->getState()->getWarningExists() ?
             $this->translator->trans('Upgrade process done, but some warnings have been found.', array(), 'Modules.Autoupgrade.Admin') :
             $this->translator->trans('Upgrade process done. Congratulations! You can now reactivate your shop.', array(), 'Modules.Autoupgrade.Admin')
         );

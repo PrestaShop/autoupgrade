@@ -1,6 +1,7 @@
 <?php
+
 /**
- * 2007-2017 PrestaShop
+ * 2007-2017 PrestaShop.
  *
  * NOTICE OF LICENSE
  *
@@ -28,7 +29,6 @@ namespace PrestaShop\Module\AutoUpgrade\Twig\Form;
 
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
-
 use Twig_Environment;
 
 class FormRenderer
@@ -43,8 +43,7 @@ class FormRenderer
         UpgradeConfiguration $configuration,
         Twig_Environment $twig,
         Translator $translator
-    )
-    {
+    ) {
         $this->config = $configuration;
         $this->twig = $twig;
         $this->translator = $translator;
@@ -129,9 +128,9 @@ class FormRenderer
         return $this->twig->render(
             '@ModuleAutoUpgrade/form.twig',
             array(
-                'name'    => $name,
+                'name' => $name,
                 'tabName' => $tabname,
-                'fields'  => $formFields,
+                'fields' => $formFields,
             )
         );
     }
@@ -162,7 +161,7 @@ class FormRenderer
     {
         $html = '';
         foreach ($field['choices'] as $cValue => $cKey) {
-            $html .= '<input '.($disabled?'disabled="disabled"':'').' type="radio" name="'.$key.'" id="'.$key.$cValue.'_on" value="'.(int)($cValue).'"'.(($cValue == $val) ? ' checked="checked"' : '').(isset($field['js'][$cValue]) ? ' '.$field['js'][$cValue] : '').' /><label class="t" for="'.$key.$cValue.'_on"> '.$cKey.'</label><br />';
+            $html .= '<input '.($disabled ? 'disabled="disabled"' : '').' type="radio" name="'.$key.'" id="'.$key.$cValue.'_on" value="'.(int) ($cValue).'"'.(($cValue == $val) ? ' checked="checked"' : '').(isset($field['js'][$cValue]) ? ' '.$field['js'][$cValue] : '').' /><label class="t" for="'.$key.$cValue.'_on"> '.$cKey.'</label><br />';
         }
         $html .= '<br />';
 
@@ -177,7 +176,7 @@ class FormRenderer
                             <select name="'.$key.'">';
 
         foreach ($field['choices'] as $cValue => $cKey) {
-            $html .= '<option value="'.(int)$cValue.'"'
+            $html .= '<option value="'.(int) $cValue.'"'
                 .(($cValue == $val) ? ' selected' : '')
                 .'>'
                 .$cKey
@@ -195,7 +194,7 @@ class FormRenderer
     private function renderTextarea($field, $key, $val, $disabled)
     {
         return '<textarea '
-            .($disabled?'disabled="disabled"':'')
+            .($disabled ? 'disabled="disabled"' : '')
             .' name="'.$key
             .'" cols="'.$field['cols']
             .'" rows="'.$field['rows']
@@ -210,7 +209,7 @@ class FormRenderer
             .($disabled ? 'disabled="disabled"' : '')
             .' type="'.$field['type'].'"'
             .(isset($field['id']) ? ' id="'.$field['id'].'"' : '')
-            .' size="'.(isset($field['size']) ? (int)($field['size']) : 5)
+            .' size="'.(isset($field['size']) ? (int) ($field['size']) : 5)
             .'" name="'.$key
             .'" value="'.($field['type'] == 'password' ? '' : htmlentities($val, ENT_COMPAT, 'UTF-8'))
             .'" />'

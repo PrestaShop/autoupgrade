@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -27,7 +28,6 @@
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
 use PrestaShop\Module\AutoUpgrade\Tools14;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\FileFilter;
 
 class FilesystemAdapter
 {
@@ -51,7 +51,7 @@ class FilesystemAdapter
     }
 
     /**
-     * Delete directory and subdirectories
+     * Delete directory and subdirectories.
      *
      * @param string $dirname Directory name
      */
@@ -89,13 +89,13 @@ class FilesystemAdapter
                 $list[] = $fullPath;
             }
         }
+
         return $list;
     }
 
     /**
-     * this function list all files that will be remove to retrieve the filesystem states before the upgrade
+     * this function list all files that will be remove to retrieve the filesystem states before the upgrade.
      *
-     * @access public
      * @return array of files to delete
      */
     public function listFilesToRemove()
@@ -118,20 +118,22 @@ class FilesystemAdapter
         // if a file in "ToRemove" has been skipped during backup,
         // just keep it
         foreach ($toRemove as $key => $file) {
-            $filename = substr($file, strrpos($file, '/')+1);
+            $filename = substr($file, strrpos($file, '/') + 1);
             $toRemove[$key] = preg_replace('#^/admin#', $this->adminSubDir, $file);
             // this is a really sensitive part, so we add an extra checks: preserve everything that contains "autoupgrade"
             if ($this->isFileSkipped($filename, $file, 'backup') || strpos($file, $this->autoupgradeDir)) {
                 unset($toRemove[$key]);
             }
         }
+
         return $toRemove;
     }
 
     /**
-     * Retrieve a list of sample files to be deleted from the release
+     * Retrieve a list of sample files to be deleted from the release.
      * 
      * @param array $directoryList
+     *
      * @return array Files to remove from the release
      */
     public function listSampleFilesFromArray(array $directoryList)
@@ -140,15 +142,17 @@ class FilesystemAdapter
         foreach ($directoryList as $directory) {
             $res = array_merge($res, $this->listSampleFiles($directory['path'], $directory['filter']));
         }
+
         return $res;
     }
 
     /**
      * listSampleFiles will make a recursive call to scandir() function
-     * and list all file which match to the $fileext suffixe (this can be an extension or whole filename)
+     * and list all file which match to the $fileext suffixe (this can be an extension or whole filename).
      *
-     * @param string $dir directory to look in
+     * @param string $dir     directory to look in
      * @param string $fileext suffixe filename
+     *
      * @return array of files
      */
     public function listSampleFiles($dir, $fileext = '.jpg')
@@ -171,15 +175,16 @@ class FilesystemAdapter
                 }
             }
         }
+
         return $res;
     }
-    
+
     /**
-     *	bool _skipFile : check whether a file is in backup or restore skip list
+     *	bool _skipFile : check whether a file is in backup or restore skip list.
      *
-     * @param type $file : current file or directory name eg:'.svn' , 'settings.inc.php'
+     * @param type $file     : current file or directory name eg:'.svn' , 'settings.inc.php'
      * @param type $fullpath : current file or directory fullpath eg:'/home/web/www/prestashop/app/config/parameters.php'
-     * @param type $way : 'backup' , 'upgrade'
+     * @param type $way      : 'backup' , 'upgrade'
      */
     public function isFileSkipped($file, $fullpath, $way = 'backup')
     {

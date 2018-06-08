@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -27,22 +28,22 @@
 namespace PrestaShop\Module\AutoUpgrade\Parameters;
 
 /**
- * File names where upgrade temporary content is stored
+ * File names where upgrade temporary content is stored.
  */
 class UpgradeFileNames
 {
     /**
-     * configFilename contains all configuration specific to the autoupgrade module
+     * configFilename contains all configuration specific to the autoupgrade module.
      *
      * @var string
-     * @access public
      */
     const CONFIG_FILENAME = 'config.var';
 
     /**
      * during upgradeFiles process,
      * this files contains the list of queries left to upgrade in a serialized array.
-     * (this file is deleted in init() method if you reload the page)
+     * (this file is deleted in init() method if you reload the page).
+     *
      * @var string
      */
     const QUERIES_TO_UPGRADE_LIST = 'queriesToUpgrade.list';
@@ -50,7 +51,8 @@ class UpgradeFileNames
     /**
      * during upgradeFiles process,
      * this files contains the list of files left to upgrade in a serialized array.
-     * (this file is deleted in init() method if you reload the page)
+     * (this file is deleted in init() method if you reload the page).
+     *
      * @var string
      */
     const FILES_TO_UPGRADE_LIST = 'filesToUpgrade.list';
@@ -58,7 +60,8 @@ class UpgradeFileNames
     /**
      * during upgradeModules process,
      * this files contains the list of modules left to upgrade in a serialized array.
-     * (this file is deleted in init() method if you reload the page)
+     * (this file is deleted in init() method if you reload the page).
+     *
      * @var string
      */
     const MODULES_TO_UPGRADE_LIST = 'modulesToUpgrade.list';
@@ -66,7 +69,8 @@ class UpgradeFileNames
     /**
      * during upgradeFiles process,
      * this files contains the list of files left to upgrade in a serialized array.
-     * (this file is deleted in init() method if you reload the page)
+     * (this file is deleted in init() method if you reload the page).
+     *
      * @var string
      */
     const FILES_DIFF_LIST = 'filesDiff.list';
@@ -74,7 +78,8 @@ class UpgradeFileNames
     /**
      * during backupFiles process,
      * this files contains the list of files left to save in a serialized array.
-     * (this file is deleted in init() method if you reload the page)
+     * (this file is deleted in init() method if you reload the page).
+     *
      * @var string
      */
     const FILES_TO_BACKUP_LIST = 'filesToBackup.list';
@@ -82,7 +87,8 @@ class UpgradeFileNames
     /**
      * during backupDb process,
      * this files contains the list of tables left to save in a serialized array.
-     * (this file is deleted in init() method if you reload the page)
+     * (this file is deleted in init() method if you reload the page).
+     *
      * @var string
      */
     const DB_TABLES_TO_BACKUP_LIST = 'tablesToBackup.list';
@@ -90,7 +96,8 @@ class UpgradeFileNames
     /**
      * during restoreDb process,
      * this file contains a serialized array of queries which left to execute for restoring database
-     * (this file is deleted in init() method if you reload the page)
+     * (this file is deleted in init() method if you reload the page).
+     *
      * @var string
      */
     const QUERIES_TO_RESTORE_LIST = 'queryToRestore.list';
@@ -99,14 +106,15 @@ class UpgradeFileNames
     /**
      * during restoreFiles process,
      * this file contains difference between queryToRestore and queries present in a backupFiles archive
-     * (this file is deleted in init() method if you reload the page)
+     * (this file is deleted in init() method if you reload the page).
+     *
      * @var string
      */
     const FILES_TO_REMOVE_LIST = 'filesToRemove.list';
 
     /**
      * during restoreFiles process,
-     * contains list of files present in backupFiles archive
+     * contains list of files present in backupFiles archive.
      *
      * @var string
      */
@@ -114,7 +122,7 @@ class UpgradeFileNames
 
     /**
      * mailCustomList contains list of mails files which are customized,
-     * relative to original files for the current PrestaShop version
+     * relative to original files for the current PrestaShop version.
      *
      * @var string
      */
@@ -122,7 +130,7 @@ class UpgradeFileNames
 
     /**
      * tradCustomList contains list of translation files which are customized,
-     * relative to original files for the current PrestaShop version
+     * relative to original files for the current PrestaShop version.
      *
      * @var string
      */
@@ -130,7 +138,7 @@ class UpgradeFileNames
 
     /**
      * tmp_files contains an array of filename which will be removed
-     * at the beginning of the upgrade process
+     * at the beginning of the upgrade process.
      *
      * @var array
      */
@@ -147,5 +155,4 @@ class UpgradeFileNames
         'MAILS_CUSTOM_LIST',
         'TRANSLATION_FILES_CUSTOM_LIST',
     );
-
 }

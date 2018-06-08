@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -38,7 +39,7 @@ class CoreUpgrader16 extends CoreUpgrader
             define('_PS_CACHE_ENABLED_', '0');
         }
         $caches = array('CacheMemcache', 'CacheApc', 'CacheFs', 'CacheMemcached',
-            'CacheXcache');
+            'CacheXcache', );
 
         $datas = array(
             '_DB_SERVER_' => _DB_SERVER_,
@@ -47,18 +48,17 @@ class CoreUpgrader16 extends CoreUpgrader
             '_DB_PASSWD_' => _DB_PASSWD_,
             '_DB_PREFIX_' => _DB_PREFIX_,
             '_MYSQL_ENGINE_' => _MYSQL_ENGINE_,
-            '_PS_CACHING_SYSTEM_' =>
-                ((defined('_PS_CACHING_SYSTEM_') && in_array(_PS_CACHING_SYSTEM_,$caches))?_PS_CACHING_SYSTEM_:'CacheMemcache'),
+            '_PS_CACHING_SYSTEM_' => ((defined('_PS_CACHING_SYSTEM_') && in_array(_PS_CACHING_SYSTEM_, $caches)) ? _PS_CACHING_SYSTEM_ : 'CacheMemcache'),
             '_PS_CACHE_ENABLED_' => _PS_CACHE_ENABLED_,
             '_COOKIE_KEY_' => _COOKIE_KEY_,
             '_COOKIE_IV_' => _COOKIE_IV_,
-            '_PS_CREATION_DATE_' => defined("_PS_CREATION_DATE_")?_PS_CREATION_DATE_:date('Y-m-d'),
+            '_PS_CREATION_DATE_' => defined('_PS_CREATION_DATE_') ? _PS_CREATION_DATE_ : date('Y-m-d'),
             '_PS_VERSION_' => INSTALL_VERSION,
             '_PS_DIRECTORY_' => __PS_BASE_URI__,
         );
 
         if (defined('_RIJNDAEL_KEY_')) {
-                $datas['_RIJNDAEL_KEY_'] = _RIJNDAEL_KEY_;
+            $datas['_RIJNDAEL_KEY_'] = _RIJNDAEL_KEY_;
         }
         if (defined('_RIJNDAEL_IV_')) {
             $datas['_RIJNDAEL_IV_'] = _RIJNDAEL_IV_;
@@ -72,44 +72,43 @@ class CoreUpgrader16 extends CoreUpgrader
     protected function initConstants()
     {
         parent::initConstants();
-        define('SETTINGS_FILE', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) .'/config/settings.inc.php');
+        define('SETTINGS_FILE', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH).'/config/settings.inc.php');
     }
 
     protected function getPreUpgradeVersion()
     {
-        if (! file_exists(SETTINGS_FILE)) {
+        if (!file_exists(SETTINGS_FILE)) {
             throw new UpgradeException($this->container->getTranslator()->trans('The config/settings.inc.php file was not found.', array(), 'Modules.Autoupgrade.Admin'));
         }
-        include_once(SETTINGS_FILE);
+        include_once SETTINGS_FILE;
+
         return _PS_VERSION_;
     }
 
     protected function disableCustomModules()
     {
-        require_once(_PS_INSTALLER_PHP_UPGRADE_DIR_.'deactivate_custom_modules.php');
+        require_once _PS_INSTALLER_PHP_UPGRADE_DIR_.'deactivate_custom_modules.php';
         deactivate_custom_modules();
     }
 
     protected function upgradeLanguage($lang)
     {
-        require_once(_PS_TOOL_DIR_.'tar/Archive_Tar.php');
+        require_once _PS_TOOL_DIR_.'tar/Archive_Tar.php';
         $lang_pack = Tools14::jsonDecode(Tools14::file_get_contents('http'.(extension_loaded('openssl')
-                        ?'s':'').'://www.prestashop.com/download/lang_packs/get_language_pack.php?version='.$this->container->getState()->getInstallVersion().'&iso_lang='.$lang['iso_code']));
+                        ? 's' : '').'://www.prestashop.com/download/lang_packs/get_language_pack.php?version='.$this->container->getState()->getInstallVersion().'&iso_lang='.$lang['iso_code']));
 
         if (!$lang_pack) {
             return;
         }
 
         if ($content = Tools14::file_get_contents('http'.(extension_loaded('openssl')
-                    ?'s':'').'://translations.prestashop.com/download/lang_packs/gzip/'.$lang_pack->version.'/'.$lang['iso_code'].'.gzip'))
-        {
+                    ? 's' : '').'://translations.prestashop.com/download/lang_packs/gzip/'.$lang_pack->version.'/'.$lang['iso_code'].'.gzip')) {
             $file = _PS_TRANSLATIONS_DIR_.$lang['iso_code'].'.gzip';
-            if ((bool)file_put_contents($file, $content))
-            {
-                $gz         = new \Archive_Tar($file, true);
+            if ((bool) file_put_contents($file, $content)) {
+                $gz = new \Archive_Tar($file, true);
                 $files_list = $gz->listContent();
                 if (!$this->container->getUpgradeConfiguration()->shouldKeepMails()) {
-                    $files_listing   = array();
+                    $files_listing = array();
                     foreach ($files_list as $i => $file) {
                         if (preg_match('/^mails\/'.$lang['iso_code'].'\/.*/', $file['filename'])) {
                             unset($files_list[$i]);
@@ -132,6 +131,6 @@ class CoreUpgrader16 extends CoreUpgrader
 
     protected function loadEntityInterface()
     {
-        require_once(_PS_ROOT_DIR_.'/Core/Foundation/Database/Core_Foundation_Database_EntityInterface.php');
+        require_once _PS_ROOT_DIR_.'/Core/Foundation/Database/Core_Foundation_Database_EntityInterface.php';
     }
 }

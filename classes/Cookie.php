@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -47,7 +48,7 @@ class Cookie
 
     /**
      * @param string $adminDir Admin subfolder
-     * @param string $tmpDir Storage folder
+     * @param string $tmpDir   Storage folder
      */
     public function __construct($adminDir, $tmpDir)
     {
@@ -57,10 +58,10 @@ class Cookie
 
     /**
      * Create the cookie to be verified during the upgrade process,
-     * because we can't use the classic authentication
+     * because we can't use the classic authentication.
      *
-     * @param int $idEmployee
-     * @param string $iso_code i.e 'en'
+     * @param int    $idEmployee
+     * @param string $iso_code   i.e 'en'
      */
     public function create($idEmployee, $iso_code)
     {
@@ -73,10 +74,11 @@ class Cookie
     }
 
     /**
-     * From the cookie, check the current employee started the upgrade process
+     * From the cookie, check the current employee started the upgrade process.
      *
      * @param array $cookie
-     * @return boolean True if allowed
+     *
+     * @return bool True if allowed
      */
     public function check(array $cookie)
     {
@@ -89,6 +91,7 @@ class Cookie
 
     /**
      * @param string $string
+     *
      * @return string MD5 hashed string
      */
     private function encrypt($string)
@@ -97,9 +100,10 @@ class Cookie
     }
 
     /**
-     * Generate PHP string to be stored in file
+     * Generate PHP string to be stored in file.
      *
      * @param string $key
+     *
      * @return string PHP file content
      *
      * @internal
@@ -112,7 +116,7 @@ $key = "'.$key.'";
     }
 
     /**
-     * If not loaded, reads the generated file to get the key
+     * If not loaded, reads the generated file to get the key.
      * 
      * @return string
      *
@@ -125,8 +129,9 @@ $key = "'.$key.'";
         }
 
         // Variable $key is defined in file
-        require($this->keyFilePath);
+        require $this->keyFilePath;
         $this->key = $key;
+
         return $this->key;
     }
 
@@ -135,11 +140,12 @@ $key = "'.$key.'";
      * We store it in a dedicated file.
      * 
      * @param string $key
-     * @return boolean True on success
+     *
+     * @return bool True on success
      *
      * @internal
      */
-    public  function storeKey($key)
+    public function storeKey($key)
     {
         return (bool) file_put_contents($this->keyFilePath, $this->generateKeyFileContent($key));
     }

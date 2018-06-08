@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -46,7 +47,7 @@ class PrestashopConfiguration
     }
 
     /**
-     * @return boolean True if all checks are true
+     * @return bool True if all checks are true
      */
     public function isCompliant()
     {
@@ -66,9 +67,10 @@ class PrestashopConfiguration
                     'admin_au_writable' => ConfigurationTest::test_dir($this->autoupgradeDir, false),
                     'shop_deactivated' => (!Configuration::get('PS_SHOP_ENABLE') || (isset($_SERVER['HTTP_HOST']) && in_array($_SERVER['HTTP_HOST'], array('127.0.0.1', 'localhost')))),
                     'cache_deactivated' => !(defined('_PS_CACHE_ENABLED_') && _PS_CACHE_ENABLED_),
-                    'module_version_ok' => $this->checkAutoupgradeLastVersion($this->getUpgrader()->autoupgrade_last_version)
+                    'module_version_ok' => $this->checkAutoupgradeLastVersion($this->getUpgrader()->autoupgrade_last_version),
             ));
         }
+
         return $this->allowed_array;
     }
 
@@ -88,8 +90,9 @@ class PrestashopConfiguration
         if (file_exists($path)
             && $xml_module_version = simplexml_load_file($path)
         ) {
-            $this->moduleVersion = (string)$xml_module_version->version;
+            $this->moduleVersion = (string) $xml_module_version->version;
         }
+
         return $this->moduleVersion;
     }
 
@@ -113,9 +116,9 @@ class PrestashopConfiguration
     }
 
     /**
-     * Compares the installed module version with the one available on download
+     * Compares the installed module version with the one available on download.
      * 
-     * @return boolean True is the latest version of the module is currently installed
+     * @return bool True is the latest version of the module is currently installed
      */
     public function checkAutoupgradeLastVersion($extAutoupgradeLastVersion)
     {
@@ -123,6 +126,7 @@ class PrestashopConfiguration
         if ($moduleVersion) {
             return version_compare($moduleVersion, $extAutoupgradeLastVersion, '>=');
         }
+
         return true;
     }
 
@@ -133,16 +137,16 @@ class PrestashopConfiguration
     {
         $result = array();
         // Root directory permissions cannot be checked recursively anymore, it takes too much time
-        $result['root_writable'] =  ConfigurationTest::test_dir('/', false, $report);
+        $result['root_writable'] = ConfigurationTest::test_dir('/', false, $report);
         $result['root_writable_report'] = $report ? $report : true; // Avoid null in the array as it makes the shop non-compliant
 
         return $result;
     }
 
     /**
-     * 
      * @param type $content
-     * @return boolean|string
+     *
+     * @return bool|string
      *
      * @internal Used for test
      */
@@ -152,6 +156,7 @@ class PrestashopConfiguration
         if (1 === preg_match("/define\([\"']_PS_VERSION_[\"'], [\"'](?<version>[0-9.]+)[\"']\)/", $content, $matches)) {
             return $matches['version'];
         }
+
         return false;
     }
 }

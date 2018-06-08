@@ -1,6 +1,7 @@
 <?php
+
 /**
- * 2007-2017 PrestaShop
+ * 2007-2017 PrestaShop.
  *
  * NOTICE OF LICENSE
  *
@@ -28,7 +29,6 @@ namespace PrestaShop\Module\AutoUpgrade;
 
 use Configuration;
 use ConfigurationTest;
-use PrestaShop\Module\AutoUpgrade\Upgrader;
 
 class UpgradeSelfCheck
 {
@@ -96,9 +96,9 @@ class UpgradeSelfCheck
      * UpgradeSelfCheck constructor.
      *
      * @param Upgrader $upgrader
-     * @param string $prodRootPath
-     * @param string $adminPath
-     * @param string $autoUpgradePath
+     * @param string   $prodRootPath
+     * @param string   $adminPath
+     * @param string   $autoUpgradePath
      */
     public function __construct(Upgrader $upgrader, $prodRootPath, $adminPath, $autoUpgradePath)
     {
@@ -210,7 +210,8 @@ class UpgradeSelfCheck
     }
 
     /**
-     * Indicates if the self check status allows going ahead with the upgrade
+     * Indicates if the self check status allows going ahead with the upgrade.
+     *
      * @return bool
      */
     public function isOkForUpgrade()

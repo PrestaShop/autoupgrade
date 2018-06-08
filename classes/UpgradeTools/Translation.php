@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -42,12 +43,12 @@ class Translation
         $this->translator = $translator;
         $this->installedLanguagesIso = $installedLanguagesIso;
     }
-    
+
     /**
-     * getTranslationFileType
+     * getTranslationFileType.
      *
      * @param string $file filepath to check
-     * @access public
+     *
      * @return string type of translation item
      */
     public function getTranslationFileType($file)
@@ -82,12 +83,13 @@ class Translation
     }
 
     /**
-     * merge the translations of $orig into $dest, according to the $type of translation file
+     * merge the translations of $orig into $dest, according to the $type of translation file.
      *
      * @param string $orig file from upgrade package
      * @param string $dest filepath of destination
      * @param string $type type of translation file (module, back office, front office, field, pdf, error)
-     * @return boolean
+     *
+     * @return bool
      */
     public function mergeTranslationFile($orig, $dest, $type)
     {
@@ -119,9 +121,10 @@ class Translation
 
         if (!file_exists($orig)) {
             $this->logger->notice($this->translator->trans('[NOTICE] File %s does not exist, merge skipped.', array($orig), 'Modules.Autoupgrade.Admin'));
+
             return true;
         }
-        include($orig);
+        include $orig;
         if (!isset($$var_name)) {
             $this->logger->warning($this->translator->trans(
                 '[WARNING] %variablename% variable missing in file %filename%. Merge skipped.',
@@ -131,15 +134,17 @@ class Translation
                 ),
                 'Modules.Autoupgrade.Admin'
             ));
+
             return true;
         }
         $var_orig = $$var_name;
 
         if (!file_exists($dest)) {
             $this->logger->notice($this->translator->trans('[NOTICE] File %s does not exist, merge skipped.', array($dest), 'Modules.Autoupgrade.Admin'));
+
             return false;
         }
-        include($dest);
+        include $dest;
         if (!isset($$var_name)) {
             // in that particular case : file exists, but variable missing, we need to delete that file
             // (if not, this invalid file will be copied in /translations during upgradeDb process)
@@ -154,6 +159,7 @@ class Translation
                 ),
                 'Modules.Autoupgrade.Admin'
             ));
+
             return false;
         }
         $var_dest = $$var_name;
@@ -183,21 +189,24 @@ class Translation
 
     /**
      * Escapes illegal characters in a string.
-     * Extracted from DB class, in order to avoid dependancies
+     * Extracted from DB class, in order to avoid dependancies.
      *
      * @see DbCore::_escape()
+     *
      * @param string $str
-     * @param boolean $html_ok Does data contain HTML code ? (optional)
+     * @param bool   $html_ok Does data contain HTML code ? (optional)
+     *
      * @return string
      */
     private function escape($str, $html_ok = false)
     {
-        $search = array("\\", "\0", "\n", "\r", "\x1a", "'", '"');
-        $replace = array("\\\\", "\\0", "\\n", "\\r", "\Z", "\'", '\"');
+        $search = array('\\', "\0", "\n", "\r", "\x1a", "'", '"');
+        $replace = array('\\\\', '\\0', '\\n', '\\r', "\Z", "\'", '\"');
         $str = str_replace($search, $replace, $str);
         if (!$html_ok) {
             return strip_tags(Tools14::nl2br($str));
         }
+
         return $str;
     }
 }

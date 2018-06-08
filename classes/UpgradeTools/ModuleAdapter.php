@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -57,9 +58,10 @@ class ModuleAdapter
     }
 
     /**
-     * Available only from 1.7. Can't be called on PS 1.6
+     * Available only from 1.7. Can't be called on PS 1.6.
      * 
      * @global AppKernel $kernel
+     *
      * @return PrestaShop\PrestaShop\Adapter\Module\ModuleDataUpdater
      */
     public function getModuleDataUpdater()
@@ -68,7 +70,7 @@ class ModuleAdapter
             global $kernel;
             if (!$kernel instanceof \AppKernel) {
                 require_once _PS_ROOT_DIR_.'/app/AppKernel.php';
-                $kernel = new \AppKernel(_PS_MODE_DEV_?'dev':'prod', _PS_MODE_DEV_);
+                $kernel = new \AppKernel(_PS_MODE_DEV_ ? 'dev' : 'prod', _PS_MODE_DEV_);
                 $kernel->boot();
             }
             $this->moduleDataUpdater = $kernel->getContainer()->get('prestashop.core.module.updater');
@@ -78,8 +80,8 @@ class ModuleAdapter
     }
 
     /**
-    * Upgrade action, disabling all modules not made by PrestaShop
-    */
+     * Upgrade action, disabling all modules not made by PrestaShop.
+     */
     public function disableNonNativeModules()
     {
         version_compare($this->upgradeVersion, '1.7.0.0', '>=') ?
@@ -88,18 +90,18 @@ class ModuleAdapter
     }
 
     /**
-     * Upgrade action, disabling all modules not made by PrestaShop
+     * Upgrade action, disabling all modules not made by PrestaShop.
      *
      * Backward compatibility function
      */
     protected function disableNonNativeModules16()
     {
-        require_once(_PS_INSTALLER_PHP_UPGRADE_DIR_.'deactivate_custom_modules.php');
+        require_once _PS_INSTALLER_PHP_UPGRADE_DIR_.'deactivate_custom_modules.php';
         deactivate_custom_modules();
     }
 
     /**
-     * Upgrade action, disabling all modules not made by PrestaShop
+     * Upgrade action, disabling all modules not made by PrestaShop.
      *
      * Available only from 1.7. Can't be called on PS 1.6
      * `use` statements for namespaces are not used, as they can throw errors where the class does not exist
@@ -110,7 +112,7 @@ class ModuleAdapter
         $moduleRepository = $moduleManagerBuilder->buildRepository();
         $moduleRepository->clearCache();
 
-        $filters = new \PrestaShop\PrestaShop\Core\Addon\AddonListFilter;
+        $filters = new \PrestaShop\PrestaShop\Core\Addon\AddonListFilter();
         $filters->setType(\PrestaShop\PrestaShop\Core\Addon\AddonListFilterType::MODULE)
             ->removeStatus(\PrestaShop\PrestaShop\Core\Addon\AddonListFilterStatus::UNINSTALLED);
 
@@ -135,15 +137,16 @@ class ModuleAdapter
         }
 
         if (!empty($modules)) {
-            $this->db->execute('UPDATE `' . _DB_PREFIX_ . 'module` SET `active` = 0 WHERE `id_module` IN (' . implode(',', $modules) . ')');
-            $this->db->execute('DELETE FROM `' . _DB_PREFIX_ . 'module_shop` WHERE `id_module` IN (' . implode(',', $modules) . ')');
+            $this->db->execute('UPDATE `'._DB_PREFIX_.'module` SET `active` = 0 WHERE `id_module` IN ('.implode(',', $modules).')');
+            $this->db->execute('DELETE FROM `'._DB_PREFIX_.'module_shop` WHERE `id_module` IN ('.implode(',', $modules).')');
         }
     }
 
     /**
-     * list modules to upgrade and save them in a serialized array in $this->toUpgradeModuleList
+     * list modules to upgrade and save them in a serialized array in $this->toUpgradeModuleList.
      *
      * @param array Modules available on the marketplace for download
+     *
      * @return Array Module available on the local filesystem and on the marketplace
      */
     public function listModulesToUpgrade(array $modulesFromAddons)
@@ -161,8 +164,8 @@ class ModuleAdapter
         foreach (scandir($dir) as $module_name) {
             if (is_file($dir.DIRECTORY_SEPARATOR.$module_name)) {
                 continue;
-            } 
-            
+            }
+
             if (!is_file($dir.$module_name.DIRECTORY_SEPARATOR.$module_name.'.php')) {
                 continue;
             }
@@ -171,14 +174,14 @@ class ModuleAdapter
                 $list[] = array('id' => $id_addons, 'name' => $module_name);
             }
         }
-        
+
         return $list;
     }
 
     /**
-     * Upgrade module $name (identified by $id_module on addons server)
+     * Upgrade module $name (identified by $id_module on addons server).
      * 
-     * @param int $id
+     * @param int    $id
      * @param string $name
      */
     public function upgradeModule($id, $name)
@@ -193,16 +196,16 @@ class ModuleAdapter
             unset($protocolsList['http://']);
         }
 
-        $postData = 'version='.$this->upgradeVersion.'&method=module&id_module='.(int)$id;
+        $postData = 'version='.$this->upgradeVersion.'&method=module&id_module='.(int) $id;
 
         // Make the request
         $opts = array(
-            'http'=>array(
-                'method'=> 'POST',
+            'http' => array(
+                'method' => 'POST',
                 'content' => $postData,
-                'header'  => 'Content-type: application/x-www-form-urlencoded',
+                'header' => 'Content-type: application/x-www-form-urlencoded',
                 'timeout' => 10,
-            )
+            ),
         );
         $context = stream_context_create($opts);
         foreach ($protocolsList as $protocol => $port) {
@@ -213,11 +216,11 @@ class ModuleAdapter
             }
 
             if ($content === null) {
-                $msg =  '<strong>'.$this->translator->trans('[ERROR] No response from Addons server.', array(), 'Modules.Autoupgrade.Admin').'</strong>';
+                $msg = '<strong>'.$this->translator->trans('[ERROR] No response from Addons server.', array(), 'Modules.Autoupgrade.Admin').'</strong>';
                 throw new UpgradeException($msg);
             }
 
-            if (false === (bool)file_put_contents($zip_fullpath, $content)) {
+            if (false === (bool) file_put_contents($zip_fullpath, $content)) {
                 $msg = '<strong>'.$this->translator->trans('[ERROR] Unable to write module %s\'s zip file in temporary directory.', array($name), 'Modules.Autoupgrade.Admin').'</strong>';
                 throw new UpgradeException($msg);
             }
@@ -241,6 +244,7 @@ class ModuleAdapter
                     ->setSeverity(UpgradeException::SEVERITY_WARNING)
                     ->setQuickInfos(\Module::getInstanceByName($name)->getErrors());
             }
+
             return;
         }
     }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -39,7 +40,7 @@ class Database
 
     public function getAllTables()
     {
-        $tables = $this->db->executeS('SHOW TABLES LIKE "' . _DB_PREFIX_ . '%"', true, false);
+        $tables = $this->db->executeS('SHOW TABLES LIKE "'._DB_PREFIX_.'%"', true, false);
 
         $all_tables = array();
         foreach ($tables as $v) {
@@ -51,7 +52,7 @@ class Database
     }
 
     /**
-     * ToDo: Send tables list instead
+     * ToDo: Send tables list instead.
      */
     public function cleanTablesAfterBackup(array $tablesToClean)
     {

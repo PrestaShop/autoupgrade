@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -29,7 +30,7 @@ namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 
 /**
- * Clean the database from unwanted entries
+ * Clean the database from unwanted entries.
  */
 class CleanDatabase extends AbstractTask
 {
@@ -38,8 +39,8 @@ class CleanDatabase extends AbstractTask
         /* Clean tabs order */
         foreach ($this->container->getDb()->ExecuteS('SELECT DISTINCT id_parent FROM '._DB_PREFIX_.'tab') as $parent) {
             $i = 1;
-            foreach ($this->container->getDb()->ExecuteS('SELECT id_tab FROM '._DB_PREFIX_.'tab WHERE id_parent = '.(int)$parent['id_parent'].' ORDER BY IF(class_name IN ("AdminHome", "AdminDashboard"), 1, 2), position ASC') as $child) {
-                $this->container->getDb()->Execute('UPDATE '._DB_PREFIX_.'tab SET position = '.(int)($i++).' WHERE id_tab = '.(int)$child['id_tab'].' AND id_parent = '.(int)$parent['id_parent']);
+            foreach ($this->container->getDb()->ExecuteS('SELECT id_tab FROM '._DB_PREFIX_.'tab WHERE id_parent = '.(int) $parent['id_parent'].' ORDER BY IF(class_name IN ("AdminHome", "AdminDashboard"), 1, 2), position ASC') as $child) {
+                $this->container->getDb()->Execute('UPDATE '._DB_PREFIX_.'tab SET position = '.(int) ($i++).' WHERE id_tab = '.(int) $child['id_tab'].' AND id_parent = '.(int) $parent['id_parent']);
             }
         }
 

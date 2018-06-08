@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -55,7 +56,8 @@ class Translator
 
     /**
      * @param string $id
-     * @param array $parameters
+     * @param array  $parameters
+     *
      * @return string Translated string with parameters applied
      *
      * @internal Public for tests

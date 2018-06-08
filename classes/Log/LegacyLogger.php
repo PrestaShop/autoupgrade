@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -28,7 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade\Log;
 
 /**
  * This class reimplement the old properties of the class AdminSelfUpgrade,
- * where all the mesages were stored
+ * where all the mesages were stored.
  */
 class LegacyLogger extends Logger
 {
@@ -78,7 +79,7 @@ class LegacyLogger extends Logger
     {
         return $this->lastInfo;
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -95,9 +96,10 @@ class LegacyLogger extends Logger
                 $this->normalMessages[] = $this->lastInfo;
             }
             $this->lastInfo = $message;
+
             return;
         }
-        
+
         if ($level < self::ERROR) {
             if (!is_null($this->fd)) {
                 fwrite($this->fd, $message);

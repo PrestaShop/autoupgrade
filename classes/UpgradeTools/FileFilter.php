@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -47,7 +48,8 @@ class FileFilter
     }
 
     /**
-     * AdminSelfUpgrade::backupIgnoreAbsoluteFiles
+     * AdminSelfUpgrade::backupIgnoreAbsoluteFiles.
+     *
      * @return array
      */
     public function getFilesToIgnoreOnBackup()
@@ -70,11 +72,13 @@ class FileFilter
         } else {
             $backupIgnoreAbsoluteFiles[] = '/img/tmp';
         }
+
         return $backupIgnoreAbsoluteFiles;
     }
 
     /**
-     * AdminSelfUpgrade::restoreIgnoreAbsoluteFiles
+     * AdminSelfUpgrade::restoreIgnoreAbsoluteFiles.
+     *
      * @return array
      */
     public function getFilesToIgnoreOnRestore()
@@ -93,11 +97,13 @@ class FileFilter
         } else {
             $restoreIgnoreAbsoluteFiles[] = '/img/tmp';
         }
+
         return $restoreIgnoreAbsoluteFiles;
     }
 
     /**
-     * AdminSelfUpgrade::excludeAbsoluteFilesFromUpgrade
+     * AdminSelfUpgrade::excludeAbsoluteFilesFromUpgrade.
+     *
      * @return array
      */
     public function getFilesToIgnoreOnUpgrade()
@@ -122,7 +128,7 @@ class FileFilter
     /**
      * AdminSelfUpgrade::backupIgnoreFiles
      * AdminSelfUpgrade::excludeFilesFromUpgrade
-     * AdminSelfUpgrade::restoreIgnoreFiles
+     * AdminSelfUpgrade::restoreIgnoreFiles.
      *
      * These files are checked in every subfolder of the directory tree and can match
      * several time, while the others are only matching a file from the project root.

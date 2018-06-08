@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -47,35 +48,36 @@ class ErrorHandler
 
     /**
      * Enable error handlers for critical steps.
-     * Display hidden errors by PHP config to improve debug process
+     * Display hidden errors by PHP config to improve debug process.
      */
     public function enable()
     {
         error_reporting(E_ALL);
         set_error_handler(array($this, 'errorHandler'));
         set_exception_handler(array($this, 'exceptionHandler'));
-        register_shutdown_function(array($this, "fatalHandler"));
+        register_shutdown_function(array($this, 'fatalHandler'));
     }
 
     /**
-     * Function retrieving uncaught exceptions
+     * Function retrieving uncaught exceptions.
      * 
      * @param Throwable $e
      */
     public function exceptionHandler($e)
     {
-        $message = get_class($e) .': '. $e->getMessage();
+        $message = get_class($e).': '.$e->getMessage();
         $this->report($e->getFile(), $e->getLine(), Logger::CRITICAL, $message, $e->getTraceAsString(), true);
     }
 
     /**
-     * Function called by PHP errors, forwarding content to the ajax response
+     * Function called by PHP errors, forwarding content to the ajax response.
      *
-     * @param int $errno
+     * @param int    $errno
      * @param string $errstr
      * @param string $errfile
      * @param string $errline
-     * @return boolean
+     *
+     * @return bool
      */
     public function errorHandler($errno, $errstr, $errfile, $errline)
     {
@@ -102,6 +104,7 @@ class ErrorHandler
         }
 
         $this->report($errfile, $errline, $type, $errstr);
+
         return true;
     }
 
@@ -119,8 +122,10 @@ class ErrorHandler
     }
 
     /**
-     * Create a json encoded
+     * Create a json encoded.
+     *
      * @param string $log
+     *
      * @return string
      */
     public function generateJsonLog($log)
@@ -129,13 +134,13 @@ class ErrorHandler
     }
 
     /**
-     * Forwards message to the main class of the upgrade
+     * Forwards message to the main class of the upgrade.
      * 
      * @param string $file
-     * @param int $line
-     * @param int $type Level of criticity
+     * @param int    $line
+     * @param int    $type    Level of criticity
      * @param string $message
-     * @param bool $display
+     * @param bool   $display
      */
     protected function report($file, $line, $type, $message, $trace = null, $display = false)
     {
@@ -147,7 +152,7 @@ class ErrorHandler
             $log .= PHP_EOL.$trace;
         }
         $jsonResponse = $this->generateJsonLog($log);
-        
+
         try {
             $this->logger->log($type, $log);
             if ($display && $this->logger instanceof LegacyLogger) {
@@ -155,7 +160,7 @@ class ErrorHandler
             }
         } catch (\Exception $e) {
             echo $jsonResponse;
-            
+
             $fd = fopen('php://stderr', 'w');
             fwrite($fd, $log);
             fclose($fd);

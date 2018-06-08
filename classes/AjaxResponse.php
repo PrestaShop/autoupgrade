@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -35,19 +36,22 @@ use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 class AjaxResponse
 {
     /**
-     * Used during upgrade
+     * Used during upgrade.
+     *
      * @var bool Supposed to store a boolean in case of error
      */
     private $error = false;
 
     /**
      * Used during upgrade.
+     *
      * @var bool Inform when the step is completed
      */
     private $stepDone = true;
 
     /**
      * Used during upgrade. "N/A" as value otherwise.
+     *
      * @var string Next step to call (can be the same as the previous one)
      */
     private $next = 'N/A';
@@ -160,30 +164,35 @@ class AjaxResponse
     public function setError($error)
     {
         $this->error = (bool) $error;
+
         return $this;
     }
 
     public function setStepDone($stepDone)
     {
         $this->stepDone = $stepDone;
+
         return $this;
     }
 
     public function setNext($next)
     {
         $this->next = $next;
+
         return $this;
     }
 
     public function setNextParams($nextParams)
     {
         $this->nextParams = $nextParams;
+
         return $this;
     }
 
     public function setUpgradeConfiguration(UpgradeConfiguration $upgradeConfiguration)
     {
         $this->upgradeConfiguration = $upgradeConfiguration;
+
         return $this;
     }
 }

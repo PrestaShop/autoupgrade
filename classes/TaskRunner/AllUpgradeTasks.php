@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -27,7 +28,6 @@
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner;
 
 use PrestaShop\Module\AutoUpgrade\AjaxResponse;
-use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\TaskRepository;
 
@@ -63,7 +63,7 @@ class AllUpgradeTasks extends AbstractTask
      * Customize the execution context with several options
      * > action: Replace the initial step to run
      * > channel: Makes a specific upgrade (minor, major etc.)
-     * > data: Loads an encoded array of data coming from another request
+     * > data: Loads an encoded array of data coming from another request.
      *
      * @param array $options
      */
@@ -86,11 +86,10 @@ class AllUpgradeTasks extends AbstractTask
         }
     }
 
-
     /**
-     * Tell the while loop if it can continue
+     * Tell the while loop if it can continue.
      *
-     * @return boolean
+     * @return bool
      */
     protected function canContinue()
     {
@@ -126,13 +125,13 @@ class AllUpgradeTasks extends AbstractTask
                 unset($args[$key]);
             }
         }
-        $this->logger->info("$ ".implode(' ', $args). ' --action='. $response->getNext(). ' --data='. $this->getEncodedResponse());
+        $this->logger->info('$ '.implode(' ', $args).' --action='.$response->getNext().' --data='.$this->getEncodedResponse());
 
         return true;
     }
 
     /**
-     * Set default config on first run
+     * Set default config on first run.
      */
     public function init()
     {

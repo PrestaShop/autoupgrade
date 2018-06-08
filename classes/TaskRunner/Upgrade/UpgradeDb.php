@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -38,7 +39,7 @@ class UpgradeDb extends AbstractTask
     {
         try {
             $this->getCoreUpgrader()->doUpgrade();
-        } catch (UpgradeException $e ) {
+        } catch (UpgradeException $e) {
             $this->next = 'error';
             $this->error = true;
             foreach ($e->getQuickInfos() as $log) {
@@ -46,10 +47,12 @@ class UpgradeDb extends AbstractTask
             }
             $this->logger->error($this->translator->trans('Error during database upgrade. You may need to restore your database.', array(), 'Modules.Autoupgrade.Admin'));
             $this->logger->error($e->getMessage());
+
             return false;
         }
         $this->next = 'upgradeModules';
         $this->logger->info($this->translator->trans('Database upgraded. Now upgrading your Addons modules...', array(), 'Modules.Autoupgrade.Admin'));
+
         return true;
     }
 
@@ -58,6 +61,7 @@ class UpgradeDb extends AbstractTask
         if (version_compare($this->container->getState()->getInstallVersion(), '1.7.0.0', '<=')) {
             return new CoreUpgrader16($this->container, $this->logger);
         }
+
         return new CoreUpgrader17($this->container, $this->logger);
     }
 

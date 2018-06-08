@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -25,8 +26,6 @@
  */
 
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner;
-
-use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 
 class NullTask extends AbstractTask
 {

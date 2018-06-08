@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -38,9 +39,10 @@ class ThemeAdapter
     }
 
     /**
-     * Enable the given theme on the shop
+     * Enable the given theme on the shop.
      * 
      * @param string $themeName
+     *
      * @return mixed
      */
     public function enableTheme($themeName)
@@ -51,7 +53,7 @@ class ThemeAdapter
     }
 
     /**
-     * Get the default theme name provided with PrestaShop
+     * Get the default theme name provided with PrestaShop.
      *
      * @return string
      */
@@ -63,23 +65,25 @@ class ThemeAdapter
     }
 
     /**
-     * Backward compatibility function for theme enabling
+     * Backward compatibility function for theme enabling.
      *
      * @param string $themeName
      */
     private function enableTheme16($themeName)
     {
-        $this->db->execute('UPDATE `' . _DB_PREFIX_ . 'shop`
-        SET id_theme = (SELECT id_theme FROM `' . _DB_PREFIX_ . 'theme` WHERE name LIKE \''.$themeName.'\')');
-        $this->db->execute('DELETE FROM `' . _DB_PREFIX_ . 'theme` WHERE  name LIKE \'default\' OR name LIKE \'prestashop\'');
+        $this->db->execute('UPDATE `'._DB_PREFIX_.'shop`
+        SET id_theme = (SELECT id_theme FROM `'._DB_PREFIX_.'theme` WHERE name LIKE \''.$themeName.'\')');
+        $this->db->execute('DELETE FROM `'._DB_PREFIX_.'theme` WHERE  name LIKE \'default\' OR name LIKE \'prestashop\'');
+
         return true;
     }
 
     /**
-     * Use 1.7 theme manager is order to enable the new theme
+     * Use 1.7 theme manager is order to enable the new theme.
      * 
      * @param string $themeName
-     * @return boolean|array
+     *
+     * @return bool|array
      */
     private function enableTheme17($themeName)
     {
@@ -88,8 +92,10 @@ class ThemeAdapter
         $isThemeEnabled = $themeManager->enable($themeName);
         if (!$isThemeEnabled) {
             $errors = $themeManager->getErrors($themeName);
+
             return $errors ? $errors : 'Unknown error';
         }
+
         return true;
     }
 

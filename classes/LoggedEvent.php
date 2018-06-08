@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -25,15 +26,15 @@
  */
 
 namespace Composer\Script {
-    class Event {
-        
+    class Event
+    {
     }
 }
 
 namespace PrestaShop\Module\AutoUpgrade {
     use Composer\Script\Event;
     use Psr\Log\LoggerInterface;
-    
+
     class LoggedEvent extends Event
     {
         private $logger;

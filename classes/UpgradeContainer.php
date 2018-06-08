@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -26,10 +27,6 @@
 
 namespace PrestaShop\Module\AutoUpgrade;
 
-use PrestaShop\Module\AutoUpgrade\State;
-use PrestaShop\Module\AutoUpgrade\Upgrader;
-use PrestaShop\Module\AutoUpgrade\PrestashopConfiguration;
-use PrestaShop\Module\AutoUpgrade\ZipAction;
 use PrestaShop\Module\AutoUpgrade\Log\LegacyLogger;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FileFilter;
@@ -43,7 +40,6 @@ use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
-
 use Twig_Loader_Filesystem;
 use Twig_Environment;
 
@@ -143,7 +139,8 @@ class UpgradeContainer
 
     /**
      * AdminSelfUpgrade::$autoupgradePath
-     * Ex.: /var/www/html/PrestaShop/admin-dev/autoupgrade
+     * Ex.: /var/www/html/PrestaShop/admin-dev/autoupgrade.
+     *
      * @var string Path to the base folder of the autoupgrade (in admin)
      */
     private $autoupgradeWorkDir;
@@ -209,6 +206,7 @@ class UpgradeContainer
         $this->cookie = new Cookie(
             $this->getProperty(self::PS_ADMIN_SUBDIR),
             $this->getProperty(self::TMP_PATH));
+
         return $this->cookie;
     }
 
@@ -219,6 +217,7 @@ class UpgradeContainer
 
     /**
      * Return the path to the zipfile containing prestashop.
+     *
      * @return type
      */
     public function getFilePath()
@@ -233,6 +232,7 @@ class UpgradeContainer
         }
 
         $this->fileConfigurationStorage = new FileConfigurationStorage($this->getProperty(self::WORKSPACE_PATH).DIRECTORY_SEPARATOR);
+
         return $this->fileConfigurationStorage;
     }
 
@@ -243,6 +243,7 @@ class UpgradeContainer
         }
 
         $this->fileFilter = new FileFilter($this->getUpgradeConfiguration());
+
         return $this->fileFilter;
     }
 
@@ -282,6 +283,7 @@ class UpgradeContainer
         }
         $this->getState()->setInstallVersion($upgrader->version_num);
         $this->upgrader = $upgrader;
+
         return $this->upgrader;
     }
 
@@ -311,6 +313,7 @@ class UpgradeContainer
 
         $logFile = $this->getProperty(self::TMP_PATH).DIRECTORY_SEPARATOR.'log.txt';
         $this->logger = new LegacyLogger($logFile);
+
         return $this->logger;
     }
 
@@ -343,6 +346,7 @@ class UpgradeContainer
         }
 
         $this->state = new State();
+
         return $this->state;
     }
 
@@ -371,6 +375,7 @@ class UpgradeContainer
         $twig->addExtension(new TransFilterExtension($this->getTranslator()));
 
         $this->twig = $twig;
+
         return $this->twig;
     }
 
@@ -384,6 +389,7 @@ class UpgradeContainer
             $this->getProperty(self::WORKSPACE_PATH),
             $this->getProperty(self::PS_ROOT_PATH)
         );
+
         return $this->prestashopConfiguration;
     }
 
@@ -394,6 +400,7 @@ class UpgradeContainer
         }
 
         $this->symfonyAdapter = new SymfonyAdapter($this->getState()->getInstallVersion());
+
         return $this->symfonyAdapter;
     }
 
@@ -404,6 +411,7 @@ class UpgradeContainer
         }
         $upgradeConfigurationStorage = new UpgradeConfigurationStorage($this->getProperty(self::WORKSPACE_PATH).DIRECTORY_SEPARATOR);
         $this->upgradeConfiguration = $upgradeConfigurationStorage->load(UpgradeFileNames::CONFIG_FILENAME);
+
         return $this->upgradeConfiguration;
     }
 
@@ -422,13 +430,14 @@ class UpgradeContainer
         $properties = array(
             self::WORKSPACE_PATH, self::BACKUP_PATH,
             self::DOWNLOAD_PATH, self::LATEST_PATH,
-            self::TMP_PATH);
+            self::TMP_PATH, );
 
         foreach ($properties as $property) {
             $paths[] = $this->getProperty($property);
         }
 
         $this->workspace = new Workspace($this->getLogger(), $paths);
+
         return $this->workspace;
     }
 
@@ -443,6 +452,7 @@ class UpgradeContainer
             $this->getLogger(),
             $this->getUpgradeConfiguration(),
             $this->getProperty(self::PS_ROOT_PATH));
+
         return $this->zipAction;
     }
 
@@ -453,16 +463,16 @@ class UpgradeContainer
     {
         $autoloader = $this->getProperty(self::PS_ROOT_PATH).'/vendor/autoload.php';
         if (file_exists($autoloader)) {
-            require_once($autoloader);
+            require_once $autoloader;
         }
 
-        require_once($this->getProperty(self::PS_ROOT_PATH).'/config/defines.inc.php');
-        require_once($this->getProperty(self::PS_ROOT_PATH).'/config/autoload.php');
+        require_once $this->getProperty(self::PS_ROOT_PATH).'/config/defines.inc.php';
+        require_once $this->getProperty(self::PS_ROOT_PATH).'/config/autoload.php';
     }
 
     public function initPrestaShopCore()
     {
-        require_once($this->getProperty(self::PS_ROOT_PATH).'/config/config.inc.php');
+        require_once $this->getProperty(self::PS_ROOT_PATH).'/config/config.inc.php';
 
         $id_employee = !empty($_COOKIE['id_employee']) ? $_COOKIE['id_employee'] : 1;
         \Context::getContext()->employee = new \Employee((int) $id_employee);

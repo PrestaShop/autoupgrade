@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -27,12 +28,11 @@
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
-use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 /**
-* very first step of the upgrade process. The only thing done is the selection
-* of the next step
-*/
+ * very first step of the upgrade process. The only thing done is the selection
+ * of the next step.
+ */
 class UpgradeNow extends AbstractTask
 {
     public function run()

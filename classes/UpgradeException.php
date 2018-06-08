@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -37,7 +38,7 @@ class UpgradeException extends \Exception
     private $quickInfos = array();
 
     private $severity = self::SEVERITY_ERROR;
-    
+
     public function getQuickInfos()
     {
         return $this->quickInfos;
@@ -51,18 +52,21 @@ class UpgradeException extends \Exception
     public function addQuickInfo($quickInfo)
     {
         $this->quickInfos[] = $quickInfo;
+
         return $this;
     }
 
     public function setQuickInfos(array $quickInfos)
     {
         $this->quickInfos = $quickInfos;
+
         return $this;
     }
 
     public function setSeverity($severity)
     {
-        $this->severity = (int)$severity;
+        $this->severity = (int) $severity;
+
         return $this;
     }
 }

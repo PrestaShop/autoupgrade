@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -28,12 +29,11 @@ namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous;
 
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
-use PrestaShop\Module\AutoUpgrade\Upgrader;
 
 /**
-* get the list of all modified and deleted files between current version
-* and target version (according to channel configuration)
-*/
+ * get the list of all modified and deleted files between current version
+ * and target version (according to channel configuration).
+ */
 class CompareReleases extends AbstractTask
 {
     public function run()

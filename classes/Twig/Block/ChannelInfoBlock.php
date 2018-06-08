@@ -1,6 +1,7 @@
 <?php
+
 /**
- * 2007-2017 PrestaShop
+ * 2007-2017 PrestaShop.
  *
  * NOTICE OF LICENSE
  *
@@ -32,7 +33,6 @@ use Twig_Environment;
 
 class ChannelInfoBlock
 {
-
     /**
      * @var UpgradeConfiguration
      */
@@ -52,8 +52,8 @@ class ChannelInfoBlock
      * ChannelInfoBlock constructor.
      *
      * @param UpgradeConfiguration $config
-     * @param ChannelInfo $channelInfo
-     * @param Twig_Environment $twig
+     * @param ChannelInfo          $channelInfo
+     * @param Twig_Environment     $twig
      */
     public function __construct(UpgradeConfiguration $config, ChannelInfo $channelInfo, Twig_Environment $twig)
     {

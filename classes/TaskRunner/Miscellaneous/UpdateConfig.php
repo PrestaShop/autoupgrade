@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -32,7 +33,7 @@ use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 
 /**
- * update configuration after validating the new values
+ * update configuration after validating the new values.
  */
 class UpdateConfig extends AbstractTask
 {
@@ -60,11 +61,13 @@ class UpdateConfig extends AbstractTask
             if (!file_exists($this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH).DIRECTORY_SEPARATOR.$file)) {
                 $this->error = true;
                 $this->logger->info($this->translator->trans('File %s does not exist. Unable to select that channel.', array($file), 'Modules.Autoupgrade.Admin'));
+
                 return false;
             }
             if (empty($request['archive_num'])) {
                 $this->error = true;
                 $this->logger->info($this->translator->trans('Version number is missing. Unable to select that channel.', array(), 'Modules.Autoupgrade.Admin'));
+
                 return false;
             }
             $config['channel'] = 'archive';
@@ -78,6 +81,7 @@ class UpdateConfig extends AbstractTask
             if (empty($request['directory_num']) || strpos($request['directory_num'], '.') === false) {
                 $this->error = true;
                 $this->logger->info($this->translator->trans('Version number is missing. Unable to select that channel.', array(), 'Modules.Autoupgrade.Admin'));
+
                 return false;
             }
 
@@ -99,10 +103,11 @@ class UpdateConfig extends AbstractTask
     }
 
     /**
-     * update module configuration (saved in file UpgradeFiles::configFilename) with $new_config
+     * update module configuration (saved in file UpgradeFiles::configFilename) with $new_config.
      *
      * @param array $new_config
-     * @return boolean true if success
+     *
+     * @return bool true if success
      */
     private function writeConfig($config)
     {
@@ -115,6 +120,7 @@ class UpdateConfig extends AbstractTask
 
         $this->container->getUpgradeConfiguration()->merge($config);
         $this->logger->info($this->translator->trans('Configuration successfully updated.', array(), 'Modules.Autoupgrade.Admin').' <strong>'.$this->translator->trans('This page will now be reloaded and the module will check if a new version is available.', array(), 'Modules.Autoupgrade.Admin').'</strong>');
+
         return (new UpgradeConfigurationStorage($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH).DIRECTORY_SEPARATOR))->save($this->container->getUpgradeConfiguration(), UpgradeFileNames::CONFIG_FILENAME);
     }
 }

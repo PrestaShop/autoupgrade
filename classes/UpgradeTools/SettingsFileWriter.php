@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -49,7 +50,7 @@ class SettingsFileWriter
 
     /**
      * @param string $filePath
-     * @param array $data
+     * @param array  $data
      * 
      * @throws UpgradeException
      */
@@ -64,7 +65,7 @@ class SettingsFileWriter
         $filesystem->copy($filePath, $filePath.'.bck');
 
         $fd = fopen($filePath, 'w');
-        foreach($data as $name => $value) {
+        foreach ($data as $name => $value) {
             if (false === fwrite($fd, 'define(\''.$name.'\', \''.$this->checkString($value).'\');'."\n")) {
                 throw new UpgradeException($this->translator->trans('Error when generating new settings.inc.php file.'));
             }
@@ -82,6 +83,7 @@ class SettingsFileWriter
             $string = addslashes($string);
             $string = str_replace(array("\n", "\r"), '', $string);
         }
+
         return $string;
     }
 }

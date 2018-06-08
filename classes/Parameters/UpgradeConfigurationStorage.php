@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -34,6 +35,7 @@ class UpgradeConfigurationStorage extends FileConfigurationStorage
      * UpgradeConfiguration loader.
      *
      * @param string $configFileName
+     *
      * @return \PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration
      */
     public function load($configFileName = '')
@@ -51,20 +53,22 @@ class UpgradeConfigurationStorage extends FileConfigurationStorage
                 'channel' => Upgrader::DEFAULT_CHANNEL,
             );
         }
+
         return new UpgradeConfiguration($data);
     }
 
     /**
-     *
      * @param \PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration $config
-     * @param string $configFileName Destination path of the config file
-     * @return boolean
+     * @param string                                                         $configFileName Destination path of the config file
+     *
+     * @return bool
      */
     public function save($config, $configFileName)
     {
         if (!$config instanceof UpgradeConfiguration) {
             throw new \InvalidArgumentException('Config is not a instance of UpgradeConfiguration');
         }
+
         return parent::save($config->toArray(), $configFileName);
     }
 }

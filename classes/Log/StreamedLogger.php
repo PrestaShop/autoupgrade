@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -49,8 +50,8 @@ class StreamedLogger extends Logger
 
     public function __construct()
     {
-        $this->out = fopen('php://stdout','w');
-        $this->err = fopen('php://stderr','w');
+        $this->out = fopen('php://stdout', 'w');
+        $this->err = fopen('php://stderr', 'w');
     }
 
     public function __destruct()
@@ -60,9 +61,10 @@ class StreamedLogger extends Logger
     }
 
     /**
-     * Check the verbosity allows the message to be displayed
+     * Check the verbosity allows the message to be displayed.
      * 
      * @param int $level
+     *
      * @return bool
      */
     public function isFiltered($level)
@@ -71,7 +73,7 @@ class StreamedLogger extends Logger
     }
 
     /**
-     * {@inherit}
+     * {@inherit}.
      */
     public function log($level, $message, array $context = array())
     {
@@ -79,13 +81,13 @@ class StreamedLogger extends Logger
             return;
         }
 
-        $log = self::$levels[$level] .' - '. $message.PHP_EOL;
+        $log = self::$levels[$level].' - '.$message.PHP_EOL;
 
         if ($level > self::ERROR) {
             fwrite($this->err, $log);
         }
 
-        if (! $this->isFiltered($level)) {
+        if (!$this->isFiltered($level)) {
             fwrite($this->out, $log);
         }
     }
@@ -96,17 +98,19 @@ class StreamedLogger extends Logger
     }
 
     /**
-     * Set the verbosity of the logger
+     * Set the verbosity of the logger.
      * 
      * @param int $filter
+     *
      * @return $this
      */
     public function setFilter($filter)
     {
         if (!array_key_exists($filter, self::$levels)) {
-            throw new \Exception('Unknown level '. $filter);
+            throw new \Exception('Unknown level '.$filter);
         }
         $this->filter = $filter;
+
         return $this;
     }
 }

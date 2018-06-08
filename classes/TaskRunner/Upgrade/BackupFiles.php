@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -38,16 +39,18 @@ class BackupFiles extends AbstractTask
             $this->stepDone = true;
             $this->next = 'backupDb';
             $this->logger->info('File backup skipped.');
+
             return true;
         }
 
         $this->stepDone = false;
-        $backupFilesFilename = $this->container->getState()-> getBackupFilesFilename();
+        $backupFilesFilename = $this->container->getState()->getBackupFilesFilename();
         if (empty($backupFilesFilename)) {
             $this->next = 'error';
             $this->error = true;
             $this->logger->info($this->translator->trans('Error during backupFiles', array(), 'Modules.Autoupgrade.Admin'));
             $this->logger->error($this->translator->trans('[ERROR] backupFiles filename has not been set', array(), 'Modules.Autoupgrade.Admin'));
+
             return false;
         }
 
@@ -77,6 +80,7 @@ class BackupFiles extends AbstractTask
             if (!$res) {
                 $this->next = 'error';
                 $this->logger->info($this->translator->trans('Unable to open archive', array(), 'Modules.Autoupgrade.Admin'));
+
                 return false;
             }
             $this->container->getFileConfigurationStorage()->save($filesToBackup, UpgradeFileNames::FILES_TO_BACKUP_LIST);

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -31,19 +32,20 @@ use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 /**
- * First step executed during a rollback
+ * First step executed during a rollback.
  */
 class Rollback extends AbstractTask
 {
     public function run()
     {
         // 1st, need to analyse what was wrong.
-        $restoreName = $this->container->getState()-> getRestoreName();
-        $this->container->getState()-> setRestoreFilesFilename($restoreName);
-        $restoreDbFilenames = $this->container->getState()-> getRestoreDbFilenames();
+        $restoreName = $this->container->getState()->getRestoreName();
+        $this->container->getState()->setRestoreFilesFilename($restoreName);
+        $restoreDbFilenames = $this->container->getState()->getRestoreDbFilenames();
 
         if (empty($restoreName)) {
             $this->next = 'noRollbackFound';
+
             return;
         }
 
@@ -51,13 +53,14 @@ class Rollback extends AbstractTask
         // find backup filenames, and be sure they exists
         foreach ($files as $file) {
             if (preg_match('#'.preg_quote('auto-backupfiles_'.$restoreName).'#', $file)) {
-                $this->container->getState()-> setRestoreFilesFilename($file);
+                $this->container->getState()->setRestoreFilesFilename($file);
                 break;
             }
         }
-        if (!is_file($this->container->getProperty(UpgradeContainer::BACKUP_PATH).DIRECTORY_SEPARATOR.$this->container->getState()-> getRestoreFilesFilename())) {
+        if (!is_file($this->container->getProperty(UpgradeContainer::BACKUP_PATH).DIRECTORY_SEPARATOR.$this->container->getState()->getRestoreFilesFilename())) {
             $this->next = 'error';
-            $this->logger->error($this->translator->trans('[ERROR] File %s is missing: unable to restore files. Operation aborted.', array($this->container->getState()-> getRestoreFilesFilename()), 'Modules.Autoupgrade.Admin'));
+            $this->logger->error($this->translator->trans('[ERROR] File %s is missing: unable to restore files. Operation aborted.', array($this->container->getState()->getRestoreFilesFilename()), 'Modules.Autoupgrade.Admin'));
+
             return false;
         }
         $files = scandir($this->container->getProperty(UpgradeContainer::BACKUP_PATH).DIRECTORY_SEPARATOR.$restoreName);
@@ -67,13 +70,13 @@ class Rollback extends AbstractTask
             }
         }
 
-
         // order files is important !
         sort($restoreDbFilenames);
-        $this->container->getState()-> setRestoreDbFilenames($restoreDbFilenames);
+        $this->container->getState()->setRestoreDbFilenames($restoreDbFilenames);
         if (count($restoreDbFilenames) == 0) {
             $this->next = 'error';
             $this->logger->error($this->translator->trans('[ERROR] No backup database files found: it would be impossible to restore the database. Operation aborted.', array(), 'Modules.Autoupgrade.Admin'));
+
             return false;
         }
 

@@ -1,6 +1,7 @@
 <?php
+
 /**
- * 2007-2017 PrestaShop
+ * 2007-2017 PrestaShop.
  *
  * NOTICE OF LICENSE
  *
@@ -26,7 +27,6 @@
 
 namespace PrestaShop\Module\AutoUpgrade;
 
-use PrestaShop\Module\AutoUpgrade\Upgrader;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 
 class ChannelInfo
@@ -41,9 +41,9 @@ class ChannelInfo
     /**
      * ChannelInfo constructor.
      *
-     * @param Upgrader $upgrader
+     * @param Upgrader             $upgrader
      * @param UpgradeConfiguration $config
-     * @param string $channel
+     * @param string               $channel
      */
     public function __construct(Upgrader $upgrader, UpgradeConfiguration $config, $channel)
     {
@@ -62,14 +62,15 @@ class ChannelInfo
             }
 
             $this->info = array(
-                'branch'       => $upgrader->branch,
-                'available'    => $upgrader->available,
-                'version_num'  => $upgrader->version_num,
+                'branch' => $upgrader->branch,
+                'available' => $upgrader->available,
+                'version_num' => $upgrader->version_num,
                 'version_name' => $upgrader->version_name,
-                'link'         => $upgrader->link,
-                'md5'          => $upgrader->md5,
-                'changelog'    => $upgrader->changelog,
+                'link' => $upgrader->link,
+                'md5' => $upgrader->md5,
+                'changelog' => $upgrader->changelog,
             );
+
             return;
         }
 
@@ -82,20 +83,20 @@ class ChannelInfo
                 }
 
                 $this->info = array(
-                    'available'    => $upgrader->available,
-                    'branch'       => $upgrader->branch,
-                    'version_num'  => $upgrader->version_num,
+                    'available' => $upgrader->available,
+                    'branch' => $upgrader->branch,
+                    'version_num' => $upgrader->version_num,
                     'version_name' => $upgrader->version_name,
-                    'link'         => $config->get('private_release_link'),
-                    'md5'          => $config->get('private_release_md5'),
-                    'changelog'    => $upgrader->changelog,
+                    'link' => $config->get('private_release_link'),
+                    'md5' => $config->get('private_release_md5'),
+                    'changelog' => $upgrader->changelog,
                 );
                 break;
 
             case 'archive':
             case 'directory':
                 $this->info = array(
-                    'available' => true
+                    'available' => true,
                 );
                 break;
         }

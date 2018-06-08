@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -32,7 +33,7 @@ use PrestaShop\Module\AutoUpgrade\Twig\Block\ChannelInfoBlock;
 
 /**
  * display informations related to the selected channel : link/changelog for remote channel,
- * or configuration values for special channels
+ * or configuration values for special channels.
  */
 class GetChannelInfo extends AbstractTask
 {

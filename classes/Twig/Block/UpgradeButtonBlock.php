@@ -1,6 +1,7 @@
 <?php
+
 /**
- * 2007-2017 PrestaShop
+ * 2007-2017 PrestaShop.
  *
  * NOTICE OF LICENSE
  *
@@ -37,7 +38,6 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 
 class UpgradeButtonBlock
 {
-
     /**
      * @var \Twig_Environment
      */
@@ -81,11 +81,11 @@ class UpgradeButtonBlock
     /**
      * UpgradeButtonBlock constructor.
      *
-     * @param Twig_Environment $twig
-     * @param TranslatorComponent $translator
+     * @param Twig_Environment     $twig
+     * @param TranslatorComponent  $translator
      * @param UpgradeConfiguration $config
-     * @param Upgrader $upgrader
-     * @param UpgradeSelfCheck $selfCheck
+     * @param Upgrader             $upgrader
+     * @param UpgradeSelfCheck     $selfCheck
      */
     public function __construct(
         Twig_Environment $twig,
@@ -108,7 +108,7 @@ class UpgradeButtonBlock
     }
 
     /**
-     * display the summary current version / target version + "Upgrade Now" button with a "more options" button
+     * display the summary current version / target version + "Upgrade Now" button with a "more options" button.
      *
      * @return string HTML
      */
@@ -155,30 +155,30 @@ class UpgradeButtonBlock
         $dir = glob($this->downloadPath.DIRECTORY_SEPARATOR.'*.zip');
 
         $data = array(
-            'versionCompare'       => $versionCompare,
-            'currentPsVersion'     => _PS_VERSION_,
+            'versionCompare' => $versionCompare,
+            'currentPsVersion' => _PS_VERSION_,
             'latestChannelVersion' => $latestVersion,
-            'channel'              => $channel,
-            'showUpgradeButton'    => $showUpgradeButton,
-            'upgradeLink'          => $upgradeLink,
-            'showUpgradeLink'      => $showUpgradeLink,
-            'changelogLink'        => $changelogLink,
-            'skipActions'          => $skipActions,
-            'lastVersionCheck'     => Configuration::get('PS_LAST_VERSION_CHECK'),
-            'token'                => $this->token,
-            'channelOptions'       => $this->getOptChannels(),
-            'channelInfoBlock'     => $this->buildChannelInfoBlock($channel),
+            'channel' => $channel,
+            'showUpgradeButton' => $showUpgradeButton,
+            'upgradeLink' => $upgradeLink,
+            'showUpgradeLink' => $showUpgradeLink,
+            'changelogLink' => $changelogLink,
+            'skipActions' => $skipActions,
+            'lastVersionCheck' => Configuration::get('PS_LAST_VERSION_CHECK'),
+            'token' => $this->token,
+            'channelOptions' => $this->getOptChannels(),
+            'channelInfoBlock' => $this->buildChannelInfoBlock($channel),
             'privateChannel' => array(
                 'releaseLink' => $this->config->get('private_release_link'),
-                'releaseMd5'  => $this->config->get('private_release_md5'),
-                'allowMajor'  => $this->config->get('private_allow_major'),
+                'releaseMd5' => $this->config->get('private_release_md5'),
+                'allowMajor' => $this->config->get('private_allow_major'),
             ),
-            'archiveFiles'           => $dir,
-            'archiveFileName'        => $this->config->get('archive.filename'),
-            'archiveVersionNumber'   => $this->config->get('archive.version_num'),
-            'downloadPath'           => $this->downloadPath.DIRECTORY_SEPARATOR,
+            'archiveFiles' => $dir,
+            'archiveFileName' => $this->config->get('archive.filename'),
+            'archiveVersionNumber' => $this->config->get('archive.version_num'),
+            'downloadPath' => $this->downloadPath.DIRECTORY_SEPARATOR,
             'directoryVersionNumber' => $this->config->get('directory.version_num'),
-            'manualMode'             => $this->manualMode,
+            'manualMode' => $this->manualMode,
         );
 
         return $this->twig->render('@ModuleAutoUpgrade/block/upgradeButtonBlock.twig', $data);
@@ -190,6 +190,7 @@ class UpgradeButtonBlock
     private function getOptChannels()
     {
         $translator = $this->translator;
+
         return array(
             // Hey ! I'm really using a fieldset element to regroup fields ?! !
             array('useMajor', 'major', $translator->trans('Major release', array(), 'Modules.Autoupgrade.Admin')),

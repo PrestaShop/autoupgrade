@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 2007-2018 PrestaShop
  * 
@@ -37,7 +38,7 @@ abstract class AbstractTask
      *	example : public static $skipAction = array();
      */
     public static $skipAction = array();
-    
+
     /**
      * @var LoggerInterface
      */
@@ -85,13 +86,14 @@ abstract class AbstractTask
     }
 
     /**
-     * Get result of the task and data to send to the next request
+     * Get result of the task and data to send to the next request.
      *
      * @return AjaxResponse
      */
     public function getResponse()
     {
         $response = new AjaxResponse($this->container->getTranslator(), $this->container->getState(), $this->logger);
+
         return $response->setError($this->error)
             ->setStepDone($this->stepDone)
             ->setNext($this->next)
