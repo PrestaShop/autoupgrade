@@ -130,7 +130,12 @@ class ErrorHandler
      */
     public function generateJsonLog($log)
     {
-        return '{"nextErrors":["'.addcslashes($log, '"\\').'"],"error":true,"next":"error"}';
+        return json_encode(array(
+            'nextQuickInfo' => $this->logger->getInfos(),
+            'nextErrors' => array_merge($this->logger->getErrors(), array($log)),
+            'error' => true,
+            'next' => 'error'
+        ));
     }
 
     /**
