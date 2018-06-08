@@ -47,6 +47,26 @@ class UpgradeConfiguration extends ArrayCollection
     );
 
     /**
+     * Get the name of the new release archive.
+     *
+     * @return string
+     */
+    public function getArchiveFilename()
+    {
+        return $this->get('archive.filename');
+    }
+
+    /**
+     * Get the version included in the new release
+     *
+     * @return string
+     */
+    public function getArchiveVersion()
+    {
+        return $this->get('archive.version_num');
+    }
+
+    /**
      * Get channel selected on config panel (Minor, major ...).
      *
      * @return string

@@ -155,11 +155,6 @@ class UpgradeContainer
      */
     private $psRootDir;
 
-    /**
-     * @var string Destination filename of the downloaded archive
-     */
-    private $destDownloadFilename = 'prestashop.zip';
-
     public function __construct($psRootDir, $adminDir, $moduleSubDir = 'autoupgrade')
     {
         $this->autoupgradeWorkDir = $adminDir.DIRECTORY_SEPARATOR.$moduleSubDir;
@@ -189,9 +184,9 @@ class UpgradeContainer
             case self::TMP_PATH:
                 return $this->autoupgradeWorkDir.DIRECTORY_SEPARATOR.'tmp';
             case self::ARCHIVE_FILENAME:
-                return $this->destDownloadFilename;
+                return $this->getUpgradeConfiguration()->getArchiveFilename();
             case self::ARCHIVE_FILEPATH:
-                return $this->getProperty(self::DOWNLOAD_PATH).DIRECTORY_SEPARATOR.$this->destDownloadFilename;
+                return $this->getProperty(self::DOWNLOAD_PATH).DIRECTORY_SEPARATOR.$this->getProperty(self::ARCHIVE_FILENAME);
             case self::PS_VERSION:
                 return $this->getPrestaShopConfiguration()->getPrestaShopVersion();
         }
