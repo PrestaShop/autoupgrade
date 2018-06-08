@@ -38,20 +38,20 @@ class LegacyLogger extends Logger
     protected $lastInfo = '';
 
     /**
-     * @var Resource File descriptor of the log file
+     * @var Resource|null|false File descriptor of the log file
      */
     protected $fd = null;
 
-    public function __constuct($fileName = null)
+    public function __construct($fileName = null)
     {
-        if (!is_null($fileName)) {
+        if (null !== $fileName) {
             $this->fd = fopen($fileName, 'a');
         }
     }
 
     public function __destruct()
     {
-        if (!is_null($this->fd)) {
+        if (!empty($this->fd)) {
             fclose($this->fd);
         }
     }
@@ -101,7 +101,7 @@ class LegacyLogger extends Logger
         }
 
         if ($level < self::ERROR) {
-            if (!is_null($this->fd)) {
+            if (!empty($this->fd)) {
                 fwrite($this->fd, $message);
             }
             $this->normalMessages[] = $message;
