@@ -307,7 +307,7 @@ class UpgradeContainer
         }
 
         $logFile = null;
-        if (is_writeable($this->getProperty(self::TMP_PATH))) {
+        if (is_writable($this->getProperty(self::TMP_PATH))) {
             $logFile = $this->getProperty(self::TMP_PATH).DIRECTORY_SEPARATOR.'log.txt';
         }
         $this->logger = new LegacyLogger($logFile);
