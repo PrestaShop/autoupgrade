@@ -1,0 +1,33 @@
+language: php
+services: docker
+
+php:
+  - '5.6'
+
+env:
+  - VERSION=1.7.2.2
+    CHANNEL=major
+  - VERSION=1.6
+    CHANNEL=major
+  - VERSION=1.6.1.10
+    CHANNEL=minor
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+install:
+  - composer install
+  - docker-compose up -d
+
+before_script:
+  - bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://localhost:8001/index.php)" != "200" ]]; do sleep 5; done'
+  - docker exec -ti prestashop_autoupgrade cp modules/autoupgrade/ -R admin-dev
+
+script:
+  - php vendor/phpunit/phpunit/phpunit tests
+  - docker exec -ti prestashop_autoupgrade php modules/autoupgrade/tests/testCliUpgrade.php admin-dev/autoupgrade/cli-upgrade.php  --dir="admin-dev" --channel="$CHANNEL"
+
+after_script:
+  - docker ps
+  - docker logs prestashop_autoupgrade
