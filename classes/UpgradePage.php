@@ -344,7 +344,7 @@ class UpgradePage
                 'processCancelledCheckForRestore' => $translator->trans('Operation canceled. Checking for restoration...', array(), $translationDomain),
                 'confirmRestoreBackup' => $translator->trans('Do you want to restore %s?', array($this->backupName), $translationDomain),
                 'processCancelledWithError' => $translator->trans('Operation canceled. An error happened.', array(), $translationDomain),
-                'missingAjaxUpgradeTab' => $translator->trans('[TECHNICAL ERROR] ajax-upgradetab.php is missing. please reinstall the module', array(), $translationDomain),
+                'missingAjaxUpgradeTab' => $translator->trans('[TECHNICAL ERROR] ajax-upgradetab.php is missing. Please reinstall the module.', array(), $translationDomain),
                 'clickToRefreshAndUseNewConfiguration' => $translator->trans('Click to refresh the page and use the new configuration', array(), $translationDomain),
                 'errorDetectedDuring' => $translator->trans('Error detected during', array(), $translationDomain),
                 'downloadTimeout' => $translator->trans('The request exceeded the max_time_limit. Please change your server configuration.', array(), $translationDomain),
