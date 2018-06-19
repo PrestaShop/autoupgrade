@@ -6,9 +6,9 @@
             <span class="available">
                 <img src="../img/admin/{% if upgradeInfo.available is not empty %}enabled{% else %}disabled{% endif %}.gif">
                 {% if upgradeInfo.available is not empty %}
-                    {{ 'available'|trans }}
+                    {{ 'Available'|trans({}, 'Admin.Global') }}
                 {% else %}
-                    {{ 'unavailable'|trans }}
+                    {{ 'Unavailable'|trans({}, 'Admin.Global') }}
                 {% endif %}
             </span>
         </div>

@@ -96,7 +96,7 @@ class RemoveSamples extends AbstractTask
 
             if (count($removeList)) {
                 $this->logger->debug($this->translator->trans(
-                    '%itemname% items removed. %itemscount% items left.',
+                    '%itemname% item removed. %itemscount% items left.',
                     array(
                         '%itemname%' => $file,
                         '%itemscount%' => count($removeList),

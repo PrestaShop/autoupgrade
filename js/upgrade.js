@@ -36,7 +36,7 @@ if (typeof input === 'undefined') {
       processCancelledCheckForRestore: "Operation canceled. Checking for restoration...",
       confirmRestoreBackup: "Do you want to restore SomeBackupName?",
       processCancelledWithError: "Operation canceled. An error happened.",
-      missingAjaxUpgradeTab: "[TECHNICAL ERROR] ajax-upgradetab.php is missing. please reinstall the module",
+      missingAjaxUpgradeTab: "[TECHNICAL ERROR] ajax-upgradetab.php is missing. Please reinstall the module.",
       clickToRefreshAndUseNewConfiguration: "Click to refresh the page and use the new configuration",
       errorDetectedDuring: "Error detected during",
       downloadTimeout: "The request exceeded the max_time_limit. Please change your server configuration.",

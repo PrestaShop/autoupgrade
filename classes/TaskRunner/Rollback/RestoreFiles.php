@@ -91,7 +91,7 @@ class RestoreFiles extends AbstractTask
             if (!$res) {
                 $this->next = 'error';
                 $this->logger->error($this->translator->trans(
-                    'Unable to extract file %filename% into directory %directoryname% .',
+                    'Unable to extract file %filename% into directory %directoryname%.',
                     array(
                         '%filename%' => $filepath,
                         '%directoryname%' => $destExtract,
