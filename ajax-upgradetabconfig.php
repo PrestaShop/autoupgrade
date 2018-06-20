@@ -43,20 +43,10 @@ function autoupgrade_init_container($callerFilePath)
     if (php_sapi_name() === 'cli') {
         $_POST['dir'] = getopt('', array('dir:'))['dir'];
     }
-
-    define('_PS_ADMIN_DIR_', realpath($callerFilePath.'/../'));
-
-    if (!defined('_PS_MODULE_DIR_')) {
-        define('_PS_MODULE_DIR_', realpath($callerFilePath.'/../../').'/modules/');
-    }
-
-    define('AUTOUPGRADE_MODULE_DIR', _PS_MODULE_DIR_.'autoupgrade/');
-    require_once AUTOUPGRADE_MODULE_DIR.'functions.php';
-    require_once AUTOUPGRADE_MODULE_DIR.'vendor/autoload.php';
-
+    
     // the following test confirm the directory exists
-    if (!isset($_POST['dir'])) {
-        echo 'no directory';
+    if (empty($_POST['dir'])) {
+        echo 'No admin directory provided (dir). 1-click upgrade cannot proceed.';
         exit(1);
     }
 
@@ -66,10 +56,19 @@ function autoupgrade_init_container($callerFilePath)
         define('_PS_ROOT_DIR_', realpath($callerFilePath.'/../../'));
     }
 
-    $dir = Tools14::safeOutput(Tools14::getValue('dir'));
+    if (!defined('_PS_MODULE_DIR_')) {
+        define('_PS_MODULE_DIR_', _PS_ROOT_DIR_.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR);
+    }
 
-    if (realpath($callerFilePath.'/../../').DIRECTORY_SEPARATOR.$dir !== realpath(realpath($callerFilePath.'/../../').DIRECTORY_SEPARATOR.$dir)) {
-        echo 'wrong directory :'.(isset($_POST['dir']) ? $dir : '');
+    define('AUTOUPGRADE_MODULE_DIR', _PS_MODULE_DIR_.'autoupgrade'.DIRECTORY_SEPARATOR);
+    require_once AUTOUPGRADE_MODULE_DIR.'functions.php';
+    require_once AUTOUPGRADE_MODULE_DIR.'vendor/autoload.php';
+
+    $dir = Tools14::safeOutput(Tools14::getValue('dir'));
+    define('_PS_ADMIN_DIR_', _PS_ROOT_DIR_.DIRECTORY_SEPARATOR.$dir);
+
+    if (_PS_ADMIN_DIR_ !== realpath(_PS_ADMIN_DIR_)) {
+        echo 'wrong directory: '.$dir;
         exit(1);
     }
 
