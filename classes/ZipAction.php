@@ -161,7 +161,15 @@ class ZipAction
                 'Modules.Autoupgrade.Admin'
             ));
         }
-        $zip->close();
+
+        if (!$zip->close()) {
+            $this->logger->error($this->translator->trans(
+                'Could not close the Zip file properly. Check you are allowed to write on the disk and there is available space on it.',
+                array(),
+                'Modules.Autoupgrade.Admin'
+            ));
+            return false;
+        }
 
         return true;
     }
