@@ -241,7 +241,13 @@ abstract class CoreUpgrader
         }
     }
 
-    abstract protected function disableCustomModules();
+    /**
+     * Ask the core to disable the modules not coming from PrestaShop
+     */
+    protected function disableCustomModules()
+    {
+        $this->container->getModuleAdapter()->disableNonNativeModules();
+    }
 
     protected function upgradeDb($oldversion)
     {
