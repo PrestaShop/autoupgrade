@@ -86,60 +86,8 @@ class ModuleAdapter
      */
     public function disableNonNativeModules()
     {
-        $this->disableNonNativeModules16();
-    }
-
-    /**
-     * Upgrade action, disabling all modules not made by PrestaShop.
-     *
-     * Backward compatibility function
-     */
-    protected function disableNonNativeModules16()
-    {
         require_once _PS_INSTALLER_PHP_UPGRADE_DIR_.'deactivate_custom_modules.php';
         deactivate_custom_modules();
-    }
-
-    /**
-     * Upgrade action, disabling all modules not made by PrestaShop.
-     *
-     * Available only from 1.7. Can't be called on PS 1.6
-     * `use` statements for namespaces are not used, as they can throw errors where the class does not exist
-     */
-    protected function disableNonNativeModules17()
-    {
-        $moduleManagerBuilder = \PrestaShop\PrestaShop\Core\Addon\Module\ModuleManagerBuilder::getInstance();
-        $moduleRepository = $moduleManagerBuilder->buildRepository();
-        $moduleRepository->clearCache();
-
-        $filters = new \PrestaShop\PrestaShop\Core\Addon\AddonListFilter();
-        $filters->setType(\PrestaShop\PrestaShop\Core\Addon\AddonListFilterType::MODULE)
-            ->removeStatus(\PrestaShop\PrestaShop\Core\Addon\AddonListFilterStatus::UNINSTALLED);
-
-        $installedProducts = $moduleRepository->getFilteredList($filters);
-
-        $modules = array();
-        foreach ($installedProducts as $installedProduct) {
-            if (!(
-                    $installedProduct->attributes->has('origin_filter_value')
-                    && in_array(
-                        $installedProduct->attributes->get('origin_filter_value'),
-                        array(
-                            \PrestaShop\PrestaShop\Core\Addon\AddonListFilterOrigin::ADDONS_NATIVE,
-                            \PrestaShop\PrestaShop\Core\Addon\AddonListFilterOrigin::ADDONS_NATIVE_ALL,
-                        )
-                    )
-                    && 'PrestaShop' === $installedProduct->attributes->get('author')
-                )
-                && 'autoupgrade' !== $installedProduct->attributes->get('name')) {
-                $modules[] = $installedProduct->database->get('id');
-            }
-        }
-
-        if (!empty($modules)) {
-            $this->db->execute('UPDATE `'._DB_PREFIX_.'module` SET `active` = 0 WHERE `id_module` IN ('.implode(',', $modules).')');
-            $this->db->execute('DELETE FROM `'._DB_PREFIX_.'module_shop` WHERE `id_module` IN ('.implode(',', $modules).')');
-        }
     }
 
     /**
