@@ -25,11 +25,11 @@ Upgrading a shop can be done via:
 Upgrade can be automated by calling *cli-upgrade.php*.
 The following parameters are mandatory:
 
-* **--admin-dir**: Tells where the admin directory is.
+* **--dir**: Tells where the admin directory is.
 * **--channel**: Selects what upgrade to run (minor, major etc.)
 
 ```
-$ php cli-upgrade.php --admin-dir=admin-dev --channel=major
+$ php cli-upgrade.php --dir=admin-dev --channel=major
 ```
 
 

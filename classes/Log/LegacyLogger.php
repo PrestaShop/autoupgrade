@@ -102,7 +102,7 @@ class LegacyLogger extends Logger
 
         if ($level < self::ERROR) {
             if (!empty($this->fd)) {
-                fwrite($this->fd, $message);
+                fwrite($this->fd, $message.PHP_EOL);
             }
             $this->normalMessages[] = $message;
         } else {
