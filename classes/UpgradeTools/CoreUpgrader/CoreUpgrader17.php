@@ -47,11 +47,6 @@ class CoreUpgrader17 extends CoreUpgrader
         }*/
     }
 
-    protected function disableCustomModules()
-    {
-        $this->container->getModuleAdapter()->disableNonNativeModules();
-    }
-
     protected function upgradeDb($oldversion)
     {
         parent::upgradeDb($oldversion);

@@ -81,12 +81,12 @@ class ModuleAdapter
 
     /**
      * Upgrade action, disabling all modules not made by PrestaShop.
+     *
+     * It seems the 1.6 version of is the safest, as it does not actually load the modules.
      */
     public function disableNonNativeModules()
     {
-        version_compare($this->upgradeVersion, '1.7.0.0', '>=') ?
-            $this->disableNonNativeModules17() :
-            $this->disableNonNativeModules16();
+        $this->disableNonNativeModules16();
     }
 
     /**

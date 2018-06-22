@@ -85,12 +85,6 @@ class CoreUpgrader16 extends CoreUpgrader
         return _PS_VERSION_;
     }
 
-    protected function disableCustomModules()
-    {
-        require_once _PS_INSTALLER_PHP_UPGRADE_DIR_.'deactivate_custom_modules.php';
-        deactivate_custom_modules();
-    }
-
     protected function upgradeLanguage($lang)
     {
         require_once _PS_TOOL_DIR_.'tar/Archive_Tar.php';
