@@ -40,20 +40,10 @@ class UpgradeConfigurationStorage extends FileConfigurationStorage
      */
     public function load($configFileName = '')
     {
-        $data = parent::load($configFileName);
-        if (empty($data)) {
-            $data = array(
-                'PS_AUTOUP_PERFORMANCE' => 1,
-                'PS_AUTOUP_CUSTOM_MOD_DESACT' => 1,
-                'PS_AUTOUP_UPDATE_DEFAULT_THEME' => 1,
-                'PS_AUTOUP_CHANGE_DEFAULT_THEME' => 0,
-                'PS_AUTOUP_KEEP_MAILS' => 0,
-                'PS_AUTOUP_BACKUP' => 1,
-                'PS_AUTOUP_KEEP_IMAGES' => 0,
-                'channel' => Upgrader::DEFAULT_CHANNEL,
-                'archive.filename' => 'prestashop.zip',
-            );
-        }
+        $data = array_merge(
+            $this->getDefaultData(),
+            parent::load($configFileName)
+        );
 
         return new UpgradeConfiguration($data);
     }
@@ -71,5 +61,20 @@ class UpgradeConfigurationStorage extends FileConfigurationStorage
         }
 
         return parent::save($config->toArray(), $configFileName);
+    }
+
+    public function getDefaultData()
+    {
+        return array(
+            'PS_AUTOUP_PERFORMANCE' => 1,
+            'PS_AUTOUP_CUSTOM_MOD_DESACT' => 1,
+            'PS_AUTOUP_UPDATE_DEFAULT_THEME' => 1,
+            'PS_AUTOUP_CHANGE_DEFAULT_THEME' => 0,
+            'PS_AUTOUP_KEEP_MAILS' => 0,
+            'PS_AUTOUP_BACKUP' => 1,
+            'PS_AUTOUP_KEEP_IMAGES' => 0,
+            'channel' => Upgrader::DEFAULT_CHANNEL,
+            'archive.filename' => 'prestashop.zip',
+        );
     }
 }
