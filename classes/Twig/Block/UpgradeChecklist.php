@@ -29,6 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade\Twig\Block;
 
 use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
 use PrestaShop\Module\AutoUpgrade\Tools14;
+use Context;
 use Twig_Environment;
 
 /**
@@ -113,6 +114,7 @@ class UpgradeChecklist
             'moduleIsUpToDate' => $this->selfCheck->isModuleVersionLatest(),
             'versionGreaterThan1_5_3' => version_compare(_PS_VERSION_, '1.5.3.0', '>'),
             'adminToken' => Tools14::getAdminTokenLite('AdminModules'),
+            'informationsLink' => Context::getContext()->link->getAdminLink('AdminInformation'),
             'rootDirectoryIsWritable' => $this->selfCheck->isRootDirectoryWritable(),
             'rootDirectoryWritableReport' => $this->selfCheck->getRootWritableReport(),
             'adminDirectoryIsWritable' => $this->selfCheck->isAdminAutoUpgradeDirectoryWritable(),
@@ -124,6 +126,7 @@ class UpgradeChecklist
             'token' => $this->token,
             'cachingIsDisabled' => $this->selfCheck->isCacheDisabled(),
             'maxExecutionTime' => $this->selfCheck->getMaxExecutionTime(),
+            'isPrestaShopReady' => $this->selfCheck->isPrestaShopReady(),
         );
 
         return $this->twig->render('@ModuleAutoUpgrade/block/checklist.twig', $data);

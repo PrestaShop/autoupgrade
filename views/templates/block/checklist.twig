@@ -114,6 +114,22 @@
                         {% endif %}
                     </td>
                 </tr>
+                <tr>
+                    <td>
+                        {% if isPrestaShopReady %}
+                            {{ 'PrestaShop requirements are satisfied. '|trans }}
+                        {% else %}
+                            {{ 'PrestaShop requirements are not satisfied. '|trans }} <a href="{{ informationsLink }}">{{ 'See details.'|trans }}</a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if isPrestaShopReady %}
+                            {{ icons.ok }}
+                        {% else %}
+                            {{ icons.warning }}
+                        {% endif %}
+                    </td>
+                </tr>
             </table>
             <br>
             <p class="alert alert-info">{{ 'Please also make sure you make a full manual backup of your files and database.'|trans }}</p>

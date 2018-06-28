@@ -88,6 +88,11 @@ class UpgradeSelfCheck
     private $maxExecutionTime;
 
     /**
+     * @var bool
+     */
+    private $prestashopReady;
+
+    /**
      * @var string
      */
     private $configDir = '/modules/autoupgrade/config.xml';
@@ -111,6 +116,7 @@ class UpgradeSelfCheck
         $this->safeModeDisabled = $this->checkSafeModeIsDisabled();
         $this->moduleVersionIsLatest = $this->checkModuleVersionIsLastest($upgrader);
         $this->maxExecutionTime = $this->checkMaxExecutionTime();
+        $this->prestashopReady = $this->runPrestaShopCoreChecks();
     }
 
     /**
@@ -209,6 +215,11 @@ class UpgradeSelfCheck
         return $this->maxExecutionTime;
     }
 
+    public function isPrestaShopReady()
+    {
+        return $this->prestashopReady;
+    }
+
     /**
      * Indicates if the self check status allows going ahead with the upgrade.
      *
@@ -223,6 +234,7 @@ class UpgradeSelfCheck
             && $this->isShopDeactivated()
             && $this->isCacheDisabled()
             && $this->isModuleVersionLatest()
+            && $this->isPrestaShopReady()
         );
     }
 
@@ -307,5 +319,25 @@ class UpgradeSelfCheck
     private function checkMaxExecutionTime()
     {
         return (int) @ini_get('max_execution_time');
+    }
+
+    /**
+     * Ask the core to run its tests, if available
+     *
+     * @return bool
+     */
+    public function runPrestaShopCoreChecks()
+    {
+        if (!class_exists('ConfigurationTest')) {
+            return true;
+        }
+        
+        $defaultTests = ConfigurationTest::check(ConfigurationTest::getDefaultTests());
+        foreach ($defaultTests as $testResult) {
+            if ($testResult !== "ok") {
+                return false;
+            }
+        }
+        return true;
     }
 }
