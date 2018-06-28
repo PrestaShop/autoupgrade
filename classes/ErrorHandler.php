@@ -53,6 +53,7 @@ class ErrorHandler
     public function enable()
     {
         error_reporting(E_ALL);
+        ini_set('display_errors', 0);
         set_error_handler(array($this, 'errorHandler'));
         set_exception_handler(array($this, 'exceptionHandler'));
         register_shutdown_function(array($this, 'fatalHandler'));
