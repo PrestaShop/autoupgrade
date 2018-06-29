@@ -56,7 +56,7 @@ class AllUpgradeTasks extends AbstractTask
             $this->step = $result->getNext();
         }
 
-        return (int) ($this->error || $this->next === 'error');
+        return (int) ($this->error || $this->step === 'error');
     }
 
     /**
