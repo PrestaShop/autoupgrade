@@ -51,7 +51,7 @@ class LegacyLogger extends Logger
 
     public function __destruct()
     {
-        if (!empty($this->fd)) {
+        if (is_resource($this->fd)) {
             fclose($this->fd);
         }
     }
@@ -89,7 +89,7 @@ class LegacyLogger extends Logger
             return;
         }
 
-        if (!empty($this->fd)) {
+        if (is_resource($this->fd)) {
             fwrite($this->fd, '[' . date('Y-m-d H:i:s') . '] ' . $message . PHP_EOL);
         }
 
