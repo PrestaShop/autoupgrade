@@ -78,7 +78,7 @@ class Download extends AbstractTask
                     $this->logger->info($this->translator->trans('Download complete. Now extracting...', array(), 'Modules.Autoupgrade.Admin'));
                 } else {
                     $this->logger->error($this->translator->trans('Download complete but MD5 sum does not match (%s).', array($md5file), 'Modules.Autoupgrade.Admin'));
-                    $this->logger->info($this->translator->trans('Download complete but MD5 sum does not match (%s). Operation aborted.', array(), 'Modules.Autoupgrade.Admin'));
+                    $this->logger->info($this->translator->trans('Download complete but MD5 sum does not match (%s). Operation aborted.', array($md5file), 'Modules.Autoupgrade.Admin'));
                     $this->next = 'error';
                 }
             } else {
