@@ -419,7 +419,7 @@ abstract class CoreUpgrader
         }
     }
 
-    protected function writeNewSettings()
+    public function writeNewSettings()
     {
         // Do nothing
     }
