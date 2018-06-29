@@ -51,7 +51,7 @@ class LegacyLogger extends Logger
 
     public function __destruct()
     {
-        if (!empty($this->fd)) {
+        if (is_resource($this->fd)) {
             fclose($this->fd);
         }
     }
@@ -89,6 +89,10 @@ class LegacyLogger extends Logger
             return;
         }
 
+        if (is_resource($this->fd)) {
+            fwrite($this->fd, '[' . date('Y-m-d H:i:s') . '] ' . $message . PHP_EOL);
+        }
+
         // Specific case for INFO
         if ($level === self::INFO) {
             // If last info is already defined, move it to the messages list
@@ -101,9 +105,6 @@ class LegacyLogger extends Logger
         }
 
         if ($level < self::ERROR) {
-            if (!empty($this->fd)) {
-                fwrite($this->fd, $message.PHP_EOL);
-            }
             $this->normalMessages[] = $message;
         } else {
             $this->severeMessages[] = $message;
