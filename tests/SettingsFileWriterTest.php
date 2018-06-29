@@ -75,10 +75,7 @@ define('_RIJNDAEL_IV_', 'QSt/I95YtA==');
             '_RIJNDAEL_IV_' => 'QSt/I95YtA==',
         );
 
-        $file = sys_get_temp_dir().DIRECTORY_SEPARATOR.'temp_settings.php';
-        // Create file first
-        touch($file);
-
+        $file = tempnam(sys_get_temp_dir(), 'PSS');
         $this->settingsWriter->writeSettingsFile($file, $datas);
 
         $this->assertSame($fileExpected, file_get_contents($file));
