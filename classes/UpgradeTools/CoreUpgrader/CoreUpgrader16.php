@@ -33,6 +33,9 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\SettingsFileWriter;
 
 class CoreUpgrader16 extends CoreUpgrader
 {
+    /**
+     * Generate a new settings file.
+     */
     public function writeNewSettings()
     {
         if (!defined('_PS_CACHE_ENABLED_')) {

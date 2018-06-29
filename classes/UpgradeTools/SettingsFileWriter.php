@@ -65,12 +65,12 @@ class SettingsFileWriter
         $filesystem->copy($filePath, $filePath.'.bck');
 
         $fd = fopen($filePath, 'w');
+        fwrite($fd, '<?php'.PHP_EOL);
         foreach ($data as $name => $value) {
-            if (false === fwrite($fd, 'define(\''.$name.'\', \''.$this->checkString($value).'\');'."\n")) {
+            if (false === fwrite($fd, 'define(\''.$name.'\', \''.$this->checkString($value).'\');'.PHP_EOL)) {
                 throw new UpgradeException($this->translator->trans('Error when generating new settings.inc.php file.'));
             }
         }
-        fwrite($fd, '?>'."\n");
         fclose($fd);
     }
 
