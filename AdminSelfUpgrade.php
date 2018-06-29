@@ -2727,10 +2727,14 @@ class AdminSelfUpgrade extends AdminSelfTab
 			$datas[] = array('_MEDIA_SERVER_2_', defined('_MEDIA_SERVER_2_') ? _MEDIA_SERVER_2_ : '');
 			$datas[] = array('_MEDIA_SERVER_3_', defined('_MEDIA_SERVER_3_') ? _MEDIA_SERVER_3_ : '');
 		}
-		if (defined('_RIJNDAEL_KEY_'))
+		if (defined('_RIJNDAEL_KEY_') && defined('_RIJNDAEL_IV_')) {
 			$datas[] = array('_RIJNDAEL_KEY_', _RIJNDAEL_KEY_);
-		if (defined('_RIJNDAEL_IV_'))
 			$datas[] = array('_RIJNDAEL_IV_', _RIJNDAEL_IV_);
+		} elseif (function_exists('mcrypt_encrypt')) {
+			$datas[] = array('_RIJNDAEL_KEY_', Tools::passwdGen(mcrypt_get_key_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC)));
+			$datas[] = array('_RIJNDAEL_IV_', base64_encode(mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC), MCRYPT_RAND)));
+		}
+
 		if(!defined('_PS_CACHE_ENABLED_'))
 			define('_PS_CACHE_ENABLED_', '0');
 		if(!defined('_MYSQL_ENGINE_'))
