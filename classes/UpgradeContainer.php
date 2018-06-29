@@ -367,9 +367,7 @@ class UpgradeContainer
         // Using independant template engine for 1.6 & 1.7 compatibility
         $loader = new Twig_Loader_Filesystem();
         $loader->addPath(realpath(__DIR__.'/..').'/views/templates', 'ModuleAutoUpgrade');
-        $twig = new Twig_Environment($loader, array(
-            'cache' => $this->getProperty(self::TMP_PATH),
-        ));
+        $twig = new Twig_Environment($loader);
         $twig->addExtension(new TransFilterExtension($this->getTranslator()));
 
         $this->twig = $twig;
