@@ -90,7 +90,7 @@ class LegacyLogger extends Logger
         }
 
         if (!empty($this->fd)) {
-            fwrite($this->fd, '[' . date('d-m-y H:i:s') . '] ' . $message . PHP_EOL);
+            fwrite($this->fd, '[' . date('Y-m-d H:i:s') . '] ' . $message . PHP_EOL);
         }
 
         // Specific case for INFO
