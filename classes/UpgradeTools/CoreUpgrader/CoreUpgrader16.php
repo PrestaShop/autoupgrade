@@ -57,11 +57,12 @@ class CoreUpgrader16 extends CoreUpgrader
             '_PS_DIRECTORY_' => __PS_BASE_URI__,
         );
 
-        if (defined('_RIJNDAEL_KEY_')) {
+        if (defined('_RIJNDAEL_KEY_') && defined('_RIJNDAEL_IV_')) {
             $datas['_RIJNDAEL_KEY_'] = _RIJNDAEL_KEY_;
-        }
-        if (defined('_RIJNDAEL_IV_')) {
             $datas['_RIJNDAEL_IV_'] = _RIJNDAEL_IV_;
+        } elseif (function_exists('mcrypt_encrypt')) {
+           $datas['_RIJNDAEL_KEY_'] = Tools::passwdGen(mcrypt_get_key_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC));
+           $datas['_RIJNDAEL_IV_'] = base64_encode(mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC), MCRYPT_RAND));
         }
 
         $writer = new SettingsFileWriter($this->container->getTranslator());
