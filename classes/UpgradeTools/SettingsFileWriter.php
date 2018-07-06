@@ -67,7 +67,7 @@ class SettingsFileWriter
         $fd = fopen($filePath, 'w');
         fwrite($fd, '<?php'.PHP_EOL);
         foreach ($data as $name => $value) {
-            if (false === fwrite($fd, 'define(\''.$name.'\', \''.$this->checkString($value).'\');'.PHP_EOL)) {
+            if (false === fwrite($fd, "define('$name', '{$this->checkString($value)}');".PHP_EOL)) {
                 throw new UpgradeException($this->translator->trans('Error when generating new settings.inc.php file.'));
             }
         }
