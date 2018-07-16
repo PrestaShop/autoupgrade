@@ -44,9 +44,6 @@ class CleanDatabase extends AbstractTask
             }
         }
 
-        /* Clean configuration integrity */
-        $this->container->getDb()->Execute('DELETE FROM `'._DB_PREFIX_.'configuration_lang` WHERE (`value` IS NULL AND `date_upd` IS NULL) OR `value` LIKE ""', false);
-
         $this->status = 'ok';
         $this->next = 'upgradeComplete';
         $this->logger->info($this->translator->trans('The database has been cleaned.', array(), 'Modules.Autoupgrade.Admin'));
