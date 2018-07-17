@@ -97,6 +97,12 @@ class Unzip extends AbstractTask
         } else {
             $filesystem = new Filesystem();
             $zipSubfolder = $destExtract.'/prestashop/';
+            if (!is_dir($zipSubfolder)) {
+                $this->next = 'error';
+                $this->logger->error(
+                    $this->translator->trans('No prestashop/ folder found in the ZIP file. Aborting.', array(), 'Modules.Autoupgrade.Admin'));
+                return;
+            }
             // /!\ On PS 1.6, files are unzipped in a subfolder PrestaShop
             foreach (scandir($zipSubfolder) as $file) {
                 if ($file[0] === '.') {
