@@ -39,6 +39,23 @@ class FilesystemAdapter
     private $adminSubDir;
     private $prodRootDir;
 
+    /**
+     * Somes elements to find in a folder.
+     * If one of them cannot be found, we can consider that the release is invalid.
+     *
+     * @var array
+     */
+    private $releaseFileChecks = array(
+        'files' => array(
+            'index.php',
+            'config/defines.inc.php',
+        ),
+        'folders' => array(
+            'classes',
+            'controllers',
+        ),
+    );
+
     public function __construct(FileFilter $fileFilter, $restoreFilesFilename,
         $autoupgradeDir, $adminSubDir, $prodRootDir)
     {
@@ -237,5 +254,27 @@ class FilesystemAdapter
         }
         // by default, don't skip
         return false;
+    }
+
+    /**
+     * Check a directory has some files available in every release of PrestaShop
+     *
+     * @param string $path Workspace to check
+     * @return boolean
+     */
+    public function isReleaseValid($path)
+    {
+        foreach($this->releaseFileChecks as $type => $elements) {
+            foreach ($elements as $element) {
+                $fullPath = $path . DIRECTORY_SEPARATOR . $element;
+                if ('files' === $type && !is_file($fullPath)) {
+                    return false;
+                }
+                if ('folders' === $type && !is_dir($fullPath)) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }

@@ -93,4 +93,48 @@ class FilesystemAdapterTest extends TestCase
             array('parameters.yml.dist', '/app/config/parameters.yml.dist', 'upgrade'),
         );
     }
+
+    public function testRandomFolderIsNotAPrestashopRelease()
+    {
+        $this->assertFalse(
+            $this->filesystemAdapter->isReleaseValid(__DIR__)
+        );
+    }
+
+    public function testTempFolderIsAPrestashopRelease()
+    {
+        // Create temp folder and fill it with the needed files
+        $folder = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'PSA' . rand(100, 2000);
+        $this->fillFolderWithPsAssets($folder);
+
+        $this->assertTrue(
+            $this->filesystemAdapter->isReleaseValid($folder)
+        );
+    }
+
+    /**
+     * Weird case where we have a file instead of a folder
+     */
+    public function testTempFolderIsNotAPrestashopReleaseAfterChanges()
+    {
+        // Create temp folder and fill it with the needed files
+        $folder = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'PSA' . rand(100, 2000);
+        $this->fillFolderWithPsAssets($folder);
+        rmdir($folder . DIRECTORY_SEPARATOR . 'classes');
+        touch($folder . DIRECTORY_SEPARATOR . 'classes');
+
+        $this->assertFalse(
+            $this->filesystemAdapter->isReleaseValid($folder)
+        );
+    }
+
+    protected function fillFolderWithPsAssets($folder)
+    {
+        mkdir($folder);
+        mkdir($folder . DIRECTORY_SEPARATOR . 'classes');
+        mkdir($folder . DIRECTORY_SEPARATOR . 'config');
+        touch($folder . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'defines.inc.php');
+        mkdir($folder . DIRECTORY_SEPARATOR . 'controllers');
+        touch($folder . DIRECTORY_SEPARATOR . 'index.php');
+    }
 }

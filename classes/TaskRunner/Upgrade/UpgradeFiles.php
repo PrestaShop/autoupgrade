@@ -220,14 +220,23 @@ class UpgradeFiles extends AbstractTask
      */
     protected function warmUp()
     {
-        $admin_dir = str_replace($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH).DIRECTORY_SEPARATOR, '', $this->container->getProperty(UpgradeContainer::PS_ADMIN_PATH));
-        if (file_exists($this->container->getProperty(UpgradeContainer::LATEST_PATH).DIRECTORY_SEPARATOR.'admin')) {
-            rename($this->container->getProperty(UpgradeContainer::LATEST_PATH).DIRECTORY_SEPARATOR.'admin', $this->container->getProperty(UpgradeContainer::LATEST_PATH).DIRECTORY_SEPARATOR.$admin_dir);
-        } elseif (file_exists($this->container->getProperty(UpgradeContainer::LATEST_PATH).DIRECTORY_SEPARATOR.'admin-dev')) {
-            rename($this->container->getProperty(UpgradeContainer::LATEST_PATH).DIRECTORY_SEPARATOR.'admin-dev', $this->container->getProperty(UpgradeContainer::LATEST_PATH).DIRECTORY_SEPARATOR.$admin_dir);
+        $newReleasePath = $this->container->getProperty(UpgradeContainer::LATEST_PATH);
+        if (!$this->container->getFilesystemAdapter()->isReleaseValid($newReleasePath)) {
+            $this->logger->error(
+                $this->translator->trans('The folder %s does not contain a valid PrestaShop release. Exiting.', array($newReleasePath), 'Modules.Autoupgrade.Admin')
+            );
+            $this->next = 'error';
+            return;
         }
-        if (file_exists($this->container->getProperty(UpgradeContainer::LATEST_PATH).DIRECTORY_SEPARATOR.'install-dev')) {
-            rename($this->container->getProperty(UpgradeContainer::LATEST_PATH).DIRECTORY_SEPARATOR.'install-dev', $this->container->getProperty(UpgradeContainer::LATEST_PATH).DIRECTORY_SEPARATOR.'install');
+
+        $admin_dir = str_replace($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH).DIRECTORY_SEPARATOR, '', $this->container->getProperty(UpgradeContainer::PS_ADMIN_PATH));
+        if (file_exists($newReleasePath.DIRECTORY_SEPARATOR.'admin')) {
+            rename($newReleasePath.DIRECTORY_SEPARATOR.'admin', $newReleasePath.DIRECTORY_SEPARATOR.$admin_dir);
+        } elseif (file_exists($newReleasePath.DIRECTORY_SEPARATOR.'admin-dev')) {
+            rename($newReleasePath.DIRECTORY_SEPARATOR.'admin-dev', $newReleasePath.DIRECTORY_SEPARATOR.$admin_dir);
+        }
+        if (file_exists($newReleasePath.DIRECTORY_SEPARATOR.'install-dev')) {
+            rename($newReleasePath.DIRECTORY_SEPARATOR.'install-dev', $newReleasePath.DIRECTORY_SEPARATOR.'install');
         }
 
         // list saved in UpgradeFileNames::toUpgradeFileList
@@ -248,7 +257,8 @@ class UpgradeFiles extends AbstractTask
             } // do not replace by DIRECTORY_SEPARATOR
         }
 
-        if (!($list_files_to_upgrade = $this->listFilesToUpgrade($this->container->getProperty(UpgradeContainer::LATEST_PATH)))) {
+        $list_files_to_upgrade = $this->listFilesToUpgrade($newReleasePath);
+        if (false === $list_files_to_upgrade) {
             return false;
         }
 
