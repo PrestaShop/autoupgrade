@@ -219,20 +219,10 @@ class BackupDb extends AbstractTask
                             // this starts a row
                             $s = '(';
                             foreach ($row as $field => $value) {
-                                $tmp = "'".$this->container->getDb()->escape($value, true)."',";
-                                if ($tmp != "'',") {
-                                    $s .= $tmp;
+                                if ($value === null) {
+                                    $s .= 'NULL,';
                                 } else {
-                                    foreach ($lines as $line) {
-                                        if (strpos($line, '`'.$field.'`') !== false) {
-                                            if (preg_match('/(.*NOT NULL.*)/Ui', $line)) {
-                                                $s .= "'',";
-                                            } else {
-                                                $s .= 'NULL,';
-                                            }
-                                            break;
-                                        }
-                                    }
+                                    $s .= "'".$this->container->getDb()->escape($value, true)."',";
                                 }
                             }
                             $s = rtrim($s, ',');
