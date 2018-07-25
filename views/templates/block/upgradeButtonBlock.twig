@@ -111,7 +111,7 @@
                                     <option value="">{{ 'Choose an archive'|trans }}</option>
                                     {% for file in archiveFiles %}
                                         {% set fileName = file|replace({(downloadPath): ''}) %}
-                                        <option {% if archiveFileName %} selected{% endif %} value="{{ fileName }}">{{ fileName }}</option>
+                                        <option {% if archiveFileName == fileName %} selected{% endif %} value="{{ fileName }}">{{ fileName }}</option>
                                     {% endfor %}
                                 </select>
                                 <br>
