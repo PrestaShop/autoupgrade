@@ -46,24 +46,31 @@ class RemoveSamples extends AbstractTask
         // remove all sample pics in img subdir
         // This part runs at the first call of this step
         if (null === $removeList) {
+            if (!$this->container->getFilesystemAdapter()->isReleaseValid($latestPath)) {
+                $this->logger->error($this->translator->trans('Could not assert the folder %s contains a valid PrestaShop release, exiting.', array($latestPath), 'Modules.Autoupgrade.Admin'));
+                $this->logger->error($this->translator->trans('A file may be missing, or the release is stored in a subfolder by mistake.', array(), 'Modules.Autoupgrade.Admin'));
+                $this->next = 'error';
+                return;
+            }
+
             $removeList = $this->container->getFilesystemAdapter()->listSampleFilesFromArray(array(
-                array('path' => $latestPath.'/prestashop/img/c', 'filter' => '.jpg'),
-                array('path' => $latestPath.'/prestashop/img/cms', 'filter' => '.jpg'),
-                array('path' => $latestPath.'/prestashop/img/l', 'filter' => '.jpg'),
-                array('path' => $latestPath.'/prestashop/img/m', 'filter' => '.jpg'),
-                array('path' => $latestPath.'/prestashop/img/os', 'filter' => '.jpg'),
-                array('path' => $latestPath.'/prestashop/img/p', 'filter' => '.jpg'),
-                array('path' => $latestPath.'/prestashop/img/s', 'filter' => '.jpg'),
-                array('path' => $latestPath.'/prestashop/img/scenes', 'filter' => '.jpg'),
-                array('path' => $latestPath.'/prestashop/img/st', 'filter' => '.jpg'),
-                array('path' => $latestPath.'/prestashop/img/su', 'filter' => '.jpg'),
-                array('path' => $latestPath.'/prestashop/img', 'filter' => '404.gif'),
-                array('path' => $latestPath.'/prestashop/img', 'filter' => 'favicon.ico'),
-                array('path' => $latestPath.'/prestashop/img', 'filter' => 'logo.jpg'),
-                array('path' => $latestPath.'/prestashop/img', 'filter' => 'logo_stores.gif'),
-                array('path' => $latestPath.'/prestashop/modules/editorial', 'filter' => 'homepage_logo.jpg'),
+                array('path' => $latestPath.'/img/c', 'filter' => '.jpg'),
+                array('path' => $latestPath.'/img/cms', 'filter' => '.jpg'),
+                array('path' => $latestPath.'/img/l', 'filter' => '.jpg'),
+                array('path' => $latestPath.'/img/m', 'filter' => '.jpg'),
+                array('path' => $latestPath.'/img/os', 'filter' => '.jpg'),
+                array('path' => $latestPath.'/img/p', 'filter' => '.jpg'),
+                array('path' => $latestPath.'/img/s', 'filter' => '.jpg'),
+                array('path' => $latestPath.'/img/scenes', 'filter' => '.jpg'),
+                array('path' => $latestPath.'/img/st', 'filter' => '.jpg'),
+                array('path' => $latestPath.'/img/su', 'filter' => '.jpg'),
+                array('path' => $latestPath.'/img', 'filter' => '404.gif'),
+                array('path' => $latestPath.'/img', 'filter' => 'favicon.ico'),
+                array('path' => $latestPath.'/img', 'filter' => 'logo.jpg'),
+                array('path' => $latestPath.'/img', 'filter' => 'logo_stores.gif'),
+                array('path' => $latestPath.'/modules/editorial', 'filter' => 'homepage_logo.jpg'),
                 // remove all override present in the archive
-                array('path' => $latestPath.'/prestashop/override', 'filter' => '.php'),
+                array('path' => $latestPath.'/override', 'filter' => '.php'),
             ));
 
             $this->container->getState()->setRemoveList($removeList);
