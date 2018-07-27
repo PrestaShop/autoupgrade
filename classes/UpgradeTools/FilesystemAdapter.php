@@ -94,7 +94,7 @@ class FilesystemAdapter
             if (is_link($fullPath) && !is_readable($fullPath)) {
                 continue;
             }
-            if ($file[0] == '.' || $this->isFileSkipped($file, $fullPath, $way)) {
+            if ($this->isFileSkipped($file, $fullPath, $way)) {
                 continue;
             }
             if (is_dir($fullPath)) {
