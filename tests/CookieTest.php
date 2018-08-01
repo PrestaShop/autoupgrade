@@ -49,7 +49,7 @@ class CookieTest extends TestCase
     {
         $fakeCookie = [
             'id_employee' => 2,
-            'autoupgrade' => md5(self::MY_TEST_KEY . 2),
+            'autoupgrade' => md5(md5(self::MY_TEST_KEY) . md5(2)),
         ];
         $this->assertTrue($this->cookie->check($fakeCookie));
     }

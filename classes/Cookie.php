@@ -96,7 +96,7 @@ class Cookie
      */
     private function encrypt($string)
     {
-        return md5($this->readKey().$string);
+        return md5(md5($this->readKey()).md5($string));
     }
 
     /**
