@@ -3,6 +3,35 @@
 ## About
 
 Provides an automated method to upgrade your shop to the latest version of PrestaShop.
+This module is compatible with all PrestaShop 1.6 & 1.7.
+
+# installation
+
+You must have [composer][4] installed on your computer. Then, execute:
+
+```
+$ composer install
+```
+
+# Running an upgrade on PrestaShop
+
+Upgrading a shop can be done via:
+
+* the configuration page of the module (access from your BO module page)
+* in command line by calling the file *cli-upgrade.php*
+
+## Comand line parameters
+
+Upgrade can be automated by calling *cli-upgrade.php*.
+The following parameters are mandatory:
+
+* **--dir**: Tells where the admin directory is.
+* **--channel**: Selects what upgrade to run (minor, major etc.)
+
+```
+$ php cli-upgrade.php --dir=admin-dev --channel=major
+```
+
 
 ## Contributing
 
@@ -34,4 +63,4 @@ That's it: you have contributed to this open-source project! Congratulations!
 [1]: http://doc.prestashop.com/display/PS16/Coding+Standards
 [2]: http://doc.prestashop.com/display/PS16/How+to+write+a+commit+message
 [3]: https://help.github.com/articles/using-pull-requests
-
+[4]: https://getcomposer.org/download/

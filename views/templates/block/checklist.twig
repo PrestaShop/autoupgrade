@@ -1,0 +1,138 @@
+{% import "@ModuleAutoUpgrade/macros/icons.twig" as icons %}
+
+
+<div class="bootstrap" id="currentConfigurationBlock">
+    <div class="panel">
+        <div class="panel-heading">
+            {{ 'The pre-Upgrade checklist'|trans }}
+        </div>
+        {% if showErrorMessage %}
+        <p class="alert alert-warning">{{ 'The checklist is not OK. You can only upgrade your shop once all indicators are green.'|trans }}</p>
+        {% endif %}
+        <div id="currentConfiguration">
+            <p class="alert alert-info">{{ 'Before starting the upgrade process, please make sure this checklist is all green.'|trans }}</p>
+            <table class="table" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td>{{ 'The 1-click upgrade module is up-to-date (your current version is v%s)'|trans([moduleVersion]) }}
+                        {% if not moduleIsUpToDate %}
+                            {% if versionGreaterThan1_5_3 %}
+                            <strong><a href="index.php?controller=AdminModules&amp;token={{ adminToken|url_encode }}&update=autoupgrade">{{ 'Update'|trans({}, 'Admin.Actions') }}</a></strong>
+                            {% endif %}
+                            <strong><a class="_blank" href="http://addons.prestashop.com/en/administration-tools-prestashop-modules/5496-1-click-upgrade-autoupgrade.html">{{ 'Download'|trans }}</a></strong>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if moduleIsUpToDate %}
+                            {{ icons.ok }}
+                        {% else %}
+                            {{ icons.nok }}
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>{{ 'Your store\'s root directory is writable (with appropriate CHMOD permissions)'|trans }}</td>
+                    <td>
+                        {% if rootDirectoryIsWritable %}
+                            {{ icons.ok }}
+                        {% else %}
+                            {{ icons.nok }} {{ rootDirectoryWritableReport }}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% if adminDirectoryWritableReport %}
+                    <tr>
+                        <td>{{ 'The "/admin/autoupgrade" directory is writable (appropriate CHMOD permissions)'|trans }}</td>
+                        <td>
+                            {% if adminDirectoryIsWritable %}
+                                {{ icons.ok }}
+                            {% else %}
+                                {{ icons.nok }} {{ adminDirectoryWritableReport }}
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endif %}
+                <tr>
+                    <td>{{ 'PHP\'s "Safe mode" option is turned off'|trans }}</td>
+                    <td>
+                        {% if safeModeIsDisabled %}
+                            {{ icons.ok }}
+                        {% else %}
+                            {{ icons.warning }}
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>{{ 'PHP\'s "allow_url_fopen" option is turned on, or cURL is installed'|trans }}</td>
+                    <td>
+                        {% if safeModeIsDisabled %}
+                            {{ icons.ok }}
+                        {% else %}
+                            {{ icons.nok }}
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        {{ 'Your store is in maintenance mode'|trans }}
+                        {% if not storeIsInMaintenance %}
+                            <br><form method="post" action="{{ currentIndex }}&token={{ token }}">
+                                <input type="submit" class="button" name="putUnderMaintenance" value="{{ 'Click here to put your shop under maintenance'|trans }}">
+                            </form>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if storeIsInMaintenance %}
+                            {{ icons.ok }}
+                        {% else %}
+                            {{ icons.nok }}
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>{{ 'PrestaShop\'s caching features are disabled'|trans }}</td>
+                    <td>
+                        {% if cachingIsDisabled %}
+                            {{ icons.ok }}
+                        {% else %}
+                            {{ icons.nok }}
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        {% if maxExecutionTime == 0 %}
+                            {{ 'PHP\'s max_execution_time setting has a high value or is disabled entirely (current value: unlimited)'|trans }}
+                        {% else %}
+                            {{ 'PHP\'s max_execution_time setting has a high value or is disabled entirely (current value: %s seconds)'|trans([maxExecutionTime]) }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if maxExecutionTime == 0 %}
+                            {{ icons.ok }}
+                        {% else %}
+                            {{ icons.warning }}
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        {% if isPrestaShopReady %}
+                            {{ 'PrestaShop requirements are satisfied. '|trans }}
+                        {% else %}
+                            {{ 'PrestaShop requirements are not satisfied. '|trans }} <a href="{{ informationsLink }}">{{ 'See details.'|trans }}</a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if isPrestaShopReady %}
+                            {{ icons.ok }}
+                        {% else %}
+                            {{ icons.warning }}
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
+            <br>
+            <p class="alert alert-info">{{ 'Please also make sure you make a full manual backup of your files and database.'|trans }}</p>
+        </div>
+    </div>
+</div>
