@@ -38,6 +38,8 @@ class AllUpgradeTasks extends ChainedTasks
 {
     const initialTask = 'upgradeNow';
 
+    protected $step = self::initialTask;
+
     /**
      * Customize the execution context with several options
      * > action: Replace the initial step to run

@@ -29,7 +29,7 @@ script:
   # Upgrade
   - docker exec -ti prestashop_autoupgrade php modules/autoupgrade/tests/testCliProcess.php admin-dev/autoupgrade/cli-upgrade.php  --dir="admin-dev" --channel="$CHANNEL"
   # Rollback
-  - docker exec -ti prestashop_autoupgrade php modules/autoupgrade/tests/testCliProcess.php admin-dev/autoupgrade/cli-rollback.php  --dir="admin-dev" --backup="`ls -td -- admin-dev/autoupgrade/backup/*/ | head -n 1 | cut -d'/' -f4`"
+  - docker exec -ti prestashop_autoupgrade php modules/autoupgrade/tests/testCliProcess.php admin-dev/autoupgrade/cli-rollback.php  --dir="admin-dev" --backup=`docker exec -ti prestashop_autoupgrade bash -c "ls -td -- /var/www/html/admin-dev/autoupgrade/backup/*/ | head -n 1 | cut -d'/' -f8 | tr -d '\n'"`
 
 after_script:
   - docker ps

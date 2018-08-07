@@ -34,7 +34,7 @@ if (php_sapi_name() !== 'cli') {
 }
 
 $container->setLogger(new PrestaShop\Module\AutoUpgrade\Log\StreamedLogger());
-$controller = new \PrestaShop\Module\AutoUpgrade\TaskRunner\AllRollbackTasks($container);
+$controller = new \PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback\AllRollbackTasks($container);
 $controller->setOptions(getopt('', array('backup::')));
 $controller->init();
 exit($controller->run());

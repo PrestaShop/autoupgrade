@@ -25,16 +25,18 @@
  *  International Registered Trademark & Property of PrestaShop SA
  */
 
-namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
+namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback;
 
 use PrestaShop\Module\AutoUpgrade\TaskRunner\ChainedTasks;
 
 /**
  * Execute the whole upgrade process in a single request.
  */
-class AllUpgradeTasks extends ChainedTasks
+class AllRollbackTasks extends ChainedTasks
 {
     const initialTask = 'rollback';
+
+    protected $step = self::initialTask;
 
     /**
      * Customize the execution context with several options

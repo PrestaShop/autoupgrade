@@ -35,7 +35,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\TaskRepository;
  */
 abstract class ChainedTasks extends AbstractTask
 {
-    private $step = self::initialTask;
+    protected $step;
 
     public function run()
     {
