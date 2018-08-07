@@ -252,5 +252,8 @@ class RestoreDb extends AbstractTask
     {
         // We don't need the whole core being instanciated, only the autoloader
         $this->container->initPrestaShopAutoloader();
+
+        // Loads the parameters.php file on PrestaShop 1.7, needed for accessing the database
+        require_once $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH).'/config/bootstrap.php';
     }
 }
