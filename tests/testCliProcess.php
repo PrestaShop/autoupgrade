@@ -49,18 +49,22 @@ exit($result);
 function displayHelp()
 {
     echo <<<EOF
-PrestaShop upgrade test
+PrestaShop upgrade/rollback test
 
-This script can be called to complete a whole upgrade of your shop. This script is currently stored in tests/ as it
+This script can be called to complete a whole process of your shop. This script is currently stored in tests/ as it
 is used by automated tests.
 
-testCliUpgrade.php <Path to cli-upgrade.php> [Options]
+testCliProcess.php <Path to cli-upgrade.php/cli-rollback.php etc.> [Options]
 ------------------
 Options
 --help               Display this message.
 
 --admin-dir      Tells where the admin directory is.
+
+[UPGRADE]
 --channel         Selects what upgrade to run (minor, major etc.)
+[ROLLBACK]
+--backup          Select the backup to restore. To be found in autoupgrade/backup, in your admin folder.
 
 EOF;
 }

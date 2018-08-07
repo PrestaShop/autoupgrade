@@ -26,7 +26,10 @@ before_script:
 
 script:
   - php vendor/phpunit/phpunit/phpunit tests
-  - docker exec -ti prestashop_autoupgrade php modules/autoupgrade/tests/testCliUpgrade.php admin-dev/autoupgrade/cli-upgrade.php  --dir="admin-dev" --channel="$CHANNEL"
+  # Upgrade
+  - docker exec -ti prestashop_autoupgrade php modules/autoupgrade/tests/testCliProcess.php admin-dev/autoupgrade/cli-upgrade.php  --dir="admin-dev" --channel="$CHANNEL"
+  # Rollback
+  - docker exec -ti prestashop_autoupgrade php modules/autoupgrade/tests/testCliProcess.php admin-dev/autoupgrade/cli-rollback.php  --dir="admin-dev" --backup="`ls -td -- admin-dev/autoupgrade/backup/*/ | head -n 1 | cut -d'/' -f4`"
 
 after_script:
   - docker ps
