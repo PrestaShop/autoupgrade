@@ -41,7 +41,7 @@ abstract class ChainedTasks extends AbstractTask
     {
         $requireRestart = false;
         while ($this->canContinue() && !$requireRestart) {
-            echo PHP_EOL.'=== Step '.$this->step.PHP_EOL;
+            $this->logger->info('=== Step '.$this->step);
             $controller = TaskRepository::get($this->step, $this->container);
             $controller->init();
             $controller->run();
