@@ -50,8 +50,6 @@ class AllUpgradeTasks extends ChainedTasks
      */
     public function setOptions(array $options)
     {
-        parent::setOptions($options);
-
         if (!empty($options['action'])) {
             $this->step = $options['action'];
         }

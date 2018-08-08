@@ -25,13 +25,13 @@
  *  International Registered Trademark & Property of PrestaShop SA
  */
 
-require_once realpath(dirname(__FILE__).'/../../modules/autoupgrade').'/ajax-upgradetabconfig.php';
-$container = autoupgrade_init_container(dirname(__FILE__));
-
 if (php_sapi_name() !== 'cli') {
     echo 'This script must be called from CLI';
     exit(1);
 }
+
+require_once realpath(dirname(__FILE__).'/../../modules/autoupgrade').'/ajax-upgradetabconfig.php';
+$container = autoupgrade_init_container(dirname(__FILE__));
 
 $container->setLogger(new PrestaShop\Module\AutoUpgrade\Log\StreamedLogger());
 $controller = new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\AllUpgradeTasks($container);

@@ -37,6 +37,11 @@ abstract class ChainedTasks extends AbstractTask
 {
     protected $step;
 
+    /**
+     * Execute all the tasks from a specific initial step, until the end (complete or error).
+     *
+     * @return int Return code (0 for success, any value otherwise)
+     */
     public function run()
     {
         $requireRestart = false;
@@ -61,9 +66,7 @@ abstract class ChainedTasks extends AbstractTask
      *
      * @param array $options
      */
-    public function setOptions(array $options)
-    {
-    }
+    abstract public function setOptions(array $options);
 
     /**
      * Tell the while loop if it can continue.
