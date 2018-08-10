@@ -27,6 +27,10 @@ before_script:
 script:
   - php vendor/phpunit/phpunit/phpunit tests
   - docker exec -ti prestashop_autoupgrade php modules/autoupgrade/tests/testCliUpgrade.php admin-dev/autoupgrade/cli-upgrade.php  --dir="admin-dev" --channel="$CHANNEL"
+  # Front office in maintenance mode -> HTTP code 503 expected
+  - bash -c '[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://localhost:8001/index.php)" == "503" ]'
+  # Back office -> HTTP code 200 expected
+  - bash -c '[ "$(curl -L -s -o /dev/null -w ''%{http_code}'' http://localhost:8001/admin-dev/index.php)" == "200" ]'
 
 after_script:
   - docker ps
