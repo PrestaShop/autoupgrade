@@ -23,6 +23,11 @@ install:
 before_script:
   - bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://localhost:8001/index.php)" != "200" ]]; do sleep 5; done'
   - docker exec -ti prestashop_autoupgrade cp modules/autoupgrade/ -R admin-dev
+  # Front office in maintenance mode -> HTTP code 503 expected
+  - [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://localhost:8001/index.php)" == "503" ]]
+  # Back office -> HTTP code 200 expected
+  - [[ "$(curl -L -s -o /dev/null -w ''%{http_code}'' http://localhost:8001/admin-dev/index.php)" == "200" ]]
+
 
 script:
   - php vendor/phpunit/phpunit/phpunit tests
