@@ -74,7 +74,7 @@ class UpgradeConfigurationStorage extends FileConfigurationStorage
             'PS_AUTOUP_BACKUP' => 1,
             'PS_AUTOUP_KEEP_IMAGES' => 0,
             'channel' => Upgrader::DEFAULT_CHANNEL,
-            'archive.filename' => 'prestashop.zip',
+            'archive.filename' => Upgrader::DEFAULT_FILENAME,
         );
     }
 }
