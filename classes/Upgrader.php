@@ -33,6 +33,7 @@ class Upgrader
 {
     const DEFAULT_CHECK_VERSION_DELAY_HOURS = 12;
     const DEFAULT_CHANNEL = 'major';
+    const DEFAULT_FILENAME = 'prestashop.zip';
     // @todo channel handling :)
     public $addons_api = 'api.addons.prestashop.com';
     public $rss_channel_link = 'https://api.prestashop.com/xml/channel.xml';

@@ -31,6 +31,7 @@ use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\Upgrader;
 
 /**
  * update configuration after validating the new values.
@@ -48,6 +49,7 @@ class UpdateConfig extends AbstractTask
         // update channel
         if (isset($request['channel'])) {
             $config['channel'] = $request['channel'];
+            $config['archive.filename'] = Upgrader::DEFAULT_FILENAME;
         }
         if (isset($request['private_release_link']) && isset($request['private_release_md5'])) {
             $config['channel'] = 'private';
