@@ -21,12 +21,16 @@ install:
   - docker-compose up -d
 
 before_script:
-  - bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://localhost:8001/index.php)" != "200" ]]; do sleep 5; done'
-  - docker exec -ti prestashop_autoupgrade cp modules/autoupgrade/ -R admin-dev
+  - bash -c 'while [[ "$(curl -s -o /dev/null -w %{http_code} http://localhost:8001/index.php)" != "200" ]]; do sleep 5; done'
+  - docker exec -u www-data -ti prestashop_autoupgrade cp modules/autoupgrade/ -R admin-dev
 
 script:
   - php vendor/phpunit/phpunit/phpunit tests
-  - docker exec -ti prestashop_autoupgrade php modules/autoupgrade/tests/testCliUpgrade.php admin-dev/autoupgrade/cli-upgrade.php  --dir="admin-dev" --channel="$CHANNEL"
+  - docker exec -u www-data -ti prestashop_autoupgrade php modules/autoupgrade/tests/testCliUpgrade.php admin-dev/autoupgrade/cli-upgrade.php  --dir="admin-dev" --channel="$CHANNEL"
+  # Front office -> HTTP code 200 expected (no maintenance)
+  - bash -c '[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost:8001/index.php)" == "200" ]'
+  # Back office -> HTTP code 200 expected
+  - bash -c '[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost:8001/admin-dev/index.php)" == "200" ]'
 
 after_script:
   - docker ps
