@@ -26,15 +26,20 @@ before_script:
 
 script:
   - php vendor/phpunit/phpunit/phpunit tests
+
   # Upgrade
   - docker exec -u www-data -ti prestashop_autoupgrade php modules/autoupgrade/tests/testCliProcess.php admin-dev/autoupgrade/cli-upgrade.php  --dir="admin-dev" --channel="$CHANNEL"
   # Front office -> HTTP code 200 expected (no maintenance)
   - bash -c '[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost:8001/index.php)" == "200" ]'
   # Back office -> HTTP code 200 expected
   - bash -c '[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost:8001/admin-dev/index.php)" == "200" ]'
-  
-    # Rollback
+
+  # Rollback
   - docker exec -u www-data -ti prestashop_autoupgrade php modules/autoupgrade/tests/testCliProcess.php admin-dev/autoupgrade/cli-rollback.php  --dir="admin-dev" --backup=`docker exec -ti prestashop_autoupgrade bash -c "ls -td -- /var/www/html/admin-dev/autoupgrade/backup/*/ | head -n 1 | cut -d'/' -f8 | tr -d '\n'"`
+  # Front office -> HTTP code 200 expected (no maintenance)
+  - bash -c '[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost:8001/index.php)" == "200" ]'
+  # Back office -> HTTP code 200 expected
+  - bash -c '[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost:8001/admin-dev/index.php)" == "200" ]'
 
 after_script:
   - docker ps
