@@ -34,7 +34,7 @@ require_once realpath(dirname(__FILE__).'/../../modules/autoupgrade').'/ajax-upg
 $container = autoupgrade_init_container(dirname(__FILE__));
 
 $container->setLogger(new PrestaShop\Module\AutoUpgrade\Log\StreamedLogger());
-$controller = new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\AllUpgradeTasks($container);
-$controller->setOptions(getopt('', array('action::', 'channel::', 'data::')));
+$controller = new \PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback\AllRollbackTasks($container);
+$controller->setOptions(getopt('', array('backup::')));
 $controller->init();
 exit($controller->run());
