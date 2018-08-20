@@ -64,10 +64,10 @@ class CoreUpgrader16 extends CoreUpgrader
             $datas['_RIJNDAEL_KEY_'] = _RIJNDAEL_KEY_;
             $datas['_RIJNDAEL_IV_'] = _RIJNDAEL_IV_;
         } elseif (function_exists('openssl_encrypt')) {
-            $datas['_RIJNDAEL_KEY_'] = Tools::passwdGen(32);
+            $datas['_RIJNDAEL_KEY_'] = Tools14::passwdGen(32);
             $datas['_RIJNDAEL_IV_'] = base64_encode(openssl_random_pseudo_bytes(openssl_cipher_iv_length('AES-128-CBC')));
         } elseif (function_exists('mcrypt_encrypt')) {
-            $datas['_RIJNDAEL_KEY_'] = Tools::passwdGen(mcrypt_get_key_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC));
+            $datas['_RIJNDAEL_KEY_'] = Tools14::passwdGen(mcrypt_get_key_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC));
             $datas['_RIJNDAEL_IV_'] = base64_encode(mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC), MCRYPT_RAND));
         }
 
