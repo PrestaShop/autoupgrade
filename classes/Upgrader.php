@@ -38,7 +38,6 @@ class Upgrader
     public $addons_api = 'api.addons.prestashop.com';
     public $rss_channel_link = 'https://api.prestashop.com/xml/channel.xml';
     public $rss_md5file_link_dir = 'https://api.prestashop.com/xml/md5/';
-    public $rss_md5file_link_dir_major = 'https://api.prestashop.com/xml/md5-17/';
 
     /**
      * @var bool contains true if last version is not installed
@@ -333,12 +332,7 @@ class Upgrader
      */
     public function getXmlMd5File($version, $refresh = false)
     {
-        $source = $this->rss_md5file_link_dir;
-        if (version_compare($version, '1.7.0.0', '>=')) {
-            $source = $this->rss_md5file_link_dir_major;
-        }
-
-        return $this->getXmlFIle(_PS_ROOT_DIR_.'/config/xml/'.$version.'.xml', $source.$version.'.xml', $refresh);
+        return $this->getXmlFIle(_PS_ROOT_DIR_.'/config/xml/'.$version.'.xml', $this->rss_md5file_link_dir.$version.'.xml', $refresh);
     }
 
     /**
