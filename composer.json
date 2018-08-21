@@ -18,7 +18,6 @@
   },
   "config": {
     "preferred-install": "dist",
-    "prepend-autoloader": false,
     "platform": {
         "php": "5.6"
     }
