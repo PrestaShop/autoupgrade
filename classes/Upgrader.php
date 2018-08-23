@@ -38,8 +38,6 @@ class Upgrader
     public $addons_api = 'api.addons.prestashop.com';
     public $rss_channel_link = 'https://api.prestashop.com/xml/channel.xml';
     public $rss_md5file_link_dir = 'https://api.prestashop.com/xml/md5/';
-    public $rss_channel_link_major = 'https://api.prestashop.com/xml/channel17.xml';
-    public $rss_md5file_link_dir_major = 'https://api.prestashop.com/xml/md5-17/';
 
     /**
      * @var bool contains true if last version is not installed
@@ -310,9 +308,11 @@ class Upgrader
 
     public function getXmlChannel($refresh = false)
     {
-        // TODO: To be removed, we should have only one file to get.
-        $file = ($this->channel === 'major' ? $this->rss_channel_link_major : $this->rss_channel_link);
-        $xml = $this->getXmlFile(_PS_ROOT_DIR_.'/config/xml/'.pathinfo($file, PATHINFO_BASENAME), $file, $refresh);
+        $xml = $this->getXmlFile(
+            _PS_ROOT_DIR_.'/config/xml/'.pathinfo($this->rss_channel_link, PATHINFO_BASENAME),
+            $this->rss_channel_link,
+            $refresh
+        );
         if ($refresh) {
             if (class_exists('Configuration', false)) {
                 Configuration::updateValue('PS_LAST_VERSION_CHECK', time());
@@ -332,12 +332,7 @@ class Upgrader
      */
     public function getXmlMd5File($version, $refresh = false)
     {
-        $source = $this->rss_md5file_link_dir;
-        if (version_compare($version, '1.7.0.0', '>=')) {
-            $source = $this->rss_md5file_link_dir_major;
-        }
-
-        return $this->getXmlFIle(_PS_ROOT_DIR_.'/config/xml/'.$version.'.xml', $source.$version.'.xml', $refresh);
+        return $this->getXmlFIle(_PS_ROOT_DIR_.'/config/xml/'.$version.'.xml', $this->rss_md5file_link_dir.$version.'.xml', $refresh);
     }
 
     /**

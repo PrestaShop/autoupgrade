@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * 2007-2018 PrestaShop
  * 
  * NOTICE OF LICENSE
@@ -25,16 +25,39 @@
  *  International Registered Trademark & Property of PrestaShop SA
  */
 
-if (php_sapi_name() !== 'cli') {
-    echo 'This script must be called from CLI';
-    exit(1);
+namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback;
+
+use PrestaShop\Module\AutoUpgrade\TaskRunner\ChainedTasks;
+
+/**
+ * Execute the whole upgrade process in a single request.
+ */
+class AllRollbackTasks extends ChainedTasks
+{
+    const initialTask = 'rollback';
+
+    protected $step = self::initialTask;
+
+    /**
+     * Customize the execution context with several options
+     * > action: Replace the initial step to run
+     * > channel: Makes a specific upgrade (minor, major etc.)
+     * > data: Loads an encoded array of data coming from another request.
+     *
+     * @param array $options
+     */
+    public function setOptions(array $options)
+    {
+        if (!empty($options['backup'])) {
+            $this->container->getState()->setRestoreName($options['backup']);
+        }
+    }
+
+    /**
+     * Set default config on first run.
+     */
+    public function init()
+    {
+        // Do nothing
+    }
 }
-
-require_once realpath(dirname(__FILE__).'/../../modules/autoupgrade').'/ajax-upgradetabconfig.php';
-$container = autoupgrade_init_container(dirname(__FILE__));
-
-$container->setLogger(new PrestaShop\Module\AutoUpgrade\Log\StreamedLogger());
-$controller = new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\AllUpgradeTasks($container);
-$controller->setOptions(getopt('', array('action::', 'channel::', 'data::')));
-$controller->init();
-exit($controller->run());

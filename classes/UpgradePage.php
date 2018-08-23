@@ -360,7 +360,8 @@ class UpgradePage
                 'confirmPreserveFileOptions' => $translator->trans('Please confirm that you want to preserve file options.', array(), $translationDomain),
                 'lessOptions' => $translator->trans('Less options', array(), $translationDomain),
                 'moreOptions' => $translator->trans('More options (Expert mode)', array(), $translationDomain),
-                'filesWillBeDeleted' => $translator->trans('Theses files will be deleted', array(), $translationDomain),
+                'filesWillBeDeleted' => $translator->trans('These files will be deleted', array(), $translationDomain),
+                'filesWillBeReplaced' => $translator->trans('These files will be replaced', array(), $translationDomain),
             ),
         );
 

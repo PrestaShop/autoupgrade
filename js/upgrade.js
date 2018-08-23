@@ -52,7 +52,8 @@ if (typeof input === 'undefined') {
       confirmPreserveFileOptions: "Please confirm that you want to preserve file options.",
       lessOptions: "Less options",
       moreOptions: "More options (Expert mode)",
-      filesWillBeDeleted: "Theses files will be deleted"
+      filesWillBeDeleted: "These files will be deleted",
+      filesWillBeReplaced: "These files will be replaced",
     }
   };
 }
@@ -717,7 +718,7 @@ $(document).ready(function() {
           addModifiedFileList(input.translation.filesWillBeDeleted, answer.result.deleted, "diffImportant", "#diffList");
         }
         if (answer.result.modified.length) {
-          addModifiedFileList(input.translation.filesWillBeDeleted, answer.result.modified, "diffImportant", "#diffList");
+          addModifiedFileList(input.translation.filesWillBeReplaced, answer.result.modified, "diffImportant", "#diffList");
         }
 
         $("#toggleDiffList").bind("click", function(e) {
