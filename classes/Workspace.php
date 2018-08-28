@@ -37,13 +37,19 @@ class Workspace
     private $logger;
 
     /**
+     * @var UpgradeTools\Translator
+     */
+    private $translator;
+
+    /**
      * @var array List of paths used by autoupgrade
      */
     private $paths;
 
-    public function __construct(LoggerInterface $logger, array $paths)
+    public function __construct(LoggerInterface $logger, $translator, array $paths)
     {
         $this->logger = $logger;
+        $this->translator = $translator;
         $this->paths = $paths;
     }
 
@@ -51,10 +57,10 @@ class Workspace
     {
         foreach ($this->paths as $path) {
             if (!file_exists($path) && !mkdir($path)) {
-                $this->logger->error($this->trans('Unable to create directory %s', array($path), 'Modules.Autoupgrade.Admin'));
+                $this->logger->error($this->translator->trans('Unable to create directory %s', array($path), 'Modules.Autoupgrade.Admin'));
             }
             if (!is_writable($path)) {
-                $this->logger->error($this->trans('Unable to write in the directory "%s"', array($path), 'Modules.Autoupgrade.Admin'));
+                $this->logger->error($this->translator->trans('Unable to write in the directory "%s"', array($path), 'Modules.Autoupgrade.Admin'));
             }
         }
     }
