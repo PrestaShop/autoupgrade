@@ -432,7 +432,11 @@ class UpgradeContainer
             $paths[] = $this->getProperty($property);
         }
 
-        $this->workspace = new Workspace($this->getLogger(), $paths);
+        $this->workspace = new Workspace(
+            $this->getLogger(),
+            $this->getTranslator(),
+            $paths
+        );
 
         return $this->workspace;
     }
