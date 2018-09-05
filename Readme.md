@@ -5,7 +5,7 @@
 Provides an automated method to upgrade your shop to the latest version of PrestaShop.
 This module is compatible with all PrestaShop 1.6 & 1.7.
 
-# installation
+# Installation
 
 You must have [composer][4] installed on your computer. Then, execute:
 
@@ -20,7 +20,7 @@ Upgrading a shop can be done via:
 * the configuration page of the module (access from your BO module page)
 * in command line by calling the file *cli-upgrade.php*
 
-## Comand line parameters
+## Command line parameters
 
 Upgrade can be automated by calling *cli-upgrade.php*.
 The following parameters are mandatory:
