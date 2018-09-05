@@ -120,6 +120,7 @@ class FileFilter
         // If set to false, we need to preserve the default themes
         if (!$this->configuration->shouldUpdateDefaultTheme()) {
             $excludeAbsoluteFilesFromUpgrade[] = '/themes/classic';
+            $excludeAbsoluteFilesFromUpgrade[] = '/themes/default-bootstrap';
         }
 
         return $excludeAbsoluteFilesFromUpgrade;
