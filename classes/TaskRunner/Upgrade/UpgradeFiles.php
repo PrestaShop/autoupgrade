@@ -111,7 +111,7 @@ class UpgradeFiles extends AbstractTask
         foreach ($allFiles as $file) {
             $fullPath = $dir.DIRECTORY_SEPARATOR.$file;
 
-            if ($this->container->getFilesystemAdapter()->isFileSkipped($file, $fullPath, 'upgrade')) {
+            if ($this->container->getFilesystemAdapter()->isFileSkipped($file, $fullPath, 'upgrade', $this->container->getProperty(UpgradeContainer::LATEST_PATH))) {
                 if (!in_array($file, array('.', '..'))) {
                     $this->logger->debug($this->translator->trans('File %s is preserved', array($file), 'Modules.Autoupgrade.Admin'));
                 }
