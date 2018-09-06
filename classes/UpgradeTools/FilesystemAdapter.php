@@ -207,11 +207,11 @@ class FilesystemAdapter
     public function isFileSkipped($file, $fullpath, $way = 'backup', $temporaryWorkspace = null)
     {
         $fullpath = str_replace('\\', '/', $fullpath); // wamp compliant
-        if (null !== $temporaryWorkspace) {
-            $rootpath = str_replace('\\', '/', $temporaryWorkspace);
-        } else {
-            $rootpath = str_replace('\\', '/', $this->prodRootDir);
-        }
+        $rootpath = str_replace(
+            '\\',
+            '/',
+            (null !== $temporaryWorkspace) ? $temporaryWorkspace : $this->prodRootDir
+        );
 
         if (in_array($file, $this->fileFilter->getExcludeFiles())) {
             return true;
