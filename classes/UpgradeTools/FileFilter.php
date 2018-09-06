@@ -118,9 +118,8 @@ class FileFilter
 
         // this will exclude autoupgrade dir from admin, and autoupgrade from modules
         // If set to false, we need to preserve the default themes
-        if (!$this->configuration->shouldUpdateDefaultTheme()) {
+        if (!$this->configuration->get('PS_AUTOUP_UPDATE_DEFAULT_THEME')) {
             $excludeAbsoluteFilesFromUpgrade[] = '/themes/classic';
-            $excludeAbsoluteFilesFromUpgrade[] = '/themes/default-bootstrap';
         }
 
         return $excludeAbsoluteFilesFromUpgrade;

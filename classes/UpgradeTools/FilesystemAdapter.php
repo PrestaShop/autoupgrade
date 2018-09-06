@@ -199,40 +199,59 @@ class FilesystemAdapter
     /**
      *	bool _skipFile : check whether a file is in backup or restore skip list.
      *
-     * @param string $file     : current file or directory name eg:'.svn' , 'settings.inc.php'
-     * @param string $fullpath : current file or directory fullpath eg:'/home/web/www/prestashop/app/config/parameters.php'
-     * @param string $way      : 'backup' , 'upgrade'
-     * @param string $temporaryWorkspace : If needed, another folder than the shop root can be used (used for releases)
+     * @param type $file     : current file or directory name eg:'.svn' , 'settings.inc.php'
+     * @param type $fullpath : current file or directory fullpath eg:'/home/web/www/prestashop/app/config/parameters.php'
+     * @param type $way      : 'backup' , 'upgrade'
      */
-    public function isFileSkipped($file, $fullpath, $way = 'backup', $temporaryWorkspace = null)
+    public function isFileSkipped($file, $fullpath, $way = 'backup')
     {
         $fullpath = str_replace('\\', '/', $fullpath); // wamp compliant
-        if (null !== $temporaryWorkspace) {
-            $rootpath = str_replace('\\', '/', $temporaryWorkspace);
-        } else {
-            $rootpath = str_replace('\\', '/', $this->prodRootDir);
-        }
+        $rootpath = str_replace('\\', '/', $this->prodRootDir);
+        switch ($way) {
+            case 'backup':
+                if (in_array($file, $this->fileFilter->getExcludeFiles())) {
+                    return true;
+                }
 
-        if (in_array($file, $this->fileFilter->getExcludeFiles())) {
-            return true;
-        }
+                foreach ($this->fileFilter->getFilesToIgnoreOnBackup() as $path) {
+                    $path = str_replace(DIRECTORY_SEPARATOR.'admin', DIRECTORY_SEPARATOR.$this->adminSubDir, $path);
+                    if ($fullpath === $rootpath.$path) {
+                        return true;
+                    }
+                }
+                break;
+                // restore or upgrade way : ignore the same files
+                // note the restore process use skipFiles only if xml md5 files
+                // are unavailable
+            case 'restore':
+                if (in_array($file, $this->fileFilter->getExcludeFiles())) {
+                    return true;
+                }
 
-        $ignoreList = array();
-        if ('backup' === $way) {
-            $ignoreList = $this->fileFilter->getFilesToIgnoreOnBackup();
-        } elseif ('restore' === $way) {
-            $ignoreList = $this->fileFilter->getFilesToIgnoreOnRestore();
-        } elseif ('upgrade' === $way) {
-            $ignoreList = $this->fileFilter->getFilesToIgnoreOnUpgrade();
-        }
+                foreach ($this->fileFilter->getFilesToIgnoreOnRestore() as $path) {
+                    $path = str_replace(DIRECTORY_SEPARATOR.'admin', DIRECTORY_SEPARATOR.$this->adminSubDir, $path);
+                    if ($fullpath === $rootpath.$path) {
+                        return true;
+                    }
+                }
+                break;
+            case 'upgrade':
+                if (in_array($file, $this->fileFilter->getExcludeFiles())) {
+                    return true;
+                }
 
-        foreach ($ignoreList as $path) {
-            $path = str_replace(DIRECTORY_SEPARATOR.'admin', DIRECTORY_SEPARATOR.$this->adminSubDir, $path);
-            if ($fullpath === $rootpath . $path) {
-                return true;
-            }
-        }
+                foreach ($this->fileFilter->getFilesToIgnoreOnUpgrade() as $path) {
+                    $path = str_replace(DIRECTORY_SEPARATOR.'admin', DIRECTORY_SEPARATOR.$this->adminSubDir, $path);
+                    if ($fullpath === $rootpath.$path) {
+                        return true;
+                    }
+                }
 
+                break;
+                // default : if it's not a backup or an upgrade, do not skip the file
+            default:
+                return false;
+        }
         // by default, don't skip
         return false;
     }

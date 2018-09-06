@@ -37,8 +37,6 @@ class FilesystemAdapterTest extends TestCase
     {
         parent::setUp();
         $this->container = new UpgradeContainer('/html', '/html/admin');
-        // We expect in these tests to NOT update the theme
-        $this->container->getUpgradeConfiguration()->set('PS_AUTOUP_UPDATE_DEFAULT_THEME', false);
         $this->filesystemAdapter = $this->container->getFilesystemAdapter();
     }
 
@@ -53,24 +51,6 @@ class FilesystemAdapterTest extends TestCase
                 $file,
                 $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH).$fullpath,
                 $process));
-    }
-
-    /**
-     * When we list the files to get from a release, we are not working in the current shop.
-     * Paths mismatch but we should expect the same results.
-     *
-     * @dataProvider ignoredFilesProvider
-     */
-    public function testFileFromReleaseIsIgnored($file, $fullpath, $process)
-    {
-        $this->assertSame(
-            true,
-            $this->filesystemAdapter->isFileSkipped(
-                $file,
-                $this->container->getProperty(UpgradeContainer::LATEST_PATH).$fullpath,
-                $process,
-                $this->container->getProperty(UpgradeContainer::LATEST_PATH)
-            ));
     }
 
     /**
@@ -100,8 +80,6 @@ class FilesystemAdapterTest extends TestCase
             array('autoupgrade', '/modules/autoupgrade', 'backup'),
 
             array('parameters.yml', '/app/config/parameters.yml', 'upgrade'),
-
-            array('classic', '/themes/classic', 'upgrade'),
         );
     }
 
