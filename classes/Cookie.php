@@ -2,9 +2,9 @@
 
 /*
  * 2007-2018 PrestaShop
- * 
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0)
  * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
@@ -12,13 +12,13 @@
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license@prestashop.com so we can send you a copy immediately.
- * 
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
  * versions in the future. If you wish to customize PrestaShop for your
  * needs please refer to http://www.prestashop.com for more information.
- * 
+ *
  *  @author PrestaShop SA <contact@prestashop.com>
  *  @copyright  2007-2018 PrestaShop SA
  *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -48,26 +48,26 @@ class Cookie
 
     /**
      * @param string $adminDir Admin subfolder
-     * @param string $tmpDir   Storage folder
+     * @param string $tmpDir Storage folder
      */
     public function __construct($adminDir, $tmpDir)
     {
         $this->adminDir = $adminDir;
-        $this->keyFilePath = $tmpDir.DIRECTORY_SEPARATOR.self::GENERATED_KEY_FILE;
+        $this->keyFilePath = $tmpDir . DIRECTORY_SEPARATOR . self::GENERATED_KEY_FILE;
     }
 
     /**
      * Create the cookie to be verified during the upgrade process,
      * because we can't use the classic authentication.
      *
-     * @param int    $idEmployee
-     * @param string $iso_code   i.e 'en'
+     * @param int $idEmployee
+     * @param string $iso_code i.e 'en'
      */
     public function create($idEmployee, $iso_code)
     {
         $this->storeKey(_COOKIE_KEY_);
 
-        $cookiePath = __PS_BASE_URI__.$this->adminDir;
+        $cookiePath = __PS_BASE_URI__ . $this->adminDir;
         setcookie('id_employee', $idEmployee, 0, $cookiePath);
         setcookie('iso_code', $iso_code, 0, $cookiePath);
         setcookie('autoupgrade', $this->encrypt($idEmployee), 0, $cookiePath);
@@ -86,7 +86,7 @@ class Cookie
             return false;
         }
 
-        return ($cookie['autoupgrade'] == $this->encrypt($cookie['id_employee']));
+        return $cookie['autoupgrade'] == $this->encrypt($cookie['id_employee']);
     }
 
     /**
@@ -96,7 +96,7 @@ class Cookie
      */
     private function encrypt($string)
     {
-        return md5(md5($this->readKey()).md5($string));
+        return md5(md5($this->readKey()) . md5($string));
     }
 
     /**
@@ -111,13 +111,13 @@ class Cookie
     public function generateKeyFileContent($key)
     {
         return '<?php
-$key = "'.$key.'";
+$key = "' . $key . '";
 ';
     }
 
     /**
      * If not loaded, reads the generated file to get the key.
-     * 
+     *
      * @return string
      *
      * @internal
@@ -138,7 +138,7 @@ $key = "'.$key.'";
     /**
      * PrestaShop constants won't be available during the upgrade process
      * We store it in a dedicated file.
-     * 
+     *
      * @param string $key
      *
      * @return bool True on success

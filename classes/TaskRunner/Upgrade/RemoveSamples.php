@@ -2,9 +2,9 @@
 
 /*
  * 2007-2018 PrestaShop
- * 
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0)
  * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
@@ -12,13 +12,13 @@
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license@prestashop.com so we can send you a copy immediately.
- * 
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
  * versions in the future. If you wish to customize PrestaShop for your
  * needs please refer to http://www.prestashop.com for more information.
- * 
+ *
  *  @author PrestaShop SA <contact@prestashop.com>
  *  @copyright  2007-2018 PrestaShop SA
  *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -50,27 +50,28 @@ class RemoveSamples extends AbstractTask
                 $this->logger->error($this->translator->trans('Could not assert the folder %s contains a valid PrestaShop release, exiting.', array($latestPath), 'Modules.Autoupgrade.Admin'));
                 $this->logger->error($this->translator->trans('A file may be missing, or the release is stored in a subfolder by mistake.', array(), 'Modules.Autoupgrade.Admin'));
                 $this->next = 'error';
+
                 return;
             }
 
             $removeList = $this->container->getFilesystemAdapter()->listSampleFilesFromArray(array(
-                array('path' => $latestPath.'/img/c', 'filter' => '.jpg'),
-                array('path' => $latestPath.'/img/cms', 'filter' => '.jpg'),
-                array('path' => $latestPath.'/img/l', 'filter' => '.jpg'),
-                array('path' => $latestPath.'/img/m', 'filter' => '.jpg'),
-                array('path' => $latestPath.'/img/os', 'filter' => '.jpg'),
-                array('path' => $latestPath.'/img/p', 'filter' => '.jpg'),
-                array('path' => $latestPath.'/img/s', 'filter' => '.jpg'),
-                array('path' => $latestPath.'/img/scenes', 'filter' => '.jpg'),
-                array('path' => $latestPath.'/img/st', 'filter' => '.jpg'),
-                array('path' => $latestPath.'/img/su', 'filter' => '.jpg'),
-                array('path' => $latestPath.'/img', 'filter' => '404.gif'),
-                array('path' => $latestPath.'/img', 'filter' => 'favicon.ico'),
-                array('path' => $latestPath.'/img', 'filter' => 'logo.jpg'),
-                array('path' => $latestPath.'/img', 'filter' => 'logo_stores.gif'),
-                array('path' => $latestPath.'/modules/editorial', 'filter' => 'homepage_logo.jpg'),
+                array('path' => $latestPath . '/img/c', 'filter' => '.jpg'),
+                array('path' => $latestPath . '/img/cms', 'filter' => '.jpg'),
+                array('path' => $latestPath . '/img/l', 'filter' => '.jpg'),
+                array('path' => $latestPath . '/img/m', 'filter' => '.jpg'),
+                array('path' => $latestPath . '/img/os', 'filter' => '.jpg'),
+                array('path' => $latestPath . '/img/p', 'filter' => '.jpg'),
+                array('path' => $latestPath . '/img/s', 'filter' => '.jpg'),
+                array('path' => $latestPath . '/img/scenes', 'filter' => '.jpg'),
+                array('path' => $latestPath . '/img/st', 'filter' => '.jpg'),
+                array('path' => $latestPath . '/img/su', 'filter' => '.jpg'),
+                array('path' => $latestPath . '/img', 'filter' => '404.gif'),
+                array('path' => $latestPath . '/img', 'filter' => 'favicon.ico'),
+                array('path' => $latestPath . '/img', 'filter' => 'logo.jpg'),
+                array('path' => $latestPath . '/img', 'filter' => 'logo_stores.gif'),
+                array('path' => $latestPath . '/modules/editorial', 'filter' => 'homepage_logo.jpg'),
                 // remove all override present in the archive
-                array('path' => $latestPath.'/override', 'filter' => '.php'),
+                array('path' => $latestPath . '/override', 'filter' => '.php'),
             ));
 
             $this->container->getState()->setRemoveList($removeList);

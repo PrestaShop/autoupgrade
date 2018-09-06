@@ -157,7 +157,7 @@ class UpgradeContainer
 
     public function __construct($psRootDir, $adminDir, $moduleSubDir = 'autoupgrade')
     {
-        $this->autoupgradeWorkDir = $adminDir.DIRECTORY_SEPARATOR.$moduleSubDir;
+        $this->autoupgradeWorkDir = $adminDir . DIRECTORY_SEPARATOR . $moduleSubDir;
         $this->adminDir = $adminDir;
         $this->psRootDir = $psRootDir;
     }
@@ -174,19 +174,19 @@ class UpgradeContainer
             case self::WORKSPACE_PATH:
                 return $this->autoupgradeWorkDir;
             case self::BACKUP_PATH:
-                return $this->autoupgradeWorkDir.DIRECTORY_SEPARATOR.'backup';
+                return $this->autoupgradeWorkDir . DIRECTORY_SEPARATOR . 'backup';
             case self::DOWNLOAD_PATH:
-                return $this->autoupgradeWorkDir.DIRECTORY_SEPARATOR.'download';
+                return $this->autoupgradeWorkDir . DIRECTORY_SEPARATOR . 'download';
             case self::LATEST_PATH:
-                return $this->autoupgradeWorkDir.DIRECTORY_SEPARATOR.'latest';
+                return $this->autoupgradeWorkDir . DIRECTORY_SEPARATOR . 'latest';
             case self::LATEST_DIR:
-                return $this->autoupgradeWorkDir.DIRECTORY_SEPARATOR.'latest'.DIRECTORY_SEPARATOR;
+                return $this->autoupgradeWorkDir . DIRECTORY_SEPARATOR . 'latest' . DIRECTORY_SEPARATOR;
             case self::TMP_PATH:
-                return $this->autoupgradeWorkDir.DIRECTORY_SEPARATOR.'tmp';
+                return $this->autoupgradeWorkDir . DIRECTORY_SEPARATOR . 'tmp';
             case self::ARCHIVE_FILENAME:
                 return $this->getUpgradeConfiguration()->getArchiveFilename();
             case self::ARCHIVE_FILEPATH:
-                return $this->getProperty(self::DOWNLOAD_PATH).DIRECTORY_SEPARATOR.$this->getProperty(self::ARCHIVE_FILENAME);
+                return $this->getProperty(self::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $this->getProperty(self::ARCHIVE_FILENAME);
             case self::PS_VERSION:
                 return $this->getPrestaShopConfiguration()->getPrestaShopVersion();
         }
@@ -226,7 +226,7 @@ class UpgradeContainer
             return $this->fileConfigurationStorage;
         }
 
-        $this->fileConfigurationStorage = new FileConfigurationStorage($this->getProperty(self::WORKSPACE_PATH).DIRECTORY_SEPARATOR);
+        $this->fileConfigurationStorage = new FileConfigurationStorage($this->getProperty(self::WORKSPACE_PATH) . DIRECTORY_SEPARATOR);
 
         return $this->fileConfigurationStorage;
     }
@@ -308,7 +308,7 @@ class UpgradeContainer
 
         $logFile = null;
         if (is_writable($this->getProperty(self::TMP_PATH))) {
-            $logFile = $this->getProperty(self::TMP_PATH).DIRECTORY_SEPARATOR.'log.txt';
+            $logFile = $this->getProperty(self::TMP_PATH) . DIRECTORY_SEPARATOR . 'log.txt';
         }
         $this->logger = new LegacyLogger($logFile);
 
@@ -329,7 +329,7 @@ class UpgradeContainer
         $this->moduleAdapter = new ModuleAdapter(
             $this->getDb(),
             $this->getTranslator(),
-            $this->getProperty(self::PS_ROOT_PATH).DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR,
+            $this->getProperty(self::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR,
             $this->getProperty(self::TMP_PATH),
             $this->getState()->getInstallVersion(),
             $this->getZipAction());
@@ -366,7 +366,7 @@ class UpgradeContainer
 
         // Using independant template engine for 1.6 & 1.7 compatibility
         $loader = new Twig_Loader_Filesystem();
-        $loader->addPath(realpath(__DIR__.'/..').'/views/templates', 'ModuleAutoUpgrade');
+        $loader->addPath(realpath(__DIR__ . '/..') . '/views/templates', 'ModuleAutoUpgrade');
         $twig = new Twig_Environment($loader);
         $twig->addExtension(new TransFilterExtension($this->getTranslator()));
 
@@ -405,7 +405,7 @@ class UpgradeContainer
         if (null !== $this->upgradeConfiguration) {
             return $this->upgradeConfiguration;
         }
-        $upgradeConfigurationStorage = new UpgradeConfigurationStorage($this->getProperty(self::WORKSPACE_PATH).DIRECTORY_SEPARATOR);
+        $upgradeConfigurationStorage = new UpgradeConfigurationStorage($this->getProperty(self::WORKSPACE_PATH) . DIRECTORY_SEPARATOR);
         $this->upgradeConfiguration = $upgradeConfigurationStorage->load(UpgradeFileNames::CONFIG_FILENAME);
 
         return $this->upgradeConfiguration;
@@ -413,7 +413,7 @@ class UpgradeContainer
 
     public function getUpgradeConfigurationStorage()
     {
-        return new UpgradeConfigurationStorage($this->getProperty(self::WORKSPACE_PATH).DIRECTORY_SEPARATOR);
+        return new UpgradeConfigurationStorage($this->getProperty(self::WORKSPACE_PATH) . DIRECTORY_SEPARATOR);
     }
 
     public function getWorkspace()
@@ -461,18 +461,18 @@ class UpgradeContainer
      */
     public function initPrestaShopAutoloader()
     {
-        $autoloader = $this->getProperty(self::PS_ROOT_PATH).'/vendor/autoload.php';
+        $autoloader = $this->getProperty(self::PS_ROOT_PATH) . '/vendor/autoload.php';
         if (file_exists($autoloader)) {
             require_once $autoloader;
         }
 
-        require_once $this->getProperty(self::PS_ROOT_PATH).'/config/defines.inc.php';
-        require_once $this->getProperty(self::PS_ROOT_PATH).'/config/autoload.php';
+        require_once $this->getProperty(self::PS_ROOT_PATH) . '/config/defines.inc.php';
+        require_once $this->getProperty(self::PS_ROOT_PATH) . '/config/autoload.php';
     }
 
     public function initPrestaShopCore()
     {
-        require_once $this->getProperty(self::PS_ROOT_PATH).'/config/config.inc.php';
+        require_once $this->getProperty(self::PS_ROOT_PATH) . '/config/config.inc.php';
 
         $id_employee = !empty($_COOKIE['id_employee']) ? $_COOKIE['id_employee'] : 1;
         \Context::getContext()->employee = new \Employee((int) $id_employee);

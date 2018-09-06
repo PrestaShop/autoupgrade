@@ -77,11 +77,11 @@ class UpgradeChecklist
      *
      * @param Twig_Environment $twig
      * @param UpgradeSelfCheck $upgradeSelfCheck
-     * @param string           $prodRootPath
-     * @param string           $adminPath
-     * @param string           $autoupgradePath
-     * @param string           $currentIndex
-     * @param string           $token
+     * @param string $prodRootPath
+     * @param string $adminPath
+     * @param string $autoupgradePath
+     * @param string $currentIndex
+     * @param string $token
      */
     public function __construct(
         Twig_Environment $twig,

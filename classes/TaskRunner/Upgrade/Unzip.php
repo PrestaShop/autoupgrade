@@ -2,9 +2,9 @@
 
 /*
  * 2007-2018 PrestaShop
- * 
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0)
  * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
@@ -12,13 +12,13 @@
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license@prestashop.com so we can send you a copy immediately.
- * 
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
  * versions in the future. If you wish to customize PrestaShop for your
  * needs please refer to http://www.prestashop.com for more information.
- * 
+ *
  *  @author PrestaShop SA <contact@prestashop.com>
  *  @copyright  2007-2018 PrestaShop SA
  *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -75,10 +75,10 @@ class Unzip extends AbstractTask
 
         // From PrestaShop 1.7, we zip all the files in another package
         // which must be unzipped too
-        $newZip = $destExtract.DIRECTORY_SEPARATOR.'prestashop.zip';
+        $newZip = $destExtract . DIRECTORY_SEPARATOR . 'prestashop.zip';
         if (file_exists($newZip)) {
-            @unlink($destExtract.DIRECTORY_SEPARATOR.'/index.php');
-            @unlink($destExtract.DIRECTORY_SEPARATOR.'/Install_PrestaShop.html');
+            @unlink($destExtract . DIRECTORY_SEPARATOR . '/index.php');
+            @unlink($destExtract . DIRECTORY_SEPARATOR . '/Install_PrestaShop.html');
 
             $subRes = $this->container->getZipAction()->extract($newZip, $destExtract);
             if (!$subRes) {
@@ -96,11 +96,12 @@ class Unzip extends AbstractTask
             }
         } else {
             $filesystem = new Filesystem();
-            $zipSubfolder = $destExtract.'/prestashop/';
+            $zipSubfolder = $destExtract . '/prestashop/';
             if (!is_dir($zipSubfolder)) {
                 $this->next = 'error';
                 $this->logger->error(
                     $this->translator->trans('No prestashop/ folder found in the ZIP file. Aborting.', array(), 'Modules.Autoupgrade.Admin'));
+
                 return;
             }
             // /!\ On PS 1.6, files are unzipped in a subfolder PrestaShop
@@ -108,7 +109,7 @@ class Unzip extends AbstractTask
                 if ($file[0] === '.') {
                     continue;
                 }
-                $filesystem->rename($zipSubfolder.$file, $destExtract.'/'.$file);
+                $filesystem->rename($zipSubfolder . $file, $destExtract . '/' . $file);
             }
         }
 

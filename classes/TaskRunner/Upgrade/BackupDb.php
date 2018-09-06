@@ -2,9 +2,9 @@
 
 /*
  * 2007-2018 PrestaShop
- * 
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0)
  * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
@@ -12,13 +12,13 @@
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license@prestashop.com so we can send you a copy immediately.
- * 
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
  * versions in the future. If you wish to customize PrestaShop for your
  * needs please refer to http://www.prestashop.com for more information.
- * 
+ *
  *  @author PrestaShop SA <contact@prestashop.com>
  *  @copyright  2007-2018 PrestaShop SA
  *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -65,20 +65,20 @@ class BackupDb extends AbstractTask
         $psBackupDropTable = true;
         $ignore_stats_table = array();
         if (!$psBackupAll) {
-            $ignore_stats_table = array(_DB_PREFIX_.'connections',
-                                                        _DB_PREFIX_.'connections_page',
-                                                        _DB_PREFIX_.'connections_source',
-                                                        _DB_PREFIX_.'guest',
-                                                        _DB_PREFIX_.'statssearch', );
+            $ignore_stats_table = array(_DB_PREFIX_ . 'connections',
+                                                        _DB_PREFIX_ . 'connections_page',
+                                                        _DB_PREFIX_ . 'connections_source',
+                                                        _DB_PREFIX_ . 'guest',
+                                                        _DB_PREFIX_ . 'statssearch', );
         }
 
         // INIT LOOP
         if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::DB_TABLES_TO_BACKUP_LIST)) {
-            if (!is_dir($this->container->getProperty(UpgradeContainer::BACKUP_PATH).DIRECTORY_SEPARATOR.$this->container->getState()->getBackupName())) {
-                mkdir($this->container->getProperty(UpgradeContainer::BACKUP_PATH).DIRECTORY_SEPARATOR.$this->container->getState()->getBackupName());
+            if (!is_dir($this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $this->container->getState()->getBackupName())) {
+                mkdir($this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $this->container->getState()->getBackupName());
             }
             $this->container->getState()->setDbStep(0);
-            $tablesToBackup = $this->container->getDb()->executeS('SHOW TABLES LIKE "'._DB_PREFIX_.'%"', true, false);
+            $tablesToBackup = $this->container->getDb()->executeS('SHOW TABLES LIKE "' . _DB_PREFIX_ . '%"', true, false);
             $this->container->getFileConfigurationStorage()->save($tablesToBackup, UpgradeFileNames::DB_TABLES_TO_BACKUP_LIST);
         }
 
@@ -111,8 +111,8 @@ class BackupDb extends AbstractTask
                 if (isset($fp)) {
                     fclose($fp);
                 }
-                $backupfile = $this->container->getProperty(UpgradeContainer::BACKUP_PATH).DIRECTORY_SEPARATOR.$this->container->getState()->getBackupName().DIRECTORY_SEPARATOR.$this->container->getState()->getBackupDbFilename();
-                $backupfile = preg_replace('#_XXXXXX_#', '_'.str_pad($this->container->getState()->getDbStep(), 6, '0', STR_PAD_LEFT).'_', $backupfile);
+                $backupfile = $this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $this->container->getState()->getBackupName() . DIRECTORY_SEPARATOR . $this->container->getState()->getBackupDbFilename();
+                $backupfile = preg_replace('#_XXXXXX_#', '_' . str_pad($this->container->getState()->getDbStep(), 6, '0', STR_PAD_LEFT) . '_', $backupfile);
 
                 // start init file
                 // Figure out what compression is available and open the file
@@ -141,10 +141,10 @@ class BackupDb extends AbstractTask
                     return false;
                 }
 
-                $written += fwrite($fp, '/* Backup '.$this->container->getState()->getDbStep().' for '.Tools14::getHttpHost(false, false).__PS_BASE_URI__."\n *  at ".date('r')."\n */\n");
-                $written += fwrite($fp, "\n".'SET SESSION sql_mode = \'\';'."\n\n");
-                $written += fwrite($fp, "\n".'SET NAMES \'utf8\';'."\n\n");
-                $written += fwrite($fp, "\n".'SET FOREIGN_KEY_CHECKS=0;'."\n\n");
+                $written += fwrite($fp, '/* Backup ' . $this->container->getState()->getDbStep() . ' for ' . Tools14::getHttpHost(false, false) . __PS_BASE_URI__ . "\n *  at " . date('r') . "\n */\n");
+                $written += fwrite($fp, "\n" . 'SET SESSION sql_mode = \'\';' . "\n\n");
+                $written += fwrite($fp, "\n" . 'SET NAMES \'utf8\';' . "\n\n");
+                $written += fwrite($fp, "\n" . 'SET FOREIGN_KEY_CHECKS=0;' . "\n\n");
                 // end init file
             }
 
@@ -156,7 +156,7 @@ class BackupDb extends AbstractTask
             // start schema : drop & create table only
             if (null === $this->container->getState()->getBackupTable()) {
                 // Export the table schema
-                $schema = $this->container->getDb()->executeS('SHOW CREATE TABLE `'.$table.'`', true, false);
+                $schema = $this->container->getDb()->executeS('SHOW CREATE TABLE `' . $table . '`', true, false);
 
                 if (count($schema) != 1 ||
                     !((isset($schema[0]['Table']) && isset($schema[0]['Create Table']))
@@ -175,26 +175,26 @@ class BackupDb extends AbstractTask
 
                 // case view
                 if (isset($schema[0]['View'])) {
-                    $views .= '/* Scheme for view'.$schema[0]['View']." */\n";
+                    $views .= '/* Scheme for view' . $schema[0]['View'] . " */\n";
                     if ($psBackupDropTable) {
                         // If some *upgrade* transform a table in a view, drop both just in case
-                        $views .= 'DROP VIEW IF EXISTS `'.$schema[0]['View'].'`;'."\n";
-                        $views .= 'DROP TABLE IF EXISTS `'.$schema[0]['View'].'`;'."\n";
+                        $views .= 'DROP VIEW IF EXISTS `' . $schema[0]['View'] . '`;' . "\n";
+                        $views .= 'DROP TABLE IF EXISTS `' . $schema[0]['View'] . '`;' . "\n";
                     }
-                    $views .= preg_replace('#DEFINER=[^\s]+\s#', 'DEFINER=CURRENT_USER ', $schema[0]['Create View']).";\n\n";
-                    $written += fwrite($fp, "\n".$views);
+                    $views .= preg_replace('#DEFINER=[^\s]+\s#', 'DEFINER=CURRENT_USER ', $schema[0]['Create View']) . ";\n\n";
+                    $written += fwrite($fp, "\n" . $views);
                     $ignore_stats_table[] = $schema[0]['View'];
                 }
                 // case table
                 elseif (isset($schema[0]['Table'])) {
                     // Case common table
-                    $written += fwrite($fp, '/* Scheme for table '.$schema[0]['Table']." */\n");
+                    $written += fwrite($fp, '/* Scheme for table ' . $schema[0]['Table'] . " */\n");
                     if ($psBackupDropTable && !in_array($schema[0]['Table'], $ignore_stats_table)) {
                         // If some *upgrade* transform a table in a view, drop both just in case
-                        $written += fwrite($fp, 'DROP VIEW IF EXISTS `'.$schema[0]['Table'].'`;'."\n");
-                        $written += fwrite($fp, 'DROP TABLE IF EXISTS `'.$schema[0]['Table'].'`;'."\n");
+                        $written += fwrite($fp, 'DROP VIEW IF EXISTS `' . $schema[0]['Table'] . '`;' . "\n");
+                        $written += fwrite($fp, 'DROP TABLE IF EXISTS `' . $schema[0]['Table'] . '`;' . "\n");
                         // CREATE TABLE
-                        $written += fwrite($fp, $schema[0]['Create Table'].";\n\n");
+                        $written += fwrite($fp, $schema[0]['Create Table'] . ";\n\n");
                     }
                     // schema created, now we need to create the missing vars
                     $this->container->getState()->setBackupTable($table);
@@ -208,12 +208,12 @@ class BackupDb extends AbstractTask
             if (!in_array($table, $ignore_stats_table)) {
                 do {
                     $backup_loop_limit = $this->container->getState()->getBackupLoopLimit();
-                    $data = $this->container->getDb()->executeS('SELECT * FROM `'.$table.'` LIMIT '.(int) $backup_loop_limit.',200', false, false);
+                    $data = $this->container->getDb()->executeS('SELECT * FROM `' . $table . '` LIMIT ' . (int) $backup_loop_limit . ',200', false, false);
                     $this->container->getState()->setBackupLoopLimit($this->container->getState()->getBackupLoopLimit() + 200);
                     $sizeof = $this->container->getDb()->numRows();
                     if ($data && ($sizeof > 0)) {
                         // Export the table data
-                        $written += fwrite($fp, 'INSERT INTO `'.$table."` VALUES\n");
+                        $written += fwrite($fp, 'INSERT INTO `' . $table . "` VALUES\n");
                         $i = 1;
                         while ($row = $this->container->getDb()->nextRow($data)) {
                             // this starts a row
@@ -222,7 +222,7 @@ class BackupDb extends AbstractTask
                                 if ($value === null) {
                                     $s .= 'NULL,';
                                 } else {
-                                    $s .= "'".$this->container->getDb()->escape($value, true)."',";
+                                    $s .= "'" . $this->container->getDb()->escape($value, true) . "',";
                                 }
                             }
                             $s = rtrim($s, ',');
@@ -250,7 +250,7 @@ class BackupDb extends AbstractTask
 
         // end of loop
         if (isset($fp)) {
-            $written += fwrite($fp, "\n".'SET FOREIGN_KEY_CHECKS=1;'."\n\n");
+            $written += fwrite($fp, "\n" . 'SET FOREIGN_KEY_CHECKS=1;' . "\n\n");
             fclose($fp);
             unset($fp);
         }

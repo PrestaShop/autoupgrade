@@ -2,9 +2,9 @@
 
 /*
  * 2007-2018 PrestaShop
- * 
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0)
  * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
@@ -12,13 +12,13 @@
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license@prestashop.com so we can send you a copy immediately.
- * 
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
  * versions in the future. If you wish to customize PrestaShop for your
  * needs please refer to http://www.prestashop.com for more information.
- * 
+ *
  *  @author PrestaShop SA <contact@prestashop.com>
  *  @copyright  2007-2018 PrestaShop SA
  *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -43,7 +43,7 @@ function autoupgrade_init_container($callerFilePath)
     if (php_sapi_name() === 'cli') {
         $_POST['dir'] = getopt('', array('dir:'))['dir'];
     }
-    
+
     // the following test confirm the directory exists
     if (empty($_POST['dir'])) {
         echo 'No admin directory provided (dir). 1-click upgrade cannot proceed.';
@@ -53,22 +53,22 @@ function autoupgrade_init_container($callerFilePath)
     // defines.inc.php can not exists (1.3.0.1 for example)
     // but we need _PS_ROOT_DIR_
     if (!defined('_PS_ROOT_DIR_')) {
-        define('_PS_ROOT_DIR_', realpath($callerFilePath.'/../../'));
+        define('_PS_ROOT_DIR_', realpath($callerFilePath . '/../../'));
     }
 
     if (!defined('_PS_MODULE_DIR_')) {
-        define('_PS_MODULE_DIR_', _PS_ROOT_DIR_.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR);
+        define('_PS_MODULE_DIR_', _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR);
     }
 
-    define('AUTOUPGRADE_MODULE_DIR', _PS_MODULE_DIR_.'autoupgrade'.DIRECTORY_SEPARATOR);
-    require_once AUTOUPGRADE_MODULE_DIR.'functions.php';
-    require_once AUTOUPGRADE_MODULE_DIR.'vendor/autoload.php';
+    define('AUTOUPGRADE_MODULE_DIR', _PS_MODULE_DIR_ . 'autoupgrade' . DIRECTORY_SEPARATOR);
+    require_once AUTOUPGRADE_MODULE_DIR . 'functions.php';
+    require_once AUTOUPGRADE_MODULE_DIR . 'vendor/autoload.php';
 
     $dir = Tools14::safeOutput(Tools14::getValue('dir'));
-    define('_PS_ADMIN_DIR_', _PS_ROOT_DIR_.DIRECTORY_SEPARATOR.$dir);
+    define('_PS_ADMIN_DIR_', _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . $dir);
 
     if (_PS_ADMIN_DIR_ !== realpath(_PS_ADMIN_DIR_)) {
-        echo 'wrong directory: '.$dir;
+        echo 'wrong directory: ' . $dir;
         exit(1);
     }
 

@@ -52,8 +52,8 @@ class ChannelInfoBlock
      * ChannelInfoBlock constructor.
      *
      * @param UpgradeConfiguration $config
-     * @param ChannelInfo          $channelInfo
-     * @param Twig_Environment     $twig
+     * @param ChannelInfo $channelInfo
+     * @param Twig_Environment $twig
      */
     public function __construct(UpgradeConfiguration $config, ChannelInfo $channelInfo, Twig_Environment $twig)
     {

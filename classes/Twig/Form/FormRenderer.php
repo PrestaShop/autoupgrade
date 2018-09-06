@@ -67,8 +67,8 @@ class FormRenderer
 
             if (!in_array($field['type'], array('image', 'radio', 'select', 'container', 'bool', 'container_end')) || isset($field['show'])) {
                 $html .= '<div style="clear: both; padding-top:15px">'
-                    .($field['title'] ? '<label >'.$field['title'].'</label>' : '')
-                    .'<div class="margin-form" style="padding-top:5px">';
+                    . ($field['title'] ? '<label >' . $field['title'] . '</label>' : '')
+                    . '<div class="margin-form" style="padding-top:5px">';
             }
 
             /* Display the appropriate input type for each field */
@@ -94,11 +94,11 @@ class FormRenderer
                     break;
 
                 case 'container':
-                    $html .= '<div id="'.$key.'">';
+                    $html .= '<div id="' . $key . '">';
                     break;
 
                 case 'container_end':
-                    $html .= (isset($field['content']) ? $field['content'] : '').'</div>';
+                    $html .= (isset($field['content']) ? $field['content'] : '') . '</div>';
                     break;
 
                 case 'text':
@@ -115,7 +115,7 @@ class FormRenderer
                 if (!empty($field['thumb']) && $field['thumb']['pos'] == 'after') {
                     $html .= $this->renderThumb($field);
                 }
-                $html .= $field['desc'].'</p>';
+                $html .= $field['desc'] . '</p>';
             }
 
             if (!in_array($field['type'], array('image', 'radio', 'select', 'container', 'bool', 'container_end')) || isset($field['show'])) {
@@ -138,21 +138,21 @@ class FormRenderer
     private function renderBool($field, $key, $val)
     {
         return '<div class="form-group">
-                <label class="col-lg-3 control-label">'.$field['title'].'</label>
+                <label class="col-lg-3 control-label">' . $field['title'] . '</label>
                     <div class="col-lg-9">
                         <span class="switch prestashop-switch fixed-width-lg">
-                            <input type="radio" name="'.$key.'" id="'.$key.'_on" value="1" '.($val ? ' checked="checked"' : '').(isset($field['js']['on']) ? $field['js']['on'] : '').' />
-                            <label for="'.$key.'_on" class="radioCheck">
+                            <input type="radio" name="' . $key . '" id="' . $key . '_on" value="1" ' . ($val ? ' checked="checked"' : '') . (isset($field['js']['on']) ? $field['js']['on'] : '') . ' />
+                            <label for="' . $key . '_on" class="radioCheck">
                                 <i class="color_success"></i> '
-                            .$this->translator->trans('Yes', array(), 'Admin.Global').'
+                            . $this->translator->trans('Yes', array(), 'Admin.Global') . '
                             </label>
-                            <input type="radio" name="'.$key.'" id="'.$key.'_off" value="0" '.(!$val ? 'checked="checked"' : '').(isset($field['js']['off']) ? $field['js']['off'] : '').'/>
-                            <label for="'.$key.'_off" class="radioCheck">
-                                <i class="color_danger"></i> '.$this->translator->trans('No', array(), 'Admin.Global').'
+                            <input type="radio" name="' . $key . '" id="' . $key . '_off" value="0" ' . (!$val ? 'checked="checked"' : '') . (isset($field['js']['off']) ? $field['js']['off'] : '') . '/>
+                            <label for="' . $key . '_off" class="radioCheck">
+                                <i class="color_danger"></i> ' . $this->translator->trans('No', array(), 'Admin.Global') . '
                             </label>
                             <a class="slide-button btn"></a>
                         </span>
-                        <div class="help-block">'.$field['desc'].'</div>
+                        <div class="help-block">' . $field['desc'] . '</div>
                     </div>
                 </div>';
     }
@@ -161,7 +161,7 @@ class FormRenderer
     {
         $html = '';
         foreach ($field['choices'] as $cValue => $cKey) {
-            $html .= '<input '.($disabled ? 'disabled="disabled"' : '').' type="radio" name="'.$key.'" id="'.$key.$cValue.'_on" value="'.(int) ($cValue).'"'.(($cValue == $val) ? ' checked="checked"' : '').(isset($field['js'][$cValue]) ? ' '.$field['js'][$cValue] : '').' /><label class="t" for="'.$key.$cValue.'_on"> '.$cKey.'</label><br />';
+            $html .= '<input ' . ($disabled ? 'disabled="disabled"' : '') . ' type="radio" name="' . $key . '" id="' . $key . $cValue . '_on" value="' . (int) ($cValue) . '"' . (($cValue == $val) ? ' checked="checked"' : '') . (isset($field['js'][$cValue]) ? ' ' . $field['js'][$cValue] : '') . ' /><label class="t" for="' . $key . $cValue . '_on"> ' . $cKey . '</label><br />';
         }
         $html .= '<br />';
 
@@ -171,20 +171,20 @@ class FormRenderer
     private function renderSelect($field, $key, $val)
     {
         $html = '<div class="form-group">
-                    <label class="col-lg-3 control-label">'.$field['title'].'</label>
+                    <label class="col-lg-3 control-label">' . $field['title'] . '</label>
                         <div class="col-lg-9">
-                            <select name="'.$key.'">';
+                            <select name="' . $key . '">';
 
         foreach ($field['choices'] as $cValue => $cKey) {
-            $html .= '<option value="'.(int) $cValue.'"'
-                .(($cValue == $val) ? ' selected' : '')
-                .'>'
-                .$cKey
-                .'</option>';
+            $html .= '<option value="' . (int) $cValue . '"'
+                . (($cValue == $val) ? ' selected' : '')
+                . '>'
+                . $cKey
+                . '</option>';
         }
 
         $html .= '</select>
-                <div class="help-block">'.$field['desc'].'</div>
+                <div class="help-block">' . $field['desc'] . '</div>
             </div>
         </div>';
 
@@ -194,26 +194,26 @@ class FormRenderer
     private function renderTextarea($field, $key, $val, $disabled)
     {
         return '<textarea '
-            .($disabled ? 'disabled="disabled"' : '')
-            .' name="'.$key
-            .'" cols="'.$field['cols']
-            .'" rows="'.$field['rows']
-            .'">'
-            .htmlentities($val, ENT_COMPAT, 'UTF-8')
-            .'</textarea>';
+            . ($disabled ? 'disabled="disabled"' : '')
+            . ' name="' . $key
+            . '" cols="' . $field['cols']
+            . '" rows="' . $field['rows']
+            . '">'
+            . htmlentities($val, ENT_COMPAT, 'UTF-8')
+            . '</textarea>';
     }
 
     private function renderTextField($field, $key, $val, $disabled)
     {
         return '<input '
-            .($disabled ? 'disabled="disabled"' : '')
-            .' type="'.$field['type'].'"'
-            .(isset($field['id']) ? ' id="'.$field['id'].'"' : '')
-            .' size="'.(isset($field['size']) ? (int) ($field['size']) : 5)
-            .'" name="'.$key
-            .'" value="'.($field['type'] == 'password' ? '' : htmlentities($val, ENT_COMPAT, 'UTF-8'))
-            .'" />'
-            .(isset($field['next']) ? '&nbsp;'.$field['next'] : '');
+            . ($disabled ? 'disabled="disabled"' : '')
+            . ' type="' . $field['type'] . '"'
+            . (isset($field['id']) ? ' id="' . $field['id'] . '"' : '')
+            . ' size="' . (isset($field['size']) ? (int) ($field['size']) : 5)
+            . '" name="' . $key
+            . '" value="' . ($field['type'] == 'password' ? '' : htmlentities($val, ENT_COMPAT, 'UTF-8'))
+            . '" />'
+            . (isset($field['next']) ? '&nbsp;' . $field['next'] : '');
     }
 
     private function renderThumb($field)

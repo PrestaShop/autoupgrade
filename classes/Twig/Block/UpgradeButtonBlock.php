@@ -81,11 +81,11 @@ class UpgradeButtonBlock
     /**
      * UpgradeButtonBlock constructor.
      *
-     * @param Twig_Environment     $twig
-     * @param TranslatorComponent  $translator
+     * @param Twig_Environment $twig
+     * @param TranslatorComponent $translator
      * @param UpgradeConfiguration $config
-     * @param Upgrader             $upgrader
-     * @param UpgradeSelfCheck     $selfCheck
+     * @param Upgrader $upgrader
+     * @param UpgradeSelfCheck $selfCheck
      */
     public function __construct(
         Twig_Environment $twig,
@@ -152,7 +152,7 @@ class UpgradeButtonBlock
             $channel = Upgrader::DEFAULT_CHANNEL;
         }
 
-        $dir = glob($this->downloadPath.DIRECTORY_SEPARATOR.'*.zip');
+        $dir = glob($this->downloadPath . DIRECTORY_SEPARATOR . '*.zip');
 
         $data = array(
             'versionCompare' => $versionCompare,
@@ -176,7 +176,7 @@ class UpgradeButtonBlock
             'archiveFiles' => $dir,
             'archiveFileName' => $this->config->get('archive.filename'),
             'archiveVersionNumber' => $this->config->get('archive.version_num'),
-            'downloadPath' => $this->downloadPath.DIRECTORY_SEPARATOR,
+            'downloadPath' => $this->downloadPath . DIRECTORY_SEPARATOR,
             'directoryVersionNumber' => $this->config->get('directory.version_num'),
             'manualMode' => $this->manualMode,
         );
