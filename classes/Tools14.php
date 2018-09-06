@@ -55,7 +55,7 @@ class Tools14
     /**
      * Redirect user to another page.
      *
-     * @param string $url     Desired URL
+     * @param string $url Desired URL
      * @param string $baseUri Base URI (optional)
      */
     public static function redirect($url, $baseUri = __PS_BASE_URI__)
@@ -71,15 +71,15 @@ class Tools14
             $useSSL = !empty($url);
             $url = $link->getPageLink($explode[0], $useSSL);
             if (isset($explode[1])) {
-                $url .= '?'.$explode[1];
+                $url .= '?' . $explode[1];
             }
             $baseUri = '';
         }
 
         if (isset($_SERVER['HTTP_REFERER']) and ($url == $_SERVER['HTTP_REFERER'])) {
-            header('Location: '.$_SERVER['HTTP_REFERER']);
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
         } else {
-            header('Location: '.$baseUri.$url);
+            header('Location: ' . $baseUri . $url);
         }
         exit;
     }
@@ -99,11 +99,11 @@ class Tools14
             $explode = explode('?', $url, 2);
             $url = $link->getPageLink($explode[0]);
             if (isset($explode[1])) {
-                $url .= '?'.$explode[1];
+                $url .= '?' . $explode[1];
             }
         }
 
-        header('Location: '.$url);
+        header('Location: ' . $url);
         exit;
     }
 
@@ -114,20 +114,20 @@ class Tools14
      */
     public static function redirectAdmin($url)
     {
-        header('Location: '.$url);
+        header('Location: ' . $url);
         exit;
     }
 
     /**
      * getProtocol return the set protocol according to configuration (http[s]).
      *
-     * @param Boolean true if require ssl
+     * @param bool true if require ssl
      *
-     * @return String (http|https)
+     * @return string (http|https)
      */
     public static function getProtocol($use_ssl = null)
     {
-        return (!is_null($use_ssl) && $use_ssl ? 'https://' : 'http://');
+        return !is_null($use_ssl) && $use_ssl ? 'https://' : 'http://';
     }
 
     /**
@@ -147,7 +147,7 @@ class Tools14
             $host = htmlspecialchars($host, ENT_COMPAT, 'UTF-8');
         }
         if ($http) {
-            $host = (Configuration::get('PS_SSL_ENABLED') ? 'https://' : 'http://').$host;
+            $host = (Configuration::get('PS_SSL_ENABLED') ? 'https://' : 'http://') . $host;
         }
 
         return $host;
@@ -156,7 +156,7 @@ class Tools14
     /**
      * getShopDomain returns domain name according to configuration and ignoring ssl.
      *
-     * @param bool $http     if true, return domain name with protocol
+     * @param bool $http if true, return domain name with protocol
      * @param bool $entities if true,
      *
      * @return string domain
@@ -170,7 +170,7 @@ class Tools14
             $domain = htmlspecialchars($domain, ENT_COMPAT, 'UTF-8');
         }
         if ($http) {
-            $domain = 'http://'.$domain;
+            $domain = 'http://' . $domain;
         }
 
         return $domain;
@@ -179,7 +179,7 @@ class Tools14
     /**
      * getShopDomainSsl returns domain name according to configuration and depending on ssl activation.
      *
-     * @param bool $http     if true, return domain name with protocol
+     * @param bool $http if true, return domain name with protocol
      * @param bool $entities if true,
      *
      * @return string domain
@@ -193,7 +193,7 @@ class Tools14
             $domain = htmlspecialchars($domain, ENT_COMPAT, 'UTF-8');
         }
         if ($http) {
-            $domain = (Configuration::get('PS_SSL_ENABLED') ? 'https://' : 'http://').$domain;
+            $domain = (Configuration::get('PS_SSL_ENABLED') ? 'https://' : 'http://') . $domain;
         }
 
         return $domain;
@@ -242,11 +242,11 @@ class Tools14
     public static function usingSecureMode()
     {
         if (isset($_SERVER['HTTPS'])) {
-            return ($_SERVER['HTTPS'] == 1 || strtolower($_SERVER['HTTPS']) == 'on');
+            return $_SERVER['HTTPS'] == 1 || strtolower($_SERVER['HTTPS']) == 'on';
         }
         // $_SERVER['SSL'] exists only in some specific configuration
         if (isset($_SERVER['SSL'])) {
-            return ($_SERVER['SSL'] == 1 || strtolower($_SERVER['SSL']) == 'on');
+            return $_SERVER['SSL'] == 1 || strtolower($_SERVER['SSL']) == 'on';
         }
 
         return false;
@@ -275,7 +275,7 @@ class Tools14
      */
     public static function secureReferrer($referrer)
     {
-        if (preg_match('/^http[s]?:\/\/'.self::getServerName().'(:'._PS_SSL_PORT_.')?\/.*$/Ui', $referrer)) {
+        if (preg_match('/^http[s]?:\/\/' . self::getServerName() . '(:' . _PS_SSL_PORT_ . ')?\/.*$/Ui', $referrer)) {
             return $referrer;
         }
 
@@ -286,8 +286,8 @@ class Tools14
      * Get a value from $_POST / $_GET
      * if unavailable, take a default value.
      *
-     * @param string $key          Value key
-     * @param mixed  $defaultValue (optional)
+     * @param string $key Value key
+     * @param mixed $defaultValue (optional)
      *
      * @return mixed Value
      */
@@ -354,7 +354,7 @@ class Tools14
         }
 
         $iso = Language::getIsoById((int) $cookie->id_lang);
-        @include_once _PS_THEME_DIR_.'lang/'.$iso.'.php';
+        @include_once _PS_THEME_DIR_ . 'lang/' . $iso . '.php';
 
         return $iso;
     }
@@ -406,7 +406,7 @@ class Tools14
     /**
      * Return price with currency sign for a given product.
      *
-     * @param float  $price    Product price
+     * @param float $price Product price
      * @param object $currency Current currency (object, id_currency, NULL => getCurrent())
      *
      * @return string Price correctly formated (sign, decimal separator...)
@@ -432,24 +432,24 @@ class Tools14
         $price = self::ps_round($price, $c_decimals);
         switch ($c_format) {
             /* X 0,000.00 */
-            case 1 :
-                $ret = $c_char.$blank.number_format($price, $c_decimals, '.', ',');
+            case 1:
+                $ret = $c_char . $blank . number_format($price, $c_decimals, '.', ',');
                 break;
             /* 0 000,00 X*/
             case 2:
-                $ret = number_format($price, $c_decimals, ',', ' ').$blank.$c_char;
+                $ret = number_format($price, $c_decimals, ',', ' ') . $blank . $c_char;
                 break;
             /* X 0.000,00 */
             case 3:
-                $ret = $c_char.$blank.number_format($price, $c_decimals, ',', '.');
+                $ret = $c_char . $blank . number_format($price, $c_decimals, ',', '.');
                 break;
             /* 0,000.00 X */
             case 4:
-                $ret = number_format($price, $c_decimals, '.', ',').$blank.$c_char;
+                $ret = number_format($price, $c_decimals, '.', ',') . $blank . $c_char;
                 break;
         }
         if ($isNegative) {
-            $ret = '-'.$ret;
+            $ret = '-' . $ret;
         }
         if ($no_utf8) {
             return str_replace('€', chr(128), $ret);
@@ -473,9 +473,9 @@ class Tools14
     /**
      * Return price converted.
      *
-     * @param float  $price       Product price
-     * @param object $currency    Current currency object
-     * @param bool   $to_currency convert to currency or from currency to default currency
+     * @param float $price Product price
+     * @param object $currency Current currency object
+     * @param bool $to_currency convert to currency or from currency to default currency
      */
     public static function convertPrice($price, $currency = null, $to_currency = true)
     {
@@ -502,7 +502,7 @@ class Tools14
     /**
      * Display date regarding to language preferences.
      *
-     * @param array  $params Date, format...
+     * @param array $params Date, format...
      * @param object $smarty Smarty object for language preferences
      *
      * @return string Date
@@ -515,9 +515,9 @@ class Tools14
     /**
      * Display date regarding to language preferences.
      *
-     * @param string $date    Date to display format UNIX
-     * @param int    $id_lang Language id
-     * @param bool   $full    With time or not (optional)
+     * @param string $date Date to display format UNIX
+     * @param int $id_lang Language id
+     * @param bool $full With time or not (optional)
      *
      * @return string Date
      */
@@ -539,7 +539,7 @@ class Tools14
      * Sanitize a string.
      *
      * @param string $string String to sanitize
-     * @param bool   $full   String contains HTML or not (optional)
+     * @param bool $full String contains HTML or not (optional)
      *
      * @return string Sanitized string
      */
@@ -582,15 +582,15 @@ class Tools14
      */
     public static function deleteDirectory($dirname, $delete_self = true)
     {
-        $dirname = rtrim($dirname, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
+        $dirname = rtrim($dirname, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
         if (file_exists($dirname)) {
             if ($files = scandir($dirname)) {
                 foreach ($files as $file) {
                     if ($file != '.' && $file != '..' && $file != '.svn') {
-                        if (is_file($dirname.$file)) {
-                            unlink($dirname.$file);
-                        } elseif (is_dir($dirname.$file.DIRECTORY_SEPARATOR)) {
-                            self::deleteDirectory($dirname.$file.DIRECTORY_SEPARATOR, true);
+                        if (is_file($dirname . $file)) {
+                            unlink($dirname . $file);
+                        } elseif (is_dir($dirname . $file . DIRECTORY_SEPARATOR)) {
+                            self::deleteDirectory($dirname . $file . DIRECTORY_SEPARATOR, true);
                         }
                     }
                 }
@@ -610,8 +610,8 @@ class Tools14
     /**
      * Display an error according to an error code.
      *
-     * @param string $string       Error message
-     * @param bool   $htmlentities By default at true for parsing error message with htmlentities
+     * @param string $string Error message
+     * @param bool $htmlentities By default at true for parsing error message with htmlentities
      */
     public static function displayError($string = 'Fatal error', $htmlentities = true)
     {
@@ -619,10 +619,10 @@ class Tools14
         global $_ERRORS, $cookie;
 
         $iso = strtolower(Language::getIsoById((is_object($cookie) and $cookie->id_lang) ? (int) $cookie->id_lang : (int) Configuration::get('PS_LANG_DEFAULT')));
-        @include_once _PS_TRANSLATIONS_DIR_.$iso.'/errors.php';
+        @include_once _PS_TRANSLATIONS_DIR_ . $iso . '/errors.php';
 
         if (defined('_PS_MODE_DEV_') and _PS_MODE_DEV_ and $string == 'Fatal error') {
-            return ('<pre>'.print_r(debug_backtrace(), true).'</pre>');
+            return '<pre>' . print_r(debug_backtrace(), true) . '</pre>';
         }
         if (!is_array($_ERRORS)) {
             return str_replace('"', '&quot;', $string);
@@ -637,7 +637,7 @@ class Tools14
      * Display an error with detailed object.
      *
      * @param mixed $object
-     * @param bool  $kill
+     * @param bool $kill
      *
      * @return $object if $kill = false;
      */
@@ -660,7 +660,7 @@ class Tools14
      */
     public static function d($object, $kill = true)
     {
-        return (self::dieObject($object, $kill = true));
+        return self::dieObject($object, $kill = true);
     }
 
     /**
@@ -670,7 +670,7 @@ class Tools14
      */
     public static function p($object)
     {
-        return (self::dieObject($object, false));
+        return self::dieObject($object, false);
     }
 
     /**
@@ -680,10 +680,10 @@ class Tools14
      */
     public static function isSubmit($submit)
     {
-        return (
-            isset($_POST[$submit]) or isset($_POST[$submit.'_x']) or isset($_POST[$submit.'_y'])
-            or isset($_GET[$submit]) or isset($_GET[$submit.'_x']) or isset($_GET[$submit.'_y'])
-        );
+        return
+            isset($_POST[$submit]) or isset($_POST[$submit . '_x']) or isset($_POST[$submit . '_y'])
+            or isset($_GET[$submit]) or isset($_GET[$submit . '_x']) or isset($_GET[$submit . '_y'])
+        ;
     }
 
     /**
@@ -702,9 +702,9 @@ class Tools14
             if ($id_product = self::getValue('id_product')) {
                 $row = Db::getInstance(_PS_USE_SQL_SLAVE_)->getRow('
             SELECT `name`, `meta_title`, `meta_description`, `meta_keywords`, `description_short`
-            FROM `'._DB_PREFIX_.'product` p
-            LEFT JOIN `'._DB_PREFIX_.'product_lang` pl ON (pl.`id_product` = p.`id_product`)
-            WHERE pl.id_lang = '.(int) ($id_lang).' AND pl.id_product = '.(int) ($id_product).' AND p.active = 1');
+            FROM `' . _DB_PREFIX_ . 'product` p
+            LEFT JOIN `' . _DB_PREFIX_ . 'product_lang` pl ON (pl.`id_product` = p.`id_product`)
+            WHERE pl.id_lang = ' . (int) ($id_lang) . ' AND pl.id_product = ' . (int) ($id_product) . ' AND p.active = 1');
                 if ($row) {
                     if (empty($row['meta_description'])) {
                         $row['meta_description'] = strip_tags($row['description_short']);
@@ -719,8 +719,8 @@ class Tools14
                 $page_number = (int) self::getValue('p');
                 $row = Db::getInstance(_PS_USE_SQL_SLAVE_)->getRow('
             SELECT `name`, `meta_title`, `meta_description`, `meta_keywords`, `description`
-            FROM `'._DB_PREFIX_.'category_lang`
-            WHERE id_lang = '.(int) ($id_lang).' AND id_category = '.(int) ($id_category));
+            FROM `' . _DB_PREFIX_ . 'category_lang`
+            WHERE id_lang = ' . (int) ($id_lang) . ' AND id_category = ' . (int) ($id_category));
                 if ($row) {
                     if (empty($row['meta_description'])) {
                         $row['meta_description'] = strip_tags($row['description']);
@@ -728,9 +728,9 @@ class Tools14
 
                     // Paginate title
                     if (!empty($row['meta_title'])) {
-                        $row['meta_title'] = $row['meta_title'].(!empty($page_number) ? ' ('.$page_number.')' : '').' - '.Configuration::get('PS_SHOP_NAME');
+                        $row['meta_title'] = $row['meta_title'] . (!empty($page_number) ? ' (' . $page_number . ')' : '') . ' - ' . Configuration::get('PS_SHOP_NAME');
                     } else {
-                        $row['meta_title'] = $row['name'].(!empty($page_number) ? ' ('.$page_number.')' : '').' - '.Configuration::get('PS_SHOP_NAME');
+                        $row['meta_title'] = $row['name'] . (!empty($page_number) ? ' (' . $page_number . ')' : '') . ' - ' . Configuration::get('PS_SHOP_NAME');
                     }
 
                     return self::completeMetaTags($row, $row['name']);
@@ -742,15 +742,15 @@ class Tools14
                 $page_number = (int) self::getValue('p');
                 $row = Db::getInstance(_PS_USE_SQL_SLAVE_)->getRow('
             SELECT `name`, `meta_title`, `meta_description`, `meta_keywords`
-            FROM `'._DB_PREFIX_.'manufacturer_lang` ml
-            LEFT JOIN `'._DB_PREFIX_.'manufacturer` m ON (ml.`id_manufacturer` = m.`id_manufacturer`)
-            WHERE ml.id_lang = '.(int) ($id_lang).' AND ml.id_manufacturer = '.(int) ($id_manufacturer));
+            FROM `' . _DB_PREFIX_ . 'manufacturer_lang` ml
+            LEFT JOIN `' . _DB_PREFIX_ . 'manufacturer` m ON (ml.`id_manufacturer` = m.`id_manufacturer`)
+            WHERE ml.id_lang = ' . (int) ($id_lang) . ' AND ml.id_manufacturer = ' . (int) ($id_manufacturer));
                 if ($row) {
                     if (empty($row['meta_description'])) {
                         $row['meta_description'] = strip_tags($row['meta_description']);
                     }
-                    $row['meta_title'] .= $row['name'].(!empty($page_number) ? ' ('.$page_number.')' : '');
-                    $row['meta_title'] .= ' - '.Configuration::get('PS_SHOP_NAME');
+                    $row['meta_title'] .= $row['name'] . (!empty($page_number) ? ' (' . $page_number . ')' : '');
+                    $row['meta_title'] .= ' - ' . Configuration::get('PS_SHOP_NAME');
 
                     return self::completeMetaTags($row, $row['meta_title']);
                 }
@@ -760,16 +760,16 @@ class Tools14
             elseif ($id_supplier = self::getValue('id_supplier')) {
                 $row = Db::getInstance(_PS_USE_SQL_SLAVE_)->getRow('
             SELECT `name`, `meta_title`, `meta_description`, `meta_keywords`
-            FROM `'._DB_PREFIX_.'supplier_lang` sl
-            LEFT JOIN `'._DB_PREFIX_.'supplier` s ON (sl.`id_supplier` = s.`id_supplier`)
-            WHERE sl.id_lang = '.(int) ($id_lang).' AND sl.id_supplier = '.(int) ($id_supplier));
+            FROM `' . _DB_PREFIX_ . 'supplier_lang` sl
+            LEFT JOIN `' . _DB_PREFIX_ . 'supplier` s ON (sl.`id_supplier` = s.`id_supplier`)
+            WHERE sl.id_lang = ' . (int) ($id_lang) . ' AND sl.id_supplier = ' . (int) ($id_supplier));
 
                 if ($row) {
                     if (empty($row['meta_description'])) {
                         $row['meta_description'] = strip_tags($row['meta_description']);
                     }
                     if (!empty($row['meta_title'])) {
-                        $row['meta_title'] = $row['meta_title'].' - '.Configuration::get('PS_SHOP_NAME');
+                        $row['meta_title'] = $row['meta_title'] . ' - ' . Configuration::get('PS_SHOP_NAME');
                     }
 
                     return self::completeMetaTags($row, $row['name']);
@@ -780,10 +780,10 @@ class Tools14
             elseif ($id_cms = self::getValue('id_cms')) {
                 $row = Db::getInstance(_PS_USE_SQL_SLAVE_)->getRow('
             SELECT `meta_title`, `meta_description`, `meta_keywords`
-            FROM `'._DB_PREFIX_.'cms_lang`
-            WHERE id_lang = '.(int) ($id_lang).' AND id_cms = '.(int) ($id_cms));
+            FROM `' . _DB_PREFIX_ . 'cms_lang`
+            WHERE id_lang = ' . (int) ($id_lang) . ' AND id_cms = ' . (int) ($id_cms));
                 if ($row) {
-                    $row['meta_title'] = $row['meta_title'].' - '.Configuration::get('PS_SHOP_NAME');
+                    $row['meta_title'] = $row['meta_title'] . ' - ' . Configuration::get('PS_SHOP_NAME');
 
                     return self::completeMetaTags($row, $row['meta_title']);
                 }
@@ -793,10 +793,10 @@ class Tools14
             elseif ($id_cms = self::getValue('id_cms_category')) {
                 $row = Db::getInstance(_PS_USE_SQL_SLAVE_)->getRow('
             SELECT `meta_title`, `meta_description`, `meta_keywords`
-            FROM `'._DB_PREFIX_.'cms_category_lang`
-            WHERE id_lang = '.(int) ($id_lang).' AND id_cms_category = '.(int) ($id_cms));
+            FROM `' . _DB_PREFIX_ . 'cms_category_lang`
+            WHERE id_lang = ' . (int) ($id_lang) . ' AND id_cms_category = ' . (int) ($id_cms));
                 if ($row) {
-                    $row['meta_title'] = $row['meta_title'].' - '.Configuration::get('PS_SHOP_NAME');
+                    $row['meta_title'] = $row['meta_title'] . ' - ' . Configuration::get('PS_SHOP_NAME');
 
                     return self::completeMetaTags($row, $row['meta_title']);
                 }
@@ -818,9 +818,9 @@ class Tools14
     {
         /* Metas-tags */
         $metas = Meta::getMetaByPage($page_name, $id_lang);
-        $ret['meta_title'] = (isset($metas['title']) and $metas['title']) ? $metas['title'].' - '.Configuration::get('PS_SHOP_NAME') : Configuration::get('PS_SHOP_NAME');
+        $ret['meta_title'] = (isset($metas['title']) and $metas['title']) ? $metas['title'] . ' - ' . Configuration::get('PS_SHOP_NAME') : Configuration::get('PS_SHOP_NAME');
         $ret['meta_description'] = (isset($metas['description']) and $metas['description']) ? $metas['description'] : '';
-        $ret['meta_keywords'] = (isset($metas['keywords']) and $metas['keywords']) ? $metas['keywords'] :  '';
+        $ret['meta_keywords'] = (isset($metas['keywords']) and $metas['keywords']) ? $metas['keywords'] : '';
 
         return $ret;
     }
@@ -830,7 +830,7 @@ class Tools14
         global $cookie;
 
         if (empty($metaTags['meta_title'])) {
-            $metaTags['meta_title'] = $defaultValue.' - '.Configuration::get('PS_SHOP_NAME');
+            $metaTags['meta_title'] = $defaultValue . ' - ' . Configuration::get('PS_SHOP_NAME');
         }
         if (empty($metaTags['meta_description'])) {
             $metaTags['meta_description'] = Configuration::get('PS_META_DESCRIPTION', (int) ($cookie->id_lang)) ? Configuration::get('PS_META_DESCRIPTION', (int) ($cookie->id_lang)) : '';
@@ -849,7 +849,7 @@ class Tools14
      */
     public static function encrypt($passwd)
     {
-        return md5(pSQL(_COOKIE_KEY_.$passwd));
+        return md5(pSQL(_COOKIE_KEY_ . $passwd));
     }
 
     /**
@@ -861,9 +861,9 @@ class Tools14
     {
         global $cookie;
         if ($page === true) {
-            return (self::encrypt($cookie->id_customer.$cookie->passwd.$_SERVER['SCRIPT_NAME']));
+            return self::encrypt($cookie->id_customer . $cookie->passwd . $_SERVER['SCRIPT_NAME']);
         } else {
-            return (self::encrypt($cookie->id_customer.$cookie->passwd.$page));
+            return self::encrypt($cookie->id_customer . $cookie->passwd . $page);
         }
     }
 
@@ -876,27 +876,28 @@ class Tools14
     {
         return !empty($string) ? self::encrypt($string) : false;
     }
+
     public static function getAdminTokenLite($tab)
     {
         global $cookie;
 
-        return self::getAdminToken($tab.(int) Tab::getIdFromClassName($tab).(int) $cookie->id_employee);
+        return self::getAdminToken($tab . (int) Tab::getIdFromClassName($tab) . (int) $cookie->id_employee);
     }
 
     /**
      * Get the user's journey.
      *
-     * @param int                $id_category       Category ID
-     * @param string             $path              Path end
-     * @param bool               $linkOntheLastItem Put or not a link on the current category
-     * @param string [optionnal] $categoryType      defined what type of categories is used (products or cms)
+     * @param int $id_category Category ID
+     * @param string $path Path end
+     * @param bool $linkOntheLastItem Put or not a link on the current category
+     * @param string [optionnal] $categoryType defined what type of categories is used (products or cms)
      */
     public static function getPath($id_category, $path = '', $linkOntheLastItem = false, $categoryType = 'products')
     {
         global $link, $cookie;
 
         if ($id_category == 1) {
-            return '<span class="navigation_end">'.$path.'</span>';
+            return '<span class="navigation_end">' . $path . '</span>';
         }
 
         $pipe = Configuration::get('PS_NAVIGATION_PIPE');
@@ -909,29 +910,29 @@ class Tools14
         if ($categoryType === 'products') {
             $category = Db::getInstance()->getRow('
         SELECT id_category, level_depth, nleft, nright
-        FROM '._DB_PREFIX_.'category
-        WHERE id_category = '.(int) $id_category);
+        FROM ' . _DB_PREFIX_ . 'category
+        WHERE id_category = ' . (int) $id_category);
 
             if (isset($category['id_category'])) {
                 $categories = Db::getInstance()->ExecuteS('
             SELECT c.id_category, cl.name, cl.link_rewrite
-            FROM '._DB_PREFIX_.'category c
-            LEFT JOIN '._DB_PREFIX_.'category_lang cl ON (cl.id_category = c.id_category)
-            WHERE c.nleft <= '.(int) $category['nleft'].' AND c.nright >= '.(int) $category['nright'].' AND cl.id_lang = '.(int) ($cookie->id_lang).' AND c.id_category != 1
+            FROM ' . _DB_PREFIX_ . 'category c
+            LEFT JOIN ' . _DB_PREFIX_ . 'category_lang cl ON (cl.id_category = c.id_category)
+            WHERE c.nleft <= ' . (int) $category['nleft'] . ' AND c.nright >= ' . (int) $category['nright'] . ' AND cl.id_lang = ' . (int) ($cookie->id_lang) . ' AND c.id_category != 1
             ORDER BY c.level_depth ASC
-            LIMIT '.(int) $category['level_depth']);
+            LIMIT ' . (int) $category['level_depth']);
 
                 $n = 1;
                 $nCategories = (int) sizeof($categories);
                 foreach ($categories as $category) {
                     $fullPath .=
-                        (($n < $nCategories or $linkOntheLastItem) ? '<a href="'.self::safeOutput($link->getCategoryLink((int) $category['id_category'], $category['link_rewrite'])).'" title="'.htmlentities($category['name'], ENT_NOQUOTES, 'UTF-8').'">' : '').
-                        htmlentities($category['name'], ENT_NOQUOTES, 'UTF-8').
-                        (($n < $nCategories or $linkOntheLastItem) ? '</a>' : '').
-                        (($n++ != $nCategories or !empty($path)) ? '<span class="navigation-pipe">'.$pipe.'</span>' : '');
+                        (($n < $nCategories or $linkOntheLastItem) ? '<a href="' . self::safeOutput($link->getCategoryLink((int) $category['id_category'], $category['link_rewrite'])) . '" title="' . htmlentities($category['name'], ENT_NOQUOTES, 'UTF-8') . '">' : '') .
+                        htmlentities($category['name'], ENT_NOQUOTES, 'UTF-8') .
+                        (($n < $nCategories or $linkOntheLastItem) ? '</a>' : '') .
+                        (($n++ != $nCategories or !empty($path)) ? '<span class="navigation-pipe">' . $pipe . '</span>' : '');
                 }
 
-                return $fullPath.$path;
+                return $fullPath . $path;
             }
         } elseif ($categoryType === 'CMS') {
             $category = new CMSCategory((int) ($id_category), (int) ($cookie->id_lang));
@@ -941,9 +942,9 @@ class Tools14
             $categoryLink = $link->getCMSCategoryLink($category);
 
             if ($path != $category->name) {
-                $fullPath .= '<a href="'.self::safeOutput($categoryLink).'">'.htmlentities($category->name, ENT_NOQUOTES, 'UTF-8').'</a><span class="navigation-pipe">'.$pipe.'</span>'.$path;
+                $fullPath .= '<a href="' . self::safeOutput($categoryLink) . '">' . htmlentities($category->name, ENT_NOQUOTES, 'UTF-8') . '</a><span class="navigation-pipe">' . $pipe . '</span>' . $path;
             } else {
-                $fullPath = ($linkOntheLastItem ? '<a href="'.self::safeOutput($categoryLink).'">' : '').htmlentities($path, ENT_NOQUOTES, 'UTF-8').($linkOntheLastItem ? '</a>' : '');
+                $fullPath = ($linkOntheLastItem ? '<a href="' . self::safeOutput($categoryLink) . '">' : '') . htmlentities($path, ENT_NOQUOTES, 'UTF-8') . ($linkOntheLastItem ? '</a>' : '');
             }
 
             return self::getPath((int) ($category->id_parent), $fullPath, $linkOntheLastItem, $categoryType);
@@ -972,7 +973,7 @@ class Tools14
             return htmlentities($end, ENT_NOQUOTES, 'UTF-8');
         }
 
-        return self::getPath($id_category, $category->name, true, $type_cat).'<span class="navigation-pipe">'.$pipe.'</span> <span class="navigation_product">'.htmlentities($end, ENT_NOQUOTES, 'UTF-8').'</span>';
+        return self::getPath($id_category, $category->name, true, $type_cat) . '<span class="navigation-pipe">' . $pipe . '</span> <span class="navigation_product">' . htmlentities($end, ENT_NOQUOTES, 'UTF-8') . '</span>';
     }
 
     /**
@@ -980,7 +981,7 @@ class Tools14
      */
     public static function getCategoriesTotal()
     {
-        $row = Db::getInstance(_PS_USE_SQL_SLAVE_)->getRow('SELECT COUNT(`id_category`) AS total FROM `'._DB_PREFIX_.'category`');
+        $row = Db::getInstance(_PS_USE_SQL_SLAVE_)->getRow('SELECT COUNT(`id_category`) AS total FROM `' . _DB_PREFIX_ . 'category`');
 
         return (int) ($row['total']);
     }
@@ -990,7 +991,7 @@ class Tools14
      */
     public static function getProductsTotal()
     {
-        $row = Db::getInstance(_PS_USE_SQL_SLAVE_)->getRow('SELECT COUNT(`id_product`) AS total FROM `'._DB_PREFIX_.'product`');
+        $row = Db::getInstance(_PS_USE_SQL_SLAVE_)->getRow('SELECT COUNT(`id_product`) AS total FROM `' . _DB_PREFIX_ . 'product`');
 
         return (int) ($row['total']);
     }
@@ -1000,7 +1001,7 @@ class Tools14
      */
     public static function getCustomersTotal()
     {
-        $row = Db::getInstance(_PS_USE_SQL_SLAVE_)->getRow('SELECT COUNT(`id_customer`) AS total FROM `'._DB_PREFIX_.'customer`');
+        $row = Db::getInstance(_PS_USE_SQL_SLAVE_)->getRow('SELECT COUNT(`id_customer`) AS total FROM `' . _DB_PREFIX_ . 'customer`');
 
         return (int) ($row['total']);
     }
@@ -1010,7 +1011,7 @@ class Tools14
      */
     public static function getOrdersTotal()
     {
-        $row = Db::getInstance(_PS_USE_SQL_SLAVE_)->getRow('SELECT COUNT(`id_order`) AS total FROM `'._DB_PREFIX_.'orders`');
+        $row = Db::getInstance(_PS_USE_SQL_SLAVE_)->getRow('SELECT COUNT(`id_order`) AS total FROM `' . _DB_PREFIX_ . 'orders`');
 
         return (int) ($row['total']);
     }
@@ -1028,14 +1029,14 @@ class Tools14
         $iso = strtoupper(Language::getIsoById($cookie->id_lang));
         $lang = key_exists($iso, $translations) ? $translations[$iso] : false;
 
-        return (($lang and is_array($lang) and key_exists($key, $lang)) ? stripslashes($lang[$key]) : $key);
+        return ($lang and is_array($lang) and key_exists($key, $lang)) ? stripslashes($lang[$key]) : $key;
     }
 
     /**
      * Return the friendly url from the provided string.
      *
      * @param string $str
-     * @param bool   $utf8_decode => needs to be marked as deprecated
+     * @param bool $utf8_decode => needs to be marked as deprecated
      *
      * @return string
      */
@@ -1110,7 +1111,7 @@ class Tools14
      * Truncate strings.
      *
      * @param string $str
-     * @param int    $maxLen Max length
+     * @param int $maxLen Max length
      * @param string $suffix Suffix optional
      *
      * @return string $str truncated
@@ -1124,15 +1125,15 @@ class Tools14
         }
         $str = utf8_decode($str);
 
-        return (utf8_encode(substr($str, 0, $maxLen - self::strlen($suffix)).$suffix));
+        return utf8_encode(substr($str, 0, $maxLen - self::strlen($suffix)) . $suffix);
     }
 
     /**
      * Generate date form.
      *
-     * @param int $year  Year to select
+     * @param int $year Year to select
      * @param int $month Month to select
-     * @param int $day   Day to select
+     * @param int $day Day to select
      *
      * @return array $tab html data with 3 cells :['days'], ['months'], ['years']
      */
@@ -1173,7 +1174,7 @@ class Tools14
     {
         $tab = explode(' ', $date);
         if (!isset($tab[1])) {
-            $date .= ' '.self::hourGenerate(0, 0, 0);
+            $date .= ' ' . self::hourGenerate(0, 0, 0);
         }
 
         return $date;
@@ -1183,7 +1184,7 @@ class Tools14
     {
         $tab = explode(' ', $date);
         if (!isset($tab[1])) {
-            $date .= ' '.self::hourGenerate(23, 59, 59);
+            $date .= ' ' . self::hourGenerate(23, 59, 59);
         }
 
         return $date;
@@ -1257,7 +1258,7 @@ class Tools14
 
     public static function ucfirst($str)
     {
-        return self::strtoupper(self::substr($str, 0, 1)).self::substr($str, 1);
+        return self::strtoupper(self::substr($str, 0, 1)) . self::substr($str, 1);
     }
 
     public static function orderbyPrice(&$array, $orderWay)
@@ -1278,7 +1279,7 @@ class Tools14
     public static function iconv($from, $to, $string)
     {
         if (function_exists('iconv')) {
-            return iconv($from, $to.'//TRANSLIT', str_replace('¥', '&yen;', str_replace('£', '&pound;', str_replace('€', '&euro;', $string))));
+            return iconv($from, $to . '//TRANSLIT', str_replace('¥', '&yen;', str_replace('£', '&pound;', str_replace('€', '&euro;', $string))));
         }
 
         return html_entity_decode(htmlentities($string, ENT_NOQUOTES, $from), ENT_NOQUOTES, $to);
@@ -1286,7 +1287,7 @@ class Tools14
 
     public static function isEmpty($field)
     {
-        return ($field === '' or $field === null);
+        return $field === '' or $field === null;
     }
 
     /**
@@ -1300,7 +1301,7 @@ class Tools14
         if ($select) {
             // No cache
             if (!$_cache) {
-                $tmz = Db::getInstance(_PS_USE_SQL_SLAVE_)->getRow('SELECT `name` FROM '._DB_PREFIX_.'timezone WHERE id_timezone = '.(int) ($select));
+                $tmz = Db::getInstance(_PS_USE_SQL_SLAVE_)->getRow('SELECT `name` FROM ' . _DB_PREFIX_ . 'timezone WHERE id_timezone = ' . (int) ($select));
                 $_cache = $tmz['name'];
             }
 
@@ -1308,7 +1309,7 @@ class Tools14
         }
 
         // Multiple select
-        $tmz = Db::getInstance(_PS_USE_SQL_SLAVE_)->s('SELECT * FROM '._DB_PREFIX_.'timezone');
+        $tmz = Db::getInstance(_PS_USE_SQL_SLAVE_)->s('SELECT * FROM ' . _DB_PREFIX_ . 'timezone');
         $tab = array();
         foreach ($tmz as $timezone) {
             $tab[$timezone['id_timezone']] = str_replace('_', ' ', $timezone['name']);
@@ -1346,7 +1347,7 @@ class Tools14
         $tmp2 = (string) $tmp;
         // If the current value has already the desired precision
         if (strpos($tmp2, '.') === false) {
-            return ($value);
+            return $value;
         }
         if ($tmp2[strlen($tmp2) - 1] == 0) {
             return $value;
@@ -1362,7 +1363,7 @@ class Tools14
         $tmp2 = (string) $tmp;
         // If the current value has already the desired precision
         if (strpos($tmp2, '.') === false) {
-            return ($value);
+            return $value;
         }
         if ($tmp2[strlen($tmp2) - 1] == 0) {
             return $value;
@@ -1442,8 +1443,8 @@ class Tools14
             $html_content = preg_replace_callback(
                 '/(<[a-zA-Z0-9]+)((\s?[a-zA-Z0-9]+=[\"\\\'][^\"\\\']*[\"\\\']\s?)*)>/', array('Tools', 'minifyHTMLpregCallback'), $html_content);
 
-            require_once _PS_TOOL_DIR_.'minify_html/minify_html.class.php';
-            $html_content = str_replace(chr(194).chr(160), '&nbsp;', $html_content);
+            require_once _PS_TOOL_DIR_ . 'minify_html/minify_html.class.php';
+            $html_content = str_replace(chr(194) . chr(160), '&nbsp;', $html_content);
             $html_content = Minify_HTML::minify($html_content, array('xhtml', 'cssMinifier', 'jsMinifier'));
 
             if (Configuration::get('PS_HIGH_HTML_THEME_COMPRESSION')) {
@@ -1458,10 +1459,10 @@ class Tools14
                 $html_content = str_replace('</html>', '', $html_content);
                 $html_content = str_replace('</body>', '', $html_content);
                 //$html_content = str_replace('</p>', '', $html_content);//FIXME doesnt work...
-                $html_content = str_replace("</option>\n", '', $html_content);//TODO with bellow
+                $html_content = str_replace("</option>\n", '', $html_content); //TODO with bellow
                 $html_content = str_replace('</option>', '', $html_content);
-                $html_content = str_replace('<script type=text/javascript>', '<script>', $html_content);//Do a better expreg
-                $html_content = str_replace("<script>\n", '<script>', $html_content);//Do a better expreg
+                $html_content = str_replace('<script type=text/javascript>', '<script>', $html_content); //Do a better expreg
+                $html_content = str_replace("<script>\n", '<script>', $html_content); //Do a better expreg
             }
 
             return $html_content;
@@ -1494,13 +1495,14 @@ class Tools14
 
         return (($r * 299) + ($g * 587) + ($b * 114)) / 1000;
     }
+
     public static function minifyHTMLpregCallback($preg_matches)
     {
         $args = array();
         preg_match_all('/[a-zA-Z0-9]+=[\"\\\'][^\"\\\']*[\"\\\']/is', $preg_matches[2], $args);
         $args = $args[0];
         sort($args);
-        $output = $preg_matches[1].' '.implode(' ', $args).'>';
+        $output = $preg_matches[1] . ' ' . implode(' ', $args) . '>';
 
         return $output;
     }
@@ -1528,9 +1530,9 @@ class Tools14
 
     public static function packJSinHTMLpregCallback($preg_matches)
     {
-        $preg_matches[1] = $preg_matches[1].'/* <![CDATA[ */';
+        $preg_matches[1] = $preg_matches[1] . '/* <![CDATA[ */';
         $preg_matches[2] = self::packJS($preg_matches[2]);
-        $preg_matches[count($preg_matches) - 1] = '/* ]]> */'.$preg_matches[count($preg_matches) - 1];
+        $preg_matches[count($preg_matches) - 1] = '/* ]]> */' . $preg_matches[count($preg_matches) - 1];
         unset($preg_matches[0]);
         $output = implode('', $preg_matches);
 
@@ -1540,7 +1542,7 @@ class Tools14
     public static function packJS($js_content)
     {
         if (!empty($js_content)) {
-            require_once _PS_TOOL_DIR_.'js_minify/jsmin.php';
+            require_once _PS_TOOL_DIR_ . 'js_minify/jsmin.php';
             try {
                 $js_content = JSMin::minify($js_content);
             } catch (Exception $e) {
@@ -1599,9 +1601,9 @@ class Tools14
         $protocol_link = self::getCurrentUrlProtocolPrefix();
 
         if (array_key_exists(1, $matches)) {
-            $tmp = dirname($current_css_file).'/'.$matches[1];
+            $tmp = dirname($current_css_file) . '/' . $matches[1];
 
-            return 'url(\''.$protocol_link.self::getMediaServer($tmp).$tmp.'\')';
+            return 'url(\'' . $protocol_link . self::getMediaServer($tmp) . $tmp . '\')';
         }
 
         return false;
@@ -1638,13 +1640,13 @@ class Tools14
         foreach ($js_uri as $key => &$file) {
             if (!preg_match('/^http(s?):\/\//i', $file)) {
                 $different = 0;
-                $override_path = str_replace(__PS_BASE_URI__.'modules/', _PS_ROOT_DIR_.'/themes/'._THEME_NAME_.'/js/modules/', $file, $different);
+                $override_path = str_replace(__PS_BASE_URI__ . 'modules/', _PS_ROOT_DIR_ . '/themes/' . _THEME_NAME_ . '/js/modules/', $file, $different);
                 if ($different && file_exists($override_path)) {
-                    $file = str_replace(__PS_BASE_URI__.'modules/', __PS_BASE_URI__.'themes/'._THEME_NAME_.'/js/modules/', $file, $different);
+                    $file = str_replace(__PS_BASE_URI__ . 'modules/', __PS_BASE_URI__ . 'themes/' . _THEME_NAME_ . '/js/modules/', $file, $different);
                 } else {
                     // remove PS_BASE_URI on _PS_ROOT_DIR_ for the following
                     $url_data = parse_url($file);
-                    $file_uri = _PS_ROOT_DIR_.self::str_replace_once(__PS_BASE_URI__, DIRECTORY_SEPARATOR, $url_data['path']);
+                    $file_uri = _PS_ROOT_DIR_ . self::str_replace_once(__PS_BASE_URI__, DIRECTORY_SEPARATOR, $url_data['path']);
                     // check if js files exists
                     if (!file_exists($file_uri)) {
                         unset($js_uri[$key]);
@@ -1662,7 +1664,7 @@ class Tools14
     /**
      * addCSS allows you to add stylesheet at any time.
      *
-     * @param mixed  $css_uri
+     * @param mixed $css_uri
      * @param string $css_media_type
      *
      * @return true
@@ -1681,13 +1683,13 @@ class Tools14
 
         //overriding of modules css files
         $different = 0;
-        $override_path = str_replace(__PS_BASE_URI__.'modules/', _PS_ROOT_DIR_.'/themes/'._THEME_NAME_.'/css/modules/', $css_uri, $different);
+        $override_path = str_replace(__PS_BASE_URI__ . 'modules/', _PS_ROOT_DIR_ . '/themes/' . _THEME_NAME_ . '/css/modules/', $css_uri, $different);
         if ($different && file_exists($override_path)) {
-            $css_uri = str_replace(__PS_BASE_URI__.'modules/', __PS_BASE_URI__.'themes/'._THEME_NAME_.'/css/modules/', $css_uri, $different);
+            $css_uri = str_replace(__PS_BASE_URI__ . 'modules/', __PS_BASE_URI__ . 'themes/' . _THEME_NAME_ . '/css/modules/', $css_uri, $different);
         } else {
             // remove PS_BASE_URI on _PS_ROOT_DIR_ for the following
             $url_data = parse_url($css_uri);
-            $file_uri = _PS_ROOT_DIR_.self::str_replace_once(__PS_BASE_URI__, DIRECTORY_SEPARATOR, $url_data['path']);
+            $file_uri = _PS_ROOT_DIR_ . self::str_replace_once(__PS_BASE_URI__, DIRECTORY_SEPARATOR, $url_data['path']);
             // check if css files exists
             if (!file_exists($file_uri)) {
                 return true;
@@ -1729,7 +1731,7 @@ class Tools14
             $infos = array();
             $infos['uri'] = $filename;
             $url_data = parse_url($filename);
-            $infos['path'] = _PS_ROOT_DIR_.self::str_replace_once(__PS_BASE_URI__, '/', $url_data['path']);
+            $infos['path'] = _PS_ROOT_DIR_ . self::str_replace_once(__PS_BASE_URI__, '/', $url_data['path']);
             $css_files_by_media[$media]['files'][] = $infos;
             if (!array_key_exists('date', $css_files_by_media[$media])) {
                 $css_files_by_media[$media]['date'] = 0;
@@ -1747,8 +1749,8 @@ class Tools14
 
         // get compressed css file infos
         foreach ($compressed_css_files_infos as $media => &$info) {
-            $key = md5($info['key'].$protocolLink);
-            $filename = _PS_THEME_DIR_.'cache/'.$key.'_'.$media.'.css';
+            $key = md5($info['key'] . $protocolLink);
+            $filename = _PS_THEME_DIR_ . 'cache/' . $key . '_' . $media . '.css';
             $info = array(
                 'key' => $key,
                 'date' => file_exists($filename) ? @filemtime($filename) : 0,
@@ -1756,7 +1758,7 @@ class Tools14
         }
         // aggregate and compress css files content, write new caches files
         foreach ($css_files_by_media as $media => $media_infos) {
-            $cache_filename = _PS_THEME_DIR_.'cache/'.$compressed_css_files_infos[$media]['key'].'_'.$media.'.css';
+            $cache_filename = _PS_THEME_DIR_ . 'cache/' . $compressed_css_files_infos[$media]['key'] . '_' . $media . '.css';
             if ($media_infos['date'] > $compressed_css_files_infos[$media]['date']) {
                 $compressed_css_files[$media] = '';
                 foreach ($media_infos['files'] as $file_infos) {
@@ -1767,9 +1769,9 @@ class Tools14
                     }
                 }
                 if (!empty($compressed_css_files_not_found)) {
-                    $content = '/* WARNING ! file(s) not found : "'.
-                        implode(',', $compressed_css_files_not_found).
-                        '" */'."\n".$compressed_css_files[$media];
+                    $content = '/* WARNING ! file(s) not found : "' .
+                        implode(',', $compressed_css_files_not_found) .
+                        '" */' . "\n" . $compressed_css_files[$media];
                 } else {
                     $content = $compressed_css_files[$media];
                 }
@@ -1782,8 +1784,8 @@ class Tools14
         // rebuild the original css_files array
         $css_files = array();
         foreach ($compressed_css_files as $media => $filename) {
-            $url = str_replace(_PS_THEME_DIR_, _THEMES_DIR_._THEME_NAME_.'/', $filename);
-            $css_files[$protocolLink.self::getMediaServer($url).$url] = $media;
+            $url = str_replace(_PS_THEME_DIR_, _THEMES_DIR_ . _THEME_NAME_ . '/', $filename);
+            $css_files[$protocolLink . self::getMediaServer($url) . $url] = $media;
         }
     }
 
@@ -1812,7 +1814,7 @@ class Tools14
                 $infos = array();
                 $infos['uri'] = $filename;
                 $url_data = parse_url($filename);
-                $infos['path'] = _PS_ROOT_DIR_.self::str_replace_once(__PS_BASE_URI__, '/', $url_data['path']);
+                $infos['path'] = _PS_ROOT_DIR_ . self::str_replace_once(__PS_BASE_URI__, '/', $url_data['path']);
                 $js_files_infos[] = $infos;
 
                 $js_files_date = max(
@@ -1826,7 +1828,7 @@ class Tools14
         // get compressed js file infos
         $compressed_js_filename = md5($compressed_js_filename);
 
-        $compressed_js_path = _PS_THEME_DIR_.'cache/'.$compressed_js_filename.'.js';
+        $compressed_js_path = _PS_THEME_DIR_ . 'cache/' . $compressed_js_filename . '.js';
         $compressed_js_file_date = file_exists($compressed_js_path) ? @filemtime($compressed_js_path) : 0;
 
         // aggregate and compress js files content, write new caches files
@@ -1834,7 +1836,7 @@ class Tools14
             $content = '';
             foreach ($js_files_infos as $file_infos) {
                 if (file_exists($file_infos['path'])) {
-                    $content .= self::file_get_contents($file_infos['path']).';';
+                    $content .= self::file_get_contents($file_infos['path']) . ';';
                 } else {
                     $compressed_js_files_not_found[] = $file_infos['path'];
                 }
@@ -1842,9 +1844,9 @@ class Tools14
             $content = self::packJS($content);
 
             if (!empty($compressed_js_files_not_found)) {
-                $content = '/* WARNING ! file(s) not found : "'.
-                    implode(',', $compressed_js_files_not_found).
-                    '" */'."\n".$content;
+                $content = '/* WARNING ! file(s) not found : "' .
+                    implode(',', $compressed_js_files_not_found) .
+                    '" */' . "\n" . $content;
             }
 
             file_put_contents($compressed_js_path, $content);
@@ -1852,11 +1854,12 @@ class Tools14
         }
 
         // rebuild the original js_files array
-        $url = str_replace(_PS_ROOT_DIR_.'/', __PS_BASE_URI__, $compressed_js_path);
-        $js_files = array_merge(array($protocolLink.self::getMediaServer($url).$url), $js_external_files);
+        $url = str_replace(_PS_ROOT_DIR_ . '/', __PS_BASE_URI__, $compressed_js_path);
+        $js_files = array_merge(array($protocolLink . self::getMediaServer($url) . $url), $js_external_files);
     }
 
     private static $_cache_nb_media_servers = null;
+
     public static function getMediaServer($filename)
     {
         if (self::$_cache_nb_media_servers === null) {
@@ -1868,7 +1871,7 @@ class Tools14
         }
 
         if (self::$_cache_nb_media_servers and ($id_media_server = (abs(crc32($filename)) % self::$_cache_nb_media_servers + 1))) {
-            return constant('_MEDIA_SERVER_'.$id_media_server.'_');
+            return constant('_MEDIA_SERVER_' . $id_media_server . '_');
         }
 
         return self::getHttpHost();
@@ -1881,7 +1884,7 @@ class Tools14
 
         // ErrorDocument
         $tab['ErrorDocument']['comment'] = '# Catch 404 errors';
-        $tab['ErrorDocument']['content'] = '404 '.__PS_BASE_URI__.'404.php';
+        $tab['ErrorDocument']['content'] = '404 ' . __PS_BASE_URI__ . '404.php';
 
         // RewriteEngine
         $tab['RewriteEngine']['comment'] = '# URL rewriting module activation';
@@ -1891,19 +1894,19 @@ class Tools14
 
         // Compatibility with the old image filesystem
         if (Configuration::get('PS_LEGACY_IMAGES')) {
-            $tab['RewriteRule']['content']['^([a-z0-9]+)\-([a-z0-9]+)(\-[_a-zA-Z0-9-]*)/[_a-zA-Z0-9-]*\.jpg$'] = _PS_PROD_IMG_.'$1-$2$3.jpg [L]';
-            $tab['RewriteRule']['content']['^([0-9]+)\-([0-9]+)/[_a-zA-Z0-9-]*\.jpg$'] = _PS_PROD_IMG_.'$1-$2.jpg [L]';
+            $tab['RewriteRule']['content']['^([a-z0-9]+)\-([a-z0-9]+)(\-[_a-zA-Z0-9-]*)/[_a-zA-Z0-9-]*\.jpg$'] = _PS_PROD_IMG_ . '$1-$2$3.jpg [L]';
+            $tab['RewriteRule']['content']['^([0-9]+)\-([0-9]+)/[_a-zA-Z0-9-]*\.jpg$'] = _PS_PROD_IMG_ . '$1-$2.jpg [L]';
         }
 
         // Rewriting for product image id < 100 millions
-        $tab['RewriteRule']['content']['^([0-9])(\-[_a-zA-Z0-9-]*)?/[_a-zA-Z0-9-]*\.jpg$'] = _PS_PROD_IMG_.'$1/$1$2.jpg [L]';
-        $tab['RewriteRule']['content']['^([0-9])([0-9])(\-[_a-zA-Z0-9-]*)?/[_a-zA-Z0-9-]*\.jpg$'] = _PS_PROD_IMG_.'$1/$2/$1$2$3.jpg [L]';
-        $tab['RewriteRule']['content']['^([0-9])([0-9])([0-9])(\-[_a-zA-Z0-9-]*)?/[_a-zA-Z0-9-]*\.jpg$'] = _PS_PROD_IMG_.'$1/$2/$3/$1$2$3$4.jpg [L]';
-        $tab['RewriteRule']['content']['^([0-9])([0-9])([0-9])([0-9])(\-[_a-zA-Z0-9-]*)?/[_a-zA-Z0-9-]*\.jpg$'] = _PS_PROD_IMG_.'$1/$2/$3/$4/$1$2$3$4$5.jpg [L]';
-        $tab['RewriteRule']['content']['^([0-9])([0-9])([0-9])([0-9])([0-9])(\-[_a-zA-Z0-9-]*)?/[_a-zA-Z0-9-]*\.jpg$'] = _PS_PROD_IMG_.'$1/$2/$3/$4/$5/$1$2$3$4$5$6.jpg [L]';
-        $tab['RewriteRule']['content']['^([0-9])([0-9])([0-9])([0-9])([0-9])([0-9])(\-[_a-zA-Z0-9-]*)?/[_a-zA-Z0-9-]*\.jpg$'] = _PS_PROD_IMG_.'$1/$2/$3/$4/$5/$6/$1$2$3$4$5$6$7.jpg [L]';
-        $tab['RewriteRule']['content']['^([0-9])([0-9])([0-9])([0-9])([0-9])([0-9])([0-9])(\-[_a-zA-Z0-9-]*)?/[_a-zA-Z0-9-]*\.jpg$'] = _PS_PROD_IMG_.'$1/$2/$3/$4/$5/$6/$7/$1$2$3$4$5$6$7$8.jpg [L]';
-        $tab['RewriteRule']['content']['^([0-9])([0-9])([0-9])([0-9])([0-9])([0-9])([0-9])([0-9])(\-[_a-zA-Z0-9-]*)?/[_a-zA-Z0-9-]*\.jpg$'] = _PS_PROD_IMG_.'$1/$2/$3/$4/$5/$6/$7/$8/$1$2$3$4$5$6$7$8$9.jpg [L]';
+        $tab['RewriteRule']['content']['^([0-9])(\-[_a-zA-Z0-9-]*)?/[_a-zA-Z0-9-]*\.jpg$'] = _PS_PROD_IMG_ . '$1/$1$2.jpg [L]';
+        $tab['RewriteRule']['content']['^([0-9])([0-9])(\-[_a-zA-Z0-9-]*)?/[_a-zA-Z0-9-]*\.jpg$'] = _PS_PROD_IMG_ . '$1/$2/$1$2$3.jpg [L]';
+        $tab['RewriteRule']['content']['^([0-9])([0-9])([0-9])(\-[_a-zA-Z0-9-]*)?/[_a-zA-Z0-9-]*\.jpg$'] = _PS_PROD_IMG_ . '$1/$2/$3/$1$2$3$4.jpg [L]';
+        $tab['RewriteRule']['content']['^([0-9])([0-9])([0-9])([0-9])(\-[_a-zA-Z0-9-]*)?/[_a-zA-Z0-9-]*\.jpg$'] = _PS_PROD_IMG_ . '$1/$2/$3/$4/$1$2$3$4$5.jpg [L]';
+        $tab['RewriteRule']['content']['^([0-9])([0-9])([0-9])([0-9])([0-9])(\-[_a-zA-Z0-9-]*)?/[_a-zA-Z0-9-]*\.jpg$'] = _PS_PROD_IMG_ . '$1/$2/$3/$4/$5/$1$2$3$4$5$6.jpg [L]';
+        $tab['RewriteRule']['content']['^([0-9])([0-9])([0-9])([0-9])([0-9])([0-9])(\-[_a-zA-Z0-9-]*)?/[_a-zA-Z0-9-]*\.jpg$'] = _PS_PROD_IMG_ . '$1/$2/$3/$4/$5/$6/$1$2$3$4$5$6$7.jpg [L]';
+        $tab['RewriteRule']['content']['^([0-9])([0-9])([0-9])([0-9])([0-9])([0-9])([0-9])(\-[_a-zA-Z0-9-]*)?/[_a-zA-Z0-9-]*\.jpg$'] = _PS_PROD_IMG_ . '$1/$2/$3/$4/$5/$6/$7/$1$2$3$4$5$6$7$8.jpg [L]';
+        $tab['RewriteRule']['content']['^([0-9])([0-9])([0-9])([0-9])([0-9])([0-9])([0-9])([0-9])(\-[_a-zA-Z0-9-]*)?/[_a-zA-Z0-9-]*\.jpg$'] = _PS_PROD_IMG_ . '$1/$2/$3/$4/$5/$6/$7/$8/$1$2$3$4$5$6$7$8$9.jpg [L]';
 
         $tab['RewriteRule']['content']['^c/([0-9]+)(\-[_a-zA-Z0-9-]*)/[_a-zA-Z0-9-]*\.jpg$'] = 'img/c/$1$2.jpg [L]';
         $tab['RewriteRule']['content']['^c/([a-zA-Z-]+)/[a-zA-Z0-9-]+\.jpg$'] = 'img/c/$1.jpg [L]';
@@ -1951,20 +1954,20 @@ class Tools14
             foreach (Language::getLanguages() as $language) {
                 foreach (Meta::getMetasByIdLang($language['id_lang']) as $key => $meta) {
                     if (!empty($meta['url_rewrite']) and Validate::isLinkRewrite($meta['url_rewrite'])) {
-                        $tab['RewriteRule']['content']['^'.$language['iso_code'].'/'.$meta['url_rewrite'].'$'] = $meta['page'].'.php?isolang='.$language['iso_code'].' [QSA,L]';
+                        $tab['RewriteRule']['content']['^' . $language['iso_code'] . '/' . $meta['url_rewrite'] . '$'] = $meta['page'] . '.php?isolang=' . $language['iso_code'] . ' [QSA,L]';
                     } elseif (array_key_exists($key, $default_meta) && $default_meta[$key]['url_rewrite'] != '') {
-                        $tab['RewriteRule']['content']['^'.$language['iso_code'].'/'.$default_meta[$key]['url_rewrite'].'$'] = $default_meta[$key]['page'].'.php?isolang='.$language['iso_code'].' [QSA,L]';
+                        $tab['RewriteRule']['content']['^' . $language['iso_code'] . '/' . $default_meta[$key]['url_rewrite'] . '$'] = $default_meta[$key]['page'] . '.php?isolang=' . $language['iso_code'] . ' [QSA,L]';
                     }
                 }
-                $tab['RewriteRule']['content']['^'.$language['iso_code'].'$'] = $language['iso_code'].'/ [QSA,L]';
-                $tab['RewriteRule']['content']['^'.$language['iso_code'].'/([^?&]*)$'] = '$1?isolang='.$language['iso_code'].' [QSA,L]';
+                $tab['RewriteRule']['content']['^' . $language['iso_code'] . '$'] = $language['iso_code'] . '/ [QSA,L]';
+                $tab['RewriteRule']['content']['^' . $language['iso_code'] . '/([^?&]*)$'] = '$1?isolang=' . $language['iso_code'] . ' [QSA,L]';
             }
         } else {
             foreach ($default_meta as $key => $meta) {
                 if (!empty($meta['url_rewrite'])) {
-                    $tab['RewriteRule']['content']['^'.$meta['url_rewrite'].'$'] = $meta['page'].'.php [QSA,L]';
+                    $tab['RewriteRule']['content']['^' . $meta['url_rewrite'] . '$'] = $meta['page'] . '.php [QSA,L]';
                 } elseif (array_key_exists($key, $default_meta) && $default_meta[$key]['url_rewrite'] != '') {
-                    $tab['RewriteRule']['content']['^'.$default_meta[$key]['url_rewrite'].'$'] = $default_meta[$key]['page'].'.php [QSA,L]';
+                    $tab['RewriteRule']['content']['^' . $default_meta[$key]['url_rewrite'] . '$'] = $default_meta[$key]['page'] . '.php [QSA,L]';
                 }
             }
         }
@@ -1988,22 +1991,22 @@ class Tools14
             fwrite($writeFd, "\n# Disable Multiviews\nOptions -Multiviews\n\n");
         }
 
-        fwrite($writeFd, $tab['RewriteEngine']['comment']."\nRewriteEngine on\n\n");
-        fwrite($writeFd, $tab['RewriteRule']['comment']."\n");
+        fwrite($writeFd, $tab['RewriteEngine']['comment'] . "\nRewriteEngine on\n\n");
+        fwrite($writeFd, $tab['RewriteRule']['comment'] . "\n");
         // Webservice
-        fwrite($writeFd, 'RewriteRule ^api/?(.*)$ '.__PS_BASE_URI__."webservice/dispatcher.php?url=$1 [QSA,L]\n");
+        fwrite($writeFd, 'RewriteRule ^api/?(.*)$ ' . __PS_BASE_URI__ . "webservice/dispatcher.php?url=$1 [QSA,L]\n");
 
         // Classic URL rewriting
         if ($rewrite_settings) {
             foreach ($tab['RewriteRule']['content'] as $rule => $url) {
-                fwrite($writeFd, 'RewriteRule '.$rule.' '.__PS_BASE_URI__.$url."\n");
+                fwrite($writeFd, 'RewriteRule ' . $rule . ' ' . __PS_BASE_URI__ . $url . "\n");
             }
         }
 
         fwrite($writeFd, "</IfModule>\n\n");
 
         // ErrorDocument
-        fwrite($writeFd, $tab['ErrorDocument']['comment']."\nErrorDocument ".$tab['ErrorDocument']['content']."\n");
+        fwrite($writeFd, $tab['ErrorDocument']['comment'] . "\nErrorDocument " . $tab['ErrorDocument']['content'] . "\n");
 
         // Cache control
         if ($cache_control) {
@@ -2042,7 +2045,7 @@ AddOutputFilterByType DEFLATE application/x-javascript
      * jsonDecode convert json string to php array / object.
      *
      * @param string $json
-     * @param bool   $assoc (since 1.4.2.4) if true, convert to associativ array
+     * @param bool $assoc (since 1.4.2.4) if true, convert to associativ array
      *
      * @return array
      */
@@ -2051,7 +2054,7 @@ AddOutputFilterByType DEFLATE application/x-javascript
         if (function_exists('json_decode')) {
             return json_decode($json, $assoc);
         } else {
-            include_once _PS_TOOL_DIR_.'json/json.php';
+            include_once _PS_TOOL_DIR_ . 'json/json.php';
             $pearJson = new Services_JSON(($assoc) ? SERVICES_JSON_LOOSE_TYPE : 0);
 
             return $pearJson->decode($json);
@@ -2070,7 +2073,7 @@ AddOutputFilterByType DEFLATE application/x-javascript
         if (function_exists('json_encode')) {
             return json_encode($data);
         } else {
-            include_once _PS_TOOL_DIR_.'json/json.php';
+            include_once _PS_TOOL_DIR_ . 'json/json.php';
             $pearJson = new Services_JSON();
 
             return $pearJson->encode($data);
@@ -2125,14 +2128,14 @@ AddOutputFilterByType DEFLATE application/x-javascript
     {
         $disabled = explode(',', ini_get('disable_functions'));
 
-        return (!in_array($function, $disabled) and is_callable($function));
+        return !in_array($function, $disabled) and is_callable($function);
     }
 
     public static function pRegexp($s, $delim)
     {
-        $s = str_replace($delim, '\\'.$delim, $s);
+        $s = str_replace($delim, '\\' . $delim, $s);
         foreach (array('?', '[', ']', '(', ')', '{', '}', '-', '.', '+', '*', '^', '$') as $char) {
-            $s = str_replace($char, '\\'.$char, $s);
+            $s = str_replace($char, '\\' . $char, $s);
         }
 
         return $s;
@@ -2152,7 +2155,7 @@ AddOutputFilterByType DEFLATE application/x-javascript
      * Function property_exists does not exist in PHP < 5.1.
      *
      * @param object or class $class
-     * @param string          $property
+     * @param string $property
      *
      * @return bool
      */
@@ -2217,12 +2220,12 @@ AddOutputFilterByType DEFLATE application/x-javascript
         if (class_exists('ZipArchive', false)) {
             $zip = new ZipArchive();
 
-            return ($zip->open($fromFile, ZIPARCHIVE::CHECKCONS) === true);
+            return $zip->open($fromFile, ZIPARCHIVE::CHECKCONS) === true;
         } else {
-            require_once dirname(__FILE__).'/pclzip.lib.php';
+            require_once dirname(__FILE__) . '/pclzip.lib.php';
             $zip = new PclZip($fromFile);
 
-            return ($zip->privCheckFormat() === true);
+            return $zip->privCheckFormat() === true;
         }
     }
 
@@ -2244,7 +2247,7 @@ AddOutputFilterByType DEFLATE application/x-javascript
 
             return false;
         } else {
-            require_once dirname(__FILE__).'/pclzip.lib.php';
+            require_once dirname(__FILE__) . '/pclzip.lib.php';
             $zip = new PclZip($fromFile);
             $list = $zip->extract(PCLZIP_OPT_PATH, $toDir, PCLZIP_OPT_REPLACE_NEWER);
             foreach ($list as $file) {
@@ -2260,13 +2263,13 @@ AddOutputFilterByType DEFLATE application/x-javascript
     /**
      * Get products order field name for queries.
      *
-     * @param string $type  by|way
+     * @param string $type by|way
      * @param string $value If no index given, use default order from admin -> pref -> products
      */
     public static function getProductsOrder($type, $value = null, $prefix = false)
     {
         switch ($type) {
-            case 'by' :
+            case 'by':
                 $orderByPrefix = '';
                 if ($prefix) {
                     if ($value == 'id_product' || $value == 'date_add' || $value == 'price') {
@@ -2283,14 +2286,14 @@ AddOutputFilterByType DEFLATE application/x-javascript
                 $value = (is_null($value) || $value === false || $value === '') ? (int) Configuration::get('PS_PRODUCTS_ORDER_BY') : $value;
                 $list = array(0 => 'name', 1 => 'price', 2 => 'date_add', 3 => 'date_upd', 4 => 'position', 5 => 'manufacturer_name', 6 => 'quantity');
 
-                return $orderByPrefix.((isset($list[$value])) ? $list[$value] : ((in_array($value, $list)) ? $value : 'position'));
+                return $orderByPrefix . ((isset($list[$value])) ? $list[$value] : ((in_array($value, $list)) ? $value : 'position'));
                 break;
 
-            case 'way' :
+            case 'way':
                 $value = (is_null($value) || $value === false || $value === '') ? (int) Configuration::get('PS_PRODUCTS_ORDER_WAY') : $value;
                 $list = array(0 => 'asc', 1 => 'desc');
 
-                return ((isset($list[$value])) ? $list[$value] : ((in_array($value, $list)) ? $value : 'asc'));
+                return (isset($list[$value])) ? $list[$value] : ((in_array($value, $list)) ? $value : 'asc');
                 break;
         }
     }
@@ -2330,7 +2333,7 @@ AddOutputFilterByType DEFLATE application/x-javascript
     {
         header('HTTP/1.1 404 Not Found');
         header('Status: 404 Not Found');
-        include dirname(__FILE__).'/../404.php';
+        include dirname(__FILE__) . '/../404.php';
         die;
     }
 
@@ -2338,7 +2341,7 @@ AddOutputFilterByType DEFLATE application/x-javascript
      * Display error and dies or silently log the error.
      *
      * @param string $msg
-     * @param bool   $die
+     * @param bool $die
      *
      * @return success of logging
      */
@@ -2393,7 +2396,7 @@ AddOutputFilterByType DEFLATE application/x-javascript
 
     public static function isX86_64arch()
     {
-        return (PHP_INT_MAX == '9223372036854775807');
+        return PHP_INT_MAX == '9223372036854775807';
     }
 
     /**
