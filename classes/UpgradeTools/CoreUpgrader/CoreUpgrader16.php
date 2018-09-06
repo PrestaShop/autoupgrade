@@ -79,7 +79,7 @@ class CoreUpgrader16 extends CoreUpgrader
     protected function initConstants()
     {
         parent::initConstants();
-        define('SETTINGS_FILE', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH).'/config/settings.inc.php');
+        define('SETTINGS_FILE', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/config/settings.inc.php');
     }
 
     protected function getPreUpgradeVersion()
@@ -94,24 +94,24 @@ class CoreUpgrader16 extends CoreUpgrader
 
     protected function upgradeLanguage($lang)
     {
-        require_once _PS_TOOL_DIR_.'tar/Archive_Tar.php';
-        $lang_pack = Tools14::jsonDecode(Tools14::file_get_contents('http'.(extension_loaded('openssl')
-                        ? 's' : '').'://www.prestashop.com/download/lang_packs/get_language_pack.php?version='.$this->container->getState()->getInstallVersion().'&iso_lang='.$lang['iso_code']));
+        require_once _PS_TOOL_DIR_ . 'tar/Archive_Tar.php';
+        $lang_pack = Tools14::jsonDecode(Tools14::file_get_contents('http' . (extension_loaded('openssl')
+                        ? 's' : '') . '://www.prestashop.com/download/lang_packs/get_language_pack.php?version=' . $this->container->getState()->getInstallVersion() . '&iso_lang=' . $lang['iso_code']));
 
         if (!$lang_pack) {
             return;
         }
 
-        if ($content = Tools14::file_get_contents('http'.(extension_loaded('openssl')
-                    ? 's' : '').'://translations.prestashop.com/download/lang_packs/gzip/'.$lang_pack->version.'/'.$lang['iso_code'].'.gzip')) {
-            $file = _PS_TRANSLATIONS_DIR_.$lang['iso_code'].'.gzip';
+        if ($content = Tools14::file_get_contents('http' . (extension_loaded('openssl')
+                    ? 's' : '') . '://translations.prestashop.com/download/lang_packs/gzip/' . $lang_pack->version . '/' . $lang['iso_code'] . '.gzip')) {
+            $file = _PS_TRANSLATIONS_DIR_ . $lang['iso_code'] . '.gzip';
             if ((bool) file_put_contents($file, $content)) {
                 $gz = new \Archive_Tar($file, true);
                 $files_list = $gz->listContent();
                 if (!$this->container->getUpgradeConfiguration()->shouldKeepMails()) {
                     $files_listing = array();
                     foreach ($files_list as $i => $file) {
-                        if (preg_match('/^mails\/'.$lang['iso_code'].'\/.*/', $file['filename'])) {
+                        if (preg_match('/^mails\/' . $lang['iso_code'] . '\/.*/', $file['filename'])) {
                             unset($files_list[$i]);
                         }
                     }
@@ -121,10 +121,10 @@ class CoreUpgrader16 extends CoreUpgrader
                         }
                     }
                     if (is_array($files_listing)) {
-                        $gz->extractList($files_listing, _PS_TRANSLATIONS_DIR_.'../', '');
+                        $gz->extractList($files_listing, _PS_TRANSLATIONS_DIR_ . '../', '');
                     }
                 } else {
-                    $gz->extract(_PS_TRANSLATIONS_DIR_.'../', false);
+                    $gz->extract(_PS_TRANSLATIONS_DIR_ . '../', false);
                 }
             }
         }
@@ -132,6 +132,6 @@ class CoreUpgrader16 extends CoreUpgrader
 
     protected function loadEntityInterface()
     {
-        require_once _PS_ROOT_DIR_.'/Core/Foundation/Database/Core_Foundation_Database_EntityInterface.php';
+        require_once _PS_ROOT_DIR_ . '/Core/Foundation/Database/Core_Foundation_Database_EntityInterface.php';
     }
 }

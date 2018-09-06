@@ -2,9 +2,9 @@
 
 /*
  * 2007-2018 PrestaShop
- * 
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0)
  * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
@@ -12,13 +12,13 @@
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license@prestashop.com so we can send you a copy immediately.
- * 
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
  * versions in the future. If you wish to customize PrestaShop for your
  * needs please refer to http://www.prestashop.com for more information.
- * 
+ *
  *  @author PrestaShop SA <contact@prestashop.com>
  *  @copyright  2007-2018 PrestaShop SA
  *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -56,21 +56,21 @@ class Translation
         $type = false;
         // line shorter
         $separator = addslashes(DIRECTORY_SEPARATOR);
-        $translation_dir = $separator.'translations'.$separator;
+        $translation_dir = $separator . 'translations' . $separator;
 
-        $regex_module = '#'.$separator.'modules'.$separator.'.*'.$translation_dir.'('.implode('|', $this->installedLanguagesIso).')\.php#';
+        $regex_module = '#' . $separator . 'modules' . $separator . '.*' . $translation_dir . '(' . implode('|', $this->installedLanguagesIso) . ')\.php#';
 
         if (preg_match($regex_module, $file)) {
             $type = 'module';
-        } elseif (preg_match('#'.$translation_dir.'('.implode('|', $this->installedLanguagesIso).')'.$separator.'admin\.php#', $file)) {
+        } elseif (preg_match('#' . $translation_dir . '(' . implode('|', $this->installedLanguagesIso) . ')' . $separator . 'admin\.php#', $file)) {
             $type = 'back office';
-        } elseif (preg_match('#'.$translation_dir.'('.implode('|', $this->installedLanguagesIso).')'.$separator.'errors\.php#', $file)) {
+        } elseif (preg_match('#' . $translation_dir . '(' . implode('|', $this->installedLanguagesIso) . ')' . $separator . 'errors\.php#', $file)) {
             $type = 'error message';
-        } elseif (preg_match('#'.$translation_dir.'('.implode('|', $this->installedLanguagesIso).')'.$separator.'fields\.php#', $file)) {
+        } elseif (preg_match('#' . $translation_dir . '(' . implode('|', $this->installedLanguagesIso) . ')' . $separator . 'fields\.php#', $file)) {
             $type = 'field';
-        } elseif (preg_match('#'.$translation_dir.'('.implode('|', $this->installedLanguagesIso).')'.$separator.'pdf\.php#', $file)) {
+        } elseif (preg_match('#' . $translation_dir . '(' . implode('|', $this->installedLanguagesIso) . ')' . $separator . 'pdf\.php#', $file)) {
             $type = 'pdf';
-        } elseif (preg_match('#'.$separator.'themes'.$separator.'(default|prestashop)'.$separator.'lang'.$separator.'('.implode('|', $this->installedLanguagesIso).')\.php#', $file)) {
+        } elseif (preg_match('#' . $separator . 'themes' . $separator . '(default|prestashop)' . $separator . 'lang' . $separator . '(' . implode('|', $this->installedLanguagesIso) . ')\.php#', $file)) {
             $type = 'front office';
         }
 
@@ -79,7 +79,7 @@ class Translation
 
     public function isTranslationFile($file)
     {
-        return ($this->getTranslationFileType($file) !== false);
+        return $this->getTranslationFileType($file) !== false;
     }
 
     /**
@@ -170,15 +170,15 @@ class Translation
         if ($fd !== false) {
             return false;
         }
-        fwrite($fd, "<?php\n\nglobal \$".$var_name.";\n\$".$var_name." = array();\n");
+        fwrite($fd, "<?php\n\nglobal \$" . $var_name . ";\n\$" . $var_name . " = array();\n");
         foreach ($merge as $k => $v) {
             if (get_magic_quotes_gpc()) {
                 $v = stripslashes($v);
             }
             if ('mail' == $type) {
-                fwrite($fd, '$'.$var_name.'[\''.$this->escape($k).'\'] = \''.$this->escape($v).'\';'."\n");
+                fwrite($fd, '$' . $var_name . '[\'' . $this->escape($k) . '\'] = \'' . $this->escape($v) . '\';' . "\n");
             } else {
-                fwrite($fd, '$'.$var_name.'[\''.$this->escape($k, true).'\'] = \''.$this->escape($v, true).'\';'."\n");
+                fwrite($fd, '$' . $var_name . '[\'' . $this->escape($k, true) . '\'] = \'' . $this->escape($v, true) . '\';' . "\n");
             }
         }
         fwrite($fd, "\n?>");
@@ -194,7 +194,7 @@ class Translation
      * @see DbCore::_escape()
      *
      * @param string $str
-     * @param bool   $html_ok Does data contain HTML code ? (optional)
+     * @param bool $html_ok Does data contain HTML code ? (optional)
      *
      * @return string
      */

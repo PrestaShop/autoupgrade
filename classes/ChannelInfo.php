@@ -41,9 +41,9 @@ class ChannelInfo
     /**
      * ChannelInfo constructor.
      *
-     * @param Upgrader             $upgrader
+     * @param Upgrader $upgrader
      * @param UpgradeConfiguration $config
-     * @param string               $channel
+     * @param string $channel
      */
     public function __construct(Upgrader $upgrader, UpgradeConfiguration $config, $channel)
     {

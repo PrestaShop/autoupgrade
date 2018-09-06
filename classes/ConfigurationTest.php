@@ -38,7 +38,7 @@ class ConfigurationTestCore
 
     public static function run($ptr, $arg = 0)
     {
-        if (call_user_func(array('ConfigurationTest', 'test_'.$ptr), $arg)) {
+        if (call_user_func(array('ConfigurationTest', 'test_' . $ptr), $arg)) {
             return 'ok';
         }
 
@@ -109,20 +109,20 @@ class ConfigurationTestCore
     /**
      * Check the given directory and its subfolders are writable.
      *
-     * @param string      $relative_dir
-     * @param bool        $recursive
+     * @param string $relative_dir
+     * @param bool $recursive
      * @param null|string $full_report
      *
      * @return bool
      */
     public static function test_dir($relative_dir, $recursive = false, &$full_report = null)
     {
-        $dir = rtrim(_PS_ROOT_DIR_, '\\/').DIRECTORY_SEPARATOR.trim($relative_dir, '\\/');
+        $dir = rtrim(_PS_ROOT_DIR_, '\\/') . DIRECTORY_SEPARATOR . trim($relative_dir, '\\/');
         if (!file_exists($dir) || !$dh = opendir($dir)) {
             $full_report = sprintf('Directory %s does not exists or is not writable', $dir); // sprintf for future translation
             return false;
         }
-        $dummy = rtrim($dir, '\\/').DIRECTORY_SEPARATOR.uniqid();
+        $dummy = rtrim($dir, '\\/') . DIRECTORY_SEPARATOR . uniqid();
         if (@file_put_contents($dummy, 'test')) {
             @unlink($dummy);
             if (!$recursive) {
@@ -137,8 +137,8 @@ class ConfigurationTestCore
 
         if ($recursive) {
             while (($file = readdir($dh)) !== false) {
-                if (is_dir($dir.DIRECTORY_SEPARATOR.$file) && $file != '.' && $file != '..' && $file != '.svn') {
-                    if (!ConfigurationTest::test_dir($relative_dir.DIRECTORY_SEPARATOR.$file, $recursive, $full_report)) {
+                if (is_dir($dir . DIRECTORY_SEPARATOR . $file) && $file != '.' && $file != '..' && $file != '.svn') {
+                    if (!ConfigurationTest::test_dir($relative_dir . DIRECTORY_SEPARATOR . $file, $recursive, $full_report)) {
                         return false;
                     }
                 }

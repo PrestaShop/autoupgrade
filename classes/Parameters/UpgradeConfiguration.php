@@ -57,7 +57,7 @@ class UpgradeConfiguration extends ArrayCollection
     }
 
     /**
-     * Get the version included in the new release
+     * Get the version included in the new release.
      *
      * @return string
      */
@@ -113,7 +113,7 @@ class UpgradeConfiguration extends ArrayCollection
      */
     public function getPerformanceLevel()
     {
-        return ($this->get('PS_AUTOUP_PERFORMANCE') - 1);
+        return $this->get('PS_AUTOUP_PERFORMANCE') - 1;
     }
 
     /**
@@ -125,7 +125,7 @@ class UpgradeConfiguration extends ArrayCollection
     }
 
     /**
-     * @return bool True if we should keep the merchant emails untouched.
+     * @return bool true if we should keep the merchant emails untouched
      */
     public function shouldKeepMails()
     {

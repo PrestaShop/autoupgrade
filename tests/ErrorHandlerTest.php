@@ -1,9 +1,9 @@
 <?php
 /*
  * 2007-2018 PrestaShop
- * 
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0)
  * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
@@ -11,13 +11,13 @@
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license@prestashop.com so we can send you a copy immediately.
- * 
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
  * versions in the future. If you wish to customize PrestaShop for your
  * needs please refer to http://www.prestashop.com for more information.
- * 
+ *
  *  @author PrestaShop SA <contact@prestashop.com>
  *  @copyright  2007-2018 PrestaShop SA
  *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -48,12 +48,13 @@ class ErrorHandlerTest extends TestCase
 
     public function testCheckExceptionAndContent()
     {
-        $exception = new Exception('ERMAGHERD');$line = __LINE__;
+        $exception = new Exception('ERMAGHERD');
+        $line = __LINE__ - 1;
         $this->errorHandler->exceptionHandler($exception);
 
         $errors = $this->logger->getErrors();
         $this->assertEquals(1, count($errors));
-        $this->assertContains('[INTERNAL] '.__FILE__.' line '.$line.' - Exception: ERMAGHERD', end($errors));
+        $this->assertContains('[INTERNAL] ' . __FILE__ . ' line ' . $line . ' - Exception: ERMAGHERD', end($errors));
     }
 
     public function testWarningInErrorHandler()
@@ -63,7 +64,7 @@ class ErrorHandlerTest extends TestCase
         $msgs = $this->logger->getInfos();
         $this->assertEquals(0, count($this->logger->getErrors()));
         $this->assertEquals(1, count($msgs));
-        $this->assertEquals(end($msgs), '[INTERNAL] '.__FILE__.' line '.$line.' - Trololo');
+        $this->assertEquals(end($msgs), '[INTERNAL] ' . __FILE__ . ' line ' . $line . ' - Trololo');
     }
 
     /**
