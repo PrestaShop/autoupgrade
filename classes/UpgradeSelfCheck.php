@@ -108,7 +108,7 @@ class UpgradeSelfCheck
     public function __construct(Upgrader $upgrader, $prodRootPath, $adminPath, $autoUpgradePath)
     {
         $this->moduleVersion = $this->checkModuleVersion();
-        $this->fOpenOrCurlEnabled = ConfigurationTest::test_fopen() || ConfigurationTest::test_curl();
+        $this->fOpenOrCurlEnabled = ConfigurationTest::test_fopen() || extension_loaded('curl');
         $this->rootDirectoryWritable = $this->checkRootWritable();
         $this->adminAutoUpgradeDirectoryWritable = $this->checkAdminDirectoryWritable($prodRootPath, $adminPath, $autoUpgradePath);
         $this->shopDeactivated = $this->checkShopIsDeactivated();
