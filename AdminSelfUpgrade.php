@@ -35,7 +35,7 @@ use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 
-require __DIR__ . '/vendor/autoload.php';
+require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/vendor/autoload.php';
 
 class AdminSelfUpgrade extends AdminController
 {

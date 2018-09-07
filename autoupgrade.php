@@ -24,9 +24,9 @@
  *  @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  *  International Registered Trademark & Property of PrestaShop SA
  */
-require __DIR__ . '/vendor/autoload.php';
+require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/vendor/autoload.php';
 
-class autoupgrade extends Module
+class Autoupgrade extends Module
 {
     public function __construct()
     {
