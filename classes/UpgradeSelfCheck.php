@@ -217,7 +217,7 @@ class UpgradeSelfCheck
 
     public function isPrestaShopReady()
     {
-        return $this->prestashopReady;
+        return $this->prestashopReady || 1 === Configuration::get('PS_AUTOUP_IGNORE_REQS');
     }
 
     /**
