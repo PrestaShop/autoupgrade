@@ -186,6 +186,10 @@ abstract class CoreUpgrader
         if (!defined('_THEMES_DIR_')) {
             define('_THEMES_DIR_', __PS_BASE_URI__ . 'themes/');
         }
+
+        if (file_exists(INSTALL_PATH . DIRECTORY_SEPARATOR . 'autoload.php')) {
+            require_once INSTALL_PATH . DIRECTORY_SEPARATOR . 'autoload.php';
+        }
         $this->db = \Db::getInstance();
     }
 
