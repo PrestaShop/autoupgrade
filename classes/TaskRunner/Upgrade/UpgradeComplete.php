@@ -31,6 +31,8 @@ use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
+use Configuration;
+
 /**
  * Ends the upgrade process and displays the success message.
  */
@@ -58,5 +60,8 @@ class UpgradeComplete extends AbstractTask
         }
 
         $this->container->getSymfonyAdapter()->clearMigrationCache();
+
+        // Reinit config
+        Configuration::deleteByName('PS_AUTOUP_IGNORE_REQS');
     }
 }

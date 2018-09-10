@@ -289,6 +289,10 @@ class AdminSelfUpgrade extends AdminController
             Configuration::updateGlobalValue('PS_SHOP_ENABLE', 0);
         }
 
+        if (Tools14::isSubmit('ignorePsRequirements')) {
+            Configuration::updateValue('PS_AUTOUP_IGNORE_REQS', 1);
+        }
+
         if (Tools14::isSubmit('customSubmitAutoUpgrade')) {
             $config_keys = array_keys(array_merge($this->_fieldsUpgradeOptions, $this->_fieldsBackupOptions));
             $config = array();
