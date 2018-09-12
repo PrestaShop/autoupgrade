@@ -68,7 +68,7 @@ class UpgradeOptionsForm
                         'Unless you are using a dedicated server, select "Low".',
                         array(),
                         $translationDomain
-                    ).'<br />'.
+                    ) . '<br />' .
                     $translator->trans(
                         'A high value can cause the upgrade to fail if your server is not powerful enough to process the upgrade tasks in a short amount of time.',
                         array(),
@@ -101,7 +101,7 @@ class UpgradeOptionsForm
                         'As non-native modules can experience some compatibility issues, we recommend to disable them by default.',
                         array(),
                         $translationDomain
-                    ).'<br />'.
+                    ) . '<br />' .
                     $translator->trans(
                         'Keeping them enabled might prevent you from loading the "Modules" page properly after the upgrade.',
                         array(),
@@ -122,8 +122,8 @@ class UpgradeOptionsForm
                         'If you customized the default PrestaShop theme in its folder (folder name "classic" in 1.7), enabling this option will lose your modifications.',
                         array(),
                         $translationDomain
-                    ).'<br />'
-                    .$translator->trans(
+                    ) . '<br />'
+                    . $translator->trans(
                         'If you are using your own theme, enabling this option will simply update the default theme files, and your own theme will be safe.',
                         array(),
                         $translationDomain
@@ -160,8 +160,8 @@ class UpgradeOptionsForm
                         'This will not upgrade the default PrestaShop e-mails.',
                         array(),
                         $translationDomain
-                    ).'<br />'
-                    .$translator->trans(
+                    ) . '<br />'
+                    . $translator->trans(
                         'If you customized the default PrestaShop e-mail templates, enabling this option will keep your modifications.',
                         array(),
                         $translationDomain

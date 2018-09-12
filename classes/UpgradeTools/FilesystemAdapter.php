@@ -2,9 +2,9 @@
 
 /*
  * 2007-2018 PrestaShop
- * 
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0)
  * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
@@ -12,13 +12,13 @@
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license@prestashop.com so we can send you a copy immediately.
- * 
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
  * versions in the future. If you wish to customize PrestaShop for your
  * needs please refer to http://www.prestashop.com for more information.
- * 
+ *
  *  @author PrestaShop SA <contact@prestashop.com>
  *  @copyright  2007-2018 PrestaShop SA
  *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -80,7 +80,7 @@ class FilesystemAdapter
     public function listFilesInDir($dir, $way = 'backup', $list_directories = false)
     {
         $list = array();
-        $dir = rtrim($dir, '/').DIRECTORY_SEPARATOR;
+        $dir = rtrim($dir, '/') . DIRECTORY_SEPARATOR;
         $allFiles = false;
         if (is_dir($dir) && is_readable($dir)) {
             $allFiles = scandir($dir);
@@ -89,7 +89,7 @@ class FilesystemAdapter
             return $list;
         }
         foreach ($allFiles as $file) {
-            $fullPath = $dir.$file;
+            $fullPath = $dir . $file;
             // skip broken symbolic links
             if (is_link($fullPath) && !is_readable($fullPath)) {
                 continue;
@@ -148,7 +148,7 @@ class FilesystemAdapter
 
     /**
      * Retrieve a list of sample files to be deleted from the release.
-     * 
+     *
      * @param array $directoryList
      *
      * @return array Files to remove from the release
@@ -167,7 +167,7 @@ class FilesystemAdapter
      * listSampleFiles will make a recursive call to scandir() function
      * and list all file which match to the $fileext suffixe (this can be an extension or whole filename).
      *
-     * @param string $dir     directory to look in
+     * @param string $dir directory to look in
      * @param string $fileext suffixe filename
      *
      * @return array of files
@@ -175,7 +175,7 @@ class FilesystemAdapter
     public function listSampleFiles($dir, $fileext = '.jpg')
     {
         $res = array();
-        $dir = rtrim($dir, '/').DIRECTORY_SEPARATOR;
+        $dir = rtrim($dir, '/') . DIRECTORY_SEPARATOR;
         $toDel = false;
         if (is_dir($dir) && is_readable($dir)) {
             $toDel = scandir($dir);
@@ -184,10 +184,10 @@ class FilesystemAdapter
         if (is_array($toDel)) {
             foreach ($toDel as $file) {
                 if ($file[0] != '.') {
-                    if (preg_match('#'.preg_quote($fileext, '#').'$#i', $file)) {
-                        $res[] = $dir.$file;
-                    } elseif (is_dir($dir.$file)) {
-                        $res = array_merge($res, $this->listSampleFiles($dir.$file, $fileext));
+                    if (preg_match('#' . preg_quote($fileext, '#') . '$#i', $file)) {
+                        $res[] = $dir . $file;
+                    } elseif (is_dir($dir . $file)) {
+                        $res = array_merge($res, $this->listSampleFiles($dir . $file, $fileext));
                     }
                 }
             }
@@ -199,72 +199,54 @@ class FilesystemAdapter
     /**
      *	bool _skipFile : check whether a file is in backup or restore skip list.
      *
-     * @param type $file     : current file or directory name eg:'.svn' , 'settings.inc.php'
+     * @param type $file : current file or directory name eg:'.svn' , 'settings.inc.php'
      * @param type $fullpath : current file or directory fullpath eg:'/home/web/www/prestashop/app/config/parameters.php'
-     * @param type $way      : 'backup' , 'upgrade'
+     * @param type $way : 'backup' , 'upgrade'
+     * @param string $temporaryWorkspace : If needed, another folder than the shop root can be used (used for releases)
      */
-    public function isFileSkipped($file, $fullpath, $way = 'backup')
+    public function isFileSkipped($file, $fullpath, $way = 'backup', $temporaryWorkspace = null)
     {
         $fullpath = str_replace('\\', '/', $fullpath); // wamp compliant
-        $rootpath = str_replace('\\', '/', $this->prodRootDir);
-        switch ($way) {
-            case 'backup':
-                if (in_array($file, $this->fileFilter->getExcludeFiles())) {
-                    return true;
-                }
+        $rootpath = str_replace(
+            '\\',
+            '/',
+            (null !== $temporaryWorkspace) ? $temporaryWorkspace : $this->prodRootDir
+        );
 
-                foreach ($this->fileFilter->getFilesToIgnoreOnBackup() as $path) {
-                    $path = str_replace(DIRECTORY_SEPARATOR.'admin', DIRECTORY_SEPARATOR.$this->adminSubDir, $path);
-                    if ($fullpath === $rootpath.$path) {
-                        return true;
-                    }
-                }
-                break;
-                // restore or upgrade way : ignore the same files
-                // note the restore process use skipFiles only if xml md5 files
-                // are unavailable
-            case 'restore':
-                if (in_array($file, $this->fileFilter->getExcludeFiles())) {
-                    return true;
-                }
-
-                foreach ($this->fileFilter->getFilesToIgnoreOnRestore() as $path) {
-                    $path = str_replace(DIRECTORY_SEPARATOR.'admin', DIRECTORY_SEPARATOR.$this->adminSubDir, $path);
-                    if ($fullpath === $rootpath.$path) {
-                        return true;
-                    }
-                }
-                break;
-            case 'upgrade':
-                if (in_array($file, $this->fileFilter->getExcludeFiles())) {
-                    return true;
-                }
-
-                foreach ($this->fileFilter->getFilesToIgnoreOnUpgrade() as $path) {
-                    $path = str_replace(DIRECTORY_SEPARATOR.'admin', DIRECTORY_SEPARATOR.$this->adminSubDir, $path);
-                    if ($fullpath === $rootpath.$path) {
-                        return true;
-                    }
-                }
-
-                break;
-                // default : if it's not a backup or an upgrade, do not skip the file
-            default:
-                return false;
+        if (in_array($file, $this->fileFilter->getExcludeFiles())) {
+            return true;
         }
+
+        $ignoreList = array();
+        if ('backup' === $way) {
+            $ignoreList = $this->fileFilter->getFilesToIgnoreOnBackup();
+        } elseif ('restore' === $way) {
+            $ignoreList = $this->fileFilter->getFilesToIgnoreOnRestore();
+        } elseif ('upgrade' === $way) {
+            $ignoreList = $this->fileFilter->getFilesToIgnoreOnUpgrade();
+        }
+
+        foreach ($ignoreList as $path) {
+            $path = str_replace(DIRECTORY_SEPARATOR.'admin', DIRECTORY_SEPARATOR.$this->adminSubDir, $path);
+            if ($fullpath === $rootpath . $path) {
+                return true;
+            }
+        }
+
         // by default, don't skip
         return false;
     }
 
     /**
-     * Check a directory has some files available in every release of PrestaShop
+     * Check a directory has some files available in every release of PrestaShop.
      *
      * @param string $path Workspace to check
-     * @return boolean
+     *
+     * @return bool
      */
     public function isReleaseValid($path)
     {
-        foreach($this->releaseFileChecks as $type => $elements) {
+        foreach ($this->releaseFileChecks as $type => $elements) {
             foreach ($elements as $element) {
                 $fullPath = $path . DIRECTORY_SEPARATOR . $element;
                 if ('files' === $type && !is_file($fullPath)) {
@@ -275,6 +257,7 @@ class FilesystemAdapter
                 }
             }
         }
+
         return true;
     }
 }

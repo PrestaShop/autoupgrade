@@ -119,7 +119,12 @@
                         {% if isPrestaShopReady %}
                             {{ 'PrestaShop requirements are satisfied. '|trans }}
                         {% else %}
-                            {{ 'PrestaShop requirements are not satisfied. '|trans }} <a href="{{ informationsLink }}">{{ 'See details.'|trans }}</a>
+                            {{ 'PrestaShop requirements are not satisfied. [1]See details[/1] or [2]ignore[/2].'|trans({
+                                '[1]': '<a href="' ~ informationsLink ~'">',
+                                '[/1]': '</a>',
+                                '[2]': '<a href="' ~ currentIndex ~ '&token=' ~ token ~ '&ignorePsRequirements=1">',
+                                '[/2]': '</a>',
+                            })|raw }}
                         {% endif %}
                     </td>
                     <td>

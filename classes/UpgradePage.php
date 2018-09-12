@@ -147,7 +147,7 @@ class UpgradePage
         $backupName,
         $downloadPath
     ) {
-        $this->moduleDir = realpath(__DIR__.'/../');
+        $this->moduleDir = realpath(__DIR__ . '/../');
         $this->config = $config;
         $this->translator = $translator;
         $this->upgrader = $upgrader;
@@ -280,7 +280,7 @@ class UpgradePage
             );
         }
 
-        if (!file_exists($this->autoupgradePath.DIRECTORY_SEPARATOR.'ajax-upgradetab.php')) {
+        if (!file_exists($this->autoupgradePath . DIRECTORY_SEPARATOR . 'ajax-upgradetab.php')) {
             return array(
                 'showWarningIcon' => true,
                 'message' => $translator->trans(
@@ -312,11 +312,11 @@ class UpgradePage
             '_PS_MODE_DEV_' => (defined('_PS_MODE_DEV_') && _PS_MODE_DEV_),
             'PS_AUTOUP_BACKUP' => (bool) $this->config->get('PS_AUTOUP_BACKUP'),
             'adminDir' => $adminDir,
-            'adminUrl' => __PS_BASE_URI__.$adminDir,
+            'adminUrl' => __PS_BASE_URI__ . $adminDir,
             'token' => $this->token,
             'txtError' => $this->_getJsErrorMsgs(),
             'firstTimeParams' => json_decode($ajaxResult),
-            'ajaxUpgradeTabExists' => file_exists($this->autoupgradePath.DIRECTORY_SEPARATOR.'ajax-upgradetab.php'),
+            'ajaxUpgradeTabExists' => file_exists($this->autoupgradePath . DIRECTORY_SEPARATOR . 'ajax-upgradetab.php'),
             'currentIndex' => $this->currentIndex,
             'tab' => 'AdminSelfUpgrade',
             'channel' => $this->config->get('channel'),

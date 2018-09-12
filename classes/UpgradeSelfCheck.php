@@ -101,14 +101,14 @@ class UpgradeSelfCheck
      * UpgradeSelfCheck constructor.
      *
      * @param Upgrader $upgrader
-     * @param string   $prodRootPath
-     * @param string   $adminPath
-     * @param string   $autoUpgradePath
+     * @param string $prodRootPath
+     * @param string $adminPath
+     * @param string $autoUpgradePath
      */
     public function __construct(Upgrader $upgrader, $prodRootPath, $adminPath, $autoUpgradePath)
     {
         $this->moduleVersion = $this->checkModuleVersion();
-        $this->fOpenOrCurlEnabled = ConfigurationTest::test_fopen() || ConfigurationTest::test_curl();
+        $this->fOpenOrCurlEnabled = ConfigurationTest::test_fopen() || extension_loaded('curl');
         $this->rootDirectoryWritable = $this->checkRootWritable();
         $this->adminAutoUpgradeDirectoryWritable = $this->checkAdminDirectoryWritable($prodRootPath, $adminPath, $autoUpgradePath);
         $this->shopDeactivated = $this->checkShopIsDeactivated();
@@ -217,7 +217,7 @@ class UpgradeSelfCheck
 
     public function isPrestaShopReady()
     {
-        return $this->prestashopReady;
+        return $this->prestashopReady || 1 === Configuration::get('PS_AUTOUP_IGNORE_REQS');
     }
 
     /**
@@ -227,7 +227,7 @@ class UpgradeSelfCheck
      */
     public function isOkForUpgrade()
     {
-        return (
+        return
             $this->isFOpenOrCurlEnabled()
             && $this->isRootDirectoryWritable()
             && $this->isAdminAutoUpgradeDirectoryWritable()
@@ -235,7 +235,7 @@ class UpgradeSelfCheck
             && $this->isCacheDisabled()
             && $this->isModuleVersionLatest()
             && $this->isPrestaShopReady()
-        );
+        ;
     }
 
     /**
@@ -262,7 +262,7 @@ class UpgradeSelfCheck
      */
     private function checkModuleVersion()
     {
-        $configFilePath = _PS_ROOT_DIR_.$this->configDir;
+        $configFilePath = _PS_ROOT_DIR_ . $this->configDir;
 
         if (file_exists($configFilePath) && $xml_module_version = simplexml_load_file($configFilePath)) {
             return (string) $xml_module_version->version;
@@ -276,10 +276,10 @@ class UpgradeSelfCheck
      */
     private function checkShopIsDeactivated()
     {
-        return (
+        return
             !Configuration::get('PS_SHOP_ENABLE')
             || (isset($_SERVER['HTTP_HOST']) && in_array($_SERVER['HTTP_HOST'], array('127.0.0.1', 'localhost')))
-        );
+        ;
     }
 
     /**
@@ -322,7 +322,7 @@ class UpgradeSelfCheck
     }
 
     /**
-     * Ask the core to run its tests, if available
+     * Ask the core to run its tests, if available.
      *
      * @return bool
      */
@@ -331,13 +331,14 @@ class UpgradeSelfCheck
         if (!class_exists('ConfigurationTest')) {
             return true;
         }
-        
+
         $defaultTests = ConfigurationTest::check(ConfigurationTest::getDefaultTests());
         foreach ($defaultTests as $testResult) {
-            if ($testResult !== "ok") {
+            if ($testResult !== 'ok') {
                 return false;
             }
         }
+
         return true;
     }
 }

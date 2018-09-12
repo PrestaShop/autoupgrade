@@ -84,7 +84,7 @@ class BackupFinder
         $files = scandir($backupPath);
 
         foreach ($files as $file) {
-            if ($file[0] == 'V' && is_dir($backupPath.DIRECTORY_SEPARATOR.$file)) {
+            if ($file[0] == 'V' && is_dir($backupPath . DIRECTORY_SEPARATOR . $file)) {
                 $array[] = $file;
             }
         }

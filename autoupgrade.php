@@ -24,16 +24,16 @@
  *  @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  *  International Registered Trademark & Property of PrestaShop SA
  */
-require __DIR__.'/vendor/autoload.php';
+require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/vendor/autoload.php';
 
-class autoupgrade extends Module
+class Autoupgrade extends Module
 {
     public function __construct()
     {
         $this->name = 'autoupgrade';
         $this->tab = 'administration';
         $this->author = 'PrestaShop';
-        $this->version = '4.1.1';
+        $this->version = '4.2.0';
         $this->need_instance = 1;
 
         $this->bootstrap = true;
@@ -81,8 +81,8 @@ class autoupgrade extends Module
             if (!$tab->save()) {
                 return $this->_abortInstall($this->trans('Unable to create the "AdminSelfUpgrade" tab', array(), 'Modules.Autoupgrade.Admin'));
             }
-            if (!@copy(dirname(__FILE__).DIRECTORY_SEPARATOR.'logo.gif', _PS_ROOT_DIR_.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.'t'.DIRECTORY_SEPARATOR.'AdminSelfUpgrade.gif')) {
-                return $this->_abortInstall($this->trans('Unable to copy logo.gif in %s', array(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.'t'.DIRECTORY_SEPARATOR), 'Modules.Autoupgrade.Admin'));
+            if (!@copy(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'logo.gif', _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 't' . DIRECTORY_SEPARATOR . 'AdminSelfUpgrade.gif')) {
+                return $this->_abortInstall($this->trans('Unable to copy logo.gif in %s', array(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 't' . DIRECTORY_SEPARATOR), 'Modules.Autoupgrade.Admin'));
             }
         } else {
             $tab = new Tab((int) $id_tab);
@@ -96,7 +96,7 @@ class autoupgrade extends Module
         }
 
         /* Check that the 1-click upgrade working directory is existing or create it */
-        $autoupgrade_dir = _PS_ADMIN_DIR_.DIRECTORY_SEPARATOR.'autoupgrade';
+        $autoupgrade_dir = _PS_ADMIN_DIR_ . DIRECTORY_SEPARATOR . 'autoupgrade';
         if (!file_exists($autoupgrade_dir) && !@mkdir($autoupgrade_dir)) {
             return $this->_abortInstall($this->trans('Unable to create the directory "%s"', array($autoupgrade_dir), 'Modules.Autoupgrade.Admin'));
         }
@@ -107,28 +107,28 @@ class autoupgrade extends Module
         }
 
         /* If a previous version of ajax-upgradetab.php exists, delete it */
-        if (file_exists($autoupgrade_dir.DIRECTORY_SEPARATOR.'ajax-upgradetab.php')) {
-            @unlink($autoupgrade_dir.DIRECTORY_SEPARATOR.'ajax-upgradetab.php');
+        if (file_exists($autoupgrade_dir . DIRECTORY_SEPARATOR . 'ajax-upgradetab.php')) {
+            @unlink($autoupgrade_dir . DIRECTORY_SEPARATOR . 'ajax-upgradetab.php');
         }
 
         /* Then, try to copy the newest version from the module's directory */
-        if (!@copy(dirname(__FILE__).DIRECTORY_SEPARATOR.'ajax-upgradetab.php', $autoupgrade_dir.DIRECTORY_SEPARATOR.'ajax-upgradetab.php')) {
+        if (!@copy(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'ajax-upgradetab.php', $autoupgrade_dir . DIRECTORY_SEPARATOR . 'ajax-upgradetab.php')) {
             return $this->_abortInstall($this->trans('Unable to copy ajax-upgradetab.php in %s', array($autoupgrade_dir), 'Modules.Autoupgrade.Admin'));
         }
 
         /* Make sure that the XML config directory exists */
-        if (!file_exists(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'xml') &&
-        !@mkdir(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'xml', 0775)) {
-            return $this->_abortInstall($this->trans('Unable to create the directory "%s"', array(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'xml'), 'Modules.Autoupgrade.Admin'));
+        if (!file_exists(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml') &&
+        !@mkdir(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml', 0775)) {
+            return $this->_abortInstall($this->trans('Unable to create the directory "%s"', array(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml'), 'Modules.Autoupgrade.Admin'));
         } else {
-            @chmod(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'xml', 0775);
+            @chmod(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml', 0775);
         }
 
         /* Create a dummy index.php file in the XML config directory to avoid directory listing */
-        if (!file_exists(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'xml'.DIRECTORY_SEPARATOR.'index.php') &&
-        (file_exists(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'index.php') &&
-        !@copy(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'index.php', _PS_ROOT_DIR_.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'xml'.DIRECTORY_SEPARATOR.'index.php'))) {
-            return $this->_abortInstall($this->trans('Unable to create the directory "%s"', array(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'xml'), 'Modules.Autoupgrade.Admin'));
+        if (!file_exists(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml' . DIRECTORY_SEPARATOR . 'index.php') &&
+        (file_exists(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'index.php') &&
+        !@copy(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'index.php', _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml' . DIRECTORY_SEPARATOR . 'index.php'))) {
+            return $this->_abortInstall($this->trans('Unable to create the directory "%s"', array(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml'), 'Modules.Autoupgrade.Admin'));
         }
 
         return parent::install();
@@ -143,7 +143,7 @@ class autoupgrade extends Module
         }
 
         /* Remove the 1-click upgrade working directory */
-        self::_removeDirectory(_PS_ADMIN_DIR_.DIRECTORY_SEPARATOR.'autoupgrade');
+        self::_removeDirectory(_PS_ADMIN_DIR_ . DIRECTORY_SEPARATOR . 'autoupgrade');
 
         return parent::uninstall();
     }
@@ -151,7 +151,7 @@ class autoupgrade extends Module
     public function getContent()
     {
         global $cookie;
-        header('Location: index.php?tab=AdminSelfUpgrade&token='.md5(pSQL(_COOKIE_KEY_.'AdminSelfUpgrade'.(int) Tab::getIdFromClassName('AdminSelfUpgrade').(int) $cookie->id_employee)));
+        header('Location: index.php?tab=AdminSelfUpgrade&token=' . md5(pSQL(_COOKIE_KEY_ . 'AdminSelfUpgrade' . (int) Tab::getIdFromClassName('AdminSelfUpgrade') . (int) $cookie->id_employee)));
         exit;
     }
 
@@ -174,10 +174,10 @@ class autoupgrade extends Module
         if ($handle = @opendir($dir)) {
             while (false !== ($entry = @readdir($handle))) {
                 if ($entry != '.' && $entry != '..') {
-                    if (is_dir($dir.DIRECTORY_SEPARATOR.$entry) === true) {
-                        self::_removeDirectory($dir.DIRECTORY_SEPARATOR.$entry);
+                    if (is_dir($dir . DIRECTORY_SEPARATOR . $entry) === true) {
+                        self::_removeDirectory($dir . DIRECTORY_SEPARATOR . $entry);
                     } else {
-                        @unlink($dir.DIRECTORY_SEPARATOR.$entry);
+                        @unlink($dir . DIRECTORY_SEPARATOR . $entry);
                     }
                 }
             }
@@ -192,7 +192,7 @@ class autoupgrade extends Module
      * Making them available for PS 1.6 as well.
      *
      * @param string $id
-     * @param array  $parameters
+     * @param array $parameters
      * @param string $domain
      * @param string $locale
      */

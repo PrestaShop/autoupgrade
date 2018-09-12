@@ -2,9 +2,9 @@
 
 /*
  * 2007-2018 PrestaShop
- * 
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0)
  * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
@@ -12,13 +12,13 @@
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license@prestashop.com so we can send you a copy immediately.
- * 
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
  * versions in the future. If you wish to customize PrestaShop for your
  * needs please refer to http://www.prestashop.com for more information.
- * 
+ *
  *  @author PrestaShop SA <contact@prestashop.com>
  *  @copyright  2007-2018 PrestaShop SA
  *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -59,7 +59,7 @@ class ModuleAdapter
 
     /**
      * Available only from 1.7. Can't be called on PS 1.6.
-     * 
+     *
      * @global AppKernel $kernel
      *
      * @return PrestaShop\PrestaShop\Adapter\Module\ModuleDataUpdater
@@ -69,7 +69,7 @@ class ModuleAdapter
         if (null === $this->moduleDataUpdater) {
             global $kernel;
             if (!$kernel instanceof \AppKernel) {
-                require_once _PS_ROOT_DIR_.'/app/AppKernel.php';
+                require_once _PS_ROOT_DIR_ . '/app/AppKernel.php';
                 $kernel = new \AppKernel(_PS_MODE_DEV_ ? 'dev' : 'prod', _PS_MODE_DEV_);
                 $kernel->boot();
             }
@@ -86,7 +86,7 @@ class ModuleAdapter
      */
     public function disableNonNativeModules()
     {
-        require_once _PS_INSTALLER_PHP_UPGRADE_DIR_.'deactivate_custom_modules.php';
+        require_once _PS_INSTALLER_PHP_UPGRADE_DIR_ . 'deactivate_custom_modules.php';
         deactivate_custom_modules();
     }
 
@@ -95,7 +95,7 @@ class ModuleAdapter
      *
      * @param array Modules available on the marketplace for download
      *
-     * @return Array Module available on the local filesystem and on the marketplace
+     * @return array Module available on the local filesystem and on the marketplace
      */
     public function listModulesToUpgrade(array $modulesFromAddons)
     {
@@ -110,11 +110,11 @@ class ModuleAdapter
         }
 
         foreach (scandir($dir) as $module_name) {
-            if (is_file($dir.DIRECTORY_SEPARATOR.$module_name)) {
+            if (is_file($dir . DIRECTORY_SEPARATOR . $module_name)) {
                 continue;
             }
 
-            if (!is_file($dir.$module_name.DIRECTORY_SEPARATOR.$module_name.'.php')) {
+            if (!is_file($dir . $module_name . DIRECTORY_SEPARATOR . $module_name . '.php')) {
                 continue;
             }
             $id_addons = array_search($module_name, $modulesFromAddons);
@@ -128,13 +128,13 @@ class ModuleAdapter
 
     /**
      * Upgrade module $name (identified by $id_module on addons server).
-     * 
-     * @param int    $id
+     *
+     * @param int $id
      * @param string $name
      */
     public function upgradeModule($id, $name)
     {
-        $zip_fullpath = $this->tempPath.DIRECTORY_SEPARATOR.$name.'.zip';
+        $zip_fullpath = $this->tempPath . DIRECTORY_SEPARATOR . $name . '.zip';
 
         $addons_url = 'api.addons.prestashop.com';
         $protocolsList = array('https://' => 443, 'http://' => 80);
@@ -144,7 +144,7 @@ class ModuleAdapter
             unset($protocolsList['http://']);
         }
 
-        $postData = 'version='.$this->upgradeVersion.'&method=module&id_module='.(int) $id;
+        $postData = 'version=' . $this->upgradeVersion . '&method=module&id_module=' . (int) $id;
 
         // Make the request
         $opts = array(
@@ -158,18 +158,18 @@ class ModuleAdapter
         $context = stream_context_create($opts);
         foreach ($protocolsList as $protocol => $port) {
             // file_get_contents can return false if https is not supported (or warning)
-            $content = Tools14::file_get_contents($protocol.$addons_url, false, $context);
+            $content = Tools14::file_get_contents($protocol . $addons_url, false, $context);
             if ($content == false || substr($content, 5) == '<?xml') {
                 continue;
             }
 
             if ($content === null) {
-                $msg = '<strong>'.$this->translator->trans('[ERROR] No response from Addons server.', array(), 'Modules.Autoupgrade.Admin').'</strong>';
+                $msg = '<strong>' . $this->translator->trans('[ERROR] No response from Addons server.', array(), 'Modules.Autoupgrade.Admin') . '</strong>';
                 throw new UpgradeException($msg);
             }
 
             if (false === (bool) file_put_contents($zip_fullpath, $content)) {
-                $msg = '<strong>'.$this->translator->trans('[ERROR] Unable to write module %s\'s zip file in temporary directory.', array($name), 'Modules.Autoupgrade.Admin').'</strong>';
+                $msg = '<strong>' . $this->translator->trans('[ERROR] Unable to write module %s\'s zip file in temporary directory.', array($name), 'Modules.Autoupgrade.Admin') . '</strong>';
                 throw new UpgradeException($msg);
             }
 
@@ -178,7 +178,7 @@ class ModuleAdapter
             }
             // unzip in modules/[mod name] old files will be conserved
             if (!$this->zipAction->extract($zip_fullpath, $this->modulesPath)) {
-                throw (new UpgradeException('<strong>'.$this->translator->trans('[WARNING] Error when trying to extract module %s.', array($name), 'Modules.Autoupgrade.Admin').'</strong>'))
+                throw (new UpgradeException('<strong>' . $this->translator->trans('[WARNING] Error when trying to extract module %s.', array($name), 'Modules.Autoupgrade.Admin') . '</strong>'))
                     ->setSeverity(UpgradeException::SEVERITY_WARNING);
             }
             if (file_exists($zip_fullpath)) {
@@ -188,7 +188,7 @@ class ModuleAdapter
             // Only 1.7 step
             if (version_compare($this->upgradeVersion, '1.7.0.0', '>=')
                 && !$this->getModuleDataUpdater()->upgrade($name)) {
-                throw (new UpgradeException('<strong>'.$this->translator->trans('[WARNING] Error when trying to upgrade module %s.', array($name), 'Modules.Autoupgrade.Admin').'</strong>'))
+                throw (new UpgradeException('<strong>' . $this->translator->trans('[WARNING] Error when trying to upgrade module %s.', array($name), 'Modules.Autoupgrade.Admin') . '</strong>'))
                     ->setSeverity(UpgradeException::SEVERITY_WARNING)
                     ->setQuickInfos(\Module::getInstanceByName($name)->getErrors());
             }

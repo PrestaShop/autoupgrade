@@ -52,20 +52,20 @@ class Rollback extends AbstractTask
         $files = scandir($this->container->getProperty(UpgradeContainer::BACKUP_PATH));
         // find backup filenames, and be sure they exists
         foreach ($files as $file) {
-            if (preg_match('#'.preg_quote('auto-backupfiles_'.$restoreName).'#', $file)) {
+            if (preg_match('#' . preg_quote('auto-backupfiles_' . $restoreName) . '#', $file)) {
                 $this->container->getState()->setRestoreFilesFilename($file);
                 break;
             }
         }
-        if (!is_file($this->container->getProperty(UpgradeContainer::BACKUP_PATH).DIRECTORY_SEPARATOR.$this->container->getState()->getRestoreFilesFilename())) {
+        if (!is_file($this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $this->container->getState()->getRestoreFilesFilename())) {
             $this->next = 'error';
             $this->logger->error($this->translator->trans('[ERROR] File %s is missing: unable to restore files. Operation aborted.', array($this->container->getState()->getRestoreFilesFilename()), 'Modules.Autoupgrade.Admin'));
 
             return false;
         }
-        $files = scandir($this->container->getProperty(UpgradeContainer::BACKUP_PATH).DIRECTORY_SEPARATOR.$restoreName);
+        $files = scandir($this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $restoreName);
         foreach ($files as $file) {
-            if (preg_match('#auto-backupdb_[0-9]{6}_'.preg_quote($restoreName).'#', $file)) {
+            if (preg_match('#auto-backupdb_[0-9]{6}_' . preg_quote($restoreName) . '#', $file)) {
                 $restoreDbFilenames[] = $file;
             }
         }
@@ -83,11 +83,11 @@ class Rollback extends AbstractTask
         $this->next = 'restoreFiles';
         $this->logger->info($this->translator->trans('Restoring files ...', array(), 'Modules.Autoupgrade.Admin'));
         // remove tmp files related to restoreFiles
-        if (file_exists($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH).DIRECTORY_SEPARATOR.UpgradeFileNames::FILES_FROM_ARCHIVE_LIST)) {
-            unlink($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH).DIRECTORY_SEPARATOR.UpgradeFileNames::FILES_FROM_ARCHIVE_LIST);
+        if (file_exists($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . UpgradeFileNames::FILES_FROM_ARCHIVE_LIST)) {
+            unlink($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . UpgradeFileNames::FILES_FROM_ARCHIVE_LIST);
         }
-        if (file_exists($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH).DIRECTORY_SEPARATOR.UpgradeFileNames::FILES_TO_REMOVE_LIST)) {
-            unlink($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH).DIRECTORY_SEPARATOR.UpgradeFileNames::FILES_TO_REMOVE_LIST);
+        if (file_exists($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . UpgradeFileNames::FILES_TO_REMOVE_LIST)) {
+            unlink($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . UpgradeFileNames::FILES_TO_REMOVE_LIST);
         }
     }
 

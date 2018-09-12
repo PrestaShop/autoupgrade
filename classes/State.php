@@ -49,7 +49,7 @@ class State
      * Int during BackupDb, allowing the script to increent the number of different file names
      * String during step RestoreDb, which contains the file to process (Data coming from toRestoreQueryList).
      *
-     * @var String|int Contains the SQL progress
+     * @var string|int Contains the SQL progress
      */
     private $dbStep = 0;
 
@@ -129,7 +129,7 @@ class State
             'method' => 'listing',
             'version' => $this->getInstallVersion(),
         ));
-        $xml_local = $prodRootDir.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'xml'.DIRECTORY_SEPARATOR.'modules_native_addons.xml';
+        $xml_local = $prodRootDir . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml' . DIRECTORY_SEPARATOR . 'modules_native_addons.xml';
         $xml = $upgrader->getApiAddons($xml_local, $postData, true);
 
         $modules_addons = array();
@@ -149,7 +149,7 @@ class State
 
         $rand = dechex(mt_rand(0, min(0xffffffff, mt_getrandmax())));
         $date = date('Ymd-His');
-        $backupName = 'V'.$version.'_'.$date.'-'.$rand;
+        $backupName = 'V' . $version . '_' . $date . '-' . $rand;
         // Todo: To be moved in state class? We could only require the backup name here
         // I.e = $this->upgradeContainer->getState()->setBackupName($backupName);, which triggers 2 other setters internally
         $this->setBackupName($backupName);
@@ -246,8 +246,8 @@ class State
     public function setBackupName($backupName)
     {
         $this->backupName = $backupName;
-        $this->setBackupFilesFilename('auto-backupfiles_'.$backupName.'.zip')
-            ->setBackupDbFilename('auto-backupdb_XXXXXX_'.$backupName.'.sql');
+        $this->setBackupFilesFilename('auto-backupfiles_' . $backupName . '.zip')
+            ->setBackupDbFilename('auto-backupdb_XXXXXX_' . $backupName . '.sql');
 
         return $this;
     }

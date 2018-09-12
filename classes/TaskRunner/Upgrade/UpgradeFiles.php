@@ -2,9 +2,9 @@
 
 /*
  * 2007-2018 PrestaShop
- * 
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0)
  * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
@@ -12,13 +12,13 @@
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license@prestashop.com so we can send you a copy immediately.
- * 
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
  * versions in the future. If you wish to customize PrestaShop for your
  * needs please refer to http://www.prestashop.com for more information.
- * 
+ *
  *  @author PrestaShop SA <contact@prestashop.com>
  *  @copyright  2007-2018 PrestaShop SA
  *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -81,8 +81,8 @@ class UpgradeFiles extends AbstractTask
         if (count($filesToUpgrade) > 0) {
             $this->logger->info($this->translator->trans('%s files left to upgrade.', array(count($filesToUpgrade)), 'Modules.Autoupgrade.Admin'));
             $this->stepDone = false;
-            @unlink(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'cache'.DIRECTORY_SEPARATOR.'dev'.DIRECTORY_SEPARATOR.'class_index.php');
-            @unlink(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'cache'.DIRECTORY_SEPARATOR.'prod'.DIRECTORY_SEPARATOR.'class_index.php');
+            @unlink(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'dev' . DIRECTORY_SEPARATOR . 'class_index.php');
+            @unlink(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'prod' . DIRECTORY_SEPARATOR . 'class_index.php');
         }
 
         return true;
@@ -109,16 +109,21 @@ class UpgradeFiles extends AbstractTask
 
         $allFiles = scandir($dir);
         foreach ($allFiles as $file) {
-            $fullPath = $dir.DIRECTORY_SEPARATOR.$file;
+            $fullPath = $dir . DIRECTORY_SEPARATOR . $file;
 
-            if ($this->container->getFilesystemAdapter()->isFileSkipped($file, $fullPath, 'upgrade')) {
+            if ($this->container->getFilesystemAdapter()->isFileSkipped(
+                $file,
+                $fullPath,
+                'upgrade',
+                $this->container->getProperty(UpgradeContainer::LATEST_PATH)
+            )) {
                 if (!in_array($file, array('.', '..'))) {
                     $this->logger->debug($this->translator->trans('File %s is preserved', array($file), 'Modules.Autoupgrade.Admin'));
                 }
                 continue;
             }
             $list[] = str_replace($this->container->getProperty(UpgradeContainer::LATEST_PATH), '', $fullPath);
-            if (is_dir($fullPath) && strpos($dir.DIRECTORY_SEPARATOR.$file, 'install') === false) {
+            if (is_dir($fullPath) && strpos($dir . DIRECTORY_SEPARATOR . $file, 'install') === false) {
                 $list = array_merge($list, $this->listFilesToUpgrade($fullPath));
             }
         }
@@ -136,8 +141,8 @@ class UpgradeFiles extends AbstractTask
         // translations_custom and mails_custom list are currently not used
         // later, we could handle customization with some kind of diff functions
         // for now, just copy $file in str_replace($this->latestRootDir,_PS_ROOT_DIR_)
-        $orig = $this->container->getProperty(UpgradeContainer::LATEST_PATH).$file;
-        $dest = $this->destUpgradePath.$file;
+        $orig = $this->container->getProperty(UpgradeContainer::LATEST_PATH) . $file;
+        $dest = $this->destUpgradePath . $file;
 
         if ($this->container->getFilesystemAdapter()->isFileSkipped($file, $dest, 'upgrade')) {
             $this->logger->debug($this->translator->trans('%s ignored', array($file), 'Modules.Autoupgrade.Admin'));
@@ -202,7 +207,7 @@ class UpgradeFiles extends AbstractTask
 
             return true;
         } elseif (is_dir($dest)) {
-            if (strpos($dest, DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR) === false) {
+            if (strpos($dest, DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR) === false) {
                 FilesystemAdapter::deleteDirectory($dest, true);
             }
             $this->logger->debug(sprintf('removed dir %1$s.', $file));
@@ -215,7 +220,7 @@ class UpgradeFiles extends AbstractTask
 
     /**
      * First call of this task needs a warmup, where we load the files list to be upgraded.
-     * 
+     *
      * @return bool
      */
     protected function warmUp()
@@ -225,23 +230,24 @@ class UpgradeFiles extends AbstractTask
             $this->logger->error($this->translator->trans('Could not assert the folder %s contains a valid PrestaShop release, exiting.', array($newReleasePath), 'Modules.Autoupgrade.Admin'));
             $this->logger->error($this->translator->trans('A file may be missing, or the release is stored in a subfolder by mistake.', array(), 'Modules.Autoupgrade.Admin'));
             $this->next = 'error';
+
             return;
         }
 
-        $admin_dir = str_replace($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH).DIRECTORY_SEPARATOR, '', $this->container->getProperty(UpgradeContainer::PS_ADMIN_PATH));
-        if (file_exists($newReleasePath.DIRECTORY_SEPARATOR.'admin')) {
-            rename($newReleasePath.DIRECTORY_SEPARATOR.'admin', $newReleasePath.DIRECTORY_SEPARATOR.$admin_dir);
-        } elseif (file_exists($newReleasePath.DIRECTORY_SEPARATOR.'admin-dev')) {
-            rename($newReleasePath.DIRECTORY_SEPARATOR.'admin-dev', $newReleasePath.DIRECTORY_SEPARATOR.$admin_dir);
+        $admin_dir = str_replace($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . DIRECTORY_SEPARATOR, '', $this->container->getProperty(UpgradeContainer::PS_ADMIN_PATH));
+        if (file_exists($newReleasePath . DIRECTORY_SEPARATOR . 'admin')) {
+            rename($newReleasePath . DIRECTORY_SEPARATOR . 'admin', $newReleasePath . DIRECTORY_SEPARATOR . $admin_dir);
+        } elseif (file_exists($newReleasePath . DIRECTORY_SEPARATOR . 'admin-dev')) {
+            rename($newReleasePath . DIRECTORY_SEPARATOR . 'admin-dev', $newReleasePath . DIRECTORY_SEPARATOR . $admin_dir);
         }
-        if (file_exists($newReleasePath.DIRECTORY_SEPARATOR.'install-dev')) {
-            rename($newReleasePath.DIRECTORY_SEPARATOR.'install-dev', $newReleasePath.DIRECTORY_SEPARATOR.'install');
+        if (file_exists($newReleasePath . DIRECTORY_SEPARATOR . 'install-dev')) {
+            rename($newReleasePath . DIRECTORY_SEPARATOR . 'install-dev', $newReleasePath . DIRECTORY_SEPARATOR . 'install');
         }
 
         // list saved in UpgradeFileNames::toUpgradeFileList
         // get files differences (previously generated)
         $admin_dir = trim(str_replace($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH), '', $this->container->getProperty(UpgradeContainer::PS_ADMIN_PATH)), DIRECTORY_SEPARATOR);
-        $filepath_list_diff = $this->container->getProperty(UpgradeContainer::WORKSPACE_PATH).DIRECTORY_SEPARATOR.UpgradeFileNames::FILES_DIFF_LIST;
+        $filepath_list_diff = $this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . UpgradeFileNames::FILES_DIFF_LIST;
         $list_files_diff = array();
         if (file_exists($filepath_list_diff)) {
             $list_files_diff = $this->container->getFileConfigurationStorage()->load(UpgradeFileNames::FILES_DIFF_LIST);
@@ -251,7 +257,7 @@ class UpgradeFiles extends AbstractTask
                 if (preg_match('#autoupgrade#', $path)) {
                     unset($list_files_diff[$k]);
                 } else {
-                    $list_files_diff[$k] = str_replace('/'.'admin', '/'.$admin_dir, $path);
+                    $list_files_diff[$k] = str_replace('/' . 'admin', '/' . $admin_dir, $path);
                 }
             } // do not replace by DIRECTORY_SEPARATOR
         }
@@ -265,17 +271,17 @@ class UpgradeFiles extends AbstractTask
         $list_files_to_upgrade = array_merge($list_files_diff, $list_files_to_upgrade);
 
         $filesToMoveToTheBeginning = array(
-            DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'autoload.php',
-            DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'composer'.DIRECTORY_SEPARATOR.'ClassLoader.php',
-            DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'composer'.DIRECTORY_SEPARATOR.'autoload_classmap.php',
-            DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'composer'.DIRECTORY_SEPARATOR.'autoload_files.php',
-            DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'composer'.DIRECTORY_SEPARATOR.'autoload_namespaces.php',
-            DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'composer'.DIRECTORY_SEPARATOR.'autoload_psr4.php',
-            DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'composer'.DIRECTORY_SEPARATOR.'autoload_real.php',
-            DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'composer'.DIRECTORY_SEPARATOR.'autoload_static.php',
-            DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'composer'.DIRECTORY_SEPARATOR.'include_paths.php',
-            DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'composer',
-            DIRECTORY_SEPARATOR.'vendor',
+            DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php',
+            DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'composer' . DIRECTORY_SEPARATOR . 'ClassLoader.php',
+            DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'composer' . DIRECTORY_SEPARATOR . 'autoload_classmap.php',
+            DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'composer' . DIRECTORY_SEPARATOR . 'autoload_files.php',
+            DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'composer' . DIRECTORY_SEPARATOR . 'autoload_namespaces.php',
+            DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'composer' . DIRECTORY_SEPARATOR . 'autoload_psr4.php',
+            DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'composer' . DIRECTORY_SEPARATOR . 'autoload_real.php',
+            DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'composer' . DIRECTORY_SEPARATOR . 'autoload_static.php',
+            DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'composer' . DIRECTORY_SEPARATOR . 'include_paths.php',
+            DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'composer',
+            DIRECTORY_SEPARATOR . 'vendor',
         );
 
         foreach ($filesToMoveToTheBeginning as $file) {

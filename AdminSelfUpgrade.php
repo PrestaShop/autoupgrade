@@ -35,7 +35,7 @@ use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 
-require __DIR__.'/vendor/autoload.php';
+require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/vendor/autoload.php';
 
 class AdminSelfUpgrade extends AdminController
 {
@@ -78,7 +78,7 @@ class AdminSelfUpgrade extends AdminController
     public $manualMode = null;
     public $deactivateCustomModule = null;
 
-    public static $classes14 = array('Cache', 'CacheFS', 'CarrierModule', 'Db', 'FrontController', 'Helper','ImportModule',
+    public static $classes14 = array('Cache', 'CacheFS', 'CarrierModule', 'Db', 'FrontController', 'Helper', 'ImportModule',
     'MCached', 'Module', 'ModuleGraph', 'ModuleGraphEngine', 'ModuleGrid', 'ModuleGridEngine',
     'MySQL', 'Order', 'OrderDetail', 'OrderDiscount', 'OrderHistory', 'OrderMessage', 'OrderReturn',
     'OrderReturnState', 'OrderSlip', 'OrderState', 'PDF', 'RangePrice', 'RangeWeight', 'StockMvt',
@@ -122,15 +122,15 @@ class AdminSelfUpgrade extends AdminController
         $this->db = Db::getInstance();
         $this->bootstrap = true;
 
-        self::$currentIndex = $_SERVER['SCRIPT_NAME'].(($controller = Tools14::getValue('controller')) ? '?controller='.$controller : '');
+        self::$currentIndex = $_SERVER['SCRIPT_NAME'] . (($controller = Tools14::getValue('controller')) ? '?controller=' . $controller : '');
 
         if (defined('_PS_ADMIN_DIR_')) {
-            $file_tab = @filemtime($this->autoupgradePath.DIRECTORY_SEPARATOR.'ajax-upgradetab.php');
-            $file = @filemtime(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR.$this->autoupgradeDir.DIRECTORY_SEPARATOR.'ajax-upgradetab.php');
+            $file_tab = @filemtime($this->autoupgradePath . DIRECTORY_SEPARATOR . 'ajax-upgradetab.php');
+            $file = @filemtime(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $this->autoupgradeDir . DIRECTORY_SEPARATOR . 'ajax-upgradetab.php');
 
             if ($file_tab < $file) {
-                @copy(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR.$this->autoupgradeDir.DIRECTORY_SEPARATOR.'ajax-upgradetab.php',
-                    $this->autoupgradePath.DIRECTORY_SEPARATOR.'ajax-upgradetab.php');
+                @copy(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $this->autoupgradeDir . DIRECTORY_SEPARATOR . 'ajax-upgradetab.php',
+                    $this->autoupgradePath . DIRECTORY_SEPARATOR . 'ajax-upgradetab.php');
             }
         }
 
@@ -157,19 +157,19 @@ class AdminSelfUpgrade extends AdminController
         $this->_fieldsUpgradeOptions = array(
             'PS_AUTOUP_PERFORMANCE' => array(
                 'title' => $this->trans('Server performance', array(), 'Modules.Autoupgrade.Admin'), 'cast' => 'intval', 'validation' => 'isInt', 'defaultValue' => '1',
-                'type' => 'select', 'desc' => $this->trans('Unless you are using a dedicated server, select "Low".', array(), 'Modules.Autoupgrade.Admin').'<br />'.
+                'type' => 'select', 'desc' => $this->trans('Unless you are using a dedicated server, select "Low".', array(), 'Modules.Autoupgrade.Admin') . '<br />' .
                 $this->trans('A high value can cause the upgrade to fail if your server is not powerful enough to process the upgrade tasks in a short amount of time.', array(), 'Modules.Autoupgrade.Admin'),
                 'choices' => array(1 => $this->trans('Low (recommended)', array(), 'Modules.Autoupgrade.Admin'), 2 => $this->trans('Medium', array(), 'Modules.Autoupgrade.Admin'), 3 => $this->trans('High', array(), 'Modules.Autoupgrade.Admin')),
             ),
             'PS_AUTOUP_CUSTOM_MOD_DESACT' => array(
                 'title' => $this->trans('Disable non-native modules', array(), 'Modules.Autoupgrade.Admin'), 'cast' => 'intval', 'validation' => 'isBool',
-                'type' => 'bool', 'desc' => $this->trans('As non-native modules can experience some compatibility issues, we recommend to disable them by default.', array(), 'Modules.Autoupgrade.Admin').'<br />'.
+                'type' => 'bool', 'desc' => $this->trans('As non-native modules can experience some compatibility issues, we recommend to disable them by default.', array(), 'Modules.Autoupgrade.Admin') . '<br />' .
                 $this->trans('Keeping them enabled might prevent you from loading the "Modules" page properly after the upgrade.', array(), 'Modules.Autoupgrade.Admin'),
             ),
             'PS_AUTOUP_UPDATE_DEFAULT_THEME' => array(
                 'title' => $this->trans('Upgrade the default theme', array(), 'Modules.Autoupgrade.Admin'), 'cast' => 'intval', 'validation' => 'isBool', 'defaultValue' => '1',
-                'type' => 'bool', 'desc' => $this->trans('If you customized the default PrestaShop theme in its folder (folder name "classic" in 1.7), enabling this option will lose your modifications.', array(), 'Modules.Autoupgrade.Admin').'<br />'
-                .$this->trans('If you are using your own theme, enabling this option will simply update the default theme files, and your own theme will be safe.', array(), 'Modules.Autoupgrade.Admin'),
+                'type' => 'bool', 'desc' => $this->trans('If you customized the default PrestaShop theme in its folder (folder name "classic" in 1.7), enabling this option will lose your modifications.', array(), 'Modules.Autoupgrade.Admin') . '<br />'
+                . $this->trans('If you are using your own theme, enabling this option will simply update the default theme files, and your own theme will be safe.', array(), 'Modules.Autoupgrade.Admin'),
             ),
             'PS_AUTOUP_CHANGE_DEFAULT_THEME' => array(
                 'title' => $this->trans('Switch to the default theme', array(), 'Modules.Autoupgrade.Admin'), 'cast' => 'intval', 'validation' => 'isBool', 'defaultValue' => '0',
@@ -177,8 +177,8 @@ class AdminSelfUpgrade extends AdminController
             ),
             'PS_AUTOUP_KEEP_MAILS' => array(
                 'title' => $this->trans('Keep the customized email templates', array(), 'Modules.Autoupgrade.Admin'), 'cast' => 'intval', 'validation' => 'isBool',
-                'type' => 'bool', 'desc' => $this->trans('This will not upgrade the default PrestaShop e-mails.', array(), 'Modules.Autoupgrade.Admin').'<br />'
-                .$this->trans('If you customized the default PrestaShop e-mail templates, enabling this option will keep your modifications.', array(), 'Modules.Autoupgrade.Admin'),
+                'type' => 'bool', 'desc' => $this->trans('This will not upgrade the default PrestaShop e-mails.', array(), 'Modules.Autoupgrade.Admin') . '<br />'
+                . $this->trans('If you customized the default PrestaShop e-mail templates, enabling this option will keep your modifications.', array(), 'Modules.Autoupgrade.Admin'),
             ),
         );
     }
@@ -202,7 +202,7 @@ class AdminSelfUpgrade extends AdminController
             if (defined('_PS_DIRECTORY_')) {
                 define('__PS_BASE_URI__', _PS_DIRECTORY_);
             } else {
-                define('__PS_BASE_URI__', realpath(dirname($_SERVER['SCRIPT_NAME'])).'/../../');
+                define('__PS_BASE_URI__', realpath(dirname($_SERVER['SCRIPT_NAME'])) . '/../../');
             }
         }
         // from $_POST or $_GET
@@ -236,7 +236,7 @@ class AdminSelfUpgrade extends AdminController
                 } else {
                     $upgrader->checkPSVersion(true, array('minor'));
                 }
-                Tools14::redirectAdmin(self::$currentIndex.'&conf=5&token='.Tools14::getValue('token'));
+                Tools14::redirectAdmin(self::$currentIndex . '&conf=5&token=' . Tools14::getValue('token'));
             }
             // removing temporary files
             $this->upgradeContainer->getFileConfigurationStorage()->cleanAll();
@@ -257,23 +257,23 @@ class AdminSelfUpgrade extends AdminController
         $this->upgradeContainer->getWorkspace()->createFolders();
 
         // set autoupgradePath, to be used in backupFiles and backupDb config values
-        $this->autoupgradePath = $this->adminDir.DIRECTORY_SEPARATOR.$this->autoupgradeDir;
-        $this->backupPath = $this->autoupgradePath.DIRECTORY_SEPARATOR.'backup';
-        $this->downloadPath = $this->autoupgradePath.DIRECTORY_SEPARATOR.'download';
-        $this->latestPath = $this->autoupgradePath.DIRECTORY_SEPARATOR.'latest';
-        $this->tmpPath = $this->autoupgradePath.DIRECTORY_SEPARATOR.'tmp';
-        $this->latestRootDir = $this->latestPath.DIRECTORY_SEPARATOR;
+        $this->autoupgradePath = $this->adminDir . DIRECTORY_SEPARATOR . $this->autoupgradeDir;
+        $this->backupPath = $this->autoupgradePath . DIRECTORY_SEPARATOR . 'backup';
+        $this->downloadPath = $this->autoupgradePath . DIRECTORY_SEPARATOR . 'download';
+        $this->latestPath = $this->autoupgradePath . DIRECTORY_SEPARATOR . 'latest';
+        $this->tmpPath = $this->autoupgradePath . DIRECTORY_SEPARATOR . 'tmp';
+        $this->latestRootDir = $this->latestPath . DIRECTORY_SEPARATOR;
 
-        if (!file_exists($this->backupPath.DIRECTORY_SEPARATOR.'index.php')) {
-            if (!copy(_PS_ROOT_DIR_.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'index.php', $this->backupPath.DIRECTORY_SEPARATOR.'index.php')) {
-                $this->_errors[] = $this->trans('Unable to create file %s', array($this->backupPath.DIRECTORY_SEPARATOR.'index.php'), 'Modules.Autoupgrade.Admin');
+        if (!file_exists($this->backupPath . DIRECTORY_SEPARATOR . 'index.php')) {
+            if (!copy(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'index.php', $this->backupPath . DIRECTORY_SEPARATOR . 'index.php')) {
+                $this->_errors[] = $this->trans('Unable to create file %s', array($this->backupPath . DIRECTORY_SEPARATOR . 'index.php'), 'Modules.Autoupgrade.Admin');
             }
         }
 
         $tmp = "order deny,allow\ndeny from all";
-        if (!file_exists($this->backupPath.DIRECTORY_SEPARATOR.'.htaccess')) {
-            if (!file_put_contents($this->backupPath.DIRECTORY_SEPARATOR.'.htaccess', $tmp)) {
-                $this->_errors[] = $this->trans('Unable to create file %s', array($this->backupPath.DIRECTORY_SEPARATOR.'.htaccess'), 'Modules.Autoupgrade.Admin');
+        if (!file_exists($this->backupPath . DIRECTORY_SEPARATOR . '.htaccess')) {
+            if (!file_put_contents($this->backupPath . DIRECTORY_SEPARATOR . '.htaccess', $tmp)) {
+                $this->_errors[] = $this->trans('Unable to create file %s', array($this->backupPath . DIRECTORY_SEPARATOR . '.htaccess'), 'Modules.Autoupgrade.Admin');
             }
         }
     }
@@ -289,6 +289,10 @@ class AdminSelfUpgrade extends AdminController
             Configuration::updateGlobalValue('PS_SHOP_ENABLE', 0);
         }
 
+        if (Tools14::isSubmit('ignorePsRequirements')) {
+            Configuration::updateValue('PS_AUTOUP_IGNORE_REQS', 1);
+        }
+
         if (Tools14::isSubmit('customSubmitAutoUpgrade')) {
             $config_keys = array_keys(array_merge($this->_fieldsUpgradeOptions, $this->_fieldsBackupOptions));
             $config = array();
@@ -301,7 +305,7 @@ class AdminSelfUpgrade extends AdminController
             $UpConfig->merge($config);
 
             if ($this->upgradeContainer->getUpgradeConfigurationStorage()->save($UpConfig, UpgradeFileNames::CONFIG_FILENAME)) {
-                Tools14::redirectAdmin(self::$currentIndex.'&conf=6&token='.Tools14::getValue('token'));
+                Tools14::redirectAdmin(self::$currentIndex . '&conf=6&token=' . Tools14::getValue('token'));
             }
         }
 
@@ -312,16 +316,16 @@ class AdminSelfUpgrade extends AdminController
             foreach ($filelist as $filename) {
                 // the following will match file or dir related to the selected backup
                 if (!empty($filename) && $filename[0] != '.' && $filename != 'index.php' && $filename != '.htaccess'
-                    && preg_match('#^(auto-backupfiles_|)'.preg_quote($name).'(\.zip|)$#', $filename, $matches)) {
-                    if (is_file($this->backupPath.DIRECTORY_SEPARATOR.$filename)) {
-                        $res &= unlink($this->backupPath.DIRECTORY_SEPARATOR.$filename);
-                    } elseif (!empty($name) && is_dir($this->backupPath.DIRECTORY_SEPARATOR.$name.DIRECTORY_SEPARATOR)) {
-                        $res = FilesystemAdapter::deleteDirectory($this->backupPath.DIRECTORY_SEPARATOR.$name.DIRECTORY_SEPARATOR);
+                    && preg_match('#^(auto-backupfiles_|)' . preg_quote($name) . '(\.zip|)$#', $filename, $matches)) {
+                    if (is_file($this->backupPath . DIRECTORY_SEPARATOR . $filename)) {
+                        $res &= unlink($this->backupPath . DIRECTORY_SEPARATOR . $filename);
+                    } elseif (!empty($name) && is_dir($this->backupPath . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR)) {
+                        $res = FilesystemAdapter::deleteDirectory($this->backupPath . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR);
                     }
                 }
             }
             if ($res) {
-                Tools14::redirectAdmin(self::$currentIndex.'&conf=1&token='.Tools14::getValue('token'));
+                Tools14::redirectAdmin(self::$currentIndex . '&conf=1&token=' . Tools14::getValue('token'));
             } else {
                 $this->_errors[] = $this->trans('Error when trying to delete backups %s', array($name), 'Modules.Autoupgrade.Admin');
             }
@@ -418,7 +422,7 @@ class AdminSelfUpgrade extends AdminController
      * Making them available for PS 1.6 as well.
      *
      * @param string $id
-     * @param array  $parameters
+     * @param array $parameters
      * @param string $domain
      * @param string $locale
      */

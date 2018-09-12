@@ -31,6 +31,8 @@ use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
+use Configuration;
+
 /**
  * Ends the upgrade process and displays the success message.
  */
@@ -48,15 +50,18 @@ class UpgradeComplete extends AbstractTask
         if ($this->container->getUpgradeConfiguration()->get('channel') != 'archive' && file_exists($this->container->getFilePath()) && unlink($this->container->getFilePath())) {
             $this->logger->debug($this->translator->trans('%s removed', array($this->container->getFilePath()), 'Modules.Autoupgrade.Admin'));
         } elseif (is_file($this->container->getFilePath())) {
-            $this->logger->debug('<strong>'.$this->translator->trans('Please remove %s by FTP', array($this->container->getFilePath()), 'Modules.Autoupgrade.Admin').'</strong>');
+            $this->logger->debug('<strong>' . $this->translator->trans('Please remove %s by FTP', array($this->container->getFilePath()), 'Modules.Autoupgrade.Admin') . '</strong>');
         }
 
         if ($this->container->getUpgradeConfiguration()->get('channel') != 'directory' && file_exists($this->container->getProperty(UpgradeContainer::LATEST_PATH)) && FilesystemAdapter::deleteDirectory($this->container->getProperty(UpgradeContainer::LATEST_PATH))) {
             $this->logger->debug($this->translator->trans('%s removed', array($this->container->getProperty(UpgradeContainer::LATEST_PATH)), 'Modules.Autoupgrade.Admin'));
         } elseif (is_dir($this->container->getProperty(UpgradeContainer::LATEST_PATH))) {
-            $this->logger->debug('<strong>'.$this->translator->trans('Please remove %s by FTP', array($this->container->getProperty(UpgradeContainer::LATEST_PATH)), 'Modules.Autoupgrade.Admin').'</strong>');
+            $this->logger->debug('<strong>' . $this->translator->trans('Please remove %s by FTP', array($this->container->getProperty(UpgradeContainer::LATEST_PATH)), 'Modules.Autoupgrade.Admin') . '</strong>');
         }
 
         $this->container->getSymfonyAdapter()->clearMigrationCache();
+
+        // Reinit config
+        Configuration::deleteByName('PS_AUTOUP_IGNORE_REQS');
     }
 }
