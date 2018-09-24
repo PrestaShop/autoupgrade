@@ -8,15 +8,15 @@ This module is compatible with all PrestaShop 1.6 & 1.7.
 # Prerequisites
 
 * PrestaShop 1.6 or 1.7
-* PHP 5.6+
+* PHP 5.6+ 
+
+For older PHP versions, see previous releases of the module [(ex. v1.6.8)](https://github.com/PrestaShop/autoupgrade/releases/tag/v1.6.8).
+Note they are unsupported and we strongly recommend you to upgrade your PHP version.
 
 # Installation
 
-You must have [composer][4] installed on your computer. Then, execute:
-
-```
-$ composer install
-```
+All versions can be found in the [releases list](https://github.com/PrestaShop/autoupgrade/releases).
+Zip archives can be directly uploaded on your module page.
 
 # Running an upgrade on PrestaShop
 
@@ -42,7 +42,16 @@ $ php cli-upgrade.php --dir=admin-dev --channel=major
 
 PrestaShop modules are open-source extensions to the PrestaShop e-commerce solution. Everyone is welcome and even encouraged to contribute with their own improvements.
 
-### Requirements
+To contribute on this project, start by cloning the repository.
+You must have [composer][4] installed on your computer. Run the following command:
+
+```
+$ composer install
+```
+
+Your module will be available with development libraries.
+
+### GitHub Requirements
 
 Contributors **must** follow the following rules:
 
