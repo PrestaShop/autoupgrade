@@ -5,6 +5,11 @@
 Provides an automated method to upgrade your shop to the latest version of PrestaShop.
 This module is compatible with all PrestaShop 1.6 & 1.7.
 
+# Prerequisites
+
+* PrestaShop 1.6 or 1.7
+* PHP 5.6+
+
 # Installation
 
 You must have [composer][4] installed on your computer. Then, execute:

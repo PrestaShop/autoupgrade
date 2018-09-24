@@ -24,8 +24,6 @@
  *  @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  *  International Registered Trademark & Property of PrestaShop SA
  */
-require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/vendor/autoload.php';
-
 class Autoupgrade extends Module
 {
     public function __construct()
@@ -57,6 +55,11 @@ class Autoupgrade extends Module
 
     public function install()
     {
+        if (50600 > PHP_VERSION_ID) {
+            $this->_errors[] = $this->trans('This version of 1-click upgrade requires PHP 5.6 to work properly. Please upgrade your server configuration.', array(), 'Modules.Autoupgrade.Admin');
+            return false;
+        }
+
         if (defined('_PS_HOST_MODE_') && _PS_HOST_MODE_) {
             return false;
         }
@@ -198,6 +201,9 @@ class Autoupgrade extends Module
      */
     public function trans($id, array $parameters = array(), $domain = null, $locale = null)
     {
-        return (new \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator(get_class()))->trans($id, $parameters, $domain, $locale);
+        require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/classes/UpgradeTools/Translator.php';
+
+        $translator = new \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator(get_class());
+        return $translator->trans($id, $parameters, $domain, $locale);
     }
 }
