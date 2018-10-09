@@ -57,7 +57,7 @@ class SettingsFileWriter
     public function writeSettingsFile($filePath, $data)
     {
         if (!is_writable($filePath)) {
-            throw new UpgradeException($this->translator->trans('Error when opening settings.inc.php file in write mode'));
+            throw new UpgradeException($this->translator->trans('Error when opening settings.inc.php file in write mode', array(), 'Modules.Autoupgrade.Admin'));
         }
 
         // Create backup file
@@ -68,7 +68,7 @@ class SettingsFileWriter
         fwrite($fd, '<?php' . PHP_EOL);
         foreach ($data as $name => $value) {
             if (false === fwrite($fd, "define('$name', '{$this->checkString($value)}');" . PHP_EOL)) {
-                throw new UpgradeException($this->translator->trans('Error when generating new settings.inc.php file.'));
+                throw new UpgradeException($this->translator->trans('Error when generating new settings.inc.php file.', array(), 'Modules.Autoupgrade.Admin'));
             }
         }
         fclose($fd);
