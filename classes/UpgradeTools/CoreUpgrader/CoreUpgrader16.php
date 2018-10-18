@@ -73,7 +73,7 @@ class CoreUpgrader16 extends CoreUpgrader
 
         $writer = new SettingsFileWriter($this->container->getTranslator());
         $writer->writeSettingsFile(SETTINGS_FILE, $datas);
-        $this->logger->debug($this->container->getTranslator()->trans('Settings file updated'));
+        $this->logger->debug($this->container->getTranslator()->trans('Settings file updated', array(), 'Modules.Autoupgrade.Admin'));
     }
 
     protected function initConstants()
