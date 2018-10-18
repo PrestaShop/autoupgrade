@@ -36,15 +36,24 @@ class Translator
         $this->caller = $caller;
     }
 
-    public function trans($id, array $parameters = array(), $domain = null, $locale = null)
+    /**
+     * Translate a string to the current language
+     * 
+     * This methods has the same signature as the 1.7 trans method, but only relies
+     *  on the module translation files.
+     * 
+     * @param string $id Original text
+     * @param array $parameters Parameters to apply
+     * @param string $domain Unused
+     * @param string $locale Unused
+     *
+     * @return string Translated string with parameters applied
+     */
+    public function trans($id, array $parameters = array(), $domain = 'Modules.Autoupgrade.Admin', $locale = null)
     {
         // If PrestaShop core is not instancied properly, do not try to translate
         if (!method_exists('\Context', 'getContext') || null === \Context::getContext()->language) {
             return $this->applyParameters($id, $parameters);
-        }
-
-        if (method_exists('\Context', 'getTranslator')) {
-            return \Context::getContext()->getTranslator()->trans($id, $parameters, $domain, $locale);
         }
 
         if (method_exists('\Translate', 'getModuleTranslation')) {
