@@ -16,7 +16,7 @@
     <div class="all-infos">
         {% if upgradeInfo.version_name is not empty %}
             <div style="clear:both;">
-                <label class="label-small">{{ 'Name:'|trans }}</label>
+                <label class="label-small">{{ 'Name:'|trans({}, 'Admin.Global') }}</label>
                 <span class="name">{{ upgradeInfo.version_name }}</span>
             </div>
         {% endif %}

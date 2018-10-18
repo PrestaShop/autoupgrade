@@ -384,7 +384,7 @@ class UpgradePage
             5 => $translator->trans('Cannot create settings file, if /app/config/parameters.php exists, please give the public write permissions to this file, else please create a file named parameters.php in config directory.', array(), $translationDomain),
             6 => $translator->trans('Cannot write settings file, please create a file named settings.inc.php in the "config" directory.', array(), $translationDomain),
             7 => $translator->trans('Impossible to upload the file!', array(), $translationDomain),
-            8 => $translator->trans('Data integrity is not valided. Hack attempt?', array(), $translationDomain),
+            8 => $translator->trans('Data integrity is not valid. Hack attempt?', array(), $translationDomain),
             9 => $translator->trans('Impossible to read the content of a MySQL content file.', array(), $translationDomain),
             10 => $translator->trans('Cannot access a MySQL content file.', array(), $translationDomain),
             11 => $translator->trans('Error while inserting data in the database:', array(), $translationDomain),
