@@ -241,7 +241,7 @@ $(document).ready(function(){
 });
 
 function showConfigResult(msg, type) {
-  if (type === null) {
+  if (type === undefined) {
     type = "conf";
   }
   var $configResult = $("#configResult");
