@@ -16,7 +16,13 @@ Note they are unsupported and we strongly recommend you to upgrade your PHP vers
 # Installation
 
 All versions can be found in the [releases list](https://github.com/PrestaShop/autoupgrade/releases).
-Zip archives can be directly uploaded on your module page.
+
+**You need to follow a few steps to create a valid module package**
+1. Unzip the release file
+2. Rename folder from **autoupgrade-X.X.X** to **autoupgrade**
+3. Enter into folder **autoupgrade** and run the command `composer install`  ([composer](https://getcomposer.org/)).
+4. Create a new Zip file of **autoupgrade** folder
+5. Now you can upload into your module pages
 
 # Running an upgrade on PrestaShop
 
