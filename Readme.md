@@ -18,7 +18,7 @@ Note they are unsupported and we strongly recommend you to upgrade your PHP vers
 All versions can be found in the [releases list](https://github.com/PrestaShop/autoupgrade/releases).
 
 ## Create a module from source code
-* Clone (`git clone https://github.com/PrestaShop/autoupgrade.git`) or [download](https://github.com/PrestaShop/autoupgrade/archive/master.zip) the source code. You can also download a release **Source code** ([ex. v4.4.1](https://github.com/PrestaShop/autoupgrade/archive/v4.4.1.zip)). If you donwload a source code archive, you need extract the file and rename the  extracted folder to **autoupgrade**
+* Clone (`git clone https://github.com/PrestaShop/autoupgrade.git`) or [download](https://github.com/PrestaShop/autoupgrade/archive/master.zip) the source code. You can also download a release **Source code** ([ex. v4.4.1](https://github.com/PrestaShop/autoupgrade/archive/v4.4.1.zip)). If you download a source code archive, you need extract the file and rename the extracted folder to **autoupgrade**
 * Enter into folder **autoupgrade** and run the command `composer install`  ([composer](https://getcomposer.org/)).
 * Create a new zip file of **autoupgrade** folder
 * Now you can upload into your module pages
