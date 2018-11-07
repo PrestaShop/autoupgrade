@@ -17,12 +17,11 @@ Note they are unsupported and we strongly recommend you to upgrade your PHP vers
 
 All versions can be found in the [releases list](https://github.com/PrestaShop/autoupgrade/releases).
 
-**You need to follow a few steps to create a valid module package**
-1. Unzip the release file
-2. Rename folder from **autoupgrade-X.X.X** to **autoupgrade**
-3. Enter into folder **autoupgrade** and run the command `composer install`  ([composer](https://getcomposer.org/)).
-4. Create a new Zip file of **autoupgrade** folder
-5. Now you can upload into your module pages
+## Create a module from source code
+* Clone (`git clone https://github.com/PrestaShop/autoupgrade.git`) or [download](https://github.com/PrestaShop/autoupgrade/archive/master.zip) the source code. You can also download a release **Source code** ([ex. v4.4.1](https://github.com/PrestaShop/autoupgrade/archive/v4.4.1.zip)). If you donwload a source code archive, you need extract the file and rename the  extracted folder to **autoupgrade**
+* Enter into folder **autoupgrade** and run the command `composer install`  ([composer](https://getcomposer.org/)).
+* Create a new zip file of **autoupgrade** folder
+* Now you can upload into your module pages
 
 # Running an upgrade on PrestaShop
 
