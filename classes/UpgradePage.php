@@ -182,11 +182,6 @@ class UpgradePage
         }
 
         $templateData = array(
-            'configuration' => array(
-                'PS_SHOW_NEW_ORDERS' => Configuration::get('PS_SHOW_NEW_ORDERS', null, null, null, 1),
-                'PS_SHOW_NEW_CUSTOMERS' => Configuration::get('PS_SHOW_NEW_CUSTOMERS', null, null, null, 1),
-                'PS_SHOW_NEW_MESSAGES' => Configuration::get('PS_SHOW_NEW_MESSAGES', null, null, null, 1),
-            ),
             'psBaseUri' => __PS_BASE_URI__,
             'translationDomain' => $translationDomain,
             'jsParams' => $this->getJsParams($ajaxResult),
