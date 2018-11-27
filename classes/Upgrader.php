@@ -27,6 +27,8 @@
 
 namespace PrestaShop\Module\AutoUpgrade;
 
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Exception\IOException;
 use Configuration;
 
 class Upgrader
@@ -104,7 +106,14 @@ class Upgrader
 
         $destPath = realpath($dest) . DIRECTORY_SEPARATOR . $filename;
 
-        Tools14::copy($this->link, $destPath);
+        try {
+            $filesystem = new Filesystem();
+            $filesystem->copy($this->link, $destPath);
+        } catch (IOException $e) {
+            // If the Symfony filesystem failed, we can try with
+            // the legacy method which uses curl.
+            Tools14::copy($this->link, $destPath);
+        }
 
         return is_file($destPath);
     }
