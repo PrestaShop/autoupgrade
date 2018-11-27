@@ -1388,6 +1388,14 @@ class Tools14
         return self::$file_exists_cache[$filename];
     }
 
+    /**
+     * Check config & source file to settle which dl method to use 
+     */
+    public static function shouldUseFopen($url)
+    {
+        return in_array(ini_get('allow_url_fopen'), array('On', 'on', '1')) || !preg_match('/^https?:\/\//', $url);
+    }
+
     public static function file_get_contents($url, $use_include_path = false, $stream_context = null, $curl_timeout = 5)
     {
         if (!extension_loaded('openssl') and strpos('https://', $url) === true) {
@@ -1396,7 +1404,7 @@ class Tools14
         if ($stream_context == null && preg_match('/^https?:\/\//', $url)) {
             $stream_context = @stream_context_create(array('http' => array('timeout' => $curl_timeout, 'header' => "User-Agent:MyAgent/1.0\r\n")));
         }
-        if (in_array(ini_get('allow_url_fopen'), array('On', 'on', '1')) || !preg_match('/^https?:\/\//', $url)) {
+        if (self::shouldUseFopen($url)) {
             $var = @file_get_contents($url, $use_include_path, $stream_context);
 
             /* PSCSX-3205 buffer output ? */
@@ -2435,12 +2443,37 @@ AddOutputFilterByType DEFLATE application/x-javascript
         return str_replace(array("\r\n", "\r", "\n"), '<br />', $str);
     }
 
+    /**
+     * Copy a file to another place
+     * 
+     * @return bool True if the copy succeded
+     */
     public static function copy($source, $destination, $stream_context = null)
     {
         if (is_null($stream_context) && !preg_match('/^https?:\/\//', $source)) {
             return @copy($source, $destination);
         }
 
-        return @file_put_contents($destination, self::file_get_contents($source, false, $stream_context, 60));
+        $destFile = fopen($destination, 'wb');
+        if (!is_resource($destFile)) {
+            return false;
+        }
+
+        if (self::shouldUseFopen($source)) {
+            $sourceFile = fopen($source);
+            // If something else than false, the data was stored
+            $result = (file_put_contents($destination, $sourceFile) !== false);
+            fclose($sourceFile);
+        } elseif (function_exists('curl_init')) {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $source);
+            curl_setopt($ch, CURLOPT_FILE, $destFile);
+            $result = curl_exec($ch);
+            curl_close($ch);
+        }
+
+        fclose($destFile);
+
+        return $result;
     }
 }
