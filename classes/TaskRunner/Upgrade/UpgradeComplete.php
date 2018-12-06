@@ -59,8 +59,6 @@ class UpgradeComplete extends AbstractTask
             $this->logger->debug('<strong>' . $this->translator->trans('Please remove %s by FTP', array($this->container->getProperty(UpgradeContainer::LATEST_PATH)), 'Modules.Autoupgrade.Admin') . '</strong>');
         }
 
-        $this->container->getSymfonyAdapter()->clearMigrationCache();
-
         // Reinit config
         Configuration::deleteByName('PS_AUTOUP_IGNORE_REQS');
     }
