@@ -78,7 +78,7 @@ class BackupFinder
      */
     private function getBackupDbAvailable($backupPath)
     {
-        $array = array();
+        $array = [];
 
         $files = scandir($backupPath);
 
@@ -98,7 +98,7 @@ class BackupFinder
      */
     private function getBackupFilesAvailable($backupPath)
     {
-        $array = array();
+        $array = [];
         $files = scandir($backupPath);
 
         foreach ($files as $file) {

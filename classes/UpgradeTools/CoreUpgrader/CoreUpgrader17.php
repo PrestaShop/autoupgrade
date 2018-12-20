@@ -53,7 +53,7 @@ class CoreUpgrader17 extends CoreUpgrader
 
         $commandResult = $this->container->getSymfonyAdapter()->runSchemaUpgradeCommand();
         if (0 !== $commandResult['exitCode']) {
-            throw (new UpgradeException($this->container->getTranslator()->trans('Error upgrading Doctrine schema', array(), 'Modules.Autoupgrade.Admin')))
+            throw (new UpgradeException($this->container->getTranslator()->trans('Error upgrading Doctrine schema', [], 'Modules.Autoupgrade.Admin')))
                 ->setQuickInfos(explode("\n", $commandResult['output']));
         }
     }
@@ -65,7 +65,7 @@ class CoreUpgrader17 extends CoreUpgrader
         if (!\Validate::isLangIsoCode($isoCode)) {
             return;
         }
-        $errorsLanguage = array();
+        $errorsLanguage = [];
 
         \Language::downloadLanguagePack($isoCode, _PS_VERSION_, $errorsLanguage);
 
@@ -77,7 +77,7 @@ class CoreUpgrader17 extends CoreUpgrader
         }
 
         if (!empty($errorsLanguage)) {
-            throw new UpgradeException($this->container->getTranslator()->trans('Error updating translations', array(), 'Modules.Autoupgrade.Admin'));
+            throw new UpgradeException($this->container->getTranslator()->trans('Error updating translations', [], 'Modules.Autoupgrade.Admin'));
         }
         \Language::loadLanguages();
 

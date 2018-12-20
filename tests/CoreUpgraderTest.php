@@ -53,11 +53,11 @@ class CoreUpgraderTest extends TestCase
 
     public function versionProvider()
     {
-        return array(
-            array('1.7', '1.7.0.0'),
-            array('1.7.2', '1.7.2.0'),
-            array('1.6.1.0-beta', '1.6.1.0-beta'),
-            array('1.6.1-beta', '1.6.1-beta.0'), // Weird, but still a test
-        );
+        return [
+            ['1.7', '1.7.0.0'],
+            ['1.7.2', '1.7.2.0'],
+            ['1.6.1.0-beta', '1.6.1.0-beta'],
+            ['1.6.1-beta', '1.6.1-beta.0'], // Weird, but still a test
+        ];
     }
 }

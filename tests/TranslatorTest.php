@@ -50,25 +50,25 @@ class TranslatorTest extends TestCase
 
     public function translationsTestCaseProvider()
     {
-        return array(
+        return [
             // Test with %s in translated text
-            array(
+            [
                 'Downloaded archive will come from %s',
-                array('https://download.prestashop.com/download/releases/prestashop_1.7.3.0.zip'),
+                ['https://download.prestashop.com/download/releases/prestashop_1.7.3.0.zip'],
                 'Downloaded archive will come from https://download.prestashop.com/download/releases/prestashop_1.7.3.0.zip',
-            ),
+            ],
             // Text without parameter
-            array(
+            [
                 'Using class ZipArchive...',
-                array(),
+                [],
                 'Using class ZipArchive...',
-            ),
+            ],
             // Text with placeholders
-            array(
+            [
                 '[TRANSLATION] The translation files have not been merged into file %filename%. Switch to copy %filename%.',
-                array('%filename%' => 'doge.txt'),
+                ['%filename%' => 'doge.txt'],
                 '[TRANSLATION] The translation files have not been merged into file doge.txt. Switch to copy doge.txt.',
-            ),
-        );
+            ],
+        ];
     }
 }

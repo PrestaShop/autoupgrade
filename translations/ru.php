@@ -1,7 +1,7 @@
 <?php
 
 global $_MODULE;
-$_MODULE = array();
+$_MODULE = [];
 
 $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_5243e62512552a2cd6369e446bbf10f4'] = 'Rendimiento del Servidor';
 $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_87f8a6ab85c9ced3702b4ea641ad4bb5'] = 'Средний';

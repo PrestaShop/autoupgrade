@@ -40,15 +40,15 @@ class RestoreDb extends AbstractTask
     public function run()
     {
         $databaseTools = new Database($this->container->getDb());
-        $ignore_stats_table = array(
+        $ignore_stats_table = [
             _DB_PREFIX_ . 'connections',
             _DB_PREFIX_ . 'connections_page',
             _DB_PREFIX_ . 'connections_source',
             _DB_PREFIX_ . 'guest',
             _DB_PREFIX_ . 'statssearch',
-        );
+        ];
         $startTime = time();
-        $listQuery = array();
+        $listQuery = [];
 
         // deal with running backup rest if exist
         if (file_exists($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . UpgradeFileNames::QUERIES_TO_RESTORE_LIST)) {
@@ -63,7 +63,7 @@ class RestoreDb extends AbstractTask
             if (!preg_match('#auto-backupdb_([0-9]{6})_#', $currentDbFilename, $match)) {
                 $this->next = 'error';
                 $this->error = true;
-                $this->logger->error($this->translator->trans('%s: File format does not match.', array($currentDbFilename), 'Modules.Autoupgrade.Admin'));
+                $this->logger->error($this->translator->trans('%s: File format does not match.', [$currentDbFilename], 'Modules.Autoupgrade.Admin'));
 
                 return false;
             }
@@ -72,15 +72,15 @@ class RestoreDb extends AbstractTask
 
             $dot_pos = strrpos($currentDbFilename, '.');
             $fileext = substr($currentDbFilename, $dot_pos + 1);
-            $requests = array();
+            $requests = [];
             $content = '';
 
             $this->logger->debug($this->translator->trans(
                 'Opening backup database file %filename% in %extension% mode',
-                array(
+                [
                     '%filename%' => $currentDbFilename,
                     '%extension%' => $fileext,
-                ),
+                ],
                 'Modules.Autoupgrade.Admin'
             ));
 
@@ -114,7 +114,7 @@ class RestoreDb extends AbstractTask
             $currentDbFilename = '';
 
             if (empty($content)) {
-                $this->logger->error($this->translator->trans('Database backup is empty.', array(), 'Modules.Autoupgrade.Admin'));
+                $this->logger->error($this->translator->trans('Database backup is empty.', [], 'Modules.Autoupgrade.Admin'));
                 $this->next = 'rollback';
 
                 return false;
@@ -128,7 +128,7 @@ class RestoreDb extends AbstractTask
 
             // Get tables before backup
             if ($this->container->getState()->getDbStep() == '1') {
-                $tables_after_restore = array();
+                $tables_after_restore = [];
                 foreach ($listQuery as $q) {
                     if (preg_match('/`(?<table>' . _DB_PREFIX_ . '[a-zA-Z0-9_-]+)`/', $q, $matches)) {
                         if (isset($matches['table'])) {
@@ -163,14 +163,14 @@ class RestoreDb extends AbstractTask
                     if ($restoreDbFilenamesCount) {
                         $this->logger->info($this->translator->trans(
                             'Database restoration file %filename% done. %filescount% file(s) left...',
-                            array(
+                            [
                                 '%filename%' => $this->container->getState()->getDbStep(),
                                 '%filescount%' => $restoreDbFilenamesCount,
-                            ),
+                            ],
                             'Modules.Autoupgrade.Admin'
                         ));
                     } else {
-                        $this->logger->info($this->translator->trans('Database restoration file %1$s done.', array($this->container->getState()->getDbStep()), 'Modules.Autoupgrade.Admin'));
+                        $this->logger->info($this->translator->trans('Database restoration file %1$s done.', [$this->container->getState()->getDbStep()], 'Modules.Autoupgrade.Admin'));
                     }
 
                     $this->stepDone = true;
@@ -179,7 +179,7 @@ class RestoreDb extends AbstractTask
 
                     if ($restoreDbFilenamesCount === 0) {
                         $this->next = 'rollbackComplete';
-                        $this->logger->info($this->translator->trans('Database has been restored.', array(), 'Modules.Autoupgrade.Admin'));
+                        $this->logger->info($this->translator->trans('Database has been restored.', [], 'Modules.Autoupgrade.Admin'));
 
                         $databaseTools->cleanTablesAfterBackup($this->container->getFileConfigurationStorage()->load(UpgradeFileNames::DB_TABLES_TO_CLEAN_LIST));
                         $this->container->getFileConfigurationStorage()->clean(UpgradeFileNames::DB_TABLES_TO_CLEAN_LIST);
@@ -199,8 +199,8 @@ class RestoreDb extends AbstractTask
                         if (is_array($listQuery)) {
                             $listQuery = array_unshift($listQuery, $query);
                         }
-                        $this->logger->error($this->translator->trans('[SQL ERROR]', array(), 'Modules.Autoupgrade.Admin') . ' ' . $query . ' - ' . $this->container->getDb()->getMsgError());
-                        $this->logger->info($this->translator->trans('Error during database restoration', array(), 'Modules.Autoupgrade.Admin'));
+                        $this->logger->error($this->translator->trans('[SQL ERROR]', [], 'Modules.Autoupgrade.Admin') . ' ' . $query . ' - ' . $this->container->getDb()->getMsgError());
+                        $this->logger->info($this->translator->trans('Error during database restoration', [], 'Modules.Autoupgrade.Admin'));
                         $this->next = 'error';
                         $this->error = true;
                         unlink($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . UpgradeFileNames::QUERIES_TO_RESTORE_LIST);
@@ -228,10 +228,10 @@ class RestoreDb extends AbstractTask
             $this->next = 'restoreDb';
             $this->logger->info($this->translator->trans(
                 '%numberqueries% queries left for file %filename%...',
-                array(
+                [
                     '%numberqueries%' => $queries_left,
                     '%filename%' => $this->container->getState()->getDbStep(),
-                ),
+                ],
                 'Modules.Autoupgrade.Admin'
             ));
             unset($query, $listQuery);
@@ -239,7 +239,7 @@ class RestoreDb extends AbstractTask
             $this->stepDone = true;
             $this->status = 'ok';
             $this->next = 'rollbackComplete';
-            $this->logger->info($this->translator->trans('Database restoration done.', array(), 'Modules.Autoupgrade.Admin'));
+            $this->logger->info($this->translator->trans('Database restoration done.', [], 'Modules.Autoupgrade.Admin'));
 
             $databaseTools->cleanTablesAfterBackup($this->container->getFileConfigurationStorage()->load(UpgradeFileNames::DB_TABLES_TO_CLEAN_LIST));
             $this->container->getFileConfigurationStorage()->clean(UpgradeFileNames::DB_TABLES_TO_CLEAN_LIST);

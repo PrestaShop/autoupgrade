@@ -41,33 +41,33 @@ class UpgradeContainerTest extends TestCase
     public function testObjectInstanciation($functionName, $expectedClass)
     {
         $container = $this->getMockBuilder(UpgradeContainer::class)
-            ->setConstructorArgs(array(__DIR__, __DIR__ . '/..'))
-            ->setMethods(array('getDb'))
+            ->setConstructorArgs([__DIR__, __DIR__ . '/..'])
+            ->setMethods(['getDb'])
             ->getMock();
-        $actualClass = get_class(call_user_func(array($container, $functionName)));
+        $actualClass = get_class(call_user_func([$container, $functionName]));
         $this->assertSame($actualClass, $expectedClass);
     }
 
     public function objectsToInstanciateProvider()
     {
         // | Function to call | Expected class |
-        return array(
-            array('getCookie', PrestaShop\Module\AutoUpgrade\Cookie::class),
-            array('getFileConfigurationStorage', PrestaShop\Module\AutoUpgrade\Parameters\FileConfigurationStorage::class),
-            array('getFileFilter', \PrestaShop\Module\AutoUpgrade\UpgradeTools\FileFilter::class),
+        return [
+            ['getCookie', PrestaShop\Module\AutoUpgrade\Cookie::class],
+            ['getFileConfigurationStorage', PrestaShop\Module\AutoUpgrade\Parameters\FileConfigurationStorage::class],
+            ['getFileFilter', \PrestaShop\Module\AutoUpgrade\UpgradeTools\FileFilter::class],
             //            array('getUpgrader', \PrestaShop\Module\AutoUpgrade\Upgrader::class),
-            array('getFilesystemAdapter', PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter::class),
-            array('getLogger', PrestaShop\Module\AutoUpgrade\Log\LegacyLogger::class),
-            array('getModuleAdapter', PrestaShop\Module\AutoUpgrade\UpgradeTools\ModuleAdapter::class),
-            array('getState', \PrestaShop\Module\AutoUpgrade\State::class),
-            array('getSymfonyAdapter', PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter::class),
-            array('getTranslationAdapter', \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translation::class),
-            array('getTranslator', \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator::class),
-            array('getTwig', Twig_Environment::class),
-            array('getPrestaShopConfiguration', PrestaShop\Module\AutoUpgrade\PrestashopConfiguration::class),
-            array('getUpgradeConfiguration', PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration::class),
-            array('getWorkspace', PrestaShop\Module\AutoUpgrade\Workspace::class),
-            array('getZipAction', PrestaShop\Module\AutoUpgrade\ZipAction::class),
-        );
+            ['getFilesystemAdapter', PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter::class],
+            ['getLogger', PrestaShop\Module\AutoUpgrade\Log\LegacyLogger::class],
+            ['getModuleAdapter', PrestaShop\Module\AutoUpgrade\UpgradeTools\ModuleAdapter::class],
+            ['getState', \PrestaShop\Module\AutoUpgrade\State::class],
+            ['getSymfonyAdapter', PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter::class],
+            ['getTranslationAdapter', \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translation::class],
+            ['getTranslator', \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator::class],
+            ['getTwig', Twig_Environment::class],
+            ['getPrestaShopConfiguration', PrestaShop\Module\AutoUpgrade\PrestashopConfiguration::class],
+            ['getUpgradeConfiguration', PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration::class],
+            ['getWorkspace', PrestaShop\Module\AutoUpgrade\Workspace::class],
+            ['getZipAction', PrestaShop\Module\AutoUpgrade\ZipAction::class],
+        ];
     }
 }

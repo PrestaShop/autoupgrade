@@ -52,7 +52,7 @@ class FormRenderer
     {
         $required = false;
 
-        $formFields = array();
+        $formFields = [];
 
         foreach ($fields as $key => $field) {
             $html = '';
@@ -64,7 +64,7 @@ class FormRenderer
                 isset($field['defaultValue']) ? $field['defaultValue'] : false
             );
 
-            if (!in_array($field['type'], array('image', 'radio', 'select', 'container', 'bool', 'container_end')) || isset($field['show'])) {
+            if (!in_array($field['type'], ['image', 'radio', 'select', 'container', 'bool', 'container_end']) || isset($field['show'])) {
                 $html .= '<div style="clear: both; padding-top:15px">'
                     . ($field['title'] ? '<label >' . $field['title'] . '</label>' : '')
                     . '<div class="margin-form" style="padding-top:5px">';
@@ -105,11 +105,11 @@ class FormRenderer
                     $html .= $this->renderTextField($field, $key, $val, $disabled);
             }
 
-            if ($required && !in_array($field['type'], array('image', 'radio'))) {
+            if ($required && !in_array($field['type'], ['image', 'radio'])) {
                 $html .= ' <sup>*</sup>';
             }
 
-            if (isset($field['desc']) && !in_array($field['type'], array('bool', 'select'))) {
+            if (isset($field['desc']) && !in_array($field['type'], ['bool', 'select'])) {
                 $html .= '<p style="clear:both">';
                 if (!empty($field['thumb']) && $field['thumb']['pos'] == 'after') {
                     $html .= $this->renderThumb($field);
@@ -117,7 +117,7 @@ class FormRenderer
                 $html .= $field['desc'] . '</p>';
             }
 
-            if (!in_array($field['type'], array('image', 'radio', 'select', 'container', 'bool', 'container_end')) || isset($field['show'])) {
+            if (!in_array($field['type'], ['image', 'radio', 'select', 'container', 'bool', 'container_end']) || isset($field['show'])) {
                 $html .= '</div></div>';
             }
 
@@ -126,11 +126,11 @@ class FormRenderer
 
         return $this->twig->render(
             '@ModuleAutoUpgrade/form.twig',
-            array(
+            [
                 'name' => $name,
                 'tabName' => $tabname,
                 'fields' => $formFields,
-            )
+            ]
         );
     }
 
@@ -143,11 +143,11 @@ class FormRenderer
                             <input type="radio" name="' . $key . '" id="' . $key . '_on" value="1" ' . ($val ? ' checked="checked"' : '') . (isset($field['js']['on']) ? $field['js']['on'] : '') . ' />
                             <label for="' . $key . '_on" class="radioCheck">
                                 <i class="color_success"></i> '
-                            . $this->translator->trans('Yes', array(), 'Admin.Global') . '
+                            . $this->translator->trans('Yes', [], 'Admin.Global') . '
                             </label>
                             <input type="radio" name="' . $key . '" id="' . $key . '_off" value="0" ' . (!$val ? 'checked="checked"' : '') . (isset($field['js']['off']) ? $field['js']['off'] : '') . '/>
                             <label for="' . $key . '_off" class="radioCheck">
-                                <i class="color_danger"></i> ' . $this->translator->trans('No', array(), 'Admin.Global') . '
+                                <i class="color_danger"></i> ' . $this->translator->trans('No', [], 'Admin.Global') . '
                             </label>
                             <a class="slide-button btn"></a>
                         </span>
