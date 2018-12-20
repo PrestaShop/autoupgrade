@@ -25,7 +25,7 @@
  *  International Registered Trademark & Property of PrestaShop SA
  */
 
-if (php_sapi_name() !== 'cli') {
+if (PHP_SAPI !== 'cli') {
     echo 'This script must be called from CLI';
     exit(1);
 }

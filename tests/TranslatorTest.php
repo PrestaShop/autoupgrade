@@ -37,7 +37,7 @@ class TranslatorTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->translator = new Translator(get_class());
+        $this->translator = new Translator(__CLASS__);
     }
 
     /**
