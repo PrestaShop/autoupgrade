@@ -142,7 +142,7 @@ class State
 
         // installedLanguagesIso is used to merge translations files
         $installedLanguagesIso = array_map(
-            function ($v) { return $v['iso_code']; },
+            static function ($v) { return $v['iso_code']; },
             \Language::getIsoIds(false)
         );
         $this->setInstalledLanguagesIso($installedLanguagesIso);
