@@ -55,11 +55,11 @@ class AdminSelfUpgrade extends AdminController
     /**
      * Initialized in initPath().
      */
-    public $autoupgradePath = null;
-    public $downloadPath = null;
-    public $backupPath = null;
-    public $latestPath = null;
-    public $tmpPath = null;
+    public $autoupgradePath;
+    public $downloadPath;
+    public $backupPath;
+    public $latestPath;
+    public $tmpPath;
 
     /**
      * autoupgradeDir.
@@ -71,12 +71,12 @@ class AdminSelfUpgrade extends AdminController
     public $prodRootDir = '';
     public $adminDir = '';
 
-    public $keepImages = null;
-    public $updateDefaultTheme = null;
-    public $changeToDefaultTheme = null;
-    public $keepMails = null;
-    public $manualMode = null;
-    public $deactivateCustomModule = null;
+    public $keepImages;
+    public $updateDefaultTheme;
+    public $changeToDefaultTheme;
+    public $keepMails;
+    public $manualMode;
+    public $deactivateCustomModule;
 
     public static $classes14 = ['Cache', 'CacheFS', 'CarrierModule', 'Db', 'FrontController', 'Helper', 'ImportModule',
         'MCached', 'Module', 'ModuleGraph', 'ModuleGraphEngine', 'ModuleGrid', 'ModuleGridEngine',

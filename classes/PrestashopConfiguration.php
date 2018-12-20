@@ -32,7 +32,7 @@ use ConfigurationTestCore as ConfigurationTest;
 class PrestashopConfiguration
 {
     // Variables used for cache
-    private $moduleVersion = null;
+    private $moduleVersion;
     private $allowed_array = [];
 
     // Variables from main class
