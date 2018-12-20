@@ -5347,10 +5347,10 @@
       if ($v_result) {
           // ----- Skip all the empty items
           while (($j < $v_list_path_size) && ($v_list_path[$j] == '')) {
-              $j++;
+              ++$j;
           }
           while (($i < $v_list_dir_size) && ($v_list_dir[$i] == '')) {
-              $i++;
+              ++$i;
           }
 
           if (($i >= $v_list_dir_size) && ($j >= $v_list_path_size)) {
