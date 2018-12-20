@@ -79,7 +79,7 @@ class PrestashopConfiguration
      */
     public function getModuleVersion()
     {
-        if ( ! is_null($this->moduleVersion)) {
+        if ( null !== $this->moduleVersion) {
             return $this->moduleVersion;
         }
 

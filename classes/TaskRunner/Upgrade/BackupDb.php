@@ -91,7 +91,7 @@ class BackupDb extends AbstractTask
         // MAIN BACKUP LOOP //
         $written = 0;
         do {
-            if ( ! is_null($this->container->getState()->getBackupTable())) {
+            if ( null !== $this->container->getState()->getBackupTable()) {
                 // only insert (schema already done)
                 $table = $this->container->getState()->getBackupTable();
                 $lines = $this->container->getState()->getBackupLines();
