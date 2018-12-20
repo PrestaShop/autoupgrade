@@ -70,7 +70,7 @@ class FormRenderer
                     . '<div class="margin-form" style="padding-top:5px">';
             }
 
-            /* Display the appropriate input type for each field */
+            // Display the appropriate input type for each field
             switch ($field['type']) {
                 case 'disabled':
                     $html .= $field['disabled'];

@@ -213,7 +213,7 @@ class AdminSelfUpgrade extends AdminController
         );
 
         // If you have defined this somewhere, you know what you do
-        /* load options from configuration if we're not in ajax mode */
+        // load options from configuration if we're not in ajax mode
         if (!$this->ajax) {
             $upgrader = $this->upgradeContainer->getUpgrader();
             $this->upgradeContainer->getCookie()->create(
@@ -356,7 +356,7 @@ class AdminSelfUpgrade extends AdminController
 
     public function display()
     {
-        /* Make sure the user has configured the upgrade options, or set default values */
+        // Make sure the user has configured the upgrade options, or set default values
         $configuration_keys = [
             'PS_AUTOUP_UPDATE_DEFAULT_THEME' => 1,
             'PS_AUTOUP_CHANGE_DEFAULT_THEME' => 0,

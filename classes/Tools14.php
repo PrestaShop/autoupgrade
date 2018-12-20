@@ -322,7 +322,7 @@ class Tools14
     {
         global $cookie;
 
-        /* If language does not exist or is disabled, erase it */
+        // If language does not exist or is disabled, erase it
         if ($cookie->id_lang) {
             $lang = new Language((int) $cookie->id_lang);
             if (!Validate::isLoadedObject($lang) || !$lang->active) {
@@ -330,7 +330,7 @@ class Tools14
             }
         }
 
-        /* Automatically detect language if not already defined */
+        // Automatically detect language if not already defined
         if (!$cookie->id_lang && isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
             $array = explode(',', self::strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']));
             if (self::strlen($array[0]) > 2) {
@@ -347,7 +347,7 @@ class Tools14
             }
         }
 
-        /* If language file not present, you must use default language file */
+        // If language file not present, you must use default language file
         if (!$cookie->id_lang || !Validate::isUnsignedId($cookie->id_lang)) {
             $cookie->id_lang = (int) (Configuration::get('PS_LANG_DEFAULT'));
         }
@@ -415,7 +415,7 @@ class Tools14
         if ($currency === null) {
             $currency = Currency::getCurrent();
         }
-        /* if you modified this function, don't forget to modify the Javascript function formatCurrency (in tools.js) */
+        // if you modified this function, don't forget to modify the Javascript function formatCurrency (in tools.js)
         if (is_int($currency)) {
             $currency = Currency::getCurrencyInstance((int) ($currency));
         }
@@ -430,19 +430,19 @@ class Tools14
         }
         $price = self::ps_round($price, $c_decimals);
         switch ($c_format) {
-            /* X 0,000.00 */
+            // X 0,000.00
             case 1:
                 $ret = $c_char . $blank . number_format($price, $c_decimals, '.', ',');
                 break;
-            /* 0 000,00 X*/
+            // 0 000,00 X
             case 2:
                 $ret = number_format($price, $c_decimals, ',', ' ') . $blank . $c_char;
                 break;
-            /* X 0.000,00 */
+            // X 0.000,00
             case 3:
                 $ret = $c_char . $blank . number_format($price, $c_decimals, ',', '.');
                 break;
-            /* 0,000.00 X */
+            // 0,000.00 X
             case 4:
                 $ret = number_format($price, $c_decimals, '.', ',') . $blank . $c_char;
                 break;
@@ -696,7 +696,7 @@ class Tools14
         global $maintenance;
 
         if (!(isset($maintenance) && (!in_array(self::getRemoteAddr(), explode(',', Configuration::get('PS_MAINTENANCE_IP')))))) {
-            /* Products specifics meta tags */
+            // Products specifics meta tags
             if ($id_product = self::getValue('id_product')) {
                 $row = Db::getInstance(_PS_USE_SQL_SLAVE_)->getRow('
             SELECT `name`, `meta_title`, `meta_description`, `meta_keywords`, `description_short`
@@ -712,7 +712,7 @@ class Tools14
                 }
             }
 
-            /* Categories specifics meta tags */
+            // Categories specifics meta tags
             elseif ($id_category = self::getValue('id_category')) {
                 $page_number = (int) self::getValue('p');
                 $row = Db::getInstance(_PS_USE_SQL_SLAVE_)->getRow('
@@ -735,7 +735,7 @@ class Tools14
                 }
             }
 
-            /* Manufacturers specifics meta tags */
+            // Manufacturers specifics meta tags
             elseif ($id_manufacturer = self::getValue('id_manufacturer')) {
                 $page_number = (int) self::getValue('p');
                 $row = Db::getInstance(_PS_USE_SQL_SLAVE_)->getRow('
@@ -754,7 +754,7 @@ class Tools14
                 }
             }
 
-            /* Suppliers specifics meta tags */
+            // Suppliers specifics meta tags
             elseif ($id_supplier = self::getValue('id_supplier')) {
                 $row = Db::getInstance(_PS_USE_SQL_SLAVE_)->getRow('
             SELECT `name`, `meta_title`, `meta_description`, `meta_keywords`
@@ -774,7 +774,7 @@ class Tools14
                 }
             }
 
-            /* CMS specifics meta tags */
+            // CMS specifics meta tags
             elseif ($id_cms = self::getValue('id_cms')) {
                 $row = Db::getInstance(_PS_USE_SQL_SLAVE_)->getRow('
             SELECT `meta_title`, `meta_description`, `meta_keywords`
@@ -787,7 +787,7 @@ class Tools14
                 }
             }
 
-            /* CMS category specifics meta tags */
+            // CMS category specifics meta tags
             elseif ($id_cms = self::getValue('id_cms_category')) {
                 $row = Db::getInstance(_PS_USE_SQL_SLAVE_)->getRow('
             SELECT `meta_title`, `meta_description`, `meta_keywords`
@@ -801,7 +801,7 @@ class Tools14
             }
         }
 
-        /* Default meta tags */
+        // Default meta tags
         return self::getHomeMetaTags($id_lang, $page_name);
     }
 
@@ -814,7 +814,7 @@ class Tools14
      */
     public static function getHomeMetaTags($id_lang, $page_name)
     {
-        /* Metas-tags */
+        // Metas-tags
         $metas = Meta::getMetaByPage($page_name, $id_lang);
         $ret['meta_title'] = (isset($metas['title']) && $metas['title']) ? $metas['title'] . ' - ' . Configuration::get('PS_SHOP_NAME') : Configuration::get('PS_SHOP_NAME');
         $ret['meta_description'] = (isset($metas['description']) && $metas['description']) ? $metas['description'] : '';
@@ -1405,7 +1405,7 @@ class Tools14
         if (self::shouldUseFopen($url)) {
             $var = @file_get_contents($url, $use_include_path, $stream_context);
 
-            /* PSCSX-3205 buffer output ? */
+            // PSCSX-3205 buffer output ?
             if (self::getValue('ajaxMode') && ob_get_level() && ob_get_length() > 0) {
                 ob_clean();
             }

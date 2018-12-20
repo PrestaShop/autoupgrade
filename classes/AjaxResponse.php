@@ -123,9 +123,7 @@ class AjaxResponse
         return json_encode($this->getResponse());
     }
 
-    /*
-     * GETTERS
-     */
+    // GETTERS
 
     public function getError()
     {
@@ -157,9 +155,7 @@ class AjaxResponse
         return $this->upgradeConfiguration;
     }
 
-    /*
-     * SETTERS
-     */
+    // SETTERS
 
     public function setError($error)
     {

@@ -4595,7 +4595,7 @@
                           if ((strlen($v_header_list[$v_nb_extracted]['stored_filename']) > strlen($p_options[PCLZIP_OPT_BY_NAME][$j]))
                       && (substr($v_header_list[$v_nb_extracted]['stored_filename'], 0, strlen($p_options[PCLZIP_OPT_BY_NAME][$j])) == $p_options[PCLZIP_OPT_BY_NAME][$j])) {
                               $v_found = true;
-                          } elseif ((($v_header_list[$v_nb_extracted]['external'] & 0x00000010) == 0x00000010) /* Indicates a folder */
+                          } elseif ((($v_header_list[$v_nb_extracted]['external'] & 0x00000010) == 0x00000010) // Indicates a folder
                           && ($v_header_list[$v_nb_extracted]['stored_filename'] . '/' == $p_options[PCLZIP_OPT_BY_NAME][$j])) {
                               $v_found = true;
                           }

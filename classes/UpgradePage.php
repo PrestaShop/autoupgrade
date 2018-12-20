@@ -267,7 +267,7 @@ class UpgradePage
     {
         $translator = $this->translator;
 
-        /* PrestaShop demo mode */
+        // PrestaShop demo mode
         if (defined('_PS_MODE_DEMO_') && _PS_MODE_DEMO_) {
             return [
                 'message' => $translator->trans('This functionality has been disabled.', [], self::TRANSLATION_DOMAIN),
