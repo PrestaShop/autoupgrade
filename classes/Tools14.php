@@ -1291,7 +1291,7 @@ class Tools14
 
     /**
      * @deprecated
-     **/
+     */
     public static function getTimezones($select = false)
     {
         static $_cache = 0;
@@ -1319,7 +1319,7 @@ class Tools14
 
     /**
      * @deprecated
-     **/
+     */
     public static function ps_set_magic_quotes_runtime($var)
     {
         if (function_exists('set_magic_quotes_runtime')) {
