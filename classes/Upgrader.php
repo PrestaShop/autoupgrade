@@ -33,37 +33,55 @@ use Symfony\Component\Filesystem\Filesystem;
 class Upgrader
 {
     const DEFAULT_CHECK_VERSION_DELAY_HOURS = 12;
+
     const DEFAULT_CHANNEL = 'minor';
+
     const DEFAULT_FILENAME = 'prestashop.zip';
 
     public $addons_api = 'api.addons.prestashop.com';
+
     public $rss_channel_link = 'https://api.prestashop.com/xml/channel.xml';
+
     public $rss_md5file_link_dir = 'https://api.prestashop.com/xml/md5/';
 
     /**
      * @var bool contains true if last version is not installed
      */
     private $need_upgrade = false;
+
     private $changed_files = [];
+
     private $missing_files = [];
 
     public $version_name;
+
     public $version_num;
+
     public $version_is_modified;
+
     /**
      * @var string contains hte url where to download the file
      */
     public $link;
+
     public $autoupgrade;
+
     public $autoupgrade_module;
+
     public $autoupgrade_last_version;
+
     public $autoupgrade_module_link;
+
     public $changelog;
+
     public $available;
+
     public $md5;
 
     public static $default_channel = 'minor';
+
     public $channel = '';
+
     public $branch = '';
 
     protected $currentPsVersion;

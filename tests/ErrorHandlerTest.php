@@ -31,7 +31,9 @@ use PrestaShop\Module\AutoUpgrade\Log\LegacyLogger;
 class ErrorHandlerTest extends TestCase
 {
     protected $errorHandler;
+
     protected $adminSelfUpgradeStub;
+
     protected $logger;
 
     protected function setUp()

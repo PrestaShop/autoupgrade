@@ -32,6 +32,7 @@ namespace PrestaShop\Module\AutoUpgrade;
 class UpgradeException extends \Exception
 {
     const SEVERITY_ERROR = 1;
+
     const SEVERITY_WARNING = 2;
 
     private $quickInfos = [];

@@ -40,12 +40,17 @@ require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/vendor/autoload.php';
 class AdminSelfUpgrade extends AdminController
 {
     public $multishop_context;
+
     public $multishop_context_group = false;
+
     public $_html = '';
+
     // used for translations
     public static $l_cache;
+
     // retrocompatibility
     public $noTabLink = [];
+
     public $id = -1;
 
     public $ajax = false;
@@ -56,9 +61,13 @@ class AdminSelfUpgrade extends AdminController
      * Initialized in initPath().
      */
     public $autoupgradePath;
+
     public $downloadPath;
+
     public $backupPath;
+
     public $latestPath;
+
     public $tmpPath;
 
     /**
@@ -67,15 +76,23 @@ class AdminSelfUpgrade extends AdminController
      * @var string directory relative to admin dir
      */
     public $autoupgradeDir = 'autoupgrade';
+
     public $latestRootDir = '';
+
     public $prodRootDir = '';
+
     public $adminDir = '';
 
     public $keepImages;
+
     public $updateDefaultTheme;
+
     public $changeToDefaultTheme;
+
     public $keepMails;
+
     public $manualMode;
+
     public $deactivateCustomModule;
 
     public static $classes14 = ['Cache', 'CacheFS', 'CarrierModule', 'Db', 'FrontController', 'Helper', 'ImportModule',
@@ -87,6 +104,7 @@ class AdminSelfUpgrade extends AdminController
     public static $maxBackupFileSize = 15728640; // 15 Mo
 
     public $_fieldsUpgradeOptions = [];
+
     public $_fieldsBackupOptions = [];
 
     /**

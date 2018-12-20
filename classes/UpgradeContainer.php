@@ -49,16 +49,27 @@ use Twig_Loader_Filesystem;
 class UpgradeContainer
 {
     const WORKSPACE_PATH = 'workspace'; // AdminSelfUpgrade::$autoupgradePath
+
     const BACKUP_PATH = 'backup';
+
     const DOWNLOAD_PATH = 'download';
+
     const LATEST_PATH = 'latest'; // AdminSelfUpgrade::$latestRootDir
+
     const LATEST_DIR = 'lastest/';
+
     const TMP_PATH = 'tmp';
+
     const PS_ADMIN_PATH = 'ps_admin';
+
     const PS_ADMIN_SUBDIR = 'ps_admin_subdir';
+
     const PS_ROOT_PATH = 'ps_root'; // AdminSelfUpgrade::$prodRootDir
+
     const ARCHIVE_FILENAME = 'destDownloadFilename';
+
     const ARCHIVE_FILEPATH = 'destDownloadFilepath';
+
     const PS_VERSION = 'version';
 
     /**

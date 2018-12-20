@@ -32,16 +32,24 @@ namespace PrestaShop\Module\AutoUpgrade;
 class State
 {
     private $install_version; // Destination version of PrestaShop
+
     private $backupName;
+
     private $backupFilesFilename;
+
     private $backupDbFilename;
+
     private $restoreName;
+
     private $restoreFilesFilename;
+
     private $restoreDbFilenames = [];
 
     // STEP BackupDb
     private $backup_lines;
+
     private $backup_loop_limit;
+
     private $backup_table;
 
     /**
@@ -58,10 +66,12 @@ class State
      * @var array|null File containing sample files to be deleted
      */
     private $removeList;
+
     /**
      * @var string|null File containing files to be upgraded
      */
     private $fileToUpgrade;
+
     /**
      * @var string|null File containing modules to be upgraded
      */
@@ -73,6 +83,7 @@ class State
      * @var array
      */
     private $installedLanguagesIso = [];
+
     /**
      * modules_addons is an array of array(id_addons => name_module).
      *

@@ -34,6 +34,7 @@ class Translation
     private $installedLanguagesIso;
 
     private $logger;
+
     private $translator;
 
     public function __construct($translator, LoggerInterface $logger, $installedLanguagesIso)

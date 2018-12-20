@@ -100,6 +100,7 @@ class UpgradeFileNames
      * @var string
      */
     const QUERIES_TO_RESTORE_LIST = 'queryToRestore.list';
+
     const DB_TABLES_TO_CLEAN_LIST = 'tableToClean.list';
 
     /**

@@ -35,7 +35,9 @@ class FilesystemAdapter
     private $fileFilter;
 
     private $autoupgradeDir;
+
     private $adminSubDir;
+
     private $prodRootDir;
 
     /**

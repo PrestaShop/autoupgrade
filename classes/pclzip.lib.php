@@ -198,6 +198,7 @@
 
       // ----- Internal error handling
       public $error_code = 1;
+
       public $error_string = '';
 
       // ----- Current status of the magic_quotes_runtime

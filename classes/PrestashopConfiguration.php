@@ -33,10 +33,12 @@ class PrestashopConfiguration
 {
     // Variables used for cache
     private $moduleVersion;
+
     private $allowed_array = [];
 
     // Variables from main class
     private $autoupgradeDir;
+
     private $psRootDir;
 
     public function __construct($moduleDir, $psRootDir)
