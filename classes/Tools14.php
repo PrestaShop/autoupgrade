@@ -2097,7 +2097,6 @@ AddOutputFilterByType DEFLATE application/x-javascript
      */
     public static function displayAsDeprecated()
     {
-        
     }
 
     /**
@@ -2105,7 +2104,6 @@ AddOutputFilterByType DEFLATE application/x-javascript
      */
     public static function displayParameterAsDeprecated($parameter)
     {
-        
     }
 
     public static function enableCache($level = 1)
