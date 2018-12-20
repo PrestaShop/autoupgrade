@@ -405,7 +405,7 @@ class Upgrader
             if (is_object($child) && $child->getName() == 'dir') {
                 $dir = (string) $child['name'];
                 /**
-                 * $current_path = $dir.(string)$child['name'];
+                 * $current_path = $dir.(string)$child['name'];.
                  *
                  * @todo : something else than array pop ?
                  */
