@@ -38,7 +38,7 @@ $container = autoupgrade_init_container(dirname(__FILE__));
 
 (new \PrestaShop\Module\AutoUpgrade\ErrorHandler($container->getLogger()))->enable();
 
-if (!$container->getCookie()->check($_COOKIE)) {
+if ( ! $container->getCookie()->check($_COOKIE)) {
     // If this is an XSS attempt, then we should only display a simple, secure page
     if (ob_get_level() && ob_get_length() > 0) {
         ob_clean();

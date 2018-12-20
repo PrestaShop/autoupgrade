@@ -90,7 +90,7 @@ class ThemeAdapter
         $themeManager = $this->getThemeManager();
 
         $isThemeEnabled = $themeManager->enable($themeName);
-        if (!$isThemeEnabled) {
+        if ( ! $isThemeEnabled) {
             $errors = $themeManager->getErrors($themeName);
 
             return $errors ? $errors : 'Unknown error';

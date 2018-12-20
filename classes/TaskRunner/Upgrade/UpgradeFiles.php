@@ -39,7 +39,7 @@ class UpgradeFiles extends AbstractTask
     public function run()
     {
         // The first call must init the list of files be upgraded
-        if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::FILES_TO_UPGRADE_LIST)) {
+        if ( ! $this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::FILES_TO_UPGRADE_LIST)) {
             return $this->warmUp();
         }
 
@@ -48,7 +48,7 @@ class UpgradeFiles extends AbstractTask
 
         $this->next = 'upgradeFiles';
         $filesToUpgrade = $this->container->getFileConfigurationStorage()->load(UpgradeFileNames::FILES_TO_UPGRADE_LIST);
-        if (!is_array($filesToUpgrade)) {
+        if ( ! is_array($filesToUpgrade)) {
             $this->next = 'error';
             $this->logger->error($this->translator->trans('filesToUpgrade is not an array', [], 'Modules.Autoupgrade.Admin'));
 
@@ -68,7 +68,7 @@ class UpgradeFiles extends AbstractTask
             }
 
             $file = array_shift($filesToUpgrade);
-            if (!$this->upgradeThisFile($file)) {
+            if ( ! $this->upgradeThisFile($file)) {
                 // put the file back to the begin of the list
                 $this->next = 'error';
                 $this->logger->error($this->translator->trans('Error when trying to upgrade file %s.', [$file], 'Modules.Autoupgrade.Admin'));
@@ -97,7 +97,7 @@ class UpgradeFiles extends AbstractTask
     protected function listFilesToUpgrade($dir)
     {
         $list = [];
-        if (!is_dir($dir)) {
+        if ( ! is_dir($dir)) {
             $this->logger->error($this->translator->trans('[ERROR] %s does not exist or is not a directory.', [$dir], 'Modules.Autoupgrade.Admin'));
             $this->logger->info($this->translator->trans('Nothing has been extracted. It seems the unzipping step has been skipped.', [], 'Modules.Autoupgrade.Admin'));
             $this->next = 'error';
@@ -115,7 +115,7 @@ class UpgradeFiles extends AbstractTask
                 'upgrade',
                 $this->container->getProperty(UpgradeContainer::LATEST_PATH)
             )) {
-                if (!in_array($file, ['.', '..'])) {
+                if ( ! in_array($file, ['.', '..'])) {
                     $this->logger->debug($this->translator->trans('File %s is preserved', [$file], 'Modules.Autoupgrade.Admin'));
                 }
                 continue;
@@ -149,11 +149,11 @@ class UpgradeFiles extends AbstractTask
         }
         if (is_dir($orig)) {
             // if $dest is not a directory (that can happen), just remove that file
-            if (!is_dir($dest) && file_exists($dest)) {
+            if ( ! is_dir($dest) && file_exists($dest)) {
                 unlink($dest);
                 $this->logger->debug($this->translator->trans('[WARNING] File %1$s has been deleted.', [$file], 'Modules.Autoupgrade.Admin'));
             }
-            if (!file_exists($dest)) {
+            if ( ! file_exists($dest)) {
                 if (mkdir($dest)) {
                     $this->logger->debug($this->translator->trans('Directory %1$s created.', [$file], 'Modules.Autoupgrade.Admin'));
 
@@ -224,7 +224,7 @@ class UpgradeFiles extends AbstractTask
     protected function warmUp()
     {
         $newReleasePath = $this->container->getProperty(UpgradeContainer::LATEST_PATH);
-        if (!$this->container->getFilesystemAdapter()->isReleaseValid($newReleasePath)) {
+        if ( ! $this->container->getFilesystemAdapter()->isReleaseValid($newReleasePath)) {
             $this->logger->error($this->translator->trans('Could not assert the folder %s contains a valid PrestaShop release, exiting.', [$newReleasePath], 'Modules.Autoupgrade.Admin'));
             $this->logger->error($this->translator->trans('A file may be missing, or the release is stored in a subfolder by mistake.', [], 'Modules.Autoupgrade.Admin'));
             $this->next = 'error';

@@ -35,7 +35,7 @@ class BackupFiles extends AbstractTask
 {
     public function run()
     {
-        if (!$this->container->getUpgradeConfiguration()->get('PS_AUTOUP_BACKUP')) {
+        if ( ! $this->container->getUpgradeConfiguration()->get('PS_AUTOUP_BACKUP')) {
             $this->stepDone = true;
             $this->next = 'backupDb';
             $this->logger->info('File backup skipped.');
@@ -54,7 +54,7 @@ class BackupFiles extends AbstractTask
             return false;
         }
 
-        if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::FILES_TO_BACKUP_LIST)) {
+        if ( ! $this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::FILES_TO_BACKUP_LIST)) {
             /** @todo : only add files and dir listed in "originalPrestashopVersion" list */
             $filesToBackup = $this->container->getFilesystemAdapter()->listFilesInDir($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH), 'backup', false);
             $this->container->getFileConfigurationStorage()->save($filesToBackup, UpgradeFileNames::FILES_TO_BACKUP_LIST);
@@ -63,7 +63,7 @@ class BackupFiles extends AbstractTask
             }
 
             // delete old backup, create new
-            if (!empty($backupFilesFilename) && file_exists($this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $backupFilesFilename)) {
+            if ( ! empty($backupFilesFilename) && file_exists($this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $backupFilesFilename)) {
                 unlink($this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $backupFilesFilename);
             }
 
@@ -77,7 +77,7 @@ class BackupFiles extends AbstractTask
 
             $this->stepDone = false;
             $res = $this->container->getZipAction()->compress($filesToBackup, $this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $backupFilesFilename);
-            if (!$res) {
+            if ( ! $res) {
                 $this->next = 'error';
                 $this->logger->info($this->translator->trans('Unable to open archive', [], 'Modules.Autoupgrade.Admin'));
 

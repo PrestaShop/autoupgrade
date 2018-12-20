@@ -119,13 +119,13 @@ class Translation
                 return false;
         }
 
-        if (!file_exists($orig)) {
+        if ( ! file_exists($orig)) {
             $this->logger->notice($this->translator->trans('[NOTICE] File %s does not exist, merge skipped.', [$orig], 'Modules.Autoupgrade.Admin'));
 
             return true;
         }
         include $orig;
-        if (!isset($$var_name)) {
+        if ( ! isset($$var_name)) {
             $this->logger->warning($this->translator->trans(
                 '[WARNING] %variablename% variable missing in file %filename%. Merge skipped.',
                 [
@@ -139,13 +139,13 @@ class Translation
         }
         $var_orig = $$var_name;
 
-        if (!file_exists($dest)) {
+        if ( ! file_exists($dest)) {
             $this->logger->notice($this->translator->trans('[NOTICE] File %s does not exist, merge skipped.', [$dest], 'Modules.Autoupgrade.Admin'));
 
             return false;
         }
         include $dest;
-        if (!isset($$var_name)) {
+        if ( ! isset($$var_name)) {
             // in that particular case : file exists, but variable missing, we need to delete that file
             // (if not, this invalid file will be copied in /translations during upgradeDb process)
             if ('module' == $type && file_exists($dest)) {
@@ -203,7 +203,7 @@ class Translation
         $search = ['\\', "\0", "\n", "\r", "\x1a", "'", '"'];
         $replace = ['\\\\', '\\0', '\\n', '\\r', "\Z", "\'", '\"'];
         $str = str_replace($search, $replace, $str);
-        if (!$html_ok) {
+        if ( ! $html_ok) {
             return strip_tags(Tools14::nl2br($str));
         }
 

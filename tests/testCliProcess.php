@@ -33,7 +33,7 @@ if (isset($argv) && is_array($argv) && in_array('--help', $argv)) {
 array_shift($argv);
 $command = implode(' ', $argv);
 $result = 0;
-while (!empty($command) && !$result) {
+while ( ! empty($command) && ! $result) {
     $lastLine = system('php ' . $command . '  2>&1', $result);
 
     // if we require to run another command, it will detected here

@@ -175,7 +175,7 @@ class UpgradePage
         $translationDomain = self::TRANSLATION_DOMAIN;
 
         $errMessageData = $this->getErrorMessage();
-        if (!empty($errMessageData)) {
+        if ( ! empty($errMessageData)) {
             return $twig
                 ->render('@ModuleAutoUpgrade:error.twig', $errMessageData);
         }
@@ -274,7 +274,7 @@ class UpgradePage
             ];
         }
 
-        if (!file_exists($this->autoupgradePath . DIRECTORY_SEPARATOR . 'ajax-upgradetab.php')) {
+        if ( ! file_exists($this->autoupgradePath . DIRECTORY_SEPARATOR . 'ajax-upgradetab.php')) {
             return [
                 'showWarningIcon' => true,
                 'message' => $translator->trans(

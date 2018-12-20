@@ -50,11 +50,11 @@ class AllUpgradeTasks extends ChainedTasks
      */
     public function setOptions(array $options)
     {
-        if (!empty($options['action'])) {
+        if ( ! empty($options['action'])) {
             $this->step = $options['action'];
         }
 
-        if (!empty($options['channel'])) {
+        if ( ! empty($options['channel'])) {
             $this->container->getUpgradeConfiguration()->merge([
                 'channel' => $options['channel'],
             ]);
@@ -62,7 +62,7 @@ class AllUpgradeTasks extends ChainedTasks
             $this->container->getUpgrader()->checkPSVersion(true);
         }
 
-        if (!empty($options['data'])) {
+        if ( ! empty($options['data'])) {
             $this->container->getState()->importFromEncodedData($options['data']);
         }
     }
@@ -77,11 +77,11 @@ class AllUpgradeTasks extends ChainedTasks
             return true;
         }
 
-        if (!$response->getStepDone()) {
+        if ( ! $response->getStepDone()) {
             return false;
         }
 
-        if (!in_array($this->step, ['upgradeFiles'])) {
+        if ( ! in_array($this->step, ['upgradeFiles'])) {
             return false;
         }
 

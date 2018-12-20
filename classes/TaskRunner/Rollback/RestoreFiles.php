@@ -41,8 +41,8 @@ class RestoreFiles extends AbstractTask
     {
         // loop
         $this->next = 'restoreFiles';
-        if (!file_exists($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . UpgradeFileNames::FILES_FROM_ARCHIVE_LIST)
-            || !file_exists($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . UpgradeFileNames::FILES_TO_REMOVE_LIST)) {
+        if ( ! file_exists($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . UpgradeFileNames::FILES_FROM_ARCHIVE_LIST)
+            || ! file_exists($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . UpgradeFileNames::FILES_TO_REMOVE_LIST)) {
             // cleanup current PS tree
             $fromArchive = $this->container->getZipAction()->listContent($this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $this->container->getState()->getRestoreFilesFilename());
             foreach ($fromArchive as $k => $v) {
@@ -61,7 +61,7 @@ class RestoreFiles extends AbstractTask
                 $vfile = str_replace($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH), '', $v);
                 $toRemove[] = str_replace($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH), '', $vfile);
 
-                if (!isset($fromArchive[$vfile]) && is_file($v)) {
+                if ( ! isset($fromArchive[$vfile]) && is_file($v)) {
                     $toRemoveOnly[$vfile] = str_replace($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH), '', $vfile);
                 }
             }
@@ -70,10 +70,10 @@ class RestoreFiles extends AbstractTask
             $this->container->getFileConfigurationStorage()->save($toRemoveOnly, UpgradeFileNames::FILES_TO_REMOVE_LIST);
 
             if ($fromArchive === false || $toRemove === false) {
-                if (!$fromArchive) {
+                if ( ! $fromArchive) {
                     $this->logger->error($this->translator->trans('[ERROR] Backup file %s does not exist.', [UpgradeFileNames::FILES_FROM_ARCHIVE_LIST], 'Modules.Autoupgrade.Admin'));
                 }
-                if (!$toRemove) {
+                if ( ! $toRemove) {
                     $this->logger->error($this->translator->trans('[ERROR] File "%s" does not exist.', [UpgradeFileNames::FILES_TO_REMOVE_LIST], 'Modules.Autoupgrade.Admin'));
                 }
                 $this->logger->info($this->translator->trans('Unable to remove upgraded files.', [], 'Modules.Autoupgrade.Admin'));
@@ -83,12 +83,12 @@ class RestoreFiles extends AbstractTask
             }
         }
 
-        if (!empty($fromArchive)) {
+        if ( ! empty($fromArchive)) {
             $filepath = $this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $this->container->getState()->getRestoreFilesFilename();
             $destExtract = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH);
 
             $res = $this->container->getZipAction()->extract($filepath, $destExtract);
-            if (!$res) {
+            if ( ! $res) {
                 $this->next = 'error';
                 $this->logger->error($this->translator->trans(
                     'Unable to extract file %filename% into directory %directoryname%.',
@@ -102,7 +102,7 @@ class RestoreFiles extends AbstractTask
                 return false;
             }
 
-            if (!empty($toRemoveOnly)) {
+            if ( ! empty($toRemoveOnly)) {
                 foreach ($toRemoveOnly as $fileToRemove) {
                     @unlink($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . $fileToRemove);
                 }

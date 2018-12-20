@@ -81,7 +81,7 @@ class Upgrader
             // checkPSVersion to get need_upgrade
             $this->checkPSVersion();
         }
-        if (!extension_loaded('openssl')) {
+        if ( ! extension_loaded('openssl')) {
             $this->rss_channel_link = str_replace('https://', 'http://', $this->rss_channel_link);
             $this->rss_md5file_link_dir = str_replace('https://', 'http://', $this->rss_md5file_link_dir);
         }
@@ -179,7 +179,7 @@ class Upgrader
                 // skip if one of theses props are true:
                 // - "stable" in xml, "minor" or "major" in configuration
                 // - channel in xml is not channel in configuration
-                if (!(in_array($channel_name, $followed_channels))) {
+                if ( ! (in_array($channel_name, $followed_channels))) {
                     continue;
                 }
                 // now we are on the correct channel (minor, major, ...)
@@ -197,7 +197,7 @@ class Upgrader
                             continue;
                         }
                         // also skip if previous loop found an available upgrade and current is not
-                        if ($this->available && !($channel_available && (string) $branch['available'])) {
+                        if ($this->available && ! ($channel_available && (string) $branch['available'])) {
                             continue;
                         }
                         // also skip if chosen channel is minor, and xml branch name is superior to current
@@ -257,15 +257,15 @@ class Upgrader
      */
     public function getApiAddons($xml_localfile, $postData, $refresh = false)
     {
-        if (!is_dir(_PS_ROOT_DIR_ . '/config/xml')) {
+        if ( ! is_dir(_PS_ROOT_DIR_ . '/config/xml')) {
             if (is_file(_PS_ROOT_DIR_ . '/config/xml')) {
                 unlink(_PS_ROOT_DIR_ . '/config/xml');
             }
             mkdir(_PS_ROOT_DIR_ . '/config/xml', 0777);
         }
-        if ($refresh || !file_exists($xml_localfile) || @filemtime($xml_localfile) < (time() - (3600 * self::DEFAULT_CHECK_VERSION_DELAY_HOURS))) {
+        if ($refresh || ! file_exists($xml_localfile) || @filemtime($xml_localfile) < (time() - (3600 * self::DEFAULT_CHECK_VERSION_DELAY_HOURS))) {
             $protocolsList = ['https://' => 443, 'http://' => 80];
-            if (!extension_loaded('openssl')) {
+            if ( ! extension_loaded('openssl')) {
                 unset($protocolsList['https://']);
             }
             // Make the request
@@ -298,13 +298,13 @@ class Upgrader
     public function getXmlFile($xml_localfile, $xml_remotefile, $refresh = false)
     {
         // @TODO : this has to be moved in autoupgrade.php > install method
-        if (!is_dir(_PS_ROOT_DIR_ . '/config/xml')) {
+        if ( ! is_dir(_PS_ROOT_DIR_ . '/config/xml')) {
             if (is_file(_PS_ROOT_DIR_ . '/config/xml')) {
                 unlink(_PS_ROOT_DIR_ . '/config/xml');
             }
             mkdir(_PS_ROOT_DIR_ . '/config/xml', 0777);
         }
-        if ($refresh || !file_exists($xml_localfile) || @filemtime($xml_localfile) < (time() - (3600 * self::DEFAULT_CHECK_VERSION_DELAY_HOURS))) {
+        if ($refresh || ! file_exists($xml_localfile) || @filemtime($xml_localfile) < (time() - (3600 * self::DEFAULT_CHECK_VERSION_DELAY_HOURS))) {
             $xml_string = Tools14::file_get_contents($xml_remotefile, false, stream_context_create(['http' => ['timeout' => 10]]));
             $xml = @simplexml_load_string($xml_string);
             if ($xml !== false) {
@@ -442,7 +442,7 @@ class Upgrader
             return false;
         }
         $filesList = $this->compareReleases($v1, $v2, $show_modif);
-        if (!$show_modif) {
+        if ( ! $show_modif) {
             return $filesList['deleted'];
         }
 
@@ -519,9 +519,9 @@ class Upgrader
                 // replace default admin dir by current one
                 $fullpath = str_replace(_PS_ROOT_DIR_ . '/admin', _PS_ADMIN_DIR_, $fullpath);
                 $fullpath = str_replace(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'admin', _PS_ADMIN_DIR_, $fullpath);
-                if (!file_exists($fullpath)) {
+                if ( ! file_exists($fullpath)) {
                     $this->addMissingFile($relative_path);
-                } elseif (!$this->compareChecksum($fullpath, (string) $child) && substr(str_replace(DIRECTORY_SEPARATOR, '-', $relative_path), 0, 19) != 'modules/autoupgrade') {
+                } elseif ( ! $this->compareChecksum($fullpath, (string) $child) && substr(str_replace(DIRECTORY_SEPARATOR, '-', $relative_path), 0, 19) != 'modules/autoupgrade') {
                     $this->addChangedFile($relative_path);
                 }
                 // else, file is original (and ok)
@@ -538,6 +538,6 @@ class Upgrader
     {
         $this->getChangedFilesList($version, $refresh);
 
-        return !$this->version_is_modified;
+        return ! $this->version_is_modified;
     }
 }

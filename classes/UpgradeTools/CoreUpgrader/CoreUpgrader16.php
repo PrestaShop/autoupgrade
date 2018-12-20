@@ -38,7 +38,7 @@ class CoreUpgrader16 extends CoreUpgrader
      */
     public function writeNewSettings()
     {
-        if (!defined('_PS_CACHE_ENABLED_')) {
+        if ( ! defined('_PS_CACHE_ENABLED_')) {
             define('_PS_CACHE_ENABLED_', '0');
         }
         $caches = ['CacheMemcache', 'CacheApc', 'CacheFs', 'CacheMemcached',
@@ -84,7 +84,7 @@ class CoreUpgrader16 extends CoreUpgrader
 
     protected function getPreUpgradeVersion()
     {
-        if (!file_exists(SETTINGS_FILE)) {
+        if ( ! file_exists(SETTINGS_FILE)) {
             throw new UpgradeException($this->container->getTranslator()->trans('The config/settings.inc.php file was not found.', [], 'Modules.Autoupgrade.Admin'));
         }
         include_once SETTINGS_FILE;
@@ -98,7 +98,7 @@ class CoreUpgrader16 extends CoreUpgrader
         $lang_pack = Tools14::jsonDecode(Tools14::file_get_contents('http' . (extension_loaded('openssl')
                         ? 's' : '') . '://www.prestashop.com/download/lang_packs/get_language_pack.php?version=' . $this->container->getState()->getInstallVersion() . '&iso_lang=' . $lang['iso_code']));
 
-        if (!$lang_pack) {
+        if ( ! $lang_pack) {
             return;
         }
 
@@ -108,7 +108,7 @@ class CoreUpgrader16 extends CoreUpgrader
             if ((bool) file_put_contents($file, $content)) {
                 $gz = new \Archive_Tar($file, true);
                 $files_list = $gz->listContent();
-                if (!$this->container->getUpgradeConfiguration()->shouldKeepMails()) {
+                if ( ! $this->container->getUpgradeConfiguration()->shouldKeepMails()) {
                     $files_listing = [];
                     foreach ($files_list as $i => $file) {
                         if (preg_match('/^mails\/' . $lang['iso_code'] . '\/.*/', $file['filename'])) {

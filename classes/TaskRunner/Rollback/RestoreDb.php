@@ -60,7 +60,7 @@ class RestoreDb extends AbstractTask
         if (empty($listQuery) && count($restoreDbFilenames) > 0) {
             $currentDbFilename = array_shift($restoreDbFilenames);
             $this->container->getState()->setRestoreDbFilenames($restoreDbFilenames);
-            if (!preg_match('#auto-backupdb_([0-9]{6})_#', $currentDbFilename, $match)) {
+            if ( ! preg_match('#auto-backupdb_([0-9]{6})_#', $currentDbFilename, $match)) {
                 $this->next = 'error';
                 $this->error = true;
                 $this->logger->error($this->translator->trans('%s: File format does not match.', [$currentDbFilename], 'Modules.Autoupgrade.Admin'));
@@ -88,7 +88,7 @@ class RestoreDb extends AbstractTask
                 case 'bz':
                 case 'bz2':
                     if ($fp = bzopen($backupdb_path . DIRECTORY_SEPARATOR . $currentDbFilename, 'r')) {
-                        while (!feof($fp)) {
+                        while ( ! feof($fp)) {
                             $content .= bzread($fp, 4096);
                         }
                     } else {
@@ -97,7 +97,7 @@ class RestoreDb extends AbstractTask
                     break;
                 case 'gz':
                     if ($fp = gzopen($backupdb_path . DIRECTORY_SEPARATOR . $currentDbFilename, 'r')) {
-                        while (!feof($fp)) {
+                        while ( ! feof($fp)) {
                             $content .= gzread($fp, 4096);
                         }
                     }
@@ -105,7 +105,7 @@ class RestoreDb extends AbstractTask
                     break;
                 default:
                     if ($fp = fopen($backupdb_path . DIRECTORY_SEPARATOR . $currentDbFilename, 'r')) {
-                        while (!feof($fp)) {
+                        while ( ! feof($fp)) {
                             $content .= fread($fp, 4096);
                         }
                     }
@@ -141,7 +141,7 @@ class RestoreDb extends AbstractTask
                 $tables_before_restore = $databaseTools->getAllTables();
                 $tablesToRemove = array_diff($tables_before_restore, $tables_after_restore);
 
-                if (!empty($tablesToRemove)) {
+                if ( ! empty($tablesToRemove)) {
                     $this->container->getFileConfigurationStorage()->save($tablesToRemove, UpgradeFileNames::DB_TABLES_TO_CLEAN_LIST);
                 }
             }
@@ -194,8 +194,8 @@ class RestoreDb extends AbstractTask
                 }
 
                 $query = trim(array_shift($listQuery));
-                if (!empty($query)) {
-                    if (!$this->container->getDb()->execute($query, false)) {
+                if ( ! empty($query)) {
+                    if ( ! $this->container->getDb()->execute($query, false)) {
                         if (is_array($listQuery)) {
                             $listQuery = array_unshift($listQuery, $query);
                         }

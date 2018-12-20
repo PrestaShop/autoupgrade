@@ -58,9 +58,9 @@ class UpdateConfig extends AbstractTask
             $config['private_allow_major'] = $request['private_allow_major'];
         }
         // if (!empty($request['archive_name']) && !empty($request['archive_num']))
-        if (!empty($request['archive_prestashop'])) {
+        if ( ! empty($request['archive_prestashop'])) {
             $file = $request['archive_prestashop'];
-            if (!file_exists($this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $file)) {
+            if ( ! file_exists($this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $file)) {
                 $this->error = true;
                 $this->logger->info($this->translator->trans('File %s does not exist. Unable to select that channel.', [$file], 'Modules.Autoupgrade.Admin'));
 
@@ -93,7 +93,7 @@ class UpdateConfig extends AbstractTask
             $config['skip_backup'] = $request['skip_backup'];
         }
 
-        if (!$this->writeConfig($config)) {
+        if ( ! $this->writeConfig($config)) {
             $this->error = true;
             $this->logger->info($this->translator->trans('Error on saving configuration', [], 'Modules.Autoupgrade.Admin'));
         }
@@ -113,7 +113,7 @@ class UpdateConfig extends AbstractTask
      */
     private function writeConfig($config)
     {
-        if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::CONFIG_FILENAME) && !empty($config['channel'])) {
+        if ( ! $this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::CONFIG_FILENAME) && ! empty($config['channel'])) {
             $this->container->getUpgrader()->channel = $config['channel'];
             $this->container->getUpgrader()->checkPSVersion();
 

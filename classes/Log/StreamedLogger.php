@@ -87,7 +87,7 @@ class StreamedLogger extends Logger
             fwrite($this->err, $log);
         }
 
-        if (!$this->isFiltered($level)) {
+        if ( ! $this->isFiltered($level)) {
             fwrite($this->out, $log);
         }
     }
@@ -106,7 +106,7 @@ class StreamedLogger extends Logger
      */
     public function setFilter($filter)
     {
-        if (!array_key_exists($filter, self::$levels)) {
+        if ( ! array_key_exists($filter, self::$levels)) {
             throw new \Exception('Unknown level ' . $filter);
         }
         $this->filter = $filter;

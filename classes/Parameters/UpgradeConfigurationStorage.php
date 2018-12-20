@@ -56,7 +56,7 @@ class UpgradeConfigurationStorage extends FileConfigurationStorage
      */
     public function save($config, $configFileName)
     {
-        if (!$config instanceof UpgradeConfiguration) {
+        if ( ! $config instanceof UpgradeConfiguration) {
             throw new \InvalidArgumentException('Config is not a instance of UpgradeConfiguration');
         }
 

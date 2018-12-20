@@ -68,7 +68,7 @@ class ModuleAdapter
     {
         if (null === $this->moduleDataUpdater) {
             global $kernel;
-            if (!$kernel instanceof \AppKernel) {
+            if ( ! $kernel instanceof \AppKernel) {
                 require_once _PS_ROOT_DIR_ . '/app/AppKernel.php';
                 $kernel = new \AppKernel(_PS_MODE_DEV_ ? 'dev' : 'prod', _PS_MODE_DEV_);
                 $kernel->boot();
@@ -102,7 +102,7 @@ class ModuleAdapter
         $list = [];
         $dir = $this->modulesPath;
 
-        if (!is_dir($dir)) {
+        if ( ! is_dir($dir)) {
             throw (new UpgradeException($this->translator->trans('[ERROR] %dir% does not exist or is not a directory.', ['%dir%' => $dir], 'Modules.Autoupgrade.Admin')))
                 ->addQuickInfo($this->translator->trans('[ERROR] %s does not exist or is not a directory.', [$dir], 'Modules.Autoupgrade.Admin'))
                 ->setSeverity(UpgradeException::SEVERITY_ERROR);
@@ -114,7 +114,7 @@ class ModuleAdapter
                 continue;
             }
 
-            if (!is_file($dir . $module_name . DIRECTORY_SEPARATOR . $module_name . '.php')) {
+            if ( ! is_file($dir . $module_name . DIRECTORY_SEPARATOR . $module_name . '.php')) {
                 continue;
             }
             $id_addons = array_search($module_name, $modulesFromAddons);
@@ -138,7 +138,7 @@ class ModuleAdapter
 
         $addons_url = 'api.addons.prestashop.com';
         $protocolsList = ['https://' => 443, 'http://' => 80];
-        if (!extension_loaded('openssl')) {
+        if ( ! extension_loaded('openssl')) {
             unset($protocolsList['https://']);
         } else {
             unset($protocolsList['http://']);
@@ -177,7 +177,7 @@ class ModuleAdapter
                 unlink($zip_fullpath);
             }
             // unzip in modules/[mod name] old files will be conserved
-            if (!$this->zipAction->extract($zip_fullpath, $this->modulesPath)) {
+            if ( ! $this->zipAction->extract($zip_fullpath, $this->modulesPath)) {
                 throw (new UpgradeException('<strong>' . $this->translator->trans('[WARNING] Error when trying to extract module %s.', [$name], 'Modules.Autoupgrade.Admin') . '</strong>'))
                     ->setSeverity(UpgradeException::SEVERITY_WARNING);
             }
@@ -187,7 +187,7 @@ class ModuleAdapter
 
             // Only 1.7 step
             if (version_compare($this->upgradeVersion, '1.7.0.0', '>=')
-                && !$this->getModuleDataUpdater()->upgrade($name)) {
+                && ! $this->getModuleDataUpdater()->upgrade($name)) {
                 throw (new UpgradeException('<strong>' . $this->translator->trans('[WARNING] Error when trying to upgrade module %s.', [$name], 'Modules.Autoupgrade.Admin') . '</strong>'))
                     ->setSeverity(UpgradeException::SEVERITY_WARNING)
                     ->setQuickInfos(\Module::getInstanceByName($name)->getErrors());

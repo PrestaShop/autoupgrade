@@ -59,14 +59,14 @@ class PrestashopConfiguration
      */
     public function getCompliancyResults()
     {
-        if (!count($this->allowed_array)) {
+        if ( ! count($this->allowed_array)) {
             $this->allowed_array = array_merge(
                 $this->getRootWritableDetails(),
                 [
                     'fopen' => (ConfigurationTest::test_fopen() || ConfigurationTest::test_curl()),
                     'admin_au_writable' => ConfigurationTest::test_dir($this->autoupgradeDir, false),
-                    'shop_deactivated' => (!Configuration::get('PS_SHOP_ENABLE') || (isset($_SERVER['HTTP_HOST']) && in_array($_SERVER['HTTP_HOST'], ['127.0.0.1', 'localhost']))),
-                    'cache_deactivated' => !(defined('_PS_CACHE_ENABLED_') && _PS_CACHE_ENABLED_),
+                    'shop_deactivated' => ( ! Configuration::get('PS_SHOP_ENABLE') || (isset($_SERVER['HTTP_HOST']) && in_array($_SERVER['HTTP_HOST'], ['127.0.0.1', 'localhost']))),
+                    'cache_deactivated' => ! (defined('_PS_CACHE_ENABLED_') && _PS_CACHE_ENABLED_),
                     'module_version_ok' => $this->checkAutoupgradeLastVersion($this->getUpgrader()->autoupgrade_last_version),
                 ]);
         }
@@ -79,7 +79,7 @@ class PrestashopConfiguration
      */
     public function getModuleVersion()
     {
-        if (!is_null($this->moduleVersion)) {
+        if ( ! is_null($this->moduleVersion)) {
             return $this->moduleVersion;
         }
 

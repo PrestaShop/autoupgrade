@@ -85,13 +85,13 @@ class FilesystemAdapter
         if (is_dir($dir) && is_readable($dir)) {
             $allFiles = scandir($dir);
         }
-        if (!is_array($allFiles)) {
+        if ( ! is_array($allFiles)) {
             return $list;
         }
         foreach ($allFiles as $file) {
             $fullPath = $dir . $file;
             // skip broken symbolic links
-            if (is_link($fullPath) && !is_readable($fullPath)) {
+            if (is_link($fullPath) && ! is_readable($fullPath)) {
                 continue;
             }
             if ($this->isFileSkipped($file, $fullPath, $way)) {
@@ -128,7 +128,7 @@ class FilesystemAdapter
         // $toRemove = $this->upgrader->getDiffFilesList(_PS_VERSION_, $prev_version, false);
         // if we can't find the diff file list corresponding to _PS_VERSION_ and prev_version,
         // let's assume to remove every files
-        if (!$toRemove) {
+        if ( ! $toRemove) {
             $toRemove = $this->listFilesInDir($this->prodRootDir, 'restore', true);
         }
 
@@ -249,10 +249,10 @@ class FilesystemAdapter
         foreach ($this->releaseFileChecks as $type => $elements) {
             foreach ($elements as $element) {
                 $fullPath = $path . DIRECTORY_SEPARATOR . $element;
-                if ('files' === $type && !is_file($fullPath)) {
+                if ('files' === $type && ! is_file($fullPath)) {
                     return false;
                 }
-                if ('folders' === $type && !is_dir($fullPath)) {
+                if ('folders' === $type && ! is_dir($fullPath)) {
                     return false;
                 }
             }

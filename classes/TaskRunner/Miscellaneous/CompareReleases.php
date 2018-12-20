@@ -53,7 +53,7 @@ class CompareReleases extends AbstractTask
                 preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', _PS_VERSION_, $matches);
                 $upgrader->branch = $matches[1];
                 $upgrader->channel = $channel;
-                if ($this->container->getUpgradeConfiguration()->get('channel') == 'private' && !$this->container->getUpgradeConfiguration()->get('private_allow_major')) {
+                if ($this->container->getUpgradeConfiguration()->get('channel') == 'private' && ! $this->container->getUpgradeConfiguration()->get('private_allow_major')) {
                     $upgrader->checkPSVersion(false, ['private', 'minor']);
                 } else {
                     $upgrader->checkPSVersion(false, ['minor']);
@@ -62,7 +62,7 @@ class CompareReleases extends AbstractTask
         }
 
         $diffFileList = $upgrader->getDiffFilesList(_PS_VERSION_, $version);
-        if (!is_array($diffFileList)) {
+        if ( ! is_array($diffFileList)) {
             $this->nextParams['status'] = 'error';
             $this->nextParams['msg'] = sprintf('Unable to generate diff file list between %1$s and %2$s.', _PS_VERSION_, $version);
         } else {

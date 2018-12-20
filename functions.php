@@ -118,16 +118,16 @@ function getPath($urlBase, $id_category, $path = '', $highlight = '', $categoryT
                 $edit = '<a href="' . $urlBase . '&id_category=' . (int) $category['id_category'] . '&' . ($category['id_category'] == 1 ? 'viewcategory' : 'addcategory') . '&token=' . Tools14::getAdminToken('AdminCatalog' . (int) (Tab::getIdFromClassName('AdminCatalog')) . (int) ($cookie->id_employee)) . '" title="' . ($category['id_category'] == 1 ? 'Home' : 'Modify') . '"><img src="../img/admin/' . ($category['id_category'] == 1 ? 'home' : 'edit') . '.gif" alt="" /></a> ';
                 $fullPath .= $edit .
                 ($n < $nCategories ? '<a href="' . $urlBase . '&id_category=' . (int) $category['id_category'] . '&viewcategory&token=' . Tools14::getAdminToken('AdminCatalog' . (int) (Tab::getIdFromClassName('AdminCatalog')) . (int) ($cookie->id_employee)) . '" title="' . htmlentities($category['name'], ENT_NOQUOTES, 'UTF-8') . '">' : '') .
-                (!empty($highlight) ? str_ireplace($highlight, '<span class="highlight">' . htmlentities($highlight, ENT_NOQUOTES, 'UTF-8') . '</span>', $category['name']) : $category['name']) .
+                ( ! empty($highlight) ? str_ireplace($highlight, '<span class="highlight">' . htmlentities($highlight, ENT_NOQUOTES, 'UTF-8') . '</span>', $category['name']) : $category['name']) .
                 ($n < $nCategories ? '</a>' : '') .
-                (($n++ != $nCategories || !empty($path)) ? ' > ' : '');
+                (($n++ != $nCategories || ! empty($path)) ? ' > ' : '');
             }
 
             return $fullPath . $path;
         }
     } elseif ($categoryType == 'cms') {
         $category = new CMSCategory($id_category, (int) ($cookie->id_lang));
-        if (!$category->id) {
+        if ( ! $category->id) {
             return $path;
         }
 
@@ -189,12 +189,12 @@ function checkingTab($tab)
     global $adminObj, $cookie;
 
     $tab = trim($tab);
-    if (!Validate::isTabName($tab)) {
+    if ( ! Validate::isTabName($tab)) {
         return false;
     }
 
     $row = Db::getInstance(_PS_USE_SQL_SLAVE_)->getRow($sql = 'SELECT id_tab, module FROM `' . _DB_PREFIX_ . 'tab` WHERE class_name = \'' . pSQL($tab) . '\'');
-    if (!$row['id_tab']) {
+    if ( ! $row['id_tab']) {
         if (isset(AdminTab::$tabParenting[$tab])) {
             Tools14::redirectAdmin('?tab=' . AdminTab::$tabParenting[$tab] . '&token=' . Tools14::getAdminTokenLite(AdminTab::$tabParenting[$tab]));
         }
@@ -208,13 +208,13 @@ function checkingTab($tab)
         include_once PS_ADMIN_DIR . '/tabs/' . $tab . '.php';
     }
 
-    if (!class_exists($tab, false) || !$row['id_tab']) {
+    if ( ! class_exists($tab, false) || ! $row['id_tab']) {
         echo Tools14::displayError('Tab file cannot be found.');
 
         return false;
     }
     $adminObj = new $tab();
-    if (!$adminObj->viewAccess()) {
+    if ( ! $adminObj->viewAccess()) {
         $adminObj->_errors = [Tools14::displayError('Access denied')];
         echo $adminObj->displayErrors();
 
@@ -286,7 +286,7 @@ function checkTabRights($id_tab)
 function simpleXMLToArray($xml, $flattenValues = true, $flattenAttributes = true, $flattenChildren = true, $valueKey = '@value', $attributesKey = '@attributes', $childrenKey = '@children')
 {
     $return = [];
-    if (!($xml instanceof SimpleXMLElement)) {
+    if ( ! ($xml instanceof SimpleXMLElement)) {
         return $return;
     }
 
@@ -297,7 +297,7 @@ function simpleXMLToArray($xml, $flattenValues = true, $flattenAttributes = true
     }
 
     if ($_value !== null) {
-        if (!$flattenValues) {
+        if ( ! $flattenValues) {
             $return[$valueKey] = $_value;
         } else {
             $return = $_value;
@@ -322,7 +322,7 @@ function simpleXMLToArray($xml, $flattenValues = true, $flattenAttributes = true
     }
 
     if (count($children) > 0) {
-        if (!$flattenChildren) {
+        if ( ! $flattenChildren) {
             $return[$childrenKey] = $children;
         } else {
             $return = array_merge($return, $children);
@@ -335,7 +335,7 @@ function simpleXMLToArray($xml, $flattenValues = true, $flattenAttributes = true
     }
 
     if (count($attributes) > 0) {
-        if (!$flattenAttributes) {
+        if ( ! $flattenAttributes) {
             $return[$attributesKey] = $attributes;
         } else {
             $return = array_merge($return, $attributes);

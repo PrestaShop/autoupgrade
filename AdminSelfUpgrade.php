@@ -134,7 +134,7 @@ class AdminSelfUpgrade extends AdminController
             }
         }
 
-        if (!$this->ajax) {
+        if ( ! $this->ajax) {
             Context::getContext()->smarty->assign('display_header_javascript', true);
         }
     }
@@ -188,7 +188,7 @@ class AdminSelfUpgrade extends AdminController
      */
     public function init()
     {
-        if (!$this->ajax) {
+        if ( ! $this->ajax) {
             parent::init();
         }
 
@@ -197,7 +197,7 @@ class AdminSelfUpgrade extends AdminController
         $this->prodRootDir = _PS_ROOT_DIR_;
         $this->adminDir = realpath(_PS_ADMIN_DIR_);
         $this->upgradeContainer = new UpgradeContainer($this->prodRootDir, $this->adminDir);
-        if (!defined('__PS_BASE_URI__')) {
+        if ( ! defined('__PS_BASE_URI__')) {
             // _PS_DIRECTORY_ replaces __PS_BASE_URI__ in 1.5
             if (defined('_PS_DIRECTORY_')) {
                 define('__PS_BASE_URI__', _PS_DIRECTORY_);
@@ -214,7 +214,7 @@ class AdminSelfUpgrade extends AdminController
 
         // If you have defined this somewhere, you know what you do
         // load options from configuration if we're not in ajax mode
-        if (!$this->ajax) {
+        if ( ! $this->ajax) {
             $upgrader = $this->upgradeContainer->getUpgrader();
             $this->upgradeContainer->getCookie()->create(
                 $this->context->employee->id,
@@ -231,7 +231,7 @@ class AdminSelfUpgrade extends AdminController
                 // delete the potential xml files we saved in config/xml (from last release and from current)
                 $upgrader->clearXmlMd5File($this->upgradeContainer->getProperty(UpgradeContainer::PS_VERSION));
                 $upgrader->clearXmlMd5File($upgrader->version_num);
-                if ($upgradeConfiguration->get('channel') == 'private' && !$upgradeConfiguration->get('private_allow_major')) {
+                if ($upgradeConfiguration->get('channel') == 'private' && ! $upgradeConfiguration->get('private_allow_major')) {
                     $upgrader->checkPSVersion(true, ['private', 'minor']);
                 } else {
                     $upgrader->checkPSVersion(true, ['minor']);
@@ -264,15 +264,15 @@ class AdminSelfUpgrade extends AdminController
         $this->tmpPath = $this->autoupgradePath . DIRECTORY_SEPARATOR . 'tmp';
         $this->latestRootDir = $this->latestPath . DIRECTORY_SEPARATOR;
 
-        if (!file_exists($this->backupPath . DIRECTORY_SEPARATOR . 'index.php')) {
-            if (!copy(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'index.php', $this->backupPath . DIRECTORY_SEPARATOR . 'index.php')) {
+        if ( ! file_exists($this->backupPath . DIRECTORY_SEPARATOR . 'index.php')) {
+            if ( ! copy(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'index.php', $this->backupPath . DIRECTORY_SEPARATOR . 'index.php')) {
                 $this->_errors[] = $this->trans('Unable to create file %s', [$this->backupPath . DIRECTORY_SEPARATOR . 'index.php'], 'Modules.Autoupgrade.Admin');
             }
         }
 
         $tmp = "order deny,allow\ndeny from all";
-        if (!file_exists($this->backupPath . DIRECTORY_SEPARATOR . '.htaccess')) {
-            if (!file_put_contents($this->backupPath . DIRECTORY_SEPARATOR . '.htaccess', $tmp)) {
+        if ( ! file_exists($this->backupPath . DIRECTORY_SEPARATOR . '.htaccess')) {
+            if ( ! file_put_contents($this->backupPath . DIRECTORY_SEPARATOR . '.htaccess', $tmp)) {
                 $this->_errors[] = $this->trans('Unable to create file %s', [$this->backupPath . DIRECTORY_SEPARATOR . '.htaccess'], 'Modules.Autoupgrade.Admin');
             }
         }
@@ -315,11 +315,11 @@ class AdminSelfUpgrade extends AdminController
             $filelist = scandir($this->backupPath);
             foreach ($filelist as $filename) {
                 // the following will match file or dir related to the selected backup
-                if (!empty($filename) && $filename[0] != '.' && $filename != 'index.php' && $filename != '.htaccess'
+                if ( ! empty($filename) && $filename[0] != '.' && $filename != 'index.php' && $filename != '.htaccess'
                     && preg_match('#^(auto-backupfiles_|)' . preg_quote($name) . '(\.zip|)$#', $filename, $matches)) {
                     if (is_file($this->backupPath . DIRECTORY_SEPARATOR . $filename)) {
                         $res &= unlink($this->backupPath . DIRECTORY_SEPARATOR . $filename);
-                    } elseif (!empty($name) && is_dir($this->backupPath . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR)) {
+                    } elseif ( ! empty($name) && is_dir($this->backupPath . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR)) {
                         $res = FilesystemAdapter::deleteDirectory($this->backupPath . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR);
                     }
                 }
@@ -374,9 +374,9 @@ class AdminSelfUpgrade extends AdminController
         // update backup name
         $backupFinder = new BackupFinder($this->backupPath);
         $availableBackups = $backupFinder->getAvailableBackups();
-        if (!$this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_BACKUP')
-            && !empty($availableBackups)
-            && !in_array($this->upgradeContainer->getState()->getBackupName(), $availableBackups)
+        if ( ! $this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_BACKUP')
+            && ! empty($availableBackups)
+            && ! in_array($this->upgradeContainer->getState()->getBackupName(), $availableBackups)
         ) {
             $this->upgradeContainer->getState()->setBackupName(end($availableBackups));
         }

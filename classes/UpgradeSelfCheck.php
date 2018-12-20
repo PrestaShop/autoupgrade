@@ -111,7 +111,7 @@ class UpgradeSelfCheck
         $this->rootDirectoryWritable = $this->checkRootWritable();
         $this->adminAutoUpgradeDirectoryWritable = $this->checkAdminDirectoryWritable($prodRootPath, $adminPath, $autoUpgradePath);
         $this->shopDeactivated = $this->checkShopIsDeactivated();
-        $this->cacheDisabled = !(defined('_PS_CACHE_ENABLED_') && _PS_CACHE_ENABLED_);
+        $this->cacheDisabled = ! (defined('_PS_CACHE_ENABLED_') && _PS_CACHE_ENABLED_);
         $this->safeModeDisabled = $this->checkSafeModeIsDisabled();
         $this->moduleVersionIsLatest = $this->checkModuleVersionIsLastest($upgrader);
         $this->maxExecutionTime = $this->checkMaxExecutionTime();
@@ -275,7 +275,7 @@ class UpgradeSelfCheck
     private function checkShopIsDeactivated()
     {
         return
-            !Configuration::get('PS_SHOP_ENABLE')
+            ! Configuration::get('PS_SHOP_ENABLE')
             || (isset($_SERVER['HTTP_HOST']) && in_array($_SERVER['HTTP_HOST'], ['127.0.0.1', 'localhost']));
     }
 
@@ -307,7 +307,7 @@ class UpgradeSelfCheck
             $safeMode = '';
         }
 
-        return !in_array(strtolower($safeMode), [1, 'on']);
+        return ! in_array(strtolower($safeMode), [1, 'on']);
     }
 
     /**
@@ -325,7 +325,7 @@ class UpgradeSelfCheck
      */
     public function runPrestaShopCoreChecks()
     {
-        if (!class_exists('ConfigurationTest')) {
+        if ( ! class_exists('ConfigurationTest')) {
             return true;
         }
 

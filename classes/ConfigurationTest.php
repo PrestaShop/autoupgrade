@@ -58,7 +58,7 @@ class ConfigurationTestCore
 
     public static function test_magicquotes()
     {
-        return !get_magic_quotes_gpc();
+        return ! get_magic_quotes_gpc();
     }
 
     public static function test_upload()
@@ -79,7 +79,7 @@ class ConfigurationTestCore
     public static function test_system($funcs)
     {
         foreach ($funcs as $func) {
-            if (!function_exists($func)) {
+            if ( ! function_exists($func)) {
                 return false;
             }
         }
@@ -94,13 +94,13 @@ class ConfigurationTestCore
 
     public static function test_register_globals()
     {
-        return !ini_get('register_globals');
+        return ! ini_get('register_globals');
     }
 
     public static function test_gz()
     {
         if (function_exists('gzencode')) {
-            return !(@gzencode('dd') === false);
+            return ! (@gzencode('dd') === false);
         }
 
         return false;
@@ -118,19 +118,19 @@ class ConfigurationTestCore
     public static function test_dir($relative_dir, $recursive = false, &$full_report = null)
     {
         $dir = rtrim(_PS_ROOT_DIR_, '\\/') . DIRECTORY_SEPARATOR . trim($relative_dir, '\\/');
-        if (!file_exists($dir) || !$dh = opendir($dir)) {
+        if ( ! file_exists($dir) || ! $dh = opendir($dir)) {
             $full_report = sprintf('Directory %s does not exists or is not writable', $dir); // sprintf for future translation
             return false;
         }
         $dummy = rtrim($dir, '\\/') . DIRECTORY_SEPARATOR . uniqid();
         if (@file_put_contents($dummy, 'test')) {
             @unlink($dummy);
-            if (!$recursive) {
+            if ( ! $recursive) {
                 closedir($dh);
 
                 return true;
             }
-        } elseif (!is_writable($dir)) {
+        } elseif ( ! is_writable($dir)) {
             $full_report = sprintf('Directory %s is not writable', $dir); // sprintf for future translation
             return false;
         }
@@ -138,7 +138,7 @@ class ConfigurationTestCore
         if ($recursive) {
             while (($file = readdir($dh)) !== false) {
                 if (is_dir($dir . DIRECTORY_SEPARATOR . $file) && $file != '.' && $file != '..' && $file != '.svn') {
-                    if (!ConfigurationTest::test_dir($relative_dir . DIRECTORY_SEPARATOR . $file, $recursive, $full_report)) {
+                    if ( ! ConfigurationTest::test_dir($relative_dir . DIRECTORY_SEPARATOR . $file, $recursive, $full_report)) {
                         return false;
                     }
                 }
@@ -228,7 +228,7 @@ class ConfigurationTestCore
 
     public static function test_theme_lang_dir($dir)
     {
-        if (!file_exists($dir)) {
+        if ( ! file_exists($dir)) {
             return true;
         }
 
@@ -237,7 +237,7 @@ class ConfigurationTestCore
 
     public static function test_theme_cache_dir($dir)
     {
-        if (!file_exists($dir)) {
+        if ( ! file_exists($dir)) {
             return true;
         }
 
@@ -266,6 +266,6 @@ class ConfigurationTestCore
 
     public static function test_mobile()
     {
-        return !(int) Module::isInstalled('mobile_theme');
+        return ! (int) Module::isInstalled('mobile_theme');
     }
 }

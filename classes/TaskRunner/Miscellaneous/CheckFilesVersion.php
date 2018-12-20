@@ -50,7 +50,7 @@ class CheckFilesVersion extends AbstractTask
         }
 
         foreach (['core', 'translation', 'mail'] as $type) {
-            if (!isset($changedFileList[$type])) {
+            if ( ! isset($changedFileList[$type])) {
                 $changedFileList[$type] = [];
             }
         }

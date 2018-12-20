@@ -41,14 +41,14 @@ class UpgradeModules extends AbstractTask
     public function run()
     {
         $start_time = time();
-        if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::MODULES_TO_UPGRADE_LIST)) {
+        if ( ! $this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::MODULES_TO_UPGRADE_LIST)) {
             return $this->warmUp();
         }
 
         $this->next = 'upgradeModules';
         $listModules = $this->container->getFileConfigurationStorage()->load(UpgradeFileNames::MODULES_TO_UPGRADE_LIST);
 
-        if (!is_array($listModules)) {
+        if ( ! is_array($listModules)) {
             $this->next = 'upgradeComplete';
             $this->container->getState()->setWarningExists(true);
             $this->logger->error($this->translator->trans('listModules is not an array. No module has been updated.', [], 'Modules.Autoupgrade.Admin'));

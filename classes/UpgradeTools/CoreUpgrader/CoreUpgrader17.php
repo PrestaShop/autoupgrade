@@ -62,7 +62,7 @@ class CoreUpgrader17 extends CoreUpgrader
     {
         $isoCode = $lang['iso_code'];
 
-        if (!\Validate::isLangIsoCode($isoCode)) {
+        if ( ! \Validate::isLangIsoCode($isoCode)) {
             return;
         }
         $errorsLanguage = [];
@@ -72,11 +72,11 @@ class CoreUpgrader17 extends CoreUpgrader
         $lang_pack = \Language::getLangDetails($isoCode);
         \Language::installSfLanguagePack($lang_pack['locale'], $errorsLanguage);
 
-        if (!$this->container->getUpgradeConfiguration()->shouldKeepMails()) {
+        if ( ! $this->container->getUpgradeConfiguration()->shouldKeepMails()) {
             \Language::installEmailsLanguagePack($lang_pack, $errorsLanguage);
         }
 
-        if (!empty($errorsLanguage)) {
+        if ( ! empty($errorsLanguage)) {
             throw new UpgradeException($this->container->getTranslator()->trans('Error updating translations', [], 'Modules.Autoupgrade.Admin'));
         }
         \Language::loadLanguages();

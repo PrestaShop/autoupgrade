@@ -38,7 +38,7 @@ class Download extends AbstractTask
 {
     public function run()
     {
-        if (!\ConfigurationTest::test_fopen() && !\ConfigurationTest::test_curl()) {
+        if ( ! \ConfigurationTest::test_fopen() && ! \ConfigurationTest::test_curl()) {
             $this->logger->error($this->translator->trans('You need allow_url_fopen or cURL enabled for automatic download to work. You can also manually upload it in filepath %s.', [$this->container->getFilePath()], 'Modules.Autoupgrade.Admin'));
             $this->next = 'error';
 
@@ -50,7 +50,7 @@ class Download extends AbstractTask
         preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', _PS_VERSION_, $matches);
         $upgrader->channel = $this->container->getUpgradeConfiguration()->get('channel');
         $upgrader->branch = $matches[1];
-        if ($this->container->getUpgradeConfiguration()->get('channel') == 'private' && !$this->container->getUpgradeConfiguration()->get('private_allow_major')) {
+        if ($this->container->getUpgradeConfiguration()->get('channel') == 'private' && ! $this->container->getUpgradeConfiguration()->get('private_allow_major')) {
             $upgrader->checkPSVersion(false, ['private', 'minor']);
         } else {
             $upgrader->checkPSVersion(false, ['minor']);

@@ -52,11 +52,11 @@ function autoupgrade_init_container($callerFilePath)
 
     // defines.inc.php can not exists (1.3.0.1 for example)
     // but we need _PS_ROOT_DIR_
-    if (!defined('_PS_ROOT_DIR_')) {
+    if ( ! defined('_PS_ROOT_DIR_')) {
         define('_PS_ROOT_DIR_', realpath($callerFilePath . '/../../'));
     }
 
-    if (!defined('_PS_MODULE_DIR_')) {
+    if ( ! defined('_PS_MODULE_DIR_')) {
         define('_PS_MODULE_DIR_', _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR);
     }
 

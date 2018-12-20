@@ -47,7 +47,7 @@ class UpgradeNow extends AbstractTask
         preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', _PS_VERSION_, $matches);
         $upgrader->branch = $matches[1];
         $upgrader->channel = $channel;
-        if ($this->container->getUpgradeConfiguration()->get('channel') == 'private' && !$this->container->getUpgradeConfiguration()->get('private_allow_major')) {
+        if ($this->container->getUpgradeConfiguration()->get('channel') == 'private' && ! $this->container->getUpgradeConfiguration()->get('private_allow_major')) {
             $upgrader->checkPSVersion(false, ['private', 'minor']);
         } else {
             $upgrader->checkPSVersion(false, ['minor']);

@@ -247,7 +247,7 @@ class UpgradeContainer
         if (null !== $this->upgrader) {
             return $this->upgrader;
         }
-        if (!defined('_PS_ROOT_DIR_')) {
+        if ( ! defined('_PS_ROOT_DIR_')) {
             define('_PS_ROOT_DIR_', $this->getProperty(self::PS_ROOT_PATH));
         }
         // in order to not use Tools class
@@ -270,7 +270,7 @@ class UpgradeContainer
                 break;
             default:
                 $upgrader->channel = $channel;
-                if ($upgradeConfiguration->get('channel') == 'private' && !$upgradeConfiguration->get('private_allow_major')) {
+                if ($upgradeConfiguration->get('channel') == 'private' && ! $upgradeConfiguration->get('private_allow_major')) {
                     $upgrader->checkPSVersion(false, ['private', 'minor']);
                 } else {
                     $upgrader->checkPSVersion(false, ['minor']);
@@ -474,7 +474,7 @@ class UpgradeContainer
     {
         require_once $this->getProperty(self::PS_ROOT_PATH) . '/config/config.inc.php';
 
-        $id_employee = !empty($_COOKIE['id_employee']) ? $_COOKIE['id_employee'] : 1;
+        $id_employee = ! empty($_COOKIE['id_employee']) ? $_COOKIE['id_employee'] : 1;
         \Context::getContext()->employee = new \Employee((int) $id_employee);
     }
 }

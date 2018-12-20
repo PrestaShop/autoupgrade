@@ -56,7 +56,7 @@ class SettingsFileWriter
      */
     public function writeSettingsFile($filePath, $data)
     {
-        if (!is_writable($filePath)) {
+        if ( ! is_writable($filePath)) {
             throw new UpgradeException($this->translator->trans('Error when opening settings.inc.php file in write mode', [], 'Modules.Autoupgrade.Admin'));
         }
 
@@ -79,7 +79,7 @@ class SettingsFileWriter
         if (get_magic_quotes_gpc()) {
             $string = stripslashes($string);
         }
-        if (!is_numeric($string)) {
+        if ( ! is_numeric($string)) {
             $string = addslashes($string);
             $string = str_replace(["\n", "\r"], '', $string);
         }

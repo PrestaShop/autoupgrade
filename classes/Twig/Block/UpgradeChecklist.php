@@ -108,7 +108,7 @@ class UpgradeChecklist
     public function render()
     {
         $data = [
-            'showErrorMessage' => !$this->selfCheck->isOkForUpgrade(),
+            'showErrorMessage' => ! $this->selfCheck->isOkForUpgrade(),
             'moduleVersion' => $this->selfCheck->getModuleVersion(),
             'moduleIsUpToDate' => $this->selfCheck->isModuleVersionLatest(),
             'versionGreaterThan1_5_3' => version_compare(_PS_VERSION_, '1.5.3.0', '>'),

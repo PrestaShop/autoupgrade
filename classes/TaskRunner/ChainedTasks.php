@@ -45,7 +45,7 @@ abstract class ChainedTasks extends AbstractTask
     public function run()
     {
         $requireRestart = false;
-        while ($this->canContinue() && !$requireRestart) {
+        while ($this->canContinue() && ! $requireRestart) {
             $this->logger->info('=== Step ' . $this->step);
             $controller = TaskRepository::get($this->step, $this->container);
             $controller->init();

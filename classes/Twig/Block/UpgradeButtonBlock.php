@@ -118,7 +118,7 @@ class UpgradeButtonBlock
         $versionCompare = version_compare(_PS_VERSION_, $this->upgrader->version_num);
         $channel = $this->config->get('channel');
 
-        if (!in_array($channel, ['archive', 'directory']) && !empty($this->upgrader->version_num)) {
+        if ( ! in_array($channel, ['archive', 'directory']) && ! empty($this->upgrader->version_num)) {
             $latestVersion = "{$this->upgrader->version_name} - ({$this->upgrader->version_num})";
         } else {
             $latestVersion = $translator->trans('N/A', [], 'Admin.Global');
@@ -133,7 +133,7 @@ class UpgradeButtonBlock
         // decide to display "Start Upgrade" or not
         if ($this->selfCheck->isOkForUpgrade() && $versionCompare < 0) {
             $showUpgradeButton = true;
-            if (!in_array($channel, ['archive', 'directory'])) {
+            if ( ! in_array($channel, ['archive', 'directory'])) {
                 if ($channel == 'private') {
                     $this->upgrader->link = $this->config->get('private_release_link');
                 }

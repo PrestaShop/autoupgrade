@@ -81,7 +81,7 @@ class ErrorHandler
      */
     public function errorHandler($errno, $errstr, $errfile, $errline)
     {
-        if (!(error_reporting() & $errno)) {
+        if ( ! (error_reporting() & $errno)) {
             // This error code is not included in error_reporting, so let it fall
             // through to the standard PHP error handler
             return false;
@@ -153,7 +153,7 @@ class ErrorHandler
             http_response_code(500);
         }
         $log = "[INTERNAL] $file line $line - $message";
-        if (!empty($trace)) {
+        if ( ! empty($trace)) {
             $log .= PHP_EOL . $trace;
         }
         $jsonResponse = $this->generateJsonLog($log);

@@ -92,7 +92,7 @@ class State
     public function importFromArray(array $savedState)
     {
         foreach ($savedState as $name => $value) {
-            if (!empty($value) && property_exists($this, $name)) {
+            if ( ! empty($value) && property_exists($this, $name)) {
                 $this->{$name} = $value;
             }
         }

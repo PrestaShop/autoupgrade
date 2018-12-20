@@ -36,7 +36,7 @@ class BackupDb extends AbstractTask
 {
     public function run()
     {
-        if (!$this->container->getUpgradeConfiguration()->get('PS_AUTOUP_BACKUP')) {
+        if ( ! $this->container->getUpgradeConfiguration()->get('PS_AUTOUP_BACKUP')) {
             $this->stepDone = true;
             $this->container->getState()->setDbStep(0);
             $this->logger->info($this->translator->trans('Database backup skipped. Now upgrading files...', [], 'Modules.Autoupgrade.Admin'));
@@ -48,7 +48,7 @@ class BackupDb extends AbstractTask
         $timeAllowed = $this->container->getUpgradeConfiguration()->getNumberOfFilesPerCall();
         $relative_backup_path = str_replace(_PS_ROOT_DIR_, '', $this->container->getProperty(UpgradeContainer::BACKUP_PATH));
         $report = '';
-        if (!\ConfigurationTest::test_dir($relative_backup_path, false, $report)) {
+        if ( ! \ConfigurationTest::test_dir($relative_backup_path, false, $report)) {
             $this->logger->error($this->translator->trans('Backup directory is not writable (%path%).', ['%path%' => $this->container->getProperty(UpgradeContainer::BACKUP_PATH)], 'Modules.Autoupgrade.Admin'));
             $this->next = 'error';
             $this->error = true;
@@ -64,7 +64,7 @@ class BackupDb extends AbstractTask
         $psBackupAll = true;
         $psBackupDropTable = true;
         $ignore_stats_table = [];
-        if (!$psBackupAll) {
+        if ( ! $psBackupAll) {
             $ignore_stats_table = [_DB_PREFIX_ . 'connections',
                 _DB_PREFIX_ . 'connections_page',
                 _DB_PREFIX_ . 'connections_source',
@@ -73,8 +73,8 @@ class BackupDb extends AbstractTask
         }
 
         // INIT LOOP
-        if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::DB_TABLES_TO_BACKUP_LIST)) {
-            if (!is_dir($this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $this->container->getState()->getBackupName())) {
+        if ( ! $this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::DB_TABLES_TO_BACKUP_LIST)) {
+            if ( ! is_dir($this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $this->container->getState()->getBackupName())) {
                 mkdir($this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $this->container->getState()->getBackupName());
             }
             $this->container->getState()->setDbStep(0);
@@ -82,7 +82,7 @@ class BackupDb extends AbstractTask
             $this->container->getFileConfigurationStorage()->save($tablesToBackup, UpgradeFileNames::DB_TABLES_TO_BACKUP_LIST);
         }
 
-        if (!isset($tablesToBackup)) {
+        if ( ! isset($tablesToBackup)) {
             $tablesToBackup = $this->container->getFileConfigurationStorage()->load(UpgradeFileNames::DB_TABLES_TO_BACKUP_LIST);
         }
         $found = 0;
@@ -91,7 +91,7 @@ class BackupDb extends AbstractTask
         // MAIN BACKUP LOOP //
         $written = 0;
         do {
-            if (!is_null($this->container->getState()->getBackupTable())) {
+            if ( ! is_null($this->container->getState()->getBackupTable())) {
                 // only insert (schema already done)
                 $table = $this->container->getState()->getBackupTable();
                 $lines = $this->container->getState()->getBackupLines();
@@ -159,7 +159,7 @@ class BackupDb extends AbstractTask
                 $schema = $this->container->getDb()->executeS('SHOW CREATE TABLE `' . $table . '`', true, false);
 
                 if (count($schema) != 1 ||
-                    !((isset($schema[0]['Table'], $schema[0]['Create Table'])  )
+                    ! ((isset($schema[0]['Table'], $schema[0]['Create Table'])  )
                         || (isset($schema[0]['View'], $schema[0]['Create View'])  ))) {
                     fclose($fp);
                     if (file_exists($backupfile)) {
@@ -189,7 +189,7 @@ class BackupDb extends AbstractTask
                 elseif (isset($schema[0]['Table'])) {
                     // Case common table
                     $written += fwrite($fp, '/* Scheme for table ' . $schema[0]['Table'] . " */\n");
-                    if ($psBackupDropTable && !in_array($schema[0]['Table'], $ignore_stats_table)) {
+                    if ($psBackupDropTable && ! in_array($schema[0]['Table'], $ignore_stats_table)) {
                         // If some *upgrade* transform a table in a view, drop both just in case
                         $written += fwrite($fp, 'DROP VIEW IF EXISTS `' . $schema[0]['Table'] . '`;' . "\n");
                         $written += fwrite($fp, 'DROP TABLE IF EXISTS `' . $schema[0]['Table'] . '`;' . "\n");
@@ -205,7 +205,7 @@ class BackupDb extends AbstractTask
             // end of schema
 
             // POPULATE TABLE
-            if (!in_array($table, $ignore_stats_table)) {
+            if ( ! in_array($table, $ignore_stats_table)) {
                 do {
                     $backup_loop_limit = $this->container->getState()->getBackupLoopLimit();
                     $data = $this->container->getDb()->executeS('SELECT * FROM `' . $table . '` LIMIT ' . (int) $backup_loop_limit . ',200', false, false);
@@ -267,7 +267,7 @@ class BackupDb extends AbstractTask
 
             return true;
         }
-        if ($found == 0 && !empty($backupfile)) {
+        if ($found == 0 && ! empty($backupfile)) {
             if (file_exists($backupfile)) {
                 unlink($backupfile);
             }

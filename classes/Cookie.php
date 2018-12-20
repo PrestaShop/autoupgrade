@@ -124,7 +124,7 @@ $key = "' . $key . '";
      */
     public function readKey()
     {
-        if (!empty($this->key)) {
+        if ( ! empty($this->key)) {
             return $this->key;
         }
 

@@ -52,13 +52,13 @@ class Translator
     public function trans($id, array $parameters = [], $domain = 'Modules.Autoupgrade.Admin', $locale = null)
     {
         // If PrestaShop core is not instancied properly, do not try to translate
-        if (!method_exists('\Context', 'getContext') || null === \Context::getContext()->language) {
+        if ( ! method_exists('\Context', 'getContext') || null === \Context::getContext()->language) {
             return $this->applyParameters($id, $parameters);
         }
 
         if (method_exists('\Translate', 'getModuleTranslation')) {
             $translated = \Translate::getModuleTranslation('autoupgrade', $id, $this->caller, null);
-            if (!count($parameters)) {
+            if ( ! count($parameters)) {
                 return $translated;
             }
         } else {

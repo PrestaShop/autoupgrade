@@ -96,7 +96,7 @@ class LegacyLogger extends Logger
         // Specific case for INFO
         if ($level === self::INFO) {
             // If last info is already defined, move it to the messages list
-            if (!empty($this->lastInfo)) {
+            if ( ! empty($this->lastInfo)) {
                 $this->normalMessages[] = $this->lastInfo;
             }
             $this->lastInfo = $message;
