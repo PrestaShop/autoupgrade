@@ -48,7 +48,7 @@ exit($result);
  */
 function displayHelp()
 {
-    echo <<<EOF
+    echo <<<'EOF'
 PrestaShop upgrade/rollback test
 
 This script can be called to complete a whole process of your shop. This script is currently stored in tests/ as it
