@@ -74,30 +74,37 @@ class FormRenderer
             switch ($field['type']) {
                 case 'disabled':
                     $html .= $field['disabled'];
+
                     break;
 
                 case 'bool':
                     $html .= $this->renderBool($field, $key, $val);
+
                     break;
 
                 case 'radio':
                     $html .= $this->renderRadio($field, $key, $val, $disabled);
+
                     break;
 
                 case 'select':
                     $html .= $this->renderSelect($field, $key, $val);
+
                     break;
 
                 case 'textarea':
                     $html .= $this->renderTextarea($field, $key, $val, $disabled);
+
                     break;
 
                 case 'container':
                     $html .= '<div id="' . $key . '">';
+
                     break;
 
                 case 'container_end':
                     $html .= (isset($field['content']) ? $field['content'] : '') . '</div>';
+
                     break;
 
                 case 'text':

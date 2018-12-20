@@ -433,18 +433,22 @@ class Tools14
             // X 0,000.00
             case 1:
                 $ret = $c_char . $blank . number_format($price, $c_decimals, '.', ',');
+
                 break;
             // 0 000,00 X
             case 2:
                 $ret = number_format($price, $c_decimals, ',', ' ') . $blank . $c_char;
+
                 break;
             // X 0.000,00
             case 3:
                 $ret = $c_char . $blank . number_format($price, $c_decimals, ',', '.');
+
                 break;
             // 0,000.00 X
             case 4:
                 $ret = number_format($price, $c_decimals, '.', ',') . $blank . $c_char;
+
                 break;
         }
         if ($isNegative) {
@@ -1550,6 +1554,7 @@ class Tools14
     {
         if ( ! empty($js_content)) {
             require_once _PS_TOOL_DIR_ . 'js_minify/jsmin.php';
+
             try {
                 $js_content = JSMin::minify($js_content);
             } catch (Exception $e) {
@@ -2294,6 +2299,7 @@ AddOutputFilterByType DEFLATE application/x-javascript
                 $list = [0 => 'name', 1 => 'price', 2 => 'date_add', 3 => 'date_upd', 4 => 'position', 5 => 'manufacturer_name', 6 => 'quantity'];
 
                 return $orderByPrefix . ((isset($list[$value])) ? $list[$value] : ((in_array($value, $list)) ? $value : 'position'));
+
                 break;
 
             case 'way':
@@ -2301,6 +2307,7 @@ AddOutputFilterByType DEFLATE application/x-javascript
                 $list = [0 => 'asc', 1 => 'desc'];
 
                 return (isset($list[$value])) ? $list[$value] : ((in_array($value, $list)) ? $value : 'asc');
+
                 break;
         }
     }
@@ -2323,12 +2330,15 @@ AddOutputFilterByType DEFLATE application/x-javascript
             switch ($unit) {
                 case 'k':
                     $qty *= 1024;
+
                     break;
                 case 'm':
                     $qty *= 1048576;
+
                     break;
                 case 'g':
                     $qty *= 1073741824;
+
                     break;
             }
 

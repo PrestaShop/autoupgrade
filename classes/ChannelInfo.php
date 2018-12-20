@@ -90,6 +90,7 @@ class ChannelInfo
                     'md5' => $config->get('private_release_md5'),
                     'changelog' => $upgrader->changelog,
                 ];
+
                 break;
 
             case 'archive':
@@ -97,6 +98,7 @@ class ChannelInfo
                 $this->info = [
                     'available' => true,
                 ];
+
                 break;
         }
     }

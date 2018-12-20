@@ -96,24 +96,31 @@ class Translation
         switch ($type) {
             case 'front office':
                 $var_name = '_LANG';
+
                 break;
             case 'back office':
                 $var_name = '_LANGADM';
+
                 break;
             case 'error message':
                 $var_name = '_ERRORS';
+
                 break;
             case 'field':
                 $var_name = '_FIELDS';
+
                 break;
             case 'module':
                 $var_name = '_MODULE';
+
                 break;
             case 'pdf':
                 $var_name = '_LANGPDF';
+
                 break;
             case 'mail':
                 $var_name = '_LANGMAIL';
+
                 break;
             default:
                 return false;

@@ -64,6 +64,7 @@ class UpgradeFiles extends AbstractTask
                 }
                 $this->logger->info($this->translator->trans('All files upgraded. Now upgrading database...', [], 'Modules.Autoupgrade.Admin'));
                 $this->stepDone = true;
+
                 break;
             }
 
@@ -72,6 +73,7 @@ class UpgradeFiles extends AbstractTask
                 // put the file back to the begin of the list
                 $this->next = 'error';
                 $this->logger->error($this->translator->trans('Error when trying to upgrade file %s.', [$file], 'Modules.Autoupgrade.Admin'));
+
                 break;
             }
         }
@@ -118,6 +120,7 @@ class UpgradeFiles extends AbstractTask
                 if ( ! in_array($file, ['.', '..'])) {
                     $this->logger->debug($this->translator->trans('File %s is preserved', [$file], 'Modules.Autoupgrade.Admin'));
                 }
+
                 continue;
             }
             $list[] = str_replace($this->container->getProperty(UpgradeContainer::LATEST_PATH), '', $fullPath);

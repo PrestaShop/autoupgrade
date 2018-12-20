@@ -45,9 +45,11 @@ class CompareReleases extends AbstractTask
         switch ($channel) {
             case 'archive':
                 $version = $this->container->getUpgradeConfiguration()->get('archive.version_num');
+
                 break;
             case 'directory':
                 $version = $this->container->getUpgradeConfiguration()->get('directory.version_num');
+
                 break;
             default:
                 preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', _PS_VERSION_, $matches);

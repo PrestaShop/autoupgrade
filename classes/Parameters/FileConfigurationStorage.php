@@ -81,6 +81,7 @@ class FileConfigurationStorage
     public function save($config, $fileName)
     {
         $configFilePath = $this->configPath . $fileName;
+
         try {
             $this->filesystem->dumpFile($configFilePath, base64_encode(serialize($config)));
 

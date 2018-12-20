@@ -93,13 +93,16 @@ class ErrorHandler
             case E_USER_WARNING:
             case E_WARNING:
                 $type = Logger::WARNING;
+
                 break;
             case E_NOTICE:
             case E_USER_NOTICE:
                 $type = Logger::NOTICE;
+
                 break;
             default:
                 $type = Logger::DEBUG;
+
                 break;
         }
 

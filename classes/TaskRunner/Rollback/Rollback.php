@@ -54,6 +54,7 @@ class Rollback extends AbstractTask
         foreach ($files as $file) {
             if (preg_match('#' . preg_quote('auto-backupfiles_' . $restoreName) . '#', $file)) {
                 $this->container->getState()->setRestoreFilesFilename($file);
+
                 break;
             }
         }

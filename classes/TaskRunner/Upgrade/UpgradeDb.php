@@ -54,6 +54,7 @@ class UpgradeDb extends AbstractTask
         $this->logger->info($this->translator->trans('Database upgraded. Now upgrading your Addons modules...', [], 'Modules.Autoupgrade.Admin'));
 
         $this->container->getSymfonyAdapter()->clearMigrationCache();
+
         return true;
     }
 

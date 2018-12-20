@@ -59,11 +59,13 @@ class UpgradeNow extends AbstractTask
                 $this->next = 'removeSamples';
                 $this->logger->debug($this->translator->trans('Downloading and unzipping steps have been skipped, upgrade process will now remove sample data.', [], 'Modules.Autoupgrade.Admin'));
                 $this->logger->info($this->translator->trans('Shop deactivated. Removing sample files...', [], 'Modules.Autoupgrade.Admin'));
+
                 break;
             case 'archive':
                 $this->next = 'unzip';
                 $this->logger->debug($this->translator->trans('Downloading step has been skipped, upgrade process will now unzip the local archive.', [], 'Modules.Autoupgrade.Admin'));
                 $this->logger->info($this->translator->trans('Shop deactivated. Extracting files...', [], 'Modules.Autoupgrade.Admin'));
+
                 break;
             default:
                 $this->next = 'download';

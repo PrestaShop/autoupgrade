@@ -262,11 +262,13 @@ class UpgradeContainer
                 $upgrader->version_num = $upgradeConfiguration->get('archive.version_num');
                 $this->destDownloadFilename = $upgradeConfiguration->get('archive.filename');
                 $upgrader->checkPSVersion(true, ['archive']);
+
                 break;
             case 'directory':
                 $upgrader->channel = 'directory';
                 $upgrader->version_num = $upgradeConfiguration->get('directory.version_num');
                 $upgrader->checkPSVersion(true, ['directory']);
+
                 break;
             default:
                 $upgrader->channel = $channel;

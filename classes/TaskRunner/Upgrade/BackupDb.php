@@ -239,6 +239,7 @@ class BackupDb extends AbstractTask
                         $time_elapsed = time() - $start_time;
                     } else {
                         $this->container->getState()->setBackupTable(null);
+
                         break;
                     }
                 } while (($time_elapsed < $timeAllowed) && ($written < $this->container->getUpgradeConfiguration()->getMaxSizeToWritePerCall()));
