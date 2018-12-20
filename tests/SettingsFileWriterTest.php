@@ -25,8 +25,8 @@
  */
 
 use PHPUnit\Framework\TestCase;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\SettingsFileWriter;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\SettingsFileWriter;
 
 class SettingsFileWriterTest extends TestCase
 {

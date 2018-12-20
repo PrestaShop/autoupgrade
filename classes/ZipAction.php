@@ -27,9 +27,9 @@
 
 namespace PrestaShop\Module\AutoUpgrade;
 
+use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 
 // ToDo: Fix translations placeholders
 class ZipAction

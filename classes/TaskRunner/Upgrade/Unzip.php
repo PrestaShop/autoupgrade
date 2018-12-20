@@ -28,9 +28,9 @@
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
-use Symfony\Component\Filesystem\Filesystem;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * extract chosen version into $this->upgradeClass->latestPath directory.
