@@ -33,8 +33,8 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\TaskRepository;
  *
  * Calling it from the module/autoupgrade folder will have unwanted consequences on the upgrade and your shop.
  */
-require_once realpath(dirname(__FILE__) . '/../../modules/autoupgrade') . '/ajax-upgradetabconfig.php';
-$container = autoupgrade_init_container(dirname(__FILE__));
+require_once realpath(__DIR__ . '/../../modules/autoupgrade') . '/ajax-upgradetabconfig.php';
+$container = autoupgrade_init_container(__DIR__);
 
 (new \PrestaShop\Module\AutoUpgrade\ErrorHandler($container->getLogger()))->enable();
 

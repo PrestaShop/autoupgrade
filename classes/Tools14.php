@@ -2229,7 +2229,7 @@ AddOutputFilterByType DEFLATE application/x-javascript
 
             return $zip->open($fromFile, ZIPARCHIVE::CHECKCONS) === true;
         } else {
-            require_once dirname(__FILE__) . '/pclzip.lib.php';
+            require_once __DIR__ . '/pclzip.lib.php';
             $zip = new PclZip($fromFile);
 
             return $zip->privCheckFormat() === true;
@@ -2254,7 +2254,7 @@ AddOutputFilterByType DEFLATE application/x-javascript
 
             return false;
         } else {
-            require_once dirname(__FILE__) . '/pclzip.lib.php';
+            require_once __DIR__ . '/pclzip.lib.php';
             $zip = new PclZip($fromFile);
             $list = $zip->extract(PCLZIP_OPT_PATH, $toDir, PCLZIP_OPT_REPLACE_NEWER);
             foreach ($list as $file) {
@@ -2340,7 +2340,7 @@ AddOutputFilterByType DEFLATE application/x-javascript
     {
         header('HTTP/1.1 404 Not Found');
         header('Status: 404 Not Found');
-        include dirname(__FILE__) . '/../404.php';
+        include __DIR__ . '/../404.php';
         die;
     }
 
