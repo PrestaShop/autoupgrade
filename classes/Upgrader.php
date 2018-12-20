@@ -406,6 +406,7 @@ class Upgrader
                 $dir = (string) $child['name'];
                 /**
                  * $current_path = $dir.(string)$child['name'];
+                 *
                  * @todo : something else than array pop ?
                  */
                 $dir_content = $this->md5FileAsArray($child, $dir);
