@@ -257,7 +257,7 @@ class UpgradePage
         $formRenderer = new FormRenderer($this->config, $this->twig, $this->translator);
 
         return (new UpgradeOptionsForm($this->translator, $formRenderer))
-             ->render();
+            ->render();
     }
 
     /**
