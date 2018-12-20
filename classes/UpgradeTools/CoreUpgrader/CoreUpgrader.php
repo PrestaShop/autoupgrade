@@ -238,9 +238,11 @@ abstract class CoreUpgrader
                 ],
                 'Modules.Autoupgrade.Admin'
             ));
-        } elseif ($versionCompare == 0) {
+        }
+        if ($versionCompare == 0) {
             throw new UpgradeException($this->container->getTranslator()->trans('You already have the %s version.', [INSTALL_VERSION], 'Modules.Autoupgrade.Admin'));
-        } elseif ($versionCompare === false) {
+        }
+        if ($versionCompare === false) {
             throw new UpgradeException($this->container->getTranslator()->trans('There is no older version. Did you delete or rename the app/config/parameters.php file?', [], 'Modules.Autoupgrade.Admin'));
         }
     }

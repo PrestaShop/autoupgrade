@@ -1331,7 +1331,8 @@ class Tools14
         $method = (int) (Configuration::get('PS_PRICE_ROUND_MODE'));
         if ($method == PS_ROUND_UP) {
             return self::ceilf($value, $precision);
-        } elseif ($method == PS_ROUND_DOWN) {
+        }
+        if ($method == PS_ROUND_DOWN) {
             return self::floorf($value, $precision);
         }
 
