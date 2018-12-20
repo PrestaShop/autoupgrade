@@ -68,7 +68,7 @@ class PrestashopConfiguration
                     'shop_deactivated' => (!Configuration::get('PS_SHOP_ENABLE') || (isset($_SERVER['HTTP_HOST']) && in_array($_SERVER['HTTP_HOST'], array('127.0.0.1', 'localhost')))),
                     'cache_deactivated' => !(defined('_PS_CACHE_ENABLED_') && _PS_CACHE_ENABLED_),
                     'module_version_ok' => $this->checkAutoupgradeLastVersion($this->getUpgrader()->autoupgrade_last_version),
-            ));
+                ));
         }
 
         return $this->allowed_array;

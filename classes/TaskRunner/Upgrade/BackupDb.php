@@ -66,10 +66,10 @@ class BackupDb extends AbstractTask
         $ignore_stats_table = array();
         if (!$psBackupAll) {
             $ignore_stats_table = array(_DB_PREFIX_ . 'connections',
-                                                        _DB_PREFIX_ . 'connections_page',
-                                                        _DB_PREFIX_ . 'connections_source',
-                                                        _DB_PREFIX_ . 'guest',
-                                                        _DB_PREFIX_ . 'statssearch', );
+                _DB_PREFIX_ . 'connections_page',
+                _DB_PREFIX_ . 'connections_source',
+                _DB_PREFIX_ . 'guest',
+                _DB_PREFIX_ . 'statssearch', );
         }
 
         // INIT LOOP
