@@ -46,8 +46,7 @@ class FilesystemAdapterTest extends TestCase
      */
     public function testFileIsIgnored($file, $fullpath, $process)
     {
-        $this->assertSame(
-            true,
+        $this->assertTrue(
             $this->filesystemAdapter->isFileSkipped(
                 $file,
                 $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . $fullpath,
@@ -62,8 +61,7 @@ class FilesystemAdapterTest extends TestCase
      */
     public function testFileFromReleaseIsIgnored($file, $fullpath, $process)
     {
-        $this->assertSame(
-            true,
+        $this->assertTrue(
             $this->filesystemAdapter->isFileSkipped(
                 $file,
                 $this->container->getProperty(UpgradeContainer::LATEST_PATH).$fullpath,
@@ -77,8 +75,7 @@ class FilesystemAdapterTest extends TestCase
      */
     public function testFileIsNotIgnored($file, $fullpath, $process)
     {
-        $this->assertSame(
-            false,
+        $this->assertFalse(
             $this->filesystemAdapter->isFileSkipped(
                 $file,
                 $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . $fullpath,
