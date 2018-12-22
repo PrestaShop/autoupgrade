@@ -30,8 +30,8 @@ if (php_sapi_name() !== 'cli') {
     exit(1);
 }
 
-require_once realpath(dirname(__FILE__) . '/../../modules/autoupgrade') . '/ajax-upgradetabconfig.php';
-$container = autoupgrade_init_container(dirname(__FILE__));
+require_once realpath(__DIR__ . '/../../modules/autoupgrade') . '/ajax-upgradetabconfig.php';
+$container = autoupgrade_init_container(__DIR__);
 
 $container->setLogger(new PrestaShop\Module\AutoUpgrade\Log\StreamedLogger());
 $controller = new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\AllUpgradeTasks($container);
