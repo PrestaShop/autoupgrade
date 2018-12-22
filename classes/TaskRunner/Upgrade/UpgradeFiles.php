@@ -38,9 +38,7 @@ class UpgradeFiles extends AbstractTask
 
     public function run()
     {
-        /*
-         * The first call must init the list of files be upgraded
-         */
+        // The first call must init the list of files be upgraded
         if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::FILES_TO_UPGRADE_LIST)) {
             return $this->warmUp();
         }

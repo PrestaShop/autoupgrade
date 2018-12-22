@@ -155,9 +155,7 @@ class State
         $this->setBackupName($backupName);
     }
 
-    /*
-     * GETTERS
-     */
+    // GETTERS
     public function getInstallVersion()
     {
         return $this->install_version;
@@ -233,9 +231,7 @@ class State
         return $this->warning_exists;
     }
 
-    /*
-     * SETTERS
-     */
+    // SETTERS
     public function setInstallVersion($install_version)
     {
         $this->install_version = $install_version;
