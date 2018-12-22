@@ -1389,7 +1389,7 @@ class Tools14
     }
 
     /**
-     * Check config & source file to settle which dl method to use 
+     * Check config & source file to settle which dl method to use.
      */
     public static function shouldUseFopen($url)
     {
@@ -2444,7 +2444,7 @@ AddOutputFilterByType DEFLATE application/x-javascript
     }
 
     /**
-     * Copy a file to another place
+     * Copy a file to another place.
      * 
      * @return bool True if the copy succeded
      */
