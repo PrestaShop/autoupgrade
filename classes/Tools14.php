@@ -682,8 +682,7 @@ class Tools14
     {
         return
             isset($_POST[$submit]) or isset($_POST[$submit . '_x']) or isset($_POST[$submit . '_y'])
-            or isset($_GET[$submit]) or isset($_GET[$submit . '_x']) or isset($_GET[$submit . '_y'])
-        ;
+            or isset($_GET[$submit]) or isset($_GET[$submit . '_x']) or isset($_GET[$submit . '_y']);
     }
 
     /**
