@@ -272,11 +272,11 @@ class Upgrader
             // Make the request
             $opts = array(
                 'http' => array(
-                'method' => 'POST',
-                'content' => $postData,
-                'header' => 'Content-type: application/x-www-form-urlencoded',
-                'timeout' => 10,
-            ), );
+                    'method' => 'POST',
+                    'content' => $postData,
+                    'header' => 'Content-type: application/x-www-form-urlencoded',
+                    'timeout' => 10,
+                ), );
             $context = stream_context_create($opts);
             $xml = false;
             foreach ($protocolsList as $protocol => $port) {
