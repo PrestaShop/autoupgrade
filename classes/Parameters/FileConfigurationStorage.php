@@ -24,7 +24,6 @@
  *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  *  International Registered Trademark & Property of PrestaShop SA
  */
-
 namespace PrestaShop\Module\AutoUpgrade\Parameters;
 
 use PrestaShop\Module\AutoUpgrade\Tools14;
