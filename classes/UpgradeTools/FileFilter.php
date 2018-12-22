@@ -55,7 +55,7 @@ class FileFilter
     public function getFilesToIgnoreOnBackup()
     {
         // during backup, do not save
-        $backupIgnoreAbsoluteFiles = array(
+        $backupIgnoreAbsoluteFiles = [
             '/app/cache',
             '/cache/smarty/compile',
             '/cache/smarty/cache',
@@ -65,7 +65,7 @@ class FileFilter
             // do not care about the two autoupgrade dir we use;
             '/modules/autoupgrade',
             '/admin/autoupgrade',
-        );
+        ];
 
         if ($this->configuration->get('PS_AUTOUP_KEEP_IMAGES') === '0') {
             $backupIgnoreAbsoluteFiles[] = '/img';
@@ -83,14 +83,14 @@ class FileFilter
      */
     public function getFilesToIgnoreOnRestore()
     {
-        $restoreIgnoreAbsoluteFiles = array(
+        $restoreIgnoreAbsoluteFiles = [
             '/app/config/parameters.php',
             '/app/config/parameters.yml',
             '/modules/autoupgrade',
             '/admin/autoupgrade',
             '.',
             '..',
-        );
+        ];
 
         if ($this->configuration->get('PS_AUTOUP_KEEP_IMAGES') === '0') {
             $restoreIgnoreAbsoluteFiles[] = '/img';
@@ -109,12 +109,12 @@ class FileFilter
     public function getFilesToIgnoreOnUpgrade()
     {
         // do not copy install, neither app/config/parameters.php in case it would be present
-        $excludeAbsoluteFilesFromUpgrade = array(
+        $excludeAbsoluteFilesFromUpgrade = [
             '/app/config/parameters.php',
             '/app/config/parameters.yml',
             '/install',
             '/install-dev',
-        );
+        ];
 
         // this will exclude autoupgrade dir from admin, and autoupgrade from modules
         // If set to false, we need to preserve the default themes
@@ -138,12 +138,12 @@ class FileFilter
      */
     public function getExcludeFiles()
     {
-        return array(
+        return [
             '.',
             '..',
             '.svn',
             '.git',
             $this->autoupgradeDir,
-        );
+        ];
     }
 }

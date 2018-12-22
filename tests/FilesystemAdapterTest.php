@@ -87,32 +87,32 @@ class FilesystemAdapterTest extends TestCase
 
     public function ignoredFilesProvider()
     {
-        return array(
-            array('.git', '/.git', 'upgrade'),
+        return [
+            ['.git', '/.git', 'upgrade'],
 
-            array('autoupgrade', '/admin/autoupgrade', 'upgrade'),
-            array('autoupgrade', '/admin/autoupgrade', 'restore'),
-            array('autoupgrade', '/admin/autoupgrade', 'backup'),
+            ['autoupgrade', '/admin/autoupgrade', 'upgrade'],
+            ['autoupgrade', '/admin/autoupgrade', 'restore'],
+            ['autoupgrade', '/admin/autoupgrade', 'backup'],
 
-            array('autoupgrade', '/modules/autoupgrade', 'upgrade'),
-            array('autoupgrade', '/modules/autoupgrade', 'restore'),
-            array('autoupgrade', '/modules/autoupgrade', 'backup'),
+            ['autoupgrade', '/modules/autoupgrade', 'upgrade'],
+            ['autoupgrade', '/modules/autoupgrade', 'restore'],
+            ['autoupgrade', '/modules/autoupgrade', 'backup'],
 
-            array('parameters.yml', '/app/config/parameters.yml', 'upgrade'),
+            ['parameters.yml', '/app/config/parameters.yml', 'upgrade'],
 
-            array('classic', '/themes/classic', 'upgrade'),
-        );
+            ['classic', '/themes/classic', 'upgrade'],
+        ];
     }
 
     public function notIgnoredFilesProvider()
     {
-        return array(
-            array('parameters.yml', '/app/config/parameters.yml', 'backup'),
+        return [
+            ['parameters.yml', '/app/config/parameters.yml', 'backup'],
 
-            array('doge.txt', '/doge.txt', 'upgrade'),
-            array('parameters.yml', '/parameters.yml', 'upgrade'),
-            array('parameters.yml.dist', '/app/config/parameters.yml.dist', 'upgrade'),
-        );
+            ['doge.txt', '/doge.txt', 'upgrade'],
+            ['parameters.yml', '/parameters.yml', 'upgrade'],
+            ['parameters.yml.dist', '/app/config/parameters.yml.dist', 'upgrade'],
+        ];
     }
 
     public function testRandomFolderIsNotAPrestashopRelease()

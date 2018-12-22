@@ -99,12 +99,12 @@ class ModuleAdapter
      */
     public function listModulesToUpgrade(array $modulesFromAddons)
     {
-        $list = array();
+        $list = [];
         $dir = $this->modulesPath;
 
         if (!is_dir($dir)) {
-            throw (new UpgradeException($this->translator->trans('[ERROR] %dir% does not exist or is not a directory.', array('%dir%' => $dir), 'Modules.Autoupgrade.Admin')))
-                ->addQuickInfo($this->translator->trans('[ERROR] %s does not exist or is not a directory.', array($dir), 'Modules.Autoupgrade.Admin'))
+            throw (new UpgradeException($this->translator->trans('[ERROR] %dir% does not exist or is not a directory.', ['%dir%' => $dir], 'Modules.Autoupgrade.Admin')))
+                ->addQuickInfo($this->translator->trans('[ERROR] %s does not exist or is not a directory.', [$dir], 'Modules.Autoupgrade.Admin'))
                 ->setSeverity(UpgradeException::SEVERITY_ERROR);
 //            $this->next_desc = $this->trans('Nothing has been extracted. It seems the unzip step has been skipped.', array(), 'Modules.Autoupgrade.Admin');
         }
@@ -119,7 +119,7 @@ class ModuleAdapter
             }
             $id_addons = array_search($module_name, $modulesFromAddons);
             if (false !== $id_addons && $module_name !== 'autoupgrade') {
-                $list[] = array('id' => $id_addons, 'name' => $module_name);
+                $list[] = ['id' => $id_addons, 'name' => $module_name];
             }
         }
 
@@ -137,7 +137,7 @@ class ModuleAdapter
         $zip_fullpath = $this->tempPath . DIRECTORY_SEPARATOR . $name . '.zip';
 
         $addons_url = 'api.addons.prestashop.com';
-        $protocolsList = array('https://' => 443, 'http://' => 80);
+        $protocolsList = ['https://' => 443, 'http://' => 80];
         if (!extension_loaded('openssl')) {
             unset($protocolsList['https://']);
         } else {
@@ -147,14 +147,14 @@ class ModuleAdapter
         $postData = 'version=' . $this->upgradeVersion . '&method=module&id_module=' . (int) $id;
 
         // Make the request
-        $opts = array(
-            'http' => array(
+        $opts = [
+            'http' => [
                 'method' => 'POST',
                 'content' => $postData,
                 'header' => 'Content-type: application/x-www-form-urlencoded',
                 'timeout' => 10,
-            ),
-        );
+            ],
+        ];
         $context = stream_context_create($opts);
         foreach ($protocolsList as $protocol => $port) {
             // file_get_contents can return false if https is not supported (or warning)
@@ -164,12 +164,12 @@ class ModuleAdapter
             }
 
             if ($content === null) {
-                $msg = '<strong>' . $this->translator->trans('[ERROR] No response from Addons server.', array(), 'Modules.Autoupgrade.Admin') . '</strong>';
+                $msg = '<strong>' . $this->translator->trans('[ERROR] No response from Addons server.', [], 'Modules.Autoupgrade.Admin') . '</strong>';
                 throw new UpgradeException($msg);
             }
 
             if (false === (bool) file_put_contents($zip_fullpath, $content)) {
-                $msg = '<strong>' . $this->translator->trans('[ERROR] Unable to write module %s\'s zip file in temporary directory.', array($name), 'Modules.Autoupgrade.Admin') . '</strong>';
+                $msg = '<strong>' . $this->translator->trans('[ERROR] Unable to write module %s\'s zip file in temporary directory.', [$name], 'Modules.Autoupgrade.Admin') . '</strong>';
                 throw new UpgradeException($msg);
             }
 
@@ -178,7 +178,7 @@ class ModuleAdapter
             }
             // unzip in modules/[mod name] old files will be conserved
             if (!$this->zipAction->extract($zip_fullpath, $this->modulesPath)) {
-                throw (new UpgradeException('<strong>' . $this->translator->trans('[WARNING] Error when trying to extract module %s.', array($name), 'Modules.Autoupgrade.Admin') . '</strong>'))
+                throw (new UpgradeException('<strong>' . $this->translator->trans('[WARNING] Error when trying to extract module %s.', [$name], 'Modules.Autoupgrade.Admin') . '</strong>'))
                     ->setSeverity(UpgradeException::SEVERITY_WARNING);
             }
             if (file_exists($zip_fullpath)) {
@@ -188,7 +188,7 @@ class ModuleAdapter
             // Only 1.7 step
             if (version_compare($this->upgradeVersion, '1.7.0.0', '>=')
                 && !$this->getModuleDataUpdater()->upgrade($name)) {
-                throw (new UpgradeException('<strong>' . $this->translator->trans('[WARNING] Error when trying to upgrade module %s.', array($name), 'Modules.Autoupgrade.Admin') . '</strong>'))
+                throw (new UpgradeException('<strong>' . $this->translator->trans('[WARNING] Error when trying to upgrade module %s.', [$name], 'Modules.Autoupgrade.Admin') . '</strong>'))
                     ->setSeverity(UpgradeException::SEVERITY_WARNING)
                     ->setQuickInfos(\Module::getInstanceByName($name)->getErrors());
             }

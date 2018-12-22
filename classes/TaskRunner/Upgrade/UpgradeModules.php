@@ -51,7 +51,7 @@ class UpgradeModules extends AbstractTask
         if (!is_array($listModules)) {
             $this->next = 'upgradeComplete';
             $this->container->getState()->setWarningExists(true);
-            $this->logger->error($this->translator->trans('listModules is not an array. No module has been updated.', array(), 'Modules.Autoupgrade.Admin'));
+            $this->logger->error($this->translator->trans('listModules is not an array. No module has been updated.', [], 'Modules.Autoupgrade.Admin'));
 
             return true;
         }
@@ -63,7 +63,7 @@ class UpgradeModules extends AbstractTask
                 $module_info = array_shift($listModules);
                 try {
                     $this->container->getModuleAdapter()->upgradeModule($module_info['id'], $module_info['name']);
-                    $this->logger->debug($this->translator->trans('The files of module %s have been upgraded.', array($module_info['name']), 'Modules.Autoupgrade.Admin'));
+                    $this->logger->debug($this->translator->trans('The files of module %s have been upgraded.', [$module_info['name']], 'Modules.Autoupgrade.Admin'));
                 } catch (UpgradeException $e) {
                     $this->handleException($e);
                     if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {
@@ -79,11 +79,11 @@ class UpgradeModules extends AbstractTask
 
             $this->next = 'upgradeModules';
             if ($modules_left) {
-                $this->logger->info($this->translator->trans('%s modules left to upgrade.', array($modules_left), 'Modules.Autoupgrade.Admin'));
+                $this->logger->info($this->translator->trans('%s modules left to upgrade.', [$modules_left], 'Modules.Autoupgrade.Admin'));
             }
             $this->stepDone = false;
         } else {
-            $modules_to_delete = array(
+            $modules_to_delete = [
                 'backwardcompatibility' => 'Backward Compatibility',
                 'dibs' => 'Dibs',
                 'cloudcache' => 'Cloudcache',
@@ -92,7 +92,7 @@ class UpgradeModules extends AbstractTask
                 'dejala' => 'Dejala',
                 'stripejs' => 'Stripejs',
                 'blockvariouslinks' => 'Block Various Links',
-            );
+            ];
 
             foreach ($modules_to_delete as $key => $module) {
                 $this->container->getDb()->execute('DELETE ms.*, hm.*
@@ -107,19 +107,19 @@ class UpgradeModules extends AbstractTask
                     if (FilesystemAdapter::deleteDirectory($path)) {
                         $this->logger->debug($this->translator->trans(
                             'The %modulename% module is not compatible with version %version%, it will be removed from your FTP.',
-                            array(
+                            [
                                 '%modulename%' => $module,
                                 '%version%' => $this->container->getState()->getInstallVersion(),
-                            ),
+                            ],
                             'Modules.Autoupgrade.Admin'
                         ));
                     } else {
                         $this->logger->error($this->translator->trans(
                             'The %modulename% module is not compatible with version %version%, please remove it from your FTP.',
-                            array(
+                            [
                                 '%modulename%' => $module,
                                 '%version%' => $this->container->getState()->getInstallVersion(),
-                            ),
+                            ],
                             'Modules.Autoupgrade.Admin'
                         ));
                     }
@@ -129,7 +129,7 @@ class UpgradeModules extends AbstractTask
             $this->stepDone = true;
             $this->status = 'ok';
             $this->next = 'cleanDatabase';
-            $this->logger->info($this->translator->trans('Addons modules files have been upgraded.', array(), 'Modules.Autoupgrade.Admin'));
+            $this->logger->info($this->translator->trans('Addons modules files have been upgraded.', [], 'Modules.Autoupgrade.Admin'));
 
             return true;
         }
@@ -150,7 +150,7 @@ class UpgradeModules extends AbstractTask
 
         $total_modules_to_upgrade = count($modulesToUpgrade);
         if ($total_modules_to_upgrade) {
-            $this->logger->info($this->translator->trans('%s modules will be upgraded.', array($total_modules_to_upgrade), 'Modules.Autoupgrade.Admin'));
+            $this->logger->info($this->translator->trans('%s modules will be upgraded.', [$total_modules_to_upgrade], 'Modules.Autoupgrade.Admin'));
         }
 
         // WamUp core side

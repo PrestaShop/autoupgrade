@@ -42,12 +42,12 @@ class StreamedLoggerTest extends TestCase
 
     public function filtersProvider()
     {
-        return array(
-            array(Logger::EMERGENCY, Logger::INFO, false),
-            array(Logger::INFO, Logger::EMERGENCY, true),
-            array(Logger::ERROR, Logger::ERROR, false),
-            array(Logger::ERROR, Logger::WARNING, false),
-            array(Logger::ERROR, Logger::CRITICAL, true),
-        );
+        return [
+            [Logger::EMERGENCY, Logger::INFO, false],
+            [Logger::INFO, Logger::EMERGENCY, true],
+            [Logger::ERROR, Logger::ERROR, false],
+            [Logger::ERROR, Logger::WARNING, false],
+            [Logger::ERROR, Logger::CRITICAL, true],
+        ];
     }
 }

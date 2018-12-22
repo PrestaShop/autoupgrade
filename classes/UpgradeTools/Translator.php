@@ -49,7 +49,7 @@ class Translator
      *
      * @return string Translated string with parameters applied
      */
-    public function trans($id, array $parameters = array(), $domain = 'Modules.Autoupgrade.Admin', $locale = null)
+    public function trans($id, array $parameters = [], $domain = 'Modules.Autoupgrade.Admin', $locale = null)
     {
         // If PrestaShop core is not instancied properly, do not try to translate
         if (!method_exists('\Context', 'getContext') || null === \Context::getContext()->language) {
@@ -76,7 +76,7 @@ class Translator
      *
      * @internal Public for tests
      */
-    public function applyParameters($id, array $parameters = array())
+    public function applyParameters($id, array $parameters = [])
     {
         // Replace placeholders for non numeric keys
         foreach ($parameters as $placeholder => $value) {
@@ -87,6 +87,6 @@ class Translator
             unset($parameters[$placeholder]);
         }
 
-        return call_user_func_array('sprintf', array_merge(array($id), $parameters));
+        return call_user_func_array('sprintf', array_merge([$id], $parameters));
     }
 }

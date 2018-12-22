@@ -55,9 +55,9 @@ class AllUpgradeTasks extends ChainedTasks
         }
 
         if (!empty($options['channel'])) {
-            $this->container->getUpgradeConfiguration()->merge(array(
+            $this->container->getUpgradeConfiguration()->merge([
                 'channel' => $options['channel'],
-            ));
+            ]);
             $this->container->getUpgrader()->channel = $options['channel'];
             $this->container->getUpgrader()->checkPSVersion(true);
         }
@@ -81,7 +81,7 @@ class AllUpgradeTasks extends ChainedTasks
             return false;
         }
 
-        if (!in_array($this->step, array('upgradeFiles'))) {
+        if (!in_array($this->step, ['upgradeFiles'])) {
             return false;
         }
 

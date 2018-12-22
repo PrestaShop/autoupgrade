@@ -43,20 +43,20 @@ class Autoupgrade extends Module
             if (defined('PS_ADMIN_DIR')) {
                 define('_PS_ADMIN_DIR_', PS_ADMIN_DIR);
             } else {
-                $this->_errors[] = $this->trans('This version of PrestaShop cannot be upgraded: the PS_ADMIN_DIR constant is missing.', array(), 'Modules.Autoupgrade.Admin');
+                $this->_errors[] = $this->trans('This version of PrestaShop cannot be upgraded: the PS_ADMIN_DIR constant is missing.', [], 'Modules.Autoupgrade.Admin');
             }
         }
 
-        $this->displayName = $this->trans('1-Click Upgrade', array(), 'Modules.Autoupgrade.Admin');
-        $this->description = $this->trans('Provides an automated method to upgrade your shop to the latest version of PrestaShop.', array(), 'Modules.Autoupgrade.Admin');
+        $this->displayName = $this->trans('1-Click Upgrade', [], 'Modules.Autoupgrade.Admin');
+        $this->description = $this->trans('Provides an automated method to upgrade your shop to the latest version of PrestaShop.', [], 'Modules.Autoupgrade.Admin');
 
-        $this->ps_versions_compliancy = array('min' => '1.6.0.0', 'max' => _PS_VERSION_);
+        $this->ps_versions_compliancy = ['min' => '1.6.0.0', 'max' => _PS_VERSION_];
     }
 
     public function install()
     {
         if (50600 > PHP_VERSION_ID) {
-            $this->_errors[] = $this->trans('This version of 1-click upgrade requires PHP 5.6 to work properly. Please upgrade your server configuration.', array(), 'Modules.Autoupgrade.Admin');
+            $this->_errors[] = $this->trans('This version of 1-click upgrade requires PHP 5.6 to work properly. Please upgrade your server configuration.', [], 'Modules.Autoupgrade.Admin');
             return false;
         }
 
@@ -68,7 +68,7 @@ class Autoupgrade extends Module
         if ($id_tab = Tab::getIdFromClassName('AdminUpgrade')) {
             $tab = new Tab((int) $id_tab);
             if (!$tab->delete()) {
-                $this->_errors[] = $this->trans('Unable to delete outdated "AdminUpgrade" tab (tab ID: %idtab%).', array('%idtab%' => (int) $id_tab), 'Modules.Autoupgrade.Admin');
+                $this->_errors[] = $this->trans('Unable to delete outdated "AdminUpgrade" tab (tab ID: %idtab%).', ['%idtab%' => (int) $id_tab], 'Modules.Autoupgrade.Admin');
             }
         }
 
@@ -82,10 +82,10 @@ class Autoupgrade extends Module
                 $tab->name[(int) $lang['id_lang']] = '1-Click Upgrade';
             }
             if (!$tab->save()) {
-                return $this->_abortInstall($this->trans('Unable to create the "AdminSelfUpgrade" tab', array(), 'Modules.Autoupgrade.Admin'));
+                return $this->_abortInstall($this->trans('Unable to create the "AdminSelfUpgrade" tab', [], 'Modules.Autoupgrade.Admin'));
             }
             if (!@copy(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'logo.gif', _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 't' . DIRECTORY_SEPARATOR . 'AdminSelfUpgrade.gif')) {
-                return $this->_abortInstall($this->trans('Unable to copy logo.gif in %s', array(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 't' . DIRECTORY_SEPARATOR), 'Modules.Autoupgrade.Admin'));
+                return $this->_abortInstall($this->trans('Unable to copy logo.gif in %s', [_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 't' . DIRECTORY_SEPARATOR], 'Modules.Autoupgrade.Admin'));
             }
         } else {
             $tab = new Tab((int) $id_tab);
@@ -95,18 +95,18 @@ class Autoupgrade extends Module
         if (Validate::isLoadedObject($tab)) {
             Configuration::updateValue('PS_AUTOUPDATE_MODULE_IDTAB', (int) $tab->id);
         } else {
-            return $this->_abortInstall($this->trans('Unable to load the "AdminSelfUpgrade" tab', array(), 'Modules.Autoupgrade.Admin'));
+            return $this->_abortInstall($this->trans('Unable to load the "AdminSelfUpgrade" tab', [], 'Modules.Autoupgrade.Admin'));
         }
 
         /* Check that the 1-click upgrade working directory is existing or create it */
         $autoupgrade_dir = _PS_ADMIN_DIR_ . DIRECTORY_SEPARATOR . 'autoupgrade';
         if (!file_exists($autoupgrade_dir) && !@mkdir($autoupgrade_dir)) {
-            return $this->_abortInstall($this->trans('Unable to create the directory "%s"', array($autoupgrade_dir), 'Modules.Autoupgrade.Admin'));
+            return $this->_abortInstall($this->trans('Unable to create the directory "%s"', [$autoupgrade_dir], 'Modules.Autoupgrade.Admin'));
         }
 
         /* Make sure that the 1-click upgrade working directory is writeable */
         if (!is_writable($autoupgrade_dir)) {
-            return $this->_abortInstall($this->trans('Unable to write in the directory "%s"', array($autoupgrade_dir), 'Modules.Autoupgrade.Admin'));
+            return $this->_abortInstall($this->trans('Unable to write in the directory "%s"', [$autoupgrade_dir], 'Modules.Autoupgrade.Admin'));
         }
 
         /* If a previous version of ajax-upgradetab.php exists, delete it */
@@ -116,13 +116,13 @@ class Autoupgrade extends Module
 
         /* Then, try to copy the newest version from the module's directory */
         if (!@copy(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'ajax-upgradetab.php', $autoupgrade_dir . DIRECTORY_SEPARATOR . 'ajax-upgradetab.php')) {
-            return $this->_abortInstall($this->trans('Unable to copy ajax-upgradetab.php in %s', array($autoupgrade_dir), 'Modules.Autoupgrade.Admin'));
+            return $this->_abortInstall($this->trans('Unable to copy ajax-upgradetab.php in %s', [$autoupgrade_dir], 'Modules.Autoupgrade.Admin'));
         }
 
         /* Make sure that the XML config directory exists */
         if (!file_exists(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml') &&
         !@mkdir(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml', 0775)) {
-            return $this->_abortInstall($this->trans('Unable to create the directory "%s"', array(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml'), 'Modules.Autoupgrade.Admin'));
+            return $this->_abortInstall($this->trans('Unable to create the directory "%s"', [_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml'], 'Modules.Autoupgrade.Admin'));
         } else {
             @chmod(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml', 0775);
         }
@@ -131,7 +131,7 @@ class Autoupgrade extends Module
         if (!file_exists(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml' . DIRECTORY_SEPARATOR . 'index.php') &&
         (file_exists(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'index.php') &&
         !@copy(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'index.php', _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml' . DIRECTORY_SEPARATOR . 'index.php'))) {
-            return $this->_abortInstall($this->trans('Unable to create the directory "%s"', array(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml'), 'Modules.Autoupgrade.Admin'));
+            return $this->_abortInstall($this->trans('Unable to create the directory "%s"', [_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml'], 'Modules.Autoupgrade.Admin'));
         }
 
         return parent::install();
@@ -199,7 +199,7 @@ class Autoupgrade extends Module
      * @param string $domain
      * @param string $locale
      */
-    public function trans($id, array $parameters = array(), $domain = null, $locale = null)
+    public function trans($id, array $parameters = [], $domain = null, $locale = null)
     {
         require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/classes/UpgradeTools/Translator.php';
 
