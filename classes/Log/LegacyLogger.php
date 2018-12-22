@@ -34,7 +34,9 @@ namespace PrestaShop\Module\AutoUpgrade\Log;
 class LegacyLogger extends Logger
 {
     protected $normalMessages = array();
+
     protected $severeMessages = array();
+
     protected $lastInfo = '';
 
     /**

@@ -30,6 +30,7 @@ namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 class ThemeAdapter
 {
     private $db;
+
     private $upgradeVersion;
 
     public function __construct($db, $upgradeVersion)

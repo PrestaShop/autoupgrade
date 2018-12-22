@@ -56,9 +56,13 @@ abstract class AbstractTask
 
     // Task progress details
     protected $stepDone;
+
     protected $status;
+
     protected $error;
+
     protected $nextParams = array();
+
     protected $next;
 
     public function __construct(UpgradeContainer $container)

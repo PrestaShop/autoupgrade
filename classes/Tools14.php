@@ -32,7 +32,9 @@ use Tab;
 class Tools14
 {
     protected static $file_exists_cache = array();
+
     protected static $_forceCompile;
+
     protected static $_caching;
 
     /**
