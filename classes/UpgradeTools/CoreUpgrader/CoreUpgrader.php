@@ -114,7 +114,7 @@ abstract class CoreUpgrader
         $memory_limit = ini_get('memory_limit');
         if ((substr($memory_limit, -1) != 'G')
             && ((substr($memory_limit, -1) == 'M' and substr($memory_limit, 0, -1) < 512)
-                || is_numeric($memory_limit) and (intval($memory_limit) < 131072))
+                || is_numeric($memory_limit) and ((int) $memory_limit < 131072))
         ) {
             @ini_set('memory_limit', '512M');
         }
