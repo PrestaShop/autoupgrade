@@ -33,7 +33,7 @@ use Configuration;
 class PrestashopConfiguration
 {
     // Variables used for cache
-    private $moduleVersion = null;
+    private $moduleVersion;
     private $allowed_array = array();
 
     // Variables from main class
