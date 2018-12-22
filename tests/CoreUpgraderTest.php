@@ -38,8 +38,8 @@ class CoreUpgraderTest extends TestCase
         parent::setUp();
 
         $stub = $this->getMockBuilder(UpgradeContainer::class)
-                     ->disableOriginalConstructor()
-                     ->getMock();
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->coreUpgrader = new CoreUpgrader17($stub, new LegacyLogger());
     }
 
