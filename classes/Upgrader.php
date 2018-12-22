@@ -283,6 +283,7 @@ class Upgrader
                 $xml_string = Tools14::file_get_contents($protocol . $this->addons_api, false, $context);
                 if ($xml_string) {
                     $xml = @simplexml_load_string($xml_string);
+
                     break;
                 }
             }

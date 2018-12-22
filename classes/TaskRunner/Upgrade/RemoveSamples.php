@@ -86,6 +86,7 @@ class RemoveSamples extends AbstractTask
         $filesystem = new Filesystem();
         for ($i = 0; $i < $this->container->getUpgradeConfiguration()->getNumberOfFilesPerCall() && 0 < count($removeList); ++$i) {
             $file = array_shift($removeList);
+
             try {
                 $filesystem->remove($file);
             } catch (\Exception $e) {

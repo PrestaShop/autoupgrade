@@ -464,6 +464,7 @@ abstract class CoreUpgrader
         foreach ($dirsToClean as $dir) {
             if (!file_exists($dir)) {
                 $this->logger->debug($this->container->getTranslator()->trans('[SKIP] directory "%s" does not exist and cannot be emptied.', array(str_replace($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH), '', $dir)), 'Modules.Autoupgrade.Admin'));
+
                 continue;
             }
             foreach (scandir($dir) as $file) {

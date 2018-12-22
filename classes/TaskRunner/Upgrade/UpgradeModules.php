@@ -61,6 +61,7 @@ class UpgradeModules extends AbstractTask
         if (count($listModules) > 0) {
             do {
                 $module_info = array_shift($listModules);
+
                 try {
                     $this->container->getModuleAdapter()->upgradeModule($module_info['id'], $module_info['name']);
                     $this->logger->debug($this->translator->trans('The files of module %s have been upgraded.', array($module_info['name']), 'Modules.Autoupgrade.Admin'));

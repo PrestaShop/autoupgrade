@@ -165,11 +165,13 @@ class ModuleAdapter
 
             if ($content === null) {
                 $msg = '<strong>' . $this->translator->trans('[ERROR] No response from Addons server.', array(), 'Modules.Autoupgrade.Admin') . '</strong>';
+
                 throw new UpgradeException($msg);
             }
 
             if (false === (bool) file_put_contents($zip_fullpath, $content)) {
                 $msg = '<strong>' . $this->translator->trans('[ERROR] Unable to write module %s\'s zip file in temporary directory.', array($name), 'Modules.Autoupgrade.Admin') . '</strong>';
+
                 throw new UpgradeException($msg);
             }
 

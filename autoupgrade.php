@@ -57,6 +57,7 @@ class Autoupgrade extends Module
     {
         if (50600 > PHP_VERSION_ID) {
             $this->_errors[] = $this->trans('This version of 1-click upgrade requires PHP 5.6 to work properly. Please upgrade your server configuration.', array(), 'Modules.Autoupgrade.Admin');
+
             return false;
         }
 
@@ -204,6 +205,7 @@ class Autoupgrade extends Module
         require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/classes/UpgradeTools/Translator.php';
 
         $translator = new \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator(get_class());
+
         return $translator->trans($id, $parameters, $domain, $locale);
     }
 }

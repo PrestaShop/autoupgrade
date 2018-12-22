@@ -102,6 +102,7 @@ class RestoreDb extends AbstractTask
                         }
                     }
                     gzclose($fp);
+
                     break;
                 default:
                     if ($fp = fopen($backupdb_path . DIRECTORY_SEPARATOR . $currentDbFilename, 'r')) {

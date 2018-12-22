@@ -1421,6 +1421,7 @@
           // ----- Get the value
           $v_result_list[$p_options_list[$i]] = PclZipUtilTranslateWinPath($p_options_list[$i + 1], false);
           ++$i;
+
         break;
 
         case PCLZIP_OPT_TEMP_FILE_THRESHOLD:
@@ -1449,6 +1450,7 @@
           // ----- Get the value (and convert it in bytes)
           $v_result_list[$p_options_list[$i]] = $v_value * 1048576;
           ++$i;
+
         break;
 
         case PCLZIP_OPT_TEMP_FILE_ON:
@@ -1460,6 +1462,7 @@
           }
 
           $v_result_list[$p_options_list[$i]] = true;
+
         break;
 
         case PCLZIP_OPT_TEMP_FILE_OFF:
@@ -1477,6 +1480,7 @@
           }
 
           $v_result_list[$p_options_list[$i]] = true;
+
         break;
 
         case PCLZIP_OPT_EXTRACT_DIR_RESTRICTION:
@@ -1496,6 +1500,7 @@
               ++$i;
           } else {
           }
+
         break;
 
         // ----- Look for options that request an array of string for value
@@ -1522,6 +1527,7 @@
               return PclZip::errorCode();
           }
           ++$i;
+
         break;
 
         // ----- Look for options that request an EREG or PREG expression
@@ -1552,6 +1558,7 @@
               return PclZip::errorCode();
           }
           ++$i;
+
         break;
 
         // ----- Look for options that takes a string
@@ -1584,6 +1591,7 @@
               return PclZip::errorCode();
           }
           ++$i;
+
         break;
 
         // ----- Look for options that request an array of index
@@ -1669,6 +1677,7 @@
 
           // ----- Next option
           ++$i;
+
         break;
 
         // ----- Look for options that request no value
@@ -1679,6 +1688,7 @@
         case PCLZIP_OPT_REPLACE_NEWER:
         case PCLZIP_OPT_STOP_ON_ERROR:
           $v_result_list[$p_options_list[$i]] = true;
+
         break;
 
         // ----- Look for options that request an octal value
@@ -1695,6 +1705,7 @@
           // ----- Get the value
           $v_result_list[$p_options_list[$i]] = $p_options_list[$i + 1];
           ++$i;
+
         break;
 
         // ----- Look for options that request a call-back
@@ -1732,6 +1743,7 @@
           // ----- Set the attribute
           $v_result_list[$p_options_list[$i]] = $v_function_name;
           ++$i;
+
         break;
 
         default:
@@ -1876,6 +1888,7 @@
 
               return PclZip::errorCode();
           }
+
         break;
 
         case PCLZIP_ATT_FILE_NEW_FULL_NAME:
@@ -1892,6 +1905,7 @@
 
               return PclZip::errorCode();
           }
+
         break;
 
         // ----- Look for options that takes a string
@@ -1903,6 +1917,7 @@
           }
 
           $p_filedescr['comment'] = $v_value;
+
         break;
 
         case PCLZIP_ATT_FILE_MTIME:
@@ -1913,10 +1928,12 @@
           }
 
           $p_filedescr['mtime'] = $v_value;
+
         break;
 
         case PCLZIP_ATT_FILE_CONTENT:
           $p_filedescr['content'] = $v_value;
+
         break;
 
         default:
@@ -4450,6 +4467,7 @@
                   // ----- Compare the bytes
                   if ($v_bytes == 0x504b0506) {
                       ++$v_pos;
+
                       break;
                   }
 
@@ -5306,10 +5324,12 @@
           // ----- Look for empty dir (path reduction)
           if ($v_list_dir[$i] == '') {
               ++$i;
+
               continue;
           }
           if ($v_list_path[$j] == '') {
               ++$j;
+
               continue;
           }
 
