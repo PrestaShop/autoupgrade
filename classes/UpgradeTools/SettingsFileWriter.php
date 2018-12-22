@@ -27,10 +27,10 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
+use PrestaShop\Module\AutoUpgrade\LoggedEvent;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
-use PrestaShop\Module\AutoUpgrade\LoggedEvent;
 
 class SettingsFileWriter
 {

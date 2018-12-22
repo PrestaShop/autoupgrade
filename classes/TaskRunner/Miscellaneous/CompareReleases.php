@@ -27,8 +27,8 @@
 
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous;
 
-use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
+use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 
 /**
  * get the list of all modified and deleted files between current version

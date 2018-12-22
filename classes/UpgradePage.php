@@ -27,15 +27,15 @@
 
 namespace PrestaShop\Module\AutoUpgrade;
 
+use Configuration;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Twig\Block\RollbackForm;
 use PrestaShop\Module\AutoUpgrade\Twig\Block\UpgradeButtonBlock;
 use PrestaShop\Module\AutoUpgrade\Twig\Block\UpgradeChecklist;
 use PrestaShop\Module\AutoUpgrade\Twig\Form\BackupOptionsForm;
 use PrestaShop\Module\AutoUpgrade\Twig\Form\FormRenderer;
 use PrestaShop\Module\AutoUpgrade\Twig\Form\UpgradeOptionsForm;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
-use Configuration;
 use Twig_Environment;
 
 /**

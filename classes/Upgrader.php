@@ -27,9 +27,9 @@
 
 namespace PrestaShop\Module\AutoUpgrade;
 
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Filesystem\Exception\IOException;
 use Configuration;
+use Symfony\Component\Filesystem\Exception\IOException;
+use Symfony\Component\Filesystem\Filesystem;
 
 class Upgrader
 {

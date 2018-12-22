@@ -29,10 +29,10 @@
 use PrestaShop\Module\AutoUpgrade\AjaxResponse;
 use PrestaShop\Module\AutoUpgrade\BackupFinder;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
-use PrestaShop\Module\AutoUpgrade\UpgradePage;
-use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
+use PrestaShop\Module\AutoUpgrade\UpgradePage;
+use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 
 require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/vendor/autoload.php';

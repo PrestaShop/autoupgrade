@@ -27,8 +27,8 @@
 
 namespace PrestaShop\Module\AutoUpgrade;
 
-use ConfigurationTestCore as ConfigurationTest;
 use Configuration;
+use ConfigurationTestCore as ConfigurationTest;
 
 class PrestashopConfiguration
 {
