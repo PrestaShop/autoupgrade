@@ -113,7 +113,7 @@ function getPath($urlBase, $id_category, $path = '', $highlight = '', $categoryT
 
             $fullPath = '';
             $n = 1;
-            $nCategories = (int) sizeof($categories);
+            $nCategories = (int) count($categories);
             foreach ($categories as $category) {
                 $edit = '<a href="' . $urlBase . '&id_category=' . (int) $category['id_category'] . '&' . ($category['id_category'] == 1 ? 'viewcategory' : 'addcategory') . '&token=' . Tools14::getAdminToken('AdminCatalog' . (int) (Tab::getIdFromClassName('AdminCatalog')) . (int) ($cookie->id_employee)) . '" title="' . ($category['id_category'] == 1 ? 'Home' : 'Modify') . '"><img src="../img/admin/' . ($category['id_category'] == 1 ? 'home' : 'edit') . '.gif" alt="" /></a> ';
                 $fullPath .= $edit .

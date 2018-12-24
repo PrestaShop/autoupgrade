@@ -628,7 +628,7 @@ class Tools14
             return str_replace('"', '&quot;', $string);
         }
         $key = md5(str_replace('\'', '\\\'', $string));
-        $str = (isset($_ERRORS) and is_array($_ERRORS) and key_exists($key, $_ERRORS)) ? ($htmlentities ? htmlentities($_ERRORS[$key], ENT_COMPAT, 'UTF-8') : $_ERRORS[$key]) : $string;
+        $str = (isset($_ERRORS) and is_array($_ERRORS) and array_key_exists($key, $_ERRORS)) ? ($htmlentities ? htmlentities($_ERRORS[$key], ENT_COMPAT, 'UTF-8') : $_ERRORS[$key]) : $string;
 
         return str_replace('"', '&quot;', stripslashes($str));
     }
@@ -923,7 +923,7 @@ class Tools14
             LIMIT ' . (int) $category['level_depth']);
 
                 $n = 1;
-                $nCategories = (int) sizeof($categories);
+                $nCategories = (int) count($categories);
                 foreach ($categories as $category) {
                     $fullPath .=
                         (($n < $nCategories or $linkOntheLastItem) ? '<a href="' . self::safeOutput($link->getCategoryLink((int) $category['id_category'], $category['link_rewrite'])) . '" title="' . htmlentities($category['name'], ENT_NOQUOTES, 'UTF-8') . '">' : '') .
@@ -1027,9 +1027,9 @@ class Tools14
             die(self::displayError());
         }
         $iso = strtoupper(Language::getIsoById($cookie->id_lang));
-        $lang = key_exists($iso, $translations) ? $translations[$iso] : false;
+        $lang = array_key_exists($iso, $translations) ? $translations[$iso] : false;
 
-        return ($lang and is_array($lang) and key_exists($key, $lang)) ? stripslashes($lang[$key]) : $key;
+        return ($lang and is_array($lang) and array_key_exists($key, $lang)) ? stripslashes($lang[$key]) : $key;
     }
 
     /**
