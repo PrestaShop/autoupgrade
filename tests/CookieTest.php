@@ -33,7 +33,7 @@ class CookieTest extends TestCase
 
     private $cookie;
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
         $this->cookie = new Cookie('admin', sys_get_temp_dir());
