@@ -27,10 +27,10 @@
 
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous;
 
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
-use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfigurationStorage;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\Upgrader;
 
 /**

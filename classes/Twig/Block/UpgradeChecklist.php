@@ -27,9 +27,9 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Twig\Block;
 
-use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
-use PrestaShop\Module\AutoUpgrade\Tools14;
 use Context;
+use PrestaShop\Module\AutoUpgrade\Tools14;
+use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
 use Twig_Environment;
 
 /**
