@@ -2444,7 +2444,7 @@ AddOutputFilterByType DEFLATE application/x-javascript
 
     /**
      * Copy a file to another place.
-     * 
+     *
      * @return bool True if the copy succeded
      */
     public static function copy($source, $destination, $stream_context = null)
