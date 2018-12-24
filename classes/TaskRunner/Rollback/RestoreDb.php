@@ -147,7 +147,7 @@ class RestoreDb extends AbstractTask
             }
         }
 
-        // @todo : error if listQuery is not an array (that can happen if toRestoreQueryList is empty for example)
+        /** @todo : error if listQuery is not an array (that can happen if toRestoreQueryList is empty for example) */
         $time_elapsed = time() - $startTime;
         if (is_array($listQuery) && count($listQuery) > 0) {
             $this->container->getDb()->execute('SET SESSION sql_mode = \'\'');

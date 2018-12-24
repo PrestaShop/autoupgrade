@@ -55,7 +55,7 @@ class BackupFiles extends AbstractTask
         }
 
         if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::FILES_TO_BACKUP_LIST)) {
-            // @todo : only add files and dir listed in "originalPrestashopVersion" list
+            /** @todo : only add files and dir listed in "originalPrestashopVersion" list */
             $filesToBackup = $this->container->getFilesystemAdapter()->listFilesInDir($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH), 'backup', false);
             $this->container->getFileConfigurationStorage()->save($filesToBackup, UpgradeFileNames::FILES_TO_BACKUP_LIST);
             if (count($filesToBackup)) {
