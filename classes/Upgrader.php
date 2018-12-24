@@ -405,8 +405,10 @@ class Upgrader
         foreach ($node as $key => $child) {
             if (is_object($child) && $child->getName() == 'dir') {
                 $dir = (string) $child['name'];
-                // $current_path = $dir.(string)$child['name'];
-                // @todo : something else than array pop ?
+                /**
+                 * $current_path = $dir.(string)$child['name'];
+                 * @todo : something else than array pop ?
+                 */
                 $dir_content = $this->md5FileAsArray($child, $dir);
                 $array[$dir] = $dir_content;
             } elseif (is_object($child) && $child->getName() == 'md5file') {
