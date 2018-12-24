@@ -1342,7 +1342,7 @@ class Tools14
 
     public static function ceilf($value, $precision = 0)
     {
-        $precisionFactor = $precision == 0 ? 1 : pow(10, $precision);
+        $precisionFactor = $precision == 0 ? 1 : 10** $precision;
         $tmp = $value * $precisionFactor;
         $tmp2 = (string) $tmp;
         // If the current value has already the desired precision
@@ -1358,7 +1358,7 @@ class Tools14
 
     public static function floorf($value, $precision = 0)
     {
-        $precisionFactor = $precision == 0 ? 1 : pow(10, $precision);
+        $precisionFactor = $precision == 0 ? 1 : 10** $precision;
         $tmp = $value * $precisionFactor;
         $tmp2 = (string) $tmp;
         // If the current value has already the desired precision
