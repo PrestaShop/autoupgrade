@@ -30,6 +30,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 class FilesystemAdapterTest extends TestCase
 {
     private $container;
+
     private $filesystemAdapter;
 
     protected function setUp()

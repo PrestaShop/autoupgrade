@@ -34,11 +34,16 @@ use PrestaShop\Module\AutoUpgrade\ZipAction;
 class ModuleAdapter
 {
     private $db;
+
     private $translator;
+
     // PS version to update
     private $upgradeVersion;
+
     private $modulesPath;
+
     private $tempPath;
+
     /**
      * @var ZipAction
      */

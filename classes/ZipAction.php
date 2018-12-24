@@ -36,11 +36,14 @@ class ZipAction
 {
     // Number of files added in a zip per request
     private $configMaxNbFilesCompressedInARow;
+
     // Max file size allowed in a zip file
     private $configMaxFileSizeAllowed;
 
     private $logger;
+
     private $translator;
+
     /**
      * @var string Path to the shop, in order to remove it from the archived file paths
      */

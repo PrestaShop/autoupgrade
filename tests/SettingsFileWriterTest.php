@@ -31,6 +31,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 class SettingsFileWriterTest extends TestCase
 {
     private $container;
+
     private $settingsWriter;
 
     protected function setUp()
