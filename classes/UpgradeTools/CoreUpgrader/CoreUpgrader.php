@@ -119,7 +119,7 @@ abstract class CoreUpgrader
             @ini_set('memory_limit', '512M');
         }
 
-        /* Redefine REQUEST_URI if empty (on some webservers...) */
+        // Redefine REQUEST_URI if empty (on some webservers...)
         if (!isset($_SERVER['REQUEST_URI']) || empty($_SERVER['REQUEST_URI'])) {
             if (!isset($_SERVER['SCRIPT_NAME']) && isset($_SERVER['SCRIPT_FILENAME'])) {
                 $_SERVER['SCRIPT_NAME'] = $_SERVER['SCRIPT_FILENAME'];
@@ -335,7 +335,7 @@ abstract class CoreUpgrader
         if (empty($query)) {
             return;
         }
-        /* If php code have to be executed */
+        // If php code have to be executed
         if (strpos($query, '/* PHP:') !== false) {
             return $this->runPhpQuery($upgrade_file, $query);
         }
@@ -344,7 +344,7 @@ abstract class CoreUpgrader
 
     protected function runPhpQuery($upgrade_file, $query)
     {
-        /* Parsing php code */
+        // Parsing php code
         $pos = strpos($query, '/* PHP:') + strlen('/* PHP:');
         $phpString = substr($query, $pos, strlen($query) - $pos - strlen(' */;'));
         $php = explode('::', $phpString);
@@ -360,7 +360,7 @@ abstract class CoreUpgrader
 
         // reset phpRes to a null value
         $phpRes = null;
-        /* Call a simple function */
+        // Call a simple function
         if (strpos($phpString, '::') === false) {
             $func_name = str_replace($pattern[0], '', $php[0]);
 
@@ -372,7 +372,7 @@ abstract class CoreUpgrader
                 $phpRes = call_user_func_array($func_name, $parameters);
             }
         }
-        /* Or an object method */
+        // Or an object method
         else {
             $func_name = array($php[0], str_replace($pattern[0], '', $php[1]));
             $this->logger->error('[ERROR] ' . $upgrade_file . ' PHP - Object Method call is forbidden (' . $php[0] . '::' . str_replace($pattern[0], '', $php[1]) . ')');

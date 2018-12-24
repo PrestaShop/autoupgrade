@@ -24,6 +24,7 @@
  *  @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  *  International Registered Trademark & Property of PrestaShop SA
  */
+
 namespace PrestaShop\Module\AutoUpgrade;
 
 use Tab;
@@ -1291,7 +1292,7 @@ class Tools14
 
     /**
      * @deprecated
-     */
+     **/
     public static function getTimezones($select = false)
     {
         static $_cache = 0;
@@ -1319,7 +1320,7 @@ class Tools14
 
     /**
      * @deprecated
-     */
+     **/
     public static function ps_set_magic_quotes_runtime($var)
     {
         if (function_exists('set_magic_quotes_runtime')) {
@@ -1388,7 +1389,7 @@ class Tools14
     }
 
     /**
-     * Check config & source file to settle which dl method to use.
+     * Check config & source file to settle which dl method to use 
      */
     public static function shouldUseFopen($url)
     {
@@ -2443,8 +2444,8 @@ AddOutputFilterByType DEFLATE application/x-javascript
     }
 
     /**
-     * Copy a file to another place.
-     *
+     * Copy a file to another place
+     * 
      * @return bool True if the copy succeded
      */
     public static function copy($source, $destination, $stream_context = null)
