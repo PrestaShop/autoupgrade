@@ -55,7 +55,7 @@ class UpgradeContainerTest extends TestCase
             array('getCookie', PrestaShop\Module\AutoUpgrade\Cookie::class),
             array('getFileConfigurationStorage', PrestaShop\Module\AutoUpgrade\Parameters\FileConfigurationStorage::class),
             array('getFileFilter', \PrestaShop\Module\AutoUpgrade\UpgradeTools\FileFilter::class),
-//            array('getUpgrader', \PrestaShop\Module\AutoUpgrade\Upgrader::class),
+            // array('getUpgrader', \PrestaShop\Module\AutoUpgrade\Upgrader::class),
             array('getFilesystemAdapter', PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter::class),
             array('getLogger', PrestaShop\Module\AutoUpgrade\Log\LegacyLogger::class),
             array('getModuleAdapter', PrestaShop\Module\AutoUpgrade\UpgradeTools\ModuleAdapter::class),
