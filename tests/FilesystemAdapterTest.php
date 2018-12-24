@@ -66,7 +66,7 @@ class FilesystemAdapterTest extends TestCase
             true,
             $this->filesystemAdapter->isFileSkipped(
                 $file,
-                $this->container->getProperty(UpgradeContainer::LATEST_PATH).$fullpath,
+                $this->container->getProperty(UpgradeContainer::LATEST_PATH) . $fullpath,
                 $process,
                 $this->container->getProperty(UpgradeContainer::LATEST_PATH)
             ));

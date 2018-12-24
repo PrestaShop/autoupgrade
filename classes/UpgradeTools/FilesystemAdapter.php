@@ -227,7 +227,7 @@ class FilesystemAdapter
         }
 
         foreach ($ignoreList as $path) {
-            $path = str_replace(DIRECTORY_SEPARATOR.'admin', DIRECTORY_SEPARATOR.$this->adminSubDir, $path);
+            $path = str_replace(DIRECTORY_SEPARATOR . 'admin', DIRECTORY_SEPARATOR . $this->adminSubDir, $path);
             if ($fullpath === $rootpath . $path) {
                 return true;
             }
