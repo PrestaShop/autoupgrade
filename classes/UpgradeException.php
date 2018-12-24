@@ -35,7 +35,7 @@ class UpgradeException extends \Exception
     const SEVERITY_ERROR = 1;
     const SEVERITY_WARNING = 2;
 
-    private $quickInfos = array();
+    private $quickInfos = [];
 
     private $severity = self::SEVERITY_ERROR;
 

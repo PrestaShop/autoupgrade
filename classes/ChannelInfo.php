@@ -31,7 +31,7 @@ use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 
 class ChannelInfo
 {
-    private $info = array();
+    private $info = [];
 
     /**
      * @var string
@@ -48,7 +48,7 @@ class ChannelInfo
     public function __construct(Upgrader $upgrader, UpgradeConfiguration $config, $channel)
     {
         $this->channel = $channel;
-        $publicChannels = array('minor', 'major', 'rc', 'beta', 'alpha');
+        $publicChannels = ['minor', 'major', 'rc', 'beta', 'alpha'];
 
         preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', _PS_VERSION_, $matches);
         $upgrader->branch = $matches[1];
@@ -56,12 +56,12 @@ class ChannelInfo
 
         if (in_array($channel, $publicChannels)) {
             if ($channel == 'private' && !$config->get('private_allow_major')) {
-                $upgrader->checkPSVersion(false, array('private', 'minor'));
+                $upgrader->checkPSVersion(false, ['private', 'minor']);
             } else {
-                $upgrader->checkPSVersion(false, array('minor'));
+                $upgrader->checkPSVersion(false, ['minor']);
             }
 
-            $this->info = array(
+            $this->info = [
                 'branch' => $upgrader->branch,
                 'available' => $upgrader->available,
                 'version_num' => $upgrader->version_num,
@@ -69,7 +69,7 @@ class ChannelInfo
                 'link' => $upgrader->link,
                 'md5' => $upgrader->md5,
                 'changelog' => $upgrader->changelog,
-            );
+            ];
 
             return;
         }
@@ -77,12 +77,12 @@ class ChannelInfo
         switch ($channel) {
             case 'private':
                 if (!$config->get('private_allow_major')) {
-                    $upgrader->checkPSVersion(false, array('private', 'minor'));
+                    $upgrader->checkPSVersion(false, ['private', 'minor']);
                 } else {
-                    $upgrader->checkPSVersion(false, array('minor'));
+                    $upgrader->checkPSVersion(false, ['minor']);
                 }
 
-                $this->info = array(
+                $this->info = [
                     'available' => $upgrader->available,
                     'branch' => $upgrader->branch,
                     'version_num' => $upgrader->version_num,
@@ -90,14 +90,14 @@ class ChannelInfo
                     'link' => $config->get('private_release_link'),
                     'md5' => $config->get('private_release_md5'),
                     'changelog' => $upgrader->changelog,
-                );
+                ];
                 break;
 
             case 'archive':
             case 'directory':
-                $this->info = array(
+                $this->info = [
                     'available' => true,
-                );
+                ];
                 break;
         }
     }

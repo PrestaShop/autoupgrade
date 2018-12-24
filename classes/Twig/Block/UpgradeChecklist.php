@@ -108,7 +108,7 @@ class UpgradeChecklist
      */
     public function render()
     {
-        $data = array(
+        $data = [
             'showErrorMessage' => !$this->selfCheck->isOkForUpgrade(),
             'moduleVersion' => $this->selfCheck->getModuleVersion(),
             'moduleIsUpToDate' => $this->selfCheck->isModuleVersionLatest(),
@@ -127,7 +127,7 @@ class UpgradeChecklist
             'cachingIsDisabled' => $this->selfCheck->isCacheDisabled(),
             'maxExecutionTime' => $this->selfCheck->getMaxExecutionTime(),
             'isPrestaShopReady' => $this->selfCheck->isPrestaShopReady(),
-        );
+        ];
 
         return $this->twig->render('@ModuleAutoUpgrade/block/checklist.twig', $data);
     }

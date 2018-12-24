@@ -261,19 +261,19 @@ class UpgradeContainer
                 $upgrader->channel = 'archive';
                 $upgrader->version_num = $upgradeConfiguration->get('archive.version_num');
                 $this->destDownloadFilename = $upgradeConfiguration->get('archive.filename');
-                $upgrader->checkPSVersion(true, array('archive'));
+                $upgrader->checkPSVersion(true, ['archive']);
                 break;
             case 'directory':
                 $upgrader->channel = 'directory';
                 $upgrader->version_num = $upgradeConfiguration->get('directory.version_num');
-                $upgrader->checkPSVersion(true, array('directory'));
+                $upgrader->checkPSVersion(true, ['directory']);
                 break;
             default:
                 $upgrader->channel = $channel;
                 if ($upgradeConfiguration->get('channel') == 'private' && !$upgradeConfiguration->get('private_allow_major')) {
-                    $upgrader->checkPSVersion(false, array('private', 'minor'));
+                    $upgrader->checkPSVersion(false, ['private', 'minor']);
                 } else {
-                    $upgrader->checkPSVersion(false, array('minor'));
+                    $upgrader->checkPSVersion(false, ['minor']);
                 }
         }
         $this->getState()->setInstallVersion($upgrader->version_num);
@@ -422,11 +422,11 @@ class UpgradeContainer
             return $this->workspace;
         }
 
-        $paths = array();
-        $properties = array(
+        $paths = [];
+        $properties = [
             self::WORKSPACE_PATH, self::BACKUP_PATH,
             self::DOWNLOAD_PATH, self::LATEST_PATH,
-            self::TMP_PATH, );
+            self::TMP_PATH, ];
 
         foreach ($properties as $property) {
             $paths[] = $this->getProperty($property);

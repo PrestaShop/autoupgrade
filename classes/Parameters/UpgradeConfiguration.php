@@ -39,12 +39,12 @@ class UpgradeConfiguration extends ArrayCollection
      *
      * @var array
      */
-    protected $performanceValues = array(
-        'loopFiles' => array(400, 800, 1600), // files
-        'loopTime' => array(6, 12, 25), // seconds
-        'maxBackupFileSize' => array(15728640, 31457280, 62914560), // bytes
-        'maxWrittenAllowed' => array(4194304, 8388608, 16777216), // bytes
-    );
+    protected $performanceValues = [
+        'loopFiles' => [400, 800, 1600], // files
+        'loopTime' => [6, 12, 25], // seconds
+        'maxBackupFileSize' => [15728640, 31457280, 62914560], // bytes
+        'maxWrittenAllowed' => [4194304, 8388608, 16777216], // bytes
+    ];
 
     /**
      * Get the name of the new release archive.
@@ -148,7 +148,7 @@ class UpgradeConfiguration extends ArrayCollection
         return (bool) $this->get('PS_AUTOUP_UPDATE_DEFAULT_THEME');
     }
 
-    public function merge(array $array = array())
+    public function merge(array $array = [])
     {
         foreach ($array as $key => $value) {
             $this->set($key, $value);
