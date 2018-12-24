@@ -281,7 +281,7 @@ function checkTabRights($id_tab)
  * @param string $childrenKey index for children, in case $flattenChildren was set to
  *                            false. Defaults to "@children"
  *
- * @return array the resulting array.
+ * @return array the resulting array
  */
 function simpleXMLToArray($xml, $flattenValues = true, $flattenAttributes = true, $flattenChildren = true, $valueKey = '@value', $attributesKey = '@attributes', $childrenKey = '@children')
 {
