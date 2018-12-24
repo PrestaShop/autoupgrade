@@ -88,7 +88,7 @@ class AllUpgradeTasks extends ChainedTasks
         $this->logger->info('Restart requested. Please run the following command to continue your upgrade:');
         $args = $_SERVER['argv'];
         foreach ($args as $key => $arg) {
-            if (strpos($arg, '--data') === 0) {
+            if (0 === strpos($arg, '--data')) {
                 unset($args[$key]);
             }
         }
@@ -102,7 +102,7 @@ class AllUpgradeTasks extends ChainedTasks
      */
     public function init()
     {
-        if ($this->step === self::initialTask) {
+        if (self::initialTask === $this->step) {
             parent::init();
             $this->container->getState()->initDefault(
                 $this->container->getUpgrader(),

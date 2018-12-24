@@ -118,7 +118,7 @@ class ModuleAdapter
                 continue;
             }
             $id_addons = array_search($module_name, $modulesFromAddons);
-            if (false !== $id_addons && $module_name !== 'autoupgrade') {
+            if (false !== $id_addons && 'autoupgrade' !== $module_name) {
                 $list[] = array('id' => $id_addons, 'name' => $module_name);
             }
         }
@@ -159,11 +159,11 @@ class ModuleAdapter
         foreach ($protocolsList as $protocol => $port) {
             // file_get_contents can return false if https is not supported (or warning)
             $content = Tools14::file_get_contents($protocol . $addons_url, false, $context);
-            if ($content == false || substr($content, 5) == '<?xml') {
+            if (false == $content || '<?xml' == substr($content, 5)) {
                 continue;
             }
 
-            if ($content === null) {
+            if (null === $content) {
                 $msg = '<strong>' . $this->translator->trans('[ERROR] No response from Addons server.', array(), 'Modules.Autoupgrade.Admin') . '</strong>';
                 throw new UpgradeException($msg);
             }

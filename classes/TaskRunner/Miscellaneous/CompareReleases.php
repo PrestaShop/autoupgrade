@@ -53,7 +53,7 @@ class CompareReleases extends AbstractTask
                 preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', _PS_VERSION_, $matches);
                 $upgrader->branch = $matches[1];
                 $upgrader->channel = $channel;
-                if ($this->container->getUpgradeConfiguration()->get('channel') == 'private' && !$this->container->getUpgradeConfiguration()->get('private_allow_major')) {
+                if ('private' == $this->container->getUpgradeConfiguration()->get('channel') && !$this->container->getUpgradeConfiguration()->get('private_allow_major')) {
                     $upgrader->checkPSVersion(false, array('private', 'minor'));
                 } else {
                     $upgrader->checkPSVersion(false, array('minor'));

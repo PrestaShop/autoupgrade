@@ -127,7 +127,7 @@ class RestoreDb extends AbstractTask
             unset($content);
 
             // Get tables before backup
-            if ($this->container->getState()->getDbStep() == '1') {
+            if ('1' == $this->container->getState()->getDbStep()) {
                 $tables_after_restore = array();
                 foreach ($listQuery as $q) {
                     if (preg_match('/`(?<table>' . _DB_PREFIX_ . '[a-zA-Z0-9_-]+)`/', $q, $matches)) {
@@ -154,7 +154,7 @@ class RestoreDb extends AbstractTask
             $this->container->getDb()->execute('SET FOREIGN_KEY_CHECKS=0');
 
             do {
-                if (count($listQuery) == 0) {
+                if (0 == count($listQuery)) {
                     if (file_exists($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . UpgradeFileNames::QUERIES_TO_RESTORE_LIST)) {
                         unlink($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . UpgradeFileNames::QUERIES_TO_RESTORE_LIST);
                     }
@@ -177,7 +177,7 @@ class RestoreDb extends AbstractTask
                     $this->status = 'ok';
                     $this->next = 'restoreDb';
 
-                    if ($restoreDbFilenamesCount === 0) {
+                    if (0 === $restoreDbFilenamesCount) {
                         $this->next = 'rollbackComplete';
                         $this->logger->info($this->translator->trans('Database has been restored.', array(), 'Modules.Autoupgrade.Admin'));
 
@@ -189,7 +189,7 @@ class RestoreDb extends AbstractTask
                 }
 
                 // filesForBackup already contains all the correct files
-                if (count($listQuery) == 0) {
+                if (0 == count($listQuery)) {
                     continue;
                 }
 

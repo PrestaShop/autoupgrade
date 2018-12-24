@@ -84,7 +84,7 @@ class BackupFinder
         $files = scandir($backupPath);
 
         foreach ($files as $file) {
-            if ($file[0] == 'V' && is_dir($backupPath . DIRECTORY_SEPARATOR . $file)) {
+            if ('V' == $file[0] && is_dir($backupPath . DIRECTORY_SEPARATOR . $file)) {
                 $array[] = $file;
             }
         }
@@ -103,7 +103,7 @@ class BackupFinder
         $files = scandir($backupPath);
 
         foreach ($files as $file) {
-            if ($file[0] != '.' && substr($file, 0, 16) == 'auto-backupfiles') {
+            if ('.' != $file[0] && 'auto-backupfiles' == substr($file, 0, 16)) {
                 $array[] = preg_replace('#^auto-backupfiles_(.*-[0-9a-f]{1,8})\..*$#', '$1', $file);
             }
         }

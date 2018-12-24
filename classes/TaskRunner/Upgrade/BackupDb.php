@@ -96,14 +96,14 @@ class BackupDb extends AbstractTask
                 $table = $this->container->getState()->getBackupTable();
                 $lines = $this->container->getState()->getBackupLines();
             } else {
-                if (count($tablesToBackup) == 0) {
+                if (0 == count($tablesToBackup)) {
                     break;
                 }
                 $table = current(array_shift($tablesToBackup));
                 $this->container->getState()->setBackupLoopLimit(0);
             }
 
-            if ($written == 0 || $written > $this->container->getUpgradeConfiguration()->getMaxSizeToWritePerCall()) {
+            if (0 == $written || $written > $this->container->getUpgradeConfiguration()->getMaxSizeToWritePerCall()) {
                 // increment dbStep will increment filename each time here
                 $this->container->getState()->setDbStep($this->container->getState()->getDbStep() + 1);
                 // new file, new step
@@ -132,7 +132,7 @@ class BackupDb extends AbstractTask
                     $fp = fopen($backupfile, 'w');
                 }
 
-                if ($fp === false) {
+                if (false === $fp) {
                     $this->logger->error($this->translator->trans('Unable to create backup database file %s.', array(addslashes($backupfile)), 'Modules.Autoupgrade.Admin'));
                     $this->next = 'error';
                     $this->error = true;
@@ -149,7 +149,7 @@ class BackupDb extends AbstractTask
             }
 
             // Skip tables which do not start with _DB_PREFIX_
-            if (strlen($table) <= strlen(_DB_PREFIX_) || strncmp($table, _DB_PREFIX_, strlen(_DB_PREFIX_)) != 0) {
+            if (strlen($table) <= strlen(_DB_PREFIX_) || 0 != strncmp($table, _DB_PREFIX_, strlen(_DB_PREFIX_))) {
                 continue;
             }
 
@@ -158,7 +158,7 @@ class BackupDb extends AbstractTask
                 // Export the table schema
                 $schema = $this->container->getDb()->executeS('SHOW CREATE TABLE `' . $table . '`', true, false);
 
-                if (count($schema) != 1 ||
+                if (1 != count($schema) ||
                     !((isset($schema[0]['Table']) && isset($schema[0]['Create Table']))
                         || (isset($schema[0]['View']) && isset($schema[0]['Create View'])))) {
                     fclose($fp);
@@ -219,7 +219,7 @@ class BackupDb extends AbstractTask
                             // this starts a row
                             $s = '(';
                             foreach ($row as $field => $value) {
-                                if ($value === null) {
+                                if (null === $value) {
                                     $s .= 'NULL,';
                                 } else {
                                     $s .= "'" . $this->container->getDb()->escape($value, true) . "',";
@@ -267,7 +267,7 @@ class BackupDb extends AbstractTask
 
             return true;
         }
-        if ($found == 0 && !empty($backupfile)) {
+        if (0 == $found && !empty($backupfile)) {
             if (file_exists($backupfile)) {
                 unlink($backupfile);
             }

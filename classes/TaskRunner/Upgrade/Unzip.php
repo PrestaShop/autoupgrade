@@ -106,7 +106,7 @@ class Unzip extends AbstractTask
             }
             // /!\ On PS 1.6, files are unzipped in a subfolder PrestaShop
             foreach (scandir($zipSubfolder) as $file) {
-                if ($file[0] === '.') {
+                if ('.' === $file[0]) {
                     continue;
                 }
                 $filesystem->rename($zipSubfolder . $file, $destExtract . '/' . $file);

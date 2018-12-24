@@ -58,7 +58,7 @@ abstract class ChainedTasks extends AbstractTask
             $this->step = $result->getNext();
         }
 
-        return (int) ($this->error || $this->step === 'error');
+        return (int) ($this->error || 'error' === $this->step);
     }
 
     /**
@@ -83,7 +83,7 @@ abstract class ChainedTasks extends AbstractTask
             return false;
         }
 
-        return $this->step !== 'error';
+        return 'error' !== $this->step;
     }
 
     /**

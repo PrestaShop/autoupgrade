@@ -123,7 +123,7 @@ class UpgradeFiles extends AbstractTask
                 continue;
             }
             $list[] = str_replace($this->container->getProperty(UpgradeContainer::LATEST_PATH), '', $fullPath);
-            if (is_dir($fullPath) && strpos($dir . DIRECTORY_SEPARATOR . $file, 'install') === false) {
+            if (is_dir($fullPath) && false === strpos($dir . DIRECTORY_SEPARATOR . $file, 'install')) {
                 $list = array_merge($list, $this->listFilesToUpgrade($fullPath));
             }
         }
@@ -207,7 +207,7 @@ class UpgradeFiles extends AbstractTask
 
             return true;
         } elseif (is_dir($dest)) {
-            if (strpos($dest, DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR) === false) {
+            if (false === strpos($dest, DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR)) {
                 FilesystemAdapter::deleteDirectory($dest, true);
             }
             $this->logger->debug(sprintf('removed dir %1$s.', $file));
@@ -295,7 +295,7 @@ class UpgradeFiles extends AbstractTask
         $this->container->getFileConfigurationStorage()->save($list_files_to_upgrade, UpgradeFileNames::FILES_TO_UPGRADE_LIST);
         $total_files_to_upgrade = count($list_files_to_upgrade);
 
-        if ($total_files_to_upgrade == 0) {
+        if (0 == $total_files_to_upgrade) {
             $this->logger->error($this->translator->trans('[ERROR] Unable to find files to upgrade.', array(), 'Modules.Autoupgrade.Admin'));
             $this->next = 'error';
 

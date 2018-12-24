@@ -73,7 +73,7 @@ class Rollback extends AbstractTask
         // order files is important !
         sort($restoreDbFilenames);
         $this->container->getState()->setRestoreDbFilenames($restoreDbFilenames);
-        if (count($restoreDbFilenames) == 0) {
+        if (0 == count($restoreDbFilenames)) {
             $this->next = 'error';
             $this->logger->error($this->translator->trans('[ERROR] No backup database files found: it would be impossible to restore the database. Operation aborted.', array(), 'Modules.Autoupgrade.Admin'));
 

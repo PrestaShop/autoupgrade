@@ -183,7 +183,7 @@ class FilesystemAdapter
         // copied (and kind of) adapted from AdminImages.php
         if (is_array($toDel)) {
             foreach ($toDel as $file) {
-                if ($file[0] != '.') {
+                if ('.' != $file[0]) {
                     if (preg_match('#' . preg_quote($fileext, '#') . '$#i', $file)) {
                         $res[] = $dir . $file;
                     } elseif (is_dir($dir . $file)) {

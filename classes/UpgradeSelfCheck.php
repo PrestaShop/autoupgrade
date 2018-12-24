@@ -334,7 +334,7 @@ class UpgradeSelfCheck
 
         $defaultTests = ConfigurationTest::check(ConfigurationTest::getDefaultTests());
         foreach ($defaultTests as $testResult) {
-            if ($testResult !== 'ok') {
+            if ('ok' !== $testResult) {
                 return false;
             }
         }

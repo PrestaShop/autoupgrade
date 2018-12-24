@@ -70,7 +70,7 @@ abstract class CoreUpgrader
         //check DB access
         error_reporting(E_ALL);
         $resultDB = \Db::checkConnection(_DB_SERVER_, _DB_USER_, _DB_PASSWD_, _DB_NAME_);
-        if ($resultDB !== 0) {
+        if (0 !== $resultDB) {
             throw new UpgradeException($this->container->getTranslator()->trans('Invalid database configuration', array(), 'Modules.Autoupgrade.Admin'));
         }
 
@@ -112,8 +112,8 @@ abstract class CoreUpgrader
         // Initialize
         // setting the memory limit to 128M only if current is lower
         $memory_limit = ini_get('memory_limit');
-        if ((substr($memory_limit, -1) != 'G')
-            && ((substr($memory_limit, -1) == 'M' and substr($memory_limit, 0, -1) < 512)
+        if (('G' != substr($memory_limit, -1))
+            && (('M' == substr($memory_limit, -1) and substr($memory_limit, 0, -1) < 512)
                 || is_numeric($memory_limit) and (intval($memory_limit) < 131072))
         ) {
             @ini_set('memory_limit', '512M');
@@ -125,7 +125,7 @@ abstract class CoreUpgrader
                 $_SERVER['SCRIPT_NAME'] = $_SERVER['SCRIPT_FILENAME'];
             }
             if (isset($_SERVER['SCRIPT_NAME'])) {
-                if (basename($_SERVER['SCRIPT_NAME']) == 'index.php' && empty($_SERVER['QUERY_STRING'])) {
+                if ('index.php' == basename($_SERVER['SCRIPT_NAME']) && empty($_SERVER['QUERY_STRING'])) {
                     $_SERVER['REQUEST_URI'] = dirname($_SERVER['SCRIPT_NAME']) . '/';
                 } else {
                     $_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_NAME'];
@@ -220,13 +220,13 @@ abstract class CoreUpgrader
 
     protected function checkVersionIsNewer($oldVersion)
     {
-        if (strpos(INSTALL_VERSION, '.') === false) {
+        if (false === strpos(INSTALL_VERSION, '.')) {
             throw new UpgradeException($this->container->getTranslator()->trans('%s is not a valid version number.', array(INSTALL_VERSION), 'Modules.Autoupgrade.Admin'));
         }
 
         $versionCompare = version_compare(INSTALL_VERSION, $oldVersion);
 
-        if ($versionCompare == '-1') {
+        if ('-1' == $versionCompare) {
             throw new UpgradeException(
                 $this->container->getTranslator()->trans('[ERROR] Version to install is too old.', array(), 'Modules.Autoupgrade.Admin')
                 . ' ' .
@@ -238,9 +238,9 @@ abstract class CoreUpgrader
                 ),
                 'Modules.Autoupgrade.Admin'
             ));
-        } elseif ($versionCompare == 0) {
+        } elseif (0 == $versionCompare) {
             throw new UpgradeException($this->container->getTranslator()->trans('You already have the %s version.', array(INSTALL_VERSION), 'Modules.Autoupgrade.Admin'));
-        } elseif ($versionCompare === false) {
+        } elseif (false === $versionCompare) {
             throw new UpgradeException($this->container->getTranslator()->trans('There is no older version. Did you delete or rename the app/config/parameters.php file?', array(), 'Modules.Autoupgrade.Admin'));
         }
     }
@@ -275,7 +275,7 @@ abstract class CoreUpgrader
         $upgradeFiles = $neededUpgradeFiles = array();
         if ($handle = opendir($upgrade_dir_sql)) {
             while (false !== ($file = readdir($handle))) {
-                if ($file[0] === '.') {
+                if ('.' === $file[0]) {
                     continue;
                 }
                 if (!is_readable($upgrade_dir_sql . DIRECTORY_SEPARATOR . $file)) {
@@ -291,7 +291,7 @@ abstract class CoreUpgrader
         natcasesort($upgradeFiles);
 
         foreach ($upgradeFiles as $version) {
-            if (version_compare($version, $oldversion) == 1 && version_compare(INSTALL_VERSION, $version) != -1) {
+            if (1 == version_compare($version, $oldversion) && -1 != version_compare(INSTALL_VERSION, $version)) {
                 $neededUpgradeFiles[$version] = $upgrade_dir_sql . DIRECTORY_SEPARATOR . $version . '.sql';
             }
         }
@@ -336,7 +336,7 @@ abstract class CoreUpgrader
             return;
         }
         /* If php code have to be executed */
-        if (strpos($query, '/* PHP:') !== false) {
+        if (false !== strpos($query, '/* PHP:')) {
             return $this->runPhpQuery($upgrade_file, $query);
         }
         $this->runSqlQuery($upgrade_file, $query);
@@ -361,7 +361,7 @@ abstract class CoreUpgrader
         // reset phpRes to a null value
         $phpRes = null;
         /* Call a simple function */
-        if (strpos($phpString, '::') === false) {
+        if (false === strpos($phpString, '::')) {
             $func_name = str_replace($pattern[0], '', $php[0]);
 
             if (!file_exists(_PS_INSTALLER_PHP_UPGRADE_DIR_ . strtolower($func_name) . '.php')) {
@@ -379,7 +379,7 @@ abstract class CoreUpgrader
             $this->container->getState()->setWarningExists(true);
         }
 
-        if (isset($phpRes) && (is_array($phpRes) && !empty($phpRes['error'])) || $phpRes === false) {
+        if (isset($phpRes) && (is_array($phpRes) && !empty($phpRes['error'])) || false === $phpRes) {
             $this->logger->error('
                 [ERROR] PHP ' . $upgrade_file . ' ' . $query . "\n" . '
                 ' . (empty($phpRes['error']) ? '' : $phpRes['error'] . "\n") . '
@@ -392,7 +392,7 @@ abstract class CoreUpgrader
 
     protected function runSqlQuery($upgrade_file, $query)
     {
-        if (strstr($query, 'CREATE TABLE') !== false) {
+        if (false !== strstr($query, 'CREATE TABLE')) {
             $pattern = '/CREATE TABLE.*[`]*' . _DB_PREFIX_ . '([^`]*)[`]*\s\(/';
             preg_match($pattern, $query, $matches);
             if (!empty($matches[1])) {
@@ -467,7 +467,7 @@ abstract class CoreUpgrader
                 continue;
             }
             foreach (scandir($dir) as $file) {
-                if ($file[0] === '.' || $file === 'index.php' /*|| $file === '.htaccess'*/) {
+                if ('.' === $file[0] || 'index.php' === $file /*|| $file === '.htaccess'*/) {
                     continue;
                 }
                 // ToDo: Use Filesystem instead ?
@@ -706,7 +706,7 @@ abstract class CoreUpgrader
 
         $themeErrors = $themeAdapter->enableTheme($themeName);
 
-        if ($themeErrors !== true) {
+        if (true !== $themeErrors) {
             throw new UpgradeException($themeErrors);
         }
     }

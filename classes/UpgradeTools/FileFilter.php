@@ -67,7 +67,7 @@ class FileFilter
             '/admin/autoupgrade',
         );
 
-        if ($this->configuration->get('PS_AUTOUP_KEEP_IMAGES') === '0') {
+        if ('0' === $this->configuration->get('PS_AUTOUP_KEEP_IMAGES')) {
             $backupIgnoreAbsoluteFiles[] = '/img';
         } else {
             $backupIgnoreAbsoluteFiles[] = '/img/tmp';
@@ -92,7 +92,7 @@ class FileFilter
             '..',
         );
 
-        if ($this->configuration->get('PS_AUTOUP_KEEP_IMAGES') === '0') {
+        if ('0' === $this->configuration->get('PS_AUTOUP_KEEP_IMAGES')) {
             $restoreIgnoreAbsoluteFiles[] = '/img';
         } else {
             $restoreIgnoreAbsoluteFiles[] = '/img/tmp';

@@ -70,7 +70,7 @@ class ChannelInfoBlock
         $channel = $this->channelInfo->getChannel();
         $upgradeInfo = $this->channelInfo->getInfo();
 
-        if ($channel == 'private') {
+        if ('private' == $channel) {
             $upgradeInfo['link'] = $this->config->get('private_release_link');
             $upgradeInfo['md5'] = $this->config->get('private_release_md5');
         }

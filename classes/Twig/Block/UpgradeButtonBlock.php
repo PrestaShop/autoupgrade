@@ -135,7 +135,7 @@ class UpgradeButtonBlock
         if ($this->selfCheck->isOkForUpgrade() && $versionCompare < 0) {
             $showUpgradeButton = true;
             if (!in_array($channel, array('archive', 'directory'))) {
-                if ($channel == 'private') {
+                if ('private' == $channel) {
                     $this->upgrader->link = $this->config->get('private_release_link');
                 }
 

@@ -47,7 +47,7 @@ class UpgradeNow extends AbstractTask
         preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', _PS_VERSION_, $matches);
         $upgrader->branch = $matches[1];
         $upgrader->channel = $channel;
-        if ($this->container->getUpgradeConfiguration()->get('channel') == 'private' && !$this->container->getUpgradeConfiguration()->get('private_allow_major')) {
+        if ('private' == $this->container->getUpgradeConfiguration()->get('channel') && !$this->container->getUpgradeConfiguration()->get('private_allow_major')) {
             $upgrader->checkPSVersion(false, array('private', 'minor'));
         } else {
             $upgrader->checkPSVersion(false, array('minor'));
@@ -68,7 +68,7 @@ class UpgradeNow extends AbstractTask
             default:
                 $this->next = 'download';
                 $this->logger->info($this->translator->trans('Shop deactivated. Now downloading... (this can take a while)', array(), 'Modules.Autoupgrade.Admin'));
-                if ($upgrader->channel == 'private') {
+                if ('private' == $upgrader->channel) {
                     $upgrader->link = $this->container->getUpgradeConfiguration()->get('private_release_link');
                     $upgrader->md5 = $this->container->getUpgradeConfiguration()->get('private_release_md5');
                 }

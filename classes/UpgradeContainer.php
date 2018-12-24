@@ -270,7 +270,7 @@ class UpgradeContainer
                 break;
             default:
                 $upgrader->channel = $channel;
-                if ($upgradeConfiguration->get('channel') == 'private' && !$upgradeConfiguration->get('private_allow_major')) {
+                if ('private' == $upgradeConfiguration->get('channel') && !$upgradeConfiguration->get('private_allow_major')) {
                     $upgrader->checkPSVersion(false, array('private', 'minor'));
                 } else {
                     $upgrader->checkPSVersion(false, array('minor'));

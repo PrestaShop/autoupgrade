@@ -176,8 +176,8 @@ class Autoupgrade extends Module
     {
         if ($handle = @opendir($dir)) {
             while (false !== ($entry = @readdir($handle))) {
-                if ($entry != '.' && $entry != '..') {
-                    if (is_dir($dir . DIRECTORY_SEPARATOR . $entry) === true) {
+                if ('.' != $entry && '..' != $entry) {
+                    if (true === is_dir($dir . DIRECTORY_SEPARATOR . $entry)) {
                         self::_removeDirectory($dir . DIRECTORY_SEPARATOR . $entry);
                     } else {
                         @unlink($dir . DIRECTORY_SEPARATOR . $entry);

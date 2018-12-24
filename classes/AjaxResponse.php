@@ -144,7 +144,7 @@ class AjaxResponse
 
     public function getStatus()
     {
-        return $this->getNext() == 'error' ? 'error' : 'ok';
+        return 'error' == $this->getNext() ? 'error' : 'ok';
     }
 
     public function getNextParams()

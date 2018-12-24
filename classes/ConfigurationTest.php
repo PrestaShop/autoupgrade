@@ -100,7 +100,7 @@ class ConfigurationTestCore
     public static function test_gz()
     {
         if (function_exists('gzencode')) {
-            return !(@gzencode('dd') === false);
+            return !(false === @gzencode('dd'));
         }
 
         return false;
@@ -136,8 +136,8 @@ class ConfigurationTestCore
         }
 
         if ($recursive) {
-            while (($file = readdir($dh)) !== false) {
-                if (is_dir($dir . DIRECTORY_SEPARATOR . $file) && $file != '.' && $file != '..' && $file != '.svn') {
+            while (false !== ($file = readdir($dh))) {
+                if (is_dir($dir . DIRECTORY_SEPARATOR . $file) && '.' != $file && '..' != $file && '.svn' != $file) {
                     if (!ConfigurationTest::test_dir($relative_dir . DIRECTORY_SEPARATOR . $file, $recursive, $full_report)) {
                         return false;
                     }

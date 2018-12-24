@@ -80,7 +80,7 @@ class UpdateConfig extends AbstractTask
         }
         if (isset($request['directory_num'])) {
             $config['channel'] = 'directory';
-            if (empty($request['directory_num']) || strpos($request['directory_num'], '.') === false) {
+            if (empty($request['directory_num']) || false === strpos($request['directory_num'], '.')) {
                 $this->error = true;
                 $this->logger->info($this->translator->trans('Version number is missing. Unable to select that channel.', array(), 'Modules.Autoupgrade.Admin'));
 

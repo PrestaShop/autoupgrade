@@ -50,13 +50,13 @@ class Download extends AbstractTask
         preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', _PS_VERSION_, $matches);
         $upgrader->channel = $this->container->getUpgradeConfiguration()->get('channel');
         $upgrader->branch = $matches[1];
-        if ($this->container->getUpgradeConfiguration()->get('channel') == 'private' && !$this->container->getUpgradeConfiguration()->get('private_allow_major')) {
+        if ('private' == $this->container->getUpgradeConfiguration()->get('channel') && !$this->container->getUpgradeConfiguration()->get('private_allow_major')) {
             $upgrader->checkPSVersion(false, array('private', 'minor'));
         } else {
             $upgrader->checkPSVersion(false, array('minor'));
         }
 
-        if ($upgrader->channel == 'private') {
+        if ('private' == $upgrader->channel) {
             $upgrader->link = $this->container->getUpgradeConfiguration()->get('private_release_link');
             $upgrader->md5 = $this->container->getUpgradeConfiguration()->get('private_release_md5');
         }
@@ -82,7 +82,7 @@ class Download extends AbstractTask
                     $this->next = 'error';
                 }
             } else {
-                if ($upgrader->channel == 'private') {
+                if ('private' == $upgrader->channel) {
                     $this->logger->error($this->translator->trans('Error during download. The private key may be incorrect.', array(), 'Modules.Autoupgrade.Admin'));
                 } else {
                     $this->logger->error($this->translator->trans('Error during download', array(), 'Modules.Autoupgrade.Admin'));

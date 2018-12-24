@@ -286,7 +286,7 @@ class Upgrader
                     break;
                 }
             }
-            if ($xml !== false) {
+            if (false !== $xml) {
                 file_put_contents($xml_localfile, $xml_string);
             }
         } else {
@@ -308,7 +308,7 @@ class Upgrader
         if ($refresh || !file_exists($xml_localfile) || @filemtime($xml_localfile) < (time() - (3600 * self::DEFAULT_CHECK_VERSION_DELAY_HOURS))) {
             $xml_string = Tools14::file_get_contents($xml_remotefile, false, stream_context_create(array('http' => array('timeout' => 10))));
             $xml = @simplexml_load_string($xml_string);
-            if ($xml !== false) {
+            if (false !== $xml) {
                 file_put_contents($xml_localfile, $xml_string);
             }
         } else {
@@ -358,9 +358,9 @@ class Upgrader
         if (empty($version)) {
             $version = $this->currentPsVersion;
         }
-        if (is_array($this->changed_files) && count($this->changed_files) == 0) {
+        if (is_array($this->changed_files) && 0 == count($this->changed_files)) {
             $checksum = $this->getXmlMd5File($version, $refresh);
-            if ($checksum == false) {
+            if (false == $checksum) {
                 $this->changed_files = false;
             } else {
                 $this->browseXmlAndCompare($checksum->ps_root_dir[0]);
@@ -379,11 +379,11 @@ class Upgrader
     {
         $this->version_is_modified = true;
 
-        if (strpos($path, 'mails/') !== false) {
+        if (false !== strpos($path, 'mails/')) {
             $this->changed_files['mail'][] = $path;
-        } elseif (strpos($path, '/en.php') !== false || strpos($path, '/fr.php') !== false
-            || strpos($path, '/es.php') !== false || strpos($path, '/it.php') !== false
-            || strpos($path, '/de.php') !== false || strpos($path, 'translations/') !== false) {
+        } elseif (false !== strpos($path, '/en.php') || false !== strpos($path, '/fr.php')
+            || false !== strpos($path, '/es.php') || false !== strpos($path, '/it.php')
+            || false !== strpos($path, '/de.php') || false !== strpos($path, 'translations/')) {
             $this->changed_files['translation'][] = $path;
         } else {
             $this->changed_files['core'][] = $path;
@@ -403,13 +403,13 @@ class Upgrader
     {
         $array = array();
         foreach ($node as $key => $child) {
-            if (is_object($child) && $child->getName() == 'dir') {
+            if (is_object($child) && 'dir' == $child->getName()) {
                 $dir = (string) $child['name'];
                 // $current_path = $dir.(string)$child['name'];
                 // @todo : something else than array pop ?
                 $dir_content = $this->md5FileAsArray($child, $dir);
                 $array[$dir] = $dir_content;
-            } elseif (is_object($child) && $child->getName() == 'md5file') {
+            } elseif (is_object($child) && 'md5file' == $child->getName()) {
                 $array[(string) $child['name']] = (string) $child;
             }
         }
@@ -499,10 +499,10 @@ class Upgrader
     protected function browseXmlAndCompare($node, &$current_path = array(), $level = 1)
     {
         foreach ($node as $key => $child) {
-            if (is_object($child) && $child->getName() == 'dir') {
+            if (is_object($child) && 'dir' == $child->getName()) {
                 $current_path[$level] = (string) $child['name'];
                 $this->browseXmlAndCompare($child, $current_path, $level + 1);
-            } elseif (is_object($child) && $child->getName() == 'md5file') {
+            } elseif (is_object($child) && 'md5file' == $child->getName()) {
                 // We will store only relative path.
                 // absolute path is only used for file_exists and compare
                 $relative_path = '';
@@ -519,7 +519,7 @@ class Upgrader
                 $fullpath = str_replace(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'admin', _PS_ADMIN_DIR_, $fullpath);
                 if (!file_exists($fullpath)) {
                     $this->addMissingFile($relative_path);
-                } elseif (!$this->compareChecksum($fullpath, (string) $child) && substr(str_replace(DIRECTORY_SEPARATOR, '-', $relative_path), 0, 19) != 'modules/autoupgrade') {
+                } elseif (!$this->compareChecksum($fullpath, (string) $child) && 'modules/autoupgrade' != substr(str_replace(DIRECTORY_SEPARATOR, '-', $relative_path), 0, 19)) {
                     $this->addChangedFile($relative_path);
                 }
                 // else, file is original (and ok)

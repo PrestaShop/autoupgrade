@@ -66,7 +66,7 @@ class UpgradeModules extends AbstractTask
                     $this->logger->debug($this->translator->trans('The files of module %s have been upgraded.', array($module_info['name']), 'Modules.Autoupgrade.Admin'));
                 } catch (UpgradeException $e) {
                     $this->handleException($e);
-                    if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {
+                    if (UpgradeException::SEVERITY_ERROR === $e->getSeverity()) {
                         return false;
                     }
                 }
@@ -169,12 +169,12 @@ class UpgradeModules extends AbstractTask
         foreach ($e->getQuickInfos() as $log) {
             $this->logger->debug($log);
         }
-        if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {
+        if (UpgradeException::SEVERITY_ERROR === $e->getSeverity()) {
             $this->next = 'error';
             $this->error = true;
             $this->logger->error($e->getMessage());
         }
-        if ($e->getSeverity() === UpgradeException::SEVERITY_WARNING) {
+        if (UpgradeException::SEVERITY_WARNING === $e->getSeverity()) {
             $this->logger->warning($e->getMessage());
         }
     }

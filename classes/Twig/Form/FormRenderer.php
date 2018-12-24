@@ -112,7 +112,7 @@ class FormRenderer
 
             if (isset($field['desc']) && !in_array($field['type'], array('bool', 'select'))) {
                 $html .= '<p style="clear:both">';
-                if (!empty($field['thumb']) && $field['thumb']['pos'] == 'after') {
+                if (!empty($field['thumb']) && 'after' == $field['thumb']['pos']) {
                     $html .= $this->renderThumb($field);
                 }
                 $html .= $field['desc'] . '</p>';
@@ -211,7 +211,7 @@ class FormRenderer
             . (isset($field['id']) ? ' id="' . $field['id'] . '"' : '')
             . ' size="' . (isset($field['size']) ? (int) ($field['size']) : 5)
             . '" name="' . $key
-            . '" value="' . ($field['type'] == 'password' ? '' : htmlentities($val, ENT_COMPAT, 'UTF-8'))
+            . '" value="' . ('password' == $field['type'] ? '' : htmlentities($val, ENT_COMPAT, 'UTF-8'))
             . '" />'
             . (isset($field['next']) ? '&nbsp;' . $field['next'] : '');
     }

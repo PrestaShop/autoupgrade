@@ -96,7 +96,7 @@ function getPath($urlBase, $id_category, $path = '', $highlight = '', $categoryT
 {
     global $cookie;
 
-    if ($categoryType == 'catalog') {
+    if ('catalog' == $categoryType) {
         $category = Db::getInstance()->getRow('
 		SELECT id_category, level_depth, nleft, nright
 		FROM ' . _DB_PREFIX_ . 'category
@@ -115,7 +115,7 @@ function getPath($urlBase, $id_category, $path = '', $highlight = '', $categoryT
             $n = 1;
             $nCategories = (int) sizeof($categories);
             foreach ($categories as $category) {
-                $edit = '<a href="' . $urlBase . '&id_category=' . (int) $category['id_category'] . '&' . ($category['id_category'] == 1 ? 'viewcategory' : 'addcategory') . '&token=' . Tools14::getAdminToken('AdminCatalog' . (int) (Tab::getIdFromClassName('AdminCatalog')) . (int) ($cookie->id_employee)) . '" title="' . ($category['id_category'] == 1 ? 'Home' : 'Modify') . '"><img src="../img/admin/' . ($category['id_category'] == 1 ? 'home' : 'edit') . '.gif" alt="" /></a> ';
+                $edit = '<a href="' . $urlBase . '&id_category=' . (int) $category['id_category'] . '&' . (1 == $category['id_category'] ? 'viewcategory' : 'addcategory') . '&token=' . Tools14::getAdminToken('AdminCatalog' . (int) (Tab::getIdFromClassName('AdminCatalog')) . (int) ($cookie->id_employee)) . '" title="' . (1 == $category['id_category'] ? 'Home' : 'Modify') . '"><img src="../img/admin/' . (1 == $category['id_category'] ? 'home' : 'edit') . '.gif" alt="" /></a> ';
                 $fullPath .= $edit .
                 ($n < $nCategories ? '<a href="' . $urlBase . '&id_category=' . (int) $category['id_category'] . '&viewcategory&token=' . Tools14::getAdminToken('AdminCatalog' . (int) (Tab::getIdFromClassName('AdminCatalog')) . (int) ($cookie->id_employee)) . '" title="' . htmlentities($category['name'], ENT_NOQUOTES, 'UTF-8') . '">' : '') .
                 (!empty($highlight) ? str_ireplace($highlight, '<span class="highlight">' . htmlentities($highlight, ENT_NOQUOTES, 'UTF-8') . '</span>', $category['name']) : $category['name']) .
@@ -125,22 +125,22 @@ function getPath($urlBase, $id_category, $path = '', $highlight = '', $categoryT
 
             return $fullPath . $path;
         }
-    } elseif ($categoryType == 'cms') {
+    } elseif ('cms' == $categoryType) {
         $category = new CMSCategory($id_category, (int) ($cookie->id_lang));
         if (!$category->id) {
             return $path;
         }
 
-        $name = ($highlight != null) ? str_ireplace($highlight, '<span class="highlight">' . $highlight . '</span>', CMSCategory::hideCMSCategoryPosition($category->name)) : CMSCategory::hideCMSCategoryPosition($category->name);
+        $name = (null != $highlight) ? str_ireplace($highlight, '<span class="highlight">' . $highlight . '</span>', CMSCategory::hideCMSCategoryPosition($category->name)) : CMSCategory::hideCMSCategoryPosition($category->name);
         $edit = '<a href="' . $urlBase . '&id_cms_category=' . $category->id . '&addcategory&token=' . Tools14::getAdminToken('AdminCMSContent' . (int) (Tab::getIdFromClassName('AdminCMSContent')) . (int) ($cookie->id_employee)) . '">
 				<img src="../img/admin/edit.gif" alt="Modify" /></a> ';
-        if ($category->id == 1) {
+        if (1 == $category->id) {
             $edit = '<a href="' . $urlBase . '&id_cms_category=' . $category->id . '&viewcategory&token=' . Tools14::getAdminToken('AdminCMSContent' . (int) (Tab::getIdFromClassName('AdminCMSContent')) . (int) ($cookie->id_employee)) . '">
 					<img src="../img/admin/home.gif" alt="Home" /></a> ';
         }
         $path = $edit . '<a href="' . $urlBase . '&id_cms_category=' . $category->id . '&viewcategory&token=' . Tools14::getAdminToken('AdminCMSContent' . (int) (Tab::getIdFromClassName('AdminCMSContent')) . (int) ($cookie->id_employee)) . '">
 		' . $name . '</a> > ' . $path;
-        if ($category->id == 1) {
+        if (1 == $category->id) {
             return substr($path, 0, strlen($path) - 3);
         }
 
@@ -154,7 +154,7 @@ function getDirContent($path)
     if (is_dir($path)) {
         $d = dir($path);
         while (false !== ($entry = $d->read())) {
-            if ($entry[0] != '.') {
+            if ('.' != $entry[0]) {
                 $content[] = $entry;
             }
         }
@@ -229,12 +229,12 @@ function checkTabRights($id_tab)
     global $cookie;
     static $tabAccesses = null;
 
-    if ($tabAccesses === null) {
+    if (null === $tabAccesses) {
         $tabAccesses = Profile::getProfileAccesses($cookie->profile);
     }
 
     if (isset($tabAccesses[(int) ($id_tab)]['view'])) {
-        return $tabAccesses[(int) ($id_tab)]['view'] === '1';
+        return '1' === $tabAccesses[(int) ($id_tab)]['view'];
     }
 
     return false;
@@ -292,11 +292,11 @@ function simpleXMLToArray($xml, $flattenValues = true, $flattenAttributes = true
 
     $name = $xml->getName();
     $_value = trim((string) $xml);
-    if (strlen($_value) == 0) {
+    if (0 == strlen($_value)) {
         $_value = null;
     }
 
-    if ($_value !== null) {
+    if (null !== $_value) {
         if (!$flattenValues) {
             $return[$valueKey] = $_value;
         } else {

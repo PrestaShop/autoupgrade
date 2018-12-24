@@ -101,7 +101,7 @@ class AdminSelfUpgrade extends AdminController
         } else {
             // simple access : we'll allow only 46admin
             global $cookie;
-            if ($cookie->profile == 1) {
+            if (1 == $cookie->profile) {
                 return true;
             }
         }
@@ -231,7 +231,7 @@ class AdminSelfUpgrade extends AdminController
                 // delete the potential xml files we saved in config/xml (from last release and from current)
                 $upgrader->clearXmlMd5File($this->upgradeContainer->getProperty(UpgradeContainer::PS_VERSION));
                 $upgrader->clearXmlMd5File($upgrader->version_num);
-                if ($upgradeConfiguration->get('channel') == 'private' && !$upgradeConfiguration->get('private_allow_major')) {
+                if ('private' == $upgradeConfiguration->get('channel') && !$upgradeConfiguration->get('private_allow_major')) {
                     $upgrader->checkPSVersion(true, array('private', 'minor'));
                 } else {
                     $upgrader->checkPSVersion(true, array('minor'));
@@ -315,7 +315,7 @@ class AdminSelfUpgrade extends AdminController
             $filelist = scandir($this->backupPath);
             foreach ($filelist as $filename) {
                 // the following will match file or dir related to the selected backup
-                if (!empty($filename) && $filename[0] != '.' && $filename != 'index.php' && $filename != '.htaccess'
+                if (!empty($filename) && '.' != $filename[0] && 'index.php' != $filename && '.htaccess' != $filename
                     && preg_match('#^(auto-backupfiles_|)' . preg_quote($name) . '(\.zip|)$#', $filename, $matches)) {
                     if (is_file($this->backupPath . DIRECTORY_SEPARATOR . $filename)) {
                         $res &= unlink($this->backupPath . DIRECTORY_SEPARATOR . $filename);
@@ -366,7 +366,7 @@ class AdminSelfUpgrade extends AdminController
         );
 
         foreach ($configuration_keys as $k => $default_value) {
-            if (Configuration::get($k) == '') {
+            if ('' == Configuration::get($k)) {
                 Configuration::updateValue($k, $default_value);
             }
         }

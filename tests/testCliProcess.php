@@ -38,7 +38,7 @@ while (!empty($command) && !$result) {
 
     // if we require to run another command, it will detected here
     $pos = strpos($lastLine, $argv[0]);
-    $command = ($pos === false ? null : substr($lastLine, $pos));
+    $command = (false === $pos ? null : substr($lastLine, $pos));
 }
 
 exit($result);
