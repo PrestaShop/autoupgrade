@@ -45,7 +45,7 @@ define('_COOKIE_KEY_', 'hgfdsq');
 define('_COOKIE_IV_', 'mAJLfCuY');
 define('_PS_CREATION_DATE_', '2018-03-16');
 if (!defined('_PS_VERSION_'))
-	define('_PS_VERSION_', '1.6.1.18');
+    define('_PS_VERSION_', '1.6.1.18');
 define('_RIJNDAEL_KEY_', 'dfv');
 define('_RIJNDAEL_IV_', 'fdfd==');";
 

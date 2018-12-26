@@ -197,7 +197,7 @@ class FilesystemAdapter
     }
 
     /**
-     *	bool _skipFile : check whether a file is in backup or restore skip list.
+     *    bool _skipFile : check whether a file is in backup or restore skip list.
      *
      * @param type $file : current file or directory name eg:'.svn' , 'settings.inc.php'
      * @param type $fullpath : current file or directory fullpath eg:'/home/web/www/prestashop/app/config/parameters.php'

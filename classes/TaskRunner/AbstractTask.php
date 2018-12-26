@@ -35,7 +35,7 @@ abstract class AbstractTask
 {
     /* usage :  key = the step you want to skip
      *               value = the next step you want instead
-     *	example : public static $skipAction = array();
+     *    example : public static $skipAction = array();
      */
     public static $skipAction = array();
 

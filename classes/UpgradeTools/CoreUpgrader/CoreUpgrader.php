@@ -150,7 +150,7 @@ abstract class CoreUpgrader
         define('SETTINGS_FILE_YML', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/app/config/parameters.yml');
         define('DEFINES_FILE', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/config/defines.inc.php');
         define('INSTALLER__PS_BASE_URI', substr($_SERVER['REQUEST_URI'], 0, -1 * (strlen($_SERVER['REQUEST_URI']) - strrpos($_SERVER['REQUEST_URI'], '/')) - strlen(substr(dirname($_SERVER['REQUEST_URI']), strrpos(dirname($_SERVER['REQUEST_URI']), '/') + 1))));
-        //	define('INSTALLER__PS_BASE_URI_ABSOLUTE', 'http://'.ToolsInstall::getHttpHost(false, true).INSTALLER__PS_BASE_URI);
+        //    define('INSTALLER__PS_BASE_URI_ABSOLUTE', 'http://'.ToolsInstall::getHttpHost(false, true).INSTALLER__PS_BASE_URI);
 
         define('_PS_INSTALL_PATH_', INSTALL_PATH . '/');
         define('_PS_INSTALL_DATA_PATH_', _PS_INSTALL_PATH_ . 'data/');
@@ -718,8 +718,8 @@ abstract class CoreUpgrader
         // delete cache filesystem if activated
         if (defined('_PS_CACHE_ENABLED_') && _PS_CACHE_ENABLED_) {
             $depth = (int) $this->db->getValue('SELECT value
-				FROM ' . _DB_PREFIX_ . 'configuration
-				WHERE name = "PS_CACHEFS_DIRECTORY_DEPTH"');
+        		FROM ' . _DB_PREFIX_ . 'configuration
+        		WHERE name = "PS_CACHEFS_DIRECTORY_DEPTH"');
             if ($depth) {
                 if (!defined('_PS_CACHEFS_DIRECTORY_')) {
                     define('_PS_CACHEFS_DIRECTORY_', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/cache/cachefs/');
