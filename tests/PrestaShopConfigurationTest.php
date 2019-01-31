@@ -51,4 +51,18 @@ define('_RIJNDAEL_IV_', 'fdfd==');";
 
         $this->assertSame('1.6.1.18', $class->findPrestaShopVersionInFile($content));
     }
+
+    /**
+     * From PrestaShop 1.7.5.0, the version is stored in the class AppKernel
+     */
+    public function testPrestaShopVersionInAppKernel()
+    {
+        $class = new PrestashopConfiguration(__DIR__, __DIR__);
+        $this->assertSame(
+            '1.7.6.0',
+            $class->findPrestaShopVersionInFile(
+                file_get_contents(__DIR__.'/fixtures/AppKernelExample.php.txt')
+            )
+        );
+    }
 }
