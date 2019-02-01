@@ -40,7 +40,7 @@ if (function_exists('date_default_timezone_set')) {
  */
 function autoupgrade_init_container($callerFilePath)
 {
-    if (php_sapi_name() === 'cli') {
+    if (PHP_SAPI === 'cli') {
         $_POST['dir'] = getopt('', array('dir:'))['dir'];
     }
 
