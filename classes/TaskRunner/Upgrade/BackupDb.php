@@ -159,8 +159,8 @@ class BackupDb extends AbstractTask
                 $schema = $this->container->getDb()->executeS('SHOW CREATE TABLE `' . $table . '`', true, false);
 
                 if (count($schema) != 1 ||
-                    !((isset($schema[0]['Table']) && isset($schema[0]['Create Table']))
-                        || (isset($schema[0]['View']) && isset($schema[0]['Create View'])))) {
+                    !(isset($schema[0]['Table'], $schema[0]['Create Table'])
+                        || isset($schema[0]['View'], $schema[0]['Create View']))) {
                     fclose($fp);
                     if (file_exists($backupfile)) {
                         unlink($backupfile);
