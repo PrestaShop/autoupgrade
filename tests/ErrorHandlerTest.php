@@ -53,7 +53,7 @@ class ErrorHandlerTest extends TestCase
         $this->errorHandler->exceptionHandler($exception);
 
         $errors = $this->logger->getErrors();
-        $this->assertEquals(1, count($errors));
+        $this->assertCount(1, $errors);
         $this->assertContains('[INTERNAL] ' . __FILE__ . ' line ' . $line . ' - Exception: ERMAGHERD', end($errors));
     }
 
@@ -62,8 +62,8 @@ class ErrorHandlerTest extends TestCase
         $line = __LINE__;
         $this->errorHandler->errorHandler(E_WARNING, 'Trololo', __FILE__, $line);
         $msgs = $this->logger->getInfos();
-        $this->assertEquals(0, count($this->logger->getErrors()));
-        $this->assertEquals(1, count($msgs));
+        $this->assertCount(0, $this->logger->getErrors());
+        $this->assertCount(1, $msgs);
         $this->assertEquals(end($msgs), '[INTERNAL] ' . __FILE__ . ' line ' . $line . ' - Trololo');
     }
 
