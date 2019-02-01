@@ -104,6 +104,7 @@ class PrestashopConfiguration
         $files = array(
             $this->psRootDir . '/config/settings.inc.php',
             $this->psRootDir . '/config/autoload.php',
+            $this->psRootDir . '/app/AppKernel.php',
         );
         foreach ($files as $file) {
             $version = $this->findPrestaShopVersionInFile(file_get_contents($file));
@@ -153,7 +154,13 @@ class PrestashopConfiguration
     public function findPrestaShopVersionInFile($content)
     {
         $matches = array();
+        // Example: define('_PS_VERSION_', '1.7.3.4');
         if (1 === preg_match("/define\([\"']_PS_VERSION_[\"'], [\"'](?<version>[0-9.]+)[\"']\)/", $content, $matches)) {
+            return $matches['version'];
+        }
+
+        // Example: const VERSION = '1.7.6.0';
+        if (1 === preg_match("/const VERSION = [\"'](?<version>[0-9.]+)[\"'];/", $content, $matches)) {
             return $matches['version'];
         }
 
