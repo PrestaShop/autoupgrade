@@ -125,7 +125,7 @@ class FilesystemAdapterTest extends TestCase
     public function testTempFolderIsAPrestashopRelease()
     {
         // Create temp folder and fill it with the needed files
-        $folder = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'PSA' . rand(100, 2000);
+        $folder = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'PSA' . mt_rand(100, 2000);
         $this->fillFolderWithPsAssets($folder);
 
         $this->assertTrue(
@@ -139,7 +139,7 @@ class FilesystemAdapterTest extends TestCase
     public function testTempFolderIsNotAPrestashopReleaseAfterChanges()
     {
         // Create temp folder and fill it with the needed files
-        $folder = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'PSA' . rand(100, 2000);
+        $folder = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'PSA' . mt_rand(100, 2000);
         $this->fillFolderWithPsAssets($folder);
         rmdir($folder . DIRECTORY_SEPARATOR . 'classes');
         touch($folder . DIRECTORY_SEPARATOR . 'classes');
