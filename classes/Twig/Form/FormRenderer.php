@@ -24,7 +24,6 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * International Registered Trademark & Property of PrestaShop SA
  */
-
 namespace PrestaShop\Module\AutoUpgrade\Twig\Form;
 
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
@@ -71,7 +70,7 @@ class FormRenderer
                     . '<div class="margin-form" style="padding-top:5px">';
             }
 
-            /* Display the appropriate input type for each field */
+            // Display the appropriate input type for each field
             switch ($field['type']) {
                 case 'disabled':
                     $html .= $field['disabled'];
