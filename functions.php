@@ -34,18 +34,18 @@
 function rewriteSettingsFile($baseUrls = null, $theme = null, $arrayDB = null)
 {
     $defines = array();
-    $defines['__PS_BASE_URI__'] = ($baseUrls and $baseUrls['__PS_BASE_URI__']) ? $baseUrls['__PS_BASE_URI__'] : __PS_BASE_URI__;
-    $defines['_MEDIA_SERVER_1_'] = ($baseUrls and isset($baseUrls['_MEDIA_SERVER_1_'])) ? $baseUrls['_MEDIA_SERVER_1_'] : _MEDIA_SERVER_1_;
+    $defines['__PS_BASE_URI__'] = ($baseUrls && $baseUrls['__PS_BASE_URI__']) ? $baseUrls['__PS_BASE_URI__'] : __PS_BASE_URI__;
+    $defines['_MEDIA_SERVER_1_'] = ($baseUrls && isset($baseUrls['_MEDIA_SERVER_1_'])) ? $baseUrls['_MEDIA_SERVER_1_'] : _MEDIA_SERVER_1_;
     $defines['_PS_CACHING_SYSTEM_'] = _PS_CACHING_SYSTEM_;
     $defines['_PS_CACHE_ENABLED_'] = _PS_CACHE_ENABLED_;
     $defines['_THEME_NAME_'] = $theme ? $theme : _THEME_NAME_;
-    $defines['_DB_NAME_'] = (($arrayDB and isset($arrayDB['_DB_NAME_'])) ? $arrayDB['_DB_NAME_'] : _DB_NAME_);
-    $defines['_MYSQL_ENGINE_'] = (($arrayDB and isset($arrayDB['_MYSQL_ENGINE_'])) ? $arrayDB['_MYSQL_ENGINE_'] : _MYSQL_ENGINE_);
-    $defines['_DB_SERVER_'] = (($arrayDB and isset($arrayDB['_DB_SERVER_'])) ? $arrayDB['_DB_SERVER_'] : _DB_SERVER_);
-    $defines['_DB_USER_'] = (($arrayDB and isset($arrayDB['_DB_USER_'])) ? $arrayDB['_DB_USER_'] : _DB_USER_);
-    $defines['_DB_PREFIX_'] = (($arrayDB and isset($arrayDB['_DB_PREFIX_'])) ? $arrayDB['_DB_PREFIX_'] : _DB_PREFIX_);
-    $defines['_DB_PASSWD_'] = (($arrayDB and isset($arrayDB['_DB_PASSWD_'])) ? $arrayDB['_DB_PASSWD_'] : _DB_PASSWD_);
-    $defines['_DB_TYPE_'] = (($arrayDB and isset($arrayDB['_DB_TYPE_'])) ? $arrayDB['_DB_TYPE_'] : _DB_TYPE_);
+    $defines['_DB_NAME_'] = (($arrayDB && isset($arrayDB['_DB_NAME_'])) ? $arrayDB['_DB_NAME_'] : _DB_NAME_);
+    $defines['_MYSQL_ENGINE_'] = (($arrayDB && isset($arrayDB['_MYSQL_ENGINE_'])) ? $arrayDB['_MYSQL_ENGINE_'] : _MYSQL_ENGINE_);
+    $defines['_DB_SERVER_'] = (($arrayDB && isset($arrayDB['_DB_SERVER_'])) ? $arrayDB['_DB_SERVER_'] : _DB_SERVER_);
+    $defines['_DB_USER_'] = (($arrayDB && isset($arrayDB['_DB_USER_'])) ? $arrayDB['_DB_USER_'] : _DB_USER_);
+    $defines['_DB_PREFIX_'] = (($arrayDB && isset($arrayDB['_DB_PREFIX_'])) ? $arrayDB['_DB_PREFIX_'] : _DB_PREFIX_);
+    $defines['_DB_PASSWD_'] = (($arrayDB && isset($arrayDB['_DB_PASSWD_'])) ? $arrayDB['_DB_PASSWD_'] : _DB_PASSWD_);
+    $defines['_DB_TYPE_'] = (($arrayDB && isset($arrayDB['_DB_TYPE_'])) ? $arrayDB['_DB_TYPE_'] : _DB_TYPE_);
     $defines['_COOKIE_KEY_'] = addslashes(_COOKIE_KEY_);
     $defines['_COOKIE_IV_'] = addslashes(_COOKIE_IV_);
     if (defined('_RIJNDAEL_KEY_')) {
@@ -120,7 +120,7 @@ function getPath($urlBase, $id_category, $path = '', $highlight = '', $categoryT
                 ($n < $nCategories ? '<a href="' . $urlBase . '&id_category=' . (int) $category['id_category'] . '&viewcategory&token=' . Tools14::getAdminToken('AdminCatalog' . (int) (Tab::getIdFromClassName('AdminCatalog')) . (int) ($cookie->id_employee)) . '" title="' . htmlentities($category['name'], ENT_NOQUOTES, 'UTF-8') . '">' : '') .
                 (!empty($highlight) ? str_ireplace($highlight, '<span class="highlight">' . htmlentities($highlight, ENT_NOQUOTES, 'UTF-8') . '</span>', $category['name']) : $category['name']) .
                 ($n < $nCategories ? '</a>' : '') .
-                (($n++ != $nCategories or !empty($path)) ? ' > ' : '');
+                (($n++ != $nCategories || !empty($path)) ? ' > ' : '');
             }
 
             return $fullPath . $path;
@@ -202,13 +202,13 @@ function checkingTab($tab)
 
         return false;
     }
-    if ($row['module'] and file_exists(_PS_MODULE_DIR_ . '/' . $row['module'] . '/' . $tab . '.php')) {
+    if ($row['module'] && file_exists(_PS_MODULE_DIR_ . '/' . $row['module'] . '/' . $tab . '.php')) {
         include_once _PS_MODULE_DIR_ . '/' . $row['module'] . '/' . $tab . '.php';
     } elseif (file_exists(PS_ADMIN_DIR . '/tabs/' . $tab . '.php')) {
         include_once PS_ADMIN_DIR . '/tabs/' . $tab . '.php';
     }
 
-    if (!class_exists($tab, false) or !$row['id_tab']) {
+    if (!class_exists($tab, false) || !$row['id_tab']) {
         echo Tools14::displayError('Tab file cannot be found.');
 
         return false;
