@@ -40,7 +40,7 @@ class LegacyLogger extends Logger
     /**
      * @var resource|null|false File descriptor of the log file
      */
-    protected $fd = null;
+    protected $fd;
 
     public function __construct($fileName = null)
     {
