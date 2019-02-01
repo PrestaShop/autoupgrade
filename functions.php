@@ -98,18 +98,18 @@ function getPath($urlBase, $id_category, $path = '', $highlight = '', $categoryT
 
     if ($categoryType == 'catalog') {
         $category = Db::getInstance()->getRow('
-		SELECT id_category, level_depth, nleft, nright
-		FROM ' . _DB_PREFIX_ . 'category
-		WHERE id_category = ' . (int) $id_category);
+        SELECT id_category, level_depth, nleft, nright
+        FROM ' . _DB_PREFIX_ . 'category
+        WHERE id_category = ' . (int) $id_category);
 
         if (isset($category['id_category'])) {
             $categories = Db::getInstance()->ExecuteS('
-			SELECT c.id_category, cl.name, cl.link_rewrite
-			FROM ' . _DB_PREFIX_ . 'category c
-			LEFT JOIN ' . _DB_PREFIX_ . 'category_lang cl ON (cl.id_category = c.id_category)
-			WHERE c.nleft <= ' . (int) $category['nleft'] . ' AND c.nright >= ' . (int) $category['nright'] . ' AND cl.id_lang = ' . (int) ($cookie->id_lang) . '
-			ORDER BY c.level_depth ASC
-			LIMIT ' . (int) ($category['level_depth'] + 1));
+            SELECT c.id_category, cl.name, cl.link_rewrite
+            FROM ' . _DB_PREFIX_ . 'category c
+            LEFT JOIN ' . _DB_PREFIX_ . 'category_lang cl ON (cl.id_category = c.id_category)
+            WHERE c.nleft <= ' . (int) $category['nleft'] . ' AND c.nright >= ' . (int) $category['nright'] . ' AND cl.id_lang = ' . (int) ($cookie->id_lang) . '
+            ORDER BY c.level_depth ASC
+            LIMIT ' . (int) ($category['level_depth'] + 1));
 
             $fullPath = '';
             $n = 1;
@@ -133,13 +133,13 @@ function getPath($urlBase, $id_category, $path = '', $highlight = '', $categoryT
 
         $name = ($highlight != null) ? str_ireplace($highlight, '<span class="highlight">' . $highlight . '</span>', CMSCategory::hideCMSCategoryPosition($category->name)) : CMSCategory::hideCMSCategoryPosition($category->name);
         $edit = '<a href="' . $urlBase . '&id_cms_category=' . $category->id . '&addcategory&token=' . Tools14::getAdminToken('AdminCMSContent' . (int) (Tab::getIdFromClassName('AdminCMSContent')) . (int) ($cookie->id_employee)) . '">
-				<img src="../img/admin/edit.gif" alt="Modify" /></a> ';
+                <img src="../img/admin/edit.gif" alt="Modify" /></a> ';
         if ($category->id == 1) {
             $edit = '<a href="' . $urlBase . '&id_cms_category=' . $category->id . '&viewcategory&token=' . Tools14::getAdminToken('AdminCMSContent' . (int) (Tab::getIdFromClassName('AdminCMSContent')) . (int) ($cookie->id_employee)) . '">
-					<img src="../img/admin/home.gif" alt="Home" /></a> ';
+                    <img src="../img/admin/home.gif" alt="Home" /></a> ';
         }
         $path = $edit . '<a href="' . $urlBase . '&id_cms_category=' . $category->id . '&viewcategory&token=' . Tools14::getAdminToken('AdminCMSContent' . (int) (Tab::getIdFromClassName('AdminCMSContent')) . (int) ($cookie->id_employee)) . '">
-		' . $name . '</a> > ' . $path;
+        ' . $name . '</a> > ' . $path;
         if ($category->id == 1) {
             return substr($path, 0, strlen($path) - 3);
         }
