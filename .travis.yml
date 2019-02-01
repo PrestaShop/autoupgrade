@@ -11,6 +11,9 @@ env:
     CHANNEL=major
   - VERSION=1.6.1.10
     CHANNEL=minor
+  # Check how the upgrade behaves with the latest PrestaShop
+  - VERSION=latest
+    CHANNEL=minor
 
 cache:
   directories:
