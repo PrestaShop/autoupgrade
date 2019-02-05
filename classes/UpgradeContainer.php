@@ -40,6 +40,7 @@ use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
+use Psr\Log\LoggerInterface;
 use Twig_Loader_Filesystem;
 use Twig_Environment;
 
@@ -68,7 +69,7 @@ class UpgradeContainer
     private $cookie;
 
     /**
-     * @var Db
+     * @var \Db
      */
     public $db;
 
@@ -213,7 +214,7 @@ class UpgradeContainer
     /**
      * Return the path to the zipfile containing prestashop.
      *
-     * @return type
+     * @return string
      */
     public function getFilePath()
     {
@@ -260,7 +261,6 @@ class UpgradeContainer
             case 'archive':
                 $upgrader->channel = 'archive';
                 $upgrader->version_num = $upgradeConfiguration->get('archive.version_num');
-                $this->destDownloadFilename = $upgradeConfiguration->get('archive.filename');
                 $upgrader->checkPSVersion(true, array('archive'));
                 break;
             case 'directory':

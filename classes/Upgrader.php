@@ -339,7 +339,7 @@ class Upgrader
      *
      * @param string $version
      *
-     * @return SimpleXMLElement or false if error
+     * @return \SimpleXMLElement or false if error
      */
     public function getXmlMd5File($version, $refresh = false)
     {

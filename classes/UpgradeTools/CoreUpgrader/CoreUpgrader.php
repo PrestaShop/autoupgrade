@@ -279,7 +279,7 @@ abstract class CoreUpgrader
                     continue;
                 }
                 if (!is_readable($upgrade_dir_sql . DIRECTORY_SEPARATOR . $file)) {
-                    throw new UpgradeException($this->container->getTranslator()->trans('Error while loading SQL upgrade file "%s.sql".', array($version), 'Modules.Autoupgrade.Admin'));
+                    throw new UpgradeException($this->container->getTranslator()->trans('Error while loading SQL upgrade file "%s".', array($file), 'Modules.Autoupgrade.Admin'));
                 }
                 $upgradeFiles[] = str_replace('.sql', '', $file);
             }
@@ -515,11 +515,8 @@ abstract class CoreUpgrader
         if (file_exists(_PS_ROOT_DIR_ . '/classes/Tools.php')) {
             require_once _PS_ROOT_DIR_ . '/classes/Tools.php';
         }
-        if (!class_exists('Tools2', false) && class_exists('ToolsCore')) {
-            eval('class Tools2 extends ToolsCore{}');
-        }
 
-        if (!class_exists('Tools2') || !method_exists('Tools2', 'generateHtaccess')) {
+        if (!class_exists('ToolsCore') || !method_exists('ToolsCore', 'generateHtaccess')) {
             return;
         }
         $url_rewrite = (bool) $this->db->getvalue('SELECT `value` FROM `' . _DB_PREFIX_ . 'configuration` WHERE name=\'PS_REWRITING_SETTINGS\'');
@@ -637,7 +634,7 @@ abstract class CoreUpgrader
             eval('class Group extends GroupCore{}');
         }
 
-        \Tools2::generateHtaccess(null, $url_rewrite);
+        \ToolsCore::generateHtaccess(null, $url_rewrite);
     }
 
     protected function loadEntityInterface()

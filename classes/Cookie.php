@@ -129,6 +129,7 @@ $key = "' . $key . '";
         }
 
         // Variable $key is defined in file
+        $key = null;
         require $this->keyFilePath;
         $this->key = $key;
 

@@ -43,7 +43,7 @@ class UpgradeButtonBlock
     private $twig;
 
     /**
-     * @var TranslatorComponent
+     * @var Translator
      */
     private $translator;
 
@@ -217,7 +217,7 @@ class UpgradeButtonBlock
     {
         $channelInfo = $this->getInfoForChannel($channel);
 
-        return (new ChannelInfoBlock($this->config, $channelInfo, $this->twig, $this->translator))
+        return (new ChannelInfoBlock($this->config, $channelInfo, $this->twig))
             ->render();
     }
 }

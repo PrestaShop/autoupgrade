@@ -117,7 +117,7 @@ class PrestashopConfiguration
     }
 
     /**
-     * @param type $content
+     * @param string $content File content
      *
      * @return bool|string
      *

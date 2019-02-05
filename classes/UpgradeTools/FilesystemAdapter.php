@@ -199,9 +199,9 @@ class FilesystemAdapter
     /**
      *	bool _skipFile : check whether a file is in backup or restore skip list.
      *
-     * @param type $file : current file or directory name eg:'.svn' , 'settings.inc.php'
-     * @param type $fullpath : current file or directory fullpath eg:'/home/web/www/prestashop/app/config/parameters.php'
-     * @param type $way : 'backup' , 'upgrade'
+     * @param string $file : current file or directory name eg:'.svn' , 'settings.inc.php'
+     * @param string $fullpath : current file or directory fullpath eg:'/home/web/www/prestashop/app/config/parameters.php'
+     * @param string $way : 'backup' , 'upgrade'
      * @param string $temporaryWorkspace : If needed, another folder than the shop root can be used (used for releases)
      */
     public function isFileSkipped($file, $fullpath, $way = 'backup', $temporaryWorkspace = null)

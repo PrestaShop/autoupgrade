@@ -82,6 +82,11 @@ class AjaxResponse
      */
     private $state;
 
+    /**
+     * @var \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator
+     */
+    private $translator;
+
     public function __construct($translator, State $state, Logger $logger)
     {
         $this->translator = $translator;

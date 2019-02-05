@@ -1,0 +1,14 @@
+parameters:
+	bootstrap: /web/module/tests/phpstan/bootstrap.php
+	paths:
+		- /web/module/classes
+	excludes_analyse:
+		- /web/module/classes/Tools14.php
+		- /web/module/classes/pclzip.lib.php
+		- /web/module/functions.php
+	ignoreErrors:
+		# module specific
+		- '#Function deactivate_custom_modules not found.#'
+		- '#Instantiated class PclZip not found.#'
+
+	level: 0

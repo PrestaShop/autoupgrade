@@ -70,7 +70,7 @@ abstract class AbstractTask
     }
 
     /**
-     * @return sting base64 encoded data from AjaxResponse
+     * @return string base64 encoded data from AjaxResponse
      */
     public function getEncodedResponse()
     {
@@ -78,7 +78,7 @@ abstract class AbstractTask
     }
 
     /**
-     * @return sting Json encoded data from AjaxResponse
+     * @return string Json encoded data from AjaxResponse
      */
     public function getJsonResponse()
     {

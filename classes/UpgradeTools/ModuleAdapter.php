@@ -67,7 +67,7 @@ class ModuleAdapter
     /**
      * Available only from 1.7. Can't be called on PS 1.6.
      *
-     * @return PrestaShop\PrestaShop\Adapter\Module\ModuleDataUpdater
+     * @return \PrestaShop\PrestaShop\Adapter\Module\ModuleDataUpdater
      */
     public function getModuleDataUpdater()
     {

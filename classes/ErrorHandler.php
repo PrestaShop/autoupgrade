@@ -39,6 +39,11 @@ use Psr\Log\LoggerInterface;
 class ErrorHandler
 {
     /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
      * @param LoggerInterface $logger
      */
     public function __construct(LoggerInterface $logger)
@@ -61,7 +66,7 @@ class ErrorHandler
     /**
      * Function retrieving uncaught exceptions.
      *
-     * @param Throwable $e
+     * @param \Throwable $e
      */
     public function exceptionHandler($e)
     {
