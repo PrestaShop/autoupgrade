@@ -123,7 +123,7 @@ class Upgrader
             $this->checkPSVersion();
         }
 
-        return $this->need_upgrade;
+        return !$this->need_upgrade;
     }
 
     /**

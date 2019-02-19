@@ -57,9 +57,9 @@ is used by automated tests.
 testCliProcess.php <Path to cli-upgrade.php/cli-rollback.php etc.> [Options]
 ------------------
 Options
---help               Display this message.
+--help            Display this message.
 
---admin-dir      Tells where the admin directory is.
+--dir             Tells where the admin directory is.
 
 [UPGRADE]
 --channel         Selects what upgrade to run (minor, major etc.)
