@@ -113,13 +113,13 @@ abstract class CoreUpgrader
         // setting the memory limit to 128M only if current is lower
         $memory_limit = ini_get('memory_limit');
         if ((substr($memory_limit, -1) != 'G')
-            && ((substr($memory_limit, -1) == 'M' and substr($memory_limit, 0, -1) < 512)
-                || is_numeric($memory_limit) and (intval($memory_limit) < 131072))
+            && ((substr($memory_limit, -1) == 'M' && substr($memory_limit, 0, -1) < 512)
+                || is_numeric($memory_limit) && ((int) $memory_limit < 131072))
         ) {
             @ini_set('memory_limit', '512M');
         }
 
-        /* Redefine REQUEST_URI if empty (on some webservers...) */
+        // Redefine REQUEST_URI if empty (on some webservers...)
         if (!isset($_SERVER['REQUEST_URI']) || empty($_SERVER['REQUEST_URI'])) {
             if (!isset($_SERVER['SCRIPT_NAME']) && isset($_SERVER['SCRIPT_FILENAME'])) {
                 $_SERVER['SCRIPT_NAME'] = $_SERVER['SCRIPT_FILENAME'];
@@ -164,7 +164,7 @@ abstract class CoreUpgrader
         }
 
         // if _PS_ROOT_DIR_ is defined, use it instead of "guessing" the module dir.
-        if (defined('_PS_ROOT_DIR_') and !defined('_PS_MODULE_DIR_')) {
+        if (defined('_PS_ROOT_DIR_') && !defined('_PS_MODULE_DIR_')) {
             define('_PS_MODULE_DIR_', _PS_ROOT_DIR_ . '/modules/');
         } elseif (!defined('_PS_MODULE_DIR_')) {
             define('_PS_MODULE_DIR_', INSTALL_PATH . '/../modules/');
@@ -335,7 +335,7 @@ abstract class CoreUpgrader
         if (empty($query)) {
             return;
         }
-        /* If php code have to be executed */
+        // If php code have to be executed
         if (strpos($query, '/* PHP:') !== false) {
             return $this->runPhpQuery($upgrade_file, $query);
         }
@@ -344,7 +344,7 @@ abstract class CoreUpgrader
 
     protected function runPhpQuery($upgrade_file, $query)
     {
-        /* Parsing php code */
+        // Parsing php code
         $pos = strpos($query, '/* PHP:') + strlen('/* PHP:');
         $phpString = substr($query, $pos, strlen($query) - $pos - strlen(' */;'));
         $php = explode('::', $phpString);
@@ -360,7 +360,7 @@ abstract class CoreUpgrader
 
         // reset phpRes to a null value
         $phpRes = null;
-        /* Call a simple function */
+        // Call a simple function
         if (strpos($phpString, '::') === false) {
             $func_name = str_replace($pattern[0], '', $php[0]);
 
@@ -372,7 +372,7 @@ abstract class CoreUpgrader
                 $phpRes = call_user_func_array($func_name, $parameters);
             }
         }
-        /* Or an object method */
+        // Or an object method
         else {
             $func_name = array($php[0], str_replace($pattern[0], '', $php[1]));
             $this->logger->error('[ERROR] ' . $upgrade_file . ' PHP - Object Method call is forbidden (' . $php[0] . '::' . str_replace($pattern[0], '', $php[1]) . ')');
@@ -515,7 +515,7 @@ abstract class CoreUpgrader
         if (file_exists(_PS_ROOT_DIR_ . '/classes/Tools.php')) {
             require_once _PS_ROOT_DIR_ . '/classes/Tools.php';
         }
-        if (!class_exists('Tools2', false) and class_exists('ToolsCore')) {
+        if (!class_exists('Tools2', false) && class_exists('ToolsCore')) {
             eval('class Tools2 extends ToolsCore{}');
         }
 
@@ -535,105 +535,105 @@ abstract class CoreUpgrader
         if (file_exists(_PS_ROOT_DIR_ . '/classes/ObjectModel.php')) {
             require_once _PS_ROOT_DIR_ . '/classes/ObjectModel.php';
         }
-        if (!class_exists('ObjectModel', false) and class_exists('ObjectModelCore')) {
+        if (!class_exists('ObjectModel', false) && class_exists('ObjectModelCore')) {
             eval('abstract class ObjectModel extends ObjectModelCore{}');
         }
 
         if (file_exists(_PS_ROOT_DIR_ . '/classes/Configuration.php')) {
             require_once _PS_ROOT_DIR_ . '/classes/Configuration.php';
         }
-        if (!class_exists('Configuration', false) and class_exists('ConfigurationCore')) {
+        if (!class_exists('Configuration', false) && class_exists('ConfigurationCore')) {
             eval('class Configuration extends ConfigurationCore{}');
         }
 
         if (file_exists(_PS_ROOT_DIR_ . '/classes/cache/Cache.php')) {
             require_once _PS_ROOT_DIR_ . '/classes/cache/Cache.php';
         }
-        if (!class_exists('Cache', false) and class_exists('CacheCore')) {
+        if (!class_exists('Cache', false) && class_exists('CacheCore')) {
             eval('abstract class Cache extends CacheCore{}');
         }
 
         if (file_exists(_PS_ROOT_DIR_ . '/classes/PrestaShopCollection.php')) {
             require_once _PS_ROOT_DIR_ . '/classes/PrestaShopCollection.php';
         }
-        if (!class_exists('PrestaShopCollection', false) and class_exists('PrestaShopCollectionCore')) {
+        if (!class_exists('PrestaShopCollection', false) && class_exists('PrestaShopCollectionCore')) {
             eval('class PrestaShopCollection extends PrestaShopCollectionCore{}');
         }
 
         if (file_exists(_PS_ROOT_DIR_ . '/classes/shop/ShopUrl.php')) {
             require_once _PS_ROOT_DIR_ . '/classes/shop/ShopUrl.php';
         }
-        if (!class_exists('ShopUrl', false) and class_exists('ShopUrlCore')) {
+        if (!class_exists('ShopUrl', false) && class_exists('ShopUrlCore')) {
             eval('class ShopUrl extends ShopUrlCore{}');
         }
 
         if (file_exists(_PS_ROOT_DIR_ . '/classes/shop/Shop.php')) {
             require_once _PS_ROOT_DIR_ . '/classes/shop/Shop.php';
         }
-        if (!class_exists('Shop', false) and class_exists('ShopCore')) {
+        if (!class_exists('Shop', false) && class_exists('ShopCore')) {
             eval('class Shop extends ShopCore{}');
         }
 
         if (file_exists(_PS_ROOT_DIR_ . '/classes/Translate.php')) {
             require_once _PS_ROOT_DIR_ . '/classes/Translate.php';
         }
-        if (!class_exists('Translate', false) and class_exists('TranslateCore')) {
+        if (!class_exists('Translate', false) && class_exists('TranslateCore')) {
             eval('class Translate extends TranslateCore{}');
         }
 
         if (file_exists(_PS_ROOT_DIR_ . '/classes/module/Module.php')) {
             require_once _PS_ROOT_DIR_ . '/classes/module/Module.php';
         }
-        if (!class_exists('Module', false) and class_exists('ModuleCore')) {
+        if (!class_exists('Module', false) && class_exists('ModuleCore')) {
             eval('class Module extends ModuleCore{}');
         }
 
         if (file_exists(_PS_ROOT_DIR_ . '/classes/Validate.php')) {
             require_once _PS_ROOT_DIR_ . '/classes/Validate.php';
         }
-        if (!class_exists('Validate', false) and class_exists('ValidateCore')) {
+        if (!class_exists('Validate', false) && class_exists('ValidateCore')) {
             eval('class Validate extends ValidateCore{}');
         }
 
         if (file_exists(_PS_ROOT_DIR_ . '/classes/Language.php')) {
             require_once _PS_ROOT_DIR_ . '/classes/Language.php';
         }
-        if (!class_exists('Language', false) and class_exists('LanguageCore')) {
+        if (!class_exists('Language', false) && class_exists('LanguageCore')) {
             eval('class Language extends LanguageCore{}');
         }
 
         if (file_exists(_PS_ROOT_DIR_ . '/classes/Tab.php')) {
             require_once _PS_ROOT_DIR_ . '/classes/Tab.php';
         }
-        if (!class_exists('Tab', false) and class_exists('TabCore')) {
+        if (!class_exists('Tab', false) && class_exists('TabCore')) {
             eval('class Tab extends TabCore{}');
         }
 
         if (file_exists(_PS_ROOT_DIR_ . '/classes/Dispatcher.php')) {
             require_once _PS_ROOT_DIR_ . '/classes/Dispatcher.php';
         }
-        if (!class_exists('Dispatcher', false) and class_exists('DispatcherCore')) {
+        if (!class_exists('Dispatcher', false) && class_exists('DispatcherCore')) {
             eval('class Dispatcher extends DispatcherCore{}');
         }
 
         if (file_exists(_PS_ROOT_DIR_ . '/classes/Hook.php')) {
             require_once _PS_ROOT_DIR_ . '/classes/Hook.php';
         }
-        if (!class_exists('Hook', false) and class_exists('HookCore')) {
+        if (!class_exists('Hook', false) && class_exists('HookCore')) {
             eval('class Hook extends HookCore{}');
         }
 
         if (file_exists(_PS_ROOT_DIR_ . '/classes/Context.php')) {
             require_once _PS_ROOT_DIR_ . '/classes/Context.php';
         }
-        if (!class_exists('Context', false) and class_exists('ContextCore')) {
+        if (!class_exists('Context', false) && class_exists('ContextCore')) {
             eval('class Context extends ContextCore{}');
         }
 
         if (file_exists(_PS_ROOT_DIR_ . '/classes/Group.php')) {
             require_once _PS_ROOT_DIR_ . '/classes/Group.php';
         }
-        if (!class_exists('Group', false) and class_exists('GroupCore')) {
+        if (!class_exists('Group', false) && class_exists('GroupCore')) {
             eval('class Group extends GroupCore{}');
         }
 

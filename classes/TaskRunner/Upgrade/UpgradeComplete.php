@@ -30,7 +30,6 @@ namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
-
 use Configuration;
 
 /**

@@ -51,7 +51,7 @@ class UpdateConfig extends AbstractTask
             $config['channel'] = $request['channel'];
             $config['archive.filename'] = Upgrader::DEFAULT_FILENAME;
         }
-        if (isset($request['private_release_link']) && isset($request['private_release_md5'])) {
+        if (isset($request['private_release_link'], $request['private_release_md5'])) {
             $config['channel'] = 'private';
             $config['private_release_link'] = $request['private_release_link'];
             $config['private_release_md5'] = $request['private_release_md5'];

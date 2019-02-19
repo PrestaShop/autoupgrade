@@ -31,7 +31,7 @@ class Autoupgrade extends Module
         $this->name = 'autoupgrade';
         $this->tab = 'administration';
         $this->author = 'PrestaShop';
-        $this->version = '4.5.1';
+        $this->version = '4.6.0';
         $this->need_instance = 1;
 
         $this->bootstrap = true;
@@ -57,6 +57,7 @@ class Autoupgrade extends Module
     {
         if (50600 > PHP_VERSION_ID) {
             $this->_errors[] = $this->trans('This version of 1-click upgrade requires PHP 5.6 to work properly. Please upgrade your server configuration.', array(), 'Modules.Autoupgrade.Admin');
+
             return false;
         }
 
@@ -64,7 +65,7 @@ class Autoupgrade extends Module
             return false;
         }
 
-        /* Before creating a new tab "AdminSelfUpgrade" we need to remove any existing "AdminUpgrade" tab (present in v1.4.4.0 and v1.4.4.1) */
+        // Before creating a new tab "AdminSelfUpgrade" we need to remove any existing "AdminUpgrade" tab (present in v1.4.4.0 and v1.4.4.1)
         if ($id_tab = Tab::getIdFromClassName('AdminUpgrade')) {
             $tab = new Tab((int) $id_tab);
             if (!$tab->delete()) {
@@ -72,7 +73,7 @@ class Autoupgrade extends Module
             }
         }
 
-        /* If the "AdminSelfUpgrade" tab does not exist yet, create it */
+        // If the "AdminSelfUpgrade" tab does not exist yet, create it
         if (!$id_tab = Tab::getIdFromClassName('AdminSelfUpgrade')) {
             $tab = new Tab();
             $tab->class_name = 'AdminSelfUpgrade';
@@ -91,35 +92,35 @@ class Autoupgrade extends Module
             $tab = new Tab((int) $id_tab);
         }
 
-        /* Update the "AdminSelfUpgrade" tab id in database or exit */
+        // Update the "AdminSelfUpgrade" tab id in database or exit
         if (Validate::isLoadedObject($tab)) {
             Configuration::updateValue('PS_AUTOUPDATE_MODULE_IDTAB', (int) $tab->id);
         } else {
             return $this->_abortInstall($this->trans('Unable to load the "AdminSelfUpgrade" tab', array(), 'Modules.Autoupgrade.Admin'));
         }
 
-        /* Check that the 1-click upgrade working directory is existing or create it */
+        // Check that the 1-click upgrade working directory is existing or create it
         $autoupgrade_dir = _PS_ADMIN_DIR_ . DIRECTORY_SEPARATOR . 'autoupgrade';
         if (!file_exists($autoupgrade_dir) && !@mkdir($autoupgrade_dir)) {
             return $this->_abortInstall($this->trans('Unable to create the directory "%s"', array($autoupgrade_dir), 'Modules.Autoupgrade.Admin'));
         }
 
-        /* Make sure that the 1-click upgrade working directory is writeable */
+        // Make sure that the 1-click upgrade working directory is writeable
         if (!is_writable($autoupgrade_dir)) {
             return $this->_abortInstall($this->trans('Unable to write in the directory "%s"', array($autoupgrade_dir), 'Modules.Autoupgrade.Admin'));
         }
 
-        /* If a previous version of ajax-upgradetab.php exists, delete it */
+        // If a previous version of ajax-upgradetab.php exists, delete it
         if (file_exists($autoupgrade_dir . DIRECTORY_SEPARATOR . 'ajax-upgradetab.php')) {
             @unlink($autoupgrade_dir . DIRECTORY_SEPARATOR . 'ajax-upgradetab.php');
         }
 
-        /* Then, try to copy the newest version from the module's directory */
+        // Then, try to copy the newest version from the module's directory
         if (!@copy(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'ajax-upgradetab.php', $autoupgrade_dir . DIRECTORY_SEPARATOR . 'ajax-upgradetab.php')) {
             return $this->_abortInstall($this->trans('Unable to copy ajax-upgradetab.php in %s', array($autoupgrade_dir), 'Modules.Autoupgrade.Admin'));
         }
 
-        /* Make sure that the XML config directory exists */
+        // Make sure that the XML config directory exists
         if (!file_exists(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml') &&
         !@mkdir(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml', 0775)) {
             return $this->_abortInstall($this->trans('Unable to create the directory "%s"', array(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml'), 'Modules.Autoupgrade.Admin'));
@@ -127,7 +128,7 @@ class Autoupgrade extends Module
             @chmod(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml', 0775);
         }
 
-        /* Create a dummy index.php file in the XML config directory to avoid directory listing */
+        // Create a dummy index.php file in the XML config directory to avoid directory listing
         if (!file_exists(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml' . DIRECTORY_SEPARATOR . 'index.php') &&
         (file_exists(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'index.php') &&
         !@copy(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'index.php', _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml' . DIRECTORY_SEPARATOR . 'index.php'))) {
@@ -139,13 +140,13 @@ class Autoupgrade extends Module
 
     public function uninstall()
     {
-        /* Delete the 1-click upgrade Back-office tab */
+        // Delete the 1-click upgrade Back-office tab
         if ($id_tab = Tab::getIdFromClassName('AdminSelfUpgrade')) {
             $tab = new Tab((int) $id_tab);
             $tab->delete();
         }
 
-        /* Remove the 1-click upgrade working directory */
+        // Remove the 1-click upgrade working directory
         self::_removeDirectory(_PS_ADMIN_DIR_ . DIRECTORY_SEPARATOR . 'autoupgrade');
 
         return parent::uninstall();
@@ -203,7 +204,8 @@ class Autoupgrade extends Module
     {
         require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/classes/UpgradeTools/Translator.php';
 
-        $translator = new \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator(get_class());
+        $translator = new \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator(__CLASS__);
+
         return $translator->trans($id, $parameters, $domain, $locale);
     }
 }

@@ -24,7 +24,6 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * International Registered Trademark & Property of PrestaShop SA
  */
-
 namespace PrestaShop\Module\AutoUpgrade;
 
 use PrestaShop\Module\AutoUpgrade\Twig\Block\RollbackForm;
@@ -258,7 +257,7 @@ class UpgradePage
         $formRenderer = new FormRenderer($this->config, $this->twig, $this->translator);
 
         return (new UpgradeOptionsForm($this->translator, $formRenderer))
-             ->render();
+            ->render();
     }
 
     /**
@@ -268,7 +267,7 @@ class UpgradePage
     {
         $translator = $this->translator;
 
-        /* PrestaShop demo mode */
+        // PrestaShop demo mode
         if (defined('_PS_MODE_DEMO_') && _PS_MODE_DEMO_) {
             return array(
                 'message' => $translator->trans('This functionality has been disabled.', array(), self::TRANSLATION_DOMAIN),

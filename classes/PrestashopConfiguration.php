@@ -33,7 +33,7 @@ use Configuration;
 class PrestashopConfiguration
 {
     // Variables used for cache
-    private $moduleVersion = null;
+    private $moduleVersion;
     private $allowed_array = array();
 
     // Variables from main class
@@ -68,7 +68,7 @@ class PrestashopConfiguration
                     'shop_deactivated' => (!Configuration::get('PS_SHOP_ENABLE') || (isset($_SERVER['HTTP_HOST']) && in_array($_SERVER['HTTP_HOST'], array('127.0.0.1', 'localhost')))),
                     'cache_deactivated' => !(defined('_PS_CACHE_ENABLED_') && _PS_CACHE_ENABLED_),
                     'module_version_ok' => $this->checkAutoupgradeLastVersion($this->getUpgrader()->autoupgrade_last_version),
-            ));
+                ));
         }
 
         return $this->allowed_array;
@@ -79,7 +79,7 @@ class PrestashopConfiguration
      */
     public function getModuleVersion()
     {
-        if (!is_null($this->moduleVersion)) {
+        if (null !== $this->moduleVersion) {
             return $this->moduleVersion;
         }
 
@@ -104,6 +104,7 @@ class PrestashopConfiguration
         $files = array(
             $this->psRootDir . '/config/settings.inc.php',
             $this->psRootDir . '/config/autoload.php',
+            $this->psRootDir . '/app/AppKernel.php',
         );
         foreach ($files as $file) {
             $version = $this->findPrestaShopVersionInFile(file_get_contents($file));
@@ -153,7 +154,13 @@ class PrestashopConfiguration
     public function findPrestaShopVersionInFile($content)
     {
         $matches = array();
+        // Example: define('_PS_VERSION_', '1.7.3.4');
         if (1 === preg_match("/define\([\"']_PS_VERSION_[\"'], [\"'](?<version>[0-9.]+)[\"']\)/", $content, $matches)) {
+            return $matches['version'];
+        }
+
+        // Example: const VERSION = '1.7.6.0';
+        if (1 === preg_match("/const VERSION = [\"'](?<version>[0-9.]+)[\"'];/", $content, $matches)) {
             return $matches['version'];
         }
 

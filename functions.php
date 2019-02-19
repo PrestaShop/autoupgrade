@@ -1,28 +1,28 @@
 <?php
 /**
-* 2007-2016 PrestaShop.
-*
-* NOTICE OF LICENSE
-*
-* This source file is subject to the Open Software License (OSL 3.0)
-* that is bundled with this package in the file LICENSE.txt.
-* It is also available through the world-wide-web at this URL:
-* http://opensource.org/licenses/osl-3.0.php
-* If you did not receive a copy of the license and are unable to
-* obtain it through the world-wide-web, please send an email
-* to license@prestashop.com so we can send you a copy immediately.
-*
-* DISCLAIMER
-*
-* Do not edit or add to this file if you wish to upgrade PrestaShop to newer
-* versions in the future. If you wish to customize PrestaShop for your
-* needs please refer to http://www.prestashop.com for more information.
-*
-*  @author    PrestaShop SA <contact@prestashop.com>
-*  @copyright 2007-2016 PrestaShop SA
-*  @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-*  International Registered Trademark & Property of PrestaShop SA
-*/
+ * 2007-2016 PrestaShop.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@prestashop.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
+ * versions in the future. If you wish to customize PrestaShop for your
+ * needs please refer to http://www.prestashop.com for more information.
+ *
+ *  @author    PrestaShop SA <contact@prestashop.com>
+ *  @copyright 2007-2016 PrestaShop SA
+ *  @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ *  International Registered Trademark & Property of PrestaShop SA
+ */
 
 /**
  * Generate a new settings file, only transmitted parameters are updated.
@@ -34,18 +34,18 @@
 function rewriteSettingsFile($baseUrls = null, $theme = null, $arrayDB = null)
 {
     $defines = array();
-    $defines['__PS_BASE_URI__'] = ($baseUrls and $baseUrls['__PS_BASE_URI__']) ? $baseUrls['__PS_BASE_URI__'] : __PS_BASE_URI__;
-    $defines['_MEDIA_SERVER_1_'] = ($baseUrls and isset($baseUrls['_MEDIA_SERVER_1_'])) ? $baseUrls['_MEDIA_SERVER_1_'] : _MEDIA_SERVER_1_;
+    $defines['__PS_BASE_URI__'] = ($baseUrls && $baseUrls['__PS_BASE_URI__']) ? $baseUrls['__PS_BASE_URI__'] : __PS_BASE_URI__;
+    $defines['_MEDIA_SERVER_1_'] = ($baseUrls && isset($baseUrls['_MEDIA_SERVER_1_'])) ? $baseUrls['_MEDIA_SERVER_1_'] : _MEDIA_SERVER_1_;
     $defines['_PS_CACHING_SYSTEM_'] = _PS_CACHING_SYSTEM_;
     $defines['_PS_CACHE_ENABLED_'] = _PS_CACHE_ENABLED_;
     $defines['_THEME_NAME_'] = $theme ? $theme : _THEME_NAME_;
-    $defines['_DB_NAME_'] = (($arrayDB and isset($arrayDB['_DB_NAME_'])) ? $arrayDB['_DB_NAME_'] : _DB_NAME_);
-    $defines['_MYSQL_ENGINE_'] = (($arrayDB and isset($arrayDB['_MYSQL_ENGINE_'])) ? $arrayDB['_MYSQL_ENGINE_'] : _MYSQL_ENGINE_);
-    $defines['_DB_SERVER_'] = (($arrayDB and isset($arrayDB['_DB_SERVER_'])) ? $arrayDB['_DB_SERVER_'] : _DB_SERVER_);
-    $defines['_DB_USER_'] = (($arrayDB and isset($arrayDB['_DB_USER_'])) ? $arrayDB['_DB_USER_'] : _DB_USER_);
-    $defines['_DB_PREFIX_'] = (($arrayDB and isset($arrayDB['_DB_PREFIX_'])) ? $arrayDB['_DB_PREFIX_'] : _DB_PREFIX_);
-    $defines['_DB_PASSWD_'] = (($arrayDB and isset($arrayDB['_DB_PASSWD_'])) ? $arrayDB['_DB_PASSWD_'] : _DB_PASSWD_);
-    $defines['_DB_TYPE_'] = (($arrayDB and isset($arrayDB['_DB_TYPE_'])) ? $arrayDB['_DB_TYPE_'] : _DB_TYPE_);
+    $defines['_DB_NAME_'] = (($arrayDB && isset($arrayDB['_DB_NAME_'])) ? $arrayDB['_DB_NAME_'] : _DB_NAME_);
+    $defines['_MYSQL_ENGINE_'] = (($arrayDB && isset($arrayDB['_MYSQL_ENGINE_'])) ? $arrayDB['_MYSQL_ENGINE_'] : _MYSQL_ENGINE_);
+    $defines['_DB_SERVER_'] = (($arrayDB && isset($arrayDB['_DB_SERVER_'])) ? $arrayDB['_DB_SERVER_'] : _DB_SERVER_);
+    $defines['_DB_USER_'] = (($arrayDB && isset($arrayDB['_DB_USER_'])) ? $arrayDB['_DB_USER_'] : _DB_USER_);
+    $defines['_DB_PREFIX_'] = (($arrayDB && isset($arrayDB['_DB_PREFIX_'])) ? $arrayDB['_DB_PREFIX_'] : _DB_PREFIX_);
+    $defines['_DB_PASSWD_'] = (($arrayDB && isset($arrayDB['_DB_PASSWD_'])) ? $arrayDB['_DB_PASSWD_'] : _DB_PASSWD_);
+    $defines['_DB_TYPE_'] = (($arrayDB && isset($arrayDB['_DB_TYPE_'])) ? $arrayDB['_DB_TYPE_'] : _DB_TYPE_);
     $defines['_COOKIE_KEY_'] = addslashes(_COOKIE_KEY_);
     $defines['_COOKIE_IV_'] = addslashes(_COOKIE_IV_);
     if (defined('_RIJNDAEL_KEY_')) {
@@ -98,18 +98,18 @@ function getPath($urlBase, $id_category, $path = '', $highlight = '', $categoryT
 
     if ($categoryType == 'catalog') {
         $category = Db::getInstance()->getRow('
-		SELECT id_category, level_depth, nleft, nright
-		FROM ' . _DB_PREFIX_ . 'category
-		WHERE id_category = ' . (int) $id_category);
+        SELECT id_category, level_depth, nleft, nright
+        FROM ' . _DB_PREFIX_ . 'category
+        WHERE id_category = ' . (int) $id_category);
 
         if (isset($category['id_category'])) {
             $categories = Db::getInstance()->ExecuteS('
-			SELECT c.id_category, cl.name, cl.link_rewrite
-			FROM ' . _DB_PREFIX_ . 'category c
-			LEFT JOIN ' . _DB_PREFIX_ . 'category_lang cl ON (cl.id_category = c.id_category)
-			WHERE c.nleft <= ' . (int) $category['nleft'] . ' AND c.nright >= ' . (int) $category['nright'] . ' AND cl.id_lang = ' . (int) ($cookie->id_lang) . '
-			ORDER BY c.level_depth ASC
-			LIMIT ' . (int) ($category['level_depth'] + 1));
+            SELECT c.id_category, cl.name, cl.link_rewrite
+            FROM ' . _DB_PREFIX_ . 'category c
+            LEFT JOIN ' . _DB_PREFIX_ . 'category_lang cl ON (cl.id_category = c.id_category)
+            WHERE c.nleft <= ' . (int) $category['nleft'] . ' AND c.nright >= ' . (int) $category['nright'] . ' AND cl.id_lang = ' . (int) ($cookie->id_lang) . '
+            ORDER BY c.level_depth ASC
+            LIMIT ' . (int) ($category['level_depth'] + 1));
 
             $fullPath = '';
             $n = 1;
@@ -120,7 +120,7 @@ function getPath($urlBase, $id_category, $path = '', $highlight = '', $categoryT
                 ($n < $nCategories ? '<a href="' . $urlBase . '&id_category=' . (int) $category['id_category'] . '&viewcategory&token=' . Tools14::getAdminToken('AdminCatalog' . (int) (Tab::getIdFromClassName('AdminCatalog')) . (int) ($cookie->id_employee)) . '" title="' . htmlentities($category['name'], ENT_NOQUOTES, 'UTF-8') . '">' : '') .
                 (!empty($highlight) ? str_ireplace($highlight, '<span class="highlight">' . htmlentities($highlight, ENT_NOQUOTES, 'UTF-8') . '</span>', $category['name']) : $category['name']) .
                 ($n < $nCategories ? '</a>' : '') .
-                (($n++ != $nCategories or !empty($path)) ? ' > ' : '');
+                (($n++ != $nCategories || !empty($path)) ? ' > ' : '');
             }
 
             return $fullPath . $path;
@@ -133,13 +133,13 @@ function getPath($urlBase, $id_category, $path = '', $highlight = '', $categoryT
 
         $name = ($highlight != null) ? str_ireplace($highlight, '<span class="highlight">' . $highlight . '</span>', CMSCategory::hideCMSCategoryPosition($category->name)) : CMSCategory::hideCMSCategoryPosition($category->name);
         $edit = '<a href="' . $urlBase . '&id_cms_category=' . $category->id . '&addcategory&token=' . Tools14::getAdminToken('AdminCMSContent' . (int) (Tab::getIdFromClassName('AdminCMSContent')) . (int) ($cookie->id_employee)) . '">
-				<img src="../img/admin/edit.gif" alt="Modify" /></a> ';
+                <img src="../img/admin/edit.gif" alt="Modify" /></a> ';
         if ($category->id == 1) {
             $edit = '<a href="' . $urlBase . '&id_cms_category=' . $category->id . '&viewcategory&token=' . Tools14::getAdminToken('AdminCMSContent' . (int) (Tab::getIdFromClassName('AdminCMSContent')) . (int) ($cookie->id_employee)) . '">
-					<img src="../img/admin/home.gif" alt="Home" /></a> ';
+                    <img src="../img/admin/home.gif" alt="Home" /></a> ';
         }
         $path = $edit . '<a href="' . $urlBase . '&id_cms_category=' . $category->id . '&viewcategory&token=' . Tools14::getAdminToken('AdminCMSContent' . (int) (Tab::getIdFromClassName('AdminCMSContent')) . (int) ($cookie->id_employee)) . '">
-		' . $name . '</a> > ' . $path;
+        ' . $name . '</a> > ' . $path;
         if ($category->id == 1) {
             return substr($path, 0, strlen($path) - 3);
         }
@@ -202,13 +202,13 @@ function checkingTab($tab)
 
         return false;
     }
-    if ($row['module'] and file_exists(_PS_MODULE_DIR_ . '/' . $row['module'] . '/' . $tab . '.php')) {
+    if ($row['module'] && file_exists(_PS_MODULE_DIR_ . '/' . $row['module'] . '/' . $tab . '.php')) {
         include_once _PS_MODULE_DIR_ . '/' . $row['module'] . '/' . $tab . '.php';
     } elseif (file_exists(PS_ADMIN_DIR . '/tabs/' . $tab . '.php')) {
         include_once PS_ADMIN_DIR . '/tabs/' . $tab . '.php';
     }
 
-    if (!class_exists($tab, false) or !$row['id_tab']) {
+    if (!class_exists($tab, false) || !$row['id_tab']) {
         echo Tools14::displayError('Tab file cannot be found.');
 
         return false;
@@ -281,7 +281,7 @@ function checkTabRights($id_tab)
  * @param string $childrenKey index for children, in case $flattenChildren was set to
  *                            false. Defaults to "@children"
  *
- * @return array the resulting array.
+ * @return array the resulting array
  */
 function simpleXMLToArray($xml, $flattenValues = true, $flattenAttributes = true, $flattenChildren = true, $valueKey = '@value', $attributesKey = '@attributes', $childrenKey = '@children')
 {

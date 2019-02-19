@@ -66,10 +66,10 @@ class BackupDb extends AbstractTask
         $ignore_stats_table = array();
         if (!$psBackupAll) {
             $ignore_stats_table = array(_DB_PREFIX_ . 'connections',
-                                                        _DB_PREFIX_ . 'connections_page',
-                                                        _DB_PREFIX_ . 'connections_source',
-                                                        _DB_PREFIX_ . 'guest',
-                                                        _DB_PREFIX_ . 'statssearch', );
+                _DB_PREFIX_ . 'connections_page',
+                _DB_PREFIX_ . 'connections_source',
+                _DB_PREFIX_ . 'guest',
+                _DB_PREFIX_ . 'statssearch', );
         }
 
         // INIT LOOP
@@ -91,7 +91,7 @@ class BackupDb extends AbstractTask
         // MAIN BACKUP LOOP //
         $written = 0;
         do {
-            if (!is_null($this->container->getState()->getBackupTable())) {
+            if (null !== $this->container->getState()->getBackupTable()) {
                 // only insert (schema already done)
                 $table = $this->container->getState()->getBackupTable();
                 $lines = $this->container->getState()->getBackupLines();
@@ -159,8 +159,8 @@ class BackupDb extends AbstractTask
                 $schema = $this->container->getDb()->executeS('SHOW CREATE TABLE `' . $table . '`', true, false);
 
                 if (count($schema) != 1 ||
-                    !((isset($schema[0]['Table']) && isset($schema[0]['Create Table']))
-                        || (isset($schema[0]['View']) && isset($schema[0]['Create View'])))) {
+                    !(isset($schema[0]['Table'], $schema[0]['Create Table'])
+                        || isset($schema[0]['View'], $schema[0]['Create View']))) {
                     fclose($fp);
                     if (file_exists($backupfile)) {
                         unlink($backupfile);

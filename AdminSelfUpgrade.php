@@ -19,11 +19,11 @@
 * versions in the future. If you wish to customize PrestaShop for your
 * needs please refer to http://www.prestashop.com for more information.
 *
-*	@author PrestaShop SA <contact@prestashop.com>
-*	@copyright	2007-2016 PrestaShop SA
-*	@version	Release: $Revision: 11834 $
-*	@license		http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-*	International Registered Trademark & Property of PrestaShop SA
+*    @author PrestaShop SA <contact@prestashop.com>
+*    @copyright    2007-2016 PrestaShop SA
+*    @version    Release: $Revision: 11834 $
+*    @license        http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+*    International Registered Trademark & Property of PrestaShop SA
 */
 
 use PrestaShop\Module\AutoUpgrade\AjaxResponse;
@@ -55,11 +55,11 @@ class AdminSelfUpgrade extends AdminController
     /**
      * Initialized in initPath().
      */
-    public $autoupgradePath = null;
-    public $downloadPath = null;
-    public $backupPath = null;
-    public $latestPath = null;
-    public $tmpPath = null;
+    public $autoupgradePath;
+    public $downloadPath;
+    public $backupPath;
+    public $latestPath;
+    public $tmpPath;
 
     /**
      * autoupgradeDir.
@@ -71,18 +71,18 @@ class AdminSelfUpgrade extends AdminController
     public $prodRootDir = '';
     public $adminDir = '';
 
-    public $keepImages = null;
-    public $updateDefaultTheme = null;
-    public $changeToDefaultTheme = null;
-    public $keepMails = null;
-    public $manualMode = null;
-    public $deactivateCustomModule = null;
+    public $keepImages;
+    public $updateDefaultTheme;
+    public $changeToDefaultTheme;
+    public $keepMails;
+    public $manualMode;
+    public $deactivateCustomModule;
 
     public static $classes14 = array('Cache', 'CacheFS', 'CarrierModule', 'Db', 'FrontController', 'Helper', 'ImportModule',
-    'MCached', 'Module', 'ModuleGraph', 'ModuleGraphEngine', 'ModuleGrid', 'ModuleGridEngine',
-    'MySQL', 'Order', 'OrderDetail', 'OrderDiscount', 'OrderHistory', 'OrderMessage', 'OrderReturn',
-    'OrderReturnState', 'OrderSlip', 'OrderState', 'PDF', 'RangePrice', 'RangeWeight', 'StockMvt',
-    'StockMvtReason', 'SubDomain', 'Shop', 'Tax', 'TaxRule', 'TaxRulesGroup', 'WebserviceKey', 'WebserviceRequest', '', );
+        'MCached', 'Module', 'ModuleGraph', 'ModuleGraphEngine', 'ModuleGrid', 'ModuleGridEngine',
+        'MySQL', 'Order', 'OrderDetail', 'OrderDiscount', 'OrderHistory', 'OrderMessage', 'OrderReturn',
+        'OrderReturnState', 'OrderSlip', 'OrderState', 'PDF', 'RangePrice', 'RangeWeight', 'StockMvt',
+        'StockMvtReason', 'SubDomain', 'Shop', 'Tax', 'TaxRule', 'TaxRulesGroup', 'WebserviceKey', 'WebserviceRequest', '', );
 
     public static $maxBackupFileSize = 15728640; // 15 Mo
 
@@ -213,7 +213,7 @@ class AdminSelfUpgrade extends AdminController
         );
 
         // If you have defined this somewhere, you know what you do
-        /* load options from configuration if we're not in ajax mode */
+        // load options from configuration if we're not in ajax mode
         if (!$this->ajax) {
             $upgrader = $this->upgradeContainer->getUpgrader();
             $this->upgradeContainer->getCookie()->create(
@@ -356,7 +356,7 @@ class AdminSelfUpgrade extends AdminController
 
     public function display()
     {
-        /* Make sure the user has configured the upgrade options, or set default values */
+        // Make sure the user has configured the upgrade options, or set default values
         $configuration_keys = array(
             'PS_AUTOUP_UPDATE_DEFAULT_THEME' => 1,
             'PS_AUTOUP_CHANGE_DEFAULT_THEME' => 0,
@@ -428,6 +428,6 @@ class AdminSelfUpgrade extends AdminController
      */
     public function trans($id, array $parameters = array(), $domain = null, $locale = null)
     {
-        return (new \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator(get_class()))->trans($id, $parameters, $domain, $locale);
+        return (new \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator(__CLASS__))->trans($id, $parameters, $domain, $locale);
     }
 }

@@ -46,7 +46,7 @@ class LegacyLoggerTest extends TestCase
         $this->assertSame('Good bye', $logger->getLastInfo());
         $infos = $logger->getInfos();
         $this->assertSame('Hello', end($infos));
-        $this->assertSame(1, count($infos));
+        $this->assertCount(1, $infos);
     }
 
     public function testErrorIsRegistered()
@@ -55,8 +55,8 @@ class LegacyLoggerTest extends TestCase
         $logger->log(LegacyLogger::CRITICAL, 'Ach!!!');
 
         $errors = $logger->getErrors();
-        $this->assertSame(1, count($errors));
-        $this->assertSame(0, count($logger->getInfos()));
+        $this->assertCount(1, $errors);
+        $this->assertCount(0, $logger->getInfos());
         $this->assertSame('Ach!!!', end($errors));
     }
 
@@ -66,8 +66,8 @@ class LegacyLoggerTest extends TestCase
         $logger->log(LegacyLogger::DEBUG, 'Some stuff happened');
 
         $messages = $logger->getInfos();
-        $this->assertSame(1, count($messages));
-        $this->assertSame(0, count($logger->getErrors()));
+        $this->assertCount(1, $messages);
+        $this->assertCount(0, $logger->getErrors());
         $this->assertSame('Some stuff happened', end($messages));
     }
 }

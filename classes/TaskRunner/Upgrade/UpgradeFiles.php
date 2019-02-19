@@ -38,9 +38,7 @@ class UpgradeFiles extends AbstractTask
 
     public function run()
     {
-        /*
-         * The first call must init the list of files be upgraded
-         */
+        // The first call must init the list of files be upgraded
         if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::FILES_TO_UPGRADE_LIST)) {
             return $this->warmUp();
         }
@@ -151,7 +149,7 @@ class UpgradeFiles extends AbstractTask
         }
         if (is_dir($orig)) {
             // if $dest is not a directory (that can happen), just remove that file
-            if (!is_dir($dest) and file_exists($dest)) {
+            if (!is_dir($dest) && file_exists($dest)) {
                 unlink($dest);
                 $this->logger->debug($this->translator->trans('[WARNING] File %1$s has been deleted.', array($file), 'Modules.Autoupgrade.Admin'));
             }

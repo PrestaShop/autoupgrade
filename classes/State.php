@@ -33,17 +33,17 @@ namespace PrestaShop\Module\AutoUpgrade;
 class State
 {
     private $install_version; // Destination version of PrestaShop
-    private $backupName = null;
-    private $backupFilesFilename = null;
-    private $backupDbFilename = null;
-    private $restoreName = null;
-    private $restoreFilesFilename = null;
+    private $backupName;
+    private $backupFilesFilename;
+    private $backupDbFilename;
+    private $restoreName;
+    private $restoreFilesFilename;
     private $restoreDbFilenames = array();
 
     // STEP BackupDb
-    private $backup_lines = null;
-    private $backup_loop_limit = null;
-    private $backup_table = null;
+    private $backup_lines;
+    private $backup_loop_limit;
+    private $backup_table;
 
     /**
      * Int during BackupDb, allowing the script to increent the number of different file names
@@ -58,15 +58,15 @@ class State
      *
      * @var array|null File containing sample files to be deleted
      */
-    private $removeList = null;
+    private $removeList;
     /**
      * @var string|null File containing files to be upgraded
      */
-    private $fileToUpgrade = null;
+    private $fileToUpgrade;
     /**
      * @var string|null File containing modules to be upgraded
      */
-    private $modulesToUpgrade = null;
+    private $modulesToUpgrade;
 
     /**
      * installedLanguagesIso is an array of iso_code of each installed languages.
@@ -155,9 +155,7 @@ class State
         $this->setBackupName($backupName);
     }
 
-    /*
-     * GETTERS
-     */
+    // GETTERS
     public function getInstallVersion()
     {
         return $this->install_version;
@@ -233,9 +231,7 @@ class State
         return $this->warning_exists;
     }
 
-    /*
-     * SETTERS
-     */
+    // SETTERS
     public function setInstallVersion($install_version)
     {
         $this->install_version = $install_version;

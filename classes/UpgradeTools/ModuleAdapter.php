@@ -45,7 +45,7 @@ class ModuleAdapter
     private $zipAction;
 
     // Cached instance
-    private $moduleDataUpdater = null;
+    private $moduleDataUpdater;
 
     public function __construct($db, $translator, $modulesPath, $tempPath, $upgradeVersion, ZipAction $zipAction)
     {

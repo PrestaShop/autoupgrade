@@ -24,7 +24,6 @@
  *  @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  *  International Registered Trademark & Property of PrestaShop SA
  */
-
 namespace PrestaShop\Module\AutoUpgrade;
 
 use Symfony\Component\Filesystem\Filesystem;
@@ -50,7 +49,7 @@ class Upgrader
 
     public $version_name;
     public $version_num;
-    public $version_is_modified = null;
+    public $version_is_modified;
     /**
      * @var string contains hte url where to download the file
      */
@@ -124,7 +123,7 @@ class Upgrader
             $this->checkPSVersion();
         }
 
-        return $this->need_upgrade;
+        return !$this->need_upgrade;
     }
 
     /**
@@ -272,11 +271,11 @@ class Upgrader
             // Make the request
             $opts = array(
                 'http' => array(
-                'method' => 'POST',
-                'content' => $postData,
-                'header' => 'Content-type: application/x-www-form-urlencoded',
-                'timeout' => 10,
-            ), );
+                    'method' => 'POST',
+                    'content' => $postData,
+                    'header' => 'Content-type: application/x-www-form-urlencoded',
+                    'timeout' => 10,
+                ), );
             $context = stream_context_create($opts);
             $xml = false;
             foreach ($protocolsList as $protocol => $port) {
@@ -405,8 +404,11 @@ class Upgrader
         foreach ($node as $key => $child) {
             if (is_object($child) && $child->getName() == 'dir') {
                 $dir = (string) $child['name'];
-                // $current_path = $dir.(string)$child['name'];
-                // @todo : something else than array pop ?
+                /**
+                 * $current_path = $dir.(string)$child['name'];.
+                 *
+                 * @todo : something else than array pop ?
+                 */
                 $dir_content = $this->md5FileAsArray($child, $dir);
                 $array[$dir] = $dir_content;
             } elseif (is_object($child) && $child->getName() == 'md5file') {

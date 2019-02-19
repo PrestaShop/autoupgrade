@@ -37,11 +37,11 @@ class Translator
     }
 
     /**
-     * Translate a string to the current language
-     * 
+     * Translate a string to the current language.
+     *
      * This methods has the same signature as the 1.7 trans method, but only relies
      *  on the module translation files.
-     * 
+     *
      * @param string $id Original text
      * @param array $parameters Parameters to apply
      * @param string $domain Unused
