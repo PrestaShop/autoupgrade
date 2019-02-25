@@ -47,34 +47,6 @@ class PrestashopConfiguration
     }
 
     /**
-     * @return bool True if all checks are true
-     */
-    public function isCompliant()
-    {
-        return array_product($this->getCompliancyResults());
-    }
-
-    /**
-     * @return array of compliancy checks
-     */
-    public function getCompliancyResults()
-    {
-        if (!count($this->allowed_array)) {
-            $this->allowed_array = array_merge(
-                $this->getRootWritableDetails(),
-                array(
-                    'fopen' => (ConfigurationTest::test_fopen() || ConfigurationTest::test_curl()),
-                    'admin_au_writable' => ConfigurationTest::test_dir($this->autoupgradeDir, false),
-                    'shop_deactivated' => (!Configuration::get('PS_SHOP_ENABLE') || (isset($_SERVER['HTTP_HOST']) && in_array($_SERVER['HTTP_HOST'], array('127.0.0.1', 'localhost')))),
-                    'cache_deactivated' => !(defined('_PS_CACHE_ENABLED_') && _PS_CACHE_ENABLED_),
-                    'module_version_ok' => $this->checkAutoupgradeLastVersion($this->getUpgrader()->autoupgrade_last_version),
-                ));
-        }
-
-        return $this->allowed_array;
-    }
-
-    /**
      * @return string|false Returns the module version if found in the config.xml file, false otherwise.
      */
     public function getModuleVersion()
