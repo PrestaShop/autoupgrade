@@ -114,9 +114,27 @@ class UpgradeSelfCheck
      */
     private $configDir = '/modules/autoupgrade/config.xml';
 
-    private$upgrader;
+    /**
+     * @var Upgrader
+     */
+    private $upgrader;
+    
+    /**
+     * Path to the root folder of PS
+     * @var string
+     */
     private $prodRootPath;
+
+    /**
+     * Path to the admin folder of PS
+     * @var string
+     */
     private $adminPath;
+
+    /**
+     * Path to the root folder of the upgrade module
+     * @var string
+     */
     private $autoUpgradePath;
 
     /**
