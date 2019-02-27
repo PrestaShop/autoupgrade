@@ -24,20 +24,20 @@
 *}
 
 <section id="autoupgradePhpWarn" class="panel widget">
-	<div class="panel-heading">
+  <div class="panel-heading">
     <span class="icon-stack text-danger">
       <span class="icon icon-circle icon-stack-2x"></span>
       <strong class="icon-stack-1x icon-stack-text">1</strong>
     </span>
-		{l s='PHP Version notice' mod='autoupgrade'}
+    {l s='PHP Version notice' mod='autoupgrade'}
 
 
     <span class="panel-heading-action">
-			<a class="list-toolbar-btn" href="{$ignore_link}" title="Ignore">
-				<i class="process-icon-close"></i>
-			</a>
-		</span>
-	</div>
+      <a class="list-toolbar-btn" href="{$ignore_link}" title="Ignore">
+        <i class="process-icon-close"></i>
+      </a>
+    </span>
+  </div>
 
   <p class="text-muted text-center">
     <i id="autoupgradePhpWarningMainIcon" class="icon-history icon-flip-horizontal"></i>
