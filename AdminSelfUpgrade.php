@@ -293,6 +293,10 @@ class AdminSelfUpgrade extends AdminController
             Configuration::updateValue('PS_AUTOUP_IGNORE_REQS', 1);
         }
 
+        if (Tools14::isSubmit('ignorePhpOutdated')) {
+            Configuration::updateValue('PS_AUTOUP_IGNORE_PHP_UPGRADE', 1);
+        }
+
         if (Tools14::isSubmit('customSubmitAutoUpgrade')) {
             $config_keys = array_keys(array_merge($this->_fieldsUpgradeOptions, $this->_fieldsBackupOptions));
             $config = array();

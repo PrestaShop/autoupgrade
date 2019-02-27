@@ -135,7 +135,7 @@ class Autoupgrade extends Module
             return $this->_abortInstall($this->trans('Unable to create the directory "%s"', array(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml'), 'Modules.Autoupgrade.Admin'));
         }
 
-        return parent::install();
+        return parent::install() && $this->registerHookAndSetToTop('dashboardZoneOne');
     }
 
     public function uninstall()
@@ -149,7 +149,54 @@ class Autoupgrade extends Module
         // Remove the 1-click upgrade working directory
         self::_removeDirectory(_PS_ADMIN_DIR_ . DIRECTORY_SEPARATOR . 'autoupgrade');
 
+        Configuration::deleteByName('PS_AUTOUP_IGNORE_REQS');
+        Configuration::deleteByName('PS_AUTOUP_IGNORE_PHP_UPGRADE');
+
         return parent::uninstall();
+    }
+
+    private function registerHookAndSetToTop($hookName)
+    {
+        if ($this->registerHook($hookName)) {
+            // Update module position in Dashboard
+            $query = "SELECT id_hook FROM "._DB_PREFIX_."hook WHERE name = '" . pSQL($hookName) . "'";
+            $result = Db::getInstance()->ExecuteS($query);
+            $id_hook = $result['0']['id_hook'];
+
+            $this->updatePosition((int) $id_hook, 0);
+            return true;
+        }
+        return false;
+    }
+
+    public function hookDashboardZoneOne($params)
+    {
+        // Display panel if PHP is not supported by the community
+        require_once __DIR__ . '/vendor/autoload.php';
+
+        $upgradeContainer = new \PrestaShop\Module\AutoUpgrade\UpgradeContainer(_PS_ROOT_DIR_, _PS_ADMIN_DIR_);
+        $upgrader = $upgradeContainer->getUpgrader();
+        $upgradeSelfCheck = new  \PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck(
+            $upgrader,
+            _PS_ROOT_DIR_,
+            _PS_ADMIN_DIR_,
+            __DIR__
+        );
+
+        $upgradeNotice = $upgradeSelfCheck->isPhpUpgradeRequired();
+        if (false === $upgradeNotice) {
+            return false;
+        }
+
+        $this->context->controller->addCSS($this->_path.'/css/styles.css');
+        $this->context->controller->addJS($this->_path.'/js/dashboard.js');
+
+        $this->context->smarty->assign([
+            'ignore_link' => Context::getContext()->link->getAdminLink('AdminSelfUpgrade') . '&ignorePhpOutdated=1',
+            'learn_more_link' => $upgradeNotice,
+        ]);
+
+        return $this->context->smarty->fetch($this->local_path.'views/templates/hook/dashboard_zone_one.tpl');
     }
 
     public function getContent()

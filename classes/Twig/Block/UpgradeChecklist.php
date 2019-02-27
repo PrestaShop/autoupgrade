@@ -127,6 +127,7 @@ class UpgradeChecklist
             'token' => $this->token,
             'cachingIsDisabled' => $this->selfCheck->isCacheDisabled(),
             'maxExecutionTime' => $this->selfCheck->getMaxExecutionTime(),
+            'phpUpgradeRequired' => $this->selfCheck->isPhpUpgradeRequired(),
             'isPrestaShopReady' => $this->selfCheck->isPrestaShopReady(),
         );
 

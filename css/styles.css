@@ -17,3 +17,5 @@
 .margin-form-small {padding: 0 0 1em 130px;}
 .nextStep {font-weight: bold;}
 #diffList, #changedList {margin-top: 20px;}
+#autoupgradePhpWarningMainIcon {font-size: 3em;}
+#autoupgradePhpWarn .icon-stack-text {color: white;}
