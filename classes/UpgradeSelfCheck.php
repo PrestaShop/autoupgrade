@@ -276,7 +276,7 @@ class UpgradeSelfCheck
     {
         return
             !Configuration::get('PS_SHOP_ENABLE')
-            || (isset($_SERVER['HTTP_HOST']) && in_array($_SERVER['HTTP_HOST'], array('127.0.0.1', 'localhost')));
+            || (isset($_SERVER['HTTP_HOST']) && in_array($_SERVER['HTTP_HOST'], array('127.0.0.1', 'localhost', '[::1]')));
     }
 
     /**
