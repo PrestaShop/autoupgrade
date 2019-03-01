@@ -104,7 +104,7 @@ class CoreUpgrader16 extends CoreUpgrader
     protected function upgradeLanguage($lang)
     {
         require_once _PS_TOOL_DIR_ . 'tar/Archive_Tar.php';
-        $lang_pack = Tools14::jsonDecode(Tools14::file_get_contents('http' . (extension_loaded('openssl')
+        $lang_pack = json_decode(Tools14::file_get_contents('http' . (extension_loaded('openssl')
                         ? 's' : '') . '://www.prestashop.com/download/lang_packs/get_language_pack.php?version=' . $this->destinationUpgradeVersion . '&iso_lang=' . $lang['iso_code']));
 
         if (!$lang_pack) {

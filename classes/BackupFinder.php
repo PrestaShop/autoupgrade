@@ -72,7 +72,7 @@ class BackupFinder
     }
 
     /**
-     * @param $backupPath
+     * @param string $backupPath
      *
      * @return array
      */
@@ -92,7 +92,7 @@ class BackupFinder
     }
 
     /**
-     * @param $backupPath
+     * @param string $backupPath
      *
      * @return array
      */
