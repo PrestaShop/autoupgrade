@@ -85,6 +85,8 @@ class ModuleAdapter
      * Upgrade action, disabling all modules not made by PrestaShop.
      *
      * It seems the 1.6 version of is the safest, as it does not actually load the modules.
+     * 
+     * @param string $pathToUpgradeScripts Path to the PHP Upgrade scripts
      */
     public function disableNonNativeModules($pathToUpgradeScripts)
     {
@@ -95,7 +97,7 @@ class ModuleAdapter
     /**
      * list modules to upgrade and save them in a serialized array in $this->toUpgradeModuleList.
      *
-     * @param array Modules available on the marketplace for download
+     * @param array $modulesFromAddons Modules available on the marketplace for download
      *
      * @return array Module available on the local filesystem and on the marketplace
      */

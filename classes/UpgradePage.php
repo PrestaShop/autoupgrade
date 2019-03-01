@@ -110,7 +110,7 @@ class UpgradePage
     private $installVersion;
 
     /**
-     * @var
+     * @var bool
      */
     private $manualMode;
 
@@ -289,7 +289,7 @@ class UpgradePage
     }
 
     /**
-     * @param $ajaxResult
+     * @param string $ajaxResult Json encoded response data
      *
      * @return array
      */

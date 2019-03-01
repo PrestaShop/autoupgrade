@@ -40,7 +40,6 @@ use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
-use Psr\Log\LoggerInterface;
 use Twig_Loader_Filesystem;
 use Twig_Environment;
 
@@ -99,7 +98,7 @@ class UpgradeContainer
     private $filesystemAdapter;
 
     /**
-     * @var LoggerInterface
+     * @var Logger
      */
     private $logger;
 

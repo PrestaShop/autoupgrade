@@ -426,7 +426,7 @@ class Upgrader
      * @param string $version2
      * @param bool $show_modif
      *
-     * @return array array('modified'=>array(...), 'deleted'=>array(...))
+     * @return array|false array('modified'=>array(...), 'deleted'=>array(...))
      */
     public function getDiffFilesList($version1, $version2, $show_modif = true, $refresh = false)
     {

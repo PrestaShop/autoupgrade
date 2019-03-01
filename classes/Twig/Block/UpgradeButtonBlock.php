@@ -73,7 +73,7 @@ class UpgradeButtonBlock
     private $token;
 
     /**
-     * @var
+     * @var bool
      */
     private $manualMode;
 
@@ -81,7 +81,7 @@ class UpgradeButtonBlock
      * UpgradeButtonBlock constructor.
      *
      * @param Twig_Environment $twig
-     * @param TranslatorComponent $translator
+     * @param Translator $translator
      * @param UpgradeConfiguration $config
      * @param Upgrader $upgrader
      * @param UpgradeSelfCheck $selfCheck
