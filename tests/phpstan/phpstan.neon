@@ -10,5 +10,7 @@ parameters:
 		# module specific
 		- '#Function deactivate_custom_modules not found.#'
 		- '#Instantiated class PclZip not found.#'
+		- '#Constant MCRYPT_[A-Z0-9_]+ not found.#'
+		- '#Constant PCLZIP_[A-Z_]+ not found.#'
 
-	level: 0
+	level: 1

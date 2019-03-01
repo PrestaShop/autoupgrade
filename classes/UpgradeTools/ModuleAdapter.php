@@ -86,9 +86,9 @@ class ModuleAdapter
      *
      * It seems the 1.6 version of is the safest, as it does not actually load the modules.
      */
-    public function disableNonNativeModules()
+    public function disableNonNativeModules($pathToUpgradeScripts)
     {
-        require_once _PS_INSTALLER_PHP_UPGRADE_DIR_ . 'deactivate_custom_modules.php';
+        require_once $pathToUpgradeScripts . 'deactivate_custom_modules.php';
         deactivate_custom_modules();
     }
 

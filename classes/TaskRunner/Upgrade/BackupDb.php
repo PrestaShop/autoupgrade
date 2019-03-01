@@ -87,6 +87,8 @@ class BackupDb extends AbstractTask
         }
         $found = 0;
         $views = '';
+        $fp = null;
+        $backupfile = null;
 
         // MAIN BACKUP LOOP //
         $written = 0;
@@ -108,7 +110,7 @@ class BackupDb extends AbstractTask
                 $this->container->getState()->setDbStep($this->container->getState()->getDbStep() + 1);
                 // new file, new step
                 $written = 0;
-                if (isset($fp)) {
+                if (is_resource($fp)) {
                     fclose($fp);
                 }
                 $backupfile = $this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $this->container->getState()->getBackupName() . DIRECTORY_SEPARATOR . $this->container->getState()->getBackupDbFilename();
@@ -249,7 +251,7 @@ class BackupDb extends AbstractTask
         } while (($time_elapsed < $timeAllowed) && ($written < $this->container->getUpgradeConfiguration()->getMaxSizeToWritePerCall()));
 
         // end of loop
-        if (isset($fp)) {
+        if (is_resource($fp)) {
             $written += fwrite($fp, "\n" . 'SET FOREIGN_KEY_CHECKS=1;' . "\n\n");
             fclose($fp);
             unset($fp);

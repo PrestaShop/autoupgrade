@@ -35,6 +35,12 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\SettingsFileWriter;
 class CoreUpgrader16 extends CoreUpgrader
 {
     /**
+     * Complete path to the settings.inc.php
+     * @var string
+     */
+    private $pathToSettingsFile;
+
+    /**
      * Generate a new settings file.
      */
     public function writeNewSettings()
@@ -57,7 +63,7 @@ class CoreUpgrader16 extends CoreUpgrader
             '_COOKIE_KEY_' => _COOKIE_KEY_,
             '_COOKIE_IV_' => _COOKIE_IV_,
             '_PS_CREATION_DATE_' => defined('_PS_CREATION_DATE_') ? _PS_CREATION_DATE_ : date('Y-m-d'),
-            '_PS_VERSION_' => INSTALL_VERSION,
+            '_PS_VERSION_' => $this->destinationUpgradeVersion,
             '_PS_DIRECTORY_' => __PS_BASE_URI__,
         );
 
@@ -73,22 +79,24 @@ class CoreUpgrader16 extends CoreUpgrader
         }
 
         $writer = new SettingsFileWriter($this->container->getTranslator());
-        $writer->writeSettingsFile(SETTINGS_FILE, $datas);
+        $writer->writeSettingsFile($this->pathToSettingsFile, $datas);
         $this->logger->debug($this->container->getTranslator()->trans('Settings file updated', array(), 'Modules.Autoupgrade.Admin'));
     }
 
     protected function initConstants()
     {
         parent::initConstants();
-        define('SETTINGS_FILE', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/config/settings.inc.php');
+        $this->pathToSettingsFile = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/config/settings.inc.php';
+        // Kept for potential BC with old PS versions
+        define('SETTINGS_FILE', $this->pathToSettingsFile);
     }
 
     protected function getPreUpgradeVersion()
     {
-        if (!file_exists(SETTINGS_FILE)) {
+        if (!file_exists($this->pathToSettingsFile)) {
             throw new UpgradeException($this->container->getTranslator()->trans('The config/settings.inc.php file was not found.', array(), 'Modules.Autoupgrade.Admin'));
         }
-        include_once SETTINGS_FILE;
+        include_once $this->pathToSettingsFile;
 
         return _PS_VERSION_;
     }
@@ -97,7 +105,7 @@ class CoreUpgrader16 extends CoreUpgrader
     {
         require_once _PS_TOOL_DIR_ . 'tar/Archive_Tar.php';
         $lang_pack = Tools14::jsonDecode(Tools14::file_get_contents('http' . (extension_loaded('openssl')
-                        ? 's' : '') . '://www.prestashop.com/download/lang_packs/get_language_pack.php?version=' . $this->container->getState()->getInstallVersion() . '&iso_lang=' . $lang['iso_code']));
+                        ? 's' : '') . '://www.prestashop.com/download/lang_packs/get_language_pack.php?version=' . $this->destinationUpgradeVersion . '&iso_lang=' . $lang['iso_code']));
 
         if (!$lang_pack) {
             return;
