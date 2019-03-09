@@ -92,7 +92,7 @@ abstract class AbstractTask
      */
     public function getResponse()
     {
-        $response = new AjaxResponse($this->container->getTranslator(), $this->container->getState(), $this->logger);
+        $response = new AjaxResponse($this->container->getState(), $this->logger);
 
         return $response->setError($this->error)
             ->setStepDone($this->stepDone)
