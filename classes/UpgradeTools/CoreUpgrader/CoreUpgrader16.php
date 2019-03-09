@@ -115,7 +115,7 @@ class CoreUpgrader16 extends CoreUpgrader
                     ? 's' : '') . '://translations.prestashop.com/download/lang_packs/gzip/' . $lang_pack->version . '/' . $lang['iso_code'] . '.gzip')) {
             $file = _PS_TRANSLATIONS_DIR_ . $lang['iso_code'] . '.gzip';
             if ((bool) file_put_contents($file, $content)) {
-                $gz = new \Archive_Tar($file, true);
+                $gz = new \Archive_Tar($file, 'gz');
                 $files_list = $gz->listContent();
                 if (!$this->container->getUpgradeConfiguration()->shouldKeepMails()) {
                     $files_listing = array();

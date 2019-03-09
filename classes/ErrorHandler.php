@@ -79,7 +79,7 @@ class ErrorHandler
      * @param int $errno
      * @param string $errstr
      * @param string $errfile
-     * @param string $errline
+     * @param int $errline
      *
      * @return bool
      */

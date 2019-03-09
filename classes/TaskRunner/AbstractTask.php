@@ -28,8 +28,8 @@
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner;
 
 use PrestaShop\Module\AutoUpgrade\AjaxResponse;
+use PrestaShop\Module\AutoUpgrade\Log\Logger;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
-use Psr\Log\LoggerInterface;
 
 abstract class AbstractTask
 {
@@ -40,7 +40,7 @@ abstract class AbstractTask
     public static $skipAction = array();
 
     /**
-     * @var LoggerInterface
+     * @var Logger
      */
     protected $logger;
 
