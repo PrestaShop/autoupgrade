@@ -50,6 +50,8 @@ class UpdateConfig extends AbstractTask
         if (isset($request['channel'])) {
             $config['channel'] = $request['channel'];
             $config['archive.filename'] = Upgrader::DEFAULT_FILENAME;
+            // Switch on default theme if major upgrade (i.e: 1.6 -> 1.7)
+            $config['PS_AUTOUP_CHANGE_DEFAULT_THEME'] = ($request['channel'] === 'major');
         }
         if (isset($request['private_release_link'], $request['private_release_md5'])) {
             $config['channel'] = 'private';
