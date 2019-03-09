@@ -251,7 +251,7 @@ abstract class CoreUpgrader
 
         $versionCompare = version_compare($this->destinationUpgradeVersion, $oldVersion);
 
-        if ($versionCompare == '-1') {
+        if ($versionCompare === -1) {
             throw new UpgradeException(
                 $this->container->getTranslator()->trans('[ERROR] Version to install is too old.', array(), 'Modules.Autoupgrade.Admin')
                 . ' ' .
@@ -263,10 +263,8 @@ abstract class CoreUpgrader
                 ),
                 'Modules.Autoupgrade.Admin'
             ));
-        } elseif ($versionCompare == 0) {
+        } elseif ($versionCompare === 0) {
             throw new UpgradeException($this->container->getTranslator()->trans('You already have the %s version.', array($this->destinationUpgradeVersion), 'Modules.Autoupgrade.Admin'));
-        } elseif ($versionCompare === false) {
-            throw new UpgradeException($this->container->getTranslator()->trans('There is no older version. Did you delete or rename the app/config/parameters.php file?', array(), 'Modules.Autoupgrade.Admin'));
         }
     }
 
@@ -731,7 +729,7 @@ abstract class CoreUpgrader
         \Tools::clearCache();
 
         // delete cache filesystem if activated
-        if (defined('_PS_CACHE_ENABLED_') && _PS_CACHE_ENABLED_) {
+        if (defined('_PS_CACHE_ENABLED_') && false != _PS_CACHE_ENABLED_) {
             $depth = (int) $this->db->getValue('SELECT value
 				FROM ' . _DB_PREFIX_ . 'configuration
 				WHERE name = "PS_CACHEFS_DIRECTORY_DEPTH"');

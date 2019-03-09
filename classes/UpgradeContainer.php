@@ -233,7 +233,7 @@ class UpgradeContainer
 
     public function getFileFilter()
     {
-        if ($this->fileFilter) {
+        if (null !== $this->fileFilter) {
             return $this->fileFilter;
         }
 

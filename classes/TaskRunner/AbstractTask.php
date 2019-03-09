@@ -104,7 +104,7 @@ abstract class AbstractTask
     private function checkTaskMayRun()
     {
         // PrestaShop demo mode
-        if (defined('_PS_MODE_DEMO_') && _PS_MODE_DEMO_) {
+        if (defined('_PS_MODE_DEMO_') && _PS_MODE_DEMO_ == true) {
             return;
         }
 

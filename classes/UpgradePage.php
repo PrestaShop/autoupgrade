@@ -268,7 +268,7 @@ class UpgradePage
         $translator = $this->translator;
 
         // PrestaShop demo mode
-        if (defined('_PS_MODE_DEMO_') && _PS_MODE_DEMO_) {
+        if (defined('_PS_MODE_DEMO_') && true == _PS_MODE_DEMO_) {
             return array(
                 'message' => $translator->trans('This functionality has been disabled.', array(), self::TRANSLATION_DOMAIN),
             );
@@ -303,7 +303,7 @@ class UpgradePage
 
         $jsParams = array(
             'manualMode' => (bool) $this->manualMode,
-            '_PS_MODE_DEV_' => (defined('_PS_MODE_DEV_') && _PS_MODE_DEV_),
+            '_PS_MODE_DEV_' => (defined('_PS_MODE_DEV_') && true == _PS_MODE_DEV_),
             'PS_AUTOUP_BACKUP' => (bool) $this->config->get('PS_AUTOUP_BACKUP'),
             'adminDir' => $adminDir,
             'adminUrl' => __PS_BASE_URI__ . $adminDir,

@@ -11,5 +11,6 @@ parameters:
 		- '#Function deactivate_custom_modules not found.#'
 		- '#Constant MCRYPT_[A-Z0-9_]+ not found.#'
 		- '#Constant PCLZIP_[A-Z_]+ not found.#'
+		- "#Call to function method_exists#"
 
-	level: 3
+	level: 4

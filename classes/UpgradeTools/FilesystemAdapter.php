@@ -122,15 +122,9 @@ class FilesystemAdapter
             $prev_version = $matches[1];
         }
 
-        $toRemove = false;
-        // note : getDiffFilesList does not include files moved by upgrade scripts,
-        // so this method can't be trusted to fully restore directory
-        // $toRemove = $this->upgrader->getDiffFilesList(_PS_VERSION_, $prev_version, false);
         // if we can't find the diff file list corresponding to _PS_VERSION_ and prev_version,
         // let's assume to remove every files
-        if (!$toRemove) {
-            $toRemove = $this->listFilesInDir($this->prodRootDir, 'restore', true);
-        }
+        $toRemove = $this->listFilesInDir($this->prodRootDir, 'restore', true);
 
         // if a file in "ToRemove" has been skipped during backup,
         // just keep it
