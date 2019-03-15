@@ -31,26 +31,24 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 
-// ToDo: Fix translations placeholders
 class ZipAction
 {
-    // Number of files added in a zip per request
+    /**
+     * @var int Number of files added in a zip per request
+     */
     private $configMaxNbFilesCompressedInARow;
-    // Max file size allowed in a zip file
+    /**
+     * @var int Max file size allowed in a zip file
+     */
     private $configMaxFileSizeAllowed;
 
     private $logger;
     private $translator;
+
     /**
      * @var string Path to the shop, in order to remove it from the archived file paths
      */
     private $prodRootDir;
-
-    /**
-     * if set to true, will use pclZip library
-     * even if ZipArchive is available.
-     */
-    const FORCE_PCLZIP = false;
 
     public function __construct($translator, LoggerInterface $logger, UpgradeConfiguration $configuration, $prodRootDir)
     {
@@ -63,67 +61,16 @@ class ZipAction
     }
 
     /**
-     * ToDo: function to rename / move ?
+     * Add files to an archive.
+     * Note the number of files added can be limited. 
+     * 
+     * @var array $filesList List of files to add
+     * 
+     * @var string $toFile
      */
     public function compress(&$filesList, $toFile)
     {
-        return $this->compressWithZipArchive($filesList, $toFile)
-            || $this->compressWithPclZip($filesList, $toFile);
-    }
-
-    /**
-     * @desc extract a zip file to the given directory
-     *
-     * @return bool success
-     *              we need a copy of it to be able to restore without keeping Tools and Autoload stuff
-     */
-    public function extract($from_file, $to_dir)
-    {
-        if (!is_file($from_file)) {
-            $this->logger->error($this->translator->trans('%s is not a file', array($from_file), 'Modules.Autoupgrade.Admin'));
-
-            return false;
-        }
-
-        if (!file_exists($to_dir)) {
-            // ToDo: Use Filesystem from Symfony
-            if (!mkdir($to_dir)) {
-                $this->logger->error($this->translator->trans('Unable to create directory %s.', array($to_dir), 'Modules.Autoupgrade.Admin'));
-
-                return false;
-            }
-            chmod($to_dir, 0775);
-        }
-
-        if (!$this->extractWithZipArchive($from_file, $to_dir)) {
-            // Fallback. If extracting failed with Zip Archive, we try with PclZip
-            return $this->extractWithPclZip($from_file, $to_dir);
-        }
-
-        return true;
-    }
-
-    public function listContent($zipfile)
-    {
-        if (!file_exists($zipfile)) {
-            return array();
-        }
-        $res = $this->listWithZipArchive($zipfile);
-        if (is_array($res)) {
-            return $res;
-        }
-        $resPcl = $this->listWithPclZip($zipfile);
-        if (is_array($resPcl)) {
-            return $resPcl;
-        }
-        $this->logger->error($this->translator->trans('[ERROR] Unable to list archived files', array(), 'Modules.Autoupgrade.Admin'));
-
-        return array();
-    }
-
-    private function compressWithZipArchive(&$filesList, $toFile)
-    {
-        $zip = $this->openWithZipArchive($toFile, \ZipArchive::CREATE);
+        $zip = $this->open($toFile, \ZipArchive::CREATE);
         if ($zip === false) {
             return false;
         }
@@ -175,48 +122,31 @@ class ZipAction
         return true;
     }
 
-    private function compressWithPclZip(&$filesList, $toFile)
+    /**
+     * Extract an archive to the given directory
+     *
+     * @return bool success
+     *              we need a copy of it to be able to restore without keeping Tools and Autoload stuff
+     */
+    public function extract($from_file, $to_dir)
     {
-        $zip = $this->openWithPclZip($toFile);
-        if (!$zip) {
+        if (!is_file($from_file)) {
+            $this->logger->error($this->translator->trans('%s is not a file', array($from_file), 'Modules.Autoupgrade.Admin'));
+
             return false;
         }
 
-        $files_to_add = array();
-        for ($i = 0; $i < $this->configMaxNbFilesCompressedInARow && count($filesList); ++$i) {
-            $file = array_shift($filesList);
+        if (!file_exists($to_dir)) {
+            // ToDo: Use Filesystem from Symfony
+            if (!mkdir($to_dir)) {
+                $this->logger->error($this->translator->trans('Unable to create directory %s.', array($to_dir), 'Modules.Autoupgrade.Admin'));
 
-            $archiveFilename = $this->getFilepathInArchive($file);
-            if (!$this->isFileWithinFileSizeLimit($file)) {
-                continue;
+                return false;
             }
-
-            $files_to_add[] = $file;
-            $this->logger->debug($this->translator->trans(
-                '%filename% added to archive. %filescount% files left.',
-                array(
-                    '%filename%' => $archiveFilename,
-                    '%filescount%' => count($filesList),
-                ),
-                'Modules.Autoupgrade.Admin'
-            ));
+            chmod($to_dir, 0775);
         }
 
-        $added_to_zip = $zip->add($files_to_add, PCLZIP_OPT_REMOVE_PATH, $this->prodRootDir);
-        $zip->privCloseFd();
-        if (!$added_to_zip) {
-            (new Filesystem())->remove($toFile);
-            $this->logger->error($this->translator->trans('[ERROR] Error on backup using PclZip: %s.', array($zip->errorInfo(true)), 'Modules.Autoupgrade.Admin'));
-
-            return false;
-        }
-
-        return true;
-    }
-
-    private function extractWithZipArchive($from_file, $to_dir)
-    {
-        $zip = $this->openWithZipArchive($from_file);
+        $zip = $this->open($from_file);
         if ($zip === false) {
             return false;
         }
@@ -234,59 +164,51 @@ class ZipAction
         return true;
     }
 
-    private function extractWithPclZip($fromFile, $toDir)
+    /**
+     * Lists the files present in the given archive
+     * 
+     * @var string Path to the file
+     * 
+     * @return array
+     */
+    public function listContent($zipfile)
     {
-        $zip = $this->openWithPclZip($fromFile);
-        if (!$zip) {
+        if (!file_exists($zipfile)) {
             return false;
         }
 
-        if (($file_list = $zip->listContent()) == 0) {
-            $this->logger->error($this->translator->trans('[ERROR] Error on extracting archive using PclZip: %s.', array($zip->errorInfo(true)), 'Modules.Autoupgrade.Admin'));
-
+        $zip = $this->open($zipfile);
+        if ($zip === false) {
+            $this->logger->error($this->translator->trans('[ERROR] Unable to list archived files', array(), 'Modules.Autoupgrade.Admin'));
             return false;
         }
 
-        // PCL is very slow, so we need to extract files 500 by 500
-        $i = 0;
-        $j = 1;
-        $indexes = array();
-        foreach ($file_list as $file) {
-            if (!isset($indexes[$i])) {
-                $indexes[$i] = array();
-            }
-            $indexes[$i][] = $file['index'];
-            if ($j++ % 500 == 0) {
-                ++$i;
-            }
+        for ($i = 0; $i < $zip->numFiles; ++$i) {
+            $files[] = $zip->getNameIndex($i);
         }
 
-        // replace also modified files
-        foreach ($indexes as $index) {
-            if (($extract_result = $zip->extract(PCLZIP_OPT_BY_INDEX, $index, PCLZIP_OPT_PATH, $toDir, PCLZIP_OPT_REPLACE_NEWER)) == 0) {
-                $this->logger->error($this->translator->trans('[ERROR] Error on extracting archive using PclZip: %s.', array($zip->errorInfo(true)), 'Modules.Autoupgrade.Admin'));
-
-                return false;
-            }
-            foreach ($extract_result as $extractedFile) {
-                $file = str_replace($this->prodRootDir, '', $extractedFile['filename']);
-                if ($extractedFile['status'] != 'ok' && $extractedFile['status'] != 'already_a_directory') {
-                    $this->logger->error($this->translator->trans('[ERROR] %file% has not been unzipped: %status%', array('%file%' => $file, '%status%' => $extractedFile['status']), 'Modules.Autoupgrade.Admin'));
-
-                    return false;
-                }
-                $this->logger->debug(sprintf('%1$s unzipped into %2$s', $file, str_replace(_PS_ROOT_DIR_, '', $toDir)));
-            }
-        }
-
-        return true;
+        return $files;
     }
 
+    /**
+     * Get the path of a file from the archive root
+     * 
+     * @var string Path of the file on the filesystem
+     * 
+     * @return string Path of the file in the backup archive
+     */
     private function getFilepathInArchive($filepath)
     {
         return ltrim(str_replace($this->prodRootDir, '', $filepath), DIRECTORY_SEPARATOR);
     }
 
+    /**
+     * Checks a file size matches the given limits
+     * 
+     * @var string Path to a file
+     * 
+     * @return bool Size is inside the maximum limit
+     */
     private function isFileWithinFileSizeLimit($filepath)
     {
         $size = filesize($filepath);
@@ -305,57 +227,22 @@ class ZipAction
         return $pass;
     }
 
-    private function listWithZipArchive($zipfile)
+    /**
+     * Open an archive
+     * 
+     * @var string Path to the archive
+     * @var int ZipArchive flags
+     * 
+     * @return false|\ZipArchive
+     */
+    private function open($zipFile, $flags = null)
     {
-        $zip = $this->openWithZipArchive($zipfile);
-        if ($zip === false) {
-            return false;
-        }
-
-        for ($i = 0; $i < $zip->numFiles; ++$i) {
-            $files[] = $zip->getNameIndex($i);
-        }
-
-        return $files;
-    }
-
-    private function listWithPclZip($zipfile)
-    {
-        $zip = $this->openWithPclZip($zipFile);
-        if ($zip !== false) {
-            return false;
-        }
-
-        return $zip->listContent();
-    }
-
-    private function openWithZipArchive($zipFile, $flags = null)
-    {
-        if (self::FORCE_PCLZIP || !class_exists('ZipArchive', false)) {
-            return false;
-        }
-
         $this->logger->debug($this->translator->trans('Using class ZipArchive...', array(), 'Modules.Autoupgrade.Admin'));
         $zip = new \ZipArchive();
         if ($zip->open($zipFile, $flags) !== true || empty($zip->filename)) {
             $this->logger->error($this->translator->trans('Unable to open zipFile %s', array($zipFile), 'Modules.Autoupgrade.Admin'));
 
             return false;
-        }
-
-        return $zip;
-    }
-
-    private function openWithPclZip($zipFile)
-    {
-        if (!class_exists('PclZip', false)) {
-            require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/classes/pclzip.lib.php';
-        }
-
-        $this->logger->debug($this->translator->trans('Using class PclZip...', array(), 'Modules.Autoupgrade.Admin'));
-        $zip = new \PclZip($zipFile);
-        if (!$zip) {
-            $this->logger->error($this->translator->trans('Unable to open archive', array(), 'Modules.Autoupgrade.Admin'));
         }
 
         return $zip;

@@ -64,7 +64,17 @@
                 <tr>
                     <td>{{ 'PHP\'s "allow_url_fopen" option is turned on, or cURL is installed'|trans|raw }}</td>
                     <td>
-                        {% if safeModeIsDisabled %}
+                        {% if allowUrlFopenOrCurlIsEnabled %}
+                            {{ icons.ok }}
+                        {% else %}
+                            {{ icons.nok }}
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>{{ 'PHP\'s "zip" extension is enabled'|trans|raw }}</td>
+                    <td>
+                        {% if zipIsEnabled %}
                             {{ icons.ok }}
                         {% else %}
                             {{ icons.nok }}

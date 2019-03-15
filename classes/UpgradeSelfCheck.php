@@ -39,6 +39,11 @@ class UpgradeSelfCheck
     /**
      * @var bool
      */
+    private $zipEnabled;
+
+    /**
+     * @var bool
+     */
     private $rootDirectoryWritable;
 
     /**
@@ -108,6 +113,7 @@ class UpgradeSelfCheck
     {
         $this->moduleVersion = $this->checkModuleVersion();
         $this->fOpenOrCurlEnabled = ConfigurationTest::test_fopen() || extension_loaded('curl');
+        $this->zipEnabled = extension_loaded('zip');
         $this->rootDirectoryWritable = $this->checkRootWritable();
         $this->adminAutoUpgradeDirectoryWritable = $this->checkAdminDirectoryWritable($prodRootPath, $adminPath, $autoUpgradePath);
         $this->shopDeactivated = $this->checkShopIsDeactivated();
@@ -124,6 +130,14 @@ class UpgradeSelfCheck
     public function isFOpenOrCurlEnabled()
     {
         return $this->fOpenOrCurlEnabled;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isZipEnabled()
+    {
+        return $this->zipEnabled;
     }
 
     /**
@@ -228,6 +242,7 @@ class UpgradeSelfCheck
     {
         return
             $this->isFOpenOrCurlEnabled()
+            && $this->isZipEnabled()
             && $this->isRootDirectoryWritable()
             && $this->isAdminAutoUpgradeDirectoryWritable()
             && $this->isShopDeactivated()

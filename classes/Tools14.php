@@ -2219,56 +2219,6 @@ AddOutputFilterByType DEFLATE application/x-javascript
     }
 
     /**
-     * @desc try to open a zip file in order to check if it's valid
-     *
-     * @return bool success
-     */
-    public static function ZipTest($fromFile)
-    {
-        if (class_exists('ZipArchive', false)) {
-            $zip = new ZipArchive();
-
-            return $zip->open($fromFile, ZIPARCHIVE::CHECKCONS) === true;
-        } else {
-            require_once dirname(__FILE__) . '/pclzip.lib.php';
-            $zip = new PclZip($fromFile);
-
-            return $zip->privCheckFormat() === true;
-        }
-    }
-
-    /**
-     * @desc extract a zip file to the given directory
-     *
-     * @return bool success
-     */
-    public static function ZipExtract($fromFile, $toDir)
-    {
-        if (!file_exists($toDir)) {
-            mkdir($toDir, 0777);
-        }
-        if (class_exists('ZipArchive', false)) {
-            $zip = new ZipArchive();
-            if ($zip->open($fromFile) === true && $zip->extractTo($toDir) && $zip->close()) {
-                return true;
-            }
-
-            return false;
-        } else {
-            require_once dirname(__FILE__) . '/pclzip.lib.php';
-            $zip = new PclZip($fromFile);
-            $list = $zip->extract(PCLZIP_OPT_PATH, $toDir, PCLZIP_OPT_REPLACE_NEWER);
-            foreach ($list as $file) {
-                if ($file['status'] != 'ok' && $file['status'] != 'already_a_directory') {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-    }
-
-    /**
      * Get products order field name for queries.
      *
      * @param string $type by|way
