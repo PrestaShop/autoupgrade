@@ -50,7 +50,11 @@ class ErrorHandlerTest extends TestCase
     {
         $exception = new Exception('ERMAGHERD');
         $line = __LINE__ - 1;
+        // The exception will be sent to the stdout,
+        // we enable the output buffering
+        ob_start();
         $this->errorHandler->exceptionHandler($exception);
+        ob_end_clean();
 
         $errors = $this->logger->getErrors();
         $this->assertCount(1, $errors);

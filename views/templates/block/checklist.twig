@@ -41,7 +41,7 @@
                 </tr>
                 {% if adminDirectoryWritableReport %}
                     <tr>
-                        <td>{{ 'The "/admin/autoupgrade" directory is writable (appropriate CHMOD permissions)'|trans }}</td>
+                        <td>{{ 'The "/admin/autoupgrade" directory is writable (appropriate CHMOD permissions)'|trans|raw }}</td>
                         <td>
                             {% if adminDirectoryIsWritable %}
                                 {{ icons.ok }}
@@ -52,7 +52,7 @@
                     </tr>
                 {% endif %}
                 <tr>
-                    <td>{{ 'PHP\'s "Safe mode" option is turned off'|trans }}</td>
+                    <td>{{ 'PHP\'s "Safe mode" option is turned off'|trans|raw }}</td>
                     <td>
                         {% if safeModeIsDisabled %}
                             {{ icons.ok }}
@@ -62,9 +62,19 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>{{ 'PHP\'s "allow_url_fopen" option is turned on, or cURL is installed'|trans }}</td>
+                    <td>{{ 'PHP\'s "allow_url_fopen" option is turned on, or cURL is installed'|trans|raw }}</td>
                     <td>
-                        {% if safeModeIsDisabled %}
+                        {% if allowUrlFopenOrCurlIsEnabled %}
+                            {{ icons.ok }}
+                        {% else %}
+                            {{ icons.nok }}
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>{{ 'PHP\'s "zip" extension is enabled'|trans|raw }}</td>
+                    <td>
+                        {% if zipIsEnabled %}
                             {{ icons.ok }}
                         {% else %}
                             {{ icons.nok }}

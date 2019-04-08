@@ -120,6 +120,7 @@ class UpgradeChecklist
             'adminDirectoryWritableReport' => $this->selfCheck->getAdminAutoUpgradeDirectoryWritableReport(),
             'safeModeIsDisabled' => $this->selfCheck->isSafeModeDisabled(),
             'allowUrlFopenOrCurlIsEnabled' => $this->selfCheck->isFOpenOrCurlEnabled(),
+            'zipIsEnabled' => $this->selfCheck->isZipEnabled(),
             'storeIsInMaintenance' => $this->selfCheck->isShopDeactivated(),
             'currentIndex' => $this->currentIndex,
             'token' => $this->token,

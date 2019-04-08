@@ -83,7 +83,10 @@ class CoreUpgrader17 extends CoreUpgrader
 
         // TODO: Update AdminTranslationsController::addNewTabs to install tabs translated
 
-        $cldrUpdate = new \PrestaShop\PrestaShop\Core\Cldr\Update(_PS_TRANSLATIONS_DIR_);
-        $cldrUpdate->fetchLocale(\Language::getLocaleByIso($isoCode));
+        // CLDR has been updated on PS 1.7.6.0. From this version, updates are not needed anymore.
+        if (method_exists('\PrestaShop\PrestaShop\Core\Cldr\Update', 'fetchLocale')) {
+            $cldrUpdate = new \PrestaShop\PrestaShop\Core\Cldr\Update(_PS_TRANSLATIONS_DIR_);
+            $cldrUpdate->fetchLocale(\Language::getLocaleByIso($isoCode));
+        }
     }
 }

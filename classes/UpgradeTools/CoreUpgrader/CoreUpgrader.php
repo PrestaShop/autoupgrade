@@ -692,15 +692,8 @@ abstract class CoreUpgrader
         $themeAdapter = new ThemeAdapter($this->db, $this->container->getState()->getInstallVersion());
         $themeName = $themeAdapter->getDefaultTheme();
 
-        /*
-         * The merchant can ask for keeping its current theme.
-         * However, if he is still on the default theme name,
-         * we force it to be enabled again, in case of new module for instance.
-         */
-        if (
-            !$this->container->getUpgradeConfiguration()->shouldSwitchToDefaultTheme()
-            && _THEME_NAME_ !== $themeName
-        ) {
+        // The merchant can ask for keeping its current theme.
+        if (!$this->container->getUpgradeConfiguration()->shouldSwitchToDefaultTheme()) {
             return;
         }
 
