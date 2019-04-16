@@ -30,6 +30,9 @@ before_script:
 script:
   - php vendor/phpunit/phpunit/phpunit tests
 
+  # PHP Stan
+  - docker run --rm --volumes-from prestashop_autoupgrade -v $PWD:/web/module -e _PS_ROOT_DIR_=/var/www/html quetzacoalt/phpstan analyse --configuration=/web/module/tests/phpstan/phpstan.neon;
+
   # Upgrade
   - docker exec -u www-data -ti prestashop_autoupgrade php modules/autoupgrade/tests/testCliProcess.php admin-dev/autoupgrade/cli-upgrade.php  --dir="admin-dev" --channel="$CHANNEL"
   # Front office -> HTTP code 200 expected (no maintenance)
