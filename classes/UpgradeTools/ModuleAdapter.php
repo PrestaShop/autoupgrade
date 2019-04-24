@@ -29,6 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter;
 use PrestaShop\Module\AutoUpgrade\ZipAction;
 
 class ModuleAdapter
@@ -44,10 +45,15 @@ class ModuleAdapter
      */
     private $zipAction;
 
+    /**
+     * @var SymfonyAdapter
+     */
+    private $symfonyAdapter;
+
     // Cached instance
     private $moduleDataUpdater;
 
-    public function __construct($db, $translator, $modulesPath, $tempPath, $upgradeVersion, ZipAction $zipAction)
+    public function __construct($db, $translator, $modulesPath, $tempPath, $upgradeVersion, ZipAction $zipAction, SymfonyAdapter $symfonyAdapter)
     {
         $this->db = $db;
         $this->translator = $translator;
@@ -55,25 +61,21 @@ class ModuleAdapter
         $this->tempPath = $tempPath;
         $this->upgradeVersion = $upgradeVersion;
         $this->zipAction = $zipAction;
+        $this->symfonyAdapter = $symfonyAdapter;
     }
 
     /**
      * Available only from 1.7. Can't be called on PS 1.6.
-     *
-     * @global AppKernel $kernel
      *
      * @return PrestaShop\PrestaShop\Adapter\Module\ModuleDataUpdater
      */
     public function getModuleDataUpdater()
     {
         if (null === $this->moduleDataUpdater) {
-            global $kernel;
-            if (!$kernel instanceof \AppKernel) {
-                require_once _PS_ROOT_DIR_ . '/app/AppKernel.php';
-                $kernel = new \AppKernel(_PS_MODE_DEV_ ? 'dev' : 'prod', _PS_MODE_DEV_);
-                $kernel->boot();
-            }
-            $this->moduleDataUpdater = $kernel->getContainer()->get('prestashop.core.module.updater');
+            $this->moduleDataUpdater = $this->symfonyAdapter
+                ->initAppKernel()
+                ->getContainer()
+                ->get('prestashop.core.module.updater');
         }
 
         return $this->moduleDataUpdater;

@@ -76,4 +76,22 @@ class SymfonyAdapter
 
         return $output[$outputCommand];
     }
+
+    /**
+     * Return the AppKernel, after initialization
+     * 
+     * @return \AppKernel
+     */
+    public function initAppKernel()
+    {
+        global $kernel;
+        if (!$kernel instanceof \AppKernel) {
+            require_once _PS_ROOT_DIR_ . '/app/AppKernel.php';
+            $env = _PS_MODE_DEV_ ? 'dev' : 'prod';
+            $kernel = new \AppKernel($env, _PS_MODE_DEV_);
+            $kernel->loadClassCache();
+            $kernel->boot();
+        }
+        return $kernel;
+    }
 }

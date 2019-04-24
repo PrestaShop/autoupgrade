@@ -332,7 +332,9 @@ class UpgradeContainer
             $this->getProperty(self::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR,
             $this->getProperty(self::TMP_PATH),
             $this->getState()->getInstallVersion(),
-            $this->getZipAction());
+            $this->getZipAction(),
+            $this->getSymfonyAdapter()
+        );
 
         return $this->moduleAdapter;
     }
@@ -389,6 +391,9 @@ class UpgradeContainer
         return $this->prestashopConfiguration;
     }
 
+    /**
+     * @return SymfonyAdapter
+     */
     public function getSymfonyAdapter()
     {
         if (null !== $this->symfonyAdapter) {
