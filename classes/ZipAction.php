@@ -151,11 +151,19 @@ class ZipAction
             return false;
         }
 
-        if (!$zip->extractTo($to_dir)) {
-            $zip->close();
-            $this->logger->error($this->translator->trans('zip->extractTo(): unable to use %s as extract destination.', array($to_dir), 'Modules.Autoupgrade.Admin'));
+        for($i = 0; $i < $zip->numFiles; $i++) {
+            if (!$zip->extractTo($to_dir, array($zip->getNameIndex($i)))) {
+                $this->logger->error(
+                    $this->translator->trans(
+                        'Could not extract %file% from backup, the destination might not be writable.', 
+                        ['%file%' => $zip->statIndex($i)['name']],
+                        'Modules.Autoupgrade.Admin'
+                    )
+                );
+                $zip->close();
 
-            return false;
+                return false;
+            }
         }
 
         $zip->close();

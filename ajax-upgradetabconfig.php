@@ -41,7 +41,10 @@ if (function_exists('date_default_timezone_set')) {
 function autoupgrade_init_container($callerFilePath)
 {
     if (PHP_SAPI === 'cli') {
-        $_POST['dir'] = getopt('', array('dir:'))['dir'];
+        $options = getopt('', array('dir:'));
+        if (isset($options['dir'])) {
+            $_POST['dir'] = $options['dir'];
+        }
     }
 
     // the following test confirm the directory exists

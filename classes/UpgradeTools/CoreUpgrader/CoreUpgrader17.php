@@ -67,7 +67,18 @@ class CoreUpgrader17 extends CoreUpgrader
         }
         $errorsLanguage = array();
 
-        \Language::downloadLanguagePack($isoCode, _PS_VERSION_, $errorsLanguage);
+        if (!\Language::downloadLanguagePack($isoCode, _PS_VERSION_, $errorsLanguage)) {
+            throw new UpgradeException(
+                $this->container->getTranslator()->trans(
+                    'Download of the language pack %lang% failed. %details%',
+                    [
+                        '%lang%' => $isoCode,
+                        '%details%' => implode('; ', $errorsLanguage)
+                    ],
+                    'Modules.Autoupgrade.Admin'
+                )
+            );
+        }
 
         $lang_pack = \Language::getLangDetails($isoCode);
         \Language::installSfLanguagePack($lang_pack['locale'], $errorsLanguage);
@@ -77,7 +88,16 @@ class CoreUpgrader17 extends CoreUpgrader
         }
 
         if (!empty($errorsLanguage)) {
-            throw new UpgradeException($this->container->getTranslator()->trans('Error updating translations', array(), 'Modules.Autoupgrade.Admin'));
+            throw new UpgradeException(
+                $this->container->getTranslator()->trans(
+                    'Error while updating translations for lang %lang%. %details%',
+                    [
+                        '%lang%' => $isoCode,
+                        '%details%' => implode('; ', $errorsLanguage)
+                    ],
+                    'Modules.Autoupgrade.Admin'
+                )
+            );
         }
         \Language::loadLanguages();
 
