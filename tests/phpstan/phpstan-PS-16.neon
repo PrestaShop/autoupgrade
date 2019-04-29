@@ -1,0 +1,33 @@
+#################################################################################
+# This file is a copy of phpstan.neon with additional rules for PS 1.6
+# Its objective is to avoid false-positive results regarding non-existing classes
+#################################################################################
+parameters:
+	bootstrap: /web/module/tests/phpstan/bootstrap.php
+	reportUnmatchedIgnoredErrors: false
+	paths:
+		- /web/module/classes
+	excludes_analyse:
+		- /web/module/classes/Tools14.php
+		- /web/module/classes/pclzip.lib.php
+		- /web/module/functions.php
+		- /web/module/classes/UpgradeTools/CoreUpgrader/CoreUpgrader17.php
+		- /web/module/classes/UpgradeTools/SymfonyAdapter.php
+	ignoreErrors:
+		# module specific
+		- '#Function deactivate_custom_modules not found.#'
+		- '#Constant MCRYPT_[A-Z0-9_]+ not found.#'
+		- "#Call to function method_exists#"
+		# CLDR related check
+		- '#[cC]lass PrestaShop\\PrestaShop\\Core\\Cldr\\Update#'
+		# AppKernel wasn't properly listed in autoloader
+		- '#AppKernel#'
+
+		# Below are messages ignored on PS 1.6
+		- '#[cC]lass PrestaShop\\PrestaShop\\Core\\Addon\\Theme\\ThemeManagerBuilder#'
+		- '#PrestaShop\\Module\\AutoUpgrade\\UpgradeTools\\ModuleAdapter#'
+		- '#PrestaShop\\PrestaShop\\Adapter\\Module\\ModuleDataUpdater#'
+		- '#PrestaShopBundle\\Install\\Upgrade#'
+		- '#Call to an undefined static method ConfigurationTest::test_curl().#'
+
+	level: 5

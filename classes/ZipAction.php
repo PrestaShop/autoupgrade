@@ -174,15 +174,16 @@ class ZipAction
     public function listContent($zipfile)
     {
         if (!file_exists($zipfile)) {
-            return false;
+            return [];
         }
 
         $zip = $this->open($zipfile);
         if ($zip === false) {
             $this->logger->error($this->translator->trans('[ERROR] Unable to list archived files', array(), 'Modules.Autoupgrade.Admin'));
-            return false;
+            return [];
         }
 
+        $files = [];
         for ($i = 0; $i < $zip->numFiles; ++$i) {
             $files[] = $zip->getNameIndex($i);
         }

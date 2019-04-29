@@ -15,6 +15,11 @@ require_once $rootDir . "/config/defines.inc.php";
 require_once $rootDir . "/config/autoload.php";
 require_once $rootDir . "/config/bootstrap.php";
 
+// Lib existing on PS 1.6
+if (file_exists(_PS_TOOL_DIR_.'tar/Archive_Tar.php')) {
+    require_once(_PS_TOOL_DIR_.'tar/Archive_Tar.php');
+}
+
 // Make sure loader php-parser is coming from php stan composer
 $loader = new \Composer\Autoload\ClassLoader();
 $loader->setPsr4('PhpParser\\', array('/composer/vendor/nikic/php-parser/lib/PhpParser'));
@@ -24,6 +29,15 @@ $loader->register(true);
 // Ignoring the error partern with this value will throw another error if not found
 // during the checks.
 $constantsToDefine = [
+  '_DB_SERVER_',
+  '_DB_NAME_',
+  '_DB_USER_',
+  '_DB_PASSWD_',
+  '_MYSQL_ENGINE_',
+  '_COOKIE_KEY_',
+  '_COOKIE_IV_',
+  '_PS_VERSION_',
+  '_DB_PREFIX_',
   '_PS_SSL_PORT_',
   '_THEME_NAME_',
   '_PARENT_THEME_NAME_',
