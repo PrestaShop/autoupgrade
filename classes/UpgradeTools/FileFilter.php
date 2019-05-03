@@ -61,6 +61,7 @@ class FileFilter
             '/cache/smarty/cache',
             '/cache/tcpdf',
             '/cache/cachefs',
+            '/var/cache',
 
             // do not care about the two autoupgrade dir we use;
             '/modules/autoupgrade',

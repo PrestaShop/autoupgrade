@@ -471,6 +471,7 @@ abstract class CoreUpgrader
             $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/app/cache/',
             $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/cache/smarty/cache/',
             $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/cache/smarty/compile/',
+            $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/var/cache/',
         );
 
         $defaultThemeNames = array(
@@ -680,6 +681,8 @@ abstract class CoreUpgrader
             _PS_ROOT_DIR_ . '/config/xml/tab_modules_list.xml',
             _PS_ROOT_DIR_ . '/config/xml/trusted_modules_list.xml',
             _PS_ROOT_DIR_ . '/config/xml/untrusted_modules_list.xml',
+            _PS_ROOT_DIR_ . '/var/cache/dev/class_index.php',
+            _PS_ROOT_DIR_ . '/var/cache/prod/class_index.php',
         );
         foreach ($files as $path) {
             if (file_exists($path)) {
