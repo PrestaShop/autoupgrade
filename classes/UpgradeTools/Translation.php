@@ -28,7 +28,7 @@
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
 use PrestaShop\Module\AutoUpgrade\Tools14;
-use Psr\Log\LoggerInterface;
+use PrestaShop\Module\AutoUpgrade\Log\LoggerInterface;
 
 class Translation
 {

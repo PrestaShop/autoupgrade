@@ -27,8 +27,6 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Log;
 
-use Psr\Log\LoggerInterface;
-
 /**
  * This class retrieves all message to display during the upgrade / rollback tasks.
  */
