@@ -36,6 +36,7 @@ class CoreUpgrader16 extends CoreUpgrader
 {
     /**
      * Complete path to the settings.inc.php
+     *
      * @var string
      */
     private $pathToSettingsFile;

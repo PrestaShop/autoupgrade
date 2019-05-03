@@ -56,6 +56,7 @@ class UpgradeNow extends AbstractTask
         if ($upgrader->isLastVersion()) {
             $this->next = '';
             $this->logger->info($this->translator->trans('You already have the %s version.', array($upgrader->version_name), 'Modules.Autoupgrade.Admin'));
+
             return;
         }
 

@@ -24,6 +24,7 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * International Registered Trademark & Property of PrestaShop SA
  */
+
 namespace PrestaShop\Module\AutoUpgrade;
 
 use PrestaShop\Module\AutoUpgrade\Twig\Block\RollbackForm;
@@ -34,7 +35,6 @@ use PrestaShop\Module\AutoUpgrade\Twig\Form\FormRenderer;
 use PrestaShop\Module\AutoUpgrade\Twig\Form\UpgradeOptionsForm;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
-use Configuration;
 use Twig_Environment;
 
 /**

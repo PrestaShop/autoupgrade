@@ -38,7 +38,7 @@ class LegacyLogger extends Logger
     protected $lastInfo = '';
 
     /**
-     * @var resource|null|false File descriptor of the log file
+     * @var resource|false|null File descriptor of the log file
      */
     protected $fd;
 
