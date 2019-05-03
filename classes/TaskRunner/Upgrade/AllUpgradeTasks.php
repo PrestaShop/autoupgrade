@@ -37,6 +37,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 class AllUpgradeTasks extends ChainedTasks
 {
     const initialTask = 'upgradeNow';
+    const TASKS_WITH_RESTART = ['upgradeFiles', 'upgradeDb'];
 
     protected $step = self::initialTask;
 
@@ -83,7 +84,7 @@ class AllUpgradeTasks extends ChainedTasks
             return false;
         }
 
-        if (!in_array($this->step, array('upgradeFiles'))) {
+        if (!in_array($this->step, self::TASKS_WITH_RESTART)) {
             return false;
         }
 

@@ -47,6 +47,7 @@ class CoreUpgrader17 extends CoreUpgrader
         }*/
 
         // Container may be needed to run upgrade scripts
+        $this->cleanFolders();
         $this->container->getSymfonyAdapter()->initAppKernel();
     }
 
