@@ -76,7 +76,7 @@ class CoreUpgrader17 extends CoreUpgrader
                     'Download of the language pack %lang% failed. %details%',
                     [
                         '%lang%' => $isoCode,
-                        '%details%' => implode('; ', $errorsLanguage)
+                        '%details%' => implode('; ', $errorsLanguage),
                     ],
                     'Modules.Autoupgrade.Admin'
                 )
@@ -96,7 +96,7 @@ class CoreUpgrader17 extends CoreUpgrader
                     'Error while updating translations for lang %lang%. %details%',
                     [
                         '%lang%' => $isoCode,
-                        '%details%' => implode('; ', $errorsLanguage)
+                        '%details%' => implode('; ', $errorsLanguage),
                     ],
                     'Modules.Autoupgrade.Admin'
                 )

@@ -62,10 +62,9 @@ class ZipAction
 
     /**
      * Add files to an archive.
-     * Note the number of files added can be limited. 
-     * 
-     * @var array $filesList List of files to add
-     * 
+     * Note the number of files added can be limited.
+     *
+     * @var array List of files to add
      * @var string $toFile
      */
     public function compress(&$filesList, $toFile)
@@ -151,11 +150,11 @@ class ZipAction
             return false;
         }
 
-        for($i = 0; $i < $zip->numFiles; $i++) {
+        for ($i = 0; $i < $zip->numFiles; ++$i) {
             if (!$zip->extractTo($to_dir, array($zip->getNameIndex($i)))) {
                 $this->logger->error(
                     $this->translator->trans(
-                        'Could not extract %file% from backup, the destination might not be writable.', 
+                        'Could not extract %file% from backup, the destination might not be writable.',
                         ['%file%' => $zip->statIndex($i)['name']],
                         'Modules.Autoupgrade.Admin'
                     )
@@ -174,9 +173,9 @@ class ZipAction
 
     /**
      * Lists the files present in the given archive
-     * 
+     *
      * @var string Path to the file
-     * 
+     *
      * @return array
      */
     public function listContent($zipfile)
@@ -188,6 +187,7 @@ class ZipAction
         $zip = $this->open($zipfile);
         if ($zip === false) {
             $this->logger->error($this->translator->trans('[ERROR] Unable to list archived files', array(), 'Modules.Autoupgrade.Admin'));
+
             return [];
         }
 
@@ -201,9 +201,9 @@ class ZipAction
 
     /**
      * Get the path of a file from the archive root
-     * 
+     *
      * @var string Path of the file on the filesystem
-     * 
+     *
      * @return string Path of the file in the backup archive
      */
     private function getFilepathInArchive($filepath)
@@ -213,9 +213,9 @@ class ZipAction
 
     /**
      * Checks a file size matches the given limits
-     * 
+     *
      * @var string Path to a file
-     * 
+     *
      * @return bool Size is inside the maximum limit
      */
     private function isFileWithinFileSizeLimit($filepath)
@@ -238,10 +238,10 @@ class ZipAction
 
     /**
      * Open an archive
-     * 
+     *
      * @var string Path to the archive
      * @var int ZipArchive flags
-     * 
+     *
      * @return false|\ZipArchive
      */
     private function open($zipFile, $flags = null)

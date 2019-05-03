@@ -56,21 +56,21 @@ abstract class CoreUpgrader
 
     /**
      * Version PrestaShop is upgraded to.
-     * 
+     *
      * @var string
      */
     protected $destinationUpgradeVersion;
 
     /**
      * Path to the temporary install folder, where upgrade files can be found
-     * 
+     *
      * @var string
      */
     protected $pathToInstallFolder;
 
     /**
      * Path to the folder containing PHP upgrade files
-     * 
+     *
      * @var string
      */
     protected $pathToPhpUpgradeScripts;

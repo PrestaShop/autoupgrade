@@ -79,7 +79,7 @@ class SymfonyAdapter
 
     /**
      * Return the AppKernel, after initialization
-     * 
+     *
      * @return \AppKernel
      */
     public function initAppKernel()
@@ -92,6 +92,7 @@ class SymfonyAdapter
             $kernel->loadClassCache();
             $kernel->boot();
         }
+
         return $kernel;
     }
 }

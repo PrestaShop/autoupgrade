@@ -421,7 +421,7 @@ class AdminSelfUpgrade extends AdminController
      * @deprecated
      * Method allowing errors on very old tabs to be displayed.
      * On the next major of this module, use an admin controller and get rid of this.
-     * 
+     *
      * This method is called by functions.php available in the admin root folder.
      */
     public function displayErrors()

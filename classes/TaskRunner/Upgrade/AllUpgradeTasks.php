@@ -58,7 +58,7 @@ class AllUpgradeTasks extends ChainedTasks
             $this->container->getUpgradeConfiguration()->merge(array(
                 'channel' => $options['channel'],
                 // Switch on default theme if major upgrade (i.e: 1.6 -> 1.7)
-                'PS_AUTOUP_CHANGE_DEFAULT_THEME' => ($options['channel'] === 'major')
+                'PS_AUTOUP_CHANGE_DEFAULT_THEME' => ($options['channel'] === 'major'),
             ));
             $this->container->getUpgrader()->channel = $options['channel'];
             $this->container->getUpgrader()->checkPSVersion(true);

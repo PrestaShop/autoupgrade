@@ -61,7 +61,7 @@ define('_RIJNDAEL_IV_', 'fdfd==');";
         $this->assertSame(
             '1.7.6.0',
             $class->findPrestaShopVersionInFile(
-                file_get_contents(__DIR__.'/fixtures/AppKernelExample.php.txt')
+                file_get_contents(__DIR__ . '/fixtures/AppKernelExample.php.txt')
             )
         );
     }

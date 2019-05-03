@@ -29,7 +29,6 @@ namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter;
 use PrestaShop\Module\AutoUpgrade\ZipAction;
 
 class ModuleAdapter
@@ -85,7 +84,7 @@ class ModuleAdapter
      * Upgrade action, disabling all modules not made by PrestaShop.
      *
      * It seems the 1.6 version of is the safest, as it does not actually load the modules.
-     * 
+     *
      * @param string $pathToUpgradeScripts Path to the PHP Upgrade scripts
      */
     public function disableNonNativeModules($pathToUpgradeScripts)
