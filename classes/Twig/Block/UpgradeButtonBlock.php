@@ -43,7 +43,7 @@ class UpgradeButtonBlock
     private $twig;
 
     /**
-     * @var TranslatorComponent
+     * @var Translator
      */
     private $translator;
 
@@ -73,7 +73,7 @@ class UpgradeButtonBlock
     private $token;
 
     /**
-     * @var
+     * @var bool
      */
     private $manualMode;
 
@@ -81,7 +81,7 @@ class UpgradeButtonBlock
      * UpgradeButtonBlock constructor.
      *
      * @param Twig_Environment $twig
-     * @param TranslatorComponent $translator
+     * @param Translator $translator
      * @param UpgradeConfiguration $config
      * @param Upgrader $upgrader
      * @param UpgradeSelfCheck $selfCheck
@@ -217,7 +217,7 @@ class UpgradeButtonBlock
     {
         $channelInfo = $this->getInfoForChannel($channel);
 
-        return (new ChannelInfoBlock($this->config, $channelInfo, $this->twig, $this->translator))
+        return (new ChannelInfoBlock($this->config, $channelInfo, $this->twig))
             ->render();
     }
 }

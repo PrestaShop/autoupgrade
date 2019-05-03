@@ -92,7 +92,7 @@ class UpgradeFiles extends AbstractTask
      *
      * @param string $dir
      *
-     * @return number of files found
+     * @return array|false Number of files found, or false if param is not a folder
      */
     protected function listFilesToUpgrade($dir)
     {
@@ -229,7 +229,7 @@ class UpgradeFiles extends AbstractTask
             $this->logger->error($this->translator->trans('A file may be missing, or the release is stored in a subfolder by mistake.', array(), 'Modules.Autoupgrade.Admin'));
             $this->next = 'error';
 
-            return;
+            return false;
         }
 
         $admin_dir = str_replace($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . DIRECTORY_SEPARATOR, '', $this->container->getProperty(UpgradeContainer::PS_ADMIN_PATH));

@@ -1,0 +1,20 @@
+parameters:
+	bootstrap: /web/module/tests/phpstan/bootstrap.php
+	reportUnmatchedIgnoredErrors: false
+	paths:
+		- /web/module/classes
+	excludes_analyse:
+		- /web/module/classes/Tools14.php
+		- /web/module/classes/pclzip.lib.php
+		- /web/module/functions.php
+	ignoreErrors:
+		# module specific
+		- '#Function deactivate_custom_modules not found.#'
+		- '#Constant MCRYPT_[A-Z0-9_]+ not found.#'
+		- "#Call to function method_exists#"
+		# CLDR related check
+		- '#[cC]lass PrestaShop\\PrestaShop\\Core\\Cldr\\Update#'
+		# AppKernel wasn't properly listed in autoloader
+		- '#AppKernel#'
+
+	level: 5

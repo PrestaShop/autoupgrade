@@ -28,8 +28,8 @@
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner;
 
 use PrestaShop\Module\AutoUpgrade\AjaxResponse;
+use PrestaShop\Module\AutoUpgrade\Log\Logger;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
-use Psr\Log\LoggerInterface;
 
 abstract class AbstractTask
 {
@@ -40,7 +40,7 @@ abstract class AbstractTask
     public static $skipAction = array();
 
     /**
-     * @var LoggerInterface
+     * @var Logger
      */
     protected $logger;
 
@@ -70,7 +70,7 @@ abstract class AbstractTask
     }
 
     /**
-     * @return sting base64 encoded data from AjaxResponse
+     * @return string base64 encoded data from AjaxResponse
      */
     public function getEncodedResponse()
     {
@@ -78,7 +78,7 @@ abstract class AbstractTask
     }
 
     /**
-     * @return sting Json encoded data from AjaxResponse
+     * @return string Json encoded data from AjaxResponse
      */
     public function getJsonResponse()
     {
@@ -92,7 +92,7 @@ abstract class AbstractTask
      */
     public function getResponse()
     {
-        $response = new AjaxResponse($this->container->getTranslator(), $this->container->getState(), $this->logger);
+        $response = new AjaxResponse($this->container->getState(), $this->logger);
 
         return $response->setError($this->error)
             ->setStepDone($this->stepDone)
@@ -104,7 +104,7 @@ abstract class AbstractTask
     private function checkTaskMayRun()
     {
         // PrestaShop demo mode
-        if (defined('_PS_MODE_DEMO_') && _PS_MODE_DEMO_) {
+        if (defined('_PS_MODE_DEMO_') && _PS_MODE_DEMO_ == true) {
             return;
         }
 

@@ -57,7 +57,7 @@ class SymfonyAdapter
         \Tools::generateIndex();
 
         $sf2Refresh = new \PrestaShopBundle\Service\Cache\Refresh();
-        $sf2Refresh->addCacheClear(_PS_MODE_DEV_ ? 'dev' : 'prod');
+        $sf2Refresh->addCacheClear();
         $sf2Refresh->execute();
     }
 
@@ -87,7 +87,7 @@ class SymfonyAdapter
         global $kernel;
         if (!$kernel instanceof \AppKernel) {
             require_once _PS_ROOT_DIR_ . '/app/AppKernel.php';
-            $env = _PS_MODE_DEV_ ? 'dev' : 'prod';
+            $env = (true == _PS_MODE_DEV_) ? 'dev' : 'prod';
             $kernel = new \AppKernel($env, _PS_MODE_DEV_);
             $kernel->loadClassCache();
             $kernel->boot();

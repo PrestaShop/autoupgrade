@@ -56,42 +56,42 @@ abstract class Logger implements LoggerInterface
 
     public function alert($message, array $context = array())
     {
-        return $this->log(self::ALERT, $message, $context);
+        $this->log(self::ALERT, $message, $context);
     }
 
     public function critical($message, array $context = array())
     {
-        return $this->log(self::CRITICAL, $message, $context);
+        $this->log(self::CRITICAL, $message, $context);
     }
 
     public function debug($message, array $context = array())
     {
-        return $this->log(self::DEBUG, $message, $context);
+        $this->log(self::DEBUG, $message, $context);
     }
 
     public function emergency($message, array $context = array())
     {
-        return $this->log(self::EMERGENCY, $message, $context);
+        $this->log(self::EMERGENCY, $message, $context);
     }
 
     public function error($message, array $context = array())
     {
-        return $this->log(self::ERROR, $message, $context);
+        $this->log(self::ERROR, $message, $context);
     }
 
     public function info($message, array $context = array())
     {
-        return $this->log(self::INFO, $message, $context);
+        $this->log(self::INFO, $message, $context);
     }
 
     public function notice($message, array $context = array())
     {
-        return $this->log(self::NOTICE, $message, $context);
+        $this->log(self::NOTICE, $message, $context);
     }
 
     public function warning($message, array $context = array())
     {
-        return $this->log(self::WARNING, $message, $context);
+        $this->log(self::WARNING, $message, $context);
     }
 
     /**

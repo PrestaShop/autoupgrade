@@ -388,7 +388,7 @@ class AdminSelfUpgrade extends AdminController
             $this->adminDir,
             $this->autoupgradePath
         );
-        $response = new AjaxResponse($this->upgradeContainer->getTranslator(), $this->upgradeContainer->getState(), $this->upgradeContainer->getLogger());
+        $response = new AjaxResponse($this->upgradeContainer->getState(), $this->upgradeContainer->getLogger());
         $this->_html = (new UpgradePage(
             $this->upgradeContainer->getUpgradeConfiguration(),
             $this->upgradeContainer->getTwig(),

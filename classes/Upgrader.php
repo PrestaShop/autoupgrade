@@ -339,7 +339,7 @@ class Upgrader
      *
      * @param string $version
      *
-     * @return SimpleXMLElement or false if error
+     * @return \SimpleXMLElement|false if error
      */
     public function getXmlMd5File($version, $refresh = false)
     {
@@ -426,7 +426,7 @@ class Upgrader
      * @param string $version2
      * @param bool $show_modif
      *
-     * @return array array('modified'=>array(...), 'deleted'=>array(...))
+     * @return array|false array('modified'=>array(...), 'deleted'=>array(...))
      */
     public function getDiffFilesList($version1, $version2, $show_modif = true, $refresh = false)
     {

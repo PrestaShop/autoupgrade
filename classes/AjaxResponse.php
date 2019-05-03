@@ -82,9 +82,8 @@ class AjaxResponse
      */
     private $state;
 
-    public function __construct($translator, State $state, Logger $logger)
+    public function __construct(State $state, Logger $logger)
     {
-        $this->translator = $translator;
         $this->state = $state;
         $this->logger = $logger;
     }

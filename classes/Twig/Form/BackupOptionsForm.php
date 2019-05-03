@@ -36,7 +36,7 @@ class BackupOptionsForm
     private $fields;
 
     /**
-     * @var TranslatorComponent
+     * @var Translator
      */
     private $translator;
 

@@ -50,8 +50,7 @@ class GetChannelInfo extends AbstractTask
         $this->nextParams['result']['div'] = (new ChannelInfoBlock(
             $this->container->getUpgradeConfiguration(),
             $channelInfo,
-            $this->container->getTwig(),
-            $this->translator)
+            $this->container->getTwig())
         )->render();
     }
 }

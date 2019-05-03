@@ -29,7 +29,6 @@ namespace PrestaShop\Module\AutoUpgrade;
 
 use PrestaShop\Module\AutoUpgrade\Log\LegacyLogger;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
-use Psr\Log\LoggerInterface;
 
 /**
  * In order to improve the debug of the module in case of case, we need to display the missed errors
@@ -39,9 +38,14 @@ use Psr\Log\LoggerInterface;
 class ErrorHandler
 {
     /**
-     * @param LoggerInterface $logger
+     * @var Logger
      */
-    public function __construct(LoggerInterface $logger)
+    private $logger;
+
+    /**
+     * @param Logger $logger
+     */
+    public function __construct(Logger $logger)
     {
         $this->logger = $logger;
     }
@@ -61,7 +65,7 @@ class ErrorHandler
     /**
      * Function retrieving uncaught exceptions.
      *
-     * @param Throwable $e
+     * @param \Throwable $e
      */
     public function exceptionHandler($e)
     {
@@ -75,7 +79,7 @@ class ErrorHandler
      * @param int $errno
      * @param string $errstr
      * @param string $errfile
-     * @param string $errline
+     * @param int $errline
      *
      * @return bool
      */

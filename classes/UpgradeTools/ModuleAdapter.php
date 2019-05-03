@@ -67,7 +67,7 @@ class ModuleAdapter
     /**
      * Available only from 1.7. Can't be called on PS 1.6.
      *
-     * @return PrestaShop\PrestaShop\Adapter\Module\ModuleDataUpdater
+     * @return \PrestaShop\PrestaShop\Adapter\Module\ModuleDataUpdater
      */
     public function getModuleDataUpdater()
     {
@@ -85,17 +85,19 @@ class ModuleAdapter
      * Upgrade action, disabling all modules not made by PrestaShop.
      *
      * It seems the 1.6 version of is the safest, as it does not actually load the modules.
+     * 
+     * @param string $pathToUpgradeScripts Path to the PHP Upgrade scripts
      */
-    public function disableNonNativeModules()
+    public function disableNonNativeModules($pathToUpgradeScripts)
     {
-        require_once _PS_INSTALLER_PHP_UPGRADE_DIR_ . 'deactivate_custom_modules.php';
+        require_once $pathToUpgradeScripts . 'deactivate_custom_modules.php';
         deactivate_custom_modules();
     }
 
     /**
      * list modules to upgrade and save them in a serialized array in $this->toUpgradeModuleList.
      *
-     * @param array Modules available on the marketplace for download
+     * @param array $modulesFromAddons Modules available on the marketplace for download
      *
      * @return array Module available on the local filesystem and on the marketplace
      */

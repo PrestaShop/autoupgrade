@@ -109,7 +109,7 @@ class UpdateConfig extends AbstractTask
     /**
      * update module configuration (saved in file UpgradeFiles::configFilename) with $new_config.
      *
-     * @param array $new_config
+     * @param array $config
      *
      * @return bool true if success
      */
