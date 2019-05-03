@@ -72,7 +72,7 @@ class UpgradeConfigurationStorage extends FileConfigurationStorage
             'PS_AUTOUP_CHANGE_DEFAULT_THEME' => 0,
             'PS_AUTOUP_KEEP_MAILS' => 0,
             'PS_AUTOUP_BACKUP' => 1,
-            'PS_AUTOUP_KEEP_IMAGES' => 0,
+            'PS_AUTOUP_KEEP_IMAGES' => 1,
             'channel' => Upgrader::DEFAULT_CHANNEL,
             'archive.filename' => Upgrader::DEFAULT_FILENAME,
         );

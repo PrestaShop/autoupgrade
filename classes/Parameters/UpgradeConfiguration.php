@@ -117,6 +117,14 @@ class UpgradeConfiguration extends ArrayCollection
     }
 
     /**
+     * @return bool True if the autoupgrade module should backup the images as well
+     */
+    public function shouldBackupImages()
+    {
+        return (bool) $this->get('PS_AUTOUP_KEEP_IMAGES');
+    }
+
+    /**
      * @return bool True if non-native modules must be disabled during upgrade
      */
     public function shouldDeactivateCustomModules()

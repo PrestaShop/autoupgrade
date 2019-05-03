@@ -242,7 +242,7 @@ class AdminSelfUpgrade extends AdminController
             $this->upgradeContainer->getFileConfigurationStorage()->cleanAll();
         }
 
-        $this->keepImages = $this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_KEEP_IMAGES');
+        $this->keepImages = $this->upgradeContainer->getUpgradeConfiguration()->shouldBackupImages();
         $this->updateDefaultTheme = $this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_UPDATE_DEFAULT_THEME');
         $this->changeToDefaultTheme = $this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_CHANGE_DEFAULT_THEME');
         $this->keepMails = $this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_KEEP_MAILS');
