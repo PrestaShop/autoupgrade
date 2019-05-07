@@ -29,6 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade;
 
 use PrestaShop\Module\AutoUpgrade\Log\LegacyLogger;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\CacheCleaner;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FileFilter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\ModuleAdapter;
@@ -61,6 +62,11 @@ class UpgradeContainer
     const ARCHIVE_FILENAME = 'destDownloadFilename';
     const ARCHIVE_FILEPATH = 'destDownloadFilepath';
     const PS_VERSION = 'version';
+
+    /**
+     * @var CacheCleaner
+     */
+    private $cacheCleaner;
 
     /**
      * @var Cookie
@@ -190,6 +196,20 @@ class UpgradeContainer
             case self::PS_VERSION:
                 return $this->getPrestaShopConfiguration()->getPrestaShopVersion();
         }
+    }
+
+    /**
+     * Init and return CacheCleaner
+     *
+     * @return CacheCleaner
+     */
+    public function getCacheCleaner()
+    {
+        if (null !== $this->cacheCleaner) {
+            return $this->cacheCleaner;
+        }
+
+        return $this->cacheCleaner = new CacheCleaner($this, $this->getLogger());
     }
 
     public function getCookie()

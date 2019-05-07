@@ -69,6 +69,8 @@ class UpgradeDb extends AbstractTask
 
     public function init()
     {
+        $this->container->getCacheCleaner()->cleanFolders();
+
         // Migrating settings file
         $this->container->initPrestaShopAutoloader();
         (new SettingsFileWriter($this->translator))->migrateSettingsFile($this->logger);

@@ -29,7 +29,6 @@ namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader;
 
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\ThemeAdapter;
 use Psr\Log\LoggerInterface;
 
@@ -107,8 +106,6 @@ abstract class CoreUpgrader
         $this->runRecurrentQueries();
         $this->logger->debug($this->container->getTranslator()->trans('Database upgrade OK', array(), 'Modules.Autoupgrade.Admin')); // no error!
 
-        // Settings updated, compile and cache directories must be emptied
-        $this->cleanFolders();
         $this->upgradeLanguages();
         $this->generateHtaccess();
         $this->cleanXmlFiles();
@@ -465,46 +462,6 @@ abstract class CoreUpgrader
         $this->db->execute('UPDATE `' . _DB_PREFIX_ . 'configuration` SET value="' . $this->destinationUpgradeVersion . '" WHERE name = "PS_VERSION_DB"', false);
     }
 
-    protected function cleanFolders()
-    {
-        $dirsToClean = array(
-            $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/app/cache/',
-            $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/cache/smarty/cache/',
-            $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/cache/smarty/compile/',
-            $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/var/cache/',
-        );
-
-        $defaultThemeNames = array(
-            'default',
-            'prestashop',
-            'default-boostrap',
-            'classic',
-        );
-
-        if (defined('_THEME_NAME_') && $this->container->getUpgradeConfiguration()->shouldUpdateDefaultTheme() && in_array(_THEME_NAME_, $defaultThemeNames)) {
-            $dirsToClean[] = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/themes/' . _THEME_NAME_ . '/cache/';
-        }
-
-        foreach ($dirsToClean as $dir) {
-            if (!file_exists($dir)) {
-                $this->logger->debug($this->container->getTranslator()->trans('[SKIP] directory "%s" does not exist and cannot be emptied.', array(str_replace($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH), '', $dir)), 'Modules.Autoupgrade.Admin'));
-                continue;
-            }
-            foreach (scandir($dir) as $file) {
-                if ($file[0] === '.' || $file === 'index.php' /*|| $file === '.htaccess'*/) {
-                    continue;
-                }
-                // ToDo: Use Filesystem instead ?
-                if (is_file($dir . $file)) {
-                    unlink($dir . $file);
-                } elseif (is_dir($dir . $file . DIRECTORY_SEPARATOR)) {
-                    FilesystemAdapter::deleteDirectory($dir . $file . DIRECTORY_SEPARATOR);
-                }
-                $this->logger->debug($this->container->getTranslator()->trans('[CLEANING CACHE] File %s removed', array($file), 'Modules.Autoupgrade.Admin'));
-            }
-        }
-    }
-
     protected function upgradeLanguages()
     {
         if (!defined('_PS_TOOL_DIR_')) {
@@ -730,38 +687,5 @@ abstract class CoreUpgrader
     protected function runCoreCacheClean()
     {
         \Tools::clearCache();
-
-        // delete cache filesystem if activated
-        if (defined('_PS_CACHE_ENABLED_') && false != _PS_CACHE_ENABLED_) {
-            $depth = (int) $this->db->getValue('SELECT value
-				FROM ' . _DB_PREFIX_ . 'configuration
-				WHERE name = "PS_CACHEFS_DIRECTORY_DEPTH"');
-            if ($depth) {
-                if (!defined('_PS_CACHEFS_DIRECTORY_')) {
-                    define('_PS_CACHEFS_DIRECTORY_', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/cache/cachefs/');
-                }
-                FilesystemAdapter::deleteDirectory(_PS_CACHEFS_DIRECTORY_, false);
-                if (class_exists('CacheFs', false)) {
-                    $this->createCacheFsDirectories((int) $depth);
-                }
-            }
-        }
-    }
-
-    private function createCacheFsDirectories($level_depth, $directory = false)
-    {
-        if (!$directory) {
-            if (!defined('_PS_CACHEFS_DIRECTORY_')) {
-                define('_PS_CACHEFS_DIRECTORY_', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/cache/cachefs/');
-            }
-            $directory = _PS_CACHEFS_DIRECTORY_;
-        }
-        $chars = '0123456789abcdef';
-        for ($i = 0; $i < strlen($chars); ++$i) {
-            $new_dir = $directory . $chars[$i] . '/';
-            if (mkdir($new_dir, 0775) && chmod($new_dir, 0775) && $level_depth - 1 > 0) {
-                $this->createCacheFsDirectories($level_depth - 1, $new_dir);
-            }
-        }
     }
 }

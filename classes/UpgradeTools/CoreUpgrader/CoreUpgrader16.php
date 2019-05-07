@@ -30,6 +30,7 @@ namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader;
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\SettingsFileWriter;
 
 class CoreUpgrader16 extends CoreUpgrader
@@ -143,5 +144,43 @@ class CoreUpgrader16 extends CoreUpgrader
     protected function loadEntityInterface()
     {
         require_once _PS_ROOT_DIR_ . '/Core/Foundation/Database/Core_Foundation_Database_EntityInterface.php';
+    }
+
+    protected function runCoreCacheClean()
+    {
+        parent::runCoreCacheClean();
+
+        // delete cache filesystem if activated
+        if (defined('_PS_CACHE_ENABLED_') && false != _PS_CACHE_ENABLED_) {
+            $depth = (int) $this->db->getValue('SELECT value
+				FROM ' . _DB_PREFIX_ . 'configuration
+				WHERE name = "PS_CACHEFS_DIRECTORY_DEPTH"');
+            if ($depth) {
+                if (!defined('_PS_CACHEFS_DIRECTORY_')) {
+                    define('_PS_CACHEFS_DIRECTORY_', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/cache/cachefs/');
+                }
+                FilesystemAdapter::deleteDirectory(_PS_CACHEFS_DIRECTORY_, false);
+                if (class_exists('CacheFs', false)) {
+                    $this->createCacheFsDirectories((int) $depth);
+                }
+            }
+        }
+    }
+
+    private function createCacheFsDirectories($level_depth, $directory = false)
+    {
+        if (!$directory) {
+            if (!defined('_PS_CACHEFS_DIRECTORY_')) {
+                define('_PS_CACHEFS_DIRECTORY_', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/cache/cachefs/');
+            }
+            $directory = _PS_CACHEFS_DIRECTORY_;
+        }
+        $chars = '0123456789abcdef';
+        for ($i = 0; $i < strlen($chars); ++$i) {
+            $new_dir = $directory . $chars[$i] . '/';
+            if (mkdir($new_dir, 0775) && chmod($new_dir, 0775) && $level_depth - 1 > 0) {
+                $this->createCacheFsDirectories($level_depth - 1, $new_dir);
+            }
+        }
     }
 }
