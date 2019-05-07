@@ -2,7 +2,7 @@
 /**
  * IMPORTANT NOTE.
  *
- * This class is taken from the composer dependancy psr/log.
+ * This class is taken from the composer dependency psr/log.
  * We copied it here to avoid conflicts with the same file loaded by the core
  */
 
