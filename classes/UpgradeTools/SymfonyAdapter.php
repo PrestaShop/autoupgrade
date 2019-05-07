@@ -42,25 +42,6 @@ class SymfonyAdapter
         $this->destinationPsVersion = $destinationPsVersion;
     }
 
-    /**
-     * Can be called only on PS 1.7.
-     */
-    public function clearMigrationCache()
-    {
-        if (version_compare($this->destinationPsVersion, '1.7.0.0', '<')) {
-            return;
-        }
-
-        \Tools::clearCache();
-        \Tools::clearXMLCache();
-        \Media::clearCache();
-        \Tools::generateIndex();
-
-        $sf2Refresh = new \PrestaShopBundle\Service\Cache\Refresh();
-        $sf2Refresh->addCacheClear();
-        $sf2Refresh->execute();
-    }
-
     public function runSchemaUpgradeCommand()
     {
         if (version_compare($this->destinationPsVersion, '1.7.1.1', '>=')) {

@@ -79,8 +79,6 @@ class UpgradeFiles extends AbstractTask
         if (count($filesToUpgrade) > 0) {
             $this->logger->info($this->translator->trans('%s files left to upgrade.', array(count($filesToUpgrade)), 'Modules.Autoupgrade.Admin'));
             $this->stepDone = false;
-            @unlink(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'dev' . DIRECTORY_SEPARATOR . 'class_index.php');
-            @unlink(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'prod' . DIRECTORY_SEPARATOR . 'class_index.php');
         }
 
         return true;
