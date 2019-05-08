@@ -145,6 +145,25 @@
                         {% endif %}
                     </td>
                 </tr>
+                <tr>
+                    <td>
+                        {% if arePsAndPhpVersionsCompatible %}
+                            {{ 'PrestaShop & PHP versions are compatible.'|trans|raw }}
+                        {% else %}
+                            {{ 'The version of PHP you\'re running on is not compatible with the target version of PrestaShop. [1]Learn more[/1].'|trans({
+                                '[1]': '<a class="_blank" href="https://devdocs.prestashop.com/1.7/basics/installation/system-requirements/#php-compatibility-chart">',
+                                '[/1]': '</a>',
+                            })|raw }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if arePsAndPhpVersionsCompatible %}
+                            {{ icons.ok }}
+                        {% else %}
+                            {{ icons.nok }}
+                        {% endif %}
+                    </td>
+                </tr>
             </table>
             <br>
             <p class="alert alert-info">{{ 'Please also make sure you make a full manual backup of your files and database.'|trans }}</p>

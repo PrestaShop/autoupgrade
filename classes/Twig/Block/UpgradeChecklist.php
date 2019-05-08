@@ -128,6 +128,7 @@ class UpgradeChecklist
             'cachingIsDisabled' => $this->selfCheck->isCacheDisabled(),
             'maxExecutionTime' => $this->selfCheck->getMaxExecutionTime(),
             'isPrestaShopReady' => $this->selfCheck->isPrestaShopReady(),
+            'arePsAndPhpVersionsCompatible' => $this->selfCheck->arePsAndPhpVersionsCompatible(),
         );
 
         return $this->twig->render('@ModuleAutoUpgrade/block/checklist.twig', $data);

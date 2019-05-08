@@ -29,6 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade;
 
 use Configuration;
 use ConfigurationTest;
+use PrestaShop\Module\AutoUpgrade\Requirement\PhpCompatibility;
 
 class UpgradeSelfCheck
 {
@@ -98,6 +99,11 @@ class UpgradeSelfCheck
     private $prestashopReady;
 
     /**
+     * @var bool
+     */
+    private $psAndPhpVersionsCompatible;
+
+    /**
      * @var string
      */
     private $configDir = '/modules/autoupgrade/config.xml';
@@ -123,6 +129,7 @@ class UpgradeSelfCheck
         $this->moduleVersionIsLatest = $this->checkModuleVersionIsLastest($upgrader);
         $this->maxExecutionTime = $this->checkMaxExecutionTime();
         $this->prestashopReady = $this->runPrestaShopCoreChecks();
+        $this->psAndPhpVersionsCompatible = $this->checkPrestaShopIsCompliantWithCurrentPhpVersion($upgrader->version_num);
     }
 
     /**
@@ -235,6 +242,14 @@ class UpgradeSelfCheck
     }
 
     /**
+     * @return bool
+     */
+    public function arePsAndPhpVersionsCompatible()
+    {
+        return $this->psAndPhpVersionsCompatible;
+    }
+
+    /**
      * Indicates if the self check status allows going ahead with the upgrade.
      *
      * @return bool
@@ -249,7 +264,8 @@ class UpgradeSelfCheck
             && $this->isShopDeactivated()
             && $this->isCacheDisabled()
             && $this->isModuleVersionLatest()
-            && $this->isPrestaShopReady();
+            && $this->isPrestaShopReady()
+            && $this->arePsAndPhpVersionsCompatible();
     }
 
     /**
@@ -332,6 +348,15 @@ class UpgradeSelfCheck
     private function checkMaxExecutionTime()
     {
         return (int) @ini_get('max_execution_time');
+    }
+
+    private function checkPrestaShopIsCompliantWithCurrentPhpVersion($psVersion)
+    {
+        if (empty($psVersion)) {
+            return true;
+        }
+        $versionChecker = new PhpCompatibility();
+        return $versionChecker->versionsAreCompatible(phpversion(), $psVersion);
     }
 
     /**

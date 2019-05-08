@@ -49,6 +49,10 @@ class Upgrader
     private $missing_files = array();
 
     public $version_name;
+    /**
+     * Version of PrestaShop you will upgrade to
+     * @var string|null
+     */
     public $version_num;
     public $version_is_modified;
     /**
