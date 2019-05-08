@@ -51,6 +51,7 @@ class Upgrader
     public $version_name;
     /**
      * Version of PrestaShop you will upgrade to
+     *
      * @var string|null
      */
     public $version_num;

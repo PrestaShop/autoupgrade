@@ -31,23 +31,24 @@ class PhpCompatibility
 {
     /**
      * PHP compatibility table for PrestaShop
+     *
      * @see https://devdocs.prestashop.com/1.7/basics/installation/system-requirements/
-     * 
+     *
      * @var array
      */
     const PRESTASHOP_PHP_COMPATIBILITY = [
-        ['ps' => ['min' => '1.6.1', 'max' => '1.6.1.999'], 'php' => ['min' => '5.2', 'max' => '7.1.999',], ],
-        ['ps' => ['min' => '1.7.0', 'max' => '1.7.3.999'], 'php' => ['min' => '5.4', 'max' => '7.1.999',], ],
-        ['ps' => ['min' => '1.7.4', 'max' => '1.7.4.999'], 'php' => ['min' => '5.6', 'max' => '7.1.999',], ],
-        ['ps' => ['min' => '1.7.5', 'max' => '1.7.6.999'], 'php' => ['min' => '5.6', 'max' => '7.2.999',], ],
+        ['ps' => ['min' => '1.6.1', 'max' => '1.6.1.999'], 'php' => ['min' => '5.2', 'max' => '7.1.999']],
+        ['ps' => ['min' => '1.7.0', 'max' => '1.7.3.999'], 'php' => ['min' => '5.4', 'max' => '7.1.999']],
+        ['ps' => ['min' => '1.7.4', 'max' => '1.7.4.999'], 'php' => ['min' => '5.6', 'max' => '7.1.999']],
+        ['ps' => ['min' => '1.7.5', 'max' => '1.7.6.999'], 'php' => ['min' => '5.6', 'max' => '7.2.999']],
     ];
 
     /**
      * Check that the PHP version is compatible with the version we upgrade to
-     * 
+     *
      * @param string $phpVersion
      * @param string $prestashopVersion
-     * 
+     *
      * @return bool
      */
     public function versionsAreCompatible($phpVersion, $prestashopVersion)

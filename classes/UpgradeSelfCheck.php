@@ -356,6 +356,7 @@ class UpgradeSelfCheck
             return true;
         }
         $versionChecker = new PhpCompatibility();
+
         return $versionChecker->versionsAreCompatible(phpversion(), $psVersion);
     }
 
