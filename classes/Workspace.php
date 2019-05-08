@@ -27,7 +27,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade;
 
-use Psr\Log\LoggerInterface;
+use PrestaShop\Module\AutoUpgrade\Log\LoggerInterface;
 
 class Workspace
 {

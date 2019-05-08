@@ -27,7 +27,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade;
 
-use Psr\Log\LoggerInterface;
+use PrestaShop\Module\AutoUpgrade\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 

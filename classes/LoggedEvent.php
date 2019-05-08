@@ -33,7 +33,7 @@ namespace Composer\Script {
 
 namespace PrestaShop\Module\AutoUpgrade {
     use Composer\Script\Event;
-    use Psr\Log\LoggerInterface;
+    use PrestaShop\Module\AutoUpgrade\Log\LoggerInterface;
 
     class LoggedEvent extends Event
     {

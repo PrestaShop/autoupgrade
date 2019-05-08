@@ -28,7 +28,7 @@
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
-use Psr\Log\LoggerInterface;
+use PrestaShop\Module\AutoUpgrade\Log\LoggerInterface;
 
 class CacheCleaner
 {
