@@ -29,9 +29,8 @@ namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader;
 
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\ThemeAdapter;
-use Psr\Log\LoggerInterface;
+use PrestaShop\Module\AutoUpgrade\Log\LoggerInterface;
 
 /**
  * Class used to modify the core of PrestaShop, on the files are copied on the filesystem.
@@ -53,6 +52,27 @@ abstract class CoreUpgrader
      * @var LoggerInterface
      */
     protected $logger;
+
+    /**
+     * Version PrestaShop is upgraded to.
+     *
+     * @var string
+     */
+    protected $destinationUpgradeVersion;
+
+    /**
+     * Path to the temporary install folder, where upgrade files can be found
+     *
+     * @var string
+     */
+    protected $pathToInstallFolder;
+
+    /**
+     * Path to the folder containing PHP upgrade files
+     *
+     * @var string
+     */
+    protected $pathToPhpUpgradeScripts;
 
     public function __construct(UpgradeContainer $container, LoggerInterface $logger)
     {
@@ -86,8 +106,6 @@ abstract class CoreUpgrader
         $this->runRecurrentQueries();
         $this->logger->debug($this->container->getTranslator()->trans('Database upgrade OK', array(), 'Modules.Autoupgrade.Admin')); // no error!
 
-        // Settings updated, compile and cache directories must be emptied
-        $this->cleanFolders();
         $this->upgradeLanguages();
         $this->generateHtaccess();
         $this->cleanXmlFiles();
@@ -137,9 +155,12 @@ abstract class CoreUpgrader
         }
         $_SERVER['REQUEST_URI'] = str_replace('//', '/', $_SERVER['REQUEST_URI']);
 
-        define('INSTALL_VERSION', $this->container->getState()->getInstallVersion());
+        $this->destinationUpgradeVersion = $this->container->getState()->getInstallVersion();
+        $this->pathToInstallFolder = realpath($this->container->getProperty(UpgradeContainer::LATEST_PATH) . DIRECTORY_SEPARATOR . 'install');
+        // Kept for backward compatbility (unknown consequences on old versions of PrestaShop)
+        define('INSTALL_VERSION', $this->destinationUpgradeVersion);
         // 1.4
-        define('INSTALL_PATH', realpath($this->container->getProperty(UpgradeContainer::LATEST_PATH) . DIRECTORY_SEPARATOR . 'install'));
+        define('INSTALL_PATH', $this->pathToInstallFolder);
         // 1.5 ...
         if (!defined('_PS_CORE_DIR_')) {
             define('_PS_CORE_DIR_', _PS_ROOT_DIR_);
@@ -152,7 +173,7 @@ abstract class CoreUpgrader
         define('INSTALLER__PS_BASE_URI', substr($_SERVER['REQUEST_URI'], 0, -1 * (strlen($_SERVER['REQUEST_URI']) - strrpos($_SERVER['REQUEST_URI'], '/')) - strlen(substr(dirname($_SERVER['REQUEST_URI']), strrpos(dirname($_SERVER['REQUEST_URI']), '/') + 1))));
         //	define('INSTALLER__PS_BASE_URI_ABSOLUTE', 'http://'.ToolsInstall::getHttpHost(false, true).INSTALLER__PS_BASE_URI);
 
-        define('_PS_INSTALL_PATH_', INSTALL_PATH . '/');
+        define('_PS_INSTALL_PATH_', $this->pathToInstallFolder . '/');
         define('_PS_INSTALL_DATA_PATH_', _PS_INSTALL_PATH_ . 'data/');
         define('_PS_INSTALL_CONTROLLERS_PATH_', _PS_INSTALL_PATH_ . 'controllers/');
         define('_PS_INSTALL_MODELS_PATH_', _PS_INSTALL_PATH_ . 'models/');
@@ -167,17 +188,18 @@ abstract class CoreUpgrader
         if (defined('_PS_ROOT_DIR_') && !defined('_PS_MODULE_DIR_')) {
             define('_PS_MODULE_DIR_', _PS_ROOT_DIR_ . '/modules/');
         } elseif (!defined('_PS_MODULE_DIR_')) {
-            define('_PS_MODULE_DIR_', INSTALL_PATH . '/../modules/');
+            define('_PS_MODULE_DIR_', $this->pathToInstallFolder . '/../modules/');
         }
 
         $upgrade_dir_php = 'upgrade/php';
-        if (!file_exists(INSTALL_PATH . DIRECTORY_SEPARATOR . $upgrade_dir_php)) {
+        if (!file_exists($this->pathToInstallFolder . DIRECTORY_SEPARATOR . $upgrade_dir_php)) {
             $upgrade_dir_php = 'php';
-            if (!file_exists(INSTALL_PATH . DIRECTORY_SEPARATOR . $upgrade_dir_php)) {
+            if (!file_exists($this->pathToInstallFolder . DIRECTORY_SEPARATOR . $upgrade_dir_php)) {
                 throw new UpgradeException($this->container->getTranslator()->trans('/install/upgrade/php directory is missing in archive or directory', array(), 'Modules.Autoupgrade.Admin'));
             }
         }
-        define('_PS_INSTALLER_PHP_UPGRADE_DIR_', INSTALL_PATH . DIRECTORY_SEPARATOR . $upgrade_dir_php . DIRECTORY_SEPARATOR);
+        $this->pathToPhpUpgradeScripts = $this->pathToInstallFolder . DIRECTORY_SEPARATOR . $upgrade_dir_php . DIRECTORY_SEPARATOR;
+        define('_PS_INSTALLER_PHP_UPGRADE_DIR_', $this->pathToPhpUpgradeScripts);
 
         if (!defined('__PS_BASE_URI__')) {
             define('__PS_BASE_URI__', realpath(dirname($_SERVER['SCRIPT_NAME'])) . '/../../');
@@ -187,8 +209,8 @@ abstract class CoreUpgrader
             define('_THEMES_DIR_', __PS_BASE_URI__ . 'themes/');
         }
 
-        if (file_exists(INSTALL_PATH . DIRECTORY_SEPARATOR . 'autoload.php')) {
-            require_once INSTALL_PATH . DIRECTORY_SEPARATOR . 'autoload.php';
+        if (file_exists($this->pathToInstallFolder . DIRECTORY_SEPARATOR . 'autoload.php')) {
+            require_once $this->pathToInstallFolder . DIRECTORY_SEPARATOR . 'autoload.php';
         }
         $this->db = \Db::getInstance();
     }
@@ -220,13 +242,13 @@ abstract class CoreUpgrader
 
     protected function checkVersionIsNewer($oldVersion)
     {
-        if (strpos(INSTALL_VERSION, '.') === false) {
-            throw new UpgradeException($this->container->getTranslator()->trans('%s is not a valid version number.', array(INSTALL_VERSION), 'Modules.Autoupgrade.Admin'));
+        if (strpos($this->destinationUpgradeVersion, '.') === false) {
+            throw new UpgradeException($this->container->getTranslator()->trans('%s is not a valid version number.', array($this->destinationUpgradeVersion), 'Modules.Autoupgrade.Admin'));
         }
 
-        $versionCompare = version_compare(INSTALL_VERSION, $oldVersion);
+        $versionCompare = version_compare($this->destinationUpgradeVersion, $oldVersion);
 
-        if ($versionCompare == '-1') {
+        if ($versionCompare === -1) {
             throw new UpgradeException(
                 $this->container->getTranslator()->trans('[ERROR] Version to install is too old.', array(), 'Modules.Autoupgrade.Admin')
                 . ' ' .
@@ -234,14 +256,12 @@ abstract class CoreUpgrader
                 'Current version: %oldversion%. Version to install: %newversion%.',
                 array(
                     '%oldversion%' => $oldVersion,
-                    '%newversion%' => INSTALL_VERSION,
+                    '%newversion%' => $this->destinationUpgradeVersion,
                 ),
                 'Modules.Autoupgrade.Admin'
             ));
-        } elseif ($versionCompare == 0) {
-            throw new UpgradeException($this->container->getTranslator()->trans('You already have the %s version.', array(INSTALL_VERSION), 'Modules.Autoupgrade.Admin'));
-        } elseif ($versionCompare === false) {
-            throw new UpgradeException($this->container->getTranslator()->trans('There is no older version. Did you delete or rename the app/config/parameters.php file?', array(), 'Modules.Autoupgrade.Admin'));
+        } elseif ($versionCompare === 0) {
+            throw new UpgradeException($this->container->getTranslator()->trans('You already have the %s version.', array($this->destinationUpgradeVersion), 'Modules.Autoupgrade.Admin'));
         }
     }
 
@@ -250,12 +270,12 @@ abstract class CoreUpgrader
      */
     protected function disableCustomModules()
     {
-        $this->container->getModuleAdapter()->disableNonNativeModules();
+        $this->container->getModuleAdapter()->disableNonNativeModules($this->pathToPhpUpgradeScripts);
     }
 
     protected function upgradeDb($oldversion)
     {
-        $upgrade_dir_sql = INSTALL_PATH . '/upgrade/sql';
+        $upgrade_dir_sql = $this->pathToInstallFolder . '/upgrade/sql';
         $sqlContentVersion = $this->applySqlParams(
             $this->getUpgradeSqlFilesListToApply($upgrade_dir_sql, $oldversion));
 
@@ -279,7 +299,7 @@ abstract class CoreUpgrader
                     continue;
                 }
                 if (!is_readable($upgrade_dir_sql . DIRECTORY_SEPARATOR . $file)) {
-                    throw new UpgradeException($this->container->getTranslator()->trans('Error while loading SQL upgrade file "%s.sql".', array($version), 'Modules.Autoupgrade.Admin'));
+                    throw new UpgradeException($this->container->getTranslator()->trans('Error while loading SQL upgrade file "%s".', array($file), 'Modules.Autoupgrade.Admin'));
                 }
                 $upgradeFiles[] = str_replace('.sql', '', $file);
             }
@@ -291,7 +311,7 @@ abstract class CoreUpgrader
         natcasesort($upgradeFiles);
 
         foreach ($upgradeFiles as $version) {
-            if (version_compare($version, $oldversion) == 1 && version_compare(INSTALL_VERSION, $version) != -1) {
+            if (version_compare($version, $oldversion) == 1 && version_compare($this->destinationUpgradeVersion, $version) != -1) {
                 $neededUpgradeFiles[$version] = $upgrade_dir_sql . DIRECTORY_SEPARATOR . $version . '.sql';
             }
         }
@@ -364,11 +384,11 @@ abstract class CoreUpgrader
         if (strpos($phpString, '::') === false) {
             $func_name = str_replace($pattern[0], '', $php[0]);
 
-            if (!file_exists(_PS_INSTALLER_PHP_UPGRADE_DIR_ . strtolower($func_name) . '.php')) {
+            if (!file_exists($this->pathToPhpUpgradeScripts . strtolower($func_name) . '.php')) {
                 $this->logger->error('[ERROR] ' . $upgrade_file . ' PHP - missing file ' . $query);
                 $this->container->getState()->setWarningExists(true);
             } else {
-                require_once _PS_INSTALLER_PHP_UPGRADE_DIR_ . strtolower($func_name) . '.php';
+                require_once $this->pathToPhpUpgradeScripts . strtolower($func_name) . '.php';
                 $phpRes = call_user_func_array($func_name, $parameters);
             }
         }
@@ -439,46 +459,7 @@ abstract class CoreUpgrader
         // Exported from the end of doUpgrade()
         $this->db->execute('UPDATE `' . _DB_PREFIX_ . 'configuration` SET value="0" WHERE name = "PS_HIDE_OPTIMIZATION_TIS"', false);
         $this->db->execute('UPDATE `' . _DB_PREFIX_ . 'configuration` SET value="1" WHERE name = "PS_NEED_REBUILD_INDEX"', false);
-        $this->db->execute('UPDATE `' . _DB_PREFIX_ . 'configuration` SET value="' . INSTALL_VERSION . '" WHERE name = "PS_VERSION_DB"', false);
-    }
-
-    protected function cleanFolders()
-    {
-        $dirsToClean = array(
-            $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/app/cache/',
-            $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/cache/smarty/cache/',
-            $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/cache/smarty/compile/',
-        );
-
-        $defaultThemeNames = array(
-            'default',
-            'prestashop',
-            'default-boostrap',
-            'classic',
-        );
-
-        if (defined('_THEME_NAME_') && $this->container->getUpgradeConfiguration()->shouldUpdateDefaultTheme() && in_array(_THEME_NAME_, $defaultThemeNames)) {
-            $dirsToClean[] = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/themes/' . _THEME_NAME_ . '/cache/';
-        }
-
-        foreach ($dirsToClean as $dir) {
-            if (!file_exists($dir)) {
-                $this->logger->debug($this->container->getTranslator()->trans('[SKIP] directory "%s" does not exist and cannot be emptied.', array(str_replace($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH), '', $dir)), 'Modules.Autoupgrade.Admin'));
-                continue;
-            }
-            foreach (scandir($dir) as $file) {
-                if ($file[0] === '.' || $file === 'index.php' /*|| $file === '.htaccess'*/) {
-                    continue;
-                }
-                // ToDo: Use Filesystem instead ?
-                if (is_file($dir . $file)) {
-                    unlink($dir . $file);
-                } elseif (is_dir($dir . $file . DIRECTORY_SEPARATOR)) {
-                    FilesystemAdapter::deleteDirectory($dir . $file . DIRECTORY_SEPARATOR);
-                }
-                $this->logger->debug($this->container->getTranslator()->trans('[CLEANING CACHE] File %s removed', array($file), 'Modules.Autoupgrade.Admin'));
-            }
-        }
+        $this->db->execute('UPDATE `' . _DB_PREFIX_ . 'configuration` SET value="' . $this->destinationUpgradeVersion . '" WHERE name = "PS_VERSION_DB"', false);
     }
 
     protected function upgradeLanguages()
@@ -515,11 +496,8 @@ abstract class CoreUpgrader
         if (file_exists(_PS_ROOT_DIR_ . '/classes/Tools.php')) {
             require_once _PS_ROOT_DIR_ . '/classes/Tools.php';
         }
-        if (!class_exists('Tools2', false) && class_exists('ToolsCore')) {
-            eval('class Tools2 extends ToolsCore{}');
-        }
 
-        if (!class_exists('Tools2') || !method_exists('Tools2', 'generateHtaccess')) {
+        if (!class_exists('ToolsCore') || !method_exists('ToolsCore', 'generateHtaccess')) {
             return;
         }
         $url_rewrite = (bool) $this->db->getvalue('SELECT `value` FROM `' . _DB_PREFIX_ . 'configuration` WHERE name=\'PS_REWRITING_SETTINGS\'');
@@ -637,7 +615,7 @@ abstract class CoreUpgrader
             eval('class Group extends GroupCore{}');
         }
 
-        \Tools2::generateHtaccess(null, $url_rewrite);
+        \ToolsCore::generateHtaccess(null, $url_rewrite);
     }
 
     protected function loadEntityInterface()
@@ -660,6 +638,8 @@ abstract class CoreUpgrader
             _PS_ROOT_DIR_ . '/config/xml/tab_modules_list.xml',
             _PS_ROOT_DIR_ . '/config/xml/trusted_modules_list.xml',
             _PS_ROOT_DIR_ . '/config/xml/untrusted_modules_list.xml',
+            _PS_ROOT_DIR_ . '/var/cache/dev/class_index.php',
+            _PS_ROOT_DIR_ . '/var/cache/prod/class_index.php',
         );
         foreach ($files as $path) {
             if (file_exists($path)) {
@@ -689,7 +669,7 @@ abstract class CoreUpgrader
 
     protected function updateTheme()
     {
-        $themeAdapter = new ThemeAdapter($this->db, $this->container->getState()->getInstallVersion());
+        $themeAdapter = new ThemeAdapter($this->db, $this->destinationUpgradeVersion);
         $themeName = $themeAdapter->getDefaultTheme();
 
         // The merchant can ask for keeping its current theme.
@@ -707,38 +687,5 @@ abstract class CoreUpgrader
     protected function runCoreCacheClean()
     {
         \Tools::clearCache();
-
-        // delete cache filesystem if activated
-        if (defined('_PS_CACHE_ENABLED_') && _PS_CACHE_ENABLED_) {
-            $depth = (int) $this->db->getValue('SELECT value
-				FROM ' . _DB_PREFIX_ . 'configuration
-				WHERE name = "PS_CACHEFS_DIRECTORY_DEPTH"');
-            if ($depth) {
-                if (!defined('_PS_CACHEFS_DIRECTORY_')) {
-                    define('_PS_CACHEFS_DIRECTORY_', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/cache/cachefs/');
-                }
-                FilesystemAdapter::deleteDirectory(_PS_CACHEFS_DIRECTORY_, false);
-                if (class_exists('CacheFs', false)) {
-                    $this->createCacheFsDirectories((int) $depth);
-                }
-            }
-        }
-    }
-
-    private function createCacheFsDirectories($level_depth, $directory = false)
-    {
-        if (!$directory) {
-            if (!defined('_PS_CACHEFS_DIRECTORY_')) {
-                define('_PS_CACHEFS_DIRECTORY_', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/cache/cachefs/');
-            }
-            $directory = _PS_CACHEFS_DIRECTORY_;
-        }
-        $chars = '0123456789abcdef';
-        for ($i = 0; $i < strlen($chars); ++$i) {
-            $new_dir = $directory . $chars[$i] . '/';
-            if (mkdir($new_dir, 0775) && chmod($new_dir, 0775) && $level_depth - 1 > 0) {
-                $this->createCacheFsDirectories($level_depth - 1, $new_dir);
-            }
-        }
     }
 }

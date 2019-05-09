@@ -24,6 +24,7 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * International Registered Trademark & Property of PrestaShop SA
  */
+
 namespace PrestaShop\Module\AutoUpgrade;
 
 use Configuration;
@@ -117,7 +118,7 @@ class UpgradeSelfCheck
         $this->rootDirectoryWritable = $this->checkRootWritable();
         $this->adminAutoUpgradeDirectoryWritable = $this->checkAdminDirectoryWritable($prodRootPath, $adminPath, $autoUpgradePath);
         $this->shopDeactivated = $this->checkShopIsDeactivated();
-        $this->cacheDisabled = !(defined('_PS_CACHE_ENABLED_') && _PS_CACHE_ENABLED_);
+        $this->cacheDisabled = !(defined('_PS_CACHE_ENABLED_') && false != _PS_CACHE_ENABLED_);
         $this->safeModeDisabled = $this->checkSafeModeIsDisabled();
         $this->moduleVersionIsLatest = $this->checkModuleVersionIsLastest($upgrader);
         $this->maxExecutionTime = $this->checkMaxExecutionTime();
@@ -230,7 +231,7 @@ class UpgradeSelfCheck
 
     public function isPrestaShopReady()
     {
-        return $this->prestashopReady || 1 === Configuration::get('PS_AUTOUP_IGNORE_REQS');
+        return $this->prestashopReady || 1 === (int) Configuration::get('PS_AUTOUP_IGNORE_REQS');
     }
 
     /**

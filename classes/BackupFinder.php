@@ -24,6 +24,7 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * International Registered Trademark & Property of PrestaShop SA
  */
+
 namespace PrestaShop\Module\AutoUpgrade;
 
 class BackupFinder
@@ -72,7 +73,7 @@ class BackupFinder
     }
 
     /**
-     * @param $backupPath
+     * @param string $backupPath
      *
      * @return array
      */
@@ -92,7 +93,7 @@ class BackupFinder
     }
 
     /**
-     * @param $backupPath
+     * @param string $backupPath
      *
      * @return array
      */

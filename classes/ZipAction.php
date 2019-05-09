@@ -27,7 +27,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade;
 
-use Psr\Log\LoggerInterface;
+use PrestaShop\Module\AutoUpgrade\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 
@@ -62,10 +62,9 @@ class ZipAction
 
     /**
      * Add files to an archive.
-     * Note the number of files added can be limited. 
-     * 
-     * @var array $filesList List of files to add
-     * 
+     * Note the number of files added can be limited.
+     *
+     * @var array List of files to add
      * @var string $toFile
      */
     public function compress(&$filesList, $toFile)
@@ -151,11 +150,19 @@ class ZipAction
             return false;
         }
 
-        if (!$zip->extractTo($to_dir)) {
-            $zip->close();
-            $this->logger->error($this->translator->trans('zip->extractTo(): unable to use %s as extract destination.', array($to_dir), 'Modules.Autoupgrade.Admin'));
+        for ($i = 0; $i < $zip->numFiles; ++$i) {
+            if (!$zip->extractTo($to_dir, array($zip->getNameIndex($i)))) {
+                $this->logger->error(
+                    $this->translator->trans(
+                        'Could not extract %file% from backup, the destination might not be writable.',
+                        ['%file%' => $zip->statIndex($i)['name']],
+                        'Modules.Autoupgrade.Admin'
+                    )
+                );
+                $zip->close();
 
-            return false;
+                return false;
+            }
         }
 
         $zip->close();
@@ -166,23 +173,25 @@ class ZipAction
 
     /**
      * Lists the files present in the given archive
-     * 
+     *
      * @var string Path to the file
-     * 
+     *
      * @return array
      */
     public function listContent($zipfile)
     {
         if (!file_exists($zipfile)) {
-            return false;
+            return [];
         }
 
         $zip = $this->open($zipfile);
         if ($zip === false) {
             $this->logger->error($this->translator->trans('[ERROR] Unable to list archived files', array(), 'Modules.Autoupgrade.Admin'));
-            return false;
+
+            return [];
         }
 
+        $files = [];
         for ($i = 0; $i < $zip->numFiles; ++$i) {
             $files[] = $zip->getNameIndex($i);
         }
@@ -192,9 +201,9 @@ class ZipAction
 
     /**
      * Get the path of a file from the archive root
-     * 
+     *
      * @var string Path of the file on the filesystem
-     * 
+     *
      * @return string Path of the file in the backup archive
      */
     private function getFilepathInArchive($filepath)
@@ -204,9 +213,9 @@ class ZipAction
 
     /**
      * Checks a file size matches the given limits
-     * 
+     *
      * @var string Path to a file
-     * 
+     *
      * @return bool Size is inside the maximum limit
      */
     private function isFileWithinFileSizeLimit($filepath)
@@ -229,10 +238,10 @@ class ZipAction
 
     /**
      * Open an archive
-     * 
+     *
      * @var string Path to the archive
      * @var int ZipArchive flags
-     * 
+     *
      * @return false|\ZipArchive
      */
     private function open($zipFile, $flags = null)

@@ -29,6 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade;
 
 use PrestaShop\Module\AutoUpgrade\Log\LegacyLogger;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\CacheCleaner;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FileFilter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\ModuleAdapter;
@@ -63,12 +64,17 @@ class UpgradeContainer
     const PS_VERSION = 'version';
 
     /**
+     * @var CacheCleaner
+     */
+    private $cacheCleaner;
+
+    /**
      * @var Cookie
      */
     private $cookie;
 
     /**
-     * @var Db
+     * @var \Db
      */
     public $db;
 
@@ -98,7 +104,7 @@ class UpgradeContainer
     private $filesystemAdapter;
 
     /**
-     * @var LoggerInterface
+     * @var Logger
      */
     private $logger;
 
@@ -192,6 +198,20 @@ class UpgradeContainer
         }
     }
 
+    /**
+     * Init and return CacheCleaner
+     *
+     * @return CacheCleaner
+     */
+    public function getCacheCleaner()
+    {
+        if (null !== $this->cacheCleaner) {
+            return $this->cacheCleaner;
+        }
+
+        return $this->cacheCleaner = new CacheCleaner($this, $this->getLogger());
+    }
+
     public function getCookie()
     {
         if (null !== $this->cookie) {
@@ -213,7 +233,7 @@ class UpgradeContainer
     /**
      * Return the path to the zipfile containing prestashop.
      *
-     * @return type
+     * @return string
      */
     public function getFilePath()
     {
@@ -233,7 +253,7 @@ class UpgradeContainer
 
     public function getFileFilter()
     {
-        if ($this->fileFilter) {
+        if (null !== $this->fileFilter) {
             return $this->fileFilter;
         }
 
@@ -260,7 +280,6 @@ class UpgradeContainer
             case 'archive':
                 $upgrader->channel = 'archive';
                 $upgrader->version_num = $upgradeConfiguration->get('archive.version_num');
-                $this->destDownloadFilename = $upgradeConfiguration->get('archive.filename');
                 $upgrader->checkPSVersion(true, array('archive'));
                 break;
             case 'directory':
@@ -332,7 +351,9 @@ class UpgradeContainer
             $this->getProperty(self::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR,
             $this->getProperty(self::TMP_PATH),
             $this->getState()->getInstallVersion(),
-            $this->getZipAction());
+            $this->getZipAction(),
+            $this->getSymfonyAdapter()
+        );
 
         return $this->moduleAdapter;
     }
@@ -389,6 +410,9 @@ class UpgradeContainer
         return $this->prestashopConfiguration;
     }
 
+    /**
+     * @return SymfonyAdapter
+     */
     public function getSymfonyAdapter()
     {
         if (null !== $this->symfonyAdapter) {

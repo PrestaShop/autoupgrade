@@ -79,8 +79,6 @@ class UpgradeFiles extends AbstractTask
         if (count($filesToUpgrade) > 0) {
             $this->logger->info($this->translator->trans('%s files left to upgrade.', array(count($filesToUpgrade)), 'Modules.Autoupgrade.Admin'));
             $this->stepDone = false;
-            @unlink(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'dev' . DIRECTORY_SEPARATOR . 'class_index.php');
-            @unlink(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'prod' . DIRECTORY_SEPARATOR . 'class_index.php');
         }
 
         return true;
@@ -92,7 +90,7 @@ class UpgradeFiles extends AbstractTask
      *
      * @param string $dir
      *
-     * @return number of files found
+     * @return array|false Number of files found, or false if param is not a folder
      */
     protected function listFilesToUpgrade($dir)
     {
@@ -229,7 +227,7 @@ class UpgradeFiles extends AbstractTask
             $this->logger->error($this->translator->trans('A file may be missing, or the release is stored in a subfolder by mistake.', array(), 'Modules.Autoupgrade.Admin'));
             $this->next = 'error';
 
-            return;
+            return false;
         }
 
         $admin_dir = str_replace($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . DIRECTORY_SEPARATOR, '', $this->container->getProperty(UpgradeContainer::PS_ADMIN_PATH));

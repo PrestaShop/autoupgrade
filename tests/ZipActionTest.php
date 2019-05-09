@@ -26,7 +26,6 @@
 
 use PHPUnit\Framework\TestCase;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
-use PrestaShop\Module\AutoUpgrade\ZipAction;
 
 class ZipActionTest extends TestCase
 {
@@ -62,7 +61,7 @@ class ZipActionTest extends TestCase
         // Cleanup
         unlink($newZipPath);
     }
-    
+
     public function testExtractArchiveWithZipArchive()
     {
         // Get tmp folder

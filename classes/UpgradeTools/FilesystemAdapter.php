@@ -122,15 +122,9 @@ class FilesystemAdapter
             $prev_version = $matches[1];
         }
 
-        $toRemove = false;
-        // note : getDiffFilesList does not include files moved by upgrade scripts,
-        // so this method can't be trusted to fully restore directory
-        // $toRemove = $this->upgrader->getDiffFilesList(_PS_VERSION_, $prev_version, false);
         // if we can't find the diff file list corresponding to _PS_VERSION_ and prev_version,
         // let's assume to remove every files
-        if (!$toRemove) {
-            $toRemove = $this->listFilesInDir($this->prodRootDir, 'restore', true);
-        }
+        $toRemove = $this->listFilesInDir($this->prodRootDir, 'restore', true);
 
         // if a file in "ToRemove" has been skipped during backup,
         // just keep it
@@ -199,9 +193,9 @@ class FilesystemAdapter
     /**
      *	bool _skipFile : check whether a file is in backup or restore skip list.
      *
-     * @param type $file : current file or directory name eg:'.svn' , 'settings.inc.php'
-     * @param type $fullpath : current file or directory fullpath eg:'/home/web/www/prestashop/app/config/parameters.php'
-     * @param type $way : 'backup' , 'upgrade'
+     * @param string $file : current file or directory name eg:'.svn' , 'settings.inc.php'
+     * @param string $fullpath : current file or directory fullpath eg:'/home/web/www/prestashop/app/config/parameters.php'
+     * @param string $way : 'backup' , 'upgrade'
      * @param string $temporaryWorkspace : If needed, another folder than the shop root can be used (used for releases)
      */
     public function isFileSkipped($file, $fullpath, $way = 'backup', $temporaryWorkspace = null)

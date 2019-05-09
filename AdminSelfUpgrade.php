@@ -242,7 +242,7 @@ class AdminSelfUpgrade extends AdminController
             $this->upgradeContainer->getFileConfigurationStorage()->cleanAll();
         }
 
-        $this->keepImages = $this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_KEEP_IMAGES');
+        $this->keepImages = $this->upgradeContainer->getUpgradeConfiguration()->shouldBackupImages();
         $this->updateDefaultTheme = $this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_UPDATE_DEFAULT_THEME');
         $this->changeToDefaultTheme = $this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_CHANGE_DEFAULT_THEME');
         $this->keepMails = $this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_KEEP_MAILS');
@@ -388,7 +388,7 @@ class AdminSelfUpgrade extends AdminController
             $this->adminDir,
             $this->autoupgradePath
         );
-        $response = new AjaxResponse($this->upgradeContainer->getTranslator(), $this->upgradeContainer->getState(), $this->upgradeContainer->getLogger());
+        $response = new AjaxResponse($this->upgradeContainer->getState(), $this->upgradeContainer->getLogger());
         $this->_html = (new UpgradePage(
             $this->upgradeContainer->getUpgradeConfiguration(),
             $this->upgradeContainer->getTwig(),
@@ -415,6 +415,21 @@ class AdminSelfUpgrade extends AdminController
         $this->content = $this->_html;
 
         return parent::display();
+    }
+
+    /**
+     * @deprecated
+     * Method allowing errors on very old tabs to be displayed.
+     * On the next major of this module, use an admin controller and get rid of this.
+     *
+     * This method is called by functions.php available in the admin root folder.
+     */
+    public function displayErrors()
+    {
+        if (empty($this->_errors)) {
+            return;
+        }
+        echo implode(' - ', $this->_errors);
     }
 
     /**

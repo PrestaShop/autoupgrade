@@ -42,25 +42,6 @@ class SymfonyAdapter
         $this->destinationPsVersion = $destinationPsVersion;
     }
 
-    /**
-     * Can be called only on PS 1.7.
-     */
-    public function clearMigrationCache()
-    {
-        if (version_compare($this->destinationPsVersion, '1.7.0.0', '<')) {
-            return;
-        }
-
-        \Tools::clearCache();
-        \Tools::clearXMLCache();
-        \Media::clearCache();
-        \Tools::generateIndex();
-
-        $sf2Refresh = new \PrestaShopBundle\Service\Cache\Refresh();
-        $sf2Refresh->addCacheClear(_PS_MODE_DEV_ ? 'dev' : 'prod');
-        $sf2Refresh->execute();
-    }
-
     public function runSchemaUpgradeCommand()
     {
         if (version_compare($this->destinationPsVersion, '1.7.1.1', '>=')) {
@@ -75,5 +56,24 @@ class SymfonyAdapter
         $output = $schemaUpgrade->execute();
 
         return $output[$outputCommand];
+    }
+
+    /**
+     * Return the AppKernel, after initialization
+     *
+     * @return \AppKernel
+     */
+    public function initAppKernel()
+    {
+        global $kernel;
+        if (!$kernel instanceof \AppKernel) {
+            require_once _PS_ROOT_DIR_ . '/app/AppKernel.php';
+            $env = (true == _PS_MODE_DEV_) ? 'dev' : 'prod';
+            $kernel = new \AppKernel($env, _PS_MODE_DEV_);
+            $kernel->loadClassCache();
+            $kernel->boot();
+        }
+
+        return $kernel;
     }
 }

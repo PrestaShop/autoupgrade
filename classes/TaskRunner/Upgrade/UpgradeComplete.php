@@ -60,5 +60,7 @@ class UpgradeComplete extends AbstractTask
 
         // Reinit config
         Configuration::deleteByName('PS_AUTOUP_IGNORE_REQS');
+        // removing temporary files
+        $this->container->getFileConfigurationStorage()->cleanAll();
     }
 }

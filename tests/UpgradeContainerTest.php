@@ -52,6 +52,7 @@ class UpgradeContainerTest extends TestCase
     {
         // | Function to call | Expected class |
         return array(
+            array('getCacheCleaner', PrestaShop\Module\AutoUpgrade\UpgradeTools\CacheCleaner::class),
             array('getCookie', PrestaShop\Module\AutoUpgrade\Cookie::class),
             array('getFileConfigurationStorage', PrestaShop\Module\AutoUpgrade\Parameters\FileConfigurationStorage::class),
             array('getFileFilter', \PrestaShop\Module\AutoUpgrade\UpgradeTools\FileFilter::class),

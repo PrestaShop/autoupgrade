@@ -28,7 +28,7 @@
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
 use PrestaShop\Module\AutoUpgrade\Tools14;
-use Psr\Log\LoggerInterface;
+use PrestaShop\Module\AutoUpgrade\Log\LoggerInterface;
 
 class Translation
 {
@@ -167,7 +167,7 @@ class Translation
         $merge = array_merge($var_orig, $var_dest);
 
         $fd = fopen($dest, 'w');
-        if ($fd !== false) {
+        if ($fd === false) {
             return false;
         }
         fwrite($fd, "<?php\n\nglobal \$" . $var_name . ";\n\$" . $var_name . " = array();\n");

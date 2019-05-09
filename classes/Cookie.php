@@ -68,9 +68,9 @@ class Cookie
         $this->storeKey(_COOKIE_KEY_);
 
         $cookiePath = __PS_BASE_URI__ . $this->adminDir;
-        setcookie('id_employee', $idEmployee, 0, $cookiePath);
+        setcookie('id_employee', (string) $idEmployee, 0, $cookiePath);
         setcookie('iso_code', $iso_code, 0, $cookiePath);
-        setcookie('autoupgrade', $this->encrypt($idEmployee), 0, $cookiePath);
+        setcookie('autoupgrade', $this->encrypt((string) $idEmployee), 0, $cookiePath);
     }
 
     /**
@@ -129,6 +129,7 @@ $key = "' . $key . '";
         }
 
         // Variable $key is defined in file
+        $key = '';
         require $this->keyFilePath;
         $this->key = $key;
 

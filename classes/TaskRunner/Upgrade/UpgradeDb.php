@@ -53,8 +53,6 @@ class UpgradeDb extends AbstractTask
         $this->next = 'upgradeModules';
         $this->logger->info($this->translator->trans('Database upgraded. Now upgrading your Addons modules...', array(), 'Modules.Autoupgrade.Admin'));
 
-        $this->container->getSymfonyAdapter()->clearMigrationCache();
-
         return true;
     }
 
@@ -69,6 +67,8 @@ class UpgradeDb extends AbstractTask
 
     public function init()
     {
+        $this->container->getCacheCleaner()->cleanFolders();
+
         // Migrating settings file
         $this->container->initPrestaShopAutoloader();
         (new SettingsFileWriter($this->translator))->migrateSettingsFile($this->logger);

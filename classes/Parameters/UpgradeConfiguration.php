@@ -24,6 +24,7 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * International Registered Trademark & Property of PrestaShop SA
  */
+
 namespace PrestaShop\Module\AutoUpgrade\Parameters;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -113,6 +114,14 @@ class UpgradeConfiguration extends ArrayCollection
     public function getPerformanceLevel()
     {
         return $this->get('PS_AUTOUP_PERFORMANCE') - 1;
+    }
+
+    /**
+     * @return bool True if the autoupgrade module should backup the images as well
+     */
+    public function shouldBackupImages()
+    {
+        return (bool) $this->get('PS_AUTOUP_KEEP_IMAGES');
     }
 
     /**

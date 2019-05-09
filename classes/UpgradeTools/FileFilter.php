@@ -61,13 +61,14 @@ class FileFilter
             '/cache/smarty/cache',
             '/cache/tcpdf',
             '/cache/cachefs',
+            '/var/cache',
 
             // do not care about the two autoupgrade dir we use;
             '/modules/autoupgrade',
             '/admin/autoupgrade',
         );
 
-        if ($this->configuration->get('PS_AUTOUP_KEEP_IMAGES') === '0') {
+        if (!$this->configuration->shouldBackupImages()) {
             $backupIgnoreAbsoluteFiles[] = '/img';
         } else {
             $backupIgnoreAbsoluteFiles[] = '/img/tmp';
@@ -92,7 +93,7 @@ class FileFilter
             '..',
         );
 
-        if ($this->configuration->get('PS_AUTOUP_KEEP_IMAGES') === '0') {
+        if (!$this->configuration->shouldBackupImages()) {
             $restoreIgnoreAbsoluteFiles[] = '/img';
         } else {
             $restoreIgnoreAbsoluteFiles[] = '/img/tmp';

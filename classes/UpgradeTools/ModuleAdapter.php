@@ -44,10 +44,15 @@ class ModuleAdapter
      */
     private $zipAction;
 
+    /**
+     * @var SymfonyAdapter
+     */
+    private $symfonyAdapter;
+
     // Cached instance
     private $moduleDataUpdater;
 
-    public function __construct($db, $translator, $modulesPath, $tempPath, $upgradeVersion, ZipAction $zipAction)
+    public function __construct($db, $translator, $modulesPath, $tempPath, $upgradeVersion, ZipAction $zipAction, SymfonyAdapter $symfonyAdapter)
     {
         $this->db = $db;
         $this->translator = $translator;
@@ -55,25 +60,21 @@ class ModuleAdapter
         $this->tempPath = $tempPath;
         $this->upgradeVersion = $upgradeVersion;
         $this->zipAction = $zipAction;
+        $this->symfonyAdapter = $symfonyAdapter;
     }
 
     /**
      * Available only from 1.7. Can't be called on PS 1.6.
      *
-     * @global AppKernel $kernel
-     *
-     * @return PrestaShop\PrestaShop\Adapter\Module\ModuleDataUpdater
+     * @return \PrestaShop\PrestaShop\Adapter\Module\ModuleDataUpdater
      */
     public function getModuleDataUpdater()
     {
         if (null === $this->moduleDataUpdater) {
-            global $kernel;
-            if (!$kernel instanceof \AppKernel) {
-                require_once _PS_ROOT_DIR_ . '/app/AppKernel.php';
-                $kernel = new \AppKernel(_PS_MODE_DEV_ ? 'dev' : 'prod', _PS_MODE_DEV_);
-                $kernel->boot();
-            }
-            $this->moduleDataUpdater = $kernel->getContainer()->get('prestashop.core.module.updater');
+            $this->moduleDataUpdater = $this->symfonyAdapter
+                ->initAppKernel()
+                ->getContainer()
+                ->get('prestashop.core.module.updater');
         }
 
         return $this->moduleDataUpdater;
@@ -83,17 +84,19 @@ class ModuleAdapter
      * Upgrade action, disabling all modules not made by PrestaShop.
      *
      * It seems the 1.6 version of is the safest, as it does not actually load the modules.
+     *
+     * @param string $pathToUpgradeScripts Path to the PHP Upgrade scripts
      */
-    public function disableNonNativeModules()
+    public function disableNonNativeModules($pathToUpgradeScripts)
     {
-        require_once _PS_INSTALLER_PHP_UPGRADE_DIR_ . 'deactivate_custom_modules.php';
+        require_once $pathToUpgradeScripts . 'deactivate_custom_modules.php';
         deactivate_custom_modules();
     }
 
     /**
      * list modules to upgrade and save them in a serialized array in $this->toUpgradeModuleList.
      *
-     * @param array Modules available on the marketplace for download
+     * @param array $modulesFromAddons Modules available on the marketplace for download
      *
      * @return array Module available on the local filesystem and on the marketplace
      */

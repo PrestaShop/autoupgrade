@@ -87,29 +87,31 @@ class RestoreDb extends AbstractTask
             switch ($fileext) {
                 case 'bz':
                 case 'bz2':
-                    if ($fp = bzopen($backupdb_path . DIRECTORY_SEPARATOR . $currentDbFilename, 'r')) {
+                    $fp = bzopen($backupdb_path . DIRECTORY_SEPARATOR . $currentDbFilename, 'r');
+                    if (is_resource($fp)) {
                         while (!feof($fp)) {
                             $content .= bzread($fp, 4096);
                         }
-                    } else {
-                        die('error when trying to open in bzmode');
-                    } // @todo : handle error
+                        bzclose($fp);
+                    }
                     break;
                 case 'gz':
-                    if ($fp = gzopen($backupdb_path . DIRECTORY_SEPARATOR . $currentDbFilename, 'r')) {
+                    $fp = gzopen($backupdb_path . DIRECTORY_SEPARATOR . $currentDbFilename, 'r');
+                    if (is_resource($fp)) {
                         while (!feof($fp)) {
                             $content .= gzread($fp, 4096);
                         }
+                        gzclose($fp);
                     }
-                    gzclose($fp);
                     break;
                 default:
-                    if ($fp = fopen($backupdb_path . DIRECTORY_SEPARATOR . $currentDbFilename, 'r')) {
+                    $fp = fopen($backupdb_path . DIRECTORY_SEPARATOR . $currentDbFilename, 'r');
+                    if (is_resource($fp)) {
                         while (!feof($fp)) {
                             $content .= fread($fp, 4096);
                         }
+                        fclose($fp);
                     }
-                    fclose($fp);
             }
             $currentDbFilename = '';
 

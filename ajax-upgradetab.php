@@ -44,6 +44,7 @@ if (!$container->getCookie()->check($_COOKIE)) {
         ob_clean();
     }
     echo '{wrong token}';
+    http_response_code(401);
     die(1);
 }
 
