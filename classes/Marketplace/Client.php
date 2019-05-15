@@ -35,7 +35,7 @@ use PrestaShop\Module\AutoUpgrade\Upgrader;
  * 
  * Duplicated from the core for PS 1.6
  */
-class Client
+class Client implements MarketplaceClientInterface
 {
     const MARKETPLACE_URL = 'https://api.addons.prestashop.com/';
 
@@ -80,10 +80,7 @@ class Client
     }
 
     /**
-     * Retrive all the native modules for a given PrestaShop version
-     * 
-     * @param string $version PrestaShop version
-     * @return array List of native modules
+     * {@inheritdoc}
      */
     public function getNativesModules($version)
     {
@@ -118,7 +115,7 @@ class Client
      * 
      * @return string
      */
-    public function getResponse()
+    protected function getResponse()
     {
         return (string) $this->addonsApiClient
             ->get(self::MARKETPLACE_URL, ['query' => $this->queryParameters])
