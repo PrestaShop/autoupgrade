@@ -3,16 +3,16 @@
 # Its objective is to avoid false-positive results regarding non-existing classes
 #################################################################################
 parameters:
-	bootstrap: /web/module/tests/phpstan/bootstrap.php
+	bootstrap: tests/phpstan/bootstrap.php
 	reportUnmatchedIgnoredErrors: false
 	paths:
-		- /web/module/classes
+		- classes
 	excludes_analyse:
-		- /web/module/classes/Tools14.php
-		- /web/module/classes/pclzip.lib.php
-		- /web/module/functions.php
-		- /web/module/classes/UpgradeTools/CoreUpgrader/CoreUpgrader17.php
-		- /web/module/classes/UpgradeTools/SymfonyAdapter.php
+		- classes/Tools14.php
+		- classes/pclzip.lib.php
+		- functions.php
+		- classes/UpgradeTools/CoreUpgrader/CoreUpgrader17.php
+		- classes/UpgradeTools/SymfonyAdapter.php
 	ignoreErrors:
 		# module specific
 		- '#Function deactivate_custom_modules not found.#'

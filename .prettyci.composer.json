@@ -1,0 +1,5 @@
+{
+  "require-dev": {
+    "prestashop/php-coding-standards": "dev-master"
+  }
+}

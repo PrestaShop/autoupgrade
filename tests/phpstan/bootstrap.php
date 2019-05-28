@@ -1,29 +1,34 @@
 <?php
 
 $rootDir = getenv('_PS_ROOT_DIR_');
-
 if (!$rootDir) {
     echo '[ERROR] Define _PS_ROOT_DIR_ with the path to PrestaShop folder' . PHP_EOL;
     exit(1);
 }
 
+$pathToModuleRoot = __DIR__ . '/../../';
+
 // Add module composer autoloader
-require_once dirname(__DIR__) . '/../vendor/autoload.php';
+require_once $pathToModuleRoot . 'vendor/autoload.php';
+
 // Add PrestaShop composer autoload
 define('_PS_ADMIN_DIR_', $rootDir . '/admin-dev/');
 define('PS_ADMIN_DIR', _PS_ADMIN_DIR_);
+
 require_once $rootDir . '/config/defines.inc.php';
 require_once $rootDir . '/config/autoload.php';
 require_once $rootDir . '/config/bootstrap.php';
 
-// Lib existing on PS 1.6
-if (file_exists(_PS_TOOL_DIR_ . 'tar/Archive_Tar.php')) {
-    require_once _PS_TOOL_DIR_ . 'tar/Archive_Tar.php';
-}
-
 // Make sure loader php-parser is coming from php stan composer
+
+// 1- Use with Docker container
 $loader = new \Composer\Autoload\ClassLoader();
-$loader->setPsr4('PhpParser\\', array('/composer/vendor/nikic/php-parser/lib/PhpParser'));
+$loader->setPsr4('PhpParser\\', ['/composer/vendor/nikic/php-parser/lib/PhpParser']);
+$loader->register(true);
+// 2- Use with PHPStan phar
+$loader = new \Composer\Autoload\ClassLoader();
+// Contains the vendor in phar, like "phar://phpstan.phar/vendor"
+$loader->setPsr4('PhpParser\\', ['phar://' . dirname($_SERVER['PATH_TRANSLATED']) . '/../phpstan/phpstan-shim/phpstan.phar/vendor/nikic/php-parser/lib/PhpParser/']);
 $loader->register(true);
 
 // We must declare these constant in this boostrap script.
@@ -41,6 +46,7 @@ $constantsToDefine = [
   '_DB_PREFIX_',
   '_PS_SSL_PORT_',
   '_THEME_NAME_',
+  '_THEME_COL_DIR_',
   '_PARENT_THEME_NAME_',
   '__PS_BASE_URI__',
   '_PS_PRICE_DISPLAY_PRECISION_',
@@ -61,6 +67,7 @@ $constantsToDefine = [
   '_PS_OS_WS_PAYMENT_',
   '_PS_OS_COD_VALIDATION_',
 ];
+
 foreach ($constantsToDefine as $constant) {
     if (!defined($constant)) {
         define($constant, 'DUMMY_VALUE');
