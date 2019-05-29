@@ -19,6 +19,11 @@ require_once $rootDir . '/config/defines.inc.php';
 require_once $rootDir . '/config/autoload.php';
 require_once $rootDir . '/config/bootstrap.php';
 
+// Lib existing on PS 1.6
+if (file_exists(_PS_TOOL_DIR_ . 'tar/Archive_Tar.php')) {
+    require_once _PS_TOOL_DIR_ . 'tar/Archive_Tar.php';
+}
+
 // Make sure loader php-parser is coming from php stan composer
 
 // 1- Use with Docker container
