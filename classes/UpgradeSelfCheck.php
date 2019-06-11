@@ -382,29 +382,12 @@ class UpgradeSelfCheck
 
     /**
      * Check current PHP version is supported.
-     * Returns an URL if unmaintained.
      * 
-     * @return bool|string
+     * @return bool
      */
     private function checkPhpVersionNeedsUpgrade()
     {
-        if (PHP_VERSION_ID >= self::RECOMMENDED_PHP_VERSION) {
-            return false;
-        }
-
-        // Informative only. These links will be declared in the translation files.
-        /*$articles = [
-            'de' => 'https://www.prestashop.com/de/blog/php-5-6-Sicherheit-Online-Shop',
-            'en' => 'https://www.prestashop.com/en/blog/php-5-6-online-store-security',
-            'es' => 'https://www.prestashop.com/es/blog/php-5-6-seguridad-tienda-prestashop',
-            'fr' => 'https://www.prestashop.com/fr/blog/php-5-6-securite-boutique-en-ligne',
-            'it' => 'https://www.prestashop.com/it/blog/php-5-6-sicurezza-shop-on-line',
-            'nl' => 'https://www.prestashop.com/nl/blog/php-5-6-veiligheid-webwinkel',
-            'pl' => 'https://www.prestashop.com/pl/blog/php-5-6-bezpieczenstwo-sklepu-internetowego',
-            'pt' => 'https://www.prestashop.com/pt/blog/php-5-6-seguranca-loja-on-line',
-        ];*/
-
-        return 'https://www.prestashop.com/en/blog/php-5-6-online-store-security';
+        return PHP_VERSION_ID < self::RECOMMENDED_PHP_VERSION;
     }
 
     /**

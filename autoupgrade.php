@@ -193,7 +193,7 @@ class Autoupgrade extends Module
 
         $this->context->smarty->assign([
             'ignore_link' => Context::getContext()->link->getAdminLink('AdminSelfUpgrade') . '&ignorePhpOutdated=1',
-            'learn_more_link' => $upgradeNotice,
+            'learn_more_link' => 'http://build.prestashop.com/news/announcing-end-of-support-for-obsolete-php-versions/',
         ]);
 
         return $this->context->smarty->fetch($this->local_path.'views/templates/hook/dashboard_zone_one.tpl');
