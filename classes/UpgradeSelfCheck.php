@@ -99,7 +99,7 @@ class UpgradeSelfCheck
 
     /**
      * False if PHP version is maintained, url to a website otherxise.
-     * 
+     *
      * @var bool|string
      */
     private $phpUpgradeNoticelink;
@@ -118,21 +118,24 @@ class UpgradeSelfCheck
      * @var Upgrader
      */
     private $upgrader;
-    
+
     /**
      * Path to the root folder of PS
+     *
      * @var string
      */
     private $prodRootPath;
 
     /**
      * Path to the admin folder of PS
+     *
      * @var string
      */
     private $adminPath;
 
     /**
      * Path to the root folder of the upgrade module
+     *
      * @var string
      */
     private $autoUpgradePath;
@@ -242,7 +245,7 @@ class UpgradeSelfCheck
             return $this->safeModeDisabled;
         }
 
-        return $this->safeModeDisabled = $this->checkSafeModeIsDisabled();;
+        return $this->safeModeDisabled = $this->checkSafeModeIsDisabled();
     }
 
     /**
@@ -268,6 +271,7 @@ class UpgradeSelfCheck
 
         $this->rootWritableReport = '';
         $this->isRootDirectoryWritable();
+
         return $this->rootWritableReport;
     }
 
@@ -279,6 +283,7 @@ class UpgradeSelfCheck
         if (null !== $this->moduleVersion) {
             return $this->moduleVersion;
         }
+
         return $this->moduleVersion = $this->checkModuleVersion();
     }
 
@@ -307,7 +312,7 @@ class UpgradeSelfCheck
      */
     public function isPhpUpgradeRequired()
     {
-        if (1 === (int)  Configuration::get('PS_AUTOUP_IGNORE_PHP_UPGRADE')) {
+        if (1 === (int) Configuration::get('PS_AUTOUP_IGNORE_PHP_UPGRADE')) {
             return false;
         }
 
@@ -326,6 +331,7 @@ class UpgradeSelfCheck
         if (null === $this->prestashopReady) {
             $this->prestashopReady = $this->runPrestaShopCoreChecks();
         }
+
         return $this->prestashopReady || 1 === (int) Configuration::get('PS_AUTOUP_IGNORE_REQS');
     }
 
@@ -382,7 +388,7 @@ class UpgradeSelfCheck
 
     /**
      * Check current PHP version is supported.
-     * 
+     *
      * @return bool
      */
     private function checkPhpVersionNeedsUpgrade()

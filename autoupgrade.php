@@ -159,13 +159,15 @@ class Autoupgrade extends Module
     {
         if ($this->registerHook($hookName)) {
             // Update module position in Dashboard
-            $query = "SELECT id_hook FROM "._DB_PREFIX_."hook WHERE name = '" . pSQL($hookName) . "'";
+            $query = 'SELECT id_hook FROM ' . _DB_PREFIX_ . "hook WHERE name = '" . pSQL($hookName) . "'";
             $result = Db::getInstance()->ExecuteS($query);
             $id_hook = $result['0']['id_hook'];
 
             $this->updatePosition((int) $id_hook, 0);
+
             return true;
         }
+
         return false;
     }
 
@@ -188,15 +190,15 @@ class Autoupgrade extends Module
             return false;
         }
 
-        $this->context->controller->addCSS($this->_path.'/css/styles.css');
-        $this->context->controller->addJS($this->_path.'/js/dashboard.js');
+        $this->context->controller->addCSS($this->_path . '/css/styles.css');
+        $this->context->controller->addJS($this->_path . '/js/dashboard.js');
 
         $this->context->smarty->assign([
             'ignore_link' => Context::getContext()->link->getAdminLink('AdminSelfUpgrade') . '&ignorePhpOutdated=1',
             'learn_more_link' => 'http://build.prestashop.com/news/announcing-end-of-support-for-obsolete-php-versions/',
         ]);
 
-        return $this->context->smarty->fetch($this->local_path.'views/templates/hook/dashboard_zone_one.tpl');
+        return $this->context->smarty->fetch($this->local_path . 'views/templates/hook/dashboard_zone_one.tpl');
     }
 
     public function getContent()
