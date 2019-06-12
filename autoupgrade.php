@@ -155,20 +155,16 @@ class Autoupgrade extends Module
         return parent::uninstall();
     }
 
+    /**
+     * Register the current module to a given hook and moves it at the first position.
+     *
+     * @param string $hookName
+     *
+     * @return bool
+     */
     private function registerHookAndSetToTop($hookName)
     {
-        if ($this->registerHook($hookName)) {
-            // Update module position in Dashboard
-            $query = 'SELECT id_hook FROM ' . _DB_PREFIX_ . "hook WHERE name = '" . pSQL($hookName) . "'";
-            $result = Db::getInstance()->ExecuteS($query);
-            $id_hook = $result['0']['id_hook'];
-
-            $this->updatePosition((int) $id_hook, 0);
-
-            return true;
-        }
-
-        return false;
+        return $this->registerHook($hookName) && $this->updatePosition((int) Hook::getIdByName($hookName), 0);
     }
 
     public function hookDashboardZoneOne($params)
