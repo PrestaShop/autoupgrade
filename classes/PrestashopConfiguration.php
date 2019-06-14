@@ -78,7 +78,7 @@ class PrestashopConfiguration
             $this->psRootDir . '/app/AppKernel.php',
         );
         foreach ($files as $file) {
-            $version = $this->findPrestaShopVersionInFile(file_get_contents($file));
+            $version = $this->findPrestaShopVersionInFile(@file_get_contents($file));
             if ($version) {
                 return $version;
             }
