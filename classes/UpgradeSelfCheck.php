@@ -35,7 +35,7 @@ class UpgradeSelfCheck
     /**
      * Recommended PHP Version. If below, display a notice.
      */
-    const RECOMMENDED_PHP_VERSION = 70100;
+    const RECOMMENDED_PHP_VERSION = 70103;
 
     /**
      * @var bool
