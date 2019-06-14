@@ -24,7 +24,7 @@
 *  International Registered Trademark & Property of PrestaShop SA
 */
 
-function upgrade_module_4_7_0($module)
+function upgrade_module_4_9_0($module)
 {
     return $module->registerHookAndSetToTop('dashboardZoneOne');
 }
