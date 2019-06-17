@@ -98,9 +98,9 @@ class UpgradeSelfCheck
     private $maxExecutionTime;
 
     /**
-     * False if PHP version is maintained, url to a website otherxise.
+     * Warning flag for an old running PHP server.
      *
-     * @var bool|string
+     * @var bool
      */
     private $phpUpgradeNoticelink;
 
