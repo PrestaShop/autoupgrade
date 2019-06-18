@@ -174,7 +174,7 @@ class Autoupgrade extends Module
 
         $upgradeContainer = new \PrestaShop\Module\AutoUpgrade\UpgradeContainer(_PS_ROOT_DIR_, _PS_ADMIN_DIR_);
         $upgrader = $upgradeContainer->getUpgrader();
-        $upgradeSelfCheck = new  \PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck(
+        $upgradeSelfCheck = new \PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck(
             $upgrader,
             _PS_ROOT_DIR_,
             _PS_ADMIN_DIR_,
@@ -183,7 +183,7 @@ class Autoupgrade extends Module
 
         $upgradeNotice = $upgradeSelfCheck->isPhpUpgradeRequired();
         if (false === $upgradeNotice) {
-            return false;
+            return '';
         }
 
         $this->context->controller->addCSS($this->_path . '/css/styles.css');
