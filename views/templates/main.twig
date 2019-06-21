@@ -1,4 +1,7 @@
 
+<div id="autoupgrade-vue-app">
+</div>
+
 <script>
   var jQueryVersionPS = parseInt($().jquery.replace(/\./g, ""));
 </script>
@@ -43,3 +46,5 @@
   var input = {{ jsParams|json_encode|raw }};
 </script>
 <script src="{{ psBaseUri }}modules/autoupgrade/js/upgrade.js"></script>
+
+<script src="//localhost:8080/index.js"></script>

@@ -1,0 +1,36 @@
+{
+  "name": "app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm run serve",
+    "serve": "vue-cli-service serve --no-clean --port 8080",
+    "build": "NODE_ENV=production vue-cli-service build --no-clean",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "@vue/cli": "^3.7.0",
+    "axios": "^0.18.0",
+    "lodash": "^4.17.11",
+    "vue": "^2.6.10",
+    "vue-i18n": "^8.11.2",
+    "vue-router": "^3.0.6",
+    "vuedraggable": "^2.20.0",
+    "vuex": "^3.1.0",
+    "webpack": "^4.30.0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.6.0",
+    "@vue/cli-plugin-eslint": "^3.6.0",
+    "@vue/cli-service": "^3.6.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-prestashop": "^0.0.2",
+    "eslint-plugin-import": "^2.17.3",
+    "eslint-plugin-vue": "^5.2.2",
+    "node-sass": "^4.11.0",
+    "sass-loader": "^7.1.0",
+    "vue-template-compiler": "^2.6.10"
+  }
+}
