@@ -24,6 +24,15 @@
  *  International Registered Trademark & Property of PrestaShop SA
  */
 
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
+
+$autoloadPath = __DIR__ . '/vendor/autoload.php';
+if (file_exists($autoloadPath)) {
+    require_once $autoloadPath;
+}
+
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 
 class Autoupgrade extends Module
@@ -31,7 +40,7 @@ class Autoupgrade extends Module
     /**
      * @var Translator
      */
-    private $translator;
+    private $translatorAdapter;
 
     public function __construct()
     {
