@@ -2,10 +2,17 @@
 import * as types from '../mutation-types';
 
 const state = () => ({
+  type: null,
   step: 1,
 });
 
 const actions = {
+  setType({commit}, type) {
+    commit(
+      types.STEPS_TYPE,
+      type,
+    );
+  },
   setStep({commit}, {step}) {
     commit(
       types.STEPS_STEP,
@@ -15,6 +22,9 @@ const actions = {
 };
 
 const mutations = {
+  [types.STEPS_TYPE](state, data) {
+    state.type = data;
+  },
   [types.STEPS_STEP](state, data) {
     state.step = data;
   },

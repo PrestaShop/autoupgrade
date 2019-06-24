@@ -9,13 +9,13 @@
         {{ $t('main.backup') }}
       </p>
 
-      <router-link :to="{name: 'version', params: {type: 'basic'}}">
+      <button @click="setType('basic')">
         {{ $t('main.choice.basic') }}
-      </router-link>
+      </button>
 
-      <router-link :to="{name: 'version', params: {type: 'expert'}}">
+      <button @click="setType('expert')">
         {{ $t('main.choice.expert') }}
-      </router-link>
+      </button>
     </div>
   </div>
 </template>
@@ -23,6 +23,12 @@
 <script>
   export default {
     name: 'Index',
+    methods: {
+      setType(step) {
+        this.$store.dispatch('setType', {step});
+        this.$router.push('/version');
+      },
+    },
   };
 </script>
 
