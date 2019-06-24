@@ -26,7 +26,9 @@
 *    International Registered Trademark & Property of PrestaShop SA
 */
 
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 use PrestaShop\Module\AutoUpgrade\AjaxResponse;
+use PrestaShop\Module\AutoUpgrade\Translations;
 use PrestaShop\Module\AutoUpgrade\BackupFinder;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\UpgradePage;
@@ -94,16 +96,22 @@ class AdminSelfUpgrade extends AdminController
      */
     private $upgradeContainer;
 
+    /**
+     * @var Translator
+     */
+    private $translatorAdapter;
+
     public function viewAccess($disable = false)
     {
         if ($this->ajax) {
             return true;
-        } else {
-            // simple access : we'll allow only 46admin
-            global $cookie;
-            if ($cookie->profile == 1) {
-                return true;
-            }
+        }
+
+        // simple access : we'll allow only 46admin
+        global $cookie;
+
+        if ($cookie->profile == 1) {
+            return true;
         }
 
         return false;
@@ -112,6 +120,7 @@ class AdminSelfUpgrade extends AdminController
     public function __construct()
     {
         parent::__construct();
+
         @set_time_limit(0);
         @ini_set('max_execution_time', '0');
         @ini_set('magic_quotes_runtime', '0');
@@ -135,7 +144,12 @@ class AdminSelfUpgrade extends AdminController
         }
 
         if (!$this->ajax) {
-            Context::getContext()->smarty->assign('display_header_javascript', true);
+            $this->context->smarty->assign('display_header_javascript', true);
+
+            Media::addJsDef([
+                'contextLocale' => $this->context->language->locale,
+                'translations' => json_encode((new Translations($this))->getTranslations($this->context->language->locale)),
+            ]);
         }
     }
 
@@ -408,6 +422,7 @@ class AdminSelfUpgrade extends AdminController
         if (empty($this->_errors)) {
             return;
         }
+
         echo implode(' - ', $this->_errors);
     }
 
@@ -422,6 +437,10 @@ class AdminSelfUpgrade extends AdminController
      */
     public function trans($id, array $parameters = array(), $domain = null, $locale = null)
     {
-        return (new \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator(__CLASS__))->trans($id, $parameters, $domain, $locale);
+        if ($this->translatorAdapter === null) {
+            $this->translatorAdapter = new Translator(__CLASS__);
+        }
+
+        return $this->translatorAdapter->trans($id, $parameters, $domain, $locale);
     }
 }

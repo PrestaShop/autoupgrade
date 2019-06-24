@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "npm run serve",
-    "serve": "vue-cli-service serve --no-clean --port 8080",
+    "serve": "NODE_PORT=8080 NODE_HOST=localhost vue-cli-service serve --no-clean --port 8080",
     "build": "NODE_ENV=production vue-cli-service build --no-clean",
     "lint": "vue-cli-service lint"
   },

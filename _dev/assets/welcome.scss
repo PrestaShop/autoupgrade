@@ -1,0 +1,38 @@
+#welcome-block {
+  border-bottom: 1px solid #ccced7;
+  display: flex;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
+  h2 {
+    margin-top: 0;
+    color: #343943;
+    font-family: Open Sans,sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 27px;
+    white-space: nowrap;
+    color: #252B67;
+    margin-bottom: 16px;
+  }
+
+  p,
+  li,
+  a {
+    font-size: 14px;
+    line-height: 19px;
+  }
+
+  li:before {
+    font-weight: bold;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #welcome-block {
+    flex-direction: column
+  }
+}

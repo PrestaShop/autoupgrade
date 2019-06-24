@@ -1,5 +1,4 @@
 <?php
-
 /**
  * 2007-2016 PrestaShop.
  *
@@ -24,8 +23,16 @@
  *  @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  *  International Registered Trademark & Property of PrestaShop SA
  */
+
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
+
 class Autoupgrade extends Module
 {
+    /**
+     * @var Translator
+     */
+    private $translator;
+
     public function __construct()
     {
         $this->name = 'autoupgrade';
@@ -245,12 +252,12 @@ class Autoupgrade extends Module
      * @param string $domain
      * @param string $locale
      */
-    public function trans($id, array $parameters = array(), $domain = null, $locale = null)
+    public function trans($id, array $parameters = [], $domain = null, $locale = null)
     {
-        require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/classes/UpgradeTools/Translator.php';
+        if ($this->translatorAdapter === null) {
+            $this->translatorAdapter = new Translator(__CLASS__);
+        }
 
-        $translator = new \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator(__CLASS__);
-
-        return $translator->trans($id, $parameters, $domain, $locale);
+        return $this->translatorAdapter->trans($id, $parameters, $domain, $locale);
     }
 }
