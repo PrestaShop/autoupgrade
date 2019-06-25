@@ -1,16 +1,18 @@
 <template>
-  <ol class="progressbar">
-    <step
-      v-for="(item, index) in items"
-      :key="index"
-      :name="item.name"
-      :active="getCurrentStep === index"
-    >
-      <slot>
-        {{ item.name }}
-      </slot>
-    </step>
-  </ol>
+  <div class="progressbar-container">
+    <ol class="progressbar">
+      <step
+        v-for="(item, index) in items"
+        :key="index"
+        :name="item.name"
+        :active="getCurrentStep === index"
+      >
+        <slot>
+          {{ item.name }}
+        </slot>
+      </step>
+    </ol>
+  </div>
 </template>
 
 <script>
@@ -37,11 +39,11 @@
   };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   $normal: #ddd;
   $active: #0000FF;
 
-  .container {
+  .progressbar-container {
     width: 100%
   }
 
