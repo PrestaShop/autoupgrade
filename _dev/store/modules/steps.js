@@ -3,7 +3,7 @@ import * as types from '../mutation-types';
 
 const state = () => ({
   type: null,
-  step: 1,
+  step: 0,
 });
 
 const actions = {
@@ -30,9 +30,15 @@ const mutations = {
   },
 };
 
+const getters = {
+  getCurrentStep: state => state.step,
+  getCurrentType: state => state.type,
+};
+
 export default {
-  state,
   actions,
+  getters,
   mutations,
+  state,
 };
 /* eslint-enable no-shadow, no-param-reassign */

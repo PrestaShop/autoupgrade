@@ -1,6 +1,6 @@
 <template>
   <div>
-    <steps />
+    <steps :items="items" />
   </div>
 </template>
 
@@ -11,6 +11,24 @@
     name: 'Version',
     components: {
       Steps,
+    },
+    data() {
+      return {
+        items: [
+          {
+            name: this.$t('versions.choice'),
+          },
+          {
+            name: this.$t('versions.prepare'),
+          },
+          {
+            name: this.$t('versions.upgrade'),
+          },
+          {
+            name: this.$t('versions.postUpgrade'),
+          },
+        ],
+      };
     },
   };
 </script>
