@@ -40,8 +40,8 @@
 </script>
 
 <style lang="scss" scoped>
+  @import '@/assets/variables.scss';
   $normal: #ddd;
-  $active: #0000FF;
 
   .progressbar-container {
     width: 100%
@@ -57,28 +57,31 @@
       position: relative;
       text-align: center;
       width: 100%;
-      color: $active;
+      color: $primary;
 
       &:before {
         content: counter(step);
         counter-increment: step;
-        width: 30px;
-        height: 30px;
-        line-height: 30px;
-        border: 1px solid $active;
+        width: $stepSize;
+        height: $stepSize;
+        line-height: $stepSize;
+        border: 1px solid $primary;
         display: block;
         text-align: center;
         margin: 0 auto 10px auto;
         border-radius: 50%;
-        background-color: #fff;
+        font-size: 1.05rem;
+        font-weight: bold;
+        background-color: $primary;
+        color: #fff;
       }
       &:after {
         content: '';
         position: absolute;
         width: 100%;
-        height: 1px;
-        background-color: $active;
-        top: 15px;
+        height: 3px;
+        background-color: $primary;
+        top: ($stepSize / 2) - 2px;
         left: -50%;
         z-index: -1;
       }
@@ -90,19 +93,21 @@
       }
 
       &.active {
-        color: $active;
         &:before {
-          border-color: $active;
+          border-color: $primary;
+          background-color: $primary;
+          color: #fff;
         }
 
         & ~ li {
-          color: $normal;
           border-color: $normal;
+          background-color: #fff;
           &:before {
-            border-color: $normal;
+            background-color: #fff;
+            color: $primary;
           }
           &:after {
-            background-color: $normal;
+            background: none;
           }
         }
       }
