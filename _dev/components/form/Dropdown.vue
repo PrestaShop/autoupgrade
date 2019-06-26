@@ -1,6 +1,14 @@
 <template>
-  <div class="btn-group">
-    <button class="btn btn-primary dropdown-toggle" type="button" @click="toggleDisplay">
+  <div
+    class="btn-group"
+    v-closable="closeHandler"
+  >
+    <button
+      class="btn btn-primary dropdown-toggle"
+      ref="dropdown-button"
+      type="button"
+      @click="toggleDisplay"
+    >
       <slot name="title">
         {{ displayedLabel }}
       </slot>
@@ -43,6 +51,10 @@
       return {
         opened: false,
         selectedItem: null,
+        closeHandler: {
+          exclude: ['dropdown-button'],
+          handler: 'onClose',
+        },
       };
     },
     computed: {
@@ -62,12 +74,16 @@
       });
     },
     methods: {
+      onClose() {
+        this.opened = false;
+      },
       toggleDisplay() {
         this.opened = !this.opened;
       },
       selectItem(item) {
         this.selectedItem = item;
         this.$emit('input', item.value);
+        this.onClose();
       },
     },
   };

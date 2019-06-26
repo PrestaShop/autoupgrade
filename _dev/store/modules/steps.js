@@ -3,7 +3,7 @@ import * as types from '../mutation-types';
 
 const state = () => ({
   type: null,
-  step: 0,
+  step: 1,
 });
 
 const actions = {
