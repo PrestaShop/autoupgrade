@@ -6,7 +6,7 @@
     "dev": "npm run serve",
     "serve": "NODE_PORT=8080 NODE_HOST=localhost vue-cli-service serve --no-clean --port 8080",
     "build": "NODE_ENV=production vue-cli-service build --no-clean",
-    "lint": "vue-cli-service lint"
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore _dev"
   },
   "dependencies": {
     "@vue/cli": "^3.7.0",

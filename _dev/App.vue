@@ -10,6 +10,6 @@
   };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   @import '../node_modules/prestakit/dist/css/bootstrap-prestashop-ui-kit.css';
 </style>

@@ -1,28 +1,28 @@
 <template>
   <div>
-    <steps :items="items" />
+    <steps :items="steps" />
 
     <div class="version-choice">
-      <div class="version-choice-block">
-        <h2>{{ $t('version.currentVersion') }}</h2>
-        <div class="version-choice-block">
-          <p class="current-version">
-            {{ currentVersion }}
-          </p>
+      <div class="version-choice-blocks">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="card-title">{{ $t('version.currentVersion') }}</h2>
+            <p class="current-version">
+              {{ currentVersion }}
+            </p>
+          </div>
         </div>
-      </div>
 
-      <div class="version-choice-block">
-        <h2>{{ $t('version.upgradeVersion') }}</h2>
+        <div class="card">
+          <div class="card-body">
+            <h2 class="card-title">{{ $t('version.upgradeVersion') }}</h2>
 
-        <div class="version-choice-block">
-          <select v-model="selectedVersion">
-            <option value="2.2.2">2.2.2</option>
-          </select>
+            <dropdown v-model="selectedVersion" :items="[{value: '2.2.2', name: '2.2.2'}]" />
 
-          <p class="current-version">
-            <a href="#" @click.stop="whatsNew()">{{ $t('version.whatsNew') }}</a>
-          </p>
+            <p class="current-version">
+              <a href="#" @click.stop="whatsNew()">{{ $t('version.whatsNew') }}</a>
+            </p>
+          </div>
         </div>
       </div>
 
@@ -30,13 +30,13 @@
         <h2>{{ $t('version.options.title') }}</h2>
 
         <div class="version-options-block">
-          <div class="form-control" v-for="element in Object.keys(form.options)" :key="element">
-            <label>{{ $t(`version.options.form.${element}.label`) }}</label>
-            <input type="checkbox" v-model="form.options[element]">
-            <p class="description-help">
-              {{ $t(`version.options.form.$(element).descriptionHelp`) }}
-            </p>
-          </div>
+          <radio-switch
+            :label="$t(`version.options.form.${name}.label`)"
+            :help="$t(`version.options.form.${name}.description`)"
+            v-model="form.options[name]"
+            v-for="name in Object.keys(form.options)"
+            :key="name"
+          />
         </div>
       </div>
     </div>
@@ -45,11 +45,15 @@
 
 <script>
   import Steps from '@/components/Steps';
+  import Dropdown from '@/components/form/Dropdown';
+  import RadioSwitch from '@/components/form/RadioSwitch';
 
   export default {
     name: 'Version',
     components: {
+      Dropdown,
       Steps,
+      RadioSwitch,
     },
     data() {
       return {
@@ -62,7 +66,7 @@
             keepCustomizedTemplates: false,
           },
         },
-        items: [
+        steps: [
           {
             name: this.$t('versions.choice'),
           },
@@ -83,4 +87,8 @@
 
 <style lang="scss">
   @import '@/assets/version.scss';
+  .version-choice-blocks {
+    display: flex;
+    justify-content: space-around;
+  }
 </style>
