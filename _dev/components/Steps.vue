@@ -41,7 +41,6 @@
 
 <style lang="scss" scoped>
   @import '@/assets/variables.scss';
-  $normal: #ddd;
 
   .progressbar-container {
     width: 100%
@@ -100,7 +99,6 @@
         }
 
         & ~ li {
-          border-color: $normal;
           background-color: #fff;
           &:before {
             background-color: #fff;
