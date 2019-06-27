@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="autoupgrade">
     <router-view />
   </div>
 </template>
@@ -10,6 +10,12 @@
   };
 </script>
 
-<style lang="scss" scoped>
-  @import '../node_modules/prestakit/dist/css/bootstrap-prestashop-ui-kit.css';
+<style lang="scss">
+  #autoupgrade {
+    /**
+     * Make this version of prestakit and bootstrap specific to
+     * this version of autoupgrade
+     */
+    @import '~prestakit/scss/application';
+  }
 </style>

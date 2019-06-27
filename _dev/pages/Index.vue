@@ -9,11 +9,11 @@
         {{ $t('main.backup') }}
       </p>
 
-      <button @click="setType('basic')">
+      <button @click="setType('basic')" class="btn btn-primary btn-block btn-lg">
         {{ $t('main.choice.basic') }}
       </button>
 
-      <button @click="setType('expert')">
+      <button @click="setType('expert')" class="btn btn-outline-secondary btn-block btn-lg">
         {{ $t('main.choice.expert') }}
       </button>
     </div>

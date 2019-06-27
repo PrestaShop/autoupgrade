@@ -52,6 +52,7 @@
     justify-content: space-around;
 
     li {
+      background-color: #fff;
       list-style-type: none;
       position: relative;
       text-align: center;
@@ -99,7 +100,6 @@
         }
 
         & ~ li {
-          background-color: #fff;
           &:before {
             background-color: #fff;
             color: $primary;
