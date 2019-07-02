@@ -397,7 +397,7 @@ class UpgradeContainer
     }
 
     /**
-     * @return Translation 
+     * @return Translation
      */
     public function getTranslationAdapter()
     {
