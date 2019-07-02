@@ -14,7 +14,7 @@
       </slot>
     </button>
 
-    <div class="dropdown-menu" v-if="opened">
+    <div class="dropdown-menu show" v-if="opened">
       <a
         class="dropdown-item"
         href="#"
