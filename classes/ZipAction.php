@@ -166,7 +166,7 @@ class ZipAction
         }
 
         $zip->close();
-        $this->logger->debug($this->translator->trans('Archive extracted', array(), 'Modules.Autoupgrade.Admin'));
+        $this->logger->debug($this->translator->trans('Content of archive %zip% is extracted', ['%zip%' => $from_file], 'Modules.Autoupgrade.Admin'));
 
         return true;
     }
@@ -246,7 +246,6 @@ class ZipAction
      */
     private function open($zipFile, $flags = null)
     {
-        $this->logger->debug($this->translator->trans('Using class ZipArchive...', array(), 'Modules.Autoupgrade.Admin'));
         $zip = new \ZipArchive();
         if ($zip->open($zipFile, $flags) !== true || empty($zip->filename)) {
             $this->logger->error($this->translator->trans('Unable to open zipFile %s', array($zipFile), 'Modules.Autoupgrade.Admin'));
