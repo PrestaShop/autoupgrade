@@ -293,6 +293,10 @@ class AdminSelfUpgrade extends AdminController
             Configuration::updateValue('PS_AUTOUP_IGNORE_REQS', 1);
         }
 
+        if (Tools14::isSubmit('ignorePhpOutdated')) {
+            Configuration::updateValue('PS_AUTOUP_IGNORE_PHP_UPGRADE', 1);
+        }
+
         if (Tools14::isSubmit('customSubmitAutoUpgrade')) {
             $config_keys = array_keys(array_merge($this->_fieldsUpgradeOptions, $this->_fieldsBackupOptions));
             $config = array();
@@ -332,27 +336,6 @@ class AdminSelfUpgrade extends AdminController
         }
         parent::postProcess();
     }
-
-    /**
-     * update module configuration (saved in file UpgradeFiles::configFilename) with $new_config.
-     *
-     * @param array $new_config
-     *
-     * @return bool true if success
-     */
-//    public function writeConfig($config)
-//    {
-//        if (!$this->upgradeContainer->getFileConfigurationStorage()->exists(UpgradeFileNames::configFilename) && !empty($config['channel'])) {
-//            $this->upgradeContainer->getUpgrader()->channel = $config['channel'];
-//            $this->upgradeContainer->getUpgrader()->checkPSVersion();
-//
-//            $this->upgradeContainer->getState()->setInstallVersion($this->upgradeContainer->getUpgrader()->version_num);
-//        }
-//
-//        $this->upgradeContainer->getUpgradeConfiguration()->merge($config);
-//        $this->upgradeContainer->getLogger()->info($this->trans('Configuration successfully updated.', array(), 'Modules.Autoupgrade.Admin').' <strong>'.$this->trans('This page will now be reloaded and the module will check if a new version is available.', array(), 'Modules.Autoupgrade.Admin').'</strong>');
-//        return (new UpgradeConfigurationStorage($this->autoupgradePath.DIRECTORY_SEPARATOR))->save($this->upgradeContainer->getUpgradeConfiguration(), UpgradeFileNames::configFilename);
-//    }
 
     public function display()
     {
