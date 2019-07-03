@@ -20,7 +20,9 @@
     "preferred-install": "dist",
     "platform": {
         "php": "5.6"
-    }
+    },
+    "prepend-autoloader": false,
+    "optimize-autoloader": true
   },
   "type": "prestashop-module",
   "autoload": {
