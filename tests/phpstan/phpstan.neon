@@ -16,5 +16,7 @@ parameters:
 		- '#[cC]lass PrestaShop\\PrestaShop\\Core\\Cldr\\Update#'
 		# AppKernel wasn't properly listed in autoloader
 		- '#AppKernel#'
+		- '#Access to offset 0 on an unknown class mysqli_result.#'
+		- '#Iterating over an object of an unknown class mysqli_result.#'
 
 	level: 5
