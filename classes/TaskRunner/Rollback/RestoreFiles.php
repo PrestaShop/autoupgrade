@@ -69,11 +69,11 @@ class RestoreFiles extends AbstractTask
             $this->logger->debug($this->translator->trans('%s file(s) will be removed before restoring the backup files.', array(count($toRemoveOnly)), 'Modules.Autoupgrade.Admin'));
             $this->container->getFileConfigurationStorage()->save($toRemoveOnly, UpgradeFileNames::FILES_TO_REMOVE_LIST);
 
-            if ($fromArchive === false || $toRemove === false) {
-                if (!$fromArchive) {
+            if (empty($fromArchive) || empty($toRemove)) {
+                if (empty($fromArchive)) {
                     $this->logger->error($this->translator->trans('[ERROR] Backup file %s does not exist.', array(UpgradeFileNames::FILES_FROM_ARCHIVE_LIST), 'Modules.Autoupgrade.Admin'));
                 }
-                if (!$toRemove) {
+                if (empty($toRemove)) {
                     $this->logger->error($this->translator->trans('[ERROR] File "%s" does not exist.', array(UpgradeFileNames::FILES_TO_REMOVE_LIST), 'Modules.Autoupgrade.Admin'));
                 }
                 $this->logger->info($this->translator->trans('Unable to remove upgraded files.', array(), 'Modules.Autoupgrade.Admin'));

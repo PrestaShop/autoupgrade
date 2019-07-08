@@ -669,15 +669,16 @@ abstract class CoreUpgrader
 
     protected function updateTheme()
     {
-        $themeAdapter = new ThemeAdapter($this->db, $this->destinationUpgradeVersion);
-        $themeName = $themeAdapter->getDefaultTheme();
-
         // The merchant can ask for keeping its current theme.
         if (!$this->container->getUpgradeConfiguration()->shouldSwitchToDefaultTheme()) {
             return;
         }
+        $this->logger->info($this->container->getTranslator()->trans('Switching to default theme.', array(), 'Modules.Autoupgrade.Admin'));
+        $themeAdapter = new ThemeAdapter($this->db, $this->destinationUpgradeVersion);
 
-        $themeErrors = $themeAdapter->enableTheme($themeName);
+        $themeErrors = $themeAdapter->enableTheme(
+            $themeAdapter->getDefaultTheme()
+        );
 
         if ($themeErrors !== true) {
             throw new UpgradeException($themeErrors);

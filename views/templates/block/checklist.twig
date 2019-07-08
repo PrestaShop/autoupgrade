@@ -30,6 +30,27 @@
                     </td>
                 </tr>
                 <tr>
+                    <td>
+                        {% if not phpUpgradeRequired %}
+                            {{ 'Your server is running on a supported PHP version.'|trans }}
+                        {% else %}
+                            {{ 'The PHP version your server is running on is obsolete and needs to be upgraded. [1]Learn more why[/1] or [2]ignore[/2].'|trans({
+                                '[1]': '<a href="' ~ phpUpgradeRequired|trans ~'" target="_blank">',
+                                '[/1]': '</a>',
+                                '[2]': '<a href="' ~ currentIndex ~ '&token=' ~ token ~ '&ignorePhpOutdated=1">',
+                                '[/2]': '</a>',
+                            })|raw }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if not phpUpgradeRequired %}
+                            {{ icons.ok }}
+                        {% else %}
+                            {{ icons.warning }}
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
                     <td>{{ 'Your store\'s root directory is writable (with appropriate CHMOD permissions)'|trans }}</td>
                     <td>
                         {% if rootDirectoryIsWritable %}
@@ -130,7 +151,7 @@
                             {{ 'PrestaShop requirements are satisfied.'|trans }}
                         {% else %}
                             {{ 'PrestaShop requirements are not satisfied. [1]See details[/1] or [2]ignore[/2].'|trans({
-                                '[1]': '<a href="' ~ informationsLink ~'">',
+                                '[1]': '<a href="http://build.prestashop.com/news/announcing-end-of-support-for-obsolete-php-versions/">',
                                 '[/1]': '</a>',
                                 '[2]': '<a href="' ~ currentIndex ~ '&token=' ~ token ~ '&ignorePsRequirements=1">',
                                 '[/2]': '</a>',

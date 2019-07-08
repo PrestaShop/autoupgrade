@@ -37,6 +37,7 @@ The following parameters are mandatory:
 
 * **--dir**: Tells where the admin directory is.
 * **--channel**: Selects what upgrade to run (minor, major etc.)
+* **--action**: Advanced users only. Sets the step you want to start from (Default: `UpgradeNow`, [other values available](classes/TaskRunner/Upgrade/)).
 
 ```
 $ php cli-upgrade.php --dir=admin-dev --channel=major

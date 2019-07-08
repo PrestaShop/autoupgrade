@@ -31,7 +31,7 @@ class Autoupgrade extends Module
         $this->name = 'autoupgrade';
         $this->tab = 'administration';
         $this->author = 'PrestaShop';
-        $this->version = '4.8.0';
+        $this->version = '4.9.0';
         $this->need_instance = 1;
 
         $this->bootstrap = true;
@@ -135,7 +135,7 @@ class Autoupgrade extends Module
             return $this->_abortInstall($this->trans('Unable to create the directory "%s"', array(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml'), 'Modules.Autoupgrade.Admin'));
         }
 
-        return parent::install();
+        return parent::install() && $this->registerHookAndSetToTop('dashboardZoneOne');
     }
 
     public function uninstall()
@@ -149,7 +149,52 @@ class Autoupgrade extends Module
         // Remove the 1-click upgrade working directory
         self::_removeDirectory(_PS_ADMIN_DIR_ . DIRECTORY_SEPARATOR . 'autoupgrade');
 
+        Configuration::deleteByName('PS_AUTOUP_IGNORE_REQS');
+        Configuration::deleteByName('PS_AUTOUP_IGNORE_PHP_UPGRADE');
+
         return parent::uninstall();
+    }
+
+    /**
+     * Register the current module to a given hook and moves it at the first position.
+     *
+     * @param string $hookName
+     *
+     * @return bool
+     */
+    private function registerHookAndSetToTop($hookName)
+    {
+        return $this->registerHook($hookName) && $this->updatePosition((int) Hook::getIdByName($hookName), 0);
+    }
+
+    public function hookDashboardZoneOne($params)
+    {
+        // Display panel if PHP is not supported by the community
+        require_once __DIR__ . '/vendor/autoload.php';
+
+        $upgradeContainer = new \PrestaShop\Module\AutoUpgrade\UpgradeContainer(_PS_ROOT_DIR_, _PS_ADMIN_DIR_);
+        $upgrader = $upgradeContainer->getUpgrader();
+        $upgradeSelfCheck = new \PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck(
+            $upgrader,
+            _PS_ROOT_DIR_,
+            _PS_ADMIN_DIR_,
+            __DIR__
+        );
+
+        $upgradeNotice = $upgradeSelfCheck->isPhpUpgradeRequired();
+        if (false === $upgradeNotice) {
+            return '';
+        }
+
+        $this->context->controller->addCSS($this->_path . '/css/styles.css');
+        $this->context->controller->addJS($this->_path . '/js/dashboard.js');
+
+        $this->context->smarty->assign([
+            'ignore_link' => Context::getContext()->link->getAdminLink('AdminSelfUpgrade') . '&ignorePhpOutdated=1',
+            'learn_more_link' => 'http://build.prestashop.com/news/announcing-end-of-support-for-obsolete-php-versions/',
+        ]);
+
+        return $this->context->smarty->fetch($this->local_path . 'views/templates/hook/dashboard_zone_one.tpl');
     }
 
     public function getContent()

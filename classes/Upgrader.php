@@ -351,7 +351,7 @@ class Upgrader
      * returns an array of files which are present in PrestaShop version $version and has been modified
      * in the current filesystem.
      *
-     * @return array of string> array of filepath
+     * @return array|false
      */
     public function getChangedFilesList($version = null, $refresh = false)
     {
