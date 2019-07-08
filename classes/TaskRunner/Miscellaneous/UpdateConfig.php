@@ -91,9 +91,6 @@ class UpdateConfig extends AbstractTask
 
             $config['directory.version_num'] = $request['directory_num'];
         }
-        if (isset($request['skip_backup'])) {
-            $config['skip_backup'] = $request['skip_backup'];
-        }
 
         if (!$this->writeConfig($config)) {
             $this->error = true;

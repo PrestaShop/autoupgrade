@@ -56,11 +56,17 @@ class TaskRepository
             case 'rollbackComplete':
                 return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback\RollbackComplete($container);
 
-            // UPGRADE
+            // BACKUP
+            case 'backup':
+                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Backup\Backup($container);
             case 'backupDb':
-                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\BackupDb($container);
+                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Backup\BackupDb($container);
             case 'backupFiles':
-                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\BackupFiles($container);
+                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Backup\BackupFiles($container);
+            case 'backupComplete':
+                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Backup\BackupComplete($container);
+
+            // UPGRADE
             case 'cleanDatabase':
                 return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\CleanDatabase($container);
             case 'download':

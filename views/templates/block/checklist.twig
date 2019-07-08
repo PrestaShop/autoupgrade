@@ -168,7 +168,10 @@
                 </tr>
             </table>
             <br>
-            <p class="alert alert-info">{{ 'Please also make sure you make a full manual backup of your files and database.'|trans }}</p>
+            <p class="alert alert-info">
+                {{ 'Please also make sure you make a full manual backup of your files and database.'|trans }}
+                <a href="#" id="backup" class="upgradestep btn btn-primary">{{ 'Backup your shop'|trans }}</a>
+            </p>
         </div>
     </div>
 </div>

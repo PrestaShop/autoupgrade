@@ -117,23 +117,13 @@ class RemoveSamples extends AbstractTask
 
         if (0 >= count($removeList)) {
             $this->stepDone = true;
-            $this->next = 'backupFiles';
+            $this->next = 'upgradeFiles';
             $this->logger->info(
                 $this->translator->trans(
-                    'All sample files removed. Now backing up files.',
+                    'All sample files removed. Backup process skipped. Now upgrading files.',
                     array(),
                     'Modules.Autoupgrade.Admin'
             ));
-
-            if ($this->container->getUpgradeConfiguration()->get('skip_backup')) {
-                $this->next = 'upgradeFiles';
-                $this->logger->info(
-                    $this->translator->trans(
-                        'All sample files removed. Backup process skipped. Now upgrading files.',
-                        array(),
-                        'Modules.Autoupgrade.Admin'
-                ));
-            }
         }
 
         return true;

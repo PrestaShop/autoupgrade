@@ -146,13 +146,6 @@ class State
             \Language::getIsoIds(false)
         );
         $this->setInstalledLanguagesIso($installedLanguagesIso);
-
-        $rand = dechex(mt_rand(0, min(0xffffffff, mt_getrandmax())));
-        $date = date('Ymd-His');
-        $backupName = 'V' . $version . '_' . $date . '-' . $rand;
-        // Todo: To be moved in state class? We could only require the backup name here
-        // I.e = $this->upgradeContainer->getState()->setBackupName($backupName);, which triggers 2 other setters internally
-        $this->setBackupName($backupName);
     }
 
     // GETTERS

@@ -23,6 +23,20 @@ All versions can be found in the [releases list](https://github.com/PrestaShop/a
 * Create a new zip file of **autoupgrade** folder
 * Now you can upload into your module pages
 
+# Backup a shop
+
+**When planning to upgrade, it is strongly recommended to backup your shop first!**
+The module makes an entrypoint available to run its own backup process, which can be then reused if case of error during 
+or after the upgrade process. 
+
+## Command line parameters
+
+Backup can be automated by calling *cli-backup.php*.
+
+The following parameter is mandatory:
+
+* **--dir**: Tells where the admin directory is.
+
 # Running an upgrade on PrestaShop
 
 Upgrading a shop can be done via:
