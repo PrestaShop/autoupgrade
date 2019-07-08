@@ -74,6 +74,7 @@ class BackupDb extends AbstractTask
             }
             $this->container->getState()->setDbStep(0);
             $tablesToBackup = $this->container->getDb()->executeS('SHOW TABLES LIKE "' . _DB_PREFIX_ . '%"', true, false);
+            $tablesToBackup = array_reverse($tablesToBackup);
             $this->container->getFileConfigurationStorage()->save($tablesToBackup, UpgradeFileNames::DB_TABLES_TO_BACKUP_LIST);
         }
 
@@ -96,7 +97,7 @@ class BackupDb extends AbstractTask
                 if (count($tablesToBackup) == 0) {
                     break;
                 }
-                $table = current(array_shift($tablesToBackup));
+                $table = current(array_pop($tablesToBackup));
                 $this->container->getState()->setBackupLoopLimit(0);
             }
 

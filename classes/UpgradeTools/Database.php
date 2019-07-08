@@ -44,7 +44,7 @@ class Database
 
         $all_tables = array();
         foreach ($tables as $v) {
-            $table = array_shift($v);
+            $table = reset($v);
             $all_tables[$table] = $table;
         }
 

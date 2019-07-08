@@ -74,7 +74,9 @@ class RemoveSamples extends AbstractTask
                 array('path' => $latestPath . '/override', 'filter' => '.php'),
             ));
 
-            $this->container->getState()->setRemoveList($removeList);
+            $this->container->getState()->setRemoveList(
+                array_reverse($removeList)
+            );
 
             if (count($removeList)) {
                 $this->logger->debug(
@@ -85,7 +87,7 @@ class RemoveSamples extends AbstractTask
 
         $filesystem = new Filesystem();
         for ($i = 0; $i < $this->container->getUpgradeConfiguration()->getNumberOfFilesPerCall() && 0 < count($removeList); ++$i) {
-            $file = array_shift($removeList);
+            $file = array_pop($removeList);
             try {
                 $filesystem->remove($file);
             } catch (\Exception $e) {

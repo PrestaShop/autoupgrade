@@ -67,7 +67,7 @@ class UpgradeFiles extends AbstractTask
                 break;
             }
 
-            $file = array_shift($filesToUpgrade);
+            $file = array_pop($filesToUpgrade);
             if (!$this->upgradeThisFile($file)) {
                 // put the file back to the begin of the list
                 $this->next = 'error';
@@ -264,9 +264,9 @@ class UpgradeFiles extends AbstractTask
         }
 
         // also add files to remove
-        $list_files_to_upgrade = array_merge($list_files_diff, $list_files_to_upgrade);
+        $list_files_to_upgrade = array_reverse(array_merge($list_files_diff, $list_files_to_upgrade));
 
-        $filesToMoveToTheBeginning = array(
+        $filesToMoveToTheEnd = array(
             DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php',
             DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'composer' . DIRECTORY_SEPARATOR . 'ClassLoader.php',
             DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'composer' . DIRECTORY_SEPARATOR . 'autoload_classmap.php',
@@ -280,10 +280,10 @@ class UpgradeFiles extends AbstractTask
             DIRECTORY_SEPARATOR . 'vendor',
         );
 
-        foreach ($filesToMoveToTheBeginning as $file) {
+        foreach ($filesToMoveToTheEnd as $file) {
             if ($key = array_search($file, $list_files_to_upgrade)) {
                 unset($list_files_to_upgrade[$key]);
-                $list_files_to_upgrade = array_merge(array($file), $list_files_to_upgrade);
+                $list_files_to_upgrade[] = $file;
             }
         }
 
