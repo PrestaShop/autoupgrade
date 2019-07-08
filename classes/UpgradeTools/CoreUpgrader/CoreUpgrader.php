@@ -387,16 +387,20 @@ abstract class CoreUpgrader
             if (!file_exists($this->pathToPhpUpgradeScripts . strtolower($func_name) . '.php')) {
                 $this->logger->error('[ERROR] ' . $upgrade_file . ' PHP - missing file ' . $query);
                 $this->container->getState()->setWarningExists(true);
-            } else {
-                require_once $this->pathToPhpUpgradeScripts . strtolower($func_name) . '.php';
-                $phpRes = call_user_func_array($func_name, $parameters);
+
+                return;
             }
+
+            require_once $this->pathToPhpUpgradeScripts . strtolower($func_name) . '.php';
+            $phpRes = call_user_func_array($func_name, $parameters);
         }
         // Or an object method
         else {
             $func_name = array($php[0], str_replace($pattern[0], '', $php[1]));
             $this->logger->error('[ERROR] ' . $upgrade_file . ' PHP - Object Method call is forbidden (' . $php[0] . '::' . str_replace($pattern[0], '', $php[1]) . ')');
             $this->container->getState()->setWarningExists(true);
+
+            return;
         }
 
         if (isset($phpRes) && (is_array($phpRes) && !empty($phpRes['error'])) || $phpRes === false) {
