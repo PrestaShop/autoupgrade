@@ -38,8 +38,10 @@ script:
     fi
   - docker run --rm --volumes-from prestashop_autoupgrade -v $PWD:/web/module -e _PS_ROOT_DIR_=/var/www/html quetzacoalt/phpstan analyse --configuration=/web/module/tests/phpstan/$PHPSTAN_FILE;
 
+  # Backup
+  - docker exec -u www-data -ti prestashop_autoupgrade php modules/autoupgrade/tests/testCliProcess.php admin-dev/autoupgrade/cli-backup.php --dir="admin-dev"
   # Upgrade
-  - docker exec -u www-data -ti prestashop_autoupgrade php modules/autoupgrade/tests/testCliProcess.php admin-dev/autoupgrade/cli-upgrade.php  --dir="admin-dev" --channel="$CHANNEL"
+  - docker exec -u www-data -ti prestashop_autoupgrade php modules/autoupgrade/tests/testCliProcess.php admin-dev/autoupgrade/cli-upgrade.php --dir="admin-dev" --channel="$CHANNEL"
   # Front office -> HTTP code 200 expected (no maintenance)
   - bash -c '[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost:8001/index.php)" == "200" ]'
   # Back office -> HTTP code 200 expected
@@ -47,7 +49,7 @@ script:
 
   # Rollback (only when expect a completed upgrade)
   - if [ $VERSION != "latest" ]; then
-      docker exec -u www-data -ti prestashop_autoupgrade php modules/autoupgrade/tests/testCliProcess.php admin-dev/autoupgrade/cli-rollback.php  --dir="admin-dev" --backup=`docker exec -ti prestashop_autoupgrade bash -c "ls -td -- /var/www/html/admin-dev/autoupgrade/backup/*/ | head -n 1 | cut -d'/' -f8 | tr -d '\n'"`;
+      docker exec -u www-data -ti prestashop_autoupgrade php modules/autoupgrade/tests/testCliProcess.php admin-dev/autoupgrade/cli-rollback.php --dir="admin-dev" --backup=`docker exec -ti prestashop_autoupgrade bash -c "ls -td -- /var/www/html/admin-dev/autoupgrade/backup/*/ | head -n 1 | cut -d'/' -f8 | tr -d '\n'"`;
     fi
   # Front office -> HTTP code 200 expected (no maintenance)
   - bash -c '[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost:8001/index.php)" == "200" ]'

@@ -54,22 +54,6 @@ class BackupOptionsForm
         $translationDomain = 'Modules.Autoupgrade.Admin';
 
         $this->fields = array(
-            'PS_AUTOUP_BACKUP' => array(
-                'title' => $this->translator->trans(
-                    'Back up my files and database',
-                    array(),
-                    $translationDomain
-                ),
-                'cast' => 'intval',
-                'validation' => 'isBool',
-                'defaultValue' => '1',
-                'type' => 'bool',
-                'desc' => $this->translator->trans(
-                    'Automatically back up your database and files in order to restore your shop if needed. This is experimental: you should still perform your own manual backup for safety.',
-                    array(),
-                    $translationDomain
-                ),
-            ),
             'PS_AUTOUP_KEEP_IMAGES' => array(
                 'title' => $this->translator->trans(
                     'Back up my images',

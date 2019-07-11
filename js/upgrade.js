@@ -2,7 +2,6 @@ if (typeof input === 'undefined') {
   var input = {
     manualMode: "",
     _PS_MODE_DEV_: true,
-    PS_AUTOUP_BACKUP: true,
     adminUrl: "http://test.com/admin",
     adminDir: "/admin",
     token: "asdadsasdasdasd",
@@ -190,6 +189,7 @@ $(document).ready(function(){
 
   // prepare available button here, without params ?
   prepareNextButton("#upgradeNow",firstTimeParams);
+  prepareNextButton("#backup", {});
 
   /**
    * reset rollbackParams js array (used to init rollback button)
@@ -375,6 +375,10 @@ function afterError(res) {
   addQuickInfo(["unbind :) "]);
 }
 
+function afterBackup(res) {
+  startProcess("backup");
+}
+
 function afterRollback(res) {
   startProcess("rollback");
 }
@@ -408,7 +412,7 @@ function afterBackupFiles(res) {
 function afterBackupDb(res) {
   var params = res.nextParams;
 
-  if (res.stepDone && input.PS_AUTOUP_BACKUP === true) {
+  if (res.stepDone) {
     $("#restoreBackupContainer").show();
     $("select[name=restoreName]")
       .append("<option selected=\"selected\" value=\"" + params.backupName + "\">" + params.backupName + "</option>")
@@ -828,16 +832,6 @@ $(document).ready(function() {
           return false;
         }
         params.directory_num = $("input[name=directory_num]").val();
-      }
-    }
-    // note: skipBackup is currently not used
-    if ($(this).attr("name") == "submitConf-skipBackup") {
-      var skipBackup = $("input[name=submitConf-skipBackup]:checked").length;
-      if (skipBackup == 0 || confirm(input.translation.confirmSkipBackup)) {
-        params.skip_backup = $("input[name=submitConf-skipBackup]:checked").length;
-      } else {
-        $("input[name=submitConf-skipBackup]:checked").removeAttr("checked");
-        return false;
       }
     }
 

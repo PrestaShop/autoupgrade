@@ -25,7 +25,7 @@
  *  International Registered Trademark & Property of PrestaShop SA
  */
 
-namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
+namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Backup;
 
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
@@ -35,14 +35,6 @@ class BackupFiles extends AbstractTask
 {
     public function run()
     {
-        if (!$this->container->getUpgradeConfiguration()->get('PS_AUTOUP_BACKUP')) {
-            $this->stepDone = true;
-            $this->next = 'backupDb';
-            $this->logger->info('File backup skipped.');
-
-            return true;
-        }
-
         $this->stepDone = false;
         $backupFilesFilename = $this->container->getState()->getBackupFilesFilename();
         if (empty($backupFilesFilename)) {
