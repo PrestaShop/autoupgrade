@@ -29,6 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade;
 
 use Configuration;
 use ConfigurationTest;
+use PrestaShop\Module\AutoUpgrade\Client\ModuleDetailsClient;
 
 class UpgradeSelfCheck
 {
@@ -91,6 +92,13 @@ class UpgradeSelfCheck
      * @var false|string
      */
     private $moduleVersion;
+
+    /**
+     * Version available for download on the marketplace
+     * 
+     * @var string
+     */
+    private $marketplaceModuleVersion;
 
     /**
      * @var int
@@ -276,6 +284,14 @@ class UpgradeSelfCheck
     }
 
     /**
+     * @return string
+     */
+    public function getMarketplaceModuleVersion()
+    {
+        return $this->marketplaceModuleVersion;
+    }
+
+    /**
      * @return string|false
      */
     public function getModuleVersion()
@@ -369,7 +385,13 @@ class UpgradeSelfCheck
      */
     private function checkModuleVersionIsLastest(Upgrader $upgrader)
     {
-        return version_compare($this->getModuleVersion(), $upgrader->autoupgrade_last_version, '>=');
+        $this->marketplaceModuleVersion = (new ModuleDetailsClient($upgrader->version_num))->getVersion();
+
+        return version_compare(
+            $this->getModuleVersion(),
+            $this->marketplaceModuleVersion,
+            '>='
+        );
     }
 
     /**

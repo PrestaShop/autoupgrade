@@ -111,6 +111,7 @@ class UpgradeChecklist
         $data = array(
             'showErrorMessage' => !$this->selfCheck->isOkForUpgrade(),
             'moduleVersion' => $this->selfCheck->getModuleVersion(),
+            'marketplaceModuleVersion' => $this->selfCheck->getMarketplaceModuleVersion(),
             'moduleIsUpToDate' => $this->selfCheck->isModuleVersionLatest(),
             'versionGreaterThan1_5_3' => version_compare(_PS_VERSION_, '1.5.3.0', '>'),
             'adminToken' => Tools14::getAdminTokenLite('AdminModules'),
