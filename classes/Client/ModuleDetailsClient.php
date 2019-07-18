@@ -26,6 +26,9 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Client;
 
+use PrestaShop\CircuitBreaker\SimpleCircuitBreakerFactory;
+use PrestaShop\CircuitBreaker\FactorySettings;
+
 class ModuleDetailsClient
 {
     /**
@@ -70,10 +73,15 @@ class ModuleDetailsClient
 
     public function call()
     {
+        $circuitBreakerFactory = new SimpleCircuitBreakerFactory();
+        $circuitBreaker = $circuitBreakerFactory->create(new FactorySettings(2, 0.1, 10));
+
+        $fallbackResponse = function () {
+            return '{"results":[{"version":"0.0.0.0"}]}';
+        };
+
         return json_decode(
-            dump(file_get_contents(
-                'https://api.addons.prestashop.com/?method=search&query=5496&search_type=full&version='. $this->psVersion
-            ))
+            $circuitBreaker->call('https://api.addons.prestashop.com/?method=search&query=5496&search_type=full&version='. $this->psVersion, [], $fallbackResponse)
         );
     }
 }
