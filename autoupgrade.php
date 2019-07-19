@@ -90,7 +90,9 @@ class Autoupgrade extends Module
         }
 
         // If the "AdminSelfUpgrade" tab does not exist yet, create it
-        if (!$id_tab = Tab::getIdFromClassName('AdminSelfUpgrade')) {
+        if ($id_tab = Tab::getIdFromClassName('AdminSelfUpgrade')) {
+            $tab = new Tab((int) $id_tab);
+        } else {
             $tab = new Tab();
             $tab->class_name = 'AdminSelfUpgrade';
             $tab->module = 'autoupgrade';
@@ -104,8 +106,6 @@ class Autoupgrade extends Module
             if (!@copy(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'logo.gif', _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 't' . DIRECTORY_SEPARATOR . 'AdminSelfUpgrade.gif')) {
                 return $this->_abortInstall($this->trans('Unable to copy logo.gif in %s', array(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 't' . DIRECTORY_SEPARATOR), 'Modules.Autoupgrade.Admin'));
             }
-        } else {
-            $tab = new Tab((int) $id_tab);
         }
 
         // Update the "AdminSelfUpgrade" tab id in database or exit

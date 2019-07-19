@@ -40,8 +40,6 @@
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/variables.scss';
-
   .progressbar-container {
     width: 100%
   }

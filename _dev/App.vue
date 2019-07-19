@@ -18,4 +18,10 @@
      */
     @import '~prestakit/scss/application';
   }
+
+  #main {
+    .content {
+      background: #ffffff;
+    }
+  }
 </style>

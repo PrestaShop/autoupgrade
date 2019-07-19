@@ -6,6 +6,13 @@ const pages = {
 };
 
 module.exports = {
+  css: {
+    loaderOptions: {
+      sass: {
+        data: '@import "~@/assets/variables.scss";',
+      },
+    },
+  },
   devServer: {
     host: process.env.NODE_HOST,
     port: process.env.NODE_PORT,
