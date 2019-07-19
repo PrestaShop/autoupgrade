@@ -1,26 +1,29 @@
 <template>
-  <div class="form-group">
-    <label>{{ label }}</label>
+  <div class="form-group row">
+    <label class="col-sm-2 col-md-4 col-form-label">{{ label }}</label>
 
-    <span class="ps-switch ps-switch-sm">
-      <input
-        type="radio"
-        v-model="val"
-        :value="false"
-      >
-      <label @click="setValue(false)">{{ $t('Off') }}</label>
-      <input
-        type="radio"
-        v-model="val"
-        :value="true"
-        checked
-      >
-      <label @click="setValue(true)">{{ $t('on') }}</label>
-      <span class="slide-button" />
-    </span>
-    <small class="form-text" v-if="help.length !== 0">
-      {{ help }}
-    </small>
+    <div class="col-sm-10 col-md-8">
+      <span class="ps-switch ps-switch-sm">
+        <input
+          type="radio"
+          v-model="val"
+          :value="false"
+        >
+        <label @click="setValue(false)">{{ $t('Off') }}</label>
+        <input
+          type="radio"
+          v-model="val"
+          :value="true"
+          checked
+        >
+        <label @click="setValue(true)">{{ $t('on') }}</label>
+        <span class="slide-button" />
+      </span>
+
+      <small class="form-text" v-if="help.length !== 0">
+        {{ help }}
+      </small>
+    </div>
   </div>
 </template>
 

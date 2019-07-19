@@ -17,11 +17,14 @@
      * this version of autoupgrade
      */
     @import '~prestakit/scss/application';
+
+    margin: 0 10%;
   }
 
   #main {
-    .content {
+    #content {
       background: #ffffff;
+
     }
   }
 </style>

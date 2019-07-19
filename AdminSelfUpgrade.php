@@ -144,7 +144,7 @@ class AdminSelfUpgrade extends AdminController
         }
 
         if (!$this->ajax) {
-            $this->addCSS(_MODULE_DIR_ . '/autoupgrade/views/css/autoupgrade.css');
+            $this->addCss(_MODULE_DIR_ . '/autoupgrade/views/css/index.css');
             $this->context->smarty->assign('display_header_javascript', true);
 
             Media::addJsDef([

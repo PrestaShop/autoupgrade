@@ -1,6 +1,6 @@
 <template>
-  <div class="progressbar-container">
-    <ol class="progressbar">
+  <div class="steps-container">
+    <ol class="steps">
       <step
         v-for="(item, index) in items"
         :key="index"
@@ -40,11 +40,11 @@
 </script>
 
 <style lang="scss" scoped>
-  .progressbar-container {
+  .steps-container {
     width: 100%
   }
 
-  .progressbar {
+  .steps {
     counter-reset: step;
     display: flex;
     justify-content: space-around;
@@ -58,12 +58,13 @@
       color: $primary;
 
       &:before {
+        position: relative;
         content: counter(step);
         counter-increment: step;
         width: $stepSize;
         height: $stepSize;
-        line-height: $stepSize;
-        border: 1px solid $primary;
+        line-height: $stepSize - 2;
+        border: 2px solid $primary;
         display: block;
         text-align: center;
         margin: 0 auto 10px auto;
@@ -72,6 +73,7 @@
         font-weight: bold;
         background-color: $primary;
         color: #fff;
+        z-index: 2;
       }
       &:after {
         content: '';
@@ -81,7 +83,7 @@
         background-color: $primary;
         top: ($stepSize / 2) - 2px;
         left: -50%;
-        z-index: -1;
+        z-index: 0;
       }
       &:first-child {
         content: none;

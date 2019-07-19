@@ -3,7 +3,10 @@
     <steps :items="steps" />
 
     <div class="version-choice">
-      <div class="version-choice-blocks">
+      <h2>{{ $t('version.title') }}</h2>
+      <p>{{ $t('version.description') }}</p>
+
+      <div class="version-choice-block">
         <div class="card">
           <div class="card-body">
             <h2 class="card-title">{{ $t('version.currentVersion') }}</h2>
@@ -29,14 +32,16 @@
       <div class="version-options-block">
         <h2>{{ $t('version.options.title') }}</h2>
 
-        <div class="version-options-block">
-          <radio-switch
-            :label="$t(`version.options.form.${name}.label`)"
-            :help="$t(`version.options.form.${name}.description`)"
-            v-model="form.options[name]"
-            v-for="name in Object.keys(form.options)"
-            :key="name"
-          />
+        <div class="card">
+          <div class="card-body">
+            <radio-switch
+              :label="$t(`version.options.form.${name}.label`)"
+              :help="$t(`version.options.form.${name}.description`)"
+              v-model="form.options[name]"
+              v-for="name in Object.keys(form.options)"
+              :key="name"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -68,16 +73,16 @@
         },
         steps: [
           {
-            name: this.$t('versions.choice'),
+            name: this.$t('steps.choice'),
           },
           {
-            name: this.$t('versions.prepare'),
+            name: this.$t('steps.prepare'),
           },
           {
-            name: this.$t('versions.upgrade'),
+            name: this.$t('steps.upgrade'),
           },
           {
-            name: this.$t('versions.postUpgrade'),
+            name: this.$t('steps.postUpgrade'),
           },
         ],
       };
@@ -87,7 +92,13 @@
 
 <style lang="scss">
   @import '@/assets/version.scss';
-  .version-choice-blocks {
+
+  .version-choice,
+  .version-options-block {
+    margin-top: 30px;
+  }
+
+  .version-choice-block {
     display: flex;
     justify-content: space-around;
   }
