@@ -32,10 +32,15 @@ use PrestaShop\CircuitBreaker\FactorySettings;
 class ModuleDetailsClient
 {
     /**
+     * Module details front the API
      * @var object
      */
     protected $moduleDetails;
 
+    /**
+     * PrestaShop version to use when requesting the marketplace API
+     * @var string
+     */
     protected $psVersion;
 
     public function __construct($psVersion)
@@ -43,6 +48,11 @@ class ModuleDetailsClient
         $this->psVersion = $psVersion;
     }
 
+    /**
+     * Retrieve and return the module details from the API
+     * 
+     * @return object
+     */
     public function getDetails()
     {
         if (null === $this->moduleDetails) {
@@ -52,12 +62,15 @@ class ModuleDetailsClient
         return $this->moduleDetails;
     }
 
+    /**
+     * Module version available on the Marketplace
+     * 
+     * @var string
+     */
     public function getVersion()
     {
         return $this->getDetails()->version;
     }
-
-
 
     /**
      * Requests the API and loads the data in memory
@@ -81,7 +94,7 @@ class ModuleDetailsClient
         };
 
         return json_decode(
-            $circuitBreaker->call('https://api.addons.prestashop.com/?method=search&query=5496&search_type=full&version='. $this->psVersion, [], $fallbackResponse)
+            $circuitBreaker->call('https://api.addons.prestashop.com/?method=search&query=5496&search_type=full&version=' . $this->psVersion, [], $fallbackResponse)
         );
     }
 }

@@ -95,7 +95,7 @@ class UpgradeSelfCheck
 
     /**
      * Version available for download on the marketplace
-     * 
+     *
      * @var string
      */
     private $marketplaceModuleVersion;

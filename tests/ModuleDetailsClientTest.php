@@ -54,7 +54,7 @@ class ModuleDetailsClientTest extends TestCase
 
         $clientMock->expects($this->any())
             ->method('call')
-            ->willReturn(json_decode(file_get_contents(__DIR__ . '/fixtures/api-addons-module-details-for-ps-'. $psVersion.'.json')));
+            ->willReturn(json_decode(file_get_contents(__DIR__ . '/fixtures/api-addons-module-details-for-ps-' . $psVersion . '.json')));
 
         return $clientMock->getVersion();
     }
