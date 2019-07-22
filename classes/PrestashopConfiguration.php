@@ -45,28 +45,6 @@ class PrestashopConfiguration
         $this->psRootDir = $psRootDir;
     }
 
-    /**
-     * @return string|false Returns the module version if found in the config.xml file, false otherwise.
-     */
-    public function getModuleVersion()
-    {
-        if (null !== $this->moduleVersion) {
-            return $this->moduleVersion;
-        }
-
-        // TODO: to be moved as property class in order to make tests possible
-        $path = _PS_ROOT_DIR_ . '/modules/autoupgrade/config.xml';
-
-        $this->moduleVersion = false;
-        if (file_exists($path)
-            && $xml_module_version = simplexml_load_file($path)
-        ) {
-            $this->moduleVersion = (string) $xml_module_version->version;
-        }
-
-        return $this->moduleVersion;
-    }
-
     public function getPrestaShopVersion()
     {
         if (defined('_PS_VERSION_')) {
@@ -88,21 +66,6 @@ class PrestashopConfiguration
         }
 
         throw new \Exception('Can\'t find PrestaShop Version');
-    }
-
-    /**
-     * Compares the installed module version with the one available on download.
-     *
-     * @return bool True is the latest version of the module is currently installed
-     */
-    public function checkAutoupgradeLastVersion($extAutoupgradeLastVersion)
-    {
-        $moduleVersion = $this->getModuleVersion();
-        if ($moduleVersion) {
-            return version_compare($moduleVersion, $extAutoupgradeLastVersion, '>=');
-        }
-
-        return true;
     }
 
     /**

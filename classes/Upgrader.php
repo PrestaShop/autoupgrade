@@ -57,7 +57,6 @@ class Upgrader
     public $link;
     public $autoupgrade;
     public $autoupgrade_module;
-    public $autoupgrade_last_version;
     public $autoupgrade_module_link;
     public $changelog;
     public $available;
@@ -168,7 +167,6 @@ class Upgrader
 
         if ($feed) {
             $this->autoupgrade_module = (int) $feed->autoupgrade_module;
-            $this->autoupgrade_last_version = (string) $feed->autoupgrade->last_version;
             $this->autoupgrade_module_link = (string) $feed->autoupgrade->download->link;
 
             foreach ($feed->channel as $channel) {

@@ -13,10 +13,13 @@
             <p class="alert alert-info">{{ 'Before starting the upgrade process, please make sure this checklist is all green.'|trans }}</p>
             <table class="table" cellpadding="0" cellspacing="0">
                 <tr>
-                    <td>{{ 'The 1-click upgrade module is up-to-date (your current version is v%s)'|trans([moduleVersion]) }}
-                        {% if not moduleIsUpToDate %}
+                    <td>
+                        {% if moduleIsUpToDate %}
+                            {{ 'The 1-click upgrade module is up-to-date (Your current version is v%s).'|trans([moduleVersion]) }}
+                        {% else %}
+                            {{ 'The 1-click upgrade module must be upgraded to v%s (Your current version is v%s).'|trans([marketplaceModuleVersion, moduleVersion]) }}
                             {% if versionGreaterThan1_5_3 %}
-                            <strong><a href="index.php?controller=AdminModules&amp;token={{ adminToken|url_encode }}&update=autoupgrade">{{ 'Update'|trans({}, 'Admin.Actions') }}</a></strong>
+                            <strong><a href="index.php?controller=AdminModules&amp;token={{ adminToken|url_encode }}&update=autoupgrade">{{ 'Update'|trans({}, 'Admin.Actions') }}</a></strong> /
                             {% endif %}
                             <strong><a class="_blank" href="http://addons.prestashop.com/en/administration-tools-prestashop-modules/5496-1-click-upgrade-autoupgrade.html">{{ 'Download'|trans }}</a></strong>
                         {% endif %}
