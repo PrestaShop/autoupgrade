@@ -28,29 +28,41 @@ namespace PrestaShop\Module\AutoUpgrade\Client;
 
 use PrestaShop\CircuitBreaker\SimpleCircuitBreakerFactory;
 use PrestaShop\CircuitBreaker\FactorySettings;
+use PrestaShop\CircuitBreaker\Contract\CircuitBreakerInterface;
 
 class ModuleDetailsClient
 {
+    const API_ENDPOINT = 'https://api.addons.prestashop.com/?method=search&query=5496&search_type=full&version=%s';
     /**
      * Module details front the API
+     *
      * @var object
      */
     protected $moduleDetails;
 
     /**
      * PrestaShop version to use when requesting the marketplace API
+     *
      * @var string
      */
     protected $psVersion;
 
+    /**
+     * @var CircuitBreakerInterface
+     */
+    protected $circuitBreaker;
+
     public function __construct($psVersion)
     {
         $this->psVersion = $psVersion;
+
+        $circuitBreakerFactory = new SimpleCircuitBreakerFactory();
+        $this->circuitBreaker = $circuitBreakerFactory->create(new FactorySettings(2, 0.1, 10));
     }
 
     /**
      * Retrieve and return the module details from the API
-     * 
+     *
      * @return object
      */
     public function getDetails()
@@ -64,7 +76,7 @@ class ModuleDetailsClient
 
     /**
      * Module version available on the Marketplace
-     * 
+     *
      * @var string
      */
     public function getVersion()
@@ -86,15 +98,16 @@ class ModuleDetailsClient
 
     public function call()
     {
-        $circuitBreakerFactory = new SimpleCircuitBreakerFactory();
-        $circuitBreaker = $circuitBreakerFactory->create(new FactorySettings(2, 0.1, 10));
-
         $fallbackResponse = function () {
             return '{"results":[{"version":"0.0.0.0"}]}';
         };
 
         return json_decode(
-            $circuitBreaker->call('https://api.addons.prestashop.com/?method=search&query=5496&search_type=full&version=' . $this->psVersion, [], $fallbackResponse)
+            $this->circuitBreaker->call(
+                sprintf(self::API_ENDPOINT, $this->psVersion),
+                [],
+                $fallbackResponse
+            )
         );
     }
 }
