@@ -33,5 +33,7 @@
 </script>
 
 <style lang="scss">
-  @import '@/assets/welcome.scss';
+  #autoupgrade {
+    @import '@/assets/welcome.scss';
+  }
 </style>

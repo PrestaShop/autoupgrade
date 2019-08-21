@@ -7,7 +7,7 @@
       <p>{{ $t('version.description') }}</p>
 
       <div class="version-choice-block">
-        <div class="card">
+        <div class="card card shadow mb-3 bg-white rounded">
           <div class="card-body">
             <h2 class="card-title">{{ $t('version.currentVersion') }}</h2>
             <p class="current-version">
@@ -16,15 +16,21 @@
           </div>
         </div>
 
-        <div class="card">
+        <div class="card arrow-circle">
+          <i class="material-icons">arrow_forward</i>
+        </div>
+
+        <div class="card shadow mb-3 bg-white rounded">
           <div class="card-body">
             <h2 class="card-title">{{ $t('version.upgradeVersion') }}</h2>
 
-            <dropdown v-model="selectedVersion" :items="[{value: '2.2.2', name: '2.2.2'}]" />
+            <div class="select-version-block">
+              <dropdown v-model="selectedVersion" :items="[{value: '2.2.2', name: '2.2.2'}]" />
 
-            <p class="current-version">
-              <a href="#" @click.stop="whatsNew()">{{ $t('version.whatsNew') }}</a>
-            </p>
+              <p class="what-s-new">
+                <a href="#" @click.stop="whatsNew()">{{ $t('version.whatsNew') }}</a>
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -63,7 +69,7 @@
     data() {
       return {
         selectedVersion: null,
-        currentVersion: '1.9.0.2',
+        currentVersion: null,
         form: {
           options: {
             upgradeDefaultTheme: true,
@@ -87,19 +93,14 @@
         ],
       };
     },
+    mounted() {
+      this.currentVersion = '1.9.0.2';
+    },
   };
 </script>
 
 <style lang="scss">
-  @import '@/assets/version.scss';
-
-  .version-choice,
-  .version-options-block {
-    margin-top: 30px;
-  }
-
-  .version-choice-block {
-    display: flex;
-    justify-content: space-around;
+  #autoupgrade {
+    @import '@/assets/version.scss';
   }
 </style>

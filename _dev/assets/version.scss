@@ -1,1 +1,42 @@
 
+.version-choice,
+.version-options-block {
+  margin-top: 30px;
+}
+
+.version-choice-block {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+
+  .card {
+    margin-right: 50px;
+    &.arrow-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      .material-icons {
+        line-height: 38px;
+        text-align: center;
+      }
+    }
+  }
+
+  .card-title {
+    font-size: 12px;
+    font-weight: normal;
+  }
+}
+.current-version {
+  background-color: $version-background;
+  padding: 5px 15px;
+  font-weight: bold;
+}
+
+.select-version-block {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  align-items: baseline;
+  min-width: 250px;
+}
