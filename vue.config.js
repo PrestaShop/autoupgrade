@@ -16,7 +16,10 @@ module.exports = {
   devServer: {
     host: process.env.NODE_HOST,
     port: process.env.NODE_PORT,
+    contentBase: ['./_dev'],
     disableHostCheck: true,
+    inline: true,
+    hot: true,
   },
   chainWebpack: (config) => {
     Object.keys(pages).forEach((page) => {
