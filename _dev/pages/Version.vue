@@ -51,6 +51,13 @@
         </div>
       </div>
     </div>
+
+    <div class="text-center m-4">
+      <button @click="saveAndContinue" class="btn btn-primary">
+        {{ $t('version.buttons.continue') }}
+        <i class="material-icons">arrow_forward</i>
+      </button>
+    </div>
   </div>
 </template>
 
@@ -95,6 +102,12 @@
     },
     mounted() {
       this.currentVersion = '1.9.0.2';
+      this.$store.dispatch('steps/setStep', 0);
+    },
+    methods: {
+      saveAndContinue() {
+        this.$router.push('/pre-upgrade');
+      },
     },
   };
 </script>

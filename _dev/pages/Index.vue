@@ -24,8 +24,8 @@
   export default {
     name: 'Index',
     methods: {
-      setType(step) {
-        this.$store.dispatch('setType', {step});
+      setType(type) {
+        this.$store.dispatch('steps/setType', {type});
         this.$router.push('/version');
       },
     },

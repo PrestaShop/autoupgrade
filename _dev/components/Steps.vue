@@ -32,9 +32,12 @@
       },
     },
     computed: {
-      ...mapGetters([
-        'getCurrentStep',
-      ]),
+      ...mapGetters(
+        'steps',
+        [
+          'getCurrentStep',
+        ],
+      ),
     },
   };
 </script>
@@ -50,7 +53,6 @@
     justify-content: space-around;
 
     li {
-      background-color: #fff;
       list-style-type: none;
       position: relative;
       text-align: center;

@@ -13,7 +13,7 @@ const actions = {
       type,
     );
   },
-  setStep({commit}, {step}) {
+  setStep({commit}, step) {
     commit(
       types.STEPS_STEP,
       step,
@@ -36,6 +36,7 @@ const getters = {
 };
 
 export default {
+  namespaced: true,
   actions,
   getters,
   mutations,
