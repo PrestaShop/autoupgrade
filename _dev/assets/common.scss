@@ -1,0 +1,23 @@
+.btn-default {
+  color: $btn-default-color;
+  border: 1px solid $btn-default-border;
+  border-radius: 5px;
+  &:hover,
+  i,
+  i:hover {
+    color: $btn-default-color;
+  }
+}
+
+.list-group-item {
+  border: none;
+  line-height: 35px;
+}
+
+.icon-danger {
+  color: $color-danger;
+}
+
+.icon-success {
+  color: $color-success;
+}

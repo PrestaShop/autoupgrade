@@ -84,20 +84,6 @@
             keepCustomizedTemplates: false,
           },
         },
-        steps: [
-          {
-            name: this.$t('steps.choice'),
-          },
-          {
-            name: this.$t('steps.prepare'),
-          },
-          {
-            name: this.$t('steps.upgrade'),
-          },
-          {
-            name: this.$t('steps.postUpgrade'),
-          },
-        ],
       };
     },
     mounted() {

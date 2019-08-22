@@ -29,6 +29,22 @@
       items: {
         type: Array,
         required: true,
+        default() {
+          return [
+            {
+              name: this.$t('steps.choice'),
+            },
+            {
+              name: this.$t('steps.prepare'),
+            },
+            {
+              name: this.$t('steps.upgrade'),
+            },
+            {
+              name: this.$t('steps.postUpgrade'),
+            },
+          ];
+        },
       },
     },
     computed: {

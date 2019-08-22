@@ -1,0 +1,21 @@
+@import '~@/assets/common.scss';
+
+.pre-upgrade-block {
+  margin-top: 30px;
+
+  ul {
+    padding-left: 0;
+
+    li {
+      list-style: none;
+      line-height: 20px;
+    }
+  }
+
+  h2 {
+    .material-icons {
+      color: $primary;
+      margin-right: 10px;
+    }
+  }
+}
