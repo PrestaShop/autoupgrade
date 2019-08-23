@@ -15,7 +15,7 @@
             {{ $t('preUpgrade.list.backup') }}
           </span>
 
-          <button class="btn btn-sm btn-default" type="button">
+          <button class="btn btn-sm btn-outline-secondary" type="button">
             <i class="material-icons">save_alt</i> {{ $t('preUpgrade.buttons.backup') }}
           </button>
         </li>
@@ -28,7 +28,7 @@
             {{ $t('preUpgrade.list.maintenance') }}
           </span>
 
-          <button class="btn btn-sm btn-default" type="button">
+          <button class="btn btn-sm btn-outline-secondary" type="button">
             <i class="material-icons">autorenew</i> {{ $t('preUpgrade.buttons.maintenance') }}
           </button>
         </li>
@@ -122,30 +122,47 @@
 
     <div class="text-center">
       <button
-        @click="runUpgradeProcess"
+        @click.prevent.stop="openModal"
         class="btn btn-primary"
         :disabled="!formIsValid(form.core)"
       >
         {{ $t('preUpgrade.buttons.upgrade') }}
       </button>
     </div>
+
+    <modal
+      v-if="isModalVisible"
+      @close="closeModal"
+      @confirm="runUpgradeProcess"
+      confirmation
+    >
+      <template slot="body">
+        <p class="text-center">
+          <strong>{{ $t('preUpgrade.modal.start.title') }}</strong>
+        </p>
+        <p>
+          {{ $t('preUpgrade.modal.start.description') }}
+        </p>
+      </template>
+    </modal>
   </div>
 </template>
 
 <script>
   import Steps from '@/components/Steps';
   import Checkbox from '@/components/form/CheckBox';
+  import Modal from '@/components/Modal';
 
   export default {
     name: 'Version',
     components: {
       Checkbox,
+      Modal,
       Steps,
     },
     data() {
       return {
-        selectedVersion: null,
-        currentVersion: null,
+        isModalVisible: false,
         form: {
           core: {
             understand: false,
@@ -162,8 +179,14 @@
       this.$store.dispatch('steps/setStep', 1);
     },
     methods: {
+      openModal() {
+        this.isModalVisible = true;
+      },
+      closeModal() {
+        this.isModalVisible = false;
+      },
       runUpgradeProcess() {
-        this.$router.push('/upgrade');
+        this.closeModal();
       },
       disabledAllModules() {
       },

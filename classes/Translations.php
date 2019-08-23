@@ -50,6 +50,12 @@ class Translations
         $translations[$locale] = [
             'on' => $this->trans('On', 'Default'),
             'off' => $this->trans('Off', 'Default'),
+            'modal' => [
+                'close' => $this->trans('Close', 'Modal'),
+                'cancel' => $this->trans('Cancel', 'Modal'),
+                'confirm' => $this->trans('Confirm', 'Modal'),
+                'title' => $this->trans('Modal title', 'Modal'),
+            ],
             'main' => [
                 'welcome' => $this->trans('Welcome!', 'Welcome'),
                 'intro' => $this->trans('With the PrestaShop 1-Click Upgrade module, upgrading your store to the latest version available has never been easier!', 'Welcome'),
@@ -116,6 +122,12 @@ class Translations
                     'description' => $this->trans('The following core files have been modified, modifications will be lost during the upgrade.', 'Preupgrade'),
                     'list' => [
                         'understand' => $this->trans('I understand that blanditis praesentium voluptatum files', 'Preupgrade'),
+                    ]
+                ],
+                'modal' => [
+                    'start' => [
+                        'title' => $this->trans('Start your upgrade now?', 'Preupgrade'),
+                        'description' => $this->trans('Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolorempque', 'Preupgrade'),
                     ]
                 ],
                 'buttons' => [

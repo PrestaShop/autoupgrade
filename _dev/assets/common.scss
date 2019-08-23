@@ -1,14 +1,3 @@
-.btn-default {
-  color: $btn-default-color;
-  border: 1px solid $btn-default-border;
-  border-radius: 5px;
-  &:hover,
-  i,
-  i:hover {
-    color: $btn-default-color;
-  }
-}
-
 .list-group-item {
   border: none;
   line-height: 35px;
@@ -20,4 +9,12 @@
 
 .icon-success {
   color: $color-success;
+}
+
+.modal-header .close {
+  padding: 1rem;
+}
+
+.modal-footer {
+  justify-content: center;
 }
