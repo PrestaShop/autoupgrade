@@ -187,6 +187,7 @@
       },
       runUpgradeProcess() {
         this.closeModal();
+        this.$router.push('/upgrade');
       },
       disabledAllModules() {
       },
