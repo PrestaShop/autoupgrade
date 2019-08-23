@@ -1,6 +1,6 @@
 <template>
   <div>
-    <steps :items="steps" />
+    <steps />
 
     <div class="version-choice">
       <h2>{{ $t('version.title') }}</h2>

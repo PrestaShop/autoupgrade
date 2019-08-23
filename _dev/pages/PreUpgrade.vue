@@ -1,6 +1,6 @@
 <template>
   <div>
-    <steps :items="steps" />
+    <steps />
 
     <div class="pre-upgrade-block">
       <h2>{{ $t('preUpgrade.title') }}</h2>
@@ -9,44 +9,54 @@
       <ul class="list-group">
         <li class="list-group-item d-flex justify-content-between align-items-center">
           <span>
-            <i class="material-icons" :class="getIconClass('backup')">{{ getIconIcon('backup') }}</i>
-            {{ $t('Make a full backjup of your store') }}
+            <i class="material-icons" :class="getIconClass('backup')">
+              {{ getIconIcon('backup') }}
+            </i>
+            {{ $t('preUpgrade.list.backup') }}
           </span>
 
           <button class="btn btn-sm btn-default" type="button">
-            <i class="material-icons">save_alt</i> {{ $t('One click back-up') }}
+            <i class="material-icons">save_alt</i> {{ $t('preUpgrade.buttons.backup') }}
           </button>
         </li>
 
         <li class="list-group-item d-flex justify-content-between align-items-center">
           <span>
-            <i class="material-icons" :class="getIconClass('backup')">{{ getIconIcon('backup') }}</i>
-            {{ $t('Your store is in maintenance mode') }}
+            <i class="material-icons" :class="getIconClass('maintenance')">
+              {{ getIconIcon('maintenance') }}
+            </i>
+            {{ $t('preUpgrade.list.maintenance') }}
           </span>
 
           <button class="btn btn-sm btn-default" type="button">
-            <i class="material-icons">autorenew</i> {{ $t('Switch to maintenance mode') }}
+            <i class="material-icons">autorenew</i> {{ $t('preUpgrade.buttons.maintenance') }}
           </button>
         </li>
 
         <li class="list-group-item d-flex justify-content-between align-items-center">
           <span>
-            <i class="material-icons" :class="getIconClass('backup')">{{ getIconIcon('backup') }}</i>
-            {{ $t('PHP\'s "max_execution_time" setting has a high value or is disabled entirely (current value: unlimited)') }}
+            <i class="material-icons" :class="getIconClass('max_execution_time')">
+              {{ getIconIcon('max_execution_time') }}
+            </i>
+            {{ $t('preUpgrade.list.max_execution_time') }}
           </span>
         </li>
 
         <li class="list-group-item d-flex justify-content-between align-items-center">
           <span>
-            <i class="material-icons" :class="getIconClass('backup')">{{ getIconIcon('backup') }}</i>
-            {{ $t('Your store\'s root directory is writable (with appropriate permissions)') }}
+            <i class="material-icons" :class="getIconClass('is_writable')">
+              {{ getIconIcon('is_writable') }}
+            </i>
+            {{ $t('preUpgrade.list.is_writable') }}
           </span>
         </li>
 
         <li class="list-group-item d-flex justify-content-between align-items-center">
           <span>
-            <i class="material-icons" :class="getIconClass('backup')">{{ getIconIcon('backup') }}</i>
-            {{ $t('PHP "allow_url_fopen" option is turned on, or cURL is installed') }}
+            <i class="material-icons" :class="getIconClass('allow_url_fopen')">
+              {{ getIconIcon('allow_url_fopen') }}
+            </i>
+            {{ $t('preUpgrade.list.allow_url_fopen') }}
           </span>
         </li>
       </ul>
@@ -55,37 +65,70 @@
 
     <div class="pre-upgrade-block">
       <h2><i class="material-icons">warning</i>{{ $t('preUpgrade.modules.title') }}</h2>
-      <p v-html="$t('preUpgrade.modulesdescription')" />
+      <p v-html="$t('preUpgrade.modules.description')" />
 
-      <ul>
+      <ul class="checkbox-list">
         <li>
-          <checkbox /> I understand that ...
+          <checkbox
+            v-model="form.modules.compatibility"
+            :label="$t('preUpgrade.modules.list.compatibility')"
+          />
+        </li>
+        <li>
+          <checkbox
+            v-model="form.modules.native_modules"
+            :label="$t('preUpgrade.modules.list.native_modules')"
+          />
+        </li>
+        <li>
+          <checkbox
+            v-model="form.modules.experience"
+            :label="$t('preUpgrade.modules.list.experience')"
+          />
         </li>
       </ul>
-      <button @click="disabledAllModules" class="btn btn-primary btn-sm" disabled>
-        {{ $t('preUpgrade.buttons.disableModules') }}
-      </button>
+      <div>
+        <button
+          @click="disabledAllModules"
+          class="btn btn-primary btn-sm"
+          :disabled="!formIsValid(form.modules)"
+        >
+          {{ $t('preUpgrade.buttons.disableModules') }}
+        </button>
+
+        {{ $t('preUpgrade.modules.help') }}
+      </div>
     </div>
 
     <div class="pre-upgrade-block row">
       <div class="col-md-6">
-        <h2><i class="material-icons">warning</i>{{ $t('preUpgrade.modules.title') }}</h2>
-        <p v-html="$t('preUpgrade.modulesdescription')" />
+        <h2><i class="material-icons">warning</i>{{ $t('preUpgrade.core.title') }}</h2>
+        <p v-html="$t('preUpgrade.core.description')" />
 
-        <ul>
+        <ul class="checkbox-list">
           <li>
-            <checkbox /> I understand that not all my modules might be compatible with the verison I'm going to ugprade to.
-          </li>
-          <li>
-            <checkbox /> I understand thatr some of my native modules might loose previous data after upgrade.
+            <checkbox
+              v-model="form.core.understand"
+              :label="$t('preUpgrade.core.list.understand')"
+            />
           </li>
         </ul>
       </div>
+
+      <div class="col-md-6">
+        FILE LIST
+      </div>
     </div>
 
-    <button @click="runUpgradeProcess" class="btn btn-primary btn-block btn-lg" disabled>
-      {{ $t('preUpgrade.buttons.upgrade') }}
-    </button>
+    <div class="text-center">
+      <button
+        @click="runUpgradeProcess"
+        class="btn btn-primary"
+        :disabled="!formIsValid(form.core)"
+      >
+        {{ $t('preUpgrade.buttons.upgrade') }}
+      </button>
+    </div>
   </div>
 </template>
 
@@ -104,10 +147,13 @@
         selectedVersion: null,
         currentVersion: null,
         form: {
-          options: {
-            upgradeDefaultTheme: true,
-            switchToDefaultTheme: false,
-            keepCustomizedTemplates: false,
+          core: {
+            understand: false,
+          },
+          modules: {
+            compatibility: false,
+            native_modules: false,
+            experience: false,
           },
         },
       };
@@ -135,6 +181,16 @@
         }
 
         return 'done';
+      },
+      formIsValid(form) {
+        /* eslint-disable-next-line no-restricted-syntax */
+        for (const key in form) {
+          if (form[key] !== true) {
+            return false;
+          }
+        }
+
+        return true;
       },
     },
   };

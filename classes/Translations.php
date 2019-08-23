@@ -90,7 +90,40 @@ class Translations
                         ],
                     ]
                 ],
-
+            ],
+            'preUpgrade' => [
+                'title' => $this->trans('Pre-upgrade checklist', 'Preupgrade'),
+                'description' => $this->trans('Before starting the upgrade process, please make sure this checklist is all green', 'Preupgrade'),
+                'list' => [
+                    'backup' => $this->trans('Make a full backup of your store', 'Preupgrade'),
+                    'maintenance' => $this->trans('Your store is in maintenance mode', 'Preupgrade'),
+                    'max_execution_time' => $this->trans('PHP\'s "max_execution_time" settings has a high value or is disabled entirely (current value: %d)', 'Preupgrade'),
+                    'is_writable' => $this->trans('Your store\'s root directory is writable (with appropriate permissions)', 'Preupgrade'),
+                    'allow_url_fopen' => $this->trans('PHP\'s "allow_url_fopen" option is turned on, or cURL is installed', 'Preupgrade'),
+                ],
+                'modules' => [
+                    'title' => $this->trans('Module compatibility:', 'Preupgrade'),
+                    'description' => $this->trans('As non-native modules can experience some compatibility issues, we recommend to disabled them by default. Keepin them enable might prevent you from loading the "Modules" page properly after th upgrade. Check also the %slist of native modules in 1.7%s to make sure lorem loris.', 'Preupgrade'),
+                    'help' => $this->trans('Modules will be placed in a folder for lorem ipsum atmerit', 'Preupgrade'),
+                    'list' => [
+                        'compatibility' => $this->trans('I understand that not all my modules might be compatible with the version I\'m going to upgrade to', 'Preupgrade'),
+                        'native_modules' => $this->trans('I understand that some of my native modules might loose previous data after upgrade.', 'Preupgrade'),
+                        'experience' => $this->trans('I understand  that I might experience some lorem problems blanditis vuluptatum', 'Preupgrade'),
+                    ]
+                ],
+                'core' => [
+                    'title' => $this->trans('Modified core files:', 'Preupgrade'),
+                    'description' => $this->trans('The following core files have been modified, modifications will be lost during the upgrade.', 'Preupgrade'),
+                    'list' => [
+                        'understand' => $this->trans('I understand that blanditis praesentium voluptatum files', 'Preupgrade'),
+                    ]
+                ],
+                'buttons' => [
+                    'backup' => $this->trans('One click back-up', 'Preupgrade'),
+                    'disableModules' => $this->trans('Disable all modules', 'Preupgrade'),
+                    'upgrade' => $this->trans('Upgrade PrestaShop', 'Preupgrade'),
+                    'maintenance' => $this->trans('Switch to maintenance mode', 'Preupgrade'),
+                ],
             ],
         ];
 

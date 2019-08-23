@@ -3,6 +3,7 @@
     <label>
       <input type="checkbox" v-model="val">
       <i class="md-checkbox-control" />
+      {{ label }}
     </label>
   </div>
 </template>
@@ -15,6 +16,11 @@
         type: Boolean,
         required: false,
         default: false,
+      },
+      label: {
+        type: String,
+        required: false,
+        default: '',
       },
     },
     data() {
