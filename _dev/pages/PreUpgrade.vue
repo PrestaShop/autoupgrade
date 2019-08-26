@@ -1,6 +1,6 @@
 <template>
   <div>
-    <steps />
+    <autoupgrade-header />
 
     <div class="pre-upgrade-block">
       <h2>{{ $t('preUpgrade.title') }}</h2>
@@ -150,8 +150,8 @@
 
 <script>
   import FileList from '@/components/FileList';
-  import Steps from '@/components/Steps';
-  import Checkbox from '@/components/form/CheckBox';
+  import AutoupgradeHeader from '@/components/Header';
+  import Checkbox from '@/components/form/Checkbox';
   import Modal from '@/components/Modal';
 
   export default {
@@ -160,7 +160,7 @@
       Checkbox,
       FileList,
       Modal,
-      Steps,
+      AutoupgradeHeader,
     },
     data() {
       return {
