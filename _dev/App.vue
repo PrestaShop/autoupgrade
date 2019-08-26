@@ -17,7 +17,6 @@
      * this version of autoupgrade
      */
     @import '~prestakit/scss/application';
-    @import '~vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.min';
 
     margin: 0 10%;
   }

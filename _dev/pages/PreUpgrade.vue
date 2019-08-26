@@ -116,65 +116,7 @@
       </div>
 
       <div class="col-md-6">
-        <perfect-scrollbar>
-          <ul>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-            <li>File</li>
-          </ul>
-        </perfect-scrollbar>
+        <file-list />
       </div>
     </div>
 
@@ -207,7 +149,7 @@
 </template>
 
 <script>
-  import {PerfectScrollbar} from 'vue2-perfect-scrollbar';
+  import FileList from '@/components/FileList';
   import Steps from '@/components/Steps';
   import Checkbox from '@/components/form/CheckBox';
   import Modal from '@/components/Modal';
@@ -216,8 +158,8 @@
     name: 'Version',
     components: {
       Checkbox,
+      FileList,
       Modal,
-      PerfectScrollbar,
       Steps,
     },
     data() {
