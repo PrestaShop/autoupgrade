@@ -116,7 +116,65 @@
       </div>
 
       <div class="col-md-6">
-        FILE LIST
+        <perfect-scrollbar>
+          <ul>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+            <li>File</li>
+          </ul>
+        </perfect-scrollbar>
       </div>
     </div>
 
@@ -149,6 +207,7 @@
 </template>
 
 <script>
+  import {PerfectScrollbar} from 'vue2-perfect-scrollbar';
   import Steps from '@/components/Steps';
   import Checkbox from '@/components/form/CheckBox';
   import Modal from '@/components/Modal';
@@ -158,6 +217,7 @@
     components: {
       Checkbox,
       Modal,
+      PerfectScrollbar,
       Steps,
     },
     data() {

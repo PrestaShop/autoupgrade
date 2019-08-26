@@ -15,6 +15,7 @@
     "vue": "^2.6.10",
     "vue-i18n": "^8.14.0",
     "vue-router": "^3.1.2",
+    "vue2-perfect-scrollbar": "^1.2.1",
     "vuedraggable": "^2.23.0",
     "vuex": "^3.1.0",
     "webpack": "^4.39.2"
@@ -25,6 +26,7 @@
     "@vue/cli-service": "^3.10.0",
     "babel-eslint": "^10.0.1",
     "bootstrap": "^4.3.1",
+    "css-loader": "^3.2.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.2.0",
     "eslint-config-prestashop": "^0.0.2",

@@ -96,6 +96,9 @@ class Translations
                         ],
                     ]
                 ],
+                'buttons' => [
+                    'continue' => $this->trans('Continue to pre-upgrade checklist', 'Version'),
+                ],
             ],
             'preUpgrade' => [
                 'title' => $this->trans('Pre-upgrade checklist', 'Preupgrade'),
@@ -136,6 +139,10 @@ class Translations
                     'upgrade' => $this->trans('Upgrade PrestaShop', 'Preupgrade'),
                     'maintenance' => $this->trans('Switch to maintenance mode', 'Preupgrade'),
                 ],
+            ],
+            'upgrade' => [
+                'title' => $this->trans('Upgrade processing', 'Upgrade'),
+                'description' => $this->trans('Depending on your lorem this can take up to lorem minutes', 'Upgrade'),
             ],
         ];
 

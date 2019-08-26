@@ -20,8 +20,7 @@
             <section
               class="modal-body"
             >
-              <slot name="body">
-              </slot>
+              <slot name="body" />
             </section>
             <footer class="modal-footer">
               <slot name="footer" v-if="!confirmation">

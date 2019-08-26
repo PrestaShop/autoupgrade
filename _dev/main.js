@@ -5,6 +5,8 @@ import App from './App';
 import router from './router';
 import store from './store';
 
+require('./plugins/perfect-scrollbar');
+
 Vue.config.productionTip = process.env.NODE_ENV === 'production';
 
 new Vue({
