@@ -1,9 +1,9 @@
 <template>
   <header class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-8">
       <steps />
     </div>
-    <div class="col-lg-6">
+    <div class="col-lg-4">
       <checkbox-switch
         :label-left="$t('header.switch.left')"
         :label-right="$t('header.switch.right')"

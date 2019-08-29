@@ -50,6 +50,12 @@ class Translations
         $translations[$locale] = [
             'on' => $this->trans('On', 'Default'),
             'off' => $this->trans('Off', 'Default'),
+            'header' => [
+                'switch' => [
+                    'left' => $this->trans('Basic mode', 'Header'),
+                    'right' => $this->trans('Expert mode', 'Header'),
+                ],
+            ],
             'modal' => [
                 'close' => $this->trans('Close', 'Modal'),
                 'cancel' => $this->trans('Cancel', 'Modal'),
