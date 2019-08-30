@@ -3,6 +3,7 @@ import Router from 'vue-router';
 
 import Index from '@/pages/Index';
 import PreUpgrade from '@/pages/PreUpgrade';
+import PostUpgrade from '@/pages/PostUpgrade';
 import Upgrade from '@/pages/Upgrade';
 import Version from '@/pages/Version';
 
@@ -29,6 +30,11 @@ export default new Router({
       path: '/upgrade',
       name: 'upgrade',
       component: Upgrade,
+    },
+    {
+      path: '/post-upgrade',
+      name: 'post-upgrade',
+      component: PostUpgrade,
     },
   ],
 });
