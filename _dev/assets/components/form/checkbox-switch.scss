@@ -1,0 +1,24 @@
+.checkbox-switch {
+  span {
+    padding: 10px;
+    &.label-checked {
+      transition: color 0.5s ease;
+      color: $primary;
+    }
+  }
+  .switch-input {
+    border-color: $select-mode-button-border;
+    background: $select-mode-button-background;
+
+    &:after {
+      border-color: $select-mode-button-border;
+      content: '';
+    }
+
+    &.-checked {
+      &:after {
+        content: '';
+      }
+    }
+  }
+}

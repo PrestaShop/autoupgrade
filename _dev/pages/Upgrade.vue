@@ -1,9 +1,9 @@
 
 <template>
   <div>
-    <steps />
+    <autoupgrade-header />
 
-    <div class="upgrade-block">
+    <div class="upgrade-block au-block">
       <h2>{{ $t('upgrade.title') }}</h2>
       <p>{{ $t('upgrade.description') }}</p>
 
@@ -15,14 +15,14 @@
 </template>
 
 <script>
-  import Steps from '@/components/Steps';
+  import AutoupgradeHeader from '@/components/Header';
   import ProgressBar from '@/components/ProgressBar';
 
   export default {
     name: 'Version',
     components: {
       ProgressBar,
-      Steps,
+      AutoupgradeHeader,
     },
     data() {
       return {

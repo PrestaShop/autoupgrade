@@ -2,64 +2,10 @@
   <div class="file-list">
     <perfect-scrollbar>
       <ul>
-        <li>
+        <li class="mb-2" v-for="file in files" :key="file">
           <i class="material-icons">warning</i>
-          File
+          {{ file }}
         </li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
-        <li>File</li>
       </ul>
     </perfect-scrollbar>
   </div>
@@ -74,6 +20,41 @@
       PerfectScrollbar,
     },
     props: {
+    },
+    data() {
+      return {
+        files: [
+          '.ac-php-conf.json',
+          'AdminSelfUpgrade.gif',
+          'AdminSelfUpgrade.gif',
+          'classes',
+          '_dev',
+          'node_modules',
+          'vendor',
+          'AdminSelfUpgrade.php',
+          'cli-rollback.php',
+          'docker-compose.yml',
+          'package.json',
+          'views',
+          'ajax-upgradetabconfig.php',
+          'cli-upgrade.php',
+          'functions.php',
+          'package-lock.json',
+          'vue.config.js',
+          'ajax-upgradetab.php',
+          'composer.json',
+          'js',
+          'Readme.md',
+          'autoupgrade.php',
+          'composer.lock',
+          'logo.gif',
+          'tests',
+          'CHANGELOG.txt',
+          'config.xml',
+          'logo.png',
+          'translations',
+        ],
+      };
     },
   };
 </script>

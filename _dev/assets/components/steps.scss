@@ -19,9 +19,9 @@
       content: "\e876";
       counter-increment: step;
       position: relative;
-      width: $stepSize;
-      height: $stepSize;
-      line-height: $stepSize - 2;
+      width: $step-size;
+      height: $step-size;
+      line-height: $step-size - 2;
       border: 2px solid $primary;
       display: block;
       text-align: center;
@@ -30,7 +30,7 @@
       font-size: 1.05rem;
       font-weight: bold;
       background-color: $primary;
-      color: #fff;
+      color: $color-clear;
       z-index: 2;
     }
     &:after {
@@ -39,7 +39,7 @@
       width: 100%;
       height: 3px;
       background-color: $primary;
-      top: ($stepSize / 2) - 2px;
+      top: ($step-size / 2) - 2px;
       left: -50%;
       z-index: 0;
     }
@@ -56,14 +56,14 @@
         content: counter(step);
         border-color: $primary;
         background-color: $primary;
-        color: #fff;
+        color: $color-clear;
       }
 
       & ~ li {
         &:before {
           font-family: none;
           content: counter(step);
-          background-color: #fff;
+          background-color: $color-clear;
           color: $primary;
         }
         &:after {

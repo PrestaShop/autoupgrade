@@ -59,5 +59,7 @@
 </script>
 
 <style lang="scss">
-  @import '@/assets/components/steps.scss';
+  #autoupgrade {
+    @import '@/assets/components/steps.scss';
+  }
 </style>

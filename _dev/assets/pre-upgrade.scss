@@ -21,4 +21,8 @@
       margin-right: 10px;
     }
   }
+  &.-even {
+    background: $color-even;
+    padding: 30px 0;
+  }
 }

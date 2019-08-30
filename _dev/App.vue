@@ -18,12 +18,13 @@
      */
     @import '~prestakit/scss/application';
 
-    margin: 0 10%;
+    margin: -16px -10px 0 -11px;
+    background: linear-gradient(180deg, $step-background 45px, $color-clear 45px);
   }
 
   #main {
     #content {
-      background: #ffffff;
+      background: $color-clear;
     }
   }
 </style>

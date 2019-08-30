@@ -1,19 +1,19 @@
 <template>
-  <div id="welcome-block">
+  <div id="welcome-block" class="au-block">
     <div class="panel">
       <h2>{{ $t('main.welcome') }}</h2>
       <p>
         {{ $t('main.intro') }}<br><br>
-        {{ $t('main.rollback') }}br>
+        {{ $t('main.rollback') }}<br>
         {{ $t('main.hostProvider') }}<br>
         {{ $t('main.backup') }}
       </p>
 
-      <button @click="setType('basic')" class="btn btn-primary btn-block btn-lg">
+      <button @click="setType('basic')" class="btn btn-primary">
         {{ $t('main.choice.basic') }}
       </button>
 
-      <button @click="setType('expert')" class="btn btn-outline-secondary btn-block btn-lg">
+      <button @click="setType('expert')" class="btn btn-outline-secondary">
         {{ $t('main.choice.expert') }}
       </button>
     </div>

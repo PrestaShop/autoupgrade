@@ -1,8 +1,9 @@
+
 <template>
   <div>
     <autoupgrade-header />
 
-    <div class="pre-upgrade-block">
+    <div class="au-block pre-upgrade-block">
       <h2>{{ $t('preUpgrade.title') }}</h2>
       <p>{{ $t('preUpgrade.description') }}</p>
 
@@ -63,44 +64,47 @@
     </div>
 
 
-    <div class="pre-upgrade-block">
-      <h2><i class="material-icons">warning</i>{{ $t('preUpgrade.modules.title') }}</h2>
-      <p v-html="$t('preUpgrade.modules.description')" />
+    <div class="pre-upgrade-block -even">
+      <div class="au-block">
+        <h2><i class="material-icons">warning</i>{{ $t('preUpgrade.modules.title') }}</h2>
+        <p v-html="$t('preUpgrade.modules.description')" />
 
-      <ul class="checkbox-list">
-        <li>
-          <checkbox
-            v-model="form.modules.compatibility"
-            :label="$t('preUpgrade.modules.list.compatibility')"
-          />
-        </li>
-        <li>
-          <checkbox
-            v-model="form.modules.native_modules"
-            :label="$t('preUpgrade.modules.list.native_modules')"
-          />
-        </li>
-        <li>
-          <checkbox
-            v-model="form.modules.experience"
-            :label="$t('preUpgrade.modules.list.experience')"
-          />
-        </li>
-      </ul>
-      <div>
-        <button
-          @click="disabledAllModules"
-          class="btn btn-primary btn-sm"
-          :disabled="!formIsValid(form.modules)"
-        >
-          {{ $t('preUpgrade.buttons.disableModules') }}
-        </button>
+        <ul class="checkbox-list mt-4">
+          <li>
+            <checkbox
+              v-model="form.modules.compatibility"
+              :label="$t('preUpgrade.modules.list.compatibility')"
+            />
+          </li>
+          <li>
+            <checkbox
+              v-model="form.modules.native_modules"
+              :label="$t('preUpgrade.modules.list.native_modules')"
+            />
+          </li>
+          <li>
+            <checkbox
+              v-model="form.modules.experience"
+              :label="$t('preUpgrade.modules.list.experience')"
+            />
+          </li>
+        </ul>
 
-        {{ $t('preUpgrade.modules.help') }}
+        <div class="mt-4">
+          <button
+            @click="disabledAllModules"
+            class="btn btn-primary btn-sm mr-2"
+            :disabled="!formIsValid(form.modules)"
+          >
+            {{ $t('preUpgrade.buttons.disableModules') }}
+          </button>
+
+          {{ $t('preUpgrade.modules.help') }}
+        </div>
       </div>
     </div>
 
-    <div class="pre-upgrade-block row">
+    <div class="au-block pre-upgrade-block row">
       <div class="col-md-6">
         <h2><i class="material-icons">warning</i>{{ $t('preUpgrade.core.title') }}</h2>
         <p v-html="$t('preUpgrade.core.description')" />

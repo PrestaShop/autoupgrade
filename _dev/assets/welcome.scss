@@ -1,5 +1,4 @@
 #welcome-block {
-  border-bottom: 1px solid #ccced7;
   display: flex;
   display: -webkit-box;
   display: -webkit-flex;
@@ -7,15 +6,16 @@
   justify-content: space-between;
   align-items: center;
   padding-bottom: 10px;
+  background: $color-clear;
+
   h2 {
     margin-top: 0;
-    color: #343943;
+    color: $color-title;
     font-family: Open Sans,sans-serif;
     font-size: 20px;
     font-weight: 600;
     line-height: 27px;
     white-space: nowrap;
-    color: #252B67;
     margin-bottom: 16px;
   }
 
@@ -28,6 +28,13 @@
 
   li:before {
     font-weight: bold;
+  }
+
+  .panel {
+    border: none;
+    button {
+      margin-right: 10px;
+    }
   }
 }
 

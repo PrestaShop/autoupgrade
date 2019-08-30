@@ -1,8 +1,8 @@
 <template>
   <div>
-    <steps />
+    <autoupgrade-header />
 
-    <div class="version-choice">
+    <div class="version-choice au-block">
       <h2>{{ $t('version.title') }}</h2>
       <p>{{ $t('version.description') }}</p>
 
@@ -62,7 +62,7 @@
 </template>
 
 <script>
-  import Steps from '@/components/Steps';
+  import AutoupgradeHeader from '@/components/Header';
   import Dropdown from '@/components/form/Dropdown';
   import RadioSwitch from '@/components/form/RadioSwitch';
 
@@ -70,7 +70,7 @@
     name: 'Version',
     components: {
       Dropdown,
-      Steps,
+      AutoupgradeHeader,
       RadioSwitch,
     },
     data() {

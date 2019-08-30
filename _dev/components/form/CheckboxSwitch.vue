@@ -1,5 +1,5 @@
 <template>
-  <label>
+  <label class="checkbox-switch">
     <span :class="{'label-checked': !val}" v-if="labelLeft">
       {{ labelLeft }}
     </span>
@@ -52,3 +52,10 @@
     },
   };
 </script>
+
+
+<style lang="scss">
+  #autoupgrade {
+    @import '@/assets/components/form/checkbox-switch.scss';
+  }
+</style>
