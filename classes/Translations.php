@@ -155,8 +155,8 @@ class Translations
         return $translations;
     }
 
-    protected function trans($message, $domain, $params = [])
+    protected function trans($message, $moduleDomain, $params = [])
     {
-        return $this->controller->trans($message, $params, 'Modules.Autoupgrade.' . $domain);
+        return $this->controller->trans($message, $params, 'Modules.Autoupgrade.' . $moduleDomain);
     }
 }

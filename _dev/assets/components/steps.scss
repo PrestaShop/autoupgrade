@@ -21,8 +21,8 @@
       position: relative;
       width: $step-size;
       height: $step-size;
-      line-height: $step-size - 2;
-      border: 2px solid $primary;
+      line-height: $step-size - $step-border-size;
+      border: $step-border-size solid $primary;
       display: block;
       text-align: center;
       margin: 0 auto 10px auto;
@@ -39,7 +39,7 @@
       width: 100%;
       height: 3px;
       background-color: $primary;
-      top: ($step-size / 2) - 2px;
+      top: ($step-size / 2) - $step-border-size;
       left: -50%;
       z-index: 0;
     }

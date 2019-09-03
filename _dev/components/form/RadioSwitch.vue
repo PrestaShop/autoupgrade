@@ -10,7 +10,7 @@
           v-model="val"
           :value="false"
         >
-        <label @click="setValue(false)">{{ $t('Off') }}</label>
+        <label @click="setValue(false)">{{ $t('off') }}</label>
         <input
           type="radio"
           v-model="val"
