@@ -1,0 +1,36 @@
+.list-group-item {
+  border: none;
+  border-bottom: 2px solid $list-border-color;
+  line-height: 35px;
+  span {
+    i {
+      margin-right: 20px;
+    }
+  }
+}
+
+.icon-danger {
+  color: $color-danger;
+}
+
+.icon-success {
+  color: $color-success;
+}
+
+.modal-header .close {
+  padding: 1rem;
+}
+
+.modal-footer {
+  justify-content: center;
+}
+
+header {
+  padding: 25px $global-padding 40px;
+  align-items: flex-end;
+}
+
+.au-block {
+  padding-left: $global-padding;
+  padding-right: $global-padding;
+}

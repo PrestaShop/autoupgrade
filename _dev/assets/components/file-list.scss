@@ -1,0 +1,15 @@
+.file-list {
+  background: $file-list-background;
+  border: 1px solid $file-list-border;
+
+  .ps {
+    height: 200px;
+    padding: 1.4rem;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+}

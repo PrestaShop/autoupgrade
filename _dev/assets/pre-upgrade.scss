@@ -1,0 +1,28 @@
+@import '~@/assets/common.scss';
+
+.pre-upgrade-block {
+  margin-top: 30px;
+
+  ul.checkbox-list {
+    padding-left: 0;
+
+    li {
+      list-style: none;
+      margin: 15px 0;
+      label {
+        font-weight: normal;
+      }
+    }
+  }
+
+  h2 {
+    .material-icons {
+      color: $primary;
+      margin-right: 10px;
+    }
+  }
+  &.-even {
+    background: $color-even;
+    padding: 30px 0;
+  }
+}

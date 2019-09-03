@@ -1,5 +1,4 @@
 <?php
-
 /**
  * 2007-2016 PrestaShop.
  *
@@ -24,8 +23,25 @@
  *  @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  *  International Registered Trademark & Property of PrestaShop SA
  */
+
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
+
+$autoloadPath = __DIR__ . '/vendor/autoload.php';
+if (file_exists($autoloadPath)) {
+    require_once $autoloadPath;
+}
+
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
+
 class Autoupgrade extends Module
 {
+    /**
+     * @var Translator
+     */
+    private $translatorAdapter;
+
     public function __construct()
     {
         $this->name = 'autoupgrade';
@@ -74,7 +90,9 @@ class Autoupgrade extends Module
         }
 
         // If the "AdminSelfUpgrade" tab does not exist yet, create it
-        if (!$id_tab = Tab::getIdFromClassName('AdminSelfUpgrade')) {
+        if ($id_tab = Tab::getIdFromClassName('AdminSelfUpgrade')) {
+            $tab = new Tab((int) $id_tab);
+        } else {
             $tab = new Tab();
             $tab->class_name = 'AdminSelfUpgrade';
             $tab->module = 'autoupgrade';
@@ -88,8 +106,6 @@ class Autoupgrade extends Module
             if (!@copy(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'logo.gif', _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 't' . DIRECTORY_SEPARATOR . 'AdminSelfUpgrade.gif')) {
                 return $this->_abortInstall($this->trans('Unable to copy logo.gif in %s', array(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 't' . DIRECTORY_SEPARATOR), 'Modules.Autoupgrade.Admin'));
             }
-        } else {
-            $tab = new Tab((int) $id_tab);
         }
 
         // Update the "AdminSelfUpgrade" tab id in database or exit
@@ -245,12 +261,12 @@ class Autoupgrade extends Module
      * @param string $domain
      * @param string $locale
      */
-    public function trans($id, array $parameters = array(), $domain = null, $locale = null)
+    public function trans($id, array $parameters = [], $domain = null, $locale = null)
     {
-        require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/classes/UpgradeTools/Translator.php';
+        if ($this->translatorAdapter === null) {
+            $this->translatorAdapter = new Translator(__CLASS__);
+        }
 
-        $translator = new \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator(__CLASS__);
-
-        return $translator->trans($id, $parameters, $domain, $locale);
+        return $this->translatorAdapter->trans($id, $parameters, $domain, $locale);
     }
 }
