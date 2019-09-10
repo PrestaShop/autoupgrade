@@ -376,7 +376,8 @@ class UpgradeContainer
             $this->getProperty(self::TMP_PATH),
             $this->getState()->getInstallVersion(),
             $this->getZipAction(),
-            $this->getSymfonyAdapter()
+            $this->getSymfonyAdapter(),
+            $this->getProperty(self::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'disabled_modules' . DIRECTORY_SEPARATOR
         );
 
         return $this->moduleAdapter;

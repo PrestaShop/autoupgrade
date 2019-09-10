@@ -92,6 +92,22 @@ class Autoupgrade extends Module
             $tab = new Tab((int) $id_tab);
         }
 
+        //Install module controller (hidden)
+        $controller_id_tab = (int)Tab::getIdFromClassName('AutoupgradeModule');
+        if (!$controller_id_tab) {
+            $controllerTab = new Tab();
+            $controllerTab->active = 0;
+            $controllerTab->class_name = 'AutoupgradeModule';
+            $controllerTab->name = array();
+            foreach (Language::getLanguages(true) as $lang) {
+                $controllerTab->name[$lang['id_lang']] = 'AutoupgradeModule';
+            }
+            $tab->id_parent = (int) Tab::getIdFromClassName('AdminTools');
+            $controllerTab->module = $this->name;
+
+            $controllerTab->add();
+        }
+
         // Update the "AdminSelfUpgrade" tab id in database or exit
         if (Validate::isLoadedObject($tab)) {
             Configuration::updateValue('PS_AUTOUPDATE_MODULE_IDTAB', (int) $tab->id);

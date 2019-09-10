@@ -270,7 +270,7 @@ abstract class CoreUpgrader
      */
     protected function disableCustomModules()
     {
-        $this->container->getModuleAdapter()->disableNonNativeModules($this->pathToPhpUpgradeScripts);
+        $this->container->getModuleAdapter()->disableNonNativeModules();
     }
 
     protected function upgradeDb($oldversion)

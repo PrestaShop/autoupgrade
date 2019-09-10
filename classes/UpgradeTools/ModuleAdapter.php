@@ -30,6 +30,7 @@ namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\ZipAction;
+use Symfony\Component\Filesystem\Filesystem;
 
 class ModuleAdapter
 {
@@ -49,10 +50,20 @@ class ModuleAdapter
      */
     private $symfonyAdapter;
 
+    /**
+     * @var ModuleRepository
+     */
+    private $moduleRepository;
+
+    /**
+     * @var ModuleDisabler
+     */
+    private $moduleDisabler;
+
     // Cached instance
     private $moduleDataUpdater;
 
-    public function __construct($db, $translator, $modulesPath, $tempPath, $upgradeVersion, ZipAction $zipAction, SymfonyAdapter $symfonyAdapter)
+    public function __construct($db, $translator, $modulesPath, $tempPath, $upgradeVersion, ZipAction $zipAction, SymfonyAdapter $symfonyAdapter, $disabledModulesPath)
     {
         $this->db = $db;
         $this->translator = $translator;
@@ -61,6 +72,8 @@ class ModuleAdapter
         $this->upgradeVersion = $upgradeVersion;
         $this->zipAction = $zipAction;
         $this->symfonyAdapter = $symfonyAdapter;
+        $this->moduleRepository = new ModuleRepository($modulesPath, $disabledModulesPath);
+        $this->moduleDisabler = new ModuleDisabler($db, new Filesystem(), $modulesPath, $disabledModulesPath);
     }
 
     /**
@@ -81,16 +94,31 @@ class ModuleAdapter
     }
 
     /**
-     * Upgrade action, disabling all modules not made by PrestaShop.
-     *
-     * It seems the 1.6 version of is the safest, as it does not actually load the modules.
-     *
-     * @param string $pathToUpgradeScripts Path to the PHP Upgrade scripts
+     * @return ModuleRepository
      */
-    public function disableNonNativeModules($pathToUpgradeScripts)
+    public function getModuleRepository()
     {
-        require_once $pathToUpgradeScripts . 'deactivate_custom_modules.php';
-        deactivate_custom_modules();
+        return $this->moduleRepository;
+    }
+
+    /**
+     * @return ModuleDisabler
+     */
+    public function getModuleDisabler()
+    {
+        return $this->moduleDisabler;
+    }
+
+    /**
+     * Upgrade action, disabling all modules not made by PrestaShop.
+     */
+    public function disableNonNativeModules()
+    {
+        $customModules = $this->moduleRepository->getCustomModulesOnDisk($this->upgradeVersion);
+        foreach ($customModules as $moduleName) {
+            $this->moduleDisabler->disableModuleFromDatabase($moduleName);
+            $this->moduleDisabler->disableModuleFromDisk($moduleName);
+        }
     }
 
     /**
