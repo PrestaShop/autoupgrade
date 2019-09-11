@@ -93,7 +93,7 @@ class Autoupgrade extends Module
         }
 
         //Install module controller (hidden)
-        $controller_id_tab = (int)Tab::getIdFromClassName('AutoupgradeModule');
+        $controller_id_tab = (int) Tab::getIdFromClassName('AutoupgradeModule');
         if (!$controller_id_tab) {
             $controllerTab = new Tab();
             $controllerTab->active = 0;
@@ -102,7 +102,7 @@ class Autoupgrade extends Module
             foreach (Language::getLanguages(true) as $lang) {
                 $controllerTab->name[$lang['id_lang']] = 'AutoupgradeModule';
             }
-            $tab->id_parent = (int) Tab::getIdFromClassName('AdminTools');
+            $controllerTab->id_parent = (int) Tab::getIdFromClassName('AdminTools');
             $controllerTab->module = $this->name;
 
             $controllerTab->add();

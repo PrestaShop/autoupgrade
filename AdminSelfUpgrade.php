@@ -383,7 +383,8 @@ class AdminSelfUpgrade extends AdminController
             $this->upgradeContainer->getState()->getInstallVersion(),
             $this->manualMode,
             $this->upgradeContainer->getState()->getBackupName(),
-            $this->downloadPath
+            $this->downloadPath,
+            $this->context->link
         ))->display(
             $response
                 ->setUpgradeConfiguration($this->upgradeContainer->getUpgradeConfiguration())

@@ -36,6 +36,7 @@ use PrestaShop\Module\AutoUpgrade\Twig\Form\UpgradeOptionsForm;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 use Twig_Environment;
+use Link;
 
 /**
  * Constructs the upgrade page.
@@ -129,6 +130,11 @@ class UpgradePage
      */
     private $backupFinder;
 
+    /**
+     * @var Link
+     */
+    private $link;
+
     public function __construct(
         UpgradeConfiguration $config,
         Twig_Environment $twig,
@@ -144,7 +150,8 @@ class UpgradePage
         $installVersion,
         $manualMode,
         $backupName,
-        $downloadPath
+        $downloadPath,
+        Link $link
     ) {
         $this->moduleDir = realpath(__DIR__ . '/../');
         $this->config = $config;
@@ -162,6 +169,7 @@ class UpgradePage
         $this->twig = $twig;
         $this->downloadPath = $downloadPath;
         $this->backupFinder = $backupFinder;
+        $this->link = $link;
     }
 
     /**
@@ -191,6 +199,7 @@ class UpgradePage
             'upgradeOptions' => $this->getUpgradeOptionsForm(),
             'currentIndex' => $this->currentIndex,
             'token' => $this->token,
+            'link' => $this->link,
         );
 
         return $twig->render('@ModuleAutoUpgrade/main.twig', $templateData);

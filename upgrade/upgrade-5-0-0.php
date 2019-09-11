@@ -23,11 +23,21 @@
  * @license   https://opensource.org/licenses/AFL-3.0  Academic Free License (AFL 3.0)
  * International Registered Trademark & Property of PrestaShop SA
  */
-
-namespace PrestaShop\Module\AutoUpgrade;
-
-use RuntimeException;
-
-class AutoupgradeException extends RuntimeException
+function upgrade_module_5_0_0($module)
 {
+    //Install module controller (hidden)
+    $controller_id_tab = (int) Tab::getIdFromClassName('AutoupgradeModule');
+    if (!$controller_id_tab) {
+        $controllerTab = new Tab();
+        $controllerTab->active = 0;
+        $controllerTab->class_name = 'AutoupgradeModule';
+        $controllerTab->name = array();
+        foreach (Language::getLanguages(true) as $lang) {
+            $controllerTab->name[$lang['id_lang']] = 'AutoupgradeModule';
+        }
+        $controllerTab->id_parent = (int) Tab::getIdFromClassName('AdminTools');
+        $controllerTab->module = $module->name;
+
+        $controllerTab->add();
+    }
 }

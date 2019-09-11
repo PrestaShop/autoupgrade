@@ -4,10 +4,10 @@
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the Open Software License (OSL 3.0)
+ * This source file is subject to the Academic Free License (AFL 3.0)
  * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
- * https://opensource.org/licenses/OSL-3.0
+ * https://opensource.org/licenses/AFL-3.0
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license@prestashop.com so we can send you a copy immediately.
@@ -16,11 +16,11 @@
  *
  * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
  * versions in the future. If you wish to customize PrestaShop for your
- * needs please refer to http://www.prestashop.com for more information.
+ * needs please refer to https://www.prestashop.com for more information.
  *
  * @author    PrestaShop SA <contact@prestashop.com>
  * @copyright 2007-2019 PrestaShop SA and Contributors
- * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @license   https://opensource.org/licenses/AFL-3.0  Academic Free License (AFL 3.0)
  * International Registered Trademark & Property of PrestaShop SA
  */
 
@@ -51,7 +51,7 @@ class ModuleDisabler
      * @param string $disabledModulesDir
      */
     public function __construct(
-        Db $db,
+        $db,
         Filesystem $fileSystem,
         $modulesDir,
         $disabledModulesDir
@@ -69,14 +69,14 @@ class ModuleDisabler
      */
     public function disableModuleFromDatabase($moduleName)
     {
-        $moduleId = $this->db->getValue('SELECT id_module FROM `'._DB_PREFIX_.'module` WHERE `name` = "'.pSQL($moduleName).'"');
+        $moduleId = $this->db->getValue('SELECT id_module FROM `' . _DB_PREFIX_ . 'module` WHERE `name` = "' . pSQL($moduleName) . '"');
         if (!$moduleId) {
             return false;
         }
 
-        $return = $this->db->execute('UPDATE `'._DB_PREFIX_.'module` SET `active` = 0 WHERE `id_module` = '.(int)$moduleId);
-        if (count($this->db->executeS('SHOW TABLES LIKE \''._DB_PREFIX_.'module_shop\'')) > 0) {
-            $return &= Db::getInstance()->execute('DELETE FROM `'._DB_PREFIX_.'module_shop` WHERE `id_module` = '.(int)$moduleId);
+        $return = $this->db->execute('UPDATE `' . _DB_PREFIX_ . 'module` SET `active` = 0 WHERE `id_module` = ' . (int) $moduleId);
+        if (count($this->db->executeS('SHOW TABLES LIKE \'' . _DB_PREFIX_ . 'module_shop\'')) > 0) {
+            $return &= Db::getInstance()->execute('DELETE FROM `' . _DB_PREFIX_ . 'module_shop` WHERE `id_module` = ' . (int) $moduleId);
         }
 
         return $return;
@@ -89,12 +89,12 @@ class ModuleDisabler
      */
     public function enableModuleFromDatabase($moduleName)
     {
-        $moduleId = $this->db->getValue('SELECT id_module FROM `'._DB_PREFIX_.'module` WHERE `name` = "'.pSQL($moduleName).'"');
+        $moduleId = $this->db->getValue('SELECT id_module FROM `' . _DB_PREFIX_ . 'module` WHERE `name` = "' . pSQL($moduleName) . '"');
         if (!$moduleId) {
             return false;
         }
 
-        return $this->db->execute('UPDATE `'._DB_PREFIX_.'module` SET `active` = 0 WHERE `id_module` = '.(int)$moduleId);
+        return $this->db->execute('UPDATE `' . _DB_PREFIX_ . 'module` SET `active` = 0 WHERE `id_module` = ' . (int) $moduleId);
     }
 
     /**

@@ -4,10 +4,10 @@
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the Open Software License (OSL 3.0)
+ * This source file is subject to the Academic Free License (AFL 3.0)
  * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
- * https://opensource.org/licenses/OSL-3.0
+ * https://opensource.org/licenses/AFL-3.0
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license@prestashop.com so we can send you a copy immediately.
@@ -16,11 +16,11 @@
  *
  * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
  * versions in the future. If you wish to customize PrestaShop for your
- * needs please refer to http://www.prestashop.com for more information.
+ * needs please refer to https://www.prestashop.com for more information.
  *
  * @author    PrestaShop SA <contact@prestashop.com>
  * @copyright 2007-2019 PrestaShop SA and Contributors
- * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @license   https://opensource.org/licenses/AFL-3.0  Academic Free License (AFL 3.0)
  * International Registered Trademark & Property of PrestaShop SA
  */
 
@@ -41,6 +41,9 @@ class ModuleRepository
     /** @var bool */
     private $isAddonsUp = true;
 
+    /** @var array */
+    private $modulesByVersion;
+
     /**
      * @param string $modulesDir
      * @param string $disabledModulesDir
@@ -49,6 +52,7 @@ class ModuleRepository
     {
         $this->modulesDir = rtrim($modulesDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
         $this->disabledModulesDir = rtrim($disabledModulesDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+        $this->modulesByVersion = array();
     }
 
     /**
@@ -83,21 +87,31 @@ class ModuleRepository
      */
     public function getNativeModulesForVersion($version)
     {
-        return $this->getModulesFromAddons('native', ['version' => $version]);
+        if (empty($this->modulesByVersion[$version])) {
+            $this->modulesByVersion[$version] = $this->getModulesFromAddons('native', ['version' => $version]);
+        }
+
+        return $this->modulesByVersion[$version];
     }
 
     /**
      * Return the list of custom modules on disk (a custom module is any module that is
      * not native). The array returned contains the technical names of the modules.
      *
-     * @param string $version
+     * @param array $versions
      *
      * @return array
      */
-    public function getCustomModulesOnDisk($version)
+    public function getCustomModulesOnDisk($versions)
     {
         $modulesOnDisk = $this->getModulesOnDisk();
-        $nativeModules = $this->getNativeModulesForVersion($version);
+        $nativeModules = array();
+        foreach ($versions as $version) {
+            $nativeModules = array_merge(
+                $nativeModules,
+                $this->getNativeModulesForVersion($version)
+            );
+        }
 
         $customModules = [];
         foreach ($modulesOnDisk as $moduleName) {
@@ -128,7 +142,7 @@ class ModuleRepository
         }
 
         $addonsModules = [];
-        foreach ($modules->module as $module) {;
+        foreach ($modules->module as $module) {
             $addonsModules[(int) $module->id] = (string) $module->name;
         }
 
@@ -248,9 +262,9 @@ class ModuleRepository
         $modulesInDirectory = array();
         $modules = scandir($modulesDirectory);
         foreach ($modules as $name) {
-            if (!in_array($name, array('.', '..', 'index.php', '.htaccess')) && @is_dir($modulesDirectory.$name) && @file_exists($modulesDirectory.$name.DIRECTORY_SEPARATOR.$name.'.php')) {
+            if (!in_array($name, array('.', '..', 'index.php', '.htaccess')) && @is_dir($modulesDirectory . $name) && @file_exists($modulesDirectory . $name . DIRECTORY_SEPARATOR . $name . '.php')) {
                 if (!preg_match('/^[a-zA-Z0-9_-]+$/', $name)) {
-                    throw new AutoupgradeException('Invalid module name '.$name);
+                    throw new AutoupgradeException('Invalid module name ' . $name);
                 }
                 $modulesInDirectory[] = $name;
             }

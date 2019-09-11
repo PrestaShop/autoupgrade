@@ -4,10 +4,10 @@
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the Open Software License (OSL 3.0)
+ * This source file is subject to the Academic Free License (AFL 3.0)
  * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
- * https://opensource.org/licenses/OSL-3.0
+ * https://opensource.org/licenses/AFL-3.0
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license@prestashop.com so we can send you a copy immediately.
@@ -16,14 +16,13 @@
  *
  * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
  * versions in the future. If you wish to customize PrestaShop for your
- * needs please refer to http://www.prestashop.com for more information.
+ * needs please refer to https://www.prestashop.com for more information.
  *
  * @author    PrestaShop SA <contact@prestashop.com>
  * @copyright 2007-2019 PrestaShop SA and Contributors
- * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @license   https://opensource.org/licenses/AFL-3.0  Academic Free License (AFL 3.0)
  * International Registered Trademark & Property of PrestaShop SA
  */
-
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\ModuleDisabler;
@@ -110,7 +109,7 @@ class AutoupgradeModuleController extends ModuleAdminController
             'modules_on_disk' => $this->moduleRepository->getModulesOnDisk(),
             'disabled_modules' => $this->moduleRepository->getDisabledModulesOnDisk(),
             'native_modules' => $this->moduleRepository->getNativeModulesForVersion($version),
-            'custom_modules' => $this->moduleRepository->getCustomModulesOnDisk($version),
+            'custom_modules' => $this->getCustomModules(),
         ]));
     }
 
@@ -156,7 +155,6 @@ class AutoupgradeModuleController extends ModuleAdminController
         }
     }
 
-
     /**
      * @return array
      */
@@ -164,6 +162,6 @@ class AutoupgradeModuleController extends ModuleAdminController
     {
         $version = Tools14::getIsset('version') ? Tools14::getValue('version') : _PS_VERSION_;
 
-        return $this->moduleRepository->getCustomModulesOnDisk($version);
+        return $this->moduleRepository->getCustomModulesOnDisk([_PS_VERSION_, $version]);
     }
 }

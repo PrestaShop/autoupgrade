@@ -289,8 +289,10 @@ class UpgradeContainer
             define('_PS_ROOT_DIR_', $this->getProperty(self::PS_ROOT_PATH));
         }
         // in order to not use Tools class
-        $upgrader = new Upgrader($this->getProperty(self::PS_VERSION));
-        preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', $this->getProperty(self::PS_VERSION), $matches);
+        $currentVersion = $this->getProperty(self::PS_VERSION);
+        $upgrader = new Upgrader($currentVersion);
+        $this->getState()->setOriginVersion($currentVersion);
+        preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', $currentVersion, $matches);
         $upgrader->branch = $matches[1];
         $upgradeConfiguration = $this->getUpgradeConfiguration();
         $channel = $upgradeConfiguration->get('channel');
@@ -377,7 +379,8 @@ class UpgradeContainer
             $this->getState()->getInstallVersion(),
             $this->getZipAction(),
             $this->getSymfonyAdapter(),
-            $this->getProperty(self::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'disabled_modules' . DIRECTORY_SEPARATOR
+            $this->getProperty(self::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'disabled_modules' . DIRECTORY_SEPARATOR,
+            $this->getState()->getOriginVersion()
         );
 
         return $this->moduleAdapter;

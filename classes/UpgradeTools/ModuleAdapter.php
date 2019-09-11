@@ -38,6 +38,8 @@ class ModuleAdapter
     private $translator;
     // PS version to update
     private $upgradeVersion;
+    // PS version when upgrade started
+    private $originVersion;
     private $modulesPath;
     private $tempPath;
     /**
@@ -63,8 +65,17 @@ class ModuleAdapter
     // Cached instance
     private $moduleDataUpdater;
 
-    public function __construct($db, $translator, $modulesPath, $tempPath, $upgradeVersion, ZipAction $zipAction, SymfonyAdapter $symfonyAdapter, $disabledModulesPath)
-    {
+    public function __construct(
+        $db,
+        $translator,
+        $modulesPath,
+        $tempPath,
+        $upgradeVersion,
+        ZipAction $zipAction,
+        SymfonyAdapter $symfonyAdapter,
+        $disabledModulesPath,
+        $originVersion
+    ) {
         $this->db = $db;
         $this->translator = $translator;
         $this->modulesPath = $modulesPath;
@@ -74,6 +85,7 @@ class ModuleAdapter
         $this->symfonyAdapter = $symfonyAdapter;
         $this->moduleRepository = new ModuleRepository($modulesPath, $disabledModulesPath);
         $this->moduleDisabler = new ModuleDisabler($db, new Filesystem(), $modulesPath, $disabledModulesPath);
+        $this->originVersion = $originVersion;
     }
 
     /**
@@ -114,7 +126,7 @@ class ModuleAdapter
      */
     public function disableNonNativeModules()
     {
-        $customModules = $this->moduleRepository->getCustomModulesOnDisk($this->upgradeVersion);
+        $customModules = $this->moduleRepository->getCustomModulesOnDisk([$this->originVersion, $this->upgradeVersion]);
         foreach ($customModules as $moduleName) {
             $this->moduleDisabler->disableModuleFromDatabase($moduleName);
             $this->moduleDisabler->disableModuleFromDisk($moduleName);
