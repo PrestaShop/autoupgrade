@@ -24,12 +24,18 @@
  * International Registered Trademark & Property of PrestaShop SA
  */
 
-namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
+namespace PrestaShop\Module\AutoUpgrade\Module;
 
 use Db;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
+/**
+ * Class ModuleDisabler is used to disable/enable modules, there are two ways of
+ * disabling a module:
+ *  - move its whole folder somewhere else
+ *  - update the database to set its active column to 0
+ */
 class ModuleDisabler
 {
     /** @var Db */

@@ -27,6 +27,9 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
+use PrestaShop\Module\AutoUpgrade\Module\AddonsCurlClient;
+use PrestaShop\Module\AutoUpgrade\Module\ModuleDisabler;
+use PrestaShop\Module\AutoUpgrade\Module\ModuleRepository;
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\ZipAction;
@@ -83,7 +86,7 @@ class ModuleAdapter
         $this->upgradeVersion = $upgradeVersion;
         $this->zipAction = $zipAction;
         $this->symfonyAdapter = $symfonyAdapter;
-        $this->moduleRepository = new ModuleRepository($modulesPath, $disabledModulesPath);
+        $this->moduleRepository = new ModuleRepository($modulesPath, $disabledModulesPath, new AddonsCurlClient());
         $this->moduleDisabler = new ModuleDisabler($db, new Filesystem(), $modulesPath, $disabledModulesPath);
         $this->originVersion = $originVersion;
     }

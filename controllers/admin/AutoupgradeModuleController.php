@@ -25,8 +25,8 @@
  */
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\ModuleDisabler;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\ModuleRepository;
+use PrestaShop\Module\AutoUpgrade\Module\ModuleDisabler;
+use PrestaShop\Module\AutoUpgrade\Module\ModuleRepository;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 
 require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/vendor/autoload.php';
@@ -49,9 +49,11 @@ class AutoupgradeModuleController extends ModuleAdminController
     private $moduleDisabler;
 
     /**
+     * This needs to be protected for compatibility with 1.7+ versions
+     *
      * @var Translator
      */
-    private $translator;
+    protected $translator;
 
     public function __construct()
     {
