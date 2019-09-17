@@ -31,12 +31,12 @@ use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * Class ModuleDisabler is used to disable/enable modules, there are two ways of
+ * Class Disabler is used to disable/enable modules, there are two ways of
  * disabling a module:
  *  - move its whole folder somewhere else
  *  - update the database to set its active column to 0
  */
-class ModuleDisabler
+class Disabler
 {
     /** @var Db */
     private $db;

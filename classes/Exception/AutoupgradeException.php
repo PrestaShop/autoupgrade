@@ -24,7 +24,7 @@
  * International Registered Trademark & Property of PrestaShop SA
  */
 
-namespace PrestaShop\Module\AutoUpgrade;
+namespace PrestaShop\Module\AutoUpgrade\Exception;
 
 use RuntimeException;
 

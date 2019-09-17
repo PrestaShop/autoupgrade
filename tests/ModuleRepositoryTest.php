@@ -24,8 +24,8 @@
  * International Registered Trademark & Property of PrestaShop SA
  */
 use Symfony\Component\Filesystem\Filesystem;
-use PrestaShop\Module\AutoUpgrade\Module\ModuleRepository;
-use PrestaShop\Module\AutoUpgrade\Module\AddonsClientInterface;
+use PrestaShop\Module\AutoUpgrade\Module\Repository;
+use PrestaShop\Module\AutoUpgrade\Addons\ClientInterface;
 use PHPUnit\Framework\TestCase;
 
 class ModuleRepositoryTest extends TestCase
@@ -49,6 +49,14 @@ class ModuleRepositoryTest extends TestCase
         $this->tempDir = sys_get_temp_dir() . '/module_disabler';
         $this->tempModulesDir = $this->tempDir . '/modules';
         $this->tempDisabledModulesDir = $this->tempDir . '/disabled_modules';
+        $this->cleanModules();
+        $this->createModules();
+    }
+
+    protected function tearDown()
+    {
+        parent::tearDown();
+        $this->cleanModules();
     }
 
     private function cleanModules()
@@ -104,7 +112,7 @@ class ModuleRepositoryTest extends TestCase
         $this->cleanModules();
         $this->createModules();
 
-        $moduleRepository = new ModuleRepository(
+        $moduleRepository = new Repository(
             $this->tempModulesDir,
             $this->tempDisabledModulesDir,
             $this->createAddonsClientMock()
@@ -121,7 +129,7 @@ class ModuleRepositoryTest extends TestCase
         $this->cleanModules();
         $this->createModules();
 
-        $moduleRepository = new ModuleRepository(
+        $moduleRepository = new Repository(
             $this->tempModulesDir,
             $this->tempDisabledModulesDir,
             $this->createAddonsClientMock()
@@ -139,7 +147,7 @@ class ModuleRepositoryTest extends TestCase
             1747 => 'skrill',
             1748 => 'paypal',
         ]);
-        $moduleRepository = new ModuleRepository(
+        $moduleRepository = new Repository(
             $this->tempModulesDir,
             $this->tempDisabledModulesDir,
             $addonsClient
@@ -158,7 +166,7 @@ class ModuleRepositoryTest extends TestCase
             1748 => 'module3',
         ]);
 
-        $moduleRepository = new ModuleRepository(
+        $moduleRepository = new Repository(
             $this->tempModulesDir,
             $this->tempDisabledModulesDir,
             $addonsClient
@@ -175,12 +183,12 @@ class ModuleRepositoryTest extends TestCase
     /**
      * @param array $modules
      *
-     * @return PHPUnit_Framework_MockObject_MockObject|AddonsClientInterface
+     * @return PHPUnit_Framework_MockObject_MockObject|ClientInterface
      */
-    private function createAddonsClientMock(array $modules = array())
+    private function createAddonsClientMock(array $modules = [])
     {
         $addonsClient = $this
-            ->getMockBuilder(AddonsClientInterface::class)
+            ->getMockBuilder(ClientInterface::class)
             ->disableOriginalConstructor()
             ->getMock()
         ;

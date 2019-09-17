@@ -248,7 +248,7 @@ class State
      */
     public function setOriginVersion($originVersion)
     {
-        $this->originVersion = $originVersion;
+        $this->originVersion = (string) $originVersion;
 
         return $this;
     }

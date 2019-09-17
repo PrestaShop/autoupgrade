@@ -27,9 +27,9 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
-use PrestaShop\Module\AutoUpgrade\Module\AddonsCurlClient;
-use PrestaShop\Module\AutoUpgrade\Module\ModuleDisabler;
-use PrestaShop\Module\AutoUpgrade\Module\ModuleRepository;
+use PrestaShop\Module\AutoUpgrade\Addons\CurlClient;
+use PrestaShop\Module\AutoUpgrade\Module\Disabler;
+use PrestaShop\Module\AutoUpgrade\Module\Repository;
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\ZipAction;
@@ -56,12 +56,12 @@ class ModuleAdapter
     private $symfonyAdapter;
 
     /**
-     * @var ModuleRepository
+     * @var Repository
      */
     private $moduleRepository;
 
     /**
-     * @var ModuleDisabler
+     * @var Disabler
      */
     private $moduleDisabler;
 
@@ -86,8 +86,8 @@ class ModuleAdapter
         $this->upgradeVersion = $upgradeVersion;
         $this->zipAction = $zipAction;
         $this->symfonyAdapter = $symfonyAdapter;
-        $this->moduleRepository = new ModuleRepository($modulesPath, $disabledModulesPath, new AddonsCurlClient());
-        $this->moduleDisabler = new ModuleDisabler($db, new Filesystem(), $modulesPath, $disabledModulesPath);
+        $this->moduleRepository = new Repository($modulesPath, $disabledModulesPath, new CurlClient());
+        $this->moduleDisabler = new Disabler($db, new Filesystem(), $modulesPath, $disabledModulesPath);
         $this->originVersion = $originVersion;
     }
 
@@ -109,7 +109,7 @@ class ModuleAdapter
     }
 
     /**
-     * @return ModuleRepository
+     * @return Repository
      */
     public function getModuleRepository()
     {
@@ -117,7 +117,7 @@ class ModuleAdapter
     }
 
     /**
-     * @return ModuleDisabler
+     * @return Disabler
      */
     public function getModuleDisabler()
     {
@@ -131,8 +131,8 @@ class ModuleAdapter
     {
         $customModules = $this->moduleRepository->getCustomModulesOnDisk([$this->originVersion, $this->upgradeVersion]);
         foreach ($customModules as $moduleName) {
-            $this->moduleDisabler->disableModuleFromDatabase($moduleName);
-            $this->moduleDisabler->disableModuleFromDisk($moduleName);
+            $this->getModuleDisabler()->disableModuleFromDatabase($moduleName);
+            $this->getModuleDisabler()->disableModuleFromDisk($moduleName);
         }
     }
 

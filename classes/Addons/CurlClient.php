@@ -24,14 +24,14 @@
  * International Registered Trademark & Property of PrestaShop SA
  */
 
-namespace PrestaShop\Module\AutoUpgrade\Module;
+namespace PrestaShop\Module\AutoUpgrade\Addons;
 
 use PrestaShop\Module\AutoUpgrade\Tools14;
 
 /**
- * Class AddonsCurlClient is a simple Addons client that uses Curl to perform its request.
+ * Class CurlClient is a simple Addons client that uses Curl to perform its request.
  */
-class AddonsCurlClient implements AddonsClientInterface
+class CurlClient implements ClientInterface
 {
     /** @var bool */
     private $isAddonsUp = true;
@@ -58,53 +58,54 @@ class AddonsCurlClient implements AddonsClientInterface
             return '';
         }
 
-        $post_query_data = array(
+        $postQueryData = [
             'version' => isset($params['version']) ? $params['version'] : _PS_VERSION_,
             'iso_code' => Tools14::strtolower(isset($params['iso_country']) ? $params['iso_country'] : 'all'),
             'format' => isset($params['format']) ? $params['format'] : 'xml',
-        );
+        ];
         if (isset($params['source'])) {
-            $post_query_data['source'] = $params['source'];
+            $postQueryData['source'] = $params['source'];
         }
 
-        $post_data = http_build_query($post_query_data);
+        $postData = http_build_query($postQueryData);
 
-        $end_point = 'api.addons.prestashop.com';
+        $endPoint = 'api.addons.prestashop.com';
 
+        $protocols = ['https', 'http'];
         switch ($type) {
             case 'native':
-                $post_data .= '&method=listing&action=native';
+                $postData .= '&method=listing&action=native';
 
                 break;
 
             case 'service':
-                $post_data .= '&method=listing&action=service';
+                $postData .= '&method=listing&action=service';
 
                 break;
 
                 break;
             case 'must-have':
-                $post_data .= '&method=listing&action=must-have';
+                $postData .= '&method=listing&action=must-have';
 
                 break;
 
             case 'module':
-                $post_data .= '&method=module&id_module=' . urlencode($params['id_module']);
+                $postData .= '&method=module&id_module=' . urlencode($params['id_module']);
                 if (isset($params['username_addons'], $params['password_addons'])) {
-                    $post_data .= '&username=' . urlencode($params['username_addons']) . '&password=' . urlencode($params['password_addons']);
+                    $postData .= '&username=' . urlencode($params['username_addons']) . '&password=' . urlencode($params['password_addons']);
                 }
 
                 break;
             case 'hosted_module':
-                $post_data .= '&method=module&id_module=' . urlencode((int) $params['id_module']) . '&username=' . urlencode($params['hosted_email'])
+                $postData .= '&method=module&id_module=' . urlencode((int) $params['id_module']) . '&username=' . urlencode($params['hosted_email'])
                     . '&password=' . urlencode($params['password_addons'])
                     . '&shop_url=' . urlencode(isset($params['shop_url']) ? $params['shop_url'] : Tools14::getShopDomain())
                     . '&mail=' . urlencode(isset($params['email']) ? $params['email'] : Configuration::get('PS_SHOP_EMAIL'));
 
                 break;
             case 'install-modules':
-                $post_data .= '&method=listing&action=install-modules';
-                $post_data .= defined('_PS_HOST_MODE_') ? '-od' : '';
+                $postData .= '&method=listing&action=install-modules';
+                $postData .= defined('_PS_HOST_MODE_') ? '-od' : '';
 
                 break;
             default:
@@ -114,18 +115,16 @@ class AddonsCurlClient implements AddonsClientInterface
         $context = stream_context_create(array(
             'http' => array(
                 'method' => 'POST',
-                'content' => $post_data,
+                'content' => $postData,
                 'header' => 'Content-type: application/x-www-form-urlencoded',
                 'timeout' => 5,
             ),
         ));
 
-        if ($content = Tools14::file_get_contents('https://' . $end_point, false, $context)) {
-            return $content;
-        }
-
-        if ($content = Tools14::file_get_contents('http://' . $end_point, false, $context)) {
-            return $content;
+        foreach ($protocols as $protocol) {
+            if ($content = Tools14::file_get_contents($protocol . '://' . $endPoint, false, $context)) {
+                return $content;
+            }
         }
 
         $this->isAddonsUp = false;

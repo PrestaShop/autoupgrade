@@ -23,7 +23,7 @@
  * @license   https://opensource.org/licenses/AFL-3.0  Academic Free License (AFL 3.0)
  * International Registered Trademark & Property of PrestaShop SA
  */
-use PrestaShop\Module\AutoUpgrade\Module\ModuleDisabler;
+use PrestaShop\Module\AutoUpgrade\Module\Disabler;
 use Symfony\Component\Filesystem\Filesystem;
 use PHPUnit\Framework\TestCase;
 
@@ -102,7 +102,7 @@ class ModuleDisablerTest extends TestCase
         $this->cleanModules();
         $this->createModules();
 
-        $moduleDisabler = new ModuleDisabler(
+        $moduleDisabler = new Disabler(
             null,
             $this->fileSystem,
             $this->tempModulesDir,
@@ -118,7 +118,7 @@ class ModuleDisablerTest extends TestCase
      */
     public function testEnableFromDisk()
     {
-        $moduleDisabler = new ModuleDisabler(
+        $moduleDisabler = new Disabler(
             null,
             $this->fileSystem,
             $this->tempModulesDir,

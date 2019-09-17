@@ -31,7 +31,7 @@ function upgrade_module_5_0_0($module)
         $controllerTab = new Tab();
         $controllerTab->active = 0;
         $controllerTab->class_name = 'AutoupgradeModule';
-        $controllerTab->name = array();
+        $controllerTab->name = [];
         foreach (Language::getLanguages(true) as $lang) {
             $controllerTab->name[$lang['id_lang']] = 'AutoupgradeModule';
         }

@@ -26,12 +26,13 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Module;
 
-use PrestaShop\Module\AutoUpgrade\AutoupgradeException;
+use PrestaShop\Module\AutoUpgrade\Addons\ClientInterface;
+use PrestaShop\Module\AutoUpgrade\Exception\AutoupgradeException;
 
 /**
- * Class ModuleRepository is used to get lists of modules (those on the disk, native modules by version, ...)
+ * Class Repository is used to get lists of modules (those on the disk, native modules by version, ...)
  */
-class ModuleRepository
+class Repository
 {
     /** @var string */
     private $modulesDir;
@@ -39,7 +40,7 @@ class ModuleRepository
     /** @var string */
     private $disabledModulesDir;
 
-    /** @var AddonsClientInterface */
+    /** @var ClientInterface */
     private $addonsClient;
 
     /** @var array */
@@ -48,17 +49,17 @@ class ModuleRepository
     /**
      * @param string $modulesDir
      * @param string $disabledModulesDir
-     * @param AddonsClientInterface $addonsClient
+     * @param ClientInterface $addonsClient
      */
     public function __construct(
         $modulesDir,
         $disabledModulesDir,
-        AddonsClientInterface $addonsClient
+        ClientInterface $addonsClient
     ) {
-        $this->modulesDir = rtrim($modulesDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-        $this->disabledModulesDir = rtrim($disabledModulesDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+        $this->modulesDir = rtrim($modulesDir, '/') . '/';
+        $this->disabledModulesDir = rtrim($disabledModulesDir, '/') . '/';
         $this->addonsClient = $addonsClient;
-        $this->modulesByVersion = array();
+        $this->modulesByVersion = [];
     }
 
     /**
@@ -111,7 +112,7 @@ class ModuleRepository
     public function getCustomModulesOnDisk($versions)
     {
         $modulesOnDisk = $this->getModulesOnDisk();
-        $nativeModules = array();
+        $nativeModules = [];
         foreach ($versions as $version) {
             $nativeModules = array_merge(
                 $nativeModules,
@@ -136,15 +137,18 @@ class ModuleRepository
      */
     private function listModulesFromDirectory($modulesDirectory)
     {
-        $modulesInDirectory = array();
+        $modulesInDirectory = [];
         $modules = scandir($modulesDirectory);
         foreach ($modules as $name) {
-            if (!in_array($name, array('.', '..', 'index.php', '.htaccess')) && @is_dir($modulesDirectory . $name) && @file_exists($modulesDirectory . $name . DIRECTORY_SEPARATOR . $name . '.php')) {
-                if (!preg_match('/^[a-zA-Z0-9_-]+$/', $name)) {
-                    throw new AutoupgradeException('Invalid module name ' . $name);
-                }
-                $modulesInDirectory[] = $name;
+            if (in_array($name, ['.', '..', 'index.php', '.htaccess'])
+                || !@is_dir($modulesDirectory . $name) && @file_exists($modulesDirectory . $name . DIRECTORY_SEPARATOR . $name . '.php')) {
+                continue;
             }
+
+            if (!preg_match('/^[a-zA-Z0-9_-]+$/', $name)) {
+                throw new AutoupgradeException('Invalid module name ' . $name);
+            }
+            $modulesInDirectory[] = $name;
         }
 
         return $modulesInDirectory;

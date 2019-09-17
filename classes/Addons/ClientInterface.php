@@ -24,12 +24,12 @@
  * International Registered Trademark & Property of PrestaShop SA
  */
 
-namespace PrestaShop\Module\AutoUpgrade\Module;
+namespace PrestaShop\Module\AutoUpgrade\Addons;
 
 /**
- * Interface AddonsClientInterface is used to perform a request on the Addons API.
+ * Interface ClientInterface is used to perform a request on the Addons API.
  */
-interface AddonsClientInterface
+interface ClientInterface
 {
     /**
      * Returns a list of modules from addons.

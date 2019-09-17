@@ -25,8 +25,8 @@
  */
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
-use PrestaShop\Module\AutoUpgrade\Module\ModuleDisabler;
-use PrestaShop\Module\AutoUpgrade\Module\ModuleRepository;
+use PrestaShop\Module\AutoUpgrade\Module\Disabler;
+use PrestaShop\Module\AutoUpgrade\Module\Repository;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 
 require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/vendor/autoload.php';
@@ -39,12 +39,12 @@ class AutoupgradeModuleController extends ModuleAdminController
     private $upgradeContainer;
 
     /**
-     * @var ModuleRepository
+     * @var Repository
      */
     private $moduleRepository;
 
     /**
-     * @var ModuleDisabler
+     * @var Disabler
      */
     private $moduleDisabler;
 
@@ -72,7 +72,7 @@ class AutoupgradeModuleController extends ModuleAdminController
         if (Tools14::isSubmit('disableCustomModule')) {
             $moduleName = Tools14::getValue('disableCustomModule');
             if (!in_array($moduleName, $this->getCustomModules())) {
-                $this->_errors[] = $this->trans('Unable to find custom module %s', array($moduleName), 'Modules.Autoupgrade.Admin');
+                $this->_errors[] = $this->trans('Unable to find custom module %s', [$moduleName], 'Modules.Autoupgrade.Admin');
             } else {
                 $this->moduleDisabler->disableModuleFromDatabase($moduleName);
                 $this->moduleDisabler->disableModuleFromDisk($moduleName);
@@ -86,7 +86,7 @@ class AutoupgradeModuleController extends ModuleAdminController
         if (Tools14::isSubmit('enableCustomModule')) {
             $moduleName = Tools14::getValue('enableCustomModule');
             if (!in_array($moduleName, $this->moduleRepository->getDisabledModulesOnDisk())) {
-                $this->_errors[] = $this->trans('Unable to find disabled custom module %s', array($moduleName), 'Modules.Autoupgrade.Admin');
+                $this->_errors[] = $this->trans('Unable to find disabled custom module %s', [$moduleName], 'Modules.Autoupgrade.Admin');
             } else {
                 $this->moduleDisabler->enableModuleFromDisk($moduleName);
                 $this->moduleDisabler->enableModuleFromDatabase($moduleName);
@@ -124,7 +124,7 @@ class AutoupgradeModuleController extends ModuleAdminController
      * @param string $domain
      * @param string $locale
      */
-    public function trans($id, array $parameters = array(), $domain = null, $locale = null)
+    public function trans($id, array $parameters = [], $domain = null, $locale = null)
     {
         if (null === $this->translator) {
             $this->translator = new Translator(__CLASS__);
