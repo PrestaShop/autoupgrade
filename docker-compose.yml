@@ -15,6 +15,8 @@ services:
     volumes:
       - ./:/var/www/html/modules/autoupgrade
       - temp-ps:/var/www/html # Used for another container which needs PrestaShop content
+      - .docker:/tmp/docker
+    command: ["/tmp/docker/wait-for-it.sh", "--timeout=60", "--strict", "mysql:3306", "--", "/tmp/docker_run.sh"]
     environment:
       DB_SERVER: mysql
       DB_PASSWD: root
