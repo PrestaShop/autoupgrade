@@ -27,6 +27,7 @@
 namespace PrestaShop\Module\AutoUpgrade\Addons;
 
 use PrestaShop\Module\AutoUpgrade\Tools14;
+use Configuration;
 
 /**
  * Class CurlClient is a simple Addons client that uses Curl to perform its request.
@@ -97,7 +98,7 @@ class CurlClient implements ClientInterface
 
                 break;
             case 'hosted_module':
-                $postData .= '&method=module&id_module=' . urlencode((int) $params['id_module']) . '&username=' . urlencode($params['hosted_email'])
+                $postData .= '&method=module&id_module=' . urlencode($params['id_module']) . '&username=' . urlencode($params['hosted_email'])
                     . '&password=' . urlencode($params['password_addons'])
                     . '&shop_url=' . urlencode(isset($params['shop_url']) ? $params['shop_url'] : Tools14::getShopDomain())
                     . '&mail=' . urlencode(isset($params['email']) ? $params['email'] : Configuration::get('PS_SHOP_EMAIL'));
@@ -144,7 +145,7 @@ class CurlClient implements ClientInterface
         }
 
         $modules = @simplexml_load_string($requestContent);
-        if (!$modules || !count($modules->module)) {
+        if (!$modules || !$modules->module->count()) {
             return false;
         }
 

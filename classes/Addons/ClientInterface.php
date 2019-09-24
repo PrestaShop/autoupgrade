@@ -45,7 +45,7 @@ interface ClientInterface
      *  - iso_code (Which country you target, by default all)
      *  - format (by default xml)
      *
-     * @param string $request
+     * @param string $type
      * @param array $params
      *
      * @return array|false List of modules name indexed by their Addons id
