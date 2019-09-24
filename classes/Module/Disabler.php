@@ -110,8 +110,8 @@ class Disabler
      */
     public function disableModuleFromDisk($moduleName)
     {
-        $enabledModulePath = $this->modulesDir . DIRECTORY_SEPARATOR . $moduleName;
-        $disabledModulePath = $this->disabledModulesDir . DIRECTORY_SEPARATOR . $moduleName;
+        $enabledModulePath = $this->modulesDir . '/' . $moduleName;
+        $disabledModulePath = $this->disabledModulesDir . '/' . $moduleName;
 
         return $this->moveModule($enabledModulePath, $disabledModulePath);
     }
@@ -123,8 +123,8 @@ class Disabler
      */
     public function enableModuleFromDisk($moduleName)
     {
-        $enabledModulePath = $this->modulesDir . DIRECTORY_SEPARATOR . $moduleName;
-        $disabledModulePath = $this->disabledModulesDir . DIRECTORY_SEPARATOR . $moduleName;
+        $enabledModulePath = $this->modulesDir . '/' . $moduleName;
+        $disabledModulePath = $this->disabledModulesDir . '/' . $moduleName;
 
         return $this->moveModule($disabledModulePath, $enabledModulePath);
     }

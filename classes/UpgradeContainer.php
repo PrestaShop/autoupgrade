@@ -163,7 +163,7 @@ class UpgradeContainer
 
     public function __construct($psRootDir, $adminDir, $moduleSubDir = 'autoupgrade')
     {
-        $this->autoupgradeWorkDir = $adminDir . DIRECTORY_SEPARATOR . $moduleSubDir;
+        $this->autoupgradeWorkDir = $adminDir . '/' . $moduleSubDir;
         $this->adminDir = $adminDir;
         $this->psRootDir = $psRootDir;
     }
@@ -177,25 +177,25 @@ class UpgradeContainer
             case self::PS_ADMIN_PATH:
                 return $this->adminDir;
             case self::PS_ADMIN_SUBDIR:
-                return trim(str_replace($this->getProperty(self::PS_ROOT_PATH), '', $this->getProperty(self::PS_ADMIN_PATH)), DIRECTORY_SEPARATOR);
+                return trim(str_replace($this->getProperty(self::PS_ROOT_PATH), '', $this->getProperty(self::PS_ADMIN_PATH)), '/');
             case self::PS_ROOT_PATH:
                 return $this->psRootDir;
             case self::WORKSPACE_PATH:
                 return $this->autoupgradeWorkDir;
             case self::BACKUP_PATH:
-                return $this->autoupgradeWorkDir . DIRECTORY_SEPARATOR . 'backup';
+                return $this->autoupgradeWorkDir . '/' . 'backup';
             case self::DOWNLOAD_PATH:
-                return $this->autoupgradeWorkDir . DIRECTORY_SEPARATOR . 'download';
+                return $this->autoupgradeWorkDir . '/' . 'download';
             case self::LATEST_PATH:
-                return $this->autoupgradeWorkDir . DIRECTORY_SEPARATOR . 'latest';
+                return $this->autoupgradeWorkDir . '/' . 'latest';
             case self::LATEST_DIR:
-                return $this->autoupgradeWorkDir . DIRECTORY_SEPARATOR . 'latest' . DIRECTORY_SEPARATOR;
+                return $this->autoupgradeWorkDir . '/' . 'latest' . '/';
             case self::TMP_PATH:
-                return $this->autoupgradeWorkDir . DIRECTORY_SEPARATOR . 'tmp';
+                return $this->autoupgradeWorkDir . '/' . 'tmp';
             case self::ARCHIVE_FILENAME:
                 return $this->getUpgradeConfiguration()->getArchiveFilename();
             case self::ARCHIVE_FILEPATH:
-                return $this->getProperty(self::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $this->getProperty(self::ARCHIVE_FILENAME);
+                return $this->getProperty(self::DOWNLOAD_PATH) . '/' . $this->getProperty(self::ARCHIVE_FILENAME);
             case self::PS_VERSION:
                 return $this->getPrestaShopConfiguration()->getPrestaShopVersion();
         }
@@ -258,7 +258,7 @@ class UpgradeContainer
             return $this->fileConfigurationStorage;
         }
 
-        $this->fileConfigurationStorage = new FileConfigurationStorage($this->getProperty(self::WORKSPACE_PATH) . DIRECTORY_SEPARATOR);
+        $this->fileConfigurationStorage = new FileConfigurationStorage($this->getProperty(self::WORKSPACE_PATH) . '/');
 
         return $this->fileConfigurationStorage;
     }
@@ -350,7 +350,7 @@ class UpgradeContainer
 
         $logFile = null;
         if (is_writable($this->getProperty(self::TMP_PATH))) {
-            $logFile = $this->getProperty(self::TMP_PATH) . DIRECTORY_SEPARATOR . 'log.txt';
+            $logFile = $this->getProperty(self::TMP_PATH) . '/' . 'log.txt';
         }
         $this->logger = new LegacyLogger($logFile);
 
@@ -374,12 +374,12 @@ class UpgradeContainer
         $this->moduleAdapter = new ModuleAdapter(
             $this->getDb(),
             $this->getTranslator(),
-            $this->getProperty(self::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR,
+            $this->getProperty(self::PS_ROOT_PATH) . '/' . 'modules' . '/',
             $this->getProperty(self::TMP_PATH),
             $this->getState()->getInstallVersion(),
             $this->getZipAction(),
             $this->getSymfonyAdapter(),
-            $this->getProperty(self::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'disabled_modules' . DIRECTORY_SEPARATOR,
+            $this->getProperty(self::PS_ROOT_PATH) . '/' . 'disabled_modules' . '/',
             $this->getState()->getOriginVersion()
         );
 
@@ -475,7 +475,7 @@ class UpgradeContainer
         if (null !== $this->upgradeConfiguration) {
             return $this->upgradeConfiguration;
         }
-        $upgradeConfigurationStorage = new UpgradeConfigurationStorage($this->getProperty(self::WORKSPACE_PATH) . DIRECTORY_SEPARATOR);
+        $upgradeConfigurationStorage = new UpgradeConfigurationStorage($this->getProperty(self::WORKSPACE_PATH) . '/');
         $this->upgradeConfiguration = $upgradeConfigurationStorage->load(UpgradeFileNames::CONFIG_FILENAME);
 
         return $this->upgradeConfiguration;
@@ -486,7 +486,7 @@ class UpgradeContainer
      */
     public function getUpgradeConfigurationStorage()
     {
-        return new UpgradeConfigurationStorage($this->getProperty(self::WORKSPACE_PATH) . DIRECTORY_SEPARATOR);
+        return new UpgradeConfigurationStorage($this->getProperty(self::WORKSPACE_PATH) . '/');
     }
 
     /**

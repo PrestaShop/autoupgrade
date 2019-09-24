@@ -141,7 +141,7 @@ class Repository
         $modules = scandir($modulesDirectory);
         foreach ($modules as $name) {
             if (in_array($name, ['.', '..', 'index.php', '.htaccess'])
-                || !@is_dir($modulesDirectory . $name) && @file_exists($modulesDirectory . $name . DIRECTORY_SEPARATOR . $name . '.php')) {
+                || !@is_dir($modulesDirectory . $name) && @file_exists($modulesDirectory . $name . '/' . $name . '.php')) {
                 continue;
             }
 

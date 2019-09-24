@@ -91,9 +91,9 @@ class ModuleRepositoryTest extends TestCase
             'module2',
         ];
         foreach ($modules as $module) {
-            $modulePath = $this->tempModulesDir . DIRECTORY_SEPARATOR . $module;
+            $modulePath = $this->tempModulesDir . '/' . $module;
             $this->fileSystem->mkdir($modulePath);
-            $this->fileSystem->touch($modulePath . DIRECTORY_SEPARATOR . $module . '.php');
+            $this->fileSystem->touch($modulePath . '/' . $module . '.php');
         }
 
         $disabledModules = [
@@ -101,9 +101,9 @@ class ModuleRepositoryTest extends TestCase
             'module4',
         ];
         foreach ($disabledModules as $module) {
-            $modulePath = $this->tempDisabledModulesDir . DIRECTORY_SEPARATOR . $module;
+            $modulePath = $this->tempDisabledModulesDir . '/' . $module;
             $this->fileSystem->mkdir($modulePath);
-            $this->fileSystem->touch($modulePath . DIRECTORY_SEPARATOR . $module . '.php');
+            $this->fileSystem->touch($modulePath . '/' . $module . '.php');
         }
     }
 

@@ -81,9 +81,9 @@ class ModuleDisablerTest extends TestCase
             'module2',
         ];
         foreach ($modules as $module) {
-            $modulePath = $this->tempModulesDir . DIRECTORY_SEPARATOR . $module;
+            $modulePath = $this->tempModulesDir . '/' . $module;
             $this->fileSystem->mkdir($modulePath);
-            $this->fileSystem->touch($modulePath . DIRECTORY_SEPARATOR . $module . '.php');
+            $this->fileSystem->touch($modulePath . '/' . $module . '.php');
         }
 
         $disabledModules = [
@@ -91,9 +91,9 @@ class ModuleDisablerTest extends TestCase
             'module4',
         ];
         foreach ($disabledModules as $module) {
-            $modulePath = $this->tempDisabledModulesDir . DIRECTORY_SEPARATOR . $module;
+            $modulePath = $this->tempDisabledModulesDir . '/' . $module;
             $this->fileSystem->mkdir($modulePath);
-            $this->fileSystem->touch($modulePath . DIRECTORY_SEPARATOR . $module . '.php');
+            $this->fileSystem->touch($modulePath . '/' . $module . '.php');
         }
     }
 
@@ -136,19 +136,19 @@ class ModuleDisablerTest extends TestCase
     private function checkModulesPlace($modules, $disabledModules)
     {
         foreach ($modules as $module) {
-            $modulePath = $this->tempModulesDir . DIRECTORY_SEPARATOR . $module;
+            $modulePath = $this->tempModulesDir . '/' . $module;
             $this->assertTrue($this->fileSystem->exists($modulePath));
             $this->assertTrue(is_dir($modulePath));
-            $this->assertTrue($this->fileSystem->exists($modulePath . DIRECTORY_SEPARATOR . $module . '.php'));
-            $this->assertFalse($this->fileSystem->exists($this->tempDisabledModulesDir . DIRECTORY_SEPARATOR . $module));
+            $this->assertTrue($this->fileSystem->exists($modulePath . '/' . $module . '.php'));
+            $this->assertFalse($this->fileSystem->exists($this->tempDisabledModulesDir . '/' . $module));
         }
 
         foreach ($disabledModules as $module) {
-            $modulePath = $this->tempDisabledModulesDir . DIRECTORY_SEPARATOR . $module;
+            $modulePath = $this->tempDisabledModulesDir . '/' . $module;
             $this->assertTrue($this->fileSystem->exists($modulePath));
             $this->assertTrue(is_dir($modulePath));
-            $this->assertTrue($this->fileSystem->exists($modulePath . DIRECTORY_SEPARATOR . $module . '.php'));
-            $this->assertFalse($this->fileSystem->exists($this->tempModulesDir . DIRECTORY_SEPARATOR . $module));
+            $this->assertTrue($this->fileSystem->exists($modulePath . '/' . $module . '.php'));
+            $this->assertFalse($this->fileSystem->exists($this->tempModulesDir . '/' . $module));
         }
     }
 }
