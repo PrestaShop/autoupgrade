@@ -27,9 +27,13 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
+use PrestaShop\Module\AutoUpgrade\Addons\CurlClient;
+use PrestaShop\Module\AutoUpgrade\Module\Disabler;
+use PrestaShop\Module\AutoUpgrade\Module\Repository;
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\ZipAction;
+use Symfony\Component\Filesystem\Filesystem;
 
 class ModuleAdapter
 {
@@ -37,6 +41,8 @@ class ModuleAdapter
     private $translator;
     // PS version to update
     private $upgradeVersion;
+    // PS version when upgrade started
+    private $originVersion;
     private $modulesPath;
     private $tempPath;
     /**
@@ -49,11 +55,30 @@ class ModuleAdapter
      */
     private $symfonyAdapter;
 
+    /**
+     * @var Repository
+     */
+    private $moduleRepository;
+
+    /**
+     * @var Disabler
+     */
+    private $moduleDisabler;
+
     // Cached instance
     private $moduleDataUpdater;
 
-    public function __construct($db, $translator, $modulesPath, $tempPath, $upgradeVersion, ZipAction $zipAction, SymfonyAdapter $symfonyAdapter)
-    {
+    public function __construct(
+        $db,
+        $translator,
+        $modulesPath,
+        $tempPath,
+        $upgradeVersion,
+        ZipAction $zipAction,
+        SymfonyAdapter $symfonyAdapter,
+        $disabledModulesPath,
+        $originVersion
+    ) {
         $this->db = $db;
         $this->translator = $translator;
         $this->modulesPath = $modulesPath;
@@ -61,6 +86,9 @@ class ModuleAdapter
         $this->upgradeVersion = $upgradeVersion;
         $this->zipAction = $zipAction;
         $this->symfonyAdapter = $symfonyAdapter;
+        $this->moduleRepository = new Repository($modulesPath, $disabledModulesPath, new CurlClient());
+        $this->moduleDisabler = new Disabler($db, new Filesystem(), $modulesPath, $disabledModulesPath);
+        $this->originVersion = $originVersion;
     }
 
     /**
@@ -81,16 +109,31 @@ class ModuleAdapter
     }
 
     /**
-     * Upgrade action, disabling all modules not made by PrestaShop.
-     *
-     * It seems the 1.6 version of is the safest, as it does not actually load the modules.
-     *
-     * @param string $pathToUpgradeScripts Path to the PHP Upgrade scripts
+     * @return Repository
      */
-    public function disableNonNativeModules($pathToUpgradeScripts)
+    public function getModuleRepository()
     {
-        require_once $pathToUpgradeScripts . 'deactivate_custom_modules.php';
-        deactivate_custom_modules();
+        return $this->moduleRepository;
+    }
+
+    /**
+     * @return Disabler
+     */
+    public function getModuleDisabler()
+    {
+        return $this->moduleDisabler;
+    }
+
+    /**
+     * Upgrade action, disabling all modules not made by PrestaShop.
+     */
+    public function disableNonNativeModules()
+    {
+        $customModules = $this->moduleRepository->getCustomModulesOnDisk([$this->originVersion, $this->upgradeVersion]);
+        foreach ($customModules as $moduleName) {
+            $this->getModuleDisabler()->disableModuleFromDatabase($moduleName);
+            $this->getModuleDisabler()->disableModuleFromDisk($moduleName);
+        }
     }
 
     /**
