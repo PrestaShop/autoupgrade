@@ -328,8 +328,8 @@ abstract class CoreUpgrader
      */
     protected function applySqlParams(array $sqlFiles)
     {
-        $search = array('PREFIX_', 'ENGINE_TYPE');
-        $replace = array(_DB_PREFIX_, (defined('_MYSQL_ENGINE_') ? _MYSQL_ENGINE_ : 'MyISAM'));
+        $search = array('PREFIX_', 'ENGINE_TYPE', 'DB_NAME');
+        $replace = array(_DB_PREFIX_, (defined('_MYSQL_ENGINE_') ? _MYSQL_ENGINE_ : 'MyISAM'), _DB_NAME_);
 
         $sqlRequests = array();
 
