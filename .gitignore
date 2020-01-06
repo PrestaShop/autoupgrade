@@ -4,3 +4,4 @@ nbproject
 /vendor/
 
 .php_cs.cache
+.idea
