@@ -48,6 +48,7 @@ function removeFromFsDuringUpgrade(array $files)
             return 'Deletion of file ' . $file . 'failed';
         }
     }
+    
     return true;
 }
 /**
@@ -62,8 +63,10 @@ function upgrade_module_4_10_1($module)
         $result = removeFromFsDuringUpgrade(array($path));
         if ($result !== true) {
             PrestaShopLogger::addLog('Could not delete PHPUnit from module. ' . $result, 3);
+
             return false;
         }
     }
+
     return true;
 }
