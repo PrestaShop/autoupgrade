@@ -48,7 +48,7 @@ function removeFromFsDuringUpgrade(array $files)
             return 'Deletion of file ' . $file . 'failed';
         }
     }
-    
+
     return true;
 }
 /**
