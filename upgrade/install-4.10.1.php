@@ -34,13 +34,13 @@ if (!defined('_PS_VERSION_')) {
  *
  * @return true|string True if everything goes fine, error details otherwise
  */
-function removeFromFsDuringUpgrade(array $files)
+function removeAutoupgradePhpUnitFromFsDuringUpgrade(array $files)
 {
     $files = array_reverse($files);
     foreach ($files as $file) {
         if (is_dir($file)) {
             $iterator = new FilesystemIterator($file, FilesystemIterator::CURRENT_AS_PATHNAME | FilesystemIterator::SKIP_DOTS);
-            removeFromFsDuringUpgrade(iterator_to_array($iterator));
+            removeAutoupgradePhpUnitFromFsDuringUpgrade(iterator_to_array($iterator));
             if (!rmdir($file) && file_exists($file)) {
                 return 'Deletion of directory ' . $file . 'failed';
             }
@@ -60,7 +60,7 @@ function upgrade_module_4_10_1($module)
 {
     $path = __DIR__ . '/../vendor/phpunit';
     if (file_exists($path)) {
-        $result = removeFromFsDuringUpgrade(array($path));
+        $result = removeAutoupgradePhpUnitFromFsDuringUpgrade(array($path));
         if ($result !== true) {
             PrestaShopLogger::addLog('Could not delete PHPUnit from module. ' . $result, 3);
 
