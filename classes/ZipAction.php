@@ -69,7 +69,7 @@ class ZipAction
         }
 
         for ($i = 0; $i < $this->configMaxNbFilesCompressedInARow && count($filesList); ++$i) {
-            $file = array_shift($filesList);
+            $file = array_pop($filesList);
 
             $archiveFilename = $this->getFilepathInArchive($file);
             if (!$this->isFileWithinFileSizeLimit($file)) {
