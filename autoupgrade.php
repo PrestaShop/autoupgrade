@@ -42,7 +42,7 @@ class Autoupgrade extends Module
         }
 
         $this->displayName = $this->trans('1-Click Upgrade', array(), 'Modules.Autoupgrade.Admin');
-        $this->description = $this->trans('Provides an automated method to upgrade your shop to the latest version of PrestaShop.', array(), 'Modules.Autoupgrade.Admin');
+        $this->description = $this->trans('Upgrade to the latest version of PrestaShop in a few clicks, thanks to this automated method.', array(), 'Modules.Autoupgrade.Admin');
 
         $this->ps_versions_compliancy = array('min' => '1.6.0.0', 'max' => _PS_VERSION_);
     }

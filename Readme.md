@@ -2,7 +2,7 @@
 
 ## About
 
-Provides an automated method to upgrade your shop to the latest version of PrestaShop.
+Upgrade to the latest version of PrestaShop in a few clicks, thanks to this automated method.
 This module is compatible with all PrestaShop 1.6 & 1.7.
 
 # Prerequisites
