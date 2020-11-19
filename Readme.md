@@ -1,5 +1,7 @@
 # 1-Click Upgrade
 
+[![Build Status](https://travis-ci.com/PrestaShop/autoupgrade.svg?branch=dev)](https://travis-ci.com/PrestaShop/autoupgrade)
+
 ## About
 
 Upgrade to the latest version of PrestaShop in a few clicks, thanks to this automated method.
