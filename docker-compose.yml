@@ -21,6 +21,7 @@ services:
       DB_NAME: psreference
       PS_DOMAIN: localhost:8001
       PS_INSTALL_AUTO: 1
+      PS_INSTALL_DB: 1
       PS_ERASE_DB: 1
       PS_FOLDER_ADMIN: admin-dev
       PS_FOLDER_INSTALL: install-dev
