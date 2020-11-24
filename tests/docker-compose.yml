@@ -37,6 +37,7 @@ services:
     environment:
       DB_SERVER: db
       PS_INSTALL_AUTO: 0
+      PS_INSTALL_DB: 1
       PS_COUNTRY: fr
       PS_DOMAIN: prestashop-web
       PS_FOLDER_ADMIN: admin-dev
