@@ -22,6 +22,7 @@ before_script:
   - docker exec -u www-data -ti prestashop_autoupgrade cp modules/autoupgrade/ -R admin-dev
   - docker exec -u www-data -ti prestashop_autoupgrade mkdir admin-dev/autoupgrade/download
   - docker exec -u www-data -ti prestashop_autoupgrade cp modules/autoupgrade/2020-11-24-1.7.7.x-prestashop_1.7.7.0.zip admin-dev/autoupgrade/download/prestashop.zip
+  - docker exec -u www-data -ti prestashop_autoupgrade php admin-dev/autoupgrade/cli-updateconfig.php --from=admin-dev/autoupgrade/tests/fixtures/archive_config_file.json --dir=admin-dev
 
 script:
   # Upgrade

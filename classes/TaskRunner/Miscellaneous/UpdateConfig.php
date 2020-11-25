@@ -32,61 +32,74 @@ use PrestaShop\Module\AutoUpgrade\Upgrader;
  */
 class UpdateConfig extends AbstractTask
 {
+    /**
+     * @var bool
+     */
+    protected $isRunInCLI = false;
+
+    /**
+     * Data being passed by CLI entry point
+     *
+     * @var array
+     */
+    protected $cliParameters;
+
     public function run()
     {
         // nothing next
         $this->next = '';
 
         // Was coming from AdminSelfUpgrade::currentParams before
-        $request = $this->getRequestParams();
+        $inputConfigurationData = $this->fetchConfigurationData();
+
         $config = array();
         // update channel
-        if (isset($request['channel'])) {
-            $config['channel'] = $request['channel'];
+        if (isset($inputConfigurationData['channel'])) {
+            $config['channel'] = $inputConfigurationData['channel'];
             $config['archive.filename'] = Upgrader::DEFAULT_FILENAME;
             // Switch on default theme if major upgrade (i.e: 1.6 -> 1.7)
-            $config['PS_AUTOUP_CHANGE_DEFAULT_THEME'] = ($request['channel'] === 'major');
+            $config['PS_AUTOUP_CHANGE_DEFAULT_THEME'] = ($inputConfigurationData['channel'] === 'major');
         }
-        if (isset($request['private_release_link'], $request['private_release_md5'])) {
+        if (isset($inputConfigurationData['private_release_link'], $inputConfigurationData['private_release_md5'])) {
             $config['channel'] = 'private';
-            $config['private_release_link'] = $request['private_release_link'];
-            $config['private_release_md5'] = $request['private_release_md5'];
-            $config['private_allow_major'] = $request['private_allow_major'];
+            $config['private_release_link'] = $inputConfigurationData['private_release_link'];
+            $config['private_release_md5'] = $inputConfigurationData['private_release_md5'];
+            $config['private_allow_major'] = $inputConfigurationData['private_allow_major'];
         }
-        // if (!empty($request['archive_name']) && !empty($request['archive_num']))
-        if (!empty($request['archive_prestashop'])) {
-            $file = $request['archive_prestashop'];
+        // if (!empty($inputConfigurationData['archive_name']) && !empty($inputConfigurationData['archive_num']))
+        if (!empty($inputConfigurationData['archive_prestashop'])) {
+            $file = $inputConfigurationData['archive_prestashop'];
             if (!file_exists($this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $file)) {
                 $this->error = true;
                 $this->logger->info($this->translator->trans('File %s does not exist. Unable to select that channel.', array($file), 'Modules.Autoupgrade.Admin'));
 
                 return false;
             }
-            if (empty($request['archive_num'])) {
+            if (empty($inputConfigurationData['archive_num'])) {
                 $this->error = true;
                 $this->logger->info($this->translator->trans('Version number is missing. Unable to select that channel.', array(), 'Modules.Autoupgrade.Admin'));
 
                 return false;
             }
             $config['channel'] = 'archive';
-            $config['archive.filename'] = $request['archive_prestashop'];
-            $config['archive.version_num'] = $request['archive_num'];
-            // $config['archive_name'] = $request['archive_name'];
+            $config['archive.filename'] = $inputConfigurationData['archive_prestashop'];
+            $config['archive.version_num'] = $inputConfigurationData['archive_num'];
+            // $config['archive_name'] = $inputConfigurationData['archive_name'];
             $this->logger->info($this->translator->trans('Upgrade process will use archive.', array(), 'Modules.Autoupgrade.Admin'));
         }
-        if (isset($request['directory_num'])) {
+        if (isset($inputConfigurationData['directory_num'])) {
             $config['channel'] = 'directory';
-            if (empty($request['directory_num']) || strpos($request['directory_num'], '.') === false) {
+            if (empty($inputConfigurationData['directory_num']) || strpos($inputConfigurationData['directory_num'], '.') === false) {
                 $this->error = true;
                 $this->logger->info($this->translator->trans('Version number is missing. Unable to select that channel.', array(), 'Modules.Autoupgrade.Admin'));
 
                 return false;
             }
 
-            $config['directory.version_num'] = $request['directory_num'];
+            $config['directory.version_num'] = $inputConfigurationData['directory_num'];
         }
-        if (isset($request['skip_backup'])) {
-            $config['skip_backup'] = $request['skip_backup'];
+        if (isset($inputConfigurationData['skip_backup'])) {
+            $config['skip_backup'] = $inputConfigurationData['skip_backup'];
         }
 
         if (!$this->writeConfig($config)) {
@@ -95,6 +108,40 @@ class UpdateConfig extends AbstractTask
         }
     }
 
+    /**
+     * @param array $parameters
+     */
+    public function inputCLIParameters($parameters)
+    {
+        $this->isRunInCLI = true;
+        $this->cliParameters = $parameters;
+    }
+
+    /**
+     * Fetch data from either $_REQUEST (web context) or given input (CLI context)
+     */
+    protected function fetchConfigurationData()
+    {
+        if ($this->isRunInCLI) {
+            return $this->getCLIParameters();
+        } else {
+            return $this->getRequestParams();
+        }
+    }
+
+    protected function getCLIParameters()
+    {
+        if (empty($this->cliParameters)) {
+            throw new \RuntimeException('Empty CLI parameters - did CLI entry point failed to provide data?');
+        }
+
+        return $this->cliParameters;
+    }
+
+
+    /**
+     * @return array
+     */
     protected function getRequestParams()
     {
         return empty($_REQUEST['params']) ? array() : $_REQUEST['params'];
