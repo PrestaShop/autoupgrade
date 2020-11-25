@@ -2,11 +2,26 @@ language: php
 services: docker
 
 php:
-  - '7.2'
+  - '5.6'
 
 env:
+  - VERSION=1.7.2.2
+    CHANNEL=major
+    TEST_TYPE=standard
+  - VERSION=1.6
+    CHANNEL=major
+    TEST_TYPE=standard
+  - VERSION=1.6.1.10
+    CHANNEL=minor
+    TEST_TYPE=standard
+  # Check how the upgrade behaves with the latest stable PrestaShop release
+  - VERSION=latest
+    CHANNEL=minor
+    TEST_TYPE=standard
+  # Check how the upgrade behaves with the latest pre-release PrestaShop version
   - VERSION=latest
     CHANNEL=archive
+    TEST_TYPE=from_archive
 
 cache:
   directories:
@@ -14,19 +29,23 @@ cache:
 
 install:
   - composer install
-  - wget https://storage.googleapis.com/prestashop-core-nightly/2020-11-24-1.7.7.x-prestashop_1.7.7.0.zip
+  - if [ "$TEST_TYPE" == "from_archive" ]; then
+      wget https://storage.googleapis.com/prestashop-core-nightly/2020-11-24-1.7.7.x-prestashop_1.7.7.0.zip;
+    fi
   - docker-compose up -d
 
 before_script:
   - bash -c 'while [[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost:8001/index.php)" != "200" ]]; do sleep 5; done'
   - docker exec -u www-data -ti prestashop_autoupgrade cp modules/autoupgrade/ -R admin-dev
-  - docker exec -u www-data -ti prestashop_autoupgrade mkdir admin-dev/autoupgrade/download
-  - docker exec -u www-data -ti prestashop_autoupgrade cp modules/autoupgrade/2020-11-24-1.7.7.x-prestashop_1.7.7.0.zip admin-dev/autoupgrade/download/prestashop.zip
-  - docker exec -u www-data -ti prestashop_autoupgrade php admin-dev/autoupgrade/cli-updateconfig.php --from=admin-dev/autoupgrade/tests/fixtures/archive_config_file.json --dir=admin-dev
+  - if [ "$TEST_TYPE" == "from_archive" ]; then
+      docker exec -u www-data -ti prestashop_autoupgrade mkdir admin-dev/autoupgrade/download;
+      docker exec -u www-data -ti prestashop_autoupgrade cp modules/autoupgrade/2020-11-24-1.7.7.x-prestashop_1.7.7.0.zip admin-dev/autoupgrade/download/prestashop.zip;
+      docker exec -u www-data -ti prestashop_autoupgrade php admin-dev/autoupgrade/cli-updateconfig.php --from=admin-dev/autoupgrade/tests/fixtures/archive_config_file.json --dir=admin-dev;
+    fi
 
 script:
   # Upgrade
-  - docker exec -u www-data -ti prestashop_autoupgrade php modules/autoupgrade/tests/testCliProcess.php admin-dev/autoupgrade/cli-upgrade.php  --dir="admin-dev" --channel="archive"
+  - docker exec -u www-data -ti prestashop_autoupgrade php modules/autoupgrade/tests/testCliProcess.php admin-dev/autoupgrade/cli-upgrade.php  --dir="admin-dev" --channel="$CHANNEL"
   # Front office -> HTTP code 200 expected (no maintenance)
   - bash -c '[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost:8001/index.php)" == "200" ]'
   # Back office -> HTTP code 200 expected
