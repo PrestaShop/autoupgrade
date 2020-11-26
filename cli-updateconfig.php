@@ -30,7 +30,21 @@ if (PHP_SAPI !== 'cli') {
     exit(1);
 }
 
-$inputConfigurationFile = getopt('', array('from::'))['from'];
+$helpInput = getopt('h', array('help'));
+$helpMessage = "Usage: php cli-updateconfig.php [--from=<configurationFile>]";
+
+if (isset($helpInput['h']) || isset($helpInput['help'])) {
+    echo $helpMessage . PHP_EOL;
+    exit(0);
+}
+
+$fromInput = getopt('', array('from::'));
+if (!isset($fromInput['from'])) {
+    echo 'This script expects a --from parameter' . PHP_EOL;
+    exit(1);
+}
+
+$inputConfigurationFile = $fromInput['from'];
 if (!file_exists($inputConfigurationFile)) {
     echo sprintf('Invalid input configuration file %s', $inputConfigurationFile).PHP_EOL;
     exit(1);
