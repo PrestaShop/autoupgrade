@@ -47,12 +47,12 @@ class UpgradeNow extends AbstractTask
             $upgrader->checkPSVersion(false, array('minor'));
         }
 
-        /*if ($upgrader->isLastVersion()) {
+        if (!in_array($channel, ['private','archive','directory']) && $upgrader->isLastVersion()) {
             $this->next = '';
             $this->logger->info($this->translator->trans('You already have the %s version.', array($upgrader->version_name), 'Modules.Autoupgrade.Admin'));
 
             return;
-        }*/
+        }
 
         switch ($channel) {
             case 'directory':
