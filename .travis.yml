@@ -41,7 +41,7 @@ before_script:
   - docker exec -u www-data -ti prestashop_autoupgrade cp modules/autoupgrade/ -R admin-dev
   - if [ "$TEST_TYPE" == "from_archive" ]; then
       docker exec -u www-data -ti prestashop_autoupgrade mkdir admin-dev/autoupgrade/download;
-      docker exec -u www-data -ti prestashop_autoupgrade cp modules/autoupgrade/prestashop.zip admin-dev/autoupgrade/download/prestashop.zip;
+      docker exec -u www-data -ti prestashop_autoupgrade mv modules/autoupgrade/prestashop.zip admin-dev/autoupgrade/download/prestashop.zip;
       docker exec -u www-data -ti prestashop_autoupgrade php admin-dev/autoupgrade/cli-updateconfig.php --from=admin-dev/autoupgrade/tests/fixtures/archive_config_file.json --dir=admin-dev;
     fi
 

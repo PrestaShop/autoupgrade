@@ -42,7 +42,7 @@ class UpdateConfig extends AbstractTask
      *
      * @var array
      */
-    protected $cliParameters;
+    protected $cliParameters = [];
 
     public function run()
     {
@@ -124,9 +124,8 @@ class UpdateConfig extends AbstractTask
     {
         if ($this->isRunInCLI) {
             return $this->getCLIParameters();
-        } else {
-            return $this->getRequestParams();
         }
+        return $this->getRequestParams();
     }
 
     protected function getCLIParameters()

@@ -32,7 +32,7 @@ if (PHP_SAPI !== 'cli') {
 
 $inputConfigurationFile = getopt('', array('from::'))['from'];
 if (!file_exists($inputConfigurationFile)) {
-    echo sprintf('Invalid input configuration file %s', $inputConfigurationFile).PHP_EOL;
+    echo sprintf('Invalid input configuration file %s', $inputConfigurationFile) . PHP_EOL;
     exit(1);
 }
 $inputData = json_decode(file_get_contents($inputConfigurationFile), true);
