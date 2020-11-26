@@ -7,17 +7,17 @@ php:
 env:
   - VERSION=1.7.2.2
     CHANNEL=major
-    TEST_TYPE=standard
+    TEST_TYPE=from_channel
   - VERSION=1.6
     CHANNEL=major
-    TEST_TYPE=standard
+    TEST_TYPE=from_channel
   - VERSION=1.6.1.10
     CHANNEL=minor
-    TEST_TYPE=standard
+    TEST_TYPE=from_channel
   # Check how the upgrade behaves with the latest stable PrestaShop release
   - VERSION=latest
     CHANNEL=minor
-    TEST_TYPE=standard
+    TEST_TYPE=from_channel
   # Check how the upgrade behaves with the latest pre-release PrestaShop version
   - VERSION=latest
     CHANNEL=archive
