@@ -48,7 +48,7 @@ class UpgradeContainer
     const BACKUP_PATH = 'backup';
     const DOWNLOAD_PATH = 'download';
     const LATEST_PATH = 'latest'; // AdminSelfUpgrade::$latestRootDir
-    const LATEST_DIR = 'lastest/';
+    const LATEST_DIR = 'latest/';
     const TMP_PATH = 'tmp';
     const PS_ADMIN_PATH = 'ps_admin';
     const PS_ADMIN_SUBDIR = 'ps_admin_subdir';
