@@ -28,8 +28,6 @@ before_script:
   - docker exec -u www-data -ti prestashop_autoupgrade cp modules/autoupgrade/ -R admin-dev
 
 script:
-  - php vendor/phpunit/phpunit/phpunit tests
-
   # PHP Stan
   - if [[ $VERSION == "1.6" ]] || [[ $VERSION == 1\.6* ]]; then
       export PHPSTAN_FILE=phpstan-PS-16.neon;
