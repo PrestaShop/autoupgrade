@@ -30,7 +30,21 @@ if (PHP_SAPI !== 'cli') {
     exit(1);
 }
 
-$inputConfigurationFile = getopt('', array('from::'))['from'];
+$helpInput = getopt('h', array('help'));
+$helpMessage = "Usage: php cli-updateconfig.php [--from=<configurationFile>]";
+
+if (isset($helpInput['h']) || isset($helpInput['help'])) {
+    echo $helpMessage . PHP_EOL;
+    exit(0);
+}
+
+$fromInput = getopt('', array('from::'));
+if (!isset($fromInput['from'])) {
+    echo 'This script expects a --from parameter' . PHP_EOL;
+    exit(1);
+}
+
+$inputConfigurationFile = $fromInput['from'];
 if (!file_exists($inputConfigurationFile)) {
     echo sprintf('Invalid input configuration file %s', $inputConfigurationFile) . PHP_EOL;
     exit(1);
@@ -40,8 +54,10 @@ $inputData = json_decode(file_get_contents($inputConfigurationFile), true);
 require_once realpath(dirname(__FILE__) . '/../../modules/autoupgrade') . '/ajax-upgradetabconfig.php';
 $container = autoupgrade_init_container(dirname(__FILE__));
 
+use PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous\UpdateConfig;
+
 $container->setLogger(new PrestaShop\Module\AutoUpgrade\Log\StreamedLogger());
-$controller = new \PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous\UpdateConfig($container);
+$controller = new UpdateConfig($container);
 $controller->inputCLIParameters($inputData);
 $controller->init();
 exit($controller->run());

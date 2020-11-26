@@ -50,56 +50,56 @@ class UpdateConfig extends AbstractTask
         $this->next = '';
 
         // Was coming from AdminSelfUpgrade::currentParams before
-        $inputConfigurationData = $this->fetchConfigurationData();
+        $input = $this->fetchConfigurationData();
 
         $config = array();
         // update channel
-        if (isset($inputConfigurationData['channel'])) {
-            $config['channel'] = $inputConfigurationData['channel'];
+        if (isset($input['channel'])) {
+            $config['channel'] = $input['channel'];
             $config['archive.filename'] = Upgrader::DEFAULT_FILENAME;
             // Switch on default theme if major upgrade (i.e: 1.6 -> 1.7)
-            $config['PS_AUTOUP_CHANGE_DEFAULT_THEME'] = ($inputConfigurationData['channel'] === 'major');
+            $config['PS_AUTOUP_CHANGE_DEFAULT_THEME'] = ($input['channel'] === 'major');
         }
-        if (isset($inputConfigurationData['private_release_link'], $inputConfigurationData['private_release_md5'])) {
+        if (isset($input['private_release_link'], $input['private_release_md5'])) {
             $config['channel'] = 'private';
-            $config['private_release_link'] = $inputConfigurationData['private_release_link'];
-            $config['private_release_md5'] = $inputConfigurationData['private_release_md5'];
-            $config['private_allow_major'] = $inputConfigurationData['private_allow_major'];
+            $config['private_release_link'] = $input['private_release_link'];
+            $config['private_release_md5'] = $input['private_release_md5'];
+            $config['private_allow_major'] = $input['private_allow_major'];
         }
-        // if (!empty($inputConfigurationData['archive_name']) && !empty($inputConfigurationData['archive_num']))
-        if (!empty($inputConfigurationData['archive_prestashop'])) {
-            $file = $inputConfigurationData['archive_prestashop'];
+        // if (!empty($input['archive_name']) && !empty($input['archive_num']))
+        if (!empty($input['archive_prestashop'])) {
+            $file = $input['archive_prestashop'];
             if (!file_exists($this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $file)) {
                 $this->error = true;
                 $this->logger->info($this->translator->trans('File %s does not exist. Unable to select that channel.', array($file), 'Modules.Autoupgrade.Admin'));
 
                 return false;
             }
-            if (empty($inputConfigurationData['archive_num'])) {
+            if (empty($input['archive_num'])) {
                 $this->error = true;
                 $this->logger->info($this->translator->trans('Version number is missing. Unable to select that channel.', array(), 'Modules.Autoupgrade.Admin'));
 
                 return false;
             }
             $config['channel'] = 'archive';
-            $config['archive.filename'] = $inputConfigurationData['archive_prestashop'];
-            $config['archive.version_num'] = $inputConfigurationData['archive_num'];
-            // $config['archive_name'] = $inputConfigurationData['archive_name'];
+            $config['archive.filename'] = $input['archive_prestashop'];
+            $config['archive.version_num'] = $input['archive_num'];
+            // $config['archive_name'] = $input['archive_name'];
             $this->logger->info($this->translator->trans('Upgrade process will use archive.', array(), 'Modules.Autoupgrade.Admin'));
         }
-        if (isset($inputConfigurationData['directory_num'])) {
+        if (isset($input['directory_num'])) {
             $config['channel'] = 'directory';
-            if (empty($inputConfigurationData['directory_num']) || strpos($inputConfigurationData['directory_num'], '.') === false) {
+            if (empty($input['directory_num']) || strpos($input['directory_num'], '.') === false) {
                 $this->error = true;
                 $this->logger->info($this->translator->trans('Version number is missing. Unable to select that channel.', array(), 'Modules.Autoupgrade.Admin'));
 
                 return false;
             }
 
-            $config['directory.version_num'] = $inputConfigurationData['directory_num'];
+            $config['directory.version_num'] = $input['directory_num'];
         }
-        if (isset($inputConfigurationData['skip_backup'])) {
-            $config['skip_backup'] = $inputConfigurationData['skip_backup'];
+        if (isset($input['skip_backup'])) {
+            $config['skip_backup'] = $input['skip_backup'];
         }
 
         if (!$this->writeConfig($config)) {
