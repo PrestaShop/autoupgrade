@@ -1,6 +1,5 @@
 nbproject
 
-/tests/E2E/
 /vendor/
 
 .php_cs.cache
