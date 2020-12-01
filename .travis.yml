@@ -24,12 +24,10 @@ install:
   - docker-compose up -d
 
 before_script:
-  - bash -c 'while [[ "$(curl -s -o /dev/null -w %{http_code} http://localhost:8001/index.php)" != "200" ]]; do sleep 5; done'
+  - bash -c 'while [[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost:8001/index.php)" != "200" ]]; do sleep 5; done'
   - docker exec -u www-data -ti prestashop_autoupgrade cp modules/autoupgrade/ -R admin-dev
 
 script:
-  - php vendor/phpunit/phpunit/phpunit tests
-
   # PHP Stan
   - if [[ $VERSION == "1.6" ]] || [[ $VERSION == 1\.6* ]]; then
       export PHPSTAN_FILE=phpstan-PS-16.neon;

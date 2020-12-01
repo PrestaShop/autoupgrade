@@ -1,7 +1,6 @@
 nbproject
 
-/tests/E2E/
 /vendor/
-
+/config_*.xml
 .php_cs.cache
 .idea
