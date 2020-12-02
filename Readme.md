@@ -1,6 +1,10 @@
 # 1-Click Upgrade
 
 [![Build Status](https://travis-ci.com/PrestaShop/autoupgrade.svg?branch=dev)](https://travis-ci.com/PrestaShop/autoupgrade)
+![PHP tests](https://github.com/PrestaShop/autoupgrade/workflows/PHP%20tests/badge.svg)
+[![Latest Stable Version](https://poser.pugx.org/PrestaShop/autoupgrade/v)](//packagist.org/packages/PrestaShop/autoupgrade)
+[![Total Downloads](https://poser.pugx.org/PrestaShop/autoupgrade/downloads)](//packagist.org/packages/PrestaShop/autoupgrade)
+[![GitHub license](https://img.shields.io/github/license/PrestaShop/autoupgrade)](https://github.com/PrestaShop/autoupgrade/LICENSE.md)
 
 ## About
 
