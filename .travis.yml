@@ -5,15 +5,36 @@ php:
   - '5.6'
 
 env:
-  - VERSION=1.7.2.2
-    CHANNEL=major
-  - VERSION=1.6
-    CHANNEL=major
+  # PS 1.6
   - VERSION=1.6.1.10
     CHANNEL=minor
-  # Check how the upgrade behaves with the latest PrestaShop
-  - VERSION=latest
+    IMAGE_PATH=1.6.1.10
+  - VERSION=1.6.1.24
+    CHANNEL=major
+    IMAGE_PATH=1.6.1.24
+  # PS 1.7
+  - VERSION=1.7.2.2
+    CHANNEL=major
+    IMAGE_PATH=1.7.2.2
+  - VERSION=1.7.3.0
+    CHANNEL=major
+    IMAGE_PATH=1.7.3.0
+  - VERSION=1.7.4.4
     CHANNEL=minor
+    IMAGE_PATH=1.7.4.4
+  - VERSION=1.7.5.2
+    CHANNEL=minor
+    IMAGE_PATH=1.7.5.2
+  - VERSION=1.7.6.0
+    CHANNEL=minor
+    IMAGE_PATH=1.7.6.0
+  - VERSION=1.7.6.9
+    CHANNEL=minor
+    IMAGE_PATH=1.7.6.9
+  # Check how the upgrade behaves with the latest PrestaShop
+  - VERSION=1.7.7.0
+    CHANNEL=minor
+    IMAGE_PATH=1.7.7.0
 
 cache:
   directories:
