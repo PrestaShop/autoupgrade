@@ -27,6 +27,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 
+use Module;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
@@ -37,8 +38,10 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\SettingsFileWriter;
  */
 class UninstallIncompatibleModules extends AbstractTask
 {
-    // Modules incompatible with 1.7.x
-    private static $incompatibleModules = [
+    const PS_VERSION_INCOMPATIBLE_MODULES = '1.7.0.0';
+
+    // Modules incompatible with PrestaShop >= 1.7.x
+    private $incompatibleModules = [
         'bankwire',
         'blockbanner',
         'blockcart',
@@ -93,7 +96,13 @@ class UninstallIncompatibleModules extends AbstractTask
     public function run()
     {
         $this->next = 'upgradeDb';
-        if (version_compare($this->container->getState()->getInstallVersion(), '1.7.0.0', '<')) {
+        if (
+            version_compare(
+                $this->container->getState()->getInstallVersion(),
+                static::PS_VERSION_INCOMPATIBLE_MODULES,
+                '<'
+            )
+        ) {
             $this->logger->info(
                 $this->translator->trans(
                     'No incompatible module to uninstall. Now upgrading database...',
@@ -104,9 +113,44 @@ class UninstallIncompatibleModules extends AbstractTask
 
             return true;
         }
-        $modulePath = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH)
-            . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR;
 
+        $modulePath = $this->getModulePath();
+        $this->assertModulePathIsValid($modulePath);
+
+        foreach (scandir($modulePath) as $moduleName) {
+            if (
+                in_array($moduleName, $this->incompatibleModules)
+                && file_exists($modulePath . $moduleName . DIRECTORY_SEPARATOR . $moduleName . '.php')
+            ) {
+                $this->logger->info('Uninstalling module ' . $moduleName);
+                $module = Module::getInstanceByName($moduleName);
+                if ($module instanceof Module) {
+                    if (!$module->uninstall()) {
+                        $this->logger->warning('Unable to uninstall ' . $moduleName);
+                    }
+                }
+            }
+        }
+
+        $this->logger->info(
+            $this->translator->trans(
+                'Incompatible modules uninstalled. Now upgrading database...',
+                array(),
+                'Modules.Autoupgrade.Admin'
+            )
+        );
+
+        return true;
+    }
+
+    private function getModulePath()
+    {
+        return $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH)
+            . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR;
+    }
+
+    private function assertModulePathIsValid($modulePath)
+    {
         if (!is_dir($modulePath)) {
             throw (new UpgradeException(
                 $this->translator->trans(
@@ -124,26 +168,6 @@ class UninstallIncompatibleModules extends AbstractTask
                 )
                 ->setSeverity(UpgradeException::SEVERITY_ERROR);
         }
-
-        foreach (scandir($modulePath) as $moduleName) {
-            if (
-                in_array($moduleName, static::$incompatibleModules)
-                && file_exists($modulePath . $moduleName . DIRECTORY_SEPARATOR . $moduleName . '.php')
-            ) {
-                $this->logger->info('Uninstalling module ' . $moduleName);
-                \Module::getInstanceByName($moduleName)->uninstall();
-            }
-        }
-
-        $this->logger->info(
-            $this->translator->trans(
-                'Incompatible modules uninstalled. Now upgrading database...',
-                array(),
-                'Modules.Autoupgrade.Admin'
-            )
-        );
-
-        return true;
     }
 
     public function init()
