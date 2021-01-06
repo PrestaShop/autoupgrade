@@ -128,10 +128,10 @@ class RemoveSamples extends AbstractTask
             ));
 
             if ($this->container->getUpgradeConfiguration()->get('skip_backup')) {
-                $this->next = 'upgradeFiles';
+                $this->next = 'uninstallIncompatibleModules';
                 $this->logger->info(
                     $this->translator->trans(
-                        'All sample files removed. Backup process skipped. Now upgrading files.',
+                        'All sample files removed. Backup process skipped. Now uninstalling incompatible modules.',
                         array(),
                         'Modules.Autoupgrade.Admin'
                 ));

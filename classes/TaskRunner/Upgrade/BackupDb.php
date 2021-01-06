@@ -39,8 +39,8 @@ class BackupDb extends AbstractTask
         if (!$this->container->getUpgradeConfiguration()->get('PS_AUTOUP_BACKUP')) {
             $this->stepDone = true;
             $this->container->getState()->setDbStep(0);
-            $this->logger->info($this->translator->trans('Database backup skipped. Now upgrading files...', array(), 'Modules.Autoupgrade.Admin'));
-            $this->next = 'upgradeFiles';
+            $this->logger->info($this->translator->trans('Database backup skipped. Now uninstalling incompatible modules...', array(), 'Modules.Autoupgrade.Admin'));
+            $this->next = 'uninstallIncompatibleModules';
 
             return true;
         }
@@ -289,8 +289,8 @@ class BackupDb extends AbstractTask
             // reset dbStep at the end of this step
             $this->container->getState()->setDbStep(0);
 
-            $this->logger->info($this->translator->trans('Database backup done in filename %s. Now upgrading files...', array($this->container->getState()->getBackupName()), 'Modules.Autoupgrade.Admin'));
-            $this->next = 'upgradeFiles';
+            $this->logger->info($this->translator->trans('Database backup done in filename %s. Now uninstalling incompatible modules...', array($this->container->getState()->getBackupName()), 'Modules.Autoupgrade.Admin'));
+            $this->next = 'uninstallIncompatibleModules';
 
             return true;
         }

@@ -31,7 +31,6 @@ use Module;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\SettingsFileWriter;
 
 /**
  * Uninstall modules that are not compatible with the version of PrestaShop being installed
@@ -95,7 +94,8 @@ class UninstallIncompatibleModules extends AbstractTask
 
     public function run()
     {
-        $this->next = 'upgradeDb';
+
+        $this->next = 'upgradeFiles';
         if (
             version_compare(
                 $this->container->getState()->getInstallVersion(),
@@ -105,7 +105,7 @@ class UninstallIncompatibleModules extends AbstractTask
         ) {
             $this->logger->info(
                 $this->translator->trans(
-                    'No incompatible module to uninstall. Now upgrading database...',
+                    'No incompatible module to uninstall. Now upgrading files...',
                     array(),
                     'Modules.Autoupgrade.Admin'
                 )
@@ -117,24 +117,24 @@ class UninstallIncompatibleModules extends AbstractTask
         $modulePath = $this->getModulePath();
         $this->assertModulePathIsValid($modulePath);
 
-        foreach (scandir($modulePath) as $moduleName) {
+        $installedModules = Module::getModulesInstalled();
+        foreach ($installedModules as $installedModule) {
+            $moduleName = $installedModule['name'];
             if (
                 in_array($moduleName, $this->incompatibleModules)
                 && file_exists($modulePath . $moduleName . DIRECTORY_SEPARATOR . $moduleName . '.php')
             ) {
                 $this->logger->info('Uninstalling module ' . $moduleName);
                 $module = Module::getInstanceByName($moduleName);
-                if ($module instanceof Module) {
-                    if (!$module->uninstall()) {
-                        $this->logger->warning('Unable to uninstall ' . $moduleName);
-                    }
+                if ($module instanceof Module && !$module->uninstall()) {
+                    $this->logger->warning('Unable to uninstall ' . $moduleName);
                 }
             }
         }
 
         $this->logger->info(
             $this->translator->trans(
-                'Incompatible modules uninstalled. Now upgrading database...',
+                'Incompatible modules uninstalled. Now upgrading files...',
                 array(),
                 'Modules.Autoupgrade.Admin'
             )
@@ -168,15 +168,5 @@ class UninstallIncompatibleModules extends AbstractTask
                 )
                 ->setSeverity(UpgradeException::SEVERITY_ERROR);
         }
-    }
-
-    public function init()
-    {
-        $this->container->getCacheCleaner()->cleanFolders();
-
-        // Migrating settings file
-        $this->container->initPrestaShopAutoloader();
-        (new SettingsFileWriter($this->translator))->migrateSettingsFile($this->logger);
-        parent::init();
     }
 }
