@@ -71,6 +71,8 @@ class TaskRepository
                 return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\UpgradeComplete($container);
             case 'upgradeDb':
                 return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\UpgradeDb($container);
+            case 'uninstallIncompatibleModules':
+                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\UninstallIncompatibleModules($container);
             case 'upgradeFiles':
                 return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\UpgradeFiles($container);
             case 'upgradeModules':

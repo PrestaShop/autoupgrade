@@ -64,14 +64,4 @@ class UpgradeDb extends AbstractTask
 
         return new CoreUpgrader17($this->container, $this->logger);
     }
-
-    public function init()
-    {
-        $this->container->getCacheCleaner()->cleanFolders();
-
-        // Migrating settings file
-        $this->container->initPrestaShopAutoloader();
-        (new SettingsFileWriter($this->translator))->migrateSettingsFile($this->logger);
-        parent::init();
-    }
 }

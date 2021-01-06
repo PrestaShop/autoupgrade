@@ -58,11 +58,11 @@ class UpgradeFiles extends AbstractTask
         // @TODO : does not upgrade files in modules, translations if they have not a correct md5 (or crc32, or whatever) from previous version
         for ($i = 0; $i < $this->container->getUpgradeConfiguration()->getNumberOfFilesPerCall(); ++$i) {
             if (count($filesToUpgrade) <= 0) {
-                $this->next = 'upgradeDb';
+                $this->next = 'uninstallIncompatibleModules';
                 if (file_exists(UpgradeFileNames::FILES_TO_UPGRADE_LIST)) {
                     unlink(UpgradeFileNames::FILES_TO_UPGRADE_LIST);
                 }
-                $this->logger->info($this->translator->trans('All files upgraded. Now upgrading database...', array(), 'Modules.Autoupgrade.Admin'));
+                $this->logger->info($this->translator->trans('All files upgraded. Now uninstalling incompatible modules...', array(), 'Modules.Autoupgrade.Admin'));
                 $this->stepDone = true;
                 break;
             }
@@ -205,8 +205,8 @@ class UpgradeFiles extends AbstractTask
         } elseif (is_dir($dest)) {
             if (strpos($dest, DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR) === false) {
                 FilesystemAdapter::deleteDirectory($dest, true);
+                $this->logger->debug(sprintf('removed dir %1$s.', $file));
             }
-            $this->logger->debug(sprintf('removed dir %1$s.', $file));
 
             return true;
         } else {
