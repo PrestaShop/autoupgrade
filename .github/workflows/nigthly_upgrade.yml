@@ -1,0 +1,30 @@
+name: Nightly Upgrades
+on:
+  schedule:
+    - cron: '0 0 * * *'
+jobs:
+  get_matrix:
+    name: Set up matrix
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.4
+      - id: set-matrix
+        run: echo "::set-output name=matrix::$(php ./.github/get_matrix.php)"
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+  upgrade:
+    needs: get_matrix
+    strategy:
+      matrix:
+        ps-versions: ${{ fromJson(needs.get_matrix.outputs.matrix) }}
+    runs-on: ubuntu-latest
+    name: Upgrade
+    steps:
+      - uses: actions/checkout@v2
+      - name: Composer Install
+        run: composer install
+      - name: Upgrade & Rollback
+        uses: ./.github/
