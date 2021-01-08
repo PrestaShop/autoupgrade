@@ -27,6 +27,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader;
 
+use Cache;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\ThemeAdapter;
@@ -679,6 +680,8 @@ abstract class CoreUpgrader
         }
         $this->logger->info($this->container->getTranslator()->trans('Switching to default theme.', array(), 'Modules.Autoupgrade.Admin'));
         $themeAdapter = new ThemeAdapter($this->db, $this->destinationUpgradeVersion);
+
+        Cache::clean('*');
 
         $themeErrors = $themeAdapter->enableTheme(
             $themeAdapter->getDefaultTheme()
