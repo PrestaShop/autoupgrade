@@ -2,9 +2,9 @@
 
 $matrix = [];
 
-$nightlyEnpoint = "https://api-nightly.prestashop.com/reports";
+$nightlyEndpoint = "https://api-nightly.prestashop.com/reports";
 
-$reports = json_decode(file_get_contents($nightlyEnpoint), true);
+$reports = json_decode(file_get_contents($nightlyEndpoint), true);
 $currentDate = "";
 foreach ($reports as $report) {
     $date = strtotime($report['date']);
