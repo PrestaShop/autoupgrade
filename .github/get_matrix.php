@@ -15,6 +15,7 @@ foreach ($reports as $report) {
         $matrix[] = [
             "from" => "1.7.6.9",
             "channel" => "archive",
+            "branch" => $report['version'],
             "version" => getVersionFromFilename($report['download']),
             "file" => $report['download']
         ];
