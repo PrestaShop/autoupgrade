@@ -39,11 +39,6 @@ use PrestaShop\Module\AutoUpgrade\Upgrader;
 class UpdateConfig extends AbstractTask
 {
     /**
-     * @var bool
-     */
-    protected $isRunInCLI = false;
-
-    /**
      * Data being passed by CLI entry point
      *
      * @var array
@@ -115,13 +110,12 @@ class UpdateConfig extends AbstractTask
 
     public function inputCliParameters($parameters)
     {
-        $this->isRunInCLI = true;
         $this->cliParameters = $parameters;
     }
 
     protected function getConfigurationData()
     {
-        if ($this->isRunInCLI) {
+        if (null !== $this->cliParameters) {
             return $this->getCLIParams();
         }
 
