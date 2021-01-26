@@ -1,0 +1,57 @@
+name: Nightly Upgrades
+on:
+  schedule:
+    - cron: '0 0 * * *'
+jobs:
+  get_matrix:
+    name: Set up matrix
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.4
+      - id: set-matrix
+        run: echo "::set-output name=matrix::$(php ./.github/get_matrix.php)"
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+  upgrade:
+    continue-on-error: true
+    needs: get_matrix
+    strategy:
+      fail-fast: false
+      matrix:
+        ps-versions: ${{ fromJson(needs.get_matrix.outputs.matrix) }}
+    runs-on: ubuntu-latest
+    name: Upgrade
+    outputs:
+      result: ${{ steps.export-result.outputs.result }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Composer Install
+        run: |
+          composer install
+          echo "START_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"`" >> $GITHUB_ENV
+      - name: Upgrade & Rollback
+        id: upgrade-rollback
+        uses: ./.github/
+      - name: Format result
+        if: ${{ always() }}
+        run: |
+          export END_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"`
+          echo "${{matrix.ps-versions.branch}}|${{matrix.ps-versions.version}}|$START_DATE|$END_DATE|${{steps.upgrade-rollback.outcome}}" > result.txt
+          php ./.github/get_results.php
+      - name: Set up Cloud SDK
+        if: ${{ always() }}
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          export_default_credentials: true
+      - name: Push results to the nightly board
+        if: ${{ always() }}
+        run: |
+          export TODAY=`date -u +"%Y-%m-%d"`
+          export FILENAME=autoupgrade_$TODAY-${{matrix.ps-versions.branch}}.json
+          gsutil cp $FILENAME gs://prestashop-core-nightly/reports
+          curl -X GET "https://api-nightly.prestashop.com/hook/add?filename=$FILENAME&platform=cli&campaign=autoupgrade&token=${{ secrets.QANB_TOKEN }}"
