@@ -261,7 +261,7 @@ class UpgradePage
     }
 
     /**
-     * @return array|null
+     * @return array
      */
     private function getErrorMessage()
     {

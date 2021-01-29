@@ -166,7 +166,7 @@ class ModuleAdapter
                 continue;
             }
 
-            if ($content === null) {
+            if (empty($content)) {
                 $msg = '<strong>' . $this->translator->trans('[ERROR] No response from Addons server.', array(), 'Modules.Autoupgrade.Admin') . '</strong>';
                 throw new UpgradeException($msg);
             }
