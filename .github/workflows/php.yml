@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        presta-versions: [ '1.6.1.11', '1.7.6.9', 'latest' ]
+        presta-versions: [ '1.6.1.18', '1.7.6.9', 'latest' ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2.0.0
@@ -55,6 +55,7 @@ jobs:
           docker volume rm -f ps-volume || true
           docker run -d --rm -v ps-volume:/var/www/html --name temp-ps prestashop/prestashop:$PS_VERSION
           docker exec -t temp-ps rm -rf /var/www/html/modules/autoupgrade
+          docker build -t phpstan:php-7.4 ./tests/phpstan/
           docker run --rm --volumes-from temp-ps -v $PWD:/var/www/html/modules/autoupgrade \
-            -e _PS_ROOT_DIR_=/var/www/html --workdir=/var/www/html/modules/autoupgrade \quetzacoalt/phpstan \
+            -e _PS_ROOT_DIR_=/var/www/html --workdir=/var/www/html/modules/autoupgrade phpstan:php-7.4 \
             analyse --configuration=/var/www/html/modules/autoupgrade/tests/phpstan/$PHPSTAN_FILE

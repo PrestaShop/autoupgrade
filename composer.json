@@ -32,8 +32,7 @@
         }
     },
     "require-dev": {
-        "phpunit/phpunit": "^5",
-        "prestashop/php-dev-tools": "^2"
+        "phpunit/phpunit": "^5"
     },
     "author": "PrestaShop"
 }

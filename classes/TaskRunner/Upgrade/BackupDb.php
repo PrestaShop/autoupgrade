@@ -262,9 +262,7 @@ class BackupDb extends AbstractTask
             $this->logger->debug($this->translator->trans('%s tables have been saved.', array($found), 'Modules.Autoupgrade.Admin'));
             $this->next = 'backupDb';
             $this->stepDone = false;
-            if (count($tablesToBackup)) {
-                $this->logger->info($this->translator->trans('Database backup: %s table(s) left...', array(count($tablesToBackup)), 'Modules.Autoupgrade.Admin'));
-            }
+            $this->logger->info($this->translator->trans('Database backup: %s table(s) left...', array(count($tablesToBackup)), 'Modules.Autoupgrade.Admin'));
 
             return true;
         }
