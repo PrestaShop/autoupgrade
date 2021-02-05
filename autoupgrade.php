@@ -162,7 +162,7 @@ class Autoupgrade extends Module
      *
      * @return bool
      */
-    private function registerHookAndSetToTop($hookName)
+    public function registerHookAndSetToTop($hookName)
     {
         return $this->registerHook($hookName) && $this->updatePosition((int) Hook::getIdByName($hookName), 0);
     }
