@@ -2,7 +2,7 @@
 <module>
 	<name>autoupgrade</name>
 	<displayName><![CDATA[1-Click Upgrade]]></displayName>
-	<version><![CDATA[4.11.0]]></version>
+	<version><![CDATA[4.12.0]]></version>
 	<description><![CDATA[Provides an automated method to upgrade your shop to the latest version of PrestaShop.]]></description>
 	<author><![CDATA[PrestaShop]]></author>
 	<tab><![CDATA[administration]]></tab>
