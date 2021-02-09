@@ -64,7 +64,7 @@ class ZipAction
      * Add files to an archive.
      * Note the number of files added can be limited.
      *
-     * @var array List of files to add
+     * @var array $filesList List of files to add
      * @var string $toFile
      */
     public function compress(&$filesList, $toFile)
@@ -174,7 +174,7 @@ class ZipAction
     /**
      * Lists the files present in the given archive
      *
-     * @var string Path to the file
+     * @var string $zipfile Path to the file
      *
      * @return array
      */
@@ -202,7 +202,7 @@ class ZipAction
     /**
      * Get the path of a file from the archive root
      *
-     * @var string Path of the file on the filesystem
+     * @var string $filepath Path of the file on the filesystem
      *
      * @return string Path of the file in the backup archive
      */
@@ -214,7 +214,7 @@ class ZipAction
     /**
      * Checks a file size matches the given limits
      *
-     * @var string Path to a file
+     * @var string $filepath Path to a file
      *
      * @return bool Size is inside the maximum limit
      */
@@ -239,8 +239,8 @@ class ZipAction
     /**
      * Open an archive
      *
-     * @var string Path to the archive
-     * @var int ZipArchive flags
+     * @var string $zipFile Path to the archive
+     * @var int $flags ZipArchive flags
      *
      * @return false|\ZipArchive
      */
