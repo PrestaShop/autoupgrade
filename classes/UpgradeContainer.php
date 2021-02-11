@@ -198,6 +198,8 @@ class UpgradeContainer
                 return $this->getProperty(self::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $this->getProperty(self::ARCHIVE_FILENAME);
             case self::PS_VERSION:
                 return $this->getPrestaShopConfiguration()->getPrestaShopVersion();
+            default:
+                return '';
         }
     }
 

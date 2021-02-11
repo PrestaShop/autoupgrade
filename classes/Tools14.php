@@ -1434,9 +1434,9 @@ class Tools14
             curl_close($curl);
 
             return $content;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     public static function simplexml_load_file($url, $class_name = null)

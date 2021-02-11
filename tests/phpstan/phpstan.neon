@@ -1,12 +1,13 @@
 parameters:
-	bootstrap: /web/module/tests/phpstan/bootstrap.php
+	bootstrapFiles:
+		- ./../../tests/phpstan/bootstrap.php
 	reportUnmatchedIgnoredErrors: false
 	paths:
-		- /web/module/classes
+		- ./../../classes
 	excludes_analyse:
-		- /web/module/classes/Tools14.php
-		- /web/module/classes/pclzip.lib.php
-		- /web/module/functions.php
+		- ./../../classes/Tools14.php
+		- ./../../classes/pclzip.lib.php
+		- ./../../functions.php
 	ignoreErrors:
 		# module specific
 		- '#Function deactivate_custom_modules not found.#'

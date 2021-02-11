@@ -11,7 +11,11 @@ services:
 
   reference-release:
     container_name: prestashop_autoupgrade
-    image: prestashop/prestashop:${VERSION}
+    build:
+      context: .
+      dockerfile: ./.github/Dockerfile
+      args:
+        VERSION: $VERSION
     volumes:
       - ./:/var/www/html/modules/autoupgrade
       - temp-ps:/var/www/html # Used for another container which needs PrestaShop content

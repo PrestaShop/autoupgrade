@@ -31,7 +31,7 @@ class Autoupgrade extends Module
         $this->name = 'autoupgrade';
         $this->tab = 'administration';
         $this->author = 'PrestaShop';
-        $this->version = '4.11.0';
+        $this->version = '4.12.0';
         $this->need_instance = 1;
 
         $this->bootstrap = true;
@@ -162,7 +162,7 @@ class Autoupgrade extends Module
      *
      * @return bool
      */
-    private function registerHookAndSetToTop($hookName)
+    public function registerHookAndSetToTop($hookName)
     {
         return $this->registerHook($hookName) && $this->updatePosition((int) Hook::getIdByName($hookName), 0);
     }
