@@ -6,12 +6,19 @@ $nightlyEndpoint = "https://api-nightly.prestashop.com/reports";
 
 $reports = json_decode(file_get_contents($nightlyEndpoint), true);
 $currentDate = "";
+$zipFiles = [];
 foreach ($reports as $report) {
     $date = strtotime($report['date']);
     if ("" === $currentDate) {
         $currentDate = $date;
     }
+
+    if (null === $report['download'] || in_array($report['download'], $zipFiles)) {
+        continue;
+    }
+
     if ($date === $currentDate) {
+        $zipFiles[] = $report['download'];
         $matrix[] = [
             "from" => "1.7.6.9",
             "channel" => "archive",
