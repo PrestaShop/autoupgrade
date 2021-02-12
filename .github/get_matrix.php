@@ -12,9 +12,11 @@ foreach ($reports as $report) {
     if ("" === $currentDate) {
         $currentDate = $date;
     }
+
     if (null === $report['download'] || in_array($report['download'], $zipFiles)) {
         continue;
     }
+
     if ($date === $currentDate) {
         $zipFiles[] = $report['download'];
         $matrix[] = [
