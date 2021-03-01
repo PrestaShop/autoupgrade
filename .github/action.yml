@@ -5,7 +5,7 @@ runs:
   steps:
     - name: Build docker compose stack
       env:
-        VERSION: ${{ matrix.ps-versions.from }}
+        VERSION: ${{ matrix.from }}
       shell: bash
       run: |
         docker-compose -f docker-compose.yml up -d
