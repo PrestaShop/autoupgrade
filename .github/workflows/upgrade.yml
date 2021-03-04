@@ -4,18 +4,10 @@ jobs:
   upgrade:
     strategy:
       matrix:
+        from: ['1.6.1.11', '1.7.6.9', '1.7.6.1', '1.7.7.0']
         ps-versions:
-          - from: 1.6.1.11
-            channel: minor
-          # Failing for now
-          #- from: 1.6.1.24
-          #  channel: major
-          - from: 1.7.6.9
-            channel: major
-          - from: 1.7.6.1
-            channel: minor
-          - from: 1.7.7.0
-            channel: minor
+          - channel: minor
+          - channel: major
     runs-on: ubuntu-latest
     name: Upgrade
     steps:
