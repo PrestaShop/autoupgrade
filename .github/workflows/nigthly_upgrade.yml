@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        from: ['1.7.6.9', '1.7.7.0']
+        from: ['1.7.6.9', '1.7.7.0', '1.6.1.24']
         ps-versions: ${{ fromJson(needs.get_matrix.outputs.matrix) }}
     runs-on: ubuntu-latest
     name: Upgrade

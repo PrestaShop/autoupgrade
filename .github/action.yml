@@ -18,6 +18,7 @@ runs:
         CHANNEL: ${{ matrix.ps-versions.channel }}
         ARCHIVE_URL: ${{ matrix.ps-versions.file }}
         VERSION: ${{ matrix.ps-versions.version }}
+        FROM: ${{ matrix.from }}
       shell: bash
       run: ${{ github.action_path }}/action_upgrade.sh
     - name: Check endpoints response
