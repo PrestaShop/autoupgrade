@@ -72,6 +72,7 @@ function getResultFiles(string $branch): array
         if ($file->isDir() || strpos($file->getPathname(), $branch . '.txt') === false) {
             continue;
         }
+
         $files[] = $file->getPathname();
     }
 
