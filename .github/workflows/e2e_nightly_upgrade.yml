@@ -63,12 +63,11 @@ jobs:
         shell: bash
         run : |
           docker-compose -f docker-compose.yml up -d
-          bash -c 'while [[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost:8001/fr)" != "200" ]]; do sleep 5; done'
+          bash -c 'while [[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost:8001/index.php)" != "200" ]]; do sleep 5; done'
 
       - name: Install autoupgrade module
         shell: bash
         run: |
-          docker exec -u www-data prestashop_autoupgrade echo "<?php define('_PS_ADMIN_DIR_', 'admin-dev');" > /var/www/html/config/defines_custom.inc.php
           docker exec -u www-data prestashop_autoupgrade /var/www/html/bin/console --env=prod prestashop:module install autoupgrade
 
       - name: Download nightly build
