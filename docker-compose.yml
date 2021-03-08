@@ -15,7 +15,7 @@ services:
       context: .
       dockerfile: ./.github/Dockerfile
       args:
-        VERSION: $VERSION
+        VERSION: 1.7.7.1
     volumes:
       - ./:/var/www/html/modules/autoupgrade
       - temp-ps:/var/www/html # Used for another container which needs PrestaShop content
@@ -29,6 +29,8 @@ services:
       PS_ERASE_DB: 1
       PS_FOLDER_ADMIN: admin-dev
       PS_FOLDER_INSTALL: install-dev
+      PS_COUNTRY: fr
+      PS_LANGUAGE: en
     depends_on:
       - mysql
     ports:
