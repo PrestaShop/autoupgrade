@@ -1,0 +1,189 @@
+name: Nightly upgrades with user inferfaces
+
+on:
+  push:
+  schedule:
+    - cron: "0 6 * * *" # Every day at 06:00Am
+
+jobs:
+  # Pre-job : Get Upgrade target versions
+  get_ps_target_versions:
+    name: Get Upgrade target versions
+    runs-on: ubuntu-18.04
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 10
+
+      - name: Install dependencies
+        shell: bash
+        run: npm install
+        working-directory: ./tests/e2e
+
+      - id: set-target-versions
+        shell: bash
+        run: echo "::set-output name=TARGET_VERSIONS::$(node ./.github/scripts/getTargetVersions.js)"
+        env:
+          API_URL: https://api-nightly.prestashop.com/reports
+        working-directory: ./tests/e2e
+
+    outputs:
+      target_versions: ${{ steps.set-target-versions.outputs.TARGET_VERSIONS }}
+
+  # First job: upgrade
+  upgrade:
+    name: Testing Autoupgrade module on UI
+    continue-on-error: true
+    needs: get_ps_target_versions
+    runs-on: ubuntu-18.04
+    env:
+      nightly_storage: https://storage.googleapis.com/prestashop-core-nightly
+
+    # Testing upgrade from "1.7.4.4", "1.7.5.2", "1.7.6.9", "1.7.7.1" to the last "1.7.7.x" and "1.7.8.x" (develop)
+    strategy:
+      matrix:
+        ps_start_version: ["1.7.4.4", "1.7.5.2", "1.7.6.9", "1.7.7.1"]
+
+        ps_target_version: ${{ fromJson(needs.get_ps_target_versions.outputs.target_versions) }}
+
+      fail-fast: false
+
+    steps:
+
+      # Setup PrestaShop and Install Autoupgrade module
+      - uses: actions/checkout@v2
+
+      - name: Build PrestaShop ${{ matrix.ps_start_version }} on docker
+        env:
+          PS_VERSION: ${{ matrix.ps_start_version }}
+        shell: bash
+        run : |
+          docker-compose -f docker-compose.yml up -d
+          bash -c 'while [[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost:8001/fr)" != "200" ]]; do sleep 5; done'
+
+      - name: Install autoupgrade module
+        shell: bash
+        run: |
+          docker exec -u www-data prestashop_autoupgrade /var/www/html/bin/console --env=prod prestashop:module install autoupgrade
+
+      - name: Download nightly build
+        run: |
+          docker exec -u www-data prestashop_autoupgrade mkdir -p admin-dev/autoupgrade/download
+          docker exec -u www-data prestashop_autoupgrade curl ${{ matrix.ps_target_version.archive_zip }} -o admin-dev/autoupgrade/download/prestashop.zip
+
+      # Run tests
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 10
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./tests/e2e
+
+      - name: Run tests
+        env:
+          URL_FO: "http://localhost:8001/"
+          PS_VERSION: ${{ matrix.ps_start_version }}
+          PS_VERSION_UPGRADE_TO: ${{ matrix.ps_target_version.for_test }}
+          ZIP_NAME: ${{ matrix.ps_target_version.filename }}
+        run: npm run test
+        working-directory: ./tests/e2e
+
+      - uses: actions/upload-artifact@v2
+        name: Upload failed screenshots
+        if: ${{ always() }}
+        with:
+          name: failed-steps-for-test-${{ matrix.ps_start_version }}-${{ matrix.ps_target_version.for_test }}
+          path: ./tests/e2e/screenshots/
+
+      # Upload Mochawesome reports
+      - name: Rename Mochawesome report
+        if: ${{ always() }}
+        run: |
+          mkdir -p ./json-reports
+          cp ./tests/e2e/mochawesome-report/mochawesome.json ./json-reports/upgrade-from-${{ matrix.ps_start_version }}-to-${{ matrix.ps_target_version.for_test }}.json
+
+      - uses: actions/upload-artifact@v2
+        name: Upload Mochawesome report
+        if: ${{ always() }}
+        with:
+          name: tests-reports
+          path: ./json-reports
+
+  # Second job: merge reports (depends on upgrade job)
+  merge-reports:
+    name: Combine all tests reports
+    needs: upgrade
+    runs-on: ubuntu-18.04
+
+    env:
+      report_path: ./json-reports
+      combined_report_name: upgrade_tests.json
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/download-artifact@v2
+        name: Download reports
+        with:
+          name: tests-reports
+          path: ${{ env.report_path }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Combine reports
+        shell: bash
+        run: ./tests/e2e/scripts/combine-reports.py "${{ env.report_path }}" "${{ env.report_path }}/${{ env.combined_report_name }}"
+
+      - uses: actions/upload-artifact@v2
+        name: Upload combined report
+        with:
+          name: combined-report
+          path: ${{ env.report_path }}/${{ env.combined_report_name }}
+
+  # Third job: Upload report on GCP (Depends on merge-reports job)
+  upload-report:
+    name: Upload nghtly report
+    needs: merge-reports
+    runs-on: ubuntu-18.04
+
+    env:
+      nightly_api_url: https://api-nightly.prestashop.com/hook/add
+      campaign: autoupgrade
+      plateform: chromium
+      report_path: ./json-reports
+      combined_report_name: upgrade_tests.json
+
+    steps:
+
+      - uses: actions/download-artifact@v2
+        name: Download report
+        with:
+          name: combined-report
+          path: ${{ env.report_path }}
+
+      - uses: google-github-actions/setup-gcloud@master
+        name: Setup Cloud Sdk
+        with:
+          project_id: ${{ secrets.GC_PROJECT_ID }}
+          service_account_key: ${{ secrets.GC_SERVICE_KEY }}
+          export_default_credentials: true
+
+      - name: Push result to the nightly board
+        shell: bash
+        run: |
+          export TODAY=`date -u +"%Y-%m-%d"`
+          export FILENAME=autoupgrade_ui_$TODAY.json
+          cp ${{ env.combined_report_name }} $FILENAME
+          gsutil cp $FILENAME gs://prestashop-core-nightly/reports
+          curl -X GET "${{ env.nightly_api_url }}?filename=$FILENAME&platform=${{ env.plateform }}&campaign=${{ env.campaign }}&token=${{ secrets.QANB_TOKEN }}"
+
+        working-directory: ${{ env.report_path }}
