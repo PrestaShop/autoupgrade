@@ -57,6 +57,9 @@ jobs:
       # Setup PrestaShop and Install Autoupgrade module
       - uses: actions/checkout@v2
 
+      - name: Run Composer install
+        run: composer install
+
       - name: Build PrestaShop ${{ matrix.ps_start_version }} on docker
         env:
           VERSION: ${{ matrix.ps_start_version }}
