@@ -68,6 +68,7 @@ jobs:
       - name: Install autoupgrade module
         shell: bash
         run: |
+          docker exec -u www-data prestashop_autoupgrade echo "<?php define('_PS_ADMIN_DIR_', 'admin-dev');" > /var/www/html/config/defines_custom.inc.php
           docker exec -u www-data prestashop_autoupgrade /var/www/html/bin/console --env=prod prestashop:module install autoupgrade
 
       - name: Download nightly build

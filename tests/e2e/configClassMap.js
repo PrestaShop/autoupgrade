@@ -1,7 +1,6 @@
 const path = require('path');
 
 const basePath = path.resolve(__dirname);
-console.log(basePath);
 
 module.exports = [
   {
