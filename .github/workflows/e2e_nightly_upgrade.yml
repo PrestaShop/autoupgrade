@@ -59,7 +59,7 @@ jobs:
 
       - name: Build PrestaShop ${{ matrix.ps_start_version }} on docker
         env:
-          PS_VERSION: ${{ matrix.ps_start_version }}
+          VERSION: ${{ matrix.ps_start_version }}
         shell: bash
         run : |
           docker-compose -f docker-compose.yml up -d
