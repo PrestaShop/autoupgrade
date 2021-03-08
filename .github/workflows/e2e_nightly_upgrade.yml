@@ -26,7 +26,7 @@ jobs:
 
       - id: set-target-versions
         shell: bash
-        run: echo "::set-output name=TARGET_VERSIONS::$(node ./.github/scripts/getTargetVersions.js)"
+        run: echo "::set-output name=TARGET_VERSIONS::$(node ./scripts/getTargetVersions.js)"
         env:
           API_URL: https://api-nightly.prestashop.com/reports
         working-directory: ./tests/e2e
