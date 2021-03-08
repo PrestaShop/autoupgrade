@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint --ignore-path .gitignore .",
     "lint-fix": "eslint --fix --ignore-path .gitignore .",
-    "test": "./node_modules/mocha/bin/mocha --file node_modules/prestashop_test_lib/kernel/utils/setup.js --recursive --bail tests/*"
+    "upgrade-test": "./node_modules/mocha/bin/mocha --file node_modules/prestashop_test_lib/kernel/utils/setup.js --recursive --bail tests/01_upgrade.js"
   },
   "_moduleAliases": {
     "@root": ".",

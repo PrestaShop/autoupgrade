@@ -91,7 +91,7 @@ jobs:
           PS_VERSION: ${{ matrix.ps_start_version }}
           PS_VERSION_UPGRADE_TO: ${{ matrix.ps_target_version.for_test }}
           ZIP_NAME: ${{ matrix.ps_target_version.filename }}
-        run: npm run test
+        run: npm run upgrade-test
         working-directory: ./tests/e2e
 
       - uses: actions/upload-artifact@v2
