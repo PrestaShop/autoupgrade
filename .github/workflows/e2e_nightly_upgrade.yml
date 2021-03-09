@@ -89,7 +89,7 @@ jobs:
       - name: Download nightly build
         run: |
           docker exec -u www-data prestashop_autoupgrade mkdir -p admin-dev/autoupgrade/download
-          docker exec -u www-data prestashop_autoupgrade curl ${{ matrix.ps_target_version.archive_zip }} -o admin-dev/autoupgrade/download/prestashop.zip
+          docker exec -u www-data prestashop_autoupgrade curl ${{ matrix.ps_target_version.archive_zip }} -o admin-dev/autoupgrade/download/${{ matrix.ps_target_version.filename }}
 
       # Run Upgrade tests
       - name: Run tests

@@ -14,7 +14,7 @@ services:
       context: .
       dockerfile: ./.github/Dockerfile
       args:
-        - VERSION=1.7.4.4
+        - VERSION=$VERSION
     volumes:
       - ./:/var/www/html/modules/autoupgrade
       - temp-ps:/var/www/html # Used for another container which needs .envPrestaShop content
