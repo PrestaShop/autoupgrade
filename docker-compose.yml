@@ -1,12 +1,13 @@
-version: '3'
+version: '2'
 
 services:
   mysql:
     image: mysql:5.7
     ports:
       - '3306'
-    env_file:
-      - .env
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: psreference
 
   reference-release:
     container_name: prestashop_autoupgrade
@@ -14,14 +15,22 @@ services:
       context: .
       dockerfile: ./.github/Dockerfile
       args:
-        - VERSION=$VERSION
+        VERSION: $VERSION
     volumes:
       - ./:/var/www/html/modules/autoupgrade
-      - temp-ps:/var/www/html # Used for another container which needs .envPrestaShop content
-    env_file:
-      - .env
+    environment:
+      DB_SERVER: mysql
+      DB_PASSWD: root
+      DB_NAME: psreference
+      PS_DOMAIN: localhost
+      PS_INSTALL_AUTO: 1
+      PS_INSTALL_DB: 1
+      PS_ERASE_DB: 1
+      PS_FOLDER_ADMIN: admin-dev
+      PS_FOLDER_INSTALL: install-dev
+      PS_LANGUAGE: en
+      PS_COUNTRY: fr
+    depends_on:
+      - mysql
     ports:
-      - '8001:80'
-
-volumes:
-  temp-ps:
+      - '80:80'

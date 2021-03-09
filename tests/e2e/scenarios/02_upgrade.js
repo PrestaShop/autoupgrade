@@ -112,7 +112,7 @@ describe(`Upgrade PrestaShop from '${global.PS_VERSION}' to '${global.PS_VERSION
 
     for (let i = 1; i <= 10; i++) {
       const textResult = await upgradeModulePage.getRowImageContent(page, i);
-      await expect(textResult).to.equal('ok');
+      await expect(textResult).to.not.equal('nok');
     }
   });
 

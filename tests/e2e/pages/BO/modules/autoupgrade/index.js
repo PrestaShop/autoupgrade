@@ -63,7 +63,7 @@ class Upgrade extends ModuleConfigurationPage.constructor {
      */
   async putShopUnderMaintenance(page) {
     if (await this.elementVisible(page, this.putShopUnderMaintenanceButton, 2000)) {
-      await page.click(this.putShopUnderMaintenanceButton);
+      await this.clickAndWaitForNavigation(page, this.putShopUnderMaintenanceButton);
     }
   }
 
