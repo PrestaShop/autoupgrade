@@ -20,7 +20,6 @@ foreach ($reports as $report) {
     if ($date === $currentDate) {
         $zipFiles[] = $report['download'];
         $matrix[] = [
-            "from" => "1.7.6.9",
             "channel" => "archive",
             "branch" => $report['version'],
             "version" => getVersionFromFilename($report['download']),

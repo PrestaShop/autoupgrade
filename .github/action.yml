@@ -5,7 +5,7 @@ runs:
   steps:
     - name: Build docker compose stack
       env:
-        VERSION: ${{ matrix.ps-versions.from }}
+        VERSION: ${{ matrix.from }}
       shell: bash
       run: |
         docker-compose -f docker-compose.yml up -d
@@ -18,6 +18,7 @@ runs:
         CHANNEL: ${{ matrix.ps-versions.channel }}
         ARCHIVE_URL: ${{ matrix.ps-versions.file }}
         VERSION: ${{ matrix.ps-versions.version }}
+        FROM: ${{ matrix.from }}
       shell: bash
       run: ${{ github.action_path }}/action_upgrade.sh
     - name: Check endpoints response

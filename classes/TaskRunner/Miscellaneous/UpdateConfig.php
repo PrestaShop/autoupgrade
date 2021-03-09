@@ -101,6 +101,9 @@ class UpdateConfig extends AbstractTask
         if (isset($configurationData['skip_backup'])) {
             $config['skip_backup'] = $configurationData['skip_backup'];
         }
+        if (isset($configurationData['PS_AUTOUP_CHANGE_DEFAULT_THEME'])) {
+            $config['PS_AUTOUP_CHANGE_DEFAULT_THEME'] = $configurationData['PS_AUTOUP_CHANGE_DEFAULT_THEME'];
+        }
 
         if (!$this->writeConfig($config)) {
             $this->error = true;
