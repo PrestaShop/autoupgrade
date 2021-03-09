@@ -57,6 +57,7 @@ jobs:
       # Setup PrestaShop and Install Autoupgrade module
       - uses: actions/checkout@v2
 
+      # Build PrestaShop with docker-compose
       - name: Run Composer install
         run: composer install
 
@@ -68,17 +69,7 @@ jobs:
           docker-compose -f docker-compose.yml up -d
           bash -c 'while [[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost:8001/index.php)" != "200" ]]; do sleep 5; done'
 
-      - name: Install autoupgrade module
-        shell: bash
-        run: |
-          docker exec -u www-data prestashop_autoupgrade /var/www/html/bin/console --env=prod prestashop:module install autoupgrade
-
-      - name: Download nightly build
-        run: |
-          docker exec -u www-data prestashop_autoupgrade mkdir -p admin-dev/autoupgrade/download
-          docker exec -u www-data prestashop_autoupgrade curl ${{ matrix.ps_target_version.archive_zip }} -o admin-dev/autoupgrade/download/prestashop.zip
-
-      # Run tests
+      # Install le module with user interface
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
@@ -88,6 +79,19 @@ jobs:
         run: npm install
         working-directory: ./tests/e2e
 
+      - name: Install autoupgrade module
+        shell: bash
+        run: npm run install-module
+        env:
+          URL_FO: "http://localhost:8001/"
+          PS_VERSION: ${{ matrix.ps_start_version }}
+
+      - name: Download nightly build
+        run: |
+          docker exec -u www-data prestashop_autoupgrade mkdir -p admin-dev/autoupgrade/download
+          docker exec -u www-data prestashop_autoupgrade curl ${{ matrix.ps_target_version.archive_zip }} -o admin-dev/autoupgrade/download/prestashop.zip
+
+      # Run Upgrade tests
       - name: Run tests
         env:
           URL_FO: "http://localhost:8001/"

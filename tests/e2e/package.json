@@ -1,12 +1,12 @@
 {
-  "name": "autoupgrade_tests",
+  "name": "autoupgrade_e2e_tests",
   "version": "1.0.0",
-  "description": "Tests for 1-click-upgrade-module",
-  "main": "01_upgrade.js",
+  "description": "E2E tests for 1-click-upgrade-module",
   "scripts": {
     "lint": "eslint --ignore-path .gitignore .",
     "lint-fix": "eslint --fix --ignore-path .gitignore .",
-    "upgrade-test": "./node_modules/mocha/bin/mocha --file node_modules/prestashop_test_lib/kernel/utils/setup.js --recursive --bail tests/01_upgrade.js"
+    "install-module": "./node_modules/mocha/bin/mocha --file node_modules/prestashop_test_lib/kernel/utils/setup.js --recursive --bail scenarios/01_install.js",
+    "upgrade-test": "./node_modules/mocha/bin/mocha --file node_modules/prestashop_test_lib/kernel/utils/setup.js --recursive --bail scenarios/02_upgrade.js"
   },
   "_moduleAliases": {
     "@root": ".",
