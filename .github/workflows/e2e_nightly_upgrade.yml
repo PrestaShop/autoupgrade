@@ -80,8 +80,8 @@ jobs:
         working-directory: ./tests/e2e
 
       - name: Install autoupgrade module
-        shell: bash
         run: npm run install-module
+        working-directory: ./tests/e2e
         env:
           URL_FO: "http://localhost:8001/"
           PS_VERSION: ${{ matrix.ps_start_version }}
@@ -93,13 +93,13 @@ jobs:
 
       # Run Upgrade tests
       - name: Run tests
+        run: npm run upgrade-test
+        working-directory: ./tests/e2e
         env:
           URL_FO: "http://localhost:8001/"
           PS_VERSION: ${{ matrix.ps_start_version }}
           PS_VERSION_UPGRADE_TO: ${{ matrix.ps_target_version.for_test }}
           ZIP_NAME: ${{ matrix.ps_target_version.filename }}
-        run: npm run upgrade-test
-        working-directory: ./tests/e2e
 
       - uses: actions/upload-artifact@v2
         name: Upload failed screenshots
