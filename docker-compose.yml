@@ -18,11 +18,12 @@ services:
         VERSION: $VERSION
     volumes:
       - ./:/var/www/html/modules/autoupgrade
+      - temp-ps:/var/www/html # Used for another container which needs PrestaShop content
     environment:
       DB_SERVER: mysql
       DB_PASSWD: root
       DB_NAME: psreference
-      PS_DOMAIN: localhost
+      PS_DOMAIN: localhost:8001
       PS_INSTALL_AUTO: 1
       PS_INSTALL_DB: 1
       PS_ERASE_DB: 1
@@ -33,4 +34,7 @@ services:
     depends_on:
       - mysql
     ports:
-      - '80:80'
+      - '8001:80'
+
+volumes:
+  temp-ps:
