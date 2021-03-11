@@ -65,11 +65,8 @@ jobs:
           extensions: mbstring, intl, gd, xml, dom, json, fileinfo, curl, zip, iconv
 
       - name: Install Module dependencies
-        uses: php-actions/composer@v5
-        with:
-          php_version: 7.1
-          version: 1
-          command: install
+        shell: bash
+        run: composer install
 
       - name: Build PrestaShop ${{ matrix.ps_start_version }} on docker
         env:
