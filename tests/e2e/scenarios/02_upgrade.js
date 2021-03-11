@@ -109,7 +109,6 @@ describe(`Upgrade PrestaShop from '${global.PS_VERSION}' to '${global.PS_VERSION
 
   it('should put the shop under maintenance and check if the checklist is all green', async () => {
     await upgradeModulePage.putShopUnderMaintenance(page);
-    //await upgradeModulePage.ignoreRequirementError(page);
 
     for (let i = 1; i <= 10; i++) {
       const textResult = await upgradeModulePage.getRowImageContent(page, i);

@@ -22,7 +22,6 @@ class Upgrade extends ModuleConfigurationPage.constructor {
     this.putShopUnderMaintenanceButton = `${this.currentConfigurationForm} input[name='putUnderMaintenance']`;
     this.checklistTableRow = row => `${this.currentConfigurationForm} tbody tr:nth-child(${row})`;
     this.checklistTableColumnImage = row => `${this.checklistTableRow(row)} td img`;
-    this.ignoreRequirementErrorLink = '#ignore-requirement-error-link';
 
     // Start your upgrade form
     this.upgradeNowButton = '#upgradeNow';
@@ -65,17 +64,6 @@ class Upgrade extends ModuleConfigurationPage.constructor {
   async putShopUnderMaintenance(page) {
     if (await this.elementVisible(page, this.putShopUnderMaintenanceButton, 2000)) {
       await this.clickAndWaitForNavigation(page, this.putShopUnderMaintenanceButton);
-    }
-  }
-
-  /**
-   * Ignore PrestaShop requirement error
-   * @param page
-   * @returns {Promise<void>}
-   */
-  async ignoreRequirementError(page) {
-    if (await this.elementVisible(page, this.ignoreRequirementErrorLink, 2000)) {
-      await page.click(this.ignoreRequirementErrorLink);
     }
   }
 
