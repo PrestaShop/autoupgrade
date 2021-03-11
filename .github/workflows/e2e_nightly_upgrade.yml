@@ -97,6 +97,7 @@ jobs:
         run: |
           docker exec -u www-data prestashop_autoupgrade mkdir -p admin-dev/autoupgrade/download
           docker exec -u www-data prestashop_autoupgrade curl ${{ matrix.ps_target_version.archive_zip }} -o admin-dev/autoupgrade/download/${{ matrix.ps_target_version.filename }}
+          docker exec -u root prestashop_autoupgrade chmod 777 -R /var/www/html
 
       # Run Upgrade tests
       - name: Run tests
