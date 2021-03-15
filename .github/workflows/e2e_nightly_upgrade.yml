@@ -5,6 +5,11 @@ on:
   schedule:
     - cron: "0 6 * * *" # Every day at 06:00Am
 
+env:
+  reports_path: ./json-reports
+  combined_report_name: upgrade_tests.json
+
+
 jobs:
   # Pre-job : Get Upgrade target versions
   get_ps_target_versions:
@@ -26,13 +31,10 @@ jobs:
 
       - id: set-target-versions
         shell: bash
-        run: echo "::set-output name=TARGET_VERSIONS::$(node ./scripts/getTargetVersions.js)"
+        run: echo "TARGET_VERSIONS=$(node ./scripts/getTargetVersions.js)" >> $GITHUB_ENV
         env:
           API_URL: https://api-nightly.prestashop.com/reports
         working-directory: ./tests/e2e
-
-    outputs:
-      target_versions: ${{ steps.set-target-versions.outputs.TARGET_VERSIONS }}
 
   # First job: upgrade
   upgrade:
@@ -48,7 +50,7 @@ jobs:
       matrix:
         ps_start_version: ["1.7.4.4", "1.7.5.2", "1.7.6.9", "1.7.7.1"]
 
-        ps_target_version: ${{ fromJson(needs.get_ps_target_versions.outputs.target_versions) }}
+        ps_target_version: ${{ fromJson(env.target_versions) }}
 
       fail-fast: false
 
@@ -72,9 +74,7 @@ jobs:
         env:
           VERSION: ${{ matrix.ps_start_version }}
         shell: bash
-        run : |
-          docker-compose -f docker-compose.yml up -d
-          bash -c 'while [[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost:8001/index.php)" != "200" ]]; do sleep 5; done'
+        run : ./.github/workflow/e2e_tests/docker_build.sh
 
       # Install Module with user interface
       - name: Setup Node
@@ -94,10 +94,12 @@ jobs:
           PS_VERSION: ${{ matrix.ps_start_version }}
 
       - name: Download nightly build
-        run: |
-          docker exec -u www-data prestashop_autoupgrade mkdir -p admin-dev/autoupgrade/download
-          docker exec -u www-data prestashop_autoupgrade curl ${{ matrix.ps_target_version.archive_zip }} -o admin-dev/autoupgrade/download/${{ matrix.ps_target_version.filename }}
-          docker exec -u root prestashop_autoupgrade chmod 777 -R /var/www/html
+        shell: bash
+        run: ./.github/workflows/e2e_tests/download_nightly_archive.sh ${{ env.ARCHIVE_URL }} ${{ env.FILENAME }}
+        env:
+          ARCHIVE_URL: ${{ matrix.ps_target_version.archive_zip }}
+          FILENAME: ${{ matrix.ps_target_version.filename }}
+
 
       # Run Upgrade tests
       - name: Run tests
@@ -119,26 +121,20 @@ jobs:
       # Upload Mochawesome reports
       - name: Rename Mochawesome report
         if: ${{ always() }}
-        run: |
-          mkdir -p ./json-reports
-          cp ./tests/e2e/mochawesome-report/mochawesome.json ./json-reports/upgrade-from-${{ matrix.ps_start_version }}-to-${{ matrix.ps_target_version.for_test }}.json
+        run: ./.github/workflows/e2e_tests/copy_reports.sh ${{ env.reports_path }} ${{ matrix.ps_start_version  }} ${{ matrix.ps_target_version.for_test }}
 
       - uses: actions/upload-artifact@v2
         name: Upload Mochawesome report
         if: ${{ always() }}
         with:
           name: tests-reports
-          path: ./json-reports
+          path: ${{ env.reports_path }}
 
   # Second job: merge reports (depends on upgrade job)
   merge-reports:
     name: Combine all tests reports
     needs: upgrade
     runs-on: ubuntu-18.04
-
-    env:
-      report_path: ./json-reports
-      combined_report_name: upgrade_tests.json
 
     steps:
       - uses: actions/checkout@v2
@@ -147,7 +143,7 @@ jobs:
         name: Download reports
         with:
           name: tests-reports
-          path: ${{ env.report_path }}
+          path: ${{ env.reports_path }}
 
       - name: Setup Python
         uses: actions/setup-python@v2
@@ -156,13 +152,13 @@ jobs:
 
       - name: Combine reports
         shell: bash
-        run: ./tests/e2e/scripts/combine-reports.py "${{ env.report_path }}" "${{ env.report_path }}/${{ env.combined_report_name }}"
+        run: ./.github/workflows/e2e_tests/combine_reports.sh ${{ env.reports_path }} ${{ env.combined_report_name }}
 
       - uses: actions/upload-artifact@v2
         name: Upload combined report
         with:
           name: combined-report
-          path: ${{ env.report_path }}/${{ env.combined_report_name }}
+          path: ${{ env.reports_path }}/${{ env.combined_report_name }}
 
   # Third job: Upload report on GCP (Depends on merge-reports job)
   upload-report:
@@ -174,8 +170,6 @@ jobs:
       nightly_api_url: https://api-nightly.prestashop.com/hook/add
       campaign: autoupgrade
       plateform: chromium
-      report_path: ./json-reports
-      combined_report_name: upgrade_tests.json
 
     steps:
 
@@ -183,7 +177,7 @@ jobs:
         name: Download report
         with:
           name: combined-report
-          path: ${{ env.report_path }}
+          path: ${{ env.reports_path }}
 
       - uses: google-github-actions/setup-gcloud@master
         name: Setup Cloud Sdk
@@ -195,10 +189,6 @@ jobs:
       - name: Push result to the nightly board
         shell: bash
         run: |
-          export TODAY=`date -u +"%Y-%m-%d"`
-          export FILENAME=autoupgrade_ui_$TODAY.json
-          cp ${{ env.combined_report_name }} $FILENAME
-          gsutil cp $FILENAME gs://prestashop-core-nightly/reports
-          curl -X GET "${{ env.nightly_api_url }}?filename=$FILENAME&platform=${{ env.plateform }}&campaign=${{ env.campaign }}&token=${{ secrets.QANB_TOKEN }}"
-
-        working-directory: ${{ env.report_path }}
+          echo "FILENAME=autoupgrade_ui_`date -u +"%Y-%m-%d"`.json" >> $GITHUB_ENV
+          cp ${{ env.reports_path }}/${{ env.combined_report_name }} ${{ env.FILENAME }}
+          ./.github/workflows/nightly_scripts/push_results.sh ${{ env.nightly_api_url }} ${{ secrets.QANB_TOKEN }} ${{ env.FILENAME }} ${{ env.campaign }}${{ env.plateform }}

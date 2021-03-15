@@ -12,9 +12,7 @@ jobs:
         with:
           php-version: 7.4
       - id: set-matrix
-        run: echo "::set-output name=matrix::$(php ./.github/get_matrix.php)"
-    outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
+        run: echo "ps_matrix=$(php ./.github/get_matrix.php)" >> $GITHUB_ENV
   upgrade:
     continue-on-error: true
     needs: get_matrix
@@ -22,7 +20,7 @@ jobs:
       fail-fast: false
       matrix:
         from: ['1.7.6.9', '1.7.7.0', '1.6.1.24']
-        ps-versions: ${{ fromJson(needs.get_matrix.outputs.matrix) }}
+        ps-versions: ${{ fromJson(env.ps_matrix) }}
     runs-on: ubuntu-latest
     name: Upgrade
     outputs:
@@ -72,7 +70,5 @@ jobs:
           export_default_credentials: true
       - name: Push results to the nightly board
         run: |
-          export TODAY=`date -u +"%Y-%m-%d"`
-          export FILENAME=autoupgrade_$TODAY-${{matrix.ps-versions.branch}}.json
-          gsutil cp $FILENAME gs://prestashop-core-nightly/reports
-          curl -X GET "https://api-nightly.prestashop.com/hook/add?filename=$FILENAME&platform=cli&campaign=autoupgrade&token=${{ secrets.QANB_TOKEN }}"
+          echo "FILENAME=autoupgrade_ui_`date -u +"%Y-%m-%d"`.json" >> $GITHUB_ENV
+          ./.github/workflows/nightly_scripts/push_results.sh ${{ env.nightly_api_url }} ${{ secrets.QANB_TOKEN }} ${{ env.FILENAME }} ${{ env.campaign }}${{ env.plateform }}
