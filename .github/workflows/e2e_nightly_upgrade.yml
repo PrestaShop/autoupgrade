@@ -50,7 +50,7 @@ jobs:
       matrix:
         ps_start_version: ["1.7.4.4", "1.7.5.2", "1.7.6.9", "1.7.7.1"]
 
-        ps_target_version: ${{ fromJson(env.target_versions) }}
+        ps_target_version: ${{ fromJson(env.TARGET_VERSIONS) }}
 
       fail-fast: false
 
