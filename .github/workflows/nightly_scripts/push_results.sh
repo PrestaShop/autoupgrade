@@ -3,18 +3,17 @@
 # Nightly api URL
 NIGHTLY_API_URL=$1
 
-# Token for GCP
-QANB_TOKEN=$2
-
 # Filename to upload
-FILENAME=$3
+FILENAME=$2
 
 # Name of tests campaign of nightly database
-CAMPAIGN=$4
+CAMPAIGN=$3
 
 # Tests platform: chromium or cli
-PLATFORM=$5
+PLATFORM=$4
+
+# Token for GCP
+QANB_TOKEN=$5
 
 gsutil cp $FILENAME gs://prestashop-core-nightly/reports
-curl -X GET "${{ env.nightly_api_url }}?filename=$FILENAME&platform=${{ env.plateform }}&campaign=${{ env.campaign }}&token=${{ secrets.QANB_TOKEN }}"
-
+curl -X GET "$NIGHTLY_API_URL?filename=$FILENAME&platform=$PLATFORM&campaign=$CAMPAIGN&token=$QANB_TOKEN"

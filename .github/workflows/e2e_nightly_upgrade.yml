@@ -189,7 +189,7 @@ jobs:
         run: |
           export FILENAME=autoupgrade_ui_`date -u +"%Y-%m-%d"`.json
           cp ${{ env.reports_path }}/${{ env.combined_report_name }} $FILENAME
-          ./.github/workflows/nightly_scripts/push_results.sh ${{ env.nightly_api_url }} ${{ secrets.QANB_TOKEN }} $FILENAME ${{ env.campaign }}${{ env.platform }}
+          ./.github/workflows/nightly_scripts/push_results.sh ${{ env.nightly_api_url }} $FILENAME ${{ env.campaign }} ${{ env.platform }} ${{ secrets.QANB_TOKEN }}
         env:
           nightly_api_url: https://api-nightly.prestashop.com/hook/add
           campaign: autoupgrade
