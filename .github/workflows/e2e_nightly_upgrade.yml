@@ -168,11 +168,6 @@ jobs:
     needs: merge-reports
     runs-on: ubuntu-18.04
 
-    env:
-      nightly_api_url: https://api-nightly.prestashop.com/hook/add
-      campaign: autoupgrade
-      plateform: chromium
-
     steps:
       - uses: actions/checkout@v2
 
@@ -194,4 +189,8 @@ jobs:
         run: |
           export FILENAME=autoupgrade_ui_`date -u +"%Y-%m-%d"`.json
           cp ${{ env.reports_path }}/${{ env.combined_report_name }} $FILENAME
-          ./.github/workflows/nightly_scripts/push_results.sh ${{ env.nightly_api_url }} ${{ secrets.QANB_TOKEN }} $FILENAME ${{ env.campaign }}${{ env.plateform }}
+          ./.github/workflows/nightly_scripts/push_results.sh ${{ env.nightly_api_url }} ${{ secrets.QANB_TOKEN }} $FILENAME ${{ env.campaign }}${{ env.platform }}
+        env:
+          nightly_api_url: https://api-nightly.prestashop.com/hook/add
+          campaign: autoupgrade
+          platform: chromium
