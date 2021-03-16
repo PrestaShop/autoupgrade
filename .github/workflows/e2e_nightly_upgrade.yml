@@ -76,7 +76,7 @@ jobs:
         env:
           VERSION: ${{ matrix.ps_start_version }}
         shell: bash
-        run : ./.github/workflow/e2e_tests/docker_build.sh
+        run : ./.github/workflows/e2e_tests/docker_build.sh
 
       # Install Module with user interface
       - name: Setup Node
