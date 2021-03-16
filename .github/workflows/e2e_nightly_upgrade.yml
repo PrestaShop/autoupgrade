@@ -31,10 +31,13 @@ jobs:
 
       - id: set-target-versions
         shell: bash
-        run: echo "TARGET_VERSIONS=$(node ./scripts/getTargetVersions.js)" >> $GITHUB_ENV
+        run: echo "::set-output name=TARGET_VERSIONS::$(node ./scripts/getTargetVersions.js)"
         env:
           API_URL: https://api-nightly.prestashop.com/reports
         working-directory: ./tests/e2e
+
+      outputs:
+        target_versions: ${{ steps.set-target-versions.outputs.TARGET_VERSIONS }}
 
   # First job: upgrade
   upgrade:
@@ -45,12 +48,12 @@ jobs:
     env:
       nightly_storage: https://storage.googleapis.com/prestashop-core-nightly
 
-    # Testing upgrade from "1.7.4.4", "1.7.5.2", "1.7.6.9", "1.7.7.1" to the last "1.7.7.x" and "1.7.8.x" (develop)
+    # Testing upgrade from '1.7.4.4', '1.7.5.2', '1.7.6.9', '1.7.7.1' to the last '1.7.7.x' and '1.7.8.x'(develop)
     strategy:
       matrix:
-        ps_start_version: ["1.7.4.4", "1.7.5.2", "1.7.6.9", "1.7.7.1"]
+        ps_start_version: ['1.7.4.4', '1.7.5.2', '1.7.6.9', '1.7.7.1']
 
-        ps_target_version: ${{ fromJson(env.TARGET_VERSIONS) }}
+        ps_target_version: ${{ fromJson(needs.get_ps_target_versions.outputs.target_versions) }}
 
       fail-fast: false
 
