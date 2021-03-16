@@ -9,7 +9,6 @@ env:
   reports_path: ./json-reports
   combined_report_name: upgrade_tests.json
 
-
 jobs:
   # Pre-job : Get Upgrade target versions
   get_ps_target_versions:
@@ -36,8 +35,8 @@ jobs:
           API_URL: https://api-nightly.prestashop.com/reports
         working-directory: ./tests/e2e
 
-      outputs:
-        target_versions: ${{ steps.set-target-versions.outputs.TARGET_VERSIONS }}
+    outputs:
+      target_versions: ${{ steps.set-target-versions.outputs.TARGET_VERSIONS }}
 
   # First job: upgrade
   upgrade:
