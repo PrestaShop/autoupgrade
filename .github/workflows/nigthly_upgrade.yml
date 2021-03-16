@@ -70,5 +70,5 @@ jobs:
           export_default_credentials: true
       - name: Push results to the nightly board
         run: |
-          echo "FILENAME=autoupgrade_ui_`date -u +"%Y-%m-%d"`.json" >> $GITHUB_ENV
-          ./.github/workflows/nightly_scripts/push_results.sh ${{ env.nightly_api_url }} ${{ secrets.QANB_TOKEN }} ${{ env.FILENAME }} ${{ env.campaign }}${{ env.plateform }}
+          export FILENAME=autoupgrade_ui_`date -u +"%Y-%m-%d"`.json
+          ./.github/workflows/nightly_scripts/push_results.sh ${{ env.nightly_api_url }} ${{ secrets.QANB_TOKEN }} $FILENAME ${{ env.campaign }}${{ env.plateform }}

@@ -191,6 +191,6 @@ jobs:
       - name: Push result to the nightly board
         shell: bash
         run: |
-          echo "FILENAME=autoupgrade_ui_`date -u +"%Y-%m-%d"`.json" >> $GITHUB_ENV
-          cp ${{ env.reports_path }}/${{ env.combined_report_name }} ${{ env.FILENAME }}
-          ./.github/workflows/nightly_scripts/push_results.sh ${{ env.nightly_api_url }} ${{ secrets.QANB_TOKEN }} ${{ env.FILENAME }} ${{ env.campaign }}${{ env.plateform }}
+          export FILENAME=autoupgrade_ui_`date -u +"%Y-%m-%d"`.json
+          cp ${{ env.reports_path }}/${{ env.combined_report_name }} $FILENAME
+          ./.github/workflows/nightly_scripts/push_results.sh ${{ env.nightly_api_url }} ${{ secrets.QANB_TOKEN }} $FILENAME ${{ env.campaign }}${{ env.plateform }}
