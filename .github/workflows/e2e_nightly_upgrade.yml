@@ -76,7 +76,7 @@ jobs:
         env:
           VERSION: ${{ matrix.ps_start_version }}
         shell: bash
-        run : ./.github/workflows/e2e_tests/docker_build.sh
+        run : ./tests/e2e/scripts/docker_build.sh
 
       # Install Module with user interface
       - name: Setup Node
@@ -97,7 +97,7 @@ jobs:
 
       - name: Download nightly build
         shell: bash
-        run: ./.github/workflows/e2e_tests/download_nightly_archive.sh ${{ env.ARCHIVE_URL }} ${{ env.FILENAME }}
+        run: ./tests/e2e/scripts/download_nightly_archive.sh ${{ env.ARCHIVE_URL }} ${{ env.FILENAME }}
         env:
           ARCHIVE_URL: ${{ matrix.ps_target_version.archive_zip }}
           FILENAME: ${{ matrix.ps_target_version.filename }}
@@ -123,7 +123,7 @@ jobs:
       # Upload Mochawesome reports
       - name: Rename Mochawesome report
         if: ${{ always() }}
-        run: ./.github/workflows/e2e_tests/copy_reports.sh ${{ env.reports_path }} ${{ matrix.ps_start_version  }} ${{ matrix.ps_target_version.for_test }}
+        run: ./tests/e2e/scripts/copy_reports.sh ${{ env.reports_path }} ${{ matrix.ps_start_version  }} ${{ matrix.ps_target_version.for_test }}
 
       - uses: actions/upload-artifact@v2
         name: Upload Mochawesome report
@@ -154,7 +154,7 @@ jobs:
 
       - name: Combine reports
         shell: bash
-        run: ./.github/workflows/e2e_tests/combine_reports.sh ${{ env.reports_path }} ${{ env.combined_report_name }}
+        run: ./tests/e2e/scripts/combine_reports.sh ${{ env.reports_path }} ${{ env.combined_report_name }}
 
       - uses: actions/upload-artifact@v2
         name: Upload combined report
