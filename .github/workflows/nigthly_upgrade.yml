@@ -12,7 +12,9 @@ jobs:
         with:
           php-version: 7.4
       - id: set-matrix
-        run: echo "ps_matrix=$(php ./.github/get_matrix.php)" >> $GITHUB_ENV
+        run: echo "::set-output name=matrix::$(php ./.github/get_matrix.php)"
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
   upgrade:
     continue-on-error: true
     needs: get_matrix
@@ -20,7 +22,7 @@ jobs:
       fail-fast: false
       matrix:
         from: ['1.7.6.9', '1.7.7.0', '1.6.1.24']
-        ps-versions: ${{ fromJson(env.ps_matrix) }}
+        ps-versions: ${{ fromJson(needs.get_matrix.outputs.matrix) }}
     runs-on: ubuntu-latest
     name: Upgrade
     outputs:
