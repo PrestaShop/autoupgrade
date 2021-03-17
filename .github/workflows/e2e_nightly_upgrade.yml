@@ -29,14 +29,11 @@ jobs:
         working-directory: ./tests/e2e
 
       - id: set-target-versions
-        shell: bash
-        run: echo "::set-output name=TARGET_VERSIONS::$(node ./scripts/getTargetVersions.js)"
+        run: echo "TARGET_VERSIONS=$(node ./scripts/getTargetVersions.js)" >> $GITHUB_ENV
         env:
           API_URL: https://api-nightly.prestashop.com/reports
         working-directory: ./tests/e2e
 
-    outputs:
-      target_versions: ${{ steps.set-target-versions.outputs.TARGET_VERSIONS }}
 
   # First job: upgrade
   upgrade:
@@ -52,7 +49,7 @@ jobs:
       matrix:
         ps_start_version: ['1.7.4.4', '1.7.5.2', '1.7.6.9', '1.7.7.1']
 
-        ps_target_version: ${{ fromJson(needs.get_ps_target_versions.outputs.target_versions) }}
+        ps_target_version: ${{ fromJson(env.TARGET_VERSIONS) }}
 
       fail-fast: false
 
