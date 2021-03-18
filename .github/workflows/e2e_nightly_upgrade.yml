@@ -1,6 +1,7 @@
 name: Nightly upgrades with user inferfaces
 
 on:
+  push:
   schedule:
     - cron: "0 6 * * *" # Every day at 06:00Am
 
@@ -101,7 +102,6 @@ jobs:
           ARCHIVE_URL: ${{ matrix.ps_target_version.archive_zip }}
           FILENAME: ${{ matrix.ps_target_version.filename }}
 
-
       # Run Upgrade tests
       - name: Run tests
         run: npm run upgrade-test
@@ -122,20 +122,28 @@ jobs:
       # Upload Mochawesome reports
       - name: Rename Mochawesome report
         if: ${{ always() }}
-        run: ./tests/e2e/scripts/copy_reports.sh ${{ env.reports_path }} ${{ matrix.ps_start_version  }} ${{ matrix.ps_target_version.for_test }}
+        run: ./tests/e2e/scripts/copy_reports.sh ${{ env.reports_path }} ${{ matrix.ps_start_version  }} ${{ matrix.ps_target_version.branch }}
 
       - uses: actions/upload-artifact@v2
         name: Upload Mochawesome report
         if: ${{ always() }}
         with:
-          name: tests-reports
+          name: tests-reports-${{ matrix.ps_target_version.branch }}
           path: ${{ env.reports_path }}
 
   # Second job: merge reports (depends on upgrade job)
   merge-reports:
     name: Combine all tests reports
-    needs: upgrade
+    needs:
+      - get_ps_target_versions
+      - upgrade
     runs-on: ubuntu-18.04
+
+    strategy:
+      matrix:
+        ps_target_version: ${{ fromJson(needs.get_ps_target_versions.outputs.target_versions) }}
+
+      fail-fast: false
 
     steps:
       - uses: actions/checkout@v2
@@ -143,7 +151,7 @@ jobs:
       - uses: actions/download-artifact@v2
         name: Download reports
         with:
-          name: tests-reports
+          name: tests-reports-${{ matrix.ps_target_version.branch }}
           path: ${{ env.reports_path }}
 
       - name: Setup Python
@@ -158,14 +166,22 @@ jobs:
       - uses: actions/upload-artifact@v2
         name: Upload combined report
         with:
-          name: combined-report
+          name: combined-report-${{ matrix.ps_target_version.branch }}
           path: ${{ env.reports_path }}/${{ env.combined_report_name }}
 
   # Third job: Upload report on GCP (Depends on merge-reports job)
   upload-report:
     name: Upload nightly report
-    needs: merge-reports
+    needs:
+      - get_ps_target_versions
+      - merge-reports
     runs-on: ubuntu-18.04
+
+    strategy:
+      matrix:
+        ps_target_version: ${{ fromJson(needs.get_ps_target_versions.outputs.target_versions) }}
+
+      fail-fast: false
 
     steps:
       - uses: actions/checkout@v2
@@ -173,7 +189,7 @@ jobs:
       - uses: actions/download-artifact@v2
         name: Download report
         with:
-          name: combined-report
+          name: combined-report-${{ matrix.ps_target_version.branch }}
           path: ${{ env.reports_path }}
 
       - uses: google-github-actions/setup-gcloud@master
@@ -186,7 +202,7 @@ jobs:
       - name: Push result to the nightly board
         shell: bash
         run: |
-          export FILENAME=autoupgrade_ui_`date -u +"%Y-%m-%d"`.json
+          export FILENAME=autoupgrade_ui_`date -u +"%Y-%m-%d"`-${{ matrix.ps_target_version.branch }}.json
           cp ${{ env.reports_path }}/${{ env.combined_report_name }} $FILENAME
           ./.github/workflows/nightly_scripts/push_results.sh ${{ env.nightly_api_url }} $FILENAME ${{ env.campaign }} ${{ env.platform }} ${{ secrets.QANB_TOKEN }}
         env:
