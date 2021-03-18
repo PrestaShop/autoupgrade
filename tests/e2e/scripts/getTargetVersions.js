@@ -49,6 +49,7 @@ async function getTargetVersions() {
       for_test: getVersionFormFilename(downloadReportUrl),
       filename: downloadReportUrl.substr(downloadReportUrl.lastIndexOf('/') + 1),
       archive_zip: downloadReportUrl,
+      branch: todayReports[i].version,
     };
 
     await targetVersions.push(row);
