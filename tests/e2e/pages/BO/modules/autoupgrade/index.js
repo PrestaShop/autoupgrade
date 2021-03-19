@@ -104,7 +104,7 @@ class Upgrade extends ModuleConfigurationPage.constructor {
   }
 
   /**
-   * Wait for upgrade
+   * Upgrade prestashop now
    * @param page
    * @returns {Promise<string>}
    */
