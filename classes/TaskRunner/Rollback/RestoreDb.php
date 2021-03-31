@@ -141,7 +141,7 @@ class RestoreDb extends AbstractTask
 
                 $tables_after_restore = array_unique($tables_after_restore);
                 $tables_before_restore = $databaseTools->getAllTables();
-                $tablesToRemove = array_diff($tables_before_restore, $tables_after_restore);
+                $tablesToRemove = array_diff($tables_before_restore, $tables_after_restore, $ignore_stats_table);
 
                 if (!empty($tablesToRemove)) {
                     $this->container->getFileConfigurationStorage()->save($tablesToRemove, UpgradeFileNames::DB_TABLES_TO_CLEAN_LIST);
