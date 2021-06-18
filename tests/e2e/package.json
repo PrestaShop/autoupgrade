@@ -25,7 +25,7 @@
     "chai": "^4.2.0",
     "eslint-config-prestashop": "^0.1.0",
     "mocha": "^8.2.1",
-    "mochawesome": "^2.3.0",
+    "mochawesome": "^6.2.2",
     "module-alias": "^2.2.2",
     "prestashop_test_lib": "0.0.12"
   },
@@ -33,6 +33,7 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.2.0",
-    "eslint-plugin-import": "^2.22.1"
+    "eslint-plugin-import": "^2.22.1",
+    "mochawesome-merge": "^4.2.0"
   }
 }
