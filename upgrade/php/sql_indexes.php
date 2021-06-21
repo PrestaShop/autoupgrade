@@ -24,12 +24,16 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+ function drop_index_if_exists($indexName, $table)
+ {
+    $keyExists = Db::getInstance()->executeS('SHOW INDEX
+      FROM `' . $table . '`
+      WHERE Key_name = \'' . $indexName . '\'');
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-
-header("Location: ../");
-exit;
+    if ($keyExists) {
+      return Db::getInstance()->execute('ALTER TABLE
+        `' . $table . '`
+        DROP KEY `' . $indexName . '`');
+    }
+    return true;
+ }

@@ -24,12 +24,22 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
-
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-
-header("Location: ../");
-exit;
+function configuration_double_cleaner()
+{
+    $result = Db::getInstance()->executeS('
+	SELECT name, MIN(id_configuration) AS minid
+	FROM '._DB_PREFIX_.'configuration
+	GROUP BY name
+	HAVING count(name) > 1');
+    foreach ($result as $row) {
+        Db::getInstance()->execute('
+		DELETE FROM '._DB_PREFIX_.'configuration
+		WHERE name = \''.addslashes($row['name']).'\'
+		AND id_configuration != '.(int)($row['minid']));
+    }
+    Db::getInstance()->execute('
+	DELETE FROM '._DB_PREFIX_.'configuration_lang
+	WHERE id_configuration NOT IN (
+		SELECT id_configuration
+		FROM '._DB_PREFIX_.'configuration)');
+}

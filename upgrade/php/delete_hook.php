@@ -24,12 +24,19 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+function delete_hook($hook)
+{
+    $modules = Hook::getHookModuleExecList($hook);
+    if (is_array($modules)) {
+        foreach ($modules as $module) {
+            $moduleInstance = Module::getInstanceByName($module['module']);
+            if ($moduleInstance instanceof Module) {
+                Hook::unregisterHook($moduleInstance, $hook);
+            }
+        }
+    }
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-
-header("Location: ../");
-exit;
+    return (bool) Db::getInstance()->execute(
+        'DELETE FROM `' . _DB_PREFIX_ . 'hook` WHERE `name` = "' . pSQL($hook) . '"'
+    );
+}

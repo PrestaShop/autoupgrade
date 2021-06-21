@@ -24,12 +24,30 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+function ps_1780_add_feature_flag_tab()
+{
+    $className = 'AdminFeatureFlag';
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
+    $result = Db::getInstance()->executeS(
+        'SELECT id_tab FROM `'._DB_PREFIX_.'tab` WHERE `class_name` = \'AdminAdvancedParameters\''
+    );
 
-header("Location: ../");
-exit;
+    if (empty($result)) {
+        return;
+    }
+    if (empty($result[0]['id_tab'])) {
+        return;
+    }
+    $advancedParametersTabId = (int) $result[0]['id_tab'];
+
+    include_once _PS_INSTALL_PATH_.'upgrade/php/add_new_tab.php';
+    add_new_tab_17(
+        $className,
+        'en:Experimental Feature|fr:Fonctionnalités expérimentales',
+        $advancedParametersTabId
+    );
+
+    Db::getInstance()->execute(
+        'UPDATE `'._DB_PREFIX_.'tab` SET `active`= 1, `enabled` = 1 WHERE `class_name` = \'' . $className . '\''
+    );
+}

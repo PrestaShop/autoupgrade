@@ -24,12 +24,30 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+function ps16012_update_alias()
+{
+    $step = 3000;
+    $count_alias = Db::getInstance()->getValue('SELECT count(id_alias) FROM '._DB_PREFIX_.'alias');
+    $nb_loop = $start = 0;
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
+    if ($count_alias > 0) {
+        $nb_loop = ceil($count_alias / $step);
+    }
+    for ($i = 0; $i < $nb_loop; $i++) {
+        $sql = 'SELECT id_alias, alias, search FROM `'._DB_PREFIX_.'alias`';
+        $start = (int) (($i+1) * $step);
+        if ($aliass = Db::getInstance()->query($sql)) {
+            while ($alias = Db::getInstance()->nextRow($aliass)) {
+                if (is_array($alias)) {
+                    Db::getInstance()->execute('
+					UPDATE `'._DB_PREFIX_.'alias`
+					SET alias = \''.pSQL(Tools::replaceAccentedChars($alias['alias'])).'\',
+					search = \''.pSQL(Tools::replaceAccentedChars($alias['search'])).'\'
+					WHERE id_alias = '.(int)$alias['id_alias']);
+                }
+            }
+        }
+    }
 
-header("Location: ../");
-exit;
+    return true;
+}

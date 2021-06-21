@@ -24,12 +24,13 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
-
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-
-header("Location: ../");
-exit;
+function set_discount_category()
+{
+    $discounts = Db::getInstance()->executeS('SELECT `id_discount` FROM `'._DB_PREFIX_.'discount`');
+    $categories = Db::getInstance()->executeS('SELECT `id_category` FROM `'._DB_PREFIX_.'category`');
+    foreach ($discounts as $discount) {
+        foreach ($categories as $category) {
+            Db::getInstance()->execute('INSERT INTO `'._DB_PREFIX_.'discount_category` (`id_discount`,`id_category`) VALUES ('.(int)($discount['id_discount']).','.(int)($category['id_category']).')');
+        }
+    }
+}

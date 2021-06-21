@@ -24,12 +24,29 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+/**
+ * File copied from ps_1750_update_module_tabs.php and modified to add new roles
+ */
+function ps_1763_update_tabs()
+{
+    include_once 'add_new_tab.php';
+    include_once 'copy_tab_rights.php';
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
+    add_new_tab_17('AdminParentMailTheme', 'en:Email Themes', 0, false, 'AdminParentThemes');
+    Db::getInstance()->execute(
+        'UPDATE `' . _DB_PREFIX_ . 'tab` SET `active`= 1, `position`= 2 WHERE `class_name` = "AdminParentMailTheme"'
+    );
 
-header("Location: ../");
-exit;
+    // Move AdminMailTheme's parent from AdminMailThemeParent to AdminParentMailTheme
+    $toParentTabId = Db::getInstance()->getValue(
+        'SELECT id_tab FROM `' . _DB_PREFIX_ . 'tab` WHERE `class_name` = "AdminParentMailTheme"'
+    );
+    Db::getInstance()->execute(
+        'UPDATE `' . _DB_PREFIX_ . 'tab` SET `id_parent` = ' . $toParentTabId . ' WHERE class_name = "AdminMailTheme"'
+    );
+
+    copy_tab_rights('AdminMailTheme', 'AdminParentMailTheme');
+    Db::getInstance()->execute(
+        'DELETE FROM `' . _DB_PREFIX_ . 'tab` WHERE `class_name` = "AdminMailThemeParent"'
+    );
+}

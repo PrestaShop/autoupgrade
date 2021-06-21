@@ -24,12 +24,21 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+function p15010_drop_column_id_address_if_exists()
+{
+    $res = true;
+    $exists = Db::getInstance()->executeS('SHOW TABLES LIKE "'._DB_PREFIX_.'supplier"');
+    if (count($exists)) {
+        $fields = Db::getInstance()->executeS('SHOW FIELDS FROM `'._DB_PREFIX_.'supplier`');
+        foreach ($fields as $k => $field) {
+            $fields[$k] = $field['Field'];
+        }
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
+        if (in_array('id_address', $fields)) {
+            $res &= Db::getInstance()->execute('ALTER TABLE `'._DB_PREFIX_.'supplier`
+				DROP `id_address`');
+        }
+    }
 
-header("Location: ../");
-exit;
+    return $res;
+}

@@ -24,12 +24,18 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+function add_id_shop_to_shipper_lang_index()
+{
+    $res = true;
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
+    $key_exists = Db::getInstance()->executeS('
+	SHOW INDEX
+	FROM `'._DB_PREFIX_.'carrier_lang`
+	WHERE Key_name = "shipper_lang_index"');
+    if ($key_exists) {
+        $res &= Db::getInstance()->execute('ALTER TABLE `'._DB_PREFIX_.'carrier_lang` DROP KEY `shipper_lang_index`');
+    }
+    $res &= Db::getInstance()->execute('ALTER TABLE `'._DB_PREFIX_.'carrier_lang` ADD PRIMARY KEY (`id_carrier`, `id_shop`, `id_lang`)');
 
-header("Location: ../");
-exit;
+    return $res;
+}

@@ -24,12 +24,14 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+function image_shop1510()
+{
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
+    include_once _PS_INSTALL_PATH_.'upgrade/php/generic_add_missing_column.php';
 
-header("Location: ../");
-exit;
+    $column_to_add = array(
+        'cover' => 'TINYINT(1) UNSIGNED NOT NULL AFTER `id_shop`',
+    );
+
+    return generic_add_missing_column('image_shop', $column_to_add);
+}

@@ -24,12 +24,20 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+function add_missing_image_key()
+{
+    $res = true;
+    $key_exists = Db::getInstance()->executeS('SHOW INDEX
+		FROM `'._DB_PREFIX_.'image`
+		WHERE Key_name = \'idx_product_image\'');
+    if ($key_exists) {
+        $res &= Db::getInstance()->execute('ALTER TABLE
+		`'._DB_PREFIX_.'image`
+		DROP KEY `idx_product_image`');
+    }
+    $res &= Db::getInstance()->execute('ALTER TABLE
+	`'._DB_PREFIX_.'image`
+	ADD UNIQUE `idx_product_image` (`id_image`, `id_product`, `cover`)');
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-
-header("Location: ../");
-exit;
+    return $res;
+}

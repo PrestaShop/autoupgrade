@@ -24,12 +24,22 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+function update_module_product_comments()
+{
+    if (Db::getInstance()->getValue('SELECT `id_module` FROM `'._DB_PREFIX_.'module` WHERE `name`="productcomments"')) {
+        Db::getInstance()->execute('
+			CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'product_comment_usefulness` (
+			  `id_product_comment` int(10) unsigned NOT NULL,
+			  `id_customer` int(10) unsigned NOT NULL,
+			  `usefulness` tinyint(1) unsigned NOT NULL,
+			  PRIMARY KEY (`id_product_comment`, `id_customer`)
+			) ENGINE='._MYSQL_ENGINE_.' DEFAULT CHARSET=utf8');
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-
-header("Location: ../");
-exit;
+        Db::getInstance()->execute('
+			CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'product_comment_report` (
+			  `id_product_comment` int(10) unsigned NOT NULL,
+			  `id_customer` int(10) unsigned NOT NULL,
+			  PRIMARY KEY (`id_product_comment`, `id_customer`)
+			) ENGINE='._MYSQL_ENGINE_.' DEFAULT CHARSET=utf8');
+    }
+}

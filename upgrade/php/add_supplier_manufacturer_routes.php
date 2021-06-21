@@ -24,12 +24,27 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
-
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-
-header("Location: ../");
-exit;
+/**
+ * In Prestashop 1.7.5 the supplier_rule and manufacturer_rule have been modified:
+ *      {id}__{rewrite} => supplier/{id}-{rewrite}
+ *      {id}_{rewrite}  => brand/{id}-{rewrite}
+ *
+ * If the merchant kept the original routes the former urls won't be reachable any
+ * more and SEO will be lost. So we force a custom rule matching the former format.
+ *
+ * If the route was customized, no need to do anything. We don't change anything for
+ * multi shop either since it will be used it the merchant has already changed them.
+ */
+function add_supplier_manufacturer_routes()
+{
+    Configuration::loadConfiguration();
+    $legacyRoutes = array(
+        'supplier_rule' => '{id}__{rewrite}',
+        'manufacturer_rule' => '{id}_{rewrite}',
+    );
+    foreach ($legacyRoutes as $routeId => $rule) {
+        if (!Configuration::get('PS_ROUTE_'.$routeId, null, 0, 0)) {
+            Configuration::updateGlobalValue('PS_ROUTE_'.$routeId, $rule);
+        }
+    }
+}

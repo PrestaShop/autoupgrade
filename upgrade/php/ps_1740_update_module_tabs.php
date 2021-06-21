@@ -24,12 +24,23 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+/**
+ * File copied from ps_update_tabs.php and modified for only adding modules related tabs
+ */
+function ps_1740_update_module_tabs()
+{
+    // Add new sub menus for modules
+    $moduleTabsToBeAdded = array(
+        'AdminModulesManage' => 'en:Installed modules|fr:Modules installés|es:Módulos instalados|de:Installierte Module|it:Moduli installati',
+        'AdminModulesCatalog' => 'en:Selection|fr:Selection|es:Selección|de:Auswahl|it:Selezione',
+        'AdminModulesNotifications' => 'en:Notifications|fr:Notifications|es:Notificaciones|de:Nachrichten|it:Notifiche',
+    );
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
+    include_once 'add_new_tab.php';
+    foreach ($moduleTabsToBeAdded as $className => $translations) {
+        add_new_tab_17($className, $translations, 0, false, 'AdminModulesSf');
+    }
 
-header("Location: ../");
-exit;
+    Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'tab` SET `active`=1 WHERE `class_name` IN ("AdminModulesManage", "AdminModulesCatalog", "AdminModulesNotifications")');
+
+}

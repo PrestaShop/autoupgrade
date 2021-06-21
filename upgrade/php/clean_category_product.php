@@ -24,12 +24,22 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+/* Remove duplicate entries from ps_category_product */
+function clean_category_product()
+{
+    $list = Db::getInstance()->executeS('
+	SELECT id_category, id_product, COUNT(*) n
+	FROM '._DB_PREFIX_.'category_product
+	GROUP BY CONCAT(id_category,\'|\',id_product)
+	HAVING n > 1');
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
+    $result = true;
+    if ($list) {
+        foreach ($list as $l) {
+            $result &= Db::getInstance()->execute('DELETE FROM '._DB_PREFIX_.'category_product
+			WHERE id_product = '.(int)$l['id_product'].' AND id_category = '.(int)$l['id_category'].' LIMIT '.(int)($l['n'] - 1));
+        }
+    }
 
-header("Location: ../");
-exit;
+    return $result;
+}

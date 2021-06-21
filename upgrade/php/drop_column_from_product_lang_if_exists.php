@@ -24,12 +24,14 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+function drop_column_from_product_lang_if_exists()
+{
+    $columns = Db::getInstance()->executeS('SHOW COLUMNS FROM `' . _DB_PREFIX_ . 'product_lang` 
+        WHERE Field IN (\'social_sharing_title\', \'social_sharing_description\')');
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-
-header("Location: ../");
-exit;
+    if (!empty($columns)) {
+        foreach ($columns as $column) {
+            Db::getInstance()->execute('ALTER TABLE `' . _DB_PREFIX_ . 'product_lang` DROP COLUMN `' . $column['Field'] . '`');
+        }
+    }
+}

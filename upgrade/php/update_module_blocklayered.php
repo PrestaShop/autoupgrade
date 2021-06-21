@@ -24,12 +24,11 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+function update_module_blocklayered()
+{
+    if (Db::getInstance()->getValue('SELECT id_module FROM `'._DB_PREFIX_.'module` WHERE name = \'blocklayered\'')) {
+        @Db::getInstance()->execute('ALTER TABLE `'._DB_PREFIX_.'layered_price_index` ADD INDEX id_product (`id_product`)');
+    }
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-
-header("Location: ../");
-exit;
+    return true;
+}

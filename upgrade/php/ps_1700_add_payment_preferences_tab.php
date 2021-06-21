@@ -24,12 +24,17 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+function ps_1700_add_payment_preferences_tab()
+{
+    include_once 'add_new_tab.php';
+    // TODO: ajouter les trads ? translations/[fr]/tabs.php et autre ?
+    add_new_tab(
+        'AdminPaymentPreferences',
+        'en:Payment preferences|fr:Préférences de paiement|es:Hola|de:Artung|it:Mama mia',
+        0,
+        false,
+        'AdminParentModules'
+        );
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-
-header("Location: ../");
-exit;
+    return true;
+}

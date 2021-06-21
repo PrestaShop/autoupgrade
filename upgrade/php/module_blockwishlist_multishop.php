@@ -24,12 +24,16 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+function module_blockwishlist_multishop()
+{
+    $id_module = Db::getInstance()->getValue('SELECT id_module FROM '._DB_PREFIX_.'module where name="blockwishlist"');
+    if ($id_module) {
+        $res = Db::getInstance()->execute('ALTER TABLE `'._DB_PREFIX_.'wishlist`
+		ADD `id_shop` INTEGER NOT NULL default \'1\' AFTER `counter`,
+		ADD `id_group_shop` INTEGER NOT NULL default \'1\' AFTER `id_shop`');
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
+        return $res;
+    }
 
-header("Location: ../");
-exit;
+    return true;
+}

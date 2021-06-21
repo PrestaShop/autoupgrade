@@ -24,12 +24,18 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+function add_column_order_state_deleted_if_not_exists()
+{
+    $res  = true;
+    $column = Db::getInstance()->executeS('SHOW FIELDS FROM `'._DB_PREFIX_.'order_state` LIKE "deleted"');
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
+    if (empty($column)) {
+        $res = Db::getInstance()->execute('ALTER TABLE `'._DB_PREFIX_.'order_state`
+			ADD COLUMN `deleted` tinyint(1) UNSIGNED NOT NULL default "0" AFTER `paid`');
+    }
+    if (!$res) {
+        return array('error' => Db::getInstance()->getNumberError(), 'msg' => Db::getInstance()->getMsgError());
+    }
 
-header("Location: ../");
-exit;
+    return true;
+}

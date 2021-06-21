@@ -24,12 +24,30 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+function customization_field_multishop_lang()
+{
+    $shops = Db::getInstance()->executeS('
+		SELECT `id_shop`
+		FROM `'._DB_PREFIX_.'shop`
+		WHERE `id_shop` != 1
+		');
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
+    $customization_field_lang = Db::getInstance()->executeS('
+		SELECT *
+		FROM `'._DB_PREFIX_.'customization_field_lang`
+		');
 
-header("Location: ../");
-exit;
+    foreach ($customization_field_lang as $value) {
+        $data = array();
+        $customization_lang = array(
+            'id_customization_field' => $value['id_customization_field'],
+            'id_lang' => $value['id_lang'],
+            'name' => pSQL($value['name']),
+        );
+        foreach ($shops as $shop) {
+            $customization_lang['id_shop'] = $shop['id_shop'];
+            $data[] = $customization_lang;
+        }
+        Db::getInstance()->insert('customization_field_lang', $data);
+    }
+}

@@ -24,12 +24,24 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+function hook_blocksearch_on_header()
+{
+    if ($id_module = Db::getInstance()->getValue('SELECT `id_module` FROM `'._DB_PREFIX_.'module` WHERE `name` = \'blocksearch\'')) {
+        $id_hook = Db::getInstance()->getValue('
+			SELECT `id_hook`
+			FROM `'._DB_PREFIX_.'hook`
+			WHERE `name` = \'header\'
+		');
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
+        $position = Db::getInstance()->getValue('
+			SELECT MAX(`position`)
+			FROM `'._DB_PREFIX_.'hook_module`
+			WHERE `id_hook` = '.(int)$id_hook.'
+		');
 
-header("Location: ../");
-exit;
+        Db::getInstance()->execute('
+			INSERT INTO `'._DB_PREFIX_.'hook_module` (`id_module`, `id_hook`, `position`)
+			VALUES ('.(int)$id_module.', '.(int)$id_hook.', '.($position+1).')
+		');
+    }
+}

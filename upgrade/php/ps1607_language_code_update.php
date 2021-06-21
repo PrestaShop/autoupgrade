@@ -24,12 +24,21 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+function ps1607_language_code_update()
+{
+    if (defined('_PS_VERSION_')) {
+        $langs = Db::getInstance()->executeS('SELECT `id_lang`, `iso_code`, `language_code` FROM `'._DB_PREFIX_.'lang`');
+        if (is_array($langs) && $langs) {
+            foreach ($langs as $lang) {
+                if (Tools::strlen($lang['language_code']) == 2) {
+                    $result = json_decode(Tools::file_get_contents('https://www.prestashop.com/download/lang_packs/get_language_pack.php?version='._PS_VERSION_.'&iso_lang='.Tools::strtolower($lang['iso_code'])));
+                    if ($result && !isset($result->error) && Tools::strlen($result->language_code) > 2) {
+                        Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'lang` SET `language_code` = \''.pSQL($result->language_code).'\' WHERE `id_lang` = '.(int)$lang['id_lang']).' LIMIT 1';
+                    }
+                }
+            }
+        }
+    }
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-
-header("Location: ../");
-exit;
+    return true;
+}

@@ -24,12 +24,25 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+function add_accounting_tab()
+{
+    include_once _PS_INSTALL_PATH_.'upgrade/php/add_new_tab.php';
+    $id_parent = add_new_tab(
+        'AdminAccounting',
+        'en:Accounting|fr:Comptabilité|es:Accounting|de:Accounting|it:Accounting',
+        0,
+        true
+    );
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
+    add_new_tab(
+        'AdminAccountingManagement',
+        'en:Account Number Management|fr:Gestion des numéros de comptes|es:Account Number Management|de:Account Number Management|it:Account Number Management',
+        $id_parent
+    );
 
-header("Location: ../");
-exit;
+    add_new_tab(
+        'AdminAccountingExport',
+        'en:Export|fr:Export|es:Export|de:Export|it:Export',
+        $id_parent
+    );
+}

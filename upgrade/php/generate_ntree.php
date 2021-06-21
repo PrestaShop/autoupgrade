@@ -24,12 +24,30 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+function generate_ntree()
+{
+    $categories = Db::getInstance()->executeS('SELECT id_category, id_parent FROM '._DB_PREFIX_.'category ORDER BY id_parent ASC, position ASC');
+    $categoriesArray = array();
+    if (is_array($categories)) {
+        foreach ($categories as $category) {
+            $categoriesArray[(int)$category['id_parent']]['subcategories'][(int)$category['id_category']] = 1;
+        }
+    }
+    $n = 1;
+    generate_ntree_subTree($categoriesArray, 1, $n);
+}
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
+function generate_ntree_subTree(&$categories, $id_category, &$n)
+{
+    $left = (int)$n++;
+    if (isset($categories[(int)$id_category]['subcategories'])) {
+        foreach (array_keys($categories[(int)$id_category]['subcategories']) as $id_subcategory) {
+            generate_ntree_subTree($categories, (int)$id_subcategory, $n);
+        }
+    }
+    $right = (int)$n++;
 
-header("Location: ../");
-exit;
+    Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'category
+		SET nleft = '.(int)$left.', nright = '.(int)$right.'
+		WHERE id_category = '.(int)$id_category.' LIMIT 1');
+}

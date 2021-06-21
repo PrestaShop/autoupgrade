@@ -24,12 +24,28 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+/**
+ * Preset enabled new column in tabs to true for all (except for disabled modules)
+ */
+function ps_1770_preset_tab_enabled() {
+    //First set all tabs enabled
+    $result = Db::getInstance()->execute(
+        'UPDATE `'._DB_PREFIX_.'tab` SET `enabled` = 1'
+    );
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
+    //Then search for inactive modules and disable their tabs
+    $inactiveModules = Db::getInstance()->executeS(
+        'SELECT `name` FROM `'._DB_PREFIX_.'module` WHERE `active` != 1'
+    );
+    $moduleNames = [];
+    foreach ($inactiveModules as $inactiveModule) {
+        $moduleNames[] = $inactiveModule['name'];
+    }
+    if (count($moduleNames) > 0) {
+        $result &= Db::getInstance()->execute(
+            'UPDATE `'._DB_PREFIX_.'tab` SET `enabled` = 0 WHERE `module` IN (' . implode(',', $moduleNames) . ')'
+        );
+    }
 
-header("Location: ../");
-exit;
+    return $result;
+}

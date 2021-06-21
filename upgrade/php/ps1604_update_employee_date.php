@@ -23,13 +23,11 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
+function ps1604_update_employee_date()
+{
+    if (defined('_PS_CREATION_DATE_')) {
+        return Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'employee` SET stats_date_from = \''.addslashes(_PS_CREATION_DATE_).'\' WHERE `stats_date_from` < \''.addslashes(_PS_CREATION_DATE_).'\'');
+    }
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
-
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-
-header("Location: ../");
-exit;
+    return true;
+}

@@ -24,12 +24,11 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
-
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-
-header("Location: ../");
-exit;
+function move_crossselling()
+{
+    if (Db::getInstance()->executeS('SELECT FROM `'._DB_PREFIX_.'module` WHERE `name` = \'crossselling\'')) {
+        Db::getInstance()->execute('
+INSERT INTO `'._DB_PREFIX_.'hook_module` (`id_module`, `id_hook`, `position`)
+VALUES ((SELECT `id_module` FROM `'._DB_PREFIX_.'module` WHERE `name` = \'crossselling\'), 9, (SELECT max_position FROM (SELECT MAX(position)+1 as max_position FROM `'._DB_PREFIX_.'hook_module` WHERE `id_hook` = 9) tmp))');
+    }
+}

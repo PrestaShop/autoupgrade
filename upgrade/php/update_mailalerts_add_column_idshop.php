@@ -24,12 +24,17 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+function update_mailalerts_add_column_idshop()
+{
+    $installed = Db::getInstance()->getValue('SELECT id_module FROM  `'._DB_PREFIX_.'module` WHERE name = "mailalerts"');
+    $installed &= Db::getInstance()->getValue('SHOW TABLES LIKE "'._DB_PREFIX_.'mailalert_customer_oos"');
+    if ($installed && !Db::getInstance()->execute('ALTER TABLE `'._DB_PREFIX_.'mailalert_customer_oos` ADD COLUMN `id_shop` int(11) NOT NULL default "0" AFTER `id_customer`')) {
+        return array('error' => 1, 'msg' => sprintf('unable to create column id_shop (%s)', Db::getInstance()->getMsgError()));
+    }
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-
-header("Location: ../");
-exit;
+    return true;
+}

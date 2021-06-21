@@ -24,12 +24,25 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
-
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-
-header("Location: ../");
-exit;
+function set_payment_module_group()
+{
+    // Get all modules then select only payment ones
+    $modules = Db::getInstance()->executeS('SELECT * FROM `'._DB_PREFIX_.'module`');
+    foreach ($modules as $module) {
+        $file = _PS_MODULE_DIR_.$module['name'].'/'.$module['name'].'.php';
+        if (!file_exists($file)) {
+            continue;
+        }
+        $fd = @fopen($file, 'rb');
+        if (!$fd) {
+            continue ;
+        }
+        $content = fread($fd, filesize($file));
+        if (preg_match_all('/extends PaymentModule/U', $content, $matches)) {
+            Db::getInstance()->execute('
+			INSERT INTO `'._DB_PREFIX_.'module_group` (id_module, id_group)
+			SELECT '.(int)($module['id_module']).', id_group FROM `'._DB_PREFIX_.'group`');
+        }
+        fclose($fd);
+    }
+}

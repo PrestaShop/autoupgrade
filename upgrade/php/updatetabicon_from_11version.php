@@ -24,12 +24,22 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+function updatetabicon_from_11version()
+{
+    global $oldversion;
+    if (version_compare($oldversion, '1.5.0.0', '<')) {
+        $rows = Db::getInstance()->executeS('SELECT `id_tab`,`class_name` FROM '._DB_PREFIX_.'tab');
+        if (count($rows)) {
+            $img_dir = scandir(_PS_ROOT_DIR_ . '/img/t/', SCANDIR_SORT_NONE);
+            $result = true;
+            foreach ($rows as $tab) {
+                if (file_exists(_PS_ROOT_DIR_.'/img/t/'.$tab['id_tab'].'.gif')
+                    && !file_exists(_PS_ROOT_DIR_.'/img/t/'.$tab['class_name'].'.gif')) {
+                    $result &= rename(_PS_ROOT_DIR_.'/img/t/'.$tab['id_tab'].'.gif', _PS_ROOT_DIR_.'/img/t/'.$tab['class_name'].'.gif');
+                }
+            }
+        }
+    }
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-
-header("Location: ../");
-exit;
+    return true;
+}

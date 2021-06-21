@@ -24,12 +24,25 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+function p16011_media_server()
+{
+    $new_settings = $prev_settings = file_get_contents(_PS_ROOT_DIR_.'/config/settings.inc.php');
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
+    if (preg_match_all('/define\(\'_MEDIA_SERVER_([1-3])_\',\s*?\'(.*?)\'\s*?\)/ism', $new_settings, $matches)) {
+        $total = (count($matches[1]));
+        for ($i = 0; $i < $total; ++$i) {
+            Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'configuration (`name`, `value`, `date_add`, `date_upd`) VALUES (\'PS_MEDIA_SERVER_'.$matches[1][$i].'\', \''.$matches[2][$i].'\', NOW(), NOW())');
+        }
+    }
 
-header("Location: ../");
-exit;
+    $new_settings = preg_replace('/define\(\'_MEDIA_SERVER_[1-3]_\',\s*?\'.*?\'\s*?\);/ism', '', $new_settings);
+
+    if ($new_settings == $prev_settings || (
+        copy(_PS_ROOT_DIR_.'/config/settings.inc.php', _PS_ROOT_DIR_.'/config/settings.old.php')
+        && (bool)file_put_contents(_PS_ROOT_DIR_.'/config/settings.inc.php', $new_settings)
+    )) {
+        return true;
+    }
+
+    return false;
+}

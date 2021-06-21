@@ -24,12 +24,23 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+function fix_unique_specific_price()
+{
+    $result = Db::getInstance()->executeS('
+	SELECT MIN(id_specific_price) id_specific_price
+	FROM '._DB_PREFIX_.'specific_price
+	GROUP BY `id_product`, `id_shop`, `id_currency`, `id_country`, `id_group`, `from_quantity`, `from`, `to`');
+    if (!$result || !count($result)) {
+        return true;
+    } // return tru if there is not any specific price in the database
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
+    $sql = '';
+    foreach ($result as $row) {
+        $sql .= (int)$row['id_specific_price'].',';
+    }
+    $sql = rtrim($sql, ',');
 
-header("Location: ../");
-exit;
+    return Db::getInstance()->execute('
+	DELETE FROM '._DB_PREFIX_.'specific_price
+	WHERE id_specific_price NOT IN ('.$sql.')');
+}

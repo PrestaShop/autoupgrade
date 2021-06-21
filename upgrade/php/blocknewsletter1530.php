@@ -24,12 +24,15 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+function blocknewsletter1530()
+{
+    include_once _PS_INSTALL_PATH_.'upgrade/php/generic_add_missing_column.php';
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
+    $column_to_add = array(
+        'id_shop' => 'INTEGER UNSIGNED NOT NULL DEFAULT \'1\' after `id`',
+        'id_shop_group' => 'INTEGER UNSIGNED NOT NULL DEFAULT \'1\' after `id_shop`',
+        'active' => 'TINYINT(1) NOT NULL DEFAULT \'0\' after http_referer',
+    );
 
-header("Location: ../");
-exit;
+    return generic_add_missing_column('newsletter', $column_to_add);
+}

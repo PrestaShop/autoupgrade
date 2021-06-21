@@ -24,12 +24,10 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+function alter_blocklink()
+{
+    // No one will know if the table does not exist :] Thanks Damien for your solution ;)
+    Db::getInstance()->execute('ALTER TABLE  `'._DB_PREFIX_.'blocklink_lang` CHANGE  `id_link`  `id_blocklink` INT( 10 ) UNSIGNED NOT NULL');
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-
-header("Location: ../");
-exit;
+    Db::getInstance()->execute('ALTER TABLE  `'._DB_PREFIX_.'blocklink` CHANGE  `id_link`  `id_blocklink` INT( 10 ) UNSIGNED NOT NULL');
+}

@@ -24,12 +24,8 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
-
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-
-header("Location: ../");
-exit;
+function blocknewsletter()
+{
+    // No one will know if the table does not exist :]
+    Db::getInstance()->execute('ALTER TABLE '._DB_PREFIX_.'newsletter ADD `http_referer` VARCHAR(255) NULL');
+}

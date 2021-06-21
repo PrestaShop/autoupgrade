@@ -24,12 +24,10 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
-
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-
-header("Location: ../");
-exit;
+function add_column_orders_reference_if_not_exists()
+{
+    $column = Db::getInstance()->executeS('SHOW FIELDS FROM `'._DB_PREFIX_.'orders` LIKE "reference"');
+    if (empty($column)) {
+        return Db::getInstance()->execute('ALTER TABLE `'._DB_PREFIX_.'orders` ADD COLUMN `reference` varchar(10) AFTER `id_order`');
+    }
+}

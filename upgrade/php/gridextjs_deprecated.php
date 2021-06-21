@@ -24,12 +24,23 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+/** remove the uncompatible module gridextjs (1.4.0.8 upgrade)
+ */
+function gridextjs_deprecated()
+{
+    // if exists, use _PS_MODULE_DIR_ or _PS_ROOT_DIR_
+    // instead of guessing the modules dir
+    if (defined('_PS_MODULE_DIR_')) {
+        $gridextjs_path = _PS_MODULE_DIR_ . 'gridextjs';
+    } elseif (defined('_PS_ROOT_DIR_')) {
+        $gridextjs_path = _PS_ROOT_DIR_ . '/modules/gridextjs';
+    } else {
+        $gridextjs_path = dirname(__FILE__).'/../../../modules/gridextjs';
+    }
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
+    if (file_exists($gridextjs_path)) {
+        return rename($gridextjs_path, str_replace('gridextjs', 'gridextjs.deprecated', $gridextjs_path));
+    }
 
-header("Location: ../");
-exit;
+    return true;
+}

@@ -24,12 +24,21 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+function update_carrier_url()
+{
+    // Get all carriers
+    $sql = '
+		SELECT c.`id_carrier`, c.`url`
+		FROM `'._DB_PREFIX_.'carrier` c';
+    $carriers = Db::getInstance()->executeS($sql);
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-
-header("Location: ../");
-exit;
+    // Check each one and erase carrier URL if not correct URL
+    foreach ($carriers as $carrier) {
+        if (empty($carrier['url']) || !preg_match('/^https?:\/\/[:#%&_=\(\)\.\? \+\-@\/a-zA-Z0-9]+$/', $carrier['url'])) {
+            Db::getInstance()->execute('
+				UPDATE `'._DB_PREFIX_.'carrier`
+				SET `url` = \'\'
+				WHERE  `id_carrier`= '.(int)($carrier['id_carrier']));
+        }
+    }
+}

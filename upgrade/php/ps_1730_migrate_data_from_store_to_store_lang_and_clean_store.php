@@ -24,12 +24,14 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
-
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-
-header("Location: ../");
-exit;
+function ps_1730_migrate_data_from_store_to_store_lang_and_clean_store()
+{
+    $langs = Language::getLanguages();
+    foreach ($langs as $lang) {
+        Db::getInstance()->execute(
+            "INSERT INTO `" . _DB_PREFIX_ . "store_lang`
+            SELECT `id_store`, " . $lang['id_lang'] . " as id_lang , `name`, `address1`, `address2`, `hours`, `note`
+            FROM `" . _DB_PREFIX_ . "store`"
+        );
+    }
+}

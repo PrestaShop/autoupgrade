@@ -24,12 +24,22 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
-
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-
-header("Location: ../");
-exit;
+function add_missing_rewrite_value()
+{
+    $pages = Db::getInstance()->executeS('
+	SELECT *
+	FROM `'._DB_PREFIX_.'meta` m
+	LEFT JOIN `'._DB_PREFIX_.'meta_lang` ml ON (m.`id_meta` = ml.`id_meta`)
+	WHERE ml.`url_rewrite` = \'\'
+	AND m.`page` != "index"
+	');
+    if (is_array($pages) && count($pages)) {
+        foreach ($pages as $page) {
+            Db::getInstance()->execute('
+			UPDATE `'._DB_PREFIX_.'meta_lang`
+			SET `url_rewrite` = "'.pSQL(Tools::str2url($page['title'])).'"
+			WHERE `id_meta` = '.(int)$page['id_meta'].'
+			AND `id_lang` = '.(int)$page['id_lang']);
+        }
+    }
+}

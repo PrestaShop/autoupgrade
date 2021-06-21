@@ -24,12 +24,26 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+function upgrade_cms_15_rename()
+{
+    $res = true;
+    $db = Db::getInstance();
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
+    $res &= $db->executeS('SHOW TABLES LIKE "'._DB_PREFIX_.'_cms_shop"');
+    if ($res) {
+        $res &= $db->execute('RENAME TABLE `'._DB_PREFIX_.'_cms_shop` to `'._DB_PREFIX_.'cms_shop`');
+        // in case the script upgrade_cms_15.php have set a wrong table name, it's empty
+        $res &= Db::getInstance()->execute('INSERT INTO `'._DB_PREFIX_.'cms_shop` (id_shop, id_cms)
+			(SELECT 1, id_cms FROM '._DB_PREFIX_.'cms)');
 
-header("Location: ../");
-exit;
+        // cms_block table is blockcms module dependant. Don't update table that does not exists
+        $table_cms_block_exists = $db->executeS('SHOW TABLES LIKE "'._DB_PREFIX_.'cms"');
+        if (!$table_cms_block_exists) {
+            return $res;
+        }
+        $res &= Db::getInstance()->execute('ALTER TABLE `'._DB_PREFIX_.'cms`
+			ADD `id_shop` INT(11) UNSIGNED NOT NULL DEFAULT "1" AFTER `id_cms`');
+    }
+
+    return $res;
+}

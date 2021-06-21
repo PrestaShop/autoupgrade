@@ -24,12 +24,11 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
-
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-
-header("Location: ../");
-exit;
+function update_products_ecotax_v133()
+{
+    global $oldversion;
+    if ($oldversion < '1.3.3.0') {
+        Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'product` SET `ecotax` = \'0\' WHERE 1');
+        Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'order_detail` SET `ecotax` = \'0\' WHERE 1;');
+    }
+}

@@ -24,12 +24,22 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+define('_CONTAINS_REQUIRED_FIELD_', 2);
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
+function add_required_customization_field_flag()
+{
+    if (($result = Db::getInstance()->executeS('SELECT `id_product` FROM `'._DB_PREFIX_.'customization_field` WHERE `required` = 1')) === false) {
+        return false;
+    }
+    if (Db::getInstance()->numRows()) {
+        $productIds = array();
+        foreach ($result as $row) {
+            $productIds[] = (int)($row['id_product']);
+        }
+        if (!Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'product` SET `customizable` = '._CONTAINS_REQUIRED_FIELD_.' WHERE `id_product` IN ('.implode(', ', $productIds).')')) {
+            return false;
+        }
+    }
 
-header("Location: ../");
-exit;
+    return true;
+}

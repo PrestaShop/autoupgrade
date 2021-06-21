@@ -24,12 +24,18 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
-
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-
-header("Location: ../");
-exit;
+function update_genders_images()
+{
+    if (@file_exists(_PS_ROOT_DIR_.'/img/genders/Mr.jpg')) {
+        @rename(_PS_ROOT_DIR_.'/img/genders/Mr.jpg', _PS_ROOT_DIR_.'/img/genders/1.jpg');
+    }
+    if (@file_exists(_PS_ROOT_DIR_.'/img/genders/Ms.jpg')) {
+        @rename(_PS_ROOT_DIR_.'/img/genders/Ms.jpg', _PS_ROOT_DIR_.'/img/genders/2.jpg');
+    }
+    if (@file_exists(_PS_ROOT_DIR_.'/img/genders/Miss.jpg')) {
+        @rename(_PS_ROOT_DIR_.'/img/genders/Miss.jpg', _PS_ROOT_DIR_.'/img/genders/3.jpg');
+    }
+    if (@file_exists(_PS_ROOT_DIR_.'/img/genders/unknown.jpg')) {
+        @rename(_PS_ROOT_DIR_.'/img/genders/unknown.jpg', _PS_ROOT_DIR_.'/img/genders/Unknown.jpg');
+    }
+}

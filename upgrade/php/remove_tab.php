@@ -24,12 +24,10 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
-
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-
-header("Location: ../");
-exit;
+function remove_tab($tabname)
+{
+    Db::getInstance()->execute('
+	DELETE t, l
+	FROM `'._DB_PREFIX_.'tab` t LEFT JOIN `'._DB_PREFIX_.'tab_lang` l ON (t.id_tab = l.id_tab)
+	WHERE t.`class_name` = "'.pSQL($tabname).'"');
+}

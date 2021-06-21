@@ -24,12 +24,32 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+function ps1700_stores()
+{
+    $stores = Db::getInstance()->executeS('
+        SELECT `id_store`, `hours`
+        FROM `'._DB_PREFIX_.'store`
+    ');
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
+    $result = true;
+    foreach ($stores as $store) {
+        $hours = Tools::unSerialize($store['hours']);
+        if (is_array($hours)) {
+            foreach ($hours as $key => $h) {
+                $hours[$key] = [$h];
+            }
+        } else {
+            $hours = array();
+        }
+        $hours = json_encode($hours);
 
-header("Location: ../");
-exit;
+        $result &= Db::getInstance()->execute(
+            '
+            UPDATE `'._DB_PREFIX_.'store`
+            SET `hours` = \''.$hours.'\'
+            WHERE `id_store` = '.$store['id_store']
+        );
+    }
+
+    return $result;
+}

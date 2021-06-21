@@ -24,12 +24,22 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+function generic_add_missing_column($table, $column_to_add)
+{
+    $column_exist = Db::getInstance()->executeS('SHOW FIELDS FROM `'._DB_PREFIX_.$table.'`');
+    $column_formated = array();
+    $res = true;
+    if ($column_exist) {
+        foreach ($column_exist as $c) {
+            $column_formated[] = $c['Field'] ;
+        }
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
+        foreach ($column_to_add as $name => $details) {
+            if (!in_array($name, $column_formated)) {
+                $res &= Db::getInstance()->execute('ALTER TABLE `'._DB_PREFIX_.$table.'` ADD COLUMN `'.$name.'` '.$details);
+            }
+        }
+    }
 
-header("Location: ../");
-exit;
+    return $res;
+}

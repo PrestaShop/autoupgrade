@@ -24,12 +24,24 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+/*
+ * Since note is now TYPE_STRING instead of TYPE_HTML it needs to be decoded
+ */
+function ps_1771_update_customer_note()
+{
+    $notes = Db::getInstance()->executeS(
+        'SELECT id_customer, note FROM ' . _DB_PREFIX_ . 'customer
+        WHERE note IS NOT NULL AND note != ""'
+    );
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
+    $result = true;
+    foreach ($notes as $note) {
+        $result &= Db::getInstance()->execute(
+            'UPDATE ' . _DB_PREFIX_ . 'customer
+            SET note = "' . pSQL(html_entity_decode($note['note'])) . '"
+            WHERE id_customer = ' . $note['id_customer']
+        );
+    }
 
-header("Location: ../");
-exit;
+    return (bool) $result;
+}

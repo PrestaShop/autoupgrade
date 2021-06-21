@@ -24,12 +24,12 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+function p1531_redirect_type()
+{
+    include_once _PS_INSTALL_PATH_.'upgrade/php/generic_add_missing_column.php';
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
+    $result = generic_add_missing_column('product', array('redirect_type' => 'ENUM(\'\', \'404\', \'301\', \'302\') NOT NULL DEFAULT \'404\' AFTER `active`'));
+    $result &= generic_add_missing_column('product_shop', array('redirect_type' => 'ENUM(\'\', \'404\', \'301\', \'302\') NOT NULL DEFAULT \'404\' AFTER `active`'));
 
-header("Location: ../");
-exit;
+    return $result;
+}

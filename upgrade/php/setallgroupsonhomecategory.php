@@ -24,12 +24,23 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+function setAllGroupsOnHomeCategory()
+{
+    $ps_lang_default = Db::getInstance()->getValue('SELECT value
+		FROM `'._DB_PREFIX_.'configuration` WHERE name="PS_LANG_DEFAULT"');
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
+    $results = Db::getInstance()->executeS('SELECT id_group FROM `'._DB_PREFIX_.'group`');
+    $groups = array();
+    foreach ($results as $result) {
+        $groups[] = $result['id_group'];
+    }
 
-header("Location: ../");
-exit;
+    if (is_array($groups) && count($groups)) {
+        // cleanGroups
+        Db::getInstance()->execute('DELETE FROM `'._DB_PREFIX_.'category_group`
+			WHERE `id_category` = 1');
+        // addGroups($groups);
+        $row = array('id_category' => 1, 'id_group' => (int)$groups);
+        Db::getInstance()->insert('category_group', $row);
+    }
+}

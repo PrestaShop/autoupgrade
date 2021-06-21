@@ -24,12 +24,18 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+function update_module_pagesnotfound()
+{
+    $id_pagesnotfound = (int)Db::getInstance()->getValue('SELECT id_module FROM  `'._DB_PREFIX_.'module` WHERE name = \'pagesnotfound\'');
+    if ($id_pagesnotfound) {
+        $id_hook = (int)Db::getInstance()->getValue('SELECT `id_hook` FROM `'._DB_PREFIX_.'hook` WHERE `name` = \'frontCanonicalRedirect\'');
+        if ($id_hook) {
+            $position = (int)Db::getInstance()->getValue('SELECT IFNULL(MAX(`position`), 0) + 1 FROM `'._DB_PREFIX_.'hook_module` WHERE `id_hook` = '.(int)$id_hook);
+            if ($position) {
+                return Db::getInstance()->execute('INSERT IGNORE INTO `'._DB_PREFIX_.'hook_module` (`id_hook`, `id_module`, `position`) VALUES ('.(int)$id_hook.', '.(int)$id_pagesnotfound.', '.(int)$position.')');
+            }
+        }
+    }
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-
-header("Location: ../");
-exit;
+    return true;
+}

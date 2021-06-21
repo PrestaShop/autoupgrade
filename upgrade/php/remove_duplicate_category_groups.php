@@ -24,12 +24,26 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+/**
+ * Removes duplicates from table category_group caused by a bug in category importing in PS < 1.4.2
+ */
+function remove_duplicate_category_groups()
+{
+    $result = Db::getInstance()->executeS('
+		SELECT `id_category`, `id_group`, COUNT(*) as `count`
+		FROM `'._DB_PREFIX_.'category_group`
+		GROUP BY `id_category`, `id_group`
+		ORDER BY `count` DESC');
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-
-header("Location: ../");
-exit;
+    foreach ($result as $row) {
+        if ((int)$row['count'] > 1) {
+            $limit = (int)$row['count'] - 1;
+            $result = Db::getInstance()->execute('
+				DELETE FROM `'._DB_PREFIX_.'category_group`
+				WHERE `id_category` = '.$row['id_category'].' AND `id_group` = '.$row['id_group'].'
+				LIMIT '.$limit);
+        } else {
+            return;
+        }
+    }
+}

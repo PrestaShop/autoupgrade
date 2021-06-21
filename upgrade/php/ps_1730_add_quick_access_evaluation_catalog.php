@@ -24,12 +24,25 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+function ps_1730_add_quick_access_evaluation_catalog()
+{
+    $moduleManagerBuilder = \PrestaShop\PrestaShop\Core\Addon\Module\ModuleManagerBuilder::getInstance();
+    $moduleManager = $moduleManagerBuilder->build();
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
+    $isStatscheckupInstalled = $moduleManager->isInstalled('statscheckup');
 
-header("Location: ../");
-exit;
+    if ($isStatscheckupInstalled) {
+        $translator = Context::getContext()->getTranslator();
+
+        Db::getInstance()->execute('INSERT INTO `' . _DB_PREFIX_ . 'quick_access` SET link = "index.php?controller=AdminStats&module=statscheckup" ');
+
+        $idQuickAccess = (int)Db::getInstance()->Insert_ID();
+
+        foreach (Language::getLanguages() as $language) {
+            Db::getInstance()->execute('INSERT INTO `' . _DB_PREFIX_ . 'quick_access_lang` SET 
+                `id_quick_access` = ' . $idQuickAccess . ',
+                `id_lang` = ' . (int)$language['id_lang'] . ',
+                `name` = "' . pSQL($translator->trans('Catalog evaluation', array(), 'Admin.Navigation.Header')) . '" ');
+        }
+    }
+}

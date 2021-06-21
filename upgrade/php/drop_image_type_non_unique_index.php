@@ -24,12 +24,12 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
-
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-
-header("Location: ../");
-exit;
+function drop_image_type_non_unique_index()
+{
+    $index = Db::getInstance()->executeS('SHOW INDEX FROM `'._DB_PREFIX_.'image_type` WHERE column_name="name" AND non_unique=1');
+    if (is_array($index) && count($index)) {
+        foreach ($index as $ind) {
+            Db::getInstance()->execute('ALTER TABLE `'._DB_PREFIX_.'image_type` DROP INDEX `'.pSQL($ind['Key_name']).'`');
+        }
+    }
+}

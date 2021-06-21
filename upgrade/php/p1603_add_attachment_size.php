@@ -24,12 +24,11 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
-
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-
-header("Location: ../");
-exit;
+function p1603_add_attachment_size()
+{
+    $attachments = Db::getInstance()->executeS('SELECT id_attachment, file FROM '._DB_PREFIX_.'attachment');
+    foreach ($attachments as $attachment) {
+        $file_size = @filesize(_PS_DOWNLOAD_DIR_.$attachment['file']);
+        Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'attachment SET file_size = '.(int)$file_size.' WHERE id_attachement = '.(int)$attachment['id_attachment']);
+    }
+}
