@@ -89,7 +89,7 @@ class ModuleAdapter
      */
     public function disableNonNativeModules($pathToUpgradeScripts)
     {
-        require_once $pathToUpgradeScripts . 'deactivate_custom_modules.php';
+        require_once $pathToUpgradeScripts . 'php/deactivate_custom_modules.php';
         deactivate_custom_modules();
     }
 
@@ -109,7 +109,6 @@ class ModuleAdapter
             throw (new UpgradeException($this->translator->trans('[ERROR] %dir% does not exist or is not a directory.', array('%dir%' => $dir), 'Modules.Autoupgrade.Admin')))
                 ->addQuickInfo($this->translator->trans('[ERROR] %s does not exist or is not a directory.', array($dir), 'Modules.Autoupgrade.Admin'))
                 ->setSeverity(UpgradeException::SEVERITY_ERROR);
-//            $this->next_desc = $this->trans('Nothing has been extracted. It seems the unzip step has been skipped.', array(), 'Modules.Autoupgrade.Admin');
         }
 
         foreach (scandir($dir) as $module_name) {
