@@ -157,7 +157,7 @@ abstract class CoreUpgrader
         $_SERVER['REQUEST_URI'] = str_replace('//', '/', $_SERVER['REQUEST_URI']);
 
         $this->destinationUpgradeVersion = $this->container->getState()->getInstallVersion();
-        $this->pathToInstallFolder = urealpath($this->container->getProperty(UpgradeContainer::LATEST_PATH) . DIRECTORY_SEPARATOR . 'install');
+        $this->pathToInstallFolder = realpath($this->container->getProperty(UpgradeContainer::LATEST_PATH) . DIRECTORY_SEPARATOR . 'install');
         // Kept for backward compatbility (unknown consequences on old versions of PrestaShop)
         define('INSTALL_VERSION', $this->destinationUpgradeVersion);
         // 1.4
