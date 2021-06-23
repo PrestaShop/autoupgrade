@@ -100,41 +100,6 @@ class Autoupgrade extends Module
             return $this->_abortInstall($this->trans('Unable to load the "AdminSelfUpgrade" tab', array(), 'Modules.Autoupgrade.Admin'));
         }
 
-        // // Check that the 1-click upgrade working directory is existing or create it
-        // $autoupgrade_dir = _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'var/modules/autoupgrade';
-        // if (!file_exists($autoupgrade_dir) && !@mkdir($autoupgrade_dir, 0777, true)) {
-        //     return $this->_abortInstall($this->trans('Unable to create the directory "%s"', array($autoupgrade_dir), 'Modules.Autoupgrade.Admin'));
-        // }
-
-        // // Make sure that the 1-click upgrade working directory is writeable
-        // if (!is_writable($autoupgrade_dir)) {
-        //     return $this->_abortInstall($this->trans('Unable to write in the directory "%s"', array($autoupgrade_dir), 'Modules.Autoupgrade.Admin'));
-        // }
-
-        // // If a previous version of ajax-upgradetab.php exists, delete it
-        // if (file_exists($autoupgrade_dir . DIRECTORY_SEPARATOR . 'ajax-upgradetab.php')) {
-        //     @unlink($autoupgrade_dir . DIRECTORY_SEPARATOR . 'ajax-upgradetab.php');
-        // }
-
-        // // Then, try to copy the newest version from the module's directory
-        // if (!@copy(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'ajax-upgradetab.php', $autoupgrade_dir . DIRECTORY_SEPARATOR . 'ajax-upgradetab.php')) {
-        //     return $this->_abortInstall($this->trans('Unable to copy ajax-upgradetab.php in %s', array($autoupgrade_dir), 'Modules.Autoupgrade.Admin'));
-        // }
-
-        // // Make sure that the XML config directory exists
-        // if (!file_exists(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml') &&
-        // !@mkdir(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml', 0775)) {
-        //     return $this->_abortInstall($this->trans('Unable to create the directory "%s"', array(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml'), 'Modules.Autoupgrade.Admin'));
-        // } else {
-        //     @chmod(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml', 0775);
-        // }
-
-        // // Create a dummy index.php file in the XML config directory to avoid directory listing
-        // if (!file_exists(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml' . DIRECTORY_SEPARATOR . 'index.php') &&
-        // (file_exists(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'index.php') &&
-        // !@copy(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'index.php', _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml' . DIRECTORY_SEPARATOR . 'index.php'))) {
-        //     return $this->_abortInstall($this->trans('Unable to create the directory "%s"', array(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml'), 'Modules.Autoupgrade.Admin'));
-        // }
 
         return parent::install() && $this->registerHookAndSetToTop('dashboardZoneOne');
     }
