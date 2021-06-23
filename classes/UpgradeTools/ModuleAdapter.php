@@ -89,7 +89,7 @@ class ModuleAdapter
      */
     public function disableNonNativeModules($pathToUpgradeScripts)
     {
-        require_once $pathToUpgradeScripts . 'php/deactivate_custom_modules.php';
+        require_once $pathToUpgradeScripts . '/php/deactivate_custom_modules.php';
         deactivate_custom_modules();
     }
 
