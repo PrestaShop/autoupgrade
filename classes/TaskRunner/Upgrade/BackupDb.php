@@ -180,8 +180,8 @@ class BackupDb extends AbstractTask
                 if (isset($schema[0]['View'])) {
                     $views .= '/* Scheme for view' . $schema[0]['View'] . " */\n";
                     // If some *upgrade* transform a table in a view, drop both just in case
-                    $views .= 'DROP VIEW IF EXISTS `' . $schema[0]['View'] . '`;' . "\n";
                     $views .= 'DROP TABLE IF EXISTS `' . $schema[0]['View'] . '`;' . "\n";
+                    $views .= 'DROP VIEW IF EXISTS `' . $schema[0]['View'] . '`;' . "\n";
                     $views .= preg_replace('#DEFINER=[^\s]+\s#', 'DEFINER=CURRENT_USER ', $schema[0]['Create View']) . ";\n\n";
                     $written += fwrite($fp, "\n" . $views);
                     $ignore_stats_table[] = $schema[0]['View'];
