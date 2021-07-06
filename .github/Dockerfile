@@ -1,4 +1,4 @@
-FROM prestashop/base:7.1-apache
+FROM prestashop/base:7.3-apache
 LABEL maintainer="PrestaShop Core Team <coreteam@prestashop.com>"
 
 ARG VERSION
