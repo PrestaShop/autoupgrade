@@ -70,7 +70,9 @@ class SymfonyAdapter
             require_once _PS_ROOT_DIR_ . '/app/AppKernel.php';
             $env = (true == _PS_MODE_DEV_) ? 'dev' : 'prod';
             $kernel = new \AppKernel($env, _PS_MODE_DEV_);
-            $kernel->loadClassCache();
+            if (method_exists($kernel, 'loadClassCache')) { // This method has been deleted in Symfony 4.x
+                $kernel->loadClassCache();
+            }
             $kernel->boot();
         }
 
