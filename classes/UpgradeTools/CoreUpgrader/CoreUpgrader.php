@@ -73,7 +73,7 @@ abstract class CoreUpgrader
      *
      * @var string
      */
-    protected $pathToPhpUpgradeScripts;
+    protected $pathToUpgradeScripts;
 
     public function __construct(UpgradeContainer $container, LoggerInterface $logger)
     {
@@ -192,15 +192,8 @@ abstract class CoreUpgrader
             define('_PS_MODULE_DIR_', $this->pathToInstallFolder . '/../modules/');
         }
 
-        $upgrade_dir_php = 'upgrade/php';
-        if (!file_exists($this->pathToInstallFolder . DIRECTORY_SEPARATOR . $upgrade_dir_php)) {
-            $upgrade_dir_php = 'php';
-            if (!file_exists($this->pathToInstallFolder . DIRECTORY_SEPARATOR . $upgrade_dir_php)) {
-                throw new UpgradeException($this->container->getTranslator()->trans('/install/upgrade/php directory is missing in archive or directory', array(), 'Modules.Autoupgrade.Admin'));
-            }
-        }
-        $this->pathToPhpUpgradeScripts = $this->pathToInstallFolder . DIRECTORY_SEPARATOR . $upgrade_dir_php . DIRECTORY_SEPARATOR;
-        define('_PS_INSTALLER_PHP_UPGRADE_DIR_', $this->pathToPhpUpgradeScripts);
+        $this->pathToUpgradeScripts = dirname(__DIR__, 3) . '/upgrade/';
+        define('_PS_INSTALLER_PHP_UPGRADE_DIR_', $this->pathToUpgradeScripts . DIRECTORY_SEPARATOR . 'php');
 
         if (!defined('__PS_BASE_URI__')) {
             define('__PS_BASE_URI__', realpath(dirname($_SERVER['SCRIPT_NAME'])) . '/../../');
@@ -271,14 +264,15 @@ abstract class CoreUpgrader
      */
     protected function disableCustomModules()
     {
-        $this->container->getModuleAdapter()->disableNonNativeModules($this->pathToPhpUpgradeScripts);
+        $this->container->getModuleAdapter()->disableNonNativeModules($this->pathToUpgradeScripts);
     }
 
     protected function upgradeDb($oldversion)
     {
-        $upgrade_dir_sql = $this->pathToInstallFolder . '/upgrade/sql';
+        $upgrade_dir_sql = $this->pathToUpgradeScripts . '/sql';
         $sqlContentVersion = $this->applySqlParams(
-            $this->getUpgradeSqlFilesListToApply($upgrade_dir_sql, $oldversion));
+            $this->getUpgradeSqlFilesListToApply($upgrade_dir_sql, $oldversion)
+        );
 
         foreach ($sqlContentVersion as $upgrade_file => $sqlContent) {
             foreach ($sqlContent as $query) {
@@ -385,14 +379,14 @@ abstract class CoreUpgrader
         if (strpos($phpString, '::') === false) {
             $func_name = str_replace($pattern[0], '', $php[0]);
 
-            if (!file_exists($this->pathToPhpUpgradeScripts . strtolower($func_name) . '.php')) {
+            if (!file_exists($this->pathToUpgradeScripts . strtolower($func_name) . '.php')) {
                 $this->logger->error('[ERROR] ' . $upgrade_file . ' PHP - missing file ' . $query);
                 $this->container->getState()->setWarningExists(true);
 
                 return;
             }
 
-            require_once $this->pathToPhpUpgradeScripts . strtolower($func_name) . '.php';
+            require_once $this->pathToUpgradeScripts . strtolower($func_name) . '.php';
             $phpRes = call_user_func_array($func_name, $parameters);
         }
         // Or an object method

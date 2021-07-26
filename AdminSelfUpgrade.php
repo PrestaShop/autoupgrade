@@ -123,12 +123,46 @@ class AdminSelfUpgrade extends AdminController
         self::$currentIndex = $_SERVER['SCRIPT_NAME'] . (($controller = Tools14::getValue('controller')) ? '?controller=' . $controller : '');
 
         if (defined('_PS_ADMIN_DIR_')) {
+            // Check that the 1-click upgrade working directory is existing or create it
+            if (!file_exists($this->autoupgradePath) && !@mkdir($this->autoupgradePath)) {
+                $this->_errors[] = $this->trans('Unable to create the directory "%s"', array($this->autoupgradePath), 'Modules.Autoupgrade.Admin');
+                return;
+            }
+
+            // Make sure that the 1-click upgrade working directory is writeable
+            if (!is_writable($this->autoupgradePath)) {
+                $this->_errors[] = $this->trans('Unable to write in the directory "%s"', array($this->autoupgradePath), 'Modules.Autoupgrade.Admin');
+                return;
+            }
+
+            // If a previous version of ajax-upgradetab.php exists, delete it
+            if (file_exists($this->autoupgradePath . DIRECTORY_SEPARATOR . 'ajax-upgradetab.php')) {
+                @unlink($this->autoupgradePath . DIRECTORY_SEPARATOR . 'ajax-upgradetab.php');
+            }
+
             $file_tab = @filemtime($this->autoupgradePath . DIRECTORY_SEPARATOR . 'ajax-upgradetab.php');
             $file = @filemtime(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $this->autoupgradeDir . DIRECTORY_SEPARATOR . 'ajax-upgradetab.php');
 
             if ($file_tab < $file) {
                 @copy(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $this->autoupgradeDir . DIRECTORY_SEPARATOR . 'ajax-upgradetab.php',
                     $this->autoupgradePath . DIRECTORY_SEPARATOR . 'ajax-upgradetab.php');
+            }
+
+            // Make sure that the XML config directory exists
+            if (!file_exists(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml') &&
+                !@mkdir(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml', 0775)) {
+                $this->_errors[] = $this->trans('Unable to create the directory "%s"', array(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml'), 'Modules.Autoupgrade.Admin');
+                return;
+            } else {
+                @chmod(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml', 0775);
+            }
+
+            // Create a dummy index.php file in the XML config directory to avoid directory listing
+            if (!file_exists(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml' . DIRECTORY_SEPARATOR . 'index.php') &&
+                (file_exists(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'index.php') &&
+                 !@copy(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'index.php', _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml' . DIRECTORY_SEPARATOR . 'index.php'))) {
+                $this->_errors[] = $this->trans('Unable to create the directory "%s"', array(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml'), 'Modules.Autoupgrade.Admin');
+                return;
             }
         }
 
