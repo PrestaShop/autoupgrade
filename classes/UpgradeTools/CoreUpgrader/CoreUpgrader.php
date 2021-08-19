@@ -193,7 +193,7 @@ abstract class CoreUpgrader
         }
 
         $this->pathToUpgradeScripts = dirname(__DIR__, 3) . '/upgrade/';
-        define('_PS_INSTALLER_PHP_UPGRADE_DIR_', $this->pathToUpgradeScripts . DIRECTORY_SEPARATOR . 'php');
+        define('_PS_INSTALLER_PHP_UPGRADE_DIR_', $this->pathToUpgradeScripts . 'php/');
 
         if (!defined('__PS_BASE_URI__')) {
             define('__PS_BASE_URI__', realpath(dirname($_SERVER['SCRIPT_NAME'])) . '/../../');
@@ -269,7 +269,7 @@ abstract class CoreUpgrader
 
     protected function upgradeDb($oldversion)
     {
-        $upgrade_dir_sql = $this->pathToUpgradeScripts . '/sql';
+        $upgrade_dir_sql = $this->pathToUpgradeScripts . '/sql/';
         $sqlContentVersion = $this->applySqlParams(
             $this->getUpgradeSqlFilesListToApply($upgrade_dir_sql, $oldversion)
         );
@@ -293,7 +293,7 @@ abstract class CoreUpgrader
                 if ($file[0] === '.') {
                     continue;
                 }
-                if (!is_readable($upgrade_dir_sql . DIRECTORY_SEPARATOR . $file)) {
+                if (!is_readable($upgrade_dir_sql . $file)) {
                     throw new UpgradeException($this->container->getTranslator()->trans('Error while loading SQL upgrade file "%s".', array($file), 'Modules.Autoupgrade.Admin'));
                 }
                 $upgradeFiles[] = str_replace('.sql', '', $file);
@@ -307,7 +307,7 @@ abstract class CoreUpgrader
 
         foreach ($upgradeFiles as $version) {
             if (version_compare($version, $oldversion) == 1 && version_compare($this->destinationUpgradeVersion, $version) != -1) {
-                $neededUpgradeFiles[$version] = $upgrade_dir_sql . DIRECTORY_SEPARATOR . $version . '.sql';
+                $neededUpgradeFiles[$version] = $upgrade_dir_sql . $version . '.sql';
             }
         }
 
@@ -378,15 +378,16 @@ abstract class CoreUpgrader
         // Call a simple function
         if (strpos($phpString, '::') === false) {
             $func_name = str_replace($pattern[0], '', $php[0]);
+            $pathToPhpDirectory = $this->pathToUpgradeScripts . 'php/';
 
-            if (!file_exists($this->pathToUpgradeScripts . strtolower($func_name) . '.php')) {
-                $this->logger->error('[ERROR] ' . $upgrade_file . ' PHP - missing file ' . $query);
+            if (!file_exists($pathToPhpDirectory . strtolower($func_name) . '.php')) {
+                $this->logger->error('[ERROR] ' . $pathToPhpDirectory . strtolower($func_name) . ' PHP - missing file ' . $query);
                 $this->container->getState()->setWarningExists(true);
 
                 return;
             }
 
-            require_once $this->pathToUpgradeScripts . strtolower($func_name) . '.php';
+            require_once $pathToPhpDirectory . strtolower($func_name) . '.php';
             $phpRes = call_user_func_array($func_name, $parameters);
         }
         // Or an object method
