@@ -25,36 +25,38 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\Twig\Block;
+namespace PrestaShop\Module\AutoUpgrade\Twig;
 
-use PrestaShop\Module\AutoUpgrade\BackupFinder;
-use Twig_Environment;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 
-class RollbackForm
+/**
+ * Filter (Support for Twig 3)
+ */
+class TransFilterExtension3 extends AbstractExtension
 {
-    /**
-     * @var Twig_Environment|\Twig\Environment
-     */
-    private $twig;
+    const DOMAIN = 'Modules.Autoupgrade.Admin';
 
     /**
-     * @var BackupFinder
+     * @var Translator
      */
-    private $backupFinder;
+    private $translator;
 
-    public function __construct($twig, BackupFinder $backupFinder)
+    public function __construct($translator)
     {
-        $this->twig = $twig;
-        $this->backupFinder = $backupFinder;
+        $this->translator = $translator;
     }
 
-    public function render()
+    public function getFilters()
     {
-        return $this->twig->render(
-            '@ModuleAutoUpgrade/block/rollbackForm.twig',
-            array(
-                'availableBackups' => $this->backupFinder->getAvailableBackups(),
-            )
+        return array(
+            new TwigFilter('trans', array($this, 'trans')),
         );
+    }
+
+    public function trans($string, $params = array())
+    {
+        return $this->translator->trans($string, $params, self::DOMAIN);
     }
 }

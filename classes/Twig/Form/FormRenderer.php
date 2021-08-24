@@ -33,15 +33,24 @@ use Twig_Environment;
 
 class FormRenderer
 {
+    /**
+     * @var UpgradeConfiguration
+     */
     private $config;
 
+    /**
+     * @var Translator
+     */
     private $translator;
 
+    /**
+     * @var Twig_Environment|\Twig\Environment
+     */
     private $twig;
 
     public function __construct(
         UpgradeConfiguration $configuration,
-        Twig_Environment $twig,
+        $twig,
         Translator $translator
     ) {
         $this->config = $configuration;

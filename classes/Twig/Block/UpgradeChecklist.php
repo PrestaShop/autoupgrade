@@ -38,7 +38,7 @@ use Twig_Environment;
 class UpgradeChecklist
 {
     /**
-     * @var Twig_Environment
+     * @var Twig_Environment|\Twig\Environment
      */
     private $twig;
 
@@ -75,7 +75,7 @@ class UpgradeChecklist
     /**
      * UpgradeChecklistBlock constructor.
      *
-     * @param Twig_Environment $twig
+     * @param Twig_Environment|\Twig\Environment $twig
      * @param UpgradeSelfCheck $upgradeSelfCheck
      * @param string $prodRootPath
      * @param string $adminPath
@@ -84,7 +84,7 @@ class UpgradeChecklist
      * @param string $token
      */
     public function __construct(
-        Twig_Environment $twig,
+        $twig,
         UpgradeSelfCheck $upgradeSelfCheck,
         $prodRootPath,
         $adminPath,
