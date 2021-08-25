@@ -5,7 +5,7 @@ on:
     - cron: "0 6 * * *" # Every day at 06:00Am
 
 env:
-  reports_path: ./json-reports
+  reports_directory: ${{ github.workspace }}/json-reports
   combined_report_name: upgrade_tests.json
 
 jobs:
@@ -20,7 +20,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
-          node-version: 10
+          node-version: 12
 
       - name: Install dependencies
         shell: bash
@@ -121,14 +121,14 @@ jobs:
       # Upload Mochawesome reports
       - name: Rename Mochawesome report
         if: ${{ always() }}
-        run: ./tests/e2e/scripts/copy_reports.sh ${{ env.reports_path }} ${{ matrix.ps_start_version  }} ${{ matrix.ps_target_version.branch }}
+        run: ./tests/e2e/scripts/copy_reports.sh ${{ env.reports_directory }} ${{ matrix.ps_start_version  }} ${{ matrix.ps_target_version.branch }}
 
       - uses: actions/upload-artifact@v2
         name: Upload Mochawesome report
         if: ${{ always() }}
         with:
           name: tests-reports-${{ matrix.ps_target_version.branch }}
-          path: ${{ env.reports_path }}
+          path: ${{ env.reports_directory }}
 
   # Second job: merge reports (depends on upgrade job)
   merge-reports:
@@ -151,22 +151,28 @@ jobs:
         name: Download reports
         with:
           name: tests-reports-${{ matrix.ps_target_version.branch }}
-          path: ${{ env.reports_path }}
+          path: ${{ env.reports_directory }}
 
-      - name: Setup Python
-        uses: actions/setup-python@v2
+      - name: Setup Node
+        uses: actions/setup-node@v2
         with:
-          python-version: '3.x'
+          node-version: 12
+
+      - name: Install dependencies
+        shell: bash
+        run: npm install
+        working-directory: ./tests/e2e
 
       - name: Combine reports
         shell: bash
-        run: ./tests/e2e/scripts/combine_reports.sh ${{ env.reports_path }} ${{ env.combined_report_name }}
+        run: npx mochawesome-merge "${{ env.reports_directory }}/*.json" -o "${{ env.reports_directory }}/${{ env.combined_report_name }}"
+        working-directory: ./tests/e2e
 
       - uses: actions/upload-artifact@v2
         name: Upload combined report
         with:
           name: combined-report-${{ matrix.ps_target_version.branch }}
-          path: ${{ env.reports_path }}/${{ env.combined_report_name }}
+          path: ${{ env.reports_directory }}/${{ env.combined_report_name }}
 
   # Third job: Upload report on GCP (Depends on merge-reports job)
   upload-report:
@@ -189,7 +195,7 @@ jobs:
         name: Download report
         with:
           name: combined-report-${{ matrix.ps_target_version.branch }}
-          path: ${{ env.reports_path }}
+          path: ${{ env.reports_directory }}
 
       - uses: google-github-actions/setup-gcloud@master
         name: Setup Cloud Sdk
@@ -202,9 +208,9 @@ jobs:
         shell: bash
         run: |
           export FILENAME=autoupgrade_ui_`date -u +"%Y-%m-%d"`-${{ matrix.ps_target_version.branch }}.json
-          cp ${{ env.reports_path }}/${{ env.combined_report_name }} $FILENAME
+          cp ${{ env.reports_directory }}/${{ env.combined_report_name }} $FILENAME
           ./.github/workflows/nightly_scripts/push_results.sh ${{ env.nightly_api_url }} $FILENAME ${{ env.campaign }} ${{ env.platform }} ${{ secrets.QANB_TOKEN }}
         env:
-          nightly_api_url: https://api-nightly.prestashop.com/hook/add
+          nightly_api_url: https://api-nightly.prestashop.com/hook/reports/import
           campaign: autoupgrade
           platform: chromium
