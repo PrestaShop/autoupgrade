@@ -23,12 +23,19 @@ jobs:
       matrix:
         from: ['1.7.6.9', '1.7.7.0', '1.6.1.24']
         ps-versions: ${{ fromJson(needs.get_matrix.outputs.matrix) }}
+        autoupgrade-branch: ['dev', 'master']
     runs-on: ubuntu-latest
     name: Upgrade
     outputs:
       result: ${{ steps.export-result.outputs.result }}
     steps:
       - uses: actions/checkout@v2
+      - run: |
+          cp -r .github .github_dev
+          git fetch origin ${{ matrix.autoupgrade-branch }}
+          git checkout ${{ matrix.autoupgrade-branch }}
+          rm -r .github
+          cp -r .github_dev .github
       - name: Composer Install
         run: |
           composer install
@@ -40,13 +47,13 @@ jobs:
         if: ${{ always() }}
         run: |
           export END_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"`
-          echo "${{matrix.from}}|${{matrix.ps-versions.branch}}|${{matrix.ps-versions.version}}|$START_DATE|$END_DATE|${{steps.upgrade-rollback.outcome}}" > ${{matrix.from}}_${{matrix.ps-versions.branch}}.txt
+          echo "${{ matrix.autoupgrade-branch }}|${{matrix.from}}|${{matrix.ps-versions.branch}}|${{matrix.ps-versions.version}}|$START_DATE|$END_DATE|${{steps.upgrade-rollback.outcome}}" > ${{ matrix.autoupgrade-branch }}_${{matrix.from}}_${{matrix.ps-versions.branch}}.txt
       - name: Upload artifact
         if: ${{ always() }}
         uses: actions/upload-artifact@v2
         with:
-          name: ${{matrix.from}}_${{matrix.ps-versions.branch}}
-          path: ${{matrix.from}}_${{matrix.ps-versions.branch}}.txt
+          name: ${{ matrix.autoupgrade-branch }}_${{matrix.from}}_${{matrix.ps-versions.branch}}
+          path: ${{ matrix.autoupgrade-branch }}_${{matrix.from}}_${{matrix.ps-versions.branch}}.txt
   results:
     name: Results
     continue-on-error: true
