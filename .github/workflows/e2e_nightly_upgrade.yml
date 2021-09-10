@@ -63,6 +63,18 @@ jobs:
       # Setup PrestaShop and Install Autoupgrade module
       - uses: actions/checkout@v2
 
+      - run: |
+          cp -r .github .github_dev
+          cp -r tests/e2e tests/e2e_dev
+          cp docker-compose.yml docker-compose.dev.yml
+          git fetch origin ${{ matrix.module_branch }}
+          git checkout ${{ matrix.module_branch }}
+          rm -r .github docker-compose.yml tests/e2e
+          cp -r .github_dev .github
+          cp -r tests/e2e_dev tests/e2e
+          cp docker-compose.dev.yml docker-compose.yml
+        if: ${{ matrix.module_branch != 'dev' }}
+
       # Build PrestaShop with docker-compose
       - uses: shivammathur/setup-php@v2
         name: Setup PHP
@@ -83,18 +95,6 @@ jobs:
       # Install Module with user interface
       - name: Setup Node
         uses: actions/setup-node@v2
-
-      - run: |
-          cp -r .github .github_dev
-          cp -r tests/e2e tests/e2e_dev
-          cp docker-compose.yml docker-compose.dev.yml
-          git fetch origin ${{ matrix.module_branch }}
-          git checkout ${{ matrix.module_branch }}
-          rm -r .github docker-compose.yml tests/e2e
-          cp -r .github_dev .github
-          cp -r tests/e2e_dev tests/e2e
-          cp docker-compose.dev.yml docker-compose.yml
-        if: ${{ matrix.module_branch != 'dev' }}
 
       - name: Install dependencies
         run: npm install
