@@ -31,7 +31,7 @@ Check PS version
 Log in
 Install 1-Click Upgrade module
  */
-describe(`Install '${moduleToInstall.name}' module`, async () => {
+describe(`[${global.AUTOUPGRADE_VERSION}] Install '${moduleToInstall.name}' module`, async () => {
   // before and after functions
   before(async function () {
     browserContext = await helper.createBrowserContext(this.browser);

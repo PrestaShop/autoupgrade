@@ -1,6 +1,7 @@
 name: Nightly upgrades with user inferfaces
 
 on:
+  push:
   schedule:
     - cron: "0 6 * * *" # Every day at 06:00Am
 
@@ -53,12 +54,16 @@ jobs:
 
         ps_target_version: ${{ fromJson(needs.get_ps_target_versions.outputs.target_versions) }}
 
+        module_branch: ['dev', 'master']
+
       fail-fast: false
 
     steps:
 
       # Setup PrestaShop and Install Autoupgrade module
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ matrix.module_branch }}
 
       # Build PrestaShop with docker-compose
       - uses: shivammathur/setup-php@v2
@@ -93,6 +98,7 @@ jobs:
         env:
           URL_FO: "http://localhost:8001/"
           PS_VERSION: ${{ matrix.ps_start_version }}
+          AUTOUPGRADE_VERSION: ${{ matrix.module_branch }}
 
       - name: Download nightly build
         shell: bash
@@ -110,6 +116,7 @@ jobs:
           PS_VERSION: ${{ matrix.ps_start_version }}
           PS_VERSION_UPGRADE_TO: ${{ matrix.ps_target_version.for_test }}
           ZIP_NAME: ${{ matrix.ps_target_version.filename }}
+          AUTOUPGRADE_VERSION: ${{ matrix.module_branch }}
 
       - uses: actions/upload-artifact@v2
         name: Upload failed screenshots
@@ -121,7 +128,7 @@ jobs:
       # Upload Mochawesome reports
       - name: Rename Mochawesome report
         if: ${{ always() }}
-        run: ./tests/e2e/scripts/copy_reports.sh ${{ env.reports_directory }} ${{ matrix.ps_start_version  }} ${{ matrix.ps_target_version.branch }}
+        run: ./tests/e2e/scripts/copy_reports.sh ${{ env.reports_directory }} ${{ matrix.ps_start_version }} ${{ matrix.ps_target_version.branch }} ${{ matrix.module_branch }}
 
       - uses: actions/upload-artifact@v2
         name: Upload Mochawesome report
