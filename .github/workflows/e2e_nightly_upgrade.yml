@@ -69,10 +69,10 @@ jobs:
           cp docker-compose.yml docker-compose.dev.yml
           git fetch origin ${{ matrix.module_branch }}
           git checkout ${{ matrix.module_branch }}
-          rm -r .github docker-compose.yml tests/e2e
-          cp -r .github_dev .github
-          cp -r tests/e2e_dev tests/e2e
-          cp docker-compose.dev.yml docker-compose.yml
+          rm -rf .github docker-compose.yml tests/e2e
+          mv -r .github_dev .github
+          mv -r tests/e2e_dev tests/e2e
+          mv docker-compose.dev.yml docker-compose.yml
         if: ${{ matrix.module_branch != 'dev' }}
 
       # Build PrestaShop with docker-compose
