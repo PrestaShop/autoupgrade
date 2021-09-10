@@ -1,16 +1,16 @@
 <?php
 
-$branch = $argv[1] ?? null;
-if (null === $branch) {
+$psBranch = $argv[1] ?? null;
+if (null === $psBranch) {
     return;
 }
 
 $results = [];
-$files = getResultFiles($branch);
+$files = getResultFiles($psBranch);
 foreach ($files as $file) {
     $results[] = getTestResultFromFile($file);
 }
-$globalResults = getGlobalResults($results, $branch);
+$globalResults = getGlobalResults($results, $psBranch);
 $totalDuration = getTotalDuration($globalResults);
 
 $data = [
@@ -91,7 +91,7 @@ function getTestResultFromFile(string $file): array
     $dateEnd = getDateTimeFromString($data[5]);
     $duration = ($dateEnd->getTimestamp() - $dateStart->getTimestamp()) * 1000;
     $state = $data[6] === 'success' ? 'passed' : 'failed';
-    $autoupgradeBranch = $data[0];
+    $branch = $data[0];
     $error = null;
     if ($state !== 'passed') {
         $error = [
@@ -106,8 +106,8 @@ function getTestResultFromFile(string $file): array
 
     return [
         'uuid' => uniqid(),
-        'title' => '[' . $autoupgradeBranch . '] Upgrade from ' . $data[1] . ' to ' . $data[2],
-        'context' => '{"value": "[' . $autoupgradeBranch . '] Upgrade from ' . $data[1] . ' to ' . $data[2] . '"}',
+        'title' => '[' . $branch . '] Upgrade from ' . $data[1] . ' to ' . $data[2],
+        'context' => '{"value": "[' . $branch . '] Upgrade from ' . $data[1] . ' to ' . $data[2] . '"}',
         'skipped' => [],
         'pending' => [],
         'duration' => $duration,
@@ -115,8 +115,7 @@ function getTestResultFromFile(string $file): array
         'err' => $error,
         'date_start' => $dateStart,
         'date_end' => $dateEnd,
-        'branch' => $data[2],
-        'autoupgrade_branch' => $autoupgradeBranch
+        'branch' => $branch
     ];
 }
 
@@ -125,14 +124,14 @@ function getDateTimeFromString(string $datetime): DateTime
     return DateTime::createFromFormat('Y-m-d\TH:i:s\Z', $datetime, new DateTimeZone('UTC'));
 }
 
-function getGlobalResults(array $results, string $branch): array
+function getGlobalResults(array $results, string $psBranch): array
 {
     $globalResults = [];
 
     foreach ($results as $result) {
-        if (!isset($globalResults[$result['autoupgrade_branch']])) {
-            $globalResults[$result['autoupgrade_branch']] = [
-                'title' => '[' . $result['autoupgrade_branch'] . '] Upgrade to branch ' . $branch,
+        if (!isset($globalResults[$result['branch']])) {
+            $globalResults[$result['branch']] = [
+                'title' => '[' . $result['branch'] . '] Upgrade to branch ' . $psBranch,
                 'date_start' => null,
                 'date_end' => null,
                 'duration' => 0,
@@ -140,15 +139,15 @@ function getGlobalResults(array $results, string $branch): array
                 'failures' => 0,
             ];
         }
-        if (null === $globalResults[$result['autoupgrade_branch']]['date_start'] || $result['date_start'] < $globalResults[$result['autoupgrade_branch']]['date_start']) {
-            $globalResults[$result['autoupgrade_branch']]['date_start'] = $result['date_start'];
+        if (null === $globalResults[$result['branch']]['date_start'] || $result['date_start'] < $globalResults[$result['branch']]['date_start']) {
+            $globalResults[$result['branch']]['date_start'] = $result['date_start'];
         }
-        if (null === $globalResults[$result['autoupgrade_branch']]['date_end'] || $result['date_end'] > $globalResults[$result['autoupgrade_branch']]['date_end']) {
-            $globalResults[$result['autoupgrade_branch']]['date_end'] = $result['date_end'];
+        if (null === $globalResults[$result['branch']]['date_end'] || $result['date_end'] > $globalResults[$result['branch']]['date_end']) {
+            $globalResults[$result['branch']]['date_end'] = $result['date_end'];
         }
-        $globalResults[$result['autoupgrade_branch']]['passes'] += $result['state'] === 'passed' ? 1 : 0;
-        $globalResults[$result['autoupgrade_branch']]['failures'] += $result['state'] !== 'passed' ? 1 : 0;
-        $globalResults[$result['autoupgrade_branch']]['tests'][] = $result;
+        $globalResults[$result['branch']]['passes'] += $result['state'] === 'passed' ? 1 : 0;
+        $globalResults[$result['branch']]['failures'] += $result['state'] !== 'passed' ? 1 : 0;
+        $globalResults[$result['branch']]['tests'][] = $result;
     }
 
     foreach ($globalResults as &$globalResult) {
@@ -158,7 +157,7 @@ function getGlobalResults(array $results, string $branch): array
     return $globalResults;
 }
 
-function getDateStart($globalResults): DateTime {
+function getDateStart(array $globalResults): DateTime {
     $dateStart = null;
 
     foreach ($globalResults as $globalResult) {
@@ -170,7 +169,7 @@ function getDateStart($globalResults): DateTime {
     return $dateStart;
 }
 
-function getDateEnd($globalResults): DateTime {
+function getDateEnd(array $globalResults): DateTime {
     $dateEnd = null;
 
     foreach ($globalResults as $globalResult) {
@@ -182,7 +181,7 @@ function getDateEnd($globalResults): DateTime {
     return $dateEnd;
 }
 
-function getPasses($globalResults): int {
+function getPasses(array $globalResults): int {
     $passes = 0;
 
     foreach ($globalResults as $globalResult) {
@@ -192,7 +191,7 @@ function getPasses($globalResults): int {
     return $passes;
 }
 
-function getFailures($globalResults): int {
+function getFailures(array $globalResults): int {
     $failures = 0;
 
     foreach ($globalResults as $globalResult) {
@@ -202,7 +201,7 @@ function getFailures($globalResults): int {
     return $failures;
 }
 
-function getTotalDuration($results): int {
+function getTotalDuration(array $results): int {
     $dateStart = null;
     $dateEnd = null;
 
