@@ -53,12 +53,26 @@ jobs:
 
         ps_target_version: ${{ fromJson(needs.get_ps_target_versions.outputs.target_versions) }}
 
+        module_branch: ['dev', 'master']
+
       fail-fast: false
 
     steps:
 
       # Setup PrestaShop and Install Autoupgrade module
       - uses: actions/checkout@v2
+
+      - run: |
+          cp -r .github .github_dev
+          cp -r tests/e2e tests/e2e_dev
+          cp docker-compose.yml docker-compose.dev.yml
+          git fetch origin ${{ matrix.module_branch }}
+          git checkout ${{ matrix.module_branch }}
+          rm -rf .github docker-compose.yml tests/e2e
+          mv .github_dev .github
+          mv tests/e2e_dev tests/e2e
+          mv docker-compose.dev.yml docker-compose.yml
+        if: ${{ matrix.module_branch != 'dev' }}
 
       # Build PrestaShop with docker-compose
       - uses: shivammathur/setup-php@v2
@@ -81,7 +95,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
-          node-version: 10
+          node-version: 12
 
       - name: Install dependencies
         run: npm install
@@ -93,6 +107,7 @@ jobs:
         env:
           URL_FO: "http://localhost:8001/"
           PS_VERSION: ${{ matrix.ps_start_version }}
+          AUTOUPGRADE_VERSION: ${{ matrix.module_branch }}
 
       - name: Download nightly build
         shell: bash
@@ -110,18 +125,19 @@ jobs:
           PS_VERSION: ${{ matrix.ps_start_version }}
           PS_VERSION_UPGRADE_TO: ${{ matrix.ps_target_version.for_test }}
           ZIP_NAME: ${{ matrix.ps_target_version.filename }}
+          AUTOUPGRADE_VERSION: ${{ matrix.module_branch }}
 
       - uses: actions/upload-artifact@v2
         name: Upload failed screenshots
         if: ${{ always() }}
         with:
-          name: failed-steps-for-test-${{ matrix.ps_start_version }}-${{ matrix.ps_target_version.for_test }}
+          name: failed-tests-${{ matrix.ps_start_version }}-${{ matrix.ps_target_version.for_test }}-${{ matrix.module_branch }}
           path: ./tests/e2e/screenshots/
 
       # Upload Mochawesome reports
       - name: Rename Mochawesome report
         if: ${{ always() }}
-        run: ./tests/e2e/scripts/copy_reports.sh ${{ env.reports_directory }} ${{ matrix.ps_start_version  }} ${{ matrix.ps_target_version.branch }}
+        run: ./tests/e2e/scripts/copy_reports.sh ${{ env.reports_directory }} ${{ matrix.ps_start_version }} ${{ matrix.ps_target_version.branch }} ${{ matrix.module_branch }}
 
       - uses: actions/upload-artifact@v2
         name: Upload Mochawesome report

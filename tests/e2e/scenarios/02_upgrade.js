@@ -38,7 +38,8 @@ Upgrade
 Log out
 Check new version
  */
-describe(`Upgrade PrestaShop from '${global.PS_VERSION}' to '${global.PS_VERSION_UPGRADE_TO}'`, async () => {
+// eslint-disable-next-line max-len
+describe(`[${global.AUTOUPGRADE_VERSION}] Upgrade PrestaShop from '${global.PS_VERSION}' to '${global.PS_VERSION_UPGRADE_TO}'`, async () => {
   // before and after functions
   before(async function () {
     browserContext = await helper.createBrowserContext(this.browser);

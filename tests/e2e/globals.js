@@ -5,3 +5,4 @@ global.PS_RESOLVER_VERSION = {
   TO: global.PS_VERSION_UPGRADE_TO.substr(0, global.PS_VERSION_UPGRADE_TO.lastIndexOf('.')),
 };
 global.ZIP_NAME = process.env.ZIP_NAME;
+global.AUTOUPGRADE_VERSION = process.env.AUTOUPGRADE_VERSION || 'dev';
