@@ -2410,7 +2410,7 @@ AddOutputFilterByType DEFLATE application/x-javascript
         }
 
         if (self::shouldUseFopen($source)) {
-            $sourceFile = fopen($source);
+            $sourceFile = fopen($source, 'rb');
             // If something else than false, the data was stored
             $result = (file_put_contents($destination, $sourceFile) !== false);
             fclose($sourceFile);
