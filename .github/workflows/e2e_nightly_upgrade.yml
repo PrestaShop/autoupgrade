@@ -131,7 +131,7 @@ jobs:
         name: Upload failed screenshots
         if: ${{ always() }}
         with:
-          name: failed-tests-${{ matrix.ps_start_version }}-${{ matrix.ps_target_version.for_test }}-${{ matrix.module_branch }}
+          name: failed-tests-${{ matrix.ps_start_version }}-${{ matrix.ps_target_version.for_test }}-${{ matrix.ps_target_version.branch }}-${{ matrix.module_branch }}
           path: ./tests/e2e/screenshots/
 
       # Upload Mochawesome reports
