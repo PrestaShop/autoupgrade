@@ -24,13 +24,25 @@ jobs:
         from: ['1.7.6.9', '1.7.7.0', '1.6.1.24']
         ps-versions: ${{ fromJson(needs.get_matrix.outputs.matrix) }}
         branch: ['dev', 'master']
+        exclude:
+          - from: '1.6.1.24'
+            ps-versions: {branch: 'develop'}
+          - from: '1.6.1.24'
+            branch: 'master'
+          - from: '1.7.6.9'
+            ps-versions: {branch: 'develop'}
+            branch: 'master'
+          - from: '1.7.7.0'
+            ps-versions: {branch: 'develop'}
+            branch: 'master'
     runs-on: ubuntu-latest
     name: Upgrade
     outputs:
       result: ${{ steps.export-result.outputs.result }}
     steps:
       - uses: actions/checkout@v2
-      - run: |
+      - if: ${{ matrix.branch != 'dev' }}
+        run: |
           cp -r .github .github_dev
           git fetch origin ${{ matrix.branch }}
           git checkout ${{ matrix.branch }}
