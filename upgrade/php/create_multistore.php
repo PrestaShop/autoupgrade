@@ -24,7 +24,7 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-require_once _PS_INSTALLER_PHP_UPGRADE_DIR_.'add_new_tab.php';
+require_once __DIR__.'/add_new_tab.php';
 
 function create_multistore()
 {

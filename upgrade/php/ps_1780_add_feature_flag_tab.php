@@ -40,7 +40,7 @@ function ps_1780_add_feature_flag_tab()
     }
     $advancedParametersTabId = (int) $result[0]['id_tab'];
 
-    include_once _PS_INSTALL_PATH_.'upgrade/php/add_new_tab.php';
+    include_once __DIR__.'/add_new_tab.php';
     add_new_tab_17(
         $className,
         'en:Experimental Feature|fr:Fonctionnalités expérimentales',
