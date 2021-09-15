@@ -37,7 +37,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 class AllUpgradeTasks extends ChainedTasks
 {
     const initialTask = 'upgradeNow';
-    const TASKS_WITH_RESTART = ['upgradeFiles', 'upgradeDb'];
+    const TASKS_WITH_RESTART = ['upgradeFiles', 'upgradeDb', 'upgradeModules'];
 
     protected $step = self::initialTask;
 
@@ -84,14 +84,14 @@ class AllUpgradeTasks extends ChainedTasks
             return false;
         }
 
-        if (!in_array($this->step, self::TASKS_WITH_RESTART)) {
+        if (!in_array($response->getNext(), self::TASKS_WITH_RESTART)) {
             return false;
         }
 
         $this->logger->info('Restart requested. Please run the following command to continue your upgrade:');
         $args = $_SERVER['argv'];
         foreach ($args as $key => $arg) {
-            if (strpos($arg, '--data') === 0) {
+            if (strpos($arg, '--data') === 0 || strpos($arg, '--action') === 0) {
                 unset($args[$key]);
             }
         }

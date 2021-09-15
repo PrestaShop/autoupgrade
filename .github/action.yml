@@ -8,7 +8,7 @@ runs:
         VERSION: ${{ matrix.from }}
       shell: bash
       run: |
-        docker-compose -f docker-compose.yml up -d
+        bash -c '[[ "${VERSION}" == 1.6* ]] && docker-compose -f docker-compose-7.1.yml up -d || docker-compose -f docker-compose.yml up -d'
         bash -c 'while [[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost:8001/index.php)" != "200" ]]; do sleep 5; done'
     - name: Copy autoupgrade module
       shell: bash

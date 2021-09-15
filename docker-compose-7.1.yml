@@ -1,0 +1,40 @@
+version: '2'
+
+services:
+  mysql:
+    image: mysql:5.7
+    ports:
+      - '3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: psreference
+
+  reference-release:
+    container_name: prestashop_autoupgrade
+    build:
+      context: .
+      dockerfile: ./.github/Dockerfile-7.1
+      args:
+        VERSION: $VERSION
+    volumes:
+      - ./:/var/www/html/modules/autoupgrade
+      - temp-ps:/var/www/html # Used for another container which needs PrestaShop content
+    environment:
+      DB_SERVER: mysql
+      DB_PASSWD: root
+      DB_NAME: psreference
+      PS_DOMAIN: localhost:8001
+      PS_INSTALL_AUTO: 1
+      PS_INSTALL_DB: 1
+      PS_ERASE_DB: 1
+      PS_FOLDER_ADMIN: admin-dev
+      PS_FOLDER_INSTALL: install-dev
+      PS_LANGUAGE: en
+      PS_COUNTRY: fr
+    depends_on:
+      - mysql
+    ports:
+      - '8001:80'
+
+volumes:
+  temp-ps:
