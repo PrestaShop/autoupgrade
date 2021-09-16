@@ -49,7 +49,7 @@ jobs:
     # Testing upgrade from '1.7.4.4', '1.7.5.2', '1.7.6.9', '1.7.7.1' to the last '1.7.7.x' and '1.7.8.x'(develop)
     strategy:
       matrix:
-        ps_start_version: ['1.7.4.4', '1.7.5.2', '1.7.6.9', '1.7.7.1']
+        ps_start_version: ['1.7.4.4', '1.7.5.2', '1.7.6.9', '1.7.7.8']
 
         ps_target_version: ${{ fromJson(needs.get_ps_target_versions.outputs.target_versions) }}
 
