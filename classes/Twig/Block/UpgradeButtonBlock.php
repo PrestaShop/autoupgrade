@@ -179,6 +179,7 @@ class UpgradeButtonBlock
             'downloadPath' => $this->downloadPath . DIRECTORY_SEPARATOR,
             'directoryVersionNumber' => $this->config->get('directory.version_num'),
             'manualMode' => $this->manualMode,
+            'phpVersion' => PHP_VERSION,
         );
 
         return $this->twig->render('@ModuleAutoUpgrade/block/upgradeButtonBlock.twig', $data);
