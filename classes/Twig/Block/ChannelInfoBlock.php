@@ -44,7 +44,7 @@ class ChannelInfoBlock
     private $channelInfo;
 
     /**
-     * @var \Twig_Environment
+     * @var Twig_Environment|\Twig\Environment
      */
     private $twig;
 
@@ -53,9 +53,9 @@ class ChannelInfoBlock
      *
      * @param UpgradeConfiguration $config
      * @param ChannelInfo $channelInfo
-     * @param Twig_Environment $twig
+     * @param Twig_Environment|\Twig\Environment $twig
      */
-    public function __construct(UpgradeConfiguration $config, ChannelInfo $channelInfo, Twig_Environment $twig)
+    public function __construct(UpgradeConfiguration $config, ChannelInfo $channelInfo, $twig)
     {
         $this->config = $config;
         $this->channelInfo = $channelInfo;
