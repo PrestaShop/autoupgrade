@@ -38,6 +38,17 @@ use Twig_Environment;
 
 class UpgradeButtonBlock
 {
+    const PHP_PS_VERSIONS = ['1.6.x' => ['5.2', '5.3', '5.4', '5.5', '5.6', '7.0', '7.1'],
+        '1.7.0' => ['5.4', '5.5', '5.6', '7.0', '7.1'],
+        '1.7.1' => ['5.4', '5.5', '5.6', '7.0', '7.1'],
+        '1.7.2' => ['5.4', '5.5', '5.6', '7.0', '7.1'],
+        '1.7.3' => ['5.4', '5.5', '5.6', '7.0', '7.1'],
+        '1.7.4' => ['5.6', '7.0', '7.1'],
+        '1.7.5' => ['5.6', '7.0', '7.1', '7.2'],
+        '1.7.6' => ['5.6', '7.0', '7.1', '7.2'],
+        '1.7.7' => ['7.1', '7.2', '7.3'],
+        '1.7.8' => ['7.1', '7.2', '7.3', '7.4']];
+
     /**
      * @var Twig_Environment|\Twig\Environment
      */
@@ -78,6 +89,7 @@ class UpgradeButtonBlock
      */
     private $manualMode;
 
+    private $psPhpVersion;
     /**
      * UpgradeButtonBlock constructor.
      *
@@ -124,8 +136,11 @@ class UpgradeButtonBlock
 
         if (!in_array($channel, ['archive', 'directory']) && !empty($this->upgrader->version_num)) {
             $latestVersion = "{$this->upgrader->version_name} - ({$this->upgrader->version_num})";
+            $phpLastestVersionCompatible = self::PHP_PS_VERSIONS[substr($latestVersion, 0, 5)];
+            $phpIsCompatible = in_array(substr(PHP_VERSION,0,3), $phpLastestVersionCompatible);
         } else {
             $latestVersion = $translator->trans('N/A', [], 'Admin.Global');
+            $phpIsCompatible = true;
         }
 
         $showUpgradeButton = false;
@@ -135,7 +150,7 @@ class UpgradeButtonBlock
         $skipActions = [];
 
         // decide to display "Start Upgrade" or not
-        if ($this->selfCheck->isOkForUpgrade() && $versionCompare < 0) {
+        if ($this->selfCheck->isOkForUpgrade() && $versionCompare < 0 && $phpIsCompatible ) {
             $showUpgradeButton = true;
             if (!in_array($channel, ['archive', 'directory'])) {
                 if ($channel == 'private') {
@@ -186,6 +201,7 @@ class UpgradeButtonBlock
             'directoryVersionNumber' => $this->config->get('directory.version_num'),
             'manualMode' => $this->manualMode,
             'phpVersion' => PHP_VERSION,
+            'psChosenVersionCompatible' =>  $phpLastestVersionCompatible,
         ];
 
         return $this->twig->render('@ModuleAutoUpgrade/block/upgradeButtonBlock.twig', $data);
