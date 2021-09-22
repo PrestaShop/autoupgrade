@@ -15,6 +15,13 @@
             <p>
                 {{ 'Your current PHP version'|trans }}: <strong>{{ phpVersion }}</strong>
             </p>
+            </p>            
+            {% if showUpgradeButton %}
+                    <p>{{ 'The version of PrestaShop chosen is compatible with PHP :'|trans }} <strong>{{ psChosenVersionCompatible|join(' | ') }}</strong></p>
+                {% else %}
+                    <p class="alert alert-danger">{{ 'The version of PrestaShop chosen is compatible with PHP :'|trans }} <strong>{{ psChosenVersionCompatible|join(' | ') }}</strong></p>
+            {% endif %}
+            </p>
             <p>
                 {{ 'Latest official version for %s channel.'|trans([channel]) }}: <strong>{{ latestChannelVersion }}</strong>
             </p>

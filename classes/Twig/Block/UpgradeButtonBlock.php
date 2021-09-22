@@ -89,7 +89,6 @@ class UpgradeButtonBlock
      */
     private $manualMode;
 
-    private $psPhpVersion;
     /**
      * UpgradeButtonBlock constructor.
      *
