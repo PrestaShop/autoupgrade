@@ -17,9 +17,9 @@
             </p>
             </p>
             {% if showUpgradeButton %}
-                    <p>{{ 'The version of PrestaShop chosen is compatible with PHP :'|trans }} <strong>{{ psChosenVersionCompatible|join(' | ') }}</strong></p>
+                    <p>{{ 'The version of PrestaShop chosen is compatible with your PHP version'|trans }} (<strong>{{ phpVersion }}</strong>)</p>
                 {% else %}
-                    <p class="alert alert-danger">{{ 'The version of PrestaShop chosen is compatible with PHP :'|trans }} <strong>{{ psChosenVersionCompatible|join(' | ') }}</strong></p>
+                    <p class="alert alert-danger">{{ 'The version of PrestaShop you want to upgrade'|trans }} (<strong>{{ psVersionChosen }}</strong>) {{ 'is not compatible with your current PHP version'|trans }} (<strong>{{ phpVersion }}</strong>) {{ 'this version is compatible with PHP :'|trans }} <strong>{{ phpChosenVersionCompatible|join(' | ') }}</strong></p>
             {% endif %}
             </p>
             <p>
