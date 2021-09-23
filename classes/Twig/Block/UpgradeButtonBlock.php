@@ -38,18 +38,6 @@ use Twig_Environment;
 
 class UpgradeButtonBlock
 {
-    const PHP_PS_VERSIONS = ['1.6.x' => ['5.2', '5.3', '5.4', '5.5', '5.6', '7.0', '7.1'],
-        '1.7.0' => ['5.4', '5.5', '5.6', '7.0', '7.1'],
-        '1.7.1' => ['5.4', '5.5', '5.6', '7.0', '7.1'],
-        '1.7.2' => ['5.4', '5.5', '5.6', '7.0', '7.1'],
-        '1.7.3' => ['5.4', '5.5', '5.6', '7.0', '7.1'],
-        '1.7.4' => ['5.6', '7.0', '7.1'],
-        '1.7.5' => ['5.6', '7.0', '7.1', '7.2'],
-        '1.7.6' => ['5.6', '7.0', '7.1', '7.2'],
-        '1.7.7' => ['7.1', '7.2', '7.3'],
-        '1.7.8' => ['7.1', '7.2', '7.3', '7.4'],
-        '8.0' => ['7.2', '7.3', '7.4', '8.0']];
-
     /**
      * @var Twig_Environment|\Twig\Environment
      */
@@ -136,14 +124,14 @@ class UpgradeButtonBlock
 
         if (!in_array($channel, ['archive', 'directory']) && !empty($this->upgrader->version_num)) {
             $latestVersion = "{$this->upgrader->version_name} - ({$this->upgrader->version_num})";
-            $phpChosenVersionCompatible = self::PHP_PS_VERSIONS[substr($this->upgrader->version_num, 0, 5)];
-            $phpIsCompatible = in_array(substr(PHP_VERSION,0,3), $phpChosenVersionCompatible);
+            $compatibleVersionPhp = $this->selfCheck->phpCompatibleVersions();
+            $phpIsCompatible = in_array(substr(PHP_VERSION,0,3), $compatibleVersionPhp);
             $psVersionChosen = $this->upgrader->version_num;
         } else {
             $latestVersion = $translator->trans('N/A', [], 'Admin.Global');
             $phpIsCompatible = true;
             $psVersionChosen = $translator->trans('N/A', array(), 'Admin.Global');
-            $phpChosenVersionCompatible = false;
+            $phpCompatibleVersionPhp = false;
         }
 
         $showUpgradeButton = false;
@@ -205,7 +193,7 @@ class UpgradeButtonBlock
             'manualMode' => $this->manualMode,
             'psChosenVersionCompatible' =>  $phpChosenVersionCompatible,
             'phpVersion' => substr(PHP_VERSION, 0, 6),
-            'phpChosenVersionCompatible' => $phpChosenVersionCompatible,
+            'compatibleVersionPhp' => $compatibleVersionPhp,
             'psVersionChosen' => $psVersionChosen,
         ];
 

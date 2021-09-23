@@ -34,6 +34,21 @@ use Shop;
 class UpgradeSelfCheck
 {
     /**
+     * PHP and PrestaShop Compatibles Versions
+     */
+    const PHP_PS_VERSIONS = ['1.6.x' => ['5.2', '5.3', '5.4', '5.5', '5.6', '7.0', '7.1'],
+        '1.7.0' => ['5.4', '5.5', '5.6', '7.0', '7.1'],
+        '1.7.1' => ['5.4', '5.5', '5.6', '7.0', '7.1'],
+        '1.7.2' => ['5.4', '5.5', '5.6', '7.0', '7.1'],
+        '1.7.3' => ['5.4', '5.5', '5.6', '7.0', '7.1'],
+        '1.7.4' => ['5.6', '7.0', '7.1'],
+        '1.7.5' => ['5.6', '7.0', '7.1', '7.2'],
+        '1.7.6' => ['5.6', '7.0', '7.1', '7.2'],
+        '1.7.7' => ['7.1', '7.2', '7.4'],
+        '1.7.8' => ['7.1', '7.2', '7.3', '7.4'],
+        '8.0' => ['7.2', '7.3', '7.4', '8.0']];
+
+    /**
      * Recommended PHP Version. If below, display a notice.
      */
     const RECOMMENDED_PHP_VERSION = 70205;
@@ -644,5 +659,17 @@ class UpgradeSelfCheck
         } else {
             return $_SERVER['REMOTE_ADDR'];
         }
+    }
+
+    /**
+     * Check if the current php version is compatible whith PrestaShop verion to Upgrade
+     *
+     * @return array
+     */
+    public function phpCompatibleVersions()
+    {
+        $phpCompatibleVersion = self::PHP_PS_VERSIONS[substr($this->upgrader->version_num, 0, 5)];
+
+        return $phpCompatibleVersion;
     }
 }
