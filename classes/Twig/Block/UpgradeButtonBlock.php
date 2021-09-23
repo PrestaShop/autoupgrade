@@ -124,14 +124,14 @@ class UpgradeButtonBlock
 
         if (!in_array($channel, ['archive', 'directory']) && !empty($this->upgrader->version_num)) {
             $latestVersion = "{$this->upgrader->version_name} - ({$this->upgrader->version_num})";
-            $compatibleVersionPhp = $this->selfCheck->phpCompatibleVersions();
+            $phpCompatibleVersions = $this->selfCheck->phpCompatibleVersions();
             $phpIsCompatible = in_array(substr(PHP_VERSION,0,3), $compatibleVersionPhp);
             $psVersionChosen = $this->upgrader->version_num;
         } else {
             $latestVersion = $translator->trans('N/A', [], 'Admin.Global');
             $phpIsCompatible = true;
             $psVersionChosen = $translator->trans('N/A', array(), 'Admin.Global');
-            $phpCompatibleVersionPhp = false;
+            $phpCompatibleVersions = false;
         }
 
         $showUpgradeButton = false;
@@ -193,7 +193,7 @@ class UpgradeButtonBlock
             'manualMode' => $this->manualMode,
             'psChosenVersionCompatible' =>  $phpChosenVersionCompatible,
             'phpVersion' => substr(PHP_VERSION, 0, 6),
-            'compatibleVersionPhp' => $compatibleVersionPhp,
+            'phpCompatibleVersions' => $phpCompatibleVersions,
             'psVersionChosen' => $psVersionChosen,
         ];
 
