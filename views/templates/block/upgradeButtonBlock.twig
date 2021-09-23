@@ -16,10 +16,18 @@
                 {{ 'Your current PHP version'|trans }}: <strong>{{ phpVersion }}</strong>
             </p>
             </p>
-            {% if showUpgradeButton %}
+            {% if phpChosenVersionCompatible %}
+                {% if showUpgradeButton %}
                     <p>{{ 'The version of PrestaShop chosen is compatible with your PHP version'|trans }} (<strong>{{ phpVersion }}</strong>)</p>
                 {% else %}
-                    <p class="alert alert-danger">{{ 'The version of PrestaShop you want to upgrade'|trans }} (<strong>{{ psVersionChosen }}</strong>) {{ 'is not compatible with your current PHP version'|trans }} (<strong>{{ phpVersion }}</strong>) {{ 'this version is compatible with PHP :'|trans }} <strong>{{ phpChosenVersionCompatible|join(' | ') }}</strong></p>
+                    <p class="alert alert-danger">
+                        {{ 'The version of PrestaShop you want to upgrade'|trans }} (<strong>{{ psVersionChosen }}</strong>) {{ 'is not compatible with your current PHP version'|trans }} (<strong>{{ phpVersion }}</strong>) {{ 'this version is compatible with PHP :'|trans }} <strong>{{ phpChosenVersionCompatible|join(' | ') }}</strong>
+                        <br/>
+                        {{ 'Please check the compatibility chart and upgrade to the required PHP version.'|trans }}
+                    </p>
+                {% endif %}
+            {% else %}
+                <p class="alert alert-warning">{{ 'You use a local archive, Please check the compatibility chart before update.'|trans }}</p>           
             {% endif %}
             </p>
             <p>

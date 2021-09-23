@@ -47,7 +47,8 @@ class UpgradeButtonBlock
         '1.7.5' => ['5.6', '7.0', '7.1', '7.2'],
         '1.7.6' => ['5.6', '7.0', '7.1', '7.2'],
         '1.7.7' => ['7.1', '7.2', '7.3'],
-        '1.7.8' => ['7.1', '7.2', '7.3', '7.4']];
+        '1.7.8' => ['7.1', '7.2', '7.3', '7.4'],
+        '8.0' => ['7.2', '7.3', '7.4', '8.0']];
 
     /**
      * @var Twig_Environment|\Twig\Environment
@@ -142,6 +143,7 @@ class UpgradeButtonBlock
             $latestVersion = $translator->trans('N/A', [], 'Admin.Global');
             $phpIsCompatible = true;
             $psVersionChosen = $translator->trans('N/A', array(), 'Admin.Global');
+            $phpChosenVersionCompatible = false;
         }
 
         $showUpgradeButton = false;
@@ -201,8 +203,9 @@ class UpgradeButtonBlock
             'downloadPath' => $this->downloadPath . DIRECTORY_SEPARATOR,
             'directoryVersionNumber' => $this->config->get('directory.version_num'),
             'manualMode' => $this->manualMode,
-            'phpVersion' => PHP_VERSION,
             'psChosenVersionCompatible' =>  $phpChosenVersionCompatible,
+            'phpVersion' => substr(PHP_VERSION, 0, 6),
+            'phpChosenVersionCompatible' => $phpChosenVersionCompatible,
             'psVersionChosen' => $psVersionChosen,
         ];
 
