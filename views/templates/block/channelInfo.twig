@@ -75,7 +75,121 @@
                 <span class="phpcompatibility">{{ 'Your PHP version must be compatible with both your current PrestaShop version and the one you want to upgrade to.
                     For example, if your current version is 1.6.1.x and you want to upgrade to 1.7.8, only the PHP 7.1 would be compatible with both.'|trans }}
                 </span>
-                <img class="img-responsive" src="../modules/autoupgrade/views/img/php-comptibility-table.png" width="1000">
+                <table class="table-striped">
+                <thead>
+                    <tr>
+                    <th style="background:#fff;"></th>
+                    <th colspan="12" style="text-align:center" class="phpversion">PHP Version</th>
+                    </tr>
+                    <tr class="h-version-titles">
+                    <th>PrestaShop Version</th>
+                    <th>≤&nbsp;5.1</th>
+                    <th>5.2</th>
+                    <th>5.3</th>
+                    <th>5.4</th>
+                    <th>5.5</th>
+                    <th>5.6</th>
+                    <th>7.0</th>
+                    <th class="target target-col" style="text-align:center">7.1 <p class="green">Required</p></th>
+                    <th>7.2</th>
+                    <th>7.3</th>
+                    <th>7.4</th>
+                    <th>≥&nbsp;8.0</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="target">1.6.1.x <span class="green">Current</span></td>
+                    <td class="support-no target"><span class="sr-only">No</span></td>
+                    <td class="support-yes target"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
+                    <td class="support-yes target"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
+                    <td class="support-yes target"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
+                    <td class="support-yes target"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
+                    <td class="support-yes target"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
+                    <td class="support-yes target"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
+                    <td class="support-yes target target-col targeted"><span class="sr-only">Yes</span><i class="icon-check-circle withe" title="Yes"></i></td>
+                    <td class="support-no target"><span class="sr-only">No</span></td>
+                    <td class="support-no target"><span class="sr-only">No</span></td>
+                    <td class="support-no target"><span class="sr-only">No</span></td>
+                    <td class="support-no target"><span class="sr-only">No</span></td>
+                </tr>
+                <tr>
+                    <td>1.7.0 ~ 1.7.3</td>
+                    <td class="support-no"><span class="sr-only">No</span></td>
+                    <td class="support-no"><span class="sr-only">No</span></td>
+                    <td class="support-no"><span class="sr-only">No</span></td>
+                    <td class="support-yes"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
+                    <td class="support-yes"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
+                    <td class="support-yes"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
+                    <td class="support-yes"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
+                    <td class="support-yes target-col"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
+                    <td class="support-no"><span class="sr-only">No</span></td>
+                    <td class="support-no"><span class="sr-only">No</span></td>
+                    <td class="support-no"><span class="sr-only">No</span></td>
+                    <td class="support-no"><span class="sr-only">No</span></td>
+                </tr>
+                <tr>
+                    <td>1.7.4</td>
+                    <td class="support-no"><span class="sr-only">No</span></td>
+                    <td class="support-no"><span class="sr-only">No</span></td>
+                    <td class="support-no"><span class="sr-only">No</span></td>
+                    <td class="support-no"><span class="sr-only">No</span></td>
+                    <td class="support-no"><span class="sr-only">No</span></td>
+                    <td class="support-yes"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
+                    <td class="support-yes"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
+                    <td class="support-yes target-col"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
+                    <td class="support-no"><span class="sr-only">No</span></td>
+                    <td class="support-no"><span class="sr-only">No</span></td>
+                    <td class="support-no"><span class="sr-only">No</span></td>
+                    <td class="support-no"><span class="sr-only">No</span></td>
+                </tr>
+                <tr>
+                    <td>1.7.5 ~ 1.7.6</td>
+                    <td class="support-no"><span class="sr-only">No</span></td>
+                    <td class="support-no"><span class="sr-only">No</span></td>
+                    <td class="support-no"><span class="sr-only">No</span></td>
+                    <td class="support-no"><span class="sr-only">No</span></td>
+                    <td class="support-no"><span class="sr-only">No</span></td>
+                    <td class="support-yes"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
+                    <td class="support-yes"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
+                    <td class="support-yes target-col"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
+                    <td class="support-yes"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
+                    <td class="support-no"><span class="sr-only">No</span></td>
+                    <td class="support-no"><span class="sr-only">No</span></td>
+                    <td class="support-no"><span class="sr-only">No</span></td>
+                </tr>
+                <tr>
+                    <td>1.7.7</td>
+                    <td class="support-no"><span class="sr-only">No</span></td>
+                    <td class="support-no"><span class="sr-only">No</span></td>
+                    <td class="support-no"><span class="sr-only">No</span></td>
+                    <td class="support-no"><span class="sr-only">No</span></td>
+                    <td class="support-no"><span class="sr-only">No</span></td>
+                    <td class="support-no"><span class="sr-only">No</span></td>
+                    <td class="support-no"><span class="sr-only">No</span></td>
+                    <td class="support-yes target-col"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
+                    <td class="support-yes"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
+                    <td class="support-yes"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
+                    <td class="support-no"><span class="sr-only">No</span></td>
+                    <td class="support-no"><span class="sr-only">No</span></td>
+                    </tr>
+                <tr>
+                    <td class="target">1.7.8 <span class="green">Wanted</span></td>
+                    <td class="support-no target"><span class="sr-only">No</span></td>
+                    <td class="support-no target"><span class="sr-only">No</span></td>
+                    <td class="support-no target"><span class="sr-only">No</span></td>
+                    <td class="support-no target"><span class="sr-only">No</span></td>
+                    <td class="support-no target"><span class="sr-only">No</span></td>
+                    <td class="support-no target"><span class="sr-only">No</span></td>
+                    <td class="support-no target"><span class="sr-only">No</span></td>
+                    <td class="support-yes target target-col targeted"><span class="sr-only">Yes</span><i class="icon-check-circle withe" title="Yes"></i></td>
+                    <td class="support-yes target"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
+                    <td class="support-yes target"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
+                    <td class="support-yes target"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
+                    <td class="support-no target"><span class="sr-only">No</span></td>
+                    </tr>
+                </tbody>
+                </table>
             </div>
         </div>
     </div>

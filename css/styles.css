@@ -45,3 +45,13 @@
 #autoupgradePhpWarn .icon-stack-text {color: white;}
 .panel-heading {text-transform: uppercase;}
 .required {color: #CC0000}
+.support-yes, .example-yes {text-align: center;}
+td {padding: 0.5rem 0.8rem;font-size: 1.5em;}
+th {background: #f7f7f7;padding: 0.5rem 0.8rem;font-size: 1.5em;}
+.target {border-top: 1px dashed #70b580;border-bottom: 1px dashed #70b580;}
+.target-col {border-left: 1px dashed #70b580;border-right: 1px dashed #70b580;}
+.targeted {background-color: #70b580 !important;}
+.icon-check-circle {color:#70b580;font-size:1.7em}
+.withe {color:#fff;}
+.green {color:#70b580;font-size: 0.7em;}
+.phpversion {background:#fff;border-left:1px solid #f7f7f7;border-top:1px solid #f7f7f7;border-right:1px solid #f7f7f7;}
