@@ -19,6 +19,7 @@ parameters:
 		- '#Function deactivate_custom_modules not found.#'
 		- '#Constant MCRYPT_[A-Z0-9_]+ not found.#'
 		- "#Call to function method_exists#"
+		- '#Access to an undefined property Module::\$installed\.#'
 		# CLDR related check
 		- '#[cC]lass PrestaShop\\PrestaShop\\Core\\Cldr\\Update#'
 		# AppKernel wasn't properly listed in autoloader
