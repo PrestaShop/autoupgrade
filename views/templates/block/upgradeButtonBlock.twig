@@ -89,11 +89,6 @@
                         {% endfor %}
                     </select>
                     {{ channelInfoBlock|raw }}
-                    <div id="for-useMinor">
-                        <div class="margin-form margin-form-small">
-                            {{ 'This option regroup all stable versions.'|trans }}
-                        </div>
-                    </div>
                     <div id="for-usePrivate">
                         <p><label for="private_release_link">{{ 'Link:'|trans }} *</label>
                             <input type="text" size="50" id="private_release_link" name="private_release_link" value="{{ privateChannel.releaseLink }}">
