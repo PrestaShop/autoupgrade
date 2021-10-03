@@ -106,13 +106,25 @@
                     <td>
                         {{ 'Your store is in maintenance mode'|trans }}
                         {% if not storeIsInMaintenance %}
-                            <br><form method="post" action="{{ currentIndex }}&token={{ token }}">
+                            <br><formmethod="post" action="{{ currentIndex }}&token={{ token }}">
                                 <input type="submit" class="button" name="putUnderMaintenance" value="{{ 'Click here to put your shop under maintenance'|trans }}">
                             </form>
                         {% endif %}
                     </td>
                     <td>
                         {% if storeIsInMaintenance %}
+                            {{ icons.ok }}
+                        {% else %}
+                            {{ icons.nok }}
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        {{ 'Disable overrides in Advanced Parameters Performance'|trans }}{% if not disableOverrides %} <a href="{{ currentIndex }}&token={{ token }}&disableOverrides=1">{{ 'or click here to disable it'|trans }}</a>{% endif %}
+                    </td>
+                    <td>
+                        {% if disableOverrides %}
                             {{ icons.ok }}
                         {% else %}
                             {{ icons.nok }}
