@@ -121,7 +121,10 @@
                 </tr>
                 <tr>
                     <td>
-                        {{ 'Disable overrides in Advanced Parameters Performance'|trans }}{% if not disableOverrides %} <a href="{{ currentIndex }}&token={{ token }}&disableOverrides=1">{{ 'or click here to disable it'|trans }}</a>{% endif %}
+                        <a href="{{ performanceLink }}">{{ 'Disable overrides in Advanced > Parameters > Performance'|trans|raw }}</a>
+                        {% if not disableOverrides %} 
+                            <a href="{{ currentIndex }}&token={{ token }}&disableOverrides=1">{{ 'click here to disable it'|trans }}</a>
+                        {% endif %}
                     </td>
                     <td>
                         {% if disableOverrides %}
