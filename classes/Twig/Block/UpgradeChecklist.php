@@ -124,6 +124,7 @@ class UpgradeChecklist
             'zipIsEnabled' => $this->selfCheck->isZipEnabled(),
             'storeIsInMaintenance' => $this->selfCheck->isShopDeactivated(),
             'disableOverrides' => $this->selfCheck->isOverridesDeactivated(),
+            'performanceLink' => Context::getContext()->link->getAdminLink('AdminPerformance'),
             'currentIndex' => $this->currentIndex,
             'token' => $this->token,
             'cachingIsDisabled' => $this->selfCheck->isCacheDisabled(),
