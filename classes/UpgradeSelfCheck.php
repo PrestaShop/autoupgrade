@@ -141,6 +141,11 @@ class UpgradeSelfCheck
     private $autoUpgradePath;
 
     /**
+     * @var bool
+     */
+    private $overridesDeactivated;
+
+    /**
      * UpgradeSelfCheck constructor.
      *
      * @param Upgrader $upgrader
@@ -210,6 +215,18 @@ class UpgradeSelfCheck
     public function getAdminAutoUpgradeDirectoryWritableReport()
     {
         return $this->adminAutoUpgradeDirectoryWritableReport;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isOverridesDeactivated()
+    {
+        if (null !== $this->overridesDeactivated) {
+            return $this->overridesDeactivated;
+        }
+
+        return $this->overridesDeactivated = $this->checkOverridesIsDeactivated();
     }
 
     /**
@@ -394,6 +411,14 @@ class UpgradeSelfCheck
     private function checkPhpVersionNeedsUpgrade()
     {
         return PHP_VERSION_ID < self::RECOMMENDED_PHP_VERSION;
+    }
+
+    /**
+     * @return bool
+     */
+    private function checkOverridesIsDeactivated()
+    {
+        return Configuration::get('PS_DISABLE_OVERRIDES');
     }
 
     /**
