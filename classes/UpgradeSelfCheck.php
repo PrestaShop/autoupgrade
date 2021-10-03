@@ -418,7 +418,7 @@ class UpgradeSelfCheck
      */
     private function checkOverridesIsDeactivated()
     {
-        return Configuration::get('PS_DISABLE_OVERRIDES');
+        return (bool) Configuration::get('PS_DISABLE_OVERRIDES');
     }
 
     /**
