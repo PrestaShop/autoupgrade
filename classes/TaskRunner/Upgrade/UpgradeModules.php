@@ -155,11 +155,6 @@ class UpgradeModules extends AbstractTask
             $this->logger->info($this->translator->trans('%s modules will be upgraded.', array($total_modules_to_upgrade), 'Modules.Autoupgrade.Admin'));
         }
 
-        // WamUp core side
-        if (method_exists('\Module', 'getModulesOnDisk')) {
-            \Module::getModulesOnDisk();
-        }
-
         $this->stepDone = false;
         $this->next = 'upgradeModules';
 

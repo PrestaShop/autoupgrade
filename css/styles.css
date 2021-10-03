@@ -44,3 +44,5 @@
 #autoupgradePhpWarningMainIcon {font-size: 3em;}
 #autoupgradePhpWarn .icon-stack-text {color: white;}
 .required {color: #CC0000}
+.panel-heading {text-transform: uppercase;}
+

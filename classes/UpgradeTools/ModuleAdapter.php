@@ -189,7 +189,7 @@ class ModuleAdapter
 
             // Only 1.7 step
             if (version_compare($this->upgradeVersion, '1.7.0.0', '>=')
-                && !$this->getModuleDataUpdater()->upgrade($name)) {
+                && !$this->doUpgradeModule($name)) {
                 throw (new UpgradeException('<strong>' . $this->translator->trans('[WARNING] Error when trying to upgrade module %s.', array($name), 'Modules.Autoupgrade.Admin') . '</strong>'))
                     ->setSeverity(UpgradeException::SEVERITY_WARNING)
                     ->setQuickInfos(\Module::getInstanceByName($name)->getErrors());
@@ -197,5 +197,29 @@ class ModuleAdapter
 
             return;
         }
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return bool
+     */
+    private function doUpgradeModule($name)
+    {
+        $version = \Db::getInstance()->getValue(
+            'SELECT version FROM `' . _DB_PREFIX_ . 'module` WHERE name = "' . $name . '"'
+        );
+        $module = \Module::getInstanceByName($name);
+        $module->installed = !empty($version);
+        $module->database_version = $version ?: 0;
+
+        if (\Module::initUpgradeModule($module)) {
+            $module->runUpgradeModule();
+            \Module::upgradeModuleVersion($name, $module->version);
+
+            return !count($module->getErrors());
+        }
+
+        return true;
     }
 }

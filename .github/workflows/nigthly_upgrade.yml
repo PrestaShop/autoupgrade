@@ -26,8 +26,6 @@ jobs:
         branch: ['dev', 'master']
         exclude:
           - from: '1.6.1.24'
-            ps-versions: {branch: 'develop'}
-          - from: '1.6.1.24'
             branch: 'master'
           - from: '1.7.6.9'
             ps-versions: {branch: 'develop'}
