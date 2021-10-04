@@ -215,6 +215,18 @@ class UpgradeSelfCheck
     /**
      * @return bool
      */
+    public function isOverridesDeactivated()
+    {
+        if (null !== $this->overridesDeactivated) {
+            return $this->overridesDeactivated;
+        }
+
+        return $this->overridesDeactivated = $this->checkOverridesIsDeactivated();
+    }
+
+    /**
+     * @return bool
+     */
     public function isShopDeactivated()
     {
         if (null !== $this->shopDeactivated) {
@@ -393,6 +405,14 @@ class UpgradeSelfCheck
     private function checkPhpVersionNeedsUpgrade()
     {
         return PHP_VERSION_ID < self::RECOMMENDED_PHP_VERSION;
+    }
+
+    /**
+     * @return bool
+     */
+    private function checkOverridesIsDeactivated()
+    {
+        return (bool) Configuration::get('PS_DISABLE_OVERRIDES');
     }
 
     /**
