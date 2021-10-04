@@ -141,6 +141,11 @@ class UpgradeSelfCheck
     private $autoUpgradePath;
 
     /**
+     * @var bool
+     */
+    private $overridesDeactivated;
+
+    /**
      * UpgradeSelfCheck constructor.
      *
      * @param Upgrader $upgrader
