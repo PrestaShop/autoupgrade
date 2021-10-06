@@ -765,14 +765,6 @@ $("input[name=btn_adv]").click(function(e) {
   }
 });
 
-$(document).ready(function(){
-  if (input.channel === 'major') {
-    switch_to_normal();
-  } else {
-    switch_to_advanced();
-  }
-});
-
 $(document).ready(function() {
   $("input[name|=submitConf]").bind("click", function(e) {
     var params = {};
