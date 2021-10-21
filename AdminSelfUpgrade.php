@@ -76,6 +76,7 @@ class AdminSelfUpgrade extends AdminController
     public $keepMails;
     public $manualMode;
     public $deactivateCustomModule;
+    public $disableOverride;
 
     public static $classes14 = ['Cache', 'CacheFS', 'CarrierModule', 'Db', 'FrontController', 'Helper', 'ImportModule',
         'MCached', 'Module', 'ModuleGraph', 'ModuleGraphEngine', 'ModuleGrid', 'ModuleGridEngine',
@@ -174,9 +175,8 @@ class AdminSelfUpgrade extends AdminController
             // Create a dummy index.php file in the XML config directory to avoid directory listing
             if (!file_exists(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml' . DIRECTORY_SEPARATOR . 'index.php') &&
                 (file_exists(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'index.php') &&
-                 !@copy(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'index.php', _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml' . DIRECTORY_SEPARATOR . 'index.php'))) {
+                    !@copy(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'index.php', _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml' . DIRECTORY_SEPARATOR . 'index.php'))) {
                 $this->_errors[] = $this->trans('Unable to create the directory "%s"', [_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml'], 'Modules.Autoupgrade.Admin');
-
                 return;
             }
         }
@@ -213,6 +213,10 @@ class AdminSelfUpgrade extends AdminController
                 'type' => 'bool', 'desc' => $this->trans('As non-native modules can experience some compatibility issues, we recommend to disable them by default.', [], 'Modules.Autoupgrade.Admin') . '<br />' .
                 $this->trans('Keeping them enabled might prevent you from loading the "Modules" page properly after the upgrade.', [], 'Modules.Autoupgrade.Admin'),
             ],
+            'PS_DISABLE_OVERRIDES' => array(
+                'title' => $this->trans('Disable all overrides', [], 'Modules.Autoupgrade.Admin'), 'cast' => 'intval', 'validation' => 'isBool',
+                'type' => 'bool', 'desc' => $this->trans('Enable or disable all classes and controllers overrides.', [], 'Modules.Autoupgrade.Admin'),
+            ),
             'PS_AUTOUP_UPDATE_DEFAULT_THEME' => [
                 'title' => $this->trans('Upgrade the default theme', [], 'Modules.Autoupgrade.Admin'), 'cast' => 'intval', 'validation' => 'isBool', 'defaultValue' => '1',
                 'type' => 'bool', 'desc' => $this->trans('If you customized the default PrestaShop theme in its folder (folder name "classic" in 1.7), enabling this option will lose your modifications.', [], 'Modules.Autoupgrade.Admin') . '<br />'
@@ -299,6 +303,7 @@ class AdminSelfUpgrade extends AdminController
         $this->updateRTLFiles = $this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_UPDATE_RTL_FILES');
         $this->keepMails = $this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_KEEP_MAILS');
         $this->deactivateCustomModule = $this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_CUSTOM_MOD_DESACT');
+        $this->disableOverride = $this->upgradeContainer->getUpgradeConfiguration()->get('PS_DISABLE_OVERRIDES');
     }
 
     /**
@@ -405,6 +410,7 @@ class AdminSelfUpgrade extends AdminController
             'PS_AUTOUP_UPDATE_RTL_FILES' => 1,
             'PS_AUTOUP_KEEP_MAILS' => 0,
             'PS_AUTOUP_CUSTOM_MOD_DESACT' => 1,
+            'PS_DISABLE_OVERRIDES' => 0,
             'PS_AUTOUP_PERFORMANCE' => 1,
         ];
 

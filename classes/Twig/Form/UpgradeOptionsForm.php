@@ -108,6 +108,21 @@ class UpgradeOptionsForm
                         $translationDomain
                     ),
             ],
+            'PS_DISABLE_OVERRIDES' => [
+                'title' => $translator->trans(
+                    'Disable all overrides',
+                    [],
+                    $translationDomain
+                ),
+                'cast' => 'intval',
+                'validation' => 'isBool',
+                'type' => 'bool',
+                'desc' => $translator->trans(
+                    'Enable or disable all classes and controllers overrides.',
+                    [],
+                    $translationDomain
+                ),
+            ],
             'PS_AUTOUP_UPDATE_DEFAULT_THEME' => [
                 'title' => $translator->trans(
                     'Upgrade the default theme',
