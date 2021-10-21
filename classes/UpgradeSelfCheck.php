@@ -143,7 +143,7 @@ class UpgradeSelfCheck
     /**
      * @var bool
      */
-    private $overridesDeactivated;
+    private $overrideDisabled;
 
     /**
      * UpgradeSelfCheck constructor.
@@ -220,13 +220,13 @@ class UpgradeSelfCheck
     /**
      * @return bool
      */
-    public function isOverridesDeactivated()
+    public function isOverrideDisabled()
     {
-        if (null !== $this->overridesDeactivated) {
-            return $this->overridesDeactivated;
+        if (null === $this->overrideDisabled) {
+            $this->overrideDisabled = $this->checkOverrideIsDisabled();
         }
 
-        return $this->overridesDeactivated = $this->checkOverridesIsDeactivated();
+        return $this->overrideDisabled;
     }
 
     /**
@@ -415,7 +415,7 @@ class UpgradeSelfCheck
     /**
      * @return bool
      */
-    private function checkOverridesIsDeactivated()
+    private function checkOverrideIsDisabled()
     {
         return (bool) Configuration::get('PS_DISABLE_OVERRIDES');
     }

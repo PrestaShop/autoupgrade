@@ -123,7 +123,7 @@ class UpgradeChecklist
             'allowUrlFopenOrCurlIsEnabled' => $this->selfCheck->isFOpenOrCurlEnabled(),
             'zipIsEnabled' => $this->selfCheck->isZipEnabled(),
             'storeIsInMaintenance' => $this->selfCheck->isShopDeactivated(),
-            'disableOverrides' => $this->selfCheck->isOverridesDeactivated(),
+            'disableOverrides' => $this->selfCheck->isOverrideDisabled(),
             'performanceLink' => Context::getContext()->link->getAdminLink('AdminPerformance'),
             'currentIndex' => $this->currentIndex,
             'token' => $this->token,
