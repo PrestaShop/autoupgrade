@@ -32,6 +32,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradePage;
 use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 
 require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/vendor/autoload.php';
 
@@ -88,6 +89,8 @@ class AdminSelfUpgrade extends AdminController
 
     public $_fieldsUpgradeOptions = [];
     public $_fieldsBackupOptions = [];
+
+    public $_fieldsToBeSavedInDB = ['PS_DISABLE_OVERRIDES'];
 
     /**
      * @var UpgradeContainer
@@ -372,7 +375,10 @@ class AdminSelfUpgrade extends AdminController
             $UpConfig = $this->upgradeContainer->getUpgradeConfiguration();
             $UpConfig->merge($config);
 
-            if ($this->upgradeContainer->getUpgradeConfigurationStorage()->save($UpConfig, UpgradeFileNames::CONFIG_FILENAME)) {
+            $upConfigValues = $this->extractFieldsToBeSavedInDB($UpConfig);
+
+            if ($this->processDatabaseConfigurationFields($upConfigValues['dbConfig']) &&
+                $this->upgradeContainer->getUpgradeConfigurationStorage()->save($upConfigValues['fileConfig'], UpgradeFileNames::CONFIG_FILENAME)) {
                 Tools14::redirectAdmin(self::$currentIndex . '&conf=6&token=' . Tools14::getValue('token'));
             }
         }
@@ -399,6 +405,43 @@ class AdminSelfUpgrade extends AdminController
             }
         }
         parent::postProcess();
+    }
+
+    /**
+     * @param UpgradeConfiguration $fileConfig
+     * @return array
+     */
+    private function extractFieldsToBeSavedInDB(UpgradeConfiguration $fileConfig): array
+    {
+        $DBConfig = [];
+
+        foreach ($fileConfig as $key => $value) {
+            if (in_array($key, $this->_fieldsToBeSavedInDB)) {
+                $DBConfig[$key] = $value;
+                unset($fileConfig[$key]);
+            }
+        }
+
+        return [
+            'fileConfig' => $fileConfig,
+            'dbConfig' => $DBConfig,
+        ];
+    }
+
+
+    /**
+     * Process configuration values to be stored in database
+     *
+     * @param array $config
+     */
+    private function processDatabaseConfigurationFields(array $config): void
+    {
+        if (isset($config['PS_DISABLE_OVERRIDES'])) {
+            foreach (Shop::getCompleteListOfShopsID() as $id_shop) {
+                Configuration::updateValue('PS_DISABLE_OVERRIDES', $config['PS_DISABLE_OVERRIDES'], false, null, (int) $id_shop);
+            }
+            Configuration::updateGlobalValue('PS_DISABLE_OVERRIDES', $config['PS_DISABLE_OVERRIDES']);
+        }
     }
 
     public function display()
