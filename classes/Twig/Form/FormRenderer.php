@@ -27,6 +27,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Twig\Form;
 
+use Configuration;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
