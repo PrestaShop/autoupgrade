@@ -72,7 +72,7 @@ class FormRenderer
 
 
             if (in_array($key, UpgradeContainer::DB_CONFIG_KEYS)) {
-                // values fectched from configuration in database
+                // values fetched from configuration in database
                 $val = Configuration::get($key);
             } else {
                 // other conf values are fetched from config file
