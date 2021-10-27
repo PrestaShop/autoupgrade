@@ -28,6 +28,7 @@
 namespace PrestaShop\Module\AutoUpgrade\Twig\Form;
 
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 use Twig_Environment;
 
@@ -69,7 +70,15 @@ class FormRenderer
             $required = !empty($field['required']);
             $disabled = !empty($field['disabled']);
 
-            $val = $this->config->get($key);
+
+            if (in_array($key, UpgradeContainer::DB_CONFIG_KEYS)) {
+                // values fectched from configuration in database
+                $val = Configuration::get($key);
+            } else {
+                // other conf values are fetched from config file
+                $val = $this->config->get($key);
+            }
+
             if ($val === null) {
                 $val = isset($field['defaultValue']) ? $field['defaultValue'] : false;
             }
