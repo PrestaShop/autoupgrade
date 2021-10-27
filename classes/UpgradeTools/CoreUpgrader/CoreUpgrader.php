@@ -29,6 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader;
 
 use Cache;
 use PrestaShop\Module\AutoUpgrade\Log\LoggerInterface;
+use Configuration;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\ThemeAdapter;
@@ -111,7 +112,7 @@ abstract class CoreUpgrader
         $this->generateHtaccess();
         $this->cleanXmlFiles();
 
-        if ($this->container->getUpgradeConfiguration()->shouldDeactivateCustomModules()) {
+        if (Configuration::get('PS_DISABLE_OVERRIDES')) {
             $this->disableOverrides();
         }
 
@@ -243,7 +244,17 @@ abstract class CoreUpgrader
         $versionCompare = version_compare($this->destinationUpgradeVersion, $oldVersion);
 
         if ($versionCompare === -1) {
-            throw new UpgradeException($this->container->getTranslator()->trans('[ERROR] Version to install is too old.', [], 'Modules.Autoupgrade.Admin') . ' ' . $this->container->getTranslator()->trans('Current version: %oldversion%. Version to install: %newversion%.', ['%oldversion%' => $oldVersion, '%newversion%' => $this->destinationUpgradeVersion], 'Modules.Autoupgrade.Admin'));
+            throw new UpgradeException(
+                $this->container->getTranslator()->trans('[ERROR] Version to install is too old.', [], 'Modules.Autoupgrade.Admin')
+                . ' ' .
+                $this->container->getTranslator()->trans(
+                    'Current version: %oldversion%. Version to install: %newversion%.',
+                    [
+                        '%oldversion%' => $oldVersion,
+                        '%newversion%' => $this->destinationUpgradeVersion,
+                    ],
+                    'Modules.Autoupgrade.Admin'
+                ));
         } elseif ($versionCompare === 0) {
             throw new UpgradeException($this->container->getTranslator()->trans('You already have the %s version.', [$this->destinationUpgradeVersion], 'Modules.Autoupgrade.Admin'));
         }
@@ -640,17 +651,6 @@ abstract class CoreUpgrader
 
     protected function disableOverrides()
     {
-        $exist = $this->db->getValue('SELECT `id_configuration` FROM `' . _DB_PREFIX_ . 'configuration` WHERE `name` LIKE \'PS_DISABLE_OVERRIDES\'');
-        if ($exist) {
-            $this->db->execute('UPDATE `' . _DB_PREFIX_ . 'configuration` SET value = 1 WHERE `name` LIKE \'PS_DISABLE_OVERRIDES\'');
-        } else {
-            $this->db->execute('INSERT INTO `' . _DB_PREFIX_ . 'configuration` (name, value, date_add, date_upd) VALUES ("PS_DISABLE_OVERRIDES", 1, NOW(), NOW())');
-        }
-
-        if (file_exists(_PS_ROOT_DIR_ . '/classes/PrestaShopAutoload.php')) {
-            require_once _PS_ROOT_DIR_ . '/classes/PrestaShopAutoload.php';
-        }
-
         if (class_exists('PrestaShopAutoload') && method_exists('PrestaShopAutoload', 'generateIndex')) {
             \PrestaShopAutoload::getInstance()->_include_override_path = false;
             \PrestaShopAutoload::getInstance()->generateIndex();
