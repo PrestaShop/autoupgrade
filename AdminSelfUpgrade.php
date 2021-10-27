@@ -90,8 +90,6 @@ class AdminSelfUpgrade extends AdminController
     public $_fieldsUpgradeOptions = [];
     public $_fieldsBackupOptions = [];
 
-    public $_fieldsToBeSavedInDB = ['PS_DISABLE_OVERRIDES'];
-
     /**
      * @var UpgradeContainer
      */
@@ -409,7 +407,7 @@ class AdminSelfUpgrade extends AdminController
         $DBConfig = [];
 
         foreach ($fileConfig as $key => $value) {
-            if (in_array($key, $this->_fieldsToBeSavedInDB)) {
+            if (in_array($key, UpgradeContainer::DB_CONFIG_KEYS)) {
                 $DBConfig[$key] = $value;
                 unset($fileConfig[$key]);
             }
@@ -446,7 +444,7 @@ class AdminSelfUpgrade extends AdminController
             'PS_AUTOUP_UPDATE_RTL_FILES' => 1,
             'PS_AUTOUP_KEEP_MAILS' => 0,
             'PS_AUTOUP_CUSTOM_MOD_DESACT' => 1,
-            'PS_DISABLE_OVERRIDES' => 0,
+            'PS_DISABLE_OVERRIDES' => Configuration::get('PS_DISABLE_OVERRIDES'),
             'PS_AUTOUP_PERFORMANCE' => 1,
         ];
 

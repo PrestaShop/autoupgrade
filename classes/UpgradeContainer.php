@@ -63,6 +63,7 @@ class UpgradeContainer
     const ARCHIVE_FILENAME = 'destDownloadFilename';
     const ARCHIVE_FILEPATH = 'destDownloadFilepath';
     const PS_VERSION = 'version';
+    const DB_CONFIG_KEYS = ['PS_DISABLE_OVERRIDES'];
 
     /**
      * @var CacheCleaner
