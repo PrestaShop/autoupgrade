@@ -5,21 +5,37 @@ runs:
   steps:
     - name: Build docker compose stack
       env:
-        VERSION: ${{ matrix.ps-versions.from }}
+        VERSION: ${{ matrix.from }}
       shell: bash
       run: |
-        docker-compose -f docker-compose.yml up -d
+        bash -c '[[ "${VERSION}" == 1.6* ]] && docker-compose -f docker-compose-7.1.yml up -d || docker-compose -f docker-compose.yml up -d'
         bash -c 'while [[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost:8001/index.php)" != "200" ]]; do sleep 5; done'
     - name: Copy autoupgrade module
       shell: bash
       run: docker exec -u www-data prestashop_autoupgrade cp modules/autoupgrade/ -R admin-dev
-    - name: Upgrade (major)
+    - name: Upgrade (intermediate)
+      env:
+        CHANNEL: 'archive'
+        ARCHIVE_URL: 'https://github.com/PrestaShop/PrestaShop/releases/download/1.7.7.8/prestashop_1.7.7.8.zip'
+        VERSION: '1.7.7.8'
+        FROM: ${{ matrix.from }}
+        SKIP: ${{ matrix.ps-versions.channel != 'archive' || !startsWith(matrix.from, '1.6') || startsWith(matrix.ps-versions.version, '1.7.7') }}
+      shell: bash
+      run: |
+        [[ "$SKIP" == true ]] || ${{ github.action_path }}action_upgrade.sh
+        [[ "$SKIP" == true ]] || docker exec prestashop_autoupgrade rm admin-dev/autoupgrade/modulesToUpgrade.list
+        [[ "$SKIP" == true ]] || docker stop prestashop_autoupgrade
+        [[ "$SKIP" == true ]] || docker rm prestashop_autoupgrade
+        [[ "$SKIP" == true ]] || docker run --name prestashop_autoupgrade -p 8001:80 -v autoupgrade_temp-ps:/var/www/html -v "$(pwd):/var/www/html/modules/autoupgrade" --network autoupgrade_default -d prestashop/base:7.2-apache
+        [[ "$SKIP" == true ]] || bash -c 'while [[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost:8001/index.php)" == "000" ]]; do sleep 5; done'
+    - name: Upgrade
       env:
         CHANNEL: ${{ matrix.ps-versions.channel }}
         ARCHIVE_URL: ${{ matrix.ps-versions.file }}
         VERSION: ${{ matrix.ps-versions.version }}
+        FROM: ${{ matrix.from }}
       shell: bash
-      run: ${{ github.action_path }}/action_upgrade.sh
+      run: ${{ github.action_path }}action_upgrade.sh
     - name: Check endpoints response
       shell: bash
       run: |

@@ -63,7 +63,7 @@ class UpgradeContainerTest extends TestCase
             array('getSymfonyAdapter', PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter::class),
             array('getTranslationAdapter', \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translation::class),
             array('getTranslator', \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator::class),
-            array('getTwig', Twig_Environment::class),
+            array('getTwig', \Twig\Environment::class),
             array('getPrestaShopConfiguration', PrestaShop\Module\AutoUpgrade\PrestashopConfiguration::class),
             array('getUpgradeConfiguration', PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration::class),
             array('getWorkspace', PrestaShop\Module\AutoUpgrade\Workspace::class),

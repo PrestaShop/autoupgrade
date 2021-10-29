@@ -1,0 +1,232 @@
+name: Nightly upgrades with user inferfaces
+
+on:
+  schedule:
+    - cron: "0 6 * * *" # Every day at 06:00Am
+
+env:
+  reports_directory: ${{ github.workspace }}/json-reports
+  combined_report_name: upgrade_tests.json
+
+jobs:
+  # Pre-job : Get Upgrade target versions
+  get_ps_target_versions:
+    name: Get Upgrade target versions
+    runs-on: ubuntu-18.04
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12
+
+      - name: Install dependencies
+        shell: bash
+        run: npm install
+        working-directory: ./tests/e2e
+
+      - id: set-target-versions
+        shell: bash
+        run: echo "::set-output name=TARGET_VERSIONS::$(node ./scripts/getTargetVersions.js)"
+        env:
+          API_URL: https://api-nightly.prestashop.com/reports
+        working-directory: ./tests/e2e
+
+    outputs:
+      target_versions: ${{ steps.set-target-versions.outputs.TARGET_VERSIONS }}
+
+  # First job: upgrade
+  upgrade:
+    name: Testing Autoupgrade module on UI
+    continue-on-error: true
+    needs: get_ps_target_versions
+    runs-on: ubuntu-18.04
+    env:
+      nightly_storage: https://storage.googleapis.com/prestashop-core-nightly
+
+    # Testing upgrade from '1.7.4.4', '1.7.5.2', '1.7.6.9', '1.7.7.1' to the last '1.7.7.x' and '1.7.8.x'(develop)
+    strategy:
+      matrix:
+        ps_start_version: ['1.7.4.4', '1.7.5.2', '1.7.6.9', '1.7.7.8']
+
+        ps_target_version: ${{ fromJson(needs.get_ps_target_versions.outputs.target_versions) }}
+
+        module_branch: ['dev', 'master']
+
+      fail-fast: false
+
+    steps:
+
+      # Setup PrestaShop and Install Autoupgrade module
+      - uses: actions/checkout@v2
+
+      - run: |
+          cp -r .github .github_dev
+          cp -r tests/e2e tests/e2e_dev
+          cp docker-compose.yml docker-compose.dev.yml
+          git fetch origin ${{ matrix.module_branch }}
+          git checkout ${{ matrix.module_branch }}
+          rm -rf .github docker-compose.yml tests/e2e
+          mv .github_dev .github
+          mv tests/e2e_dev tests/e2e
+          mv docker-compose.dev.yml docker-compose.yml
+        if: ${{ matrix.module_branch != 'dev' }}
+
+      # Build PrestaShop with docker-compose
+      - uses: shivammathur/setup-php@v2
+        name: Setup PHP
+        with:
+          php-version: '7.1'
+          extensions: mbstring, intl, gd, xml, dom, json, fileinfo, curl, zip, iconv
+
+      - name: Install Module dependencies
+        shell: bash
+        run: composer install
+
+      - name: Build PrestaShop ${{ matrix.ps_start_version }} on docker
+        env:
+          VERSION: ${{ matrix.ps_start_version }}
+        shell: bash
+        run : ./tests/e2e/scripts/docker_build.sh
+
+      # Install Module with user interface
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./tests/e2e
+
+      - name: Install autoupgrade module
+        run: npm run install-module
+        working-directory: ./tests/e2e
+        env:
+          URL_FO: "http://localhost:8001/"
+          PS_VERSION: ${{ matrix.ps_start_version }}
+          AUTOUPGRADE_VERSION: ${{ matrix.module_branch }}
+
+      - name: Download nightly build
+        shell: bash
+        run: ./tests/e2e/scripts/download_nightly_archive.sh ${{ env.ARCHIVE_URL }} ${{ env.FILENAME }}
+        env:
+          ARCHIVE_URL: ${{ matrix.ps_target_version.archive_zip }}
+          FILENAME: ${{ matrix.ps_target_version.filename }}
+
+      # Run Upgrade tests
+      - name: Run tests
+        run: npm run upgrade-test
+        working-directory: ./tests/e2e
+        env:
+          URL_FO: "http://localhost:8001/"
+          PS_VERSION: ${{ matrix.ps_start_version }}
+          PS_VERSION_UPGRADE_TO: ${{ matrix.ps_target_version.for_test }}
+          ZIP_NAME: ${{ matrix.ps_target_version.filename }}
+          AUTOUPGRADE_VERSION: ${{ matrix.module_branch }}
+
+      - uses: actions/upload-artifact@v2
+        name: Upload failed screenshots
+        if: ${{ always() }}
+        with:
+          name: failed-tests-${{ matrix.ps_start_version }}-${{ matrix.ps_target_version.for_test }}-${{ matrix.ps_target_version.branch }}-${{ matrix.module_branch }}
+          path: ./tests/e2e/screenshots/
+
+      # Upload Mochawesome reports
+      - name: Rename Mochawesome report
+        if: ${{ always() }}
+        run: ./tests/e2e/scripts/copy_reports.sh ${{ env.reports_directory }} ${{ matrix.ps_start_version }} ${{ matrix.ps_target_version.branch }} ${{ matrix.module_branch }}
+
+      - uses: actions/upload-artifact@v2
+        name: Upload Mochawesome report
+        if: ${{ always() }}
+        with:
+          name: tests-reports-${{ matrix.ps_target_version.branch }}
+          path: ${{ env.reports_directory }}
+
+  # Second job: merge reports (depends on upgrade job)
+  merge-reports:
+    name: Combine all tests reports
+    needs:
+      - get_ps_target_versions
+      - upgrade
+    runs-on: ubuntu-18.04
+
+    strategy:
+      matrix:
+        ps_target_version: ${{ fromJson(needs.get_ps_target_versions.outputs.target_versions) }}
+
+      fail-fast: false
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/download-artifact@v2
+        name: Download reports
+        with:
+          name: tests-reports-${{ matrix.ps_target_version.branch }}
+          path: ${{ env.reports_directory }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12
+
+      - name: Install dependencies
+        shell: bash
+        run: npm install
+        working-directory: ./tests/e2e
+
+      - name: Combine reports
+        shell: bash
+        run: npx mochawesome-merge "${{ env.reports_directory }}/*.json" -o "${{ env.reports_directory }}/${{ env.combined_report_name }}"
+        working-directory: ./tests/e2e
+
+      - uses: actions/upload-artifact@v2
+        name: Upload combined report
+        with:
+          name: combined-report-${{ matrix.ps_target_version.branch }}
+          path: ${{ env.reports_directory }}/${{ env.combined_report_name }}
+
+  # Third job: Upload report on GCP (Depends on merge-reports job)
+  upload-report:
+    name: Upload nightly report
+    needs:
+      - get_ps_target_versions
+      - merge-reports
+    runs-on: ubuntu-18.04
+
+    strategy:
+      matrix:
+        ps_target_version: ${{ fromJson(needs.get_ps_target_versions.outputs.target_versions) }}
+
+      fail-fast: false
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/download-artifact@v2
+        name: Download report
+        with:
+          name: combined-report-${{ matrix.ps_target_version.branch }}
+          path: ${{ env.reports_directory }}
+
+      - uses: google-github-actions/setup-gcloud@master
+        name: Setup Cloud Sdk
+        with:
+          project_id: ${{ secrets.GC_PROJECT_ID }}
+          service_account_key: ${{ secrets.GC_SERVICE_KEY }}
+          export_default_credentials: true
+
+      - name: Push result to the nightly board
+        shell: bash
+        run: |
+          export FILENAME=autoupgrade_ui_`date -u +"%Y-%m-%d"`-${{ matrix.ps_target_version.branch }}.json
+          cp ${{ env.reports_directory }}/${{ env.combined_report_name }} $FILENAME
+          ./.github/workflows/nightly_scripts/push_results.sh ${{ env.nightly_api_url }} $FILENAME ${{ env.campaign }} ${{ env.platform }} ${{ secrets.QANB_TOKEN }}
+        env:
+          nightly_api_url: https://api-nightly.prestashop.com/hook/reports/import
+          campaign: autoupgrade
+          platform: chromium

@@ -29,6 +29,8 @@ services:
       PS_ERASE_DB: 1
       PS_FOLDER_ADMIN: admin-dev
       PS_FOLDER_INSTALL: install-dev
+      PS_LANGUAGE: en
+      PS_COUNTRY: fr
     depends_on:
       - mysql
     ports:

@@ -33,15 +33,24 @@ use Twig_Environment;
 
 class FormRenderer
 {
+    /**
+     * @var UpgradeConfiguration
+     */
     private $config;
 
+    /**
+     * @var Translator
+     */
     private $translator;
 
+    /**
+     * @var Twig_Environment|\Twig\Environment
+     */
     private $twig;
 
     public function __construct(
         UpgradeConfiguration $configuration,
-        Twig_Environment $twig,
+        $twig,
         Translator $translator
     ) {
         $this->config = $configuration;
@@ -60,10 +69,10 @@ class FormRenderer
             $required = !empty($field['required']);
             $disabled = !empty($field['disabled']);
 
-            $val = $this->config->get(
-                $key,
-                isset($field['defaultValue']) ? $field['defaultValue'] : false
-            );
+            $val = $this->config->get($key);
+            if ($val === null) {
+                $val = isset($field['defaultValue']) ? $field['defaultValue'] : false;
+            }
 
             if (!in_array($field['type'], array('image', 'radio', 'select', 'container', 'bool', 'container_end')) || isset($field['show'])) {
                 $html .= '<div style="clear: both; padding-top:15px">'

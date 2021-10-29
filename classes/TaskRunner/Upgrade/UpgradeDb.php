@@ -51,6 +51,7 @@ class UpgradeDb extends AbstractTask
             return false;
         }
         $this->next = 'upgradeModules';
+        $this->stepDone = true;
         $this->logger->info($this->translator->trans('Database upgraded. Now upgrading your Addons modules...', array(), 'Modules.Autoupgrade.Admin'));
 
         return true;

@@ -29,6 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade;
 
 use PrestaShop\Module\AutoUpgrade\Log\LegacyLogger;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
+use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension3;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\CacheCleaner;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FileFilter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
@@ -114,7 +115,7 @@ class UpgradeContainer
     private $moduleAdapter;
 
     /**
-     * @var Twig_Environment
+     * @var Twig_Environment|\Twig\Environment
      */
     private $twig;
 
@@ -415,7 +416,7 @@ class UpgradeContainer
     }
 
     /**
-     * @return Twig_Environment
+     * @return Twig_Environment|\Twig\Environment
      */
     public function getTwig()
     {
@@ -423,11 +424,20 @@ class UpgradeContainer
             return $this->twig;
         }
 
-        // Using independant template engine for 1.6 & 1.7 compatibility
-        $loader = new Twig_Loader_Filesystem();
-        $loader->addPath(realpath(__DIR__ . '/..') . '/views/templates', 'ModuleAutoUpgrade');
-        $twig = new Twig_Environment($loader);
-        $twig->addExtension(new TransFilterExtension($this->getTranslator()));
+        if (class_exists(Twig_Environment::class)) {
+            // We use Twig 1
+            // Using independant template engine for 1.6 & 1.7 compatibility
+            $loader = new Twig_Loader_Filesystem();
+            $loader->addPath(realpath(__DIR__ . '/..') . '/views/templates', 'ModuleAutoUpgrade');
+            $twig = new Twig_Environment($loader);
+            $twig->addExtension(new TransFilterExtension($this->getTranslator()));
+        } else {
+            // We use Twig 3
+            $loader = new \Twig\Loader\FilesystemLoader();
+            $loader->addPath(realpath(__DIR__ . '/..') . '/views/templates', 'ModuleAutoUpgrade');
+            $twig = new \Twig\Environment($loader);
+            $twig->addExtension(new TransFilterExtension3($this->getTranslator()));
+        }
 
         $this->twig = $twig;
 

@@ -55,7 +55,7 @@ class UpgradePage
     private $templatesDir = '/views/templates';
 
     /**
-     * @var Twig_Environment
+     * @var Twig_Environment|\Twig\Environment
      */
     private $twig;
 
@@ -131,7 +131,7 @@ class UpgradePage
 
     public function __construct(
         UpgradeConfiguration $config,
-        Twig_Environment $twig,
+        $twig,
         Translator $translator,
         UpgradeSelfCheck $upgradeSelfCheck,
         Upgrader $upgrader,

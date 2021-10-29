@@ -21,13 +21,31 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        from: ['1.7.6.9', '1.7.7.0', '1.6.1.24']
         ps-versions: ${{ fromJson(needs.get_matrix.outputs.matrix) }}
+        branch: ['dev', 'master']
+        exclude:
+          - from: '1.6.1.24'
+            branch: 'master'
+          - from: '1.7.6.9'
+            ps-versions: {branch: 'develop'}
+            branch: 'master'
+          - from: '1.7.7.0'
+            ps-versions: {branch: 'develop'}
+            branch: 'master'
     runs-on: ubuntu-latest
     name: Upgrade
     outputs:
       result: ${{ steps.export-result.outputs.result }}
     steps:
       - uses: actions/checkout@v2
+      - if: ${{ matrix.branch != 'dev' }}
+        run: |
+          cp -r .github .github_dev
+          git fetch origin ${{ matrix.branch }}
+          git checkout ${{ matrix.branch }}
+          rm -r .github
+          cp -r .github_dev .github
       - name: Composer Install
         run: |
           composer install
@@ -35,23 +53,45 @@ jobs:
       - name: Upgrade & Rollback
         id: upgrade-rollback
         uses: ./.github/
-      - name: Format result
+      - name: Save result
         if: ${{ always() }}
         run: |
           export END_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"`
-          echo "${{matrix.ps-versions.branch}}|${{matrix.ps-versions.version}}|$START_DATE|$END_DATE|${{steps.upgrade-rollback.outcome}}" > result.txt
-          php ./.github/get_results.php
-      - name: Set up Cloud SDK
+          echo "${{ matrix.branch }}|${{matrix.from}}|${{matrix.ps-versions.branch}}|${{matrix.ps-versions.version}}|$START_DATE|$END_DATE|${{steps.upgrade-rollback.outcome}}" > ${{ matrix.branch }}_${{matrix.from}}_${{matrix.ps-versions.branch}}.txt
+      - name: Upload artifact
         if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.branch }}_${{matrix.from}}_${{matrix.ps-versions.branch}}
+          path: ${{ matrix.branch }}_${{matrix.from}}_${{matrix.ps-versions.branch}}.txt
+  results:
+    name: Results
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    needs:
+      - get_matrix
+      - upgrade
+    strategy:
+      matrix:
+        ps-versions: ${{ fromJson(needs.get_matrix.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          path: ./artifacts/
+      - name: Format results
+        run: php ./.github/get_results.php ${{matrix.ps-versions.branch}}
+      - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@master
         with:
           project_id: ${{ secrets.GC_PROJECT_ID }}
           service_account_key: ${{ secrets.GC_SERVICE_KEY }}
           export_default_credentials: true
       - name: Push results to the nightly board
-        if: ${{ always() }}
         run: |
-          export TODAY=`date -u +"%Y-%m-%d"`
-          export FILENAME=autoupgrade_$TODAY-${{matrix.ps-versions.branch}}.json
-          gsutil cp $FILENAME gs://prestashop-core-nightly/reports
-          curl -X GET "https://api-nightly.prestashop.com/hook/add?filename=$FILENAME&platform=cli&campaign=autoupgrade&token=${{ secrets.QANB_TOKEN }}"
+          export FILENAME=autoupgrade_`date -u +"%Y-%m-%d"`-${{matrix.ps-versions.branch}}.json
+          ./.github/workflows/nightly_scripts/push_results.sh ${{ env.nightly_api_url }} $FILENAME ${{ env.campaign }} ${{ env.platform }} ${{ secrets.QANB_TOKEN }}
+        env:
+          nightly_api_url: https://api-nightly.prestashop.com/hook/add
+          campaign: autoupgrade
+          platform: cli

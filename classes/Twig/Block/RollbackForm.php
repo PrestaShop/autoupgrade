@@ -33,7 +33,7 @@ use Twig_Environment;
 class RollbackForm
 {
     /**
-     * @var Twig_Environment
+     * @var Twig_Environment|\Twig\Environment
      */
     private $twig;
 
@@ -42,7 +42,7 @@ class RollbackForm
      */
     private $backupFinder;
 
-    public function __construct(Twig_Environment $twig, BackupFinder $backupFinder)
+    public function __construct($twig, BackupFinder $backupFinder)
     {
         $this->twig = $twig;
         $this->backupFinder = $backupFinder;

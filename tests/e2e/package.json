@@ -1,0 +1,39 @@
+{
+  "name": "autoupgrade_e2e_tests",
+  "version": "1.0.0",
+  "description": "E2E tests for 1-click-upgrade-module",
+  "scripts": {
+    "lint": "eslint --ignore-path .gitignore .",
+    "lint-fix": "eslint --fix --ignore-path .gitignore .",
+    "install-module": "./node_modules/mocha/bin/mocha --file node_modules/prestashop_test_lib/kernel/utils/setup.js --recursive --bail scenarios/01_install.js",
+    "upgrade-test": "./node_modules/mocha/bin/mocha --file node_modules/prestashop_test_lib/kernel/utils/setup.js --recursive --bail scenarios/02_upgrade.js"
+  },
+  "_moduleAliases": {
+    "@root": ".",
+    "@commonTests": "campaigns/commonTests",
+    "@data": "campaigns/data",
+    "@utils": "campaigns/utils",
+    "@tools": "campaigns/tools"
+  },
+  "keywords": [
+    "prestashop",
+    "autoupgrade",
+    "ui-tests"
+  ],
+  "dependencies": {
+    "axios": "^0.21.2",
+    "chai": "^4.2.0",
+    "eslint-config-prestashop": "^0.1.0",
+    "mocha": "^8.2.1",
+    "mochawesome": "^6.2.2",
+    "module-alias": "^2.2.2",
+    "prestashop_test_lib": "0.0.14"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "mochawesome-merge": "^4.2.0"
+  }
+}

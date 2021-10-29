@@ -13,6 +13,9 @@
                 {{ 'Your current PrestaShop version'|trans }}: <strong>{{ currentPsVersion }}</strong>
             </p>
             <p>
+                {{ 'Your current PHP version'|trans }}: <strong>{{ phpVersion }}</strong>
+            </p>
+            <p>
                 {{ 'Latest official version for %s channel.'|trans([channel]) }}: <strong>{{ latestChannelVersion }}</strong>
             </p>
         </div>
@@ -68,7 +71,9 @@
             <div class="col-xs-12">
                 <p class="alert alert-info" style="display:none;" id="configResult">&nbsp;</p>
                 <div id="advanced" style="margin-top: 30px;">
-                    <h3>{{ 'Expert mode'|trans }}</h3>
+                    <div class="panel-heading">
+                        {{ 'Expert mode'|trans }}
+                    </div>
                     <h4 style="margin-top: 0">{{ 'Please select your channel:'|trans }}</h4>
                     <p>
                         {{ 'Channels are offering you different ways to perform an upgrade. You can either upload the new version manually or let the 1-Click Upgrade module download it for you.'|trans }}<br>
@@ -86,11 +91,6 @@
                         {% endfor %}
                     </select>
                     {{ channelInfoBlock|raw }}
-                    <div id="for-useMinor">
-                        <div class="margin-form margin-form-small">
-                            {{ 'This option regroup all stable versions.'|trans }}
-                        </div>
-                    </div>
                     <div id="for-usePrivate">
                         <p><label for="private_release_link">{{ 'Link:'|trans }} *</label>
                             <input type="text" size="50" id="private_release_link" name="private_release_link" value="{{ privateChannel.releaseLink }}">
@@ -122,7 +122,7 @@
                         {% endif %}
                         <div class="margin-form">
                             {{ 'Save in the following directory the archive file of the version you want to upgrade to: %s'|trans(['<b>/admin/autoupgrade/download/</b>'])|raw }}<br>
-                            {{ 'Click "Save" once the archive is there.'|trans }}<br>
+                            {{ 'Click to save once the archive is there.'|trans }}<br>
                             {{ 'This option will skip the download step.'|trans }}
                         </div>
                     </div>
@@ -133,7 +133,7 @@
                             <label for="directory_num">{{ 'Please tell us which version you are upgrading to [1](1.7.0.1 for instance)[/1]'|trans({'[1]': '<small>', '[/1]': '</small>'})|raw }}</label>
                             <input type="text" size="10" id="directory_num" name="directory_num" value="{{ directoryVersionNumber }}" placeholder="1.7.0.1">
                             <div class="margin-form">
-                                {{ 'Click "Save" once the archive is there.'|trans }}<br>
+                                {{ 'Click to save once the archive is there.'|trans }}<br>
                                 * {{ 'This option will skip both download and unzip steps and will use %1$s as the source directory'|trans(['<b>/admin/autoupgrade/latest/</b>'])|raw }}
                             </div>
                         </div>
