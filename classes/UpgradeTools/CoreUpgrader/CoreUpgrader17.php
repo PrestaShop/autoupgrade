@@ -30,7 +30,6 @@ namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\ThemeAdapter;
 use PrestaShop\PrestaShop\Core\CommandBus\CommandBusInterface;
-use PrestaShop\PrestaShop\Core\Domain\MailTemplate\Command\GenerateThemeMailTemplatesCommand;
 use PrestaShop\PrestaShop\Core\Domain\Theme\Command\AdaptThemeToRTLLanguagesCommand;
 use PrestaShop\PrestaShop\Core\Domain\Theme\ValueObject\ThemeName;
 use PrestaShop\PrestaShop\Core\Exception\CoreException;
@@ -84,33 +83,7 @@ class CoreUpgrader17 extends CoreUpgrader
         \Language::installSfLanguagePack($lang_pack['locale'], $errorsLanguage);
 
         if (!$this->container->getUpgradeConfiguration()->shouldKeepMails()) {
-            $mailTheme = \Configuration::get('PS_MAIL_THEME', null, null, null, 'modern');
-
-            $frontTheme = _THEME_NAME_;
-            $frontThemeMailsFolder = _PS_ALL_THEMES_DIR_ . $frontTheme . '/mails';
-            $frontThemeModulesFolder = _PS_ALL_THEMES_DIR_ . $frontTheme . '/modules';
-
-            $generateCommand = new GenerateThemeMailTemplatesCommand(
-                $mailTheme,
-                $lang_pack['locale'],
-                true,
-                $frontThemeMailsFolder,
-                $frontThemeModulesFolder
-            );
-            /** @var CommandBusInterface $commandBus */
-            $commandBus = $this->container->get('prestashop.core.command_bus');
-
-            try {
-                $commandBus->handle($generateCommand);
-            } catch (CoreException $e) {
-                throw new UpgradeException(
-                    $this->container->getTranslator()->trans(
-                        'Cannot generate email templates: %s.',
-                        [$e->getMessage()],
-                        'Modules.Autoupgrade.Admin'
-                    )
-                );
-            }
+            \Language::installEmailsLanguagePack($lang_pack, $errorsLanguage);
         }
 
         if (!empty($errorsLanguage)) {
