@@ -108,18 +108,6 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>
-                        {{ 'Disable overrides in' }} <a href="{{ performanceLink }}">{{ 'Advanced > Parameters > Performance'|trans|raw }}</a> <span class="required">*</a>
-                    </td>
-                    <td>
-                        {% if disableOverrides %}
-                            {{ icons.ok }}
-                        {% else %}
-                            {{ icons.nok }}
-                        {% endif %}
-                    </td>
-                </tr>
-                <tr>
                     <td>{{ 'PrestaShop\'s caching features are disabled'|trans }}</td>
                     <td>
                         {% if cachingIsDisabled %}
