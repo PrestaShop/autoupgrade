@@ -36,7 +36,7 @@ class UpgradeSelfCheck
     /**
      * PHP and PrestaShop Compatibles Versions
      */
-    const PHP_PS_VERSIONS = ['1.6.x' => ['5.2', '7.1'],
+    const PHP_PS_VERSIONS = ['1.6.1' => ['5.2', '7.1'],
         '1.7.0' => ['5.4', '7.1'],
         '1.7.1' => ['5.4', '7.1'],
         '1.7.2' => ['5.4', '7.1'],
@@ -662,7 +662,7 @@ class UpgradeSelfCheck
     }
 
     /**
-     * Check if the current php version is compatible whith PrestaShop verion to Upgrade
+     * Get php min and max compatible versions for target prestashop version
      *
      * @return array
      */
@@ -671,5 +671,22 @@ class UpgradeSelfCheck
         $phpCompatibleVersion = self::PHP_PS_VERSIONS[substr($this->upgrader->version_num, 0, 5)];
 
         return $phpCompatibleVersion;
+    }
+
+    /**
+     * Check if the current php version is compatible with PrestaShop target version
+     *
+     * @return bool
+     */
+    public function isPhpCompatible()
+    {
+        $phpCompatibleVersions = $this->phpCompatibleVersions();
+        $phpVersion = substr(PHP_VERSION,0,3);
+
+        if (version_compare($phpVersion, $phpCompatibleVersions[0], '>=') && version_compare($phpVersion, $phpCompatibleVersions[1], '<=')) {
+            return true;
+        }
+
+        return false;
     }
 }
