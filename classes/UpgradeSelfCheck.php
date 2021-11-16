@@ -36,7 +36,7 @@ class UpgradeSelfCheck
     /**
      * PHP and PrestaShop Compatibles Versions
      */
-    const PHP_PS_VERSIONS = ['1.6.1' => ['5.2', '7.1'],
+    const PHP_PS_VERSIONS = ['1.6.1.18' => ['5.2', '7.1'],
         '1.7.0' => ['5.4', '7.1'],
         '1.7.1' => ['5.4', '7.1'],
         '1.7.2' => ['5.4', '7.1'],
@@ -668,9 +668,41 @@ class UpgradeSelfCheck
      */
     public function phpCompatibleVersions()
     {
-        $phpCompatibleVersion = self::PHP_PS_VERSIONS[substr($this->upgrader->version_num, 0, 5)];
+        $previousShopVersion = false;
+        $length = count(self::PHP_PS_VERSIONS);
+        $i = 0;
+        $currentShopVersion = null;
 
-        return $phpCompatibleVersion;
+        foreach (self::PHP_PS_VERSIONS as $prestashopVersion => $phpVersions) {
+            if (!$previousShopVersion) {
+                $previousShopVersion = $prestashopVersion;
+                $i++;
+                continue;
+            }
+
+            // we cannot use substr to compare versions, because we can't guess the length of the current version,
+            // nor the length of the version in self::PHP_PS_VERSIONS
+            // so we loop through versions in self::PHP_PS_VERSIONS and check that our shop version is greater
+            // or equal to the version from previous iteration, and inferior to the version from current iteration
+            // (because php versions can only change for major or mineur prestashop versions, and compare_version
+            // doesn't consider 1.7.7 and 1.7.7.1 as being equal, there's no notion of precision)
+            if (version_compare($this->upgrader->version_num, $previousShopVersion, '>=')
+                && version_compare($this->upgrader->version_num, $prestashopVersion, '<')) {
+                $currentShopVersion = $previousShopVersion;
+                break;
+            }
+
+            // special case if we are in the last iteration
+            if ($i == ($length - 1) && version_compare($this->upgrader->version_num, $prestashopVersion, '>=')) {
+                $currentShopVersion = $prestashopVersion;
+                break;
+            }
+
+            $previousShopVersion = $prestashopVersion;
+            $i++;
+        }
+
+        return !empty($currentShopVersion) ? self::PHP_PS_VERSIONS[$currentShopVersion] : [];
     }
 
     /**
@@ -681,8 +713,8 @@ class UpgradeSelfCheck
     public function isPhpCompatible()
     {
         $phpCompatibleVersions = $this->phpCompatibleVersions();
-        $phpVersion = substr(PHP_VERSION,0,3);
 
+        $phpVersion = substr(PHP_VERSION,0,3);
         if (version_compare($phpVersion, $phpCompatibleVersions[0], '>=') && version_compare($phpVersion, $phpCompatibleVersions[1], '<=')) {
             return true;
         }
