@@ -1,7 +1,7 @@
 <?php
 /**
  * Copyright since 2007 PrestaShop SA and Contributors
- * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
+ * PrestaShop is an International Registered Trademark & Property of PrestaShop SA.
  *
  * NOTICE OF LICENSE
  *
@@ -25,12 +25,12 @@
  */
 
 /**
- * Preset enabled new column in tabs to true for all (except for disabled modules)
+ * Preset enabled new column in tabs to true for all (except for disabled modules).
  */
 function ps_1700_short_description_config()
 {
     Configuration::loadConfiguration();
-    
-    return !Configuration::get('PS_PRODUCT_SHORT_DESC_LIMIT')
+
+    return (0 === Configuration::get('PS_PRODUCT_SHORT_DESC_LIMIT'))
         ? Configuration::updateValue('PS_PRODUCT_SHORT_DESC_LIMIT', 800) : true;
 }
