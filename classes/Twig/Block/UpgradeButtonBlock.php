@@ -153,6 +153,7 @@ class UpgradeButtonBlock
         }
 
         $dir = glob($this->downloadPath . DIRECTORY_SEPARATOR . '*.zip');
+        $xml = glob($this->downloadPath . DIRECTORY_SEPARATOR . '*.xml');
 
         $data = array(
             'versionCompare' => $versionCompare,
@@ -174,7 +175,9 @@ class UpgradeButtonBlock
                 'allowMajor' => $this->config->get('private_allow_major'),
             ),
             'archiveFiles' => $dir,
+            'xmlFiles' => $xml,
             'archiveFileName' => $this->config->get('archive.filename'),
+            'xmlFileName' => $this->config->get('archive.xml'),
             'archiveVersionNumber' => $this->config->get('archive.version_num'),
             'downloadPath' => $this->downloadPath . DIRECTORY_SEPARATOR,
             'directoryVersionNumber' => $this->config->get('directory.version_num'),
