@@ -13,7 +13,7 @@ RUN echo "memory_limit=-1" > $PHP_CONF_DIR/99_memory-limit.ini \
     && apk add git \
     && rm -rf /var/cache/apk/* /var/tmp/* /tmp/*
 
-RUN composer global require phpstan/phpstan \
+RUN composer global require phpstan/phpstan:0.12.99 \
 	&& rm -rf /composer/vendor/phpstan/phpstan/.git \
 	&& composer clear-cache
 

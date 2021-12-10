@@ -51,6 +51,7 @@ class Upgrader
     public $version_name;
     public $version_num;
     public $version_is_modified;
+    public $version_md5 = array();
     /**
      * @var string contains hte url where to download the file
      */
@@ -344,7 +345,11 @@ class Upgrader
      */
     public function getXmlMd5File($version, $refresh = false)
     {
-        return $this->getXmlFIle(_PS_ROOT_DIR_ . '/config/xml/' . $version . '.xml', $this->rss_md5file_link_dir . $version . '.xml', $refresh);
+        if (isset($this->version_md5[$version])) {
+            return @simplexml_load_file($this->version_md5[$version]);
+        }
+
+        return $this->getXmlFile(_PS_ROOT_DIR_ . '/config/xml/' . $version . '.xml', $this->rss_md5file_link_dir . $version . '.xml', $refresh);
     }
 
     /**

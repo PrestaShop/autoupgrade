@@ -800,6 +800,7 @@ $(document).ready(function() {
       } else if ($newChannel === "archive") {
         var archive_prestashop = $("select[name=archive_prestashop]").val();
         var archive_num = $("input[name=archive_num]").val();
+        var archive_xml = $("select[name=archive_xml]").val();
         if (archive_num == "") {
           showConfigResult(input.translation.needToEnterArchiveVersionNumber, "error");
           return false;
@@ -811,6 +812,7 @@ $(document).ready(function() {
         params.channel = "archive";
         params.archive_prestashop = archive_prestashop;
         params.archive_num = archive_num;
+        params.archive_xml = archive_xml;
       } else if ($newChannel === "directory") {
         params.channel = "directory";
         params.directory_prestashop = $("select[name=directory_prestashop] option:selected").val();
