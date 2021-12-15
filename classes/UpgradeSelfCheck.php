@@ -35,7 +35,7 @@ class UpgradeSelfCheck
     /**
      * Recommended PHP Version. If below, display a notice.
      */
-    const RECOMMENDED_PHP_VERSION = 70103;
+    const RECOMMENDED_PHP_VERSION = 70205;
 
     /**
      * @var bool
@@ -103,11 +103,6 @@ class UpgradeSelfCheck
      * @var bool
      */
     private $phpUpgradeNoticelink;
-
-    /**
-     * @var bool
-     */
-    private $prestashopReady;
 
     /**
      * @var string
@@ -312,27 +307,11 @@ class UpgradeSelfCheck
      */
     public function isPhpUpgradeRequired()
     {
-        if (1 === (int) Configuration::get('PS_AUTOUP_IGNORE_PHP_UPGRADE')) {
-            return false;
-        }
-
         if (null !== $this->phpUpgradeNoticelink) {
             return $this->phpUpgradeNoticelink;
         }
 
         return $this->phpUpgradeNoticelink = $this->checkPhpVersionNeedsUpgrade();
-    }
-
-    /**
-     * @return bool
-     */
-    public function isPrestaShopReady()
-    {
-        if (null === $this->prestashopReady) {
-            $this->prestashopReady = $this->runPrestaShopCoreChecks();
-        }
-
-        return $this->prestashopReady || 1 === (int) Configuration::get('PS_AUTOUP_IGNORE_REQS');
     }
 
     /**
@@ -349,7 +328,17 @@ class UpgradeSelfCheck
             && $this->isAdminAutoUpgradeDirectoryWritable()
             && $this->isShopDeactivated()
             && $this->isCacheDisabled()
-            && $this->isPrestaShopReady();
+            && $this->isModuleVersionLatest()
+            && $this->isPhpVersionCompatible()
+            && $this->isApacheModRewriteEnabled()
+            && $this->getNotLoadedPhpExtensions() === []
+            && $this->isMemoryLimitValid()
+            && $this->isPhpFileUploadsConfigurationEnabled()
+            && $this->getNotExistsPhpFunctions() === []
+            && $this->isPhpSessionsValid()
+            && $this->getMissingFiles() === []
+            && $this->getNotWritingDirectories() === []
+        ;
     }
 
     /**
@@ -445,23 +434,136 @@ class UpgradeSelfCheck
     }
 
     /**
-     * Ask the core to run its tests, if available.
-     *
      * @return bool
      */
-    public function runPrestaShopCoreChecks()
+    public function isPhpVersionCompatible()
     {
-        if (!class_exists('ConfigurationTest')) {
+        if (!class_exists(ConfigurationTest::class)) {
             return true;
         }
 
-        $defaultTests = ConfigurationTest::check(ConfigurationTest::getDefaultTests());
-        foreach ($defaultTests as $testResult) {
-            if ($testResult !== 'ok') {
-                return false;
-            }
+        return (bool) ConfigurationTest::test_phpversion();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isApacheModRewriteEnabled()
+    {
+        if (class_exists(ConfigurationTest::class) && is_callable([ConfigurationTest::class, 'test_apache_mod_rewrite'])) {
+            return ConfigurationTest::test_apache_mod_rewrite();
         }
 
         return true;
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getNotLoadedPhpExtensions()
+    {
+        if (!class_exists(ConfigurationTest::class)) {
+            return [];
+        }
+        $extensions = [];
+        foreach ([
+            'curl', 'dom', 'fileinfo', 'gd', 'intl', 'json', 'mbstring', 'openssl', 'pdo_mysql', 'simplexml', 'zip',
+        ] as $extension) {
+            if (!ConfigurationTest::{'test_' . $extension}()) {
+                $extensions[] = $extension;
+            }
+        }
+
+        return $extensions;
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getNotExistsPhpFunctions()
+    {
+        if (!class_exists(ConfigurationTest::class)) {
+            return [];
+        }
+        $functions = [];
+        foreach ([
+            'fopen', 'fclose', 'fread', 'fwrite', 'rename', 'file_exists', 'unlink', 'rmdir', 'mkdir', 'getcwd',
+            'chdir', 'chmod',
+        ] as $function) {
+            if (!ConfigurationTest::test_system([$function])) {
+                $functions[] = $function;
+            }
+        }
+
+        return $functions;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isMemoryLimitValid()
+    {
+        if (class_exists(ConfigurationTest::class) && is_callable([ConfigurationTest::class, 'test_memory_limit'])) {
+            return ConfigurationTest::test_memory_limit();
+        }
+
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPhpFileUploadsConfigurationEnabled()
+    {
+        if (!class_exists(ConfigurationTest::class)) {
+            return true;
+        }
+
+        return (bool) ConfigurationTest::test_upload();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPhpSessionsValid()
+    {
+        if (!class_exists(ConfigurationTest::class)) {
+            return true;
+        }
+
+        return ConfigurationTest::test_sessions();
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getMissingFiles()
+    {
+        return ConfigurationTest::test_files(true);
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getNotWritingDirectories()
+    {
+        if (!class_exists(ConfigurationTest::class)) {
+            return [];
+        }
+
+        $tests = ConfigurationTest::getDefaultTests();
+
+        $directories = [];
+        foreach ([
+            'cache_dir', 'log_dir', 'img_dir', 'module_dir', 'theme_lang_dir', 'theme_pdf_lang_dir', 'theme_cache_dir',
+            'translations_dir', 'customizable_products_dir', 'virtual_products_dir', 'config_sf2_dir', 'config_dir',
+            'mails_dir', 'translations_sf2',
+        ] as $testKey) {
+            if (isset($tests[$testKey]) && !ConfigurationTest::{'test_' . $testKey}($tests[$testKey])) {
+                $directories[] = $tests[$testKey];
+            }
+        }
+
+        return $directories;
     }
 }
