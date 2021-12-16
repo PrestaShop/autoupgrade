@@ -39,13 +39,6 @@ class CoreUpgrader80 extends CoreUpgrader
     {
         parent::initConstants();
 
-        /*if (!file_exists(SETTINGS_FILE_PHP)) {
-            throw new UpgradeException($this->container->getTranslator()->trans('The app/config/parameters.php file was not found.', array(), 'Modules.Autoupgrade.Admin'));
-        }
-        if (!file_exists(SETTINGS_FILE_YML)) {
-            throw new UpgradeException($this->container->getTranslator()->trans('The app/config/parameters.yml file was not found.', array(), 'Modules.Autoupgrade.Admin'));
-        }*/
-
         // Container may be needed to run upgrade scripts
         $this->container->getSymfonyAdapter()->initAppKernel();
     }
