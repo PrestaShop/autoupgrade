@@ -320,14 +320,18 @@ function startProcess(type) {
 }
 
 function afterUpgradeNow(res) {
-  startProcess("upgrade");
-  $("#upgradeNow")
-    .unbind()
-    .replaceWith(
-      "<span id=\"upgradeNow\" class=\"button-autoupgrade\">"
-      + input.translation.upgradingPrestaShop
-      + " ...</span>"
-    );
+
+  $('#confirm-upgrade').modal()
+    .on('click', '#confirm-upgrade', function(e) {
+      startProcess("upgrade");
+      $("#upgradeNow")
+        .unbind()
+        .replaceWith(
+          "<span id=\"upgradeNow\" class=\"button-autoupgrade\">"
+          + input.translation.upgradingPrestaShop
+          + " ...</span>"
+        );
+    });
 }
 
 function afterUpgradeComplete(res) {

@@ -27,7 +27,7 @@
                     </p>
                 {% endif %}
             {% else %}
-                <p class="alert alert-warning">{{ 'You use a local archive, Please check the compatibility chart before update.'|trans }}</p>           
+                <p class="alert alert-warning">{{ 'You use a local archive, Please check the compatibility chart before update.'|trans }}</p>
             {% endif %}
             </p>
             <p>
@@ -62,6 +62,22 @@
                     <p>{{ 'To change this behavior, you need to manually edit your php files'|trans }}</p>
                 </div>
             {% endif %}
+            <div id="confirm-upgrade" class="modal fade">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title">{{ 'Are you sure you want to upgrade to %s ?'|trans([psVersionChosen]) }}</h4>
+                  </div>
+                  <div class="modal-body">
+                    <p>{{ 'Make sure that your PHP version is compatible with both your current PrestaShop version and the one you want to upgrade to.'|trans }}</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn">{{ 'cancel'|trans }}</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-primary" id="confirm-upgrade">{{ 'upgrade'|trans }}</button>
+                  </div>
+              </div>
+            </div>
+          </div>
         {% endif %}
         <br>
         <p>
