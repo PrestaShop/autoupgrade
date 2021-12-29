@@ -51,7 +51,7 @@ class RollbackForm
     public function render()
     {
         return $this->twig->render(
-            '@ModuleAutoUpgrade/block/rollbackForm.twig',
+            '@ModuleAutoUpgrade/block/rollbackForm.html.twig',
             array(
                 'availableBackups' => $this->backupFinder->getAvailableBackups(),
             )

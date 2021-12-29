@@ -12,13 +12,13 @@
 <div class="bootstrap" id="informationBlock">
     <div class="panel">
         <div class="panel-heading">
-            {{ 'Welcome!'|trans }}
+            {{ 'Welcome!'|trans({}, 'Modules.Autoupgrade.Admin') }}
         </div>
         <p>
-            {{ 'Upgrade your store to benefit from the latest improvements, bug fixes and security patches.'|trans }}
+            {{ 'Upgrade your store to benefit from the latest improvements, bug fixes and security patches.'|trans({}, 'Modules.Autoupgrade.Admin') }}
         </p>
         <p class="alert alert-warning">
-            {{ 'Upgrading your store on your own can be risky. If you don\'t feel comfortable doing the upgrade yourself, many agencies and developers in your area may also provide this kind of service.'|trans }}
+            {{ 'Upgrading your store on your own can be risky. If you don\'t feel comfortable doing the upgrade yourself, many agencies and developers in your area may also provide this kind of service.'|trans({}, 'Modules.Autoupgrade.Admin') }}
         </p>
     </div>
 </div>
@@ -27,8 +27,8 @@
 {{ currentConfig|raw }}
 {{ upgradeButtonBlock|raw }}
 
-{% include '@ModuleAutoUpgrade/block/versionComparison.twig' %}
-{% include '@ModuleAutoUpgrade/block/activityLog.twig' %}
+{% include '@ModuleAutoUpgrade/block/versionComparison.html.twig' %}
+{% include '@ModuleAutoUpgrade/block/activityLog.html.twig' %}
 
 {{ rollbackForm|raw }}
 

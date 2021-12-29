@@ -131,6 +131,6 @@ class UpgradeChecklist
             'isPrestaShopReady' => $this->selfCheck->isPrestaShopReady(),
         );
 
-        return $this->twig->render('@ModuleAutoUpgrade/block/checklist.twig', $data);
+        return $this->twig->render('@ModuleAutoUpgrade/block/checklist.html.twig', $data);
     }
 }

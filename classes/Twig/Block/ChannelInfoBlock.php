@@ -76,7 +76,7 @@ class ChannelInfoBlock
         }
 
         return $this->twig->render(
-            '@ModuleAutoUpgrade/block/channelInfo.twig',
+            '@ModuleAutoUpgrade/block/channelInfo.html.twig',
             array(
                 'upgradeInfo' => $upgradeInfo,
             )

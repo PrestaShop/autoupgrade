@@ -177,7 +177,7 @@ class UpgradePage
         $errMessageData = $this->getErrorMessage();
         if (!empty($errMessageData)) {
             return $twig
-                ->render('@ModuleAutoUpgrade:error.twig', $errMessageData);
+                ->render('@ModuleAutoUpgrade:error.html.twig', $errMessageData);
         }
 
         $templateData = array(
@@ -193,7 +193,7 @@ class UpgradePage
             'token' => $this->token,
         );
 
-        return $twig->render('@ModuleAutoUpgrade/main.twig', $templateData);
+        return $twig->render('@ModuleAutoUpgrade/main.html.twig', $templateData);
     }
 
     /**

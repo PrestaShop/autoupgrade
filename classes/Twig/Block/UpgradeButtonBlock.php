@@ -185,7 +185,7 @@ class UpgradeButtonBlock
             'phpVersion' => PHP_VERSION,
         );
 
-        return $this->twig->render('@ModuleAutoUpgrade/block/upgradeButtonBlock.twig', $data);
+        return $this->twig->render('@ModuleAutoUpgrade/block/upgradeButtonBlock.html.twig', $data);
     }
 
     /**
