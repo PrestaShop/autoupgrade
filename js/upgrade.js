@@ -323,7 +323,7 @@ function afterUpgradeNow(res) {
   $('#confirm-upgrade').modal()
     .on('click', '#confirm-upgrade-btn', function(e) {
       startProcess('upgrade');
-      $("#upgradeNow")
+      $('#upgradeNow')
         .unbind()
         .replaceWith(
           '<span id="upgradeNow" class="button-autoupgrade">'
