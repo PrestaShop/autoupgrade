@@ -141,7 +141,7 @@ class UpgradeButtonBlock
         $skipActions = [];
 
         // decide to display "Start Upgrade" or not
-        if ($this->selfCheck->isOkForUpgrade() && $versionCompare < 0 && $phpIsCompatible ) {
+        if ($this->selfCheck->isOkForUpgrade() && $versionCompare < 0 && $phpIsCompatible) {
             $showUpgradeButton = true;
             if (!in_array($channel, ['archive', 'directory'])) {
                 if ($channel == 'private') {
