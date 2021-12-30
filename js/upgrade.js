@@ -323,7 +323,7 @@ function afterUpgradeNow(res) {
 
   $('#confirm-upgrade').modal()
     .on('click', '#confirm-upgrade', function(e) {
-      startProcess("upgrade");
+      startProcess('upgrade');
       $("#upgradeNow")
         .unbind()
         .replaceWith(
