@@ -320,9 +320,8 @@ function startProcess(type) {
 }
 
 function afterUpgradeNow(res) {
-
   $('#confirm-upgrade').modal()
-    .on('click', function(e) {
+    .on('click', '#confirm-upgrade-btn', function(e) {
       startProcess('upgrade');
       $("#upgradeNow")
         .unbind()
