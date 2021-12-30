@@ -46,8 +46,8 @@
 .panel-heading {text-transform: uppercase;}
 .required {color: #CC0000}
 .support-yes, .example-yes {text-align: center;}
-td {padding: 0.5rem 0.8rem;font-size: 1.5em;}
-th {background: #f7f7f7;padding: 0.5rem 0.8rem;font-size: 1.5em;}
+table.upgrade-compat-table td {padding: 0.5rem 0.8rem;font-size: 1.5em;}
+table.upgrade-compat-table th {background: #f7f7f7;padding: 0.5rem 0.8rem;font-size: 1.5em;}
 .target {border-top: 1px dashed #70b580;border-bottom: 1px dashed #70b580;}
 .target-col {border-left: 1px dashed #70b580;border-right: 1px dashed #70b580;}
 .targeted {background-color: #70b580 !important;}
