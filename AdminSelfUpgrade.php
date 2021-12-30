@@ -26,13 +26,13 @@
  */
 use PrestaShop\Module\AutoUpgrade\AjaxResponse;
 use PrestaShop\Module\AutoUpgrade\BackupFinder;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradePage;
 use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 
 require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/vendor/autoload.php';
 
@@ -194,47 +194,80 @@ class AdminSelfUpgrade extends AdminController
     {
         $this->_fieldsBackupOptions = [
             'PS_AUTOUP_BACKUP' => [
-                'title' => $this->trans('Back up my files and database', [], 'Modules.Autoupgrade.Admin'), 'cast' => 'intval', 'validation' => 'isBool', 'defaultValue' => '1',
-                'type' => 'bool', 'desc' => $this->trans('Automatically back up your database and files in order to restore your shop if needed. This is experimental: you should still perform your own manual backup for safety.', [], 'Modules.Autoupgrade.Admin'),
+                'title' => $this->trans('Back up my files and database', [], 'Modules.Autoupgrade.Admin'),
+                'cast' => 'intval',
+                'validation' => 'isBool',
+                'defaultValue' => '1',
+                'type' => 'bool',
+                'desc' => $this->trans('Automatically back up your database and files in order to restore your shop if needed. This is experimental: you should still perform your own manual backup for safety.', [], 'Modules.Autoupgrade.Admin'),
             ],
             'PS_AUTOUP_KEEP_IMAGES' => [
-                'title' => $this->trans('Back up my images', [], 'Modules.Autoupgrade.Admin'), 'cast' => 'intval', 'validation' => 'isBool', 'defaultValue' => '1',
-                'type' => 'bool', 'desc' => $this->trans('To save time, you can decide not to back your images up. In any case, always make sure you did back them up manually.', [], 'Modules.Autoupgrade.Admin'),
+                'title' => $this->trans('Back up my images', [], 'Modules.Autoupgrade.Admin'),
+                'cast' => 'intval',
+                'validation' => 'isBool',
+                'defaultValue' => '1',
+                'type' => 'bool',
+                'desc' => $this->trans('To save time, you can decide not to back your images up. In any case, always make sure you did back them up manually.', [], 'Modules.Autoupgrade.Admin'),
             ],
         ];
         $this->_fieldsUpgradeOptions = [
             'PS_AUTOUP_PERFORMANCE' => [
-                'title' => $this->trans('Server performance', [], 'Modules.Autoupgrade.Admin'), 'cast' => 'intval', 'validation' => 'isInt', 'defaultValue' => '1',
-                'type' => 'select', 'desc' => $this->trans('Unless you are using a dedicated server, select "Low".', [], 'Modules.Autoupgrade.Admin') . '<br />' .
-                $this->trans('A high value can cause the upgrade to fail if your server is not powerful enough to process the upgrade tasks in a short amount of time.', [], 'Modules.Autoupgrade.Admin'),
+                'title' => $this->trans('Server performance', [], 'Modules.Autoupgrade.Admin'),
+                'cast' => 'intval',
+                'validation' => 'isInt',
+                'defaultValue' => '1',
+                'type' => 'select',
+                'desc' => $this->trans('Unless you are using a dedicated server, select "Low".', [], 'Modules.Autoupgrade.Admin') . '<br />' .
+                    $this->trans('A high value can cause the upgrade to fail if your server is not powerful enough to process the upgrade tasks in a short amount of time.', [], 'Modules.Autoupgrade.Admin'),
                 'choices' => [1 => $this->trans('Low (recommended)', [], 'Modules.Autoupgrade.Admin'), 2 => $this->trans('Medium', [], 'Modules.Autoupgrade.Admin'), 3 => $this->trans('High', [], 'Modules.Autoupgrade.Admin')],
             ],
             'PS_AUTOUP_CUSTOM_MOD_DESACT' => [
-                'title' => $this->trans('Disable non-native modules', [], 'Modules.Autoupgrade.Admin'), 'cast' => 'intval', 'validation' => 'isBool',
-                'type' => 'bool', 'desc' => $this->trans('As non-native modules can experience some compatibility issues, we recommend to disable them by default.', [], 'Modules.Autoupgrade.Admin') . '<br />' .
-                $this->trans('Keeping them enabled might prevent you from loading the "Modules" page properly after the upgrade.', [], 'Modules.Autoupgrade.Admin'),
+                'title' => $this->trans('Disable non-native modules', [], 'Modules.Autoupgrade.Admin'),
+                'cast' => 'intval',
+                'validation' => 'isBool',
+                'type' => 'bool',
+                'desc' => $this->trans('As non-native modules can experience some compatibility issues, we recommend to disable them by default.', [], 'Modules.Autoupgrade.Admin') . '<br />' .
+                    $this->trans('Keeping them enabled might prevent you from loading the "Modules" page properly after the upgrade.', [], 'Modules.Autoupgrade.Admin'),
             ],
-            'PS_DISABLE_OVERRIDES' => array(
-                'title' => $this->trans('Disable all overrides', [], 'Modules.Autoupgrade.Admin'), 'cast' => 'intval', 'validation' => 'isBool',
-                'type' => 'bool', 'desc' => $this->trans('Enable or disable all classes and controllers overrides.', [], 'Modules.Autoupgrade.Admin'),
-            ),
+            'PS_DISABLE_OVERRIDES' => [
+                'title' => $this->trans('Disable all overrides', [], 'Modules.Autoupgrade.Admin'),
+                'cast' => 'intval',
+                'validation' => 'isBool',
+                'type' => 'bool',
+                'desc' => $this->trans('Enable or disable all classes and controllers overrides.', [], 'Modules.Autoupgrade.Admin'),
+            ],
             'PS_AUTOUP_UPDATE_DEFAULT_THEME' => [
-                'title' => $this->trans('Upgrade the default theme', [], 'Modules.Autoupgrade.Admin'), 'cast' => 'intval', 'validation' => 'isBool', 'defaultValue' => '1',
-                'type' => 'bool', 'desc' => $this->trans('If you customized the default PrestaShop theme in its folder (folder name "classic" in 1.7), enabling this option will lose your modifications.', [], 'Modules.Autoupgrade.Admin') . '<br />'
-                . $this->trans('If you are using your own theme, enabling this option will simply update the default theme files, and your own theme will be safe.', [], 'Modules.Autoupgrade.Admin'),
-            ],
-            'PS_AUTOUP_CHANGE_DEFAULT_THEME' => [
-                'title' => $this->trans('Switch to the default theme', [], 'Modules.Autoupgrade.Admin'), 'cast' => 'intval', 'validation' => 'isBool', 'defaultValue' => '0',
-                'type' => 'bool', 'desc' => $this->trans('This will change your theme: your shop will then use the default theme of the version of PrestaShop you are upgrading to.', [], 'Modules.Autoupgrade.Admin'),
+                'title' => $this->trans('Upgrade the default theme', [], 'Modules.Autoupgrade.Admin'),
+                'cast' => 'intval',
+                'validation' => 'isBool',
+                'defaultValue' => '1',
+                'type' => 'bool',
+                'desc' => $this->trans('If you customized the default PrestaShop theme in its folder (folder name "classic" in 1.7), enabling this option will lose your modifications.', [], 'Modules.Autoupgrade.Admin') . '<br />'
+                    . $this->trans('If you are using your own theme, enabling this option will simply update the default theme files, and your own theme will be safe.', [], 'Modules.Autoupgrade.Admin'),
             ],
             'PS_AUTOUP_UPDATE_RTL_FILES' => [
-                'title' => $this->trans('Regenerate RTL stylesheet', [], 'Modules.Autoupgrade.Admin'), 'cast' => 'intval', 'validation' => 'isBool', 'defaultValue' => '1',
-                'type' => 'bool', 'desc' => $this->trans('If enabled, any RTL-specific files that you might have added to all your themes might be deleted by the created stylesheet.', [], 'Modules.Autoupgrade.Admin'),
+                'title' => $this->trans('Regenerate RTL stylesheet', [], 'Modules.Autoupgrade.Admin'),
+                'cast' => 'intval',
+                'validation' => 'isBool',
+                'defaultValue' => '1',
+                'type' => 'bool',
+                'desc' => $this->trans('If enabled, any RTL-specific files that you might have added to all your themes might be deleted by the created stylesheet.', [], 'Modules.Autoupgrade.Admin'),
+            ],
+            'PS_AUTOUP_CHANGE_DEFAULT_THEME' => [
+                'title' => $this->trans('Switch to the default theme', [], 'Modules.Autoupgrade.Admin'),
+                'cast' => 'intval',
+                'validation' => 'isBool',
+                'defaultValue' => '0',
+                'type' => 'bool',
+                'desc' => $this->trans('This will change your theme: your shop will then use the default theme of the version of PrestaShop you are upgrading to.', [], 'Modules.Autoupgrade.Admin'),
             ],
             'PS_AUTOUP_KEEP_MAILS' => [
-                'title' => $this->trans('Keep the customized email templates', [], 'Modules.Autoupgrade.Admin'), 'cast' => 'intval', 'validation' => 'isBool',
-                'type' => 'bool', 'desc' => $this->trans('This will not upgrade the default PrestaShop e-mails.', [], 'Modules.Autoupgrade.Admin') . '<br />'
-                . $this->trans('If you customized the default PrestaShop e-mail templates, enabling this option will keep your modifications.', [], 'Modules.Autoupgrade.Admin'),
+                'title' => $this->trans('Keep the customized email templates', [], 'Modules.Autoupgrade.Admin'),
+                'cast' => 'intval',
+                'validation' => 'isBool',
+                'type' => 'bool',
+                'desc' => $this->trans('This will not upgrade the default PrestaShop e-mails.', [], 'Modules.Autoupgrade.Admin') . '<br />'
+                    . $this->trans('If you customized the default PrestaShop e-mail templates, enabling this option will keep your modifications.', [], 'Modules.Autoupgrade.Admin'),
             ],
         ];
     }
@@ -398,10 +431,6 @@ class AdminSelfUpgrade extends AdminController
         parent::postProcess();
     }
 
-    /**
-     * @param UpgradeConfiguration $fileConfig
-     * @return array
-     */
     private function extractFieldsToBeSavedInDB(UpgradeConfiguration $fileConfig): array
     {
         $DBConfig = [];
@@ -419,11 +448,8 @@ class AdminSelfUpgrade extends AdminController
         ];
     }
 
-
     /**
      * Process configuration values to be stored in database
-     *
-     * @param array $config
      */
     private function processDatabaseConfigurationFields(array $config): void
     {
@@ -520,7 +546,6 @@ class AdminSelfUpgrade extends AdminController
      * Making them available for PS 1.6 as well.
      *
      * @param string $id
-     * @param array $parameters
      * @param string $domain
      * @param string $locale
      */
