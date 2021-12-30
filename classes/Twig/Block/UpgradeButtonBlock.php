@@ -191,8 +191,7 @@ class UpgradeButtonBlock
             'downloadPath' => $this->downloadPath . DIRECTORY_SEPARATOR,
             'directoryVersionNumber' => $this->config->get('directory.version_num'),
             'manualMode' => $this->manualMode,
-            'psChosenVersionCompatible' =>  $phpChosenVersionCompatible,
-            'phpVersion' => substr(PHP_VERSION, 0, 6),
+            'phpVersion' => PHP_VERSION,
             'phpCompatibleVersions' => $phpCompatibleVersions,
             'psVersionChosen' => $psVersionChosen,
         ];
