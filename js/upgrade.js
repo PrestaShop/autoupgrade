@@ -328,7 +328,7 @@ function afterUpgradeNow(res) {
         .replaceWith(
           '<span id="upgradeNow" class="button-autoupgrade">'
           + input.translation.upgradingPrestaShop
-          + " ...</span>"
+          + ' ...</span>'
         );
     });
 }
