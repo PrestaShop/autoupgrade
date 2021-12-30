@@ -715,10 +715,6 @@ class UpgradeSelfCheck
         $phpCompatibleVersions = $this->phpCompatibleVersions();
 
         $phpVersion = substr(PHP_VERSION,0,3);
-        if (version_compare($phpVersion, $phpCompatibleVersions[0], '>=') && version_compare($phpVersion, $phpCompatibleVersions[1], '<=')) {
-            return true;
-        }
-
-        return false;
+        return version_compare($phpVersion, $phpCompatibleVersions[0], '>=') && version_compare($phpVersion, $phpCompatibleVersions[1], '<=');
     }
 }
