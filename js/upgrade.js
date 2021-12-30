@@ -327,7 +327,7 @@ function afterUpgradeNow(res) {
       $("#upgradeNow")
         .unbind()
         .replaceWith(
-          "<span id=\"upgradeNow\" class=\"button-autoupgrade\">"
+          '<span id="upgradeNow" class="button-autoupgrade">'
           + input.translation.upgradingPrestaShop
           + " ...</span>"
         );
