@@ -124,5 +124,5 @@ UPDATE `PREFIX_tab` SET `wording`='More', `wording_domain`='Admin.Navigation.Men
 UPDATE `PREFIX_tab` SET `wording`='Link List', `wording_domain`='Modules.Linklist.Admin' WHERE `class_name`='AdminLinkWidget' AND COALESCE(`wording`, '') = '' AND COALESCE(`wording_domain`, '') = '';
 UPDATE `PREFIX_tab` SET `wording`='Theme & Logo', `wording_domain`='Admin.Navigation.Menu' WHERE `class_name`='AdminThemesParent' AND COALESCE(`wording`, '') = '' AND COALESCE(`wording_domain`, '') = '';
 
-SET @ps_logs_email_receivers = (SELECT `value` FROM `PREFIX_configuration` WHERE `name` = 'PS_SHOP_EMAIL');
-INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES ('PS_LOGS_EMAIL_RECEIVERS', @ps_logs_email_receivers, NOW(), NOW());
+INSERT IGNORE INTO `PREFIX_configuration` (`id_shop_group`, `id_shop`, `name`, `value`, `date_add`, `date_upd`)
+SELECT `id_shop_group`, `id_shop`, 'PS_LOGS_EMAIL_RECEIVERS', `value`, `date_add`, `date_upd` FROM `PREFIX_configuration` WHERE `name` = 'PS_SHOP_EMAIL'
