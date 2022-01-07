@@ -29,6 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade;
 
 use Configuration;
 use ConfigurationTest;
+use Shop;
 
 class UpgradeSelfCheck
 {
@@ -414,9 +415,28 @@ class UpgradeSelfCheck
      */
     private function checkShopIsDeactivated()
     {
-        return
-            !Configuration::get('PS_SHOP_ENABLE')
-            || (isset($_SERVER['HTTP_HOST']) && in_array($_SERVER['HTTP_HOST'], ['127.0.0.1', 'localhost', '[::1]']));
+        // always return true in localhost
+        if (isset($_SERVER['HTTP_HOST']) && in_array($_SERVER['HTTP_HOST'], ['127.0.0.1', 'localhost', '[::1]'])) {
+            return true;
+        }
+
+        // if multistore is not active, just check if shop is enabled and has a maintenance IP
+        if (!Shop::isFeatureActive()) {
+            return  !(Configuration::get('PS_SHOP_ENABLE') && Configuration::get('PS_MAINTENANCE_IP'));
+        }
+
+        // multistore is active: all shops must be deactivated and have a maintenance IP, otherwise return false
+        foreach (Shop::getCompleteListOfShopsID() as $shopId) {
+            $shop = new Shop((int) $shopId);
+            $isEnabled = Configuration::get('PS_SHOP_ENABLE', null, (int) $shop->getGroup()->id, (int) $shopId);
+            $maintenanceIp = Configuration::get('PS_MAINTENANCE_IP', null, (int) $shop->getGroup()->id, (int) $shopId);
+
+            if ($isEnabled || !$maintenanceIp) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
