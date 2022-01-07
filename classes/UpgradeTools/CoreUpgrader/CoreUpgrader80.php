@@ -90,8 +90,8 @@ class CoreUpgrader80 extends CoreUpgrader
                 $mailTheme,
                 $lang_pack['locale'],
                 true,
-                $frontThemeMailsFolder,
-                $frontThemeModulesFolder
+                is_dir($frontThemeMailsFolder) ? $frontThemeMailsFolder : '',
+                is_dir($frontThemeModulesFolder) ? $frontThemeModulesFolder : ''
             );
             /** @var CommandBusInterface $commandBus */
             $commandBus = $this->container->getModuleAdapter()->getCommandBus();
