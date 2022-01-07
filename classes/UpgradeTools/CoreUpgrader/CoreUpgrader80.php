@@ -94,7 +94,7 @@ class CoreUpgrader80 extends CoreUpgrader
                 $frontThemeModulesFolder
             );
             /** @var CommandBusInterface $commandBus */
-            $commandBus = $this->container->get('prestashop.core.command_bus');
+            $commandBus = $this->container->getModuleAdapter()->getCommandBus();
 
             try {
                 $commandBus->handle($generateCommand);
