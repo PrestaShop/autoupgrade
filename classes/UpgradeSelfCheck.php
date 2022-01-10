@@ -428,8 +428,9 @@ class UpgradeSelfCheck
         // multistore is active: all shops must be deactivated and have a maintenance IP, otherwise return false
         foreach (Shop::getCompleteListOfShopsID() as $shopId) {
             $shop = new Shop((int) $shopId);
-            $isEnabled = Configuration::get('PS_SHOP_ENABLE', null, (int) $shop->getGroup()->id, (int) $shopId);
-            $maintenanceIp = Configuration::get('PS_MAINTENANCE_IP', null, (int) $shop->getGroup()->id, (int) $shopId);
+            $groupId = (int) $shop->getGroup()->id;
+            $isEnabled = Configuration::get('PS_SHOP_ENABLE', null, $groupId, (int) $shopId);
+            $maintenanceIp = Configuration::get('PS_MAINTENANCE_IP', null, $groupId, (int) $shopId);
 
             if ($isEnabled || !$maintenanceIp) {
                 return false;
