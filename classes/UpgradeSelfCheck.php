@@ -714,7 +714,10 @@ class UpgradeSelfCheck
     {
         $phpCompatibleVersions = $this->phpCompatibleVersions();
 
-        $phpVersion = substr(PHP_VERSION,0,3);
+        // we only want the first two digits of php version (ex: 7.3.29 becomes 7.3)
+        $phpVersionNumbers = explode('.', PHP_VERSION);
+        $phpVersion = sprintf('%s.%s', $phpVersionNumbers[0], $phpVersionNumbers[1]);
+
         return version_compare($phpVersion, $phpCompatibleVersions[0], '>=') && version_compare($phpVersion, $phpCompatibleVersions[1], '<=');
     }
 }
