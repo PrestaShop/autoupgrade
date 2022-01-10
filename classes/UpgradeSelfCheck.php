@@ -684,7 +684,7 @@ class UpgradeSelfCheck
             // nor the length of the version in self::PHP_PS_VERSIONS
             // so we loop through versions in self::PHP_PS_VERSIONS and check that our shop version is greater
             // or equal to the version from previous iteration, and inferior to the version from current iteration
-            // (because php versions can only change for major or mineur prestashop versions, and compare_version
+            // (because php versions can only change for major or minor prestashop versions, and compare_version
             // doesn't consider 1.7.7 and 1.7.7.1 as being equal, there's no notion of precision)
             if (version_compare($this->upgrader->version_num, $previousShopVersion, '>=')
                 && version_compare($this->upgrader->version_num, $prestashopVersion, '<')) {
