@@ -149,7 +149,7 @@ class UpgradeOptionsForm
 
             'PS_AUTOUP_UPDATE_RTL_FILES' => array(
                 'title' => $translator->trans(
-                    'Upgrade the RTL files',
+                    'Regenerate RTL stylesheet',
                     array(),
                     $translationDomain
                 ),
@@ -158,15 +158,10 @@ class UpgradeOptionsForm
                 'defaultValue' => '1',
                 'type' => 'bool',
                 'desc' => $translator->trans(
-                        'If you customized the default PrestaShop theme in its folder (folder name "classic" in 1.7), enabling this option will lose your modifications.',
-                        array(),
-                        $translationDomain
-                    ) . '<br />'
-                    . $translator->trans(
-                        'If you are using your own theme, enabling this option will simply update the default theme files, and your own theme will be safe.',
-                        array(),
-                        $translationDomain
-                    ),
+                    'If enabled, any RTL-specific files that you might have added to all your themes might be deleted by the created stylesheet.',
+                    array(),
+                    $translationDomain
+                ),
             ),
 
             'PS_AUTOUP_KEEP_MAILS' => array(

@@ -128,6 +128,10 @@ class CoreUpgrader17 extends CoreUpgrader
 
     protected function updateRTLFiles()
     {
+        if (!class_exists(AdaptThemeToRTLLanguagesCommand::class)) {
+            return;
+        }
+
         if (!$this->container->getUpgradeConfiguration()->shouldUpdateRTLFiles()) {
             return;
         }

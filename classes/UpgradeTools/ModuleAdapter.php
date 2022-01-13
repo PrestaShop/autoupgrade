@@ -83,7 +83,7 @@ class ModuleAdapter
     }
 
     /**
-     * Available only from 1.7. Can't be called on PS 1.6.
+     * Available only since 1.7.6.0 Can't be called on PS 1.6.
      *
      * @return PrestaShop\PrestaShop\Core\CommandBus\TacticianCommandBusAdapter
      */

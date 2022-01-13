@@ -157,7 +157,7 @@ class UpgradeConfiguration extends ArrayCollection
     }
 
     /**
-     * @return bool True if we are allowed to update RTL files
+     * @return bool True if we should update RTL files
      */
     public function shouldUpdateRTLFiles()
     {
