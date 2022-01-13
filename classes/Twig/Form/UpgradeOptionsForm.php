@@ -147,6 +147,28 @@ class UpgradeOptionsForm
                 ),
             ),
 
+            'PS_AUTOUP_UPDATE_RTL_FILES' => array(
+                'title' => $translator->trans(
+                    'Upgrade the RTL files',
+                    array(),
+                    $translationDomain
+                ),
+                'cast' => 'intval',
+                'validation' => 'isBool',
+                'defaultValue' => '1',
+                'type' => 'bool',
+                'desc' => $translator->trans(
+                        'If you customized the default PrestaShop theme in its folder (folder name "classic" in 1.7), enabling this option will lose your modifications.',
+                        array(),
+                        $translationDomain
+                    ) . '<br />'
+                    . $translator->trans(
+                        'If you are using your own theme, enabling this option will simply update the default theme files, and your own theme will be safe.',
+                        array(),
+                        $translationDomain
+                    ),
+            ),
+
             'PS_AUTOUP_KEEP_MAILS' => array(
                 'title' => $translator->trans(
                     'Keep the customized email templates',
