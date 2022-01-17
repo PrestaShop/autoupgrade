@@ -154,5 +154,6 @@ class UpgradeFileNames
         'FILES_FROM_ARCHIVE_LIST',
         'MAILS_CUSTOM_LIST',
         'TRANSLATION_FILES_CUSTOM_LIST',
+        'MODULES_TO_UPGRADE_LIST',
     ];
 }

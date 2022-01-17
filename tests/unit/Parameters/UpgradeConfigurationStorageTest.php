@@ -27,7 +27,7 @@ use PHPUnit\Framework\TestCase;
 use PrestaShop\Module\AutoUpgrade\Parameters\FileConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfigurationStorage;
 
-class UpgradeConfigurationTest extends TestCase
+class UpgradeConfigurationStorageTest extends TestCase
 {
     /**
      * This method only initialize the configuration from empty data saves.

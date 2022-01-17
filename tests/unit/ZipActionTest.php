@@ -28,7 +28,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 class ZipActionTest extends TestCase
 {
-    const ZIP_CONTENT_PATH = __DIR__ . '/fixtures/ArchiveExample.zip';
+    const ZIP_CONTENT_PATH = __DIR__ . '/../fixtures/ArchiveExample.zip';
 
     private $container;
     private $contentExcepted;

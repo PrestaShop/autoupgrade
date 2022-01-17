@@ -116,10 +116,11 @@ class ModuleAdapter
      * list modules to upgrade and save them in a serialized array in $this->toUpgradeModuleList.
      *
      * @param array $modulesFromAddons Modules available on the marketplace for download
+     * @param array<string, string> $modulesVersions
      *
      * @return array Module available on the local filesystem and on the marketplace
      */
-    public function listModulesToUpgrade(array $modulesFromAddons)
+    public function listModulesToUpgrade(array $modulesFromAddons, array $modulesVersions)
     {
         $list = [];
         $dir = $this->modulesPath;
@@ -129,17 +130,37 @@ class ModuleAdapter
         }
 
         foreach (scandir($dir) as $module_name) {
-            if (is_file($dir . DIRECTORY_SEPARATOR . $module_name)) {
+            // We don't update autoupgrade module
+            if ($module_name === 'autoupgrade') {
                 continue;
             }
-
+            // We have a file modules/mymodule
+            if (is_file($dir . $module_name)) {
+                continue;
+            }
+            // We don't have a file modules/mymodule/config.xml
+            if (!is_file($dir . $module_name . DIRECTORY_SEPARATOR . 'config.xml')) {
+                continue;
+            }
+            // We don't have a file modules/mymodule/mymodule.php
             if (!is_file($dir . $module_name . DIRECTORY_SEPARATOR . $module_name . '.php')) {
                 continue;
             }
             $id_addons = array_search($module_name, $modulesFromAddons);
-            if (false !== $id_addons && $module_name !== 'autoupgrade') {
-                $list[] = ['id' => $id_addons, 'name' => $module_name];
+            // We don't find the module on Addons
+            if (false === $id_addons) {
+                continue;
             }
+            $configXML = file_get_contents($dir . $module_name . DIRECTORY_SEPARATOR . 'config.xml');
+            $moduleXML = simplexml_load_string($configXML);
+            // The module installed has a higher version than this available on Addons
+            if (version_compare((string) $moduleXML->version, $modulesVersions[$id_addons]) >= 0) {
+                continue;
+            }
+            $list[$module_name] = [
+                'id' => $id_addons,
+                'name' => $module_name,
+            ];
         }
 
         return $list;
@@ -155,61 +176,51 @@ class ModuleAdapter
     {
         $zip_fullpath = $this->tempPath . DIRECTORY_SEPARATOR . $name . '.zip';
 
-        $addons_url = 'api.addons.prestashop.com';
-        $protocolsList = ['https://' => 443, 'http://' => 80];
-        if (!extension_loaded('openssl')) {
-            unset($protocolsList['https://']);
-        } else {
-            unset($protocolsList['http://']);
-        }
-
-        $postData = 'version=' . $this->upgradeVersion . '&method=module&id_module=' . (int) $id;
+        $addons_url = extension_loaded('openssl')
+            ? 'https://api.addons.prestashop.com'
+            : 'http://api.addons.prestashop.com';
 
         // Make the request
-        $opts = [
+        $context = stream_context_create([
             'http' => [
                 'method' => 'POST',
-                'content' => $postData,
+                'content' => 'version=' . $this->upgradeVersion . '&method=module&id_module=' . (int) $id,
                 'header' => 'Content-type: application/x-www-form-urlencoded',
                 'timeout' => 10,
             ],
-        ];
-        $context = stream_context_create($opts);
-        foreach ($protocolsList as $protocol => $port) {
-            // file_get_contents can return false if https is not supported (or warning)
-            $content = Tools14::file_get_contents($protocol . $addons_url, false, $context);
-            if ($content == false || substr($content, 5) == '<?xml') {
-                continue;
-            }
+        ]);
 
-            if (empty($content)) {
-                $msg = '<strong>' . $this->translator->trans('[ERROR] No response from Addons server.', [], 'Modules.Autoupgrade.Admin') . '</strong>';
-                throw new UpgradeException($msg);
-            }
-
-            if (false === (bool) file_put_contents($zip_fullpath, $content)) {
-                $msg = '<strong>' . $this->translator->trans('[ERROR] Unable to write module %s\'s zip file in temporary directory.', [$name], 'Modules.Autoupgrade.Admin') . '</strong>';
-                throw new UpgradeException($msg);
-            }
-
-            if (filesize($zip_fullpath) <= 300) {
-                unlink($zip_fullpath);
-            }
-            // unzip in modules/[mod name] old files will be conserved
-            if (!$this->zipAction->extract($zip_fullpath, $this->modulesPath)) {
-                throw (new UpgradeException('<strong>' . $this->translator->trans('[WARNING] Error when trying to extract module %s.', [$name], 'Modules.Autoupgrade.Admin') . '</strong>'))->setSeverity(UpgradeException::SEVERITY_WARNING);
-            }
-            if (file_exists($zip_fullpath)) {
-                unlink($zip_fullpath);
-            }
-
-            // Only 1.7 step
-            if (version_compare($this->upgradeVersion, '1.7.0.0', '>=')
-                && !$this->doUpgradeModule($name)) {
-                throw (new UpgradeException('<strong>' . $this->translator->trans('[WARNING] Error when trying to upgrade module %s.', [$name], 'Modules.Autoupgrade.Admin') . '</strong>'))->setSeverity(UpgradeException::SEVERITY_WARNING)->setQuickInfos(\Module::getInstanceByName($name)->getErrors());
-            }
-
+        // file_get_contents can return false if https is not supported (or warning)
+        $content = Tools14::file_get_contents($addons_url, false, $context);
+        if ($content == false || substr($content, 5) == '<?xml') {
             return;
+        }
+
+        if (empty($content)) {
+            $msg = '<strong>' . $this->translator->trans('[ERROR] No response from Addons server.', [], 'Modules.Autoupgrade.Admin') . '</strong>';
+            throw new UpgradeException($msg);
+        }
+
+        if (false === (bool) file_put_contents($zip_fullpath, $content)) {
+            $msg = '<strong>' . $this->translator->trans('[ERROR] Unable to write module %s\'s zip file in temporary directory.', [$name], 'Modules.Autoupgrade.Admin') . '</strong>';
+            throw new UpgradeException($msg);
+        }
+
+        if (filesize($zip_fullpath) <= 300) {
+            unlink($zip_fullpath);
+        }
+        // unzip in modules/[mod name] old files will be conserved
+        if (!$this->zipAction->extract($zip_fullpath, $this->modulesPath)) {
+            throw (new UpgradeException('<strong>' . $this->translator->trans('[WARNING] Error when trying to extract module %s.', [$name], 'Modules.Autoupgrade.Admin') . '</strong>'))->setSeverity(UpgradeException::SEVERITY_WARNING);
+        }
+        if (file_exists($zip_fullpath)) {
+            unlink($zip_fullpath);
+        }
+
+        // Only 1.7 step
+        if (version_compare($this->upgradeVersion, '1.7.0.0', '>=')
+            && !$this->doUpgradeModule($name)) {
+            throw (new UpgradeException('<strong>' . $this->translator->trans('[WARNING] Error when trying to upgrade module %s.', [$name], 'Modules.Autoupgrade.Admin') . '</strong>'))->setSeverity(UpgradeException::SEVERITY_WARNING)->setQuickInfos(\Module::getInstanceByName($name)->getErrors());
         }
     }
 
