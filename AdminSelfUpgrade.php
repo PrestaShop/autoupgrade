@@ -72,6 +72,7 @@ class AdminSelfUpgrade extends AdminController
     public $keepImages;
     public $updateDefaultTheme;
     public $changeToDefaultTheme;
+    public $updateRTLFiles;
     public $keepMails;
     public $manualMode;
     public $deactivateCustomModule;
@@ -207,6 +208,10 @@ class AdminSelfUpgrade extends AdminController
                 'title' => $this->trans('Switch to the default theme', array(), 'Modules.Autoupgrade.Admin'), 'cast' => 'intval', 'validation' => 'isBool', 'defaultValue' => '0',
                 'type' => 'bool', 'desc' => $this->trans('This will change your theme: your shop will then use the default theme of the version of PrestaShop you are upgrading to.', array(), 'Modules.Autoupgrade.Admin'),
             ),
+            'PS_AUTOUP_UPDATE_RTL_FILES' => array(
+                'title' => $this->trans('Regenerate RTL stylesheet', array(), 'Modules.Autoupgrade.Admin'), 'cast' => 'intval', 'validation' => 'isBool', 'defaultValue' => '1',
+                'type' => 'bool', 'desc' => $this->trans('If enabled, any RTL-specific files that you might have added to all your themes might be deleted by the created stylesheet.', array(), 'Modules.Autoupgrade.Admin'),
+            ),
             'PS_AUTOUP_KEEP_MAILS' => array(
                 'title' => $this->trans('Keep the customized email templates', array(), 'Modules.Autoupgrade.Admin'), 'cast' => 'intval', 'validation' => 'isBool',
                 'type' => 'bool', 'desc' => $this->trans('This will not upgrade the default PrestaShop e-mails.', array(), 'Modules.Autoupgrade.Admin') . '<br />'
@@ -277,6 +282,7 @@ class AdminSelfUpgrade extends AdminController
         $this->keepImages = $this->upgradeContainer->getUpgradeConfiguration()->shouldBackupImages();
         $this->updateDefaultTheme = $this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_UPDATE_DEFAULT_THEME');
         $this->changeToDefaultTheme = $this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_CHANGE_DEFAULT_THEME');
+        $this->updateRTLFiles = $this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_UPDATE_RTL_FILES');
         $this->keepMails = $this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_KEEP_MAILS');
         $this->deactivateCustomModule = $this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_CUSTOM_MOD_DESACT');
     }
@@ -375,6 +381,7 @@ class AdminSelfUpgrade extends AdminController
         $configuration_keys = array(
             'PS_AUTOUP_UPDATE_DEFAULT_THEME' => 1,
             'PS_AUTOUP_CHANGE_DEFAULT_THEME' => 0,
+            'PS_AUTOUP_UPDATE_RTL_FILES' => 1,
             'PS_AUTOUP_KEEP_MAILS' => 0,
             'PS_AUTOUP_CUSTOM_MOD_DESACT' => 1,
             'PS_AUTOUP_PERFORMANCE' => 1,
