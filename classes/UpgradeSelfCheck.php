@@ -349,7 +349,6 @@ class UpgradeSelfCheck
             && $this->isAdminAutoUpgradeDirectoryWritable()
             && $this->isShopDeactivated()
             && $this->isCacheDisabled()
-            && $this->isModuleVersionLatest()
             && $this->isPrestaShopReady();
     }
 

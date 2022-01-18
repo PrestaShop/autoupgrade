@@ -112,7 +112,7 @@ class UpgradeChecklist
             'showErrorMessage' => !$this->selfCheck->isOkForUpgrade(),
             'moduleVersion' => $this->selfCheck->getModuleVersion(),
             'moduleIsUpToDate' => $this->selfCheck->isModuleVersionLatest(),
-            'versionGreaterThan1_5_3' => version_compare(_PS_VERSION_, '1.5.3.0', '>'),
+            'moduleUpdateLink' => Context::getContext()->link->getAdminLink('AdminModulesUpdates'),
             'adminToken' => Tools14::getAdminTokenLite('AdminModules'),
             'informationsLink' => Context::getContext()->link->getAdminLink('AdminInformation'),
             'rootDirectoryIsWritable' => $this->selfCheck->isRootDirectoryWritable(),
