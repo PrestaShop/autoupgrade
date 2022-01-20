@@ -29,6 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade\Twig\Block;
 
 use PrestaShop\Module\AutoUpgrade\ChannelInfo;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
 use Twig_Environment;
 
 class ChannelInfoBlock
@@ -79,7 +80,105 @@ class ChannelInfoBlock
             '@ModuleAutoUpgrade/block/channelInfo.twig',
             [
                 'upgradeInfo' => $upgradeInfo,
+                'allPhpVersions' => UpgradeSelfCheck::PHP_VERSIONS_DISPLAY,
+                'psPhpCompatibilityRanges' => $this->buildCompatibilityTableDisplay(),
             ]
         );
+    }
+
+    /**
+     * Builds array of formatted data for the compatibility table display
+     *
+     * @return array
+     */
+    public function buildCompatibilityTableDisplay()
+    {
+        $startPrestaShopVersion = $previousPHPRange = null;
+        $i = 0;
+        foreach (UpgradeSelfCheck::PHP_PS_VERSIONS as $prestashopVersion => $phpVersions) {
+            $i++;
+            if (is_null($startPrestaShopVersion)) {
+                $startPrestaShopVersion = $prestashopVersion;
+                $previousPHPRange = $phpVersions;
+            }
+            $isCurrentPrestaVersion = $this->isCurrentPrestashopVersion($startPrestaShopVersion);
+            if ($phpVersions === $previousPHPRange) {
+                $previousPrestaVersion = $prestashopVersion;
+            } else {
+                $label = $this->buildPSLabel($startPrestaShopVersion, $previousPrestaVersion);
+                $result[$label]['php_versions'] = $this->buildPhpVersionsList($previousPHPRange);
+                $result[$label]['is_current'] = $isCurrentPrestaVersion;
+                $startPrestaShopVersion = $prestashopVersion;
+                $previousPrestaVersion = null;
+            }
+            if ($i === count(UpgradeSelfCheck::PHP_PS_VERSIONS)) {
+                $result[$prestashopVersion]['php_versions'] = $this->buildPhpVersionsList($phpVersions);
+                $result[$prestashopVersion]['is_current'] = $isCurrentPrestaVersion;
+            }
+            $previousPHPRange = $phpVersions;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Builds PrestaShop version label for display
+     *
+     * @param strin $startVersion
+     * @param string $endVersion
+     * @return string
+     */
+    public function buildPSLabel(strin $startVersion, string $endVersion): string
+    {
+        if ($startVersion === '1.6.1.18') {
+            return '>= 1.6.1.18';
+        }
+
+        return $startVersion .= $endVersion ? ' ~ ' . $endVersion : '';
+    }
+
+    /**
+     * Builds a list of php versions for a given php version range
+     *
+     * @param array $phpVersionRange
+     * @return array
+     */
+    public function buildPhpVersionsList($phpVersionRange) {
+        $phpStart = $phpVersionRange[0];
+        $phpEnd = $phpVersionRange[1];
+        $phpVersionsList = [];
+        $inRange = false;
+        foreach (UpgradeSelfCheck::PHP_VERSIONS_DISPLAY as $phpVersion) {
+            if ($phpVersion === $phpStart) {
+                $inRange = true;
+            }
+            if ($inRange) {
+                $phpVersionsList[] = $phpVersion;
+            }
+            if ($phpVersion === $phpEnd) {
+                break;
+            }
+        }
+
+        return $phpVersionsList;
+    }
+
+    /**
+     * Find out if a given prestashop version is equal to the one currently used
+     * (not taking patch versions into account)
+     *
+     * @param array $prestaversion
+     * @return bool
+     */
+    public function isCurrentPrestashopVersion($prestaversion)
+    {
+        // special case for 1.6.1 versions
+        if (substr(_PS_VERSION_, 0, 5) === '1.6.1' && $prestaversion === '1.6.1.18') {
+            return version_compare(_PS_VERSION_, $prestaversion, '>=');
+        }
+        $explodedCurrentPSVersion = explode('.', _PS_VERSION_);
+        $shortenCurrentPrestashop = implode('.', array_slice($explodedCurrentPSVersion, 0, 3));
+
+        return $prestaversion === $shortenCurrentPrestashop;
     }
 }
