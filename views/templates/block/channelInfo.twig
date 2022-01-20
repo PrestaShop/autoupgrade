@@ -84,26 +84,32 @@
                     <tr class="h-version-titles">
                     <th>PrestaShop Version</th>
                     <th>≤&nbsp;5.1</th>
-                    <th>5.2</th>
-                    <th>5.3</th>
-                    <th>5.4</th>
-                    <th>5.5</th>
-                    <th>5.6</th>
-                    <th>7.0</th>
-                    <th class="target target-col" style="text-align:center">7.1 <p class="autoupgrade-green">Required</p></th>
-                    <th>7.2</th>
-                    <th>7.3</th>
-                    <th>7.4</th>
-                    <th>8.0</th>
+                    {% for phpVersion in allPhpVersions %}
+                        <th>{{ phpVersion }}</th>
+                        {# <th class="target target-col" style="text-align:center">7.1 <p class="autoupgrade-green">Required</p></th> #}
+                    {% endfor %}
                     <th>≥&nbsp;8.1</th>
                     </tr>
                 </thead>
                 <tbody>
+                {% for prestashopVersion, item in psPhpCompatibilityRanges %}
+
                     <tr>
-                        <td class="target"> >= 1.6.1.18 <br><span class="autoupgrade-green">Current</span></td>
-                        <td class="support-no target"><span class="sr-only">No</span></td>
-                        <td class="support-yes target"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
-                        <td class="support-yes target"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
+                        <td class="target"> {{ prestashopVersion }}
+                            {% if  item.is_current %}
+                                <br><span class="autoupgrade-green">Current</span></td>
+                            {% endif %}
+                        <td class="support-no target"><span class="sr-only">No</span>no</td>
+                        {% for phpVersion in allPhpVersions %}
+                            <td class="support{% if  phpVersion in item.php_versions %}yes{% else%}no{% endif%} target">
+                                <span class="sr-only">Yes</span>
+                                {% if  phpVersion in item.php_versions %}
+                                    <i class="icon-check-circle" title="Yes"></i>
+                                {% endif %}
+                            </td>
+                        {% endfor %}
+
+                        {#  <td class="support-yes target"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
                         <td class="support-yes target"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
                         <td class="support-yes target"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
                         <td class="support-yes target"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
@@ -112,10 +118,11 @@
                         <td class="support-no target"><span class="sr-only">No</span></td>
                         <td class="support-no target"><span class="sr-only">No</span></td>
                         <td class="support-no target"><span class="sr-only">No</span></td>
-                        <td class="support-no target"><span class="sr-only">No</span></td>
+                        <td class="support-no target"><span class="sr-only">No</span></td>#}
                         <td class="support-no target"><span class="sr-only">No</span></td>
                     </tr>
-                    <tr>
+                {% endfor %}
+                {#    <tr>
                         <td>1.7.0 ~ 1.7.3</td>
                         <td class="support-no"><span class="sr-only">No</span></td>
                         <td class="support-no"><span class="sr-only">No</span></td>
@@ -210,7 +217,7 @@
                         <td class="support-yes"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
                         <td class="support-yes"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
                         <td class="support-no"><span class="sr-only">No</span></td>
-                    </tr>
+                    </tr> #}
                 </tbody>
                 </table>
             </div>
