@@ -168,7 +168,7 @@ class ChannelInfoBlock
      * Find out if a given prestashop version is equal to the one currently used
      * (not taking patch versions into account)
      *
-     * @param array $prestaversion
+     * @param string $prestaversion
      * @return bool
      */
     public function isCurrentPrestashopVersion($prestaversion)
