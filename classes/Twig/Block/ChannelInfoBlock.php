@@ -101,6 +101,7 @@ class ChannelInfoBlock
                 $startPrestaShopVersion = $prestashopVersion;
                 $previousPHPRange = $phpVersions;
             }
+
             $isCurrentPrestaVersion = $this->isCurrentPrestashopVersion($startPrestaShopVersion);
             if ($phpVersions === $previousPHPRange) {
                 $previousPrestaVersion = $prestashopVersion;
@@ -128,7 +129,7 @@ class ChannelInfoBlock
      * @param string $endVersion
      * @return string
      */
-    public function buildPSLabel(strin $startVersion, string $endVersion): string
+    public function buildPSLabel($startVersion, $endVersion)
     {
         if ($startVersion === '1.6.1.18') {
             return '>= 1.6.1.18';
