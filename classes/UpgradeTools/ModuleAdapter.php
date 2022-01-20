@@ -52,6 +52,8 @@ class ModuleAdapter
     // Cached instance
     private $moduleDataUpdater;
 
+    private $commandBus;
+
     public function __construct($db, $translator, $modulesPath, $tempPath, $upgradeVersion, ZipAction $zipAction, SymfonyAdapter $symfonyAdapter)
     {
         $this->db = $db;
@@ -78,6 +80,23 @@ class ModuleAdapter
         }
 
         return $this->moduleDataUpdater;
+    }
+
+    /**
+     * Available only since 1.7.6.0 Can't be called on PS 1.6.
+     *
+     * @return PrestaShop\PrestaShop\Core\CommandBus\TacticianCommandBusAdapter
+     */
+    public function getCommandBus()
+    {
+        if (null === $this->commandBus) {
+            $this->commandBus = $this->symfonyAdapter
+                ->initAppKernel()
+                ->getContainer()
+                ->get('prestashop.core.command_bus');
+        }
+
+        return $this->commandBus;
     }
 
     /**

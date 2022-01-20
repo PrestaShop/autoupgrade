@@ -20,5 +20,6 @@ parameters:
 		- '#AppKernel#'
 		- '#Access to offset 0 on an unknown class mysqli_result.#'
 		- '#Iterating over an object of an unknown class mysqli_result.#'
+		- '#PrestaShop\\PrestaShop\\Core\\CommandBus\\TacticianCommandBusAdapter#'
 
 	level: 5

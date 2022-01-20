@@ -1,6 +1,10 @@
 SET SESSION sql_mode='';
 SET NAMES 'utf8mb4';
 
+DROP TABLE IF EXISTS `PREFIX_referrer`;
+DROP TABLE IF EXISTS `PREFIX_referrer_cache`;
+DROP TABLE IF EXISTS `PREFIX_referrer_shop`;
+
 INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES
     ('PS_MAIL_DKIM_ENABLE', '0', NOW(), NOW()),
     ('PS_MAIL_DKIM_DOMAIN', '', NOW(), NOW()),
@@ -22,3 +26,5 @@ ALTER TABLE `PREFIX_employee_session` ADD `date_upd` DATETIME NOT NULL AFTER `to
 ALTER TABLE `PREFIX_employee_session` ADD `date_add` DATETIME NOT NULL AFTER `date_upd`;
 ALTER TABLE `PREFIX_customer_session` ADD `date_upd` DATETIME NOT NULL AFTER `token`;
 ALTER TABLE `PREFIX_customer_session` ADD `date_add` DATETIME NOT NULL AFTER `date_upd`;
+
+ALTER TABLE `PREFIX_carrier` DROP COLUMN `id_tax_rules_group`;

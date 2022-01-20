@@ -301,6 +301,10 @@ class UpgradeContainer
             case 'archive':
                 $upgrader->channel = 'archive';
                 $upgrader->version_num = $upgradeConfiguration->get('archive.version_num');
+                $archiveXml = $upgradeConfiguration->get('archive.xml');
+                if (!empty($archiveXml)) {
+                    $upgrader->version_md5[$upgrader->version_num] = $this->getProperty(self::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $archiveXml;
+                }
                 $upgrader->checkPSVersion(true, array('archive'));
                 break;
             case 'directory':

@@ -149,11 +149,19 @@ class UpgradeConfiguration extends ArrayCollection
     }
 
     /**
-     * @return bool True if we are allowed to update th default theme files
+     * @return bool True if we are allowed to update the default theme files
      */
     public function shouldUpdateDefaultTheme()
     {
         return (bool) $this->get('PS_AUTOUP_UPDATE_DEFAULT_THEME');
+    }
+
+    /**
+     * @return bool True if we should update RTL files
+     */
+    public function shouldUpdateRTLFiles()
+    {
+        return (bool) $this->get('PS_AUTOUP_UPDATE_RTL_FILES');
     }
 
     public function merge(array $array = array())

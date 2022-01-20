@@ -65,6 +65,27 @@ class ThemeAdapter
     }
 
     /**
+     * Get the list of theme name.
+     *
+     * @return array
+     */
+    public function getListFromDisk()
+    {
+        $suffix = 'config/theme.yml';
+        $themeDirectories = glob(_PS_ALL_THEMES_DIR_ . '*/' . $suffix, GLOB_NOSORT);
+
+        $themes = [];
+        foreach ($themeDirectories as $directory) {
+            $themes[] = [
+                'name' => basename(substr($directory, 0, -strlen($suffix))),
+                'directory' => substr($directory, 0, -strlen($suffix)),
+            ];
+        }
+
+        return $themes;
+    }
+
+    /**
      * Backward compatibility function for theme enabling.
      *
      * @param string $themeName

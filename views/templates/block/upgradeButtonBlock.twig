@@ -116,12 +116,21 @@
                                 <br>
                                 <label for="archive_num">{{ 'Number of the version you want to upgrade to:'|trans }} * </label>
                                 <input type="text" size="10" id="archive_num" name="archive_num" value="{{ archiveVersionNumber }}" placeholder="1.7.0.1" />
+                                <br>
+                                <label for="archive_xml">{{ 'XML file to use:'|trans }}</label>
+                                <select id="archive_xml" name="archive_xml">
+                                    <option value="">{{ 'Choose an XML file'|trans }}</option>
+                                    {% for file in xmlFiles %}
+                                        {% set fileName = file|replace({(downloadPath): ''}) %}
+                                        <option {% if xmlFileName == fileName %} selected{% endif %} value="{{ fileName }}">{{ fileName }}</option>
+                                    {% endfor %}
+                                </select>
                             </div>
                         {% else %}
                             <div class="alert alert-warning">{{ 'No archive found in your admin/autoupgrade/download directory'|trans }}</div>
                         {% endif %}
                         <div class="margin-form">
-                            {{ 'Save in the following directory the archive file of the version you want to upgrade to: %s'|trans(['<b>/admin/autoupgrade/download/</b>'])|raw }}<br>
+                            {{ 'Save in the following directory the archive file and XML file of the version you want to upgrade to: %s'|trans(['<b>/admin/autoupgrade/download/</b>'])|raw }}<br>
                             {{ 'Click to save once the archive is there.'|trans }}<br>
                             {{ 'This option will skip the download step.'|trans }}
                         </div>

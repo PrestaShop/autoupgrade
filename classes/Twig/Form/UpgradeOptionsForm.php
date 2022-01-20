@@ -147,6 +147,23 @@ class UpgradeOptionsForm
                 ),
             ),
 
+            'PS_AUTOUP_UPDATE_RTL_FILES' => array(
+                'title' => $translator->trans(
+                    'Regenerate RTL stylesheet',
+                    array(),
+                    $translationDomain
+                ),
+                'cast' => 'intval',
+                'validation' => 'isBool',
+                'defaultValue' => '1',
+                'type' => 'bool',
+                'desc' => $translator->trans(
+                    'If enabled, any RTL-specific files that you might have added to all your themes might be deleted by the created stylesheet.',
+                    array(),
+                    $translationDomain
+                ),
+            ),
+
             'PS_AUTOUP_KEEP_MAILS' => array(
                 'title' => $translator->trans(
                     'Keep the customized email templates',
