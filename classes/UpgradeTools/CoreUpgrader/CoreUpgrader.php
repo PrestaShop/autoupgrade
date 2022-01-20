@@ -192,7 +192,7 @@ abstract class CoreUpgrader
             define('_PS_MODULE_DIR_', $this->pathToInstallFolder . '/../modules/');
         }
 
-        $this->pathToUpgradeScripts = dirname(__DIR__, 3) . '/upgrade/';
+        $this->pathToUpgradeScripts = dirname(dirname(dirname(__DIR__))) . '/upgrade/';
         define('_PS_INSTALLER_PHP_UPGRADE_DIR_', $this->pathToUpgradeScripts . 'php/');
 
         if (!defined('__PS_BASE_URI__')) {
