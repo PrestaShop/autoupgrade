@@ -28,3 +28,10 @@ ALTER TABLE `PREFIX_customer_session` ADD `date_upd` DATETIME NOT NULL AFTER `to
 ALTER TABLE `PREFIX_customer_session` ADD `date_add` DATETIME NOT NULL AFTER `date_upd`;
 
 ALTER TABLE `PREFIX_carrier` DROP COLUMN `id_tax_rules_group`;
+
+ALTER TABLE `PREFIX_product` MODIFY COLUMN `redirect_type` ENUM(
+    '404', '410', '301-product', '302-product', '301-category', '302-category'
+) NOT NULL DEFAULT '404';
+ALTER TABLE `PREFIX_product_shop` MODIFY COLUMN `redirect_type` ENUM(
+    '404', '410', '301-product', '302-product', '301-category', '302-category'
+) NOT NULL DEFAULT '404';
