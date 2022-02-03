@@ -1,20 +1,14 @@
-#################################################################################
-# This file is a copy of phpstan.neon with additional rules for PS 1.6
-# Its objective is to avoid false-positive results regarding non-existing classes
-#################################################################################
+includes:
+	- %currentWorkingDirectory%/tests/phpstan/phpstan.neon
+
 parameters:
-	bootstrapFiles:
-		- ./../../tests/phpstan/bootstrap.php
-	reportUnmatchedIgnoredErrors: false
-	paths:
-		- ./../../classes
 	excludes_analyse:
 		- ./../../classes/Tools14.php
 		- ./../../classes/pclzip.lib.php
 		- ./../../functions.php
 		- ./../../classes/UpgradeTools/CoreUpgrader/CoreUpgrader17.php
 		- ./../../classes/UpgradeTools/SymfonyAdapter.php
-	ignoreErrors:
+  ignoreErrors:
 		# module specific
 		- '#Function deactivate_custom_modules not found.#'
 		- '#Constant MCRYPT_[A-Z0-9_]+ not found.#'
@@ -26,12 +20,9 @@ parameters:
 		- '#AppKernel#'
 		- '#Access to offset 0 on an unknown class mysqli_result.#'
 		- '#Iterating over an object of an unknown class mysqli_result.#'
-
 		# Below are messages ignored on PS 1.6
 		- '#[cC]lass PrestaShop\\PrestaShop\\Core\\Addon\\Theme\\ThemeManagerBuilder#'
 		- '#PrestaShop\\Module\\AutoUpgrade\\UpgradeTools\\ModuleAdapter#'
 		- '#PrestaShop\\PrestaShop\\Adapter\\Module\\ModuleDataUpdater#'
 		- '#PrestaShopBundle\\Install\\Upgrade#'
 		- '#Call to an undefined static method ConfigurationTest::test_curl\(\).#'
-
-	level: 5
