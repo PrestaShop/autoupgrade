@@ -75,7 +75,7 @@ class StreamedLogger extends Logger
     /**
      * {@inherit}.
      */
-    public function log($level, $message, array $context = array())
+    public function log($level, $message, array $context = [])
     {
         if (empty($message)) {
             return;

@@ -57,9 +57,9 @@ class ErrorHandler
     public function enable()
     {
         error_reporting(E_ALL);
-        set_error_handler(array($this, 'errorHandler'));
-        set_exception_handler(array($this, 'exceptionHandler'));
-        register_shutdown_function(array($this, 'fatalHandler'));
+        set_error_handler([$this, 'errorHandler']);
+        set_exception_handler([$this, 'exceptionHandler']);
+        register_shutdown_function([$this, 'fatalHandler']);
     }
 
     /**
@@ -120,7 +120,7 @@ class ErrorHandler
     {
         $lastError = error_get_last();
         $trace = isset($lastError['backtrace']) ? var_export($lastError['backtrace'], true) : null;
-        if ($lastError && in_array($lastError['type'], array(E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR), true)) {
+        if ($lastError && in_array($lastError['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR], true)) {
             $this->report($lastError['file'], $lastError['line'], Logger::CRITICAL, $lastError['message'], $trace, true);
         }
     }
@@ -134,12 +134,12 @@ class ErrorHandler
      */
     public function generateJsonLog($log)
     {
-        return json_encode(array(
+        return json_encode([
             'nextQuickInfo' => $this->logger->getInfos(),
-            'nextErrors' => array_merge($this->logger->getErrors(), array($log)),
+            'nextErrors' => array_merge($this->logger->getErrors(), [$log]),
             'error' => true,
             'next' => 'error',
-        ));
+        ]);
     }
 
     /**

@@ -23,10 +23,8 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
-
-
 global $_MODULE;
-$_MODULE = array();
+$_MODULE = [];
 
 $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_5243e62512552a2cd6369e446bbf10f4'] = 'Rendimiento del Servidor';
 $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_87f8a6ab85c9ced3702b4ea641ad4bb5'] = 'Средний';
@@ -263,7 +261,7 @@ $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_4e871525b7518538075dddfad5e2
 $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_c32184301f3393e46f8357ec3d284938'] = 'Falta ajax-upgradetab.php . Por favor vuelva a instalar o reinicie el modulo';
 $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_017697f698d570dffed5f88a5a933d01'] = 'Opciones de copia de seguridad';
 $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_564b7c9d8683f1a94798e9f7449564e4'] = 'Opciones de Actualización';
-$_MODULE['<{autoupgrade}prestashop>adminselfupgrade_f15547fe5f9f307bd42b2c01657efbcb'] = 'Su servidor no puede descargar el archivo. Por favor, sube por primera vez por ftp en eladmin / directorio AutoUpgrade';
+$_MODULE['<{autoupgrade}prestashop>adminselfupgrade_f15547fe5f9f307bd42b2c01657efbcb'] = 'Su servidor no puede descargar el archivo. Por favor, sube por primera vez por ftp en eladmin / directorio AutoUpgrade';
 $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_f2a6c498fb90ee345d997f888fce3b18'] = 'Eliminar';
 $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_d26e7bb032929396f42d5ec26629acdd'] = '¿Quiere realmente suprimir esta copia de seguridad ?';
 $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_f1a1fb67c8350e8881bc59f09e42d5ab'] = 'Pulsa para actualizar la página y utilizar la nueva configuración';

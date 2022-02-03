@@ -46,7 +46,7 @@ if (file_exists(_PS_TOOL_DIR_ . 'tar/Archive_Tar.php')) {
 
 // Make sure loader php-parser is coming from php stan composer
 $loader = new \Composer\Autoload\ClassLoader();
-$loader->setPsr4('PhpParser\\', array('/composer/vendor/nikic/php-parser/lib/PhpParser'));
+$loader->setPsr4('PhpParser\\', ['/composer/vendor/nikic/php-parser/lib/PhpParser']);
 $loader->register(true);
 
 // We must declare these constant in this boostrap script.

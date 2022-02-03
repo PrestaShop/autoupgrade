@@ -359,7 +359,7 @@ class UpgradeSelfCheck
     private function checkRootWritable()
     {
         // Root directory permissions cannot be checked recursively anymore, it takes too much time
-        return  ConfigurationTest::test_dir('/', false, $this->rootWritableReport);
+        return ConfigurationTest::test_dir('/', false, $this->rootWritableReport);
     }
 
     /**
@@ -403,7 +403,7 @@ class UpgradeSelfCheck
     {
         return
             !Configuration::get('PS_SHOP_ENABLE')
-            || (isset($_SERVER['HTTP_HOST']) && in_array($_SERVER['HTTP_HOST'], array('127.0.0.1', 'localhost', '[::1]')));
+            || (isset($_SERVER['HTTP_HOST']) && in_array($_SERVER['HTTP_HOST'], ['127.0.0.1', 'localhost', '[::1]']));
     }
 
     /**
@@ -434,7 +434,7 @@ class UpgradeSelfCheck
             $safeMode = '';
         }
 
-        return !in_array(strtolower($safeMode), array(1, 'on'));
+        return !in_array(strtolower($safeMode), [1, 'on']);
     }
 
     /**

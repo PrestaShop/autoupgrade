@@ -52,9 +52,9 @@ class RollbackForm
     {
         return $this->twig->render(
             '@ModuleAutoUpgrade/block/rollbackForm.twig',
-            array(
+            [
                 'availableBackups' => $this->backupFinder->getAvailableBackups(),
-            )
+            ]
         );
     }
 }

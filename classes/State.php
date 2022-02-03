@@ -38,7 +38,7 @@ class State
     private $backupDbFilename;
     private $restoreName;
     private $restoreFilesFilename;
-    private $restoreDbFilenames = array();
+    private $restoreDbFilenames = [];
 
     // STEP BackupDb
     private $backup_lines;
@@ -73,13 +73,13 @@ class State
      *
      * @var array
      */
-    private $installedLanguagesIso = array();
+    private $installedLanguagesIso = [];
     /**
      * modules_addons is an array of array(id_addons => name_module).
      *
      * @var array
      */
-    private $modules_addons = array();
+    private $modules_addons = [];
 
     /**
      * @var bool Determining if all steps went totally successfully
@@ -123,16 +123,16 @@ class State
 
     public function initDefault(Upgrader $upgrader, $prodRootDir, $version)
     {
-        $postData = http_build_query(array(
+        $postData = http_build_query([
             'action' => 'native',
             'iso_code' => 'all',
             'method' => 'listing',
             'version' => $this->getInstallVersion(),
-        ));
+        ]);
         $xml_local = $prodRootDir . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml' . DIRECTORY_SEPARATOR . 'modules_native_addons.xml';
         $xml = $upgrader->getApiAddons($xml_local, $postData, true);
 
-        $modules_addons = array();
+        $modules_addons = [];
         if (is_object($xml)) {
             foreach ($xml as $mod) {
                 $modules_addons[(string) $mod->id] = (string) $mod->name;

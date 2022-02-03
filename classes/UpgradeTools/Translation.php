@@ -27,8 +27,8 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
-use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\Log\LoggerInterface;
+use PrestaShop\Module\AutoUpgrade\Tools14;
 
 class Translation
 {
@@ -120,7 +120,7 @@ class Translation
         }
 
         if (!file_exists($orig)) {
-            $this->logger->notice($this->translator->trans('[NOTICE] File %s does not exist, merge skipped.', array($orig), 'Modules.Autoupgrade.Admin'));
+            $this->logger->notice($this->translator->trans('[NOTICE] File %s does not exist, merge skipped.', [$orig], 'Modules.Autoupgrade.Admin'));
 
             return true;
         }
@@ -128,10 +128,10 @@ class Translation
         if (!isset($$var_name)) {
             $this->logger->warning($this->translator->trans(
                 '[WARNING] %variablename% variable missing in file %filename%. Merge skipped.',
-                array(
+                [
                     '%variablename%' => $var_name,
                     '%filename%' => $orig,
-                ),
+                ],
                 'Modules.Autoupgrade.Admin'
             ));
 
@@ -140,7 +140,7 @@ class Translation
         $var_orig = $$var_name;
 
         if (!file_exists($dest)) {
-            $this->logger->notice($this->translator->trans('[NOTICE] File %s does not exist, merge skipped.', array($dest), 'Modules.Autoupgrade.Admin'));
+            $this->logger->notice($this->translator->trans('[NOTICE] File %s does not exist, merge skipped.', [$dest], 'Modules.Autoupgrade.Admin'));
 
             return false;
         }
@@ -153,10 +153,10 @@ class Translation
             }
             $this->logger->warning($this->translator->trans(
                 '[WARNING] %variablename% variable missing in file %filename%. File %filename% deleted and merge skipped.',
-                array(
+                [
                     '%variablename%' => $var_name,
                     '%filename%' => $dest,
-                ),
+                ],
                 'Modules.Autoupgrade.Admin'
             ));
 
@@ -200,8 +200,8 @@ class Translation
      */
     private function escape($str, $html_ok = false)
     {
-        $search = array('\\', "\0", "\n", "\r", "\x1a", "'", '"');
-        $replace = array('\\\\', '\\0', '\\n', '\\r', "\Z", "\'", '\"');
+        $search = ['\\', "\0", "\n", "\r", "\x1a", "'", '"'];
+        $replace = ['\\\\', '\\0', '\\n', '\\r', "\Z", "\'", '\"'];
         $str = str_replace($search, $replace, $str);
         if (!$html_ok) {
             return strip_tags(Tools14::nl2br($str));

@@ -65,7 +65,7 @@ class UpgradeConfigurationStorage extends FileConfigurationStorage
 
     public function getDefaultData()
     {
-        return array(
+        return [
             'PS_AUTOUP_PERFORMANCE' => 1,
             'PS_AUTOUP_CUSTOM_MOD_DESACT' => 1,
             'PS_AUTOUP_UPDATE_DEFAULT_THEME' => 1,
@@ -75,6 +75,6 @@ class UpgradeConfigurationStorage extends FileConfigurationStorage
             'PS_AUTOUP_KEEP_IMAGES' => 1,
             'channel' => Upgrader::DEFAULT_CHANNEL,
             'archive.filename' => Upgrader::DEFAULT_FILENAME,
-        );
+        ];
     }
 }

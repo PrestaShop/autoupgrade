@@ -33,8 +33,8 @@ namespace PrestaShop\Module\AutoUpgrade\Log;
  */
 class LegacyLogger extends Logger
 {
-    protected $normalMessages = array();
-    protected $severeMessages = array();
+    protected $normalMessages = [];
+    protected $severeMessages = [];
     protected $lastInfo = '';
 
     /**
@@ -83,7 +83,7 @@ class LegacyLogger extends Logger
     /**
      * {@inheritdoc}
      */
-    public function log($level, $message, array $context = array())
+    public function log($level, $message, array $context = [])
     {
         if (empty($message)) {
             return;

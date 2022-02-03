@@ -28,9 +28,9 @@
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
-use Symfony\Component\Filesystem\Filesystem;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * extract chosen version into $this->upgradeClass->latestPath directory.
@@ -44,12 +44,12 @@ class Unzip extends AbstractTask
 
         if (file_exists($destExtract)) {
             FilesystemAdapter::deleteDirectory($destExtract, false);
-            $this->logger->debug($this->translator->trans('"/latest" directory has been emptied', array(), 'Modules.Autoupgrade.Admin'));
+            $this->logger->debug($this->translator->trans('"/latest" directory has been emptied', [], 'Modules.Autoupgrade.Admin'));
         }
         $relative_extract_path = str_replace(_PS_ROOT_DIR_, '', $destExtract);
         $report = '';
         if (!\ConfigurationTest::test_dir($relative_extract_path, false, $report)) {
-            $this->logger->error($this->translator->trans('Extraction directory %s is not writable.', array($destExtract), 'Modules.Autoupgrade.Admin'));
+            $this->logger->error($this->translator->trans('Extraction directory %s is not writable.', [$destExtract], 'Modules.Autoupgrade.Admin'));
             $this->next = 'error';
             $this->error = true;
 
@@ -63,10 +63,10 @@ class Unzip extends AbstractTask
             $this->error = true;
             $this->logger->info($this->translator->trans(
                 'Unable to extract %filepath% file into %destination% folder...',
-                array(
+                [
                     '%filepath%' => $filepath,
                     '%destination%' => $destExtract,
-                ),
+                ],
                 'Modules.Autoupgrade.Admin'
             ));
 
@@ -85,10 +85,10 @@ class Unzip extends AbstractTask
                 $this->next = 'error';
                 $this->logger->info($this->translator->trans(
                     'Unable to extract %filepath% file into %destination% folder...',
-                    array(
+                    [
                         '%filepath%' => $filepath,
                         '%destination%' => $destExtract,
-                    ),
+                    ],
                     'Modules.Autoupgrade.Admin'
                 ));
 
@@ -100,7 +100,7 @@ class Unzip extends AbstractTask
             if (!is_dir($zipSubfolder)) {
                 $this->next = 'error';
                 $this->logger->error(
-                    $this->translator->trans('No prestashop/ folder found in the ZIP file. Aborting.', array(), 'Modules.Autoupgrade.Admin'));
+                    $this->translator->trans('No prestashop/ folder found in the ZIP file. Aborting.', [], 'Modules.Autoupgrade.Admin'));
 
                 return;
             }
@@ -116,7 +116,7 @@ class Unzip extends AbstractTask
         // Unsetting to force listing
         $this->container->getState()->setRemoveList(null);
         $this->next = 'removeSamples';
-        $this->logger->info($this->translator->trans('File extraction complete. Removing sample files...', array(), 'Modules.Autoupgrade.Admin'));
+        $this->logger->info($this->translator->trans('File extraction complete. Removing sample files...', [], 'Modules.Autoupgrade.Admin'));
 
         @unlink($newZip);
 

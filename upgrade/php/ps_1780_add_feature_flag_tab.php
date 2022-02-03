@@ -23,13 +23,12 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
-
 function ps_1780_add_feature_flag_tab()
 {
     $className = 'AdminFeatureFlag';
 
     $result = Db::getInstance()->executeS(
-        'SELECT id_tab FROM `'._DB_PREFIX_.'tab` WHERE `class_name` = \'AdminAdvancedParameters\''
+        'SELECT id_tab FROM `' . _DB_PREFIX_ . 'tab` WHERE `class_name` = \'AdminAdvancedParameters\''
     );
 
     if (empty($result)) {
@@ -40,7 +39,7 @@ function ps_1780_add_feature_flag_tab()
     }
     $advancedParametersTabId = (int) $result[0]['id_tab'];
 
-    include_once __DIR__.'/add_new_tab.php';
+    include_once __DIR__ . '/add_new_tab.php';
     add_new_tab_17(
         $className,
         'en:Experimental Feature|fr:Fonctionnalités expérimentales',
@@ -48,6 +47,6 @@ function ps_1780_add_feature_flag_tab()
     );
 
     Db::getInstance()->execute(
-        'UPDATE `'._DB_PREFIX_.'tab` SET `active`= 1, `enabled` = 1 WHERE `class_name` = \'' . $className . '\''
+        'UPDATE `' . _DB_PREFIX_ . 'tab` SET `active`= 1, `enabled` = 1 WHERE `class_name` = \'' . $className . '\''
     );
 }

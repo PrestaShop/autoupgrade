@@ -23,10 +23,8 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
-
-
 global $_MODULE;
-$_MODULE = array();
+$_MODULE = [];
 
 $_MODULE['<{autoupgrade}prestashop>adminpreferences_6adf97f83acf6453d4a6a4b1070f3754'] = 'None';
 $_MODULE['<{autoupgrade}prestashop>adminpreferences_c035796995e11f000835780bbadbd575'] = 'Standard (5 steps)';
@@ -594,6 +592,5 @@ $_MODULE['<{autoupgrade}prestashop>autoupgrade_5d7ef5c6fd32feb5d482ec1459e86f83'
 $_MODULE['<{autoupgrade}prestashop>autoupgrade_21dc065f2d8653ebca37ec552d17b37e'] = 'Unable to create the directory "%s"';
 $_MODULE['<{autoupgrade}prestashop>autoupgrade_6215d33db0d099fcaae168dd4715135a'] = 'Unable to write in the directory "%s"';
 $_MODULE['<{autoupgrade}prestashop>autoupgrade_10c008d228c9f35d12ce0437aa3eade9'] = 'Unable to copy ajax-upgradetab.php in %s';
-
 
 return $_MODULE;

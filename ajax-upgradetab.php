@@ -45,7 +45,7 @@ if (!$container->getCookie()->check($_COOKIE)) {
     }
     echo '{wrong token}';
     http_response_code(401);
-    die(1);
+    exit(1);
 }
 
 $controller = TaskRepository::get(Tools14::getValue('action'), $container);

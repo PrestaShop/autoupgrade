@@ -33,7 +33,7 @@ class PrestashopConfiguration
 {
     // Variables used for cache
     private $moduleVersion;
-    private $allowed_array = array();
+    private $allowed_array = [];
 
     // Variables from main class
     private $autoupgradeDir;
@@ -72,11 +72,11 @@ class PrestashopConfiguration
         if (defined('_PS_VERSION_')) {
             return _PS_VERSION_;
         }
-        $files = array(
+        $files = [
             $this->psRootDir . '/config/settings.inc.php',
             $this->psRootDir . '/config/autoload.php',
             $this->psRootDir . '/app/AppKernel.php',
-        );
+        ];
         foreach ($files as $file) {
             if (!file_exists($file)) {
                 continue;
@@ -110,7 +110,7 @@ class PrestashopConfiguration
      */
     protected function getRootWritableDetails()
     {
-        $result = array();
+        $result = [];
         // Root directory permissions cannot be checked recursively anymore, it takes too much time
         $result['root_writable'] = ConfigurationTest::test_dir('/', false, $report);
         $result['root_writable_report'] = $report ? $report : true; // Avoid null in the array as it makes the shop non-compliant
@@ -127,7 +127,7 @@ class PrestashopConfiguration
      */
     public function findPrestaShopVersionInFile($content)
     {
-        $matches = array();
+        $matches = [];
         // Example: define('_PS_VERSION_', '1.7.3.4');
         if (1 === preg_match("/define\([\"']_PS_VERSION_[\"'], [\"'](?<version>[0-9.]+)[\"']\)/", $content, $matches)) {
             return $matches['version'];

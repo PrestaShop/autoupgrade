@@ -2,4 +2,9 @@ includes:
 	- %currentWorkingDirectory%/tests/phpstan/phpstan.neon
 
 parameters:
-  ignoreErrors:
+	ignoreErrors:
+		- '#Access to an undefined property Module::\$installed.#'
+		- '#Call to method fetchLocale\(\) on an unknown class PrestaShop\\PrestaShop\\Core\\Cldr\\Update.#'
+		- '#Function deactivate_custom_modules not found.#'
+		- '#Instantiated class PrestaShop\\PrestaShop\\Core\\Cldr\\Update not found.#'
+
