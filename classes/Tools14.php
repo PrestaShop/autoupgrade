@@ -31,7 +31,7 @@ use Tab;
 
 class Tools14
 {
-    protected static $file_exists_cache = array();
+    protected static $file_exists_cache = [];
     protected static $_forceCompile;
     protected static $_caching;
 
@@ -527,7 +527,7 @@ class Tools14
             return $date;
         }
         if (!Validate::isDate($date) || !Validate::isBool($full)) {
-            die(self::displayError('Invalid date'));
+            exit(self::displayError('Invalid date'));
         }
 
         $language = Language::getLanguage((int) $id_lang);
@@ -555,7 +555,7 @@ class Tools14
     public static function htmlentitiesUTF8($string, $type = ENT_QUOTES)
     {
         if (is_array($string)) {
-            return array_map(array('Tools', 'htmlentitiesUTF8'), $string);
+            return array_map(['Tools', 'htmlentitiesUTF8'], $string);
         }
 
         return htmlentities($string, $type, 'utf-8');
@@ -564,7 +564,7 @@ class Tools14
     public static function htmlentitiesDecodeUTF8($string)
     {
         if (is_array($string)) {
-            return array_map(array('Tools', 'htmlentitiesDecodeUTF8'), $string);
+            return array_map(['Tools', 'htmlentitiesDecodeUTF8'], $string);
         }
 
         return html_entity_decode($string, ENT_QUOTES, 'utf-8');
@@ -572,7 +572,7 @@ class Tools14
 
     public static function safePostVars()
     {
-        $_POST = array_map(array('Tools', 'htmlentitiesUTF8'), $_POST);
+        $_POST = array_map(['Tools', 'htmlentitiesUTF8'], $_POST);
     }
 
     /**
@@ -647,7 +647,7 @@ class Tools14
         print_r($object);
         echo '</pre><br />';
         if ($kill) {
-            die('END');
+            exit('END');
         }
 
         return $object;
@@ -937,7 +937,7 @@ class Tools14
         } elseif ($categoryType === 'CMS') {
             $category = new CMSCategory((int) ($id_category), (int) ($cookie->id_lang));
             if (!Validate::isLoadedObject($category)) {
-                die(self::displayError());
+                exit(self::displayError());
             }
             $categoryLink = $link->getCMSCategoryLink($category);
 
@@ -1024,7 +1024,7 @@ class Tools14
     {
         global $cookie;
         if (!$translations || !is_array($translations)) {
-            die(self::displayError());
+            exit(self::displayError());
         }
         $iso = strtoupper(Language::getIsoById($cookie->id_lang));
         $lang = key_exists($iso, $translations) ? $translations[$iso] : false;
@@ -1139,7 +1139,7 @@ class Tools14
      */
     public static function dateYears()
     {
-        $tab = array();
+        $tab = [];
         for ($i = date('Y'); $i >= 1900; --$i) {
             $tab[] = $i;
         }
@@ -1167,7 +1167,7 @@ class Tools14
 
     public static function hourGenerate($hours, $minutes, $seconds)
     {
-        return implode(':', array($hours, $minutes, $seconds));
+        return implode(':', [$hours, $minutes, $seconds]);
     }
 
     public static function dateFrom($date)
@@ -1310,7 +1310,7 @@ class Tools14
 
         // Multiple select
         $tmz = Db::getInstance(_PS_USE_SQL_SLAVE_)->s('SELECT * FROM ' . _DB_PREFIX_ . 'timezone');
-        $tab = array();
+        $tab = [];
         foreach ($tmz as $timezone) {
             $tab[$timezone['id_timezone']] = str_replace('_', ' ', $timezone['name']);
         }
@@ -1393,7 +1393,7 @@ class Tools14
      */
     public static function shouldUseFopen($url)
     {
-        return in_array(ini_get('allow_url_fopen'), array('On', 'on', '1')) || !preg_match('/^https?:\/\//', $url);
+        return in_array(ini_get('allow_url_fopen'), ['On', 'on', '1']) || !preg_match('/^https?:\/\//', $url);
     }
 
     public static function file_get_contents($url, $use_include_path = false, $stream_context = null, $curl_timeout = 5)
@@ -1402,7 +1402,7 @@ class Tools14
             $url = str_replace('https', 'http', $url);
         }
         if ($stream_context == null && preg_match('/^https?:\/\//', $url)) {
-            $stream_context = @stream_context_create(array('http' => array('timeout' => $curl_timeout, 'header' => "User-Agent:MyAgent/1.0\r\n")));
+            $stream_context = @stream_context_create(['http' => ['timeout' => $curl_timeout, 'header' => "User-Agent:MyAgent/1.0\r\n"]]);
         }
         if (self::shouldUseFopen($url)) {
             $var = @file_get_contents($url, $use_include_path, $stream_context);
@@ -1449,11 +1449,11 @@ class Tools14
         if (strlen($html_content) > 0) {
             //set an alphabetical order for args
             $html_content = preg_replace_callback(
-                '/(<[a-zA-Z0-9]+)((\s?[a-zA-Z0-9]+=[\"\\\'][^\"\\\']*[\"\\\']\s?)*)>/', array('Tools', 'minifyHTMLpregCallback'), $html_content);
+                '/(<[a-zA-Z0-9]+)((\s?[a-zA-Z0-9]+=[\"\\\'][^\"\\\']*[\"\\\']\s?)*)>/', ['Tools', 'minifyHTMLpregCallback'], $html_content);
 
             require_once _PS_TOOL_DIR_ . 'minify_html/minify_html.class.php';
             $html_content = str_replace(chr(194) . chr(160), '&nbsp;', $html_content);
-            $html_content = Minify_HTML::minify($html_content, array('xhtml', 'cssMinifier', 'jsMinifier'));
+            $html_content = Minify_HTML::minify($html_content, ['xhtml', 'cssMinifier', 'jsMinifier']);
 
             if (Configuration::get('PS_HIGH_HTML_THEME_COMPRESSION')) {
                 //$html_content = preg_replace('/"([^\>\s"]*)"/i', '$1', $html_content);//FIXME create a js bug
@@ -1506,7 +1506,7 @@ class Tools14
 
     public static function minifyHTMLpregCallback($preg_matches)
     {
-        $args = array();
+        $args = [];
         preg_match_all('/[a-zA-Z0-9]+=[\"\\\'][^\"\\\']*[\"\\\']/is', $preg_matches[2], $args);
         $args = $args[0];
         sort($args);
@@ -1520,7 +1520,7 @@ class Tools14
         if (strlen($html_content) > 0) {
             $htmlContentCopy = $html_content;
             $html_content = preg_replace_callback(
-                '/\\s*(<script\\b[^>]*?>)([\\s\\S]*?)(<\\/script>)\\s*/i', array('Tools', 'packJSinHTMLpregCallback'), $html_content);
+                '/\\s*(<script\\b[^>]*?>)([\\s\\S]*?)(<\\/script>)\\s*/i', ['Tools', 'packJSinHTMLpregCallback'], $html_content);
 
             // If the string is too big preg_replace return an error
             // In this case, we don't compress the content
@@ -1572,7 +1572,7 @@ class Tools14
         $current_css_file = $fileuri;
         if (strlen($css_content) > 0) {
             $css_content = preg_replace('#/\*.*?\*/#s', '', $css_content);
-            $css_content = preg_replace_callback('#url\((?:\'|")?([^\)\'"]*)(?:\'|")?\)#s', array('Tools', 'replaceByAbsoluteURL'), $css_content);
+            $css_content = preg_replace_callback('#url\((?:\'|")?([^\)\'"]*)(?:\'|")?\)#s', ['Tools', 'replaceByAbsoluteURL'], $css_content);
 
             $css_content = preg_replace('#\s+#', ' ', $css_content);
             $css_content = str_replace("\t", '', $css_content);
@@ -1626,7 +1626,7 @@ class Tools14
     {
         global $js_files;
         if (!isset($js_files)) {
-            $js_files = array();
+            $js_files = [];
         }
         // avoid useless operation...
         if (in_array($js_uri, $js_files)) {
@@ -1635,7 +1635,7 @@ class Tools14
 
         // detect mass add
         if (!is_array($js_uri) && !in_array($js_uri, $js_files)) {
-            $js_uri = array($js_uri);
+            $js_uri = [$js_uri];
         } else {
             foreach ($js_uri as $key => $js) {
                 if (in_array($js, $js_files)) {
@@ -1705,7 +1705,7 @@ class Tools14
         }
 
         // detect mass add
-        $css_uri = array($css_uri => $css_media_type);
+        $css_uri = [$css_uri => $css_media_type];
 
         // adding file to the big array...
         if (is_array($css_files)) {
@@ -1724,19 +1724,19 @@ class Tools14
     {
         global $css_files;
         //inits
-        $css_files_by_media = array();
-        $compressed_css_files = array();
-        $compressed_css_files_not_found = array();
-        $compressed_css_files_infos = array();
+        $css_files_by_media = [];
+        $compressed_css_files = [];
+        $compressed_css_files_not_found = [];
+        $compressed_css_files_infos = [];
         $protocolLink = self::getCurrentUrlProtocolPrefix();
 
         // group css files by media
         foreach ($css_files as $filename => $media) {
             if (!array_key_exists($media, $css_files_by_media)) {
-                $css_files_by_media[$media] = array();
+                $css_files_by_media[$media] = [];
             }
 
-            $infos = array();
+            $infos = [];
             $infos['uri'] = $filename;
             $url_data = parse_url($filename);
             $infos['path'] = _PS_ROOT_DIR_ . self::str_replace_once(__PS_BASE_URI__, '/', $url_data['path']);
@@ -1750,7 +1750,7 @@ class Tools14
             );
 
             if (!array_key_exists($media, $compressed_css_files_infos)) {
-                $compressed_css_files_infos[$media] = array('key' => '');
+                $compressed_css_files_infos[$media] = ['key' => ''];
             }
             $compressed_css_files_infos[$media]['key'] .= $filename;
         }
@@ -1759,10 +1759,10 @@ class Tools14
         foreach ($compressed_css_files_infos as $media => &$info) {
             $key = md5($info['key'] . $protocolLink);
             $filename = _PS_THEME_DIR_ . 'cache/' . $key . '_' . $media . '.css';
-            $info = array(
+            $info = [
                 'key' => $key,
                 'date' => file_exists($filename) ? @filemtime($filename) : 0,
-            );
+            ];
         }
         // aggregate and compress css files content, write new caches files
         foreach ($css_files_by_media as $media => $media_infos) {
@@ -1790,7 +1790,7 @@ class Tools14
         }
 
         // rebuild the original css_files array
-        $css_files = array();
+        $css_files = [];
         foreach ($compressed_css_files as $media => $filename) {
             $url = str_replace(_PS_THEME_DIR_, _THEMES_DIR_ . _THEME_NAME_ . '/', $filename);
             $css_files[$protocolLink . self::getMediaServer($url) . $url] = $media;
@@ -1804,12 +1804,12 @@ class Tools14
     {
         global $js_files;
         //inits
-        $compressed_js_files_not_found = array();
-        $js_files_infos = array();
+        $compressed_js_files_not_found = [];
+        $js_files_infos = [];
         $js_files_date = 0;
         $compressed_js_file_date = 0;
         $compressed_js_filename = '';
-        $js_external_files = array();
+        $js_external_files = [];
         $protocolLink = self::getCurrentUrlProtocolPrefix();
 
         // get js files infos
@@ -1819,7 +1819,7 @@ class Tools14
             if ($expr[0] == 'http') {
                 $js_external_files[] = $filename;
             } else {
-                $infos = array();
+                $infos = [];
                 $infos['uri'] = $filename;
                 $url_data = parse_url($filename);
                 $infos['path'] = _PS_ROOT_DIR_ . self::str_replace_once(__PS_BASE_URI__, '/', $url_data['path']);
@@ -1863,7 +1863,7 @@ class Tools14
 
         // rebuild the original js_files array
         $url = str_replace(_PS_ROOT_DIR_ . '/', __PS_BASE_URI__, $compressed_js_path);
-        $js_files = array_merge(array($protocolLink . self::getMediaServer($url) . $url), $js_external_files);
+        $js_files = array_merge([$protocolLink . self::getMediaServer($url) . $url], $js_external_files);
     }
 
     private static $_cache_nb_media_servers = null;
@@ -1887,7 +1887,7 @@ class Tools14
 
     public static function generateHtaccess($path, $rewrite_settings, $cache_control, $specific = '', $disableMuliviews = false)
     {
-        $tab = array('ErrorDocument' => array(), 'RewriteEngine' => array(), 'RewriteRule' => array());
+        $tab = ['ErrorDocument' => [], 'RewriteEngine' => [], 'RewriteRule' => []];
         $multilang = (Language::countActiveLanguages() > 1);
 
         // ErrorDocument
@@ -2142,7 +2142,7 @@ AddOutputFilterByType DEFLATE application/x-javascript
     public static function pRegexp($s, $delim)
     {
         $s = str_replace($delim, '\\' . $delim, $s);
-        foreach (array('?', '[', ']', '(', ')', '{', '}', '-', '.', '+', '*', '^', '$') as $char) {
+        foreach (['?', '[', ']', '(', ')', '{', '}', '-', '.', '+', '*', '^', '$'] as $char) {
             $s = str_replace($char, '\\' . $char, $s);
         }
 
@@ -2242,14 +2242,14 @@ AddOutputFilterByType DEFLATE application/x-javascript
                 }
 
                 $value = (null === $value || $value === false || $value === '') ? (int) Configuration::get('PS_PRODUCTS_ORDER_BY') : $value;
-                $list = array(0 => 'name', 1 => 'price', 2 => 'date_add', 3 => 'date_upd', 4 => 'position', 5 => 'manufacturer_name', 6 => 'quantity');
+                $list = [0 => 'name', 1 => 'price', 2 => 'date_add', 3 => 'date_upd', 4 => 'position', 5 => 'manufacturer_name', 6 => 'quantity'];
 
                 return $orderByPrefix . ((isset($list[$value])) ? $list[$value] : ((in_array($value, $list)) ? $value : 'position'));
                 break;
 
             case 'way':
                 $value = (null === $value || $value === false || $value === '') ? (int) Configuration::get('PS_PRODUCTS_ORDER_WAY') : $value;
-                $list = array(0 => 'asc', 1 => 'desc');
+                $list = [0 => 'asc', 1 => 'desc'];
 
                 return (isset($list[$value])) ? $list[$value] : ((in_array($value, $list)) ? $value : 'asc');
                 break;
@@ -2292,7 +2292,7 @@ AddOutputFilterByType DEFLATE application/x-javascript
         header('HTTP/1.1 404 Not Found');
         header('Status: 404 Not Found');
         include dirname(__FILE__) . '/../404.php';
-        die;
+        exit;
     }
 
     /**
@@ -2306,7 +2306,7 @@ AddOutputFilterByType DEFLATE application/x-javascript
     public static function dieOrLog($msg, $die = true)
     {
         if ($die || (defined('_PS_MODE_DEV_') && _PS_MODE_DEV_)) {
-            die($msg);
+            exit($msg);
         }
 
         return Logger::addLog($msg);
@@ -2390,7 +2390,7 @@ AddOutputFilterByType DEFLATE application/x-javascript
 
     public static function nl2br($str)
     {
-        return str_replace(array("\r\n", "\r", "\n"), '<br />', $str);
+        return str_replace(["\r\n", "\r", "\n"], '<br />', $str);
     }
 
     /**

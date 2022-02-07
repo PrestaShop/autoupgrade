@@ -27,8 +27,8 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
-use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\Log\LoggerInterface;
+use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 class CacheCleaner
 {
@@ -50,19 +50,19 @@ class CacheCleaner
 
     public function cleanFolders()
     {
-        $dirsToClean = array(
+        $dirsToClean = [
             $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/app/cache/',
             $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/cache/smarty/cache/',
             $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/cache/smarty/compile/',
             $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/var/cache/',
-        );
+        ];
 
-        $defaultThemeNames = array(
+        $defaultThemeNames = [
             'default',
             'prestashop',
             'default-boostrap',
             'classic',
-        );
+        ];
 
         if (defined('_THEME_NAME_') && $this->container->getUpgradeConfiguration()->shouldUpdateDefaultTheme() && in_array(_THEME_NAME_, $defaultThemeNames)) {
             $dirsToClean[] = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/themes/' . _THEME_NAME_ . '/cache/';
@@ -70,7 +70,7 @@ class CacheCleaner
 
         foreach ($dirsToClean as $dir) {
             if (!file_exists($dir)) {
-                $this->logger->debug($this->container->getTranslator()->trans('[SKIP] directory "%s" does not exist and cannot be emptied.', array(str_replace($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH), '', $dir)), 'Modules.Autoupgrade.Admin'));
+                $this->logger->debug($this->container->getTranslator()->trans('[SKIP] directory "%s" does not exist and cannot be emptied.', [str_replace($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH), '', $dir)], 'Modules.Autoupgrade.Admin'));
                 continue;
             }
             foreach (scandir($dir) as $file) {
@@ -83,7 +83,7 @@ class CacheCleaner
                 } elseif (is_dir($dir . $file . DIRECTORY_SEPARATOR)) {
                     FilesystemAdapter::deleteDirectory($dir . $file . DIRECTORY_SEPARATOR);
                 }
-                $this->logger->debug($this->container->getTranslator()->trans('[CLEANING CACHE] File %s removed', array($file), 'Modules.Autoupgrade.Admin'));
+                $this->logger->debug($this->container->getTranslator()->trans('[CLEANING CACHE] File %s removed', [$file], 'Modules.Autoupgrade.Admin'));
             }
         }
     }

@@ -1,25 +1,18 @@
 parameters:
 	bootstrapFiles:
-		- ./../../tests/phpstan/bootstrap.php
-	reportUnmatchedIgnoredErrors: false
+		- bootstrap.php
 	paths:
+		# From PHPStan 0.12, paths to check are relative to the neon file
 		- ./../../classes
+		- ./../../AdminSelfUpgrade.php
+		- ./../../ajax-upgradetab.php
+		- ./../../ajax-upgradetabconfig.php
+		- ./../../autoupgrade.php
+		- ./../../cli-rollback.php
+		- ./../../cli-updateconfig.php
+		- ./../../cli-upgrade.php
 	excludes_analyse:
 		- ./../../classes/Tools14.php
 		- ./../../classes/pclzip.lib.php
 		- ./../../functions.php
-	ignoreErrors:
-		# module specific
-		- '#Function deactivate_custom_modules not found.#'
-		- '#Constant MCRYPT_[A-Z0-9_]+ not found.#'
-		- "#Call to function method_exists#"
-		- '#.* property (Module::)?\$installed.*#'
-		# CLDR related check
-		- '#[cC]lass PrestaShop\\PrestaShop\\Core\\Cldr\\Update#'
-		# AppKernel wasn't properly listed in autoloader
-		- '#AppKernel#'
-		- '#Access to offset 0 on an unknown class mysqli_result.#'
-		- '#Iterating over an object of an unknown class mysqli_result.#'
-		- '#PrestaShop\\PrestaShop\\Core\\CommandBus\\TacticianCommandBusAdapter#'
-
 	level: 5

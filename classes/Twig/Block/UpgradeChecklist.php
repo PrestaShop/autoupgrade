@@ -27,9 +27,9 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Twig\Block;
 
-use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
-use PrestaShop\Module\AutoUpgrade\Tools14;
 use Context;
+use PrestaShop\Module\AutoUpgrade\Tools14;
+use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
 use Twig_Environment;
 
 /**
@@ -108,7 +108,7 @@ class UpgradeChecklist
      */
     public function render()
     {
-        $data = array(
+        $data = [
             'showErrorMessage' => !$this->selfCheck->isOkForUpgrade(),
             'moduleVersion' => $this->selfCheck->getModuleVersion(),
             'moduleIsUpToDate' => $this->selfCheck->isModuleVersionLatest(),
@@ -129,7 +129,7 @@ class UpgradeChecklist
             'maxExecutionTime' => $this->selfCheck->getMaxExecutionTime(),
             'phpUpgradeRequired' => $this->selfCheck->isPhpUpgradeRequired(),
             'isPrestaShopReady' => $this->selfCheck->isPrestaShopReady(),
-        );
+        ];
 
         return $this->twig->render('@ModuleAutoUpgrade/block/checklist.twig', $data);
     }

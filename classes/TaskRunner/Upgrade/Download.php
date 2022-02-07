@@ -27,8 +27,8 @@
 
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 
-use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 
 /**
@@ -39,7 +39,7 @@ class Download extends AbstractTask
     public function run()
     {
         if (!\ConfigurationTest::test_fopen() && !\ConfigurationTest::test_curl()) {
-            $this->logger->error($this->translator->trans('You need allow_url_fopen or cURL enabled for automatic download to work. You can also manually upload it in filepath %s.', array($this->container->getFilePath()), 'Modules.Autoupgrade.Admin'));
+            $this->logger->error($this->translator->trans('You need allow_url_fopen or cURL enabled for automatic download to work. You can also manually upload it in filepath %s.', [$this->container->getFilePath()], 'Modules.Autoupgrade.Admin'));
             $this->next = 'error';
 
             return;
@@ -51,20 +51,20 @@ class Download extends AbstractTask
         $upgrader->channel = $this->container->getUpgradeConfiguration()->get('channel');
         $upgrader->branch = $matches[1];
         if ($this->container->getUpgradeConfiguration()->get('channel') == 'private' && !$this->container->getUpgradeConfiguration()->get('private_allow_major')) {
-            $upgrader->checkPSVersion(false, array('private', 'minor'));
+            $upgrader->checkPSVersion(false, ['private', 'minor']);
         } else {
-            $upgrader->checkPSVersion(false, array('minor'));
+            $upgrader->checkPSVersion(false, ['minor']);
         }
 
         if ($upgrader->channel == 'private') {
             $upgrader->link = $this->container->getUpgradeConfiguration()->get('private_release_link');
             $upgrader->md5 = $this->container->getUpgradeConfiguration()->get('private_release_md5');
         }
-        $this->logger->debug($this->translator->trans('Downloading from %s', array($upgrader->link), 'Modules.Autoupgrade.Admin'));
-        $this->logger->debug($this->translator->trans('File will be saved in %s', array($this->container->getFilePath()), 'Modules.Autoupgrade.Admin'));
+        $this->logger->debug($this->translator->trans('Downloading from %s', [$upgrader->link], 'Modules.Autoupgrade.Admin'));
+        $this->logger->debug($this->translator->trans('File will be saved in %s', [$this->container->getFilePath()], 'Modules.Autoupgrade.Admin'));
         if (file_exists($this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH))) {
             FilesystemAdapter::deleteDirectory($this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH), false);
-            $this->logger->debug($this->translator->trans('Download directory has been emptied', array(), 'Modules.Autoupgrade.Admin'));
+            $this->logger->debug($this->translator->trans('Download directory has been emptied', [], 'Modules.Autoupgrade.Admin'));
         }
         $report = '';
         $relative_download_path = str_replace(_PS_ROOT_DIR_, '', $this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH));
@@ -74,23 +74,23 @@ class Download extends AbstractTask
                 $md5file = md5_file(realpath($this->container->getProperty(UpgradeContainer::ARCHIVE_FILEPATH)));
                 if ($md5file == $upgrader->md5) {
                     $this->next = 'unzip';
-                    $this->logger->debug($this->translator->trans('Download complete.', array(), 'Modules.Autoupgrade.Admin'));
-                    $this->logger->info($this->translator->trans('Download complete. Now extracting...', array(), 'Modules.Autoupgrade.Admin'));
+                    $this->logger->debug($this->translator->trans('Download complete.', [], 'Modules.Autoupgrade.Admin'));
+                    $this->logger->info($this->translator->trans('Download complete. Now extracting...', [], 'Modules.Autoupgrade.Admin'));
                 } else {
-                    $this->logger->error($this->translator->trans('Download complete but MD5 sum does not match (%s).', array($md5file), 'Modules.Autoupgrade.Admin'));
-                    $this->logger->info($this->translator->trans('Download complete but MD5 sum does not match (%s). Operation aborted.', array($md5file), 'Modules.Autoupgrade.Admin'));
+                    $this->logger->error($this->translator->trans('Download complete but MD5 sum does not match (%s).', [$md5file], 'Modules.Autoupgrade.Admin'));
+                    $this->logger->info($this->translator->trans('Download complete but MD5 sum does not match (%s). Operation aborted.', [$md5file], 'Modules.Autoupgrade.Admin'));
                     $this->next = 'error';
                 }
             } else {
                 if ($upgrader->channel == 'private') {
-                    $this->logger->error($this->translator->trans('Error during download. The private key may be incorrect.', array(), 'Modules.Autoupgrade.Admin'));
+                    $this->logger->error($this->translator->trans('Error during download. The private key may be incorrect.', [], 'Modules.Autoupgrade.Admin'));
                 } else {
-                    $this->logger->error($this->translator->trans('Error during download', array(), 'Modules.Autoupgrade.Admin'));
+                    $this->logger->error($this->translator->trans('Error during download', [], 'Modules.Autoupgrade.Admin'));
                 }
                 $this->next = 'error';
             }
         } else {
-            $this->logger->error($this->translator->trans('Download directory %s is not writable.', array($this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH)), 'Modules.Autoupgrade.Admin'));
+            $this->logger->error($this->translator->trans('Download directory %s is not writable.', [$this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH)], 'Modules.Autoupgrade.Admin'));
             $this->next = 'error';
         }
     }

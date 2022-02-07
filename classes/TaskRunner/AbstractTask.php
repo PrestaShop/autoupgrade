@@ -37,7 +37,7 @@ abstract class AbstractTask
      *               value = the next step you want instead
      *	example : public static $skipAction = array();
      */
-    public static $skipAction = array();
+    public static $skipAction = [];
 
     /**
      * @var Logger
@@ -58,7 +58,7 @@ abstract class AbstractTask
     protected $stepDone;
     protected $status;
     protected $error;
-    protected $nextParams = array();
+    protected $nextParams = [];
     protected $next;
 
     public function __construct(UpgradeContainer $container)
@@ -111,7 +111,7 @@ abstract class AbstractTask
         $currentAction = get_class($this);
         if (isset(self::$skipAction[$currentAction])) {
             $this->next = self::$skipAction[$currentAction];
-            $this->logger->info($this->translator->trans('Action %s skipped', array($currentAction), 'Modules.Autoupgrade.Admin'));
+            $this->logger->info($this->translator->trans('Action %s skipped', [$currentAction], 'Modules.Autoupgrade.Admin'));
         }
     }
 

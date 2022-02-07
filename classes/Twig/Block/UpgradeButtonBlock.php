@@ -29,12 +29,12 @@ namespace PrestaShop\Module\AutoUpgrade\Twig\Block;
 
 use Configuration;
 use PrestaShop\Module\AutoUpgrade\ChannelInfo;
-use Twig_Environment;
-use PrestaShop\Module\AutoUpgrade\Upgrader;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\Upgrader;
 use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
+use Twig_Environment;
 
 class UpgradeButtonBlock
 {
@@ -119,22 +119,22 @@ class UpgradeButtonBlock
         $versionCompare = version_compare(_PS_VERSION_, $this->upgrader->version_num);
         $channel = $this->config->get('channel');
 
-        if (!in_array($channel, array('archive', 'directory')) && !empty($this->upgrader->version_num)) {
+        if (!in_array($channel, ['archive', 'directory']) && !empty($this->upgrader->version_num)) {
             $latestVersion = "{$this->upgrader->version_name} - ({$this->upgrader->version_num})";
         } else {
-            $latestVersion = $translator->trans('N/A', array(), 'Admin.Global');
+            $latestVersion = $translator->trans('N/A', [], 'Admin.Global');
         }
 
         $showUpgradeButton = false;
         $showUpgradeLink = false;
         $upgradeLink = '';
         $changelogLink = '';
-        $skipActions = array();
+        $skipActions = [];
 
         // decide to display "Start Upgrade" or not
         if ($this->selfCheck->isOkForUpgrade() && $versionCompare < 0) {
             $showUpgradeButton = true;
-            if (!in_array($channel, array('archive', 'directory'))) {
+            if (!in_array($channel, ['archive', 'directory'])) {
                 if ($channel == 'private') {
                     $this->upgrader->link = $this->config->get('private_release_link');
                 }
@@ -155,7 +155,7 @@ class UpgradeButtonBlock
         $dir = glob($this->downloadPath . DIRECTORY_SEPARATOR . '*.zip');
         $xml = glob($this->downloadPath . DIRECTORY_SEPARATOR . '*.xml');
 
-        $data = array(
+        $data = [
             'versionCompare' => $versionCompare,
             'currentPsVersion' => _PS_VERSION_,
             'latestChannelVersion' => $latestVersion,
@@ -169,11 +169,11 @@ class UpgradeButtonBlock
             'token' => $this->token,
             'channelOptions' => $this->getOptChannels(),
             'channelInfoBlock' => $this->buildChannelInfoBlock($channel),
-            'privateChannel' => array(
+            'privateChannel' => [
                 'releaseLink' => $this->config->get('private_release_link'),
                 'releaseMd5' => $this->config->get('private_release_md5'),
                 'allowMajor' => $this->config->get('private_allow_major'),
-            ),
+            ],
             'archiveFiles' => $dir,
             'xmlFiles' => $xml,
             'archiveFileName' => $this->config->get('archive.filename'),
@@ -183,7 +183,7 @@ class UpgradeButtonBlock
             'directoryVersionNumber' => $this->config->get('directory.version_num'),
             'manualMode' => $this->manualMode,
             'phpVersion' => PHP_VERSION,
-        );
+        ];
 
         return $this->twig->render('@ModuleAutoUpgrade/block/upgradeButtonBlock.twig', $data);
     }
@@ -195,17 +195,17 @@ class UpgradeButtonBlock
     {
         $translator = $this->translator;
 
-        return array(
+        return [
             // Hey ! I'm really using a fieldset element to regroup fields ?! !
-            array('useMajor', 'major', $translator->trans('Major release', array(), 'Modules.Autoupgrade.Admin')),
-            array('useMinor', 'minor', $translator->trans('Minor release (recommended)', array(), 'Modules.Autoupgrade.Admin')),
-            array('useRC', 'rc', $translator->trans('Release candidates', array(), 'Modules.Autoupgrade.Admin')),
-            array('useBeta', 'beta', $translator->trans('Beta releases', array(), 'Modules.Autoupgrade.Admin')),
-            array('useAlpha', 'alpha', $translator->trans('Alpha releases', array(), 'Modules.Autoupgrade.Admin')),
-            array('usePrivate', 'private', $translator->trans('Private release (require link and MD5 hash)', array(), 'Modules.Autoupgrade.Admin')),
-            array('useArchive', 'archive', $translator->trans('Local archive', array(), 'Modules.Autoupgrade.Admin')),
-            array('useDirectory', 'directory', $translator->trans('Local directory', array(), 'Modules.Autoupgrade.Admin')),
-        );
+            ['useMajor', 'major', $translator->trans('Major release', [], 'Modules.Autoupgrade.Admin')],
+            ['useMinor', 'minor', $translator->trans('Minor release (recommended)', [], 'Modules.Autoupgrade.Admin')],
+            ['useRC', 'rc', $translator->trans('Release candidates', [], 'Modules.Autoupgrade.Admin')],
+            ['useBeta', 'beta', $translator->trans('Beta releases', [], 'Modules.Autoupgrade.Admin')],
+            ['useAlpha', 'alpha', $translator->trans('Alpha releases', [], 'Modules.Autoupgrade.Admin')],
+            ['usePrivate', 'private', $translator->trans('Private release (require link and MD5 hash)', [], 'Modules.Autoupgrade.Admin')],
+            ['useArchive', 'archive', $translator->trans('Local archive', [], 'Modules.Autoupgrade.Admin')],
+            ['useDirectory', 'directory', $translator->trans('Local directory', [], 'Modules.Autoupgrade.Admin')],
+        ];
     }
 
     private function getInfoForChannel($channel)

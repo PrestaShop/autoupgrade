@@ -27,10 +27,10 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
-use PrestaShop\Module\AutoUpgrade\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\Log\LoggerInterface;
-use Symfony\Component\Filesystem\Filesystem;
 use PrestaShop\Module\AutoUpgrade\LoggedEvent;
+use PrestaShop\Module\AutoUpgrade\UpgradeException;
+use Symfony\Component\Filesystem\Filesystem;
 
 class SettingsFileWriter
 {
@@ -57,7 +57,7 @@ class SettingsFileWriter
     public function writeSettingsFile($filePath, $data)
     {
         if (!is_writable($filePath)) {
-            throw new UpgradeException($this->translator->trans('Error when opening settings.inc.php file in write mode', array(), 'Modules.Autoupgrade.Admin'));
+            throw new UpgradeException($this->translator->trans('Error when opening settings.inc.php file in write mode', [], 'Modules.Autoupgrade.Admin'));
         }
 
         // Create backup file
@@ -68,7 +68,7 @@ class SettingsFileWriter
         fwrite($fd, '<?php' . PHP_EOL);
         foreach ($data as $name => $value) {
             if (false === fwrite($fd, "define('$name', '{$this->checkString($value)}');" . PHP_EOL)) {
-                throw new UpgradeException($this->translator->trans('Error when generating new settings.inc.php file.', array(), 'Modules.Autoupgrade.Admin'));
+                throw new UpgradeException($this->translator->trans('Error when generating new settings.inc.php file.', [], 'Modules.Autoupgrade.Admin'));
             }
         }
         fclose($fd);
@@ -81,7 +81,7 @@ class SettingsFileWriter
         }
         if (!is_numeric($string)) {
             $string = addslashes($string);
-            $string = str_replace(array("\n", "\r"), '', $string);
+            $string = str_replace(["\n", "\r"], '', $string);
         }
 
         return $string;

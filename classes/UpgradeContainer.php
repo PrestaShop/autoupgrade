@@ -29,6 +29,11 @@ namespace PrestaShop\Module\AutoUpgrade;
 
 use PrestaShop\Module\AutoUpgrade\Log\LegacyLogger;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
+use PrestaShop\Module\AutoUpgrade\Parameters\FileConfigurationStorage;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfigurationStorage;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
+use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension;
 use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension3;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\CacheCleaner;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FileFilter;
@@ -36,14 +41,9 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\ModuleAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translation;
-use PrestaShop\Module\AutoUpgrade\Parameters\FileConfigurationStorage;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfigurationStorage;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
-use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
-use Twig_Loader_Filesystem;
 use Twig_Environment;
+use Twig_Loader_Filesystem;
 
 /**
  * Class responsible of the easy (& Lazy) loading of the different services
@@ -305,19 +305,19 @@ class UpgradeContainer
                 if (!empty($archiveXml)) {
                     $upgrader->version_md5[$upgrader->version_num] = $this->getProperty(self::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $archiveXml;
                 }
-                $upgrader->checkPSVersion(true, array('archive'));
+                $upgrader->checkPSVersion(true, ['archive']);
                 break;
             case 'directory':
                 $upgrader->channel = 'directory';
                 $upgrader->version_num = $upgradeConfiguration->get('directory.version_num');
-                $upgrader->checkPSVersion(true, array('directory'));
+                $upgrader->checkPSVersion(true, ['directory']);
                 break;
             default:
                 $upgrader->channel = $channel;
                 if ($upgradeConfiguration->get('channel') == 'private' && !$upgradeConfiguration->get('private_allow_major')) {
-                    $upgrader->checkPSVersion(false, array('private', 'minor'));
+                    $upgrader->checkPSVersion(false, ['private', 'minor']);
                 } else {
-                    $upgrader->checkPSVersion(false, array('minor'));
+                    $upgrader->checkPSVersion(false, ['minor']);
                 }
         }
         $this->getState()->setInstallVersion($upgrader->version_num);
@@ -510,11 +510,11 @@ class UpgradeContainer
             return $this->workspace;
         }
 
-        $paths = array();
-        $properties = array(
+        $paths = [];
+        $properties = [
             self::WORKSPACE_PATH, self::BACKUP_PATH,
             self::DOWNLOAD_PATH, self::LATEST_PATH,
-            self::TMP_PATH, );
+            self::TMP_PATH, ];
 
         foreach ($properties as $property) {
             $paths[] = $this->getProperty($property);

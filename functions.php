@@ -33,7 +33,7 @@
  */
 function rewriteSettingsFile($baseUrls = null, $theme = null, $arrayDB = null)
 {
-    $defines = array();
+    $defines = [];
     $defines['__PS_BASE_URI__'] = ($baseUrls && $baseUrls['__PS_BASE_URI__']) ? $baseUrls['__PS_BASE_URI__'] : __PS_BASE_URI__;
     $defines['_MEDIA_SERVER_1_'] = ($baseUrls && isset($baseUrls['_MEDIA_SERVER_1_'])) ? $baseUrls['_MEDIA_SERVER_1_'] : _MEDIA_SERVER_1_;
     $defines['_PS_CACHING_SYSTEM_'] = _PS_CACHING_SYSTEM_;
@@ -150,7 +150,7 @@ function getPath($urlBase, $id_category, $path = '', $highlight = '', $categoryT
 
 function getDirContent($path)
 {
-    $content = array();
+    $content = [];
     if (is_dir($path)) {
         $d = dir($path);
         while (false !== ($entry = $d->read())) {
@@ -215,7 +215,7 @@ function checkingTab($tab)
     }
     $adminObj = new $tab();
     if (!$adminObj->viewAccess()) {
-        $adminObj->_errors = array(Tools14::displayError('Access denied'));
+        $adminObj->_errors = [Tools14::displayError('Access denied')];
         echo $adminObj->displayErrors();
 
         return false;
@@ -285,7 +285,7 @@ function checkTabRights($id_tab)
  */
 function simpleXMLToArray($xml, $flattenValues = true, $flattenAttributes = true, $flattenChildren = true, $valueKey = '@value', $attributesKey = '@attributes', $childrenKey = '@children')
 {
-    $return = array();
+    $return = [];
     if (!($xml instanceof SimpleXMLElement)) {
         return $return;
     }
@@ -304,7 +304,7 @@ function simpleXMLToArray($xml, $flattenValues = true, $flattenAttributes = true
         }
     }
 
-    $children = array();
+    $children = [];
     $first = true;
     foreach ($xml->children() as $elementName => $child) {
         $value = simpleXMLToArray($child, $flattenValues, $flattenAttributes, $flattenChildren, $valueKey, $attributesKey, $childrenKey);
@@ -329,7 +329,7 @@ function simpleXMLToArray($xml, $flattenValues = true, $flattenAttributes = true
         }
     }
 
-    $attributes = array();
+    $attributes = [];
     foreach ($xml->attributes() as $name => $value) {
         $attributes[$name] = trim($value);
     }

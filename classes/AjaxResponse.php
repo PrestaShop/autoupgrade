@@ -59,7 +59,7 @@ class AjaxResponse
     /**
      * @var array Params to send (upgrade conf, details on the work to do ...)
      */
-    private $nextParams = array();
+    private $nextParams = [];
 
     /**
      * Request format of the data to return.
@@ -93,7 +93,7 @@ class AjaxResponse
      */
     public function getResponse()
     {
-        $return = array(
+        $return = [
             'error' => $this->error,
             'stepDone' => $this->stepDone,
             'next' => $this->next,
@@ -104,12 +104,12 @@ class AjaxResponse
             'nextParams' => array_merge(
                 $this->nextParams,
                 $this->state->export(),
-                array(
+                [
                     'typeResult' => self::RESPONSE_FORMAT,
                     'config' => $this->upgradeConfiguration->toArray(),
-                )
+                ]
             ),
-        );
+        ];
 
         return $return;
     }

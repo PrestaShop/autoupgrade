@@ -53,11 +53,11 @@ class BackupOptionsForm
 
         $translationDomain = 'Modules.Autoupgrade.Admin';
 
-        $this->fields = array(
-            'PS_AUTOUP_BACKUP' => array(
+        $this->fields = [
+            'PS_AUTOUP_BACKUP' => [
                 'title' => $this->translator->trans(
                     'Back up my files and database',
-                    array(),
+                    [],
                     $translationDomain
                 ),
                 'cast' => 'intval',
@@ -66,14 +66,14 @@ class BackupOptionsForm
                 'type' => 'bool',
                 'desc' => $this->translator->trans(
                     'Automatically back up your database and files in order to restore your shop if needed. This is experimental: you should still perform your own manual backup for safety.',
-                    array(),
+                    [],
                     $translationDomain
                 ),
-            ),
-            'PS_AUTOUP_KEEP_IMAGES' => array(
+            ],
+            'PS_AUTOUP_KEEP_IMAGES' => [
                 'title' => $this->translator->trans(
                     'Back up my images',
-                    array(),
+                    [],
                     $translationDomain
                 ),
                 'cast' => 'intval',
@@ -82,11 +82,11 @@ class BackupOptionsForm
                 'type' => 'bool',
                 'desc' => $this->translator->trans(
                     'To save time, you can decide not to back your images up. In any case, always make sure you did back them up manually.',
-                    array(),
+                    [],
                     $translationDomain
                 ),
-            ),
-        );
+            ],
+        ];
     }
 
     public function render()
@@ -96,7 +96,7 @@ class BackupOptionsForm
                 $this->fields,
                 $this->translator->trans(
                     'Backup Options',
-                    array(),
+                    [],
                     'Modules.Autoupgrade.Admin'
                 ),
                 '',
