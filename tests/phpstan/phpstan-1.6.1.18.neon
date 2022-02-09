@@ -7,6 +7,7 @@ parameters:
 		- ./../../classes/pclzip.lib.php
 		- ./../../functions.php
 		- ./../../classes/UpgradeTools/CoreUpgrader/CoreUpgrader17.php
+		- ./../../classes/UpgradeTools/CoreUpgrader/CoreUpgrader80.php
 		- ./../../classes/UpgradeTools/SymfonyAdapter.php
 	ignoreErrors:
 		- '#Access to an undefined property Autoupgrade::\$bootstrap.#'

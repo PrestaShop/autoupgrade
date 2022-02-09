@@ -49,8 +49,7 @@ class CoreUpgrader80 extends CoreUpgrader
 
         $commandResult = $this->container->getSymfonyAdapter()->runSchemaUpgradeCommand();
         if (0 !== $commandResult['exitCode']) {
-            throw (new UpgradeException($this->container->getTranslator()->trans('Error upgrading Doctrine schema', array(), 'Modules.Autoupgrade.Admin')))
-                ->setQuickInfos(explode("\n", $commandResult['output']));
+            throw (new UpgradeException($this->container->getTranslator()->trans('Error upgrading Doctrine schema', [], 'Modules.Autoupgrade.Admin')))->setQuickInfos(explode("\n", $commandResult['output']));
         }
     }
 
@@ -61,19 +60,10 @@ class CoreUpgrader80 extends CoreUpgrader
         if (!\Validate::isLangIsoCode($isoCode)) {
             return;
         }
-        $errorsLanguage = array();
+        $errorsLanguage = [];
 
         if (!\Language::downloadLanguagePack($isoCode, _PS_VERSION_, $errorsLanguage)) {
-            throw new UpgradeException(
-                $this->container->getTranslator()->trans(
-                    'Download of the language pack %lang% failed. %details%',
-                    [
-                        '%lang%' => $isoCode,
-                        '%details%' => implode('; ', $errorsLanguage),
-                    ],
-                    'Modules.Autoupgrade.Admin'
-                )
-            );
+            throw new UpgradeException($this->container->getTranslator()->trans('Download of the language pack %lang% failed. %details%', ['%lang%' => $isoCode, '%details%' => implode('; ', $errorsLanguage)], 'Modules.Autoupgrade.Admin'));
         }
 
         $lang_pack = \Language::getLangDetails($isoCode);
@@ -99,27 +89,12 @@ class CoreUpgrader80 extends CoreUpgrader
             try {
                 $commandBus->handle($generateCommand);
             } catch (CoreException $e) {
-                throw new UpgradeException(
-                    $this->container->getTranslator()->trans(
-                        'Cannot generate email templates: %s.',
-                        [$e->getMessage()],
-                        'Modules.Autoupgrade.Admin'
-                    )
-                );
+                throw new UpgradeException($this->container->getTranslator()->trans('Cannot generate email templates: %s.', [$e->getMessage()], 'Modules.Autoupgrade.Admin'));
             }
         }
 
         if (!empty($errorsLanguage)) {
-            throw new UpgradeException(
-                $this->container->getTranslator()->trans(
-                    'Error while updating translations for lang %lang%. %details%',
-                    [
-                        '%lang%' => $isoCode,
-                        '%details%' => implode('; ', $errorsLanguage),
-                    ],
-                    'Modules.Autoupgrade.Admin'
-                )
-            );
+            throw new UpgradeException($this->container->getTranslator()->trans('Error while updating translations for lang %lang%. %details%', ['%lang%' => $isoCode, '%details%' => implode('; ', $errorsLanguage)], 'Modules.Autoupgrade.Admin'));
         }
         \Language::loadLanguages();
 
