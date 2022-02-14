@@ -1,34 +1,22 @@
 {% import "@ModuleAutoUpgrade/macros/icons.twig" as icons %}
 
-
 <div class="bootstrap" id="currentConfigurationBlock">
     <div class="panel">
         <div class="panel-heading">
             {{ 'The pre-Upgrade checklist'|trans }}
         </div>
+        {% if not moduleIsUpToDate %}
+            <p class="alert alert-warning">
+                {{ 'Your current version of the module is out of date. Update now'|trans }}
+                <a href=" {{ moduleUpdateLink }} ">{{ 'Modules >  Module Manager > Updates'|trans|raw }}</a>
+            </p>
+        {% endif %}
         {% if showErrorMessage %}
-        <p class="alert alert-warning">{{ 'The checklist is not OK. You can only upgrade your shop once all indicators are green.'|trans }}</p>
+            <p class="alert alert-warning">{{ 'The checklist is not OK. You can only upgrade your shop once all indicators are green.'|trans }}</p>
         {% endif %}
         <div id="currentConfiguration">
             <p class="alert alert-info">{{ 'Before starting the upgrade process, please make sure this checklist is all green.'|trans }}</p>
             <table class="table" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td>{{ 'The 1-click upgrade module is up-to-date (your current version is v%s)'|trans([moduleVersion]) }}
-                        {% if not moduleIsUpToDate %}
-                            {% if versionGreaterThan1_5_3 %}
-                            <strong><a href="index.php?controller=AdminModules&amp;token={{ adminToken|url_encode }}&update=autoupgrade">{{ 'Update'|trans({}, 'Admin.Actions') }}</a></strong>
-                            {% endif %}
-                            <strong><a class="_blank" href="http://addons.prestashop.com/en/administration-tools-prestashop-modules/5496-1-click-upgrade-autoupgrade.html">{{ 'Download'|trans }}</a></strong>
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if moduleIsUpToDate %}
-                            {{ icons.ok }}
-                        {% else %}
-                            {{ icons.nok }}
-                        {% endif %}
-                    </td>
-                </tr>
                 <tr>
                     <td>
                         {% if not phpUpgradeRequired %}
