@@ -2,6 +2,8 @@ includes:
 	- %currentWorkingDirectory%/tests/phpstan/phpstan.neon
 
 parameters:
+	excludes_analyse:
+		- ./../../classes/UpgradeTools/CoreUpgrader/CoreUpgrader80.php
 	ignoreErrors:
 		- '#Access to an undefined property Autoupgrade::\$bootstrap.#'
 		- '#Access to an undefined property Module::\$installed.#'
