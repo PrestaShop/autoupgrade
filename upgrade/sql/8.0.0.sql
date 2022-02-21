@@ -19,7 +19,10 @@ INSERT IGNORE INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `po
   (NULL, 'actionAdminSecurityControllerPostProcessBefore', 'On post-process in Admin Security Controller', 'This hook is called on Admin Security Controller post-process before processing any form', '1'),
   (NULL, 'actionAdminSecurityControllerPostProcessGeneralBefore', 'On post-process in Admin Security Controller', 'This hook is called on Admin Security Controller post-process before processing the General form', '1'),
   (NULL, 'dashboardZoneThree', 'Dashboard column three', 'This hook is displayed in the third column of the dashboard', '1'),
-  (NULL, 'actionPresentPaymentOptions', 'Payment options Presenter', 'This hook is called before payment options are presented', '1')
+  (NULL, 'actionPresentPaymentOptions', 'Payment options Presenter', 'This hook is called before payment options are presented', '1'),
+  (NULL, 'actionCustomerLogoutBefore', 'Before customer logout', 'This hook allows you to execute code before customer logout', '1'),
+  (NULL, 'actionCustomerLogoutAfter', 'After customer logout', 'This hook allows you to execute code after customer logout', '1'),
+  (NULL, 'displayCheckoutSummaryTop', 'Cart summary top', 'This hook allows you to display new elements in top of cart summary', '1')
 ;
 
 ALTER TABLE `PREFIX_employee_session` ADD `date_upd` DATETIME NOT NULL AFTER `token`;
