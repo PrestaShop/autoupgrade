@@ -34,6 +34,8 @@ use Twig_Environment;
 
 class ChannelInfoBlock
 {
+    const PS_VERSION_DISPLAY_MAX_PRECISION = 3;
+
     /**
      * @var UpgradeConfiguration
      */
@@ -82,6 +84,8 @@ class ChannelInfoBlock
                 'upgradeInfo' => $upgradeInfo,
                 'allPhpVersions' => UpgradeSelfCheck::PHP_VERSIONS_DISPLAY,
                 'psPhpCompatibilityRanges' => $this->buildCompatibilityTableDisplay(),
+                'currentFormattedPhpVersion' => $this->getFormattedVersion(PHP_VERSION),
+                'targetFormattedPSVersion' => $this->getFormattedVersion($upgradeInfo['version_num'], self::PS_VERSION_DISPLAY_MAX_PRECISION),
             ]
         );
     }
@@ -110,11 +114,13 @@ class ChannelInfoBlock
                 $result[$label]['php_versions'] = $this->buildPhpVersionsList($previousPHPRange);
                 $result[$label]['is_current'] = $isCurrentPrestaVersion;
                 $startPrestaShopVersion = $prestashopVersion;
+                $result[$label]['is_target'] = $this->getFormattedVersion($this->channelInfo->getInfo()['version_num'], self::PS_VERSION_DISPLAY_MAX_PRECISION) === $label;
                 $previousPrestaVersion = null;
             }
             if ($i === count(UpgradeSelfCheck::PHP_PS_VERSIONS)) {
                 $result[$prestashopVersion]['php_versions'] = $this->buildPhpVersionsList($phpVersions);
                 $result[$prestashopVersion]['is_current'] = $isCurrentPrestaVersion;
+                $result[$prestashopVersion]['is_target'] = $this->getFormattedVersion($this->channelInfo->getInfo()['version_num'], self::PS_VERSION_DISPLAY_MAX_PRECISION) === $prestashopVersion;
             }
             $previousPHPRange = $phpVersions;
         }
@@ -178,8 +184,21 @@ class ChannelInfoBlock
             return version_compare(_PS_VERSION_, $prestaversion, '>=');
         }
         $explodedCurrentPSVersion = explode('.', _PS_VERSION_);
-        $shortenCurrentPrestashop = implode('.', array_slice($explodedCurrentPSVersion, 0, 3));
+        $shortenCurrentPrestashop = implode('.', array_slice($explodedCurrentPSVersion, 0, self::PS_VERSION_DISPLAY_MAX_PRECISION));
 
         return $prestaversion === $shortenCurrentPrestashop;
+    }
+
+    /**
+     * Gets display (shortened) version for a given version and maximum precision
+     *
+     * @param string $version
+     * @param int $precision
+     * @return string
+     */
+    private function getFormattedVersion($version, $maxPrecision = 2) {
+        $explodedVersion = array_slice(explode('.', $version), 0, $maxPrecision);
+
+        return implode('.', $explodedVersion);
     }
 }

@@ -48,8 +48,8 @@
 .support-yes, .example-yes {text-align: center;}
 table.upgrade-compat-table td {padding: 0.5rem 0.8rem;font-size: 1.5em;}
 table.upgrade-compat-table th {background: #f7f7f7;padding: 0.5rem 0.8rem;font-size: 1.5em;}
-table.upgrade-compat-table .target {border-top: 1px dashed #70b580;border-bottom: 1px dashed #70b580;}
-table.upgrade-compat-table .target-col {border-left: 1px dashed #70b580;border-right: 1px dashed #70b580;}
+table.upgrade-compat-table tr.highlighted-row .target {border-top: 1px dashed #70b580;border-bottom: 1px dashed #70b580;}
+table.upgrade-compat-table td.highlighted-col {border-left: 1px dashed #70b580;border-right: 1px dashed #70b580;}
 table.upgrade-compat-table .targeted {background-color: #70b580 !important;}
 table.upgrade-compat-table .icon-check-circle {color:#70b580;font-size:1.7em}
 table.upgrade-compat-table .autoupgrade-white {color:#fff;}

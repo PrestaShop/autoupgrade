@@ -86,138 +86,31 @@
                     <th>≤&nbsp;5.1</th>
                     {% for phpVersion in allPhpVersions %}
                         <th>{{ phpVersion }}</th>
-                        {# <th class="target target-col" style="text-align:center">7.1 <p class="autoupgrade-green">Required</p></th> #}
                     {% endfor %}
                     <th>≥&nbsp;8.1</th>
                     </tr>
                 </thead>
                 <tbody>
                 {% for prestashopVersion, item in psPhpCompatibilityRanges %}
-
-                    <tr>
+                    <tr {% if  item.is_current or item.is_target %}class="highlighted-row"{% endif %}>
                         <td class="target"> {{ prestashopVersion }}
                             {% if  item.is_current %}
                                 <br><span class="autoupgrade-green">Current</span></td>
+                            {% elseif item.is_target%}
+                                <br><span class="autoupgrade-green">Target</span></td>
                             {% endif %}
                         <td class="support-no target"><span class="sr-only">No</span>no</td>
                         {% for phpVersion in allPhpVersions %}
-                            <td class="support{% if  phpVersion in item.php_versions %}yes{% else%}no{% endif%} target">
+                            <td class="target{% if phpVersion == currentFormattedPhpVersion %} highlighted-col{% if targetFormattedPSVersion == prestashopVersion %} targeted{% endif %}{% endif %}">
                                 <span class="sr-only">Yes</span>
                                 {% if  phpVersion in item.php_versions %}
-                                    <i class="icon-check-circle" title="Yes"></i>
+                                    <i class="icon-check-circle{% if phpVersion == currentFormattedPhpVersion and targetFormattedPSVersion == prestashopVersion %} autoupgrade-white{% endif %}" title="Yes"></i>
                                 {% endif %}
                             </td>
                         {% endfor %}
-
-                        {#  <td class="support-yes target"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
-                        <td class="support-yes target"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
-                        <td class="support-yes target"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
-                        <td class="support-yes target"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
-                        <td class="support-yes target"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
-                        <td class="support-yes target target-col targeted"><span class="sr-only">Yes</span><i class="icon-check-circle autoupgrade-white" title="Yes"></i></td>
-                        <td class="support-no target"><span class="sr-only">No</span></td>
-                        <td class="support-no target"><span class="sr-only">No</span></td>
-                        <td class="support-no target"><span class="sr-only">No</span></td>
-                        <td class="support-no target"><span class="sr-only">No</span></td>#}
                         <td class="support-no target"><span class="sr-only">No</span></td>
                     </tr>
                 {% endfor %}
-                {#    <tr>
-                        <td>1.7.0 ~ 1.7.3</td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-yes"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
-                        <td class="support-yes"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
-                        <td class="support-yes"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
-                        <td class="support-yes"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
-                        <td class="support-yes target-col"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                    </tr>
-                    <tr>
-                        <td>1.7.4</td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-yes"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
-                        <td class="support-yes"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
-                        <td class="support-yes target-col"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                    </tr>
-                    <tr>
-                        <td>1.7.5 ~ 1.7.6</td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-yes"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
-                        <td class="support-yes"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
-                        <td class="support-yes target-col"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
-                        <td class="support-yes"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                    </tr>
-                    <tr>
-                        <td>1.7.7</td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-yes target-col"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
-                        <td class="support-yes"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
-                        <td class="support-yes"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                    </tr>
-                    <tr>
-                        <td class="target">1.7.8 <br><span class="autoupgrade-green">Wanted</span></td>
-                        <td class="support-no target"><span class="sr-only">No</span></td>
-                        <td class="support-no target"><span class="sr-only">No</span></td>
-                        <td class="support-no target"><span class="sr-only">No</span></td>
-                        <td class="support-no target"><span class="sr-only">No</span></td>
-                        <td class="support-no target"><span class="sr-only">No</span></td>
-                        <td class="support-no target"><span class="sr-only">No</span></td>
-                        <td class="support-no target"><span class="sr-only">No</span></td>
-                        <td class="support-yes target target-col targeted"><span class="sr-only">Yes</span><i class="icon-check-circle autoupgrade-white" title="Yes"></i></td>
-                        <td class="support-yes target"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
-                        <td class="support-yes target"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
-                        <td class="support-yes target"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
-                        <td class="support-no target"><span class="sr-only">No</span></td>
-                        <td class="support-no target"><span class="sr-only">No</span></td>
-                    </tr>
-                    <tr>
-                        <td>8.0</td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                        <td class="support-yes"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
-                        <td class="support-yes"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
-                        <td class="support-yes"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
-                        <td class="support-yes"><span class="sr-only">Yes</span><i class="icon-check-circle" title="Yes"></i></td>
-                        <td class="support-no"><span class="sr-only">No</span></td>
-                    </tr> #}
                 </tbody>
                 </table>
             </div>
