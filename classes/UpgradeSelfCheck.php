@@ -47,7 +47,7 @@ class UpgradeSelfCheck
         '1.7.6' => ['5.6', '7.2'],
         '1.7.7' => ['7.1', '7.3'],
         '1.7.8' => ['7.1', '7.4'],
-        '8.0' => ['7.2', '8.0']
+        '8.0' => ['7.2', '8.0'],
     ];
 
     const PHP_VERSIONS_DISPLAY = ['5.2', '5.3', '5.4', '5.5', '5.6', '7.0', '7.1', '7.2', '7.3', '7.4', '8.0'];
@@ -669,6 +669,7 @@ class UpgradeSelfCheck
      * Get php min and max compatible versions for target prestashop version
      *
      * @param string|null $targetPrestashopVersion
+     *
      * @return array|string[]
      */
     public function phpCompatibleVersions(string $targetPrestashopVersion = null)
@@ -677,7 +678,7 @@ class UpgradeSelfCheck
             $targetPrestashopVersion = $this->upgrader->version_num;
         }
 
-        if (version_compare($targetPrestashopVersion, '1.6.1.18', '<') ) {
+        if (version_compare($targetPrestashopVersion, '1.6.1.18', '<')) {
             return [];
         }
 

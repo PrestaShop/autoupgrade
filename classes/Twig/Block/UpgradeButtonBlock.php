@@ -130,7 +130,7 @@ class UpgradeButtonBlock
         } else {
             $latestVersion = $translator->trans('N/A', [], 'Admin.Global');
             $phpIsCompatible = true;
-            $psVersionChosen = $translator->trans('N/A', array(), 'Admin.Global');
+            $psVersionChosen = $translator->trans('N/A', [], 'Admin.Global');
             $phpCompatibleVersions = false;
         }
 

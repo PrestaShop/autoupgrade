@@ -36,6 +36,8 @@ class ChannelInfoBlock
 {
     const PS_VERSION_DISPLAY_MAX_PRECISION = 3;
 
+    const PS_MINIMAL_VERSION = '1.6.1.18';
+
     /**
      * @var UpgradeConfiguration
      */
@@ -97,7 +99,8 @@ class ChannelInfoBlock
      */
     public function buildCompatibilityTableDisplay()
     {
-        $startPrestaShopVersion = $previousPHPRange = null;
+        $startPrestaShopVersion = $previousPHPRange = $previousPrestaVersion = null;
+        $result = [];
         $i = 0;
         foreach (UpgradeSelfCheck::PHP_PS_VERSIONS as $prestashopVersion => $phpVersions) {
             $i++;
@@ -131,14 +134,14 @@ class ChannelInfoBlock
     /**
      * Builds PrestaShop version label for display
      *
-     * @param strin $startVersion
+     * @param string $startVersion
      * @param string $endVersion
      * @return string
      */
     public function buildPSLabel($startVersion, $endVersion)
     {
-        if ($startVersion === '1.6.1.18') {
-            return '>= 1.6.1.18';
+        if ($startVersion === self::PS_MINIMAL_VERSION) {
+            return '>= ' . self::PS_MINIMAL_VERSION;
         }
 
         return $startVersion .= $endVersion ? ' ~ ' . $endVersion : '';
@@ -150,7 +153,8 @@ class ChannelInfoBlock
      * @param array $phpVersionRange
      * @return array
      */
-    public function buildPhpVersionsList($phpVersionRange) {
+    public function buildPhpVersionsList($phpVersionRange)
+    {
         $phpStart = $phpVersionRange[0];
         $phpEnd = $phpVersionRange[1];
         $phpVersionsList = [];
@@ -180,7 +184,7 @@ class ChannelInfoBlock
     public function isCurrentPrestashopVersion($prestaversion)
     {
         // special case for 1.6.1 versions
-        if (substr(_PS_VERSION_, 0, 5) === '1.6.1' && $prestaversion === '1.6.1.18') {
+        if (substr(_PS_VERSION_, 0, 5) === '1.6.1' && $prestaversion === self::PS_MINIMAL_VERSION) {
             return version_compare(_PS_VERSION_, $prestaversion, '>=');
         }
         $explodedCurrentPSVersion = explode('.', _PS_VERSION_);
@@ -193,10 +197,11 @@ class ChannelInfoBlock
      * Gets display (shortened) version for a given version and maximum precision
      *
      * @param string $version
-     * @param int $precision
+     * @param int $maxPrecision
      * @return string
      */
-    private function getFormattedVersion($version, $maxPrecision = 2) {
+    private function getFormattedVersion($version, $maxPrecision = 2)
+    {
         $explodedVersion = array_slice(explode('.', $version), 0, $maxPrecision);
 
         return implode('.', $explodedVersion);
