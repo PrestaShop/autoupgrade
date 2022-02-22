@@ -103,7 +103,7 @@ class ChannelInfoBlock
         $result = [];
         $i = 0;
         foreach (UpgradeSelfCheck::PHP_PS_VERSIONS as $prestashopVersion => $phpVersions) {
-            $i++;
+            ++$i;
             if (is_null($startPrestaShopVersion)) {
                 $startPrestaShopVersion = $prestashopVersion;
                 $previousPHPRange = $phpVersions;
@@ -136,6 +136,7 @@ class ChannelInfoBlock
      *
      * @param string $startVersion
      * @param string $endVersion
+     *
      * @return string
      */
     public function buildPSLabel($startVersion, $endVersion)
@@ -151,6 +152,7 @@ class ChannelInfoBlock
      * Builds a list of php versions for a given php version range
      *
      * @param array $phpVersionRange
+     *
      * @return array
      */
     public function buildPhpVersionsList($phpVersionRange)
@@ -179,6 +181,7 @@ class ChannelInfoBlock
      * (not taking patch versions into account)
      *
      * @param string $prestaversion
+     *
      * @return bool
      */
     public function isCurrentPrestashopVersion($prestaversion)
@@ -198,6 +201,7 @@ class ChannelInfoBlock
      *
      * @param string $version
      * @param int $maxPrecision
+     *
      * @return string
      */
     private function getFormattedVersion($version, $maxPrecision = 2)
