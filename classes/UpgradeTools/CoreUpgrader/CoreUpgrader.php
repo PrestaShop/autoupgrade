@@ -28,8 +28,8 @@
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader;
 
 use Cache;
-use PrestaShop\Module\AutoUpgrade\Log\LoggerInterface;
 use Configuration;
+use PrestaShop\Module\AutoUpgrade\Log\LoggerInterface;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\ThemeAdapter;
@@ -244,17 +244,7 @@ abstract class CoreUpgrader
         $versionCompare = version_compare($this->destinationUpgradeVersion, $oldVersion);
 
         if ($versionCompare === -1) {
-            throw new UpgradeException(
-                $this->container->getTranslator()->trans('[ERROR] Version to install is too old.', [], 'Modules.Autoupgrade.Admin')
-                . ' ' .
-                $this->container->getTranslator()->trans(
-                    'Current version: %oldversion%. Version to install: %newversion%.',
-                    [
-                        '%oldversion%' => $oldVersion,
-                        '%newversion%' => $this->destinationUpgradeVersion,
-                    ],
-                    'Modules.Autoupgrade.Admin'
-                ));
+            throw new UpgradeException($this->container->getTranslator()->trans('[ERROR] Version to install is too old.', [], 'Modules.Autoupgrade.Admin') . ' ' . $this->container->getTranslator()->trans('Current version: %oldversion%. Version to install: %newversion%.', ['%oldversion%' => $oldVersion, '%newversion%' => $this->destinationUpgradeVersion], 'Modules.Autoupgrade.Admin'));
         } elseif ($versionCompare === 0) {
             throw new UpgradeException($this->container->getTranslator()->trans('You already have the %s version.', [$this->destinationUpgradeVersion], 'Modules.Autoupgrade.Admin'));
         }

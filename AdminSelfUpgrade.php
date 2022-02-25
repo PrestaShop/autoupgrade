@@ -178,6 +178,7 @@ class AdminSelfUpgrade extends AdminController
                 (file_exists(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'index.php') &&
                     !@copy(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'index.php', _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml' . DIRECTORY_SEPARATOR . 'index.php'))) {
                 $this->_errors[] = $this->trans('Unable to create the directory "%s"', [_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml'], 'Modules.Autoupgrade.Admin');
+
                 return;
             }
         }
@@ -431,7 +432,7 @@ class AdminSelfUpgrade extends AdminController
         parent::postProcess();
     }
 
-    private function extractFieldsToBeSavedInDB(UpgradeConfiguration $fileConfig): array
+    private function extractFieldsToBeSavedInDB(UpgradeConfiguration $fileConfig)
     {
         $DBConfig = [];
 
@@ -451,7 +452,7 @@ class AdminSelfUpgrade extends AdminController
     /**
      * Process configuration values to be stored in database
      */
-    private function processDatabaseConfigurationFields(array $config): void
+    private function processDatabaseConfigurationFields(array $config)
     {
         if (isset($config['PS_DISABLE_OVERRIDES'])) {
             foreach (Shop::getCompleteListOfShopsID() as $id_shop) {

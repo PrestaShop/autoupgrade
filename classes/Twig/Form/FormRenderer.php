@@ -71,7 +71,6 @@ class FormRenderer
             $required = !empty($field['required']);
             $disabled = !empty($field['disabled']);
 
-
             if (in_array($key, UpgradeContainer::DB_CONFIG_KEYS)) {
                 // values fetched from configuration in database
                 $val = Configuration::get($key);
