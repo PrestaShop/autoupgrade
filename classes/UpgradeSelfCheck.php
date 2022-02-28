@@ -416,7 +416,7 @@ class UpgradeSelfCheck
     private function checkShopIsDeactivated()
     {
         // always return true in localhost
-        if (isset($_SERVER['HTTP_HOST']) && in_array($_SERVER['HTTP_HOST'], ['127.0.0.1', 'localhost', '[::1]'])) {
+        if (in_array($this->getRemoteAddr(), ['127.0.0.1', 'localhost', '[::1]', '::1'])) {
             return true;
         }
 
@@ -601,15 +601,47 @@ class UpgradeSelfCheck
 
         $directories = [];
         foreach ([
-            'cache_dir', 'log_dir', 'img_dir', 'module_dir', 'theme_lang_dir', 'theme_pdf_lang_dir', 'theme_cache_dir',
-            'translations_dir', 'customizable_products_dir', 'virtual_products_dir', 'config_sf2_dir', 'config_dir',
-            'mails_dir', 'translations_sf2',
-        ] as $testKey) {
+                     'cache_dir', 'log_dir', 'img_dir', 'module_dir', 'theme_lang_dir', 'theme_pdf_lang_dir', 'theme_cache_dir',
+                     'translations_dir', 'customizable_products_dir', 'virtual_products_dir', 'config_sf2_dir', 'config_dir',
+                     'mails_dir', 'translations_sf2',
+                 ] as $testKey) {
             if (isset($tests[$testKey]) && !ConfigurationTest::{'test_' . $testKey}($tests[$testKey])) {
                 $directories[] = $tests[$testKey];
             }
         }
 
         return $directories;
+    }
+
+    /**
+     * Get the server variable REMOTE_ADDR, or the first ip of HTTP_X_FORWARDED_FOR (when using proxy).
+     *
+     * @return string $remote_addr ip of client
+     */
+    private function getRemoteAddr()
+    {
+        if (function_exists('apache_request_headers')) {
+            $headers = apache_request_headers();
+        } else {
+            $headers = $_SERVER;
+        }
+
+        if (array_key_exists('X-Forwarded-For', $headers)) {
+            $_SERVER['HTTP_X_FORWARDED_FOR'] = $headers['X-Forwarded-For'];
+        }
+
+        if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && $_SERVER['HTTP_X_FORWARDED_FOR'] && (!isset($_SERVER['REMOTE_ADDR'])
+                || preg_match('/^127\..*/i', trim($_SERVER['REMOTE_ADDR'])) || preg_match('/^172\.(1[6-9]|2\d|30|31)\..*/i', trim($_SERVER['REMOTE_ADDR']))
+                || preg_match('/^192\.168\.*/i', trim($_SERVER['REMOTE_ADDR'])) || preg_match('/^10\..*/i', trim($_SERVER['REMOTE_ADDR'])))) {
+            if (strpos($_SERVER['HTTP_X_FORWARDED_FOR'], ',')) {
+                $ips = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+
+                return $ips[0];
+            } else {
+                return $_SERVER['HTTP_X_FORWARDED_FOR'];
+            }
+        } else {
+            return $_SERVER['REMOTE_ADDR'];
+        }
     }
 }
