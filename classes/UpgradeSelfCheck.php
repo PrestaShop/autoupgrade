@@ -422,7 +422,7 @@ class UpgradeSelfCheck
 
         // if multistore is not active, just check if shop is enabled and has a maintenance IP
         if (!Shop::isFeatureActive()) {
-            return  !(Configuration::get('PS_SHOP_ENABLE') && Configuration::get('PS_MAINTENANCE_IP'));
+            return !(Configuration::get('PS_SHOP_ENABLE') && Configuration::get('PS_MAINTENANCE_IP'));
         }
 
         // multistore is active: all shops must be deactivated and have a maintenance IP, otherwise return false
