@@ -34,15 +34,27 @@ class UpgradeSelfCheckTest extends TestCase
      * @dataProvider provideTestPhpCompatibleVersions
      *
      * @param string $currentShopVersion
-     * @param string $expectedVersion
+     * @param array $phpCompatibility
      */
     public function testPhpCompatibleVersions($currentShopVersion, $phpCompatibility)
     {
-        $fakeUpgrader = new Upgrader('string', false);
-        $fakeUpgrader->version_num = $currentShopVersion;
-        $fakeUpgradeSelfCheck = new UpgradeSelfCheck($fakeUpgrader, 'string', 'string', 'string');
+        $fakeUpgradeSelfCheck = $this->getFakeUpgrader($currentShopVersion);
 
         $this->assertEquals($fakeUpgradeSelfCheck->phpCompatibleVersions(), $phpCompatibility);
+    }
+
+    /**
+     * @dataProvider provideTestIsPhpCompatible
+     *
+     * @param string $currentShopVersion
+     * @param string $phpVersionFullName
+     * @param bool $expectedResult
+     */
+    public function testIsPhpCompatible($currentShopVersion, $phpVersionFullName, $expectedResult)
+    {
+        $fakeUpgradeSelfCheck = $this->getFakeUpgrader($currentShopVersion);
+
+        $this->assertEquals($fakeUpgradeSelfCheck->isPhpCompatible($phpVersionFullName), $expectedResult);
     }
 
     public function provideTestPhpCompatibleVersions()
@@ -63,5 +75,31 @@ class UpgradeSelfCheckTest extends TestCase
             ['1.6.1', []],
             ['1.6.1.5', []],
         ];
+    }
+
+    public function provideTestIsPhpCompatible()
+    {
+        return [
+            ['1.6.1.18', '5.3.6-13ubuntu3.2', true], // test correct
+            ['1.6.1.18', '7.3.4', false], // test false => php version too high
+            ['1.7.0', '5.3.4', false], // test false => php version too low
+            ['1.7.0', '5.4.4-random-string-but-correct', true], // test php version with anything in the name
+            ['1.7.0', 'wrong-format', false], // test wrong format
+            ['8.0', '7.2.4', true], // test correct with a two digit PrestaShop version
+            ['8.0', '8.1', false], // test false with a two digit PrestaShop version
+        ];
+    }
+
+    /**
+     * @param string $currentShopVersion
+     *
+     * @return UpgradeSelfCheck
+     */
+    private function getFakeUpgrader($currentShopVersion)
+    {
+        $fakeUpgrader = new Upgrader('string', false);
+        $fakeUpgrader->version_num = $currentShopVersion;
+
+        return new UpgradeSelfCheck($fakeUpgrader, 'string', 'string', 'string');
     }
 }

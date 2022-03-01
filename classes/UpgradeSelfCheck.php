@@ -703,12 +703,17 @@ class UpgradeSelfCheck
      *
      * @return bool
      */
-    public function isPhpCompatible(string $phpVersionFullName)
+    public function isPhpCompatible($phpVersionFullName)
     {
         $phpCompatibleVersions = $this->phpCompatibleVersions();
 
         // we only want the first two digits of php version (ex: 7.3.29 becomes 7.3)
         $phpVersionNumbers = explode('.', $phpVersionFullName);
+
+        if (empty($phpVersionNumbers[1])) {
+            return false;
+        }
+
         $phpVersion = sprintf('%s.%s', $phpVersionNumbers[0], $phpVersionNumbers[1]);
 
         return version_compare($phpVersion, $phpCompatibleVersions[0], '>=') && version_compare($phpVersion, $phpCompatibleVersions[1], '<=');
