@@ -29,6 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade;
 
 use Configuration;
 use ConfigurationTest;
+use PrestaShop\Module\AutoUpgrade\Twig\Block\ChannelInfoBlock;
 use Shop;
 
 class UpgradeSelfCheck
@@ -678,7 +679,7 @@ class UpgradeSelfCheck
             $targetPrestashopVersion = $this->upgrader->version_num;
         }
 
-        if (version_compare($targetPrestashopVersion, '1.6.1.18', '<')) {
+        if (version_compare($targetPrestashopVersion, ChannelInfoBlock::PS_MINIMAL_VERSION, '<')) {
             return [];
         }
 
@@ -698,14 +699,16 @@ class UpgradeSelfCheck
     /**
      * Check if the current php version is compatible with PrestaShop target version
      *
+     * @param string $phpVersionFullName
+     *
      * @return bool
      */
-    public function isPhpCompatible()
+    public function isPhpCompatible(string $phpVersionFullName)
     {
         $phpCompatibleVersions = $this->phpCompatibleVersions();
 
         // we only want the first two digits of php version (ex: 7.3.29 becomes 7.3)
-        $phpVersionNumbers = explode('.', PHP_VERSION);
+        $phpVersionNumbers = explode('.', $phpVersionFullName);
         $phpVersion = sprintf('%s.%s', $phpVersionNumbers[0], $phpVersionNumbers[1]);
 
         return version_compare($phpVersion, $phpCompatibleVersions[0], '>=') && version_compare($phpVersion, $phpCompatibleVersions[1], '<=');
