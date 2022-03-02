@@ -157,6 +157,9 @@ class ChannelInfoBlock
      */
     public function buildPhpVersionsList($phpVersionRange)
     {
+        if (!is_array($phpVersionRange) || !is_string($phpVersionRange[0]) || !is_string($phpVersionRange[1])) {
+            throw new \InvalidArgumentException('$phpVersionRange must be an array containing 2 elements (start and end php versions');
+        }
         $phpStart = $phpVersionRange[0];
         $phpEnd = $phpVersionRange[1];
         $phpVersionsList = [];
@@ -192,7 +195,7 @@ class ChannelInfoBlock
             return version_compare($currentPrestaShopVersion, $prestaversion, '>=');
         }
         $explodedCurrentPSVersion = explode('.', $currentPrestaShopVersion);
-        $shortenCurrentPrestashop = implode('.', array_slice($explodedCurrentPSVersion, 0, self::PS_VERSION_DISPLAY_MAX_PRECISION));
+        $shortenCurrentPrestashop = implode('.', array_slice($explodedCurrentPSVersion, 0, count(explode('.', $prestaversion))));
 
         return $prestaversion === $shortenCurrentPrestashop;
     }
