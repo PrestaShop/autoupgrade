@@ -109,7 +109,7 @@ class ChannelInfoBlock
                 $previousPHPRange = $phpVersions;
             }
 
-            $isCurrentPrestaVersion = $this->isCurrentPrestashopVersion($startPrestaShopVersion);
+            $isCurrentPrestaVersion = $this->isCurrentPrestashopVersion($startPrestaShopVersion, _PS_VERSION_);
             if ($phpVersions === $previousPHPRange) {
                 $previousPrestaVersion = $prestashopVersion;
             } else {
@@ -181,16 +181,17 @@ class ChannelInfoBlock
      * (not taking patch versions into account)
      *
      * @param string $prestaversion
+     * @param string $currentPrestaShopVersion
      *
      * @return bool
      */
-    public function isCurrentPrestashopVersion($prestaversion)
+    public function isCurrentPrestashopVersion($prestaversion, $currentPrestaShopVersion)
     {
         // special case for 1.6.1 versions
-        if (substr(_PS_VERSION_, 0, 5) === '1.6.1' && $prestaversion === self::PS_MINIMAL_VERSION) {
-            return version_compare(_PS_VERSION_, $prestaversion, '>=');
+        if (substr($currentPrestaShopVersion, 0, 5) === '1.6.1' && $prestaversion === self::PS_MINIMAL_VERSION) {
+            return version_compare($currentPrestaShopVersion, $prestaversion, '>=');
         }
-        $explodedCurrentPSVersion = explode('.', _PS_VERSION_);
+        $explodedCurrentPSVersion = explode('.', $currentPrestaShopVersion);
         $shortenCurrentPrestashop = implode('.', array_slice($explodedCurrentPSVersion, 0, self::PS_VERSION_DISPLAY_MAX_PRECISION));
 
         return $prestaversion === $shortenCurrentPrestashop;
