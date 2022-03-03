@@ -137,6 +137,7 @@ class ChannelInfoBlockTest extends TestCase
     public function provideTestIsCurrentPrestashopVersion()
     {
         return [
+            ['1.7.0', '1.6.0', false], // test version below minimal version (cannot match)
             ['1.7.7', '1.7.7', true], // test exact match (must match)
             ['1.7.7', '1.7.7.4', true], // test patch version (must match)
             ['1.7.7', '1.7.6', false], // test lower minor version (must not match)

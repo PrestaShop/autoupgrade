@@ -100,11 +100,12 @@ class ChannelInfoBlock
     public function buildCompatibilityTableDisplay()
     {
         $startPrestaShopVersion = $previousPHPRange = $previousPrestaVersion = null;
+        $numberOfPhpVersions = count(UpgradeSelfCheck::PHP_PS_VERSIONS);
         $result = [];
         $i = 0;
         foreach (UpgradeSelfCheck::PHP_PS_VERSIONS as $prestashopVersion => $phpVersions) {
             ++$i;
-            if (is_null($startPrestaShopVersion)) {
+            if ($startPrestaShopVersion === null) {
                 $startPrestaShopVersion = $prestashopVersion;
                 $previousPHPRange = $phpVersions;
             }
@@ -120,7 +121,7 @@ class ChannelInfoBlock
                 $result[$label]['is_target'] = $this->getFormattedVersion($this->channelInfo->getInfo()['version_num'], self::PS_VERSION_DISPLAY_MAX_PRECISION) === $label;
                 $previousPrestaVersion = null;
             }
-            if ($i === count(UpgradeSelfCheck::PHP_PS_VERSIONS)) {
+            if ($i === $numberOfPhpVersions) {
                 $result[$prestashopVersion]['php_versions'] = $this->buildPhpVersionsList($phpVersions);
                 $result[$prestashopVersion]['is_current'] = $isCurrentPrestaVersion;
                 $result[$prestashopVersion]['is_target'] = $this->getFormattedVersion($this->channelInfo->getInfo()['version_num'], self::PS_VERSION_DISPLAY_MAX_PRECISION) === $prestashopVersion;
