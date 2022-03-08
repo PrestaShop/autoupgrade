@@ -10,7 +10,8 @@ INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VAL
     ('PS_MAIL_DKIM_DOMAIN', '', NOW(), NOW()),
     ('PS_MAIL_DKIM_SELECTOR', '', NOW(), NOW()),
     ('PS_MAIL_DKIM_KEY', '', NOW(), NOW()),
-    ('PS_WEBP_QUALITY', '80', NOW(), NOW())
+    ('PS_WEBP_QUALITY', '80', NOW(), NOW()),
+    ('PS_SECURITY_TOKEN', '1', NOW(), NOW())
 ;
 
 INSERT IGNORE INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`) VALUES
@@ -38,3 +39,5 @@ ALTER TABLE `PREFIX_product` MODIFY COLUMN `redirect_type` ENUM(
 ALTER TABLE `PREFIX_product_shop` MODIFY COLUMN `redirect_type` ENUM(
     '404', '410', '301-product', '302-product', '301-category', '302-category'
 ) NOT NULL DEFAULT '404';
+
+/* PHP:ps_800_add_security_tab(); */;
