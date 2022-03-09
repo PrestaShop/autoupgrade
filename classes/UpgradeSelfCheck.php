@@ -675,7 +675,7 @@ class UpgradeSelfCheck
      */
     public function phpCompatibleVersions(string $targetPrestashopVersion = null)
     {
-        if (is_null($targetPrestashopVersion)) {
+        if ($targetPrestashopVersion === null) {
             $targetPrestashopVersion = $this->upgrader->version_num;
         }
 
