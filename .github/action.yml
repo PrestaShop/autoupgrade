@@ -17,6 +17,7 @@ runs:
       env:
         CHANNEL: 'archive'
         ARCHIVE_URL: 'https://github.com/PrestaShop/PrestaShop/releases/download/1.7.7.8/prestashop_1.7.7.8.zip'
+        XML_URL: 'https://api.prestashop.com/xml/md5/1.7.7.8.xml'
         VERSION: '1.7.7.8'
         FROM: ${{ matrix.from }}
         SKIP: ${{ matrix.ps-versions.channel != 'archive' || !startsWith(matrix.from, '1.6') || startsWith(matrix.ps-versions.version, '1.7.7') }}
@@ -31,7 +32,8 @@ runs:
     - name: Upgrade
       env:
         CHANNEL: ${{ matrix.ps-versions.channel }}
-        ARCHIVE_URL: ${{ matrix.ps-versions.file }}
+        ARCHIVE_URL: ${{ matrix.ps-versions.zip }}
+        XML_URL: ${{ matrix.ps-versions.xml }}
         VERSION: ${{ matrix.ps-versions.version }}
         FROM: ${{ matrix.from }}
       shell: bash
