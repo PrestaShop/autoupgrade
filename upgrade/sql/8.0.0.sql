@@ -41,3 +41,5 @@ ALTER TABLE `PREFIX_product_shop` MODIFY COLUMN `redirect_type` ENUM(
 ) NOT NULL DEFAULT '404';
 
 /* PHP:ps_800_add_security_tab(); */;
+
+ALTER TABLE `PREFIX_order_detail` MODIFY COLUMN `product_name` TEXT NOT NULL;
