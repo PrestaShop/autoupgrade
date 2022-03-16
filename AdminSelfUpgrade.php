@@ -401,9 +401,12 @@ class AdminSelfUpgrade extends AdminController
             $UpConfig->merge($config);
 
             $upConfigValues = $this->extractFieldsToBeSavedInDB($UpConfig);
+            $this->processDatabaseConfigurationFields($upConfigValues['dbConfig']);
 
-            if ($this->processDatabaseConfigurationFields($upConfigValues['dbConfig']) &&
-                $this->upgradeContainer->getUpgradeConfigurationStorage()->save($upConfigValues['fileConfig'], UpgradeFileNames::CONFIG_FILENAME)) {
+            if ($this->upgradeContainer->getUpgradeConfigurationStorage()->save(
+                $upConfigValues['fileConfig'],
+                UpgradeFileNames::CONFIG_FILENAME)
+            ) {
                 Tools14::redirectAdmin(self::$currentIndex . '&conf=6&token=' . Tools14::getValue('token'));
             }
         }
