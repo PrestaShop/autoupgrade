@@ -11,6 +11,7 @@ INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VAL
     ('PS_MAIL_DKIM_SELECTOR', '', NOW(), NOW()),
     ('PS_MAIL_DKIM_KEY', '', NOW(), NOW()),
     ('PS_WEBP_QUALITY', '80', NOW(), NOW()),
+    ('PS_DISPLAY_FOOTER_COPYRIGHT', '1', NOW(), NOW()),
     ('PS_SECURITY_TOKEN', '1', NOW(), NOW())
 ;
 
