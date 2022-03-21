@@ -27,7 +27,6 @@
 
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 
-use Configuration;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
@@ -58,8 +57,6 @@ class UpgradeComplete extends AbstractTask
             $this->logger->debug('<strong>' . $this->translator->trans('Please remove %s by FTP', [$this->container->getProperty(UpgradeContainer::LATEST_PATH)], 'Modules.Autoupgrade.Admin') . '</strong>');
         }
 
-        // Reinit config
-        Configuration::deleteByName('PS_AUTOUP_IGNORE_REQS');
         // removing temporary files
         $this->container->getFileConfigurationStorage()->cleanAll();
     }

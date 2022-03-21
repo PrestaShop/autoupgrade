@@ -66,10 +66,6 @@ class Autoupgrade extends Module
             return false;
         }
 
-        if (defined('_PS_HOST_MODE_') && _PS_HOST_MODE_) {
-            return false;
-        }
-
         // Before creating a new tab "AdminSelfUpgrade" we need to remove any existing "AdminUpgrade" tab (present in v1.4.4.0 and v1.4.4.1)
         if ($id_tab = Tab::getIdFromClassName('AdminUpgrade')) {
             $tab = new Tab((int) $id_tab);
@@ -117,9 +113,6 @@ class Autoupgrade extends Module
 
         // Remove the 1-click upgrade working directory
         self::_removeDirectory(_PS_ADMIN_DIR_ . DIRECTORY_SEPARATOR . 'autoupgrade');
-
-        Configuration::deleteByName('PS_AUTOUP_IGNORE_REQS');
-        Configuration::deleteByName('PS_AUTOUP_IGNORE_PHP_UPGRADE');
 
         return parent::uninstall();
     }
