@@ -33,6 +33,8 @@ ALTER TABLE `PREFIX_customer_session` ADD `date_add` DATETIME NOT NULL AFTER `da
 
 ALTER TABLE `PREFIX_carrier` DROP COLUMN `id_tax_rules_group`;
 
+ALTER TABLE `PREFIX_category_lang` ADD `additional_description` text AFTER `description`;
+
 ALTER TABLE `PREFIX_product` MODIFY COLUMN `redirect_type` ENUM(
     '404', '410', '301-product', '302-product', '301-category', '302-category'
 ) NOT NULL DEFAULT '404';
