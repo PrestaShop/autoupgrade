@@ -94,7 +94,7 @@
                             {{ 'Your store is in maintenance mode'|trans }}
                         {% else %}
                             {{ 'Enable maintenance mode and add your maintenance IP in [1]Shop parameters > General > Maintenance[/1]'|trans({
-                              '[1]' : '<a href="' ~ maintenanceAdminLink ~'" target="_blank">',
+                              '[1]' : '<a href="' ~ maintenanceLink ~'" target="_blank">',
                               '[/1]' : '</a>',
                             })|raw }}
                         {% endif %}

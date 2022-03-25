@@ -601,10 +601,10 @@ class UpgradeSelfCheck
 
         $directories = [];
         foreach ([
-                     'cache_dir', 'log_dir', 'img_dir', 'module_dir', 'theme_lang_dir', 'theme_pdf_lang_dir', 'theme_cache_dir',
-                     'translations_dir', 'customizable_products_dir', 'virtual_products_dir', 'config_sf2_dir', 'config_dir',
-                     'mails_dir', 'translations_sf2',
-                 ] as $testKey) {
+            'cache_dir', 'log_dir', 'img_dir', 'module_dir', 'theme_lang_dir', 'theme_pdf_lang_dir', 'theme_cache_dir',
+            'translations_dir', 'customizable_products_dir', 'virtual_products_dir', 'config_sf2_dir', 'config_dir',
+            'mails_dir', 'translations_sf2',
+        ] as $testKey) {
             if (isset($tests[$testKey]) && !ConfigurationTest::{'test_' . $testKey}($tests[$testKey])) {
                 $directories[] = $tests[$testKey];
             }

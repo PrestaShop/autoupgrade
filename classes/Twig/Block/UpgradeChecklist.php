@@ -139,7 +139,6 @@ class UpgradeChecklist
             'missingFiles' => $this->selfCheck->getMissingFiles(),
             'notWritingDirectories' => $this->selfCheck->getNotWritingDirectories(),
             'isPrestaShopReady' => $this->selfCheck->isPrestaShopReady(),
-            'maintenanceAdminLink' => Context::getContext()->link->getAdminLink('AdminMaintenance'),
         ];
 
         return $this->twig->render('@ModuleAutoUpgrade/block/checklist.twig', $data);
