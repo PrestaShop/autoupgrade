@@ -422,7 +422,7 @@ class UpgradeSelfCheck
 
         // if multistore is not active, just check if shop is enabled and has a maintenance IP
         if (!Shop::isFeatureActive()) {
-            return !(Configuration::get('PS_SHOP_ENABLE') && Configuration::get('PS_MAINTENANCE_IP'));
+            return !(Configuration::get('PS_SHOP_ENABLE') || !Configuration::get('PS_MAINTENANCE_IP'));
         }
 
         // multistore is active: all shops must be deactivated and have a maintenance IP, otherwise return false
@@ -515,7 +515,8 @@ class UpgradeSelfCheck
         foreach ([
             'curl', 'dom', 'fileinfo', 'gd', 'intl', 'json', 'mbstring', 'openssl', 'pdo_mysql', 'simplexml', 'zip',
         ] as $extension) {
-            if (!ConfigurationTest::{'test_' . $extension}()) {
+            $method = 'test_' . $extension;
+            if (method_exists(ConfigurationTest::class, $method) && !ConfigurationTest::$method()) {
                 $extensions[] = $extension;
             }
         }
