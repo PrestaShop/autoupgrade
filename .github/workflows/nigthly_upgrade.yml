@@ -82,7 +82,7 @@ jobs:
       - name: Format results
         run: php ./.github/get_results.php ${{matrix.ps-versions.branch}}
       - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@master
+        uses: google-github-actions/setup-gcloud@v0
         with:
           project_id: ${{ secrets.GC_PROJECT_ID }}
           service_account_key: ${{ secrets.GC_SERVICE_KEY }}
