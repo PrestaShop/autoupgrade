@@ -29,6 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade;
 
 use Configuration;
 use ConfigurationTest;
+use Shop;
 
 class UpgradeSelfCheck
 {
@@ -414,9 +415,29 @@ class UpgradeSelfCheck
      */
     private function checkShopIsDeactivated()
     {
-        return
-            !Configuration::get('PS_SHOP_ENABLE')
-            || (isset($_SERVER['HTTP_HOST']) && in_array($_SERVER['HTTP_HOST'], ['127.0.0.1', 'localhost', '[::1]']));
+        // always return true in localhost
+        if (in_array($this->getRemoteAddr(), ['127.0.0.1', 'localhost', '[::1]', '::1'])) {
+            return true;
+        }
+
+        // if multistore is not active, just check if shop is enabled and has a maintenance IP
+        if (!Shop::isFeatureActive()) {
+            return !(Configuration::get('PS_SHOP_ENABLE') && Configuration::get('PS_MAINTENANCE_IP'));
+        }
+
+        // multistore is active: all shops must be deactivated and have a maintenance IP, otherwise return false
+        foreach (Shop::getCompleteListOfShopsID() as $shopId) {
+            $shop = new Shop((int) $shopId);
+            $groupId = (int) $shop->getGroup()->id;
+            $isEnabled = Configuration::get('PS_SHOP_ENABLE', null, $groupId, (int) $shopId);
+            $maintenanceIp = Configuration::get('PS_MAINTENANCE_IP', null, $groupId, (int) $shopId);
+
+            if ($isEnabled || !$maintenanceIp) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -590,5 +611,37 @@ class UpgradeSelfCheck
         }
 
         return $directories;
+    }
+
+    /**
+     * Get the server variable REMOTE_ADDR, or the first ip of HTTP_X_FORWARDED_FOR (when using proxy).
+     *
+     * @return string $remote_addr ip of client
+     */
+    private function getRemoteAddr()
+    {
+        if (function_exists('apache_request_headers')) {
+            $headers = apache_request_headers();
+        } else {
+            $headers = $_SERVER;
+        }
+
+        if (array_key_exists('X-Forwarded-For', $headers)) {
+            $_SERVER['HTTP_X_FORWARDED_FOR'] = $headers['X-Forwarded-For'];
+        }
+
+        if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && $_SERVER['HTTP_X_FORWARDED_FOR'] && (!isset($_SERVER['REMOTE_ADDR'])
+                || preg_match('/^127\..*/i', trim($_SERVER['REMOTE_ADDR'])) || preg_match('/^172\.(1[6-9]|2\d|30|31)\..*/i', trim($_SERVER['REMOTE_ADDR']))
+                || preg_match('/^192\.168\.*/i', trim($_SERVER['REMOTE_ADDR'])) || preg_match('/^10\..*/i', trim($_SERVER['REMOTE_ADDR'])))) {
+            if (strpos($_SERVER['HTTP_X_FORWARDED_FOR'], ',')) {
+                $ips = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+
+                return $ips[0];
+            } else {
+                return $_SERVER['HTTP_X_FORWARDED_FOR'];
+            }
+        } else {
+            return $_SERVER['REMOTE_ADDR'];
+        }
     }
 }
