@@ -138,7 +138,6 @@ class UpgradeChecklist
             'checkPhpSessions' => $this->selfCheck->isPhpSessionsValid(),
             'missingFiles' => $this->selfCheck->getMissingFiles(),
             'notWritingDirectories' => $this->selfCheck->getNotWritingDirectories(),
-            'isPrestaShopReady' => $this->selfCheck->isPrestaShopReady(),
         ];
 
         return $this->twig->render('@ModuleAutoUpgrade/block/checklist.twig', $data);
