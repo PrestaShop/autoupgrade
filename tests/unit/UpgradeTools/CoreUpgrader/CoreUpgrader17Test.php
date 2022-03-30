@@ -28,7 +28,7 @@ use PrestaShop\Module\AutoUpgrade\Log\LegacyLogger;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader17;
 
-class CoreUpgraderTest extends TestCase
+class CoreUpgrader17Test extends TestCase
 {
     protected $coreUpgrader;
 

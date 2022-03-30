@@ -37,7 +37,7 @@ class FileFilter
     protected $configuration;
 
     /**
-     * @var string Autoupgrade sub directory*
+     * @var string Autoupgrade sub directory
      */
     protected $autoupgradeDir;
 
@@ -115,6 +115,7 @@ class FileFilter
             '/app/config/parameters.yml',
             '/install',
             '/install-dev',
+            '/modules',
         ];
 
         // this will exclude autoupgrade dir from admin, and autoupgrade from modules

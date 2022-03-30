@@ -56,9 +56,13 @@ class FilesystemAdapter
         ],
     ];
 
-    public function __construct(FileFilter $fileFilter, $restoreFilesFilename,
-        $autoupgradeDir, $adminSubDir, $prodRootDir)
-    {
+    public function __construct(
+        FileFilter $fileFilter,
+        $restoreFilesFilename,
+        $autoupgradeDir,
+        $adminSubDir,
+        $prodRootDir
+    ) {
         $this->fileFilter = $fileFilter;
         $this->restoreFilesFilename = $restoreFilesFilename;
 

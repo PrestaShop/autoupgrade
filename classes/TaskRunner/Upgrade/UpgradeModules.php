@@ -56,7 +56,6 @@ class UpgradeModules extends AbstractTask
             return true;
         }
 
-        $time_elapsed = time() - $start_time;
         // module list
         if (count($listModules) > 0) {
             do {
@@ -141,7 +140,10 @@ class UpgradeModules extends AbstractTask
     public function warmUp()
     {
         try {
-            $modulesToUpgrade = $this->container->getModuleAdapter()->listModulesToUpgrade($this->container->getState()->getModules_addons());
+            $modulesToUpgrade = $this->container->getModuleAdapter()->listModulesToUpgrade(
+                $this->container->getState()->getModules_addons(),
+                $this->container->getState()->getModulesVersions()
+            );
             $modulesToUpgrade = array_reverse($modulesToUpgrade);
             $this->container->getFileConfigurationStorage()->save($modulesToUpgrade, UpgradeFileNames::MODULES_TO_UPGRADE_LIST);
         } catch (UpgradeException $e) {
