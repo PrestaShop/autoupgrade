@@ -108,10 +108,10 @@ describe(`[${global.AUTOUPGRADE_VERSION}] Upgrade PrestaShop from '${global.PS_V
     await expect(textResult).to.contain(upgradeModulePage.configResultValidationMessage);
   });
 
-  it('should put the shop under maintenance and check if the checklist is all green', async () => {
+  it('Check if the checklist is all green', async () => {
     await upgradeModulePage.putShopUnderMaintenance(page);
 
-    for (let i = 1; i <= 10; i++) {
+    for (let i = 1; i <= 8; i++) {
       const textResult = await upgradeModulePage.getRowImageContent(page, i);
       await expect(textResult).to.equal('ok');
     }
