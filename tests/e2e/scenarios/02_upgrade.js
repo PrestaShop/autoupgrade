@@ -97,6 +97,7 @@ describe(`[${global.AUTOUPGRADE_VERSION}] Upgrade PrestaShop from '${global.PS_V
     const pageTitle = await shopParamMaintenancePage.getPageTitle(page);
     await expect(pageTitle).to.contains(shopParamMaintenancePage.pageTitle);
     await shopParamMaintenancePage.setShopStatus(page, false);
+    await shopParamMaintenancePage.addMyIp(page);
   });
 
   it('should go to modules manager page', async () => {
