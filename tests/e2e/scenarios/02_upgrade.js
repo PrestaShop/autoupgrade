@@ -15,6 +15,8 @@ const newVersionSelectResolver = new VersionSelectResolver(global.PS_RESOLVER_VE
 // Import pages
 const loginPage = versionSelectResolver.require('BO/login/index.js');
 const dashboardPage = versionSelectResolver.require('BO/dashboard/index.js');
+const shopParamGeneralPage = versionSelectResolver.require('BO/shopParameters/general/index.js');
+const shopParamMaintenancePage = versionSelectResolver.require('BO/shopParameters/general/maintenance/index.js');
 const moduleManagerPage = versionSelectResolver.require('BO/modules/moduleManager/index.js');
 const upgradeModulePage = versionSelectResolver.require('BO/modules/autoupgrade/index.js');
 const newLoginPage = newVersionSelectResolver.require('BO/login/index.js');
@@ -78,11 +80,31 @@ describe(`[${global.AUTOUPGRADE_VERSION}] Upgrade PrestaShop from '${global.PS_V
     await expect(pageTitle).to.contains(dashboardPage.pageTitle);
   });
 
-  it('should go to modules manager page', async () => {
+  it('should go to shop parameter page', async () => {
     await dashboardPage.goToSubMenu(
       page,
-      dashboardPage.modulesParentLink,
-      dashboardPage.moduleManagerLink,
+      dashboardPage.shopParametersParentLink,
+      dashboardPage.shopParametersGeneralLink,
+    );
+
+    const pageTitle = await shopParamGeneralPage.getPageTitle(page);
+    await expect(pageTitle).to.contains(shopParamGeneralPage.pageTitle);
+  });
+
+  it('should go to maintenance page and disable the shop', async () => {
+    await shopParamGeneralPage.goToMaintenanceTab(page);
+
+    const pageTitle = await shopParamMaintenancePage.getPageTitle(page);
+    await expect(pageTitle).to.contains(shopParamMaintenancePage.pageTitle);
+    await shopParamMaintenancePage.setShopStatus(page, false);
+    await shopParamMaintenancePage.addMyIp(page);
+  });
+
+  it('should go to modules manager page', async () => {
+    await shopParamMaintenancePage.goToSubMenu(
+      page,
+      shopParamMaintenancePage.modulesParentLink,
+      shopParamMaintenancePage.moduleManagerLink,
     );
 
     const pageTitle = await moduleManagerPage.getPageTitle(page);
