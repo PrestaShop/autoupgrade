@@ -24,7 +24,6 @@ runs:
       shell: bash
       run: |
         [[ "$SKIP" == true ]] || ${{ github.action_path }}action_upgrade.sh
-        [[ "$SKIP" == true ]] || docker exec prestashop_autoupgrade rm admin-dev/autoupgrade/modulesToUpgrade.list
         [[ "$SKIP" == true ]] || docker stop prestashop_autoupgrade
         [[ "$SKIP" == true ]] || docker rm prestashop_autoupgrade
         [[ "$SKIP" == true ]] || docker run --name prestashop_autoupgrade -p 8001:80 -v autoupgrade_temp-ps:/var/www/html -v "$(pwd):/var/www/html/modules/autoupgrade" --network autoupgrade_default -d prestashop/base:7.2-apache
