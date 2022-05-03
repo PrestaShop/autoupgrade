@@ -47,9 +47,14 @@ class FileFilter
      */
     protected $rootDir;
 
-    private const COMPOSER_PACKAGE_TYPE = 'prestashop-module';
+    /**
+     * @var array|null
+     */
+    protected $excludeAbsoluteFilesFromUpgrade;
 
-    private const ADDITIONAL_ALLOWED_MODULES = [
+    const COMPOSER_PACKAGE_TYPE = 'prestashop-module';
+
+    const ADDITIONAL_ALLOWED_MODULES = [
         'autoupgrade',
     ];
 
@@ -130,8 +135,12 @@ class FileFilter
      */
     public function getFilesToIgnoreOnUpgrade()
     {
+        if ($this->excludeAbsoluteFilesFromUpgrade) {
+            return $this->excludeAbsoluteFilesFromUpgrade;
+        }
+
         // do not copy install, neither app/config/parameters.php in case it would be present
-        $excludeAbsoluteFilesFromUpgrade = [
+        $this->excludeAbsoluteFilesFromUpgrade = [
             '/app/config/parameters.php',
             '/app/config/parameters.yml',
             '/install',
@@ -141,24 +150,26 @@ class FileFilter
         // Fetch all existing native modules
         $nativeModules = $this->getNativeModules();
 
-        $dir = new DirectoryIterator($this->rootDir . '/modules');
-        foreach ($dir as $fileinfo) {
-            if (!$fileinfo->isDir() ||$fileinfo->isDot()) {
-                continue;
-            }
-            if (in_array($fileinfo->getFilename(), $nativeModules)) {
-                $excludeAbsoluteFilesFromUpgrade[] = '/modules/' . $fileinfo->getFilename();
+        if (is_dir($this->rootDir . '/modules')) {
+            $dir = new DirectoryIterator($this->rootDir . '/modules');
+            foreach ($dir as $fileinfo) {
+                if (!$fileinfo->isDir() || $fileinfo->isDot()) {
+                    continue;
+                }
+                if (in_array($fileinfo->getFilename(), $nativeModules)) {
+                    $this->excludeAbsoluteFilesFromUpgrade[] = '/modules/' . $fileinfo->getFilename();
+                }
             }
         }
 
         // this will exclude autoupgrade dir from admin, and autoupgrade from modules
         // If set to false, we need to preserve the default themes
         if (!$this->configuration->shouldUpdateDefaultTheme()) {
-            $excludeAbsoluteFilesFromUpgrade[] = '/themes/classic';
-            $excludeAbsoluteFilesFromUpgrade[] = '/themes/default-bootstrap';
+            $this->excludeAbsoluteFilesFromUpgrade[] = '/themes/classic';
+            $this->excludeAbsoluteFilesFromUpgrade[] = '/themes/default-bootstrap';
         }
 
-        return $excludeAbsoluteFilesFromUpgrade;
+        return $this->excludeAbsoluteFilesFromUpgrade;
     }
 
     /**
@@ -187,11 +198,15 @@ class FileFilter
      *
      * @return array<string>
      */
-    private function getNativeModules(): array
+    private function getNativeModules()
     {
+        $composerFile = $this->rootDir . '/composer.lock';
+        if (!file_exists($composerFile)) {
+            return [];
+        }
         // Native modules are the one integrated in PrestaShop release via composer
         // so we use the lock files to generate the list
-        $content = file_get_contents($this->rootDir . '/composer.lock');
+        $content = file_get_contents($composerFile);
         $content = json_decode($content, true);
         if (empty($content['packages'])) {
             return [];
