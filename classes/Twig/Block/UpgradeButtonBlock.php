@@ -116,7 +116,10 @@ class UpgradeButtonBlock
     {
         $translator = $this->translator;
 
-        $versionCompare = version_compare(_PS_VERSION_, $this->upgrader->version_num);
+        $versionCompare = $this->upgrader->version_num !== null
+            ? version_compare(_PS_VERSION_, $this->upgrader->version_num)
+            : 0
+        ;
         $channel = $this->config->get('channel');
 
         if (!in_array($channel, ['archive', 'directory']) && !empty($this->upgrader->version_num)) {
