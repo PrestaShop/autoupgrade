@@ -195,7 +195,7 @@ class Upgrader
                         && version_compare($branch_name, $this->branch, '>='))
                     ) {
                         // skip if $branch->num is inferior to a previous one, skip it
-                        if (version_compare((string) $branch->num, $this->version_num, '<')) {
+                        if ($this->version_num !== null && version_compare((string) $branch->num, $this->version_num, '<')) {
                             continue;
                         }
                         // also skip if previous loop found an available upgrade and current is not
@@ -225,7 +225,7 @@ class Upgrader
         // retro-compatibility :
         // return array(name,link) if you don't use the last version
         // false otherwise
-        if (version_compare($this->currentPsVersion, $this->version_num, '<')) {
+        if ($this->version_num !== null && version_compare($this->currentPsVersion, $this->version_num, '<')) {
             $this->need_upgrade = true;
 
             return ['name' => $this->version_name, 'link' => $this->link];
