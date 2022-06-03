@@ -50,7 +50,7 @@ ALTER TABLE `PREFIX_product_shop` MODIFY COLUMN `redirect_type` ENUM(
 ALTER TABLE `PREFIX_order_detail` MODIFY COLUMN `product_name` TEXT NOT NULL;
 
 ALTER TABLE `PREFIX_feature_flag` ADD `stability` VARCHAR(64) DEFAULT 'beta' NOT NULL;
-UPDATE `PREFIX_feature_flag` SET `state` = '0', `stability` = 'stable', `label_wording` = 'New product page - Single store', `description_wording` = 'This page benefits from increased performance and includes new features such as a new combination management system.' where `name` = 'product_page_V2';
+UPDATE `PREFIX_feature_flag` SET `state` = '0', `stability` = 'stable', `label_wording` = 'New product page - Single store', `description_wording` = 'This page benefits from increased performance and includes new features such as a new combination management system.' WHERE `name` = 'product_page_V2';
 
 INSERT INTO `PREFIX_feature_flag` (`name`, `state`, `label_wording`, `label_domain`, `description_wording`, `description_domain`, `stability`)
 VALUES ('product_page_v2_multi_shop', '0', 'New product page - Multi store', 'Admin.Advparameters.Feature', 'Access the new product page, even in a multistore context. This is a work in progress and some features are not available.', 'Admin.Advparameters.Help', 'beta');
