@@ -276,7 +276,10 @@ class UpgradeContainer
             return $this->fileFilter;
         }
 
-        $this->fileFilter = new FileFilter($this->getUpgradeConfiguration());
+        $this->fileFilter = new FileFilter(
+            $this->getUpgradeConfiguration(),
+            $this->getProperty(self::PS_ROOT_PATH)
+        );
 
         return $this->fileFilter;
     }
@@ -340,7 +343,13 @@ class UpgradeContainer
             $this->getFileFilter(),
             $this->getState()->getRestoreFilesFilename(),
             $this->getProperty(self::WORKSPACE_PATH),
-            str_replace($this->getProperty(self::PS_ROOT_PATH), '', $this->getProperty(self::PS_ADMIN_PATH)), $this->getProperty(self::PS_ROOT_PATH));
+            str_replace(
+                $this->getProperty(self::PS_ROOT_PATH),
+                '',
+                $this->getProperty(self::PS_ADMIN_PATH)
+            ),
+            $this->getProperty(self::PS_ROOT_PATH)
+        );
 
         return $this->filesystemAdapter;
     }
