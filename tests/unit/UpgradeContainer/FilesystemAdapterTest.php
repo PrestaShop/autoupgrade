@@ -23,20 +23,60 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
+
 use PHPUnit\Framework\TestCase;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\FileFilter;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 
 class FilesystemAdapterTest extends TestCase
 {
+    /**
+     * @var UpgradeContainer
+     */
     private $container;
+    /**
+     * @var FilesystemAdapter
+     */
     private $filesystemAdapter;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->container = new UpgradeContainer('/html', '/html/admin');
+
+        $container = $this->getMockBuilder(UpgradeContainer::class)
+            ->enableOriginalConstructor()
+            ->setConstructorArgs([
+                '/html', '/html/admin',
+            ])
+            ->disableOriginalClone()
+            ->disableArgumentCloning()
+            ->setMethods([
+                'getFileFilter',
+            ])
+            ->getMock();
+
+        $container->method('getFileFilter')
+            ->willReturn(
+                $this->getMockBuilder(FileFilter::class)
+                    ->enableOriginalConstructor()
+                    ->setConstructorArgs([
+                        $container->getUpgradeConfiguration(),
+                        $container->getProperty(UpgradeContainer::PS_ROOT_PATH),
+                        $container->getProperty(UpgradeContainer::WORKSPACE_PATH),
+                        '1.7.0.0',
+                        '8.0.0',
+                    ])
+                    ->disableOriginalClone()
+                    ->disableArgumentCloning()
+                    ->enableProxyingToOriginalMethods()
+                    ->getMock()
+            );
+
+        $this->container = $container;
+
         // We expect in these tests to NOT update the theme
-        $this->container->getUpgradeConfiguration()->set('PS_AUTOUP_UPDATE_DEFAULT_THEME', false);
+        $container->getUpgradeConfiguration()->set('PS_AUTOUP_UPDATE_DEFAULT_THEME', false);
         $this->filesystemAdapter = $this->container->getFilesystemAdapter();
     }
 
@@ -48,8 +88,9 @@ class FilesystemAdapterTest extends TestCase
         $this->assertTrue(
             $this->filesystemAdapter->isFileSkipped(
                 $file,
-                $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . $fullpath,
-                $process));
+                $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . $fullpath, $process
+            )
+        );
     }
 
     /**

@@ -278,7 +278,10 @@ class UpgradeContainer
 
         $this->fileFilter = new FileFilter(
             $this->getUpgradeConfiguration(),
-            $this->getProperty(self::PS_ROOT_PATH)
+            $this->getProperty(self::PS_ROOT_PATH),
+            $this->getProperty(self::WORKSPACE_PATH),
+            $this->getProperty(self::PS_VERSION),
+            $this->getUpgrader()->version_num
         );
 
         return $this->fileFilter;
