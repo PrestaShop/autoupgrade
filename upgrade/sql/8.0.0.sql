@@ -56,3 +56,5 @@ INSERT INTO `PREFIX_feature_flag` (`name`, `state`, `label_wording`, `label_doma
 VALUES ('product_page_v2_multi_shop', '0', 'New product page - Multi store', 'Admin.Advparameters.Feature', 'Access the new product page, even in a multistore context. This is a work in progress and some features are not available.', 'Admin.Advparameters.Help', 'beta');
 
 UPDATE `PREFIX_tab` SET wording = 'New & Experimental Features' WHERE `class_name` = 'AdminFeatureFlag';
+
+/* PHP:ps_800_update_tab_lang('Admin.Navigation.Menu', 'AdminFeatureFlag'); */;
