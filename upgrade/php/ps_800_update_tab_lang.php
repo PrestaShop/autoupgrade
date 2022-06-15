@@ -55,7 +55,6 @@ function ps_800_update_tab_lang($domain, $className)
 
     // for each language, update tab_lang
     foreach ($languages as $lang) {
-        $idLang = (int) $lang['id_lang'];
         $tabName = pSQL(
             $translator->trans(
                 $tab['wording'],
@@ -66,11 +65,11 @@ function ps_800_update_tab_lang($domain, $className)
         );
 
         $updateQuery = sprintf(
-            'UPDATE %stab_lang SET `name` = %s WHERE `id_tab` = %s AND `id_lang` = %s',
+            'UPDATE `%stab_lang` SET `name` = "%s" WHERE `id_tab` = "%s" AND `id_lang` = "%s"',
             _DB_PREFIX_,
             $tabName,
             $tab['id_tab'],
-            $idLang
+            $lang['id_lang']
         );
         Db::getInstance()->execute($updateQuery);
     }
