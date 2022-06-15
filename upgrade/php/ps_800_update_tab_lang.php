@@ -40,7 +40,7 @@ function ps_800_update_tab_lang($domain, $className)
 
     // get tab ID
     $tabQuery = sprintf(
-        'SELECT id_tab, wording FROM `%s_tab` WHERE `class_name` = "%s"',
+        'SELECT id_tab, wording FROM `%stab` WHERE `class_name` = "%s"',
         _DB_PREFIX_,
         $className
     );
