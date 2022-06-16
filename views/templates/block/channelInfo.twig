@@ -85,7 +85,13 @@
                     <th>PrestaShop Version</th>
                     <th>≤&nbsp;5.1</th>
                     {% for phpVersion in allPhpVersions %}
-                        <th>{{ phpVersion }}</th>
+                        <th {% if  phpVersion is same as(psPhpCompatibilityRanges.required_php_version) %} class="required-php"{% endif %}>
+                          {{ phpVersion }}
+                          {% if  phpVersion is same as(psPhpCompatibilityRanges.required_php_version) %}
+                          <span class="autoupgrade-green"><br>Required</span>
+                          {% endif %}
+                        </th>
+
                     {% endfor %}
                     <th>≥&nbsp;8.1</th>
                     </tr>
@@ -97,14 +103,14 @@
                             {% if  item.is_current %}
                                 <br><span class="autoupgrade-green">Current</span></td>
                             {% elseif item.is_target%}
-                                <br><span class="autoupgrade-green">Target</span></td>
+                                <br><span class="autoupgrade-green">Wanted</span></td>
                             {% endif %}
-                        <td class="support-no target"><span class="sr-only">No</span>no</td>
+                        <td class="support-no target"></td>
                         {% for phpVersion in allPhpVersions %}
-                            <td class="target{% if phpVersion == currentFormattedPhpVersion %} highlighted-col{% if targetFormattedPSVersion == prestashopVersion %} targeted{% endif %}{% endif %}">
+                            <td class="target{% if phpVersion == psPhpCompatibilityRanges.required_php_version %} highlighted-col{% if targetFormattedPSVersion == prestashopVersion %} targeted{% endif %}{% endif %}">
                                 <span class="sr-only">Yes</span>
                                 {% if  phpVersion in item.php_versions %}
-                                    <i class="icon-check-circle{% if phpVersion == currentFormattedPhpVersion and targetFormattedPSVersion == prestashopVersion %} autoupgrade-white{% endif %}" title="Yes"></i>
+                                    <i class="icon-check-circle{% if phpVersion == psPhpCompatibilityRanges.required_php_version and targetFormattedPSVersion == prestashopVersion %} autoupgrade-white{% endif %}" title="Yes"></i>
                                 {% endif %}
                             </td>
                         {% endfor %}

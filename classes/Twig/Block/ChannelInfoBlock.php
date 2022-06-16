@@ -99,26 +99,30 @@ class ChannelInfoBlock
      */
     public function buildCompatibilityTableDisplay()
     {
-        $startPrestaShopVersion = $previousPHPRange = $previousPrestaVersion = null;
+        $startPrestaShopVersion = $labelStartPrestaShopVersion = $previousPHPRange = $previousPrestaVersion = null;
         $numberOfPhpVersions = count(UpgradeSelfCheck::PHP_PS_VERSIONS);
         $result = [];
         $i = 0;
         foreach (UpgradeSelfCheck::PHP_PS_VERSIONS as $prestashopVersion => $phpVersions) {
             ++$i;
             if ($startPrestaShopVersion === null) {
-                $startPrestaShopVersion = $prestashopVersion;
+                $startPrestaShopVersion = $labelStartPrestaShopVersion = $prestashopVersion;
                 $previousPHPRange = $phpVersions;
             }
 
             $isCurrentPrestaVersion = $this->isCurrentPrestashopVersion($startPrestaShopVersion, _PS_VERSION_);
             if ($phpVersions === $previousPHPRange) {
                 $previousPrestaVersion = $prestashopVersion;
+                $startPrestaShopVersion = $prestashopVersion;
             } else {
-                $label = $this->buildPSLabel($startPrestaShopVersion, $previousPrestaVersion);
+                $label = $this->buildPSLabel($labelStartPrestaShopVersion, $previousPrestaVersion);
                 $result[$label]['php_versions'] = $this->buildPhpVersionsList($previousPHPRange);
                 $result[$label]['is_current'] = $isCurrentPrestaVersion;
-                $startPrestaShopVersion = $prestashopVersion;
+                $labelStartPrestaShopVersion = $startPrestaShopVersion = $prestashopVersion;
                 $result[$label]['is_target'] = $this->getFormattedVersion($this->channelInfo->getInfo()['version_num'], self::PS_VERSION_DISPLAY_MAX_PRECISION) === $label;
+                if ($result[$label]['is_target']) {
+                    $result['required_php_version'] = $previousPHPRange[0];
+                }
                 $previousPrestaVersion = null;
             }
             if ($i === $numberOfPhpVersions) {
