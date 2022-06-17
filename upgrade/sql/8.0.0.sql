@@ -57,4 +57,4 @@ VALUES ('product_page_v2_multi_shop', '0', 'New product page - Multi store', 'Ad
 
 UPDATE `PREFIX_tab` SET wording = 'New & Experimental Features' WHERE `class_name` = 'AdminFeatureFlag';
 
-/* PHP:ps_800_update_tab_lang('Admin.Navigation.Menu', 'AdminFeatureFlag'); */;
+/* PHP:ps_update_tab_lang('Admin.Navigation.Menu', 'AdminFeatureFlag'); */;

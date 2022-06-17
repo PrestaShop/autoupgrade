@@ -33,7 +33,7 @@
  * @param string $domain
  * @param string $className
  */
-function ps_800_update_tab_lang($domain, $className)
+function ps_update_tab_lang($domain, $className)
 {
     $translator = Context::getContext()->getTranslator();
 
