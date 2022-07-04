@@ -194,6 +194,7 @@ class UpgradeButtonBlock
             'phpVersion' => PHP_VERSION,
             'phpCompatibleVersions' => $phpCompatibleVersions,
             'psVersionChosen' => $psVersionChosen,
+            'phpIsCompatible' => $phpIsCompatible,
         ];
 
         return $this->twig->render('@ModuleAutoUpgrade/block/upgradeButtonBlock.twig', $data);

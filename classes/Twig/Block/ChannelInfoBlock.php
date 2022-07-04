@@ -80,12 +80,19 @@ class ChannelInfoBlock
             $upgradeInfo['md5'] = $this->config->get('private_release_md5');
         }
 
+        /**
+         * @var string $requiredPhpVersion
+         * @var array  $psPhpCompatibilityRanges
+         */
+        extract($this->buildCompatibilityTableDisplay());
+
         return $this->twig->render(
             '@ModuleAutoUpgrade/block/channelInfo.twig',
             [
                 'upgradeInfo' => $upgradeInfo,
                 'allPhpVersions' => UpgradeSelfCheck::PHP_VERSIONS_DISPLAY,
-                'psPhpCompatibilityRanges' => $this->buildCompatibilityTableDisplay(),
+                'psPhpCompatibilityRanges' => $psPhpCompatibilityRanges,
+                'requiredPhpVersion' => $requiredPhpVersion,
                 'currentFormattedPhpVersion' => $this->getFormattedVersion(PHP_VERSION),
                 'targetFormattedPSVersion' => $this->getFormattedVersion($upgradeInfo['version_num'], self::PS_VERSION_DISPLAY_MAX_PRECISION),
             ]
@@ -99,18 +106,24 @@ class ChannelInfoBlock
      */
     public function buildCompatibilityTableDisplay()
     {
-        $startPrestaShopVersion = $labelStartPrestaShopVersion = $previousPHPRange = $previousPrestaVersion = null;
+        $startPrestaShopVersion = $labelStartPrestaShopVersion = $previousPHPRange = $previousPrestaVersion = $requiredPhpVersion = null;
         $numberOfPhpVersions = count(UpgradeSelfCheck::PHP_PS_VERSIONS);
         $result = [];
         $i = 0;
-        foreach (UpgradeSelfCheck::PHP_PS_VERSIONS as $prestashopVersion => $phpVersions) {
+        $toParse = UpgradeSelfCheck::PHP_PS_VERSIONS;
+        foreach ($toParse as $prestashopVersion => $phpVersions) {
+            end($toParse);
+            $isLastIteration = $prestashopVersion === key($toParse);
             ++$i;
+
+
             if ($startPrestaShopVersion === null) {
-                $startPrestaShopVersion = $labelStartPrestaShopVersion = $prestashopVersion;
                 $previousPHPRange = $phpVersions;
             }
+            $startPrestaShopVersion = $labelStartPrestaShopVersion = $prestashopVersion;
 
             $isCurrentPrestaVersion = $this->isCurrentPrestashopVersion($startPrestaShopVersion, _PS_VERSION_);
+
             if ($phpVersions === $previousPHPRange) {
                 $previousPrestaVersion = $prestashopVersion;
                 $startPrestaShopVersion = $prestashopVersion;
@@ -121,7 +134,7 @@ class ChannelInfoBlock
                 $labelStartPrestaShopVersion = $startPrestaShopVersion = $prestashopVersion;
                 $result[$label]['is_target'] = $this->getFormattedVersion($this->channelInfo->getInfo()['version_num'], self::PS_VERSION_DISPLAY_MAX_PRECISION) === $label;
                 if ($result[$label]['is_target']) {
-                    $result['required_php_version'] = $previousPHPRange[0];
+                    $requiredPhpVersion = $previousPHPRange[0];
                 }
                 $previousPrestaVersion = null;
             }
@@ -133,7 +146,7 @@ class ChannelInfoBlock
             $previousPHPRange = $phpVersions;
         }
 
-        return $result;
+        return ['requiredPhpVersion' => $requiredPhpVersion, 'psPhpCompatibilityRanges' => $result];
     }
 
     /**
@@ -201,6 +214,11 @@ class ChannelInfoBlock
         }
         $explodedCurrentPSVersion = explode('.', $currentPrestaShopVersion);
         $shortenCurrentPrestashop = implode('.', array_slice($explodedCurrentPSVersion, 0, count(explode('.', $prestaversion))));
+
+        if ($prestaversion === '8.0') {
+            // var_dump($prestaversion, $currentPrestaShopVersion); exit;
+        }
+
 
         return $prestaversion === $shortenCurrentPrestashop;
     }

@@ -85,9 +85,9 @@
                     <th>PrestaShop Version</th>
                     <th>≤&nbsp;5.1</th>
                     {% for phpVersion in allPhpVersions %}
-                        <th {% if  phpVersion is same as(psPhpCompatibilityRanges.required_php_version) %} class="required-php"{% endif %}>
+                        <th {% if  phpVersion is same as(requiredPhpVersion) %} class="required-php"{% endif %}>
                           {{ phpVersion }}
-                          {% if  phpVersion is same as(psPhpCompatibilityRanges.required_php_version) %}
+                          {% if  phpVersion is same as(requiredPhpVersion) %}
                           <span class="autoupgrade-green"><br>Required</span>
                           {% endif %}
                         </th>
@@ -107,10 +107,10 @@
                             {% endif %}
                         <td class="support-no target"></td>
                         {% for phpVersion in allPhpVersions %}
-                            <td class="target{% if phpVersion == psPhpCompatibilityRanges.required_php_version %} highlighted-col{% if targetFormattedPSVersion == prestashopVersion %} targeted{% endif %}{% endif %}">
+                            <td class="target{% if phpVersion == requiredPhpVersion %} highlighted-col{% if targetFormattedPSVersion == prestashopVersion %} targeted{% endif %}{% endif %}">
                                 <span class="sr-only">Yes</span>
                                 {% if  phpVersion in item.php_versions %}
-                                    <i class="icon-check-circle{% if phpVersion == psPhpCompatibilityRanges.required_php_version and targetFormattedPSVersion == prestashopVersion %} autoupgrade-white{% endif %}" title="Yes"></i>
+                                    <i class="icon-check-circle{% if phpVersion == requiredPhpVersion and targetFormattedPSVersion == prestashopVersion %} autoupgrade-white{% endif %}" title="Yes"></i>
                                 {% endif %}
                             </td>
                         {% endfor %}

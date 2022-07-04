@@ -17,7 +17,7 @@
             </p>
             </p>
             {% if phpCompatibleVersions %}
-                {% if showUpgradeButton %}
+                {% if phpIsCompatible %}
                     <p>{{ 'The version of PrestaShop chosen is compatible with your PHP version'|trans }} (<strong>{{ phpVersion }}</strong>)</p>
                 {% else %}
                     <p class="alert alert-danger">
