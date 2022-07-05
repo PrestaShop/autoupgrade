@@ -94,7 +94,7 @@ class ChannelInfoBlock
                 'psPhpCompatibilityRanges' => $psPhpCompatibilityRanges,
                 'requiredPhpVersion' => $requiredPhpVersion,
                 'currentFormattedPhpVersion' => $this->getFormattedVersion(PHP_VERSION),
-                'targetFormattedPSVersion' => $this->getFormattedVersion($upgradeInfo['version_num'], self::PS_VERSION_DISPLAY_MAX_PRECISION),
+                'targetFormattedPSVersion' => $this->getFormattedVersion($upgradeInfo['version_num'] ?? '', self::PS_VERSION_DISPLAY_MAX_PRECISION),
             ]
         );
     }
@@ -132,7 +132,7 @@ class ChannelInfoBlock
                 $result[$label]['php_versions'] = $this->buildPhpVersionsList($previousPHPRange);
                 $result[$label]['is_current'] = $isCurrentPrestaVersion;
                 $labelStartPrestaShopVersion = $startPrestaShopVersion = $prestashopVersion;
-                $result[$label]['is_target'] = $this->getFormattedVersion($this->channelInfo->getInfo()['version_num'], self::PS_VERSION_DISPLAY_MAX_PRECISION) === $label;
+                $result[$label]['is_target'] = $this->getFormattedVersion($this->channelInfo->getInfo()['version_num'] ?? '', self::PS_VERSION_DISPLAY_MAX_PRECISION) === $label;
                 if ($result[$label]['is_target']) {
                     $requiredPhpVersion = $previousPHPRange[0];
                 }
@@ -141,7 +141,7 @@ class ChannelInfoBlock
             if ($i === $numberOfPhpVersions) {
                 $result[$prestashopVersion]['php_versions'] = $this->buildPhpVersionsList($phpVersions);
                 $result[$prestashopVersion]['is_current'] = $isCurrentPrestaVersion;
-                $result[$prestashopVersion]['is_target'] = $this->getFormattedVersion($this->channelInfo->getInfo()['version_num'], self::PS_VERSION_DISPLAY_MAX_PRECISION) === $prestashopVersion;
+                $result[$prestashopVersion]['is_target'] = $this->getFormattedVersion($this->channelInfo->getInfo()['version_num'] ?? '', self::PS_VERSION_DISPLAY_MAX_PRECISION) === $prestashopVersion;
             }
             $previousPHPRange = $phpVersions;
         }
