@@ -50,6 +50,13 @@ ALTER TABLE `PREFIX_product_shop` MODIFY COLUMN `redirect_type` ENUM(
 
 ALTER TABLE `PREFIX_order_detail` MODIFY COLUMN `product_name` TEXT NOT NULL;
 
+ALTER TABLE `PREFIX_product` ADD `unit_price` decimal(20, 6) NOT NULL DEFAULT '0.000000' AFTER `unity`;
+ALTER TABLE `PREFIX_product_shop` ADD `unit_price` decimal(20, 6) NOT NULL DEFAULT '0.000000' AFTER `unity`;
+
+UPDATE `PREFIX_product` SET `unit_price` = IF (`unit_price_ratio` != 0, `price` / `unit_price_ratio`, 0);
+UPDATE `PREFIX_product_shop` SET `unit_price` = IF (`unit_price_ratio` != 0, `price` / `unit_price_ratio`, 0);
+
+
 ALTER TABLE `PREFIX_feature_flag` ADD `stability` VARCHAR(64) DEFAULT 'beta' NOT NULL;
 UPDATE `PREFIX_feature_flag` SET `state` = '0', `stability` = 'stable', `label_wording` = 'New product page - Single store', `description_wording` = 'This page benefits from increased performance and includes new features such as a new combination management system.' WHERE `name` = 'product_page_V2';
 
