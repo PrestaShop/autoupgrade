@@ -107,10 +107,10 @@
                             {% endif %}
                         <td class="support-no target"></td>
                         {% for phpVersion in allPhpVersions %}
-                            <td class="target{% if phpVersion == requiredPhpVersion %} highlighted-col{% if targetFormattedPSVersion == prestashopVersion %} targeted{% endif %}{% endif %}">
+                            <td class="target{% if phpVersion == requiredPhpVersion %} highlighted-col{% if targetFormattedPSVersion == prestashopVersion or item.is_current %} targeted{% endif %}{% endif %}">
                                 <span class="sr-only">Yes</span>
                                 {% if  phpVersion in item.php_versions %}
-                                    <i class="icon-check-circle{% if phpVersion == requiredPhpVersion and targetFormattedPSVersion == prestashopVersion %} autoupgrade-white{% endif %}" title="Yes"></i>
+                                    <i class="icon-check-circle{% if phpVersion == requiredPhpVersion and (targetFormattedPSVersion == prestashopVersion or item.is_current) %} autoupgrade-white{% endif %}" title="Yes"></i>
                                 {% endif %}
                             </td>
                         {% endfor %}
