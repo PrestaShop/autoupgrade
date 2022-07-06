@@ -74,6 +74,7 @@ class ChannelInfoBlock
     {
         $channel = $this->channelInfo->getChannel();
         $upgradeInfo = $this->channelInfo->getInfo();
+        $versionNum = isset($upgradeInfo['version_num']) ? $upgradeInfo['version_num'] : '';
 
         if ($channel == 'private') {
             $upgradeInfo['link'] = $this->config->get('private_release_link');
@@ -94,7 +95,7 @@ class ChannelInfoBlock
                 'psPhpCompatibilityRanges' => $psPhpCompatibilityRanges,
                 'requiredPhpVersion' => $requiredPhpVersion,
                 'currentFormattedPhpVersion' => $this->getFormattedVersion(PHP_VERSION),
-                'targetFormattedPSVersion' => $this->getFormattedVersion($upgradeInfo['version_num'] ?? '', self::PS_VERSION_DISPLAY_MAX_PRECISION),
+                'targetFormattedPSVersion' => $this->getFormattedVersion($versionNum, self::PS_VERSION_DISPLAY_MAX_PRECISION),
             ]
         );
     }
@@ -107,23 +108,27 @@ class ChannelInfoBlock
     public function buildCompatibilityTableDisplay()
     {
         $startPrestaShopVersion = $labelStartPrestaShopVersion = $previousPHPRange = $previousPrestaVersion = $requiredPhpVersion = null;
-        $numberOfPhpVersions = count(UpgradeSelfCheck::PHP_PS_VERSIONS);
         $result = [];
-        $i = 0;
         $toParse = UpgradeSelfCheck::PHP_PS_VERSIONS;
+        $isCurrentPrestaVersion = false;
+        $versionNum = isset($this->channelInfo->getInfo()['version_num']) ? $this->channelInfo->getInfo()['version_num'] : '';
         foreach ($toParse as $prestashopVersion => $phpVersions) {
             end($toParse);
             $isLastIteration = $prestashopVersion === key($toParse);
-            ++$i;
-
 
             if ($startPrestaShopVersion === null) {
                 $previousPHPRange = $phpVersions;
+                $startPrestaShopVersion = $labelStartPrestaShopVersion = $prestashopVersion;
             }
-            $startPrestaShopVersion = $labelStartPrestaShopVersion = $prestashopVersion;
 
-            $isCurrentPrestaVersion = $this->isCurrentPrestashopVersion($startPrestaShopVersion, _PS_VERSION_);
+            if ($isLastIteration) {
+                $startPrestaShopVersion = $prestashopVersion;
+            }
+            if (!$isCurrentPrestaVersion) {
+                $isCurrentPrestaVersion = $this->isCurrentPrestashopVersion($startPrestaShopVersion, _PS_VERSION_);
+            }
 
+            // we're still in the same php range, it means that we are in the case of a grouped prestashop version, ex: 1.7.0 ~ 1.7.3
             if ($phpVersions === $previousPHPRange) {
                 $previousPrestaVersion = $prestashopVersion;
                 $startPrestaShopVersion = $prestashopVersion;
@@ -131,17 +136,19 @@ class ChannelInfoBlock
                 $label = $this->buildPSLabel($labelStartPrestaShopVersion, $previousPrestaVersion);
                 $result[$label]['php_versions'] = $this->buildPhpVersionsList($previousPHPRange);
                 $result[$label]['is_current'] = $isCurrentPrestaVersion;
+
                 $labelStartPrestaShopVersion = $startPrestaShopVersion = $prestashopVersion;
-                $result[$label]['is_target'] = $this->getFormattedVersion($this->channelInfo->getInfo()['version_num'] ?? '', self::PS_VERSION_DISPLAY_MAX_PRECISION) === $label;
+                $result[$label]['is_target'] = $this->getFormattedVersion($versionNum, self::PS_VERSION_DISPLAY_MAX_PRECISION) === $label;
                 if ($result[$label]['is_target']) {
                     $requiredPhpVersion = $previousPHPRange[0];
                 }
                 $previousPrestaVersion = null;
+                $isCurrentPrestaVersion = false;
             }
-            if ($i === $numberOfPhpVersions) {
+            if ($isLastIteration) {
                 $result[$prestashopVersion]['php_versions'] = $this->buildPhpVersionsList($phpVersions);
                 $result[$prestashopVersion]['is_current'] = $isCurrentPrestaVersion;
-                $result[$prestashopVersion]['is_target'] = $this->getFormattedVersion($this->channelInfo->getInfo()['version_num'] ?? '', self::PS_VERSION_DISPLAY_MAX_PRECISION) === $prestashopVersion;
+                $result[$prestashopVersion]['is_target'] = $this->getFormattedVersion($versionNum, self::PS_VERSION_DISPLAY_MAX_PRECISION) === $prestashopVersion;
             }
             $previousPHPRange = $phpVersions;
         }
