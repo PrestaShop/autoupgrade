@@ -81,19 +81,15 @@ class ChannelInfoBlock
             $upgradeInfo['md5'] = $this->config->get('private_release_md5');
         }
 
-        /**
-         * @var string $requiredPhpVersion
-         * @var array  $psPhpCompatibilityRanges
-         */
-        extract($this->buildCompatibilityTableDisplay());
+        $compatibilityDisplay = $this->buildCompatibilityTableDisplay();
 
         return $this->twig->render(
             '@ModuleAutoUpgrade/block/channelInfo.twig',
             [
                 'upgradeInfo' => $upgradeInfo,
                 'allPhpVersions' => UpgradeSelfCheck::PHP_VERSIONS_DISPLAY,
-                'psPhpCompatibilityRanges' => $psPhpCompatibilityRanges,
-                'requiredPhpVersion' => $requiredPhpVersion,
+                'psPhpCompatibilityRanges' => $compatibilityDisplay['psPhpCompatibilityRanges'],
+                'requiredPhpVersion' => $compatibilityDisplay['requiredPhpVersion'],
                 'currentFormattedPhpVersion' => $this->getFormattedVersion(PHP_VERSION),
                 'targetFormattedPSVersion' => $this->getFormattedVersion($versionNum, self::PS_VERSION_DISPLAY_MAX_PRECISION),
             ]
@@ -221,11 +217,6 @@ class ChannelInfoBlock
         }
         $explodedCurrentPSVersion = explode('.', $currentPrestaShopVersion);
         $shortenCurrentPrestashop = implode('.', array_slice($explodedCurrentPSVersion, 0, count(explode('.', $prestaversion))));
-
-        if ($prestaversion === '8.0') {
-            // var_dump($prestaversion, $currentPrestaShopVersion); exit;
-        }
-
 
         return $prestaversion === $shortenCurrentPrestashop;
     }
