@@ -86,7 +86,7 @@ class UpgradeSelfCheckTest extends TestCase
             ['1.7.0', '5.4.4-random-string-but-correct', true], // test php version with anything in the name
             ['1.7.0', 'wrong-format', false], // test wrong format
             ['8.0', '7.2.4', true], // test correct with a two digit PrestaShop version
-            ['8.0', '8.1', false], // test false with a two digit PrestaShop version
+            ['8.0', '8.2', false], // test false with a two digit PrestaShop version
         ];
     }
 
