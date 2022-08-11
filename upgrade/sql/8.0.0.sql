@@ -91,3 +91,5 @@ UPDATE `PREFIX_tab` SET wording = 'New & Experimental Features' WHERE `class_nam
 /* PHP:ps_update_tab_lang('Admin.Navigation.Menu', 'AdminFeatureFlag'); */;
 
 UPDATE `PREFIX_quick_access` SET `link` = 'index.php/sell/orders' WHERE `link` = 'index.php?controller=AdminOrders';
+
+ALTER TABLE  `PREFIX_stock_mvt` CHANGE `physical_quantity` `physical_quantity` INT(11) UNSIGNED  NOT NULL;
