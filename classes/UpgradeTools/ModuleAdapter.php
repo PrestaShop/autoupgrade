@@ -54,6 +54,8 @@ class ModuleAdapter
 
     private $commandBus;
 
+    private $moduleRepository;
+
     public function __construct($db, $translator, $modulesPath, $tempPath, $upgradeVersion, ZipAction $zipAction, SymfonyAdapter $symfonyAdapter)
     {
         $this->db = $db;
@@ -97,6 +99,21 @@ class ModuleAdapter
         }
 
         return $this->commandBus;
+    }
+
+    /**
+     * Available since PrestaShop 8.0
+     */
+    public function getModuleRepository()
+    {
+        if (null === $this->moduleRepository) {
+            $this->moduleRepository = $this->symfonyAdapter
+                ->initAppKernel()
+                ->getContainer()
+                ->get('prestashop.adapter.module.repository.module_repository');
+        }
+
+        return $this->moduleRepository;
     }
 
     /**
