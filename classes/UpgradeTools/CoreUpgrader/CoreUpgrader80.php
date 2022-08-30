@@ -33,6 +33,7 @@ use PrestaShop\PrestaShop\Core\CommandBus\CommandBusInterface;
 use PrestaShop\PrestaShop\Core\Domain\MailTemplate\Command\GenerateThemeMailTemplatesCommand;
 use PrestaShop\PrestaShop\Core\Domain\Module\Command\BulkToggleModuleStatusCommand;
 use PrestaShop\PrestaShop\Core\Exception\CoreException;
+use PrestaShop\PrestaShop\Adapter\Module\Repository\ModuleRepository;
 
 class CoreUpgrader80 extends CoreUpgrader
 {
@@ -102,23 +103,9 @@ class CoreUpgrader80 extends CoreUpgrader
         // TODO: Update AdminTranslationsController::addNewTabs to install tabs translated
     }
 
-    /**
-     * Ask the core to disable the modules not coming from PrestaShop.
-     */
     protected function disableCustomModules()
     {
-        try {
-            $bulkToggleModuleStatusCommand = new BulkToggleModuleStatusCommand(
-                $this->container->getModuleAdapter()->getModuleRepository()->getNonNativeModules(),
-                false
-            );
-
-            /** @var CommandBusInterface $commandBus */
-            $commandBus = $this->container->getModuleAdapter()->getCommandBus();
-
-            $commandBus->handle($bulkToggleModuleStatusCommand);
-        } catch (\Exception $e) {
-            throw new UpgradeException($e->getMessage());
-        }
+        $moduleRepository = new ModuleRepository(_PS_ROOT_DIR_, _PS_MODULE_DIR_);
+        $this->container->getModuleAdapter()->disableNonNativeModules80($this->pathToUpgradeScripts, $moduleRepository);
     }
 }

@@ -129,6 +129,12 @@ class ModuleAdapter
         deactivate_custom_modules();
     }
 
+    public function disableNonNativeModules80($pathToUpgradeScripts, $moduleRepository)
+    {
+        require_once $pathToUpgradeScripts . 'php/deactivate_custom_modules.php';
+        deactivate_custom_modules80($moduleRepository);
+    }
+
     /**
      * list modules to upgrade and save them in a serialized array in $this->toUpgradeModuleList.
      *
