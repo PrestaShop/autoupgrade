@@ -128,6 +128,7 @@ function deactivate_custom_modules80($moduleRepository)
     return $return;
 }
 
-function add_quotes($str) {
+function add_quotes($str)
+{
     return sprintf("'%s'", $str);
 }

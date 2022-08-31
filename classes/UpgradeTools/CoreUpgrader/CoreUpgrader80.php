@@ -29,11 +29,10 @@ declare(strict_types=1);
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader;
 
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
+use PrestaShop\PrestaShop\Adapter\Module\Repository\ModuleRepository;
 use PrestaShop\PrestaShop\Core\CommandBus\CommandBusInterface;
 use PrestaShop\PrestaShop\Core\Domain\MailTemplate\Command\GenerateThemeMailTemplatesCommand;
-use PrestaShop\PrestaShop\Core\Domain\Module\Command\BulkToggleModuleStatusCommand;
 use PrestaShop\PrestaShop\Core\Exception\CoreException;
-use PrestaShop\PrestaShop\Adapter\Module\Repository\ModuleRepository;
 
 class CoreUpgrader80 extends CoreUpgrader
 {
