@@ -54,8 +54,6 @@ class ModuleAdapter
 
     private $commandBus;
 
-    private $moduleRepository;
-
     public function __construct($db, $translator, $modulesPath, $tempPath, $upgradeVersion, ZipAction $zipAction, SymfonyAdapter $symfonyAdapter)
     {
         $this->db = $db;
