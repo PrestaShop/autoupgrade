@@ -91,3 +91,10 @@ UPDATE `PREFIX_tab` SET wording = 'New & Experimental Features' WHERE `class_nam
 /* PHP:ps_update_tab_lang('Admin.Navigation.Menu', 'AdminFeatureFlag'); */;
 
 UPDATE `PREFIX_quick_access` SET `link` = 'index.php/sell/orders' WHERE `link` = 'index.php?controller=AdminOrders';
+
+/* Insert new password policy configuration values */
+INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES
+  ('PS_SECURITY_PASSWORD_POLICY_MAXIMUM_LENGTH', '72', NOW(), NOW()),
+  ('PS_SECURITY_PASSWORD_POLICY_MINIMUM_LENGTH', '8', NOW(), NOW()),
+  ('PS_SECURITY_PASSWORD_POLICY_MINIMUM_SCORE', '3', NOW(), NOW())
+;
