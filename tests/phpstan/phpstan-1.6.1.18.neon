@@ -19,7 +19,6 @@ parameters:
 		- '#Call to method assign\(\) on an unknown class Smarty.#'
 		- '#Call to method fetch\(\) on an unknown class Smarty.#'
 		- '#Call to method getContainer\(\) on an unknown class AppKernel.#'
-		- '#Function deactivate_custom_modules not found.#'
 		- '#PrestaShop\\PrestaShop\\Adapter\\Module\\ModuleDataUpdater#'
 		- '#Property ModuleCore::\$version \(float\) does not accept string.#'
 		- '#Return typehint of method PrestaShop\\Module\\AutoUpgrade\\UpgradeTools\\ModuleAdapter::getCommandBus\(\) has invalid type PrestaShop\\PrestaShop\\Core\\CommandBus\\TacticianCommandBusAdapter.#'

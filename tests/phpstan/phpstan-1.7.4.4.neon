@@ -11,7 +11,6 @@ parameters:
 		- '#Call to method getMessage\(\) on an unknown class PrestaShop\\PrestaShop\\Core\\Exception\\CoreException.#'
 		- '#Call to method handle\(\) on an unknown class PrestaShop\\PrestaShop\\Core\\CommandBus\\CommandBusInterface.#'
 		- '#Caught class PrestaShop\\PrestaShop\\Core\\Exception\\CoreException not found.#'
-		- '#Function deactivate_custom_modules not found.#'
 		- '#Instantiated class PrestaShop\\PrestaShop\\Core\\Domain\\Theme\\ValueObject\\ThemeName not found.#'
 		- '#PHPDoc tag @var for variable \$commandBus contains unknown class PrestaShop\\PrestaShop\\Core\\CommandBus\\CommandBusInterface.#'
 		- '#Property ModuleCore::\$version \(float\) does not accept string.#'

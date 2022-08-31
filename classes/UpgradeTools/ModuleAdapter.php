@@ -102,21 +102,6 @@ class ModuleAdapter
     }
 
     /**
-     * Available since PrestaShop 8.0
-     */
-    public function getModuleRepository()
-    {
-        if (null === $this->moduleRepository) {
-            $this->moduleRepository = $this->symfonyAdapter
-                ->initAppKernel()
-                ->getContainer()
-                ->get('prestashop.adapter.module.repository.module_repository');
-        }
-
-        return $this->moduleRepository;
-    }
-
-    /**
      * Upgrade action, disabling all modules not made by PrestaShop.
      *
      * It seems the 1.6 version of is the safest, as it does not actually load the modules.

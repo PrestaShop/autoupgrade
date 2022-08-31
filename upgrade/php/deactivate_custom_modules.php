@@ -51,7 +51,7 @@ function deactivate_custom_modules()
         $nativeModules = $nativeModules->modules;
     }
     $arrNativeModules = [];
-    if (is_array($nativeModules)) {
+    if (!empty($nativeModules)) {
         foreach ($nativeModules as $nativeModulesType) {
             if (in_array($nativeModulesType['type'], ['native', 'partner'])) {
                 $arrNativeModules[] = '""';
