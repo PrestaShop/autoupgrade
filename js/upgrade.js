@@ -11,7 +11,7 @@ if (typeof input === 'undefined') {
     ajaxUpgradeTabExists: true,
     currentIndex: 'page.php',
     tab: input.tab,
-    versionNumberRegex: '^(1\\.(6|7)\\.(\\d)\\.(\\d+)$)|^(8\\.(\\d).(\\d)$)',
+    versionNumberRegex: /^(1\\.(6|7)\\.(\\d)\\.(\\d+)$)|^(8\\.(\\d).(\\d)$)/,
     channel: 'major',
     translation: {
       confirmDeleteBackup: "Are you sure you want to delete this backup?",
