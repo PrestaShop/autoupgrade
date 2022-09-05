@@ -15,7 +15,6 @@ parameters:
 		- '#Call to method loadClassCache\(\) on an unknown class AppKernel.#'
 		- '#Caught class PrestaShop\\PrestaShop\\Core\\Exception\\CoreException not found.#'
 		- '#Class AppKernel not found.#'
-		- '#Function deactivate_custom_modules not found.#'
 		- '#Instantiated class AppKernel not found.#'
 		- '#Instantiated class PrestaShop\\PrestaShop\\Core\\Domain\\Theme\\ValueObject\\ThemeName not found.#'
 		- '#PHPDoc tag @var for variable \$commandBus contains unknown class PrestaShop\\PrestaShop\\Core\\CommandBus\\CommandBusInterface.#'

@@ -4,6 +4,7 @@ parameters:
 	paths:
 		# From PHPStan 0.12, paths to check are relative to the neon file
 		- ./../../classes
+		- ./../../upgrade/php/deactivate_custom_modules.php
 		- ./../../AdminSelfUpgrade.php
 		- ./../../ajax-upgradetab.php
 		- ./../../ajax-upgradetabconfig.php

@@ -1,0 +1,8 @@
+includes:
+	- %currentWorkingDirectory%/tests/phpstan/phpstan.neon
+
+parameters:
+	excludes_analyse:
+		- ./../../classes/UpgradeTools/CoreUpgrader/CoreUpgrader17.php
+		- ./../../classes/Twig/TransFilterExtension.php
+		- ./../../classes/UpgradeContainer.php

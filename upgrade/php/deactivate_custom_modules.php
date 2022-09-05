@@ -51,7 +51,7 @@ function deactivate_custom_modules()
         $nativeModules = $nativeModules->modules;
     }
     $arrNativeModules = [];
-    if (is_array($nativeModules)) {
+    if (!empty($nativeModules)) {
         foreach ($nativeModules as $nativeModulesType) {
             if (in_array($nativeModulesType['type'], ['native', 'partner'])) {
                 $arrNativeModules[] = '""';
@@ -94,4 +94,41 @@ function deactivate_custom_modules()
     }
 
     return $return;
+}
+
+function deactivate_custom_modules80($moduleRepository)
+{
+    $nonNativeModulesList = $moduleRepository->getNonNativeModules();
+
+    $return = Db::getInstance()->execute(
+        'UPDATE `' . _DB_PREFIX_ . 'module` SET `active` = 0 WHERE `name` IN (' . implode(',', array_map('add_quotes', $nonNativeModulesList)) . ')'
+    );
+
+    $nonNativeModules = \Db::getInstance()->executeS('
+        SELECT *
+        FROM `' . _DB_PREFIX_ . 'module` m
+        WHERE name IN (' . implode(',', array_map('add_quotes', $nonNativeModulesList)) . ') ');
+
+    if (!is_array($nonNativeModules) || empty($nonNativeModules)) {
+        return $return;
+    }
+
+    $toBeUninstalled = [];
+    foreach ($nonNativeModules as $k => $aModule) {
+        $toBeUninstalled[] = (int) $aModule['id_module'];
+    }
+
+    if (empty($toBeUninstalled)) {
+        return $return;
+    }
+
+    $sql = 'DELETE FROM `' . _DB_PREFIX_ . 'module_shop` WHERE `id_module` IN (' . implode(',', array_map('add_quotes', $toBeUninstalled)) . ') ';
+    $return &= Db::getInstance()->execute($sql);
+
+    return $return;
+}
+
+function add_quotes($str)
+{
+    return sprintf("'%s'", $str);
 }

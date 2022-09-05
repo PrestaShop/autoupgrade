@@ -29,6 +29,7 @@ declare(strict_types=1);
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader;
 
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
+use PrestaShop\PrestaShop\Adapter\Module\Repository\ModuleRepository;
 use PrestaShop\PrestaShop\Core\CommandBus\CommandBusInterface;
 use PrestaShop\PrestaShop\Core\Domain\MailTemplate\Command\GenerateThemeMailTemplatesCommand;
 use PrestaShop\PrestaShop\Core\Exception\CoreException;
@@ -99,5 +100,11 @@ class CoreUpgrader80 extends CoreUpgrader
         \Language::loadLanguages();
 
         // TODO: Update AdminTranslationsController::addNewTabs to install tabs translated
+    }
+
+    protected function disableCustomModules()
+    {
+        $moduleRepository = new ModuleRepository(_PS_ROOT_DIR_, _PS_MODULE_DIR_);
+        $this->container->getModuleAdapter()->disableNonNativeModules80($this->pathToUpgradeScripts, $moduleRepository);
     }
 }
