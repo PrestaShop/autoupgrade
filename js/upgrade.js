@@ -11,6 +11,7 @@ if (typeof input === 'undefined') {
     ajaxUpgradeTabExists: true,
     currentIndex: 'page.php',
     tab: input.tab,
+    versionNumberRegex: '^(1\\.(6|7)\\.(\\d)\\.(\\d+)$)|^(8\\.(\\d).(\\d)$)',
     channel: 'major',
     translation: {
       confirmDeleteBackup: "Are you sure you want to delete this backup?",
@@ -47,7 +48,7 @@ if (typeof input === 'undefined') {
       linkAndMd5CannotBeEmpty: "Link and MD5 hash cannot be empty",
       needToEnterArchiveVersionNumber: "You need to enter the version number associated with the archive.",
       noArchiveSelected: "No archive has been selected.",
-      needToEnterDirectoryVersionNumber: "You need to enter the version number associated with the directory.",
+      needToEnterDirectoryVersionNumber: "You must enter the full version number of the version you want to upgrade. The full version number can be present in the zip name (ex: 1.7.8.1, 8.0.0).",
       confirmSkipBackup: "Please confirm that you want to skip the backup.",
       confirmPreserveFileOptions: "Please confirm that you want to preserve file options.",
       lessOptions: "Less options",
@@ -801,7 +802,7 @@ $(document).ready(function() {
         var archive_prestashop = $("select[name=archive_prestashop]").val();
         var archive_num = $("input[name=archive_num]").val();
         var archive_xml = $("select[name=archive_xml]").val();
-        if (archive_num == "") {
+        if (archive_num == "" || !archive_num.match(input.versionNumberRegex)) {
           showConfigResult(input.translation.needToEnterArchiveVersionNumber, "error");
           return false;
         }
@@ -816,8 +817,8 @@ $(document).ready(function() {
       } else if ($newChannel === "directory") {
         params.channel = "directory";
         params.directory_prestashop = $("select[name=directory_prestashop] option:selected").val();
-        var directory_num = $("input[name=directory_num]").val();
-        if (directory_num == "" || directory_num.indexOf(".") == -1) {
+        let directory_num = $("input[name=directory_num]").val();
+        if (directory_num == "" || !directory_num.match(input.versionNumberRegex)) {
           showConfigResult(input.translation.needToEnterDirectoryVersionNumber, "error");
           return false;
         }
