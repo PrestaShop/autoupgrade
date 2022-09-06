@@ -5,9 +5,13 @@ DROP TABLE IF EXISTS `PREFIX_referrer`;
 DROP TABLE IF EXISTS `PREFIX_referrer_cache`;
 DROP TABLE IF EXISTS `PREFIX_referrer_shop`;
 
-/* Remove page Referrers */
+/* Remove page Referrers, theme catalog and module catalog */
 ## Remove Tabs
 DELETE FROM `PREFIX_tab` WHERE `class_name` = 'AdminReferrers';
+DELETE FROM `PREFIX_tab` WHERE `class_name` = 'AdminThemesCatalog';
+DELETE FROM `PREFIX_tab` WHERE `class_name` = 'AdminModulesCatalog';
+DELETE FROM `PREFIX_tab` WHERE `class_name` = 'AdminAddonsCatalog';
+DELETE FROM `PREFIX_tab` WHERE `class_name` = 'AdminParentModulesCatalog';
 DELETE FROM `PREFIX_tab_lang` WHERE `id_tab` NOT IN (SELECT id_tab FROM `PREFIX_tab`);
 ## Remove Roles
 DELETE FROM `PREFIX_access` WHERE `id_tab` NOT IN (SELECT id_tab FROM `PREFIX_tab`);
