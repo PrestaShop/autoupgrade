@@ -7,10 +7,10 @@ DROP TABLE IF EXISTS `PREFIX_referrer_shop`;
 
 /* Remove page Referrers */
 ## Remove Tabs
-DELETE FROM `PREFIX_tab` WHERE `class_name` = 'AdminReferrers';
-DELETE FROM `PREFIX_tab_lang` WHERE `id_tab` NOT IN (SELECT id_tab FROM `PREFIX_tab`);
+/* PHP:ps_remove_controller_tab('AdminModulesCatalog'); */;
+/* PHP:ps_remove_controller_tab('AdminAddonsCatalog'); */;
+/* PHP:ps_remove_controller_tab('AdminReferrers'); */;
 ## Remove Roles
-DELETE FROM `PREFIX_access` WHERE `id_tab` NOT IN (SELECT id_tab FROM `PREFIX_tab`);
 /* For SalesMan profile, remove parent tab `Traffic & SEO` */
 DELETE FROM `PREFIX_access`
   WHERE `id_authorization_role` IN (SELECT `id_authorization_role` FROM `PREFIX_authorization_role` WHERE `slug` LIKE 'ROLE_MOD_TAB_ADMINPARENTMETA_%')
@@ -20,13 +20,6 @@ DELETE FROM `PREFIX_authorization_role`
 ## Remove Configuration
 DELETE FROM `PREFIX_configuration`
   WHERE `name` IN ('PS_REFERRERS_CACHE_LIKE', 'PS_REFERRERS_CACHE_DATE');
-## Remove Quick Access
-DELETE FROM `PREFIX_quick_access_lang`
-  WHERE id_quick_access IN (
-    SELECT id_quick_access FROM `PREFIX_quick_access` WHERE link LIKE '%controller=AdminReferrers%'
-  );
-DELETE FROM `PREFIX_quick_access`
-  WHERE link LIKE '%controller=AdminReferrers%';
 
 INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES
     ('PS_MAIL_DKIM_ENABLE', '0', NOW(), NOW()),
