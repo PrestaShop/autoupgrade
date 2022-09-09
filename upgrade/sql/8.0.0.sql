@@ -7,6 +7,7 @@ DROP TABLE IF EXISTS `PREFIX_referrer_shop`;
 
 /* Remove page Referrers */
 ## Remove Tabs
+/* PHP:ps_remove_controller_tab('AdminThemesCatalog'); */;
 /* PHP:ps_remove_controller_tab('AdminModulesCatalog'); */;
 /* PHP:ps_remove_controller_tab('AdminAddonsCatalog'); */;
 /* PHP:ps_remove_controller_tab('AdminReferrers'); */;
@@ -15,8 +16,6 @@ DROP TABLE IF EXISTS `PREFIX_referrer_shop`;
 DELETE FROM `PREFIX_access`
   WHERE `id_authorization_role` IN (SELECT `id_authorization_role` FROM `PREFIX_authorization_role` WHERE `slug` LIKE 'ROLE_MOD_TAB_ADMINPARENTMETA_%')
   AND `id_profile` = 4;
-DELETE FROM `PREFIX_authorization_role`
-  WHERE `slug` LIKE 'ROLE_MOD_TAB_ADMINREFERRERS_%';
 ## Remove Configuration
 DELETE FROM `PREFIX_configuration`
   WHERE `name` IN ('PS_REFERRERS_CACHE_LIKE', 'PS_REFERRERS_CACHE_DATE');
