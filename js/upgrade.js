@@ -45,9 +45,9 @@ if (typeof input === 'undefined') {
       mailFiles: "Mail file(s)",
       translationFiles: "Translation file(s)",
       linkAndMd5CannotBeEmpty: "Link and MD5 hash cannot be empty",
-      needToEnterArchiveVersionNumber: "You need to enter the version number associated with the archive.",
+      needToEnterArchiveVersionNumber: "You must enter the full version number of the version you want to upgrade. The full version number can be present in the zip name (ex: 1.7.8.1, 8.0.0).",
       noArchiveSelected: "No archive has been selected.",
-      needToEnterDirectoryVersionNumber: "You must enter the full version number of the version you want to upgrade. The full version number can be present in the zip name (ex: 1.7.8.1, 8.0.0).",
+      needToEnterDirectoryVersionNumber: "You need to enter the version number associated with the directory.",
       confirmSkipBackup: "Please confirm that you want to skip the backup.",
       confirmPreserveFileOptions: "Please confirm that you want to preserve file options.",
       lessOptions: "Less options",
@@ -771,7 +771,7 @@ $(document).ready(function() {
     var params = {};
     var $newChannel = $("select[name=channel] option:selected").val();
     var $oldChannel = $("select[name=channel] option.current").val();
-    var versionNumberRegex = /^(1\\.(6|7)\\.(\\d)\\.(\\d+)$)|^(8\\.(\\d).(\\d)$)/;
+    var versionNumberRegex = /^8\.\d+\.\d+$|^1\.(6|7)\.\d+\.\d+$/;
 
     $oldChannel = "";
 
