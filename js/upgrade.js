@@ -11,7 +11,6 @@ if (typeof input === 'undefined') {
     ajaxUpgradeTabExists: true,
     currentIndex: 'page.php',
     tab: input.tab,
-    versionNumberRegex: /^(1\\.(6|7)\\.(\\d)\\.(\\d+)$)|^(8\\.(\\d).(\\d)$)/,
     channel: 'major',
     translation: {
       confirmDeleteBackup: "Are you sure you want to delete this backup?",
@@ -669,7 +668,7 @@ $(document).ready(function() {
           $("#changedList").toggle();
         });
 
-        $(".toggleSublist").die().live("click", function(e) {
+        $('body').on().on("click", '.toggleSublist', function(e) {
           e.preventDefault();
           $(this).parent().next().toggle();
         });
@@ -727,7 +726,7 @@ $(document).ready(function() {
           $("#diffList").toggle();
         });
 
-        $(".toggleSublist").die().live("click", function(e) {
+        $('body').on().on("click", '.toggleSublist', function(e) {
           e.preventDefault();
           // this=a, parent=h3, next=ul
           $(this).parent().next().toggle();
@@ -767,10 +766,13 @@ $("input[name=btn_adv]").click(function(e) {
 });
 
 $(document).ready(function() {
-  $("input[name|=submitConf]").bind("click", function(e) {
+  $("input[name|=submitConf], input[name=submitConf-channel]").bind("click", function(e) {
+
     var params = {};
     var $newChannel = $("select[name=channel] option:selected").val();
     var $oldChannel = $("select[name=channel] option.current").val();
+    var versionNumberRegex = /^(1\\.(6|7)\\.(\\d)\\.(\\d+)$)|^(8\\.(\\d).(\\d)$)/;
+
     $oldChannel = "";
 
     if ($oldChannel != $newChannel) {
@@ -802,7 +804,7 @@ $(document).ready(function() {
         var archive_prestashop = $("select[name=archive_prestashop]").val();
         var archive_num = $("input[name=archive_num]").val();
         var archive_xml = $("select[name=archive_xml]").val();
-        if (archive_num == "" || !archive_num.match(input.versionNumberRegex)) {
+        if (archive_num == "" || !archive_num.match(versionNumberRegex)) {
           showConfigResult(input.translation.needToEnterArchiveVersionNumber, "error");
           return false;
         }
@@ -818,7 +820,7 @@ $(document).ready(function() {
         params.channel = "directory";
         params.directory_prestashop = $("select[name=directory_prestashop] option:selected").val();
         let directory_num = $("input[name=directory_num]").val();
-        if (directory_num == "" || !directory_num.match(input.versionNumberRegex)) {
+        if (directory_num == "" || !directory_num.match(versionNumberRegex)) {
           showConfigResult(input.translation.needToEnterDirectoryVersionNumber, "error");
           return false;
         }
