@@ -804,7 +804,7 @@ $(document).ready(function() {
         var archive_prestashop = $("select[name=archive_prestashop]").val();
         var archive_num = $("input[name=archive_num]").val();
         var archive_xml = $("select[name=archive_xml]").val();
-        if (archive_num == "" || !archive_num.match(versionNumberRegex)) {
+        if (archive_num == "" || (archive_num !== undefined && !archive_num.match(versionNumberRegex))) {
           showConfigResult(input.translation.needToEnterArchiveVersionNumber, "error");
           return false;
         }
@@ -820,7 +820,7 @@ $(document).ready(function() {
         params.channel = "directory";
         params.directory_prestashop = $("select[name=directory_prestashop] option:selected").val();
         let directory_num = $("input[name=directory_num]").val();
-        if (directory_num == "" || !directory_num.match(versionNumberRegex)) {
+        if (directory_num == "" || (directory_num !== undefined && !directory_num.match(versionNumberRegex))) {
           showConfigResult(input.translation.needToEnterDirectoryVersionNumber, "error");
           return false;
         }
