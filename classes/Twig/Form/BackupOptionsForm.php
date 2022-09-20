@@ -51,14 +51,12 @@ class BackupOptionsForm
         $this->translator = $translator;
         $this->formRenderer = $formRenderer;
 
-        $translationDomain = 'Modules.Autoupgrade.Admin';
-
         $this->fields = [
             'PS_AUTOUP_BACKUP' => [
                 'title' => $this->translator->trans(
                     'Back up my files and database',
                     [],
-                    $translationDomain
+                    'Modules.Autoupgrade.Admin'
                 ),
                 'cast' => 'intval',
                 'validation' => 'isBool',
@@ -67,14 +65,14 @@ class BackupOptionsForm
                 'desc' => $this->translator->trans(
                     'Automatically back up your database and files in order to restore your shop if needed. This is experimental: you should still perform your own manual backup for safety.',
                     [],
-                    $translationDomain
+                    'Modules.Autoupgrade.Admin'
                 ),
             ],
             'PS_AUTOUP_KEEP_IMAGES' => [
                 'title' => $this->translator->trans(
                     'Back up my images',
                     [],
-                    $translationDomain
+                    'Modules.Autoupgrade.Admin'
                 ),
                 'cast' => 'intval',
                 'validation' => 'isBool',
@@ -83,7 +81,7 @@ class BackupOptionsForm
                 'desc' => $this->translator->trans(
                     'To save time, you can decide not to back your images up. In any case, always make sure you did back them up manually.',
                     [],
-                    $translationDomain
+                    'Modules.Autoupgrade.Admin'
                 ),
             ],
         ];
