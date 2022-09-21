@@ -820,7 +820,7 @@ $(document).ready(function() {
         params.channel = "directory";
         params.directory_prestashop = $("select[name=directory_prestashop] option:selected").val();
         let directory_num = $("input[name=directory_num]").val();
-        if (directory_num !== undefined && (directory_num == "" || !directory_num.match(versionNumberRegex))) {
+        if (directory_num == "" || !directory_num.match(versionNumberRegex)) {
           showConfigResult(input.translation.needToEnterDirectoryVersionNumber, "error");
           return false;
         }
