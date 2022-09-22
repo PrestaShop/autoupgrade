@@ -60,11 +60,11 @@ class UpgradeDb extends AbstractTask
 
     public function getCoreUpgrader()
     {
-        if (version_compare($this->container->getState()->getInstallVersion(), '1.7.0.0', '<')) {
+        if (version_compare($this->container->getState()->getInstallVersion(), '1.7', '<')) {
             return new CoreUpgrader16($this->container, $this->logger);
         }
 
-        if (version_compare($this->container->getState()->getInstallVersion(), '8.0.0', '<')) {
+        if (version_compare($this->container->getState()->getInstallVersion(), '8', '<')) {
             return new CoreUpgrader17($this->container, $this->logger);
         }
 
