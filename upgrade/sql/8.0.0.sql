@@ -220,3 +220,5 @@ INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VAL
   ('PS_SECURITY_PASSWORD_POLICY_MINIMUM_LENGTH', '8', NOW(), NOW()),
   ('PS_SECURITY_PASSWORD_POLICY_MINIMUM_SCORE', '3', NOW(), NOW())
 ;
+
+UPDATE `PREFIX_carrier` SET `name` = 'Click and collect' WHERE `name` = '0';
