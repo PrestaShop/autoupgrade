@@ -1,7 +1,7 @@
 <div id="channel-infos" ><br>
     {% if upgradeInfo.branch is not empty %}
         <div style="clear:both">
-            <label class="label-small">{{ 'Branch:'|trans }}</label>
+            <label class="label-small">{{ 'Branch:'|trans({}, 'Modules.Autoupgrade.Admin') }}</label>
             <span class="available">
                 <img src="../img/admin/{% if upgradeInfo.available is not empty %}enabled{% else %}disabled{% endif %}.gif">
                 {% if upgradeInfo.available is not empty %}
@@ -21,26 +21,26 @@
         {% endif %}
         {% if upgradeInfo.version_num is not empty %}
             <div style="clear:both;">
-                <label class="label-small">{{ 'Version number:'|trans }}</label>
+                <label class="label-small">{{ 'Version number:'|trans({}, 'Modules.Autoupgrade.Admin') }}</label>
                 <span class="version">{{ upgradeInfo.version_num }}</span>
             </div>
         {% endif %}
         {% if upgradeInfo.link is not empty %}
             <div style="clear:both;">
-                <label class="label-small">{{ 'URL:'|trans }}</label>
+                <label class="label-small">{{ 'URL:'|trans({}, 'Modules.Autoupgrade.Admin') }}</label>
                 <a class="url" href="{{ upgradeInfo.link }}">{{ upgradeInfo.link }}</a>
             </div>
         {% endif %}
         {% if upgradeInfo.md5 is not empty %}
             <div style="clear:both;">
-                <label class="label-small">{{ 'MD5 hash:'|trans }}</label>
+                <label class="label-small">{{ 'MD5 hash:'|trans({}, 'Modules.Autoupgrade.Admin') }}</label>
                 <span class="md5">{{ upgradeInfo.md5 }}</span>
             </div>
         {% endif %}
         {% if upgradeInfo.changelog is not empty %}
             <div style="clear:both;">
-                <label class="label-small">{{ 'Changelog:'|trans }}</label>
-                <a class="changelog" href="{{ upgradeInfo.changelog }}">{{ 'see changelog'|trans }}</a>
+                <label class="label-small">{{ 'Changelog:'|trans({}, 'Modules.Autoupgrade.Admin') }}</label>
+                <a class="changelog" href="{{ upgradeInfo.changelog }}">{{ 'See changelog'|trans({}, 'Modules.Autoupgrade.Admin') }}</a>
             </div>
         {% endif %}
     </div>
