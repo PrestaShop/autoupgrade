@@ -59,7 +59,7 @@
                     </tr>
                 {% endif %}
                 <tr>
-                    <td>{{ 'PHP\'s "Safe mode" option is turned off'|trans({}, 'Modules.Autoupgrade.Admin') }}</td>
+                    <td>{{ 'PHP\'s "Safe mode" option is turned off'|trans({}, 'Modules.Autoupgrade.Admin')|raw }}</td>
                     <td>
                         {% if safeModeIsDisabled %}
                             {{ icons.ok }}
@@ -69,7 +69,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>{{ 'PHP\'s "allow_url_fopen" option is turned on, or cURL is installed'|trans({}, 'Modules.Autoupgrade.Admin') }}</td>
+                    <td>{{ 'PHP\'s "allow_url_fopen" option is turned on, or cURL is installed'|trans({}, 'Modules.Autoupgrade.Admin')|raw }}</td>
                     <td>
                         {% if allowUrlFopenOrCurlIsEnabled %}
                             {{ icons.ok }}
@@ -79,7 +79,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>{{ 'PHP\'s "zip" extension is enabled'|trans({}, 'Modules.Autoupgrade.Admin') }}</td>
+                    <td>{{ 'PHP\'s "zip" extension is enabled'|trans({}, 'Modules.Autoupgrade.Admin')|raw }}</td>
                     <td>
                         {% if zipIsEnabled %}
                             {{ icons.ok }}
