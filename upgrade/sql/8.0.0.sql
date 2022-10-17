@@ -196,6 +196,10 @@ ALTER TABLE `PREFIX_product_shop` MODIFY COLUMN `redirect_type` ENUM(
 
 ALTER TABLE `PREFIX_order_detail` MODIFY COLUMN `product_name` TEXT NOT NULL;
 
+ALTER TABLE `PREFIX_webservice_permission` MODIFY COLUMN `method` ENUM(
+    'GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD'
+) NOT NULL;
+
 ALTER TABLE `PREFIX_product` ADD `unit_price` decimal(20, 6) NOT NULL DEFAULT '0.000000' AFTER `unity`;
 ALTER TABLE `PREFIX_product_shop` ADD `unit_price` decimal(20, 6) NOT NULL DEFAULT '0.000000' AFTER `unity`;
 
