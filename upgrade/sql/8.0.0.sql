@@ -8,6 +8,7 @@ DROP TABLE IF EXISTS `PREFIX_referrer_shop`;
 /* Remove page Referrers */
 ## Remove Tabs
 /* PHP:ps_remove_controller_tab('AdminThemesCatalog'); */;
+/* PHP:ps_remove_controller_tab('AdminParentModulesCatalog'); */;
 /* PHP:ps_remove_controller_tab('AdminModulesCatalog'); */;
 /* PHP:ps_remove_controller_tab('AdminAddonsCatalog'); */;
 /* PHP:ps_remove_controller_tab('AdminReferrers'); */;
