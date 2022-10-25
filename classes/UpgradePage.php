@@ -356,6 +356,7 @@ class UpgradePage
                 'moreOptions' => $translator->trans('More options (Expert mode)', [], 'Modules.Autoupgrade.Admin'),
                 'filesWillBeDeleted' => $translator->trans('These files will be deleted', [], 'Modules.Autoupgrade.Admin'),
                 'filesWillBeReplaced' => $translator->trans('These files will be replaced', [], 'Modules.Autoupgrade.Admin'),
+                'noXmlSelected' => $translator->trans('No XML file has been selected.', [], 'Modules.Autoupgrade.Admin'),
             ],
         ];
 

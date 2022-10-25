@@ -117,7 +117,7 @@
                                 <label for="archive_num">{{ 'Number of the version you want to upgrade to:'|trans({}, 'Modules.Autoupgrade.Admin') }} * </label>
                                 <input type="text" size="10" id="archive_num" name="archive_num" value="{{ archiveVersionNumber }}" placeholder="1.7.0.1" />
                                 <br>
-                                <label for="archive_xml">{{ 'XML file to use:'|trans({}, 'Modules.Autoupgrade.Admin') }}</label>
+                                <label for="archive_xml">{{ 'XML file to use:'|trans({}, 'Modules.Autoupgrade.Admin') }} *</label>
                                 <select id="archive_xml" name="archive_xml">
                                     <option value="">{{ 'Choose an XML file'|trans({}, 'Modules.Autoupgrade.Admin') }}</option>
                                     {% for file in xmlFiles %}
