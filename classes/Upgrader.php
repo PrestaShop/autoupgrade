@@ -27,9 +27,9 @@
 
 namespace PrestaShop\Module\AutoUpgrade;
 
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Filesystem\Exception\IOException;
 use Configuration;
+use Symfony\Component\Filesystem\Exception\IOException;
+use Symfony\Component\Filesystem\Filesystem;
 
 class Upgrader
 {
@@ -45,13 +45,13 @@ class Upgrader
      * @var bool contains true if last version is not installed
      */
     private $need_upgrade = false;
-    private $changed_files = array();
-    private $missing_files = array();
+    private $changed_files = [];
+    private $missing_files = [];
 
     public $version_name;
     public $version_num;
     public $version_is_modified;
-    public $version_md5 = array();
+    public $version_md5 = [];
     /**
      * @var string contains hte url where to download the file
      */
@@ -74,7 +74,7 @@ class Upgrader
     {
         $this->currentPsVersion = $version;
         if ($autoload) {
-            $matches = array();
+            $matches = [];
             preg_match('#([0-9]+\.[0-9]+)\.[0-9]+\.[0-9]+#', $this->currentPsVersion, $matches);
             $this->branch = $matches[1];
             if (empty($this->channel)) {
@@ -136,7 +136,7 @@ class Upgrader
      *
      * @return mixed
      */
-    public function checkPSVersion($refresh = false, $array_no_major = array('minor'))
+    public function checkPSVersion($refresh = false, $array_no_major = ['minor'])
     {
         // if we use the autoupgrade process, we will never refresh it
         // except if no check has been done before
@@ -149,7 +149,7 @@ class Upgrader
         // if you follow rc, you also follow stable
         // if you follow beta, you also follow rc
         // et caetera
-        $followed_channels = array();
+        $followed_channels = [];
         $followed_channels[] = $this->channel;
         switch ($this->channel) {
         case 'alpha':
@@ -195,7 +195,7 @@ class Upgrader
                         && version_compare($branch_name, $this->branch, '>='))
                     ) {
                         // skip if $branch->num is inferior to a previous one, skip it
-                        if (version_compare((string) $branch->num, $this->version_num, '<')) {
+                        if ($this->version_num !== null && version_compare((string) $branch->num, $this->version_num, '<')) {
                             continue;
                         }
                         // also skip if previous loop found an available upgrade and current is not
@@ -225,10 +225,10 @@ class Upgrader
         // retro-compatibility :
         // return array(name,link) if you don't use the last version
         // false otherwise
-        if (version_compare($this->currentPsVersion, $this->version_num, '<')) {
+        if ($this->version_num !== null && version_compare($this->currentPsVersion, $this->version_num, '<')) {
             $this->need_upgrade = true;
 
-            return array('name' => $this->version_name, 'link' => $this->link);
+            return ['name' => $this->version_name, 'link' => $this->link];
         } else {
             return false;
         }
@@ -266,18 +266,18 @@ class Upgrader
             mkdir(_PS_ROOT_DIR_ . '/config/xml', 0777);
         }
         if ($refresh || !file_exists($xml_localfile) || @filemtime($xml_localfile) < (time() - (3600 * self::DEFAULT_CHECK_VERSION_DELAY_HOURS))) {
-            $protocolsList = array('https://' => 443, 'http://' => 80);
+            $protocolsList = ['https://' => 443, 'http://' => 80];
             if (!extension_loaded('openssl')) {
                 unset($protocolsList['https://']);
             }
             // Make the request
-            $opts = array(
-                'http' => array(
+            $opts = [
+                'http' => [
                     'method' => 'POST',
                     'content' => $postData,
                     'header' => 'Content-type: application/x-www-form-urlencoded',
                     'timeout' => 10,
-                ), );
+                ], ];
             $context = stream_context_create($opts);
             $xml = false;
             foreach ($protocolsList as $protocol => $port) {
@@ -307,7 +307,7 @@ class Upgrader
             mkdir(_PS_ROOT_DIR_ . '/config/xml', 0777);
         }
         if ($refresh || !file_exists($xml_localfile) || @filemtime($xml_localfile) < (time() - (3600 * self::DEFAULT_CHECK_VERSION_DELAY_HOURS))) {
-            $xml_string = Tools14::file_get_contents($xml_remotefile, false, stream_context_create(array('http' => array('timeout' => 10))));
+            $xml_string = Tools14::file_get_contents($xml_remotefile, false, stream_context_create(['http' => ['timeout' => 10]]));
             $xml = @simplexml_load_string($xml_string);
             if ($xml !== false) {
                 file_put_contents($xml_localfile, $xml_string);
@@ -406,7 +406,7 @@ class Upgrader
 
     public function md5FileAsArray($node, $dir = '/')
     {
-        $array = array();
+        $array = [];
         foreach ($node as $key => $child) {
             if (is_object($child) && $child->getName() == 'dir') {
                 $dir = (string) $child['name'];
@@ -470,9 +470,9 @@ class Upgrader
     public function compareReleases($v1, $v2, $show_modif = true, $path = '/')
     {
         // in that array the list of files present in v1 deleted in v2
-        static $deletedFiles = array();
+        static $deletedFiles = [];
         // in that array the list of files present in v1 modified in v2
-        static $modifiedFiles = array();
+        static $modifiedFiles = [];
 
         foreach ($v1 as $file => $md5) {
             if (is_array($md5)) {
@@ -494,7 +494,7 @@ class Upgrader
             }
         }
 
-        return array('deleted' => $deletedFiles, 'modified' => $modifiedFiles);
+        return ['deleted' => $deletedFiles, 'modified' => $modifiedFiles];
     }
 
     /**
@@ -504,7 +504,7 @@ class Upgrader
      * @param array $current_path
      * @param int $level
      */
-    protected function browseXmlAndCompare($node, &$current_path = array(), $level = 1)
+    protected function browseXmlAndCompare($node, &$current_path = [], $level = 1)
     {
         foreach ($node as $key => $child) {
             if (is_object($child) && $child->getName() == 'dir') {

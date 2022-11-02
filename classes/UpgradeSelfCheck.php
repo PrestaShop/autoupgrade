@@ -29,13 +29,14 @@ namespace PrestaShop\Module\AutoUpgrade;
 
 use Configuration;
 use ConfigurationTest;
+use Shop;
 
 class UpgradeSelfCheck
 {
     /**
      * Recommended PHP Version. If below, display a notice.
      */
-    const RECOMMENDED_PHP_VERSION = 70103;
+    const RECOMMENDED_PHP_VERSION = 70205;
 
     /**
      * @var bool
@@ -105,11 +106,6 @@ class UpgradeSelfCheck
     private $phpUpgradeNoticelink;
 
     /**
-     * @var bool
-     */
-    private $prestashopReady;
-
-    /**
      * @var string
      */
     private $configDir = '/modules/autoupgrade/config.xml';
@@ -139,6 +135,11 @@ class UpgradeSelfCheck
      * @var string
      */
     private $autoUpgradePath;
+
+    /**
+     * @var bool
+     */
+    private $overrideDisabled;
 
     /**
      * UpgradeSelfCheck constructor.
@@ -210,6 +211,18 @@ class UpgradeSelfCheck
     public function getAdminAutoUpgradeDirectoryWritableReport()
     {
         return $this->adminAutoUpgradeDirectoryWritableReport;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isOverrideDisabled()
+    {
+        if (null === $this->overrideDisabled) {
+            $this->overrideDisabled = $this->checkOverrideIsDisabled();
+        }
+
+        return $this->overrideDisabled;
     }
 
     /**
@@ -312,27 +325,11 @@ class UpgradeSelfCheck
      */
     public function isPhpUpgradeRequired()
     {
-        if (1 === (int) Configuration::get('PS_AUTOUP_IGNORE_PHP_UPGRADE')) {
-            return false;
-        }
-
         if (null !== $this->phpUpgradeNoticelink) {
             return $this->phpUpgradeNoticelink;
         }
 
         return $this->phpUpgradeNoticelink = $this->checkPhpVersionNeedsUpgrade();
-    }
-
-    /**
-     * @return bool
-     */
-    public function isPrestaShopReady()
-    {
-        if (null === $this->prestashopReady) {
-            $this->prestashopReady = $this->runPrestaShopCoreChecks();
-        }
-
-        return $this->prestashopReady || 1 === (int) Configuration::get('PS_AUTOUP_IGNORE_REQS');
     }
 
     /**
@@ -350,7 +347,16 @@ class UpgradeSelfCheck
             && $this->isShopDeactivated()
             && $this->isCacheDisabled()
             && $this->isModuleVersionLatest()
-            && $this->isPrestaShopReady();
+            && $this->isPhpVersionCompatible()
+            && $this->isApacheModRewriteEnabled()
+            && $this->getNotLoadedPhpExtensions() === []
+            && $this->isMemoryLimitValid()
+            && $this->isPhpFileUploadsConfigurationEnabled()
+            && $this->getNotExistsPhpFunctions() === []
+            && $this->isPhpSessionsValid()
+            && $this->getMissingFiles() === []
+            && $this->getNotWritingDirectories() === []
+        ;
     }
 
     /**
@@ -359,7 +365,7 @@ class UpgradeSelfCheck
     private function checkRootWritable()
     {
         // Root directory permissions cannot be checked recursively anymore, it takes too much time
-        return  ConfigurationTest::test_dir('/', false, $this->rootWritableReport);
+        return ConfigurationTest::test_dir('/', false, $this->rootWritableReport);
     }
 
     /**
@@ -399,11 +405,39 @@ class UpgradeSelfCheck
     /**
      * @return bool
      */
+    private function checkOverrideIsDisabled()
+    {
+        return (bool) Configuration::get('PS_DISABLE_OVERRIDES');
+    }
+
+    /**
+     * @return bool
+     */
     private function checkShopIsDeactivated()
     {
-        return
-            !Configuration::get('PS_SHOP_ENABLE')
-            || (isset($_SERVER['HTTP_HOST']) && in_array($_SERVER['HTTP_HOST'], array('127.0.0.1', 'localhost', '[::1]')));
+        // always return true in localhost
+        if (in_array($this->getRemoteAddr(), ['127.0.0.1', 'localhost', '[::1]', '::1'])) {
+            return true;
+        }
+
+        // if multistore is not active, just check if shop is enabled and has a maintenance IP
+        if (!Shop::isFeatureActive()) {
+            return !(Configuration::get('PS_SHOP_ENABLE') || !Configuration::get('PS_MAINTENANCE_IP'));
+        }
+
+        // multistore is active: all shops must be deactivated and have a maintenance IP, otherwise return false
+        foreach (Shop::getCompleteListOfShopsID() as $shopId) {
+            $shop = new Shop((int) $shopId);
+            $groupId = (int) $shop->getGroup()->id;
+            $isEnabled = Configuration::get('PS_SHOP_ENABLE', null, $groupId, (int) $shopId);
+            $maintenanceIp = Configuration::get('PS_MAINTENANCE_IP', null, $groupId, (int) $shopId);
+
+            if ($isEnabled || !$maintenanceIp) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -434,7 +468,7 @@ class UpgradeSelfCheck
             $safeMode = '';
         }
 
-        return !in_array(strtolower($safeMode), array(1, 'on'));
+        return !in_array(strtolower($safeMode), [1, 'on']);
     }
 
     /**
@@ -446,23 +480,169 @@ class UpgradeSelfCheck
     }
 
     /**
-     * Ask the core to run its tests, if available.
-     *
      * @return bool
      */
-    public function runPrestaShopCoreChecks()
+    public function isPhpVersionCompatible()
     {
-        if (!class_exists('ConfigurationTest')) {
+        if (!class_exists(ConfigurationTest::class)) {
             return true;
         }
 
-        $defaultTests = ConfigurationTest::check(ConfigurationTest::getDefaultTests());
-        foreach ($defaultTests as $testResult) {
-            if ($testResult !== 'ok') {
-                return false;
-            }
+        return (bool) ConfigurationTest::test_phpversion();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isApacheModRewriteEnabled()
+    {
+        if (class_exists(ConfigurationTest::class) && is_callable([ConfigurationTest::class, 'test_apache_mod_rewrite'])) {
+            return ConfigurationTest::test_apache_mod_rewrite();
         }
 
         return true;
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getNotLoadedPhpExtensions()
+    {
+        if (!class_exists(ConfigurationTest::class)) {
+            return [];
+        }
+        $extensions = [];
+        foreach ([
+            'curl', 'dom', 'fileinfo', 'gd', 'intl', 'json', 'mbstring', 'openssl', 'pdo_mysql', 'simplexml', 'zip',
+        ] as $extension) {
+            $method = 'test_' . $extension;
+            if (method_exists(ConfigurationTest::class, $method) && !ConfigurationTest::$method()) {
+                $extensions[] = $extension;
+            }
+        }
+
+        return $extensions;
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getNotExistsPhpFunctions()
+    {
+        if (!class_exists(ConfigurationTest::class)) {
+            return [];
+        }
+        $functions = [];
+        foreach ([
+            'fopen', 'fclose', 'fread', 'fwrite', 'rename', 'file_exists', 'unlink', 'rmdir', 'mkdir', 'getcwd',
+            'chdir', 'chmod',
+        ] as $function) {
+            if (!ConfigurationTest::test_system([$function])) {
+                $functions[] = $function;
+            }
+        }
+
+        return $functions;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isMemoryLimitValid()
+    {
+        if (class_exists(ConfigurationTest::class) && is_callable([ConfigurationTest::class, 'test_memory_limit'])) {
+            return ConfigurationTest::test_memory_limit();
+        }
+
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPhpFileUploadsConfigurationEnabled()
+    {
+        if (!class_exists(ConfigurationTest::class)) {
+            return true;
+        }
+
+        return (bool) ConfigurationTest::test_upload();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPhpSessionsValid()
+    {
+        if (!class_exists(ConfigurationTest::class)) {
+            return true;
+        }
+
+        return ConfigurationTest::test_sessions();
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getMissingFiles()
+    {
+        return ConfigurationTest::test_files(true);
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getNotWritingDirectories()
+    {
+        if (!class_exists(ConfigurationTest::class)) {
+            return [];
+        }
+
+        $tests = ConfigurationTest::getDefaultTests();
+
+        $directories = [];
+        foreach ([
+            'cache_dir', 'log_dir', 'img_dir', 'module_dir', 'theme_lang_dir', 'theme_pdf_lang_dir', 'theme_cache_dir',
+            'translations_dir', 'customizable_products_dir', 'virtual_products_dir', 'config_sf2_dir', 'config_dir',
+            'mails_dir', 'translations_sf2',
+        ] as $testKey) {
+            if (isset($tests[$testKey]) && !ConfigurationTest::{'test_' . $testKey}($tests[$testKey])) {
+                $directories[] = $tests[$testKey];
+            }
+        }
+
+        return $directories;
+    }
+
+    /**
+     * Get the server variable REMOTE_ADDR, or the first ip of HTTP_X_FORWARDED_FOR (when using proxy).
+     *
+     * @return string $remote_addr ip of client
+     */
+    private function getRemoteAddr()
+    {
+        if (function_exists('apache_request_headers')) {
+            $headers = apache_request_headers();
+        } else {
+            $headers = $_SERVER;
+        }
+
+        if (array_key_exists('X-Forwarded-For', $headers)) {
+            $_SERVER['HTTP_X_FORWARDED_FOR'] = $headers['X-Forwarded-For'];
+        }
+
+        if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && $_SERVER['HTTP_X_FORWARDED_FOR'] && (!isset($_SERVER['REMOTE_ADDR'])
+                || preg_match('/^127\..*/i', trim($_SERVER['REMOTE_ADDR'])) || preg_match('/^172\.(1[6-9]|2\d|30|31)\..*/i', trim($_SERVER['REMOTE_ADDR']))
+                || preg_match('/^192\.168\.*/i', trim($_SERVER['REMOTE_ADDR'])) || preg_match('/^10\..*/i', trim($_SERVER['REMOTE_ADDR'])))) {
+            if (strpos($_SERVER['HTTP_X_FORWARDED_FOR'], ',')) {
+                $ips = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+
+                return $ips[0];
+            } else {
+                return $_SERVER['HTTP_X_FORWARDED_FOR'];
+            }
+        } else {
+            return $_SERVER['REMOTE_ADDR'];
+        }
     }
 }

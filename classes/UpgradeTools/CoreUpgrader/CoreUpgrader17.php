@@ -62,8 +62,7 @@ class CoreUpgrader17 extends CoreUpgrader
 
         $commandResult = $this->container->getSymfonyAdapter()->runSchemaUpgradeCommand();
         if (0 !== $commandResult['exitCode']) {
-            throw (new UpgradeException($this->container->getTranslator()->trans('Error upgrading Doctrine schema', array(), 'Modules.Autoupgrade.Admin')))
-                ->setQuickInfos(explode("\n", $commandResult['output']));
+            throw (new UpgradeException($this->container->getTranslator()->trans('Error upgrading Doctrine schema', [], 'Modules.Autoupgrade.Admin')))->setQuickInfos(explode("\n", $commandResult['output']));
         }
     }
 
@@ -74,19 +73,10 @@ class CoreUpgrader17 extends CoreUpgrader
         if (!\Validate::isLangIsoCode($isoCode)) {
             return;
         }
-        $errorsLanguage = array();
+        $errorsLanguage = [];
 
         if (!\Language::downloadLanguagePack($isoCode, _PS_VERSION_, $errorsLanguage)) {
-            throw new UpgradeException(
-                $this->container->getTranslator()->trans(
-                    'Download of the language pack %lang% failed. %details%',
-                    [
-                        '%lang%' => $isoCode,
-                        '%details%' => implode('; ', $errorsLanguage),
-                    ],
-                    'Modules.Autoupgrade.Admin'
-                )
-            );
+            throw new UpgradeException($this->container->getTranslator()->trans('Download of the language pack %lang% failed. %details%', ['%lang%' => $isoCode, '%details%' => implode('; ', $errorsLanguage)], 'Modules.Autoupgrade.Admin'));
         }
 
         $lang_pack = \Language::getLangDetails($isoCode);
@@ -97,16 +87,7 @@ class CoreUpgrader17 extends CoreUpgrader
         }
 
         if (!empty($errorsLanguage)) {
-            throw new UpgradeException(
-                $this->container->getTranslator()->trans(
-                    'Error while updating translations for lang %lang%. %details%',
-                    [
-                        '%lang%' => $isoCode,
-                        '%details%' => implode('; ', $errorsLanguage),
-                    ],
-                    'Modules.Autoupgrade.Admin'
-                )
-            );
+            throw new UpgradeException($this->container->getTranslator()->trans('Error while updating translations for lang %lang%. %details%', ['%lang%' => $isoCode, '%details%' => implode('; ', $errorsLanguage)], 'Modules.Autoupgrade.Admin'));
         }
         \Language::loadLanguages();
 
@@ -135,14 +116,13 @@ class CoreUpgrader17 extends CoreUpgrader
         if (!$this->container->getUpgradeConfiguration()->shouldUpdateRTLFiles()) {
             return;
         }
-        $this->logger->info($this->container->getTranslator()->trans('Upgrade the RTL files.', array(), 'Modules.Autoupgrade.Admin'));
+        $this->logger->info($this->container->getTranslator()->trans('Upgrade the RTL files.', [], 'Modules.Autoupgrade.Admin'));
         $themeAdapter = new ThemeAdapter($this->db, $this->destinationUpgradeVersion);
 
         $themes = $themeAdapter->getListFromDisk();
         $this->removeExistingRTLFiles($themes);
 
         foreach ($themes as $theme) {
-
             $adaptThemeToTRLLanguages = new AdaptThemeToRTLLanguagesCommand(
                 new ThemeName($theme['name'])
             );

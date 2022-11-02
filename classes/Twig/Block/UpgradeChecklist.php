@@ -27,9 +27,9 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Twig\Block;
 
-use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
-use PrestaShop\Module\AutoUpgrade\Tools14;
 use Context;
+use PrestaShop\Module\AutoUpgrade\Tools14;
+use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
 use Twig_Environment;
 
 /**
@@ -108,15 +108,16 @@ class UpgradeChecklist
      */
     public function render()
     {
-        $data = array(
+        $data = [
             'showErrorMessage' => !$this->selfCheck->isOkForUpgrade(),
             'moduleVersion' => $this->selfCheck->getModuleVersion(),
             'moduleIsUpToDate' => $this->selfCheck->isModuleVersionLatest(),
-            'versionGreaterThan1_5_3' => version_compare(_PS_VERSION_, '1.5.3.0', '>'),
+            'moduleUpdateLink' => Context::getContext()->link->getAdminLink('AdminModulesUpdates'),
             'adminToken' => Tools14::getAdminTokenLite('AdminModules'),
             'informationsLink' => Context::getContext()->link->getAdminLink('AdminInformation'),
+            'maintenanceLink' => Context::getContext()->link->getAdminLink('AdminMaintenance'),
             'rootDirectoryIsWritable' => $this->selfCheck->isRootDirectoryWritable(),
-            'rootDirectoryWritableReport' => $this->selfCheck->getRootWritableReport(),
+            'rootDirectory' => _PS_ROOT_DIR_,
             'adminDirectoryIsWritable' => $this->selfCheck->isAdminAutoUpgradeDirectoryWritable(),
             'adminDirectoryWritableReport' => $this->selfCheck->getAdminAutoUpgradeDirectoryWritableReport(),
             'safeModeIsDisabled' => $this->selfCheck->isSafeModeDisabled(),
@@ -128,8 +129,16 @@ class UpgradeChecklist
             'cachingIsDisabled' => $this->selfCheck->isCacheDisabled(),
             'maxExecutionTime' => $this->selfCheck->getMaxExecutionTime(),
             'phpUpgradeRequired' => $this->selfCheck->isPhpUpgradeRequired(),
-            'isPrestaShopReady' => $this->selfCheck->isPrestaShopReady(),
-        );
+            'checkPhpVersionCompatibility' => $this->selfCheck->isPhpVersionCompatible(),
+            'checkApacheModRewrite' => $this->selfCheck->isApacheModRewriteEnabled(),
+            'notLoadedPhpExtensions' => $this->selfCheck->getNotLoadedPhpExtensions(),
+            'checkMemoryLimit' => $this->selfCheck->isMemoryLimitValid(),
+            'checkFileUploads' => $this->selfCheck->isPhpFileUploadsConfigurationEnabled(),
+            'notExistsPhpFunctions' => $this->selfCheck->getNotExistsPhpFunctions(),
+            'checkPhpSessions' => $this->selfCheck->isPhpSessionsValid(),
+            'missingFiles' => $this->selfCheck->getMissingFiles(),
+            'notWritingDirectories' => $this->selfCheck->getNotWritingDirectories(),
+        ];
 
         return $this->twig->render('@ModuleAutoUpgrade/block/checklist.twig', $data);
     }

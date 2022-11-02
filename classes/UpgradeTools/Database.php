@@ -42,7 +42,7 @@ class Database
     {
         $tables = $this->db->executeS('SHOW TABLES LIKE "' . _DB_PREFIX_ . '%"', true, false);
 
-        $all_tables = array();
+        $all_tables = [];
         foreach ($tables as $v) {
             $table = reset($v);
             $all_tables[$table] = $table;

@@ -52,7 +52,7 @@ class RestoreFiles extends AbstractTask
             $this->container->getFileConfigurationStorage()->save($fromArchive, UpgradeFileNames::FILES_FROM_ARCHIVE_LIST);
             // get list of files to remove
             $toRemove = $this->container->getFilesystemAdapter()->listFilesToRemove();
-            $toRemoveOnly = array();
+            $toRemoveOnly = [];
 
             // let's reverse the array in order to make possible to rmdir
             // remove fullpath. This will be added later in the loop.
@@ -66,17 +66,17 @@ class RestoreFiles extends AbstractTask
                 }
             }
 
-            $this->logger->debug($this->translator->trans('%s file(s) will be removed before restoring the backup files.', array(count($toRemoveOnly)), 'Modules.Autoupgrade.Admin'));
+            $this->logger->debug($this->translator->trans('%s file(s) will be removed before restoring the backup files.', [count($toRemoveOnly)], 'Modules.Autoupgrade.Admin'));
             $this->container->getFileConfigurationStorage()->save($toRemoveOnly, UpgradeFileNames::FILES_TO_REMOVE_LIST);
 
             if (empty($fromArchive) || empty($toRemove)) {
                 if (empty($fromArchive)) {
-                    $this->logger->error($this->translator->trans('[ERROR] Backup file %s does not exist.', array(UpgradeFileNames::FILES_FROM_ARCHIVE_LIST), 'Modules.Autoupgrade.Admin'));
+                    $this->logger->error($this->translator->trans('[ERROR] Backup file %s does not exist.', [UpgradeFileNames::FILES_FROM_ARCHIVE_LIST], 'Modules.Autoupgrade.Admin'));
                 }
                 if (empty($toRemove)) {
-                    $this->logger->error($this->translator->trans('[ERROR] File "%s" does not exist.', array(UpgradeFileNames::FILES_TO_REMOVE_LIST), 'Modules.Autoupgrade.Admin'));
+                    $this->logger->error($this->translator->trans('[ERROR] File "%s" does not exist.', [UpgradeFileNames::FILES_TO_REMOVE_LIST], 'Modules.Autoupgrade.Admin'));
                 }
-                $this->logger->info($this->translator->trans('Unable to remove upgraded files.', array(), 'Modules.Autoupgrade.Admin'));
+                $this->logger->info($this->translator->trans('Unable to remove upgraded files.', [], 'Modules.Autoupgrade.Admin'));
                 $this->next = 'error';
 
                 return false;
@@ -92,10 +92,10 @@ class RestoreFiles extends AbstractTask
                 $this->next = 'error';
                 $this->logger->error($this->translator->trans(
                     'Unable to extract file %filename% into directory %directoryname%.',
-                    array(
+                    [
                         '%filename%' => $filepath,
                         '%directoryname%' => $destExtract,
-                    ),
+                    ],
                     'Modules.Autoupgrade.Admin'
                 ));
 
@@ -109,8 +109,8 @@ class RestoreFiles extends AbstractTask
             }
 
             $this->next = 'restoreDb';
-            $this->logger->debug($this->translator->trans('Files restored.', array(), 'Modules.Autoupgrade.Admin'));
-            $this->logger->info($this->translator->trans('Files restored. Now restoring database...', array(), 'Modules.Autoupgrade.Admin'));
+            $this->logger->debug($this->translator->trans('Files restored.', [], 'Modules.Autoupgrade.Admin'));
+            $this->logger->info($this->translator->trans('Files restored. Now restoring database...', [], 'Modules.Autoupgrade.Admin'));
 
             return true;
         }

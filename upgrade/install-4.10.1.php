@@ -60,7 +60,7 @@ function upgrade_module_4_10_1($module)
 {
     $path = __DIR__ . '/../vendor/phpunit';
     if (file_exists($path)) {
-        $result = removeAutoupgradePhpUnitFromFsDuringUpgrade(array($path));
+        $result = removeAutoupgradePhpUnitFromFsDuringUpgrade([$path]);
         if ($result !== true) {
             PrestaShopLogger::addLog('Could not delete PHPUnit from module. ' . $result, 3);
 

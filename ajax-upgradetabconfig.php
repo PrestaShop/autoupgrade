@@ -40,7 +40,7 @@ if (function_exists('date_default_timezone_set')) {
 function autoupgrade_init_container($callerFilePath)
 {
     if (PHP_SAPI === 'cli') {
-        $options = getopt('', array('dir:'));
+        $options = getopt('', ['dir:']);
         if (isset($options['dir'])) {
             $_POST['dir'] = $options['dir'];
         }
@@ -75,7 +75,7 @@ function autoupgrade_init_container($callerFilePath)
     }
 
     $container = new \PrestaShop\Module\AutoUpgrade\UpgradeContainer(_PS_ROOT_DIR_, _PS_ADMIN_DIR_);
-    $container->getState()->importFromArray(empty($_REQUEST['params']) ? array() : $_REQUEST['params']);
+    $container->getState()->importFromArray(empty($_REQUEST['params']) ? [] : $_REQUEST['params']);
 
     return $container;
 }

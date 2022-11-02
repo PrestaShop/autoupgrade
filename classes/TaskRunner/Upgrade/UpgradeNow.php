@@ -37,7 +37,7 @@ class UpgradeNow extends AbstractTask
 {
     public function run()
     {
-        $this->logger->info($this->translator->trans('Starting upgrade...', array(), 'Modules.Autoupgrade.Admin'));
+        $this->logger->info($this->translator->trans('Starting upgrade...', [], 'Modules.Autoupgrade.Admin'));
 
         $this->container->getWorkspace()->createFolders();
 
@@ -48,14 +48,14 @@ class UpgradeNow extends AbstractTask
         $upgrader->branch = $matches[1];
         $upgrader->channel = $channel;
         if ($this->container->getUpgradeConfiguration()->get('channel') == 'private' && !$this->container->getUpgradeConfiguration()->get('private_allow_major')) {
-            $upgrader->checkPSVersion(false, array('private', 'minor'));
+            $upgrader->checkPSVersion(false, ['private', 'minor']);
         } else {
-            $upgrader->checkPSVersion(false, array('minor'));
+            $upgrader->checkPSVersion(false, ['minor']);
         }
 
         if ($upgrader->isLastVersion()) {
             $this->next = '';
-            $this->logger->info($this->translator->trans('You already have the %s version.', array($upgrader->version_name), 'Modules.Autoupgrade.Admin'));
+            $this->logger->info($this->translator->trans('You already have the %s version.', [$upgrader->version_name], 'Modules.Autoupgrade.Admin'));
 
             return;
         }
@@ -64,23 +64,23 @@ class UpgradeNow extends AbstractTask
             case 'directory':
                 // if channel directory is chosen, we assume it's "ready for use" (samples already removed for example)
                 $this->next = 'removeSamples';
-                $this->logger->debug($this->translator->trans('Downloading and unzipping steps have been skipped, upgrade process will now remove sample data.', array(), 'Modules.Autoupgrade.Admin'));
-                $this->logger->info($this->translator->trans('Shop deactivated. Removing sample files...', array(), 'Modules.Autoupgrade.Admin'));
+                $this->logger->debug($this->translator->trans('Downloading and unzipping steps have been skipped, upgrade process will now remove sample data.', [], 'Modules.Autoupgrade.Admin'));
+                $this->logger->info($this->translator->trans('Shop deactivated. Removing sample files...', [], 'Modules.Autoupgrade.Admin'));
                 break;
             case 'archive':
                 $this->next = 'unzip';
-                $this->logger->debug($this->translator->trans('Downloading step has been skipped, upgrade process will now unzip the local archive.', array(), 'Modules.Autoupgrade.Admin'));
-                $this->logger->info($this->translator->trans('Shop deactivated. Extracting files...', array(), 'Modules.Autoupgrade.Admin'));
+                $this->logger->debug($this->translator->trans('Downloading step has been skipped, upgrade process will now unzip the local archive.', [], 'Modules.Autoupgrade.Admin'));
+                $this->logger->info($this->translator->trans('Shop deactivated. Extracting files...', [], 'Modules.Autoupgrade.Admin'));
                 break;
             default:
                 $this->next = 'download';
-                $this->logger->info($this->translator->trans('Shop deactivated. Now downloading... (this can take a while)', array(), 'Modules.Autoupgrade.Admin'));
+                $this->logger->info($this->translator->trans('Shop deactivated. Now downloading... (this can take a while)', [], 'Modules.Autoupgrade.Admin'));
                 if ($upgrader->channel == 'private') {
                     $upgrader->link = $this->container->getUpgradeConfiguration()->get('private_release_link');
                     $upgrader->md5 = $this->container->getUpgradeConfiguration()->get('private_release_md5');
                 }
-                $this->logger->debug($this->translator->trans('Downloaded archive will come from %s', array($upgrader->link), 'Modules.Autoupgrade.Admin'));
-                $this->logger->debug($this->translator->trans('MD5 hash will be checked against %s', array($upgrader->md5), 'Modules.Autoupgrade.Admin'));
+                $this->logger->debug($this->translator->trans('Downloaded archive will come from %s', [$upgrader->link], 'Modules.Autoupgrade.Admin'));
+                $this->logger->debug($this->translator->trans('MD5 hash will be checked against %s', [$upgrader->md5], 'Modules.Autoupgrade.Admin'));
         }
     }
 }

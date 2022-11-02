@@ -51,68 +51,80 @@ class UpgradeOptionsForm
         $this->translator = $translator;
         $this->formRenderer = $formRenderer;
 
-        // TODO: Class const
-        $translationDomain = 'Modules.Autoupgrade.Admin';
-
-        $this->fields = array(
-            'PS_AUTOUP_PERFORMANCE' => array(
+        $this->fields = [
+            'PS_AUTOUP_PERFORMANCE' => [
                 'title' => $translator->trans(
                     'Server performance',
-                    array(),
-                    $translationDomain
+                    [],
+                    'Modules.Autoupgrade.Admin'
                 ),
                 'cast' => 'intval',
                 'validation' => 'isInt',
                 'defaultValue' => '1',
                 'type' => 'select', 'desc' => $translator->trans(
                         'Unless you are using a dedicated server, select "Low".',
-                        array(),
-                        $translationDomain
+                        [],
+                        'Modules.Autoupgrade.Admin'
                     ) . '<br />' .
                     $translator->trans(
                         'A high value can cause the upgrade to fail if your server is not powerful enough to process the upgrade tasks in a short amount of time.',
-                        array(),
-                        $translationDomain
+                        [],
+                        'Modules.Autoupgrade.Admin'
                     ),
-                'choices' => array(
+                'choices' => [
                     1 => $translator->trans(
                         'Low (recommended)',
-                        array(),
-                        $translationDomain
+                        [],
+                        'Modules.Autoupgrade.Admin'
                     ),
-                    2 => $translator->trans('Medium', array(), $translationDomain),
+                    2 => $translator->trans('Medium', [], 'Modules.Autoupgrade.Admin'),
                     3 => $translator->trans(
                         'High',
-                        array(),
-                        $translationDomain
+                        [],
+                        'Modules.Autoupgrade.Admin'
                     ),
-                ),
-            ),
-            'PS_AUTOUP_CUSTOM_MOD_DESACT' => array(
+                ],
+            ],
+            'PS_AUTOUP_CUSTOM_MOD_DESACT' => [
                 'title' => $translator->trans(
                     'Disable non-native modules',
-                    array(),
-                    $translationDomain
+                    [],
+                    'Modules.Autoupgrade.Admin'
                 ),
                 'cast' => 'intval',
                 'validation' => 'isBool',
                 'type' => 'bool',
                 'desc' => $translator->trans(
                         'As non-native modules can experience some compatibility issues, we recommend to disable them by default.',
-                        array(),
-                        $translationDomain
+                        [],
+                        'Modules.Autoupgrade.Admin'
                     ) . '<br />' .
                     $translator->trans(
                         'Keeping them enabled might prevent you from loading the "Modules" page properly after the upgrade.',
-                        array(),
-                        $translationDomain
+                        [],
+                        'Modules.Autoupgrade.Admin'
                     ),
-            ),
-            'PS_AUTOUP_UPDATE_DEFAULT_THEME' => array(
+            ],
+            'PS_DISABLE_OVERRIDES' => [
+                'title' => $translator->trans(
+                    'Disable all overrides',
+                    [],
+                    'Modules.Autoupgrade.Admin'
+                ),
+                'cast' => 'intval',
+                'validation' => 'isBool',
+                'type' => 'bool',
+                'desc' => $translator->trans(
+                    'Enable or disable all classes and controllers overrides.',
+                    [],
+                    'Modules.Autoupgrade.Admin'
+                ),
+            ],
+            'PS_AUTOUP_UPDATE_DEFAULT_THEME' => [
                 'title' => $translator->trans(
                     'Upgrade the default theme',
-                    array(),
-                    $translationDomain
+                    [],
+                    'Modules.Autoupgrade.Admin'
                 ),
                 'cast' => 'intval',
                 'validation' => 'isBool',
@@ -120,21 +132,21 @@ class UpgradeOptionsForm
                 'type' => 'bool',
                 'desc' => $translator->trans(
                         'If you customized the default PrestaShop theme in its folder (folder name "classic" in 1.7), enabling this option will lose your modifications.',
-                        array(),
-                        $translationDomain
+                        [],
+                        'Modules.Autoupgrade.Admin'
                     ) . '<br />'
                     . $translator->trans(
                         'If you are using your own theme, enabling this option will simply update the default theme files, and your own theme will be safe.',
-                        array(),
-                        $translationDomain
+                        [],
+                        'Modules.Autoupgrade.Admin'
                     ),
-            ),
+            ],
 
-            'PS_AUTOUP_CHANGE_DEFAULT_THEME' => array(
+            'PS_AUTOUP_CHANGE_DEFAULT_THEME' => [
                 'title' => $translator->trans(
                     'Switch to the default theme',
-                    array(),
-                    $translationDomain
+                    [],
+                    'Modules.Autoupgrade.Admin'
                 ),
                 'cast' => 'intval',
                 'validation' => 'isBool',
@@ -142,16 +154,16 @@ class UpgradeOptionsForm
                 'type' => 'bool',
                 'desc' => $translator->trans(
                     'This will change your theme: your shop will then use the default theme of the version of PrestaShop you are upgrading to.',
-                    array(),
-                    $translationDomain
+                    [],
+                    'Modules.Autoupgrade.Admin'
                 ),
-            ),
+            ],
 
-            'PS_AUTOUP_UPDATE_RTL_FILES' => array(
+            'PS_AUTOUP_UPDATE_RTL_FILES' => [
                 'title' => $translator->trans(
                     'Regenerate RTL stylesheet',
-                    array(),
-                    $translationDomain
+                    [],
+                    'Modules.Autoupgrade.Admin'
                 ),
                 'cast' => 'intval',
                 'validation' => 'isBool',
@@ -159,32 +171,32 @@ class UpgradeOptionsForm
                 'type' => 'bool',
                 'desc' => $translator->trans(
                     'If enabled, any RTL-specific files that you might have added to all your themes might be deleted by the created stylesheet.',
-                    array(),
-                    $translationDomain
+                    [],
+                    'Modules.Autoupgrade.Admin'
                 ),
-            ),
+            ],
 
-            'PS_AUTOUP_KEEP_MAILS' => array(
+            'PS_AUTOUP_KEEP_MAILS' => [
                 'title' => $translator->trans(
                     'Keep the customized email templates',
-                    array(),
-                    $translationDomain
+                    [],
+                    'Modules.Autoupgrade.Admin'
                 ),
                 'cast' => 'intval',
                 'validation' => 'isBool',
                 'type' => 'bool',
                 'desc' => $translator->trans(
                         'This will not upgrade the default PrestaShop e-mails.',
-                        array(),
-                        $translationDomain
+                        [],
+                        'Modules.Autoupgrade.Admin'
                     ) . '<br />'
                     . $translator->trans(
                         'If you customized the default PrestaShop e-mail templates, enabling this option will keep your modifications.',
-                        array(),
-                        $translationDomain
+                        [],
+                        'Modules.Autoupgrade.Admin'
                     ),
-            ),
-        );
+            ],
+        ];
     }
 
     public function render()
@@ -194,7 +206,7 @@ class UpgradeOptionsForm
             $this->fields,
             $this->translator->trans(
                 'Upgrade Options',
-                array(),
+                [],
                 'Modules.Autoupgrade.Admin'
             ),
             '',

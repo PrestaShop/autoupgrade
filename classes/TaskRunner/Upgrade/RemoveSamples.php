@@ -47,32 +47,32 @@ class RemoveSamples extends AbstractTask
         // This part runs at the first call of this step
         if (null === $removeList) {
             if (!$this->container->getFilesystemAdapter()->isReleaseValid($latestPath)) {
-                $this->logger->error($this->translator->trans('Could not assert the folder %s contains a valid PrestaShop release, exiting.', array($latestPath), 'Modules.Autoupgrade.Admin'));
-                $this->logger->error($this->translator->trans('A file may be missing, or the release is stored in a subfolder by mistake.', array(), 'Modules.Autoupgrade.Admin'));
+                $this->logger->error($this->translator->trans('Could not assert the folder %s contains a valid PrestaShop release, exiting.', [$latestPath], 'Modules.Autoupgrade.Admin'));
+                $this->logger->error($this->translator->trans('A file may be missing, or the release is stored in a subfolder by mistake.', [], 'Modules.Autoupgrade.Admin'));
                 $this->next = 'error';
 
                 return;
             }
 
-            $removeList = $this->container->getFilesystemAdapter()->listSampleFilesFromArray(array(
-                array('path' => $latestPath . '/img/c', 'filter' => '.jpg'),
-                array('path' => $latestPath . '/img/cms', 'filter' => '.jpg'),
-                array('path' => $latestPath . '/img/l', 'filter' => '.jpg'),
-                array('path' => $latestPath . '/img/m', 'filter' => '.jpg'),
-                array('path' => $latestPath . '/img/os', 'filter' => '.jpg'),
-                array('path' => $latestPath . '/img/p', 'filter' => '.jpg'),
-                array('path' => $latestPath . '/img/s', 'filter' => '.jpg'),
-                array('path' => $latestPath . '/img/scenes', 'filter' => '.jpg'),
-                array('path' => $latestPath . '/img/st', 'filter' => '.jpg'),
-                array('path' => $latestPath . '/img/su', 'filter' => '.jpg'),
-                array('path' => $latestPath . '/img', 'filter' => '404.gif'),
-                array('path' => $latestPath . '/img', 'filter' => 'favicon.ico'),
-                array('path' => $latestPath . '/img', 'filter' => 'logo.jpg'),
-                array('path' => $latestPath . '/img', 'filter' => 'logo_stores.gif'),
-                array('path' => $latestPath . '/modules/editorial', 'filter' => 'homepage_logo.jpg'),
+            $removeList = $this->container->getFilesystemAdapter()->listSampleFilesFromArray([
+                ['path' => $latestPath . '/img/c', 'filter' => '.jpg'],
+                ['path' => $latestPath . '/img/cms', 'filter' => '.jpg'],
+                ['path' => $latestPath . '/img/l', 'filter' => '.jpg'],
+                ['path' => $latestPath . '/img/m', 'filter' => '.jpg'],
+                ['path' => $latestPath . '/img/os', 'filter' => '.jpg'],
+                ['path' => $latestPath . '/img/p', 'filter' => '.jpg'],
+                ['path' => $latestPath . '/img/s', 'filter' => '.jpg'],
+                ['path' => $latestPath . '/img/scenes', 'filter' => '.jpg'],
+                ['path' => $latestPath . '/img/st', 'filter' => '.jpg'],
+                ['path' => $latestPath . '/img/su', 'filter' => '.jpg'],
+                ['path' => $latestPath . '/img', 'filter' => '404.gif'],
+                ['path' => $latestPath . '/img', 'filter' => 'favicon.ico'],
+                ['path' => $latestPath . '/img', 'filter' => 'logo.jpg'],
+                ['path' => $latestPath . '/img', 'filter' => 'logo_stores.gif'],
+                ['path' => $latestPath . '/modules/editorial', 'filter' => 'homepage_logo.jpg'],
                 // remove all override present in the archive
-                array('path' => $latestPath . '/override', 'filter' => '.php'),
-            ));
+                ['path' => $latestPath . '/override', 'filter' => '.php'],
+            ]);
 
             $this->container->getState()->setRemoveList(
                 array_reverse($removeList)
@@ -81,7 +81,7 @@ class RemoveSamples extends AbstractTask
             if (count($removeList)) {
                 $this->logger->debug(
                     $this->translator->trans('Starting to remove %s sample files',
-                        array(count($removeList)), 'Modules.Autoupgrade.Admin'));
+                        [count($removeList)], 'Modules.Autoupgrade.Admin'));
             }
         }
 
@@ -94,10 +94,10 @@ class RemoveSamples extends AbstractTask
                 $this->next = 'error';
                 $this->logger->error($this->translator->trans(
                     'Error while removing item %itemname%, %itemscount% items left.',
-                    array(
+                    [
                         '%itemname%' => $file,
                         '%itemscount%' => count($removeList),
-                    ),
+                    ],
                     'Modules.Autoupgrade.Admin'
                 ));
 
@@ -107,10 +107,10 @@ class RemoveSamples extends AbstractTask
             if (count($removeList)) {
                 $this->logger->debug($this->translator->trans(
                     '%itemname% item removed. %itemscount% items left.',
-                    array(
+                    [
                         '%itemname%' => $file,
                         '%itemscount%' => count($removeList),
-                    ),
+                    ],
                     'Modules.Autoupgrade.Admin'
                 ));
             }
@@ -123,7 +123,7 @@ class RemoveSamples extends AbstractTask
             $this->logger->info(
                 $this->translator->trans(
                     'All sample files removed. Now backing up files.',
-                    array(),
+                    [],
                     'Modules.Autoupgrade.Admin'
             ));
 
@@ -132,7 +132,7 @@ class RemoveSamples extends AbstractTask
                 $this->logger->info(
                     $this->translator->trans(
                         'All sample files removed. Backup process skipped. Now upgrading files.',
-                        array(),
+                        [],
                         'Modules.Autoupgrade.Admin'
                 ));
             }

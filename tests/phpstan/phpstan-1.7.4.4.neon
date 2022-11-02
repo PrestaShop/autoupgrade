@@ -1,0 +1,17 @@
+includes:
+	- %currentWorkingDirectory%/tests/phpstan/phpstan.neon
+
+parameters:
+	excludes_analyse:
+		- ./../../classes/UpgradeTools/CoreUpgrader/CoreUpgrader80.php
+	ignoreErrors:
+		- '#Access to an undefined property Autoupgrade::\$bootstrap.#'
+		- '#Access to an undefined property Module::\$installed.#'
+		- '#Call to an undefined static method ConfigurationTest::test_memory_limit\(\).#'
+		- '#Call to method getMessage\(\) on an unknown class PrestaShop\\PrestaShop\\Core\\Exception\\CoreException.#'
+		- '#Call to method handle\(\) on an unknown class PrestaShop\\PrestaShop\\Core\\CommandBus\\CommandBusInterface.#'
+		- '#Caught class PrestaShop\\PrestaShop\\Core\\Exception\\CoreException not found.#'
+		- '#Instantiated class PrestaShop\\PrestaShop\\Core\\Domain\\Theme\\ValueObject\\ThemeName not found.#'
+		- '#PHPDoc tag @var for variable \$commandBus contains unknown class PrestaShop\\PrestaShop\\Core\\CommandBus\\CommandBusInterface.#'
+		- '#Property ModuleCore::\$version \(float\) does not accept string.#'
+		- '#Return typehint of method PrestaShop\\Module\\AutoUpgrade\\UpgradeTools\\ModuleAdapter::getCommandBus\(\) has invalid type PrestaShop\\PrestaShop\\Core\\CommandBus\\TacticianCommandBusAdapter.#'

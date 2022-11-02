@@ -24,39 +24,29 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 use PHPUnit\Framework\TestCase;
-use PrestaShop\Module\AutoUpgrade\Log\LegacyLogger;
-use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader17;
+use PrestaShop\Module\AutoUpgrade\Log\Logger;
+use PrestaShop\Module\AutoUpgrade\Log\StreamedLogger;
 
-class CoreUpgraderTest extends TestCase
+class StreamedLoggerTest extends TestCase
 {
-    protected $coreUpgrader;
-
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $stub = $this->getMockBuilder(UpgradeContainer::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->coreUpgrader = new CoreUpgrader17($stub, new LegacyLogger());
-    }
-
     /**
-     * @dataProvider versionProvider
+     * @dataProvider filtersProvider
      */
-    public function testVersionNormalization($source, $expected)
+    public function testFiltersProperlyApplied($level, $filterLevel, $expected)
     {
-        $this->assertSame($expected, $this->coreUpgrader->normalizeVersion($source));
+        $logger = new StreamedLogger();
+        $logger->setFilter($filterLevel);
+        $this->assertSame($expected, $logger->isFiltered($level));
     }
 
-    public function versionProvider()
+    public function filtersProvider()
     {
-        return array(
-            array('1.7', '1.7.0.0'),
-            array('1.7.2', '1.7.2.0'),
-            array('1.6.1.0-beta', '1.6.1.0-beta'),
-            array('1.6.1-beta', '1.6.1-beta.0'), // Weird, but still a test
-        );
+        return [
+            [Logger::EMERGENCY, Logger::INFO, false],
+            [Logger::INFO, Logger::EMERGENCY, true],
+            [Logger::ERROR, Logger::ERROR, false],
+            [Logger::ERROR, Logger::WARNING, false],
+            [Logger::ERROR, Logger::CRITICAL, true],
+        ];
     }
 }

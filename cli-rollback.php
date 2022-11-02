@@ -34,6 +34,6 @@ $container = autoupgrade_init_container(dirname(__FILE__));
 
 $container->setLogger(new PrestaShop\Module\AutoUpgrade\Log\StreamedLogger());
 $controller = new \PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback\AllRollbackTasks($container);
-$controller->setOptions(getopt('', array('backup::')));
+$controller->setOptions(getopt('', ['backup::']));
 $controller->init();
 exit($controller->run());

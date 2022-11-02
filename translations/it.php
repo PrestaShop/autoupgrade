@@ -23,10 +23,8 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
-
-
 global $_MODULE;
-$_MODULE = array();
+$_MODULE = [];
 
 $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_5243e62512552a2cd6369e446bbf10f4'] = 'Performance del server';
 $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_87f8a6ab85c9ced3702b4ea641ad4bb5'] = 'Medio';
@@ -352,7 +350,7 @@ $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_5d01162d83a28884fef87736129a
 $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_d0285505fd09db653a4ec0fd3799f357'] = 'modalità esperto';
 $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_89f144934543c527b7b064ee64361d90'] = 'Prego seleziona il tuo canale:';
 $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_456a33b123e0b4831a7ecbe77803f9b8'] = 'I canali vi offrono diversi modi per eseguire un aggiornamento. È possibile caricare la nuova versione manualmente o lasciare che il modulo 1-click  upgrade la scarichi per te.';
-$_MODULE['<{autoupgrade}prestashop>adminselfupgrade_17451496c83f774d3c8b3462ae2e7721'] = 'Alpha, Beta e canali privati​​, ti darà la possibilità di effettuare l\'aggiornamento a una versione non ufficiale o instabile (solo a scopo di test).';
+$_MODULE['<{autoupgrade}prestashop>adminselfupgrade_17451496c83f774d3c8b3462ae2e7721'] = 'Alpha, Beta e canali privati, ti darà la possibilità di effettuare l\'aggiornamento a una versione non ufficiale o instabile (solo a scopo di test).';
 $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_7d71d389caebafeecac50e98c8e14dec'] = 'Per impostazione predefinita, è necessario utilizzare la \"Minor release\" canale che offre l\'ultima versione stabile disponibile.';
 $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_e58eae3d7ced672a49b5716587b15f89'] = 'Inizia il tuo aggiornamento';
 $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_89de86aa34494d545d8cbb4fff3a4e59'] = 'Ultimo controllo: %s';
