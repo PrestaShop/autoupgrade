@@ -10,6 +10,7 @@ DROP TABLE IF EXISTS `PREFIX_referrer_shop`;
 /* PHP:ps_remove_controller_tab('AdminThemesCatalog'); */;
 /* PHP:ps_remove_controller_tab('AdminParentModulesCatalog'); */;
 /* PHP:ps_remove_controller_tab('AdminModulesCatalog'); */;
+/* PHP:ps_remove_controller_tab('AdminPsMboTheme'); */;
 /* PHP:ps_remove_controller_tab('AdminAddonsCatalog'); */;
 /* PHP:ps_remove_controller_tab('AdminReferrers'); */;
 ## Remove Roles
