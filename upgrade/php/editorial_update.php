@@ -29,14 +29,14 @@ function editorial_update()
 
     if (Db::getInstance()->getValue('SELECT `id_module` FROM `' . _DB_PREFIX_ . 'module` WHERE `name`="editorial"')) {
         Db::getInstance()->execute('
-		CREATE TABLE `' . _DB_PREFIX_ . 'editorial` (
+		CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'editorial` (
 		`id_editorial` int(10) unsigned NOT NULL auto_increment,
 		`body_home_logo_link` varchar(255) NOT NULL,
 		PRIMARY KEY (`id_editorial`))
 		ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8');
 
         Db::getInstance()->execute('
-		CREATE TABLE `' . _DB_PREFIX_ . 'editorial_lang` (
+		CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'editorial_lang` (
 		`id_editorial` int(10) unsigned NOT NULL,
 		`id_lang` int(10) unsigned NOT NULL,
 		`body_title` varchar(255) NOT NULL,
