@@ -1,8 +1,8 @@
 name: Nightly upgrades with user interfaces
 
 on:
-  schedule:
-    - cron: "0 6 * * *" # Every day at 06:00Am
+  #schedule:
+  #  - cron: "0 6 * * *" # Every day at 06:00Am
 
 env:
   reports_directory: ${{ github.workspace }}/json-reports
