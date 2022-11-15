@@ -1,6 +1,7 @@
 name: Nightly upgrades with user interfaces
 
 on:
+  #Disabled for now : dependencies used are hard to maintain, should be fixed
   #schedule:
   #  - cron: "0 6 * * *" # Every day at 06:00Am
 
