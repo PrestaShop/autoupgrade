@@ -87,7 +87,7 @@ class CoreUpgrader17 extends CoreUpgrader
         }
 
         if (!empty($errorsLanguage)) {
-            throw new UpgradeException($this->container->getTranslator()->trans('Error while updating translations for lang %lang%. %details%', ['%lang%' => $isoCode, '%details%' => implode('; ', $errorsLanguage)], 'Modules.Autoupgrade.Admin'));
+            throw new UpgradeException($this->container->getTranslator()->trans('Error while updating translations for the language pack %lang%. %details%', ['%lang%' => $isoCode, '%details%' => implode('; ', $errorsLanguage)], 'Modules.Autoupgrade.Admin'));
         }
         \Language::loadLanguages();
 

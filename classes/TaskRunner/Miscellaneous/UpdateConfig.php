@@ -84,7 +84,7 @@ class UpdateConfig extends AbstractTask
             $xmlFile = $configurationData['archive_xml'];
             if (!empty($xmlFile) && !file_exists($this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $xmlFile)) {
                 $this->error = true;
-                $this->logger->info($this->translator->trans('File %s does not exist. Unable to select that channel', [$xmlFile], 'Modules.Autoupgrade.Admin'));
+                $this->logger->info($this->translator->trans('File %s does not exist. Unable to select that channel.', [$xmlFile], 'Modules.Autoupgrade.Admin'));
 
                 return false;
             }
