@@ -14,3 +14,14 @@ INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VAL
 /* Keep sending e-mails with prefixed subject to avoid behaviour change */
 INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES
   ('PS_MAIL_SUBJECT_PREFIX', '1', NOW(), NOW());
+
+/* Add new product_attribute_lang table and fill it with data */
+CREATE TABLE `PREFIX_product_attribute_lang` (
+  `id_product_attribute` int(10) unsigned NOT NULL,
+  `id_lang` int(10) unsigned NOT NULL,
+  `available_now` varchar(255) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `available_later` varchar(255) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  PRIMARY KEY (`id_product_attribute`, `id_lang`)
+) ENGINE=ENGINE_TYPE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+/* PHP:ps_810_add_product_attribute_lang_data(); */;
