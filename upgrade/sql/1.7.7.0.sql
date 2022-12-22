@@ -5,7 +5,10 @@ ALTER DATABASE `DB_NAME` CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
 INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES
     ('PS_DISPLAY_MANUFACTURERS', '1', NOW(), NOW()),
-    ('PS_ORDER_PRODUCTS_NB_PER_PAGE', '8', NOW(), NOW())
+    ('PS_ORDER_PRODUCTS_NB_PER_PAGE', '8', NOW(), NOW()),
+    ('PS_SEARCH_FUZZY', '1', NOW(), NOW()),
+    ('PS_SEARCH_FUZZY_MAX_LOOP', '4', NOW(), NOW()),
+    ('PS_SEARCH_MAX_WORD_LENGTH', '15', NOW(), NOW())
 ;
 
 /* Add field MPN to tables */

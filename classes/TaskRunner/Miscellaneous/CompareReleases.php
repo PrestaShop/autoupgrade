@@ -27,8 +27,8 @@
 
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous;
 
-use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
+use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 
 /**
  * get the list of all modified and deleted files between current version
@@ -54,9 +54,9 @@ class CompareReleases extends AbstractTask
                 $upgrader->branch = $matches[1];
                 $upgrader->channel = $channel;
                 if ($this->container->getUpgradeConfiguration()->get('channel') == 'private' && !$this->container->getUpgradeConfiguration()->get('private_allow_major')) {
-                    $upgrader->checkPSVersion(false, array('private', 'minor'));
+                    $upgrader->checkPSVersion(false, ['private', 'minor']);
                 } else {
-                    $upgrader->checkPSVersion(false, array('minor'));
+                    $upgrader->checkPSVersion(false, ['minor']);
                 }
                 $version = $upgrader->version_num;
         }
@@ -70,13 +70,13 @@ class CompareReleases extends AbstractTask
             if (count($diffFileList) > 0) {
                 $this->nextParams['msg'] = $this->translator->trans(
                     '%modifiedfiles% files will be modified, %deletedfiles% files will be deleted (if they are found).',
-                    array(
+                    [
                         '%modifiedfiles%' => count($diffFileList['modified']),
                         '%deletedfiles%' => count($diffFileList['deleted']),
-                    ),
+                    ],
                     'Modules.Autoupgrade.Admin');
             } else {
-                $this->nextParams['msg'] = $this->translator->trans('No diff files found.', array(), 'Modules.Autoupgrade.Admin');
+                $this->nextParams['msg'] = $this->translator->trans('No diff files found.', [], 'Modules.Autoupgrade.Admin');
             }
             $this->nextParams['result'] = $diffFileList;
         }

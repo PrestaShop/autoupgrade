@@ -23,7 +23,8 @@ foreach ($reports as $report) {
             "channel" => "archive",
             "branch" => $report['version'],
             "version" => getVersionFromFilename($report['download']),
-            "file" => $report['download']
+            "zip" => $report['download'],
+            "xml" => $report['xml'],
         ];
     }
 }

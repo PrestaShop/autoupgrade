@@ -24,8 +24,8 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 use PHPUnit\Framework\TestCase;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\SettingsFileWriter;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\SettingsFileWriter;
 
 class SettingsFileWriterTest extends TestCase
 {
@@ -57,7 +57,7 @@ define('_RIJNDAEL_KEY_', 'zrL1GDp2oqDoXFss');
 define('_RIJNDAEL_IV_', 'QSt/I95YtA==');
 ";
 
-        $datas = array(
+        $datas = [
             '_DB_SERVER_' => '127.0.0.1:3307',
             '_DB_NAME_' => 'prestashop16',
             '_DB_USER_' => 'root',
@@ -71,7 +71,7 @@ define('_RIJNDAEL_IV_', 'QSt/I95YtA==');
             '_PS_VERSION_' => '1.6.1.18',
             '_RIJNDAEL_KEY_' => 'zrL1GDp2oqDoXFss',
             '_RIJNDAEL_IV_' => 'QSt/I95YtA==',
-        );
+        ];
 
         $file = tempnam(sys_get_temp_dir(), 'PSS');
         $this->settingsWriter->writeSettingsFile($file, $datas);

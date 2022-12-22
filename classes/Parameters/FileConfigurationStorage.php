@@ -63,7 +63,7 @@ class FileConfigurationStorage
     public function load($fileName = '')
     {
         $configFilePath = $this->configPath . $fileName;
-        $config = array();
+        $config = [];
 
         if (file_exists($configFilePath)) {
             $config = @unserialize(base64_decode(Tools14::file_get_contents($configFilePath)));
@@ -96,7 +96,7 @@ class FileConfigurationStorage
      */
     public function getFilesList()
     {
-        $files = array();
+        $files = [];
         foreach (UpgradeFileNames::$tmp_files as $file) {
             $files[$file] = $this->getFilePath(constant('PrestaShop\\Module\\AutoUpgrade\\Parameters\\UpgradeFileNames::' . $file));
         }

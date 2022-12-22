@@ -1,45 +1,31 @@
 {% import "@ModuleAutoUpgrade/macros/icons.twig" as icons %}
 
-
 <div class="bootstrap" id="currentConfigurationBlock">
     <div class="panel">
         <div class="panel-heading">
-            {{ 'The pre-Upgrade checklist'|trans }}
+            {{ 'The pre-Upgrade checklist'|trans({}, 'Modules.Autoupgrade.Admin') }}
         </div>
+        {% if not moduleIsUpToDate %}
+            <p class="alert alert-warning">
+                {{ 'Your current version of the module is out of date. Update now'|trans({}, 'Modules.Autoupgrade.Admin') }}
+                <a href=" {{ moduleUpdateLink }} ">{{ 'Modules > Module Manager > Updates'|trans({}, 'Modules.Autoupgrade.Admin') }}</a>
+            </p>
+        {% endif %}
         {% if showErrorMessage %}
-        <p class="alert alert-warning">{{ 'The checklist is not OK. You can only upgrade your shop once all indicators are green.'|trans }}</p>
+            <p class="alert alert-warning">{{ 'The checklist is not OK. You can only upgrade your shop once all indicators are green.'|trans({}, 'Modules.Autoupgrade.Admin') }}</p>
         {% endif %}
         <div id="currentConfiguration">
-            <p class="alert alert-info">{{ 'Before starting the upgrade process, please make sure this checklist is all green.'|trans }}</p>
+            <p class="alert alert-info">{{ 'Before starting the upgrade process, please make sure this checklist is all green.'|trans({}, 'Modules.Autoupgrade.Admin') }}</p>
             <table class="table" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td>{{ 'The 1-click upgrade module is up-to-date (your current version is v%s)'|trans([moduleVersion]) }}
-                        {% if not moduleIsUpToDate %}
-                            {% if versionGreaterThan1_5_3 %}
-                            <strong><a href="index.php?controller=AdminModules&amp;token={{ adminToken|url_encode }}&update=autoupgrade">{{ 'Update'|trans({}, 'Admin.Actions') }}</a></strong>
-                            {% endif %}
-                            <strong><a class="_blank" href="http://addons.prestashop.com/en/administration-tools-prestashop-modules/5496-1-click-upgrade-autoupgrade.html">{{ 'Download'|trans }}</a></strong>
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if moduleIsUpToDate %}
-                            {{ icons.ok }}
-                        {% else %}
-                            {{ icons.nok }}
-                        {% endif %}
-                    </td>
-                </tr>
                 <tr>
                     <td>
                         {% if not phpUpgradeRequired %}
-                            {{ 'Your server is running on a supported PHP version.'|trans }}
+                            {{ 'Your server is running on a supported PHP version.'|trans({}, 'Modules.Autoupgrade.Admin') }}
                         {% else %}
-                            {{ 'The PHP version your server is running on is obsolete and needs to be upgraded. [1]Learn more why[/1] or [2]ignore[/2].'|trans({
-                                '[1]': '<a href="' ~ phpUpgradeRequired|trans ~'" target="_blank">',
+                            {{ 'The PHP version your server is running on is obsolete and needs to be upgraded. [1]Learn more[/1].'|trans({
+                                '[1]': '<a href="https://devdocs.prestashop.com/1.7/basics/installation/system-requirements/" target="_blank">',
                                 '[/1]': '</a>',
-                                '[2]': '<a href="' ~ currentIndex ~ '&token=' ~ token ~ '&ignorePhpOutdated=1">',
-                                '[/2]': '</a>',
-                            })|raw }}
+                            }, 'Modules.Autoupgrade.Admin')|raw }}
                         {% endif %}
                     </td>
                     <td>
@@ -51,18 +37,18 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>{{ 'Your store\'s root directory is writable (with appropriate CHMOD permissions)'|trans }}</td>
+                    <td>{{ 'Your store\'s root directory (%s) is writable (with appropriate CHMOD permissions).'|trans([rootDirectory], 'Modules.Autoupgrade.Admin') }}</td>
                     <td>
                         {% if rootDirectoryIsWritable %}
                             {{ icons.ok }}
                         {% else %}
-                            {{ icons.nok }} {{ rootDirectoryWritableReport }}
+                            {{ icons.nok }}
                         {% endif %}
                     </td>
                 </tr>
                 {% if adminDirectoryWritableReport %}
                     <tr>
-                        <td>{{ 'The "/admin/autoupgrade" directory is writable (appropriate CHMOD permissions)'|trans|raw }}</td>
+                        <td>{{ 'The "/admin/autoupgrade" directory is writable (appropriate CHMOD permissions)'|trans({}, 'Modules.Autoupgrade.Admin') }}</td>
                         <td>
                             {% if adminDirectoryIsWritable %}
                                 {{ icons.ok }}
@@ -73,7 +59,7 @@
                     </tr>
                 {% endif %}
                 <tr>
-                    <td>{{ 'PHP\'s "Safe mode" option is turned off'|trans|raw }}</td>
+                    <td>{{ 'PHP\'s "Safe mode" option is turned off'|trans({}, 'Modules.Autoupgrade.Admin')|raw }}</td>
                     <td>
                         {% if safeModeIsDisabled %}
                             {{ icons.ok }}
@@ -83,7 +69,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>{{ 'PHP\'s "allow_url_fopen" option is turned on, or cURL is installed'|trans|raw }}</td>
+                    <td>{{ 'PHP\'s "allow_url_fopen" option is turned on, or cURL is installed'|trans({}, 'Modules.Autoupgrade.Admin')|raw }}</td>
                     <td>
                         {% if allowUrlFopenOrCurlIsEnabled %}
                             {{ icons.ok }}
@@ -93,7 +79,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>{{ 'PHP\'s "zip" extension is enabled'|trans|raw }}</td>
+                    <td>{{ 'PHP\'s "zip" extension is enabled'|trans({}, 'Modules.Autoupgrade.Admin')|raw }}</td>
                     <td>
                         {% if zipIsEnabled %}
                             {{ icons.ok }}
@@ -104,11 +90,13 @@
                 </tr>
                 <tr>
                     <td>
-                        {{ 'Your store is in maintenance mode'|trans }}
-                        {% if not storeIsInMaintenance %}
-                            <br><form method="post" action="{{ currentIndex }}&token={{ token }}">
-                                <input type="submit" class="button" name="putUnderMaintenance" value="{{ 'Click here to put your shop under maintenance'|trans }}">
-                            </form>
+                        {% if storeIsInMaintenance %}
+                            {{ 'Your store is in maintenance mode'|trans({}, 'Modules.Autoupgrade.Admin') }}
+                        {% else %}
+                            {{ 'Enable maintenance mode and add your maintenance IP in [1]Shop parameters > General > Maintenance[/1]'|trans({
+                              '[1]' : '<a href="' ~ maintenanceLink ~'" target="_blank">',
+                              '[/1]' : '</a>',
+                            }, 'Modules.Autoupgrade.Admin')|raw }}
                         {% endif %}
                     </td>
                     <td>
@@ -120,7 +108,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>{{ 'PrestaShop\'s caching features are disabled'|trans }}</td>
+                    <td>{{ 'PrestaShop\'s caching features are disabled'|trans({}, 'Modules.Autoupgrade.Admin') }}</td>
                     <td>
                         {% if cachingIsDisabled %}
                             {{ icons.ok }}
@@ -132,9 +120,9 @@
                 <tr>
                     <td>
                         {% if maxExecutionTime == 0 %}
-                            {{ 'PHP\'s max_execution_time setting has a high value or is disabled entirely (current value: unlimited)'|trans }}
+                            {{ 'PHP\'s max_execution_time setting has a high value or is disabled entirely (current value: unlimited)'|trans({}, 'Modules.Autoupgrade.Admin') }}
                         {% else %}
-                            {{ 'PHP\'s max_execution_time setting has a high value or is disabled entirely (current value: %s seconds)'|trans([maxExecutionTime]) }}
+                            {{ 'PHP\'s max_execution_time setting has a high value or is disabled entirely (current value: %s seconds)'|trans([maxExecutionTime], 'Modules.Autoupgrade.Admin') }}
                         {% endif %}
                     </td>
                     <td>
@@ -145,30 +133,92 @@
                         {% endif %}
                     </td>
                 </tr>
+                {% if not checkPhpVersionCompatibility %}
+                  <tr>
+                    <td>{{ 'Your current PHP version isn\'t compatible with your PrestaShop version.'|trans({}, 'Modules.Autoupgrade.Admin') }}</td>
+                    <td>{{ icons.nok }}</td>
+                  </tr>
+                {% endif %}
+                {% if not checkApacheModRewrite %}
+                  <tr>
+                    <td>{{ 'Apache mod_rewrite is disabled.'|trans({}, 'Modules.Autoupgrade.Admin') }}</td>
+                    <td>{{ icons.nok }}</td>
+                  </tr>
+                {% endif %}
+                {% if notLoadedPhpExtensions|length > 0 %}
+                  <tr>
+                    <td>
+                      {% if notLoadedPhpExtensions|length > 1 %}
+                        {{ 'The following PHP extensions are not installed: %s.'|trans([notLoadedPhpExtensions|join(', ')], 'Modules.Autoupgrade.Admin') }}
+                      {% else %}
+                        {{ 'The following PHP extension is not installed: %s.'|trans([notLoadedPhpExtensions|first], 'Modules.Autoupgrade.Admin') }}
+                      {% endif %}
+                    </td>
+                    <td>{{ icons.nok }}</td>
+                  </tr>
+                {% endif %}
+                {% if not checkMemoryLimit %}
                 <tr>
-                    <td>
-                        {% if isPrestaShopReady %}
-                            {{ 'PrestaShop requirements are satisfied.'|trans }}
-                        {% else %}
-                            {{ 'PrestaShop requirements are not satisfied. [1]See details[/1] or [2]ignore[/2].'|trans({
-                                '[1]': '<a href="https://devdocs.prestashop.com/1.7/basics/installation/system-requirements/">',
-                                '[/1]': '</a>',
-                                '[2]': '<a href="' ~ currentIndex ~ '&token=' ~ token ~ '&ignorePsRequirements=1">',
-                                '[/2]': '</a>',
-                            })|raw }}
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if isPrestaShopReady %}
-                            {{ icons.ok }}
-                        {% else %}
-                            {{ icons.warning }}
-                        {% endif %}
-                    </td>
+                  <td>{{ 'PHP memory_limit is inferior to 256 MB.'|trans({}, 'Modules.Autoupgrade.Admin') }}</td>
+                  <td>{{ icons.nok }}</td>
                 </tr>
+                {% endif %}
+                {% if not checkFileUploads %}
+                <tr>
+                  <td>{{ 'PHP file_uploads configuration is disabled.'|trans({}, 'Modules.Autoupgrade.Admin') }}</td>
+                  <td>{{ icons.nok }}</td>
+                </tr>
+                {% endif %}
+                {% if notExistsPhpFunctions|length > 0 %}
+                  <tr>
+                    <td>
+                      {% if notExistsPhpFunctions|length > 1 %}
+                        {{ 'The following PHP functions are not installed: %s.'|trans([notExistsPhpFunctions|join(', ')], 'Modules.Autoupgrade.Admin') }}
+                      {% else %}
+                        {{ 'The following PHP function is not installed: %s.'|trans([notExistsPhpFunctions|first], 'Modules.Autoupgrade.Admin') }}
+                      {% endif %}
+                    </td>
+                    <td>{{ icons.nok }}</td>
+                  </tr>
+                {% endif %}
+                {% if not checkPhpSessions %}
+                  <tr>
+                    <td>{{ 'It\'s not possible to create a PHP session.'|trans({}, 'Modules.Autoupgrade.Admin') }}</td>
+                    <td>{{ icons.nok }}</td>
+                  </tr>
+                {% endif %}
+                {% if missingFiles|length > 0 %}
+                  <tr>
+                    <td>
+                      {{ 'The following files are missing:'|trans({}, 'Modules.Autoupgrade.Admin') }}
+                      <ul>
+                        {% for file in missingFiles %}
+                        <li>{{ file }}</li>
+                        {% endfor %}
+                      </ul>
+                    </td>
+                    <td>{{ icons.nok }}</td>
+                  </tr>
+                {% endif %}
+                {% if notWritingDirectories|length > 0 %}
+                  <tr>
+                    <td>
+                      {{ 'It\'s not possible to write in the following folders:'|trans({}, 'Modules.Autoupgrade.Admin') }}
+                      <ul>
+                        {% for missingFile in notWritingDirectories %}
+                        <li>{{ missingFile }}</li>
+                        {% endfor %}
+                      </ul>
+                    </td>
+                    <td>{{ icons.nok }}</td>
+                  </tr>
+                {% endif %}
             </table>
             <br>
-            <p class="alert alert-info">{{ 'Please also make sure you make a full manual backup of your files and database.'|trans }}</p>
+            <p class="alert alert-info">{{ 'Please also make sure you make a full manual backup of your files and database.'|trans({}, 'Modules.Autoupgrade.Admin') }}</p>
+            {% if showErrorMessage %}
+              <p class="alert alert-danger">{{ 'PrestaShop requirements are not satisfied.'|trans({}, 'Modules.Autoupgrade.Admin') }}</p>
+            {% endif %}
         </div>
     </div>
 </div>

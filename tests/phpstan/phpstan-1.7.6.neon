@@ -1,0 +1,15 @@
+includes:
+	- %currentWorkingDirectory%/tests/phpstan/phpstan.neon
+
+parameters:
+	excludes_analyse:
+		- ./../../classes/UpgradeTools/CoreUpgrader/CoreUpgrader80.php
+	ignoreErrors:
+		- '#Access to an undefined property Autoupgrade::\$bootstrap.#'
+		- '#Access to an undefined property Module::\$installed.#'
+		- '#Call to an undefined static method ConfigurationTest::test_memory_limit\(\).#'
+		- '#Call to method fetchLocale\(\) on an unknown class PrestaShop\\PrestaShop\\Core\\Cldr\\Update.#'
+		- '#Instantiated class PrestaShop\\PrestaShop\\Core\\Cldr\\Update not found.#'
+		- '#Parameter \#1 \$id_hook of method ModuleCore::updatePosition\(\) expects bool, int given.#'
+		- '#Property ModuleCore::\$version \(float\) does not accept string.#'
+

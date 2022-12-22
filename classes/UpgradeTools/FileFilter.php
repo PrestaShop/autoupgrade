@@ -27,6 +27,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
+use DirectoryIterator;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 
 class FileFilter
@@ -37,13 +38,38 @@ class FileFilter
     protected $configuration;
 
     /**
-     * @var string Autoupgrade sub directory*
+     * @var string Autoupgrade sub directory
      */
     protected $autoupgradeDir;
 
-    public function __construct(UpgradeConfiguration $configuration, $autoupgradeDir = 'autoupgrade')
-    {
+    /**
+     * @var string Root directory
+     */
+    protected $rootDir;
+
+    /**
+     * @var array|null
+     */
+    protected $excludeAbsoluteFilesFromUpgrade;
+
+    const COMPOSER_PACKAGE_TYPE = 'prestashop-module';
+
+    const ADDITIONAL_ALLOWED_MODULES = [
+        'autoupgrade',
+    ];
+
+    /**
+     * @param UpgradeConfiguration $configuration
+     * @param string $rootDir
+     * @param string $autoupgradeDir
+     */
+    public function __construct(
+        UpgradeConfiguration $configuration,
+        $rootDir,
+        $autoupgradeDir = 'autoupgrade'
+    ) {
         $this->configuration = $configuration;
+        $this->rootDir = $rootDir;
         $this->autoupgradeDir = $autoupgradeDir;
     }
 
@@ -55,7 +81,7 @@ class FileFilter
     public function getFilesToIgnoreOnBackup()
     {
         // during backup, do not save
-        $backupIgnoreAbsoluteFiles = array(
+        $backupIgnoreAbsoluteFiles = [
             '/app/cache',
             '/cache/smarty/compile',
             '/cache/smarty/cache',
@@ -66,7 +92,7 @@ class FileFilter
             // do not care about the two autoupgrade dir we use;
             '/modules/autoupgrade',
             '/admin/autoupgrade',
-        );
+        ];
 
         if (!$this->configuration->shouldBackupImages()) {
             $backupIgnoreAbsoluteFiles[] = '/img';
@@ -84,14 +110,14 @@ class FileFilter
      */
     public function getFilesToIgnoreOnRestore()
     {
-        $restoreIgnoreAbsoluteFiles = array(
+        $restoreIgnoreAbsoluteFiles = [
             '/app/config/parameters.php',
             '/app/config/parameters.yml',
             '/modules/autoupgrade',
             '/admin/autoupgrade',
             '.',
             '..',
-        );
+        ];
 
         if (!$this->configuration->shouldBackupImages()) {
             $restoreIgnoreAbsoluteFiles[] = '/img';
@@ -109,22 +135,41 @@ class FileFilter
      */
     public function getFilesToIgnoreOnUpgrade()
     {
+        if ($this->excludeAbsoluteFilesFromUpgrade) {
+            return $this->excludeAbsoluteFilesFromUpgrade;
+        }
+
         // do not copy install, neither app/config/parameters.php in case it would be present
-        $excludeAbsoluteFilesFromUpgrade = array(
+        $this->excludeAbsoluteFilesFromUpgrade = [
             '/app/config/parameters.php',
             '/app/config/parameters.yml',
             '/install',
             '/install-dev',
-        );
+        ];
+
+        // Fetch all existing native modules
+        $nativeModules = $this->getNativeModules();
+
+        if (is_dir($this->rootDir . '/modules')) {
+            $dir = new DirectoryIterator($this->rootDir . '/modules');
+            foreach ($dir as $fileinfo) {
+                if (!$fileinfo->isDir() || $fileinfo->isDot()) {
+                    continue;
+                }
+                if (in_array($fileinfo->getFilename(), $nativeModules)) {
+                    $this->excludeAbsoluteFilesFromUpgrade[] = '/modules/' . $fileinfo->getFilename();
+                }
+            }
+        }
 
         // this will exclude autoupgrade dir from admin, and autoupgrade from modules
         // If set to false, we need to preserve the default themes
         if (!$this->configuration->shouldUpdateDefaultTheme()) {
-            $excludeAbsoluteFilesFromUpgrade[] = '/themes/classic';
-            $excludeAbsoluteFilesFromUpgrade[] = '/themes/default-bootstrap';
+            $this->excludeAbsoluteFilesFromUpgrade[] = '/themes/classic';
+            $this->excludeAbsoluteFilesFromUpgrade[] = '/themes/default-bootstrap';
         }
 
-        return $excludeAbsoluteFilesFromUpgrade;
+        return $this->excludeAbsoluteFilesFromUpgrade;
     }
 
     /**
@@ -139,12 +184,46 @@ class FileFilter
      */
     public function getExcludeFiles()
     {
-        return array(
+        return [
             '.',
             '..',
             '.svn',
             '.git',
             $this->autoupgradeDir,
+        ];
+    }
+
+    /**
+     * Returns an array of native modules
+     *
+     * @return array<string>
+     */
+    private function getNativeModules()
+    {
+        $composerFile = $this->rootDir . '/composer.lock';
+        if (!file_exists($composerFile)) {
+            return [];
+        }
+        // Native modules are the one integrated in PrestaShop release via composer
+        // so we use the lock files to generate the list
+        $content = file_get_contents($composerFile);
+        $content = json_decode($content, true);
+        if (empty($content['packages'])) {
+            return [];
+        }
+
+        $modules = array_filter($content['packages'], function (array $package) {
+            return self::COMPOSER_PACKAGE_TYPE === $package['type'] && !empty($package['name']);
+        });
+        $modules = array_map(function (array $package) {
+            $vendorName = explode('/', $package['name']);
+
+            return $vendorName[1];
+        }, $modules);
+
+        return array_merge(
+            $modules,
+            self::ADDITIONAL_ALLOWED_MODULES
         );
     }
 }

@@ -50,12 +50,12 @@ class TransFilterExtension3 extends AbstractExtension
 
     public function getFilters()
     {
-        return array(
-            new TwigFilter('trans', array($this, 'trans')),
-        );
+        return [
+            new TwigFilter('trans', [$this, 'trans']),
+        ];
     }
 
-    public function trans($string, $params = array())
+    public function trans($string, $params = [])
     {
         return $this->translator->trans($string, $params, self::DOMAIN);
     }

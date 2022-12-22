@@ -23,10 +23,8 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
-
-
 global $_MODULE;
-$_MODULE = array();
+$_MODULE = [];
 
 $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_5243e62512552a2cd6369e446bbf10f4'] = 'Server-Leistung';
 $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_87f8a6ab85c9ced3702b4ea641ad4bb5'] = 'Mittel';
@@ -324,7 +322,7 @@ $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_26f07ad840fb1c17d29f5be0f428
 $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_70c06c37194d755dd9aef11cf0469981'] = 'Da Nicht-Originalmodule zu Kompatibilitätsprobleme führen können, empfehlen wir diese Module standardmäßig zu deaktivieren.';
 $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_4d572afe04001ea76c1c0f6348e44926'] = 'Wenn Sie Fremdmodule aktiv lassen, kann es passieren, dass Sie nach dem Upgrade das Menü Module nicht mehr öffnen können.';
 $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_27f559516024ba6aee397a5bb36b979e'] = 'Das \"Standard-Template (Theme)\" updaten';
-$_MODULE['<{autoupgrade}prestashop>adminselfupgrade_68984585580d85956e12fc66155adcea'] = 'Aktualisiert das vordefinierte PrestaShop-Template \"Standard\".';
+$_MODULE['<{autoupgrade}prestashop>adminselfupgrade_68984585580d85956e12fc66155adcea'] = 'Aktualisiert das vordefinierte PrestaShop-Template \"Standard\".';
 $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_dc9276fae0b587308ac3020c86090316'] = 'Wenn Sie das aktuelle Template verändert haben, werden alle Veränderungen überschrieben.';
 $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_5a6925648fc1286cae7924e80690d3a7'] = 'Standard-E-Mails aktualisieren';
 $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_9770c64dad08073b1291334767e0f99c'] = 'Aktualisiert die PrestaShos vordefinierte E-Mails.';
@@ -355,7 +353,7 @@ $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_456a33b123e0b4831a7ecbe77803
 $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_17451496c83f774d3c8b3462ae2e7721'] = 'Über Alpha-, Beta- und Privat-Download-Channels können Sie auf inoffizielle oder noch instabile Versionen upgraden (nur für Testzwecke).';
 $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_7d71d389caebafeecac50e98c8e14dec'] = 'Standardmässig sollten Sie den \"Minor release\"-Kanal benutzen. Dieser Kanal immer bietet die aktuelle stabile Version.';
 $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_e58eae3d7ced672a49b5716587b15f89'] = 'Jetzt aktualisieren';
-$_MODULE['<{autoupgrade}prestashop>adminselfupgrade_89de86aa34494d545d8cbb4fff3a4e59'] = 'Letzte Prüfung :%s';
+$_MODULE['<{autoupgrade}prestashop>adminselfupgrade_89de86aa34494d545d8cbb4fff3a4e59'] = 'Letzte Prüfung :%s';
 $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_96f1fa7f23402c1307c8e2c57c6bccfa'] = '1-Klick Aktualisierung';
 $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_9a843f20677a52ca79af903123147af0'] = 'Wilkommen!';
 $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_054698c9e53fa1c70556b37bdb9fa922'] = 'Mit dem PrestaShop-Modul 1-click Aktualisierung wird die Aktualisierung Ihres Shop auf die letzte verfügbare Version so leicht wie nie.';
@@ -370,14 +368,14 @@ $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_927bfd9abeb944d3f69ae6018cf6
 $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_b83d6250bd77f3dbcb7ec1ed51d46914'] = 'Produktbilder werden im Front Office nicht angezeigt? Versuchen Sie, die Vorschaubilder unter \"Voreinstellungen > Bilder\" aufzufrischen';
 $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_e27d0a2f9e5caa433fc14667a1a3a15a'] = 'Nachdem Sie alles überprüft haben, vergessen Sie nicht, Ihren Shop wieder zu reaktivieren.';
 $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_bb64b7cb55bd1db0abc03b6884144113'] = 'Noch zu erledigen:';
-$_MODULE['<{autoupgrade}prestashop>adminselfupgrade_a8192fd08a431bf547ebf9a3eaa9b6bb'] = 'Ein Javascript-Fehler (parseJSON) ist aufgetreten beim';
+$_MODULE['<{autoupgrade}prestashop>adminselfupgrade_a8192fd08a431bf547ebf9a3eaa9b6bb'] = 'Ein Javascript-Fehler (parseJSON) ist aufgetreten beim';
 $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_e47b67bdaa4f2c695e46ce1e5231aa9f'] = 'Fehler aufgetreten während:';
 $_MODULE['<{autoupgrade}prestashop>autoupgrade_475431dde197b4c63bda3d2f04ff5b42'] = 'Dieses Modul ermöglicht die automatische Aktualisierung Ihres Shops auf die letzte PrestaShop-Version.';
 $_MODULE['<{autoupgrade}prestashop>autoupgrade_f2836d2294e658813d7a5db6ed72b3fe'] = 'Konnte die alte AdminUpgrade-Registerkarte %d nicht löschen';
 $_MODULE['<{autoupgrade}prestashop>autoupgrade_cade82f9025d8fb9d2af869af19c72b8'] = 'Konnte den Menüpunkt \"AdminSelfUpgrade\" nicht erstellen';
 $_MODULE['<{autoupgrade}prestashop>autoupgrade_5d7ef5c6fd32feb5d482ec1459e86f83'] = 'Konnte das \"AdminSelfUpgrade\"-Menü nicht laden';
-$_MODULE['<{autoupgrade}prestashop>autoupgrade_21dc065f2d8653ebca37ec552d17b37e'] = 'Konnte das Verzeichnis «%s » nicht erstellen';
-$_MODULE['<{autoupgrade}prestashop>autoupgrade_6215d33db0d099fcaae168dd4715135a'] = 'Verzeichnis «%s » hat keine Schreibrechte';
+$_MODULE['<{autoupgrade}prestashop>autoupgrade_21dc065f2d8653ebca37ec552d17b37e'] = 'Konnte das Verzeichnis «%s » nicht erstellen';
+$_MODULE['<{autoupgrade}prestashop>autoupgrade_6215d33db0d099fcaae168dd4715135a'] = 'Verzeichnis «%s » hat keine Schreibrechte';
 $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_9ee6d9a65880879c847de53851b570e3'] = 'Das Hauptverzeichnis Ihres Shops muss beschreibbar sein (entsprechende CHMOD Schreibrechte)';
 $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_9fde89b1673e18374380c4ae84aa661e'] = 'PHP-Option \"safe mod\" muss deaktiviert sein';
 $_MODULE['<{autoupgrade}prestashop>adminselfupgrade_66ba3fab33be88de4a9f0f5f0dbdb58c'] = 'PHP-Option \"allow_url_fopen\" muss deaktiviert sein, oder Sie müssen CURL installieren';

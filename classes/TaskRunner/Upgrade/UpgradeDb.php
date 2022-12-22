@@ -31,6 +31,7 @@ use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader16;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader17;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader80;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\SettingsFileWriter;
 
 class UpgradeDb extends AbstractTask
@@ -45,25 +46,29 @@ class UpgradeDb extends AbstractTask
             foreach ($e->getQuickInfos() as $log) {
                 $this->logger->debug($log);
             }
-            $this->logger->error($this->translator->trans('Error during database upgrade. You may need to restore your database.', array(), 'Modules.Autoupgrade.Admin'));
+            $this->logger->error($this->translator->trans('Error during database upgrade. You may need to restore your database.', [], 'Modules.Autoupgrade.Admin'));
             $this->logger->error($e->getMessage());
 
             return false;
         }
         $this->next = 'upgradeModules';
         $this->stepDone = true;
-        $this->logger->info($this->translator->trans('Database upgraded. Now upgrading your Addons modules...', array(), 'Modules.Autoupgrade.Admin'));
+        $this->logger->info($this->translator->trans('Database upgraded. Now upgrading your Addons modules...', [], 'Modules.Autoupgrade.Admin'));
 
         return true;
     }
 
     public function getCoreUpgrader()
     {
-        if (version_compare($this->container->getState()->getInstallVersion(), '1.7.0.0', '<=')) {
+        if (version_compare($this->container->getState()->getInstallVersion(), '1.7', '<')) {
             return new CoreUpgrader16($this->container, $this->logger);
         }
 
-        return new CoreUpgrader17($this->container, $this->logger);
+        if (version_compare($this->container->getState()->getInstallVersion(), '8', '<')) {
+            return new CoreUpgrader17($this->container, $this->logger);
+        }
+
+        return new CoreUpgrader80($this->container, $this->logger);
     }
 
     public function init()

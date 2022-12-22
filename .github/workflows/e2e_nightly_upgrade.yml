@@ -1,8 +1,9 @@
-name: Nightly upgrades with user inferfaces
+name: Nightly upgrades with user interfaces
 
 on:
-  schedule:
-    - cron: "0 6 * * *" # Every day at 06:00Am
+  #Disabled for now : dependencies used are hard to maintain, should be fixed
+  #schedule:
+  #  - cron: "0 6 * * *" # Every day at 06:00Am
 
 env:
   reports_directory: ${{ github.workspace }}/json-reports
@@ -213,7 +214,7 @@ jobs:
           name: combined-report-${{ matrix.ps_target_version.branch }}
           path: ${{ env.reports_directory }}
 
-      - uses: google-github-actions/setup-gcloud@master
+      - uses: google-github-actions/setup-gcloud@v0
         name: Setup Cloud Sdk
         with:
           project_id: ${{ secrets.GC_PROJECT_ID }}

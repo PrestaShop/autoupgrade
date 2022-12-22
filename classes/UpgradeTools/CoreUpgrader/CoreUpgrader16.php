@@ -50,10 +50,10 @@ class CoreUpgrader16 extends CoreUpgrader
         if (!defined('_PS_CACHE_ENABLED_')) {
             define('_PS_CACHE_ENABLED_', '0');
         }
-        $caches = array('CacheMemcache', 'CacheApc', 'CacheFs', 'CacheMemcached',
-            'CacheXcache', );
+        $caches = ['CacheMemcache', 'CacheApc', 'CacheFs', 'CacheMemcached',
+            'CacheXcache', ];
 
-        $datas = array(
+        $datas = [
             '_DB_SERVER_' => _DB_SERVER_,
             '_DB_NAME_' => _DB_NAME_,
             '_DB_USER_' => _DB_USER_,
@@ -67,7 +67,7 @@ class CoreUpgrader16 extends CoreUpgrader
             '_PS_CREATION_DATE_' => defined('_PS_CREATION_DATE_') ? _PS_CREATION_DATE_ : date('Y-m-d'),
             '_PS_VERSION_' => $this->destinationUpgradeVersion,
             '_PS_DIRECTORY_' => __PS_BASE_URI__,
-        );
+        ];
 
         if (defined('_RIJNDAEL_KEY_') && defined('_RIJNDAEL_IV_')) {
             $datas['_RIJNDAEL_KEY_'] = _RIJNDAEL_KEY_;
@@ -82,7 +82,7 @@ class CoreUpgrader16 extends CoreUpgrader
 
         $writer = new SettingsFileWriter($this->container->getTranslator());
         $writer->writeSettingsFile($this->pathToSettingsFile, $datas);
-        $this->logger->debug($this->container->getTranslator()->trans('Settings file updated', array(), 'Modules.Autoupgrade.Admin'));
+        $this->logger->debug($this->container->getTranslator()->trans('Settings file updated', [], 'Modules.Autoupgrade.Admin'));
     }
 
     protected function initConstants()
@@ -96,7 +96,7 @@ class CoreUpgrader16 extends CoreUpgrader
     protected function getPreUpgradeVersion()
     {
         if (!file_exists($this->pathToSettingsFile)) {
-            throw new UpgradeException($this->container->getTranslator()->trans('The config/settings.inc.php file was not found.', array(), 'Modules.Autoupgrade.Admin'));
+            throw new UpgradeException($this->container->getTranslator()->trans('The config/settings.inc.php file was not found.', [], 'Modules.Autoupgrade.Admin'));
         }
         include_once $this->pathToSettingsFile;
 
@@ -120,7 +120,7 @@ class CoreUpgrader16 extends CoreUpgrader
                 $gz = new \Archive_Tar($file, 'gz');
                 $files_list = $gz->listContent();
                 if (!$this->container->getUpgradeConfiguration()->shouldKeepMails()) {
-                    $files_listing = array();
+                    $files_listing = [];
                     foreach ($files_list as $i => $file) {
                         if (preg_match('/^mails\/' . $lang['iso_code'] . '\/.*/', $file['filename'])) {
                             unset($files_list[$i]);

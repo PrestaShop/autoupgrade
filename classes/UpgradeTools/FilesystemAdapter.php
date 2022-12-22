@@ -45,20 +45,24 @@ class FilesystemAdapter
      *
      * @var array
      */
-    private $releaseFileChecks = array(
-        'files' => array(
+    private $releaseFileChecks = [
+        'files' => [
             'index.php',
             'config/defines.inc.php',
-        ),
-        'folders' => array(
+        ],
+        'folders' => [
             'classes',
             'controllers',
-        ),
-    );
+        ],
+    ];
 
-    public function __construct(FileFilter $fileFilter, $restoreFilesFilename,
-        $autoupgradeDir, $adminSubDir, $prodRootDir)
-    {
+    public function __construct(
+        FileFilter $fileFilter,
+        $restoreFilesFilename,
+        $autoupgradeDir,
+        $adminSubDir,
+        $prodRootDir
+    ) {
         $this->fileFilter = $fileFilter;
         $this->restoreFilesFilename = $restoreFilesFilename;
 
@@ -79,7 +83,7 @@ class FilesystemAdapter
 
     public function listFilesInDir($dir, $way = 'backup', $list_directories = false)
     {
-        $list = array();
+        $list = [];
         $dir = rtrim($dir, '/') . DIRECTORY_SEPARATOR;
         $allFiles = false;
         if (is_dir($dir) && is_readable($dir)) {
@@ -149,7 +153,7 @@ class FilesystemAdapter
      */
     public function listSampleFilesFromArray(array $directoryList)
     {
-        $res = array();
+        $res = [];
         foreach ($directoryList as $directory) {
             $res = array_merge($res, $this->listSampleFiles($directory['path'], $directory['filter']));
         }
@@ -168,7 +172,7 @@ class FilesystemAdapter
      */
     public function listSampleFiles($dir, $fileext = '.jpg')
     {
-        $res = array();
+        $res = [];
         $dir = rtrim($dir, '/') . DIRECTORY_SEPARATOR;
         $toDel = false;
         if (is_dir($dir) && is_readable($dir)) {
@@ -211,7 +215,7 @@ class FilesystemAdapter
             return true;
         }
 
-        $ignoreList = array();
+        $ignoreList = [];
         if ('backup' === $way) {
             $ignoreList = $this->fileFilter->getFilesToIgnoreOnBackup();
         } elseif ('restore' === $way) {

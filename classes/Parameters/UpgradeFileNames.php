@@ -142,7 +142,7 @@ class UpgradeFileNames
      *
      * @var array
      */
-    public static $tmp_files = array(
+    public static $tmp_files = [
         'QUERIES_TO_UPGRADE_LIST', // used ?
         'FILES_TO_UPGRADE_LIST',
         'FILES_DIFF_LIST',
@@ -154,5 +154,6 @@ class UpgradeFileNames
         'FILES_FROM_ARCHIVE_LIST',
         'MAILS_CUSTOM_LIST',
         'TRANSLATION_FILES_CUSTOM_LIST',
-    );
+        'MODULES_TO_UPGRADE_LIST',
+    ];
 }
