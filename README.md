@@ -26,18 +26,18 @@ All versions can be found in the [releases list](https://github.com/PrestaShop/a
 
 ## Create a module from source code
 
-If you download a ZIP archive that contain the source code or if you want to use the current state of the code, you need to build the module from the sources:
+If you download a ZIP archive that contains the source code or if you want to use the current state of the code, you need to build the module from the sources:
 
 * Clone (`git clone https://github.com/PrestaShop/autoupgrade.git`) or [download](https://github.com/PrestaShop/autoupgrade/archive/master.zip) the source code. You can also download a release **Source code** ([ex. v4.14.2](https://github.com/PrestaShop/autoupgrade/archive/v4.14.2.zip)). If you download a source code archive, you need to extract the file and rename the extracted folder to **autoupgrade**
 * Enter into folder **autoupgrade** and run the command `composer install`  ([composer](https://getcomposer.org/)).
 * Create a new ZIP archive from the of **autoupgrade** folder.
-* Now you can install it on your shop. For example you can upload it using the dropzone in Module Manager back-office page. 
+* Now you can install it in your shop. For example, you can upload it using the dropzone in Module Manager back office page. 
 
 # Running an upgrade on PrestaShop
 
 Upgrading a shop can be done using:
 
-* the configuration page of the module (browse the back-office page provided by the module)
+* the configuration page of the module (browse the back office page provided by the module)
 * in command line by calling the file *cli-upgrade.php*
 
 ## Command line parameters
@@ -90,6 +90,6 @@ This module is released under the [Academic Free License 3.0][AFL-3.0]
 
 [report-issue]: https://github.com/PrestaShop/PrestaShop/issues/new/choose
 [prestashop]: https://www.prestashop-project.org/
-[contribution-guidelines]: https://devdocs.prestashop-project.org/1.7/contribute/contribution-guidelines/project-modules/
+[contribution-guidelines]: https://devdocs.prestashop-project.org/8/contribute/contribution-guidelines/project-modules/
 [AFL-3.0]: https://opensource.org/licenses/AFL-3.0
-[doc]: https://devdocs.prestashop-project.org/1.7/development/upgrade-module/
+[doc]: https://devdocs.prestashop-project.org/8/development/upgrade-module/
