@@ -8,32 +8,36 @@
 
 ## About
 
-Upgrade to the latest version of PrestaShop in a few clicks, thanks to this automated method.
-This module is compatible with all PrestaShop 1.6 & 1.7.
+This module allows to upgrade your shop to a more recent version of PrestaShop. It can used as a CLI tool or with a web assistant.
+This module is compatible with all PrestaShop 1.7 versions.
 
 # Prerequisites
 
-* PrestaShop 1.6 or 1.7
+* PrestaShop 1.7 or 8
 * PHP 5.6+ 
 
-For older PHP versions, see previous releases of the module [(ex. v1.6.8)](https://github.com/PrestaShop/autoupgrade/releases/tag/v1.6.8).
-Note they are unsupported and we strongly recommend you to upgrade your PHP version.
+If you wish to upgrade a shop powered by PrestaShop 1.6, please use the [v4.14.2](https://github.com/PrestaShop/autoupgrade/releases/tag/v4.14.2) version to upgrade to a 1.7 version. Upgrades from 1.6 to 8.0 should be done in 2 steps (1.6 to 1.7 then 1.7 to 8.0).
+
+Please note PrestaShop 1.6 and older are EOL.
 
 # Installation
 
 All versions can be found in the [releases list](https://github.com/PrestaShop/autoupgrade/releases).
 
 ## Create a module from source code
-* Clone (`git clone https://github.com/PrestaShop/autoupgrade.git`) or [download](https://github.com/PrestaShop/autoupgrade/archive/master.zip) the source code. You can also download a release **Source code** ([ex. v4.4.1](https://github.com/PrestaShop/autoupgrade/archive/v4.4.1.zip)). If you download a source code archive, you need extract the file and rename the extracted folder to **autoupgrade**
+
+If you download a ZIP archive that contains the source code or if you want to use the current state of the code, you need to build the module from the sources:
+
+* Clone (`git clone https://github.com/PrestaShop/autoupgrade.git`) or [download](https://github.com/PrestaShop/autoupgrade/archive/master.zip) the source code. You can also download a release **Source code** ([ex. v4.14.2](https://github.com/PrestaShop/autoupgrade/archive/v4.14.2.zip)). If you download a source code archive, you need to extract the file and rename the extracted folder to **autoupgrade**
 * Enter into folder **autoupgrade** and run the command `composer install`  ([composer](https://getcomposer.org/)).
-* Create a new zip file of **autoupgrade** folder
-* Now you can upload into your module pages
+* Create a new ZIP archive from the of **autoupgrade** folder.
+* Now you can install it in your shop. For example, you can upload it using the dropzone in Module Manager back office page. 
 
 # Running an upgrade on PrestaShop
 
-Upgrading a shop can be done via:
+Upgrading a shop can be done using:
 
-* the configuration page of the module (access from your BO module page)
+* the configuration page of the module (browse the back office page provided by the module)
 * in command line by calling the file *cli-upgrade.php*
 
 ## Command line parameters
@@ -85,7 +89,7 @@ You can report issues with this module in the main PrestaShop repository. [Click
 This module is released under the [Academic Free License 3.0][AFL-3.0]
 
 [report-issue]: https://github.com/PrestaShop/PrestaShop/issues/new/choose
-[prestashop]: https://www.prestashop.com/
-[contribution-guidelines]: https://devdocs.prestashop.com/1.7/contribute/contribution-guidelines/project-modules/
+[prestashop]: https://www.prestashop-project.org/
+[contribution-guidelines]: https://devdocs.prestashop-project.org/8/contribute/contribution-guidelines/project-modules/
 [AFL-3.0]: https://opensource.org/licenses/AFL-3.0
-[doc]: https://devdocs.prestashop.com/1.7/development/upgrade-module/
+[doc]: https://devdocs.prestashop-project.org/8/development/upgrade-module/
