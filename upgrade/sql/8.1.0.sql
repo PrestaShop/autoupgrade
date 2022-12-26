@@ -10,3 +10,7 @@ INSERT IGNORE INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `po
 /* Default configuration for backorder, in order to keep behavior */
 INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES
   ('PS_ENABLE_BACKORDER_STATUS', '1', NOW(), NOW());
+
+/* Keep sending e-mails with prefixed subject to avoid behaviour change */
+INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES
+  ('PS_MAIL_SUBJECT_PREFIX', '1', NOW(), NOW());
