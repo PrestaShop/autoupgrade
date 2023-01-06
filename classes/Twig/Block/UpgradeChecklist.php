@@ -124,6 +124,7 @@ class UpgradeChecklist
             'allowUrlFopenOrCurlIsEnabled' => $this->selfCheck->isFOpenOrCurlEnabled(),
             'zipIsEnabled' => $this->selfCheck->isZipEnabled(),
             'storeIsInMaintenance' => $this->selfCheck->isShopDeactivated(),
+            'isLocalEnvironment' => $this->selfCheck->isLocalEnvironment(),
             'currentIndex' => $this->currentIndex,
             'token' => $this->token,
             'cachingIsDisabled' => $this->selfCheck->isCacheDisabled(),
