@@ -378,7 +378,7 @@ class UpgradePage
             5 => $translator->trans('Cannot create settings file, if /app/config/parameters.php exists, please give the public write permissions to this file, else please create a file named parameters.php in config directory.', [], 'Modules.Autoupgrade.Admin'),
             6 => $translator->trans('Cannot write settings file, please create a file named settings.inc.php in the "config" directory.', [], 'Modules.Autoupgrade.Admin'),
             7 => $translator->trans('Impossible to upload the file!', [], 'Modules.Autoupgrade.Admin'),
-            8 => $translator->trans('Data integrity is not valid. Hack attempt?', [], 'Modules.Autoupgrade.Admin'),
+            8 => $translator->trans('Data integrity is not valid, the files might have been corrupted, or a hack attempt might have occured.', [], 'Modules.Autoupgrade.Admin'),
             9 => $translator->trans('Impossible to read the content of a MySQL content file.', [], 'Modules.Autoupgrade.Admin'),
             10 => $translator->trans('Cannot access a MySQL content file.', [], 'Modules.Autoupgrade.Admin'),
             11 => $translator->trans('Error while inserting data in the database:', [], 'Modules.Autoupgrade.Admin'),
