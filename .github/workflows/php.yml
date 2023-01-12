@@ -12,7 +12,7 @@ jobs:
       - name: PHP syntax checker 5.6
         uses: prestashop/github-action-php-lint/5.6@master
         with:
-          folder-to-exclude: "! -path \"./.github/*\" ! -path \"./classes/UpgradeTools/CoreUpgrader/CoreUpgrader80.php\""
+          folder-to-exclude: "! -path \"./.github/*\" ! -path \"./classes/UpgradeTools/CoreUpgrader/CoreUpgrader8*\""
 
       - name: PHP syntax checker 7.2
         uses: prestashop/github-action-php-lint/7.2@master
