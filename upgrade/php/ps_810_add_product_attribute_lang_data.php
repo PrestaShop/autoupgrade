@@ -27,9 +27,10 @@ function ps_810_add_product_attribute_lang_data()
 {
     foreach (Language::getLanguages() as $language) {
         Db::getInstance()->execute(
-      'INSERT INTO ' . _DB_PREFIX_ . 'product_attribute_lang 
-      (id_product_attribute, id_lang, available_now, available_later)
-      SELECT pa.id_product_attribute, ' . (int) $language['id_lang'] . ", '', ''
-      FROM " . _DB_PREFIX_ . 'product_attribute pa');
+            'INSERT INTO ' . _DB_PREFIX_ . 'product_attribute_lang 
+            (id_product_attribute, id_lang, available_now, available_later)
+            SELECT pa.id_product_attribute, ' . (int) $language['id_lang'] . ", '', ''
+            FROM " . _DB_PREFIX_ . 'product_attribute pa'
+        );
     }
 }
