@@ -30,7 +30,10 @@ CREATE TABLE `PREFIX_product_attribute_lang` (
 /* PHP:ps_810_add_product_attribute_lang_data(); */;
 
 /* Add default redirect configuration and change all '404' to 'default' */
-INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES  
-  ('PS_PRODUCT_REDIRECTION_DEFAULT', '404', NOW(), NOW());
+/* Add configuration for localization pack https://github.com/PrestaShop/PrestaShop/pull/30887/ */
+INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES
+  ('PS_PRODUCT_REDIRECTION_DEFAULT', '404', NOW(), NOW()),
+  ('PS_LANGUAGE_I18N_URL', 'https://i18n.prestashop-project.org/translations/%version%/%locale%/%locale%.zip', NOW(), NOW()),
+;
 UPDATE `PREFIX_product` SET `redirect_type` = 'default' WHERE `redirect_type` = '404';
 UPDATE `PREFIX_product_shop` SET `redirect_type` = 'default' WHERE `redirect_type` = '404';
