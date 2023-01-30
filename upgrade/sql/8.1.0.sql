@@ -18,6 +18,8 @@ INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VAL
 INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES
   ('PS_MAIL_SUBJECT_PREFIX', '1', NOW(), NOW());
 
+ALTER TABLE `PREFIX_customized_data` MODIFY `value` varchar(1024) NOT NULL,;
+
 /* Add new product_attribute_lang table and fill it with data */
 CREATE TABLE `PREFIX_product_attribute_lang` (
   `id_product_attribute` int(10) unsigned NOT NULL,
