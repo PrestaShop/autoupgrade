@@ -41,13 +41,21 @@ FROM `PREFIX_product_attribute` pa CROSS JOIN `PREFIX_lang` l;
 /* Add default redirect configuration and change all '404' to 'default' */
 INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES
   ('PS_PRODUCT_REDIRECTION_DEFAULT', '404', NOW(), NOW()),
-  ('PS_MAINTENANCE_ALLOW_ADMINS', 1, NOW(), NOW())
+  ('PS_MAINTENANCE_ALLOW_ADMINS', 1, NOW(), NOW()),
+  ('PS_AVIF_QUALITY', '90', NOW(), NOW()),
+  ('PS_IMAGE_FORMAT', 'jpg', NOW(), NOW())
 ;
+
 UPDATE `PREFIX_product` SET `redirect_type` = 'default' WHERE `redirect_type` = '404';
 UPDATE `PREFIX_product_shop` SET `redirect_type` = 'default' WHERE `redirect_type` = '404';
 
 /* Update product v2 toggle and delete product_page_v2_multi_shop */
 UPDATE `PREFIX_feature_flag` SET `label_wording` = 'New product page', `stability` = 'stable' WHERE `name` = 'product_page_v2';
 DELETE FROM `PREFIX_feature_flag` WHERE name = 'product_page_v2_multi_shop';
+
+/* add new feature flag for multiple image formats */
+INSERT INTO `PREFIX_feature_flag` (`name`, `state`, `label_wording`, `label_domain`, `description_wording`, `description_domain`, `stability`)
+VALUES
+    ('multiple_image_format', 0, 'Multiple image formats', 'Admin.Advparameters.Feature', 'Enable / Disable having more than one image format (jpg, webp, avif, png...)', 'Admin.Advparameters.Help', 'stable');
 
 ALTER TABLE `PREFIX_stock_mvt` CHANGE `employee_lastname` `employee_lastname` VARCHAR(255) DEFAULT NULL, CHANGE `employee_firstname` `employee_firstname` VARCHAR(255) DEFAULT NULL;
