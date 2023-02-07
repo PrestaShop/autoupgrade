@@ -591,11 +591,7 @@ class UpgradeSelfCheck
      */
     public function isPhpSessionsValid()
     {
-        if (!class_exists(ConfigurationTest::class)) {
-            return true;
-        }
-
-        return ConfigurationTest::test_sessions();
+        return in_array(session_status(), [PHP_SESSION_ACTIVE, PHP_SESSION_NONE], true);
     }
 
     /**
