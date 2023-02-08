@@ -58,13 +58,11 @@ jobs:
           path: vendor
           key: php-${{ hashFiles('composer.lock') }}
 
-      - name: Install dependencies
-        run: |
-          composer global require friendsofphp/php-cs-fixer
-          composer global require prestashop/php-dev-tools
+      - name: Composer Install
+        run: composer install --prefer-dist
 
       - name: Run PHP-CS-Fixer
-        run: php-cs-fixer fix --dry-run --diff --using-cache=no
+        run: ./vendor/bin/php-cs-fixer fix --dry-run --diff --using-cache=no
 
   php-unit:
     strategy:
