@@ -86,9 +86,6 @@ class Autoupgrade extends Module
             if (!$tab->save()) {
                 return $this->_abortInstall($this->trans('Unable to create the "AdminSelfUpgrade" tab', [], 'Modules.Autoupgrade.Admin'));
             }
-            if (!@copy(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'logo.gif', _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 't' . DIRECTORY_SEPARATOR . 'AdminSelfUpgrade.gif')) {
-                return $this->_abortInstall($this->trans('Unable to copy logo.gif in %s', [_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 't' . DIRECTORY_SEPARATOR], 'Modules.Autoupgrade.Admin'));
-            }
         } else {
             $tab = new Tab((int) $id_tab);
         }
