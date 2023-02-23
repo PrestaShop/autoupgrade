@@ -36,6 +36,8 @@ CREATE TABLE `PREFIX_product_attribute_lang` (
 
 /* Add default redirect configuration and change all '404' to 'default' */
 INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES  
-  ('PS_PRODUCT_REDIRECTION_DEFAULT', '404', NOW(), NOW());
+  ('PS_PRODUCT_REDIRECTION_DEFAULT', '404', NOW(), NOW()),
+  ('PS_MAINTENANCE_ALLOW_ADMINS', 1, NOW(), NOW())
+;
 UPDATE `PREFIX_product` SET `redirect_type` = 'default' WHERE `redirect_type` = '404';
 UPDATE `PREFIX_product_shop` SET `redirect_type` = 'default' WHERE `redirect_type` = '404';
