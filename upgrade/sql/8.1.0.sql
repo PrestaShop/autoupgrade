@@ -32,7 +32,10 @@ CREATE TABLE `PREFIX_product_attribute_lang` (
   PRIMARY KEY (`id_product_attribute`, `id_lang`)
 ) ENGINE=ENGINE_TYPE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-/* PHP:ps_810_add_product_attribute_lang_data(); */;
+INSERT INTO `PREFIX_product_attribute_lang`
+(id_product_attribute, id_lang, available_now, available_later)
+SELECT pa.id_product_attribute, l.id_lang, '', ''
+FROM `PREFIX_product_attribute` pa CROSS JOIN `PREFIX_lang` l;
 
 /* Add default redirect configuration and change all '404' to 'default' */
 INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES  
