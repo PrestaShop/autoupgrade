@@ -40,7 +40,7 @@ function ps_1770_preset_tab_enabled()
     );
     $moduleNames = [];
     foreach ($inactiveModules as $inactiveModule) {
-        $moduleNames[] = $inactiveModule['name'];
+        $moduleNames[] = '"'.$inactiveModule['name'].'"';
     }
     if (count($moduleNames) > 0) {
         $result &= Db::getInstance()->execute(
