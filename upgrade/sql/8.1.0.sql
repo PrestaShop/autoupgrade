@@ -5,13 +5,11 @@ UPDATE `PREFIX_configuration` SET `value` = 'US/Pacific' WHERE `name` = 'PS_TIME
 DELETE FROM `PREFIX_timezone` WHERE `name` = 'US/Pacific-New';
 
 INSERT IGNORE INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`) VALUES
-  (NULL, 'actionModifyFrontendSitemap', 'Add or remove links on sitemap page', 'This hook allows to modify links on sitemap page of your shop. Useful to improve indexation of your modules.', '1');
-
-INSERT IGNORE INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`) VALUES
-  (NULL, 'displayAddressSelectorBottom', 'After address selection on checkout page', 'This hook is displayed after the address selection in checkout step.', '1');
-
-INSERT IGNORE INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`) VALUES
-  (NULL, 'actionGenerateDocumentReference', 'Modify document reference', 'This hook allows modules to return custom document references', '1');
+  (NULL, 'actionModifyFrontendSitemap', 'Add or remove links on sitemap page', 'This hook allows to modify links on sitemap page of your shop. Useful to improve indexation of your modules.', '1'),
+  (NULL, 'displayAddressSelectorBottom', 'After address selection on checkout page', 'This hook is displayed after the address selection in checkout step.', '1'),
+  (NULL, 'actionGenerateDocumentReference', 'Modify document reference', 'This hook allows modules to return custom document references', '1'),
+  (NULL, 'actionLoggerLogMessage', 'Allows to make extra action while a log is triggered', 'This hook allows to make an extra action while an exception is thrown and the logger logs it', '1'),
+  (NULL, 'actionProductPriceCalculation', 'Product Price Calculation', 'This hook is called into the priceCalculation method to be able to override the price calculation', '1');
 
 /* Default configuration for backorder, in order to keep behavior */
 INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES
@@ -38,11 +36,13 @@ SELECT pa.id_product_attribute, l.id_lang, '', ''
 FROM `PREFIX_product_attribute` pa CROSS JOIN `PREFIX_lang` l;
 
 /* Add default redirect configuration and change all '404' to 'default' */
-INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES  
+INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES
   ('PS_PRODUCT_REDIRECTION_DEFAULT', '404', NOW(), NOW()),
   ('PS_MAINTENANCE_ALLOW_ADMINS', 1, NOW(), NOW())
 ;
 UPDATE `PREFIX_product` SET `redirect_type` = 'default' WHERE `redirect_type` = '404';
 UPDATE `PREFIX_product_shop` SET `redirect_type` = 'default' WHERE `redirect_type` = '404';
-INSERT IGNORE INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`) VALUES
-  (NULL, 'actionLoggerLogMessage', 'Allows to make extra action while a log is triggered', 'This hook allows to make an extra action while an exception is thrown and the logger logs it', '1');
+
+/* Update product v2 toggle and delete product_page_v2_multi_shop */
+UPDATE `PREFIX_feature_flag` SET `label_wording` = 'New product page', `stability` = 'stable' WHERE `name` = 'product_page_v2';
+DELETE FROM `PREFIX_feature_flag` WHERE name = 'product_page_v2_multi_shop';
