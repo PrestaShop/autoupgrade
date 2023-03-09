@@ -13,6 +13,9 @@ INSERT IGNORE INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `po
 INSERT IGNORE INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`) VALUES
   (NULL, 'actionGenerateDocumentReference', 'Modify document reference', 'This hook allows modules to return custom document references', '1');
 
+INSERT IGNORE INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`) VALUES
+  (NULL, 'actionAdminMenuTabsModifier', 'Modify back office menu', 'This hook allows modifying back office menu tabs', '1');
+
 /* Default configuration for backorder, in order to keep behavior */
 INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES
   ('PS_ENABLE_BACKORDER_STATUS', '1', NOW(), NOW());
@@ -38,7 +41,7 @@ SELECT pa.id_product_attribute, l.id_lang, '', ''
 FROM `PREFIX_product_attribute` pa CROSS JOIN `PREFIX_lang` l;
 
 /* Add default redirect configuration and change all '404' to 'default' */
-INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES  
+INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES
   ('PS_PRODUCT_REDIRECTION_DEFAULT', '404', NOW(), NOW()),
   ('PS_MAINTENANCE_ALLOW_ADMINS', 1, NOW(), NOW())
 ;
