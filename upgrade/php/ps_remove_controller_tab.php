@@ -28,7 +28,7 @@ function ps_remove_controller_tab($className, $quickAccessUrls = [])
     // delete orphan tab langs
     Db::getInstance()->execute(
         sprintf(
-            'DELETE FROM `%stab_lang` WHERE `id_tab` NOT IN (SELECT id_tab FROM `%s_tab`)',
+            'DELETE FROM `%stab_lang` WHERE `id_tab` NOT IN (SELECT id_tab FROM `%stab`)',
             _DB_PREFIX_,
             _DB_PREFIX_
         )
