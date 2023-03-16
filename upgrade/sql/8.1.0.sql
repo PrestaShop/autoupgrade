@@ -46,3 +46,5 @@ UPDATE `PREFIX_product_shop` SET `redirect_type` = 'default' WHERE `redirect_typ
 /* Update product v2 toggle and delete product_page_v2_multi_shop */
 UPDATE `PREFIX_feature_flag` SET `label_wording` = 'New product page', `stability` = 'stable' WHERE `name` = 'product_page_v2';
 DELETE FROM `PREFIX_feature_flag` WHERE name = 'product_page_v2_multi_shop';
+
+ALTER TABLE `PREFIX_stock_mvt` CHANGE `employee_lastname` `employee_lastname` VARCHAR(255) DEFAULT NULL, CHANGE `employee_firstname` `employee_firstname` VARCHAR(255) DEFAULT NULL;
