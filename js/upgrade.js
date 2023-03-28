@@ -54,6 +54,7 @@ if (typeof input === 'undefined') {
       moreOptions: "More options (Expert mode)",
       filesWillBeDeleted: "These files will be deleted",
       filesWillBeReplaced: "These files will be replaced",
+      noXmlSelected: "No XML file has been selected.",
     }
   };
 }
@@ -810,6 +811,10 @@ $(document).ready(function() {
         }
         if (archive_prestashop == "") {
           showConfigResult(input.translation.noArchiveSelected, "error");
+          return false;
+        }
+        if (archive_xml == "") {
+          showConfigResult(input.translation.noXmlSelected, "error");
           return false;
         }
         params.channel = "archive";
