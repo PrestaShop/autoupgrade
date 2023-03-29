@@ -49,6 +49,9 @@ INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VAL
 UPDATE `PREFIX_product` SET `redirect_type` = 'default' WHERE `redirect_type` = '404';
 UPDATE `PREFIX_product_shop` SET `redirect_type` = 'default' WHERE `redirect_type` = '404';
 
+/* Update feature flags */
+/* PHP:ps_810_update_product_page_feature_flags(); */;
+
 /* Update product v2 toggle and delete product_page_v2_multi_shop */
 UPDATE `PREFIX_feature_flag` SET `label_wording` = 'New product page', `stability` = 'stable' WHERE `name` = 'product_page_v2';
 DELETE FROM `PREFIX_feature_flag` WHERE name = 'product_page_v2_multi_shop';
