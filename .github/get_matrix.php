@@ -2,7 +2,7 @@
 
 $matrix = [];
 
-$nightlyEndpoint = "https://api-nightly.prestashop.com/reports";
+$nightlyEndpoint = "https://api-nightly.prestashop-project.org/reports";
 
 $reports = json_decode(file_get_contents($nightlyEndpoint), true);
 $currentDate = "";

@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const apiUrl = process.env.API_URL || 'https://api-nightly.prestashop.com/reports';
+const apiUrl = process.env.API_URL || 'https://api-nightly.prestashop-project.org/reports';
 
 /**
  * Get reports from nightly api

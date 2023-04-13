@@ -32,7 +32,7 @@ jobs:
         shell: bash
         run: echo "::set-output name=TARGET_VERSIONS::$(node ./scripts/getTargetVersions.js)"
         env:
-          API_URL: https://api-nightly.prestashop.com/reports
+          API_URL: https://api-nightly.prestashop-project.org/reports
         working-directory: ./tests/e2e
 
     outputs:
@@ -228,6 +228,6 @@ jobs:
           cp ${{ env.reports_directory }}/${{ env.combined_report_name }} $FILENAME
           ./.github/workflows/nightly_scripts/push_results.sh ${{ env.nightly_api_url }} $FILENAME ${{ env.campaign }} ${{ env.platform }} ${{ secrets.QANB_TOKEN }}
         env:
-          nightly_api_url: https://api-nightly.prestashop.com/hook/reports/import
+          nightly_api_url: https://api-nightly.prestashop-project.org/hook/reports/import
           campaign: autoupgrade
           platform: chromium
