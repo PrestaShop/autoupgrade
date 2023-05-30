@@ -8,6 +8,9 @@ parameters:
 		- ./../../classes/Tools14.php
 		- ./../../classes/pclzip.lib.php
 		- ./../../functions.php
+		- ./../../classes/UpgradeTools/CoreUpgrader/CoreUpgrader17.php
+		- ./../../classes/Twig/TransFilterExtension.php
+		- ./../../classes/UpgradeContainer.php
 	ignoreErrors:
 		# module specific
 		- '#Function deactivate_custom_modules not found.#'
