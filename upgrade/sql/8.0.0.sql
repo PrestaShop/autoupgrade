@@ -181,10 +181,10 @@ ALTER TABLE `PREFIX_employee_session` ADD `date_add` DATETIME NOT NULL AFTER `da
 ALTER TABLE `PREFIX_customer_session` ADD `date_upd` DATETIME NOT NULL AFTER `token`;
 ALTER TABLE `PREFIX_customer_session` ADD `date_add` DATETIME NOT NULL AFTER `date_upd`;
 
-UPDATE `PREFIX_employee_session` SET `date_add` = NOW() WHERE `date_add` IS NULL OR `date_add` = '0000-00-00';
-UPDATE `PREFIX_employee_session` SET `date_upd` = NOW() WHERE `date_upd` IS NULL OR `date_upd` = '0000-00-00';
-UPDATE `PREFIX_customer_session` SET `date_add` = NOW() WHERE `date_add` IS NULL OR `date_add` = '0000-00-00';
-UPDATE `PREFIX_customer_session` SET `date_upd` = NOW() WHERE `date_upd` IS NULL OR `date_upd` = '0000-00-00';
+UPDATE `PREFIX_employee_session` SET `date_add` = NOW() WHERE `date_add` IS NULL OR `date_add` < '1970-01-01';
+UPDATE `PREFIX_employee_session` SET `date_upd` = NOW() WHERE `date_upd` IS NULL OR `date_upd` < '1970-01-01';
+UPDATE `PREFIX_customer_session` SET `date_add` = NOW() WHERE `date_add` IS NULL OR `date_add` < '1970-01-01';
+UPDATE `PREFIX_customer_session` SET `date_upd` = NOW() WHERE `date_upd` IS NULL OR `date_upd` < '1970-01-01';
 
 
 ALTER TABLE `PREFIX_carrier` DROP COLUMN `id_tax_rules_group`;
