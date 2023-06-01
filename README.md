@@ -11,14 +11,20 @@
 This module allows to upgrade your shop to a more recent version of PrestaShop. It can used as a CLI tool or with a web assistant.
 This module is compatible with all PrestaShop 1.7 versions.
 
+# Branches
+
+Branch `develop` contains code for future versions of the module, which allow upgrades from 1.7.x versions to higher.
+Branch `4.14.x` contains code for `4.14.x` patch versions which allow upgrading from 1.6.x versions to 1.7.x .
+
+If you wish to upgrade a shop powered by PrestaShop 1.6, please use the latest 4.14.x version to upgrade to a 1.7 version.
+Upgrades from 1.6.x to 8.x should be done in 2 steps (1.6.x to 1.7.x then 1.7.x to 8.x).
+
+Please note PrestaShop 1.6 and older are not maintained anymore.
+
 # Prerequisites
 
 * PrestaShop 1.7 or 8
-* PHP 5.6+ 
-
-If you wish to upgrade a shop powered by PrestaShop 1.6, please use the [v4.14.2](https://github.com/PrestaShop/autoupgrade/releases/tag/v4.14.2) version to upgrade to a 1.7 version. Upgrades from 1.6 to 8.0 should be done in 2 steps (1.6 to 1.7 then 1.7 to 8.0).
-
-Please note PrestaShop 1.6 and older are EOL.
+* PHP 5.6+
 
 # Installation
 
@@ -72,7 +78,7 @@ $ php cli-rollback.php  --dir=admin-dev --backup=V1.7.5.1_20190502-191341-22e883
 
 # Documentation
 
-Documentation is hosted on [devdocs.prestashop.com][doc].
+Documentation is hosted on [the Developer documentation][doc].
 
 # Contributing
 
