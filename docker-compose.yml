@@ -16,6 +16,7 @@ services:
       dockerfile: ./.github/Dockerfile
       args:
         VERSION: $VERSION
+        BASE_VERSION: $BASE_VERSION
     volumes:
       - ./:/var/www/html/modules/autoupgrade
       - temp-ps:/var/www/html # Used for another container which needs PrestaShop content

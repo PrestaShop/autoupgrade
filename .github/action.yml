@@ -8,7 +8,9 @@ runs:
         VERSION: ${{ matrix.from }}
       shell: bash
       run: |
-        bash -c '[[ "${VERSION}" == 1.6* ]] && docker-compose -f docker-compose-7.1.yml up -d || docker-compose -f docker-compose.yml up -d'
+        bash -c 'if [[ "${VERSION}" == 1.6* ]]; then export BASE_VERSION=7.1-apache; \
+        elif [[ "${VERSION}" == 8.* ]]; then export BASE_VERSION=8.1-apache; \
+        else export BASE_VERSION=7.2-apache; fi && docker compose up -d'
         bash -c 'while [[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost:8001/index.php)" != "200" ]]; do sleep 5; done'
     - name: Copy autoupgrade module
       shell: bash
