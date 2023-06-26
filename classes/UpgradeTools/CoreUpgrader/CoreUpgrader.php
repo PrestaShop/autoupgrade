@@ -669,6 +669,6 @@ abstract class CoreUpgrader
 
     protected function runCoreCacheClean()
     {
-        \Tools::clearCache();
+        $this->container->getCacheCleaner()->cleanFolders();
     }
 }

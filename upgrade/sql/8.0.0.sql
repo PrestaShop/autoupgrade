@@ -192,6 +192,8 @@ ALTER TABLE `PREFIX_product_shop` MODIFY COLUMN `redirect_type` ENUM(
     '404', '410', '301-product', '302-product', '301-category', '302-category'
 ) NOT NULL DEFAULT '404';
 
+ALTER TABLE `PREFIX_tab` ADD route_name VARCHAR(256) DEFAULT NULL;
+
 /* PHP:ps_800_add_security_tab(); */;
 
 ALTER TABLE `PREFIX_order_detail` MODIFY COLUMN `product_name` TEXT NOT NULL;
@@ -227,3 +229,5 @@ INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VAL
 ;
 
 UPDATE `PREFIX_carrier` SET `name` = 'Click and collect' WHERE `name` = '0';
+
+/* PHP:install_ps_distributionapiclient(); */;

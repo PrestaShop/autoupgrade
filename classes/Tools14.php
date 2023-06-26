@@ -1572,7 +1572,7 @@ class Tools14
         $current_css_file = $fileuri;
         if (strlen($css_content) > 0) {
             $css_content = preg_replace('#/\*.*?\*/#s', '', $css_content);
-            $css_content = preg_replace_callback('#url\((?:\'|")?([^\)\'"]*)(?:\'|")?\)#s', ['Tools', 'replaceByAbsoluteURL'], $css_content);
+            $css_content = preg_replace_callback('#url\((?:\'|")?([^\)\'"]*)(?:\'|")?\)#s', ['Media', 'replaceByAbsoluteURL'], $css_content);
 
             $css_content = preg_replace('#\s+#', ' ', $css_content);
             $css_content = str_replace("\t", '', $css_content);

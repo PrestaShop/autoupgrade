@@ -88,6 +88,7 @@
                         {% endif %}
                     </td>
                 </tr>
+                {% if not isLocalEnvironment %}
                 <tr>
                     <td>
                         {% if storeIsInMaintenance %}
@@ -107,6 +108,7 @@
                         {% endif %}
                     </td>
                 </tr>
+                {% endif %}
                 <tr>
                     <td>{{ 'PrestaShop\'s caching features are disabled'|trans({}, 'Modules.Autoupgrade.Admin') }}</td>
                     <td>

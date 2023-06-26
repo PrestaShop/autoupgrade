@@ -1,11 +1,13 @@
-FROM prestashop/base:7.2-apache
+ARG BASE_VERSION
+
+FROM prestashop/base:$BASE_VERSION
 LABEL maintainer="PrestaShop Core Team <coreteam@prestashop.com>"
 
 ARG VERSION
 ENV PS_VERSION $VERSION
 
 # Get PrestaShop
-ADD https://www.prestashop.com/download/old/prestashop_${PS_VERSION}.zip /tmp/prestashop.zip
+ADD https://github.com/PrestaShop/PrestaShop/releases/download/${PS_VERSION}/prestashop_${PS_VERSION}.zip /tmp/prestashop.zip
 
 # Extract
 RUN mkdir -p /tmp/data-ps \

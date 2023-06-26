@@ -71,6 +71,11 @@ class UpgradeSelfCheck
     /**
      * @var bool
      */
+    private $localEnvironement;
+
+    /**
+     * @var bool
+     */
     private $cacheDisabled;
 
     /**
@@ -237,6 +242,15 @@ class UpgradeSelfCheck
         return $this->shopDeactivated = $this->checkShopIsDeactivated();
     }
 
+    public function isLocalEnvironment()
+    {
+        if (null !== $this->localEnvironement) {
+            return $this->localEnvironement;
+        }
+
+        return $this->localEnvironement = $this->checkIsLocalEnvironment();
+    }
+
     /**
      * @return bool
      */
@@ -344,7 +358,7 @@ class UpgradeSelfCheck
             && $this->isZipEnabled()
             && $this->isRootDirectoryWritable()
             && $this->isAdminAutoUpgradeDirectoryWritable()
-            && $this->isShopDeactivated()
+            && ($this->isShopDeactivated() || $this->isLocalEnvironment())
             && $this->isCacheDisabled()
             && $this->isModuleVersionLatest()
             && $this->isPhpVersionCompatible()
@@ -413,16 +427,19 @@ class UpgradeSelfCheck
     /**
      * @return bool
      */
+    private function checkIsLocalEnvironment()
+    {
+        return in_array($this->getRemoteAddr(), ['127.0.0.1', 'localhost', '[::1]', '::1']);
+    }
+
+    /**
+     * @return bool
+     */
     private function checkShopIsDeactivated()
     {
-        // always return true in localhost
-        if (in_array($this->getRemoteAddr(), ['127.0.0.1', 'localhost', '[::1]', '::1'])) {
-            return true;
-        }
-
         // if multistore is not active, just check if shop is enabled and has a maintenance IP
         if (!Shop::isFeatureActive()) {
-            return !(Configuration::get('PS_SHOP_ENABLE') || !Configuration::get('PS_MAINTENANCE_IP'));
+            return !Configuration::get('PS_SHOP_ENABLE') && Configuration::get('PS_MAINTENANCE_IP');
         }
 
         // multistore is active: all shops must be deactivated and have a maintenance IP, otherwise return false
@@ -574,11 +591,7 @@ class UpgradeSelfCheck
      */
     public function isPhpSessionsValid()
     {
-        if (!class_exists(ConfigurationTest::class)) {
-            return true;
-        }
-
-        return ConfigurationTest::test_sessions();
+        return in_array(session_status(), [PHP_SESSION_ACTIVE, PHP_SESSION_NONE], true);
     }
 
     /**
