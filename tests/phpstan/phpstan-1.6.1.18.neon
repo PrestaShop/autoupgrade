@@ -21,4 +21,4 @@ parameters:
 		- '#Call to method getContainer\(\) on an unknown class AppKernel.#'
 		- '#PrestaShop\\PrestaShop\\Adapter\\Module\\ModuleDataUpdater#'
 		- '#Property ModuleCore::\$version \(float\) does not accept string.#'
-		- '#Return typehint of method PrestaShop\\Module\\AutoUpgrade\\UpgradeTools\\ModuleAdapter::getCommandBus\(\) has invalid type PrestaShop\\PrestaShop\\Core\\CommandBus\\TacticianCommandBusAdapter.#'
+		- '#Return typehint of method PrestaShop\\Module\\AutoUpgrade\\UpgradeTools\\ModuleAdapter::getCommandBus\(\) has invalid type PrestaShop\\PrestaShop\\Core\\CommandBus\\CommandBusInterface.#'
