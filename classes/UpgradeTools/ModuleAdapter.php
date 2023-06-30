@@ -85,7 +85,7 @@ class ModuleAdapter
     /**
      * Available only since 1.7.6.0 Can't be called on PS 1.6.
      *
-     * @return \PrestaShop\PrestaShop\Core\CommandBus\TacticianCommandBusAdapter
+     * @return \PrestaShop\PrestaShop\Core\CommandBus\CommandBusInterface
      */
     public function getCommandBus()
     {
