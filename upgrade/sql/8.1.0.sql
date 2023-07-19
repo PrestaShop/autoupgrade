@@ -61,3 +61,5 @@ ALTER TABLE `PREFIX_stock_mvt` CHANGE `employee_lastname` `employee_lastname` VA
 ALTER TABLE `PREFIX_stock_mvt` CHANGE `physical_quantity` `physical_quantity` INT(11) UNSIGNED NOT NULL;
 
 /* PHP:add_hook('actionAdminBreadcrumbModifier', 'Modify back office breadcrumb', 'This hook allows modifying back office breadcrumb'); */;
+
+ALTER TABLE `PREFIX_order_payment` ADD `id_employee` INT NULL AFTER `date_add`;
