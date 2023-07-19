@@ -363,6 +363,7 @@ class UpgradeSelfCheck
             && $this->isModuleVersionLatest()
             && $this->isPhpVersionCompatible()
             && $this->isApacheModRewriteEnabled()
+            && $this->checkKeyGeneration()
             && $this->getNotLoadedPhpExtensions() === []
             && $this->isMemoryLimitValid()
             && $this->isPhpFileUploadsConfigurationEnabled()
@@ -515,6 +516,28 @@ class UpgradeSelfCheck
     {
         if (class_exists(ConfigurationTest::class) && is_callable([ConfigurationTest::class, 'test_apache_mod_rewrite'])) {
             return ConfigurationTest::test_apache_mod_rewrite();
+        }
+
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
+    public function checkKeyGeneration()
+    {
+        // Check if key is needed on the version we are upgrading to, if lower, not needed
+        if (version_compare($this->upgrader->version_num, '8.1.0', '<')) {
+            return true;
+        }
+
+        $privateKey = openssl_pkey_new([
+            'private_key_bits' => 2048,
+            'private_key_type' => OPENSSL_KEYTYPE_RSA,
+        ]);
+
+        if ($privateKey === false) {
+            return false;
         }
 
         return true;
