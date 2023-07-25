@@ -99,7 +99,7 @@ function populateTab()
 
 class XmlLoader1700 extends XmlLoader
 {
-    public function createEntityTab($identifier, array $data, array $data_lang): void
+    public function createEntityTab($identifier, array $data, array $data_lang)
     {
         if (isset($data['enabled'])) {
             unset($data['enabled']);
