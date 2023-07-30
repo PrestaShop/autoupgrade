@@ -91,6 +91,8 @@ class CoreUpgrader80 extends CoreUpgrader
         $lang_pack = \Language::getLangDetails($isoCode);
         \Language::installSfLanguagePack($lang_pack['locale'], $errorsLanguage);
 
+        \Language::updateMultilangTable($isoCode);
+
         if (!$this->container->getUpgradeConfiguration()->shouldKeepMails()) {
             $this->logger->debug($this->container->getTranslator()->trans('Generating mail templates for %lang%', ['%lang%' => $isoCode], 'Modules.Autoupgrade.Admin'));
             $mailTheme = \Configuration::get('PS_MAIL_THEME', null, null, null, 'modern');
@@ -120,8 +122,6 @@ class CoreUpgrader80 extends CoreUpgrader
             throw new UpgradeException($this->container->getTranslator()->trans('Error while updating translations for the language pack %lang%. %details%', ['%lang%' => $isoCode, '%details%' => implode('; ', $errorsLanguage)], 'Modules.Autoupgrade.Admin'));
         }
         \Language::loadLanguages();
-
-        // TODO: Update AdminTranslationsController::addNewTabs to install tabs translated
     }
 
     protected function disableCustomModules()

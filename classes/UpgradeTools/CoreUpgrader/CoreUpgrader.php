@@ -486,7 +486,7 @@ abstract class CoreUpgrader
             define('_PS_MAILS_DIR_', _PS_ROOT_DIR_ . '/mails/');
         }
 
-        $langs = $this->db->executeS('SELECT * FROM `' . _DB_PREFIX_ . 'lang` WHERE `active` = 1');
+        $langs = $this->db->executeS('SELECT * FROM `' . _DB_PREFIX_ . 'lang`');
 
         if (!is_array($langs)) {
             return;

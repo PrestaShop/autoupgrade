@@ -82,6 +82,11 @@ class CoreUpgrader17 extends CoreUpgrader
         $lang_pack = \Language::getLangDetails($isoCode);
         \Language::installSfLanguagePack($lang_pack['locale'], $errorsLanguage);
 
+        // Method does not exist in older versions of 1.7
+        if (method_exists(\Language::class, 'updateMultilangTable')) {
+            \Language::updateMultilangTable($isoCode);
+        }
+
         if (!$this->container->getUpgradeConfiguration()->shouldKeepMails()) {
             \Language::installEmailsLanguagePack($lang_pack, $errorsLanguage);
         }
@@ -90,8 +95,6 @@ class CoreUpgrader17 extends CoreUpgrader
             throw new UpgradeException($this->container->getTranslator()->trans('Error while updating translations for the language pack %lang%. %details%', ['%lang%' => $isoCode, '%details%' => implode('; ', $errorsLanguage)], 'Modules.Autoupgrade.Admin'));
         }
         \Language::loadLanguages();
-
-        // TODO: Update AdminTranslationsController::addNewTabs to install tabs translated
 
         // CLDR has been updated on PS 1.7.6.0. From this version, updates are not needed anymore.
         if (version_compare($this->container->getState()->getInstallVersion(), '1.7.6.0', '<')) {
