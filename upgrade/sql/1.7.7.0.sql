@@ -11,12 +11,17 @@ INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VAL
     ('PS_SEARCH_MAX_WORD_LENGTH', '15', NOW(), NOW())
 ;
 
-/* Add field MPN to tables */
+/* Add field MPN to tables and assign empty values */
 ALTER TABLE `PREFIX_order_detail` ADD `product_mpn` VARCHAR(40) NULL AFTER `product_upc`;
 ALTER TABLE `PREFIX_supply_order_detail` ADD `mpn` VARCHAR(40) NULL AFTER `upc`;
 ALTER TABLE `PREFIX_stock` ADD `mpn` VARCHAR(40) NULL AFTER `upc`;
 ALTER TABLE `PREFIX_product_attribute` ADD `mpn` VARCHAR(40) NULL AFTER `upc`;
 ALTER TABLE `PREFIX_product` ADD `mpn` VARCHAR(40) NULL AFTER `upc`;
+UPDATE `PREFIX_order_detail` SET `product_mpn` = '';
+UPDATE `PREFIX_supply_order_detail` SET `mpn` = '';
+UPDATE `PREFIX_stock` SET `mpn` = '';
+UPDATE `PREFIX_product_attribute` SET `mpn` = '';
+UPDATE `PREFIX_product` SET `mpn` = '';
 
 /* Delete price display precision configuration */
 DELETE FROM `PREFIX_configuration` WHERE `name` = 'PS_PRICE_DISPLAY_PRECISION';
