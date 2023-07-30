@@ -46,8 +46,8 @@ function ps_811_update_redirect_type()
     Db::getInstance()->execute('ALTER TABLE `' . _DB_PREFIX_ . "product_shop` MODIFY COLUMN `redirect_type` ENUM(
         '','404','410','301-product','302-product','301-category','302-category','200-displayed','404-displayed','410-displayed','default'
         ) NOT NULL DEFAULT 'default';");
-    Db::getInstance()->execute('UPDATE `' . _DB_PREFIX_ . "product` SET `redirect_type` = 'default' WHERE `redirect_type` = '404';");
-    Db::getInstance()->execute('UPDATE `' . _DB_PREFIX_ . "product_shop` SET `redirect_type` = 'default' WHERE `redirect_type` = '404';");
+    Db::getInstance()->execute('UPDATE `' . _DB_PREFIX_ . "product` SET `redirect_type` = 'default' WHERE `redirect_type` = '404' OR `redirect_type` = '';");
+    Db::getInstance()->execute('UPDATE `' . _DB_PREFIX_ . "product_shop` SET `redirect_type` = 'default' WHERE `redirect_type` = '404' OR `redirect_type` = '';");
 
     return true;
 }
