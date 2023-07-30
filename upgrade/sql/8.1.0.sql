@@ -55,8 +55,8 @@ ALTER TABLE `PREFIX_product_shop` MODIFY COLUMN `redirect_type` ENUM(
 ) NOT NULL DEFAULT 'default';
 
 /* and change all '404' to 'default' */
-UPDATE `PREFIX_product` SET `redirect_type` = 'default' WHERE `redirect_type` = '404';
-UPDATE `PREFIX_product_shop` SET `redirect_type` = 'default' WHERE `redirect_type` = '404';
+UPDATE `PREFIX_product` SET `redirect_type` = 'default' WHERE `redirect_type` = '404' OR `redirect_type` = '' OR `redirect_type` IS NULL;
+UPDATE `PREFIX_product_shop` SET `redirect_type` = 'default' WHERE `redirect_type` = '404' OR `redirect_type` = '' OR `redirect_type` IS NULL;
 
 /* Update feature flags */
 /* PHP:ps_810_update_product_page_feature_flags(); */;
