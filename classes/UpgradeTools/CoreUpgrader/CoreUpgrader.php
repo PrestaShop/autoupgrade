@@ -669,6 +669,9 @@ abstract class CoreUpgrader
 
     protected function runCoreCacheClean()
     {
+        $this->logger->info($this->container->getTranslator()->trans('Cleaning file cache', [], 'Modules.Autoupgrade.Admin'));
         $this->container->getCacheCleaner()->cleanFolders();
+        $this->logger->info($this->container->getTranslator()->trans('Running opcache_reset', [], 'Modules.Autoupgrade.Admin'));
+        $this->container->resetOpcache();
     }
 }
