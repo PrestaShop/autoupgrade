@@ -83,16 +83,7 @@ class UpgradeModules extends AbstractTask
             }
             $this->stepDone = false;
         } else {
-            $modules_to_delete = [
-                'backwardcompatibility' => 'Backward Compatibility',
-                'dibs' => 'Dibs',
-                'cloudcache' => 'Cloudcache',
-                'mobile_theme' => 'The 1.4 mobile_theme',
-                'trustedshops' => 'Trustedshops',
-                'dejala' => 'Dejala',
-                'stripejs' => 'Stripejs',
-                'blockvariouslinks' => 'Block Various Links',
-            ];
+            $modules_to_delete = [];
 
             foreach ($modules_to_delete as $key => $module) {
                 $this->container->getDb()->execute('DELETE ms.*, hm.*
