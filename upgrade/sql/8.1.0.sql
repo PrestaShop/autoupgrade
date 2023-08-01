@@ -36,7 +36,7 @@ INSERT INTO `PREFIX_product_attribute_lang`
 SELECT pa.id_product_attribute, l.id_lang, '', ''
 FROM `PREFIX_product_attribute` pa CROSS JOIN `PREFIX_lang` l;
 
-/* Add default redirect configuration and change all '404' to 'default' */
+/* Add default redirect configuration */
 INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES
   ('PS_PRODUCT_REDIRECTION_DEFAULT', '404', NOW(), NOW()),
   ('PS_MAINTENANCE_ALLOW_ADMINS', 1, NOW(), NOW()),
@@ -44,8 +44,17 @@ INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VAL
   ('PS_IMAGE_FORMAT', 'jpg', NOW(), NOW())
 ;
 
-UPDATE `PREFIX_product` SET `redirect_type` = 'default' WHERE `redirect_type` = '404';
-UPDATE `PREFIX_product_shop` SET `redirect_type` = 'default' WHERE `redirect_type` = '404';
+/* Update ENUM values in both tables*/
+ALTER TABLE `PREFIX_product` MODIFY COLUMN `redirect_type` ENUM(
+  '','404','410','301-product','302-product','301-category','302-category','200-displayed','404-displayed','410-displayed','default'
+) NOT NULL DEFAULT 'default';
+ALTER TABLE `PREFIX_product_shop` MODIFY COLUMN `redirect_type` ENUM(
+  '','404','410','301-product','302-product','301-category','302-category','200-displayed','404-displayed','410-displayed','default'
+) NOT NULL DEFAULT 'default';
+
+/* and change all '404' to 'default' */
+UPDATE `PREFIX_product` SET `redirect_type` = 'default' WHERE `redirect_type` = '404' OR `redirect_type` = '' OR `redirect_type` IS NULL;
+UPDATE `PREFIX_product_shop` SET `redirect_type` = 'default' WHERE `redirect_type` = '404' OR `redirect_type` = '' OR `redirect_type` IS NULL;
 
 /* Update feature flags */
 /* PHP:ps_810_update_product_page_feature_flags(); */;
