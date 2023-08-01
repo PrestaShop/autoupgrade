@@ -83,40 +83,6 @@ class UpgradeModules extends AbstractTask
             }
             $this->stepDone = false;
         } else {
-            $modules_to_delete = [];
-
-            foreach ($modules_to_delete as $key => $module) {
-                $this->container->getDb()->execute('DELETE ms.*, hm.*
-                FROM `' . _DB_PREFIX_ . 'module_shop` ms
-                INNER JOIN `' . _DB_PREFIX_ . 'hook_module` hm USING (`id_module`)
-                INNER JOIN `' . _DB_PREFIX_ . 'module` m USING (`id_module`)
-                WHERE m.`name` LIKE \'' . pSQL($key) . '\'');
-                $this->container->getDb()->execute('UPDATE `' . _DB_PREFIX_ . 'module` SET `active` = 0 WHERE `name` LIKE \'' . pSQL($key) . '\'');
-
-                $path = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $key . DIRECTORY_SEPARATOR;
-                if (file_exists($path . $key . '.php')) {
-                    if (FilesystemAdapter::deleteDirectory($path)) {
-                        $this->logger->debug($this->translator->trans(
-                            'The %modulename% module is not compatible with version %version%, it will be removed from your FTP.',
-                            [
-                                '%modulename%' => $module,
-                                '%version%' => $this->container->getState()->getInstallVersion(),
-                            ],
-                            'Modules.Autoupgrade.Admin'
-                        ));
-                    } else {
-                        $this->logger->error($this->translator->trans(
-                            'The %modulename% module is not compatible with version %version%, please remove it from your FTP.',
-                            [
-                                '%modulename%' => $module,
-                                '%version%' => $this->container->getState()->getInstallVersion(),
-                            ],
-                            'Modules.Autoupgrade.Admin'
-                        ));
-                    }
-                }
-            }
-
             $this->stepDone = true;
             $this->status = 'ok';
             $this->next = 'cleanDatabase';
