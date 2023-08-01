@@ -38,10 +38,27 @@ class CoreUpgrader80 extends CoreUpgrader
 {
     protected function initConstants()
     {
+        $this->forceRemovingFiles();
         parent::initConstants();
 
         // Container may be needed to run upgrade scripts
         $this->container->getSymfonyAdapter()->initAppKernel();
+    }
+
+    /**
+     * Force remove files if they aren't removed properly after files upgrade.
+     */
+    protected function forceRemovingFiles()
+    {
+        $filesToForceRemove = [
+            '/src/PrestaShopBundle/Resources/config/services/adapter/news.yml',
+        ];
+
+        foreach ($filesToForceRemove as $file) {
+            if (file_exists(_PS_ROOT_DIR_ . $file)) {
+                unlink(_PS_ROOT_DIR_ . $file);
+            }
+        }
     }
 
     protected function upgradeDb($oldversion)
