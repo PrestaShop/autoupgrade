@@ -29,9 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
-use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 
 /**
  * Upgrade all partners modules according to the installed prestashop version.
@@ -83,49 +81,6 @@ class UpgradeModules extends AbstractTask
             }
             $this->stepDone = false;
         } else {
-            $modules_to_delete = [
-                'backwardcompatibility' => 'Backward Compatibility',
-                'dibs' => 'Dibs',
-                'cloudcache' => 'Cloudcache',
-                'mobile_theme' => 'The 1.4 mobile_theme',
-                'trustedshops' => 'Trustedshops',
-                'dejala' => 'Dejala',
-                'stripejs' => 'Stripejs',
-                'blockvariouslinks' => 'Block Various Links',
-            ];
-
-            foreach ($modules_to_delete as $key => $module) {
-                $this->container->getDb()->execute('DELETE ms.*, hm.*
-                FROM `' . _DB_PREFIX_ . 'module_shop` ms
-                INNER JOIN `' . _DB_PREFIX_ . 'hook_module` hm USING (`id_module`)
-                INNER JOIN `' . _DB_PREFIX_ . 'module` m USING (`id_module`)
-                WHERE m.`name` LIKE \'' . pSQL($key) . '\'');
-                $this->container->getDb()->execute('UPDATE `' . _DB_PREFIX_ . 'module` SET `active` = 0 WHERE `name` LIKE \'' . pSQL($key) . '\'');
-
-                $path = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $key . DIRECTORY_SEPARATOR;
-                if (file_exists($path . $key . '.php')) {
-                    if (FilesystemAdapter::deleteDirectory($path)) {
-                        $this->logger->debug($this->translator->trans(
-                            'The %modulename% module is not compatible with version %version%, it will be removed from your FTP.',
-                            [
-                                '%modulename%' => $module,
-                                '%version%' => $this->container->getState()->getInstallVersion(),
-                            ],
-                            'Modules.Autoupgrade.Admin'
-                        ));
-                    } else {
-                        $this->logger->error($this->translator->trans(
-                            'The %modulename% module is not compatible with version %version%, please remove it from your FTP.',
-                            [
-                                '%modulename%' => $module,
-                                '%version%' => $this->container->getState()->getInstallVersion(),
-                            ],
-                            'Modules.Autoupgrade.Admin'
-                        ));
-                    }
-                }
-            }
-
             $this->stepDone = true;
             $this->status = 'ok';
             $this->next = 'cleanDatabase';
