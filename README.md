@@ -9,7 +9,7 @@
 ## About
 
 This module allows to upgrade your shop to a more recent version of PrestaShop. It can used as a CLI tool or with a web assistant.
-This module is compatible with all PrestaShop 1.7 versions.
+This module is compatible with all PrestaShop 1.7 versions. Test
 
 # Branches
 
