@@ -133,6 +133,7 @@ class UpgradeChecklist
             'checkPhpVersionCompatibility' => $this->selfCheck->isPhpVersionCompatible(),
             'checkApacheModRewrite' => $this->selfCheck->isApacheModRewriteEnabled(),
             'notLoadedPhpExtensions' => $this->selfCheck->getNotLoadedPhpExtensions(),
+            'checkKeyGeneration' => $this->selfCheck->checkKeyGeneration(),
             'checkMemoryLimit' => $this->selfCheck->isMemoryLimitValid(),
             'checkFileUploads' => $this->selfCheck->isPhpFileUploadsConfigurationEnabled(),
             'notExistsPhpFunctions' => $this->selfCheck->getNotExistsPhpFunctions(),
