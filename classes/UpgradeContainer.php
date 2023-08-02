@@ -578,4 +578,18 @@ class UpgradeContainer
         $id_employee = !empty($_COOKIE['id_employee']) ? $_COOKIE['id_employee'] : 1;
         \Context::getContext()->employee = new \Employee((int) $id_employee);
     }
+
+    /**
+     * Attemps to flush opcache
+     */
+    public function resetOpcache()
+    {
+        $disabled = explode(',', ini_get('disable_functions'));
+
+        if (in_array('opcache_reset', $disabled) || !is_callable('opcache_reset')) {
+            return;
+        }
+
+        opcache_reset();
+    }
 }

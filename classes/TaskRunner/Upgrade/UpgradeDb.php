@@ -78,7 +78,10 @@ class UpgradeDb extends AbstractTask
 
     public function init()
     {
+        $this->logger->info($this->translator->trans('Cleaning file cache', [], 'Modules.Autoupgrade.Admin'));
         $this->container->getCacheCleaner()->cleanFolders();
+        $this->logger->info($this->translator->trans('Running opcache_reset', [], 'Modules.Autoupgrade.Admin'));
+        $this->container->resetOpcache();
 
         // Migrating settings file
         $this->container->initPrestaShopAutoloader();

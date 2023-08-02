@@ -327,6 +327,7 @@ class UpgradePage
                     $translator->trans('Please check that your front-office theme is functional (try to create an account, place an order...)', [], 'Modules.Autoupgrade.Admin'),
                     $translator->trans('Product images do not appear in the front-office? Try regenerating the thumbnails in Preferences > Images', [], 'Modules.Autoupgrade.Admin'),
                     $translator->trans('Do not forget to reactivate your shop once you have checked everything!', [], 'Modules.Autoupgrade.Admin'),
+                    $translator->trans('If you can\'t access the back-office and need to see what\'s wrong, manually enable debug mode in config/defines.inc.php by changing _PS_MODE_DEV_ to true.', [], 'Modules.Autoupgrade.Admin'),
                 ],
                 'todoListTitle' => $translator->trans('ToDo list:', [], 'Modules.Autoupgrade.Admin'),
                 'startingRestore' => $translator->trans('Starting restoration...', [], 'Modules.Autoupgrade.Admin'),
