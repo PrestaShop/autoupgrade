@@ -14,6 +14,9 @@ INSERT IGNORE INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `po
   (NULL, 'actionPresentManufacturer', 'Manufacturer Presenter', 'This hook is called before a manufacturer is presented', '1'),
   (NULL, 'actionCartGetPackageShippingCost', 'After getting package shipping cost value', 'This hook is called in order to allow to modify package shipping cost', '1');
 
+/* Remove product page v2 feature flag */
+DELETE FROM `PREFIX_feature_flag` WHERE `name` = 'product_page_v2';
+
 ALTER TABLE `PREFIX_feature_flag` ADD `type` VARCHAR(64) DEFAULT 'env,dotenv,db' NOT NULL AFTER `name`;
 
 /* Increase size of customized data - https://github.com/PrestaShop/PrestaShop/pull/31109 */
