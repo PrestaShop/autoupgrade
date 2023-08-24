@@ -29,11 +29,9 @@ namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader16;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader17;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader80;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader81;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\SettingsFileWriter;
 
 class UpgradeDb extends AbstractTask
 {
@@ -61,10 +59,6 @@ class UpgradeDb extends AbstractTask
 
     public function getCoreUpgrader()
     {
-        if (version_compare($this->container->getState()->getInstallVersion(), '1.7', '<')) {
-            return new CoreUpgrader16($this->container, $this->logger);
-        }
-
         if (version_compare($this->container->getState()->getInstallVersion(), '8', '<')) {
             return new CoreUpgrader17($this->container, $this->logger);
         }
@@ -85,7 +79,6 @@ class UpgradeDb extends AbstractTask
 
         // Migrating settings file
         $this->container->initPrestaShopAutoloader();
-        (new SettingsFileWriter($this->translator))->migrateSettingsFile($this->logger);
         parent::init();
     }
 }

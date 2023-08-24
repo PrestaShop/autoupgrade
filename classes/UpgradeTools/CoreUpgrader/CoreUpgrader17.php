@@ -117,7 +117,7 @@ class CoreUpgrader17 extends CoreUpgrader
             return;
         }
         $this->logger->info($this->container->getTranslator()->trans('Upgrade the RTL files.', [], 'Modules.Autoupgrade.Admin'));
-        $themeAdapter = new ThemeAdapter($this->db, $this->destinationUpgradeVersion);
+        $themeAdapter = new ThemeAdapter($this->db);
 
         $themes = $themeAdapter->getListFromDisk();
         $this->removeExistingRTLFiles($themes);
