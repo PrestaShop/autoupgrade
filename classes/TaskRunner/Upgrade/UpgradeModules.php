@@ -104,6 +104,12 @@ class UpgradeModules extends AbstractTask
         return true;
     }
 
+    /**
+     * Get the list of module zips in admin/autoupgrade/modules
+     * These zips will be used to upgrade related modules instead of using distant zips on addons
+     *
+     * @return array
+     */
     private function getLocalModules()
     {
         $localModuleDir = sprintf(
