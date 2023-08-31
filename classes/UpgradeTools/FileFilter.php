@@ -148,7 +148,7 @@ class FileFilter
             '/override',
             '/override/classes',
             '/override/controllers',
-            '/override/modules'
+            '/override/modules',
         ];
 
         // Fetch all existing native modules
