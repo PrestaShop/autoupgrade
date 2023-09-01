@@ -145,6 +145,10 @@ class FileFilter
             '/app/config/parameters.yml',
             '/install',
             '/install-dev',
+            '/override',
+            '/override/classes',
+            '/override/controllers',
+            '/override/modules',
         ];
 
         // Fetch all existing native modules
