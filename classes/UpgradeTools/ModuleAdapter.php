@@ -194,7 +194,6 @@ class ModuleAdapter
                     $filesystem->copy($local_module_zip, $zip_fullpath);
                     $local_module_used = true;
                 }
-
             } catch (IOException $e) {
                 // Do nothing, we will try to upgrade module from addons
             }

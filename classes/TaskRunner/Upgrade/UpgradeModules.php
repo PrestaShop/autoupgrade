@@ -116,7 +116,7 @@ class UpgradeModules extends AbstractTask
             "%s%sautoupgrade%smodules",
             _PS_ADMIN_DIR_,
             DIRECTORY_SEPARATOR,
-            DIRECTORY_SEPARATOR
+            DIRECTORY_SEPARATOR,
         );
 
         $zipFileNames = [];
