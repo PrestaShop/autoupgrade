@@ -57,7 +57,7 @@ class UpgradeModules extends AbstractTask
         // add local modules that we want to upgrade to the list
         $localModules = $this->getLocalModules();
         if (!empty($localModules)) {
-            foreach($localModules as $currentLocalModule) {
+            foreach ($localModules as $currentLocalModule) {
                 $listModules[$currentLocalModule['name']] = [
                     'id' => $currentLocalModule['id_module'],
                     'name' => $currentLocalModule['name'],
@@ -113,10 +113,10 @@ class UpgradeModules extends AbstractTask
     private function getLocalModules()
     {
         $localModuleDir = sprintf(
-            "%s%sautoupgrade%smodules",
+            '%s%sautoupgrade%smodules',
             _PS_ADMIN_DIR_,
             DIRECTORY_SEPARATOR,
-            DIRECTORY_SEPARATOR,
+            DIRECTORY_SEPARATOR
         );
 
         $zipFileNames = [];
