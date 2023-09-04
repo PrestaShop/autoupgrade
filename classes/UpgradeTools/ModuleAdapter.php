@@ -179,20 +179,21 @@ class ModuleAdapter
      *
      * @param int $id
      * @param string $name
+     * @param bool $isLocalModule
      */
-    public function upgradeModule($id, $name)
+    public function upgradeModule($id, $name, $isLocalModule = false)
     {
         $zip_fullpath = $this->tempPath . DIRECTORY_SEPARATOR . $name . '.zip';
-
-        $local_module_zip = $this->getLocalModuleZip($name);
         $local_module_used = false;
 
-        if (null !== $local_module_zip) {
+        if ($isLocalModule) {
             try {
-                $filesystem = new Filesystem();
-                $filesystem->copy($local_module_zip, $zip_fullpath);
-
-                $local_module_used = true;
+                $local_module_zip = $this->getLocalModuleZip($name);
+                if (!empty($local_module_zip)) {
+                    $filesystem = new Filesystem();
+                    $filesystem->copy($local_module_zip, $zip_fullpath);
+                    $local_module_used = true;
+                }
             } catch (IOException $e) {
                 // Do nothing, we will try to upgrade module from addons
             }
