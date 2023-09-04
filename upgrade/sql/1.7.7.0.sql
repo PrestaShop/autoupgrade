@@ -347,7 +347,7 @@ INSERT IGNORE INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`) VAL
   (NULL, 'displayHeader', 'Pages html head section', 'This hook adds additional elements in the head section of your pages (head section of html)')
 ;
 
-INSERT INTO `PREFIX_hook_alias` (`name`, `alias`) VALUES
+INSERT IGNORE INTO `PREFIX_hook_alias` (`name`, `alias`) VALUES
   ('displayAdminOrderTop', 'displayInvoice'),
   ('displayAdminOrderSide', 'displayBackOfficeOrderActions'),
   ('actionFrontControllerInitAfter', 'actionFrontControllerAfterInit')
