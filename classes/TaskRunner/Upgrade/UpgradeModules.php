@@ -54,13 +54,25 @@ class UpgradeModules extends AbstractTask
             return true;
         }
 
+        // add local modules that we want to upgrade to the list
+        $localModules = $this->getLocalModules();
+        if (!empty($localModules)) {
+            foreach ($localModules as $currentLocalModule) {
+                $listModules[$currentLocalModule['name']] = [
+                    'id' => $currentLocalModule['id_module'],
+                    'name' => $currentLocalModule['name'],
+                    'is_local' => true,
+                ];
+            }
+        }
+
         // module list
         if (count($listModules) > 0) {
             do {
                 $module_info = array_pop($listModules);
                 try {
                     $this->logger->debug($this->translator->trans('Upgrading module %module%...', ['%module%' => $module_info['name']], 'Modules.Autoupgrade.Admin'));
-                    $this->container->getModuleAdapter()->upgradeModule($module_info['id'], $module_info['name']);
+                    $this->container->getModuleAdapter()->upgradeModule($module_info['id'], $module_info['name'], !empty($module_info['is_local']));
                     $this->logger->debug($this->translator->trans('The files of module %s have been upgraded.', [$module_info['name']], 'Modules.Autoupgrade.Admin'));
                 } catch (UpgradeException $e) {
                     $this->handleException($e);
@@ -90,6 +102,42 @@ class UpgradeModules extends AbstractTask
         }
 
         return true;
+    }
+
+    /**
+     * Get the list of module zips in admin/autoupgrade/modules
+     * These zips will be used to upgrade related modules instead of using distant zips on addons
+     *
+     * @return array
+     */
+    private function getLocalModules()
+    {
+        $localModuleDir = sprintf(
+            '%s%sautoupgrade%smodules',
+            _PS_ADMIN_DIR_,
+            DIRECTORY_SEPARATOR,
+            DIRECTORY_SEPARATOR
+        );
+
+        $zipFileNames = [];
+
+        $zipFiles = glob($localModuleDir . DIRECTORY_SEPARATOR . '*.zip');
+
+        if (empty($zipFiles)) {
+            return [];
+        }
+
+        foreach ($zipFiles as $zipFile) {
+            $zipFileNames[] = pSQL(pathinfo($zipFile, PATHINFO_FILENAME));
+        }
+
+        $sql = sprintf(
+            "SELECT id_module, name FROM %smodule WHERE name IN ('%s')",
+            _DB_PREFIX_,
+            implode("','", $zipFileNames)
+        );
+
+        return \Db::getInstance()->executeS($sql);
     }
 
     public function warmUp()
