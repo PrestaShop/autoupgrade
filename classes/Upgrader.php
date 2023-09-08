@@ -546,4 +546,12 @@ class Upgrader
 
         return !$this->version_is_modified;
     }
+
+    /**
+     * @return string
+     */
+    public function getCurrentPsVersion()
+    {
+        return $this->currentPsVersion;
+    }
 }
