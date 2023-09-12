@@ -11,6 +11,9 @@
 This module allows to upgrade your shop to a more recent version of PrestaShop. It can used as a CLI tool or with a web assistant.
 This module is compatible with all PrestaShop 1.7 versions.
 
+> [!IMPORTANT]  
+> This module has a specific [Release Process][release-process]. If you do release a new version, make sure to follow it.
+
 # Branches
 
 Branch `develop` contains code for future versions of the module, which allow upgrades from 1.7.x versions to higher.
@@ -99,3 +102,4 @@ This module is released under the [Academic Free License 3.0][AFL-3.0]
 [contribution-guidelines]: https://devdocs.prestashop-project.org/8/contribute/contribution-guidelines/project-modules/
 [AFL-3.0]: https://opensource.org/licenses/AFL-3.0
 [doc]: https://devdocs.prestashop-project.org/8/development/upgrade-module/
+[release-process]: https://www.prestashop-project.org/maintainers-guide/processes/release/autoupgrade/
