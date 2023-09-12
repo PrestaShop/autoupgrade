@@ -255,8 +255,8 @@ class UpgradeSelfCheck
     {
         $shopCurrentVersion = $this->upgrader->getCurrentPSVersion();
 
-        // For versions under 8.0.0, do not perform the check
-        if (version_compare($shopCurrentVersion, '8.0.0', '<')) {
+        // For versions under 1.7.0.0, do not perform the check
+        if (version_compare($shopCurrentVersion, '1.7.0.0', '<')) {
             return true;
         }
 
