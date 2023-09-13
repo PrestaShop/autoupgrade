@@ -253,6 +253,13 @@ class UpgradeSelfCheck
      */
     public function isModuleVersionLatest()
     {
+        $shopCurrentVersion = $this->upgrader->getCurrentPSVersion();
+
+        // For versions under 1.7.0.0, do not perform the check
+        if (version_compare($shopCurrentVersion, '1.7.0.0', '<')) {
+            return true;
+        }
+
         if (null !== $this->moduleVersionIsLatest) {
             return $this->moduleVersionIsLatest;
         }
