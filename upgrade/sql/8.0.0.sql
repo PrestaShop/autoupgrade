@@ -231,3 +231,7 @@ INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VAL
 UPDATE `PREFIX_carrier` SET `name` = 'Click and collect' WHERE `name` = '0';
 
 /* PHP:install_ps_distributionapiclient(); */;
+
+/* Remove deprecated columns */
+/* PHP:drop_column_if_exists('product_attribute', 'location'); */;
+/* PHP:drop_column_if_exists('product_attribute', 'quantity'); */;

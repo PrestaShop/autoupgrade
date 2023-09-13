@@ -53,7 +53,7 @@ UPDATE `PREFIX_tab_module_preference` SET `module` = SUBSTRING(`module`, 1, 191)
 ALTER TABLE `PREFIX_tab_module_preference` CHANGE `module` `module` VARCHAR(191) NOT NULL;
 
 UPDATE `PREFIX_smarty_lazy_cache` SET `cache_id` = SUBSTRING(`cache_id`, 1, 191);
-ALTER TABLE `PREFIX_smarty_lazy_cache` CHANGE `cache_id` `cache_id` VARCHAR(191) NOT NULL;
+ALTER TABLE `PREFIX_smarty_lazy_cache` CHANGE `cache_id` `cache_id` VARCHAR(191) NOT NULL DEFAULT '';
 
 /* improve performance of lookup by product reference/product_supplier avoiding full table scan */
 ALTER TABLE PREFIX_product
@@ -357,11 +357,11 @@ INSERT IGNORE INTO `PREFIX_hook_alias` (`name`, `alias`) VALUES
 ALTER TABLE `PREFIX_order_detail` ADD `total_refunded_tax_excl` DECIMAL(20, 6) NOT NULL DEFAULT '0.000000' AFTER `original_wholesale_price`;
 ALTER TABLE `PREFIX_order_detail` ADD `total_refunded_tax_incl` DECIMAL(20, 6) NOT NULL DEFAULT '0.000000' AFTER `total_refunded_tax_excl`;
 
-ALTER TABLE `PREFIX_group_reduction` CHANGE `reduction` `reduction` DECIMAL(5, 4) NOT NULL DEFAULT '0.0000';
-ALTER TABLE `PREFIX_product_group_reduction_cache` CHANGE `reduction` `reduction` DECIMAL(5, 4) NOT NULL DEFAULT '0.0000';
+ALTER TABLE `PREFIX_group_reduction` CHANGE `reduction` `reduction` DECIMAL(5, 4) NOT NULL;
+ALTER TABLE `PREFIX_product_group_reduction_cache` CHANGE `reduction` `reduction` DECIMAL(5, 4) NOT NULL;
 ALTER TABLE `PREFIX_order_slip` CHANGE `amount` `amount` DECIMAL(20, 6) NOT NULL DEFAULT '0.000000';
 ALTER TABLE `PREFIX_order_slip` CHANGE `shipping_cost_amount` `shipping_cost_amount` DECIMAL(20, 6) NOT NULL DEFAULT '0.000000';
-ALTER TABLE `PREFIX_order_payment` CHANGE `amount` `amount` DECIMAL(20, 6) NOT NULL DEFAULT '0.000000';
+ALTER TABLE `PREFIX_order_payment` CHANGE `amount` `amount` DECIMAL(20, 6) NOT NULL;
 
 /* attribute_impact price */
 UPDATE `PREFIX_attribute_impact` SET `price` = RIGHT(`price`, 17) WHERE LENGTH(`price`) > 17;
@@ -400,7 +400,7 @@ ALTER TABLE `PREFIX_order_cart_rule` CHANGE `value` `value` DECIMAL(20, 6) NOT N
 ALTER TABLE `PREFIX_order_cart_rule` CHANGE `value_tax_excl` `value_tax_excl` DECIMAL(20, 6) NOT NULL DEFAULT '0.000000';
 
 /* add deleted field */
-ALTER TABLE `PREFIX_order_cart_rule` ADD `deleted` TINYINT(1) UNSIGNED NOT NULL;
+ALTER TABLE `PREFIX_order_cart_rule` ADD `deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0';
 
 UPDATE
     `PREFIX_order_detail` `od`

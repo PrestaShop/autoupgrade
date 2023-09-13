@@ -26,8 +26,8 @@ INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VAL
 CREATE TABLE `PREFIX_product_attribute_lang` (
   `id_product_attribute` int(10) unsigned NOT NULL,
   `id_lang` int(10) unsigned NOT NULL,
-  `available_now` varchar(255) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `available_later` varchar(255) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `available_now` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `available_later` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id_product_attribute`, `id_lang`)
 ) ENGINE=ENGINE_TYPE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -65,7 +65,7 @@ VALUES
     ('multiple_image_format', 0, 'Multiple image formats', 'Admin.Advparameters.Feature', 'Enable / Disable having more than one image format (jpg, webp, avif, png...)', 'Admin.Advparameters.Help', 'stable');
 
 ALTER TABLE `PREFIX_stock_mvt` CHANGE `employee_lastname` `employee_lastname` VARCHAR(255) DEFAULT NULL, CHANGE `employee_firstname` `employee_firstname` VARCHAR(255) DEFAULT NULL;
-ALTER TABLE `PREFIX_stock_mvt` CHANGE `physical_quantity` `physical_quantity` INT(11) UNSIGNED NOT NULL;
+ALTER TABLE `PREFIX_stock_mvt` CHANGE `physical_quantity` `physical_quantity` INT(10) UNSIGNED NOT NULL;
 
 /* PHP:add_hook('actionAdminBreadcrumbModifier', 'Modify back office breadcrumb', 'This hook allows modifying back office breadcrumb'); */;
 
