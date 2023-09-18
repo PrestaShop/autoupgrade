@@ -526,6 +526,10 @@ class UpgradeSelfCheck
      */
     public function checkKeyGeneration()
     {
+        if ($this->upgrader->version_num === null) {
+            return true;
+        }
+
         // Check if key is needed on the version we are upgrading to, if lower, not needed
         if (version_compare($this->upgrader->version_num, '8.1.0', '<')) {
             return true;
