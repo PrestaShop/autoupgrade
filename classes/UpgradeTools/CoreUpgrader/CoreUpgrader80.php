@@ -61,16 +61,6 @@ class CoreUpgrader80 extends CoreUpgrader
         }
     }
 
-    protected function upgradeDb($oldversion)
-    {
-        parent::upgradeDb($oldversion);
-
-        $commandResult = $this->container->getSymfonyAdapter()->runSchemaUpgradeCommand();
-        if (0 !== $commandResult['exitCode']) {
-            throw (new UpgradeException($this->container->getTranslator()->trans('Error upgrading Doctrine schema', [], 'Modules.Autoupgrade.Admin')))->setQuickInfos(explode("\n", $commandResult['output']));
-        }
-    }
-
     protected function upgradeLanguage($lang)
     {
         $isoCode = $lang['iso_code'];
