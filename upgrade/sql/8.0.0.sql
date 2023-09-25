@@ -192,8 +192,6 @@ ALTER TABLE `PREFIX_product_shop` MODIFY COLUMN `redirect_type` ENUM(
     '404', '410', '301-product', '302-product', '301-category', '302-category'
 ) NOT NULL DEFAULT '404';
 
-ALTER TABLE `PREFIX_tab` ADD route_name VARCHAR(256) DEFAULT NULL;
-
 /* PHP:ps_800_add_security_tab(); */;
 
 ALTER TABLE `PREFIX_order_detail` MODIFY COLUMN `product_name` TEXT NOT NULL;
@@ -235,3 +233,8 @@ UPDATE `PREFIX_carrier` SET `name` = 'Click and collect' WHERE `name` = '0';
 /* Remove deprecated columns */
 /* PHP:drop_column_if_exists('product_attribute', 'location'); */;
 /* PHP:drop_column_if_exists('product_attribute', 'quantity'); */;
+
+ALTER TABLE `PREFIX_tab` DROP hide_host_mode;
+ALTER TABLE `PREFIX_feature_flag`
+    CHANGE  label_wording label_wording VARCHAR(512) DEFAULT '' NOT NULL,
+    CHANGE description_wording description_wording VARCHAR(512) DEFAULT '' NOT NULL;
