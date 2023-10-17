@@ -247,7 +247,7 @@ class ZipAction
     private function open($zipFile, $flags = null)
     {
         $zip = new \ZipArchive();
-        if ($zip->open($zipFile, $flags) !== true || empty($zip->filename)) {
+        if ($zip->open($zipFile, $flags ?? 0) !== true || empty($zip->filename)) {
             $this->logger->error($this->translator->trans('Unable to open zipFile %s', [$zipFile], 'Modules.Autoupgrade.Admin'));
 
             return false;
