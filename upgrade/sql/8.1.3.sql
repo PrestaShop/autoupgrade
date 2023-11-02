@@ -1,6 +1,9 @@
 SET SESSION sql_mode='';
 SET NAMES 'utf8mb4';
 
+/* Change the ape field lenght to match all code formats */
+ALTER TABLE `PREFIX_customer` CHANGE `ape` `ape` varchar(6) DEFAULT NULL;
+
 /* We fixed some issues in older upgrade scripts. These are here to fix stores that have been upgraded in the meantime. */
 /* PHP:drop_column_if_exists('product_attribute', 'location'); */;
 /* PHP:drop_column_if_exists('product_attribute', 'quantity'); */;
