@@ -110,8 +110,8 @@ class ZipAction
 
         if (!$zip->close()) {
             $this->logger->error($this->translator->trans(
-                'Could not close the Zip file properly. Check you are allowed to write on the disk and there is available space on it.',
-                [],
+                'Could not close the Zip file: %toFile% properly. Check you are allowed to write on the disk and there is available space on it.',
+                ['%toFile%' => $toFile],
                 'Modules.Autoupgrade.Admin'
             ));
 
