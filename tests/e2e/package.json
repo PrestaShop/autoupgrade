@@ -21,7 +21,7 @@
     "ui-tests"
   ],
   "dependencies": {
-    "axios": "^0.21.2",
+    "axios": "^1.6.0",
     "chai": "^4.2.0",
     "eslint-config-prestashop": "^0.1.0",
     "mocha": "^10.1.0",
