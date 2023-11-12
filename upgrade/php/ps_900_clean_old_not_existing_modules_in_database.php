@@ -55,5 +55,7 @@ function ps_900_clean_old_not_existing_modules_in_database()
         Db::getInstance()->Execute("DELETE FROM `" . _DB_PREFIX_ . "module_preference` WHERE `module` NOT IN (SELECT `name` FROM `" . _DB_PREFIX_ . "module`);");
 
         Db::getInstance()->Execute("DELETE FROM `" . _DB_PREFIX_ . "tab_module_preference` WHERE `module` NOT IN (SELECT `name` FROM `" . _DB_PREFIX_ . "module`);");
+
+        return true;
     }
 }
