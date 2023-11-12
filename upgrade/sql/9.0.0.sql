@@ -13,3 +13,6 @@ ALTER TABLE `PREFIX_feature_flag` ADD `type` VARCHAR(64) DEFAULT 'env,dotenv,db'
 
 /* Increase size of customized data - https://github.com/PrestaShop/PrestaShop/pull/31109 */
 ALTER TABLE `PREFIX_customized_data` MODIFY `value` varchar(1024) NOT NULL;
+
+
+/* PHP:ps_900_delete_obsolete_files_in_root_folder(); */;
