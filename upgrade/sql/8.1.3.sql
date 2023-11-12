@@ -18,3 +18,9 @@ ALTER TABLE `PREFIX_product_group_reduction_cache` CHANGE `reduction` `reduction
 ALTER TABLE `PREFIX_stock_mvt` CHANGE `physical_quantity` `physical_quantity` INT(10) UNSIGNED NOT NULL;
 ALTER TABLE `PREFIX_group_reduction` CHANGE `reduction` `reduction` DECIMAL(5, 4) NOT NULL;
 ALTER TABLE `PREFIX_order_payment` CHANGE `amount` `amount` DECIMAL(20, 6) NOT NULL;
+
+/* Minimal_quantity should be 1 at least, not 0 */
+UPDATE `PREFIX_product` SET `minimal_quantity` = 1 WHERE `minimal_quantity` = 0;
+UPDATE `PREFIX_product_shop` SET `minimal_quantity` = 1 WHERE `minimal_quantity` = 0;
+UPDATE `PREFIX_product_attribute` SET `minimal_quantity` = 1 WHERE `minimal_quantity` = 0;
+UPDATE `PREFIX_product_attribute_shop` SET `minimal_quantity` = 1 WHERE `minimal_quantity` = 0;
