@@ -28,7 +28,7 @@ function ps_900_delete_obsolete_files_in_root_folder()
     $obsolete_files = ['footer.php', 'header.php', 'images.inc.php'];
     foreach ($obsolete_files as $file) {
         $full_path_to_file = _PS_ROOT_DIR_ . '/' . $file;
-        if (file_exists($full_path_to_file) && preg_match("/displayAsDeprecated/", file_get_contents($full_path_to_file))) {
+        if (file_exists($full_path_to_file) && preg_match("/AsDeprecated\(\);/", file_get_contents($full_path_to_file))) {
             unlink($full_path_to_file);
         }
     }
