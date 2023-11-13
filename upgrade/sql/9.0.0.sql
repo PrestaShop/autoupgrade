@@ -14,5 +14,6 @@ ALTER TABLE `PREFIX_feature_flag` ADD `type` VARCHAR(64) DEFAULT 'env,dotenv,db'
 /* Increase size of customized data - https://github.com/PrestaShop/PrestaShop/pull/31109 */
 ALTER TABLE `PREFIX_customized_data` MODIFY `value` varchar(1024) NOT NULL;
 
-DELETE FROM `PREFIX_cart` WHERE id_address_delivery > 0 && id_address_delivery NOT IN (SELECT id_address FROM `PREFIX_address`);
-DELETE FROM `PREFIX_cart` WHERE id_address_invoice > 0 && id_address_invoice NOT IN (SELECT id_address FROM `PREFIX_address`);
+DELETE FROM `PREFIX_cart` WHERE `id_address_delivery` > 0 && id_address_delivery` NOT IN (SELECT `id_address` FROM `PREFIX_address`);
+DELETE FROM `PREFIX_cart` WHERE `id_address_invoice` > 0 && `id_address_invoice` NOT IN (SELECT `id_address` FROM `PREFIX_address`);
+DELETE FROM `PREFIX_cart_product` WHERE `id_cart` NOT IN (SELECT `id_cart` FROM `PREFIX_cart`);
