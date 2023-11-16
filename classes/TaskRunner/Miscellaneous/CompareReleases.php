@@ -31,7 +31,7 @@ use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 
 /**
- * get the list of all modified and deleted files between current version
+ * This class gets the list of all modified and deleted files between current version
  * and target version (according to channel configuration).
  */
 class CompareReleases extends AbstractTask
@@ -61,6 +61,8 @@ class CompareReleases extends AbstractTask
                 $version = $upgrader->version_num;
         }
 
+        // Get list of differences between these two versions. The differences will be fetched from a local
+        // XML file if it exists, or from PrestaShop API.
         $diffFileList = $upgrader->getDiffFilesList(_PS_VERSION_, $version);
         if (!is_array($diffFileList)) {
             $this->nextParams['status'] = 'error';
