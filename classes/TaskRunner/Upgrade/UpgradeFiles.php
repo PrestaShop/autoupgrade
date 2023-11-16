@@ -276,7 +276,7 @@ class UpgradeFiles extends AbstractTask
                     // Please make sure that the condition to check if the string starts with /admin stays here, because it was replacing
                     // admin even in the middle of a path, not deleting some files as a result.
                     // Also, do not use DIRECTORY_SEPARATOR, keep forward slash, because the path come from the XML standardized.
-                    $list_files_diff[$k] = str_replace('/' . 'admin', '/' . $admin_dir, $path);
+                    $list_files_diff[$k] = '/' . $admin_dir . substr($path, 6);
                 }
             }
         }
