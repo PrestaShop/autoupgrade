@@ -50,7 +50,7 @@ function ps_1750_update_module_tabs()
     }
 
     // STEP 2: Rename module tabs (Notifications as Alerts, Module selection as Module Catalog, Module Catalog as Module Selections)
-    include_once 'clean_tabs_15.php';
+    include_once 'rename_tab.php';
     $adminModulesNotificationsTabId = Db::getInstance()->getValue(
         'SELECT id_tab FROM ' . _DB_PREFIX_ . 'tab WHERE class_name = "AdminModulesNotifications"'
     );

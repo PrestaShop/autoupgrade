@@ -30,7 +30,7 @@
 function ps_1751_update_module_sf_tab()
 {
     // Rename parent module tab (= Module manager)
-    include_once 'clean_tabs_15.php';
+    include_once 'rename_tab.php';
     $adminModulesParentTabId = Db::getInstance()->getValue(
         'SELECT id_tab FROM ' . _DB_PREFIX_ . 'tab WHERE class_name = "AdminModulesSf"'
     );

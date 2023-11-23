@@ -23,15 +23,16 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
-function ps1600_add_missing_index()
+function renameTab($id_tab, $names)
 {
-    $key_exists = Db::getInstance()->executeS('
-	SHOW INDEX
-	FROM `' . _DB_PREFIX_ . 'connections`
-	WHERE Key_name = "id_guest"');
-    if (!$key_exists) {
-        Db::getInstance()->execute('ALTER TABLE `' . _DB_PREFIX_ . 'connections` ADD INDEX (`id_guest`)');
+    if (!$id_tab) {
+        return;
     }
+    $langues = Db::getInstance()->executeS('SELECT * FROM ' . _DB_PREFIX_ . 'lang');
 
-    return true;
+    foreach ($langues as $lang) {
+        if (array_key_exists($lang['iso_code'], $names)) {
+            Db::getInstance()->update('tab_lang', ['name' => $names[$lang['iso_code']]], '`id_tab`= ' . $id_tab . ' AND `id_lang` =' . $lang['id_lang']);
+        }
+    }
 }

@@ -242,9 +242,7 @@ class ModuleAdapter
             unlink($zip_fullpath);
         }
 
-        // Only 1.7 step
-        if (version_compare($this->upgradeVersion, '1.7.0.0', '>=')
-            && !$this->doUpgradeModule($name)) {
+        if (!$this->doUpgradeModule($name)) {
             throw (new UpgradeException('<strong>' . $this->translator->trans('[WARNING] Error when trying to upgrade module %s.', [$name], 'Modules.Autoupgrade.Admin') . '</strong>'))->setSeverity(UpgradeException::SEVERITY_WARNING)->setQuickInfos(\Module::getInstanceByName($name)->getErrors());
         }
     }
