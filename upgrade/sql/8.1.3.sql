@@ -24,3 +24,8 @@ UPDATE `PREFIX_product` SET `minimal_quantity` = 1 WHERE `minimal_quantity` = 0;
 UPDATE `PREFIX_product_shop` SET `minimal_quantity` = 1 WHERE `minimal_quantity` = 0;
 UPDATE `PREFIX_product_attribute` SET `minimal_quantity` = 1 WHERE `minimal_quantity` = 0;
 UPDATE `PREFIX_product_attribute_shop` SET `minimal_quantity` = 1 WHERE `minimal_quantity` = 0;
+
+/* Normalize some older database records that should not be NULL, prevents errors in new code. */
+/* Mainly concerns people coming all the way from 1.6, but will fix many inconsitencies. */
+
+/* PHP:update_null_values(); */;
