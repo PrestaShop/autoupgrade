@@ -119,7 +119,7 @@ class UpgradeFiles extends AbstractTask
                 continue;
             }
             $list[] = str_replace($this->container->getProperty(UpgradeContainer::LATEST_PATH), '', $fullPath);
-            if (is_dir($fullPath) && strpos($dir . DIRECTORY_SEPARATOR . $file, 'install') === false) {
+            if (is_dir($fullPath)) {
                 $list = array_merge($list, $this->listFilesToUpgrade($fullPath));
             }
         }
