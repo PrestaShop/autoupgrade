@@ -51,9 +51,9 @@
         <br>
         <p>
             {% if showUpgradeButton %}
-            <a class="button button-autoupgrade btn btn-default" href="index.php?tab=AdminSelfUpgrade&amp;token={{ token }}&amp;refreshCurrentVersion=1">{{ 'Refresh the page'|trans({}, 'Modules.Autoupgrade.Admin') }}</a> -
+            <a class="button button-autoupgrade btn btn-default" href="index.php?controller=AdminSelfUpgrade&amp;token={{ token }}&amp;refreshCurrentVersion=1">{{ 'Refresh the page'|trans({}, 'Modules.Autoupgrade.Admin') }}</a> -
             {% else %}
-            <a class="button button-autoupgrade btn btn-primary" href="index.php?tab=AdminSelfUpgrade&amp;token={{ token }}&amp;refreshCurrentVersion=1">{{ 'Check if a new version is available'|trans({}, 'Modules.Autoupgrade.Admin') }}</a> -
+            <a class="button button-autoupgrade btn btn-primary" href="index.php?controller=AdminSelfUpgrade&amp;token={{ token }}&amp;refreshCurrentVersion=1">{{ 'Check if a new version is available'|trans({}, 'Modules.Autoupgrade.Admin') }}</a> -
             {% endif %}
             <span style="font-style: italic; font-size: 11px;">{% if lastVersionCheck %}
                 {{ 'Last check: %s'|trans([lastVersionCheck|date('Y-m-d H:i:s')], 'Modules.Autoupgrade.Admin') }}
