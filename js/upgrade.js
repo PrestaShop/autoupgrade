@@ -201,7 +201,7 @@ $(document).ready(function(){
     // show delete button if the value is not 0
     if (val != 0) {
       $("span#buttonDeleteBackup").html(
-        "<br><a class=\"button confirmBeforeDelete\" href=\"index.php?tab=AdminSelfUpgrade&token="
+        "<br><a class=\"button confirmBeforeDelete\" href=\"index.php?controller=AdminSelfUpgrade&token="
         + input.token
         + "&amp;deletebackup&amp;name="
         + $(this).val()
