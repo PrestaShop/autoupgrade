@@ -84,12 +84,15 @@ abstract class CoreUpgrader
 
     public function doUpgrade()
     {
+        $this->logger->info($this->container->getTranslator()->trans('Initializing required environment constants', [], 'Modules.Autoupgrade.Admin'));
         $this->initConstants();
 
+        $this->logger->info($this->container->getTranslator()->trans('Checking version validity', [], 'Modules.Autoupgrade.Admin'));
         $oldversion = $this->getPreUpgradeVersion();
         $this->checkVersionIsNewer($oldversion);
 
         //check DB access
+        $this->logger->info($this->container->getTranslator()->trans('Checking connection to database', [], 'Modules.Autoupgrade.Admin'));
         error_reporting(E_ALL);
         $resultDB = \Db::checkConnection(_DB_SERVER_, _DB_USER_, _DB_PASSWD_, _DB_NAME_);
         if ($resultDB !== 0) {
@@ -97,23 +100,38 @@ abstract class CoreUpgrader
         }
 
         if ($this->container->getUpgradeConfiguration()->shouldDeactivateCustomModules()) {
+            $this->logger->info($this->container->getTranslator()->trans('Disabling all non native modules', [], 'Modules.Autoupgrade.Admin'));
             $this->disableCustomModules();
+        } else {
+            $this->logger->info($this->container->getTranslator()->trans('Keeping non native modules enabled', [], 'Modules.Autoupgrade.Admin'));
         }
 
+        $this->logger->info($this->container->getTranslator()->trans('Updating database data and structure', [], 'Modules.Autoupgrade.Admin'));
         $this->upgradeDb($oldversion);
 
         // At this point, database upgrade is over.
         // Now we need to add all previous missing settings items, and reset cache and compile directories
         $this->writeNewSettings();
-        $this->runRecurrentQueries();
-        $this->logger->debug($this->container->getTranslator()->trans('Database upgrade OK', [], 'Modules.Autoupgrade.Admin')); // no error!
 
+        $this->logger->info($this->container->getTranslator()->trans('Running generic queries', [], 'Modules.Autoupgrade.Admin'));
+        $this->runRecurrentQueries();
+
+        $this->logger->info($this->container->getTranslator()->trans('Database upgrade OK', [], 'Modules.Autoupgrade.Admin')); // no error!
+
+        $this->logger->info($this->container->getTranslator()->trans('Upgrading languages', [], 'Modules.Autoupgrade.Admin'));
         $this->upgradeLanguages();
+
+        $this->logger->info($this->container->getTranslator()->trans('Regenerating htaccess', [], 'Modules.Autoupgrade.Admin'));
         $this->generateHtaccess();
+
+        $this->logger->info($this->container->getTranslator()->trans('Cleaning XML files', [], 'Modules.Autoupgrade.Admin'));
         $this->cleanXmlFiles();
 
         if (Configuration::get('PS_DISABLE_OVERRIDES')) {
+            $this->logger->info($this->container->getTranslator()->trans('Disabling overrides', [], 'Modules.Autoupgrade.Admin'));
             $this->disableOverrides();
+        } else {
+            $this->logger->info($this->container->getTranslator()->trans('Keeping overrides in place', [], 'Modules.Autoupgrade.Admin'));
         }
 
         $this->updateTheme();
@@ -173,7 +191,6 @@ abstract class CoreUpgrader
         define('SETTINGS_FILE_YML', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/app/config/parameters.yml');
         define('DEFINES_FILE', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/config/defines.inc.php');
         define('INSTALLER__PS_BASE_URI', substr($_SERVER['REQUEST_URI'], 0, -1 * (strlen($_SERVER['REQUEST_URI']) - strrpos($_SERVER['REQUEST_URI'], '/')) - strlen(substr(dirname($_SERVER['REQUEST_URI']), strrpos(dirname($_SERVER['REQUEST_URI']), '/') + 1))));
-        //	define('INSTALLER__PS_BASE_URI_ABSOLUTE', 'http://'.ToolsInstall::getHttpHost(false, true).INSTALLER__PS_BASE_URI);
 
         define('_PS_INSTALL_PATH_', $this->pathToInstallFolder . '/');
         define('_PS_INSTALL_DATA_PATH_', _PS_INSTALL_PATH_ . 'data/');
@@ -651,10 +668,13 @@ abstract class CoreUpgrader
     {
         // The merchant can ask for keeping its current theme.
         if (!$this->container->getUpgradeConfiguration()->shouldSwitchToDefaultTheme()) {
+            $this->logger->info($this->container->getTranslator()->trans('Keeping current theme', [], 'Modules.Autoupgrade.Admin'));
+
             return;
         }
+
         $this->logger->info($this->container->getTranslator()->trans('Switching to default theme.', [], 'Modules.Autoupgrade.Admin'));
-        $themeAdapter = new ThemeAdapter($this->db, $this->destinationUpgradeVersion);
+        $themeAdapter = new ThemeAdapter($this->db);
 
         Cache::clean('*');
 
@@ -669,6 +689,9 @@ abstract class CoreUpgrader
 
     protected function runCoreCacheClean()
     {
-        \Tools::clearCache();
+        $this->logger->info($this->container->getTranslator()->trans('Cleaning file cache', [], 'Modules.Autoupgrade.Admin'));
+        $this->container->getCacheCleaner()->cleanFolders();
+        $this->logger->info($this->container->getTranslator()->trans('Running opcache_reset', [], 'Modules.Autoupgrade.Admin'));
+        $this->container->resetOpcache();
     }
 }

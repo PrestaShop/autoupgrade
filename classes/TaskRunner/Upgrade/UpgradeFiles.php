@@ -38,7 +38,7 @@ class UpgradeFiles extends AbstractTask
 
     public function run()
     {
-        // The first call must init the list of files be upgraded
+        // The first call must init the list of files be upgraded.
         if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::FILES_TO_UPGRADE_LIST)) {
             return $this->warmUp();
         }
@@ -47,6 +47,8 @@ class UpgradeFiles extends AbstractTask
         $this->destUpgradePath = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH);
 
         $this->next = 'upgradeFiles';
+
+        // Now we load the list of files to be upgraded, prepared previously by warmUp method.
         $filesToUpgrade = $this->container->getFileConfigurationStorage()->load(UpgradeFileNames::FILES_TO_UPGRADE_LIST);
         if (!is_array($filesToUpgrade)) {
             $this->next = 'error';
@@ -68,6 +70,8 @@ class UpgradeFiles extends AbstractTask
             }
 
             $file = array_pop($filesToUpgrade);
+
+            // Note - upgrade this file means do whatever is needed for that file to be in the final state, delete included.
             if (!$this->upgradeThisFile($file)) {
                 // put the file back to the begin of the list
                 $this->next = 'error';
@@ -119,7 +123,7 @@ class UpgradeFiles extends AbstractTask
                 continue;
             }
             $list[] = str_replace($this->container->getProperty(UpgradeContainer::LATEST_PATH), '', $fullPath);
-            if (is_dir($fullPath) && strpos($dir . DIRECTORY_SEPARATOR . $file, 'install') === false) {
+            if (is_dir($fullPath)) {
                 $list = array_merge($list, $this->listFilesToUpgrade($fullPath));
             }
         }
@@ -137,9 +141,15 @@ class UpgradeFiles extends AbstractTask
         // translations_custom and mails_custom list are currently not used
         // later, we could handle customization with some kind of diff functions
         // for now, just copy $file in str_replace($this->latestRootDir,_PS_ROOT_DIR_)
+
+        // The path to the file from the upgrade archive
         $orig = $this->container->getProperty(UpgradeContainer::LATEST_PATH) . $file;
+
+        // The path to the file in our prestashop directory
         $dest = $this->destUpgradePath . $file;
 
+        // Skip files that we want to avoid touching. They may be already excluded from the list from before,
+        // but again, as a safety precaution.
         if ($this->container->getFilesystemAdapter()->isFileSkipped($file, $dest, 'upgrade')) {
             $this->logger->debug($this->translator->trans('%s ignored', [$file], 'Modules.Autoupgrade.Admin'));
 
@@ -221,6 +231,7 @@ class UpgradeFiles extends AbstractTask
      */
     protected function warmUp()
     {
+        // Get path to the folder with release we will use to upgrade and check if it's valid
         $newReleasePath = $this->container->getProperty(UpgradeContainer::LATEST_PATH);
         if (!$this->container->getFilesystemAdapter()->isReleaseValid($newReleasePath)) {
             $this->logger->error($this->translator->trans('Could not assert the folder %s contains a valid PrestaShop release, exiting.', [$newReleasePath], 'Modules.Autoupgrade.Admin'));
@@ -230,42 +241,57 @@ class UpgradeFiles extends AbstractTask
             return false;
         }
 
+        // Replace the name of the admin folder inside the release to match our admin folder name
         $admin_dir = str_replace($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . DIRECTORY_SEPARATOR, '', $this->container->getProperty(UpgradeContainer::PS_ADMIN_PATH));
         if (file_exists($newReleasePath . DIRECTORY_SEPARATOR . 'admin')) {
             rename($newReleasePath . DIRECTORY_SEPARATOR . 'admin', $newReleasePath . DIRECTORY_SEPARATOR . $admin_dir);
         } elseif (file_exists($newReleasePath . DIRECTORY_SEPARATOR . 'admin-dev')) {
             rename($newReleasePath . DIRECTORY_SEPARATOR . 'admin-dev', $newReleasePath . DIRECTORY_SEPARATOR . $admin_dir);
         }
+
+        // Rename develop installer directory, it would be ignored anyway because it's present in getFilesToIgnoreOnUpgrade()
         if (file_exists($newReleasePath . DIRECTORY_SEPARATOR . 'install-dev')) {
             rename($newReleasePath . DIRECTORY_SEPARATOR . 'install-dev', $newReleasePath . DIRECTORY_SEPARATOR . 'install');
         }
 
-        // list saved in UpgradeFileNames::toUpgradeFileList
-        // get files differences (previously generated)
-        $admin_dir = trim(str_replace($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH), '', $this->container->getProperty(UpgradeContainer::PS_ADMIN_PATH)), DIRECTORY_SEPARATOR);
+        // Now, we will get the list of changed and removed files between the versions. This was generated previously by
+        // CompareReleases task.
         $filepath_list_diff = $this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . UpgradeFileNames::FILES_DIFF_LIST;
         $list_files_diff = [];
+
+        // We check if that file exists first and load it
         if (file_exists($filepath_list_diff)) {
             $list_files_diff = $this->container->getFileConfigurationStorage()->load(UpgradeFileNames::FILES_DIFF_LIST);
-            // only keep list of files to delete. The modified files will be listed with _listFilesToUpgrade
+            // $list_files_diff now contains an array with a list of changed and deleted files.
+            // We only keep list of files to delete. The modified files will be listed with listFilesToUpgrade below.
             $list_files_diff = $list_files_diff['deleted'];
+
+            // Admin folder name in this deleted files list is standard /admin/.
+            // We will need to change it to our own admin folder name.
+            $admin_dir = trim(str_replace($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH), '', $this->container->getProperty(UpgradeContainer::PS_ADMIN_PATH)), DIRECTORY_SEPARATOR);
             foreach ($list_files_diff as $k => $path) {
                 if (preg_match('#autoupgrade#', $path)) {
                     unset($list_files_diff[$k]);
-                } else {
-                    $list_files_diff[$k] = str_replace('/' . 'admin', '/' . $admin_dir, $path);
+                } elseif (substr($path, 0, 6) === '/admin') {
+                    // Please make sure that the condition to check if the string starts with /admin stays here, because it was replacing
+                    // admin even in the middle of a path, not deleting some files as a result.
+                    // Also, do not use DIRECTORY_SEPARATOR, keep forward slash, because the path come from the XML standardized.
+                    $list_files_diff[$k] = '/' . $admin_dir . substr($path, 6);
                 }
-            } // do not replace by DIRECTORY_SEPARATOR
+            }
         }
 
+        // Now, we get the list of files that are either new or must be modified
         $list_files_to_upgrade = $this->listFilesToUpgrade($newReleasePath);
         if (false === $list_files_to_upgrade) {
             return false;
         }
 
-        // also add files to remove
+        // Add our previously created list of deleted files
         $list_files_to_upgrade = array_reverse(array_merge($list_files_diff, $list_files_to_upgrade));
 
+        // Now, some files should be updated as an absolute last step, if they are present in the list,
+        // we will put them to the end of it.
         $filesToMoveToTheEnd = [
             DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php',
             DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'composer' . DIRECTORY_SEPARATOR . 'ClassLoader.php',
@@ -287,7 +313,8 @@ class UpgradeFiles extends AbstractTask
             }
         }
 
-        // save in a serialized array in UpgradeFileNames::toUpgradeFileList
+        // Save in a serialized array in UpgradeFileNames::toUpgradeFileList, to be later used by the upgrade step itself above,
+        // after run() is called.
         $this->container->getFileConfigurationStorage()->save($list_files_to_upgrade, UpgradeFileNames::FILES_TO_UPGRADE_LIST);
         $total_files_to_upgrade = count($list_files_to_upgrade);
 

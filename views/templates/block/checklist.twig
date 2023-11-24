@@ -189,6 +189,12 @@
                     <td>{{ icons.nok }}</td>
                   </tr>
                 {% endif %}
+                {% if not checkKeyGeneration %}
+                  <tr>
+                    <td>{{ 'Unable to generate private keys using openssl_pkey_new. Check your OpenSSL configuration, especially the path to openssl.cafile.'|trans({}, 'Modules.Autoupgrade.Admin') }}</td>
+                    <td>{{ icons.nok }}</td>
+                  </tr>
+                {% endif %}
                 {% if missingFiles|length > 0 %}
                   <tr>
                     <td>

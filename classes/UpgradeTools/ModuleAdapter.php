@@ -30,6 +30,8 @@ namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\ZipAction;
+use Symfony\Component\Filesystem\Exception\IOException;
+use Symfony\Component\Filesystem\Filesystem;
 
 class ModuleAdapter
 {
@@ -85,7 +87,7 @@ class ModuleAdapter
     /**
      * Available only since 1.7.6.0 Can't be called on PS 1.6.
      *
-     * @return \PrestaShop\PrestaShop\Core\CommandBus\TacticianCommandBusAdapter
+     * @return \PrestaShop\PrestaShop\Core\CommandBus\CommandBusInterface
      */
     public function getCommandBus()
     {
@@ -177,39 +179,56 @@ class ModuleAdapter
      *
      * @param int $id
      * @param string $name
+     * @param bool $isLocalModule
      */
-    public function upgradeModule($id, $name)
+    public function upgradeModule($id, $name, $isLocalModule = false)
     {
         $zip_fullpath = $this->tempPath . DIRECTORY_SEPARATOR . $name . '.zip';
+        $local_module_used = false;
 
-        $addons_url = extension_loaded('openssl')
-            ? 'https://api.addons.prestashop.com'
-            : 'http://api.addons.prestashop.com';
-
-        // Make the request
-        $context = stream_context_create([
-            'http' => [
-                'method' => 'POST',
-                'content' => 'version=' . $this->upgradeVersion . '&method=module&id_module=' . (int) $id,
-                'header' => 'Content-type: application/x-www-form-urlencoded',
-                'timeout' => 10,
-            ],
-        ]);
-
-        // file_get_contents can return false if https is not supported (or warning)
-        $content = Tools14::file_get_contents($addons_url, false, $context);
-        if ($content == false || substr($content, 5) == '<?xml') {
-            return;
+        if ($isLocalModule) {
+            try {
+                $local_module_zip = $this->getLocalModuleZip($name);
+                if (!empty($local_module_zip)) {
+                    $filesystem = new Filesystem();
+                    $filesystem->copy($local_module_zip, $zip_fullpath);
+                    $local_module_used = true;
+                }
+            } catch (IOException $e) {
+                // Do nothing, we will try to upgrade module from addons
+            }
         }
 
-        if (empty($content)) {
-            $msg = '<strong>' . $this->translator->trans('[ERROR] No response from Addons server.', [], 'Modules.Autoupgrade.Admin') . '</strong>';
-            throw new UpgradeException($msg);
-        }
+        if (false === $local_module_used) {
+            $addons_url = extension_loaded('openssl')
+                ? 'https://api.addons.prestashop.com'
+                : 'http://api.addons.prestashop.com';
 
-        if (false === (bool) file_put_contents($zip_fullpath, $content)) {
-            $msg = '<strong>' . $this->translator->trans('[ERROR] Unable to write module %s\'s zip file in temporary directory.', [$name], 'Modules.Autoupgrade.Admin') . '</strong>';
-            throw new UpgradeException($msg);
+            // Make the request
+            $context = stream_context_create([
+                'http' => [
+                    'method' => 'POST',
+                    'content' => 'version=' . $this->upgradeVersion . '&method=module&id_module=' . (int) $id,
+                    'header' => 'Content-type: application/x-www-form-urlencoded',
+                    'timeout' => 10,
+                ],
+            ]);
+
+            // file_get_contents can return false if https is not supported (or warning)
+            $content = Tools14::file_get_contents($addons_url, false, $context);
+            if ($content == false || substr($content, 5) == '<?xml') {
+                return;
+            }
+
+            if (empty($content)) {
+                $msg = '<strong>' . $this->translator->trans('[ERROR] No response from Addons server.', [], 'Modules.Autoupgrade.Admin') . '</strong>';
+                throw new UpgradeException($msg);
+            }
+
+            if (false === (bool) file_put_contents($zip_fullpath, $content)) {
+                $msg = '<strong>' . $this->translator->trans('[ERROR] Unable to write module %s\'s zip file in temporary directory.', [$name], 'Modules.Autoupgrade.Admin') . '</strong>';
+                throw new UpgradeException($msg);
+            }
         }
 
         if (filesize($zip_fullpath) <= 300) {
@@ -223,11 +242,21 @@ class ModuleAdapter
             unlink($zip_fullpath);
         }
 
-        // Only 1.7 step
-        if (version_compare($this->upgradeVersion, '1.7.0.0', '>=')
-            && !$this->doUpgradeModule($name)) {
+        if (!$this->doUpgradeModule($name)) {
             throw (new UpgradeException('<strong>' . $this->translator->trans('[WARNING] Error when trying to upgrade module %s.', [$name], 'Modules.Autoupgrade.Admin') . '</strong>'))->setSeverity(UpgradeException::SEVERITY_WARNING)->setQuickInfos(\Module::getInstanceByName($name)->getErrors());
         }
+    }
+
+    private function getLocalModuleZip($name)
+    {
+        $autoupgrade_dir = _PS_ADMIN_DIR_ . DIRECTORY_SEPARATOR . 'autoupgrade';
+        $module_zip = $autoupgrade_dir . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $name . '.zip';
+
+        if (file_exists($module_zip) && is_readable($module_zip)) {
+            return $module_zip;
+        }
+
+        return null;
     }
 
     /**

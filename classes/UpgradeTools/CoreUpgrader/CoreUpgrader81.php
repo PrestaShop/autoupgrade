@@ -55,20 +55,26 @@ class CoreUpgrader81 extends CoreUpgrader80
         $parametersPath = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/app/config/parameters.php';
         $parameters = require $parametersPath;
         if (!isset($parameters['parameters']['api_public_key']) || isset($parameters['parameters']['api_private_key'])) {
+            $this->logger->debug($this->container->getTranslator()->trans('API keys not present in parameters, generating', [], 'Modules.Autoupgrade.Admin'));
             $privateKey = openssl_pkey_new([
                 'private_key_bits' => 2048,
                 'private_key_type' => OPENSSL_KEYTYPE_RSA,
             ]);
+
+            $this->logger->debug($this->container->getTranslator()->trans('Keys generated using openssl_pkey_new, exporting private and public keys', [], 'Modules.Autoupgrade.Admin'));
             openssl_pkey_export($privateKey, $apiPrivateKey);
             $apiPublicKey = openssl_pkey_get_details($privateKey)['key'];
             $parameters['parameters']['api_public_key'] = $apiPublicKey;
             $parameters['parameters']['api_private_key'] = $apiPrivateKey;
 
             $parametersContent = sprintf('<?php return %s;', var_export($parameters, true));
+            $this->logger->debug($this->container->getTranslator()->trans('Updating parameters file', [], 'Modules.Autoupgrade.Admin'));
             if (!file_put_contents($parametersPath, $parametersContent)) {
                 throw new UpgradeException($this->container->getTranslator()->trans('Unable to migrate parameters', [], 'Modules.Autoupgrade.Admin'));
             }
+
             if (function_exists('opcache_invalidate')) {
+                $this->logger->debug($this->container->getTranslator()->trans('Invalidating opcache for parameters file', [], 'Modules.Autoupgrade.Admin'));
                 opcache_invalidate($parametersPath);
             }
             $this->logger->debug($this->container->getTranslator()->trans('Parameters file updated', [], 'Modules.Autoupgrade.Admin'));

@@ -54,6 +54,7 @@ if (typeof input === 'undefined') {
       moreOptions: "More options (Expert mode)",
       filesWillBeDeleted: "These files will be deleted",
       filesWillBeReplaced: "These files will be replaced",
+      noXmlSelected: "No XML file has been selected.",
     }
   };
 }
@@ -200,7 +201,7 @@ $(document).ready(function(){
     // show delete button if the value is not 0
     if (val != 0) {
       $("span#buttonDeleteBackup").html(
-        "<br><a class=\"button confirmBeforeDelete\" href=\"index.php?tab=AdminSelfUpgrade&token="
+        "<br><a class=\"button confirmBeforeDelete\" href=\"index.php?controller=AdminSelfUpgrade&token="
         + input.token
         + "&amp;deletebackup&amp;name="
         + $(this).val()
@@ -771,7 +772,7 @@ $(document).ready(function() {
     var params = {};
     var $newChannel = $("select[name=channel] option:selected").val();
     var $oldChannel = $("select[name=channel] option.current").val();
-    var versionNumberRegex = /^8\.\d+\.\d+$|^1\.(6|7)\.\d+\.\d+$/;
+    var versionNumberRegex = /^\d+(.\d+){2,3}$/;
 
     $oldChannel = "";
 
@@ -810,6 +811,10 @@ $(document).ready(function() {
         }
         if (archive_prestashop == "") {
           showConfigResult(input.translation.noArchiveSelected, "error");
+          return false;
+        }
+        if (archive_xml == "") {
+          showConfigResult(input.translation.noXmlSelected, "error");
           return false;
         }
         params.channel = "archive";

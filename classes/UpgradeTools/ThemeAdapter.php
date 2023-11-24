@@ -30,26 +30,10 @@ namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 class ThemeAdapter
 {
     private $db;
-    private $upgradeVersion;
 
-    public function __construct($db, $upgradeVersion)
+    public function __construct($db)
     {
         $this->db = $db;
-        $this->upgradeVersion = $upgradeVersion;
-    }
-
-    /**
-     * Enable the given theme on the shop.
-     *
-     * @param string $themeName
-     *
-     * @return mixed
-     */
-    public function enableTheme($themeName)
-    {
-        return version_compare($this->upgradeVersion, '1.7.0.0', '>=') ?
-            $this->enableTheme17($themeName) :
-            $this->enableTheme16($themeName);
     }
 
     /**
@@ -59,9 +43,7 @@ class ThemeAdapter
      */
     public function getDefaultTheme()
     {
-        return version_compare($this->upgradeVersion, '1.7.0.0', '>=') ?
-            'classic' : // 1.7
-            'default-bootstrap'; // 1.6
+        return 'classic';
     }
 
     /**
@@ -86,35 +68,27 @@ class ThemeAdapter
     }
 
     /**
-     * Backward compatibility function for theme enabling.
-     *
-     * @param string $themeName
-     */
-    private function enableTheme16($themeName)
-    {
-        $this->db->execute('UPDATE `' . _DB_PREFIX_ . 'shop`
-        SET id_theme = (SELECT id_theme FROM `' . _DB_PREFIX_ . 'theme` WHERE name LIKE \'' . $themeName . '\')');
-        $this->db->execute('DELETE FROM `' . _DB_PREFIX_ . 'theme` WHERE  name LIKE \'default\' OR name LIKE \'prestashop\'');
-
-        return true;
-    }
-
-    /**
-     * Use 1.7 theme manager is order to enable the new theme.
+     * Use theme manager is order to enable the new theme.
      *
      * @param string $themeName
      *
-     * @return bool|array
+     * @return bool|string True on success, string with errors on failure
      */
-    private function enableTheme17($themeName)
+    public function enableTheme($themeName)
     {
+        // Load up core theme manager
         $themeManager = $this->getThemeManager();
 
+        // Enable the theme
         $isThemeEnabled = $themeManager->enable($themeName);
         if (!$isThemeEnabled) {
+            // Something went wrong... let's check if we have some more info
             $errors = $themeManager->getErrors($themeName);
+            if (is_array($errors) && !empty($errors)) {
+                return implode(',', $errors);
+            }
 
-            return $errors ? $errors : 'Unknown error';
+            return 'Unknown error';
         }
 
         return true;

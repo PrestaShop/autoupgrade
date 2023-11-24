@@ -145,6 +145,10 @@ class FileFilter
             '/app/config/parameters.yml',
             '/install',
             '/install-dev',
+            '/override',
+            '/override/classes',
+            '/override/controllers',
+            '/override/modules',
         ];
 
         // Fetch all existing native modules
@@ -166,7 +170,6 @@ class FileFilter
         // If set to false, we need to preserve the default themes
         if (!$this->configuration->shouldUpdateDefaultTheme()) {
             $this->excludeAbsoluteFilesFromUpgrade[] = '/themes/classic';
-            $this->excludeAbsoluteFilesFromUpgrade[] = '/themes/default-bootstrap';
         }
 
         return $this->excludeAbsoluteFilesFromUpgrade;

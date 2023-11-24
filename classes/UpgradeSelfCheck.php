@@ -363,6 +363,7 @@ class UpgradeSelfCheck
             && $this->isModuleVersionLatest()
             && $this->isPhpVersionCompatible()
             && $this->isApacheModRewriteEnabled()
+            && $this->checkKeyGeneration()
             && $this->getNotLoadedPhpExtensions() === []
             && $this->isMemoryLimitValid()
             && $this->isPhpFileUploadsConfigurationEnabled()
@@ -521,6 +522,32 @@ class UpgradeSelfCheck
     }
 
     /**
+     * @return bool
+     */
+    public function checkKeyGeneration()
+    {
+        if ($this->upgrader->version_num === null) {
+            return true;
+        }
+
+        // Check if key is needed on the version we are upgrading to, if lower, not needed
+        if (version_compare($this->upgrader->version_num, '8.1.0', '<')) {
+            return true;
+        }
+
+        $privateKey = openssl_pkey_new([
+            'private_key_bits' => 2048,
+            'private_key_type' => OPENSSL_KEYTYPE_RSA,
+        ]);
+
+        if ($privateKey === false) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * @return array<string>
      */
     public function getNotLoadedPhpExtensions()
@@ -591,11 +618,7 @@ class UpgradeSelfCheck
      */
     public function isPhpSessionsValid()
     {
-        if (!class_exists(ConfigurationTest::class)) {
-            return true;
-        }
-
-        return ConfigurationTest::test_sessions();
+        return in_array(session_status(), [PHP_SESSION_ACTIVE, PHP_SESSION_NONE], true);
     }
 
     /**

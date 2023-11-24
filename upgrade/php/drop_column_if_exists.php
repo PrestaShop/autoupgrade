@@ -23,30 +23,11 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
-
-/**
- * Preset enabled new column in tabs to true for all (except for disabled modules)
- */
-function ps_1770_preset_tab_enabled()
+function drop_column_if_exists($table, $column)
 {
-    //First set all tabs enabled
-    $result = Db::getInstance()->execute(
-        'UPDATE `' . _DB_PREFIX_ . 'tab` SET `enabled` = 1'
-    );
+    $column_exists = Db::getInstance()->executeS('SHOW COLUMNS FROM `' . _DB_PREFIX_ . $table . "` WHERE Field = '" . $column . "'");
 
-    //Then search for inactive modules and disable their tabs
-    $inactiveModules = Db::getInstance()->executeS(
-        'SELECT `name` FROM `' . _DB_PREFIX_ . 'module` WHERE `active` != 1'
-    );
-    $moduleNames = [];
-    foreach ($inactiveModules as $inactiveModule) {
-        $moduleNames[] = '"' . $inactiveModule['name'] . '"';
+    if (!empty($column_exists)) {
+        Db::getInstance()->execute('ALTER TABLE `' . _DB_PREFIX_ . $table . '` DROP COLUMN `' . $column . '`');
     }
-    if (count($moduleNames) > 0) {
-        $result &= Db::getInstance()->execute(
-            'UPDATE `' . _DB_PREFIX_ . 'tab` SET `enabled` = 0 WHERE `module` IN (' . implode(',', $moduleNames) . ')'
-        );
-    }
-
-    return $result;
 }

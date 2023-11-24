@@ -51,9 +51,9 @@
         <br>
         <p>
             {% if showUpgradeButton %}
-            <a class="button button-autoupgrade btn btn-default" href="index.php?tab=AdminSelfUpgrade&amp;token={{ token }}&amp;refreshCurrentVersion=1">{{ 'Refresh the page'|trans({}, 'Modules.Autoupgrade.Admin') }}</a> -
+            <a class="button button-autoupgrade btn btn-default" href="index.php?controller=AdminSelfUpgrade&amp;token={{ token }}&amp;refreshCurrentVersion=1">{{ 'Refresh the page'|trans({}, 'Modules.Autoupgrade.Admin') }}</a> -
             {% else %}
-            <a class="button button-autoupgrade btn btn-primary" href="index.php?tab=AdminSelfUpgrade&amp;token={{ token }}&amp;refreshCurrentVersion=1">{{ 'Check if a new version is available'|trans({}, 'Modules.Autoupgrade.Admin') }}</a> -
+            <a class="button button-autoupgrade btn btn-primary" href="index.php?controller=AdminSelfUpgrade&amp;token={{ token }}&amp;refreshCurrentVersion=1">{{ 'Check if a new version is available'|trans({}, 'Modules.Autoupgrade.Admin') }}</a> -
             {% endif %}
             <span style="font-style: italic; font-size: 11px;">{% if lastVersionCheck %}
                 {{ 'Last check: %s'|trans([lastVersionCheck|date('Y-m-d H:i:s')], 'Modules.Autoupgrade.Admin') }}
@@ -93,10 +93,10 @@
                     {{ channelInfoBlock|raw }}
                     <div id="for-usePrivate">
                         <p><label for="private_release_link">{{ 'Link:'|trans({}, 'Modules.Autoupgrade.Admin') }} *</label>
-                            <input type="text" size="50" id="private_release_link" name="private_release_link" value="{{ privateChannel.releaseLink }}">
+                            <input type="text" size="50" id="private_release_link" name="private_release_link" value="{{ privateChannel.releaseLink }}" required>
                         </p>
                         <p><label for="private_release_md5">{{ 'Hash key:'|trans({}, 'Modules.Autoupgrade.Admin') }} *</label>
-                            <input type="text" size="32" id="private_release_md5" name="private_release_md5" value="{{ privateChannel.releaseMd5 }}">
+                            <input type="text" size="32" id="private_release_md5" name="private_release_md5" value="{{ privateChannel.releaseMd5 }}" required>
                         </p>
                         <p><label for="private_allow_major">{{ 'Allow major upgrade:'|trans({}, 'Modules.Autoupgrade.Admin') }}</label>
                             <input type="checkbox" id="private_allow_major" name="private_allow_major" value="1"{% if privateChannel.allowMajor %} checked{% endif %}>
@@ -104,9 +104,9 @@
                     </div>
                     <div id="for-useArchive">
                         {% if archiveFiles is not empty %}
-                            <label for="archive_prestashop">{{ 'Archive to use:'|trans({}, 'Modules.Autoupgrade.Admin') }}</label>
+                            <label for="archive_prestashop">{{ 'Archive to use:'|trans({}, 'Modules.Autoupgrade.Admin') }} *</label>
                             <div>
-                                <select id="archive_prestashop" name="archive_prestashop">
+                                <select id="archive_prestashop" name="archive_prestashop" required>
                                     <option value="">{{ 'Choose an archive'|trans({}, 'Modules.Autoupgrade.Admin') }}</option>
                                     {% for file in archiveFiles %}
                                         {% set fileName = file|replace({(downloadPath): ''}) %}
@@ -115,10 +115,10 @@
                                 </select>
                                 <br>
                                 <label for="archive_num">{{ 'Number of the version you want to upgrade to:'|trans({}, 'Modules.Autoupgrade.Admin') }} * </label>
-                                <input type="text" size="10" id="archive_num" name="archive_num" value="{{ archiveVersionNumber }}" placeholder="1.7.0.1" />
+                                <input type="text" size="10" id="archive_num" name="archive_num" value="{{ archiveVersionNumber }}" placeholder="1.7.0.1" required />
                                 <br>
-                                <label for="archive_xml">{{ 'XML file to use:'|trans({}, 'Modules.Autoupgrade.Admin') }}</label>
-                                <select id="archive_xml" name="archive_xml">
+                                <label for="archive_xml">{{ 'XML file to use:'|trans({}, 'Modules.Autoupgrade.Admin') }} *</label>
+                                <select id="archive_xml" name="archive_xml" required>
                                     <option value="">{{ 'Choose an XML file'|trans({}, 'Modules.Autoupgrade.Admin') }}</option>
                                     {% for file in xmlFiles %}
                                         {% set fileName = file|replace({(downloadPath): ''}) %}

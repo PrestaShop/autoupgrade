@@ -16,12 +16,12 @@ jobs:
     runs-on: ubuntu-18.04
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3.1.0
 
       - name: Setup Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 16
 
       - name: Install dependencies
         shell: bash
@@ -32,7 +32,7 @@ jobs:
         shell: bash
         run: echo "::set-output name=TARGET_VERSIONS::$(node ./scripts/getTargetVersions.js)"
         env:
-          API_URL: https://api-nightly.prestashop.com/reports
+          API_URL: https://api-nightly.prestashop-project.org/reports
         working-directory: ./tests/e2e
 
     outputs:
@@ -61,7 +61,7 @@ jobs:
     steps:
 
       # Setup PrestaShop and Install Autoupgrade module
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3.1.0
 
       - run: |
           cp -r .github .github_dev
@@ -94,9 +94,9 @@ jobs:
 
       # Install Module with user interface
       - name: Setup Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 16
 
       - name: Install dependencies
         run: npm install
@@ -162,7 +162,7 @@ jobs:
       fail-fast: false
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3.1.0
 
       - uses: actions/download-artifact@v2
         name: Download reports
@@ -173,7 +173,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
-          node-version: 12
+          node-version: 16
 
       - name: Install dependencies
         shell: bash
@@ -206,7 +206,7 @@ jobs:
       fail-fast: false
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3.1.0
 
       - uses: actions/download-artifact@v2
         name: Download report
@@ -228,6 +228,6 @@ jobs:
           cp ${{ env.reports_directory }}/${{ env.combined_report_name }} $FILENAME
           ./.github/workflows/nightly_scripts/push_results.sh ${{ env.nightly_api_url }} $FILENAME ${{ env.campaign }} ${{ env.platform }} ${{ secrets.QANB_TOKEN }}
         env:
-          nightly_api_url: https://api-nightly.prestashop.com/hook/reports/import
+          nightly_api_url: https://api-nightly.prestashop-project.org/hook/reports/import
           campaign: autoupgrade
           platform: chromium

@@ -38,10 +38,27 @@ class CoreUpgrader80 extends CoreUpgrader
 {
     protected function initConstants()
     {
+        $this->forceRemovingFiles();
         parent::initConstants();
 
         // Container may be needed to run upgrade scripts
         $this->container->getSymfonyAdapter()->initAppKernel();
+    }
+
+    /**
+     * Force remove files if they aren't removed properly after files upgrade.
+     */
+    protected function forceRemovingFiles()
+    {
+        $filesToForceRemove = [
+            '/src/PrestaShopBundle/Resources/config/services/adapter/news.yml',
+        ];
+
+        foreach ($filesToForceRemove as $file) {
+            if (file_exists(_PS_ROOT_DIR_ . $file)) {
+                unlink(_PS_ROOT_DIR_ . $file);
+            }
+        }
     }
 
     protected function upgradeDb($oldversion)
@@ -59,18 +76,23 @@ class CoreUpgrader80 extends CoreUpgrader
         $isoCode = $lang['iso_code'];
 
         if (!\Validate::isLangIsoCode($isoCode)) {
+            $this->logger->debug($this->container->getTranslator()->trans('%lang% is not a valid iso code, skipping', ['%lang%' => $isoCode], 'Modules.Autoupgrade.Admin'));
+
             return;
         }
         $errorsLanguage = [];
 
+        $this->logger->debug($this->container->getTranslator()->trans('Downloading language pack for %lang%', ['%lang%' => $isoCode], 'Modules.Autoupgrade.Admin'));
         if (!\Language::downloadLanguagePack($isoCode, _PS_VERSION_, $errorsLanguage)) {
             throw new UpgradeException($this->container->getTranslator()->trans('Download of the language pack %lang% failed. %details%', ['%lang%' => $isoCode, '%details%' => implode('; ', $errorsLanguage)], 'Modules.Autoupgrade.Admin'));
         }
 
+        $this->logger->debug($this->container->getTranslator()->trans('Installing %lang% language pack', ['%lang%' => $isoCode], 'Modules.Autoupgrade.Admin'));
         $lang_pack = \Language::getLangDetails($isoCode);
         \Language::installSfLanguagePack($lang_pack['locale'], $errorsLanguage);
 
         if (!$this->container->getUpgradeConfiguration()->shouldKeepMails()) {
+            $this->logger->debug($this->container->getTranslator()->trans('Generating mail templates for %lang%', ['%lang%' => $isoCode], 'Modules.Autoupgrade.Admin'));
             $mailTheme = \Configuration::get('PS_MAIL_THEME', null, null, null, 'modern');
 
             $frontTheme = _THEME_NAME_;
