@@ -16,12 +16,12 @@ jobs:
     runs-on: ubuntu-18.04
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3.1.0
 
       - name: Setup Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 16
 
       - name: Install dependencies
         shell: bash
@@ -61,7 +61,7 @@ jobs:
     steps:
 
       # Setup PrestaShop and Install Autoupgrade module
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3.1.0
 
       - run: |
           cp -r .github .github_dev
@@ -94,9 +94,9 @@ jobs:
 
       # Install Module with user interface
       - name: Setup Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 16
 
       - name: Install dependencies
         run: npm install
@@ -162,7 +162,7 @@ jobs:
       fail-fast: false
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3.1.0
 
       - uses: actions/download-artifact@v2
         name: Download reports
@@ -173,7 +173,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
-          node-version: 12
+          node-version: 16
 
       - name: Install dependencies
         shell: bash
@@ -206,7 +206,7 @@ jobs:
       fail-fast: false
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3.1.0
 
       - uses: actions/download-artifact@v2
         name: Download report
