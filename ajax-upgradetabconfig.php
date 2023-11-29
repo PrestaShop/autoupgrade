@@ -63,7 +63,6 @@ function autoupgrade_init_container($callerFilePath)
     }
 
     define('AUTOUPGRADE_MODULE_DIR', _PS_MODULE_DIR_ . 'autoupgrade' . DIRECTORY_SEPARATOR);
-    require_once AUTOUPGRADE_MODULE_DIR . 'functions.php';
     require_once AUTOUPGRADE_MODULE_DIR . 'vendor/autoload.php';
 
     $dir = Tools14::safeOutput(Tools14::getValue('dir'));
