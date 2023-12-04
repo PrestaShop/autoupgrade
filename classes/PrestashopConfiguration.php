@@ -76,6 +76,7 @@ class PrestashopConfiguration
             $this->psRootDir . '/config/settings.inc.php',
             $this->psRootDir . '/config/autoload.php',
             $this->psRootDir . '/app/AppKernel.php',
+            $this->psRootDir . '/src/Core/Version.php',
         ];
         foreach ($files as $file) {
             if (!file_exists($file)) {
