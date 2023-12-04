@@ -25,7 +25,7 @@
  */
 function ps_900_clean_old_not_existing_modules_in_database()
 {
-    $modules = Db::getInstance()->ExecuteS("SELECT `name` FROM `" . _DB_PREFIX_ . "module` ORDER BY `name` ASC;");
+    $modules = Db::getInstance()->ExecuteS('SELECT `name` FROM `' . _DB_PREFIX_ . 'module` ORDER BY `name` ASC;');
 
     if ($modules) {
         foreach ($modules as $m) {
@@ -35,25 +35,25 @@ function ps_900_clean_old_not_existing_modules_in_database()
             }
         }
 
-  	    Db::getInstance()->Execute('DELETE FROM `' . _DB_PREFIX_ . 'hook_module` WHERE `id_module` NOT IN (SELECT `id_module` FROM `' . _DB_PREFIX_ . 'module`);');
+    Db::getInstance()->Execute('DELETE FROM `' . _DB_PREFIX_ . 'hook_module` WHERE `id_module` NOT IN (SELECT `id_module` FROM `' . _DB_PREFIX_ . 'module`);');
 
-        Db::getInstance()->Execute('DELETE FROM `' . _DB_PREFIX_ . 'hook_module_exceptions` WHERE `id_module` NOT IN (SELECT `id_module` FROM `' . _DB_PREFIX_ . 'module`);');
+    Db::getInstance()->Execute('DELETE FROM `' . _DB_PREFIX_ . 'hook_module_exceptions` WHERE `id_module` NOT IN (SELECT `id_module` FROM `' . _DB_PREFIX_ . 'module`);');
 
-        Db::getInstance()->Execute('DELETE FROM `' . _DB_PREFIX_ . 'module_carrier` WHERE `id_module` NOT IN (SELECT `id_module` FROM `' . _DB_PREFIX_ . 'module`);');
+    Db::getInstance()->Execute('DELETE FROM `' . _DB_PREFIX_ . 'module_carrier` WHERE `id_module` NOT IN (SELECT `id_module` FROM `' . _DB_PREFIX_ . 'module`);');
 
-        Db::getInstance()->Execute('DELETE FROM `' . _DB_PREFIX_ . 'module_country` WHERE `id_module` NOT IN (SELECT `id_module` FROM `' . _DB_PREFIX_ . 'module`);');
+    Db::getInstance()->Execute('DELETE FROM `' . _DB_PREFIX_ . 'module_country` WHERE `id_module` NOT IN (SELECT `id_module` FROM `' . _DB_PREFIX_ . 'module`);');
 
-        Db::getInstance()->Execute('DELETE FROM `' . _DB_PREFIX_ . 'module_currency` WHERE `id_module` NOT IN (SELECT `id_module` FROM `' . _DB_PREFIX_ . 'module`);');
+    Db::getInstance()->Execute('DELETE FROM `' . _DB_PREFIX_ . 'module_currency` WHERE `id_module` NOT IN (SELECT `id_module` FROM `' . _DB_PREFIX_ . 'module`);');
 
-        Db::getInstance()->Execute('DELETE FROM `' . _DB_PREFIX_ . 'module_group` WHERE `id_module` NOT IN (SELECT `id_module` FROM `' . _DB_PREFIX_ . 'module`);');
+    Db::getInstance()->Execute('DELETE FROM `' . _DB_PREFIX_ . 'module_group` WHERE `id_module` NOT IN (SELECT `id_module` FROM `' . _DB_PREFIX_ . 'module`);');
 
-        Db::getInstance()->Execute('DELETE FROM `' . _DB_PREFIX_ . 'module_history` WHERE `id_module` NOT IN (SELECT `id_module` FROM `' . _DB_PREFIX_ . 'module`);');
+    Db::getInstance()->Execute('DELETE FROM `' . _DB_PREFIX_ . 'module_history` WHERE `id_module` NOT IN (SELECT `id_module` FROM `' . _DB_PREFIX_ . 'module`);');
 
-        Db::getInstance()->Execute('DELETE FROM `' . _DB_PREFIX_ . 'module_shop` WHERE `id_module` NOT IN (SELECT `id_module` FROM `' . _DB_PREFIX_ . 'module`);');
+    Db::getInstance()->Execute('DELETE FROM `' . _DB_PREFIX_ . 'module_shop` WHERE `id_module` NOT IN (SELECT `id_module` FROM `' . _DB_PREFIX_ . 'module`);');
 
-        Db::getInstance()->Execute('DELETE FROM `' . _DB_PREFIX_ . 'module_preference` WHERE `module` NOT IN (SELECT `name` FROM `' . _DB_PREFIX_ . 'module`);');
+    Db::getInstance()->Execute('DELETE FROM `' . _DB_PREFIX_ . 'module_preference` WHERE `module` NOT IN (SELECT `name` FROM `' . _DB_PREFIX_ . 'module`);');
 
-        Db::getInstance()->Execute('DELETE FROM `' . _DB_PREFIX_ . 'tab_module_preference` WHERE `module` NOT IN (SELECT `name` FROM `' . _DB_PREFIX_ . 'module`);');
+    Db::getInstance()->Execute('DELETE FROM `' . _DB_PREFIX_ . 'tab_module_preference` WHERE `module` NOT IN (SELECT `name` FROM `' . _DB_PREFIX_ . 'module`);');
 
         return true;
     }
