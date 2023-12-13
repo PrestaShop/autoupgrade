@@ -36,7 +36,7 @@ class Autoupgrade extends Module
         $this->name = 'autoupgrade';
         $this->tab = 'administration';
         $this->author = 'PrestaShop';
-        $this->version = '4.16.4';
+        $this->version = '5.0.0';
         $this->need_instance = 1;
 
         $this->bootstrap = true;
@@ -159,7 +159,7 @@ class Autoupgrade extends Module
     public function getContent()
     {
         global $cookie;
-        header('Location: index.php?tab=AdminSelfUpgrade&token=' . md5(pSQL(_COOKIE_KEY_ . 'AdminSelfUpgrade' . (int) Tab::getIdFromClassName('AdminSelfUpgrade') . (int) $cookie->id_employee)));
+        header('Location: index.php?controller=AdminSelfUpgrade&token=' . md5(pSQL(_COOKIE_KEY_ . 'AdminSelfUpgrade' . (int) Tab::getIdFromClassName('AdminSelfUpgrade') . (int) $cookie->id_employee)));
         exit;
     }
 

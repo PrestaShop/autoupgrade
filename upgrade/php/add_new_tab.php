@@ -76,32 +76,6 @@ function get_new_tab_id($className, $returnId = false)
 }
 
 /**
- * Entrypoint for adding new tabs prior 1.7 versions of PrestaShop
- *
- * @param string $className
- * @param string $name Pipe-separated translated values
- * @param int $id_parent
- * @param bool $returnId
- * @param string $parentTab
- * @param string $module
- *
- * @return int|null Tab id if requested
- */
-function add_new_tab($className, $name, $id_parent, $returnId = false, $parentTab = null, $module = '')
-{
-    register_tab($className, $name, $id_parent, $returnId, $parentTab, $module);
-
-    Db::getInstance()->execute('INSERT IGNORE INTO `' . _DB_PREFIX_ . 'access` (`id_profile`, `id_tab`, `view`, `add`, `edit`, `delete`)
-                            (SELECT `id_profile`, (
-                            SELECT `id_tab`
-                            FROM `' . _DB_PREFIX_ . 'tab`
-                            WHERE `class_name` = \'' . pSQL($className) . '\' LIMIT 0,1
-                            ), 1, 1, 1, 1 FROM `' . _DB_PREFIX_ . 'profile` )');
-
-    return get_new_tab_id($className, $returnId);
-}
-
-/**
  * Entrypoint for adding new tabs on +1.7 versions of PrestaShop
  *
  * @param string $className

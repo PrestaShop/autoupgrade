@@ -15,5 +15,4 @@ parameters:
 	excludes_analyse:
 		- ./../../classes/Tools14.php
 		- ./../../classes/pclzip.lib.php
-		- ./../../functions.php
 	level: 5

@@ -23,28 +23,11 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
-
-/**
- * File copied from ps_update_tabs.php and modified for only adding modules related tabs
- */
-function ps_1751_update_module_sf_tab()
+function drop_column_if_exists($table, $column)
 {
-    // Rename parent module tab (= Module manager)
-    include_once 'rename_tab.php';
-    $adminModulesParentTabId = Db::getInstance()->getValue(
-        'SELECT id_tab FROM ' . _DB_PREFIX_ . 'tab WHERE class_name = "AdminModulesSf"'
-    );
-    if (!empty($adminModulesParentTabId)) {
-        renameTab(
-            $adminModulesParentTabId,
-            [
-                'fr' => 'Gestionnaire de modules',
-                'es' => 'Gestor de módulos',
-                'en' => 'Module Manager',
-                'gb' => 'Module Manager',
-                'de' => 'Modulmanager',
-                'it' => 'Gestione moduli',
-            ]
-        );
+    $column_exists = Db::getInstance()->executeS('SHOW COLUMNS FROM `' . _DB_PREFIX_ . $table . "` WHERE Field = '" . $column . "'");
+
+    if (!empty($column_exists)) {
+        Db::getInstance()->execute('ALTER TABLE `' . _DB_PREFIX_ . $table . '` DROP COLUMN `' . $column . '`');
     }
 }

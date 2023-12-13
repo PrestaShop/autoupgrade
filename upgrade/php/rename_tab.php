@@ -23,28 +23,16 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
-
-/**
- * File copied from ps_update_tabs.php and modified for only adding modules related tabs
- */
-function ps_1751_update_module_sf_tab()
+function renameTab($id_tab, $names)
 {
-    // Rename parent module tab (= Module manager)
-    include_once 'rename_tab.php';
-    $adminModulesParentTabId = Db::getInstance()->getValue(
-        'SELECT id_tab FROM ' . _DB_PREFIX_ . 'tab WHERE class_name = "AdminModulesSf"'
-    );
-    if (!empty($adminModulesParentTabId)) {
-        renameTab(
-            $adminModulesParentTabId,
-            [
-                'fr' => 'Gestionnaire de modules',
-                'es' => 'Gestor de módulos',
-                'en' => 'Module Manager',
-                'gb' => 'Module Manager',
-                'de' => 'Modulmanager',
-                'it' => 'Gestione moduli',
-            ]
-        );
+    if (!$id_tab) {
+        return;
+    }
+    $langues = Db::getInstance()->executeS('SELECT * FROM ' . _DB_PREFIX_ . 'lang');
+
+    foreach ($langues as $lang) {
+        if (array_key_exists($lang['iso_code'], $names)) {
+            Db::getInstance()->update('tab_lang', ['name' => $names[$lang['iso_code']]], '`id_tab`= ' . $id_tab . ' AND `id_lang` =' . $lang['id_lang']);
+        }
     }
 }

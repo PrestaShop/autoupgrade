@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.0.0
+        uses: actions/checkout@v3.1.0
 
       - name: PHP syntax checker 5.6
         uses: prestashop/github-action-php-lint/5.6@master
@@ -50,10 +50,10 @@ jobs:
           php-version: '5.6'
 
       - name: Checkout
-        uses: actions/checkout@v2.0.0
+        uses: actions/checkout@v3.1.0
 
       - name: Cache dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: vendor
           key: php-${{ hashFiles('composer.lock') }}
@@ -76,7 +76,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: mbstring, intl, gd, xml, dom, json, fileinfo, curl, zip, iconv, ext-zip
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3.1.0
         with:
           fetch-depth: 0
 
@@ -89,21 +89,21 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        presta-versions: ['1.6.1.18', '1.7.2.5', '1.7.3.4', '1.7.4.4', '1.7.5.1', '1.7.6', '1.7.7', '1.7.8', '8.0.0', 'latest']
+        presta-versions: ['1.7.2.5', '1.7.3.4', '1.7.4.4', '1.7.5.1', '1.7.6', '1.7.7', '1.7.8', '8.0.0', 'latest']
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.0.0
+        uses: actions/checkout@v3.1.0
 
       # Add vendor folder in cache to make next builds faster
       - name: Cache vendor folder
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           path: vendor
           key: php-${{ hashFiles('composer.lock') }}
 
       # Add composer local folder in cache to make next builds faster
       - name: Cache composer folder
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           path: ~/.composer/cache
           key: php-composer-cache

@@ -178,8 +178,10 @@ INSERT IGNORE INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `po
 
 ALTER TABLE `PREFIX_employee_session` ADD `date_upd` DATETIME NOT NULL AFTER `token`;
 ALTER TABLE `PREFIX_employee_session` ADD `date_add` DATETIME NOT NULL AFTER `date_upd`;
+UPDATE `PREFIX_employee_session` SET `date_add` = NOW(), `date_upd` = NOW();
 ALTER TABLE `PREFIX_customer_session` ADD `date_upd` DATETIME NOT NULL AFTER `token`;
 ALTER TABLE `PREFIX_customer_session` ADD `date_add` DATETIME NOT NULL AFTER `date_upd`;
+UPDATE `PREFIX_customer_session` SET `date_add` = NOW(), `date_upd` = NOW();
 
 ALTER TABLE `PREFIX_carrier` DROP COLUMN `id_tax_rules_group`;
 
@@ -231,3 +233,7 @@ INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VAL
 UPDATE `PREFIX_carrier` SET `name` = 'Click and collect' WHERE `name` = '0';
 
 /* PHP:install_ps_distributionapiclient(); */;
+
+/* Remove deprecated columns */
+/* PHP:drop_column_if_exists('product_attribute', 'location'); */;
+/* PHP:drop_column_if_exists('product_attribute', 'quantity'); */;

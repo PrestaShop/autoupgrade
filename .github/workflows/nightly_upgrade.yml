@@ -8,7 +8,7 @@ jobs:
     name: Set up matrix
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3.1.0
       - uses: shivammathur/setup-php@v2
         with:
           php-version: 7.4
@@ -22,12 +22,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        from: ['8.0.4', '1.7.6.9', '1.7.7.0', '1.6.1.24']
+        from: ['8.0.4', '1.7.6.9', '1.7.7.0']
         ps-versions: ${{ fromJson(needs.get_matrix.outputs.matrix) }}
         branch: ['dev', 'master']
         exclude:
-          - from: '1.6.1.24'
-            ps-versions: {branch: 'develop'}
           - from: '1.7.6.9'
             ps-versions: {branch: 'develop'}
           - from: '1.7.7.0'
@@ -39,7 +37,7 @@ jobs:
     outputs:
       result: ${{ steps.export-result.outputs.result }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3.1.0
       - if: ${{ matrix.branch != 'dev' }}
         run: |
           cp -r .github .github_dev
@@ -76,7 +74,7 @@ jobs:
       matrix:
         ps-versions: ${{ fromJson(needs.get_matrix.outputs.matrix) }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3.1.0
       - uses: actions/download-artifact@v2
         with:
           path: ./artifacts/
