@@ -13,3 +13,6 @@ ALTER TABLE `PREFIX_feature_flag` ADD `type` VARCHAR(64) DEFAULT 'env,dotenv,db'
 
 /* Increase size of customized data - https://github.com/PrestaShop/PrestaShop/pull/31109 */
 ALTER TABLE `PREFIX_customized_data` MODIFY `value` varchar(1024) NOT NULL;
+
+/* Request optimization for back office KPI and others */
+ALTER TABLE `PREFIX_orders` ADD INDEX `invoice_date` (`invoice_date`);
