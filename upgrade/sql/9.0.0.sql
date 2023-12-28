@@ -24,6 +24,7 @@ DELETE FROM `PREFIX_hook` WHERE `name` = 'actionBeforeEnableMobileModule';
 DELETE FROM `PREFIX_hook` WHERE `name` = 'actionBeforeDisableMobileModule';
 DELETE FROM `PREFIX_hook_module` WHERE `id_hook` NOT IN (SELECT id_hook FROM `PREFIX_hook`);
 DELETE FROM `PREFIX_hook_module_exceptions` WHERE `id_hook` NOT IN (SELECT id_hook FROM `PREFIX_hook`);
+UPDATE `PREFIX_module_shop` SET `enable_device` = '7';
 
 /* Allow cover configuration */
 /* https://github.com/PrestaShop/PrestaShop/pull/33363 */
