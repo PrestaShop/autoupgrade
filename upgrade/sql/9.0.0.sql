@@ -1,6 +1,11 @@
 SET SESSION sql_mode='';
 SET NAMES 'utf8mb4';
 
+INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES
+  ('PS_DEBUG_COOKIE_NAME', '', NOW(), NOW()),
+  ('PS_DEBUG_COOKIE_VALUE', '', NOW(), NOW())
+;
+
 INSERT IGNORE INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`) VALUES
   (NULL, 'actionUpdateCartAddress', 'Triggers after changing address on the cart', 'This hook is called after address is changed on the cart', '1'),
   (NULL, 'actionPresentCategory', 'Category Presenter', 'This hook is called before a category is presented', '1'),
