@@ -172,9 +172,6 @@ class Translation
         }
         fwrite($fd, "<?php\n\nglobal \$" . $var_name . ";\n\$" . $var_name . " = array();\n");
         foreach ($merge as $k => $v) {
-            if (get_magic_quotes_gpc()) {
-                $v = stripslashes($v);
-            }
             if ('mail' == $type) {
                 fwrite($fd, '$' . $var_name . '[\'' . $this->escape($k) . '\'] = \'' . $this->escape($v) . '\';' . "\n");
             } else {
