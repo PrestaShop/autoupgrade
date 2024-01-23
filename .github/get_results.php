@@ -11,58 +11,75 @@ foreach ($files as $file) {
     $results[] = getTestResultFromFile($file);
 }
 $globalResults = getGlobalResults($results, $psBranch);
-$totalDuration = getTotalDuration($globalResults);
+$totalDuration = getTotalDuration($globalResults, $results[0]['branch']);
 
 $data = [
     'stats' => [
-        'start' => getDateStart($globalResults)->format('Y-m-d H:i:s'),
-        'end' => getDateEnd($globalResults)->format('Y-m-d H:i:s'),
-        'duration' => $totalDuration,
-        'skipped' => 0,
-        'pending' => 0,
-        'passes' => getPasses($globalResults),
-        'failures' => getFailures($globalResults),
         'suites' => 1,
         'tests' => count($results),
-    ],
-    'suites' => [
-        'uuid' => uniqid(),
-        'title' => 'Upgrade to branch ' . $psBranch,
-        'file' => '',
+        'passes' => getPasses($globalResults),
+        'pending' => 0,
+        'failures' => getFailures($globalResults),
+        'testsRegistered' => count($results),
+        //passPercent
+        //pendingPercent
+        'other' => 0,
+        'hasOther' => 0,
+        'skipped' => 0,
+        'hasSkipped' => 0,
+        'start' => getDateStart($results)->format('Y-m-d H:i:s'),
+        'end' => getDateEnd($globalResults)->format('Y-m-d H:i:s'),
         'duration' => $totalDuration,
-        'hasSkipped' => false,
-        'hasPending' => false,
-        'hasPasses' => getPasses($globalResults) > 0,
-        'hasFailures' => getFailures($globalResults) > 0,
-        'totalSkipped' => 0,
-        'totalPending' => 0,
-        'totalPasses' => getPasses($globalResults),
-        'totalFailures' => getFailures($globalResults),
-        'hasSuites' => true,
-        'hasTests' => false,
-        'tests' => [],
-        'suites' => [],
     ],
+    'results' => [],
 ];
 
 foreach ($globalResults as $globalResult) {
-    $data['suites']['suites'][] = [
-        'uuid' => uniqid(),
-        'title' => $globalResult['title'],
+    $suiteTestsPasses = $suiteTestsFailures = $suiteTestsPending = $suiteTestsSkipped = [];
+    foreach($globalResult['tests'] as $test) {
+        if ($test['pass']) {
+            $suiteTestsPasses[] = $test['uuid'];
+            continue;
+        }
+        if ($test['fail']) {
+            $suiteTestsFailures[] = $test['uuid'];
+            continue;
+        }
+        if ($test['pending']) {
+            $suiteTestsPending[] = $test['uuid'];
+            continue;
+        }
+    }
+
+    $data['results'][] = [
+        'uuid' => $globalResult['uuid'],
+        'title' => 'Upgrade to branch ' . $psBranch,
+        'fullFile' => '',
         'file' => '',
-        'duration' => $globalResult['duration'],
-        'hasSkipped' => false,
-        'hasPending' => false,
-        'hasPasses' => $globalResult['passes'] > 0,
-        'hasFailures' => $globalResult['failures'] > 0,
-        'totalSkipped' => 0,
-        'totalPending' => 0,
-        'totalPasses' => $globalResult['passes'],
-        'totalFailures' => $globalResult['failures'],
-        'hasSuites' => false,
-        'hasTests' => true,
-        'suites' => [],
-        'tests' => $globalResult['tests'],
+        'tests' => [],
+        'suites' => [
+            [
+                'uuid' => $globalResult['uuid'],
+                'title' => $globalResult['title'],
+                'file' => '',
+                'tests' => $globalResult['tests'],
+                'suites' => [],
+                'passes' => $suiteTestsPasses,
+                'failures' => $suiteTestsFailures,
+                'pending' => $suiteTestsPending,
+                'skipped' => $suiteTestsSkipped,
+                'duration' => $globalResult['duration'],
+                'root' => false,
+                'rootEmpty' => false,
+            ],
+        ],
+        'passes' => [],
+        'failures' => [],
+        'pending' => [],
+        'skipped' => [],
+        'duration' => $data['stats']['duration'],
+        'root' => true,
+        'rootEmpty' => true,
     ];
 }
 
@@ -105,17 +122,19 @@ function getTestResultFromFile(string $file): array
     }
 
     return [
-        'uuid' => uniqid(),
         'title' => '[' . $branch . '] Upgrade from ' . $data[1] . ' to ' . $data[2],
-        'context' => '{"value": "[' . $branch . '] Upgrade from ' . $data[1] . ' to ' . $data[2] . '"}',
-        'skipped' => [],
-        'pending' => [],
         'duration' => $duration,
         'state' => $state,
+        'pass' => $state === 'passed',
+        'fail' => $state === 'failed',
+        'pending' => false,
+        'context' => '{"title": "testIdentifier","value": "[' . $branch . '] Upgrade from ' . $data[1] . ' to ' . $data[2] . '"}',
         'err' => $error,
+        'uuid' => uniqid(),
+        'skipped' => false,
+        'branch' => $branch,
         'date_start' => $dateStart,
         'date_end' => $dateEnd,
-        'branch' => $branch
     ];
 }
 
@@ -129,25 +148,43 @@ function getGlobalResults(array $results, string $psBranch): array
     $globalResults = [];
 
     foreach ($results as $result) {
-        if (!isset($globalResults[$result['branch']])) {
-            $globalResults[$result['branch']] = [
-                'title' => '[' . $result['branch'] . '] Upgrade to branch ' . $psBranch,
+        $resultBranch = $result['branch'];
+        if (!isset($globalResults[$resultBranch])) {
+            $globalResults[$resultBranch] = [
+                'uuid' => uniqid(),
+                'title' => '[' . $resultBranch . '] Upgrade to branch ' . $psBranch,
+                'tests' => [],
                 'date_start' => null,
                 'date_end' => null,
-                'duration' => 0,
                 'passes' => 0,
                 'failures' => 0,
             ];
         }
-        if (null === $globalResults[$result['branch']]['date_start'] || $result['date_start'] < $globalResults[$result['branch']]['date_start']) {
-            $globalResults[$result['branch']]['date_start'] = $result['date_start'];
+        if (null === $globalResults[$resultBranch]['date_start']
+            || $result['date_start'] < $globalResults[$resultBranch]['date_start']) {
+            $globalResults[$resultBranch]['date_start'] = $result['date_start'];
         }
-        if (null === $globalResults[$result['branch']]['date_end'] || $result['date_end'] > $globalResults[$result['branch']]['date_end']) {
-            $globalResults[$result['branch']]['date_end'] = $result['date_end'];
+        if (null === $globalResults[$resultBranch]['date_end']
+            || $result['date_end'] > $globalResults[$resultBranch]['date_end']) {
+            $globalResults[$resultBranch]['date_end'] = $result['date_end'];
         }
-        $globalResults[$result['branch']]['passes'] += $result['state'] === 'passed' ? 1 : 0;
-        $globalResults[$result['branch']]['failures'] += $result['state'] !== 'passed' ? 1 : 0;
-        $globalResults[$result['branch']]['tests'][] = $result;
+        $globalResults[$resultBranch]['passes'] += $result['state'] === 'passed' ? 1 : 0;
+        $globalResults[$resultBranch]['failures'] += $result['state'] !== 'passed' ? 1 : 0;
+        $globalResults[$resultBranch]['tests'][] = [
+            'title' => $result['title'],
+            'fullTitle' => $result['title'],
+            'timedOut' => false,
+            'duration' => $result['duration'],
+            'state' => $result['state'],
+            'pass' => $result['state'] === 'passed',
+            'fail' => $result['state'] === 'failed',
+            'pending' => $result['state'] === 'pending',
+            'context' => $result['context'],
+            'uuid' => $result['uuid'],
+            'parentUUID' => $globalResults[$resultBranch]['uuid'],
+            'isHook' => false,
+            'skipped' => $result['state'] === 'skipped',
+        ];
     }
 
     foreach ($globalResults as &$globalResult) {
@@ -157,24 +194,24 @@ function getGlobalResults(array $results, string $psBranch): array
     return $globalResults;
 }
 
-function getDateStart(array $globalResults): DateTime {
+function getDateStart(array $results): DateTime {
     $dateStart = null;
 
-    foreach ($globalResults as $globalResult) {
-        if (null === $dateStart || $globalResult['date_start'] < $dateStart) {
-            $dateStart = $globalResult['date_start'];
+    foreach ($results as $result) {
+        if (null === $dateStart || $result['date_start'] < $dateStart) {
+            $dateStart = $result['date_start'];
         }
     }
 
     return $dateStart;
 }
 
-function getDateEnd(array $globalResults): DateTime {
+function getDateEnd(array $results): DateTime {
     $dateEnd = null;
 
-    foreach ($globalResults as $globalResult) {
-        if (null === $dateEnd || $globalResult['date_end'] < $dateEnd) {
-            $dateEnd = $globalResult['date_end'];
+    foreach ($results as $result) {
+        if (null === $dateEnd || $result['date_end'] < $dateEnd) {
+            $dateEnd = $result['date_end'];
         }
     }
 
@@ -201,18 +238,12 @@ function getFailures(array $globalResults): int {
     return $failures;
 }
 
-function getTotalDuration(array $results): int {
-    $dateStart = null;
-    $dateEnd = null;
+function getTotalDuration(array $results, string $branch): int {
+    $duration = 0;
 
-    foreach ($results as $result) {
-        if (null === $dateStart || $result['date_start'] < $dateStart) {
-            $dateStart = $result['date_start'];
-        }
-        if (null === $dateEnd || $result['date_end'] > $dateEnd) {
-            $dateEnd = $result['date_end'];
-        }
+    foreach ($results[$branch]['tests'] as $result) {
+        $duration += $result['duration'];
     }
 
-    return ($dateEnd->getTimestamp() - $dateStart->getTimestamp()) * 1000;
+    return $duration;
 }
