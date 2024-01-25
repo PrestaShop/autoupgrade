@@ -4,7 +4,7 @@ jobs:
   upgrade:
     strategy:
       matrix:
-        from: ['1.7.6.9', '1.7.6.1', '1.7.7.0']
+        from: ['1.7.6.9', '1.7.6.1', '1.7.7.0', '8.0.0']
         ps-versions:
           - channel: minor
           - channel: major

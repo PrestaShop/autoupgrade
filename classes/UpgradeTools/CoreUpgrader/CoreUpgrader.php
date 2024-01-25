@@ -234,7 +234,7 @@ abstract class CoreUpgrader
 
     /**
      * Add missing levels in version.
-     * Example: 1.7 will become 1.7.0.0.
+     * Example: 1.7 will become 1.7.0.0 and 8.1 will become 8.1.0.
      *
      * @param string $version
      *
@@ -245,8 +245,9 @@ abstract class CoreUpgrader
     public function normalizeVersion($version)
     {
         $arrayVersion = explode('.', $version);
-        if (count($arrayVersion) < 4) {
-            $arrayVersion = array_pad($arrayVersion, 4, '0');
+        $versionLevels = 1 == $arrayVersion[0] ? 4 : 3;
+        if (count($arrayVersion) < $versionLevels) {
+            $arrayVersion = array_pad($arrayVersion, $versionLevels, '0');
         }
 
         return implode('.', $arrayVersion);
