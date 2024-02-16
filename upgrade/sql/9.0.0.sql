@@ -3,7 +3,8 @@ SET NAMES 'utf8mb4';
 
 INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES
   ('PS_DEBUG_COOKIE_NAME', '', NOW(), NOW()),
-  ('PS_DEBUG_COOKIE_VALUE', '', NOW(), NOW())
+  ('PS_DEBUG_COOKIE_VALUE', '', NOW(), NOW()),
+  ('PS_PRODUCT_BREADCRUMB_CATEGORY', 'default', NOW(), NOW())
 ;
 
 INSERT IGNORE INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`) VALUES
