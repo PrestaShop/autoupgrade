@@ -69,9 +69,11 @@ class UpdateConfig extends AbstractTask
         // if (!empty($request['archive_name']) && !empty($request['archive_num']))
         if (!empty($configurationData['archive_prestashop'])) {
             $file = $configurationData['archive_prestashop'];
-            if (!file_exists($this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $file)) {
+            $filePath = $this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $file;
+            $currentPath = __DIR__;
+            if (!file_exists($filePath)) {
                 $this->error = true;
-                $this->logger->info($this->translator->trans('File %s does not exist. Unable to select that channel.', [$file], 'Modules.Autoupgrade.Admin'));
+                $this->logger->info($this->translator->trans('File %s does not exist, currently in %s. Unable to select that channel.', [$filePath, $currentPath], 'Modules.Autoupgrade.Admin'));
 
                 return false;
             }
