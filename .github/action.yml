@@ -6,11 +6,10 @@ runs:
     - name: Build docker compose stack
       env:
         VERSION: ${{ matrix.from }}
+        BASE_VERSION: ${{ startsWith(matrix.from, '1.6') && '7.1-apache' || startsWith(matrix.from, '8.1') && '8.1-apache' || startsWith(matrix.from, '8.0') && '8.1-apache' || '7.2-apache' }}
       shell: bash
       run: |
-        bash -c 'if [[ "${VERSION}" == 1.6* ]]; then export BASE_VERSION=7.1-apache; \
-        elif [[ "${VERSION}" == 8.* ]]; then export BASE_VERSION=8.1-apache; \
-        else export BASE_VERSION=7.2-apache; fi && docker compose up -d'
+        docker compose up -d
         bash -c 'while [[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost:8001/index.php)" != "200" ]]; do sleep 5; done'
     - name: Copy autoupgrade module
       shell: bash

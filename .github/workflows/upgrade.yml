@@ -1,10 +1,13 @@
 name: Upgrades
 on: [push, pull_request]
+concurrency:
+  group: ${{ github.event_name }}-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 jobs:
   upgrade:
     strategy:
       matrix:
-        from: ['1.7.6.9', '1.7.6.1', '1.7.7.0', '8.0.0']
+        from: ['1.7.6.9', '1.7.6.1', '1.7.7.0', '8.0.0', '8.1.0']
         ps-versions:
           - channel: minor
           - channel: major
