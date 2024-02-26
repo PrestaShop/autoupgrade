@@ -123,7 +123,15 @@ class Autoupgrade extends Module
      */
     public function registerHookAndSetToTop($hookName)
     {
-        return $this->registerHook($hookName) && $this->updatePosition((int) Hook::getIdByName($hookName), false);
+        if (!$this->registerHook($hookName)) {
+            return false;
+        }
+
+        // Updating position is not blocking for installation esepcially since this method returns false when no other
+        // module is hooked, which doesn't mean the module can't work as expected.
+        $this->updatePosition((int) Hook::getIdByName($hookName), false);
+
+        return true;
     }
 
     public function hookDashboardZoneOne($params)
