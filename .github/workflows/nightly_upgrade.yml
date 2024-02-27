@@ -91,6 +91,6 @@ jobs:
           export FILENAME=autoupgrade_`date -u +"%Y-%m-%d"`-${{matrix.ps-versions.branch}}.json
           ./.github/workflows/nightly_scripts/push_results.sh ${{ env.nightly_api_url }} $FILENAME ${{ env.campaign }} ${{ env.platform }} ${{ secrets.QANB_TOKEN }}
         env:
-          nightly_api_url: https://api-nightly.prestashop-project.org/hook/add
+          nightly_api_url: https://api-nightly.prestashop-project.org/hook/reports/import
           campaign: autoupgrade
           platform: cli

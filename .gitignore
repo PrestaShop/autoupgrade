@@ -4,3 +4,7 @@ nbproject
 /config_*.xml
 .php_cs.cache
 .idea
+
+## QA Nightly
+/artifacts
+/autoupgrade*.json

@@ -10,6 +10,7 @@ UPDATE `PREFIX_tab` SET wording_domain = 'Admin.Navigation.Menu', wording = 'Sec
 UPDATE `PREFIX_tab` SET wording_domain = 'Admin.Navigation.Menu', wording = 'Employee Sessions' WHERE class_name = 'AdminSecuritySessionEmployee';
 UPDATE `PREFIX_tab` SET wording_domain = 'Admin.Navigation.Menu', wording = 'Customer Sessions' WHERE class_name = 'AdminSecuritySessionCustomer';
 
-INSERT IGNORE INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`) VALUES
+INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`) VALUES
   (NULL, 'actionLanguageLinkParameters', 'Add parameters to language link', 'Allows modules to provide proper parameters for links in other languages.', '1'),
-  (NULL, 'actionAfterLoadRoutes', 'Triggers after loading routes', 'Allow modules to modify routes in any way or add their own multilanguage routes.', '1');
+  (NULL, 'actionAfterLoadRoutes', 'Triggers after loading routes', 'Allow modules to modify routes in any way or add their own multilanguage routes.', '1')
+ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);

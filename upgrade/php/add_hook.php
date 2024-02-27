@@ -25,7 +25,9 @@
  */
 function add_hook($hook, $title, $description, $position = 1)
 {
-    return (bool) Db::getInstance()->execute(
-        'INSERT IGNORE INTO `' . _DB_PREFIX_ . 'hook` (`name`, `title`, `description`, `position`) VALUES ("' . pSQL($hook) . '", "' . pSQL($title) . '", "' . pSQL($description) . '", ' . (int) $position . ')'
-    );
+    return (bool) Db::getInstance()->execute('
+        INSERT INTO `' . _DB_PREFIX_ . 'hook` (`name`, `title`, `description`, `position`)
+        VALUES ("' . pSQL($hook) . '", "' . pSQL($title) . '", "' . pSQL($description) . '", ' . (int) $position . ')
+        ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`)    
+    ');
 }

@@ -317,7 +317,7 @@ ALTER TABLE `PREFIX_tab` ADD enabled TINYINT(1) NOT NULL;
 /* PHP:ps_1770_preset_tab_enabled(); */;
 /* PHP:ps_1770_update_order_status_colors(); */;
 
-INSERT IGNORE INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`) VALUES
+INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`) VALUES
   (NULL, 'displayAdminOrderTop', 'Admin Order Top', 'This hook displays content at the top of the order view page'),
   (NULL, 'displayAdminOrderSide', 'Admin Order Side Column', 'This hook displays content in the order view page in the side column under the customer view'),
   (NULL, 'displayAdminOrderSideBottom', 'Admin Order Side Column Bottom', 'This hook displays content in the order view page at the bottom of the side column'),
@@ -345,7 +345,7 @@ INSERT IGNORE INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`) VAL
   (NULL, 'actionAdminLoginControllerResetBefore', 'Perform actions before admin login controller reset action initialization', 'This hook is launched before the initialization of the reset action in login controller'),
   (NULL, 'actionAdminLoginControllerResetAfter', 'Perform actions after admin login controller reset action initialization', 'This hook is launched after the initialization of the reset action in login controller'),
   (NULL, 'displayHeader', 'Pages html head section', 'This hook adds additional elements in the head section of your pages (head section of html)')
-;
+ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
 
 INSERT IGNORE INTO `PREFIX_hook_alias` (`name`, `alias`) VALUES
   ('displayAdminOrderTop', 'displayInvoice'),
@@ -416,7 +416,7 @@ SET
         WHERE `osd`.`id_order_detail` = `od`.`id_order_detail`
     ), 0)
 ;
-INSERT IGNORE INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`)
+INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`)
 VALUES (NULL, 'actionOrderMessageFormBuilderModifier', 'Modify order message identifiable object form',
         'This hook allows to modify order message identifiable object forms content by modifying form builder data or FormBuilder itself',
         '1'),
@@ -649,7 +649,7 @@ VALUES (NULL, 'actionOrderMessageFormBuilderModifier', 'Modify order message ide
        (NULL, 'actionCreditSlipGridPresenterModifier', 'Modify credit slip grid template data',
         'This hook allows to modify data which is about to be used in template for credit slip grid', '1'),
        (NULL, 'displayAfterTitleTag', 'After title tag', 'Use this hook to add content after title tag', '1')
-;
+ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
 
 /* Update wrong hook names */
 UPDATE `PREFIX_hook_module` AS hm
