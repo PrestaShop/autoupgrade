@@ -16,6 +16,8 @@ INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`
 ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
 
 ALTER TABLE `PREFIX_feature_flag` ADD `type` VARCHAR(64) DEFAULT 'env,dotenv,db' NOT NULL AFTER `name`;
+UPDATE `PREFIX_feature_flag` SET `state` = 1 WHERE `name` = 'authorization_server';
+UPDATE `PREFIX_tab` SET `active` = 1 WHERE `class_name` = 'AdminAuthorizationServer';
 
 /* Increase size of customized data - https://github.com/PrestaShop/PrestaShop/pull/31109 */
 ALTER TABLE `PREFIX_customized_data` MODIFY `value` varchar(1024) NOT NULL;
