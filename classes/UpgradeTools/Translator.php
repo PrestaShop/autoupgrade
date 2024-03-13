@@ -86,7 +86,7 @@ class Translator
             $id = str_replace($placeholder, $value, $id);
             unset($parameters[$placeholder]);
         }
-        
+
         if (!count($parameters)) {
             return $id;
         }
