@@ -39,7 +39,7 @@ if (file_exists($autoloadPath)) {
     require_once $autoloadPath;
 }
 
-class AdminSelfUpgrade extends AdminController
+class AdminSelfUpgradeController extends AdminController
 {
     public $multishop_context;
     public $multishop_context_group = false;
