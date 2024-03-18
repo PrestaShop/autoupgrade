@@ -460,7 +460,7 @@ class AdminSelfUpgradeController extends AdminController
         }
     }
 
-    public function display()
+    public function initContent()
     {
         // Make sure the user has configured the upgrade options, or set default values
         $configuration_keys = [
@@ -519,10 +519,9 @@ class AdminSelfUpgradeController extends AdminController
                 ->getJson()
         );
 
-        $this->ajax = true;
         $this->content = $this->_html;
 
-        parent::display();
+        return parent::initContent();
     }
 
     /**
