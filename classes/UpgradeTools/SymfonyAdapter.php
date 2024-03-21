@@ -59,18 +59,23 @@ class SymfonyAdapter
     }
 
     /**
-     * Return the AppKernel, after initialization
+     * Return the appropriate kernel based on the environment.
      *
-     * @return \AppKernel
+     * @return \AppKernel|\FrontKernel|\AdminKernel
      */
-    public function initAppKernel()
+    public function initKernel()
     {
         global $kernel;
         if (!$kernel instanceof \AppKernel) {
             require_once _PS_ROOT_DIR_ . '/app/AppKernel.php';
             $env = (true == _PS_MODE_DEV_) ? 'dev' : 'prod';
-            $kernel = new \AppKernel($env, _PS_MODE_DEV_);
-            if (method_exists($kernel, 'loadClassCache')) { // This method has been deleted in Symfony 4.x
+            // Instantiate the appropriate kernel based on the environment
+            if ($env === 'dev') {
+                $kernel = new \FrontKernel($env, _PS_MODE_DEV_);
+            } else {
+                $kernel = new \AdminKernel($env, _PS_MODE_DEV_);
+            }
+            if (method_exists($kernel, 'loadClassCache')) {
                 $kernel->loadClassCache();
             }
             $kernel->boot();
@@ -79,3 +84,4 @@ class SymfonyAdapter
         return $kernel;
     }
 }
+
