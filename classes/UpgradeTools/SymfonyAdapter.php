@@ -59,7 +59,7 @@ class SymfonyAdapter
     }
 
     /**
-     * Return the appropriate kernel based on the environment.
+     * Return the appropriate kernel if abstract or not.
      *
      * @return \AppKernel|\AdminKernel
      */
@@ -76,7 +76,6 @@ class SymfonyAdapter
             }
             $kernel->boot();
         }
-
         return $kernel;
     }
 

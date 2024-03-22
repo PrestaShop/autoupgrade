@@ -20,4 +20,4 @@ parameters:
 		- '#PHPDoc tag @var for variable \$commandBus contains unknown class PrestaShop\\PrestaShop\\Core\\CommandBus\\CommandBusInterface.#'
 		- '#Property ModuleCore::\$version \(float\) does not accept string.#'
 		- '#Return typehint of method PrestaShop\\Module\\AutoUpgrade\\UpgradeTools\\ModuleAdapter::getCommandBus\(\) has invalid type PrestaShop\\PrestaShop\\Core\\CommandBus\\CommandBusInterface.#'
-		- '#Return typehint of method PrestaShop\\Module\\AutoUpgrade\\UpgradeTools\\SymfonyAdapter::initAppKernel\(\) has invalid type AppKernel.#'
+		- '#Return typehint of method PrestaShop\\Module\\AutoUpgrade\\UpgradeTools\\SymfonyAdapter::initKernel\(\) has invalid type AppKernel.#'

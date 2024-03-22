@@ -53,7 +53,7 @@ class CoreUpgrader17 extends CoreUpgrader
         }*/
 
         // Container may be needed to run upgrade scripts
-        $this->container->getSymfonyAdapter()->initAppKernel();
+        $this->container->getSymfonyAdapter()->initKernel();
     }
 
     protected function upgradeDb($oldversion)
