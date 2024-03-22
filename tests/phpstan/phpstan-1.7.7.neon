@@ -10,4 +10,4 @@ parameters:
 		- '#Instantiated class PrestaShop\\PrestaShop\\Core\\Cldr\\Update not found.#'
 		- '#Call to method loadClassCache\(\) on an unknown class AppKernel\.$#'
 		- '#Call to method boot\(\) on an unknown class AdminKernel\.$#'
-		- '#Parameter #1 \$argument of class ReflectionClass constructor expects AppKernel\|class-string<AppKernel>, string given\.$#'
+		- '#Parameter \#1 \$argument of class ReflectionClass constructor expects AppKernel\|class-string<AppKernel>, string given\.$#'

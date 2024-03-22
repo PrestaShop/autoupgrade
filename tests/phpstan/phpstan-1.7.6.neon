@@ -14,4 +14,4 @@ parameters:
 		- '#Property ModuleCore::\$version \(float\) does not accept string.#'
 		- '#Call to method loadClassCache\(\) on an unknown class AppKernel\.$#'
 		- '#Call to method boot\(\) on an unknown class AdminKernel\.$#'
-		- '#Parameter #1 \$argument of class ReflectionClass constructor expects AppKernel\|class-string<AppKernel>, string given\.$#'
+		- '#Parameter \#1 \$argument of class ReflectionClass constructor expects AppKernel\|class-string<AppKernel>, string given\.$#'
