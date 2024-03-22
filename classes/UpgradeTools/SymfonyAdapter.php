@@ -69,15 +69,24 @@ class SymfonyAdapter
     {
         global $kernel;
         if (!$kernel instanceof \AppKernel) {
-            require_once _PS_ROOT_DIR_ . '/app/AppKernel.php';
             $env = (true == _PS_MODE_DEV_) ? 'dev' : 'prod';
-            $kernelClass = $this->isAppKernelAbstract() ? 'AdminKernel' : 'AppKernel';
+
+            if ($this->isAppKernelAbstract()) {
+                require_once _PS_ROOT_DIR_ . '/app/AdminKernel.php';
+                $kernelClass = 'AdminKernel';
+            } else {
+                require_once _PS_ROOT_DIR_ . '/app/AppKernel.php';
+                $kernelClass = 'AppKernel';
+            }
+
             $kernel = new $kernelClass($env, _PS_MODE_DEV_);
             if (method_exists($kernel, 'loadClassCache')) {
                 $kernel->loadClassCache();
             }
+
             $kernel->boot();
         }
+
         return $kernel;
     }
 
@@ -88,7 +97,7 @@ class SymfonyAdapter
      */
     private function isAppKernelAbstract()
     {
-        $appKernelClass = new ReflectionClass('\AppKernel');
+        $appKernelClass = new ReflectionClass(\AppKernel::class);
 
         return $appKernelClass->isAbstract();
     }
