@@ -71,7 +71,7 @@ class SymfonyAdapter
         if (!$kernel instanceof \AppKernel) {
             $env = (true == _PS_MODE_DEV_) ? 'dev' : 'prod';
 
-            if ($this->isAppKernelAbstract()) {
+            if ($this->isAppKernelAbstract()) { // From version 9 the AppKernel becomes an abstract so we need to check if it is one to know which Kernel to use
                 require_once _PS_ROOT_DIR_ . '/app/AdminKernel.php';
                 $kernelClass = 'AdminKernel';
             } else {
@@ -80,7 +80,7 @@ class SymfonyAdapter
             }
 
             $kernel = new $kernelClass($env, _PS_MODE_DEV_);
-            if (method_exists($kernel, 'loadClassCache')) {
+            if (method_exists($kernel, 'loadClassCache')) { // This method has been deleted in Symfony 4.x
                 $kernel->loadClassCache();
             }
 
