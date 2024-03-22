@@ -87,6 +87,10 @@ class Translator
             unset($parameters[$placeholder]);
         }
 
+        if (!count($parameters)) {
+            return $id;
+        }
+
         return call_user_func_array('sprintf', array_merge([$id], $parameters));
     }
 }

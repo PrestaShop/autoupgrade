@@ -166,9 +166,7 @@ class Autoupgrade extends Module
 
     public function getContent()
     {
-        global $cookie;
-        header('Location: index.php?controller=AdminSelfUpgrade&token=' . md5(pSQL(_COOKIE_KEY_ . 'AdminSelfUpgrade' . (int) Tab::getIdFromClassName('AdminSelfUpgrade') . (int) $cookie->id_employee)));
-        exit;
+        Tools::redirectAdmin($this->context->link->getAdminLink('AdminSelfUpgrade'));
     }
 
     /**
