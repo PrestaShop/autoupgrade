@@ -61,7 +61,7 @@ class SymfonyAdapter
     /**
      * Return the appropriate kernel based on the environment.
      *
-     * @return \AppKernel|\FrontKernel|\AdminKernel
+     * @return \AppKernel|\AdminKernel
      */
     public function initKernel()
     {
@@ -69,12 +69,8 @@ class SymfonyAdapter
         if (!$kernel instanceof \AppKernel) {
             require_once _PS_ROOT_DIR_ . '/app/AppKernel.php';
             $env = (true == _PS_MODE_DEV_) ? 'dev' : 'prod';
-            // Instantiate the appropriate kernel based on the environment
-            if ($env === 'dev') {
-                $kernel = new \FrontKernel($env, _PS_MODE_DEV_);
-            } else {
-                $kernel = new \AdminKernel($env, _PS_MODE_DEV_);
-            }
+            $kernelClass = $this->isAppKernelAbstract() ? 'AdminKernel' : 'AppKernel';
+            $kernel = new $kernelClass($env, _PS_MODE_DEV_);
             if (method_exists($kernel, 'loadClassCache')) {
                 $kernel->loadClassCache();
             }
@@ -83,5 +79,15 @@ class SymfonyAdapter
 
         return $kernel;
     }
-}
 
+    /**
+     * Check if AppKernel is abstract or not.
+     *
+     * @return bool
+     */
+    private function isAppKernelAbstract()
+    {
+        $appKernelClass = new ReflectionClass('\AppKernel');
+        return $appKernelClass->isAbstract();
+    }
+}
