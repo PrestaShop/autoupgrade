@@ -27,6 +27,8 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
+use ReflectionClass;
+
 /**
  * TODO: Create a class for 1.7 env and another one for 1.6 ?
  */
@@ -87,6 +89,7 @@ class SymfonyAdapter
     private function isAppKernelAbstract()
     {
         $appKernelClass = new ReflectionClass('\AppKernel');
+
         return $appKernelClass->isAbstract();
     }
 }
