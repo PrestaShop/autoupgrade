@@ -6,3 +6,7 @@ parameters:
 		- ./../../classes/UpgradeTools/CoreUpgrader/CoreUpgrader17.php
 		- ./../../classes/Twig/TransFilterExtension.php
 		- ./../../classes/UpgradeContainer.php
+    ignoreErrors:
+        - '#Call to method loadClassCache\(\) on an unknown class AppKernel\.$#'
+        - '#Call to method boot\(\) on an unknown class AdminKernel\.$#'
+        - '#Parameter #1 \$argument of class ReflectionClass constructor expects AppKernel\|class-string<AppKernel>, string given\.$#'

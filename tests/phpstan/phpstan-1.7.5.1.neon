@@ -10,3 +10,6 @@ parameters:
 		- '#Call to an undefined static method ConfigurationTest::test_memory_limit\(\).#'
 		- '#Instantiated class PrestaShop\\PrestaShop\\Core\\Domain\\Theme\\ValueObject\\ThemeName not found.#'
 		- '#Property ModuleCore::\$version \(float\) does not accept string.#'
+        - '#Call to method loadClassCache\(\) on an unknown class AppKernel\.$#'
+        - '#Call to method boot\(\) on an unknown class AdminKernel\.$#'
+        - '#Parameter #1 \$argument of class ReflectionClass constructor expects AppKernel\|class-string<AppKernel>, string given\.$#'
