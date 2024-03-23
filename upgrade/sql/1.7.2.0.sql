@@ -34,3 +34,16 @@ ALTER TABLE `PREFIX_stock_mvt` CHANGE `id_stock` `id_stock` INT(11) UNSIGNED NOT
 
 UPDATE `PREFIX_configuration` SET `value` = 0 WHERE `name` = "PS_ADVANCED_STOCK_MANAGEMENT";
 /* PHP:add_new_status_stock(); */;
+
+ALTER TABLE `PREFIX_stock_mvt`
+    CHANGE id_stock_mvt id_stock_mvt BIGINT AUTO_INCREMENT NOT NULL,
+    CHANGE id_stock id_stock INT NOT NULL,
+    CHANGE id_order id_order INT DEFAULT NULL,
+    CHANGE id_supply_order id_supply_order INT DEFAULT NULL,
+    CHANGE id_stock_mvt_reason id_stock_mvt_reason INT NOT NULL,
+    CHANGE id_employee id_employee INT NOT NULL,
+    CHANGE employee_lastname employee_lastname VARCHAR(32) DEFAULT '',
+    CHANGE employee_firstname employee_firstname VARCHAR(32) DEFAULT '',
+    CHANGE physical_quantity physical_quantity INT NOT NULL,
+    CHANGE sign sign SMALLINT DEFAULT '1',
+    CHANGE referer referer BIGINT DEFAULT NULL;

@@ -271,3 +271,9 @@ INSERT IGNORE INTO `PREFIX_authorization_role` (`slug`) VALUES
   ('ROLE_MOD_TAB_ADMINPARENTMODULESCATALOG_READ'),
   ('ROLE_MOD_TAB_ADMINPARENTMODULESCATALOG_UPDATE'),
   ('ROLE_MOD_TAB_ADMINPARENTMODULESCATALOG_DELETE');
+
+DROP INDEX admin_filter_search_idx ON `PREFIX_admin_filter`;
+ALTER TABLE `PREFIX_admin_filter` ADD filter_id VARCHAR(255) NOT NULL;
+CREATE UNIQUE INDEX admin_filter_search_id_idx ON `PREFIX_admin_filter` (employee, shop, controller, action, filter_id);
+DROP INDEX id_product ON `PREFIX_product_download`;
+DROP INDEX product_active ON `PREFIX_product_download`;

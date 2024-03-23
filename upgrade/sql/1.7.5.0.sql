@@ -88,3 +88,7 @@ ALTER TABLE `PREFIX_product_lang`
 
 ALTER TABLE `PREFIX_customer_thread`
   CHANGE `email` `email` varchar(255) NOT NULL;
+
+CREATE INDEX IDX_3ABE46A7BA299860 ON `PREFIX_attribute_lang` (id_lang);
+CREATE INDEX IDX_4653726CBA299860 ON `PREFIX_attribute_group_lang` (id_lang);
+CREATE INDEX IDX_CFD9262DBA299860 ON `PREFIX_tab_lang` (id_lang);
