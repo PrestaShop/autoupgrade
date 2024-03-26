@@ -10,3 +10,7 @@ parameters:
 		- '#Call to an undefined static method ConfigurationTest::test_memory_limit\(\).#'
 		- '#Instantiated class PrestaShop\\PrestaShop\\Core\\Domain\\Theme\\ValueObject\\ThemeName not found.#'
 		- '#Property ModuleCore::\$version \(float\) does not accept string.#'
+		- '#Call to method boot\(\) on an unknown class AdminKernel.#'
+		- '#Call to method getContainer\(\) on an unknown class AdminKernel.#'
+		- '#Return typehint of method PrestaShop\\Module\\AutoUpgrade\\UpgradeTools\\SymfonyAdapter::initKernel\(\) has invalid type AdminKernel.#'
+		- '#Instantiated class AdminKernel not found\.#'

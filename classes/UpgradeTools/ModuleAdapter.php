@@ -76,7 +76,7 @@ class ModuleAdapter
     {
         if (null === $this->moduleDataUpdater) {
             $this->moduleDataUpdater = $this->symfonyAdapter
-                ->initAppKernel()
+                ->initKernel()
                 ->getContainer()
                 ->get('prestashop.core.module.updater');
         }
@@ -93,7 +93,7 @@ class ModuleAdapter
     {
         if (null === $this->commandBus) {
             $this->commandBus = $this->symfonyAdapter
-                ->initAppKernel()
+                ->initKernel()
                 ->getContainer()
                 ->get('prestashop.core.command_bus');
         }

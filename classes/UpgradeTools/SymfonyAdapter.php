@@ -27,6 +27,8 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
+use ReflectionClass;
+
 /**
  * TODO: Create a class for 1.7 env and another one for 1.6 ?
  */
@@ -59,23 +61,44 @@ class SymfonyAdapter
     }
 
     /**
-     * Return the AppKernel, after initialization
+     * Return the appropriate kernel if abstract or not.
      *
-     * @return \AppKernel
+     * @return \AppKernel|\AdminKernel
      */
-    public function initAppKernel()
+    public function initKernel()
     {
         global $kernel;
         if (!$kernel instanceof \AppKernel) {
-            require_once _PS_ROOT_DIR_ . '/app/AppKernel.php';
             $env = (true == _PS_MODE_DEV_) ? 'dev' : 'prod';
-            $kernel = new \AppKernel($env, _PS_MODE_DEV_);
+
+            if ($this->isAppKernelAbstract()) { // From version 9 the AppKernel becomes an abstract so we need to check if it is one to know which Kernel to use
+                require_once _PS_ROOT_DIR_ . '/app/AdminKernel.php';
+                $kernelClass = 'AdminKernel';
+            } else {
+                require_once _PS_ROOT_DIR_ . '/app/AppKernel.php';
+                $kernelClass = 'AppKernel';
+            }
+
+            $kernel = new $kernelClass($env, _PS_MODE_DEV_);
             if (method_exists($kernel, 'loadClassCache')) { // This method has been deleted in Symfony 4.x
                 $kernel->loadClassCache();
             }
+
             $kernel->boot();
         }
 
         return $kernel;
+    }
+
+    /**
+     * Check if AppKernel is abstract or not.
+     *
+     * @return bool
+     */
+    private function isAppKernelAbstract()
+    {
+        $appKernelClass = new ReflectionClass(\AppKernel::class);
+
+        return $appKernelClass->isAbstract();
     }
 }

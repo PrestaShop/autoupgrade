@@ -12,4 +12,7 @@ parameters:
 		- '#Instantiated class PrestaShop\\PrestaShop\\Core\\Cldr\\Update not found.#'
 		- '#Parameter \#1 \$id_hook of method ModuleCore::updatePosition\(\) expects bool, int given.#'
 		- '#Property ModuleCore::\$version \(float\) does not accept string.#'
-
+		- '#Call to method boot\(\) on an unknown class AdminKernel.#'
+		- '#Call to method getContainer\(\) on an unknown class AdminKernel.#'
+		- '#Return typehint of method PrestaShop\\Module\\AutoUpgrade\\UpgradeTools\\SymfonyAdapter::initKernel\(\) has invalid type AdminKernel.#'
+		- '#Instantiated class AdminKernel not found\.#'

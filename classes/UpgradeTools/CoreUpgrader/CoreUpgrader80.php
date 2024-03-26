@@ -42,7 +42,7 @@ class CoreUpgrader80 extends CoreUpgrader
         parent::initConstants();
 
         // Container may be needed to run upgrade scripts
-        $this->container->getSymfonyAdapter()->initAppKernel();
+        $this->container->getSymfonyAdapter()->initKernel();
     }
 
     /**
