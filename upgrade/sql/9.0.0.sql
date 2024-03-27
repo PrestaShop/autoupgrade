@@ -84,3 +84,7 @@ DELETE FROM `PREFIX_tab` WHERE `class_name` = 'AdminStockCover';
 DELETE FROM `PREFIX_tab` WHERE `class_name` = 'AdminSupplyOrders';
 DELETE FROM `PREFIX_tab` WHERE `class_name` = 'AdminStockConfiguration';
 DELETE FROM `PREFIX_tab_lang` WHERE `id_tab` NOT IN (SELECT id_tab FROM `PREFIX_tab`);
+
+/* Add new date_new field on product table and give the value of date_add */
+ALTER TABLE `PREFIX_product` ADD `date_new` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' AFTER `date_add`;
+UPDATE `PREFIX_product` SET `date_new` = `date_add`;
