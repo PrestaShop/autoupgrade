@@ -24,6 +24,9 @@ INSERT INTO `PREFIX_feature_flag` (`name`, `type`, `label_wording`, `label_domai
   ('symfony_layout', 'env,query,dotenv,db', 'Symfony layout', 'Admin.Advparameters.Feature', 'Enable / Disable symfony layout (in opposition to legacy layout).', 'Admin.Advparameters.Help', 1, 'beta'),
   ('front_container_v2', 'env,dotenv,db', 'New front container', 'Admin.Advparameters.Feature', 'Enable / Disable the new front container.', 'Admin.Advparameters.Help', 0, 'beta');
 
+/* Remove old feature flags from 8.1.x */
+DELETE FROM `PREFIX_feature_flag` WHERE `name` IN ('product_page_v2', 'title', 'order_state');
+
 /* Increase size of customized data - https://github.com/PrestaShop/PrestaShop/pull/31109 */
 ALTER TABLE `PREFIX_customized_data` MODIFY `value` varchar(1024) NOT NULL;
 
