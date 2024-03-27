@@ -35,7 +35,6 @@ ALTER TABLE `PREFIX_orders` CHANGE `note` `note` MEDIUMTEXT;
 ALTER TABLE `PREFIX_product_lang` CHANGE `description_short` `description_short` MEDIUMTEXT;
 ALTER TABLE `PREFIX_product_lang` CHANGE `description` `description` MEDIUMTEXT;
 ALTER TABLE `PREFIX_request_sql` CHANGE `sql` `sql` MEDIUMTEXT NOT NULL;
-ALTER TABLE `PREFIX_smarty_cache` CHANGE `content` `content` longtext NOT NULL;
 ALTER TABLE `PREFIX_store_lang` CHANGE `hours` `hours` MEDIUMTEXT;
 ALTER TABLE `PREFIX_store_lang` CHANGE `note` `note` MEDIUMTEXT;
 ALTER TABLE `PREFIX_supplier_lang` CHANGE `description` `description` MEDIUMTEXT;
