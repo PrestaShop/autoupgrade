@@ -13,7 +13,7 @@ jobs:
         with:
           php-version: 7.4
       - id: set-matrix
-        run: echo "::set-output name=matrix::$(php ./.github/get_matrix.php)"
+        run: echo "matrix=$(php ./.github/get_matrix.php)" >> $GITHUB_OUTPUT
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
   upgrade:
