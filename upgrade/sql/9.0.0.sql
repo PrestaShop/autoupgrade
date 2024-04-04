@@ -69,6 +69,7 @@ DELETE FROM `PREFIX_configuration` WHERE `name` = 'PS_ADVANCED_STOCK_MANAGEMENT'
 DELETE FROM `PREFIX_configuration` WHERE `name` = 'PS_STOCK_MVT_TRANSFER_TO';
 DELETE FROM `PREFIX_configuration` WHERE `name` = 'PS_STOCK_MVT_TRANSFER_FROM';
 DELETE FROM `PREFIX_configuration` WHERE `name` = 'PS_STOCK_MVT_SUPPLY_ORDER';
+DELETE FROM `PREFIX_configuration` WHERE `name` = 'PS_SSL_ENABLED_EVERYWHERE';
 /* Remove authorization roles and all assignments to profiles */
 DELETE FROM `PREFIX_authorization_role` WHERE `slug` = 'ROLE_MOD_TAB_ADMINPARENTSTOCKMANAGEMENT_CREATE';
 DELETE FROM `PREFIX_authorization_role` WHERE `slug` = 'ROLE_MOD_TAB_ADMINPARENTSTOCKMANAGEMENT_READ';
