@@ -79,7 +79,14 @@ class Autoupgrade extends Module
             $tab = new Tab();
             $tab->class_name = 'AdminSelfUpgrade';
             $tab->module = 'autoupgrade';
-            $tab->id_parent = (int) Tab::getIdFromClassName('AdminTools');
+
+            // We have to check if 'DEFAULT' tab class name exist (introduced in V9) if not we use the old one 'AdminTools'
+            if (Tab::getIdFromClassName('DEFAULT')) {
+                $tab->id_parent = (int) Tab::getIdFromClassName('DEFAULT');
+            } else {
+                $tab->id_parent = (int) Tab::getIdFromClassName('AdminTools');
+            }
+
             foreach (Language::getLanguages(false) as $lang) {
                 $tab->name[(int) $lang['id_lang']] = '1-Click Upgrade';
             }
