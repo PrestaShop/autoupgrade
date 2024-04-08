@@ -80,8 +80,7 @@ class Autoupgrade extends Module
             $tab->class_name = 'AdminSelfUpgrade';
             $tab->module = 'autoupgrade';
 
-            // We use 'DEFAULT' tab class to be compatible from v1.7 to v9 but we can that's appear in the "more" part of the menu
-            // 'DEFAULT' is a reference to deprecated tabs
+            // We use DEFAULT to add Upgrade tab as a standalone tab in the back office menu
             $tab->id_parent = (int) Tab::getIdFromClassName('DEFAULT');
 
             foreach (Language::getLanguages(false) as $lang) {
