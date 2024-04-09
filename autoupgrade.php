@@ -79,7 +79,10 @@ class Autoupgrade extends Module
             $tab = new Tab();
             $tab->class_name = 'AdminSelfUpgrade';
             $tab->module = 'autoupgrade';
-            $tab->id_parent = (int) Tab::getIdFromClassName('AdminTools');
+
+            // We use DEFAULT to add Upgrade tab as a standalone tab in the back office menu
+            $tab->id_parent = (int) Tab::getIdFromClassName('DEFAULT');
+
             foreach (Language::getLanguages(false) as $lang) {
                 $tab->name[(int) $lang['id_lang']] = '1-Click Upgrade';
             }
