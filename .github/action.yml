@@ -4,33 +4,34 @@ runs:
   using: composite
   steps:
     - name: Get base version
+      id: get_base_version
       shell: bash
       run: |
         case ${{ matrix.from }} in
           1.6* | 1.7.[1-4]*)
-          export BASE_VERSION='7.1-apache'
+          echo "BASE_VERSION='7.1-apache" >> "$GITHUB_OUTPUT"
           ;;
           1.7.[5-6]*)
-          export BASE_VERSION='7.2-apache'
+          echo "BASE_VERSION='7.2-apache" >> "$GITHUB_OUTPUT"
           ;;
           1.7.7*)
-          export BASE_VERSION='7.3-apache'
+          echo "BASE_VERSION='7.3-apache" >> "$GITHUB_OUTPUT"
           ;;
           1.7.8*)
-          export BASE_VERSION='7.4-apache'
+          echo "BASE_VERSION='7.4-apache" >> "$GITHUB_OUTPUT"
           ;;
           8.0* | 8.1*)
-          export BASE_VERSION='8.1-apache'
+          echo "BASE_VERSION='8.1-apache" >> "$GITHUB_OUTPUT"
           ;;
           *)
-          export BASE_VERSION='7.1-apache' 
+          echo "BASE_VERSION='7.1-apache" >> "$GITHUB_OUTPUT"
           ;;
         esac
 
     - name: Build docker compose stack
       env:
         VERSION: ${{ matrix.from }}
-        BASE_VERSION: ${{ env.BASE_VERSION }}
+        BASE_VERSION: ${{ steps.get_base_version.outputs.BASE_VERSION }}
       shell: bash
       run: |
         docker compose up -d
