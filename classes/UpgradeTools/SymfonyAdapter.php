@@ -69,13 +69,14 @@ class SymfonyAdapter
     {
         global $kernel;
         if (!$kernel instanceof \AppKernel) {
+            require_once _PS_ROOT_DIR_ . '/app/AppKernel.php';
+
             $env = (true == _PS_MODE_DEV_) ? 'dev' : 'prod';
 
             if ($this->isAppKernelAbstract()) { // From version 9 the AppKernel becomes an abstract so we need to check if it is one to know which Kernel to use
                 require_once _PS_ROOT_DIR_ . '/app/AdminKernel.php';
                 $kernelClass = 'AdminKernel';
             } else {
-                require_once _PS_ROOT_DIR_ . '/app/AppKernel.php';
                 $kernelClass = 'AppKernel';
             }
 
