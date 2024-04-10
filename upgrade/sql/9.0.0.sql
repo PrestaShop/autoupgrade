@@ -94,3 +94,10 @@ DELETE FROM `PREFIX_tab` WHERE `class_name` = 'AdminStockCover';
 DELETE FROM `PREFIX_tab` WHERE `class_name` = 'AdminSupplyOrders';
 DELETE FROM `PREFIX_tab` WHERE `class_name` = 'AdminStockConfiguration';
 DELETE FROM `PREFIX_tab_lang` WHERE `id_tab` NOT IN (SELECT id_tab FROM `PREFIX_tab`);
+
+/* Change the length of the ean13 field */
+ALTER TABLE `PREFIX_product` MODIFY COLUMN `ean13` VARCHAR(20);
+ALTER TABLE `PREFIX_order_detail` MODIFY COLUMN `product_ean13` VARCHAR(20);
+ALTER TABLE `PREFIX_product_attribute` MODIFY COLUMN `ean13` VARCHAR(20);
+ALTER TABLE `PREFIX_stock` MODIFY COLUMN `ean13` VARCHAR(20);
+ALTER TABLE `PREFIX_supply_order_detail` MODIFY COLUMN `ean13` VARCHAR(20);
