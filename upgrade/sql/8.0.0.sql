@@ -4,6 +4,7 @@ SET NAMES 'utf8mb4';
 DROP TABLE IF EXISTS `PREFIX_referrer`;
 DROP TABLE IF EXISTS `PREFIX_referrer_cache`;
 DROP TABLE IF EXISTS `PREFIX_referrer_shop`;
+DROP TABLE IF EXISTS `PREFIX_attribute_impact`;
 
 /* Remove page Referrers */
 ## Remove Tabs
@@ -191,8 +192,8 @@ ALTER TABLE `PREFIX_product` MODIFY COLUMN `redirect_type` ENUM(
     '404', '410', '301-product', '302-product', '301-category', '302-category'
 ) NOT NULL DEFAULT '404';
 ALTER TABLE `PREFIX_product_shop` MODIFY COLUMN `redirect_type` ENUM(
-    '404', '410', '301-product', '302-product', '301-category', '302-category'
-) NOT NULL DEFAULT '404';
+    '', '404', '410', '301-product', '302-product', '301-category', '302-category'
+) NOT NULL DEFAULT '';
 
 ALTER TABLE `PREFIX_tab` ADD route_name VARCHAR(256) DEFAULT NULL;
 
@@ -237,3 +238,4 @@ UPDATE `PREFIX_carrier` SET `name` = 'Click and collect' WHERE `name` = '0';
 /* Remove deprecated columns */
 /* PHP:drop_column_if_exists('product_attribute', 'location'); */;
 /* PHP:drop_column_if_exists('product_attribute', 'quantity'); */;
+/* PHP:drop_column_if_exists('orders', 'shipping_number'); */;

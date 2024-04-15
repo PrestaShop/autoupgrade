@@ -102,3 +102,14 @@ ALTER TABLE `PREFIX_order_detail` MODIFY COLUMN `product_ean13` VARCHAR(20);
 ALTER TABLE `PREFIX_product_attribute` MODIFY COLUMN `ean13` VARCHAR(20);
 ALTER TABLE `PREFIX_stock` MODIFY COLUMN `ean13` VARCHAR(20);
 ALTER TABLE `PREFIX_supply_order_detail` MODIFY COLUMN `ean13` VARCHAR(20);
+
+/* Change all empty string to 'default' */
+UPDATE `PREFIX_product` SET `redirect_type` = 'default' WHERE `redirect_type` = '';
+UPDATE `PREFIX_product_shop` SET `redirect_type` = 'default' WHERE `redirect_type` = '';
+
+ALTER TABLE `PREFIX_product` MODIFY COLUMN `redirect_type` ENUM(
+    '404','410','301-product','302-product','301-category','302-category','200-displayed','404-displayed','410-displayed','default'
+    ) NOT NULL DEFAULT 'default';
+ALTER TABLE `PREFIX_product_shop` MODIFY COLUMN `redirect_type` ENUM(
+    '404','410','301-product','302-product','301-category','302-category','200-displayed','404-displayed','410-displayed','default'
+    ) NOT NULL DEFAULT 'default';

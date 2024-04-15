@@ -43,8 +43,8 @@ ALTER TABLE `PREFIX_product_shop` CHANGE `redirect_type` `redirect_type`
   ENUM('','404','301-product','302-product','301-category','302-category')
   CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '';
 
-ALTER TABLE `PREFIX_product` CHANGE `id_product_redirected` `id_type_redirected` INT(10) NOT NULL DEFAULT '0';
-ALTER TABLE `PREFIX_product_shop` CHANGE `id_product_redirected` `id_type_redirected` INT(10) NOT NULL DEFAULT '0';
+ALTER TABLE `PREFIX_product` CHANGE `id_product_redirected` `id_type_redirected` INT(10) UNSIGNED NOT NULL DEFAULT '0';
+ALTER TABLE `PREFIX_product_shop` CHANGE `id_product_redirected` `id_type_redirected` INT(10) UNSIGNED NOT NULL DEFAULT '0';
 
 INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`) VALUES
   (NULL, 'filterCmsContent', 'Filter the content page', 'This hook is called just before fetching content page', '1'),
@@ -104,6 +104,13 @@ ALTER TABLE `PREFIX_shop` CHANGE `id_shop_group` `id_shop_group` INT(11) NOT NUL
 ALTER TABLE `PREFIX_shop_group` CHANGE `id_shop_group` `id_shop_group` INT(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `PREFIX_tab` CHANGE `id_tab` `id_tab` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `PREFIX_tab` CHANGE `active` `active` TINYINT(1) NOT NULL;
+ALTER TABLE `PREFIX_tab` CHANGE `hide_host_mode` `hide_host_mode` TINYINT(1) NOT NULL;
+ALTER TABLE `PREFIX_tab` CHANGE `icon` `icon` VARCHAR(32) DEFAULT NULL;
 
 ALTER TABLE `PREFIX_tab_lang` CHANGE `id_tab` `id_tab` INT(11) NOT NULL;
 ALTER TABLE `PREFIX_tab_lang` CHANGE `id_lang` `id_lang` INT(11) NOT NULL;
+
+/* PHP:remove_duplicates_from_authorization_role(); */;
+
+ALTER TABLE `PREFIX_authorization_role` ADD UNIQUE KEY `slug` (`slug`);
