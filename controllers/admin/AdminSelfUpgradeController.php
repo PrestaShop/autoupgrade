@@ -34,7 +34,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradePage;
 use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 
-$autoloadPath = __DIR__ . '/vendor/autoload.php';
+$autoloadPath = __DIR__ . '/../../vendor/autoload.php';
 if (file_exists($autoloadPath)) {
     require_once $autoloadPath;
 }
