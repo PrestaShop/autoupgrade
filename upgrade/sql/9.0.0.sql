@@ -4,6 +4,7 @@ SET NAMES 'utf8mb4';
 INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES
   ('PS_DEBUG_COOKIE_NAME', '', NOW(), NOW()),
   ('PS_DEBUG_COOKIE_VALUE', '', NOW(), NOW()),
+  ('PS_SEPARATOR_FILE_MANAGER_SQL', ';', NOW(), NOW()),
   ('PS_PRODUCT_BREADCRUMB_CATEGORY', 'default', NOW(), NOW())
 ;
 
