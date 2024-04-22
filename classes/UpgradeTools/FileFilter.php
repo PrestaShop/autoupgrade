@@ -141,35 +141,18 @@ class FileFilter
 
         // do not copy install, neither app/config/parameters.php in case it would be present
         $this->excludeAbsoluteFilesFromUpgrade = [
-            '/app/config/parameters.php',
-            '/app/config/parameters.yml',
-            '/install',
-            '/install-dev',
-            '/override',
-            '/override/classes',
-            '/override/controllers',
-            '/override/modules',
+            'app/config/parameters.php',
+            'app/config/parameters.yml',
+            'install',
+            'install-dev',
+            'override',
+            'modules',
         ];
-
-        // Fetch all existing native modules
-        $nativeModules = $this->getNativeModules();
-
-        if (is_dir($this->rootDir . '/modules')) {
-            $dir = new DirectoryIterator($this->rootDir . '/modules');
-            foreach ($dir as $fileinfo) {
-                if (!$fileinfo->isDir() || $fileinfo->isDot()) {
-                    continue;
-                }
-                if (in_array($fileinfo->getFilename(), $nativeModules)) {
-                    $this->excludeAbsoluteFilesFromUpgrade[] = '/modules/' . $fileinfo->getFilename();
-                }
-            }
-        }
 
         // this will exclude autoupgrade dir from admin, and autoupgrade from modules
         // If set to false, we need to preserve the default themes
         if (!$this->configuration->shouldUpdateDefaultTheme()) {
-            $this->excludeAbsoluteFilesFromUpgrade[] = '/themes/classic';
+            $this->excludeAbsoluteFilesFromUpgrade[] = 'themes/classic';
         }
 
         return $this->excludeAbsoluteFilesFromUpgrade;

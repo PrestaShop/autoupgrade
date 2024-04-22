@@ -31,6 +31,7 @@ use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
+use Symfony\Component\Finder\Finder;
 
 class UpgradeFiles extends AbstractTask
 {
@@ -92,43 +93,29 @@ class UpgradeFiles extends AbstractTask
      * list files to upgrade and return it as array
      * TODO: This method needs probably to be moved in FilesystemAdapter.
      *
-     * @param string $dir
+     * @param string $pathToNewRelease
      *
      * @return array|false Number of files found, or false if param is not a folder
      */
-    protected function listFilesToUpgrade($dir)
+    protected function listFilesToUpgrade($pathToNewRelease)
     {
-        $list = [];
-        if (!is_dir($dir)) {
-            $this->logger->error($this->translator->trans('[ERROR] %s does not exist or is not a directory.', [$dir], 'Modules.Autoupgrade.Admin'));
+        if (!is_dir($pathToNewRelease)) {
+            $this->logger->error($this->translator->trans('[ERROR] %s does not exist or is not a directory.', [$pathToNewRelease], 'Modules.Autoupgrade.Admin'));
             $this->logger->info($this->translator->trans('Nothing has been extracted. It seems the unzipping step has been skipped.', [], 'Modules.Autoupgrade.Admin'));
             $this->next = 'error';
 
             return false;
         }
 
-        $allFiles = scandir($dir);
-        foreach ($allFiles as $file) {
-            $fullPath = $dir . DIRECTORY_SEPARATOR . $file;
+        $finder = new Finder();
+        $finder->in($pathToNewRelease)
+            ->exclude($this->container->getFileFilter()->getFilesToIgnoreOnUpgrade());
 
-            if ($this->container->getFilesystemAdapter()->isFileSkipped(
-                $file,
-                $fullPath,
-                'upgrade',
-                $this->container->getProperty(UpgradeContainer::LATEST_PATH)
-            )) {
-                if (!in_array($file, ['.', '..'])) {
-                    $this->logger->debug($this->translator->trans('File %s is preserved', [$file], 'Modules.Autoupgrade.Admin'));
-                }
-                continue;
-            }
-            $list[] = str_replace($this->container->getProperty(UpgradeContainer::LATEST_PATH), '', $fullPath);
-            if (is_dir($fullPath)) {
-                $list = array_merge($list, $this->listFilesToUpgrade($fullPath));
-            }
+        $files = [];
+        foreach ($finder as $file) {
+            $files[] = '/' . $file->getRelativePathname();
         }
-
-        return $list;
+        return $files;
     }
 
     /**
@@ -148,13 +135,6 @@ class UpgradeFiles extends AbstractTask
         // The path to the file in our prestashop directory
         $dest = $this->destUpgradePath . $file;
 
-        // Skip files that we want to avoid touching. They may be already excluded from the list from before,
-        // but again, as a safety precaution.
-        if ($this->container->getFilesystemAdapter()->isFileSkipped($file, $dest, 'upgrade')) {
-            $this->logger->debug($this->translator->trans('%s ignored', [$file], 'Modules.Autoupgrade.Admin'));
-
-            return true;
-        }
         if (is_dir($orig)) {
             // if $dest is not a directory (that can happen), just remove that file
             if (!is_dir($dest) && file_exists($dest)) {

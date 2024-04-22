@@ -201,6 +201,8 @@ class FilesystemAdapter
      * @param string $fullpath : current file or directory fullpath eg:'/home/web/www/prestashop/app/config/parameters.php'
      * @param string $way : 'backup' , 'upgrade'
      * @param string $temporaryWorkspace : If needed, another folder than the shop root can be used (used for releases)
+     * 
+     * @deprecated in favor of Finder
      */
     public function isFileSkipped($file, $fullpath, $way = 'backup', $temporaryWorkspace = null)
     {
