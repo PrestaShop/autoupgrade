@@ -27,7 +27,11 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
+use FilesystemIterator;
 use PrestaShop\Module\AutoUpgrade\Tools14;
+use RecursiveCallbackFilterIterator;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 
 class FilesystemAdapter
 {
@@ -81,37 +85,31 @@ class FilesystemAdapter
         return Tools14::deleteDirectory($dirname, $delete_self);
     }
 
-    public function listFilesInDir($dir, $way = 'backup', $list_directories = false)
+    /**
+     * @param string $dir
+     * @param 'upgrade'|'restore'|'backup' $way
+     * @param bool $listDirectories
+     */
+    public function listFilesInDir($dir, $way, $listDirectories = false)
     {
-        $list = [];
-        $dir = rtrim($dir, '/') . DIRECTORY_SEPARATOR;
-        $allFiles = false;
-        if (is_dir($dir) && is_readable($dir)) {
-            $allFiles = scandir($dir);
-        }
-        if (!is_array($allFiles)) {
-            return $list;
-        }
-        foreach ($allFiles as $file) {
-            $fullPath = $dir . $file;
-            // skip broken symbolic links
-            if (is_link($fullPath) && !is_readable($fullPath)) {
-                continue;
-            }
-            if ($this->isFileSkipped($file, $fullPath, $way)) {
-                continue;
-            }
-            if (is_dir($fullPath)) {
-                $list = array_merge($list, $this->listFilesInDir($fullPath, $way, $list_directories));
-                if ($list_directories) {
-                    $list[] = $fullPath;
-                }
-            } else {
-                $list[] = $fullPath;
-            }
+        $files = [];
+        $directory = new RecursiveDirectoryIterator(
+            $dir,
+            FilesystemIterator::SKIP_DOTS | FilesystemIterator::KEY_AS_FILENAME | FilesystemIterator::CURRENT_AS_PATHNAME | FilesystemIterator::UNIX_PATHS
+        );
+        $filter = new RecursiveCallbackFilterIterator($directory, function ($current, $key, $iterator) use ($way, $dir) {
+            return !$this->isFileSkipped($key, $current, $way, $dir);
+        });
+        $iterator = new \RecursiveIteratorIterator(
+            $filter,
+            $listDirectories ? RecursiveIteratorIterator::SELF_FIRST : RecursiveIteratorIterator::LEAVES_ONLY
+        );
+
+        foreach ($iterator as $info) {
+            $files[] = $info;
         }
 
-        return $list;
+        return $files;
     }
 
     /**
@@ -195,12 +193,12 @@ class FilesystemAdapter
     }
 
     /**
-     *	bool _skipFile : check whether a file is in backup or restore skip list.
-     *
      * @param string $file : current file or directory name eg:'.svn' , 'settings.inc.php'
      * @param string $fullpath : current file or directory fullpath eg:'/home/web/www/prestashop/app/config/parameters.php'
-     * @param string $way : 'backup' , 'upgrade'
-     * @param string $temporaryWorkspace : If needed, another folder than the shop root can be used (used for releases)
+     * @param 'upgrade'|'restore'|'backup' $way
+     * @param string|null $temporaryWorkspace : If needed, another folder than the shop root can be used (used for releases)
+     *
+     * @return bool
      */
     public function isFileSkipped($file, $fullpath, $way = 'backup', $temporaryWorkspace = null)
     {
@@ -226,7 +224,7 @@ class FilesystemAdapter
 
         foreach ($ignoreList as $path) {
             $path = str_replace(DIRECTORY_SEPARATOR . 'admin', DIRECTORY_SEPARATOR . $this->adminSubDir, $path);
-            if ($fullpath === $rootpath . $path) {
+            if (strpos($fullpath, $rootpath . $path) === 0 && /* endsWith */ substr($fullpath, -strlen($rootpath . $path)) === $rootpath . $path) {
                 return true;
             }
         }
