@@ -113,3 +113,8 @@ ALTER TABLE `PREFIX_product` MODIFY COLUMN `redirect_type` ENUM(
 ALTER TABLE `PREFIX_product_shop` MODIFY COLUMN `redirect_type` ENUM(
     '404','410','301-product','302-product','301-category','302-category','200-displayed','404-displayed','410-displayed','default'
     ) NOT NULL DEFAULT 'default';
+
+ALTER TABLE `PREFIX_accessory` DROP KEY accessory_product;
+ALTER TABLE `PREFIX_accessory` ADD CONSTRAINT accessory_product PRIMARY KEY (`id_product_1`, `id_product_2`);
+
+ALTER TABLE `PREFIX_stock_mvt` MODIFY `id_supply_order` INT(11) DEFAULT '0';

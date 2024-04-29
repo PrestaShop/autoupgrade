@@ -29,7 +29,7 @@ function add_missing_unique_key_from_authorization_role()
 {
     // Verify if we need to create unique key
     $keys = Db::getInstance()->executeS(
-        'SHOW KEYS FROM ' .  _DB_PREFIX_ . "authorization_role WHERE Key_name='slug'"
+        'SHOW KEYS FROM ' . _DB_PREFIX_ . "authorization_role WHERE Key_name='slug'"
     );
 
     if (!empty($keys)) {
@@ -62,6 +62,6 @@ function add_missing_unique_key_from_authorization_role()
     }
 
     Db::getInstance()->execute(
-        'ALTER TABLE ' . _DB_PREFIX_ . "authorization_role ADD UNIQUE KEY `slug` (`slug`)"
+        'ALTER TABLE ' . _DB_PREFIX_ . 'authorization_role ADD UNIQUE KEY `slug` (`slug`)'
     );
 }
