@@ -25,8 +25,17 @@
  */
 
 // Allows you to catch up on a forgotten uniqueness constraint on the roles
-function remove_duplicates_from_authorization_role()
+function add_missing_unique_key_from_authorization_role()
 {
+    // Verify if we need to create unique key
+    $keys = Db::getInstance()->executeS(
+        'SHOW KEYS FROM ' .  _DB_PREFIX_ . "authorization_role WHERE Key_name='slug'"
+    );
+
+    if (!empty($keys)) {
+        return;
+    }
+
     // We recover the duplicates that we want to keep
     $duplicates = Db::getInstance()->executeS(
         'SELECT MIN(id_authorization_role) AS keep_ID, slug FROM ' . _DB_PREFIX_ . 'authorization_role GROUP BY slug HAVING COUNT(*) > 1'
@@ -51,4 +60,8 @@ function remove_duplicates_from_authorization_role()
             Db::getInstance()->delete('authorization_role', '`id_authorization_role` = ' . (int) $elementToRemove['id_authorization_role']);
         }
     }
+
+    Db::getInstance()->execute(
+        'ALTER TABLE ' . _DB_PREFIX_ . "authorization_role ADD UNIQUE KEY `slug` (`slug`)"
+    );
 }

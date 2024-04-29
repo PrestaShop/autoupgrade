@@ -111,6 +111,4 @@ ALTER TABLE `PREFIX_tab` CHANGE `icon` `icon` VARCHAR(32) DEFAULT NULL;
 ALTER TABLE `PREFIX_tab_lang` CHANGE `id_tab` `id_tab` INT(11) NOT NULL;
 ALTER TABLE `PREFIX_tab_lang` CHANGE `id_lang` `id_lang` INT(11) NOT NULL;
 
-/* PHP:remove_duplicates_from_authorization_role(); */;
-
-ALTER TABLE `PREFIX_authorization_role` ADD UNIQUE KEY `slug` (`slug`);
+/* PHP:add_missing_unique_key_from_authorization_role(); */;

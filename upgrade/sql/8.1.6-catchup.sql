@@ -7,8 +7,7 @@ ALTER TABLE `PREFIX_product_shop` CHANGE `id_type_redirected` `id_type_redirecte
 ALTER TABLE `PREFIX_tab` CHANGE `active` `active` TINYINT(1) NOT NULL;
 ALTER TABLE `PREFIX_tab` CHANGE `icon` `icon` VARCHAR(32) DEFAULT NULL;
 
-/* PHP:remove_duplicates_from_authorization_role(); */;
-ALTER TABLE `PREFIX_authorization_role` ADD UNIQUE KEY `slug` (`slug`);
+/* PHP:add_missing_unique_key_from_authorization_role(); */;
 
 /* 1.7.2.0 */
 ALTER TABLE `PREFIX_stock_mvt` CHANGE `sign` `sign` SMALLINT(6) NOT NULL DEFAULT '1';
