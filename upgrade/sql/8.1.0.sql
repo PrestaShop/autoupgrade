@@ -84,3 +84,24 @@ ALTER TABLE `PREFIX_stock_mvt` CHANGE `physical_quantity` `physical_quantity` IN
 /* PHP:add_hook('actionAdminBreadcrumbModifier', 'Modify back office breadcrumb', 'This hook allows modifying back office breadcrumb'); */;
 
 ALTER TABLE `PREFIX_order_payment` ADD `id_employee` INT NULL AFTER `date_add`;
+
+CREATE TABLE `PREFIX_authorized_application`
+(
+    id_authorized_application INT UNSIGNED AUTO_INCREMENT NOT NULL,
+    name                      VARCHAR(255) NOT NULL,
+    description               LONGTEXT     NOT NULL,
+    UNIQUE INDEX UNIQ_475B9BA55E237E06 (name),
+    PRIMARY KEY (id_authorized_application)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB;
+
+CREATE TABLE `PREFIX_api_access`
+(
+    id_api_access             INT UNSIGNED AUTO_INCREMENT NOT NULL,
+    id_authorized_application INT UNSIGNED NOT NULL,
+    client_id                 VARCHAR(255) NOT NULL,
+    client_secret             VARCHAR(255) NOT NULL,
+    active                    TINYINT(1) NOT NULL,
+    scopes                    LONGTEXT     NOT NULL COMMENT '(DC2Type:array)',
+    INDEX                     IDX_6E064442D8BFF738 (id_authorized_application),
+    PRIMARY KEY (id_api_access)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB;
