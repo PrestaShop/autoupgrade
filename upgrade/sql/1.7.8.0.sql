@@ -201,3 +201,11 @@ CREATE TABLE IF NOT EXISTS `PREFIX_feature_flag` (
 INSERT INTO `PREFIX_feature_flag` (`name`, `state`, `label_wording`, `label_domain`, `description_wording`, `description_domain`)
 VALUES
 	('product_page_v2', 0, 'Experimental product page', 'Admin.Advparameters.Feature', 'This page benefits from increased performance and includes new features such as a new combination management system. Please note this is a work in progress and some features are not available yet.', 'Admin.Advparameters.Help');
+
+DROP INDEX id_shop ON `PREFIX_shop_url`;
+DROP INDEX full_shop_url ON `PREFIX_shop_url`;
+DROP INDEX full_shop_url_ssl ON `PREFIX_shop_url`;
+ALTER TABLE `PREFIX_shop_url` CHANGE id_shop_url id_shop_url INT AUTO_INCREMENT NOT NULL, CHANGE id_shop id_shop INT NOT NULL;
+CREATE INDEX IDX_279F19DA274A50A0 ON `PREFIX_shop_url` (id_shop);
+ALTER TABLE `PREFIX_shop` ADD color VARCHAR(50) NOT NULL;
+ALTER TABLE `PREFIX_shop_group` ADD color VARCHAR(50) NOT NULL;
