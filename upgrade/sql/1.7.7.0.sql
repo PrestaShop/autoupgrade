@@ -312,7 +312,7 @@ ALTER TABLE `PREFIX_connections` CHANGE `http_referer` `http_referer` varchar(25
 ALTER TABLE `PREFIX_product_download` CHANGE `display_filename` `display_filename` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL;
 
 /* Doctrine update happens too late to update the new enabled field, so we preset everything here */
-ALTER TABLE `PREFIX_tab` ADD enabled TINYINT(1) NOT NULL;
+ALTER TABLE `PREFIX_tab` ADD enabled TINYINT(1) NOT NULL, ADD route_name VARCHAR(256) DEFAULT NULL, CHANGE class_name class_name VARCHAR(64) NOT NULL;
 
 /* PHP:ps_1770_preset_tab_enabled(); */;
 /* PHP:ps_1770_update_order_status_colors(); */;
@@ -678,3 +678,6 @@ DELETE FROM `PREFIX_hook` WHERE name = 'actionFrontControllerAfterInit';
 
 /* Update wrong hook alias */
 UPDATE `PREFIX_hook_alias` SET name = 'displayHeader', alias = 'Header' WHERE name = 'Header' AND alias = 'displayHeader';
+
+ALTER TABLE `PREFIX_translation` CHANGE `key` `key` TEXT NOT NULL COLLATE utf8_bin;
+ALTER TABLE `PREFIX_admin_filter` CHANGE filter_id filter_id VARCHAR(191) NOT NULL;
