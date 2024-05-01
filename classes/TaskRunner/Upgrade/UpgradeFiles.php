@@ -245,29 +245,6 @@ class UpgradeFiles extends AbstractTask
         // Add our previously created list of deleted files
         $list_files_to_upgrade = array_reverse(array_merge($list_files_diff, $list_files_to_upgrade));
 
-        // Now, some files should be updated as an absolute last step, if they are present in the list,
-        // we will put them to the end of it.
-        $filesToMoveToTheEnd = [
-            DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php',
-            DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'composer' . DIRECTORY_SEPARATOR . 'ClassLoader.php',
-            DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'composer' . DIRECTORY_SEPARATOR . 'autoload_classmap.php',
-            DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'composer' . DIRECTORY_SEPARATOR . 'autoload_files.php',
-            DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'composer' . DIRECTORY_SEPARATOR . 'autoload_namespaces.php',
-            DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'composer' . DIRECTORY_SEPARATOR . 'autoload_psr4.php',
-            DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'composer' . DIRECTORY_SEPARATOR . 'autoload_real.php',
-            DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'composer' . DIRECTORY_SEPARATOR . 'autoload_static.php',
-            DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'composer' . DIRECTORY_SEPARATOR . 'include_paths.php',
-            DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'composer',
-            DIRECTORY_SEPARATOR . 'vendor',
-        ];
-
-        foreach ($filesToMoveToTheEnd as $file) {
-            if ($key = array_search($file, $list_files_to_upgrade)) {
-                unset($list_files_to_upgrade[$key]);
-                $list_files_to_upgrade[] = $file;
-            }
-        }
-
         // Save in a serialized array in UpgradeFileNames::toUpgradeFileList, to be later used by the upgrade step itself above,
         // after run() is called.
         $this->container->getFileConfigurationStorage()->save($list_files_to_upgrade, UpgradeFileNames::FILES_TO_UPGRADE_LIST);
