@@ -123,3 +123,43 @@ DROP TABLE `PREFIX_accessory`;
 RENAME TABLE `PREFIX_accessory_tmp` TO `PREFIX_accessory`;
 
 ALTER TABLE `PREFIX_stock_mvt` MODIFY `id_supply_order` INT(11) DEFAULT '0';
+
+DROP TABLE IF EXISTS `PREFIX_api_access`;
+DROP TABLE IF EXISTS `PREFIX_authorized_application`;
+CREATE TABLE `PREFIX_api_client`
+(
+     `id_api_client` int(10) unsigned NOT NULL AUTO_INCREMENT,
+     `client_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+     `client_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+     `client_secret` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+     `enabled` tinyint(1) NOT NULL,
+     `scopes` json NOT NULL,
+     `description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+     `external_issuer` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+     `lifetime` int(11) NOT NULL DEFAULT '3600',
+     PRIMARY KEY (`id_api_client`),
+     UNIQUE KEY `api_client_client_id_idx` (`client_id`,`external_issuer`),
+     UNIQUE KEY `api_client_client_name_idx` (`client_name`,`external_issuer`)
+) ENGINE=ENGINE_TYPE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+ALTER TABLE `PREFIX_image_type`
+    CHANGE `id_image_type` `id_image_type` int(11) NOT NULL AUTO_INCREMENT,
+    CHANGE `width` `width` int(11) NOT NULL,
+    CHANGE `height` `height` int(11) NOT NULL,
+    CHANGE `products` `products`  tinyint(1) NOT NULL,
+    CHANGE `manufacturers` `manufacturers`  tinyint(1) NOT NULL,
+    CHANGE `stores` `stores`  tinyint(1) NOT NULL,
+    DROP key `image_type_name`,
+    ADD UNIQUE KEY `UNIQ_907C95215E237E06` (`name`);
+
+CREATE TABLE `PREFIX_mutation` (
+   `id_mutation` int(10) unsigned NOT NULL AUTO_INCREMENT,
+   `mutation_table` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+   `mutation_row_id` bigint(20) NOT NULL,
+   `mutation_action` enum('create','update','delete') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+   `mutator_type` enum('employee','api_client','module') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+   `mutator_identifier` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+   `mutation_details` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+   `date_add` datetime NOT NULL,
+   PRIMARY KEY (`id_mutation`)
+) ENGINE=ENGINE_TYPE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
