@@ -205,7 +205,8 @@ VALUES
 DROP INDEX id_shop ON `PREFIX_shop_url`;
 DROP INDEX full_shop_url ON `PREFIX_shop_url`;
 DROP INDEX full_shop_url_ssl ON `PREFIX_shop_url`;
-ALTER TABLE `PREFIX_shop_url` CHANGE id_shop_url id_shop_url INT AUTO_INCREMENT NOT NULL, CHANGE id_shop id_shop INT NOT NULL;
+ALTER TABLE `PREFIX_shop_url` CHANGE id_shop_url id_shop_url INT AUTO_INCREMENT NOT NULL;
+ALTER TABLE `PREFIX_shop_url` CHANGE id_shop id_shop INT NOT NULL;
 CREATE INDEX IDX_279F19DA274A50A0 ON `PREFIX_shop_url` (id_shop);
 ALTER TABLE `PREFIX_shop` ADD color VARCHAR(50) NOT NULL;
 ALTER TABLE `PREFIX_shop_group` ADD color VARCHAR(50) NOT NULL;

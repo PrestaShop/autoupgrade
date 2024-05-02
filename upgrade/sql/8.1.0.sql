@@ -92,7 +92,7 @@ CREATE TABLE `PREFIX_authorized_application`
     description               LONGTEXT     NOT NULL,
     UNIQUE INDEX UNIQ_475B9BA55E237E06 (name),
     PRIMARY KEY (id_authorized_application)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = ENGINE_TYPE;
+) ENGINE=ENGINE_TYPE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `PREFIX_api_access`
 (
@@ -104,4 +104,4 @@ CREATE TABLE `PREFIX_api_access`
     scopes                    LONGTEXT     NOT NULL COMMENT '(DC2Type:array)',
     INDEX                     IDX_6E064442D8BFF738 (id_authorized_application),
     PRIMARY KEY (id_api_access)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = ENGINE_TYPE;
+) ENGINE=ENGINE_TYPE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

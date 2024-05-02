@@ -241,6 +241,5 @@ UPDATE `PREFIX_carrier` SET `name` = 'Click and collect' WHERE `name` = '0';
 /* PHP:drop_column_if_exists('orders', 'shipping_number'); */;
 
 ALTER TABLE `PREFIX_tab` DROP hide_host_mode;
-ALTER TABLE `PREFIX_feature_flag`
-    CHANGE  label_wording label_wording VARCHAR(512) DEFAULT '' NOT NULL,
-    CHANGE description_wording description_wording VARCHAR(512) DEFAULT '' NOT NULL;
+ALTER TABLE `PREFIX_feature_flag` CHANGE label_wording label_wording VARCHAR(512) DEFAULT '' NOT NULL;
+ALTER TABLE `PREFIX_feature_flag` CHANGE description_wording description_wording VARCHAR(512) DEFAULT '' NOT NULL;
