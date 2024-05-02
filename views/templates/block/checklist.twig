@@ -221,6 +221,12 @@
                     <td>{{ icons.nok }}</td>
                   </tr>
                 {% endif %}
+                {% if not isShopVersionMatchingVersionInDatabase %}
+                  <tr>
+                    <td>{{ 'The version of PrestaShop stored in database does not match the running code. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table.'|trans({}, 'Modules.Autoupgrade.Admin') }}</td>
+                    <td>{{ icons.nok }}</td>
+                  </tr>
+                {% endif %}
             </table>
             <br>
             <p class="alert alert-info">{{ 'Please also make sure you make a full manual backup of your files and database.'|trans({}, 'Modules.Autoupgrade.Admin') }}</p>

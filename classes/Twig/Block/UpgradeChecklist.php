@@ -113,6 +113,7 @@ class UpgradeChecklist
             'moduleVersion' => $this->selfCheck->getModuleVersion(),
             'moduleIsUpToDate' => $this->selfCheck->isModuleVersionLatest(),
             'moduleUpdateLink' => Context::getContext()->link->getAdminLink('AdminModulesUpdates'),
+            'isShopVersionMatchingVersionInDatabase' => $this->selfCheck->isShopVersionMatchingVersionInDatabase(),
             'adminToken' => Tools14::getAdminTokenLite('AdminModules'),
             'informationsLink' => Context::getContext()->link->getAdminLink('AdminInformation'),
             'maintenanceLink' => Context::getContext()->link->getAdminLink('AdminMaintenance'),
