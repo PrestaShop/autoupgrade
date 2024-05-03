@@ -204,9 +204,6 @@ class UpgradePage
         return (new UpgradeChecklist(
             $this->twig,
             $this->upgradeSelfCheck,
-            $this->prodRootPath,
-            $this->adminPath,
-            $this->autoupgradePath,
             $this->currentIndex,
             $this->token
         ))->render();
