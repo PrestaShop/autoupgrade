@@ -227,6 +227,9 @@ class FilesystemAdapter
             if (strpos($fullpath, $rootpath . $path) === 0 && /* endsWith */ substr($fullpath, -strlen($rootpath . $path)) === $rootpath . $path) {
                 return true;
             }
+            if (strpos($path, '*') !== false && fnmatch($rootpath . $path, $fullpath, FNM_PATHNAME)) {
+                return true;
+            }
         }
 
         // by default, don't skip
