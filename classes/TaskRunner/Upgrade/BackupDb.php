@@ -36,7 +36,9 @@ class BackupDb extends AbstractTask
 {
     public function run()
     {
-        if (!$this->container->getUpgradeConfiguration()->get('PS_AUTOUP_BACKUP')) {
+        // TODO: Keep only one configuration property to toggle backups
+        if (!$this->container->getUpgradeConfiguration()->get('PS_AUTOUP_BACKUP')
+         || $this->container->getUpgradeConfiguration()->get('skip_backup')) {
             $this->stepDone = true;
             $this->container->getState()->setDbStep(0);
             $this->logger->info($this->translator->trans('Database backup skipped. Now upgrading files...', [], 'Modules.Autoupgrade.Admin'));

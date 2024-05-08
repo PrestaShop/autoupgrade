@@ -143,23 +143,6 @@ class FilesystemAdapter
     }
 
     /**
-     * Retrieve a list of sample files to be deleted from the release.
-     *
-     * @param array $directoryList
-     *
-     * @return array Files to remove from the release
-     */
-    public function listSampleFilesFromArray(array $directoryList)
-    {
-        $res = [];
-        foreach ($directoryList as $directory) {
-            $res = array_merge($res, $this->listSampleFiles($directory['path'], $directory['filter']));
-        }
-
-        return $res;
-    }
-
-    /**
      * listSampleFiles will make a recursive call to scandir() function
      * and list all file which match to the $fileext suffixe (this can be an extension or whole filename).
      *

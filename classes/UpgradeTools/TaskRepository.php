@@ -65,8 +65,6 @@ class TaskRepository
                 return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\CleanDatabase($container);
             case 'download':
                 return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\Download($container);
-            case 'removeSamples':
-                return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\RemoveSamples($container);
             case 'upgradeComplete':
                 return new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\UpgradeComplete($container);
             case 'upgradeDb':
