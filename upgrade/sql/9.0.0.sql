@@ -94,7 +94,9 @@ DELETE FROM `PREFIX_tab` WHERE `class_name` = 'AdminStockInstantState';
 DELETE FROM `PREFIX_tab` WHERE `class_name` = 'AdminStockCover';
 DELETE FROM `PREFIX_tab` WHERE `class_name` = 'AdminSupplyOrders';
 DELETE FROM `PREFIX_tab` WHERE `class_name` = 'AdminStockConfiguration';
-DELETE FROM `PREFIX_tab_lang` WHERE `id_tab` NOT IN (SELECT id_tab FROM `PREFIX_tab`);
+-- Avoid Error Code: 1093 by nesting subrequest
+DELETE FROM `PREFIX_tab` WHERE `id_parent` > 0 AND `id_parent` NOT IN (SELECT `id_tab` FROM (SELECT `id_tab` FROM `PREFIX_tab`) as c);
+DELETE FROM `PREFIX_tab_lang` WHERE `id_tab` NOT IN (SELECT `id_tab` FROM `PREFIX_tab`);
 
 /* Change the length of the ean13 field */
 ALTER TABLE `PREFIX_product` MODIFY COLUMN `ean13` VARCHAR(20);
