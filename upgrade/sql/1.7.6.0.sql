@@ -1,7 +1,7 @@
 SET SESSION sql_mode = '';
 SET NAMES 'utf8';
 
-ALTER TABLE `PREFIX_currency` ADD `numeric_iso_code` varchar(3) NOT NULL DEFAULT '0' AFTER `iso_code`;
+ALTER TABLE `PREFIX_currency` ADD `numeric_iso_code` varchar(3) DEFAULT NULL AFTER `iso_code`;
 ALTER TABLE `PREFIX_currency` ADD `precision` int(2) NOT NULL DEFAULT 6 AFTER `numeric_iso_code`;
 ALTER TABLE `PREFIX_currency` ADD KEY `currency_iso_code` (`iso_code`);
 

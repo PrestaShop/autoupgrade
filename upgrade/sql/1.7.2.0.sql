@@ -31,6 +31,11 @@ ALTER TABLE `PREFIX_supply_order_detail` CHANGE `isbn` `isbn` VARCHAR(32) NULL D
 ALTER TABLE `PREFIX_stock_available` ADD `physical_quantity` INT NOT NULL DEFAULT '0' AFTER `quantity`;
 ALTER TABLE `PREFIX_stock_available` ADD `reserved_quantity` INT NOT NULL DEFAULT '0' AFTER `physical_quantity`;
 ALTER TABLE `PREFIX_stock_mvt` CHANGE `id_stock` `id_stock` INT(11) UNSIGNED NOT NULL COMMENT 'since ps 1.7 corresponding to id_stock_available';
+ALTER TABLE `PREFIX_stock_mvt` CHANGE `employee_lastname` `employee_lastname` varchar(32) DEFAULT NULL;
+ALTER TABLE `PREFIX_stock_mvt` CHANGE `employee_firstname` `employee_firstname` varchar(32) DEFAULT NULL;
+ALTER TABLE `PREFIX_stock_mvt` CHANGE `sign` `sign` smallint(6) NOT NULL DEFAULT '1';
 
 UPDATE `PREFIX_configuration` SET `value` = 0 WHERE `name` = "PS_ADVANCED_STOCK_MANAGEMENT";
 /* PHP:add_new_status_stock(); */;
+
+ALTER TABLE `PREFIX_carrier_lang` CHANGE `delay` `delay` varchar(512) DEFAULT NULL;

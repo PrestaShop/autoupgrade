@@ -1,6 +1,8 @@
 SET SESSION sql_mode='';
 SET NAMES 'utf8mb4';
 
+DROP TABLE IF EXISTS `PREFIX_order_slip_detail_tax`;
+
 INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`) VALUES
   (NULL, 'actionPresentCart', 'Cart Presenter', 'This hook is called before a cart is presented', '1'),
   (NULL, 'actionPresentOrder', 'Order footer', 'This hook is called before an order is presented', '1'),
@@ -170,8 +172,8 @@ ALTER TABLE `PREFIX_product` MODIFY COLUMN `redirect_type` ENUM(
 ) NOT NULL DEFAULT '404';
 
 ALTER TABLE  `PREFIX_product` ADD `product_type` ENUM(
-    'standard', 'pack', 'virtual', 'combinations'
-) NOT NULL DEFAULT 'standard';
+    'standard', 'pack', 'virtual', 'combinations', ''
+) NOT NULL DEFAULT '';
 
 /* First set all products to standard type, then update them based on cached columns that identify the type */
 UPDATE `PREFIX_product` SET `product_type` = "standard";
