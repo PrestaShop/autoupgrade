@@ -29,6 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
 use DirectoryIterator;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Tools14;
 
 class FileFilter
 {
@@ -48,6 +49,21 @@ class FileFilter
     protected $rootDir;
 
     /**
+     * @var string Workspace directory
+     */
+    protected $workspaceDir;
+
+    /**
+     * @var string Current version
+     */
+    protected $currentVersion;
+
+    /**
+     * @var string Next version
+     */
+    protected $nextVersion;
+
+    /**
      * @var array|null
      */
     protected $excludeAbsoluteFilesFromUpgrade;
@@ -61,15 +77,24 @@ class FileFilter
     /**
      * @param UpgradeConfiguration $configuration
      * @param string $rootDir
+     * @param string $workspaceDir
+     * @param string $currentVersion
+     * @param string $nextVersion
      * @param string $autoupgradeDir
      */
     public function __construct(
         UpgradeConfiguration $configuration,
         $rootDir,
+        $workspaceDir,
+        $currentVersion,
+        $nextVersion,
         $autoupgradeDir = 'autoupgrade'
     ) {
         $this->configuration = $configuration;
         $this->rootDir = $rootDir;
+        $this->workspaceDir = $workspaceDir;
+        $this->currentVersion = $currentVersion;
+        $this->nextVersion = $nextVersion;
         $this->autoupgradeDir = $autoupgradeDir;
     }
 
@@ -203,6 +228,21 @@ class FileFilter
      */
     private function getNativeModules()
     {
+        return array_merge(
+            // #1 : Source : Constant
+            self::ADDITIONAL_ALLOWED_MODULES,
+            // #2 : Source `composer.lock`
+            $this->getNativeModulesFromComposerLock(),
+            // #3 : External sources
+            $this->getNativeModulesFromExternalSources()
+        );
+    }
+
+    /**
+     * @return array<string>
+     */
+    private function getNativeModulesFromComposerLock()
+    {
         $composerFile = $this->rootDir . '/composer.lock';
         if (!file_exists($composerFile)) {
             return [];
@@ -218,15 +258,68 @@ class FileFilter
         $modules = array_filter($content['packages'], function (array $package) {
             return self::COMPOSER_PACKAGE_TYPE === $package['type'] && !empty($package['name']);
         });
-        $modules = array_map(function (array $package) {
+
+        return array_map(function (array $package) {
             $vendorName = explode('/', $package['name']);
 
             return $vendorName[1];
         }, $modules);
+    }
 
-        return array_merge(
-            $modules,
-            self::ADDITIONAL_ALLOWED_MODULES
-        );
+    /**
+     * @return array<string>
+     */
+    private function getNativeModulesFromExternalSources()
+    {
+        $configFile = $this->workspaceDir . DIRECTORY_SEPARATOR . 'config.json';
+        // The file doesn't exist
+        if (!is_file($configFile)) {
+            return [];
+        }
+        $configContent = file_get_contents($configFile);
+        $configContent = json_decode($configContent, true);
+        // The file is empty
+        if (empty($configContent)) {
+            return [];
+        }
+        // The key `configuration` > `external` > `api` doesn't exist
+        if (!isset($configContent['configuration']['external']['api'])
+            || !is_array($configContent['configuration']['external']['api'])
+        ) {
+            return [];
+        }
+
+        $modules = [];
+        foreach ($configContent['configuration']['external']['api'] as $externalApi) {
+            if (!is_string($externalApi) || empty($externalApi)) {
+                continue;
+            }
+            $externalApi = str_replace(
+                [
+                    '%version_current%',
+                    '%version_upgrade%',
+                ],
+                [
+                    $this->currentVersion,
+                    $this->nextVersion,
+                ],
+                $externalApi
+            );
+            // Fetch external API
+            $content = Tools14::file_get_contents($externalApi);
+            $content = json_decode($content, true);
+            if (empty($content) || !isset($content['native_modules']) || !is_array($content['native_modules'])) {
+                continue;
+            }
+            // Add modules to the list
+            foreach ($content['native_modules'] as $nativeModule) {
+                if (!is_string($externalApi) || empty($externalApi)) {
+                    continue;
+                }
+                $modules[] = $nativeModule;
+            }
+        }
+
+        return $modules;
     }
 }
