@@ -352,7 +352,7 @@ class UpgradeSelfCheck
         return version_compare(
             Configuration::get('PS_VERSION_DB'),
             $this->prestashopConfiguration->getPrestaShopVersion(),
-            '>='
+            '=='
         );
     }
 
