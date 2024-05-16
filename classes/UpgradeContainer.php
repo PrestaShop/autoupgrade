@@ -241,7 +241,8 @@ class UpgradeContainer
         }
 
         $this->checksumCompare = new ChecksumCompare(
-            $this->getFileLoader()
+            $this->getFileLoader(),
+            $this->getFilesystemAdapter()
         );
 
         return $this->checksumCompare;

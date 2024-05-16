@@ -27,24 +27,30 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Xml;
 
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
+
 class ChecksumCompare
 {
     /**
      * @var FileLoader
      */
     private $fileLoader;
+    /**
+     * @var FilesystemAdapter
+     */
+    private $filesystemAdapter;
     private $changed_files = [];
     private $missing_files = [];
 
-    public function __construct(FileLoader $fileLoader)
+    public function __construct(FileLoader $fileLoader, FilesystemAdapter $filesystemAdapter)
     {
         $this->fileLoader = $fileLoader;
+        $this->filesystemAdapter = $filesystemAdapter;
     }
 
     /**
      * @param string $version1
      * @param string $version2
-     * @param bool $show_modif
      *
      * @return false|array{'modified': string[], "deleted": string[]}
      */
@@ -61,6 +67,7 @@ class ChecksumCompare
         if (empty($v1) || empty($v2)) {
             return false;
         }
+
         return $this->compareReleases($v1, $v2);
     }
 
@@ -100,6 +107,7 @@ class ChecksumCompare
      *                     deleted files in version $v2. Otherwise, only deleted.
      *
      * @internal Made public for tests
+     *
      * @return array{'modified': string[], "deleted": string[]}
      */
     public function compareReleases($v1, $v2, $show_modif = true, $path = '/')
@@ -110,6 +118,9 @@ class ChecksumCompare
         static $modifiedFiles = [];
 
         foreach ($v1 as $file => $md5) {
+            if ($this->filesystemAdapter->isFileSkipped($file, $path . $file, 'upgrade', '')) {
+                continue;
+            }
             if (is_array($md5)) {
                 $subpath = $path . $file;
                 if (isset($v2[$file]) && is_array($v2[$file])) {

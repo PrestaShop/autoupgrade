@@ -70,17 +70,13 @@ class CompareReleases extends AbstractTask
             $this->nextParams['msg'] = sprintf('Unable to generate diff file list between %1$s and %2$s.', _PS_VERSION_, $version);
         } else {
             $this->container->getFileConfigurationStorage()->save($diffFileList, UpgradeFileNames::FILES_DIFF_LIST);
-            if (count($diffFileList) > 0) {
-                $this->nextParams['msg'] = $this->translator->trans(
-                    '%modifiedfiles% files will be modified, %deletedfiles% files will be deleted (if they are found).',
-                    [
-                        '%modifiedfiles%' => count($diffFileList['modified']),
-                        '%deletedfiles%' => count($diffFileList['deleted']),
-                    ],
-                    'Modules.Autoupgrade.Admin');
-            } else {
-                $this->nextParams['msg'] = $this->translator->trans('No diff files found.', [], 'Modules.Autoupgrade.Admin');
-            }
+            $this->nextParams['msg'] = $this->translator->trans(
+                '%modifiedfiles% files will be modified, %deletedfiles% files will be deleted (if they are found).',
+                [
+                    '%modifiedfiles%' => count($diffFileList['modified']),
+                    '%deletedfiles%' => count($diffFileList['deleted']),
+                ],
+                'Modules.Autoupgrade.Admin');
             $this->nextParams['result'] = $diffFileList;
         }
     }

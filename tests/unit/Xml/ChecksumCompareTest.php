@@ -24,8 +24,7 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 use PHPUnit\Framework\TestCase;
-use PrestaShop\Module\AutoUpgrade\Xml\ChecksumCompare;
-use PrestaShop\Module\AutoUpgrade\Xml\FileLoader;
+use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 class ChecksumCompareTest extends TestCase
 {
@@ -33,28 +32,32 @@ class ChecksumCompareTest extends TestCase
     {
         // Simplest test
         $v1Structure = [
-            "composer.lock" => "75111ebd3d058964acc25a0df5f05db4",
-            "init.php" => "0c7996ca741c35ec24e82e5b116604dc",
-            "phpstan.neon.dist" => "7c19e03d141d22ceb8940ce0e4d71b01",
-            "autoload.php" => "6207fe0a4016f9d9947be8e4b8e48b89",
-            "app" => [
-                "AppKernel.php" => "37d3976fc4877231fa652567e4e02cd4",
-                "AppCache.php" => "a04845405789c16d83832e9cba9b790c",
+            'composer.lock' => '75111ebd3d058964acc25a0df5f05db4',
+            'init.php' => '0c7996ca741c35ec24e82e5b116604dc',
+            'phpstan.neon.dist' => '7c19e03d141d22ceb8940ce0e4d71b01',
+            'autoload.php' => '6207fe0a4016f9d9947be8e4b8e48b89',
+            'app' => [
+                'AppKernel.php' => '37d3976fc4877231fa652567e4e02cd4',
+                'AppCache.php' => 'a04845405789c16d83832e9cba9b790c',
+            ],
+            'install' => [
+                'index.php' => '0c7996ca741c35ec24e82e5b116604dc',
             ],
         ];
         $v2Structure = [
-            "autoload.php" => "6207fe0a4016f9d9947be8e4b8e48b89",
-            "init.php" => "0c7996ca741c35ec24e82e5b116604dc",
-            "composer.lock" => "d50e8124b90459a8e92633adcae892ff",
-            "app" => [
-                "AppCache.php" => "a04845405789c16d83832e9cba9b790c",
-                "AppKernel.php" => "1d6ea5b88cbf8e6b589760991a16094d",
+            'autoload.php' => '6207fe0a4016f9d9947be8e4b8e48b89',
+            'init.php' => '0c7996ca741c35ec24e82e5b116604dc',
+            'composer.lock' => 'd50e8124b90459a8e92633adcae892ff',
+            'app' => [
+                'AppCache.php' => 'a04845405789c16d83832e9cba9b790c',
+                'AppKernel.php' => '1d6ea5b88cbf8e6b589760991a16094d',
+            ],
+            'install' => [
+                'index.php' => 'c35ec24e741c35ed83832e5b116604dc',
             ],
         ];
 
-        $checksumCompare = new ChecksumCompare(
-            new FileLoader()
-        );
+        $checksumCompare = (new UpgradeContainer('/html', '/html/admin'))->getChecksumCompare();
 
         $actual = $checksumCompare->compareReleases($v1Structure, $v2Structure);
         $expected = [
