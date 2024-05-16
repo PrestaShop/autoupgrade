@@ -42,6 +42,8 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\ModuleAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translation;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
+use PrestaShop\Module\AutoUpgrade\Xml\ChecksumCompare;
+use PrestaShop\Module\AutoUpgrade\Xml\FileLoader;
 use Twig_Environment;
 use Twig_Loader_Filesystem;
 
@@ -69,6 +71,11 @@ class UpgradeContainer
      * @var CacheCleaner
      */
     private $cacheCleaner;
+
+    /**
+     * @var ChecksumCompare
+     */
+    private $checksumCompare;
 
     /**
      * @var Cookie
@@ -104,6 +111,11 @@ class UpgradeContainer
      * @var FilesystemAdapter
      */
     private $filesystemAdapter;
+
+    /**
+     * @var FileLoader
+     */
+    private $fileLoader;
 
     /**
      * @var Logger
@@ -220,6 +232,22 @@ class UpgradeContainer
     }
 
     /**
+     * @return ChecksumCompare
+     */
+    public function getChecksumCompare()
+    {
+        if (null !== $this->checksumCompare) {
+            return $this->checksumCompare;
+        }
+
+        $this->checksumCompare = new ChecksumCompare(
+            $this->getFileLoader()
+        );
+
+        return $this->checksumCompare;
+    }
+
+    /**
      * @return Cookie
      */
     public function getCookie()
@@ -295,8 +323,13 @@ class UpgradeContainer
         if (!defined('_PS_ROOT_DIR_')) {
             define('_PS_ROOT_DIR_', $this->getProperty(self::PS_ROOT_PATH));
         }
+
+        $fileLoader = $this->getFileLoader();
         // in order to not use Tools class
-        $upgrader = new Upgrader($this->getProperty(self::PS_VERSION));
+        $upgrader = new Upgrader(
+            $this->getProperty(self::PS_VERSION),
+            $fileLoader
+        );
         preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', $this->getProperty(self::PS_VERSION), $matches);
         $upgrader->branch = $matches[1];
         $upgradeConfiguration = $this->getUpgradeConfiguration();
@@ -307,7 +340,8 @@ class UpgradeContainer
                 $upgrader->version_num = $upgradeConfiguration->get('archive.version_num');
                 $archiveXml = $upgradeConfiguration->get('archive.xml');
                 if (!empty($archiveXml)) {
-                    $upgrader->version_md5[$upgrader->version_num] = $this->getProperty(self::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $archiveXml;
+                    // TODO: Change this wild push to a public variable
+                    $fileLoader->version_md5[$upgrader->version_num] = $this->getProperty(self::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $archiveXml;
                 }
                 $upgrader->checkPSVersion(true, ['archive']);
                 break;
@@ -352,6 +386,20 @@ class UpgradeContainer
         );
 
         return $this->filesystemAdapter;
+    }
+
+    /**
+     * @return FileLoader
+     */
+    public function getFileLoader()
+    {
+        if (null !== $this->fileLoader) {
+            return $this->fileLoader;
+        }
+
+        $this->fileLoader = new FileLoader();
+
+        return $this->fileLoader;
     }
 
     /**
