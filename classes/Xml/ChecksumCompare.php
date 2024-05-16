@@ -46,12 +46,12 @@ class ChecksumCompare
      * @param string $version2
      * @param bool $show_modif
      *
-     * @return array|false array('modified'=>array(...), 'deleted'=>array(...))
+     * @return false|array{'modified': string[], "deleted": string[]}
      */
-    public function getFilesDiffBetweenVersions($version1, $version2, $show_modif = true, $refresh = false)
+    public function getFilesDiffBetweenVersions($version1, $version2)
     {
-        $checksum1 = $this->fileLoader->getXmlMd5File($version1, $refresh);
-        $checksum2 = $this->fileLoader->getXmlMd5File($version2, $refresh);
+        $checksum1 = $this->fileLoader->getXmlMd5File($version1);
+        $checksum2 = $this->fileLoader->getXmlMd5File($version2);
         if ($checksum1) {
             $v1 = $this->md5FileAsArray($checksum1->ps_root_dir[0]);
         }
@@ -61,12 +61,7 @@ class ChecksumCompare
         if (empty($v1) || empty($v2)) {
             return false;
         }
-        $filesList = $this->compareReleases($v1, $v2, $show_modif);
-        if (!$show_modif) {
-            return $filesList['deleted'];
-        }
-
-        return $filesList;
+        return $this->compareReleases($v1, $v2);
     }
 
     /**
@@ -104,9 +99,10 @@ class ChecksumCompare
      * @param string $path
      *                     deleted files in version $v2. Otherwise, only deleted.
      *
+     * @internal Made public for tests
      * @return array{'modified': string[], "deleted": string[]}
      */
-    protected function compareReleases($v1, $v2, $show_modif = true, $path = '/')
+    public function compareReleases($v1, $v2, $show_modif = true, $path = '/')
     {
         // in that array the list of files present in v1 deleted in v2
         static $deletedFiles = [];
