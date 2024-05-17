@@ -29,6 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
 use DirectoryIterator;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use SplFileInfo;
 
 class FileFilter
 {
@@ -160,9 +161,15 @@ class FileFilter
                 if (!$fileinfo->isDir() || $fileinfo->isDot()) {
                     continue;
                 }
-                if (in_array($fileinfo->getFilename(), $nativeModules)) {
-                    $this->excludeAbsoluteFilesFromUpgrade[] = '/modules/' . $fileinfo->getFilename();
+                if (!in_array($fileinfo->getFilename(), $nativeModules)) {
+                    continue;
                 }
+                if (!(new SplFileInfo($this->rootDir . '/modules/' . $fileinfo->getFilename() . '/vendor'))->isDir()) {
+                    // If a vendor folder is found in the module, this means it has been upgraded or manually installed
+                    // and can be ignored during the upgrade process
+                    continue;
+                }
+                $this->excludeAbsoluteFilesFromUpgrade[] = '/modules/' . $fileinfo->getFilename();
             }
         }
 
