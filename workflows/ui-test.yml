@@ -1,0 +1,41 @@
+name: UI Tests
+on:
+  ## Check each PR
+  push:
+  pull_request:
+  ## Manual execution on branch
+  workflow_dispatch:
+  ## Nightly
+  ### Needs secrets
+  #### GC_PROJECT_ID
+  #### GC_SERVICE_KEY
+  #### NIGHTLY_TOKEN
+  schedule:
+    - cron: '0 0 * * *'
+env:
+  CAMPAIGN: 'autoupgrade'
+jobs:
+  ui_test:
+    name: UI Tests
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        PS_VERSION:
+          - '1.7.6.9'
+          - '1.7.7.8'
+          - '1.7.8.11'
+          - '8.0.5'
+          - '8.1.5'
+          - 'nightly'
+    env:
+      PS_VERSION: ${{ matrix.PS_VERSION }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.1.0
+
+      - name: Start containers
+        working-directory: tests/UI/
+        run: |
+          docker compose -f "docker-compose.yml" up -d --build
+          bash -c 'while [[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost/en/)" != "200" ]]; do sleep 5; done'
