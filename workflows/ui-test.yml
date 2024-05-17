@@ -21,21 +21,21 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        PS_VERSION:
-          - '1.7.6.9'
-          - '1.7.7.8'
-          - '1.7.8.11'
-          - '8.0.5'
-          - '8.1.5'
-          - 'nightly'
+        inclure:
+          - PS_VERSION_START: 8.1.5
+            PHP_VERSION: 7.2
+          - PS_VERSION_START: 8.1.5
+            PHP_VERSION: 7.3
     env:
-      PS_VERSION: ${{ matrix.PS_VERSION }}
+      PS_DOCKER: ${{ matrix.PS_VERSION_START }}-${{ matrix.PHP_VERSION }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3.1.0
 
       - name: Start containers
         working-directory: tests/UI/
+        env:
+          PS_VERSION: ${{ env.PS_DOCKER }}
         run: |
           docker compose -f "docker-compose.yml" up -d --build
           bash -c 'while [[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost/en/)" != "200" ]]; do sleep 5; done'
