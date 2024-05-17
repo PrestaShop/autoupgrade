@@ -19,6 +19,42 @@
             <div id="errorDuringUpgrade" class="col-xs-12" style="display:none;">
                 <h4>{{ 'Errors'|trans({}, 'Modules.Autoupgrade.Admin') }}</h4>
                 <div id="infoError" class="processing"></div>
+                <button id="reportErrorButton" class="btn btn-warning" style="margin-top: 10px;" data-toggle="modal" data-target="#errorModal">
+                    {{ 'Report a bug'|trans({}, 'Modules.Autoupgrade.Admin') }}
+                </button>
+            </div>
+
+            <div id="errorModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h3 class="modal-title">
+                                {{ 'Give feedbacks'|trans({}, 'Modules.Autoupgrade.Admin') }}
+                            </h3>
+                        </div>
+                        <div class="modal-body">
+                            <label for="userEmail">
+                                {{ 'Email'|trans({}, 'Modules.Autoupgrade.Admin') }}
+                            </label>
+                            <input id="userEmail" type="text" class="form-control" placeholder="{{ 'Email'|trans({}, 'Modules.Autoupgrade.Admin') }}" style="display: block; margin-bottom: 10px;">
+                            <label for="errorDescription">
+                                {{ 'Description'|trans({}, 'Modules.Autoupgrade.Admin') }}
+                            </label>
+                            <textarea id="errorDescription" rows="3" placeholder="{{ 'Give us details about the error'|trans({}, 'Modules.Autoupgrade.Admin') }}"></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" style="text-transform: uppercase;">
+                                {{ 'Cancel'|trans({}, 'Modules.Autoupgrade.Admin') }}
+                            </button>
+                            <button id="submitErrorReport" type="button" class="btn btn-primary">
+                                {{ 'Send a bug report'|trans({}, 'Modules.Autoupgrade.Admin') }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
