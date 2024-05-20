@@ -188,12 +188,12 @@ before Doctrine schema update */
 /* consequently we create the table manually */
 CREATE TABLE IF NOT EXISTS `PREFIX_feature_flag` (
   `id_feature_flag` INT(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(191) COLLATE utf8mb4_general_ci NOT NULL,
+  `name` VARCHAR(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `state` TINYINT(1) NOT NULL DEFAULT '0',
-  `label_wording` VARCHAR(191) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `label_domain` VARCHAR(255) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `description_wording` VARCHAR(191) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `description_domain` VARCHAR(255) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `label_wording` VARCHAR(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `label_domain` VARCHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `description_wording` VARCHAR(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `description_domain` VARCHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id_feature_flag`),
   UNIQUE KEY `UNIQ_91700F175E237E06` (`name`)
 ) ENGINE=ENGINE_TYPE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
