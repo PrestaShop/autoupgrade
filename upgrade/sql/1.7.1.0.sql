@@ -78,22 +78,26 @@ INSERT INTO `PREFIX_operating_system` (`name`) VALUES ('Windows 8.1'), ('Windows
 /* UPDATE TO DOCTRINE */
 ALTER TABLE `PREFIX_attribute` CHANGE `id_attribute` `id_attribute` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `PREFIX_attribute` CHANGE `id_attribute_group` `id_attribute_group` INT(11) NOT NULL;
+ALTER TABLE `PREFIX_attribute` ADD KEY `attribute_group` (`id_attribute_group`);
+ALTER TABLE `PREFIX_attribute` DROP KEY IDX_6C3355F967A664FB;
 
 ALTER TABLE `PREFIX_attribute_group` CHANGE `id_attribute_group` `id_attribute_group` INT(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `PREFIX_attribute_group_lang` CHANGE `id_attribute_group` `id_attribute_group` INT(11) NOT NULL;
 ALTER TABLE `PREFIX_attribute_group_lang` CHANGE `id_lang` `id_lang` INT(11) NOT NULL;
+ALTER TABLE `PREFIX_attribute_group_lang` DROP FOREIGN KEY FK_4653726CBA299860;
+ALTER TABLE `PREFIX_attribute_group_lang` DROP KEY IDX_4653726CBA299860;
 
 ALTER TABLE `PREFIX_attribute_group_shop` CHANGE `id_attribute_group` `id_attribute_group` INT(11) NOT NULL;
 ALTER TABLE `PREFIX_attribute_group_shop` CHANGE `id_shop` `id_shop` INT(11) NOT NULL;
 
 ALTER TABLE `PREFIX_attribute_lang` CHANGE `id_attribute` `id_attribute` INT(11) NOT NULL;
 ALTER TABLE `PREFIX_attribute_lang` CHANGE `id_lang` `id_lang` INT(11) NOT NULL;
+ALTER TABLE `PREFIX_attribute_lang` DROP FOREIGN KEY FK_3ABE46A7BA299860;
+ALTER TABLE `PREFIX_attribute_lang` DROP KEY IDX_3ABE46A7BA299860;
 
 ALTER TABLE `PREFIX_attribute_shop` CHANGE `id_attribute` `id_attribute` INT(11) NOT NULL;
 ALTER TABLE `PREFIX_attribute_shop` CHANGE `id_shop` `id_shop` INT(11) NOT NULL;
-
-ALTER TABLE `PREFIX_lang` CHANGE `id_lang` `id_lang` INT(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `PREFIX_lang_shop` CHANGE `id_lang` `id_lang` INT(11) NOT NULL;
 ALTER TABLE `PREFIX_lang_shop` CHANGE `id_shop` `id_shop` INT(11) NOT NULL;
@@ -103,28 +107,16 @@ ALTER TABLE `PREFIX_shop` CHANGE `id_shop_group` `id_shop_group` INT(11) NOT NUL
 
 ALTER TABLE `PREFIX_shop_group` CHANGE `id_shop_group` `id_shop_group` INT(11) NOT NULL AUTO_INCREMENT;
 
+/* PHP:add_missing_unique_key_from_authorization_role(); */;
+
+ALTER TABLE `PREFIX_lang` CHANGE `id_lang` `id_lang` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `PREFIX_lang` CHANGE `active` `active` tinyint(1) NOT NULL;
+
+ALTER TABLE `PREFIX_tab` COLLATE=utf8_unicode_ci;
 ALTER TABLE `PREFIX_tab` CHANGE `id_tab` `id_tab` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `PREFIX_tab` CHANGE `active` `active` TINYINT(1) NOT NULL;
 ALTER TABLE `PREFIX_tab` CHANGE `hide_host_mode` `hide_host_mode` TINYINT(1) NOT NULL;
 ALTER TABLE `PREFIX_tab` CHANGE `icon` `icon` VARCHAR(32) DEFAULT NULL;
-
-ALTER TABLE `PREFIX_tab_lang` CHANGE `id_tab` `id_tab` INT(11) NOT NULL;
-ALTER TABLE `PREFIX_tab_lang` CHANGE `id_lang` `id_lang` INT(11) NOT NULL;
-
-/* PHP:add_missing_unique_key_from_authorization_role(); */;
-
-ALTER TABLE `PREFIX_attribute` ADD KEY `attribute_group` (`id_attribute_group`);
-ALTER TABLE `PREFIX_attribute` DROP KEY IDX_6C3355F967A664FB;
-
-ALTER TABLE `PREFIX_attribute_lang` DROP FOREIGN KEY FK_3ABE46A7BA299860;
-ALTER TABLE `PREFIX_attribute_lang` DROP KEY IDX_3ABE46A7BA299860;
-
-ALTER TABLE `PREFIX_attribute_group_lang` DROP FOREIGN KEY FK_4653726CBA299860;
-ALTER TABLE `PREFIX_attribute_group_lang` DROP KEY IDX_4653726CBA299860;
-
-ALTER TABLE `PREFIX_lang` CHANGE `active` `active` tinyint(1) NOT NULL;
-
-ALTER TABLE `PREFIX_tab` COLLATE=utf8_unicode_ci;
 ALTER TABLE `PREFIX_tab` CHANGE `position` `position` int(11) NOT NULL;
 ALTER TABLE `PREFIX_tab` CHANGE `module` `module` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL;
 ALTER TABLE `PREFIX_tab` CHANGE `position` `position` int(11) NOT NULL;
@@ -134,6 +126,8 @@ ALTER TABLE `PREFIX_tab` DROP KEY `class_name`;
 ALTER TABLE `PREFIX_tab` DROP KEY `id_parent`;
 
 ALTER TABLE `PREFIX_tab_lang` COLLATE=utf8_unicode_ci;
+ALTER TABLE `PREFIX_tab_lang` CHANGE `id_tab` `id_tab` INT(11) NOT NULL;
+ALTER TABLE `PREFIX_tab_lang` CHANGE `id_lang` `id_lang` INT(11) NOT NULL;
 ALTER TABLE `PREFIX_tab_lang` CHANGE `name` `name` varchar(128) NOT NULL;
 ALTER TABLE `PREFIX_tab_lang` ADD CONSTRAINT `FK_CFD9262DED47AB56` FOREIGN KEY (`id_tab`) REFERENCES `PREFIX_tab` (`id_tab`);
 ALTER TABLE `PREFIX_tab_lang` ADD KEY `IDX_CFD9262DED47AB56` (`id_tab`);
