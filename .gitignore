@@ -1,6 +1,6 @@
 nbproject
 
-/vendor/
+vendor/
 /config_*.xml
 .php_cs.cache
 .idea

@@ -1,7 +1,19 @@
 #!/bin/bash
+set -e
+
+if [ $# -le 0 ]; then
+  echo "No version provided. Use:"
+  echo "tests/phpstan/phpstan.sh [PrestaShop_version]"
+  exit 1
+fi
+
 PS_VERSION=$1
 
-set -e
+if [ ! -f $PWD/tests/phpstan/phpstan-$PS_VERSION.neon ]; then
+  echo "Configuration file for PrestaShop $PS_VERSION does not exist."
+  echo "Please try another version."
+  exit 2
+fi
 
 # Docker images prestashop/prestashop may be used, even if the shop remains uninstalled
 echo "Pull PrestaShop files (Tag ${PS_VERSION})"
@@ -23,6 +35,8 @@ echo "Run PHPStan using phpstan-${PS_VERSION}.neon file"
 docker run --rm --volumes-from temp-ps \
        -v $PWD:/var/www/html/modules/autoupgrade \
        -e _PS_ROOT_DIR_=/var/www/html \
-       --workdir=/var/www/html/modules/autoupgrade phpstan/phpstan:0.12 \
+       --workdir=/var/www/html/modules/autoupgrade \
+       --entrypoint=/var/www/html/modules/autoupgrade/tests/vendor/bin/phpstan \
+       prestashop/base:7.4-apache \
        analyse \
        --configuration=/var/www/html/modules/autoupgrade/tests/phpstan/phpstan-$PS_VERSION.neon
