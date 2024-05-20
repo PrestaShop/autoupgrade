@@ -29,6 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous;
 
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 /**
  * List the files modified in the current installation regards to the original version.
@@ -39,8 +40,9 @@ class CheckFilesVersion extends AbstractTask
     {
         // do nothing after this request (see javascript function doAjaxRequest )
         $this->next = '';
-        $upgrader = $this->container->getUpgrader();
-        $changedFileList = $upgrader->getChangedFilesList();
+        $checksumCompare = $this->container->getChecksumCompare();
+        $currentPrestaShopVersion = $this->container->getProperty(UpgradeContainer::PS_VERSION);
+        $changedFileList = $checksumCompare->getTamperedFilesOnShop($currentPrestaShopVersion);
 
         if ($changedFileList === false) {
             $this->nextParams['status'] = 'error';
@@ -55,7 +57,7 @@ class CheckFilesVersion extends AbstractTask
             }
         }
 
-        if ($upgrader->isAuthenticPrestashopVersion() === true) {
+        if ($checksumCompare->isAuthenticPrestashopVersion($currentPrestaShopVersion)) {
             $this->nextParams['status'] = 'ok';
             $this->nextParams['msg'] = $this->translator->trans('Core files are ok', [], 'Modules.Autoupgrade.Admin');
         } else {
