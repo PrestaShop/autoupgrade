@@ -28,8 +28,8 @@ INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VAL
 CREATE TABLE `PREFIX_product_attribute_lang` (
   `id_product_attribute` int(10) unsigned NOT NULL,
   `id_lang` int(10) unsigned NOT NULL,
-  `available_now` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `available_later` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `available_now` varchar(255) DEFAULT NULL,
+  `available_later` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_product_attribute`, `id_lang`)
 ) ENGINE=ENGINE_TYPE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -88,7 +88,7 @@ ALTER TABLE `PREFIX_order_payment` ADD `id_employee` INT NULL AFTER `date_add`;
 CREATE TABLE `PREFIX_authorized_application`
 (
     id_authorized_application INT UNSIGNED AUTO_INCREMENT NOT NULL,
-    name                      VARCHAR(255) NOT NULL,
+    name                      VARCHAR(50) NOT NULL,
     description               LONGTEXT     NOT NULL,
     UNIQUE INDEX UNIQ_475B9BA55E237E06 (name),
     PRIMARY KEY (id_authorized_application)
