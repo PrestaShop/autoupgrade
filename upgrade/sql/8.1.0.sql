@@ -31,7 +31,7 @@ CREATE TABLE `PREFIX_product_attribute_lang` (
   `available_now` varchar(255) DEFAULT NULL,
   `available_later` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_product_attribute`, `id_lang`)
-) ENGINE=ENGINE_TYPE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=ENGINE_TYPE DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `PREFIX_product_attribute_lang`
 (id_product_attribute, id_lang, available_now, available_later)
