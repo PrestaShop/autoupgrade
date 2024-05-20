@@ -163,3 +163,9 @@ CREATE TABLE `PREFIX_mutation` (
    `date_add` datetime NOT NULL,
    PRIMARY KEY (`id_mutation`)
 ) ENGINE=ENGINE_TYPE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+ALTER TABLE `PREFIX_access` ADD KEY `IDX_564352A15FCA037F` (`id_profile`);
+ALTER TABLE `PREFIX_access` ADD KEY `IDX_564352A18C6DE0E5` (`id_authorization_role`);
+ALTER TABLE `PREFIX_accessory` CHARSET=utf8mb4;
+ALTER TABLE `PREFIX_employee` ADD KEY `IDX_1D8DF9EBBA299860` (`id_lang`);
+ALTER TABLE `PREFIX_employee_session` ADD KEY `IDX_B10E26A1D449934` (`id_employee`);
