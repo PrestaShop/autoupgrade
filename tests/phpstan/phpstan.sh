@@ -39,4 +39,5 @@ docker run --rm --volumes-from temp-ps \
        --entrypoint=/var/www/html/modules/autoupgrade/tests/vendor/bin/phpstan \
        prestashop/base:7.4-apache \
        analyse \
-       --configuration=/var/www/html/modules/autoupgrade/tests/phpstan/phpstan-$PS_VERSION.neon
+       --configuration=/var/www/html/modules/autoupgrade/tests/phpstan/phpstan-$PS_VERSION.neon \
+       "${@:2}"

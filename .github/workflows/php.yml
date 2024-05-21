@@ -103,4 +103,4 @@ jobs:
         working-directory: ./tests
 
       - name: Execute PHPStan on PrestaShop (Tag ${{ matrix.presta-versions }})
-        run: bash tests/phpstan/phpstan.sh ${{ matrix.presta-versions }}
+        run: bash tests/phpstan/phpstan.sh ${{ matrix.presta-versions }} --error-format=github
