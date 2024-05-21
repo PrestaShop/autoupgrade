@@ -15,7 +15,7 @@ if [ ! -f $PWD/tests/phpstan/phpstan-$PS_VERSION.neon ]; then
   exit 2
 fi
 
-# Docker images prestashop/prestashop may be used, even if the shop remains uninstalled
+# Docker images prestashop/prestashop are used to get source files
 echo "Pull PrestaShop files (Tag ${PS_VERSION})"
 
 docker rm -f temp-ps || true
@@ -28,8 +28,6 @@ echo "Clear previous module"
 
 docker exec -t temp-ps rm -rf /var/www/html/modules/autoupgrade
 
-# Run a container for PHPStan, having access to the module content and PrestaShop sources.
-# This tool is outside the composer.json because of the compatibility with PHP 5.6
 echo "Run PHPStan using phpstan-${PS_VERSION}.neon file"
 
 docker run --rm --volumes-from temp-ps \

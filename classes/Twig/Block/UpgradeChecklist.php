@@ -30,7 +30,7 @@ namespace PrestaShop\Module\AutoUpgrade\Twig\Block;
 use Context;
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
-use Twig_Environment;
+use Twig\Environment;
 
 /**
  * Builds the upgrade checklist block.
@@ -38,9 +38,10 @@ use Twig_Environment;
 class UpgradeChecklist
 {
     /**
-     * @var Twig_Environment|\Twig\Environment
+     * @var Environment
      */
     private $twig;
+
     /**
      * @var UpgradeSelfCheck
      */
@@ -59,7 +60,7 @@ class UpgradeChecklist
     /**
      * UpgradeChecklistBlock constructor.
      *
-     * @param Twig_Environment|\Twig\Environment $twig
+     * @param Environment $twig
      * @param UpgradeSelfCheck $upgradeSelfCheck
      * @param string $currentIndex
      * @param string $token

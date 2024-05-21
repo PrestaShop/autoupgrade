@@ -2,13 +2,11 @@ includes:
 	- %currentWorkingDirectory%/tests/phpstan/phpstan.neon
 
 parameters:
-	excludes_analyse:
+	excludePaths:
 		- ./../../classes/UpgradeTools/CoreUpgrader/CoreUpgrader80.php
 	ignoreErrors:
 		- '#Access to an undefined property Autoupgrade::\$bootstrap.#'
 		- '#Access to an undefined property Module::\$installed.#'
-		- '#Call to an undefined static method ConfigurationTest::test_memory_limit\(\).#'
-		- '#Call to method boot\(\) on an unknown class AppKernel.#'
 		- '#Call to method getContainer\(\) on an unknown class AppKernel.#'
 		- '#Call to method getMessage\(\) on an unknown class PrestaShop\\PrestaShop\\Core\\Exception\\CoreException.#'
 		- '#Call to method handle\(\) on an unknown class PrestaShop\\PrestaShop\\Core\\CommandBus\\CommandBusInterface.#'
@@ -18,10 +16,12 @@ parameters:
 		- '#Instantiated class PrestaShop\\PrestaShop\\Core\\Domain\\Theme\\ValueObject\\ThemeName not found.#'
 		- '#PHPDoc tag @var for variable \$commandBus contains unknown class PrestaShop\\PrestaShop\\Core\\CommandBus\\CommandBusInterface.#'
 		- '#Property ModuleCore::\$version \(float\) does not accept string.#'
-		- '#Return typehint of method PrestaShop\\Module\\AutoUpgrade\\UpgradeTools\\ModuleAdapter::getCommandBus\(\) has invalid type PrestaShop\\PrestaShop\\Core\\CommandBus\\CommandBusInterface.#'
-		- '#Return typehint of method PrestaShop\\Module\\AutoUpgrade\\UpgradeTools\\SymfonyAdapter::initKernel\(\) has invalid type AppKernel.#'
-		- '#Call to method boot\(\) on an unknown class AdminKernel.#'
-		- '#Parameter \#1 \$argument of class ReflectionClass constructor expects AppKernel\|class-string<AppKernel>, string given.#'
+		- '#Method PrestaShop\\Module\\AutoUpgrade\\UpgradeTools\\ModuleAdapter::getCommandBus\(\) has invalid return type PrestaShop\\PrestaShop\\Core\\CommandBus\\CommandBusInterface.#'
+		- '#Method PrestaShop\\Module\\AutoUpgrade\\UpgradeTools\\SymfonyAdapter::initKernel\(\) has invalid return type AppKernel.#'
 		- '#Call to method getContainer\(\) on an unknown class AdminKernel.#'
-		- '#Return typehint of method PrestaShop\\Module\\AutoUpgrade\\UpgradeTools\\SymfonyAdapter::initKernel\(\) has invalid type AdminKernel.#'
+		- '#Method PrestaShop\\Module\\AutoUpgrade\\UpgradeTools\\SymfonyAdapter::initKernel\(\) has invalid return type AdminKernel.#'
 		- '#Instantiated class AdminKernel not found\.#'
+		-
+			identifier: booleanAnd.rightAlwaysTrue
+			path: ./../../classes/UpgradeSelfCheck.php
+			count: 1

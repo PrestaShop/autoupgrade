@@ -190,11 +190,6 @@ class RestoreDb extends AbstractTask
                     return true;
                 }
 
-                // filesForBackup already contains all the correct files
-                if (count($listQuery) == 0) {
-                    continue;
-                }
-
                 $query = trim(array_shift($listQuery));
                 if (!empty($query)) {
                     if (!$this->container->getDb()->execute($query, false)) {

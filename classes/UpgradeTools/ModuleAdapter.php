@@ -35,7 +35,6 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class ModuleAdapter
 {
-    private $db;
     private $translator;
     // PS version to update
     private $upgradeVersion;
@@ -56,9 +55,8 @@ class ModuleAdapter
 
     private $commandBus;
 
-    public function __construct($db, $translator, $modulesPath, $tempPath, $upgradeVersion, ZipAction $zipAction, SymfonyAdapter $symfonyAdapter)
+    public function __construct($translator, $modulesPath, $tempPath, $upgradeVersion, ZipAction $zipAction, SymfonyAdapter $symfonyAdapter)
     {
-        $this->db = $db;
         $this->translator = $translator;
         $this->modulesPath = $modulesPath;
         $this->tempPath = $tempPath;
@@ -217,11 +215,7 @@ class ModuleAdapter
 
             // file_get_contents can return false if https is not supported (or warning)
             $content = Tools14::file_get_contents($addons_url, false, $context);
-            if ($content == false || substr($content, 5) == '<?xml') {
-                return;
-            }
-
-            if (empty($content)) {
+            if (empty($content) || substr($content, 5) == '<?xml') {
                 $msg = '<strong>' . $this->translator->trans('[ERROR] No response from Addons server.', [], 'Modules.Autoupgrade.Admin') . '</strong>';
                 throw new UpgradeException($msg);
             }

@@ -40,7 +40,6 @@ class ChecksumCompare
      */
     private $filesystemAdapter;
     private $changed_files = [];
-    private $missing_files = [];
 
     public function __construct(FileLoader $fileLoader, FilesystemAdapter $filesystemAdapter)
     {
@@ -172,7 +171,7 @@ class ChecksumCompare
                 $fullpath = str_replace(_PS_ROOT_DIR_ . '/admin', _PS_ADMIN_DIR_, $fullpath);
                 $fullpath = str_replace(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'admin', _PS_ADMIN_DIR_, $fullpath);
                 if (!file_exists($fullpath)) {
-                    $this->addMissingFile($relative_path);
+                    // Not stored in a list as we do nothing with it.
                 } elseif (!$this->compareChecksum($fullpath, (string) $child) && substr(str_replace(DIRECTORY_SEPARATOR, '-', $relative_path), 0, 19) != 'modules/autoupgrade') {
                     $this->addChangedFile($relative_path);
                 }
@@ -218,14 +217,6 @@ class ChecksumCompare
         } else {
             $this->changed_files['core'][] = $path;
         }
-    }
-
-    /** populate $this->missing_files with $path
-     * @param string $path filepath to add, relative to _PS_ROOT_DIR_
-     */
-    protected function addMissingFile($path)
-    {
-        $this->missing_files[] = $path;
     }
 
     protected function compareChecksum($filepath, $md5sum)
