@@ -39,7 +39,20 @@ jobs:
         run: |
           docker compose -f "docker-compose.yml" up -d --build
           bash -c 'while [[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost/en/)" != "200" ]]; do sleep 5; done'
+
       - name: Install module autoupgrade
         working-directory: tests/UI/
         run: |
-          docker exec -d prestashop php -v bin/console prestashop:module install autoupgrade
+          docker exec -t prestashop php -v bin/console prestashop:module install autoupgrade
+
+      - name: Install dependencies
+        working-directory: tests/UI/
+        run: npm ci
+
+      - name: Install Playwright Browsers
+        working-directory: tests/UI/
+        run: npx playwright install chromium --with-deps
+
+      - name: Run Playwright tests
+        working-directory: tests/UI/
+        run: npx playwright test
