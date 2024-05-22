@@ -8,3 +8,6 @@ nbproject
 ## QA Nightly
 /artifacts
 /autoupgrade*.json
+
+## UI Tests
+/tests/UI/node_modules/
