@@ -1,0 +1,20 @@
+{
+  "name": "autoupgrade_tests_ui",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.40.1",
+    "@prestashop-core/ui-testing": "https://github.com/PrestaShop/ui-testing-library#main",
+    "@types/node": "^20.11.5",
+    "@types/semver": "^7.5.8",
+    "pwmochawesome": "^1.1.1",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1"
+  }
+}
