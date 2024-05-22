@@ -44,22 +44,6 @@ class SymfonyAdapter
         $this->destinationPsVersion = $destinationPsVersion;
     }
 
-    public function runSchemaUpgradeCommand()
-    {
-        if (version_compare($this->destinationPsVersion, '1.7.1.1', '>=')) {
-            $schemaUpgrade = new \PrestaShopBundle\Service\Database\Upgrade();
-            $outputCommand = 'prestashop:schema:update-without-foreign';
-        } else {
-            $schemaUpgrade = new \PrestaShopBundle\Service\Cache\Refresh();
-            $outputCommand = 'doctrine:schema:update';
-        }
-
-        $schemaUpgrade->addDoctrineSchemaUpdate();
-        $output = $schemaUpgrade->execute();
-
-        return $output[$outputCommand];
-    }
-
     /**
      * Return the appropriate kernel if abstract or not.
      *
