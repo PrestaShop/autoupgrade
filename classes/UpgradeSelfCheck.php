@@ -146,16 +146,7 @@ class UpgradeSelfCheck
      */
     private $overrideDisabled;
 
-    /**
-     * UpgradeSelfCheck constructor.
-     *
-     * @param Upgrader $upgrader
-     * @param PrestashopConfiguration $prestashopConfiguration
-     * @param string $prodRootPath
-     * @param string $adminPath
-     * @param string $autoUpgradePath
-     */
-    public function __construct(Upgrader $upgrader, PrestashopConfiguration $prestashopConfiguration, $prodRootPath, $adminPath, $autoUpgradePath)
+    public function __construct(Upgrader $upgrader, PrestashopConfiguration $prestashopConfiguration, string $prodRootPath, string $adminPath, string $autoUpgradePath)
     {
         $this->upgrader = $upgrader;
         $this->prestashopConfiguration = $prestashopConfiguration;
@@ -164,10 +155,7 @@ class UpgradeSelfCheck
         $this->autoUpgradePath = $autoUpgradePath;
     }
 
-    /**
-     * @return bool
-     */
-    public function isFOpenOrCurlEnabled()
+    public function isFOpenOrCurlEnabled(): bool
     {
         if (null !== $this->fOpenOrCurlEnabled) {
             return $this->fOpenOrCurlEnabled;
@@ -176,10 +164,7 @@ class UpgradeSelfCheck
         return $this->fOpenOrCurlEnabled = ConfigurationTest::test_fopen() || extension_loaded('curl');
     }
 
-    /**
-     * @return bool
-     */
-    public function isZipEnabled()
+    public function isZipEnabled(): bool
     {
         if (null !== $this->zipEnabled) {
             return $this->zipEnabled;
@@ -188,10 +173,7 @@ class UpgradeSelfCheck
         return $this->zipEnabled = extension_loaded('zip');
     }
 
-    /**
-     * @return bool
-     */
-    public function isRootDirectoryWritable()
+    public function isRootDirectoryWritable(): bool
     {
         if (null !== $this->rootDirectoryWritable) {
             return $this->rootDirectoryWritable;
@@ -200,10 +182,7 @@ class UpgradeSelfCheck
         return $this->rootDirectoryWritable = $this->checkRootWritable();
     }
 
-    /**
-     * @return bool
-     */
-    public function isAdminAutoUpgradeDirectoryWritable()
+    public function isAdminAutoUpgradeDirectoryWritable(): bool
     {
         if (null !== $this->adminAutoUpgradeDirectoryWritable) {
             return $this->adminAutoUpgradeDirectoryWritable;
@@ -212,18 +191,12 @@ class UpgradeSelfCheck
         return $this->adminAutoUpgradeDirectoryWritable = $this->checkAdminDirectoryWritable($this->prodRootPath, $this->adminPath, $this->autoUpgradePath);
     }
 
-    /**
-     * @return string
-     */
-    public function getAdminAutoUpgradeDirectoryWritableReport()
+    public function getAdminAutoUpgradeDirectoryWritableReport(): string
     {
         return $this->adminAutoUpgradeDirectoryWritableReport;
     }
 
-    /**
-     * @return bool
-     */
-    public function isOverrideDisabled()
+    public function isOverrideDisabled(): bool
     {
         if (null === $this->overrideDisabled) {
             $this->overrideDisabled = $this->checkOverrideIsDisabled();
@@ -232,10 +205,7 @@ class UpgradeSelfCheck
         return $this->overrideDisabled;
     }
 
-    /**
-     * @return bool
-     */
-    public function isShopDeactivated()
+    public function isShopDeactivated(): bool
     {
         if (null !== $this->shopDeactivated) {
             return $this->shopDeactivated;
@@ -244,7 +214,7 @@ class UpgradeSelfCheck
         return $this->shopDeactivated = $this->checkShopIsDeactivated();
     }
 
-    public function isLocalEnvironment()
+    public function isLocalEnvironment(): bool
     {
         if (null !== $this->localEnvironement) {
             return $this->localEnvironement;
@@ -253,10 +223,7 @@ class UpgradeSelfCheck
         return $this->localEnvironement = $this->checkIsLocalEnvironment();
     }
 
-    /**
-     * @return bool
-     */
-    public function isCacheDisabled()
+    public function isCacheDisabled(): bool
     {
         if (null !== $this->cacheDisabled) {
             return $this->cacheDisabled;
@@ -265,10 +232,7 @@ class UpgradeSelfCheck
         return $this->cacheDisabled = !(defined('_PS_CACHE_ENABLED_') && false != _PS_CACHE_ENABLED_);
     }
 
-    /**
-     * @return bool
-     */
-    public function isSafeModeDisabled()
+    public function isSafeModeDisabled(): bool
     {
         if (null !== $this->safeModeDisabled) {
             return $this->safeModeDisabled;
@@ -277,10 +241,7 @@ class UpgradeSelfCheck
         return $this->safeModeDisabled = $this->checkSafeModeIsDisabled();
     }
 
-    /**
-     * @return bool
-     */
-    public function isModuleVersionLatest()
+    public function isModuleVersionLatest(): bool
     {
         if (null !== $this->moduleVersionIsLatest) {
             return $this->moduleVersionIsLatest;
@@ -289,10 +250,7 @@ class UpgradeSelfCheck
         return $this->moduleVersionIsLatest = $this->checkModuleVersionIsLastest($this->upgrader);
     }
 
-    /**
-     * @return string
-     */
-    public function getRootWritableReport()
+    public function getRootWritableReport(): string
     {
         if (null !== $this->rootWritableReport) {
             return $this->rootWritableReport;
@@ -312,18 +270,12 @@ class UpgradeSelfCheck
         return $this->prestashopConfiguration->getModuleVersion();
     }
 
-    /**
-     * @return string
-     */
-    public function getConfigDir()
+    public function getConfigDir(): string
     {
         return $this->configDir;
     }
 
-    /**
-     * @return int
-     */
-    public function getMaxExecutionTime()
+    public function getMaxExecutionTime(): int
     {
         if (null !== $this->maxExecutionTime) {
             return $this->maxExecutionTime;
@@ -332,10 +284,7 @@ class UpgradeSelfCheck
         return $this->maxExecutionTime = $this->checkMaxExecutionTime();
     }
 
-    /**
-     * @return bool
-     */
-    public function isPhpUpgradeRequired()
+    public function isPhpUpgradeRequired(): bool
     {
         if (null !== $this->phpUpgradeNoticelink) {
             return $this->phpUpgradeNoticelink;
@@ -358,10 +307,8 @@ class UpgradeSelfCheck
 
     /**
      * Indicates if the self check status allows going ahead with the upgrade.
-     *
-     * @return bool
      */
-    public function isOkForUpgrade()
+    public function isOkForUpgrade(): bool
     {
         return
             $this->isFOpenOrCurlEnabled()
@@ -385,55 +332,36 @@ class UpgradeSelfCheck
         ;
     }
 
-    /**
-     * @return bool
-     */
-    private function checkRootWritable()
+    private function checkRootWritable(): bool
     {
         // Root directory permissions cannot be checked recursively anymore, it takes too much time
         return ConfigurationTest::test_dir('/', false, $this->rootWritableReport);
     }
 
-    /**
-     * @param Upgrader $upgrader
-     *
-     * @return bool
-     */
-    private function checkModuleVersionIsLastest(Upgrader $upgrader)
+    private function checkModuleVersionIsLastest(Upgrader $upgrader): bool
     {
         return version_compare($this->getModuleVersion(), $upgrader->autoupgrade_last_version, '>=');
     }
 
     /**
      * Check current PHP version is supported.
-     *
-     * @return bool
      */
-    private function checkPhpVersionNeedsUpgrade()
+    private function checkPhpVersionNeedsUpgrade(): bool
     {
         return PHP_VERSION_ID < self::RECOMMENDED_PHP_VERSION;
     }
 
-    /**
-     * @return bool
-     */
-    private function checkOverrideIsDisabled()
+    private function checkOverrideIsDisabled(): bool
     {
         return (bool) Configuration::get('PS_DISABLE_OVERRIDES');
     }
 
-    /**
-     * @return bool
-     */
-    private function checkIsLocalEnvironment()
+    private function checkIsLocalEnvironment(): bool
     {
         return in_array($this->getRemoteAddr(), ['127.0.0.1', 'localhost', '[::1]', '::1']);
     }
 
-    /**
-     * @return bool
-     */
-    private function checkShopIsDeactivated()
+    private function checkShopIsDeactivated(): bool
     {
         // if multistore is not active, just check if shop is enabled and has a maintenance IP
         if (!Shop::isFeatureActive()) {
@@ -455,14 +383,7 @@ class UpgradeSelfCheck
         return true;
     }
 
-    /**
-     * @param string $prodRootPath
-     * @param string $adminPath
-     * @param string $adminAutoUpgradePath
-     *
-     * @return bool
-     */
-    private function checkAdminDirectoryWritable($prodRootPath, $adminPath, $adminAutoUpgradePath)
+    private function checkAdminDirectoryWritable(string $prodRootPath, string $adminPath, string $adminAutoUpgradePath): bool
     {
         $relativeDirectory = trim(str_replace($prodRootPath, '', $adminAutoUpgradePath), DIRECTORY_SEPARATOR);
 
@@ -473,10 +394,7 @@ class UpgradeSelfCheck
         );
     }
 
-    /**
-     * @return bool
-     */
-    private function checkSafeModeIsDisabled()
+    private function checkSafeModeIsDisabled(): bool
     {
         $safeMode = @ini_get('safe_mode');
         if (empty($safeMode)) {
@@ -486,18 +404,12 @@ class UpgradeSelfCheck
         return !in_array(strtolower($safeMode), [1, 'on']);
     }
 
-    /**
-     * @return int
-     */
-    private function checkMaxExecutionTime()
+    private function checkMaxExecutionTime(): int
     {
         return (int) @ini_get('max_execution_time');
     }
 
-    /**
-     * @return bool
-     */
-    public function isPhpVersionCompatible()
+    public function isPhpVersionCompatible(): bool
     {
         if (!class_exists(ConfigurationTest::class)) {
             return true;
@@ -506,10 +418,7 @@ class UpgradeSelfCheck
         return (bool) ConfigurationTest::test_phpversion();
     }
 
-    /**
-     * @return bool
-     */
-    public function isApacheModRewriteEnabled()
+    public function isApacheModRewriteEnabled(): bool
     {
         if (class_exists(ConfigurationTest::class) && is_callable([ConfigurationTest::class, 'test_apache_mod_rewrite'])) {
             return ConfigurationTest::test_apache_mod_rewrite();
@@ -518,10 +427,7 @@ class UpgradeSelfCheck
         return true;
     }
 
-    /**
-     * @return bool
-     */
-    public function checkKeyGeneration()
+    public function checkKeyGeneration(): bool
     {
         if ($this->upgrader->version_num === null) {
             return true;
@@ -547,7 +453,7 @@ class UpgradeSelfCheck
     /**
      * @return array<string>
      */
-    public function getNotLoadedPhpExtensions()
+    public function getNotLoadedPhpExtensions(): array
     {
         if (!class_exists(ConfigurationTest::class)) {
             return [];
@@ -568,7 +474,7 @@ class UpgradeSelfCheck
     /**
      * @return array<string>
      */
-    public function getNotExistsPhpFunctions()
+    public function getNotExistsPhpFunctions(): array
     {
         if (!class_exists(ConfigurationTest::class)) {
             return [];
@@ -589,7 +495,7 @@ class UpgradeSelfCheck
     /**
      * @return bool
      */
-    public function isMemoryLimitValid()
+    public function isMemoryLimitValid(): bool
     {
         if (class_exists(ConfigurationTest::class) && is_callable([ConfigurationTest::class, 'test_memory_limit'])) {
             return ConfigurationTest::test_memory_limit();
@@ -598,10 +504,7 @@ class UpgradeSelfCheck
         return true;
     }
 
-    /**
-     * @return bool
-     */
-    public function isPhpFileUploadsConfigurationEnabled()
+    public function isPhpFileUploadsConfigurationEnabled(): bool
     {
         if (!class_exists(ConfigurationTest::class)) {
             return true;
@@ -610,10 +513,7 @@ class UpgradeSelfCheck
         return (bool) ConfigurationTest::test_upload();
     }
 
-    /**
-     * @return bool
-     */
-    public function isPhpSessionsValid()
+    public function isPhpSessionsValid(): bool
     {
         return in_array(session_status(), [PHP_SESSION_ACTIVE, PHP_SESSION_NONE], true);
     }
@@ -621,7 +521,7 @@ class UpgradeSelfCheck
     /**
      * @return array<string>
      */
-    public function getMissingFiles()
+    public function getMissingFiles(): array
     {
         return ConfigurationTest::test_files(true);
     }
@@ -629,7 +529,7 @@ class UpgradeSelfCheck
     /**
      * @return array<string>
      */
-    public function getNotWritingDirectories()
+    public function getNotWritingDirectories(): array
     {
         if (!class_exists(ConfigurationTest::class)) {
             return [];
@@ -656,7 +556,7 @@ class UpgradeSelfCheck
      *
      * @return string $remote_addr ip of client
      */
-    private function getRemoteAddr()
+    private function getRemoteAddr(): string
     {
         if (function_exists('apache_request_headers')) {
             $headers = apache_request_headers();

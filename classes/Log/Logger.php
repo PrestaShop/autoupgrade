@@ -52,42 +52,42 @@ abstract class Logger implements LoggerInterface
         self::EMERGENCY => 'EMERGENCY',
     ];
 
-    public function alert($message, array $context = [])
+    public function alert(string $message, array $context = []): void
     {
         $this->log(self::ALERT, $message, $context);
     }
 
-    public function critical($message, array $context = [])
+    public function critical(string $message, array $context = []): void
     {
         $this->log(self::CRITICAL, $message, $context);
     }
 
-    public function debug($message, array $context = [])
+    public function debug(string $message, array $context = []): void
     {
         $this->log(self::DEBUG, $message, $context);
     }
 
-    public function emergency($message, array $context = [])
+    public function emergency(string $message, array $context = []): void
     {
         $this->log(self::EMERGENCY, $message, $context);
     }
 
-    public function error($message, array $context = [])
+    public function error(string $message, array $context = []): void
     {
         $this->log(self::ERROR, $message, $context);
     }
 
-    public function info($message, array $context = [])
+    public function info(string $message, array $context = []): void
     {
         $this->log(self::INFO, $message, $context);
     }
 
-    public function notice($message, array $context = [])
+    public function notice(string $message, array $context = []): void
     {
         $this->log(self::NOTICE, $message, $context);
     }
 
-    public function warning($message, array $context = [])
+    public function warning(string $message, array $context = []): void
     {
         $this->log(self::WARNING, $message, $context);
     }
@@ -98,7 +98,7 @@ abstract class Logger implements LoggerInterface
      *
      * @return array Details of error which occured during the request. Verbose levels: ERROR
      */
-    public function getErrors()
+    public function getErrors(): array
     {
         return [];
     }
@@ -109,7 +109,7 @@ abstract class Logger implements LoggerInterface
      *
      * @return array Details on what happened during the execution. Verbose levels: DEBUG / INFO / WARNING
      */
-    public function getInfos()
+    public function getInfos(): array
     {
         return [];
     }
@@ -121,7 +121,7 @@ abstract class Logger implements LoggerInterface
      *
      * @return string Stores the main information about the current step
      */
-    public function getLastInfo()
+    public function getLastInfo(): string
     {
         return '';
     }

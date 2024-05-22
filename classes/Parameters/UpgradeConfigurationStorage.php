@@ -34,15 +34,13 @@ class UpgradeConfigurationStorage extends FileConfigurationStorage
     /**
      * UpgradeConfiguration loader.
      *
-     * @param string $configFileName
-     *
-     * @return \PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration
+     * @param string $fileName
      */
-    public function load($configFileName = '')
+    public function load(string $fileName = ''): UpgradeConfiguration
     {
         $data = array_merge(
             $this->getDefaultData(),
-            parent::load($configFileName)
+            parent::load($fileName)
         );
 
         return new UpgradeConfiguration($data);
@@ -50,20 +48,20 @@ class UpgradeConfigurationStorage extends FileConfigurationStorage
 
     /**
      * @param \PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration $config
-     * @param string $configFileName Destination path of the config file
+     * @param string $fileName Destination path of the config file
      *
      * @return bool
      */
-    public function save($config, $configFileName)
+    public function save($config, string $fileName): bool
     {
         if (!$config instanceof UpgradeConfiguration) {
             throw new \InvalidArgumentException('Config is not a instance of UpgradeConfiguration');
         }
 
-        return parent::save($config->toArray(), $configFileName);
+        return parent::save($config->toArray(), $fileName);
     }
 
-    public function getDefaultData()
+    public function getDefaultData(): array
     {
         return [
             'PS_AUTOUP_PERFORMANCE' => 1,

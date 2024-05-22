@@ -27,6 +27,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
+use Exception;
 use PrestaShop\Module\AutoUpgrade\Log\LoggerInterface;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
@@ -48,7 +49,10 @@ class CacheCleaner
         $this->logger = $logger;
     }
 
-    public function cleanFolders()
+    /**
+     * @throws Exception
+     */
+    public function cleanFolders(): void
     {
         $dirsToClean = [
             $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/app/cache/',
@@ -70,7 +74,7 @@ class CacheCleaner
 
         foreach ($dirsToClean as $dir) {
             if (!file_exists($dir)) {
-                $this->logger->debug($this->container->getTranslator()->trans('[SKIP] directory "%s" does not exist and cannot be emptied.', [str_replace($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH), '', $dir)], 'Modules.Autoupgrade.Admin'));
+                $this->logger->debug($this->container->getTranslator()->trans('[SKIP] directory "%s" does not exist and cannot be emptied.', [str_replace($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH), '', $dir)]));
                 continue;
             }
             foreach (scandir($dir) as $file) {
@@ -83,7 +87,7 @@ class CacheCleaner
                 } elseif (is_dir($dir . $file . DIRECTORY_SEPARATOR)) {
                     FilesystemAdapter::deleteDirectory($dir . $file . DIRECTORY_SEPARATOR);
                 }
-                $this->logger->debug($this->container->getTranslator()->trans('[CLEANING CACHE] File %s removed', [$file], 'Modules.Autoupgrade.Admin'));
+                $this->logger->debug($this->container->getTranslator()->trans('[CLEANING CACHE] File %s removed', [$file]));
             }
         }
     }

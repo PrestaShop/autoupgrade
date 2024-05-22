@@ -27,41 +27,20 @@
 
 namespace PrestaShop\Module\AutoUpgrade;
 
-use PrestaShop\Module\AutoUpgrade\Log\LoggerInterface;
-
-class Workspace
+class VersionCheck
 {
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    const MODULE_COMPATIBLE_PHP_VERSION = 70100;
 
-    /**
-     * @var UpgradeTools\Translator
-     */
-    private $translator;
-
-    /**
-     * @var array List of paths used by autoupgrade
-     */
-    private $paths;
-
-    public function __construct(LoggerInterface $logger, UpgradeTools\Translator $translator, array $paths)
+    public static function _getPHPVersion(int $versionInt): string
     {
-        $this->logger = $logger;
-        $this->translator = $translator;
-        $this->paths = $paths;
+        $major = intdiv($versionInt, 10000);
+        $minor = intdiv($versionInt % 10000, 100);
+
+        return sprintf('%d.%d', $major, $minor);
     }
 
-    public function createFolders(): void
+    public static function _isActualPHPVersionCompatible(): bool
     {
-        foreach ($this->paths as $path) {
-            if (!file_exists($path) && !mkdir($path)) {
-                $this->logger->error($this->translator->trans('Unable to create directory %s', [$path], 'Modules.Autoupgrade.Admin'));
-            }
-            if (!is_writable($path)) {
-                $this->logger->error($this->translator->trans('Unable to write in the directory "%s"', [$path], 'Modules.Autoupgrade.Admin'));
-            }
-        }
+        return self::MODULE_COMPATIBLE_PHP_VERSION > PHP_VERSION_ID;
     }
 }

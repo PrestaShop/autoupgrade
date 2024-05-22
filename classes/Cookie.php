@@ -50,7 +50,7 @@ class Cookie
      * @param string $adminDir Admin subfolder
      * @param string $tmpDir Storage folder
      */
-    public function __construct($adminDir, $tmpDir)
+    public function __construct(string $adminDir, string $tmpDir)
     {
         $this->adminDir = $adminDir;
         $this->keyFilePath = $tmpDir . DIRECTORY_SEPARATOR . self::GENERATED_KEY_FILE;
@@ -63,7 +63,7 @@ class Cookie
      * @param int $idEmployee
      * @param string $iso_code i.e 'en'
      */
-    public function create($idEmployee, $iso_code)
+    public function create(int $idEmployee, string $iso_code): void
     {
         $this->storeKey(_COOKIE_KEY_);
 
@@ -80,7 +80,7 @@ class Cookie
      *
      * @return bool True if allowed
      */
-    public function check(array $cookie)
+    public function check(array $cookie): bool
     {
         if (empty($cookie['id_employee']) || empty($cookie['autoupgrade'])) {
             return false;
@@ -94,7 +94,7 @@ class Cookie
      *
      * @return string MD5 hashed string
      */
-    private function encrypt($string)
+    private function encrypt(string $string): string
     {
         return md5(md5($this->readKey()) . md5($string));
     }
@@ -108,7 +108,7 @@ class Cookie
      *
      * @internal
      */
-    public function generateKeyFileContent($key)
+    public function generateKeyFileContent(string $key): string
     {
         return '<?php
 $key = "' . $key . '";
@@ -122,7 +122,7 @@ $key = "' . $key . '";
      *
      * @internal
      */
-    public function readKey()
+    public function readKey(): string
     {
         if (!empty($this->key)) {
             return $this->key;
@@ -146,7 +146,7 @@ $key = "' . $key . '";
      *
      * @internal
      */
-    public function storeKey($key)
+    public function storeKey(string $key): bool
     {
         return (bool) file_put_contents($this->keyFilePath, $this->generateKeyFileContent($key));
     }

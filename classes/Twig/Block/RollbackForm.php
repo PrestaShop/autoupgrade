@@ -48,7 +48,7 @@ class RollbackForm
         $this->backupFinder = $backupFinder;
     }
 
-    public function render()
+    public function render(): string
     {
         return $this->twig->render(
             '@ModuleAutoUpgrade/block/rollbackForm.twig',

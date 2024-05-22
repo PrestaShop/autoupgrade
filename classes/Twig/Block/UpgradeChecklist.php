@@ -68,8 +68,8 @@ class UpgradeChecklist
     public function __construct(
         $twig,
         UpgradeSelfCheck $upgradeSelfCheck,
-        $currentIndex,
-        $token
+        string $currentIndex,
+        string $token
     ) {
         $this->twig = $twig;
         $this->selfCheck = $upgradeSelfCheck;
@@ -79,10 +79,8 @@ class UpgradeChecklist
 
     /**
      * Returns the block's HTML.
-     *
-     * @return string
      */
-    public function render()
+    public function render(): string
     {
         $data = [
             'showErrorMessage' => !$this->selfCheck->isOkForUpgrade(),

@@ -60,8 +60,13 @@ class Autoupgrade extends Module
 
     public function install()
     {
-        if (50600 > PHP_VERSION_ID) {
-            $this->_errors[] = $this->trans('This version of 1-click upgrade requires PHP 5.6 to work properly. Please upgrade your server configuration.', [], 'Modules.Autoupgrade.Admin');
+        require_once __DIR__ . '/vendor/autoload.php';
+        if (\PrestaShop\Module\AutoUpgrade\VersionCheck::_isActualPHPVersionCompatible()) {
+            $this->_errors[] = $this->trans(
+                'This module requires PHP %s to work properly. Please upgrade your server configuration.',
+                [\PrestaShop\Module\AutoUpgrade\VersionCheck::_getPhpVersion(\PrestaShop\Module\AutoUpgrade\VersionCheck::MODULE_COMPATIBLE_PHP_VERSION)],
+                'Modules.Autoupgrade.Admin'
+            );
 
             return false;
         }
@@ -119,12 +124,8 @@ class Autoupgrade extends Module
 
     /**
      * Register the current module to a given hook and moves it at the first position.
-     *
-     * @param string $hookName
-     *
-     * @return bool
      */
-    public function registerHookAndSetToTop($hookName)
+    public function registerHookAndSetToTop(string $hookName)
     {
         if (!$this->registerHook($hookName)) {
             return false;
@@ -141,7 +142,6 @@ class Autoupgrade extends Module
     {
         // Display panel if PHP is not supported by the community
         require_once __DIR__ . '/vendor/autoload.php';
-
         $upgradeContainer = new \PrestaShop\Module\AutoUpgrade\UpgradeContainer(_PS_ROOT_DIR_, _PS_ADMIN_DIR_);
         $upgradeSelfCheck = new \PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck(
             $upgradeContainer->getUpgrader(),
@@ -179,7 +179,7 @@ class Autoupgrade extends Module
      *
      * @return bool Always false
      */
-    protected function _abortInstall($error)
+    protected function _abortInstall(string $error)
     {
         $this->_errors[] = $error;
 

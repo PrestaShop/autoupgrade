@@ -106,13 +106,13 @@ class ModuleAdapter
      *
      * @param string $pathToUpgradeScripts Path to the PHP Upgrade scripts
      */
-    public function disableNonNativeModules($pathToUpgradeScripts)
+    public function disableNonNativeModules(string $pathToUpgradeScripts): void
     {
         require_once $pathToUpgradeScripts . 'php/deactivate_custom_modules.php';
         deactivate_custom_modules();
     }
 
-    public function disableNonNativeModules80($pathToUpgradeScripts, $moduleRepository)
+    public function disableNonNativeModules80(string $pathToUpgradeScripts, $moduleRepository)
     {
         require_once $pathToUpgradeScripts . 'php/deactivate_custom_modules.php';
         deactivate_custom_modules80($moduleRepository);
@@ -125,8 +125,10 @@ class ModuleAdapter
      * @param array<string, string> $modulesVersions
      *
      * @return array Module available on the local filesystem and on the marketplace
+     *
+     * @throws UpgradeException
      */
-    public function listModulesToUpgrade(array $modulesFromAddons, array $modulesVersions)
+    public function listModulesToUpgrade(array $modulesFromAddons, array $modulesVersions): array
     {
         $list = [];
         $dir = $this->modulesPath;
@@ -175,11 +177,9 @@ class ModuleAdapter
     /**
      * Upgrade module $name (identified by $id_module on addons server).
      *
-     * @param int $id
-     * @param string $name
-     * @param bool $isLocalModule
+     * @throws UpgradeException
      */
-    public function upgradeModule($id, $name, $isLocalModule = false)
+    public function upgradeModule(int $id, string $name, bool $isLocalModule = false)
     {
         $zip_fullpath = $this->tempPath . DIRECTORY_SEPARATOR . $name . '.zip';
         $local_module_used = false;
@@ -242,7 +242,7 @@ class ModuleAdapter
         }
     }
 
-    private function getLocalModuleZip($name)
+    private function getLocalModuleZip($name): ?string
     {
         $autoupgrade_dir = _PS_ADMIN_DIR_ . DIRECTORY_SEPARATOR . 'autoupgrade';
         $module_zip = $autoupgrade_dir . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $name . '.zip';
@@ -254,12 +254,7 @@ class ModuleAdapter
         return null;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return bool
-     */
-    private function doUpgradeModule($name)
+    private function doUpgradeModule(string $name): bool
     {
         $version = \Db::getInstance()->getValue(
             'SELECT version FROM `' . _DB_PREFIX_ . 'module` WHERE name = "' . $name . '"'

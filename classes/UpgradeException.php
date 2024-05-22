@@ -39,33 +39,33 @@ class UpgradeException extends \Exception
 
     private $severity = self::SEVERITY_ERROR;
 
-    public function getQuickInfos()
+    public function getQuickInfos(): array
     {
         return $this->quickInfos;
     }
 
-    public function getSeverity()
+    public function getSeverity(): int
     {
         return $this->severity;
     }
 
-    public function addQuickInfo($quickInfo)
+    public function addQuickInfo($quickInfo): UpgradeException
     {
         $this->quickInfos[] = $quickInfo;
 
         return $this;
     }
 
-    public function setQuickInfos(array $quickInfos)
+    public function setQuickInfos(array $quickInfos): UpgradeException
     {
         $this->quickInfos = $quickInfos;
 
         return $this;
     }
 
-    public function setSeverity($severity)
+    public function setSeverity(int $severity): UpgradeException
     {
-        $this->severity = (int) $severity;
+        $this->severity = $severity;
 
         return $this;
     }

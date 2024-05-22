@@ -27,6 +27,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner;
 
+use Exception;
 use PrestaShop\Module\AutoUpgrade\AjaxResponse;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\TaskRepository;
 
@@ -41,8 +42,10 @@ abstract class ChainedTasks extends AbstractTask
      * Execute all the tasks from a specific initial step, until the end (complete or error).
      *
      * @return int Return code (0 for success, any value otherwise)
+     *
+     * @throws Exception
      */
-    public function run()
+    public function run(): int
     {
         $requireRestart = false;
         while ($this->canContinue() && !$requireRestart) {
@@ -70,10 +73,8 @@ abstract class ChainedTasks extends AbstractTask
 
     /**
      * Tell the while loop if it can continue.
-     *
-     * @return bool
      */
-    protected function canContinue()
+    protected function canContinue(): bool
     {
         if (empty($this->step)) {
             return false;
@@ -90,7 +91,7 @@ abstract class ChainedTasks extends AbstractTask
      * For some steps, we may require a new request to be made.
      * Return true for stopping the process.
      */
-    protected function checkIfRestartRequested(AjaxResponse $response)
+    protected function checkIfRestartRequested(AjaxResponse $response): bool
     {
         return false;
     }

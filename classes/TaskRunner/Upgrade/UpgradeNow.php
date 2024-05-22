@@ -27,6 +27,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 
+use Exception;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 
 /**
@@ -35,9 +36,12 @@ use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
  */
 class UpgradeNow extends AbstractTask
 {
+    /**
+     * @throws Exception
+     */
     public function run()
     {
-        $this->logger->info($this->translator->trans('Starting upgrade...', [], 'Modules.Autoupgrade.Admin'));
+        $this->logger->info($this->translator->trans('Starting upgrade...'));
 
         $this->container->getWorkspace()->createFolders();
 
@@ -50,12 +54,12 @@ class UpgradeNow extends AbstractTask
         if ($this->container->getUpgradeConfiguration()->get('channel') == 'private' && !$this->container->getUpgradeConfiguration()->get('private_allow_major')) {
             $upgrader->checkPSVersion(false, ['private', 'minor']);
         } else {
-            $upgrader->checkPSVersion(false, ['minor']);
+            $upgrader->checkPSVersion();
         }
 
         if ($upgrader->isLastVersion()) {
             $this->next = '';
-            $this->logger->info($this->translator->trans('You already have the %s version.', [$upgrader->version_name], 'Modules.Autoupgrade.Admin'));
+            $this->logger->info($this->translator->trans('You already have the %s version.', [$upgrader->version_name]));
 
             return;
         }
@@ -69,18 +73,18 @@ class UpgradeNow extends AbstractTask
                 break;
             case 'archive':
                 $this->next = 'unzip';
-                $this->logger->debug($this->translator->trans('Downloading step has been skipped, upgrade process will now unzip the local archive.', [], 'Modules.Autoupgrade.Admin'));
-                $this->logger->info($this->translator->trans('Shop deactivated. Extracting files...', [], 'Modules.Autoupgrade.Admin'));
+                $this->logger->debug($this->translator->trans('Downloading step has been skipped, upgrade process will now unzip the local archive.'));
+                $this->logger->info($this->translator->trans('Shop deactivated. Extracting files...'));
                 break;
             default:
                 $this->next = 'download';
-                $this->logger->info($this->translator->trans('Shop deactivated. Now downloading... (this can take a while)', [], 'Modules.Autoupgrade.Admin'));
+                $this->logger->info($this->translator->trans('Shop deactivated. Now downloading... (this can take a while)'));
                 if ($upgrader->channel == 'private') {
                     $upgrader->link = $this->container->getUpgradeConfiguration()->get('private_release_link');
                     $upgrader->md5 = $this->container->getUpgradeConfiguration()->get('private_release_md5');
                 }
-                $this->logger->debug($this->translator->trans('Downloaded archive will come from %s', [$upgrader->link], 'Modules.Autoupgrade.Admin'));
-                $this->logger->debug($this->translator->trans('MD5 hash will be checked against %s', [$upgrader->md5], 'Modules.Autoupgrade.Admin'));
+                $this->logger->debug($this->translator->trans('Downloaded archive will come from %s', [$upgrader->link]));
+                $this->logger->debug($this->translator->trans('MD5 hash will be checked against %s', [$upgrader->md5]));
         }
     }
 }

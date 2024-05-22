@@ -35,7 +35,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader81;
 
 class UpgradeDb extends AbstractTask
 {
-    public function run()
+    public function run(): bool
     {
         try {
             $this->getCoreUpgrader()->doUpgrade();
@@ -45,14 +45,14 @@ class UpgradeDb extends AbstractTask
             foreach ($e->getQuickInfos() as $log) {
                 $this->logger->debug($log);
             }
-            $this->logger->error($this->translator->trans('Error during database upgrade. You may need to restore your database.', [], 'Modules.Autoupgrade.Admin'));
+            $this->logger->error($this->translator->trans('Error during database upgrade. You may need to restore your database.'));
             $this->logger->error($e->getMessage());
 
             return false;
         }
         $this->next = 'upgradeModules';
         $this->stepDone = true;
-        $this->logger->info($this->translator->trans('Database upgraded. Now upgrading your Addons modules...', [], 'Modules.Autoupgrade.Admin'));
+        $this->logger->info($this->translator->trans('Database upgraded. Now upgrading your Addons modules...'));
 
         return true;
     }
@@ -70,11 +70,11 @@ class UpgradeDb extends AbstractTask
         return new CoreUpgrader81($this->container, $this->logger);
     }
 
-    public function init()
+    public function init(): void
     {
-        $this->logger->info($this->translator->trans('Cleaning file cache', [], 'Modules.Autoupgrade.Admin'));
+        $this->logger->info($this->translator->trans('Cleaning file cache'));
         $this->container->getCacheCleaner()->cleanFolders();
-        $this->logger->info($this->translator->trans('Running opcache_reset', [], 'Modules.Autoupgrade.Admin'));
+        $this->logger->info($this->translator->trans('Running opcache_reset'));
         $this->container->resetOpcache();
 
         // Migrating settings file

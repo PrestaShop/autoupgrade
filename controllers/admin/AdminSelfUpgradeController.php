@@ -24,6 +24,7 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
+
 use PrestaShop\Module\AutoUpgrade\AjaxResponse;
 use PrestaShop\Module\AutoUpgrade\BackupFinder;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
@@ -33,6 +34,8 @@ use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradePage;
 use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
+use PrestaShop\Module\AutoUpgrade\VersionCheck;
 
 $autoloadPath = __DIR__ . '/../../vendor/autoload.php';
 if (file_exists($autoloadPath)) {
@@ -464,6 +467,15 @@ class AdminSelfUpgradeController extends ModuleAdminController
 
     public function initContent()
     {
+        if (VersionCheck::_isActualPHPVersionCompatible()) {
+            $templateData = [
+                'message' => $this->trans('This module requires PHP %s to work properly. Please upgrade your server configuration.', [VersionCheck::_getPhpVersion(VersionCheck::MODULE_COMPATIBLE_PHP_VERSION)], 'Modules.Autoupgrade.Admin'),
+            ];
+            $this->content = $this->upgradeContainer->getTwig()->render('@ModuleAutoUpgrade/error.twig', $templateData);
+
+            return parent::initContent();
+        }
+
         // Make sure the user has configured the upgrade options, or set default values
         $configuration_keys = [
             'PS_AUTOUP_UPDATE_DEFAULT_THEME' => 1,
@@ -537,6 +549,6 @@ class AdminSelfUpgradeController extends ModuleAdminController
      */
     public function trans($id, array $parameters = [], $domain = null, $locale = null)
     {
-        return (new \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator(__CLASS__))->trans($id, $parameters, $domain, $locale);
+        return (new Translator(__CLASS__))->trans($id, $parameters, $domain, $locale);
     }
 }

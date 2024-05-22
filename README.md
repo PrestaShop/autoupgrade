@@ -28,7 +28,7 @@ Please note PrestaShop 1.6 and older are not maintained anymore.
 ## Prerequisites
 
 * PrestaShop 1.7 or 8
-* PHP 5.6+
+* PHP 7.1+
 
 ## Installation
 

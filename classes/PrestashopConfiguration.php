@@ -28,6 +28,7 @@
 namespace PrestaShop\Module\AutoUpgrade;
 
 use ConfigurationTestCore as ConfigurationTest;
+use Exception;
 
 class PrestashopConfiguration
 {
@@ -64,6 +65,9 @@ class PrestashopConfiguration
         return $this->moduleVersion;
     }
 
+    /**
+     * @throws Exception
+     */
     public function getPrestaShopVersion()
     {
         if (defined('_PS_VERSION_')) {
@@ -85,7 +89,7 @@ class PrestashopConfiguration
             }
         }
 
-        throw new \Exception('Can\'t find PrestaShop Version');
+        throw new Exception('Can\'t find PrestaShop Version');
     }
 
     /**
@@ -93,7 +97,7 @@ class PrestashopConfiguration
      *
      * @return bool True is the latest version of the module is currently installed
      */
-    public function checkAutoupgradeLastVersion($extAutoupgradeLastVersion)
+    public function checkAutoupgradeLastVersion(string $extAutoupgradeLastVersion): bool
     {
         $moduleVersion = $this->getModuleVersion();
         if ($moduleVersion) {
@@ -106,7 +110,7 @@ class PrestashopConfiguration
     /**
      * @return array Details of the filesystem permission check
      */
-    protected function getRootWritableDetails()
+    protected function getRootWritableDetails(): array
     {
         $result = [];
         // Root directory permissions cannot be checked recursively anymore, it takes too much time
@@ -123,7 +127,7 @@ class PrestashopConfiguration
      *
      * @internal Used for test
      */
-    public function findPrestaShopVersionInFile($content)
+    public function findPrestaShopVersionInFile(string $content)
     {
         $matches = [];
         // Example: define('_PS_VERSION_', '1.7.3.4');

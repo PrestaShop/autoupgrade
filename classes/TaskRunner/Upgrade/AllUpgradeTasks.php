@@ -27,6 +27,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 
+use Exception;
 use PrestaShop\Module\AutoUpgrade\AjaxResponse;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\ChainedTasks;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
@@ -48,8 +49,10 @@ class AllUpgradeTasks extends ChainedTasks
      * > data: Loads an encoded array of data coming from another request.
      *
      * @param array $options
+     *
+     * @throws Exception
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): void
     {
         if (!empty($options['action'])) {
             $this->step = $options['action'];
@@ -74,7 +77,7 @@ class AllUpgradeTasks extends ChainedTasks
      * For some steps, we may require a new request to be made.
      * For instance, in case of obsolete autoloader or loaded classes after a file copy.
      */
-    protected function checkIfRestartRequested(AjaxResponse $response)
+    protected function checkIfRestartRequested(AjaxResponse $response): bool
     {
         if (parent::checkIfRestartRequested($response)) {
             return true;
@@ -102,8 +105,10 @@ class AllUpgradeTasks extends ChainedTasks
 
     /**
      * Set default config on first run.
+     *
+     * @throws Exception
      */
-    public function init()
+    public function init(): void
     {
         if ($this->step === self::initialTask) {
             parent::init();

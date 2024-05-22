@@ -27,6 +27,8 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Log;
 
+use Exception;
+
 /**
  * Logger to use when the messages can be seen as soon as they are created.
  * For instance, in a CLI context.
@@ -67,7 +69,7 @@ class StreamedLogger extends Logger
      *
      * @return bool
      */
-    public function isFiltered($level)
+    public function isFiltered(int $level): bool
     {
         return $level < $this->filter;
     }
@@ -75,7 +77,7 @@ class StreamedLogger extends Logger
     /**
      * {@inherit}.
      */
-    public function log($level, $message, array $context = [])
+    public function log($level, string $message, array $context = []): void
     {
         if (empty($message)) {
             return;
@@ -92,7 +94,7 @@ class StreamedLogger extends Logger
         }
     }
 
-    public function getFilter()
+    public function getFilter(): int
     {
         return $this->filter;
     }
@@ -100,14 +102,12 @@ class StreamedLogger extends Logger
     /**
      * Set the verbosity of the logger.
      *
-     * @param int $filter
-     *
-     * @return $this
+     * @throws Exception
      */
-    public function setFilter($filter)
+    public function setFilter(int $filter): StreamedLogger
     {
         if (!array_key_exists($filter, self::$levels)) {
-            throw new \Exception('Unknown level ' . $filter);
+            throw new Exception('Unknown level ' . $filter);
         }
         $this->filter = $filter;
 

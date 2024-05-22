@@ -38,14 +38,7 @@ class ChannelInfo
      */
     private $channel;
 
-    /**
-     * ChannelInfo constructor.
-     *
-     * @param Upgrader $upgrader
-     * @param UpgradeConfiguration $config
-     * @param string $channel
-     */
-    public function __construct(Upgrader $upgrader, UpgradeConfiguration $config, $channel)
+    public function __construct(Upgrader $upgrader, UpgradeConfiguration $config, string $channel)
     {
         $this->channel = $channel;
         $publicChannels = ['minor', 'major', 'rc', 'beta', 'alpha'];
@@ -102,18 +95,12 @@ class ChannelInfo
         }
     }
 
-    /**
-     * @return array
-     */
-    public function getInfo()
+    public function getInfo(): array
     {
         return $this->info;
     }
 
-    /**
-     * @return string
-     */
-    public function getChannel()
+    public function getChannel(): string
     {
         return $this->channel;
     }

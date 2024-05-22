@@ -67,10 +67,8 @@ class SymfonyAdapter
 
     /**
      * Check if AppKernel is abstract or not.
-     *
-     * @return bool
      */
-    private function isAppKernelAbstract()
+    private function isAppKernelAbstract(): bool
     {
         $appKernelClass = new ReflectionClass(\AppKernel::class);
 

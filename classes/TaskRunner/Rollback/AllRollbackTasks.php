@@ -46,7 +46,7 @@ class AllRollbackTasks extends ChainedTasks
      *
      * @param array $options
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): void
     {
         if (!empty($options['backup'])) {
             $this->container->getState()->setRestoreName($options['backup']);
@@ -56,7 +56,7 @@ class AllRollbackTasks extends ChainedTasks
     /**
      * Set default config on first run.
      */
-    public function init()
+    public function init(): void
     {
         // Do nothing
     }
