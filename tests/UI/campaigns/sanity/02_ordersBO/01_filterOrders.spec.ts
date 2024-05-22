@@ -6,6 +6,7 @@ import {
     boLoginPage,
     boOrdersPage,
     // Import data
+    dataOrders,
     dataOrderStatuses,
 } from '@prestashop-core/ui-testing';
 
@@ -43,7 +44,7 @@ test.describe('BO - Orders - Orders : Filter the Orders table by ID, REFERENCE, 
     });
 
     test('should go to the \'Orders > Orders\' page', async function () {
-        await testContext.addContextItem(this, 'testIdentifier', 'goToOrdersPage', baseContext);
+        await testContext.addContextItem(test.info(), 'testIdentifier', 'goToOrdersPage', baseContext);
 
         await boDashboardPage.goToSubMenu(
             page,
@@ -56,7 +57,7 @@ test.describe('BO - Orders - Orders : Filter the Orders table by ID, REFERENCE, 
     });
 
     test('should reset all filters and get number of orders', async function () {
-        await testContext.addContextItem(this, 'testIdentifier', 'resetFilters1', baseContext);
+        await testContext.addContextItem(test.info(), 'testIdentifier', 'resetFilters1', baseContext);
 
         numberOfOrders = await boOrdersPage.resetAndGetNumberOfLines(page);
         await expect(numberOfOrders).toBeGreaterThan(0);
@@ -69,7 +70,7 @@ test.describe('BO - Orders - Orders : Filter the Orders table by ID, REFERENCE, 
                     identifier: 'filterId',
                     filterType: 'input',
                     filterBy: 'id_order',
-                    filterValue: 1,
+                    filterValue: dataOrders.order_4.id,
                 },
         },
         {
@@ -78,7 +79,7 @@ test.describe('BO - Orders - Orders : Filter the Orders table by ID, REFERENCE, 
                     identifier: 'filterReference',
                     filterType: 'input',
                     filterBy: 'reference',
-                    filterValue: 'FFATNOMMJ',
+                    filterValue: dataOrders.order_2.reference,
                 },
         },
         {
@@ -94,7 +95,7 @@ test.describe('BO - Orders - Orders : Filter the Orders table by ID, REFERENCE, 
 
     tests.forEach((tst) => {
         test(`should filter the Orders table by '${tst.args.filterBy}' and check the result`, async function () {
-            await testContext.addContextItem(this, 'testIdentifier', `filterOrders_${tst.args.identifier}`, baseContext);
+            await testContext.addContextItem(test.info(), 'testIdentifier', `filterOrders_${tst.args.identifier}`, baseContext);
 
             await boOrdersPage.filterOrders(
                 page,
@@ -107,8 +108,8 @@ test.describe('BO - Orders - Orders : Filter the Orders table by ID, REFERENCE, 
             await expect(textColumn).toEqual(tst.args.filterValue);
         });
 
-        test('should reset all filters', async function () {
-            await testContext.addContextItem(this, 'testIdentifier', `resetFilters_${tst.args.identifier}`, baseContext);
+        test(`should reset all filters after the filter by '${tst.args.filterBy}'`, async function () {
+            await testContext.addContextItem(test.info(), 'testIdentifier', `resetFilters_${tst.args.identifier}`, baseContext);
 
             const numberOfOrdersAfterReset = await boOrdersPage.resetAndGetNumberOfLines(page);
             await expect(numberOfOrdersAfterReset).toEqual(numberOfOrders);
