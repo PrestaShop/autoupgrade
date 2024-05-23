@@ -140,12 +140,13 @@ class FileFilter
             return $this->excludeAbsoluteFilesFromUpgrade;
         }
 
-        // do not copy install, neither app/config/parameters.php in case it would be present
         $this->excludeAbsoluteFilesFromUpgrade = [
             '/app/config/parameters.php',
             '/app/config/parameters.yml',
             '/install',
             '/install-dev',
+            // TODO: Uncomment when a better management of modules upgrades is implemented
+            // '/modules',
             '/override',
             '/override/classes',
             '/override/controllers',
@@ -173,7 +174,6 @@ class FileFilter
             }
         }
 
-        // this will exclude autoupgrade dir from admin, and autoupgrade from modules
         // If set to false, we need to preserve the default themes
         if (!$this->configuration->shouldUpdateDefaultTheme()) {
             $this->excludeAbsoluteFilesFromUpgrade[] = '/themes/classic';
