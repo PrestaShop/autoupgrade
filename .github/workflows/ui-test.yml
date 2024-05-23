@@ -23,8 +23,10 @@ jobs:
       matrix:
         include:
           - PS_VERSION_START: 8.1.4
+            PS_VERSION_END: 8.1.5
             PHP_VERSION: 7.2
           - PS_VERSION_START: 8.1.4
+            PS_VERSION_END: 8.1.5
             PHP_VERSION: 7.3
     env:
       PS_DOCKER: ${{ matrix.PS_VERSION_START }}-${{ matrix.PHP_VERSION }}
@@ -48,16 +50,18 @@ jobs:
         run: |
           docker exec -t prestashop php -v bin/console prestashop:module install autoupgrade
 
-      - name: Download the latest version of Prestashop
+      - name: Download the latest version of Prestashop 8.1.5
         run: |
           docker exec -t prestashop mkdir admin-dev/autoupgrade/download
           docker exec -t prestashop curl -L https://github.com/PrestaShop/PrestaShop/releases/download/8.1.5/prestashop_8.1.5.zip -o admin-dev/autoupgrade/download/prestashop.zip
           docker exec -t prestashop curl -L https://github.com/PrestaShop/PrestaShop/releases/download/8.1.5/prestashop_8.1.5.xml -o admin-dev/autoupgrade/download/prestashop.xml
+          echo "{\"channel\":\"archive\",\"archive_prestashop\":\"prestashop.zip\",\"archive_num\":\"${VERSION}\", \"archive_xml\":\"prestashop.xml\", \"PS_AUTOUP_CHANGE_DEFAULT_THEME\":${UPDATE_THEME}, \"skip_backup\": ${SKIP_BACKUP}}" > config.json
 
-      - name: Upgrade
+      - name: Upgrade to Prestashop 8.1.5
         run: |
          docker exec -t prestashop php modules/autoupgrade/tests/testCliProcess.php modules/autoupgrade/cli-upgrade.php  --dir=admin-dev --action=compareReleases
          docker exec -t prestashop php modules/autoupgrade/tests/testCliProcess.php modules/autoupgrade/cli-upgrade.php --dir=admin-dev
+         docker exec -t prestashop chmod 777 -R /var/www/html/var/cache/dev
 
       - name: Install dependencies
         working-directory: tests/UI/
@@ -67,6 +71,8 @@ jobs:
         working-directory: tests/UI/
         run: npx playwright install chromium --with-deps
 
-      - name: Run Playwright tests
+      - name: Run Sanity tests
         working-directory: tests/UI/
+        env:
+          PS_VERSION: ${{ matrix.PS_VERSION_END }}
         run: npx playwright test
