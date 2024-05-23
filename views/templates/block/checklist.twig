@@ -221,6 +221,17 @@
                     <td>{{ icons.nok }}</td>
                   </tr>
                 {% endif %}
+                {% if not isShopVersionMatchingVersionInDatabase %}
+                  <tr>
+                    <td>
+                      {{ 'The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table. [1]Learn more[/1].'|trans({
+                        '[1]': '<a href="https://devdocs.prestashop-project.org/8/faq/upgrade#the-version-of-prestashop-does-not-match-the-one-stored-in-database" target="_blank">',
+                        '[/1]': '</a>',
+                      }, 'Modules.Autoupgrade.Admin')|raw }}
+                    </td>
+                    <td>{{ icons.nok }}</td>
+                  </tr>
+                {% endif %}
             </table>
             <br>
             <p class="alert alert-info">{{ 'Please also make sure you make a full manual backup of your files and database.'|trans({}, 'Modules.Autoupgrade.Admin') }}</p>

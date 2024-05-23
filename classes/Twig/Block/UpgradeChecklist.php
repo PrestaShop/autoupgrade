@@ -41,22 +41,6 @@ class UpgradeChecklist
      * @var Twig_Environment|\Twig\Environment
      */
     private $twig;
-
-    /**
-     * @var string
-     */
-    private $prodRootPath;
-
-    /**
-     * @var string
-     */
-    private $adminPath;
-
-    /**
-     * @var string
-     */
-    private $autoupgradePath;
-
     /**
      * @var UpgradeSelfCheck
      */
@@ -77,26 +61,17 @@ class UpgradeChecklist
      *
      * @param Twig_Environment|\Twig\Environment $twig
      * @param UpgradeSelfCheck $upgradeSelfCheck
-     * @param string $prodRootPath
-     * @param string $adminPath
-     * @param string $autoupgradePath
      * @param string $currentIndex
      * @param string $token
      */
     public function __construct(
         $twig,
         UpgradeSelfCheck $upgradeSelfCheck,
-        $prodRootPath,
-        $adminPath,
-        $autoupgradePath,
         $currentIndex,
         $token
     ) {
         $this->twig = $twig;
         $this->selfCheck = $upgradeSelfCheck;
-        $this->prodRootPath = $prodRootPath;
-        $this->adminPath = $adminPath;
-        $this->autoupgradePath = $autoupgradePath;
         $this->currentIndex = $currentIndex;
         $this->token = $token;
     }
@@ -113,6 +88,7 @@ class UpgradeChecklist
             'moduleVersion' => $this->selfCheck->getModuleVersion(),
             'moduleIsUpToDate' => $this->selfCheck->isModuleVersionLatest(),
             'moduleUpdateLink' => Context::getContext()->link->getAdminLink('AdminModulesUpdates'),
+            'isShopVersionMatchingVersionInDatabase' => $this->selfCheck->isShopVersionMatchingVersionInDatabase(),
             'adminToken' => Tools14::getAdminTokenLite('AdminModules'),
             'informationsLink' => Context::getContext()->link->getAdminLink('AdminInformation'),
             'maintenanceLink' => Context::getContext()->link->getAdminLink('AdminMaintenance'),

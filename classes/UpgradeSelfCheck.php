@@ -94,11 +94,6 @@ class UpgradeSelfCheck
     private $rootWritableReport;
 
     /**
-     * @var false|string
-     */
-    private $moduleVersion;
-
-    /**
      * @var int
      */
     private $maxExecutionTime;
@@ -142,6 +137,11 @@ class UpgradeSelfCheck
     private $autoUpgradePath;
 
     /**
+     * @var PrestashopConfiguration
+     */
+    private $prestashopConfiguration;
+
+    /**
      * @var bool
      */
     private $overrideDisabled;
@@ -150,13 +150,15 @@ class UpgradeSelfCheck
      * UpgradeSelfCheck constructor.
      *
      * @param Upgrader $upgrader
+     * @param PrestashopConfiguration $prestashopConfiguration
      * @param string $prodRootPath
      * @param string $adminPath
      * @param string $autoUpgradePath
      */
-    public function __construct(Upgrader $upgrader, $prodRootPath, $adminPath, $autoUpgradePath)
+    public function __construct(Upgrader $upgrader, PrestashopConfiguration $prestashopConfiguration, $prodRootPath, $adminPath, $autoUpgradePath)
     {
         $this->upgrader = $upgrader;
+        $this->prestashopConfiguration = $prestashopConfiguration;
         $this->prodRootPath = $prodRootPath;
         $this->adminPath = $adminPath;
         $this->autoUpgradePath = $autoUpgradePath;
@@ -307,11 +309,7 @@ class UpgradeSelfCheck
      */
     public function getModuleVersion()
     {
-        if (null !== $this->moduleVersion) {
-            return $this->moduleVersion;
-        }
-
-        return $this->moduleVersion = $this->checkModuleVersion();
+        return $this->prestashopConfiguration->getModuleVersion();
     }
 
     /**
@@ -347,6 +345,18 @@ class UpgradeSelfCheck
     }
 
     /**
+     * @return bool
+     */
+    public function isShopVersionMatchingVersionInDatabase()
+    {
+        return version_compare(
+            Configuration::get('PS_VERSION_DB'),
+            $this->prestashopConfiguration->getPrestaShopVersion(),
+            '=='
+        );
+    }
+
+    /**
      * Indicates if the self check status allows going ahead with the upgrade.
      *
      * @return bool
@@ -362,6 +372,7 @@ class UpgradeSelfCheck
             && $this->isCacheDisabled()
             && $this->isModuleVersionLatest()
             && $this->isPhpVersionCompatible()
+            && $this->isShopVersionMatchingVersionInDatabase()
             && $this->isApacheModRewriteEnabled()
             && $this->checkKeyGeneration()
             && $this->getNotLoadedPhpExtensions() === []
@@ -391,20 +402,6 @@ class UpgradeSelfCheck
     private function checkModuleVersionIsLastest(Upgrader $upgrader)
     {
         return version_compare($this->getModuleVersion(), $upgrader->autoupgrade_last_version, '>=');
-    }
-
-    /**
-     * @return string|false
-     */
-    private function checkModuleVersion()
-    {
-        $configFilePath = _PS_ROOT_DIR_ . $this->configDir;
-
-        if (file_exists($configFilePath) && $xml_module_version = simplexml_load_file($configFilePath)) {
-            return (string) $xml_module_version->version;
-        }
-
-        return false;
     }
 
     /**

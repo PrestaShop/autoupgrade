@@ -492,6 +492,7 @@ class AdminSelfUpgradeController extends AdminController
         $upgrader = $this->upgradeContainer->getUpgrader();
         $upgradeSelfCheck = new UpgradeSelfCheck(
             $upgrader,
+            $this->upgradeContainer->getPrestaShopConfiguration(),
             $this->prodRootDir,
             $this->adminDir,
             $this->autoupgradePath
