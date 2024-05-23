@@ -10,4 +10,8 @@ nbproject
 /autoupgrade*.json
 
 ## UI Tests
+/tests/UI/.env
 /tests/UI/node_modules/
+/tests/UI/report.json
+/tests/UI/reports/
+/tests/UI/test-results/

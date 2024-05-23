@@ -51,6 +51,7 @@ test.describe('BO - Orders - Orders : Filter the Orders table by ID, REFERENCE, 
             boDashboardPage.ordersParentLink,
             boDashboardPage.ordersLink,
         );
+        await boOrdersPage.closeSfToolBar(page);
 
         const pageTitle = await boOrdersPage.getPageTitle(page);
         await expect(pageTitle).toContain(boOrdersPage.pageTitle);
@@ -64,52 +65,28 @@ test.describe('BO - Orders - Orders : Filter the Orders table by ID, REFERENCE, 
     });
 
     const tests = [
-        {
-            args:
-                {
-                    identifier: 'filterId',
-                    filterType: 'input',
-                    filterBy: 'id_order',
-                    filterValue: dataOrders.order_4.id,
-                },
-        },
-        {
-            args:
-                {
-                    identifier: 'filterReference',
-                    filterType: 'input',
-                    filterBy: 'reference',
-                    filterValue: dataOrders.order_2.reference,
-                },
-        },
-        {
-            args:
-                {
-                    identifier: 'filterOsName',
-                    filterType: 'select',
-                    filterBy: 'osname',
-                    filterValue: dataOrderStatuses.paymentError,
-                },
-        },
+        {args: {identifier: 'filterId', filterType: 'input', filterBy: 'id_order', filterValue: dataOrders.order_4.id}},
+        {args: {identifier: 'filterReference', filterType: 'input', filterBy: 'reference', filterValue: dataOrders.order_2.reference}},
+        {args: {identifier: 'filterOsName', filterType: 'select', filterBy: 'osname', filterValue: dataOrderStatuses.paymentError.name}},
     ];
 
     tests.forEach((tst) => {
         test(`should filter the Orders table by '${tst.args.filterBy}' and check the result`, async function () {
-            await testContext.addContextItem(test.info(), 'testIdentifier', `filterOrders_${tst.args.identifier}`, baseContext);
+            await testContext.addContextItem(test.info(), 'testIdentifier', tst.args.identifier, baseContext);
 
             await boOrdersPage.filterOrders(
                 page,
                 tst.args.filterType,
                 tst.args.filterBy,
-                tst.args.filterValue,
+                tst.args.filterValue.toString(),
             );
 
             const textColumn = await boOrdersPage.getTextColumn(page, tst.args.filterBy, 1);
-            await expect(textColumn).toEqual(tst.args.filterValue);
+            await expect(textColumn).toEqual(tst.args.filterValue.toString());
         });
 
-        test(`should reset all filters after the filter by '${tst.args.filterBy}'`, async function () {
-            await testContext.addContextItem(test.info(), 'testIdentifier', `resetFilters_${tst.args.identifier}`, baseContext);
+        test(`should reset filter by '${tst.args.filterBy}'`, async function () {
+            await testContext.addContextItem(test.info(), 'testIdentifier', `reset_${tst.args.identifier}`, baseContext);
 
             const numberOfOrdersAfterReset = await boOrdersPage.resetAndGetNumberOfLines(page);
             await expect(numberOfOrdersAfterReset).toEqual(numberOfOrders);
@@ -120,7 +97,7 @@ test.describe('BO - Orders - Orders : Filter the Orders table by ID, REFERENCE, 
     test('should log out from BO', async function () {
         await testContext.addContextItem(test.info(), 'testIdentifier', 'logoutBO', baseContext);
 
-        await boLoginPage.logoutBO(this);
+        await boLoginPage.logoutBO(page);
 
         const pageTitle = await boLoginPage.getPageTitle(page);
         expect(pageTitle).toContain(boLoginPage.pageTitle);

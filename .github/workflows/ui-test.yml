@@ -47,7 +47,6 @@ jobs:
         working-directory: tests/UI/
         run: |
           docker exec -t prestashop php -v bin/console prestashop:module install autoupgrade
-          docker exec -t cd modules/autoupgrade && composer install
 
       - name: Install dependencies
         working-directory: tests/UI/
