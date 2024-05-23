@@ -1,9 +1,7 @@
+includes:
+	- %currentWorkingDirectory%/tests/vendor/prestashop/php-dev-tools/phpstan/ps-module-extension.neon
+
 parameters:
-	bootstrapFiles:
-		- bootstrap.php
-	dynamicConstantNames:
-		- _PS_MODE_DEV_
-		- _PS_MODE_DEMO_
 	paths:
 		# From PHPStan 0.12, paths to check are relative to the neon file
 		- ./../../classes

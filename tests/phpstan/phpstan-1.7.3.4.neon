@@ -6,7 +6,6 @@ parameters:
 		- ./../../classes/UpgradeTools/CoreUpgrader/CoreUpgrader80.php
 		- ./../../classes/Twig/TransFilterExtension3.php
 	ignoreErrors:
-		- '#Access to an undefined property Autoupgrade::\$bootstrap.#'
 		- '#Access to an undefined property Module::\$installed.#'
 		- '#Call to method getContainer\(\) on an unknown class AppKernel.#'
 		- '#Call to method getMessage\(\) on an unknown class PrestaShop\\PrestaShop\\Core\\Exception\\CoreException.#'
@@ -16,7 +15,6 @@ parameters:
 		- '#Instantiated class AppKernel not found.#'
 		- '#Instantiated class PrestaShop\\PrestaShop\\Core\\Domain\\Theme\\ValueObject\\ThemeName not found.#'
 		- '#PHPDoc tag @var for variable \$commandBus contains unknown class PrestaShop\\PrestaShop\\Core\\CommandBus\\CommandBusInterface.#'
-		- '#Property ModuleCore::\$version \(float\) does not accept string.#'
 		- '#Method PrestaShop\\Module\\AutoUpgrade\\UpgradeTools\\ModuleAdapter::getCommandBus\(\) has invalid return type PrestaShop\\PrestaShop\\Core\\CommandBus\\CommandBusInterface.#'
 		- '#Method PrestaShop\\Module\\AutoUpgrade\\UpgradeTools\\SymfonyAdapter::initKernel\(\) has invalid return type AppKernel.#'
 		- '#Method PrestaShop\\Module\\AutoUpgrade\\UpgradeTools\\SymfonyAdapter::initKernel\(\) has invalid return type AdminKernel.#'
