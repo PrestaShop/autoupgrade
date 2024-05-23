@@ -531,7 +531,7 @@ class UpgradeContainer
             return $this->symfonyAdapter;
         }
 
-        $this->symfonyAdapter = new SymfonyAdapter($this->getState()->getInstallVersion());
+        $this->symfonyAdapter = new SymfonyAdapter();
 
         return $this->symfonyAdapter;
     }

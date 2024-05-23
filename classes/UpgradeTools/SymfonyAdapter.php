@@ -35,16 +35,6 @@ use ReflectionClass;
 class SymfonyAdapter
 {
     /**
-     * @var string Version on which PrestaShop is being upgraded
-     */
-    private $destinationPsVersion;
-
-    public function __construct($destinationPsVersion)
-    {
-        $this->destinationPsVersion = $destinationPsVersion;
-    }
-
-    /**
      * Return the appropriate kernel if abstract or not.
      *
      * @return \AppKernel|\AdminKernel
