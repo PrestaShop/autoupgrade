@@ -72,6 +72,11 @@ class UpgradeContainer
     const DB_CONFIG_KEYS = ['PS_DISABLE_OVERRIDES'];
 
     /**
+     * @var Analytics
+     */
+    private $analytics;
+
+    /**
      * @var CacheCleaner
      */
     private $cacheCleaner;
@@ -219,6 +224,31 @@ class UpgradeContainer
             default:
                 return '';
         }
+    }
+
+    public function getAnalyticsClient()
+    {
+        if (null !== $this->analytics) {
+            return $this->analytics;
+        }
+
+        return $this->analytics = new Analytics('', [
+            'from_ps_version' => '',
+            'to_ps_version' => '',
+            'ps_version' => '', // Interet?
+            'php_version' => '',
+            'upgrade_channel' => '',
+            'autoupgrade_version' => '',
+            'backup_files_and_databases' => '',
+            'backup_images' => '',
+            'server_performance' => '',
+            'disable_non_native_modules' => '',
+            'disable_all_overrides' => '',
+            'upgrade_default_theme' => '',
+            'switch_to_default_theme' => '',
+            'regenerate_rtl_stylesheet' => '',
+            'keep_customized_email_templates' => '',
+        ]);
     }
 
     /**
