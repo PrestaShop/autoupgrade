@@ -232,22 +232,28 @@ class UpgradeContainer
             return $this->analytics;
         }
 
-        return $this->analytics = new Analytics('', [
-            'from_ps_version' => '',
-            'to_ps_version' => '',
-            'ps_version' => '', // Interet?
-            'php_version' => '',
-            'upgrade_channel' => '',
-            'autoupgrade_version' => '',
-            'backup_files_and_databases' => '',
-            'backup_images' => '',
-            'server_performance' => '',
-            'disable_non_native_modules' => '',
-            'disable_all_overrides' => '',
-            'upgrade_default_theme' => '',
-            'switch_to_default_theme' => '',
-            'regenerate_rtl_stylesheet' => '',
-            'keep_customized_email_templates' => '',
+        // The identifier shoudl be a value a value always different between two shops
+        // But equal between two upgrade processes
+        return $this->analytics = new Analytics($this->getProperty(self::WORKSPACE_PATH), [
+            'properties' => [
+                'from_ps_version' => $this->getState()->getOriginVersion(),
+                'to_ps_version' => $this->getState()->getInstallVersion(),
+                'ps_version' => $this->getProperty(self::PS_VERSION),
+                'php_version' => PHP_VERSION_ID,
+                'upgrade_channel' => $this->getUpgradeConfiguration()->getChannel(),
+                'autoupgrade_version' => $this->getPrestaShopConfiguration()->getModuleVersion(),
+                'backup_files_and_databases' => !$this->getUpgradeConfiguration()->get('PS_AUTOUP_BACKUP')
+                    || $this->getUpgradeConfiguration()->get('skip_backup'),
+                'backup_images' => $this->getUpgradeConfiguration()->shouldBackupImages(),
+                'server_performance' => $this->getUpgradeConfiguration()->getPerformanceLevel(),
+                'disable_non_native_modules' => $this->getUpgradeConfiguration()->shouldDeactivateCustomModules(),
+                // TODO: Improve this part by having a safe getter
+                'disable_all_overrides' => class_exists('\Configuration', false) ? \Configuration::get('PS_DISABLE_OVERRIDES') : null,
+                'upgrade_default_theme' => $this->getUpgradeConfiguration()->shouldUpdateDefaultTheme(),
+                'switch_to_default_theme' => $this->getUpgradeConfiguration()->shouldSwitchToDefaultTheme(),
+                'regenerate_rtl_stylesheet' => $this->getUpgradeConfiguration()->shouldUpdateRTLFiles(),
+                'keep_customized_email_templates' => $this->getUpgradeConfiguration()->shouldKeepMails(),
+            ],
         ]);
     }
 
@@ -382,6 +388,7 @@ class UpgradeContainer
                 }
         }
         $this->getState()->setInstallVersion($upgrader->version_num);
+        $this->getState()->setOriginVersion($this->getProperty(self::PS_VERSION));
         $this->upgrader = $upgrader;
 
         return $this->upgrader;

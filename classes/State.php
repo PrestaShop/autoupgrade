@@ -35,6 +35,10 @@ class State
     /**
      * @var string
      */
+    private $originVersion; // Origin version of PrestaShop
+    /**
+     * @var string
+     */
     private $install_version; // Destination version of PrestaShop
     /**
      * @var string
@@ -176,6 +180,11 @@ class State
     }
 
     // GETTERS
+    public function getOriginVersion(): string
+    {
+        return $this->originVersion;
+    }
+
     public function getInstallVersion(): string
     {
         return $this->install_version;
@@ -263,6 +272,13 @@ class State
     }
 
     // SETTERS
+    public function setOriginVersion(string $originVersion): State
+    {
+        $this->originVersion = $originVersion;
+
+        return $this;
+    }
+
     public function setInstallVersion(string $install_version): State
     {
         $this->install_version = $install_version;

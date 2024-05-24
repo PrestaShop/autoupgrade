@@ -204,6 +204,7 @@ class UpdateConfig extends AbstractTask
             $this->container->getUpgrader()->checkPSVersion();
 
             $this->container->getState()->setInstallVersion($this->container->getUpgrader()->version_num);
+            $this->container->getState()->setOriginVersion($this->container->getProperty(UpgradeContainer::PS_VERSION));
         }
 
         $this->container->getUpgradeConfiguration()->merge($config);
