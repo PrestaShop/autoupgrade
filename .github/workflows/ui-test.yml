@@ -50,14 +50,14 @@ jobs:
         run: |
           docker exec -t prestashop php -v bin/console prestashop:module install autoupgrade
 
-      - name: Download of Prestashop $PS_VERSION_END
+      - name: Download of Prestashop
         run: |
           docker exec -t prestashop mkdir admin-dev/autoupgrade/download
           docker exec -t prestashop curl -L https://github.com/PrestaShop/PrestaShop/releases/download/$PS_VERSION_END/prestashop_$PS_VERSION_END.zip -o admin-dev/autoupgrade/download/prestashop.zip
           docker exec -t prestashop curl -L https://github.com/PrestaShop/PrestaShop/releases/download/$PS_VERSION_END/prestashop_$PS_VERSION_END.xml -o admin-dev/autoupgrade/download/prestashop.xml
           echo "{\"channel\":\"archive\",\"archive_prestashop\":\"prestashop.zip\",\"archive_num\":\"${VERSION}\", \"archive_xml\":\"prestashop.xml\", \"PS_AUTOUP_CHANGE_DEFAULT_THEME\":${UPDATE_THEME}, \"skip_backup\": ${SKIP_BACKUP}}" > config.json
 
-      - name: Upgrade to Prestashop $PS_VERSION_END
+      - name: Upgrade to Prestashop
         run: |
          docker exec -t prestashop php modules/autoupgrade/tests/testCliProcess.php modules/autoupgrade/cli-upgrade.php  --dir=admin-dev --action=compareReleases
          docker exec -t prestashop php modules/autoupgrade/tests/testCliProcess.php modules/autoupgrade/cli-upgrade.php --dir=admin-dev
