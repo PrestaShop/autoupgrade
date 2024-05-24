@@ -58,7 +58,7 @@ test.describe('BO - Orders - Orders : Edit Order BO', async () => {
         expect(pageTitle).toContain(boOrdersPage.pageTitle);
     });
 
-  /*  test('should go to the first order page', async function () {
+    test('should go to the first order page', async function () {
         await testContext.addContextItem(test.info(), 'testIdentifier', 'goToFirstOrder', baseContext);
 
         await boOrdersPage.goToOrder(page, 1);
@@ -68,7 +68,7 @@ test.describe('BO - Orders - Orders : Edit Order BO', async () => {
     });
 
     test('should modify the product quantity and check the validation', async function () {
-        await testContext.addContextItem(test.info(), 'testIdentifier', 'editOrderQuantity', baseContext);
+        await testContext.addContextItem(test.info(), 'testIdentifier', 'editProductQuantity', baseContext);
 
         const newQuantity = await boOrdersViewProductsBlockPage.modifyProductQuantity(page, 1, 5);
         expect(newQuantity, 'Quantity was not updated').toEqual(5);
@@ -79,7 +79,7 @@ test.describe('BO - Orders - Orders : Edit Order BO', async () => {
 
         const orderStatus = await boOrdersViewProductsBlockPage.modifyOrderStatus(page, dataOrderStatuses.paymentAccepted.name);
         expect(orderStatus).toEqual(dataOrderStatuses.paymentAccepted.name);
-    });*/
+    });
 
     // Logout from BO
     test('should log out from BO', async function () {
