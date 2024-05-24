@@ -40,16 +40,16 @@ class Analytics
     /**
      * @var array
      */
-    private $traits;
+    private $properties;
 
     /**
      * @param string $anonymousUserId
-     * @param array{'traits'?: array}
+     * @param array{'properties'?: array}
      */
     public function __construct($anonymousUserId, array $options)
     {
         $this->anonymousId = hash('sha256', $anonymousUserId, false);
-        $this->traits = $options['traits'] ?? [];
+        $this->properties = $options['properties'] ?? [];
 
         \Segment::init(self::SEGMENT_CLIENT_KEY_PHP);
     }
@@ -75,9 +75,13 @@ class Analytics
     {
         return [
             'anonymousId' => $this->anonymousId,
-            'context' => [
-                'traits' => $this->traits,
-            ],
+            'channel' => 'browser',
+            'properties' => array_merge(
+                $this->properties,
+                [
+                    'module' => 'autoupgrade',
+                ]
+            ),
         ];
     }
 }

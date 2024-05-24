@@ -32,6 +32,10 @@ namespace PrestaShop\Module\AutoUpgrade;
  */
 class State
 {
+    /**
+     * @var string
+     */
+    private $originVersion; // Origin version of PrestaShop
     private $install_version; // Destination version of PrestaShop
     private $backupName;
     private $backupFilesFilename;
@@ -152,6 +156,11 @@ class State
     }
 
     // GETTERS
+    public function getOriginVersion(): string
+    {
+        return $this->originVersion;
+    }
+
     public function getInstallVersion(): ?string
     {
         return $this->install_version;
@@ -236,6 +245,13 @@ class State
     }
 
     // SETTERS
+    public function setOriginVersion(string $originVersion): State
+    {
+        $this->originVersion = $originVersion;
+
+        return $this;
+    }
+
     public function setInstallVersion(?string $install_version): State
     {
         $this->install_version = $install_version;
