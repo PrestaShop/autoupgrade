@@ -57,7 +57,7 @@ jobs:
           docker exec -t prestashop curl -L https://github.com/PrestaShop/PrestaShop/releases/download/$PS_VERSION_END/prestashop_$PS_VERSION_END.xml -o admin-dev/autoupgrade/download/prestashop.xml
           echo "{\"channel\":\"archive\",\"archive_prestashop\":\"prestashop.zip\",\"archive_num\":\"${VERSION}\", \"archive_xml\":\"prestashop.xml\", \"PS_AUTOUP_CHANGE_DEFAULT_THEME\":${UPDATE_THEME}, \"skip_backup\": ${SKIP_BACKUP}}" > config.json
 
-      - name: Upgrade to Prestashop
+      - name: Upgrade
         run: |
          docker exec -t prestashop php modules/autoupgrade/tests/testCliProcess.php modules/autoupgrade/cli-upgrade.php  --dir=admin-dev --action=compareReleases
          docker exec -t prestashop php modules/autoupgrade/tests/testCliProcess.php modules/autoupgrade/cli-upgrade.php --dir=admin-dev
