@@ -14,7 +14,7 @@ services:
       - PS_INSTALL_AUTO=1
       - PS_FOLDER_ADMIN=admin-dev
       - PS_FOLDER_INSTALL=install-dev
-      - PS_USE_DOCKER_MAILDEV=0
+      - PS_USE_DOCKER_MAILDEV=1
       - ADMIN_MAIL=demo@prestashop.com
       - ADMIN_PASSWD=prestashop
       - DB_SERVER=mysql
@@ -52,3 +52,13 @@ services:
       - MYSQL_ROOT_PASSWORD=prestashop
       - MYSQL_PORT=3306
       - MYSQL_DATABASE=prestashop
+
+  maildev:
+    image: 'maildev/maildev'
+    container_name: prestashop-maildev
+    environment:
+      - PS_MAIL_METHOD=2
+      - PS_MAIL_SERVER=maildev
+      - PS_MAIL_USER=demo@prestashop.com
+      - PS_MAIL_PASSWD=prestashop
+      - PS_MAIL_SMTP_PORT=1025

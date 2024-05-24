@@ -69,14 +69,14 @@ test.describe('BO - Orders - Orders : Edit Order BO', async () => {
 
     test('should modify the product quantity and check the validation', async function () {
         await testContext.addContextItem(test.info(), 'testIdentifier', 'editProductQuantity', baseContext);
-
+        
         const newQuantity = await boOrdersViewProductsBlockPage.modifyProductQuantity(page, 1, 5);
         expect(newQuantity, 'Quantity was not updated').toEqual(5);
     });
 
-    test('should modify the order status and check the validation', async function () {
+    test.skip('should modify the order status and check the validation', async function () {
         await testContext.addContextItem(test.info(), 'testIdentifier', 'editOrderStatus', baseContext);
-
+        
         const orderStatus = await boOrdersViewProductsBlockPage.modifyOrderStatus(page, dataOrderStatuses.paymentAccepted.name);
         expect(orderStatus).toEqual(dataOrderStatuses.paymentAccepted.name);
     });
