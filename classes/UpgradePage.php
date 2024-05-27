@@ -313,7 +313,7 @@ class UpgradePage
             'channel' => $this->config->get('channel'),
             'translation' => [
                 'confirmDeleteBackup' => $translator->trans('Are you sure you want to delete this backup?', [], 'Modules.Autoupgrade.Admin'),
-                'delete' => $translator->trans('Delete', [], 'Admin.Actions'),
+                'delete' => $translator->trans('Delete', [], 'Modules.Autoupgrade.Admin'),
                 'updateInProgress' => $translator->trans('An update is currently in progress... Click "OK" to abort.', [], 'Modules.Autoupgrade.Admin'),
                 'upgradingPrestaShop' => $translator->trans('Upgrading PrestaShop', [], 'Modules.Autoupgrade.Admin'),
                 'upgradeComplete' => $translator->trans('Upgrade complete', [], 'Modules.Autoupgrade.Admin'),
