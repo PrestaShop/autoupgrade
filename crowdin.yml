@@ -1,0 +1,3 @@
+files:
+  - source: /translations/ModulesAutoupgradeAdmin.en.xlf
+    translation: /translations/ModulesAutoupgradeAdmin.%locale%.%file_extension%
