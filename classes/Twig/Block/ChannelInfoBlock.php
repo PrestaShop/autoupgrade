@@ -29,7 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade\Twig\Block;
 
 use PrestaShop\Module\AutoUpgrade\ChannelInfo;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
-use Twig_Environment;
+use Twig\Environment;
 
 class ChannelInfoBlock
 {
@@ -44,7 +44,7 @@ class ChannelInfoBlock
     private $channelInfo;
 
     /**
-     * @var Twig_Environment|\Twig\Environment
+     * @var Environment
      */
     private $twig;
 
@@ -53,7 +53,7 @@ class ChannelInfoBlock
      *
      * @param UpgradeConfiguration $config
      * @param ChannelInfo $channelInfo
-     * @param Twig_Environment|\Twig\Environment $twig
+     * @param Environment $twig
      */
     public function __construct(UpgradeConfiguration $config, ChannelInfo $channelInfo, $twig)
     {

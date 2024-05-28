@@ -1,6 +1,7 @@
+includes:
+	- %currentWorkingDirectory%/tests/vendor/prestashop/php-dev-tools/phpstan/ps-module-extension.neon
+
 parameters:
-	bootstrapFiles:
-		- bootstrap.php
 	paths:
 		# From PHPStan 0.12, paths to check are relative to the neon file
 		- ./../../classes
@@ -12,7 +13,7 @@ parameters:
 		- ./../../cli-rollback.php
 		- ./../../cli-updateconfig.php
 		- ./../../cli-upgrade.php
-	excludes_analyse:
+	excludePaths:
 		- ./../../classes/Tools14.php
 		- ./../../classes/pclzip.lib.php
 	level: 5

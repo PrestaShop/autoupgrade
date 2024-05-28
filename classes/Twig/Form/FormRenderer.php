@@ -31,7 +31,7 @@ use Configuration;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
-use Twig_Environment;
+use Twig\Environment;
 
 class FormRenderer
 {
@@ -46,7 +46,7 @@ class FormRenderer
     private $translator;
 
     /**
-     * @var Twig_Environment|\Twig\Environment
+     * @var Environment
      */
     private $twig;
 

@@ -428,6 +428,8 @@ class AdminSelfUpgradeController extends AdminController
             }
         }
         parent::postProcess();
+
+        return true;
     }
 
     private function extractFieldsToBeSavedInDB(UpgradeConfiguration $fileConfig)

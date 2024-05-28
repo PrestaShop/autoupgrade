@@ -34,12 +34,12 @@ use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Upgrader;
 use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
-use Twig_Environment;
+use Twig\Environment;
 
 class UpgradeButtonBlock
 {
     /**
-     * @var Twig_Environment|\Twig\Environment
+     * @var Environment
      */
     private $twig;
 
@@ -81,7 +81,7 @@ class UpgradeButtonBlock
     /**
      * UpgradeButtonBlock constructor.
      *
-     * @param Twig_Environment|\Twig\Environment $twig
+     * @param Environment $twig
      * @param Translator $translator
      * @param UpgradeConfiguration $config
      * @param Upgrader $upgrader

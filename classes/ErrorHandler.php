@@ -119,8 +119,9 @@ class ErrorHandler
     public function fatalHandler()
     {
         $lastError = error_get_last();
-        $trace = isset($lastError['backtrace']) ? var_export($lastError['backtrace'], true) : null;
         if ($lastError && in_array($lastError['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR], true)) {
+            // @phpstan-ignore isset.offset (Need to check if xdebug still defines this key)
+            $trace = isset($lastError['backtrace']) ? var_export($lastError['backtrace'], true) : null;
             $this->report($lastError['file'], $lastError['line'], Logger::CRITICAL, $lastError['message'], $trace, true);
         }
     }

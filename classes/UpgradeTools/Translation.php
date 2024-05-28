@@ -148,7 +148,7 @@ class Translation
         if (!isset($$var_name)) {
             // in that particular case : file exists, but variable missing, we need to delete that file
             // (if not, this invalid file will be copied in /translations during upgradeDb process)
-            if ('module' == $type && file_exists($dest)) {
+            if ('module' == $type) {
                 unlink($dest);
             }
             $this->logger->warning($this->translator->trans(

@@ -436,7 +436,6 @@ class UpgradeContainer
         }
 
         $this->moduleAdapter = new ModuleAdapter(
-            $this->getDb(),
             $this->getTranslator(),
             $this->getProperty(self::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR,
             $this->getProperty(self::TMP_PATH),
@@ -517,7 +516,6 @@ class UpgradeContainer
         }
 
         $this->prestashopConfiguration = new PrestashopConfiguration(
-            $this->getProperty(self::WORKSPACE_PATH),
             $this->getProperty(self::PS_ROOT_PATH)
         );
 
@@ -533,7 +531,7 @@ class UpgradeContainer
             return $this->symfonyAdapter;
         }
 
-        $this->symfonyAdapter = new SymfonyAdapter($this->getState()->getInstallVersion());
+        $this->symfonyAdapter = new SymfonyAdapter();
 
         return $this->symfonyAdapter;
     }
