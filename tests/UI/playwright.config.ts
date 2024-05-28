@@ -1,8 +1,8 @@
-import { defineConfig, devices } from '@playwright/test';
-import { config } from 'dotenv';
+import {defineConfig, devices} from '@playwright/test';
+import {config} from 'dotenv';
 import path from 'path';
 
-function loadGlobal(): void  {
+function loadGlobal(): void {
   global.FO = {
     URL: process.env.URL_FO || 'http://localhost/',
   };
@@ -89,9 +89,9 @@ export default defineConfig({
   workers: 1,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
-    ['list', { printSteps: true }],
-    ['json', { outputFile: 'report.json' }],
-    ['html', { outputFolder: 'reports' }],
+    ['list', {printSteps: true}],
+    ['json', {outputFile: 'report.json'}],
+    ['html', {outputFolder: 'reports'}],
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
@@ -108,8 +108,8 @@ export default defineConfig({
         contextOptions: {
           screen: {
             width: 1680,
-            height: 900
-          }
+            height: 900,
+          },
         },
       },
     },
