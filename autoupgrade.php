@@ -58,6 +58,11 @@ class Autoupgrade extends Module
         $this->ps_versions_compliancy = ['min' => '1.7.0.0', 'max' => _PS_VERSION_];
     }
 
+    public function isUsingNewTranslationSystem()
+    {
+        return true;
+    }
+
     public function install()
     {
         if (50600 > PHP_VERSION_ID) {
