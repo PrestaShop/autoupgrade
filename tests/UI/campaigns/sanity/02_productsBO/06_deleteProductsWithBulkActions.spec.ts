@@ -1,4 +1,3 @@
-/*
 import {
   // Import utils
   testContext,
@@ -17,12 +16,12 @@ import {
 
 const baseContext: string = 'sanity_productsBO_deleteProductsWithBulkActions';
 
-/!*
+/*
   Connect to the BO
   Go to Catalog > Products page
   Create 2 products
   Bulk delete the 2 created products from catalog page
- *!/
+ */
 test.describe('BO - Catalog - Products : Delete products with bulk actions', async () => {
   let browserContext: BrowserContext;
   let page: Page;
@@ -94,18 +93,10 @@ test.describe('BO - Catalog - Products : Delete products with bulk actions', asy
       expect(isModalVisible).toEqual(true);
     });
 
-    test('should choose \'Standard product\'', async () => {
+    test('should choose \'Standard product\' and go to new product page', async () => {
       await testContext.addContextItem(test.info(), 'testIdentifier', 'chooseStandardProduct', baseContext);
 
       await boProductsPage.selectProductType(page, firstProductData.type);
-
-      const pageTitle = await boProductsCreatePage.getPageTitle(page);
-      expect(pageTitle).toContain(boProductsCreatePage.pageTitle);
-    });
-
-    test('should go to new product page', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'goToNewProductPage', baseContext);
-
       await boProductsPage.clickOnAddNewProduct(page);
 
       const pageTitle = await boProductsCreatePage.getPageTitle(page);
@@ -130,18 +121,10 @@ test.describe('BO - Catalog - Products : Delete products with bulk actions', asy
       expect(isModalVisible).toEqual(true);
     });
 
-    test('should choose \'Standard product\'', async () => {
+    test('should choose \'Standard product\' and go to new product page', async () => {
       await testContext.addContextItem(test.info(), 'testIdentifier', 'chooseStandardProduct2', baseContext);
 
       await boProductsCreatePage.chooseProductType(page, secondProductData.type);
-
-      const isIframeVisible = await boProductsCreatePage.isChooseProductIframeVisible(page);
-      expect(isIframeVisible).toEqual(false);
-    });
-
-    test('should create product', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'createSecondProduct', baseContext);
-
       await boProductsCreatePage.closeSfToolBar(page);
 
       const createProductMessage = await boProductsCreatePage.setProduct(page, secondProductData);
@@ -207,4 +190,3 @@ test.describe('BO - Catalog - Products : Delete products with bulk actions', asy
     });
   });
 });
-*/

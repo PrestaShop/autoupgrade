@@ -92,14 +92,6 @@ test.describe('BO - Catalog - Products : CRUD standard product', async () => {
       await testContext.addContextItem(test.info(), 'testIdentifier', 'chooseStandardProduct', baseContext);
 
       await boProductsPage.selectProductType(page, newProductData.type);
-
-      const pageTitle = await boProductsCreatePage.getPageTitle(page);
-      expect(pageTitle).toContain(boProductsCreatePage.pageTitle);
-    });
-
-    test('should go to new product page', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'goToNewProductPage', baseContext);
-
       await boProductsPage.clickOnAddNewProduct(page);
 
       const pageTitle = await boProductsCreatePage.getPageTitle(page);
@@ -157,7 +149,7 @@ test.describe('BO - Catalog - Products : CRUD standard product', async () => {
       const pageTitle = await boProductsCreatePage.getPageTitle(page);
       expect(pageTitle).toContain(boProductsCreatePage.pageTitle);
     });
-    
+
     test('should update the created product', async () => {
       await testContext.addContextItem(test.info(), 'testIdentifier', 'updateProduct', baseContext);
 

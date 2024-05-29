@@ -1,4 +1,3 @@
-/*
 import {
   // Import utils
   testContext,
@@ -17,12 +16,12 @@ import {
 
 const baseContext: string = 'sanity_productsBO_deleteProduct';
 
-/!*
+/*
   Connect to the BO
   Go to Catalog > Products page
   Create product
   Delete product from catalog page
- *!/
+ */
 test.describe('BO - Catalog - Products : Delete product', async () => {
   let browserContext: BrowserContext;
   let page: Page;
@@ -84,18 +83,10 @@ test.describe('BO - Catalog - Products : Delete product', async () => {
       expect(isModalVisible).toEqual(true);
     });
 
-    test('should choose \'Standard product\'', async () => {
+    test('should choose \'Standard product\' and go to new product page', async () => {
       await testContext.addContextItem(test.info(), 'testIdentifier', 'chooseStandardProduct', baseContext);
 
       await boProductsPage.selectProductType(page, newProductData.type);
-
-      const pageTitle = await boProductsCreatePage.getPageTitle(page);
-      expect(pageTitle).toContain(boProductsCreatePage.pageTitle);
-    });
-
-    test('should go to new product page', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'goToNewProductPage', baseContext);
-
       await boProductsPage.clickOnAddNewProduct(page);
 
       const pageTitle = await boProductsCreatePage.getPageTitle(page);
@@ -104,8 +95,6 @@ test.describe('BO - Catalog - Products : Delete product', async () => {
 
     test('should create standard product', async () => {
       await testContext.addContextItem(test.info(), 'testIdentifier', 'createStandardProduct', baseContext);
-
-      await boProductsCreatePage.closeSfToolBar(page);
 
       const createProductMessage = await boProductsCreatePage.setProduct(page, newProductData);
       expect(createProductMessage).toEqual(boProductsCreatePage.successfulUpdateMessage);
@@ -156,4 +145,3 @@ test.describe('BO - Catalog - Products : Delete product', async () => {
     });
   });
 });
-*/
