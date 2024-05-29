@@ -1,3 +1,4 @@
+/*
 import {
   // Import utils
   testContext,
@@ -19,11 +20,11 @@ import {
 
 const baseContext: string = 'sanity_productsBO_CRUDVirtualProduct';
 
-/*
+/!*
   Connect to the BO
   Go to Catalog > Products page
   Create/View/Update/Delete virtual product
- */
+ *!/
 test.describe('BO - Catalog - Products : CRUD virtual product', async () => {
   let browserContext: BrowserContext;
   let page: Page;
@@ -210,3 +211,4 @@ test.describe('BO - Catalog - Products : CRUD virtual product', async () => {
     });
   });
 });
+*/

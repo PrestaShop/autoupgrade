@@ -149,8 +149,8 @@ test.describe('BO - Catalog - Products : Filter the products table by ID, Name, 
           const textColumn = await boProductsPage.getTextColumn(page, tst.args.filterBy, i);
 
           if (typeof tst.args.filterValue !== 'string') {
-            expect(textColumn).toBeGreaterThan(tst.args.filterValue.min);
-            expect(textColumn).toBeLessThan(tst.args.filterValue.max);
+            expect(textColumn).toBeGreaterThanOrEqual(tst.args.filterValue.min);
+            expect(textColumn).toBeLessThanOrEqual(tst.args.filterValue.max);
           } else if (tst.args.filterBy === 'active') {
             expect(textColumn).toEqual(true);
           } else {

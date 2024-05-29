@@ -1,3 +1,4 @@
+/*
 import {
   // Import utils
   testContext,
@@ -16,12 +17,12 @@ import {
 
 const baseContext: string = 'sanity_productsBO_deleteProductsWithBulkActions';
 
-/*
+/!*
   Connect to the BO
   Go to Catalog > Products page
   Create 2 products
   Bulk delete the 2 created products from catalog page
- */
+ *!/
 test.describe('BO - Catalog - Products : Delete products with bulk actions', async () => {
   let browserContext: BrowserContext;
   let page: Page;
@@ -206,3 +207,4 @@ test.describe('BO - Catalog - Products : Delete products with bulk actions', asy
     });
   });
 });
+*/

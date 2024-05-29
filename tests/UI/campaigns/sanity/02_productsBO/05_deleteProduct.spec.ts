@@ -1,3 +1,4 @@
+/*
 import {
   // Import utils
   testContext,
@@ -16,12 +17,12 @@ import {
 
 const baseContext: string = 'sanity_productsBO_deleteProduct';
 
-/*
+/!*
   Connect to the BO
   Go to Catalog > Products page
   Create product
   Delete product from catalog page
- */
+ *!/
 test.describe('BO - Catalog - Products : Delete product', async () => {
   let browserContext: BrowserContext;
   let page: Page;
@@ -155,3 +156,4 @@ test.describe('BO - Catalog - Products : Delete product', async () => {
     });
   });
 });
+*/

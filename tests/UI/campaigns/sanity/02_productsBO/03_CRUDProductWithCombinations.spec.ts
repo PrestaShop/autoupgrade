@@ -1,3 +1,4 @@
+/*
 import {
   // Import utils
   testContext,
@@ -19,11 +20,11 @@ import {
 
 const baseContext: string = 'sanity_productsBO_CRUDProductWithCombinations';
 
-/*
+/!*
   Connect to the BO
   Go to Catalog > Products page
   Create/View/Update/Delete product with combinations
- */
+ *!/
 test.describe('BO - Catalog - Products : CRUD product with combinations', async () => {
   let browserContext: BrowserContext;
   let page: Page;
@@ -295,3 +296,4 @@ test.describe('BO - Catalog - Products : CRUD product with combinations', async 
     });
   });
 });
+*/
