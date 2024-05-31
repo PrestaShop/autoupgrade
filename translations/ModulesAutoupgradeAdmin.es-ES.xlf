@@ -1,2080 +1,2080 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file original="admin-dev" source-language="es-ES" target-language="es-ES" datatype="plaintext">
+  <file original="admin-dev" source-language="en" target-language="es-ES" datatype="plaintext">
     <body>
-      <trans-unit id="4e140ba723a03baa6948340bf90e2ef6">
-        <source>Name:</source>
-        <target>Name:</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="453e6aa38d87b28ccae545967c53004f">
-        <source>Unavailable</source>
-        <target>Unavailable</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="78945de8de090e90045d299651a68a9b">
-        <source>Available</source>
-        <target>Available</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="3f3a0789a5678daaa3cd41067dd6855e">
-        <source>The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table. [1]Learn more[/1].</source>
-        <target>The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table. [1]Learn more[/1].</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="8406b91fd5a290de3a1e1516db6e79b8">
-        <source>Unable to generate private keys using openssl_pkey_new. Check your OpenSSL configuration, especially the path to openssl.cafile.</source>
-        <target>Unable to generate private keys using openssl_pkey_new. Check your OpenSSL configuration, especially the path to openssl.cafile.</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="c9cc8cce247e49bae79f15173ce97354">
-        <source>Save</source>
-        <target>Save</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="013db824ec6c77f40caf0af5a7518425">
-        <source>Learn more about PHP and upgrading</source>
-        <target>Learn more about PHP and upgrading</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="bdd54caf9f54c19bebbe7b841d497f3a">
-        <source>Upgrading will keep your shop secured and performant.</source>
-        <target>Upgrading will keep your shop secured and performant.</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="2d6337fe0f270f9c7164e85545caa02e">
-        <source>It reached its end-of-life, which means it won't get security updates anymore and projects will stop supporting it.</source>
-        <target>It reached its end-of-life, which means it won't get security updates anymore and projects will stop supporting it.</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="30bb88eb7785bc93183a3af5ecba377f">
-        <source>The PHP version your shop is running on is insecure.</source>
-        <target>The PHP version your shop is running on is insecure.</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="8012aa06d5ed29946347086bf1648078">
-        <source>PHP Version notice</source>
-        <target>PHP Version notice</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="d8d67c977419d047e2a73c456db8f721">
-        <source>Could not close the Zip file: %toFile% properly. Check you are allowed to write on the disk and there is available space on it.</source>
-        <target>Could not close the Zip file: %toFile% properly. Check you are allowed to write on the disk and there is available space on it.</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="bafd7322c6e97d25b6299b5d6fe8920b">
-        <source>No</source>
-        <target>No</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="93cba07454f06a4a960172bbd6e2a435">
-        <source>Yes</source>
-        <target>Yes</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="382b0f5185773fa0f67a8ed8056c7759">
-        <source>N/A</source>
-        <target>N/A</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="56f2d5890d12afbf29f105bcf5fc2624">
-        <source>Generating mail templates for %lang%</source>
-        <target>Generating mail templates for %lang%</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="3bd67bb11ef4eca367343a48a437116c">
-        <source>Installing %lang% language pack</source>
-        <target>Installing %lang% language pack</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="141ff76ab0d97a8ec25a295f763c9acc">
-        <source>Downloading language pack for %lang%</source>
-        <target>Downloading language pack for %lang%</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="b5ffb77b13ab03298982a49842ce78aa">
-        <source>%lang% is not a valid iso code, skipping</source>
-        <target>%lang% is not a valid iso code, skipping</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="8c4204265814594491ae20c9899a0fff">
-        <source>Running opcache_reset</source>
-        <target>Running opcache_reset</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="badf6aad60d4a95b698028bc55aa3347">
-        <source>Cleaning file cache</source>
-        <target>Cleaning file cache</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="53983059bf39e1325bba11081ca40e97">
-        <source>Keeping current theme</source>
-        <target>Keeping current theme</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="12473a5949de1a1cd37806a14a56dbde">
-        <source>Keeping overrides in place</source>
-        <target>Keeping overrides in place</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="ed176ad3db6e004d4c272928acf3d0ac">
-        <source>Disabling overrides</source>
-        <target>Disabling overrides</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="128e1c61a1a4477ec05609569cc4d9d8">
-        <source>Cleaning XML files</source>
-        <target>Cleaning XML files</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="88bbbc84f51424b4b0c6da6aec2c2154">
-        <source>Regenerating htaccess</source>
-        <target>Regenerating htaccess</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="72c863d76f8a8e5b1d17f818894df989">
-        <source>Upgrading languages</source>
-        <target>Upgrading languages</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="4e32fd9d99ee0c3370c870d4da3d31a9">
-        <source>Running generic queries</source>
-        <target>Running generic queries</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="c5ada796f937732385b6594d7364b69a">
-        <source>Updating database data and structure</source>
-        <target>Updating database data and structure</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="ffb63e7ff1e05430b4a292ac8651f1e4">
-        <source>Keeping non native modules enabled</source>
-        <target>Keeping non native modules enabled</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="de4026a3fc9813c32f3a247370c29f54">
-        <source>Disabling all non native modules</source>
-        <target>Disabling all non native modules</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="284a35fa27c84dae6a16f8b52d0715f6">
-        <source>Checking connection to database</source>
-        <target>Checking connection to database</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="956ef5a4e2df09d2f7415c9f1284d17c">
-        <source>Checking version validity</source>
-        <target>Checking version validity</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="d90307511d557233464da663999f3151">
-        <source>Initializing required environment constants</source>
-        <target>Initializing required environment constants</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="1439aa876aad656c4e8ddc2b06ce32d2">
-        <source>Error while updating translations for the language pack %lang%. %details%</source>
-        <target>Error while updating translations for the language pack %lang%. %details%</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="d87028000710df8bad6886cfc6b4c98b">
-        <source>Parameters file updated</source>
-        <target>Parameters file updated</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="43987038411fdc693ba35bf02e6cf496">
-        <source>Invalidating opcache for parameters file</source>
-        <target>Invalidating opcache for parameters file</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="f24283fb7f4ba875f0f8c0391587695e">
-        <source>Unable to migrate parameters</source>
-        <target>Unable to migrate parameters</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="a971bd83f9fe8a03c10c29a065d3bd41">
-        <source>Updating parameters file</source>
-        <target>Updating parameters file</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="f32686b54f6af06671f1c3575df12c7c">
-        <source>Keys generated using openssl_pkey_new, exporting private and public keys</source>
-        <target>Keys generated using openssl_pkey_new, exporting private and public keys</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="4d46d96c1ea641735ee0c26c6381c75e">
-        <source>API keys not present in parameters, generating</source>
-        <target>API keys not present in parameters, generating</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="7d061dd94a106d80d75d3e615294eb75">
-        <source>Data integrity is not valid, the files might have been corrupted, or a hack attempt might have occured.</source>
-        <target>Data integrity is not valid, the files might have been corrupted, or a hack attempt might have occured.</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="9c48e683e6132f6e6147f1bc24b97e25">
-        <source>No XML file has been selected.</source>
-        <target>No XML file has been selected.</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="aeae8fea8fa0e49659920920eaf04248">
-        <source>If you can't access the back-office and need to see what's wrong, manually enable debug mode in config/defines.inc.php by changing _PS_MODE_DEV_ to true.</source>
-        <target>If you can't access the back-office and need to see what's wrong, manually enable debug mode in config/defines.inc.php by changing _PS_MODE_DEV_ to true.</target>
-        <note>Line: </note>
-      </trans-unit>
-      <trans-unit id="f2a6c498fb90ee345d997f888fce3b18">
-        <source>Delete</source>
-        <target>Delete</target>
-        <note>Line: </note>
-      </trans-unit>
       <trans-unit id="bf544d00f0406f90f6e658a2571f5e9c">
         <source>This version of PrestaShop cannot be upgraded: the PS_ADMIN_DIR constant is missing.</source>
-        <target>Esta versión de PrestaShop no se puede actualizar: no se encuentra la constante PS_ADMIN_DIR .</target>
+        <target state="translated">Esta versión de PrestaShop no se puede actualizar: no se encuentra la constante PS_ADMIN_DIR .</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="786cc166a84595ae291b2d8b26d93bb3">
         <source>1-Click Upgrade</source>
-        <target>Actualización en 1-Clic</target>
+        <target state="translated">Actualización en 1-Clic</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="7034ac445c00f79b704d6375ddeba0d6">
         <source>Upgrade to the latest version of PrestaShop in a few clicks, thanks to this automated method.</source>
-        <target>Actualiza a la última versión de PrestaShop en unos pocos clics, gracias a este método automatizado.</target>
+        <target state="translated">Actualiza a la última versión de PrestaShop en unos pocos clics, gracias a este método automatizado.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="948b95d5e850eae0277e0a6a94b93e8d">
         <source>This version of 1-click upgrade requires PHP 5.6 to work properly. Please upgrade your server configuration.</source>
-        <target>Esta versión de Actualización en 1-Click requiere de PHP 5.6 para funcionar correctamente. Por favor, actualiza la configuración de tu servidor.</target>
+        <target state="translated">Esta versión de Actualización en 1-Click requiere de PHP 5.6 para funcionar correctamente. Por favor, actualiza la configuración de tu servidor.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="7f81161b73d465b1a1dea74cc6deeeb2">
         <source>Unable to delete outdated "AdminUpgrade" tab (tab ID: %idtab%).</source>
-        <target>No se puede eliminar la pestaña obsoleta "AdminUpgrade" tab (tab ID: %idtab%).</target>
+        <target state="translated">No se puede eliminar la pestaña obsoleta "AdminUpgrade" tab (tab ID: %idtab%).</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="cade82f9025d8fb9d2af869af19c72b8">
         <source>Unable to create the "AdminSelfUpgrade" tab</source>
-        <target>No se puede crear la pestaña "AdminSelfUpgrade"</target>
+        <target state="translated">No se puede crear la pestaña "AdminSelfUpgrade"</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="5d7ef5c6fd32feb5d482ec1459e86f83">
         <source>Unable to load the "AdminSelfUpgrade" tab</source>
-        <target>No se puede cargar la pestaña "AdminSelfUpgrade"</target>
+        <target state="translated">No se puede cargar la pestaña "AdminSelfUpgrade"</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="21dc065f2d8653ebca37ec552d17b37e">
         <source>Unable to create the directory "%s"</source>
-        <target>No se puede crear el directorio "%s"</target>
+        <target state="translated">No se puede crear el directorio "%s"</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="6215d33db0d099fcaae168dd4715135a">
         <source>Unable to write in the directory "%s"</source>
-        <target>No se puede escribir en el directorio "%s"</target>
+        <target state="translated">No se puede escribir en el directorio "%s"</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="bb7748991e29366d42f8fa2c361f4d55">
         <source>Back up my files and database</source>
-        <target>Copia de seguridad de mis archivos y la base de datos</target>
+        <target state="translated">Copia de seguridad de mis archivos y la base de datos</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="e53b4fd73748419564a1742f66ba631f">
         <source>Automatically back up your database and files in order to restore your shop if needed. This is experimental: you should still perform your own manual backup for safety.</source>
-        <target>Realizar automáticamente copias de seguridad de tu base de datos y archivos con el fin de restaurar tu tienda si es necesario. Esto es experimental: debes realizar tu propia copia de seguridad manual por seguridad.</target>
+        <target state="translated">Realizar automáticamente copias de seguridad de tu base de datos y archivos con el fin de restaurar tu tienda si es necesario. Esto es experimental: debes realizar tu propia copia de seguridad manual por seguridad.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="d5342bfd5b032cd75faeebdf2a918a79">
         <source>Back up my images</source>
-        <target>Copia de seguridad de mis imágenes</target>
+        <target state="translated">Copia de seguridad de mis imágenes</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="9a2cad898ee3d0ea4573946becdec9cf">
         <source>To save time, you can decide not to back your images up. In any case, always make sure you did back them up manually.</source>
-        <target>Para ahorrar tiempo, puedes decidir no hacer una copia de seguridad de tus imágenes. En cualquier caso, siempre asegúrate de que has hecho copias de ellas manualmente.</target>
+        <target state="translated">Para ahorrar tiempo, puedes decidir no hacer una copia de seguridad de tus imágenes. En cualquier caso, siempre asegúrate de que has hecho copias de ellas manualmente.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="5243e62512552a2cd6369e446bbf10f4">
         <source>Server performance</source>
-        <target>Rendimiento del Servidor</target>
+        <target state="translated">Rendimiento del Servidor</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="a94e6f7e27ad55c963170658ee6a9e28">
         <source>Unless you are using a dedicated server, select "Low".</source>
-        <target>A menos que utilices un servidor dedicado, selecciona "Baja".</target>
+        <target state="translated">A menos que utilices un servidor dedicado, selecciona "Baja".</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="9e435ab00f5e0606f46337fdc73164ff">
         <source>A high value can cause the upgrade to fail if your server is not powerful enough to process the upgrade tasks in a short amount of time.</source>
-        <target>Un valor alto puede causar error en la actualización si tu servidor no es lo suficientemente rápido como para procesar las tareas de actualización en un corto período de tiempo.</target>
+        <target state="translated">Un valor alto puede causar error en la actualización si tu servidor no es lo suficientemente rápido como para procesar las tareas de actualización en un corto período de tiempo.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="73ae0e1bfd470f9e26dac64d270cda9d">
         <source>Low (recommended)</source>
-        <target>Bajo (recomendado)</target>
+        <target state="translated">Bajo (recomendado)</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="87f8a6ab85c9ced3702b4ea641ad4bb5">
         <source>Medium</source>
-        <target>Medio</target>
+        <target state="translated">Medio</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="655d20c1ca69519ca647684edbb2db35">
         <source>High</source>
-        <target>Alto</target>
+        <target state="translated">Alto</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="26f07ad840fb1c17d29f5be0f428f015">
         <source>Disable non-native modules</source>
-        <target>Desactivar módulos no nativos</target>
+        <target state="translated">Desactivar módulos no nativos</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="70c06c37194d755dd9aef11cf0469981">
         <source>As non-native modules can experience some compatibility issues, we recommend to disable them by default.</source>
-        <target>Como algunos modulos no nativos pueden experimentar algun problema de compatibilidad, se recomienda desactivarlos de forma predeterminada.</target>
+        <target state="translated">Como algunos modulos no nativos pueden experimentar algun problema de compatibilidad, se recomienda desactivarlos de forma predeterminada.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="469ab377c49ea68b2ecdfe76d628a53b">
         <source>Keeping them enabled might prevent you from loading the "Modules" page properly after the upgrade.</source>
-        <target>Manteniéndolos activados puedes prevenir que se cargue la pestaña "Módulos" completamente después de la actualización.</target>
+        <target state="translated">Manteniéndolos activados puedes prevenir que se cargue la pestaña "Módulos" completamente después de la actualización.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="03a9e6840847f96325b7184d5f3c2769">
         <source>Disable all overrides</source>
-        <target>Desactivar todos los métodos overrides</target>
+        <target state="translated">Desactivar todos los métodos overrides</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="29826f9f4da3d473c1e4ecf2f6c4ef9f">
         <source>Enable or disable all classes and controllers overrides.</source>
-        <target>Activar o desactivar todas las clases y controladores overrides.</target>
+        <target state="translated">Activar o desactivar todas las clases y controladores overrides.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="fa2508196ef3391139d01d8d38b2c1bb">
         <source>Upgrade the default theme</source>
-        <target>Actualizar el tema predeterminado</target>
+        <target state="translated">Actualizar el tema predeterminado</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="b6b1ed5508bc97f38ab9075ccf234c69">
         <source>If you customized the default PrestaShop theme in its folder (folder name "classic" in 1.7), enabling this option will lose your modifications.</source>
-        <target>Si personalizaste el tema predeterminado de PrestaShop en su carpeta (nombre de la carpeta "classic" en 1.7), activar esta opción hará perder tus modificaciones.</target>
+        <target state="translated">Si personalizaste el tema predeterminado de PrestaShop en su carpeta (nombre de la carpeta "classic" en 1.7), activar esta opción hará perder tus modificaciones.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="97a989a73b46233ae4330fb7682a70a2">
         <source>If you are using your own theme, enabling this option will simply update the default theme files, and your own theme will be safe.</source>
-        <target>Si estás utilizando un tema propio, activando esta opción simplemente se actualizarán los archivos del tema predeterminado, y tu propio tema permanecerá seguro.</target>
+        <target state="translated">Si estás utilizando un tema propio, activando esta opción simplemente se actualizarán los archivos del tema predeterminado, y tu propio tema permanecerá seguro.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="309183e60345ce8ad09def36330218b8">
         <source>Regenerate RTL stylesheet</source>
-        <target>Regenerar hoja de estilo RTL</target>
+        <target state="translated">Regenerar hoja de estilo RTL</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="e31d0229913e78ae9dc2de61d9ac21aa">
         <source>If enabled, any RTL-specific files that you might have added to all your themes might be deleted by the created stylesheet.</source>
-        <target>Si está activado, cualquier archivo específico de RTL que se haya añadido a sus temas podría ser eliminado por la hoja de estilo creada.</target>
+        <target state="translated">Si está activado, cualquier archivo específico de RTL que se haya añadido a sus temas podría ser eliminado por la hoja de estilo creada.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="92991497ed914de6bb7795b701b4c6e4">
         <source>Switch to the default theme</source>
-        <target>Cambiar al tema predeterminado</target>
+        <target state="translated">Cambiar al tema predeterminado</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="c7ae0af8d5653beb68b344415aca135d">
         <source>This will change your theme: your shop will then use the default theme of the version of PrestaShop you are upgrading to.</source>
-        <target>Esto cambiará el tema: tu tienda utilizará entonces el tema predeterminado de la versión de PrestaShop a la que vas a actualizar.</target>
+        <target state="translated">Esto cambiará el tema: tu tienda utilizará entonces el tema predeterminado de la versión de PrestaShop a la que vas a actualizar.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="f22d57f1f0b7fd2a55ca4760cd6ef68b">
         <source>Keep the customized email templates</source>
-        <target>Conservar las plantillas de correo electrónico personalizadas</target>
+        <target state="translated">Conservar las plantillas de correo electrónico personalizadas</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="5ea970658668e0b45cb6f64ce18b420e">
         <source>This will not upgrade the default PrestaShop e-mails.</source>
-        <target>Esto no actualizará los correos electrónicos predeterminados de PrestaShop.</target>
+        <target state="translated">Esto no actualizará los correos electrónicos predeterminados de PrestaShop.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="a83c73a145dbc0f4ea7c6a95203df43d">
         <source>If you customized the default PrestaShop e-mail templates, enabling this option will keep your modifications.</source>
-        <target>Si personalizaste las plantillas de correo electrónico predeterminadas de PrestaShop, activar esta opción mantendrá tus modificaciones.</target>
+        <target state="translated">Si personalizaste las plantillas de correo electrónico predeterminadas de PrestaShop, activar esta opción mantendrá tus modificaciones.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="92a5801448b25f111961462b0b31995d">
         <source>Unable to create file %s</source>
-        <target>No se puede crear el archivo %s</target>
+        <target state="translated">No se puede crear el archivo %s</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="56195ded2802813800f43e3be1babe1c">
         <source>Error when trying to delete backups %s</source>
-        <target>Error al intentar eliminar las copias de seguridad %s</target>
+        <target state="translated">Error al intentar eliminar las copias de seguridad %s</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="a7eca295291f53a23ab7ba0a9c7fd9de">
         <source>This functionality has been disabled.</source>
-        <target>Esta funcionalidad ha sido desactivada.</target>
+        <target state="translated">Esta funcionalidad ha sido desactivada.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="c1b55bdd4c292214e4ef2570ffe069dc">
         <source>[TECHNICAL ERROR] ajax-upgradetab.php is missing. Please reinstall or reset the module.</source>
-        <target>[TECHNICAL ERROR] no se encuentra ajax-upgradetab.php. Por favor, reinstala o reinicia el módulo.</target>
+        <target state="translated">[TECHNICAL ERROR] no se encuentra ajax-upgradetab.php. Por favor, reinstala o reinicia el módulo.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="48995d15304fe79fc0240bf6544f2395">
         <source>Are you sure you want to delete this backup?</source>
-        <target>¿Estás seguro de que quieres eliminar esta copia de seguridad?</target>
+        <target state="translated">¿Estás seguro de que quieres eliminar esta copia de seguridad?</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="f2a6c498fb90ee345d997f888fce3b18">
+        <source>Delete</source>
+        <target state="needs-translation">Delete</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="f03a04d1f440e359840035679b49b212">
         <source>An update is currently in progress... Click "OK" to abort.</source>
-        <target>Una actualización está en curso... Haz clic en "OK" para cancelar.</target>
+        <target state="translated">Una actualización está en curso... Haz clic en "OK" para cancelar.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="98a399b35ec9e03ec985254acfe5e3a0">
         <source>Upgrading PrestaShop</source>
-        <target>Actualizando PrestaShop</target>
+        <target state="translated">Actualizando PrestaShop</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="e02d726a7e733ffb7737e53c89be5e4f">
         <source>Upgrade complete</source>
-        <target>Actualización completada</target>
+        <target state="translated">Actualización completada</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="f67d595b77c8c85da5434ddf41b840d4">
         <source>Upgrade complete, but warning notifications has been found.</source>
-        <target>Actualización completada, pero se han producido notificaciones de alerta.</target>
+        <target state="translated">Actualización completada, pero se han producido notificaciones de alerta.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="a9cb4ff8ba5698ccdc9672435be31d24">
         <source>Cookies have changed, you will need to log in again once you refreshed the page</source>
-        <target>Las cookies han cambiado. Necesitarás iniciar sesión de nuevo una vez que actualices la página</target>
+        <target state="translated">Las cookies han cambiado. Necesitarás iniciar sesión de nuevo una vez que actualices la página</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="546c6a7b5ca345af3880bfc74a339606">
         <source>Javascript and CSS files have changed, please clear your browser cache with CTRL-F5</source>
-        <target>Los archivos Javascript y CSS han cambiado, por favor, borra la caché de tu navegador con CTRL-F5</target>
+        <target state="translated">Los archivos Javascript y CSS han cambiado, por favor, borra la caché de tu navegador con CTRL-F5</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="19ea4327ee1bad0ed94b42a77255f3c6">
         <source>Please check that your front-office theme is functional (try to create an account, place an order...)</source>
-        <target>Por favor, comprueba que el tema de tu front office funciona correctamente (prueba a crear una cuenta, hacer un pedido...)</target>
+        <target state="translated">Por favor, comprueba que el tema de tu front office funciona correctamente (prueba a crear una cuenta, hacer un pedido...)</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="c12803674a35ccc28e5da00a50a84591">
         <source><![CDATA[Product images do not appear in the front-office? Try regenerating the thumbnails in Preferences > Images]]></source>
-        <target><![CDATA[¿No aparecen las imágenes de los productos en el front office? Intenta regenerar las miniaturas en Preferencias > Imágenes]]></target>
+        <target state="translated"><![CDATA[¿No aparecen las imágenes de los productos en el front office? Intenta regenerar las miniaturas en Preferencias > Imágenes]]></target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="e27d0a2f9e5caa433fc14667a1a3a15a">
         <source>Do not forget to reactivate your shop once you have checked everything!</source>
-        <target>¡No olvides volver a activar tu tienda una vez que hayas comprobado todo!</target>
+        <target state="translated">¡No olvides volver a activar tu tienda una vez que hayas comprobado todo!</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="aeae8fea8fa0e49659920920eaf04248">
+        <source>If you can't access the back-office and need to see what's wrong, manually enable debug mode in config/defines.inc.php by changing _PS_MODE_DEV_ to true.</source>
+        <target state="needs-translation">If you can't access the back-office and need to see what's wrong, manually enable debug mode in config/defines.inc.php by changing _PS_MODE_DEV_ to true.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="bb64b7cb55bd1db0abc03b6884144113">
         <source>ToDo list:</source>
-        <target>Lista de táreas pendientes:</target>
+        <target state="translated">Lista de táreas pendientes:</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="ecb2935cd99ace66750ffdee7954f126">
         <source>Starting restoration...</source>
-        <target>Empezando la restauración...</target>
+        <target state="translated">Empezando la restauración...</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="bdec5eb7ca6ae2b5646bb9524df5579a">
         <source>Restoration complete.</source>
-        <target>Restauración completada.</target>
+        <target state="translated">Restauración completada.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="f15547fe5f9f307bd42b2c01657efbcb">
         <source>Your server cannot download the file. Please upload it first by ftp in your admin/autoupgrade directory</source>
-        <target>Tu servidor no puede descargar el archivo. Por favor, súbelo primero por ftp en el directorio admin/autoUpgrade</target>
+        <target state="translated">Tu servidor no puede descargar el archivo. Por favor, súbelo primero por ftp en el directorio admin/autoUpgrade</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="a8192fd08a431bf547ebf9a3eaa9b6bb">
         <source>Javascript error (parseJSON) detected for action </source>
-        <target>Error Javascript (parseJSON) detectado para la acción </target>
+        <target state="translated">Error Javascript (parseJSON) detectado para la acción </target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="c050dd9e80b7658fbf59103b2b982c5d">
         <source>Manually go to %s button</source>
-        <target>Haz clic en el botón %s</target>
+        <target state="translated">Haz clic en el botón %s</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="67dab01827a619fdbcb137f18a83feb5">
         <source>End of process</source>
-        <target>Proceso finalizado</target>
+        <target state="translated">Proceso finalizado</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="3b388ab38f6539009cf82a0577205cd8">
         <source>Operation canceled. Checking for restoration...</source>
-        <target>Operación cancelada. Comprobación de la restauración...</target>
+        <target state="translated">Operación cancelada. Comprobación de la restauración...</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="d5dfd6fbb959405ade102657ece534fa">
         <source>Do you want to restore %s?</source>
-        <target>¿Quieres restaurar %s?</target>
+        <target state="translated">¿Quieres restaurar %s?</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="f234e8051cec7a79e996e67f179bd68b">
         <source>Operation canceled. An error happened.</source>
-        <target>Operación cancelada. Se produjo un error.</target>
+        <target state="translated">Operación cancelada. Se produjo un error.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="df54e40fe544b0ca34929e0e690a93c1">
         <source>[TECHNICAL ERROR] ajax-upgradetab.php is missing. Please reinstall the module.</source>
-        <target>[ERROR TÉCNICO] no se encuentra ajax-upgradetab.php. Por favor, reinstala el módulo.</target>
+        <target state="translated">[ERROR TÉCNICO] no se encuentra ajax-upgradetab.php. Por favor, reinstala el módulo.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="f1a1fb67c8350e8881bc59f09e42d5ab">
         <source>Click to refresh the page and use the new configuration</source>
-        <target>Haz clic para actualizar la página y utilizar la nueva configuración</target>
+        <target state="translated">Haz clic para actualizar la página y utilizar la nueva configuración</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="e47b67bdaa4f2c695e46ce1e5231aa9f">
         <source>Error detected during</source>
-        <target>Error detectado durante</target>
+        <target state="translated">Error detectado durante</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="4e265d12ee7ee679a4f40a4c4fde1208">
         <source>The request exceeded the max_time_limit. Please change your server configuration.</source>
-        <target>El pedido ha sobrepasado el max_time_limit. Por favor, cambia la configuración de tu servidor.</target>
+        <target state="translated">El pedido ha sobrepasado el max_time_limit. Por favor, cambia la configuración de tu servidor.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="1607e6098b7b62a2791653b059c975d2">
         <source>See or hide the list</source>
-        <target>Ver u ocultar la lista</target>
+        <target state="translated">Ver u ocultar la lista</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="25b91596a896c6cf688104169b4b6a71">
         <source>Core file(s)</source>
-        <target>Archivo(s) del núcleo</target>
+        <target state="translated">Archivo(s) del núcleo</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="65f04958837ddd3643fd5edaee3a0f8d">
         <source>Mail file(s)</source>
-        <target>Archivo(s) de email</target>
+        <target state="translated">Archivo(s) de email</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="54aca96b35b48dd39265175f61b6bdd2">
         <source>Translation file(s)</source>
-        <target>Archivo(s) de traducción</target>
+        <target state="translated">Archivo(s) de traducción</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="e3da2aa16a78084597288574550e7f39">
         <source>Link and MD5 hash cannot be empty</source>
-        <target>Enlace y hash MD5 no pueden estar vacíos</target>
+        <target state="translated">Enlace y hash MD5 no pueden estar vacíos</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="0fdb05748bf1f267f54c2353b9fa5fbb">
         <source>You need to enter the version number associated with the archive.</source>
-        <target>Debes introducir el número de versión asociado con el archivo.</target>
+        <target state="translated">Debes introducir el número de versión asociado con el archivo.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="4f926e733c4f9087633a1be8c59cbd5e">
         <source>No archive has been selected.</source>
-        <target>No se ha seleccionado ningún archivo.</target>
+        <target state="translated">No se ha seleccionado ningún archivo.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="69baf56a7bdc48c0637f98298742332d">
         <source>You need to enter the version number associated with the directory.</source>
-        <target>Debes introducir el número de versión asociado con el directorio.</target>
+        <target state="translated">Debes introducir el número de versión asociado con el directorio.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="3414adbd0397d764eec7f8900051331f">
         <source>Please confirm that you want to skip the backup.</source>
-        <target>Por favor, confirma que deseas omitir la copia de seguridad.</target>
+        <target state="translated">Por favor, confirma que deseas omitir la copia de seguridad.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="43195fe6505d6439239d03e00a8e7310">
         <source>Please confirm that you want to preserve file options.</source>
-        <target>Por favor, confirma que deseas conservar las opciones de archivo.</target>
+        <target state="translated">Por favor, confirma que deseas conservar las opciones de archivo.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="8c4e88bd9187e21ab076fb9a92343e8b">
         <source>Less options</source>
-        <target>Menos opciones</target>
+        <target state="translated">Menos opciones</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="9e68a57463e52beb2b2d4d116085044e">
         <source>More options (Expert mode)</source>
-        <target>Más opciones (modo Experto)</target>
+        <target state="translated">Más opciones (modo Experto)</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="a08641c2063d7908c34acbd1982a0eb9">
         <source>These files will be deleted</source>
-        <target>Estos archivos serán eliminados</target>
+        <target state="translated">Estos archivos serán eliminados</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="8d89ef701bfdd6de52bf08dc3b0222f2">
         <source>These files will be replaced</source>
-        <target>Estos archivos serán reemplazados</target>
+        <target state="translated">Estos archivos serán reemplazados</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="9c48e683e6132f6e6147f1bc24b97e25">
+        <source>No XML file has been selected.</source>
+        <target state="needs-translation">No XML file has been selected.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="19f823c6453c2b1ffd09cb715214813d">
         <source>Required field</source>
-        <target>Campo requerido</target>
+        <target state="translated">Campo requerido</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="760c4026bc5a0bd5378e6efc3f1370b4">
         <source>Too long!</source>
-        <target>¡Demasiado largo!</target>
+        <target state="translated">¡Demasiado largo!</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="4f2e28904946a09d8c7f36dd3ee72457">
         <source>Fields are different!</source>
-        <target>¡Los campos son diferentes!</target>
+        <target state="translated">¡Los campos son diferentes!</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="e5110300599f995b9d8cfbe930fba83e">
         <source>This email address is wrong!</source>
-        <target>¡Esta dirección email no es válida!</target>
+        <target state="translated">¡Esta dirección email no es válida!</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="2e170dfd78c2171a25605ececc0950a4">
         <source>Impossible to send the email!</source>
-        <target>¡No se puede enviar el correo electrónico!</target>
+        <target state="translated">¡No se puede enviar el correo electrónico!</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="5f9ff5f3662e1675dcf694c707b41466">
         <source>Cannot create settings file, if /app/config/parameters.php exists, please give the public write permissions to this file, else please create a file named parameters.php in config directory.</source>
-        <target>No se pueden crear los archivos de configuración, si existe /app/config/parameters.php. Por favor, otorga permisos de escritura pública al archivo, y crea un archivo llamado parameters.php en el directorio config.</target>
+        <target state="translated">No se pueden crear los archivos de configuración, si existe /app/config/parameters.php. Por favor, otorga permisos de escritura pública al archivo, y crea un archivo llamado parameters.php en el directorio config.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="128a6722ff88445b488e4eb3319fa5b7">
         <source>Cannot write settings file, please create a file named settings.inc.php in the "config" directory.</source>
-        <target>No se puede escribir el archivo de configuración, por favor, crea un archivo llamado settings.inc.php en el directorio "config".</target>
+        <target state="translated">No se puede escribir el archivo de configuración, por favor, crea un archivo llamado settings.inc.php en el directorio "config".</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="e930e2474c664a3a7e89ecfb8793694b">
         <source>Impossible to upload the file!</source>
-        <target>¡No se puede subir el archivo!</target>
+        <target state="translated">¡No se puede subir el archivo!</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="7d061dd94a106d80d75d3e615294eb75">
+        <source>Data integrity is not valid, the files might have been corrupted, or a hack attempt might have occured.</source>
+        <target state="needs-translation">Data integrity is not valid, the files might have been corrupted, or a hack attempt might have occured.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="8fd007bf08e0717537825a3e91cb4fcc">
         <source>Impossible to read the content of a MySQL content file.</source>
-        <target>No se puede leer el contenido de un archivo MySQL.</target>
+        <target state="translated">No se puede leer el contenido de un archivo MySQL.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="17a90b480e6f6b8d1214df46c8678015">
         <source>Cannot access a MySQL content file.</source>
-        <target>No se puede acceder al contenido del archivo MySQL.</target>
+        <target state="translated">No se puede acceder al contenido del archivo MySQL.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="3d5c8f1d29b1a1dc4ea0673122e0d277">
         <source>Error while inserting data in the database:</source>
-        <target>Error al insertar datos en la base de datos</target>
+        <target state="translated">Error al insertar datos en la base de datos</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="bc5e1163a15106f9e941a7603124709d">
         <source>This is not a valid file name.</source>
-        <target>Este no es un nombre de archivo válido.</target>
+        <target state="translated">Este no es un nombre de archivo válido.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="a9d82945b8603f0c8807958d7db9a24d">
         <source>This is not a valid image file.</source>
-        <target>Este no es un archivo de imagen válido.</target>
+        <target state="translated">Este no es un archivo de imagen válido.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="77797ec8a35666683bbac1b20db16f5f">
         <source>Error while creating the /app/config/parameters.php file.</source>
-        <target>Error al crear el archivo /app/config/parameters.php.</target>
+        <target state="translated">Error al crear el archivo /app/config/parameters.php.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="3d9f514d46849760ef1b1412e314fd99">
         <source>Error:</source>
-        <target>Error:</target>
+        <target state="needs-translation">Error:</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="c5bcaf2cc3be924182f0ec0e3124ed99">
         <source>This PrestaShop database already exists. Please revalidate your authentication information to the database.</source>
-        <target>Esta base de datos de PrestaShop ya existe. Por favor, vuelve a validar tu información de autenticación en la base de datos.</target>
+        <target state="translated">Esta base de datos de PrestaShop ya existe. Por favor, vuelve a validar tu información de autenticación en la base de datos.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="d7a99f61bb284d096ea4f221784af85a">
         <source>An error occurred while resizing the picture.</source>
-        <target>Se ha producido un error al redimensionar la imagen.</target>
+        <target state="translated">Se ha producido un error al redimensionar la imagen.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="428c933bafbf262d693fbf1c22c03e5d">
         <source>Database connection is available!</source>
-        <target>¡La conexión con la base de datos está disponible!</target>
+        <target state="translated">¡La conexión con la base de datos está disponible!</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="76bd190129b7aefb90fdf42f09ec3ec7">
         <source>Database Server is available but database is not found</source>
-        <target>El servidor de la base de datos está disponible, pero la base de datos no se encuentra</target>
+        <target state="translated">El servidor de la base de datos está disponible, pero la base de datos no se encuentra</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="045f4b5c3f990e5a26e2837495d68259">
         <source>Database Server is not found. Please verify the login, password and server fields.</source>
-        <target>El servidor de la base de datos no se encuentra. Por favor, comprueba los campos de login, contraseña y servidor.</target>
+        <target state="translated">El servidor de la base de datos no se encuentra. Por favor, comprueba los campos de login, contraseña y servidor.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="757fc72e8d69106dd2cf9da22cc7adb1">
         <source>An error occurred while sending email, please verify your parameters.</source>
-        <target>Se ha producido un error al enviar el correo electrónico, por favor, verifica tus parámetros.</target>
+        <target state="translated">Se ha producido un error al enviar el correo electrónico, por favor, verifica tus parámetros.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="dafe44b99256a7783bc37f4f949da373">
         <source>This installer is too old.</source>
-        <target>Este instalador es demasiado antiguo.</target>
+        <target state="translated">Este instalador es demasiado antiguo.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="37ce0f29c7377c827e7247fe5645a782">
         <source>You already have the %s version.</source>
-        <target>Ya tienes la versión %s.</target>
+        <target state="translated">Ya tienes la versión %s.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="d159b135bb83d88adcde6c1ac420556e">
         <source>There is no older version. Did you delete or rename the app/config/parameters.php file?</source>
-        <target>No existe una versión anterior. ¿Ha eliminado o renombrado el archivo app/config/parameters.php?</target>
+        <target state="translated">No existe una versión anterior. ¿Ha eliminado o renombrado el archivo app/config/parameters.php?</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="240810ecd34fca674fa9489b1ea0e879">
         <source>The app/config/parameters.php file was not found. Did you delete or rename this file?</source>
-        <target>No se encontró el archivo app/config/parameters.php. ¿Ha eliminado o renombrado este archivo?</target>
+        <target state="translated">No se encontró el archivo app/config/parameters.php. ¿Ha eliminado o renombrado este archivo?</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="5908157f5787d0050586f5629562f1f0">
         <source>Cannot find the SQL upgrade files. Please verify that the /install/upgrade/sql folder is not empty.</source>
-        <target>No se pueden encontrar los archivos de actualización de SQL. Por favor, comprueba que la carpeta /install/upgrade/sql no está vacía.</target>
+        <target state="translated">No se pueden encontrar los archivos de actualización de SQL. Por favor, comprueba que la carpeta /install/upgrade/sql no está vacía.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="580e4b216e324f675f0237cdb34b6c2d">
         <source>No upgrade is possible.</source>
-        <target>No es posible actualizar.</target>
+        <target state="translated">No es posible actualizar.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="94c7530ebb30de665b276d6881cb2f7b">
         <source>Error while loading SQL upgrade file.</source>
-        <target>Error al cargar el archivo de actualización de SQL.</target>
+        <target state="translated">Error al cargar el archivo de actualización de SQL.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="b8286438fbb6c7df9129fadc5316c19f">
         <source>Error while inserting content into the database</source>
-        <target>Error al insertar el contenido en la base de datos</target>
+        <target state="translated">Error al insertar el contenido en la base de datos</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="229ee8046cafc09ddaf46fb9db710e91">
         <source>Unfortunately,</source>
-        <target>Desafortunadamente,</target>
+        <target state="translated">Desafortunadamente,</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="e805a556799b7cef40e9760c81d99218">
         <source>SQL errors have occurred.</source>
-        <target>Se han producido errores de SQL.</target>
+        <target state="translated">Se han producido errores de SQL.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="5627353fd6ac678497af3ece05087068">
         <source>The config/defines.inc.php file was not found. Where did you move it?</source>
-        <target>El archivo config/defines.inc.php no ha sido encontrado. ¿Lo has movido?</target>
+        <target state="translated">El archivo config/defines.inc.php no ha sido encontrado. ¿Lo has movido?</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="d18ad19290b3bfc3cd0d7badbb6cb6a3">
         <source>Impossible to write the image /img/logo.jpg. If this image already exists, please delete it.</source>
-        <target>No se puede escribir la imagen /img/logo.jpg. Si esta imagen ya existe, por favor, elimínala.</target>
+        <target state="translated">No se puede escribir la imagen /img/logo.jpg. Si esta imagen ya existe, por favor, elimínala.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="2368e33e3e01d53abb9b60061ab83903">
         <source>The uploaded file exceeds the upload_max_filesize directive in php.ini</source>
-        <target>El archivo subido excede la directiva upload_max_filesize en php.ini</target>
+        <target state="translated">El archivo subido excede la directiva upload_max_filesize en php.ini</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="a10ef376d9f4c877ac86d8e4350116bf">
         <source>The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form</source>
-        <target>El archivo subido excede la directiva MAX_FILE_SIZE que se especificó en el formulario HTML</target>
+        <target state="translated">El archivo subido excede la directiva MAX_FILE_SIZE que se especificó en el formulario HTML</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="f8fe8cba1625eaf8e5c253b041d57dbd">
         <source>The uploaded file was only partially uploaded</source>
-        <target>El archivo subido fue sólo parcialmente cargado</target>
+        <target state="translated">El archivo subido fue sólo parcialmente cargado</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="8c9067e52e4440d8a20e74fdc745b0c6">
         <source>No file was uploaded.</source>
-        <target>Ningun archivo fue subido.</target>
+        <target state="translated">Ningun archivo fue subido.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="2384d693d9af53b4727c092af7570a19">
         <source>Missing a temporary folder</source>
-        <target>No se encuentra la carpeta temporal</target>
+        <target state="translated">No se encuentra la carpeta temporal</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="f5985b2c059d5cc36968baab7585baba">
         <source>Failed to write file to disk</source>
-        <target>Error al escribir el archivo en el disco</target>
+        <target state="translated">Error al escribir el archivo en el disco</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="9e54dfe54e03b0010c1fe70bd65cd5e6">
         <source>File upload stopped by extension</source>
-        <target>La subida de archivos se detuvo por extensión incorrecta</target>
+        <target state="translated">La subida de archivos se detuvo por extensión incorrecta</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="01997b209bbc4a6ee04fb713afed40ec">
         <source>Cannot convert your database's data to utf-8.</source>
-        <target>No se pueden convertir los datos de tu base de datos a utf-8.</target>
+        <target state="translated">No se pueden convertir los datos de tu base de datos a utf-8.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="2399cf4ca7b49f2706f6e147a32efa78">
         <source>Your lastname contains some invalid characters</source>
-        <target>Tu apellido contiene caracteres no válidos</target>
+        <target state="translated">Tu apellido contiene caracteres no válidos</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="7186f703d20b263cfb91161418996e43">
         <source>Your MySQL server does not support this engine, please use another one like MyISAM</source>
-        <target>Tu servidor MySQL no es compatible con este motor, por favor, utiliza otro como MyISAM</target>
+        <target state="translated">Tu servidor MySQL no es compatible con este motor, por favor, utiliza otro como MyISAM</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="24b481455c1b72b0c2539e7d516b9582">
         <source>The file /img/logo.jpg is not writable, please CHMOD 755 this file or CHMOD 777</source>
-        <target>El archivo /img/logo.jpg no se puede escribir, por favor, otorga permisos CHMOD 755 o CHMOD 777 a este archivo</target>
+        <target state="translated">El archivo /img/logo.jpg no se puede escribir, por favor, otorga permisos CHMOD 755 o CHMOD 777 a este archivo</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="5746b74663148afffd1350c97d4fcdfe">
         <source>Invalid catalog mode</source>
-        <target>Modo catálogo no válido</target>
+        <target state="translated">Modo catálogo no válido</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="9e5459c4deb20b7842ac01e97390b334">
         <source>No error code available</source>
-        <target>Error desconocido</target>
+        <target state="translated">Error desconocido</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="a739fd67729d2f540137b85917f13a21">
         <source>[ERROR] %dir% does not exist or is not a directory.</source>
-        <target>[ERROR] %dir% no existe o no es un directorio.</target>
+        <target state="translated">[ERROR] %dir% no existe o no es un directorio.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="99f0e3a6d61b6d39da9213c647fd35ce">
         <source>[ERROR] %s does not exist or is not a directory.</source>
-        <target>[ERROR] %s no existe o no es un directorio.</target>
+        <target state="translated">[ERROR] %s no existe o no es un directorio.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="36d56d20b3894281531cd4108e2c4cec">
         <source>[ERROR] No response from Addons server.</source>
-        <target>[ERROR] No hay respuesta desde el servidor Addons.</target>
+        <target state="translated">[ERROR] No hay respuesta desde el servidor Addons.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="23f0dcc0dc41c4206bb741661da76c93">
         <source>[ERROR] Unable to write module %s's zip file in temporary directory.</source>
-        <target>[ERROR] No se puede escribir el archivo zip del módulo %s en el directorio temporal.</target>
+        <target state="translated">[ERROR] No se puede escribir el archivo zip del módulo %s en el directorio temporal.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="8ed212a996fe818de7fcb6dd7e89a1b7">
         <source>[WARNING] Error when trying to extract module %s.</source>
-        <target>[WARNING] Error al intentar extraer el módulo %s.</target>
+        <target state="translated">[WARNING] Error al intentar extraer el módulo %s.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="2743947c7353cf849fbff70085764d76">
         <source>[WARNING] Error when trying to upgrade module %s.</source>
-        <target>[WARNING] Error al intentar actualizar el módulo %s.</target>
+        <target state="translated">[WARNING] Error al intentar actualizar el módulo %s.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="9dcf84f429818d396d05335d52ef5f42">
         <source>[SKIP] directory "%s" does not exist and cannot be emptied.</source>
-        <target>[SKIP] el directorio "%s" no existe y no se puede vaciar.</target>
+        <target state="translated">[SKIP] el directorio "%s" no existe y no se puede vaciar.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="4cb8d96f333a2339fe544b96ee2740de">
         <source>[CLEANING CACHE] File %s removed</source>
-        <target>[CLEANING CACHE] Archivo %s eliminado</target>
+        <target state="translated">[CLEANING CACHE] Archivo %s eliminado</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="4d46d96c1ea641735ee0c26c6381c75e">
+        <source>API keys not present in parameters, generating</source>
+        <target state="needs-translation">API keys not present in parameters, generating</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="f32686b54f6af06671f1c3575df12c7c">
+        <source>Keys generated using openssl_pkey_new, exporting private and public keys</source>
+        <target state="needs-translation">Keys generated using openssl_pkey_new, exporting private and public keys</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="a971bd83f9fe8a03c10c29a065d3bd41">
+        <source>Updating parameters file</source>
+        <target state="needs-translation">Updating parameters file</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="f24283fb7f4ba875f0f8c0391587695e">
+        <source>Unable to migrate parameters</source>
+        <target state="needs-translation">Unable to migrate parameters</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="43987038411fdc693ba35bf02e6cf496">
+        <source>Invalidating opcache for parameters file</source>
+        <target state="needs-translation">Invalidating opcache for parameters file</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="d87028000710df8bad6886cfc6b4c98b">
+        <source>Parameters file updated</source>
+        <target state="needs-translation">Parameters file updated</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="ebd70d87d57d2e22c5fb9cb1fa959f92">
         <source>Download of the language pack %lang% failed. %details%</source>
-        <target>La descarga del paquete de idioma %lang% falló. %details%</target>
+        <target state="translated">La descarga del paquete de idioma %lang% falló. %details%</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="1439aa876aad656c4e8ddc2b06ce32d2">
+        <source>Error while updating translations for the language pack %lang%. %details%</source>
+        <target state="needs-translation">Error while updating translations for the language pack %lang%. %details%</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="f7b8fb04eca61009a5ff2f578d374a8b">
         <source>Upgrade the RTL files.</source>
-        <target>Actualizando los archivos RTL.</target>
+        <target state="translated">Actualizando los archivos RTL.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="d90307511d557233464da663999f3151">
+        <source>Initializing required environment constants</source>
+        <target state="needs-translation">Initializing required environment constants</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="956ef5a4e2df09d2f7415c9f1284d17c">
+        <source>Checking version validity</source>
+        <target state="needs-translation">Checking version validity</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="284a35fa27c84dae6a16f8b52d0715f6">
+        <source>Checking connection to database</source>
+        <target state="needs-translation">Checking connection to database</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="b3884f9e8ed49a8d7165787d3adec342">
         <source>Invalid database configuration</source>
-        <target>Configuración de la base de datos no válida</target>
+        <target state="translated">Configuración de la base de datos no válida</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="de4026a3fc9813c32f3a247370c29f54">
+        <source>Disabling all non native modules</source>
+        <target state="needs-translation">Disabling all non native modules</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="ffb63e7ff1e05430b4a292ac8651f1e4">
+        <source>Keeping non native modules enabled</source>
+        <target state="needs-translation">Keeping non native modules enabled</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="c5ada796f937732385b6594d7364b69a">
+        <source>Updating database data and structure</source>
+        <target state="needs-translation">Updating database data and structure</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="4e32fd9d99ee0c3370c870d4da3d31a9">
+        <source>Running generic queries</source>
+        <target state="needs-translation">Running generic queries</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="257f5523f283710c6859d8f425a0c657">
         <source>Database upgrade OK</source>
-        <target>Actualización de la base de datos OK</target>
+        <target state="translated">Actualización de la base de datos OK</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="72c863d76f8a8e5b1d17f818894df989">
+        <source>Upgrading languages</source>
+        <target state="needs-translation">Upgrading languages</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="88bbbc84f51424b4b0c6da6aec2c2154">
+        <source>Regenerating htaccess</source>
+        <target state="needs-translation">Regenerating htaccess</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="128e1c61a1a4477ec05609569cc4d9d8">
+        <source>Cleaning XML files</source>
+        <target state="needs-translation">Cleaning XML files</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="ed176ad3db6e004d4c272928acf3d0ac">
+        <source>Disabling overrides</source>
+        <target state="needs-translation">Disabling overrides</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="12473a5949de1a1cd37806a14a56dbde">
+        <source>Keeping overrides in place</source>
+        <target state="needs-translation">Keeping overrides in place</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="9c7e0ba2c6ecb11af7f39843bbc18ff8">
         <source>Warning detected during upgrade.</source>
-        <target>Advertencia detectada durante la actualización.</target>
+        <target state="translated">Advertencia detectada durante la actualización.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="c4615fc8cb7877b074cbe9813cd742b1">
         <source>Database upgrade completed</source>
-        <target>Actualización de la base de datos completada</target>
+        <target state="translated">Actualización de la base de datos completada</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="bf3abb5f80807c7453c246193372e1ae">
         <source>%s is not a valid version number.</source>
-        <target>%s no es un número de versión válido.</target>
+        <target state="translated">%s no es un número de versión válido.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="f8498f0014f0b834b635ad879ae1b3fd">
         <source>[ERROR] Version to install is too old.</source>
-        <target>[ERROR] La versión a instalar es demasiado antigua.</target>
+        <target state="translated">[ERROR] La versión a instalar es demasiado antigua.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="62e3454ceb58a5cdd7e382f6ecc78fe4">
         <source>Current version: %oldversion%. Version to install: %newversion%.</source>
-        <target>Versión actual: %oldversion%. Versión a instalar: %newversion%.</target>
+        <target state="translated">Versión actual: %oldversion%. Versión a instalar: %newversion%.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="f25792b5b08a78dd01810297d219c10c">
         <source>Unable to find upgrade directory in the installation path.</source>
-        <target>No es posible encontrar la carpeta de actualización en la ruta de instalación.</target>
+        <target state="translated">No es posible encontrar la carpeta de actualización en la ruta de instalación.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="aae22c1ae9a2b451abca76ae8c5c79e8">
         <source>Error while loading SQL upgrade file "%s".</source>
-        <target>Error al cargar el archivo de actualización de SQL "%s".</target>
+        <target state="translated">Error al cargar el archivo de actualización de SQL "%s".</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="8abd985d095a1282f6f01b98c121b41b">
         <source>Cannot find the SQL upgrade files. Please check that the %s folder is not empty.</source>
-        <target>No es posible encontrar los archivos de actualización SQL. Por favor, comprueba que la carpeta %s no esté vacía.</target>
+        <target state="translated">No es posible encontrar los archivos de actualización SQL. Por favor, comprueba que la carpeta %s no esté vacía.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="7e6f1194307c585ca2e97f81c3db4bb3">
         <source>[DROP] SQL %s table has been dropped.</source>
-        <target>[DROP] la tabla SQL %s ha sido eliminada.</target>
+        <target state="translated">[DROP] la tabla SQL %s ha sido eliminada.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="53983059bf39e1325bba11081ca40e97">
+        <source>Keeping current theme</source>
+        <target state="needs-translation">Keeping current theme</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="796b7c49e21f09173214f029c7f02f9d">
         <source>Switching to default theme.</source>
-        <target>Cambiando al tema predeterminado.</target>
+        <target state="translated">Cambiando al tema predeterminado.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="badf6aad60d4a95b698028bc55aa3347">
+        <source>Cleaning file cache</source>
+        <target state="needs-translation">Cleaning file cache</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="8c4204265814594491ae20c9899a0fff">
+        <source>Running opcache_reset</source>
+        <target state="needs-translation">Running opcache_reset</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="b5ffb77b13ab03298982a49842ce78aa">
+        <source>%lang% is not a valid iso code, skipping</source>
+        <target state="needs-translation">%lang% is not a valid iso code, skipping</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="141ff76ab0d97a8ec25a295f763c9acc">
+        <source>Downloading language pack for %lang%</source>
+        <target state="needs-translation">Downloading language pack for %lang%</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="3bd67bb11ef4eca367343a48a437116c">
+        <source>Installing %lang% language pack</source>
+        <target state="needs-translation">Installing %lang% language pack</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="56f2d5890d12afbf29f105bcf5fc2624">
+        <source>Generating mail templates for %lang%</source>
+        <target state="needs-translation">Generating mail templates for %lang%</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="eb98c1e496a76fc9a930ed4731977498">
         <source>Cannot generate email templates: %s.</source>
-        <target>No se pueden generar plantillas de email: %s.</target>
+        <target state="translated">No se pueden generar plantillas de email: %s.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="c76662717bc0a1c0a601534af98f537b">
         <source>[NOTICE] File %s does not exist, merge skipped.</source>
-        <target>[NOTICE] El archivo %s no existe, se omitirá la fusión.</target>
+        <target state="translated">[NOTICE] El archivo %s no existe, se omitirá la fusión.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="1a863b6511367b9d8b44b21e390f2d10">
         <source>[WARNING] %variablename% variable missing in file %filename%. Merge skipped.</source>
-        <target>[WARNING] la variable %variablename% no se encuentra en el archivo %filename%. Fusión omitida.</target>
+        <target state="translated">[WARNING] la variable %variablename% no se encuentra en el archivo %filename%. Fusión omitida.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="a2a52f63b450e5db3bcb2a3973378e04">
         <source>[WARNING] %variablename% variable missing in file %filename%. File %filename% deleted and merge skipped.</source>
-        <target>[WARNING] la variable %variablename% no se encuentra en el archivo %filename%. File %filename% eliminado y fusión omitida.</target>
+        <target state="translated">[WARNING] la variable %variablename% no se encuentra en el archivo %filename%. File %filename% eliminado y fusión omitida.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="da7732ee7365d4fe5b24788b687b0c04">
         <source>Unable to create directory %s</source>
-        <target>No se puede crear el directorio %s</target>
+        <target state="translated">No se puede crear el directorio %s</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="6a5e5c0047907eaf8062e9933f0de8df">
         <source>%s: File format does not match.</source>
-        <target>%s: El formato del archivo no coincide.</target>
+        <target state="translated">%s: El formato del archivo no coincide.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="c2bcd4d44d646c47753473ff94cc66ac">
         <source>Opening backup database file %filename% in %extension% mode</source>
-        <target>Abriendo la copia de seguridad de la base de datos %filename% en modo %extension%</target>
+        <target state="translated">Abriendo la copia de seguridad de la base de datos %filename% en modo %extension%</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="5ce67d010ab9c98ae1dbd6b5ea149982">
         <source>Database backup is empty.</source>
-        <target>La copia de seguridad de la base de datos está vacía.</target>
+        <target state="translated">La copia de seguridad de la base de datos está vacía.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="ad12a553fe534ba86e1cebf77b27300d">
         <source>Database restoration file %filename% done. %filescount% file(s) left...</source>
-        <target>Archivo de restauración de la base de datos %filename% realizado. Quedan %filescount% archivo(s)...</target>
+        <target state="translated">Archivo de restauración de la base de datos %filename% realizado. Quedan %filescount% archivo(s)...</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="55fc6682e256e387afb10ebf6c95aed5">
         <source>Database restoration file %1$s done.</source>
-        <target>Archivo de restauración de la base de datos %1$s completado.</target>
+        <target state="translated">Archivo de restauración de la base de datos %1$s completado.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="5b37242b8a0a39af0a9dc28abdabba28">
         <source>Database has been restored.</source>
-        <target>La base de datos ha sido restaurada.</target>
+        <target state="translated">La base de datos ha sido restaurada.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="8f226504481b55e9f588e4bc14b5882f">
         <source>[SQL ERROR]</source>
-        <target>[ERROR SQL]</target>
+        <target state="translated">[ERROR SQL]</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="b232a418538e3f6904357039ff7b1052">
         <source>Error during database restoration</source>
-        <target>Error durante de la restauración de la base de datos</target>
+        <target state="translated">Error durante de la restauración de la base de datos</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="85f6ad54304538449ff3da4435be5336">
         <source>%numberqueries% queries left for file %filename%...</source>
-        <target>%numberqueries% consultas restantes para el archivo %filename%...</target>
+        <target state="translated">%numberqueries% consultas restantes para el archivo %filename%...</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="30da45f850d1f1a2b42f215836382f19">
         <source>Database restoration done.</source>
-        <target>Restauración de la base de datos completada.</target>
+        <target state="translated">Restauración de la base de datos completada.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="222102295c3c6626ff141687b0f49b6b">
         <source>Nothing to restore</source>
-        <target>Nada que restaurar</target>
+        <target state="translated">Nada que restaurar</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="d75374f4463479bfc16764f06fc8d33e">
         <source>[ERROR] File %s is missing: unable to restore files. Operation aborted.</source>
-        <target>[ERROR] Archivo %s no encontrado: imposible restaurar archivos. Operación anulada.</target>
+        <target state="translated">[ERROR] Archivo %s no encontrado: imposible restaurar archivos. Operación anulada.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="99db61185a28a3f862dcb99e891b2897">
         <source>[ERROR] No backup database files found: it would be impossible to restore the database. Operation aborted.</source>
-        <target>[ERROR] No se ha encontrado archivos de copia de seguridad de la base de datos: sería imposible restaurar la base de datos. Operación anulada.</target>
+        <target state="translated">[ERROR] No se ha encontrado archivos de copia de seguridad de la base de datos: sería imposible restaurar la base de datos. Operación anulada.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="0438424c05d45646dc089ef15df7e0e2">
         <source>Restoring files ...</source>
-        <target>Restaurando archivos ...</target>
+        <target state="translated">Restaurando archivos ...</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="7ead6886c2e0fb40e873da8426e80988">
         <source>%s file(s) will be removed before restoring the backup files.</source>
-        <target>%s archivo(s) será(n) eliminado(s) antes de restaurar la copia de seguridad de los archivos.</target>
+        <target state="translated">%s archivo(s) será(n) eliminado(s) antes de restaurar la copia de seguridad de los archivos.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="e3ca00e5b833d0a90d433416435dcaf5">
         <source>[ERROR] Backup file %s does not exist.</source>
-        <target>[ERROR] El archivo de copia de seguridad %s no existe.</target>
+        <target state="translated">[ERROR] El archivo de copia de seguridad %s no existe.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="8dbf48bc796e7f70a17c63dd084bf068">
         <source>[ERROR] File "%s" does not exist.</source>
-        <target>[ERROR] El archivo "%s" no existe.</target>
+        <target state="translated">[ERROR] El archivo "%s" no existe.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="2a2c187bdb804ba79fd4bf8972ba5073">
         <source>Unable to remove upgraded files.</source>
-        <target>No se pueden eliminar los archivos actualizados.</target>
+        <target state="translated">No se pueden eliminar los archivos actualizados.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="1f63628adef352c2a7ee4225b9dcd576">
         <source>Unable to extract file %filename% into directory %directoryname%.</source>
-        <target>No se ha podido extraer el archivo %filename% en el directorio %directoryname%.</target>
+        <target state="translated">No se ha podido extraer el archivo %filename% en el directorio %directoryname%.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="cb7dce5f6a1934d54c0d3335c7ffe841">
         <source>Files restored.</source>
-        <target>Archivos restaurados.</target>
+        <target state="translated">Archivos restaurados.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="671537225baa948d4c92cf4681283326">
         <source>Files restored. Now restoring database...</source>
-        <target>Archivos restaurados. Restaurando la base de datos...</target>
+        <target state="translated">Archivos restaurados. Restaurando la base de datos...</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="a520e5cbdc465c7b7d39c98f78fe2506">
         <source>Restoration process done. Congratulations! You can now reactivate your shop.</source>
-        <target>Proceso de restauración realizado. ¡Enhorabuena! Ahora puedes reactivar tu tienda.</target>
+        <target state="translated">Proceso de restauración realizado. ¡Enhorabuena! Ahora puedes reactivar tu tienda.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="20aed4fb9f6ee15bc601227bbfb85acd">
         <source>Could not assert the folder %s contains a valid PrestaShop release, exiting.</source>
-        <target>No se pudo asegurar que la carpeta %s contenga una versión válida de PrestaShop, saliendo.</target>
+        <target state="translated">No se pudo asegurar que la carpeta %s contenga una versión válida de PrestaShop, saliendo.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="312d54356778124e7ad6d8c7be6ff1a0">
         <source>A file may be missing, or the release is stored in a subfolder by mistake.</source>
-        <target>Es posible que falte un archivo o que el lanzamiento se almacene en una subcarpeta por error.</target>
+        <target state="translated">Es posible que falte un archivo o que el lanzamiento se almacene en una subcarpeta por error.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="2bc5a6a8c62cc5616f1d7a5abe28bb65">
         <source>Starting to remove %s sample files</source>
-        <target>Comenzando a eliminar %s archivos de ejemplo</target>
+        <target state="translated">Comenzando a eliminar %s archivos de ejemplo</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="a22340cb1abacbe1bb6e8e069e4c96d0">
         <source>Error while removing item %itemname%, %itemscount% items left.</source>
-        <target>Error eliminando el elemento %itemname%, %itemscount% elementos restantes.</target>
+        <target state="translated">Error eliminando el elemento %itemname%, %itemscount% elementos restantes.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="d15430e60047ee32d088f95584eefb15">
         <source>%itemname% item removed. %itemscount% items left.</source>
-        <target>%itemname% elemento eliminado. %itemscount% elementos restantes.</target>
+        <target state="translated">%itemname% elemento eliminado. %itemscount% elementos restantes.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="1d62b7d31a19dde578c4c56babef264a">
         <source>All sample files removed. Now backing up files.</source>
-        <target>Todos los archivos de ejemplo eliminados. Realizando la copia de seguridad de los archivos.</target>
+        <target state="translated">Todos los archivos de ejemplo eliminados. Realizando la copia de seguridad de los archivos.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="6db37da3334e8a950c5bcdabc9fcf8f8">
         <source>All sample files removed. Backup process skipped. Now upgrading files.</source>
-        <target>Todos los archivos de ejemplo eliminados. Proceso de copia de seguridad omitido. Actualizando archivos.</target>
+        <target state="translated">Todos los archivos de ejemplo eliminados. Proceso de copia de seguridad omitido. Actualizando archivos.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="926abe867e8b1be1c0b053234cae77ba">
         <source>Database backup skipped. Now upgrading files...</source>
-        <target>Copia de seguridad de la base de datos omitida. Actualizando archivos...</target>
+        <target state="translated">Copia de seguridad de la base de datos omitida. Actualizando archivos...</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="555231214d7c729089e80f561e118f45">
         <source>Backup directory is not writable (%path%).</source>
-        <target>La carpeta de copias de seguridad no tiene permisos de escritura (%path%).</target>
+        <target state="translated">La carpeta de copias de seguridad no tiene permisos de escritura (%path%).</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="d12ae4e7f0d20f4a4ca357d48e42877e">
         <source>Backup file %s already exists. Operation aborted.</source>
-        <target>El archivo de la copia de seguridad %s ya existe. Operación cancelada.</target>
+        <target state="translated">El archivo de la copia de seguridad %s ya existe. Operación cancelada.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="d82896159c60199272e5ea481a733eba">
         <source>Unable to create backup database file %s.</source>
-        <target>No se puede crear el archivo %s para la copia de seguridad de la base de datos.</target>
+        <target state="translated">No se puede crear el archivo %s para la copia de seguridad de la base de datos.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="dcb7d833c69d6e0c3f009381c51f898e">
         <source>Error during database backup.</source>
-        <target>Error durante la copia de seguridad de la base de datos.</target>
+        <target state="translated">Error durante la copia de seguridad de la base de datos.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="52033453d4d673bae012b9c8ccb1e79c">
         <source>An error occurred while backing up. Unable to obtain the schema of %s</source>
-        <target>Se ha producido un error durante la copia de seguridad. No se puede obtener el esquema de %s</target>
+        <target state="translated">Se ha producido un error durante la copia de seguridad. No se puede obtener el esquema de %s</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="4d4c62fccb481224ff3a5c36b45de3fd">
         <source>%s table has been saved.</source>
-        <target>La tabla %s ha sido guardada.</target>
+        <target state="translated">La tabla %s ha sido guardada.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="71426d0545181d601dc135b78e74ac8f">
         <source>%s tables have been saved.</source>
-        <target>Las tablas %s han sido guardadas.</target>
+        <target state="translated">Las tablas %s han sido guardadas.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="c2a086cb5c3373d7e11acbd3ace6a553">
         <source>Database backup: %s table(s) left...</source>
-        <target>Copia de seguridad de la base de datos : %s tabla(s) pendiente(s)...</target>
+        <target state="translated">Copia de seguridad de la base de datos : %s tabla(s) pendiente(s)...</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="f5f6ee32184b6a03c5c9928cbefa07f7">
         <source>No valid tables were found to back up. Backup of file %s canceled.</source>
-        <target>No se encontraron tablas válidas para hacer la copia de seguridad. Copia de seguridad del archivo %s cancelada.</target>
+        <target state="translated">No se encontraron tablas válidas para hacer la copia de seguridad. Copia de seguridad del archivo %s cancelada.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="0e27b7ac485e03dabd5648acd5982dde">
         <source>Error during database backup for file %s.</source>
-        <target>Error durante la copia de seguridad de base de datos en el archivo %s.</target>
+        <target state="translated">Error durante la copia de seguridad de base de datos en el archivo %s.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="4b85e344355a8c135644f239db898749">
         <source>Database backup done in filename %s. Now upgrading files...</source>
-        <target>Copia de seguridad de la base de datos realizada con el nombre de archivo %s. Actualizando archivos...</target>
+        <target state="translated">Copia de seguridad de la base de datos realizada con el nombre de archivo %s. Actualizando archivos...</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="ca895e37bd5dfe413d7ffdd592580117">
         <source>Starting upgrade...</source>
-        <target>Iniciando la actualización...</target>
+        <target state="translated">Iniciando la actualización...</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="d3446f09f99983abc250c0d2a92d0285">
         <source>Downloading and unzipping steps have been skipped, upgrade process will now remove sample data.</source>
-        <target>Los pasos de descarga y descompresión se han omitido, el proceso de actualización eliminará ahora los datos de muestra.</target>
+        <target state="translated">Los pasos de descarga y descompresión se han omitido, el proceso de actualización eliminará ahora los datos de muestra.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="b06a965d6f83ecc3c04eefe175482f1d">
         <source>Shop deactivated. Removing sample files...</source>
-        <target>Tienda desactivada. Eliminando los archivos de ejemplo...</target>
+        <target state="translated">Tienda desactivada. Eliminando los archivos de ejemplo...</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="fd89b081ead6c32f16c370771cfe92e1">
         <source>Downloading step has been skipped, upgrade process will now unzip the local archive.</source>
-        <target>El paso de descarga se ha omitido, el proceso de actualización descomprimirá ahora el archivo local.</target>
+        <target state="translated">El paso de descarga se ha omitido, el proceso de actualización descomprimirá ahora el archivo local.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="1a74ca8250ceb3e4df43a70181064e03">
         <source>Shop deactivated. Extracting files...</source>
-        <target>Tienda desactivada. Extrayendo archivos...</target>
+        <target state="translated">Tienda desactivada. Extrayendo archivos...</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="a3e702f156f1b517ba98d2487f58bd91">
         <source>Shop deactivated. Now downloading... (this can take a while)</source>
-        <target>Tienda desactivada. Descargando... (puede tardar un tiempo)</target>
+        <target state="translated">Tienda desactivada. Descargando... (puede tardar un tiempo)</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="10b5aa33077df49427f04cd33ad3843f">
         <source>Downloaded archive will come from %s</source>
-        <target>El archivo descargado proviene de %s</target>
+        <target state="translated">El archivo descargado proviene de %s</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="da652b8ece8ba2da84d5f5116f6ef63e">
         <source>MD5 hash will be checked against %s</source>
-        <target>Hash MD5 se cotejará con %s</target>
+        <target state="translated">Hash MD5 se cotejará con %s</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="ead14b0273e8d6cae7d146130d4be8f6">
         <source>The database has been cleaned.</source>
-        <target>La base de datos ha sido limpiada.</target>
+        <target state="translated">La base de datos ha sido limpiada.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="654f7ceb787fd455c166d5d8744cbf90">
         <source>"/latest" directory has been emptied</source>
-        <target>el directorio "/latest" ha sido vaciado</target>
+        <target state="translated">el directorio "/latest" ha sido vaciado</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="01d9d38b1d4d8eff5b530eeecfd3ccd5">
         <source>Extraction directory %s is not writable.</source>
-        <target>El directorio de extracción %s no tiene permisos de escritura.</target>
+        <target state="translated">El directorio de extracción %s no tiene permisos de escritura.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="69ae4bbd4b14ae388e4e3882945a542e">
         <source>Unable to extract %filepath% file into %destination% folder...</source>
-        <target>No se puede extraer el archivo %filepath% en la carpeta de destino %destination%...</target>
+        <target state="translated">No se puede extraer el archivo %filepath% en la carpeta de destino %destination%...</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="5d3c14ccb814427455842b838bbd6f21">
         <source>No prestashop/ folder found in the ZIP file. Aborting.</source>
-        <target>No se encontró el directorio prestashop/ en el archivo ZIP. Cancelando el proceso.</target>
+        <target state="translated">No se encontró el directorio prestashop/ en el archivo ZIP. Cancelando el proceso.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="7dce6149440985f89756b4c451d7dc03">
         <source>File extraction complete. Removing sample files...</source>
-        <target>Extracción de archivos completada. Eliminando archivos de ejemplo...</target>
+        <target state="translated">Extracción de archivos completada. Eliminando archivos de ejemplo...</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="fb1ca1f5f3eb5a2ca85201f449525527">
         <source>You need allow_url_fopen or cURL enabled for automatic download to work. You can also manually upload it in filepath %s.</source>
-        <target>Necesitas activar allow_url_fopen o cURL para realizar descargas automáticas. También puedes subirlo manualmente en la ruta %s.</target>
+        <target state="translated">Necesitas activar allow_url_fopen o cURL para realizar descargas automáticas. También puedes subirlo manualmente en la ruta %s.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="f31c50f6d0edbbb94aa24943b118e316">
         <source>Downloading from %s</source>
-        <target>Descargando desde %s</target>
+        <target state="translated">Descargando desde %s</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="73227d741d23c1c6c0ae027b2dbc9e73">
         <source>File will be saved in %s</source>
-        <target>El archivo será guardado en %s</target>
+        <target state="translated">El archivo será guardado en %s</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="53be0a7251b3bd0de81f488687bc0464">
         <source>Download directory has been emptied</source>
-        <target>El directorio download ha sido vaciado</target>
+        <target state="translated">El directorio download ha sido vaciado</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="3c2681ea85407c2c0d252e05a8eaf6aa">
         <source>Download complete.</source>
-        <target>Descarga completada.</target>
+        <target state="translated">Descarga completada.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="a55401a11251f53f612e950d4115e116">
         <source>Download complete. Now extracting...</source>
-        <target>Descarga completada. Extracción en curso...</target>
+        <target state="translated">Descarga completada. Extracción en curso...</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="2d9a3f4a92c008b32903541e9af8aff0">
         <source>Download complete but MD5 sum does not match (%s).</source>
-        <target>Descarga completada, pero la suma MD5 no coincide (%s).</target>
+        <target state="translated">Descarga completada, pero la suma MD5 no coincide (%s).</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="df88998b6b9585bbcfd201186695b686">
         <source>Download complete but MD5 sum does not match (%s). Operation aborted.</source>
-        <target>Descarga completada, pero la suma MD5 no coincide (%s). Operación cancelada.</target>
+        <target state="translated">Descarga completada, pero la suma MD5 no coincide (%s). Operación cancelada.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="412cb9a2978bf041be4ca6c6ded0030c">
         <source>Error during download. The private key may be incorrect.</source>
-        <target>Error durante la descarga. La clave privada puede ser errónea.</target>
+        <target state="translated">Error durante la descarga. La clave privada puede ser errónea.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="0c0db54fe8212c1a7215005fef75d7dd">
         <source>Error during download</source>
-        <target>Error durante la descarga</target>
+        <target state="translated">Error durante la descarga</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="5385901e5bed459563860e2f08a90a1c">
         <source>Download directory %s is not writable.</source>
-        <target>El directorio de descarga %s no tiene permisos de escritura.</target>
+        <target state="translated">El directorio de descarga %s no tiene permisos de escritura.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="4f7c02592a962e40a920f32f3a24f2df">
         <source>filesToUpgrade is not an array</source>
-        <target>filesToUpgrade no es una matriz</target>
+        <target state="translated">filesToUpgrade no es una matriz</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="6274f940a4c03421253b1acc4064349e">
         <source>All files upgraded. Now upgrading database...</source>
-        <target>Todos los archivos actualizados. Actualización de bases de datos en curso...</target>
+        <target state="translated">Todos los archivos actualizados. Actualización de bases de datos en curso...</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="41deb3bc122b8e650d7a4758ea95f5c3">
         <source>Error when trying to upgrade file %s.</source>
-        <target>Error al actualizar el archivo %s.</target>
+        <target state="translated">Error al actualizar el archivo %s.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="481343ab83a2b8e7c7f6c710279f2a6d">
         <source>%s files left to upgrade.</source>
-        <target>quedan %s archivos por actualizar.</target>
+        <target state="translated">quedan %s archivos por actualizar.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="9a2f2cf276ea9f79b31a815897c0e3e6">
         <source>%s ignored</source>
-        <target>%s ignorados</target>
+        <target state="translated">%s ignorados</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="4794a520f862841749c18466119acfed">
         <source>[WARNING] File %1$s has been deleted.</source>
-        <target>[WARNING] El archivo %1$s ha sido eliminado.</target>
+        <target state="translated">[WARNING] El archivo %1$s ha sido eliminado.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="cbfafdaa2e7968a86bd6a437027edfea">
         <source>Directory %1$s created.</source>
-        <target>Directorio %1$s creado.</target>
+        <target state="translated">Directorio %1$s creado.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="a61e66de5e0b581cc66f73f5662660c6">
         <source>Error while creating directory %s.</source>
-        <target>Error al crear el directorio %s.</target>
+        <target state="translated">Error al crear el directorio %s.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="0a6c2db1b18cb6420ad40d46db8707de">
         <source>Directory %s already exists.</source>
-        <target>El directorio %s ya existe.</target>
+        <target state="translated">El directorio %s ya existe.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="e877efcbee96fb597e27a9d83b362f0c">
         <source>[TRANSLATION] The translation files have been merged into file %s.</source>
-        <target>[TRANSLATION] Los archivos de traducción se han fusionado en el archivo% %s.</target>
+        <target state="translated">[TRANSLATION] Los archivos de traducción se han fusionado en el archivo% %s.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="b6a405342d9de91fa9f190b13b842b5c">
         <source>[TRANSLATION] The translation files have not been merged into file %filename%. Switch to copy %filename%.</source>
-        <target>[TRANSLATION] Los archivos de traducción no han sido fusionados en el archivo %filename%. Se volverá a la copia %filename%.</target>
+        <target state="translated">[TRANSLATION] Los archivos de traducción no han sido fusionados en el archivo %filename%. Se volverá a la copia %filename%.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="b8db10001e04b8f947415aeb8b8fd19f">
         <source>Copied %1$s.</source>
-        <target>Copiado %1$s.</target>
+        <target state="translated">Copiado %1$s.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="eae82e869fe0a47087214e2748ae710a">
         <source>Error while copying file %s</source>
-        <target>Error al copiar el archivo %s</target>
+        <target state="translated">Error al copiar el archivo %s</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="2de9cd00fdcc22adb43ea03f2a09dee5">
         <source>[ERROR] Unable to find files to upgrade.</source>
-        <target>[ERROR] No se han podido encontrar archivos para actualizar.</target>
+        <target state="translated">[ERROR] No se han podido encontrar archivos para actualizar.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="5479863b0426e29c3a17a3f9cc6e3746">
         <source>%s files will be upgraded.</source>
-        <target>%s archivos serán actualizados.</target>
+        <target state="translated">%s archivos serán actualizados.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="7a32329d6776ff98d77f7344caf7e00b">
         <source>Upgrade process done, but some warnings have been found.</source>
-        <target>Proceso de actualización realizado, pero algunas advertencias se han producido.</target>
+        <target state="translated">Proceso de actualización realizado, pero algunas advertencias se han producido.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="2a7e17be5dc799b0c478ec5f576f0713">
         <source>Upgrade process done. Congratulations! You can now reactivate your shop.</source>
-        <target>Proceso de actualización realizado. ¡Enhorabuena! Ahora puedes reactivar tu tienda.</target>
+        <target state="translated">Proceso de actualización realizado. ¡Enhorabuena! Ahora puedes reactivar tu tienda.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="d2b9f1e39aa8e96bb61f3a4bfe133f58">
         <source>%s removed</source>
-        <target>%s eliminado</target>
+        <target state="translated">%s eliminado</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="75802ba44ba3369defd92ef897bf2f21">
         <source>Please remove %s by FTP</source>
-        <target>Por favor, elimina %s desde FTP</target>
+        <target state="translated">Por favor, elimina %s desde FTP</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="eac34868b4fb511702e53d1405c45454">
         <source>Error during database upgrade. You may need to restore your database.</source>
-        <target>Error durante la actualización de la base de datos. Puede que tengas que restaurar la base de datos.</target>
+        <target state="translated">Error durante la actualización de la base de datos. Puede que tengas que restaurar la base de datos.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="08ee54c048e1589f4072a351035db2ad">
         <source>Database upgraded. Now upgrading your Addons modules...</source>
-        <target>Base de datos actualizada. Actualizando ahora tus módulos de Addons...</target>
+        <target state="translated">Base de datos actualizada. Actualizando ahora tus módulos de Addons...</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="1baa2ea6cee198c6b7f19011431dcc73">
         <source>listModules is not an array. No module has been updated.</source>
-        <target>listModules no es una matriz. No se ha actualizado ningún módulo.</target>
+        <target state="translated">listModules no es una matriz. No se ha actualizado ningún módulo.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="04663743fc92eeb1f90a4d165c470e54">
         <source>Upgrading module %module%...</source>
-        <target>Actualizando módulo %module%...</target>
+        <target state="translated">Actualizando módulo %module%...</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="35687f9e2d83cd9e89860c47fb3a7bbd">
         <source>The files of module %s have been upgraded.</source>
-        <target>Los archivos del módulo %s se han actualizado.</target>
+        <target state="translated">Los archivos del módulo %s se han actualizado.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="d88a8630bd4e8fdbd61c550e53d62a94">
         <source>%s modules left to upgrade.</source>
-        <target>quedan %s módulos por actualizar.</target>
+        <target state="translated">quedan %s módulos por actualizar.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="f0d18de100ab33463602ea5b8165d842">
         <source>Addons modules files have been upgraded.</source>
-        <target>Se han actualizado los archivos de módulos Addons.</target>
+        <target state="translated">Se han actualizado los archivos de módulos Addons.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="0530243ad5b9bd205a04b975d3ef8aaf">
         <source>%s modules will be upgraded.</source>
-        <target>%s módulos serán actualizados.</target>
+        <target state="translated">%s módulos serán actualizados.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="e6de5ce7d70a6ed1e2d2d2a25c1bffb4">
         <source>Error during backupFiles</source>
-        <target>Error durante la copia de seguridad de los archivos</target>
+        <target state="translated">Error durante la copia de seguridad de los archivos</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="f2afc9e120786d21fd6809c836258669">
         <source>[ERROR] backupFiles filename has not been set</source>
-        <target>[ERROR] no se ha indicado el nombre del archivo de la copia de seguridad</target>
+        <target state="translated">[ERROR] no se ha indicado el nombre del archivo de la copia de seguridad</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="48f95ff09327408a578e91655ed872a1">
         <source>%s Files to backup.</source>
-        <target>%s archivos a salvaguardar.</target>
+        <target state="translated">%s archivos a salvaguardar.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="ae10eb1b240ad1b32e2a18e8c9694120">
         <source>Backup files initialized in %s</source>
-        <target>Copia de seguridad incializada en %s</target>
+        <target state="translated">Copia de seguridad incializada en %s</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="9bebecbf68b6ce5a6d656c5ea793b762">
         <source>Backup files in progress. %d files left</source>
-        <target>Copia de seguridad de archivos en curso. %d archivos restantes</target>
+        <target state="translated">Copia de seguridad de archivos en curso. %d archivos restantes</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="b31006b398a0fc315119a145aa1b0466">
         <source>Unable to open archive</source>
-        <target>No se puede abrir el archivo</target>
+        <target state="translated">No se puede abrir el archivo</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="f39b870765d50b64ba7a6facea83010d">
         <source>All files have been added to archive.</source>
-        <target>Todos los archivos han sido añadidos al archivo.</target>
+        <target state="translated">Todos los archivos han sido añadidos al archivo.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="f36d7ee6cae92008008a95bf5898daf2">
         <source>All files saved. Now backing up database</source>
-        <target>Todos los archivos guardados. Realizando la copia de seguridad de la base de datos</target>
+        <target state="translated">Todos los archivos guardados. Realizando la copia de seguridad de la base de datos</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="335b4c111b193a855539368676837af4">
         <source>Unable to check files for the installed version of PrestaShop.</source>
-        <target>No se puede comprobar los archivos para la versión instalada de PrestaShop.</target>
+        <target state="translated">No se puede comprobar los archivos para la versión instalada de PrestaShop.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="8d8e0207549d32c6f864246403034279">
         <source>Core files are ok</source>
-        <target>Los archivos del núcleo están OK</target>
+        <target state="translated">Los archivos del núcleo están OK</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="1642bf84232919297d598b2a66b3a894">
         <source>%modificationscount% file modifications have been detected, including %coremodifications% from core and native modules:</source>
-        <target>Se han detectado %modificationscount% modificaciones en los archivos, incluyendo %coremodifications% de núcleo y módulos nativos:</target>
+        <target state="translated">Se han detectado %modificationscount% modificaciones en los archivos, incluyendo %coremodifications% de núcleo y módulos nativos:</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="047cb0c4fd60e2a2fab8ead3e091f9bd">
         <source>%modifiedfiles% files will be modified, %deletedfiles% files will be deleted (if they are found).</source>
-        <target>%modifiedfiles% archivos serán modificados, %deletedfiles% archivos serán eliminados (si existen).</target>
+        <target state="translated">%modifiedfiles% archivos serán modificados, %deletedfiles% archivos serán eliminados (si existen).</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="1d1a5763d2901dbd435b378358a149b4">
         <source>File %s does not exist. Unable to select that channel.</source>
-        <target>El archivo %s no existe. No se puede seleccionar ese canal.</target>
+        <target state="translated">El archivo %s no existe. No se puede seleccionar ese canal.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="c944c279a9e87437e100f65b8c87c391">
         <source>Version number is missing. Unable to select that channel.</source>
-        <target>Falta el numero de version. No se puede seleccionar ese canal.</target>
+        <target state="translated">Falta el numero de version. No se puede seleccionar ese canal.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="ab232f4b20c0e50dad9081bc39382569">
         <source>Upgrade process will use archive.</source>
-        <target>El proceso de actualización utilizará el archivo.</target>
+        <target state="translated">El proceso de actualización utilizará el archivo.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="1fe9dd96f646eaa0cd3a0fcc7632ce12">
         <source>Error on saving configuration</source>
-        <target>Error al guardar la configuración</target>
+        <target state="translated">Error al guardar la configuración</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="f2ff9d001d0a553c78da73443e7fcd97">
         <source>Configuration successfully updated.</source>
-        <target>Configuración actualizada correctamente.</target>
+        <target state="translated">Configuración actualizada correctamente.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="40b980e89ae332507380470cd26cdf4d">
         <source>This page will now be reloaded and the module will check if a new version is available.</source>
-        <target>Esta página se volverá a cargar y el módulo comprobará si hay una nueva versión disponible.</target>
+        <target state="translated">Esta página se volverá a cargar y el módulo comprobará si hay una nueva versión disponible.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="435d516735dbf7f622c7d14585f66840">
         <source>Action %s skipped</source>
-        <target>Acción %s omitida</target>
+        <target state="translated">Acción %s omitida</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="382b0f5185773fa0f67a8ed8056c7759">
+        <source>N/A</source>
+        <target state="needs-translation">N/A</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="628decaabab912af39cfda7aaf47b059">
         <source>Major release</source>
-        <target>Versión principal</target>
+        <target state="translated">Versión principal</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="43899376e3f4d4cb70dad59c81a4b957">
         <source>Minor release (recommended)</source>
-        <target>Versión secundaria (recomendada)</target>
+        <target state="translated">Versión secundaria (recomendada)</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="1436348d2e10c88964c87efe3ebe7e4c">
         <source>Release candidates</source>
-        <target>Versión candidata para lanzamiento</target>
+        <target state="translated">Versión candidata para lanzamiento</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="3da4e7a86631518f47d8cedf7f09a5ed">
         <source>Beta releases</source>
-        <target>Versión beta</target>
+        <target state="translated">Versión beta</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="0c960ac8fc33e1516a568248519b4d03">
         <source>Alpha releases</source>
-        <target>Versión alfa</target>
+        <target state="translated">Versión alfa</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="8ed3e1637b29848c46224287390822ad">
         <source>Private release (require link and MD5 hash)</source>
-        <target>Versión privada (requiere enlace y hash MD5)</target>
+        <target state="translated">Versión privada (requiere enlace y hash MD5)</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="15e90667b50b56b1f8a01bdb1190f3dc">
         <source>Local archive</source>
-        <target>Archivo local</target>
+        <target state="translated">Archivo local</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="17897209dd708b862fe417f6d429a8da">
         <source>Local directory</source>
-        <target>Directorio local</target>
+        <target state="translated">Directorio local</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="564b7c9d8683f1a94798e9f7449564e4">
         <source>Upgrade Options</source>
-        <target>Opciones de actualización</target>
+        <target state="translated">Opciones de actualización</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="93cba07454f06a4a960172bbd6e2a435">
+        <source>Yes</source>
+        <target state="needs-translation">Yes</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="bafd7322c6e97d25b6299b5d6fe8920b">
+        <source>No</source>
+        <target state="needs-translation">No</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="017697f698d570dffed5f88a5a933d01">
         <source>Backup Options</source>
-        <target>Opciones de copia de seguridad</target>
+        <target state="translated">Opciones de copia de seguridad</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="037350bc293c5e04305ff73a7e470b52">
         <source>Error when trying to add %filename% to archive %archive%.</source>
-        <target>Error al intentar añadir %filename% al archivo %archive%.</target>
+        <target state="translated">Error al intentar añadir %filename% al archivo %archive%.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="1d7a665a8b724a2a30e72af54b8fd313">
         <source>%filename% added to archive. %filescount% files left.</source>
-        <target>%filename% añadido al archivo. %filescount% archivos restantes.</target>
+        <target state="translated">%filename% añadido al archivo. %filescount% archivos restantes.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="d8d67c977419d047e2a73c456db8f721">
+        <source>Could not close the Zip file: %toFile% properly. Check you are allowed to write on the disk and there is available space on it.</source>
+        <target state="needs-translation">Could not close the Zip file: %toFile% properly. Check you are allowed to write on the disk and there is available space on it.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="9311ab161709b4f5efe9c6ff08b33699">
         <source>%s is not a file</source>
-        <target>%s no es un archivo</target>
+        <target state="translated">%s no es un archivo</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="3d72a59cd44079c486a184a6a7bcec34">
         <source>Unable to create directory %s.</source>
-        <target>No se puede crear el directorio %s.</target>
+        <target state="translated">No se puede crear el directorio %s.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="619c520551c7a108c12fde64e9b73b12">
         <source>Could not extract %file% from backup, the destination might not be writable.</source>
-        <target>No se pudo extraer %archivo% de la copia de seguridad, es posible que no se pueda escribir en el destino.</target>
+        <target state="translated">No se pudo extraer %archivo% de la copia de seguridad, es posible que no se pueda escribir en el destino.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="b6fadb405627a21f30cbe97d9f47d7a3">
         <source>Content of archive %zip% is extracted</source>
-        <target>Se extrae el contenido del archivo %zip%</target>
+        <target state="translated">Se extrae el contenido del archivo %zip%</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="3858aebfe7dce0a1dc398d199cb85a2b">
         <source>[ERROR] Unable to list archived files</source>
-        <target>[ERROR] No se pueden listar los archivos archivados</target>
+        <target state="translated">[ERROR] No se pueden listar los archivos archivados</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="fe718bdde198efa66b9e3a9a5cf476e6">
         <source>File %filename% (size: %filesize%) has been skipped during backup.</source>
-        <target>El archivo %filename% (tamaño: %filesize%) ha sido omitido durante la copia de seguridad.</target>
+        <target state="translated">El archivo %filename% (tamaño: %filesize%) ha sido omitido durante la copia de seguridad.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="0f9f19a4f5e93b3d5a94405e3af32a28">
         <source>Unable to open zipFile %s</source>
-        <target>No se puede abrir el archivo zip %s</target>
+        <target state="translated">No se puede abrir el archivo zip %s</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="8012aa06d5ed29946347086bf1648078">
+        <source>PHP Version notice</source>
+        <target state="needs-translation">PHP Version notice</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="30bb88eb7785bc93183a3af5ecba377f">
+        <source>The PHP version your shop is running on is insecure.</source>
+        <target state="needs-translation">The PHP version your shop is running on is insecure.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="2d6337fe0f270f9c7164e85545caa02e">
+        <source>It reached its end-of-life, which means it won't get security updates anymore and projects will stop supporting it.</source>
+        <target state="needs-translation">It reached its end-of-life, which means it won't get security updates anymore and projects will stop supporting it.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="bdd54caf9f54c19bebbe7b841d497f3a">
+        <source>Upgrading will keep your shop secured and performant.</source>
+        <target state="needs-translation">Upgrading will keep your shop secured and performant.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="013db824ec6c77f40caf0af5a7518425">
+        <source>Learn more about PHP and upgrading</source>
+        <target state="needs-translation">Learn more about PHP and upgrading</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="9a843f20677a52ca79af903123147af0">
         <source>Welcome!</source>
-        <target>¡Bienvenido!</target>
+        <target state="translated">¡Bienvenido!</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="d0ab112e427298327038f5e87aa40264">
         <source>Upgrade your store to benefit from the latest improvements, bug fixes and security patches.</source>
-        <target>Actualiza tu tienda para beneficiarte de las últimas mejoras, correcciones de errores y parches de seguridad.</target>
+        <target state="translated">Actualiza tu tienda para beneficiarte de las últimas mejoras, correcciones de errores y parches de seguridad.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="9cf9ee1ecc597007beb11670100081b2">
         <source>Upgrading your store on your own can be risky. If you don't feel comfortable doing the upgrade yourself, many agencies and developers in your area may also provide this kind of service.</source>
-        <target>Actualizar su tienda por su cuenta puede ser arriesgado. Si no se siente cómodo haciendo la actualización usted mismo, muchas agencias y desarrolladores en su área también pueden brindar este tipo de servicio.</target>
+        <target state="translated">Actualizar su tienda por su cuenta puede ser arriesgado. Si no se siente cómodo haciendo la actualización usted mismo, muchas agencias y desarrolladores en su área también pueden brindar este tipo de servicio.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="c9cc8cce247e49bae79f15173ce97354">
+        <source>Save</source>
+        <target state="needs-translation">Save</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="2b16564e6e838ce86608620b70beb570">
         <source>Activity Log</source>
-        <target>Registro de actividad</target>
+        <target state="translated">Registro de actividad</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="1f966606f0a941f655a4e9b7791a1ae0">
         <source>Currently processing</source>
-        <target>Proceso en curso</target>
+        <target state="translated">Proceso en curso</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="21739f79b8e95f4187fce4fefb12af28">
         <source>Analyzing the situation...</source>
-        <target>Analizando la situación...</target>
+        <target state="translated">Analizando la situación...</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="5ef0c737746fae2ca90e66c39333f8f6">
         <source>Errors</source>
-        <target>Errores</target>
+        <target state="translated">Errores</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="e58eae3d7ced672a49b5716587b15f89">
         <source>Start your Upgrade</source>
-        <target>Comenzar actualización</target>
+        <target state="translated">Comenzar actualización</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="da3cd17bbbbd3ef7da8e817d3c4cdb46">
         <source>You come from the future! You are using a more recent version than the latest available!</source>
-        <target>¡Vienes del futuro! ¡Estás utilizando una versión más reciente que la última disponible!</target>
+        <target state="translated">¡Vienes del futuro! ¡Estás utilizando una versión más reciente que la última disponible!</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="5784315a8bcebe79611d3353723e010d">
         <source>Congratulations, you are already using the latest version available!</source>
-        <target>Enhorabuena, ¡ya estás usando la última versión disponible!</target>
+        <target state="translated">Enhorabuena, ¡ya estás usando la última versión disponible!</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="762b3814b0c85540ac4be47c7815fc0c">
         <source>Your current PrestaShop version</source>
-        <target>Versión actual de PrestaShop</target>
+        <target state="translated">Versión actual de PrestaShop</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="5dcfe1b5006d8e1808c14752c0657052">
         <source>Your current PHP version</source>
-        <target>Versión actual de PHP</target>
+        <target state="translated">Versión actual de PHP</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="1f390ab6b7d0b815f43fbf0f86c96c14">
         <source>Latest official version for %s channel.</source>
-        <target>Última versión oficial del canal %s.</target>
+        <target state="translated">Última versión oficial del canal %s.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="f34ac641f410c44e719fbc1496efd3d8">
         <source>Upgrade PrestaShop now!</source>
-        <target>¡Actualizar PrestaShop ahora!</target>
+        <target state="translated">¡Actualizar PrestaShop ahora!</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="7f6336f29afd114798bf8ff3e6f2f9c9">
         <source>PrestaShop will be downloaded from %s</source>
-        <target>PrestaShop se descargará desde %s</target>
+        <target state="translated">PrestaShop se descargará desde %s</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="f90fc047cda408422c9097339e455572">
         <source>Open changelog in a new window</source>
-        <target>Abrir el registro de cambios en una nueva ventana</target>
+        <target state="translated">Abrir el registro de cambios en una nueva ventana</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="7f07c36a3eb42fc24f4777e3619316f0">
         <source>No file will be downloaded (channel %s is used)</source>
-        <target>Ningún archivo será descargado (se usa el canal %s)</target>
+        <target state="translated">Ningún archivo será descargado (se usa el canal %s)</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="604862f03b56fde085c8f0350f63d707">
         <source>The following action are automatically replaced</source>
-        <target>La siguiente acción será reemplazada automáticamente</target>
+        <target state="translated">La siguiente acción será reemplazada automáticamente</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="380880e1c59f4c6f514f529512d2719a">
         <source>%old% will be replaced by %new%</source>
-        <target>%old% será reemplazado por %new%</target>
+        <target state="translated">%old% será reemplazado por %new%</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="a07a3b4fc3a73fd0a8014aa40819c357">
         <source>To change this behavior, you need to manually edit your php files</source>
-        <target>Para cambiar este comportamiento, debes editar tus archivos php</target>
+        <target state="translated">Para cambiar este comportamiento, debes editar tus archivos php</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="5b7ae750cd57d8ce894a3152aadbb4e3">
         <source>Refresh the page</source>
-        <target>Actualizar la página</target>
+        <target state="translated">Actualizar la página</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="ef754ad37c689704ede322b9a6ae66a7">
         <source>Check if a new version is available</source>
-        <target>Comprobar si hay una nueva versión disponible</target>
+        <target state="translated">Comprobar si hay una nueva versión disponible</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="89de86aa34494d545d8cbb4fff3a4e59">
         <source>Last check: %s</source>
-        <target>Última comprobación: %s</target>
+        <target state="translated">Última comprobación: %s</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="ea3104b84db2df54a4e798e5a47d0073">
         <source>Last check: never</source>
-        <target>Última comprobación: nunca</target>
+        <target state="translated">Última comprobación: nunca</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="d0285505fd09db653a4ec0fd3799f357">
         <source>Expert mode</source>
-        <target>Modo experto</target>
+        <target state="translated">Modo experto</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="89f144934543c527b7b064ee64361d90">
         <source>Please select your channel:</source>
-        <target>Por favor, selecciona tu canal:</target>
+        <target state="translated">Por favor, selecciona tu canal:</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="cdcf07ad291a3b7a0cc30b870705ba63">
         <source>Channels are offering you different ways to perform an upgrade. You can either upload the new version manually or let the 1-Click Upgrade module download it for you.</source>
-        <target>Los canales te ofrecen diferentes formas de realizar una actualización. Puedes subir la nueva versión manualmente o dejar que el módulo Actualización en 1-Clic la descargue para ti.</target>
+        <target state="translated">Los canales te ofrecen diferentes formas de realizar una actualización. Puedes subir la nueva versión manualmente o dejar que el módulo Actualización en 1-Clic la descargue para ti.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="87ad8a8ff4a99ffd2e72d5e69765f830">
         <source>The Alpha, Beta and Private channels give you the ability to upgrade to a non-official or unstable release (for testing purposes only).</source>
-        <target>Los canales Alpha, Beta y Privados te ofrecen la posibilidad de actualizar a una versión no oficial o inestable (con el propósito de probarla solamente).</target>
+        <target state="translated">Los canales Alpha, Beta y Privados te ofrecen la posibilidad de actualizar a una versión no oficial o inestable (con el propósito de probarla solamente).</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="7d71d389caebafeecac50e98c8e14dec">
         <source>By default, you should use the "Minor release" channel which is offering the latest stable version available.</source>
-        <target>De manera predeterminada, debes utilizar la "Versión secundaria", el canal que ofrece la última versión estable disponible.</target>
+        <target state="translated">De manera predeterminada, debes utilizar la "Versión secundaria", el canal que ofrece la última versión estable disponible.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="3b3d4b4b6a128cfeafc8e3f8987ddb9b">
         <source>Channel:</source>
-        <target>Canal:</target>
+        <target state="translated">Canal:</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="ef2f59f06132ddc2e1bc8d00abbe6e02">
         <source>Link:</source>
-        <target>Enlace:</target>
+        <target state="translated">Enlace:</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="6e843a36f447872179db90ceff68d970">
         <source>Hash key:</source>
-        <target>Clave Hash:</target>
+        <target state="translated">Clave Hash:</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="b77d20ed1ba7b2ee7139dc4f3fd13117">
         <source>Allow major upgrade:</source>
-        <target>Autorizar actualización principal:</target>
+        <target state="translated">Autorizar actualización principal:</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="780daf2510c5c9e1c58948f138629817">
         <source>Archive to use:</source>
-        <target>Archivo a utilizar:</target>
+        <target state="translated">Archivo a utilizar:</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="eb7d4dd49f36e74b58604842ee983efd">
         <source>Choose an archive</source>
-        <target>Seleccione un archivo</target>
+        <target state="translated">Seleccione un archivo</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="4a3065086c9f18f584fab79509ae39fd">
         <source>Number of the version you want to upgrade to:</source>
-        <target>Número de versión a la que quieres actualizar:</target>
+        <target state="translated">Número de versión a la que quieres actualizar:</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="d16e8ad31ee6eb7891c79ba25cad7863">
         <source>XML file to use:</source>
-        <target>Archivo XML a utilizar:</target>
+        <target state="translated">Archivo XML a utilizar:</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="cd0135bf9edaf19cb7944e0e7b36a9d6">
         <source>Choose an XML file</source>
-        <target>Seleccione un archivo XML</target>
+        <target state="translated">Seleccione un archivo XML</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="5be0150b075f706fc27b09753ce6646d">
         <source>No archive found in your admin/autoupgrade/download directory</source>
-        <target>Ningun archivo encontrado en directorio admin/autoupgrade/download</target>
+        <target state="translated">Ningun archivo encontrado en directorio admin/autoupgrade/download</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="fa7d667f96d6c7a7a959840bb1101b68">
         <source>Save in the following directory the archive file and XML file of the version you want to upgrade to: %s</source>
-        <target>Guarda en el siguiente directorio el archivo comprimido y el archivo XML de la versión a la que desea actualizar: %s</target>
+        <target state="translated">Guarda en el siguiente directorio el archivo comprimido y el archivo XML de la versión a la que desea actualizar: %s</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="acb4749e846c0f10c7236ec68b574ba3">
         <source>Click to save once the archive is there.</source>
-        <target>Haz clic para guardar una vez que el archivo esté allí.</target>
+        <target state="translated">Haz clic para guardar una vez que el archivo esté allí.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="4b0319a87fb1baabe2fdb810e5cd4e62">
         <source>This option will skip the download step.</source>
-        <target>Esta opción omitirá el paso de descarga.</target>
+        <target state="translated">Esta opción omitirá el paso de descarga.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="b534ea98500fdbec0ba93d3733f85f91">
         <source>Save in the following directory the uncompressed PrestaShop files of the version you want to upgrade to: %s</source>
-        <target>Guarda en el siguiente directorio los archivos descomprimidos de PrestaShop de la versión a la que quieres actualizar: %s</target>
+        <target state="translated">Guarda en el siguiente directorio los archivos descomprimidos de PrestaShop de la versión a la que quieres actualizar: %s</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="e170025f2eea43e9a73fa76b4f5649bc">
         <source>Please tell us which version you are upgrading to [1](1.7.0.1 for instance)[/1]</source>
-        <target>Por favor, indica a qué versión estás actualizando [1](por ejemplo 1.7.0.1)[/1]</target>
+        <target state="translated">Por favor, indica a qué versión estás actualizando [1](por ejemplo 1.7.0.1)[/1]</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="1e034b9b374950ec672faf75cdc3f713">
         <source>This option will skip both download and unzip steps and will use %1$s as the source directory</source>
-        <target>Esta opción omitirá tanto el paso de descarga como el de descompresión, y utilizará %1$s como directorio de origen</target>
+        <target state="translated">Esta opción omitirá tanto el paso de descarga como el de descompresión, y utilizará %1$s como directorio de origen</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="48c7c41b72e1d678923ce3571aa65b2d">
         <source>Step</source>
-        <target>Paso</target>
+        <target state="translated">Paso</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="eeb5a49c38d2d8c2baa51ed09beccf88">
         <source>Upgrade steps</source>
-        <target>Pasos de actualización</target>
+        <target state="translated">Pasos de actualización</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="446c9e952debe114c86bbd9e5eea7d61">
         <source>Rollback</source>
-        <target>Revertir</target>
+        <target state="translated">Revertir</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="946a7fdf02f1a9f08e6711d014e3bc47">
         <source>After upgrading your shop, you can rollback to the previous database and files. Use this function if your theme or an essential module is not working correctly.</source>
-        <target>Después de actualizar tu tienda, puedes revertir los cambios y regresar a la base de datos y archivos anterior. Utiliza esta función si el tema o un módulo esencial no está funcionando correctamente.</target>
+        <target state="translated">Después de actualizar tu tienda, puedes revertir los cambios y regresar a la base de datos y archivos anterior. Utiliza esta función si el tema o un módulo esencial no está funcionando correctamente.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="a4d88b46c8edb6b0ee2fb4d6bd0690b0">
         <source>Choose your backup:</source>
-        <target>Elige tu copia de seguridad:</target>
+        <target state="translated">Elige tu copia de seguridad:</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="c629f24e672b4e1165ebf1c10b5c5c5d">
         <source>-- Choose a backup to restore --</source>
-        <target>-- Elige una copia de seguridad a restaurar --</target>
+        <target state="translated">-- Elige una copia de seguridad a restaurar --</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="69ff9aca0bd03b3981784593311d866a">
         <source>The pre-Upgrade checklist</source>
-        <target>La lista de comprobación previa a la actualización</target>
+        <target state="translated">La lista de comprobación previa a la actualización</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="0b360b52f457a0a4928998cbf5ee773f">
         <source>Your current version of the module is out of date. Update now</source>
-        <target>Tu versión actual del módulo está desactualizada. Actualizar ahora</target>
+        <target state="translated">Tu versión actual del módulo está desactualizada. Actualizar ahora</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="90f90ca1387f6932c53aab39ad899f4b">
         <source><![CDATA[Modules > Module Manager > Updates]]></source>
-        <target><![CDATA[Módulos > Administrador de módulos > Actualizaciones]]></target>
+        <target state="translated"><![CDATA[Módulos > Administrador de módulos > Actualizaciones]]></target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="03f945bba76ea63369d50a340e5b17bf">
         <source>The checklist is not OK. You can only upgrade your shop once all indicators are green.</source>
-        <target>La lista de verificación no es correcta. Sólo puedes actualizar cuando todos los indicadores son de color verde.</target>
+        <target state="translated">La lista de verificación no es correcta. Sólo puedes actualizar cuando todos los indicadores son de color verde.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="1b631ee6d890a5d6f2ede2f386f5aa3d">
         <source>Before starting the upgrade process, please make sure this checklist is all green.</source>
-        <target>Antes de iniciar el proceso de actualización, por favor, asegúrate de que el listado de verificación se encuentra en color verde.</target>
+        <target state="translated">Antes de iniciar el proceso de actualización, por favor, asegúrate de que el listado de verificación se encuentra en color verde.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="0cd4783b935f23e501fc7db884144c5c">
         <source>Your server is running on a supported PHP version.</source>
-        <target>Tu servidor ejecuta una versión de PHP compatible.</target>
+        <target state="translated">Tu servidor ejecuta una versión de PHP compatible.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="16a837171ad7657e7d0cc505e4f9a3ae">
         <source>The PHP version your server is running on is obsolete and needs to be upgraded. [1]Learn more[/1].</source>
-        <target>La versión de PHP que ejecuta tu servidor está obsoleta y debe actualizarse. [1]Más información[/1].</target>
+        <target state="translated">La versión de PHP que ejecuta tu servidor está obsoleta y debe actualizarse. [1]Más información[/1].</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="50a5bcb757b1a7705007720863250da8">
         <source>Your store's root directory (%s) is writable (with appropriate CHMOD permissions).</source>
-        <target>El directorio raíz de tu tienda (%s) tiene permisos de escritura (con permisos CHMOD apropiados).</target>
+        <target state="translated">El directorio raíz de tu tienda (%s) tiene permisos de escritura (con permisos CHMOD apropiados).</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="b398e46a283dd457aa7dc0302004208c">
         <source>The "/admin/autoupgrade" directory is writable (appropriate CHMOD permissions)</source>
-        <target>El directorio "/admin/autoupgrade" tiene permisos de escritura (permisos CHMOD apropiados)</target>
+        <target state="translated">El directorio "/admin/autoupgrade" tiene permisos de escritura (permisos CHMOD apropiados)</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="2276494259ab54880fce5ef47110a462">
         <source>PHP's "Safe mode" option is turned off</source>
-        <target>La opción de PHP "safe_mode" (Modo seguro a prueba de errores) está desactivada</target>
+        <target state="translated">La opción de PHP "safe_mode" (Modo seguro a prueba de errores) está desactivada</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="ce68939980bcf41f2ce33180564bed9a">
         <source>PHP's "allow_url_fopen" option is turned on, or cURL is installed</source>
-        <target>La opción de PHP "allow_url_fopen" está activada, o cURL está instalado</target>
+        <target state="translated">La opción de PHP "allow_url_fopen" está activada, o cURL está instalado</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="d9af605897e2636f97ef20fd5829195a">
         <source>PHP's "zip" extension is enabled</source>
-        <target>La extensión "zip" de PHP está habilitada</target>
+        <target state="translated">La extensión "zip" de PHP está habilitada</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="49c20044e894d8cc2da7783adbf79f16">
         <source>Your store is in maintenance mode</source>
-        <target>Tu tienda está en modo mantenimiento</target>
+        <target state="translated">Tu tienda está en modo mantenimiento</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="e3ea2f6fe56c80761e37fd9c393d88a5">
         <source><![CDATA[Enable maintenance mode and add your maintenance IP in [1]Shop parameters > General > Maintenance[/1]]]></source>
-        <target><![CDATA[Activa el modo de mantenimiento y añade tu IP en [1]Parámetros de la tienda > Configuración > Mantenimiento[/1]]]></target>
+        <target state="translated"><![CDATA[Activa el modo de mantenimiento y añade tu IP en [1]Parámetros de la tienda > Configuración > Mantenimiento[/1]]]></target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="7878a3623460f0f844b13f8001ba56b7">
         <source>PrestaShop's caching features are disabled</source>
-        <target>Las características de almacenamiento en caché de PrestaShop están desactivadas</target>
+        <target state="translated">Las características de almacenamiento en caché de PrestaShop están desactivadas</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="77a72ea58f16fea5a44f76751c804a2d">
         <source>PHP's max_execution_time setting has a high value or is disabled entirely (current value: unlimited)</source>
-        <target>El ajuste de PHP max_execution_time tiene un valor muy alto o se ha desactivado completamente (valor actual: ilimitado)</target>
+        <target state="translated">El ajuste de PHP max_execution_time tiene un valor muy alto o se ha desactivado completamente (valor actual: ilimitado)</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="03f5c2fd6c0be0ea1b2dfb3e93ee8513">
         <source>PHP's max_execution_time setting has a high value or is disabled entirely (current value: %s seconds)</source>
-        <target>La configuración max_execution_time de PHP, tiene un valor muy alto o se ha desactivado completamente (valor actual: %s segundos)</target>
+        <target state="translated">La configuración max_execution_time de PHP, tiene un valor muy alto o se ha desactivado completamente (valor actual: %s segundos)</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="6fabea15c50a13bc8fdc8f8a626852e9">
         <source>Your current PHP version isn't compatible with your PrestaShop version.</source>
-        <target>La versión actual de PHP no es compatible con la versión de PrestaShop.</target>
+        <target state="translated">La versión actual de PHP no es compatible con la versión de PrestaShop.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="e5e5ad50e292b790dd3017d84954beec">
         <source>Apache mod_rewrite is disabled.</source>
-        <target>Apache mod_rewrite está deshabilitado.</target>
+        <target state="translated">Apache mod_rewrite está deshabilitado.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="9081d016acc398980f9ca1c3cc153834">
         <source>The following PHP extensions are not installed: %s.</source>
-        <target>Las siguientes extensiones de PHP no están instaladas: %s.</target>
+        <target state="translated">Las siguientes extensiones de PHP no están instaladas: %s.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="a8e2fe2152ea8a4a01a3d0f18270618b">
         <source>The following PHP extension is not installed: %s.</source>
-        <target>La siguiente extensión de PHP no está instalada: %s.</target>
+        <target state="translated">La siguiente extensión de PHP no está instalada: %s.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="d73cc0e7e9a3877d8c202e0924bd23ab">
         <source>PHP memory_limit is inferior to 256 MB.</source>
-        <target>La configuración de PHP memory_limit es inferior a 256 MB.</target>
+        <target state="translated">La configuración de PHP memory_limit es inferior a 256 MB.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="8eba4f8d57b83e88461524508184682f">
         <source>PHP file_uploads configuration is disabled.</source>
-        <target>La configuración de PHP file_uploads está deshabilitada.</target>
+        <target state="translated">La configuración de PHP file_uploads está deshabilitada.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="81ed785abf74a6ac0561b7668510c80d">
         <source>The following PHP functions are not installed: %s.</source>
-        <target>Las siguientes funciones de PHP no están instaladas: %s.</target>
+        <target state="translated">Las siguientes funciones de PHP no están instaladas: %s.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="d6c61bad4361519d957c9bb661258064">
         <source>The following PHP function is not installed: %s.</source>
-        <target>La siguiente función de PHP no está instalada: %s.</target>
+        <target state="translated">La siguiente función de PHP no está instalada: %s.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="2daccf866f94292785c4da181db40860">
         <source>It's not possible to create a PHP session.</source>
-        <target>No es posible crear una sesión de PHP.</target>
+        <target state="translated">No es posible crear una sesión de PHP.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="8406b91fd5a290de3a1e1516db6e79b8">
+        <source>Unable to generate private keys using openssl_pkey_new. Check your OpenSSL configuration, especially the path to openssl.cafile.</source>
+        <target state="needs-translation">Unable to generate private keys using openssl_pkey_new. Check your OpenSSL configuration, especially the path to openssl.cafile.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="e78a48236a7c0830aa9de157a415e44c">
         <source>The following files are missing:</source>
-        <target>Faltan los siguientes archivos:</target>
+        <target state="translated">Faltan los siguientes archivos:</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="588aebafed7c857178f75431b5af7d58">
         <source>It's not possible to write in the following folders:</source>
-        <target>No es posible escribir en las siguientes carpetas:</target>
+        <target state="translated">No es posible escribir en las siguientes carpetas:</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="3f3a0789a5678daaa3cd41067dd6855e">
+        <source>The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table. [1]Learn more[/1].</source>
+        <target state="needs-translation">The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table. [1]Learn more[/1].</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="aa9b0228ac4e3e44b836f79eebf5e481">
         <source>Please also make sure you make a full manual backup of your files and database.</source>
-        <target>Por favor, asegúrate de realizar una copia de seguridad manual completa de tus archivos y de la base de datos.</target>
+        <target state="translated">Por favor, asegúrate de realizar una copia de seguridad manual completa de tus archivos y de la base de datos.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="2f5caf188163a31f04c828530331b096">
         <source>PrestaShop requirements are not satisfied.</source>
-        <target>No se cumplen los requisitos de PrestaShop.</target>
+        <target state="translated">No se cumplen los requisitos de PrestaShop.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="203b006e446c7692af1bfd4e41a10749">
         <source>Branch:</source>
-        <target>Rama:</target>
+        <target state="translated">Rama:</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="78945de8de090e90045d299651a68a9b">
+        <source>Available</source>
+        <target state="needs-translation">Available</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="453e6aa38d87b28ccae545967c53004f">
+        <source>Unavailable</source>
+        <target state="needs-translation">Unavailable</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="4e140ba723a03baa6948340bf90e2ef6">
+        <source>Name:</source>
+        <target state="needs-translation">Name:</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="987023af1c4e507ea04eb5069578f7f0">
         <source>Version number:</source>
-        <target>Número de versión:</target>
+        <target state="translated">Número de versión:</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="3b3d06023f6353f8fd05f859b298573e">
         <source>URL:</source>
-        <target>URL:</target>
+        <target state="needs-translation">URL:</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="ededa0b9a77dd39dad86a79cdc2a7521">
         <source>MD5 hash:</source>
-        <target>Hash MD5:</target>
+        <target state="translated">Hash MD5:</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="bca4ff8cbf5fd614a700ca81c820dc1b">
         <source>Changelog:</source>
-        <target>Registro de cambios:</target>
+        <target state="translated">Registro de cambios:</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="1182cc0394225fb0ec989b7ad50ba42a">
         <source>See changelog</source>
-        <target>Ver el registro de cambios</target>
+        <target state="translated">Ver el registro de cambios</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="2359934469520d062d98f6b3e91e1523">
         <source>Version comparison</source>
-        <target>Comparación de versión</target>
+        <target state="translated">Comparación de versión</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="71aa2b9774b005c47f9cd225766b2045">
         <source>PrestaShop Original version</source>
-        <target>Versión Original de PrestaAhop</target>
+        <target state="translated">Versión Original de PrestaAhop</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="68d0661e6a4150c4cc813001958f47f1">
         <source>Differences between versions</source>
-        <target>Diferencias entre versiones</target>
+        <target state="translated">Diferencias entre versiones</target>
         <note>Line: </note>
       </trans-unit>
     </body>
