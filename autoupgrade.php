@@ -60,12 +60,11 @@ class Autoupgrade extends Module
 
     public function install()
     {
-        require_once __DIR__ . '/vendor/autoload.php';
-        if (\PrestaShop\Module\AutoUpgrade\VersionCheck::_isActualPHPVersionCompatible()) {
+        require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/classes/VersionCheck.php';
+        if (!\PrestaShop\Module\AutoUpgrade\VersionCheck::isActualPHPVersionCompatible()) {
             $this->_errors[] = $this->trans(
                 'This module requires PHP %s to work properly. Please upgrade your server configuration.',
-                [\PrestaShop\Module\AutoUpgrade\VersionCheck::_getPhpVersion(\PrestaShop\Module\AutoUpgrade\VersionCheck::MODULE_COMPATIBLE_PHP_VERSION)],
-                'Modules.Autoupgrade.Admin'
+                [\PrestaShop\Module\AutoUpgrade\VersionCheck::getHumanReadableVersionOf(\PrestaShop\Module\AutoUpgrade\VersionCheck::MODULE_COMPATIBLE_PHP_VERSION)]
             );
 
             return false;

@@ -60,7 +60,6 @@ class Cookie
      * Create the cookie to be verified during the upgrade process,
      * because we can't use the classic authentication.
      *
-     * @param int $idEmployee
      * @param string $iso_code i.e 'en'
      */
     public function create(int $idEmployee, string $iso_code): void
@@ -76,8 +75,6 @@ class Cookie
     /**
      * From the cookie, check the current employee started the upgrade process.
      *
-     * @param array $cookie
-     *
      * @return bool True if allowed
      */
     public function check(array $cookie): bool
@@ -90,8 +87,6 @@ class Cookie
     }
 
     /**
-     * @param string $string
-     *
      * @return string MD5 hashed string
      */
     private function encrypt(string $string): string
@@ -101,8 +96,6 @@ class Cookie
 
     /**
      * Generate PHP string to be stored in file.
-     *
-     * @param string $key
      *
      * @return string PHP file content
      *
@@ -117,8 +110,6 @@ $key = "' . $key . '";
 
     /**
      * If not loaded, reads the generated file to get the key.
-     *
-     * @return string
      *
      * @internal
      */
@@ -139,8 +130,6 @@ $key = "' . $key . '";
     /**
      * PrestaShop constants won't be available during the upgrade process
      * We store it in a dedicated file.
-     *
-     * @param string $key
      *
      * @return bool True on success
      *

@@ -132,7 +132,7 @@ class UpgradePage
         $currentIndex,
         $token,
         $installVersion,
-        $manualMode,
+        bool $manualMode,
         $backupName,
         $downloadPath
     ) {

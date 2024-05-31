@@ -177,7 +177,7 @@ class ChecksumCompare
         }
     }
 
-    protected function md5FileAsArray($node): array
+    protected function md5FileAsArray($node, $dir = '/')
     {
         $array = [];
         foreach ($node as $child) {
@@ -188,7 +188,7 @@ class ChecksumCompare
                  *
                  * @todo : something else than array pop ?
                  */
-                $dir_content = $this->md5FileAsArray($child);
+                $dir_content = $this->md5FileAsArray($child, $dir);
                 $array[$dir] = $dir_content;
             } elseif (is_object($child) && $child->getName() == 'md5file') {
                 $array[(string) $child['name']] = (string) $child;

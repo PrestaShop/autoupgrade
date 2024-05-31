@@ -27,6 +27,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 
+use Exception;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
@@ -37,7 +38,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeException;
 class UpgradeModules extends AbstractTask
 {
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function run(): bool
     {

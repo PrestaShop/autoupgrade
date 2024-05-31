@@ -35,12 +35,6 @@ use PrestaShop\Module\AutoUpgrade\UpgradePage;
 use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
-use PrestaShop\Module\AutoUpgrade\VersionCheck;
-
-$autoloadPath = __DIR__ . '/../../vendor/autoload.php';
-if (file_exists($autoloadPath)) {
-    require_once $autoloadPath;
-}
 
 class AdminSelfUpgradeController extends ModuleAdminController
 {
@@ -110,6 +104,7 @@ class AdminSelfUpgradeController extends ModuleAdminController
      * @var array
      */
     public $_errors = [];
+    private $isActualPHPVersionCompatible = true;
 
     public function viewAccess($disable = false)
     {
@@ -133,6 +128,18 @@ class AdminSelfUpgradeController extends ModuleAdminController
         @ini_set('max_execution_time', '0');
         @ini_set('magic_quotes_runtime', '0');
         @ini_set('magic_quotes_sybase', '0');
+
+        require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/classes/VersionCheck.php';
+        if (!\PrestaShop\Module\AutoUpgrade\VersionCheck::isActualPHPVersionCompatible()) {
+            $this->isActualPHPVersionCompatible = false;
+
+            return;
+        }
+
+        $autoloadPath = __DIR__ . '/../../vendor/autoload.php';
+        if (file_exists($autoloadPath)) {
+            require_once $autoloadPath;
+        }
 
         $this->init();
 
@@ -467,9 +474,12 @@ class AdminSelfUpgradeController extends ModuleAdminController
 
     public function initContent()
     {
-        if (VersionCheck::_isActualPHPVersionCompatible()) {
+        if (!$this->isActualPHPVersionCompatible) {
             $templateData = [
-                'message' => $this->trans('This module requires PHP %s to work properly. Please upgrade your server configuration.', [VersionCheck::_getPhpVersion(VersionCheck::MODULE_COMPATIBLE_PHP_VERSION)], 'Modules.Autoupgrade.Admin'),
+                'message' => $this->trans(
+                    'This module requires PHP %s to work properly. Please upgrade your server configuration.',
+                    [\PrestaShop\Module\AutoUpgrade\VersionCheck::getHumanReadableVersionOf(\PrestaShop\Module\AutoUpgrade\VersionCheck::MODULE_COMPATIBLE_PHP_VERSION)]
+                ),
             ];
             $this->content = $this->upgradeContainer->getTwig()->render('@ModuleAutoUpgrade/error.twig', $templateData);
 
@@ -525,7 +535,7 @@ class AdminSelfUpgradeController extends ModuleAdminController
             self::$currentIndex,
             $this->token,
             $this->upgradeContainer->getState()->getInstallVersion(),
-            $this->manualMode,
+            $this->manualMode ?? false,
             $this->upgradeContainer->getState()->getBackupName(),
             $this->downloadPath
         ))->display(

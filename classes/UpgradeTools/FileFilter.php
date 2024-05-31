@@ -49,7 +49,7 @@ class FileFilter
     protected $rootDir;
 
     /**
-     * @var array|null
+     * @var array
      */
     protected $excludeAbsoluteFilesFromUpgrade;
 
@@ -114,7 +114,7 @@ class FileFilter
         return $restoreIgnoreAbsoluteFiles;
     }
 
-    public function getFilesToIgnoreOnUpgrade(): ?array
+    public function getFilesToIgnoreOnUpgrade(): array
     {
         if ($this->excludeAbsoluteFilesFromUpgrade) {
             return $this->excludeAbsoluteFilesFromUpgrade;

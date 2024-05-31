@@ -86,7 +86,7 @@ class UpgradeButtonBlock
         UpgradeSelfCheck $selfCheck,
         string $downloadPath,
         string $token,
-        ?bool $manualMode
+        bool $manualMode
     ) {
         $this->twig = $twig;
         $this->translator = $translator;
