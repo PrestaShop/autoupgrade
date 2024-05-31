@@ -63,5 +63,7 @@ class UpgradeComplete extends AbstractTask
 
         // removing temporary files
         $this->container->getFileConfigurationStorage()->cleanAll();
+
+        $this->container->getAnalyticsClient()->track('Upgrade Succeeded');
     }
 }
