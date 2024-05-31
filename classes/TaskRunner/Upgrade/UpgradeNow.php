@@ -88,6 +88,7 @@ class UpgradeNow extends AbstractTask
                 $this->logger->debug($this->translator->trans('Downloaded archive will come from %s', [$upgrader->link]));
                 $this->logger->debug($this->translator->trans('MD5 hash will be checked against %s', [$upgrader->md5]));
         }
+        $this->container->getAnalyticsClient()->track('Upgrade Launched');
 
         return ExitCode::SUCCESS;
     }
