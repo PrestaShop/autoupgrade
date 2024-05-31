@@ -121,6 +121,18 @@ abstract class AbstractTask
     }
 
     /**
+     * @param 'upgrade'|'restore'|null
+     */
+    protected function setErrorFlag($process = null): void
+    {
+        $this->error = true;
+
+        if ($process) {
+            $this->container->getAnalyticsClient()->track(ucfirst($process). ' Failed');
+        }
+    }
+
+    /**
      * @throws Exception
      */
     public function init(): void
