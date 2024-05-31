@@ -56,7 +56,7 @@ class Unzip extends AbstractTask
         if (!\ConfigurationTest::test_dir($relative_extract_path, false, $report)) {
             $this->logger->error($this->translator->trans('Extraction directory %s is not writable.', [$destExtract]));
             $this->next = 'error';
-            $this->error = true;
+            $this->setErrorFlag('upgrade');
 
             return ExitCode::FAIL;
         }
@@ -65,7 +65,7 @@ class Unzip extends AbstractTask
 
         if (!$res) {
             $this->next = 'error';
-            $this->error = true;
+            $this->setErrorFlag('upgrade');
             $this->logger->info($this->translator->trans(
                 'Unable to extract %filepath% file into %destination% folder...',
                 [

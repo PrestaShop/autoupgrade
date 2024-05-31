@@ -176,7 +176,7 @@ class UpgradeModules extends AbstractTask
         }
         if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {
             $this->next = 'error';
-            $this->error = true;
+            $this->setErrorFlag('upgrade');
             $this->logger->error($e->getMessage());
         }
         if ($e->getSeverity() === UpgradeException::SEVERITY_WARNING) {

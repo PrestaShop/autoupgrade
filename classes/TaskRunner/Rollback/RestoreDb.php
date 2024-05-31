@@ -67,7 +67,7 @@ class RestoreDb extends AbstractTask
             $this->container->getState()->setRestoreDbFilenames($restoreDbFilenames);
             if (!preg_match('#auto-backupdb_([0-9]{6})_#', $currentDbFilename, $match)) {
                 $this->next = 'error';
-                $this->error = true;
+                $this->setErrorFlag('restore');
                 $this->logger->error($this->translator->trans('%s: File format does not match.', [$currentDbFilename]));
 
                 return ExitCode::FAIL;
@@ -199,7 +199,7 @@ class RestoreDb extends AbstractTask
                         $this->logger->error($this->translator->trans('[SQL ERROR]') . ' ' . $query . ' - ' . $this->container->getDb()->getMsgError());
                         $this->logger->info($this->translator->trans('Error during database restoration'));
                         $this->next = 'error';
-                        $this->error = true;
+                        $this->setErrorFlag('restore');
                         unlink($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . UpgradeFileNames::QUERIES_TO_RESTORE_LIST);
 
                         return ExitCode::FAIL;

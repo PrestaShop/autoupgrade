@@ -54,7 +54,7 @@ class BackupFiles extends AbstractTask
         $backupFilesFilename = $this->container->getState()->getBackupFilesFilename();
         if (empty($backupFilesFilename)) {
             $this->next = 'error';
-            $this->error = true;
+            $this->setErrorFlag('upgrade');
             $this->logger->info($this->translator->trans('Error during backupFiles'));
             $this->logger->error($this->translator->trans('[ERROR] backupFiles filename has not been set'));
 

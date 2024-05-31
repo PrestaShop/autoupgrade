@@ -80,7 +80,7 @@ class UpdateConfig extends AbstractTask
             $file = $configurationData['archive_prestashop'];
             $fullFilePath = $this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $file;
             if (!file_exists($fullFilePath)) {
-                $this->error = true;
+                $this->setErrorFlag();
                 $this->logger->info($this->translator->trans('File %s does not exist. Unable to select that channel.', [$file]));
 
                 return ExitCode::FAIL;
@@ -89,7 +89,7 @@ class UpdateConfig extends AbstractTask
             try {
                 $targetVersion = $this->extractPrestashopVersionFromZip($fullFilePath);
             } catch (Exception $exception) {
-                $this->error = true;
+                $this->setErrorFlag();
                 $this->logger->info($this->translator->trans('Unable to retrieve version from zip: %s.', [$exception->getMessage()]));
 
                 return ExitCode::FAIL;
@@ -98,7 +98,7 @@ class UpdateConfig extends AbstractTask
             $xmlFile = $configurationData['archive_xml'];
             $fullXmlPath = $this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $xmlFile;
             if (!empty($xmlFile) && !file_exists($fullXmlPath)) {
-                $this->error = true;
+                $this->setErrorFlag();
                 $this->logger->info($this->translator->trans('File %s does not exist. Unable to select that channel.', [$xmlFile]));
 
                 return ExitCode::FAIL;
@@ -123,7 +123,7 @@ class UpdateConfig extends AbstractTask
         if (isset($configurationData['directory_num'])) {
             $config['channel'] = 'directory';
             if (empty($configurationData['directory_num']) || strpos($configurationData['directory_num'], '.') === false) {
-                $this->error = true;
+                $this->setErrorFlag();
                 $this->logger->info($this->translator->trans('Version number is missing. Unable to select that channel.'));
 
                 return ExitCode::FAIL;
@@ -139,7 +139,7 @@ class UpdateConfig extends AbstractTask
         }
 
         if (!$this->writeConfig($config)) {
-            $this->error = true;
+            $this->setErrorFlag();
             $this->logger->info($this->translator->trans('Error on saving configuration'));
 
             return ExitCode::FAIL;

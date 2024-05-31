@@ -67,6 +67,5 @@ class UpgradeComplete extends AbstractTask
         $this->container->getAnalyticsClient()->track('Upgrade Succeeded');
 
         return ExitCode::SUCCESS;
-
     }
 }
