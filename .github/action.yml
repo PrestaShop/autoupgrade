@@ -32,13 +32,21 @@ runs:
       env:
         VERSION: ${{ matrix.from }}
         BASE_VERSION: ${{ steps.get_base_version.outputs.BASE_VERSION }}
+        PS_INSTALL_AUTO: 0
       shell: bash
       run: |
         docker compose up -d
-        bash -c 'while [[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost:8001/index.php)" != "200" ]]; do sleep 5; done'
+        ${{ github.action_path }}check_url.sh http://localhost:8001/index.php 200
+        docker compose run -u www-data:www-data --rm reference-release php -d memory_limit=-1 /var/www/html/install-dev/index_cli.php \
+          --domain=localhost:8001 --db_server=mysql:3306 --db_name=psreference --db_user=root \
+          --db_password=root --prefix=ps_ --firstname="John" --lastname="Doe" \
+          --password=prestashop_demo --email=demo@prestashop.com --language=en --country=fr \
+          --all_languages=0 --newsletter=0 --send_email=0 --ssl=0
+
     - name: Copy autoupgrade module
       shell: bash
       run: docker exec -u www-data prestashop_autoupgrade cp modules/autoupgrade/ -R admin-dev
+
     - name: Upgrade (intermediate)
       env:
         CHANNEL: 'archive'
@@ -53,7 +61,8 @@ runs:
         [[ "$SKIP" == true ]] || docker stop prestashop_autoupgrade
         [[ "$SKIP" == true ]] || docker rm prestashop_autoupgrade
         [[ "$SKIP" == true ]] || docker run --name prestashop_autoupgrade -p 8001:80 -v autoupgrade_temp-ps:/var/www/html -v "$(pwd):/var/www/html/modules/autoupgrade" --network autoupgrade_default -d prestashop/base:7.2-apache
-        [[ "$SKIP" == true ]] || bash -c 'while [[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost:8001/index.php)" == "000" ]]; do sleep 5; done'
+        [[ "$SKIP" == true ]] || ${{ github.action_path }}check_url.sh http://localhost:8001/index.php 200
+
     - name: Upgrade
       env:
         CHANNEL: ${{ matrix.ps-versions.channel }}
@@ -63,16 +72,19 @@ runs:
         FROM: ${{ matrix.from }}
       shell: bash
       run: ${{ github.action_path }}action_upgrade.sh
+
     - name: Check endpoints response
       shell: bash
       run: |
         bash -c '[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost:8001/index.php)" == "200" ]'
         bash -c '[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost:8001/admin-dev/index.php)" == "200" ]'
+
     - name: Rollback
       shell: bash
       run: docker exec -u www-data prestashop_autoupgrade php modules/autoupgrade/tests/testCliProcess.php \
         admin-dev/autoupgrade/cli-rollback.php --dir="admin-dev" \
         --backup=`docker exec prestashop_autoupgrade bash -c "ls -td -- /var/www/html/admin-dev/autoupgrade/backup/*/ | head -n 1 | cut -d'/' -f8 | tr -d '\n'"`;
+
     - name: Check endpoints response
       shell: bash
       run: |
