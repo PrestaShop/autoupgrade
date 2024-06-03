@@ -3,17 +3,11 @@
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
 use SimpleXMLElement;
-use PrestaShop\PrestaShop\Adapter\SymfonyContainer; // Utiliser le container Symfony pour récupérer le service de traduction
+use PrestaShop\PrestaShop\Adapter\SymfonyContainer;
 
 class Translator
 {
-    private $caller;
     private $translations = [];
-
-    public function __construct($caller)
-    {
-        $this->caller = $caller;
-    }
 
     /**
      * Load translations from XLF files.

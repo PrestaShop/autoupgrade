@@ -571,4 +571,17 @@ class AdminSelfUpgradeController extends ModuleAdminController
 
         return parent::initContent();
     }
+
+    /**
+     * Adapter for trans calls, existing only on PS 1.7.
+     * Making them available for PS 1.6 as well.
+     *
+     * @param string $id
+     * @param string $domain
+     * @param string $locale
+     */
+    public function trans($id, array $parameters = [], $domain = null, $locale = null)
+    {
+        return (new \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator())->trans($id, $parameters, $domain, $locale);
+    }
 }

@@ -466,7 +466,7 @@ class UpgradeContainer
 
     public function getTranslator(): Translator
     {
-        return new Translator('AdminSelfUpgrade');
+        return new Translator();
     }
 
     /**
