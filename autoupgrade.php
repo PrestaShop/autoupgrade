@@ -164,7 +164,10 @@ class Autoupgrade extends Module
         $this->context->controller->addCSS($this->_path . '/css/styles.css');
         $this->context->controller->addJS($this->_path . '/js/dashboard.js');
 
-        return $upgradeContainer->getTwig()->render('@ModuleAutoUpgrade/hook/dashboardZoneOne.twig', [
+        /** @var \Twig\Environment $twig */
+        $twig = $upgradeContainer->getTwig();
+
+        return $twig->render('@ModuleAutoUpgrade/hook/dashboardZoneOne.twig', [
             'ignore_link' => Context::getContext()->link->getAdminLink('AdminSelfUpgrade') . '&ignorePhpOutdated=1',
             'learn_more_link' => 'https://build.prestashop.com/news/announcing-end-of-support-for-obsolete-php-versions/',
         ]);
@@ -220,7 +223,7 @@ class Autoupgrade extends Module
     {
         require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/classes/UpgradeTools/Translator.php';
 
-        $translator = new \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator(__CLASS__);
+        $translator = new \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator();
 
         return $translator->trans($id, $parameters, $domain, $locale);
     }

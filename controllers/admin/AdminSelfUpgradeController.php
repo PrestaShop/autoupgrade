@@ -537,6 +537,6 @@ class AdminSelfUpgradeController extends AdminController
      */
     public function trans($id, array $parameters = [], $domain = null, $locale = null)
     {
-        return (new \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator(__CLASS__))->trans($id, $parameters, $domain, $locale);
+        return (new \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator())->trans($id, $parameters, $domain, $locale);
     }
 }
