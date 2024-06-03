@@ -43,6 +43,8 @@ class Rollback extends AbstractTask
      */
     public function run(): int
     {
+        $this->container->getAnalyticsClient()->track('Rollback Launched');
+
         // 1st, need to analyse what was wrong.
         $restoreName = $this->container->getState()->getRestoreName();
         $this->container->getState()->setRestoreFilesFilename($restoreName);
@@ -64,6 +66,7 @@ class Rollback extends AbstractTask
         }
         if (!is_file($this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $this->container->getState()->getRestoreFilesFilename())) {
             $this->next = 'error';
+            $this->setErrorFlag('restore');
             $this->logger->error($this->translator->trans('[ERROR] File %s is missing: unable to restore files. Operation aborted.', [$this->container->getState()->getRestoreFilesFilename()]));
 
             return ExitCode::FAIL;
@@ -80,6 +83,7 @@ class Rollback extends AbstractTask
         $this->container->getState()->setRestoreDbFilenames($restoreDbFilenames);
         if (count($restoreDbFilenames) == 0) {
             $this->next = 'error';
+            $this->setErrorFlag('restore');
             $this->logger->error($this->translator->trans('[ERROR] No backup database files found: it would be impossible to restore the database. Operation aborted.'));
 
             return ExitCode::FAIL;
