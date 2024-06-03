@@ -129,7 +129,6 @@ ALTER TABLE `PREFIX_tab_lang` COLLATE=utf8_unicode_ci;
 ALTER TABLE `PREFIX_tab_lang` CHANGE `id_tab` `id_tab` INT(11) NOT NULL;
 ALTER TABLE `PREFIX_tab_lang` CHANGE `id_lang` `id_lang` INT(11) NOT NULL;
 ALTER TABLE `PREFIX_tab_lang` CHANGE `name` `name` varchar(128) NOT NULL;
-ALTER TABLE `PREFIX_tab_lang` ADD CONSTRAINT `FK_CFD9262DED47AB56` FOREIGN KEY (`id_tab`) REFERENCES `PREFIX_tab` (`id_tab`);
 ALTER TABLE `PREFIX_tab_lang` ADD KEY `IDX_CFD9262DED47AB56` (`id_tab`);
 
 ALTER TABLE `PREFIX_translation` CHANGE `domain` `domain` varchar(80) NOT NULL;
