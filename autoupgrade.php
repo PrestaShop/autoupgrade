@@ -164,7 +164,7 @@ class Autoupgrade extends Module
         $this->context->controller->addCSS($this->_path . '/css/styles.css');
         $this->context->controller->addJS($this->_path . '/js/dashboard.js');
 
-        return $this->get('twig')->render('@Modules/autoupgrade/views/templates/hook/dashboardZoneOne.twig', [
+        return $upgradeContainer->getTwig()->render('@ModuleAutoUpgrade/hook/dashboardZoneOne.twig', [
             'ignore_link' => Context::getContext()->link->getAdminLink('AdminSelfUpgrade') . '&ignorePhpOutdated=1',
             'learn_more_link' => 'https://build.prestashop.com/news/announcing-end-of-support-for-obsolete-php-versions/',
         ]);
