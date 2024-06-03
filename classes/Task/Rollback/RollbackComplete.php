@@ -34,6 +34,8 @@ use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
  */
 class RollbackComplete extends AbstractTask
 {
+    const TASK_TYPE = 'rollback';
+
     public function run()
     {
         $this->logger->info($this->translator->trans('Restoration process done. Congratulations! You can now reactivate your shop.'));

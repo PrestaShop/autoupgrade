@@ -49,7 +49,7 @@ if (!$container->getCookie()->check($_COOKIE)) {
     exit(1);
 }
 
-$controler = new SingleTask($container);
+$controller = new SingleTask($container);
 $controller->setOptions(['action' => Tools14::getValue('action')]);
 $controller->run();
 echo $controller->getJsonResponse();

@@ -31,6 +31,8 @@ use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 
 class NoRollbackFound extends AbstractTask
 {
+    const TASK_TYPE = 'rollback';
+
     public function run()
     {
         $this->logger->info($this->translator->trans('Nothing to restore'));

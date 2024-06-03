@@ -37,13 +37,13 @@ use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
  */
 class Rollback extends AbstractTask
 {
+    const TASK_TYPE = 'rollback';
+    
     /**
      * @throws Exception
      */
     public function run()
     {
-        $this->container->getAnalyticsClient()->track('Rollback Launched');
-
         // 1st, need to analyse what was wrong.
         $restoreName = $this->container->getState()->getRestoreName();
         $this->container->getState()->setRestoreFilesFilename($restoreName);
@@ -65,7 +65,7 @@ class Rollback extends AbstractTask
         }
         if (!is_file($this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $this->container->getState()->getRestoreFilesFilename())) {
             $this->next = 'error';
-            $this->setErrorFlag('restore');
+            $this->setErrorFlag();
             $this->logger->error($this->translator->trans('[ERROR] File %s is missing: unable to restore files. Operation aborted.', [$this->container->getState()->getRestoreFilesFilename()]));
 
             return false;
@@ -82,7 +82,7 @@ class Rollback extends AbstractTask
         $this->container->getState()->setRestoreDbFilenames($restoreDbFilenames);
         if (count($restoreDbFilenames) == 0) {
             $this->next = 'error';
-            $this->setErrorFlag('restore');
+            $this->setErrorFlag();
             $this->logger->error($this->translator->trans('[ERROR] No backup database files found: it would be impossible to restore the database. Operation aborted.'));
 
             return false;
@@ -97,6 +97,8 @@ class Rollback extends AbstractTask
         if (file_exists($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . UpgradeFileNames::FILES_TO_REMOVE_LIST)) {
             unlink($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . UpgradeFileNames::FILES_TO_REMOVE_LIST);
         }
+
+        $this->container->getAnalyticsClient()->track('Rollback Launched');
     }
 
     public function init(): void

@@ -34,6 +34,8 @@ use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
  */
 class CleanDatabase extends AbstractTask
 {
+    const TASK_TYPE = 'upgrade';
+
     public function run()
     {
         // Clean tabs order

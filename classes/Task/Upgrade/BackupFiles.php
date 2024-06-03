@@ -34,6 +34,8 @@ use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 class BackupFiles extends AbstractTask
 {
+    const TASK_TYPE = 'upgrade';
+    
     /**
      * @throws Exception
      */
@@ -53,7 +55,7 @@ class BackupFiles extends AbstractTask
         $backupFilesFilename = $this->container->getState()->getBackupFilesFilename();
         if (empty($backupFilesFilename)) {
             $this->next = 'error';
-            $this->setErrorFlag('upgrade');
+            $this->setErrorFlag();
             $this->logger->info($this->translator->trans('Error during backupFiles'));
             $this->logger->error($this->translator->trans('[ERROR] backupFiles filename has not been set'));
 

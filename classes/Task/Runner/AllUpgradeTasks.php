@@ -29,7 +29,6 @@ namespace PrestaShop\Module\AutoUpgrade\Task\Runner;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\AjaxResponse;
-use PrestaShop\Module\AutoUpgrade\Task\Runner\ChainedTasks;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 /**

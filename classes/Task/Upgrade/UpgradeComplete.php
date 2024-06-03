@@ -37,6 +37,8 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
  */
 class UpgradeComplete extends AbstractTask
 {
+    const TASK_TYPE = 'upgrade';
+    
     /**
      * @throws Exception
      */
