@@ -25,19 +25,38 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback;
+namespace PrestaShop\Module\AutoUpgrade\Task\Miscellaneous;
 
-use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use Exception;
+use PrestaShop\Module\AutoUpgrade\ChannelInfo;
+use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\Twig\Block\ChannelInfoBlock;
+use Twig\Error\LoaderError;
 
 /**
- * Only displays the success message.
+ * display informations related to the selected channel : link/changelog for remote channel,
+ * or configuration values for special channels.
  */
-class RollbackComplete extends AbstractTask
+class GetChannelInfo extends AbstractTask
 {
+    /**
+     * @throws LoaderError
+     * @throws Exception
+     */
     public function run()
     {
-        $this->logger->info($this->translator->trans('Restoration process done. Congratulations! You can now reactivate your shop.'));
+        // do nothing after this request (see javascript function doAjaxRequest )
         $this->next = '';
-        $this->container->getAnalyticsClient()->track('Upgrade Succeeded');
+
+        $channel = $this->container->getUpgradeConfiguration()->getChannel();
+        $channelInfo = (new ChannelInfo($this->container->getUpgrader(), $this->container->getUpgradeConfiguration(), $channel));
+        $channelInfoArray = $channelInfo->getInfo();
+        $this->nextParams['result']['available'] = $channelInfoArray['available'];
+
+        $this->nextParams['result']['div'] = (new ChannelInfoBlock(
+            $this->container->getUpgradeConfiguration(),
+            $channelInfo,
+            $this->container->getTwig())
+        )->render();
     }
 }

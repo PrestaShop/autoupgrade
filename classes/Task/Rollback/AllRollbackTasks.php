@@ -25,27 +25,39 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
+namespace PrestaShop\Module\AutoUpgrade\Task\Rollback;
 
-use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\Task\ChainedTasks;
 
 /**
- * Clean the database from unwanted entries.
+ * Execute the whole upgrade process in a single request.
  */
-class CleanDatabase extends AbstractTask
+class AllRollbackTasks extends ChainedTasks
 {
-    public function run()
-    {
-        // Clean tabs order
-        foreach ($this->container->getDb()->ExecuteS('SELECT DISTINCT id_parent FROM ' . _DB_PREFIX_ . 'tab') as $parent) {
-            $i = 1;
-            foreach ($this->container->getDb()->ExecuteS('SELECT id_tab FROM ' . _DB_PREFIX_ . 'tab WHERE id_parent = ' . (int) $parent['id_parent'] . ' ORDER BY IF(class_name IN ("AdminHome", "AdminDashboard"), 1, 2), position ASC') as $child) {
-                $this->container->getDb()->Execute('UPDATE ' . _DB_PREFIX_ . 'tab SET position = ' . (int) ($i++) . ' WHERE id_tab = ' . (int) $child['id_tab'] . ' AND id_parent = ' . (int) $parent['id_parent']);
-            }
-        }
+    const initialTask = 'rollback';
 
-        $this->status = 'ok';
-        $this->next = 'upgradeComplete';
-        $this->logger->info($this->translator->trans('The database has been cleaned.'));
+    protected $step = self::initialTask;
+
+    /**
+     * Customize the execution context with several options
+     * > action: Replace the initial step to run
+     * > channel: Makes a specific upgrade (minor, major etc.)
+     * > data: Loads an encoded array of data coming from another request.
+     *
+     * @param array $options
+     */
+    public function setOptions(array $options): void
+    {
+        if (!empty($options['backup'])) {
+            $this->container->getState()->setRestoreName($options['backup']);
+        }
+    }
+
+    /**
+     * Set default config on first run.
+     */
+    public function init(): void
+    {
+        // Do nothing
     }
 }
