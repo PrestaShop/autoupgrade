@@ -27,8 +27,6 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Task\Runner;
 
-use PrestaShop\Module\AutoUpgrade\Task\Runner\ChainedTasks;
-
 /**
  * Execute the whole upgrade process in a single request.
  */

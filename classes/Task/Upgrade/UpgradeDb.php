@@ -37,13 +37,15 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader81;
 
 class UpgradeDb extends AbstractTask
 {
+    const TASK_TYPE = 'upgrade';
+
     public function run(): int
     {
         try {
             $this->getCoreUpgrader()->doUpgrade();
         } catch (UpgradeException $e) {
             $this->next = 'error';
-            $this->setErrorFlag('upgrade');
+            $this->setErrorFlag();
             foreach ($e->getQuickInfos() as $log) {
                 $this->logger->debug($log);
             }

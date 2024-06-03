@@ -39,6 +39,8 @@ use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
  */
 class RestoreFiles extends AbstractTask
 {
+    const TASK_TYPE = 'rollback';
+
     /**
      * @throws Exception
      */
@@ -83,7 +85,7 @@ class RestoreFiles extends AbstractTask
                 }
                 $this->logger->info($this->translator->trans('Unable to remove upgraded files.'));
                 $this->next = 'error';
-                $this->setErrorFlag('restore');
+                $this->setErrorFlag();
 
                 return ExitCode::FAIL;
             }
@@ -96,7 +98,7 @@ class RestoreFiles extends AbstractTask
             $res = $this->container->getZipAction()->extract($filepath, $destExtract);
             if (!$res) {
                 $this->next = 'error';
-                $this->setErrorFlag('restore');
+                $this->setErrorFlag();
                 $this->logger->error($this->translator->trans(
                     'Unable to extract file %filename% into directory %directoryname%.',
                     [

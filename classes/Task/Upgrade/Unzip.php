@@ -39,6 +39,8 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 class Unzip extends AbstractTask
 {
+    const TASK_TYPE = 'upgrade';
+    
     /**
      * @throws Exception
      */
@@ -56,7 +58,7 @@ class Unzip extends AbstractTask
         if (!\ConfigurationTest::test_dir($relative_extract_path, false, $report)) {
             $this->logger->error($this->translator->trans('Extraction directory %s is not writable.', [$destExtract]));
             $this->next = 'error';
-            $this->setErrorFlag('upgrade');
+            $this->setErrorFlag();
 
             return ExitCode::FAIL;
         }
@@ -65,7 +67,7 @@ class Unzip extends AbstractTask
 
         if (!$res) {
             $this->next = 'error';
-            $this->setErrorFlag('upgrade');
+            $this->setErrorFlag();
             $this->logger->info($this->translator->trans(
                 'Unable to extract %filepath% file into %destination% folder...',
                 [

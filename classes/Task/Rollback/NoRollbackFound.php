@@ -32,6 +32,8 @@ use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 
 class NoRollbackFound extends AbstractTask
 {
+    const TASK_TYPE = 'rollback';
+
     public function run(): int
     {
         $this->logger->info($this->translator->trans('Nothing to restore'));

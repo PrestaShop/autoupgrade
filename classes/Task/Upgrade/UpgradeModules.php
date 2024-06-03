@@ -38,6 +38,8 @@ use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
  */
 class UpgradeModules extends AbstractTask
 {
+    const TASK_TYPE = 'upgrade';
+
     /**
      * @throws Exception
      */
@@ -176,7 +178,7 @@ class UpgradeModules extends AbstractTask
         }
         if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {
             $this->next = 'error';
-            $this->setErrorFlag('upgrade');
+            $this->setErrorFlag();
             $this->logger->error($e->getMessage());
         }
         if ($e->getSeverity() === UpgradeException::SEVERITY_WARNING) {

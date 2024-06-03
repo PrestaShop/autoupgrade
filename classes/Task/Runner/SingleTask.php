@@ -27,13 +27,11 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Task\Runner;
 
-use PrestaShop\Module\AutoUpgrade\AjaxResponse;
-use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\TaskRepository;
-
 class SingleTask extends ChainedTasks
 {
     protected $step;
+
+    private $stepHasRun = false;
 
     public function setOptions(array $options)
     {
@@ -42,18 +40,14 @@ class SingleTask extends ChainedTasks
         }
     }
 
-    /**
-     * Execute all the tasks from a specific initial step, until the end (complete or error).
-     *
-     * @return int Return code (0 for success, any value otherwise)
-     */
-    public function run()
-    {
-        return parent::run();
-    }
-
     protected function canContinue()
     {
+        if (!$this->stepHasRun) {
+            $this->stepHasRun = true;
+
+            return true;
+        }
+
         return false;
     }
 }

@@ -35,6 +35,8 @@ use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
  */
 class RollbackComplete extends AbstractTask
 {
+    const TASK_TYPE = 'rollback';
+
     public function run(): int
     {
         $this->logger->info($this->translator->trans('Restoration process done. Congratulations! You can now reactivate your shop.'));

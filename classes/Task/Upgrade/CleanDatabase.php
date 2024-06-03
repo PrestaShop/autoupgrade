@@ -35,6 +35,8 @@ use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
  */
 class CleanDatabase extends AbstractTask
 {
+    const TASK_TYPE = 'upgrade';
+
     public function run(): int
     {
         // Clean tabs order

@@ -44,7 +44,7 @@ class Analytics
 
     /**
      * @param string $anonymousUserId
-     * @param array{'properties'?: array}
+     * @param array{'properties'?: array} $options
      */
     public function __construct($anonymousUserId, array $options)
     {

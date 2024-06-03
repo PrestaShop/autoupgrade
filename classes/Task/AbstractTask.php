@@ -59,6 +59,11 @@ abstract class AbstractTask
      */
     protected $container;
 
+    /**
+     * @var 'upgrade'|'rollback'|null
+     */
+    const TASK_TYPE = null;
+
     // Task progress details
     /**
      * @var bool
@@ -138,15 +143,13 @@ abstract class AbstractTask
         }
     }
 
-    /**
-     * @param 'upgrade'|'restore'|null
-     */
-    protected function setErrorFlag($process = null): void
+    public function setErrorFlag(): void
     {
         $this->error = true;
+        // TODO: Add this? $this->next = 'error';
 
-        if ($process) {
-            $this->container->getAnalyticsClient()->track(ucfirst($process). ' Failed');
+        if (static::TASK_TYPE) {
+            $this->container->getAnalyticsClient()->track(ucfirst(static::TASK_TYPE) . ' Failed');
         }
     }
 
