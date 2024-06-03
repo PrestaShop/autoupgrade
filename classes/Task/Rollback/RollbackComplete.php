@@ -25,29 +25,21 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
+namespace PrestaShop\Module\AutoUpgrade\Task\Rollback;
 
-use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
-use PrestaShop\Module\AutoUpgrade\TaskRunner\ExitCode;
+use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 
 /**
- * Clean the database from unwanted entries.
+ * Only displays the success message.
  */
-class CleanDatabase extends AbstractTask
+class RollbackComplete extends AbstractTask
 {
     public function run(): int
     {
-        // Clean tabs order
-        foreach ($this->container->getDb()->ExecuteS('SELECT DISTINCT id_parent FROM ' . _DB_PREFIX_ . 'tab') as $parent) {
-            $i = 1;
-            foreach ($this->container->getDb()->ExecuteS('SELECT id_tab FROM ' . _DB_PREFIX_ . 'tab WHERE id_parent = ' . (int) $parent['id_parent'] . ' ORDER BY IF(class_name IN ("AdminHome", "AdminDashboard"), 1, 2), position ASC') as $child) {
-                $this->container->getDb()->Execute('UPDATE ' . _DB_PREFIX_ . 'tab SET position = ' . (int) ($i++) . ' WHERE id_tab = ' . (int) $child['id_tab'] . ' AND id_parent = ' . (int) $parent['id_parent']);
-            }
-        }
-
-        $this->status = 'ok';
-        $this->next = 'upgradeComplete';
-        $this->logger->info($this->translator->trans('The database has been cleaned.'));
+        $this->logger->info($this->translator->trans('Restoration process done. Congratulations! You can now reactivate your shop.'));
+        $this->next = '';
+        $this->container->getAnalyticsClient()->track('Upgrade Succeeded');
 
         return ExitCode::SUCCESS;
     }

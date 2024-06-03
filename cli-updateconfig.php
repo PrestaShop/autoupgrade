@@ -40,7 +40,7 @@ require_once realpath(dirname(__FILE__) . '/../../modules/autoupgrade') . '/ajax
 $container = autoupgrade_init_container(dirname(__FILE__));
 
 $container->setLogger(new \PrestaShop\Module\AutoUpgrade\Log\StreamedLogger());
-$controller = new \PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous\UpdateConfig($container);
+$controller = new \PrestaShop\Module\AutoUpgrade\Task\Miscellaneous\UpdateConfig($container);
 $controller->inputCliParameters($inputData);
 $controller->init();
 exit($controller->run());

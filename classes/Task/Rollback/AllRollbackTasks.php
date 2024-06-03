@@ -25,22 +25,42 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback;
+namespace PrestaShop\Module\AutoUpgrade\Task\Rollback;
 
-use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
-use PrestaShop\Module\AutoUpgrade\TaskRunner\ExitCode;
+use PrestaShop\Module\AutoUpgrade\Task\ChainedTasks;
 
 /**
- * Only displays the success message.
+ * Execute the whole upgrade process in a single request.
  */
-class RollbackComplete extends AbstractTask
+class AllRollbackTasks extends ChainedTasks
 {
-    public function run(): int
-    {
-        $this->logger->info($this->translator->trans('Restoration process done. Congratulations! You can now reactivate your shop.'));
-        $this->next = '';
-        $this->container->getAnalyticsClient()->track('Upgrade Succeeded');
+    const initialTask = 'rollback';
 
-        return ExitCode::SUCCESS;
+    /**
+     * @var string
+     */
+    protected $step = self::initialTask;
+
+    /**
+     * Customize the execution context with several options
+     * > action: Replace the initial step to run
+     * > channel: Makes a specific upgrade (minor, major etc.)
+     * > data: Loads an encoded array of data coming from another request.
+     *
+     * @param array<string, string> $options
+     */
+    public function setOptions(array $options): void
+    {
+        if (!empty($options['backup'])) {
+            $this->container->getState()->setRestoreName($options['backup']);
+        }
+    }
+
+    /**
+     * Set default config on first run.
+     */
+    public function init(): void
+    {
+        // Do nothing
     }
 }
