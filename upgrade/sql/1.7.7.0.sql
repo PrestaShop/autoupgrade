@@ -313,8 +313,8 @@ ALTER TABLE `PREFIX_product_download` CHANGE `display_filename` `display_filenam
 
 /* Doctrine update happens too late to update the new enabled field, so we preset everything here */
 ALTER TABLE `PREFIX_tab` ADD enabled TINYINT(1) NOT NULL;
-ALTER TABLE `PREFIX_tab` ADD route_name VARCHAR(256) DEFAULT NULL;
-ALTER TABLE `PREFIX_tab` CHANGE class_name class_name VARCHAR(64) NOT NULL;
+ALTER TABLE `PREFIX_tab` ADD route_name VARCHAR(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL;
+ALTER TABLE `PREFIX_tab` CHANGE class_name class_name VARCHAR(64) COLLATE utf8mb4_unicode_ci NOT NULL;
 
 /* PHP:ps_1770_preset_tab_enabled(); */;
 /* PHP:ps_1770_update_order_status_colors(); */;
@@ -719,8 +719,6 @@ ALTER TABLE `PREFIX_stock_mvt` CHANGE `employee_lastname` `employee_lastname` va
 ALTER TABLE `PREFIX_stock_mvt` CHANGE `employee_firstname` `employee_firstname` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL;
 ALTER TABLE `PREFIX_tab` COLLATE=utf8mb4_unicode_ci;
 ALTER TABLE `PREFIX_tab` CHANGE `module` `module` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL;
-ALTER TABLE `PREFIX_tab` CHANGE `class_name` `class_name` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL;
-ALTER TABLE `PREFIX_tab` CHANGE `route_name` `route_name` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL;
 ALTER TABLE `PREFIX_tab` CHANGE `icon` `icon` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL;
 ALTER TABLE `PREFIX_tab_lang` COLLATE=utf8mb4_unicode_ci;
 ALTER TABLE `PREFIX_tab_lang` CHANGE `name` `name` varchar(128) COLLATE utf8mb4_unicode_ci NOT NULL;
