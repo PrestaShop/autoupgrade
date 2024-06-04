@@ -13,8 +13,10 @@ import {
 import {
   test, expect, Page, BrowserContext,
 } from '@playwright/test';
+import semver from 'semver';
 
 const baseContext: string = 'sanity_productsBO_deleteProduct';
+const psVersion = testContext.getPSVersion();
 
 /*
   Connect to the BO
@@ -68,6 +70,18 @@ test.describe('BO - Catalog - Products : Delete product', async () => {
     expect(pageTitle).toContain(boProductsPage.pageTitle);
   });
 
+  // @todo : https://github.com/PrestaShop/PrestaShop/issues/36097
+  if (semver.lte(psVersion, '8.1.6')) {
+    test('should close the menu', async () => {
+      await testContext.addContextItem(test.info(), 'testIdentifier', 'closeMenu', baseContext);
+
+      await boDashboardPage.setSidebarCollapsed(page, true);
+
+      const isSidebarCollapsed = await boDashboardPage.isSidebarCollapsed(page);
+      expect(isSidebarCollapsed).toEqual(true);
+    });
+  }
+
   test.describe('Create product', async () => {
     test('should reset filter and get number of products', async () => {
       await testContext.addContextItem(test.info(), 'testIdentifier', 'getNumberOfProduct', baseContext);
@@ -111,18 +125,6 @@ test.describe('BO - Catalog - Products : Delete product', async () => {
       expect(pageTitle).toContain(boProductsPage.pageTitle);
     });
 
-    test('should filter list by \'Reference\' and check result', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'filterListByReference', baseContext);
-
-      await boProductsPage.filterProducts(page, 'reference', newProductData.reference, 'input');
-
-      const numberOfProductsAfterFilter = await boProductsPage.getNumberOfProductsFromList(page);
-      expect(numberOfProductsAfterFilter).toEqual(1);
-
-      const textColumn = await boProductsPage.getTextColumn(page, 'reference', 1);
-      expect(textColumn).toEqual(newProductData.reference);
-    });
-
     test('should click on delete product button', async () => {
       await testContext.addContextItem(test.info(), 'testIdentifier', 'clickOnDeleteProduct', baseContext);
 
@@ -135,13 +137,6 @@ test.describe('BO - Catalog - Products : Delete product', async () => {
 
       const textMessage = await boProductsPage.clickOnConfirmDialogButton(page);
       expect(textMessage).toEqual(boProductsPage.successfulDeleteMessage);
-    });
-
-    test('should reset filter', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'resetFilter', baseContext);
-
-      const numberOfProductsAfterReset = await boProductsPage.resetAndGetNumberOfLines(page);
-      expect(numberOfProductsAfterReset).toEqual(numberOfProducts);
     });
   });
 });

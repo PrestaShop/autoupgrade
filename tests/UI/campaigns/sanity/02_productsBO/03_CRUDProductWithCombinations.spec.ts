@@ -16,8 +16,10 @@ import {
 import {
   test, expect, Page, BrowserContext,
 } from '@playwright/test';
+import semver from 'semver';
 
 const baseContext: string = 'sanity_productsBO_CRUDProductWithCombinations';
+const psVersion = testContext.getPSVersion();
 
 /*
   Connect to the BO
@@ -90,6 +92,18 @@ test.describe('BO - Catalog - Products : CRUD product with combinations', async 
     expect(pageTitle).toContain(boProductsPage.pageTitle);
   });
 
+  // @todo : https://github.com/PrestaShop/PrestaShop/issues/36097
+  if (semver.lte(psVersion, '8.1.6')) {
+    test('should close the menu', async () => {
+      await testContext.addContextItem(test.info(), 'testIdentifier', 'closeMenu', baseContext);
+
+      await boDashboardPage.setSidebarCollapsed(page, true);
+
+      const isSidebarCollapsed = await boDashboardPage.isSidebarCollapsed(page);
+      expect(isSidebarCollapsed).toEqual(true);
+    });
+  }
+
   test.describe('Create product', async () => {
     test('should click on \'New product\' button and check new product modal', async () => {
       await testContext.addContextItem(test.info(), 'testIdentifier', 'clickOnNewProductButton', baseContext);
@@ -124,7 +138,7 @@ test.describe('BO - Catalog - Products : CRUD product with combinations', async 
 
     test('should create combinations and check generate combinations button', async () => {
       await testContext.addContextItem(test.info(), 'testIdentifier', 'createCombinations', baseContext);
-
+      
       const generateCombinationsButton = await boProductsCreateTabCombinationsPage.setProductAttributes(
         page,
         newProductData.attributes,
@@ -206,7 +220,7 @@ test.describe('BO - Catalog - Products : CRUD product with combinations', async 
 
     test('should add combinations and check generate combinations button', async () => {
       await testContext.addContextItem(test.info(), 'testIdentifier', 'addCombinations', baseContext);
-
+      
       const generateCombinationsButton = await boProductsCreateTabCombinationsPage.setProductAttributes(
         page,
         updateProductData.attributes,

@@ -11,7 +11,6 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-
     "@types/node": "^20.11.5",
     "@types/semver": "^7.5.8",
     "@typescript-eslint/eslint-plugin": "^7.11.0",

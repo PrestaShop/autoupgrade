@@ -13,8 +13,10 @@ import {
 import {
   test, expect, Page, BrowserContext,
 } from '@playwright/test';
+import semver from 'semver';
 
 const baseContext: string = 'sanity_productsBO_deleteProductsWithBulkActions';
+const psVersion = testContext.getPSVersion();
 
 /*
   Connect to the BO
@@ -78,6 +80,18 @@ test.describe('BO - Catalog - Products : Delete products with bulk actions', asy
     expect(pageTitle).toContain(boProductsPage.pageTitle);
   });
 
+  // @todo : https://github.com/PrestaShop/PrestaShop/issues/36097
+  if (semver.lte(psVersion, '8.1.6')) {
+    test('should close the menu', async () => {
+      await testContext.addContextItem(test.info(), 'testIdentifier', 'closeMenu', baseContext);
+
+      await boDashboardPage.setSidebarCollapsed(page, true);
+
+      const isSidebarCollapsed = await boDashboardPage.isSidebarCollapsed(page);
+      expect(isSidebarCollapsed).toEqual(true);
+    });
+  }
+
   test.describe('Create first product', async () => {
     test('should reset filter and get number of products', async () => {
       await testContext.addContextItem(test.info(), 'testIdentifier', 'getNumberOfProduct', baseContext);
@@ -125,7 +139,6 @@ test.describe('BO - Catalog - Products : Delete products with bulk actions', asy
       await testContext.addContextItem(test.info(), 'testIdentifier', 'chooseStandardProduct2', baseContext);
 
       await boProductsCreatePage.chooseProductType(page, secondProductData.type);
-      await boProductsCreatePage.closeSfToolBar(page);
 
       const createProductMessage = await boProductsCreatePage.setProduct(page, secondProductData);
       expect(createProductMessage).toEqual(boProductsCreatePage.successfulUpdateMessage);

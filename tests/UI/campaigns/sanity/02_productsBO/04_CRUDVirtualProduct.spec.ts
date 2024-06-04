@@ -16,8 +16,10 @@ import {
 import {
   test, expect, Page, BrowserContext,
 } from '@playwright/test';
+import semver from 'semver';
 
 const baseContext: string = 'sanity_productsBO_CRUDVirtualProduct';
+const psVersion = testContext.getPSVersion();
 
 /*
   Connect to the BO
@@ -79,6 +81,18 @@ test.describe('BO - Catalog - Products : CRUD virtual product', async () => {
     const pageTitle = await boProductsPage.getPageTitle(page);
     expect(pageTitle).toContain(boProductsPage.pageTitle);
   });
+
+  // @todo : https://github.com/PrestaShop/PrestaShop/issues/36097
+  if (semver.lte(psVersion, '8.1.6')) {
+    test('should close the menu', async () => {
+      await testContext.addContextItem(test.info(), 'testIdentifier', 'closeMenu', baseContext);
+
+      await boDashboardPage.setSidebarCollapsed(page, true);
+
+      const isSidebarCollapsed = await boDashboardPage.isSidebarCollapsed(page);
+      expect(isSidebarCollapsed).toEqual(true);
+    });
+  }
 
   test.describe('Create product', async () => {
     test('should click on \'New product\' button and check new product modal', async () => {
