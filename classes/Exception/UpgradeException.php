@@ -25,7 +25,7 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade;
+namespace PrestaShop\Module\AutoUpgrade\Exception;
 
 /**
  * Todo: Should we create a UpgradeWarning class instead of setting the severity here?

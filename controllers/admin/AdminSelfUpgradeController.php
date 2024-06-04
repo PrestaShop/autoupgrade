@@ -29,6 +29,7 @@ use PrestaShop\Module\AutoUpgrade\AjaxResponse;
 use PrestaShop\Module\AutoUpgrade\BackupFinder;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
+use PrestaShop\Module\AutoUpgrade\Services\DistributionApiService;
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradePage;
@@ -534,9 +535,11 @@ class AdminSelfUpgradeController extends ModuleAdminController
         }
 
         $upgrader = $this->upgradeContainer->getUpgrader();
+        $distributionApiService = new DistributionApiService();
         $upgradeSelfCheck = new UpgradeSelfCheck(
             $upgrader,
             $this->upgradeContainer->getPrestaShopConfiguration(),
+            $distributionApiService,
             $this->prodRootDir,
             $this->adminDir,
             $this->autoupgradePath

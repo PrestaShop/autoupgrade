@@ -27,7 +27,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader;
 
-use PrestaShop\Module\AutoUpgrade\UpgradeException;
+use PrestaShop\Module\AutoUpgrade\Exception\UpgradeException;
 
 /**
  * Class used to modify the core of PrestaShop, on the files are copied on the filesystem.

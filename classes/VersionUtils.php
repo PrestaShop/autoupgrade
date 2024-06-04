@@ -39,8 +39,42 @@ class VersionUtils
         return sprintf('%d.%d', $major, $minor);
     }
 
+    public static function getPhpVersionId($version)
+    {
+        $parts = explode('.', $version);
+
+        $major = isset($parts[0]) ? (int) $parts[0] : 0;
+        $minor = isset($parts[1]) ? (int) $parts[1] : 0;
+        $patch = isset($parts[2]) ? (int) $parts[2] : 0;
+
+        return $major * 10000 + $minor * 100 + $patch;
+    }
+
+    public static function getPhpMajorMinorVersionId()
+    {
+        $phpVersionId = PHP_VERSION_ID;
+
+        $major = (int) ($phpVersionId / 10000);
+        $minor = (int) (($phpVersionId % 10000) / 100);
+
+        return $major * 10000 + $minor * 100;
+    }
+
     public static function isActualPHPVersionCompatible()
     {
         return PHP_VERSION_ID >= self::MODULE_COMPATIBLE_PHP_VERSION;
+    }
+
+    public static function getPrestashopMinorVersion($version)
+    {
+        $parts = explode('.', $version);
+        $versionString = implode('.', $parts);
+        if (strlen($versionString) >= 8) {
+            $minorVersionParts = array_slice($parts, 0, 3);
+        } else {
+            $minorVersionParts = array_slice($parts, 0, 2);
+        }
+
+        return implode('.', $minorVersionParts);
     }
 }
