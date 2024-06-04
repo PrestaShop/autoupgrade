@@ -23,10 +23,10 @@ jobs:
       matrix:
         include:
           - PS_VERSION_START: 8.1.4
-            PS_VERSION_END: 8.1.5
+            PS_VERSION_END: 8.1.6
             PHP_VERSION: 7.2
           - PS_VERSION_START: 8.1.4
-            PS_VERSION_END: 8.1.5
+            PS_VERSION_END: 8.1.6
             PHP_VERSION: 7.3
     env:
       PS_DOCKER: ${{ matrix.PS_VERSION_START }}-${{ matrix.PHP_VERSION }}
