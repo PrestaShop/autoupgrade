@@ -27,6 +27,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Task\Rollback;
 
+use PrestaShop\Module\AutoUpgrade\Analytics;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 
 /**
@@ -40,6 +41,6 @@ class RollbackComplete extends AbstractTask
     {
         $this->logger->info($this->translator->trans('Restoration process done. Congratulations! You can now reactivate your shop.'));
         $this->next = '';
-        $this->container->getAnalyticsClient()->track('Upgrade Succeeded');
+        $this->container->getAnalytics()->track('Rollback Succeeded', Analytics::WITH_ROLLBACK_PROPERTIES);
     }
 }

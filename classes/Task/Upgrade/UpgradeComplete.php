@@ -28,6 +28,7 @@
 namespace PrestaShop\Module\AutoUpgrade\Task\Upgrade;
 
 use Exception;
+use PrestaShop\Module\AutoUpgrade\Analytics;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
@@ -66,6 +67,6 @@ class UpgradeComplete extends AbstractTask
         // removing temporary files
         $this->container->getFileConfigurationStorage()->cleanAll();
 
-        $this->container->getAnalyticsClient()->track('Upgrade Succeeded');
+        $this->container->getAnalytics()->track('Upgrade Succeeded', Analytics::WITH_UPGRADE_PROPERTIES);
     }
 }

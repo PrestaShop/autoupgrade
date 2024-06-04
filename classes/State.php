@@ -338,6 +338,18 @@ class State
         return $this;
     }
 
+    public function getRestoreVersion(): ?string
+    {
+        $matches = [];
+        preg_match(
+            '/^V(?<version>[1-9\.]+)_/',
+            $this->getRestoreName(),
+            $matches
+        );
+
+        return $matches[1] ?? null;
+    }
+
     public function setInstalledLanguagesIso(array $installedLanguagesIso): State
     {
         $this->installedLanguagesIso = $installedLanguagesIso;
