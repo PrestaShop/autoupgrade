@@ -29,6 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade\Task;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\AjaxResponse;
+use PrestaShop\Module\AutoUpgrade\Analytics;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
@@ -149,7 +150,10 @@ abstract class AbstractTask
         // TODO: Add this? $this->next = 'error';
 
         if (static::TASK_TYPE) {
-            $this->container->getAnalyticsClient()->track(ucfirst(static::TASK_TYPE) . ' Failed');
+            $this->container->getAnalytics()->track(
+                ucfirst(static::TASK_TYPE) . ' Failed',
+                static::TASK_TYPE === 'upgrade' ? Analytics::WITH_UPGRADE_PROPERTIES : Analytics::WITH_ROLLBACK_PROPERTIES
+            );
         }
     }
 

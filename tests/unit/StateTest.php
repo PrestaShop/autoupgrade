@@ -89,4 +89,21 @@ class StateTest extends TestCase
         $this->assertSame($modules, $state->getModules_addons());
         $this->assertSame($modules, $exported['modules_addons']);
     }
+
+    public function testGetRestoreVersion()
+    {
+        $state = new State();
+
+        $this->assertSame(
+            '1.7.8.11',
+            $state->setRestoreName('V1.7.8.11_20240604-170048-3ceb32b2')
+                ->getRestoreVersion()
+        );
+
+        $this->assertSame(
+            '8.1.6',
+            $state->setRestoreName('V8.1.6_20240604-170048-3ceb32b2')
+                ->getRestoreVersion()
+        );
+    }
 }

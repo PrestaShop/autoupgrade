@@ -28,6 +28,7 @@
 namespace PrestaShop\Module\AutoUpgrade\Task\Rollback;
 
 use Exception;
+use PrestaShop\Module\AutoUpgrade\Analytics;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
@@ -99,7 +100,7 @@ class Rollback extends AbstractTask
             unlink($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . UpgradeFileNames::FILES_TO_REMOVE_LIST);
         }
 
-        $this->container->getAnalyticsClient()->track('Rollback Launched');
+        $this->container->getAnalytics()->track('Rollback Launched', Analytics::WITH_ROLLBACK_PROPERTIES);
 
         return ExitCode::SUCCESS;
     }

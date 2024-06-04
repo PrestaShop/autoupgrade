@@ -226,7 +226,7 @@ class UpgradeContainer
         }
     }
 
-    public function getAnalyticsClient()
+    public function getAnalytics()
     {
         if (null !== $this->analytics) {
             return $this->analytics;
@@ -234,25 +234,16 @@ class UpgradeContainer
 
         // The identifier shoudl be a value a value always different between two shops
         // But equal between two upgrade processes
-        return $this->analytics = new Analytics($this->getProperty(self::WORKSPACE_PATH), [
+        return $this->analytics = new Analytics(
+            $this->getUpgradeConfiguration(),
+            $this->getState(),
+            $this->getProperty(self::WORKSPACE_PATH), [
             'properties' => [
-                'from_ps_version' => $this->getState()->getOriginVersion(),
-                'to_ps_version' => $this->getState()->getInstallVersion(),
                 'ps_version' => $this->getProperty(self::PS_VERSION),
                 'php_version' => PHP_VERSION_ID,
-                'upgrade_channel' => $this->getUpgradeConfiguration()->getChannel(),
                 'autoupgrade_version' => $this->getPrestaShopConfiguration()->getModuleVersion(),
-                'backup_files_and_databases' => !$this->getUpgradeConfiguration()->get('PS_AUTOUP_BACKUP')
-                    || $this->getUpgradeConfiguration()->get('skip_backup'),
-                'backup_images' => $this->getUpgradeConfiguration()->shouldBackupImages(),
-                'server_performance' => $this->getUpgradeConfiguration()->getPerformanceLevel(),
-                'disable_non_native_modules' => $this->getUpgradeConfiguration()->shouldDeactivateCustomModules(),
                 // TODO: Improve this part by having a safe getter
                 'disable_all_overrides' => class_exists('\Configuration', false) ? \Configuration::get('PS_DISABLE_OVERRIDES') : null,
-                'upgrade_default_theme' => $this->getUpgradeConfiguration()->shouldUpdateDefaultTheme(),
-                'switch_to_default_theme' => $this->getUpgradeConfiguration()->shouldSwitchToDefaultTheme(),
-                'regenerate_rtl_stylesheet' => $this->getUpgradeConfiguration()->shouldUpdateRTLFiles(),
-                'keep_customized_email_templates' => $this->getUpgradeConfiguration()->shouldKeepMails(),
             ],
         ]);
     }
