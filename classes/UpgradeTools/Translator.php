@@ -72,7 +72,7 @@ class Translator
         if (version_compare($psVersion, '1.7.6.0', '>=')) {
             $translator = SymfonyContainer::getInstance()->get('translator');
 
-            return $translator->trans($id, $parameters, $domain, $locale);;
+            return $translator->trans($id, $parameters, $domain, $locale);
         }
 
         // Use XLF translations for older versions
