@@ -2,8 +2,8 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
-use SimpleXMLElement;
 use PrestaShop\PrestaShop\Adapter\SymfonyContainer;
+use SimpleXMLElement;
 
 class Translator
 {
@@ -24,6 +24,7 @@ class Translator
         $path = $basePath . '.' . $locale . '.xlf';
         if (file_exists($path)) {
             $this->loadXlfFile($path);
+
             return;
         }
 
@@ -37,7 +38,7 @@ class Translator
     /**
      * Load translations from a specific XLF file.
      *
-     * @param string $filePath Path to the XLF file.
+     * @param string $filePath path to the XLF file
      *
      * @throws \Exception
      */
@@ -72,8 +73,8 @@ class Translator
         // Use new translation system for PrestaShop 1.7.6 and newer
         if (version_compare($psVersion, '1.7.6.0', '>=')) {
             $translator = SymfonyContainer::getInstance()->get('translator');
-            $translated = $translator->trans($id, $parameters, $domain, $locale);
-            return $translated;
+
+            return $translator->trans($id, $parameters, $domain, $locale);;
         }
 
         // Use XLF translations for older versions
