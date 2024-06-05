@@ -44,8 +44,11 @@ class LegacyLoggerTest extends TestCase
 
         $this->assertSame('Good bye', $logger->getLastInfo());
         $infos = $logger->getInfos();
-        $this->assertSame('Hello', end($infos));
-        $this->assertCount(1, $infos);
+        $this->assertSame([
+            'Hello',
+            'Good bye',
+        ], $infos);
+        $this->assertCount(2, $infos);
     }
 
     public function testErrorIsRegistered()
@@ -88,5 +91,23 @@ class LegacyLoggerTest extends TestCase
             '***@****.** suggested 🚭',
             $logger->cleanFromSensitiveData('some@email.com suggested 🚬')
         );
+    }
+
+    public function testWholeLogContentIsProperlyOrdered()
+    {
+        $logger = new LegacyLogger();
+        $logger->log(LegacyLogger::INFO, 'INFO #1');
+        $logger->log(LegacyLogger::WARNING, 'Oh no');
+        $logger->log(LegacyLogger::WARNING, 'Oh no 2');
+        $logger->log(LegacyLogger::INFO, 'INFO #2');
+
+        $this->assertEquals('INFO #2', $logger->getLastInfo());
+
+        $this->assertEquals([
+            'INFO #1',
+            'Oh no',
+            'Oh no 2',
+            'INFO #2',
+        ], $logger->getInfos());
     }
 }
