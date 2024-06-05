@@ -7,14 +7,14 @@ jobs:
   upgrade:
     strategy:
       matrix:
-        from: ['1.7.6.9', '1.7.6.1', '1.7.7.0', '8.0.0', '8.1.0']
+        from: ['1.7.0.6', '1.7.6.9', '1.7.6.1', '1.7.7.0', '8.0.0', '8.1.0']
         ps-versions:
           - channel: minor
           - channel: major
     runs-on: ubuntu-latest
     name: Upgrade
     steps:
-      - uses: actions/checkout@v3.1.0
+      - uses: actions/checkout@v4.1.3
       - name: Composer Install
         run: composer install
       - name: Upgrade & Rollback

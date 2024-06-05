@@ -52,18 +52,21 @@ class UpgradeContainerTest extends TestCase
         // | Function to call | Expected class |
         return [
             ['getCacheCleaner', PrestaShop\Module\AutoUpgrade\UpgradeTools\CacheCleaner::class],
+            ['getChecksumCompare', PrestaShop\Module\AutoUpgrade\Xml\ChecksumCompare::class],
             ['getCookie', PrestaShop\Module\AutoUpgrade\Cookie::class],
             ['getFileConfigurationStorage', PrestaShop\Module\AutoUpgrade\Parameters\FileConfigurationStorage::class],
             ['getFileFilter', \PrestaShop\Module\AutoUpgrade\UpgradeTools\FileFilter::class],
-            // array('getUpgrader', \PrestaShop\Module\AutoUpgrade\Upgrader::class),
+            // ['getUpgrader', \PrestaShop\Module\AutoUpgrade\Upgrader::class],
             ['getFilesystemAdapter', PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter::class],
+            ['getFileLoader', PrestaShop\Module\AutoUpgrade\Xml\FileLoader::class],
             ['getLogger', PrestaShop\Module\AutoUpgrade\Log\LegacyLogger::class],
             ['getModuleAdapter', PrestaShop\Module\AutoUpgrade\UpgradeTools\ModuleAdapter::class],
             ['getState', \PrestaShop\Module\AutoUpgrade\State::class],
             ['getSymfonyAdapter', PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter::class],
             ['getTranslationAdapter', \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translation::class],
             ['getTranslator', \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator::class],
-            ['getTwig', \Twig\Environment::class],
+            // Cannot be run in the context of unit tests as the class would be loaded from PS dependencies
+            // ['getTwig', \Twig\Environment::class],
             ['getPrestaShopConfiguration', PrestaShop\Module\AutoUpgrade\PrestashopConfiguration::class],
             ['getUpgradeConfiguration', PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration::class],
             ['getWorkspace', PrestaShop\Module\AutoUpgrade\Workspace::class],

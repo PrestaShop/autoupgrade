@@ -1,6 +1,8 @@
 SET SESSION sql_mode='';
 SET NAMES 'utf8mb4';
 
+DROP TABLE IF EXISTS `PREFIX_order_slip_detail_tax`;
+
 INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`) VALUES
   (NULL, 'actionPresentCart', 'Cart Presenter', 'This hook is called before a cart is presented', '1'),
   (NULL, 'actionPresentOrder', 'Order footer', 'This hook is called before an order is presented', '1'),
@@ -170,8 +172,8 @@ ALTER TABLE `PREFIX_product` MODIFY COLUMN `redirect_type` ENUM(
 ) NOT NULL DEFAULT '404';
 
 ALTER TABLE  `PREFIX_product` ADD `product_type` ENUM(
-    'standard', 'pack', 'virtual', 'combinations'
-) NOT NULL DEFAULT 'standard';
+    'standard', 'pack', 'virtual', 'combinations', ''
+) NOT NULL DEFAULT '';
 
 /* First set all products to standard type, then update them based on cached columns that identify the type */
 UPDATE `PREFIX_product` SET `product_type` = "standard";
@@ -186,12 +188,12 @@ before Doctrine schema update */
 /* consequently we create the table manually */
 CREATE TABLE IF NOT EXISTS `PREFIX_feature_flag` (
   `id_feature_flag` INT(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(191) COLLATE utf8mb4_general_ci NOT NULL,
+  `name` VARCHAR(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `state` TINYINT(1) NOT NULL DEFAULT '0',
-  `label_wording` VARCHAR(191) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `label_domain` VARCHAR(255) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `description_wording` VARCHAR(191) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `description_domain` VARCHAR(255) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `label_wording` VARCHAR(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `label_domain` VARCHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `description_wording` VARCHAR(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `description_domain` VARCHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id_feature_flag`),
   UNIQUE KEY `UNIQ_91700F175E237E06` (`name`)
 ) ENGINE=ENGINE_TYPE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -199,3 +201,12 @@ CREATE TABLE IF NOT EXISTS `PREFIX_feature_flag` (
 INSERT INTO `PREFIX_feature_flag` (`name`, `state`, `label_wording`, `label_domain`, `description_wording`, `description_domain`)
 VALUES
 	('product_page_v2', 0, 'Experimental product page', 'Admin.Advparameters.Feature', 'This page benefits from increased performance and includes new features such as a new combination management system. Please note this is a work in progress and some features are not available yet.', 'Admin.Advparameters.Help');
+
+DROP INDEX id_shop ON `PREFIX_shop_url`;
+DROP INDEX full_shop_url ON `PREFIX_shop_url`;
+DROP INDEX full_shop_url_ssl ON `PREFIX_shop_url`;
+ALTER TABLE `PREFIX_shop_url` CHANGE id_shop_url id_shop_url INT AUTO_INCREMENT NOT NULL;
+ALTER TABLE `PREFIX_shop_url` CHANGE id_shop id_shop INT NOT NULL;
+CREATE INDEX IDX_279F19DA274A50A0 ON `PREFIX_shop_url` (id_shop);
+ALTER TABLE `PREFIX_shop` ADD color VARCHAR(50) NOT NULL;
+ALTER TABLE `PREFIX_shop_group` ADD color VARCHAR(50) NOT NULL;

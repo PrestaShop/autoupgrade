@@ -36,7 +36,7 @@ class Autoupgrade extends Module
         $this->name = 'autoupgrade';
         $this->tab = 'administration';
         $this->author = 'PrestaShop';
-        $this->version = '5.0.1';
+        $this->version = '5.0.2';
         $this->need_instance = 1;
 
         $this->bootstrap = true;
@@ -79,7 +79,10 @@ class Autoupgrade extends Module
             $tab = new Tab();
             $tab->class_name = 'AdminSelfUpgrade';
             $tab->module = 'autoupgrade';
-            $tab->id_parent = (int) Tab::getIdFromClassName('AdminTools');
+
+            // We use DEFAULT to add Upgrade tab as a standalone tab in the back office menu
+            $tab->id_parent = (int) Tab::getIdFromClassName('DEFAULT');
+
             foreach (Language::getLanguages(false) as $lang) {
                 $tab->name[(int) $lang['id_lang']] = '1-Click Upgrade';
             }
@@ -140,9 +143,9 @@ class Autoupgrade extends Module
         require_once __DIR__ . '/vendor/autoload.php';
 
         $upgradeContainer = new \PrestaShop\Module\AutoUpgrade\UpgradeContainer(_PS_ROOT_DIR_, _PS_ADMIN_DIR_);
-        $upgrader = $upgradeContainer->getUpgrader();
         $upgradeSelfCheck = new \PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck(
-            $upgrader,
+            $upgradeContainer->getUpgrader(),
+            $upgradeContainer->getPrestaShopConfiguration(),
             _PS_ROOT_DIR_,
             _PS_ADMIN_DIR_,
             __DIR__
@@ -166,9 +169,7 @@ class Autoupgrade extends Module
 
     public function getContent()
     {
-        global $cookie;
-        header('Location: index.php?controller=AdminSelfUpgrade&token=' . md5(pSQL(_COOKIE_KEY_ . 'AdminSelfUpgrade' . (int) Tab::getIdFromClassName('AdminSelfUpgrade') . (int) $cookie->id_employee)));
-        exit;
+        Tools::redirectAdmin($this->context->link->getAdminLink('AdminSelfUpgrade'));
     }
 
     /**

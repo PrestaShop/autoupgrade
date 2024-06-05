@@ -42,7 +42,7 @@ class CoreUpgrader80 extends CoreUpgrader
         parent::initConstants();
 
         // Container may be needed to run upgrade scripts
-        $this->container->getSymfonyAdapter()->initAppKernel();
+        $this->container->getSymfonyAdapter()->initKernel();
     }
 
     /**
@@ -58,16 +58,6 @@ class CoreUpgrader80 extends CoreUpgrader
             if (file_exists(_PS_ROOT_DIR_ . $file)) {
                 unlink(_PS_ROOT_DIR_ . $file);
             }
-        }
-    }
-
-    protected function upgradeDb($oldversion)
-    {
-        parent::upgradeDb($oldversion);
-
-        $commandResult = $this->container->getSymfonyAdapter()->runSchemaUpgradeCommand();
-        if (0 !== $commandResult['exitCode']) {
-            throw (new UpgradeException($this->container->getTranslator()->trans('Error upgrading Doctrine schema', [], 'Modules.Autoupgrade.Admin')))->setQuickInfos(explode("\n", $commandResult['output']));
         }
     }
 

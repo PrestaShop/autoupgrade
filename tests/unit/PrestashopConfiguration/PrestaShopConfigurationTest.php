@@ -30,7 +30,7 @@ class PrestaShopConfigurationTest extends TestCase
 {
     public function testPrestaShopVersionInFile()
     {
-        $class = new PrestashopConfiguration(__DIR__, __DIR__);
+        $class = new PrestashopConfiguration(__DIR__);
         $content = "<?php
 define('_DB_SERVER_', '127.0.0.1:3306');
 define('_DB_NAME_', 'prestashop');
@@ -56,7 +56,7 @@ define('_RIJNDAEL_IV_', 'fdfd==');";
      */
     public function testPrestaShopVersionInAppKernel()
     {
-        $class = new PrestashopConfiguration(__DIR__, __DIR__);
+        $class = new PrestashopConfiguration(__DIR__);
         $this->assertSame(
             '1.7.6.0',
             $class->findPrestaShopVersionInFile(

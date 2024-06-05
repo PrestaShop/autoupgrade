@@ -27,55 +27,53 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
+use ReflectionClass;
+
 /**
  * TODO: Create a class for 1.7 env and another one for 1.6 ?
  */
 class SymfonyAdapter
 {
     /**
-     * @var string Version on which PrestaShop is being upgraded
-     */
-    private $destinationPsVersion;
-
-    public function __construct($destinationPsVersion)
-    {
-        $this->destinationPsVersion = $destinationPsVersion;
-    }
-
-    public function runSchemaUpgradeCommand()
-    {
-        if (version_compare($this->destinationPsVersion, '1.7.1.1', '>=')) {
-            $schemaUpgrade = new \PrestaShopBundle\Service\Database\Upgrade();
-            $outputCommand = 'prestashop:schema:update-without-foreign';
-        } else {
-            $schemaUpgrade = new \PrestaShopBundle\Service\Cache\Refresh();
-            $outputCommand = 'doctrine:schema:update';
-        }
-
-        $schemaUpgrade->addDoctrineSchemaUpdate();
-        $output = $schemaUpgrade->execute();
-
-        return $output[$outputCommand];
-    }
-
-    /**
-     * Return the AppKernel, after initialization
+     * Return the appropriate kernel if abstract or not.
      *
-     * @return \AppKernel
+     * @return \AppKernel|\AdminKernel
      */
-    public function initAppKernel()
+    public function initKernel()
     {
         global $kernel;
         if (!$kernel instanceof \AppKernel) {
+            // Only necessary one version before 1.7.3 because he is not classmaped on composer
             require_once _PS_ROOT_DIR_ . '/app/AppKernel.php';
             $env = (true == _PS_MODE_DEV_) ? 'dev' : 'prod';
-            $kernel = new \AppKernel($env, _PS_MODE_DEV_);
+
+            // From version 9 the AppKernel becomes an abstract so we need to check if it is one to know which Kernel to use
+            if ($this->isAppKernelAbstract()) {
+                $kernelClass = 'AdminKernel';
+            } else {
+                $kernelClass = 'AppKernel';
+            }
+
+            $kernel = new $kernelClass($env, _PS_MODE_DEV_);
             if (method_exists($kernel, 'loadClassCache')) { // This method has been deleted in Symfony 4.x
                 $kernel->loadClassCache();
             }
+
             $kernel->boot();
         }
 
         return $kernel;
+    }
+
+    /**
+     * Check if AppKernel is abstract or not.
+     *
+     * @return bool
+     */
+    private function isAppKernelAbstract()
+    {
+        $appKernelClass = new ReflectionClass(\AppKernel::class);
+
+        return $appKernelClass->isAbstract();
     }
 }

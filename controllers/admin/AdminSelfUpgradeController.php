@@ -34,12 +34,12 @@ use PrestaShop\Module\AutoUpgrade\UpgradePage;
 use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 
-$autoloadPath = __DIR__ . '/vendor/autoload.php';
+$autoloadPath = __DIR__ . '/../../vendor/autoload.php';
 if (file_exists($autoloadPath)) {
     require_once $autoloadPath;
 }
 
-class AdminSelfUpgrade extends AdminController
+class AdminSelfUpgradeController extends ModuleAdminController
 {
     public $multishop_context;
     public $multishop_context_group = false;
@@ -428,6 +428,8 @@ class AdminSelfUpgrade extends AdminController
             }
         }
         parent::postProcess();
+
+        return true;
     }
 
     private function extractFieldsToBeSavedInDB(UpgradeConfiguration $fileConfig)
@@ -460,7 +462,7 @@ class AdminSelfUpgrade extends AdminController
         }
     }
 
-    public function display()
+    public function initContent()
     {
         // Make sure the user has configured the upgrade options, or set default values
         $configuration_keys = [
@@ -492,6 +494,7 @@ class AdminSelfUpgrade extends AdminController
         $upgrader = $this->upgradeContainer->getUpgrader();
         $upgradeSelfCheck = new UpgradeSelfCheck(
             $upgrader,
+            $this->upgradeContainer->getPrestaShopConfiguration(),
             $this->prodRootDir,
             $this->adminDir,
             $this->autoupgradePath
@@ -519,10 +522,9 @@ class AdminSelfUpgrade extends AdminController
                 ->getJson()
         );
 
-        $this->ajax = true;
         $this->content = $this->_html;
 
-        parent::display();
+        return parent::initContent();
     }
 
     /**

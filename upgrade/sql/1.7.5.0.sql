@@ -36,7 +36,7 @@ ALTER TABLE `PREFIX_customer`
   CHANGE `passwd` `passwd` VARCHAR(255) NOT NULL;
 
 ALTER TABLE `PREFIX_manufacturer_lang`
-  CHANGE `meta_title` `meta_title` VARCHAR(255) NOT NULL,
+  CHANGE `meta_title` `meta_title` VARCHAR(255) DEFAULT NULL,
   CHANGE `meta_description` `meta_description` VARCHAR(512) DEFAULT NULL;
 
 ALTER TABLE `PREFIX_employee`
@@ -73,7 +73,7 @@ ALTER TABLE `PREFIX_warehouse`
   CHANGE `reference` `reference` varchar(64) DEFAULT NULL;
 
 ALTER TABLE `PREFIX_stock`
-  CHANGE `reference` `reference` varchar(64) DEFAULT NULL;
+  CHANGE `reference` `reference` varchar(64) NOT NULL;
 
 ALTER TABLE `PREFIX_supply_order_detail`
   CHANGE `reference` `reference` varchar(64) NOT NULL,
@@ -88,3 +88,12 @@ ALTER TABLE `PREFIX_product_lang`
 
 ALTER TABLE `PREFIX_customer_thread`
   CHANGE `email` `email` varchar(255) NOT NULL;
+
+ALTER TABLE `PREFIX_attribute_group_lang`
+    ADD KEY `IDX_4653726CBA299860` (`id_lang`);
+
+ALTER TABLE `PREFIX_attribute_lang`
+    ADD KEY `IDX_3ABE46A7BA299860` (`id_lang`);
+
+ALTER TABLE `PREFIX_tab_lang`
+    ADD KEY `IDX_CFD9262DBA299860` (`id_lang`);

@@ -30,7 +30,20 @@ ALTER TABLE `PREFIX_supply_order_detail` CHANGE `isbn` `isbn` VARCHAR(32) NULL D
 
 ALTER TABLE `PREFIX_stock_available` ADD `physical_quantity` INT NOT NULL DEFAULT '0' AFTER `quantity`;
 ALTER TABLE `PREFIX_stock_available` ADD `reserved_quantity` INT NOT NULL DEFAULT '0' AFTER `physical_quantity`;
-ALTER TABLE `PREFIX_stock_mvt` CHANGE `id_stock` `id_stock` INT(11) UNSIGNED NOT NULL COMMENT 'since ps 1.7 corresponding to id_stock_available';
+ALTER TABLE `PREFIX_stock_mvt` COLLATE=utf8_unicode_ci;
+ALTER TABLE `PREFIX_stock_mvt` CHANGE `id_stock` `id_stock` INT(11) NOT NULL COMMENT 'since ps 1.7 corresponding to id_stock_available';
+ALTER TABLE `PREFIX_stock_mvt` CHANGE `id_stock_mvt` `id_stock_mvt` BIGINT(20) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `PREFIX_stock_mvt` CHANGE `id_order` `id_order` INT(11) DEFAULT NULL;
+ALTER TABLE `PREFIX_stock_mvt` CHANGE `id_supply_order` `id_supply_order` INT(11) DEFAULT NULL;
+ALTER TABLE `PREFIX_stock_mvt` CHANGE `id_stock_mvt_reason` `id_stock_mvt_reason` INT(11) NOT NULL;
+ALTER TABLE `PREFIX_stock_mvt` CHANGE `id_employee` `id_employee` INT(11) NOT NULL;
+ALTER TABLE `PREFIX_stock_mvt` CHANGE `physical_quantity` `physical_quantity` INT(11) NOT NULL;
+ALTER TABLE `PREFIX_stock_mvt` CHANGE `referer` `referer` BIGINT(20) DEFAULT NULL;
+ALTER TABLE `PREFIX_stock_mvt` CHANGE `employee_lastname` `employee_lastname` varchar(32) DEFAULT NULL;
+ALTER TABLE `PREFIX_stock_mvt` CHANGE `employee_firstname` `employee_firstname` varchar(32) DEFAULT NULL;
+ALTER TABLE `PREFIX_stock_mvt` CHANGE `sign` `sign` smallint(6) NOT NULL DEFAULT '1';
 
 UPDATE `PREFIX_configuration` SET `value` = 0 WHERE `name` = "PS_ADVANCED_STOCK_MANAGEMENT";
 /* PHP:add_new_status_stock(); */;
+
+ALTER TABLE `PREFIX_carrier_lang` CHANGE `delay` `delay` varchar(512) DEFAULT NULL;

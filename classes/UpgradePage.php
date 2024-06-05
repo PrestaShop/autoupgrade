@@ -35,7 +35,7 @@ use PrestaShop\Module\AutoUpgrade\Twig\Form\BackupOptionsForm;
 use PrestaShop\Module\AutoUpgrade\Twig\Form\FormRenderer;
 use PrestaShop\Module\AutoUpgrade\Twig\Form\UpgradeOptionsForm;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
-use Twig_Environment;
+use Twig\Environment;
 
 /**
  * Constructs the upgrade page.
@@ -45,17 +45,7 @@ class UpgradePage
     const TRANSLATION_DOMAIN = 'Modules.Autoupgrade.Admin';
 
     /**
-     * @var string
-     */
-    private $moduleDir;
-
-    /**
-     * @var string
-     */
-    private $templatesDir = '/views/templates';
-
-    /**
-     * @var Twig_Environment|\Twig\Environment
+     * @var Environment
      */
     private $twig;
 
@@ -146,7 +136,6 @@ class UpgradePage
         $backupName,
         $downloadPath
     ) {
-        $this->moduleDir = realpath(__DIR__ . '/../');
         $this->config = $config;
         $this->translator = $translator;
         $this->upgrader = $upgrader;
@@ -204,9 +193,6 @@ class UpgradePage
         return (new UpgradeChecklist(
             $this->twig,
             $this->upgradeSelfCheck,
-            $this->prodRootPath,
-            $this->adminPath,
-            $this->autoupgradePath,
             $this->currentIndex,
             $this->token
         ))->render();

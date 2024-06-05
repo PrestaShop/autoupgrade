@@ -114,12 +114,8 @@ function deactivate_custom_modules80($moduleRepository)
     }
 
     $toBeUninstalled = [];
-    foreach ($nonNativeModules as $k => $aModule) {
+    foreach ($nonNativeModules as $aModule) {
         $toBeUninstalled[] = (int) $aModule['id_module'];
-    }
-
-    if (empty($toBeUninstalled)) {
-        return $return;
     }
 
     $sql = 'DELETE FROM `' . _DB_PREFIX_ . 'module_shop` WHERE `id_module` IN (' . implode(',', array_map('add_quotes', $toBeUninstalled)) . ') ';

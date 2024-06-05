@@ -28,12 +28,12 @@
 namespace PrestaShop\Module\AutoUpgrade\Twig\Block;
 
 use PrestaShop\Module\AutoUpgrade\BackupFinder;
-use Twig_Environment;
+use Twig\Environment;
 
 class RollbackForm
 {
     /**
-     * @var Twig_Environment|\Twig\Environment
+     * @var Environment
      */
     private $twig;
 

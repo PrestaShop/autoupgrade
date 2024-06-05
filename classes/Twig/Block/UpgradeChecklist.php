@@ -30,7 +30,7 @@ namespace PrestaShop\Module\AutoUpgrade\Twig\Block;
 use Context;
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
-use Twig_Environment;
+use Twig\Environment;
 
 /**
  * Builds the upgrade checklist block.
@@ -38,24 +38,9 @@ use Twig_Environment;
 class UpgradeChecklist
 {
     /**
-     * @var Twig_Environment|\Twig\Environment
+     * @var Environment
      */
     private $twig;
-
-    /**
-     * @var string
-     */
-    private $prodRootPath;
-
-    /**
-     * @var string
-     */
-    private $adminPath;
-
-    /**
-     * @var string
-     */
-    private $autoupgradePath;
 
     /**
      * @var UpgradeSelfCheck
@@ -75,28 +60,19 @@ class UpgradeChecklist
     /**
      * UpgradeChecklistBlock constructor.
      *
-     * @param Twig_Environment|\Twig\Environment $twig
+     * @param Environment $twig
      * @param UpgradeSelfCheck $upgradeSelfCheck
-     * @param string $prodRootPath
-     * @param string $adminPath
-     * @param string $autoupgradePath
      * @param string $currentIndex
      * @param string $token
      */
     public function __construct(
         $twig,
         UpgradeSelfCheck $upgradeSelfCheck,
-        $prodRootPath,
-        $adminPath,
-        $autoupgradePath,
         $currentIndex,
         $token
     ) {
         $this->twig = $twig;
         $this->selfCheck = $upgradeSelfCheck;
-        $this->prodRootPath = $prodRootPath;
-        $this->adminPath = $adminPath;
-        $this->autoupgradePath = $autoupgradePath;
         $this->currentIndex = $currentIndex;
         $this->token = $token;
     }
@@ -113,6 +89,7 @@ class UpgradeChecklist
             'moduleVersion' => $this->selfCheck->getModuleVersion(),
             'moduleIsUpToDate' => $this->selfCheck->isModuleVersionLatest(),
             'moduleUpdateLink' => Context::getContext()->link->getAdminLink('AdminModulesUpdates'),
+            'isShopVersionMatchingVersionInDatabase' => $this->selfCheck->isShopVersionMatchingVersionInDatabase(),
             'adminToken' => Tools14::getAdminTokenLite('AdminModules'),
             'informationsLink' => Context::getContext()->link->getAdminLink('AdminInformation'),
             'maintenanceLink' => Context::getContext()->link->getAdminLink('AdminMaintenance'),

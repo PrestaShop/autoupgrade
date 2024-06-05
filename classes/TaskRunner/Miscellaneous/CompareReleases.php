@@ -42,6 +42,7 @@ class CompareReleases extends AbstractTask
         $this->next = '';
         $channel = $this->container->getUpgradeConfiguration()->get('channel');
         $upgrader = $this->container->getUpgrader();
+        $checksumCompare = $this->container->getChecksumCompare();
         switch ($channel) {
             case 'archive':
                 $version = $this->container->getUpgradeConfiguration()->get('archive.version_num');
@@ -63,23 +64,19 @@ class CompareReleases extends AbstractTask
 
         // Get list of differences between these two versions. The differences will be fetched from a local
         // XML file if it exists, or from PrestaShop API.
-        $diffFileList = $upgrader->getDiffFilesList(_PS_VERSION_, $version);
+        $diffFileList = $checksumCompare->getFilesDiffBetweenVersions(_PS_VERSION_, $version);
         if (!is_array($diffFileList)) {
             $this->nextParams['status'] = 'error';
             $this->nextParams['msg'] = sprintf('Unable to generate diff file list between %1$s and %2$s.', _PS_VERSION_, $version);
         } else {
             $this->container->getFileConfigurationStorage()->save($diffFileList, UpgradeFileNames::FILES_DIFF_LIST);
-            if (count($diffFileList) > 0) {
-                $this->nextParams['msg'] = $this->translator->trans(
-                    '%modifiedfiles% files will be modified, %deletedfiles% files will be deleted (if they are found).',
-                    [
-                        '%modifiedfiles%' => count($diffFileList['modified']),
-                        '%deletedfiles%' => count($diffFileList['deleted']),
-                    ],
-                    'Modules.Autoupgrade.Admin');
-            } else {
-                $this->nextParams['msg'] = $this->translator->trans('No diff files found.', [], 'Modules.Autoupgrade.Admin');
-            }
+            $this->nextParams['msg'] = $this->translator->trans(
+                '%modifiedfiles% files will be modified, %deletedfiles% files will be deleted (if they are found).',
+                [
+                    '%modifiedfiles%' => count($diffFileList['modified']),
+                    '%deletedfiles%' => count($diffFileList['deleted']),
+                ],
+                'Modules.Autoupgrade.Admin');
             $this->nextParams['result'] = $diffFileList;
         }
     }

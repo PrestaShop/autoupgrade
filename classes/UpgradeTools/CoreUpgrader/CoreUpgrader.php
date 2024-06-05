@@ -375,7 +375,8 @@ abstract class CoreUpgrader
         preg_match('/\((.*)\)/', $phpString, $pattern);
         $paramsString = trim($pattern[0], '()');
         preg_match_all('/([^,]+),? ?/', $paramsString, $parameters);
-        $parameters = (isset($parameters[1]) && is_array($parameters[1])) ?
+        // TODO: Could be `$parameters = $parameters[1] ?? [];` if PHP min version was > 7.0
+        $parameters = isset($parameters[1]) ?
             $parameters[1] :
             [];
         foreach ($parameters as &$parameter) {

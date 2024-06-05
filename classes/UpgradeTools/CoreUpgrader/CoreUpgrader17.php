@@ -53,17 +53,7 @@ class CoreUpgrader17 extends CoreUpgrader
         }*/
 
         // Container may be needed to run upgrade scripts
-        $this->container->getSymfonyAdapter()->initAppKernel();
-    }
-
-    protected function upgradeDb($oldversion)
-    {
-        parent::upgradeDb($oldversion);
-
-        $commandResult = $this->container->getSymfonyAdapter()->runSchemaUpgradeCommand();
-        if (0 !== $commandResult['exitCode']) {
-            throw (new UpgradeException($this->container->getTranslator()->trans('Error upgrading Doctrine schema', [], 'Modules.Autoupgrade.Admin')))->setQuickInfos(explode("\n", $commandResult['output']));
-        }
+        $this->container->getSymfonyAdapter()->initKernel();
     }
 
     protected function upgradeLanguage($lang)

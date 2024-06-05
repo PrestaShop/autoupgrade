@@ -2,7 +2,15 @@ includes:
 	- %currentWorkingDirectory%/tests/phpstan/phpstan.neon
 
 parameters:
-	excludes_analyse:
+	excludePaths:
 		- ./../../classes/UpgradeTools/CoreUpgrader/CoreUpgrader17.php
 		- ./../../classes/Twig/TransFilterExtension.php
 		- ./../../classes/UpgradeContainer.php
+	ignoreErrors:
+		- '#Call to method getContainer\(\) on an unknown class AdminKernel.#'
+		- '#Method PrestaShop\\Module\\AutoUpgrade\\UpgradeTools\\SymfonyAdapter::initKernel\(\) has invalid return type AdminKernel.#'
+		- '#Instantiated class AdminKernel not found\.#'
+		-
+			identifier: booleanAnd.rightAlwaysTrue
+			path: ./../../classes/UpgradeSelfCheck.php
+			count: 2

@@ -89,61 +89,17 @@ class UpgradeFiles extends AbstractTask
     }
 
     /**
-     * list files to upgrade and return it as array
-     * TODO: This method needs probably to be moved in FilesystemAdapter.
-     *
-     * @param string $dir
-     *
-     * @return array|false Number of files found, or false if param is not a folder
-     */
-    protected function listFilesToUpgrade($dir)
-    {
-        $list = [];
-        if (!is_dir($dir)) {
-            $this->logger->error($this->translator->trans('[ERROR] %s does not exist or is not a directory.', [$dir], 'Modules.Autoupgrade.Admin'));
-            $this->logger->info($this->translator->trans('Nothing has been extracted. It seems the unzipping step has been skipped.', [], 'Modules.Autoupgrade.Admin'));
-            $this->next = 'error';
-
-            return false;
-        }
-
-        $allFiles = scandir($dir);
-        foreach ($allFiles as $file) {
-            $fullPath = $dir . DIRECTORY_SEPARATOR . $file;
-
-            if ($this->container->getFilesystemAdapter()->isFileSkipped(
-                $file,
-                $fullPath,
-                'upgrade',
-                $this->container->getProperty(UpgradeContainer::LATEST_PATH)
-            )) {
-                if (!in_array($file, ['.', '..'])) {
-                    $this->logger->debug($this->translator->trans('File %s is preserved', [$file], 'Modules.Autoupgrade.Admin'));
-                }
-                continue;
-            }
-            $list[] = str_replace($this->container->getProperty(UpgradeContainer::LATEST_PATH), '', $fullPath);
-            if (is_dir($fullPath)) {
-                $list = array_merge($list, $this->listFilesToUpgrade($fullPath));
-            }
-        }
-
-        return $list;
-    }
-
-    /**
      * upgradeThisFile.
      *
-     * @param mixed $file
+     * @param mixed $orig The absolute path to the file from the upgrade archive
      */
-    public function upgradeThisFile($file)
+    public function upgradeThisFile($orig)
     {
         // translations_custom and mails_custom list are currently not used
         // later, we could handle customization with some kind of diff functions
         // for now, just copy $file in str_replace($this->latestRootDir,_PS_ROOT_DIR_)
 
-        // The path to the file from the upgrade archive
-        $orig = $this->container->getProperty(UpgradeContainer::LATEST_PATH) . $file;
+        $file = str_replace($this->container->getProperty(UpgradeContainer::LATEST_PATH), '', $orig);
 
         // The path to the file in our prestashop directory
         $dest = $this->destUpgradePath . $file;
@@ -263,7 +219,7 @@ class UpgradeFiles extends AbstractTask
         if (file_exists($filepath_list_diff)) {
             $list_files_diff = $this->container->getFileConfigurationStorage()->load(UpgradeFileNames::FILES_DIFF_LIST);
             // $list_files_diff now contains an array with a list of changed and deleted files.
-            // We only keep list of files to delete. The modified files will be listed with listFilesToUpgrade below.
+            // We only keep list of files to delete. The modified files will be listed in list_files_to_upgrade below.
             $list_files_diff = $list_files_diff['deleted'];
 
             // Admin folder name in this deleted files list is standard /admin/.
@@ -282,36 +238,12 @@ class UpgradeFiles extends AbstractTask
         }
 
         // Now, we get the list of files that are either new or must be modified
-        $list_files_to_upgrade = $this->listFilesToUpgrade($newReleasePath);
-        if (false === $list_files_to_upgrade) {
-            return false;
-        }
+        $list_files_to_upgrade = $this->container->getFilesystemAdapter()->listFilesInDir(
+            $newReleasePath, 'upgrade', true
+        );
 
         // Add our previously created list of deleted files
         $list_files_to_upgrade = array_reverse(array_merge($list_files_diff, $list_files_to_upgrade));
-
-        // Now, some files should be updated as an absolute last step, if they are present in the list,
-        // we will put them to the end of it.
-        $filesToMoveToTheEnd = [
-            DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php',
-            DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'composer' . DIRECTORY_SEPARATOR . 'ClassLoader.php',
-            DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'composer' . DIRECTORY_SEPARATOR . 'autoload_classmap.php',
-            DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'composer' . DIRECTORY_SEPARATOR . 'autoload_files.php',
-            DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'composer' . DIRECTORY_SEPARATOR . 'autoload_namespaces.php',
-            DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'composer' . DIRECTORY_SEPARATOR . 'autoload_psr4.php',
-            DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'composer' . DIRECTORY_SEPARATOR . 'autoload_real.php',
-            DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'composer' . DIRECTORY_SEPARATOR . 'autoload_static.php',
-            DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'composer' . DIRECTORY_SEPARATOR . 'include_paths.php',
-            DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'composer',
-            DIRECTORY_SEPARATOR . 'vendor',
-        ];
-
-        foreach ($filesToMoveToTheEnd as $file) {
-            if ($key = array_search($file, $list_files_to_upgrade)) {
-                unset($list_files_to_upgrade[$key]);
-                $list_files_to_upgrade[] = $file;
-            }
-        }
 
         // Save in a serialized array in UpgradeFileNames::toUpgradeFileList, to be later used by the upgrade step itself above,
         // after run() is called.
