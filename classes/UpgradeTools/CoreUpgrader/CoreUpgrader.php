@@ -259,15 +259,15 @@ abstract class CoreUpgrader
     protected function checkVersionIsNewer($oldVersion)
     {
         if (strpos($this->destinationUpgradeVersion, '.') === false) {
-            throw new UpgradeException($this->container->getTranslator()->trans('%s is not a valid version number.', [$this->destinationUpgradeVersion], 'Modules.Autoupgrade.Admin'));
+            throw new UpgradeException($this->container->getTranslator()->trans('%s is not a valid version number.', [$this->destinationUpgradeVersion]));
         }
 
         $versionCompare = version_compare($this->destinationUpgradeVersion, $oldVersion);
 
         if ($versionCompare === -1) {
-            throw new UpgradeException($this->container->getTranslator()->trans('[ERROR] Version to install is too old.') . ' ' . $this->container->getTranslator()->trans('Current version: %oldversion%. Version to install: %newversion%.', ['%oldversion%' => $oldVersion, '%newversion%' => $this->destinationUpgradeVersion], 'Modules.Autoupgrade.Admin'));
+            throw new UpgradeException($this->container->getTranslator()->trans('[ERROR] Version to install is too old.') . ' ' . $this->container->getTranslator()->trans('Current version: %oldversion%. Version to install: %newversion%.', ['%oldversion%' => $oldVersion, '%newversion%' => $this->destinationUpgradeVersion]));
         } elseif ($versionCompare === 0) {
-            throw new UpgradeException($this->container->getTranslator()->trans('You already have the %s version.', [$this->destinationUpgradeVersion], 'Modules.Autoupgrade.Admin'));
+            throw new UpgradeException($this->container->getTranslator()->trans('You already have the %s version.', [$this->destinationUpgradeVersion]));
         }
     }
 
@@ -314,14 +314,14 @@ abstract class CoreUpgrader
                     continue;
                 }
                 if (!is_readable($upgrade_dir_sql . $file)) {
-                    throw new UpgradeException($this->container->getTranslator()->trans('Error while loading SQL upgrade file "%s".', [$file], 'Modules.Autoupgrade.Admin'));
+                    throw new UpgradeException($this->container->getTranslator()->trans('Error while loading SQL upgrade file "%s".', [$file]));
                 }
                 $upgradeFiles[] = str_replace('.sql', '', $file);
             }
             closedir($handle);
         }
         if (empty($upgradeFiles)) {
-            throw new UpgradeException($this->container->getTranslator()->trans('Cannot find the SQL upgrade files. Please check that the %s folder is not empty.', [$upgrade_dir_sql], 'Modules.Autoupgrade.Admin'));
+            throw new UpgradeException($this->container->getTranslator()->trans('Cannot find the SQL upgrade files. Please check that the %s folder is not empty.', [$upgrade_dir_sql]));
         }
         natcasesort($upgradeFiles);
 
@@ -439,7 +439,7 @@ abstract class CoreUpgrader
             if (!empty($matches[1])) {
                 $drop = 'DROP TABLE IF EXISTS `' . _DB_PREFIX_ . $matches[1] . '`;';
                 if ($this->db->execute($drop, false)) {
-                    $this->logger->debug('<div class="upgradeDbOk">' . $this->container->getTranslator()->trans('[DROP] SQL %s table has been dropped.', ['`' . _DB_PREFIX_ . $matches[1] . '`'], 'Modules.Autoupgrade.Admin') . '</div>');
+                    $this->logger->debug('<div class="upgradeDbOk">' . $this->container->getTranslator()->trans('[DROP] SQL %s table has been dropped.', ['`' . _DB_PREFIX_ . $matches[1] . '`']) . '</div>');
                 }
             }
         }

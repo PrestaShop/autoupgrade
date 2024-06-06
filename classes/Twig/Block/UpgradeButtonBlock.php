@@ -116,7 +116,7 @@ class UpgradeButtonBlock
         if (!in_array($channel, ['archive', 'directory']) && !empty($this->upgrader->version_num)) {
             $latestVersion = "{$this->upgrader->version_name} - ({$this->upgrader->version_num})";
         } else {
-            $latestVersion = $translator->trans('N/A', [], 'Admin.Global');
+            $latestVersion = $translator->trans('N/A');
         }
 
         $showUpgradeButton = false;

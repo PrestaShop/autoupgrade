@@ -120,7 +120,7 @@ class Translation
         }
 
         if (!file_exists($orig)) {
-            $this->logger->notice($this->translator->trans('[NOTICE] File %s does not exist, merge skipped.', [$orig], 'Modules.Autoupgrade.Admin'));
+            $this->logger->notice($this->translator->trans('[NOTICE] File %s does not exist, merge skipped.', [$orig]));
 
             return true;
         }
@@ -131,8 +131,7 @@ class Translation
                 [
                     '%variablename%' => $var_name,
                     '%filename%' => $orig,
-                ],
-                'Modules.Autoupgrade.Admin'
+                ]
             ));
 
             return true;
@@ -140,7 +139,7 @@ class Translation
         $var_orig = $$var_name;
 
         if (!file_exists($dest)) {
-            $this->logger->notice($this->translator->trans('[NOTICE] File %s does not exist, merge skipped.', [$dest], 'Modules.Autoupgrade.Admin'));
+            $this->logger->notice($this->translator->trans('[NOTICE] File %s does not exist, merge skipped.', [$dest]));
 
             return false;
         }
@@ -156,8 +155,7 @@ class Translation
                 [
                     '%variablename%' => $var_name,
                     '%filename%' => $dest,
-                ],
-                'Modules.Autoupgrade.Admin'
+                ]
             ));
 
             return false;

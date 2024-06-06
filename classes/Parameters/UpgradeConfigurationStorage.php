@@ -31,11 +31,6 @@ use PrestaShop\Module\AutoUpgrade\Upgrader;
 
 class UpgradeConfigurationStorage extends FileConfigurationStorage
 {
-    /**
-     * UpgradeConfiguration loader.
-     *
-     * @param string $fileName
-     */
     public function load(string $fileName = ''): UpgradeConfiguration
     {
         $data = array_merge(
@@ -49,8 +44,6 @@ class UpgradeConfigurationStorage extends FileConfigurationStorage
     /**
      * @param \PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration $config
      * @param string $fileName Destination path of the config file
-     *
-     * @return bool
      */
     public function save($config, string $fileName): bool
     {

@@ -469,7 +469,7 @@ class UpgradeContainer
     /**
      * @throws LoaderError
      */
-    public function getTwig(): Environment
+    public function getTwig()
     {
         if (null !== $this->twig) {
             return $this->twig;

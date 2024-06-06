@@ -70,8 +70,7 @@ class Unzip extends AbstractTask
                 [
                     '%filepath%' => $filepath,
                     '%destination%' => $destExtract,
-                ],
-                'Modules.Autoupgrade.Admin'
+                ]
             ));
 
             return false;
@@ -119,7 +118,7 @@ class Unzip extends AbstractTask
         // Unsetting to force listing
         $this->container->getState()->setRemoveList(null);
         $this->next = 'backupFiles';
-        $this->logger->info($this->translator->trans('File extraction complete. Now backing up files...', [], 'Modules.Autoupgrade.Admin'));
+        $this->logger->info($this->translator->trans('File extraction complete. Now backing up files...'));
 
         @unlink($newZip);
 

@@ -68,8 +68,8 @@ class UpgradeNow extends AbstractTask
             case 'directory':
                 // if channel directory is chosen, we assume it's "ready for use"
                 $this->next = 'backupFiles';
-                $this->logger->debug($this->translator->trans('Downloading and unzipping steps have been skipped, upgrade process will now remove sample data.', [], 'Modules.Autoupgrade.Admin'));
-                $this->logger->info($this->translator->trans('Shop deactivated. Now backing up files...', [], 'Modules.Autoupgrade.Admin'));
+                $this->logger->debug($this->translator->trans('Downloading and unzipping steps have been skipped, upgrade process will now remove sample data.'));
+                $this->logger->info($this->translator->trans('Shop deactivated. Now backing up files...'));
                 break;
             case 'archive':
                 $this->next = 'unzip';

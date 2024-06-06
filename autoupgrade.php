@@ -48,23 +48,23 @@ class Autoupgrade extends Module
             if (defined('PS_ADMIN_DIR')) {
                 define('_PS_ADMIN_DIR_', PS_ADMIN_DIR);
             } else {
-                $this->_errors[] = $this->trans('This version of PrestaShop cannot be upgraded: the PS_ADMIN_DIR constant is missing.', [], 'Modules.Autoupgrade.Admin');
+                $this->_errors[] = $this->trans('This version of PrestaShop cannot be upgraded: the PS_ADMIN_DIR constant is missing.');
             }
         }
 
-        $this->displayName = $this->trans('1-Click Upgrade', [], 'Modules.Autoupgrade.Admin');
-        $this->description = $this->trans('Upgrade to the latest version of PrestaShop in a few clicks, thanks to this automated method.', [], 'Modules.Autoupgrade.Admin');
+        $this->displayName = $this->trans('1-Click Upgrade');
+        $this->description = $this->trans('Upgrade to the latest version of PrestaShop in a few clicks, thanks to this automated method.');
 
         $this->ps_versions_compliancy = ['min' => '1.7.0.0', 'max' => _PS_VERSION_];
     }
 
     public function install()
     {
-        require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/classes/VersionCheck.php';
-        if (!\PrestaShop\Module\AutoUpgrade\VersionCheck::isActualPHPVersionCompatible()) {
+        require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/classes/VersionUtils.php';
+        if (!\PrestaShop\Module\AutoUpgrade\VersionUtils::isActualPHPVersionCompatible()) {
             $this->_errors[] = $this->trans(
                 'This module requires PHP %s to work properly. Please upgrade your server configuration.',
-                [\PrestaShop\Module\AutoUpgrade\VersionCheck::getHumanReadableVersionOf(\PrestaShop\Module\AutoUpgrade\VersionCheck::MODULE_COMPATIBLE_PHP_VERSION)]
+                [\PrestaShop\Module\AutoUpgrade\VersionUtils::getHumanReadableVersionOf(\PrestaShop\Module\AutoUpgrade\VersionUtils::MODULE_COMPATIBLE_PHP_VERSION)]
             );
 
             return false;
@@ -74,7 +74,7 @@ class Autoupgrade extends Module
         if ($id_tab = Tab::getIdFromClassName('AdminUpgrade')) {
             $tab = new Tab((int) $id_tab);
             if (!$tab->delete()) {
-                $this->_errors[] = $this->trans('Unable to delete outdated "AdminUpgrade" tab (tab ID: %idtab%).', ['%idtab%' => (int) $id_tab], 'Modules.Autoupgrade.Admin');
+                $this->_errors[] = $this->trans('Unable to delete outdated "AdminUpgrade" tab (tab ID: %idtab%).', ['%idtab%' => (int) $id_tab]);
             }
         }
 
@@ -91,7 +91,7 @@ class Autoupgrade extends Module
                 $tab->name[(int) $lang['id_lang']] = '1-Click Upgrade';
             }
             if (!$tab->save()) {
-                return $this->_abortInstall($this->trans('Unable to create the "AdminSelfUpgrade" tab', [], 'Modules.Autoupgrade.Admin'));
+                return $this->_abortInstall($this->trans('Unable to create the "AdminSelfUpgrade" tab'));
             }
         } else {
             $tab = new Tab((int) $id_tab);
@@ -101,7 +101,7 @@ class Autoupgrade extends Module
         if (Validate::isLoadedObject($tab)) {
             Configuration::updateValue('PS_AUTOUPDATE_MODULE_IDTAB', (int) $tab->id);
         } else {
-            return $this->_abortInstall($this->trans('Unable to load the "AdminSelfUpgrade" tab', [], 'Modules.Autoupgrade.Admin'));
+            return $this->_abortInstall($this->trans('Unable to load the "AdminSelfUpgrade" tab'));
         }
 
         return parent::install() && $this->registerHookAndSetToTop('dashboardZoneOne');
@@ -123,8 +123,12 @@ class Autoupgrade extends Module
 
     /**
      * Register the current module to a given hook and moves it at the first position.
+     *
+     * @param string $hookName
+     *
+     * @return bool
      */
-    public function registerHookAndSetToTop(string $hookName)
+    public function registerHookAndSetToTop($hookName)
     {
         if (!$this->registerHook($hookName)) {
             return false;
@@ -178,7 +182,7 @@ class Autoupgrade extends Module
      *
      * @return bool Always false
      */
-    protected function _abortInstall(string $error)
+    protected function _abortInstall($error)
     {
         $this->_errors[] = $error;
 
@@ -218,6 +222,6 @@ class Autoupgrade extends Module
 
         $translator = new \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator(__CLASS__);
 
-        return $translator->trans($id, $parameters, $domain, $locale);
+        return $translator->trans($id, $parameters);
     }
 }

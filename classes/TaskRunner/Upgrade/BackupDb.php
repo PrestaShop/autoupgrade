@@ -55,7 +55,7 @@ class BackupDb extends AbstractTask
         $relative_backup_path = str_replace(_PS_ROOT_DIR_, '', $this->container->getProperty(UpgradeContainer::BACKUP_PATH));
         $report = '';
         if (!\ConfigurationTest::test_dir($relative_backup_path, false, $report)) {
-            $this->logger->error($this->translator->trans('Backup directory is not writable (%path%).', ['%path%' => $this->container->getProperty(UpgradeContainer::BACKUP_PATH)], 'Modules.Autoupgrade.Admin'));
+            $this->logger->error($this->translator->trans('Backup directory is not writable (%path%).', ['%path%' => $this->container->getProperty(UpgradeContainer::BACKUP_PATH)]));
             $this->next = 'error';
             $this->error = true;
 

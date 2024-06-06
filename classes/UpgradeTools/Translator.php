@@ -44,12 +44,10 @@ class Translator
      *
      * @param string $id Original text
      * @param array $parameters Parameters to apply
-     * @param string|null $domain Unused
-     * @param string|null $locale Unused
      *
      * @return string Translated string with parameters applied
      */
-    public function trans(string $id, array $parameters = [], ?string $domain = 'Modules.Autoupgrade.Admin', ?string $locale = null): string
+    public function trans($id, array $parameters = [])
     {
         // If PrestaShop core is not instancied properly, do not try to translate
         if (!method_exists('\Context', 'getContext') || null === \Context::getContext()->language) {
@@ -76,7 +74,7 @@ class Translator
      *
      * @internal Public for tests
      */
-    public function applyParameters(string $id, array $parameters = []): string
+    public function applyParameters(string $id, array $parameters = [])
     {
         // Replace placeholders for non numeric keys
         foreach ($parameters as $placeholder => $value) {

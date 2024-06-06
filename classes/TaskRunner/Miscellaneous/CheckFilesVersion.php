@@ -50,7 +50,7 @@ class CheckFilesVersion extends AbstractTask
 
         if ($changedFileList === false) {
             $this->nextParams['status'] = 'error';
-            $this->nextParams['msg'] = $this->translator->trans('Unable to check files for the installed version of PrestaShop.', [], 'Modules.Autoupgrade.Admin');
+            $this->nextParams['msg'] = $this->translator->trans('Unable to check files for the installed version of PrestaShop.');
 
             return;
         }
@@ -63,7 +63,7 @@ class CheckFilesVersion extends AbstractTask
 
         if ($checksumCompare->isAuthenticPrestashopVersion($currentPrestaShopVersion)) {
             $this->nextParams['status'] = 'ok';
-            $this->nextParams['msg'] = $this->translator->trans('Core files are ok', [], 'Modules.Autoupgrade.Admin');
+            $this->nextParams['msg'] = $this->translator->trans('Core files are ok');
         } else {
             $this->nextParams['status'] = 'warn';
             $this->nextParams['msg'] = $this->translator->trans(

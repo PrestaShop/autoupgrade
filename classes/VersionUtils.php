@@ -27,7 +27,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade;
 
-class VersionCheck
+class VersionUtils
 {
     const MODULE_COMPATIBLE_PHP_VERSION = 70100;
 
