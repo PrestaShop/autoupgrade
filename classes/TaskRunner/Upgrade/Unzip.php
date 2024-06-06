@@ -115,8 +115,8 @@ class Unzip extends AbstractTask
 
         // Unsetting to force listing
         $this->container->getState()->setRemoveList(null);
-        $this->next = 'removeSamples';
-        $this->logger->info($this->translator->trans('File extraction complete. Removing sample files...', [], 'Modules.Autoupgrade.Admin'));
+        $this->next = 'backupFiles';
+        $this->logger->info($this->translator->trans('File extraction complete. Now backing up files...', [], 'Modules.Autoupgrade.Admin'));
 
         @unlink($newZip);
 
