@@ -34,6 +34,11 @@ use PrestaShop\Module\AutoUpgrade\Log\LoggerInterface;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\ThemeAdapter;
+use PrestaShop\PrestaShop\Core\CommandBus\CommandBusInterface;
+use PrestaShop\PrestaShop\Core\Domain\Theme\Command\AdaptThemeToRTLLanguagesCommand;
+use PrestaShop\PrestaShop\Core\Domain\Theme\ValueObject\ThemeName;
+use PrestaShop\PrestaShop\Core\Exception\CoreException;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Class used to modify the core of PrestaShop, on the files are copied on the filesystem.
@@ -686,6 +691,15 @@ abstract class CoreUpgrader
      */
     protected function updateTheme(): void
     {
+        $this->updateRTLFiles();
+        $this->switchToDefaultTheme();
+    }
+
+    /**
+     * @throws UpgradeException
+     */
+    protected function switchToDefaultTheme(): void
+    {
         // The merchant can ask for keeping its current theme.
         if (!$this->container->getUpgradeConfiguration()->shouldSwitchToDefaultTheme()) {
             $this->logger->info($this->container->getTranslator()->trans('Keeping current theme'));
@@ -704,6 +718,52 @@ abstract class CoreUpgrader
 
         if ($themeErrors !== true) {
             throw new UpgradeException($themeErrors);
+        }
+    }
+
+    protected function updateRTLFiles(): void
+    {
+        if (!class_exists(AdaptThemeToRTLLanguagesCommand::class)) {
+            return;
+        }
+
+        if (!$this->container->getUpgradeConfiguration()->shouldUpdateRTLFiles()) {
+            return;
+        }
+        $this->logger->info($this->container->getTranslator()->trans('Upgrade the RTL files.', [], 'Modules.Autoupgrade.Admin'));
+        $themeAdapter = new ThemeAdapter($this->db);
+
+        $themes = $themeAdapter->getListFromDisk();
+        $this->removeExistingRTLFiles($themes);
+
+        foreach ($themes as $theme) {
+            $adaptThemeToTRLLanguages = new AdaptThemeToRTLLanguagesCommand(
+                new ThemeName($theme['name'])
+            );
+
+            /** @var CommandBusInterface $commandBus */
+            $commandBus = $this->container->getModuleAdapter()->getCommandBus();
+
+            try {
+                $commandBus->handle($adaptThemeToTRLLanguages);
+            } catch (CoreException $e) {
+                $this->logger->error('
+                    [ERROR] PHP Impossible to generate RTL files for theme' . $theme['name'] . "\n" .
+                    $e->getMessage()
+                );
+
+                $this->container->getState()->setWarningExists(true);
+            }
+        }
+    }
+
+    private function removeExistingRTLFiles(array $themes): void
+    {
+        $filesystem = new Filesystem();
+
+        foreach ($themes as $theme) {
+            $files = $this->container->getFilesystemAdapter()->listSampleFiles($theme['directory'], '_rtl.css');
+            $filesystem->remove($files);
         }
     }
 
