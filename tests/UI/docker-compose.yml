@@ -30,8 +30,21 @@ services:
     ports:
       - 80:80
   mysql:
-    image: mysql:8
+    image: mariadb:lts
     container_name: prestashop-mysql
+    healthcheck:
+      test:
+        [
+            'CMD',
+            'mysqladmin',
+            'ping',
+            '--host=localhost',
+            '--user=prestashop',
+            '--password=prestashop',
+        ]
+      interval: 5s
+      timeout: 10s
+      retries: 5
     environment:
       - MYSQL_HOST=mysql
       - MYSQL_USER=prestashop
