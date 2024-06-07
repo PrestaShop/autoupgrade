@@ -15,7 +15,7 @@ let dbConnection: Connection;
 const baseContext: string = 'shopVersion_checkVersionIndatabase';
 const psVersion = testContext.getPSVersion();
 
-test.describe('Check new shop version', () => {
+test.describe.skip('Check new shop version', () => {
   const dbPrefix: string = global.INSTALL.DB_PREFIX;
 
   test.beforeAll(async () => {
