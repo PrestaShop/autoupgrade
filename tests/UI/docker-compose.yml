@@ -52,6 +52,8 @@ services:
       - MYSQL_ROOT_PASSWORD=prestashop
       - MYSQL_PORT=3306
       - MYSQL_DATABASE=prestashop
+    ports:
+      - "3306:3306"
 
   maildev:
     image: 'maildev/maildev'
