@@ -30,7 +30,7 @@ services:
     ports:
       - 80:80
   mysql:
-    image: mariadb:lts
+    image: mysql:8
     container_name: prestashop-mysql
     healthcheck:
       test:
