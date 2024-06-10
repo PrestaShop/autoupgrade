@@ -70,11 +70,15 @@ class Translator
             return $this->applyParameters($id, $parameters);
         }
 
-        // Use new translation system for PrestaShop 1.7.6 and newer
+        // Use new translation system for PrestaShop 1.7.8 and newer
+        // New translation system is available from 1.7.6 but we need to load manually translation into database before 1.7.8
         if (version_compare($psVersion, '1.7.8.0', '>=')) {
-            $translator = SymfonyContainer::getInstance()->get('translator');
+            $symfonyContainer = SymfonyContainer::getInstance();
 
-            return $translator->trans($id, $parameters, $domain, $locale);
+            if ($symfonyContainer !== null) {
+                $translator = $symfonyContainer->get('translator');
+                return $translator->trans($id, $parameters, $domain, $locale);
+            }
         }
 
         // Use XLF translations for older versions
