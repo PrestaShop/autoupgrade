@@ -60,17 +60,13 @@ class Translator
      */
     public function trans($id, array $parameters = [])
     {
-        // Get PrestaShop version
-        $psVersion = _PS_VERSION_;
-
         // If PrestaShop core is not instantiated properly, do not try to translate
         if (!method_exists('\Context', 'getContext') || null === \Context::getContext()->language) {
             return $this->applyParameters($id, $parameters);
         }
 
-        // Use new translation system for PrestaShop 1.7.8 and newer
-        // New translation system is available from 1.7.6 but we need to load manually translation into database before 1.7.8
-        if (version_compare($psVersion, '1.7.8.0', '>=')) {
+        // If new translation system is available we using it
+        if (class_exists('SymfonyContainer') && method_exists('SymfonyContainer', 'getInstance')) {
             $symfonyContainer = SymfonyContainer::getInstance();
 
             if ($symfonyContainer !== null) {
