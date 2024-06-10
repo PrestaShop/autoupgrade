@@ -2,10 +2,10 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
-use PrestaShop\PrestaShop\Adapter\SymfonyContainer;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use SimpleXMLElement;
 
-class Translator
+class Translator implements TranslatorInterface
 {
     private $translations = [];
 
@@ -14,21 +14,12 @@ class Translator
      */
     private function loadTranslations()
     {
-        $locale = \Context::getContext()->language->locale;
         $language = \Context::getContext()->language->iso_code;
 
         // Adjust the path to your XLF files as necessary
         $basePath = _PS_MODULE_DIR_ . 'autoupgrade/translations/ModulesAutoupgradeAdmin';
 
-        // Try to load the specific locale file (e.g., fr-FR)
-        $path = $basePath . '.' . $locale . '.xlf';
-        if (file_exists($path)) {
-            $this->loadXlfFile($path);
-
-            return;
-        }
-
-        // Fallback to the generic language file (e.g., fr)
+        // use generic language file (e.g., fr)
         $path = $basePath . '.' . $language . '.xlf';
         if (file_exists($path)) {
             $this->loadXlfFile($path);
@@ -67,18 +58,6 @@ class Translator
             return $this->applyParameters($id, $parameters);
         }
 
-        // If new translation system is available we using it
-        if (class_exists('SymfonyContainer') && method_exists('SymfonyContainer', 'getInstance')) {
-            $symfonyContainer = SymfonyContainer::getInstance();
-
-            if ($symfonyContainer !== null) {
-                $translator = $symfonyContainer->get('translator');
-
-                return $translator->trans($id, $parameters, $domain, $locale);
-            }
-        }
-
-        // Use XLF translations for older versions
         if (empty($this->translations)) {
             $this->loadTranslations();
         }
@@ -111,5 +90,11 @@ class Translator
         }
 
         return call_user_func_array('sprintf', array_merge([$id], $parameters));
+    }
+
+
+    public function getLocale()
+    {
+        return \Context::getContext()->language->locale;
     }
 }

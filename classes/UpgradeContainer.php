@@ -474,7 +474,11 @@ class UpgradeContainer
      */
     public function getTranslator()
     {
-        return new Translator();
+        $translator = $this->getSymfonyAdapter()->initKernel()
+        ->getContainer()
+        ->get('translator');
+
+        return $translator ?? new Translator();
     }
 
     /**
