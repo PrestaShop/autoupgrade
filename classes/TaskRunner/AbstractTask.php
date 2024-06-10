@@ -31,6 +31,7 @@ use Exception;
 use PrestaShop\Module\AutoUpgrade\AjaxResponse;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 abstract class AbstractTask
 {
@@ -46,7 +47,7 @@ abstract class AbstractTask
     protected $logger;
 
     /**
-     * @var \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator
+     * @var TranslatorInterface
      */
     protected $translator;
 
