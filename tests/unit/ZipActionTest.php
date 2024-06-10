@@ -26,8 +26,6 @@
 use PHPUnit\Framework\TestCase;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
-define('_PS_VERSION_', '1.7.8.0');
-
 class ZipActionTest extends TestCase
 {
     const ZIP_CONTENT_PATH = __DIR__ . '/../fixtures/ArchiveExample.zip';
