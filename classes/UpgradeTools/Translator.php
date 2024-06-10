@@ -69,7 +69,7 @@ class Translator
         }
 
         // Use new translation system for PrestaShop 1.7.6 and newer
-        if (version_compare($psVersion, '1.7.6.0', '>=')) {
+        if (version_compare($psVersion, '1.7.8.0', '>=')) {
             $translator = SymfonyContainer::getInstance()->get('translator');
 
             return $translator->trans($id, $parameters, $domain, $locale);
