@@ -20,6 +20,7 @@ parameters:
 		- '#Method PrestaShop\\Module\\AutoUpgrade\\UpgradeTools\\SymfonyAdapter::initKernel\(\) has invalid return type AdminKernel.#'
 		- '#Call to method getContainer\(\) on an unknown class AdminKernel.#'
 		- '#Instantiated class AdminKernel not found\.#'
+		- '#Call to function method_exists\(\) with \'SymfonyContainer\' and \'getInstance\' will always evaluate to false.#'
 		-
 			identifier: booleanAnd.rightAlwaysTrue
 			path: ./../../classes/UpgradeSelfCheck.php

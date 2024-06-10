@@ -73,6 +73,7 @@ class Translator
 
             if ($symfonyContainer !== null) {
                 $translator = $symfonyContainer->get('translator');
+
                 return $translator->trans($id, $parameters, $domain, $locale);
             }
         }
