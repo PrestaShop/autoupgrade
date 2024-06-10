@@ -31,7 +31,7 @@ class VersionUtils
 {
     const MODULE_COMPATIBLE_PHP_VERSION = 70100;
 
-    public static function getHumanReadableVersionOf(int $versionInt): string
+    public static function getHumanReadableVersionOf($versionInt)
     {
         $major = intdiv($versionInt, 10000);
         $minor = intdiv($versionInt % 10000, 100);
@@ -39,7 +39,7 @@ class VersionUtils
         return sprintf('%d.%d', $major, $minor);
     }
 
-    public static function isActualPHPVersionCompatible(): bool
+    public static function isActualPHPVersionCompatible()
     {
         return PHP_VERSION_ID >= self::MODULE_COMPATIBLE_PHP_VERSION;
     }
