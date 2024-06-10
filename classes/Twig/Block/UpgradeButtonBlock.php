@@ -83,7 +83,7 @@ class UpgradeButtonBlock
      * UpgradeButtonBlock constructor.
      *
      * @param Environment $twig
-     * @param Translator $translator
+     * @param TranslatorInterface $translator
      * @param UpgradeConfiguration $config
      * @param Upgrader $upgrader
      * @param UpgradeSelfCheck $selfCheck
