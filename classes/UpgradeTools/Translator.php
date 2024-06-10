@@ -2,8 +2,8 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
-use Symfony\Contracts\Translation\TranslatorInterface;
 use SimpleXMLElement;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class Translator implements TranslatorInterface
 {
@@ -91,7 +91,6 @@ class Translator implements TranslatorInterface
 
         return call_user_func_array('sprintf', array_merge([$id], $parameters));
     }
-
 
     public function getLocale()
     {

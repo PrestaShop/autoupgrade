@@ -27,7 +27,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Twig\Form;
 
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class BackupOptionsForm
 {
@@ -37,7 +37,7 @@ class BackupOptionsForm
     private $fields;
 
     /**
-     * @var Translator
+     * @var TranslatorInterface
      */
     private $translator;
 
@@ -46,7 +46,7 @@ class BackupOptionsForm
      */
     private $formRenderer;
 
-    public function __construct(Translator $translator, FormRenderer $formRenderer)
+    public function __construct(TranslatorInterface $translator, FormRenderer $formRenderer)
     {
         $this->translator = $translator;
         $this->formRenderer = $formRenderer;

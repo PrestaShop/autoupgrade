@@ -34,7 +34,7 @@ use PrestaShop\Module\AutoUpgrade\Twig\Block\UpgradeChecklist;
 use PrestaShop\Module\AutoUpgrade\Twig\Form\BackupOptionsForm;
 use PrestaShop\Module\AutoUpgrade\Twig\Form\FormRenderer;
 use PrestaShop\Module\AutoUpgrade\Twig\Form\UpgradeOptionsForm;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
 /**
@@ -55,7 +55,7 @@ class UpgradePage
     private $config;
 
     /**
-     * @var Translator
+     * @var TranslatorInterface
      */
     private $translator;
 
@@ -122,7 +122,7 @@ class UpgradePage
     public function __construct(
         UpgradeConfiguration $config,
         $twig,
-        Translator $translator,
+        TranslatorInterface $translator,
         UpgradeSelfCheck $upgradeSelfCheck,
         Upgrader $upgrader,
         BackupFinder $backupFinder,
