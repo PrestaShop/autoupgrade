@@ -550,7 +550,7 @@ class AdminSelfUpgradeController extends ModuleAdminController
             self::$currentIndex,
             $this->token,
             $this->upgradeContainer->getState()->getInstallVersion(),
-            $this->manualMode ?? false,
+            $this->manualMode ? $this->manualMode : false,
             $this->upgradeContainer->getState()->getBackupName(),
             $this->downloadPath
         ))->display(
