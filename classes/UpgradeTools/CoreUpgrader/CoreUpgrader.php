@@ -38,6 +38,7 @@ use PrestaShop\PrestaShop\Core\CommandBus\CommandBusInterface;
 use PrestaShop\PrestaShop\Core\Domain\Theme\Command\AdaptThemeToRTLLanguagesCommand;
 use PrestaShop\PrestaShop\Core\Domain\Theme\ValueObject\ThemeName;
 use PrestaShop\PrestaShop\Core\Exception\CoreException;
+use PrestaShop\PrestaShop\Core\Localization\RTL\Processor as RtlStylesheetProcessor;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -723,13 +724,27 @@ abstract class CoreUpgrader
 
     protected function updateRTLFiles(): void
     {
+        if (!$this->container->getUpgradeConfiguration()->shouldUpdateRTLFiles()) {
+            return;
+        }
+
+        // BO theme
+        if (class_exists(RtlStylesheetProcessor::class)) {
+            (new RtlStylesheetProcessor(
+                $this->container->getProperty(UpgradeContainer::PS_ADMIN_PATH),
+                $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'themes',
+                []
+            ))
+                ->setProcessBOTheme(true)
+                ->setProcessDefaultModules(true)
+                ->process();
+        }
+
+        // FO themes
         if (!class_exists(AdaptThemeToRTLLanguagesCommand::class)) {
             return;
         }
 
-        if (!$this->container->getUpgradeConfiguration()->shouldUpdateRTLFiles()) {
-            return;
-        }
         $this->logger->info($this->container->getTranslator()->trans('Upgrade the RTL files.', [], 'Modules.Autoupgrade.Admin'));
         $themeAdapter = new ThemeAdapter($this->db);
 
