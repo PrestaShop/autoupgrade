@@ -22,6 +22,7 @@
   },
   "config": {
     "preferred-install": "dist",
+    "platform-check": false,
     "classmap-authoritative": true,
     "platform": {
       "php": "7.1"
