@@ -63,6 +63,11 @@ abstract class CoreUpgrader
     protected $logger;
 
     /**
+     * @var Filesystem
+     */
+    private $filesystem;
+
+    /**
      * Version PrestaShop is upgraded to.
      *
      * @var string
@@ -87,6 +92,8 @@ abstract class CoreUpgrader
     {
         $this->container = $container;
         $this->logger = $logger;
+
+        $this->filesystem = new Filesystem();
     }
 
     public function doUpgrade()
@@ -730,7 +737,7 @@ abstract class CoreUpgrader
 
         // BO theme
         if (class_exists(RtlStylesheetProcessor::class)) {
-            $this->logger->info($this->container->getTranslator()->trans('Upgrade the RTL files of back-office themes.', [], 'Modules.Autoupgrade.Admin'));
+            $this->logger->info($this->container->getTranslator()->trans('Upgrade the RTL files of back-office themes.'));
 
             $this->removeExistingRTLFiles([
                 ['directory' => $this->container->getProperty(UpgradeContainer::PS_ADMIN_PATH) . DIRECTORY_SEPARATOR . 'themes'],
@@ -751,7 +758,7 @@ abstract class CoreUpgrader
             return;
         }
 
-        $this->logger->info($this->container->getTranslator()->trans('Upgrade the RTL files of front-office themes.', [], 'Modules.Autoupgrade.Admin'));
+        $this->logger->info($this->container->getTranslator()->trans('Upgrade the RTL files of front-office themes.'));
         $themeAdapter = new ThemeAdapter($this->db);
 
         $themes = $themeAdapter->getListFromDisk();
@@ -779,15 +786,13 @@ abstract class CoreUpgrader
     }
 
     /**
-     * @param array{array{'directory':string,'name':string}} $themes
+     * @param array{array{'directory':string}} $themes
      */
     private function removeExistingRTLFiles(array $themes): void
     {
-        $filesystem = new Filesystem();
-
         foreach ($themes as $theme) {
             $files = $this->container->getFilesystemAdapter()->listSampleFiles($theme['directory'], '_rtl.css');
-            $filesystem->remove($files);
+            $this->filesystem->remove($files);
         }
     }
 

@@ -49,7 +49,7 @@ class ThemeAdapter
     /**
      * Get the list of theme name.
      *
-     * @return array
+     * @return array{array{'directory':string,'name':string}}
      */
     public function getListFromDisk(): array
     {
