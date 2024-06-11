@@ -124,18 +124,20 @@ class AdminSelfUpgradeController extends ModuleAdminController
 
     public function __construct()
     {
+        $this->bootstrap = true;
+        parent::__construct();
         require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/classes/VersionUtils.php';
 
         if (!\PrestaShop\Module\AutoUpgrade\VersionUtils::isActualPHPVersionCompatible()) {
             $this->isActualPHPVersionCompatible = false;
+
+            return;
         }
 
         $autoloadPath = __DIR__ . '/../../vendor/autoload.php';
         if (file_exists($autoloadPath)) {
             require_once $autoloadPath;
         }
-
-        parent::__construct();
 
         @set_time_limit(0);
         @ini_set('max_execution_time', '0');
@@ -145,7 +147,6 @@ class AdminSelfUpgradeController extends ModuleAdminController
         $this->init();
 
         $this->db = Db::getInstance();
-        $this->bootstrap = true;
 
         self::$currentIndex = $_SERVER['SCRIPT_NAME'] . (($controller = Tools14::getValue('controller')) ? '?controller=' . $controller : '');
 
@@ -392,6 +393,10 @@ class AdminSelfUpgradeController extends ModuleAdminController
 
     public function postProcess()
     {
+        if (!$this->isActualPHPVersionCompatible) {
+            return true;
+        }
+
         $this->_setFields();
 
         if (Tools14::isSubmit('putUnderMaintenance')) {
