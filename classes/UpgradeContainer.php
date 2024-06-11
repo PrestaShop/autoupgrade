@@ -465,10 +465,7 @@ class UpgradeContainer
         return new Translation($this->getTranslator(), $this->getLogger(), $this->getState()->getInstalledLanguagesIso());
     }
 
-    /**
-     * @return TranslatorInterface
-     */
-    public function getTranslator()
+    public function getTranslator(): TranslatorInterface
     {
         $coreTranslator = $this->getSymfonyAdapter()->initKernel()
         ->getContainer()

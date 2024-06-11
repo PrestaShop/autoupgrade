@@ -54,15 +54,19 @@ class Translator implements TranslatorInterface
     /**
      * Translate a string to the current language.
      *
-     * @param string $id Original text
-     * @param array $parameters Parameters to apply
+     * @param string $id
+     * @param array $parameters
+     * @param string|null $domain
+     * @param string|null $locale
      *
      * @return string Translated string with parameters applied
      */
-    public function trans($id, array $parameters = [])
+    public function trans($id, array $parameters = [], $domain = null, $locale = null)
     {
+        $defaultDomain = 'Modules.Autoupgrade.Admin';
+
         if ($this->coreTranslator) {
-            return $this->coreTranslator->trans($id, $parameters, $domain, $locale);
+            return $this->coreTranslator->trans($id, $parameters, $domain ?? $defaultDomain, $locale);
         }
 
         // If PrestaShop core is not instantiated properly, do not try to translate
@@ -106,10 +110,6 @@ class Translator implements TranslatorInterface
 
     public function getLocale()
     {
-        if ($this->coreTranslator) {
-            return $this->coreTranslator->getLocale();
-        }
-
         return \Context::getContext()->language->locale;
     }
 }
