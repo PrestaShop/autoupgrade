@@ -29,5 +29,5 @@ if [[ $CHANNEL == "archive" ]]; then
   docker exec -u www-data prestashop_autoupgrade php admin-dev/autoupgrade/cli-updateconfig.php --from=modules/autoupgrade/config.json --dir=admin-dev
 fi
 
-docker exec -u www-data prestashop_autoupgrade php modules/autoupgrade/tests/testCliProcess.php admin-dev/autoupgrade/cli-upgrade.php  --dir="admin-dev" --action="compareReleases"
-docker exec -u www-data prestashop_autoupgrade php modules/autoupgrade/tests/testCliProcess.php admin-dev/autoupgrade/cli-upgrade.php  --dir="admin-dev"
+docker exec -u www-data prestashop_autoupgrade php admin-dev/autoupgrade/cli-upgrade.php  --dir="admin-dev" --action="compareReleases"
+docker exec -u www-data prestashop_autoupgrade php admin-dev/autoupgrade/cli-upgrade.php  --dir="admin-dev"
