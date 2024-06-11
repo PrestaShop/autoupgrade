@@ -77,7 +77,7 @@ class Translator implements TranslatorInterface
         if (empty($this->translations)) {
             $this->loadTranslations();
         }
-        $translated = isset($this->translations[$id]) ? $this->translations[$id] : $id;
+        $translated = $this->translations[$id] ?? $id;
 
         return $this->applyParameters($translated, $parameters);
     }
@@ -90,7 +90,7 @@ class Translator implements TranslatorInterface
      *
      * @internal Public for tests
      */
-    public function applyParameters($id, array $parameters = [])
+    public function applyParameters($id, array $parameters = []): string
     {
         // Replace placeholders for non-numeric keys
         foreach ($parameters as $placeholder => $value) {
