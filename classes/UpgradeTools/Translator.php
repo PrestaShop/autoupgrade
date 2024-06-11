@@ -74,7 +74,7 @@ class Translator
      *
      * @internal Public for tests
      */
-    public function applyParameters(string $id, array $parameters = [])
+    public function applyParameters($id, array $parameters = [])
     {
         // Replace placeholders for non numeric keys
         foreach ($parameters as $placeholder => $value) {

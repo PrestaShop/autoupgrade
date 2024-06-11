@@ -141,35 +141,6 @@ class Autoupgrade extends Module
         return true;
     }
 
-    public function hookDashboardZoneOne($params)
-    {
-        // Display panel if PHP is not supported by the community
-        require_once __DIR__ . '/vendor/autoload.php';
-        $upgradeContainer = new \PrestaShop\Module\AutoUpgrade\UpgradeContainer(_PS_ROOT_DIR_, _PS_ADMIN_DIR_);
-        $upgradeSelfCheck = new \PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck(
-            $upgradeContainer->getUpgrader(),
-            $upgradeContainer->getPrestaShopConfiguration(),
-            _PS_ROOT_DIR_,
-            _PS_ADMIN_DIR_,
-            __DIR__
-        );
-
-        $upgradeNotice = $upgradeSelfCheck->isPhpUpgradeRequired();
-        if (false === $upgradeNotice) {
-            return '';
-        }
-
-        $this->context->controller->addCSS($this->_path . '/css/styles.css');
-        $this->context->controller->addJS($this->_path . '/js/dashboard.js');
-
-        $this->context->smarty->assign([
-            'ignore_link' => Context::getContext()->link->getAdminLink('AdminSelfUpgrade') . '&ignorePhpOutdated=1',
-            'learn_more_link' => 'http://build.prestashop.com/news/announcing-end-of-support-for-obsolete-php-versions/',
-        ]);
-
-        return $this->context->smarty->fetch($this->local_path . 'views/templates/hook/dashboard_zone_one.tpl');
-    }
-
     public function getContent()
     {
         Tools::redirectAdmin($this->context->link->getAdminLink('AdminSelfUpgrade'));
