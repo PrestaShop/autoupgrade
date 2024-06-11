@@ -10,6 +10,16 @@ class Translator implements TranslatorInterface
     private $translations = [];
 
     /**
+     * @var TranslatorInterface|null
+     */
+    private $coreTranslator;
+
+    public function __construct(TranslatorInterface $coreTranslator = null)
+    {
+        $this->coreTranslator = $coreTranslator;
+    }
+
+    /**
      * Load translations from XLF files.
      */
     private function loadTranslations()
@@ -53,6 +63,10 @@ class Translator implements TranslatorInterface
      */
     public function trans($id, array $parameters = [], $domain = 'Modules.Autoupgrade.Admin', $locale = null)
     {
+        if ($this->coreTranslator) {
+            return $this->coreTranslator->trans($id, $parameters, $domain, $locale);
+        }
+
         // If PrestaShop core is not instantiated properly, do not try to translate
         if (!method_exists('\Context', 'getContext') || null === \Context::getContext()->language) {
             return $this->applyParameters($id, $parameters);
@@ -94,6 +108,10 @@ class Translator implements TranslatorInterface
 
     public function getLocale()
     {
+        if ($this->coreTranslator) {
+            return $this->coreTranslator->getLocale();
+        }
+
         return \Context::getContext()->language->locale;
     }
 }
