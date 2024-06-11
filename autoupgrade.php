@@ -48,12 +48,12 @@ class Autoupgrade extends Module
             if (defined('PS_ADMIN_DIR')) {
                 define('_PS_ADMIN_DIR_', PS_ADMIN_DIR);
             } else {
-                $this->_errors[] = $this->trans('This version of PrestaShop cannot be upgraded: the PS_ADMIN_DIR constant is missing.', [], 'Modules.Autoupgrade.Admin');
+                $this->_errors[] = $this->trans('This version of PrestaShop cannot be upgraded: the PS_ADMIN_DIR constant is missing.');
             }
         }
 
-        $this->displayName = $this->trans('1-Click Upgrade', [], 'Modules.Autoupgrade.Admin');
-        $this->description = $this->trans('Upgrade to the latest version of PrestaShop in a few clicks, thanks to this automated method.', [], 'Modules.Autoupgrade.Admin');
+        $this->displayName = $this->trans('1-Click Upgrade');
+        $this->description = $this->trans('Upgrade to the latest version of PrestaShop in a few clicks, thanks to this automated method.');
 
         $this->ps_versions_compliancy = ['min' => '1.7.0.0', 'max' => _PS_VERSION_];
     }
@@ -66,7 +66,7 @@ class Autoupgrade extends Module
     public function install()
     {
         if (50600 > PHP_VERSION_ID) {
-            $this->_errors[] = $this->trans('This version of 1-click upgrade requires PHP 5.6 to work properly. Please upgrade your server configuration.', [], 'Modules.Autoupgrade.Admin');
+            $this->_errors[] = $this->trans('This version of 1-click upgrade requires PHP 5.6 to work properly. Please upgrade your server configuration.');
 
             return false;
         }
@@ -75,7 +75,7 @@ class Autoupgrade extends Module
         if ($id_tab = Tab::getIdFromClassName('AdminUpgrade')) {
             $tab = new Tab((int) $id_tab);
             if (!$tab->delete()) {
-                $this->_errors[] = $this->trans('Unable to delete outdated "AdminUpgrade" tab (tab ID: %idtab%).', ['%idtab%' => (int) $id_tab], 'Modules.Autoupgrade.Admin');
+                $this->_errors[] = $this->trans('Unable to delete outdated "AdminUpgrade" tab (tab ID: %idtab%).', ['%idtab%' => (int) $id_tab]);
             }
         }
 
@@ -92,7 +92,7 @@ class Autoupgrade extends Module
                 $tab->name[(int) $lang['id_lang']] = '1-Click Upgrade';
             }
             if (!$tab->save()) {
-                return $this->_abortInstall($this->trans('Unable to create the "AdminSelfUpgrade" tab', [], 'Modules.Autoupgrade.Admin'));
+                return $this->_abortInstall($this->trans('Unable to create the "AdminSelfUpgrade" tab'));
             }
         } else {
             $tab = new Tab((int) $id_tab);
@@ -102,7 +102,7 @@ class Autoupgrade extends Module
         if (Validate::isLoadedObject($tab)) {
             Configuration::updateValue('PS_AUTOUPDATE_MODULE_IDTAB', (int) $tab->id);
         } else {
-            return $this->_abortInstall($this->trans('Unable to load the "AdminSelfUpgrade" tab', [], 'Modules.Autoupgrade.Admin'));
+            return $this->_abortInstall($this->trans('Unable to load the "AdminSelfUpgrade" tab'));
         }
 
         return parent::install() && $this->registerHookAndSetToTop('dashboardZoneOne');

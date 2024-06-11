@@ -162,11 +162,11 @@ class FormRenderer
                             <input type="radio" name="' . $key . '" id="' . $key . '_on" value="1" ' . ($val ? ' checked="checked"' : '') . (isset($field['js']['on']) ? $field['js']['on'] : '') . ' />
                             <label for="' . $key . '_on" class="radioCheck">
                                 <i class="color_success"></i> '
-                            . $this->translator->trans('Yes', [], 'Modules.Autoupgrade.Admin') . '
+                            . $this->translator->trans('Yes') . '
                             </label>
                             <input type="radio" name="' . $key . '" id="' . $key . '_off" value="0" ' . (!$val ? 'checked="checked"' : '') . (isset($field['js']['off']) ? $field['js']['off'] : '') . '/>
                             <label for="' . $key . '_off" class="radioCheck">
-                                <i class="color_danger"></i> ' . $this->translator->trans('No', [], 'Modules.Autoupgrade.Admin') . '
+                                <i class="color_danger"></i> ' . $this->translator->trans('No') . '
                             </label>
                             <a class="slide-button btn"></a>
                         </span>

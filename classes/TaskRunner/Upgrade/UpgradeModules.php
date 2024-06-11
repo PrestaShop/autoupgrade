@@ -49,7 +49,7 @@ class UpgradeModules extends AbstractTask
         if (!is_array($listModules)) {
             $this->next = 'upgradeComplete';
             $this->container->getState()->setWarningExists(true);
-            $this->logger->error($this->translator->trans('listModules is not an array. No module has been updated.', [], 'Modules.Autoupgrade.Admin'));
+            $this->logger->error($this->translator->trans('listModules is not an array. No module has been updated.'));
 
             return true;
         }
@@ -71,9 +71,9 @@ class UpgradeModules extends AbstractTask
             do {
                 $module_info = array_pop($listModules);
                 try {
-                    $this->logger->debug($this->translator->trans('Upgrading module %module%...', ['%module%' => $module_info['name']], 'Modules.Autoupgrade.Admin'));
+                    $this->logger->debug($this->translator->trans('Upgrading module %module%...', ['%module%' => $module_info['name']]));
                     $this->container->getModuleAdapter()->upgradeModule($module_info['id'], $module_info['name'], !empty($module_info['is_local']));
-                    $this->logger->debug($this->translator->trans('The files of module %s have been upgraded.', [$module_info['name']], 'Modules.Autoupgrade.Admin'));
+                    $this->logger->debug($this->translator->trans('The files of module %s have been upgraded.', [$module_info['name']]));
                 } catch (UpgradeException $e) {
                     $this->handleException($e);
                     if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {
@@ -89,14 +89,14 @@ class UpgradeModules extends AbstractTask
 
             $this->next = 'upgradeModules';
             if ($modules_left) {
-                $this->logger->info($this->translator->trans('%s modules left to upgrade.', [$modules_left], 'Modules.Autoupgrade.Admin'));
+                $this->logger->info($this->translator->trans('%s modules left to upgrade.', [$modules_left]));
             }
             $this->stepDone = false;
         } else {
             $this->stepDone = true;
             $this->status = 'ok';
             $this->next = 'cleanDatabase';
-            $this->logger->info($this->translator->trans('Addons modules files have been upgraded.', [], 'Modules.Autoupgrade.Admin'));
+            $this->logger->info($this->translator->trans('Addons modules files have been upgraded.'));
 
             return true;
         }
@@ -157,7 +157,7 @@ class UpgradeModules extends AbstractTask
 
         $total_modules_to_upgrade = count($modulesToUpgrade);
         if ($total_modules_to_upgrade) {
-            $this->logger->info($this->translator->trans('%s modules will be upgraded.', [$total_modules_to_upgrade], 'Modules.Autoupgrade.Admin'));
+            $this->logger->info($this->translator->trans('%s modules will be upgraded.', [$total_modules_to_upgrade]));
         }
 
         $this->stepDone = false;

@@ -71,20 +71,20 @@ class UpdateConfig extends AbstractTask
             $file = $configurationData['archive_prestashop'];
             if (!file_exists($this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $file)) {
                 $this->error = true;
-                $this->logger->info($this->translator->trans('File %s does not exist. Unable to select that channel.', [$file], 'Modules.Autoupgrade.Admin'));
+                $this->logger->info($this->translator->trans('File %s does not exist. Unable to select that channel.', [$file]));
 
                 return false;
             }
             if (empty($configurationData['archive_num'])) {
                 $this->error = true;
-                $this->logger->info($this->translator->trans('Version number is missing. Unable to select that channel.', [], 'Modules.Autoupgrade.Admin'));
+                $this->logger->info($this->translator->trans('Version number is missing. Unable to select that channel.'));
 
                 return false;
             }
             $xmlFile = $configurationData['archive_xml'];
             if (!empty($xmlFile) && !file_exists($this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $xmlFile)) {
                 $this->error = true;
-                $this->logger->info($this->translator->trans('File %s does not exist. Unable to select that channel.', [$xmlFile], 'Modules.Autoupgrade.Admin'));
+                $this->logger->info($this->translator->trans('File %s does not exist. Unable to select that channel.', [$xmlFile]));
 
                 return false;
             }
@@ -93,13 +93,13 @@ class UpdateConfig extends AbstractTask
             $config['archive.version_num'] = $configurationData['archive_num'];
             $config['archive.xml'] = $configurationData['archive_xml'];
             // $config['archive_name'] = $request['archive_name'];
-            $this->logger->info($this->translator->trans('Upgrade process will use archive.', [], 'Modules.Autoupgrade.Admin'));
+            $this->logger->info($this->translator->trans('Upgrade process will use archive.'));
         }
         if (isset($configurationData['directory_num'])) {
             $config['channel'] = 'directory';
             if (empty($configurationData['directory_num']) || strpos($configurationData['directory_num'], '.') === false) {
                 $this->error = true;
-                $this->logger->info($this->translator->trans('Version number is missing. Unable to select that channel.', [], 'Modules.Autoupgrade.Admin'));
+                $this->logger->info($this->translator->trans('Version number is missing. Unable to select that channel.'));
 
                 return false;
             }
@@ -115,7 +115,7 @@ class UpdateConfig extends AbstractTask
 
         if (!$this->writeConfig($config)) {
             $this->error = true;
-            $this->logger->info($this->translator->trans('Error on saving configuration', [], 'Modules.Autoupgrade.Admin'));
+            $this->logger->info($this->translator->trans('Error on saving configuration'));
         }
     }
 
@@ -164,7 +164,7 @@ class UpdateConfig extends AbstractTask
         }
 
         $this->container->getUpgradeConfiguration()->merge($config);
-        $this->logger->info($this->translator->trans('Configuration successfully updated.', [], 'Modules.Autoupgrade.Admin') . ' <strong>' . $this->translator->trans('This page will now be reloaded and the module will check if a new version is available.', [], 'Modules.Autoupgrade.Admin') . '</strong>');
+        $this->logger->info($this->translator->trans('Configuration successfully updated.') . ' <strong>' . $this->translator->trans('This page will now be reloaded and the module will check if a new version is available.') . '</strong>');
 
         return (new UpgradeConfigurationStorage($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR))->save($this->container->getUpgradeConfiguration(), UpgradeFileNames::CONFIG_FILENAME);
     }

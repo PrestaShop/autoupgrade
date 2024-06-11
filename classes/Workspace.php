@@ -57,10 +57,10 @@ class Workspace
     {
         foreach ($this->paths as $path) {
             if (!file_exists($path) && !mkdir($path)) {
-                $this->logger->error($this->translator->trans('Unable to create directory %s', [$path], 'Modules.Autoupgrade.Admin'));
+                $this->logger->error($this->translator->trans('Unable to create directory %s', [$path]));
             }
             if (!is_writable($path)) {
-                $this->logger->error($this->translator->trans('Unable to write in the directory "%s"', [$path], 'Modules.Autoupgrade.Admin'));
+                $this->logger->error($this->translator->trans('Unable to write in the directory "%s"', [$path]));
             }
         }
     }

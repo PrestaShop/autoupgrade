@@ -39,22 +39,22 @@ class UpgradeComplete extends AbstractTask
     public function run()
     {
         $this->logger->info($this->container->getState()->getWarningExists() ?
-            $this->translator->trans('Upgrade process done, but some warnings have been found.', [], 'Modules.Autoupgrade.Admin') :
-            $this->translator->trans('Upgrade process done. Congratulations! You can now reactivate your shop.', [], 'Modules.Autoupgrade.Admin')
+            $this->translator->trans('Upgrade process done, but some warnings have been found.') :
+            $this->translator->trans('Upgrade process done. Congratulations! You can now reactivate your shop.')
         );
 
         $this->next = '';
 
         if ($this->container->getUpgradeConfiguration()->get('channel') != 'archive' && file_exists($this->container->getFilePath()) && unlink($this->container->getFilePath())) {
-            $this->logger->debug($this->translator->trans('%s removed', [$this->container->getFilePath()], 'Modules.Autoupgrade.Admin'));
+            $this->logger->debug($this->translator->trans('%s removed', [$this->container->getFilePath()]));
         } elseif (is_file($this->container->getFilePath())) {
-            $this->logger->debug('<strong>' . $this->translator->trans('Please remove %s by FTP', [$this->container->getFilePath()], 'Modules.Autoupgrade.Admin') . '</strong>');
+            $this->logger->debug('<strong>' . $this->translator->trans('Please remove %s by FTP', [$this->container->getFilePath()]) . '</strong>');
         }
 
         if ($this->container->getUpgradeConfiguration()->get('channel') != 'directory' && file_exists($this->container->getProperty(UpgradeContainer::LATEST_PATH)) && FilesystemAdapter::deleteDirectory($this->container->getProperty(UpgradeContainer::LATEST_PATH))) {
-            $this->logger->debug($this->translator->trans('%s removed', [$this->container->getProperty(UpgradeContainer::LATEST_PATH)], 'Modules.Autoupgrade.Admin'));
+            $this->logger->debug($this->translator->trans('%s removed', [$this->container->getProperty(UpgradeContainer::LATEST_PATH)]));
         } elseif (is_dir($this->container->getProperty(UpgradeContainer::LATEST_PATH))) {
-            $this->logger->debug('<strong>' . $this->translator->trans('Please remove %s by FTP', [$this->container->getProperty(UpgradeContainer::LATEST_PATH)], 'Modules.Autoupgrade.Admin') . '</strong>');
+            $this->logger->debug('<strong>' . $this->translator->trans('Please remove %s by FTP', [$this->container->getProperty(UpgradeContainer::LATEST_PATH)]) . '</strong>');
         }
 
         // removing temporary files

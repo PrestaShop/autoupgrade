@@ -126,7 +126,7 @@ class UpgradeButtonBlock
         if (!in_array($channel, ['archive', 'directory']) && !empty($this->upgrader->version_num)) {
             $latestVersion = "{$this->upgrader->version_name} - ({$this->upgrader->version_num})";
         } else {
-            $latestVersion = $translator->trans('N/A', [], 'Modules.Autoupgrade.Admin');
+            $latestVersion = $translator->trans('N/A');
         }
 
         $showUpgradeButton = false;
@@ -201,14 +201,14 @@ class UpgradeButtonBlock
 
         return [
             // Hey ! I'm really using a fieldset element to regroup fields ?! !
-            ['useMajor', 'major', $translator->trans('Major release', [], 'Modules.Autoupgrade.Admin')],
-            ['useMinor', 'minor', $translator->trans('Minor release (recommended)', [], 'Modules.Autoupgrade.Admin')],
-            ['useRC', 'rc', $translator->trans('Release candidates', [], 'Modules.Autoupgrade.Admin')],
-            ['useBeta', 'beta', $translator->trans('Beta releases', [], 'Modules.Autoupgrade.Admin')],
-            ['useAlpha', 'alpha', $translator->trans('Alpha releases', [], 'Modules.Autoupgrade.Admin')],
-            ['usePrivate', 'private', $translator->trans('Private release (require link and MD5 hash)', [], 'Modules.Autoupgrade.Admin')],
-            ['useArchive', 'archive', $translator->trans('Local archive', [], 'Modules.Autoupgrade.Admin')],
-            ['useDirectory', 'directory', $translator->trans('Local directory', [], 'Modules.Autoupgrade.Admin')],
+            ['useMajor', 'major', $translator->trans('Major release')],
+            ['useMinor', 'minor', $translator->trans('Minor release (recommended)')],
+            ['useRC', 'rc', $translator->trans('Release candidates')],
+            ['useBeta', 'beta', $translator->trans('Beta releases')],
+            ['useAlpha', 'alpha', $translator->trans('Alpha releases')],
+            ['usePrivate', 'private', $translator->trans('Private release (require link and MD5 hash)')],
+            ['useArchive', 'archive', $translator->trans('Local archive')],
+            ['useDirectory', 'directory', $translator->trans('Local directory')],
         ];
     }
 

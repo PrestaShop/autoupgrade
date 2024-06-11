@@ -47,8 +47,8 @@ class RemoveSamples extends AbstractTask
         // This part runs at the first call of this step
         if (null === $removeList) {
             if (!$this->container->getFilesystemAdapter()->isReleaseValid($latestPath)) {
-                $this->logger->error($this->translator->trans('Could not assert the folder %s contains a valid PrestaShop release, exiting.', [$latestPath], 'Modules.Autoupgrade.Admin'));
-                $this->logger->error($this->translator->trans('A file may be missing, or the release is stored in a subfolder by mistake.', [], 'Modules.Autoupgrade.Admin'));
+                $this->logger->error($this->translator->trans('Could not assert the folder %s contains a valid PrestaShop release, exiting.', [$latestPath]));
+                $this->logger->error($this->translator->trans('A file may be missing, or the release is stored in a subfolder by mistake.'));
                 $this->next = 'error';
 
                 return;
@@ -81,7 +81,7 @@ class RemoveSamples extends AbstractTask
             if (count($removeList)) {
                 $this->logger->debug(
                     $this->translator->trans('Starting to remove %s sample files',
-                        [count($removeList)], 'Modules.Autoupgrade.Admin'));
+                        [count($removeList)]));
             }
         }
 

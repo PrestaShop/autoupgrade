@@ -148,7 +148,7 @@ class ChecksumCompare
      * @param array $current_path
      * @param int $level
      */
-    protected function browseXmlAndCompare($node, &$current_path = [], $level = 1)
+    protected function browseXmlAndCompare($node, & $current_path = [], $level = 1)
     {
         foreach ($node as $child) {
             if (is_object($child) && $child->getName() == 'dir') {

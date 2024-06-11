@@ -77,7 +77,7 @@ class UpgradeOptionsForm
                         [],
                         'Modules.Autoupgrade.Admin'
                     ),
-                    2 => $translator->trans('Medium', [], 'Modules.Autoupgrade.Admin'),
+                    2 => $translator->trans('Medium'),
                     3 => $translator->trans(
                         'High',
                         [],

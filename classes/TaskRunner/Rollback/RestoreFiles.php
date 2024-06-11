@@ -66,17 +66,17 @@ class RestoreFiles extends AbstractTask
                 }
             }
 
-            $this->logger->debug($this->translator->trans('%s file(s) will be removed before restoring the backup files.', [count($toRemoveOnly)], 'Modules.Autoupgrade.Admin'));
+            $this->logger->debug($this->translator->trans('%s file(s) will be removed before restoring the backup files.', [count($toRemoveOnly)]));
             $this->container->getFileConfigurationStorage()->save($toRemoveOnly, UpgradeFileNames::FILES_TO_REMOVE_LIST);
 
             if (empty($fromArchive) || empty($toRemove)) {
                 if (empty($fromArchive)) {
-                    $this->logger->error($this->translator->trans('[ERROR] Backup file %s does not exist.', [UpgradeFileNames::FILES_FROM_ARCHIVE_LIST], 'Modules.Autoupgrade.Admin'));
+                    $this->logger->error($this->translator->trans('[ERROR] Backup file %s does not exist.', [UpgradeFileNames::FILES_FROM_ARCHIVE_LIST]));
                 }
                 if (empty($toRemove)) {
-                    $this->logger->error($this->translator->trans('[ERROR] File "%s" does not exist.', [UpgradeFileNames::FILES_TO_REMOVE_LIST], 'Modules.Autoupgrade.Admin'));
+                    $this->logger->error($this->translator->trans('[ERROR] File "%s" does not exist.', [UpgradeFileNames::FILES_TO_REMOVE_LIST]));
                 }
-                $this->logger->info($this->translator->trans('Unable to remove upgraded files.', [], 'Modules.Autoupgrade.Admin'));
+                $this->logger->info($this->translator->trans('Unable to remove upgraded files.'));
                 $this->next = 'error';
 
                 return false;
@@ -109,8 +109,8 @@ class RestoreFiles extends AbstractTask
             }
 
             $this->next = 'restoreDb';
-            $this->logger->debug($this->translator->trans('Files restored.', [], 'Modules.Autoupgrade.Admin'));
-            $this->logger->info($this->translator->trans('Files restored. Now restoring database...', [], 'Modules.Autoupgrade.Admin'));
+            $this->logger->debug($this->translator->trans('Files restored.'));
+            $this->logger->info($this->translator->trans('Files restored. Now restoring database...'));
 
             return true;
         }

@@ -112,7 +112,7 @@ abstract class AbstractTask
         $currentAction = get_class($this);
         if (isset(self::$skipAction[$currentAction])) {
             $this->next = self::$skipAction[$currentAction];
-            $this->logger->info($this->translator->trans('Action %s skipped', [$currentAction], 'Modules.Autoupgrade.Admin'));
+            $this->logger->info($this->translator->trans('Action %s skipped', [$currentAction]));
         }
     }
 

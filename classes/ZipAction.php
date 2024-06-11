@@ -130,7 +130,7 @@ class ZipAction
     public function extract($from_file, $to_dir)
     {
         if (!is_file($from_file)) {
-            $this->logger->error($this->translator->trans('%s is not a file', [$from_file], 'Modules.Autoupgrade.Admin'));
+            $this->logger->error($this->translator->trans('%s is not a file', [$from_file]));
 
             return false;
         }
@@ -138,7 +138,7 @@ class ZipAction
         if (!file_exists($to_dir)) {
             // ToDo: Use Filesystem from Symfony
             if (!mkdir($to_dir)) {
-                $this->logger->error($this->translator->trans('Unable to create directory %s.', [$to_dir], 'Modules.Autoupgrade.Admin'));
+                $this->logger->error($this->translator->trans('Unable to create directory %s.', [$to_dir]));
 
                 return false;
             }
@@ -166,7 +166,7 @@ class ZipAction
         }
 
         $zip->close();
-        $this->logger->debug($this->translator->trans('Content of archive %zip% is extracted', ['%zip%' => $from_file], 'Modules.Autoupgrade.Admin'));
+        $this->logger->debug($this->translator->trans('Content of archive %zip% is extracted', ['%zip%' => $from_file]));
 
         return true;
     }
@@ -186,7 +186,7 @@ class ZipAction
 
         $zip = $this->open($zipfile);
         if ($zip === false) {
-            $this->logger->error($this->translator->trans('[ERROR] Unable to list archived files', [], 'Modules.Autoupgrade.Admin'));
+            $this->logger->error($this->translator->trans('[ERROR] Unable to list archived files'));
 
             return [];
         }
@@ -251,7 +251,7 @@ class ZipAction
             $flags = 0;
         }
         if ($zip->open($zipFile, $flags) !== true || empty($zip->filename)) {
-            $this->logger->error($this->translator->trans('Unable to open zipFile %s', [$zipFile], 'Modules.Autoupgrade.Admin'));
+            $this->logger->error($this->translator->trans('Unable to open zipFile %s', [$zipFile]));
 
             return false;
         }
