@@ -732,6 +732,10 @@ abstract class CoreUpgrader
         if (class_exists(RtlStylesheetProcessor::class)) {
             $this->logger->info($this->container->getTranslator()->trans('Upgrade the RTL files of back-office theme.', [], 'Modules.Autoupgrade.Admin'));
 
+            $this->removeExistingRTLFiles([
+                ['directory' => $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'themes'],
+            ]);
+
             (new RtlStylesheetProcessor(
                 $this->container->getProperty(UpgradeContainer::PS_ADMIN_PATH),
                 $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'themes',
@@ -774,6 +778,9 @@ abstract class CoreUpgrader
         }
     }
 
+    /**
+     * @param array{array{'directory':string,'name':string}} $themes
+     */
     private function removeExistingRTLFiles(array $themes): void
     {
         $filesystem = new Filesystem();
