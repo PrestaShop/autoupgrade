@@ -33,7 +33,6 @@ use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Upgrader;
 use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
