@@ -27,6 +27,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader;
 
+use Exception;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\ThemeAdapter;
 use PrestaShop\PrestaShop\Core\CommandBus\CommandBusInterface;
@@ -45,17 +46,13 @@ class CoreUpgrader17 extends CoreUpgrader
     {
         parent::initConstants();
 
-        /*if (!file_exists(SETTINGS_FILE_PHP)) {
-            throw new UpgradeException($this->container->getTranslator()->trans('The app/config/parameters.php file was not found.', array(), 'Modules.Autoupgrade.Admin'));
-        }
-        if (!file_exists(SETTINGS_FILE_YML)) {
-            throw new UpgradeException($this->container->getTranslator()->trans('The app/config/parameters.yml file was not found.', array(), 'Modules.Autoupgrade.Admin'));
-        }*/
-
         // Container may be needed to run upgrade scripts
         $this->container->getSymfonyAdapter()->initKernel();
     }
 
+    /**
+     * @throws UpgradeException
+     */
     protected function upgradeLanguage($lang)
     {
         $isoCode = $lang['iso_code'];
@@ -66,7 +63,7 @@ class CoreUpgrader17 extends CoreUpgrader
         $errorsLanguage = [];
 
         if (!\Language::downloadLanguagePack($isoCode, _PS_VERSION_, $errorsLanguage)) {
-            throw new UpgradeException($this->container->getTranslator()->trans('Download of the language pack %lang% failed. %details%', ['%lang%' => $isoCode, '%details%' => implode('; ', $errorsLanguage)], 'Modules.Autoupgrade.Admin'));
+            throw new UpgradeException($this->container->getTranslator()->trans('Download of the language pack %lang% failed. %details%', ['%lang%' => $isoCode, '%details%' => implode('; ', $errorsLanguage)]));
         }
 
         $lang_pack = \Language::getLangDetails($isoCode);
@@ -77,7 +74,7 @@ class CoreUpgrader17 extends CoreUpgrader
         }
 
         if (!empty($errorsLanguage)) {
-            throw new UpgradeException($this->container->getTranslator()->trans('Error while updating translations for the language pack %lang%. %details%', ['%lang%' => $isoCode, '%details%' => implode('; ', $errorsLanguage)], 'Modules.Autoupgrade.Admin'));
+            throw new UpgradeException($this->container->getTranslator()->trans('Error while updating translations for the language pack %lang%. %details%', ['%lang%' => $isoCode, '%details%' => implode('; ', $errorsLanguage)]));
         }
         \Language::loadLanguages();
 
@@ -90,13 +87,16 @@ class CoreUpgrader17 extends CoreUpgrader
         }
     }
 
-    protected function updateTheme()
+    protected function updateTheme(): void
     {
         parent::updateTheme();
 
         $this->updateRTLFiles();
     }
 
+    /**
+     * @throws Exception
+     */
     protected function updateRTLFiles()
     {
         if (!class_exists(AdaptThemeToRTLLanguagesCommand::class)) {
@@ -106,7 +106,7 @@ class CoreUpgrader17 extends CoreUpgrader
         if (!$this->container->getUpgradeConfiguration()->shouldUpdateRTLFiles()) {
             return;
         }
-        $this->logger->info($this->container->getTranslator()->trans('Upgrade the RTL files.', [], 'Modules.Autoupgrade.Admin'));
+        $this->logger->info($this->container->getTranslator()->trans('Upgrade the RTL files.'));
         $themeAdapter = new ThemeAdapter($this->db);
 
         $themes = $themeAdapter->getListFromDisk();
@@ -133,6 +133,9 @@ class CoreUpgrader17 extends CoreUpgrader
         }
     }
 
+    /**
+     * @throws Exception
+     */
     private function removeExistingRTLFiles(array $themes)
     {
         $filesystem = new Filesystem();

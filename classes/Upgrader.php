@@ -81,11 +81,9 @@ class Upgrader
      * @param string $dest directory where to save the file
      * @param string $filename new filename
      *
-     * @return bool
-     *
      * @TODO ftp if copy is not possible (safe_mode for example)
      */
-    public function downloadLast($dest, $filename = 'prestashop.zip')
+    public function downloadLast(string $dest, string $filename = 'prestashop.zip'): bool
     {
         if (empty($this->link)) {
             $this->checkPSVersion();
@@ -105,7 +103,7 @@ class Upgrader
         return is_file($destPath);
     }
 
-    public function isLastVersion()
+    public function isLastVersion(): bool
     {
         if (empty($this->link)) {
             $this->checkPSVersion();
@@ -122,7 +120,7 @@ class Upgrader
      *
      * @return mixed
      */
-    public function checkPSVersion($refresh = false, $array_no_major = ['minor'])
+    public function checkPSVersion(bool $refresh = false, array $array_no_major = ['minor'])
     {
         // if we use the autoupgrade process, we will never refresh it
         // except if no check has been done before
@@ -222,12 +220,8 @@ class Upgrader
 
     /**
      * delete the file /config/xml/$version.xml if exists.
-     *
-     * @param string $version
-     *
-     * @return bool true if succeed
      */
-    public function clearXmlMd5File($version)
+    public function clearXmlMd5File(string $version): bool
     {
         if (file_exists(_PS_ROOT_DIR_ . '/config/xml/' . $version . '.xml')) {
             return unlink(_PS_ROOT_DIR_ . '/config/xml/' . $version . '.xml');
@@ -239,17 +233,15 @@ class Upgrader
     /**
      * use the addons api to get xml files.
      *
-     * @param mixed $xml_localfile
      * @param mixed $postData
-     * @param mixed $refresh
      */
-    public function getApiAddons($xml_localfile, $postData, $refresh = false)
+    public function getApiAddons(string $xml_localfile, $postData, bool $refresh = false)
     {
         if (!is_dir(_PS_ROOT_DIR_ . '/config/xml')) {
             if (is_file(_PS_ROOT_DIR_ . '/config/xml')) {
                 unlink(_PS_ROOT_DIR_ . '/config/xml');
             }
-            mkdir(_PS_ROOT_DIR_ . '/config/xml', 0777);
+            mkdir(_PS_ROOT_DIR_ . '/config/xml');
         }
         if ($refresh || !file_exists($xml_localfile) || @filemtime($xml_localfile) < (time() - (3600 * self::DEFAULT_CHECK_VERSION_DELAY_HOURS))) {
             $protocolsList = ['https://' => 443, 'http://' => 80];

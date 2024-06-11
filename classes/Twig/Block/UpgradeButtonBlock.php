@@ -78,24 +78,15 @@ class UpgradeButtonBlock
      */
     private $manualMode;
 
-    /**
-     * UpgradeButtonBlock constructor.
-     *
-     * @param Environment $twig
-     * @param Translator $translator
-     * @param UpgradeConfiguration $config
-     * @param Upgrader $upgrader
-     * @param UpgradeSelfCheck $selfCheck
-     */
     public function __construct(
         $twig,
         Translator $translator,
         UpgradeConfiguration $config,
         Upgrader $upgrader,
         UpgradeSelfCheck $selfCheck,
-        $downloadPath,
-        $token,
-        $manualMode
+        string $downloadPath,
+        string $token,
+        bool $manualMode
     ) {
         $this->twig = $twig;
         $this->translator = $translator;
@@ -112,7 +103,7 @@ class UpgradeButtonBlock
      *
      * @return string HTML
      */
-    public function render()
+    public function render(): string
     {
         $translator = $this->translator;
 
@@ -125,7 +116,7 @@ class UpgradeButtonBlock
         if (!in_array($channel, ['archive', 'directory']) && !empty($this->upgrader->version_num)) {
             $latestVersion = "{$this->upgrader->version_name} - ({$this->upgrader->version_num})";
         } else {
-            $latestVersion = $translator->trans('N/A', [], 'Admin.Global');
+            $latestVersion = $translator->trans('N/A');
         }
 
         $showUpgradeButton = false;
@@ -194,24 +185,23 @@ class UpgradeButtonBlock
     /**
      * @return array
      */
-    private function getOptChannels()
+    private function getOptChannels(): array
     {
         $translator = $this->translator;
 
         return [
-            // Hey ! I'm really using a fieldset element to regroup fields ?! !
-            ['useMajor', 'major', $translator->trans('Major release', [], 'Modules.Autoupgrade.Admin')],
-            ['useMinor', 'minor', $translator->trans('Minor release (recommended)', [], 'Modules.Autoupgrade.Admin')],
-            ['useRC', 'rc', $translator->trans('Release candidates', [], 'Modules.Autoupgrade.Admin')],
-            ['useBeta', 'beta', $translator->trans('Beta releases', [], 'Modules.Autoupgrade.Admin')],
-            ['useAlpha', 'alpha', $translator->trans('Alpha releases', [], 'Modules.Autoupgrade.Admin')],
-            ['usePrivate', 'private', $translator->trans('Private release (require link and MD5 hash)', [], 'Modules.Autoupgrade.Admin')],
-            ['useArchive', 'archive', $translator->trans('Local archive', [], 'Modules.Autoupgrade.Admin')],
-            ['useDirectory', 'directory', $translator->trans('Local directory', [], 'Modules.Autoupgrade.Admin')],
+            ['useMajor', 'major', $translator->trans('Major release')],
+            ['useMinor', 'minor', $translator->trans('Minor release (recommended)')],
+            ['useRC', 'rc', $translator->trans('Release candidates')],
+            ['useBeta', 'beta', $translator->trans('Beta releases')],
+            ['useAlpha', 'alpha', $translator->trans('Alpha releases')],
+            ['usePrivate', 'private', $translator->trans('Private release (require link and MD5 hash)')],
+            ['useArchive', 'archive', $translator->trans('Local archive')],
+            ['useDirectory', 'directory', $translator->trans('Local directory')],
         ];
     }
 
-    private function getInfoForChannel($channel)
+    private function getInfoForChannel($channel): ChannelInfo
     {
         return new ChannelInfo($this->upgrader, $this->config, $channel);
     }
@@ -221,7 +211,7 @@ class UpgradeButtonBlock
      *
      * @return string
      */
-    private function buildChannelInfoBlock($channel)
+    private function buildChannelInfoBlock(string $channel): string
     {
         $channelInfo = $this->getInfoForChannel($channel);
 

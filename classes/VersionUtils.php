@@ -25,39 +25,22 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback;
+namespace PrestaShop\Module\AutoUpgrade;
 
-use PrestaShop\Module\AutoUpgrade\TaskRunner\ChainedTasks;
-
-/**
- * Execute the whole upgrade process in a single request.
- */
-class AllRollbackTasks extends ChainedTasks
+class VersionUtils
 {
-    const initialTask = 'rollback';
+    const MODULE_COMPATIBLE_PHP_VERSION = 70100;
 
-    protected $step = self::initialTask;
-
-    /**
-     * Customize the execution context with several options
-     * > action: Replace the initial step to run
-     * > channel: Makes a specific upgrade (minor, major etc.)
-     * > data: Loads an encoded array of data coming from another request.
-     *
-     * @param array $options
-     */
-    public function setOptions(array $options): void
+    public static function getHumanReadableVersionOf($versionInt)
     {
-        if (!empty($options['backup'])) {
-            $this->container->getState()->setRestoreName($options['backup']);
-        }
+        $major = intdiv($versionInt, 10000);
+        $minor = intdiv($versionInt % 10000, 100);
+
+        return sprintf('%d.%d', $major, $minor);
     }
 
-    /**
-     * Set default config on first run.
-     */
-    public function init(): void
+    public static function isActualPHPVersionCompatible()
     {
-        // Do nothing
+        return PHP_VERSION_ID >= self::MODULE_COMPATIBLE_PHP_VERSION;
     }
 }

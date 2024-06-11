@@ -27,6 +27,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 
+use Exception;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
@@ -36,7 +37,10 @@ class UpgradeFiles extends AbstractTask
 {
     private $destUpgradePath;
 
-    public function run()
+    /**
+     * @throws Exception
+     */
+    public function run(): bool
     {
         // The first call must init the list of files be upgraded.
         if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::FILES_TO_UPGRADE_LIST)) {
@@ -52,7 +56,7 @@ class UpgradeFiles extends AbstractTask
         $filesToUpgrade = $this->container->getFileConfigurationStorage()->load(UpgradeFileNames::FILES_TO_UPGRADE_LIST);
         if (!is_array($filesToUpgrade)) {
             $this->next = 'error';
-            $this->logger->error($this->translator->trans('filesToUpgrade is not an array', [], 'Modules.Autoupgrade.Admin'));
+            $this->logger->error($this->translator->trans('filesToUpgrade is not an array'));
 
             return false;
         }
@@ -64,7 +68,7 @@ class UpgradeFiles extends AbstractTask
                 if (file_exists(UpgradeFileNames::FILES_TO_UPGRADE_LIST)) {
                     unlink(UpgradeFileNames::FILES_TO_UPGRADE_LIST);
                 }
-                $this->logger->info($this->translator->trans('All files upgraded. Now upgrading database...', [], 'Modules.Autoupgrade.Admin'));
+                $this->logger->info($this->translator->trans('All files upgraded. Now upgrading database...'));
                 $this->stepDone = true;
                 break;
             }
@@ -75,13 +79,13 @@ class UpgradeFiles extends AbstractTask
             if (!$this->upgradeThisFile($file)) {
                 // put the file back to the begin of the list
                 $this->next = 'error';
-                $this->logger->error($this->translator->trans('Error when trying to upgrade file %s.', [$file], 'Modules.Autoupgrade.Admin'));
+                $this->logger->error($this->translator->trans('Error when trying to upgrade file %s.', [$file]));
                 break;
             }
         }
         $this->container->getFileConfigurationStorage()->save($filesToUpgrade, UpgradeFileNames::FILES_TO_UPGRADE_LIST);
         if (count($filesToUpgrade) > 0) {
-            $this->logger->info($this->translator->trans('%s files left to upgrade.', [count($filesToUpgrade)], 'Modules.Autoupgrade.Admin'));
+            $this->logger->info($this->translator->trans('%s files left to upgrade.', [count($filesToUpgrade)]));
             $this->stepDone = false;
         }
 
@@ -92,8 +96,10 @@ class UpgradeFiles extends AbstractTask
      * upgradeThisFile.
      *
      * @param mixed $orig The absolute path to the file from the upgrade archive
+     *
+     * @throws Exception
      */
-    public function upgradeThisFile($orig)
+    public function upgradeThisFile($orig): bool
     {
         // translations_custom and mails_custom list are currently not used
         // later, we could handle customization with some kind of diff functions
@@ -107,7 +113,7 @@ class UpgradeFiles extends AbstractTask
         // Skip files that we want to avoid touching. They may be already excluded from the list from before,
         // but again, as a safety precaution.
         if ($this->container->getFilesystemAdapter()->isFileSkipped($file, $dest, 'upgrade')) {
-            $this->logger->debug($this->translator->trans('%s ignored', [$file], 'Modules.Autoupgrade.Admin'));
+            $this->logger->debug($this->translator->trans('%s ignored', [$file]));
 
             return true;
         }
@@ -115,21 +121,21 @@ class UpgradeFiles extends AbstractTask
             // if $dest is not a directory (that can happen), just remove that file
             if (!is_dir($dest) && file_exists($dest)) {
                 unlink($dest);
-                $this->logger->debug($this->translator->trans('[WARNING] File %1$s has been deleted.', [$file], 'Modules.Autoupgrade.Admin'));
+                $this->logger->debug($this->translator->trans('[WARNING] File %1$s has been deleted.', [$file]));
             }
             if (!file_exists($dest)) {
                 if (mkdir($dest)) {
-                    $this->logger->debug($this->translator->trans('Directory %1$s created.', [$file], 'Modules.Autoupgrade.Admin'));
+                    $this->logger->debug($this->translator->trans('Directory %1$s created.', [$file]));
 
                     return true;
                 } else {
                     $this->next = 'error';
-                    $this->logger->error($this->translator->trans('Error while creating directory %s.', [$dest], 'Modules.Autoupgrade.Admin'));
+                    $this->logger->error($this->translator->trans('Error while creating directory %s.', [$dest]));
 
                     return false;
                 }
             } else { // directory already exists
-                $this->logger->debug($this->translator->trans('Directory %s already exists.', [$file], 'Modules.Autoupgrade.Admin'));
+                $this->logger->debug($this->translator->trans('Directory %s already exists.', [$file]));
 
                 return true;
             }
@@ -138,26 +144,25 @@ class UpgradeFiles extends AbstractTask
             if ($translationAdapter->isTranslationFile($file) && file_exists($dest)) {
                 $type_trad = $translationAdapter->getTranslationFileType($file);
                 if ($translationAdapter->mergeTranslationFile($orig, $dest, $type_trad)) {
-                    $this->logger->info($this->translator->trans('[TRANSLATION] The translation files have been merged into file %s.', [$dest], 'Modules.Autoupgrade.Admin'));
+                    $this->logger->info($this->translator->trans('[TRANSLATION] The translation files have been merged into file %s.', [$dest]));
 
                     return true;
                 }
                 $this->logger->warning($this->translator->trans(
                     '[TRANSLATION] The translation files have not been merged into file %filename%. Switch to copy %filename%.',
-                    ['%filename%' => $dest],
-                    'Modules.Autoupgrade.Admin'
+                    ['%filename%' => $dest]
                 ));
             }
 
             // upgrade exception were above. This part now process all files that have to be upgraded (means to modify or to remove)
             // delete before updating (and this will also remove deprecated files)
             if (copy($orig, $dest)) {
-                $this->logger->debug($this->translator->trans('Copied %1$s.', [$file], 'Modules.Autoupgrade.Admin'));
+                $this->logger->debug($this->translator->trans('Copied %1$s.', [$file]));
 
                 return true;
             } else {
                 $this->next = 'error';
-                $this->logger->error($this->translator->trans('Error while copying file %s', [$file], 'Modules.Autoupgrade.Admin'));
+                $this->logger->error($this->translator->trans('Error while copying file %s', [$file]));
 
                 return false;
             }
@@ -170,7 +175,7 @@ class UpgradeFiles extends AbstractTask
             return true;
         } elseif (is_dir($dest)) {
             if (strpos($dest, DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR) === false) {
-                FilesystemAdapter::deleteDirectory($dest, true);
+                FilesystemAdapter::deleteDirectory($dest);
             }
             $this->logger->debug(sprintf('removed dir %1$s.', $file));
 
@@ -183,15 +188,15 @@ class UpgradeFiles extends AbstractTask
     /**
      * First call of this task needs a warmup, where we load the files list to be upgraded.
      *
-     * @return bool
+     * @throws Exception
      */
-    protected function warmUp()
+    protected function warmUp(): bool
     {
         // Get path to the folder with release we will use to upgrade and check if it's valid
         $newReleasePath = $this->container->getProperty(UpgradeContainer::LATEST_PATH);
         if (!$this->container->getFilesystemAdapter()->isReleaseValid($newReleasePath)) {
-            $this->logger->error($this->translator->trans('Could not assert the folder %s contains a valid PrestaShop release, exiting.', [$newReleasePath], 'Modules.Autoupgrade.Admin'));
-            $this->logger->error($this->translator->trans('A file may be missing, or the release is stored in a subfolder by mistake.', [], 'Modules.Autoupgrade.Admin'));
+            $this->logger->error($this->translator->trans('Could not assert the folder %s contains a valid PrestaShop release, exiting.', [$newReleasePath]));
+            $this->logger->error($this->translator->trans('A file may be missing, or the release is stored in a subfolder by mistake.'));
             $this->next = 'error';
 
             return false;
@@ -251,19 +256,19 @@ class UpgradeFiles extends AbstractTask
         $total_files_to_upgrade = count($list_files_to_upgrade);
 
         if ($total_files_to_upgrade == 0) {
-            $this->logger->error($this->translator->trans('[ERROR] Unable to find files to upgrade.', [], 'Modules.Autoupgrade.Admin'));
+            $this->logger->error($this->translator->trans('[ERROR] Unable to find files to upgrade.'));
             $this->next = 'error';
 
             return false;
         }
-        $this->logger->info($this->translator->trans('%s files will be upgraded.', [$total_files_to_upgrade], 'Modules.Autoupgrade.Admin'));
+        $this->logger->info($this->translator->trans('%s files will be upgraded.', [$total_files_to_upgrade]));
         $this->next = 'upgradeFiles';
         $this->stepDone = false;
 
         return true;
     }
 
-    public function init()
+    public function init(): void
     {
         // Do nothing. Overrides parent init for avoiding core to be loaded here.
     }

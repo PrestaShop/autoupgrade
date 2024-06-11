@@ -27,12 +27,16 @@
 
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 
+use Exception;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 class BackupFiles extends AbstractTask
 {
+    /**
+     * @throws Exception
+     */
     public function run()
     {
         // TODO: Keep only one configuration property to toggle backups
@@ -50,8 +54,8 @@ class BackupFiles extends AbstractTask
         if (empty($backupFilesFilename)) {
             $this->next = 'error';
             $this->error = true;
-            $this->logger->info($this->translator->trans('Error during backupFiles', [], 'Modules.Autoupgrade.Admin'));
-            $this->logger->error($this->translator->trans('[ERROR] backupFiles filename has not been set', [], 'Modules.Autoupgrade.Admin'));
+            $this->logger->info($this->translator->trans('Error during backupFiles'));
+            $this->logger->error($this->translator->trans('[ERROR] backupFiles filename has not been set'));
 
             return false;
         }
@@ -62,7 +66,7 @@ class BackupFiles extends AbstractTask
             $filesToBackup = array_reverse($filesToBackup);
             $this->container->getFileConfigurationStorage()->save($filesToBackup, UpgradeFileNames::FILES_TO_BACKUP_LIST);
             if (count($filesToBackup)) {
-                $this->logger->debug($this->translator->trans('%s Files to backup.', [count($filesToBackup)], 'Modules.Autoupgrade.Admin'));
+                $this->logger->debug($this->translator->trans('%s Files to backup.', [count($filesToBackup)]));
             }
 
             // delete old backup, create new
@@ -70,19 +74,19 @@ class BackupFiles extends AbstractTask
                 unlink($this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $backupFilesFilename);
             }
 
-            $this->logger->debug($this->translator->trans('Backup files initialized in %s', [$backupFilesFilename], 'Modules.Autoupgrade.Admin'));
+            $this->logger->debug($this->translator->trans('Backup files initialized in %s', [$backupFilesFilename]));
         }
         $filesToBackup = $this->container->getFileConfigurationStorage()->load(UpgradeFileNames::FILES_TO_BACKUP_LIST);
 
         $this->next = 'backupFiles';
         if (is_array($filesToBackup) && count($filesToBackup)) {
-            $this->logger->info($this->translator->trans('Backup files in progress. %d files left', [count($filesToBackup)], 'Modules.Autoupgrade.Admin'));
+            $this->logger->info($this->translator->trans('Backup files in progress. %d files left', [count($filesToBackup)]));
 
             $this->stepDone = false;
             $res = $this->container->getZipAction()->compress($filesToBackup, $this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $backupFilesFilename);
             if (!$res) {
                 $this->next = 'error';
-                $this->logger->info($this->translator->trans('Unable to open archive', [], 'Modules.Autoupgrade.Admin'));
+                $this->logger->info($this->translator->trans('Unable to open archive'));
 
                 return false;
             }
@@ -93,8 +97,8 @@ class BackupFiles extends AbstractTask
             $this->stepDone = true;
             $this->status = 'ok';
             $this->next = 'backupDb';
-            $this->logger->debug($this->translator->trans('All files have been added to archive.', [], 'Modules.Autoupgrade.Admin'));
-            $this->logger->info($this->translator->trans('All files saved. Now backing up database', [], 'Modules.Autoupgrade.Admin'));
+            $this->logger->debug($this->translator->trans('All files have been added to archive.'));
+            $this->logger->info($this->translator->trans('All files saved. Now backing up database'));
         }
     }
 }

@@ -27,6 +27,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous;
 
+use Exception;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 
@@ -36,6 +37,9 @@ use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
  */
 class CompareReleases extends AbstractTask
 {
+    /**
+     * @throws Exception
+     */
     public function run()
     {
         // do nothing after this request (see javascript function doAjaxRequest )
@@ -75,8 +79,7 @@ class CompareReleases extends AbstractTask
                 [
                     '%modifiedfiles%' => count($diffFileList['modified']),
                     '%deletedfiles%' => count($diffFileList['deleted']),
-                ],
-                'Modules.Autoupgrade.Admin');
+                ]);
             $this->nextParams['result'] = $diffFileList;
         }
     }

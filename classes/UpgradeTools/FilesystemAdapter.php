@@ -80,17 +80,15 @@ class FilesystemAdapter
      *
      * @param string $dirname Directory name
      */
-    public static function deleteDirectory($dirname, $delete_self = true)
+    public static function deleteDirectory(string $dirname, $delete_self = true): bool
     {
         return Tools14::deleteDirectory($dirname, $delete_self);
     }
 
     /**
-     * @param string $dir
      * @param 'upgrade'|'restore'|'backup' $way
-     * @param bool $listDirectories
      */
-    public function listFilesInDir($dir, $way, $listDirectories = false)
+    public function listFilesInDir(string $dir, string $way, bool $listDirectories = false): array
     {
         $files = [];
         $directory = new RecursiveDirectoryIterator(
@@ -117,7 +115,7 @@ class FilesystemAdapter
      *
      * @return array of files to delete
      */
-    public function listFilesToRemove()
+    public function listFilesToRemove(): array
     {
         $prev_version = preg_match('#auto-backupfiles_V([0-9.]*)_#', $this->restoreFilesFilename, $matches);
         if ($prev_version) {
@@ -151,7 +149,7 @@ class FilesystemAdapter
      *
      * @return array of files
      */
-    public function listSampleFiles($dir, $fileext = '.jpg')
+    public function listSampleFiles(string $dir, string $fileext = '.jpg'): array
     {
         $res = [];
         $dir = rtrim($dir, '/') . DIRECTORY_SEPARATOR;
@@ -183,7 +181,7 @@ class FilesystemAdapter
      *
      * @return bool
      */
-    public function isFileSkipped($file, $fullpath, $way = 'backup', $temporaryWorkspace = null)
+    public function isFileSkipped(string $file, string $fullpath, string $way = 'backup', string $temporaryWorkspace = null): bool
     {
         $fullpath = str_replace('\\', '/', $fullpath); // wamp compliant
         $rootpath = str_replace(
@@ -226,7 +224,7 @@ class FilesystemAdapter
      *
      * @return bool
      */
-    public function isReleaseValid($path)
+    public function isReleaseValid(string $path): bool
     {
         foreach ($this->releaseFileChecks as $type => $elements) {
             foreach ($elements as $element) {

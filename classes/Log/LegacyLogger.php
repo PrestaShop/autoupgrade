@@ -59,7 +59,7 @@ class LegacyLogger extends Logger
     /**
      * {@inheritdoc}
      */
-    public function getErrors()
+    public function getErrors(): array
     {
         return $this->severeMessages;
     }
@@ -67,7 +67,7 @@ class LegacyLogger extends Logger
     /**
      * {@inheritdoc}
      */
-    public function getInfos()
+    public function getInfos(): array
     {
         return $this->normalMessages;
     }
@@ -75,7 +75,7 @@ class LegacyLogger extends Logger
     /**
      * {@inheritdoc}
      */
-    public function getLastInfo()
+    public function getLastInfo(): string
     {
         return $this->lastInfo;
     }
@@ -83,7 +83,7 @@ class LegacyLogger extends Logger
     /**
      * {@inheritdoc}
      */
-    public function log($level, $message, array $context = [])
+    public function log($level, string $message, array $context = []): void
     {
         if (empty($message)) {
             return;

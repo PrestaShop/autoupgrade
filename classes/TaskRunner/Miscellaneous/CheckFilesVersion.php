@@ -27,6 +27,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous;
 
+use Exception;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
@@ -36,6 +37,9 @@ use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
  */
 class CheckFilesVersion extends AbstractTask
 {
+    /**
+     * @throws Exception
+     */
     public function run()
     {
         // do nothing after this request (see javascript function doAjaxRequest )
@@ -46,7 +50,7 @@ class CheckFilesVersion extends AbstractTask
 
         if ($changedFileList === false) {
             $this->nextParams['status'] = 'error';
-            $this->nextParams['msg'] = $this->translator->trans('Unable to check files for the installed version of PrestaShop.', [], 'Modules.Autoupgrade.Admin');
+            $this->nextParams['msg'] = $this->translator->trans('Unable to check files for the installed version of PrestaShop.');
 
             return;
         }
@@ -59,7 +63,7 @@ class CheckFilesVersion extends AbstractTask
 
         if ($checksumCompare->isAuthenticPrestashopVersion($currentPrestaShopVersion)) {
             $this->nextParams['status'] = 'ok';
-            $this->nextParams['msg'] = $this->translator->trans('Core files are ok', [], 'Modules.Autoupgrade.Admin');
+            $this->nextParams['msg'] = $this->translator->trans('Core files are ok');
         } else {
             $this->nextParams['status'] = 'warn';
             $this->nextParams['msg'] = $this->translator->trans(
@@ -67,8 +71,7 @@ class CheckFilesVersion extends AbstractTask
                 [
                     '%modificationscount%' => count(array_merge($changedFileList['core'], $changedFileList['mail'], $changedFileList['translation'])),
                     '%coremodifications%' => count($changedFileList['core']),
-                ],
-                'Modules.Autoupgrade.Admin'
+                ]
             );
         }
         $this->nextParams['result'] = $changedFileList;

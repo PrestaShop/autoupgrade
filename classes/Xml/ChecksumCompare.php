@@ -48,12 +48,9 @@ class ChecksumCompare
     }
 
     /**
-     * @param string $version1
-     * @param string $version2
-     *
      * @return false|array{'modified': string[], "deleted": string[]}
      */
-    public function getFilesDiffBetweenVersions($version1, $version2)
+    public function getFilesDiffBetweenVersions(string $version1, ?string $version2)
     {
         $checksum1 = $this->fileLoader->getXmlMd5File($version1);
         $checksum2 = $this->fileLoader->getXmlMd5File($version2);
@@ -76,11 +73,11 @@ class ChecksumCompare
      *
      * @return array|false
      */
-    public function getTamperedFilesOnShop($version)
+    public function getTamperedFilesOnShop(string $version)
     {
         if (is_array($this->changed_files) && count($this->changed_files) == 0) {
             $checksum = $this->fileLoader->getXmlMd5File($version);
-            if ($checksum == false) {
+            if (!$checksum) {
                 $this->changed_files = false;
             } else {
                 $this->browseXmlAndCompare($checksum->ps_root_dir[0]);
@@ -90,7 +87,7 @@ class ChecksumCompare
         return $this->changed_files;
     }
 
-    public function isAuthenticPrestashopVersion($version)
+    public function isAuthenticPrestashopVersion($version): bool
     {
         return !$this->getTamperedFilesOnShop($version);
     }
@@ -105,11 +102,11 @@ class ChecksumCompare
      * @param string $path
      *                     deleted files in version $v2. Otherwise, only deleted.
      *
-     * @internal Made public for tests
-     *
      * @return array{'modified': string[], "deleted": string[]}
+     *
+     *@internal Made public for tests
      */
-    public function compareReleases($v1, $v2, $show_modif = true, $path = '/')
+    public function compareReleases(array $v1, array $v2, bool $show_modif = true, string $path = '/'): array
     {
         // in that array the list of files present in v1 deleted in v2
         static $deletedFiles = [];
@@ -148,7 +145,7 @@ class ChecksumCompare
      * @param array $current_path
      * @param int $level
      */
-    protected function browseXmlAndCompare($node, &$current_path = [], $level = 1)
+    protected function browseXmlAndCompare($node, array &$current_path = [], int $level = 1): void
     {
         foreach ($node as $child) {
             if (is_object($child) && $child->getName() == 'dir') {
@@ -206,7 +203,7 @@ class ChecksumCompare
      *
      * @param string $path filepath to add, relative to _PS_ROOT_DIR_
      */
-    protected function addChangedFile($path)
+    protected function addChangedFile(string $path): void
     {
         if (strpos($path, 'mails/') !== false) {
             $this->changed_files['mail'][] = $path;
@@ -219,7 +216,7 @@ class ChecksumCompare
         }
     }
 
-    protected function compareChecksum($filepath, $md5sum)
+    protected function compareChecksum($filepath, $md5sum): bool
     {
         return md5_file($filepath) == $md5sum;
     }

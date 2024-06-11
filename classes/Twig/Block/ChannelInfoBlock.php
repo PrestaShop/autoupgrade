@@ -65,7 +65,7 @@ class ChannelInfoBlock
     /**
      * @return string HTML
      */
-    public function render()
+    public function render(): string
     {
         $channel = $this->channelInfo->getChannel();
         $upgradeInfo = $this->channelInfo->getInfo();

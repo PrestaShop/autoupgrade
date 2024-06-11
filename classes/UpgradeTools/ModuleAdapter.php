@@ -106,13 +106,13 @@ class ModuleAdapter
      *
      * @param string $pathToUpgradeScripts Path to the PHP Upgrade scripts
      */
-    public function disableNonNativeModules($pathToUpgradeScripts)
+    public function disableNonNativeModules(string $pathToUpgradeScripts): void
     {
         require_once $pathToUpgradeScripts . 'php/deactivate_custom_modules.php';
         deactivate_custom_modules();
     }
 
-    public function disableNonNativeModules80($pathToUpgradeScripts, $moduleRepository)
+    public function disableNonNativeModules80(string $pathToUpgradeScripts, $moduleRepository)
     {
         require_once $pathToUpgradeScripts . 'php/deactivate_custom_modules.php';
         deactivate_custom_modules80($moduleRepository);
@@ -125,14 +125,16 @@ class ModuleAdapter
      * @param array<string, string> $modulesVersions
      *
      * @return array Module available on the local filesystem and on the marketplace
+     *
+     * @throws UpgradeException
      */
-    public function listModulesToUpgrade(array $modulesFromAddons, array $modulesVersions)
+    public function listModulesToUpgrade(array $modulesFromAddons, array $modulesVersions): array
     {
         $list = [];
         $dir = $this->modulesPath;
 
         if (!is_dir($dir)) {
-            throw (new UpgradeException($this->translator->trans('[ERROR] %dir% does not exist or is not a directory.', ['%dir%' => $dir], 'Modules.Autoupgrade.Admin')))->addQuickInfo($this->translator->trans('[ERROR] %s does not exist or is not a directory.', [$dir], 'Modules.Autoupgrade.Admin'))->setSeverity(UpgradeException::SEVERITY_ERROR);
+            throw (new UpgradeException($this->translator->trans('[ERROR] %dir% does not exist or is not a directory.', ['%dir%' => $dir])))->addQuickInfo($this->translator->trans('[ERROR] %s does not exist or is not a directory.', [$dir]))->setSeverity(UpgradeException::SEVERITY_ERROR);
         }
 
         foreach (scandir($dir) as $module_name) {
@@ -175,11 +177,9 @@ class ModuleAdapter
     /**
      * Upgrade module $name (identified by $id_module on addons server).
      *
-     * @param int $id
-     * @param string $name
-     * @param bool $isLocalModule
+     * @throws UpgradeException
      */
-    public function upgradeModule($id, $name, $isLocalModule = false)
+    public function upgradeModule(int $id, string $name, bool $isLocalModule = false)
     {
         $zip_fullpath = $this->tempPath . DIRECTORY_SEPARATOR . $name . '.zip';
         $local_module_used = false;
@@ -216,12 +216,12 @@ class ModuleAdapter
             // file_get_contents can return false if https is not supported (or warning)
             $content = Tools14::file_get_contents($addons_url, false, $context);
             if (empty($content) || substr($content, 5) == '<?xml') {
-                $msg = '<strong>' . $this->translator->trans('[ERROR] No response from Addons server.', [], 'Modules.Autoupgrade.Admin') . '</strong>';
+                $msg = '<strong>' . $this->translator->trans('[ERROR] No response from Addons server.') . '</strong>';
                 throw new UpgradeException($msg);
             }
 
             if (false === (bool) file_put_contents($zip_fullpath, $content)) {
-                $msg = '<strong>' . $this->translator->trans('[ERROR] Unable to write module %s\'s zip file in temporary directory.', [$name], 'Modules.Autoupgrade.Admin') . '</strong>';
+                $msg = '<strong>' . $this->translator->trans('[ERROR] Unable to write module %s\'s zip file in temporary directory.', [$name]) . '</strong>';
                 throw new UpgradeException($msg);
             }
         }
@@ -231,18 +231,18 @@ class ModuleAdapter
         }
         // unzip in modules/[mod name] old files will be conserved
         if (!$this->zipAction->extract($zip_fullpath, $this->modulesPath)) {
-            throw (new UpgradeException('<strong>' . $this->translator->trans('[WARNING] Error when trying to extract module %s.', [$name], 'Modules.Autoupgrade.Admin') . '</strong>'))->setSeverity(UpgradeException::SEVERITY_WARNING);
+            throw (new UpgradeException('<strong>' . $this->translator->trans('[WARNING] Error when trying to extract module %s.', [$name]) . '</strong>'))->setSeverity(UpgradeException::SEVERITY_WARNING);
         }
         if (file_exists($zip_fullpath)) {
             unlink($zip_fullpath);
         }
 
         if (!$this->doUpgradeModule($name)) {
-            throw (new UpgradeException('<strong>' . $this->translator->trans('[WARNING] Error when trying to upgrade module %s.', [$name], 'Modules.Autoupgrade.Admin') . '</strong>'))->setSeverity(UpgradeException::SEVERITY_WARNING)->setQuickInfos(\Module::getInstanceByName($name)->getErrors());
+            throw (new UpgradeException('<strong>' . $this->translator->trans('[WARNING] Error when trying to upgrade module %s.', [$name]) . '</strong>'))->setSeverity(UpgradeException::SEVERITY_WARNING)->setQuickInfos(\Module::getInstanceByName($name)->getErrors());
         }
     }
 
-    private function getLocalModuleZip($name)
+    private function getLocalModuleZip($name): ?string
     {
         $autoupgrade_dir = _PS_ADMIN_DIR_ . DIRECTORY_SEPARATOR . 'autoupgrade';
         $module_zip = $autoupgrade_dir . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $name . '.zip';
@@ -254,12 +254,7 @@ class ModuleAdapter
         return null;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return bool
-     */
-    private function doUpgradeModule($name)
+    private function doUpgradeModule(string $name): bool
     {
         $version = \Db::getInstance()->getValue(
             'SELECT version FROM `' . _DB_PREFIX_ . 'module` WHERE name = "' . $name . '"'

@@ -48,20 +48,24 @@ class Autoupgrade extends Module
             if (defined('PS_ADMIN_DIR')) {
                 define('_PS_ADMIN_DIR_', PS_ADMIN_DIR);
             } else {
-                $this->_errors[] = $this->trans('This version of PrestaShop cannot be upgraded: the PS_ADMIN_DIR constant is missing.', [], 'Modules.Autoupgrade.Admin');
+                $this->_errors[] = $this->trans('This version of PrestaShop cannot be upgraded: the PS_ADMIN_DIR constant is missing.');
             }
         }
 
-        $this->displayName = $this->trans('1-Click Upgrade', [], 'Modules.Autoupgrade.Admin');
-        $this->description = $this->trans('Upgrade to the latest version of PrestaShop in a few clicks, thanks to this automated method.', [], 'Modules.Autoupgrade.Admin');
+        $this->displayName = $this->trans('1-Click Upgrade');
+        $this->description = $this->trans('Upgrade to the latest version of PrestaShop in a few clicks, thanks to this automated method.');
 
         $this->ps_versions_compliancy = ['min' => '1.7.0.0', 'max' => _PS_VERSION_];
     }
 
     public function install()
     {
-        if (50600 > PHP_VERSION_ID) {
-            $this->_errors[] = $this->trans('This version of 1-click upgrade requires PHP 5.6 to work properly. Please upgrade your server configuration.', [], 'Modules.Autoupgrade.Admin');
+        require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/classes/VersionUtils.php';
+        if (!\PrestaShop\Module\AutoUpgrade\VersionUtils::isActualPHPVersionCompatible()) {
+            $this->_errors[] = $this->trans(
+                'This module requires PHP %s to work properly. Please upgrade your server configuration.',
+                [\PrestaShop\Module\AutoUpgrade\VersionUtils::getHumanReadableVersionOf(\PrestaShop\Module\AutoUpgrade\VersionUtils::MODULE_COMPATIBLE_PHP_VERSION)]
+            );
 
             return false;
         }
@@ -70,7 +74,7 @@ class Autoupgrade extends Module
         if ($id_tab = Tab::getIdFromClassName('AdminUpgrade')) {
             $tab = new Tab((int) $id_tab);
             if (!$tab->delete()) {
-                $this->_errors[] = $this->trans('Unable to delete outdated "AdminUpgrade" tab (tab ID: %idtab%).', ['%idtab%' => (int) $id_tab], 'Modules.Autoupgrade.Admin');
+                $this->_errors[] = $this->trans('Unable to delete outdated "AdminUpgrade" tab (tab ID: %idtab%).', ['%idtab%' => (int) $id_tab]);
             }
         }
 
@@ -87,7 +91,7 @@ class Autoupgrade extends Module
                 $tab->name[(int) $lang['id_lang']] = '1-Click Upgrade';
             }
             if (!$tab->save()) {
-                return $this->_abortInstall($this->trans('Unable to create the "AdminSelfUpgrade" tab', [], 'Modules.Autoupgrade.Admin'));
+                return $this->_abortInstall($this->trans('Unable to create the "AdminSelfUpgrade" tab'));
             }
         } else {
             $tab = new Tab((int) $id_tab);
@@ -97,7 +101,7 @@ class Autoupgrade extends Module
         if (Validate::isLoadedObject($tab)) {
             Configuration::updateValue('PS_AUTOUPDATE_MODULE_IDTAB', (int) $tab->id);
         } else {
-            return $this->_abortInstall($this->trans('Unable to load the "AdminSelfUpgrade" tab', [], 'Modules.Autoupgrade.Admin'));
+            return $this->_abortInstall($this->trans('Unable to load the "AdminSelfUpgrade" tab'));
         }
 
         return parent::install() && $this->registerHookAndSetToTop('dashboardZoneOne');
@@ -135,36 +139,6 @@ class Autoupgrade extends Module
         $this->updatePosition((int) Hook::getIdByName($hookName), false);
 
         return true;
-    }
-
-    public function hookDashboardZoneOne($params)
-    {
-        // Display panel if PHP is not supported by the community
-        require_once __DIR__ . '/vendor/autoload.php';
-
-        $upgradeContainer = new \PrestaShop\Module\AutoUpgrade\UpgradeContainer(_PS_ROOT_DIR_, _PS_ADMIN_DIR_);
-        $upgradeSelfCheck = new \PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck(
-            $upgradeContainer->getUpgrader(),
-            $upgradeContainer->getPrestaShopConfiguration(),
-            _PS_ROOT_DIR_,
-            _PS_ADMIN_DIR_,
-            __DIR__
-        );
-
-        $upgradeNotice = $upgradeSelfCheck->isPhpUpgradeRequired();
-        if (false === $upgradeNotice) {
-            return '';
-        }
-
-        $this->context->controller->addCSS($this->_path . '/css/styles.css');
-        $this->context->controller->addJS($this->_path . '/js/dashboard.js');
-
-        $this->context->smarty->assign([
-            'ignore_link' => Context::getContext()->link->getAdminLink('AdminSelfUpgrade') . '&ignorePhpOutdated=1',
-            'learn_more_link' => 'http://build.prestashop.com/news/announcing-end-of-support-for-obsolete-php-versions/',
-        ]);
-
-        return $this->context->smarty->fetch($this->local_path . 'views/templates/hook/dashboard_zone_one.tpl');
     }
 
     public function getContent()
@@ -219,6 +193,6 @@ class Autoupgrade extends Module
 
         $translator = new \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator(__CLASS__);
 
-        return $translator->trans($id, $parameters, $domain, $locale);
+        return $translator->trans($id, $parameters);
     }
 }

@@ -27,6 +27,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 
+use Exception;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\UpgradeException;
@@ -36,7 +37,10 @@ use PrestaShop\Module\AutoUpgrade\UpgradeException;
  */
 class UpgradeModules extends AbstractTask
 {
-    public function run()
+    /**
+     * @throws Exception
+     */
+    public function run(): bool
     {
         $start_time = time();
         if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::MODULES_TO_UPGRADE_LIST)) {
@@ -49,7 +53,7 @@ class UpgradeModules extends AbstractTask
         if (!is_array($listModules)) {
             $this->next = 'upgradeComplete';
             $this->container->getState()->setWarningExists(true);
-            $this->logger->error($this->translator->trans('listModules is not an array. No module has been updated.', [], 'Modules.Autoupgrade.Admin'));
+            $this->logger->error($this->translator->trans('listModules is not an array. No module has been updated.'));
 
             return true;
         }
@@ -71,9 +75,9 @@ class UpgradeModules extends AbstractTask
             do {
                 $module_info = array_pop($listModules);
                 try {
-                    $this->logger->debug($this->translator->trans('Upgrading module %module%...', ['%module%' => $module_info['name']], 'Modules.Autoupgrade.Admin'));
+                    $this->logger->debug($this->translator->trans('Upgrading module %module%...', ['%module%' => $module_info['name']]));
                     $this->container->getModuleAdapter()->upgradeModule($module_info['id'], $module_info['name'], !empty($module_info['is_local']));
-                    $this->logger->debug($this->translator->trans('The files of module %s have been upgraded.', [$module_info['name']], 'Modules.Autoupgrade.Admin'));
+                    $this->logger->debug($this->translator->trans('The files of module %s have been upgraded.', [$module_info['name']]));
                 } catch (UpgradeException $e) {
                     $this->handleException($e);
                     if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {
@@ -89,14 +93,14 @@ class UpgradeModules extends AbstractTask
 
             $this->next = 'upgradeModules';
             if ($modules_left) {
-                $this->logger->info($this->translator->trans('%s modules left to upgrade.', [$modules_left], 'Modules.Autoupgrade.Admin'));
+                $this->logger->info($this->translator->trans('%s modules left to upgrade.', [$modules_left]));
             }
             $this->stepDone = false;
         } else {
             $this->stepDone = true;
             $this->status = 'ok';
             $this->next = 'cleanDatabase';
-            $this->logger->info($this->translator->trans('Addons modules files have been upgraded.', [], 'Modules.Autoupgrade.Admin'));
+            $this->logger->info($this->translator->trans('Addons modules files have been upgraded.'));
 
             return true;
         }
@@ -107,10 +111,8 @@ class UpgradeModules extends AbstractTask
     /**
      * Get the list of module zips in admin/autoupgrade/modules
      * These zips will be used to upgrade related modules instead of using distant zips on addons
-     *
-     * @return array
      */
-    private function getLocalModules()
+    private function getLocalModules(): array
     {
         $localModuleDir = sprintf(
             '%s%sautoupgrade%smodules',
@@ -140,7 +142,7 @@ class UpgradeModules extends AbstractTask
         return \Db::getInstance()->executeS($sql);
     }
 
-    public function warmUp()
+    public function warmUp(): bool
     {
         try {
             $modulesToUpgrade = $this->container->getModuleAdapter()->listModulesToUpgrade(
@@ -157,7 +159,7 @@ class UpgradeModules extends AbstractTask
 
         $total_modules_to_upgrade = count($modulesToUpgrade);
         if ($total_modules_to_upgrade) {
-            $this->logger->info($this->translator->trans('%s modules will be upgraded.', [$total_modules_to_upgrade], 'Modules.Autoupgrade.Admin'));
+            $this->logger->info($this->translator->trans('%s modules will be upgraded.', [$total_modules_to_upgrade]));
         }
 
         $this->stepDone = false;
@@ -166,7 +168,7 @@ class UpgradeModules extends AbstractTask
         return true;
     }
 
-    private function handleException(UpgradeException $e)
+    private function handleException(UpgradeException $e): void
     {
         foreach ($e->getQuickInfos() as $log) {
             $this->logger->debug($log);

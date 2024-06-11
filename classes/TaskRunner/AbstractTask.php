@@ -27,6 +27,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner;
 
+use Exception;
 use PrestaShop\Module\AutoUpgrade\AjaxResponse;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
@@ -61,6 +62,9 @@ abstract class AbstractTask
     protected $nextParams = [];
     protected $next;
 
+    /**
+     * @throws Exception
+     */
     public function __construct(UpgradeContainer $container)
     {
         $this->container = $container;
@@ -72,7 +76,7 @@ abstract class AbstractTask
     /**
      * @return string base64 encoded data from AjaxResponse
      */
-    public function getEncodedResponse()
+    public function getEncodedResponse(): string
     {
         return base64_encode($this->getJsonResponse());
     }
@@ -80,7 +84,7 @@ abstract class AbstractTask
     /**
      * @return string Json encoded data from AjaxResponse
      */
-    public function getJsonResponse()
+    public function getJsonResponse(): string
     {
         return $this->getResponse()->getJson();
     }
@@ -90,7 +94,7 @@ abstract class AbstractTask
      *
      * @return AjaxResponse
      */
-    public function getResponse()
+    public function getResponse(): AjaxResponse
     {
         $response = new AjaxResponse($this->container->getState(), $this->logger);
 
@@ -111,11 +115,14 @@ abstract class AbstractTask
         $currentAction = get_class($this);
         if (isset(self::$skipAction[$currentAction])) {
             $this->next = self::$skipAction[$currentAction];
-            $this->logger->info($this->translator->trans('Action %s skipped', [$currentAction], 'Modules.Autoupgrade.Admin'));
+            $this->logger->info($this->translator->trans('Action %s skipped', [$currentAction]));
         }
     }
 
-    public function init()
+    /**
+     * @throws Exception
+     */
+    public function init(): void
     {
         $this->container->initPrestaShopCore();
     }

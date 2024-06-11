@@ -60,10 +60,8 @@ class FormRenderer
         $this->translator = $translator;
     }
 
-    public function render($name, $fields, $tabname, $size, $icon)
+    public function render($name, $fields, $tabname): string
     {
-        $required = false;
-
         $formFields = [];
 
         foreach ($fields as $key => $field) {
@@ -153,7 +151,7 @@ class FormRenderer
         );
     }
 
-    private function renderBool($field, $key, $val)
+    private function renderBool(array $field, string $key, $val): string
     {
         return '<div class="form-group">
                 <label class="col-lg-3 control-label">' . $field['title'] . '</label>
@@ -162,11 +160,11 @@ class FormRenderer
                             <input type="radio" name="' . $key . '" id="' . $key . '_on" value="1" ' . ($val ? ' checked="checked"' : '') . (isset($field['js']['on']) ? $field['js']['on'] : '') . ' />
                             <label for="' . $key . '_on" class="radioCheck">
                                 <i class="color_success"></i> '
-                            . $this->translator->trans('Yes', [], 'Admin.Global') . '
+                            . $this->translator->trans('Yes') . '
                             </label>
                             <input type="radio" name="' . $key . '" id="' . $key . '_off" value="0" ' . (!$val ? 'checked="checked"' : '') . (isset($field['js']['off']) ? $field['js']['off'] : '') . '/>
                             <label for="' . $key . '_off" class="radioCheck">
-                                <i class="color_danger"></i> ' . $this->translator->trans('No', [], 'Admin.Global') . '
+                                <i class="color_danger"></i> ' . $this->translator->trans('No') . '
                             </label>
                             <a class="slide-button btn"></a>
                         </span>
@@ -175,7 +173,7 @@ class FormRenderer
                 </div>';
     }
 
-    private function renderRadio($field, $key, $val, $disabled)
+    private function renderRadio(array $field, string $key, $val, bool $disabled): string
     {
         $html = '';
         foreach ($field['choices'] as $cValue => $cKey) {
@@ -186,7 +184,7 @@ class FormRenderer
         return $html;
     }
 
-    private function renderSelect($field, $key, $val)
+    private function renderSelect(array $field, string $key, string $val): string
     {
         $html = '<div class="form-group">
                     <label class="col-lg-3 control-label">' . $field['title'] . '</label>
@@ -209,7 +207,7 @@ class FormRenderer
         return $html;
     }
 
-    private function renderTextarea($field, $key, $val, $disabled)
+    private function renderTextarea(array $field, string $key, $val, bool $disabled): string
     {
         return '<textarea '
             . ($disabled ? 'disabled="disabled"' : '')
@@ -221,7 +219,7 @@ class FormRenderer
             . '</textarea>';
     }
 
-    private function renderTextField($field, $key, $val, $disabled)
+    private function renderTextField(array $field, string $key, $val, bool $disabled): string
     {
         return '<input '
             . ($disabled ? 'disabled="disabled"' : '')
@@ -234,7 +232,7 @@ class FormRenderer
             . (isset($field['next']) ? '&nbsp;' . $field['next'] : '');
     }
 
-    private function renderThumb($field)
+    private function renderThumb(array $field): string
     {
         return "<img src=\"{$field['thumb']['file']}\" alt=\"{$field['title']}\" title=\"{$field['title']}\" style=\"float:left;\">";
     }

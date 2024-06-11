@@ -49,7 +49,7 @@ class FileFilter
     protected $rootDir;
 
     /**
-     * @var array|null
+     * @var array
      */
     protected $excludeAbsoluteFilesFromUpgrade;
 
@@ -59,27 +59,17 @@ class FileFilter
         'autoupgrade',
     ];
 
-    /**
-     * @param UpgradeConfiguration $configuration
-     * @param string $rootDir
-     * @param string $autoupgradeDir
-     */
     public function __construct(
         UpgradeConfiguration $configuration,
-        $rootDir,
-        $autoupgradeDir = 'autoupgrade'
+        string $rootDir,
+        string $autoupgradeDir = 'autoupgrade'
     ) {
         $this->configuration = $configuration;
         $this->rootDir = $rootDir;
         $this->autoupgradeDir = $autoupgradeDir;
     }
 
-    /**
-     * AdminSelfUpgrade::backupIgnoreAbsoluteFiles.
-     *
-     * @return array
-     */
-    public function getFilesToIgnoreOnBackup()
+    public function getFilesToIgnoreOnBackup(): array
     {
         // during backup, do not save
         $backupIgnoreAbsoluteFiles = [
@@ -104,12 +94,7 @@ class FileFilter
         return $backupIgnoreAbsoluteFiles;
     }
 
-    /**
-     * AdminSelfUpgrade::restoreIgnoreAbsoluteFiles.
-     *
-     * @return array
-     */
-    public function getFilesToIgnoreOnRestore()
+    public function getFilesToIgnoreOnRestore(): array
     {
         $restoreIgnoreAbsoluteFiles = [
             '/app/config/parameters.php',
@@ -129,12 +114,7 @@ class FileFilter
         return $restoreIgnoreAbsoluteFiles;
     }
 
-    /**
-     * AdminSelfUpgrade::excludeAbsoluteFilesFromUpgrade.
-     *
-     * @return array
-     */
-    public function getFilesToIgnoreOnUpgrade()
+    public function getFilesToIgnoreOnUpgrade(): array
     {
         if ($this->excludeAbsoluteFilesFromUpgrade) {
             return $this->excludeAbsoluteFilesFromUpgrade;
@@ -197,16 +177,10 @@ class FileFilter
     }
 
     /**
-     * AdminSelfUpgrade::backupIgnoreFiles
-     * AdminSelfUpgrade::excludeFilesFromUpgrade
-     * AdminSelfUpgrade::restoreIgnoreFiles.
-     *
      * These files are checked in every subfolder of the directory tree and can match
      * several time, while the others are only matching a file from the project root.
-     *
-     * @return array
      */
-    public function getExcludeFiles()
+    public function getExcludeFiles(): array
     {
         return [
             '.',
@@ -219,10 +193,8 @@ class FileFilter
 
     /**
      * Returns an array of native modules
-     *
-     * @return array<string>
      */
-    private function getNativeModules()
+    private function getNativeModules(): array
     {
         $composerFile = $this->rootDir . '/composer.lock';
         if (!file_exists($composerFile)) {

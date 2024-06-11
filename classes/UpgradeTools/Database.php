@@ -38,7 +38,7 @@ class Database
         $this->db = $db;
     }
 
-    public function getAllTables()
+    public function getAllTables(): array
     {
         $tables = $this->db->executeS('SHOW TABLES LIKE "' . _DB_PREFIX_ . '%"', true, false);
 
@@ -54,7 +54,7 @@ class Database
     /**
      * ToDo: Send tables list instead.
      */
-    public function cleanTablesAfterBackup(array $tablesToClean)
+    public function cleanTablesAfterBackup(array $tablesToClean): void
     {
         foreach ($tablesToClean as $table) {
             $this->db->execute('DROP TABLE IF EXISTS `' . bqSql($table) . '`');

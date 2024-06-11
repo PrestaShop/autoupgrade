@@ -44,7 +44,7 @@ namespace PrestaShop\Module\AutoUpgrade {
             $this->logger = $logger;
         }
 
-        public function getIO()
+        public function getIO(): LoggedEventIo
         {
             return new LoggedEventIo($this->logger);
         }

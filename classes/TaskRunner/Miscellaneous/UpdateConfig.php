@@ -27,6 +27,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous;
 
+use Exception;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
@@ -45,6 +46,9 @@ class UpdateConfig extends AbstractTask
      */
     protected $cliParameters;
 
+    /**
+     * @throws Exception
+     */
     public function run()
     {
         // nothing next
@@ -71,20 +75,20 @@ class UpdateConfig extends AbstractTask
             $file = $configurationData['archive_prestashop'];
             if (!file_exists($this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $file)) {
                 $this->error = true;
-                $this->logger->info($this->translator->trans('File %s does not exist. Unable to select that channel.', [$file], 'Modules.Autoupgrade.Admin'));
+                $this->logger->info($this->translator->trans('File %s does not exist. Unable to select that channel.', [$file]));
 
                 return false;
             }
             if (empty($configurationData['archive_num'])) {
                 $this->error = true;
-                $this->logger->info($this->translator->trans('Version number is missing. Unable to select that channel.', [], 'Modules.Autoupgrade.Admin'));
+                $this->logger->info($this->translator->trans('Version number is missing. Unable to select that channel.'));
 
                 return false;
             }
             $xmlFile = $configurationData['archive_xml'];
             if (!empty($xmlFile) && !file_exists($this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $xmlFile)) {
                 $this->error = true;
-                $this->logger->info($this->translator->trans('File %s does not exist. Unable to select that channel.', [$xmlFile], 'Modules.Autoupgrade.Admin'));
+                $this->logger->info($this->translator->trans('File %s does not exist. Unable to select that channel.', [$xmlFile]));
 
                 return false;
             }
@@ -93,13 +97,13 @@ class UpdateConfig extends AbstractTask
             $config['archive.version_num'] = $configurationData['archive_num'];
             $config['archive.xml'] = $configurationData['archive_xml'];
             // $config['archive_name'] = $request['archive_name'];
-            $this->logger->info($this->translator->trans('Upgrade process will use archive.', [], 'Modules.Autoupgrade.Admin'));
+            $this->logger->info($this->translator->trans('Upgrade process will use archive.'));
         }
         if (isset($configurationData['directory_num'])) {
             $config['channel'] = 'directory';
             if (empty($configurationData['directory_num']) || strpos($configurationData['directory_num'], '.') === false) {
                 $this->error = true;
-                $this->logger->info($this->translator->trans('Version number is missing. Unable to select that channel.', [], 'Modules.Autoupgrade.Admin'));
+                $this->logger->info($this->translator->trans('Version number is missing. Unable to select that channel.'));
 
                 return false;
             }
@@ -115,7 +119,7 @@ class UpdateConfig extends AbstractTask
 
         if (!$this->writeConfig($config)) {
             $this->error = true;
-            $this->logger->info($this->translator->trans('Error on saving configuration', [], 'Modules.Autoupgrade.Admin'));
+            $this->logger->info($this->translator->trans('Error on saving configuration'));
         }
     }
 
@@ -133,7 +137,7 @@ class UpdateConfig extends AbstractTask
         return $this->getRequestParams();
     }
 
-    protected function getCLIParams()
+    protected function getCLIParams(): array
     {
         if (empty($this->cliParameters)) {
             throw new \RuntimeException('Empty CLI parameters - did CLI entry point failed to provide data?');
@@ -153,8 +157,10 @@ class UpdateConfig extends AbstractTask
      * @param array $config
      *
      * @return bool true if success
+     *
+     * @throws Exception
      */
-    private function writeConfig($config)
+    private function writeConfig(array $config): bool
     {
         if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::CONFIG_FILENAME) && !empty($config['channel'])) {
             $this->container->getUpgrader()->channel = $config['channel'];
@@ -164,7 +170,7 @@ class UpdateConfig extends AbstractTask
         }
 
         $this->container->getUpgradeConfiguration()->merge($config);
-        $this->logger->info($this->translator->trans('Configuration successfully updated.', [], 'Modules.Autoupgrade.Admin') . ' <strong>' . $this->translator->trans('This page will now be reloaded and the module will check if a new version is available.', [], 'Modules.Autoupgrade.Admin') . '</strong>');
+        $this->logger->info($this->translator->trans('Configuration successfully updated.') . ' <strong>' . $this->translator->trans('This page will now be reloaded and the module will check if a new version is available.') . '</strong>');
 
         return (new UpgradeConfigurationStorage($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR))->save($this->container->getUpgradeConfiguration(), UpgradeFileNames::CONFIG_FILENAME);
     }

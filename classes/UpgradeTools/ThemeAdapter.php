@@ -41,7 +41,7 @@ class ThemeAdapter
      *
      * @return string
      */
-    public function getDefaultTheme()
+    public function getDefaultTheme(): string
     {
         return 'classic';
     }
@@ -51,7 +51,7 @@ class ThemeAdapter
      *
      * @return array
      */
-    public function getListFromDisk()
+    public function getListFromDisk(): array
     {
         $suffix = 'config/theme.yml';
         $themeDirectories = glob(_PS_ALL_THEMES_DIR_ . '*/' . $suffix, GLOB_NOSORT);
@@ -74,7 +74,7 @@ class ThemeAdapter
      *
      * @return bool|string True on success, string with errors on failure
      */
-    public function enableTheme($themeName)
+    public function enableTheme(string $themeName)
     {
         // Load up core theme manager
         $themeManager = $this->getThemeManager();

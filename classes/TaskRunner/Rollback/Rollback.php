@@ -27,6 +27,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback;
 
+use Exception;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
@@ -36,6 +37,9 @@ use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
  */
 class Rollback extends AbstractTask
 {
+    /**
+     * @throws Exception
+     */
     public function run()
     {
         // 1st, need to analyse what was wrong.
@@ -59,7 +63,7 @@ class Rollback extends AbstractTask
         }
         if (!is_file($this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $this->container->getState()->getRestoreFilesFilename())) {
             $this->next = 'error';
-            $this->logger->error($this->translator->trans('[ERROR] File %s is missing: unable to restore files. Operation aborted.', [$this->container->getState()->getRestoreFilesFilename()], 'Modules.Autoupgrade.Admin'));
+            $this->logger->error($this->translator->trans('[ERROR] File %s is missing: unable to restore files. Operation aborted.', [$this->container->getState()->getRestoreFilesFilename()]));
 
             return false;
         }
@@ -75,13 +79,13 @@ class Rollback extends AbstractTask
         $this->container->getState()->setRestoreDbFilenames($restoreDbFilenames);
         if (count($restoreDbFilenames) == 0) {
             $this->next = 'error';
-            $this->logger->error($this->translator->trans('[ERROR] No backup database files found: it would be impossible to restore the database. Operation aborted.', [], 'Modules.Autoupgrade.Admin'));
+            $this->logger->error($this->translator->trans('[ERROR] No backup database files found: it would be impossible to restore the database. Operation aborted.'));
 
             return false;
         }
 
         $this->next = 'restoreFiles';
-        $this->logger->info($this->translator->trans('Restoring files ...', [], 'Modules.Autoupgrade.Admin'));
+        $this->logger->info($this->translator->trans('Restoring files ...'));
         // remove tmp files related to restoreFiles
         if (file_exists($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . UpgradeFileNames::FILES_FROM_ARCHIVE_LIST)) {
             unlink($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . UpgradeFileNames::FILES_FROM_ARCHIVE_LIST);
@@ -91,7 +95,7 @@ class Rollback extends AbstractTask
         }
     }
 
-    public function init()
+    public function init(): void
     {
         // Do nothing
     }

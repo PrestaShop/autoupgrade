@@ -51,7 +51,7 @@ class Translation
      *
      * @return string type of translation item
      */
-    public function getTranslationFileType($file)
+    public function getTranslationFileType(string $file)
     {
         $type = false;
         // line shorter
@@ -77,7 +77,7 @@ class Translation
         return $type;
     }
 
-    public function isTranslationFile($file)
+    public function isTranslationFile($file): bool
     {
         return $this->getTranslationFileType($file) !== false;
     }
@@ -91,7 +91,7 @@ class Translation
      *
      * @return bool
      */
-    public function mergeTranslationFile($orig, $dest, $type)
+    public function mergeTranslationFile(string $orig, string $dest, string $type): bool
     {
         switch ($type) {
             case 'front office':
@@ -120,7 +120,7 @@ class Translation
         }
 
         if (!file_exists($orig)) {
-            $this->logger->notice($this->translator->trans('[NOTICE] File %s does not exist, merge skipped.', [$orig], 'Modules.Autoupgrade.Admin'));
+            $this->logger->notice($this->translator->trans('[NOTICE] File %s does not exist, merge skipped.', [$orig]));
 
             return true;
         }
@@ -131,8 +131,7 @@ class Translation
                 [
                     '%variablename%' => $var_name,
                     '%filename%' => $orig,
-                ],
-                'Modules.Autoupgrade.Admin'
+                ]
             ));
 
             return true;
@@ -140,7 +139,7 @@ class Translation
         $var_orig = $$var_name;
 
         if (!file_exists($dest)) {
-            $this->logger->notice($this->translator->trans('[NOTICE] File %s does not exist, merge skipped.', [$dest], 'Modules.Autoupgrade.Admin'));
+            $this->logger->notice($this->translator->trans('[NOTICE] File %s does not exist, merge skipped.', [$dest]));
 
             return false;
         }
@@ -156,8 +155,7 @@ class Translation
                 [
                     '%variablename%' => $var_name,
                     '%filename%' => $dest,
-                ],
-                'Modules.Autoupgrade.Admin'
+                ]
             ));
 
             return false;
@@ -188,14 +186,12 @@ class Translation
      * Escapes illegal characters in a string.
      * Extracted from DB class, in order to avoid dependancies.
      *
-     * @see DbCore::_escape()
-     *
      * @param string $str
      * @param bool $html_ok Does data contain HTML code ? (optional)
      *
-     * @return string
+     * @see DbCore::_escape()
      */
-    private function escape($str, $html_ok = false)
+    private function escape(string $str, bool $html_ok = false): string
     {
         $search = ['\\', "\0", "\n", "\r", "\x1a", "'", '"'];
         $replace = ['\\\\', '\\0', '\\n', '\\r', "\Z", "\'", '\"'];
