@@ -61,12 +61,12 @@ class Translator implements TranslatorInterface
      *
      * @return string Translated string with parameters applied
      */
-    public function trans($id, array $parameters = [], $domain = null, $locale = null)
+    public function trans($id, array $parameters = [], $domain = null, $locale = null): string
     {
         $defaultDomain = 'Modules.Autoupgrade.Admin';
 
         if ($this->coreTranslator) {
-            return $this->coreTranslator->trans($id, $parameters, $domain ?? $defaultDomain, $locale);
+            return $this->coreTranslator->trans($id, $parameters, isset($domain) ? $domain : $defaultDomain, $locale);
         }
 
         // If PrestaShop core is not instantiated properly, do not try to translate
@@ -77,7 +77,7 @@ class Translator implements TranslatorInterface
         if (empty($this->translations)) {
             $this->loadTranslations();
         }
-        $translated = $this->translations[$id] ?? $id;
+        $translated = isset($this->translations[$id]) ? $this->translations[$id] : $id;
 
         return $this->applyParameters($translated, $parameters);
     }
