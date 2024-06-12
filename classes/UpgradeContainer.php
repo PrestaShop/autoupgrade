@@ -27,6 +27,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade;
 
+use Error;
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Log\LegacyLogger;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
