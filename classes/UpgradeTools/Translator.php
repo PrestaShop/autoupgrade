@@ -61,7 +61,7 @@ class Translator implements TranslatorInterface
      *
      * @return string Translated string with parameters applied
      */
-    public function trans($id, array $parameters = [], $domain = null, $locale = null): string
+    public function trans($id, array $parameters = [], $domain = null, $locale = null)
     {
         $defaultDomain = 'Modules.Autoupgrade.Admin';
 
