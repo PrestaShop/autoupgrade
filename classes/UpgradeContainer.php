@@ -27,7 +27,6 @@
 
 namespace PrestaShop\Module\AutoUpgrade;
 
-use Error;
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Log\LegacyLogger;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
@@ -468,14 +467,12 @@ class UpgradeContainer
 
     public function getTranslator(): TranslatorInterface
     {
-        try {
-            $coreTranslator = $this->getSymfonyAdapter()->initKernel()
+        $symfonyAdapter = $this->getSymfonyAdapter();
+        $coreTranslator = $symfonyAdapter->isKernelReachable()
+            ? $symfonyAdapter->initKernel()
                 ->getContainer()
-                ->get('translator');
-        } catch (Error $e) {
-            $this->getLogger()->debug('Loading Core translator failed, failing back on internal one.');
-            $coreTranslator = null;
-        }
+                ->get('translator')
+            : null;
 
         return new Translator($coreTranslator);
     }

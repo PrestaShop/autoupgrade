@@ -34,6 +34,11 @@ use ReflectionClass;
  */
 class SymfonyAdapter
 {
+    public function isKernelReachable(): bool
+    {
+        return defined('_PS_ROOT_DIR_') && class_exists('AppKernel', true);
+    }
+
     /**
      * Return the appropriate kernel if abstract or not.
      *
