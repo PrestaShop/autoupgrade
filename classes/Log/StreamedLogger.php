@@ -50,6 +50,8 @@ class StreamedLogger extends Logger
      */
     protected $err;
 
+    protected $lastInfo;
+
     public function __construct()
     {
         $this->out = fopen('php://stdout', 'w');
@@ -91,6 +93,7 @@ class StreamedLogger extends Logger
 
         if (!$this->isFiltered($level)) {
             fwrite($this->out, $log);
+            $this->lastInfo = $log;
         }
     }
 
@@ -112,5 +115,13 @@ class StreamedLogger extends Logger
         $this->filter = $filter;
 
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLastInfo(): string
+    {
+        return $this->lastInfo;
     }
 }

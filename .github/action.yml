@@ -81,9 +81,10 @@ runs:
 
     - name: Rollback
       shell: bash
-      run: docker exec -u www-data prestashop_autoupgrade php modules/autoupgrade/tests/testCliProcess.php \
-        admin-dev/autoupgrade/cli-rollback.php --dir="admin-dev" \
-        --backup=`docker exec prestashop_autoupgrade bash -c "ls -td -- /var/www/html/admin-dev/autoupgrade/backup/*/ | head -n 1 | cut -d'/' -f8 | tr -d '\n'"`;
+      run: |
+        backupName=$(docker exec prestashop_autoupgrade bash -c "ls -td -- /var/www/html/admin-dev/autoupgrade/backup/*/ | head -n 1 | cut -d'/' -f8 | tr -d '\n'")
+        docker exec -u www-data prestashop_autoupgrade php admin-dev/autoupgrade/cli-rollback.php --dir="admin-dev" \
+        --backup=$backupName;
 
     - name: Check endpoints response
       shell: bash
