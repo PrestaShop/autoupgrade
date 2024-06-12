@@ -70,7 +70,7 @@ jobs:
   php-unit:
     strategy:
       matrix:
-        php-versions: ['7.1', '7.2','7.4']
+        php-versions: ['7.1', '7.2','7.4','8.1']
     runs-on: ubuntu-latest
     name: PHP Unit
     steps:
