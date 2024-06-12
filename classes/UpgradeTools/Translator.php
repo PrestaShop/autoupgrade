@@ -90,7 +90,7 @@ class Translator implements TranslatorInterface
      *
      * @internal Public for tests
      */
-    public function applyParameters($id, array $parameters = []): string
+    public function applyParameters($id, array $parameters = [])
     {
         // Replace placeholders for non-numeric keys
         foreach ($parameters as $placeholder => $value) {
