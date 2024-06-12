@@ -467,9 +467,14 @@ class UpgradeContainer
 
     public function getTranslator(): TranslatorInterface
     {
-        $coreTranslator = $this->getSymfonyAdapter()->initKernel()
-        ->getContainer()
-        ->get('translator');
+        try {
+            $coreTranslator = $this->getSymfonyAdapter()->initKernel()
+                ->getContainer()
+                ->get('translator');
+        } catch (Error $e) {
+            $this->getLogger()->debug('Loading Core translator failed, failing back on internal one.');
+            $coreTranslator = null;
+        }
 
         return new Translator($coreTranslator);
     }
