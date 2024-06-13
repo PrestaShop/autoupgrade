@@ -40,7 +40,7 @@ use PrestaShop\Module\AutoUpgrade\VersionUtils;
 class Download extends AbstractTask
 {
     const TASK_TYPE = 'upgrade';
-    
+
     /**
      * @throws Exception
      */

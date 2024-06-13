@@ -40,7 +40,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 class Rollback extends AbstractTask
 {
     const TASK_TYPE = 'rollback';
-    
+
     /**
      * @throws Exception
      */

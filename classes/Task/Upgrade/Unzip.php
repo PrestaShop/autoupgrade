@@ -40,7 +40,7 @@ use Symfony\Component\Filesystem\Filesystem;
 class Unzip extends AbstractTask
 {
     const TASK_TYPE = 'upgrade';
-    
+
     /**
      * @throws Exception
      */

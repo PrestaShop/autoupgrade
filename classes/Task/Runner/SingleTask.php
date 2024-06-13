@@ -40,7 +40,7 @@ class SingleTask extends ChainedTasks
         }
     }
 
-    protected function canContinue()
+    protected function canContinue(): bool
     {
         if (!$this->stepHasRun) {
             $this->stepHasRun = true;

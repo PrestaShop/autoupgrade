@@ -37,7 +37,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 class BackupDb extends AbstractTask
 {
     const TASK_TYPE = 'upgrade';
-    
+
     /**
      * @throws Exception
      */

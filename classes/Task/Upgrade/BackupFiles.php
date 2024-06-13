@@ -36,7 +36,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 class BackupFiles extends AbstractTask
 {
     const TASK_TYPE = 'upgrade';
-    
+
     /**
      * @throws Exception
      */
