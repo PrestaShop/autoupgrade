@@ -82,7 +82,8 @@ $ php cli-rollback.php  --dir=admin-dev --backup=V1.7.5.1_20190502-191341-22e883
 
 ## Documentation
 
-Documentation is hosted on [the Developer documentation][doc].
+* Documentation is hosted on [the Developer documentation][doc].
+* Privacy documentation is hosted [on the PrestaShop Project website][prestashop-privacy].
 
 ## Contributing
 
@@ -104,6 +105,7 @@ This module is released under the [Academic Free License 3.0][AFL-3.0]
 
 [report-issue]: https://github.com/PrestaShop/PrestaShop/issues/new/choose
 [prestashop]: https://www.prestashop-project.org/
+[prestashop-privacy]: https://www.prestashop-project.org/data-transparency/
 [contribution-guidelines]: https://devdocs.prestashop-project.org/8/contribute/contribution-guidelines/project-modules/
 [AFL-3.0]: https://opensource.org/licenses/AFL-3.0
 [doc]: https://devdocs.prestashop-project.org/8/basics/keeping-up-to-date/upgrade-module/
