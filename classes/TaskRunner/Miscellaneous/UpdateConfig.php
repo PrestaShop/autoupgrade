@@ -28,11 +28,15 @@
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous;
 
 use Exception;
+use PrestaShop\Module\AutoUpgrade\Exceptions\ZipActionException;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\Upgrader;
+use RuntimeException;
+use Symfony\Component\Filesystem\Exception\FileNotFoundException;
+use Symfony\Component\Filesystem\Exception\IOException;
 
 /**
  * update configuration after validating the new values.
@@ -70,21 +74,26 @@ class UpdateConfig extends AbstractTask
             $config['private_release_md5'] = $configurationData['private_release_md5'];
             $config['private_allow_major'] = $configurationData['private_allow_major'];
         }
-        // if (!empty($request['archive_name']) && !empty($request['archive_num']))
+
         if (!empty($configurationData['archive_prestashop'])) {
             $file = $configurationData['archive_prestashop'];
-            if (!file_exists($this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $file)) {
+            $fullFilePath = $this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $file;
+            if (!file_exists($fullFilePath)) {
                 $this->error = true;
                 $this->logger->info($this->translator->trans('File %s does not exist. Unable to select that channel.', [$file]));
 
                 return false;
             }
-            if (empty($configurationData['archive_num'])) {
+
+            try {
+                $targetVersion = $this->extractPrestashopVersionFromZip($fullFilePath);
+            } catch (Exception $exception) {
                 $this->error = true;
-                $this->logger->info($this->translator->trans('Version number is missing. Unable to select that channel.'));
+                $this->logger->info($this->translator->trans('Unable to retrieve version from zip: %s.', [$exception->getMessage()]));
 
                 return false;
             }
+
             $xmlFile = $configurationData['archive_xml'];
             if (!empty($xmlFile) && !file_exists($this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $xmlFile)) {
                 $this->error = true;
@@ -94,9 +103,9 @@ class UpdateConfig extends AbstractTask
             }
             $config['channel'] = 'archive';
             $config['archive.filename'] = $configurationData['archive_prestashop'];
-            $config['archive.version_num'] = $configurationData['archive_num'];
+            $config['archive.version_num'] = $targetVersion;
             $config['archive.xml'] = $configurationData['archive_xml'];
-            // $config['archive_name'] = $request['archive_name'];
+
             $this->logger->info($this->translator->trans('Upgrade process will use archive.'));
         }
         if (isset($configurationData['directory_num'])) {
@@ -173,5 +182,58 @@ class UpdateConfig extends AbstractTask
         $this->logger->info($this->translator->trans('Configuration successfully updated.') . ' <strong>' . $this->translator->trans('This page will now be reloaded and the module will check if a new version is available.') . '</strong>');
 
         return (new UpgradeConfigurationStorage($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR))->save($this->container->getUpgradeConfiguration(), UpgradeFileNames::CONFIG_FILENAME);
+    }
+
+    /**
+     * @throws ZipActionException
+     * @throws Exception
+     */
+    private function extractPrestashopVersionFromZip(string $zipFile): string
+    {
+        $internalZipFileName = 'prestashop.zip';
+        $versionFile = 'install/install_version.php';
+
+        if (!file_exists($zipFile)) {
+            throw new FileNotFoundException("Unable to find $zipFile file");
+        }
+        $zip = $this->container->getZipAction()->open($zipFile);
+        $internalZipContent = $this->container->getZipAction()->extractFileFromArchive($zip, $internalZipFileName);
+        $zip->close();
+
+        $tempInternalZipPath = $this->createTemporaryFile($internalZipContent);
+
+        $internalZip = $this->container->getZipAction()->open($tempInternalZipPath);
+        $fileContent = $this->container->getZipAction()->extractFileFromArchive($internalZip, $versionFile);
+        $internalZip->close();
+
+        @unlink($tempInternalZipPath);
+
+        return $this->extractVersionFromContent($fileContent);
+    }
+
+    /**
+     * @throws IOException
+     */
+    private function createTemporaryFile(string $content): string
+    {
+        $tempFilePath = tempnam(sys_get_temp_dir(), 'internal_zip_');
+        if (file_put_contents($tempFilePath, $content) === false) {
+            throw new IOException('Unable to create temporary file');
+        }
+
+        return $tempFilePath;
+    }
+
+    /**
+     * @throws RuntimeException
+     */
+    private function extractVersionFromContent(string $content): string
+    {
+        $pattern = "/define\\('_PS_INSTALL_VERSION_', '([\\d.]+)'\\);/";
+        if (preg_match($pattern, $content, $matches)) {
+            return $matches[1];
+        } else {
+            throw new RuntimeException('Unable to extract version from content');
+        }
     }
 }

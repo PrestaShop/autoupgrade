@@ -25,48 +25,8 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade;
+namespace PrestaShop\Module\AutoUpgrade\Exceptions;
 
-/**
- * Todo: Should we create a UpgradeWarning class instead of setting the severity here?
- */
-class UpgradeException extends \Exception
+class ZipActionException extends \Exception
 {
-    const SEVERITY_ERROR = 1;
-    const SEVERITY_WARNING = 2;
-
-    private $quickInfos = [];
-
-    private $severity = self::SEVERITY_ERROR;
-
-    public function getQuickInfos(): array
-    {
-        return $this->quickInfos;
-    }
-
-    public function getSeverity(): int
-    {
-        return $this->severity;
-    }
-
-    public function addQuickInfo($quickInfo): UpgradeException
-    {
-        $this->quickInfos[] = $quickInfo;
-
-        return $this;
-    }
-
-    public function setQuickInfos(array $quickInfos): UpgradeException
-    {
-        $this->quickInfos = $quickInfos;
-
-        return $this;
-    }
-
-    public function setSeverity(int $severity): UpgradeException
-    {
-        $this->severity = $severity;
-
-        return $this;
-    }
 }
