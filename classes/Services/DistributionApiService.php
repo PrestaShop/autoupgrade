@@ -27,7 +27,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Services;
 
-use PrestaShop\Module\AutoUpgrade\Exception\DistributionApiException;
+use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
 
 class DistributionApiService
 {

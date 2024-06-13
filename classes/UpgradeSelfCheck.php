@@ -29,7 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade;
 
 use Configuration;
 use ConfigurationTest;
-use PrestaShop\Module\AutoUpgrade\Exception\DistributionApiException;
+use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
 use PrestaShop\Module\AutoUpgrade\Services\DistributionApiService;
 use Shop;
 
