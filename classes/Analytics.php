@@ -38,6 +38,9 @@ class Analytics
     const WITH_UPGRADE_PROPERTIES = 1;
     const WITH_ROLLBACK_PROPERTIES = 2;
 
+    // Reusing environment variable from Distribution API
+    public const URL_TRACKING_ENV_NAME = 'PS_URL_TRACKING';
+
     /**
      * @var string
      */
@@ -74,6 +77,10 @@ class Analytics
         $this->anonymousId = hash('sha256', $anonymousUserId, false);
         $this->properties = $options['properties'] ?? [];
 
+        if ($this->hasOptedOut()) {
+            return;
+        }
+
         \Segment::init(self::SEGMENT_CLIENT_KEY_PHP);
     }
 
@@ -85,6 +92,10 @@ class Analytics
      */
     public function track($event, $propertiesType = self::WITH_COMMON_PROPERTIES)
     {
+        if ($this->hasOptedOut()) {
+            return;
+        }
+
         \Segment::track(array_merge(
             ['event' => $event],
             $this->getProperties($propertiesType)
@@ -137,5 +148,11 @@ class Analytics
                 ]
             ),
         ];
+    }
+
+    private function hasOptedOut(): bool
+    {
+        return isset($_SERVER[self::URL_TRACKING_ENV_NAME])
+            && ((bool) $_SERVER[self::URL_TRACKING_ENV_NAME] === false || $_SERVER[self::URL_TRACKING_ENV_NAME] === 'false');
     }
 }
