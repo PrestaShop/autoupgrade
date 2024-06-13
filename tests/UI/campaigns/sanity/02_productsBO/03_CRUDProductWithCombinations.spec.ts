@@ -160,7 +160,9 @@ test.describe('BO - Catalog - Products : CRUD product with combinations', async 
 
       if (semver.gte(psVersion, '8.1.0')) {
         expect(textResult).toEqual('Generate 2 combinations');
-      } expect(textResult).toEqual(boProductsCreatePage.successfulUpdateMessage);
+      } else {
+        expect(textResult).toEqual(boProductsCreatePage.successfulUpdateMessage);
+      }
     });
 
     if (semver.gte(psVersion, '8.1.0')) {
@@ -168,7 +170,7 @@ test.describe('BO - Catalog - Products : CRUD product with combinations', async 
         await testContext.addContextItem(test.info(), 'testIdentifier', 'generateCombinations', baseContext);
 
         const successMessage = await boProductsCreateTabCombinationsPage.generateCombinations(page);
-        expect(successMessage).toEqual('Successfully generated 4 combinations.');
+        expect(successMessage).toEqual('Successfully generated 2 combinations.');
       });
 
       test('should check that combinations generation modal is closed', async () => {
@@ -247,7 +249,9 @@ test.describe('BO - Catalog - Products : CRUD product with combinations', async 
 
       if (semver.gte(psVersion, '8.1.0')) {
         expect(textResult).toEqual('Generate 6 combinations');
-      } expect(textResult).toEqual(boProductsCreatePage.successfulUpdateMessage);
+      } else {
+        expect(textResult).toEqual(boProductsCreatePage.successfulUpdateMessage);
+      }
     });
 
     if (semver.gte(psVersion, '8.1.0')) {
