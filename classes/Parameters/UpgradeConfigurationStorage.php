@@ -61,6 +61,7 @@ class UpgradeConfigurationStorage extends FileConfigurationStorage
             'PS_AUTOUP_CUSTOM_MOD_DESACT' => 1,
             'PS_AUTOUP_UPDATE_DEFAULT_THEME' => 1,
             'PS_AUTOUP_CHANGE_DEFAULT_THEME' => 0,
+            'PS_AUTOUP_UPDATE_RTL_FILES' => 1,
             'PS_AUTOUP_KEEP_MAILS' => 0,
             'PS_AUTOUP_BACKUP' => 1,
             'PS_AUTOUP_KEEP_IMAGES' => 1,
