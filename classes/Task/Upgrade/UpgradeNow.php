@@ -38,7 +38,7 @@ use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 class UpgradeNow extends AbstractTask
 {
     const TASK_TYPE = 'upgrade';
-    
+
     /**
      * @throws Exception
      */
