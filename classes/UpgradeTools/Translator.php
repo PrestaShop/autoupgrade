@@ -15,7 +15,7 @@ class Translator implements TranslatorInterface
     private $coreTranslator;
 
     /**
-     * @param \Symfony\Contracts\Translation\TranslatorInterface|\Symfony\Component\Translation\TranslatorInterface|null
+     * @param \Symfony\Contracts\Translation\TranslatorInterface|\Symfony\Component\Translation\TranslatorInterface|null $coreTranslator
      */
     public function __construct($coreTranslator = null)
     {
