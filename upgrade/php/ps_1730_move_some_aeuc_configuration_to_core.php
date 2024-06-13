@@ -34,9 +34,9 @@ function ps_1730_move_some_aeuc_configuration_to_core()
     $deliveryTimeOutOfStockBackorderAllowed = [];
 
     foreach (Language::getLanguages() as $language) {
-        $labelInStock[$language['id_lang']] = $translator->trans('In Stock', 'Admin.Shopparameters.Feature', $language['locale']);
-        $labelOOSProductsBOA[$language['id_lang']] = $translator->trans('Product available for orders', 'Admin.Shopparameters.Feature', $language['locale']);
-        $labelOOSProductsBOD[$language['id_lang']] = $translator->trans('Out-of-Stock', 'Admin.Shopparameters.Feature', $language['locale']);
+        $labelInStock[$language['id_lang']] = $translator->trans('In Stock', [], 'Admin.Shopparameters.Feature', $language['locale']);
+        $labelOOSProductsBOA[$language['id_lang']] = $translator->trans('Product available for orders', [], 'Admin.Shopparameters.Feature', $language['locale']);
+        $labelOOSProductsBOD[$language['id_lang']] = $translator->trans('Out-of-Stock', [], 'Admin.Shopparameters.Feature', $language['locale']);
 
         if ($value = Configuration::get('AEUC_LABEL_DELIVERY_TIME_AVAILABLE', $language['id_lang'])) {
             $deliveryTimeAvailable[$language['id_lang']] = $value;
