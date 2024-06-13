@@ -38,6 +38,16 @@ test.describe('BO - Catalog - Products : CRUD product with combinations', async 
     quantity: 50,
     minimumQuantity: 1,
     status: true,
+    attributes: [
+      {
+        name: 'color',
+        values: ['White', 'Black'],
+      },
+      {
+        name: 'size',
+        values: ['M'],
+      },
+    ],
   });
     // Data to update product with combinations
   const updateProductData: FakerProduct = new FakerProduct({
@@ -112,15 +122,17 @@ test.describe('BO - Catalog - Products : CRUD product with combinations', async 
       expect(isModalVisible).toEqual(true);
     });
 
-    test('should choose \'Product with combinations\' and go to new product page', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'chooseProductWithCombinations', baseContext);
+    if (semver.gte(psVersion, '8.1.0')) {
+      test('should choose \'Product with combinations\'', async () => {
+        await testContext.addContextItem(test.info(), 'testIdentifier', 'chooseProductWithCombinations', baseContext);
 
-      await boProductsPage.selectProductType(page, newProductData.type);
-      await boProductsPage.clickOnAddNewProduct(page);
+        await boProductsPage.selectProductType(page, newProductData.type);
+        await boProductsPage.clickOnAddNewProduct(page);
 
-      const pageTitle = await boProductsCreatePage.getPageTitle(page);
-      expect(pageTitle).toContain(boProductsCreatePage.pageTitle);
-    });
+        const pageTitle = await boProductsCreatePage.getPageTitle(page);
+        expect(pageTitle).toContain(boProductsCreatePage.pageTitle);
+      });
+    }
 
     test('should create product', async () => {
       await testContext.addContextItem(test.info(), 'testIdentifier', 'createProduct', baseContext);
@@ -129,36 +141,43 @@ test.describe('BO - Catalog - Products : CRUD product with combinations', async 
       expect(createProductMessage).toEqual(boProductsCreatePage.successfulUpdateMessage);
     });
 
-    test('should check that the save button is changed to \'Save and publish\'', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'checkSaveButton', baseContext);
+    if (semver.gte(psVersion, '8.1.0')) {
+      test('should check that the save button is changed to \'Save and publish\'', async () => {
+        await testContext.addContextItem(test.info(), 'testIdentifier', 'checkSaveButton', baseContext);
 
-      const saveButtonName = await boProductsCreatePage.getSaveButtonName(page);
-      expect(saveButtonName).toEqual('Save and publish');
-    });
+        const saveButtonName = await boProductsCreatePage.getSaveButtonName(page);
+        expect(saveButtonName).toEqual('Save and publish');
+      });
+    }
 
     test('should create combinations and check generate combinations button', async () => {
       await testContext.addContextItem(test.info(), 'testIdentifier', 'createCombinations', baseContext);
-      
-      const generateCombinationsButton = await boProductsCreateTabCombinationsPage.setProductAttributes(
+
+      const textResult = await boProductsCreateTabCombinationsPage.setProductAttributes(
         page,
         newProductData.attributes,
       );
-      expect(generateCombinationsButton).toEqual('Generate 4 combinations');
+
+      if (semver.gte(psVersion, '8.1.0')) {
+        expect(textResult).toEqual('Generate 2 combinations');
+      } expect(textResult).toEqual(boProductsCreatePage.successfulUpdateMessage);
     });
 
-    test('should click on generate combinations button', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'generateCombinations', baseContext);
+    if (semver.gte(psVersion, '8.1.0')) {
+      test('should click on generate combinations button', async () => {
+        await testContext.addContextItem(test.info(), 'testIdentifier', 'generateCombinations', baseContext);
 
-      const successMessage = await boProductsCreateTabCombinationsPage.generateCombinations(page);
-      expect(successMessage).toEqual('Successfully generated 4 combinations.');
-    });
+        const successMessage = await boProductsCreateTabCombinationsPage.generateCombinations(page);
+        expect(successMessage).toEqual('Successfully generated 4 combinations.');
+      });
 
-    test('should check that combinations generation modal is closed', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'generateCombinationsModalIsClosed', baseContext);
+      test('should check that combinations generation modal is closed', async () => {
+        await testContext.addContextItem(test.info(), 'testIdentifier', 'generateCombinationsModalIsClosed', baseContext);
 
-      const isModalClosed = await boProductsCreateTabCombinationsPage.generateCombinationModalIsClosed(page);
-      expect(isModalClosed).toEqual(true);
-    });
+        const isModalClosed = await boProductsCreateTabCombinationsPage.generateCombinationModalIsClosed(page);
+        expect(isModalClosed).toEqual(true);
+      });
+    }
 
     test('should save the created product', async () => {
       await testContext.addContextItem(test.info(), 'testIdentifier', 'saveProduct', baseContext);
@@ -220,27 +239,32 @@ test.describe('BO - Catalog - Products : CRUD product with combinations', async 
 
     test('should add combinations and check generate combinations button', async () => {
       await testContext.addContextItem(test.info(), 'testIdentifier', 'addCombinations', baseContext);
-      
-      const generateCombinationsButton = await boProductsCreateTabCombinationsPage.setProductAttributes(
+
+      const textResult = await boProductsCreateTabCombinationsPage.setProductAttributes(
         page,
         updateProductData.attributes,
       );
-      expect(generateCombinationsButton).toEqual('Generate 6 combinations');
+
+      if (semver.gte(psVersion, '8.1.0')) {
+        expect(textResult).toEqual('Generate 6 combinations');
+      } expect(textResult).toEqual(boProductsCreatePage.successfulUpdateMessage);
     });
 
-    test('should click on generate combinations button', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'generateCombinations2', baseContext);
+    if (semver.gte(psVersion, '8.1.0')) {
+      test('should click on generate combinations button', async () => {
+        await testContext.addContextItem(test.info(), 'testIdentifier', 'generateCombinations2', baseContext);
 
-      const successMessage = await boProductsCreateTabCombinationsPage.generateCombinations(page);
-      expect(successMessage).toEqual('Successfully generated 6 combinations.');
-    });
+        const successMessage = await boProductsCreateTabCombinationsPage.generateCombinations(page);
+        expect(successMessage).toEqual('Successfully generated 6 combinations.');
+      });
 
-    test('should check that combinations generation modal is closed', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'generateCombinationsModalIsClosed2', baseContext);
+      test('should check that combinations generation modal is closed', async () => {
+        await testContext.addContextItem(test.info(), 'testIdentifier', 'generateCombinationsModalIsClosed2', baseContext);
 
-      const isModalClosed = await boProductsCreateTabCombinationsPage.generateCombinationModalIsClosed(page);
-      expect(isModalClosed).toEqual(true);
-    });
+        const isModalClosed = await boProductsCreateTabCombinationsPage.generateCombinationModalIsClosed(page);
+        expect(isModalClosed).toEqual(true);
+      });
+    }
 
     test('should save the Updated product', async () => {
       await testContext.addContextItem(test.info(), 'testIdentifier', 'saveProductUpdatedProduct', baseContext);

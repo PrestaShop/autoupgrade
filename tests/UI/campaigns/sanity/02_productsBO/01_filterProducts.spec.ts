@@ -13,8 +13,10 @@ import {
 import {
   test, expect, Page, BrowserContext,
 } from '@playwright/test';
+import semver from 'semver';
 
 const baseContext: string = 'sanity_productsBO_filterProducts';
+const psVersion = testContext.getPSVersion();
 
 /*
   Connect to the BO
@@ -68,12 +70,21 @@ test.describe('BO - Catalog - Products : Filter the products table by ID, Name, 
       expect(isVisible, 'Reset button is visible!').toEqual(false);
     });
 
-    test('should get number of products', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'getNumberOfProduct', baseContext);
+    if (semver.lt(psVersion, '8.1.0')) {
+      test('should get number of products', async () => {
+        await testContext.addContextItem(test.info(), 'testIdentifier', 'getNumberOfProduct', baseContext);
 
-      numberOfProducts = await boProductsPage.getNumberOfProductsFromHeader(page);
-      expect(numberOfProducts).toBeGreaterThan(0);
-    });
+        numberOfProducts = await boProductsPage.getNumberOfProductsFromList(page);
+        expect(numberOfProducts).toBeGreaterThan(0);
+      });
+    } else {
+      test('should get number of products', async () => {
+        await testContext.addContextItem(test.info(), 'testIdentifier', 'getNumberOfProduct', baseContext);
+
+        numberOfProducts = await boProductsPage.getNumberOfProductsFromHeader(page);
+        expect(numberOfProducts).toBeGreaterThan(0);
+      });
+    }
 
     [
       {
@@ -136,7 +147,11 @@ test.describe('BO - Catalog - Products : Filter the products table by ID, Name, 
       test(`should filter list by '${tst.args.filterBy}' and check result`, async () => {
         await testContext.addContextItem(test.info(), 'testIdentifier', `${tst.args.identifier}`, baseContext);
 
-        await boProductsPage.filterProducts(page, tst.args.filterBy, tst.args.filterValue, tst.args.filterType);
+        if (semver.lt(psVersion, '8.1.0') && tst.args.filterBy === 'active') {
+          await boProductsPage.filterProducts(page, tst.args.filterBy, 'Active', tst.args.filterType);
+        } else {
+          await boProductsPage.filterProducts(page, tst.args.filterBy, tst.args.filterValue, tst.args.filterType);
+        }
         const numberOfProductsAfterFilter = await boProductsPage.getNumberOfProductsFromList(page);
 
         if (tst.args.filterBy === 'active') {

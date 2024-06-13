@@ -102,12 +102,16 @@ test.describe('BO - Catalog - Products : CRUD virtual product', async () => {
       expect(isModalVisible).toEqual(true);
     });
 
-    test('should choose \'Virtual product\' and go to new product page', async () => {
+    test('should choose \'Virtual product\'', async () => {
       await testContext.addContextItem(test.info(), 'testIdentifier', 'chooseVirtualProduct', baseContext);
 
-      await boProductsPage.selectProductType(page, newProductData.type);
-      await boProductsPage.clickOnAddNewProduct(page);
-
+      if (semver.lt(psVersion, '8.1.0')) {
+        await boProductsCreatePage.chooseProductType(page, 'Virtual product');
+      }
+      if (semver.gte(psVersion, '8.1.0')) {
+        await boProductsPage.selectProductType(page, newProductData.type);
+        await boProductsPage.clickOnAddNewProduct(page);
+      }
       const pageTitle = await boProductsCreatePage.getPageTitle(page);
       expect(pageTitle).toContain(boProductsCreatePage.pageTitle);
     });
@@ -119,12 +123,14 @@ test.describe('BO - Catalog - Products : CRUD virtual product', async () => {
       expect(createProductMessage).toEqual(boProductsCreatePage.successfulUpdateMessage);
     });
 
-    test('should check that the save button is changed to \'Save and publish\'', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'checkSaveButton', baseContext);
+    if (semver.gte(psVersion, '8.1.0')) {
+      test('should check that the save button is changed to \'Save and publish\'', async () => {
+        await testContext.addContextItem(test.info(), 'testIdentifier', 'checkSaveButton', baseContext);
 
-      const saveButtonName = await boProductsCreatePage.getSaveButtonName(page);
-      expect(saveButtonName).toEqual('Save and publish');
-    });
+        const saveButtonName = await boProductsCreatePage.getSaveButtonName(page);
+        expect(saveButtonName).toEqual('Save and publish');
+      });
+    }
 
     test('should preview created product', async () => {
       await testContext.addContextItem(test.info(), 'testIdentifier', 'previewProduct', baseContext);

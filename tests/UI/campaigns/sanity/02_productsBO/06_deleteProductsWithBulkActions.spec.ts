@@ -100,22 +100,24 @@ test.describe('BO - Catalog - Products : Delete products with bulk actions', asy
       expect(numberOfProducts).toBeGreaterThan(0);
     });
 
-    test('should click on \'New product\' button and check new product modal', async () => {
+    test('should click on \'New product\' button', async () => {
       await testContext.addContextItem(test.info(), 'testIdentifier', 'clickOnNewProductButton', baseContext);
 
-      const isModalVisible = await boProductsPage.clickOnNewProductButton(page);
-      expect(isModalVisible).toEqual(true);
+      const isVisible = await boProductsPage.clickOnNewProductButton(page);
+      expect(isVisible).toEqual(true);
     });
 
-    test('should choose \'Standard product\' and go to new product page', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'chooseStandardProduct', baseContext);
+    if (semver.gte(psVersion, '8.1.0')) {
+      test('should choose \'Standard product\'', async () => {
+        await testContext.addContextItem(test.info(), 'testIdentifier', 'chooseStandardProduct', baseContext);
 
-      await boProductsPage.selectProductType(page, firstProductData.type);
-      await boProductsPage.clickOnAddNewProduct(page);
+        await boProductsPage.selectProductType(page, firstProductData.type);
+        await boProductsPage.clickOnAddNewProduct(page);
 
-      const pageTitle = await boProductsCreatePage.getPageTitle(page);
-      expect(pageTitle).toContain(boProductsCreatePage.pageTitle);
-    });
+        const pageTitle = await boProductsCreatePage.getPageTitle(page);
+        expect(pageTitle).toContain(boProductsCreatePage.pageTitle);
+      });
+    }
 
     test('should create standard product', async () => {
       await testContext.addContextItem(test.info(), 'testIdentifier', 'createStandardProduct', baseContext);
@@ -131,15 +133,16 @@ test.describe('BO - Catalog - Products : Delete products with bulk actions', asy
     test('should click on \'New product\' button and check new product modal', async () => {
       await testContext.addContextItem(test.info(), 'testIdentifier', 'clickOnNewProductButton2', baseContext);
 
-      const isModalVisible = await boProductsCreatePage.clickOnNewProductButton(page);
-      expect(isModalVisible).toEqual(true);
+      const isVisible = await boProductsCreatePage.clickOnNewProductButton(page);
+      expect(isVisible).toEqual(true);
     });
 
-    test('should choose \'Standard product\' and go to new product page', async () => {
+    test('should create product', async () => {
       await testContext.addContextItem(test.info(), 'testIdentifier', 'chooseStandardProduct2', baseContext);
 
-      await boProductsCreatePage.chooseProductType(page, secondProductData.type);
-
+      if (semver.gte(psVersion, '8.1.0')) {
+        await boProductsCreatePage.chooseProductType(page, secondProductData.type);
+      }
       const createProductMessage = await boProductsCreatePage.setProduct(page, secondProductData);
       expect(createProductMessage).toEqual(boProductsCreatePage.successfulUpdateMessage);
     });
@@ -170,7 +173,7 @@ test.describe('BO - Catalog - Products : Delete products with bulk actions', asy
     test('should select the 2 products', async () => {
       await testContext.addContextItem(test.info(), 'testIdentifier', 'clickOnDeleteProduct', baseContext);
 
-      const isBulkDeleteButtonEnabled: boolean = await boProductsPage.bulkSelectProducts(page);
+      const isBulkDeleteButtonEnabled = await boProductsPage.bulkSelectProducts(page);
       expect(isBulkDeleteButtonEnabled).toEqual(true);
     });
 
@@ -178,22 +181,34 @@ test.describe('BO - Catalog - Products : Delete products with bulk actions', asy
       await testContext.addContextItem(test.info(), 'testIdentifier', 'clickOnBulkDeleteButton', baseContext);
 
       const textMessage = await boProductsPage.clickOnBulkActionsProducts(page, 'delete');
-      expect(textMessage).toEqual('Deleting 2 products');
+
+      if (semver.gte(psVersion, '8.1.0')) {
+        expect(textMessage).toEqual('Deleting 2 products');
+      } else {
+        expect(textMessage).toEqual('These products will be deleted for good. Please confirm.');
+      }
     });
 
     test('should bulk delete products', async () => {
       await testContext.addContextItem(test.info(), 'testIdentifier', 'bulkDeleteProduct', baseContext);
 
-      const textMessage = await boProductsPage.bulkActionsProduct(page, 'delete');
-      expect(textMessage).toEqual('Deleting 2 / 2 products');
+      if (semver.gte(psVersion, '8.1.0')) {
+        const textMessage = await boProductsPage.bulkActionsProduct(page, 'delete');
+        expect(textMessage).toEqual('Deleting 2 / 2 products');
+      } else {
+        const textMessage = await boProductsPage.bulkActionsProduct(page, 'deletion');
+        expect(textMessage).toEqual('Product(s) successfully deleted.');
+      }
     });
 
-    test('should close progress modal', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'closeProgressModal', baseContext);
+    if (semver.gte(psVersion, '8.1.0')) {
+      test('should close progress modal', async () => {
+        await testContext.addContextItem(test.info(), 'testIdentifier', 'closeProgressModal', baseContext);
 
-      const isModalNotVisible = await boProductsPage.closeBulkActionsProgressModal(page, 'delete');
-      expect(isModalNotVisible).toEqual(true);
-    });
+        const isModalNotVisible = await boProductsPage.closeBulkActionsProgressModal(page, 'delete');
+        expect(isModalNotVisible).toEqual(true);
+      });
+    }
 
     test('should reset filter', async () => {
       await testContext.addContextItem(test.info(), 'testIdentifier', 'resetFilter', baseContext);

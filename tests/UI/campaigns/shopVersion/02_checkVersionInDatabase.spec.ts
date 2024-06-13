@@ -7,7 +7,7 @@ import {createConnection} from 'mysql2/promise';
 import type {Connection} from 'mysql2/promise';
 
 import {
-  test, expect, Page, BrowserContext,
+  test, expect,
 } from '@playwright/test';
 
 let dbConnection: Connection;

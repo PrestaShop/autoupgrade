@@ -95,38 +95,40 @@ test.describe('BO - Catalog - Products : CRUD standard product', async () => {
   }
 
   test.describe('Create product', async () => {
-    test('should click on \'New product\' button and check new product modal', async () => {
+    test('should click on \'New product\' button', async () => {
       await testContext.addContextItem(test.info(), 'testIdentifier', 'clickOnNewProductButton', baseContext);
 
-      const isModalVisible = await boProductsPage.clickOnNewProductButton(page);
-      expect(isModalVisible).toEqual(true);
+      const isVisible = await boProductsPage.clickOnNewProductButton(page);
+      expect(isVisible).toEqual(true);
     });
 
-    test('should choose \'Standard product\'', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'chooseStandardProduct', baseContext);
+    if (semver.gte(psVersion, '8.1.0')) {
+      test('should choose \'Standard product\'', async () => {
+        await testContext.addContextItem(test.info(), 'testIdentifier', 'chooseStandardProduct', baseContext);
 
-      await boProductsPage.selectProductType(page, newProductData.type);
-      await boProductsPage.clickOnAddNewProduct(page);
+        await boProductsPage.selectProductType(page, newProductData.type);
+        await boProductsPage.clickOnAddNewProduct(page);
 
-      const pageTitle = await boProductsCreatePage.getPageTitle(page);
-      expect(pageTitle).toContain(boProductsCreatePage.pageTitle);
-    });
+        const pageTitle = await boProductsCreatePage.getPageTitle(page);
+        expect(pageTitle).toContain(boProductsCreatePage.pageTitle);
+      });
+    }
 
     test('should create standard product', async () => {
       await testContext.addContextItem(test.info(), 'testIdentifier', 'createStandardProduct', baseContext);
-
-      await boProductsCreatePage.closeSfToolBar(page);
 
       const createProductMessage = await boProductsCreatePage.setProduct(page, newProductData);
       expect(createProductMessage).toEqual(boProductsCreatePage.successfulUpdateMessage);
     });
 
-    test('should check that the save button is changed to \'Save and publish\'', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'checkSaveButton', baseContext);
+    if (semver.gte(psVersion, '8.1.0')) {
+      test('should check that the save button is changed to \'Save and publish\'', async () => {
+        await testContext.addContextItem(test.info(), 'testIdentifier', 'checkSaveButton', baseContext);
 
-      const saveButtonName = await boProductsCreatePage.getSaveButtonName(page);
-      expect(saveButtonName).toEqual('Save and publish');
-    });
+        const saveButtonName = await boProductsCreatePage.getSaveButtonName(page);
+        expect(saveButtonName).toEqual('Save and publish');
+      });
+    }
 
     test('should preview product', async () => {
       await testContext.addContextItem(test.info(), 'testIdentifier', 'previewProduct', baseContext);
@@ -136,8 +138,10 @@ test.describe('BO - Catalog - Products : CRUD standard product', async () => {
 
       await foClassicProductPage.changeLanguage(page, 'en');
 
-      const pageTitle = await foClassicProductPage.getPageTitle(page);
-      expect(pageTitle).toContain(newProductData.name);
+      if (semver.gte(psVersion, '8.1.0')) {
+        const pageTitle = await foClassicProductPage.getPageTitle(page);
+        expect(pageTitle).toContain(newProductData.name);
+      }
     });
 
     test('should check all product information', async () => {

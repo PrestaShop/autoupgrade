@@ -93,19 +93,21 @@ test.describe('BO - Catalog - Products : Delete product', async () => {
     test('should click on \'New product\' button and check new product modal', async () => {
       await testContext.addContextItem(test.info(), 'testIdentifier', 'clickOnNewProductButton', baseContext);
 
-      const isModalVisible = await boProductsPage.clickOnNewProductButton(page);
-      expect(isModalVisible).toEqual(true);
+      const isVisible = await boProductsPage.clickOnNewProductButton(page);
+      expect(isVisible).toEqual(true);
     });
 
-    test('should choose \'Standard product\' and go to new product page', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'chooseStandardProduct', baseContext);
+    if (semver.gte(psVersion, '8.1.0')) {
+      test('should choose \'Standard product\'', async () => {
+        await testContext.addContextItem(test.info(), 'testIdentifier', 'chooseStandardProduct', baseContext);
 
-      await boProductsPage.selectProductType(page, newProductData.type);
-      await boProductsPage.clickOnAddNewProduct(page);
+        await boProductsPage.selectProductType(page, newProductData.type);
+        await boProductsPage.clickOnAddNewProduct(page);
 
-      const pageTitle = await boProductsCreatePage.getPageTitle(page);
-      expect(pageTitle).toContain(boProductsCreatePage.pageTitle);
-    });
+        const pageTitle = await boProductsCreatePage.getPageTitle(page);
+        expect(pageTitle).toContain(boProductsCreatePage.pageTitle);
+      });
+    }
 
     test('should create standard product', async () => {
       await testContext.addContextItem(test.info(), 'testIdentifier', 'createStandardProduct', baseContext);

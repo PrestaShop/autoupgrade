@@ -29,6 +29,7 @@
     "@prestashop-core/ui-testing": "https://github.com/PrestaShop/ui-testing-library#main",
     "dotenv": "^16.3.1",
     "maildev": "^2.1.0",
-    "mysql2": "^3.10.0"
+    "mysql2": "^3.10.0",
+    "semver": "^7.6.2"
   }
 }
