@@ -10,11 +10,14 @@ class Translator implements TranslatorInterface
     private $translations = [];
 
     /**
-     * @var TranslatorInterface|null
+     * @var \Symfony\Contracts\Translation\TranslatorInterface|\Symfony\Component\Translation\TranslatorInterface|null
      */
     private $coreTranslator;
 
-    public function __construct(TranslatorInterface $coreTranslator = null)
+    /**
+     * @param \Symfony\Contracts\Translation\TranslatorInterface|\Symfony\Component\Translation\TranslatorInterface|null
+     */
+    public function __construct($coreTranslator = null)
     {
         $this->coreTranslator = $coreTranslator;
     }
