@@ -128,10 +128,10 @@ class ModuleAdapter
     /**
      * list modules to upgrade and save them in a serialized array in $this->toUpgradeModuleList.
      *
-     * @param array<int, string> $modulesFromAddons Modules available on the marketplace for download
+     * @param array<string, string> $modulesFromAddons Modules available on the marketplace for download
      * @param array<string, string> $modulesVersions
      *
-     * @return array<string, array{'id':int, 'name':string}> Module available on the local filesystem and on the marketplace
+     * @return array<string, array{'id':string, 'name':string}> Module available on the local filesystem and on the marketplace
      *
      * @throws UpgradeException
      */
