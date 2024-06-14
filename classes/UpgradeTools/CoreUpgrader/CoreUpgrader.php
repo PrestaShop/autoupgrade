@@ -297,7 +297,7 @@ abstract class CoreUpgrader
     /**
      * @throws UpgradeException
      */
-    protected function upgradeDb(string $oldversion)
+    protected function upgradeDb(string $oldversion): void
     {
         $upgrade_dir_sql = $this->pathToUpgradeScripts . '/sql/';
         $sqlContentVersion = $this->applySqlParams(
@@ -385,12 +385,12 @@ abstract class CoreUpgrader
         }
         // If php code have to be executed
         if (strpos($query, '/* PHP:') !== false) {
-            return $this->runPhpQuery($upgrade_file, $query);
+            $this->runPhpQuery($upgrade_file, $query);
         }
         $this->runSqlQuery($upgrade_file, $query);
     }
 
-    protected function runPhpQuery(string $upgrade_file, string $query)
+    protected function runPhpQuery(string $upgrade_file, string $query): void
     {
         // Parsing php code
         $pos = strpos($query, '/* PHP:') + strlen('/* PHP:');

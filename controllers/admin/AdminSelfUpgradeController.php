@@ -436,7 +436,7 @@ class AdminSelfUpgradeController extends ModuleAdminController
             foreach ($filelist as $filename) {
                 // the following will match file or dir related to the selected backup
                 if (!empty($filename) && $filename[0] != '.' && $filename != 'index.php' && $filename != '.htaccess'
-                    && preg_match('#^(auto-backupfiles_|)' . preg_quote($name) . '(\.zip|)$#', $filename, $matches)) {
+                    && preg_match('#^(auto-backupfiles_|)' . preg_quote($name) . '(\.zip|)$#', $filename)) {
                     if (is_file($this->backupPath . DIRECTORY_SEPARATOR . $filename)) {
                         $res &= unlink($this->backupPath . DIRECTORY_SEPARATOR . $filename);
                     } elseif (!empty($name) && is_dir($this->backupPath . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR)) {
