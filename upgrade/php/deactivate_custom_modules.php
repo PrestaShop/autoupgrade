@@ -23,7 +23,7 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
-function deactivate_custom_modules()
+function deactivate_custom_modules(): bool
 {
     $db = Db::getInstance();
     $modulesDirOnDisk = [];
@@ -96,7 +96,10 @@ function deactivate_custom_modules()
     return $return;
 }
 
-function deactivate_custom_modules80($moduleRepository)
+/**
+ * @param mixed $moduleRepository
+ */
+function deactivate_custom_modules80($moduleRepository): bool
 {
     $nonNativeModulesList = $moduleRepository->getNonNativeModules();
 
@@ -119,12 +122,12 @@ function deactivate_custom_modules80($moduleRepository)
     }
 
     $sql = 'DELETE FROM `' . _DB_PREFIX_ . 'module_shop` WHERE `id_module` IN (' . implode(',', array_map('add_quotes', $toBeUninstalled)) . ') ';
-    $return &= Db::getInstance()->execute($sql);
+    $return = $return && Db::getInstance()->execute($sql);
 
     return $return;
 }
 
-function add_quotes($str)
+function add_quotes(int $str): string
 {
     return sprintf("'%s'", $str);
 }

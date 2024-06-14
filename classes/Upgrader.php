@@ -28,6 +28,7 @@
 namespace PrestaShop\Module\AutoUpgrade;
 
 use PrestaShop\Module\AutoUpgrade\Xml\FileLoader;
+use SimpleXMLElement;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -37,39 +38,47 @@ class Upgrader
     const DEFAULT_CHANNEL = 'minor';
     const DEFAULT_FILENAME = 'prestashop.zip';
 
-    public $addons_api = 'api.addons.prestashop.com';
+    const ADDONS_API_URL = 'api.addons.prestashop.com';
 
     /**
      * @var bool contains true if last version is not installed
      */
     private $need_upgrade = false;
 
+    /** @var string */
     public $version_name;
+    /** @var string */
     public $version_num;
-    public $version_is_modified;
     /**
-     * @var string contains hte url where to download the file
+     * @var string contains the url to download the file
      */
     public $link;
-    public $autoupgrade;
-    public $autoupgrade_module;
+    /** @var string */
     public $autoupgrade_last_version;
+    /** @var string */
     public $autoupgrade_module_link;
+    /** @var string */
     public $changelog;
+    /** @var bool */
     public $available;
+    /** @var string */
     public $md5;
 
+    /** @var string */
     public static $default_channel = 'minor';
+    /** @var string */
     public $channel = '';
+    /** @var string */
     public $branch = '';
 
+    /** @var string */
     protected $currentPsVersion;
     /**
      * @var FileLoader
      */
     protected $fileLoader;
 
-    public function __construct($version, FileLoader $fileLoader)
+    public function __construct(string $version, FileLoader $fileLoader)
     {
         $this->currentPsVersion = $version;
         $this->fileLoader = $fileLoader;
@@ -116,9 +125,9 @@ class Upgrader
      * checkPSVersion ask to prestashop.com if there is a new version. return an array if yes, false otherwise.
      *
      * @param bool $refresh if set to true, will force to download channel.xml
-     * @param array $array_no_major array of channels which will return only the immediate next version number
+     * @param string[] $array_no_major array of channels which will return only the immediate next version number
      *
-     * @return mixed
+     * @return array{'name':string,'link':string}|false
      */
     public function checkPSVersion(bool $refresh = false, array $array_no_major = ['minor'])
     {
@@ -152,7 +161,6 @@ class Upgrader
         }
 
         if ($feed) {
-            $this->autoupgrade_module = (int) $feed->autoupgrade_module;
             $this->autoupgrade_last_version = (string) $feed->autoupgrade->last_version;
             $this->autoupgrade_module_link = (string) $feed->autoupgrade->download->link;
 
@@ -233,7 +241,9 @@ class Upgrader
     /**
      * use the addons api to get xml files.
      *
-     * @param mixed $postData
+     * @param array<string, string> $postData
+     * 
+     * @return SimpleXMLElement|false
      */
     public function getApiAddons(string $xml_localfile, $postData, bool $refresh = false)
     {
@@ -259,7 +269,7 @@ class Upgrader
             $context = stream_context_create($opts);
             $xml = false;
             foreach ($protocolsList as $protocol => $port) {
-                $xml_string = Tools14::file_get_contents($protocol . $this->addons_api, false, $context);
+                $xml_string = Tools14::file_get_contents($protocol . self::ADDONS_API_URL, false, $context);
                 if ($xml_string) {
                     $xml = @simplexml_load_string($xml_string);
                     break;
