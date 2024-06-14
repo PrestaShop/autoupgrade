@@ -134,8 +134,6 @@ class Upgrader
         // if we use the autoupgrade process, we will never refresh it
         // except if no check has been done before
         $feed = $this->fileLoader->getXmlChannel($refresh);
-        $branch_name = '';
-        $channel_name = '';
 
         // channel hierarchy :
         // if you follow private, you follow stable release

@@ -117,11 +117,6 @@ class FilesystemAdapter
      */
     public function listFilesToRemove(): array
     {
-        $prev_version = preg_match('#auto-backupfiles_V([0-9.]*)_#', $this->restoreFilesFilename, $matches);
-        if ($prev_version) {
-            $prev_version = $matches[1];
-        }
-
         // if we can't find the diff file list corresponding to _PS_VERSION_ and prev_version,
         // let's assume to remove every files
         $toRemove = $this->listFilesInDir($this->prodRootDir, 'restore', true);
@@ -132,7 +127,7 @@ class FilesystemAdapter
             $filename = substr($file, strrpos($file, '/') + 1);
             $toRemove[$key] = preg_replace('#^/admin#', $this->adminSubDir, $file);
             // this is a really sensitive part, so we add an extra checks: preserve everything that contains "autoupgrade"
-            if ($this->isFileSkipped($filename, $file, 'backup') || strpos($file, $this->autoupgradeDir)) {
+            if ($this->isFileSkipped($filename, $file) || strpos($file, $this->autoupgradeDir)) {
                 unset($toRemove[$key]);
             }
         }
