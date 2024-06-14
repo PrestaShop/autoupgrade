@@ -68,7 +68,7 @@ class State
     /**
      * modules_addons is an array of array(id_addons => name_module).
      *
-     * @var array
+     * @var array<string, string>
      */
     private $modules_addons = [];
     /**
@@ -218,7 +218,7 @@ class State
         return $this->installedLanguagesIso;
     }
 
-    /** @return array<int, string> Key is the module ID on Addons */
+    /** @return array<string, string> Key is the module ID on Addons */
     public function getModules_addons(): array
     {
         return $this->modules_addons;
@@ -335,7 +335,7 @@ class State
     }
 
     /**
-     * @param array<int, string> $module_addons Key is the module ID on Addons
+     * @param array<string, string> $module_addons Key is the module ID on Addons
      */
     public function setModulesAddons(array $modules_addons): State
     {
