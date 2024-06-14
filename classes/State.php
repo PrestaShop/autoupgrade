@@ -212,11 +212,13 @@ class State
         return $this->restoreDbFilenames;
     }
 
+    /** @return string[] */
     public function getInstalledLanguagesIso(): array
     {
         return $this->installedLanguagesIso;
     }
 
+    /** @return array<int, string> Key is the module ID on Addons */
     public function getModules_addons(): array
     {
         return $this->modules_addons;
@@ -322,6 +324,9 @@ class State
         return $this;
     }
 
+    /**
+     * @param string[] $installedLanguagesIso
+     */
     public function setInstalledLanguagesIso(array $installedLanguagesIso): State
     {
         $this->installedLanguagesIso = $installedLanguagesIso;
@@ -329,7 +334,10 @@ class State
         return $this;
     }
 
-    public function setModulesAddons($modules_addons): State
+    /**
+     * @param array<int, string> $module_addons Key is the module ID on Addons
+     */
+    public function setModulesAddons(array $modules_addons): State
     {
         $this->modules_addons = $modules_addons;
 

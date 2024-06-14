@@ -28,6 +28,7 @@
 namespace PrestaShop\Module\AutoUpgrade\Xml;
 
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
+use SimpleXMLElement;
 
 class ChecksumCompare
 {
@@ -39,7 +40,15 @@ class ChecksumCompare
      * @var FilesystemAdapter
      */
     private $filesystemAdapter;
-    private $changed_files = [];
+
+    /**
+     * @var array{'mail':string[],'translation':string[],'core':string[]}|false
+     */
+    private $changed_files = [
+        'mail' => [],
+        'translation' => [],
+        'core' => [],        
+    ];
 
     public function __construct(FileLoader $fileLoader, FilesystemAdapter $filesystemAdapter)
     {
@@ -71,11 +80,11 @@ class ChecksumCompare
      * returns an array of files which are present in PrestaShop version $version and has been modified
      * in the current filesystem.
      *
-     * @return array|false
+     * @return array{'mail':string[],'translation':string[],'core':string[]}|false
      */
     public function getTamperedFilesOnShop(string $version)
     {
-        if (is_array($this->changed_files) && count($this->changed_files) == 0) {
+        if (is_array($this->changed_files) && count($this->changed_files['core']) == 0) {
             $checksum = $this->fileLoader->getXmlMd5File($version);
             if (!$checksum) {
                 $this->changed_files = false;
@@ -87,7 +96,7 @@ class ChecksumCompare
         return $this->changed_files;
     }
 
-    public function isAuthenticPrestashopVersion($version): bool
+    public function isAuthenticPrestashopVersion(string $version): bool
     {
         return !$this->getTamperedFilesOnShop($version);
     }
@@ -95,8 +104,8 @@ class ChecksumCompare
     /**
      * returns an array of files which.
      *
-     * @param array $v1 result of method $this->md5FileAsArray()
-     * @param array $v2 result of method $this->md5FileAsArray()
+     * @param array<string, string|mixed[]> $v1 result of method $this->md5FileAsArray()
+     * @param array<string, string|mixed[]> $v2 result of method $this->md5FileAsArray()
      * @param bool $show_modif if set to false, the method will only
      *                         list deleted files
      * @param string $path
@@ -141,11 +150,9 @@ class ChecksumCompare
     /**
      * Compare the md5sum of the current files with the md5sum of the original.
      *
-     * @param mixed $node
-     * @param array $current_path
-     * @param int $level
+     * @param array<int, string> $current_path
      */
-    protected function browseXmlAndCompare($node, array &$current_path = [], int $level = 1): void
+    protected function browseXmlAndCompare(SimpleXMLElement $node, array &$current_path = [], int $level = 1): void
     {
         foreach ($node as $child) {
             if (is_object($child) && $child->getName() == 'dir') {
@@ -177,7 +184,10 @@ class ChecksumCompare
         }
     }
 
-    protected function md5FileAsArray($node, $dir = '/')
+    /**
+     * @return array<string, string|mixed[]>
+     */
+    protected function md5FileAsArray(SimpleXMLElement $node, string $dir = '/')
     {
         $array = [];
         foreach ($node as $child) {
@@ -216,7 +226,7 @@ class ChecksumCompare
         }
     }
 
-    protected function compareChecksum($filepath, $md5sum): bool
+    protected function compareChecksum(string $filepath, string $md5sum): bool
     {
         return md5_file($filepath) == $md5sum;
     }

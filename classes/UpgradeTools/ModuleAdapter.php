@@ -35,10 +35,13 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class ModuleAdapter
 {
+    /** @var Translator */
     private $translator;
-    // PS version to update
+    /** @var string PS version to update */
     private $upgradeVersion;
+    /** @var string */
     private $modulesPath;
+    /** @var string */
     private $tempPath;
     /**
      * @var ZipAction
@@ -50,12 +53,13 @@ class ModuleAdapter
      */
     private $symfonyAdapter;
 
-    // Cached instance
+    /** @var \PrestaShop\PrestaShop\Adapter\Module\ModuleDataUpdater */
     private $moduleDataUpdater;
 
+    /** @var \PrestaShop\PrestaShop\Core\CommandBus\CommandBusInterface */
     private $commandBus;
 
-    public function __construct($translator, $modulesPath, $tempPath, $upgradeVersion, ZipAction $zipAction, SymfonyAdapter $symfonyAdapter)
+    public function __construct(Translator $translator, string $modulesPath, string $tempPath, string $upgradeVersion, ZipAction $zipAction, SymfonyAdapter $symfonyAdapter)
     {
         $this->translator = $translator;
         $this->modulesPath = $modulesPath;
@@ -112,7 +116,10 @@ class ModuleAdapter
         deactivate_custom_modules();
     }
 
-    public function disableNonNativeModules80(string $pathToUpgradeScripts, $moduleRepository)
+    /**
+     * @param \PrestaShop\PrestaShop\Adapter\Module\Repository\ModuleRepository $moduleRepository
+     */
+    public function disableNonNativeModules80(string $pathToUpgradeScripts, $moduleRepository): void
     {
         require_once $pathToUpgradeScripts . 'php/deactivate_custom_modules.php';
         deactivate_custom_modules80($moduleRepository);
@@ -121,10 +128,10 @@ class ModuleAdapter
     /**
      * list modules to upgrade and save them in a serialized array in $this->toUpgradeModuleList.
      *
-     * @param array $modulesFromAddons Modules available on the marketplace for download
+     * @param array<int, string> $modulesFromAddons Modules available on the marketplace for download
      * @param array<string, string> $modulesVersions
      *
-     * @return array Module available on the local filesystem and on the marketplace
+     * @return array<string, array{'id':int, 'name':string}> Module available on the local filesystem and on the marketplace
      *
      * @throws UpgradeException
      */
@@ -179,7 +186,7 @@ class ModuleAdapter
      *
      * @throws UpgradeException
      */
-    public function upgradeModule(int $id, string $name, bool $isLocalModule = false)
+    public function upgradeModule(int $id, string $name, bool $isLocalModule = false): void
     {
         $zip_fullpath = $this->tempPath . DIRECTORY_SEPARATOR . $name . '.zip';
         $local_module_used = false;
@@ -242,7 +249,7 @@ class ModuleAdapter
         }
     }
 
-    private function getLocalModuleZip($name): ?string
+    private function getLocalModuleZip(string $name): ?string
     {
         $autoupgrade_dir = _PS_ADMIN_DIR_ . DIRECTORY_SEPARATOR . 'autoupgrade';
         $module_zip = $autoupgrade_dir . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $name . '.zip';

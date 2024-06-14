@@ -62,7 +62,7 @@ exit($exitCode);
 /**
  * displays the help.
  */
-function displayHelp()
+function displayHelp(): void
 {
     echo <<<EOF
 PrestaShop upgrade by CLI
