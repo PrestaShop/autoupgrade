@@ -193,7 +193,7 @@ class AdminSelfUpgradeController extends ModuleAdminController
 
     /**
      * function to set configuration fields display.
-     * 
+     *
      * @return void
      */
     private function _setFields()
@@ -280,7 +280,7 @@ class AdminSelfUpgradeController extends ModuleAdminController
 
     /**
      * init to build informations we need.
-     * 
+     *
      * @return void
      */
     public function init()
@@ -348,7 +348,7 @@ class AdminSelfUpgradeController extends ModuleAdminController
 
     /**
      * create some required directories if they does not exists.
-     * 
+     *
      * @return void
      */
     public function initPath()
@@ -461,9 +461,9 @@ class AdminSelfUpgradeController extends ModuleAdminController
 
     /**
      * Process configuration values to be stored in database
-     * 
+     *
      * @param array<string, string> $config
-     * 
+     *
      * @return void
      */
     private function processDatabaseConfigurationFields(array $config)

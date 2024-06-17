@@ -27,7 +27,6 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
-use Exception;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous\CheckFilesVersion;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous\CompareReleases;

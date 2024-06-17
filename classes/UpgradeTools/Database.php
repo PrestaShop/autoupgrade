@@ -31,6 +31,9 @@ use Db;
 
 class Database
 {
+    /**
+     * @var Db
+     */
     private $db;
 
     public function __construct(Db $db)
@@ -38,6 +41,9 @@ class Database
         $this->db = $db;
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function getAllTables(): array
     {
         $tables = $this->db->executeS('SHOW TABLES LIKE "' . _DB_PREFIX_ . '%"', true, false);
@@ -53,6 +59,8 @@ class Database
 
     /**
      * ToDo: Send tables list instead.
+     *
+     * @param string[] $tablesToClean
      */
     public function cleanTablesAfterBackup(array $tablesToClean): void
     {
