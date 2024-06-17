@@ -240,7 +240,7 @@ class Upgrader
      * use the addons api to get xml files.
      *
      * @param array<string, string> $postData
-     * 
+     *
      * @return SimpleXMLElement|false
      */
     public function getApiAddons(string $xml_localfile, $postData, bool $refresh = false)

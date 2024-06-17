@@ -47,7 +47,7 @@ class ChecksumCompare
     private $changed_files = [
         'mail' => [],
         'translation' => [],
-        'core' => [],        
+        'core' => [],
     ];
 
     public function __construct(FileLoader $fileLoader, FilesystemAdapter $filesystemAdapter)
