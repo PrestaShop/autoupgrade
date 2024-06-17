@@ -35,19 +35,31 @@ use RecursiveIteratorIterator;
 
 class FilesystemAdapter
 {
-    private $restoreFilesFilename;
-
+    /**
+     * @var FileFilter
+     */
     private $fileFilter;
 
+    /**
+     * @var string
+     */
     private $autoupgradeDir;
+
+    /**
+     * @var string
+     */
     private $adminSubDir;
+
+    /**
+     * @var string
+     */
     private $prodRootDir;
 
     /**
      * Somes elements to find in a folder.
      * If one of them cannot be found, we can consider that the release is invalid.
      *
-     * @var array
+     * @var array<string, array<string>>
      */
     private $releaseFileChecks = [
         'files' => [
@@ -62,13 +74,11 @@ class FilesystemAdapter
 
     public function __construct(
         FileFilter $fileFilter,
-        $restoreFilesFilename,
-        $autoupgradeDir,
-        $adminSubDir,
-        $prodRootDir
+        string $autoupgradeDir,
+        string $adminSubDir,
+        string $prodRootDir
     ) {
         $this->fileFilter = $fileFilter;
-        $this->restoreFilesFilename = $restoreFilesFilename;
 
         $this->autoupgradeDir = $autoupgradeDir;
         $this->adminSubDir = $adminSubDir;
@@ -80,13 +90,15 @@ class FilesystemAdapter
      *
      * @param string $dirname Directory name
      */
-    public static function deleteDirectory(string $dirname, $delete_self = true): bool
+    public static function deleteDirectory(string $dirname, bool $delete_self = true): bool
     {
         return Tools14::deleteDirectory($dirname, $delete_self);
     }
 
     /**
      * @param 'upgrade'|'restore'|'backup' $way
+     *
+     * @return string[]
      */
     public function listFilesInDir(string $dir, string $way, bool $listDirectories = false): array
     {
@@ -113,7 +125,7 @@ class FilesystemAdapter
     /**
      * this function list all files that will be remove to retrieve the filesystem states before the upgrade.
      *
-     * @return array of files to delete
+     * @return string[] of files to delete
      */
     public function listFilesToRemove(): array
     {
@@ -142,7 +154,7 @@ class FilesystemAdapter
      * @param string $dir directory to look in
      * @param string $fileext suffixe filename
      *
-     * @return array of files
+     * @return string[] of files
      */
     public function listSampleFiles(string $dir, string $fileext = '.jpg'): array
     {

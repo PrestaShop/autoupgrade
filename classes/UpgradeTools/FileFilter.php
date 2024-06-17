@@ -49,7 +49,7 @@ class FileFilter
     protected $rootDir;
 
     /**
-     * @var array
+     * @var string[]
      */
     protected $excludeAbsoluteFilesFromUpgrade;
 
@@ -69,6 +69,9 @@ class FileFilter
         $this->autoupgradeDir = $autoupgradeDir;
     }
 
+    /**
+     * @return string[]
+     */
     public function getFilesToIgnoreOnBackup(): array
     {
         // during backup, do not save
@@ -94,6 +97,9 @@ class FileFilter
         return $backupIgnoreAbsoluteFiles;
     }
 
+    /**
+     * @return string[]
+     */
     public function getFilesToIgnoreOnRestore(): array
     {
         $restoreIgnoreAbsoluteFiles = [
@@ -114,6 +120,9 @@ class FileFilter
         return $restoreIgnoreAbsoluteFiles;
     }
 
+    /**
+     * @return string[]
+     */
     public function getFilesToIgnoreOnUpgrade(): array
     {
         if ($this->excludeAbsoluteFilesFromUpgrade) {
@@ -179,6 +188,8 @@ class FileFilter
     /**
      * These files are checked in every subfolder of the directory tree and can match
      * several time, while the others are only matching a file from the project root.
+     *
+     * @return string[]
      */
     public function getExcludeFiles(): array
     {
@@ -193,6 +204,8 @@ class FileFilter
 
     /**
      * Returns an array of native modules
+     *
+     * @return string[]
      */
     private function getNativeModules(): array
     {

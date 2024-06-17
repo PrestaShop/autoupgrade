@@ -368,7 +368,6 @@ class UpgradeContainer
 
         $this->filesystemAdapter = new FilesystemAdapter(
             $this->getFileFilter(),
-            $this->getState()->getRestoreFilesFilename(),
             $this->getProperty(self::WORKSPACE_PATH),
             str_replace(
                 $this->getProperty(self::PS_ROOT_PATH),
