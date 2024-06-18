@@ -39,7 +39,7 @@ class UpgradeNow extends AbstractTask
     /**
      * @throws Exception
      */
-    public function run()
+    public function run(): void
     {
         $this->logger->info($this->translator->trans('Starting upgrade...'));
 
