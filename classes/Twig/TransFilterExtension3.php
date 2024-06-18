@@ -41,11 +41,14 @@ class TransFilterExtension3 extends AbstractExtension
      */
     private $translator;
 
-    public function __construct($translator)
+    public function __construct(Translator $translator)
     {
         $this->translator = $translator;
     }
 
+    /**
+     * @return TwigFilter[]
+     */
     public function getFilters(): array
     {
         return [
@@ -53,7 +56,10 @@ class TransFilterExtension3 extends AbstractExtension
         ];
     }
 
-    public function trans($string, $params = []): string
+    /**
+     * @param array<int|string, string> $params
+     */
+    public function trans(string $string, $params = []): string
     {
         return $this->translator->trans($string, $params);
     }
