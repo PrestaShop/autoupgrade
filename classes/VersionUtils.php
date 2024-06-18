@@ -27,20 +27,98 @@
 
 namespace PrestaShop\Module\AutoUpgrade;
 
+use InvalidArgumentException;
+
 class VersionUtils
 {
     const MODULE_COMPATIBLE_PHP_VERSION = 70100;
 
     public static function getHumanReadableVersionOf($versionInt)
     {
+        if (!is_int($versionInt)) {
+            throw new InvalidArgumentException('Version must be an integer.');
+        }
+
+        if ($versionInt < 0) {
+            throw new InvalidArgumentException('Version cannot be negative.');
+        }
+
+        if ($versionInt < 10000 || $versionInt > 99999) {
+            throw new InvalidArgumentException('Version must be a five-digit integer.');
+        }
+
         $major = intdiv($versionInt, 10000);
         $minor = intdiv($versionInt % 10000, 100);
+        $patch = $versionInt % 100;
 
-        return sprintf('%d.%d', $major, $minor);
+        return sprintf('%d.%d.%d', $major, $minor, $patch);
+    }
+
+    public static function getPhpVersionId($version)
+    {
+        if (!is_string($version)) {
+            throw new InvalidArgumentException('Version must be a string.');
+        }
+
+        $version = trim($version);
+        if (empty($version)) {
+            throw new InvalidArgumentException('Version string cannot be empty.');
+        }
+
+        $parts = explode('.', $version);
+
+        $versionNumbers = [0, 0, 0];
+
+        foreach ($parts as $index => $part) {
+            if (!is_numeric($part)) {
+                throw new InvalidArgumentException('Version parts must be numeric.');
+            }
+            $versionNumbers[$index] = (int) $part;
+        }
+
+        list($major, $minor, $patch) = $versionNumbers;
+
+        return $major * 10000 + $minor * 100 + $patch;
+    }
+
+    public static function getPhpMajorMinorVersionId()
+    {
+        $phpVersionId = PHP_VERSION_ID;
+
+        $major = (int) ($phpVersionId / 10000);
+        $minor = (int) (($phpVersionId % 10000) / 100);
+
+        return $major * 10000 + $minor * 100;
     }
 
     public static function isActualPHPVersionCompatible()
     {
         return PHP_VERSION_ID >= self::MODULE_COMPATIBLE_PHP_VERSION;
+    }
+
+    public static function getPrestashopMinorVersion($version)
+    {
+        if (!is_string($version)) {
+            throw new InvalidArgumentException('Version must be a string.');
+        }
+
+        $version = trim($version);
+        if (empty($version)) {
+            throw new InvalidArgumentException('Version string cannot be empty.');
+        }
+
+        if (!preg_match('/^\d+\.\d+\.\d+(\.\d+)?$/', $version)) {
+            throw new InvalidArgumentException('Invalid version format. Expected format: X.Y.Z or X.Y.Z.W');
+        }
+
+        $parts = explode('.', $version);
+        $versionString = implode('.', $parts);
+        if (strlen($versionString) >= 8) {
+            $minorVersionParts = array_slice($parts, 0, 3);
+        } else {
+            $minorVersionParts = array_slice($parts, 0, 2);
+        }
+
+        return implode('.', $minorVersionParts);
     }
 }

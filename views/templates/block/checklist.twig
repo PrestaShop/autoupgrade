@@ -17,25 +17,28 @@
         <div id="currentConfiguration">
             <p class="alert alert-info">{{ 'Before starting the upgrade process, please make sure this checklist is all green.'|trans({}, 'Modules.Autoupgrade.Admin') }}</p>
             <table class="table" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td>
-                        {% if not phpUpgradeRequired %}
-                            {{ 'Your server is running on a supported PHP version.'|trans({}, 'Modules.Autoupgrade.Admin') }}
-                        {% else %}
-                            {{ 'The PHP version your server is running on is obsolete and needs to be upgraded. [1]Learn more[/1].'|trans({
-                                '[1]': '<a href="https://devdocs.prestashop.com/1.7/basics/installation/system-requirements/" target="_blank">',
-                                '[/1]': '</a>',
-                            }, 'Modules.Autoupgrade.Admin')|raw }}
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if not phpUpgradeRequired %}
-                            {{ icons.ok }}
-                        {% else %}
-                            {{ icons.warning }}
-                        {% endif %}
-                    </td>
-                </tr>
+                {% if phpRequirementsState != constant('PrestaShop\\Module\\AutoUpgrade\\UpgradeSelfCheck::PHP_REQUIREMENTS_VALID') %}
+                    <tr>
+                        <td>
+                            {% if phpRequirementsState == constant('PrestaShop\\Module\\AutoUpgrade\\UpgradeSelfCheck::PHP_REQUIREMENTS_INVALID') %}
+                                {{ 'Your current PHP version isn\'t compatible with your PrestaShop version. (Expected: %s - %s | Current: %s)'|trans([
+                                    phpCompatibilityRange['php_min_version'],
+                                    phpCompatibilityRange['php_max_version'],
+                                    phpCompatibilityRange['php_current_version'],
+                                ], 'Modules.Autoupgrade.Admin') }}
+                            {% else %}
+                                {{ 'We were unable to check your PHP compatibility with the destination PrestaShop version.'|trans({}, 'Modules.Autoupgrade.Admin') }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if phpRequirementsState == constant('PrestaShop\\Module\\AutoUpgrade\\UpgradeSelfCheck::PHP_REQUIREMENTS_INVALID') %}
+                                {{ icons.nok }}
+                            {% else %}
+                                {{ icons.warning }}
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endif %}
                 <tr>
                     <td>{{ 'Your store\'s root directory (%s) is writable (with appropriate CHMOD permissions).'|trans([rootDirectory], 'Modules.Autoupgrade.Admin') }}</td>
                     <td>
@@ -135,12 +138,6 @@
                         {% endif %}
                     </td>
                 </tr>
-                {% if not checkPhpVersionCompatibility %}
-                  <tr>
-                    <td>{{ 'Your current PHP version isn\'t compatible with your PrestaShop version.'|trans({}, 'Modules.Autoupgrade.Admin') }}</td>
-                    <td>{{ icons.nok }}</td>
-                  </tr>
-                {% endif %}
                 {% if not checkApacheModRewrite %}
                   <tr>
                     <td>{{ 'Apache mod_rewrite is disabled.'|trans({}, 'Modules.Autoupgrade.Admin') }}</td>
