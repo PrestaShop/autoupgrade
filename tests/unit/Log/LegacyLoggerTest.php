@@ -69,4 +69,24 @@ class LegacyLoggerTest extends TestCase
         $this->assertCount(0, $logger->getErrors());
         $this->assertSame('Some stuff happened', end($messages));
     }
+
+    public function testSensitiveDataAreReplaced()
+    {
+        $logger = new LegacyLogger();
+        $logger->setSensitiveData([
+            'my-aldmin-folder' => '******',
+            '🚬' => '🚭',
+            'some@email.com' => '***@****.**',
+        ]);
+
+        $this->assertSame(
+            'File /shop/******/config.yml created',
+            $logger->cleanFromSensitiveData('File /shop/my-aldmin-folder/config.yml created')
+        );
+
+        $this->assertSame(
+            '***@****.** suggested 🚭',
+            $logger->cleanFromSensitiveData('some@email.com suggested 🚬')
+        );
+    }
 }

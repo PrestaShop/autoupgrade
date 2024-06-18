@@ -408,7 +408,10 @@ class UpgradeContainer
         if (is_writable($this->getProperty(self::TMP_PATH))) {
             $logFile = $this->getProperty(self::TMP_PATH) . DIRECTORY_SEPARATOR . 'log.txt';
         }
-        $this->logger = new LegacyLogger($logFile);
+        $this->logger = (new LegacyLogger($logFile))
+            ->setSensitiveData([
+                $this->getProperty(self::PS_ADMIN_SUBDIR) => '**admin_folder**',
+            ]);
 
         return $this->logger;
     }

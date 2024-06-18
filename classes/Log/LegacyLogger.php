@@ -33,9 +33,17 @@ namespace PrestaShop\Module\AutoUpgrade\Log;
  */
 class LegacyLogger extends Logger
 {
+    /** @var string[] */
     protected $normalMessages = [];
+
+    /** @var string[] */
     protected $severeMessages = [];
+
+    /** @var string */
     protected $lastInfo = '';
+
+    /** @var array<string, string> */
+    protected $sensitiveData = [];
 
     /**
      * @var resource|false|null File descriptor of the log file
@@ -81,6 +89,16 @@ class LegacyLogger extends Logger
     }
 
     /**
+     * @param array<string, string> $sensitiveData List of data to change with another value
+     */
+    public function setSensitiveData(array $sensitiveData): self
+    {
+        $this->sensitiveData = $sensitiveData;
+
+        return $this;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function log($level, string $message, array $context = []): void
@@ -88,6 +106,8 @@ class LegacyLogger extends Logger
         if (empty($message)) {
             return;
         }
+
+        $message = $this->cleanFromSensitiveData($message);
 
         if (is_resource($this->fd)) {
             fwrite($this->fd, '[' . date('Y-m-d H:i:s') . '] ' . $message . PHP_EOL);
@@ -109,5 +129,18 @@ class LegacyLogger extends Logger
         } else {
             $this->severeMessages[] = $message;
         }
+    }
+
+    public function cleanFromSensitiveData(string $message): string
+    {
+        if (empty($this->sensitiveData)) {
+            return $message;
+        }
+
+        return str_replace(
+            array_keys($this->sensitiveData),
+            array_values($this->sensitiveData),
+            $message
+        );
     }
 }
