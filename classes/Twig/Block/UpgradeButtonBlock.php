@@ -79,13 +79,7 @@ class UpgradeButtonBlock
     private $manualMode;
 
     /**
-     * UpgradeButtonBlock constructor.
-     *
      * @param Environment $twig
-     * @param Translator $translator
-     * @param UpgradeConfiguration $config
-     * @param Upgrader $upgrader
-     * @param UpgradeSelfCheck $selfCheck
      */
     public function __construct(
         $twig,
@@ -192,7 +186,7 @@ class UpgradeButtonBlock
     }
 
     /**
-     * @return array
+     * @return array<int, array<string>>
      */
     private function getOptChannels(): array
     {
@@ -210,7 +204,7 @@ class UpgradeButtonBlock
         ];
     }
 
-    private function getInfoForChannel($channel): ChannelInfo
+    private function getInfoForChannel(string $channel): ChannelInfo
     {
         return new ChannelInfo($this->upgrader, $this->config, $channel);
     }

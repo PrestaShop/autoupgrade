@@ -256,6 +256,7 @@ class UpgradePage
 
     /**
      * @param string $ajaxResult Json encoded response data
+     *
      * @return array<string, string>
      */
     private function getJsParams(string $ajaxResult): array
