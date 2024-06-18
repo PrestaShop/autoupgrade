@@ -119,6 +119,9 @@ class UpgradePage
      */
     private $backupFinder;
 
+    /**
+     * @param Environment $twig
+     */
     public function __construct(
         UpgradeConfiguration $config,
         $twig,
@@ -126,15 +129,15 @@ class UpgradePage
         UpgradeSelfCheck $upgradeSelfCheck,
         Upgrader $upgrader,
         BackupFinder $backupFinder,
-        $autoupgradePath,
-        $prodRootPath,
-        $adminPath,
-        $currentIndex,
-        $token,
-        $installVersion,
+        string $autoupgradePath,
+        string $prodRootPath,
+        string $adminPath,
+        string $currentIndex,
+        string $token,
+        string $installVersion,
         bool $manualMode,
-        $backupName,
-        $downloadPath
+        string $backupName,
+        string $downloadPath
     ) {
         $this->config = $config;
         $this->translator = $translator;
@@ -226,6 +229,9 @@ class UpgradePage
             ->render();
     }
 
+    /**
+     * @return array<string, string>
+     */
     private function getErrorMessage(): array
     {
         $translator = $this->translator;
@@ -250,6 +256,7 @@ class UpgradePage
 
     /**
      * @param string $ajaxResult Json encoded response data
+     * @return array<string, string>
      */
     private function getJsParams(string $ajaxResult): array
     {
@@ -319,6 +326,9 @@ class UpgradePage
         ];
     }
 
+    /**
+     * @return array<int, string>
+     */
     private function _getJsErrorMsgs(): array
     {
         $translator = $this->translator;
