@@ -25,9 +25,9 @@
                                     phpCompatibilityRange['php_min_version'],
                                     phpCompatibilityRange['php_max_version'],
                                     phpCompatibilityRange['php_current_version'],
-                                ], 'Modules.Autoupgrade.Admin') }}
+                                ]) }}
                             {% else %}
-                                {{ 'We were unable to check your PHP compatibility with the destination PrestaShop version.'|trans({}, 'Modules.Autoupgrade.Admin') }}
+                                {{ 'We were unable to check your PHP compatibility with the destination PrestaShop version.'|trans({}) }}
                             {% endif %}
                         </td>
                         <td>

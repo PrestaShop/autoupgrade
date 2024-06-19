@@ -30,7 +30,7 @@ namespace PrestaShop\Module\AutoUpgrade\Twig\Form;
 use Configuration;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
-use Symfony\Contracts\Translation\TranslatorInterface;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 use Twig\Environment;
 
 class FormRenderer
@@ -41,7 +41,7 @@ class FormRenderer
     private $config;
 
     /**
-     * @var TranslatorInterface
+     * @var Translator
      */
     private $translator;
 
@@ -53,7 +53,7 @@ class FormRenderer
     public function __construct(
         UpgradeConfiguration $configuration,
         $twig,
-        TranslatorInterface $translator
+        Translator $translator
     ) {
         $this->config = $configuration;
         $this->twig = $twig;

@@ -31,7 +31,7 @@ use PrestaShop\Module\AutoUpgrade\Exceptions\ZipActionException;
 use PrestaShop\Module\AutoUpgrade\Log\LoggerInterface;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Contracts\Translation\TranslatorInterface;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 use ZipArchive;
 
 class ZipAction
@@ -51,7 +51,7 @@ class ZipAction
     private $logger;
 
     /**
-     * @var TranslatorInterface
+     * @var Translator
      */
     private $translator;
 
@@ -60,7 +60,7 @@ class ZipAction
      */
     private $prodRootDir;
 
-    public function __construct(TranslatorInterface $translator, LoggerInterface $logger, UpgradeConfiguration $configuration, string $prodRootDir)
+    public function __construct(Translator $translator, LoggerInterface $logger, UpgradeConfiguration $configuration, string $prodRootDir)
     {
         $this->translator = $translator;
         $this->logger = $logger;

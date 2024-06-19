@@ -3,24 +3,10 @@
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
 use SimpleXMLElement;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
-class Translator implements TranslatorInterface
+class Translator
 {
     private $translations = [];
-
-    /**
-     * @var \Symfony\Contracts\Translation\TranslatorInterface|\Symfony\Component\Translation\TranslatorInterface|null
-     */
-    private $coreTranslator;
-
-    /**
-     * @param \Symfony\Contracts\Translation\TranslatorInterface|\Symfony\Component\Translation\TranslatorInterface|null $coreTranslator
-     */
-    public function __construct($coreTranslator = null)
-    {
-        $this->coreTranslator = $coreTranslator;
-    }
 
     /**
      * Load translations from XLF files.
@@ -64,13 +50,9 @@ class Translator implements TranslatorInterface
      *
      * @return string Translated string with parameters applied
      */
-    public function trans($id, array $parameters = [], $domain = null, $locale = null)
+    public function trans($id, array $parameters = [], $domain =  'Modules.Autoupgrade.Admin', $locale = null)
     {
         $defaultDomain = 'Modules.Autoupgrade.Admin';
-
-        if ($this->coreTranslator) {
-            return $this->coreTranslator->trans($id, $parameters, isset($domain) ? $domain : $defaultDomain, $locale);
-        }
 
         // If PrestaShop core is not instantiated properly, do not try to translate
         if (!method_exists('\Context', 'getContext') || null === \Context::getContext()->language) {

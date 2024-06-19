@@ -45,7 +45,6 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translation;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 use PrestaShop\Module\AutoUpgrade\Xml\ChecksumCompare;
 use PrestaShop\Module\AutoUpgrade\Xml\FileLoader;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Loader\FilesystemLoader;
@@ -465,16 +464,9 @@ class UpgradeContainer
         return new Translation($this->getTranslator(), $this->getLogger(), $this->getState()->getInstalledLanguagesIso());
     }
 
-    public function getTranslator(): TranslatorInterface
+    public function getTranslator(): Translator
     {
-//        $symfonyAdapter = $this->getSymfonyAdapter();
-//        $coreTranslator = $symfonyAdapter->isKernelReachable()
-//            ? $symfonyAdapter->initKernel()
-//                ->getContainer()
-//                ->get('translator')
-//            : null;
-
-        return new Translator(null);
+        return new Translator();
     }
 
     /**

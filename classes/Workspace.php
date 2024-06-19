@@ -28,7 +28,7 @@
 namespace PrestaShop\Module\AutoUpgrade;
 
 use PrestaShop\Module\AutoUpgrade\Log\LoggerInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 
 class Workspace
 {
@@ -38,7 +38,7 @@ class Workspace
     private $logger;
 
     /**
-     * @var TranslatorInterface
+     * @var Translator
      */
     private $translator;
 
@@ -47,7 +47,7 @@ class Workspace
      */
     private $paths;
 
-    public function __construct(LoggerInterface $logger, TranslatorInterface $translator, array $paths)
+    public function __construct(LoggerInterface $logger, Translator $translator, array $paths)
     {
         $this->logger = $logger;
         $this->translator = $translator;

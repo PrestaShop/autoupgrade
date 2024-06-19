@@ -33,7 +33,7 @@ use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Upgrader;
 use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
-use Symfony\Contracts\Translation\TranslatorInterface;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 use Twig\Environment;
 
 class UpgradeButtonBlock
@@ -44,7 +44,7 @@ class UpgradeButtonBlock
     private $twig;
 
     /**
-     * @var TranslatorInterface
+     * @var Translator
      */
     private $translator;
 
@@ -82,14 +82,14 @@ class UpgradeButtonBlock
      * UpgradeButtonBlock constructor.
      *
      * @param Environment $twig
-     * @param TranslatorInterface $translator
+     * @param Translator $translator
      * @param UpgradeConfiguration $config
      * @param Upgrader $upgrader
      * @param UpgradeSelfCheck $selfCheck
      */
     public function __construct(
         $twig,
-        TranslatorInterface $translator,
+        Translator $translator,
         UpgradeConfiguration $config,
         Upgrader $upgrader,
         UpgradeSelfCheck $selfCheck,
