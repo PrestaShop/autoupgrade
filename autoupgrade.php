@@ -152,7 +152,7 @@ class Autoupgrade extends Module
         require_once __DIR__ . '/vendor/autoload.php';
 
         $upgradeContainer = new \PrestaShop\Module\AutoUpgrade\UpgradeContainer(_PS_ROOT_DIR_, _PS_ADMIN_DIR_);
-        $distributionApiSErvice = new \PrestaShop\Module\AutoUpgrade\Services\DistributionApiService;
+        $distributionApiSErvice = new \PrestaShop\Module\AutoUpgrade\Services\DistributionApiService();
         $upgradeSelfCheck = new \PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck(
             $upgradeContainer->getUpgrader(),
             $upgradeContainer->getPrestaShopConfiguration(),
