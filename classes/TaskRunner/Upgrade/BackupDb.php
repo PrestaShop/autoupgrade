@@ -126,7 +126,7 @@ class BackupDb extends AbstractTask
                     fclose($fp);
                 }
                 $backupfile = $this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $this->container->getState()->getBackupName() . DIRECTORY_SEPARATOR . $this->container->getState()->getBackupDbFilename();
-                $backupfile = preg_replace('#_XXXXXX_#', '_' . str_pad($this->container->getState()->getDbStep(), 6, '0', STR_PAD_LEFT) . '_', $backupfile);
+                $backupfile = preg_replace('#_XXXXXX_#', '_' . str_pad(strval($this->container->getState()->getDbStep()), 6, '0', STR_PAD_LEFT) . '_', $backupfile);
 
                 // start init file
                 // Figure out what compression is available and open the file

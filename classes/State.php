@@ -32,37 +32,61 @@ namespace PrestaShop\Module\AutoUpgrade;
  */
 class State
 {
+    /**
+     * @var string
+     */
     private $install_version; // Destination version of PrestaShop
+    /**
+     * @var string
+     */
     private $backupName;
+    /**
+     * @var string
+     */
     private $backupFilesFilename;
+    /**
+     * @var string
+     */
     private $backupDbFilename;
+    /**
+     * @var string
+     */
     private $restoreName;
+    /**
+     * @var string
+     */
     private $restoreFilesFilename;
+    /**
+     * @var string[]
+     */
     private $restoreDbFilenames = [];
 
     // STEP BackupDb
+    /**
+     * @var string[]
+     */
     private $backup_lines;
+    /**
+     * @var int
+     */
     private $backup_loop_limit;
+    /**
+     * @var string
+     */
     private $backup_table;
 
     /**
      * Int during BackupDb, allowing the script to increent the number of different file names
      * String during step RestoreDb, which contains the file to process (Data coming from toRestoreQueryList).
      *
-     * @var string|int Contains the SQL progress
+     * @var int Contains the SQL progress
      */
     private $dbStep = 0;
 
     /**
-     * Data filled in upgrade warmup, to avoid risky tasks during the process.
-     *
-     * @var array|null File containing sample files to be deleted
-     */
-    private $removeList;
-    /**
      * installedLanguagesIso is an array of iso_code of each installed languages.
      *
-     * @var array
+     * @var string[]
      */
     private $installedLanguagesIso = [];
     /**
@@ -84,7 +108,7 @@ class State
     private $warning_exists = false;
 
     /**
-     * @param array $savedState from another request
+     * @param array<string, mixed> $savedState from another request
      */
     public function importFromArray(array $savedState): State
     {
@@ -108,7 +132,7 @@ class State
     }
 
     /**
-     * @return array of class properties for export
+     * @return array<string, mixed> of class properties for export
      */
     public function export(): array
     {
@@ -172,6 +196,9 @@ class State
         return $this->backupDbFilename;
     }
 
+    /**
+     * @return string[]|null
+     */
     public function getBackupLines(): ?array
     {
         return $this->backup_lines;
@@ -187,14 +214,9 @@ class State
         return $this->backup_table;
     }
 
-    public function getDbStep()
+    public function getDbStep(): int
     {
         return $this->dbStep;
-    }
-
-    public function getRemoveList(): ?array
-    {
-        return $this->removeList;
     }
 
     public function getRestoreName(): string
@@ -207,6 +229,9 @@ class State
         return $this->restoreFilesFilename;
     }
 
+    /**
+     * @return string[]
+     */
     public function getRestoreDbFilenames(): array
     {
         return $this->restoreDbFilenames;
@@ -268,6 +293,9 @@ class State
         return $this;
     }
 
+    /**
+     * @param string[]|null $backup_lines
+     */
     public function setBackupLines(?array $backup_lines): State
     {
         $this->backup_lines = $backup_lines;
@@ -289,21 +317,14 @@ class State
         return $this;
     }
 
-    public function setDbStep($dbStep): State
+    public function setDbStep(int $dbStep): State
     {
         $this->dbStep = $dbStep;
 
         return $this;
     }
 
-    public function setRemoveList(?array $removeList): State
-    {
-        $this->removeList = $removeList;
-
-        return $this;
-    }
-
-    public function setRestoreName($restoreName): State
+    public function setRestoreName(string $restoreName): State
     {
         $this->restoreName = $restoreName;
 
@@ -317,6 +338,9 @@ class State
         return $this;
     }
 
+    /**
+     * @param string[] $restoreDbFilenames
+     */
     public function setRestoreDbFilenames(array $restoreDbFilenames): State
     {
         $this->restoreDbFilenames = $restoreDbFilenames;
@@ -335,7 +359,7 @@ class State
     }
 
     /**
-     * @param array<string, string> $module_addons Key is the module ID on Addons
+     * @param array<string, string> $modules_addons Key is the module ID on Addons
      */
     public function setModulesAddons(array $modules_addons): State
     {

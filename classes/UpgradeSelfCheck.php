@@ -96,7 +96,7 @@ class UpgradeSelfCheck
     private $maxExecutionTime;
 
     /**
-     * @var array
+     * @var array<string, string>
      */
     private $phpCompatibilityRange;
 
