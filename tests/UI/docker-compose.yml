@@ -21,6 +21,7 @@ services:
       - DB_USER=prestashop
       - DB_PASSWD=prestashop
       - DB_NAME=prestashop
+      - DB_PREFIX=ps_
     volumes:
       - type: bind
         # Local Path
