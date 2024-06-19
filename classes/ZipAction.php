@@ -30,9 +30,9 @@ namespace PrestaShop\Module\AutoUpgrade;
 use PrestaShop\Module\AutoUpgrade\Exceptions\ZipActionException;
 use PrestaShop\Module\AutoUpgrade\Log\LoggerInterface;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
-use Symfony\Component\Filesystem\Filesystem;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 use ZipArchive;
+use Symfony\Component\Filesystem\Filesystem;
 
 class ZipAction
 {
