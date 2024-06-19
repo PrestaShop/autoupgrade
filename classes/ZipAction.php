@@ -27,10 +27,12 @@
 
 namespace PrestaShop\Module\AutoUpgrade;
 
+use PrestaShop\Module\AutoUpgrade\Exceptions\ZipActionException;
 use PrestaShop\Module\AutoUpgrade\Log\LoggerInterface;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 use Symfony\Component\Filesystem\Filesystem;
+use ZipArchive;
 
 class ZipAction
 {
@@ -64,14 +66,12 @@ class ZipAction
     /**
      * Add files to an archive.
      * Note the number of files added can be limited.
-     *
-     * @param array $filesList List of files to add
-     * @param string $toFile
      */
-    public function compress(array &$filesList, $toFile): bool
+    public function compress(array &$filesList, string $toFile): bool
     {
-        $zip = $this->open($toFile, \ZipArchive::CREATE);
-        if ($zip === false) {
+        try {
+            $zip = $this->open($toFile, ZipArchive::CREATE);
+        } catch (ZipActionException $e) {
             return false;
         }
 
@@ -143,8 +143,9 @@ class ZipAction
             chmod($to_dir, 0775);
         }
 
-        $zip = $this->open($from_file);
-        if ($zip === false) {
+        try {
+            $zip = $this->open($from_file);
+        } catch (ZipActionException $e) {
             return false;
         }
 
@@ -171,18 +172,19 @@ class ZipAction
     /**
      * Lists the files present in the given archive
      *
-     * @param string $zipfile Path to the file
+     * @param string $zipFile Path to the file
      *
      * @return array
      */
-    public function listContent(string $zipfile): array
+    public function listContent(string $zipFile): array
     {
-        if (!file_exists($zipfile)) {
+        if (!file_exists($zipFile)) {
             return [];
         }
 
-        $zip = $this->open($zipfile);
-        if ($zip === false) {
+        try {
+            $zip = $this->open($zipFile);
+        } catch (ZipActionException $e) {
             $this->logger->error($this->translator->trans('[ERROR] Unable to list archived files'));
 
             return [];
@@ -238,20 +240,31 @@ class ZipAction
      * @param string $zipFile Path to the archive
      * @param int|null $flags ZipArchive flags
      *
-     * @return false|\ZipArchive
+     * @throws ZipActionException
      */
-    private function open(string $zipFile, int $flags = null)
+    public function open(string $zipFile, int $flags = null): ZipArchive
     {
-        $zip = new \ZipArchive();
+        $zip = new ZipArchive();
         if (null === $flags) {
             $flags = 0;
         }
         if ($zip->open($zipFile, $flags) !== true || empty($zip->filename)) {
             $this->logger->error($this->translator->trans('Unable to open zipFile %s', [$zipFile]));
-
-            return false;
+            throw new ZipActionException('Unable to open zipFile ' . $zipFile);
         }
 
         return $zip;
+    }
+
+    /**
+     * @throws ZipActionException
+     */
+    public function extractFileFromArchive(ZipArchive $zip, string $fileName): string
+    {
+        $fileIndex = $zip->locateName($fileName);
+        if ($fileIndex !== false) {
+            return $zip->getFromIndex($fileIndex);
+        }
+        throw new ZipActionException("Unable to find $fileName file");
     }
 }
