@@ -128,5 +128,5 @@ abstract class AbstractTask
         $this->container->initPrestaShopCore();
     }
 
-    abstract public function run();
+    abstract public function run(): int;
 }

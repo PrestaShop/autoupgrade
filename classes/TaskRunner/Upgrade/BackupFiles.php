@@ -30,6 +30,7 @@ namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\TaskRunner\ExitCode;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 class BackupFiles extends AbstractTask
@@ -37,7 +38,7 @@ class BackupFiles extends AbstractTask
     /**
      * @throws Exception
      */
-    public function run()
+    public function run(): int
     {
         // TODO: Keep only one configuration property to toggle backups
         if (!$this->container->getUpgradeConfiguration()->get('PS_AUTOUP_BACKUP')
@@ -46,7 +47,7 @@ class BackupFiles extends AbstractTask
             $this->next = 'backupDb';
             $this->logger->info('File backup skipped.');
 
-            return true;
+            return ExitCode::SUCCESS;
         }
 
         $this->stepDone = false;
@@ -57,7 +58,7 @@ class BackupFiles extends AbstractTask
             $this->logger->info($this->translator->trans('Error during backupFiles'));
             $this->logger->error($this->translator->trans('[ERROR] backupFiles filename has not been set'));
 
-            return false;
+            return ExitCode::FAIL;
         }
 
         if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::FILES_TO_BACKUP_LIST)) {
@@ -88,7 +89,7 @@ class BackupFiles extends AbstractTask
                 $this->next = 'error';
                 $this->logger->info($this->translator->trans('Unable to open archive'));
 
-                return false;
+                return ExitCode::FAIL;
             }
             $this->container->getFileConfigurationStorage()->save($filesToBackup, UpgradeFileNames::FILES_TO_BACKUP_LIST);
         }
@@ -100,5 +101,7 @@ class BackupFiles extends AbstractTask
             $this->logger->debug($this->translator->trans('All files have been added to archive.'));
             $this->logger->info($this->translator->trans('All files saved. Now backing up database'));
         }
+
+        return ExitCode::SUCCESS;
     }
 }

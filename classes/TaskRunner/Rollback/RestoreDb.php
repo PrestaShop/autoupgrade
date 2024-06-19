@@ -30,6 +30,7 @@ namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback;
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\TaskRunner\ExitCode;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Database;
 
@@ -41,7 +42,7 @@ class RestoreDb extends AbstractTask
     /**
      * @throws Exception
      */
-    public function run()
+    public function run(): int
     {
         $databaseTools = new Database($this->container->getDb());
         $ignore_stats_table = [
@@ -69,7 +70,7 @@ class RestoreDb extends AbstractTask
                 $this->error = true;
                 $this->logger->error($this->translator->trans('%s: File format does not match.', [$currentDbFilename]));
 
-                return false;
+                return ExitCode::FAIL;
             }
             $this->container->getState()->setDbStep($match[1]);
             $backupdb_path = $this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $this->container->getState()->getRestoreName();
@@ -120,7 +121,7 @@ class RestoreDb extends AbstractTask
                 $this->logger->error($this->translator->trans('Database backup is empty.'));
                 $this->next = 'rollback';
 
-                return false;
+                return ExitCode::FAIL;
             }
 
             // preg_match_all is better than preg_split (what is used in do Upgrade.php)
@@ -186,7 +187,7 @@ class RestoreDb extends AbstractTask
                         $this->container->getFileConfigurationStorage()->clean(UpgradeFileNames::DB_TABLES_TO_CLEAN_LIST);
                     }
 
-                    return true;
+                    return ExitCode::SUCCESS;
                 }
 
                 $query = trim(array_shift($listQuery));
@@ -201,7 +202,7 @@ class RestoreDb extends AbstractTask
                         $this->error = true;
                         unlink($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . UpgradeFileNames::QUERIES_TO_RESTORE_LIST);
 
-                        return false;
+                        return ExitCode::FAIL;
                     }
                 }
 
@@ -240,7 +241,7 @@ class RestoreDb extends AbstractTask
             $this->container->getFileConfigurationStorage()->clean(UpgradeFileNames::DB_TABLES_TO_CLEAN_LIST);
         }
 
-        return true;
+        return ExitCode::SUCCESS;
     }
 
     public function init(): void

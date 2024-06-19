@@ -31,6 +31,7 @@ use Exception;
 use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\TaskRunner\ExitCode;
 
 /**
  * Upgrade all partners modules according to the installed prestashop version.
@@ -40,7 +41,7 @@ class UpgradeModules extends AbstractTask
     /**
      * @throws Exception
      */
-    public function run(): bool
+    public function run(): int
     {
         $start_time = time();
         if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::MODULES_TO_UPGRADE_LIST)) {
@@ -55,7 +56,7 @@ class UpgradeModules extends AbstractTask
             $this->container->getState()->setWarningExists(true);
             $this->logger->error($this->translator->trans('listModules is not an array. No module has been updated.'));
 
-            return true;
+            return ExitCode::SUCCESS;
         }
 
         // add local modules that we want to upgrade to the list
@@ -81,7 +82,7 @@ class UpgradeModules extends AbstractTask
                 } catch (UpgradeException $e) {
                     $this->handleException($e);
                     if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {
-                        return false;
+                        return ExitCode::FAIL;
                     }
                 }
                 $time_elapsed = time() - $start_time;
@@ -101,11 +102,9 @@ class UpgradeModules extends AbstractTask
             $this->status = 'ok';
             $this->next = 'cleanDatabase';
             $this->logger->info($this->translator->trans('Addons modules files have been upgraded.'));
-
-            return true;
         }
 
-        return true;
+        return ExitCode::SUCCESS;
     }
 
     /**
@@ -144,7 +143,7 @@ class UpgradeModules extends AbstractTask
         return \Db::getInstance()->executeS($sql);
     }
 
-    public function warmUp(): bool
+    public function warmUp(): int
     {
         try {
             $modulesToUpgrade = $this->container->getModuleAdapter()->listModulesToUpgrade(
@@ -156,7 +155,7 @@ class UpgradeModules extends AbstractTask
         } catch (UpgradeException $e) {
             $this->handleException($e);
 
-            return false;
+            return ExitCode::FAIL;
         }
 
         $total_modules_to_upgrade = count($modulesToUpgrade);
@@ -167,7 +166,7 @@ class UpgradeModules extends AbstractTask
         $this->stepDone = false;
         $this->next = 'upgradeModules';
 
-        return true;
+        return ExitCode::SUCCESS;
     }
 
     private function handleException(UpgradeException $e): void
