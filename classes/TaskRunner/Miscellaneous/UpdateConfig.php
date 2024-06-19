@@ -47,7 +47,7 @@ class UpdateConfig extends AbstractTask
     /**
      * Data being passed by CLI entry point
      *
-     * @var array
+     * @var array<string, mixed>
      */
     protected $cliParameters;
 
@@ -148,12 +148,18 @@ class UpdateConfig extends AbstractTask
         return ExitCode::SUCCESS;
     }
 
-    public function inputCliParameters($parameters)
+    /**
+     * @param array<string, mixed> $parameters
+     */
+    public function inputCliParameters($parameters): void
     {
         $this->cliParameters = $parameters;
     }
 
-    protected function getConfigurationData()
+    /**
+     * @return array<string, mixed>
+     */
+    protected function getConfigurationData(): array
     {
         if (null !== $this->cliParameters) {
             return $this->getCLIParams();
@@ -162,6 +168,9 @@ class UpdateConfig extends AbstractTask
         return $this->getRequestParams();
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     protected function getCLIParams(): array
     {
         if (empty($this->cliParameters)) {
@@ -171,7 +180,10 @@ class UpdateConfig extends AbstractTask
         return $this->cliParameters;
     }
 
-    protected function getRequestParams()
+    /**
+     * @return array<string, mixed>
+     */
+    protected function getRequestParams(): array
     {
         return empty($_REQUEST['params']) ? [] : $_REQUEST['params'];
     }
@@ -179,7 +191,7 @@ class UpdateConfig extends AbstractTask
     /**
      * update module configuration (saved in file UpgradeFiles::configFilename) with $new_config.
      *
-     * @param array $config
+     * @param array<string, mixed> $config
      *
      * @return bool true if success
      *

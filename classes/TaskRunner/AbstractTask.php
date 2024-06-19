@@ -35,9 +35,12 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 
 abstract class AbstractTask
 {
-    /* usage :  key = the step you want to skip
-     *               value = the next step you want instead
-     *	example : public static $skipAction = array();
+    /**
+     * usage :  key = the step you want to skip
+     *          value = the next step you want instead
+     * example : public static $skipAction = array();
+     *
+     * @var array<string, string>
      */
     public static $skipAction = [];
 
@@ -57,10 +60,25 @@ abstract class AbstractTask
     protected $container;
 
     // Task progress details
+    /**
+     * @var bool
+     */
     protected $stepDone;
+    /**
+     * @var string
+     */
     protected $status;
+    /**
+     * @var bool
+     */
     protected $error;
+    /**
+     * @var array<string, string|array<string>>
+     */
     protected $nextParams = [];
+    /**
+     * @var string
+     */
     protected $next;
 
     /**
@@ -106,7 +124,7 @@ abstract class AbstractTask
             ->setUpgradeConfiguration($this->container->getUpgradeConfiguration());
     }
 
-    private function checkTaskMayRun()
+    private function checkTaskMayRun(): void
     {
         // PrestaShop demo mode
         if (defined('_PS_MODE_DEMO_') && _PS_MODE_DEMO_ == true) {

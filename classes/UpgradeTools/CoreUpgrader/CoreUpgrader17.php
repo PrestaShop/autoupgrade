@@ -35,7 +35,7 @@ use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
  */
 class CoreUpgrader17 extends CoreUpgrader
 {
-    protected function initConstants()
+    protected function initConstants(): void
     {
         parent::initConstants();
 
@@ -46,7 +46,7 @@ class CoreUpgrader17 extends CoreUpgrader
     /**
      * @throws UpgradeException
      */
-    protected function upgradeLanguage($lang)
+    protected function upgradeLanguage($lang): void
     {
         $isoCode = $lang['iso_code'];
 

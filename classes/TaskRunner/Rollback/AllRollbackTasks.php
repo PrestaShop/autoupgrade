@@ -36,6 +36,9 @@ class AllRollbackTasks extends ChainedTasks
 {
     const initialTask = 'rollback';
 
+    /**
+     * @var string
+     */
     protected $step = self::initialTask;
 
     /**
@@ -44,7 +47,7 @@ class AllRollbackTasks extends ChainedTasks
      * > channel: Makes a specific upgrade (minor, major etc.)
      * > data: Loads an encoded array of data coming from another request.
      *
-     * @param array $options
+     * @param array<string, string> $options
      */
     public function setOptions(array $options): void
     {

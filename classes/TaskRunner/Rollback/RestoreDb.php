@@ -72,7 +72,7 @@ class RestoreDb extends AbstractTask
 
                 return ExitCode::FAIL;
             }
-            $this->container->getState()->setDbStep($match[1]);
+            $this->container->getState()->setDbStep((int) $match[1]);
             $backupdb_path = $this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $this->container->getState()->getRestoreName();
 
             $dot_pos = strrpos($currentDbFilename, '.');

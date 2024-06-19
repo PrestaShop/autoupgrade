@@ -116,8 +116,6 @@ class Unzip extends AbstractTask
             }
         }
 
-        // Unsetting to force listing
-        $this->container->getState()->setRemoveList(null);
         $this->next = 'backupFiles';
         $this->logger->info($this->translator->trans('File extraction complete. Now backing up files...'));
 

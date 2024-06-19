@@ -239,11 +239,11 @@ class Upgrader
     /**
      * use the addons api to get xml files.
      *
-     * @param array<string, string> $postData
+     * @param string $postData
      *
      * @return SimpleXMLElement|false
      */
-    public function getApiAddons(string $xml_localfile, $postData, bool $refresh = false)
+    public function getApiAddons(string $xml_localfile, string $postData, bool $refresh = false)
     {
         if (!is_dir(_PS_ROOT_DIR_ . '/config/xml')) {
             if (is_file(_PS_ROOT_DIR_ . '/config/xml')) {
