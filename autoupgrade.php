@@ -109,7 +109,7 @@ class Autoupgrade extends Module
             return $this->_abortInstall($this->trans('Unable to load the "AdminSelfUpgrade" tab'));
         }
 
-        return parent::install() && $this->registerHookAndSetToTop('dashboardZoneOne');
+        return parent::install();
     }
 
     public function uninstall()
@@ -124,59 +124,6 @@ class Autoupgrade extends Module
         self::_removeDirectory(_PS_ADMIN_DIR_ . DIRECTORY_SEPARATOR . 'autoupgrade');
 
         return parent::uninstall();
-    }
-
-    /**
-     * Register the current module to a given hook and moves it at the first position.
-     *
-     * @param string $hookName
-     *
-     * @return bool
-     */
-    public function registerHookAndSetToTop($hookName)
-    {
-        if (!$this->registerHook($hookName)) {
-            return false;
-        }
-
-        // Updating position is not blocking for installation esepcially since this method returns false when no other
-        // module is hooked, which doesn't mean the module can't work as expected.
-        $this->updatePosition((int) Hook::getIdByName($hookName), false);
-
-        return true;
-    }
-
-    public function hookDashboardZoneOne($params)
-    {
-        // Display panel if PHP is not supported by the community
-        require_once __DIR__ . '/vendor/autoload.php';
-
-        $upgradeContainer = new \PrestaShop\Module\AutoUpgrade\UpgradeContainer(_PS_ROOT_DIR_, _PS_ADMIN_DIR_);
-        $distributionApiSErvice = new \PrestaShop\Module\AutoUpgrade\Services\DistributionApiService();
-        $upgradeSelfCheck = new \PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck(
-            $upgradeContainer->getUpgrader(),
-            $upgradeContainer->getPrestaShopConfiguration(),
-            $distributionApiSErvice,
-            _PS_ROOT_DIR_,
-            _PS_ADMIN_DIR_,
-            __DIR__
-        );
-
-        $upgradeNotice = $upgradeSelfCheck->getPhpRequirementsState() === $upgradeSelfCheck::PHP_REQUIREMENTS_INVALID;
-        if (false === $upgradeNotice) {
-            return '';
-        }
-
-        $this->context->controller->addCSS($this->_path . '/css/styles.css');
-        $this->context->controller->addJS($this->_path . '/js/dashboard.js');
-
-        /** @var \Twig\Environment $twig */
-        $twig = $upgradeContainer->getTwig();
-
-        return $twig->render('@ModuleAutoUpgrade/hook/dashboardZoneOne.twig', [
-            'ignore_link' => Context::getContext()->link->getAdminLink('AdminSelfUpgrade') . '&ignorePhpOutdated=1',
-            'learn_more_link' => 'https://build.prestashop.com/news/announcing-end-of-support-for-obsolete-php-versions/',
-        ]);
     }
 
     public function getContent()
