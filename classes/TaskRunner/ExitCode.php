@@ -25,18 +25,10 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback;
+namespace PrestaShop\Module\AutoUpgrade\TaskRunner;
 
-use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
-use PrestaShop\Module\AutoUpgrade\TaskRunner\ExitCode;
-
-class NoRollbackFound extends AbstractTask
+class ExitCode
 {
-    public function run(): int
-    {
-        $this->logger->info($this->translator->trans('Nothing to restore'));
-        $this->next = 'rollbackComplete';
-
-        return ExitCode::SUCCESS;
-    }
+    const SUCCESS = 0;
+    const FAIL = 1;
 }

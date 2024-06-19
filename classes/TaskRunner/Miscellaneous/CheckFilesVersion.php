@@ -30,6 +30,7 @@ namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous;
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\TaskRunner\ExitCode;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 /**
@@ -40,7 +41,7 @@ class CheckFilesVersion extends AbstractTask
     /**
      * @throws Exception
      */
-    public function run()
+    public function run(): int
     {
         // do nothing after this request (see javascript function doAjaxRequest )
         $this->next = '';
@@ -52,7 +53,7 @@ class CheckFilesVersion extends AbstractTask
             $this->nextParams['status'] = 'error';
             $this->nextParams['msg'] = $this->translator->trans('Unable to check files for the installed version of PrestaShop.');
 
-            return;
+            return ExitCode::FAIL;
         }
 
         foreach (['core', 'translation', 'mail'] as $type) {
@@ -78,5 +79,7 @@ class CheckFilesVersion extends AbstractTask
 
         $this->container->getFileConfigurationStorage()->save($changedFileList['translation'], UpgradeFileNames::TRANSLATION_FILES_CUSTOM_LIST);
         $this->container->getFileConfigurationStorage()->save($changedFileList['mail'], UpgradeFileNames::MAILS_CUSTOM_LIST);
+
+        return ExitCode::SUCCESS;
     }
 }

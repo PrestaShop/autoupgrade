@@ -28,13 +28,14 @@
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\TaskRunner\ExitCode;
 
 /**
  * Clean the database from unwanted entries.
  */
 class CleanDatabase extends AbstractTask
 {
-    public function run()
+    public function run(): int
     {
         // Clean tabs order
         foreach ($this->container->getDb()->ExecuteS('SELECT DISTINCT id_parent FROM ' . _DB_PREFIX_ . 'tab') as $parent) {
@@ -47,5 +48,7 @@ class CleanDatabase extends AbstractTask
         $this->status = 'ok';
         $this->next = 'upgradeComplete';
         $this->logger->info($this->translator->trans('The database has been cleaned.'));
+
+        return ExitCode::SUCCESS;
     }
 }

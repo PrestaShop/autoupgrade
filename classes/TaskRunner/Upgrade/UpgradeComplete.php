@@ -29,6 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\TaskRunner\ExitCode;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 
@@ -40,7 +41,7 @@ class UpgradeComplete extends AbstractTask
     /**
      * @throws Exception
      */
-    public function run()
+    public function run(): int
     {
         $this->logger->info($this->container->getState()->getWarningExists() ?
             $this->translator->trans('Upgrade process done, but some warnings have been found.') :
@@ -63,5 +64,7 @@ class UpgradeComplete extends AbstractTask
 
         // removing temporary files
         $this->container->getFileConfigurationStorage()->cleanAll();
+
+        return ExitCode::SUCCESS;
     }
 }

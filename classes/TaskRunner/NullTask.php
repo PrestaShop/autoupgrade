@@ -29,8 +29,8 @@ namespace PrestaShop\Module\AutoUpgrade\TaskRunner;
 
 class NullTask extends AbstractTask
 {
-    public function run()
+    public function run(): int
     {
-        // Nothing
+        return ExitCode::SUCCESS;
     }
 }

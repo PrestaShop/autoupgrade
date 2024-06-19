@@ -32,6 +32,7 @@ use PrestaShop\Module\AutoUpgrade\Exceptions\ZipActionException;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\TaskRunner\ExitCode;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\Upgrader;
 use RuntimeException;
@@ -53,7 +54,7 @@ class UpdateConfig extends AbstractTask
     /**
      * @throws Exception
      */
-    public function run()
+    public function run(): int
     {
         // nothing next
         $this->next = '';
@@ -82,7 +83,7 @@ class UpdateConfig extends AbstractTask
                 $this->error = true;
                 $this->logger->info($this->translator->trans('File %s does not exist. Unable to select that channel.', [$file]));
 
-                return false;
+                return ExitCode::FAIL;
             }
 
             try {
@@ -91,7 +92,7 @@ class UpdateConfig extends AbstractTask
                 $this->error = true;
                 $this->logger->info($this->translator->trans('Unable to retrieve version from zip: %s.', [$exception->getMessage()]));
 
-                return false;
+                return ExitCode::FAIL;
             }
 
             $xmlFile = $configurationData['archive_xml'];
@@ -100,7 +101,7 @@ class UpdateConfig extends AbstractTask
                 $this->error = true;
                 $this->logger->info($this->translator->trans('File %s does not exist. Unable to select that channel.', [$xmlFile]));
 
-                return false;
+                return ExitCode::FAIL;
             }
 
             $xmlVersion = $this->getXmlVersion($fullXmlPath);
@@ -125,7 +126,7 @@ class UpdateConfig extends AbstractTask
                 $this->error = true;
                 $this->logger->info($this->translator->trans('Version number is missing. Unable to select that channel.'));
 
-                return false;
+                return ExitCode::FAIL;
             }
 
             $config['directory.version_num'] = $configurationData['directory_num'];
@@ -140,7 +141,11 @@ class UpdateConfig extends AbstractTask
         if (!$this->writeConfig($config)) {
             $this->error = true;
             $this->logger->info($this->translator->trans('Error on saving configuration'));
+
+            return ExitCode::FAIL;
         }
+
+        return ExitCode::SUCCESS;
     }
 
     public function inputCliParameters($parameters)
