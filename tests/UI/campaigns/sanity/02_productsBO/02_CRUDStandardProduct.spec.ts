@@ -1,7 +1,7 @@
 import {
   // Import utils
-  testContext,
-  basicHelper,
+  utilsTest,
+  utilsCore,
   // Import BO pages
   boDashboardPage,
   boLoginPage,
@@ -19,7 +19,7 @@ import {
 import semver from 'semver';
 
 const baseContext: string = 'sanity_productsBO_CRUDStandardProduct';
-const psVersion = testContext.getPSVersion();
+const psVersion = utilsTest.getPSVersion();
 
 /*
   Connect to the BO
@@ -29,6 +29,8 @@ const psVersion = testContext.getPSVersion();
 test.describe('BO - Catalog - Products : CRUD standard product', async () => {
   let browserContext: BrowserContext;
   let page: Page;
+  let productPageURL: string;
+  let isProductPageV1: boolean = false;
 
   // Data to create standard product
   const newProductData: FakerProduct = new FakerProduct({
@@ -59,7 +61,7 @@ test.describe('BO - Catalog - Products : CRUD standard product', async () => {
 
   // Steps
   test('should login in BO', async () => {
-    await testContext.addContextItem(test.info(), 'testIdentifier', 'loginBO', baseContext);
+    await utilsTest.addContextItem(test.info(), 'testIdentifier', 'loginBO', baseContext);
 
     await boLoginPage.goTo(page, global.BO.URL);
     await boLoginPage.successLogin(page, global.BO.EMAIL, global.BO.PASSWD);
@@ -69,7 +71,7 @@ test.describe('BO - Catalog - Products : CRUD standard product', async () => {
   });
 
   test('should go to \'Catalog > Products\' page', async () => {
-    await testContext.addContextItem(test.info(), 'testIdentifier', 'goToProductsPage', baseContext);
+    await utilsTest.addContextItem(test.info(), 'testIdentifier', 'goToProductsPage', baseContext);
 
     await boDashboardPage.goToSubMenu(
       page,
@@ -80,12 +82,17 @@ test.describe('BO - Catalog - Products : CRUD standard product', async () => {
 
     const pageTitle = await boProductsPage.getPageTitle(page);
     expect(pageTitle).toContain(boProductsPage.pageTitle);
+
+    productPageURL = await boProductsPage.getCurrentURL(page)
+    if (productPageURL.split('products-v1').length - 1){
+      isProductPageV1 = true;
+    }
   });
 
   // @todo : https://github.com/PrestaShop/PrestaShop/issues/36097
   if (semver.lte(psVersion, '8.1.6')) {
     test('should close the menu', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'closeMenu', baseContext);
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'closeMenu', baseContext);
 
       await boDashboardPage.setSidebarCollapsed(page, true);
 
@@ -96,15 +103,15 @@ test.describe('BO - Catalog - Products : CRUD standard product', async () => {
 
   test.describe('Create product', async () => {
     test('should click on \'New product\' button', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'clickOnNewProductButton', baseContext);
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'clickOnNewProductButton', baseContext);
 
       const isVisible = await boProductsPage.clickOnNewProductButton(page);
       expect(isVisible).toEqual(true);
     });
 
-    if (semver.gte(psVersion, '8.1.0')) {
+    if (semver.gte(psVersion, '8.1.0') || isProductPageV1) {
       test('should choose \'Standard product\'', async () => {
-        await testContext.addContextItem(test.info(), 'testIdentifier', 'chooseStandardProduct', baseContext);
+        await utilsTest.addContextItem(test.info(), 'testIdentifier', 'chooseStandardProduct', baseContext);
 
         await boProductsPage.selectProductType(page, newProductData.type);
         await boProductsPage.clickOnAddNewProduct(page);
@@ -115,15 +122,15 @@ test.describe('BO - Catalog - Products : CRUD standard product', async () => {
     }
 
     test('should create standard product', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'createStandardProduct', baseContext);
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'createStandardProduct', baseContext);
 
       const createProductMessage = await boProductsCreatePage.setProduct(page, newProductData);
       expect(createProductMessage).toEqual(boProductsCreatePage.successfulUpdateMessage);
     });
 
-    if (semver.gte(psVersion, '8.1.0')) {
+    if (semver.gte(psVersion, '8.1.0') || isProductPageV1) {
       test('should check that the save button is changed to \'Save and publish\'', async () => {
-        await testContext.addContextItem(test.info(), 'testIdentifier', 'checkSaveButton', baseContext);
+        await utilsTest.addContextItem(test.info(), 'testIdentifier', 'checkSaveButton', baseContext);
 
         const saveButtonName = await boProductsCreatePage.getSaveButtonName(page);
         expect(saveButtonName).toEqual('Save and publish');
@@ -131,21 +138,21 @@ test.describe('BO - Catalog - Products : CRUD standard product', async () => {
     }
 
     test('should preview product', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'previewProduct', baseContext);
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'previewProduct', baseContext);
 
       // Click on preview button
       page = await boProductsCreatePage.previewProduct(page);
 
       await foClassicProductPage.changeLanguage(page, 'en');
 
-      if (semver.gte(psVersion, '8.1.0')) {
+      if (semver.gte(psVersion, '8.1.0') || isProductPageV1) {
         const pageTitle = await foClassicProductPage.getPageTitle(page);
         expect(pageTitle).toContain(newProductData.name);
       }
     });
 
     test('should check all product information', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'checkProductInformation', baseContext);
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'checkProductInformation', baseContext);
 
       const result = await foClassicProductPage.getProductInformation(page);
       await Promise.all([
@@ -159,7 +166,7 @@ test.describe('BO - Catalog - Products : CRUD standard product', async () => {
 
   test.describe('Update product', async () => {
     test('should go back to BO to update product', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'goBackToBO', baseContext);
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'goBackToBO', baseContext);
 
       // Go back to BO
       page = await foClassicProductPage.closePage(browserContext, page, 0);
@@ -169,14 +176,14 @@ test.describe('BO - Catalog - Products : CRUD standard product', async () => {
     });
 
     test('should update the created product', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'updateProduct', baseContext);
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'updateProduct', baseContext);
 
       const createProductMessage = await boProductsCreatePage.setProduct(page, updateProductData);
       expect(createProductMessage).toEqual(boProductsCreatePage.successfulUpdateMessage);
     });
 
     test('should preview product', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'previewUpdatedProduct', baseContext);
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'previewUpdatedProduct', baseContext);
 
       // Click on preview button
       page = await boProductsCreatePage.previewProduct(page);
@@ -188,9 +195,9 @@ test.describe('BO - Catalog - Products : CRUD standard product', async () => {
     });
 
     test('should check all product information', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'checkUpdatedProductInformation', baseContext);
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'checkUpdatedProductInformation', baseContext);
 
-      const taxValue = await basicHelper.percentage(updateProductData.priceTaxExcluded, 10);
+      const taxValue = await utilsCore.percentage(updateProductData.priceTaxExcluded, 10);
 
       const result = await foClassicProductPage.getProductInformation(page);
       await Promise.all([
@@ -203,7 +210,7 @@ test.describe('BO - Catalog - Products : CRUD standard product', async () => {
 
   test.describe('Delete product', async () => {
     test('should go back to BO to delete product', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'goBackToBOToDeleteProduct', baseContext);
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'goBackToBOToDeleteProduct', baseContext);
 
       // Go back to BO
       page = await foClassicProductPage.closePage(browserContext, page, 0);
@@ -213,7 +220,7 @@ test.describe('BO - Catalog - Products : CRUD standard product', async () => {
     });
 
     test('should delete product', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'deleteProduct', baseContext);
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'deleteProduct', baseContext);
 
       const createProductMessage = await boProductsCreatePage.deleteProduct(page);
       expect(createProductMessage).toEqual(boProductsPage.successfulDeleteMessage);

@@ -1,10 +1,11 @@
 import {
   // Import utils
-  testContext,
+  utilsTest,
   // Import BO pages
   boDashboardPage,
   boLoginPage,
   boProductsPage,
+  boNewExperimentalFeaturesPage,
   // Import data
   dataProducts,
   dataCategories,
@@ -16,7 +17,7 @@ import {
 import semver from 'semver';
 
 const baseContext: string = 'sanity_productsBO_filterProducts';
-const psVersion = testContext.getPSVersion();
+const psVersion = utilsTest.getPSVersion();
 
 /*
   Connect to the BO
@@ -29,6 +30,8 @@ test.describe('BO - Catalog - Products : Filter the products table by ID, Name, 
     let browserContext: BrowserContext;
     let page: Page;
     let numberOfProducts: number = 0;
+    let productPageURL: string;
+    let isProductPageV1: boolean = false;
 
     test.beforeAll(async ({browser}) => {
       browserContext = await browser.newContext();
@@ -40,7 +43,7 @@ test.describe('BO - Catalog - Products : Filter the products table by ID, Name, 
 
     // Steps
     test('should login in BO', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'loginBO', baseContext);
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'loginBO', baseContext);
 
       await boLoginPage.goTo(page, global.BO.URL);
       await boLoginPage.successLogin(page, global.BO.EMAIL, global.BO.PASSWD);
@@ -50,7 +53,7 @@ test.describe('BO - Catalog - Products : Filter the products table by ID, Name, 
     });
 
     test('should go to \'Catalog > Products\' page', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'goToProductsPage', baseContext);
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'goToProductsPage', baseContext);
 
       await boDashboardPage.goToSubMenu(
         page,
@@ -61,25 +64,65 @@ test.describe('BO - Catalog - Products : Filter the products table by ID, Name, 
 
       const pageTitle = await boProductsPage.getPageTitle(page);
       expect(pageTitle).toContain(boProductsPage.pageTitle);
+
+      isProductPageV1 = !await boProductsPage.isProductPageV2(page)
     });
+    
+    if (semver.gte(psVersion, '8.1.0') && isProductPageV1){
+      test('should go to \'Advanced Parameters > New & Experimental Features\' page', async  () => {
+        await utilsTest.addContextItem(test.info(), 'testIdentifier', 'goToFeatureFlagPage', baseContext);
+
+        await boDashboardPage.goToSubMenu(
+            page,
+            boDashboardPage.advancedParametersLink,
+            boDashboardPage.featureFlagLink,
+        );
+        await boNewExperimentalFeaturesPage.closeSfToolBar(page);
+
+        const pageTitle = await boNewExperimentalFeaturesPage.getPageTitle(page);
+        await expect(pageTitle).toContain(boNewExperimentalFeaturesPage.pageTitle);
+      });
+
+      test('should enable product page V2', async  () => {
+        await utilsTest.addContextItem(test.info(), 'testIdentifier', 'enableProductPageV2', baseContext);
+
+        const successMessage = await boNewExperimentalFeaturesPage.setFeatureFlag(page, boNewExperimentalFeaturesPage.featureFlagProductPageV2, true);
+        await expect(successMessage).toContain(boNewExperimentalFeaturesPage.successfulUpdateMessage);
+      });
+
+      test('should go to \'Catalog > Products\' page', async () => {
+        await utilsTest.addContextItem(test.info(), 'testIdentifier', 'goToProductsPage2', baseContext);
+
+        await boDashboardPage.goToSubMenu(
+            page,
+            boDashboardPage.catalogParentLink,
+            boDashboardPage.productsLink,
+        );
+        await boProductsPage.closeSfToolBar(page);
+
+        const pageTitle = await boProductsPage.getPageTitle(page);
+        expect(pageTitle).toContain(boProductsPage.pageTitle);
+      });
+      
+    }
 
     test('should check that no filter is applied by default', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'checkNoFilter', baseContext);
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'checkNoFilter', baseContext);
 
       const isVisible = await boProductsPage.isResetButtonVisible(page);
       expect(isVisible, 'Reset button is visible!').toEqual(false);
     });
 
-    if (semver.lt(psVersion, '8.1.0')) {
-      test('should get number of products', async () => {
-        await testContext.addContextItem(test.info(), 'testIdentifier', 'getNumberOfProduct', baseContext);
+    if (semver.lt(psVersion, '8.1.0') || isProductPageV1) {
+      test('should get the number of products', async () => {
+        await utilsTest.addContextItem(test.info(), 'testIdentifier', 'getNumberOfProduct', baseContext);
 
         numberOfProducts = await boProductsPage.getNumberOfProductsFromList(page);
         expect(numberOfProducts).toBeGreaterThan(0);
       });
     } else {
       test('should get number of products', async () => {
-        await testContext.addContextItem(test.info(), 'testIdentifier', 'getNumberOfProduct', baseContext);
+        await utilsTest.addContextItem(test.info(), 'testIdentifier', 'getNumberOfProduct', baseContext);
 
         numberOfProducts = await boProductsPage.getNumberOfProductsFromHeader(page);
         expect(numberOfProducts).toBeGreaterThan(0);
@@ -145,7 +188,7 @@ test.describe('BO - Catalog - Products : Filter the products table by ID, Name, 
       },
     ].forEach((tst) => {
       test(`should filter list by '${tst.args.filterBy}' and check result`, async () => {
-        await testContext.addContextItem(test.info(), 'testIdentifier', `${tst.args.identifier}`, baseContext);
+        await utilsTest.addContextItem(test.info(), 'testIdentifier', `${tst.args.identifier}`, baseContext);
 
         if (semver.lt(psVersion, '8.1.0') && tst.args.filterBy === 'active') {
           await boProductsPage.filterProducts(page, tst.args.filterBy, 'Active', tst.args.filterType);
@@ -175,7 +218,7 @@ test.describe('BO - Catalog - Products : Filter the products table by ID, Name, 
       });
 
       test(`should reset filter by '${tst.args.filterBy}'`, async () => {
-        await testContext.addContextItem(test.info(), 'testIdentifier', `resetFilter${tst.args.identifier}`, baseContext);
+        await utilsTest.addContextItem(test.info(), 'testIdentifier', `resetFilter${tst.args.identifier}`, baseContext);
 
         const numberOfProductsAfterReset = await boProductsPage.resetAndGetNumberOfLines(page);
         expect(numberOfProductsAfterReset).toEqual(numberOfProducts);
@@ -184,7 +227,7 @@ test.describe('BO - Catalog - Products : Filter the products table by ID, Name, 
 
     // Logout from BO
     test('should log out from BO', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'logoutBO', baseContext);
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'logoutBO', baseContext);
 
       await boLoginPage.logoutBO(page);
 

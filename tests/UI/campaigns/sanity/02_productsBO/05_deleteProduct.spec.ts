@@ -1,6 +1,6 @@
 import {
   // Import utils
-  testContext,
+  utilsTest,
   // Import BO pages
   boDashboardPage,
   boLoginPage,
@@ -16,7 +16,7 @@ import {
 import semver from 'semver';
 
 const baseContext: string = 'sanity_productsBO_deleteProduct';
-const psVersion = testContext.getPSVersion();
+const psVersion = utilsTest.getPSVersion();
 
 /*
   Connect to the BO
@@ -47,7 +47,7 @@ test.describe('BO - Catalog - Products : Delete product', async () => {
 
   // Steps
   test('should login in BO', async () => {
-    await testContext.addContextItem(test.info(), 'testIdentifier', 'loginBO', baseContext);
+    await utilsTest.addContextItem(test.info(), 'testIdentifier', 'loginBO', baseContext);
 
     await boLoginPage.goTo(page, global.BO.URL);
     await boLoginPage.successLogin(page, global.BO.EMAIL, global.BO.PASSWD);
@@ -57,7 +57,7 @@ test.describe('BO - Catalog - Products : Delete product', async () => {
   });
 
   test('should go to \'Catalog > Products\' page', async () => {
-    await testContext.addContextItem(test.info(), 'testIdentifier', 'goToProductsPage', baseContext);
+    await utilsTest.addContextItem(test.info(), 'testIdentifier', 'goToProductsPage', baseContext);
 
     await boDashboardPage.goToSubMenu(
       page,
@@ -73,7 +73,7 @@ test.describe('BO - Catalog - Products : Delete product', async () => {
   // @todo : https://github.com/PrestaShop/PrestaShop/issues/36097
   if (semver.lte(psVersion, '8.1.6')) {
     test('should close the menu', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'closeMenu', baseContext);
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'closeMenu', baseContext);
 
       await boDashboardPage.setSidebarCollapsed(page, true);
 
@@ -84,14 +84,14 @@ test.describe('BO - Catalog - Products : Delete product', async () => {
 
   test.describe('Create product', async () => {
     test('should reset filter and get number of products', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'getNumberOfProduct', baseContext);
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'getNumberOfProduct', baseContext);
 
       numberOfProducts = await boProductsPage.resetAndGetNumberOfLines(page);
       expect(numberOfProducts).toBeGreaterThan(0);
     });
 
     test('should click on \'New product\' button and check new product modal', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'clickOnNewProductButton', baseContext);
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'clickOnNewProductButton', baseContext);
 
       const isVisible = await boProductsPage.clickOnNewProductButton(page);
       expect(isVisible).toEqual(true);
@@ -99,7 +99,7 @@ test.describe('BO - Catalog - Products : Delete product', async () => {
 
     if (semver.gte(psVersion, '8.1.0')) {
       test('should choose \'Standard product\'', async () => {
-        await testContext.addContextItem(test.info(), 'testIdentifier', 'chooseStandardProduct', baseContext);
+        await utilsTest.addContextItem(test.info(), 'testIdentifier', 'chooseStandardProduct', baseContext);
 
         await boProductsPage.selectProductType(page, newProductData.type);
         await boProductsPage.clickOnAddNewProduct(page);
@@ -110,7 +110,7 @@ test.describe('BO - Catalog - Products : Delete product', async () => {
     }
 
     test('should create standard product', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'createStandardProduct', baseContext);
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'createStandardProduct', baseContext);
 
       const createProductMessage = await boProductsCreatePage.setProduct(page, newProductData);
       expect(createProductMessage).toEqual(boProductsCreatePage.successfulUpdateMessage);
@@ -119,7 +119,7 @@ test.describe('BO - Catalog - Products : Delete product', async () => {
 
   test.describe('Delete product', async () => {
     test('should click on \'Go to catalog\' button', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'goToCatalogPage', baseContext);
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'goToCatalogPage', baseContext);
 
       await boProductsCreatePage.goToCatalogPage(page);
 
@@ -128,14 +128,14 @@ test.describe('BO - Catalog - Products : Delete product', async () => {
     });
 
     test('should click on delete product button', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'clickOnDeleteProduct', baseContext);
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'clickOnDeleteProduct', baseContext);
 
       const isModalVisible = await boProductsPage.clickOnDeleteProductButton(page, 1);
       expect(isModalVisible).toEqual(true);
     });
 
     test('should delete product', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'deleteProduct', baseContext);
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'deleteProduct', baseContext);
 
       const textMessage = await boProductsPage.clickOnConfirmDialogButton(page);
       expect(textMessage).toEqual(boProductsPage.successfulDeleteMessage);

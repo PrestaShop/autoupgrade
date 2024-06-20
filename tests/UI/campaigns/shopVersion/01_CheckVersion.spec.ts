@@ -1,6 +1,6 @@
 import {
   // Import utils
-  testContext,
+  utilsTest,
   // Import BO pages
   boDashboardPage,
   boLoginPage,
@@ -11,7 +11,7 @@ import {
 } from '@playwright/test';
 
 const baseContext: string = 'shopVersion_checkVersion';
-const psVersion = testContext.getPSVersion();
+const psVersion = utilsTest.getPSVersion();
 
 /*
  Open BO
@@ -33,7 +33,7 @@ test.describe('Check new shop version', () => {
 
   // Steps
   test('should go to BO', async () => {
-    await testContext.addContextItem(test.info(), 'testIdentifier', 'openBO', baseContext);
+    await utilsTest.addContextItem(test.info(), 'testIdentifier', 'openBO', baseContext);
 
     await boLoginPage.goTo(page, global.BO.URL);
 
@@ -42,7 +42,7 @@ test.describe('Check new shop version', () => {
   });
 
   test('should login in BO', async () => {
-    await testContext.addContextItem(test.info(), 'testIdentifier', 'loginBO', baseContext);
+    await utilsTest.addContextItem(test.info(), 'testIdentifier', 'loginBO', baseContext);
 
     await boLoginPage.successLogin(page, global.BO.EMAIL, global.BO.PASSWD);
 
@@ -51,7 +51,7 @@ test.describe('Check new shop version', () => {
   });
 
   test(`should check that the new shop version is ${psVersion}`, async () => {
-    await testContext.addContextItem(test.info(), 'testIdentifier', 'checkShopVersionInDashboard', baseContext);
+    await utilsTest.addContextItem(test.info(), 'testIdentifier', 'checkShopVersionInDashboard', baseContext);
 
     const shopVersion = await boDashboardPage.getShopVersion(page);
     expect(shopVersion).toEqual(psVersion);

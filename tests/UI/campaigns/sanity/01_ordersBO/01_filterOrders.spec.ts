@@ -1,6 +1,6 @@
 import {
   // Import utils
-  testContext,
+  utilsTest,
   // Import BO pages
   boDashboardPage,
   boLoginPage,
@@ -36,7 +36,7 @@ test.describe('BO - Orders - Orders : Filter the Orders table by ID, REFERENCE, 
 
   // Steps
   test('should login in BO', async () => {
-    await testContext.addContextItem(test.info(), 'testIdentifier', 'loginBO', baseContext);
+    await utilsTest.addContextItem(test.info(), 'testIdentifier', 'loginBO', baseContext);
 
     await boLoginPage.goTo(page, global.BO.URL);
     await boLoginPage.successLogin(page, global.BO.EMAIL, global.BO.PASSWD);
@@ -46,7 +46,7 @@ test.describe('BO - Orders - Orders : Filter the Orders table by ID, REFERENCE, 
   });
 
   test('should go to the \'Orders > Orders\' page', async () => {
-    await testContext.addContextItem(test.info(), 'testIdentifier', 'goToOrdersPage', baseContext);
+    await utilsTest.addContextItem(test.info(), 'testIdentifier', 'goToOrdersPage', baseContext);
 
     await boDashboardPage.goToSubMenu(
       page,
@@ -60,7 +60,7 @@ test.describe('BO - Orders - Orders : Filter the Orders table by ID, REFERENCE, 
   });
 
   test('should reset all filters and get number of orders', async () => {
-    await testContext.addContextItem(test.info(), 'testIdentifier', 'resetFilters1', baseContext);
+    await utilsTest.addContextItem(test.info(), 'testIdentifier', 'resetFilters1', baseContext);
 
     numberOfOrders = await boOrdersPage.resetAndGetNumberOfLines(page);
     await expect(numberOfOrders).toBeGreaterThan(0);
@@ -86,7 +86,7 @@ test.describe('BO - Orders - Orders : Filter the Orders table by ID, REFERENCE, 
 
   tests.forEach((tst) => {
     test(`should filter the Orders table by '${tst.args.filterBy}' and check the result`, async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', tst.args.identifier, baseContext);
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', tst.args.identifier, baseContext);
 
       await boOrdersPage.filterOrders(
         page,
@@ -100,7 +100,7 @@ test.describe('BO - Orders - Orders : Filter the Orders table by ID, REFERENCE, 
     });
 
     test(`should reset filter by '${tst.args.filterBy}'`, async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', `reset_${tst.args.identifier}`, baseContext);
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', `reset_${tst.args.identifier}`, baseContext);
 
       const numberOfOrdersAfterReset = await boOrdersPage.resetAndGetNumberOfLines(page);
       await expect(numberOfOrdersAfterReset).toEqual(numberOfOrders);
@@ -109,7 +109,7 @@ test.describe('BO - Orders - Orders : Filter the Orders table by ID, REFERENCE, 
 
   // Logout from BO
   test('should log out from BO', async () => {
-    await testContext.addContextItem(test.info(), 'testIdentifier', 'logoutBO', baseContext);
+    await utilsTest.addContextItem(test.info(), 'testIdentifier', 'logoutBO', baseContext);
 
     await boLoginPage.logoutBO(page);
 

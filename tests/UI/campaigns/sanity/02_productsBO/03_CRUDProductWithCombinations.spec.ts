@@ -1,6 +1,6 @@
 import {
   // Import utils
-  testContext,
+  utilsTest,
   // Import BO pages
   boDashboardPage,
   boLoginPage,
@@ -19,7 +19,7 @@ import {
 import semver from 'semver';
 
 const baseContext: string = 'sanity_productsBO_CRUDProductWithCombinations';
-const psVersion = testContext.getPSVersion();
+const psVersion = utilsTest.getPSVersion();
 
 /*
   Connect to the BO
@@ -79,7 +79,7 @@ test.describe('BO - Catalog - Products : CRUD product with combinations', async 
 
   // Steps
   test('should login in BO', async () => {
-    await testContext.addContextItem(test.info(), 'testIdentifier', 'loginBO', baseContext);
+    await utilsTest.addContextItem(test.info(), 'testIdentifier', 'loginBO', baseContext);
 
     await boLoginPage.goTo(page, global.BO.URL);
     await boLoginPage.successLogin(page, global.BO.EMAIL, global.BO.PASSWD);
@@ -89,7 +89,7 @@ test.describe('BO - Catalog - Products : CRUD product with combinations', async 
   });
 
   test('should go to \'Catalog > Products\' page', async () => {
-    await testContext.addContextItem(test.info(), 'testIdentifier', 'goToProductsPage', baseContext);
+    await utilsTest.addContextItem(test.info(), 'testIdentifier', 'goToProductsPage', baseContext);
 
     await boDashboardPage.goToSubMenu(
       page,
@@ -105,7 +105,7 @@ test.describe('BO - Catalog - Products : CRUD product with combinations', async 
   // @todo : https://github.com/PrestaShop/PrestaShop/issues/36097
   if (semver.lte(psVersion, '8.1.6')) {
     test('should close the menu', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'closeMenu', baseContext);
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'closeMenu', baseContext);
 
       await boDashboardPage.setSidebarCollapsed(page, true);
 
@@ -116,7 +116,7 @@ test.describe('BO - Catalog - Products : CRUD product with combinations', async 
 
   test.describe('Create product', async () => {
     test('should click on \'New product\' button and check new product modal', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'clickOnNewProductButton', baseContext);
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'clickOnNewProductButton', baseContext);
 
       const isModalVisible = await boProductsPage.clickOnNewProductButton(page);
       expect(isModalVisible).toEqual(true);
@@ -124,7 +124,7 @@ test.describe('BO - Catalog - Products : CRUD product with combinations', async 
 
     if (semver.gte(psVersion, '8.1.0')) {
       test('should choose \'Product with combinations\'', async () => {
-        await testContext.addContextItem(test.info(), 'testIdentifier', 'chooseProductWithCombinations', baseContext);
+        await utilsTest.addContextItem(test.info(), 'testIdentifier', 'chooseProductWithCombinations', baseContext);
 
         await boProductsPage.selectProductType(page, newProductData.type);
         await boProductsPage.clickOnAddNewProduct(page);
@@ -135,7 +135,7 @@ test.describe('BO - Catalog - Products : CRUD product with combinations', async 
     }
 
     test('should create product', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'createProduct', baseContext);
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'createProduct', baseContext);
 
       const createProductMessage = await boProductsCreatePage.setProduct(page, newProductData);
       expect(createProductMessage).toEqual(boProductsCreatePage.successfulUpdateMessage);
@@ -143,7 +143,7 @@ test.describe('BO - Catalog - Products : CRUD product with combinations', async 
 
     if (semver.gte(psVersion, '8.1.0')) {
       test('should check that the save button is changed to \'Save and publish\'', async () => {
-        await testContext.addContextItem(test.info(), 'testIdentifier', 'checkSaveButton', baseContext);
+        await utilsTest.addContextItem(test.info(), 'testIdentifier', 'checkSaveButton', baseContext);
 
         const saveButtonName = await boProductsCreatePage.getSaveButtonName(page);
         expect(saveButtonName).toEqual('Save and publish');
@@ -151,7 +151,7 @@ test.describe('BO - Catalog - Products : CRUD product with combinations', async 
     }
 
     test('should create combinations and check generate combinations button', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'createCombinations', baseContext);
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'createCombinations', baseContext);
 
       const textResult = await boProductsCreateTabCombinationsPage.setProductAttributes(
         page,
@@ -167,14 +167,14 @@ test.describe('BO - Catalog - Products : CRUD product with combinations', async 
 
     if (semver.gte(psVersion, '8.1.0')) {
       test('should click on generate combinations button', async () => {
-        await testContext.addContextItem(test.info(), 'testIdentifier', 'generateCombinations', baseContext);
+        await utilsTest.addContextItem(test.info(), 'testIdentifier', 'generateCombinations', baseContext);
 
         const successMessage = await boProductsCreateTabCombinationsPage.generateCombinations(page);
         expect(successMessage).toEqual('Successfully generated 2 combinations.');
       });
 
       test('should check that combinations generation modal is closed', async () => {
-        await testContext.addContextItem(test.info(), 'testIdentifier', 'generateCombinationsModalIsClosed', baseContext);
+        await utilsTest.addContextItem(test.info(), 'testIdentifier', 'generateCombinationsModalIsClosed', baseContext);
 
         const isModalClosed = await boProductsCreateTabCombinationsPage.generateCombinationModalIsClosed(page);
         expect(isModalClosed).toEqual(true);
@@ -182,14 +182,14 @@ test.describe('BO - Catalog - Products : CRUD product with combinations', async 
     }
 
     test('should save the created product', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'saveProduct', baseContext);
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'saveProduct', baseContext);
 
       const updateProductMessage = await boProductsCreatePage.saveProduct(page);
       expect(updateProductMessage).toEqual(boProductsCreatePage.successfulUpdateMessage);
     });
 
     test('should preview product', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'previewProduct', baseContext);
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'previewProduct', baseContext);
 
       // Click on preview button
       page = await boProductsCreatePage.previewProduct(page);
@@ -201,7 +201,7 @@ test.describe('BO - Catalog - Products : CRUD product with combinations', async 
     });
 
     test('should check all product information', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'checkProductInformation', baseContext);
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'checkProductInformation', baseContext);
 
       const result = await foClassicProductPage.getProductInformation(page);
       await Promise.all([
@@ -223,7 +223,7 @@ test.describe('BO - Catalog - Products : CRUD product with combinations', async 
 
   test.describe('update product', async () => {
     test('should go back to BO to edit product', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'goBackToBO', baseContext);
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'goBackToBO', baseContext);
 
       // Go back to BO
       page = await foClassicProductPage.closePage(browserContext, page, 0);
@@ -233,14 +233,14 @@ test.describe('BO - Catalog - Products : CRUD product with combinations', async 
     });
 
     test('should update the created product', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'updateProduct', baseContext);
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'updateProduct', baseContext);
 
       const createProductMessage = await boProductsCreatePage.setProduct(page, updateProductData);
       expect(createProductMessage).toEqual(boProductsCreatePage.successfulUpdateMessage);
     });
 
     test('should add combinations and check generate combinations button', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'addCombinations', baseContext);
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'addCombinations', baseContext);
 
       const textResult = await boProductsCreateTabCombinationsPage.setProductAttributes(
         page,
@@ -256,14 +256,14 @@ test.describe('BO - Catalog - Products : CRUD product with combinations', async 
 
     if (semver.gte(psVersion, '8.1.0')) {
       test('should click on generate combinations button', async () => {
-        await testContext.addContextItem(test.info(), 'testIdentifier', 'generateCombinations2', baseContext);
+        await utilsTest.addContextItem(test.info(), 'testIdentifier', 'generateCombinations2', baseContext);
 
         const successMessage = await boProductsCreateTabCombinationsPage.generateCombinations(page);
         expect(successMessage).toEqual('Successfully generated 6 combinations.');
       });
 
       test('should check that combinations generation modal is closed', async () => {
-        await testContext.addContextItem(test.info(), 'testIdentifier', 'generateCombinationsModalIsClosed2', baseContext);
+        await utilsTest.addContextItem(test.info(), 'testIdentifier', 'generateCombinationsModalIsClosed2', baseContext);
 
         const isModalClosed = await boProductsCreateTabCombinationsPage.generateCombinationModalIsClosed(page);
         expect(isModalClosed).toEqual(true);
@@ -271,14 +271,14 @@ test.describe('BO - Catalog - Products : CRUD product with combinations', async 
     }
 
     test('should save the Updated product', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'saveProductUpdatedProduct', baseContext);
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'saveProductUpdatedProduct', baseContext);
 
       const updateProductMessage = await boProductsCreatePage.saveProduct(page);
       expect(updateProductMessage).toEqual(boProductsCreatePage.successfulUpdateMessage);
     });
 
     test('should preview the updated product', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'previewUpdatedProduct', baseContext);
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'previewUpdatedProduct', baseContext);
 
       // Click on preview button
       page = await boProductsCreatePage.previewProduct(page);
@@ -290,7 +290,7 @@ test.describe('BO - Catalog - Products : CRUD product with combinations', async 
     });
 
     test('should check all product information', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'checkUpdatedProductInformation', baseContext);
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'checkUpdatedProductInformation', baseContext);
 
       const result = await foClassicProductPage.getProductInformation(page);
       await Promise.all([
@@ -310,7 +310,7 @@ test.describe('BO - Catalog - Products : CRUD product with combinations', async 
 
   test.describe('Delete product', async () => {
     test('should go back to BO to delete product', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'goBackToBOToDeleteProduct', baseContext);
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'goBackToBOToDeleteProduct', baseContext);
 
       // Go back to BO
       page = await foClassicProductPage.closePage(browserContext, page, 0);
@@ -320,7 +320,7 @@ test.describe('BO - Catalog - Products : CRUD product with combinations', async 
     });
 
     test('should delete product', async () => {
-      await testContext.addContextItem(test.info(), 'testIdentifier', 'deleteProduct', baseContext);
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'deleteProduct', baseContext);
 
       const createProductMessage = await boProductsCreatePage.deleteProduct(page);
       expect(createProductMessage).toEqual(boProductsPage.successfulDeleteMessage);

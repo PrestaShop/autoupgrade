@@ -1,6 +1,6 @@
 import {
   // Import utils
-  testContext,
+  utilsTest,
   // Import BO pages
   boDashboardPage,
   boLoginPage,
@@ -36,7 +36,7 @@ test.describe('BO - Orders - Orders : Edit Order BO', async () => {
 
   // Steps
   test('should login in BO', async () => {
-    await testContext.addContextItem(test.info(), 'testIdentifier', 'loginBO', baseContext);
+    await utilsTest.addContextItem(test.info(), 'testIdentifier', 'loginBO', baseContext);
 
     await boLoginPage.goTo(page, global.BO.URL);
     await boLoginPage.successLogin(page, global.BO.EMAIL, global.BO.PASSWD);
@@ -46,7 +46,7 @@ test.describe('BO - Orders - Orders : Edit Order BO', async () => {
   });
 
   test('should go to the \'Orders > Orders\' page', async () => {
-    await testContext.addContextItem(test.info(), 'testIdentifier', 'goToOrdersPage', baseContext);
+    await utilsTest.addContextItem(test.info(), 'testIdentifier', 'goToOrdersPage', baseContext);
 
     await boDashboardPage.goToSubMenu(
       page,
@@ -60,7 +60,7 @@ test.describe('BO - Orders - Orders : Edit Order BO', async () => {
   });
 
   test('should go to the first order page', async () => {
-    await testContext.addContextItem(test.info(), 'testIdentifier', 'goToFirstOrder', baseContext);
+    await utilsTest.addContextItem(test.info(), 'testIdentifier', 'goToFirstOrder', baseContext);
 
     await boOrdersPage.goToOrder(page, 1);
 
@@ -69,14 +69,14 @@ test.describe('BO - Orders - Orders : Edit Order BO', async () => {
   });
 
   test('should modify the product quantity and check the validation', async () => {
-    await testContext.addContextItem(test.info(), 'testIdentifier', 'editProductQuantity', baseContext);
+    await utilsTest.addContextItem(test.info(), 'testIdentifier', 'editProductQuantity', baseContext);
 
     const newQuantity = await boOrdersViewProductsBlockPage.modifyProductQuantity(page, 1, 5);
     expect(newQuantity, 'Quantity was not updated').toEqual(5);
   });
 
-  test.skip('should modify the order status and check the validation', async () => {
-    await testContext.addContextItem(test.info(), 'testIdentifier', 'editOrderStatus', baseContext);
+  test('should modify the order status and check the validation', async () => {
+    await utilsTest.addContextItem(test.info(), 'testIdentifier', 'editOrderStatus', baseContext);
 
     const orderStatus = await boOrdersViewProductsBlockPage.modifyOrderStatus(page, dataOrderStatuses.paymentAccepted.name);
     expect(orderStatus).toEqual(dataOrderStatuses.paymentAccepted.name);
@@ -84,7 +84,7 @@ test.describe('BO - Orders - Orders : Edit Order BO', async () => {
 
   // Logout from BO
   test('should log out from BO', async () => {
-    await testContext.addContextItem(test.info(), 'testIdentifier', 'logoutBO', baseContext);
+    await utilsTest.addContextItem(test.info(), 'testIdentifier', 'logoutBO', baseContext);
 
     await boLoginPage.logoutBO(page);
 

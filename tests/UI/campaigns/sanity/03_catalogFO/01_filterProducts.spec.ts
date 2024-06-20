@@ -1,6 +1,6 @@
 import {
   // Import utils
-  testContext,
+  utilsTest,
   // Import FO pages
   foClassicHomePage,
   foClassicCategoryPage,
@@ -35,7 +35,7 @@ test.describe('FO - Catalog : Filter Products by categories in Home page', async
 
   // Steps
   test('should open the shop page', async () => {
-    await testContext.addContextItem(test.info(), 'testIdentifier', 'goToShopFO', baseContext);
+    await utilsTest.addContextItem(test.info(), 'testIdentifier', 'goToShopFO', baseContext);
 
     await foClassicHomePage.goTo(page, global.FO.URL);
 
@@ -44,7 +44,7 @@ test.describe('FO - Catalog : Filter Products by categories in Home page', async
   });
 
   test('should check and get the products number', async () => {
-    await testContext.addContextItem(test.info(), 'testIdentifier', 'checkNumberOfProducts', baseContext);
+    await utilsTest.addContextItem(test.info(), 'testIdentifier', 'checkNumberOfProducts', baseContext);
 
     await foClassicHomePage.goToAllProductsPage(page);
 
@@ -53,7 +53,7 @@ test.describe('FO - Catalog : Filter Products by categories in Home page', async
   });
 
   test('should filter products by the category \'Accessories\' and check result', async () => {
-    await testContext.addContextItem(test.info(), 'testIdentifier', 'FilterProductByCategory', baseContext);
+    await utilsTest.addContextItem(test.info(), 'testIdentifier', 'FilterProductByCategory', baseContext);
 
     await foClassicCategoryPage.goToCategory(page, dataCategories.accessories.id);
 
@@ -65,7 +65,7 @@ test.describe('FO - Catalog : Filter Products by categories in Home page', async
   });
 
   test('should filter products by the subcategory \'Stationery\' and check result', async () => {
-    await testContext.addContextItem(test.info(), 'testIdentifier', 'FilterProductBySubCategory', baseContext);
+    await utilsTest.addContextItem(test.info(), 'testIdentifier', 'FilterProductBySubCategory', baseContext);
 
     await foClassicCategoryPage.reloadPage(page);
     await foClassicCategoryPage.goToSubCategory(page, dataCategories.accessories.id, dataCategories.stationery.id);

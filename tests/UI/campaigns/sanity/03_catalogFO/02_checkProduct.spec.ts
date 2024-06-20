@@ -1,6 +1,6 @@
 import {
   // Import utils
-  testContext,
+  utilsTest,
   // Import FO pages
   foClassicHomePage,
   foClassicProductPage,
@@ -32,7 +32,7 @@ test.describe('FO - Catalog : Check the Product page', async () => {
 
   // Steps
   test('should open the shop page', async () => {
-    await testContext.addContextItem(test.info(), 'testIdentifier', 'goToShopFO', baseContext);
+    await utilsTest.addContextItem(test.info(), 'testIdentifier', 'goToShopFO', baseContext);
 
     await foClassicHomePage.goTo(page, global.FO.URL);
 
@@ -41,7 +41,7 @@ test.describe('FO - Catalog : Check the Product page', async () => {
   });
 
   test('should go to the first product page', async () => {
-    await testContext.addContextItem(test.info(), 'testIdentifier', 'goToProductPage', baseContext);
+    await utilsTest.addContextItem(test.info(), 'testIdentifier', 'goToProductPage', baseContext);
 
     await foClassicHomePage.goToProductPage(page, 1);
 
@@ -50,7 +50,7 @@ test.describe('FO - Catalog : Check the Product page', async () => {
   });
 
   test('should check the product page', async () => {
-    await testContext.addContextItem(test.info(), 'testIdentifier', 'checkProductPage', baseContext);
+    await utilsTest.addContextItem(test.info(), 'testIdentifier', 'checkProductPage', baseContext);
 
     const result = await foClassicProductPage.getProductInformation(page);
     await Promise.all([
