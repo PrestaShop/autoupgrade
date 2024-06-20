@@ -14,6 +14,7 @@ class Translator
     /**
      * Load translations from XLF files.
      * @return void
+     *
      * @throws \Exception
      */
     private function loadTranslations()
@@ -34,6 +35,8 @@ class Translator
      * Load translations from a specific XLF file.
      *
      * @param string $filePath path to the XLF file
+     *
+     * @return void
      *
      * @throws \Exception
      */
@@ -100,6 +103,9 @@ class Translator
         return call_user_func_array('sprintf', array_merge([$id], $parameters));
     }
 
+    /**
+     * @return string
+     */
     public function getLocale()
     {
         return \Context::getContext()->language->locale;
