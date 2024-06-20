@@ -28,11 +28,11 @@ if (!defined('_PS_VERSION_')) {
 }
 
 /**
- * Manually remove the legacy controller. It has been deleted from the project but remain present while upgrading the module.
+ * Manually remove the dashboardZoneOne hook.
  *
  * @return bool
  */
-function upgrade_module_5_1_0($module)
+function upgrade_module_6_0_0($module)
 {
     $module->unregisterHook('dashboardZoneOne');
 }
