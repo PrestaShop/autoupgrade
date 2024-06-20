@@ -113,15 +113,8 @@ class LegacyLogger extends Logger
             fwrite($this->fd, '[' . date('Y-m-d H:i:s') . '] ' . $message . PHP_EOL);
         }
 
-        // Specific case for INFO
         if ($level === self::INFO) {
-            // If last info is already defined, move it to the messages list
-            if (!empty($this->lastInfo)) {
-                $this->normalMessages[] = $this->lastInfo;
-            }
             $this->lastInfo = $message;
-
-            return;
         }
 
         if ($level < self::ERROR) {
