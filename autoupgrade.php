@@ -58,6 +58,8 @@ class Autoupgrade extends Module
         $this->ps_versions_compliancy = ['min' => '1.7.0.0', 'max' => _PS_VERSION_];
     }
 
+    /** following the Core documentation :
+    /* https://devdocs.prestashop-project.org/8/modules/creation/module-translation/new-system/#translating-your-module **/
     public function isUsingNewTranslationSystem()
     {
         return true;

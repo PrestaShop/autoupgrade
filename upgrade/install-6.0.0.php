@@ -34,5 +34,5 @@ if (!defined('_PS_VERSION_')) {
  */
 function upgrade_module_6_0_0($module)
 {
-    $module->unregisterHook('dashboardZoneOne');
+    return $module->unregisterHook('dashboardZoneOne');
 }

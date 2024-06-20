@@ -6,10 +6,15 @@ use SimpleXMLElement;
 
 class Translator
 {
+    /**
+     * @var array<string,string>
+     */
     private $translations = [];
 
     /**
      * Load translations from XLF files.
+     * @return void
+     * @throws \Exception
      */
     private function loadTranslations()
     {
@@ -58,7 +63,11 @@ class Translator
         }
 
         if (empty($this->translations)) {
-            $this->loadTranslations();
+            try {
+                $this->loadTranslations();
+            } catch (\Exception $e) {
+                return $id;
+            }
         }
         $translated = isset($this->translations[$id]) ? $this->translations[$id] : $id;
 
