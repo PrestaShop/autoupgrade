@@ -33,6 +33,11 @@ class VersionUtils
 {
     const MODULE_COMPATIBLE_PHP_VERSION = 70100;
 
+    /**
+     * @param int $versionInt
+     *
+     * @return string
+     */
     public static function getHumanReadableVersionOf($versionInt)
     {
         if (!is_int($versionInt)) {
@@ -54,6 +59,11 @@ class VersionUtils
         return sprintf('%d.%d.%d', $major, $minor, $patch);
     }
 
+    /**
+     * @param string $version
+     *
+     * @return int
+     */
     public static function getPhpVersionId($version)
     {
         if (!is_string($version)) {
@@ -81,6 +91,9 @@ class VersionUtils
         return $major * 10000 + $minor * 100 + $patch;
     }
 
+    /**
+     * @return int
+     */
     public static function getPhpMajorMinorVersionId()
     {
         $phpVersionId = PHP_VERSION_ID;
@@ -91,6 +104,9 @@ class VersionUtils
         return $major * 10000 + $minor * 100;
     }
 
+    /**
+     * @return bool
+     */
     public static function isActualPHPVersionCompatible()
     {
         return PHP_VERSION_ID >= self::MODULE_COMPATIBLE_PHP_VERSION;

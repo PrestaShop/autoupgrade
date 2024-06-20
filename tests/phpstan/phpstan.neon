@@ -15,6 +15,5 @@ parameters:
 		- ./../../cli-upgrade.php
 	excludePaths:
 		- ./../../classes/Tools14.php
-		- ./../../classes/VersionUtils.php
 		- ./../../classes/pclzip.lib.php
 	level: 6

@@ -26,14 +26,12 @@
 function deactivate_custom_modules(): bool
 {
     $db = Db::getInstance();
-    $modulesDirOnDisk = [];
     $modules = scandir(_PS_MODULE_DIR_, SCANDIR_SORT_NONE);
     foreach ($modules as $name) {
         if (!in_array($name, ['.', '..', 'index.php', '.htaccess']) && @is_dir(_PS_MODULE_DIR_ . $name . DIRECTORY_SEPARATOR) && @file_exists(_PS_MODULE_DIR_ . $name . DIRECTORY_SEPARATOR . $name . '.php')) {
             if (!preg_match('/^[a-zA-Z0-9_-]+$/', $name)) {
                 exit(Tools::displayError() . ' (Module ' . $name . ')');
             }
-            $modulesDirOnDisk[] = $name;
         }
     }
 
@@ -122,12 +120,11 @@ function deactivate_custom_modules80($moduleRepository): bool
     }
 
     $sql = 'DELETE FROM `' . _DB_PREFIX_ . 'module_shop` WHERE `id_module` IN (' . implode(',', array_map('add_quotes', $toBeUninstalled)) . ') ';
-    $return = $return && Db::getInstance()->execute($sql);
 
-    return $return;
+    return $return && Db::getInstance()->execute($sql);
 }
 
-function add_quotes(int $str): string
+function add_quotes(string $str): string
 {
     return sprintf("'%s'", $str);
 }

@@ -47,7 +47,7 @@ class FileConfigurationStorage
      */
     private $filesystem;
 
-    public function __construct($path)
+    public function __construct(string $path)
     {
         $this->configPath = $path;
         $this->filesystem = new Filesystem();
@@ -90,7 +90,7 @@ class FileConfigurationStorage
     }
 
     /**
-     * @return array Temporary files path & name
+     * @return array<string, string> Temporary files path & name
      */
     public function getFilesList(): array
     {

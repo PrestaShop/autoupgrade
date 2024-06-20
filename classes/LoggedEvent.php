@@ -37,6 +37,9 @@ namespace PrestaShop\Module\AutoUpgrade {
 
     class LoggedEvent extends Event
     {
+        /**
+         * @var LoggerInterface
+         */
         private $logger;
 
         public function __construct(LoggerInterface $logger)

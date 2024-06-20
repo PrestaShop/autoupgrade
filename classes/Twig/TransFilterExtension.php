@@ -41,7 +41,7 @@ class TransFilterExtension extends Twig_Extension
      */
     private $translator;
 
-    public function __construct($translator)
+    public function __construct(Translator $translator)
     {
         $this->translator = $translator;
     }
@@ -53,7 +53,10 @@ class TransFilterExtension extends Twig_Extension
         ];
     }
 
-    public function trans($string, $params = []): string
+    /**
+     * @param array<int|string, int|string> $params
+     */
+    public function trans(string $string, array $params = []): string
     {
         return $this->translator->trans($string, $params);
     }

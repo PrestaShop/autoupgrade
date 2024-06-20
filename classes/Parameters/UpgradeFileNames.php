@@ -140,7 +140,7 @@ class UpgradeFileNames
      * tmp_files contains an array of filename which will be removed
      * at the beginning of the upgrade process.
      *
-     * @var array
+     * @var string[]
      */
     public static $tmp_files = [
         'QUERIES_TO_UPGRADE_LIST', // used ?
