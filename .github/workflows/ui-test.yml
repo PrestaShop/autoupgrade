@@ -22,10 +22,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - PS_VERSION_START: 1.7.8.0
-            PS_VERSION_END: 1.7.8.11
-            UPGRADE_CHANNEL: minor
-            PHP_VERSION: 7.4
           - PS_VERSION_START: 1.7.8.11
             PS_VERSION_END: 8.1.6
             UPGRADE_CHANNEL: major
