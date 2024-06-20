@@ -30,7 +30,6 @@ test.describe('BO - Catalog - Products : Filter the products table by ID, Name, 
     let browserContext: BrowserContext;
     let page: Page;
     let numberOfProducts: number = 0;
-    let productPageURL: string;
     let isProductPageV1: boolean = false;
 
     test.beforeAll(async ({browser}) => {
@@ -65,46 +64,55 @@ test.describe('BO - Catalog - Products : Filter the products table by ID, Name, 
       const pageTitle = await boProductsPage.getPageTitle(page);
       expect(pageTitle).toContain(boProductsPage.pageTitle);
 
-      isProductPageV1 = !await boProductsPage.isProductPageV2(page)
+      isProductPageV1 = !await boProductsPage.isProductPageV2(page);
     });
-    
-    if (semver.gte(psVersion, '8.1.0') && isProductPageV1){
-      test('should go to \'Advanced Parameters > New & Experimental Features\' page', async  () => {
-        await utilsTest.addContextItem(test.info(), 'testIdentifier', 'goToFeatureFlagPage', baseContext);
 
+    test('should go to \'Advanced Parameters > New & Experimental Features\' page', async () => {
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'goToFeatureFlagPage', baseContext);
+      if (semver.gte(psVersion, '8.1.0') && isProductPageV1) {
         await boDashboardPage.goToSubMenu(
-            page,
-            boDashboardPage.advancedParametersLink,
-            boDashboardPage.featureFlagLink,
+          page,
+          boDashboardPage.advancedParametersLink,
+          boDashboardPage.featureFlagLink,
         );
         await boNewExperimentalFeaturesPage.closeSfToolBar(page);
 
         const pageTitle = await boNewExperimentalFeaturesPage.getPageTitle(page);
         await expect(pageTitle).toContain(boNewExperimentalFeaturesPage.pageTitle);
-      });
+      } else {
+        test.skip();
+      }
+    });
 
-      test('should enable product page V2', async  () => {
-        await utilsTest.addContextItem(test.info(), 'testIdentifier', 'enableProductPageV2', baseContext);
+    test('should enable product page V2', async () => {
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'enableProductPageV2', baseContext);
 
-        const successMessage = await boNewExperimentalFeaturesPage.setFeatureFlag(page, boNewExperimentalFeaturesPage.featureFlagProductPageV2, true);
+      if (semver.gte(psVersion, '8.1.0') && isProductPageV1) {
+        const successMessage = await boNewExperimentalFeaturesPage.setFeatureFlag(
+          page, boNewExperimentalFeaturesPage.featureFlagProductPageV2, true);
         await expect(successMessage).toContain(boNewExperimentalFeaturesPage.successfulUpdateMessage);
-      });
+      } else {
+        test.skip();
+      }
+    });
 
-      test('should go to \'Catalog > Products\' page', async () => {
-        await utilsTest.addContextItem(test.info(), 'testIdentifier', 'goToProductsPage2', baseContext);
+    test('should go back to \'Catalog > Products\' page', async () => {
+      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'goBackToProductsPage', baseContext);
 
+      if (semver.gte(psVersion, '8.1.0') && isProductPageV1) {
         await boDashboardPage.goToSubMenu(
-            page,
-            boDashboardPage.catalogParentLink,
-            boDashboardPage.productsLink,
+          page,
+          boDashboardPage.catalogParentLink,
+          boDashboardPage.productsLink,
         );
         await boProductsPage.closeSfToolBar(page);
 
         const pageTitle = await boProductsPage.getPageTitle(page);
         expect(pageTitle).toContain(boProductsPage.pageTitle);
-      });
-      
-    }
+      } else {
+        test.skip();
+      }
+    });
 
     test('should check that no filter is applied by default', async () => {
       await utilsTest.addContextItem(test.info(), 'testIdentifier', 'checkNoFilter', baseContext);

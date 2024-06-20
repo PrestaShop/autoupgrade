@@ -83,8 +83,8 @@ test.describe('BO - Catalog - Products : CRUD standard product', async () => {
     const pageTitle = await boProductsPage.getPageTitle(page);
     expect(pageTitle).toContain(boProductsPage.pageTitle);
 
-    productPageURL = await boProductsPage.getCurrentURL(page)
-    if (productPageURL.split('products-v1').length - 1){
+    productPageURL = await boProductsPage.getCurrentURL(page);
+    if (productPageURL.split('products-v1').length - 1) {
       isProductPageV1 = true;
     }
   });

@@ -1,6 +1,6 @@
 import {
   // Import utils
-  testContext,
+  utilsTest,
 } from '@prestashop-core/ui-testing';
 
 import {createConnection} from 'mysql2/promise';
@@ -13,7 +13,7 @@ import {
 let dbConnection: Connection;
 
 const baseContext: string = 'shopVersion_checkVersionIndatabase';
-const psVersion = testContext.getPSVersion();
+const psVersion = utilsTest.getPSVersion();
 
 test.describe('Check new shop version', () => {
   const dbPrefix: string = global.INSTALL.DB_PREFIX;
@@ -37,11 +37,11 @@ test.describe('Check new shop version', () => {
   });
 
   test('should check psVersion from the database', async () => {
-    await testContext.addContextItem(test.info(), 'testIdentifier', 'checkPsVersion', baseContext);
+    await utilsTest.addContextItem(test.info(), 'testIdentifier', 'checkPsVersion', baseContext);
 
     const [resultRows]: [RowDataPacket[], FieldPacket[]] = await dbConnection.query(
       `SELECT value FROM ${dbPrefix}configuration WHERE name = 'PS_VERSION_DB'`,
     );
-    expect(resultRows[0]['value']).toEqual(psVersion);
+    expect(resultRows[0].value).toEqual(psVersion);
   });
 });
