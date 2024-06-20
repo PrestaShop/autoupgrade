@@ -13,6 +13,7 @@ class Translator
 
     /**
      * Load translations from XLF files.
+     *
      * @return void
      *
      * @throws \Exception
