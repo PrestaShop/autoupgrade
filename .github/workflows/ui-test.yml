@@ -22,14 +22,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - PS_VERSION_START: 8.1.4
-            PS_VERSION_END: 8.1.6
-            UPGRADE_CHANNEL: minor
-            PHP_VERSION: 7.2
-          - PS_VERSION_START: 8.1.4
-            PS_VERSION_END: 8.1.6
-            UPGRADE_CHANNEL: minor
-            PHP_VERSION: 7.3
           - PS_VERSION_START: 8.0.1
             PS_VERSION_END: 8.0.5
             UPGRADE_CHANNEL: minor
@@ -38,6 +30,15 @@ jobs:
             PS_VERSION_END: 8.1.6
             UPGRADE_CHANNEL: major
             PHP_VERSION: 7.2
+          - PS_VERSION_START: 8.1.0
+            PS_VERSION_END: 8.1.6
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.2
+          - PS_VERSION_START: 8.1.0
+            PS_VERSION_END: 8.1.6
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.3
+
     env:
       PS_DOCKER: ${{ matrix.PS_VERSION_START }}-${{ matrix.PHP_VERSION }}
     steps:
