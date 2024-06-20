@@ -179,7 +179,7 @@ class UpgradeContainer
      */
     private $psRootDir;
 
-    public function __construct($psRootDir, $adminDir, $moduleSubDir = 'autoupgrade')
+    public function __construct(string $psRootDir, string $adminDir, string $moduleSubDir = 'autoupgrade')
     {
         $this->autoupgradeWorkDir = $adminDir . DIRECTORY_SEPARATOR . $moduleSubDir;
         $this->adminDir = $adminDir;
@@ -415,7 +415,7 @@ class UpgradeContainer
         return $this->logger;
     }
 
-    public function setLogger(Logger $logger)
+    public function setLogger(Logger $logger): void
     {
         $this->logger = $logger;
     }
@@ -470,6 +470,8 @@ class UpgradeContainer
 
     /**
      * @throws LoaderError
+     *
+     * @return \Twig\Environment|\Twig_Environment
      */
     public function getTwig()
     {

@@ -312,10 +312,7 @@ class UpgradeSelfCheck
         return $this->rootWritableReport;
     }
 
-    /**
-     * @return string|false
-     */
-    public function getModuleVersion()
+    public function getModuleVersion(): ?string
     {
         return $this->prestashopConfiguration->getModuleVersion();
     }

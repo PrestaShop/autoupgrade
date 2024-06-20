@@ -58,13 +58,20 @@ class Autoupgrade extends Module
         $this->ps_versions_compliancy = ['min' => '1.7.0.0', 'max' => _PS_VERSION_];
     }
 
-    /** following the Core documentation :
-    /* https://devdocs.prestashop-project.org/8/modules/creation/module-translation/new-system/#translating-your-module **/
+    /**
+     * following the Core documentation :
+     * https://devdocs.prestashop-project.org/8/modules/creation/module-translation/new-system/#translating-your-module
+     *
+     * @return bool
+     */
     public function isUsingNewTranslationSystem()
     {
         return true;
     }
 
+    /**
+     * @return bool
+     */
     public function install()
     {
         require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/classes/VersionUtils.php';
@@ -114,6 +121,9 @@ class Autoupgrade extends Module
         return parent::install();
     }
 
+    /**
+     * @return bool
+     */
     public function uninstall()
     {
         // Delete the 1-click upgrade Back-office tab
@@ -128,6 +138,9 @@ class Autoupgrade extends Module
         return parent::uninstall();
     }
 
+    /**
+     * @return void
+     */
     public function getContent()
     {
         Tools::redirectAdmin($this->context->link->getAdminLink('AdminSelfUpgrade'));
@@ -147,6 +160,11 @@ class Autoupgrade extends Module
         return false;
     }
 
+    /**
+     * @param string $dir
+     *
+     * @return void
+     */
     private static function _removeDirectory($dir)
     {
         if ($handle = @opendir($dir)) {
@@ -170,9 +188,11 @@ class Autoupgrade extends Module
      * Making them available for PS 1.6 as well.
      *
      * @param string $id
-     * @param array $parameters
+     * @param array<int|string, int|string> $parameters $parameters
      * @param string $domain
      * @param string $locale
+     *
+     * @return string
      */
     public function trans($id, array $parameters = [], $domain = null, $locale = null)
     {

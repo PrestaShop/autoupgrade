@@ -30,6 +30,7 @@ namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\ZipAction;
+use PrestaShop\PrestaShop\Adapter\Module\Repository\ModuleRepository;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -116,10 +117,7 @@ class ModuleAdapter
         deactivate_custom_modules();
     }
 
-    /**
-     * @param \PrestaShop\PrestaShop\Adapter\Module\Repository\ModuleRepository $moduleRepository
-     */
-    public function disableNonNativeModules80(string $pathToUpgradeScripts, $moduleRepository): void
+    public function disableNonNativeModules80(string $pathToUpgradeScripts, ModuleRepository $moduleRepository): void
     {
         require_once $pathToUpgradeScripts . 'php/deactivate_custom_modules.php';
         deactivate_custom_modules80($moduleRepository);

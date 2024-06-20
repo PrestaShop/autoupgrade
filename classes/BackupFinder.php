@@ -30,7 +30,7 @@ namespace PrestaShop\Module\AutoUpgrade;
 class BackupFinder
 {
     /**
-     * @var string[]
+     * @var array<int, string>
      */
     private $availableBackups;
 
@@ -50,7 +50,7 @@ class BackupFinder
     }
 
     /**
-     * @return array
+     * @return array<int, string>
      */
     public function getAvailableBackups(): array
     {
@@ -62,7 +62,7 @@ class BackupFinder
     }
 
     /**
-     * @return array
+     * @return array<int, string>
      */
     private function buildBackupList(): array
     {
@@ -72,6 +72,9 @@ class BackupFinder
         );
     }
 
+    /**
+     * @return array<int, string>
+     */
     private function getBackupDbAvailable(string $backupPath): array
     {
         $array = [];
@@ -87,6 +90,9 @@ class BackupFinder
         return $array;
     }
 
+    /**
+     * @return array<int, string>
+     */
     private function getBackupFilesAvailable(string $backupPath): array
     {
         $array = [];

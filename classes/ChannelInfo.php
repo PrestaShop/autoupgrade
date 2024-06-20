@@ -31,6 +31,9 @@ use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 
 class ChannelInfo
 {
+    /**
+     * @var array<string, mixed>
+     */
     private $info = [];
 
     /**
@@ -95,6 +98,9 @@ class ChannelInfo
         }
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getInfo(): array
     {
         return $this->info;

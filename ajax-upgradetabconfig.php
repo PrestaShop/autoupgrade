@@ -36,6 +36,8 @@ if (function_exists('date_default_timezone_set')) {
  * Set constants & general values used by the autoupgrade.
  *
  * @param string $callerFilePath Path to the caller file. Needed as the two files are not in the same folder
+ *
+ * @return \PrestaShop\Module\AutoUpgrade\UpgradeContainer
  */
 function autoupgrade_init_container($callerFilePath)
 {
