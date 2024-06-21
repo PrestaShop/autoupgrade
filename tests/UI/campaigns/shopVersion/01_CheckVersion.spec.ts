@@ -15,7 +15,6 @@ const psVersion = utilsTest.getPSVersion();
 
 /*
  Open BO
- Check new version lin login page
  Login
  Check new version in dashboard page
  */
