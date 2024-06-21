@@ -249,7 +249,7 @@
       </trans-unit>
       <trans-unit id="aeae8fea8fa0e49659920920eaf04248">
         <source>If you can't access the back-office and need to see what's wrong, manually enable debug mode in config/defines.inc.php by changing _PS_MODE_DEV_ to true.</source>
-        <target state="needs-translation">If you can't access the back-office and need to see what's wrong, manually enable debug mode in config/defines.inc.php by changing _PS_MODE_DEV_ to true.</target>
+        <target state="translated">Jeśli nie możesz uzyskać dostępu do back-office i chcesz sprawdzić, co jest nie tak, ręcznie włącz tryb debugowania w config/defines.inc.php, zmieniając _PS_MODE_DEV_ na true.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="bb64b7cb55bd1db0abc03b6884144113">
@@ -394,7 +394,7 @@
       </trans-unit>
       <trans-unit id="9c48e683e6132f6e6147f1bc24b97e25">
         <source>No XML file has been selected.</source>
-        <target state="needs-translation">No XML file has been selected.</target>
+        <target state="translated">Nie wybrano pliku XML.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="19f823c6453c2b1ffd09cb715214813d">
@@ -439,7 +439,7 @@
       </trans-unit>
       <trans-unit id="7d061dd94a106d80d75d3e615294eb75">
         <source>Data integrity is not valid, the files might have been corrupted, or a hack attempt might have occured.</source>
-        <target state="needs-translation">Data integrity is not valid, the files might have been corrupted, or a hack attempt might have occured.</target>
+        <target state="translated">Integralność danych jest nieprawidłowa, pliki mogły zostać uszkodzone lub mogła nastąpić próba włamania.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="8fd007bf08e0717537825a3e91cb4fcc">
@@ -674,32 +674,32 @@
       </trans-unit>
       <trans-unit id="4d46d96c1ea641735ee0c26c6381c75e">
         <source>API keys not present in parameters, generating</source>
-        <target state="needs-translation">API keys not present in parameters, generating</target>
+        <target state="translated">Generowanie kluczy API nieobecnych w parametrach</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="f32686b54f6af06671f1c3575df12c7c">
         <source>Keys generated using openssl_pkey_new, exporting private and public keys</source>
-        <target state="needs-translation">Keys generated using openssl_pkey_new, exporting private and public keys</target>
+        <target state="translated">Klucze wygenerowane przy użyciu openssl_pkey_new, eksportowanie kluczy prywatnych i publicznych</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="a971bd83f9fe8a03c10c29a065d3bd41">
         <source>Updating parameters file</source>
-        <target state="needs-translation">Updating parameters file</target>
+        <target state="translated">Aktualizowanie pliku parametrów</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="f24283fb7f4ba875f0f8c0391587695e">
         <source>Unable to migrate parameters</source>
-        <target state="needs-translation">Unable to migrate parameters</target>
+        <target state="translated">Nie można zmigrować parametrów</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="43987038411fdc693ba35bf02e6cf496">
         <source>Invalidating opcache for parameters file</source>
-        <target state="needs-translation">Invalidating opcache for parameters file</target>
+        <target state="translated">Unieważnianie opcache dla pliku parametrów</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="d87028000710df8bad6886cfc6b4c98b">
         <source>Parameters file updated</source>
-        <target state="needs-translation">Parameters file updated</target>
+        <target state="translated">Zaktualizowano plik parametrów</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="ebd70d87d57d2e22c5fb9cb1fa959f92">
@@ -709,7 +709,7 @@
       </trans-unit>
       <trans-unit id="1439aa876aad656c4e8ddc2b06ce32d2">
         <source>Error while updating translations for the language pack %lang%. %details%</source>
-        <target state="needs-translation">Error while updating translations for the language pack %lang%. %details%</target>
+        <target state="translated">Wystąpił błąd podczas aktualizacji tłumaczeń pakietu językowego %lang%. %details%</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="f7b8fb04eca61009a5ff2f578d374a8b">
@@ -719,17 +719,17 @@
       </trans-unit>
       <trans-unit id="d90307511d557233464da663999f3151">
         <source>Initializing required environment constants</source>
-        <target state="needs-translation">Initializing required environment constants</target>
+        <target state="translated">Inicjowanie wymaganych stałych środowiskowych</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="956ef5a4e2df09d2f7415c9f1284d17c">
         <source>Checking version validity</source>
-        <target state="needs-translation">Checking version validity</target>
+        <target state="translated">Sprawdzanie ważności wersji</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="284a35fa27c84dae6a16f8b52d0715f6">
         <source>Checking connection to database</source>
-        <target state="needs-translation">Checking connection to database</target>
+        <target state="translated">Sprawdzanie połączenia z bazą danych</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="b3884f9e8ed49a8d7165787d3adec342">
@@ -739,22 +739,22 @@
       </trans-unit>
       <trans-unit id="de4026a3fc9813c32f3a247370c29f54">
         <source>Disabling all non native modules</source>
-        <target state="needs-translation">Disabling all non native modules</target>
+        <target state="translated">Wyłączenie wszystkich nienatywnych modułów</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="ffb63e7ff1e05430b4a292ac8651f1e4">
         <source>Keeping non native modules enabled</source>
-        <target state="needs-translation">Keeping non native modules enabled</target>
+        <target state="translated">Pozostawianie włączonych modułów nienatywnych</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="c5ada796f937732385b6594d7364b69a">
         <source>Updating database data and structure</source>
-        <target state="needs-translation">Updating database data and structure</target>
+        <target state="translated">Aktualizacja danych i struktury bazy danych</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="4e32fd9d99ee0c3370c870d4da3d31a9">
         <source>Running generic queries</source>
-        <target state="needs-translation">Running generic queries</target>
+        <target state="translated">Uruchamianie zapytań ogólnych</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="257f5523f283710c6859d8f425a0c657">
@@ -764,27 +764,27 @@
       </trans-unit>
       <trans-unit id="72c863d76f8a8e5b1d17f818894df989">
         <source>Upgrading languages</source>
-        <target state="needs-translation">Upgrading languages</target>
+        <target state="translated">Uaktualnianie języków</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="88bbbc84f51424b4b0c6da6aec2c2154">
         <source>Regenerating htaccess</source>
-        <target state="needs-translation">Regenerating htaccess</target>
+        <target state="translated">Regenerowanie htaccess</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="128e1c61a1a4477ec05609569cc4d9d8">
         <source>Cleaning XML files</source>
-        <target state="needs-translation">Cleaning XML files</target>
+        <target state="translated">Czyszczenie plików XML</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="ed176ad3db6e004d4c272928acf3d0ac">
         <source>Disabling overrides</source>
-        <target state="needs-translation">Disabling overrides</target>
+        <target state="translated">Wyłączanie zastąpień</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="12473a5949de1a1cd37806a14a56dbde">
         <source>Keeping overrides in place</source>
-        <target state="needs-translation">Keeping overrides in place</target>
+        <target state="translated">Zachowywanie nadpisań</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="9c7e0ba2c6ecb11af7f39843bbc18ff8">
@@ -834,7 +834,7 @@
       </trans-unit>
       <trans-unit id="53983059bf39e1325bba11081ca40e97">
         <source>Keeping current theme</source>
-        <target state="needs-translation">Keeping current theme</target>
+        <target state="translated">Zachowywanie aktualnego motywu</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="796b7c49e21f09173214f029c7f02f9d">
@@ -844,32 +844,32 @@
       </trans-unit>
       <trans-unit id="badf6aad60d4a95b698028bc55aa3347">
         <source>Cleaning file cache</source>
-        <target state="needs-translation">Cleaning file cache</target>
+        <target state="translated">Czyszczenie pamięci podręcznej plików</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="8c4204265814594491ae20c9899a0fff">
         <source>Running opcache_reset</source>
-        <target state="needs-translation">Running opcache_reset</target>
+        <target state="translated">Uruchamianie opcache_reset</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="b5ffb77b13ab03298982a49842ce78aa">
         <source>%lang% is not a valid iso code, skipping</source>
-        <target state="needs-translation">%lang% is not a valid iso code, skipping</target>
+        <target state="translated">%lang% nie jest prawidłowym kodem ISO, pomijam</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="141ff76ab0d97a8ec25a295f763c9acc">
         <source>Downloading language pack for %lang%</source>
-        <target state="needs-translation">Downloading language pack for %lang%</target>
+        <target state="translated">Pobieranie pakietu językowego %lang%</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="3bd67bb11ef4eca367343a48a437116c">
         <source>Installing %lang% language pack</source>
-        <target state="needs-translation">Installing %lang% language pack</target>
+        <target state="translated">Instalowanie pakietu językowego %lang%</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="56f2d5890d12afbf29f105bcf5fc2624">
         <source>Generating mail templates for %lang%</source>
-        <target state="needs-translation">Generating mail templates for %lang%</target>
+        <target state="translated">Generowanie szablonów poczty dla %lang%</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="eb98c1e496a76fc9a930ed4731977498">
@@ -1459,7 +1459,7 @@
       </trans-unit>
       <trans-unit id="382b0f5185773fa0f67a8ed8056c7759">
         <source>N/A</source>
-        <target state="needs-translation">N/A</target>
+        <target state="translated">Nie dotyczy</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="628decaabab912af39cfda7aaf47b059">
@@ -1509,12 +1509,12 @@
       </trans-unit>
       <trans-unit id="93cba07454f06a4a960172bbd6e2a435">
         <source>Yes</source>
-        <target state="needs-translation">Yes</target>
+        <target state="translated">Tak</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="bafd7322c6e97d25b6299b5d6fe8920b">
         <source>No</source>
-        <target state="needs-translation">No</target>
+        <target state="translated">Nie</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="017697f698d570dffed5f88a5a933d01">
@@ -1534,7 +1534,7 @@
       </trans-unit>
       <trans-unit id="d8d67c977419d047e2a73c456db8f721">
         <source>Could not close the Zip file: %toFile% properly. Check you are allowed to write on the disk and there is available space on it.</source>
-        <target state="needs-translation">Could not close the Zip file: %toFile% properly. Check you are allowed to write on the disk and there is available space on it.</target>
+        <target state="translated">Nie można poprawnie zamknąć pliku Zip: %toFile%. Sprawdź, czy możesz zapisywać na dysku i czy jest na nim dostępne miejsce.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="9311ab161709b4f5efe9c6ff08b33699">
@@ -1574,27 +1574,27 @@
       </trans-unit>
       <trans-unit id="8012aa06d5ed29946347086bf1648078">
         <source>PHP Version notice</source>
-        <target state="needs-translation">PHP Version notice</target>
+        <target state="translated">Informacja o wersji PHP</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="30bb88eb7785bc93183a3af5ecba377f">
         <source>The PHP version your shop is running on is insecure.</source>
-        <target state="needs-translation">The PHP version your shop is running on is insecure.</target>
+        <target state="translated">Wersja PHP, na której działa Twój sklep, jest niebezpieczna.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="2d6337fe0f270f9c7164e85545caa02e">
         <source>It reached its end-of-life, which means it won't get security updates anymore and projects will stop supporting it.</source>
-        <target state="needs-translation">It reached its end-of-life, which means it won't get security updates anymore and projects will stop supporting it.</target>
+        <target state="translated">Osiągnął koniec życia, co oznacza, że nie będzie już otrzymywać aktualizacji zabezpieczeń, a projekty przestaną go wspierać.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="bdd54caf9f54c19bebbe7b841d497f3a">
         <source>Upgrading will keep your shop secured and performant.</source>
-        <target state="needs-translation">Upgrading will keep your shop secured and performant.</target>
+        <target state="translated">Aktualizacja zapewni bezpieczeństwo i wydajność twojego sklepu.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="013db824ec6c77f40caf0af5a7518425">
         <source>Learn more about PHP and upgrading</source>
-        <target state="needs-translation">Learn more about PHP and upgrading</target>
+        <target state="translated">Dowiedz się więcej o PHP i aktualizacji</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="9a843f20677a52ca79af903123147af0">
@@ -1989,7 +1989,7 @@
       </trans-unit>
       <trans-unit id="8406b91fd5a290de3a1e1516db6e79b8">
         <source>Unable to generate private keys using openssl_pkey_new. Check your OpenSSL configuration, especially the path to openssl.cafile.</source>
-        <target state="needs-translation">Unable to generate private keys using openssl_pkey_new. Check your OpenSSL configuration, especially the path to openssl.cafile.</target>
+        <target state="translated">Nie można wygenerować kluczy prywatnych przy użyciu openssl_pkey_new. Sprawdź konfigurację OpenSSL, zwłaszcza ścieżkę do openssl.cafile.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="e78a48236a7c0830aa9de157a415e44c">
@@ -2004,7 +2004,7 @@
       </trans-unit>
       <trans-unit id="3f3a0789a5678daaa3cd41067dd6855e">
         <source>The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table. [1]Learn more[/1].</source>
-        <target state="needs-translation">The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table. [1]Learn more[/1].</target>
+        <target state="translated">Wersja PrestaShop nie jest zgodna z wersją zapisaną w bazie danych. Struktura Twojej bazy danych może być nieaktualna i/lub wartość PS_VERSION_DB wymaga aktualizacji w tabeli konfiguracyjnej. [1]Dowiedz się więcej[/1].</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="aa9b0228ac4e3e44b836f79eebf5e481">
