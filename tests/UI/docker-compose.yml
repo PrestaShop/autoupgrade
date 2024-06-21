@@ -2,12 +2,13 @@ version: '3.7'
 
 services:
   prestashop:
-    image: prestashop/prestashop:${PS_VERSION}-apache
+    image: prestashop/prestashop:${PS_VERSION}
     container_name: prestashop
     depends_on:
       - mysql
     environment:
       - PS_DEV_MODE=1
+      - PS_INSTALL_AUTO:${PS_INSTALL_AUTO:-1}
       - PS_DOMAIN=localhost
       - PS_LANGUAGE=en
       - PS_COUNTRY=fr
