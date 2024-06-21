@@ -199,7 +199,7 @@
       </trans-unit>
       <trans-unit id="f2a6c498fb90ee345d997f888fce3b18">
         <source>Delete</source>
-        <target state="needs-translation">Delete</target>
+        <target state="translated">Usuń</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="f03a04d1f440e359840035679b49b212">
@@ -1614,7 +1614,7 @@
       </trans-unit>
       <trans-unit id="c9cc8cce247e49bae79f15173ce97354">
         <source>Save</source>
-        <target state="needs-translation">Save</target>
+        <target state="translated">Zapisz</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="2b16564e6e838ce86608620b70beb570">
@@ -1754,7 +1754,7 @@
       </trans-unit>
       <trans-unit id="ef2f59f06132ddc2e1bc8d00abbe6e02">
         <source>Link:</source>
-        <target state="needs-translation">Link:</target>
+        <target state="translated">Link:</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="6e843a36f447872179db90ceff68d970">
@@ -2024,17 +2024,17 @@
       </trans-unit>
       <trans-unit id="78945de8de090e90045d299651a68a9b">
         <source>Available</source>
-        <target state="needs-translation">Available</target>
+        <target state="translated">Dostępny</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="453e6aa38d87b28ccae545967c53004f">
         <source>Unavailable</source>
-        <target state="needs-translation">Unavailable</target>
+        <target state="translated">Niedostępny</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="4e140ba723a03baa6948340bf90e2ef6">
         <source>Name:</source>
-        <target state="needs-translation">Name:</target>
+        <target state="translated">Nazwa:</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="987023af1c4e507ea04eb5069578f7f0">
