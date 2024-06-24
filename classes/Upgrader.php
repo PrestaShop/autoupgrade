@@ -47,7 +47,7 @@ class Upgrader
 
     /** @var string */
     public $version_name;
-    /** @var string */
+    /** @var ?string */
     public $version_num;
     /**
      * @var string contains the url to download the file

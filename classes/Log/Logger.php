@@ -42,7 +42,7 @@ abstract class Logger implements LoggerInterface
     const EMERGENCY = 8;
 
     /**
-     * @var array<int, string>
+     * @var string[]
      */
     protected static $levels = [
         self::DEBUG => 'DEBUG',

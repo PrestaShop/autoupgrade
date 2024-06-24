@@ -354,7 +354,7 @@ abstract class CoreUpgrader
      *
      * @param array<string, string> $sqlFiles
      *
-     * @return array<string, array<int, string>> of SQL requests per version
+     * @return array<string, string[]> of SQL requests per version
      */
     protected function applySqlParams(array $sqlFiles): array
     {
@@ -388,6 +388,8 @@ abstract class CoreUpgrader
         // If php code have to be executed
         if (strpos($query, '/* PHP:') !== false) {
             $this->runPhpQuery($upgrade_file, $query);
+
+            return;
         }
         $this->runSqlQuery($upgrade_file, $query);
     }
