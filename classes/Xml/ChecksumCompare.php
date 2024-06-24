@@ -150,7 +150,7 @@ class ChecksumCompare
     /**
      * Compare the md5sum of the current files with the md5sum of the original.
      *
-     * @param array<int, string> $current_path
+     * @param string[] $current_path
      */
     protected function browseXmlAndCompare(SimpleXMLElement $node, array &$current_path = [], int $level = 1): void
     {

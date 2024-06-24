@@ -115,7 +115,7 @@ class VersionUtils
     /**
      * @param string $version
      *
-     * @return array{'major': string,'minor': string,'patch': string}|null
+     * @return array{'major': string,'minor': string,'patch': string}
      */
     public static function splitPrestaShopVersion($version)
     {

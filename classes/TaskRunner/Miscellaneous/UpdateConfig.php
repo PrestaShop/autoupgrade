@@ -110,7 +110,7 @@ class UpdateConfig extends AbstractTask
                 $this->error = true;
                 $this->logger->info($this->translator->trans('Prestashop version detected in the xml (%s) does not match the zip version (%s).', [$xmlVersion, $targetVersion]));
 
-                return false;
+                return ExitCode::FAIL;
             }
 
             $config['channel'] = 'archive';

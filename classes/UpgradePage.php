@@ -328,7 +328,7 @@ class UpgradePage
     }
 
     /**
-     * @return array<int, string>
+     * @return string[]
      */
     private function _getJsErrorMsgs(): array
     {
