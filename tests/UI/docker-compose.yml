@@ -23,9 +23,6 @@ services:
       - DB_PASSWD=prestashop
       - DB_NAME=prestashop
       - DB_PREFIX=ps_
-    # We must wait the database for the initialization and/or clear steps, because the waiting phase is conditioned by the variable PS_INSTALL_AUTO
-    # https://github.com/PrestaShop/docker/blob/master/base/config_files/docker_run.sh#L7
-    command: sh -c 'while ! mysql -hmysql -uroot -proot -e "status"; do sleep 1; done && /tmp/docker_run.sh'
     volumes:
       - type: bind
         # Local Path
