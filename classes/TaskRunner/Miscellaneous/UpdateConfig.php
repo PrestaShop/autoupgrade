@@ -95,12 +95,23 @@ class UpdateConfig extends AbstractTask
             }
 
             $xmlFile = $configurationData['archive_xml'];
-            if (!empty($xmlFile) && !file_exists($this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $xmlFile)) {
+            $fullXmlPath = $this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $xmlFile;
+            if (!empty($xmlFile) && !file_exists($fullXmlPath)) {
                 $this->error = true;
                 $this->logger->info($this->translator->trans('File %s does not exist. Unable to select that channel.', [$xmlFile]));
 
                 return false;
             }
+
+            $xmlVersion = $this->getXmlVersion($fullXmlPath);
+
+            if ($xmlVersion !== $targetVersion) {
+                $this->error = true;
+                $this->logger->info($this->translator->trans('Prestashop version detected in the xml (%s) does not match the zip version (%s).', [$xmlVersion, $targetVersion]));
+
+                return false;
+            }
+
             $config['channel'] = 'archive';
             $config['archive.filename'] = $configurationData['archive_prestashop'];
             $config['archive.version_num'] = $targetVersion;
@@ -235,5 +246,12 @@ class UpdateConfig extends AbstractTask
         } else {
             throw new RuntimeException('Unable to extract version from content');
         }
+    }
+
+    private function getXmlVersion(string $xmlPath): string
+    {
+        $xml = @simplexml_load_file($xmlPath);
+
+        return $xml->ps_root_dir['version'];
     }
 }
