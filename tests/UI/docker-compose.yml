@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   prestashop:
-    image: prestashop/prestashop:${PS_VERSION}
+    image: prestashop/prestashop:${PS_VERSION}-apache
     container_name: prestashop
     depends_on:
       - mysql
@@ -54,6 +54,8 @@ services:
       - MYSQL_ROOT_PASSWORD=prestashop
       - MYSQL_PORT=3306
       - MYSQL_DATABASE=prestashop
+    ports:
+      - "3306:3306"
 
   maildev:
     image: 'maildev/maildev'
