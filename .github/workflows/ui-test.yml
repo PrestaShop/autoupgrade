@@ -416,6 +416,7 @@ jobs:
         working-directory: tests/UI/
         env:
           PS_VERSION: ${{ env.PS_DOCKER }}${{ env.SUFFIX }}
+          PS_INSTALL_AUTO: 0
         run: |
           docker compose -f "docker-compose.yml" up -d --build
           bash -c 'while [[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost/)" != "200" ]]; do sleep 5; done'
