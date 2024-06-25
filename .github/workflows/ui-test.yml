@@ -419,7 +419,7 @@ jobs:
           PS_INSTALL_AUTO: 0
         run: |
           docker compose -f "docker-compose.yml" up -d --build
-          ${{ github.action_path }}check_url.sh http://localhost/ 200
+          ../../.github/check_url.sh http://localhost/ 200
           docker compose run -u prestashop --rm reference-release php -d memory_limit=-1 /var/www/html/install-dev/index_cli.php \
             --domain=localhost --db_server=mysql:3306 --db_name=psreference --db_user=root \
             --db_password=root --prefix=ps_ --firstname="John" --lastname="Doe" \
