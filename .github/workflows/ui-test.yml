@@ -407,6 +407,7 @@ jobs:
 
     env:
       PS_DOCKER: ${{ matrix.DOCKER_VERSION }}
+      SUFFIX: ${{ matrix.IMAGE_SUFFIX }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3.1.0
@@ -415,6 +416,7 @@ jobs:
         working-directory: tests/UI/
         env:
           PS_VERSION: ${{ env.PS_DOCKER }}
+          IMAGE_SUFFIX: ${{ env.SUFFIX }}
         run: |
           docker compose -f "docker-compose.yml" up -d --build
           bash -c 'while [[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost/en/)" != "200" ]]; do sleep 5; done'
