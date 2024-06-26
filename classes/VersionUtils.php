@@ -96,6 +96,18 @@ class VersionUtils
         return PHP_VERSION_ID >= self::MODULE_COMPATIBLE_PHP_VERSION;
     }
 
+    /**
+     * @param string $version
+     *
+     * @return string|null
+     */
+    public static function getPrestashopMajorVersion($version)
+    {
+        preg_match('#(([0-1]{1}\.[0-9]+)|([0-9]+))(?:\.[0-9]+){2}#', $version, $matches);
+
+        return $matches[1];
+    }
+
     public static function getPrestashopMinorVersion($version)
     {
         if (!is_string($version)) {

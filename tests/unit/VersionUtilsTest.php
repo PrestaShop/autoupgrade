@@ -103,23 +103,36 @@ class VersionUtilsTest extends TestCase
         $this->assertSame(PHP_MAJOR_VERSION * 10000 + PHP_MINOR_VERSION * 100, $version);
     }
 
-    public function testGetPrestashopMinorVersion()
+    /**
+     * @dataProvider providerOfPrestaShopVersions
+     */
+    public function testGetPrestashopMajorVersions(string $inputVersion, array $expected)
     {
-        $version = VersionUtils::getPrestashopMinorVersion('1.7.8.11');
+        $version = VersionUtils::getPrestashopMajorVersion($inputVersion);
 
-        $this->assertSame('1.7.8', $version);
+        $this->assertSame($expected['major'], $version);
+    }
 
-        $version = VersionUtils::getPrestashopMinorVersion('8.1.5');
+    /**
+     * @dataProvider providerOfPrestaShopVersions
+     */
+    public function testGetPrestashopMinorVersion(string $inputVersion, array $expected)
+    {
+        $version = VersionUtils::getPrestashopMinorVersion($inputVersion);
 
-        $this->assertSame('8.1', $version);
+        $this->assertSame($expected['minor'], $version);
+    }
 
-        $version = VersionUtils::getPrestashopMinorVersion('8.1.5');
-
-        $this->assertSame('8.1', $version);
-
-        $version = VersionUtils::getPrestashopMinorVersion('10.1.5');
-
-        $this->assertSame('10.1', $version);
+    public function providerOfPrestaShopVersions()
+    {
+        return [
+            ['1.6.1.12', ['major' => '1.6', 'minor' => '1.6.1']],
+            ['1.7.8.11', ['major' => '1.7', 'minor' => '1.7.8']],
+            ['8.1.5', ['major' => '8', 'minor' => '8.1']],
+            ['8.1.5', ['major' => '8', 'minor' => '8.1']],
+            ['9.0.0', ['major' => '9', 'minor' => '9.0']],
+            ['10.1.5', ['major' => '10', 'minor' => '10.1']],
+        ];
     }
 
     public function testGetPrestashopMinorVersionFailForBadType()

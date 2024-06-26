@@ -43,8 +43,7 @@ class ChannelInfo
         $this->channel = $channel;
         $publicChannels = ['minor', 'major', 'rc', 'beta', 'alpha'];
 
-        preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', _PS_VERSION_, $matches);
-        $upgrader->branch = $matches[1];
+        $upgrader->branch = VersionUtils::getPrestashopMajorVersion(_PS_VERSION_);
         $upgrader->channel = $channel;
 
         if (in_array($channel, $publicChannels)) {
