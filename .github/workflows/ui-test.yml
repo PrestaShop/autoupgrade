@@ -28,17 +28,95 @@ jobs:
             PHP_VERSION: 7.1
             DOCKER_VERSION: 1.7.0.0
             IMAGE_SUFFIX:
+          - PS_VERSION_START: 1.7.0.1
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            IMAGE_SUFFIX:
+            DOCKER_VERSION: 1.7.0.1
+          - PS_VERSION_START: 1.7.0.2
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            DOCKER_VERSION: 1.7.0.2
+            IMAGE_SUFFIX:
+          - PS_VERSION_START: 1.7.0.3
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            DOCKER_VERSION: 1.7.0.3
+            IMAGE_SUFFIX:
+          - PS_VERSION_START: 1.7.0.4
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            DOCKER_VERSION: 1.7.0.4
+            IMAGE_SUFFIX:
+          - PS_VERSION_START: 1.7.0.5
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            DOCKER_VERSION: 1.7.0.5
+            IMAGE_SUFFIX:
+          - PS_VERSION_START: 1.7.0.6
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            DOCKER_VERSION: 1.7.0.6
+            IMAGE_SUFFIX:
           - PS_VERSION_START: 1.7.1.0
             PS_VERSION_END: 1.7.8.11
             UPGRADE_CHANNEL: minor
             PHP_VERSION: 7.1
             IMAGE_SUFFIX:
             DOCKER_VERSION: 1.7.1.0
+          - PS_VERSION_START: 1.7.1.0
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            IMAGE_SUFFIX:
+            DOCKER_VERSION: 1.7.1.0
+          - PS_VERSION_START: 1.7.1.2
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            IMAGE_SUFFIX:
+            DOCKER_VERSION: 1.7.1.2
           - PS_VERSION_START: 1.7.2.0
             PS_VERSION_END: 1.7.8.11
             UPGRADE_CHANNEL: minor
             PHP_VERSION: 7.1
             DOCKER_VERSION: 1.7.2.0
+            IMAGE_SUFFIX:
+          - PS_VERSION_START: 1.7.2.1
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            DOCKER_VERSION: 1.7.2.1
+            IMAGE_SUFFIX:
+          - PS_VERSION_START: 1.7.2.2
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            DOCKER_VERSION: 1.7.2.2
+            IMAGE_SUFFIX:
+          - PS_VERSION_START: 1.7.2.3
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            DOCKER_VERSION: 1.7.2.3
+            IMAGE_SUFFIX:
+          - PS_VERSION_START: 1.7.2.4
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            DOCKER_VERSION: 1.7.2.4
+            IMAGE_SUFFIX:
+          - PS_VERSION_START: 1.7.2.5
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            DOCKER_VERSION: 1.7.2.5
             IMAGE_SUFFIX:
           - PS_VERSION_START: 1.7.3.0
             PS_VERSION_END: 1.7.8.11
@@ -46,22 +124,123 @@ jobs:
             PHP_VERSION: 7.1
             DOCKER_VERSION: 1.7.3.0
             IMAGE_SUFFIX:
+          - PS_VERSION_START: 1.7.3.1
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            DOCKER_VERSION: 1.7.3.1
+            IMAGE_SUFFIX:
+          - PS_VERSION_START: 1.7.3.2
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            DOCKER_VERSION: 1.7.3.2
+            IMAGE_SUFFIX:
+          - PS_VERSION_START: 1.7.3.3
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            DOCKER_VERSION: 1.7.3.3
+            IMAGE_SUFFIX:
+          - PS_VERSION_START: 1.7.3.4
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            DOCKER_VERSION: 1.7.3.4
+            IMAGE_SUFFIX:
           - PS_VERSION_START: 1.7.4.0
             PS_VERSION_END: 1.7.8.11
             UPGRADE_CHANNEL: minor
             PHP_VERSION: 7.1
             DOCKER_VERSION: 1.7.4.0
             IMAGE_SUFFIX:
+          - PS_VERSION_START: 1.7.4.1
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            DOCKER_VERSION: 1.7.4.1
+            IMAGE_SUFFIX:
+          - PS_VERSION_START: 1.7.4.2
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            DOCKER_VERSION: 1.7.4.2
+            IMAGE_SUFFIX:
+          - PS_VERSION_START: 1.7.4.3
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            DOCKER_VERSION: 1.7.4.3
+            IMAGE_SUFFIX:
+          - PS_VERSION_START: 1.7.4.4
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            DOCKER_VERSION: 1.7.4.4
+            IMAGE_SUFFIX:
           - PS_VERSION_START: 1.7.5.0
             PS_VERSION_END: 1.7.8.11
             UPGRADE_CHANNEL: minor
             PHP_VERSION: 7.1
             DOCKER_VERSION: 1.7.5.0
+          - PS_VERSION_START: 1.7.5.0
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            DOCKER_VERSION: 1.7.5.0
+          - PS_VERSION_START: 1.7.5.1
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            DOCKER_VERSION: 1.7.5.1
+            IMAGE_SUFFIX:
+          - PS_VERSION_START: 1.7.5.2
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            DOCKER_VERSION: 1.7.5.2
+            IMAGE_SUFFIX:
           - PS_VERSION_START: 1.7.6.0
             PS_VERSION_END: 1.7.8.11
             UPGRADE_CHANNEL: minor
             PHP_VERSION: 7.1
             DOCKER_VERSION: 1.7.6.0
+            IMAGE_SUFFIX:
+          - PS_VERSION_START: 1.7.6.1
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            DOCKER_VERSION: 1.7.6.1
+            IMAGE_SUFFIX:
+          - PS_VERSION_START: 1.7.6.2
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            DOCKER_VERSION: 1.7.6.2
+            IMAGE_SUFFIX:
+          - PS_VERSION_START: 1.7.6.3
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            DOCKER_VERSION: 1.7.6.3
+            IMAGE_SUFFIX:
+          - PS_VERSION_START: 1.7.6.4
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            DOCKER_VERSION: 1.7.6.4
+            IMAGE_SUFFIX:
+          - PS_VERSION_START: 1.7.6.5
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            DOCKER_VERSION: 1.7.6.5
+            IMAGE_SUFFIX:
+          - PS_VERSION_START: 1.7.6.6
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            DOCKER_VERSION: 1.7.6.6
             IMAGE_SUFFIX:
           - PS_VERSION_START: 1.7.6.7
             PS_VERSION_END: 1.7.8.11
@@ -69,11 +248,71 @@ jobs:
             PHP_VERSION: 7.1
             DOCKER_VERSION: 1.7.6.7
             IMAGE_SUFFIX:
+          - PS_VERSION_START: 1.7.6.8
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            DOCKER_VERSION: 1.7.6.8
+            IMAGE_SUFFIX:
+          - PS_VERSION_START: 1.7.6.9
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            DOCKER_VERSION: 1.7.6.6
+            IMAGE_SUFFIX:
           - PS_VERSION_START: 1.7.7.0
             PS_VERSION_END: 1.7.8.11
             UPGRADE_CHANNEL: minor
             PHP_VERSION: 7.1
             DOCKER_VERSION: 1.7.7.0
+            IMAGE_SUFFIX:
+          - PS_VERSION_START: 1.7.7.1
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            DOCKER_VERSION: 1.7.7.1
+            IMAGE_SUFFIX:
+          - PS_VERSION_START: 1.7.7.2
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            DOCKER_VERSION: 1.7.7.2
+            IMAGE_SUFFIX:
+          - PS_VERSION_START: 1.7.7.3
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            DOCKER_VERSION: 1.7.7.3
+            IMAGE_SUFFIX:
+          - PS_VERSION_START: 1.7.7.4
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            DOCKER_VERSION: 1.7.7.4
+            IMAGE_SUFFIX:
+          - PS_VERSION_START: 1.7.7.5
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            DOCKER_VERSION: 1.7.7.5
+            IMAGE_SUFFIX:
+          - PS_VERSION_START: 1.7.7.6
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            DOCKER_VERSION: 1.7.7.6
+            IMAGE_SUFFIX:
+          - PS_VERSION_START: 1.7.7.7
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            DOCKER_VERSION: 1.7.7.7
+            IMAGE_SUFFIX:
+          - PS_VERSION_START: 1.7.7.8
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.1
+            DOCKER_VERSION: 1.7.7.8
             IMAGE_SUFFIX:
           - PS_VERSION_START: 1.7.8.0
             PS_VERSION_END: 1.7.8.11
