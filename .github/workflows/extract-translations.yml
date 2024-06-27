@@ -1,0 +1,37 @@
+on:
+  push:
+    branches:
+      - feat/auto-export-translation
+
+jobs:
+  sync-translations:
+    name: Extract translations and submit a PR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout module-translation-tool
+        uses: actions/checkout@v4
+        with:
+          repository: PrestaShopCorp/module-translation-tool
+          ref: main
+      - name: Create config for module-translation-tool
+        run: |
+          cp ./module.cfg.example ./module.cfg
+          sed -i 's/^MODULE_NAME.*/MODULE_NAME="autoupgrade"/g' ./module.cfg
+          sed -i 's/^GIT_REPO_USERNAME.*/GIT_REPO_USERNAME="PrestaShop"/g' ./module.cfg
+          sed -i 's/^GIT_REPO_NAME.*/GIT_REPO_NAME="autoupgrade"/g' ./module.cfg
+          sed -i 's/^BRANCH.*/BRANCH="dev"/g' ./module.cfg
+      - name: Setup git config
+        run: |
+          git config --global user.name "Github Actions - Module translation tool"
+          git config --global user.email "<>"
+          git config --global credential.helper 'cache --timeout 3600'
+          git config --global url."https://oauth2:${{ secrets.JARVIS_TOKEN }}@github.com".insteadOf ssh://git@github.com
+      - run: composer install
+      - name: Extract translations and push
+        run: |
+          printenv
+          /bin/bash -eux ./scripts/extractCatalogue.sh
+          ls -la
+          /bin/bash -eux ./scripts/pushAndCreatePullRequest.sh
+        env:
+          APP_GITHUB_TOKEN: ${{ secrets.JARVIS_TOKEN }}
