@@ -31,7 +31,7 @@ jobs:
         run: |
           printenv
           /bin/bash -eux ./scripts/extractCatalogue.sh
-          ls -a catalog
+          ls -a catalog/autoupgrade
           /bin/bash -eux ./scripts/pushAndCreatePullRequest.sh
         env:
           APP_GITHUB_TOKEN: ${{ secrets.JARVIS_TOKEN }}
