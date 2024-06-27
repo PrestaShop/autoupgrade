@@ -154,14 +154,14 @@ class AdminSelfUpgradeController extends ModuleAdminController
         if (defined('_PS_ADMIN_DIR_')) {
             // Check that the 1-click upgrade working directory is existing or create it
             if (!file_exists($this->autoupgradePath) && !@mkdir($this->autoupgradePath)) {
-                $this->_errors[] = $this->module->trans('Unable to create the directory "%s"', [$this->autoupgradePath]);
+                $this->_errors[] = $this->trans('Unable to create the directory "%s"', [$this->autoupgradePath]);
 
                 return;
             }
 
             // Make sure that the 1-click upgrade working directory is writeable
             if (!is_writable($this->autoupgradePath)) {
-                $this->_errors[] = $this->module->trans('Unable to write in the directory "%s"', [$this->autoupgradePath]);
+                $this->_errors[] = $this->trans('Unable to write in the directory "%s"', [$this->autoupgradePath]);
 
                 return;
             }
@@ -182,7 +182,7 @@ class AdminSelfUpgradeController extends ModuleAdminController
             // Make sure that the XML config directory exists
             if (!file_exists(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml') &&
                 !@mkdir(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml', 0775)) {
-                $this->_errors[] = $this->module->trans('Unable to create the directory "%s"', [_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml']);
+                $this->_errors[] = $this->trans('Unable to create the directory "%s"', [_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml']);
 
                 return;
             } else {
@@ -193,7 +193,7 @@ class AdminSelfUpgradeController extends ModuleAdminController
             if (!file_exists(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml' . DIRECTORY_SEPARATOR . 'index.php') &&
                 (file_exists(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'index.php') &&
                     !@copy(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'index.php', _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml' . DIRECTORY_SEPARATOR . 'index.php'))) {
-                $this->_errors[] = $this->module->trans('Unable to create the directory "%s"', [_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml']);
+                $this->_errors[] = $this->trans('Unable to create the directory "%s"', [_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml']);
 
                 return;
             }
@@ -211,80 +211,80 @@ class AdminSelfUpgradeController extends ModuleAdminController
     {
         $this->_fieldsBackupOptions = [
             'PS_AUTOUP_BACKUP' => [
-                'title' => $this->module->trans('Back up my files and database'),
+                'title' => $this->trans('Back up my files and database'),
                 'cast' => 'intval',
                 'validation' => 'isBool',
                 'defaultValue' => '1',
                 'type' => 'bool',
-                'desc' => $this->module->trans('Automatically back up your database and files in order to restore your shop if needed. This is experimental: you should still perform your own manual backup for safety.'),
+                'desc' => $this->trans('Automatically back up your database and files in order to restore your shop if needed. This is experimental: you should still perform your own manual backup for safety.'),
             ],
             'PS_AUTOUP_KEEP_IMAGES' => [
-                'title' => $this->module->trans('Back up my images'),
+                'title' => $this->trans('Back up my images'),
                 'cast' => 'intval',
                 'validation' => 'isBool',
                 'defaultValue' => '1',
                 'type' => 'bool',
-                'desc' => $this->module->trans('To save time, you can decide not to back your images up. In any case, always make sure you did back them up manually.'),
+                'desc' => $this->trans('To save time, you can decide not to back your images up. In any case, always make sure you did back them up manually.'),
             ],
         ];
         $this->_fieldsUpgradeOptions = [
             'PS_AUTOUP_PERFORMANCE' => [
-                'title' => $this->module->trans('Server performance'),
+                'title' => $this->trans('Server performance'),
                 'cast' => 'intval',
                 'validation' => 'isInt',
                 'defaultValue' => '1',
                 'type' => 'select',
-                'desc' => $this->module->trans('Unless you are using a dedicated server, select "Low".') . '<br />' .
-                    $this->module->trans('A high value can cause the upgrade to fail if your server is not powerful enough to process the upgrade tasks in a short amount of time.'),
-                'choices' => [1 => $this->module->trans('Low (recommended)'), 2 => $this->module->trans('Medium'), 3 => $this->module->trans('High')],
+                'desc' => $this->trans('Unless you are using a dedicated server, select "Low".') . '<br />' .
+                    $this->trans('A high value can cause the upgrade to fail if your server is not powerful enough to process the upgrade tasks in a short amount of time.'),
+                'choices' => [1 => $this->trans('Low (recommended)'), 2 => $this->trans('Medium'), 3 => $this->trans('High')],
             ],
             'PS_AUTOUP_CUSTOM_MOD_DESACT' => [
-                'title' => $this->module->trans('Disable non-native modules'),
+                'title' => $this->trans('Disable non-native modules'),
                 'cast' => 'intval',
                 'validation' => 'isBool',
                 'type' => 'bool',
-                'desc' => $this->module->trans('As non-native modules can experience some compatibility issues, we recommend to disable them by default.') . '<br />' .
-                    $this->module->trans('Keeping them enabled might prevent you from loading the "Modules" page properly after the upgrade.'),
+                'desc' => $this->trans('As non-native modules can experience some compatibility issues, we recommend to disable them by default.') . '<br />' .
+                    $this->trans('Keeping them enabled might prevent you from loading the "Modules" page properly after the upgrade.'),
             ],
             'PS_DISABLE_OVERRIDES' => [
-                'title' => $this->module->trans('Disable all overrides'),
+                'title' => $this->trans('Disable all overrides'),
                 'cast' => 'intval',
                 'validation' => 'isBool',
                 'type' => 'bool',
-                'desc' => $this->module->trans('Enable or disable all classes and controllers overrides.'),
+                'desc' => $this->trans('Enable or disable all classes and controllers overrides.'),
             ],
             'PS_AUTOUP_UPDATE_DEFAULT_THEME' => [
-                'title' => $this->module->trans('Upgrade the default theme'),
+                'title' => $this->trans('Upgrade the default theme'),
                 'cast' => 'intval',
                 'validation' => 'isBool',
                 'defaultValue' => '1',
                 'type' => 'bool',
-                'desc' => $this->module->trans('If you customized the default PrestaShop theme in its folder (folder name "classic" in 1.7), enabling this option will lose your modifications.') . '<br />'
-                    . $this->module->trans('If you are using your own theme, enabling this option will simply update the default theme files, and your own theme will be safe.'),
+                'desc' => $this->trans('If you customized the default PrestaShop theme in its folder (folder name "classic" in 1.7), enabling this option will lose your modifications.') . '<br />'
+                    . $this->trans('If you are using your own theme, enabling this option will simply update the default theme files, and your own theme will be safe.'),
             ],
             'PS_AUTOUP_UPDATE_RTL_FILES' => [
-                'title' => $this->module->trans('Regenerate RTL stylesheet'),
+                'title' => $this->trans('Regenerate RTL stylesheet'),
                 'cast' => 'intval',
                 'validation' => 'isBool',
                 'defaultValue' => '1',
                 'type' => 'bool',
-                'desc' => $this->module->trans('If enabled, any RTL-specific files that you might have added to all your themes might be deleted by the created stylesheet.'),
+                'desc' => $this->trans('If enabled, any RTL-specific files that you might have added to all your themes might be deleted by the created stylesheet.'),
             ],
             'PS_AUTOUP_CHANGE_DEFAULT_THEME' => [
-                'title' => $this->module->trans('Switch to the default theme'),
+                'title' => $this->trans('Switch to the default theme'),
                 'cast' => 'intval',
                 'validation' => 'isBool',
                 'defaultValue' => '0',
                 'type' => 'bool',
-                'desc' => $this->module->trans('This will change your theme: your shop will then use the default theme of the version of PrestaShop you are upgrading to.'),
+                'desc' => $this->trans('This will change your theme: your shop will then use the default theme of the version of PrestaShop you are upgrading to.'),
             ],
             'PS_AUTOUP_KEEP_MAILS' => [
-                'title' => $this->module->trans('Keep the customized email templates'),
+                'title' => $this->trans('Keep the customized email templates'),
                 'cast' => 'intval',
                 'validation' => 'isBool',
                 'type' => 'bool',
-                'desc' => $this->module->trans('This will not upgrade the default PrestaShop e-mails.') . '<br />'
-                    . $this->module->trans('If you customized the default PrestaShop e-mail templates, enabling this option will keep your modifications.'),
+                'desc' => $this->trans('This will not upgrade the default PrestaShop e-mails.') . '<br />'
+                    . $this->trans('If you customized the default PrestaShop e-mail templates, enabling this option will keep your modifications.'),
             ],
         ];
     }
@@ -380,14 +380,14 @@ class AdminSelfUpgradeController extends ModuleAdminController
 
         if (!file_exists($this->backupPath . DIRECTORY_SEPARATOR . 'index.php')) {
             if (!copy(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'index.php', $this->backupPath . DIRECTORY_SEPARATOR . 'index.php')) {
-                $this->_errors[] = $this->module->trans('Unable to create file %s', [$this->backupPath . DIRECTORY_SEPARATOR . 'index.php']);
+                $this->_errors[] = $this->trans('Unable to create file %s', [$this->backupPath . DIRECTORY_SEPARATOR . 'index.php']);
             }
         }
 
         $tmp = "order deny,allow\ndeny from all";
         if (!file_exists($this->backupPath . DIRECTORY_SEPARATOR . '.htaccess')) {
             if (!file_put_contents($this->backupPath . DIRECTORY_SEPARATOR . '.htaccess', $tmp)) {
-                $this->_errors[] = $this->module->trans('Unable to create file %s', [$this->backupPath . DIRECTORY_SEPARATOR . '.htaccess']);
+                $this->_errors[] = $this->trans('Unable to create file %s', [$this->backupPath . DIRECTORY_SEPARATOR . '.htaccess']);
             }
         }
     }
@@ -447,7 +447,7 @@ class AdminSelfUpgradeController extends ModuleAdminController
             if ($res) {
                 Tools14::redirectAdmin(self::$currentIndex . '&conf=1&token=' . Tools14::getValue('token'));
             } else {
-                $this->_errors[] = $this->module->trans('Error when trying to delete backups %s', [$name]);
+                $this->_errors[] = $this->trans('Error when trying to delete backups %s', [$name]);
             }
         }
         parent::postProcess();

@@ -58,6 +58,13 @@ class Autoupgrade extends Module
         $this->ps_versions_compliancy = ['min' => '1.7.0.0', 'max' => _PS_VERSION_];
     }
 
+    /** following the Core documentation :
+    /* https://devdocs.prestashop-project.org/8/modules/creation/module-translation/new-system/#translating-your-module **/
+    public function isUsingNewTranslationSystem()
+    {
+        return true;
+    }
+
     public function install()
     {
         require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/classes/VersionUtils.php';
@@ -104,7 +111,7 @@ class Autoupgrade extends Module
             return $this->_abortInstall($this->trans('Unable to load the "AdminSelfUpgrade" tab'));
         }
 
-        return parent::install() && $this->registerHookAndSetToTop('dashboardZoneOne');
+        return parent::install();
     }
 
     public function uninstall()
@@ -119,26 +126,6 @@ class Autoupgrade extends Module
         self::_removeDirectory(_PS_ADMIN_DIR_ . DIRECTORY_SEPARATOR . 'autoupgrade');
 
         return parent::uninstall();
-    }
-
-    /**
-     * Register the current module to a given hook and moves it at the first position.
-     *
-     * @param string $hookName
-     *
-     * @return bool
-     */
-    public function registerHookAndSetToTop($hookName)
-    {
-        if (!$this->registerHook($hookName)) {
-            return false;
-        }
-
-        // Updating position is not blocking for installation esepcially since this method returns false when no other
-        // module is hooked, which doesn't mean the module can't work as expected.
-        $this->updatePosition((int) Hook::getIdByName($hookName), false);
-
-        return true;
     }
 
     public function getContent()
@@ -191,7 +178,7 @@ class Autoupgrade extends Module
     {
         require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/classes/UpgradeTools/Translator.php';
 
-        $translator = new \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator(__CLASS__);
+        $translator = new \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator();
 
         return $translator->trans($id, $parameters);
     }

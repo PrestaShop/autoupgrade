@@ -78,6 +78,15 @@ class UpgradeButtonBlock
      */
     private $manualMode;
 
+    /**
+     * UpgradeButtonBlock constructor.
+     *
+     * @param Environment $twig
+     * @param Translator $translator
+     * @param UpgradeConfiguration $config
+     * @param Upgrader $upgrader
+     * @param UpgradeSelfCheck $selfCheck
+     */
     public function __construct(
         $twig,
         Translator $translator,

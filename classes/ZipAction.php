@@ -45,7 +45,14 @@ class ZipAction
      */
     private $configMaxFileSizeAllowed;
 
+    /**
+     * @var LoggerInterface
+     */
     private $logger;
+
+    /**
+     * @var Translator
+     */
     private $translator;
 
     /**
