@@ -359,7 +359,7 @@ class UpgradeSelfCheck
             && ($this->isShopDeactivated() || $this->isLocalEnvironment())
             && $this->isCacheDisabled()
             && $this->isModuleVersionLatest()
-            && $this->getPhpRequirementsState() != $this::PHP_REQUIREMENTS_INVALID
+            && $this->getPhpRequirementsState() !== $this::PHP_REQUIREMENTS_INVALID
             && $this->isShopVersionMatchingVersionInDatabase()
             && $this->isApacheModRewriteEnabled()
             && $this->checkKeyGeneration()
@@ -451,6 +451,10 @@ class UpgradeSelfCheck
         }
 
         $targetVersion = $this->upgrader->version_num;
+
+        if (null === $targetVersion) {
+            return null;
+        }
 
         if (version_compare($targetVersion, '8', '<')) {
             $targetVersion = VersionUtils::getPrestashopMinorVersion($targetVersion);
