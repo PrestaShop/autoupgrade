@@ -19,7 +19,7 @@ jobs:
           sed -i 's/^MODULE_NAME.*/MODULE_NAME="autoupgrade"/g' ./module.cfg
           sed -i 's/^GIT_REPO_USERNAME.*/GIT_REPO_USERNAME="PrestaShop"/g' ./module.cfg
           sed -i 's/^GIT_REPO_NAME.*/GIT_REPO_NAME="autoupgrade"/g' ./module.cfg
-          sed -i 's/^BRANCH.*/BRANCH="dev"/g' ./module.cfg
+          sed -i 's/^BRANCH.*/BRANCH="${{ github.ref_name }}"/g' ./module.cfg
       - name: Setup git config
         run: |
           git config --global user.name "Github Actions - Module translation tool"
