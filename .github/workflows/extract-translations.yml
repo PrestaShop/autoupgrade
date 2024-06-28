@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       BRANCH: ${{ github.ref_name }}
+      REPOSITORY_NAME: ${{ github.event.repository.name }}
+      OWNER_NAME: ${{ github.repository_owner }}
     steps:
       - name: Checkout module-translation-tool
         uses: actions/checkout@v4
@@ -18,9 +20,9 @@ jobs:
       - name: Create config for module-translation-tool
         run: |
           cp ./module.cfg.example ./module.cfg
-          sed -i 's/^MODULE_NAME.*/MODULE_NAME="autoupgrade"/g' ./module.cfg
-          sed -i 's/^GIT_REPO_USERNAME.*/GIT_REPO_USERNAME="PrestaShop"/g' ./module.cfg
-          sed -i 's/^GIT_REPO_NAME.*/GIT_REPO_NAME="autoupgrade"/g' ./module.cfg
+          sed -i 's/^MODULE_NAME.*/MODULE_NAME="$REPOSITORY_NAME"/g' ./module.cfg
+          sed -i 's/^GIT_REPO_USERNAME.*/GIT_REPO_USERNAME="$OWNER_NAME"/g' ./module.cfg
+          sed -i 's/^GIT_REPO_NAME.*/GIT_REPO_NAME="$REPOSITORY_NAME"/g' ./module.cfg
           sed -i 's/^BRANCH.*/BRANCH="$BRANCH"/g' ./module.cfg
       - name: Setup git config
         run: |
@@ -31,7 +33,6 @@ jobs:
       - run: composer install
       - name: Extract translations and push
         run: |
-          printenv
           /bin/bash -eux ./scripts/extractCatalogue.sh
           rm catalog/autoupgrade/translations/ModulesAutoupgradeAdmin.en.xlf
           mv catalog/autoupgrade/translations/en-US/messages.en-US.xlf catalog/autoupgrade/translations/ModulesAutoupgradeAdmin.en.xlf
