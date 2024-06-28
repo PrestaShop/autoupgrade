@@ -25,7 +25,7 @@ jobs:
           git config --global user.name "Github Actions - Module translation tool"
           git config --global user.email "<>"
           git config --global credential.helper 'cache --timeout 3600'
-          git config --global url."https://oauth2:${{ secrets.JARVIS_TOKEN }}@github.com".insteadOf ssh://git@github.com
+          git config --global url."https://oauth2:${{ secrets.GITHUB_TOKEN }}@github.com".insteadOf ssh://git@github.com
       - run: composer install
       - name: Extract translations and push
         run: |
@@ -36,4 +36,4 @@ jobs:
           cat catalog/autoupgrade/translations/ModulesAutoupgradeAdmin.en.xlf
           /bin/bash -eux ./scripts/pushAndCreatePullRequest.sh
         env:
-          APP_GITHUB_TOKEN: ${{ secrets.JARVIS_TOKEN }}
+          APP_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
