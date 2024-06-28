@@ -74,12 +74,12 @@
       </trans-unit>
       <trans-unit id="a94e6f7e27ad55c963170658ee6a9e28">
         <source>Unless you are using a dedicated server, select "Low".</source>
-        <target state="translated">Pokud používáte dedikovaný server, vyberte možnost "Nízká".</target>
+        <target state="translated">Pokud nepoužíváte soukromý server, vyberte možnost "Nízká".</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="9e435ab00f5e0606f46337fdc73164ff">
         <source>A high value can cause the upgrade to fail if your server is not powerful enough to process the upgrade tasks in a short amount of time.</source>
-        <target state="translated">Vysoká hodnota může způsobit, že se aktualizace nezdaří. Pokud váš server není dost rychlý, aby zpracoval aktualizaci úloh v krátkém čase.</target>
+        <target state="translated">Vysoká hodnota může způsobit, že se aktualizace nezdaří, pokud váš server není tak rychlý, aby zprocesoval aktualizaci v krátkém čase.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="73ae0e1bfd470f9e26dac64d270cda9d">
@@ -104,27 +104,27 @@
       </trans-unit>
       <trans-unit id="70c06c37194d755dd9aef11cf0469981">
         <source>As non-native modules can experience some compatibility issues, we recommend to disable them by default.</source>
-        <target state="translated">U nepůvodních modulů byly zaznamenány některé problémy s kompatibilitou, doporučujeme zakázat je ve výchozím nastavení.</target>
+        <target state="translated">U externích modulů můžou být občas problémy s kompatibilitou, standardně je doporučujeme je vypnout.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="469ab377c49ea68b2ecdfe76d628a53b">
         <source>Keeping them enabled might prevent you from loading the "Modules" page properly after the upgrade.</source>
-        <target state="translated">Ponechání v zapnutém stavu může způsobit chybu při nahrávání stránky "Moduly" po upgrade.</target>
+        <target state="translated">Pokud je necháte zapnuté, může se stát, že stránka s moduly nepůjde po upgrade načíst.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="03a9e6840847f96325b7184d5f3c2769">
         <source>Disable all overrides</source>
-        <target state="translated">Zakázat všechna přepsání (overrides) </target>
+        <target state="translated">Zakázat všechny overridy</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="29826f9f4da3d473c1e4ecf2f6c4ef9f">
         <source>Enable or disable all classes and controllers overrides.</source>
-        <target state="translated">Povolit nebo zakázat všechna přepsání (overrides) tříd (classes) a kontrolerů (controllers).</target>
+        <target state="translated">Povolit nebo zakázat všechny overridy tříd a kontrolerů.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="fa2508196ef3391139d01d8d38b2c1bb">
         <source>Upgrade the default theme</source>
-        <target state="translated">Aktualizovat "výchozí" šablonu</target>
+        <target state="translated">Aktualizovat výchozí šablonu</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="b6b1ed5508bc97f38ab9075ccf234c69">
@@ -249,7 +249,7 @@
       </trans-unit>
       <trans-unit id="aeae8fea8fa0e49659920920eaf04248">
         <source>If you can't access the back-office and need to see what's wrong, manually enable debug mode in config/defines.inc.php by changing _PS_MODE_DEV_ to true.</source>
-        <target state="needs-translation">If you can't access the back-office and need to see what's wrong, manually enable debug mode in config/defines.inc.php by changing _PS_MODE_DEV_ to true.</target>
+        <target state="translated">Pokud se nebudete moci dostat do administrace a bude potřeba zjistit, co je špatně, ručně povolte režim ladění v souboru config/defines.inc.php změnou _PS_MODE_DEV_ na true.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="bb64b7cb55bd1db0abc03b6884144113">
@@ -394,7 +394,7 @@
       </trans-unit>
       <trans-unit id="9c48e683e6132f6e6147f1bc24b97e25">
         <source>No XML file has been selected.</source>
-        <target state="needs-translation">No XML file has been selected.</target>
+        <target state="translated">Nebyl vybrán žádný soubor XML.</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="19f823c6453c2b1ffd09cb715214813d">
@@ -674,22 +674,22 @@
       </trans-unit>
       <trans-unit id="4d46d96c1ea641735ee0c26c6381c75e">
         <source>API keys not present in parameters, generating</source>
-        <target state="needs-translation">API keys not present in parameters, generating</target>
+        <target state="translated">Klíče API nejsou přítomny v parametrech, generování</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="f32686b54f6af06671f1c3575df12c7c">
         <source>Keys generated using openssl_pkey_new, exporting private and public keys</source>
-        <target state="needs-translation">Keys generated using openssl_pkey_new, exporting private and public keys</target>
+        <target state="translated">Klíče vygenerované pomocí openssl_pkey_new, export soukromých a veřejných klíčů</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="a971bd83f9fe8a03c10c29a065d3bd41">
         <source>Updating parameters file</source>
-        <target state="needs-translation">Updating parameters file</target>
+        <target state="translated">Aktualizace souboru parameters</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="f24283fb7f4ba875f0f8c0391587695e">
         <source>Unable to migrate parameters</source>
-        <target state="needs-translation">Unable to migrate parameters</target>
+        <target state="translated">Nepodařilo se zmigrovat soubor parameters</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="43987038411fdc693ba35bf02e6cf496">
@@ -729,7 +729,7 @@
       </trans-unit>
       <trans-unit id="284a35fa27c84dae6a16f8b52d0715f6">
         <source>Checking connection to database</source>
-        <target state="needs-translation">Checking connection to database</target>
+        <target state="translated">Kontrola připojení k databázi</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="b3884f9e8ed49a8d7165787d3adec342">
@@ -739,22 +739,22 @@
       </trans-unit>
       <trans-unit id="de4026a3fc9813c32f3a247370c29f54">
         <source>Disabling all non native modules</source>
-        <target state="needs-translation">Disabling all non native modules</target>
+        <target state="translated">Zakázat všechny nepůvodní moduly</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="ffb63e7ff1e05430b4a292ac8651f1e4">
         <source>Keeping non native modules enabled</source>
-        <target state="needs-translation">Keeping non native modules enabled</target>
+        <target state="translated">Nechávám nepůvodní moduly zapnuté</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="c5ada796f937732385b6594d7364b69a">
         <source>Updating database data and structure</source>
-        <target state="needs-translation">Updating database data and structure</target>
+        <target state="translated">Aktualizuji data a strukturu databáze</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="4e32fd9d99ee0c3370c870d4da3d31a9">
         <source>Running generic queries</source>
-        <target state="needs-translation">Running generic queries</target>
+        <target state="translated">Spouštím obecné dotazy</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="257f5523f283710c6859d8f425a0c657">
@@ -764,27 +764,27 @@
       </trans-unit>
       <trans-unit id="72c863d76f8a8e5b1d17f818894df989">
         <source>Upgrading languages</source>
-        <target state="needs-translation">Upgrading languages</target>
+        <target state="translated">Aktualizuji jazyky</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="88bbbc84f51424b4b0c6da6aec2c2154">
         <source>Regenerating htaccess</source>
-        <target state="needs-translation">Regenerating htaccess</target>
+        <target state="translated">Přegenerovávám htaccess</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="128e1c61a1a4477ec05609569cc4d9d8">
         <source>Cleaning XML files</source>
-        <target state="needs-translation">Cleaning XML files</target>
+        <target state="translated">Čištění XML souborů</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="ed176ad3db6e004d4c272928acf3d0ac">
         <source>Disabling overrides</source>
-        <target state="needs-translation">Disabling overrides</target>
+        <target state="translated">Vypínám overridy</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="12473a5949de1a1cd37806a14a56dbde">
         <source>Keeping overrides in place</source>
-        <target state="needs-translation">Keeping overrides in place</target>
+        <target state="translated">Nechávám overridy na místě</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="9c7e0ba2c6ecb11af7f39843bbc18ff8">
@@ -834,7 +834,7 @@
       </trans-unit>
       <trans-unit id="53983059bf39e1325bba11081ca40e97">
         <source>Keeping current theme</source>
-        <target state="needs-translation">Keeping current theme</target>
+        <target state="translated">Nechávám současnou šablonu</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="796b7c49e21f09173214f029c7f02f9d">
@@ -844,32 +844,32 @@
       </trans-unit>
       <trans-unit id="badf6aad60d4a95b698028bc55aa3347">
         <source>Cleaning file cache</source>
-        <target state="needs-translation">Cleaning file cache</target>
+        <target state="translated">Čistím cache souborů</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="8c4204265814594491ae20c9899a0fff">
         <source>Running opcache_reset</source>
-        <target state="needs-translation">Running opcache_reset</target>
+        <target state="translated">Spouštím opcache_reset</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="b5ffb77b13ab03298982a49842ce78aa">
         <source>%lang% is not a valid iso code, skipping</source>
-        <target state="needs-translation">%lang% is not a valid iso code, skipping</target>
+        <target state="translated">%lang% není platný iso kód, přeskakuji</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="141ff76ab0d97a8ec25a295f763c9acc">
         <source>Downloading language pack for %lang%</source>
-        <target state="needs-translation">Downloading language pack for %lang%</target>
+        <target state="translated">Stahování jazykového balíčku pro %lang%</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="3bd67bb11ef4eca367343a48a437116c">
         <source>Installing %lang% language pack</source>
-        <target state="needs-translation">Installing %lang% language pack</target>
+        <target state="translated">Instaluji jazykový balíček %lang%</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="56f2d5890d12afbf29f105bcf5fc2624">
         <source>Generating mail templates for %lang%</source>
-        <target state="needs-translation">Generating mail templates for %lang%</target>
+        <target state="translated">Generování emailových šablon pro %lang%</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="eb98c1e496a76fc9a930ed4731977498">
@@ -929,7 +929,7 @@
       </trans-unit>
       <trans-unit id="8f226504481b55e9f588e4bc14b5882f">
         <source>[SQL ERROR]</source>
-        <target state="needs-translation">[SQL ERROR]</target>
+        <target state="translated">[CHYBA SQL]</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="b232a418538e3f6904357039ff7b1052">
@@ -1459,7 +1459,7 @@
       </trans-unit>
       <trans-unit id="382b0f5185773fa0f67a8ed8056c7759">
         <source>N/A</source>
-        <target state="needs-translation">N/A</target>
+        <target state="translated">Není k dispozici</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="628decaabab912af39cfda7aaf47b059">
@@ -1509,12 +1509,12 @@
       </trans-unit>
       <trans-unit id="93cba07454f06a4a960172bbd6e2a435">
         <source>Yes</source>
-        <target state="needs-translation">Yes</target>
+        <target state="translated">Ano</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="bafd7322c6e97d25b6299b5d6fe8920b">
         <source>No</source>
-        <target state="needs-translation">No</target>
+        <target state="translated">Ne</target>
         <note>Line: </note>
       </trans-unit>
       <trans-unit id="017697f698d570dffed5f88a5a933d01">
