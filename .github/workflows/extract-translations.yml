@@ -31,7 +31,9 @@ jobs:
         run: |
           printenv
           /bin/bash -eux ./scripts/extractCatalogue.sh
-          ls -la mv catalog/autoupgrade/translations/en-US
+          rm catalog/autoupgrade/translations/ModulesAutoupgradeAdmin.en.xlf
+          mv catalog/autoupgrade/translations/en-US/messages.en-US.xlf catalog/autoupgrade/translations/ModulesAutoupgradeAdmin.en.xlf
+          rmdir catalog/autoupgrade/translations/en-US
           /bin/bash -eux ./scripts/pushAndCreatePullRequest.sh
         env:
           APP_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
