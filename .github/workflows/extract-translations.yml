@@ -7,6 +7,8 @@ jobs:
   sync-translations:
     name: Extract translations and submit a PR
     runs-on: ubuntu-latest
+    env:
+      BRANCH: ${{ github.ref_name }}
     steps:
       - name: Checkout module-translation-tool
         uses: actions/checkout@v4
@@ -14,8 +16,6 @@ jobs:
           repository: PrestaShopCorp/module-translation-tool
           ref: main
       - name: Create config for module-translation-tool
-        env:
-          BRANCH: ${{ github.ref_name }}
         run: |
           cp ./module.cfg.example ./module.cfg
           sed -i 's/^MODULE_NAME.*/MODULE_NAME="autoupgrade"/g' ./module.cfg
