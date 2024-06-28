@@ -1,6 +1,247 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file original="admin-dev" source-language="en" target-language="nl" datatype="plaintext">
+  <file original="classes/TaskRunner/AbstractTask.php" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
+      
+    </body>
+  </file>
+  <file original="classes/TaskRunner/Miscellaneous/CheckFilesVersion.php" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
+      
+      
+      
+    </body>
+  </file>
+  <file original="classes/TaskRunner/Miscellaneous/CompareReleases.php" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
+      
+    </body>
+  </file>
+  <file original="classes/TaskRunner/Miscellaneous/UpdateConfig.php" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
+      
+      
+      
+      
+      
+      
+      
+      
+    </body>
+  </file>
+  <file original="classes/TaskRunner/Rollback/NoRollbackFound.php" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
+      
+    </body>
+  </file>
+  <file original="classes/TaskRunner/Rollback/RestoreDb.php" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    </body>
+  </file>
+  <file original="classes/TaskRunner/Rollback/RestoreFiles.php" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
+      
+      
+      
+      
+      
+      
+      
+    </body>
+  </file>
+  <file original="classes/TaskRunner/Rollback/Rollback.php" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
+      
+      
+      
+    </body>
+  </file>
+  <file original="classes/TaskRunner/Rollback/RollbackComplete.php" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
+      
+    </body>
+  </file>
+  <file original="classes/TaskRunner/Upgrade/BackupDb.php" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    </body>
+  </file>
+  <file original="classes/TaskRunner/Upgrade/BackupFiles.php" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
+      
+      
+      
+      
+      
+      
+      
+      
+    </body>
+  </file>
+  <file original="classes/TaskRunner/Upgrade/CleanDatabase.php" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
+      
+    </body>
+  </file>
+  <file original="classes/TaskRunner/Upgrade/Download.php" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    </body>
+  </file>
+  <file original="classes/TaskRunner/Upgrade/Unzip.php" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
+      
+      
+      
+      
+      
+    </body>
+  </file>
+  <file original="classes/TaskRunner/Upgrade/UpgradeComplete.php" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
+      
+      
+      
+      
+    </body>
+  </file>
+  <file original="classes/TaskRunner/Upgrade/UpgradeDb.php" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
+      
+      
+      
+      
+    </body>
+  </file>
+  <file original="classes/TaskRunner/Upgrade/UpgradeFiles.php" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    </body>
+  </file>
+  <file original="classes/TaskRunner/Upgrade/UpgradeModules.php" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
+      
+      
+      
+      
+      
+      
+    </body>
+  </file>
+  <file original="classes/TaskRunner/Upgrade/UpgradeNow.php" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
+      
+      
+      
+      
+      
+      
+      
+      
+    </body>
+  </file>
+  <file original="classes/Twig/Block/UpgradeButtonBlock.php" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    </body>
+  </file>
+  <file original="classes/Twig/Form/BackupOptionsForm.php" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
+      
+      
+      
+      
+      
+    </body>
+  </file>
+  <file original="classes/Twig/Form/FormRenderer.php" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
+      
+      
+    </body>
+  </file>
+  <file original="classes/Twig/Form/UpgradeOptionsForm.php" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    </body>
+  </file>
+  <file original="classes/UpgradePage.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       
       
@@ -96,8 +337,16 @@
       
       
       
+    </body>
+  </file>
+  <file original="classes/UpgradeTools/CacheCleaner.php" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
       
       
+    </body>
+  </file>
+  <file original="classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
       
       
       
@@ -125,6 +374,10 @@
       
       
       
+    </body>
+  </file>
+  <file original="classes/UpgradeTools/CoreUpgrader/CoreUpgrader80.php" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
       
       
       
@@ -132,23 +385,43 @@
       
       
       
+    </body>
+  </file>
+  <file original="classes/UpgradeTools/CoreUpgrader/CoreUpgrader81.php" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
       
       
       
       
       
       
+    </body>
+  </file>
+  <file original="classes/UpgradeTools/ModuleAdapter.php" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
       
       
       
       
       
       
+    </body>
+  </file>
+  <file original="classes/UpgradeTools/Translation.php" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
       
       
       
+    </body>
+  </file>
+  <file original="classes/Workspace.php" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
       
       
+    </body>
+  </file>
+  <file original="classes/ZipAction.php" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
       
       
       
@@ -159,14 +432,26 @@
       
       
       
+    </body>
+  </file>
+  <file original="controllers/admin/AdminSelfUpgradeController.php" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
       
       
       
       
+    </body>
+  </file>
+  <file original="views/templates/block/activityLog.twig" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
       
       
       
       
+    </body>
+  </file>
+  <file original="views/templates/block/channelInfo.twig" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
       
       
       
@@ -176,6 +461,10 @@
       
       
       
+    </body>
+  </file>
+  <file original="views/templates/block/checklist.twig" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
       
       
       
@@ -207,10 +496,18 @@
       
       
       
+    </body>
+  </file>
+  <file original="views/templates/block/rollbackForm.twig" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
       
       
       
       
+    </body>
+  </file>
+  <file original="views/templates/block/upgradeButtonBlock.twig" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
       
       
       
@@ -251,169 +548,22 @@
       
       
       
+    </body>
+  </file>
+  <file original="views/templates/block/versionComparison.twig" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
       
       
       
+    </body>
+  </file>
+  <file original="views/templates/form.twig" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
       
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+    </body>
+  </file>
+  <file original="views/templates/main.twig" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
       
       
       
