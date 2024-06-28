@@ -22,6 +22,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - # 1.7.8 ~ minor-major PHP 7.4
           - PS_VERSION_START: 1.7.8.0
             PS_VERSION_END: 8.1.7
             UPGRADE_CHANNEL: major
@@ -126,10 +127,11 @@ jobs:
             PS_VERSION_END: 8.0.5
             UPGRADE_CHANNEL: minor
             PHP_VERSION: 7.2
-          - PS_VERSION_START: 8.0.5
-            PS_VERSION_END: 8.1.7
-            UPGRADE_CHANNEL: major
-            PHP_VERSION: 7.2
+          # @todo https://github.com/PrestaShop/PrestaShop/issues/36439
+          #- PS_VERSION_START: 8.0.5
+          #  PS_VERSION_END: 8.1.7
+          #  UPGRADE_CHANNEL: major
+          #  PHP_VERSION: 7.2
           - PS_VERSION_START: 8.1.0
             PS_VERSION_END: 8.1.7
             UPGRADE_CHANNEL: minor
