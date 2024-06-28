@@ -1,0 +1,13 @@
+cache_dir: /tmp/module-translation-tool/
+paths:
+  - classes
+  - controllers
+  - src
+  - views
+exclude_files:
+  - tests
+  - translations
+  - upgrade
+  - node_modules
+  - vendor
+  - tools
