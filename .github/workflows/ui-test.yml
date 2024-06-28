@@ -22,7 +22,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - # 1.7.8 ~ minor-major PHP 7.4
+            # 1.7.8 ~ minor-major PHP 7.4
           - PS_VERSION_START: 1.7.8.0
             PS_VERSION_END: 8.1.7
             UPGRADE_CHANNEL: major
