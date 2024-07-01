@@ -25,11 +25,11 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback;
+namespace PrestaShop\Module\AutoUpgrade\Task\Rollback;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
-use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Database;
 
@@ -38,6 +38,8 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\Database;
  */
 class RestoreDb extends AbstractTask
 {
+    const TASK_TYPE = 'rollback';
+
     /**
      * @throws Exception
      */
@@ -66,7 +68,7 @@ class RestoreDb extends AbstractTask
             $this->container->getState()->setRestoreDbFilenames($restoreDbFilenames);
             if (!preg_match('#auto-backupdb_([0-9]{6})_#', $currentDbFilename, $match)) {
                 $this->next = 'error';
-                $this->error = true;
+                $this->setErrorFlag();
                 $this->logger->error($this->translator->trans('%s: File format does not match.', [$currentDbFilename]));
 
                 return false;
@@ -199,7 +201,7 @@ class RestoreDb extends AbstractTask
                         $this->logger->error($this->translator->trans('[SQL ERROR]') . ' ' . $query . ' - ' . $this->container->getDb()->getMsgError());
                         $this->logger->info($this->translator->trans('Error during database restoration'));
                         $this->next = 'error';
-                        $this->error = true;
+                        $this->setErrorFlag();
                         unlink($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . UpgradeFileNames::QUERIES_TO_RESTORE_LIST);
 
                         return false;

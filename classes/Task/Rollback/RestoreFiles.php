@@ -25,11 +25,11 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback;
+namespace PrestaShop\Module\AutoUpgrade\Task\Rollback;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
-use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 /**
@@ -38,6 +38,8 @@ use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
  */
 class RestoreFiles extends AbstractTask
 {
+    const TASK_TYPE = 'rollback';
+
     /**
      * @throws Exception
      */
@@ -82,6 +84,7 @@ class RestoreFiles extends AbstractTask
                 }
                 $this->logger->info($this->translator->trans('Unable to remove upgraded files.'));
                 $this->next = 'error';
+                $this->setErrorFlag();
 
                 return false;
             }
@@ -94,6 +97,7 @@ class RestoreFiles extends AbstractTask
             $res = $this->container->getZipAction()->extract($filepath, $destExtract);
             if (!$res) {
                 $this->next = 'error';
+                $this->setErrorFlag();
                 $this->logger->error($this->translator->trans(
                     'Unable to extract file %filename% into directory %directoryname%.',
                     [

@@ -25,10 +25,11 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
+namespace PrestaShop\Module\AutoUpgrade\Task\Upgrade;
 
 use Exception;
-use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\Analytics;
+use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 
@@ -37,6 +38,8 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
  */
 class UpgradeComplete extends AbstractTask
 {
+    const TASK_TYPE = 'upgrade';
+
     /**
      * @throws Exception
      */
@@ -63,5 +66,7 @@ class UpgradeComplete extends AbstractTask
 
         // removing temporary files
         $this->container->getFileConfigurationStorage()->cleanAll();
+
+        $this->container->getAnalytics()->track('Upgrade Succeeded', Analytics::WITH_UPGRADE_PROPERTIES);
     }
 }

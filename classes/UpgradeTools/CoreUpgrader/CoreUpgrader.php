@@ -246,7 +246,7 @@ abstract class CoreUpgrader
 
     protected function getPreUpgradeVersion(): string
     {
-        return $this->normalizeVersion(\Configuration::get('PS_VERSION_DB'));
+        return $this->normalizeVersion($this->container->getState()->getOriginVersion());
     }
 
     /**

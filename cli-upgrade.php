@@ -40,7 +40,7 @@ $container = autoupgrade_init_container(dirname(__FILE__));
 
 $logger = new PrestaShop\Module\AutoUpgrade\Log\StreamedLogger();
 $container->setLogger($logger);
-$controller = new \PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\AllUpgradeTasks($container);
+$controller = new \PrestaShop\Module\AutoUpgrade\Task\Runner\AllUpgradeTasks($container);
 $controller->setOptions(getopt('', ['action::', 'channel::', 'data::']));
 $controller->init();
 $exitCode = $controller->run();

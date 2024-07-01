@@ -24,8 +24,9 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
+
+use PrestaShop\Module\AutoUpgrade\Task\Runner\SingleTask;
 use PrestaShop\Module\AutoUpgrade\Tools14;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\TaskRepository;
 
 /**
  * This file is the entrypoint for all ajax requests during a upgrade, rollback or configuration.
@@ -48,7 +49,7 @@ if (!$container->getCookie()->check($_COOKIE)) {
     exit(1);
 }
 
-$controller = TaskRepository::get(Tools14::getValue('action'), $container);
-$controller->init();
+$controller = new SingleTask($container);
+$controller->setOptions(['action' => Tools14::getValue('action')]);
 $controller->run();
 echo $controller->getJsonResponse();
