@@ -364,6 +364,9 @@ class State
         return $this;
     }
 
+    /**
+     * Pick version from restoration file name in the format v[version]_[date]-[time]-[random]
+     */
     public function getRestoreVersion(): ?string
     {
         $matches = [];
