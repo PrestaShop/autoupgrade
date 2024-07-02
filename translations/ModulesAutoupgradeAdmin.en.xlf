@@ -333,57 +333,57 @@
       <trans-unit id="fb1ca1f5f3eb5a2ca85201f449525527">
         <source>You need allow_url_fopen or cURL enabled for automatic download to work. You can also manually upload it in filepath %s.</source>
         <target>You need allow_url_fopen or cURL enabled for automatic download to work. You can also manually upload it in filepath %s.</target>
-        <note>Line: 46</note>
+        <note>Line: 47</note>
       </trans-unit>
       <trans-unit id="f31c50f6d0edbbb94aa24943b118e316">
         <source>Downloading from %s</source>
         <target>Downloading from %s</target>
-        <note>Line: 67</note>
+        <note>Line: 66</note>
       </trans-unit>
       <trans-unit id="73227d741d23c1c6c0ae027b2dbc9e73">
         <source>File will be saved in %s</source>
         <target>File will be saved in %s</target>
-        <note>Line: 68</note>
+        <note>Line: 67</note>
       </trans-unit>
       <trans-unit id="53be0a7251b3bd0de81f488687bc0464">
         <source>Download directory has been emptied</source>
         <target>Download directory has been emptied</target>
-        <note>Line: 71</note>
+        <note>Line: 70</note>
       </trans-unit>
       <trans-unit id="3c2681ea85407c2c0d252e05a8eaf6aa">
         <source>Download complete.</source>
         <target>Download complete.</target>
-        <note>Line: 81</note>
+        <note>Line: 80</note>
       </trans-unit>
       <trans-unit id="a55401a11251f53f612e950d4115e116">
         <source>Download complete. Now extracting...</source>
         <target>Download complete. Now extracting...</target>
-        <note>Line: 82</note>
+        <note>Line: 81</note>
       </trans-unit>
       <trans-unit id="2d9a3f4a92c008b32903541e9af8aff0">
         <source>Download complete but MD5 sum does not match (%s).</source>
         <target>Download complete but MD5 sum does not match (%s).</target>
-        <note>Line: 84</note>
+        <note>Line: 83</note>
       </trans-unit>
       <trans-unit id="df88998b6b9585bbcfd201186695b686">
         <source>Download complete but MD5 sum does not match (%s). Operation aborted.</source>
         <target>Download complete but MD5 sum does not match (%s). Operation aborted.</target>
-        <note>Line: 85</note>
+        <note>Line: 84</note>
       </trans-unit>
       <trans-unit id="412cb9a2978bf041be4ca6c6ded0030c">
         <source>Error during download. The private key may be incorrect.</source>
         <target>Error during download. The private key may be incorrect.</target>
-        <note>Line: 90</note>
+        <note>Line: 89</note>
       </trans-unit>
       <trans-unit id="0c0db54fe8212c1a7215005fef75d7dd">
         <source>Error during download</source>
         <target>Error during download</target>
-        <note>Line: 92</note>
+        <note>Line: 91</note>
       </trans-unit>
       <trans-unit id="5385901e5bed459563860e2f08a90a1c">
         <source>Download directory %s is not writable.</source>
         <target>Download directory %s is not writable.</target>
-        <note>Line: 97</note>
+        <note>Line: 96</note>
       </trans-unit>
     </body>
   </file>
@@ -593,42 +593,42 @@ Comment: directory already exists</note>
       <trans-unit id="ca895e37bd5dfe413d7ffdd592580117">
         <source>Starting upgrade...</source>
         <target>Starting upgrade...</target>
-        <note>Line: 44</note>
+        <note>Line: 45</note>
       </trans-unit>
       <trans-unit id="d3446f09f99983abc250c0d2a92d0285">
         <source>Downloading and unzipping steps have been skipped, upgrade process will now remove sample data.</source>
         <target>Downloading and unzipping steps have been skipped, upgrade process will now remove sample data.</target>
-        <note>Line: 71</note>
+        <note>Line: 72</note>
       </trans-unit>
       <trans-unit id="33c9d8cb4efb6cd7e104a43a69d38b36">
         <source>Shop deactivated. Now backing up files...</source>
         <target>Shop deactivated. Now backing up files...</target>
-        <note>Line: 72</note>
+        <note>Line: 73</note>
       </trans-unit>
       <trans-unit id="fd89b081ead6c32f16c370771cfe92e1">
         <source>Downloading step has been skipped, upgrade process will now unzip the local archive.</source>
         <target>Downloading step has been skipped, upgrade process will now unzip the local archive.</target>
-        <note>Line: 76</note>
+        <note>Line: 77</note>
       </trans-unit>
       <trans-unit id="1a74ca8250ceb3e4df43a70181064e03">
         <source>Shop deactivated. Extracting files...</source>
         <target>Shop deactivated. Extracting files...</target>
-        <note>Line: 77</note>
+        <note>Line: 78</note>
       </trans-unit>
       <trans-unit id="a3e702f156f1b517ba98d2487f58bd91">
         <source>Shop deactivated. Now downloading... (this can take a while)</source>
         <target>Shop deactivated. Now downloading... (this can take a while)</target>
-        <note>Line: 81</note>
+        <note>Line: 82</note>
       </trans-unit>
       <trans-unit id="10b5aa33077df49427f04cd33ad3843f">
         <source>Downloaded archive will come from %s</source>
         <target>Downloaded archive will come from %s</target>
-        <note>Line: 86</note>
+        <note>Line: 87</note>
       </trans-unit>
       <trans-unit id="da652b8ece8ba2da84d5f5116f6ef63e">
         <source>MD5 hash will be checked against %s</source>
         <target>MD5 hash will be checked against %s</target>
-        <note>Line: 87</note>
+        <note>Line: 88</note>
       </trans-unit>
     </body>
   </file>
