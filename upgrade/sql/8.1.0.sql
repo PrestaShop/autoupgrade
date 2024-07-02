@@ -88,7 +88,7 @@ ALTER TABLE `PREFIX_order_payment` ADD `id_employee` INT NULL AFTER `date_add`;
 CREATE TABLE `PREFIX_authorized_application`
 (
     id_authorized_application INT UNSIGNED AUTO_INCREMENT NOT NULL,
-    name                      VARCHAR(50) NOT NULL,
+    name                      VARCHAR(255) NOT NULL,
     description               LONGTEXT     NOT NULL,
     UNIQUE INDEX UNIQ_475B9BA55E237E06 (name),
     PRIMARY KEY (id_authorized_application)
