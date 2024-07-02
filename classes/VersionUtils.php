@@ -96,7 +96,12 @@ class VersionUtils
         return PHP_VERSION_ID >= self::MODULE_COMPATIBLE_PHP_VERSION;
     }
 
-    public static function getPrestashopMinorVersion($version)
+    /**
+     * @param string $version
+     *
+     * @return array{'major': string,'minor': string,'patch': string}|null
+     */
+    public static function splitPrestaShopVersion($version)
     {
         if (!is_string($version)) {
             throw new InvalidArgumentException('Version must be a string.');
@@ -107,18 +112,20 @@ class VersionUtils
             throw new InvalidArgumentException('Version string cannot be empty.');
         }
 
-        if (!preg_match('/^\d+\.\d+\.\d+(\.\d+)?$/', $version)) {
+        preg_match(
+            '#^(?<patch>(?<minor>(?<major>([0-1]{1}\.[0-9]+)|([0-9]+))(?:\.[0-9]+){1})(?:\.[0-9]+){1})$#',
+            $version,
+            $matches
+        );
+
+        if (empty($matches)) {
             throw new InvalidArgumentException('Invalid version format. Expected format: X.Y.Z or X.Y.Z.W');
         }
 
-        $parts = explode('.', $version);
-        $versionString = implode('.', $parts);
-        if (strlen($versionString) >= 8) {
-            $minorVersionParts = array_slice($parts, 0, 3);
-        } else {
-            $minorVersionParts = array_slice($parts, 0, 2);
-        }
-
-        return implode('.', $minorVersionParts);
+        return [
+            'major' => $matches['major'],
+            'minor' => $matches['minor'],
+            'patch' => $matches['patch'],
+        ];
     }
 }

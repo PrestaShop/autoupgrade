@@ -29,6 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\VersionUtils;
 
 /**
  * very first step of the upgrade process. The only thing done is the selection
@@ -48,8 +49,8 @@ class UpgradeNow extends AbstractTask
         $channel = $this->container->getUpgradeConfiguration()->get('channel');
         $upgrader = $this->container->getUpgrader();
         $this->next = 'download';
-        preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', _PS_VERSION_, $matches);
-        $upgrader->branch = $matches[1];
+
+        $upgrader->branch = VersionUtils::splitPrestaShopVersion(_PS_VERSION_)['major'];
         $upgrader->channel = $channel;
         if ($this->container->getUpgradeConfiguration()->get('channel') == 'private' && !$this->container->getUpgradeConfiguration()->get('private_allow_major')) {
             $upgrader->checkPSVersion(false, ['private', 'minor']);
