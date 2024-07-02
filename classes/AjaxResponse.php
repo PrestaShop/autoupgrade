@@ -57,7 +57,7 @@ class AjaxResponse
     private $next = 'N/A';
 
     /**
-     * @var array Params to send (upgrade conf, details on the work to do ...)
+     * @var array<string, string|array<string>> Params to send (upgrade conf, details on the work to do ...)
      */
     private $nextParams = [];
 
@@ -89,7 +89,7 @@ class AjaxResponse
     }
 
     /**
-     * @return array of data to ready to be returned to caller
+     * @return array<string, mixed> of data to ready to be returned to caller
      */
     public function getResponse(): array
     {
@@ -142,6 +142,9 @@ class AjaxResponse
         return $this->getNext() == 'error' ? 'error' : 'ok';
     }
 
+    /**
+     * @return array<string, string|array<string>>
+     */
     public function getNextParams(): array
     {
         return $this->nextParams;
@@ -175,6 +178,9 @@ class AjaxResponse
         return $this;
     }
 
+    /**
+     * @param array<string, string|array<string>> $nextParams
+     */
     public function setNextParams(array $nextParams): AjaxResponse
     {
         $this->nextParams = $nextParams;

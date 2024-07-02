@@ -31,6 +31,7 @@ use Exception;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\VersionUtils;
+use PrestaShop\Module\AutoUpgrade\TaskRunner\ExitCode;
 
 /**
  * This class gets the list of all modified and deleted files between current version
@@ -41,7 +42,7 @@ class CompareReleases extends AbstractTask
     /**
      * @throws Exception
      */
-    public function run()
+    public function run(): int
     {
         // do nothing after this request (see javascript function doAjaxRequest )
         $this->next = '';
@@ -82,5 +83,7 @@ class CompareReleases extends AbstractTask
                 ]);
             $this->nextParams['result'] = $diffFileList;
         }
+
+        return ExitCode::SUCCESS;
     }
 }

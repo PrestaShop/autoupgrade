@@ -25,42 +25,10 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback;
+namespace PrestaShop\Module\AutoUpgrade\TaskRunner;
 
-use PrestaShop\Module\AutoUpgrade\TaskRunner\ChainedTasks;
-
-/**
- * Execute the whole upgrade process in a single request.
- */
-class AllRollbackTasks extends ChainedTasks
+class ExitCode
 {
-    const initialTask = 'rollback';
-
-    /**
-     * @var string
-     */
-    protected $step = self::initialTask;
-
-    /**
-     * Customize the execution context with several options
-     * > action: Replace the initial step to run
-     * > channel: Makes a specific upgrade (minor, major etc.)
-     * > data: Loads an encoded array of data coming from another request.
-     *
-     * @param array<string, string> $options
-     */
-    public function setOptions(array $options): void
-    {
-        if (!empty($options['backup'])) {
-            $this->container->getState()->setRestoreName($options['backup']);
-        }
-    }
-
-    /**
-     * Set default config on first run.
-     */
-    public function init(): void
-    {
-        // Do nothing
-    }
+    const SUCCESS = 0;
+    const FAIL = 1;
 }

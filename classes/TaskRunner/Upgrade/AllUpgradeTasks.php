@@ -40,6 +40,9 @@ class AllUpgradeTasks extends ChainedTasks
     const initialTask = 'upgradeNow';
     const TASKS_WITH_RESTART = ['upgradeFiles', 'upgradeDb', 'upgradeModules'];
 
+    /**
+     * @var string
+     */
     protected $step = self::initialTask;
 
     /**
@@ -48,7 +51,7 @@ class AllUpgradeTasks extends ChainedTasks
      * > channel: Makes a specific upgrade (minor, major etc.)
      * > data: Loads an encoded array of data coming from another request.
      *
-     * @param array $options
+     * @param array<string, string> $options
      *
      * @throws Exception
      */

@@ -29,6 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\TaskRunner\ExitCode;
 use PrestaShop\Module\AutoUpgrade\VersionUtils;
 
 /**
@@ -40,7 +41,7 @@ class UpgradeNow extends AbstractTask
     /**
      * @throws Exception
      */
-    public function run()
+    public function run(): int
     {
         $this->logger->info($this->translator->trans('Starting upgrade...'));
 
@@ -62,7 +63,7 @@ class UpgradeNow extends AbstractTask
             $this->next = '';
             $this->logger->info($this->translator->trans('You already have the %s version.', [$upgrader->version_name]));
 
-            return;
+            return ExitCode::SUCCESS;
         }
 
         switch ($channel) {
@@ -87,5 +88,7 @@ class UpgradeNow extends AbstractTask
                 $this->logger->debug($this->translator->trans('Downloaded archive will come from %s', [$upgrader->link]));
                 $this->logger->debug($this->translator->trans('MD5 hash will be checked against %s', [$upgrader->md5]));
         }
+
+        return ExitCode::SUCCESS;
     }
 }

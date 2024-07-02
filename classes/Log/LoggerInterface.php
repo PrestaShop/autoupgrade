@@ -29,7 +29,7 @@ interface LoggerInterface
      * System is unusable.
      *
      * @param string $message
-     * @param array $context
+     * @param array<mixed> $context
      */
     public function emergency(string $message, array $context = []): void;
 
@@ -40,7 +40,7 @@ interface LoggerInterface
      * trigger the SMS alerts and wake you up.
      *
      * @param string $message
-     * @param array $context
+     * @param array<mixed> $context
      */
     public function alert(string $message, array $context = []): void;
 
@@ -50,7 +50,7 @@ interface LoggerInterface
      * Example: Application component unavailable, unexpected exception.
      *
      * @param string $message
-     * @param array $context
+     * @param array<mixed> $context
      */
     public function critical(string $message, array $context = []): void;
 
@@ -59,7 +59,7 @@ interface LoggerInterface
      * be logged and monitored.
      *
      * @param string $message
-     * @param array $context
+     * @param array<mixed> $context
      */
     public function error(string $message, array $context = []): void;
 
@@ -70,7 +70,7 @@ interface LoggerInterface
      * that are not necessarily wrong.
      *
      * @param string $message
-     * @param array $context
+     * @param array<mixed> $context
      */
     public function warning(string $message, array $context = []): void;
 
@@ -78,7 +78,7 @@ interface LoggerInterface
      * Normal but significant events.
      *
      * @param string $message
-     * @param array $context
+     * @param array<mixed> $context
      */
     public function notice(string $message, array $context = []): void;
 
@@ -88,7 +88,7 @@ interface LoggerInterface
      * Example: User logs in, SQL logs.
      *
      * @param string $message
-     * @param array $context
+     * @param array<mixed> $context
      */
     public function info(string $message, array $context = []): void;
 
@@ -96,7 +96,7 @@ interface LoggerInterface
      * Detailed debug information.
      *
      * @param string $message
-     * @param array $context
+     * @param array<mixed> $context
      */
     public function debug(string $message, array $context = []): void;
 
@@ -105,7 +105,7 @@ interface LoggerInterface
      *
      * @param mixed $level
      * @param string $message
-     * @param array $context
+     * @param array<mixed> $context
      */
     public function log($level, string $message, array $context = []): void;
 }

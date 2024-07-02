@@ -43,10 +43,13 @@ class Workspace
     private $translator;
 
     /**
-     * @var array List of paths used by autoupgrade
+     * @var string[] List of paths used by autoupgrade
      */
     private $paths;
 
+    /**
+     * @param string[] $paths
+     */
     public function __construct(LoggerInterface $logger, Translator $translator, array $paths)
     {
         $this->logger = $logger;

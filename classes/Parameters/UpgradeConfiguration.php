@@ -31,13 +31,15 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Contains the module configuration (form params).
+ *
+ * @extends ArrayCollection<string, mixed>
  */
 class UpgradeConfiguration extends ArrayCollection
 {
     /**
      * Performance settings, if your server has a low memory size, lower these values.
      *
-     * @var array
+     * @var array<string, int[]>
      */
     protected $performanceValues = [
         'loopFiles' => [400, 800, 1600], // files
@@ -158,7 +160,12 @@ class UpgradeConfiguration extends ArrayCollection
         return (bool) $this->get('PS_AUTOUP_UPDATE_RTL_FILES');
     }
 
-    public function merge(array $array = [])
+    /**
+     * @param array<string, mixed> $array
+     *
+     * @return void
+     */
+    public function merge(array $array = []): void
     {
         foreach ($array as $key => $value) {
             $this->set($key, $value);

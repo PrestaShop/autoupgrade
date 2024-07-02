@@ -96,7 +96,7 @@ abstract class CoreUpgrader
         $this->filesystem = new Filesystem();
     }
 
-    public function doUpgrade()
+    public function doUpgrade(): void
     {
         $this->logger->info($this->container->getTranslator()->trans('Initializing required environment constants'));
         $this->initConstants();
@@ -162,7 +162,7 @@ abstract class CoreUpgrader
     /**
      * @throws Exception
      */
-    protected function initConstants()
+    protected function initConstants(): void
     {
         // Initialize
         // setting the memory limit to 128M only if current is lower
@@ -269,7 +269,7 @@ abstract class CoreUpgrader
     /**
      * @throws UpgradeException
      */
-    protected function checkVersionIsNewer($oldVersion)
+    protected function checkVersionIsNewer(string $oldVersion): void
     {
         if (strpos($this->destinationUpgradeVersion, '.') === false) {
             throw new UpgradeException($this->container->getTranslator()->trans('%s is not a valid version number.', [$this->destinationUpgradeVersion]));
@@ -289,7 +289,7 @@ abstract class CoreUpgrader
      *
      * @throws Exception
      */
-    protected function disableCustomModules()
+    protected function disableCustomModules(): void
     {
         $this->container->getModuleAdapter()->disableNonNativeModules($this->pathToUpgradeScripts);
     }
@@ -297,7 +297,7 @@ abstract class CoreUpgrader
     /**
      * @throws UpgradeException
      */
-    protected function upgradeDb(string $oldversion)
+    protected function upgradeDb(string $oldversion): void
     {
         $upgrade_dir_sql = $this->pathToUpgradeScripts . '/sql/';
         $sqlContentVersion = $this->applySqlParams(
@@ -313,6 +313,8 @@ abstract class CoreUpgrader
 
     /**
      * @throws UpgradeException
+     *
+     * @return array<string, string>
      */
     protected function getUpgradeSqlFilesListToApply(string $upgrade_dir_sql, string $oldversion): array
     {
@@ -350,9 +352,9 @@ abstract class CoreUpgrader
     /**
      * Replace some placeholders in the SQL upgrade files (prefix, engine...).
      *
-     * @param array $sqlFiles
+     * @param array<string, string> $sqlFiles
      *
-     * @return array of SQL requests per version
+     * @return array<string, string[]> of SQL requests per version
      */
     protected function applySqlParams(array $sqlFiles): array
     {
@@ -377,7 +379,7 @@ abstract class CoreUpgrader
      * @param string $upgrade_file File in which the request is stored (for logs)
      * @param string $query
      */
-    protected function runQuery(string $upgrade_file, string $query)
+    protected function runQuery(string $upgrade_file, string $query): void
     {
         $query = trim($query);
         if (empty($query)) {
@@ -385,12 +387,14 @@ abstract class CoreUpgrader
         }
         // If php code have to be executed
         if (strpos($query, '/* PHP:') !== false) {
-            return $this->runPhpQuery($upgrade_file, $query);
+            $this->runPhpQuery($upgrade_file, $query);
+
+            return;
         }
         $this->runSqlQuery($upgrade_file, $query);
     }
 
-    protected function runPhpQuery(string $upgrade_file, string $query)
+    protected function runPhpQuery(string $upgrade_file, string $query): void
     {
         // Parsing php code
         $pos = strpos($query, '/* PHP:') + strlen('/* PHP:');
@@ -521,7 +525,10 @@ abstract class CoreUpgrader
         }
     }
 
-    abstract protected function upgradeLanguage($lang);
+    /**
+     * @param array<string, mixed> $lang
+     */
+    abstract protected function upgradeLanguage($lang): void;
 
     protected function generateHtaccess(): void
     {

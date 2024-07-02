@@ -149,32 +149,6 @@ class Tools14
     }
 
     /**
-     * Display an error according to an error code.
-     *
-     * @param string $string Error message
-     * @param bool $htmlentities By default at true for parsing error message with htmlentities
-     */
-    public static function displayError(string $string = 'Fatal error', bool $htmlentities = true): string
-    {
-        return $string;
-        global $_ERRORS, $cookie;
-
-        $iso = strtolower(Language::getIsoById((is_object($cookie) && $cookie->id_lang) ? (int) $cookie->id_lang : (int) Configuration::get('PS_LANG_DEFAULT')));
-        @include_once _PS_TRANSLATIONS_DIR_ . $iso . '/errors.php';
-
-        if (defined('_PS_MODE_DEV_') && _PS_MODE_DEV_ && $string == 'Fatal error') {
-            return '<pre>' . print_r(debug_backtrace(), true) . '</pre>';
-        }
-        if (!is_array($_ERRORS)) {
-            return str_replace('"', '&quot;', $string);
-        }
-        $key = md5(str_replace('\'', '\\\'', $string));
-        $str = (isset($_ERRORS) && is_array($_ERRORS) && key_exists($key, $_ERRORS)) ? ($htmlentities ? htmlentities($_ERRORS[$key], ENT_COMPAT, 'UTF-8') : $_ERRORS[$key]) : $string;
-
-        return str_replace('"', '&quot;', stripslashes($str));
-    }
-
-    /**
      * Check if submit has been posted.
      *
      * @param string $submit submit name

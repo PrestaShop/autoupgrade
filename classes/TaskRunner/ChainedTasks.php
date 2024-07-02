@@ -36,6 +36,9 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\TaskRepository;
  */
 abstract class ChainedTasks extends AbstractTask
 {
+    /**
+     * @var string
+     */
     protected $step;
 
     /**
@@ -67,9 +70,9 @@ abstract class ChainedTasks extends AbstractTask
     /**
      * Customize the execution context with several options.
      *
-     * @param array $options
+     * @param array<string, string> $options
      */
-    abstract public function setOptions(array $options);
+    abstract public function setOptions(array $options): void;
 
     /**
      * Tell the while loop if it can continue.

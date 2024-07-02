@@ -30,17 +30,21 @@ namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\TaskRunner\ExitCode;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 
 class UpgradeFiles extends AbstractTask
 {
+    /**
+     * @var string
+     */
     private $destUpgradePath;
 
     /**
      * @throws Exception
      */
-    public function run(): bool
+    public function run(): int
     {
         // The first call must init the list of files be upgraded.
         if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::FILES_TO_UPGRADE_LIST)) {
@@ -58,7 +62,7 @@ class UpgradeFiles extends AbstractTask
             $this->next = 'error';
             $this->logger->error($this->translator->trans('filesToUpgrade is not an array'));
 
-            return false;
+            return ExitCode::FAIL;
         }
 
         // @TODO : does not upgrade files in modules, translations if they have not a correct md5 (or crc32, or whatever) from previous version
@@ -89,7 +93,7 @@ class UpgradeFiles extends AbstractTask
             $this->stepDone = false;
         }
 
-        return true;
+        return $this->next == 'error' ? ExitCode::FAIL : ExitCode::SUCCESS;
     }
 
     /**
@@ -190,7 +194,7 @@ class UpgradeFiles extends AbstractTask
      *
      * @throws Exception
      */
-    protected function warmUp(): bool
+    protected function warmUp(): int
     {
         // Get path to the folder with release we will use to upgrade and check if it's valid
         $newReleasePath = $this->container->getProperty(UpgradeContainer::LATEST_PATH);
@@ -199,7 +203,7 @@ class UpgradeFiles extends AbstractTask
             $this->logger->error($this->translator->trans('A file may be missing, or the release is stored in a subfolder by mistake.'));
             $this->next = 'error';
 
-            return false;
+            return ExitCode::FAIL;
         }
 
         // Replace the name of the admin folder inside the release to match our admin folder name
@@ -259,13 +263,13 @@ class UpgradeFiles extends AbstractTask
             $this->logger->error($this->translator->trans('[ERROR] Unable to find files to upgrade.'));
             $this->next = 'error';
 
-            return false;
+            return ExitCode::FAIL;
         }
         $this->logger->info($this->translator->trans('%s files will be upgraded.', [$total_files_to_upgrade]));
         $this->next = 'upgradeFiles';
         $this->stepDone = false;
 
-        return true;
+        return ExitCode::SUCCESS;
     }
 
     public function init(): void

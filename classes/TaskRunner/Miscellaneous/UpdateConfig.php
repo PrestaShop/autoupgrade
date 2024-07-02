@@ -32,6 +32,7 @@ use PrestaShop\Module\AutoUpgrade\Exceptions\ZipActionException;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\TaskRunner\ExitCode;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\Upgrader;
 use RuntimeException;
@@ -46,14 +47,14 @@ class UpdateConfig extends AbstractTask
     /**
      * Data being passed by CLI entry point
      *
-     * @var array
+     * @var array<string, mixed>
      */
     protected $cliParameters;
 
     /**
      * @throws Exception
      */
-    public function run()
+    public function run(): int
     {
         // nothing next
         $this->next = '';
@@ -82,7 +83,7 @@ class UpdateConfig extends AbstractTask
                 $this->error = true;
                 $this->logger->info($this->translator->trans('File %s does not exist. Unable to select that channel.', [$file]));
 
-                return false;
+                return ExitCode::FAIL;
             }
 
             try {
@@ -91,7 +92,7 @@ class UpdateConfig extends AbstractTask
                 $this->error = true;
                 $this->logger->info($this->translator->trans('Unable to retrieve version from zip: %s.', [$exception->getMessage()]));
 
-                return false;
+                return ExitCode::FAIL;
             }
 
             $xmlFile = $configurationData['archive_xml'];
@@ -100,7 +101,7 @@ class UpdateConfig extends AbstractTask
                 $this->error = true;
                 $this->logger->info($this->translator->trans('File %s does not exist. Unable to select that channel.', [$xmlFile]));
 
-                return false;
+                return ExitCode::FAIL;
             }
 
             $xmlVersion = $this->getXmlVersion($fullXmlPath);
@@ -109,7 +110,7 @@ class UpdateConfig extends AbstractTask
                 $this->error = true;
                 $this->logger->info($this->translator->trans('Prestashop version detected in the xml (%s) does not match the zip version (%s).', [$xmlVersion, $targetVersion]));
 
-                return false;
+                return ExitCode::FAIL;
             }
 
             $config['channel'] = 'archive';
@@ -125,7 +126,7 @@ class UpdateConfig extends AbstractTask
                 $this->error = true;
                 $this->logger->info($this->translator->trans('Version number is missing. Unable to select that channel.'));
 
-                return false;
+                return ExitCode::FAIL;
             }
 
             $config['directory.version_num'] = $configurationData['directory_num'];
@@ -140,15 +141,25 @@ class UpdateConfig extends AbstractTask
         if (!$this->writeConfig($config)) {
             $this->error = true;
             $this->logger->info($this->translator->trans('Error on saving configuration'));
+
+            return ExitCode::FAIL;
         }
+
+        return ExitCode::SUCCESS;
     }
 
-    public function inputCliParameters($parameters)
+    /**
+     * @param array<string, mixed> $parameters
+     */
+    public function inputCliParameters($parameters): void
     {
         $this->cliParameters = $parameters;
     }
 
-    protected function getConfigurationData()
+    /**
+     * @return array<string, mixed>
+     */
+    protected function getConfigurationData(): array
     {
         if (null !== $this->cliParameters) {
             return $this->getCLIParams();
@@ -157,6 +168,9 @@ class UpdateConfig extends AbstractTask
         return $this->getRequestParams();
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     protected function getCLIParams(): array
     {
         if (empty($this->cliParameters)) {
@@ -166,7 +180,10 @@ class UpdateConfig extends AbstractTask
         return $this->cliParameters;
     }
 
-    protected function getRequestParams()
+    /**
+     * @return array<string, mixed>
+     */
+    protected function getRequestParams(): array
     {
         return empty($_REQUEST['params']) ? [] : $_REQUEST['params'];
     }
@@ -174,7 +191,7 @@ class UpdateConfig extends AbstractTask
     /**
      * update module configuration (saved in file UpgradeFiles::configFilename) with $new_config.
      *
-     * @param array $config
+     * @param array<string, mixed> $config
      *
      * @return bool true if success
      *

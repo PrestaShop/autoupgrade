@@ -35,6 +35,8 @@ class DistributionApiService
 
     /**
      * @throws DistributionApiException
+     *
+     * @return array<string, string>
      */
     public function getPhpVersionRequirements(string $targetVersion): array
     {

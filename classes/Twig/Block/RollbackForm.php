@@ -42,6 +42,9 @@ class RollbackForm
      */
     private $backupFinder;
 
+    /**
+     * @param Environment $twig
+     */
     public function __construct($twig, BackupFinder $backupFinder)
     {
         $this->twig = $twig;

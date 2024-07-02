@@ -75,6 +75,8 @@ class Cookie
     /**
      * From the cookie, check the current employee started the upgrade process.
      *
+     * @param array<string, mixed> $cookie
+     *
      * @return bool True if allowed
      */
     public function check(array $cookie): bool

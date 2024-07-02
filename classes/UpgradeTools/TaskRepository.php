@@ -27,7 +27,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
-use Exception;
+use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous\CheckFilesVersion;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous\CompareReleases;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous\GetChannelInfo;
@@ -52,10 +52,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 class TaskRepository
 {
-    /**
-     * @throws Exception
-     */
-    public static function get($step, UpgradeContainer $container)
+    public static function get(string $step, UpgradeContainer $container): AbstractTask
     {
         switch ($step) {
             // MISCELLANEOUS (upgrade configuration, checks etc.)

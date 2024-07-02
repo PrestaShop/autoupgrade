@@ -50,7 +50,7 @@ class LegacyLogger extends Logger
      */
     protected $fd;
 
-    public function __construct($fileName = null)
+    public function __construct(string $fileName = null)
     {
         if (null !== $fileName) {
             $this->fd = fopen($fileName, 'a');
@@ -66,6 +66,8 @@ class LegacyLogger extends Logger
 
     /**
      * {@inheritdoc}
+     *
+     * @return string[]
      */
     public function getErrors(): array
     {
@@ -74,6 +76,8 @@ class LegacyLogger extends Logger
 
     /**
      * {@inheritdoc}
+     *
+     * @return string[]
      */
     public function getInfos(): array
     {
@@ -100,6 +104,8 @@ class LegacyLogger extends Logger
 
     /**
      * {@inheritdoc}
+     *
+     * @param array<mixed> $context
      */
     public function log($level, string $message, array $context = []): void
     {

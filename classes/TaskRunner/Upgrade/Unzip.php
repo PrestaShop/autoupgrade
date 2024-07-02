@@ -29,6 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\TaskRunner\ExitCode;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 use Symfony\Component\Filesystem\Filesystem;
@@ -41,7 +42,7 @@ class Unzip extends AbstractTask
     /**
      * @throws Exception
      */
-    public function run()
+    public function run(): int
     {
         $filepath = $this->container->getFilePath();
         $destExtract = $this->container->getProperty(UpgradeContainer::LATEST_PATH);
@@ -57,7 +58,7 @@ class Unzip extends AbstractTask
             $this->next = 'error';
             $this->error = true;
 
-            return false;
+            return ExitCode::FAIL;
         }
 
         $res = $this->container->getZipAction()->extract($filepath, $destExtract);
@@ -73,7 +74,7 @@ class Unzip extends AbstractTask
                 ]
             ));
 
-            return false;
+            return ExitCode::FAIL;
         }
 
         // From PrestaShop 1.7, we zip all the files in another package
@@ -94,7 +95,7 @@ class Unzip extends AbstractTask
                     ]
                 ));
 
-                return false;
+                return ExitCode::FAIL;
             }
         } else {
             $filesystem = new Filesystem();
@@ -104,7 +105,7 @@ class Unzip extends AbstractTask
                 $this->logger->error(
                     $this->translator->trans('No prestashop/ folder found in the ZIP file. Aborting.'));
 
-                return;
+                return ExitCode::FAIL;
             }
             // /!\ On PS 1.6, files are unzipped in a subfolder PrestaShop
             foreach (scandir($zipSubfolder) as $file) {
@@ -115,13 +116,11 @@ class Unzip extends AbstractTask
             }
         }
 
-        // Unsetting to force listing
-        $this->container->getState()->setRemoveList(null);
         $this->next = 'backupFiles';
         $this->logger->info($this->translator->trans('File extraction complete. Now backing up files...'));
 
         @unlink($newZip);
 
-        return true;
+        return ExitCode::SUCCESS;
     }
 }
