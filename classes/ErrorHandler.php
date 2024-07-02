@@ -70,6 +70,7 @@ class ErrorHandler
     {
         $message = get_class($e) . ': ' . $e->getMessage();
         $this->report($e->getFile(), $e->getLine(), Logger::CRITICAL, $message, $e->getTraceAsString(), true);
+        exit(64);
     }
 
     /**
