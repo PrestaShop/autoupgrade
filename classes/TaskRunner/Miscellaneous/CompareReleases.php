@@ -30,6 +30,7 @@ namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous;
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\VersionUtils;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\ExitCode;
 
 /**
@@ -56,8 +57,7 @@ class CompareReleases extends AbstractTask
                 $version = $this->container->getUpgradeConfiguration()->get('directory.version_num');
                 break;
             default:
-                preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', _PS_VERSION_, $matches);
-                $upgrader->branch = $matches[1];
+                $upgrader->branch = VersionUtils::splitPrestaShopVersion(_PS_VERSION_)['major'];
                 $upgrader->channel = $channel;
                 if ($this->container->getUpgradeConfiguration()->get('channel') == 'private' && !$this->container->getUpgradeConfiguration()->get('private_allow_major')) {
                     $upgrader->checkPSVersion(false, ['private', 'minor']);

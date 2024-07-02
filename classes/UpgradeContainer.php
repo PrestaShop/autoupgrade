@@ -324,8 +324,7 @@ class UpgradeContainer
             $this->getProperty(self::PS_VERSION),
             $fileLoader
         );
-        preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', $this->getProperty(self::PS_VERSION), $matches);
-        $upgrader->branch = $matches[1];
+        $upgrader->branch = VersionUtils::splitPrestaShopVersion($this->getProperty(self::PS_VERSION))['major'];
         $upgradeConfiguration = $this->getUpgradeConfiguration();
         $channel = $upgradeConfiguration->get('channel');
         switch ($channel) {

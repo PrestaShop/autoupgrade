@@ -32,6 +32,7 @@ use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\ExitCode;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
+use PrestaShop\Module\AutoUpgrade\VersionUtils;
 
 /**
  * Download PrestaShop archive according to the chosen channel.
@@ -51,10 +52,8 @@ class Download extends AbstractTask
         }
 
         $upgrader = $this->container->getUpgrader();
-        // regex optimization
-        preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', _PS_VERSION_, $matches);
         $upgrader->channel = $this->container->getUpgradeConfiguration()->get('channel');
-        $upgrader->branch = $matches[1];
+        $upgrader->branch = VersionUtils::splitPrestaShopVersion(_PS_VERSION_)['major'];
         if ($this->container->getUpgradeConfiguration()->get('channel') == 'private' && !$this->container->getUpgradeConfiguration()->get('private_allow_major')) {
             $upgrader->checkPSVersion(false, ['private', 'minor']);
         } else {
