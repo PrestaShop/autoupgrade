@@ -38,6 +38,8 @@ document.getElementById("submitErrorReport").addEventListener("click", function 
             }
         });
 
+        Sentry.setTag("url", "toto");
+
         const eventId = Sentry.captureMessage(messages, "error");
         const userEmail = document.getElementById("userEmail");
         const errorDescription = document.getElementById("errorDescription");
