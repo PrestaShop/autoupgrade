@@ -25,6 +25,10 @@
 
 Sentry.init({
     dsn: "https://eae192966a8d79509154c65c317a7e5d@o298402.ingest.us.sentry.io/4507254110552064",
+    beforeSend(event) {
+        event.request.url = maskSensitiveInfoInUrl(event.request.url, input.adminUrl);
+        return event;
+    },
 });
 
 document.getElementById("submitErrorReport").addEventListener("click", function () {
@@ -37,6 +41,10 @@ document.getElementById("submitErrorReport").addEventListener("click", function 
                 messages += node.textContent.trim() + '\n';
             }
         });
+
+        const url = maskSensitiveInfoInUrl(window.location.href, input.adminUrl);
+
+        Sentry.setTag("url", url);
 
         const eventId = Sentry.captureMessage(messages, "error");
         const userEmail = document.getElementById("userEmail");
@@ -54,3 +62,11 @@ document.getElementById("submitErrorReport").addEventListener("click", function 
         $('#errorModal').modal('hide')
     }
 });
+
+function maskSensitiveInfoInUrl(url, adminFolder) {
+    let regex = new RegExp(adminFolder, "g");
+    url = url.replace(regex, '/********');
+
+    regex = new RegExp( "token=[^&]*", "i");
+    return url.replace(regex, 'token=********');
+}
