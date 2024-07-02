@@ -99,16 +99,9 @@ class VersionUtils
     /**
      * @param string $version
      *
-     * @return string|null
+     * @return array{'major': string,'minor': string,'patch': string}|null
      */
-    public static function getPrestashopMajorVersion($version)
-    {
-        preg_match('#(([0-1]{1}\.[0-9]+)|([0-9]+))(?:\.[0-9]+){2}#', $version, $matches);
-
-        return $matches[1];
-    }
-
-    public static function getPrestashopMinorVersion($version)
+    public static function splitPrestaShopVersion($version)
     {
         if (!is_string($version)) {
             throw new InvalidArgumentException('Version must be a string.');
@@ -119,18 +112,20 @@ class VersionUtils
             throw new InvalidArgumentException('Version string cannot be empty.');
         }
 
-        if (!preg_match('/^\d+\.\d+\.\d+(\.\d+)?$/', $version)) {
+        preg_match(
+            '#^(?<patch>(?<minor>(?<major>([0-1]{1}\.[0-9]+)|([0-9]+))(?:\.[0-9]+){1})(?:\.[0-9]+){1})$#',
+            $version,
+            $matches
+        );
+
+        if (empty($matches)) {
             throw new InvalidArgumentException('Invalid version format. Expected format: X.Y.Z or X.Y.Z.W');
         }
 
-        $parts = explode('.', $version);
-        $versionString = implode('.', $parts);
-        if (strlen($versionString) >= 8) {
-            $minorVersionParts = array_slice($parts, 0, 3);
-        } else {
-            $minorVersionParts = array_slice($parts, 0, 2);
-        }
-
-        return implode('.', $minorVersionParts);
+        return [
+            'major' => $matches['major'],
+            'minor' => $matches['minor'],
+            'patch' => $matches['patch'],
+        ];
     }
 }

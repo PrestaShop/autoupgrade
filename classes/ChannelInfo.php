@@ -43,7 +43,7 @@ class ChannelInfo
         $this->channel = $channel;
         $publicChannels = ['minor', 'major', 'rc', 'beta', 'alpha'];
 
-        $upgrader->branch = VersionUtils::getPrestashopMajorVersion(_PS_VERSION_);
+        $upgrader->branch = VersionUtils::splitPrestaShopVersion(_PS_VERSION_)['major'];
         $upgrader->channel = $channel;
 
         if (in_array($channel, $publicChannels)) {

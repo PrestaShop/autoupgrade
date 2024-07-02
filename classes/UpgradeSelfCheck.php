@@ -457,13 +457,13 @@ class UpgradeSelfCheck
         }
 
         if (version_compare($targetVersion, '8', '<')) {
-            $targetVersion = VersionUtils::getPrestashopMinorVersion($targetVersion);
+            $targetMinorVersion = VersionUtils::splitPrestaShopVersion($targetVersion)['minor'];
 
-            if (!isset($this::PRESTASHOP_17_PHP_REQUIREMENTS[$targetVersion])) {
+            if (!isset($this::PRESTASHOP_17_PHP_REQUIREMENTS[$targetMinorVersion])) {
                 return null;
             }
 
-            $range = $this::PRESTASHOP_17_PHP_REQUIREMENTS[$targetVersion];
+            $range = $this::PRESTASHOP_17_PHP_REQUIREMENTS[$targetMinorVersion];
         } else {
             try {
                 $range = $this->distributionApiService->getPhpVersionRequirements($targetVersion);

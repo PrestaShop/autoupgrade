@@ -324,7 +324,7 @@ class UpgradeContainer
             $this->getProperty(self::PS_VERSION),
             $fileLoader
         );
-        $upgrader->branch = VersionUtils::getPrestashopMajorVersion($this->getProperty(self::PS_VERSION));
+        $upgrader->branch = VersionUtils::splitPrestaShopVersion($this->getProperty(self::PS_VERSION))['major'];
         $upgradeConfiguration = $this->getUpgradeConfiguration();
         $channel = $upgradeConfiguration->get('channel');
         switch ($channel) {

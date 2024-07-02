@@ -106,32 +106,22 @@ class VersionUtilsTest extends TestCase
     /**
      * @dataProvider providerOfPrestaShopVersions
      */
-    public function testGetPrestashopMajorVersions(string $inputVersion, array $expected)
+    public function testSplitOfPrestaShopVersion(string $inputVersion, array $expected)
     {
-        $version = VersionUtils::getPrestashopMajorVersion($inputVersion);
+        $version = VersionUtils::splitPrestaShopVersion($inputVersion);
 
-        $this->assertSame($expected['major'], $version);
-    }
-
-    /**
-     * @dataProvider providerOfPrestaShopVersions
-     */
-    public function testGetPrestashopMinorVersion(string $inputVersion, array $expected)
-    {
-        $version = VersionUtils::getPrestashopMinorVersion($inputVersion);
-
-        $this->assertSame($expected['minor'], $version);
+        $this->assertEquals($expected, $version);
     }
 
     public function providerOfPrestaShopVersions()
     {
         return [
-            ['1.6.1.12', ['major' => '1.6', 'minor' => '1.6.1']],
-            ['1.7.8.11', ['major' => '1.7', 'minor' => '1.7.8']],
-            ['8.1.5', ['major' => '8', 'minor' => '8.1']],
-            ['8.1.5', ['major' => '8', 'minor' => '8.1']],
-            ['9.0.0', ['major' => '9', 'minor' => '9.0']],
-            ['10.1.5', ['major' => '10', 'minor' => '10.1']],
+            ['1.6.1.12', ['major' => '1.6', 'minor' => '1.6.1', 'patch' => '1.6.1.12']],
+            ['1.7.8.11', ['major' => '1.7', 'minor' => '1.7.8', 'patch' => '1.7.8.11']],
+            ['8.1.5', ['major' => '8', 'minor' => '8.1', 'patch' => '8.1.5']],
+            ['8.1.5', ['major' => '8', 'minor' => '8.1', 'patch' => '8.1.5']],
+            ['9.0.0', ['major' => '9', 'minor' => '9.0', 'patch' => '9.0.0']],
+            ['10.1.5', ['major' => '10', 'minor' => '10.1', 'patch' => '10.1.5']],
         ];
     }
 
@@ -140,7 +130,7 @@ class VersionUtilsTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Version must be a string.');
 
-        VersionUtils::getPrestashopMinorVersion(1);
+        VersionUtils::splitPrestaShopVersion(1)['minor'];
     }
 
     public function testGetPrestashopMinorVersionFailForEmptyString()
@@ -148,7 +138,7 @@ class VersionUtilsTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Version string cannot be empty.');
 
-        VersionUtils::getPrestashopMinorVersion('');
+        VersionUtils::splitPrestaShopVersion('')['minor'];
     }
 
     public function testGetPrestashopMinorVersionFailForIncorrectEntryFormatV1()
@@ -156,7 +146,7 @@ class VersionUtilsTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid version format. Expected format: X.Y.Z or X.Y.Z.W');
 
-        VersionUtils::getPrestashopMinorVersion('1');
+        VersionUtils::splitPrestaShopVersion('1')['minor'];
     }
 
     public function testGetPrestashopMinorVersionFailForIncorrectEntryFormatV2()
@@ -164,6 +154,6 @@ class VersionUtilsTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid version format. Expected format: X.Y.Z or X.Y.Z.W');
 
-        VersionUtils::getPrestashopMinorVersion('1.7.7.10.1');
+        VersionUtils::splitPrestaShopVersion('1.7.7.10.1')['minor'];
     }
 }

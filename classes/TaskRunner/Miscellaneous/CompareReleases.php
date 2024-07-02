@@ -56,7 +56,7 @@ class CompareReleases extends AbstractTask
                 $version = $this->container->getUpgradeConfiguration()->get('directory.version_num');
                 break;
             default:
-                $upgrader->branch = VersionUtils::getPrestashopMajorVersion(_PS_VERSION_);
+                $upgrader->branch = VersionUtils::splitPrestaShopVersion(_PS_VERSION_)['major'];
                 $upgrader->channel = $channel;
                 if ($this->container->getUpgradeConfiguration()->get('channel') == 'private' && !$this->container->getUpgradeConfiguration()->get('private_allow_major')) {
                     $upgrader->checkPSVersion(false, ['private', 'minor']);
