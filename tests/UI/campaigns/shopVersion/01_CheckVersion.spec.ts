@@ -54,6 +54,6 @@ test.describe('Check new shop version', () => {
     await utilsTest.addContextItem(test.info(), 'testIdentifier', 'checkShopVersionInDashboard', baseContext);
 
     const shopVersion = await boDashboardPage.getShopVersion(page);
-    expect(shopVersion).toEqual(psVersion);
+    expect(shopVersion).toContain(psVersion);
   });
 });

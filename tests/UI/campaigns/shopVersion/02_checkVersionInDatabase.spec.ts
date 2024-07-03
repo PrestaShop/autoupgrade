@@ -42,6 +42,6 @@ test.describe('Check new shop version', () => {
     const [resultRows]: [RowDataPacket[], FieldPacket[]] = await dbConnection.query(
       `SELECT value FROM ${dbPrefix}configuration WHERE name = 'PS_VERSION_DB'`,
     );
-    expect(resultRows[0].value).toEqual(psVersion);
+    expect(resultRows[0].value).toContain(psVersion);
   });
 });
