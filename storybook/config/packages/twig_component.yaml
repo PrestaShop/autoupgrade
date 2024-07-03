@@ -1,0 +1,5 @@
+twig_component:
+    anonymous_template_directory: '@ModuleAutoUpgrade'
+    defaults:
+        App\Twig\Components\:
+            template_directory: '../../views/templates/'

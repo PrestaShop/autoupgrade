@@ -25,13 +25,13 @@
 </div>
 
 {# content #}
-{{ currentConfig|raw }}
-{{ upgradeButtonBlock|raw }}
+{% include '@ModuleAutoUpgrade/block/checklist.html.twig' %}
+{% include '@ModuleAutoUpgrade/block/upgradeButtonBlock.html.twig' %}
 
-{% include '@ModuleAutoUpgrade/block/versionComparison.twig' %}
-{% include '@ModuleAutoUpgrade/block/activityLog.twig' %}
+{% include '@ModuleAutoUpgrade/block/versionComparison.html.twig' %}
+{% include '@ModuleAutoUpgrade/block/activityLog.html.twig' %}
 
-{{ rollbackForm|raw }}
+{% include '@ModuleAutoUpgrade/block/rollbackForm.html.twig' %}
 
 <br>
 <form action="{{ currentIndex }}&amp;customSubmitAutoUpgrade=1&amp;token={{ token }}" method="post" class="form-horizontal" enctype="multipart/form-data">
@@ -39,7 +39,7 @@
     {{ upgradeOptions|raw }}
 </form>
 
-{% include '@ModuleAutoUpgrade/block/footer.twig' %}
+{% include '@ModuleAutoUpgrade/block/footer.html.twig' %}
 
 <script src="{{ psBaseUri }}modules/autoupgrade/js/jquery.xml2json.js"></script>
 <script>

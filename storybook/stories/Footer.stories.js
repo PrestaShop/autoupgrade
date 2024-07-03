@@ -1,5 +1,3 @@
-<?php
-
 /**
  * Copyright since 2007 PrestaShop SA and Contributors
  * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
@@ -25,44 +23,10 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\Twig\Block;
+import Footer from "../../views/templates/block/footer.html.twig";
 
-use PrestaShop\Module\AutoUpgrade\BackupFinder;
-use Twig\Environment;
+export default {
+  component: Footer,
+};
 
-class RollbackForm
-{
-    /**
-     * @var Environment
-     */
-    private $twig;
-
-    /**
-     * @var BackupFinder
-     */
-    private $backupFinder;
-
-    /**
-     * @param Environment $twig
-     */
-    public function __construct($twig, BackupFinder $backupFinder)
-    {
-        $this->twig = $twig;
-        $this->backupFinder = $backupFinder;
-    }
-
-    /**
-     * @return array<string, mixed>
-     */
-    public function getTemplateVars(): array
-    {
-        return [
-            'availableBackups' => $this->backupFinder->getAvailableBackups(),
-        ];
-    }
-
-    public function render(): string
-    {
-        return $this->twig->render('@ModuleAutoUpgrade/block/rollbackForm.html.twig', $this->getTemplateVars());
-    }
-}
+export const Default = {};

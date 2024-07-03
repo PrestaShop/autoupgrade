@@ -1,5 +1,3 @@
-<?php
-
 /**
  * Copyright since 2007 PrestaShop SA and Contributors
  * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
@@ -25,44 +23,37 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\Twig\Block;
+import type { StorybookConfig } from "@sensiolabs/storybook-symfony-webpack5";
 
-use PrestaShop\Module\AutoUpgrade\BackupFinder;
-use Twig\Environment;
-
-class RollbackForm
-{
-    /**
-     * @var Environment
-     */
-    private $twig;
-
-    /**
-     * @var BackupFinder
-     */
-    private $backupFinder;
-
-    /**
-     * @param Environment $twig
-     */
-    public function __construct($twig, BackupFinder $backupFinder)
-    {
-        $this->twig = $twig;
-        $this->backupFinder = $backupFinder;
-    }
-
-    /**
-     * @return array<string, mixed>
-     */
-    public function getTemplateVars(): array
-    {
-        return [
-            'availableBackups' => $this->backupFinder->getAvailableBackups(),
-        ];
-    }
-
-    public function render(): string
-    {
-        return $this->twig->render('@ModuleAutoUpgrade/block/rollbackForm.html.twig', $this->getTemplateVars());
-    }
-}
+const config: StorybookConfig = {
+  stories: ["../stories/**/*.stories.[tj]s", "../stories/**/*.mdx"],
+  addons: [
+    "@storybook/addon-webpack5-compiler-swc",
+    "@storybook/addon-links",
+    "@storybook/addon-essentials",
+  ],
+  framework: {
+    name: "@sensiolabs/storybook-symfony-webpack5",
+    options: {
+      // 👇 Here configure the framework
+      symfony: {
+        server: "http://localhost:8003",
+        proxyPaths: ["/assets"],
+        additionalWatchPaths: ["assets"],
+      },
+    },
+  },
+  docs: {
+    autodocs: "tag",
+  },
+  managerHead: (head) => `
+        ${head}
+        <link rel="stylesheet" type="text/css" href="/ibm-plex-sans.css" />
+    `,
+  previewBody: (body) => `
+        <link rel="stylesheet" type="text/css" href="styles.css" />
+        ${body}
+    `,
+  staticDirs: ["../public", "../../css", "../../js", "../node_modules/prestashop-bo-themes"],
+};
+export default config;

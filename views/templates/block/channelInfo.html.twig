@@ -3,7 +3,7 @@
         <div style="clear:both">
             <label class="label-small">{{ 'Branch:'|trans({}) }}</label>
             <span class="available">
-                <img src="../img/admin/{% if upgradeInfo.available is not empty %}enabled{% else %}disabled{% endif %}.gif">
+                <img src="{{ psBaseUri }}img/admin/{% if upgradeInfo.available is not empty %}enabled{% else %}disabled{% endif %}.gif">
                 {% if upgradeInfo.available is not empty %}
                     {{ 'Available'|trans({}) }}
                 {% else %}

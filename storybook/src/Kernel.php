@@ -25,44 +25,12 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\Twig\Block;
+namespace App;
 
-use PrestaShop\Module\AutoUpgrade\BackupFinder;
-use Twig\Environment;
+use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
+use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 
-class RollbackForm
+class Kernel extends BaseKernel
 {
-    /**
-     * @var Environment
-     */
-    private $twig;
-
-    /**
-     * @var BackupFinder
-     */
-    private $backupFinder;
-
-    /**
-     * @param Environment $twig
-     */
-    public function __construct($twig, BackupFinder $backupFinder)
-    {
-        $this->twig = $twig;
-        $this->backupFinder = $backupFinder;
-    }
-
-    /**
-     * @return array<string, mixed>
-     */
-    public function getTemplateVars(): array
-    {
-        return [
-            'availableBackups' => $this->backupFinder->getAvailableBackups(),
-        ];
-    }
-
-    public function render(): string
-    {
-        return $this->twig->render('@ModuleAutoUpgrade/block/rollbackForm.html.twig', $this->getTemplateVars());
-    }
+    use MicroKernelTrait;
 }

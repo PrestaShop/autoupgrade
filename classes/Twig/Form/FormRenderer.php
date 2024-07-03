@@ -148,7 +148,7 @@ class FormRenderer
         }
 
         return $this->twig->render(
-            '@ModuleAutoUpgrade/form.twig',
+            '@ModuleAutoUpgrade/form.html.twig',
             [
                 'name' => $name,
                 'tabName' => $tabname,

@@ -164,36 +164,47 @@ class UpgradePage
         $errMessageData = $this->getErrorMessage();
         if (!empty($errMessageData)) {
             return $twig
-                ->render('@ModuleAutoUpgrade/error.twig', $errMessageData);
+                ->render('@ModuleAutoUpgrade/error.html.twig', $errMessageData);
         }
 
         $templateData = [
             'psBaseUri' => __PS_BASE_URI__,
             'translationDomain' => $translationDomain,
             'jsParams' => $this->getJsParams($ajaxResult),
-            'currentConfig' => $this->getChecklistBlock(),
-            'upgradeButtonBlock' => $this->getUpgradeButtonBlock(),
-            'rollbackForm' => $this->getRollbackForm(),
+            'rollbackForm' => $this->getRollbackFormVars(),
             'backupOptions' => $this->getBackupOptionsForm(),
             'upgradeOptions' => $this->getUpgradeOptionsForm(),
             'currentIndex' => $this->currentIndex,
             'token' => $this->token,
         ];
 
-        return $twig->render('@ModuleAutoUpgrade/main.twig', $templateData);
+        $templateData = array_merge(
+            $templateData,
+            $this->getChecklistBlockVars(),
+            $this->getUpgradeButtonBlockVars(),
+            $this->getRollbackFormVars()
+        );
+
+        return $twig->render('@ModuleAutoUpgrade/main.html.twig', $templateData);
     }
 
-    private function getChecklistBlock(): string
+    /**
+     * @return array<string, mixed>
+     */
+    private function getChecklistBlockVars(): array
     {
         return (new UpgradeChecklist(
             $this->twig,
             $this->upgradeSelfCheck,
             $this->currentIndex,
             $this->token
-        ))->render();
+        ))->getTemplateVars();
     }
 
-    private function getUpgradeButtonBlock(): string
+    /**
+     * @return array<string, mixed>
+     */
+    private function getUpgradeButtonBlockVars(): array
     {
         return (new UpgradeButtonBlock(
             $this->twig,
@@ -204,13 +215,16 @@ class UpgradePage
             $this->downloadPath,
             $this->token,
             $this->manualMode
-        ))->render();
+        ))->getTemplateVars();
     }
 
-    private function getRollbackForm(): string
+    /**
+     * @return array<string, mixed>
+     */
+    private function getRollbackFormVars(): array
     {
         return (new RollbackForm($this->twig, $this->backupFinder))
-            ->render();
+            ->getTemplateVars();
     }
 
     private function getBackupOptionsForm(): string

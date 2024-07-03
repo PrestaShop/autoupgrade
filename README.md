@@ -84,6 +84,12 @@ $ php cli-rollback.php  --dir=admin-dev --backup=V1.7.5.1_20190502-191341-22e883
 
 Documentation is hosted on [the Developer documentation][doc].
 
+## Use Storybook for an interface overview
+
+The [Storybook folder](/storybook) contains a project allowing you to use Storybook to have an overview of the project interface under different versions of PrestaShop.
+
+More information on the project [README](/storybook/README.md).
+
 ## Contributing
 
 PrestaShop modules are open source extensions to the [PrestaShop e-commerce platform][prestashop]. Everyone is welcome and even encouraged to contribute with their own improvements!

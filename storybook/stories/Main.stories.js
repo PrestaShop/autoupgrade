@@ -1,5 +1,3 @@
-<?php
-
 /**
  * Copyright since 2007 PrestaShop SA and Contributors
  * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
@@ -25,44 +23,26 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\Twig\Block;
+import Main from "../../views/templates/main.html.twig";
+import UpgradeButton from "./UpgradeButton.stories";
+import UpgradeChecklist from "./UpgradeChecklist.stories";
+import RollbackForm from "./RollbackForm.stories";
 
-use PrestaShop\Module\AutoUpgrade\BackupFinder;
-use Twig\Environment;
+export default {
+  component: Main,
+};
 
-class RollbackForm
-{
-    /**
-     * @var Environment
-     */
-    private $twig;
-
-    /**
-     * @var BackupFinder
-     */
-    private $backupFinder;
-
-    /**
-     * @param Environment $twig
-     */
-    public function __construct($twig, BackupFinder $backupFinder)
-    {
-        $this->twig = $twig;
-        $this->backupFinder = $backupFinder;
-    }
-
-    /**
-     * @return array<string, mixed>
-     */
-    public function getTemplateVars(): array
-    {
-        return [
-            'availableBackups' => $this->backupFinder->getAvailableBackups(),
-        ];
-    }
-
-    public function render(): string
-    {
-        return $this->twig->render('@ModuleAutoUpgrade/block/rollbackForm.html.twig', $this->getTemplateVars());
-    }
-}
+export const Default = {
+  args: {
+    psBaseUri: "/",
+    translationDomain: "Modules.Autoupgrade.Admin",
+    jsParams: "tata",
+    backupOptions: "",
+    upgradeOptions: "",
+    currentIndex: "index.php?controller=AdminSelfUpgrade",
+    token: "64e10c9ef64f54c44d510fe41bcf4328",
+    ...UpgradeButton.args,
+    ...UpgradeChecklist.args,
+    ...RollbackForm.args,
+  },
+};

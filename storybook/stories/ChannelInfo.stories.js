@@ -1,5 +1,3 @@
-<?php
-
 /**
  * Copyright since 2007 PrestaShop SA and Contributors
  * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
@@ -25,44 +23,23 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\Twig\Block;
+import ChannelInfo from "../../views/templates/block/channelInfo.html.twig";
 
-use PrestaShop\Module\AutoUpgrade\BackupFinder;
-use Twig\Environment;
+export default {
+  component: ChannelInfo,
+  args: {
+    psBaseUri: "/",
+    upgradeInfo: {
+      branch: "8",
+      available: 8,
+      version_num: "8.1.7",
+      version_name: "8 stable",
+      link: "https://github.com/PrestaShop/PrestaShop/releases/download/8.1.7/prestashop_8.1.7.zip",
+      md5: "52267b8918d8a7e0686016d013a0bfc3",
+      changelog:
+        "https://build.prestashop-project.org/news/2024/prestashop-8-1-7-maintenance-release/",
+    },
+  },
+};
 
-class RollbackForm
-{
-    /**
-     * @var Environment
-     */
-    private $twig;
-
-    /**
-     * @var BackupFinder
-     */
-    private $backupFinder;
-
-    /**
-     * @param Environment $twig
-     */
-    public function __construct($twig, BackupFinder $backupFinder)
-    {
-        $this->twig = $twig;
-        $this->backupFinder = $backupFinder;
-    }
-
-    /**
-     * @return array<string, mixed>
-     */
-    public function getTemplateVars(): array
-    {
-        return [
-            'availableBackups' => $this->backupFinder->getAvailableBackups(),
-        ];
-    }
-
-    public function render(): string
-    {
-        return $this->twig->render('@ModuleAutoUpgrade/block/rollbackForm.html.twig', $this->getTemplateVars());
-    }
-}
+export const Default = {};

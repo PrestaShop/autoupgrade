@@ -90,7 +90,7 @@
                             </option>
                         {% endfor %}
                     </select>
-                    {{ channelInfoBlock|raw }}
+                    {% include '@ModuleAutoUpgrade/block/channelInfo.html.twig' %}
                     <div id="for-usePrivate">
                         <p><label for="private_release_link">{{ 'Link:'|trans({}) }} *</label>
                             <input type="text" size="50" id="private_release_link" name="private_release_link" value="{{ privateChannel.releaseLink }}" required>

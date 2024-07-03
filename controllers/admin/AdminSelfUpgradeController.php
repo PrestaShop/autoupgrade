@@ -496,7 +496,7 @@ class AdminSelfUpgradeController extends ModuleAdminController
                     $twigLoader->addPath('../modules/autoupgrade/views/templates', 'ModuleAutoUpgrade');
                 }
                 $twig = $kernel->getContainer()->get('twig');
-                $this->content = $twig->render('@ModuleAutoUpgrade/error.twig', $templateData);
+                $this->content = $twig->render('@ModuleAutoUpgrade/error.html.twig', $templateData);
             } catch (Exception $e) {
                 $this->displayWarning($templateData['message']);
             }
