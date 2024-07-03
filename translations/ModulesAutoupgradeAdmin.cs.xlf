@@ -59,24 +59,24 @@
         <target state="final">Proces aktualizace bude používat archiv.</target>
         <note>Line: 120</note>
       </trans-unit>
-      <trans-unit id="c944c279a9e87437e100f65b8c87c391">
+      <trans-unit id="c944c279a9e87437e100f65b8c87c391" approved="yes">
         <source>Version number is missing. Unable to select that channel.</source>
-        <target state="needs-translation">Version number is missing. Unable to select that channel.</target>
+        <target state="final">Chybí číslo verze. Tento kanál nelze vybrat.</target>
         <note>Line: 126</note>
       </trans-unit>
-      <trans-unit id="1fe9dd96f646eaa0cd3a0fcc7632ce12">
+      <trans-unit id="1fe9dd96f646eaa0cd3a0fcc7632ce12" approved="yes">
         <source>Error on saving configuration</source>
-        <target state="needs-translation">Error on saving configuration</target>
+        <target state="final">Chyba při ukládání nastavení</target>
         <note>Line: 142</note>
       </trans-unit>
-      <trans-unit id="f2ff9d001d0a553c78da73443e7fcd97">
+      <trans-unit id="f2ff9d001d0a553c78da73443e7fcd97" approved="yes">
         <source>Configuration successfully updated.</source>
-        <target state="needs-translation">Configuration successfully updated.</target>
+        <target state="final">Nastavení bylo aktualizováno.</target>
         <note>Line: 193</note>
       </trans-unit>
-      <trans-unit id="40b980e89ae332507380470cd26cdf4d">
+      <trans-unit id="40b980e89ae332507380470cd26cdf4d" approved="yes">
         <source>This page will now be reloaded and the module will check if a new version is available.</source>
-        <target state="needs-translation">This page will now be reloaded and the module will check if a new version is available.</target>
+        <target state="final">Tato stránka bude nyní znovu načtena a zkontroluje se, zda není k dispozici nová verze.</target>
         <note>Line: 193</note>
       </trans-unit>
     </body>
@@ -97,9 +97,9 @@
         <target state="final">%s: formát souboru neodpovídá.</target>
         <note>Line: 70</note>
       </trans-unit>
-      <trans-unit id="c2bcd4d44d646c47753473ff94cc66ac">
+      <trans-unit id="c2bcd4d44d646c47753473ff94cc66ac" approved="yes">
         <source>Opening backup database file %filename% in %extension% mode</source>
-        <target state="needs-translation">Opening backup database file %filename% in %extension% mode</target>
+        <target state="final">Otevírání zálohy databáze v souboru %filename% v režimu %extension%</target>
         <note>Line: 82</note>
       </trans-unit>
       <trans-unit id="5ce67d010ab9c98ae1dbd6b5ea149982" approved="yes">
@@ -112,9 +112,9 @@
         <target state="needs-translation">Database restoration file %filename% done. %filescount% file(s) left...</target>
         <note>Line: 168</note>
       </trans-unit>
-      <trans-unit id="55fc6682e256e387afb10ebf6c95aed5">
+      <trans-unit id="55fc6682e256e387afb10ebf6c95aed5" approved="yes">
         <source>Database restoration file %1$s done.</source>
-        <target state="needs-translation">Database restoration file %1$s done.</target>
+        <target state="final">Obnova databáze ze souboru %1$s byla dokončena.</target>
         <note>Line: 175</note>
       </trans-unit>
       <trans-unit id="5b37242b8a0a39af0a9dc28abdabba28" approved="yes">
@@ -151,19 +151,19 @@
         <target state="needs-translation">%s file(s) will be removed before restoring the backup files.</target>
         <note>Line: 73</note>
       </trans-unit>
-      <trans-unit id="e3ca00e5b833d0a90d433416435dcaf5">
+      <trans-unit id="e3ca00e5b833d0a90d433416435dcaf5" approved="yes">
         <source>[ERROR] Backup file %s does not exist.</source>
-        <target state="needs-translation">[ERROR] Backup file %s does not exist.</target>
+        <target state="final">[ERROR] Soubor se zálohou %s nebyl nalezen.</target>
         <note>Line: 78</note>
       </trans-unit>
-      <trans-unit id="8dbf48bc796e7f70a17c63dd084bf068">
+      <trans-unit id="8dbf48bc796e7f70a17c63dd084bf068" approved="yes">
         <source>[ERROR] File "%s" does not exist.</source>
-        <target state="needs-translation">[ERROR] File "%s" does not exist.</target>
+        <target state="final">[ERROR] Soubor "%s" nebyl nalezen.</target>
         <note>Line: 81</note>
       </trans-unit>
-      <trans-unit id="2a2c187bdb804ba79fd4bf8972ba5073">
+      <trans-unit id="2a2c187bdb804ba79fd4bf8972ba5073" approved="yes">
         <source>Unable to remove upgraded files.</source>
-        <target state="needs-translation">Unable to remove upgraded files.</target>
+        <target state="final">Nepodařilo se odstranit upgradované soubory.</target>
         <note>Line: 83</note>
       </trans-unit>
       <trans-unit id="1f63628adef352c2a7ee4225b9dcd576">
@@ -213,29 +213,29 @@
   </file>
   <file original="classes/TaskRunner/Upgrade/BackupDb.php" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="926abe867e8b1be1c0b053234cae77ba">
+      <trans-unit id="926abe867e8b1be1c0b053234cae77ba" approved="yes">
         <source>Database backup skipped. Now upgrading files...</source>
-        <target state="needs-translation">Database backup skipped. Now upgrading files...</target>
+        <target state="final">Zálohování databáze bylo přeskočeno. Teď probíhá aktualizace souborů...</target>
         <note>Line: 48</note>
       </trans-unit>
-      <trans-unit id="555231214d7c729089e80f561e118f45">
+      <trans-unit id="555231214d7c729089e80f561e118f45" approved="yes">
         <source>Backup directory is not writable (%path%).</source>
-        <target state="needs-translation">Backup directory is not writable (%path%).</target>
+        <target state="final">Adresář záloh není zapisovatelný (%path%).</target>
         <note>Line: 58</note>
       </trans-unit>
-      <trans-unit id="d12ae4e7f0d20f4a4ca357d48e42877e">
+      <trans-unit id="d12ae4e7f0d20f4a4ca357d48e42877e" approved="yes">
         <source>Backup file %s already exists. Operation aborted.</source>
-        <target state="needs-translation">Backup file %s already exists. Operation aborted.</target>
+        <target state="final">Soubor se zálohou %s již existuje. Operace byla přerušena.</target>
         <note>Line: 136</note>
       </trans-unit>
-      <trans-unit id="d82896159c60199272e5ea481a733eba">
+      <trans-unit id="d82896159c60199272e5ea481a733eba" approved="yes">
         <source>Unable to create backup database file %s.</source>
-        <target state="needs-translation">Unable to create backup database file %s.</target>
+        <target state="final">Nebylo možné vytvořit soubor se zálohou databáze %s.</target>
         <note>Line: 150</note>
       </trans-unit>
-      <trans-unit id="dcb7d833c69d6e0c3f009381c51f898e">
+      <trans-unit id="dcb7d833c69d6e0c3f009381c51f898e" approved="yes">
         <source>Error during database backup.</source>
-        <target state="needs-translation">Error during database backup.</target>
+        <target state="final">Chyba při zálohování databáze.</target>
         <note>Line: 178</note>
       </trans-unit>
       <trans-unit id="52033453d4d673bae012b9c8ccb1e79c">
@@ -243,24 +243,24 @@
         <target state="needs-translation">An error occurred while backing up. Unable to obtain the schema of %s</target>
         <note>Line: 177</note>
       </trans-unit>
-      <trans-unit id="4d4c62fccb481224ff3a5c36b45de3fd">
+      <trans-unit id="4d4c62fccb481224ff3a5c36b45de3fd" approved="yes">
         <source>%s table has been saved.</source>
-        <target state="needs-translation">%s table has been saved.</target>
+        <target state="final">%s tabulka byla uložena.</target>
         <note>Line: 255</note>
       </trans-unit>
-      <trans-unit id="71426d0545181d601dc135b78e74ac8f">
+      <trans-unit id="71426d0545181d601dc135b78e74ac8f" approved="yes">
         <source>%s tables have been saved.</source>
-        <target state="needs-translation">%s tables have been saved.</target>
+        <target state="final">%s tabulek bylo uloženo.</target>
         <note>Line: 290</note>
       </trans-unit>
-      <trans-unit id="c2a086cb5c3373d7e11acbd3ace6a553">
+      <trans-unit id="c2a086cb5c3373d7e11acbd3ace6a553" approved="yes">
         <source>Database backup: %s table(s) left...</source>
-        <target state="needs-translation">Database backup: %s table(s) left...</target>
+        <target state="final">Záloha databáze: zbývá %s tabulek...</target>
         <note>Line: 271</note>
       </trans-unit>
-      <trans-unit id="f5f6ee32184b6a03c5c9928cbefa07f7">
+      <trans-unit id="f5f6ee32184b6a03c5c9928cbefa07f7" approved="yes">
         <source>No valid tables were found to back up. Backup of file %s canceled.</source>
-        <target state="needs-translation">No valid tables were found to back up. Backup of file %s canceled.</target>
+        <target state="final">Nebyly nalezeny platné tabulky k záloze. Záloha souboru %s byla zrušena.</target>
         <note>Line: 279</note>
       </trans-unit>
       <trans-unit id="0e27b7ac485e03dabd5648acd5982dde" approved="yes">
@@ -333,80 +333,80 @@
       <trans-unit id="fb1ca1f5f3eb5a2ca85201f449525527">
         <source>You need allow_url_fopen or cURL enabled for automatic download to work. You can also manually upload it in filepath %s.</source>
         <target state="needs-translation">You need allow_url_fopen or cURL enabled for automatic download to work. You can also manually upload it in filepath %s.</target>
-        <note>Line: 46</note>
+        <note>Line: 47</note>
       </trans-unit>
       <trans-unit id="f31c50f6d0edbbb94aa24943b118e316" approved="yes">
         <source>Downloading from %s</source>
         <target state="final">Stahování z %s</target>
-        <note>Line: 67</note>
+        <note>Line: 66</note>
       </trans-unit>
       <trans-unit id="73227d741d23c1c6c0ae027b2dbc9e73" approved="yes">
         <source>File will be saved in %s</source>
         <target state="final">Soubor bude uložen v %s</target>
-        <note>Line: 68</note>
+        <note>Line: 67</note>
       </trans-unit>
-      <trans-unit id="53be0a7251b3bd0de81f488687bc0464">
+      <trans-unit id="53be0a7251b3bd0de81f488687bc0464" approved="yes">
         <source>Download directory has been emptied</source>
-        <target state="needs-translation">Download directory has been emptied</target>
-        <note>Line: 71</note>
+        <target state="final">Složka pro stahování byla vyčištěna</target>
+        <note>Line: 70</note>
       </trans-unit>
-      <trans-unit id="3c2681ea85407c2c0d252e05a8eaf6aa">
+      <trans-unit id="3c2681ea85407c2c0d252e05a8eaf6aa" approved="yes">
         <source>Download complete.</source>
-        <target state="needs-translation">Download complete.</target>
+        <target state="final">Stahování dokončeno.</target>
+        <note>Line: 80</note>
+      </trans-unit>
+      <trans-unit id="a55401a11251f53f612e950d4115e116" approved="yes">
+        <source>Download complete. Now extracting...</source>
+        <target state="final">Stahování bylo dokončeno. Nyní probíhá rozbalování...</target>
         <note>Line: 81</note>
       </trans-unit>
-      <trans-unit id="a55401a11251f53f612e950d4115e116">
-        <source>Download complete. Now extracting...</source>
-        <target state="needs-translation">Download complete. Now extracting...</target>
-        <note>Line: 82</note>
-      </trans-unit>
-      <trans-unit id="2d9a3f4a92c008b32903541e9af8aff0">
+      <trans-unit id="2d9a3f4a92c008b32903541e9af8aff0" approved="yes">
         <source>Download complete but MD5 sum does not match (%s).</source>
-        <target state="needs-translation">Download complete but MD5 sum does not match (%s).</target>
+        <target state="final">Stahování bylo dokončeno, ale kontrolní součet MD5 neodpovídá (%s).</target>
+        <note>Line: 83</note>
+      </trans-unit>
+      <trans-unit id="df88998b6b9585bbcfd201186695b686" approved="yes">
+        <source>Download complete but MD5 sum does not match (%s). Operation aborted.</source>
+        <target state="final">Stahování bylo dokončeno, ale kontrolní součet MD5 neodpovídá (%s). Operace byla zrušena.</target>
         <note>Line: 84</note>
       </trans-unit>
-      <trans-unit id="df88998b6b9585bbcfd201186695b686">
-        <source>Download complete but MD5 sum does not match (%s). Operation aborted.</source>
-        <target state="needs-translation">Download complete but MD5 sum does not match (%s). Operation aborted.</target>
-        <note>Line: 85</note>
-      </trans-unit>
-      <trans-unit id="412cb9a2978bf041be4ca6c6ded0030c">
+      <trans-unit id="412cb9a2978bf041be4ca6c6ded0030c" approved="yes">
         <source>Error during download. The private key may be incorrect.</source>
-        <target state="needs-translation">Error during download. The private key may be incorrect.</target>
-        <note>Line: 90</note>
+        <target state="final">Chyba při stahování. Soukromý klíč možná není správný.</target>
+        <note>Line: 89</note>
       </trans-unit>
-      <trans-unit id="0c0db54fe8212c1a7215005fef75d7dd">
+      <trans-unit id="0c0db54fe8212c1a7215005fef75d7dd" approved="yes">
         <source>Error during download</source>
-        <target state="needs-translation">Error during download</target>
-        <note>Line: 92</note>
+        <target state="final">Došlo k chybě během stahování</target>
+        <note>Line: 91</note>
       </trans-unit>
-      <trans-unit id="5385901e5bed459563860e2f08a90a1c">
+      <trans-unit id="5385901e5bed459563860e2f08a90a1c" approved="yes">
         <source>Download directory %s is not writable.</source>
-        <target state="needs-translation">Download directory %s is not writable.</target>
-        <note>Line: 97</note>
+        <target state="final">Adresář pro stažení %s není zapisovatelný.</target>
+        <note>Line: 96</note>
       </trans-unit>
     </body>
   </file>
   <file original="classes/TaskRunner/Upgrade/Unzip.php" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="654f7ceb787fd455c166d5d8744cbf90">
+      <trans-unit id="654f7ceb787fd455c166d5d8744cbf90" approved="yes">
         <source>"/latest" directory has been emptied</source>
-        <target state="needs-translation">"/latest" directory has been emptied</target>
+        <target state="final">Složka "/latest" byla vyprázdněna</target>
         <note>Line: 51</note>
       </trans-unit>
-      <trans-unit id="01d9d38b1d4d8eff5b530eeecfd3ccd5">
+      <trans-unit id="01d9d38b1d4d8eff5b530eeecfd3ccd5" approved="yes">
         <source>Extraction directory %s is not writable.</source>
-        <target state="needs-translation">Extraction directory %s is not writable.</target>
+        <target state="final">Adresář pro rozbalení souborů %s není zapisovatelný.</target>
         <note>Line: 56</note>
       </trans-unit>
-      <trans-unit id="69ae4bbd4b14ae388e4e3882945a542e">
+      <trans-unit id="69ae4bbd4b14ae388e4e3882945a542e" approved="yes">
         <source>Unable to extract %filepath% file into %destination% folder...</source>
-        <target state="needs-translation">Unable to extract %filepath% file into %destination% folder...</target>
+        <target state="final">Soubor %filepath% se nepodařilo rozbalit do složky %destination%...</target>
         <note>Line: 90</note>
       </trans-unit>
-      <trans-unit id="5d3c14ccb814427455842b838bbd6f21">
+      <trans-unit id="5d3c14ccb814427455842b838bbd6f21" approved="yes">
         <source>No prestashop/ folder found in the ZIP file. Aborting.</source>
-        <target state="needs-translation">No prestashop/ folder found in the ZIP file. Aborting.</target>
+        <target state="final">V souboru ZIP nenalezena složka prestashop/. Ukončuji.</target>
         <note>Line: 105</note>
       </trans-unit>
       <trans-unit id="231e6cd17aead2388d971f9e75810ca1" approved="yes">
@@ -418,72 +418,72 @@
   </file>
   <file original="classes/TaskRunner/Upgrade/UpgradeComplete.php" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="7a32329d6776ff98d77f7344caf7e00b">
+      <trans-unit id="7a32329d6776ff98d77f7344caf7e00b" approved="yes">
         <source>Upgrade process done, but some warnings have been found.</source>
-        <target state="needs-translation">Upgrade process done, but some warnings have been found.</target>
+        <target state="final">Proces aktualizace proběhl, ale s varováním.</target>
         <note>Line: 46</note>
       </trans-unit>
-      <trans-unit id="2a7e17be5dc799b0c478ec5f576f0713">
+      <trans-unit id="2a7e17be5dc799b0c478ec5f576f0713" approved="yes">
         <source>Upgrade process done. Congratulations! You can now reactivate your shop.</source>
-        <target state="needs-translation">Upgrade process done. Congratulations! You can now reactivate your shop.</target>
+        <target state="final">Proces aktualizace byl dokončen. Gratulujeme! Nyní můžete znovu zapnout váš obchod.</target>
         <note>Line: 47</note>
       </trans-unit>
-      <trans-unit id="d2b9f1e39aa8e96bb61f3a4bfe133f58">
+      <trans-unit id="d2b9f1e39aa8e96bb61f3a4bfe133f58" approved="yes">
         <source>%s removed</source>
-        <target state="needs-translation">%s removed</target>
+        <target state="final">%s odstraněn</target>
         <note>Line: 59</note>
       </trans-unit>
-      <trans-unit id="75802ba44ba3369defd92ef897bf2f21">
+      <trans-unit id="75802ba44ba3369defd92ef897bf2f21" approved="yes">
         <source>Please remove %s by FTP</source>
-        <target state="needs-translation">Please remove %s by FTP</target>
+        <target state="final">Prosím odstraňte %s přes FTP</target>
         <note>Line: 61</note>
       </trans-unit>
     </body>
   </file>
   <file original="classes/TaskRunner/Upgrade/UpgradeDb.php" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="badf6aad60d4a95b698028bc55aa3347">
+      <trans-unit id="badf6aad60d4a95b698028bc55aa3347" approved="yes">
         <source>Cleaning file cache</source>
-        <target state="needs-translation">Cleaning file cache</target>
+        <target state="final">Čistím cache souborů</target>
         <note>Line: 75</note>
       </trans-unit>
-      <trans-unit id="8c4204265814594491ae20c9899a0fff">
+      <trans-unit id="8c4204265814594491ae20c9899a0fff" approved="yes">
         <source>Running opcache_reset</source>
-        <target state="needs-translation">Running opcache_reset</target>
+        <target state="final">Spouštím opcache_reset</target>
         <note>Line: 77</note>
       </trans-unit>
-      <trans-unit id="eac34868b4fb511702e53d1405c45454">
+      <trans-unit id="eac34868b4fb511702e53d1405c45454" approved="yes">
         <source>Error during database upgrade. You may need to restore your database.</source>
-        <target state="needs-translation">Error during database upgrade. You may need to restore your database.</target>
+        <target state="final">Došlo k chybě při aktualizaci databáze. Možná bude nutné provést její obnovu ze zálohy.</target>
         <note>Line: 48</note>
       </trans-unit>
-      <trans-unit id="08ee54c048e1589f4072a351035db2ad">
+      <trans-unit id="08ee54c048e1589f4072a351035db2ad" approved="yes">
         <source>Database upgraded. Now upgrading your Addons modules...</source>
-        <target state="needs-translation">Database upgraded. Now upgrading your Addons modules...</target>
+        <target state="final">Databáze byla aktualizována. Nyní probíhá aktualizace modulů...</target>
         <note>Line: 55</note>
       </trans-unit>
     </body>
   </file>
   <file original="classes/TaskRunner/Upgrade/UpgradeFiles.php" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="4f7c02592a962e40a920f32f3a24f2df">
+      <trans-unit id="4f7c02592a962e40a920f32f3a24f2df" approved="yes">
         <source>filesToUpgrade is not an array</source>
-        <target state="needs-translation">filesToUpgrade is not an array</target>
+        <target state="final">filesToUpgrade není pole</target>
         <note>Line: 59</note>
       </trans-unit>
-      <trans-unit id="6274f940a4c03421253b1acc4064349e">
+      <trans-unit id="6274f940a4c03421253b1acc4064349e" approved="yes">
         <source>All files upgraded. Now upgrading database...</source>
-        <target state="needs-translation">All files upgraded. Now upgrading database...</target>
+        <target state="final">Všechny soubory byly aktualizovány. Nyní probíhá aktualizace databáze...</target>
         <note>Line: 71</note>
       </trans-unit>
-      <trans-unit id="41deb3bc122b8e650d7a4758ea95f5c3">
+      <trans-unit id="41deb3bc122b8e650d7a4758ea95f5c3" approved="yes">
         <source>Error when trying to upgrade file %s.</source>
-        <target state="needs-translation">Error when trying to upgrade file %s.</target>
+        <target state="final">Došlo k chybě při pokusu o aktualizaci souboru %s.</target>
         <note>Line: 82</note>
       </trans-unit>
-      <trans-unit id="481343ab83a2b8e7c7f6c710279f2a6d">
+      <trans-unit id="481343ab83a2b8e7c7f6c710279f2a6d" approved="yes">
         <source>%s files left to upgrade.</source>
-        <target state="needs-translation">%s files left to upgrade.</target>
+        <target state="final">Zbývá aktualizovat %s souborů.</target>
         <note>Line: 88</note>
       </trans-unit>
       <trans-unit id="9a2f2cf276ea9f79b31a815897c0e3e6" approved="yes">
@@ -491,19 +491,19 @@
         <target state="final">%s ignorováno</target>
         <note>Line: 116</note>
       </trans-unit>
-      <trans-unit id="4794a520f862841749c18466119acfed">
+      <trans-unit id="4794a520f862841749c18466119acfed" approved="yes">
         <source>[WARNING] File %1$s has been deleted.</source>
-        <target state="needs-translation">[WARNING] File %1$s has been deleted.</target>
+        <target state="final">[WARNING] Soubor %1$s byl odstraněn.</target>
         <note>Line: 124</note>
       </trans-unit>
-      <trans-unit id="cbfafdaa2e7968a86bd6a437027edfea">
+      <trans-unit id="cbfafdaa2e7968a86bd6a437027edfea" approved="yes">
         <source>Directory %1$s created.</source>
-        <target state="needs-translation">Directory %1$s created.</target>
+        <target state="final">Adresář %1$s byl vytvořen.</target>
         <note>Line: 128</note>
       </trans-unit>
-      <trans-unit id="a61e66de5e0b581cc66f73f5662660c6">
+      <trans-unit id="a61e66de5e0b581cc66f73f5662660c6" approved="yes">
         <source>Error while creating directory %s.</source>
-        <target state="needs-translation">Error while creating directory %s.</target>
+        <target state="final">Došlo k chybě při vytváření složky %s.</target>
         <note>Line: 133</note>
       </trans-unit>
       <trans-unit id="0a6c2db1b18cb6420ad40d46db8707de" approved="yes">
@@ -512,14 +512,14 @@
         <note>Line: 138
 Comment: directory already exists</note>
       </trans-unit>
-      <trans-unit id="e877efcbee96fb597e27a9d83b362f0c">
+      <trans-unit id="e877efcbee96fb597e27a9d83b362f0c" approved="yes">
         <source>[TRANSLATION] The translation files have been merged into file %s.</source>
-        <target state="needs-translation">[TRANSLATION] The translation files have been merged into file %s.</target>
+        <target state="final">[TRANSLATION] Soubory překlady byly sloučeny do souboru %s.</target>
         <note>Line: 147</note>
       </trans-unit>
-      <trans-unit id="b6a405342d9de91fa9f190b13b842b5c">
+      <trans-unit id="b6a405342d9de91fa9f190b13b842b5c" approved="yes">
         <source>[TRANSLATION] The translation files have not been merged into file %filename%. Switch to copy %filename%.</source>
-        <target state="needs-translation">[TRANSLATION] The translation files have not been merged into file %filename%. Switch to copy %filename%.</target>
+        <target state="final">[TRANSLATION] Soubory překladu nebyly sloučeny do souboru %filename%. Přepínám na kopii %filename%.</target>
         <note>Line: 152</note>
       </trans-unit>
       <trans-unit id="b8db10001e04b8f947415aeb8b8fd19f" approved="yes">
@@ -532,9 +532,9 @@ Comment: directory already exists</note>
         <target state="final">Chyba při kopírování souboru %s</target>
         <note>Line: 165</note>
       </trans-unit>
-      <trans-unit id="20aed4fb9f6ee15bc601227bbfb85acd">
+      <trans-unit id="20aed4fb9f6ee15bc601227bbfb85acd" approved="yes">
         <source>Could not assert the folder %s contains a valid PrestaShop release, exiting.</source>
-        <target state="needs-translation">Could not assert the folder %s contains a valid PrestaShop release, exiting.</target>
+        <target state="final">Nepodařilo se ověřit, že ve složce %s je validní vydání PrestaShopu, končím.</target>
         <note>Line: 198</note>
       </trans-unit>
       <trans-unit id="312d54356778124e7ad6d8c7be6ff1a0">
@@ -561,19 +561,19 @@ Comment: directory already exists</note>
         <target state="needs-translation">listModules is not an array. No module has been updated.</target>
         <note>Line: 56</note>
       </trans-unit>
-      <trans-unit id="04663743fc92eeb1f90a4d165c470e54">
+      <trans-unit id="04663743fc92eeb1f90a4d165c470e54" approved="yes">
         <source>Upgrading module %module%...</source>
-        <target state="needs-translation">Upgrading module %module%...</target>
+        <target state="final">Probíhá aktualizace modulu %module%...</target>
         <note>Line: 78</note>
       </trans-unit>
-      <trans-unit id="35687f9e2d83cd9e89860c47fb3a7bbd">
+      <trans-unit id="35687f9e2d83cd9e89860c47fb3a7bbd" approved="yes">
         <source>The files of module %s have been upgraded.</source>
-        <target state="needs-translation">The files of module %s have been upgraded.</target>
+        <target state="final">Soubory modulu %s byly aktualizovány.</target>
         <note>Line: 80</note>
       </trans-unit>
-      <trans-unit id="d88a8630bd4e8fdbd61c550e53d62a94">
+      <trans-unit id="d88a8630bd4e8fdbd61c550e53d62a94" approved="yes">
         <source>%s modules left to upgrade.</source>
-        <target state="needs-translation">%s modules left to upgrade.</target>
+        <target state="final">%s modulů bude aktualizováno.</target>
         <note>Line: 96</note>
       </trans-unit>
       <trans-unit id="f0d18de100ab33463602ea5b8165d842">
@@ -593,207 +593,207 @@ Comment: directory already exists</note>
       <trans-unit id="ca895e37bd5dfe413d7ffdd592580117">
         <source>Starting upgrade...</source>
         <target state="needs-translation">Starting upgrade...</target>
-        <note>Line: 44</note>
+        <note>Line: 45</note>
       </trans-unit>
       <trans-unit id="d3446f09f99983abc250c0d2a92d0285">
         <source>Downloading and unzipping steps have been skipped, upgrade process will now remove sample data.</source>
         <target state="needs-translation">Downloading and unzipping steps have been skipped, upgrade process will now remove sample data.</target>
-        <note>Line: 71</note>
+        <note>Line: 72</note>
       </trans-unit>
       <trans-unit id="33c9d8cb4efb6cd7e104a43a69d38b36" approved="yes">
         <source>Shop deactivated. Now backing up files...</source>
         <target state="final">Obchod deaktivován. Probíhá záloha souborů...</target>
-        <note>Line: 72</note>
+        <note>Line: 73</note>
       </trans-unit>
       <trans-unit id="fd89b081ead6c32f16c370771cfe92e1">
         <source>Downloading step has been skipped, upgrade process will now unzip the local archive.</source>
         <target state="needs-translation">Downloading step has been skipped, upgrade process will now unzip the local archive.</target>
-        <note>Line: 76</note>
-      </trans-unit>
-      <trans-unit id="1a74ca8250ceb3e4df43a70181064e03">
-        <source>Shop deactivated. Extracting files...</source>
-        <target state="needs-translation">Shop deactivated. Extracting files...</target>
         <note>Line: 77</note>
       </trans-unit>
-      <trans-unit id="a3e702f156f1b517ba98d2487f58bd91">
+      <trans-unit id="1a74ca8250ceb3e4df43a70181064e03" approved="yes">
+        <source>Shop deactivated. Extracting files...</source>
+        <target state="final">Obchod je deaktivován. Rozbaluji soubory...</target>
+        <note>Line: 78</note>
+      </trans-unit>
+      <trans-unit id="a3e702f156f1b517ba98d2487f58bd91" approved="yes">
         <source>Shop deactivated. Now downloading... (this can take a while)</source>
-        <target state="needs-translation">Shop deactivated. Now downloading... (this can take a while)</target>
-        <note>Line: 81</note>
+        <target state="final">Obchod byl deaktivován. Nyní probíhá stahování... (toto může chvíli trvat)</target>
+        <note>Line: 82</note>
       </trans-unit>
-      <trans-unit id="10b5aa33077df49427f04cd33ad3843f">
+      <trans-unit id="10b5aa33077df49427f04cd33ad3843f" approved="yes">
         <source>Downloaded archive will come from %s</source>
-        <target state="needs-translation">Downloaded archive will come from %s</target>
-        <note>Line: 86</note>
-      </trans-unit>
-      <trans-unit id="da652b8ece8ba2da84d5f5116f6ef63e">
-        <source>MD5 hash will be checked against %s</source>
-        <target state="needs-translation">MD5 hash will be checked against %s</target>
+        <target state="final">Stahovaný archiv pochází z %s</target>
         <note>Line: 87</note>
+      </trans-unit>
+      <trans-unit id="da652b8ece8ba2da84d5f5116f6ef63e" approved="yes">
+        <source>MD5 hash will be checked against %s</source>
+        <target state="final">Kontrolní součet MD5 bude zkontrolován oproti %s</target>
+        <note>Line: 88</note>
       </trans-unit>
     </body>
   </file>
   <file original="classes/Twig/Block/UpgradeButtonBlock.php" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="382b0f5185773fa0f67a8ed8056c7759">
+      <trans-unit id="382b0f5185773fa0f67a8ed8056c7759" approved="yes">
         <source>N/A</source>
-        <target state="needs-translation">N/A</target>
+        <target state="final">Nedostupné</target>
         <note>Line: 128</note>
       </trans-unit>
-      <trans-unit id="628decaabab912af39cfda7aaf47b059">
+      <trans-unit id="628decaabab912af39cfda7aaf47b059" approved="yes">
         <source>Major release</source>
-        <target state="needs-translation">Major release</target>
+        <target state="final">Hlavní - major verze</target>
         <note>Line: 202</note>
       </trans-unit>
-      <trans-unit id="43899376e3f4d4cb70dad59c81a4b957">
+      <trans-unit id="43899376e3f4d4cb70dad59c81a4b957" approved="yes">
         <source>Minor release (recommended)</source>
-        <target state="needs-translation">Minor release (recommended)</target>
+        <target state="final">Vedlejší - minor verze (doporučeno)</target>
         <note>Line: 203</note>
       </trans-unit>
-      <trans-unit id="1436348d2e10c88964c87efe3ebe7e4c">
+      <trans-unit id="1436348d2e10c88964c87efe3ebe7e4c" approved="yes">
         <source>Release candidates</source>
-        <target state="needs-translation">Release candidates</target>
+        <target state="final">Release candidates verze</target>
         <note>Line: 204</note>
       </trans-unit>
-      <trans-unit id="3da4e7a86631518f47d8cedf7f09a5ed">
+      <trans-unit id="3da4e7a86631518f47d8cedf7f09a5ed" approved="yes">
         <source>Beta releases</source>
-        <target state="needs-translation">Beta releases</target>
+        <target state="final">Beta verze</target>
         <note>Line: 205</note>
       </trans-unit>
-      <trans-unit id="0c960ac8fc33e1516a568248519b4d03">
+      <trans-unit id="0c960ac8fc33e1516a568248519b4d03" approved="yes">
         <source>Alpha releases</source>
-        <target state="needs-translation">Alpha releases</target>
+        <target state="final">Alfa verze</target>
         <note>Line: 206</note>
       </trans-unit>
-      <trans-unit id="8ed3e1637b29848c46224287390822ad">
+      <trans-unit id="8ed3e1637b29848c46224287390822ad" approved="yes">
         <source>Private release (require link and MD5 hash)</source>
-        <target state="needs-translation">Private release (require link and MD5 hash)</target>
+        <target state="final">Soukromá verze (vyžaduje odkaz a kontrolní součet MD5)</target>
         <note>Line: 207</note>
       </trans-unit>
-      <trans-unit id="15e90667b50b56b1f8a01bdb1190f3dc">
+      <trans-unit id="15e90667b50b56b1f8a01bdb1190f3dc" approved="yes">
         <source>Local archive</source>
-        <target state="needs-translation">Local archive</target>
+        <target state="final">Místní archiv</target>
         <note>Line: 208</note>
       </trans-unit>
-      <trans-unit id="17897209dd708b862fe417f6d429a8da">
+      <trans-unit id="17897209dd708b862fe417f6d429a8da" approved="yes">
         <source>Local directory</source>
-        <target state="needs-translation">Local directory</target>
+        <target state="final">Místní adresář</target>
         <note>Line: 209</note>
       </trans-unit>
     </body>
   </file>
   <file original="classes/Twig/Form/BackupOptionsForm.php" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="bb7748991e29366d42f8fa2c361f4d55">
+      <trans-unit id="bb7748991e29366d42f8fa2c361f4d55" approved="yes">
         <source>Back up my files and database</source>
-        <target state="needs-translation">Back up my files and database</target>
+        <target state="final">Zálohovat moje soubory a databázi</target>
         <note>Line: 56</note>
       </trans-unit>
-      <trans-unit id="e53b4fd73748419564a1742f66ba631f">
+      <trans-unit id="e53b4fd73748419564a1742f66ba631f" approved="yes">
         <source>Automatically back up your database and files in order to restore your shop if needed. This is experimental: you should still perform your own manual backup for safety.</source>
-        <target state="needs-translation">Automatically back up your database and files in order to restore your shop if needed. This is experimental: you should still perform your own manual backup for safety.</target>
+        <target state="final">Automaticky zálohovat vaši databázi a soubory pro případnou obnovu obchodu v případě potřeby. Toto je experimentální a pro jistotu byste měli provádět zálohu ve vlastní režii.</target>
         <note>Line: 62</note>
       </trans-unit>
-      <trans-unit id="d5342bfd5b032cd75faeebdf2a918a79">
+      <trans-unit id="d5342bfd5b032cd75faeebdf2a918a79" approved="yes">
         <source>Back up my images</source>
-        <target state="needs-translation">Back up my images</target>
+        <target state="final">Zálohovat obrázky</target>
         <note>Line: 67</note>
       </trans-unit>
-      <trans-unit id="9a2cad898ee3d0ea4573946becdec9cf">
+      <trans-unit id="9a2cad898ee3d0ea4573946becdec9cf" approved="yes">
         <source>To save time, you can decide not to back your images up. In any case, always make sure you did back them up manually.</source>
-        <target state="needs-translation">To save time, you can decide not to back your images up. In any case, always make sure you did back them up manually.</target>
+        <target state="final">Pro úsporu času můžete vynechat zálohu vašich obrázků. V každém případě se však ujistěte, že jste je zálohovali ručně.</target>
         <note>Line: 74</note>
       </trans-unit>
-      <trans-unit id="017697f698d570dffed5f88a5a933d01">
+      <trans-unit id="017697f698d570dffed5f88a5a933d01" approved="yes">
         <source>Backup Options</source>
-        <target state="needs-translation">Backup Options</target>
+        <target state="final">Možnosti zálohování</target>
         <note>Line: 85</note>
       </trans-unit>
     </body>
   </file>
   <file original="classes/Twig/Form/FormRenderer.php" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="93cba07454f06a4a960172bbd6e2a435">
+      <trans-unit id="93cba07454f06a4a960172bbd6e2a435" approved="yes">
         <source>Yes</source>
-        <target state="needs-translation">Yes</target>
+        <target state="final">Ano</target>
         <note>Line: 163</note>
       </trans-unit>
-      <trans-unit id="bafd7322c6e97d25b6299b5d6fe8920b">
+      <trans-unit id="bafd7322c6e97d25b6299b5d6fe8920b" approved="yes">
         <source>No</source>
-        <target state="needs-translation">No</target>
+        <target state="final">Ne</target>
         <note>Line: 167</note>
       </trans-unit>
     </body>
   </file>
   <file original="classes/Twig/Form/UpgradeOptionsForm.php" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="5243e62512552a2cd6369e446bbf10f4">
+      <trans-unit id="5243e62512552a2cd6369e446bbf10f4" approved="yes">
         <source>Server performance</source>
-        <target state="needs-translation">Server performance</target>
+        <target state="final">Výkon serveru</target>
         <note>Line: 57</note>
       </trans-unit>
-      <trans-unit id="a94e6f7e27ad55c963170658ee6a9e28">
+      <trans-unit id="a94e6f7e27ad55c963170658ee6a9e28" approved="yes">
         <source>Unless you are using a dedicated server, select "Low".</source>
-        <target state="needs-translation">Unless you are using a dedicated server, select "Low".</target>
+        <target state="final">Pokud nepoužíváte soukromý server, vyberte možnost "Nízká".</target>
         <note>Line: 63</note>
       </trans-unit>
-      <trans-unit id="9e435ab00f5e0606f46337fdc73164ff">
+      <trans-unit id="9e435ab00f5e0606f46337fdc73164ff" approved="yes">
         <source>A high value can cause the upgrade to fail if your server is not powerful enough to process the upgrade tasks in a short amount of time.</source>
-        <target state="needs-translation">A high value can cause the upgrade to fail if your server is not powerful enough to process the upgrade tasks in a short amount of time.</target>
+        <target state="final">Vysoká hodnota může způsobit, že se aktualizace nezdaří, pokud váš server není tak rychlý, aby zprocesoval aktualizaci v krátkém čase.</target>
         <note>Line: 66</note>
       </trans-unit>
-      <trans-unit id="73ae0e1bfd470f9e26dac64d270cda9d">
+      <trans-unit id="73ae0e1bfd470f9e26dac64d270cda9d" approved="yes">
         <source>Low (recommended)</source>
-        <target state="needs-translation">Low (recommended)</target>
+        <target state="final">Nízká (doporučeno)</target>
         <note>Line: 69</note>
       </trans-unit>
-      <trans-unit id="87f8a6ab85c9ced3702b4ea641ad4bb5">
+      <trans-unit id="87f8a6ab85c9ced3702b4ea641ad4bb5" approved="yes">
         <source>Medium</source>
-        <target state="needs-translation">Medium</target>
+        <target state="final">Střední</target>
         <note>Line: 70</note>
       </trans-unit>
-      <trans-unit id="655d20c1ca69519ca647684edbb2db35">
+      <trans-unit id="655d20c1ca69519ca647684edbb2db35" approved="yes">
         <source>High</source>
-        <target state="needs-translation">High</target>
+        <target state="final">Vysoká</target>
         <note>Line: 71</note>
       </trans-unit>
-      <trans-unit id="26f07ad840fb1c17d29f5be0f428f015">
+      <trans-unit id="26f07ad840fb1c17d29f5be0f428f015" approved="yes">
         <source>Disable non-native modules</source>
-        <target state="needs-translation">Disable non-native modules</target>
+        <target state="final">Zakázat nepůvodní moduly</target>
         <note>Line: 75</note>
       </trans-unit>
-      <trans-unit id="70c06c37194d755dd9aef11cf0469981">
+      <trans-unit id="70c06c37194d755dd9aef11cf0469981" approved="yes">
         <source>As non-native modules can experience some compatibility issues, we recommend to disable them by default.</source>
-        <target state="needs-translation">As non-native modules can experience some compatibility issues, we recommend to disable them by default.</target>
+        <target state="final">U externích modulů můžou být občas problémy s kompatibilitou, standardně je doporučujeme je vypnout.</target>
         <note>Line: 80</note>
       </trans-unit>
-      <trans-unit id="469ab377c49ea68b2ecdfe76d628a53b">
+      <trans-unit id="469ab377c49ea68b2ecdfe76d628a53b" approved="yes">
         <source>Keeping them enabled might prevent you from loading the "Modules" page properly after the upgrade.</source>
-        <target state="needs-translation">Keeping them enabled might prevent you from loading the "Modules" page properly after the upgrade.</target>
+        <target state="final">Pokud je necháte zapnuté, může se stát, že stránka s moduly nepůjde po upgrade načíst.</target>
         <note>Line: 81</note>
       </trans-unit>
-      <trans-unit id="03a9e6840847f96325b7184d5f3c2769">
+      <trans-unit id="03a9e6840847f96325b7184d5f3c2769" approved="yes">
         <source>Disable all overrides</source>
-        <target state="needs-translation">Disable all overrides</target>
+        <target state="final">Zakázat všechny overridy</target>
         <note>Line: 84</note>
       </trans-unit>
-      <trans-unit id="29826f9f4da3d473c1e4ecf2f6c4ef9f">
+      <trans-unit id="29826f9f4da3d473c1e4ecf2f6c4ef9f" approved="yes">
         <source>Enable or disable all classes and controllers overrides.</source>
-        <target state="needs-translation">Enable or disable all classes and controllers overrides.</target>
+        <target state="final">Povolit nebo zakázat všechny overridy tříd a kontrolerů.</target>
         <note>Line: 88</note>
       </trans-unit>
-      <trans-unit id="fa2508196ef3391139d01d8d38b2c1bb">
+      <trans-unit id="fa2508196ef3391139d01d8d38b2c1bb" approved="yes">
         <source>Upgrade the default theme</source>
-        <target state="needs-translation">Upgrade the default theme</target>
+        <target state="final">Aktualizovat výchozí šablonu</target>
         <note>Line: 91</note>
       </trans-unit>
-      <trans-unit id="b6b1ed5508bc97f38ab9075ccf234c69">
+      <trans-unit id="b6b1ed5508bc97f38ab9075ccf234c69" approved="yes">
         <source>If you customized the default PrestaShop theme in its folder (folder name "classic" in 1.7), enabling this option will lose your modifications.</source>
-        <target state="needs-translation">If you customized the default PrestaShop theme in its folder (folder name "classic" in 1.7), enabling this option will lose your modifications.</target>
+        <target state="final">Pokud jste upravili výchozí šablonu vzhledu PrestaShopu ve výchozí složce (složka "classic" ve verzi 1.7), pak při povolení této možnosti přijdete o své změny.</target>
         <note>Line: 97</note>
       </trans-unit>
-      <trans-unit id="97a989a73b46233ae4330fb7682a70a2">
+      <trans-unit id="97a989a73b46233ae4330fb7682a70a2" approved="yes">
         <source>If you are using your own theme, enabling this option will simply update the default theme files, and your own theme will be safe.</source>
-        <target state="needs-translation">If you are using your own theme, enabling this option will simply update the default theme files, and your own theme will be safe.</target>
+        <target state="final">Pokud používáte vlastní šablonu vzhledu, dojde při povolení této možnosti k přepnutí šablony na výchozí, aktualizovanou šablonu. Vaše vlastní šablona bude zachována.</target>
         <note>Line: 99</note>
       </trans-unit>
       <trans-unit id="309183e60345ce8ad09def36330218b8">
@@ -1625,58 +1625,58 @@ Comment: check DB access</note>
         <target state="final">Zip soubor %toFile% se nepodařilo správně zavřít. Zkontrolujte, zda máte povoleno zapisovat na disk a zda je na něm volné místo.</target>
         <note>Line: 119</note>
       </trans-unit>
-      <trans-unit id="9311ab161709b4f5efe9c6ff08b33699">
+      <trans-unit id="9311ab161709b4f5efe9c6ff08b33699" approved="yes">
         <source>%s is not a file</source>
-        <target state="needs-translation">%s is not a file</target>
+        <target state="final">%s není soubor</target>
         <note>Line: 138</note>
       </trans-unit>
-      <trans-unit id="3d72a59cd44079c486a184a6a7bcec34">
+      <trans-unit id="3d72a59cd44079c486a184a6a7bcec34" approved="yes">
         <source>Unable to create directory %s.</source>
-        <target state="needs-translation">Unable to create directory %s.</target>
+        <target state="final">Nebylo možné vytvořit složku %s.</target>
         <note>Line: 146</note>
       </trans-unit>
-      <trans-unit id="619c520551c7a108c12fde64e9b73b12">
+      <trans-unit id="619c520551c7a108c12fde64e9b73b12" approved="yes">
         <source>Could not extract %file% from backup, the destination might not be writable.</source>
-        <target state="needs-translation">Could not extract %file% from backup, the destination might not be writable.</target>
+        <target state="final">Nelze rozbalit %file% ze zálohy, cílová složka možná není zapisovatelné.</target>
         <note>Line: 163</note>
       </trans-unit>
-      <trans-unit id="b6fadb405627a21f30cbe97d9f47d7a3">
+      <trans-unit id="b6fadb405627a21f30cbe97d9f47d7a3" approved="yes">
         <source>Content of archive %zip% is extracted</source>
-        <target state="needs-translation">Content of archive %zip% is extracted</target>
+        <target state="final">Obsah archivu %zip% byl rozbalen</target>
         <note>Line: 174</note>
       </trans-unit>
-      <trans-unit id="3858aebfe7dce0a1dc398d199cb85a2b">
+      <trans-unit id="3858aebfe7dce0a1dc398d199cb85a2b" approved="yes">
         <source>[ERROR] Unable to list archived files</source>
-        <target state="needs-translation">[ERROR] Unable to list archived files</target>
+        <target state="final">[ERROR] Nebylo možné získat seznam souborů v archivu</target>
         <note>Line: 195</note>
       </trans-unit>
-      <trans-unit id="fe718bdde198efa66b9e3a9a5cf476e6">
+      <trans-unit id="fe718bdde198efa66b9e3a9a5cf476e6" approved="yes">
         <source>File %filename% (size: %filesize%) has been skipped during backup.</source>
-        <target state="needs-translation">File %filename% (size: %filesize%) has been skipped during backup.</target>
+        <target state="final">Soubor %filename% (velikost: %filesize%) byl během zálohy přeskočen.</target>
         <note>Line: 233</note>
       </trans-unit>
-      <trans-unit id="0f9f19a4f5e93b3d5a94405e3af32a28">
+      <trans-unit id="0f9f19a4f5e93b3d5a94405e3af32a28" approved="yes">
         <source>Unable to open zipFile %s</source>
-        <target state="needs-translation">Unable to open zipFile %s</target>
+        <target state="final">Nebylo možné otevřít soubor zip %s</target>
         <note>Line: 259</note>
       </trans-unit>
     </body>
   </file>
   <file original="controllers/admin/AdminSelfUpgradeController.php" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="21dc065f2d8653ebca37ec552d17b37e">
+      <trans-unit id="21dc065f2d8653ebca37ec552d17b37e" approved="yes">
         <source>Unable to create the directory "%s"</source>
-        <target state="needs-translation">Unable to create the directory "%s"</target>
+        <target state="final">Nebylo možné vytvořit adresář "%s"</target>
         <note>Line: 196</note>
       </trans-unit>
-      <trans-unit id="92a5801448b25f111961462b0b31995d">
+      <trans-unit id="92a5801448b25f111961462b0b31995d" approved="yes">
         <source>Unable to create file %s</source>
-        <target state="needs-translation">Unable to create file %s</target>
+        <target state="final">Nebylo možné vytvořit soubor %s</target>
         <note>Line: 390</note>
       </trans-unit>
-      <trans-unit id="56195ded2802813800f43e3be1babe1c">
+      <trans-unit id="56195ded2802813800f43e3be1babe1c" approved="yes">
         <source>Error when trying to delete backups %s</source>
-        <target state="needs-translation">Error when trying to delete backups %s</target>
+        <target state="final">Chyba při pokusu o smazání zálohy %s</target>
         <note>Line: 450</note>
       </trans-unit>
       <trans-unit id="f4eb320e09f7ef88a627229870458454" approved="yes">
@@ -1693,9 +1693,9 @@ Comment: check DB access</note>
         <target state="final">Log aktivity</target>
         <note>Line: 4</note>
       </trans-unit>
-      <trans-unit id="1f966606f0a941f655a4e9b7791a1ae0">
+      <trans-unit id="1f966606f0a941f655a4e9b7791a1ae0" approved="yes">
         <source>Currently processing</source>
-        <target state="needs-translation">Currently processing</target>
+        <target state="final">Probíhá zpracování</target>
         <note>Line: 12</note>
       </trans-unit>
       <trans-unit id="21739f79b8e95f4187fce4fefb12af28" approved="yes">
@@ -1974,9 +1974,9 @@ Comment: check DB access</note>
         <target state="final">Vaše současná verze PHP</target>
         <note>Line: 16</note>
       </trans-unit>
-      <trans-unit id="1f390ab6b7d0b815f43fbf0f86c96c14">
+      <trans-unit id="1f390ab6b7d0b815f43fbf0f86c96c14" approved="yes">
         <source>Latest official version for %s channel.</source>
-        <target state="needs-translation">Latest official version for %s channel.</target>
+        <target state="final">Poslední oficiální verze pro kanál %s.</target>
         <note>Line: 19</note>
       </trans-unit>
       <trans-unit id="f34ac641f410c44e719fbc1496efd3d8" approved="yes">
@@ -1994,9 +1994,9 @@ Comment: check DB access</note>
         <target state="final">Otevřít seznam změn v novém okně</target>
         <note>Line: 30</note>
       </trans-unit>
-      <trans-unit id="7f07c36a3eb42fc24f4777e3619316f0">
+      <trans-unit id="7f07c36a3eb42fc24f4777e3619316f0" approved="yes">
         <source>No file will be downloaded (channel %s is used)</source>
-        <target state="needs-translation">No file will be downloaded (channel %s is used)</target>
+        <target state="final">Nebude stažen žádný soubor (používá se kanál %s)</target>
         <note>Line: 34</note>
       </trans-unit>
       <trans-unit id="604862f03b56fde085c8f0350f63d707" approved="yes">
@@ -2119,19 +2119,19 @@ Comment: check DB access</note>
         <target state="final">Tato volba přeskočí krok stahování.</target>
         <note>Line: 132</note>
       </trans-unit>
-      <trans-unit id="b534ea98500fdbec0ba93d3733f85f91">
+      <trans-unit id="b534ea98500fdbec0ba93d3733f85f91" approved="yes">
         <source>Save in the following directory the uncompressed PrestaShop files of the version you want to upgrade to: %s</source>
-        <target state="needs-translation">Save in the following directory the uncompressed PrestaShop files of the version you want to upgrade to: %s</target>
+        <target state="final">Do následujícího adresáře uložte rozbalené soubory PrestaShopu ve verzi, na kterou chcete upgradovat: %s</target>
         <note>Line: 137</note>
       </trans-unit>
-      <trans-unit id="e170025f2eea43e9a73fa76b4f5649bc">
+      <trans-unit id="e170025f2eea43e9a73fa76b4f5649bc" approved="yes">
         <source>Please tell us which version you are upgrading to [1](1.7.0.1 for instance)[/1]</source>
-        <target state="needs-translation">Please tell us which version you are upgrading to [1](1.7.0.1 for instance)[/1]</target>
+        <target state="final">Sdělte nám prosím, na jakou verzi upgradujete [1](například 1.7.0.1)[/1]</target>
         <note>Line: 139</note>
       </trans-unit>
-      <trans-unit id="1e034b9b374950ec672faf75cdc3f713">
+      <trans-unit id="1e034b9b374950ec672faf75cdc3f713" approved="yes">
         <source>This option will skip both download and unzip steps and will use %1$s as the source directory</source>
-        <target state="needs-translation">This option will skip both download and unzip steps and will use %1$s as the source directory</target>
+        <target state="final">Tato volba přeskočí kroky stahování a rozbalování a jako zdroj bude použít adresář %1$s</target>
         <note>Line: 143</note>
       </trans-unit>
       <trans-unit id="48c7c41b72e1d678923ce3571aa65b2d" approved="yes">
@@ -2181,14 +2181,14 @@ Comment: check DB access</note>
         <target state="final">Vítejte!</target>
         <note>Line: 15</note>
       </trans-unit>
-      <trans-unit id="d0ab112e427298327038f5e87aa40264">
+      <trans-unit id="d0ab112e427298327038f5e87aa40264" approved="yes">
         <source>Upgrade your store to benefit from the latest improvements, bug fixes and security patches.</source>
-        <target state="needs-translation">Upgrade your store to benefit from the latest improvements, bug fixes and security patches.</target>
+        <target state="final">Aktualizujte váš obchod abyste získali nejnovější vylepšení, opravy chyb a bezpečnostní záplaty.</target>
         <note>Line: 18</note>
       </trans-unit>
-      <trans-unit id="9cf9ee1ecc597007beb11670100081b2">
+      <trans-unit id="9cf9ee1ecc597007beb11670100081b2" approved="yes">
         <source>Upgrading your store on your own can be risky. If you don't feel comfortable doing the upgrade yourself, many agencies and developers in your area may also provide this kind of service.</source>
-        <target state="needs-translation">Upgrading your store on your own can be risky. If you don't feel comfortable doing the upgrade yourself, many agencies and developers in your area may also provide this kind of service.</target>
+        <target state="final">Aktualizace obchodu na vlastní pěst může být riskantní. Pokud se na to sami necítíte, spousta agentur a specialistů tuto službu poskytuje.</target>
         <note>Line: 21</note>
       </trans-unit>
     </body>
