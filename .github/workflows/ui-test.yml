@@ -65,7 +65,7 @@ jobs:
       - name: Upgrade
         run: |
          docker exec -t prestashop php modules/autoupgrade/cli-upgrade.php --dir=admin-dev --channel=${{ matrix.UPGRADE_CHANNEL }}
-         docker exec -t prestashop chmod 777 -R /var/www/html/var/cache/dev
+         docker exec -t prestashop chmod 777 -R /var/www/html/var/cache/
 
       - name: Install dependencies
         working-directory: tests/UI/
