@@ -104,7 +104,7 @@ jobs:
   nightly:
     name: Nightly Report
     if: ${{ github.event_name == 'schedule' }}
-    needs: 
+    needs:
       - ui_test_matrix
       - ui_test
     runs-on: ubuntu-latest
