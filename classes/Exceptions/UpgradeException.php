@@ -49,6 +49,12 @@ class UpgradeException extends Exception
      */
     public function getQuickInfos(): array
     {
+        if ($this->getPrevious()) {
+            return array_merge(
+                [(string) $this->getPrevious()],
+                $this->quickInfos
+            );
+        }
         return $this->quickInfos;
     }
 
