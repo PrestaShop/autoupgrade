@@ -497,7 +497,10 @@ class AdminSelfUpgradeController extends ModuleAdminController
 
             try {
                 global $kernel;
-                $kernel->getContainer()->get('twig.loader')->addPath('../modules/autoupgrade/views/templates', 'ModuleAutoUpgrade');
+                $twigLoader = $kernel->getContainer()->get('twig.loader');
+                if (method_exists($twigLoader, 'addPath')) {
+                    $twigLoader->addPath('../modules/autoupgrade/views/templates', 'ModuleAutoUpgrade');
+                }
                 $twig = $kernel->getContainer()->get('twig');
                 $this->content = $twig->render('@ModuleAutoUpgrade/error.twig', $templateData);
             } catch (Exception $e) {
