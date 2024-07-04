@@ -38,6 +38,8 @@
     {{ upgradeOptions|raw }}
 </form>
 
+{% include '@ModuleAutoUpgrade/block/footer.twig' %}
+
 <script src="{{ psBaseUri }}modules/autoupgrade/js/jquery.xml2json.js"></script>
 <script>
   var input = {{ jsParams|json_encode|raw }};
