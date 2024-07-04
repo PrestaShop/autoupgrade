@@ -39,19 +39,19 @@
   </file>
   <file original="classes/TaskRunner/Miscellaneous/UpdateConfig.php" source-language="en" target-language="fr" datatype="plaintext">
     <body>
-      <trans-unit id="1d1a5763d2901dbd435b378358a149b4">
+      <trans-unit id="1d1a5763d2901dbd435b378358a149b4" approved="yes">
         <source>File %s does not exist. Unable to select that channel.</source>
-        <target state="needs-translation">File %s does not exist. Unable to select that channel.</target>
+        <target state="final">Le fichier %s n'existe pas. Impossible de sélectionner ce canal.</target>
         <note>Line: 101</note>
       </trans-unit>
-      <trans-unit id="3d6985514f7836cb0e8efb8c286ca0f5">
+      <trans-unit id="3d6985514f7836cb0e8efb8c286ca0f5" approved="yes">
         <source>Unable to retrieve version from zip: %s.</source>
-        <target state="needs-translation">Unable to retrieve version from zip: %s.</target>
+        <target state="final">Impossible de récupérer la version à partir du zip : %s.</target>
         <note>Line: 92</note>
       </trans-unit>
-      <trans-unit id="2d1b3a71b7f8c5f533921fe116788422">
+      <trans-unit id="2d1b3a71b7f8c5f533921fe116788422" approved="yes">
         <source>Prestashop version detected in the xml (%s) does not match the zip version (%s).</source>
-        <target state="needs-translation">Prestashop version detected in the xml (%s) does not match the zip version (%s).</target>
+        <target state="final">La version Prestashop détectée dans le XML (%s) ne correspond pas à la version Zip (%s).</target>
         <note>Line: 110</note>
       </trans-unit>
       <trans-unit id="ab232f4b20c0e50dad9081bc39382569" approved="yes">
@@ -59,14 +59,14 @@
         <target state="final">La mise à jour utilisera le canal "archive"</target>
         <note>Line: 120</note>
       </trans-unit>
-      <trans-unit id="c944c279a9e87437e100f65b8c87c391">
+      <trans-unit id="c944c279a9e87437e100f65b8c87c391" approved="yes">
         <source>Version number is missing. Unable to select that channel.</source>
-        <target state="needs-translation">Version number is missing. Unable to select that channel.</target>
+        <target state="final">Numéro de version manquant. Impossible de sélectionner ce canal.</target>
         <note>Line: 126</note>
       </trans-unit>
-      <trans-unit id="1fe9dd96f646eaa0cd3a0fcc7632ce12">
+      <trans-unit id="1fe9dd96f646eaa0cd3a0fcc7632ce12" approved="yes">
         <source>Error on saving configuration</source>
-        <target state="needs-translation">Error on saving configuration</target>
+        <target state="final">Impossible de sauver la configuration.</target>
         <note>Line: 142</note>
       </trans-unit>
       <trans-unit id="f2ff9d001d0a553c78da73443e7fcd97" approved="yes">
@@ -97,9 +97,9 @@
         <target state="final">%s : le format de fichier ne correspond pas.</target>
         <note>Line: 70</note>
       </trans-unit>
-      <trans-unit id="c2bcd4d44d646c47753473ff94cc66ac">
+      <trans-unit id="c2bcd4d44d646c47753473ff94cc66ac" approved="yes">
         <source>Opening backup database file %filename% in %extension% mode</source>
-        <target state="needs-translation">Opening backup database file %filename% in %extension% mode</target>
+        <target state="final">Ouverture du fichier de sauvegarde %filename% en mode %extension%.</target>
         <note>Line: 82</note>
       </trans-unit>
       <trans-unit id="5ce67d010ab9c98ae1dbd6b5ea149982" approved="yes">
@@ -223,24 +223,24 @@
         <target state="final">Chemin de sauvegarde interdit en écriture (%path%).</target>
         <note>Line: 58</note>
       </trans-unit>
-      <trans-unit id="d12ae4e7f0d20f4a4ca357d48e42877e">
+      <trans-unit id="d12ae4e7f0d20f4a4ca357d48e42877e" approved="yes">
         <source>Backup file %s already exists. Operation aborted.</source>
-        <target state="needs-translation">Backup file %s already exists. Operation aborted.</target>
+        <target state="final">Le fichier %s existe déjà. Opération annulée.</target>
         <note>Line: 136</note>
       </trans-unit>
-      <trans-unit id="d82896159c60199272e5ea481a733eba">
+      <trans-unit id="d82896159c60199272e5ea481a733eba" approved="yes">
         <source>Unable to create backup database file %s.</source>
-        <target state="needs-translation">Unable to create backup database file %s.</target>
+        <target state="final">Impossible de créer le fichier %s de sauvegarde de la base de données.</target>
         <note>Line: 150</note>
       </trans-unit>
-      <trans-unit id="dcb7d833c69d6e0c3f009381c51f898e">
+      <trans-unit id="dcb7d833c69d6e0c3f009381c51f898e" approved="yes">
         <source>Error during database backup.</source>
-        <target state="needs-translation">Error during database backup.</target>
+        <target state="final">Erreur pendant la sauvegarde de la base de données</target>
         <note>Line: 178</note>
       </trans-unit>
-      <trans-unit id="52033453d4d673bae012b9c8ccb1e79c">
+      <trans-unit id="52033453d4d673bae012b9c8ccb1e79c" approved="yes">
         <source>An error occurred while backing up. Unable to obtain the schema of %s</source>
-        <target state="needs-translation">An error occurred while backing up. Unable to obtain the schema of %s</target>
+        <target state="final">Une erreur est apparue lors de la sauvegarde. Impossible d'obtenir le schema de %s</target>
         <note>Line: 177</note>
       </trans-unit>
       <trans-unit id="4d4c62fccb481224ff3a5c36b45de3fd" approved="yes">
@@ -263,127 +263,127 @@
         <target state="final">Aucun table valide n'a été trouvée pour sauvegarder. Sauvegarde du fichier %s annulée.</target>
         <note>Line: 279</note>
       </trans-unit>
-      <trans-unit id="0e27b7ac485e03dabd5648acd5982dde">
+      <trans-unit id="0e27b7ac485e03dabd5648acd5982dde" approved="yes">
         <source>Error during database backup for file %s.</source>
-        <target state="needs-translation">Error during database backup for file %s.</target>
+        <target state="final">Erreur pendant la sauvegarde de la base de données pour le fichier %s.</target>
         <note>Line: 280</note>
       </trans-unit>
-      <trans-unit id="4b85e344355a8c135644f239db898749">
+      <trans-unit id="4b85e344355a8c135644f239db898749" approved="yes">
         <source>Database backup done in filename %s. Now upgrading files...</source>
-        <target state="needs-translation">Database backup done in filename %s. Now upgrading files...</target>
+        <target state="final">La sauvegarde de la base de donnée est faite dans le fichier %s. Mise à jour des fichiers...</target>
         <note>Line: 296</note>
       </trans-unit>
     </body>
   </file>
   <file original="classes/TaskRunner/Upgrade/BackupFiles.php" source-language="en" target-language="fr" datatype="plaintext">
     <body>
-      <trans-unit id="e6de5ce7d70a6ed1e2d2d2a25c1bffb4">
+      <trans-unit id="e6de5ce7d70a6ed1e2d2d2a25c1bffb4" approved="yes">
         <source>Error during backupFiles</source>
-        <target state="needs-translation">Error during backupFiles</target>
+        <target state="final">Erreur lors de la sauvegarde des fichiers</target>
         <note>Line: 57</note>
       </trans-unit>
-      <trans-unit id="f2afc9e120786d21fd6809c836258669">
+      <trans-unit id="f2afc9e120786d21fd6809c836258669" approved="yes">
         <source>[ERROR] backupFiles filename has not been set</source>
-        <target state="needs-translation">[ERROR] backupFiles filename has not been set</target>
+        <target state="final">[ERREUR] Le nom de fichier backupFiles n'a pas été paramétré</target>
         <note>Line: 58</note>
       </trans-unit>
-      <trans-unit id="48f95ff09327408a578e91655ed872a1">
+      <trans-unit id="48f95ff09327408a578e91655ed872a1" approved="yes">
         <source>%s Files to backup.</source>
-        <target state="needs-translation">%s Files to backup.</target>
+        <target state="final">%s fichiers à sauvegarder.</target>
         <note>Line: 69</note>
       </trans-unit>
-      <trans-unit id="ae10eb1b240ad1b32e2a18e8c9694120">
+      <trans-unit id="ae10eb1b240ad1b32e2a18e8c9694120" approved="yes">
         <source>Backup files initialized in %s</source>
-        <target state="needs-translation">Backup files initialized in %s</target>
+        <target state="final">Sauvegarde des fichiers initialisée dans %s</target>
         <note>Line: 77</note>
       </trans-unit>
-      <trans-unit id="9bebecbf68b6ce5a6d656c5ea793b762">
+      <trans-unit id="9bebecbf68b6ce5a6d656c5ea793b762" approved="yes">
         <source>Backup files in progress. %d files left</source>
-        <target state="needs-translation">Backup files in progress. %d files left</target>
+        <target state="final">Sauvegarde des fichiers en cours. Encore %d fichiers.</target>
         <note>Line: 83</note>
       </trans-unit>
-      <trans-unit id="b31006b398a0fc315119a145aa1b0466">
+      <trans-unit id="b31006b398a0fc315119a145aa1b0466" approved="yes">
         <source>Unable to open archive</source>
-        <target state="needs-translation">Unable to open archive</target>
+        <target state="final">Impossible d'ouvrir l'archive</target>
         <note>Line: 89</note>
       </trans-unit>
-      <trans-unit id="f39b870765d50b64ba7a6facea83010d">
+      <trans-unit id="f39b870765d50b64ba7a6facea83010d" approved="yes">
         <source>All files have been added to archive.</source>
-        <target state="needs-translation">All files have been added to archive.</target>
+        <target state="final">Tous les fichiers ont été ajoutés à l'archive.</target>
         <note>Line: 100</note>
       </trans-unit>
-      <trans-unit id="f36d7ee6cae92008008a95bf5898daf2">
+      <trans-unit id="f36d7ee6cae92008008a95bf5898daf2" approved="yes">
         <source>All files saved. Now backing up database</source>
-        <target state="needs-translation">All files saved. Now backing up database</target>
+        <target state="final">Tous les fichiers sont enregistrés. Sauvegarde de la base de données</target>
         <note>Line: 101</note>
       </trans-unit>
     </body>
   </file>
   <file original="classes/TaskRunner/Upgrade/CleanDatabase.php" source-language="en" target-language="fr" datatype="plaintext">
     <body>
-      <trans-unit id="ead14b0273e8d6cae7d146130d4be8f6">
+      <trans-unit id="ead14b0273e8d6cae7d146130d4be8f6" approved="yes">
         <source>The database has been cleaned.</source>
-        <target state="needs-translation">The database has been cleaned.</target>
+        <target state="final">La base de données a été nettoyée.</target>
         <note>Line: 49</note>
       </trans-unit>
     </body>
   </file>
   <file original="classes/TaskRunner/Upgrade/Download.php" source-language="en" target-language="fr" datatype="plaintext">
     <body>
-      <trans-unit id="fb1ca1f5f3eb5a2ca85201f449525527">
+      <trans-unit id="fb1ca1f5f3eb5a2ca85201f449525527" approved="yes">
         <source>You need allow_url_fopen or cURL enabled for automatic download to work. You can also manually upload it in filepath %s.</source>
-        <target state="needs-translation">You need allow_url_fopen or cURL enabled for automatic download to work. You can also manually upload it in filepath %s.</target>
-        <note>Line: 46</note>
+        <target state="final">Vous devez activer "allow_url_fopen" ou cURL pour que le téléchargement automatique fonctionne. Vous pouvez également mettre le fichier en ligne dans le chemin de fichier %s.</target>
+        <note>Line: 47</note>
       </trans-unit>
-      <trans-unit id="f31c50f6d0edbbb94aa24943b118e316">
+      <trans-unit id="f31c50f6d0edbbb94aa24943b118e316" approved="yes">
         <source>Downloading from %s</source>
-        <target state="needs-translation">Downloading from %s</target>
+        <target state="final">Téléchargement depuis %s</target>
+        <note>Line: 66</note>
+      </trans-unit>
+      <trans-unit id="73227d741d23c1c6c0ae027b2dbc9e73" approved="yes">
+        <source>File will be saved in %s</source>
+        <target state="final">Le fichier sera enregistré dans %s</target>
         <note>Line: 67</note>
       </trans-unit>
-      <trans-unit id="73227d741d23c1c6c0ae027b2dbc9e73">
-        <source>File will be saved in %s</source>
-        <target state="needs-translation">File will be saved in %s</target>
-        <note>Line: 68</note>
-      </trans-unit>
-      <trans-unit id="53be0a7251b3bd0de81f488687bc0464">
+      <trans-unit id="53be0a7251b3bd0de81f488687bc0464" approved="yes">
         <source>Download directory has been emptied</source>
-        <target state="needs-translation">Download directory has been emptied</target>
-        <note>Line: 71</note>
+        <target state="final">Le dossier de téléchargement a été vidé.</target>
+        <note>Line: 70</note>
       </trans-unit>
-      <trans-unit id="3c2681ea85407c2c0d252e05a8eaf6aa">
+      <trans-unit id="3c2681ea85407c2c0d252e05a8eaf6aa" approved="yes">
         <source>Download complete.</source>
-        <target state="needs-translation">Download complete.</target>
+        <target state="final">Téléchargement terminé.</target>
+        <note>Line: 80</note>
+      </trans-unit>
+      <trans-unit id="a55401a11251f53f612e950d4115e116" approved="yes">
+        <source>Download complete. Now extracting...</source>
+        <target state="final">Téléchargement terminé. Extraction...</target>
         <note>Line: 81</note>
       </trans-unit>
-      <trans-unit id="a55401a11251f53f612e950d4115e116">
-        <source>Download complete. Now extracting...</source>
-        <target state="needs-translation">Download complete. Now extracting...</target>
-        <note>Line: 82</note>
-      </trans-unit>
-      <trans-unit id="2d9a3f4a92c008b32903541e9af8aff0">
+      <trans-unit id="2d9a3f4a92c008b32903541e9af8aff0" approved="yes">
         <source>Download complete but MD5 sum does not match (%s).</source>
-        <target state="needs-translation">Download complete but MD5 sum does not match (%s).</target>
-        <note>Line: 84</note>
+        <target state="final">Téléchargement terminé, mais le calcul MD5 ne correspond pas (%s).</target>
+        <note>Line: 83</note>
       </trans-unit>
-      <trans-unit id="df88998b6b9585bbcfd201186695b686">
+      <trans-unit id="df88998b6b9585bbcfd201186695b686" approved="yes">
         <source>Download complete but MD5 sum does not match (%s). Operation aborted.</source>
-        <target state="needs-translation">Download complete but MD5 sum does not match (%s). Operation aborted.</target>
-        <note>Line: 85</note>
+        <target state="final">Téléchargement terminé, mais le calcul MD5 ne correspond pas (%s). Opération annulée.</target>
+        <note>Line: 84</note>
       </trans-unit>
       <trans-unit id="412cb9a2978bf041be4ca6c6ded0030c">
         <source>Error during download. The private key may be incorrect.</source>
         <target state="needs-translation">Error during download. The private key may be incorrect.</target>
-        <note>Line: 90</note>
+        <note>Line: 89</note>
       </trans-unit>
       <trans-unit id="0c0db54fe8212c1a7215005fef75d7dd">
         <source>Error during download</source>
         <target state="needs-translation">Error during download</target>
-        <note>Line: 92</note>
+        <note>Line: 91</note>
       </trans-unit>
       <trans-unit id="5385901e5bed459563860e2f08a90a1c">
         <source>Download directory %s is not writable.</source>
         <target state="needs-translation">Download directory %s is not writable.</target>
-        <note>Line: 97</note>
+        <note>Line: 96</note>
       </trans-unit>
     </body>
   </file>
@@ -394,14 +394,14 @@
         <target state="needs-translation">"/latest" directory has been emptied</target>
         <note>Line: 51</note>
       </trans-unit>
-      <trans-unit id="01d9d38b1d4d8eff5b530eeecfd3ccd5">
+      <trans-unit id="01d9d38b1d4d8eff5b530eeecfd3ccd5" approved="yes">
         <source>Extraction directory %s is not writable.</source>
-        <target state="needs-translation">Extraction directory %s is not writable.</target>
+        <target state="final">Impossible d'écrire dans le dossier d'extraction %s.</target>
         <note>Line: 56</note>
       </trans-unit>
-      <trans-unit id="69ae4bbd4b14ae388e4e3882945a542e">
+      <trans-unit id="69ae4bbd4b14ae388e4e3882945a542e" approved="yes">
         <source>Unable to extract %filepath% file into %destination% folder...</source>
-        <target state="needs-translation">Unable to extract %filepath% file into %destination% folder...</target>
+        <target state="final">Impossible d'extraire le fichier %filepath% vers le dossier %destination%...</target>
         <note>Line: 90</note>
       </trans-unit>
       <trans-unit id="5d3c14ccb814427455842b838bbd6f21">
@@ -418,14 +418,14 @@
   </file>
   <file original="classes/TaskRunner/Upgrade/UpgradeComplete.php" source-language="en" target-language="fr" datatype="plaintext">
     <body>
-      <trans-unit id="7a32329d6776ff98d77f7344caf7e00b">
+      <trans-unit id="7a32329d6776ff98d77f7344caf7e00b" approved="yes">
         <source>Upgrade process done, but some warnings have been found.</source>
-        <target state="needs-translation">Upgrade process done, but some warnings have been found.</target>
+        <target state="final">Mise à jour terminée, mais des avertissements sont apparus.</target>
         <note>Line: 46</note>
       </trans-unit>
-      <trans-unit id="2a7e17be5dc799b0c478ec5f576f0713">
+      <trans-unit id="2a7e17be5dc799b0c478ec5f576f0713" approved="yes">
         <source>Upgrade process done. Congratulations! You can now reactivate your shop.</source>
-        <target state="needs-translation">Upgrade process done. Congratulations! You can now reactivate your shop.</target>
+        <target state="final">Le processus de mise à jour est terminé. Félicitations ! Vous pouvez maintenant réactiver votre boutique.</target>
         <note>Line: 47</note>
       </trans-unit>
       <trans-unit id="d2b9f1e39aa8e96bb61f3a4bfe133f58">
@@ -442,9 +442,9 @@
   </file>
   <file original="classes/TaskRunner/Upgrade/UpgradeDb.php" source-language="en" target-language="fr" datatype="plaintext">
     <body>
-      <trans-unit id="badf6aad60d4a95b698028bc55aa3347">
+      <trans-unit id="badf6aad60d4a95b698028bc55aa3347" approved="yes">
         <source>Cleaning file cache</source>
-        <target state="needs-translation">Cleaning file cache</target>
+        <target state="final">Nettoyage du cache des fichiers</target>
         <note>Line: 75</note>
       </trans-unit>
       <trans-unit id="8c4204265814594491ae20c9899a0fff">
@@ -452,9 +452,9 @@
         <target state="needs-translation">Running opcache_reset</target>
         <note>Line: 77</note>
       </trans-unit>
-      <trans-unit id="eac34868b4fb511702e53d1405c45454">
+      <trans-unit id="eac34868b4fb511702e53d1405c45454" approved="yes">
         <source>Error during database upgrade. You may need to restore your database.</source>
-        <target state="needs-translation">Error during database upgrade. You may need to restore your database.</target>
+        <target state="final">Erreur lors de la mise à jour de la base de données. Nous vous conseillons de restaurer votre base de données.</target>
         <note>Line: 48</note>
       </trans-unit>
       <trans-unit id="08ee54c048e1589f4072a351035db2ad">
@@ -571,9 +571,9 @@ Comment: directory already exists</note>
         <target state="needs-translation">The files of module %s have been upgraded.</target>
         <note>Line: 80</note>
       </trans-unit>
-      <trans-unit id="d88a8630bd4e8fdbd61c550e53d62a94">
+      <trans-unit id="d88a8630bd4e8fdbd61c550e53d62a94" approved="yes">
         <source>%s modules left to upgrade.</source>
-        <target state="needs-translation">%s modules left to upgrade.</target>
+        <target state="final">%s module(s) restant à mettre à jour.</target>
         <note>Line: 96</note>
       </trans-unit>
       <trans-unit id="f0d18de100ab33463602ea5b8165d842">
@@ -593,42 +593,42 @@ Comment: directory already exists</note>
       <trans-unit id="ca895e37bd5dfe413d7ffdd592580117">
         <source>Starting upgrade...</source>
         <target state="needs-translation">Starting upgrade...</target>
-        <note>Line: 44</note>
+        <note>Line: 45</note>
       </trans-unit>
       <trans-unit id="d3446f09f99983abc250c0d2a92d0285">
         <source>Downloading and unzipping steps have been skipped, upgrade process will now remove sample data.</source>
         <target state="needs-translation">Downloading and unzipping steps have been skipped, upgrade process will now remove sample data.</target>
-        <note>Line: 71</note>
+        <note>Line: 72</note>
       </trans-unit>
       <trans-unit id="33c9d8cb4efb6cd7e104a43a69d38b36">
         <source>Shop deactivated. Now backing up files...</source>
         <target state="needs-translation">Shop deactivated. Now backing up files...</target>
-        <note>Line: 72</note>
+        <note>Line: 73</note>
       </trans-unit>
       <trans-unit id="fd89b081ead6c32f16c370771cfe92e1">
         <source>Downloading step has been skipped, upgrade process will now unzip the local archive.</source>
         <target state="needs-translation">Downloading step has been skipped, upgrade process will now unzip the local archive.</target>
-        <note>Line: 76</note>
+        <note>Line: 77</note>
       </trans-unit>
       <trans-unit id="1a74ca8250ceb3e4df43a70181064e03">
         <source>Shop deactivated. Extracting files...</source>
         <target state="needs-translation">Shop deactivated. Extracting files...</target>
-        <note>Line: 77</note>
+        <note>Line: 78</note>
       </trans-unit>
       <trans-unit id="a3e702f156f1b517ba98d2487f58bd91">
         <source>Shop deactivated. Now downloading... (this can take a while)</source>
         <target state="needs-translation">Shop deactivated. Now downloading... (this can take a while)</target>
-        <note>Line: 81</note>
+        <note>Line: 82</note>
       </trans-unit>
       <trans-unit id="10b5aa33077df49427f04cd33ad3843f">
         <source>Downloaded archive will come from %s</source>
         <target state="needs-translation">Downloaded archive will come from %s</target>
-        <note>Line: 86</note>
+        <note>Line: 87</note>
       </trans-unit>
       <trans-unit id="da652b8ece8ba2da84d5f5116f6ef63e">
         <source>MD5 hash will be checked against %s</source>
         <target state="needs-translation">MD5 hash will be checked against %s</target>
-        <note>Line: 87</note>
+        <note>Line: 88</note>
       </trans-unit>
     </body>
   </file>
@@ -1915,6 +1915,15 @@ Comment: check DB access</note>
         <source>PrestaShop requirements are not satisfied.</source>
         <target state="needs-translation">PrestaShop requirements are not satisfied.</target>
         <note>Line: 236</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="views/templates/block/footer.twig" source-language="en" target-language="fr" datatype="plaintext">
+    <body>
+      <trans-unit id="56c34c6410dd45c5cec44149ad0ce037" approved="yes">
+        <source>Privacy policy</source>
+        <target state="final">Politique de confidentialité</target>
+        <note>Line: 6</note>
       </trans-unit>
     </body>
   </file>
