@@ -1918,6 +1918,15 @@ Comment: check DB access</note>
       </trans-unit>
     </body>
   </file>
+  <file original="views/templates/block/footer.twig" source-language="en" target-language="cs" datatype="plaintext">
+    <body>
+      <trans-unit id="56c34c6410dd45c5cec44149ad0ce037">
+        <source>Privacy policy</source>
+        <target state="needs-translation">Privacy policy</target>
+        <note>Line: 6</note>
+      </trans-unit>
+    </body>
+  </file>
   <file original="views/templates/block/rollbackForm.twig" source-language="en" target-language="cs" datatype="plaintext">
     <body>
       <trans-unit id="446c9e952debe114c86bbd9e5eea7d61" approved="yes">
