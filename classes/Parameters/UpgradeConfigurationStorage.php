@@ -54,6 +54,9 @@ class UpgradeConfigurationStorage extends FileConfigurationStorage
         return parent::save($config->toArray(), $fileName);
     }
 
+    /**
+     * @return array<string, int|string>
+     */
     public function getDefaultData(): array
     {
         return [

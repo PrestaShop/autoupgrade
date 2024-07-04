@@ -30,6 +30,7 @@ namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Miscellaneous;
 use Exception;
 use PrestaShop\Module\AutoUpgrade\ChannelInfo;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\TaskRunner\ExitCode;
 use PrestaShop\Module\AutoUpgrade\Twig\Block\ChannelInfoBlock;
 use Twig\Error\LoaderError;
 
@@ -43,7 +44,7 @@ class GetChannelInfo extends AbstractTask
      * @throws LoaderError
      * @throws Exception
      */
-    public function run()
+    public function run(): int
     {
         // do nothing after this request (see javascript function doAjaxRequest )
         $this->next = '';
@@ -58,5 +59,7 @@ class GetChannelInfo extends AbstractTask
             $channelInfo,
             $this->container->getTwig())
         )->render();
+
+        return ExitCode::SUCCESS;
     }
 }

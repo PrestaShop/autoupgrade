@@ -65,6 +65,8 @@ class CoreUpgrader80 extends CoreUpgrader
     /**
      * @throws UpgradeException
      * @throws Exception
+     *
+     * @param array<string, mixed> $lang
      */
     protected function upgradeLanguage($lang): void
     {
@@ -119,7 +121,7 @@ class CoreUpgrader80 extends CoreUpgrader
         // TODO: Update AdminTranslationsController::addNewTabs to install tabs translated
     }
 
-    protected function disableCustomModules()
+    protected function disableCustomModules(): void
     {
         $moduleRepository = new ModuleRepository(_PS_ROOT_DIR_, _PS_MODULE_DIR_);
         $this->container->getModuleAdapter()->disableNonNativeModules80($this->pathToUpgradeScripts, $moduleRepository);

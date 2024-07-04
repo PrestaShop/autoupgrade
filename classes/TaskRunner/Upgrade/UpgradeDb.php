@@ -29,13 +29,15 @@ namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 
 use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\TaskRunner\ExitCode;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader17;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader80;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader81;
 
 class UpgradeDb extends AbstractTask
 {
-    public function run(): bool
+    public function run(): int
     {
         try {
             $this->getCoreUpgrader()->doUpgrade();
@@ -48,16 +50,16 @@ class UpgradeDb extends AbstractTask
             $this->logger->error($this->translator->trans('Error during database upgrade. You may need to restore your database.'));
             $this->logger->error($e->getMessage());
 
-            return false;
+            return ExitCode::FAIL;
         }
         $this->next = 'upgradeModules';
         $this->stepDone = true;
         $this->logger->info($this->translator->trans('Database upgraded. Now upgrading your Addons modules...'));
 
-        return true;
+        return ExitCode::SUCCESS;
     }
 
-    public function getCoreUpgrader()
+    public function getCoreUpgrader(): CoreUpgrader
     {
         if (version_compare($this->container->getState()->getInstallVersion(), '8', '<')) {
             return new CoreUpgrader17($this->container, $this->logger);

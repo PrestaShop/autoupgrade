@@ -50,6 +50,9 @@ class StreamedLogger extends Logger
      */
     protected $err;
 
+    /**
+     * @var string
+     */
     protected $lastInfo;
 
     public function __construct()
@@ -78,6 +81,8 @@ class StreamedLogger extends Logger
 
     /**
      * {@inherit}.
+     *
+     * @param array<mixed> $context
      */
     public function log($level, string $message, array $context = []): void
     {

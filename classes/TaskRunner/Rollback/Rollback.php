@@ -30,6 +30,7 @@ namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback;
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\TaskRunner\ExitCode;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 /**
@@ -40,7 +41,7 @@ class Rollback extends AbstractTask
     /**
      * @throws Exception
      */
-    public function run()
+    public function run(): int
     {
         // 1st, need to analyse what was wrong.
         $restoreName = $this->container->getState()->getRestoreName();
@@ -50,7 +51,7 @@ class Rollback extends AbstractTask
         if (empty($restoreName)) {
             $this->next = 'noRollbackFound';
 
-            return;
+            return ExitCode::SUCCESS;
         }
 
         $files = scandir($this->container->getProperty(UpgradeContainer::BACKUP_PATH));
@@ -65,7 +66,7 @@ class Rollback extends AbstractTask
             $this->next = 'error';
             $this->logger->error($this->translator->trans('[ERROR] File %s is missing: unable to restore files. Operation aborted.', [$this->container->getState()->getRestoreFilesFilename()]));
 
-            return false;
+            return ExitCode::FAIL;
         }
         $files = scandir($this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $restoreName);
         foreach ($files as $file) {
@@ -81,7 +82,7 @@ class Rollback extends AbstractTask
             $this->next = 'error';
             $this->logger->error($this->translator->trans('[ERROR] No backup database files found: it would be impossible to restore the database. Operation aborted.'));
 
-            return false;
+            return ExitCode::FAIL;
         }
 
         $this->next = 'restoreFiles';
@@ -93,6 +94,8 @@ class Rollback extends AbstractTask
         if (file_exists($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . UpgradeFileNames::FILES_TO_REMOVE_LIST)) {
             unlink($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . UpgradeFileNames::FILES_TO_REMOVE_LIST);
         }
+
+        return ExitCode::SUCCESS;
     }
 
     public function init(): void

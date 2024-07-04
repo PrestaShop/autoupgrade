@@ -27,26 +27,31 @@
 
 namespace PrestaShop\Module\AutoUpgrade;
 
-use ConfigurationTestCore as ConfigurationTest;
 use Exception;
 
 class PrestashopConfiguration
 {
     // Variables used for cache
+    /**
+     * @var string
+     */
     private $moduleVersion;
 
     // Variables from main class
+    /**
+     * @var string
+     */
     private $psRootDir;
 
-    public function __construct($psRootDir)
+    public function __construct(string $psRootDir)
     {
         $this->psRootDir = $psRootDir;
     }
 
     /**
-     * @return string|false Returns the module version if found in the config.xml file, false otherwise.
+     * Returns the module version if found in the config.xml file, null otherwise.
      */
-    public function getModuleVersion()
+    public function getModuleVersion(): ?string
     {
         if (null !== $this->moduleVersion) {
             return $this->moduleVersion;
@@ -55,7 +60,6 @@ class PrestashopConfiguration
         // TODO: to be moved as property class in order to make tests possible
         $path = _PS_ROOT_DIR_ . '/modules/autoupgrade/config.xml';
 
-        $this->moduleVersion = false;
         if (file_exists($path)
             && $xml_module_version = simplexml_load_file($path)
         ) {
@@ -68,7 +72,7 @@ class PrestashopConfiguration
     /**
      * @throws Exception
      */
-    public function getPrestaShopVersion()
+    public function getPrestaShopVersion(): string
     {
         if (defined('_PS_VERSION_')) {
             return _PS_VERSION_;
@@ -93,41 +97,11 @@ class PrestashopConfiguration
     }
 
     /**
-     * Compares the installed module version with the one available on download.
-     *
-     * @return bool True is the latest version of the module is currently installed
-     */
-    public function checkAutoupgradeLastVersion(string $extAutoupgradeLastVersion): bool
-    {
-        $moduleVersion = $this->getModuleVersion();
-        if ($moduleVersion) {
-            return version_compare($moduleVersion, $extAutoupgradeLastVersion, '>=');
-        }
-
-        return true;
-    }
-
-    /**
-     * @return array Details of the filesystem permission check
-     */
-    protected function getRootWritableDetails(): array
-    {
-        $result = [];
-        // Root directory permissions cannot be checked recursively anymore, it takes too much time
-        $result['root_writable'] = ConfigurationTest::test_dir('/', false, $report);
-        $result['root_writable_report'] = $report ? $report : true; // Avoid null in the array as it makes the shop non-compliant
-
-        return $result;
-    }
-
-    /**
      * @param string $content File content
-     *
-     * @return bool|string
      *
      * @internal Used for test
      */
-    public function findPrestaShopVersionInFile(string $content)
+    public function findPrestaShopVersionInFile(string $content): ?string
     {
         $matches = [];
         // Example: define('_PS_VERSION_', '1.7.3.4');
@@ -140,6 +114,6 @@ class PrestashopConfiguration
             return $matches['version'];
         }
 
-        return false;
+        return null;
     }
 }

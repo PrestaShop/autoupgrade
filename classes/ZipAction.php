@@ -73,6 +73,8 @@ class ZipAction
     /**
      * Add files to an archive.
      * Note the number of files added can be limited.
+     *
+     * @param string[] $filesList List of files to add
      */
     public function compress(array &$filesList, string $toFile): bool
     {
@@ -181,7 +183,7 @@ class ZipAction
      *
      * @param string $zipFile Path to the file
      *
-     * @return array
+     * @return string[]
      */
     public function listContent(string $zipFile): array
     {

@@ -53,7 +53,7 @@ class Translator
      * Translate a string to the current language.
      *
      * @param string $id
-     * @param array $parameters
+     * @param array<int|string, mixed> $parameters
      * @param string|null $domain
      * @param string|null $locale
      *
@@ -80,7 +80,7 @@ class Translator
 
     /**
      * @param string $id
-     * @param array $parameters
+     * @param array<int|string, string> $parameters
      *
      * @return string Translated string with parameters applied
      *

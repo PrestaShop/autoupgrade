@@ -30,6 +30,7 @@ namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback;
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\TaskRunner\ExitCode;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 /**
@@ -41,7 +42,7 @@ class RestoreFiles extends AbstractTask
     /**
      * @throws Exception
      */
-    public function run()
+    public function run(): int
     {
         // loop
         $this->next = 'restoreFiles';
@@ -83,7 +84,7 @@ class RestoreFiles extends AbstractTask
                 $this->logger->info($this->translator->trans('Unable to remove upgraded files.'));
                 $this->next = 'error';
 
-                return false;
+                return ExitCode::FAIL;
             }
         }
 
@@ -102,7 +103,7 @@ class RestoreFiles extends AbstractTask
                     ]
                 ));
 
-                return false;
+                return ExitCode::FAIL;
             }
 
             if (!empty($toRemoveOnly)) {
@@ -114,9 +115,9 @@ class RestoreFiles extends AbstractTask
             $this->next = 'restoreDb';
             $this->logger->debug($this->translator->trans('Files restored.'));
             $this->logger->info($this->translator->trans('Files restored. Now restoring database...'));
-
-            return true;
         }
+
+        return ExitCode::SUCCESS;
     }
 
     public function init(): void

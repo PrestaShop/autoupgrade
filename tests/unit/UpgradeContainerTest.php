@@ -43,6 +43,8 @@ class UpgradeContainerTest extends TestCase
             ->setConstructorArgs([__DIR__, __DIR__ . '/..'])
             ->setMethods(['getDb'])
             ->getMock();
+
+        $container->getState()->setInstallVersion('1.7.1.0');
         $actualClass = get_class(call_user_func([$container, $functionName]));
         $this->assertSame($actualClass, $expectedClass);
     }

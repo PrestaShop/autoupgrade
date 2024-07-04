@@ -40,26 +40,24 @@ class AdminSelfUpgradeController extends ModuleAdminController
 {
     /** @var Autoupgrade */
     public $module;
-    public $multishop_context;
     public $multishop_context_group = false;
-    public $_html = '';
-    // used for translations
-    public static $l_cache;
-    // retrocompatibility
-    public $noTabLink = [];
-    public $id = -1;
-
+    /** @var bool */
     public $ajax = false;
-
+    /** @var bool */
     public $standalone = true;
 
     /**
      * Initialized in initPath().
      */
+    /** @var string */
     public $autoupgradePath;
+    /** @var string */
     public $downloadPath;
+    /** @var string */
     public $backupPath;
+    /** @var string */
     public $latestPath;
+    /** @var string */
     public $tmpPath;
 
     /**
@@ -67,30 +65,20 @@ class AdminSelfUpgradeController extends ModuleAdminController
      *
      * @var string directory relative to admin dir
      */
+    /** @var string */
     public $autoupgradeDir = 'autoupgrade';
-    public $latestRootDir = '';
+    /** @var string */
     public $prodRootDir = '';
+    /** @var string */
     public $adminDir = '';
 
-    public $keepImages;
-    public $updateDefaultTheme;
-    public $changeToDefaultTheme;
-    public $updateRTLFiles;
-    public $keepMails;
-    public $manualMode;
-    public $deactivateCustomModule;
-    public $disableOverride;
-
-    public static $classes14 = ['Cache', 'CacheFS', 'CarrierModule', 'Db', 'FrontController', 'Helper', 'ImportModule',
-        'MCached', 'Module', 'ModuleGraph', 'ModuleGraphEngine', 'ModuleGrid', 'ModuleGridEngine',
-        'MySQL', 'Order', 'OrderDetail', 'OrderDiscount', 'OrderHistory', 'OrderMessage', 'OrderReturn',
-        'OrderReturnState', 'OrderSlip', 'OrderState', 'PDF', 'RangePrice', 'RangeWeight', 'StockMvt',
-        'StockMvtReason', 'SubDomain', 'Shop', 'Tax', 'TaxRule', 'TaxRulesGroup', 'WebserviceKey', 'WebserviceRequest', '', ];
-
-    public static $maxBackupFileSize = 15728640; // 15 Mo
-
+    /** @var array<string, mixed[]> */
     public $_fieldsUpgradeOptions = [];
+    /** @var array<string, mixed[]> */
     public $_fieldsBackupOptions = [];
+
+    /** @var bool */
+    public $manualMode;
 
     /**
      * @var UpgradeContainer
@@ -102,10 +90,9 @@ class AdminSelfUpgradeController extends ModuleAdminController
      */
     public $db;
 
-    /**
-     * @var array
-     */
+    /** @var string[] */
     public $_errors = [];
+    /** @var bool */
     private $isActualPHPVersionCompatible = true;
 
     public function viewAccess($disable = false)
@@ -206,6 +193,8 @@ class AdminSelfUpgradeController extends ModuleAdminController
 
     /**
      * function to set configuration fields display.
+     *
+     * @return void
      */
     private function _setFields()
     {
@@ -291,6 +280,8 @@ class AdminSelfUpgradeController extends ModuleAdminController
 
     /**
      * init to build informations we need.
+     *
+     * @return void
      */
     public function init()
     {
@@ -353,18 +344,12 @@ class AdminSelfUpgradeController extends ModuleAdminController
             // removing temporary files
             $this->upgradeContainer->getFileConfigurationStorage()->cleanAll();
         }
-
-        $this->keepImages = $this->upgradeContainer->getUpgradeConfiguration()->shouldBackupImages();
-        $this->updateDefaultTheme = $this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_UPDATE_DEFAULT_THEME');
-        $this->changeToDefaultTheme = $this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_CHANGE_DEFAULT_THEME');
-        $this->updateRTLFiles = $this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_UPDATE_RTL_FILES');
-        $this->keepMails = $this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_KEEP_MAILS');
-        $this->deactivateCustomModule = $this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_CUSTOM_MOD_DESACT');
-        $this->disableOverride = $this->upgradeContainer->getUpgradeConfiguration()->get('PS_DISABLE_OVERRIDES');
     }
 
     /**
      * create some required directories if they does not exists.
+     *
+     * @return void
      */
     public function initPath()
     {
@@ -376,7 +361,6 @@ class AdminSelfUpgradeController extends ModuleAdminController
         $this->downloadPath = $this->autoupgradePath . DIRECTORY_SEPARATOR . 'download';
         $this->latestPath = $this->autoupgradePath . DIRECTORY_SEPARATOR . 'latest';
         $this->tmpPath = $this->autoupgradePath . DIRECTORY_SEPARATOR . 'tmp';
-        $this->latestRootDir = $this->latestPath . DIRECTORY_SEPARATOR;
 
         if (!file_exists($this->backupPath . DIRECTORY_SEPARATOR . 'index.php')) {
             if (!copy(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'index.php', $this->backupPath . DIRECTORY_SEPARATOR . 'index.php')) {
@@ -436,7 +420,7 @@ class AdminSelfUpgradeController extends ModuleAdminController
             foreach ($filelist as $filename) {
                 // the following will match file or dir related to the selected backup
                 if (!empty($filename) && $filename[0] != '.' && $filename != 'index.php' && $filename != '.htaccess'
-                    && preg_match('#^(auto-backupfiles_|)' . preg_quote($name) . '(\.zip|)$#', $filename, $matches)) {
+                    && preg_match('#^(auto-backupfiles_|)' . preg_quote($name) . '(\.zip|)$#', $filename)) {
                     if (is_file($this->backupPath . DIRECTORY_SEPARATOR . $filename)) {
                         $res &= unlink($this->backupPath . DIRECTORY_SEPARATOR . $filename);
                     } elseif (!empty($name) && is_dir($this->backupPath . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR)) {
@@ -455,6 +439,9 @@ class AdminSelfUpgradeController extends ModuleAdminController
         return true;
     }
 
+    /**
+     * @return array{'fileConfig': UpgradeConfiguration, 'dbConfig': array<string, string>}
+     */
     private function extractFieldsToBeSavedInDB(UpgradeConfiguration $fileConfig)
     {
         $DBConfig = [];
@@ -474,6 +461,10 @@ class AdminSelfUpgradeController extends ModuleAdminController
 
     /**
      * Process configuration values to be stored in database
+     *
+     * @param array<string, string> $config
+     *
+     * @return void
      */
     private function processDatabaseConfigurationFields(array $config)
     {
@@ -485,6 +476,9 @@ class AdminSelfUpgradeController extends ModuleAdminController
         }
     }
 
+    /**
+     * @return string
+     */
     public function initContent()
     {
         if (!$this->isActualPHPVersionCompatible) {
@@ -548,7 +542,7 @@ class AdminSelfUpgradeController extends ModuleAdminController
             $this->autoupgradePath
         );
         $response = new AjaxResponse($this->upgradeContainer->getState(), $this->upgradeContainer->getLogger());
-        $this->_html = (new UpgradePage(
+        $this->content = (new UpgradePage(
             $this->upgradeContainer->getUpgradeConfiguration(),
             $this->upgradeContainer->getTwig(),
             $this->upgradeContainer->getTranslator(),
@@ -569,8 +563,6 @@ class AdminSelfUpgradeController extends ModuleAdminController
                 ->setUpgradeConfiguration($this->upgradeContainer->getUpgradeConfiguration())
                 ->getJson()
         );
-
-        $this->content = $this->_html;
 
         return parent::initContent();
     }

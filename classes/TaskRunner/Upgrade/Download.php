@@ -29,6 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\TaskRunner\ExitCode;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 use PrestaShop\Module\AutoUpgrade\VersionUtils;
@@ -41,13 +42,13 @@ class Download extends AbstractTask
     /**
      * @throws Exception
      */
-    public function run()
+    public function run(): int
     {
         if (!\ConfigurationTest::test_fopen() && !\ConfigurationTest::test_curl()) {
             $this->logger->error($this->translator->trans('You need allow_url_fopen or cURL enabled for automatic download to work. You can also manually upload it in filepath %s.', [$this->container->getFilePath()]));
             $this->next = 'error';
 
-            return;
+            return ExitCode::FAIL;
         }
 
         $upgrader = $this->container->getUpgrader();
@@ -96,5 +97,7 @@ class Download extends AbstractTask
             $this->logger->error($this->translator->trans('Download directory %s is not writable.', [$this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH)]));
             $this->next = 'error';
         }
+
+        return $this->next == 'error' ? ExitCode::FAIL : ExitCode::SUCCESS;
     }
 }

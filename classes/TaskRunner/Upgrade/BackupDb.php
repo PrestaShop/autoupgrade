@@ -30,6 +30,7 @@ namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\TaskRunner\ExitCode;
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
@@ -38,7 +39,7 @@ class BackupDb extends AbstractTask
     /**
      * @throws Exception
      */
-    public function run(): bool
+    public function run(): int
     {
         // TODO: Keep only one configuration property to toggle backups
         if (!$this->container->getUpgradeConfiguration()->get('PS_AUTOUP_BACKUP')
@@ -48,7 +49,7 @@ class BackupDb extends AbstractTask
             $this->logger->info($this->translator->trans('Database backup skipped. Now upgrading files...'));
             $this->next = 'upgradeFiles';
 
-            return true;
+            return ExitCode::SUCCESS;
         }
 
         $timeAllowed = $this->container->getUpgradeConfiguration()->getNumberOfFilesPerCall();
@@ -59,7 +60,7 @@ class BackupDb extends AbstractTask
             $this->next = 'error';
             $this->error = true;
 
-            return false;
+            return ExitCode::FAIL;
         }
 
         $this->stepDone = false;
@@ -98,7 +99,6 @@ class BackupDb extends AbstractTask
             if (null !== $this->container->getState()->getBackupTable()) {
                 // only insert (schema already done)
                 $table = $this->container->getState()->getBackupTable();
-                $lines = $this->container->getState()->getBackupLines();
             } else {
                 if (count($tablesToBackup) == 0) {
                     break;
@@ -126,7 +126,7 @@ class BackupDb extends AbstractTask
                     fclose($fp);
                 }
                 $backupfile = $this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $this->container->getState()->getBackupName() . DIRECTORY_SEPARATOR . $this->container->getState()->getBackupDbFilename();
-                $backupfile = preg_replace('#_XXXXXX_#', '_' . str_pad($this->container->getState()->getDbStep(), 6, '0', STR_PAD_LEFT) . '_', $backupfile);
+                $backupfile = preg_replace('#_XXXXXX_#', '_' . str_pad(strval($this->container->getState()->getDbStep()), 6, '0', STR_PAD_LEFT) . '_', $backupfile);
 
                 // start init file
                 // Figure out what compression is available and open the file
@@ -152,7 +152,7 @@ class BackupDb extends AbstractTask
                     $this->error = true;
                     $this->logger->info($this->translator->trans('Error during database backup.'));
 
-                    return false;
+                    return ExitCode::FAIL;
                 }
 
                 $written += fwrite($fp, '/* Backup ' . $this->container->getState()->getDbStep() . ' for ' . Tools14::getHttpHost() . __PS_BASE_URI__ . "\n *  at " . date('r') . "\n */\n");
@@ -179,7 +179,7 @@ class BackupDb extends AbstractTask
                     $this->next = 'error';
                     $this->error = true;
 
-                    return false;
+                    return ExitCode::FAIL;
                 }
 
                 // case view
@@ -270,7 +270,7 @@ class BackupDb extends AbstractTask
             $this->stepDone = false;
             $this->logger->info($this->translator->trans('Database backup: %s table(s) left...', [count($tablesToBackup)]));
 
-            return true;
+            return ExitCode::SUCCESS;
         }
         if ($found == 0 && !empty($backupfile)) {
             if (file_exists($backupfile)) {
@@ -280,7 +280,7 @@ class BackupDb extends AbstractTask
             $this->logger->info($this->translator->trans('Error during database backup for file %s.', [$backupfile]));
             $this->error = true;
 
-            return false;
+            return ExitCode::FAIL;
         } else {
             $this->container->getState()
                 ->setBackupLoopLimit(null)
@@ -296,7 +296,7 @@ class BackupDb extends AbstractTask
             $this->logger->info($this->translator->trans('Database backup done in filename %s. Now upgrading files...', [$this->container->getState()->getBackupName()]));
             $this->next = 'upgradeFiles';
 
-            return true;
+            return ExitCode::SUCCESS;
         }
     }
 }

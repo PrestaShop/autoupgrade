@@ -32,7 +32,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 class BackupOptionsForm
 {
     /**
-     * @var array
+     * @var array<string, array<string>>
      */
     private $fields;
 

@@ -27,11 +27,14 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
+use Db;
+
 class ThemeAdapter
 {
+    /** @var Db */
     private $db;
 
-    public function __construct($db)
+    public function __construct(Db $db)
     {
         $this->db = $db;
     }
@@ -49,7 +52,7 @@ class ThemeAdapter
     /**
      * Get the list of theme name.
      *
-     * @return array{array{'directory':string,'name':string}}
+     * @return array{array{'name':string, 'directory':string}}
      */
     public function getListFromDisk(): array
     {
@@ -94,6 +97,9 @@ class ThemeAdapter
         return true;
     }
 
+    /**
+     * @return \PrestaShop\PrestaShop\Core\Addon\Theme\ThemeManager
+     */
     private function getThemeManager()
     {
         return (new \PrestaShop\PrestaShop\Core\Addon\Theme\ThemeManagerBuilder(\Context::getContext(), $this->db))->build();

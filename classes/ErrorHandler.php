@@ -134,7 +134,7 @@ class ErrorHandler
     /**
      * Forwards message to the main class of the upgrade.
      */
-    protected function report(string $file, int $line, int $type, string $message, $trace = null, bool $display = false): void
+    protected function report(string $file, int $line, int $type, string $message, string $trace = null, bool $display = false): void
     {
         if ($type >= Logger::CRITICAL) {
             http_response_code(500);

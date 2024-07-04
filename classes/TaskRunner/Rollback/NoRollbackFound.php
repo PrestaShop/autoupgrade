@@ -28,12 +28,15 @@
 namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback;
 
 use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\TaskRunner\ExitCode;
 
 class NoRollbackFound extends AbstractTask
 {
-    public function run()
+    public function run(): int
     {
         $this->logger->info($this->translator->trans('Nothing to restore'));
         $this->next = 'rollbackComplete';
+
+        return ExitCode::SUCCESS;
     }
 }

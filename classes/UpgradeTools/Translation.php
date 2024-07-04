@@ -32,12 +32,17 @@ use PrestaShop\Module\AutoUpgrade\Tools14;
 
 class Translation
 {
+    /** @var string[] */
     private $installedLanguagesIso;
-
+    /** @var LoggerInterface */
     private $logger;
+    /** @var Translator */
     private $translator;
 
-    public function __construct($translator, LoggerInterface $logger, $installedLanguagesIso)
+    /**
+     * @param string[] $installedLanguagesIso
+     */
+    public function __construct(Translator $translator, LoggerInterface $logger, array $installedLanguagesIso)
     {
         $this->logger = $logger;
         $this->translator = $translator;
@@ -45,11 +50,7 @@ class Translation
     }
 
     /**
-     * getTranslationFileType.
-     *
-     * @param string $file filepath to check
-     *
-     * @return string type of translation item
+     * @return string|false type of translation item
      */
     public function getTranslationFileType(string $file)
     {
@@ -77,7 +78,7 @@ class Translation
         return $type;
     }
 
-    public function isTranslationFile($file): bool
+    public function isTranslationFile(string $file): bool
     {
         return $this->getTranslationFileType($file) !== false;
     }
