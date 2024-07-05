@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file original="classes/TaskRunner/AbstractTask.php" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="classes/TaskRunner/AbstractTask.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="435d516735dbf7f622c7d14585f66840">
         <source>Action %s skipped</source>
@@ -9,7 +9,7 @@
       </trans-unit>
     </body>
   </file>
-  <file original="classes/TaskRunner/Miscellaneous/CheckFilesVersion.php" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="classes/TaskRunner/Miscellaneous/CheckFilesVersion.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="335b4c111b193a855539368676837af4">
         <source>Unable to check files for the installed version of PrestaShop.</source>
@@ -28,7 +28,7 @@
       </trans-unit>
     </body>
   </file>
-  <file original="classes/TaskRunner/Miscellaneous/CompareReleases.php" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="classes/TaskRunner/Miscellaneous/CompareReleases.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="047cb0c4fd60e2a2fab8ead3e091f9bd">
         <source>%modifiedfiles% files will be modified, %deletedfiles% files will be deleted (if they are found).</source>
@@ -37,7 +37,7 @@
       </trans-unit>
     </body>
   </file>
-  <file original="classes/TaskRunner/Miscellaneous/UpdateConfig.php" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="classes/TaskRunner/Miscellaneous/UpdateConfig.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="1d1a5763d2901dbd435b378358a149b4">
         <source>File %s does not exist. Unable to select that channel.</source>
@@ -81,7 +81,7 @@
       </trans-unit>
     </body>
   </file>
-  <file original="classes/TaskRunner/Rollback/NoRollbackFound.php" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="classes/TaskRunner/Rollback/NoRollbackFound.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="222102295c3c6626ff141687b0f49b6b">
         <source>Nothing to restore</source>
@@ -90,7 +90,7 @@
       </trans-unit>
     </body>
   </file>
-  <file original="classes/TaskRunner/Rollback/RestoreDb.php" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="classes/TaskRunner/Rollback/RestoreDb.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="6a5e5c0047907eaf8062e9933f0de8df">
         <source>%s: File format does not match.</source>
@@ -144,7 +144,7 @@
       </trans-unit>
     </body>
   </file>
-  <file original="classes/TaskRunner/Rollback/RestoreFiles.php" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="classes/TaskRunner/Rollback/RestoreFiles.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="7ead6886c2e0fb40e873da8426e80988">
         <source>%s file(s) will be removed before restoring the backup files.</source>
@@ -183,7 +183,7 @@
       </trans-unit>
     </body>
   </file>
-  <file original="classes/TaskRunner/Rollback/Rollback.php" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="classes/TaskRunner/Rollback/Rollback.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="d75374f4463479bfc16764f06fc8d33e">
         <source>[ERROR] File %s is missing: unable to restore files. Operation aborted.</source>
@@ -202,7 +202,7 @@
       </trans-unit>
     </body>
   </file>
-  <file original="classes/TaskRunner/Rollback/RollbackComplete.php" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="classes/TaskRunner/Rollback/RollbackComplete.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="a520e5cbdc465c7b7d39c98f78fe2506">
         <source>Restoration process done. Congratulations! You can now reactivate your shop.</source>
@@ -211,7 +211,7 @@
       </trans-unit>
     </body>
   </file>
-  <file original="classes/TaskRunner/Upgrade/BackupDb.php" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="classes/TaskRunner/Upgrade/BackupDb.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="926abe867e8b1be1c0b053234cae77ba">
         <source>Database backup skipped. Now upgrading files...</source>
@@ -275,7 +275,7 @@
       </trans-unit>
     </body>
   </file>
-  <file original="classes/TaskRunner/Upgrade/BackupFiles.php" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="classes/TaskRunner/Upgrade/BackupFiles.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="e6de5ce7d70a6ed1e2d2d2a25c1bffb4">
         <source>Error during backupFiles</source>
@@ -319,7 +319,7 @@
       </trans-unit>
     </body>
   </file>
-  <file original="classes/TaskRunner/Upgrade/CleanDatabase.php" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="classes/TaskRunner/Upgrade/CleanDatabase.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="ead14b0273e8d6cae7d146130d4be8f6">
         <source>The database has been cleaned.</source>
@@ -328,7 +328,7 @@
       </trans-unit>
     </body>
   </file>
-  <file original="classes/TaskRunner/Upgrade/Download.php" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="classes/TaskRunner/Upgrade/Download.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="fb1ca1f5f3eb5a2ca85201f449525527">
         <source>You need allow_url_fopen or cURL enabled for automatic download to work. You can also manually upload it in filepath %s.</source>
@@ -387,7 +387,7 @@
       </trans-unit>
     </body>
   </file>
-  <file original="classes/TaskRunner/Upgrade/Unzip.php" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="classes/TaskRunner/Upgrade/Unzip.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="654f7ceb787fd455c166d5d8744cbf90">
         <source>"/latest" directory has been emptied</source>
@@ -416,7 +416,7 @@
       </trans-unit>
     </body>
   </file>
-  <file original="classes/TaskRunner/Upgrade/UpgradeComplete.php" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="classes/TaskRunner/Upgrade/UpgradeComplete.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="7a32329d6776ff98d77f7344caf7e00b">
         <source>Upgrade process done, but some warnings have been found.</source>
@@ -440,7 +440,7 @@
       </trans-unit>
     </body>
   </file>
-  <file original="classes/TaskRunner/Upgrade/UpgradeDb.php" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="classes/TaskRunner/Upgrade/UpgradeDb.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="badf6aad60d4a95b698028bc55aa3347">
         <source>Cleaning file cache</source>
@@ -464,7 +464,7 @@
       </trans-unit>
     </body>
   </file>
-  <file original="classes/TaskRunner/Upgrade/UpgradeFiles.php" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="classes/TaskRunner/Upgrade/UpgradeFiles.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="4f7c02592a962e40a920f32f3a24f2df">
         <source>filesToUpgrade is not an array</source>
@@ -554,7 +554,7 @@ Comment: directory already exists</note>
       </trans-unit>
     </body>
   </file>
-  <file original="classes/TaskRunner/Upgrade/UpgradeModules.php" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="classes/TaskRunner/Upgrade/UpgradeModules.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="1baa2ea6cee198c6b7f19011431dcc73">
         <source>listModules is not an array. No module has been updated.</source>
@@ -588,7 +588,7 @@ Comment: directory already exists</note>
       </trans-unit>
     </body>
   </file>
-  <file original="classes/TaskRunner/Upgrade/UpgradeNow.php" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="classes/TaskRunner/Upgrade/UpgradeNow.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="ca895e37bd5dfe413d7ffdd592580117">
         <source>Starting upgrade...</source>
@@ -632,7 +632,7 @@ Comment: directory already exists</note>
       </trans-unit>
     </body>
   </file>
-  <file original="classes/Twig/Block/UpgradeButtonBlock.php" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="classes/Twig/Block/UpgradeButtonBlock.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="382b0f5185773fa0f67a8ed8056c7759">
         <source>N/A</source>
@@ -681,7 +681,7 @@ Comment: directory already exists</note>
       </trans-unit>
     </body>
   </file>
-  <file original="classes/Twig/Form/BackupOptionsForm.php" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="classes/Twig/Form/BackupOptionsForm.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="bb7748991e29366d42f8fa2c361f4d55">
         <source>Back up my files and database</source>
@@ -710,7 +710,7 @@ Comment: directory already exists</note>
       </trans-unit>
     </body>
   </file>
-  <file original="classes/Twig/Form/FormRenderer.php" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="classes/Twig/Form/FormRenderer.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="93cba07454f06a4a960172bbd6e2a435">
         <source>Yes</source>
@@ -724,7 +724,7 @@ Comment: directory already exists</note>
       </trans-unit>
     </body>
   </file>
-  <file original="classes/Twig/Form/UpgradeOptionsForm.php" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="classes/Twig/Form/UpgradeOptionsForm.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="5243e62512552a2cd6369e446bbf10f4">
         <source>Server performance</source>
@@ -838,7 +838,7 @@ Comment: directory already exists</note>
       </trans-unit>
     </body>
   </file>
-  <file original="classes/UpgradePage.php" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="classes/UpgradePage.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="37ce0f29c7377c827e7247fe5645a782">
         <source>You already have the %s version.</source>
@@ -1314,7 +1314,7 @@ Comment: End of upgrader</note>
       </trans-unit>
     </body>
   </file>
-  <file original="classes/UpgradeTools/CacheCleaner.php" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="classes/UpgradeTools/CacheCleaner.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="9dcf84f429818d396d05335d52ef5f42">
         <source>[SKIP] directory "%s" does not exist and cannot be emptied.</source>
@@ -1328,7 +1328,7 @@ Comment: End of upgrader</note>
       </trans-unit>
     </body>
   </file>
-  <file original="classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="d90307511d557233464da663999f3151">
         <source>Initializing required environment constants</source>
@@ -1468,7 +1468,7 @@ Comment: check DB access</note>
       </trans-unit>
     </body>
   </file>
-  <file original="classes/UpgradeTools/CoreUpgrader/CoreUpgrader80.php" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="classes/UpgradeTools/CoreUpgrader/CoreUpgrader80.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="ebd70d87d57d2e22c5fb9cb1fa959f92">
         <source>Download of the language pack %lang% failed. %details%</source>
@@ -1507,7 +1507,7 @@ Comment: check DB access</note>
       </trans-unit>
     </body>
   </file>
-  <file original="classes/UpgradeTools/CoreUpgrader/CoreUpgrader81.php" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="classes/UpgradeTools/CoreUpgrader/CoreUpgrader81.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="4d46d96c1ea641735ee0c26c6381c75e">
         <source>API keys not present in parameters, generating</source>
@@ -1541,7 +1541,7 @@ Comment: check DB access</note>
       </trans-unit>
     </body>
   </file>
-  <file original="classes/UpgradeTools/ModuleAdapter.php" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="classes/UpgradeTools/ModuleAdapter.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="a739fd67729d2f540137b85917f13a21">
         <source>[ERROR] %dir% does not exist or is not a directory.</source>
@@ -1575,7 +1575,7 @@ Comment: check DB access</note>
       </trans-unit>
     </body>
   </file>
-  <file original="classes/UpgradeTools/Translation.php" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="classes/UpgradeTools/Translation.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="c76662717bc0a1c0a601534af98f537b">
         <source>[NOTICE] File %s does not exist, merge skipped.</source>
@@ -1594,7 +1594,7 @@ Comment: check DB access</note>
       </trans-unit>
     </body>
   </file>
-  <file original="classes/Workspace.php" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="classes/Workspace.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="6215d33db0d099fcaae168dd4715135a">
         <source>Unable to write in the directory "%s"</source>
@@ -1608,7 +1608,7 @@ Comment: check DB access</note>
       </trans-unit>
     </body>
   </file>
-  <file original="classes/ZipAction.php" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="classes/ZipAction.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="037350bc293c5e04305ff73a7e470b52">
         <source>Error when trying to add %filename% to archive %archive%.</source>
@@ -1662,7 +1662,7 @@ Comment: check DB access</note>
       </trans-unit>
     </body>
   </file>
-  <file original="controllers/admin/AdminSelfUpgradeController.php" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="controllers/admin/AdminSelfUpgradeController.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="21dc065f2d8653ebca37ec552d17b37e">
         <source>Unable to create the directory "%s"</source>
@@ -1686,7 +1686,7 @@ Comment: check DB access</note>
       </trans-unit>
     </body>
   </file>
-  <file original="views/templates/block/activityLog.twig" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="views/templates/block/activityLog.twig" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="2b16564e6e838ce86608620b70beb570">
         <source>Activity Log</source>
@@ -1710,7 +1710,7 @@ Comment: check DB access</note>
       </trans-unit>
     </body>
   </file>
-  <file original="views/templates/block/channelInfo.twig" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="views/templates/block/channelInfo.twig" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="203b006e446c7692af1bfd4e41a10749">
         <source>Branch:</source>
@@ -1759,7 +1759,7 @@ Comment: check DB access</note>
       </trans-unit>
     </body>
   </file>
-  <file original="views/templates/block/checklist.twig" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="views/templates/block/checklist.twig" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="69ff9aca0bd03b3981784593311d866a">
         <source>The pre-Upgrade checklist</source>
@@ -1918,7 +1918,7 @@ Comment: check DB access</note>
       </trans-unit>
     </body>
   </file>
-  <file original="views/templates/block/footer.twig" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="views/templates/block/footer.twig" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="56c34c6410dd45c5cec44149ad0ce037">
         <source>Privacy policy</source>
@@ -1927,7 +1927,7 @@ Comment: check DB access</note>
       </trans-unit>
     </body>
   </file>
-  <file original="views/templates/block/rollbackForm.twig" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="views/templates/block/rollbackForm.twig" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="446c9e952debe114c86bbd9e5eea7d61">
         <source>Rollback</source>
@@ -1951,7 +1951,7 @@ Comment: check DB access</note>
       </trans-unit>
     </body>
   </file>
-  <file original="views/templates/block/upgradeButtonBlock.twig" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="views/templates/block/upgradeButtonBlock.twig" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="9e68a57463e52beb2b2d4d116085044e">
         <source>More options (Expert mode)</source>
@@ -2155,7 +2155,7 @@ Comment: check DB access</note>
       </trans-unit>
     </body>
   </file>
-  <file original="views/templates/block/versionComparison.twig" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="views/templates/block/versionComparison.twig" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="2359934469520d062d98f6b3e91e1523">
         <source>Version comparison</source>
@@ -2174,7 +2174,7 @@ Comment: check DB access</note>
       </trans-unit>
     </body>
   </file>
-  <file original="views/templates/form.twig" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="views/templates/form.twig" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="c9cc8cce247e49bae79f15173ce97354">
         <source>Save</source>
@@ -2183,7 +2183,7 @@ Comment: check DB access</note>
       </trans-unit>
     </body>
   </file>
-  <file original="views/templates/main.twig" source-language="en" target-language="pl" datatype="plaintext">
+  <file original="views/templates/main.twig" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="9a843f20677a52ca79af903123147af0">
         <source>Welcome!</source>
