@@ -47,7 +47,7 @@ class Analytics
     private $anonymousId;
 
     /**
-     * @var array
+     * @var array<string, mixed>
      */
     private $properties;
 
@@ -63,7 +63,7 @@ class Analytics
 
     /**
      * @param string $anonymousUserId
-     * @param array{'properties'?: array} $options
+     * @param array{'properties'?: array<string, mixed>} $options
      */
     public function __construct(
         UpgradeConfiguration $upgradeConfiguration,
@@ -106,7 +106,7 @@ class Analytics
     /**
      * @param self::WITH_*_PROPERTIES $type
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function getProperties($type)
     {

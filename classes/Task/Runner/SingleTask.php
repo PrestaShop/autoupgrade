@@ -31,9 +31,10 @@ class SingleTask extends ChainedTasks
 {
     protected $step;
 
+    /** @var bool */
     private $stepHasRun = false;
 
-    public function setOptions(array $options)
+    public function setOptions(array $options): void
     {
         if (!empty($options['action'])) {
             $this->step = $options['action'];

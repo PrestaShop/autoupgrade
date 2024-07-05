@@ -30,8 +30,8 @@ namespace PrestaShop\Module\AutoUpgrade\Task\Upgrade;
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
-use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 
 /**
  * Upgrade all partners modules according to the installed prestashop version.

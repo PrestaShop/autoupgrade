@@ -226,7 +226,7 @@ class UpgradeContainer
         }
     }
 
-    public function getAnalytics()
+    public function getAnalytics(): Analytics
     {
         if (null !== $this->analytics) {
             return $this->analytics;
