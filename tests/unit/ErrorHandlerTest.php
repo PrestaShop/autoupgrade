@@ -37,7 +37,10 @@ class ErrorHandlerTest extends TestCase
     {
         parent::setUp();
         $this->logger = new LegacyLogger();
-        $this->errorHandler = new ErrorHandler($this->logger);
+        $this->errorHandler = $this->getMockBuilder(ErrorHandler::class)
+            ->setConstructorArgs([$this->logger])
+            ->setMethods(['terminate'])
+            ->getMock();
     }
 
     public function testDefaultContentIsEmpty()

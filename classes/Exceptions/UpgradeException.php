@@ -55,6 +55,7 @@ class UpgradeException extends Exception
                 $this->quickInfos
             );
         }
+
         return $this->quickInfos;
     }
 
