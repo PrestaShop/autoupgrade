@@ -486,3 +486,460 @@ jobs:
             tests/UI/report.json
             tests/UI/docker-compose.log
           retention-days: 30
+
+    nightly:
+      name: Nightly Report
+      if: ${{ github.event_name == 'schedule' }}
+      needs:
+        - ui_test
+      runs-on: ubuntu-latest
+      strategy:
+        fail-fast: false
+        matrix:
+          # 1.7.8 ~ minor PHP 7.2 ~ 7.4
+          - PS_VERSION_START: 1.7.8.0
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.2
+          - PS_VERSION_START: 1.7.8.0
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.3
+          - PS_VERSION_START: 1.7.8.0
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.4
+          - PS_VERSION_START: 1.7.8.1
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.2
+          - PS_VERSION_START: 1.7.8.1
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.4
+          - PS_VERSION_START: 1.7.8.1
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.3
+          - PS_VERSION_START: 1.7.8.2
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.2
+          - PS_VERSION_START: 1.7.8.2
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.4
+          - PS_VERSION_START: 1.7.8.2
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.3
+          - PS_VERSION_START: 1.7.8.3
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.4
+          - PS_VERSION_START: 1.7.8.4
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.2
+          - PS_VERSION_START: 1.7.8.4
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.3
+          - PS_VERSION_START: 1.7.8.4
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.4
+          - PS_VERSION_START: 1.7.8.5
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.2
+          - PS_VERSION_START: 1.7.8.5
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.3
+          - PS_VERSION_START: 1.7.8.5
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.4
+          - PS_VERSION_START: 1.7.8.6
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.2
+          - PS_VERSION_START: 1.7.8.6
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.3
+          - PS_VERSION_START: 1.7.8.6
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.4
+          - PS_VERSION_START: 1.7.8.7
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.2
+          - PS_VERSION_START: 1.7.8.7
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.3
+          - PS_VERSION_START: 1.7.8.7
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.4
+          - PS_VERSION_START: 1.7.8.8
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.2
+          - PS_VERSION_START: 1.7.8.8
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.3
+          - PS_VERSION_START: 1.7.8.8
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.4
+          - PS_VERSION_START: 1.7.8.9
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.2
+          - PS_VERSION_START: 1.7.8.9
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.3
+          - PS_VERSION_START: 1.7.8.9
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.4
+          - PS_VERSION_START: 1.7.8.10
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.2
+          - PS_VERSION_START: 1.7.8.10
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.3
+          - PS_VERSION_START: 1.7.8.10
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.4
+            # 1.7.8 ~ major PHP 7.2 ~ 7.4
+          - PS_VERSION_START: 1.7.8.11
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: major
+            PHP_VERSION: 7.4
+            # 8.0.0 ~ minor PHP 7.2 ~ 8.1
+          - PS_VERSION_START: 8.0.0
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.2
+          - PS_VERSION_START: 8.0.0
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.3
+          - PS_VERSION_START: 8.0.0
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.4
+          - PS_VERSION_START: 8.0.0
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: '8.0'
+          - PS_VERSION_START: 8.0.0
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 8.1
+            # 8.0.1 ~ minor PHP 7.2 ~ 8.1
+          - PS_VERSION_START: 8.0.1
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.2
+          - PS_VERSION_START: 8.0.1
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.3
+          - PS_VERSION_START: 8.0.1
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.4
+          - PS_VERSION_START: 8.0.1
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: '8.0'
+          - PS_VERSION_START: 8.0.1
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 8.1
+          # 8.0.2 ~ minor PHP 7.2 ~ 8.1
+          - PS_VERSION_START: 8.0.2
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.2
+          - PS_VERSION_START: 8.0.2
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.3
+          - PS_VERSION_START: 8.0.2
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.4
+          - PS_VERSION_START: 8.0.2
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: '8.0'
+          - PS_VERSION_START: 8.0.2
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 8.1
+            # 8.0.3 ~ minor PHP 7.2 ~ 8.1
+          - PS_VERSION_START: 8.0.3
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.2
+          - PS_VERSION_START: 8.0.3
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.3
+          - PS_VERSION_START: 8.0.3
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.4
+          - PS_VERSION_START: 8.0.3
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: '8.0'
+          - PS_VERSION_START: 8.0.3
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 8.1
+            # 8.0.4 ~ minor PHP 7.2 ~ 8.1
+          - PS_VERSION_START: 8.0.4
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.2
+          - PS_VERSION_START: 8.0.4
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.3
+          - PS_VERSION_START: 8.0.4
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.4
+          - PS_VERSION_START: 8.0.4
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: '8.0'
+          - PS_VERSION_START: 8.0.4
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 8.1
+            # 8.0.5 ~ minor PHP 7.2 ~ 8.1
+          - PS_VERSION_START: 8.0.5
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.2
+          - PS_VERSION_START: 8.0.5
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.3
+          - PS_VERSION_START: 8.0.5
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.4
+          - PS_VERSION_START: 8.0.5
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: '8.0'
+          - PS_VERSION_START: 8.0.5
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 8.1
+            # 8.1.0 ~ minor PHP 7.2 ~ 8.1
+          - PS_VERSION_START: 8.1.0
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.2
+          - PS_VERSION_START: 8.1.0
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.3
+          - PS_VERSION_START: 8.1.0
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.4
+          - PS_VERSION_START: 8.1.0
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: '8.0'
+          - PS_VERSION_START: 8.1.0
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 8.1
+            # 8.1.1 ~ minor PHP 7.2 ~ 8.1
+          - PS_VERSION_START: 8.1.1
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.2
+          - PS_VERSION_START: 8.1.1
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.3
+          - PS_VERSION_START: 8.1.1
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.4
+          - PS_VERSION_START: 8.1.1
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: '8.0'
+          - PS_VERSION_START: 8.1.1
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 8.1
+            # 8.1.2 ~ minor PHP 7.2 ~ 8.1
+          - PS_VERSION_START: 8.1.2
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.2
+          - PS_VERSION_START: 8.1.2
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.3
+          - PS_VERSION_START: 8.1.2
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.4
+          - PS_VERSION_START: 8.1.2
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: '8.0'
+          - PS_VERSION_START: 8.1.2
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 8.1
+            # 8.1.3 ~ minor PHP 7.2 ~ 8.1
+          - PS_VERSION_START: 8.1.3
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.2
+          - PS_VERSION_START: 8.1.3
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.3
+          - PS_VERSION_START: 8.1.3
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.4
+          - PS_VERSION_START: 8.1.3
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: '8.0'
+          - PS_VERSION_START: 8.1.3
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 8.1
+            # 8.1.4 ~ minor PHP 7.2 ~ 8.1
+          - PS_VERSION_START: 8.1.4
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.2
+          - PS_VERSION_START: 8.1.4
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.3
+          - PS_VERSION_START: 8.1.4
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.4
+          - PS_VERSION_START: 8.1.4
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: '8.0'
+          - PS_VERSION_START: 8.1.4
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 8.1
+            # 8.1.5 ~ minor PHP 7.2 ~ 8.1
+          - PS_VERSION_START: 8.1.5
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.2
+          - PS_VERSION_START: 8.1.5
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.3
+          - PS_VERSION_START: 8.1.5
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.4
+          - PS_VERSION_START: 8.1.5
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: '8.0'
+          - PS_VERSION_START: 8.1.5
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 8.1
+            # 8.1.6 ~ minor PHP 7.2 ~ 8.1
+          - PS_VERSION_START: 8.1.6
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.2
+          - PS_VERSION_START: 8.1.6
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.3
+          - PS_VERSION_START: 8.1.6
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.4
+          - PS_VERSION_START: 8.1.6
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: '8.0'
+          - PS_VERSION_START: 8.1.6
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 8.1
+      permissions:
+        contents: 'read'
+        id-token: 'write'
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+
+        - name: Download report
+          uses: actions/download-artifact@v4
+          with:
+            name: playwright-report-${{ matrix.PS_VERSION_START }}-${{ matrix.PS_VERSION_END }}-${{ matrix.PHP_VERSION }}
+            path: tests/UI/
+
+        # Nightly : Rename file
+        - name: "Nightly : Rename file"
+          working-directory: tests/UI/
+          run: |
+            mkdir -p nightly
+            REPORT_NAME="${{ env.CAMPAIGN }}_$(date +%Y-%m-%d)-${{ matrix.PS_VERSION_START }}-${{ matrix.PS_VERSION_END }}-${{ matrix.PHP_VERSION }}"
+            mv report.json nightly/${REPORT_NAME}.json
+
+        # Nightly : Auth GCP
+        - name: "Nightly : Auth GCP"
+          uses: google-github-actions/auth@v1
+          with:
+            credentials_json: ${{ secrets.GC_SERVICE_KEY }}
+            project_id: ${{ secrets.GC_PROJECT_ID }}
+
+        # Nightly : Setup GCP
+        - name: "Nightly : Setup GCP"
+          uses: google-github-actions/setup-gcloud@v1
+
+        # Nightly : Upload to Google Cloud Storage (GCS)
+        - name: "Nightly : Upload to Google Cloud Storage (GCS)"
+          working-directory: tests/UI/
+          run: gsutil cp -r "nightly/**" gs://prestashop-core-nightly/reports
+
+        # Nightly : Push Report
+        - name: "Nightly : Push Report"
+          run: |
+            REPORT_NAME="${{ env.CAMPAIGN }}_$(date +%Y-%m-%d)-${{ matrix.PS_VERSION_START }}-${{ matrix.PS_VERSION_END }}-${{ matrix.PHP_VERSION }}"
+            curl -v "https://api-nightly.prestashop-project.org/import/report/playwright?token=${{ secrets.NIGHTLY_TOKEN }}&filename=${REPORT_NAME}.json&campaign=${{ env.CAMPAIGN }}&platform=chromium"
