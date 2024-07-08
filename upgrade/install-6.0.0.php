@@ -48,7 +48,7 @@ function upgrade_module_6_0_0($module)
         $tab->class_name = 'AdminSelfUpgrade';
         $tab->module = 'autoupgrade';
     }
-    
+
     $tab->id_parent = (int) \Tab::getIdFromClassName('CONFIGURE');
     $tab->icon = 'upgrade';
 
