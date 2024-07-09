@@ -105,7 +105,7 @@ class BackupDb extends AbstractTask
                 if (!$tablesToBackup->getRemainingTotal()) {
                     break;
                 }
-                $table = $tablesToBackup->getNext();
+                $table = current($tablesToBackup->getNext());
                 $this->container->getState()->setBackupLoopLimit(0);
             }
 
