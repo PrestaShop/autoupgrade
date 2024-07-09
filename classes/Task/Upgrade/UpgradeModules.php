@@ -32,6 +32,7 @@ use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Backlog;
 
 /**
  * Upgrade all partners modules according to the installed prestashop version.
@@ -51,15 +52,7 @@ class UpgradeModules extends AbstractTask
         }
 
         $this->next = 'upgradeModules';
-        $listModules = $this->container->getFileConfigurationStorage()->load(UpgradeFileNames::MODULES_TO_UPGRADE_LIST);
-
-        if (!is_array($listModules)) {
-            $this->next = 'upgradeComplete';
-            $this->container->getState()->setWarningExists(true);
-            $this->logger->error($this->translator->trans('listModules is not an array. No module has been updated.'));
-
-            return ExitCode::SUCCESS;
-        }
+        $listModules = Backlog::fromContents($this->container->getFileConfigurationStorage()->load(UpgradeFileNames::MODULES_TO_UPGRADE_LIST));
 
         // add local modules that we want to upgrade to the list
         $localModules = $this->getLocalModules();
@@ -73,10 +66,9 @@ class UpgradeModules extends AbstractTask
             }
         }
 
-        // module list
-        if (count($listModules) > 0) {
+        if (!$listModules->getRemainingTotal()) {
             do {
-                $module_info = array_pop($listModules);
+                $module_info = $listModules->getNext();
                 try {
                     $this->logger->debug($this->translator->trans('Updating module %module%...', ['%module%' => $module_info['name']]));
                     $this->container->getModuleAdapter()->upgradeModule($module_info['id'], $module_info['name'], !empty($module_info['is_local']));
@@ -90,9 +82,8 @@ class UpgradeModules extends AbstractTask
                 $time_elapsed = time() - $start_time;
             } while (($time_elapsed < $this->container->getUpgradeConfiguration()->getTimePerCall()) && count($listModules) > 0);
 
-            $modules_left = count($listModules);
-            $this->container->getFileConfigurationStorage()->save($listModules, UpgradeFileNames::MODULES_TO_UPGRADE_LIST);
-            unset($listModules);
+            $modules_left = $listModules->getRemainingTotal();
+            $this->container->getFileConfigurationStorage()->save($listModules->dump(), UpgradeFileNames::MODULES_TO_UPGRADE_LIST);
 
             $this->next = 'upgradeModules';
             if ($modules_left) {
@@ -153,14 +144,18 @@ class UpgradeModules extends AbstractTask
                 $this->container->getState()->getModulesVersions()
             );
             $modulesToUpgrade = array_reverse($modulesToUpgrade);
-            $this->container->getFileConfigurationStorage()->save($modulesToUpgrade, UpgradeFileNames::MODULES_TO_UPGRADE_LIST);
+            $total_modules_to_upgrade = count($modulesToUpgrade);
+
+            $this->container->getFileConfigurationStorage()->save(
+                (new Backlog($modulesToUpgrade, $total_modules_to_upgrade))->dump(),
+                UpgradeFileNames::MODULES_TO_UPGRADE_LIST
+            );
         } catch (UpgradeException $e) {
             $this->handleException($e);
 
             return ExitCode::FAIL;
         }
 
-        $total_modules_to_upgrade = count($modulesToUpgrade);
         if ($total_modules_to_upgrade) {
             $this->logger->info($this->translator->trans('%s modules will be upgraded.', [$total_modules_to_upgrade]));
         }
