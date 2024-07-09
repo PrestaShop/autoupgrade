@@ -44,8 +44,10 @@ class Translator
     private function loadXlfFile($filePath)
     {
         $xml = new SimpleXMLElement(file_get_contents($filePath));
-        foreach ($xml->file->body->{'trans-unit'} as $unit) {
-            $this->translations[(string) $unit->source] = (string) $unit->target;
+        foreach ($xml->file as $file) {
+            foreach ($file->body->{'trans-unit'} as $unit) {
+                $this->translations[(string) $unit->source] = (string) $unit->target;
+            }
         }
     }
 
