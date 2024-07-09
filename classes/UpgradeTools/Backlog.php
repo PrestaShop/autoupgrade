@@ -71,7 +71,10 @@ class Backlog
         ];
     }
 
-    public function getNext(): mixed
+    /**
+     * @return mixed
+     */
+    public function getNext()
     {
         return array_pop($this->backlog);
     }
