@@ -32,6 +32,7 @@ use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Backlog;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 
 class UpgradeFiles extends AbstractTask
@@ -59,24 +60,20 @@ class UpgradeFiles extends AbstractTask
         $this->next = 'upgradeFiles';
 
         // Now we load the list of files to be upgraded, prepared previously by warmUp method.
-        $filesToUpgrade = $this->container->getFileConfigurationStorage()->load(UpgradeFileNames::FILES_TO_UPGRADE_LIST);
-        if (!is_array($filesToUpgrade['backlog'])) {
-            $this->next = 'error';
-            $this->logger->error($this->translator->trans('filesToUpgrade is not an array'));
-
-            return ExitCode::FAIL;
-        }
+        $filesToUpgrade = Backlog::fromContents(
+            $this->container->getFileConfigurationStorage()->load(UpgradeFileNames::FILES_TO_UPGRADE_LIST)
+        );
 
         // @TODO : does not upgrade files in modules, translations if they have not a correct md5 (or crc32, or whatever) from previous version
         for ($i = 0; $i < $this->container->getUpgradeConfiguration()->getNumberOfFilesPerCall(); ++$i) {
-            if (count($filesToUpgrade['backlog']) <= 0) {
+            if (!$filesToUpgrade->getRemainingTotal()) {
                 $this->next = 'upgradeDb';
                 $this->logger->info($this->translator->trans('All files upgraded. Now upgrading database...'));
                 $this->stepDone = true;
                 break;
             }
 
-            $file = array_pop($filesToUpgrade['backlog']);
+            $file = $filesToUpgrade->getNext();
 
             // Note - upgrade this file means do whatever is needed for that file to be in the final state, delete included.
             if (!$this->upgradeThisFile($file)) {
@@ -86,9 +83,9 @@ class UpgradeFiles extends AbstractTask
                 break;
             }
         }
-        $this->container->getFileConfigurationStorage()->save($filesToUpgrade, UpgradeFileNames::FILES_TO_UPGRADE_LIST);
-        
-        $countOfRemainingBacklog = count($filesToUpgrade);
+        $this->container->getFileConfigurationStorage()->save($filesToUpgrade->dump(), UpgradeFileNames::FILES_TO_UPGRADE_LIST);
+
+        $countOfRemainingBacklog = $filesToUpgrade->getRemainingTotal();
         if ($countOfRemainingBacklog > 0) {
             $this->logger->info($this->translator->trans('%s files left to upgrade.', [$countOfRemainingBacklog]));
             $this->stepDone = false;
@@ -253,13 +250,11 @@ class UpgradeFiles extends AbstractTask
         // Add our previously created list of deleted files
         $list_files_to_upgrade = array_reverse(array_merge($list_files_diff, $list_files_to_upgrade));
 
-        // Save in a serialized array in UpgradeFileNames::toUpgradeFileList, to be later used by the upgrade step itself above,
-        // after run() is called.
         $total_files_to_upgrade = count($list_files_to_upgrade);
-        $this->container->getFileConfigurationStorage()->save([
-            'backlog' => $list_files_to_upgrade,
-            'total' => $total_files_to_upgrade,
-        ], UpgradeFileNames::FILES_TO_UPGRADE_LIST);
+        $this->container->getFileConfigurationStorage()->save(
+            (new Backlog($list_files_to_upgrade, $total_files_to_upgrade))->dump(),
+            UpgradeFileNames::FILES_TO_UPGRADE_LIST
+        );
 
         if ($total_files_to_upgrade === 0) {
             $this->logger->error($this->translator->trans('[ERROR] Unable to find files to upgrade.'));
