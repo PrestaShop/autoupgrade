@@ -32,6 +32,7 @@ use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Backlog;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Database;
 
 /**
@@ -55,16 +56,10 @@ class RestoreDb extends AbstractTask
             _DB_PREFIX_ . 'statssearch',
         ];
         $startTime = time();
-        $listQuery = [];
 
-        // deal with running backup rest if exist
-        if (file_exists($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . UpgradeFileNames::QUERIES_TO_RESTORE_LIST)) {
-            $listQuery = $this->container->getFileConfigurationStorage()->load(UpgradeFileNames::QUERIES_TO_RESTORE_LIST);
-        }
-
-        // deal with the next files stored in restoreDbFilenames
-        $restoreDbFilenames = $this->container->getState()->getRestoreDbFilenames();
-        if (empty($listQuery) && count($restoreDbFilenames) > 0) {
+        if (!file_exists($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . UpgradeFileNames::QUERIES_TO_RESTORE_LIST)) {
+            // deal with the next files stored in restoreDbFilenames
+            $restoreDbFilenames = $this->container->getState()->getRestoreDbFilenames();
             $currentDbFilename = array_shift($restoreDbFilenames);
             $this->container->getState()->setRestoreDbFilenames($restoreDbFilenames);
             if (!preg_match('#auto-backupdb_([0-9]{6})_#', $currentDbFilename, $match)) {
@@ -151,78 +146,63 @@ class RestoreDb extends AbstractTask
                     $this->container->getFileConfigurationStorage()->save($tablesToRemove, UpgradeFileNames::DB_TABLES_TO_CLEAN_LIST);
                 }
             }
+            $backlog = new Backlog($listQuery, count($listQuery));
+        } else {
+            $backlog = Backlog::fromContents($this->container->getFileConfigurationStorage()->load(UpgradeFileNames::QUERIES_TO_RESTORE_LIST));
         }
 
-        /* @todo : error if listQuery is not an array (that can happen if toRestoreQueryList is empty for example) */
-        if (is_array($listQuery) && count($listQuery) > 0) {
-            $this->container->getDb()->execute('SET SESSION sql_mode = \'\'');
-            $this->container->getDb()->execute('SET FOREIGN_KEY_CHECKS=0');
+        $this->container->getDb()->execute('SET SESSION sql_mode = \'\'');
+        $this->container->getDb()->execute('SET FOREIGN_KEY_CHECKS=0');
 
-            do {
-                if (count($listQuery) == 0) {
-                    if (file_exists($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . UpgradeFileNames::QUERIES_TO_RESTORE_LIST)) {
-                        unlink($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . UpgradeFileNames::QUERIES_TO_RESTORE_LIST);
-                    }
-
-                    $restoreDbFilenamesCount = count($this->container->getState()->getRestoreDbFilenames());
-                    if ($restoreDbFilenamesCount) {
-                        $this->logger->info($this->translator->trans(
-                            'Database restoration file %filename% done. %filescount% file(s) left...',
-                            [
-                                '%filename%' => $this->container->getState()->getDbStep(),
-                                '%filescount%' => $restoreDbFilenamesCount,
-                            ]
-                        ));
-                    } else {
-                        $this->logger->info($this->translator->trans('Database restoration file %1$s done.', [$this->container->getState()->getDbStep()]));
-                    }
-
-                    $this->stepDone = true;
-                    $this->status = 'ok';
-                    $this->next = 'restoreDb';
-
-                    if ($restoreDbFilenamesCount === 0) {
-                        $this->next = 'rollbackComplete';
-                        $this->logger->info($this->translator->trans('Database has been restored.'));
-
-                        $databaseTools->cleanTablesAfterBackup($this->container->getFileConfigurationStorage()->load(UpgradeFileNames::DB_TABLES_TO_CLEAN_LIST));
-                        $this->container->getFileConfigurationStorage()->clean(UpgradeFileNames::DB_TABLES_TO_CLEAN_LIST);
-                    }
-
-                    return ExitCode::SUCCESS;
+        do {
+            if (!$backlog->getRemainingTotal()) {
+                $restoreDbFilenamesCount = count($this->container->getState()->getRestoreDbFilenames());
+                if ($restoreDbFilenamesCount) {
+                    $this->logger->info($this->translator->trans(
+                        'Database restoration file %filename% done. %filescount% file(s) left...',
+                        [
+                            '%filename%' => $this->container->getState()->getDbStep(),
+                            '%filescount%' => $restoreDbFilenamesCount,
+                        ]
+                    ));
+                } else {
+                    $this->logger->info($this->translator->trans('Database restoration file %1$s done.', [$this->container->getState()->getDbStep()]));
                 }
 
-                $query = trim(array_shift($listQuery));
-                if (!empty($query)) {
-                    if (!$this->container->getDb()->execute($query, false)) {
-                        if (is_array($listQuery)) {
-                            $listQuery = array_unshift($listQuery, $query);
-                        }
-                        $this->logger->error($this->translator->trans('[SQL ERROR]') . ' ' . $query . ' - ' . $this->container->getDb()->getMsgError());
-                        $this->logger->info($this->translator->trans('Error during database restoration'));
-                        $this->next = 'error';
-                        $this->setErrorFlag();
-                        unlink($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . UpgradeFileNames::QUERIES_TO_RESTORE_LIST);
+                $this->stepDone = true;
+                $this->status = 'ok';
+                $this->next = 'restoreDb';
 
-                        return ExitCode::FAIL;
-                    }
+                if ($restoreDbFilenamesCount === 0) {
+                    $this->next = 'rollbackComplete';
+                    $this->logger->info($this->translator->trans('Database has been restored.'));
+
+                    $databaseTools->cleanTablesAfterBackup($this->container->getFileConfigurationStorage()->load(UpgradeFileNames::DB_TABLES_TO_CLEAN_LIST));
+                    // Removing this file is needed to trigger the warmup with the next backup file
+                    $this->container->getFileConfigurationStorage()->clean(UpgradeFileNames::DB_TABLES_TO_CLEAN_LIST);
                 }
 
-                // note : theses queries can be too big and can cause issues for display
-                // else
-                // $this->nextQuickInfo[] = '[OK] '.$query;
-
-                $time_elapsed = time() - $startTime;
-            } while ($time_elapsed < $this->container->getUpgradeConfiguration()->getTimePerCall());
-
-            $queries_left = count($listQuery);
-
-            if ($queries_left > 0) {
-                $this->container->getFileConfigurationStorage()->save($listQuery, UpgradeFileNames::QUERIES_TO_RESTORE_LIST);
-            } elseif (file_exists($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . UpgradeFileNames::QUERIES_TO_RESTORE_LIST)) {
-                unlink($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . UpgradeFileNames::QUERIES_TO_RESTORE_LIST);
+                return ExitCode::SUCCESS;
             }
 
+            $query = trim($backlog->getNext());
+            if (!empty($query)) {
+                if (!$this->container->getDb()->execute($query, false)) {
+                    $this->logger->error($this->translator->trans('[SQL ERROR]') . ' ' . $query . ' - ' . $this->container->getDb()->getMsgError());
+                    $this->logger->info($this->translator->trans('Error during database restoration'));
+                    $this->setErrorFlag();
+
+                    return ExitCode::FAIL;
+                }
+            }
+
+            $time_elapsed = time() - $startTime;
+        } while ($time_elapsed < $this->container->getUpgradeConfiguration()->getTimePerCall());
+
+        $queries_left = $backlog->getRemainingTotal();
+
+        if ($queries_left > 0) {
+            $this->container->getFileConfigurationStorage()->save($backlog->dump(), UpgradeFileNames::QUERIES_TO_RESTORE_LIST);
             $this->stepDone = false;
             $this->next = 'restoreDb';
             $this->logger->info($this->translator->trans(
@@ -232,7 +212,6 @@ class RestoreDb extends AbstractTask
                     '%filename%' => $this->container->getState()->getDbStep(),
                 ]
             ));
-            unset($query, $listQuery);
         } else {
             $this->stepDone = true;
             $this->status = 'ok';
@@ -240,7 +219,6 @@ class RestoreDb extends AbstractTask
             $this->logger->info($this->translator->trans('Database restoration done.'));
 
             $databaseTools->cleanTablesAfterBackup($this->container->getFileConfigurationStorage()->load(UpgradeFileNames::DB_TABLES_TO_CLEAN_LIST));
-            $this->container->getFileConfigurationStorage()->clean(UpgradeFileNames::DB_TABLES_TO_CLEAN_LIST);
         }
 
         return ExitCode::SUCCESS;
