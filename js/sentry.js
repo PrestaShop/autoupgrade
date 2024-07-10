@@ -36,8 +36,8 @@ document.getElementById("submitErrorReport").addEventListener("click", function 
     if (errorsElements) {
         const childNodes = errorsElements.childNodes;
         let messages = '';
-        childNodes.forEach((node, index) => {
-            if (node.nodeType === Node.TEXT_NODE && index > 0) {
+        childNodes.forEach((node) => {
+            if (node.nodeType === Node.TEXT_NODE) {
                 messages += node.textContent.trim() + '\n';
             }
         });
