@@ -41,6 +41,8 @@ class UpgradeNow extends AbstractTask
 {
     const TASK_TYPE = 'upgrade';
 
+    const BASE_PROGRESS = 0;
+
     /**
      * @throws Exception
      */

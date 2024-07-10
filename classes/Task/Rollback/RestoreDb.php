@@ -42,6 +42,8 @@ class RestoreDb extends AbstractTask
 {
     const TASK_TYPE = 'rollback';
 
+    const BASE_PROGRESS = 66;
+
     /**
      * @throws Exception
      */

@@ -37,6 +37,8 @@ class CleanDatabase extends AbstractTask
 {
     const TASK_TYPE = 'upgrade';
 
+    const BASE_PROGRESS = 100;
+
     public function run(): int
     {
         // Clean tabs order

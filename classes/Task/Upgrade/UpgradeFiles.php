@@ -39,6 +39,9 @@ class UpgradeFiles extends AbstractTask
 {
     const TASK_TYPE = 'upgrade';
 
+    const BASE_PROGRESS = 50;
+    const BASE_PROGRESS_WITHOUT_BACKUP = 40;
+
     /**
      * @var string
      */

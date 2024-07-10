@@ -41,6 +41,9 @@ class UpgradeModules extends AbstractTask
 {
     const TASK_TYPE = 'upgrade';
 
+    const BASE_PROGRESS = 90;
+    const BASE_PROGRESS_WITHOUT_BACKUP = 80;
+
     /**
      * @throws Exception
      */

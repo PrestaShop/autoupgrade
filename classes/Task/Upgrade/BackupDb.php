@@ -39,6 +39,8 @@ class BackupDb extends AbstractTask
 {
     const TASK_TYPE = 'upgrade';
 
+    const BASE_PROGRESS = 40;
+
     /**
      * @throws Exception
      */

@@ -41,6 +41,9 @@ class Unzip extends AbstractTask
 {
     const TASK_TYPE = 'upgrade';
 
+    const BASE_PROGRESS = 10;
+    const BASE_PROGRESS_WITHOUT_BACKUP = 20;
+
     /**
      * @throws Exception
      */

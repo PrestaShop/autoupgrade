@@ -41,6 +41,8 @@ class UpgradeComplete extends AbstractTask
 {
     const TASK_TYPE = 'upgrade';
 
+    const BASE_PROGRESS = 100;
+
     /**
      * @throws Exception
      */

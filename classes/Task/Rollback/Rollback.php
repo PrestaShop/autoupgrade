@@ -41,6 +41,8 @@ class Rollback extends AbstractTask
 {
     const TASK_TYPE = 'rollback';
 
+    const BASE_PROGRESS = 0;
+
     /**
      * @throws Exception
      */

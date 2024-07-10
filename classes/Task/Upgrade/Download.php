@@ -41,6 +41,9 @@ class Download extends AbstractTask
 {
     const TASK_TYPE = 'upgrade';
 
+    const BASE_PROGRESS = 5;
+    const BASE_PROGRESS_WITHOUT_BACKUP = 10;
+
     /**
      * @throws Exception
      */

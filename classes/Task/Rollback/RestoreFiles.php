@@ -41,6 +41,8 @@ class RestoreFiles extends AbstractTask
 {
     const TASK_TYPE = 'rollback';
 
+    const BASE_PROGRESS = 33;
+
     /**
      * @throws Exception
      */

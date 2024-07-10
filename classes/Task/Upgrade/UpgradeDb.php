@@ -39,6 +39,9 @@ class UpgradeDb extends AbstractTask
 {
     const TASK_TYPE = 'upgrade';
 
+    const BASE_PROGRESS = 70;
+    const BASE_PROGRESS_WITHOUT_BACKUP = 60;
+
     public function run(): int
     {
         try {

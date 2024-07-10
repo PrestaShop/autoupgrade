@@ -38,6 +38,8 @@ class BackupFiles extends AbstractTask
 {
     const TASK_TYPE = 'upgrade';
 
+    const BASE_PROGRESS = 20;
+
     /**
      * @throws Exception
      */
