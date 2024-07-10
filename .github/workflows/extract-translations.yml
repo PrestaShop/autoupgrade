@@ -37,11 +37,9 @@ jobs:
           rm catalog/autoupgrade/translations/ModulesAutoupgradeAdmin.en.xlf
           mv catalog/autoupgrade/translations/en-US/messages.en-US.xlf catalog/autoupgrade/translations/ModulesAutoupgradeAdmin.en.xlf
           if [ -d "catalog/autoupgrade/translations/en-US" ] && [ "$(ls -A catalog/autoupgrade/translations/en-US)" ]; then
-            echo "::warning::The directory catalog/autoupgrade/translations/en-US is not empty. Potential loss of translations."
-            rm -rf catalog/autoupgrade/translations/en-US
-          else
-            rmdir catalog/autoupgrade/translations/en-US
+            echo "::error::The directory catalog/autoupgrade/translations/en-US is not empty. Potential loss of translations."
           fi
+          rmdir catalog/autoupgrade/translations/en-US
           /bin/bash -eux ./scripts/pushAndCreatePullRequest.sh
         env:
           APP_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
