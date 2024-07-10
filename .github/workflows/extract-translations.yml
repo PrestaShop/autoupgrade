@@ -2,6 +2,7 @@ on:
   push:
     branches:
       - dev
+      - fix/extractor-translation
 
 jobs:
   sync-translations:
