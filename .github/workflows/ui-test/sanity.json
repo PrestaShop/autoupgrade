@@ -4,21 +4,21 @@
       "comment": "1.7.1 ~ minor PHP 7.1"
     },
     {
-      "PS_VERSION_START": "1.7.0.0",
+      "PS_VERSION_START": "1.7.1.0",
       "PS_VERSION_END": "1.7.8.11",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.1",
       "IMG_DOCKER": "1.7.0.0"
     },
     {
-      "PS_VERSION_START": "1.7.0.1",
+      "PS_VERSION_START": "1.7.1.1",
       "PS_VERSION_END": "1.7.8.11",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.1",
       "IMG_DOCKER": "1.7.0.1"
     },
     {
-      "PS_VERSION_START": "1.7.0.2",
+      "PS_VERSION_START": "1.7.1.2",
       "PS_VERSION_END": "1.7.8.11",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.1",
