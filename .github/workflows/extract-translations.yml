@@ -2,7 +2,6 @@ on:
   push:
     branches:
       - dev
-      - fix/extractor-translation
 
 jobs:
   sync-translations:
@@ -38,7 +37,7 @@ jobs:
           rm catalog/autoupgrade/translations/ModulesAutoupgradeAdmin.en.xlf
           mv catalog/autoupgrade/translations/en-US/messages.en-US.xlf catalog/autoupgrade/translations/ModulesAutoupgradeAdmin.en.xlf
           if [ -d "catalog/autoupgrade/translations/en-US" ] && [ "$(ls -A catalog/autoupgrade/translations/en-US)" ]; then
-            echo "Warning: The directory catalog/autoupgrade/translations/en-US is not empty. Potential loss of translations."
+            echo "::warning::The directory catalog/autoupgrade/translations/en-US is not empty. Potential loss of translations."
             rm -rf catalog/autoupgrade/translations/en-US
           else
             rmdir catalog/autoupgrade/translations/en-US
