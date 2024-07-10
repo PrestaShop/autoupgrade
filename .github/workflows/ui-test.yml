@@ -38,8 +38,6 @@ jobs:
       matrix: ${{ fromJSON(needs.ui_test_matrix.outputs.matrix) }}
     env:
       PS_DOCKER: ${{ matrix.PS_VERSION_START }}-${{ matrix.PHP_VERSION }}
-    outputs:
-      matrix: ${{ needs.ui_test_matrix.outputs.matrix }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3.1.0
@@ -102,11 +100,13 @@ jobs:
   nightly:
     name: Nightly Report
     if: ${{ github.event_name == 'schedule' }}
-    needs: ui_test
+    needs: 
+      - ui_test_matrix
+      - ui_test
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix: ${{ fromJSON(needs.ui_test.outputs.matrix) }}
+      matrix: ${{ fromJSON(needs.ui_test_matrix.outputs.matrix) }}
     permissions:
       contents: 'read'
       id-token: 'write'
