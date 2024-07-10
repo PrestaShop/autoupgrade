@@ -2188,17 +2188,17 @@ Comment: check DB access</note>
       <trans-unit id="9a843f20677a52ca79af903123147af0">
         <source>Welcome!</source>
         <target>Welcome!</target>
-        <note>Line: 15</note>
+        <note>Line: 16</note>
       </trans-unit>
       <trans-unit id="d0ab112e427298327038f5e87aa40264">
         <source>Upgrade your store to benefit from the latest improvements, bug fixes and security patches.</source>
         <target>Upgrade your store to benefit from the latest improvements, bug fixes and security patches.</target>
-        <note>Line: 18</note>
+        <note>Line: 19</note>
       </trans-unit>
       <trans-unit id="9cf9ee1ecc597007beb11670100081b2">
         <source>Upgrading your store on your own can be risky. If you don't feel comfortable doing the upgrade yourself, many agencies and developers in your area may also provide this kind of service.</source>
         <target>Upgrading your store on your own can be risky. If you don't feel comfortable doing the upgrade yourself, many agencies and developers in your area may also provide this kind of service.</target>
-        <note>Line: 21</note>
+        <note>Line: 22</note>
       </trans-unit>
     </body>
   </file>
