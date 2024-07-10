@@ -138,14 +138,14 @@ class AdminSelfUpgradeController extends ModuleAdminController
         self::$currentIndex = $_SERVER['SCRIPT_NAME'] . (($controller = Tools14::getValue('controller')) ? '?controller=' . $controller : '');
 
         if (defined('_PS_ADMIN_DIR_')) {
-            // Check that the 1-click upgrade working directory is existing or create it
+            // Check that the Update assistant working directory is existing or create it
             if (!file_exists($this->autoupgradePath) && !@mkdir($this->autoupgradePath)) {
                 $this->_errors[] = $this->trans('Unable to create the directory "%s"', [$this->autoupgradePath]);
 
                 return;
             }
 
-            // Make sure that the 1-click upgrade working directory is writeable
+            // Make sure that the Update assistant working directory is writeable
             if (!is_writable($this->autoupgradePath)) {
                 $this->_errors[] = $this->trans('Unable to write in the directory "%s"', [$this->autoupgradePath]);
 
