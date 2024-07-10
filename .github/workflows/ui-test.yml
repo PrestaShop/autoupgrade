@@ -36,10 +36,574 @@ jobs:
   ui_test:
     name: UI Tests
     runs-on: ubuntu-latest
-    needs: ui_test_matrix
     strategy:
       fail-fast: false
-      matrix: ${{ fromJSON(needs.ui_test_matrix.outputs.matrix) }}
+      matrix:
+        include:
+          # 1.7.6 ~ major PHP 7.1 ~ 7.2
+          # @todo https://github.com/PrestaShop/docker/issues/389
+#          - PS_VERSION_START: 1.7.6.0
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: major
+#            PHP_VERSION: 7.2
+#            IMG_DOCKER: 1.7.6.0
+#          - PS_VERSION_START: 1.7.6.1
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: major
+#            PHP_VERSION: 7.2
+#            IMG_DOCKER: 1.7.6.1
+#          - PS_VERSION_START: 1.7.6.2
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: major
+#            PHP_VERSION: 7.2
+#            IMG_DOCKER: 1.7.6.2
+#          - PS_VERSION_START: 1.7.6.3
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: major
+#            PHP_VERSION: 7.2
+#            IMG_DOCKER: 1.7.6.3
+#          - PS_VERSION_START: 1.7.6.4
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: major
+#            PHP_VERSION: 7.2
+#            IMG_DOCKER: 1.7.6.4
+          - PS_VERSION_START: 1.7.6.5
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: major
+            PHP_VERSION: 7.2
+            IMG_DOCKER: 1.7.6.5
+            # @todo https://github.com/PrestaShop/docker/issues/389
+#          - PS_VERSION_START: 1.7.6.6
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: major
+#            PHP_VERSION: 7.2
+#            IMG_DOCKER: 1.7.6.6
+          - PS_VERSION_START: 1.7.6.7
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: major
+            PHP_VERSION: 7.2
+            IMG_DOCKER: 1.7.6.7
+          - PS_VERSION_START: 1.7.6.8
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: major
+            PHP_VERSION: 7.2
+            IMG_DOCKER: 1.7.6.8-7.2-apache
+          - PS_VERSION_START: 1.7.6.9
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: major
+            PHP_VERSION: 7.2
+            IMG_DOCKER: 1.7.6.9-7.2-apache
+          # 1.7.8 ~ minor PHP 7.2 ~ 7.4
+#          - PS_VERSION_START: 1.7.8.0
+#            PS_VERSION_END: 1.7.8.11
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.2
+#            IMG_DOCKER: 1.7.8.0-7.2-apache
+#          - PS_VERSION_START: 1.7.8.0
+#            PS_VERSION_END: 1.7.8.11
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.3
+#            IMG_DOCKER: 1.7.8.0-7.3-apache
+#          - PS_VERSION_START: 1.7.8.0
+#            PS_VERSION_END: 1.7.8.11
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.4
+#            IMG_DOCKER: 1.7.8.0-7.4-apache
+#          - PS_VERSION_START: 1.7.8.1
+#            PS_VERSION_END: 1.7.8.11
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.2
+#            IMG_DOCKER: 1.7.8.1-7.2-apache
+#          - PS_VERSION_START: 1.7.8.1
+#            PS_VERSION_END: 1.7.8.11
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.3
+#            IMG_DOCKER: 1.7.8.1-7.3-apache
+#          - PS_VERSION_START: 1.7.8.1
+#            PS_VERSION_END: 1.7.8.11
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.4
+#            IMG_DOCKER: 1.7.8.1-7.4-apache
+#          - PS_VERSION_START: 1.7.8.2
+#            PS_VERSION_END: 1.7.8.11
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.2
+#            IMG_DOCKER: 1.7.8.2-7.2-apache
+#          - PS_VERSION_START: 1.7.8.2
+#            PS_VERSION_END: 1.7.8.11
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.3
+#            IMG_DOCKER: 1.7.8.2-7.3-apache
+#          - PS_VERSION_START: 1.7.8.2
+#            PS_VERSION_END: 1.7.8.11
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.4
+#            IMG_DOCKER: 1.7.8.2-7.4-apache
+#          - PS_VERSION_START: 1.7.8.3
+#            PS_VERSION_END: 1.7.8.11
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.2
+#            IMG_DOCKER: 1.7.8.3-7.2-apache
+#          - PS_VERSION_START: 1.7.8.3
+#            PS_VERSION_END: 1.7.8.11
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.3
+#            IMG_DOCKER: 1.7.8.3-7.3-apache
+#          - PS_VERSION_START: 1.7.8.3
+#            PS_VERSION_END: 1.7.8.11
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.4
+#            IMG_DOCKER: 1.7.8.3-7.4-apache
+#          - PS_VERSION_START: 1.7.8.4
+#            PS_VERSION_END: 1.7.8.11
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.2
+#            IMG_DOCKER: 1.7.8.4-7.2-apache
+#          - PS_VERSION_START: 1.7.8.4
+#            PS_VERSION_END: 1.7.8.11
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.3
+#            IMG_DOCKER: 1.7.8.4-7.3-apache
+#          - PS_VERSION_START: 1.7.8.4
+#            PS_VERSION_END: 1.7.8.11
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.4
+#            IMG_DOCKER: 1.7.8.4-7.4-apache
+#          - PS_VERSION_START: 1.7.8.5
+#            PS_VERSION_END: 1.7.8.11
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.2
+#            IMG_DOCKER: 1.7.8.5-7.2-apache
+#          - PS_VERSION_START: 1.7.8.5
+#            PS_VERSION_END: 1.7.8.11
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.3
+#            IMG_DOCKER: 1.7.8.5-7.3-apache
+#          - PS_VERSION_START: 1.7.8.5
+#            PS_VERSION_END: 1.7.8.11
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.4
+#            IMG_DOCKER: 1.7.8.5-7.4-apache
+#          - PS_VERSION_START: 1.7.8.6
+#            PS_VERSION_END: 1.7.8.11
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.2
+#            IMG_DOCKER: 1.7.8.6-7.2-apache
+#          - PS_VERSION_START: 1.7.8.6
+#            PS_VERSION_END: 1.7.8.11
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.3
+#            IMG_DOCKER: 1.7.8.6-7.3-apache
+#          - PS_VERSION_START: 1.7.8.6
+#            PS_VERSION_END: 1.7.8.11
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.4
+#            IMG_DOCKER: 1.7.8.6-7.4-apache
+#          - PS_VERSION_START: 1.7.8.7
+#            PS_VERSION_END: 1.7.8.11
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.2
+#            IMG_DOCKER: 1.7.8.7-7.2-apache
+#          - PS_VERSION_START: 1.7.8.7
+#            PS_VERSION_END: 1.7.8.11
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.3
+#            IMG_DOCKER: 1.7.8.7-7.3-apache
+#          - PS_VERSION_START: 1.7.8.7
+#            PS_VERSION_END: 1.7.8.11
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.4
+#            IMG_DOCKER: 1.7.8.7-7.4-apache
+#          - PS_VERSION_START: 1.7.8.8
+#            PS_VERSION_END: 1.7.8.11
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.2
+#            IMG_DOCKER: 1.7.8.8-7.2-apache
+#          - PS_VERSION_START: 1.7.8.8
+#            PS_VERSION_END: 1.7.8.11
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.3
+#            IMG_DOCKER: 1.7.8.8-7.3-apache
+#          - PS_VERSION_START: 1.7.8.8
+#            PS_VERSION_END: 1.7.8.11
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.4
+#            IMG_DOCKER: 1.7.8.8-7.4-apache
+#          - PS_VERSION_START: 1.7.8.9
+#            PS_VERSION_END: 1.7.8.11
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.2
+#            IMG_DOCKER: 1.7.8.9-7.2-apache
+#          - PS_VERSION_START: 1.7.8.9
+#            PS_VERSION_END: 1.7.8.11
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.3
+#            IMG_DOCKER: 1.7.8.9-7.3-apache
+#          - PS_VERSION_START: 1.7.8.9
+#            PS_VERSION_END: 1.7.8.11
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.4
+#            IMG_DOCKER: 1.7.8.9-7.4-apache
+#          - PS_VERSION_START: 1.7.8.10
+#            PS_VERSION_END: 1.7.8.11
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.2
+#            IMG_DOCKER: 1.7.8.10-7.2-apache
+#          - PS_VERSION_START: 1.7.8.10
+#            PS_VERSION_END: 1.7.8.11
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.3
+#            IMG_DOCKER: 1.7.8.10-7.3-apache
+          - PS_VERSION_START: 1.7.8.10
+            PS_VERSION_END: 1.7.8.11
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 7.4
+            IMG_DOCKER: 1.7.8.10-7.4-apache
+            # 1.7.8 ~ major PHP 7.2 ~ 7.4
+          - PS_VERSION_START: 1.7.8.11
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: major
+            PHP_VERSION: 7.4
+            IMG_DOCKER: 1.7.8.11-7.4-apache
+            # 8.0.0 ~ minor PHP 7.2 ~ 8.1
+#          - PS_VERSION_START: 8.0.0
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.2
+#            IMG_DOCKER: 8.0.0-7.2-apache
+#          - PS_VERSION_START: 8.0.0
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.3
+#            IMG_DOCKER: 8.0.0-7.3-apache
+#          - PS_VERSION_START: 8.0.0
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.4
+#            IMG_DOCKER: 8.0.0-7.4-apache
+#          - PS_VERSION_START: 8.0.0
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: '8.0'
+#            IMG_DOCKER: 8.0.0-8.0-apache
+#          - PS_VERSION_START: 8.0.0
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 8.1
+#            IMG_DOCKER: 8.0.0-8.1-apache
+            # 8.0.1 ~ minor PHP 7.2 ~ 8.1
+#          - PS_VERSION_START: 8.0.1
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.2
+#            IMG_DOCKER: 8.0.1-7.2-apache
+#          - PS_VERSION_START: 8.0.1
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.3
+#            IMG_DOCKER: 8.0.1-7.3-apache
+#          - PS_VERSION_START: 8.0.1
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.4
+#            IMG_DOCKER: 8.0.1-7.4-apache
+#          - PS_VERSION_START: 8.0.1
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: '8.0'
+#            IMG_DOCKER: 8.0.1-8.0-apache
+#          - PS_VERSION_START: 8.0.1
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 8.1
+#            IMG_DOCKER: 8.0.1-8.1-apache
+          # 8.0.2 ~ minor PHP 7.2 ~ 8.1
+#          - PS_VERSION_START: 8.0.2
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.2
+#            IMG_DOCKER: 8.0.2-7.2-apache
+#          - PS_VERSION_START: 8.0.2
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.3
+#            IMG_DOCKER: 8.0.2-7.3-apache
+#          - PS_VERSION_START: 8.0.2
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.4
+#            IMG_DOCKER: 8.0.2-7.4-apache
+#          - PS_VERSION_START: 8.0.2
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: '8.0'
+#            IMG_DOCKER: 8.0.2-8.0-apache
+#          - PS_VERSION_START: 8.0.2
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 8.1
+#            IMG_DOCKER: 8.0.2-8.1-apache
+            # 8.0.3 ~ minor PHP 7.2 ~ 8.1
+#          - PS_VERSION_START: 8.0.3
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.2
+#            IMG_DOCKER: 8.0.3-7.2-apache
+#          - PS_VERSION_START: 8.0.3
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.3
+#            IMG_DOCKER: 8.0.3-7.3-apache
+#          - PS_VERSION_START: 8.0.3
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.4
+#            IMG_DOCKER: 8.0.3-7.4-apache
+#          - PS_VERSION_START: 8.0.3
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: '8.0'
+#            IMG_DOCKER: 8.0.3-8.0-apache
+#          - PS_VERSION_START: 8.0.3
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 8.1
+#            IMG_DOCKER: 8.0.3-8.1-apache
+            # 8.0.4 ~ minor PHP 7.2 ~ 8.1
+#          - PS_VERSION_START: 8.0.4
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.2
+#            IMG_DOCKER: 8.0.4-7.2-apache
+#          - PS_VERSION_START: 8.0.4
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.3
+#            IMG_DOCKER: 8.0.4-7.3-apache
+#          - PS_VERSION_START: 8.0.4
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.4
+#            IMG_DOCKER: 8.0.4-7.4-apache
+#          - PS_VERSION_START: 8.0.4
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: '8.0'
+#            IMG_DOCKER: 8.0.4-8.0-apache
+#          - PS_VERSION_START: 8.0.4
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 8.1
+#            IMG_DOCKER: 8.0.4-8.1-apache
+            # 8.0.5 ~ minor PHP 7.2 ~ 8.1
+#          - PS_VERSION_START: 8.0.5
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.2
+#            IMG_DOCKER: 8.0.5-7.2-apache
+#          - PS_VERSION_START: 8.0.5
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.3
+#            IMG_DOCKER: 8.0.5-7.3-apache
+#          - PS_VERSION_START: 8.0.5
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.4
+#            IMG_DOCKER: 8.0.5-7.4-apache
+#          - PS_VERSION_START: 8.0.5
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: '8.0'
+#            IMG_DOCKER: 8.0.5-8.0-apache
+          - PS_VERSION_START: 8.0.5
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 8.1
+            IMG_DOCKER: 8.0.5-8.1-apache
+            # 8.1.0 ~ minor PHP 7.2 ~ 8.1
+#          - PS_VERSION_START: 8.1.0
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.2
+#            IMG_DOCKER: 8.1.0-7.2-apache
+#          - PS_VERSION_START: 8.1.0
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.3
+#            IMG_DOCKER: 8.1.0-7.3-apache
+#          - PS_VERSION_START: 8.1.0
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.4
+#            IMG_DOCKER: 8.1.0-7.4-apache
+#          - PS_VERSION_START: 8.1.0
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: '8.0'
+#            IMG_DOCKER: 8.1.0-8.0-apache
+#          - PS_VERSION_START: 8.1.0
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 8.1
+#            IMG_DOCKER: 8.1.0-8.1-apache
+            # 8.1.1 ~ minor PHP 7.2 ~ 8.1
+#          - PS_VERSION_START: 8.1.1
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.2
+#            IMG_DOCKER: 8.1.1-7.2-apache
+#          - PS_VERSION_START: 8.1.1
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.3
+#            IMG_DOCKER: 8.1.1-7.3-apache
+#          - PS_VERSION_START: 8.1.1
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.4
+#            IMG_DOCKER: 8.1.1-7.4-apache
+#          - PS_VERSION_START: 8.1.1
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: '8.0'
+#            IMG_DOCKER: 8.1.1-8.0-apache
+#          - PS_VERSION_START: 8.1.1
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 8.1
+#            IMG_DOCKER: 8.1.1-8.1-apache
+            # 8.1.2 ~ minor PHP 7.2 ~ 8.1
+#          - PS_VERSION_START: 8.1.2
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.2
+#            IMG_DOCKER: 8.1.2-7.2-apache
+#          - PS_VERSION_START: 8.1.2
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.3
+#            IMG_DOCKER: 8.1.2-7.3-apache
+#          - PS_VERSION_START: 8.1.2
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.4
+#            IMG_DOCKER: 8.1.2-7.4-apache
+#          - PS_VERSION_START: 8.1.2
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: '8.0'
+#            IMG_DOCKER: 8.1.2-8.0-apache
+#          - PS_VERSION_START: 8.1.2
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 8.1
+#            IMG_DOCKER: 8.1.2-8.1-apache
+            # 8.1.3 ~ minor PHP 7.2 ~ 8.1
+#          - PS_VERSION_START: 8.1.3
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.2
+#            IMG_DOCKER: 8.1.3-7.2-apache
+#          - PS_VERSION_START: 8.1.3
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.3
+#            IMG_DOCKER: 8.1.3-7.3-apache
+#          - PS_VERSION_START: 8.1.3
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.4
+#            IMG_DOCKER: 8.1.3-7.4-apache
+#          - PS_VERSION_START: 8.1.3
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: '8.0'
+#            IMG_DOCKER: 8.1.3-8.0-apache
+#          - PS_VERSION_START: 8.1.3
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 8.1
+#            IMG_DOCKER: 8.1.3-8.1-apache
+            # 8.1.4 ~ minor PHP 7.2 ~ 8.1
+#          - PS_VERSION_START: 8.1.4
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.2
+#            IMG_DOCKER: 8.1.4-7.2-apache
+#          - PS_VERSION_START: 8.1.4
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.3
+#            IMG_DOCKER: 8.1.4-7.3-apache
+#          - PS_VERSION_START: 8.1.4
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.4
+#            IMG_DOCKER: 8.1.4-7.4-apache
+#          - PS_VERSION_START: 8.1.4
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: '8.0'
+#            IMG_DOCKER: 8.1.4-8.0-apache
+#          - PS_VERSION_START: 8.1.4
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 8.1
+#            IMG_DOCKER: 8.1.4-8.1-apache
+            # 8.1.5 ~ minor PHP 7.2 ~ 8.1
+#          - PS_VERSION_START: 8.1.5
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.2
+#            IMG_DOCKER: 8.1.5-7.2-apache
+#          - PS_VERSION_START: 8.1.5
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.3
+#            IMG_DOCKER: 8.1.5-7.3-apache
+#          - PS_VERSION_START: 8.1.5
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.4
+#            IMG_DOCKER: 8.1.5-7.4-apache
+#          - PS_VERSION_START: 8.1.5
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: '8.0'
+#            IMG_DOCKER: 8.1.5-8.0-apache
+#          - PS_VERSION_START: 8.1.5
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 8.1
+#            IMG_DOCKER: 8.1.5-8.1-apache
+            # 8.1.6 ~ minor PHP 7.2 ~ 8.1
+#          - PS_VERSION_START: 8.1.6
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.2
+#            IMG_DOCKER: 8.1.6-7.2-apache
+#          - PS_VERSION_START: 8.1.6
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.3
+#            IMG_DOCKER: 8.1.6-7.3-apache
+#          - PS_VERSION_START: 8.1.6
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: 7.4
+#            IMG_DOCKER: 8.1.6-7.4-apache
+#          - PS_VERSION_START: 8.1.6
+#            PS_VERSION_END: 8.1.7
+#            UPGRADE_CHANNEL: minor
+#            PHP_VERSION: '8.0'
+#            IMG_DOCKER: 8.1.6-8.0-apache
+          - PS_VERSION_START: 8.1.6
+            PS_VERSION_END: 8.1.7
+            UPGRADE_CHANNEL: minor
+            PHP_VERSION: 8.1
+            IMG_DOCKER: 8.1.6-8.1-apache
+
     env:
       PS_DOCKER: ${{ matrix.PS_VERSION_START }}-${{ matrix.PHP_VERSION }}
     steps:
