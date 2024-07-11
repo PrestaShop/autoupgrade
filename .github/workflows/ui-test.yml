@@ -2,6 +2,9 @@ name: UI Tests
 on:
   ## Check each PR
   push:
+    branches:
+      - dev
+      - master
   pull_request:
   ## Manual execution on branch
   workflow_dispatch:
