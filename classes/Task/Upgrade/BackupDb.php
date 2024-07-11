@@ -46,9 +46,7 @@ class BackupDb extends AbstractTask
      */
     public function run(): int
     {
-        // TODO: Keep only one configuration property to toggle backups
-        if (!$this->container->getUpgradeConfiguration()->get('PS_AUTOUP_BACKUP')
-         || $this->container->getUpgradeConfiguration()->get('skip_backup')) {
+        if (!$this->container->getUpgradeConfiguration()->shouldBackupFiles()) {
             $this->stepDone = true;
             $this->container->getState()->setDbStep(0);
             $this->logger->info($this->translator->trans('Database backup skipped. Now upgrading files...'));
@@ -81,6 +79,8 @@ class BackupDb extends AbstractTask
 
         // INIT LOOP
         if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::DB_TABLES_TO_BACKUP_LIST)) {
+            $this->container->getState()->setProgressPercentage(static::BASE_PROGRESS);
+            
             if (!is_dir($this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $this->container->getState()->getBackupName())) {
                 mkdir($this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $this->container->getState()->getBackupName());
             }

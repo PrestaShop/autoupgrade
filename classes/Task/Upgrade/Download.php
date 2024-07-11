@@ -56,6 +56,10 @@ class Download extends AbstractTask
             return ExitCode::FAIL;
         }
 
+        $this->container->getState()->setProgressPercentage(
+            $this->container->getUpgradeConfiguration()->shouldBackupFiles() ? static::BASE_PROGRESS : static::BASE_PROGRESS_WITHOUT_BACKUP
+        );
+
         $upgrader = $this->container->getUpgrader();
         $upgrader->channel = $this->container->getUpgradeConfiguration()->get('channel');
         $upgrader->branch = VersionUtils::splitPrestaShopVersion(_PS_VERSION_)['major'];

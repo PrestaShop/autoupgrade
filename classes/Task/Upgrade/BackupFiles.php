@@ -45,9 +45,7 @@ class BackupFiles extends AbstractTask
      */
     public function run(): int
     {
-        // TODO: Keep only one configuration property to toggle backups
-        if (!$this->container->getUpgradeConfiguration()->get('PS_AUTOUP_BACKUP')
-         || $this->container->getUpgradeConfiguration()->get('skip_backup')) {
+        if (!$this->container->getUpgradeConfiguration()->shouldBackupFiles()) {
             $this->stepDone = true;
             $this->next = 'backupDb';
             $this->logger->info('File backup skipped.');
@@ -67,6 +65,8 @@ class BackupFiles extends AbstractTask
         }
 
         if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::FILES_TO_BACKUP_LIST)) {
+            $this->container->getState()->setProgressPercentage(static::BASE_PROGRESS);
+
             /** @todo : only add files and dir listed in "originalPrestashopVersion" list */
             $filesToBackup = $this->container->getFilesystemAdapter()->listFilesInDir($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH), 'backup', false);
             $nbFilesToBackup = count($filesToBackup);
@@ -87,8 +87,9 @@ class BackupFiles extends AbstractTask
         }
 
         $this->next = 'backupFiles';
-        if ($backlog->getRemainingTotal()) {
-            $this->logger->info($this->translator->trans('Backup files in progress. %d files left', [$backlog->getRemainingTotal()]));
+        $remainingFiles = $backlog->getRemainingTotal();
+        if ($remainingFiles) {
+            $this->logger->info($this->translator->trans('Backup files in progress. %d files left', [$remainingFiles]));
 
             $this->stepDone = false;
             $res = $this->container->getZipAction()->compress($backlog, $this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $backupFilesFilename);
@@ -99,9 +100,7 @@ class BackupFiles extends AbstractTask
                 return ExitCode::FAIL;
             }
             $this->container->getFileConfigurationStorage()->save($backlog->dump(), UpgradeFileNames::FILES_TO_BACKUP_LIST);
-        }
-
-        if (!$backlog->getRemainingTotal()) {
+        } else {
             $this->stepDone = true;
             $this->status = 'ok';
             $this->next = 'backupDb';
