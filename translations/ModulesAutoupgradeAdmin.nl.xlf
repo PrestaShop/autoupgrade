@@ -1708,6 +1708,41 @@ Comment: check DB access</note>
         <target state="final">Fouten</target>
         <note>Line: 20</note>
       </trans-unit>
+      <trans-unit id="3406147c3ce729ce17ed76d45c2896f9">
+        <source>Report a bug</source>
+        <target state="needs-translation">Report a bug</target>
+        <note>Line: 23</note>
+      </trans-unit>
+      <trans-unit id="a11a94656093eefcfc56c9e9c15ef85b">
+        <source>Give feedbacks</source>
+        <target state="needs-translation">Give feedbacks</target>
+        <note>Line: 35</note>
+      </trans-unit>
+      <trans-unit id="ce8ae9da5b7cd6c3df2929543a9af92d">
+        <source>Email</source>
+        <target state="needs-translation">Email</target>
+        <note>Line: 42</note>
+      </trans-unit>
+      <trans-unit id="b5a7adde1af5c87d7fd797b6245c2a39">
+        <source>Description</source>
+        <target state="needs-translation">Description</target>
+        <note>Line: 44</note>
+      </trans-unit>
+      <trans-unit id="cabb081af34d6d6129acb90806ea1f6b">
+        <source>Give us details about the error</source>
+        <target state="needs-translation">Give us details about the error</target>
+        <note>Line: 46</note>
+      </trans-unit>
+      <trans-unit id="ea4788705e6873b424c65e91c2846b19">
+        <source>Cancel</source>
+        <target state="needs-translation">Cancel</target>
+        <note>Line: 50</note>
+      </trans-unit>
+      <trans-unit id="c2ebe5da2f59b88f554016a78528c2de">
+        <source>Send a bug report</source>
+        <target state="needs-translation">Send a bug report</target>
+        <note>Line: 53</note>
+      </trans-unit>
     </body>
   </file>
   <file original="views/templates/block/channelInfo.twig" source-language="en" target-language="nl" datatype="plaintext">
@@ -2188,17 +2223,17 @@ Comment: check DB access</note>
       <trans-unit id="9a843f20677a52ca79af903123147af0" approved="yes">
         <source>Welcome!</source>
         <target state="final">Welkom!</target>
-        <note>Line: 15</note>
+        <note>Line: 16</note>
       </trans-unit>
       <trans-unit id="d0ab112e427298327038f5e87aa40264" approved="yes">
         <source>Upgrade your store to benefit from the latest improvements, bug fixes and security patches.</source>
         <target state="final">Upgrade uw winkel om te profiteren van de nieuwste verbeteringen, bugfixes en beveiligingspatches.</target>
-        <note>Line: 18</note>
+        <note>Line: 19</note>
       </trans-unit>
       <trans-unit id="9cf9ee1ecc597007beb11670100081b2" approved="yes">
         <source>Upgrading your store on your own can be risky. If you don't feel comfortable doing the upgrade yourself, many agencies and developers in your area may also provide this kind of service.</source>
         <target state="final">Zelf uw winkel upgraden kan riskant zijn. Als u zich niet op uw gemak voelt om de upgrade zelf uit te voeren, kunnen veel bureaus en ontwikkelaars in uw regio dit soort service ook bieden.</target>
-        <note>Line: 21</note>
+        <note>Line: 22</note>
       </trans-unit>
     </body>
   </file>
