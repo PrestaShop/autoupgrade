@@ -1,7 +1,7 @@
 name: UI Tests
 on:
   ## Check each PR
-  push:
+  # push:
   pull_request:
   ## Manual execution on branch
   workflow_dispatch:
