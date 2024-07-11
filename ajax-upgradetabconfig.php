@@ -50,7 +50,7 @@ function autoupgrade_init_container($callerFilePath)
 
     // the following test confirm the directory exists
     if (empty($_POST['dir'])) {
-        echo 'No admin directory provided (dir). 1-click upgrade cannot proceed.';
+        echo 'No admin directory provided (dir). Update assistant cannot proceed.';
         exit(1);
     }
 
