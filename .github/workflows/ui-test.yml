@@ -54,7 +54,7 @@ jobs:
           PS_VERSION: ${{ env.PS_DOCKER }}
         run: |
           docker compose -f "docker-compose.yml" up -d --build
-          bash -c 'while [[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost/en/)" != "200" ]]; do sleep 5; done'
+          bash -c 'while [[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost/)" != "200" ]]; do sleep 5; done'
 
       - name: Composer install
         run: composer install
