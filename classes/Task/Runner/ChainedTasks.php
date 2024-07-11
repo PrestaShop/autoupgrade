@@ -25,11 +25,13 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\TaskRunner;
+namespace PrestaShop\Module\AutoUpgrade\Task\Runner;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\AjaxResponse;
+use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\TaskRepository;
+use Throwable;
 
 /**
  * Execute the whole process in a single request, useful in CLI.
@@ -55,13 +57,19 @@ abstract class ChainedTasks extends AbstractTask
             $this->logger->info('=== Step ' . $this->step);
             $controller = TaskRepository::get($this->step, $this->container);
             $controller->init();
-            $controller->run();
+            try {
+                $controller->run();
+            } catch (Throwable $t) {
+                $controller->setErrorFlag();
+                throw $t;
+            }
 
             $result = $controller->getResponse();
             $requireRestart = $this->checkIfRestartRequested($result);
             $this->error = $result->getError();
             $this->stepDone = $result->getStepDone();
-            $this->step = $result->getNext();
+            $this->step = $this->next = $result->getNext();
+            $this->nextParams = $result->getNextParams();
         }
 
         return (int) ($this->error || $this->step === 'error');

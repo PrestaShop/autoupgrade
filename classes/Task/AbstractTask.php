@@ -25,10 +25,11 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\TaskRunner;
+namespace PrestaShop\Module\AutoUpgrade\Task;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\AjaxResponse;
+use PrestaShop\Module\AutoUpgrade\Analytics;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
@@ -58,6 +59,11 @@ abstract class AbstractTask
      * @var UpgradeContainer
      */
     protected $container;
+
+    /**
+     * @var 'upgrade'|'rollback'|null
+     */
+    const TASK_TYPE = null;
 
     // Task progress details
     /**
@@ -135,6 +141,19 @@ abstract class AbstractTask
         if (isset(self::$skipAction[$currentAction])) {
             $this->next = self::$skipAction[$currentAction];
             $this->logger->info($this->translator->trans('Action %s skipped', [$currentAction]));
+        }
+    }
+
+    public function setErrorFlag(): void
+    {
+        $this->error = true;
+        // TODO: Add this? $this->next = 'error';
+
+        if (static::TASK_TYPE) {
+            $this->container->getAnalytics()->track(
+                ucfirst(static::TASK_TYPE) . ' Failed',
+                static::TASK_TYPE === 'upgrade' ? Analytics::WITH_UPGRADE_PROPERTIES : Analytics::WITH_ROLLBACK_PROPERTIES
+            );
         }
     }
 

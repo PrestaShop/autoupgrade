@@ -25,19 +25,21 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
+namespace PrestaShop\Module\AutoUpgrade\Task\Upgrade;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
-use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
-use PrestaShop\Module\AutoUpgrade\TaskRunner\ExitCode;
+use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 
 /**
  * Upgrade all partners modules according to the installed prestashop version.
  */
 class UpgradeModules extends AbstractTask
 {
+    const TASK_TYPE = 'upgrade';
+
     /**
      * @throws Exception
      */
@@ -176,7 +178,7 @@ class UpgradeModules extends AbstractTask
         }
         if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {
             $this->next = 'error';
-            $this->error = true;
+            $this->setErrorFlag();
             $this->logger->error($e->getMessage());
         }
         if ($e->getSeverity() === UpgradeException::SEVERITY_WARNING) {

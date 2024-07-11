@@ -81,8 +81,8 @@ class ErrorHandlerTest extends TestCase
     public function logProvider()
     {
         return [
-            ["[INTERNAL] /var/www/html/modules/autoupgrade/classes/TaskRunner/Upgrade/BackupFiles.php line 55 - Class 'PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade\UpgradeContainer' not found"],
-            ["[INTERNAL] /var/www/html/modules/autoupgrade/classes/TaskRunner/Upgrade/BackupDb.php line 105 - Can't use method return value in write context"],
+            ["[INTERNAL] /var/www/html/modules/autoupgrade/classes/Task/Upgrade/BackupFiles.php line 55 - Class 'PrestaShop\Module\AutoUpgrade\Task\Upgrade\UpgradeContainer' not found"],
+            ["[INTERNAL] /var/www/html/modules/autoupgrade/classes/Task/Upgrade/BackupDb.php line 105 - Can't use method return value in write context"],
         ];
     }
 }

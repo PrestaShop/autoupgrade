@@ -25,11 +25,11 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
+namespace PrestaShop\Module\AutoUpgrade\Task\Upgrade;
 
 use Exception;
-use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
-use PrestaShop\Module\AutoUpgrade\TaskRunner\ExitCode;
+use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 use Symfony\Component\Filesystem\Filesystem;
@@ -39,6 +39,8 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 class Unzip extends AbstractTask
 {
+    const TASK_TYPE = 'upgrade';
+
     /**
      * @throws Exception
      */
@@ -56,7 +58,7 @@ class Unzip extends AbstractTask
         if (!\ConfigurationTest::test_dir($relative_extract_path, false, $report)) {
             $this->logger->error($this->translator->trans('Extraction directory %s is not writable.', [$destExtract]));
             $this->next = 'error';
-            $this->error = true;
+            $this->setErrorFlag();
 
             return ExitCode::FAIL;
         }
@@ -65,7 +67,7 @@ class Unzip extends AbstractTask
 
         if (!$res) {
             $this->next = 'error';
-            $this->error = true;
+            $this->setErrorFlag();
             $this->logger->info($this->translator->trans(
                 'Unable to extract %filepath% file into %destination% folder...',
                 [

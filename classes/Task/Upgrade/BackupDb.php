@@ -25,17 +25,19 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
+namespace PrestaShop\Module\AutoUpgrade\Task\Upgrade;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
-use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
-use PrestaShop\Module\AutoUpgrade\TaskRunner\ExitCode;
+use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 class BackupDb extends AbstractTask
 {
+    const TASK_TYPE = 'upgrade';
+
     /**
      * @throws Exception
      */
@@ -58,7 +60,7 @@ class BackupDb extends AbstractTask
         if (!\ConfigurationTest::test_dir($relative_backup_path, false, $report)) {
             $this->logger->error($this->translator->trans('Backup directory is not writable (%path%).', ['%path%' => $this->container->getProperty(UpgradeContainer::BACKUP_PATH)]));
             $this->next = 'error';
-            $this->error = true;
+            $this->setErrorFlag();
 
             return ExitCode::FAIL;
         }
@@ -132,7 +134,7 @@ class BackupDb extends AbstractTask
                 // Figure out what compression is available and open the file
                 if (file_exists($backupfile)) {
                     $this->next = 'error';
-                    $this->error = true;
+                    $this->setErrorFlag();
                     $this->logger->error($this->translator->trans('Backup file %s already exists. Operation aborted.', [$backupfile]));
                 }
 
@@ -149,7 +151,7 @@ class BackupDb extends AbstractTask
                 if ($fp === false) {
                     $this->logger->error($this->translator->trans('Unable to create backup database file %s.', [addslashes($backupfile)]));
                     $this->next = 'error';
-                    $this->error = true;
+                    $this->setErrorFlag();
                     $this->logger->info($this->translator->trans('Error during database backup.'));
 
                     return ExitCode::FAIL;
@@ -177,7 +179,7 @@ class BackupDb extends AbstractTask
                     $this->logger->error($this->translator->trans('An error occurred while backing up. Unable to obtain the schema of %s', [$table]));
                     $this->logger->info($this->translator->trans('Error during database backup.'));
                     $this->next = 'error';
-                    $this->error = true;
+                    $this->setErrorFlag();
 
                     return ExitCode::FAIL;
                 }
@@ -278,7 +280,7 @@ class BackupDb extends AbstractTask
             }
             $this->logger->error($this->translator->trans('No valid tables were found to back up. Backup of file %s canceled.', [$backupfile]));
             $this->logger->info($this->translator->trans('Error during database backup for file %s.', [$backupfile]));
-            $this->error = true;
+            $this->setErrorFlag();
 
             return ExitCode::FAIL;
         } else {

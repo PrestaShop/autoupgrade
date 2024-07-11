@@ -72,6 +72,11 @@ class UpgradeContainer
     const DB_CONFIG_KEYS = ['PS_DISABLE_OVERRIDES'];
 
     /**
+     * @var Analytics
+     */
+    private $analytics;
+
+    /**
      * @var CacheCleaner
      */
     private $cacheCleaner;
@@ -221,6 +226,28 @@ class UpgradeContainer
         }
     }
 
+    public function getAnalytics(): Analytics
+    {
+        if (null !== $this->analytics) {
+            return $this->analytics;
+        }
+
+        // The identifier shoudl be a value a value always different between two shops
+        // But equal between two upgrade processes
+        return $this->analytics = new Analytics(
+            $this->getUpgradeConfiguration(),
+            $this->getState(),
+            $this->getProperty(self::WORKSPACE_PATH), [
+            'properties' => [
+                'ps_version' => $this->getProperty(self::PS_VERSION),
+                'php_version' => PHP_VERSION_ID,
+                'autoupgrade_version' => $this->getPrestaShopConfiguration()->getModuleVersion(),
+                // TODO: Improve this part by having a safe getter
+                'disable_all_overrides' => class_exists('\Configuration', false) ? \Configuration::get('PS_DISABLE_OVERRIDES') : null,
+            ],
+        ]);
+    }
+
     /**
      * Init and return CacheCleaner
      */
@@ -352,6 +379,7 @@ class UpgradeContainer
                 }
         }
         $this->getState()->setInstallVersion($upgrader->version_num);
+        $this->getState()->setOriginVersion($this->getProperty(self::PS_VERSION));
         $this->upgrader = $upgrader;
 
         return $this->upgrader;

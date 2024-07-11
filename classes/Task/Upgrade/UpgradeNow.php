@@ -25,11 +25,12 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\TaskRunner\Upgrade;
+namespace PrestaShop\Module\AutoUpgrade\Task\Upgrade;
 
 use Exception;
-use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
-use PrestaShop\Module\AutoUpgrade\TaskRunner\ExitCode;
+use PrestaShop\Module\AutoUpgrade\Analytics;
+use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\VersionUtils;
 
 /**
@@ -38,6 +39,8 @@ use PrestaShop\Module\AutoUpgrade\VersionUtils;
  */
 class UpgradeNow extends AbstractTask
 {
+    const TASK_TYPE = 'upgrade';
+
     /**
      * @throws Exception
      */
@@ -88,6 +91,7 @@ class UpgradeNow extends AbstractTask
                 $this->logger->debug($this->translator->trans('Downloaded archive will come from %s', [$upgrader->link]));
                 $this->logger->debug($this->translator->trans('MD5 hash will be checked against %s', [$upgrader->md5]));
         }
+        $this->container->getAnalytics()->track('Upgrade Launched', Analytics::WITH_UPGRADE_PROPERTIES);
 
         return ExitCode::SUCCESS;
     }

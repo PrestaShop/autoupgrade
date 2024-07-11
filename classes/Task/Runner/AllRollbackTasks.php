@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright since 2007 PrestaShop SA and Contributors
  * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
@@ -23,24 +24,41 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
-if (PHP_SAPI !== 'cli') {
-    echo 'This script must be called from CLI';
-    exit(1);
+
+namespace PrestaShop\Module\AutoUpgrade\Task\Runner;
+
+/**
+ * Execute the whole upgrade process in a single request.
+ */
+class AllRollbackTasks extends ChainedTasks
+{
+    const initialTask = 'rollback';
+
+    /**
+     * @var string
+     */
+    protected $step = self::initialTask;
+
+    /**
+     * Customize the execution context with several options
+     * > action: Replace the initial step to run
+     * > channel: Makes a specific upgrade (minor, major etc.)
+     * > data: Loads an encoded array of data coming from another request.
+     *
+     * @param array<string, string> $options
+     */
+    public function setOptions(array $options): void
+    {
+        if (!empty($options['backup'])) {
+            $this->container->getState()->setRestoreName($options['backup']);
+        }
+    }
+
+    /**
+     * Set default config on first run.
+     */
+    public function init(): void
+    {
+        // Do nothing
+    }
 }
-
-$inputConfigurationFile = getopt('', ['from::'])['from'];
-if (!file_exists($inputConfigurationFile)) {
-    echo sprintf('Invalid input configuation file %s', $inputConfigurationFile) . PHP_EOL;
-    exit(1);
-}
-
-$inputData = json_decode(file_get_contents($inputConfigurationFile), true);
-
-require_once realpath(dirname(__FILE__) . '/../../modules/autoupgrade') . '/ajax-upgradetabconfig.php';
-$container = autoupgrade_init_container(dirname(__FILE__));
-
-$container->setLogger(new \PrestaShop\Module\AutoUpgrade\Log\StreamedLogger());
-$controller = new \PrestaShop\Module\AutoUpgrade\Task\Miscellaneous\UpdateConfig($container);
-$controller->inputCliParameters($inputData);
-$controller->init();
-exit($controller->run());
