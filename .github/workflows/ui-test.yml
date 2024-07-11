@@ -40,7 +40,7 @@ jobs:
       fail-fast: false
       matrix: ${{ fromJSON(needs.ui_test_matrix.outputs.matrix) }}
     env:
-      PS_DOCKER: ${{ matrix.PS_VERSION_START }}-${{ matrix.PHP_VERSION }}
+      PS_DOCKER: ${{ matrix.IMG_DOCKER }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -64,7 +64,7 @@ jobs:
       - name: Upgrade
         run: |
          docker exec -t prestashop php modules/autoupgrade/cli-upgrade.php --dir=admin-dev --channel=${{ matrix.UPGRADE_CHANNEL }}
-         docker exec -t prestashop chmod 777 -R /var/www/html/var/cache/dev
+         docker exec -t prestashop chmod 777 -R /var/www/html/var/cache/
 
       - name: Install dependencies
         working-directory: tests/UI/
