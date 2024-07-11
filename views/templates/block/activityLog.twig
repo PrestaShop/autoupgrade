@@ -20,7 +20,7 @@
                 <h4>{{ 'Errors'|trans({}) }}</h4>
                 <div id="infoError" class="processing"></div>
                 <button id="reportErrorButton" class="btn btn-warning" style="margin-top: 10px;" data-toggle="modal" data-target="#errorModal">
-                    {{ 'Report a bug'|trans({}, 'Modules.Autoupgrade.Admin') }}
+                    {{ 'Report a bug'|trans({}) }}
                 </button>
             </div>
 
@@ -32,25 +32,25 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                             <h3 class="modal-title">
-                                {{ 'Give feedbacks'|trans({}, 'Modules.Autoupgrade.Admin') }}
+                                {{ 'Give feedbacks'|trans({}) }}
                             </h3>
                         </div>
                         <div class="modal-body">
                             <label for="userEmail">
-                                {{ 'Email'|trans({}, 'Modules.Autoupgrade.Admin') }}
+                                {{ 'Email'|trans({}) }}
                             </label>
-                            <input id="userEmail" type="text" class="form-control" placeholder="{{ 'Email'|trans({}, 'Modules.Autoupgrade.Admin') }}" style="display: block; margin-bottom: 10px;">
+                            <input id="userEmail" type="text" class="form-control" placeholder="{{ 'Email'|trans({}) }}" style="display: block; margin-bottom: 10px;">
                             <label for="errorDescription">
-                                {{ 'Description'|trans({}, 'Modules.Autoupgrade.Admin') }}
+                                {{ 'Description'|trans({}) }}
                             </label>
-                            <textarea id="errorDescription" rows="3" placeholder="{{ 'Give us details about the error'|trans({}, 'Modules.Autoupgrade.Admin') }}"></textarea>
+                            <textarea id="errorDescription" rows="3" placeholder="{{ 'Give us details about the error'|trans({}) }}"></textarea>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal" style="text-transform: uppercase;">
-                                {{ 'Cancel'|trans({}, 'Modules.Autoupgrade.Admin') }}
+                                {{ 'Cancel'|trans({}) }}
                             </button>
                             <button id="submitErrorReport" type="button" class="btn btn-primary">
-                                {{ 'Send a bug report'|trans({}, 'Modules.Autoupgrade.Admin') }}
+                                {{ 'Send a bug report'|trans({}) }}
                             </button>
                         </div>
                     </div>
