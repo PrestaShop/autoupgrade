@@ -84,22 +84,15 @@ class Autoupgrade extends Module
             return false;
         }
 
-        // Before creating a new tab "AdminSelfUpgrade" we need to remove any existing "AdminUpgrade" tab (present in v1.4.4.0 and v1.4.4.1)
-        if ($id_tab = Tab::getIdFromClassName('AdminUpgrade')) {
-            $tab = new Tab((int) $id_tab);
-            if (!$tab->delete()) {
-                $this->_errors[] = $this->trans('Unable to delete outdated "AdminUpgrade" tab (tab ID: %idtab%).', ['%idtab%' => (int) $id_tab]);
-            }
-        }
-
         // If the "AdminSelfUpgrade" tab does not exist yet, create it
-        if (!$id_tab = Tab::getIdFromClassName('AdminSelfUpgrade')) {
+        if (!Tab::getIdFromClassName('AdminSelfUpgrade')) {
             $tab = new Tab();
             $tab->class_name = 'AdminSelfUpgrade';
+            $tab->icon = 'upgrade';
             $tab->module = 'autoupgrade';
 
             // We use DEFAULT to add Upgrade tab as a standalone tab in the back office menu
-            $tab->id_parent = (int) Tab::getIdFromClassName('DEFAULT');
+            $tab->id_parent = (int) Tab::getIdFromClassName('CONFIGURE');
 
             foreach (Language::getLanguages(false) as $lang) {
                 $tab->name[(int) $lang['id_lang']] = '1-Click Upgrade';
@@ -107,15 +100,6 @@ class Autoupgrade extends Module
             if (!$tab->save()) {
                 return $this->_abortInstall($this->trans('Unable to create the "AdminSelfUpgrade" tab'));
             }
-        } else {
-            $tab = new Tab((int) $id_tab);
-        }
-
-        // Update the "AdminSelfUpgrade" tab id in database or exit
-        if (Validate::isLoadedObject($tab)) {
-            Configuration::updateValue('PS_AUTOUPDATE_MODULE_IDTAB', (int) $tab->id);
-        } else {
-            return $this->_abortInstall($this->trans('Unable to load the "AdminSelfUpgrade" tab'));
         }
 
         return parent::install();
@@ -127,7 +111,8 @@ class Autoupgrade extends Module
     public function uninstall()
     {
         // Delete the 1-click upgrade Back-office tab
-        if ($id_tab = Tab::getIdFromClassName('AdminSelfUpgrade')) {
+        $id_tab = Tab::getIdFromClassName('AdminSelfUpgrade');
+        if ($id_tab) {
             $tab = new Tab((int) $id_tab);
             $tab->delete();
         }
