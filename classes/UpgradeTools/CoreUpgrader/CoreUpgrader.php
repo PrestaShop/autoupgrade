@@ -135,7 +135,7 @@ abstract class CoreUpgrader
         $this->logger->info($this->container->getTranslator()->trans('Upgrading languages'));
         $this->upgradeLanguages();
 
-        $this->logger->info($this->container->getTranslator()->trans('Regenerating htaccess'));
+        $this->logger->info($this->container->getTranslator()->trans('Regenerating htaccesss'));
         $this->generateHtaccess();
 
         $this->logger->info($this->container->getTranslator()->trans('Cleaning XML filess'));
