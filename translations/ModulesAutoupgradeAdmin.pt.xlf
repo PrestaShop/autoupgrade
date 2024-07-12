@@ -561,14 +561,14 @@ Comment: directory already exists</note>
         <target state="needs-translation">listModules is not an array. No module has been updated.</target>
         <note>Line: 59</note>
       </trans-unit>
-      <trans-unit id="04663743fc92eeb1f90a4d165c470e54">
-        <source>Upgrading module %module%...</source>
-        <target state="needs-translation">Upgrading module %module%...</target>
+      <trans-unit id="d2570f64d3e815681ef166d3601a52e6">
+        <source>Updating module %module%...</source>
+        <target state="needs-translation">Updating module %module%...</target>
         <note>Line: 81</note>
       </trans-unit>
-      <trans-unit id="35687f9e2d83cd9e89860c47fb3a7bbd">
-        <source>The files of module %s have been upgraded.</source>
-        <target state="needs-translation">The files of module %s have been upgraded.</target>
+      <trans-unit id="ae90349e639e084d4fde103a99985a6d">
+        <source>The module %s has been updated.</source>
+        <target state="needs-translation">The module %s has been updated.</target>
         <note>Line: 83</note>
       </trans-unit>
       <trans-unit id="d88a8630bd4e8fdbd61c550e53d62a94">
@@ -1546,32 +1546,32 @@ Comment: check DB access</note>
       <trans-unit id="a739fd67729d2f540137b85917f13a21" approved="yes">
         <source>[ERROR] %dir% does not exist or is not a directory.</source>
         <target state="final">[ERROR] %dir% não existe ou não é uma pasta.</target>
-        <note>Line: 142</note>
+        <note>Line: 143</note>
       </trans-unit>
       <trans-unit id="99f0e3a6d61b6d39da9213c647fd35ce" approved="yes">
         <source>[ERROR] %s does not exist or is not a directory.</source>
         <target state="final">[ERROR] %s não existe ou não é uma pasta.</target>
-        <note>Line: 142</note>
+        <note>Line: 143</note>
       </trans-unit>
       <trans-unit id="36d56d20b3894281531cd4108e2c4cec" approved="yes">
         <source>[ERROR] No response from Addons server.</source>
         <target state="final">[ERROR] não existe resposta do servidor de Addons.</target>
-        <note>Line: 224</note>
+        <note>Line: 225</note>
       </trans-unit>
       <trans-unit id="23f0dcc0dc41c4206bb741661da76c93" approved="yes">
         <source>[ERROR] Unable to write module %s's zip file in temporary directory.</source>
         <target state="final">[ERROR] Não foi possível escrever o ficheiro zip do módulo %s na pasta temporária.</target>
-        <note>Line: 229</note>
+        <note>Line: 230</note>
       </trans-unit>
       <trans-unit id="8ed212a996fe818de7fcb6dd7e89a1b7" approved="yes">
         <source>[WARNING] Error when trying to extract module %s.</source>
         <target state="final">[WARNING] erro durante a atualização do módulo %s.</target>
-        <note>Line: 239</note>
+        <note>Line: 240</note>
       </trans-unit>
       <trans-unit id="2743947c7353cf849fbff70085764d76" approved="yes">
         <source>[WARNING] Error when trying to upgrade module %s.</source>
         <target state="final">[WARNING] erro durante a atualização do módulo %s.</target>
-        <note>Line: 246</note>
+        <note>Line: 287</note>
       </trans-unit>
     </body>
   </file>
