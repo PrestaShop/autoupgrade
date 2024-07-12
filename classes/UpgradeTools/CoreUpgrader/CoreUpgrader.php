@@ -138,7 +138,7 @@ abstract class CoreUpgrader
         $this->logger->info($this->container->getTranslator()->trans('Regenerating htaccess'));
         $this->generateHtaccess();
 
-        $this->logger->info($this->container->getTranslator()->trans('Cleaning XML files'));
+        $this->logger->info($this->container->getTranslator()->trans('Cleaning XML filess'));
         $this->cleanXmlFiles();
 
         if (Configuration::get('PS_DISABLE_OVERRIDES')) {
