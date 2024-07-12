@@ -43,6 +43,6 @@ jobs:
           fi
           rmdir catalog/autoupgrade/translations/en-US
           cd "$TOOL_DIR"
-          php bin/console prestashop:translation:push-on-git "$GIT_REPO" "$MODULE_NAME" "$WORKDIR" $BRANCH -v --push-on-branch $TRANSLATION_BRANCH
+          php bin/console prestashop:translation:push-on-git "$REPOSITORY_NAME" "$REPOSITORY_NAME" "$WORKDIR" $BRANCH --push-on-branch $TRANSLATION_BRANCH -v
         env:
           APP_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
