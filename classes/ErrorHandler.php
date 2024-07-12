@@ -70,6 +70,7 @@ class ErrorHandler
     {
         $message = get_class($e) . ': ' . $e->getMessage();
         $this->report($e->getFile(), $e->getLine(), Logger::CRITICAL, $message, $e->getTraceAsString(), true);
+        $this->terminate(64);
     }
 
     /**
@@ -157,5 +158,13 @@ class ErrorHandler
             fwrite($fd, $log);
             fclose($fd);
         }
+    }
+
+    /**
+     * @return never
+     */
+    public function terminate(int $code)
+    {
+        exit($code);
     }
 }

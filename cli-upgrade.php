@@ -24,6 +24,9 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
+
+use PrestaShop\Module\AutoUpgrade\ErrorHandler;
+
 if (PHP_SAPI !== 'cli') {
     echo 'This script must be called from CLI';
     exit(1);
@@ -40,6 +43,7 @@ $container = autoupgrade_init_container(dirname(__FILE__));
 
 $logger = new PrestaShop\Module\AutoUpgrade\Log\StreamedLogger();
 $container->setLogger($logger);
+(new ErrorHandler($logger))->enable();
 $controller = new \PrestaShop\Module\AutoUpgrade\Task\Runner\AllUpgradeTasks($container);
 $controller->setOptions(getopt('', ['action::', 'channel::', 'data::']));
 $controller->init();
@@ -54,7 +58,7 @@ if (isset($options['chain'])) {
 
 if ($chain && strpos($logger->getLastInfo(), 'cli-upgrade.php') !== false) {
     $new_string = str_replace('INFO - $ ', '', $logger->getLastInfo());
-    system('php ' . $new_string . '  2>&1', $exitCode);
+    system('php ' . $new_string, $exitCode);
 }
 
 exit($exitCode);

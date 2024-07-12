@@ -78,9 +78,9 @@ class UpgradeModules extends AbstractTask
             do {
                 $module_info = array_pop($listModules);
                 try {
-                    $this->logger->debug($this->translator->trans('Upgrading module %module%...', ['%module%' => $module_info['name']]));
+                    $this->logger->debug($this->translator->trans('Updating module %module%...', ['%module%' => $module_info['name']]));
                     $this->container->getModuleAdapter()->upgradeModule($module_info['id'], $module_info['name'], !empty($module_info['is_local']));
-                    $this->logger->debug($this->translator->trans('The files of module %s have been upgraded.', [$module_info['name']]));
+                    $this->logger->info($this->translator->trans('The module %s has been updated.', [$module_info['name']]));
                 } catch (UpgradeException $e) {
                     $this->handleException($e);
                     if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {
@@ -173,9 +173,6 @@ class UpgradeModules extends AbstractTask
 
     private function handleException(UpgradeException $e): void
     {
-        foreach ($e->getQuickInfos() as $log) {
-            $this->logger->debug($log);
-        }
         if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {
             $this->next = 'error';
             $this->setErrorFlag();
@@ -183,6 +180,10 @@ class UpgradeModules extends AbstractTask
         }
         if ($e->getSeverity() === UpgradeException::SEVERITY_WARNING) {
             $this->logger->warning($e->getMessage());
+        }
+
+        foreach ($e->getQuickInfos() as $log) {
+            $this->logger->warning($log);
         }
     }
 }

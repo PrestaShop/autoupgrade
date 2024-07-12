@@ -33,6 +33,7 @@ use PrestaShop\Module\AutoUpgrade\ZipAction;
 use PrestaShop\PrestaShop\Adapter\Module\Repository\ModuleRepository;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
+use Throwable;
 
 class ModuleAdapter
 {
@@ -221,12 +222,12 @@ class ModuleAdapter
             // file_get_contents can return false if https is not supported (or warning)
             $content = Tools14::file_get_contents($addons_url, false, $context);
             if (empty($content) || substr($content, 5) == '<?xml') {
-                $msg = '<strong>' . $this->translator->trans('[ERROR] No response from Addons server.') . '</strong>';
+                $msg = $this->translator->trans('[ERROR] No response from Addons server.');
                 throw new UpgradeException($msg);
             }
 
             if (false === (bool) file_put_contents($zip_fullpath, $content)) {
-                $msg = '<strong>' . $this->translator->trans('[ERROR] Unable to write module %s\'s zip file in temporary directory.', [$name]) . '</strong>';
+                $msg = $this->translator->trans('[ERROR] Unable to write module %s\'s zip file in temporary directory.', [$name]);
                 throw new UpgradeException($msg);
             }
         }
@@ -236,15 +237,13 @@ class ModuleAdapter
         }
         // unzip in modules/[mod name] old files will be conserved
         if (!$this->zipAction->extract($zip_fullpath, $this->modulesPath)) {
-            throw (new UpgradeException('<strong>' . $this->translator->trans('[WARNING] Error when trying to extract module %s.', [$name]) . '</strong>'))->setSeverity(UpgradeException::SEVERITY_WARNING);
+            throw (new UpgradeException($this->translator->trans('[WARNING] Error when trying to extract module %s.', [$name])))->setSeverity(UpgradeException::SEVERITY_WARNING);
         }
         if (file_exists($zip_fullpath)) {
             unlink($zip_fullpath);
         }
 
-        if (!$this->doUpgradeModule($name)) {
-            throw (new UpgradeException('<strong>' . $this->translator->trans('[WARNING] Error when trying to upgrade module %s.', [$name]) . '</strong>'))->setSeverity(UpgradeException::SEVERITY_WARNING)->setQuickInfos(\Module::getInstanceByName($name)->getErrors());
-        }
+        $this->doUpgradeModule($name);
     }
 
     private function getLocalModuleZip(string $name): ?string
@@ -259,24 +258,33 @@ class ModuleAdapter
         return null;
     }
 
-    private function doUpgradeModule(string $name): bool
+    private function doUpgradeModule(string $name): void
     {
         $version = \Db::getInstance()->getValue(
             'SELECT version FROM `' . _DB_PREFIX_ . 'module` WHERE name = "' . $name . '"'
         );
         $module = \Module::getInstanceByName($name);
-        if ($module instanceof \Module) {
-            $module->installed = !empty($version);
-            $module->database_version = $version ?: 0;
+        if (!($module instanceof \Module)) {
+            return;
+        }
+        $module->installed = !empty($version);
+        $module->database_version = $version ?: 0;
 
-            if (\Module::initUpgradeModule($module)) {
-                $module->runUpgradeModule();
-                \Module::upgradeModuleVersion($name, $module->version);
-
-                return !count($module->getErrors());
+        try {
+            if (!\Module::initUpgradeModule($module)) {
+                return;
             }
+
+            $module->runUpgradeModule();
+            \Module::upgradeModuleVersion($name, $module->version);
+        } catch (Throwable $t) {
+            throw (new UpgradeException($this->translator->trans('[WARNING] Error when trying to upgrade module %s.', [$name]), 0, $t))->setSeverity(UpgradeException::SEVERITY_WARNING);
         }
 
-        return true;
+        $errorsList = $module->getErrors();
+
+        if (count($errorsList)) {
+            throw (new UpgradeException($this->translator->trans('[WARNING] Error when trying to upgrade module %s.', [$name])))->setSeverity(UpgradeException::SEVERITY_WARNING)->setQuickInfos($errorsList);
+        }
     }
 }

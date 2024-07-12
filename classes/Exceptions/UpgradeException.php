@@ -27,10 +27,9 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Exceptions;
 
-/**
- * Todo: Should we create a UpgradeWarning class instead of setting the severity here?
- */
-class UpgradeException extends \Exception
+use Exception;
+
+class UpgradeException extends Exception
 {
     const SEVERITY_ERROR = 1;
     const SEVERITY_WARNING = 2;
@@ -50,6 +49,13 @@ class UpgradeException extends \Exception
      */
     public function getQuickInfos(): array
     {
+        if ($this->getPrevious()) {
+            return array_merge(
+                [(string) $this->getPrevious()],
+                $this->quickInfos
+            );
+        }
+
         return $this->quickInfos;
     }
 
