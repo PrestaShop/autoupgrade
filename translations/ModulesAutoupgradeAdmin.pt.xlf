@@ -2,46 +2,46 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file original="classes/Task/AbstractTask.php" source-language="en" target-language="pt-PT" datatype="plaintext">
     <body>
-      <trans-unit id="435d516735dbf7f622c7d14585f66840">
+      <trans-unit id="435d516735dbf7f622c7d14585f66840" approved="yes">
         <source>Action %s skipped</source>
-        <target state="needs-translation">Action %s skipped</target>
+        <target state="final">Ação %s ignorada</target>
         <note>Line: 143</note>
       </trans-unit>
     </body>
   </file>
   <file original="classes/Task/Miscellaneous/CheckFilesVersion.php" source-language="en" target-language="pt-PT" datatype="plaintext">
     <body>
-      <trans-unit id="335b4c111b193a855539368676837af4">
+      <trans-unit id="335b4c111b193a855539368676837af4" approved="yes">
         <source>Unable to check files for the installed version of PrestaShop.</source>
-        <target state="needs-translation">Unable to check files for the installed version of PrestaShop.</target>
+        <target state="final">Não é possível verificar os ficheiros para a versão instalada do PrestaShop.</target>
         <note>Line: 54</note>
       </trans-unit>
-      <trans-unit id="8d8e0207549d32c6f864246403034279">
+      <trans-unit id="8d8e0207549d32c6f864246403034279" approved="yes">
         <source>Core files are ok</source>
-        <target state="needs-translation">Core files are ok</target>
+        <target state="final">Os ficheiros do núcleo estão OK</target>
         <note>Line: 65</note>
       </trans-unit>
-      <trans-unit id="1642bf84232919297d598b2a66b3a894">
+      <trans-unit id="1642bf84232919297d598b2a66b3a894" approved="yes">
         <source>%modificationscount% file modifications have been detected, including %coremodifications% from core and native modules:</source>
-        <target state="needs-translation">%modificationscount% file modifications have been detected, including %coremodifications% from core and native modules:</target>
+        <target state="final">Foram detetadas %modificationscount% alterações nos ficheiros, incluindo %coremodifications% nos ficheiros do núcleo e nos módulos nativos:</target>
         <note>Line: 69</note>
       </trans-unit>
     </body>
   </file>
   <file original="classes/Task/Miscellaneous/CompareReleases.php" source-language="en" target-language="pt-PT" datatype="plaintext">
     <body>
-      <trans-unit id="047cb0c4fd60e2a2fab8ead3e091f9bd">
+      <trans-unit id="047cb0c4fd60e2a2fab8ead3e091f9bd" approved="yes">
         <source>%modifiedfiles% files will be modified, %deletedfiles% files will be deleted (if they are found).</source>
-        <target state="needs-translation">%modifiedfiles% files will be modified, %deletedfiles% files will be deleted (if they are found).</target>
+        <target state="final">%modifiedfiles% ficheiros serão alterados, %deletedfiles% ficheiros serão eliminados (se forem encontrados).</target>
         <note>Line: 79</note>
       </trans-unit>
     </body>
   </file>
   <file original="classes/Task/Miscellaneous/UpdateConfig.php" source-language="en" target-language="pt-PT" datatype="plaintext">
     <body>
-      <trans-unit id="1d1a5763d2901dbd435b378358a149b4">
+      <trans-unit id="1d1a5763d2901dbd435b378358a149b4" approved="yes">
         <source>File %s does not exist. Unable to select that channel.</source>
-        <target state="needs-translation">File %s does not exist. Unable to select that channel.</target>
+        <target state="final">O ficheiro %s não existe. Não é possível selecionar esse canal.</target>
         <note>Line: 102</note>
       </trans-unit>
       <trans-unit id="3d6985514f7836cb0e8efb8c286ca0f5">
@@ -54,359 +54,359 @@
         <target state="needs-translation">Prestashop version detected in the xml (%s) does not match the zip version (%s).</target>
         <note>Line: 111</note>
       </trans-unit>
-      <trans-unit id="ab232f4b20c0e50dad9081bc39382569">
+      <trans-unit id="ab232f4b20c0e50dad9081bc39382569" approved="yes">
         <source>Upgrade process will use archive.</source>
-        <target state="needs-translation">Upgrade process will use archive.</target>
+        <target state="final">O processo de atualização irá utilizar um ficheiro.</target>
         <note>Line: 121</note>
       </trans-unit>
-      <trans-unit id="c944c279a9e87437e100f65b8c87c391">
+      <trans-unit id="c944c279a9e87437e100f65b8c87c391" approved="yes">
         <source>Version number is missing. Unable to select that channel.</source>
-        <target state="needs-translation">Version number is missing. Unable to select that channel.</target>
+        <target state="final">Número de versão em falta. Não é possível selecionar esse canal.</target>
         <note>Line: 127</note>
       </trans-unit>
-      <trans-unit id="1fe9dd96f646eaa0cd3a0fcc7632ce12">
+      <trans-unit id="1fe9dd96f646eaa0cd3a0fcc7632ce12" approved="yes">
         <source>Error on saving configuration</source>
-        <target state="needs-translation">Error on saving configuration</target>
+        <target state="final">Erro ao guardar configurações</target>
         <note>Line: 143</note>
       </trans-unit>
-      <trans-unit id="f2ff9d001d0a553c78da73443e7fcd97">
+      <trans-unit id="f2ff9d001d0a553c78da73443e7fcd97" approved="yes">
         <source>Configuration successfully updated.</source>
-        <target state="needs-translation">Configuration successfully updated.</target>
+        <target state="final">Configuração atualizada com sucesso.</target>
         <note>Line: 211</note>
       </trans-unit>
-      <trans-unit id="40b980e89ae332507380470cd26cdf4d">
+      <trans-unit id="40b980e89ae332507380470cd26cdf4d" approved="yes">
         <source>This page will now be reloaded and the module will check if a new version is available.</source>
-        <target state="needs-translation">This page will now be reloaded and the module will check if a new version is available.</target>
+        <target state="final">Esta página será recarregada e o módulo irá verificar se existe uma nova versão disponível.</target>
         <note>Line: 211</note>
       </trans-unit>
     </body>
   </file>
   <file original="classes/Task/Rollback/NoRollbackFound.php" source-language="en" target-language="pt-PT" datatype="plaintext">
     <body>
-      <trans-unit id="222102295c3c6626ff141687b0f49b6b">
+      <trans-unit id="222102295c3c6626ff141687b0f49b6b" approved="yes">
         <source>Nothing to restore</source>
-        <target state="needs-translation">Nothing to restore</target>
+        <target state="final">Nada para recuperar</target>
         <note>Line: 39</note>
       </trans-unit>
     </body>
   </file>
   <file original="classes/Task/Rollback/RestoreDb.php" source-language="en" target-language="pt-PT" datatype="plaintext">
     <body>
-      <trans-unit id="6a5e5c0047907eaf8062e9933f0de8df">
+      <trans-unit id="6a5e5c0047907eaf8062e9933f0de8df" approved="yes">
         <source>%s: File format does not match.</source>
-        <target state="needs-translation">%s: File format does not match.</target>
+        <target state="final">%s: O formato do ficheiro não é compatível.</target>
         <note>Line: 73</note>
       </trans-unit>
-      <trans-unit id="c2bcd4d44d646c47753473ff94cc66ac">
+      <trans-unit id="c2bcd4d44d646c47753473ff94cc66ac" approved="yes">
         <source>Opening backup database file %filename% in %extension% mode</source>
-        <target state="needs-translation">Opening backup database file %filename% in %extension% mode</target>
+        <target state="final">Abrir o ficheiro da base de dados como cópia de segurança %filename% no modo %extension%</target>
         <note>Line: 85</note>
       </trans-unit>
-      <trans-unit id="5ce67d010ab9c98ae1dbd6b5ea149982">
+      <trans-unit id="5ce67d010ab9c98ae1dbd6b5ea149982" approved="yes">
         <source>Database backup is empty.</source>
-        <target state="needs-translation">Database backup is empty.</target>
+        <target state="final">A cópia de segurança da base de dados está vazia.</target>
         <note>Line: 123</note>
       </trans-unit>
-      <trans-unit id="ad12a553fe534ba86e1cebf77b27300d">
+      <trans-unit id="ad12a553fe534ba86e1cebf77b27300d" approved="yes">
         <source>Database restoration file %filename% done. %filescount% file(s) left...</source>
-        <target state="needs-translation">Database restoration file %filename% done. %filescount% file(s) left...</target>
+        <target state="final">Restauro do ficheiro da base de dados %filename% concluído. %filescount% ficheiro(s) restantes...</target>
         <note>Line: 170</note>
       </trans-unit>
-      <trans-unit id="55fc6682e256e387afb10ebf6c95aed5">
+      <trans-unit id="55fc6682e256e387afb10ebf6c95aed5" approved="yes">
         <source>Database restoration file %1$s done.</source>
-        <target state="needs-translation">Database restoration file %1$s done.</target>
+        <target state="final">Terminada a reposição do ficheiro %1$s da base de dados.</target>
         <note>Line: 177</note>
       </trans-unit>
-      <trans-unit id="5b37242b8a0a39af0a9dc28abdabba28">
+      <trans-unit id="5b37242b8a0a39af0a9dc28abdabba28" approved="yes">
         <source>Database has been restored.</source>
-        <target state="needs-translation">Database has been restored.</target>
+        <target state="final">A base de dados foi restaurada.</target>
         <note>Line: 186</note>
       </trans-unit>
-      <trans-unit id="8f226504481b55e9f588e4bc14b5882f">
+      <trans-unit id="8f226504481b55e9f588e4bc14b5882f" approved="yes">
         <source>[SQL ERROR]</source>
-        <target state="needs-translation">[SQL ERROR]</target>
+        <target state="final">[ERRO SQL]</target>
         <note>Line: 201</note>
       </trans-unit>
-      <trans-unit id="b232a418538e3f6904357039ff7b1052">
+      <trans-unit id="b232a418538e3f6904357039ff7b1052" approved="yes">
         <source>Error during database restoration</source>
-        <target state="needs-translation">Error during database restoration</target>
+        <target state="final">Erro durante a reposição da base de dados</target>
         <note>Line: 202</note>
       </trans-unit>
-      <trans-unit id="85f6ad54304538449ff3da4435be5336">
+      <trans-unit id="85f6ad54304538449ff3da4435be5336" approved="yes">
         <source>%numberqueries% queries left for file %filename%...</source>
-        <target state="needs-translation">%numberqueries% queries left for file %filename%...</target>
+        <target state="final">%numberqueries% queries restantes do ficheiro %filename%...</target>
         <note>Line: 229</note>
       </trans-unit>
-      <trans-unit id="30da45f850d1f1a2b42f215836382f19">
+      <trans-unit id="30da45f850d1f1a2b42f215836382f19" approved="yes">
         <source>Database restoration done.</source>
-        <target state="needs-translation">Database restoration done.</target>
+        <target state="final">Restauro da base de dados concluída.</target>
         <note>Line: 240</note>
       </trans-unit>
     </body>
   </file>
   <file original="classes/Task/Rollback/RestoreFiles.php" source-language="en" target-language="pt-PT" datatype="plaintext">
     <body>
-      <trans-unit id="7ead6886c2e0fb40e873da8426e80988">
+      <trans-unit id="7ead6886c2e0fb40e873da8426e80988" approved="yes">
         <source>%s file(s) will be removed before restoring the backup files.</source>
-        <target state="needs-translation">%s file(s) will be removed before restoring the backup files.</target>
+        <target state="final">%s ficheiro(s) serão removidos antes de repor os ficheiros da cópia de segurança.</target>
         <note>Line: 76</note>
       </trans-unit>
-      <trans-unit id="e3ca00e5b833d0a90d433416435dcaf5">
+      <trans-unit id="e3ca00e5b833d0a90d433416435dcaf5" approved="yes">
         <source>[ERROR] Backup file %s does not exist.</source>
-        <target state="needs-translation">[ERROR] Backup file %s does not exist.</target>
+        <target state="final">[ERROR] O ficheiro de cópia de segurança %s não existe.</target>
         <note>Line: 81</note>
       </trans-unit>
-      <trans-unit id="8dbf48bc796e7f70a17c63dd084bf068">
+      <trans-unit id="8dbf48bc796e7f70a17c63dd084bf068" approved="yes">
         <source>[ERROR] File "%s" does not exist.</source>
-        <target state="needs-translation">[ERROR] File "%s" does not exist.</target>
+        <target state="final">[ERROR] O ficheiro "%s" não existe.</target>
         <note>Line: 84</note>
       </trans-unit>
-      <trans-unit id="2a2c187bdb804ba79fd4bf8972ba5073">
+      <trans-unit id="2a2c187bdb804ba79fd4bf8972ba5073" approved="yes">
         <source>Unable to remove upgraded files.</source>
-        <target state="needs-translation">Unable to remove upgraded files.</target>
+        <target state="final">Incapaz de remover ficheiros de atualização</target>
         <note>Line: 86</note>
       </trans-unit>
-      <trans-unit id="1f63628adef352c2a7ee4225b9dcd576">
+      <trans-unit id="1f63628adef352c2a7ee4225b9dcd576" approved="yes">
         <source>Unable to extract file %filename% into directory %directoryname%.</source>
-        <target state="needs-translation">Unable to extract file %filename% into directory %directoryname%.</target>
+        <target state="final">Não foi possível extrair o ficheiro %filename% para o directório %directoryname%.</target>
         <note>Line: 103</note>
       </trans-unit>
-      <trans-unit id="cb7dce5f6a1934d54c0d3335c7ffe841">
+      <trans-unit id="cb7dce5f6a1934d54c0d3335c7ffe841" approved="yes">
         <source>Files restored.</source>
-        <target state="needs-translation">Files restored.</target>
+        <target state="final">Ficheiros restaurados.</target>
         <note>Line: 120</note>
       </trans-unit>
-      <trans-unit id="671537225baa948d4c92cf4681283326">
+      <trans-unit id="671537225baa948d4c92cf4681283326" approved="yes">
         <source>Files restored. Now restoring database...</source>
-        <target state="needs-translation">Files restored. Now restoring database...</target>
+        <target state="final">Os ficheiros foram restaurados. A restaurar a base de dados...</target>
         <note>Line: 121</note>
       </trans-unit>
     </body>
   </file>
   <file original="classes/Task/Rollback/Rollback.php" source-language="en" target-language="pt-PT" datatype="plaintext">
     <body>
-      <trans-unit id="d75374f4463479bfc16764f06fc8d33e">
+      <trans-unit id="d75374f4463479bfc16764f06fc8d33e" approved="yes">
         <source>[ERROR] File %s is missing: unable to restore files. Operation aborted.</source>
-        <target state="needs-translation">[ERROR] File %s is missing: unable to restore files. Operation aborted.</target>
+        <target state="final">[ERRO] Ficheiro %s está em falta: impossível restaurar ficheiros. Operação abortada.</target>
         <note>Line: 71</note>
       </trans-unit>
-      <trans-unit id="99db61185a28a3f862dcb99e891b2897">
+      <trans-unit id="99db61185a28a3f862dcb99e891b2897" approved="yes">
         <source>[ERROR] No backup database files found: it would be impossible to restore the database. Operation aborted.</source>
-        <target state="needs-translation">[ERROR] No backup database files found: it would be impossible to restore the database. Operation aborted.</target>
+        <target state="final">[ERROR] Não foram encontradas cópias de segurança da base de dados: seria impossível recuperar a base de dados. Operação abortada.</target>
         <note>Line: 88</note>
       </trans-unit>
-      <trans-unit id="0438424c05d45646dc089ef15df7e0e2">
+      <trans-unit id="0438424c05d45646dc089ef15df7e0e2" approved="yes">
         <source>Restoring files ...</source>
-        <target state="needs-translation">Restoring files ...</target>
+        <target state="final">Reposição de ficheiros ...</target>
         <note>Line: 94</note>
       </trans-unit>
     </body>
   </file>
   <file original="classes/Task/Rollback/RollbackComplete.php" source-language="en" target-language="pt-PT" datatype="plaintext">
     <body>
-      <trans-unit id="a520e5cbdc465c7b7d39c98f78fe2506">
+      <trans-unit id="a520e5cbdc465c7b7d39c98f78fe2506" approved="yes">
         <source>Restoration process done. Congratulations! You can now reactivate your shop.</source>
-        <target state="needs-translation">Restoration process done. Congratulations! You can now reactivate your shop.</target>
+        <target state="final">Processo de restauro completo. Parabéns!  Agora já pode reativar a sua loja.</target>
         <note>Line: 43</note>
       </trans-unit>
     </body>
   </file>
   <file original="classes/Task/Upgrade/BackupDb.php" source-language="en" target-language="pt-PT" datatype="plaintext">
     <body>
-      <trans-unit id="926abe867e8b1be1c0b053234cae77ba">
+      <trans-unit id="926abe867e8b1be1c0b053234cae77ba" approved="yes">
         <source>Database backup skipped. Now upgrading files...</source>
-        <target state="needs-translation">Database backup skipped. Now upgrading files...</target>
+        <target state="final">A cópia da base de dados foi ignorada. A atualizar ficheiros...</target>
         <note>Line: 51</note>
       </trans-unit>
-      <trans-unit id="555231214d7c729089e80f561e118f45">
+      <trans-unit id="555231214d7c729089e80f561e118f45" approved="yes">
         <source>Backup directory is not writable (%path%).</source>
-        <target state="needs-translation">Backup directory is not writable (%path%).</target>
+        <target state="final">A pasta para a cópia de segurança não tem permissão de escrita (%path%).</target>
         <note>Line: 61</note>
       </trans-unit>
-      <trans-unit id="d12ae4e7f0d20f4a4ca357d48e42877e">
+      <trans-unit id="d12ae4e7f0d20f4a4ca357d48e42877e" approved="yes">
         <source>Backup file %s already exists. Operation aborted.</source>
-        <target state="needs-translation">Backup file %s already exists. Operation aborted.</target>
+        <target state="final">A cópia de segurança do ficheiro %s já existe. Operação cancelada.</target>
         <note>Line: 138</note>
       </trans-unit>
-      <trans-unit id="d82896159c60199272e5ea481a733eba">
+      <trans-unit id="d82896159c60199272e5ea481a733eba" approved="yes">
         <source>Unable to create backup database file %s.</source>
-        <target state="needs-translation">Unable to create backup database file %s.</target>
+        <target state="final">Não foi possível criar o ficheiro %s da cópia de segurança da base de dados.</target>
         <note>Line: 152</note>
       </trans-unit>
-      <trans-unit id="dcb7d833c69d6e0c3f009381c51f898e">
+      <trans-unit id="dcb7d833c69d6e0c3f009381c51f898e" approved="yes">
         <source>Error during database backup.</source>
-        <target state="needs-translation">Error during database backup.</target>
+        <target state="final">Surgiu um erro durante a cópia de segurança da base de dados.</target>
         <note>Line: 180</note>
       </trans-unit>
-      <trans-unit id="52033453d4d673bae012b9c8ccb1e79c">
+      <trans-unit id="52033453d4d673bae012b9c8ccb1e79c" approved="yes">
         <source>An error occurred while backing up. Unable to obtain the schema of %s</source>
-        <target state="needs-translation">An error occurred while backing up. Unable to obtain the schema of %s</target>
+        <target state="final">Surgiu um erro ao fazer a cópia de segurança. Não foi possível obter o esquema de %s</target>
         <note>Line: 179</note>
       </trans-unit>
-      <trans-unit id="4d4c62fccb481224ff3a5c36b45de3fd">
+      <trans-unit id="4d4c62fccb481224ff3a5c36b45de3fd" approved="yes">
         <source>%s table has been saved.</source>
-        <target state="needs-translation">%s table has been saved.</target>
+        <target state="final">%s tabela foi guardada.</target>
         <note>Line: 257</note>
       </trans-unit>
-      <trans-unit id="71426d0545181d601dc135b78e74ac8f">
+      <trans-unit id="71426d0545181d601dc135b78e74ac8f" approved="yes">
         <source>%s tables have been saved.</source>
-        <target state="needs-translation">%s tables have been saved.</target>
+        <target state="final">%s tabelas foram guardadas.</target>
         <note>Line: 292</note>
       </trans-unit>
-      <trans-unit id="c2a086cb5c3373d7e11acbd3ace6a553">
+      <trans-unit id="c2a086cb5c3373d7e11acbd3ace6a553" approved="yes">
         <source>Database backup: %s table(s) left...</source>
-        <target state="needs-translation">Database backup: %s table(s) left...</target>
+        <target state="final">Cópia de segurança da base de dados: faltam %s tabela(s)...</target>
         <note>Line: 273</note>
       </trans-unit>
-      <trans-unit id="f5f6ee32184b6a03c5c9928cbefa07f7">
+      <trans-unit id="f5f6ee32184b6a03c5c9928cbefa07f7" approved="yes">
         <source>No valid tables were found to back up. Backup of file %s canceled.</source>
-        <target state="needs-translation">No valid tables were found to back up. Backup of file %s canceled.</target>
+        <target state="final">Não foram encontradas tabelas válidas para fazer cópia de segurança. Cópia de segurança do ficheiro %s cancelada.</target>
         <note>Line: 281</note>
       </trans-unit>
-      <trans-unit id="0e27b7ac485e03dabd5648acd5982dde">
+      <trans-unit id="0e27b7ac485e03dabd5648acd5982dde" approved="yes">
         <source>Error during database backup for file %s.</source>
-        <target state="needs-translation">Error during database backup for file %s.</target>
+        <target state="final">Erro no ficheiro %s durante o processo de cópia de segurança da base de dados.</target>
         <note>Line: 282</note>
       </trans-unit>
-      <trans-unit id="4b85e344355a8c135644f239db898749">
+      <trans-unit id="4b85e344355a8c135644f239db898749" approved="yes">
         <source>Database backup done in filename %s. Now upgrading files...</source>
-        <target state="needs-translation">Database backup done in filename %s. Now upgrading files...</target>
+        <target state="final">Cópia de segurança da base de dados concluída no ficheiro com o nome %s. A atualizar ficheiros...</target>
         <note>Line: 298</note>
       </trans-unit>
     </body>
   </file>
   <file original="classes/Task/Upgrade/BackupFiles.php" source-language="en" target-language="pt-PT" datatype="plaintext">
     <body>
-      <trans-unit id="e6de5ce7d70a6ed1e2d2d2a25c1bffb4">
+      <trans-unit id="e6de5ce7d70a6ed1e2d2d2a25c1bffb4" approved="yes">
         <source>Error during backupFiles</source>
-        <target state="needs-translation">Error during backupFiles</target>
+        <target state="final">Ocorreu um erro durante a cópia de segurança dos ficheiros</target>
         <note>Line: 60</note>
       </trans-unit>
-      <trans-unit id="f2afc9e120786d21fd6809c836258669">
+      <trans-unit id="f2afc9e120786d21fd6809c836258669" approved="yes">
         <source>[ERROR] backupFiles filename has not been set</source>
-        <target state="needs-translation">[ERROR] backupFiles filename has not been set</target>
+        <target state="final">[ERROR] Nome de ficheiro "backupFiles" não foi definido</target>
         <note>Line: 61</note>
       </trans-unit>
-      <trans-unit id="48f95ff09327408a578e91655ed872a1">
+      <trans-unit id="48f95ff09327408a578e91655ed872a1" approved="yes">
         <source>%s Files to backup.</source>
-        <target state="needs-translation">%s Files to backup.</target>
+        <target state="final">%s Ficheiros para fazer cópia de segurança.</target>
         <note>Line: 72</note>
       </trans-unit>
-      <trans-unit id="ae10eb1b240ad1b32e2a18e8c9694120">
+      <trans-unit id="ae10eb1b240ad1b32e2a18e8c9694120" approved="yes">
         <source>Backup files initialized in %s</source>
-        <target state="needs-translation">Backup files initialized in %s</target>
+        <target state="final">Ficheiros de cópia de segurança inicializados em %s</target>
         <note>Line: 80</note>
       </trans-unit>
-      <trans-unit id="9bebecbf68b6ce5a6d656c5ea793b762">
+      <trans-unit id="9bebecbf68b6ce5a6d656c5ea793b762" approved="yes">
         <source>Backup files in progress. %d files left</source>
-        <target state="needs-translation">Backup files in progress. %d files left</target>
+        <target state="final">A fazer a cópia de segurança. Faltam %d ficheiros</target>
         <note>Line: 86</note>
       </trans-unit>
-      <trans-unit id="b31006b398a0fc315119a145aa1b0466">
+      <trans-unit id="b31006b398a0fc315119a145aa1b0466" approved="yes">
         <source>Unable to open archive</source>
-        <target state="needs-translation">Unable to open archive</target>
+        <target state="final">Não foi possível abrir o ficheiro</target>
         <note>Line: 92</note>
       </trans-unit>
-      <trans-unit id="f39b870765d50b64ba7a6facea83010d">
+      <trans-unit id="f39b870765d50b64ba7a6facea83010d" approved="yes">
         <source>All files have been added to archive.</source>
-        <target state="needs-translation">All files have been added to archive.</target>
+        <target state="final">Todos os ficheiros foram adicionados ao arquivo.</target>
         <note>Line: 103</note>
       </trans-unit>
-      <trans-unit id="f36d7ee6cae92008008a95bf5898daf2">
+      <trans-unit id="f36d7ee6cae92008008a95bf5898daf2" approved="yes">
         <source>All files saved. Now backing up database</source>
-        <target state="needs-translation">All files saved. Now backing up database</target>
+        <target state="final">Todos os ficheiros foram guardados. A fazer a cópia de segurança da base de dados</target>
         <note>Line: 104</note>
       </trans-unit>
     </body>
   </file>
   <file original="classes/Task/Upgrade/CleanDatabase.php" source-language="en" target-language="pt-PT" datatype="plaintext">
     <body>
-      <trans-unit id="ead14b0273e8d6cae7d146130d4be8f6">
+      <trans-unit id="ead14b0273e8d6cae7d146130d4be8f6" approved="yes">
         <source>The database has been cleaned.</source>
-        <target state="needs-translation">The database has been cleaned.</target>
+        <target state="final">A base de dados foi limpa.</target>
         <note>Line: 52</note>
       </trans-unit>
     </body>
   </file>
   <file original="classes/Task/Upgrade/Download.php" source-language="en" target-language="pt-PT" datatype="plaintext">
     <body>
-      <trans-unit id="fb1ca1f5f3eb5a2ca85201f449525527">
+      <trans-unit id="fb1ca1f5f3eb5a2ca85201f449525527" approved="yes">
         <source>You need allow_url_fopen or cURL enabled for automatic download to work. You can also manually upload it in filepath %s.</source>
-        <target state="needs-translation">You need allow_url_fopen or cURL enabled for automatic download to work. You can also manually upload it in filepath %s.</target>
+        <target state="final">Necessita de ativar "url_fopen" ou cURL para a transferência automática funcionar. Poderá também enviar manualmente para o seguinte local %s.</target>
         <note>Line: 50</note>
       </trans-unit>
-      <trans-unit id="f31c50f6d0edbbb94aa24943b118e316">
+      <trans-unit id="f31c50f6d0edbbb94aa24943b118e316" approved="yes">
         <source>Downloading from %s</source>
-        <target state="needs-translation">Downloading from %s</target>
+        <target state="final">A transferir de %s</target>
         <note>Line: 69</note>
       </trans-unit>
-      <trans-unit id="73227d741d23c1c6c0ae027b2dbc9e73">
+      <trans-unit id="73227d741d23c1c6c0ae027b2dbc9e73" approved="yes">
         <source>File will be saved in %s</source>
-        <target state="needs-translation">File will be saved in %s</target>
+        <target state="final">O ficheiro será guardado em %s</target>
         <note>Line: 70</note>
       </trans-unit>
-      <trans-unit id="53be0a7251b3bd0de81f488687bc0464">
+      <trans-unit id="53be0a7251b3bd0de81f488687bc0464" approved="yes">
         <source>Download directory has been emptied</source>
-        <target state="needs-translation">Download directory has been emptied</target>
+        <target state="final">A pasta de transferência foi limpa</target>
         <note>Line: 73</note>
       </trans-unit>
-      <trans-unit id="3c2681ea85407c2c0d252e05a8eaf6aa">
+      <trans-unit id="3c2681ea85407c2c0d252e05a8eaf6aa" approved="yes">
         <source>Download complete.</source>
-        <target state="needs-translation">Download complete.</target>
+        <target state="final">Transferência concluída.</target>
         <note>Line: 83</note>
       </trans-unit>
-      <trans-unit id="a55401a11251f53f612e950d4115e116">
+      <trans-unit id="a55401a11251f53f612e950d4115e116" approved="yes">
         <source>Download complete. Now extracting...</source>
-        <target state="needs-translation">Download complete. Now extracting...</target>
+        <target state="final">Transferência completa. A descomprimir...</target>
         <note>Line: 84</note>
       </trans-unit>
-      <trans-unit id="2d9a3f4a92c008b32903541e9af8aff0">
+      <trans-unit id="2d9a3f4a92c008b32903541e9af8aff0" approved="yes">
         <source>Download complete but MD5 sum does not match (%s).</source>
-        <target state="needs-translation">Download complete but MD5 sum does not match (%s).</target>
+        <target state="final">Transferência concluída mas o parâmetro MD5 sum não é igual (%s).</target>
         <note>Line: 86</note>
       </trans-unit>
-      <trans-unit id="df88998b6b9585bbcfd201186695b686">
+      <trans-unit id="df88998b6b9585bbcfd201186695b686" approved="yes">
         <source>Download complete but MD5 sum does not match (%s). Operation aborted.</source>
-        <target state="needs-translation">Download complete but MD5 sum does not match (%s). Operation aborted.</target>
+        <target state="final">Transferência concluída mas o parâmetro MD5 sum não é igual (%s). Operação abortada.</target>
         <note>Line: 87</note>
       </trans-unit>
-      <trans-unit id="412cb9a2978bf041be4ca6c6ded0030c">
+      <trans-unit id="412cb9a2978bf041be4ca6c6ded0030c" approved="yes">
         <source>Error during download. The private key may be incorrect.</source>
-        <target state="needs-translation">Error during download. The private key may be incorrect.</target>
+        <target state="final">Surgiu um erro ao descarregar. A chave privada pode não estar correta.</target>
         <note>Line: 92</note>
       </trans-unit>
-      <trans-unit id="0c0db54fe8212c1a7215005fef75d7dd">
+      <trans-unit id="0c0db54fe8212c1a7215005fef75d7dd" approved="yes">
         <source>Error during download</source>
-        <target state="needs-translation">Error during download</target>
+        <target state="final">Surgiu um erro ao descarregar</target>
         <note>Line: 94</note>
       </trans-unit>
-      <trans-unit id="5385901e5bed459563860e2f08a90a1c">
+      <trans-unit id="5385901e5bed459563860e2f08a90a1c" approved="yes">
         <source>Download directory %s is not writable.</source>
-        <target state="needs-translation">Download directory %s is not writable.</target>
+        <target state="final">A pasta para transferências %s não tem permissão de escrita.</target>
         <note>Line: 99</note>
       </trans-unit>
     </body>
   </file>
   <file original="classes/Task/Upgrade/Unzip.php" source-language="en" target-language="pt-PT" datatype="plaintext">
     <body>
-      <trans-unit id="654f7ceb787fd455c166d5d8744cbf90">
+      <trans-unit id="654f7ceb787fd455c166d5d8744cbf90" approved="yes">
         <source>"/latest" directory has been emptied</source>
-        <target state="needs-translation">"/latest" directory has been emptied</target>
+        <target state="final">A pasta "latest" foi esvaziada</target>
         <note>Line: 54</note>
       </trans-unit>
-      <trans-unit id="01d9d38b1d4d8eff5b530eeecfd3ccd5">
+      <trans-unit id="01d9d38b1d4d8eff5b530eeecfd3ccd5" approved="yes">
         <source>Extraction directory %s is not writable.</source>
-        <target state="needs-translation">Extraction directory %s is not writable.</target>
+        <target state="final">A pasta de descompactação %s não tem permissões de escrita.</target>
         <note>Line: 59</note>
       </trans-unit>
-      <trans-unit id="69ae4bbd4b14ae388e4e3882945a542e">
+      <trans-unit id="69ae4bbd4b14ae388e4e3882945a542e" approved="yes">
         <source>Unable to extract %filepath% file into %destination% folder...</source>
-        <target state="needs-translation">Unable to extract %filepath% file into %destination% folder...</target>
+        <target state="final">Não é possível extrair %filepath% o ficheiro para a pasta %destination%...</target>
         <note>Line: 93</note>
       </trans-unit>
-      <trans-unit id="5d3c14ccb814427455842b838bbd6f21">
+      <trans-unit id="5d3c14ccb814427455842b838bbd6f21" approved="yes">
         <source>No prestashop/ folder found in the ZIP file. Aborting.</source>
-        <target state="needs-translation">No prestashop/ folder found in the ZIP file. Aborting.</target>
+        <target state="final">Não foi encontrada nenhuma pasta prestashop/ no ficheiro ZIP. Abortar.</target>
         <note>Line: 108</note>
       </trans-unit>
       <trans-unit id="231e6cd17aead2388d971f9e75810ca1">
@@ -418,24 +418,24 @@
   </file>
   <file original="classes/Task/Upgrade/UpgradeComplete.php" source-language="en" target-language="pt-PT" datatype="plaintext">
     <body>
-      <trans-unit id="7a32329d6776ff98d77f7344caf7e00b">
+      <trans-unit id="7a32329d6776ff98d77f7344caf7e00b" approved="yes">
         <source>Upgrade process done, but some warnings have been found.</source>
-        <target state="needs-translation">Upgrade process done, but some warnings have been found.</target>
+        <target state="final">Processo de atualização concluído, embora tenham surgido alguns avisos.</target>
         <note>Line: 50</note>
       </trans-unit>
-      <trans-unit id="2a7e17be5dc799b0c478ec5f576f0713">
+      <trans-unit id="2a7e17be5dc799b0c478ec5f576f0713" approved="yes">
         <source>Upgrade process done. Congratulations! You can now reactivate your shop.</source>
-        <target state="needs-translation">Upgrade process done. Congratulations! You can now reactivate your shop.</target>
+        <target state="final">Processo de atualização concluído. Parabéns! Agora já pode agora reativar a sua loja.</target>
         <note>Line: 51</note>
       </trans-unit>
-      <trans-unit id="d2b9f1e39aa8e96bb61f3a4bfe133f58">
+      <trans-unit id="d2b9f1e39aa8e96bb61f3a4bfe133f58" approved="yes">
         <source>%s removed</source>
-        <target state="needs-translation">%s removed</target>
+        <target state="final">%s removidos</target>
         <note>Line: 63</note>
       </trans-unit>
-      <trans-unit id="75802ba44ba3369defd92ef897bf2f21">
+      <trans-unit id="75802ba44ba3369defd92ef897bf2f21" approved="yes">
         <source>Please remove %s by FTP</source>
-        <target state="needs-translation">Please remove %s by FTP</target>
+        <target state="final">Por favor remova %s por FTP</target>
         <note>Line: 65</note>
       </trans-unit>
     </body>
@@ -452,113 +452,113 @@
         <target state="needs-translation">Running opcache_reset</target>
         <note>Line: 81</note>
       </trans-unit>
-      <trans-unit id="eac34868b4fb511702e53d1405c45454">
+      <trans-unit id="eac34868b4fb511702e53d1405c45454" approved="yes">
         <source>Error during database upgrade. You may need to restore your database.</source>
-        <target state="needs-translation">Error during database upgrade. You may need to restore your database.</target>
+        <target state="final">Erro durante a atualização da base de dados. Poderá ter de recuperar a sua base de dados.</target>
         <note>Line: 52</note>
       </trans-unit>
-      <trans-unit id="08ee54c048e1589f4072a351035db2ad">
+      <trans-unit id="08ee54c048e1589f4072a351035db2ad" approved="yes">
         <source>Database upgraded. Now upgrading your Addons modules...</source>
-        <target state="needs-translation">Database upgraded. Now upgrading your Addons modules...</target>
+        <target state="final">Base de dados atualizada. A atualizar os seus módulos Addons...</target>
         <note>Line: 59</note>
       </trans-unit>
     </body>
   </file>
   <file original="classes/Task/Upgrade/UpgradeFiles.php" source-language="en" target-language="pt-PT" datatype="plaintext">
     <body>
-      <trans-unit id="4f7c02592a962e40a920f32f3a24f2df">
+      <trans-unit id="4f7c02592a962e40a920f32f3a24f2df" approved="yes">
         <source>filesToUpgrade is not an array</source>
-        <target state="needs-translation">filesToUpgrade is not an array</target>
+        <target state="final">filesToUpgrade não é um Array</target>
         <note>Line: 65</note>
       </trans-unit>
-      <trans-unit id="6274f940a4c03421253b1acc4064349e">
+      <trans-unit id="6274f940a4c03421253b1acc4064349e" approved="yes">
         <source>All files upgraded. Now upgrading database...</source>
-        <target state="needs-translation">All files upgraded. Now upgrading database...</target>
+        <target state="final">Todos os ficheiros foram atualizados. A atualizar a Base de Dados...</target>
         <note>Line: 77</note>
       </trans-unit>
-      <trans-unit id="41deb3bc122b8e650d7a4758ea95f5c3">
+      <trans-unit id="41deb3bc122b8e650d7a4758ea95f5c3" approved="yes">
         <source>Error when trying to upgrade file %s.</source>
-        <target state="needs-translation">Error when trying to upgrade file %s.</target>
+        <target state="final">Erro durante a atualização do ficheiro %s.</target>
         <note>Line: 88</note>
       </trans-unit>
-      <trans-unit id="481343ab83a2b8e7c7f6c710279f2a6d">
+      <trans-unit id="481343ab83a2b8e7c7f6c710279f2a6d" approved="yes">
         <source>%s files left to upgrade.</source>
-        <target state="needs-translation">%s files left to upgrade.</target>
+        <target state="final">%s ficheiros por atualizar.</target>
         <note>Line: 94</note>
       </trans-unit>
-      <trans-unit id="9a2f2cf276ea9f79b31a815897c0e3e6">
+      <trans-unit id="9a2f2cf276ea9f79b31a815897c0e3e6" approved="yes">
         <source>%s ignored</source>
-        <target state="needs-translation">%s ignored</target>
+        <target state="final">%s ignorado</target>
         <note>Line: 122</note>
       </trans-unit>
-      <trans-unit id="4794a520f862841749c18466119acfed">
+      <trans-unit id="4794a520f862841749c18466119acfed" approved="yes">
         <source>[WARNING] File %1$s has been deleted.</source>
-        <target state="needs-translation">[WARNING] File %1$s has been deleted.</target>
+        <target state="final">[WARNING] O ficheiro %1$s foi eliminado.</target>
         <note>Line: 130</note>
       </trans-unit>
-      <trans-unit id="cbfafdaa2e7968a86bd6a437027edfea">
+      <trans-unit id="cbfafdaa2e7968a86bd6a437027edfea" approved="yes">
         <source>Directory %1$s created.</source>
-        <target state="needs-translation">Directory %1$s created.</target>
+        <target state="final">Pasta %1$s foi criada.</target>
         <note>Line: 134</note>
       </trans-unit>
-      <trans-unit id="a61e66de5e0b581cc66f73f5662660c6">
+      <trans-unit id="a61e66de5e0b581cc66f73f5662660c6" approved="yes">
         <source>Error while creating directory %s.</source>
-        <target state="needs-translation">Error while creating directory %s.</target>
+        <target state="final">Ocorreu um erro durante a criação da pasta %s.</target>
         <note>Line: 139</note>
       </trans-unit>
-      <trans-unit id="0a6c2db1b18cb6420ad40d46db8707de">
+      <trans-unit id="0a6c2db1b18cb6420ad40d46db8707de" approved="yes">
         <source>Directory %s already exists.</source>
-        <target state="needs-translation">Directory %s already exists.</target>
+        <target state="final">A pasta %s já existe.</target>
         <note>Line: 144
 Comment: directory already exists</note>
       </trans-unit>
-      <trans-unit id="e877efcbee96fb597e27a9d83b362f0c">
+      <trans-unit id="e877efcbee96fb597e27a9d83b362f0c" approved="yes">
         <source>[TRANSLATION] The translation files have been merged into file %s.</source>
-        <target state="needs-translation">[TRANSLATION] The translation files have been merged into file %s.</target>
+        <target state="final">[TRADUÇÃO] A tradução de ficheiros foi intercalada no ficheiro %s.</target>
         <note>Line: 153</note>
       </trans-unit>
-      <trans-unit id="b6a405342d9de91fa9f190b13b842b5c">
+      <trans-unit id="b6a405342d9de91fa9f190b13b842b5c" approved="yes">
         <source>[TRANSLATION] The translation files have not been merged into file %filename%. Switch to copy %filename%.</source>
-        <target state="needs-translation">[TRANSLATION] The translation files have not been merged into file %filename%. Switch to copy %filename%.</target>
+        <target state="final">[TRADUÇÃO] Os ficheiros de tradução não foram intercalados no ficheiro %filename%. Troque para a cópia %filename%.</target>
         <note>Line: 158</note>
       </trans-unit>
-      <trans-unit id="b8db10001e04b8f947415aeb8b8fd19f">
+      <trans-unit id="b8db10001e04b8f947415aeb8b8fd19f" approved="yes">
         <source>Copied %1$s.</source>
-        <target state="needs-translation">Copied %1$s.</target>
+        <target state="final">%1$s copiado.</target>
         <note>Line: 166</note>
       </trans-unit>
-      <trans-unit id="eae82e869fe0a47087214e2748ae710a">
+      <trans-unit id="eae82e869fe0a47087214e2748ae710a" approved="yes">
         <source>Error while copying file %s</source>
-        <target state="needs-translation">Error while copying file %s</target>
+        <target state="final">Erro ao copiar ficheiro %s</target>
         <note>Line: 171</note>
       </trans-unit>
-      <trans-unit id="20aed4fb9f6ee15bc601227bbfb85acd">
+      <trans-unit id="20aed4fb9f6ee15bc601227bbfb85acd" approved="yes">
         <source>Could not assert the folder %s contains a valid PrestaShop release, exiting.</source>
-        <target state="needs-translation">Could not assert the folder %s contains a valid PrestaShop release, exiting.</target>
+        <target state="final">Não foi possível confirmar que a pasta %s contém uma versão válida da PrestaShop, encerrando.</target>
         <note>Line: 204</note>
       </trans-unit>
-      <trans-unit id="312d54356778124e7ad6d8c7be6ff1a0">
+      <trans-unit id="312d54356778124e7ad6d8c7be6ff1a0" approved="yes">
         <source>A file may be missing, or the release is stored in a subfolder by mistake.</source>
-        <target state="needs-translation">A file may be missing, or the release is stored in a subfolder by mistake.</target>
+        <target state="final">Pode faltar um ficheiro ou a versão está armazenada numa subpasta por engano.</target>
         <note>Line: 205</note>
       </trans-unit>
-      <trans-unit id="2de9cd00fdcc22adb43ea03f2a09dee5">
+      <trans-unit id="2de9cd00fdcc22adb43ea03f2a09dee5" approved="yes">
         <source>[ERROR] Unable to find files to upgrade.</source>
-        <target state="needs-translation">[ERROR] Unable to find files to upgrade.</target>
+        <target state="final">[ERROR] Não foi possível encontrar ficheiros para atualizar.</target>
         <note>Line: 265</note>
       </trans-unit>
-      <trans-unit id="5479863b0426e29c3a17a3f9cc6e3746">
+      <trans-unit id="5479863b0426e29c3a17a3f9cc6e3746" approved="yes">
         <source>%s files will be upgraded.</source>
-        <target state="needs-translation">%s files will be upgraded.</target>
+        <target state="final">%s ficheiros serão atualizados.</target>
         <note>Line: 270</note>
       </trans-unit>
     </body>
   </file>
   <file original="classes/Task/Upgrade/UpgradeModules.php" source-language="en" target-language="pt-PT" datatype="plaintext">
     <body>
-      <trans-unit id="1baa2ea6cee198c6b7f19011431dcc73">
+      <trans-unit id="1baa2ea6cee198c6b7f19011431dcc73" approved="yes">
         <source>listModules is not an array. No module has been updated.</source>
-        <target state="needs-translation">listModules is not an array. No module has been updated.</target>
+        <target state="final">listModules não é um array. Nenhum módulo foi atualizado.</target>
         <note>Line: 59</note>
       </trans-unit>
       <trans-unit id="d2570f64d3e815681ef166d3601a52e6">
@@ -571,33 +571,33 @@ Comment: directory already exists</note>
         <target state="needs-translation">The module %s has been updated.</target>
         <note>Line: 83</note>
       </trans-unit>
-      <trans-unit id="d88a8630bd4e8fdbd61c550e53d62a94">
+      <trans-unit id="d88a8630bd4e8fdbd61c550e53d62a94" approved="yes">
         <source>%s modules left to upgrade.</source>
-        <target state="needs-translation">%s modules left to upgrade.</target>
+        <target state="final">%s módulos por atualizar.</target>
         <note>Line: 99</note>
       </trans-unit>
-      <trans-unit id="f0d18de100ab33463602ea5b8165d842">
+      <trans-unit id="f0d18de100ab33463602ea5b8165d842" approved="yes">
         <source>Addons modules files have been upgraded.</source>
-        <target state="needs-translation">Addons modules files have been upgraded.</target>
+        <target state="final">Foram atualizados os ficheiros dos Módulos do Addons.</target>
         <note>Line: 106</note>
       </trans-unit>
-      <trans-unit id="0530243ad5b9bd205a04b975d3ef8aaf">
+      <trans-unit id="0530243ad5b9bd205a04b975d3ef8aaf" approved="yes">
         <source>%s modules will be upgraded.</source>
-        <target state="needs-translation">%s modules will be upgraded.</target>
+        <target state="final">%s módulos serão atualizados.</target>
         <note>Line: 165</note>
       </trans-unit>
     </body>
   </file>
   <file original="classes/Task/Upgrade/UpgradeNow.php" source-language="en" target-language="pt-PT" datatype="plaintext">
     <body>
-      <trans-unit id="ca895e37bd5dfe413d7ffdd592580117">
+      <trans-unit id="ca895e37bd5dfe413d7ffdd592580117" approved="yes">
         <source>Starting upgrade...</source>
-        <target state="needs-translation">Starting upgrade...</target>
+        <target state="final">A iniciar a atualização...</target>
         <note>Line: 49</note>
       </trans-unit>
-      <trans-unit id="d3446f09f99983abc250c0d2a92d0285">
+      <trans-unit id="d3446f09f99983abc250c0d2a92d0285" approved="yes">
         <source>Downloading and unzipping steps have been skipped, upgrade process will now remove sample data.</source>
-        <target state="needs-translation">Downloading and unzipping steps have been skipped, upgrade process will now remove sample data.</target>
+        <target state="final">Os passos de descarregamento e descompactação foram ignorados, o processo de actualização irá agora remover os dados de amostra.</target>
         <note>Line: 76</note>
       </trans-unit>
       <trans-unit id="33c9d8cb4efb6cd7e104a43a69d38b36">
@@ -605,29 +605,29 @@ Comment: directory already exists</note>
         <target state="needs-translation">Shop deactivated. Now backing up files...</target>
         <note>Line: 77</note>
       </trans-unit>
-      <trans-unit id="fd89b081ead6c32f16c370771cfe92e1">
+      <trans-unit id="fd89b081ead6c32f16c370771cfe92e1" approved="yes">
         <source>Downloading step has been skipped, upgrade process will now unzip the local archive.</source>
-        <target state="needs-translation">Downloading step has been skipped, upgrade process will now unzip the local archive.</target>
+        <target state="final">O passo de descarregamento foi ignorado, o processo de actualização irá agora descomprimir o arquivo local.</target>
         <note>Line: 81</note>
       </trans-unit>
-      <trans-unit id="1a74ca8250ceb3e4df43a70181064e03">
+      <trans-unit id="1a74ca8250ceb3e4df43a70181064e03" approved="yes">
         <source>Shop deactivated. Extracting files...</source>
-        <target state="needs-translation">Shop deactivated. Extracting files...</target>
+        <target state="final">Loja desativada. A descompactar os ficheiros...</target>
         <note>Line: 82</note>
       </trans-unit>
-      <trans-unit id="a3e702f156f1b517ba98d2487f58bd91">
+      <trans-unit id="a3e702f156f1b517ba98d2487f58bd91" approved="yes">
         <source>Shop deactivated. Now downloading... (this can take a while)</source>
-        <target state="needs-translation">Shop deactivated. Now downloading... (this can take a while)</target>
+        <target state="final">Loja desativada. A descarregar... (isto poderá demorar um pouco)</target>
         <note>Line: 86</note>
       </trans-unit>
-      <trans-unit id="10b5aa33077df49427f04cd33ad3843f">
+      <trans-unit id="10b5aa33077df49427f04cd33ad3843f" approved="yes">
         <source>Downloaded archive will come from %s</source>
-        <target state="needs-translation">Downloaded archive will come from %s</target>
+        <target state="final">O ficheiro será descarregado de %s</target>
         <note>Line: 91</note>
       </trans-unit>
-      <trans-unit id="da652b8ece8ba2da84d5f5116f6ef63e">
+      <trans-unit id="da652b8ece8ba2da84d5f5116f6ef63e" approved="yes">
         <source>MD5 hash will be checked against %s</source>
-        <target state="needs-translation">MD5 hash will be checked against %s</target>
+        <target state="final">O hash MD5 será verificado contra o %s</target>
         <note>Line: 92</note>
       </trans-unit>
     </body>
@@ -1718,14 +1718,14 @@ Comment: check DB access</note>
         <target state="needs-translation">Give feedbacks</target>
         <note>Line: 35</note>
       </trans-unit>
-      <trans-unit id="ce8ae9da5b7cd6c3df2929543a9af92d">
+      <trans-unit id="ce8ae9da5b7cd6c3df2929543a9af92d" approved="yes">
         <source>Email</source>
-        <target state="needs-translation">Email</target>
+        <target state="final">Email</target>
         <note>Line: 42</note>
       </trans-unit>
-      <trans-unit id="b5a7adde1af5c87d7fd797b6245c2a39">
+      <trans-unit id="b5a7adde1af5c87d7fd797b6245c2a39" approved="yes">
         <source>Description</source>
-        <target state="needs-translation">Description</target>
+        <target state="final">Descrição</target>
         <note>Line: 44</note>
       </trans-unit>
       <trans-unit id="cabb081af34d6d6129acb90806ea1f6b">
@@ -1733,9 +1733,9 @@ Comment: check DB access</note>
         <target state="needs-translation">Give us details about the error</target>
         <note>Line: 46</note>
       </trans-unit>
-      <trans-unit id="ea4788705e6873b424c65e91c2846b19">
+      <trans-unit id="ea4788705e6873b424c65e91c2846b19" approved="yes">
         <source>Cancel</source>
-        <target state="needs-translation">Cancel</target>
+        <target state="final">Cancelar</target>
         <note>Line: 50</note>
       </trans-unit>
       <trans-unit id="c2ebe5da2f59b88f554016a78528c2de">
