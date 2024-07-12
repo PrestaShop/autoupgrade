@@ -25,6 +25,7 @@
  */
 use PHPUnit\Framework\TestCase;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Backlog;
 
 class ZipActionTest extends TestCase
 {
@@ -54,8 +55,8 @@ class ZipActionTest extends TestCase
         $newZipPath = tempnam(sys_get_temp_dir(), 'mod');
 
         $zipAction = $this->container->getZipAction();
-        $files = [__FILE__];
-        $this->assertSame(true, $zipAction->compress($files, $newZipPath));
+        $backlog = new Backlog([__FILE__], 1);
+        $this->assertSame(true, $zipAction->compress($backlog, $newZipPath));
 
         // Cleanup
         unlink($newZipPath);

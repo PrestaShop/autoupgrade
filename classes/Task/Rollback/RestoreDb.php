@@ -159,11 +159,12 @@ class RestoreDb extends AbstractTask
         }
 
         /* @todo : error if listQuery is not an array (that can happen if toRestoreQueryList is empty for example) */
-        if ($backlog->getRemainingTotal()) {
+        if (isset($backlog) && $backlog->getRemainingTotal()) {
             $this->container->getDb()->execute('SET SESSION sql_mode = \'\'');
             $this->container->getDb()->execute('SET FOREIGN_KEY_CHECKS=0');
 
             do {
+                // @phpstan-ignore booleanNot.alwaysFalse (Need a refacto of this whole task)
                 if (!$backlog->getRemainingTotal()) {
                     if (file_exists($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . UpgradeFileNames::QUERIES_TO_RESTORE_LIST)) {
                         unlink($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . UpgradeFileNames::QUERIES_TO_RESTORE_LIST);

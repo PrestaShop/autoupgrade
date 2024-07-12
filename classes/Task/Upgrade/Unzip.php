@@ -51,7 +51,7 @@ class Unzip extends AbstractTask
     {
         $filepath = $this->container->getFilePath();
         $destExtract = $this->container->getProperty(UpgradeContainer::LATEST_PATH);
-        
+
         $this->container->getState()->setProgressPercentage(
             $this->container->getUpgradeConfiguration()->shouldBackupFiles() ? static::BASE_PROGRESS : static::BASE_PROGRESS_WITHOUT_BACKUP
         );

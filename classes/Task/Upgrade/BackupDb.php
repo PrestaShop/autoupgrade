@@ -80,7 +80,7 @@ class BackupDb extends AbstractTask
         // INIT LOOP
         if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::DB_TABLES_TO_BACKUP_LIST)) {
             $this->container->getState()->setProgressPercentage(static::BASE_PROGRESS);
-            
+
             if (!is_dir($this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $this->container->getState()->getBackupName())) {
                 mkdir($this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $this->container->getState()->getBackupName());
             }
