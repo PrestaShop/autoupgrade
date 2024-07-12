@@ -1386,9 +1386,9 @@ Comment: check DB access</note>
         <target>Regenerating htaccess</target>
         <note>Line: 138</note>
       </trans-unit>
-      <trans-unit id="128e1c61a1a4477ec05609569cc4d9d8">
-        <source>Cleaning XML files</source>
-        <target>Cleaning XML files</target>
+      <trans-unit id="7ece6f70a8f02cf689e3034609177ee9">
+        <source>Cleaning XML filess</source>
+        <target>Cleaning XML filess</target>
         <note>Line: 141</note>
       </trans-unit>
       <trans-unit id="ed176ad3db6e004d4c272928acf3d0ac">
