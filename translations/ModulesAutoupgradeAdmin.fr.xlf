@@ -335,29 +335,29 @@
         <target state="needs-translation">You need allow_url_fopen or cURL enabled for automatic download to work. You can also manually upload it in filepath %s.</target>
         <note>Line: 50</note>
       </trans-unit>
-      <trans-unit id="f31c50f6d0edbbb94aa24943b118e316">
+      <trans-unit id="f31c50f6d0edbbb94aa24943b118e316" approved="yes">
         <source>Downloading from %s</source>
-        <target state="needs-translation">Downloading from %s</target>
+        <target state="final">Téléchargement depuis %s</target>
         <note>Line: 69</note>
       </trans-unit>
-      <trans-unit id="73227d741d23c1c6c0ae027b2dbc9e73">
+      <trans-unit id="73227d741d23c1c6c0ae027b2dbc9e73" approved="yes">
         <source>File will be saved in %s</source>
-        <target state="needs-translation">File will be saved in %s</target>
+        <target state="final">Le fichier sera enregistré dans %s</target>
         <note>Line: 70</note>
       </trans-unit>
-      <trans-unit id="53be0a7251b3bd0de81f488687bc0464">
+      <trans-unit id="53be0a7251b3bd0de81f488687bc0464" approved="yes">
         <source>Download directory has been emptied</source>
-        <target state="needs-translation">Download directory has been emptied</target>
+        <target state="final">Le dossier de téléchargement a été vidé.</target>
         <note>Line: 73</note>
       </trans-unit>
-      <trans-unit id="3c2681ea85407c2c0d252e05a8eaf6aa">
+      <trans-unit id="3c2681ea85407c2c0d252e05a8eaf6aa" approved="yes">
         <source>Download complete.</source>
-        <target state="needs-translation">Download complete.</target>
+        <target state="final">Téléchargement terminé.</target>
         <note>Line: 83</note>
       </trans-unit>
-      <trans-unit id="a55401a11251f53f612e950d4115e116">
+      <trans-unit id="a55401a11251f53f612e950d4115e116" approved="yes">
         <source>Download complete. Now extracting...</source>
-        <target state="needs-translation">Download complete. Now extracting...</target>
+        <target state="final">Téléchargement terminé. Extraction...</target>
         <note>Line: 84</note>
       </trans-unit>
       <trans-unit id="2d9a3f4a92c008b32903541e9af8aff0">
