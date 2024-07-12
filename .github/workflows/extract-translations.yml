@@ -17,8 +17,8 @@ jobs:
       - name: Checkout module-translation-tool
         uses: actions/checkout@v4
         with:
-          repository: PrestaShopCorp/module-translation-tool
-          ref: main
+          repository: ga-devfront/module-translation-tool
+          ref: fix/with-only-one-branche
       - name: Create config for module-translation-tool
         run: |
           cp ./module.cfg.example ./module.cfg
