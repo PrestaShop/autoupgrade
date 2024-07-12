@@ -1708,14 +1708,14 @@ Comment: check DB access</note>
         <target state="needs-translation">Errors</target>
         <note>Line: 20</note>
       </trans-unit>
-      <trans-unit id="3406147c3ce729ce17ed76d45c2896f9">
+      <trans-unit id="3406147c3ce729ce17ed76d45c2896f9" approved="yes">
         <source>Report a bug</source>
-        <target state="needs-translation">Report a bug</target>
+        <target state="final">Signaler un bug</target>
         <note>Line: 23</note>
       </trans-unit>
-      <trans-unit id="a11a94656093eefcfc56c9e9c15ef85b">
+      <trans-unit id="a11a94656093eefcfc56c9e9c15ef85b" approved="yes">
         <source>Give feedbacks</source>
-        <target state="needs-translation">Give feedbacks</target>
+        <target state="final">Fournir un feedback</target>
         <note>Line: 35</note>
       </trans-unit>
       <trans-unit id="ce8ae9da5b7cd6c3df2929543a9af92d">
@@ -1728,9 +1728,9 @@ Comment: check DB access</note>
         <target state="needs-translation">Description</target>
         <note>Line: 44</note>
       </trans-unit>
-      <trans-unit id="cabb081af34d6d6129acb90806ea1f6b">
+      <trans-unit id="cabb081af34d6d6129acb90806ea1f6b" approved="yes">
         <source>Give us details about the error</source>
-        <target state="needs-translation">Give us details about the error</target>
+        <target state="final">Donnez-nous des détails concernant l'erreur</target>
         <note>Line: 46</note>
       </trans-unit>
       <trans-unit id="ea4788705e6873b424c65e91c2846b19">
@@ -1738,9 +1738,9 @@ Comment: check DB access</note>
         <target state="needs-translation">Cancel</target>
         <note>Line: 50</note>
       </trans-unit>
-      <trans-unit id="c2ebe5da2f59b88f554016a78528c2de">
+      <trans-unit id="c2ebe5da2f59b88f554016a78528c2de" approved="yes">
         <source>Send a bug report</source>
-        <target state="needs-translation">Send a bug report</target>
+        <target state="final">Envoyer un rapport de bug</target>
         <note>Line: 53</note>
       </trans-unit>
     </body>
@@ -2093,9 +2093,9 @@ Comment: check DB access</note>
         <target state="needs-translation">Channels are offering you different ways to perform an upgrade. You can either upload the new version manually or let the 1-Click Upgrade module download it for you.</target>
         <note>Line: 79</note>
       </trans-unit>
-      <trans-unit id="87ad8a8ff4a99ffd2e72d5e69765f830">
+      <trans-unit id="87ad8a8ff4a99ffd2e72d5e69765f830" approved="yes">
         <source>The Alpha, Beta and Private channels give you the ability to upgrade to a non-official or unstable release (for testing purposes only).</source>
-        <target state="needs-translation">The Alpha, Beta and Private channels give you the ability to upgrade to a non-official or unstable release (for testing purposes only).</target>
+        <target state="final">Les canaux Alpha, Beta et Privé vous donnent la possibilité de mettre à jour votre boutique vers une version non officielle ou instable (à des fins de test uniquement).</target>
         <note>Line: 80</note>
       </trans-unit>
       <trans-unit id="7d71d389caebafeecac50e98c8e14dec">
