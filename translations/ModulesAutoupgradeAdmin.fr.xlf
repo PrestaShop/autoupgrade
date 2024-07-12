@@ -1947,9 +1947,9 @@ Comment: check DB access</note>
         <target state="needs-translation">Please also make sure you make a full manual backup of your files and database.</target>
         <note>Line: 234</note>
       </trans-unit>
-      <trans-unit id="2f5caf188163a31f04c828530331b096">
+      <trans-unit id="2f5caf188163a31f04c828530331b096" approved="yes">
         <source>PrestaShop requirements are not satisfied.</source>
-        <target state="needs-translation">PrestaShop requirements are not satisfied.</target>
+        <target state="final">Les exigences de PrestaShop ne sont pas respectées.</target>
         <note>Line: 236</note>
       </trans-unit>
     </body>
@@ -1975,9 +1975,9 @@ Comment: check DB access</note>
         <target state="needs-translation">After upgrading your shop, you can rollback to the previous database and files. Use this function if your theme or an essential module is not working correctly.</target>
         <note>Line: 7</note>
       </trans-unit>
-      <trans-unit id="a4d88b46c8edb6b0ee2fb4d6bd0690b0">
+      <trans-unit id="a4d88b46c8edb6b0ee2fb4d6bd0690b0" approved="yes">
         <source>Choose your backup:</source>
-        <target state="needs-translation">Choose your backup:</target>
+        <target state="final">Choisissez votre sauvegarde :</target>
         <note>Line: 11</note>
       </trans-unit>
       <trans-unit id="c629f24e672b4e1165ebf1c10b5c5c5d" approved="yes">
