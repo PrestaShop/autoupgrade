@@ -42,7 +42,7 @@ jobs:
             echo "::error::The directory catalog/autoupgrade/translations/en-US is not empty, some translations are left behind. This can happen when translations have a domain set when calling the method trans."
           fi
           rmdir catalog/autoupgrade/translations/en-US
-          cd "$TOOL_DIR"
-          php bin/console prestashop:translation:push-on-git "$REPOSITORY_NAME" "$REPOSITORY_NAME" "$WORKDIR" $BRANCH --push-on-branch $TRANSLATION_BRANCH -v
+        
+          php bin/console prestashop:translation:push-on-git "https://oauth2:${{ secrets.GITHUB_TOKEN }}@github.com/$OWNER_NAME/$REPOSITORY_NAME.git" "$REPOSITORY_NAME" "./catalog" $BRANCH -v --push-on-branch $TRANSLATION_BRANCH
         env:
           APP_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
