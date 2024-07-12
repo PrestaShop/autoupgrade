@@ -266,6 +266,7 @@ class BackupDb extends AbstractTask
             $fp = null;
         }
 
+        $this->computeProgressionPercentage($tablesToBackup, UpgradeFiles::class);
         $this->container->getFileConfigurationStorage()->save($tablesToBackup->dump(), UpgradeFileNames::DB_TABLES_TO_BACKUP_LIST);
 
         if ($tablesToBackup->getRemainingTotal()) {

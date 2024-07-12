@@ -100,6 +100,7 @@ class BackupFiles extends AbstractTask
                 return ExitCode::FAIL;
             }
             $this->container->getFileConfigurationStorage()->save($backlog->dump(), UpgradeFileNames::FILES_TO_BACKUP_LIST);
+            $this->computeProgressionPercentage($backlog, BackupDb::class);
         } else {
             $this->stepDone = true;
             $this->status = 'ok';

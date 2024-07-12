@@ -85,6 +85,7 @@ class UpgradeModules extends AbstractTask
         }
 
         $modules_left = $listModules->getRemainingTotal();
+        $this->computeProgressionPercentage($listModules, CleanDatabase::class);
         $this->container->getFileConfigurationStorage()->save($listModules->dump(), UpgradeFileNames::MODULES_TO_UPGRADE_LIST);
 
         if ($modules_left) {
@@ -139,6 +140,10 @@ class UpgradeModules extends AbstractTask
 
     public function warmUp(): int
     {
+        $this->container->getState()->setProgressPercentage(
+            $this->container->getUpgradeConfiguration()->shouldBackupFiles() ? static::BASE_PROGRESS : static::BASE_PROGRESS_WITHOUT_BACKUP
+        );
+
         try {
             $modulesToUpgrade = $this->container->getModuleAdapter()->listModulesToUpgrade(
                 $this->container->getState()->getModules_addons(),

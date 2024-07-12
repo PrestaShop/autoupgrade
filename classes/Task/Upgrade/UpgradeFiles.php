@@ -86,6 +86,7 @@ class UpgradeFiles extends AbstractTask
                 break;
             }
         }
+        $this->computeProgressionPercentage($filesToUpgrade, UpgradeDb::class);
         $this->container->getFileConfigurationStorage()->save($filesToUpgrade->dump(), UpgradeFileNames::FILES_TO_UPGRADE_LIST);
 
         $countOfRemainingBacklog = $filesToUpgrade->getRemainingTotal();
@@ -195,6 +196,10 @@ class UpgradeFiles extends AbstractTask
      */
     protected function warmUp(): int
     {
+        $this->container->getState()->setProgressPercentage(
+            $this->container->getUpgradeConfiguration()->shouldBackupFiles() ? static::BASE_PROGRESS : static::BASE_PROGRESS_WITHOUT_BACKUP
+        );
+
         // Get path to the folder with release we will use to upgrade and check if it's valid
         $newReleasePath = $this->container->getProperty(UpgradeContainer::LATEST_PATH);
         if (!$this->container->getFilesystemAdapter()->isReleaseValid($newReleasePath)) {

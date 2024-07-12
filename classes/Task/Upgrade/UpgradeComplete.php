@@ -48,6 +48,8 @@ class UpgradeComplete extends AbstractTask
      */
     public function run(): int
     {
+        $this->container->getState()->setProgressPercentage(static::BASE_PROGRESS);
+
         $this->logger->info($this->container->getState()->getWarningExists() ?
             $this->translator->trans('Upgrade process done, but some warnings have been found.') :
             $this->translator->trans('Upgrade process done. Congratulations! You can now reactivate your shop.')

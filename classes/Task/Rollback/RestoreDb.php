@@ -49,6 +49,8 @@ class RestoreDb extends AbstractTask
      */
     public function run(): int
     {
+        $this->container->getState()->setProgressPercentage(static::BASE_PROGRESS);
+
         $databaseTools = new Database($this->container->getDb());
         $ignore_stats_table = [
             _DB_PREFIX_ . 'connections',
