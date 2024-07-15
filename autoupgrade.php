@@ -38,6 +38,7 @@ class Autoupgrade extends Module
         $this->author = 'PrestaShop';
         $this->version = '5.0.3';
         $this->need_instance = 1;
+        $this->module_key = '926bc3e16738b7b834f37fc63d59dcf8';
 
         $this->bootstrap = true;
         parent::__construct();

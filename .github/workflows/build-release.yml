@@ -1,7 +1,36 @@
-name: Build
-on: [push, pull_request]
+name: Build module & upload artifact
+on:
+  workflow_dispatch:
+  workflow_call:
 
 jobs:
-  build-and-release-draft:
-    name: Build & Release draft
-    uses: PrestaShop/.github/.github/workflows/build-release.yml@master
+  build:
+    name: Build dependencies & create artifact
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.1
+          extensions: mbstring, intl, gd, xml, dom, json, fileinfo, curl, zip, iconv, ext-zip
+
+      - name: Install composer dependencies
+        run: composer install --ansi --prefer-dist --no-interaction --no-progress --no-dev
+
+      - name: CS Fixer
+        run: |
+          vendor/bin/php-cs-fixer fix --diff --using-cache=no
+
+      - name: Clean-up project
+        uses: PrestaShopCorp/github-action-clean-before-deploy@v2.0
+        with:
+          paths: storybook
+
+      - name: Create & upload artifact
+        uses: actions/upload-artifact@v4.1.0
+        with:
+          name: ${{ github.event.repository.name }}
+          path: '.'
