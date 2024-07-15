@@ -302,37 +302,37 @@
         <target state="final">Sauvegarde des fichiers en cours. Encore %d fichiers.</target>
         <note>Line: 86</note>
       </trans-unit>
-      <trans-unit id="b31006b398a0fc315119a145aa1b0466">
+      <trans-unit id="b31006b398a0fc315119a145aa1b0466" approved="yes">
         <source>Unable to open archive</source>
-        <target state="needs-translation">Unable to open archive</target>
+        <target state="final">Impossible d'ouvrir l'archive</target>
         <note>Line: 92</note>
       </trans-unit>
-      <trans-unit id="f39b870765d50b64ba7a6facea83010d">
+      <trans-unit id="f39b870765d50b64ba7a6facea83010d" approved="yes">
         <source>All files have been added to archive.</source>
-        <target state="needs-translation">All files have been added to archive.</target>
+        <target state="final">Tous les fichiers ont été ajoutés à l'archive.</target>
         <note>Line: 103</note>
       </trans-unit>
-      <trans-unit id="f36d7ee6cae92008008a95bf5898daf2">
+      <trans-unit id="f36d7ee6cae92008008a95bf5898daf2" approved="yes">
         <source>All files saved. Now backing up database</source>
-        <target state="needs-translation">All files saved. Now backing up database</target>
+        <target state="final">Tous les fichiers sont enregistrés. Sauvegarde de la base de données</target>
         <note>Line: 104</note>
       </trans-unit>
     </body>
   </file>
   <file original="classes/Task/Upgrade/CleanDatabase.php" source-language="en" target-language="fr" datatype="plaintext">
     <body>
-      <trans-unit id="ead14b0273e8d6cae7d146130d4be8f6">
+      <trans-unit id="ead14b0273e8d6cae7d146130d4be8f6" approved="yes">
         <source>The database has been cleaned.</source>
-        <target state="needs-translation">The database has been cleaned.</target>
+        <target state="final">La base de données a été nettoyée.</target>
         <note>Line: 52</note>
       </trans-unit>
     </body>
   </file>
   <file original="classes/Task/Upgrade/Download.php" source-language="en" target-language="fr" datatype="plaintext">
     <body>
-      <trans-unit id="fb1ca1f5f3eb5a2ca85201f449525527">
+      <trans-unit id="fb1ca1f5f3eb5a2ca85201f449525527" approved="yes">
         <source>You need allow_url_fopen or cURL enabled for automatic download to work. You can also manually upload it in filepath %s.</source>
-        <target state="needs-translation">You need allow_url_fopen or cURL enabled for automatic download to work. You can also manually upload it in filepath %s.</target>
+        <target state="final">Vous devez activer "allow_url_fopen" ou cURL pour que le téléchargement automatique fonctionne. Vous pouvez également mettre le fichier en ligne dans le chemin de fichier %s.</target>
         <note>Line: 50</note>
       </trans-unit>
       <trans-unit id="f31c50f6d0edbbb94aa24943b118e316" approved="yes">
@@ -355,9 +355,9 @@
         <target state="final">Téléchargement terminé.</target>
         <note>Line: 83</note>
       </trans-unit>
-      <trans-unit id="a55401a11251f53f612e950d4115e116">
+      <trans-unit id="a55401a11251f53f612e950d4115e116" approved="yes">
         <source>Download complete. Now extracting...</source>
-        <target state="needs-translation">Download complete. Now extracting...</target>
+        <target state="final">Téléchargement terminé. Extraction...</target>
         <note>Line: 84</note>
       </trans-unit>
       <trans-unit id="2d9a3f4a92c008b32903541e9af8aff0" approved="yes">
@@ -370,9 +370,9 @@
         <target state="final">Téléchargement terminé, mais le calcul MD5 ne correspond pas (%s). Opération annulée.</target>
         <note>Line: 87</note>
       </trans-unit>
-      <trans-unit id="412cb9a2978bf041be4ca6c6ded0030c">
+      <trans-unit id="412cb9a2978bf041be4ca6c6ded0030c" approved="yes">
         <source>Error during download. The private key may be incorrect.</source>
-        <target state="needs-translation">Error during download. The private key may be incorrect.</target>
+        <target state="final">Erreur au téléchargement. La "clef privée" est peut-être erronée.</target>
         <note>Line: 92</note>
       </trans-unit>
       <trans-unit id="0c0db54fe8212c1a7215005fef75d7dd" approved="yes">
@@ -458,18 +458,18 @@
         <target state="final">Erreur lors de la mise à jour de la base de données. Nous vous conseillons de restaurer votre base de données.</target>
         <note>Line: 52</note>
       </trans-unit>
-      <trans-unit id="08ee54c048e1589f4072a351035db2ad">
+      <trans-unit id="08ee54c048e1589f4072a351035db2ad" approved="yes">
         <source>Database upgraded. Now upgrading your Addons modules...</source>
-        <target state="needs-translation">Database upgraded. Now upgrading your Addons modules...</target>
+        <target state="final">Base de données mise à jour. Mise à jour de vos modules Addons...</target>
         <note>Line: 59</note>
       </trans-unit>
     </body>
   </file>
   <file original="classes/Task/Upgrade/UpgradeFiles.php" source-language="en" target-language="fr" datatype="plaintext">
     <body>
-      <trans-unit id="4f7c02592a962e40a920f32f3a24f2df">
+      <trans-unit id="4f7c02592a962e40a920f32f3a24f2df" approved="yes">
         <source>filesToUpgrade is not an array</source>
-        <target state="needs-translation">filesToUpgrade is not an array</target>
+        <target state="final">filesToUpgrade n'est pas un tableau</target>
         <note>Line: 65</note>
       </trans-unit>
       <trans-unit id="6274f940a4c03421253b1acc4064349e" approved="yes">
@@ -577,9 +577,9 @@ Comment: directory already exists</note>
         <target state="final">%s module(s) restant à mettre à jour.</target>
         <note>Line: 99</note>
       </trans-unit>
-      <trans-unit id="f0d18de100ab33463602ea5b8165d842">
+      <trans-unit id="f0d18de100ab33463602ea5b8165d842" approved="yes">
         <source>Addons modules files have been upgraded.</source>
-        <target state="needs-translation">Addons modules files have been upgraded.</target>
+        <target state="final">Les modules Addons ont bien été mis à jour.</target>
         <note>Line: 106</note>
       </trans-unit>
       <trans-unit id="0530243ad5b9bd205a04b975d3ef8aaf" approved="yes">
@@ -1061,9 +1061,9 @@ Comment: directory already exists</note>
         <target state="final">Champs requis</target>
         <note>Line: 338</note>
       </trans-unit>
-      <trans-unit id="760c4026bc5a0bd5378e6efc3f1370b4">
+      <trans-unit id="760c4026bc5a0bd5378e6efc3f1370b4" approved="yes">
         <source>Too long!</source>
-        <target state="needs-translation">Too long!</target>
+        <target state="final">Trop long !</target>
         <note>Line: 339</note>
       </trans-unit>
       <trans-unit id="4f2e28904946a09d8c7f36dd3ee72457" approved="yes">
@@ -1081,19 +1081,19 @@ Comment: directory already exists</note>
         <target state="final">Impossible d'envoyer l'email !</target>
         <note>Line: 342</note>
       </trans-unit>
-      <trans-unit id="5f9ff5f3662e1675dcf694c707b41466">
+      <trans-unit id="5f9ff5f3662e1675dcf694c707b41466" approved="yes">
         <source>Cannot create settings file, if /app/config/parameters.php exists, please give the public write permissions to this file, else please create a file named parameters.php in config directory.</source>
-        <target state="needs-translation">Cannot create settings file, if /app/config/parameters.php exists, please give the public write permissions to this file, else please create a file named parameters.php in config directory.</target>
+        <target state="final">Impossible de créer le fichier "settings.inc.php". Si /app/config/parameters.php existe, veuillez donner les droits en écriture à l'utilisateur apache. Sinon, créez ce fichier dans votre dossier "config".</target>
         <note>Line: 343</note>
       </trans-unit>
-      <trans-unit id="128a6722ff88445b488e4eb3319fa5b7">
+      <trans-unit id="128a6722ff88445b488e4eb3319fa5b7" approved="yes">
         <source>Cannot write settings file, please create a file named settings.inc.php in the "config" directory.</source>
-        <target state="needs-translation">Cannot write settings file, please create a file named settings.inc.php in the "config" directory.</target>
+        <target state="final">Le fichier de paramètres n'a pu être écrit, veuillez créer un fichier nommé settings.inc.php dans votre dossier "config".</target>
         <note>Line: 344</note>
       </trans-unit>
-      <trans-unit id="e930e2474c664a3a7e89ecfb8793694b">
+      <trans-unit id="e930e2474c664a3a7e89ecfb8793694b" approved="yes">
         <source>Impossible to upload the file!</source>
-        <target state="needs-translation">Impossible to upload the file!</target>
+        <target state="final">Impossible d'envoyer le fichier !</target>
         <note>Line: 345</note>
       </trans-unit>
       <trans-unit id="7d061dd94a106d80d75d3e615294eb75">
