@@ -561,14 +561,14 @@ Comment: directory already exists</note>
         <target state="final">listModules není pole. Žádný modul nebyl aktualizován.</target>
         <note>Line: 59</note>
       </trans-unit>
-      <trans-unit id="d2570f64d3e815681ef166d3601a52e6">
+      <trans-unit id="d2570f64d3e815681ef166d3601a52e6" approved="yes">
         <source>Updating module %module%...</source>
-        <target state="needs-translation">Updating module %module%...</target>
+        <target state="final">Probíhá aktualizace modulu %module%...</target>
         <note>Line: 81</note>
       </trans-unit>
-      <trans-unit id="ae90349e639e084d4fde103a99985a6d">
+      <trans-unit id="ae90349e639e084d4fde103a99985a6d" approved="yes">
         <source>The module %s has been updated.</source>
-        <target state="needs-translation">The module %s has been updated.</target>
+        <target state="final">Modul %s byl aktualizován.</target>
         <note>Line: 83</note>
       </trans-unit>
       <trans-unit id="d88a8630bd4e8fdbd61c550e53d62a94" approved="yes">
@@ -1708,14 +1708,14 @@ Comment: check DB access</note>
         <target state="final">Chyby</target>
         <note>Line: 20</note>
       </trans-unit>
-      <trans-unit id="3406147c3ce729ce17ed76d45c2896f9">
+      <trans-unit id="3406147c3ce729ce17ed76d45c2896f9" approved="yes">
         <source>Report a bug</source>
-        <target state="needs-translation">Report a bug</target>
+        <target state="final">Nahlásit chybu</target>
         <note>Line: 23</note>
       </trans-unit>
-      <trans-unit id="a11a94656093eefcfc56c9e9c15ef85b">
+      <trans-unit id="a11a94656093eefcfc56c9e9c15ef85b" approved="yes">
         <source>Give feedbacks</source>
-        <target state="needs-translation">Give feedbacks</target>
+        <target state="final">Poskytnout zpětnou vazbu</target>
         <note>Line: 35</note>
       </trans-unit>
       <trans-unit id="ce8ae9da5b7cd6c3df2929543a9af92d" approved="yes">
@@ -1728,9 +1728,9 @@ Comment: check DB access</note>
         <target state="final">Popis</target>
         <note>Line: 44</note>
       </trans-unit>
-      <trans-unit id="cabb081af34d6d6129acb90806ea1f6b">
+      <trans-unit id="cabb081af34d6d6129acb90806ea1f6b" approved="yes">
         <source>Give us details about the error</source>
-        <target state="needs-translation">Give us details about the error</target>
+        <target state="final">Sdělte nám podrobnosti o chybě</target>
         <note>Line: 46</note>
       </trans-unit>
       <trans-unit id="ea4788705e6873b424c65e91c2846b19" approved="yes">
@@ -1738,9 +1738,9 @@ Comment: check DB access</note>
         <target state="final">Zrušit</target>
         <note>Line: 50</note>
       </trans-unit>
-      <trans-unit id="c2ebe5da2f59b88f554016a78528c2de">
+      <trans-unit id="c2ebe5da2f59b88f554016a78528c2de" approved="yes">
         <source>Send a bug report</source>
-        <target state="needs-translation">Send a bug report</target>
+        <target state="final">Poslat chybové hlášení</target>
         <note>Line: 53</note>
       </trans-unit>
     </body>
