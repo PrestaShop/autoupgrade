@@ -1,7 +1,7 @@
 {
   "include": [
     {
-      "comment": "1.7.8 ~ minor PHP 7.2 ~ 7.4"
+      "comment": "1.7.8 ~ minor PHP 7.4"
     },
     {
       "PS_VERSION_START": "1.7.8.10",
@@ -10,7 +10,7 @@
       "PHP_VERSION": "7.4"
     },
     {
-      "comment": "1.7.8 ~ major PHP 7.2 ~ 7.4"
+      "comment": "1.7.8 ~ major PHP 7.4"
     },
     {
       "PS_VERSION_START": "1.7.8.11",
@@ -19,7 +19,7 @@
       "PHP_VERSION": "7.4"
     },
     {
-      "comment": "8.0.5 ~ minor PHP 7.2 ~ 8.1"
+      "comment": "8.0.5 ~ minor PHP 8.1"
     },
     {
       "PS_VERSION_START": "8.0.5",
@@ -28,7 +28,7 @@
       "PHP_VERSION": "8.1"
     },
     {
-      "comment": "8.1.6 ~ minor PHP 7.2 ~ 8.1"
+      "comment": "8.1.6 ~ minor PHP 8.1"
     },
     {
       "PS_VERSION_START": "8.1.6",
