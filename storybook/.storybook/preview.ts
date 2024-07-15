@@ -44,6 +44,7 @@ const preview: Preview = {
       toolbar: {
         icon: "paintbrush",
         default: defaultBoTheme,
+        dynamicTitle: true,
         items: availableBoThemes.map((prestashopVersion) => ({
           value: prestashopVersion,
           title: `PrestaShop ${prestashopVersion}`,

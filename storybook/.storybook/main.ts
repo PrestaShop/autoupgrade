@@ -71,9 +71,11 @@ const config: StorybookConfig = {
   managerHead: (head) => `
         ${head}
         <link rel="stylesheet" type="text/css" href="/ibm-plex-sans.css" />
+        <link rel="stylesheet" type="text/css" href="/theme.css" />
     `,
   previewBody: (body) => `
         <link rel="stylesheet" type="text/css" href="styles.css" />
+        <link rel="stylesheet" type="text/css" href="/theme.css" />
         ${body}
     `,
   staticDirs: [

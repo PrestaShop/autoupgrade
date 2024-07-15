@@ -1,0 +1,38 @@
+/************************************************** 
+  Update assistant theme
+**************************************************/
+
+/***** Storybook *****/
+
+#root {
+  /* Logo size */
+  .css-1rb1jn6 {
+    max-width: 100%;
+    max-height: 80px;
+  }
+  
+  /* Search bar */
+  .css-wxp9lh {
+    height: 36px;
+    box-shadow: none;
+    border-radius: 0;
+    border: 1px solid #dddddd;
+  }
+  .css-1gaziuq {
+    top: 0;
+    height: 100%;
+  }
+}
+
+/***** Preview layout *****/
+#storybook-root {
+  #main {
+    padding: 0;
+  }
+  
+  #content {
+    &.bootstrap {
+      padding: 0;
+    }
+  }
+}
