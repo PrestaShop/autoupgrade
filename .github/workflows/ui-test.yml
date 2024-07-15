@@ -27,7 +27,7 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3.1.0
+        uses: actions/checkout@v4
       - name: Set matrix
         id: set-matrix
         run: echo "matrix=$(jq -c '. | del(.include[] | select(has("comment")))' .github/workflows/ui-test/${{ env.JSON_FILE }})" >> $GITHUB_OUTPUT
@@ -130,7 +130,7 @@ jobs:
         working-directory: tests/UI/
         run: |
           mkdir -p nightly
-          REPORT_NAME="${{ env.CAMPAIGN }}_$(date +%Y-%m-%d)-${{ matrix.PS_VERSION_START }}-${{ matrix.PS_VERSION_END }}-${{ matrix.UPGRADE_CHANNEL }}-${{ matrix.PHP_VERSION }}"
+          REPORT_NAME="${{ env.CAMPAIGN }}_$(date +%Y-%m-%d)-${{ matrix.PS_VERSION_START }}_(Channel:_${{ matrix.UPGRADE_CHANNEL }}_PHP:_${{ matrix.PHP_VERSION }})"
           mv report.json nightly/${REPORT_NAME}.json
 
       # Nightly : Auth GCP
@@ -152,5 +152,5 @@ jobs:
       # Nightly : Push Report
       - name: "Nightly : Push Report"
         run: |
-          REPORT_NAME="${{ env.CAMPAIGN }}_$(date +%Y-%m-%d)-${{ matrix.PS_VERSION_START }}-${{ matrix.PS_VERSION_END }}-${{ matrix.PHP_VERSION }}"
-          curl -v "https://api-nightly.prestashop-project.org/import/report/playwright?token=${{ secrets.NIGHTLY_TOKEN }}&filename=${REPORT_NAME}.json&campaign=${{ env.CAMPAIGN }}&platform=chromium"
+          REPORT_NAME="${{ env.CAMPAIGN }}_$(date +%Y-%m-%d)-${{ matrix.PS_VERSION_START }}_(Channel:_${{ matrix.UPGRADE_CHANNEL }}_PHP:_${{ matrix.PHP_VERSION }})"
+          curl -v "https://api-nightly.prestashop-project.org/import/report/playwright?token=${{ secrets.NIGHTLY_TOKEN }}&filename=${REPORT_NAME}.json&campaign=${{ env.CAMPAIGN }}&platform=cli"
