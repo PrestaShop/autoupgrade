@@ -132,7 +132,7 @@ abstract class CoreUpgrader
 
         $this->logger->info($this->container->getTranslator()->trans('Database upgrade OK')); // no error!
 
-        $this->logger->info($this->container->getTranslator()->trans('Upgrading languages'));
+        $this->logger->info($this->container->getTranslator()->trans('Upgrading languages00'));
         $this->upgradeLanguages();
 
         $this->logger->info($this->container->getTranslator()->trans('Regenerating htaccesssxspp'));
