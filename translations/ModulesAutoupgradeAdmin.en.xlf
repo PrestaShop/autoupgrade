@@ -1381,9 +1381,9 @@ Comment: check DB access</note>
         <target>Upgrading languages</target>
         <note>Line: 135</note>
       </trans-unit>
-      <trans-unit id="88bbbc84f51424b4b0c6da6aec2c2154">
-        <source>Regenerating htaccess</source>
-        <target>Regenerating htaccess</target>
+      <trans-unit id="41d717939ec7e5ee6d32c96240bd0c86">
+        <source>Regenerating htaccesss</source>
+        <target>Regenerating htaccesss</target>
         <note>Line: 138</note>
       </trans-unit>
       <trans-unit id="7ece6f70a8f02cf689e3034609177ee9">
