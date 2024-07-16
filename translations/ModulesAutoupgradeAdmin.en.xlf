@@ -1376,19 +1376,19 @@ Comment: check DB access</note>
         <target>Database upgrade OK</target>
         <note>Line: 133</note>
       </trans-unit>
-      <trans-unit id="72c863d76f8a8e5b1d17f818894df989">
-        <source>Upgrading languages</source>
-        <target>Upgrading languages</target>
+      <trans-unit id="81994614296bcf52c024fb412b5f7ff4">
+        <source>Upgrading languages00</source>
+        <target>Upgrading languages00</target>
         <note>Line: 135</note>
       </trans-unit>
-      <trans-unit id="88bbbc84f51424b4b0c6da6aec2c2154">
-        <source>Regenerating htaccess</source>
-        <target>Regenerating htaccess</target>
+      <trans-unit id="38743d082a9b605e6bd9703e825bcd36">
+        <source>Regenerating htaccesssxspp</source>
+        <target>Regenerating htaccesssxspp</target>
         <note>Line: 138</note>
       </trans-unit>
-      <trans-unit id="128e1c61a1a4477ec05609569cc4d9d8">
-        <source>Cleaning XML files</source>
-        <target>Cleaning XML files</target>
+      <trans-unit id="7ece6f70a8f02cf689e3034609177ee9">
+        <source>Cleaning XML filess</source>
+        <target>Cleaning XML filess</target>
         <note>Line: 141</note>
       </trans-unit>
       <trans-unit id="ed176ad3db6e004d4c272928acf3d0ac">
