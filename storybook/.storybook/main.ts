@@ -24,6 +24,9 @@
  */
 
 import type { StorybookConfig } from "@sensiolabs/storybook-symfony-webpack5";
+import webpack from "webpack";
+import fs from 'fs';
+import path from 'path';
 
 const config: StorybookConfig = {
   stories: ["../stories/**/*.stories.[tj]s", "../stories/**/*.mdx"],
@@ -44,6 +47,23 @@ const config: StorybookConfig = {
         additionalWatchPaths: ["assets"],
       },
     },
+  },
+  webpackFinal: async (config) => {
+    // List translations files on compilation to fill language selection list
+    const newPlugin = new webpack.DefinePlugin({
+      TRANSLATION_LOCALES: JSON.stringify(
+        fs.readdirSync(path.resolve(__dirname, '../../translations'))
+          .map((file) => new RegExp("^ModulesAutoupgradeAdmin.([a-z]+).xlf$", "i").exec(file)?.[1])
+          .filter((locale) => !!locale)
+      ),
+    });
+    if (config.plugins?.length) {
+      config.plugins.push(newPlugin);
+    } else {
+      config.plugins = [newPlugin];
+    }
+
+    return config;
   },
   docs: {
     autodocs: "tag",
