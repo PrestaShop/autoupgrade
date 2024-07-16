@@ -37,7 +37,9 @@ const config: StorybookConfig = {
     options: {
       // 👇 Here configure the framework
       symfony: {
-        server: "http://localhost:8003",
+        server: process.env.IS_IN_DOCKER
+          ? "http://storybook-php:8000"
+          : "http://localhost:8003",
         proxyPaths: ["/assets"],
         additionalWatchPaths: ["assets"],
       },
@@ -54,6 +56,11 @@ const config: StorybookConfig = {
         <link rel="stylesheet" type="text/css" href="styles.css" />
         ${body}
     `,
-  staticDirs: ["../public", "../../css", "../../js", "../node_modules/prestashop-bo-themes"],
+  staticDirs: [
+    "../public",
+    "../../css",
+    "../../js",
+    "../node_modules/prestashop-bo-themes",
+  ],
 };
 export default config;

@@ -26,12 +26,8 @@
 import { Preview, twig } from "@sensiolabs/storybook-symfony-webpack5";
 
 const cssEntrypoints = {
-  "1.7.8.0": [
-    "/1.7.8.0/default/theme.css"
-  ],
-  "1.7.3.0": [
-    "/1.7.3.0/default/theme.css",
-  ],
+  "1.7.8.0": ["/1.7.8.0/default/theme.css"],
+  "1.7.3.0": ["/1.7.3.0/default/theme.css"],
 };
 const availableBoThemes = Object.keys(cssEntrypoints);
 const defaultBoTheme = availableBoThemes[0];

@@ -50,14 +50,6 @@ Once started, you can access Storybook at: http://localhost:6006/
 
 ## Build and start environment with docker
 
-### Build Custom Docker Image
-
-To build the Docker image, run the following command:
-
-```shell
-$ docker build -f .docker/Dockerfile -t autoup-storybook .
-```
-
 ### Install Project Dependencies with Docker
 
 **Install PHP Dependencies**
@@ -73,25 +65,17 @@ $ docker run -u 1000:1000 --rm --interactive --tty -v "$PWD"/../:/app -w /app/st
 Run the following command to install Node.js dependencies via Docker:
 
 ```shell
-$ docker run -u 1000:1000 -it --rm -v "$PWD":/var/www/html -w /var/www/html autoup-storybook npm install
+$ docker compose run storybook-js npm install
 ```
 
 ### Start Docker environment
 
-**Start Symfony Server**
+**Start Symfony Server and Storybook**
 
-To start the Symfony server via Docker, use the following command:
-
-```shell
-$ docker run -p 8003:8000 -it --rm -v "$PWD"/../:/var/www/html -w /var/www/html/storybook autoup-storybook symfony server:start
-```
-
-**Start Storybook**
-
-To start Storybook via Docker, use the following command:
+To start the Symfony server and Storybook via Docker, use the following command:
 
 ```shell
-$ docker run -u 1000:1000 -p 6006:6006 -it --rm -v "$PWD":/var/www/html -w /var/www/html autoup-storybook npm run storybook
+$ docker compose up
 ```
 
 Once started, you can access Storybook at: http://localhost:6006/
