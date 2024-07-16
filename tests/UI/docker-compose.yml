@@ -32,7 +32,7 @@ services:
     ports:
       - 80:80
   mysql:
-    image: mariadb:lts
+    image: mysql:5.7
     container_name: prestashop-mysql
     healthcheck:
       test:
@@ -55,7 +55,7 @@ services:
       - MYSQL_PORT=3306
       - MYSQL_DATABASE=prestashop
     ports:
-      - "3306:3306"
+      - "3306"
 
   maildev:
     image: 'maildev/maildev'
