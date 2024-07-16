@@ -132,13 +132,13 @@ abstract class CoreUpgrader
 
         $this->logger->info($this->container->getTranslator()->trans('Database upgrade OK')); // no error!
 
-        $this->logger->info($this->container->getTranslator()->trans('Upgrading languages00'));
+        $this->logger->info($this->container->getTranslator()->trans('Upgrading languages'));
         $this->upgradeLanguages();
 
-        $this->logger->info($this->container->getTranslator()->trans('Regenerating htaccesssxspp'));
+        $this->logger->info($this->container->getTranslator()->trans('Regenerating htaccess'));
         $this->generateHtaccess();
 
-        $this->logger->info($this->container->getTranslator()->trans('Cleaning XML filess'));
+        $this->logger->info($this->container->getTranslator()->trans('Cleaning XML files'));
         $this->cleanXmlFiles();
 
         if (Configuration::get('PS_DISABLE_OVERRIDES')) {
