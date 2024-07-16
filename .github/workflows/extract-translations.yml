@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       BRANCH: ${{ github.ref_name }}
+      TRANSLATION_BRANCH: 'translation-extraction'
       REPOSITORY_NAME: ${{ github.event.repository.name }}
       OWNER_NAME: ${{ github.repository_owner }}
     steps:
@@ -40,6 +41,7 @@ jobs:
             echo "::error::The directory catalog/autoupgrade/translations/en-US is not empty, some translations are left behind. This can happen when translations have a domain set when calling the method trans."
           fi
           rmdir catalog/autoupgrade/translations/en-US
-          /bin/bash -eux ./scripts/pushAndCreatePullRequest.sh
+        
+          php bin/console prestashop:translation:push-on-git "https://oauth2:${{ secrets.GITHUB_TOKEN }}@github.com/$OWNER_NAME/$REPOSITORY_NAME.git" "$REPOSITORY_NAME" "./catalog" $BRANCH -v --push-on-branch $TRANSLATION_BRANCH
         env:
           APP_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
