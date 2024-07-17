@@ -102,11 +102,9 @@ class UpgradeButtonBlock
     }
 
     /**
-     * display the summary current version / target version + "Upgrade Now" button with a "more options" button.
-     *
-     * @return string HTML
+     * @return array<string, mixed>
      */
-    public function render(): string
+    public function getTemplateVars(): array
     {
         $translator = $this->translator;
 
@@ -152,7 +150,7 @@ class UpgradeButtonBlock
         $dir = glob($this->downloadPath . DIRECTORY_SEPARATOR . '*.zip');
         $xml = glob($this->downloadPath . DIRECTORY_SEPARATOR . '*.xml');
 
-        $data = [
+        $templateVars = [
             'versionCompare' => $versionCompare,
             'currentPsVersion' => _PS_VERSION_,
             'latestChannelVersion' => $latestVersion,
@@ -165,7 +163,6 @@ class UpgradeButtonBlock
             'lastVersionCheck' => Configuration::get('PS_LAST_VERSION_CHECK'),
             'token' => $this->token,
             'channelOptions' => $this->getOptChannels(),
-            'channelInfoBlock' => $this->buildChannelInfoBlock($channel),
             'privateChannel' => [
                 'releaseLink' => $this->config->get('private_release_link'),
                 'releaseMd5' => $this->config->get('private_release_md5'),
@@ -182,7 +179,17 @@ class UpgradeButtonBlock
             'phpVersion' => PHP_VERSION,
         ];
 
-        return $this->twig->render('@ModuleAutoUpgrade/block/upgradeButtonBlock.twig', $data);
+        return array_merge($templateVars, $this->buildChannelInfoBlockVars($channel));
+    }
+
+    /**
+     * display the summary current version / target version + "Upgrade Now" button with a "more options" button.
+     *
+     * @return string HTML
+     */
+    public function render(): string
+    {
+        return $this->twig->render('@ModuleAutoUpgrade/block/upgradeButtonBlock.html.twig', $this->getTemplateVars());
     }
 
     /**
@@ -212,13 +219,13 @@ class UpgradeButtonBlock
     /**
      * @param string $channel
      *
-     * @return string
+     * @return array<string, mixed>
      */
-    private function buildChannelInfoBlock(string $channel): string
+    private function buildChannelInfoBlockVars(string $channel): array
     {
         $channelInfo = $this->getInfoForChannel($channel);
 
         return (new ChannelInfoBlock($this->config, $channelInfo, $this->twig))
-            ->render();
+            ->getTemplateVars();
     }
 }

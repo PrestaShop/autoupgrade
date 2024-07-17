@@ -1,4 +1,4 @@
-{% import "@ModuleAutoUpgrade/macros/icons.twig" as icons %}
+{% import "@ModuleAutoUpgrade/macros/icons.html.twig" as icons %}
 
 <div class="bootstrap" id="currentConfigurationBlock">
     <div class="panel">
@@ -32,9 +32,9 @@
                         </td>
                         <td>
                             {% if phpRequirementsState == constant('PrestaShop\\Module\\AutoUpgrade\\UpgradeSelfCheck::PHP_REQUIREMENTS_INVALID') %}
-                                {{ icons.nok }}
+                                {{ icons.nok(psBaseUri) }}
                             {% else %}
-                                {{ icons.warning }}
+                                {{ icons.warning(psBaseUri) }}
                             {% endif %}
                         </td>
                     </tr>
@@ -43,9 +43,9 @@
                     <td>{{ 'Your store\'s root directory (%s) is writable (with appropriate CHMOD permissions).'|trans([rootDirectory]) }}</td>
                     <td>
                         {% if rootDirectoryIsWritable %}
-                            {{ icons.ok }}
+                            {{ icons.ok(psBaseUri) }}
                         {% else %}
-                            {{ icons.nok }}
+                            {{ icons.nok(psBaseUri) }}
                         {% endif %}
                     </td>
                 </tr>
@@ -54,9 +54,9 @@
                         <td>{{ 'The "/admin/autoupgrade" directory is writable (appropriate CHMOD permissions)'|trans({}) }}</td>
                         <td>
                             {% if adminDirectoryIsWritable %}
-                                {{ icons.ok }}
+                                {{ icons.ok(psBaseUri) }}
                             {% else %}
-                                {{ icons.nok }} {{ adminDirectoryWritableReport }}
+                                {{ icons.nok(psBaseUri) }} {{ adminDirectoryWritableReport }}
                             {% endif %}
                         </td>
                     </tr>
@@ -65,9 +65,9 @@
                     <td>{{ 'PHP\'s "Safe mode" option is turned off'|trans({})|raw }}</td>
                     <td>
                         {% if safeModeIsDisabled %}
-                            {{ icons.ok }}
+                            {{ icons.ok(psBaseUri) }}
                         {% else %}
-                            {{ icons.warning }}
+                            {{ icons.warning(psBaseUri) }}
                         {% endif %}
                     </td>
                 </tr>
@@ -75,9 +75,9 @@
                     <td>{{ 'PHP\'s "allow_url_fopen" option is turned on, or cURL is installed'|trans({})|raw }}</td>
                     <td>
                         {% if allowUrlFopenOrCurlIsEnabled %}
-                            {{ icons.ok }}
+                            {{ icons.ok(psBaseUri) }}
                         {% else %}
-                            {{ icons.nok }}
+                            {{ icons.nok(psBaseUri) }}
                         {% endif %}
                     </td>
                 </tr>
@@ -85,9 +85,9 @@
                     <td>{{ 'PHP\'s "zip" extension is enabled'|trans({})|raw }}</td>
                     <td>
                         {% if zipIsEnabled %}
-                            {{ icons.ok }}
+                            {{ icons.ok(psBaseUri) }}
                         {% else %}
-                            {{ icons.nok }}
+                            {{ icons.nok(psBaseUri) }}
                         {% endif %}
                     </td>
                 </tr>
@@ -105,9 +105,9 @@
                     </td>
                     <td>
                         {% if storeIsInMaintenance %}
-                            {{ icons.ok }}
+                            {{ icons.ok(psBaseUri) }}
                         {% else %}
-                            {{ icons.nok }}
+                            {{ icons.nok(psBaseUri) }}
                         {% endif %}
                     </td>
                 </tr>
@@ -116,9 +116,9 @@
                     <td>{{ 'PrestaShop\'s caching features are disabled'|trans({}) }}</td>
                     <td>
                         {% if cachingIsDisabled %}
-                            {{ icons.ok }}
+                            {{ icons.ok(psBaseUri) }}
                         {% else %}
-                            {{ icons.nok }}
+                            {{ icons.nok(psBaseUri) }}
                         {% endif %}
                     </td>
                 </tr>
@@ -132,16 +132,16 @@
                     </td>
                     <td>
                         {% if maxExecutionTime == 0 %}
-                            {{ icons.ok }}
+                            {{ icons.ok(psBaseUri) }}
                         {% else %}
-                            {{ icons.warning }}
+                            {{ icons.warning(psBaseUri) }}
                         {% endif %}
                     </td>
                 </tr>
                 {% if not checkApacheModRewrite %}
                   <tr>
                     <td>{{ 'Apache mod_rewrite is disabled.'|trans({}) }}</td>
-                    <td>{{ icons.nok }}</td>
+                    <td>{{ icons.nok(psBaseUri) }}</td>
                   </tr>
                 {% endif %}
                 {% if notLoadedPhpExtensions|length > 0 %}
@@ -153,19 +153,19 @@
                         {{ 'The following PHP extension is not installed: %s.'|trans([notLoadedPhpExtensions|first]) }}
                       {% endif %}
                     </td>
-                    <td>{{ icons.nok }}</td>
+                    <td>{{ icons.nok(psBaseUri) }}</td>
                   </tr>
                 {% endif %}
                 {% if not checkMemoryLimit %}
                 <tr>
                   <td>{{ 'PHP memory_limit is inferior to 256 MB.'|trans({}) }}</td>
-                  <td>{{ icons.nok }}</td>
+                  <td>{{ icons.nok(psBaseUri) }}</td>
                 </tr>
                 {% endif %}
                 {% if not checkFileUploads %}
                 <tr>
                   <td>{{ 'PHP file_uploads configuration is disabled.'|trans({}) }}</td>
-                  <td>{{ icons.nok }}</td>
+                  <td>{{ icons.nok(psBaseUri) }}</td>
                 </tr>
                 {% endif %}
                 {% if notExistsPhpFunctions|length > 0 %}
@@ -177,19 +177,19 @@
                         {{ 'The following PHP function is not installed: %s.'|trans([notExistsPhpFunctions|first]) }}
                       {% endif %}
                     </td>
-                    <td>{{ icons.nok }}</td>
+                    <td>{{ icons.nok(psBaseUri) }}</td>
                   </tr>
                 {% endif %}
                 {% if not checkPhpSessions %}
                   <tr>
                     <td>{{ 'It\'s not possible to create a PHP session.'|trans({}) }}</td>
-                    <td>{{ icons.nok }}</td>
+                    <td>{{ icons.nok(psBaseUri) }}</td>
                   </tr>
                 {% endif %}
                 {% if not checkKeyGeneration %}
                   <tr>
                     <td>{{ 'Unable to generate private keys using openssl_pkey_new. Check your OpenSSL configuration, especially the path to openssl.cafile.'|trans({}) }}</td>
-                    <td>{{ icons.nok }}</td>
+                    <td>{{ icons.nok(psBaseUri) }}</td>
                   </tr>
                 {% endif %}
                 {% if missingFiles|length > 0 %}
@@ -202,7 +202,7 @@
                         {% endfor %}
                       </ul>
                     </td>
-                    <td>{{ icons.nok }}</td>
+                    <td>{{ icons.nok(psBaseUri) }}</td>
                   </tr>
                 {% endif %}
                 {% if notWritingDirectories|length > 0 %}
@@ -215,7 +215,7 @@
                         {% endfor %}
                       </ul>
                     </td>
-                    <td>{{ icons.nok }}</td>
+                    <td>{{ icons.nok(psBaseUri) }}</td>
                   </tr>
                 {% endif %}
                 {% if not isShopVersionMatchingVersionInDatabase %}
@@ -226,7 +226,7 @@
                         '[/1]': '</a>',
                       })|raw }}
                     </td>
-                    <td>{{ icons.nok }}</td>
+                    <td>{{ icons.nok(psBaseUri) }}</td>
                   </tr>
                 {% endif %}
             </table>

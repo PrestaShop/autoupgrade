@@ -1,0 +1,26 @@
+services:
+  storybook-php:
+    build:
+      context: .
+      dockerfile: ./.docker/Dockerfile
+    command: symfony server:start
+    volumes:
+      - ./../:/autoupgrade
+    working_dir: /autoupgrade/storybook
+    ports:
+      - "8003:8000"
+
+  storybook-js:
+    build:
+      context: .
+      dockerfile: ./.docker/Dockerfile
+    command: npm run storybook
+    environment:
+      IS_IN_DOCKER: true
+    volumes:
+      - ./../:/autoupgrade
+    working_dir: /autoupgrade/storybook
+    ports:
+      - "6006:6006"
+    depends_on:
+      - storybook-php

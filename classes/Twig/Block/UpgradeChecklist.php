@@ -78,11 +78,11 @@ class UpgradeChecklist
     }
 
     /**
-     * Returns the block's HTML.
+     * @return array<string, mixed>
      */
-    public function render(): string
+    public function getTemplateVars(): array
     {
-        $data = [
+        return [
             'showErrorMessage' => !$this->selfCheck->isOkForUpgrade(),
             'moduleVersion' => $this->selfCheck->getModuleVersion(),
             'moduleIsUpToDate' => $this->selfCheck->isModuleVersionLatest(),
@@ -116,7 +116,13 @@ class UpgradeChecklist
             'missingFiles' => $this->selfCheck->getMissingFiles(),
             'notWritingDirectories' => $this->selfCheck->getNotWritingDirectories(),
         ];
+    }
 
-        return $this->twig->render('@ModuleAutoUpgrade/block/checklist.twig', $data);
+    /**
+     * Returns the block's HTML.
+     */
+    public function render(): string
+    {
+        return $this->twig->render('@ModuleAutoUpgrade/block/checklist.html.twig', $this->getTemplateVars());
     }
 }
