@@ -1,5 +1,10 @@
 version: '3.7'
 
+volumes:
+  db-data:
+  vendor:
+  var:
+
 services:
   prestashop:
     image: prestashop/prestashop:${PS_VERSION}-apache
@@ -31,8 +36,10 @@ services:
     ports:
       - 80:80
   mysql:
-    image: mariadb:lts
+    image: mysql:5.7
     container_name: prestashop-mysql
+    volumes:
+      - db-data:/var/lib/mysql
     healthcheck:
       test:
         [
