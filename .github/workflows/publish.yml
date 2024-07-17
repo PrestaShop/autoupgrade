@@ -26,7 +26,7 @@ jobs:
 
       - name: Publish the zip on release
         run: |
-          gh release upload ${{ github.event.release.tag_name }} ${{ github.event.repository.name }}-${{ github.event.release.tag_name }}.zip -R /${{ github.event.repository.full_name }}
+          gh release upload ${{ github.event.release.tag_name }} ${{ github.event.repository.name }}-${{ github.event.release.tag_name }}.zip -R ${{ github.event.repository.full_name }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
