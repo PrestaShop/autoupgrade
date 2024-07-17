@@ -20,10 +20,6 @@ jobs:
       - name: Install composer dependencies
         run: composer install --ansi --prefer-dist --no-interaction --no-progress --no-dev
 
-      - name: CS Fixer
-        run: |
-          vendor/bin/php-cs-fixer fix --diff --using-cache=no
-
       - name: Clean-up project
         uses: PrestaShopCorp/github-action-clean-before-deploy@v2.0
         with:
