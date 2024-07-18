@@ -41,7 +41,7 @@ jobs:
       fail-fast: false
       matrix: ${{ fromJSON(needs.ui_test_matrix.outputs.matrix) }}
     env:
-      PS_DOCKER: ${{ matrix.IMG_DOCKER }}
+      PS_DOCKER: ${{ matrix.PS_VERSION_START }}-${{ matrix.PHP_VERSION }}
     outputs:
       matrix: ${{ needs.ui_test_matrix.outputs.matrix }}
     steps:
