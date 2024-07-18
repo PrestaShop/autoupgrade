@@ -41,9 +41,6 @@ class Unzip extends AbstractTask
 {
     const TASK_TYPE = 'upgrade';
 
-    const BASE_PROGRESS = 10;
-    const BASE_PROGRESS_WITHOUT_BACKUP = 20;
-
     /**
      * @throws Exception
      */
@@ -53,7 +50,7 @@ class Unzip extends AbstractTask
         $destExtract = $this->container->getProperty(UpgradeContainer::LATEST_PATH);
 
         $this->container->getState()->setProgressPercentage(
-            $this->container->getUpgradeConfiguration()->shouldBackupFiles() ? static::BASE_PROGRESS : static::BASE_PROGRESS_WITHOUT_BACKUP
+            $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
         );
 
         if (file_exists($destExtract)) {

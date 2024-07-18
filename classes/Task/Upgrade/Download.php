@@ -41,9 +41,6 @@ class Download extends AbstractTask
 {
     const TASK_TYPE = 'upgrade';
 
-    const BASE_PROGRESS = 5;
-    const BASE_PROGRESS_WITHOUT_BACKUP = 10;
-
     /**
      * @throws Exception
      */
@@ -57,7 +54,7 @@ class Download extends AbstractTask
         }
 
         $this->container->getState()->setProgressPercentage(
-            $this->container->getUpgradeConfiguration()->shouldBackupFiles() ? static::BASE_PROGRESS : static::BASE_PROGRESS_WITHOUT_BACKUP
+            $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
         );
 
         $upgrader = $this->container->getUpgrader();

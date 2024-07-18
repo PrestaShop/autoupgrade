@@ -41,15 +41,15 @@ class UpgradeNow extends AbstractTask
 {
     const TASK_TYPE = 'upgrade';
 
-    const BASE_PROGRESS = 0;
-
     /**
      * @throws Exception
      */
     public function run(): int
     {
         $this->logger->info($this->translator->trans('Starting upgrade...'));
-        $this->container->getState()->setProgressPercentage(static::BASE_PROGRESS);
+        $this->container->getState()->setProgressPercentage(
+            $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
+        );
 
         $this->container->getWorkspace()->createFolders();
 

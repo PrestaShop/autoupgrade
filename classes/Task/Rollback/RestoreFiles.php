@@ -41,14 +41,14 @@ class RestoreFiles extends AbstractTask
 {
     const TASK_TYPE = 'rollback';
 
-    const BASE_PROGRESS = 33;
-
     /**
      * @throws Exception
      */
     public function run(): int
     {
-        $this->container->getState()->setProgressPercentage(static::BASE_PROGRESS);
+        $this->container->getState()->setProgressPercentage(
+            $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
+        );
 
         // loop
         $this->next = 'restoreFiles';

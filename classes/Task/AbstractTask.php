@@ -32,20 +32,10 @@ use PrestaShop\Module\AutoUpgrade\AjaxResponse;
 use PrestaShop\Module\AutoUpgrade\Analytics;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\Backlog;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 
 abstract class AbstractTask
 {
-    /** @var int|null */
-    const BASE_PROGRESS = null;
-
-    /**
-     * This constant exists while the backup and upgrade are on the same workflow
-     * @var int|null
-     */
-    const BASE_PROGRESS_WITHOUT_BACKUP = null;
-
     /**
      * usage :  key = the step you want to skip
      *          value = the next step you want instead
@@ -152,17 +142,6 @@ abstract class AbstractTask
             $this->next = self::$skipAction[$currentAction];
             $this->logger->info($this->translator->trans('Action %s skipped', [$currentAction]));
         }
-    }
-
-    protected function computeProgressionPercentage(Backlog $backlog, string $nextTaskClass): void
-    {
-        $withoutBackup = !$this->container->getUpgradeConfiguration()->shouldBackupFiles();
-        $baseProgress = $withoutBackup && static::BASE_PROGRESS_WITHOUT_BACKUP !== null ? static::BASE_PROGRESS_WITHOUT_BACKUP : static::BASE_PROGRESS;
-        $nextBaseProgress = $withoutBackup && $nextTaskClass::BASE_PROGRESS_WITHOUT_BACKUP !== null ? $nextTaskClass::BASE_PROGRESS_WITHOUT_BACKUP : $nextTaskClass::BASE_PROGRESS;
-
-        $this->container->getState()->setProgressPercentage(
-            $baseProgress + (($nextBaseProgress - $baseProgress) * ($backlog->getInitialTotal() - $backlog->getRemainingTotal()) / $backlog->getInitialTotal())
-        );
     }
 
     public function setErrorFlag(): void

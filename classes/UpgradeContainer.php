@@ -34,6 +34,7 @@ use PrestaShop\Module\AutoUpgrade\Parameters\FileConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
+use PrestaShop\Module\AutoUpgrade\Progress\CompletionCalculator;
 use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension;
 use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension3;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\CacheCleaner;
@@ -135,6 +136,11 @@ class UpgradeContainer
      * @var ModuleAdapter
      */
     private $moduleAdapter;
+
+    /**
+     * @var CompletionCalculator
+     */
+    private $completionCalculator;
 
     /**
      * @var Twig_Environment|\Twig\Environment
@@ -466,6 +472,17 @@ class UpgradeContainer
         );
 
         return $this->moduleAdapter;
+    }
+
+    public function getCompletionCalculator(): CompletionCalculator
+    {
+        if (null !== $this->completionCalculator) {
+            return $this->completionCalculator;
+        }
+
+        $this->completionCalculator = new CompletionCalculator($this->getUpgradeConfiguration());
+
+        return $this->completionCalculator;
     }
 
     /**

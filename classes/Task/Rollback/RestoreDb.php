@@ -29,10 +29,10 @@ namespace PrestaShop\Module\AutoUpgrade\Task\Rollback;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
+use PrestaShop\Module\AutoUpgrade\Progress\Backlog;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\Backlog;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Database;
 
 /**
@@ -42,14 +42,14 @@ class RestoreDb extends AbstractTask
 {
     const TASK_TYPE = 'rollback';
 
-    const BASE_PROGRESS = 66;
-
     /**
      * @throws Exception
      */
     public function run(): int
     {
-        $this->container->getState()->setProgressPercentage(static::BASE_PROGRESS);
+        $this->container->getState()->setProgressPercentage(
+            $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
+        );
 
         $databaseTools = new Database($this->container->getDb());
         $ignore_stats_table = [

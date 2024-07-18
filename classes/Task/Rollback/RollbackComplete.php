@@ -38,8 +38,6 @@ class RollbackComplete extends AbstractTask
 {
     const TASK_TYPE = 'rollback';
 
-    const BASE_PROGRESS = 100;
-
     public function run(): int
     {
         $this->logger->info($this->translator->trans('Restoration process done. Congratulations! You can now reactivate your shop.'));

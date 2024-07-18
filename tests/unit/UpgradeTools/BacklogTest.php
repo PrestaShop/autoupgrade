@@ -24,7 +24,7 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 use PHPUnit\Framework\TestCase;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\Backlog;
+use PrestaShop\Module\AutoUpgrade\Progress\Backlog;
 
 class BacklogTest extends TestCase
 {

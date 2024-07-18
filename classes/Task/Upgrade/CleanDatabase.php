@@ -37,11 +37,11 @@ class CleanDatabase extends AbstractTask
 {
     const TASK_TYPE = 'upgrade';
 
-    const BASE_PROGRESS = 100;
-
     public function run(): int
     {
-        $this->container->getState()->setProgressPercentage(static::BASE_PROGRESS);
+        $this->container->getState()->setProgressPercentage(
+            $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
+        );
 
         // Clean tabs order
         foreach ($this->container->getDb()->ExecuteS('SELECT DISTINCT id_parent FROM ' . _DB_PREFIX_ . 'tab') as $parent) {

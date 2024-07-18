@@ -41,14 +41,14 @@ class UpgradeComplete extends AbstractTask
 {
     const TASK_TYPE = 'upgrade';
 
-    const BASE_PROGRESS = 100;
-
     /**
      * @throws Exception
      */
     public function run(): int
     {
-        $this->container->getState()->setProgressPercentage(static::BASE_PROGRESS);
+        $this->container->getState()->setProgressPercentage(
+            $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
+        );
 
         $this->logger->info($this->container->getState()->getWarningExists() ?
             $this->translator->trans('Upgrade process done, but some warnings have been found.') :

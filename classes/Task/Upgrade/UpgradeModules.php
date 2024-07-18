@@ -30,9 +30,9 @@ namespace PrestaShop\Module\AutoUpgrade\Task\Upgrade;
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
+use PrestaShop\Module\AutoUpgrade\Progress\Backlog;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\Backlog;
 
 /**
  * Upgrade all partners modules according to the installed prestashop version.
@@ -40,9 +40,6 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\Backlog;
 class UpgradeModules extends AbstractTask
 {
     const TASK_TYPE = 'upgrade';
-
-    const BASE_PROGRESS = 90;
-    const BASE_PROGRESS_WITHOUT_BACKUP = 80;
 
     /**
      * @throws Exception
@@ -85,7 +82,9 @@ class UpgradeModules extends AbstractTask
         }
 
         $modules_left = $listModules->getRemainingTotal();
-        $this->computeProgressionPercentage($listModules, CleanDatabase::class);
+        $this->container->getState()->setProgressPercentage(
+            $this->container->getCompletionCalculator()->computePercentage($listModules, self::class, CleanDatabase::class)
+        );
         $this->container->getFileConfigurationStorage()->save($listModules->dump(), UpgradeFileNames::MODULES_TO_UPGRADE_LIST);
 
         if ($modules_left) {
@@ -141,7 +140,7 @@ class UpgradeModules extends AbstractTask
     public function warmUp(): int
     {
         $this->container->getState()->setProgressPercentage(
-            $this->container->getUpgradeConfiguration()->shouldBackupFiles() ? static::BASE_PROGRESS : static::BASE_PROGRESS_WITHOUT_BACKUP
+            $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
         );
 
         try {

@@ -29,18 +29,15 @@ namespace PrestaShop\Module\AutoUpgrade\Task\Upgrade;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
+use PrestaShop\Module\AutoUpgrade\Progress\Backlog;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\Backlog;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 
 class UpgradeFiles extends AbstractTask
 {
     const TASK_TYPE = 'upgrade';
-
-    const BASE_PROGRESS = 50;
-    const BASE_PROGRESS_WITHOUT_BACKUP = 40;
 
     /**
      * @var string
@@ -86,7 +83,9 @@ class UpgradeFiles extends AbstractTask
                 break;
             }
         }
-        $this->computeProgressionPercentage($filesToUpgrade, UpgradeDb::class);
+        $this->container->getState()->setProgressPercentage(
+            $this->container->getCompletionCalculator()->computePercentage($filesToUpgrade, self::class, UpgradeDb::class)
+        );
         $this->container->getFileConfigurationStorage()->save($filesToUpgrade->dump(), UpgradeFileNames::FILES_TO_UPGRADE_LIST);
 
         $countOfRemainingBacklog = $filesToUpgrade->getRemainingTotal();
@@ -197,7 +196,7 @@ class UpgradeFiles extends AbstractTask
     protected function warmUp(): int
     {
         $this->container->getState()->setProgressPercentage(
-            $this->container->getUpgradeConfiguration()->shouldBackupFiles() ? static::BASE_PROGRESS : static::BASE_PROGRESS_WITHOUT_BACKUP
+            $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
         );
 
         // Get path to the folder with release we will use to upgrade and check if it's valid

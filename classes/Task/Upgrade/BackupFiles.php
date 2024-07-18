@@ -29,16 +29,14 @@ namespace PrestaShop\Module\AutoUpgrade\Task\Upgrade;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
+use PrestaShop\Module\AutoUpgrade\Progress\Backlog;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\Backlog;
 
 class BackupFiles extends AbstractTask
 {
     const TASK_TYPE = 'upgrade';
-
-    const BASE_PROGRESS = 20;
 
     /**
      * @throws Exception
@@ -65,7 +63,9 @@ class BackupFiles extends AbstractTask
         }
 
         if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::FILES_TO_BACKUP_LIST)) {
-            $this->container->getState()->setProgressPercentage(static::BASE_PROGRESS);
+            $this->container->getState()->setProgressPercentage(
+                $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
+            );
 
             /** @todo : only add files and dir listed in "originalPrestashopVersion" list */
             $filesToBackup = $this->container->getFilesystemAdapter()->listFilesInDir($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH), 'backup', false);
@@ -100,7 +100,9 @@ class BackupFiles extends AbstractTask
                 return ExitCode::FAIL;
             }
             $this->container->getFileConfigurationStorage()->save($backlog->dump(), UpgradeFileNames::FILES_TO_BACKUP_LIST);
-            $this->computeProgressionPercentage($backlog, BackupDb::class);
+            $this->container->getState()->setProgressPercentage(
+                $this->container->getCompletionCalculator()->computePercentage($backlog, self::class, BackupDb::class)
+            );
         } else {
             $this->stepDone = true;
             $this->status = 'ok';

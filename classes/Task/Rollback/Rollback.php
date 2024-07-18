@@ -41,14 +41,14 @@ class Rollback extends AbstractTask
 {
     const TASK_TYPE = 'rollback';
 
-    const BASE_PROGRESS = 0;
-
     /**
      * @throws Exception
      */
     public function run(): int
     {
-        $this->container->getState()->setProgressPercentage(static::BASE_PROGRESS);
+        $this->container->getState()->setProgressPercentage(
+            $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
+        );
 
         // 1st, need to analyse what was wrong.
         $restoreName = $this->container->getState()->getRestoreName();
