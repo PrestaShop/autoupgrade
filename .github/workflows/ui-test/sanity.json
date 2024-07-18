@@ -7,32 +7,37 @@
       "PS_VERSION_START": "1.7.5.0",
       "PS_VERSION_END": "1.7.8.11",
       "UPGRADE_CHANNEL": "minor",
-      "PHP_VERSION": "7.1",
-      "IMG_DOCKER": "1.7.5.0"
+      "PHP_VERSION": "7.1"
     },
     {
       "PS_VERSION_START": "1.7.5.0",
       "PS_VERSION_END": "1.7.8.11",
       "UPGRADE_CHANNEL": "minor",
-      "PHP_VERSION": "7.2",
-      "IMG_DOCKER": "1.7.5.0"
+      "PHP_VERSION": "7.2"
     },
     {
       "PS_VERSION_START": "1.7.5.1",
       "PS_VERSION_END": "1.7.8.11",
       "UPGRADE_CHANNEL": "minor",
-      "PHP_VERSION": "7.1",
-      "IMG_DOCKER": "1.7.5.1"
+      "PHP_VERSION": "7.1"
     },
     {
       "PS_VERSION_START": "1.7.5.1",
       "PS_VERSION_END": "1.7.8.11",
       "UPGRADE_CHANNEL": "minor",
-      "PHP_VERSION": "7.2",
-      "IMG_DOCKER": "1.7.5.1"
+      "PHP_VERSION": "7.2"
     },
     {
-      "comment": "@todo 1.7.5.2"
+      "PS_VERSION_START": "1.7.5.2",
+      "PS_VERSION_END": "1.7.8.11",
+      "UPGRADE_CHANNEL": "minor",
+      "PHP_VERSION": "7.1"
+    },
+    {
+      "PS_VERSION_START": "1.7.5.1",
+      "PS_VERSION_END": "1.7.8.11",
+      "UPGRADE_CHANNEL": "minor",
+      "PHP_VERSION": "7.2"
     },
     {
       "comment": "1.7.8 ~ minor PHP 7.2 ~ 7.4"

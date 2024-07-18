@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   prestashop:
-    image: prestashop/prestashop:${PS_VERSION}
+    image: prestashop/prestashop:${PS_VERSION}-apache
     container_name: prestashop
     depends_on:
       - mysql
@@ -31,7 +31,7 @@ services:
     ports:
       - 80:80
   mysql:
-    image: mariadb:lts
+    image: mysql:5.7
     container_name: prestashop-mysql
     healthcheck:
       test:
