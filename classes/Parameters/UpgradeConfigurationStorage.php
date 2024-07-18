@@ -42,7 +42,7 @@ class UpgradeConfigurationStorage extends FileConfigurationStorage
     }
 
     /**
-     * @param \PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration $config
+     * @param UpgradeConfiguration $config
      * @param string $fileName Destination path of the config file
      */
     public function save($config, string $fileName): bool
@@ -59,17 +59,9 @@ class UpgradeConfigurationStorage extends FileConfigurationStorage
      */
     public function getDefaultData(): array
     {
-        return [
-            'PS_AUTOUP_PERFORMANCE' => 1,
-            'PS_AUTOUP_CUSTOM_MOD_DESACT' => 1,
-            'PS_AUTOUP_UPDATE_DEFAULT_THEME' => 1,
-            'PS_AUTOUP_CHANGE_DEFAULT_THEME' => 0,
-            'PS_AUTOUP_UPDATE_RTL_FILES' => 1,
-            'PS_AUTOUP_KEEP_MAILS' => 0,
-            'PS_AUTOUP_BACKUP' => 1,
-            'PS_AUTOUP_KEEP_IMAGES' => 1,
+        return array_merge(UpgradeConfiguration::PS_CONST_DEFAULT_VALUE, [
             'channel' => Upgrader::DEFAULT_CHANNEL,
             'archive.filename' => Upgrader::DEFAULT_FILENAME,
-        ];
+        ]);
     }
 }
