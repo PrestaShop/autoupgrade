@@ -276,10 +276,7 @@ class State
         return $this->warning_exists;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getProgressPercentage()
+    public function getProgressPercentage(): ?int
     {
         return $this->progressPercentage;
     }

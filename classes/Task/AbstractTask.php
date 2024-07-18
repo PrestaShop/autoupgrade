@@ -37,7 +37,13 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 
 abstract class AbstractTask
 {
+    /** @var int|null */
     const BASE_PROGRESS = null;
+
+    /**
+     * This constant exists while the backup and upgrade are on the same workflow
+     * @var int|null
+     */
     const BASE_PROGRESS_WITHOUT_BACKUP = null;
 
     /**
