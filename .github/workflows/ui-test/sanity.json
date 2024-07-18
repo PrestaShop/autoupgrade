@@ -1,7 +1,6 @@
 {
   "include": [
     {
-      "comment": "1.7.8 ~ minor PHP 7.4"
       "comment": "1.7.2 ~ minor PHP 7.1"
     },
     {
