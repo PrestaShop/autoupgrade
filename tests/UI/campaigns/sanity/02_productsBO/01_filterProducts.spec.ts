@@ -166,7 +166,7 @@ test.describe('BO - Catalog - Products : Filter the products table by ID, Name, 
         args: {
           identifier: 'filterCategory',
           filterBy: 'category',
-          filterValue: dataCategories.women.name,
+          filterValue: dataCategories.art.name,
           filterType: 'input',
         },
       },
