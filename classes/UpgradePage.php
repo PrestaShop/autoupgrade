@@ -293,6 +293,9 @@ class UpgradePage
             'currentIndex' => $this->currentIndex,
             'tab' => 'AdminSelfUpgrade',
             'channel' => $this->config->get('channel'),
+            'autoupgrade' => [
+                'version' => $this->upgradeSelfCheck->getModuleVersion(),
+            ],
             'translation' => [
                 'confirmDeleteBackup' => $translator->trans('Are you sure you want to delete this backup?'),
                 'delete' => $translator->trans('Delete'),

@@ -25,9 +25,17 @@
 
 Sentry.init({
     dsn: "https://eae192966a8d79509154c65c317a7e5d@o298402.ingest.us.sentry.io/4507254110552064",
+    release: input.autoupgrade.version,
     beforeSend(event) {
+        // Only the one we handle via the feedback modal must be sent.
+        if (!event.tag?.source || event.tag.source !== 'feedbackModal') {
+            return null;
+        }
         event.request.url = maskSensitiveInfoInUrl(event.request.url, input.adminUrl);
         return event;
+    },
+    afterSend() {
+        Sentry.setTag('source', '');
     },
 });
 
@@ -45,6 +53,7 @@ document.getElementById("submitErrorReport").addEventListener("click", function 
         const url = maskSensitiveInfoInUrl(window.location.href, input.adminUrl);
 
         Sentry.setTag("url", url);
+        Sentry.setTag('source', 'feedbackModal');
 
         const eventId = Sentry.captureMessage(messages, "error");
         const userEmail = document.getElementById("userEmail");
