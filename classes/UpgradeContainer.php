@@ -595,7 +595,6 @@ class UpgradeContainer
         }
 
         $this->workspace = new Workspace(
-            $this->getLogger(),
             $this->getTranslator(),
             $paths
         );

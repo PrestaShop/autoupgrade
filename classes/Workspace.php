@@ -27,17 +27,11 @@
 
 namespace PrestaShop\Module\AutoUpgrade;
 
-use PrestaShop\Module\AutoUpgrade\Log\LoggerInterface;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 use Exception;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 
 class Workspace
 {
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
-
     /**
      * @var Translator
      */
@@ -51,9 +45,8 @@ class Workspace
     /**
      * @param string[] $paths
      */
-    public function __construct(LoggerInterface $logger, Translator $translator, array $paths)
+    public function __construct(Translator $translator, array $paths)
     {
-        $this->logger = $logger;
         $this->translator = $translator;
         $this->paths = $paths;
     }
