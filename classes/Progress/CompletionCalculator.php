@@ -27,6 +27,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Progress;
 
+use InvalidArgumentException;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Task\Rollback\RestoreDb;
 use PrestaShop\Module\AutoUpgrade\Task\Rollback\RestoreFiles;
@@ -83,17 +84,23 @@ class CompletionCalculator
 
     /**
      * @return int<0, 100>
+     *
+     * @throws InvalidArgumentException
      */
     public function getBasePercentageOfTask(string $taskName): int
     {
-        $withoutBackup = !$this->upgradeConfiguration->shouldBackupFiles();
-        $percentages = self::getPercentages()[$taskName];
-
-        if ($withoutBackup && $percentages['baseWithoutBackup'] !== null) {
-            return $percentages['baseWithoutBackup'];
+        $percentages = self::getPercentages();
+        if (!isset($percentages[$taskName])) {
+            throw new InvalidArgumentException($taskName . ' has no percentage. Make sure to send an upgrade, backup or restore task.');
         }
 
-        return $percentages['base'];
+        $withoutBackup = !$this->upgradeConfiguration->shouldBackupFiles();
+
+        if ($withoutBackup && isset($percentages[$taskName]['baseWithoutBackup'])) {
+            return $percentages[$taskName]['baseWithoutBackup'];
+        }
+
+        return $percentages[$taskName]['base'];
     }
 
     /**
