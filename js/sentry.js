@@ -26,12 +26,15 @@
 Sentry.init({
     dsn: "https://eae192966a8d79509154c65c317a7e5d@o298402.ingest.us.sentry.io/4507254110552064",
     release: input.autoupgrade.version,
-    beforeSend(event) {
+    beforeSend(event, hint) {
         // Only the one we handle via the feedback modal must be sent.
         if (!event.tag?.source || event.tag.source !== 'feedbackModal') {
             return null;
         }
         event.request.url = maskSensitiveInfoInUrl(event.request.url, input.adminUrl);
+
+        hint.attachments = [{ filename: "log.txt", data: readLogPanel() }];
+
         return event;
     },
     afterSend() {
@@ -78,4 +81,8 @@ function maskSensitiveInfoInUrl(url, adminFolder) {
 
     regex = new RegExp( "token=[^&]*", "i");
     return url.replace(regex, 'token=********');
+}
+
+function readLogPanel() {
+    return document.getElementById("quickInfo").innerText;
 }
