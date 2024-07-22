@@ -11,7 +11,7 @@ class ModuleVersionAdapter
         );
     }
 
-    static function update(string $name, string $version): boolean
+    static function update(string $name, string $version): bool
     {
         return \Db::getInstance()->execute('
             UPDATE `' . _DB_PREFIX_ . 'module` m
