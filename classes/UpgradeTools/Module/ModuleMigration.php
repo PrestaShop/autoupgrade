@@ -43,78 +43,84 @@ class ModuleMigration
     private $module_name;
 
     /** @var string | null */
-    private $dbVersion;
+    private $db_version;
 
     /** @var string | null */
-    private $localVersion;
+    private $local_version;
 
     /** @var string[] */
-    private $upgradeFiles;
+    private $upgrade_files;
 
     /** @var string */
-    private $upgradeFilesRootPath;
+    private $upgrade_files_root_path;
+
+    /** @var \Module | bool */
+    private $module_instance;
 
     public function __construct(Translator $translator, Logger $logger, string $module_name)
     {
         $this->translator = $translator;
         $this->logger = $logger;
         $this->module_name = $module_name;
-        $this->dbVersion = null;
-        $this->localVersion = null;
-        $this->upgradeFiles = [];
-        $this->upgradeFilesRootPath = _PS_MODULE_DIR_ . $module_name . DIRECTORY_SEPARATOR . 'upgrade' . DIRECTORY_SEPARATOR;
+        $this->db_version = null;
+        $this->local_version = null;
+        $this->upgrade_files = [];
+        $this->upgrade_files_root_path = _PS_MODULE_DIR_ . $module_name . DIRECTORY_SEPARATOR . 'upgrade' . DIRECTORY_SEPARATOR;
     }
 
     /**
      * @throws UpgradeException
      */
-    public function initUpgrade() {
-        $moduleInstance = \Module::getInstanceByName($this->module_name);
+    public function initUpgrade(): void
+    {
+        $this->module_instance = \Module::getInstanceByName($this->module_name);
 
-        if (!$moduleInstance) {
+        if (!$this->module_instance) {
             throw (new UpgradeException($this->translator->trans('[WARNING] Error when trying to retrieve module %s instance.', [$this->module_name])))->setSeverity(UpgradeException::SEVERITY_WARNING);
         }
 
-        $this->localVersion = $this->moduleInstance->version;
+        $this->local_version = $this->module_instance->version;
 
-        $this->dbVersion = ModuleVersionAdapter::get($this->module_name) ?? '0';
+        $this->db_version = ModuleVersionAdapter::get($this->module_name) ?? '0';
 
-        if ($this->dbVersion === '0') {
+        if ($this->db_version === '0') {
             $this->logger->notice($this->translator->trans('No version found in database for module %s, all files for upgrade will be applied.', [$this->module_name]));
         }
     }
 
-    public function needUpgrade(): bool {
-        if (version_compare($this->localVersion, $this->dbVersion, '>')) {
-            if (empty($this->upgradeFiles)) {
+    public function needUpgrade(): bool
+    {
+        if (version_compare($this->local_version, $this->db_version, '>')) {
+            if (empty($this->upgrade_files)) {
                 $this->loadUpgradeFiles();
             }
-            return !empty($this->upgradeFiles);
+            return !empty($this->upgrade_files);
         }
         return false;
     }
 
-    public function loadUpgradeFiles() {
-        if (!empty($this->upgradeFiles)) {
-            $this->upgradeFiles = [];
+    public function loadUpgradeFiles(): void
+    {
+        if (!empty($this->upgrade_files)) {
+            $this->upgrade_files = [];
         }
 
-        $files = glob($this->upgradeFilesRootPath . '/*.php', GLOB_BRACE);
+        $files = glob($this->upgrade_files_root_path . '/*.php', GLOB_BRACE);
 
         foreach ($files as $file) {
             if (preg_match('/(?:upgrade|install)[_-](\d+(?:\.\d+){0,2}).php$/', basename($file), $matches)) {
                 $fileVersion = $matches[1];
-                if (version_compare($fileVersion, $this->dbVersion, '>') && version_compare($fileVersion, $this->localVersion, '<=')) {
-                    $this->upgradeFiles[] = ['file' => $file, 'version' => $fileVersion];
-                    $this->logger->notice($this->translator->trans('File %s will be added to upgrade file list', [$file]));
+                if (version_compare($fileVersion, $this->db_version, '>') && version_compare($fileVersion, $this->local_version, '<=')) {
+                    $this->upgrade_files[] = ['file' => $file, 'version' => $fileVersion];
+                    $this->logger->notice($this->translator->trans('File %s will be added to upgrade file list.', [$file]));
                 }
             }
         }
 
-        usort($this->upgradeFiles, function($a, $b) {
+        usort($this->upgrade_files, function($a, $b) {
             return version_compare($a['version'], $b['version']);
         });
 
-        $this->upgradeFiles = array_column($this->upgradeFiles, 'file');
+        $this->upgrade_files = array_column($this->upgrade_files, 'file');
     }
 }
