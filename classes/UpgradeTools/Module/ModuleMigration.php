@@ -30,7 +30,6 @@ namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\Module;
 use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
-use Module;
 
 class ModuleMigration
 {
@@ -70,7 +69,7 @@ class ModuleMigration
      * @throws UpgradeException
      */
     public function initUpgrade() {
-        $moduleInstance = Module::getInstanceByName($this->module_name);
+        $moduleInstance = \Module::getInstanceByName($this->module_name);
 
         if (!$moduleInstance) {
             throw (new UpgradeException($this->translator->trans('[WARNING] Error when trying to retrieve module %s instance.', [$this->module_name])))->setSeverity(UpgradeException::SEVERITY_WARNING);
@@ -80,12 +79,12 @@ class ModuleMigration
 
         $this->dbVersion = ModuleVersionAdapter::get($this->module_name) ?? '0';
 
-        if ($this->dbVersion) {
+        if ($this->dbVersion === '0') {
             $this->logger->notice($this->translator->trans('No version found in database for module %s, all files for upgrade will be applied.', [$this->module_name]));
         }
     }
 
-    public function needUpgrade(): boolean {
+    public function needUpgrade(): bool {
         if (version_compare($this->localVersion, $this->dbVersion, '>')) {
             if (empty($this->upgradeFiles)) {
                 $this->loadUpgradeFiles();
