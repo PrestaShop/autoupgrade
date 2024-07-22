@@ -40,7 +40,7 @@ use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension3;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\CacheCleaner;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FileFilter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\ModuleAdapter;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translation;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
@@ -468,7 +468,8 @@ class UpgradeContainer
             $this->getProperty(self::TMP_PATH),
             $this->getState()->getInstallVersion(),
             $this->getZipAction(),
-            $this->getSymfonyAdapter()
+            $this->getSymfonyAdapter(),
+            $this->getLogger()
         );
 
         return $this->moduleAdapter;

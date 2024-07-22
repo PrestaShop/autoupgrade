@@ -25,10 +25,14 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
+namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\Module;
 
 use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
+use PrestaShop\Module\AutoUpgrade\Log\Logger;
 use PrestaShop\Module\AutoUpgrade\Tools14;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleMigration;
 use PrestaShop\Module\AutoUpgrade\ZipAction;
 use PrestaShop\PrestaShop\Adapter\Module\Repository\ModuleRepository;
 use Symfony\Component\Filesystem\Exception\IOException;
@@ -55,13 +59,16 @@ class ModuleAdapter
      */
     private $symfonyAdapter;
 
+    /** @var Logger */
+    private $logger;
+
     /** @var \PrestaShop\PrestaShop\Adapter\Module\ModuleDataUpdater */
     private $moduleDataUpdater;
 
     /** @var \PrestaShop\PrestaShop\Core\CommandBus\CommandBusInterface */
     private $commandBus;
 
-    public function __construct(Translator $translator, string $modulesPath, string $tempPath, string $upgradeVersion, ZipAction $zipAction, SymfonyAdapter $symfonyAdapter)
+    public function __construct(Translator $translator, string $modulesPath, string $tempPath, string $upgradeVersion, ZipAction $zipAction, SymfonyAdapter $symfonyAdapter, Logger $logger)
     {
         $this->translator = $translator;
         $this->modulesPath = $modulesPath;
@@ -69,6 +76,7 @@ class ModuleAdapter
         $this->upgradeVersion = $upgradeVersion;
         $this->zipAction = $zipAction;
         $this->symfonyAdapter = $symfonyAdapter;
+        $this->logger = $logger;
     }
 
     /**
@@ -258,11 +266,12 @@ class ModuleAdapter
         return null;
     }
 
+    /**
+     * @throws UpgradeException
+     */
     private function doUpgradeModule(string $name): void
     {
-        $version = \Db::getInstance()->getValue(
-            'SELECT version FROM `' . _DB_PREFIX_ . 'module` WHERE name = "' . $name . '"'
-        );
+        $version = ModuleVersionAdapter::get($name);
         $module = \Module::getInstanceByName($name);
         if (!($module instanceof \Module)) {
             return;
@@ -271,6 +280,13 @@ class ModuleAdapter
         $module->database_version = $version ?: 0;
 
         try {
+            $moduleMigration = new ModuleMigration($this->translator, $this->logger, $name);
+            $moduleMigration->initUpgrade();
+
+            if (!$moduleMigration->needUpgrade()) {
+                $this->logger->info($this->translator->trans('Module %s does not need to be upgraded.', [$name]));
+            }
+
             if (!\Module::initUpgradeModule($module)) {
                 return;
             }
