@@ -28,17 +28,17 @@ Sentry.init({
     release: input.autoupgrade.version,
     beforeSend(event, hint) {
         // Only the one we handle via the feedback modal must be sent.
-        if (!event.tag?.source || event.tag.source !== 'feedbackModal') {
+        if (!event.tags?.source || event.tags.source !== 'feedbackModal') {
             return null;
         }
         event.request.url = maskSensitiveInfoInUrl(event.request.url, input.adminUrl);
 
-        hint.attachments = [{ filename: "log.txt", data: readLogPanel() }];
+        hint.attachments = [
+            { filename: "log.txt", data: readLogPanel('quickInfo') },
+            { filename: "error.txt", data: readLogPanel('infoError') },
+        ];
 
         return event;
-    },
-    afterSend() {
-        Sentry.setTag('source', '');
     },
 });
 
@@ -68,8 +68,10 @@ document.getElementById("submitErrorReport").addEventListener("click", function 
             comments: errorDescription.value,
         });
 
+        // Clean-up
         userEmail.value = "";
         errorDescription.value = "";
+        Sentry.setTag('source', '');
 
         $('#errorModal').modal('hide')
     }
@@ -83,6 +85,6 @@ function maskSensitiveInfoInUrl(url, adminFolder) {
     return url.replace(regex, 'token=********');
 }
 
-function readLogPanel() {
-    return document.getElementById("quickInfo").innerText;
+function readLogPanel(targetPanel) {
+    return document.getElementById(targetPanel).innerText;
 }
