@@ -132,9 +132,6 @@ class UpdateConfig extends AbstractTask
 
             $config['directory.version_num'] = $configurationData['directory_num'];
         }
-        if (isset($configurationData['skip_backup'])) {
-            $config['skip_backup'] = $configurationData['skip_backup'];
-        }
 
         foreach (UpgradeConfiguration::UPGRADE_CONST_KEYS as $key) {
             if (!isset($configurationData[$key])) {

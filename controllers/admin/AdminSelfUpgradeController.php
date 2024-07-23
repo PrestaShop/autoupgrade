@@ -485,7 +485,7 @@ class AdminSelfUpgradeController extends ModuleAdminController
         // update backup name
         $backupFinder = new BackupFinder($this->backupPath);
         $availableBackups = $backupFinder->getAvailableBackups();
-        if (!$this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_BACKUP')
+        if (!$this->upgradeContainer->getUpgradeConfiguration()->shouldBackupFilesAndDatabase()
             && !empty($availableBackups)
             && !in_array($this->upgradeContainer->getState()->getBackupName(), $availableBackups)
         ) {

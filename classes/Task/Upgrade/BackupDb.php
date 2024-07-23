@@ -44,7 +44,7 @@ class BackupDb extends AbstractTask
      */
     public function run(): int
     {
-        if (!$this->container->getUpgradeConfiguration()->shouldBackupFiles()) {
+        if (!$this->container->getUpgradeConfiguration()->shouldBackupFilesAndDatabase()) {
             $this->stepDone = true;
             $this->container->getState()->setDbStep(0);
             $this->logger->info($this->translator->trans('Database backup skipped. Now upgrading files...'));
