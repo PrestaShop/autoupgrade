@@ -32,7 +32,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 class BackupOptionsForm
 {
     /**
-     * @var array
+     * @var array<string, array<string>>
      */
     private $fields;
 
@@ -53,52 +53,36 @@ class BackupOptionsForm
 
         $this->fields = [
             'PS_AUTOUP_BACKUP' => [
-                'title' => $this->translator->trans(
-                    'Back up my files and database',
-                    [],
-                    'Modules.Autoupgrade.Admin'
-                ),
+                'title' => $this->translator->trans('Back up my files and database'),
                 'cast' => 'intval',
                 'validation' => 'isBool',
                 'defaultValue' => '1',
                 'type' => 'bool',
                 'desc' => $this->translator->trans(
-                    'Automatically back up your database and files in order to restore your shop if needed. This is experimental: you should still perform your own manual backup for safety.',
-                    [],
-                    'Modules.Autoupgrade.Admin'
+                    'Automatically back up your database and files in order to restore your shop if needed. This is experimental: you should still perform your own manual backup for safety.'
                 ),
             ],
             'PS_AUTOUP_KEEP_IMAGES' => [
                 'title' => $this->translator->trans(
-                    'Back up my images',
-                    [],
-                    'Modules.Autoupgrade.Admin'
+                    'Back up my images'
                 ),
                 'cast' => 'intval',
                 'validation' => 'isBool',
                 'defaultValue' => '1',
                 'type' => 'bool',
                 'desc' => $this->translator->trans(
-                    'To save time, you can decide not to back your images up. In any case, always make sure you did back them up manually.',
-                    [],
-                    'Modules.Autoupgrade.Admin'
+                    'To save time, you can decide not to back your images up. In any case, always make sure you did back them up manually.'
                 ),
             ],
         ];
     }
 
-    public function render()
+    public function render(): string
     {
         return $this->formRenderer->render(
                 'backupOptions',
                 $this->fields,
-                $this->translator->trans(
-                    'Backup Options',
-                    [],
-                    'Modules.Autoupgrade.Admin'
-                ),
-                '',
-                'database_gear'
+                $this->translator->trans('Backup Options')
             );
     }
 }

@@ -1,0 +1,67 @@
+version: '3.7'
+
+services:
+  prestashop:
+    image: prestashop/prestashop:${PS_VERSION}-apache
+    container_name: prestashop
+    depends_on:
+      - mysql
+    environment:
+      - PS_DEV_MODE=1
+      - PS_DOMAIN=localhost
+      - PS_LANGUAGE=en
+      - PS_COUNTRY=fr
+      - PS_INSTALL_AUTO=1
+      - PS_FOLDER_ADMIN=admin-dev
+      - PS_FOLDER_INSTALL=install-dev
+      - PS_USE_DOCKER_MAILDEV=1
+      - ADMIN_MAIL=demo@prestashop.com
+      - ADMIN_PASSWD=prestashop
+      - DB_SERVER=mysql
+      - DB_USER=prestashop
+      - DB_PASSWD=prestashop
+      - DB_NAME=prestashop
+      - DB_PREFIX=ps_
+    volumes:
+      - type: bind
+        # Local Path
+        source: ../../
+        # Mount Path
+        target: /var/www/html/modules/autoupgrade
+    ports:
+      - 80:80
+  mysql:
+    image: mariadb:lts
+    container_name: prestashop-mysql
+    healthcheck:
+      test:
+        [
+            'CMD',
+            'mysqladmin',
+            'ping',
+            '--host=localhost',
+            '--user=prestashop',
+            '--password=prestashop',
+        ]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+    environment:
+      - MYSQL_HOST=mysql
+      - MYSQL_USER=prestashop
+      - MYSQL_PASSWORD=prestashop
+      - MYSQL_ROOT_PASSWORD=prestashop
+      - MYSQL_PORT=3306
+      - MYSQL_DATABASE=prestashop
+    ports:
+      - "3306:3306"
+
+  maildev:
+    image: 'maildev/maildev'
+    container_name: prestashop-maildev
+    environment:
+      - PS_MAIL_METHOD=2
+      - PS_MAIL_SERVER=maildev
+      - PS_MAIL_USER=demo@prestashop.com
+      - PS_MAIL_PASSWD=prestashop
+      - PS_MAIL_SMTP_PORT=1025

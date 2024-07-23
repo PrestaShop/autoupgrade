@@ -41,6 +41,9 @@ abstract class Logger implements LoggerInterface
     const ALERT = 7;
     const EMERGENCY = 8;
 
+    /**
+     * @var string[]
+     */
     protected static $levels = [
         self::DEBUG => 'DEBUG',
         self::INFO => 'INFO',
@@ -52,42 +55,66 @@ abstract class Logger implements LoggerInterface
         self::EMERGENCY => 'EMERGENCY',
     ];
 
-    public function alert($message, array $context = [])
+    /**
+     * @param array<mixed> $context
+     */
+    public function alert(string $message, array $context = []): void
     {
         $this->log(self::ALERT, $message, $context);
     }
 
-    public function critical($message, array $context = [])
+    /**
+     * @param array<mixed> $context
+     */
+    public function critical(string $message, array $context = []): void
     {
         $this->log(self::CRITICAL, $message, $context);
     }
 
-    public function debug($message, array $context = [])
+    /**
+     * @param array<mixed> $context
+     */
+    public function debug(string $message, array $context = []): void
     {
         $this->log(self::DEBUG, $message, $context);
     }
 
-    public function emergency($message, array $context = [])
+    /**
+     * @param array<mixed> $context
+     */
+    public function emergency(string $message, array $context = []): void
     {
         $this->log(self::EMERGENCY, $message, $context);
     }
 
-    public function error($message, array $context = [])
+    /**
+     * @param array<mixed> $context
+     */
+    public function error(string $message, array $context = []): void
     {
         $this->log(self::ERROR, $message, $context);
     }
 
-    public function info($message, array $context = [])
+    /**
+     * @param array<mixed> $context
+     */
+    public function info(string $message, array $context = []): void
     {
         $this->log(self::INFO, $message, $context);
     }
 
-    public function notice($message, array $context = [])
+    /**
+     * @param array<mixed> $context
+     */
+    public function notice(string $message, array $context = []): void
     {
         $this->log(self::NOTICE, $message, $context);
     }
 
-    public function warning($message, array $context = [])
+    /**
+     * @param array<mixed> $context
+     */
+    public function warning(string $message, array $context = []): void
     {
         $this->log(self::WARNING, $message, $context);
     }
@@ -96,9 +123,9 @@ abstract class Logger implements LoggerInterface
      * Equivalent of the old $nextErrors
      * Used during upgrade. Will be displayed in the top right panel (not visible at the beginning).
      *
-     * @return array Details of error which occured during the request. Verbose levels: ERROR
+     * @return string[] Details of error which occured during the request. Verbose levels: ERROR
      */
-    public function getErrors()
+    public function getErrors(): array
     {
         return [];
     }
@@ -107,9 +134,9 @@ abstract class Logger implements LoggerInterface
      * Equivalent of the old $nextQuickInfo
      * Used during upgrade. Will be displayed in the lower panel.
      *
-     * @return array Details on what happened during the execution. Verbose levels: DEBUG / INFO / WARNING
+     * @return string[] Details on what happened during the execution. Verbose levels: DEBUG / INFO / WARNING
      */
-    public function getInfos()
+    public function getInfos(): array
     {
         return [];
     }
@@ -121,7 +148,7 @@ abstract class Logger implements LoggerInterface
      *
      * @return string Stores the main information about the current step
      */
-    public function getLastInfo()
+    public function getLastInfo(): string
     {
         return '';
     }

@@ -33,16 +33,24 @@ namespace PrestaShop\Module\AutoUpgrade\Log;
  */
 class LegacyLogger extends Logger
 {
+    /** @var string[] */
     protected $normalMessages = [];
+
+    /** @var string[] */
     protected $severeMessages = [];
+
+    /** @var string */
     protected $lastInfo = '';
+
+    /** @var array<string, string> */
+    protected $sensitiveData = [];
 
     /**
      * @var resource|false|null File descriptor of the log file
      */
     protected $fd;
 
-    public function __construct($fileName = null)
+    public function __construct(string $fileName = null)
     {
         if (null !== $fileName) {
             $this->fd = fopen($fileName, 'a');
@@ -58,16 +66,20 @@ class LegacyLogger extends Logger
 
     /**
      * {@inheritdoc}
+     *
+     * @return string[]
      */
-    public function getErrors()
+    public function getErrors(): array
     {
         return $this->severeMessages;
     }
 
     /**
      * {@inheritdoc}
+     *
+     * @return string[]
      */
-    public function getInfos()
+    public function getInfos(): array
     {
         return $this->normalMessages;
     }
@@ -75,33 +87,40 @@ class LegacyLogger extends Logger
     /**
      * {@inheritdoc}
      */
-    public function getLastInfo()
+    public function getLastInfo(): string
     {
         return $this->lastInfo;
     }
 
     /**
-     * {@inheritdoc}
+     * @param array<string, string> $sensitiveData List of data to change with another value
      */
-    public function log($level, $message, array $context = [])
+    public function setSensitiveData(array $sensitiveData): self
+    {
+        $this->sensitiveData = $sensitiveData;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @param array<mixed> $context
+     */
+    public function log($level, string $message, array $context = []): void
     {
         if (empty($message)) {
             return;
         }
 
+        $message = $this->cleanFromSensitiveData($message);
+
         if (is_resource($this->fd)) {
             fwrite($this->fd, '[' . date('Y-m-d H:i:s') . '] ' . $message . PHP_EOL);
         }
 
-        // Specific case for INFO
         if ($level === self::INFO) {
-            // If last info is already defined, move it to the messages list
-            if (!empty($this->lastInfo)) {
-                $this->normalMessages[] = $this->lastInfo;
-            }
             $this->lastInfo = $message;
-
-            return;
         }
 
         if ($level < self::ERROR) {
@@ -109,5 +128,18 @@ class LegacyLogger extends Logger
         } else {
             $this->severeMessages[] = $message;
         }
+    }
+
+    public function cleanFromSensitiveData(string $message): string
+    {
+        if (empty($this->sensitiveData)) {
+            return $message;
+        }
+
+        return str_replace(
+            array_keys($this->sensitiveData),
+            array_values($this->sensitiveData),
+            $message
+        );
     }
 }

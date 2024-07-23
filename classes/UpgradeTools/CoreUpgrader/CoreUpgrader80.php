@@ -28,7 +28,8 @@ declare(strict_types=1);
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader;
 
-use PrestaShop\Module\AutoUpgrade\UpgradeException;
+use Exception;
+use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 use PrestaShop\PrestaShop\Adapter\Module\Repository\ModuleRepository;
 use PrestaShop\PrestaShop\Core\CommandBus\CommandBusInterface;
 use PrestaShop\PrestaShop\Core\Domain\MailTemplate\Command\GenerateThemeMailTemplatesCommand;
@@ -36,7 +37,7 @@ use PrestaShop\PrestaShop\Core\Exception\CoreException;
 
 class CoreUpgrader80 extends CoreUpgrader
 {
-    protected function initConstants()
+    protected function initConstants(): void
     {
         $this->forceRemovingFiles();
         parent::initConstants();
@@ -48,7 +49,7 @@ class CoreUpgrader80 extends CoreUpgrader
     /**
      * Force remove files if they aren't removed properly after files upgrade.
      */
-    protected function forceRemovingFiles()
+    protected function forceRemovingFiles(): void
     {
         $filesToForceRemove = [
             '/src/PrestaShopBundle/Resources/config/services/adapter/news.yml',
@@ -61,28 +62,34 @@ class CoreUpgrader80 extends CoreUpgrader
         }
     }
 
-    protected function upgradeLanguage($lang)
+    /**
+     * @throws UpgradeException
+     * @throws Exception
+     *
+     * @param array<string, mixed> $lang
+     */
+    protected function upgradeLanguage($lang): void
     {
         $isoCode = $lang['iso_code'];
 
         if (!\Validate::isLangIsoCode($isoCode)) {
-            $this->logger->debug($this->container->getTranslator()->trans('%lang% is not a valid iso code, skipping', ['%lang%' => $isoCode], 'Modules.Autoupgrade.Admin'));
+            $this->logger->debug($this->container->getTranslator()->trans('%lang% is not a valid iso code, skipping', ['%lang%' => $isoCode]));
 
             return;
         }
         $errorsLanguage = [];
 
-        $this->logger->debug($this->container->getTranslator()->trans('Downloading language pack for %lang%', ['%lang%' => $isoCode], 'Modules.Autoupgrade.Admin'));
+        $this->logger->debug($this->container->getTranslator()->trans('Downloading language pack for %lang%', ['%lang%' => $isoCode]));
         if (!\Language::downloadLanguagePack($isoCode, _PS_VERSION_, $errorsLanguage)) {
-            throw new UpgradeException($this->container->getTranslator()->trans('Download of the language pack %lang% failed. %details%', ['%lang%' => $isoCode, '%details%' => implode('; ', $errorsLanguage)], 'Modules.Autoupgrade.Admin'));
+            throw new UpgradeException($this->container->getTranslator()->trans('Download of the language pack %lang% failed. %details%', ['%lang%' => $isoCode, '%details%' => implode('; ', $errorsLanguage)]));
         }
 
-        $this->logger->debug($this->container->getTranslator()->trans('Installing %lang% language pack', ['%lang%' => $isoCode], 'Modules.Autoupgrade.Admin'));
+        $this->logger->debug($this->container->getTranslator()->trans('Installing %lang% language pack', ['%lang%' => $isoCode]));
         $lang_pack = \Language::getLangDetails($isoCode);
         \Language::installSfLanguagePack($lang_pack['locale'], $errorsLanguage);
 
         if (!$this->container->getUpgradeConfiguration()->shouldKeepMails()) {
-            $this->logger->debug($this->container->getTranslator()->trans('Generating mail templates for %lang%', ['%lang%' => $isoCode], 'Modules.Autoupgrade.Admin'));
+            $this->logger->debug($this->container->getTranslator()->trans('Generating mail templates for %lang%', ['%lang%' => $isoCode]));
             $mailTheme = \Configuration::get('PS_MAIL_THEME', null, null, null, 'modern');
 
             $frontTheme = _THEME_NAME_;
@@ -102,19 +109,19 @@ class CoreUpgrader80 extends CoreUpgrader
             try {
                 $commandBus->handle($generateCommand);
             } catch (CoreException $e) {
-                throw new UpgradeException($this->container->getTranslator()->trans('Cannot generate email templates: %s.', [$e->getMessage()], 'Modules.Autoupgrade.Admin'));
+                throw new UpgradeException($this->container->getTranslator()->trans('Cannot generate email templates: %s.', [$e->getMessage()]));
             }
         }
 
         if (!empty($errorsLanguage)) {
-            throw new UpgradeException($this->container->getTranslator()->trans('Error while updating translations for the language pack %lang%. %details%', ['%lang%' => $isoCode, '%details%' => implode('; ', $errorsLanguage)], 'Modules.Autoupgrade.Admin'));
+            throw new UpgradeException($this->container->getTranslator()->trans('Error while updating translations for the language pack %lang%. %details%', ['%lang%' => $isoCode, '%details%' => implode('; ', $errorsLanguage)]));
         }
         \Language::loadLanguages();
 
         // TODO: Update AdminTranslationsController::addNewTabs to install tabs translated
     }
 
-    protected function disableCustomModules()
+    protected function disableCustomModules(): void
     {
         $moduleRepository = new ModuleRepository(_PS_ROOT_DIR_, _PS_MODULE_DIR_);
         $this->container->getModuleAdapter()->disableNonNativeModules80($this->pathToUpgradeScripts, $moduleRepository);

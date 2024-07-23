@@ -27,6 +27,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade;
 
+use Exception;
 use PrestaShop\Module\AutoUpgrade\Log\LegacyLogger;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
 use PrestaShop\Module\AutoUpgrade\Parameters\FileConfigurationStorage;
@@ -44,6 +45,9 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translation;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 use PrestaShop\Module\AutoUpgrade\Xml\ChecksumCompare;
 use PrestaShop\Module\AutoUpgrade\Xml\FileLoader;
+use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Loader\FilesystemLoader;
 use Twig_Environment;
 use Twig_Loader_Filesystem;
 
@@ -66,6 +70,11 @@ class UpgradeContainer
     const ARCHIVE_FILEPATH = 'destDownloadFilepath';
     const PS_VERSION = 'version';
     const DB_CONFIG_KEYS = ['PS_DISABLE_OVERRIDES'];
+
+    /**
+     * @var Analytics
+     */
+    private $analytics;
 
     /**
      * @var CacheCleaner
@@ -175,7 +184,7 @@ class UpgradeContainer
      */
     private $psRootDir;
 
-    public function __construct($psRootDir, $adminDir, $moduleSubDir = 'autoupgrade')
+    public function __construct(string $psRootDir, string $adminDir, string $moduleSubDir = 'autoupgrade')
     {
         $this->autoupgradeWorkDir = $adminDir . DIRECTORY_SEPARATOR . $moduleSubDir;
         $this->adminDir = $adminDir;
@@ -183,9 +192,9 @@ class UpgradeContainer
     }
 
     /**
-     * @return string
+     * @throws Exception
      */
-    public function getProperty($property)
+    public function getProperty(string $property): string
     {
         switch ($property) {
             case self::PS_ADMIN_PATH:
@@ -217,12 +226,32 @@ class UpgradeContainer
         }
     }
 
+    public function getAnalytics(): Analytics
+    {
+        if (null !== $this->analytics) {
+            return $this->analytics;
+        }
+
+        // The identifier shoudl be a value a value always different between two shops
+        // But equal between two upgrade processes
+        return $this->analytics = new Analytics(
+            $this->getUpgradeConfiguration(),
+            $this->getState(),
+            $this->getProperty(self::WORKSPACE_PATH), [
+            'properties' => [
+                'ps_version' => $this->getProperty(self::PS_VERSION),
+                'php_version' => PHP_VERSION_ID,
+                'autoupgrade_version' => $this->getPrestaShopConfiguration()->getModuleVersion(),
+                // TODO: Improve this part by having a safe getter
+                'disable_all_overrides' => class_exists('\Configuration', false) ? \Configuration::get('PS_DISABLE_OVERRIDES') : null,
+            ],
+        ]);
+    }
+
     /**
      * Init and return CacheCleaner
-     *
-     * @return CacheCleaner
      */
-    public function getCacheCleaner()
+    public function getCacheCleaner(): CacheCleaner
     {
         if (null !== $this->cacheCleaner) {
             return $this->cacheCleaner;
@@ -231,10 +260,7 @@ class UpgradeContainer
         return $this->cacheCleaner = new CacheCleaner($this, $this->getLogger());
     }
 
-    /**
-     * @return ChecksumCompare
-     */
-    public function getChecksumCompare()
+    public function getChecksumCompare(): ChecksumCompare
     {
         if (null !== $this->checksumCompare) {
             return $this->checksumCompare;
@@ -249,9 +275,9 @@ class UpgradeContainer
     }
 
     /**
-     * @return Cookie
+     * @throws Exception
      */
-    public function getCookie()
+    public function getCookie(): Cookie
     {
         if (null !== $this->cookie) {
             return $this->cookie;
@@ -264,10 +290,7 @@ class UpgradeContainer
         return $this->cookie;
     }
 
-    /**
-     * @return \Db
-     */
-    public function getDb()
+    public function getDb(): \Db
     {
         return \Db::getInstance();
     }
@@ -275,17 +298,14 @@ class UpgradeContainer
     /**
      * Return the path to the zipfile containing prestashop.
      *
-     * @return string
+     * @throws Exception
      */
-    public function getFilePath()
+    public function getFilePath(): string
     {
         return $this->getProperty(self::ARCHIVE_FILEPATH);
     }
 
-    /**
-     * @return FileConfigurationStorage
-     */
-    public function getFileConfigurationStorage()
+    public function getFileConfigurationStorage(): FileConfigurationStorage
     {
         if (null !== $this->fileConfigurationStorage) {
             return $this->fileConfigurationStorage;
@@ -297,9 +317,9 @@ class UpgradeContainer
     }
 
     /**
-     * @return FileFilter
+     * @throws Exception
      */
-    public function getFileFilter()
+    public function getFileFilter(): FileFilter
     {
         if (null !== $this->fileFilter) {
             return $this->fileFilter;
@@ -314,9 +334,9 @@ class UpgradeContainer
     }
 
     /**
-     * @return Upgrader
+     * @throws Exception
      */
-    public function getUpgrader()
+    public function getUpgrader(): Upgrader
     {
         if (null !== $this->upgrader) {
             return $this->upgrader;
@@ -331,8 +351,7 @@ class UpgradeContainer
             $this->getProperty(self::PS_VERSION),
             $fileLoader
         );
-        preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', $this->getProperty(self::PS_VERSION), $matches);
-        $upgrader->branch = $matches[1];
+        $upgrader->branch = VersionUtils::splitPrestaShopVersion($this->getProperty(self::PS_VERSION))['major'];
         $upgradeConfiguration = $this->getUpgradeConfiguration();
         $channel = $upgradeConfiguration->get('channel');
         switch ($channel) {
@@ -360,15 +379,16 @@ class UpgradeContainer
                 }
         }
         $this->getState()->setInstallVersion($upgrader->version_num);
+        $this->getState()->setOriginVersion($this->getProperty(self::PS_VERSION));
         $this->upgrader = $upgrader;
 
         return $this->upgrader;
     }
 
     /**
-     * @return FilesystemAdapter
+     * @throws Exception
      */
-    public function getFilesystemAdapter()
+    public function getFilesystemAdapter(): FilesystemAdapter
     {
         if (null !== $this->filesystemAdapter) {
             return $this->filesystemAdapter;
@@ -376,7 +396,6 @@ class UpgradeContainer
 
         $this->filesystemAdapter = new FilesystemAdapter(
             $this->getFileFilter(),
-            $this->getState()->getRestoreFilesFilename(),
             $this->getProperty(self::WORKSPACE_PATH),
             str_replace(
                 $this->getProperty(self::PS_ROOT_PATH),
@@ -389,10 +408,7 @@ class UpgradeContainer
         return $this->filesystemAdapter;
     }
 
-    /**
-     * @return FileLoader
-     */
-    public function getFileLoader()
+    public function getFileLoader(): FileLoader
     {
         if (null !== $this->fileLoader) {
             return $this->fileLoader;
@@ -405,6 +421,8 @@ class UpgradeContainer
 
     /**
      * @return Logger
+     *
+     * @throws Exception
      */
     public function getLogger()
     {
@@ -416,20 +434,23 @@ class UpgradeContainer
         if (is_writable($this->getProperty(self::TMP_PATH))) {
             $logFile = $this->getProperty(self::TMP_PATH) . DIRECTORY_SEPARATOR . 'log.txt';
         }
-        $this->logger = new LegacyLogger($logFile);
+        $this->logger = (new LegacyLogger($logFile))
+            ->setSensitiveData([
+                $this->getProperty(self::PS_ADMIN_SUBDIR) => '**admin_folder**',
+            ]);
 
         return $this->logger;
     }
 
-    public function setLogger(Logger $logger)
+    public function setLogger(Logger $logger): void
     {
         $this->logger = $logger;
     }
 
     /**
-     * @return ModuleAdapter
+     * @throws Exception
      */
-    public function getModuleAdapter()
+    public function getModuleAdapter(): ModuleAdapter
     {
         if (null !== $this->moduleAdapter) {
             return $this->moduleAdapter;
@@ -450,7 +471,7 @@ class UpgradeContainer
     /**
      * @return State
      */
-    public function getState()
+    public function getState(): State
     {
         if (null !== $this->state) {
             return $this->state;
@@ -462,23 +483,22 @@ class UpgradeContainer
     }
 
     /**
-     * @return Translation
+     * @throws Exception
      */
-    public function getTranslationAdapter()
+    public function getTranslationAdapter(): Translation
     {
         return new Translation($this->getTranslator(), $this->getLogger(), $this->getState()->getInstalledLanguagesIso());
     }
 
-    /**
-     * @return Translator
-     */
-    public function getTranslator()
+    public function getTranslator(): Translator
     {
-        return new Translator('AdminSelfUpgrade');
+        return new Translator();
     }
 
     /**
-     * @return Twig_Environment|\Twig\Environment
+     * @throws LoaderError
+     *
+     * @return \Twig\Environment|\Twig_Environment
      */
     public function getTwig()
     {
@@ -495,9 +515,9 @@ class UpgradeContainer
             $twig->addExtension(new TransFilterExtension($this->getTranslator()));
         } else {
             // We use Twig 3
-            $loader = new \Twig\Loader\FilesystemLoader();
+            $loader = new FilesystemLoader();
             $loader->addPath(realpath(__DIR__ . '/..') . '/views/templates', 'ModuleAutoUpgrade');
-            $twig = new \Twig\Environment($loader);
+            $twig = new Environment($loader);
             $twig->addExtension(new TransFilterExtension3($this->getTranslator()));
         }
 
@@ -507,9 +527,9 @@ class UpgradeContainer
     }
 
     /**
-     * @return PrestashopConfiguration
+     * @throws Exception
      */
-    public function getPrestaShopConfiguration()
+    public function getPrestaShopConfiguration(): PrestashopConfiguration
     {
         if (null !== $this->prestashopConfiguration) {
             return $this->prestashopConfiguration;
@@ -522,10 +542,7 @@ class UpgradeContainer
         return $this->prestashopConfiguration;
     }
 
-    /**
-     * @return SymfonyAdapter
-     */
-    public function getSymfonyAdapter()
+    public function getSymfonyAdapter(): SymfonyAdapter
     {
         if (null !== $this->symfonyAdapter) {
             return $this->symfonyAdapter;
@@ -537,9 +554,9 @@ class UpgradeContainer
     }
 
     /**
-     * @return UpgradeConfiguration
+     * @throws Exception
      */
-    public function getUpgradeConfiguration()
+    public function getUpgradeConfiguration(): UpgradeConfiguration
     {
         if (null !== $this->upgradeConfiguration) {
             return $this->upgradeConfiguration;
@@ -551,17 +568,17 @@ class UpgradeContainer
     }
 
     /**
-     * @return UpgradeConfigurationStorage
+     * @throws Exception
      */
-    public function getUpgradeConfigurationStorage()
+    public function getUpgradeConfigurationStorage(): UpgradeConfigurationStorage
     {
         return new UpgradeConfigurationStorage($this->getProperty(self::WORKSPACE_PATH) . DIRECTORY_SEPARATOR);
     }
 
     /**
-     * @return Workspace
+     * @throws Exception
      */
-    public function getWorkspace()
+    public function getWorkspace(): Workspace
     {
         if (null !== $this->workspace) {
             return $this->workspace;
@@ -587,9 +604,9 @@ class UpgradeContainer
     }
 
     /**
-     * @return ZipAction
+     * @throws Exception
      */
-    public function getZipAction()
+    public function getZipAction(): ZipAction
     {
         if (null !== $this->zipAction) {
             return $this->zipAction;
@@ -606,8 +623,10 @@ class UpgradeContainer
 
     /**
      * Checks if the composer autoload exists, and loads it.
+     *
+     * @throws Exception
      */
-    public function initPrestaShopAutoloader()
+    public function initPrestaShopAutoloader(): void
     {
         $autoloader = $this->getProperty(self::PS_ROOT_PATH) . '/vendor/autoload.php';
         if (file_exists($autoloader)) {
@@ -618,7 +637,10 @@ class UpgradeContainer
         require_once $this->getProperty(self::PS_ROOT_PATH) . '/config/autoload.php';
     }
 
-    public function initPrestaShopCore()
+    /**
+     * @throws Exception
+     */
+    public function initPrestaShopCore(): void
     {
         require_once $this->getProperty(self::PS_ROOT_PATH) . '/config/config.inc.php';
 
@@ -629,7 +651,7 @@ class UpgradeContainer
     /**
      * Attemps to flush opcache
      */
-    public function resetOpcache()
+    public function resetOpcache(): void
     {
         $disabled = explode(',', ini_get('disable_functions'));
 

@@ -1,0 +1,47 @@
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  sync-translations:
+    name: Extract translations and submit a PR
+    runs-on: ubuntu-latest
+    env:
+      BRANCH: ${{ github.ref_name }}
+      TRANSLATION_BRANCH: 'translation-extraction'
+      REPOSITORY_NAME: ${{ github.event.repository.name }}
+      OWNER_NAME: ${{ github.repository_owner }}
+    steps:
+      - name: Checkout module-translation-tool
+        uses: actions/checkout@v4
+        with:
+          repository: PrestaShopCorp/module-translation-tool
+          ref: main
+      - name: Create config for module-translation-tool
+        run: |
+          cp ./module.cfg.example ./module.cfg
+          sed -i 's/^MODULE_NAME.*/MODULE_NAME="$REPOSITORY_NAME"/g' ./module.cfg
+          sed -i 's/^GIT_REPO_USERNAME.*/GIT_REPO_USERNAME="$OWNER_NAME"/g' ./module.cfg
+          sed -i 's/^GIT_REPO_NAME.*/GIT_REPO_NAME="$REPOSITORY_NAME"/g' ./module.cfg
+          sed -i 's/^BRANCH.*/BRANCH="$BRANCH"/g' ./module.cfg
+      - name: Setup git config
+        run: |
+          git config --global user.name "Github Actions - Module translation tool"
+          git config --global user.email "<>"
+          git config --global credential.helper 'cache --timeout 3600'
+          git config --global url."https://oauth2:${{ secrets.GITHUB_TOKEN }}@github.com".insteadOf ssh://git@github.com
+      - run: composer install
+      - name: Extract translations and push
+        run: |
+          /bin/bash -eux ./scripts/extractCatalogue.sh
+          rm catalog/autoupgrade/translations/ModulesAutoupgradeAdmin.en.xlf
+          mv catalog/autoupgrade/translations/en-US/messages.en-US.xlf catalog/autoupgrade/translations/ModulesAutoupgradeAdmin.en.xlf
+          if [ -d "catalog/autoupgrade/translations/en-US" ] && [ "$(ls -A catalog/autoupgrade/translations/en-US)" ]; then
+            echo "::error::The directory catalog/autoupgrade/translations/en-US is not empty, some translations are left behind. This can happen when translations have a domain set when calling the method trans."
+          fi
+          rmdir catalog/autoupgrade/translations/en-US
+        
+          php bin/console prestashop:translation:push-on-git "https://oauth2:${{ secrets.GITHUB_TOKEN }}@github.com/$OWNER_NAME/$REPOSITORY_NAME.git" "$REPOSITORY_NAME" "./catalog" $BRANCH -v --push-on-branch $TRANSLATION_BRANCH
+        env:
+          APP_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

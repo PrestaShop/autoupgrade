@@ -44,15 +44,15 @@ class BackupFinder
      *
      * @param string $backupPath
      */
-    public function __construct($backupPath)
+    public function __construct(string $backupPath)
     {
         $this->backupPath = $backupPath;
     }
 
     /**
-     * @return array
+     * @return string[]
      */
-    public function getAvailableBackups()
+    public function getAvailableBackups(): array
     {
         if (null === $this->availableBackups) {
             $this->availableBackups = $this->buildBackupList();
@@ -62,9 +62,9 @@ class BackupFinder
     }
 
     /**
-     * @return array
+     * @return string[]
      */
-    private function buildBackupList()
+    private function buildBackupList(): array
     {
         return array_intersect(
             $this->getBackupDbAvailable($this->backupPath),
@@ -73,11 +73,9 @@ class BackupFinder
     }
 
     /**
-     * @param string $backupPath
-     *
-     * @return array
+     * @return string[]
      */
-    private function getBackupDbAvailable($backupPath)
+    private function getBackupDbAvailable(string $backupPath): array
     {
         $array = [];
 
@@ -93,11 +91,9 @@ class BackupFinder
     }
 
     /**
-     * @param string $backupPath
-     *
-     * @return array
+     * @return string[]
      */
-    private function getBackupFilesAvailable($backupPath)
+    private function getBackupFilesAvailable(string $backupPath): array
     {
         $array = [];
         $files = scandir($backupPath);

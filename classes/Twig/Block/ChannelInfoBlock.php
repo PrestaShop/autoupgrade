@@ -63,9 +63,9 @@ class ChannelInfoBlock
     }
 
     /**
-     * @return string HTML
+     * @return array<string, mixed>
      */
-    public function render()
+    public function getTemplateVars(): array
     {
         $channel = $this->channelInfo->getChannel();
         $upgradeInfo = $this->channelInfo->getInfo();
@@ -75,11 +75,17 @@ class ChannelInfoBlock
             $upgradeInfo['md5'] = $this->config->get('private_release_md5');
         }
 
-        return $this->twig->render(
-            '@ModuleAutoUpgrade/block/channelInfo.twig',
-            [
-                'upgradeInfo' => $upgradeInfo,
-            ]
-        );
+        return [
+            'psBaseUri' => __PS_BASE_URI__,
+            'upgradeInfo' => $upgradeInfo,
+        ];
+    }
+
+    /**
+     * @return string HTML
+     */
+    public function render(): string
+    {
+        return $this->twig->render('@ModuleAutoUpgrade/block/channelInfo.html.twig', $this->getTemplateVars());
     }
 }

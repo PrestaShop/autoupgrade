@@ -30,7 +30,7 @@ namespace PrestaShop\Module\AutoUpgrade\Twig\Block;
 use Configuration;
 use PrestaShop\Module\AutoUpgrade\ChannelInfo;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
-use PrestaShop\Module\AutoUpgrade\TaskRunner\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Upgrader;
 use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
@@ -79,13 +79,7 @@ class UpgradeButtonBlock
     private $manualMode;
 
     /**
-     * UpgradeButtonBlock constructor.
-     *
      * @param Environment $twig
-     * @param Translator $translator
-     * @param UpgradeConfiguration $config
-     * @param Upgrader $upgrader
-     * @param UpgradeSelfCheck $selfCheck
      */
     public function __construct(
         $twig,
@@ -93,9 +87,9 @@ class UpgradeButtonBlock
         UpgradeConfiguration $config,
         Upgrader $upgrader,
         UpgradeSelfCheck $selfCheck,
-        $downloadPath,
-        $token,
-        $manualMode
+        string $downloadPath,
+        string $token,
+        bool $manualMode
     ) {
         $this->twig = $twig;
         $this->translator = $translator;
@@ -108,11 +102,9 @@ class UpgradeButtonBlock
     }
 
     /**
-     * display the summary current version / target version + "Upgrade Now" button with a "more options" button.
-     *
-     * @return string HTML
+     * @return array<string, mixed>
      */
-    public function render()
+    public function getTemplateVars(): array
     {
         $translator = $this->translator;
 
@@ -125,7 +117,7 @@ class UpgradeButtonBlock
         if (!in_array($channel, ['archive', 'directory']) && !empty($this->upgrader->version_num)) {
             $latestVersion = "{$this->upgrader->version_name} - ({$this->upgrader->version_num})";
         } else {
-            $latestVersion = $translator->trans('N/A', [], 'Admin.Global');
+            $latestVersion = $translator->trans('N/A');
         }
 
         $showUpgradeButton = false;
@@ -158,7 +150,7 @@ class UpgradeButtonBlock
         $dir = glob($this->downloadPath . DIRECTORY_SEPARATOR . '*.zip');
         $xml = glob($this->downloadPath . DIRECTORY_SEPARATOR . '*.xml');
 
-        $data = [
+        $templateVars = [
             'versionCompare' => $versionCompare,
             'currentPsVersion' => _PS_VERSION_,
             'latestChannelVersion' => $latestVersion,
@@ -171,7 +163,6 @@ class UpgradeButtonBlock
             'lastVersionCheck' => Configuration::get('PS_LAST_VERSION_CHECK'),
             'token' => $this->token,
             'channelOptions' => $this->getOptChannels(),
-            'channelInfoBlock' => $this->buildChannelInfoBlock($channel),
             'privateChannel' => [
                 'releaseLink' => $this->config->get('private_release_link'),
                 'releaseMd5' => $this->config->get('private_release_md5'),
@@ -188,30 +179,39 @@ class UpgradeButtonBlock
             'phpVersion' => PHP_VERSION,
         ];
 
-        return $this->twig->render('@ModuleAutoUpgrade/block/upgradeButtonBlock.twig', $data);
+        return array_merge($templateVars, $this->buildChannelInfoBlockVars($channel));
     }
 
     /**
-     * @return array
+     * display the summary current version / target version + "Upgrade Now" button with a "more options" button.
+     *
+     * @return string HTML
      */
-    private function getOptChannels()
+    public function render(): string
+    {
+        return $this->twig->render('@ModuleAutoUpgrade/block/upgradeButtonBlock.html.twig', $this->getTemplateVars());
+    }
+
+    /**
+     * @return array<int, array<string>>
+     */
+    private function getOptChannels(): array
     {
         $translator = $this->translator;
 
         return [
-            // Hey ! I'm really using a fieldset element to regroup fields ?! !
-            ['useMajor', 'major', $translator->trans('Major release', [], 'Modules.Autoupgrade.Admin')],
-            ['useMinor', 'minor', $translator->trans('Minor release (recommended)', [], 'Modules.Autoupgrade.Admin')],
-            ['useRC', 'rc', $translator->trans('Release candidates', [], 'Modules.Autoupgrade.Admin')],
-            ['useBeta', 'beta', $translator->trans('Beta releases', [], 'Modules.Autoupgrade.Admin')],
-            ['useAlpha', 'alpha', $translator->trans('Alpha releases', [], 'Modules.Autoupgrade.Admin')],
-            ['usePrivate', 'private', $translator->trans('Private release (require link and MD5 hash)', [], 'Modules.Autoupgrade.Admin')],
-            ['useArchive', 'archive', $translator->trans('Local archive', [], 'Modules.Autoupgrade.Admin')],
-            ['useDirectory', 'directory', $translator->trans('Local directory', [], 'Modules.Autoupgrade.Admin')],
+            ['useMajor', 'major', $translator->trans('Major release')],
+            ['useMinor', 'minor', $translator->trans('Minor release (recommended)')],
+            ['useRC', 'rc', $translator->trans('Release candidates')],
+            ['useBeta', 'beta', $translator->trans('Beta releases')],
+            ['useAlpha', 'alpha', $translator->trans('Alpha releases')],
+            ['usePrivate', 'private', $translator->trans('Private release (require link and MD5 hash)')],
+            ['useArchive', 'archive', $translator->trans('Local archive')],
+            ['useDirectory', 'directory', $translator->trans('Local directory')],
         ];
     }
 
-    private function getInfoForChannel($channel)
+    private function getInfoForChannel(string $channel): ChannelInfo
     {
         return new ChannelInfo($this->upgrader, $this->config, $channel);
     }
@@ -219,13 +219,13 @@ class UpgradeButtonBlock
     /**
      * @param string $channel
      *
-     * @return string
+     * @return array<string, mixed>
      */
-    private function buildChannelInfoBlock($channel)
+    private function buildChannelInfoBlockVars(string $channel): array
     {
         $channelInfo = $this->getInfoForChannel($channel);
 
         return (new ChannelInfoBlock($this->config, $channelInfo, $this->twig))
-            ->render();
+            ->getTemplateVars();
     }
 }

@@ -47,7 +47,7 @@ class FileConfigurationStorage
      */
     private $filesystem;
 
-    public function __construct($path)
+    public function __construct(string $path)
     {
         $this->configPath = $path;
         $this->filesystem = new Filesystem();
@@ -60,7 +60,7 @@ class FileConfigurationStorage
      *
      * @return mixed or array() as default value
      */
-    public function load($fileName = '')
+    public function load(string $fileName = '')
     {
         $configFilePath = $this->configPath . $fileName;
         $config = [];
@@ -75,10 +75,8 @@ class FileConfigurationStorage
     /**
      * @param mixed $config
      * @param string $fileName Destination name of the config file
-     *
-     * @return bool
      */
-    public function save($config, $fileName)
+    public function save($config, string $fileName): bool
     {
         $configFilePath = $this->configPath . $fileName;
         try {
@@ -92,9 +90,9 @@ class FileConfigurationStorage
     }
 
     /**
-     * @return array Temporary files path & name
+     * @return array<string, string> Temporary files path & name
      */
-    public function getFilesList()
+    public function getFilesList(): array
     {
         $files = [];
         foreach (UpgradeFileNames::$tmp_files as $file) {
@@ -107,7 +105,7 @@ class FileConfigurationStorage
     /**
      * Delete all temporary files in the config folder.
      */
-    public function cleanAll()
+    public function cleanAll(): void
     {
         $this->filesystem->remove(self::getFilesList());
     }
@@ -117,7 +115,7 @@ class FileConfigurationStorage
      *
      * @param string $fileName
      */
-    public function clean($fileName)
+    public function clean(string $fileName): void
     {
         $this->filesystem->remove($this->getFilePath($fileName));
     }
@@ -127,20 +125,15 @@ class FileConfigurationStorage
      *
      * @param string $fileName
      */
-    public function exists($fileName)
+    public function exists(string $fileName): bool
     {
         return $this->filesystem->exists($this->getFilePath($fileName));
     }
 
     /**
      * Generate the complete path to a given file.
-     *
-     * @param string $file Name
-     *
-     * @return string Pgit gui&
-     *                ath
      */
-    private function getFilePath($file)
+    private function getFilePath(string $file): string
     {
         return $this->configPath . $file;
     }

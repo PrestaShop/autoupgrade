@@ -1,0 +1,35 @@
+{
+  "name": "autoupgrade_tests_ui",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "// ESLint": "To run ESLint commands",
+    "lint:fix": "eslint --fix --ignore-path .gitignore .",
+    "lint": "eslint --ignore-path .gitignore ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.11.5",
+    "@types/semver": "^7.5.8",
+    "@typescript-eslint/eslint-plugin": "^7.11.0",
+    "@typescript-eslint/parser": "^7.11.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^8.56",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-deprecation": "^2.0.0",
+    "eslint-plugin-html": "^8.1.1",
+    "eslint-plugin-import": "^2.29.1",
+    "pwmochawesome": "^1.1.1",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "@playwright/test": "^1.44.0",
+    "@prestashop-core/ui-testing": "https://github.com/PrestaShop/ui-testing-library#main",
+    "dotenv": "^16.3.1",
+    "maildev": "^2.1.0",
+    "mysql2": "^3.10.0",
+    "semver": "^7.6.2"
+  }
+}

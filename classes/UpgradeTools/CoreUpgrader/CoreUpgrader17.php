@@ -27,13 +27,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader;
 
-use PrestaShop\Module\AutoUpgrade\UpgradeException;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\ThemeAdapter;
-use PrestaShop\PrestaShop\Core\CommandBus\CommandBusInterface;
-use PrestaShop\PrestaShop\Core\Domain\Theme\Command\AdaptThemeToRTLLanguagesCommand;
-use PrestaShop\PrestaShop\Core\Domain\Theme\ValueObject\ThemeName;
-use PrestaShop\PrestaShop\Core\Exception\CoreException;
-use Symfony\Component\Filesystem\Filesystem;
+use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 
 /**
  * Class used to modify the core of PrestaShop, on the files are copied on the filesystem.
@@ -41,22 +35,18 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 class CoreUpgrader17 extends CoreUpgrader
 {
-    protected function initConstants()
+    protected function initConstants(): void
     {
         parent::initConstants();
-
-        /*if (!file_exists(SETTINGS_FILE_PHP)) {
-            throw new UpgradeException($this->container->getTranslator()->trans('The app/config/parameters.php file was not found.', array(), 'Modules.Autoupgrade.Admin'));
-        }
-        if (!file_exists(SETTINGS_FILE_YML)) {
-            throw new UpgradeException($this->container->getTranslator()->trans('The app/config/parameters.yml file was not found.', array(), 'Modules.Autoupgrade.Admin'));
-        }*/
 
         // Container may be needed to run upgrade scripts
         $this->container->getSymfonyAdapter()->initKernel();
     }
 
-    protected function upgradeLanguage($lang)
+    /**
+     * @throws UpgradeException
+     */
+    protected function upgradeLanguage($lang): void
     {
         $isoCode = $lang['iso_code'];
 
@@ -66,7 +56,7 @@ class CoreUpgrader17 extends CoreUpgrader
         $errorsLanguage = [];
 
         if (!\Language::downloadLanguagePack($isoCode, _PS_VERSION_, $errorsLanguage)) {
-            throw new UpgradeException($this->container->getTranslator()->trans('Download of the language pack %lang% failed. %details%', ['%lang%' => $isoCode, '%details%' => implode('; ', $errorsLanguage)], 'Modules.Autoupgrade.Admin'));
+            throw new UpgradeException($this->container->getTranslator()->trans('Download of the language pack %lang% failed. %details%', ['%lang%' => $isoCode, '%details%' => implode('; ', $errorsLanguage)]));
         }
 
         $lang_pack = \Language::getLangDetails($isoCode);
@@ -77,7 +67,7 @@ class CoreUpgrader17 extends CoreUpgrader
         }
 
         if (!empty($errorsLanguage)) {
-            throw new UpgradeException($this->container->getTranslator()->trans('Error while updating translations for the language pack %lang%. %details%', ['%lang%' => $isoCode, '%details%' => implode('; ', $errorsLanguage)], 'Modules.Autoupgrade.Admin'));
+            throw new UpgradeException($this->container->getTranslator()->trans('Error while updating translations for the language pack %lang%. %details%', ['%lang%' => $isoCode, '%details%' => implode('; ', $errorsLanguage)]));
         }
         \Language::loadLanguages();
 
@@ -87,59 +77,6 @@ class CoreUpgrader17 extends CoreUpgrader
         if (version_compare($this->container->getState()->getInstallVersion(), '1.7.6.0', '<')) {
             $cldrUpdate = new \PrestaShop\PrestaShop\Core\Cldr\Update(_PS_TRANSLATIONS_DIR_);
             $cldrUpdate->fetchLocale(\Language::getLocaleByIso($isoCode));
-        }
-    }
-
-    protected function updateTheme()
-    {
-        parent::updateTheme();
-
-        $this->updateRTLFiles();
-    }
-
-    protected function updateRTLFiles()
-    {
-        if (!class_exists(AdaptThemeToRTLLanguagesCommand::class)) {
-            return;
-        }
-
-        if (!$this->container->getUpgradeConfiguration()->shouldUpdateRTLFiles()) {
-            return;
-        }
-        $this->logger->info($this->container->getTranslator()->trans('Upgrade the RTL files.', [], 'Modules.Autoupgrade.Admin'));
-        $themeAdapter = new ThemeAdapter($this->db);
-
-        $themes = $themeAdapter->getListFromDisk();
-        $this->removeExistingRTLFiles($themes);
-
-        foreach ($themes as $theme) {
-            $adaptThemeToTRLLanguages = new AdaptThemeToRTLLanguagesCommand(
-                new ThemeName($theme['name'])
-            );
-
-            /** @var CommandBusInterface $commandBus */
-            $commandBus = $this->container->getModuleAdapter()->getCommandBus();
-
-            try {
-                $commandBus->handle($adaptThemeToTRLLanguages);
-            } catch (CoreException $e) {
-                $this->logger->error('
-                    [ERROR] PHP Impossible to generate RTL files for theme' . $theme['name'] . "\n" .
-                    $e->getMessage()
-                );
-
-                $this->container->getState()->setWarningExists(true);
-            }
-        }
-    }
-
-    private function removeExistingRTLFiles(array $themes)
-    {
-        $filesystem = new Filesystem();
-
-        foreach ($themes as $theme) {
-            $files = $this->container->getFilesystemAdapter()->listSampleFiles($theme['directory'], '_rtl.css');
-            $filesystem->remove($files);
         }
     }
 }

@@ -57,7 +57,7 @@ class AjaxResponse
     private $next = 'N/A';
 
     /**
-     * @var array Params to send (upgrade conf, details on the work to do ...)
+     * @var array<string, string|array<string>> Params to send (upgrade conf, details on the work to do ...)
      */
     private $nextParams = [];
 
@@ -89,11 +89,11 @@ class AjaxResponse
     }
 
     /**
-     * @return array of data to ready to be returned to caller
+     * @return array<string, mixed> of data to ready to be returned to caller
      */
-    public function getResponse()
+    public function getResponse(): array
     {
-        $return = [
+        return [
             'error' => $this->error,
             'stepDone' => $this->stepDone,
             'next' => $this->next,
@@ -110,81 +110,85 @@ class AjaxResponse
                 ]
             ),
         ];
-
-        return $return;
     }
 
     /**
      * @return string Json encoded response from $this->getResponse()
      */
-    public function getJson()
+    public function getJson(): string
     {
         return json_encode($this->getResponse());
     }
 
     // GETTERS
 
-    public function getError()
+    public function getError(): ?bool
     {
         return $this->error;
     }
 
-    public function getStepDone()
+    public function getStepDone(): ?bool
     {
         return $this->stepDone;
     }
 
-    public function getNext()
+    public function getNext(): ?string
     {
         return $this->next;
     }
 
-    public function getStatus()
+    public function getStatus(): string
     {
         return $this->getNext() == 'error' ? 'error' : 'ok';
     }
 
-    public function getNextParams()
+    /**
+     * @return array<string, string|array<string>>
+     */
+    public function getNextParams(): array
     {
         return $this->nextParams;
     }
 
-    public function getUpgradeConfiguration()
+    public function getUpgradeConfiguration(): UpgradeConfiguration
     {
         return $this->upgradeConfiguration;
     }
 
     // SETTERS
 
-    public function setError($error)
+    public function setError(?bool $error): AjaxResponse
     {
-        $this->error = (bool) $error;
+        $this->error = $error;
 
         return $this;
     }
 
-    public function setStepDone($stepDone)
+    public function setStepDone(?bool $stepDone): AjaxResponse
     {
         $this->stepDone = $stepDone;
 
         return $this;
     }
 
-    public function setNext($next)
+    public function setNext(?string $next): AjaxResponse
     {
         $this->next = $next;
 
         return $this;
     }
 
-    public function setNextParams($nextParams)
+    /**
+     * @param array<string, string|array<string>> $nextParams
+     */
+    public function setNextParams(array $nextParams): AjaxResponse
     {
         $this->nextParams = $nextParams;
 
         return $this;
     }
 
-    public function setUpgradeConfiguration(UpgradeConfiguration $upgradeConfiguration)
+    public function setUpgradeConfiguration(UpgradeConfiguration $upgradeConfiguration): AjaxResponse
     {
         $this->upgradeConfiguration = $upgradeConfiguration;
 

@@ -30,7 +30,7 @@ services:
       - temp-ps:/var/www/html # Used for another container which needs PrestaShop content
     environment:
       DISABLE_MAKE: 0
-      PS_INSTALL_AUTO: 1
+      PS_INSTALL_AUTO: ${PS_INSTALL_AUTO:-1}
       DB_SERVER: mysql
       DB_PASSWD: root
       DB_NAME: psreference
@@ -42,6 +42,9 @@ services:
       PS_LANGUAGE: en
       PS_COUNTRY: fr
       PS_DEV_MODE: 0
+    # We must wait the database for the initialization and/or clear steps, because the waiting phase is conditioned by the variable PS_INSTALL_AUTO
+    # https://github.com/PrestaShop/docker/blob/master/base/config_files/docker_run.sh#L7
+    command: sh -c 'while ! mysql -hmysql -uroot -proot -e "status"; do sleep 1; done && /tmp/docker_run.sh'
     depends_on:
       - mysql
     ports:

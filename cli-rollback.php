@@ -24,6 +24,9 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
+
+use PrestaShop\Module\AutoUpgrade\ErrorHandler;
+
 if (PHP_SAPI !== 'cli') {
     echo 'This script must be called from CLI';
     exit(1);
@@ -32,8 +35,10 @@ if (PHP_SAPI !== 'cli') {
 require_once realpath(dirname(__FILE__) . '/../../modules/autoupgrade') . '/ajax-upgradetabconfig.php';
 $container = autoupgrade_init_container(dirname(__FILE__));
 
-$container->setLogger(new PrestaShop\Module\AutoUpgrade\Log\StreamedLogger());
-$controller = new \PrestaShop\Module\AutoUpgrade\TaskRunner\Rollback\AllRollbackTasks($container);
+$logger = new PrestaShop\Module\AutoUpgrade\Log\StreamedLogger();
+$container->setLogger($logger);
+(new ErrorHandler($logger))->enable();
+$controller = new \PrestaShop\Module\AutoUpgrade\Task\Runner\AllRollbackTasks($container);
 $controller->setOptions(getopt('', ['backup::']));
 $controller->init();
 exit($controller->run());

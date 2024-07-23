@@ -27,11 +27,14 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
+use Db;
+
 class ThemeAdapter
 {
+    /** @var Db */
     private $db;
 
-    public function __construct($db)
+    public function __construct(Db $db)
     {
         $this->db = $db;
     }
@@ -41,7 +44,7 @@ class ThemeAdapter
      *
      * @return string
      */
-    public function getDefaultTheme()
+    public function getDefaultTheme(): string
     {
         return 'classic';
     }
@@ -49,9 +52,9 @@ class ThemeAdapter
     /**
      * Get the list of theme name.
      *
-     * @return array
+     * @return array{array{'name':string, 'directory':string}}
      */
-    public function getListFromDisk()
+    public function getListFromDisk(): array
     {
         $suffix = 'config/theme.yml';
         $themeDirectories = glob(_PS_ALL_THEMES_DIR_ . '*/' . $suffix, GLOB_NOSORT);
@@ -74,7 +77,7 @@ class ThemeAdapter
      *
      * @return bool|string True on success, string with errors on failure
      */
-    public function enableTheme($themeName)
+    public function enableTheme(string $themeName)
     {
         // Load up core theme manager
         $themeManager = $this->getThemeManager();
@@ -94,6 +97,9 @@ class ThemeAdapter
         return true;
     }
 
+    /**
+     * @return \PrestaShop\PrestaShop\Core\Addon\Theme\ThemeManager
+     */
     private function getThemeManager()
     {
         return (new \PrestaShop\PrestaShop\Core\Addon\Theme\ThemeManagerBuilder(\Context::getContext(), $this->db))->build();

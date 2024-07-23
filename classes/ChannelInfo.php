@@ -31,6 +31,9 @@ use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 
 class ChannelInfo
 {
+    /**
+     * @var array<string, mixed>
+     */
     private $info = [];
 
     /**
@@ -38,20 +41,12 @@ class ChannelInfo
      */
     private $channel;
 
-    /**
-     * ChannelInfo constructor.
-     *
-     * @param Upgrader $upgrader
-     * @param UpgradeConfiguration $config
-     * @param string $channel
-     */
-    public function __construct(Upgrader $upgrader, UpgradeConfiguration $config, $channel)
+    public function __construct(Upgrader $upgrader, UpgradeConfiguration $config, string $channel)
     {
         $this->channel = $channel;
         $publicChannels = ['minor', 'major', 'rc', 'beta', 'alpha'];
 
-        preg_match('#([0-9]+\.[0-9]+)(?:\.[0-9]+){1,2}#', _PS_VERSION_, $matches);
-        $upgrader->branch = $matches[1];
+        $upgrader->branch = VersionUtils::splitPrestaShopVersion(_PS_VERSION_)['major'];
         $upgrader->channel = $channel;
 
         if (in_array($channel, $publicChannels)) {
@@ -103,17 +98,14 @@ class ChannelInfo
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
-    public function getInfo()
+    public function getInfo(): array
     {
         return $this->info;
     }
 
-    /**
-     * @return string
-     */
-    public function getChannel()
+    public function getChannel(): string
     {
         return $this->channel;
     }

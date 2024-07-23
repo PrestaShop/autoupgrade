@@ -42,19 +42,27 @@ class RollbackForm
      */
     private $backupFinder;
 
+    /**
+     * @param Environment $twig
+     */
     public function __construct($twig, BackupFinder $backupFinder)
     {
         $this->twig = $twig;
         $this->backupFinder = $backupFinder;
     }
 
-    public function render()
+    /**
+     * @return array<string, mixed>
+     */
+    public function getTemplateVars(): array
     {
-        return $this->twig->render(
-            '@ModuleAutoUpgrade/block/rollbackForm.twig',
-            [
-                'availableBackups' => $this->backupFinder->getAvailableBackups(),
-            ]
-        );
+        return [
+            'availableBackups' => $this->backupFinder->getAvailableBackups(),
+        ];
+    }
+
+    public function render(): string
+    {
+        return $this->twig->render('@ModuleAutoUpgrade/block/rollbackForm.html.twig', $this->getTemplateVars());
     }
 }

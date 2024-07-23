@@ -36,27 +36,28 @@ use Twig_SimpleFilter;
  */
 class TransFilterExtension extends Twig_Extension
 {
-    const DOMAIN = 'Modules.Autoupgrade.Admin';
-
     /**
      * @var Translator
      */
     private $translator;
 
-    public function __construct($translator)
+    public function __construct(Translator $translator)
     {
         $this->translator = $translator;
     }
 
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new Twig_SimpleFilter('trans', [$this, 'trans']),
         ];
     }
 
-    public function trans($string, $params = [])
+    /**
+     * @param array<int|string, int|string> $params
+     */
+    public function trans(string $string, array $params = []): string
     {
-        return $this->translator->trans($string, $params, self::DOMAIN);
+        return $this->translator->trans($string, $params);
     }
 }

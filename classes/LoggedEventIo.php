@@ -31,6 +31,9 @@ use PrestaShop\Module\AutoUpgrade\Log\LoggerInterface;
 
 class LoggedEventIo
 {
+    /**
+     * @var LoggerInterface
+     */
     private $logger;
 
     public function __construct(LoggerInterface $logger)
@@ -38,7 +41,7 @@ class LoggedEventIo
         $this->logger = $logger;
     }
 
-    public function write($message)
+    public function write(string $message): void
     {
         $this->logger->debug($message);
     }

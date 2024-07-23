@@ -49,7 +49,7 @@ class FileFilter
     protected $rootDir;
 
     /**
-     * @var array|null
+     * @var string[]
      */
     protected $excludeAbsoluteFilesFromUpgrade;
 
@@ -59,15 +59,10 @@ class FileFilter
         'autoupgrade',
     ];
 
-    /**
-     * @param UpgradeConfiguration $configuration
-     * @param string $rootDir
-     * @param string $autoupgradeDir
-     */
     public function __construct(
         UpgradeConfiguration $configuration,
-        $rootDir,
-        $autoupgradeDir = 'autoupgrade'
+        string $rootDir,
+        string $autoupgradeDir = 'autoupgrade'
     ) {
         $this->configuration = $configuration;
         $this->rootDir = $rootDir;
@@ -75,11 +70,9 @@ class FileFilter
     }
 
     /**
-     * AdminSelfUpgrade::backupIgnoreAbsoluteFiles.
-     *
-     * @return array
+     * @return string[]
      */
-    public function getFilesToIgnoreOnBackup()
+    public function getFilesToIgnoreOnBackup(): array
     {
         // during backup, do not save
         $backupIgnoreAbsoluteFiles = [
@@ -105,11 +98,9 @@ class FileFilter
     }
 
     /**
-     * AdminSelfUpgrade::restoreIgnoreAbsoluteFiles.
-     *
-     * @return array
+     * @return string[]
      */
-    public function getFilesToIgnoreOnRestore()
+    public function getFilesToIgnoreOnRestore(): array
     {
         $restoreIgnoreAbsoluteFiles = [
             '/app/config/parameters.php',
@@ -130,11 +121,9 @@ class FileFilter
     }
 
     /**
-     * AdminSelfUpgrade::excludeAbsoluteFilesFromUpgrade.
-     *
-     * @return array
+     * @return string[]
      */
-    public function getFilesToIgnoreOnUpgrade()
+    public function getFilesToIgnoreOnUpgrade(): array
     {
         if ($this->excludeAbsoluteFilesFromUpgrade) {
             return $this->excludeAbsoluteFilesFromUpgrade;
@@ -143,6 +132,20 @@ class FileFilter
         $this->excludeAbsoluteFilesFromUpgrade = [
             '/app/config/parameters.php',
             '/app/config/parameters.yml',
+            '/img/c/*.jpg',
+            '/img/cms/*.jpg',
+            '/img/l/*.jpg',
+            '/img/m/*.jpg',
+            '/img/os/*.jpg',
+            '/img/p/*.jpg',
+            '/img/s/*.jpg',
+            '/img/scenes/*.jpg',
+            '/img/st/*.jpg',
+            '/img/su/*.jpg',
+            '/img/404.gif',
+            '/img/favicon.ico',
+            '/img/logo.jpg',
+            '/img/logo_stores.gif',
             '/install',
             '/install-dev',
             // TODO: Uncomment when a better management of modules upgrades is implemented
@@ -183,16 +186,12 @@ class FileFilter
     }
 
     /**
-     * AdminSelfUpgrade::backupIgnoreFiles
-     * AdminSelfUpgrade::excludeFilesFromUpgrade
-     * AdminSelfUpgrade::restoreIgnoreFiles.
-     *
      * These files are checked in every subfolder of the directory tree and can match
      * several time, while the others are only matching a file from the project root.
      *
-     * @return array
+     * @return string[]
      */
-    public function getExcludeFiles()
+    public function getExcludeFiles(): array
     {
         return [
             '.',
@@ -206,9 +205,9 @@ class FileFilter
     /**
      * Returns an array of native modules
      *
-     * @return array<string>
+     * @return string[]
      */
-    private function getNativeModules()
+    private function getNativeModules(): array
     {
         $composerFile = $this->rootDir . '/composer.lock';
         if (!file_exists($composerFile)) {

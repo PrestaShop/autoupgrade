@@ -30,15 +30,20 @@ namespace PrestaShop\Module\AutoUpgrade\Xml;
 use Configuration;
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\Upgrader;
+use SimpleXMLElement;
 
 class FileLoader
 {
     const BASE_URL_MD5_FILES = 'https://api.prestashop.com/xml/md5/';
     const URL_CHANNELS_FILE = 'https://api.prestashop.com/xml/channel.xml';
 
+    /** @var array<string, string> */
     public $version_md5 = [];
 
-    public function getXmlFile($xml_localfile, $xml_remotefile, $refresh = false)
+    /**
+     * @return SimpleXMLElement|false
+     */
+    public function getXmlFile(string $xml_localfile, string $xml_remotefile, bool $refresh = false)
     {
         // @TODO : this has to be moved in autoupgrade.php > install method
         if (!is_dir(_PS_ROOT_DIR_ . '/config/xml')) {
@@ -64,11 +69,9 @@ class FileLoader
      * return xml containing the list of all default PrestaShop files for version $version,
      * and their respective md5sum.
      *
-     * @param string $version
-     *
-     * @return \SimpleXMLElement|false if error
+     * @return SimpleXMLElement|false if error
      */
-    public function getXmlMd5File($version, $refresh = false)
+    public function getXmlMd5File(?string $version, bool $refresh = false)
     {
         if (isset($this->version_md5[$version])) {
             return @simplexml_load_file($this->version_md5[$version]);
@@ -77,7 +80,10 @@ class FileLoader
         return $this->getXmlFile(_PS_ROOT_DIR_ . '/config/xml/' . $version . '.xml', self::BASE_URL_MD5_FILES . $version . '.xml', $refresh);
     }
 
-    public function getXmlChannel($refresh = false)
+    /**
+     * @return SimpleXMLElement|false
+     */
+    public function getXmlChannel(bool $refresh = false)
     {
         $xml = $this->getXmlFile(
             _PS_ROOT_DIR_ . '/config/xml/' . pathinfo(self::URL_CHANNELS_FILE, PATHINFO_BASENAME),

@@ -1,0 +1,49 @@
+
+<script>
+    var jQueryVersionPS = parseInt($().jquery.replace(/\./g, ""));
+</script>
+<script src="{{ psBaseUri }}modules/autoupgrade/js/jquery-1.6.2.min.js"></script>
+<script src="{{ psBaseUri }}modules/autoupgrade/js/sentry-8.2.1.min.js"></script>
+<script>
+    if (jQueryVersionPS >= 162) {
+        jq162 = jQuery.noConflict(true);
+    }
+</script>
+<link type="text/css" rel="stylesheet" href="{{ psBaseUri }}modules/autoupgrade/css/styles.css" />
+<div class="bootstrap" id="informationBlock">
+    <div class="panel">
+        <div class="panel-heading">
+            {{ 'Welcome!'|trans({}) }}
+        </div>
+        <p>
+            {{ 'Upgrade your store to benefit from the latest improvements, bug fixes and security patches.'|trans({}) }}
+        </p>
+        <p class="alert alert-warning">
+            {{ 'Upgrading your store on your own can be risky. If you don\'t feel comfortable doing the upgrade yourself, many agencies and developers in your area may also provide this kind of service.'|trans({}) }}
+        </p>
+    </div>
+</div>
+
+{# content #}
+{% include '@ModuleAutoUpgrade/block/checklist.html.twig' %}
+{% include '@ModuleAutoUpgrade/block/upgradeButtonBlock.html.twig' %}
+
+{% include '@ModuleAutoUpgrade/block/versionComparison.html.twig' %}
+{% include '@ModuleAutoUpgrade/block/activityLog.html.twig' %}
+
+{% include '@ModuleAutoUpgrade/block/rollbackForm.html.twig' %}
+
+<br>
+<form action="{{ currentIndex }}&amp;customSubmitAutoUpgrade=1&amp;token={{ token }}" method="post" class="form-horizontal" enctype="multipart/form-data">
+    {{ backupOptions|raw }}
+    {{ upgradeOptions|raw }}
+</form>
+
+{% include '@ModuleAutoUpgrade/block/footer.html.twig' %}
+
+<script src="{{ psBaseUri }}modules/autoupgrade/js/jquery.xml2json.js"></script>
+<script>
+    var input = {{ jsParams|json_encode|raw }};
+</script>
+<script src="{{ psBaseUri }}modules/autoupgrade/js/upgrade.js"></script>
+<script src="{{ psBaseUri }}modules/autoupgrade/js/sentry.js"></script>

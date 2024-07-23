@@ -31,18 +31,11 @@ use PrestaShop\Module\AutoUpgrade\Upgrader;
 
 class UpgradeConfigurationStorage extends FileConfigurationStorage
 {
-    /**
-     * UpgradeConfiguration loader.
-     *
-     * @param string $configFileName
-     *
-     * @return \PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration
-     */
-    public function load($configFileName = '')
+    public function load(string $fileName = ''): UpgradeConfiguration
     {
         $data = array_merge(
             $this->getDefaultData(),
-            parent::load($configFileName)
+            parent::load($fileName)
         );
 
         return new UpgradeConfiguration($data);
@@ -50,26 +43,28 @@ class UpgradeConfigurationStorage extends FileConfigurationStorage
 
     /**
      * @param \PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration $config
-     * @param string $configFileName Destination path of the config file
-     *
-     * @return bool
+     * @param string $fileName Destination path of the config file
      */
-    public function save($config, $configFileName)
+    public function save($config, string $fileName): bool
     {
         if (!$config instanceof UpgradeConfiguration) {
             throw new \InvalidArgumentException('Config is not a instance of UpgradeConfiguration');
         }
 
-        return parent::save($config->toArray(), $configFileName);
+        return parent::save($config->toArray(), $fileName);
     }
 
-    public function getDefaultData()
+    /**
+     * @return array<string, int|string>
+     */
+    public function getDefaultData(): array
     {
         return [
             'PS_AUTOUP_PERFORMANCE' => 1,
             'PS_AUTOUP_CUSTOM_MOD_DESACT' => 1,
             'PS_AUTOUP_UPDATE_DEFAULT_THEME' => 1,
             'PS_AUTOUP_CHANGE_DEFAULT_THEME' => 0,
+            'PS_AUTOUP_UPDATE_RTL_FILES' => 1,
             'PS_AUTOUP_KEEP_MAILS' => 0,
             'PS_AUTOUP_BACKUP' => 1,
             'PS_AUTOUP_KEEP_IMAGES' => 1,

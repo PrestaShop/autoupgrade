@@ -29,15 +29,12 @@ namespace PrestaShop\Module\AutoUpgrade;
 
 use Configuration;
 use ConfigurationTest;
+use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
+use PrestaShop\Module\AutoUpgrade\Services\DistributionApiService;
 use Shop;
 
 class UpgradeSelfCheck
 {
-    /**
-     * Recommended PHP Version. If below, display a notice.
-     */
-    const RECOMMENDED_PHP_VERSION = 70205;
-
     /**
      * @var bool
      */
@@ -99,11 +96,9 @@ class UpgradeSelfCheck
     private $maxExecutionTime;
 
     /**
-     * Warning flag for an old running PHP server.
-     *
-     * @var bool
+     * @var array<string, string>
      */
-    private $phpUpgradeNoticelink;
+    private $phpCompatibilityRange;
 
     /**
      * @var string
@@ -142,32 +137,75 @@ class UpgradeSelfCheck
     private $prestashopConfiguration;
 
     /**
+     * @var DistributionApiService
+     */
+    private $distributionApiService;
+
+    const PRESTASHOP_17_PHP_REQUIREMENTS = [
+        '1.7.0' => [
+            'php_min_version' => '5.4',
+            'php_max_version' => '7.1',
+        ],
+        '1.7.1' => [
+            'php_min_version' => '5.4',
+            'php_max_version' => '7.1',
+        ],
+        '1.7.2' => [
+            'php_min_version' => '5.4',
+            'php_max_version' => '7.1',
+        ],
+        '1.7.3' => [
+            'php_min_version' => '5.4',
+            'php_max_version' => '7.1',
+        ],
+        '1.7.4' => [
+            'php_min_version' => '5.6',
+            'php_max_version' => '7.1',
+        ],
+        '1.7.5' => [
+            'php_min_version' => '5.6',
+            'php_max_version' => '7.2',
+        ],
+        '1.7.6' => [
+            'php_min_version' => '5.6',
+            'php_max_version' => '7.2',
+        ],
+        '1.7.7' => [
+            'php_min_version' => '5.6',
+            'php_max_version' => '7.3',
+        ],
+        '1.7.8' => [
+            'php_min_version' => '5.6',
+            'php_max_version' => '7.4',
+        ],
+    ];
+
+    const PHP_REQUIREMENTS_INVALID = 0;
+    const PHP_REQUIREMENTS_VALID = 1;
+    const PHP_REQUIREMENTS_UNKNOWN = 2;
+
+    /**
      * @var bool
      */
     private $overrideDisabled;
 
-    /**
-     * UpgradeSelfCheck constructor.
-     *
-     * @param Upgrader $upgrader
-     * @param PrestashopConfiguration $prestashopConfiguration
-     * @param string $prodRootPath
-     * @param string $adminPath
-     * @param string $autoUpgradePath
-     */
-    public function __construct(Upgrader $upgrader, PrestashopConfiguration $prestashopConfiguration, $prodRootPath, $adminPath, $autoUpgradePath)
-    {
+    public function __construct(
+        Upgrader $upgrader,
+        PrestashopConfiguration $prestashopConfiguration,
+        DistributionApiService $distributionApiService,
+        string $prodRootPath,
+        string $adminPath,
+        string $autoUpgradePath
+    ) {
         $this->upgrader = $upgrader;
         $this->prestashopConfiguration = $prestashopConfiguration;
+        $this->distributionApiService = $distributionApiService;
         $this->prodRootPath = $prodRootPath;
         $this->adminPath = $adminPath;
         $this->autoUpgradePath = $autoUpgradePath;
     }
 
-    /**
-     * @return bool
-     */
-    public function isFOpenOrCurlEnabled()
+    public function isFOpenOrCurlEnabled(): bool
     {
         if (null !== $this->fOpenOrCurlEnabled) {
             return $this->fOpenOrCurlEnabled;
@@ -176,10 +214,7 @@ class UpgradeSelfCheck
         return $this->fOpenOrCurlEnabled = ConfigurationTest::test_fopen() || extension_loaded('curl');
     }
 
-    /**
-     * @return bool
-     */
-    public function isZipEnabled()
+    public function isZipEnabled(): bool
     {
         if (null !== $this->zipEnabled) {
             return $this->zipEnabled;
@@ -188,10 +223,7 @@ class UpgradeSelfCheck
         return $this->zipEnabled = extension_loaded('zip');
     }
 
-    /**
-     * @return bool
-     */
-    public function isRootDirectoryWritable()
+    public function isRootDirectoryWritable(): bool
     {
         if (null !== $this->rootDirectoryWritable) {
             return $this->rootDirectoryWritable;
@@ -200,10 +232,7 @@ class UpgradeSelfCheck
         return $this->rootDirectoryWritable = $this->checkRootWritable();
     }
 
-    /**
-     * @return bool
-     */
-    public function isAdminAutoUpgradeDirectoryWritable()
+    public function isAdminAutoUpgradeDirectoryWritable(): bool
     {
         if (null !== $this->adminAutoUpgradeDirectoryWritable) {
             return $this->adminAutoUpgradeDirectoryWritable;
@@ -212,18 +241,12 @@ class UpgradeSelfCheck
         return $this->adminAutoUpgradeDirectoryWritable = $this->checkAdminDirectoryWritable($this->prodRootPath, $this->adminPath, $this->autoUpgradePath);
     }
 
-    /**
-     * @return string
-     */
-    public function getAdminAutoUpgradeDirectoryWritableReport()
+    public function getAdminAutoUpgradeDirectoryWritableReport(): string
     {
         return $this->adminAutoUpgradeDirectoryWritableReport;
     }
 
-    /**
-     * @return bool
-     */
-    public function isOverrideDisabled()
+    public function isOverrideDisabled(): bool
     {
         if (null === $this->overrideDisabled) {
             $this->overrideDisabled = $this->checkOverrideIsDisabled();
@@ -232,10 +255,7 @@ class UpgradeSelfCheck
         return $this->overrideDisabled;
     }
 
-    /**
-     * @return bool
-     */
-    public function isShopDeactivated()
+    public function isShopDeactivated(): bool
     {
         if (null !== $this->shopDeactivated) {
             return $this->shopDeactivated;
@@ -244,7 +264,7 @@ class UpgradeSelfCheck
         return $this->shopDeactivated = $this->checkShopIsDeactivated();
     }
 
-    public function isLocalEnvironment()
+    public function isLocalEnvironment(): bool
     {
         if (null !== $this->localEnvironement) {
             return $this->localEnvironement;
@@ -253,10 +273,7 @@ class UpgradeSelfCheck
         return $this->localEnvironement = $this->checkIsLocalEnvironment();
     }
 
-    /**
-     * @return bool
-     */
-    public function isCacheDisabled()
+    public function isCacheDisabled(): bool
     {
         if (null !== $this->cacheDisabled) {
             return $this->cacheDisabled;
@@ -265,10 +282,7 @@ class UpgradeSelfCheck
         return $this->cacheDisabled = !(defined('_PS_CACHE_ENABLED_') && false != _PS_CACHE_ENABLED_);
     }
 
-    /**
-     * @return bool
-     */
-    public function isSafeModeDisabled()
+    public function isSafeModeDisabled(): bool
     {
         if (null !== $this->safeModeDisabled) {
             return $this->safeModeDisabled;
@@ -277,10 +291,7 @@ class UpgradeSelfCheck
         return $this->safeModeDisabled = $this->checkSafeModeIsDisabled();
     }
 
-    /**
-     * @return bool
-     */
-    public function isModuleVersionLatest()
+    public function isModuleVersionLatest(): bool
     {
         if (null !== $this->moduleVersionIsLatest) {
             return $this->moduleVersionIsLatest;
@@ -289,10 +300,7 @@ class UpgradeSelfCheck
         return $this->moduleVersionIsLatest = $this->checkModuleVersionIsLastest($this->upgrader);
     }
 
-    /**
-     * @return string
-     */
-    public function getRootWritableReport()
+    public function getRootWritableReport(): string
     {
         if (null !== $this->rootWritableReport) {
             return $this->rootWritableReport;
@@ -304,44 +312,23 @@ class UpgradeSelfCheck
         return $this->rootWritableReport;
     }
 
-    /**
-     * @return string|false
-     */
-    public function getModuleVersion()
+    public function getModuleVersion(): ?string
     {
         return $this->prestashopConfiguration->getModuleVersion();
     }
 
-    /**
-     * @return string
-     */
-    public function getConfigDir()
+    public function getConfigDir(): string
     {
         return $this->configDir;
     }
 
-    /**
-     * @return int
-     */
-    public function getMaxExecutionTime()
+    public function getMaxExecutionTime(): int
     {
         if (null !== $this->maxExecutionTime) {
             return $this->maxExecutionTime;
         }
 
         return $this->maxExecutionTime = $this->checkMaxExecutionTime();
-    }
-
-    /**
-     * @return bool
-     */
-    public function isPhpUpgradeRequired()
-    {
-        if (null !== $this->phpUpgradeNoticelink) {
-            return $this->phpUpgradeNoticelink;
-        }
-
-        return $this->phpUpgradeNoticelink = $this->checkPhpVersionNeedsUpgrade();
     }
 
     /**
@@ -358,10 +345,8 @@ class UpgradeSelfCheck
 
     /**
      * Indicates if the self check status allows going ahead with the upgrade.
-     *
-     * @return bool
      */
-    public function isOkForUpgrade()
+    public function isOkForUpgrade(): bool
     {
         return
             $this->isFOpenOrCurlEnabled()
@@ -371,7 +356,7 @@ class UpgradeSelfCheck
             && ($this->isShopDeactivated() || $this->isLocalEnvironment())
             && $this->isCacheDisabled()
             && $this->isModuleVersionLatest()
-            && $this->isPhpVersionCompatible()
+            && $this->getPhpRequirementsState() !== $this::PHP_REQUIREMENTS_INVALID
             && $this->isShopVersionMatchingVersionInDatabase()
             && $this->isApacheModRewriteEnabled()
             && $this->checkKeyGeneration()
@@ -381,59 +366,31 @@ class UpgradeSelfCheck
             && $this->getNotExistsPhpFunctions() === []
             && $this->isPhpSessionsValid()
             && $this->getMissingFiles() === []
-            && $this->getNotWritingDirectories() === []
-        ;
+            && $this->getNotWritingDirectories() === [];
     }
 
-    /**
-     * @return bool
-     */
-    private function checkRootWritable()
+    private function checkRootWritable(): bool
     {
         // Root directory permissions cannot be checked recursively anymore, it takes too much time
         return ConfigurationTest::test_dir('/', false, $this->rootWritableReport);
     }
 
-    /**
-     * @param Upgrader $upgrader
-     *
-     * @return bool
-     */
-    private function checkModuleVersionIsLastest(Upgrader $upgrader)
+    private function checkModuleVersionIsLastest(Upgrader $upgrader): bool
     {
         return version_compare($this->getModuleVersion(), $upgrader->autoupgrade_last_version, '>=');
     }
 
-    /**
-     * Check current PHP version is supported.
-     *
-     * @return bool
-     */
-    private function checkPhpVersionNeedsUpgrade()
-    {
-        return PHP_VERSION_ID < self::RECOMMENDED_PHP_VERSION;
-    }
-
-    /**
-     * @return bool
-     */
-    private function checkOverrideIsDisabled()
+    private function checkOverrideIsDisabled(): bool
     {
         return (bool) Configuration::get('PS_DISABLE_OVERRIDES');
     }
 
-    /**
-     * @return bool
-     */
-    private function checkIsLocalEnvironment()
+    private function checkIsLocalEnvironment(): bool
     {
         return in_array($this->getRemoteAddr(), ['127.0.0.1', 'localhost', '[::1]', '::1']);
     }
 
-    /**
-     * @return bool
-     */
-    private function checkShopIsDeactivated()
+    private function checkShopIsDeactivated(): bool
     {
         // if multistore is not active, just check if shop is enabled and has a maintenance IP
         if (!Shop::isFeatureActive()) {
@@ -455,14 +412,7 @@ class UpgradeSelfCheck
         return true;
     }
 
-    /**
-     * @param string $prodRootPath
-     * @param string $adminPath
-     * @param string $adminAutoUpgradePath
-     *
-     * @return bool
-     */
-    private function checkAdminDirectoryWritable($prodRootPath, $adminPath, $adminAutoUpgradePath)
+    private function checkAdminDirectoryWritable(string $prodRootPath, string $adminPath, string $adminAutoUpgradePath): bool
     {
         $relativeDirectory = trim(str_replace($prodRootPath, '', $adminAutoUpgradePath), DIRECTORY_SEPARATOR);
 
@@ -473,10 +423,7 @@ class UpgradeSelfCheck
         );
     }
 
-    /**
-     * @return bool
-     */
-    private function checkSafeModeIsDisabled()
+    private function checkSafeModeIsDisabled(): bool
     {
         $safeMode = @ini_get('safe_mode');
         if (empty($safeMode)) {
@@ -486,30 +433,70 @@ class UpgradeSelfCheck
         return !in_array(strtolower($safeMode), [1, 'on']);
     }
 
-    /**
-     * @return int
-     */
-    private function checkMaxExecutionTime()
+    private function checkMaxExecutionTime(): int
     {
         return (int) @ini_get('max_execution_time');
     }
 
     /**
-     * @return bool
+     * @return array{"php_min_version": string, "php_max_version": string, "php_current_version": string}|null
      */
-    public function isPhpVersionCompatible()
+    public function getPhpCompatibilityRange(): ?array
     {
-        if (!class_exists(ConfigurationTest::class)) {
-            return true;
+        if (null !== $this->phpCompatibilityRange) {
+            return $this->phpCompatibilityRange;
         }
 
-        return (bool) ConfigurationTest::test_phpversion();
+        $targetVersion = $this->upgrader->version_num;
+
+        if (null === $targetVersion) {
+            return null;
+        }
+
+        if (version_compare($targetVersion, '8', '<')) {
+            $targetMinorVersion = VersionUtils::splitPrestaShopVersion($targetVersion)['minor'];
+
+            if (!isset($this::PRESTASHOP_17_PHP_REQUIREMENTS[$targetMinorVersion])) {
+                return null;
+            }
+
+            $range = $this::PRESTASHOP_17_PHP_REQUIREMENTS[$targetMinorVersion];
+        } else {
+            try {
+                $range = $this->distributionApiService->getPhpVersionRequirements($targetVersion);
+            } catch (DistributionApiException $apiException) {
+                return null;
+            }
+        }
+        $currentPhpVersion = VersionUtils::getHumanReadableVersionOf(PHP_VERSION_ID);
+        $range['php_current_version'] = $currentPhpVersion;
+
+        return $this->phpCompatibilityRange = $range;
     }
 
     /**
-     * @return bool
+     * @return self::PHP_REQUIREMENTS_*
      */
-    public function isApacheModRewriteEnabled()
+    public function getPhpRequirementsState(): int
+    {
+        $phpCompatibilityRange = $this->getPhpCompatibilityRange();
+
+        if (null == $phpCompatibilityRange) {
+            return self::PHP_REQUIREMENTS_UNKNOWN;
+        }
+
+        $versionMin = VersionUtils::getPhpVersionId($phpCompatibilityRange['php_min_version']);
+        $versionMax = VersionUtils::getPhpVersionId($phpCompatibilityRange['php_max_version']);
+        $currentVersion = VersionUtils::getPhpMajorMinorVersionId();
+
+        if ($currentVersion >= $versionMin && $currentVersion <= $versionMax) {
+            return self::PHP_REQUIREMENTS_VALID;
+        }
+
+        return self::PHP_REQUIREMENTS_INVALID;
+    }
+
+    public function isApacheModRewriteEnabled(): bool
     {
         if (class_exists(ConfigurationTest::class) && is_callable([ConfigurationTest::class, 'test_apache_mod_rewrite'])) {
             return ConfigurationTest::test_apache_mod_rewrite();
@@ -518,10 +505,7 @@ class UpgradeSelfCheck
         return true;
     }
 
-    /**
-     * @return bool
-     */
-    public function checkKeyGeneration()
+    public function checkKeyGeneration(): bool
     {
         if ($this->upgrader->version_num === null) {
             return true;
@@ -547,15 +531,15 @@ class UpgradeSelfCheck
     /**
      * @return array<string>
      */
-    public function getNotLoadedPhpExtensions()
+    public function getNotLoadedPhpExtensions(): array
     {
         if (!class_exists(ConfigurationTest::class)) {
             return [];
         }
         $extensions = [];
         foreach ([
-            'curl', 'dom', 'fileinfo', 'gd', 'intl', 'json', 'mbstring', 'openssl', 'pdo_mysql', 'simplexml', 'zip',
-        ] as $extension) {
+                     'curl', 'dom', 'fileinfo', 'gd', 'intl', 'json', 'mbstring', 'openssl', 'pdo_mysql', 'simplexml', 'zip',
+                 ] as $extension) {
             $method = 'test_' . $extension;
             if (method_exists(ConfigurationTest::class, $method) && !ConfigurationTest::$method()) {
                 $extensions[] = $extension;
@@ -568,16 +552,16 @@ class UpgradeSelfCheck
     /**
      * @return array<string>
      */
-    public function getNotExistsPhpFunctions()
+    public function getNotExistsPhpFunctions(): array
     {
         if (!class_exists(ConfigurationTest::class)) {
             return [];
         }
         $functions = [];
         foreach ([
-            'fopen', 'fclose', 'fread', 'fwrite', 'rename', 'file_exists', 'unlink', 'rmdir', 'mkdir', 'getcwd',
-            'chdir', 'chmod',
-        ] as $function) {
+                     'fopen', 'fclose', 'fread', 'fwrite', 'rename', 'file_exists', 'unlink', 'rmdir', 'mkdir', 'getcwd',
+                     'chdir', 'chmod',
+                 ] as $function) {
             if (!ConfigurationTest::test_system([$function])) {
                 $functions[] = $function;
             }
@@ -589,7 +573,7 @@ class UpgradeSelfCheck
     /**
      * @return bool
      */
-    public function isMemoryLimitValid()
+    public function isMemoryLimitValid(): bool
     {
         if (class_exists(ConfigurationTest::class) && is_callable([ConfigurationTest::class, 'test_memory_limit'])) {
             return ConfigurationTest::test_memory_limit();
@@ -598,10 +582,7 @@ class UpgradeSelfCheck
         return true;
     }
 
-    /**
-     * @return bool
-     */
-    public function isPhpFileUploadsConfigurationEnabled()
+    public function isPhpFileUploadsConfigurationEnabled(): bool
     {
         if (!class_exists(ConfigurationTest::class)) {
             return true;
@@ -610,10 +591,7 @@ class UpgradeSelfCheck
         return (bool) ConfigurationTest::test_upload();
     }
 
-    /**
-     * @return bool
-     */
-    public function isPhpSessionsValid()
+    public function isPhpSessionsValid(): bool
     {
         return in_array(session_status(), [PHP_SESSION_ACTIVE, PHP_SESSION_NONE], true);
     }
@@ -621,7 +599,7 @@ class UpgradeSelfCheck
     /**
      * @return array<string>
      */
-    public function getMissingFiles()
+    public function getMissingFiles(): array
     {
         return ConfigurationTest::test_files(true);
     }
@@ -629,7 +607,7 @@ class UpgradeSelfCheck
     /**
      * @return array<string>
      */
-    public function getNotWritingDirectories()
+    public function getNotWritingDirectories(): array
     {
         if (!class_exists(ConfigurationTest::class)) {
             return [];
@@ -639,10 +617,10 @@ class UpgradeSelfCheck
 
         $directories = [];
         foreach ([
-            'cache_dir', 'log_dir', 'img_dir', 'module_dir', 'theme_lang_dir', 'theme_pdf_lang_dir', 'theme_cache_dir',
-            'translations_dir', 'customizable_products_dir', 'virtual_products_dir', 'config_sf2_dir', 'config_dir',
-            'mails_dir', 'translations_sf2',
-        ] as $testKey) {
+                     'cache_dir', 'log_dir', 'img_dir', 'module_dir', 'theme_lang_dir', 'theme_pdf_lang_dir', 'theme_cache_dir',
+                     'translations_dir', 'customizable_products_dir', 'virtual_products_dir', 'config_sf2_dir', 'config_dir',
+                     'mails_dir', 'translations_sf2',
+                 ] as $testKey) {
             if (isset($tests[$testKey]) && !ConfigurationTest::{'test_' . $testKey}($tests[$testKey])) {
                 $directories[] = $tests[$testKey];
             }
@@ -656,7 +634,7 @@ class UpgradeSelfCheck
      *
      * @return string $remote_addr ip of client
      */
-    private function getRemoteAddr()
+    private function getRemoteAddr(): string
     {
         if (function_exists('apache_request_headers')) {
             $headers = apache_request_headers();

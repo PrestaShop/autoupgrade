@@ -42,7 +42,7 @@ class Tools14
      *
      * @param string $url Desired URL
      */
-    public static function redirectAdmin($url)
+    public static function redirectAdmin(string $url): void
     {
         header('Location: ' . $url);
         exit;
@@ -52,14 +52,11 @@ class Tools14
      * getHttpHost return the <b>current</b> host used, with the protocol (http or https) if $http is true
      * This function should not be used to choose http or https domain name.
      *
-     * @param bool $http
-     * @param bool $entities
-     *
      * @return string host
      */
-    public static function getHttpHost($http = false, $entities = false)
+    public static function getHttpHost(bool $http = false, bool $entities = false): string
     {
-        $host = (isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : $_SERVER['HTTP_HOST']);
+        $host = ($_SERVER['HTTP_X_FORWARDED_HOST'] ?? $_SERVER['HTTP_HOST']);
         if ($entities) {
             $host = htmlspecialchars($host, ENT_COMPAT, 'UTF-8');
         }
@@ -79,7 +76,7 @@ class Tools14
      *
      * @return mixed Value
      */
-    public static function getValue($key, $defaultValue = false)
+    public static function getValue(string $key, $defaultValue = false)
     {
         if (!isset($key) || empty($key) || !is_string($key)) {
             return false;
@@ -101,16 +98,16 @@ class Tools14
      *
      * @return string Sanitized string
      */
-    public static function safeOutput($string, $html = false)
+    public static function safeOutput(string $string, bool $html = false)
     {
         if (!$html) {
             $string = strip_tags($string);
         }
 
-        return @self::htmlentitiesUTF8($string, ENT_QUOTES);
+        return @self::htmlentitiesUTF8($string);
     }
 
-    public static function htmlentitiesUTF8($string, $type = ENT_QUOTES)
+    public static function htmlentitiesUTF8($string, int $type = ENT_QUOTES)
     {
         if (is_array($string)) {
             return array_map(['Tools', 'htmlentitiesUTF8'], $string);
@@ -124,7 +121,7 @@ class Tools14
      *
      * @param string $dirname Directory name
      */
-    public static function deleteDirectory($dirname, $delete_self = true)
+    public static function deleteDirectory(string $dirname, bool $delete_self = true): bool
     {
         $dirname = rtrim($dirname, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
         if (file_exists($dirname)) {
@@ -152,37 +149,11 @@ class Tools14
     }
 
     /**
-     * Display an error according to an error code.
-     *
-     * @param string $string Error message
-     * @param bool $htmlentities By default at true for parsing error message with htmlentities
-     */
-    public static function displayError($string = 'Fatal error', $htmlentities = true)
-    {
-        return $string;
-        global $_ERRORS, $cookie;
-
-        $iso = strtolower(Language::getIsoById((is_object($cookie) && $cookie->id_lang) ? (int) $cookie->id_lang : (int) Configuration::get('PS_LANG_DEFAULT')));
-        @include_once _PS_TRANSLATIONS_DIR_ . $iso . '/errors.php';
-
-        if (defined('_PS_MODE_DEV_') && _PS_MODE_DEV_ && $string == 'Fatal error') {
-            return '<pre>' . print_r(debug_backtrace(), true) . '</pre>';
-        }
-        if (!is_array($_ERRORS)) {
-            return str_replace('"', '&quot;', $string);
-        }
-        $key = md5(str_replace('\'', '\\\'', $string));
-        $str = (isset($_ERRORS) && is_array($_ERRORS) && key_exists($key, $_ERRORS)) ? ($htmlentities ? htmlentities($_ERRORS[$key], ENT_COMPAT, 'UTF-8') : $_ERRORS[$key]) : $string;
-
-        return str_replace('"', '&quot;', stripslashes($str));
-    }
-
-    /**
      * Check if submit has been posted.
      *
      * @param string $submit submit name
      */
-    public static function isSubmit($submit)
+    public static function isSubmit(string $submit): bool
     {
         return
             isset($_POST[$submit]) || isset($_POST[$submit . '_x']) || isset($_POST[$submit . '_y'])
@@ -192,10 +163,8 @@ class Tools14
 
     /**
      * Encrypt password.
-     *
-     * @param object $object Object to display
      */
-    public static function encrypt($passwd)
+    public static function encrypt(string $passwd): string
     {
         return md5(pSQL(_COOKIE_KEY_ . $passwd));
     }
@@ -203,14 +172,14 @@ class Tools14
     /**
      * Encrypt password.
      *
-     * @param object $object Object to display
+     * @return false|string
      */
-    public static function getAdminToken($string)
+    public static function getAdminToken(string $string)
     {
         return !empty($string) ? self::encrypt($string) : false;
     }
 
-    public static function getAdminTokenLite($tab)
+    public static function getAdminTokenLite(string $tab)
     {
         global $cookie;
 
@@ -232,12 +201,12 @@ class Tools14
     /**
      * Check config & source file to settle which dl method to use
      */
-    public static function shouldUseFopen($url)
+    public static function shouldUseFopen(string $url): bool
     {
         return in_array(ini_get('allow_url_fopen'), ['On', 'on', '1']) || !preg_match('/^https?:\/\//', $url);
     }
 
-    public static function file_get_contents($url, $use_include_path = false, $stream_context = null, $curl_timeout = 5)
+    public static function file_get_contents(string $url, bool $use_include_path = false, $stream_context = null, int $curl_timeout = 5)
     {
         if (!extension_loaded('openssl') && strpos('https://', $url) === true) {
             $url = str_replace('https', 'http', $url);
@@ -280,7 +249,7 @@ class Tools14
         return false;
     }
 
-    public static function nl2br($str)
+    public static function nl2br(string $str): string
     {
         return str_replace(["\r\n", "\r", "\n"], '<br />', $str);
     }
@@ -290,7 +259,7 @@ class Tools14
      *
      * @return bool True if the copy succeded
      */
-    public static function copy($source, $destination, $stream_context = null)
+    public static function copy(string $source, string $destination, $stream_context = null): bool
     {
         if (null === $stream_context && !preg_match('/^https?:\/\//', $source)) {
             return @copy($source, $destination);

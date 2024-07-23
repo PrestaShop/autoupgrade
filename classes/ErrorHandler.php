@@ -29,6 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade;
 
 use PrestaShop\Module\AutoUpgrade\Log\LegacyLogger;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
+use Throwable;
 
 /**
  * In order to improve the debug of the module in case of case, we need to display the missed errors
@@ -54,7 +55,7 @@ class ErrorHandler
      * Enable error handlers for critical steps.
      * Display hidden errors by PHP config to improve debug process.
      */
-    public function enable()
+    public function enable(): void
     {
         error_reporting(E_ALL);
         set_error_handler([$this, 'errorHandler']);
@@ -64,26 +65,18 @@ class ErrorHandler
 
     /**
      * Function retrieving uncaught exceptions.
-     *
-     * @param \Throwable $e
      */
-    public function exceptionHandler($e)
+    public function exceptionHandler(Throwable $e): void
     {
         $message = get_class($e) . ': ' . $e->getMessage();
         $this->report($e->getFile(), $e->getLine(), Logger::CRITICAL, $message, $e->getTraceAsString(), true);
+        $this->terminate(64);
     }
 
     /**
      * Function called by PHP errors, forwarding content to the ajax response.
-     *
-     * @param int $errno
-     * @param string $errstr
-     * @param string $errfile
-     * @param int $errline
-     *
-     * @return bool
      */
-    public function errorHandler($errno, $errstr, $errfile, $errline)
+    public function errorHandler(int $errno, string $errstr, string $errfile, int $errline): bool
     {
         if (!(error_reporting() & $errno)) {
             // This error code is not included in error_reporting, so let it fall
@@ -116,7 +109,7 @@ class ErrorHandler
      * Fatal error from PHP are not taken by the error_handler. We must check if an error occured
      * during the script shutdown.
      */
-    public function fatalHandler()
+    public function fatalHandler(): void
     {
         $lastError = error_get_last();
         if ($lastError && in_array($lastError['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR], true)) {
@@ -128,12 +121,8 @@ class ErrorHandler
 
     /**
      * Create a json encoded.
-     *
-     * @param string $log
-     *
-     * @return string
      */
-    public function generateJsonLog($log)
+    public function generateJsonLog(string $log): string
     {
         return json_encode([
             'nextQuickInfo' => $this->logger->getInfos(),
@@ -145,14 +134,8 @@ class ErrorHandler
 
     /**
      * Forwards message to the main class of the upgrade.
-     *
-     * @param string $file
-     * @param int $line
-     * @param int $type Level of criticity
-     * @param string $message
-     * @param bool $display
      */
-    protected function report($file, $line, $type, $message, $trace = null, $display = false)
+    protected function report(string $file, int $line, int $type, string $message, string $trace = null, bool $display = false): void
     {
         if ($type >= Logger::CRITICAL) {
             http_response_code(500);
@@ -175,5 +158,13 @@ class ErrorHandler
             fwrite($fd, $log);
             fclose($fd);
         }
+    }
+
+    /**
+     * @return never
+     */
+    public function terminate(int $code)
+    {
+        exit($code);
     }
 }

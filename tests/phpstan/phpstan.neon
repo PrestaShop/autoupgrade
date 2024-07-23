@@ -16,4 +16,4 @@ parameters:
 	excludePaths:
 		- ./../../classes/Tools14.php
 		- ./../../classes/pclzip.lib.php
-	level: 5
+	level: 6

@@ -1,0 +1,7 @@
+public
+src
+config
+node_modules
+composer.*
+package-lock.json
+package.json

@@ -28,6 +28,7 @@
 namespace PrestaShop\Module\AutoUpgrade;
 
 use PrestaShop\Module\AutoUpgrade\Xml\FileLoader;
+use SimpleXMLElement;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -37,39 +38,47 @@ class Upgrader
     const DEFAULT_CHANNEL = 'minor';
     const DEFAULT_FILENAME = 'prestashop.zip';
 
-    public $addons_api = 'api.addons.prestashop.com';
+    const ADDONS_API_URL = 'api.addons.prestashop.com';
 
     /**
      * @var bool contains true if last version is not installed
      */
     private $need_upgrade = false;
 
+    /** @var string */
     public $version_name;
+    /** @var ?string */
     public $version_num;
-    public $version_is_modified;
     /**
-     * @var string contains hte url where to download the file
+     * @var string contains the url to download the file
      */
     public $link;
-    public $autoupgrade;
-    public $autoupgrade_module;
+    /** @var string */
     public $autoupgrade_last_version;
+    /** @var string */
     public $autoupgrade_module_link;
+    /** @var string */
     public $changelog;
+    /** @var bool */
     public $available;
+    /** @var string */
     public $md5;
 
+    /** @var string */
     public static $default_channel = 'minor';
+    /** @var string */
     public $channel = '';
+    /** @var string */
     public $branch = '';
 
+    /** @var string */
     protected $currentPsVersion;
     /**
      * @var FileLoader
      */
     protected $fileLoader;
 
-    public function __construct($version, FileLoader $fileLoader)
+    public function __construct(string $version, FileLoader $fileLoader)
     {
         $this->currentPsVersion = $version;
         $this->fileLoader = $fileLoader;
@@ -81,11 +90,9 @@ class Upgrader
      * @param string $dest directory where to save the file
      * @param string $filename new filename
      *
-     * @return bool
-     *
      * @TODO ftp if copy is not possible (safe_mode for example)
      */
-    public function downloadLast($dest, $filename = 'prestashop.zip')
+    public function downloadLast(string $dest, string $filename = 'prestashop.zip'): bool
     {
         if (empty($this->link)) {
             $this->checkPSVersion();
@@ -105,7 +112,7 @@ class Upgrader
         return is_file($destPath);
     }
 
-    public function isLastVersion()
+    public function isLastVersion(): bool
     {
         if (empty($this->link)) {
             $this->checkPSVersion();
@@ -118,17 +125,15 @@ class Upgrader
      * checkPSVersion ask to prestashop.com if there is a new version. return an array if yes, false otherwise.
      *
      * @param bool $refresh if set to true, will force to download channel.xml
-     * @param array $array_no_major array of channels which will return only the immediate next version number
+     * @param string[] $array_no_major array of channels which will return only the immediate next version number
      *
-     * @return mixed
+     * @return array{'name':string,'link':string}|false
      */
-    public function checkPSVersion($refresh = false, $array_no_major = ['minor'])
+    public function checkPSVersion(bool $refresh = false, array $array_no_major = ['minor'])
     {
         // if we use the autoupgrade process, we will never refresh it
         // except if no check has been done before
         $feed = $this->fileLoader->getXmlChannel($refresh);
-        $branch_name = '';
-        $channel_name = '';
 
         // channel hierarchy :
         // if you follow private, you follow stable release
@@ -154,7 +159,6 @@ class Upgrader
         }
 
         if ($feed) {
-            $this->autoupgrade_module = (int) $feed->autoupgrade_module;
             $this->autoupgrade_last_version = (string) $feed->autoupgrade->last_version;
             $this->autoupgrade_module_link = (string) $feed->autoupgrade->download->link;
 
@@ -222,12 +226,8 @@ class Upgrader
 
     /**
      * delete the file /config/xml/$version.xml if exists.
-     *
-     * @param string $version
-     *
-     * @return bool true if succeed
      */
-    public function clearXmlMd5File($version)
+    public function clearXmlMd5File(string $version): bool
     {
         if (file_exists(_PS_ROOT_DIR_ . '/config/xml/' . $version . '.xml')) {
             return unlink(_PS_ROOT_DIR_ . '/config/xml/' . $version . '.xml');
@@ -239,17 +239,17 @@ class Upgrader
     /**
      * use the addons api to get xml files.
      *
-     * @param mixed $xml_localfile
-     * @param mixed $postData
-     * @param mixed $refresh
+     * @param string $postData
+     *
+     * @return SimpleXMLElement|false
      */
-    public function getApiAddons($xml_localfile, $postData, $refresh = false)
+    public function getApiAddons(string $xml_localfile, string $postData, bool $refresh = false)
     {
         if (!is_dir(_PS_ROOT_DIR_ . '/config/xml')) {
             if (is_file(_PS_ROOT_DIR_ . '/config/xml')) {
                 unlink(_PS_ROOT_DIR_ . '/config/xml');
             }
-            mkdir(_PS_ROOT_DIR_ . '/config/xml', 0777);
+            mkdir(_PS_ROOT_DIR_ . '/config/xml');
         }
         if ($refresh || !file_exists($xml_localfile) || @filemtime($xml_localfile) < (time() - (3600 * self::DEFAULT_CHECK_VERSION_DELAY_HOURS))) {
             $protocolsList = ['https://' => 443, 'http://' => 80];
@@ -267,7 +267,7 @@ class Upgrader
             $context = stream_context_create($opts);
             $xml = false;
             foreach ($protocolsList as $protocol => $port) {
-                $xml_string = Tools14::file_get_contents($protocol . $this->addons_api, false, $context);
+                $xml_string = Tools14::file_get_contents($protocol . self::ADDONS_API_URL, false, $context);
                 if ($xml_string) {
                     $xml = @simplexml_load_string($xml_string);
                     break;

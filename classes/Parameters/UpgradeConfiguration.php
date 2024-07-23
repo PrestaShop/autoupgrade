@@ -31,13 +31,15 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Contains the module configuration (form params).
+ *
+ * @extends ArrayCollection<string, mixed>
  */
 class UpgradeConfiguration extends ArrayCollection
 {
     /**
      * Performance settings, if your server has a low memory size, lower these values.
      *
-     * @var array
+     * @var array<string, int[]>
      */
     protected $performanceValues = [
         'loopFiles' => [400, 800, 1600], // files
@@ -48,30 +50,24 @@ class UpgradeConfiguration extends ArrayCollection
 
     /**
      * Get the name of the new release archive.
-     *
-     * @return string
      */
-    public function getArchiveFilename()
+    public function getArchiveFilename(): string
     {
         return $this->get('archive.filename');
     }
 
     /**
      * Get the version included in the new release.
-     *
-     * @return string
      */
-    public function getArchiveVersion()
+    public function getArchiveVersion(): string
     {
         return $this->get('archive.version_num');
     }
 
     /**
      * Get channel selected on config panel (Minor, major ...).
-     *
-     * @return string
      */
-    public function getChannel()
+    public function getChannel(): string
     {
         return $this->get('channel');
     }
@@ -79,7 +75,7 @@ class UpgradeConfiguration extends ArrayCollection
     /**
      * @return int Number of files to handle in a single call to avoid timeouts
      */
-    public function getNumberOfFilesPerCall()
+    public function getNumberOfFilesPerCall(): int
     {
         return $this->performanceValues['loopFiles'][$this->getPerformanceLevel()];
     }
@@ -87,7 +83,7 @@ class UpgradeConfiguration extends ArrayCollection
     /**
      * @return int Number of seconds allowed before having to make another request
      */
-    public function getTimePerCall()
+    public function getTimePerCall(): int
     {
         return $this->performanceValues['loopTime'][$this->getPerformanceLevel()];
     }
@@ -95,7 +91,7 @@ class UpgradeConfiguration extends ArrayCollection
     /**
      * @return int Kind of reference for SQL file creation, giving a file size before another request is needed
      */
-    public function getMaxSizeToWritePerCall()
+    public function getMaxSizeToWritePerCall(): int
     {
         return $this->performanceValues['maxWrittenAllowed'][$this->getPerformanceLevel()];
     }
@@ -103,7 +99,7 @@ class UpgradeConfiguration extends ArrayCollection
     /**
      * @return int Max file size allowed in backup
      */
-    public function getMaxFileToBackup()
+    public function getMaxFileToBackup(): int
     {
         return $this->performanceValues['maxBackupFileSize'][$this->getPerformanceLevel()];
     }
@@ -111,7 +107,7 @@ class UpgradeConfiguration extends ArrayCollection
     /**
      * @return int level of performance selected (0 for low, 2 for high)
      */
-    public function getPerformanceLevel()
+    public function getPerformanceLevel(): int
     {
         return $this->get('PS_AUTOUP_PERFORMANCE') - 1;
     }
@@ -119,7 +115,7 @@ class UpgradeConfiguration extends ArrayCollection
     /**
      * @return bool True if the autoupgrade module should backup the images as well
      */
-    public function shouldBackupImages()
+    public function shouldBackupImages(): bool
     {
         return (bool) $this->get('PS_AUTOUP_KEEP_IMAGES');
     }
@@ -127,7 +123,7 @@ class UpgradeConfiguration extends ArrayCollection
     /**
      * @return bool True if non-native modules must be disabled during upgrade
      */
-    public function shouldDeactivateCustomModules()
+    public function shouldDeactivateCustomModules(): bool
     {
         return (bool) $this->get('PS_AUTOUP_CUSTOM_MOD_DESACT');
     }
@@ -135,7 +131,7 @@ class UpgradeConfiguration extends ArrayCollection
     /**
      * @return bool true if we should keep the merchant emails untouched
      */
-    public function shouldKeepMails()
+    public function shouldKeepMails(): bool
     {
         return (bool) $this->get('PS_AUTOUP_KEEP_MAILS');
     }
@@ -143,7 +139,7 @@ class UpgradeConfiguration extends ArrayCollection
     /**
      * @return bool True if we have to set the native theme by default
      */
-    public function shouldSwitchToDefaultTheme()
+    public function shouldSwitchToDefaultTheme(): bool
     {
         return (bool) $this->get('PS_AUTOUP_CHANGE_DEFAULT_THEME');
     }
@@ -151,7 +147,7 @@ class UpgradeConfiguration extends ArrayCollection
     /**
      * @return bool True if we are allowed to update the default theme files
      */
-    public function shouldUpdateDefaultTheme()
+    public function shouldUpdateDefaultTheme(): bool
     {
         return (bool) $this->get('PS_AUTOUP_UPDATE_DEFAULT_THEME');
     }
@@ -159,12 +155,17 @@ class UpgradeConfiguration extends ArrayCollection
     /**
      * @return bool True if we should update RTL files
      */
-    public function shouldUpdateRTLFiles()
+    public function shouldUpdateRTLFiles(): bool
     {
         return (bool) $this->get('PS_AUTOUP_UPDATE_RTL_FILES');
     }
 
-    public function merge(array $array = [])
+    /**
+     * @param array<string, mixed> $array
+     *
+     * @return void
+     */
+    public function merge(array $array = []): void
     {
         foreach ($array as $key => $value) {
             $this->set($key, $value);

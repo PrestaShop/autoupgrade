@@ -23,17 +23,15 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
-function deactivate_custom_modules()
+function deactivate_custom_modules(): bool
 {
     $db = Db::getInstance();
-    $modulesDirOnDisk = [];
     $modules = scandir(_PS_MODULE_DIR_, SCANDIR_SORT_NONE);
     foreach ($modules as $name) {
         if (!in_array($name, ['.', '..', 'index.php', '.htaccess']) && @is_dir(_PS_MODULE_DIR_ . $name . DIRECTORY_SEPARATOR) && @file_exists(_PS_MODULE_DIR_ . $name . DIRECTORY_SEPARATOR . $name . '.php')) {
             if (!preg_match('/^[a-zA-Z0-9_-]+$/', $name)) {
                 exit(Tools::displayError() . ' (Module ' . $name . ')');
             }
-            $modulesDirOnDisk[] = $name;
         }
     }
 
@@ -96,7 +94,10 @@ function deactivate_custom_modules()
     return $return;
 }
 
-function deactivate_custom_modules80($moduleRepository)
+/**
+ * @param mixed $moduleRepository
+ */
+function deactivate_custom_modules80($moduleRepository): bool
 {
     $nonNativeModulesList = $moduleRepository->getNonNativeModules();
 
@@ -119,12 +120,11 @@ function deactivate_custom_modules80($moduleRepository)
     }
 
     $sql = 'DELETE FROM `' . _DB_PREFIX_ . 'module_shop` WHERE `id_module` IN (' . implode(',', array_map('add_quotes', $toBeUninstalled)) . ') ';
-    $return &= Db::getInstance()->execute($sql);
 
-    return $return;
+    return $return && Db::getInstance()->execute($sql);
 }
 
-function add_quotes($str)
+function add_quotes(string $str): string
 {
     return sprintf("'%s'", $str);
 }

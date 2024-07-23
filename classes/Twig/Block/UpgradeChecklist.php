@@ -68,8 +68,8 @@ class UpgradeChecklist
     public function __construct(
         $twig,
         UpgradeSelfCheck $upgradeSelfCheck,
-        $currentIndex,
-        $token
+        string $currentIndex,
+        string $token
     ) {
         $this->twig = $twig;
         $this->selfCheck = $upgradeSelfCheck;
@@ -78,13 +78,11 @@ class UpgradeChecklist
     }
 
     /**
-     * Returns the block's HTML.
-     *
-     * @return string
+     * @return array<string, mixed>
      */
-    public function render()
+    public function getTemplateVars(): array
     {
-        $data = [
+        return [
             'showErrorMessage' => !$this->selfCheck->isOkForUpgrade(),
             'moduleVersion' => $this->selfCheck->getModuleVersion(),
             'moduleIsUpToDate' => $this->selfCheck->isModuleVersionLatest(),
@@ -106,8 +104,8 @@ class UpgradeChecklist
             'token' => $this->token,
             'cachingIsDisabled' => $this->selfCheck->isCacheDisabled(),
             'maxExecutionTime' => $this->selfCheck->getMaxExecutionTime(),
-            'phpUpgradeRequired' => $this->selfCheck->isPhpUpgradeRequired(),
-            'checkPhpVersionCompatibility' => $this->selfCheck->isPhpVersionCompatible(),
+            'phpRequirementsState' => $this->selfCheck->getPhpRequirementsState(),
+            'phpCompatibilityRange' => $this->selfCheck->getPhpCompatibilityRange(),
             'checkApacheModRewrite' => $this->selfCheck->isApacheModRewriteEnabled(),
             'notLoadedPhpExtensions' => $this->selfCheck->getNotLoadedPhpExtensions(),
             'checkKeyGeneration' => $this->selfCheck->checkKeyGeneration(),
@@ -118,7 +116,13 @@ class UpgradeChecklist
             'missingFiles' => $this->selfCheck->getMissingFiles(),
             'notWritingDirectories' => $this->selfCheck->getNotWritingDirectories(),
         ];
+    }
 
-        return $this->twig->render('@ModuleAutoUpgrade/block/checklist.twig', $data);
+    /**
+     * Returns the block's HTML.
+     */
+    public function render(): string
+    {
+        return $this->twig->render('@ModuleAutoUpgrade/block/checklist.html.twig', $this->getTemplateVars());
     }
 }
