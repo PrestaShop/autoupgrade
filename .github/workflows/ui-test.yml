@@ -19,6 +19,7 @@ env:
   CAMPAIGN: 'autoupgrade'
 jobs:
   ui_test_matrix:
+    if: github.event.pull_request.draft == false
     name: UI Tests (Matrix)
     runs-on: ubuntu-latest
     env:
