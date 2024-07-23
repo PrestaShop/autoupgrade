@@ -11,12 +11,12 @@ parameters:
 		- '#Caught class PrestaShop\\PrestaShop\\Core\\Exception\\CoreException not found.#'
 		- '#Instantiated class PrestaShop\\PrestaShop\\Core\\Domain\\Theme\\ValueObject\\ThemeName not found.#'
 		- '#PHPDoc tag @var for variable \$commandBus contains unknown class PrestaShop\\PrestaShop\\Core\\CommandBus\\CommandBusInterface.#'
-		- '#Method PrestaShop\\Module\\AutoUpgrade\\UpgradeTools\\ModuleAdapter::getCommandBus\(\) has invalid return type PrestaShop\\PrestaShop\\Core\\CommandBus\\CommandBusInterface.#'
+		- '#Method PrestaShop\\Module\\AutoUpgrade\\UpgradeTools\\Module\\ModuleAdapter::getCommandBus\(\) has invalid return type PrestaShop\\PrestaShop\\Core\\CommandBus\\CommandBusInterface.#'
 		- '#Call to method getContainer\(\) on an unknown class AdminKernel.#'
 		- '#Method PrestaShop\\Module\\AutoUpgrade\\UpgradeTools\\SymfonyAdapter::initKernel\(\) has invalid return type AdminKernel.#'
-		- "#^Parameter \\$moduleRepository of method PrestaShop\\\\Module\\\\AutoUpgrade\\\\UpgradeTools\\\\ModuleAdapter\\:\\:disableNonNativeModules80\\(\\) has invalid type PrestaShop\\\\PrestaShop\\\\Adapter\\\\Module\\\\Repository\\\\ModuleRepository\\.$#"
+		- "#^Parameter \\$moduleRepository of method PrestaShop\\\\Module\\\\AutoUpgrade\\\\UpgradeTools\\\\Module\\\\ModuleAdapter\\:\\:disableNonNativeModules80\\(\\) has invalid type PrestaShop\\\\PrestaShop\\\\Adapter\\\\Module\\\\Repository\\\\ModuleRepository\\.$#"
 		- "#^Class PrestaShop\\\\Module\\\\AutoUpgrade\\\\Parameters\\\\UpgradeConfiguration @extends tag contains incompatible type Doctrine\\\\Common\\\\Collections\\\\ArrayCollection&iterable\\<string, mixed\\>\\.$#"
-		- "#^Property PrestaShop\\\\Module\\\\AutoUpgrade\\\\UpgradeTools\\\\ModuleAdapter\\:\\:\\$commandBus has unknown class PrestaShop\\\\PrestaShop\\\\Core\\\\CommandBus\\\\CommandBusInterface as its type\\.$#"
+		- "#^Property PrestaShop\\\\Module\\\\AutoUpgrade\\\\UpgradeTools\\\\Module\\\\ModuleAdapter\\:\\:\\$commandBus has unknown class PrestaShop\\\\PrestaShop\\\\Core\\\\CommandBus\\\\CommandBusInterface as its type\\.$#"
 		- '#Instantiated class AdminKernel not found\.#'
 		- "#^Parameter \\#1 \\$callback of function array_map expects \\(callable\\(int\\)\\: mixed\\)\\|null, 'add_quotes' given\\.$#"
 		-

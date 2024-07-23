@@ -273,9 +273,9 @@ class ModuleAdapter
         $db_version = (new ModuleVersionAdapter())->get($name);
         $module = \Module::getInstanceByName($name);
         if (!($module instanceof \Module)) {
-            throw (new UpgradeException($this->translator->trans('[WARNING] Error when trying to retrieve module %s instance.', [$this->module_name])))->setSeverity(UpgradeException::SEVERITY_WARNING);
+            throw (new UpgradeException($this->translator->trans('[WARNING] Error when trying to retrieve module %s instance.', [$name])))->setSeverity(UpgradeException::SEVERITY_WARNING);
         }
-        $module->installed = !empty($version);
+        $module->installed = !empty($db_version);
         $module->database_version = $db_version ?: 0;
 
         try {

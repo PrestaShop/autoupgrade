@@ -10,7 +10,7 @@ parameters:
 		- '#Instantiated class PrestaShop\\PrestaShop\\Core\\Cldr\\Update not found.#'
 		- '#Call to method getContainer\(\) on an unknown class AdminKernel.#'
 		- '#Method PrestaShop\\Module\\AutoUpgrade\\UpgradeTools\\SymfonyAdapter::initKernel\(\) has invalid return type AdminKernel.#'
-		- "#^Parameter \\$moduleRepository of method PrestaShop\\\\Module\\\\AutoUpgrade\\\\UpgradeTools\\\\ModuleAdapter\\:\\:disableNonNativeModules80\\(\\) has invalid type PrestaShop\\\\PrestaShop\\\\Adapter\\\\Module\\\\Repository\\\\ModuleRepository\\.$#"
+		- "#^Parameter \\$moduleRepository of method PrestaShop\\\\Module\\\\AutoUpgrade\\\\UpgradeTools\\\\Module\\\\ModuleAdapter\\:\\:disableNonNativeModules80\\(\\) has invalid type PrestaShop\\\\PrestaShop\\\\Adapter\\\\Module\\\\Repository\\\\ModuleRepository\\.$#"
 		- '#Instantiated class AdminKernel not found\.#'
 		- "#^Parameter \\#1 \\$callback of function array_map expects \\(callable\\(int\\)\\: mixed\\)\\|null, 'add_quotes' given\\.$#"
 		-
