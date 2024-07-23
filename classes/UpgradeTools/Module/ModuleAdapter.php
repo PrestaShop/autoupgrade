@@ -270,7 +270,7 @@ class ModuleAdapter
      */
     private function doUpgradeModule(string $name): void
     {
-        $db_version = (new ModuleVersionAdapter)->get($name);
+        $db_version = (new ModuleVersionAdapter())->get($name);
         $module = \Module::getInstanceByName($name);
         if (!($module instanceof \Module)) {
             throw (new UpgradeException($this->translator->trans('[WARNING] Error when trying to retrieve module %s instance.', [$this->module_name])))->setSeverity(UpgradeException::SEVERITY_WARNING);
