@@ -1,9 +1,9 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+use PrestaShop\Module\AutoUpgrade\Log\Logger;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleMigration;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
-use PrestaShop\Module\AutoUpgrade\Log\Logger;
 
 class ModuleMigrationTest extends TestCase
 {
@@ -47,7 +47,7 @@ class ModuleMigrationTest extends TestCase
         // check if $upgrade_files_root_path is correctly set
         $upgradeFilesRootPath = $reflectionModuleMigration->getProperty('upgrade_files_root_path');
         $upgradeFilesRootPath->setAccessible(true);
-        $this->assertEquals( _PS_MODULE_DIR_ . 'mymodule' . DIRECTORY_SEPARATOR . 'upgrade', $upgradeFilesRootPath->getValue($this->moduleMigration));
+        $this->assertEquals(_PS_MODULE_DIR_ . 'mymodule' . DIRECTORY_SEPARATOR . 'upgrade', $upgradeFilesRootPath->getValue($this->moduleMigration));
 
         // check if $local_version is correctly set
         $localeVersion = $reflectionModuleMigration->getProperty('local_version');
@@ -137,7 +137,7 @@ class ModuleMigrationTest extends TestCase
         $this->moduleMigration->setMigrationContext($mymodule, $db_version);
         $this->assertEquals([
             __DIR__ . '/../../../fixtures/mymodule/upgrade/upgrade-1.0.1.php',
-            __DIR__ .  '/../../../fixtures/mymodule/upgrade/upgrade-1.1.0.php'
+            __DIR__ . '/../../../fixtures/mymodule/upgrade/upgrade-1.1.0.php',
         ], $this->moduleMigration->listUpgradeFiles());
     }
 }
