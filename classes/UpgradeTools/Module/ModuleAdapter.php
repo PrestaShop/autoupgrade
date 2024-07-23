@@ -271,20 +271,20 @@ class ModuleAdapter
      */
     private function doUpgradeModule(string $name): void
     {
-        $version = ModuleVersionAdapter::get($name);
+        $db_version = ModuleVersionAdapter::get($name);
         $module = \Module::getInstanceByName($name);
         if (!($module instanceof \Module)) {
-            return;
+            throw (new UpgradeException($this->translator->trans('[WARNING] Error when trying to retrieve module %s instance.', [$this->module_name])))->setSeverity(UpgradeException::SEVERITY_WARNING);
         }
         $module->installed = !empty($version);
-        $module->database_version = $version ?: 0;
+        $module->database_version = $db_version ?: 0;
 
         try {
-            $moduleMigration = new ModuleMigration($this->translator, $this->logger, $name);
-            $moduleMigration->initUpgrade();
+            $moduleMigration = new ModuleMigration($this->translator, $this->logger);
+            $moduleMigration->setMigrationContext($module, $db_version);
 
             if (!$moduleMigration->needUpgrade()) {
-                $this->logger->info($this->translator->trans('Module %s does not need to be upgraded.', [$name]));
+                $this->logger->info($this->translator->trans('Module %s does not need to be migrated.', [$name]));
             }
 
             if (!\Module::initUpgradeModule($module)) {
