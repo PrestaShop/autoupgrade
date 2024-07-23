@@ -5,6 +5,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   upgrade:
+    if: github.event.pull_request.draft == false
     strategy:
       matrix:
         from: ['1.7.0.6', '1.7.6.9', '1.7.6.1', '1.7.7.0', '8.0.0', '8.1.0']
