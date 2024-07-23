@@ -535,22 +535,22 @@ Comment: directory already exists</note>
       <trans-unit id="20aed4fb9f6ee15bc601227bbfb85acd">
         <source>Could not assert the folder %s contains a valid PrestaShop release, exiting.</source>
         <target>Could not assert the folder %s contains a valid PrestaShop release, exiting.</target>
-        <note>Line: 204</note>
+        <note>Line: 202</note>
       </trans-unit>
       <trans-unit id="312d54356778124e7ad6d8c7be6ff1a0">
         <source>A file may be missing, or the release is stored in a subfolder by mistake.</source>
         <target>A file may be missing, or the release is stored in a subfolder by mistake.</target>
-        <note>Line: 205</note>
+        <note>Line: 203</note>
       </trans-unit>
       <trans-unit id="2de9cd00fdcc22adb43ea03f2a09dee5">
         <source>[ERROR] Unable to find files to upgrade.</source>
         <target>[ERROR] Unable to find files to upgrade.</target>
-        <note>Line: 265</note>
+        <note>Line: 263</note>
       </trans-unit>
       <trans-unit id="5479863b0426e29c3a17a3f9cc6e3746">
         <source>%s files will be upgraded.</source>
         <target>%s files will be upgraded.</target>
-        <note>Line: 270</note>
+        <note>Line: 268</note>
       </trans-unit>
     </body>
   </file>
