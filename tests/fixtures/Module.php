@@ -8,4 +8,8 @@ class Module
     public function __construct()
     {
     }
+
+    public function disable()
+    {
+    }
 }

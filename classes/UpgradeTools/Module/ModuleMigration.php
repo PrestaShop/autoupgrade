@@ -27,8 +27,10 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\Module;
 
+use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
+use LogicException;
 
 class ModuleMigration
 {
@@ -38,7 +40,7 @@ class ModuleMigration
     /** @var Logger */
     private $logger;
 
-    /** @var string */
+    /** @var string|null */
     private $module_name;
 
     /** @var string|null */
@@ -47,34 +49,35 @@ class ModuleMigration
     /** @var string|null */
     private $local_version;
 
-    /** @var string[] */
-    private $upgrade_files;
+    /** @var string[]|null */
+    private $migration_files;
 
-    /** @var string */
+    /** @var string|null */
     private $upgrade_files_root_path;
 
-    /** @var \Module */
+    /** @var \Module|null */
     private $module_instance;
 
     public function __construct(Translator $translator, Logger $logger)
     {
         $this->translator = $translator;
         $this->logger = $logger;
-        $this->module_name = '';
+        $this->module_name = null;
         $this->db_version = null;
         $this->local_version = null;
-        $this->upgrade_files = [];
-        $this->upgrade_files_root_path = '';
+        $this->migration_files = null;
+        $this->upgrade_files_root_path = null;
+        $this->module_instance = null;
     }
 
     public function setMigrationContext(\Module $module_instance, ?string $db_version): void
     {
         $this->module_instance = $module_instance;
 
-        $module_name = $module_instance->name;
+        $moduleName = $module_instance->name;
 
-        $this->module_name = $module_name;
-        $this->upgrade_files_root_path = _PS_MODULE_DIR_ . $module_name . DIRECTORY_SEPARATOR . 'upgrade';
+        $this->module_name = $moduleName;
+        $this->upgrade_files_root_path = _PS_MODULE_DIR_ . $moduleName . DIRECTORY_SEPARATOR . 'upgrade';
 
         $this->local_version = $this->module_instance->version;
         $this->db_version = $db_version ?? '0';
@@ -84,14 +87,14 @@ class ModuleMigration
         }
     }
 
-    public function needUpgrade(): bool
+    public function needMigration(): bool
     {
         if (version_compare($this->local_version, $this->db_version, '>')) {
-            if (empty($this->upgrade_files)) {
-                $this->upgrade_files = $this->listUpgradeFiles();
+            if (empty($this->migration_files)) {
+                $this->migration_files = $this->listUpgradeFiles();
             }
 
-            return !empty($this->upgrade_files);
+            return !empty($this->migration_files);
         }
 
         return false;
@@ -107,7 +110,7 @@ class ModuleMigration
         $upgradeFiles = [];
 
         foreach ($files as $file) {
-            if (preg_match('/(?:upgrade|install)[_-](\d+(?:\.\d+){0,2}).php$/', basename($file), $matches)) {
+            if (preg_match('/upgrade-(\d+(?:\.\d+){0,2}).php$/', basename($file), $matches)) {
                 $fileVersion = $matches[1];
                 if (version_compare($fileVersion, $this->db_version, '>') && version_compare($fileVersion, $this->local_version, '<=')) {
                     $upgradeFiles[] = ['file' => $file, 'version' => $fileVersion];
@@ -120,5 +123,53 @@ class ModuleMigration
         });
 
         return array_column($upgradeFiles, 'file');
+    }
+
+    /**
+     * @throws LogicException
+     * @throws UpgradeException
+     */
+    public function runMigration(): void
+    {
+        if (!$this->module_instance || !$this->module_name || !$this->local_version || !$this->db_version) {
+            throw (new LogicException('Module migration context is empty, please run setMigrationContext() first.'));
+        }
+
+        if ($this->migration_files === null) {
+            throw (new LogicException('Module upgrade files are empty, please run needMigration() first.'));
+        }
+
+        foreach ($this->migration_files as $index => $migrationFilePath) {
+            $this->logger->notice($this->translator->trans('(%s/%s) Applying migration file %s.', [($index + 1), count($this->migration_files), baseName($migrationFilePath)]));
+
+            $methodName = $this->getUpgradeMethodName($migrationFilePath);
+
+            // check if function already exist to prevent upgrade crash
+            if (function_exists($methodName)) {
+                throw (new UpgradeException($this->translator->trans('[WARNING] Method %s already exists. Migration for module %s aborted, you can try again later on the module manager.', [$methodName, $this->module_name])))->setSeverity(UpgradeException::SEVERITY_WARNING);
+            }
+
+            include $migrationFilePath;
+
+            if (!function_exists($methodName)) {
+                throw (new UpgradeException($this->translator->trans('[WARNING] Method %s does not exist', [$methodName])))->setSeverity(UpgradeException::SEVERITY_WARNING);
+            }
+
+            if (!$methodName($this->module_instance)) {
+                $this->module_instance->disable();
+                throw (new UpgradeException($this->translator->trans('[WARNING] The method %s encountered an issue during migration.', [$methodName])))->setSeverity(UpgradeException::SEVERITY_WARNING);
+            }
+        }
+    }
+
+    private function getUpgradeMethodName($filePath): string
+    {
+        $fileName = basename($filePath);
+
+        preg_match('/upgrade-([\d.]+)\.php$/', $fileName, $matches);
+
+        $version = str_replace('.', '_', $matches[1]);
+
+        return 'upgrade_module_' . $version;
     }
 }

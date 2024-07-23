@@ -272,34 +272,23 @@ class ModuleAdapter
     {
         $db_version = (new ModuleVersionAdapter())->get($name);
         $module = \Module::getInstanceByName($name);
+
         if (!($module instanceof \Module)) {
             throw (new UpgradeException($this->translator->trans('[WARNING] Error when trying to retrieve module %s instance.', [$name])))->setSeverity(UpgradeException::SEVERITY_WARNING);
         }
-        $module->installed = !empty($db_version);
-        $module->database_version = $db_version ?: 0;
 
         try {
             $moduleMigration = new ModuleMigration($this->translator, $this->logger);
             $moduleMigration->setMigrationContext($module, $db_version);
 
-            if (!$moduleMigration->needUpgrade()) {
+            if (!$moduleMigration->needMigration()) {
                 $this->logger->info($this->translator->trans('Module %s does not need to be migrated.', [$name]));
-            }
-
-            if (!\Module::initUpgradeModule($module)) {
                 return;
             }
 
-            $module->runUpgradeModule();
-            \Module::upgradeModuleVersion($name, $module->version);
+            $moduleMigration->runMigration();
         } catch (Throwable $t) {
             throw (new UpgradeException($this->translator->trans('[WARNING] Error when trying to upgrade module %s.', [$name]), 0, $t))->setSeverity(UpgradeException::SEVERITY_WARNING);
-        }
-
-        $errorsList = $module->getErrors();
-
-        if (count($errorsList)) {
-            throw (new UpgradeException($this->translator->trans('[WARNING] Error when trying to upgrade module %s.', [$name])))->setSeverity(UpgradeException::SEVERITY_WARNING)->setQuickInfos($errorsList);
         }
     }
 }
