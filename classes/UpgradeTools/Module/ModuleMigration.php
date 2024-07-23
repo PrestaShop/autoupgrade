@@ -54,37 +54,34 @@ class ModuleMigration
     /** @var string */
     private $upgrade_files_root_path;
 
-    /** @var \Module | bool */
+    /** @var \Module */
     private $module_instance;
 
-    public function __construct(Translator $translator, Logger $logger, string $module_name)
+    public function __construct(Translator $translator, Logger $logger)
     {
         $this->translator = $translator;
         $this->logger = $logger;
-        $this->module_name = $module_name;
+        $this->module_name = '';
         $this->db_version = null;
         $this->local_version = null;
         $this->upgrade_files = [];
-        $this->upgrade_files_root_path = _PS_MODULE_DIR_ . $module_name . DIRECTORY_SEPARATOR . 'upgrade' . DIRECTORY_SEPARATOR;
+        $this->upgrade_files_root_path = '';
     }
 
-    /**
-     * @throws UpgradeException
-     */
-    public function initUpgrade(): void
+    public function setMigrationContext(\Module $module_instance, ?string $db_version): void
     {
-        $this->module_instance = \Module::getInstanceByName($this->module_name);
+        $this->module_instance = $module_instance;
 
-        if (!$this->module_instance) {
-            throw (new UpgradeException($this->translator->trans('[WARNING] Error when trying to retrieve module %s instance.', [$this->module_name])))->setSeverity(UpgradeException::SEVERITY_WARNING);
-        }
+        $module_name = $module_instance->name;
+
+        $this->module_name = $module_name;
+        $this->upgrade_files_root_path = _PS_MODULE_DIR_ . $module_name . DIRECTORY_SEPARATOR . 'upgrade';
 
         $this->local_version = $this->module_instance->version;
-
-        $this->db_version = ModuleVersionAdapter::get($this->module_name) ?? '0';
+        $this->db_version = $db_version ?? '0';
 
         if ($this->db_version === '0') {
-            $this->logger->notice($this->translator->trans('No version found in database for module %s, all files for upgrade will be applied.', [$this->module_name]));
+            $this->logger->notice($this->translator->trans('No database version provided for module %s, all files for upgrade will be applied.', [$this->module_name]));
         }
     }
 
@@ -92,35 +89,35 @@ class ModuleMigration
     {
         if (version_compare($this->local_version, $this->db_version, '>')) {
             if (empty($this->upgrade_files)) {
-                $this->loadUpgradeFiles();
+                $this->upgrade_files = $this->listUpgradeFiles();
             }
             return !empty($this->upgrade_files);
         }
         return false;
     }
 
-    public function loadUpgradeFiles(): void
+    /**
+     * @return string[]
+     */
+    public function listUpgradeFiles(): array
     {
-        if (!empty($this->upgrade_files)) {
-            $this->upgrade_files = [];
-        }
-
         $files = glob($this->upgrade_files_root_path . '/*.php', GLOB_BRACE);
+
+        $upgradeFiles = [];
 
         foreach ($files as $file) {
             if (preg_match('/(?:upgrade|install)[_-](\d+(?:\.\d+){0,2}).php$/', basename($file), $matches)) {
                 $fileVersion = $matches[1];
                 if (version_compare($fileVersion, $this->db_version, '>') && version_compare($fileVersion, $this->local_version, '<=')) {
-                    $this->upgrade_files[] = ['file' => $file, 'version' => $fileVersion];
-                    $this->logger->notice($this->translator->trans('File %s will be added to upgrade file list.', [$file]));
+                    $upgradeFiles[] = ['file' => $file, 'version' => $fileVersion];
                 }
             }
         }
 
-        usort($this->upgrade_files, function($a, $b) {
+        usort($upgradeFiles, function($a, $b) {
             return version_compare($a['version'], $b['version']);
         });
 
-        $this->upgrade_files = array_column($this->upgrade_files, 'file');
+        return array_column($upgradeFiles, 'file');
     }
 }
