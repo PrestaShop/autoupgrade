@@ -1,5 +1,6 @@
 if (typeof input === 'undefined') {
   var input = {
+    psBaseUri: '/',
     manualMode: "",
     _PS_MODE_DEV_: true,
     PS_AUTOUP_BACKUP: true,
@@ -19,14 +20,6 @@ if (typeof input === 'undefined') {
       upgradingPrestaShop: "Upgrading PrestaShop",
       upgradeComplete: "Upgrade complete",
       upgradeCompleteWithWarnings: "Upgrade complete, but warning notifications has been found.",
-      todoList: [
-        "Cookies have changed, you will need to log in again once you refreshed the page",
-        "Javascript and CSS files have changed, please clear your browser cache with CTRL-F5",
-        "Please check that your front-office theme is functional (try to create an account, place an order...)",
-        "Product images do not appear in the front-office? Try regenerating the thumbnails in Preferences > Images",
-        "Do not forget to reactivate your shop once you have checked everything!"
-      ],
-      todoListTitle: "ToDo list:",
       startingRestore: "Starting restoration...",
       restoreComplete: "Restoration complete.",
       cannotDownloadFile: "Your server cannot download the file. Please upload it first by ftp in your admin/autoupgrade directory",
@@ -332,36 +325,24 @@ function afterUpgradeNow(res) {
 }
 
 function afterUpgradeComplete(res) {
-  var params = res.nextParams;
-
   $("#pleaseWait").hide();
-  if (params.warning_exists == "false") {
-    $("#upgradeResultCheck")
-      .html("<p>" + input.translation.upgradeComplete + "</p>")
-      .show();
-    $("#infoStep").html("<p class=\"alert alert-success\">" + input.translation.upgradeComplete + "</p>");
-  }
-  else {
-    params = res.nextParams;
-    $("#pleaseWait").hide();
-    $("#upgradeResultCheck")
-      .html("<p>" + input.translation.upgradeCompleteWithWarnings + "</p>")
-      .show("slow");
-    $("#infoStep").html("<p class=\"alert alert-warning\">" + input.translation.upgradeCompleteWithWarnings + "</p>");
-  }
-
-  var todoList = input.translation.todoList;
-  var todoBullets = "<ul>";
-  for (var i in todoList) {
-    todoBullets += "<li>" + todoList[i] + "</li>";
+  if (res.nextParams.warning_exists == "false") {
+    $("#infoStep").html(`
+        <p style="padding: 5px">
+            <img src="${input.psBaseUri}img/admin/enabled.gif" alt="ok"> 
+            ${input.translation.upgradeComplete}
+        </p>
+    `);
+  } else {
+    $("#infoStep").html(`
+        <p style="padding: 5px">
+            <img src="${input.psBaseUri}img/admin/warning.gif" alt="ok">
+            ${input.translation.upgradeCompleteWithWarnings}
+        </p>
+    `);
   }
 
-  todoBullets += "</ul>";
-
-  $("#upgradeResultToDoList")
-    .html("<strong>" + input.translation.todoListTitle + "</strong>")
-    .append(todoBullets)
-    .show();
+  $("#postUpdateChecklist").show();
 
   $(window).unbind("beforeunload");
 }

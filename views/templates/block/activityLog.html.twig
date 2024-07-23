@@ -3,7 +3,6 @@
         <div class="panel-heading">
             {{ 'Activity Log'|trans({}) }}
         </div>
-        <p id="upgradeResultCheck" style="display: none;" class="alert alert-success"></p>
 
         <div><div id="upgradeResultToDoList" style="display: none;" class="alert alert-info col-xs-12"></div></div>
 
@@ -13,7 +12,7 @@
                 <div id="infoStep" class="processing">{{ 'Analyzing the situation...'|trans({}) }}</div>
             </div>
         </div>
-        <div id="quickInfo" class="clear processing col-xs-12" style="margin-top: 15px;"></div>
+        <div id="quickInfo" class="clear processing" style="margin-top: 15px;"></div>
         {# this block will show errors and important warnings that happens during upgrade #}
         <div class="row">
             <div id="errorDuringUpgrade" class="col-xs-12" style="display:none;">

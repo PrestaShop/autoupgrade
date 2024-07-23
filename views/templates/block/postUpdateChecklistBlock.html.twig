@@ -1,0 +1,44 @@
+<div id="postUpdateChecklist" style="display: none; margin-top: 10px;">
+    <div class="alert alert-success">
+        <div style="display: flex;">
+            <div>
+                <div style="font-weight: bold;">
+                    {{ 'Your store is up to date'|trans({}) }}
+                </div>
+                {{ 'Before continuing with your tasks, please review the following checklist to ensure smooth operation after recent updates'|trans({}) }}
+            </div>
+            <div style="margin-left: auto">
+                <a class="btn btn-primary" target="_blank" href="https://devdocs.prestashop-project.org/8/basics/keeping-up-to-date/upgrade-module/post-update-checklist/">
+                    <i class="material-icons" style="font-size: 18px; margin-right: 4px;">
+                        launch
+                    </i>
+                    {{ 'Open developer documentation'|trans({}) }}
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel">
+        <div class="panel-heading">
+            {{ 'Next steps'|trans({}) }}
+        </div>
+        <ul>
+            <li>{{ 'Re-enable and check your modules one by one.'|trans({}) }}</li>
+            <li>{{ 'Make sure your store\'s front office is working properly: try to create an account, place an order, add a product, etc.'|trans({}) }}</li>
+            <li>{{ 'Disable the maintenance mode in General settings > Maintenance.'|trans({}) }}</li>
+        </ul>
+    </div>
+
+    <div class="panel">
+        <div class="panel-heading">
+            {{ 'Troubleshooting'|trans({}) }}
+        </div>
+        <ul>
+            <li>{{ 'If some images don\'t appear in the front office, try regenerating thumbnails in Preferences > Images.'|trans({}) }}</li>
+            {% if PS_AUTOUP_BACKUP %}
+                <li>{{ 'If something\'s wrong, you can restore a backup with this module. Your backup is available at {admin}/autoupgrade/backup.'|trans({}) }}</li>
+            {% endif %}
+            <li>{{ 'If you can\'t access your back office, try enabling the debug mode manually in config/defines.inc.php by setting _PS_MODE_DEV_ to true.'|trans({}) }}</li>
+        </ul>
+    </div>
+</div>
