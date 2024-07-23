@@ -25,7 +25,7 @@
 
 Sentry.init({
     dsn: "https://eae192966a8d79509154c65c317a7e5d@o298402.ingest.us.sentry.io/4507254110552064",
-    release: input.autoupgrade.version,
+    release: 'v' + input.autoupgrade.version,
     beforeSend(event, hint) {
         // Only the one we handle via the feedback modal must be sent.
         if (!event.tags?.source || event.tags.source !== 'feedbackModal') {
