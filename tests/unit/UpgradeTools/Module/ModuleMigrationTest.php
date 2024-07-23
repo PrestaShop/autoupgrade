@@ -80,33 +80,33 @@ class ModuleMigrationTest extends TestCase
         $this->assertEquals('0', $dbVersion->getValue($this->moduleMigration));
     }
 
-    public function testNeedUpgradeWithSameVersion()
+    public function testNeedMigrationWithSameVersion()
     {
         $mymodule = new \fixtures\mymodule\mymodule();
         $db_version = '1.0.0';
 
         $this->moduleMigration->setMigrationContext($mymodule, $db_version);
-        $this->assertFalse($this->moduleMigration->needUpgrade());
+        $this->assertFalse($this->moduleMigration->needMigration());
     }
 
-    public function testNeedUpgradeWithDifferentVersionButNoUpgradeFile()
+    public function testNeedMigrationWithDifferentVersionButNoUpgradeFile()
     {
         $mymodule = new \fixtures\mymodule\mymodule();
         $mymodule->version = '0.0.1';
         $db_version = '0.0.9';
 
         $this->moduleMigration->setMigrationContext($mymodule, $db_version);
-        $this->assertFalse($this->moduleMigration->needUpgrade());
+        $this->assertFalse($this->moduleMigration->needMigration());
     }
 
-    public function testNeedUpgradeWithDifferentVersionAndUpgradeFile()
+    public function testNeedMigrationWithDifferentVersionAndUpgradeFile()
     {
         $mymodule = new \fixtures\mymodule\mymodule();
         $mymodule->version = '1.1.0';
         $db_version = '1.0.0';
 
         $this->moduleMigration->setMigrationContext($mymodule, $db_version);
-        $this->assertTrue($this->moduleMigration->needUpgrade());
+        $this->assertTrue($this->moduleMigration->needMigration());
     }
 
     public function testlistUpgradeFilesWithSameVersion()
