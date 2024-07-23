@@ -180,9 +180,7 @@ class UpgradeFiles extends AbstractTask
 
             return true;
         } elseif (is_dir($dest)) {
-            if (strpos($dest, DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR) === false) {
-                FilesystemAdapter::deleteDirectory($dest);
-            }
+            FilesystemAdapter::deleteDirectory($dest);
             $this->logger->debug(sprintf('removed dir %1$s.', $file));
 
             return true;
