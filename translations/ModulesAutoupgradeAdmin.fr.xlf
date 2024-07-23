@@ -1696,7 +1696,7 @@ Comment: check DB access</note>
       </trans-unit>
       <trans-unit id="1f966606f0a941f655a4e9b7791a1ae0" approved="yes">
         <source>Currently processing</source>
-        <target state="final">traitement en cours</target>
+        <target state="final">Traitement en cours</target>
         <note>Line: 12</note>
       </trans-unit>
       <trans-unit id="21739f79b8e95f4187fce4fefb12af28" approved="yes">
@@ -1760,7 +1760,7 @@ Comment: check DB access</note>
       </trans-unit>
       <trans-unit id="453e6aa38d87b28ccae545967c53004f" approved="yes">
         <source>Unavailable</source>
-        <target state="final">Non disponibles</target>
+        <target state="final">Non disponible</target>
         <note>Line: 10</note>
       </trans-unit>
       <trans-unit id="4e140ba723a03baa6948340bf90e2ef6" approved="yes">
@@ -1780,7 +1780,7 @@ Comment: check DB access</note>
       </trans-unit>
       <trans-unit id="ededa0b9a77dd39dad86a79cdc2a7521" approved="yes">
         <source>MD5 hash:</source>
-        <target state="final">Hash MD5 :</target>
+        <target state="final">Empreinte MD5 :</target>
         <note>Line: 36</note>
       </trans-unit>
       <trans-unit id="bca4ff8cbf5fd614a700ca81c820dc1b" approved="yes">
@@ -1790,7 +1790,7 @@ Comment: check DB access</note>
       </trans-unit>
       <trans-unit id="1182cc0394225fb0ec989b7ad50ba42a" approved="yes">
         <source>See changelog</source>
-        <target state="final">Voir le changelog</target>
+        <target state="final">Voir le change log</target>
         <note>Line: 43</note>
       </trans-unit>
     </body>
@@ -1864,7 +1864,7 @@ Comment: check DB access</note>
       </trans-unit>
       <trans-unit id="e3ea2f6fe56c80761e37fd9c393d88a5" approved="yes">
         <source><![CDATA[Enable maintenance mode and add your maintenance IP in [1]Shop parameters > General > Maintenance[/1]]]></source>
-        <target state="final"><![CDATA[Activez le mode de maintenance et ajoutez votre IP de maintenance dans [1]Paramètres de la boutique > Paramètres généraux > Maintenance[/1].]]></target>
+        <target state="final"><![CDATA[Activez le mode de maintenance et ajoutez votre IP de maintenance dans [1]Paramètres de la boutique > Paramètres généraux > Maintenance[/1]]]></target>
         <note>Line: 100</note>
       </trans-unit>
       <trans-unit id="7878a3623460f0f844b13f8001ba56b7" approved="yes">
@@ -1967,7 +1967,7 @@ Comment: check DB access</note>
     <body>
       <trans-unit id="446c9e952debe114c86bbd9e5eea7d61" approved="yes">
         <source>Rollback</source>
-        <target state="final">Restaurer (Rollback)</target>
+        <target state="final">Restaurer</target>
         <note>Line: 27</note>
       </trans-unit>
       <trans-unit id="946a7fdf02f1a9f08e6711d014e3bc47" approved="yes">
@@ -2001,7 +2001,7 @@ Comment: check DB access</note>
       </trans-unit>
       <trans-unit id="e58eae3d7ced672a49b5716587b15f89" approved="yes">
         <source>Start your Upgrade</source>
-        <target state="final">Commencer la mise à jour.</target>
+        <target state="final">Commencer la mise à jour</target>
         <note>Line: 4</note>
       </trans-unit>
       <trans-unit id="da3cd17bbbbd3ef7da8e817d3c4cdb46" approved="yes">
@@ -2061,7 +2061,7 @@ Comment: check DB access</note>
       </trans-unit>
       <trans-unit id="a07a3b4fc3a73fd0a8014aa40819c357" approved="yes">
         <source>To change this behavior, you need to manually edit your php files</source>
-        <target state="final">Pour changer ce comportement, vous devez éditer manuellement vos fichiers php</target>
+        <target state="final">Pour changer ce comportement, vous devez éditer manuellement vos fichiers PHP</target>
         <note>Line: 47</note>
       </trans-unit>
       <trans-unit id="5b7ae750cd57d8ce894a3152aadbb4e3" approved="yes">
@@ -2091,7 +2091,7 @@ Comment: check DB access</note>
       </trans-unit>
       <trans-unit id="89f144934543c527b7b064ee64361d90" approved="yes">
         <source>Please select your channel:</source>
-        <target state="final">Veuillez choisir votre canal:</target>
+        <target state="final">Veuillez choisir votre canal :</target>
         <note>Line: 77</note>
       </trans-unit>
       <trans-unit id="cdcf07ad291a3b7a0cc30b870705ba63" approved="yes">
@@ -2121,17 +2121,17 @@ Comment: check DB access</note>
       </trans-unit>
       <trans-unit id="6e843a36f447872179db90ceff68d970" approved="yes">
         <source>Hash key:</source>
-        <target state="final">Clé de hash :</target>
+        <target state="final">Clé de hachage :</target>
         <note>Line: 98</note>
       </trans-unit>
       <trans-unit id="b77d20ed1ba7b2ee7139dc4f3fd13117" approved="yes">
         <source>Allow major upgrade:</source>
-        <target state="final">Autoriser les mise à jour majeure :</target>
+        <target state="final">Autoriser les mises à jour majeures :</target>
         <note>Line: 101</note>
       </trans-unit>
       <trans-unit id="780daf2510c5c9e1c58948f138629817" approved="yes">
         <source>Archive to use:</source>
-        <target state="final">Archive a utiliser :</target>
+        <target state="final">Archive à utiliser :</target>
         <note>Line: 107</note>
       </trans-unit>
       <trans-unit id="eb7d4dd49f36e74b58604842ee983efd" approved="yes">
@@ -2181,7 +2181,7 @@ Comment: check DB access</note>
       </trans-unit>
       <trans-unit id="1e034b9b374950ec672faf75cdc3f713" approved="yes">
         <source>This option will skip both download and unzip steps and will use %1$s as the source directory</source>
-        <target state="final">Cette option ignorera les étapes téléchargement et décompression, et utilisera %1$s comme répertoire source.</target>
+        <target state="final">Cette option ignorera les étapes téléchargement et décompression, et utilisera %1$s comme répertoire source</target>
         <note>Line: 143</note>
       </trans-unit>
       <trans-unit id="48c7c41b72e1d678923ce3571aa65b2d" approved="yes">
@@ -2205,7 +2205,7 @@ Comment: check DB access</note>
       </trans-unit>
       <trans-unit id="71aa2b9774b005c47f9cd225766b2045" approved="yes">
         <source>PrestaShop Original version</source>
-        <target state="final">version non modifiée de PrestaShop</target>
+        <target state="final">Version non modifiée de PrestaShop</target>
         <note>Line: 7</note>
       </trans-unit>
       <trans-unit id="68d0661e6a4150c4cc813001958f47f1" approved="yes">
@@ -2224,7 +2224,7 @@ Comment: check DB access</note>
       </trans-unit>
       <trans-unit id="d0ab112e427298327038f5e87aa40264" approved="yes">
         <source>Upgrade your store to benefit from the latest improvements, bug fixes and security patches.</source>
-        <target state="final">Mettez à jour votre boutique pour profiter des dernières améliorations, correction de bugs et patchs de sécurité.</target>
+        <target state="final">Mettez à jour votre boutique pour profiter des dernières améliorations, correction de bugs et correctifs de sécurité.</target>
         <note>Line: 19</note>
       </trans-unit>
       <trans-unit id="9cf9ee1ecc597007beb11670100081b2" approved="yes">
