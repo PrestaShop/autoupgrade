@@ -27,7 +27,6 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\Module;
 
-use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 
@@ -42,10 +41,10 @@ class ModuleMigration
     /** @var string */
     private $module_name;
 
-    /** @var string | null */
+    /** @var string|null */
     private $db_version;
 
-    /** @var string | null */
+    /** @var string|null */
     private $local_version;
 
     /** @var string[] */
@@ -91,8 +90,10 @@ class ModuleMigration
             if (empty($this->upgrade_files)) {
                 $this->upgrade_files = $this->listUpgradeFiles();
             }
+
             return !empty($this->upgrade_files);
         }
+
         return false;
     }
 
@@ -114,7 +115,7 @@ class ModuleMigration
             }
         }
 
-        usort($upgradeFiles, function($a, $b) {
+        usort($upgradeFiles, function ($a, $b) {
             return version_compare($a['version'], $b['version']);
         });
 

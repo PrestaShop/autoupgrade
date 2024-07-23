@@ -32,7 +32,6 @@ use PrestaShop\Module\AutoUpgrade\Log\Logger;
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleMigration;
 use PrestaShop\Module\AutoUpgrade\ZipAction;
 use PrestaShop\PrestaShop\Adapter\Module\Repository\ModuleRepository;
 use Symfony\Component\Filesystem\Exception\IOException;
@@ -271,7 +270,7 @@ class ModuleAdapter
      */
     private function doUpgradeModule(string $name): void
     {
-        $db_version = ModuleVersionAdapter::get($name);
+        $db_version = (new ModuleVersionAdapter)->get($name);
         $module = \Module::getInstanceByName($name);
         if (!($module instanceof \Module)) {
             throw (new UpgradeException($this->translator->trans('[WARNING] Error when trying to retrieve module %s instance.', [$this->module_name])))->setSeverity(UpgradeException::SEVERITY_WARNING);
