@@ -111,6 +111,11 @@ class CompletionCalculator
         $currentBaseProgress = $this->getBasePercentageOfTask($currentTaskClass);
         $nextBaseProgress = $this->getBasePercentageOfTask($nextTaskClass);
 
+        // Avoid division by zero with empty backlogs
+        if (!$backlog->getInitialTotal()) {
+            return $currentBaseProgress + ($nextBaseProgress - $currentBaseProgress);
+        }
+
         return $currentBaseProgress + (($nextBaseProgress - $currentBaseProgress) * ($backlog->getInitialTotal() - $backlog->getRemainingTotal()) / $backlog->getInitialTotal());
     }
 }

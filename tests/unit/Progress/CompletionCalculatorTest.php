@@ -95,6 +95,18 @@ class CompletionCalculatorTest extends TestCase
         );
     }
 
+    public function testComputationOfPercentagesOfEmptyBacklog()
+    {
+        $completionCalculator = $this->getCompletionCalculator(false);
+
+        $backlog = new Backlog([], 0);
+
+        $this->assertSame(
+            60,
+            $completionCalculator->computePercentage($backlog, UpgradeFiles::class, UpgradeDb::class)
+        );
+    }
+
     private function getCompletionCalculator(bool $withBackup): CompletionCalculator
     {
         return new CompletionCalculator(
