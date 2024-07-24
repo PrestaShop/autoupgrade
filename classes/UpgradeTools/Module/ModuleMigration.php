@@ -156,10 +156,14 @@ class ModuleMigration
                 throw (new UpgradeException($this->translator->trans('[WARNING] Method %s does not exist.', [$methodName])))->setSeverity(UpgradeException::SEVERITY_WARNING);
             }
 
-            // @phpstan-ignore deadCode.unreachable (we ignore this error because the previous if can be true or false)
-            if (!$methodName($this->moduleInstance)) {
-                $this->moduleInstance->disable();
-                throw (new UpgradeException($this->translator->trans('[WARNING] migration failed while running the file %s.', [basename($migrationFilePath)])))->setSeverity(UpgradeException::SEVERITY_WARNING);
+            try {
+                // @phpstan-ignore deadCode.unreachable (we ignore this error because the previous if can be true or false)
+                if (!$methodName($this->moduleInstance)) {
+                    $this->moduleInstance->disable();
+                    throw (new UpgradeException($this->translator->trans('[WARNING] migration failed while running the file %s.', [basename($migrationFilePath)])))->setSeverity(UpgradeException::SEVERITY_WARNING);
+                }
+            } catch (Throwable $t) {
+                throw (new UpgradeException($this->translator->trans('[WARNING] Error when trying to upgrade module %s.', [$this->moduleName]), 0, $t))->setSeverity(UpgradeException::SEVERITY_WARNING);
             }
         }
     }

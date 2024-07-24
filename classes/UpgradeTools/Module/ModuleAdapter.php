@@ -277,19 +277,15 @@ class ModuleAdapter
             throw (new UpgradeException($this->translator->trans('[WARNING] Error when trying to retrieve module %s instance.', [$name])))->setSeverity(UpgradeException::SEVERITY_WARNING);
         }
 
-        try {
-            $moduleMigration = new ModuleMigration($this->translator, $this->logger);
-            $moduleMigration->setMigrationContext($module, $dbVersion);
+        $moduleMigration = new ModuleMigration($this->translator, $this->logger);
+        $moduleMigration->setMigrationContext($module, $dbVersion);
 
-            if (!$moduleMigration->needMigration()) {
-                $this->logger->info($this->translator->trans('Module %s does not need to be migrated.', [$name]));
+        if (!$moduleMigration->needMigration()) {
+            $this->logger->info($this->translator->trans('Module %s does not need to be migrated.', [$name]));
 
-                return;
-            }
-
-            $moduleMigration->runMigration();
-        } catch (Throwable $t) {
-            throw (new UpgradeException($this->translator->trans('[WARNING] Error when trying to upgrade module %s.', [$name]), 0, $t))->setSeverity(UpgradeException::SEVERITY_WARNING);
+            return;
         }
+
+        $moduleMigration->runMigration();
     }
 }
