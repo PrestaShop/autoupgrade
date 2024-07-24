@@ -31,8 +31,14 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 
 class ModuleMigrationTest extends TestCase
 {
-    private $translator;
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject|Logger|(Logger&PHPUnit_Framework_MockObject_MockObject)
+     */
     private $logger;
+
+    /**
+     * @var ModuleMigration
+     */
     private $moduleMigration;
 
     protected function setUp(): void
@@ -44,14 +50,14 @@ class ModuleMigrationTest extends TestCase
         require_once _PS_MODULE_DIR_ . '/Module.php';
         require_once _PS_MODULE_DIR_ . '/mymodule/mymodule.php';
 
-        $this->translator = $this->createMock(Translator::class);
-        $this->translator->method('trans')
+        $translator = $this->createMock(Translator::class);
+        $translator->method('trans')
             ->willReturnCallback(function ($message, $parameters = []) {
                 return vsprintf($message, $parameters);
             });
 
         $this->logger = $this->createMock(Logger::class);
-        $this->moduleMigration = new ModuleMigration($this->translator, $this->logger);
+        $this->moduleMigration = new ModuleMigration($translator, $this->logger);
     }
 
     public function testSetMigrationContext()
