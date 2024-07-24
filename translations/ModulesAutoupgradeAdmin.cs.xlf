@@ -1749,7 +1749,7 @@ Comment: check DB access</note>
     <body>
       <trans-unit id="203b006e446c7692af1bfd4e41a10749" approved="yes">
         <source>Branch:</source>
-        <target state="final">Vývojová větev:</target>
+        <target state="final">Segment:</target>
         <note>Line: 4</note>
       </trans-unit>
       <trans-unit id="78945de8de090e90045d299651a68a9b" approved="yes">
@@ -1798,7 +1798,7 @@ Comment: check DB access</note>
     <body>
       <trans-unit id="69ff9aca0bd03b3981784593311d866a" approved="yes">
         <source>The pre-Upgrade checklist</source>
-        <target state="final">Kontrolní seznam před aktualizací</target>
+        <target state="final">Kontrolní seznam aktualizace</target>
         <note>Line: 6</note>
       </trans-unit>
       <trans-unit id="0b360b52f457a0a4928998cbf5ee773f" approved="yes">
@@ -1868,7 +1868,7 @@ Comment: check DB access</note>
       </trans-unit>
       <trans-unit id="7878a3623460f0f844b13f8001ba56b7" approved="yes">
         <source>PrestaShop's caching features are disabled</source>
-        <target state="final">Mezipaměťi PrestaShopu jsou zakázané</target>
+        <target state="final">Mezipaměť PrestaShopu je zakázaná</target>
         <note>Line: 116</note>
       </trans-unit>
       <trans-unit id="77a72ea58f16fea5a44f76751c804a2d" approved="yes">
@@ -1971,12 +1971,12 @@ Comment: check DB access</note>
       </trans-unit>
       <trans-unit id="946a7fdf02f1a9f08e6711d014e3bc47" approved="yes">
         <source>After upgrading your shop, you can rollback to the previous database and files. Use this function if your theme or an essential module is not working correctly.</source>
-        <target state="final">Po aktualizaci svého obchodu můžete vrátit zpět dřívější databáze a soubory. Pokud Vaše šablona vzhledu nebo základní modul nebude pracovat správně, použijte tuto funkci.</target>
+        <target state="final">Po aktualizaci svého obchodu můžete vrátit zpět dřívější databáze a soubory. Pokud Vaše šablona vzhledu nebo základní modul nepracuje správně, použijte tuto funkci.</target>
         <note>Line: 7</note>
       </trans-unit>
       <trans-unit id="a4d88b46c8edb6b0ee2fb4d6bd0690b0" approved="yes">
         <source>Choose your backup:</source>
-        <target state="final">Vyberte zálohu:</target>
+        <target state="final">Vyberte si zálohu:</target>
         <note>Line: 11</note>
       </trans-unit>
       <trans-unit id="c629f24e672b4e1165ebf1c10b5c5c5d" approved="yes">
@@ -2000,7 +2000,7 @@ Comment: check DB access</note>
       </trans-unit>
       <trans-unit id="e58eae3d7ced672a49b5716587b15f89" approved="yes">
         <source>Start your Upgrade</source>
-        <target state="final">Spustit aktualizaci</target>
+        <target state="final">Začněte aktualizaci</target>
         <note>Line: 4</note>
       </trans-unit>
       <trans-unit id="da3cd17bbbbd3ef7da8e817d3c4cdb46" approved="yes">
@@ -2015,7 +2015,7 @@ Comment: check DB access</note>
       </trans-unit>
       <trans-unit id="762b3814b0c85540ac4be47c7815fc0c" approved="yes">
         <source>Your current PrestaShop version</source>
-        <target state="final">Vaše aktuální verze PrestaShopu</target>
+        <target state="final">Vaše aktuální verze PrestaShop</target>
         <note>Line: 13</note>
       </trans-unit>
       <trans-unit id="5dcfe1b5006d8e1808c14752c0657052" approved="yes">
@@ -2030,7 +2030,7 @@ Comment: check DB access</note>
       </trans-unit>
       <trans-unit id="f34ac641f410c44e719fbc1496efd3d8" approved="yes">
         <source>Upgrade PrestaShop now!</source>
-        <target state="final">Aktualizovat PrestaShop!</target>
+        <target state="final">Upgradujte PrestaShop!</target>
         <note>Line: 25</note>
       </trans-unit>
       <trans-unit id="7f6336f29afd114798bf8ff3e6f2f9c9" approved="yes">
@@ -2040,12 +2040,12 @@ Comment: check DB access</note>
       </trans-unit>
       <trans-unit id="f90fc047cda408422c9097339e455572" approved="yes">
         <source>Open changelog in a new window</source>
-        <target state="final">Otevřít seznam změn v novém okně</target>
+        <target state="final">Otevřete seznam změn v novém okně</target>
         <note>Line: 30</note>
       </trans-unit>
       <trans-unit id="7f07c36a3eb42fc24f4777e3619316f0" approved="yes">
         <source>No file will be downloaded (channel %s is used)</source>
-        <target state="final">Nebude stažen žádný soubor (používá se kanál %s)</target>
+        <target state="final">Nebude stažen žádný soubor (kanál %s je již použit)</target>
         <note>Line: 34</note>
       </trans-unit>
       <trans-unit id="604862f03b56fde085c8f0350f63d707" approved="yes">
@@ -2105,7 +2105,7 @@ Comment: check DB access</note>
       </trans-unit>
       <trans-unit id="7d71d389caebafeecac50e98c8e14dec" approved="yes">
         <source>By default, you should use the "Minor release" channel which is offering the latest stable version available.</source>
-        <target state="final">Ve výchozím nastavení byste měli použít kanál "Minor", kde jsou dostupné nejnovější stabilní verze.</target>
+        <target state="final">Ve výchozím nastavení, byste měli použít kanál pro verze "Minor", který nabízí nejnovější stabilní verzi k dispozici.</target>
         <note>Line: 81</note>
       </trans-unit>
       <trans-unit id="3b3d4b4b6a128cfeafc8e3f8987ddb9b" approved="yes">
@@ -2125,7 +2125,7 @@ Comment: check DB access</note>
       </trans-unit>
       <trans-unit id="b77d20ed1ba7b2ee7139dc4f3fd13117" approved="yes">
         <source>Allow major upgrade:</source>
-        <target state="final">Povolit velké aktualizace (major):</target>
+        <target state="final">Povolit zásadní aktualizace (major):</target>
         <note>Line: 101</note>
       </trans-unit>
       <trans-unit id="780daf2510c5c9e1c58948f138629817" approved="yes">
@@ -2150,12 +2150,12 @@ Comment: check DB access</note>
       </trans-unit>
       <trans-unit id="5be0150b075f706fc27b09753ce6646d" approved="yes">
         <source>No archive found in your admin/autoupgrade/download directory</source>
-        <target state="final">V adresáři admin/autoupgrade/download nebyl nalezen žádný archiv</target>
+        <target state="final">Archiv v adresáři admin/autoupgrade/download nalezen</target>
         <note>Line: 127</note>
       </trans-unit>
       <trans-unit id="fa7d667f96d6c7a7a959840bb1101b68" approved="yes">
         <source>Save in the following directory the archive file and XML file of the version you want to upgrade to: %s</source>
-        <target state="final">Do následujícího adresáře uložte archiv s instalací a XML soubor verze, na kterou chcete upgradovat: %s</target>
+        <target state="final">Do následujícího adresáře uložte archiv s instalací a XML soubor verze, na kterou chcete upgradovat:</target>
         <note>Line: 130</note>
       </trans-unit>
       <trans-unit id="acb4749e846c0f10c7236ec68b574ba3" approved="yes">
@@ -2165,12 +2165,12 @@ Comment: check DB access</note>
       </trans-unit>
       <trans-unit id="4b0319a87fb1baabe2fdb810e5cd4e62" approved="yes">
         <source>This option will skip the download step.</source>
-        <target state="final">Tato volba přeskočí krok stahování.</target>
+        <target state="final">Tato volba přeskočí krok stažení souboru.</target>
         <note>Line: 132</note>
       </trans-unit>
       <trans-unit id="b534ea98500fdbec0ba93d3733f85f91" approved="yes">
         <source>Save in the following directory the uncompressed PrestaShop files of the version you want to upgrade to: %s</source>
-        <target state="final">Do následujícího adresáře uložte rozbalené soubory PrestaShopu ve verzi, na kterou chcete upgradovat: %s</target>
+        <target state="final">Uložte do následujícího adresáře nekomprimované soubory PrestaShopu verze, na kterou chcete upgradovat: %s</target>
         <note>Line: 137</note>
       </trans-unit>
       <trans-unit id="e170025f2eea43e9a73fa76b4f5649bc" approved="yes">
@@ -2204,7 +2204,7 @@ Comment: check DB access</note>
       </trans-unit>
       <trans-unit id="71aa2b9774b005c47f9cd225766b2045" approved="yes">
         <source>PrestaShop Original version</source>
-        <target state="final">Původní verze PrestaShopu</target>
+        <target state="final">Původní verze PrestaShop</target>
         <note>Line: 7</note>
       </trans-unit>
       <trans-unit id="68d0661e6a4150c4cc813001958f47f1" approved="yes">
@@ -2228,7 +2228,8 @@ Comment: check DB access</note>
       </trans-unit>
       <trans-unit id="9cf9ee1ecc597007beb11670100081b2" approved="yes">
         <source>Upgrading your store on your own can be risky. If you don't feel comfortable doing the upgrade yourself, many agencies and developers in your area may also provide this kind of service.</source>
-        <target state="final">Aktualizace obchodu na vlastní pěst může být riskantní. Pokud se na to sami necítíte, spousta agentur a specialistů tuto službu poskytuje.</target>
+        <target state="final">Aktualizace obchodu na vlastní pěst může být riskantní. Pokud se na to sami necítíte, spousta agentur a specialistů tuto službu poskytuje.
+</target>
         <note>Line: 22</note>
       </trans-unit>
     </body>
