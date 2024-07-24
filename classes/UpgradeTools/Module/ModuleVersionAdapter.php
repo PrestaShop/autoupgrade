@@ -31,7 +31,7 @@ class ModuleVersionAdapter
     public static function get(string $name): ?string
     {
         return \Db::getInstance()->getValue(
-            'SELECT version FROM `' . _DB_PREFIX_ . 'module` WHERE name = "' . $name . '"'
+            'SELECT version FROM `' . _DB_PREFIX_ . 'module` WHERE name = "' . pSQL($name) . '"'
         );
     }
 

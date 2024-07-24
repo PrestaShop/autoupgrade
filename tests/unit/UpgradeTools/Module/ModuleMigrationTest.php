@@ -63,29 +63,29 @@ class ModuleMigrationTest extends TestCase
     public function testSetMigrationContext()
     {
         $mymodule = new \fixtures\mymodule\mymodule();
-        $db_version = '1.1.0';
+        $dbVersion = '1.1.0';
 
-        $this->moduleMigration->setMigrationContext($mymodule, $db_version);
+        $this->moduleMigration->setMigrationContext($mymodule, $dbVersion);
 
         $reflectionModuleMigration = new \ReflectionClass($this->moduleMigration);
 
-        // check if $module_name is correctly set
-        $moduleName = $reflectionModuleMigration->getProperty('module_name');
+        // check if $moduleName is correctly set
+        $moduleName = $reflectionModuleMigration->getProperty('moduleName');
         $moduleName->setAccessible(true);
         $this->assertEquals('mymodule', $moduleName->getValue($this->moduleMigration));
 
         // check if $upgrade_files_root_path is correctly set
-        $upgradeFilesRootPath = $reflectionModuleMigration->getProperty('upgrade_files_root_path');
+        $upgradeFilesRootPath = $reflectionModuleMigration->getProperty('upgradeFilesRootPath');
         $upgradeFilesRootPath->setAccessible(true);
         $this->assertEquals(_PS_MODULE_DIR_ . 'mymodule' . DIRECTORY_SEPARATOR . 'upgrade', $upgradeFilesRootPath->getValue($this->moduleMigration));
 
         // check if $local_version is correctly set
-        $localeVersion = $reflectionModuleMigration->getProperty('local_version');
+        $localeVersion = $reflectionModuleMigration->getProperty('localVersion');
         $localeVersion->setAccessible(true);
         $this->assertEquals('1.0.0', $localeVersion->getValue($this->moduleMigration));
 
-        // check if $db_version is correctly set
-        $dbVersion = $reflectionModuleMigration->getProperty('db_version');
+        // check if $dbVersion is correctly set
+        $dbVersion = $reflectionModuleMigration->getProperty('dbVersion');
         $dbVersion->setAccessible(true);
         $this->assertEquals('1.1.0', $dbVersion->getValue($this->moduleMigration));
     }
@@ -93,19 +93,19 @@ class ModuleMigrationTest extends TestCase
     public function testSetMigrationContextLogWithEmptyDbVersion()
     {
         $mymodule = new \fixtures\mymodule\mymodule();
-        $db_version = null;
+        $dbVersion = null;
 
         // check we log a notice if we are not db version provided
         $this->logger->expects($this->once())
             ->method('notice')
-            ->with('No database version provided for module mymodule, all files for upgrade will be applied.');
+            ->with('No version present in database for module mymodule, all files for upgrade will be applied.');
 
-        $this->moduleMigration->setMigrationContext($mymodule, $db_version);
+        $this->moduleMigration->setMigrationContext($mymodule, $dbVersion);
 
         $reflectionModuleMigration = new \ReflectionClass($this->moduleMigration);
 
-        // check if $db_version is correctly set at 0
-        $dbVersion = $reflectionModuleMigration->getProperty('db_version');
+        // check if $dbVersion is correctly set at 0
+        $dbVersion = $reflectionModuleMigration->getProperty('dbVersion');
         $dbVersion->setAccessible(true);
         $this->assertEquals('0', $dbVersion->getValue($this->moduleMigration));
     }
@@ -113,9 +113,9 @@ class ModuleMigrationTest extends TestCase
     public function testNeedMigrationWithSameVersion()
     {
         $mymodule = new \fixtures\mymodule\mymodule();
-        $db_version = '1.0.0';
+        $dbVersion = '1.0.0';
 
-        $this->moduleMigration->setMigrationContext($mymodule, $db_version);
+        $this->moduleMigration->setMigrationContext($mymodule, $dbVersion);
         $this->assertFalse($this->moduleMigration->needMigration());
     }
 
@@ -123,9 +123,9 @@ class ModuleMigrationTest extends TestCase
     {
         $mymodule = new \fixtures\mymodule\mymodule();
         $mymodule->version = '0.0.1';
-        $db_version = '0.0.9';
+        $dbVersion = '0.0.9';
 
-        $this->moduleMigration->setMigrationContext($mymodule, $db_version);
+        $this->moduleMigration->setMigrationContext($mymodule, $dbVersion);
         $this->assertFalse($this->moduleMigration->needMigration());
     }
 
@@ -133,18 +133,18 @@ class ModuleMigrationTest extends TestCase
     {
         $mymodule = new \fixtures\mymodule\mymodule();
         $mymodule->version = '1.1.0';
-        $db_version = '1.0.0';
+        $dbVersion = '1.0.0';
 
-        $this->moduleMigration->setMigrationContext($mymodule, $db_version);
+        $this->moduleMigration->setMigrationContext($mymodule, $dbVersion);
         $this->assertTrue($this->moduleMigration->needMigration());
     }
 
     public function testListUpgradeFilesWithSameVersion()
     {
         $mymodule = new \fixtures\mymodule\mymodule();
-        $db_version = '1.0.0';
+        $dbVersion = '1.0.0';
 
-        $this->moduleMigration->setMigrationContext($mymodule, $db_version);
+        $this->moduleMigration->setMigrationContext($mymodule, $dbVersion);
         $this->assertEquals([], $this->moduleMigration->listUpgradeFiles());
     }
 
@@ -152,9 +152,9 @@ class ModuleMigrationTest extends TestCase
     {
         $mymodule = new \fixtures\mymodule\mymodule();
         $mymodule->version = '0.0.1';
-        $db_version = '0.0.9';
+        $dbVersion = '0.0.9';
 
-        $this->moduleMigration->setMigrationContext($mymodule, $db_version);
+        $this->moduleMigration->setMigrationContext($mymodule, $dbVersion);
         $this->assertEquals([], $this->moduleMigration->listUpgradeFiles());
     }
 
@@ -162,11 +162,11 @@ class ModuleMigrationTest extends TestCase
     {
         $mymodule = new \fixtures\mymodule\mymodule();
         $mymodule->version = '1.1.0';
-        $db_version = '1.0.0';
+        $dbVersion = '1.0.0';
 
         $upgradeFiles = $this->moduleMigration->listUpgradeFiles();
 
-        $this->moduleMigration->setMigrationContext($mymodule, $db_version);
+        $this->moduleMigration->setMigrationContext($mymodule, $dbVersion);
         $this->assertEquals([
             __DIR__ . '/../../../fixtures/mymodule/upgrade/upgrade-1.0.1.php',
             __DIR__ . '/../../../fixtures/mymodule/upgrade/upgrade-1.1.php',
@@ -184,9 +184,9 @@ class ModuleMigrationTest extends TestCase
     public function testRunMigrationWithoutMigrationFilesSets()
     {
         $mymodule = new \fixtures\mymodule\mymodule();
-        $db_version = '1.0.0';
+        $dbVersion = '1.0.0';
 
-        $this->moduleMigration->setMigrationContext($mymodule, $db_version);
+        $this->moduleMigration->setMigrationContext($mymodule, $dbVersion);
 
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('Module upgrade files are empty, please run needMigration() first.');
@@ -198,9 +198,9 @@ class ModuleMigrationTest extends TestCase
     {
         $mymodule = new \fixtures\mymodule\mymodule();
         $mymodule->version = '1.1.1';
-        $db_version = '0.0.9';
+        $dbVersion = '0.0.9';
 
-        $this->moduleMigration->setMigrationContext($mymodule, $db_version);
+        $this->moduleMigration->setMigrationContext($mymodule, $dbVersion);
         $this->moduleMigration->needMigration();
 
         $this->logger->expects($this->exactly(4))
@@ -219,9 +219,9 @@ class ModuleMigrationTest extends TestCase
     {
         $mymodule = new \fixtures\mymodule\mymodule();
         $mymodule->version = '1.1.1';
-        $db_version = '0.0.9';
+        $dbVersion = '0.0.9';
 
-        $this->moduleMigration->setMigrationContext($mymodule, $db_version);
+        $this->moduleMigration->setMigrationContext($mymodule, $dbVersion);
         $this->moduleMigration->needMigration();
 
         $this->expectException(\PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException::class);
@@ -234,9 +234,9 @@ class ModuleMigrationTest extends TestCase
     {
         $mymodule = new \fixtures\mymodule\mymodule();
         $mymodule->version = '1.2.0';
-        $db_version = '1.1.1';
+        $dbVersion = '1.1.1';
 
-        $this->moduleMigration->setMigrationContext($mymodule, $db_version);
+        $this->moduleMigration->setMigrationContext($mymodule, $dbVersion);
         $this->moduleMigration->needMigration();
 
         $this->expectException(\PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException::class);
@@ -249,13 +249,13 @@ class ModuleMigrationTest extends TestCase
     {
         $mymodule = new \fixtures\mymodule\mymodule();
         $mymodule->version = '1.2.1';
-        $db_version = '1.2.0';
+        $dbVersion = '1.2.0';
 
-        $this->moduleMigration->setMigrationContext($mymodule, $db_version);
+        $this->moduleMigration->setMigrationContext($mymodule, $dbVersion);
         $this->moduleMigration->needMigration();
 
         $this->expectException(\PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException::class);
-        $this->expectExceptionMessage('[WARNING] The method upgrade_module_1_2_1 encountered an issue during migration.');
+        $this->expectExceptionMessage('[WARNING] migration failed while running the file upgrade-1.2.1.php.');
 
         $this->moduleMigration->runMigration();
     }
