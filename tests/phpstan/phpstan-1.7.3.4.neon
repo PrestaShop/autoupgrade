@@ -6,7 +6,6 @@ parameters:
 		- ./../../classes/UpgradeTools/CoreUpgrader/CoreUpgrader80.php
 		- ./../../classes/Twig/TransFilterExtension3.php
 	ignoreErrors:
-		- '#Access to an undefined property Module::\$installed.#'
 		- '#Call to method getContainer\(\) on an unknown class AppKernel.#'
 		- '#Call to method getMessage\(\) on an unknown class PrestaShop\\PrestaShop\\Core\\Exception\\CoreException.#'
 		- '#Call to method handle\(\) on an unknown class PrestaShop\\PrestaShop\\Core\\CommandBus\\CommandBusInterface.#'
