@@ -27,10 +27,10 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\Module;
 
+use LogicException;
 use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
-use LogicException;
 
 class ModuleMigration
 {
@@ -140,7 +140,7 @@ class ModuleMigration
         }
 
         foreach ($this->migration_files as $index => $migrationFilePath) {
-            $this->logger->notice($this->translator->trans('(%s/%s) Applying migration file %s.', [($index + 1), count($this->migration_files), baseName($migrationFilePath)]));
+            $this->logger->notice($this->translator->trans('(%s/%s) Applying migration file %s.', [($index + 1), count($this->migration_files), basename($migrationFilePath)]));
 
             $methodName = $this->getUpgradeMethodName($migrationFilePath);
 

@@ -283,6 +283,7 @@ class ModuleAdapter
 
             if (!$moduleMigration->needMigration()) {
                 $this->logger->info($this->translator->trans('Module %s does not need to be migrated.', [$name]));
+
                 return;
             }
 
