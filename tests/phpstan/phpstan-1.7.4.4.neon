@@ -5,7 +5,6 @@ parameters:
 	excludePaths:
 		- ./../../classes/UpgradeTools/CoreUpgrader/CoreUpgrader80.php
 	ignoreErrors:
-		- '#Access to an undefined property Module::\$installed.#'
 		- '#Call to method getMessage\(\) on an unknown class PrestaShop\\PrestaShop\\Core\\Exception\\CoreException.#'
 		- '#Call to method handle\(\) on an unknown class PrestaShop\\PrestaShop\\Core\\CommandBus\\CommandBusInterface.#'
 		- '#Caught class PrestaShop\\PrestaShop\\Core\\Exception\\CoreException not found.#'

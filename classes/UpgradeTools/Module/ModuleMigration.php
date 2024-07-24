@@ -151,10 +151,12 @@ class ModuleMigration
 
             include $migrationFilePath;
 
+            // @phpstan-ignore booleanNot.alwaysTrue (we ignore this error because we load a file with methods)
             if (!function_exists($methodName)) {
                 throw (new UpgradeException($this->translator->trans('[WARNING] Method %s does not exist.', [$methodName])))->setSeverity(UpgradeException::SEVERITY_WARNING);
             }
 
+            // @phpstan-ignore deadCode.unreachable (we ignore this error because the previous if can be true or false)
             if (!$methodName($this->module_instance)) {
                 $this->module_instance->disable();
                 throw (new UpgradeException($this->translator->trans('[WARNING] The method %s encountered an issue during migration.', [$methodName])))->setSeverity(UpgradeException::SEVERITY_WARNING);
@@ -162,7 +164,7 @@ class ModuleMigration
         }
     }
 
-    private function getUpgradeMethodName($filePath): string
+    private function getUpgradeMethodName(string $filePath): string
     {
         $fileName = basename($filePath);
 

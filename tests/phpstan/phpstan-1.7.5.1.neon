@@ -5,7 +5,6 @@ parameters:
 	excludePaths:
 		- ./../../classes/UpgradeTools/CoreUpgrader/CoreUpgrader80.php
 	ignoreErrors:
-		- '#Access to an undefined property Module::\$installed.#'
 		- '#Instantiated class PrestaShop\\PrestaShop\\Core\\Domain\\Theme\\ValueObject\\ThemeName not found.#'
 		- '#Call to method getContainer\(\) on an unknown class AdminKernel.#'
 		- '#Method PrestaShop\\Module\\AutoUpgrade\\UpgradeTools\\SymfonyAdapter::initKernel\(\) has invalid return type AdminKernel.#'
