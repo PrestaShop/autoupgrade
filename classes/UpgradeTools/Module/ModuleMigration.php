@@ -152,7 +152,7 @@ class ModuleMigration
             include $migrationFilePath;
 
             if (!function_exists($methodName)) {
-                throw (new UpgradeException($this->translator->trans('[WARNING] Method %s does not exist', [$methodName])))->setSeverity(UpgradeException::SEVERITY_WARNING);
+                throw (new UpgradeException($this->translator->trans('[WARNING] Method %s does not exist.', [$methodName])))->setSeverity(UpgradeException::SEVERITY_WARNING);
             }
 
             if (!$methodName($this->module_instance)) {
