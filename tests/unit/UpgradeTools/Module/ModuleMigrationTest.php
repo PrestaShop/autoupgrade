@@ -259,4 +259,6 @@ class ModuleMigrationTest extends TestCase
 
         $this->moduleMigration->runMigration();
     }
+
+    // todo : add test with upgrade function throw error
 }
