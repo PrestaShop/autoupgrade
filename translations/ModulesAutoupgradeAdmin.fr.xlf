@@ -1790,7 +1790,7 @@ Comment: check DB access</note>
       </trans-unit>
       <trans-unit id="1182cc0394225fb0ec989b7ad50ba42a" approved="yes">
         <source>See changelog</source>
-        <target state="final">Voir le change log</target>
+        <target state="final">Voir le changelog</target>
         <note>Line: 43</note>
       </trans-unit>
     </body>
@@ -2181,7 +2181,7 @@ Comment: check DB access</note>
       </trans-unit>
       <trans-unit id="1e034b9b374950ec672faf75cdc3f713" approved="yes">
         <source>This option will skip both download and unzip steps and will use %1$s as the source directory</source>
-        <target state="final">Cette option ignorera les étapes téléchargement et décompression, et utilisera %1$s comme répertoire source</target>
+        <target state="final">Cette option ignorera les étapes de téléchargement et décompression, et utilisera %1$s comme répertoire source</target>
         <note>Line: 143</note>
       </trans-unit>
       <trans-unit id="48c7c41b72e1d678923ce3571aa65b2d" approved="yes">
