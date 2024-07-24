@@ -270,7 +270,7 @@ class ModuleAdapter
      */
     private function doUpgradeModule(string $name): void
     {
-        $db_version = (new ModuleVersionAdapter())->get($name);
+        $dbVersion = (new ModuleVersionAdapter())->get($name);
         $module = \Module::getInstanceByName($name);
 
         if (!($module instanceof \Module)) {
@@ -279,7 +279,7 @@ class ModuleAdapter
 
         try {
             $moduleMigration = new ModuleMigration($this->translator, $this->logger);
-            $moduleMigration->setMigrationContext($module, $db_version);
+            $moduleMigration->setMigrationContext($module, $dbVersion);
 
             if (!$moduleMigration->needMigration()) {
                 $this->logger->info($this->translator->trans('Module %s does not need to be migrated.', [$name]));
