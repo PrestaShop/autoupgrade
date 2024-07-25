@@ -147,26 +147,29 @@ class ModuleMigration
 
             // check if function already exists to prevent upgrade crash
             if (function_exists($methodName)) {
-                throw (new UpgradeException($this->translator->trans('[WARNING] Method %s already exists. Migration for module %s aborted, you can try again later on the module manager.', [$methodName, $this->moduleName])))->setSeverity(UpgradeException::SEVERITY_WARNING);
+                $this->moduleInstance->disable();
+                throw (new UpgradeException($this->translator->trans('[WARNING] Method %s already exists. Migration for module %s aborted, you can try again later on the module manager. Module %s disabled.', [$methodName, $this->moduleName, $this->moduleName])))->setSeverity(UpgradeException::SEVERITY_WARNING);
             }
 
             include $migrationFilePath;
 
             // @phpstan-ignore booleanNot.alwaysTrue (we ignore this error because we load a file with methods)
             if (!function_exists($methodName)) {
-                throw (new UpgradeException($this->translator->trans('[WARNING] Method %s does not exist.', [$methodName])))->setSeverity(UpgradeException::SEVERITY_WARNING);
+                $this->moduleInstance->disable();
+                throw (new UpgradeException($this->translator->trans('[WARNING] Method %s does not exist. Module %s disabled.', [$methodName, $this->moduleName])))->setSeverity(UpgradeException::SEVERITY_WARNING);
             }
 
             // @phpstan-ignore deadCode.unreachable (we ignore this error because the previous if can be true or false)
             try {
                 if (!$methodName($this->moduleInstance)) {
-                    $this->moduleInstance->disable();
-                    throw (new UpgradeException($this->translator->trans('[WARNING] migration failed while running the file %s. Module %s disabled.', [basename($migrationFilePath), $this->moduleName])))->setSeverity(UpgradeException::SEVERITY_WARNING);
+                    throw (new UpgradeException($this->translator->trans('[WARNING] Migration failed while running the file %s. Module %s disabled.', [basename($migrationFilePath), $this->moduleName])))->setSeverity(UpgradeException::SEVERITY_WARNING);
                 }
             } catch (UpgradeException $e) {
+                $this->moduleInstance->disable();
                 throw $e;
             } catch (Throwable $t) {
-                throw (new UpgradeException($this->translator->trans('[WARNING] Error when trying to upgrade module %s.', [$this->moduleName]), 0, $t))->setSeverity(UpgradeException::SEVERITY_WARNING);
+                $this->moduleInstance->disable();
+                throw (new UpgradeException($this->translator->trans('[WARNING] Unexpected error when trying to upgrade module %s. Module %s disabled.', [$this->moduleName, $this->moduleName]), 0, $t))->setSeverity(UpgradeException::SEVERITY_WARNING);
             }
         }
     }
