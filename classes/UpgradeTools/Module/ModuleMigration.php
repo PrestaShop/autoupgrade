@@ -31,6 +31,7 @@ use LogicException;
 use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
+use Throwable;
 
 class ModuleMigration
 {
@@ -160,8 +161,10 @@ class ModuleMigration
                 // @phpstan-ignore deadCode.unreachable (we ignore this error because the previous if can be true or false)
                 if (!$methodName($this->moduleInstance)) {
                     $this->moduleInstance->disable();
-                    throw (new UpgradeException($this->translator->trans('[WARNING] migration failed while running the file %s.', [basename($migrationFilePath)])))->setSeverity(UpgradeException::SEVERITY_WARNING);
+                    throw (new UpgradeException($this->translator->trans('[WARNING] migration failed while running the file %s. Module %s disabled.', [basename($migrationFilePath), $this->moduleName])))->setSeverity(UpgradeException::SEVERITY_WARNING);
                 }
+            } catch (UpgradeException $e) {
+                throw $e;
             } catch (Throwable $t) {
                 throw (new UpgradeException($this->translator->trans('[WARNING] Error when trying to upgrade module %s.', [$this->moduleName]), 0, $t))->setSeverity(UpgradeException::SEVERITY_WARNING);
             }

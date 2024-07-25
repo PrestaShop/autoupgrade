@@ -260,5 +260,18 @@ class ModuleMigrationTest extends TestCase
         $this->moduleMigration->runMigration();
     }
 
-    // todo : add test with upgrade function throw error
+    public function testRunMigrationWithUpgradeMethodThrowError()
+    {
+        $mymodule = new \fixtures\mymodule\mymodule();
+        $mymodule->version = '1.2.2';
+        $dbVersion = '1.2.1';
+
+        $this->moduleMigration->setMigrationContext($mymodule, $dbVersion);
+        $this->moduleMigration->needMigration();
+
+        $this->expectException(\PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException::class);
+        $this->expectExceptionMessage('[WARNING] Error when trying to upgrade module mymodule.');
+
+        $this->moduleMigration->runMigration();
+    }
 }
