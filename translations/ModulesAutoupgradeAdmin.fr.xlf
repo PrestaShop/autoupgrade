@@ -1790,7 +1790,7 @@ Comment: check DB access</note>
       </trans-unit>
       <trans-unit id="1182cc0394225fb0ec989b7ad50ba42a" approved="yes">
         <source>See changelog</source>
-        <target state="final">Voir le changelog</target>
+        <target state="final">Voir le change log</target>
         <note>Line: 43</note>
       </trans-unit>
     </body>
