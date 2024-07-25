@@ -26,5 +26,6 @@
 function upgrade_module_1_2_2(Module $module): bool
 {
     throw (new Exception('I\'m throwing exception !'));
+
     return true;
 }
