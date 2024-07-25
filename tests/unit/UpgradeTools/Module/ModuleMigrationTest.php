@@ -225,7 +225,7 @@ class ModuleMigrationTest extends TestCase
         $this->moduleMigration->needMigration();
 
         $this->expectException(\PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException::class);
-        $this->expectExceptionMessage('[WARNING] Method upgrade_module_1 already exists. Migration for module mymodule aborted, you can try again later on the module manager.');
+        $this->expectExceptionMessage('[WARNING] Method upgrade_module_1 already exists. Migration for module mymodule aborted, you can try again later on the module manager. Module mymodule disabled.');
 
         $this->moduleMigration->runMigration();
     }
@@ -240,7 +240,7 @@ class ModuleMigrationTest extends TestCase
         $this->moduleMigration->needMigration();
 
         $this->expectException(\PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException::class);
-        $this->expectExceptionMessage('[WARNING] Method upgrade_module_1_2_0 does not exist.');
+        $this->expectExceptionMessage('[WARNING] Method upgrade_module_1_2_0 does not exist. Module mymodule disabled.');
 
         $this->moduleMigration->runMigration();
     }
@@ -255,7 +255,7 @@ class ModuleMigrationTest extends TestCase
         $this->moduleMigration->needMigration();
 
         $this->expectException(\PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException::class);
-        $this->expectExceptionMessage('[WARNING] migration failed while running the file upgrade-1.2.1.php.');
+        $this->expectExceptionMessage('[WARNING] Migration failed while running the file upgrade-1.2.1.php. Module mymodule disabled.');
 
         $this->moduleMigration->runMigration();
     }
@@ -270,7 +270,7 @@ class ModuleMigrationTest extends TestCase
         $this->moduleMigration->needMigration();
 
         $this->expectException(\PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException::class);
-        $this->expectExceptionMessage('[WARNING] Error when trying to upgrade module mymodule.');
+        $this->expectExceptionMessage('[WARNING] Unexpected error when trying to upgrade module mymodule. Module mymodule disabled.');
 
         $this->moduleMigration->runMigration();
     }
