@@ -132,7 +132,7 @@ class ModuleMigration
      */
     public function runMigration(): void
     {
-        if (!$this->moduleInstance || !$this->moduleName || !$this->localVersion || !$this->dbVersion) {
+        if (!$this->moduleInstance || !$this->moduleName || $this->localVersion  === null || $this->dbVersion === null) {
             throw (new LogicException('Module migration context is empty, please run setMigrationContext() first.'));
         }
 
