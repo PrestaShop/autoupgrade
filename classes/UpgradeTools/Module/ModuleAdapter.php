@@ -36,7 +36,6 @@ use PrestaShop\Module\AutoUpgrade\ZipAction;
 use PrestaShop\PrestaShop\Adapter\Module\Repository\ModuleRepository;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
-use Throwable;
 
 class ModuleAdapter
 {
