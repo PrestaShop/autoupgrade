@@ -50,7 +50,7 @@ class ModuleAdapter
     /**
      * @var ZipAction
      */
-    private $zipAction;
+    private  $zipAction;
 
     /**
      * @var SymfonyAdapter
@@ -191,65 +191,20 @@ class ModuleAdapter
      *
      * @throws UpgradeException
      */
-    public function upgradeModule(int $id, string $name, bool $isLocalModule = false): void
+    public function upgradeModule(array $moduleInfos): void
     {
-        $zip_fullpath = $this->tempPath . DIRECTORY_SEPARATOR . $name . '.zip';
-        $local_module_used = false;
+        $zipFullPath = $this->tempPath . DIRECTORY_SEPARATOR . $moduleInfos['name'] . '.zip';
 
-        if ($isLocalModule) {
-            try {
-                $local_module_zip = $this->getLocalModuleZip($name);
-                if (!empty($local_module_zip)) {
-                    $filesystem = new Filesystem();
-                    $filesystem->copy($local_module_zip, $zip_fullpath);
-                    $local_module_used = true;
-                    unlink($local_module_zip);
-                }
-            } catch (IOException $e) {
-                // Do nothing, we will try to upgrade module from addons
-            }
-        }
+        $moduleDownloader = new ModuleDownloader($this->translator, $this->logger);
+        $moduleDownloader->setDownloadContext($zipFullPath, $moduleInfos, $this->upgradeVersion);
+        $moduleDownloader->downloadModule();
 
-        if (false === $local_module_used) {
-            $addons_url = extension_loaded('openssl')
-                ? 'https://api.addons.prestashop.com'
-                : 'http://api.addons.prestashop.com';
-
-            // Make the request
-            $context = stream_context_create([
-                'http' => [
-                    'method' => 'POST',
-                    'content' => 'version=' . $this->upgradeVersion . '&method=module&id_module=' . (int) $id,
-                    'header' => 'Content-type: application/x-www-form-urlencoded',
-                    'timeout' => 10,
-                ],
-            ]);
-
-            // file_get_contents can return false if https is not supported (or warning)
-            $content = Tools14::file_get_contents($addons_url, false, $context);
-            if (empty($content) || substr($content, 5) == '<?xml') {
-                $msg = $this->translator->trans('[ERROR] No response from Addons server.');
-                throw new UpgradeException($msg);
-            }
-
-            if (false === (bool) file_put_contents($zip_fullpath, $content)) {
-                $msg = $this->translator->trans('[ERROR] Unable to write module %s\'s zip file in temporary directory.', [$name]);
-                throw new UpgradeException($msg);
-            }
-        }
-
-        if (filesize($zip_fullpath) <= 300) {
-            unlink($zip_fullpath);
-        }
         // unzip in modules/[mod name] old files will be conserved
-        if (!$this->zipAction->extract($zip_fullpath, $this->modulesPath)) {
-            throw (new UpgradeException($this->translator->trans('[WARNING] Error when trying to extract module %s.', [$name])))->setSeverity(UpgradeException::SEVERITY_WARNING);
-        }
-        if (file_exists($zip_fullpath)) {
-            unlink($zip_fullpath);
-        }
+        $moduleUnzipper = new ModuleUnzipper($this->translator, $this->logger);
+        $moduleUnzipper->setUnzipContext($this->zipAction, $zipFullPath, $this->modulesPath, $moduleInfos['name']);
+        $moduleUnzipper->unzipModule();
 
-        $this->doUpgradeModule($name);
+        $this->doUpgradeModule($moduleInfos['name']);
     }
 
     private function getLocalModuleZip(string $name): ?string

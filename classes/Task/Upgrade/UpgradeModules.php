@@ -70,7 +70,7 @@ class UpgradeModules extends AbstractTask
             $module_info = $listModules->getNext();
             try {
                 $this->logger->debug($this->translator->trans('Upgrading module %module%...', ['%module%' => $module_info['name']]));
-                $this->container->getModuleAdapter()->upgradeModule($module_info['id'], $module_info['name'], !empty($module_info['is_local']));
+                $this->container->getModuleAdapter()->upgradeModule($module_info);
                 $this->logger->info($this->translator->trans('The files of module %s have been upgraded.', [$module_info['name']]));
             } catch (UpgradeException $e) {
                 $this->handleException($e);
