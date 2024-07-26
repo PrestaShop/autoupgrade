@@ -25,8 +25,19 @@
 
 Sentry.init({
     dsn: "https://eae192966a8d79509154c65c317a7e5d@o298402.ingest.us.sentry.io/4507254110552064",
-    beforeSend(event) {
+    release: 'v' + input.autoupgrade.version,
+    beforeSend(event, hint) {
+        // Only the one we handle via the feedback modal must be sent.
+        if (!event.tags?.source || event.tags.source !== 'feedbackModal') {
+            return null;
+        }
         event.request.url = maskSensitiveInfoInUrl(event.request.url, input.adminUrl);
+
+        hint.attachments = [
+            { filename: "log.txt", data: readLogPanel('quickInfo') },
+            { filename: "error.txt", data: readLogPanel('infoError') },
+        ];
+
         return event;
     },
 });
@@ -45,6 +56,7 @@ document.getElementById("submitErrorReport").addEventListener("click", function 
         const url = maskSensitiveInfoInUrl(window.location.href, input.adminUrl);
 
         Sentry.setTag("url", url);
+        Sentry.setTag('source', 'feedbackModal');
 
         const eventId = Sentry.captureMessage(messages, "error");
         const userEmail = document.getElementById("userEmail");
@@ -56,8 +68,10 @@ document.getElementById("submitErrorReport").addEventListener("click", function 
             comments: errorDescription.value,
         });
 
+        // Clean-up
         userEmail.value = "";
         errorDescription.value = "";
+        Sentry.setTag('source', '');
 
         $('#errorModal').modal('hide')
     }
@@ -69,4 +83,8 @@ function maskSensitiveInfoInUrl(url, adminFolder) {
 
     regex = new RegExp( "token=[^&]*", "i");
     return url.replace(regex, 'token=********');
+}
+
+function readLogPanel(targetPanel) {
+    return document.getElementById(targetPanel).innerText;
 }
