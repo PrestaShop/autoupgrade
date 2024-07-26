@@ -186,27 +186,6 @@ class ModuleAdapter
         return $list;
     }
 
-    /**
-     * Upgrade module $name (identified by $id_module on addons server).
-     *
-     * @throws UpgradeException
-     */
-    public function upgradeModule(array $moduleInfos): void
-    {
-        $zipFullPath = $this->tempPath . DIRECTORY_SEPARATOR . $moduleInfos['name'] . '.zip';
-
-        $moduleDownloader = new ModuleDownloader($this->translator, $this->logger);
-        $moduleDownloader->setDownloadContext($zipFullPath, $moduleInfos, $this->upgradeVersion);
-        $moduleDownloader->downloadModule();
-
-        // unzip in modules/[mod name] old files will be conserved
-        $moduleUnzipper = new ModuleUnzipper($this->translator, $this->logger);
-        $moduleUnzipper->setUnzipContext($this->zipAction, $zipFullPath, $this->modulesPath, $moduleInfos['name']);
-        $moduleUnzipper->unzipModule();
-
-        $this->doUpgradeModule($moduleInfos['name']);
-    }
-
     private function getLocalModuleZip(string $name): ?string
     {
         $autoupgrade_dir = _PS_ADMIN_DIR_ . DIRECTORY_SEPARATOR . 'autoupgrade';
@@ -217,29 +196,5 @@ class ModuleAdapter
         }
 
         return null;
-    }
-
-    /**
-     * @throws UpgradeException
-     */
-    private function doUpgradeModule(string $name): void
-    {
-        $dbVersion = (new ModuleVersionAdapter())->get($name);
-        $module = \Module::getInstanceByName($name);
-
-        if (!($module instanceof \Module)) {
-            throw (new UpgradeException($this->translator->trans('[WARNING] Error when trying to retrieve module %s instance.', [$name])))->setSeverity(UpgradeException::SEVERITY_WARNING);
-        }
-
-        $moduleMigration = new ModuleMigration($this->translator, $this->logger);
-        $moduleMigration->setMigrationContext($module, $dbVersion);
-
-        if (!$moduleMigration->needMigration()) {
-            $this->logger->info($this->translator->trans('Module %s does not need to be migrated.', [$name]));
-
-            return;
-        }
-
-        $moduleMigration->runMigration();
     }
 }

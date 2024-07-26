@@ -33,6 +33,11 @@ use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Progress\Backlog;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
+use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleDownloader;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleMigration;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleUnzipper;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleVersionAdapter;
 
 /**
  * Upgrade all partners modules according to the installed prestashop version.
@@ -67,11 +72,36 @@ class UpgradeModules extends AbstractTask
         }
 
         while ($time_elapsed < $this->container->getUpgradeConfiguration()->getTimePerCall() && $listModules->getRemainingTotal()) {
-            $module_info = $listModules->getNext();
+            $moduleInfos = $listModules->getNext();
             try {
-                $this->logger->debug($this->translator->trans('Upgrading module %module%...', ['%module%' => $module_info['name']]));
-                $this->container->getModuleAdapter()->upgradeModule($module_info);
-                $this->logger->info($this->translator->trans('The files of module %s have been upgraded.', [$module_info['name']]));
+                $zipFullPath = $this->container->getProperty(UpgradeContainer::TMP_PATH) . DIRECTORY_SEPARATOR . $moduleInfos['name'] . '.zip';
+                $modulesPath = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR;
+
+                $this->logger->debug($this->translator->trans('Updating module %module%...', ['%module%' => $moduleInfos['name']]));
+                $moduleDownloader = new ModuleDownloader($this->translator, $this->logger);
+                $moduleDownloader->setDownloadContext($zipFullPath, $moduleInfos, $this->container->getState()->getInstallVersion());
+                $moduleDownloader->downloadModule();
+
+                $moduleUnzipper = new ModuleUnzipper($this->translator, $this->logger);
+                $moduleUnzipper->setUnzipContext($this->container->getZipAction(), $zipFullPath, $modulesPath, $moduleInfos['name']);
+                $moduleUnzipper->unzipModule();
+
+                $dbVersion = (new ModuleVersionAdapter())->get($moduleInfos['name']);
+                $module = \Module::getInstanceByName($moduleInfos['name']);
+
+                if (!($module instanceof \Module)) {
+                    throw (new UpgradeException($this->translator->trans('[WARNING] Error when trying to retrieve module %s instance.', [$moduleInfos['name']])))->setSeverity(UpgradeException::SEVERITY_WARNING);
+                }
+
+                $moduleMigration = new ModuleMigration($this->translator, $this->logger);
+                $moduleMigration->setMigrationContext($module, $dbVersion);
+
+                if (!$moduleMigration->needMigration()) {
+                    $this->logger->info($this->translator->trans('Module %s does not need to be migrated.', [$moduleInfos['name']]));
+                } else {
+                    $moduleMigration->runMigration();
+                }
+                $this->logger->info($this->translator->trans('The module %s has been updated.', [$moduleInfos['name']]));
             } catch (UpgradeException $e) {
                 $this->handleException($e);
                 if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {
