@@ -48,12 +48,12 @@ class ModuleDownloader
         $this->localModuleUsed = false;
     }
 
-    public function setDownloadContext(string $zipFullPath, array $moduleInfos, string $psVersion)
+    public function setDownloadContext(string $zipFullPath, array $moduleInfos, string $psVersion): void
     {
         $this->moduleName = $moduleInfos['name'];
         $this->zipFullPath = $zipFullPath;
         $this->moduleId = (int) $moduleInfos['id'];
-        $this->moduleIsLocal = $moduleInfos['is_local'];
+        $this->moduleIsLocal = $moduleInfos['is_local'] ?? false;
         $this->psVersion = $psVersion;
     }
 
@@ -63,7 +63,7 @@ class ModuleDownloader
      */
     public function downloadModule(): void
     {
-        if ($this->zipFullPath === null || $this->moduleName === null || $this->moduleId === null  || $this->moduleIsLocal === null || $this->psVersion === null ) {
+        if ($this->zipFullPath === null || $this->moduleName === null || $this->moduleId === null || $this->psVersion === null ) {
             throw (new LogicException('Module download context is empty, please run setDownloadContext() first.'));
         }
 

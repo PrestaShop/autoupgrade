@@ -62,7 +62,5 @@ class ModuleUnzipper
         if (file_exists($this->zipFullPath)) {
             unlink($this->zipFullPath);
         }
-
-        $this->logger->notice($this->translator->trans('Module %s has been successfully unzipped.', [$this->moduleName]));
     }
 }
