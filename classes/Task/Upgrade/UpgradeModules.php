@@ -82,9 +82,9 @@ class UpgradeModules extends AbstractTask
                 $moduleDownloader->setDownloadContext($zipFullPath, $moduleInfos, $this->container->getState()->getInstallVersion());
                 $moduleDownloader->downloadModule();
 
-                $moduleUnzipper = new ModuleUnzipper($this->translator, $this->logger);
-                $moduleUnzipper->setUnzipContext($this->container->getZipAction(), $zipFullPath, $modulesPath, $moduleInfos['name']);
-                $moduleUnzipper->unzipModule();
+                    $moduleUnzipper = new ModuleUnzipper($this->translator);
+                    $moduleUnzipper->setUnzipContext($this->container->getZipAction(), $zipFullPath, $modulesPath, $moduleInfos['name']);
+                    $moduleUnzipper->unzipModule();
 
                 $dbVersion = (new ModuleVersionAdapter())->get($moduleInfos['name']);
                 $module = \Module::getInstanceByName($moduleInfos['name']);

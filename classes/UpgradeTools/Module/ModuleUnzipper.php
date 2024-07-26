@@ -4,7 +4,6 @@ namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\Module;
 
 use LogicException;
 use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
-use PrestaShop\Module\AutoUpgrade\Log\Logger;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 use PrestaShop\Module\AutoUpgrade\ZipAction;
 
@@ -12,9 +11,6 @@ class ModuleUnzipper
 {
     /** @var Translator */
     private $translator;
-
-    /** @var Logger */
-    private $logger;
 
     /** @var ZipAction|null */
     private $zipAction;
@@ -28,10 +24,9 @@ class ModuleUnzipper
     /** @var string|null */
     private $moduleName;
 
-    public function __construct(Translator $translator, Logger $logger)
+    public function __construct(Translator $translator)
     {
         $this->translator = $translator;
-        $this->logger = $logger;
         $this->zipAction = null;
         $this->zipFullPath = null;
         $this->modulesPath = null;

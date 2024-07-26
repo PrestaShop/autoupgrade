@@ -24,7 +24,7 @@ class ModuleDownloader
     /** @var string|null */
     private $moduleName;
 
-    /** @var int */
+    /** @var int|null */
     private $moduleId;
 
     /** @var bool|null */
@@ -48,7 +48,10 @@ class ModuleDownloader
         $this->localModuleUsed = false;
     }
 
-    public function setDownloadContext(string $zipFullPath, array $moduleInfos, string $psVersion): void
+    /**
+     * @param array<string, string|int> $moduleInfos
+     */
+    public function setDownloadContext(string $zipFullPath, $moduleInfos, string $psVersion): void
     {
         $this->moduleName = $moduleInfos['name'];
         $this->zipFullPath = $zipFullPath;
@@ -75,8 +78,8 @@ class ModuleDownloader
         }
 
         if (filesize($this->zipFullPath) <= 300) {
-            throw (new UpgradeException($this->translator->trans('[ERROR] No response from Addons server.')))->setSeverity(UpgradeException::SEVERITY_WARNING);
             unlink($this->zipFullPath);
+            throw (new UpgradeException($this->translator->trans('[WARNING] An error occurred while downloading module %s , the received file is empty.', [$this->moduleName])))->setSeverity(UpgradeException::SEVERITY_WARNING);
         }
     }
 
@@ -84,9 +87,9 @@ class ModuleDownloader
     {
         try {
             $localModuleZip = $this->getLocalModuleZip($this->moduleName);
-            if (!empty($local_module_zip)) {
+            if (!empty($localModuleZip)) {
                 $filesystem = new Filesystem();
-                $filesystem->copy($local_module_zip, $this->zipFullPath);
+                $filesystem->copy($localModuleZip, $this->zipFullPath);
                 unlink($localModuleZip);
                 $this->localModuleUsed = true;
             }

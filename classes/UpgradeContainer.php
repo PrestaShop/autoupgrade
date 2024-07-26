@@ -465,11 +465,7 @@ class UpgradeContainer
         $this->moduleAdapter = new ModuleAdapter(
             $this->getTranslator(),
             $this->getProperty(self::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR,
-            $this->getProperty(self::TMP_PATH),
-            $this->getState()->getInstallVersion(),
-            $this->getZipAction(),
-            $this->getSymfonyAdapter(),
-            $this->getLogger()
+            $this->getSymfonyAdapter()
         );
 
         return $this->moduleAdapter;

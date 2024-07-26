@@ -28,34 +28,21 @@
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\Module;
 
 use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
-use PrestaShop\Module\AutoUpgrade\Log\Logger;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
-use PrestaShop\Module\AutoUpgrade\ZipAction;
 use PrestaShop\PrestaShop\Adapter\Module\Repository\ModuleRepository;
 
 class ModuleAdapter
 {
     /** @var Translator */
     private $translator;
-    /** @var string PS version to update */
-    private $upgradeVersion;
     /** @var string */
     private $modulesPath;
-    /** @var string */
-    private $tempPath;
-    /**
-     * @var ZipAction
-     */
-    private $zipAction;
 
     /**
      * @var SymfonyAdapter
      */
     private $symfonyAdapter;
-
-    /** @var Logger */
-    private $logger;
 
     /** @var \PrestaShop\PrestaShop\Adapter\Module\ModuleDataUpdater */
     private $moduleDataUpdater;
@@ -63,15 +50,11 @@ class ModuleAdapter
     /** @var \PrestaShop\PrestaShop\Core\CommandBus\CommandBusInterface */
     private $commandBus;
 
-    public function __construct(Translator $translator, string $modulesPath, string $tempPath, string $upgradeVersion, ZipAction $zipAction, SymfonyAdapter $symfonyAdapter, Logger $logger)
+    public function __construct(Translator $translator, string $modulesPath, SymfonyAdapter $symfonyAdapter)
     {
         $this->translator = $translator;
         $this->modulesPath = $modulesPath;
-        $this->tempPath = $tempPath;
-        $this->upgradeVersion = $upgradeVersion;
-        $this->zipAction = $zipAction;
         $this->symfonyAdapter = $symfonyAdapter;
-        $this->logger = $logger;
     }
 
     /**
@@ -181,17 +164,5 @@ class ModuleAdapter
         }
 
         return $list;
-    }
-
-    private function getLocalModuleZip(string $name): ?string
-    {
-        $autoupgrade_dir = _PS_ADMIN_DIR_ . DIRECTORY_SEPARATOR . 'autoupgrade';
-        $module_zip = $autoupgrade_dir . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $name . '.zip';
-
-        if (file_exists($module_zip) && is_readable($module_zip)) {
-            return $module_zip;
-        }
-
-        return null;
     }
 }
