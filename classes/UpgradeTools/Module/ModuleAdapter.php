@@ -29,13 +29,10 @@ namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\Module;
 
 use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
-use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 use PrestaShop\Module\AutoUpgrade\ZipAction;
 use PrestaShop\PrestaShop\Adapter\Module\Repository\ModuleRepository;
-use Symfony\Component\Filesystem\Exception\IOException;
-use Symfony\Component\Filesystem\Filesystem;
 
 class ModuleAdapter
 {
@@ -50,7 +47,7 @@ class ModuleAdapter
     /**
      * @var ZipAction
      */
-    private  $zipAction;
+    private $zipAction;
 
     /**
      * @var SymfonyAdapter

@@ -57,13 +57,12 @@ class ModuleDownloader
         $this->psVersion = $psVersion;
     }
 
-
     /**
      * @throws LogicException|UpgradeException
      */
     public function downloadModule(): void
     {
-        if ($this->zipFullPath === null || $this->moduleName === null || $this->moduleId === null || $this->psVersion === null ) {
+        if ($this->zipFullPath === null || $this->moduleName === null || $this->moduleId === null || $this->psVersion === null) {
             throw (new LogicException('Module download context is empty, please run setDownloadContext() first.'));
         }
 

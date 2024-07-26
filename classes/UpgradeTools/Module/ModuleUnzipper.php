@@ -44,7 +44,6 @@ class ModuleUnzipper
         $this->zipFullPath = $zipFullPath;
         $this->modulesPath = $modulesPath;
         $this->moduleName = $moduleName;
-
     }
 
     /**
@@ -52,7 +51,7 @@ class ModuleUnzipper
      */
     public function unzipModule(): void
     {
-        if ($this->zipAction === null || $this->zipFullPath === null || $this->modulesPath === null  || $this->moduleName === null ) {
+        if ($this->zipAction === null || $this->zipFullPath === null || $this->modulesPath === null || $this->moduleName === null) {
             throw (new LogicException('Module unzip context is empty, please run setUnzipContext() first.'));
         }
 
