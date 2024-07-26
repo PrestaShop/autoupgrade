@@ -1,4 +1,28 @@
 <?php
+/**
+ * Copyright since 2007 PrestaShop SA and Contributors
+ * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License 3.0 (AFL-3.0)
+ * that is bundled with this package in the file LICENSE.md.
+ * It is also available through the world-wide-web at this URL:
+ * https://opensource.org/licenses/AFL-3.0
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@prestashop.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
+ * versions in the future. If you wish to customize PrestaShop for your
+ * needs please refer to https://devdocs.prestashop.com/ for more information.
+ *
+ * @author    PrestaShop SA and Contributors <contact@prestashop.com>
+ * @copyright Since 2007 PrestaShop SA and Contributors
+ * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
+ */
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\Module;
 
@@ -33,25 +57,18 @@ class ModuleDownloader
     /** @var string|null */
     private $psVersion;
 
-    /** @var bool */
-    private $localModuleUsed;
+    private $addonsUrl = 'api.addons.prestashop.com';
 
     public function __construct(Translator $translator, Logger $logger)
     {
         $this->translator = $translator;
         $this->logger = $logger;
-        $this->zipFullPath = null;
-        $this->moduleName = null;
-        $this->moduleId = null;
-        $this->moduleIsLocal = null;
-        $this->psVersion = null;
-        $this->localModuleUsed = false;
     }
 
     /**
-     * @param array<string, string|int> $moduleInfos
+     * @param array{id:string, name:string, is_local:true|null} $moduleInfos
      */
-    public function setDownloadContext(string $zipFullPath, $moduleInfos, string $psVersion): void
+    public function setDownloadContext(string $zipFullPath, array $moduleInfos, string $psVersion): void
     {
         $this->moduleName = $moduleInfos['name'];
         $this->zipFullPath = $zipFullPath;
@@ -69,11 +86,13 @@ class ModuleDownloader
             throw (new LogicException('Module download context is empty, please run setDownloadContext() first.'));
         }
 
+        $localModuleUsed = true;
+
         if ($this->moduleIsLocal) {
-            $this->downloadModuleFromLocalZip();
+            $localModuleUsed = $this->downloadModuleFromLocalZip();
         }
 
-        if (!$this->localModuleUsed) {
+        if (!$localModuleUsed) {
             $this->downloadModuleFromAddons();
         }
 
@@ -83,20 +102,22 @@ class ModuleDownloader
         }
     }
 
-    private function downloadModuleFromLocalZip(): void
+    private function downloadModuleFromLocalZip(): bool
     {
         try {
-            $localModuleZip = $this->getLocalModuleZip($this->moduleName);
-            if (!empty($localModuleZip)) {
-                $filesystem = new Filesystem();
-                $filesystem->copy($localModuleZip, $this->zipFullPath);
-                unlink($localModuleZip);
-                $this->localModuleUsed = true;
+            $localModuleZip = $this->getLocalModuleZipPath($this->moduleName);
+            if (empty($localModuleZip)) {
+                return false;
             }
+            $filesystem = new Filesystem();
+            $filesystem->copy($localModuleZip, $this->zipFullPath);
+            unlink($localModuleZip);
             $this->logger->notice($this->translator->trans('Local module %s successfully copied.', [$this->moduleName]));
+            return true;
         } catch (IOException $e) {
             $this->logger->notice($this->translator->trans('Can not found or copy local module %s. Trying to download it from Addons.', [$this->moduleName]));
         }
+        return false;
     }
 
     /**
@@ -105,8 +126,8 @@ class ModuleDownloader
     private function downloadModuleFromAddons(): void
     {
         $addonsUrl = extension_loaded('openssl')
-            ? 'https://api.addons.prestashop.com'
-            : 'http://api.addons.prestashop.com';
+            ? 'https://' . $this->addonsUrl
+            : 'http://' . $this->addonsUrl;
 
         // Make the request
         $context = stream_context_create([
@@ -131,7 +152,7 @@ class ModuleDownloader
         $this->logger->notice($this->translator->trans('Module %s has been successfully downloaded from Addons.', [$this->moduleName]));
     }
 
-    private function getLocalModuleZip(string $name): ?string
+    private function getLocalModuleZipPath(string $name): ?string
     {
         $autoUpgradeDir = _PS_ADMIN_DIR_ . DIRECTORY_SEPARATOR . 'autoupgrade';
         $module_zip = $autoUpgradeDir . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $name . '.zip';

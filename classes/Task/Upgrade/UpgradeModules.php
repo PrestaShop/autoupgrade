@@ -82,8 +82,8 @@ class UpgradeModules extends AbstractTask
                 $moduleDownloader->setDownloadContext($zipFullPath, $moduleInfos, $this->container->getState()->getInstallVersion());
                 $moduleDownloader->downloadModule();
 
-                    $moduleUnzipper = new ModuleUnzipper($this->translator);
-                    $moduleUnzipper->setUnzipContext($this->container->getZipAction(), $zipFullPath, $modulesPath, $moduleInfos['name']);
+                    $moduleUnzipper = new ModuleUnzipper($this->translator, $this->container->getZipAction(), $modulesPath);
+                    $moduleUnzipper->setUnzipContext($zipFullPath, $moduleInfos['name']);
                     $moduleUnzipper->unzipModule();
 
                 $dbVersion = (new ModuleVersionAdapter())->get($moduleInfos['name']);
@@ -96,12 +96,11 @@ class UpgradeModules extends AbstractTask
                 $moduleMigration = new ModuleMigration($this->translator, $this->logger);
                 $moduleMigration->setMigrationContext($module, $dbVersion);
 
-                if (!$moduleMigration->needMigration()) {
-                    $this->logger->info($this->translator->trans('Module %s does not need to be migrated.', [$moduleInfos['name']]));
-                } else {
-                    $moduleMigration->runMigration();
-                }
-                $this->logger->info($this->translator->trans('The module %s has been updated.', [$moduleInfos['name']]));
+                    if (!$moduleMigration->needMigration()) {
+                        $this->logger->info($this->translator->trans('Module %s does not need to be migrated. Module is up to date.', [$moduleInfos['name']]));
+                    } else {
+                        $moduleMigration->runMigration();
+                    }
             } catch (UpgradeException $e) {
                 $this->handleException($e);
                 if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {
