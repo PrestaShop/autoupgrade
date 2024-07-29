@@ -81,16 +81,16 @@ class UpgradeModules extends AbstractTask
         $moduleUnzipper = new ModuleUnzipper($this->translator, $this->container->getZipAction(), $modulesPath);
         $moduleMigration = new ModuleMigration($this->translator, $this->logger);
 
-        while ($time_elapsed < $this->container->getUpgradeConfiguration()->getTimePerCall() && $listModules->getRemainingTotal()) {
+        if ($listModules->getRemainingTotal()) {
             $moduleInfos = $listModules->getNext();
 
-                $zipFullPath = $this->container->getProperty(UpgradeContainer::TMP_PATH) . DIRECTORY_SEPARATOR . $moduleInfos['name'] . '.zip';
+            $zipFullPath = $this->container->getProperty(UpgradeContainer::TMP_PATH) . DIRECTORY_SEPARATOR . $moduleInfos['name'] . '.zip';
 
-                try {
-                    $this->logger->debug($this->translator->trans('Updating module %module%...', ['%module%' => $moduleInfos['name']]));
+            try {
+                $this->logger->debug($this->translator->trans('Updating module %module%...', ['%module%' => $moduleInfos['name']]));
 
-                    $moduleDownloaderContext = new ModuleDownloaderContext($zipFullPath, $moduleInfos);
-                    $moduleDownloader->downloadModule($moduleDownloaderContext);
+                $moduleDownloaderContext = new ModuleDownloaderContext($zipFullPath, $moduleInfos);
+                $moduleDownloader->downloadModule($moduleDownloaderContext);
 
                 $moduleUnzipperContext = new ModuleUnzipperContext($zipFullPath, $moduleInfos['name']);
                 $moduleUnzipper->unzipModule($moduleUnzipperContext);
@@ -102,23 +102,22 @@ class UpgradeModules extends AbstractTask
                     throw (new UpgradeException($this->translator->trans('[WARNING] Error when trying to retrieve module %s instance.', [$moduleInfos['name']])))->setSeverity(UpgradeException::SEVERITY_WARNING);
                 }
 
-                    $moduleMigrationContext = new ModuleMigrationContext($module, $dbVersion);
+                $moduleMigrationContext = new ModuleMigrationContext($module, $dbVersion);
 
-                    if (!$moduleMigration->needMigration($moduleMigrationContext)) {
-                        $this->logger->info($this->translator->trans('Module %s does not need to be migrated. Module is up to date.', [$moduleInfos['name']]));
-                    } else {
-                        $moduleMigration->runMigration($moduleMigrationContext);
-                    }
-                } catch (UpgradeException $e) {
-                    $this->handleException($e);
-                    if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {
-                        return ExitCode::FAIL;
-                    }
-                } finally {
-                    // Cleanup of module assets
-                    (new Filesystem())->remove([$zipFullPath]);
+                if (!$moduleMigration->needMigration($moduleMigrationContext)) {
+                    $this->logger->info($this->translator->trans('Module %s does not need to be migrated. Module is up to date.', [$moduleInfos['name']]));
+                } else {
+                    $moduleMigration->runMigration($moduleMigrationContext);
                 }
-            $time_elapsed = time() - $start_time;
+            } catch (UpgradeException $e) {
+                $this->handleException($e);
+                if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {
+                    return ExitCode::FAIL;
+                }
+            } finally {
+                // Cleanup of module assets
+                (new Filesystem())->remove([$zipFullPath]);
+            }
         }
 
         $modules_left = $listModules->getRemainingTotal();
