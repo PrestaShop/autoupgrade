@@ -27,6 +27,8 @@
 
 namespace PrestaShop\Module\AutoUpgrade;
 
+use InvalidArgumentException;
+
 /**
  * Class storing the temporary data to keep between 2 ajax requests.
  */
@@ -110,6 +112,9 @@ class State
      * @var bool Determining if all steps went totally successfully
      */
     private $warning_exists = false;
+
+    /** @var int */
+    private $progressPercentage;
 
     /**
      * @param array<string, mixed> $savedState from another request
@@ -271,6 +276,11 @@ class State
         return $this->warning_exists;
     }
 
+    public function getProgressPercentage(): ?int
+    {
+        return $this->progressPercentage;
+    }
+
     // SETTERS
     public function setOriginVersion(string $originVersion): State
     {
@@ -414,6 +424,17 @@ class State
     public function setWarningExists(bool $warning_exists): State
     {
         $this->warning_exists = $warning_exists;
+
+        return $this;
+    }
+
+    public function setProgressPercentage(int $progressPercentage): State
+    {
+        if ($progressPercentage < $this->progressPercentage) {
+            throw new InvalidArgumentException('Updated progress percentage cannot be lower than the currently set one.');
+        }
+
+        $this->progressPercentage = $progressPercentage;
 
         return $this;
     }

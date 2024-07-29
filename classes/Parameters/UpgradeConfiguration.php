@@ -112,8 +112,14 @@ class UpgradeConfiguration extends ArrayCollection
         return $this->get('PS_AUTOUP_PERFORMANCE') - 1;
     }
 
+    public function shouldBackupFiles(): bool
+    {
+        // TODO: Keep only one configuration property to toggle backups
+        return $this->get('PS_AUTOUP_BACKUP') || !$this->get('skip_backup');
+    }
+
     /**
-     * @return bool True if the autoupgrade module should backup the images as well
+     * @return bool True if the autoupgrade module backup should include the images
      */
     public function shouldBackupImages(): bool
     {

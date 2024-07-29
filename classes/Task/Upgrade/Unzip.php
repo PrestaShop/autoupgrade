@@ -49,6 +49,10 @@ class Unzip extends AbstractTask
         $filepath = $this->container->getFilePath();
         $destExtract = $this->container->getProperty(UpgradeContainer::LATEST_PATH);
 
+        $this->container->getState()->setProgressPercentage(
+            $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
+        );
+
         if (file_exists($destExtract)) {
             FilesystemAdapter::deleteDirectory($destExtract, false);
             $this->logger->debug($this->translator->trans('"/latest" directory has been emptied'));

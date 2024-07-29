@@ -41,6 +41,10 @@ class UpgradeDb extends AbstractTask
 
     public function run(): int
     {
+        $this->container->getState()->setProgressPercentage(
+            $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
+        );
+
         try {
             $this->getCoreUpgrader()->doUpgrade();
         } catch (UpgradeException $e) {

@@ -39,6 +39,10 @@ class CleanDatabase extends AbstractTask
 
     public function run(): int
     {
+        $this->container->getState()->setProgressPercentage(
+            $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
+        );
+
         // Clean tabs order
         foreach ($this->container->getDb()->ExecuteS('SELECT DISTINCT id_parent FROM ' . _DB_PREFIX_ . 'tab') as $parent) {
             $i = 1;

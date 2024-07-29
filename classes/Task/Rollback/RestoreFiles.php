@@ -46,6 +46,10 @@ class RestoreFiles extends AbstractTask
      */
     public function run(): int
     {
+        $this->container->getState()->setProgressPercentage(
+            $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
+        );
+
         // loop
         $this->next = 'restoreFiles';
         if (!file_exists($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . UpgradeFileNames::FILES_FROM_ARCHIVE_LIST)

@@ -30,6 +30,7 @@ namespace PrestaShop\Module\AutoUpgrade\Task\Upgrade;
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
+use PrestaShop\Module\AutoUpgrade\Progress\Backlog;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 
@@ -46,20 +47,12 @@ class UpgradeModules extends AbstractTask
     public function run(): int
     {
         $start_time = time();
+        $time_elapsed = 0;
         if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::MODULES_TO_UPGRADE_LIST)) {
             return $this->warmUp();
         }
 
-        $this->next = 'upgradeModules';
-        $listModules = $this->container->getFileConfigurationStorage()->load(UpgradeFileNames::MODULES_TO_UPGRADE_LIST);
-
-        if (!is_array($listModules)) {
-            $this->next = 'upgradeComplete';
-            $this->container->getState()->setWarningExists(true);
-            $this->logger->error($this->translator->trans('listModules is not an array. No module has been updated.'));
-
-            return ExitCode::SUCCESS;
-        }
+        $listModules = Backlog::fromContents($this->container->getFileConfigurationStorage()->load(UpgradeFileNames::MODULES_TO_UPGRADE_LIST));
 
         // add local modules that we want to upgrade to the list
         $localModules = $this->getLocalModules();
@@ -73,32 +66,31 @@ class UpgradeModules extends AbstractTask
             }
         }
 
-        // module list
-        if (count($listModules) > 0) {
-            do {
-                $module_info = array_pop($listModules);
-                try {
-                    $this->logger->debug($this->translator->trans('Updating module %module%...', ['%module%' => $module_info['name']]));
-                    $this->container->getModuleAdapter()->upgradeModule($module_info['id'], $module_info['name'], !empty($module_info['is_local']));
-                    $this->logger->info($this->translator->trans('The module %s has been updated.', [$module_info['name']]));
-                } catch (UpgradeException $e) {
-                    $this->handleException($e);
-                    if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {
-                        return ExitCode::FAIL;
-                    }
+        while ($time_elapsed < $this->container->getUpgradeConfiguration()->getTimePerCall() && $listModules->getRemainingTotal()) {
+            $module_info = $listModules->getNext();
+            try {
+                $this->logger->debug($this->translator->trans('Upgrading module %module%...', ['%module%' => $module_info['name']]));
+                $this->container->getModuleAdapter()->upgradeModule($module_info['id'], $module_info['name'], !empty($module_info['is_local']));
+                $this->logger->info($this->translator->trans('The files of module %s have been upgraded.', [$module_info['name']]));
+            } catch (UpgradeException $e) {
+                $this->handleException($e);
+                if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {
+                    return ExitCode::FAIL;
                 }
-                $time_elapsed = time() - $start_time;
-            } while (($time_elapsed < $this->container->getUpgradeConfiguration()->getTimePerCall()) && count($listModules) > 0);
-
-            $modules_left = count($listModules);
-            $this->container->getFileConfigurationStorage()->save($listModules, UpgradeFileNames::MODULES_TO_UPGRADE_LIST);
-            unset($listModules);
-
-            $this->next = 'upgradeModules';
-            if ($modules_left) {
-                $this->logger->info($this->translator->trans('%s modules left to upgrade.', [$modules_left]));
             }
+            $time_elapsed = time() - $start_time;
+        }
+
+        $modules_left = $listModules->getRemainingTotal();
+        $this->container->getState()->setProgressPercentage(
+            $this->container->getCompletionCalculator()->computePercentage($listModules, self::class, CleanDatabase::class)
+        );
+        $this->container->getFileConfigurationStorage()->save($listModules->dump(), UpgradeFileNames::MODULES_TO_UPGRADE_LIST);
+
+        if ($modules_left) {
             $this->stepDone = false;
+            $this->next = 'upgradeModules';
+            $this->logger->info($this->translator->trans('%s modules left to upgrade.', [$modules_left]));
         } else {
             $this->stepDone = true;
             $this->status = 'ok';
@@ -147,20 +139,28 @@ class UpgradeModules extends AbstractTask
 
     public function warmUp(): int
     {
+        $this->container->getState()->setProgressPercentage(
+            $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
+        );
+
         try {
             $modulesToUpgrade = $this->container->getModuleAdapter()->listModulesToUpgrade(
                 $this->container->getState()->getModules_addons(),
                 $this->container->getState()->getModulesVersions()
             );
             $modulesToUpgrade = array_reverse($modulesToUpgrade);
-            $this->container->getFileConfigurationStorage()->save($modulesToUpgrade, UpgradeFileNames::MODULES_TO_UPGRADE_LIST);
+            $total_modules_to_upgrade = count($modulesToUpgrade);
+
+            $this->container->getFileConfigurationStorage()->save(
+                (new Backlog($modulesToUpgrade, $total_modules_to_upgrade))->dump(),
+                UpgradeFileNames::MODULES_TO_UPGRADE_LIST
+            );
         } catch (UpgradeException $e) {
             $this->handleException($e);
 
             return ExitCode::FAIL;
         }
 
-        $total_modules_to_upgrade = count($modulesToUpgrade);
         if ($total_modules_to_upgrade) {
             $this->logger->info($this->translator->trans('%s modules will be upgraded.', [$total_modules_to_upgrade]));
         }

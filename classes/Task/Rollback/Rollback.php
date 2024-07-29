@@ -46,6 +46,10 @@ class Rollback extends AbstractTask
      */
     public function run(): int
     {
+        $this->container->getState()->setProgressPercentage(
+            $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
+        );
+
         // 1st, need to analyse what was wrong.
         $restoreName = $this->container->getState()->getRestoreName();
         $this->container->getState()->setRestoreFilesFilename($restoreName);

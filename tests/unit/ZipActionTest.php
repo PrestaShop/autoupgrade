@@ -24,6 +24,7 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 use PHPUnit\Framework\TestCase;
+use PrestaShop\Module\AutoUpgrade\Progress\Backlog;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 class ZipActionTest extends TestCase
@@ -54,8 +55,8 @@ class ZipActionTest extends TestCase
         $newZipPath = tempnam(sys_get_temp_dir(), 'mod');
 
         $zipAction = $this->container->getZipAction();
-        $files = [__FILE__];
-        $this->assertSame(true, $zipAction->compress($files, $newZipPath));
+        $backlog = new Backlog([__FILE__], 1);
+        $this->assertSame(true, $zipAction->compress($backlog, $newZipPath));
 
         // Cleanup
         unlink($newZipPath);

@@ -47,12 +47,14 @@ class UpgradeNow extends AbstractTask
     public function run(): int
     {
         $this->logger->info($this->translator->trans('Starting upgrade...'));
+        $this->container->getState()->setProgressPercentage(
+            $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
+        );
 
         $this->container->getWorkspace()->createFolders();
 
         $channel = $this->container->getUpgradeConfiguration()->get('channel');
         $upgrader = $this->container->getUpgrader();
-        $this->next = 'download';
 
         $upgrader->branch = VersionUtils::splitPrestaShopVersion(_PS_VERSION_)['major'];
         $upgrader->channel = $channel;
