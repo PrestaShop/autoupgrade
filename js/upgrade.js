@@ -67,33 +67,42 @@ function cleanInfo() {
 
 function updateInfoStep(msg) {
   if (msg) {
-    var $infoStep = $("#infoStep");
-    $infoStep.append(msg + "<div class=\"clear\"></div>");
-    $infoStep.prop({scrollTop: $infoStep.prop("scrollHeight")}, 1);
+    const infoStepElement = $("#infoStep");
+    infoStepElement.append(msg + "<div class=\"clear\"></div>");
+    infoStepElement.prop({scrollTop: infoStepElement.prop("scrollHeight")}, 1);
   }
 }
 
-function addError(arrError) {
-  if (typeof arrError !== "undefined" && arrError.length) {
+function addError(error) {
+  if (error && error.length) {
     $("#errorDuringUpgrade").show();
-    var $infoError = $("#infoError");
-    for (var i = 0; i < arrError.length; i++) {
-      $infoError.append(arrError[i] + "<div class=\"clear\"></div>");
+    const infoErrorElement = $("#infoError");
+    if (Array.isArray(error)) {
+      for (let i = 0; i < error.length; i++) {
+        infoErrorElement.append(error[i] + "<div class=\"clear\"></div>");
+      }
+    } else {
+      infoErrorElement.append(error + "<div class=\"clear\"></div>");
     }
     // Note: jquery 1.6 makes use of prop() instead of attr()
-    $infoError.prop({scrollTop: $infoError.prop("scrollHeight")}, 1);
+    infoErrorElement.prop({scrollTop: infoErrorElement.prop("scrollHeight")}, 1);
   }
 }
 
-function addQuickInfo(arrQuickInfo) {
-  if (arrQuickInfo) {
-    var $quickInfo = $("#quickInfo");
-    $quickInfo.show();
-    for (var i = 0; i < arrQuickInfo.length; i++) {
-      $quickInfo.append(arrQuickInfo[i] + "<div class=\"clear\"></div>");
+function addQuickInfo(quickInfo) {
+  if (quickInfo && quickInfo.length) {
+    const quickInfoElement = $("#quickInfo");
+    quickInfoElement.show();
+
+    if (Array.isArray(quickInfo)) {
+      for (let i = 0; i < quickInfo.length; i++) {
+        quickInfoElement.append(quickInfo[i] + "<div class=\"clear\"></div>");
+      }
+    } else {
+      quickInfoElement.append(quickInfo + "<div class=\"clear\"></div>");
     }
     // Note : jquery 1.6 make uses of prop() instead of attr()
-    $quickInfo.prop({scrollTop: $quickInfo.prop("scrollHeight")}, 1);
+    quickInfoElement.prop({scrollTop: quickInfoElement.prop("scrollHeight")}, 1);
   }
 }
 
@@ -412,94 +421,77 @@ function doAjaxRequest(action, nextParams) {
       action: action,
       params: nextParams
     },
-    beforeSend: function(jqXHR) {
-      $.xhrPool.push(jqXHR);
-    },
-    complete: function(jqXHR) {
-      // just remove the item to the "abort list"
-      $.xhrPool.pop();
-      // $(window).unbind("beforeunload");
-    },
-    success: function(res, textStatus, jqXHR) {
-      $("#pleaseWait").hide();
-      $("#rollbackForm").show();
-      try {
-        res = $.parseJSON(res);
-      } catch (e) {
-        res = {status: "error", nextParams: nextParams};
-        alert(
-          input.translation.jsonParseErrorForAction
-          + action
-          + "\"" + input.translation.startingRestore + "\""
-        );
-      }
+    beforeSend: (jqXHR) => $.xhrPool.push(jqXHR),
+    complete: (jqXHR) => $.xhrPool.pop(),
+    success: (res, textStatus, jqXHR) => handleRequestSuccess(res, textStatus, jqXHR, action),
+    error: (jqXHR, textStatus, errorThrown) => handleRequestError(jqXHR, textStatus, errorThrown, action),
+  });
+  return req;
+}
 
+function handleRequestSuccess(res, textStatus, jqXHR, action) {
+  $("#pleaseWait").hide();
+  $("#rollbackForm").show();
+  
+  try {
+    res = $.parseJSON(res);
+  } catch (e) {
+    addError(`${input.translation.jsonParseErrorForAction} [${action}].`);
+    return;
+  }
+
+  addQuickInfo(res.nextQuickInfo);
+  addError(res.nextErrors);
+  updateInfoStep(res.next_desc);
+
+  if (res.status !== "ok") {
+    addError( `${input.translation.errorDetectedDuring} [${action}].`);
+    return;
+  }
+
+  $("#" + action).addClass("done");
+  if (res.stepDone) {
+    $("#" + action).addClass("stepok");
+  }
+  // if a function "after[action name]" exists, it should be called now.
+  // This is used for enabling restore buttons for example
+  const funcName = "after" + ucFirst(action);
+  if (typeof window[funcName] === "function") {
+    call_function(funcName, res);
+  }
+
+  if (res.next !== "") {
+      // if next is rollback, prepare nextParams with rollbackDbFilename and rollbackFilesFilename
+      if (res.next === "rollback") {
+        res.nextParams.restoreName = "";
+      }
+      doAjaxRequest(res.next, res.nextParams);
+  } else {
+    // Way To Go, end of upgrade process
+    addQuickInfo(input.translation.endOfProcess);
+  }
+}
+
+function handleRequestError(jqXHR, textStatus, errorThrown, action) {
+  $("#pleaseWait").hide();
+  $("#rollbackForm").show();
+
+  if (textStatus === "timeout") {
+    if (action === "download") {
+      addError(input.translation.cannotDownloadFile);
+    } else {
+      addError( `[Server Error] Timeout: ${input.translation.downloadTimeout}`);
+    }
+  } else {
+    try {
+      const res = $.parseJSON(jqXHR.responseText);
       addQuickInfo(res.nextQuickInfo);
       addError(res.nextErrors);
       updateInfoStep(res.next_desc);
-      var currentParams = res.nextParams;
-      if (res.status === "ok") {
-        $("#" + action).addClass("done");
-        if (res.stepDone) {
-          $("#" + action).addClass("stepok");
-        }
-        // if a function "after[action name]" exists, it should be called now.
-        // This is used for enabling restore buttons for example
-        var funcName = "after" + ucFirst(action);
-        if (typeof window[funcName] === "function") {
-          call_function(funcName, res);
-        }
-
-        if (res.next !== "") {
-          // if next is rollback, prepare nextParams with rollbackDbFilename and rollbackFilesFilename
-          if (res.next === "rollback") {
-            res.nextParams.restoreName = "";
-          }
-          doAjaxRequest(res.next, res.nextParams);
-        } else {
-          // Way To Go, end of upgrade process
-          addQuickInfo([input.translation.endOfProcess]);
-        }
-      } else {
-        // display progression
-        $("#" + action).addClass("done steperror");
-        var validActions = [
-          "rollback",
-          "rollbackComplete",
-          "restoreFiles",
-          "restoreDb",
-          "rollback",
-          "noRollbackFound"
-        ];
-        if (validActions.indexOf(action) === -1) {
-          handleError(res, action);
-        } else {
-          alert(input.translation.errorDetectedDuring + " [" + action + "].");
-        }
-      }
-    },
-    error: function(jqXHR, textStatus, errorThrown) {
-      $("#pleaseWait").hide();
-      $("#rollbackForm").show();
-      if (textStatus === "timeout") {
-        if (action === "download") {
-          updateInfoStep(input.translation.cannotDownloadFile);
-        } else {
-          updateInfoStep("[Server Error] Timeout: " + input.translation.downloadTimeout);
-        }
-      } else {
-        try {
-          res = $.parseJSON(jqXHR.responseText);
-          addQuickInfo(res.nextQuickInfo);
-          addError(res.nextErrors);
-          updateInfoStep(res.next_desc);
-        } catch (e) {
-          updateInfoStep("[Ajax / Server Error for action " + action + "] textStatus: \"" + textStatus + " \" errorThrown:\"" + errorThrown + " \" jqXHR: \" " + jqXHR.responseText + "\"");
-        }
-      }
+    } catch (e) {
+      addError(`[Ajax / Server Error for action: ${action}] textStatus: ${textStatus}, errorThrown: ${errorThrown}, jqXHR: ${jqXHR.responseText}`);
     }
-  });
-  return req;
+  }
 }
 
 /**
@@ -515,36 +507,13 @@ function prepareNextButton(button_selector, nextParams) {
   }
 
   $(button_selector)
-    .unbind()
-    .click(function(e) {
-      e.preventDefault();
-      $("#currentlyProcessing").show();
-      var action = button_selector.substr(1);
-      doAjaxRequest(action, nextParams);
-    });
-}
-
-// res = {nextParams, next_desc}
-function handleError(res, action) {
-  // display error message in the main process thing
-  // In case the rollback button has been deactivated, just re-enable it
-  $("#rollback").removeAttr("disabled");
-  // auto rollback only if current action is upgradeFiles or upgradeDb
-  var validActions = [
-    "upgradeFiles",
-    "upgradeDb",
-    "upgradeModules"
-  ];
-  if (validActions.indexOf(action) !== -1) {
-    $(".button-autoupgrade").html(input.translation.processCancelledCheckForRestore);
-    res.nextParams.restoreName = res.nextParams.backupName;
-    if (confirm(input.translation.confirmRestoreBackup)) {
-      doAjaxRequest("rollback", res.nextParams);
-    }
-  } else {
-    $(".button-autoupgrade").html(input.translation.processCancelledWithError);
-    $(window).unbind();
-  }
+      .unbind()
+      .click(function(e) {
+        e.preventDefault();
+        $("#currentlyProcessing").show();
+        var action = button_selector.substr(1);
+        doAjaxRequest(action, nextParams);
+      });
 }
 
 // ajax to check md5 files
