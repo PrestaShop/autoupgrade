@@ -35,6 +35,7 @@ use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleDownloader;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleDownloaderContext;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleMigration;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleUnzipper;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleVersionAdapter;
@@ -71,6 +72,8 @@ class UpgradeModules extends AbstractTask
             }
         }
 
+        $moduleDownloader = new ModuleDownloader($this->translator, $this->logger, $this->container->getState()->getInstallVersion());
+
         while ($time_elapsed < $this->container->getUpgradeConfiguration()->getTimePerCall() && $listModules->getRemainingTotal()) {
             $moduleInfos = $listModules->getNext();
 
@@ -78,9 +81,8 @@ class UpgradeModules extends AbstractTask
                 $modulesPath = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR;
                 try {
                 $this->logger->debug($this->translator->trans('Updating module %module%...', ['%module%' => $moduleInfos['name']]));
-                $moduleDownloader = new ModuleDownloader($this->translator, $this->logger);
-                $moduleDownloader->setDownloadContext($zipFullPath, $moduleInfos, $this->container->getState()->getInstallVersion());
-                $moduleDownloader->downloadModule();
+                $moduleDownloaderContext = new ModuleDownloaderContext($zipFullPath, $moduleInfos);
+                $moduleDownloader->downloadModule($moduleDownloaderContext);
 
                 $moduleUnzipper = new ModuleUnzipper($this->translator, $this->container->getZipAction(), $modulesPath);
                 $moduleUnzipper->setUnzipContext($zipFullPath, $moduleInfos['name']);

@@ -26,7 +26,6 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\Module;
 
-use LogicException;
 use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
 use PrestaShop\Module\AutoUpgrade\Tools14;
@@ -42,87 +41,63 @@ class ModuleDownloader
     /** @var Logger */
     private $logger;
 
-    /** @var string|null */
-    private $zipFullPath;
-
-    /** @var string|null */
-    private $moduleName;
-
-    /** @var int|null */
-    private $moduleId;
-
-    /** @var bool|null */
-    private $moduleIsLocal;
-
-    /** @var string|null */
+    /** @var string */
     private $psVersion;
 
+    /** @var string */
     private $addonsUrl = 'api.addons.prestashop.com';
 
-    public function __construct(Translator $translator, Logger $logger)
+    public function __construct(Translator $translator, Logger $logger, string $psVersion)
     {
         $this->translator = $translator;
         $this->logger = $logger;
-    }
-
-    /**
-     * @param array{id:string, name:string, is_local:true|null} $moduleInfos
-     */
-    public function setDownloadContext(string $zipFullPath, array $moduleInfos, string $psVersion): void
-    {
-        $this->moduleName = $moduleInfos['name'];
-        $this->zipFullPath = $zipFullPath;
-        $this->moduleId = (int) $moduleInfos['id'];
-        $this->moduleIsLocal = $moduleInfos['is_local'] ?? false;
         $this->psVersion = $psVersion;
     }
 
     /**
-     * @throws LogicException|UpgradeException
+     * @throws UpgradeException
      */
-    public function downloadModule(): void
+    public function downloadModule(ModuleDownloaderContext $moduleDownloaderContext): void
     {
-        if ($this->zipFullPath === null || $this->moduleName === null || $this->moduleId === null || $this->psVersion === null) {
-            throw (new LogicException('Module download context is empty, please run setDownloadContext() first.'));
-        }
-
         $localModuleUsed = true;
 
-        if ($this->moduleIsLocal) {
-            $localModuleUsed = $this->downloadModuleFromLocalZip();
+        if ($moduleDownloaderContext->getModuleIsLocal()) {
+            $localModuleUsed = $this->downloadModuleFromLocalZip($moduleDownloaderContext);
         }
 
         if (!$localModuleUsed) {
-            $this->downloadModuleFromAddons();
+            $this->downloadModuleFromAddons($moduleDownloaderContext);
         }
 
-        if (filesize($this->zipFullPath) <= 300) {
-            throw (new UpgradeException($this->translator->trans('[WARNING] An error occurred while downloading module %s , the received file is empty.', [$this->moduleName])))->setSeverity(UpgradeException::SEVERITY_WARNING);
+        if (filesize($moduleDownloaderContext->getZipFullPath()) <= 300) {
+            throw (new UpgradeException($this->translator->trans('[WARNING] An error occurred while downloading module %s , the received file is empty.', [$moduleDownloaderContext->getModuleName()])))->setSeverity(UpgradeException::SEVERITY_WARNING);
         }
     }
 
-    private function downloadModuleFromLocalZip(): bool
+    private function downloadModuleFromLocalZip(ModuleDownloaderContext $moduleDownloaderContext): bool
     {
         try {
-            $localModuleZip = $this->getLocalModuleZipPath($this->moduleName);
+            $localModuleZip = $this->getLocalModuleZipPath($moduleDownloaderContext->getModuleName());
             if (empty($localModuleZip)) {
                 return false;
             }
             $filesystem = new Filesystem();
-            $filesystem->copy($localModuleZip, $this->zipFullPath);
+            $filesystem->copy($localModuleZip, $moduleDownloaderContext->getZipFullPath());
             unlink($localModuleZip);
-            $this->logger->notice($this->translator->trans('Local module %s successfully copied.', [$this->moduleName]));
+            $this->logger->notice($this->translator->trans('Local module %s successfully copied.', [$moduleDownloaderContext->getModuleName()]));
+
             return true;
         } catch (IOException $e) {
-            $this->logger->notice($this->translator->trans('Can not found or copy local module %s. Trying to download it from Addons.', [$this->moduleName]));
+            $this->logger->notice($this->translator->trans('Can not found or copy local module %s. Trying to download it from Addons.', [$moduleDownloaderContext->getModuleName()]));
         }
+
         return false;
     }
 
     /**
      * @throws UpgradeException
      */
-    private function downloadModuleFromAddons(): void
+    private function downloadModuleFromAddons(ModuleDownloaderContext $moduleDownloaderContext): void
     {
         $addonsUrl = extension_loaded('openssl')
             ? 'https://' . $this->addonsUrl
@@ -132,7 +107,7 @@ class ModuleDownloader
         $context = stream_context_create([
             'http' => [
                 'method' => 'POST',
-                'content' => 'version=' . $this->psVersion . '&method=module&id_module=' . $this->moduleId,
+                'content' => 'version=' . $this->psVersion . '&method=module&id_module=' . $moduleDownloaderContext->getModuleId(),
                 'header' => 'Content-type: application/x-www-form-urlencoded',
                 'timeout' => 10,
             ],
@@ -144,11 +119,11 @@ class ModuleDownloader
             throw (new UpgradeException($this->translator->trans('[WARNING] No response from Addons server.')))->setSeverity(UpgradeException::SEVERITY_WARNING);
         }
 
-        if (false === (bool) file_put_contents($this->zipFullPath, $content)) {
-            throw (new UpgradeException($this->translator->trans('[WARNING] Unable to write module %s\'s zip file in temporary directory.', [$this->moduleName])))->setSeverity(UpgradeException::SEVERITY_WARNING);
+        if (false === (bool) file_put_contents($moduleDownloaderContext->getZipFullPath(), $content)) {
+            throw (new UpgradeException($this->translator->trans('[WARNING] Unable to write module %s\'s zip file in temporary directory.', [$moduleDownloaderContext->getModuleName()])))->setSeverity(UpgradeException::SEVERITY_WARNING);
         }
 
-        $this->logger->notice($this->translator->trans('Module %s has been successfully downloaded from Addons.', [$this->moduleName]));
+        $this->logger->notice($this->translator->trans('Module %s has been successfully downloaded from Addons.', [$moduleDownloaderContext->getModuleName()]));
     }
 
     private function getLocalModuleZipPath(string $name): ?string
