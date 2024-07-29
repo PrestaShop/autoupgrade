@@ -37,9 +37,11 @@ use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleDownloader;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleDownloaderContext;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleMigration;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleMigrationContext;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleUnzipper;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleUnzipperContext;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleVersionAdapter;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Upgrade all partners modules according to the installed prestashop version.
@@ -77,6 +79,7 @@ class UpgradeModules extends AbstractTask
 
         $moduleDownloader = new ModuleDownloader($this->translator, $this->logger, $this->container->getState()->getInstallVersion());
         $moduleUnzipper = new ModuleUnzipper($this->translator, $this->container->getZipAction(), $modulesPath);
+        $moduleMigration = new ModuleMigration($this->translator, $this->logger);
 
         while ($time_elapsed < $this->container->getUpgradeConfiguration()->getTimePerCall() && $listModules->getRemainingTotal()) {
             $moduleInfos = $listModules->getNext();
@@ -84,9 +87,10 @@ class UpgradeModules extends AbstractTask
                 $zipFullPath = $this->container->getProperty(UpgradeContainer::TMP_PATH) . DIRECTORY_SEPARATOR . $moduleInfos['name'] . '.zip';
 
                 try {
-                $this->logger->debug($this->translator->trans('Updating module %module%...', ['%module%' => $moduleInfos['name']]));
-                $moduleDownloaderContext = new ModuleDownloaderContext($zipFullPath, $moduleInfos);
-                $moduleDownloader->downloadModule($moduleDownloaderContext);
+                    $this->logger->debug($this->translator->trans('Updating module %module%...', ['%module%' => $moduleInfos['name']]));
+
+                    $moduleDownloaderContext = new ModuleDownloaderContext($zipFullPath, $moduleInfos);
+                    $moduleDownloader->downloadModule($moduleDownloaderContext);
 
                 $moduleUnzipperContext = new ModuleUnzipperContext($zipFullPath, $moduleInfos['name']);
                 $moduleUnzipper->unzipModule($moduleUnzipperContext);
@@ -98,23 +102,21 @@ class UpgradeModules extends AbstractTask
                     throw (new UpgradeException($this->translator->trans('[WARNING] Error when trying to retrieve module %s instance.', [$moduleInfos['name']])))->setSeverity(UpgradeException::SEVERITY_WARNING);
                 }
 
-                $moduleMigration = new ModuleMigration($this->translator, $this->logger);
-                $moduleMigration->setMigrationContext($module, $dbVersion);
+                    $moduleMigrationContext = new ModuleMigrationContext($module, $dbVersion);
 
-                    if (!$moduleMigration->needMigration()) {
+                    if (!$moduleMigration->needMigration($moduleMigrationContext)) {
                         $this->logger->info($this->translator->trans('Module %s does not need to be migrated. Module is up to date.', [$moduleInfos['name']]));
                     } else {
-                        $moduleMigration->runMigration();
+                        $moduleMigration->runMigration($moduleMigrationContext);
                     }
-            } catch (UpgradeException $e) {
-                $this->handleException($e);
-                if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {
-                    return ExitCode::FAIL;
-                }
-            } finally {
-                    if (file_exists($zipFullPath)) {
-                        unlink($zipFullPath);
+                } catch (UpgradeException $e) {
+                    $this->handleException($e);
+                    if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {
+                        return ExitCode::FAIL;
                     }
+                } finally {
+                    // Cleanup of module assets
+                    (new Filesystem())->remove([$zipFullPath]);
                 }
             $time_elapsed = time() - $start_time;
         }

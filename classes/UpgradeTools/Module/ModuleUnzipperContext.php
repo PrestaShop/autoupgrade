@@ -33,7 +33,7 @@ class ModuleUnzipperContext
     /** @var string */
     private $zipFullPath;
 
-    /** @var string|null */
+    /** @var string */
     private $moduleName;
 
     public function __construct(string $zipFullPath, string $moduleName)

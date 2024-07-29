@@ -26,7 +26,7 @@ class ModuleDownloaderContext
         $this->zipFullPath = $zipFullPath;
         $this->moduleName = $moduleInfos['name'];
         $this->moduleId = (int) $moduleInfos['id'];
-        $this->moduleIsLocal = (bool) ($moduleInfos['is_local'] ?? false);
+        $this->moduleIsLocal = $moduleInfos['is_local'] ?? false;
         $this->validate();
     }
 
