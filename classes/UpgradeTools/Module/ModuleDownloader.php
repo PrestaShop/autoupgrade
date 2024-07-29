@@ -59,7 +59,7 @@ class ModuleDownloader
      */
     public function downloadModule(ModuleDownloaderContext $moduleDownloaderContext): void
     {
-        $localModuleUsed = true;
+        $localModuleUsed = false;
 
         if ($moduleDownloaderContext->getModuleIsLocal()) {
             $localModuleUsed = $this->downloadModuleFromLocalZip($moduleDownloaderContext);
