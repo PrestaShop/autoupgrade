@@ -55,8 +55,6 @@ class UpgradeModules extends AbstractTask
      */
     public function run(): int
     {
-        $start_time = time();
-        $time_elapsed = 0;
         if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::MODULES_TO_UPGRADE_LIST)) {
             return $this->warmUp();
         }
