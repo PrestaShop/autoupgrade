@@ -38,6 +38,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleDownloader;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleDownloaderContext;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleMigration;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleUnzipper;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleUnzipperContext;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleVersionAdapter;
 
 /**
@@ -72,21 +73,23 @@ class UpgradeModules extends AbstractTask
             }
         }
 
+        $modulesPath = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR;
+
         $moduleDownloader = new ModuleDownloader($this->translator, $this->logger, $this->container->getState()->getInstallVersion());
+        $moduleUnzipper = new ModuleUnzipper($this->translator, $this->container->getZipAction(), $modulesPath);
 
         while ($time_elapsed < $this->container->getUpgradeConfiguration()->getTimePerCall() && $listModules->getRemainingTotal()) {
             $moduleInfos = $listModules->getNext();
 
                 $zipFullPath = $this->container->getProperty(UpgradeContainer::TMP_PATH) . DIRECTORY_SEPARATOR . $moduleInfos['name'] . '.zip';
-                $modulesPath = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR;
+
                 try {
                 $this->logger->debug($this->translator->trans('Updating module %module%...', ['%module%' => $moduleInfos['name']]));
                 $moduleDownloaderContext = new ModuleDownloaderContext($zipFullPath, $moduleInfos);
                 $moduleDownloader->downloadModule($moduleDownloaderContext);
 
-                $moduleUnzipper = new ModuleUnzipper($this->translator, $this->container->getZipAction(), $modulesPath);
-                $moduleUnzipper->setUnzipContext($zipFullPath, $moduleInfos['name']);
-                $moduleUnzipper->unzipModule();
+                $moduleUnzipperContext = new ModuleUnzipperContext($zipFullPath, $moduleInfos['name']);
+                $moduleUnzipper->unzipModule($moduleUnzipperContext);
 
                 $dbVersion = (new ModuleVersionAdapter())->get($moduleInfos['name']);
                 $module = \Module::getInstanceByName($moduleInfos['name']);

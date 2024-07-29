@@ -27,35 +27,42 @@
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\Module;
 
 use LogicException;
-use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
-use PrestaShop\Module\AutoUpgrade\ZipAction;
 
-class ModuleUnzipper
+class ModuleUnzipperContext
 {
-    /** @var Translator */
-    private $translator;
-
-    /** @var ZipAction|null */
-    private $zipAction;
+    /** @var string */
+    private $zipFullPath;
 
     /** @var string|null */
-    private $modulesPath;
+    private $moduleName;
 
-    public function __construct(Translator $translator, ZipAction $zipAction, string $modulesPath)
+    public function __construct(string $zipFullPath, string $moduleName)
     {
-        $this->translator = $translator;
-        $this->zipAction = $zipAction;
-        $this->modulesPath = $modulesPath;
+        $this->zipFullPath = $zipFullPath;
+        $this->moduleName = $moduleName;
+        $this->validate();
     }
 
     /**
-     * @throws LogicException|UpgradeException
+     * @throws LogicException
      */
-    public function unzipModule(ModuleUnzipperContext $moduleUnzipperContext): void
+    private function validate(): void
     {
-        if (!$this->zipAction->extract($moduleUnzipperContext->getZipFullPath(), $this->modulesPath)) {
-            throw (new UpgradeException($this->translator->trans('[WARNING] Error when trying to extract module %s.', [$moduleUnzipperContext->getModuleName()])))->setSeverity(UpgradeException::SEVERITY_WARNING);
+        if (empty($this->zipFullPath)) {
+            throw new LogicException('Path to zip file is invalid.');
         }
+        if (empty($this->moduleName)) {
+            throw new LogicException('Module name is invalid.');
+        }
+    }
+
+    public function getZipFullPath(): string
+    {
+        return $this->zipFullPath;
+    }
+
+    public function getModuleName(): string
+    {
+        return $this->moduleName;
     }
 }
