@@ -97,7 +97,6 @@ class ModuleDownloader
         }
 
         if (filesize($this->zipFullPath) <= 300) {
-            unlink($this->zipFullPath);
             throw (new UpgradeException($this->translator->trans('[WARNING] An error occurred while downloading module %s , the received file is empty.', [$this->moduleName])))->setSeverity(UpgradeException::SEVERITY_WARNING);
         }
     }

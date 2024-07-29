@@ -73,8 +73,5 @@ class ModuleUnzipper
         if (!$this->zipAction->extract($this->zipFullPath, $this->modulesPath)) {
             throw (new UpgradeException($this->translator->trans('[WARNING] Error when trying to extract module %s.', [$this->moduleName])))->setSeverity(UpgradeException::SEVERITY_WARNING);
         }
-        if (file_exists($this->zipFullPath)) {
-            unlink($this->zipFullPath);
-        }
     }
 }

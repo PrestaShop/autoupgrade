@@ -73,18 +73,18 @@ class UpgradeModules extends AbstractTask
 
         while ($time_elapsed < $this->container->getUpgradeConfiguration()->getTimePerCall() && $listModules->getRemainingTotal()) {
             $moduleInfos = $listModules->getNext();
-            try {
+
                 $zipFullPath = $this->container->getProperty(UpgradeContainer::TMP_PATH) . DIRECTORY_SEPARATOR . $moduleInfos['name'] . '.zip';
                 $modulesPath = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR;
-
+                try {
                 $this->logger->debug($this->translator->trans('Updating module %module%...', ['%module%' => $moduleInfos['name']]));
                 $moduleDownloader = new ModuleDownloader($this->translator, $this->logger);
                 $moduleDownloader->setDownloadContext($zipFullPath, $moduleInfos, $this->container->getState()->getInstallVersion());
                 $moduleDownloader->downloadModule();
 
-                    $moduleUnzipper = new ModuleUnzipper($this->translator, $this->container->getZipAction(), $modulesPath);
-                    $moduleUnzipper->setUnzipContext($zipFullPath, $moduleInfos['name']);
-                    $moduleUnzipper->unzipModule();
+                $moduleUnzipper = new ModuleUnzipper($this->translator, $this->container->getZipAction(), $modulesPath);
+                $moduleUnzipper->setUnzipContext($zipFullPath, $moduleInfos['name']);
+                $moduleUnzipper->unzipModule();
 
                 $dbVersion = (new ModuleVersionAdapter())->get($moduleInfos['name']);
                 $module = \Module::getInstanceByName($moduleInfos['name']);
@@ -106,7 +106,11 @@ class UpgradeModules extends AbstractTask
                 if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {
                     return ExitCode::FAIL;
                 }
-            }
+            } finally {
+                    if (file_exists($zipFullPath)) {
+                        unlink($zipFullPath);
+                    }
+                }
             $time_elapsed = time() - $start_time;
         }
 
