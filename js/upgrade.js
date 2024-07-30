@@ -427,6 +427,7 @@ function doAjaxRequest(action, nextParams) {
     addQuickInfo(["[DEV] ajax request : " + action]);
   }
   $("#pleaseWait").show();
+  $("#rollbackForm").hide();
   var req = $.ajax({
     type: "POST",
     url: input.adminUrl + "/autoupgrade/ajax-upgradetab.php",
@@ -449,10 +450,10 @@ function doAjaxRequest(action, nextParams) {
     },
     success: function(res, textStatus, jqXHR) {
       $("#pleaseWait").hide();
+      $("#rollbackForm").show();
       try {
         res = $.parseJSON(res);
-      }
-      catch (e) {
+      } catch (e) {
         res = {status: "error", nextParams: nextParams};
         alert(
           input.translation.jsonParseErrorForAction
@@ -498,23 +499,22 @@ function doAjaxRequest(action, nextParams) {
     },
     error: function(jqXHR, textStatus, errorThrown) {
       $("#pleaseWait").hide();
+      $("#rollbackForm").show();
       if (textStatus === "timeout") {
         if (action === "download") {
           updateInfoStep(input.translation.cannotDownloadFile);
         } else {
           updateInfoStep("[Server Error] Timeout: " + input.translation.downloadTimeout);
         }
-      }
-      else {
-          try {
-            res = $.parseJSON(jqXHR.responseText);
-            addQuickInfo(res.nextQuickInfo);
-            addError(res.nextErrors);
-            updateInfoStep(res.next_desc);
-          }
-          catch (e) {
-            updateInfoStep("[Ajax / Server Error for action " + action + "] textStatus: \"" + textStatus + " \" errorThrown:\"" + errorThrown + " \" jqXHR: \" " + jqXHR.responseText + "\"");
-          }
+      } else {
+        try {
+          res = $.parseJSON(jqXHR.responseText);
+          addQuickInfo(res.nextQuickInfo);
+          addError(res.nextErrors);
+          updateInfoStep(res.next_desc);
+        } catch (e) {
+          updateInfoStep("[Ajax / Server Error for action " + action + "] textStatus: \"" + textStatus + " \" errorThrown:\"" + errorThrown + " \" jqXHR: \" " + jqXHR.responseText + "\"");
+        }
       }
     }
   });
