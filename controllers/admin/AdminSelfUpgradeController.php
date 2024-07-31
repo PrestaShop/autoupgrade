@@ -295,6 +295,12 @@ class AdminSelfUpgradeController extends ModuleAdminController
             parent::init();
         }
 
+        // V9 context security
+        // After an upgrade we disconnect the user from the session, and the employee context is null.
+        if (!$this->context->employee->id) {
+            return;
+        }
+
         // For later use, let's set up prodRootDir and adminDir
         // This way it will be easier to upgrade a different path if needed
         $this->prodRootDir = _PS_ROOT_DIR_;
