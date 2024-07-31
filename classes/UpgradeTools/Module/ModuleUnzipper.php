@@ -36,10 +36,10 @@ class ModuleUnzipper
     /** @var Translator */
     private $translator;
 
-    /** @var ZipAction|null */
+    /** @var ZipAction */
     private $zipAction;
 
-    /** @var string|null */
+    /** @var string */
     private $modulesPath;
 
     public function __construct(Translator $translator, ZipAction $zipAction, string $modulesPath)
