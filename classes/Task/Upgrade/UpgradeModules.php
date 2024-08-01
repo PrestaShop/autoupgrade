@@ -107,6 +107,7 @@ class UpgradeModules extends AbstractTask
                 } else {
                     $moduleMigration->runMigration($moduleMigrationContext);
                 }
+                $moduleMigration->saveVersionInDb($moduleMigrationContext);
             } catch (UpgradeException $e) {
                 $this->handleException($e);
                 if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {

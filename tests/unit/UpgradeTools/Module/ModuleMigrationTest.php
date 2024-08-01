@@ -240,4 +240,30 @@ class ModuleMigrationTest extends TestCase
 
         $this->moduleMigration->runMigration($moduleMigrationContext);
     }
+
+    public function testSaveVersionInDb()
+    {
+        $mymodule = new \fixtures\mymodule\mymodule();
+
+        $dbVersion = '1.2.1';
+
+        $moduleMigrationContext = new ModuleMigrationContext($mymodule, $dbVersion);
+
+        $this->assertNull($this->moduleMigration->saveVersionInDb($moduleMigrationContext));
+    }
+
+    public function testSaveVersionInDbThrowErrorThenFail()
+    {
+        $mymodule = new \fixtures\mymodule\mymodule();
+        $mymodule->version = '';
+
+        $dbVersion = '1.2.1';
+
+        $moduleMigrationContext = new ModuleMigrationContext($mymodule, $dbVersion);
+
+        $this->expectException(\PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException::class);
+        $this->expectExceptionMessage('[WARNING] Module mymodule version could not be updated. Database might be unavailable.');
+
+        $this->assertNull($this->moduleMigration->saveVersionInDb($moduleMigrationContext));
+    }
 }

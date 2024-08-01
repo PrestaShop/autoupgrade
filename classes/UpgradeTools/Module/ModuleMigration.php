@@ -134,6 +134,16 @@ class ModuleMigration
         }
     }
 
+    /**
+     * @throws UpgradeException
+     */
+    public function saveVersionInDb(ModuleMigrationContext $moduleMigrationContext): void
+    {
+        if (!\Module::upgradeModuleVersion($moduleMigrationContext->getModuleName(), $moduleMigrationContext->getLocalVersion())) {
+            throw (new UpgradeException($this->translator->trans('[WARNING] Module %s version could not be updated. Database might be unavailable.', [$moduleMigrationContext->getModuleName()]), 0))->setSeverity(UpgradeException::SEVERITY_WARNING);
+        }
+    }
+
     private function getUpgradeMethodName(string $filePath): string
     {
         $fileName = basename($filePath);

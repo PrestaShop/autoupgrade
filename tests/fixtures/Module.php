@@ -35,4 +35,9 @@ class Module
     public function disable()
     {
     }
+
+    public static function upgradeModuleVersion(string $name, string $version): bool
+    {
+        return !empty($name) && !empty($version);
+    }
 }
