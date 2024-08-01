@@ -663,6 +663,26 @@ Comment: directory already exists</note>
   </file>
   <file original="classes/Twig/Form/BackupOptionsForm.php" source-language="en-US" target-language="en-US" datatype="plaintext">
     <body>
+      <trans-unit id="bb7748991e29366d42f8fa2c361f4d55">
+        <source>Back up my files and database</source>
+        <target>Back up my files and database</target>
+        <note>Line: 56</note>
+      </trans-unit>
+      <trans-unit id="e53b4fd73748419564a1742f66ba631f">
+        <source>Automatically back up your database and files in order to restore your shop if needed. This is experimental: you should still perform your own manual backup for safety.</source>
+        <target>Automatically back up your database and files in order to restore your shop if needed. This is experimental: you should still perform your own manual backup for safety.</target>
+        <note>Line: 62</note>
+      </trans-unit>
+      <trans-unit id="d5342bfd5b032cd75faeebdf2a918a79">
+        <source>Back up my images</source>
+        <target>Back up my images</target>
+        <note>Line: 67</note>
+      </trans-unit>
+      <trans-unit id="9a2cad898ee3d0ea4573946becdec9cf">
+        <source>To save time, you can decide not to back your images up. In any case, always make sure you did back them up manually.</source>
+        <target>To save time, you can decide not to back your images up. In any case, always make sure you did back them up manually.</target>
+        <note>Line: 74</note>
+      </trans-unit>
       <trans-unit id="017697f698d570dffed5f88a5a933d01">
         <source>Backup Options</source>
         <target>Backup Options</target>
@@ -686,6 +706,111 @@ Comment: directory already exists</note>
   </file>
   <file original="classes/Twig/Form/UpgradeOptionsForm.php" source-language="en-US" target-language="en-US" datatype="plaintext">
     <body>
+      <trans-unit id="5243e62512552a2cd6369e446bbf10f4">
+        <source>Server performance</source>
+        <target>Server performance</target>
+        <note>Line: 57</note>
+      </trans-unit>
+      <trans-unit id="a94e6f7e27ad55c963170658ee6a9e28">
+        <source>Unless you are using a dedicated server, select "Low".</source>
+        <target>Unless you are using a dedicated server, select "Low".</target>
+        <note>Line: 63</note>
+      </trans-unit>
+      <trans-unit id="9e435ab00f5e0606f46337fdc73164ff">
+        <source>A high value can cause the upgrade to fail if your server is not powerful enough to process the upgrade tasks in a short amount of time.</source>
+        <target>A high value can cause the upgrade to fail if your server is not powerful enough to process the upgrade tasks in a short amount of time.</target>
+        <note>Line: 66</note>
+      </trans-unit>
+      <trans-unit id="73ae0e1bfd470f9e26dac64d270cda9d">
+        <source>Low (recommended)</source>
+        <target>Low (recommended)</target>
+        <note>Line: 69</note>
+      </trans-unit>
+      <trans-unit id="87f8a6ab85c9ced3702b4ea641ad4bb5">
+        <source>Medium</source>
+        <target>Medium</target>
+        <note>Line: 70</note>
+      </trans-unit>
+      <trans-unit id="655d20c1ca69519ca647684edbb2db35">
+        <source>High</source>
+        <target>High</target>
+        <note>Line: 71</note>
+      </trans-unit>
+      <trans-unit id="26f07ad840fb1c17d29f5be0f428f015">
+        <source>Disable non-native modules</source>
+        <target>Disable non-native modules</target>
+        <note>Line: 75</note>
+      </trans-unit>
+      <trans-unit id="70c06c37194d755dd9aef11cf0469981">
+        <source>As non-native modules can experience some compatibility issues, we recommend to disable them by default.</source>
+        <target>As non-native modules can experience some compatibility issues, we recommend to disable them by default.</target>
+        <note>Line: 80</note>
+      </trans-unit>
+      <trans-unit id="469ab377c49ea68b2ecdfe76d628a53b">
+        <source>Keeping them enabled might prevent you from loading the "Modules" page properly after the upgrade.</source>
+        <target>Keeping them enabled might prevent you from loading the "Modules" page properly after the upgrade.</target>
+        <note>Line: 81</note>
+      </trans-unit>
+      <trans-unit id="03a9e6840847f96325b7184d5f3c2769">
+        <source>Disable all overrides</source>
+        <target>Disable all overrides</target>
+        <note>Line: 84</note>
+      </trans-unit>
+      <trans-unit id="29826f9f4da3d473c1e4ecf2f6c4ef9f">
+        <source>Enable or disable all classes and controllers overrides.</source>
+        <target>Enable or disable all classes and controllers overrides.</target>
+        <note>Line: 88</note>
+      </trans-unit>
+      <trans-unit id="fa2508196ef3391139d01d8d38b2c1bb">
+        <source>Upgrade the default theme</source>
+        <target>Upgrade the default theme</target>
+        <note>Line: 91</note>
+      </trans-unit>
+      <trans-unit id="b6b1ed5508bc97f38ab9075ccf234c69">
+        <source>If you customized the default PrestaShop theme in its folder (folder name "classic" in 1.7), enabling this option will lose your modifications.</source>
+        <target>If you customized the default PrestaShop theme in its folder (folder name "classic" in 1.7), enabling this option will lose your modifications.</target>
+        <note>Line: 97</note>
+      </trans-unit>
+      <trans-unit id="97a989a73b46233ae4330fb7682a70a2">
+        <source>If you are using your own theme, enabling this option will simply update the default theme files, and your own theme will be safe.</source>
+        <target>If you are using your own theme, enabling this option will simply update the default theme files, and your own theme will be safe.</target>
+        <note>Line: 99</note>
+      </trans-unit>
+      <trans-unit id="309183e60345ce8ad09def36330218b8">
+        <source>Regenerate RTL stylesheet</source>
+        <target>Regenerate RTL stylesheet</target>
+        <note>Line: 112</note>
+      </trans-unit>
+      <trans-unit id="e31d0229913e78ae9dc2de61d9ac21aa">
+        <source>If enabled, any RTL-specific files that you might have added to all your themes might be deleted by the created stylesheet.</source>
+        <target>If enabled, any RTL-specific files that you might have added to all your themes might be deleted by the created stylesheet.</target>
+        <note>Line: 118</note>
+      </trans-unit>
+      <trans-unit id="92991497ed914de6bb7795b701b4c6e4">
+        <source>Switch to the default theme</source>
+        <target>Switch to the default theme</target>
+        <note>Line: 103</note>
+      </trans-unit>
+      <trans-unit id="c7ae0af8d5653beb68b344415aca135d">
+        <source>This will change your theme: your shop will then use the default theme of the version of PrestaShop you are upgrading to.</source>
+        <target>This will change your theme: your shop will then use the default theme of the version of PrestaShop you are upgrading to.</target>
+        <note>Line: 108</note>
+      </trans-unit>
+      <trans-unit id="f22d57f1f0b7fd2a55ca4760cd6ef68b">
+        <source>Keep the customized email templates</source>
+        <target>Keep the customized email templates</target>
+        <note>Line: 122</note>
+      </trans-unit>
+      <trans-unit id="5ea970658668e0b45cb6f64ce18b420e">
+        <source>This will not upgrade the default PrestaShop e-mails.</source>
+        <target>This will not upgrade the default PrestaShop e-mails.</target>
+        <note>Line: 126</note>
+      </trans-unit>
+      <trans-unit id="a83c73a145dbc0f4ea7c6a95203df43d">
+        <source>If you customized the default PrestaShop e-mail templates, enabling this option will keep your modifications.</source>
+        <target>If you customized the default PrestaShop e-mail templates, enabling this option will keep your modifications.</target>
+        <note>Line: 127</note>
+      </trans-unit>
       <trans-unit id="564b7c9d8683f1a94798e9f7449564e4">
         <source>Upgrade Options</source>
         <target>Upgrade Options</target>
@@ -905,262 +1030,267 @@ Comment: directory already exists</note>
         <target>No XML file has been selected.</target>
         <note>Line: 342</note>
       </trans-unit>
+      <trans-unit id="d05b1d567b28c4baea0567450ee4e49e">
+        <source>No archive and no XML file have been selected.</source>
+        <target>No archive and no XML file have been selected.</target>
+        <note>Line: 343</note>
+      </trans-unit>
       <trans-unit id="19f823c6453c2b1ffd09cb715214813d">
         <source>Required field</source>
         <target>Required field</target>
-        <note>Line: 355</note>
+        <note>Line: 356</note>
       </trans-unit>
       <trans-unit id="760c4026bc5a0bd5378e6efc3f1370b4">
         <source>Too long!</source>
         <target>Too long!</target>
-        <note>Line: 356</note>
+        <note>Line: 357</note>
       </trans-unit>
       <trans-unit id="4f2e28904946a09d8c7f36dd3ee72457">
         <source>Fields are different!</source>
         <target>Fields are different!</target>
-        <note>Line: 357</note>
+        <note>Line: 358</note>
       </trans-unit>
       <trans-unit id="e5110300599f995b9d8cfbe930fba83e">
         <source>This email address is wrong!</source>
         <target>This email address is wrong!</target>
-        <note>Line: 358</note>
+        <note>Line: 359</note>
       </trans-unit>
       <trans-unit id="2e170dfd78c2171a25605ececc0950a4">
         <source>Impossible to send the email!</source>
         <target>Impossible to send the email!</target>
-        <note>Line: 359</note>
+        <note>Line: 360</note>
       </trans-unit>
       <trans-unit id="5f9ff5f3662e1675dcf694c707b41466">
         <source>Cannot create settings file, if /app/config/parameters.php exists, please give the public write permissions to this file, else please create a file named parameters.php in config directory.</source>
         <target>Cannot create settings file, if /app/config/parameters.php exists, please give the public write permissions to this file, else please create a file named parameters.php in config directory.</target>
-        <note>Line: 360</note>
+        <note>Line: 361</note>
       </trans-unit>
       <trans-unit id="128a6722ff88445b488e4eb3319fa5b7">
         <source>Cannot write settings file, please create a file named settings.inc.php in the "config" directory.</source>
         <target>Cannot write settings file, please create a file named settings.inc.php in the "config" directory.</target>
-        <note>Line: 361</note>
+        <note>Line: 362</note>
       </trans-unit>
       <trans-unit id="e930e2474c664a3a7e89ecfb8793694b">
         <source>Impossible to upload the file!</source>
         <target>Impossible to upload the file!</target>
-        <note>Line: 362</note>
+        <note>Line: 363</note>
       </trans-unit>
       <trans-unit id="7d061dd94a106d80d75d3e615294eb75">
         <source>Data integrity is not valid, the files might have been corrupted, or a hack attempt might have occured.</source>
         <target>Data integrity is not valid, the files might have been corrupted, or a hack attempt might have occured.</target>
-        <note>Line: 363</note>
+        <note>Line: 364</note>
       </trans-unit>
       <trans-unit id="8fd007bf08e0717537825a3e91cb4fcc">
         <source>Impossible to read the content of a MySQL content file.</source>
         <target>Impossible to read the content of a MySQL content file.</target>
-        <note>Line: 364</note>
+        <note>Line: 365</note>
       </trans-unit>
       <trans-unit id="17a90b480e6f6b8d1214df46c8678015">
         <source>Cannot access a MySQL content file.</source>
         <target>Cannot access a MySQL content file.</target>
-        <note>Line: 365</note>
+        <note>Line: 366</note>
       </trans-unit>
       <trans-unit id="3d5c8f1d29b1a1dc4ea0673122e0d277">
         <source>Error while inserting data in the database:</source>
         <target>Error while inserting data in the database:</target>
-        <note>Line: 366</note>
+        <note>Line: 367</note>
       </trans-unit>
       <trans-unit id="89605cda87edd2daeebbe3534b7beb0d">
         <source>The password is incorrect (must be alphanumeric string with at least 8 characters)</source>
         <target>The password is incorrect (must be alphanumeric string with at least 8 characters)</target>
-        <note>Line: 367</note>
+        <note>Line: 368</note>
       </trans-unit>
       <trans-unit id="7433acfc71c103b95ddc7f861ecd55ee">
         <source>At least one table with same prefix was already found, please change your prefix or drop your database</source>
         <target>At least one table with same prefix was already found, please change your prefix or drop your database</target>
-        <note>Line: 368</note>
+        <note>Line: 369</note>
       </trans-unit>
       <trans-unit id="bc5e1163a15106f9e941a7603124709d">
         <source>This is not a valid file name.</source>
         <target>This is not a valid file name.</target>
-        <note>Line: 369</note>
+        <note>Line: 370</note>
       </trans-unit>
       <trans-unit id="a9d82945b8603f0c8807958d7db9a24d">
         <source>This is not a valid image file.</source>
         <target>This is not a valid image file.</target>
-        <note>Line: 370</note>
+        <note>Line: 371</note>
       </trans-unit>
       <trans-unit id="77797ec8a35666683bbac1b20db16f5f">
         <source>Error while creating the /app/config/parameters.php file.</source>
         <target>Error while creating the /app/config/parameters.php file.</target>
-        <note>Line: 371</note>
+        <note>Line: 372</note>
       </trans-unit>
       <trans-unit id="3d9f514d46849760ef1b1412e314fd99">
         <source>Error:</source>
         <target>Error:</target>
-        <note>Line: 372</note>
+        <note>Line: 373</note>
       </trans-unit>
       <trans-unit id="c5bcaf2cc3be924182f0ec0e3124ed99">
         <source>This PrestaShop database already exists. Please revalidate your authentication information to the database.</source>
         <target>This PrestaShop database already exists. Please revalidate your authentication information to the database.</target>
-        <note>Line: 373</note>
+        <note>Line: 374</note>
       </trans-unit>
       <trans-unit id="d7a99f61bb284d096ea4f221784af85a">
         <source>An error occurred while resizing the picture.</source>
         <target>An error occurred while resizing the picture.</target>
-        <note>Line: 374</note>
+        <note>Line: 375</note>
       </trans-unit>
       <trans-unit id="428c933bafbf262d693fbf1c22c03e5d">
         <source>Database connection is available!</source>
         <target>Database connection is available!</target>
-        <note>Line: 375</note>
+        <note>Line: 376</note>
       </trans-unit>
       <trans-unit id="76bd190129b7aefb90fdf42f09ec3ec7">
         <source>Database Server is available but database is not found</source>
         <target>Database Server is available but database is not found</target>
-        <note>Line: 376</note>
+        <note>Line: 377</note>
       </trans-unit>
       <trans-unit id="045f4b5c3f990e5a26e2837495d68259">
         <source>Database Server is not found. Please verify the login, password and server fields.</source>
         <target>Database Server is not found. Please verify the login, password and server fields.</target>
-        <note>Line: 377</note>
+        <note>Line: 378</note>
       </trans-unit>
       <trans-unit id="757fc72e8d69106dd2cf9da22cc7adb1">
         <source>An error occurred while sending email, please verify your parameters.</source>
         <target>An error occurred while sending email, please verify your parameters.</target>
-        <note>Line: 378</note>
+        <note>Line: 379</note>
       </trans-unit>
       <trans-unit id="dafe44b99256a7783bc37f4f949da373">
         <source>This installer is too old.</source>
         <target>This installer is too old.</target>
-        <note>Line: 380
+        <note>Line: 381
 Comment: Upgrader</note>
       </trans-unit>
       <trans-unit id="d159b135bb83d88adcde6c1ac420556e">
         <source>There is no older version. Did you delete or rename the app/config/parameters.php file?</source>
         <target>There is no older version. Did you delete or rename the app/config/parameters.php file?</target>
-        <note>Line: 382</note>
+        <note>Line: 383</note>
       </trans-unit>
       <trans-unit id="240810ecd34fca674fa9489b1ea0e879">
         <source>The app/config/parameters.php file was not found. Did you delete or rename this file?</source>
         <target>The app/config/parameters.php file was not found. Did you delete or rename this file?</target>
-        <note>Line: 383</note>
+        <note>Line: 384</note>
       </trans-unit>
       <trans-unit id="5908157f5787d0050586f5629562f1f0">
         <source>Cannot find the SQL upgrade files. Please verify that the /install/upgrade/sql folder is not empty.</source>
         <target>Cannot find the SQL upgrade files. Please verify that the /install/upgrade/sql folder is not empty.</target>
-        <note>Line: 384</note>
+        <note>Line: 385</note>
       </trans-unit>
       <trans-unit id="580e4b216e324f675f0237cdb34b6c2d">
         <source>No upgrade is possible.</source>
         <target>No upgrade is possible.</target>
-        <note>Line: 385</note>
+        <note>Line: 386</note>
       </trans-unit>
       <trans-unit id="94c7530ebb30de665b276d6881cb2f7b">
         <source>Error while loading SQL upgrade file.</source>
         <target>Error while loading SQL upgrade file.</target>
-        <note>Line: 386</note>
+        <note>Line: 387</note>
       </trans-unit>
       <trans-unit id="b8286438fbb6c7df9129fadc5316c19f">
         <source>Error while inserting content into the database</source>
         <target>Error while inserting content into the database</target>
-        <note>Line: 387</note>
+        <note>Line: 388</note>
       </trans-unit>
       <trans-unit id="229ee8046cafc09ddaf46fb9db710e91">
         <source>Unfortunately,</source>
         <target>Unfortunately,</target>
-        <note>Line: 388</note>
+        <note>Line: 389</note>
       </trans-unit>
       <trans-unit id="e805a556799b7cef40e9760c81d99218">
         <source>SQL errors have occurred.</source>
         <target>SQL errors have occurred.</target>
-        <note>Line: 389</note>
+        <note>Line: 390</note>
       </trans-unit>
       <trans-unit id="5627353fd6ac678497af3ece05087068">
         <source>The config/defines.inc.php file was not found. Where did you move it?</source>
         <target>The config/defines.inc.php file was not found. Where did you move it?</target>
-        <note>Line: 390</note>
+        <note>Line: 391</note>
       </trans-unit>
       <trans-unit id="d18ad19290b3bfc3cd0d7badbb6cb6a3">
         <source>Impossible to write the image /img/logo.jpg. If this image already exists, please delete it.</source>
         <target>Impossible to write the image /img/logo.jpg. If this image already exists, please delete it.</target>
-        <note>Line: 392
+        <note>Line: 393
 Comment: End of upgrader</note>
       </trans-unit>
       <trans-unit id="2368e33e3e01d53abb9b60061ab83903">
         <source>The uploaded file exceeds the upload_max_filesize directive in php.ini</source>
         <target>The uploaded file exceeds the upload_max_filesize directive in php.ini</target>
-        <note>Line: 393</note>
+        <note>Line: 394</note>
       </trans-unit>
       <trans-unit id="a10ef376d9f4c877ac86d8e4350116bf">
         <source>The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form</source>
         <target>The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form</target>
-        <note>Line: 394</note>
+        <note>Line: 395</note>
       </trans-unit>
       <trans-unit id="f8fe8cba1625eaf8e5c253b041d57dbd">
         <source>The uploaded file was only partially uploaded</source>
         <target>The uploaded file was only partially uploaded</target>
-        <note>Line: 395</note>
+        <note>Line: 396</note>
       </trans-unit>
       <trans-unit id="8c9067e52e4440d8a20e74fdc745b0c6">
         <source>No file was uploaded.</source>
         <target>No file was uploaded.</target>
-        <note>Line: 396</note>
+        <note>Line: 397</note>
       </trans-unit>
       <trans-unit id="2384d693d9af53b4727c092af7570a19">
         <source>Missing a temporary folder</source>
         <target>Missing a temporary folder</target>
-        <note>Line: 397</note>
+        <note>Line: 398</note>
       </trans-unit>
       <trans-unit id="f5985b2c059d5cc36968baab7585baba">
         <source>Failed to write file to disk</source>
         <target>Failed to write file to disk</target>
-        <note>Line: 398</note>
+        <note>Line: 399</note>
       </trans-unit>
       <trans-unit id="9e54dfe54e03b0010c1fe70bd65cd5e6">
         <source>File upload stopped by extension</source>
         <target>File upload stopped by extension</target>
-        <note>Line: 399</note>
+        <note>Line: 400</note>
       </trans-unit>
       <trans-unit id="01997b209bbc4a6ee04fb713afed40ec">
         <source>Cannot convert your database's data to utf-8.</source>
         <target>Cannot convert your database's data to utf-8.</target>
-        <note>Line: 400</note>
+        <note>Line: 401</note>
       </trans-unit>
       <trans-unit id="989a45a4ca01ee222f4370172bf8850d">
         <source>Invalid shop name</source>
         <target>Invalid shop name</target>
-        <note>Line: 401</note>
+        <note>Line: 402</note>
       </trans-unit>
       <trans-unit id="68499acecfba9d3bf0ca8711f300d3ed">
         <source>Your firstname contains some invalid characters</source>
         <target>Your firstname contains some invalid characters</target>
-        <note>Line: 402</note>
+        <note>Line: 403</note>
       </trans-unit>
       <trans-unit id="2399cf4ca7b49f2706f6e147a32efa78">
         <source>Your lastname contains some invalid characters</source>
         <target>Your lastname contains some invalid characters</target>
-        <note>Line: 403</note>
+        <note>Line: 404</note>
       </trans-unit>
       <trans-unit id="7d72600fcff52fb3a2d2f73572117311">
         <source>Your database server does not support the utf-8 charset.</source>
         <target>Your database server does not support the utf-8 charset.</target>
-        <note>Line: 404</note>
+        <note>Line: 405</note>
       </trans-unit>
       <trans-unit id="7186f703d20b263cfb91161418996e43">
         <source>Your MySQL server does not support this engine, please use another one like MyISAM</source>
         <target>Your MySQL server does not support this engine, please use another one like MyISAM</target>
-        <note>Line: 405</note>
+        <note>Line: 406</note>
       </trans-unit>
       <trans-unit id="24b481455c1b72b0c2539e7d516b9582">
         <source>The file /img/logo.jpg is not writable, please CHMOD 755 this file or CHMOD 777</source>
         <target>The file /img/logo.jpg is not writable, please CHMOD 755 this file or CHMOD 777</target>
-        <note>Line: 406</note>
+        <note>Line: 407</note>
       </trans-unit>
       <trans-unit id="5746b74663148afffd1350c97d4fcdfe">
         <source>Invalid catalog mode</source>
         <target>Invalid catalog mode</target>
-        <note>Line: 407</note>
+        <note>Line: 408</note>
       </trans-unit>
       <trans-unit id="9e5459c4deb20b7842ac01e97390b334">
         <source>No error code available</source>
         <target>No error code available</target>
-        <note>Line: 408</note>
+        <note>Line: 409</note>
       </trans-unit>
     </body>
   </file>
@@ -1333,18 +1463,22 @@ Comment: check DB access</note>
       </trans-unit>
     </body>
   </file>
-  <file original="classes/UpgradeTools/CoreUpgrader/CoreUpgrader80.php" source-language="en-US" target-language="en-US" datatype="plaintext">
+  <file original="classes/UpgradeTools/CoreUpgrader/CoreUpgrader17.php" source-language="en-US" target-language="en-US" datatype="plaintext">
     <body>
       <trans-unit id="ebd70d87d57d2e22c5fb9cb1fa959f92">
         <source>Download of the language pack %lang% failed. %details%</source>
         <target>Download of the language pack %lang% failed. %details%</target>
-        <note>Line: 84</note>
+        <note>Line: 59</note>
       </trans-unit>
       <trans-unit id="1439aa876aad656c4e8ddc2b06ce32d2">
         <source>Error while updating translations for the language pack %lang%. %details%</source>
         <target>Error while updating translations for the language pack %lang%. %details%</target>
-        <note>Line: 117</note>
+        <note>Line: 70</note>
       </trans-unit>
+    </body>
+  </file>
+  <file original="classes/UpgradeTools/CoreUpgrader/CoreUpgrader80.php" source-language="en-US" target-language="en-US" datatype="plaintext">
+    <body>
       <trans-unit id="b5ffb77b13ab03298982a49842ce78aa">
         <source>%lang% is not a valid iso code, skipping</source>
         <target>%lang% is not a valid iso code, skipping</target>
@@ -1461,6 +1595,11 @@ Comment: check DB access</note>
   </file>
   <file original="classes/Workspace.php" source-language="en-US" target-language="en-US" datatype="plaintext">
     <body>
+      <trans-unit id="6215d33db0d099fcaae168dd4715135a">
+        <source>Unable to write in the directory "%s"</source>
+        <target>Unable to write in the directory "%s"</target>
+        <note>Line: 67</note>
+      </trans-unit>
       <trans-unit id="da7732ee7365d4fe5b24788b687b0c04">
         <source>Unable to create directory %s</source>
         <target>Unable to create directory %s</target>
@@ -1524,136 +1663,6 @@ Comment: check DB access</note>
   </file>
   <file original="controllers/admin/AdminSelfUpgradeController.php" source-language="en-US" target-language="en-US" datatype="plaintext">
     <body>
-      <trans-unit id="5243e62512552a2cd6369e446bbf10f4">
-        <source>Server performance</source>
-        <target>Server performance</target>
-        <note>Line: 221</note>
-      </trans-unit>
-      <trans-unit id="a94e6f7e27ad55c963170658ee6a9e28">
-        <source>Unless you are using a dedicated server, select "Low".</source>
-        <target>Unless you are using a dedicated server, select "Low".</target>
-        <note>Line: 226</note>
-      </trans-unit>
-      <trans-unit id="9e435ab00f5e0606f46337fdc73164ff">
-        <source>A high value can cause the upgrade to fail if your server is not powerful enough to process the upgrade tasks in a short amount of time.</source>
-        <target>A high value can cause the upgrade to fail if your server is not powerful enough to process the upgrade tasks in a short amount of time.</target>
-        <note>Line: 227</note>
-      </trans-unit>
-      <trans-unit id="73ae0e1bfd470f9e26dac64d270cda9d">
-        <source>Low (recommended)</source>
-        <target>Low (recommended)</target>
-        <note>Line: 228</note>
-      </trans-unit>
-      <trans-unit id="87f8a6ab85c9ced3702b4ea641ad4bb5">
-        <source>Medium</source>
-        <target>Medium</target>
-        <note>Line: 228</note>
-      </trans-unit>
-      <trans-unit id="655d20c1ca69519ca647684edbb2db35">
-        <source>High</source>
-        <target>High</target>
-        <note>Line: 228</note>
-      </trans-unit>
-      <trans-unit id="26f07ad840fb1c17d29f5be0f428f015">
-        <source>Disable non-native modules</source>
-        <target>Disable non-native modules</target>
-        <note>Line: 231</note>
-      </trans-unit>
-      <trans-unit id="70c06c37194d755dd9aef11cf0469981">
-        <source>As non-native modules can experience some compatibility issues, we recommend to disable them by default.</source>
-        <target>As non-native modules can experience some compatibility issues, we recommend to disable them by default.</target>
-        <note>Line: 235</note>
-      </trans-unit>
-      <trans-unit id="469ab377c49ea68b2ecdfe76d628a53b">
-        <source>Keeping them enabled might prevent you from loading the "Modules" page properly after the upgrade.</source>
-        <target>Keeping them enabled might prevent you from loading the "Modules" page properly after the upgrade.</target>
-        <note>Line: 236</note>
-      </trans-unit>
-      <trans-unit id="03a9e6840847f96325b7184d5f3c2769">
-        <source>Disable all overrides</source>
-        <target>Disable all overrides</target>
-        <note>Line: 239</note>
-      </trans-unit>
-      <trans-unit id="29826f9f4da3d473c1e4ecf2f6c4ef9f">
-        <source>Enable or disable all classes and controllers overrides.</source>
-        <target>Enable or disable all classes and controllers overrides.</target>
-        <note>Line: 243</note>
-      </trans-unit>
-      <trans-unit id="fa2508196ef3391139d01d8d38b2c1bb">
-        <source>Upgrade the default theme</source>
-        <target>Upgrade the default theme</target>
-        <note>Line: 246</note>
-      </trans-unit>
-      <trans-unit id="b6b1ed5508bc97f38ab9075ccf234c69">
-        <source>If you customized the default PrestaShop theme in its folder (folder name "classic" in 1.7), enabling this option will lose your modifications.</source>
-        <target>If you customized the default PrestaShop theme in its folder (folder name "classic" in 1.7), enabling this option will lose your modifications.</target>
-        <note>Line: 251</note>
-      </trans-unit>
-      <trans-unit id="97a989a73b46233ae4330fb7682a70a2">
-        <source>If you are using your own theme, enabling this option will simply update the default theme files, and your own theme will be safe.</source>
-        <target>If you are using your own theme, enabling this option will simply update the default theme files, and your own theme will be safe.</target>
-        <note>Line: 252</note>
-      </trans-unit>
-      <trans-unit id="92991497ed914de6bb7795b701b4c6e4">
-        <source>Switch to the default theme</source>
-        <target>Switch to the default theme</target>
-        <note>Line: 263</note>
-      </trans-unit>
-      <trans-unit id="c7ae0af8d5653beb68b344415aca135d">
-        <source>This will change your theme: your shop will then use the default theme of the version of PrestaShop you are upgrading to.</source>
-        <target>This will change your theme: your shop will then use the default theme of the version of PrestaShop you are upgrading to.</target>
-        <note>Line: 268</note>
-      </trans-unit>
-      <trans-unit id="309183e60345ce8ad09def36330218b8">
-        <source>Regenerate RTL stylesheet</source>
-        <target>Regenerate RTL stylesheet</target>
-        <note>Line: 255</note>
-      </trans-unit>
-      <trans-unit id="e31d0229913e78ae9dc2de61d9ac21aa">
-        <source>If enabled, any RTL-specific files that you might have added to all your themes might be deleted by the created stylesheet.</source>
-        <target>If enabled, any RTL-specific files that you might have added to all your themes might be deleted by the created stylesheet.</target>
-        <note>Line: 260</note>
-      </trans-unit>
-      <trans-unit id="f22d57f1f0b7fd2a55ca4760cd6ef68b">
-        <source>Keep the customized email templates</source>
-        <target>Keep the customized email templates</target>
-        <note>Line: 271</note>
-      </trans-unit>
-      <trans-unit id="5ea970658668e0b45cb6f64ce18b420e">
-        <source>This will not upgrade the default PrestaShop e-mails.</source>
-        <target>This will not upgrade the default PrestaShop e-mails.</target>
-        <note>Line: 275</note>
-      </trans-unit>
-      <trans-unit id="a83c73a145dbc0f4ea7c6a95203df43d">
-        <source>If you customized the default PrestaShop e-mail templates, enabling this option will keep your modifications.</source>
-        <target>If you customized the default PrestaShop e-mail templates, enabling this option will keep your modifications.</target>
-        <note>Line: 276</note>
-      </trans-unit>
-      <trans-unit id="bb7748991e29366d42f8fa2c361f4d55">
-        <source>Back up my files and database</source>
-        <target>Back up my files and database</target>
-        <note>Line: 203</note>
-      </trans-unit>
-      <trans-unit id="e53b4fd73748419564a1742f66ba631f">
-        <source>Automatically back up your database and files in order to restore your shop if needed. This is experimental: you should still perform your own manual backup for safety.</source>
-        <target>Automatically back up your database and files in order to restore your shop if needed. This is experimental: you should still perform your own manual backup for safety.</target>
-        <note>Line: 208</note>
-      </trans-unit>
-      <trans-unit id="d5342bfd5b032cd75faeebdf2a918a79">
-        <source>Back up my images</source>
-        <target>Back up my images</target>
-        <note>Line: 211</note>
-      </trans-unit>
-      <trans-unit id="9a2cad898ee3d0ea4573946becdec9cf">
-        <source>To save time, you can decide not to back your images up. In any case, always make sure you did back them up manually.</source>
-        <target>To save time, you can decide not to back your images up. In any case, always make sure you did back them up manually.</target>
-        <note>Line: 216</note>
-      </trans-unit>
-      <trans-unit id="6215d33db0d099fcaae168dd4715135a">
-        <source>Unable to write in the directory "%s"</source>
-        <target>Unable to write in the directory "%s"</target>
-        <note>Line: 151</note>
-      </trans-unit>
       <trans-unit id="21dc065f2d8653ebca37ec552d17b37e">
         <source>Unable to create the directory "%s"</source>
         <target>Unable to create the directory "%s"</target>
