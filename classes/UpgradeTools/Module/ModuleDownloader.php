@@ -70,7 +70,7 @@ class ModuleDownloader
         }
 
         if (filesize($moduleDownloaderContext->getZipFullPath()) <= 300) {
-            throw (new UpgradeException($this->translator->trans('[WARNING] An error occurred while downloading module %s , the received file is empty.', [$moduleDownloaderContext->getModuleName()])))->setSeverity(UpgradeException::SEVERITY_WARNING);
+            throw (new UpgradeException($this->translator->trans('[WARNING] An error occurred while downloading module %s, the received file is empty.', [$moduleDownloaderContext->getModuleName()])))->setSeverity(UpgradeException::SEVERITY_WARNING);
         }
     }
 
