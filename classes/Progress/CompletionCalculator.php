@@ -116,6 +116,7 @@ class CompletionCalculator
             return $currentBaseProgress + ($nextBaseProgress - $currentBaseProgress);
         }
 
-        return $currentBaseProgress + (($nextBaseProgress - $currentBaseProgress) * ($backlog->getInitialTotal() - $backlog->getRemainingTotal()) / $backlog->getInitialTotal());
+        // Casting as integer is equivalent to using floor(), and we want to round down.
+        return (int) ($currentBaseProgress + (($nextBaseProgress - $currentBaseProgress) * ($backlog->getInitialTotal() - $backlog->getRemainingTotal()) / $backlog->getInitialTotal()));
     }
 }
