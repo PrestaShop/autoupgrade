@@ -55,6 +55,7 @@ if (typeof input === 'undefined') {
       filesWillBeDeleted: "These files will be deleted",
       filesWillBeReplaced: "These files will be replaced",
       noXmlSelected: "No XML file has been selected.",
+      noArchiveAndXmlSelected: "No archive and no XML file have been selected.",
     }
   };
 }
@@ -803,11 +804,13 @@ $(document).ready(function() {
       } else if ($newChannel === "archive") {
         var archive_prestashop = $("select[name=archive_prestashop]").val();
         var archive_xml = $("select[name=archive_xml]").val();
-        if (archive_prestashop == "") {
+        if (!archive_prestashop && !archive_xml) {
+          showConfigResult(input.translation.noArchiveAndXmlSelected, "error");
+          return false;
+        } else if (!archive_prestashop) {
           showConfigResult(input.translation.noArchiveSelected, "error");
           return false;
-        }
-        if (archive_xml == "") {
+        } else if (!archive_xml) {
           showConfigResult(input.translation.noXmlSelected, "error");
           return false;
         }

@@ -340,6 +340,7 @@ class UpgradePage
                 'filesWillBeDeleted' => $translator->trans('These files will be deleted'),
                 'filesWillBeReplaced' => $translator->trans('These files will be replaced'),
                 'noXmlSelected' => $translator->trans('No XML file has been selected.'),
+                'noArchiveAndXmlSelected' => $translator->trans('No archive and no XML file have been selected.'),
             ],
         ];
     }
