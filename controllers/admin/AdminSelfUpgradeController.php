@@ -77,9 +77,6 @@ class AdminSelfUpgradeController extends ModuleAdminController
     /** @var array<string, mixed[]> */
     public $_fieldsBackupOptions = [];
 
-    /** @var bool */
-    public $manualMode;
-
     /**
      * @var UpgradeContainer
      */
@@ -555,7 +552,6 @@ class AdminSelfUpgradeController extends ModuleAdminController
             self::$currentIndex,
             $this->token,
             $this->upgradeContainer->getState()->getInstallVersion(),
-            $this->manualMode ? $this->manualMode : false,
             $this->upgradeContainer->getState()->getBackupName(),
             $this->downloadPath
         ))->display(

@@ -1,7 +1,6 @@
 if (typeof input === 'undefined') {
   var input = {
     psBaseUri: '/',
-    manualMode: "",
     _PS_MODE_DEV_: true,
     PS_AUTOUP_BACKUP: true,
     adminUrl: "http://test.com/admin",
@@ -24,7 +23,6 @@ if (typeof input === 'undefined') {
       restoreComplete: "Restoration complete.",
       cannotDownloadFile: "Your server cannot download the file. Please upload it first by ftp in your admin/autoupgrade directory",
       jsonParseErrorForAction: "Javascript error (parseJSON) detected for action ",
-      manuallyGoToButton: "Manually go to %s button",
       endOfProcess: "End of process",
       processCancelledCheckForRestore: "Operation canceled. Checking for restoration...",
       confirmRestoreBackup: "Do you want to restore SomeBackupName?",
@@ -218,10 +216,6 @@ $(document).ready(function(){
       // init new name to backup
       rollbackParams.restoreName = val;
       prepareNextButton("#rollback", rollbackParams);
-      // Note : theses buttons have been removed.
-      // they will be available in a future release (when DEV_MODE and MANUAL_MODE enabled)
-      // prepareNextButton("#restoreDb", rollbackParams);
-      // prepareNextButton("#restoreFiles", rollbackParams);
     } else {
       $("#rollback").attr("disabled", "disabled");
     }
@@ -456,7 +450,16 @@ function doAjaxRequest(action, nextParams) {
           call_function(funcName, res);
         }
 
-        handleSuccess(res, action);
+        if (res.next !== "") {
+          // if next is rollback, prepare nextParams with rollbackDbFilename and rollbackFilesFilename
+          if (res.next === "rollback") {
+            res.nextParams.restoreName = "";
+          }
+          doAjaxRequest(res.next, res.nextParams);
+        } else {
+          // Way To Go, end of upgrade process
+          addQuickInfo([input.translation.endOfProcess]);
+        }
       } else {
         // display progression
         $("#" + action).addClass("done steperror");
@@ -519,42 +522,6 @@ function prepareNextButton(button_selector, nextParams) {
       var action = button_selector.substr(1);
       doAjaxRequest(action, nextParams);
     });
-}
-
-/**
- * handleSuccess
- * res = {error:, next:, next_desc:, nextParams:, nextQuickInfo:,status:"ok"}
- * @param res $res
- * @return void
- */
-function handleSuccess(res, action) {
-  if (res.next !== "") {
-
-    $("#" + res.next).addClass("nextStep");
-    var validActions = [
-      "rollback",
-      "rollbackComplete",
-      "restoreFiles",
-      "restoreDb",
-      "rollback",
-      "noRollbackFound"
-    ];
-    if (input.manualMode && validActions.indexOf(action) === -1) {
-      prepareNextButton("#" + res.next, res.nextParams);
-      alert(input.translation.manuallyGoToButton.replace("%s", res.next));
-    } else {
-      // if next is rollback, prepare nextParams with rollbackDbFilename and rollbackFilesFilename
-      if (res.next === "rollback") {
-        res.nextParams.restoreName = "";
-      }
-      doAjaxRequest(res.next, res.nextParams);
-      // 2) remove all step link (or show them only in dev mode)
-      // 3) when steps link displayed, they should change color when passed if they are visible
-    }
-  } else {
-    // Way To Go, end of upgrade process
-    addQuickInfo([input.translation.endOfProcess]);
-  }
 }
 
 // res = {nextParams, next_desc}
