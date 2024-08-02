@@ -281,6 +281,7 @@ class UpgradePage
         $translator = $this->translator;
 
         return [
+            'psBaseUri' => __PS_BASE_URI__,
             'manualMode' => $this->manualMode,
             '_PS_MODE_DEV_' => (defined('_PS_MODE_DEV_') && true == _PS_MODE_DEV_),
             'PS_AUTOUP_BACKUP' => (bool) $this->config->get('PS_AUTOUP_BACKUP'),
@@ -303,15 +304,6 @@ class UpgradePage
                 'upgradingPrestaShop' => $translator->trans('Upgrading PrestaShop'),
                 'upgradeComplete' => $translator->trans('Upgrade complete'),
                 'upgradeCompleteWithWarnings' => $translator->trans('Upgrade complete, but warning notifications has been found.'),
-                'todoList' => [
-                    $translator->trans('Cookies have changed, you will need to log in again once you refreshed the page'),
-                    $translator->trans('Javascript and CSS files have changed, please clear your browser cache with CTRL-F5'),
-                    $translator->trans('Please check that your front-office theme is functional (try to create an account, place an order...)'),
-                    $translator->trans('Product images do not appear in the front-office? Try regenerating the thumbnails in Preferences > Images'),
-                    $translator->trans('Do not forget to reactivate your shop once you have checked everything!'),
-                    $translator->trans('If you can\'t access the back-office and need to see what\'s wrong, manually enable debug mode in config/defines.inc.php by changing _PS_MODE_DEV_ to true.'),
-                ],
-                'todoListTitle' => $translator->trans('ToDo list:'),
                 'startingRestore' => $translator->trans('Starting restoration...'),
                 'restoreComplete' => $translator->trans('Restoration complete.'),
                 'cannotDownloadFile' => $translator->trans('Your server cannot download the file. Please upload it first by ftp in your admin/autoupgrade directory'),
