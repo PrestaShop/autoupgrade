@@ -26,6 +26,7 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
+use PrestaShop\Module\AutoUpgrade\Commands\CheckRequirementsCommand;
 use PrestaShop\Module\AutoUpgrade\Commands\RestoreCommand;
 use PrestaShop\Module\AutoUpgrade\Commands\UpdateCommand;
 use Symfony\Component\Console\Application;
@@ -44,6 +45,7 @@ $application = new Application();
 
 $application->add(new UpdateCommand());
 $application->add(new RestoreCommand());
+$application->add(new CheckRequirementsCommand());
 
 try {
     $application->run();

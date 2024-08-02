@@ -168,15 +168,15 @@ class ChecksumCompare
                 $relative_path .= (string) $child['name'];
 
                 // TODO: Drop use of constants and use args instead
-                $fullpath = _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . $relative_path;
-                $fullpath = str_replace('ps_root_dir', _PS_ROOT_DIR_, $fullpath);
+                $fullPath = _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . $relative_path;
+                $fullPath = str_replace('ps_root_dir', _PS_ROOT_DIR_, $fullPath);
 
                 // replace default admin dir by current one
-                $fullpath = str_replace(_PS_ROOT_DIR_ . '/admin', _PS_ADMIN_DIR_, $fullpath);
-                $fullpath = str_replace(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'admin', _PS_ADMIN_DIR_, $fullpath);
-                if (!file_exists($fullpath)) {
+                $fullPath = str_replace(_PS_ROOT_DIR_ . '/admin', _PS_ADMIN_DIR_, $fullPath);
+                $fullPath = str_replace(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'admin', _PS_ADMIN_DIR_, $fullPath);
+                if (!file_exists($fullPath)) {
                     // Not stored in a list as we do nothing with it.
-                } elseif (!$this->compareChecksum($fullpath, (string) $child) && substr(str_replace(DIRECTORY_SEPARATOR, '-', $relative_path), 0, 19) != 'modules/autoupgrade') {
+                } elseif (!$this->compareChecksum($fullPath, (string) $child) && substr(str_replace(DIRECTORY_SEPARATOR, '-', $relative_path), 0, 7) != 'modules') {
                     $this->addChangedFile($relative_path);
                 }
                 // else, file is original (and ok)
