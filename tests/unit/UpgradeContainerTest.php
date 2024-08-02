@@ -23,6 +23,7 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
+
 use PHPUnit\Framework\TestCase;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
@@ -62,7 +63,7 @@ class UpgradeContainerTest extends TestCase
             ['getFilesystemAdapter', PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter::class],
             ['getFileLoader', PrestaShop\Module\AutoUpgrade\Xml\FileLoader::class],
             ['getLogger', PrestaShop\Module\AutoUpgrade\Log\LegacyLogger::class],
-            ['getModuleAdapter', PrestaShop\Module\AutoUpgrade\UpgradeTools\ModuleAdapter::class],
+            ['getModuleAdapter', \PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleAdapter::class],
             ['getState', \PrestaShop\Module\AutoUpgrade\State::class],
             ['getSymfonyAdapter', PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter::class],
             ['getTranslationAdapter', \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translation::class],

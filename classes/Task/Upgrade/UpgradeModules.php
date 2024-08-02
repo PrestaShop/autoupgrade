@@ -33,6 +33,15 @@ use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Progress\Backlog;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
+use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleDownloader;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleDownloaderContext;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleMigration;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleMigrationContext;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleUnzipper;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleUnzipperContext;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleVersionAdapter;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Upgrade all partners modules according to the installed prestashop version.
@@ -46,8 +55,6 @@ class UpgradeModules extends AbstractTask
      */
     public function run(): int
     {
-        $start_time = time();
-        $time_elapsed = 0;
         if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::MODULES_TO_UPGRADE_LIST)) {
             return $this->warmUp();
         }
@@ -66,19 +73,50 @@ class UpgradeModules extends AbstractTask
             }
         }
 
-        while ($time_elapsed < $this->container->getUpgradeConfiguration()->getTimePerCall() && $listModules->getRemainingTotal()) {
-            $module_info = $listModules->getNext();
+        $modulesPath = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR;
+
+        $moduleDownloader = new ModuleDownloader($this->translator, $this->logger, $this->container->getState()->getInstallVersion());
+        $moduleUnzipper = new ModuleUnzipper($this->translator, $this->container->getZipAction(), $modulesPath);
+        $moduleMigration = new ModuleMigration($this->translator, $this->logger);
+
+        if ($listModules->getRemainingTotal()) {
+            $moduleInfos = $listModules->getNext();
+
+            $zipFullPath = $this->container->getProperty(UpgradeContainer::TMP_PATH) . DIRECTORY_SEPARATOR . $moduleInfos['name'] . '.zip';
+
             try {
-                $this->logger->debug($this->translator->trans('Upgrading module %module%...', ['%module%' => $module_info['name']]));
-                $this->container->getModuleAdapter()->upgradeModule($module_info['id'], $module_info['name'], !empty($module_info['is_local']));
-                $this->logger->info($this->translator->trans('The files of module %s have been upgraded.', [$module_info['name']]));
+                $this->logger->debug($this->translator->trans('Updating module %module%...', ['%module%' => $moduleInfos['name']]));
+
+                $moduleDownloaderContext = new ModuleDownloaderContext($zipFullPath, $moduleInfos);
+                $moduleDownloader->downloadModule($moduleDownloaderContext);
+
+                $moduleUnzipperContext = new ModuleUnzipperContext($zipFullPath, $moduleInfos['name']);
+                $moduleUnzipper->unzipModule($moduleUnzipperContext);
+
+                $dbVersion = (new ModuleVersionAdapter())->get($moduleInfos['name']);
+                $module = \Module::getInstanceByName($moduleInfos['name']);
+
+                if (!($module instanceof \Module)) {
+                    throw (new UpgradeException($this->translator->trans('[WARNING] Error when trying to retrieve module %s instance.', [$moduleInfos['name']])))->setSeverity(UpgradeException::SEVERITY_WARNING);
+                }
+
+                $moduleMigrationContext = new ModuleMigrationContext($module, $dbVersion);
+
+                if (!$moduleMigration->needMigration($moduleMigrationContext)) {
+                    $this->logger->info($this->translator->trans('Module %s does not need to be migrated. Module is up to date.', [$moduleInfos['name']]));
+                } else {
+                    $moduleMigration->runMigration($moduleMigrationContext);
+                }
+                $moduleMigration->saveVersionInDb($moduleMigrationContext);
             } catch (UpgradeException $e) {
                 $this->handleException($e);
                 if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {
                     return ExitCode::FAIL;
                 }
+            } finally {
+                // Cleanup of module assets
+                (new Filesystem())->remove([$zipFullPath]);
             }
-            $time_elapsed = time() - $start_time;
         }
 
         $modules_left = $listModules->getRemainingTotal();
