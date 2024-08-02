@@ -1,0 +1,17 @@
+#!/usr/bin/env php
+<?php
+
+use PrestaShop\Module\AutoUpgrade\Commands\CheckRequirementsCommand;
+use Symfony\Component\Console\Application;
+
+if (!is_dir(dirname(__DIR__).'/vendor')) {
+    throw new LogicException('Dependencies are missing. Try running "composer install".');
+}
+
+require_once dirname(__DIR__).'/vendor/autoload.php';
+
+$application = new Application();
+
+$application->add(new CheckRequirementsCommand());
+
+$application->run();
