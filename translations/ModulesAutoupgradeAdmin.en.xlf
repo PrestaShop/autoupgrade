@@ -1922,6 +1922,45 @@ Comment: check DB access</note>
       </trans-unit>
     </body>
   </file>
+  <file original="views/templates/block/postRestoreChecklistBlock.html.twig" source-language="en-US" target-language="en-US" datatype="plaintext">
+    <body>
+      <trans-unit id="4ba42d4d681d17d9bee2f6228c326069">
+        <source>Open developer documentation</source>
+        <target>Open developer documentation</target>
+        <note>Line: 15</note>
+      </trans-unit>
+      <trans-unit id="cce78dc6ebbec7385a01f2146d6d01c8">
+        <source>Next steps</source>
+        <target>Next steps</target>
+        <note>Line: 23</note>
+      </trans-unit>
+      <trans-unit id="79dc0855e9436fdc704a8f489d82f521">
+        <source><![CDATA[Disable the maintenance mode in General settings > Maintenance.]]></source>
+        <target><![CDATA[Disable the maintenance mode in General settings > Maintenance.]]></target>
+        <note>Line: 26</note>
+      </trans-unit>
+      <trans-unit id="231cf4c70d866b616c21baddaeed0696">
+        <source>Troubleshooting</source>
+        <target>Troubleshooting</target>
+        <note>Line: 32</note>
+      </trans-unit>
+      <trans-unit id="ae4a0e3a1c9d80344cf29e3f909861b5">
+        <source>Your restoration is complete</source>
+        <target>Your restoration is complete</target>
+        <note>Line: 6</note>
+      </trans-unit>
+      <trans-unit id="f0d3705e1f022dae2bb3e57a0007d3e2">
+        <source>Before continuing with your tasks, please review the following checklist to ensure smooth operation after recent recovery.</source>
+        <target>Before continuing with your tasks, please review the following checklist to ensure smooth operation after recent recovery.</target>
+        <note>Line: 8</note>
+      </trans-unit>
+      <trans-unit id="6d7d6c549fa8457fb326a8ec0c1bfa4f">
+        <source>If you can't access your back office, try emptying the cache.</source>
+        <target>If you can't access your back office, try emptying the cache.</target>
+        <note>Line: 35</note>
+      </trans-unit>
+    </body>
+  </file>
   <file original="views/templates/block/postUpdateChecklistBlock.html.twig" source-language="en-US" target-language="en-US" datatype="plaintext">
     <body>
       <trans-unit id="91aac5a444c7ad75c9adad01b3253de8">
@@ -1934,16 +1973,6 @@ Comment: check DB access</note>
         <target>Before continuing with your tasks, please review the following checklist to ensure smooth operation after recent updates</target>
         <note>Line: 8</note>
       </trans-unit>
-      <trans-unit id="4ba42d4d681d17d9bee2f6228c326069">
-        <source>Open developer documentation</source>
-        <target>Open developer documentation</target>
-        <note>Line: 15</note>
-      </trans-unit>
-      <trans-unit id="cce78dc6ebbec7385a01f2146d6d01c8">
-        <source>Next steps</source>
-        <target>Next steps</target>
-        <note>Line: 23</note>
-      </trans-unit>
       <trans-unit id="5bcbabb0f8d2cfc79ac25e7974624058">
         <source>Re-enable and check your modules one by one.</source>
         <target>Re-enable and check your modules one by one.</target>
@@ -1953,16 +1982,6 @@ Comment: check DB access</note>
         <source>Make sure your store's front office is working properly: try to create an account, place an order, add a product, etc.</source>
         <target>Make sure your store's front office is working properly: try to create an account, place an order, add a product, etc.</target>
         <note>Line: 27</note>
-      </trans-unit>
-      <trans-unit id="79dc0855e9436fdc704a8f489d82f521">
-        <source><![CDATA[Disable the maintenance mode in General settings > Maintenance.]]></source>
-        <target><![CDATA[Disable the maintenance mode in General settings > Maintenance.]]></target>
-        <note>Line: 28</note>
-      </trans-unit>
-      <trans-unit id="231cf4c70d866b616c21baddaeed0696">
-        <source>Troubleshooting</source>
-        <target>Troubleshooting</target>
-        <note>Line: 34</note>
       </trans-unit>
       <trans-unit id="605f8e6688fdd2a7616a3614d741202d">
         <source><![CDATA[If some images don't appear in the front office, try regenerating thumbnails in Preferences > Images.]]></source>
