@@ -363,12 +363,8 @@ function afterRollback(res) {
 }
 
 function afterRollbackComplete(res) {
-  var params = res.nextParams;
   $("#pleaseWait").hide();
-  $("#upgradeResultCheck")
-    .html("<p>" + input.translation.restoreComplete + "</p>")
-    .show("slow");
-  updateInfoStep("<p class=\"alert alert-success\">" + input.translation.restoreComplete + "</p>");
+  $("#postRestoreChecklist").show();
   $(window).unbind();
 }
 
@@ -511,6 +507,10 @@ function doAjaxRequest(action, nextParams) {
  * @return void
  */
 function prepareNextButton(button_selector, nextParams) {
+  if (button_selector === "#rollback") {
+    $("#postUpdateChecklist").hide();
+  }
+
   $(button_selector)
     .unbind()
     .click(function(e) {
