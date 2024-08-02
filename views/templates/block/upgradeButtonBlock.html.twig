@@ -151,25 +151,5 @@
                 </div>
             </div>
         </div>
-
-        {% if manualMode %}
-            <br class="clear"/>
-            <fieldset class="autoupgradeSteps"><legend>{{ 'Step'|trans({}) }}</legend>
-                <h4>{{ 'Upgrade steps'|trans({}) }} : </h4>
-                <div>
-                    <a id="download" class="upgradestep">download</a>
-                    <a id="unzip" class="upgradestep">unzip</a>{# unzip in autoupgrade/latest #}
-                    <a id="removeSamples" class="upgradestep">removeSamples</a> {# remove samples (iWheel images) #}
-                    <a id="backupFiles" class="upgradestep">backupFiles</a>
-                    <a id="backupDb" class="upgradestep">backupDb</a>
-                    <a id="upgradeFiles" class="upgradestep">upgradeFiles</a>
-                    <a id="upgradeDb" class="upgradestep">upgradeDb</a>
-                    <a id="upgradeModules" class="upgradestep">upgradeModules</a>
-                    <a id="cleanDatabase" class="upgradestep">cleanDb</a>
-                    <a id="upgradeComplete" class="upgradestep">upgradeComplete</a>
-                </div>
-            </fieldset>
-        {% endif %}
-
     </div>
 </div>

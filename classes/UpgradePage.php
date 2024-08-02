@@ -100,11 +100,6 @@ class UpgradePage
     private $installVersion;
 
     /**
-     * @var bool
-     */
-    private $manualMode;
-
-    /**
      * @var string
      */
     private $backupName;
@@ -135,7 +130,6 @@ class UpgradePage
         string $currentIndex,
         string $token,
         string $installVersion,
-        bool $manualMode,
         string $backupName,
         string $downloadPath
     ) {
@@ -149,7 +143,6 @@ class UpgradePage
         $this->currentIndex = $currentIndex;
         $this->token = $token;
         $this->installVersion = $installVersion;
-        $this->manualMode = $manualMode;
         $this->backupName = $backupName;
         $this->twig = $twig;
         $this->downloadPath = $downloadPath;
@@ -213,8 +206,7 @@ class UpgradePage
             $this->upgrader,
             $this->upgradeSelfCheck,
             $this->downloadPath,
-            $this->token,
-            $this->manualMode
+            $this->token
         ))->getTemplateVars();
     }
 
@@ -282,7 +274,6 @@ class UpgradePage
 
         return [
             'psBaseUri' => __PS_BASE_URI__,
-            'manualMode' => $this->manualMode,
             '_PS_MODE_DEV_' => (defined('_PS_MODE_DEV_') && true == _PS_MODE_DEV_),
             'PS_AUTOUP_BACKUP' => (bool) $this->config->get('PS_AUTOUP_BACKUP'),
             'adminDir' => $adminDir,
@@ -308,7 +299,6 @@ class UpgradePage
                 'restoreComplete' => $translator->trans('Restoration complete.'),
                 'cannotDownloadFile' => $translator->trans('Your server cannot download the file. Please upload it first by ftp in your admin/autoupgrade directory'),
                 'jsonParseErrorForAction' => $translator->trans('Javascript error (parseJSON) detected for action '),
-                'manuallyGoToButton' => $translator->trans('Manually go to %s button'),
                 'endOfProcess' => $translator->trans('End of process'),
                 'processCancelledCheckForRestore' => $translator->trans('Operation canceled. Checking for restoration...'),
                 'confirmRestoreBackup' => $translator->trans('Do you want to restore %s?', [$this->backupName]),

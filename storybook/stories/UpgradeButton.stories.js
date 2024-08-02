@@ -67,7 +67,6 @@ export default {
     downloadPath:
       "/var/www/html/admin128ejliho1ih29s5ahu/autoupgrade/download/",
     directoryVersionNumber: "",
-    manualMode: false,
     phpVersion: "7.4.33",
     ...ChannelInfo.args,
   },
