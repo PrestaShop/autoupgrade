@@ -541,14 +541,14 @@ Comment: directory already exists</note>
   </file>
   <file original="classes/Task/Upgrade/UpgradeModules.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
-      <trans-unit id="04663743fc92eeb1f90a4d165c470e54">
+      <trans-unit id="04663743fc92eeb1f90a4d165c470e54" approved="yes">
         <source>Upgrading module %module%...</source>
-        <target state="needs-translation">Upgrading module %module%...</target>
+        <target state="final">Upgrade module %module%...</target>
         <note>Line: 72</note>
       </trans-unit>
-      <trans-unit id="35687f9e2d83cd9e89860c47fb3a7bbd">
+      <trans-unit id="35687f9e2d83cd9e89860c47fb3a7bbd" approved="yes">
         <source>The files of module %s have been upgraded.</source>
-        <target state="needs-translation">The files of module %s have been upgraded.</target>
+        <target state="final">De bestanden van module %s zijn bijgewerkt.</target>
         <note>Line: 74</note>
       </trans-unit>
       <trans-unit id="d88a8630bd4e8fdbd61c550e53d62a94" approved="yes">
@@ -1150,9 +1150,9 @@ Comment: End of upgrader</note>
   </file>
   <file original="classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
-      <trans-unit id="37ce0f29c7377c827e7247fe5645a782">
+      <trans-unit id="37ce0f29c7377c827e7247fe5645a782" approved="yes">
         <source>You already have the %s version.</source>
-        <target state="needs-translation">You already have the %s version.</target>
+        <target state="final">U heeft reeds versie %s.</target>
         <note>Line: 283</note>
       </trans-unit>
       <trans-unit id="badf6aad60d4a95b698028bc55aa3347">
@@ -1494,134 +1494,134 @@ Comment: check DB access</note>
   </file>
   <file original="controllers/admin/AdminSelfUpgradeController.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
-      <trans-unit id="5243e62512552a2cd6369e446bbf10f4">
+      <trans-unit id="5243e62512552a2cd6369e446bbf10f4" approved="yes">
         <source>Server performance</source>
-        <target state="needs-translation">Server performance</target>
+        <target state="final">Serverprestaties</target>
         <note>Line: 221</note>
       </trans-unit>
-      <trans-unit id="a94e6f7e27ad55c963170658ee6a9e28">
+      <trans-unit id="a94e6f7e27ad55c963170658ee6a9e28" approved="yes">
         <source>Unless you are using a dedicated server, select "Low".</source>
-        <target state="needs-translation">Unless you are using a dedicated server, select "Low".</target>
+        <target state="final">Tenzij u gebruik maakt van een dedicated server, selecteert u "Laag".</target>
         <note>Line: 226</note>
       </trans-unit>
-      <trans-unit id="9e435ab00f5e0606f46337fdc73164ff">
+      <trans-unit id="9e435ab00f5e0606f46337fdc73164ff" approved="yes">
         <source>A high value can cause the upgrade to fail if your server is not powerful enough to process the upgrade tasks in a short amount of time.</source>
-        <target state="needs-translation">A high value can cause the upgrade to fail if your server is not powerful enough to process the upgrade tasks in a short amount of time.</target>
+        <target state="final">Een hoge waarde kan de upgrade laten mislukken als uw server niet krachtig genoeg is om in een korte tijd de upgrade taken te verwerken.</target>
         <note>Line: 227</note>
       </trans-unit>
-      <trans-unit id="73ae0e1bfd470f9e26dac64d270cda9d">
+      <trans-unit id="73ae0e1bfd470f9e26dac64d270cda9d" approved="yes">
         <source>Low (recommended)</source>
-        <target state="needs-translation">Low (recommended)</target>
+        <target state="final">Laag (aanbevolen)</target>
         <note>Line: 228</note>
       </trans-unit>
-      <trans-unit id="87f8a6ab85c9ced3702b4ea641ad4bb5">
+      <trans-unit id="87f8a6ab85c9ced3702b4ea641ad4bb5" approved="yes">
         <source>Medium</source>
-        <target state="needs-translation">Medium</target>
+        <target state="final">Middel</target>
         <note>Line: 228</note>
       </trans-unit>
-      <trans-unit id="655d20c1ca69519ca647684edbb2db35">
+      <trans-unit id="655d20c1ca69519ca647684edbb2db35" approved="yes">
         <source>High</source>
-        <target state="needs-translation">High</target>
+        <target state="final">Hoog</target>
         <note>Line: 228</note>
       </trans-unit>
-      <trans-unit id="26f07ad840fb1c17d29f5be0f428f015">
+      <trans-unit id="26f07ad840fb1c17d29f5be0f428f015" approved="yes">
         <source>Disable non-native modules</source>
-        <target state="needs-translation">Disable non-native modules</target>
+        <target state="final">Schakel niet-native modules uit</target>
         <note>Line: 231</note>
       </trans-unit>
-      <trans-unit id="70c06c37194d755dd9aef11cf0469981">
+      <trans-unit id="70c06c37194d755dd9aef11cf0469981" approved="yes">
         <source>As non-native modules can experience some compatibility issues, we recommend to disable them by default.</source>
-        <target state="needs-translation">As non-native modules can experience some compatibility issues, we recommend to disable them by default.</target>
+        <target state="final">Omdat niet-native modules mogelijks compatibiliteitsproblemen geven, raden wij aan om deze standaard uit te schakelen.</target>
         <note>Line: 235</note>
       </trans-unit>
-      <trans-unit id="469ab377c49ea68b2ecdfe76d628a53b">
+      <trans-unit id="469ab377c49ea68b2ecdfe76d628a53b" approved="yes">
         <source>Keeping them enabled might prevent you from loading the "Modules" page properly after the upgrade.</source>
-        <target state="needs-translation">Keeping them enabled might prevent you from loading the "Modules" page properly after the upgrade.</target>
+        <target state="final">Indien u deze actief houd zou het kunnen dat de "modules" pagina niet goed laad na de upgrade.</target>
         <note>Line: 236</note>
       </trans-unit>
-      <trans-unit id="03a9e6840847f96325b7184d5f3c2769">
+      <trans-unit id="03a9e6840847f96325b7184d5f3c2769" approved="yes">
         <source>Disable all overrides</source>
-        <target state="needs-translation">Disable all overrides</target>
+        <target state="final">Schakel alle overtreffingen uit</target>
         <note>Line: 239</note>
       </trans-unit>
-      <trans-unit id="29826f9f4da3d473c1e4ecf2f6c4ef9f">
+      <trans-unit id="29826f9f4da3d473c1e4ecf2f6c4ef9f" approved="yes">
         <source>Enable or disable all classes and controllers overrides.</source>
-        <target state="needs-translation">Enable or disable all classes and controllers overrides.</target>
+        <target state="final">Schakel alle overtreffende klassen en controllers in of uit.</target>
         <note>Line: 243</note>
       </trans-unit>
-      <trans-unit id="fa2508196ef3391139d01d8d38b2c1bb">
+      <trans-unit id="fa2508196ef3391139d01d8d38b2c1bb" approved="yes">
         <source>Upgrade the default theme</source>
-        <target state="needs-translation">Upgrade the default theme</target>
+        <target state="final">Het standaardthema bijwerken</target>
         <note>Line: 246</note>
       </trans-unit>
-      <trans-unit id="b6b1ed5508bc97f38ab9075ccf234c69">
+      <trans-unit id="b6b1ed5508bc97f38ab9075ccf234c69" approved="yes">
         <source>If you customized the default PrestaShop theme in its folder (folder name "classic" in 1.7), enabling this option will lose your modifications.</source>
-        <target state="needs-translation">If you customized the default PrestaShop theme in its folder (folder name "classic" in 1.7), enabling this option will lose your modifications.</target>
+        <target state="final">Als u het standaard PrestaShop-thema hebt aangepast in de map (mapnaam 'classic' in 1.7), zult u met het activeren van deze optie uw wijzigingen verliezen.</target>
         <note>Line: 251</note>
       </trans-unit>
-      <trans-unit id="97a989a73b46233ae4330fb7682a70a2">
+      <trans-unit id="97a989a73b46233ae4330fb7682a70a2" approved="yes">
         <source>If you are using your own theme, enabling this option will simply update the default theme files, and your own theme will be safe.</source>
-        <target state="needs-translation">If you are using your own theme, enabling this option will simply update the default theme files, and your own theme will be safe.</target>
+        <target state="final">Als u gebruik maakt van uw eigen thema, zullen, door deze optie te activeren, de bestanden van uw standaardthema worden bijgewerkt; hierdoor blijft uw eigen thema veilig.</target>
         <note>Line: 252</note>
       </trans-unit>
-      <trans-unit id="92991497ed914de6bb7795b701b4c6e4">
+      <trans-unit id="92991497ed914de6bb7795b701b4c6e4" approved="yes">
         <source>Switch to the default theme</source>
-        <target state="needs-translation">Switch to the default theme</target>
+        <target state="final">Overschakelen op het standaardthema</target>
         <note>Line: 263</note>
       </trans-unit>
-      <trans-unit id="c7ae0af8d5653beb68b344415aca135d">
+      <trans-unit id="c7ae0af8d5653beb68b344415aca135d" approved="yes">
         <source>This will change your theme: your shop will then use the default theme of the version of PrestaShop you are upgrading to.</source>
-        <target state="needs-translation">This will change your theme: your shop will then use the default theme of the version of PrestaShop you are upgrading to.</target>
+        <target state="final">Dit zal uw thema veranderen: uw winkel zal dan gebruikmaken van het standaardthema van de versie van PrestaShop waarnaar u upgrade.</target>
         <note>Line: 268</note>
       </trans-unit>
-      <trans-unit id="309183e60345ce8ad09def36330218b8">
+      <trans-unit id="309183e60345ce8ad09def36330218b8" approved="yes">
         <source>Regenerate RTL stylesheet</source>
-        <target state="needs-translation">Regenerate RTL stylesheet</target>
+        <target state="final">RTL-stylesheet opnieuw genereren</target>
         <note>Line: 255</note>
       </trans-unit>
-      <trans-unit id="e31d0229913e78ae9dc2de61d9ac21aa">
+      <trans-unit id="e31d0229913e78ae9dc2de61d9ac21aa" approved="yes">
         <source>If enabled, any RTL-specific files that you might have added to all your themes might be deleted by the created stylesheet.</source>
-        <target state="needs-translation">If enabled, any RTL-specific files that you might have added to all your themes might be deleted by the created stylesheet.</target>
+        <target state="final">Indien ingeschakeld, kunnen alle RTL-specifieke bestanden die u mogelijk aan al uw thema's hebt toegevoegd, worden verwijderd door de gemaakte stylesheet.</target>
         <note>Line: 260</note>
       </trans-unit>
-      <trans-unit id="f22d57f1f0b7fd2a55ca4760cd6ef68b">
+      <trans-unit id="f22d57f1f0b7fd2a55ca4760cd6ef68b" approved="yes">
         <source>Keep the customized email templates</source>
-        <target state="needs-translation">Keep the customized email templates</target>
+        <target state="final">Alle aangepaste e-mailsjablonen houden</target>
         <note>Line: 271</note>
       </trans-unit>
-      <trans-unit id="5ea970658668e0b45cb6f64ce18b420e">
+      <trans-unit id="5ea970658668e0b45cb6f64ce18b420e" approved="yes">
         <source>This will not upgrade the default PrestaShop e-mails.</source>
-        <target state="needs-translation">This will not upgrade the default PrestaShop e-mails.</target>
+        <target state="final">Dit zal de standaard PrestaShop-e-mails niet upgraden.</target>
         <note>Line: 275</note>
       </trans-unit>
-      <trans-unit id="a83c73a145dbc0f4ea7c6a95203df43d">
+      <trans-unit id="a83c73a145dbc0f4ea7c6a95203df43d" approved="yes">
         <source>If you customized the default PrestaShop e-mail templates, enabling this option will keep your modifications.</source>
-        <target state="needs-translation">If you customized the default PrestaShop e-mail templates, enabling this option will keep your modifications.</target>
+        <target state="final">Als u de standaard PrestaShop e-mailsjablonen hebt aangepast, zult u uw wijzigingen verliezen indien u deze optie inschakelt.</target>
         <note>Line: 276</note>
       </trans-unit>
-      <trans-unit id="bb7748991e29366d42f8fa2c361f4d55">
+      <trans-unit id="bb7748991e29366d42f8fa2c361f4d55" approved="yes">
         <source>Back up my files and database</source>
-        <target state="needs-translation">Back up my files and database</target>
+        <target state="final">Neem een reservekopie van mijn bestanden en database</target>
         <note>Line: 203</note>
       </trans-unit>
-      <trans-unit id="e53b4fd73748419564a1742f66ba631f">
+      <trans-unit id="e53b4fd73748419564a1742f66ba631f" approved="yes">
         <source>Automatically back up your database and files in order to restore your shop if needed. This is experimental: you should still perform your own manual backup for safety.</source>
-        <target state="needs-translation">Automatically back up your database and files in order to restore your shop if needed. This is experimental: you should still perform your own manual backup for safety.</target>
+        <target state="final">Maak een automatisch back-up van uw database en bestanden om uw winkel te herstellen indien nodig. Dit is experimenteel: je moet nog steeds zelf een handmatige back-up uitvoeren voor de veiligheid.</target>
         <note>Line: 208</note>
       </trans-unit>
-      <trans-unit id="d5342bfd5b032cd75faeebdf2a918a79">
+      <trans-unit id="d5342bfd5b032cd75faeebdf2a918a79" approved="yes">
         <source>Back up my images</source>
-        <target state="needs-translation">Back up my images</target>
+        <target state="final">Maak een reservekopie van mijn afbeeldingen</target>
         <note>Line: 211</note>
       </trans-unit>
-      <trans-unit id="9a2cad898ee3d0ea4573946becdec9cf">
+      <trans-unit id="9a2cad898ee3d0ea4573946becdec9cf" approved="yes">
         <source>To save time, you can decide not to back your images up. In any case, always make sure you did back them up manually.</source>
-        <target state="needs-translation">To save time, you can decide not to back your images up. In any case, always make sure you did back them up manually.</target>
+        <target state="final">Om tijd te besparen, kunt u beslist om geen ​​back-up te nemen van uw afbeeldingen. In ieder geval, je moet er altijd voor zorgen dat je hebt handmatig een back-up neemt.</target>
         <note>Line: 216</note>
       </trans-unit>
-      <trans-unit id="6215d33db0d099fcaae168dd4715135a">
+      <trans-unit id="6215d33db0d099fcaae168dd4715135a" approved="yes">
         <source>Unable to write in the directory "%s"</source>
-        <target state="needs-translation">Unable to write in the directory "%s"</target>
+        <target state="final">Kan niet schrijven in directory "%s"</target>
         <note>Line: 151</note>
       </trans-unit>
       <trans-unit id="21dc065f2d8653ebca37ec552d17b37e" approved="yes">
