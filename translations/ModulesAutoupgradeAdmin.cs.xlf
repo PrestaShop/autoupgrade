@@ -870,9 +870,9 @@ Comment: directory already exists</note>
         <target state="final">Nebyl vybrán žádný soubor XML.</target>
         <note>Line: 334</note>
       </trans-unit>
-      <trans-unit id="d05b1d567b28c4baea0567450ee4e49e">
+      <trans-unit id="d05b1d567b28c4baea0567450ee4e49e" approved="yes">
         <source>No archive and no XML file have been selected.</source>
-        <target state="needs-translation">No archive and no XML file have been selected.</target>
+        <target state="final">Nebyl vybrán žádný archiv a XML soubor.</target>
         <note>Line: 335</note>
       </trans-unit>
       <trans-unit id="19f823c6453c2b1ffd09cb715214813d" approved="yes">
@@ -1924,78 +1924,78 @@ Comment: check DB access</note>
   </file>
   <file original="views/templates/block/postRestoreChecklistBlock.html.twig" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="4ba42d4d681d17d9bee2f6228c326069">
+      <trans-unit id="4ba42d4d681d17d9bee2f6228c326069" approved="yes">
         <source>Open developer documentation</source>
-        <target state="needs-translation">Open developer documentation</target>
+        <target state="final">Otevřít dokumentaci pro vývojáře</target>
         <note>Line: 15</note>
       </trans-unit>
-      <trans-unit id="cce78dc6ebbec7385a01f2146d6d01c8">
+      <trans-unit id="cce78dc6ebbec7385a01f2146d6d01c8" approved="yes">
         <source>Next steps</source>
-        <target state="needs-translation">Next steps</target>
+        <target state="final">Další kroky</target>
         <note>Line: 23</note>
       </trans-unit>
-      <trans-unit id="79dc0855e9436fdc704a8f489d82f521">
+      <trans-unit id="79dc0855e9436fdc704a8f489d82f521" approved="yes">
         <source><![CDATA[Disable the maintenance mode in General settings > Maintenance.]]></source>
-        <target state="needs-translation"><![CDATA[Disable the maintenance mode in General settings > Maintenance.]]></target>
+        <target state="final"><![CDATA[Vypněte režim údržby v části Obecná nastavení > Údržba.]]></target>
         <note>Line: 26</note>
       </trans-unit>
-      <trans-unit id="231cf4c70d866b616c21baddaeed0696">
+      <trans-unit id="231cf4c70d866b616c21baddaeed0696" approved="yes">
         <source>Troubleshooting</source>
-        <target state="needs-translation">Troubleshooting</target>
+        <target state="final">Řešení problémů</target>
         <note>Line: 32</note>
       </trans-unit>
-      <trans-unit id="ae4a0e3a1c9d80344cf29e3f909861b5">
+      <trans-unit id="ae4a0e3a1c9d80344cf29e3f909861b5" approved="yes">
         <source>Your restoration is complete</source>
-        <target state="needs-translation">Your restoration is complete</target>
+        <target state="final">Obnova byla dokončena</target>
         <note>Line: 6</note>
       </trans-unit>
-      <trans-unit id="f0d3705e1f022dae2bb3e57a0007d3e2">
+      <trans-unit id="f0d3705e1f022dae2bb3e57a0007d3e2" approved="yes">
         <source>Before continuing with your tasks, please review the following checklist to ensure smooth operation after recent recovery.</source>
-        <target state="needs-translation">Before continuing with your tasks, please review the following checklist to ensure smooth operation after recent recovery.</target>
+        <target state="final">Než budete pokračovat ve svých povinnostech, přečtěte si prosím následující kontrolní seznam, abyste měli jistotu, že vše po obnově poběží hladce.</target>
         <note>Line: 8</note>
       </trans-unit>
-      <trans-unit id="6d7d6c549fa8457fb326a8ec0c1bfa4f">
+      <trans-unit id="6d7d6c549fa8457fb326a8ec0c1bfa4f" approved="yes">
         <source>If you can't access your back office, try emptying the cache.</source>
-        <target state="needs-translation">If you can't access your back office, try emptying the cache.</target>
+        <target state="final">Pokud nebudete mít přístup do administrace, zkuste vymazat cache.</target>
         <note>Line: 35</note>
       </trans-unit>
     </body>
   </file>
   <file original="views/templates/block/postUpdateChecklistBlock.html.twig" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="91aac5a444c7ad75c9adad01b3253de8">
+      <trans-unit id="91aac5a444c7ad75c9adad01b3253de8" approved="yes">
         <source>Your store is up to date</source>
-        <target state="needs-translation">Your store is up to date</target>
+        <target state="final">Váš systém je aktuální</target>
         <note>Line: 6</note>
       </trans-unit>
-      <trans-unit id="5baecf2062722759d19e978cc8ceaaa4">
+      <trans-unit id="5baecf2062722759d19e978cc8ceaaa4" approved="yes">
         <source>Before continuing with your tasks, please review the following checklist to ensure smooth operation after recent updates</source>
-        <target state="needs-translation">Before continuing with your tasks, please review the following checklist to ensure smooth operation after recent updates</target>
+        <target state="final">Než budete pokračovat ve svých povinnostech, přečtěte si prosím následující kontrolní seznam, abyste měli jistotu, že vše poběží hladce</target>
         <note>Line: 8</note>
       </trans-unit>
-      <trans-unit id="5bcbabb0f8d2cfc79ac25e7974624058">
+      <trans-unit id="5bcbabb0f8d2cfc79ac25e7974624058" approved="yes">
         <source>Re-enable and check your modules one by one.</source>
-        <target state="needs-translation">Re-enable and check your modules one by one.</target>
+        <target state="final">Znovu povolte a zkontrolujte své moduly jeden po druhém.</target>
         <note>Line: 26</note>
       </trans-unit>
-      <trans-unit id="d2476bfa5f9cc15b02cbbe785fcb81b0">
+      <trans-unit id="d2476bfa5f9cc15b02cbbe785fcb81b0" approved="yes">
         <source>Make sure your store's front office is working properly: try to create an account, place an order, add a product, etc.</source>
-        <target state="needs-translation">Make sure your store's front office is working properly: try to create an account, place an order, add a product, etc.</target>
+        <target state="final">Ujistěte se, že front office vašeho obchodu funguje správně: zkuste si vytvořit účet, zadat objednávku, přidat produkt atd.</target>
         <note>Line: 27</note>
       </trans-unit>
-      <trans-unit id="605f8e6688fdd2a7616a3614d741202d">
+      <trans-unit id="605f8e6688fdd2a7616a3614d741202d" approved="yes">
         <source><![CDATA[If some images don't appear in the front office, try regenerating thumbnails in Preferences > Images.]]></source>
-        <target state="needs-translation"><![CDATA[If some images don't appear in the front office, try regenerating thumbnails in Preferences > Images.]]></target>
+        <target state="final"><![CDATA[Pokud se některé obrázky nezobrazují správně, zkuste přegenerovat miniatury v sekci Vzhled > Nastavení obrázků.]]></target>
         <note>Line: 37</note>
       </trans-unit>
-      <trans-unit id="b6e8290a312769f4d3919f3dd42a21a7">
+      <trans-unit id="b6e8290a312769f4d3919f3dd42a21a7" approved="yes">
         <source>If something's wrong, you can restore a backup with this module. Your backup is available at {admin}/autoupgrade/backup.</source>
-        <target state="needs-translation">If something's wrong, you can restore a backup with this module. Your backup is available at {admin}/autoupgrade/backup.</target>
+        <target state="final">Pokud se něco pokazí, můžete pomocí tohoto modulu obnovit zálohu. Záloha je k dispozici ve složce {admin}/autoupgrade/backup.</target>
         <note>Line: 39</note>
       </trans-unit>
-      <trans-unit id="3cdf2387430d70296aec1dbe3d6772ad">
+      <trans-unit id="3cdf2387430d70296aec1dbe3d6772ad" approved="yes">
         <source>If you can't access your back office, try enabling the debug mode manually in config/defines.inc.php by setting _PS_MODE_DEV_ to true.</source>
-        <target state="needs-translation">If you can't access your back office, try enabling the debug mode manually in config/defines.inc.php by setting _PS_MODE_DEV_ to true.</target>
+        <target state="final">Pokud nebudete mít přístup do administrace, zkuste ručně povolit režim ladění v souboru config/defines.inc.php nastavením _PS_MODE_DEV_ na hodnotu true.</target>
         <note>Line: 41</note>
       </trans-unit>
     </body>
