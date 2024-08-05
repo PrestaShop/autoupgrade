@@ -8,7 +8,6 @@ services:
       - mysql
     environment:
       - PS_DEV_MODE=1
-      - PS_INSTALL_AUTO:${PS_INSTALL_AUTO:-1}
       - PS_DOMAIN=localhost
       - PS_LANGUAGE=en
       - PS_COUNTRY=fr
@@ -55,7 +54,7 @@ services:
       - MYSQL_PORT=3306
       - MYSQL_DATABASE=prestashop
     ports:
-      - "3306"
+      - "3306:3306"
 
   maildev:
     image: 'maildev/maildev'
