@@ -1622,15 +1622,15 @@ Comment: check DB access</note>
   </file>
   <file original="classes/Workspace.php" source-language="en" target-language="pt-PT" datatype="plaintext">
     <body>
-      <trans-unit id="6215d33db0d099fcaae168dd4715135a">
-        <source>Unable to write in the directory "%s"</source>
-        <target state="needs-translation">Unable to write in the directory "%s"</target>
-        <note>Line: 67</note>
-      </trans-unit>
       <trans-unit id="da7732ee7365d4fe5b24788b687b0c04" approved="yes">
         <source>Unable to create directory %s</source>
         <target state="final">Não foi possível criar a pasta %s</target>
-        <note>Line: 64</note>
+        <note>Line: 58</note>
+      </trans-unit>
+      <trans-unit id="8dd96e697f4c74182122bacf75fa32f4">
+        <source>Cannot write to the directory. Please ensure you have the necessary write permissions on "%s".</source>
+        <target state="needs-translation">Cannot write to the directory. Please ensure you have the necessary write permissions on "%s".</target>
+        <note>Line: 61</note>
       </trans-unit>
     </body>
   </file>
@@ -1694,6 +1694,11 @@ Comment: check DB access</note>
         <source>Unable to create the directory "%s"</source>
         <target state="final">Não foi possível criar a pasta "%s"</target>
         <note>Line: 180</note>
+      </trans-unit>
+      <trans-unit id="6215d33db0d099fcaae168dd4715135a">
+        <source>Unable to write in the directory "%s"</source>
+        <target state="needs-translation">Unable to write in the directory "%s"</target>
+        <note>Line: 148</note>
       </trans-unit>
       <trans-unit id="92a5801448b25f111961462b0b31995d" approved="yes">
         <source>Unable to create file %s</source>
