@@ -40,10 +40,13 @@ use Symfony\Component\Console\Helper\Table;
 
 class CheckRequirementsCommand extends Command
 {
+    /**
+     * @var $defaultName string
+     */
     protected static $defaultName = 'upgrade:check-requirements';
     const MODULE_CONFIG_DIR = 'autoupgrade';
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Check all prerequisites for an upgrade.')
@@ -84,13 +87,13 @@ class CheckRequirementsCommand extends Command
             $output->writeln('<warning>⚠</warning> Your current version of the module is out of date.');
         }
 
-        $results = $this->getRequirementsResult($selfCheck);
+        $requirements = $this->getFailedRequirementsList($selfCheck);
 
         if (!$selfCheck->isOkForUpgrade()) {
             $table = new Table($output);
             $table
                 ->setHeaders(['Requirements', 'Result'])
-                ->setRows($results);
+                ->setRows($requirements);
             $table->render();
 
             return ExitCode::FAIL;
@@ -102,20 +105,16 @@ class CheckRequirementsCommand extends Command
     }
 
     /**
-     * @return array<array<string, string>>
+     * @return array<array<int, string>>
      */
-    protected function getRequirementsResult(UpgradeSelfCheck $selfCheck): array
+    protected function getFailedRequirementsList(UpgradeSelfCheck $selfCheck): array
     {
         $requirements = [
+            'isRootDirectoryWritable' => $selfCheck->isRootDirectoryWritable(),
+            'isSafeModeDisabled' => $selfCheck->isSafeModeDisabled(),
+            'isFOpenOrCurlEnabled' => $selfCheck->isFOpenOrCurlEnabled(),
+            'isZipEnabled' => $selfCheck->isZipEnabled(),
             'isShopVersionMatchingVersionInDatabase' => $selfCheck->isShopVersionMatchingVersionInDatabase(),
-            'rootDirectoryIsWritable' => $selfCheck->isRootDirectoryWritable(),
-            'adminDirectoryIsWritable' => $selfCheck->isAdminAutoUpgradeDirectoryWritable(),
-            'adminDirectoryWritableReport' => $selfCheck->getAdminAutoUpgradeDirectoryWritableReport(),
-            'safeModeIsDisabled' => $selfCheck->isSafeModeDisabled(),
-            'allowUrlFopenOrCurlIsEnabled' => $selfCheck->isFOpenOrCurlEnabled(),
-            'zipIsEnabled' => $selfCheck->isZipEnabled(),
-            'storeIsInMaintenance' => $selfCheck->isShopDeactivated(),
-            'isLocalEnvironment' => $selfCheck->isLocalEnvironment(),
             'cachingIsDisabled' => $selfCheck->isCacheDisabled(),
             'maxExecutionTime' => $selfCheck->getMaxExecutionTime(),
             'checkApacheModRewrite' => $selfCheck->isApacheModRewriteEnabled(),
@@ -138,13 +137,27 @@ class CheckRequirementsCommand extends Command
         }
 
         $phpRequirementsState = $selfCheck->getPhpRequirementsState();
-
         if ($phpRequirementsState != UpgradeSelfCheck::PHP_REQUIREMENTS_VALID) {
             if ($phpRequirementsState == UpgradeSelfCheck::PHP_REQUIREMENTS_INVALID) {
-                $results[] = ['phpRequirementsState', '<error>✘</error>'];
+                $phpCompatibilityRange = $selfCheck->getPhpCompatibilityRange();
+                $results[] = [sprintf(
+                    'phpCompatibilityRange. (Expected: %s - %s | Current: %s)',
+                    $phpCompatibilityRange['php_min_version'],
+                    $phpCompatibilityRange['php_max_version'],
+                    $phpCompatibilityRange['php_current_version']
+                ) , '<error>✘</error>'];
             } else {
-                $results[] = ['phpRequirementsState', '<warning>⚠</warning>'];
+                $results[] = ['We were unable to check your PHP compatibility with the destination PrestaShop version.', '<warning>⚠</warning>'];
             }
+        }
+
+        $isAdminAutoUpgradeDirectoryWritable = $selfCheck->isAdminAutoUpgradeDirectoryWritable();
+        if ($isAdminAutoUpgradeDirectoryWritable) {
+            $results[] = ['isAdminAutoUpgradeDirectoryWritable', '<error>✘</error> ' . $selfCheck->getAdminAutoUpgradeDirectoryWritableReport()];
+        }
+
+        if (!$selfCheck->isLocalEnvironment() && !$selfCheck->isShopDeactivated()) {
+            $results[] = ['maintenanceMode', '<error>✘</error> ' . $selfCheck->getAdminAutoUpgradeDirectoryWritableReport()];
         }
 
         return $results;
