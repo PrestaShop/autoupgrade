@@ -4,42 +4,6 @@
       "comment": "1.7.0 ~ minor PHP 7.1"
     },
     {
-      "PS_VERSION_START": "1.7.0.0",
-      "PS_VERSION_END": "1.7.8.11",
-      "UPGRADE_CHANNEL": "minor",
-      "PHP_VERSION": "7.1"
-    },
-    {
-      "PS_VERSION_START": "1.7.0.1",
-      "PS_VERSION_END": "1.7.8.11",
-      "UPGRADE_CHANNEL": "minor",
-      "PHP_VERSION": "7.1"
-    },
-    {
-      "PS_VERSION_START": "1.7.0.2",
-      "PS_VERSION_END": "1.7.8.11",
-      "UPGRADE_CHANNEL": "minor",
-      "PHP_VERSION": "7.1"
-    },
-    {
-      "PS_VERSION_START": "1.7.0.3",
-      "PS_VERSION_END": "1.7.8.11",
-      "UPGRADE_CHANNEL": "minor",
-      "PHP_VERSION": "7.1"
-    },
-    {
-      "PS_VERSION_START": "1.7.0.4",
-      "PS_VERSION_END": "1.7.8.11",
-      "UPGRADE_CHANNEL": "minor",
-      "PHP_VERSION": "7.1"
-    },
-    {
-      "PS_VERSION_START": "1.7.0.5",
-      "PS_VERSION_END": "1.7.8.11",
-      "UPGRADE_CHANNEL": "minor",
-      "PHP_VERSION": "7.1"
-    },
-    {
       "PS_VERSION_START": "1.7.0.6",
       "PS_VERSION_END": "1.7.8.11",
       "UPGRADE_CHANNEL": "minor",
