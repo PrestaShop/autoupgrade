@@ -27,16 +27,11 @@
 
 namespace PrestaShop\Module\AutoUpgrade;
 
-use PrestaShop\Module\AutoUpgrade\Log\LoggerInterface;
+use Exception;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 
 class Workspace
 {
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
-
     /**
      * @var Translator
      */
@@ -50,9 +45,8 @@ class Workspace
     /**
      * @param string[] $paths
      */
-    public function __construct(LoggerInterface $logger, Translator $translator, array $paths)
+    public function __construct(Translator $translator, array $paths)
     {
-        $this->logger = $logger;
         $this->translator = $translator;
         $this->paths = $paths;
     }
@@ -60,11 +54,11 @@ class Workspace
     public function createFolders(): void
     {
         foreach ($this->paths as $path) {
-            if (!file_exists($path) && !mkdir($path)) {
-                $this->logger->error($this->translator->trans('Unable to create directory %s', [$path]));
+            if (!file_exists($path) && !@mkdir($path)) {
+                throw new Exception($this->translator->trans('Unable to create directory %s', [$path]));
             }
             if (!is_writable($path)) {
-                $this->logger->error($this->translator->trans('Unable to write in the directory "%s"', [$path]));
+                throw new Exception($this->translator->trans('Cannot write to the directory. Please ensure you have the necessary write permissions on "%s".', [$path]));
             }
         }
     }
