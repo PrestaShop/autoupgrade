@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="classes/Task/AbstractTask.php" source-language="en" target-language="fr" datatype="plaintext">
+    <body>
+      <trans-unit id="435d516735dbf7f622c7d14585f66840" approved="yes">
+        <source>Action %s skipped</source>
+        <target state="final">L'action %s a été ignorée</target>
+        <note>Line: 143</note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

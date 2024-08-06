@@ -6,6 +6,12 @@ services:
         autowire: true
         autoconfigure: true
 
+    PrestaShop\Module\AutoUpgrade\:
+        resource: '../../classes'
+        exclude: '../../classes/**/index.php'
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/'
         exclude:
@@ -13,3 +19,21 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    App\EventListener\LocaleListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: 50 }
+
+    PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator:
+        factory: ['App\Translation\TranslatorFactory', 'createTranslator']
+        arguments:
+            - '%kernel.project_dir%/../translations/'
+            - '@request_stack'
+
+    twig.extension.trans:
+        class: Symfony\Bridge\Twig\Extension\TranslationExtension
+        arguments: ['@App\Translation\TranslatorBridge']
+        tags:
+            - { name: twig.extension }
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones

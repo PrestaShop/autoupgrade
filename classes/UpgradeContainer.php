@@ -506,7 +506,16 @@ class UpgradeContainer
 
     public function getTranslator(): Translator
     {
-        return new Translator();
+        $locale = null;
+        // @phpstan-ignore booleanAnd.rightAlwaysTrue (If PrestaShop core is not instantiated properly, do not try to translate)
+        if (method_exists('\Context', 'getContext') && \Context::getContext()->language) {
+            $locale = \Context::getContext()->language->iso_code;
+        }
+
+        return new Translator(
+            $this->getProperty(self::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . 'autoupgrade' . DIRECTORY_SEPARATOR . 'translations' . DIRECTORY_SEPARATOR,
+            $locale
+        );
     }
 
     /**

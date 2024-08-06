@@ -50,6 +50,24 @@ const preview: Preview = {
         })),
       },
     },
+    _locale: {
+      description: 'Internationalization locale',
+      defaultValue: 'en',
+      toolbar: {
+        icon: 'globe',
+        items: TRANSLATION_LOCALES.map((languageLocale) => ({
+          value: languageLocale,
+          title: new Intl.DisplayNames(
+              [navigator.language || 'en'],
+              {type: 'language'},
+            ).of(languageLocale),
+          right: String.fromCodePoint(...({'en': 'gb', 'cs': 'cz'}[languageLocale] || languageLocale)
+            .toUpperCase()
+            .split('')
+            .map(char =>  127397 + char.charCodeAt())),
+        })),
+      },
+    },
   },
   decorators: [
     (story, context) => {

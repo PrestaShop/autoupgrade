@@ -31,12 +31,22 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
  */
 class TranslatorTest extends TestCase
 {
-    protected $translator;
-
-    protected function setUp()
+    public function testTranslationInFrench()
     {
-        parent::setUp();
-        $this->translator = new Translator();
+        $translator = new Translator(
+            __DIR__ . '/../../../fixtures/',
+            'fr'
+        );
+
+        $source = 'Action %s skipped';
+        $parameters = ['Wololo'];
+
+        $expected = 'L\'action Wololo a été ignorée';
+
+        $this->assertSame(
+            $expected,
+            $translator->trans($source, $parameters)
+        );
     }
 
     /**
@@ -44,7 +54,11 @@ class TranslatorTest extends TestCase
      */
     public function testTranslationWithoutParams($origin, $parameters, $expected)
     {
-        $this->assertSame($expected, $this->translator->applyParameters($origin, $parameters));
+        $translator = new Translator(
+            __DIR__ . '/../../../../translations/',
+            'en'
+        );
+        $this->assertSame($expected, $translator->applyParameters($origin, $parameters));
     }
 
     public function translationsTestCaseProvider()

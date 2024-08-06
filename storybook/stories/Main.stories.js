@@ -38,6 +38,7 @@ export const Default = {
     translationDomain: "Modules.Autoupgrade.Admin",
     jsParams: "tata",
     backupOptions: "",
+    PS_AUTOUP_BACKUP: true,
     upgradeOptions: "",
     currentIndex: "index.php?controller=AdminSelfUpgrade",
     token: "64e10c9ef64f54c44d510fe41bcf4328",
