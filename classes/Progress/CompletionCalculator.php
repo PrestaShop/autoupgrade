@@ -94,7 +94,7 @@ class CompletionCalculator
             throw new InvalidArgumentException($taskName . ' has no percentage. Make sure to send an upgrade, backup or restore task.');
         }
 
-        $withoutBackup = !$this->upgradeConfiguration->shouldBackupFiles();
+        $withoutBackup = !$this->upgradeConfiguration->shouldBackupFilesAndDatabase();
 
         if ($withoutBackup && isset($percentages[$taskName]['baseWithoutBackup'])) {
             return $percentages[$taskName]['baseWithoutBackup'];

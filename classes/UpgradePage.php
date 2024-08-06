@@ -275,7 +275,7 @@ class UpgradePage
         return [
             'psBaseUri' => __PS_BASE_URI__,
             '_PS_MODE_DEV_' => (defined('_PS_MODE_DEV_') && true == _PS_MODE_DEV_),
-            'PS_AUTOUP_BACKUP' => (bool) $this->config->get('PS_AUTOUP_BACKUP'),
+            'PS_AUTOUP_BACKUP' => $this->config->shouldBackupFilesAndDatabase(),
             'adminDir' => $adminDir,
             'adminUrl' => __PS_BASE_URI__ . $adminDir,
             'token' => $this->token,

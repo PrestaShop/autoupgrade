@@ -28,10 +28,10 @@
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader;
 
 use Cache;
-use Configuration;
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\Log\LoggerInterface;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\ThemeAdapter;
 use PrestaShop\PrestaShop\Core\CommandBus\CommandBusInterface;
@@ -141,7 +141,7 @@ abstract class CoreUpgrader
         $this->logger->info($this->container->getTranslator()->trans('Cleaning XML files'));
         $this->cleanXmlFiles();
 
-        if (Configuration::get('PS_DISABLE_OVERRIDES')) {
+        if (UpgradeConfiguration::isOverrideAllowed()) {
             $this->logger->info($this->container->getTranslator()->trans('Disabling overrides'));
             $this->disableOverrides();
         } else {

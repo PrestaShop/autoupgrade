@@ -70,7 +70,6 @@ class UpgradeContainer
     const ARCHIVE_FILENAME = 'destDownloadFilename';
     const ARCHIVE_FILEPATH = 'destDownloadFilepath';
     const PS_VERSION = 'version';
-    const DB_CONFIG_KEYS = ['PS_DISABLE_OVERRIDES'];
 
     /**
      * @var Analytics
@@ -248,8 +247,7 @@ class UpgradeContainer
                 'ps_version' => $this->getProperty(self::PS_VERSION),
                 'php_version' => PHP_VERSION_ID,
                 'autoupgrade_version' => $this->getPrestaShopConfiguration()->getModuleVersion(),
-                // TODO: Improve this part by having a safe getter
-                'disable_all_overrides' => class_exists('\Configuration', false) ? \Configuration::get('PS_DISABLE_OVERRIDES') : null,
+                'disable_all_overrides' => class_exists('\Configuration', false) ? UpgradeConfiguration::isOverrideAllowed() : null,
             ],
         ]);
     }

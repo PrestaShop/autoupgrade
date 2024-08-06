@@ -381,55 +381,12 @@ class AdminSelfUpgradeController extends ModuleAdminController
 
         $this->_setFields();
 
-        if (Tools14::isSubmit('putUnderMaintenance')) {
-            foreach (Shop::getCompleteListOfShopsID() as $id_shop) {
-                Configuration::updateValue('PS_SHOP_ENABLE', 0, false, null, (int) $id_shop);
-            }
-            Configuration::updateGlobalValue('PS_SHOP_ENABLE', 0);
-        }
-
         if (Tools14::isSubmit('customSubmitAutoUpgrade')) {
-            $config_keys = array_keys(array_merge($this->_fieldsUpgradeOptions, $this->_fieldsBackupOptions));
-            $config = [];
-            foreach ($config_keys as $key) {
-                if (isset($_POST[$key])) {
-                    $config[$key] = $_POST[$key];
-                }
-            }
-            $UpConfig = $this->upgradeContainer->getUpgradeConfiguration();
-            $UpConfig->merge($config);
-
-            $upConfigValues = $this->extractFieldsToBeSavedInDB($UpConfig);
-            $this->processDatabaseConfigurationFields($upConfigValues['dbConfig']);
-
-            if ($this->upgradeContainer->getUpgradeConfigurationStorage()->save(
-                $upConfigValues['fileConfig'],
-                UpgradeFileNames::CONFIG_FILENAME)
-            ) {
-                Tools14::redirectAdmin(self::$currentIndex . '&conf=6&token=' . Tools14::getValue('token'));
-            }
+            $this->handleCustomSubmitAutoUpgradeForm();
         }
 
         if (Tools14::isSubmit('deletebackup')) {
-            $res = false;
-            $name = Tools14::getValue('name');
-            $filelist = scandir($this->backupPath);
-            foreach ($filelist as $filename) {
-                // the following will match file or dir related to the selected backup
-                if (!empty($filename) && $filename[0] != '.' && $filename != 'index.php' && $filename != '.htaccess'
-                    && preg_match('#^(auto-backupfiles_|)' . preg_quote($name) . '(\.zip|)$#', $filename)) {
-                    if (is_file($this->backupPath . DIRECTORY_SEPARATOR . $filename)) {
-                        $res &= unlink($this->backupPath . DIRECTORY_SEPARATOR . $filename);
-                    } elseif (!empty($name) && is_dir($this->backupPath . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR)) {
-                        $res = FilesystemAdapter::deleteDirectory($this->backupPath . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR);
-                    }
-                }
-            }
-            if ($res) {
-                Tools14::redirectAdmin(self::$currentIndex . '&conf=1&token=' . Tools14::getValue('token'));
-            } else {
-                $this->_errors[] = $this->trans('Error when trying to delete backups %s', [$name]);
-            }
+            $this->handleDeletebackupForm();
         }
         parent::postProcess();
 
@@ -437,39 +394,60 @@ class AdminSelfUpgradeController extends ModuleAdminController
     }
 
     /**
-     * @return array{'fileConfig': UpgradeConfiguration, 'dbConfig': array<string, string>}
+     * @return void
      */
-    private function extractFieldsToBeSavedInDB(UpgradeConfiguration $fileConfig)
+    private function handleDeletebackupForm()
     {
-        $DBConfig = [];
-
-        foreach ($fileConfig as $key => $value) {
-            if (in_array($key, UpgradeContainer::DB_CONFIG_KEYS)) {
-                $DBConfig[$key] = $value;
-                unset($fileConfig[$key]);
+        $res = false;
+        $name = Tools14::getValue('name');
+        $filelist = scandir($this->backupPath);
+        foreach ($filelist as $filename) {
+            // the following will match file or dir related to the selected backup
+            if (!empty($filename) && $filename[0] != '.' && $filename != 'index.php' && $filename != '.htaccess'
+                && preg_match('#^(auto-backupfiles_|)' . preg_quote($name) . '(\.zip|)$#', $filename)) {
+                if (is_file($this->backupPath . DIRECTORY_SEPARATOR . $filename)) {
+                    $res &= unlink($this->backupPath . DIRECTORY_SEPARATOR . $filename);
+                } elseif (!empty($name) && is_dir($this->backupPath . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR)) {
+                    $res = FilesystemAdapter::deleteDirectory($this->backupPath . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR);
+                }
             }
         }
-
-        return [
-            'fileConfig' => $fileConfig,
-            'dbConfig' => $DBConfig,
-        ];
+        if ($res) {
+            Tools14::redirectAdmin(self::$currentIndex . '&conf=1&token=' . Tools14::getValue('token'));
+        } else {
+            $this->_errors[] = $this->trans('Error when trying to delete backups %s', [$name]);
+        }
     }
 
     /**
-     * Process configuration values to be stored in database
-     *
-     * @param array<string, string> $config
-     *
      * @return void
+     *
+     * @throws Exception
      */
-    private function processDatabaseConfigurationFields(array $config)
+    private function handleCustomSubmitAutoUpgradeForm()
     {
-        if (isset($config['PS_DISABLE_OVERRIDES'])) {
-            foreach (Shop::getCompleteListOfShopsID() as $id_shop) {
-                Configuration::updateValue('PS_DISABLE_OVERRIDES', $config['PS_DISABLE_OVERRIDES'], false, null, (int) $id_shop);
+        $config_keys = array_keys(array_merge($this->_fieldsUpgradeOptions, $this->_fieldsBackupOptions));
+        $config = [];
+        foreach ($config_keys as $key) {
+            if (!isset($_POST[$key])) {
+                continue;
             }
-            Configuration::updateGlobalValue('PS_DISABLE_OVERRIDES', $config['PS_DISABLE_OVERRIDES']);
+            // The PS_DISABLE_OVERRIDES variable must only be updated on the database side
+            if ($key === 'PS_DISABLE_OVERRIDES') {
+                UpgradeConfiguration::updatePSDisableOverrides((bool) $config[$key]);
+            } else {
+                $config[$key] = $_POST[$key];
+            }
+        }
+
+        $UpConfig = $this->upgradeContainer->getUpgradeConfiguration();
+        $UpConfig->merge($config);
+
+        if ($this->upgradeContainer->getUpgradeConfigurationStorage()->save(
+            $UpConfig,
+            UpgradeFileNames::CONFIG_FILENAME)
+        ) {
+            Tools14::redirectAdmin(self::$currentIndex . '&conf=6&token=' . Tools14::getValue('token'));
         }
     }
 
@@ -501,27 +479,10 @@ class AdminSelfUpgradeController extends ModuleAdminController
             return parent::initContent();
         }
 
-        // Make sure the user has configured the upgrade options, or set default values
-        $configuration_keys = [
-            'PS_AUTOUP_UPDATE_DEFAULT_THEME' => 1,
-            'PS_AUTOUP_CHANGE_DEFAULT_THEME' => 0,
-            'PS_AUTOUP_UPDATE_RTL_FILES' => 1,
-            'PS_AUTOUP_KEEP_MAILS' => 0,
-            'PS_AUTOUP_CUSTOM_MOD_DESACT' => 1,
-            'PS_DISABLE_OVERRIDES' => Configuration::get('PS_DISABLE_OVERRIDES'),
-            'PS_AUTOUP_PERFORMANCE' => 1,
-        ];
-
-        foreach ($configuration_keys as $k => $default_value) {
-            if (Configuration::get($k) == '') {
-                Configuration::updateValue($k, $default_value);
-            }
-        }
-
         // update backup name
         $backupFinder = new BackupFinder($this->backupPath);
         $availableBackups = $backupFinder->getAvailableBackups();
-        if (!$this->upgradeContainer->getUpgradeConfiguration()->get('PS_AUTOUP_BACKUP')
+        if (!$this->upgradeContainer->getUpgradeConfiguration()->shouldBackupFilesAndDatabase()
             && !empty($availableBackups)
             && !in_array($this->upgradeContainer->getState()->getBackupName(), $availableBackups)
         ) {

@@ -29,6 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade\Task\Miscellaneous;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Exceptions\ZipActionException;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
@@ -131,11 +132,17 @@ class UpdateConfig extends AbstractTask
 
             $config['directory.version_num'] = $configurationData['directory_num'];
         }
-        if (isset($configurationData['skip_backup'])) {
-            $config['skip_backup'] = $configurationData['skip_backup'];
-        }
-        if (isset($configurationData['PS_AUTOUP_CHANGE_DEFAULT_THEME'])) {
-            $config['PS_AUTOUP_CHANGE_DEFAULT_THEME'] = $configurationData['PS_AUTOUP_CHANGE_DEFAULT_THEME'];
+
+        foreach (UpgradeConfiguration::UPGRADE_CONST_KEYS as $key) {
+            if (!isset($configurationData[$key])) {
+                continue;
+            }
+            // The PS_DISABLE_OVERRIDES variable must only be updated on the database side
+            if ($key === 'PS_DISABLE_OVERRIDES') {
+                UpgradeConfiguration::updatePSDisableOverrides((bool) $configurationData[$key]);
+            } else {
+                $config[$key] = $configurationData[$key];
+            }
         }
 
         if (!$this->writeConfig($config)) {
