@@ -50,11 +50,11 @@ Once started, you can access Storybook at: http://localhost:6006/
 
 ## Build and start environment with docker
 
-A Compose file is provided in the `storybook/` folder. It is responsible in installing the dependencies before running PHP and Storybook.
+A Docker Compose file is provided in the `storybook/` folder. It is responsible in installing the dependencies before running PHP and Storybook.
 To start Storybook via Docker, use the following command:
 
 ```shell
-$ cd storybook/
+# From the storybook/ folder
 $ THE_UID="$(id -u)" THE_GID="$(id -g)" docker compose up
 ```
 
