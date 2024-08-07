@@ -50,33 +50,15 @@ Once started, you can access Storybook at: http://localhost:6006/
 
 ## Build and start environment with docker
 
-### Install Project Dependencies with Docker
-
-**Install PHP Dependencies**
-
-Run the following command to install PHP dependencies via Docker:
+A Compose file is provided in the `storybook/` folder. It is responsible in installing the dependencies before running PHP and Storybook.
+To start Storybook via Docker, use the following command:
 
 ```shell
-$ docker run -u 1000:1000 --rm --interactive --tty -v "$PWD"/../:/app -w /app/storybook composer install
+$ cd storybook/
+$ THE_UID="$(id -u)" THE_GID="$(id -g)" docker compose up
 ```
 
-**Install Node dependencies**
-
-Run the following command to install Node.js dependencies via Docker:
-
-```shell
-$ docker compose run storybook-js npm install
-```
-
-### Start Docker environment
-
-**Start Symfony Server and Storybook**
-
-To start the Symfony server and Storybook via Docker, use the following command:
-
-```shell
-$ docker compose up
-```
+Providing user and group ids allows the files created during the build to be set with the proper permissions.
 
 Once started, you can access Storybook at: http://localhost:6006/
 

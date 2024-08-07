@@ -1,20 +1,41 @@
 services:
+  composer-root:
+    image: composer
+    command: install
+    user: "${THE_UID}:${THE_GID}"
+    volumes:
+      - ./../:/autoupgrade
+    working_dir: /autoupgrade
+
+  composer-storybook:
+    image: composer
+    command: install
+    user: "${THE_UID}:${THE_GID}"
+    volumes:
+      - ./../:/autoupgrade
+    working_dir: /autoupgrade/storybook
+
   storybook-php:
-    build:
-      context: .
-      dockerfile: ./.docker/Dockerfile
-    command: symfony server:start
+    image: prestashop/base:8.2-apache
+    command: php -S 0.0.0.0:8000 -t public/
+    user: "${THE_UID}:${THE_GID}"
     volumes:
       - ./../:/autoupgrade
     working_dir: /autoupgrade/storybook
     ports:
       - "8003:8000"
+    depends_on:
+      composer-root:
+        condition: service_completed_successfully
+      composer-storybook:
+        condition: service_completed_successfully
 
   storybook-js:
     build:
       context: .
       dockerfile: ./.docker/Dockerfile
-    command: npm run storybook
+    command: bash -c "npm install && npm run storybook"
+    user: "${THE_UID}:${THE_GID}"
     environment:
       IS_IN_DOCKER: true
     volumes:
