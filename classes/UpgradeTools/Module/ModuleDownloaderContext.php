@@ -31,48 +31,28 @@ use LogicException;
 class ModuleDownloaderContext
 {
     /** @var string */
-    private $zipFullPath;
-
-    /** @var string */
     private $moduleName;
 
-    /** @var int */
-    private $moduleId;
+    /** @var string */
+    private $referenceVersion;
 
-    /** @var bool */
-    private $moduleIsLocal = false;
+    /** @var ModuleSource[]|null */
+    private $updateSources;
 
-    /**
-     * @param array{id:string, name:string, is_local:true|null} $moduleInfos
-     */
-    public function __construct(string $zipFullPath, array $moduleInfos)
+    public function __construct(string $moduleName, string $referenceVersion)
     {
-        $this->zipFullPath = $zipFullPath;
-        $this->moduleName = $moduleInfos['name'];
-        $this->moduleId = (int) $moduleInfos['id'];
-        $this->moduleIsLocal = $moduleInfos['is_local'] ?? false;
-        $this->validate();
+        $this->moduleName = $moduleName;
+        $this->referenceVersion = $referenceVersion;
     }
 
     /**
      * @throws LogicException
      */
-    private function validate(): void
+    public function validate(): void
     {
-        if (empty($this->zipFullPath)) {
-            throw new LogicException('Path to zip file is invalid.');
+        if (empty($this->updateSources)) {
+            throw new LogicException('List of updates is invalid.');
         }
-        if (empty($this->moduleName)) {
-            throw new LogicException('Module name is invalid.');
-        }
-        if (empty($this->moduleId)) {
-            throw new LogicException('Module ID is invalid.');
-        }
-    }
-
-    public function getZipFullPath(): string
-    {
-        return $this->zipFullPath;
     }
 
     public function getModuleName(): string
@@ -80,13 +60,26 @@ class ModuleDownloaderContext
         return $this->moduleName;
     }
 
-    public function getModuleId(): int
+    public function getReferenceVersion(): string
     {
-        return $this->moduleId;
+        return $this->referenceVersion;
     }
 
-    public function getModuleIsLocal(): bool
+    /**
+     * @return ModuleSource[]
+     */
+    public function getUpdateSources(): array
     {
-        return $this->moduleIsLocal;
+        return $this->updateSources;
+    }
+
+    /**
+     * @param ModuleSource[] $moduleSources
+     */
+    public function setUpdateSources(array $moduleSources): self
+    {
+        $this->updateSources = $moduleSources;
+
+        return $this;
     }
 }
