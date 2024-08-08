@@ -1275,11 +1275,6 @@ Comment: End of upgrader</note>
   </file>
   <file original="classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php" source-language="en-US" target-language="en-US" datatype="plaintext">
     <body>
-      <trans-unit id="37ce0f29c7377c827e7247fe5645a782">
-        <source>You already have the %s version.</source>
-        <target>You already have the %s version.</target>
-        <note>Line: 283</note>
-      </trans-unit>
       <trans-unit id="badf6aad60d4a95b698028bc55aa3347">
         <source>Cleaning file cache</source>
         <target>Cleaning file cache</target>
@@ -1289,6 +1284,11 @@ Comment: End of upgrader</note>
         <source>Running opcache_reset</source>
         <target>Running opcache_reset</target>
         <note>Line: 813</note>
+      </trans-unit>
+      <trans-unit id="37ce0f29c7377c827e7247fe5645a782">
+        <source>You already have the %s version.</source>
+        <target>You already have the %s version.</target>
+        <note>Line: 283</note>
       </trans-unit>
       <trans-unit id="d90307511d557233464da663999f3151">
         <source>Initializing required environment constants</source>
@@ -1995,26 +1995,6 @@ Comment: check DB access</note>
   </file>
   <file original="views/templates/block/postRestoreChecklistBlock.html.twig" source-language="en-US" target-language="en-US" datatype="plaintext">
     <body>
-      <trans-unit id="4ba42d4d681d17d9bee2f6228c326069">
-        <source>Open developer documentation</source>
-        <target>Open developer documentation</target>
-        <note>Line: 15</note>
-      </trans-unit>
-      <trans-unit id="cce78dc6ebbec7385a01f2146d6d01c8">
-        <source>Next steps</source>
-        <target>Next steps</target>
-        <note>Line: 23</note>
-      </trans-unit>
-      <trans-unit id="79dc0855e9436fdc704a8f489d82f521">
-        <source><![CDATA[Disable the maintenance mode in General settings > Maintenance.]]></source>
-        <target><![CDATA[Disable the maintenance mode in General settings > Maintenance.]]></target>
-        <note>Line: 26</note>
-      </trans-unit>
-      <trans-unit id="231cf4c70d866b616c21baddaeed0696">
-        <source>Troubleshooting</source>
-        <target>Troubleshooting</target>
-        <note>Line: 32</note>
-      </trans-unit>
       <trans-unit id="ae4a0e3a1c9d80344cf29e3f909861b5">
         <source>Your restoration is complete</source>
         <target>Your restoration is complete</target>
@@ -2034,6 +2014,26 @@ Comment: check DB access</note>
   </file>
   <file original="views/templates/block/postUpdateChecklistBlock.html.twig" source-language="en-US" target-language="en-US" datatype="plaintext">
     <body>
+      <trans-unit id="4ba42d4d681d17d9bee2f6228c326069">
+        <source>Open developer documentation</source>
+        <target>Open developer documentation</target>
+        <note>Line: 15</note>
+      </trans-unit>
+      <trans-unit id="cce78dc6ebbec7385a01f2146d6d01c8">
+        <source>Next steps</source>
+        <target>Next steps</target>
+        <note>Line: 23</note>
+      </trans-unit>
+      <trans-unit id="79dc0855e9436fdc704a8f489d82f521">
+        <source><![CDATA[Disable the maintenance mode in General settings > Maintenance.]]></source>
+        <target><![CDATA[Disable the maintenance mode in General settings > Maintenance.]]></target>
+        <note>Line: 28</note>
+      </trans-unit>
+      <trans-unit id="231cf4c70d866b616c21baddaeed0696">
+        <source>Troubleshooting</source>
+        <target>Troubleshooting</target>
+        <note>Line: 34</note>
+      </trans-unit>
       <trans-unit id="91aac5a444c7ad75c9adad01b3253de8">
         <source>Your store is up to date</source>
         <target>Your store is up to date</target>
