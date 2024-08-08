@@ -24,67 +24,72 @@
  */
 
 Sentry.init({
-    dsn: "https://eae192966a8d79509154c65c317a7e5d@o298402.ingest.us.sentry.io/4507254110552064",
-    release: 'v' + input.autoupgrade.version,
-    beforeSend(event, hint) {
-        // Only the one we handle via the feedback modal must be sent.
-        if (!event.tags?.source || event.tags.source !== 'feedbackModal') {
-            return null;
-        }
-        event.request.url = maskSensitiveInfoInUrl(event.request.url, input.adminUrl);
+  dsn: "https://eae192966a8d79509154c65c317a7e5d@o298402.ingest.us.sentry.io/4507254110552064",
+  release: "v" + input.autoupgrade.version,
+  beforeSend(event, hint) {
+    // Only the one we handle via the feedback modal must be sent.
+    if (!event.tags?.source || event.tags.source !== "feedbackModal") {
+      return null;
+    }
+    event.request.url = maskSensitiveInfoInUrl(
+      event.request.url,
+      input.adminUrl,
+    );
 
-        hint.attachments = [
-            { filename: "log.txt", data: readLogPanel('quickInfo') },
-            { filename: "error.txt", data: readLogPanel('infoError') },
-        ];
+    hint.attachments = [
+      { filename: "log.txt", data: readLogPanel("quickInfo") },
+      { filename: "error.txt", data: readLogPanel("infoError") },
+    ];
 
-        return event;
-    },
+    return event;
+  },
 });
 
-document.getElementById("submitErrorReport").addEventListener("click", function () {
+document
+  .getElementById("submitErrorReport")
+  .addEventListener("click", function () {
     const errorsElements = document.getElementById("infoError");
     if (errorsElements) {
-        const childNodes = errorsElements.childNodes;
-        let messages = '';
-        childNodes.forEach((node) => {
-            if (node.nodeType === Node.TEXT_NODE) {
-                messages += node.textContent.trim() + '\n';
-            }
-        });
+      const childNodes = errorsElements.childNodes;
+      let messages = "";
+      childNodes.forEach((node) => {
+        if (node.nodeType === Node.TEXT_NODE) {
+          messages += node.textContent.trim() + "\n";
+        }
+      });
 
-        const url = maskSensitiveInfoInUrl(window.location.href, input.adminUrl);
+      const url = maskSensitiveInfoInUrl(window.location.href, input.adminUrl);
 
-        Sentry.setTag("url", url);
-        Sentry.setTag('source', 'feedbackModal');
+      Sentry.setTag("url", url);
+      Sentry.setTag("source", "feedbackModal");
 
-        const eventId = Sentry.captureMessage(messages, "error");
-        const userEmail = document.getElementById("userEmail");
-        const errorDescription = document.getElementById("errorDescription");
+      const eventId = Sentry.captureMessage(messages, "error");
+      const userEmail = document.getElementById("userEmail");
+      const errorDescription = document.getElementById("errorDescription");
 
-        Sentry.captureUserFeedback({
-            event_id: eventId,
-            email: userEmail.value,
-            comments: errorDescription.value,
-        });
+      Sentry.captureUserFeedback({
+        event_id: eventId,
+        email: userEmail.value,
+        comments: errorDescription.value,
+      });
 
-        // Clean-up
-        userEmail.value = "";
-        errorDescription.value = "";
-        Sentry.setTag('source', '');
+      // Clean-up
+      userEmail.value = "";
+      errorDescription.value = "";
+      Sentry.setTag("source", "");
 
-        $('#errorModal').modal('hide')
+      $("#errorModal").modal("hide");
     }
-});
+  });
 
 function maskSensitiveInfoInUrl(url, adminFolder) {
-    let regex = new RegExp(adminFolder, "g");
-    url = url.replace(regex, '/********');
+  let regex = new RegExp(adminFolder, "g");
+  url = url.replace(regex, "/********");
 
-    regex = new RegExp( "token=[^&]*", "i");
-    return url.replace(regex, 'token=********');
+  regex = new RegExp("token=[^&]*", "i");
+  return url.replace(regex, "token=********");
 }
 
 function readLogPanel(targetPanel) {
-    return document.getElementById(targetPanel).innerText;
+  return document.getElementById(targetPanel).innerText;
 }
