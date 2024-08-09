@@ -28,26 +28,16 @@
 namespace PrestaShop\Module\AutoUpgrade\Commands;
 
 use Exception;
-use PrestaShop\Module\AutoUpgrade\ErrorHandler;
-use PrestaShop\Module\AutoUpgrade\Log\CliLogger;
-use PrestaShop\Module\AutoUpgrade\Log\Logger;
-use PrestaShop\Module\AutoUpgrade\Log\StreamedLogger;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\Task\Miscellaneous\UpdateConfig;
 use PrestaShop\Module\AutoUpgrade\Task\Runner\AllUpgradeTasks;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class UpgradeCommand extends Command
+class UpgradeCommand extends AbstractCommand
 {
-    /**
-     * @var Logger
-     */
-    private $logger;
-
     /**
      * @var string
      */
@@ -74,49 +64,25 @@ class UpgradeCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
-        $this->logger = $output->isDecorated() ? new CliLogger($output) : new StreamedLogger();
-        if ($output->isQuiet()) {
-            $this->logger->setFilter(Logger::ERROR);
-        } elseif ($output->isVerbose()) {
-            $this->logger->setFilter(Logger::DEBUG);
-        } else {
-            $this->logger->setFilter(Logger::INFO);
-        }
-
-        $this->logger->debug('Starting the update process.');
-
         try {
-            $prodRootDir = _PS_ROOT_DIR_;
-            $this->logger->debug('Production root directory: ' . $prodRootDir);
-
-            $adminDir = $input->getOption('admin-dir');
-            $this->logger->debug('Admin directory: ' . $adminDir);
-            define('_PS_ADMIN_DIR_', _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . $adminDir);
-
-            $upgradeContainer = new UpgradeContainer($prodRootDir, $adminDir);
-            $this->logger->debug('Upgrade container initialized.');
-
-            $this->logger->debug('Logger initialized: ' . get_class($this->logger));
-
-            $upgradeContainer->setLogger($this->logger);
-            (new ErrorHandler($this->logger))->enable();
-            $this->logger->debug('Error handler enabled.');
+            $this->setupContainer($input, $output);
 
             $configPath = $input->getOption('config-file-path');
             if (!empty($configPath)) {
-                $exitCode = $this->loadConfiguration($configPath, $upgradeContainer);
+                $exitCode = $this->loadConfiguration($configPath, $this->upgradeContainer);
                 if ($exitCode !== ExitCode::SUCCESS) {
                     return $exitCode;
                 }
                 $this->logger->debug('Configuration loaded successfully.');
             }
 
-            $controller = new AllUpgradeTasks($upgradeContainer);
+            $this->logger->debug('Starting the update process.');
+            $controller = new AllUpgradeTasks($this->upgradeContainer);
             $controller->setOptions([
-            'data' => $input->getOption('data'),
-            'action' => $input->getOption('action'),
-            'channel' => $input->getOption('channel'),
-        ]);
+                'data' => $input->getOption('data'),
+                'action' => $input->getOption('action'),
+                'channel' => $input->getOption('channel'),
+            ]);
             $controller->init();
             $exitCode = $controller->run();
             $this->logger->debug('Controller run completed with exit code: ' . $exitCode);

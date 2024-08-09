@@ -26,6 +26,7 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
+use PrestaShop\Module\AutoUpgrade\Commands\RollbackCommand;
 use PrestaShop\Module\AutoUpgrade\Commands\UpgradeCommand;
 use Symfony\Component\Console\Application;
 
@@ -42,6 +43,7 @@ if (!defined('_PS_ROOT_DIR_')) {
 $application = new Application();
 
 $application->add(new UpgradeCommand());
+$application->add(new RollbackCommand());
 
 try {
     $application->run();
