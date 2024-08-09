@@ -12,7 +12,6 @@ parameters:
 		- ./../../autoupgrade.php
 		- ./../../cli-rollback.php
 		- ./../../cli-updateconfig.php
-		- ./../../cli-upgrade.php
 	excludePaths:
 		- ./../../classes/Tools14.php
 		- ./../../classes/pclzip.lib.php
