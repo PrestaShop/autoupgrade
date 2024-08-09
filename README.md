@@ -48,20 +48,28 @@ If you download a ZIP archive that contains the source code or if you want to us
 Upgrading a shop can be done using:
 
 * the configuration page of the module (browse the back office page provided by the module)
-* in command line by calling the file *cli-upgrade.php*
+* in command line by calling the Symfony Console
 
 ### Command line parameters
 
-Upgrade can be automated by calling *cli-upgrade.php*.
-The following parameters are mandatory:
+This module provide a powerful command-line interface based on Symfony Console, allowing you to execute various commands
+to manage your store. You can use this interface to perform updates, rollbacks, and check system requirements.
 
-* **--dir**: Tells where the admin directory is.
-* **--channel**: Selects what upgrade to run (minor, major etc.)
-* **--action**: Advanced users only. Sets the step you want to start from (Default: `UpgradeNow`, [other values available](classes/Task/Upgrade/)).
+To use the Symfony Console, simply run the following command from the root directory of autoupgrade module:
 
 ```
-$ php cli-upgrade.php --dir=admin-dev --channel=major
+$ php bin/console
 ```
+
+For instance, to start upgrading your store, you would use:
+
+```
+$ php bin/console upgrade:start --admin-dir=[your-admin-dir] --config-file-path=[/path/to/config.json] --chain
+```
+
+You can see all available parameters and options directly from the console by using the `--help` option with any command.
+
+For more information on using commands, please refer to the [PrestaShop developer documentation](https://devdocs.prestashop-project.org/8/basics/keeping-up-to-date/upgrade-module/upgrade-cli/)
 
 ## Rollback a shop
 

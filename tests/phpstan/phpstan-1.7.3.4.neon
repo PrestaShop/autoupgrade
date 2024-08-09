@@ -27,3 +27,5 @@ parameters:
 			identifier: booleanAnd.rightAlwaysTrue
 			path: ./../../classes/UpgradeSelfCheck.php
 			count: 1
+		- "#^Call to an undefined method Symfony\\\\Component\\\\Console\\\\Output\\\\OutputInterface\\:\\:isQuiet\\(\\)\\.$#"
+		- "#^Call to an undefined method Symfony\\\\Component\\\\Console\\\\Output\\\\OutputInterface\\:\\:isVerbose\\(\\)\\.$#"

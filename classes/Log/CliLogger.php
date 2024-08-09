@@ -28,12 +28,15 @@
 namespace PrestaShop\Module\AutoUpgrade\Log;
 
 use Exception;
+use Symfony\Component\Console\Formatter\OutputFormatterStyle;
+use Symfony\Component\Console\Output\ConsoleOutputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Basic logger for files, not allowing formatting.
+ * Logger for a command line interface, allowing formatting of logs
  * Messages can be seen as soon as they are created.
  */
-class StreamedLogger extends Logger
+class CliLogger extends Logger
 {
     /**
      * @var int Minimum criticity of level to display
@@ -41,12 +44,12 @@ class StreamedLogger extends Logger
     protected $filter = self::INFO;
 
     /**
-     * @var resource File handler of standard output
+     * @var OutputInterface Standard output
      */
     protected $out;
 
     /**
-     * @var resource File handler of standard error
+     * @var OutputInterface Error output
      */
     protected $err;
 
@@ -55,16 +58,17 @@ class StreamedLogger extends Logger
      */
     protected $lastInfo;
 
-    public function __construct()
+    public function __construct(OutputInterface $output)
     {
-        $this->out = fopen('php://stdout', 'w');
-        $this->err = fopen('php://stderr', 'w');
-    }
+        $warningStyle = new OutputFormatterStyle('yellow', null, []);
+        $errorStyle = new OutputFormatterStyle('red', null, []);
+        $criticalStyle = new OutputFormatterStyle('red', null, ['bold']);
+        $output->getFormatter()->setStyle('warning', $warningStyle);
+        $output->getFormatter()->setStyle('error', $errorStyle);
+        $output->getFormatter()->setStyle('critical', $criticalStyle);
 
-    public function __destruct()
-    {
-        fclose($this->out);
-        fclose($this->err);
+        $this->out = $output;
+        $this->err = $output instanceof ConsoleOutputInterface ? $output->getErrorOutput() : $output;
     }
 
     /**
@@ -79,6 +83,26 @@ class StreamedLogger extends Logger
         return $level < $this->filter;
     }
 
+    public function getFilter(): int
+    {
+        return $this->filter;
+    }
+
+    /**
+     * Set the verbosity of the logger.
+     *
+     * @throws Exception
+     */
+    public function setFilter(int $filter): CliLogger
+    {
+        if (!array_key_exists($filter, self::$levels)) {
+            throw new Exception('Unknown level ' . $filter);
+        }
+        $this->filter = $filter;
+
+        return $this;
+    }
+
     /**
      * {@inherit}.
      *
@@ -90,38 +114,34 @@ class StreamedLogger extends Logger
             return;
         }
 
-        $log = self::$levels[$level] . ' - ' . $message . PHP_EOL;
+        $log = $this->formatLog($level, $message);
 
         if ($level > self::ERROR) {
-            fwrite($this->err, $log);
+            $this->err->writeln($log);
         }
 
         if (!$this->isFiltered($level)) {
-            fwrite($this->out, $log);
+            $this->out->writeln($log);
             if ($level === self::INFO) {
                 $this->lastInfo = $log;
             }
         }
     }
 
-    public function getFilter(): int
+    private function formatLog(int $level, string $message): string
     {
-        return $this->filter;
-    }
-
-    /**
-     * Set the verbosity of the logger.
-     *
-     * @throws Exception
-     */
-    public function setFilter(int $filter): StreamedLogger
-    {
-        if (!array_key_exists($filter, self::$levels)) {
-            throw new Exception('Unknown level ' . $filter);
+        switch ($level) {
+            case self::WARNING:
+                return '<warning>' . self::$levels[$level] . ' - ' . $message . '</warning>';
+            case self::ERROR:
+                return '<error>' . self::$levels[$level] . ' - ' . $message . '</error>';
+            case self::CRITICAL:
+            case self::ALERT:
+            case self::EMERGENCY:
+             return '<critical>' . self::$levels[$level] . ' - ' . $message . '</critical>';
+            default:
+                return self::$levels[$level] . ' - ' . $message;
         }
-        $this->filter = $filter;
-
-        return $this;
     }
 
     /**
