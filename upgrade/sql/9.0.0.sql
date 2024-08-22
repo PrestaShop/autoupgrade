@@ -132,7 +132,7 @@ ALTER TABLE `PREFIX_stock_mvt` MODIFY `id_supply_order` INT(11) DEFAULT '0';
 
 DROP TABLE IF EXISTS `PREFIX_api_access`;
 DROP TABLE IF EXISTS `PREFIX_authorized_application`;
-CREATE TABLE `PREFIX_api_client`
+CREATE TABLE IF NOT EXISTS `PREFIX_api_client`
 (
      `id_api_client` int(10) unsigned NOT NULL AUTO_INCREMENT,
      `client_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -158,7 +158,7 @@ ALTER TABLE `PREFIX_image_type`
     DROP key `image_type_name`,
     ADD UNIQUE KEY `UNIQ_907C95215E237E06` (`name`);
 
-CREATE TABLE `PREFIX_mutation` (
+CREATE TABLE IF NOT EXISTS `PREFIX_mutation` (
    `id_mutation` int(10) unsigned NOT NULL AUTO_INCREMENT,
    `mutation_table` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
    `mutation_row_id` bigint(20) NOT NULL,

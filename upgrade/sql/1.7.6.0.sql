@@ -6,7 +6,7 @@ ALTER TABLE `PREFIX_currency` ADD `precision` int(2) NOT NULL DEFAULT 6 AFTER `n
 ALTER TABLE `PREFIX_currency` ADD KEY `currency_iso_code` (`iso_code`);
 
 /* Localized currency information */
-CREATE TABLE `PREFIX_currency_lang` (
+CREATE TABLE IF NOT EXISTS `PREFIX_currency_lang` (
     `id_currency` int(10) unsigned NOT NULL,
     `id_lang` int(10) unsigned NOT NULL,
     `name` varchar(255) NOT NULL,
