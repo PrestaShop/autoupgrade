@@ -12,11 +12,11 @@ INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VAL
 ;
 
 /* Add field MPN to tables and assign empty values */
-ALTER TABLE `PREFIX_order_detail` ADD `product_mpn` VARCHAR(40) NULL AFTER `product_upc`;
-ALTER TABLE `PREFIX_supply_order_detail` ADD `mpn` VARCHAR(40) NULL AFTER `upc`;
-ALTER TABLE `PREFIX_stock` ADD `mpn` VARCHAR(40) NULL AFTER `upc`;
-ALTER TABLE `PREFIX_product_attribute` ADD `mpn` VARCHAR(40) NULL AFTER `upc`;
-ALTER TABLE `PREFIX_product` ADD `mpn` VARCHAR(40) NULL AFTER `upc`;
+/* PHP:add_column('order_detail', 'product_mpn', 'VARCHAR(40) NULL AFTER `product_upc`'); */;
+/* PHP:add_column('supply_order_detail', 'mpn', 'VARCHAR(40) NULL AFTER `upc`'); */;
+/* PHP:add_column('stock', 'mpn', 'VARCHAR(40) NULL AFTER `upc`'); */;
+/* PHP:add_column('product_attribute', 'mpn', 'VARCHAR(40) NULL AFTER `upc`'); */;
+/* PHP:add_column('product', 'mpn', 'VARCHAR(40) NULL AFTER `upc`'); */;
 UPDATE `PREFIX_order_detail` SET `product_mpn` = '';
 UPDATE `PREFIX_supply_order_detail` SET `mpn` = '';
 UPDATE `PREFIX_stock` SET `mpn` = '';
@@ -61,9 +61,9 @@ ALTER TABLE PREFIX_product
     ADD INDEX supplier_reference_idx(supplier_reference);
 
 /* Add fields for currencies */
-ALTER TABLE `PREFIX_currency` ADD `unofficial` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' AFTER `active`;
-ALTER TABLE `PREFIX_currency` ADD `modified` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' AFTER `unofficial`;
-ALTER TABLE `PREFIX_currency_lang` ADD `pattern` varchar(255) DEFAULT NULL AFTER `symbol`;
+/* PHP:add_column('currency', 'unofficial', "TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' AFTER `active`"); */;
+/* PHP:add_column('currency', 'modified', "TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' AFTER `unofficial`"); */;
+/* PHP:add_column('currency_lang', 'pattern', 'varchar(255) DEFAULT NULL AFTER `symbol`'); */;
 
 /* Utf8mb4 conversion */
 ALTER TABLE `PREFIX_access` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
@@ -312,8 +312,8 @@ ALTER TABLE `PREFIX_connections` CHANGE `http_referer` `http_referer` varchar(25
 ALTER TABLE `PREFIX_product_download` CHANGE `display_filename` `display_filename` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL;
 
 /* Doctrine update happens too late to update the new enabled field, so we preset everything here */
-ALTER TABLE `PREFIX_tab` ADD enabled TINYINT(1) NOT NULL;
-ALTER TABLE `PREFIX_tab` ADD route_name VARCHAR(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL;
+/* PHP:add_column('tab', 'enabled', 'TINYINT(1) NOT NULL'); */;
+/* PHP:add_column('tab', 'route_name', 'VARCHAR(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL'); */;
 ALTER TABLE `PREFIX_tab` CHANGE class_name class_name VARCHAR(64) COLLATE utf8mb4_unicode_ci NOT NULL;
 
 /* PHP:ps_1770_preset_tab_enabled(); */;
@@ -356,8 +356,8 @@ INSERT IGNORE INTO `PREFIX_hook_alias` (`name`, `alias`) VALUES
 ;
 
 /* Add refund amount on order detail, and fill new columns via data in order_slip_detail table */
-ALTER TABLE `PREFIX_order_detail` ADD `total_refunded_tax_excl` DECIMAL(20, 6) NOT NULL DEFAULT '0.000000' AFTER `original_wholesale_price`;
-ALTER TABLE `PREFIX_order_detail` ADD `total_refunded_tax_incl` DECIMAL(20, 6) NOT NULL DEFAULT '0.000000' AFTER `total_refunded_tax_excl`;
+/* PHP:add_column('order_detail', 'total_refunded_tax_excl', "DECIMAL(20, 6) NOT NULL DEFAULT '0.000000' AFTER `original_wholesale_price`"); */;
+/* PHP:add_column('order_detail', 'total_refunded_tax_incl', "DECIMAL(20, 6) NOT NULL DEFAULT '0.000000' AFTER `total_refunded_tax_excl`"); */;
 
 ALTER TABLE `PREFIX_group_reduction` CHANGE `reduction` `reduction` DECIMAL(5, 4) NOT NULL;
 ALTER TABLE `PREFIX_product_group_reduction_cache` CHANGE `reduction` `reduction` DECIMAL(5, 4) NOT NULL;
@@ -402,7 +402,7 @@ ALTER TABLE `PREFIX_order_cart_rule` CHANGE `value` `value` DECIMAL(20, 6) NOT N
 ALTER TABLE `PREFIX_order_cart_rule` CHANGE `value_tax_excl` `value_tax_excl` DECIMAL(20, 6) NOT NULL DEFAULT '0.000000';
 
 /* add deleted field */
-ALTER TABLE `PREFIX_order_cart_rule` ADD `deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0';
+/* PHP:add_column('order_cart_rule', 'deleted', "TINYINT(1) UNSIGNED NOT NULL DEFAULT '0'"); */;
 
 UPDATE
     `PREFIX_order_detail` `od`

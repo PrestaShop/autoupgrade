@@ -83,7 +83,7 @@ ALTER TABLE `PREFIX_stock_mvt` CHANGE `physical_quantity` `physical_quantity` IN
 
 /* PHP:add_hook('actionAdminBreadcrumbModifier', 'Modify back office breadcrumb', 'This hook allows modifying back office breadcrumb'); */;
 
-ALTER TABLE `PREFIX_order_payment` ADD `id_employee` INT NULL AFTER `date_add`;
+/* PHP:add_column('order_payment', 'id_employee', 'INT NULL AFTER `date_add`'); */;
 
 CREATE TABLE IF NOT EXISTS `PREFIX_authorized_application`
 (
