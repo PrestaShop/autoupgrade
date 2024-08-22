@@ -184,7 +184,7 @@ UPDATE `PREFIX_employee_session` SET `date_add` = NOW(), `date_upd` = NOW();
 /* PHP:add_column('customer_session', 'date_add', 'DATETIME NOT NULL AFTER `date_upd`'); */;
 UPDATE `PREFIX_customer_session` SET `date_add` = NOW(), `date_upd` = NOW();
 
-ALTER TABLE `PREFIX_carrier` DROP COLUMN `id_tax_rules_group`;
+/* PHP:drop_column_if_exists('carrier', 'id_tax_rules_group'); */;
 
 /* PHP:add_column('category_lang', 'additional_description', 'text AFTER `description`'); */;
 
@@ -238,6 +238,7 @@ UPDATE `PREFIX_carrier` SET `name` = 'Click and collect' WHERE `name` = '0';
 /* PHP:drop_column_if_exists('product_attribute', 'quantity'); */;
 /* PHP:drop_column_if_exists('orders', 'shipping_number'); */;
 
-ALTER TABLE `PREFIX_tab` DROP hide_host_mode;
+/* PHP:drop_column_if_exists('tab', 'hide_host_mode'); */;
+
 ALTER TABLE `PREFIX_feature_flag` CHANGE label_wording label_wording VARCHAR(512) DEFAULT '' NOT NULL;
 ALTER TABLE `PREFIX_feature_flag` CHANGE description_wording description_wording VARCHAR(512) DEFAULT '' NOT NULL;

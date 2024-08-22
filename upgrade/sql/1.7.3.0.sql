@@ -32,8 +32,11 @@ CREATE TABLE IF NOT EXISTS `PREFIX_store_lang` (
 ) ENGINE=ENGINE_TYPE DEFAULT CHARSET=utf8;
 
 /* PHP:ps_1730_migrate_data_from_store_to_store_lang_and_clean_store(); */;
-
-ALTER TABLE `PREFIX_store` DROP `name`, DROP `address1`, DROP `address2`, DROP `hours`, DROP `note`;
+/* PHP:drop_column_if_exists('store', 'name'); */;
+/* PHP:drop_column_if_exists('store', 'address1'); */;
+/* PHP:drop_column_if_exists('store', 'address2'); */;
+/* PHP:drop_column_if_exists('store', 'hours'); */;
+/* PHP:drop_column_if_exists('store', 'note'); */;
 
 ALTER TABLE `PREFIX_feature_product` DROP PRIMARY KEY, ADD PRIMARY KEY (`id_feature`, `id_product`, `id_feature_value`);
 

@@ -20,7 +20,8 @@ INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`
   (NULL, 'displayContentWrapperBottom', 'Content wrapper section (bottom)', 'This hook displays new elements in the bottom of the content wrapper', '1')
 ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
 
-/* PHP:drop_column_from_product_lang_if_exists(); */;
+/* PHP:drop_column_if_exists('product_lang', 'social_sharing_title'); */;
+/* PHP:drop_column_if_exists('product_lang', 'social_sharing_description'); */;
 
 ALTER TABLE `PREFIX_product` CHANGE `isbn` `isbn` VARCHAR(32) NULL DEFAULT NULL;
 ALTER TABLE `PREFIX_order_detail` CHANGE `product_isbn` `product_isbn` VARCHAR(32) NULL DEFAULT NULL;
