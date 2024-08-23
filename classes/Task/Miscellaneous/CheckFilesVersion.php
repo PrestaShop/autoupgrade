@@ -57,7 +57,9 @@ class CheckFilesVersion extends AbstractTask
         }
 
         foreach (['core', 'translation', 'mail'] as $type) {
-            $changedFileList[$type] = [];
+            if (!isset($changedFileList[$type])) {
+                $changedFileList[$type] = [];
+            }
         }
 
         if ($checksumCompare->isAuthenticPrestashopVersion($currentPrestaShopVersion)) {
