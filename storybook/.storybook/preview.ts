@@ -26,6 +26,7 @@
 import { Preview, twig } from "@sensiolabs/storybook-symfony-webpack5";
 
 const cssEntrypoints = {
+  "9.0.0": ["/9.0.0/default/theme.css"],
   "1.7.8.0": ["/1.7.8.0/default/theme.css"],
   "1.7.3.0": ["/1.7.3.0/default/theme.css"],
 };
@@ -44,6 +45,7 @@ const preview: Preview = {
       toolbar: {
         icon: "paintbrush",
         default: defaultBoTheme,
+        dynamicTitle: true,
         items: availableBoThemes.map((prestashopVersion) => ({
           value: prestashopVersion,
           title: `PrestaShop ${prestashopVersion}`,
