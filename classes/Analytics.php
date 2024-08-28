@@ -97,7 +97,7 @@ class Analytics
         }
 
         \Segment::track(array_merge(
-            ['event' => $event],
+            ['event' => '[SUE] ' . $event],
             $this->getProperties($propertiesType)
         ));
         \Segment::flush();
