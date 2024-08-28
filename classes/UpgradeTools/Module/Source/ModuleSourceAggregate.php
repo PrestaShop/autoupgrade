@@ -5,13 +5,13 @@ namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleDownloaderContext;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\ModuleSourceProviderInterface;
 
-class ModuleSourceList
+class ModuleSourceAggregate
 {
     /** @var ModuleSourceProviderInterface[] */
     private $providers;
 
     /**
-     * @param ModuleSourceProviderInterface[] $sourceProviders
+     * @param ModuleSourceProviderInterface[] $sourceProviders Ordered by priority (first provider has top priority)
      */
     public function __construct(array $sourceProviders)
     {
@@ -32,7 +32,10 @@ class ModuleSourceList
                     $moduleContext->getReferenceVersion()
                 ));
         }
-        $moduleContext->setUpdateSources($this->orderSources($updateSources));
+
+        $moduleContext->setUpdateSources(
+            $this->orderSources($updateSources)
+        );
     }
 
     /**
@@ -44,8 +47,6 @@ class ModuleSourceList
     {
         usort($sources, function (ModuleSource $source1, ModuleSource $source2) {
             return version_compare($source2->getNewVersion(), $source1->getNewVersion());
-
-            // TODO: Add provider priority check when versions are the same
         });
 
         return $sources;
