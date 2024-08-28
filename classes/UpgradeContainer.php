@@ -245,7 +245,7 @@ class UpgradeContainer
             $this->getProperty(self::WORKSPACE_PATH), [
             'properties' => [
                 'ps_version' => $this->getProperty(self::PS_VERSION),
-                'php_version' => PHP_VERSION_ID,
+                'php_version' => VersionUtils::getHumanReadableVersionOf(PHP_VERSION_ID),
                 'autoupgrade_version' => $this->getPrestaShopConfiguration()->getModuleVersion(),
                 'disable_all_overrides' => class_exists('\Configuration', false) ? UpgradeConfiguration::isOverrideAllowed() : null,
             ],
