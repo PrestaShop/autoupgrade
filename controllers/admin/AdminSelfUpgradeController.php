@@ -440,7 +440,7 @@ class AdminSelfUpgradeController extends ModuleAdminController
             }
             // The PS_DISABLE_OVERRIDES variable must only be updated on the database side
             if ($key === 'PS_DISABLE_OVERRIDES') {
-                UpgradeConfiguration::updatePSDisableOverrides((bool) $config[$key]);
+                UpgradeConfiguration::updatePSDisableOverrides((bool) $_POST[$key]);
             } else {
                 $config[$key] = $_POST[$key];
             }
