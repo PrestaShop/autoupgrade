@@ -26,7 +26,11 @@ UPDATE `PREFIX_tab` SET `active` = 1 WHERE `class_name` = 'AdminAuthorizationSer
 INSERT INTO `PREFIX_feature_flag` (`name`, `type`, `label_wording`, `label_domain`, `description_wording`, `description_domain`, `state`, `stability`) VALUES
   ('authorization_server_multistore', 'env,dotenv,db', 'Authorization server - Multistore', 'Admin.Advparameters.Feature', 'Enable or disable the Authorization server when multistore is enabled.', 'Admin.Advparameters.Help', 0, 'beta'),
   ('symfony_layout', 'env,query,dotenv,db', 'Symfony layout', 'Admin.Advparameters.Feature', 'Enable / Disable symfony layout (in opposition to legacy layout).', 'Admin.Advparameters.Help', 1, 'beta'),
-  ('front_container_v2', 'env,dotenv,db', 'New front container', 'Admin.Advparameters.Feature', 'Enable / Disable the new front container.', 'Admin.Advparameters.Help', 0, 'beta');
+  ('front_container_v2', 'env,dotenv,db', 'New front container', 'Admin.Advparameters.Feature', 'Enable / Disable the new front container.', 'Admin.Advparameters.Help', 0, 'beta'),
+  ('customer_group', 'env,dotenv,db', 'Customer group', 'Admin.Advparameters.Feature', 'Enable / Disable the customer group page.', 'Admin.Advparameters.Help', 0, 'beta'),
+  ('store', 'env,dotenv,db', 'Store', 'Admin.Advparameters.Feature', 'Enable / Disable the store page.', 'Admin.Advparameters.Help', 0, 'beta'),
+  ('search_conf', 'env,dotenv,db', 'Search configuration', 'Admin.Advparameters.Feature', 'Enable / Disable the search configuration page.', 'Admin.Advparameters.Help', 0, 'beta'),
+  ('merchandise_return', 'env,dotenv,db', 'Merchandise return', 'Admin.Advparameters.Feature', 'Enable / Disable the merchandise return page.', 'Admin.Advparameters.Help', 0, 'beta');
 
 /* Remove old feature flags from 8.1.x */
 DELETE FROM `PREFIX_feature_flag` WHERE `name` IN ('product_page_v2', 'title', 'order_state', 'multiple_image_format');
