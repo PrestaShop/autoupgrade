@@ -4,6 +4,7 @@ vendor/
 /config_*.xml
 .php_cs.cache
 .idea
+.env
 
 ## QA Nightly
 /artifacts
