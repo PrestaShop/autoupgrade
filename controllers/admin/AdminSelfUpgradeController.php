@@ -518,7 +518,6 @@ class AdminSelfUpgradeController extends ModuleAdminController
             $this->adminDir,
             self::$currentIndex,
             $this->token,
-            $this->upgradeContainer->getState()->getInstallVersion(),
             $this->upgradeContainer->getState()->getBackupName(),
             $this->downloadPath
         ))->display(

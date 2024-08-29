@@ -97,11 +97,6 @@ class UpgradePage
     /**
      * @var string
      */
-    private $installVersion;
-
-    /**
-     * @var string
-     */
     private $backupName;
 
     /**
@@ -129,7 +124,6 @@ class UpgradePage
         string $adminPath,
         string $currentIndex,
         string $token,
-        string $installVersion,
         string $backupName,
         string $downloadPath
     ) {
@@ -142,7 +136,6 @@ class UpgradePage
         $this->adminPath = $adminPath;
         $this->currentIndex = $currentIndex;
         $this->token = $token;
-        $this->installVersion = $installVersion;
         $this->backupName = $backupName;
         $this->twig = $twig;
         $this->downloadPath = $downloadPath;
@@ -279,7 +272,6 @@ class UpgradePage
             'adminDir' => $adminDir,
             'adminUrl' => __PS_BASE_URI__ . $adminDir,
             'token' => $this->token,
-            'txtError' => $this->_getJsErrorMsgs(),
             'firstTimeParams' => json_decode($ajaxResult),
             'ajaxUpgradeTabExists' => file_exists($this->autoupgradePath . DIRECTORY_SEPARATOR . 'ajax-upgradetab.php'),
             'currentIndex' => $this->currentIndex,
@@ -324,71 +316,6 @@ class UpgradePage
                 'noXmlSelected' => $translator->trans('No XML file has been selected.'),
                 'noArchiveAndXmlSelected' => $translator->trans('No archive and no XML file have been selected.'),
             ],
-        ];
-    }
-
-    /**
-     * @return string[]
-     */
-    private function _getJsErrorMsgs(): array
-    {
-        $translator = $this->translator;
-
-        return [
-            0 => $translator->trans('Required field'),
-            1 => $translator->trans('Too long!'),
-            2 => $translator->trans('Fields are different!'),
-            3 => $translator->trans('This email address is wrong!'),
-            4 => $translator->trans('Impossible to send the email!'),
-            5 => $translator->trans('Cannot create settings file, if /app/config/parameters.php exists, please give the public write permissions to this file, else please create a file named parameters.php in config directory.'),
-            6 => $translator->trans('Cannot write settings file, please create a file named settings.inc.php in the "config" directory.'),
-            7 => $translator->trans('Impossible to upload the file!'),
-            8 => $translator->trans('Data integrity is not valid, the files might have been corrupted, or a hack attempt might have occured.'),
-            9 => $translator->trans('Impossible to read the content of a MySQL content file.'),
-            10 => $translator->trans('Cannot access a MySQL content file.'),
-            11 => $translator->trans('Error while inserting data in the database:'),
-            12 => $translator->trans('The password is incorrect (must be alphanumeric string with at least 8 characters)'),
-            14 => $translator->trans('At least one table with same prefix was already found, please change your prefix or drop your database'),
-            15 => $translator->trans('This is not a valid file name.'),
-            16 => $translator->trans('This is not a valid image file.'),
-            17 => $translator->trans('Error while creating the /app/config/parameters.php file.'),
-            18 => $translator->trans('Error:'),
-            19 => $translator->trans('This PrestaShop database already exists. Please revalidate your authentication information to the database.'),
-            22 => $translator->trans('An error occurred while resizing the picture.'),
-            23 => $translator->trans('Database connection is available!'),
-            24 => $translator->trans('Database Server is available but database is not found'),
-            25 => $translator->trans('Database Server is not found. Please verify the login, password and server fields.'),
-            26 => $translator->trans('An error occurred while sending email, please verify your parameters.'),
-            // Upgrader
-            27 => $translator->trans('This installer is too old.'),
-            28 => $translator->trans('You already have the %s version.', [$this->installVersion]),
-            29 => $translator->trans('There is no older version. Did you delete or rename the app/config/parameters.php file?'),
-            30 => $translator->trans('The app/config/parameters.php file was not found. Did you delete or rename this file?'),
-            31 => $translator->trans('Cannot find the SQL upgrade files. Please verify that the /install/upgrade/sql folder is not empty.'),
-            32 => $translator->trans('No upgrade is possible.'),
-            33 => $translator->trans('Error while loading SQL upgrade file.'),
-            34 => $translator->trans('Error while inserting content into the database'),
-            35 => $translator->trans('Unfortunately,'),
-            36 => $translator->trans('SQL errors have occurred.'),
-            37 => $translator->trans('The config/defines.inc.php file was not found. Where did you move it?'),
-            // End of upgrader
-            38 => $translator->trans('Impossible to write the image /img/logo.jpg. If this image already exists, please delete it.'),
-            39 => $translator->trans('The uploaded file exceeds the upload_max_filesize directive in php.ini'),
-            40 => $translator->trans('The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form'),
-            41 => $translator->trans('The uploaded file was only partially uploaded'),
-            42 => $translator->trans('No file was uploaded.'),
-            43 => $translator->trans('Missing a temporary folder'),
-            44 => $translator->trans('Failed to write file to disk'),
-            45 => $translator->trans('File upload stopped by extension'),
-            46 => $translator->trans('Cannot convert your database\'s data to utf-8.'),
-            47 => $translator->trans('Invalid shop name'),
-            48 => $translator->trans('Your firstname contains some invalid characters'),
-            49 => $translator->trans('Your lastname contains some invalid characters'),
-            50 => $translator->trans('Your database server does not support the utf-8 charset.'),
-            51 => $translator->trans('Your MySQL server does not support this engine, please use another one like MyISAM'),
-            52 => $translator->trans('The file /img/logo.jpg is not writable, please CHMOD 755 this file or CHMOD 777'),
-            53 => $translator->trans('Invalid catalog mode'),
-            999 => $translator->trans('No error code available'),
         ];
     }
 }
