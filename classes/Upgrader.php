@@ -65,8 +65,6 @@ class Upgrader
     public $md5;
 
     /** @var string */
-    public static $default_channel = 'minor';
-    /** @var string */
     public $channel = '';
     /** @var string */
     public $branch = '';

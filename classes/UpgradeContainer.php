@@ -379,7 +379,7 @@ class UpgradeContainer
                 if ($upgradeConfiguration->get('channel') == 'private' && !$upgradeConfiguration->get('private_allow_major')) {
                     $upgrader->checkPSVersion(false, ['private', 'minor']);
                 } else {
-                    $upgrader->checkPSVersion(false, ['minor']);
+                    $upgrader->checkPSVersion();
                 }
         }
         $this->getState()->setInstallVersion($upgrader->version_num);
