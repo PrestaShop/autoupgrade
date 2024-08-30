@@ -42,42 +42,42 @@
       <trans-unit id="1d1a5763d2901dbd435b378358a149b4" approved="yes">
         <source>File %s does not exist. Unable to select that channel.</source>
         <target state="final">Soubor %s neexistuje. Nelze vybrat tento kanál.</target>
-        <note>Line: 102</note>
+        <note>Line: 103</note>
       </trans-unit>
       <trans-unit id="3d6985514f7836cb0e8efb8c286ca0f5" approved="yes">
         <source>Unable to retrieve version from zip: %s.</source>
         <target state="final">Nelze načíst verzi ze zipu: %s.</target>
-        <note>Line: 93</note>
+        <note>Line: 94</note>
       </trans-unit>
       <trans-unit id="2d1b3a71b7f8c5f533921fe116788422" approved="yes">
         <source>Prestashop version detected in the xml (%s) does not match the zip version (%s).</source>
         <target state="final">Verze Prestahopu zjištěná v xml (%s) neodpovídá verzi v zipu (%s).</target>
-        <note>Line: 111</note>
+        <note>Line: 112</note>
       </trans-unit>
       <trans-unit id="ab232f4b20c0e50dad9081bc39382569" approved="yes">
         <source>Upgrade process will use archive.</source>
         <target state="final">Proces aktualizace bude používat archiv.</target>
-        <note>Line: 121</note>
+        <note>Line: 122</note>
       </trans-unit>
       <trans-unit id="c944c279a9e87437e100f65b8c87c391" approved="yes">
         <source>Version number is missing. Unable to select that channel.</source>
         <target state="final">Chybí číslo verze. Tento kanál nelze vybrat.</target>
-        <note>Line: 127</note>
+        <note>Line: 128</note>
       </trans-unit>
       <trans-unit id="1fe9dd96f646eaa0cd3a0fcc7632ce12" approved="yes">
         <source>Error on saving configuration</source>
         <target state="final">Chyba uložení konfigurace</target>
-        <note>Line: 143</note>
+        <note>Line: 150</note>
       </trans-unit>
       <trans-unit id="f2ff9d001d0a553c78da73443e7fcd97" approved="yes">
         <source>Configuration successfully updated.</source>
         <target state="final">Nastavení bylo aktualizováno.</target>
-        <note>Line: 211</note>
+        <note>Line: 218</note>
       </trans-unit>
       <trans-unit id="40b980e89ae332507380470cd26cdf4d" approved="yes">
         <source>This page will now be reloaded and the module will check if a new version is available.</source>
         <target state="final">Tato stránka bude nyní znovu načtena a zkontroluje se, zda není dostupná nová verze modulu.</target>
-        <note>Line: 211</note>
+        <note>Line: 218</note>
       </trans-unit>
     </body>
   </file>
@@ -700,12 +700,12 @@ Comment: directory already exists</note>
       <trans-unit id="93cba07454f06a4a960172bbd6e2a435" approved="yes">
         <source>Yes</source>
         <target state="final">Ano</target>
-        <note>Line: 172</note>
+        <note>Line: 170</note>
       </trans-unit>
       <trans-unit id="bafd7322c6e97d25b6299b5d6fe8920b" approved="yes">
         <source>No</source>
         <target state="final">Ne</target>
-        <note>Line: 176</note>
+        <note>Line: 174</note>
       </trans-unit>
     </body>
   </file>
@@ -1275,11 +1275,6 @@ Comment: End of upgrader</note>
   </file>
   <file original="classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="37ce0f29c7377c827e7247fe5645a782" approved="yes">
-        <source>You already have the %s version.</source>
-        <target state="final">Již máte verzi %s.</target>
-        <note>Line: 283</note>
-      </trans-unit>
       <trans-unit id="badf6aad60d4a95b698028bc55aa3347" approved="yes">
         <source>Cleaning file cache</source>
         <target state="final">Čistím cache souborů</target>
@@ -1289,6 +1284,11 @@ Comment: End of upgrader</note>
         <source>Running opcache_reset</source>
         <target state="final">Spouštím opcache_reset</target>
         <note>Line: 813</note>
+      </trans-unit>
+      <trans-unit id="37ce0f29c7377c827e7247fe5645a782" approved="yes">
+        <source>You already have the %s version.</source>
+        <target state="final">Již máte verzi %s.</target>
+        <note>Line: 283</note>
       </trans-unit>
       <trans-unit id="d90307511d557233464da663999f3151" approved="yes">
         <source>Initializing required environment constants</source>
@@ -1703,17 +1703,17 @@ Comment: check DB access</note>
       <trans-unit id="92a5801448b25f111961462b0b31995d" approved="yes">
         <source>Unable to create file %s</source>
         <target state="final">Nebylo možné vytvořit soubor %s</target>
-        <note>Line: 371</note>
+        <note>Line: 377</note>
       </trans-unit>
       <trans-unit id="56195ded2802813800f43e3be1babe1c" approved="yes">
         <source>Error when trying to delete backups %s</source>
         <target state="final">Chyba při pokusu o smazání zálohy %s</target>
-        <note>Line: 431</note>
+        <note>Line: 424</note>
       </trans-unit>
       <trans-unit id="f4eb320e09f7ef88a627229870458454" approved="yes">
         <source>The module %s requires PHP %s to work properly. Please upgrade your server configuration.</source>
         <target state="final">Modul %s vyžaduje ke správnému fungování PHP %s. Upravte prosím nastavení serveru.</target>
-        <note>Line: 484</note>
+        <note>Line: 468</note>
       </trans-unit>
     </body>
   </file>
@@ -1995,26 +1995,6 @@ Comment: check DB access</note>
   </file>
   <file original="views/templates/block/postRestoreChecklistBlock.html.twig" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="4ba42d4d681d17d9bee2f6228c326069" approved="yes">
-        <source>Open developer documentation</source>
-        <target state="final">Otevřít dokumentaci pro vývojáře</target>
-        <note>Line: 15</note>
-      </trans-unit>
-      <trans-unit id="cce78dc6ebbec7385a01f2146d6d01c8" approved="yes">
-        <source>Next steps</source>
-        <target state="final">Další kroky</target>
-        <note>Line: 23</note>
-      </trans-unit>
-      <trans-unit id="79dc0855e9436fdc704a8f489d82f521" approved="yes">
-        <source><![CDATA[Disable the maintenance mode in General settings > Maintenance.]]></source>
-        <target state="final"><![CDATA[Vypněte režim údržby v části Obecná nastavení > Údržba.]]></target>
-        <note>Line: 26</note>
-      </trans-unit>
-      <trans-unit id="231cf4c70d866b616c21baddaeed0696" approved="yes">
-        <source>Troubleshooting</source>
-        <target state="final">Řešení problémů</target>
-        <note>Line: 32</note>
-      </trans-unit>
       <trans-unit id="ae4a0e3a1c9d80344cf29e3f909861b5" approved="yes">
         <source>Your restoration is complete</source>
         <target state="final">Obnova byla dokončena</target>
@@ -2034,6 +2014,26 @@ Comment: check DB access</note>
   </file>
   <file original="views/templates/block/postUpdateChecklistBlock.html.twig" source-language="en" target-language="cs" datatype="plaintext">
     <body>
+      <trans-unit id="4ba42d4d681d17d9bee2f6228c326069">
+        <source>Open developer documentation</source>
+        <target state="needs-translation">Open developer documentation</target>
+        <note>Line: 15</note>
+      </trans-unit>
+      <trans-unit id="cce78dc6ebbec7385a01f2146d6d01c8">
+        <source>Next steps</source>
+        <target state="needs-translation">Next steps</target>
+        <note>Line: 23</note>
+      </trans-unit>
+      <trans-unit id="79dc0855e9436fdc704a8f489d82f521">
+        <source><![CDATA[Disable the maintenance mode in General settings > Maintenance.]]></source>
+        <target state="needs-translation"><![CDATA[Disable the maintenance mode in General settings > Maintenance.]]></target>
+        <note>Line: 28</note>
+      </trans-unit>
+      <trans-unit id="231cf4c70d866b616c21baddaeed0696">
+        <source>Troubleshooting</source>
+        <target state="needs-translation">Troubleshooting</target>
+        <note>Line: 34</note>
+      </trans-unit>
       <trans-unit id="91aac5a444c7ad75c9adad01b3253de8" approved="yes">
         <source>Your store is up to date</source>
         <target state="final">Váš systém je aktuální</target>
