@@ -1,12 +1,11 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
-import symfonyPlugin from 'vite-plugin-symfony';
+import { unlinkSync } from 'fs';
 
 export default defineConfig({
-  // define global variable like process.env.MY_VAR
-  define: {},
-  plugins: [symfonyPlugin()],
+  base: './',
   build: {
+    assetsInlineLimit: 0,
     cssCodeSplit: true,
     rollupOptions: {
       input: {
@@ -14,7 +13,6 @@ export default defineConfig({
         theme: './styles/main.scss'
       },
       output: {
-        validate: true,
         dir: resolve(__dirname, '../views/'),
         entryFileNames: (chunkInfo) => {
           if (
@@ -28,11 +26,11 @@ export default defineConfig({
         assetFileNames: (assetInfo) => {
           if (assetInfo.name?.endsWith('.css')) {
             return 'css/autoupgrade.css';
+          } else if (/\.(webp|png|jpe?g|gif|svg)$/.test(assetInfo.name)) {
+            return 'img/[name].[ext]';
           }
-          return 'css/[name].[ext]';
-        },
-        // set global variable to let it then building like $ of jQuery
-        globals: {}
+          return 'assets/[name].[ext]';
+        }
       }
     }
   }

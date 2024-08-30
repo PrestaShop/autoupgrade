@@ -4,6 +4,7 @@ import eslint from '@eslint/js';
 import tseslintPlugin from '@typescript-eslint/eslint-plugin';
 import tseslintParser from '@typescript-eslint/parser';
 import eslintPluginPrettier from 'eslint-plugin-prettier';
+import globals from 'globals';
 
 export default [
   // Inclure la configuration recommandée d'ESLint
@@ -13,6 +14,12 @@ export default [
   {
     files: ['**/*.ts', '**/*.tsx'],
     languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'module',
+      globals: {
+        ...globals.browser,
+        ...globals.node
+      },
       parser: tseslintParser,
       parserOptions: {
         project: './tsconfig.json'
