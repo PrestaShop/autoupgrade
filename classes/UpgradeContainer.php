@@ -519,7 +519,7 @@ class UpgradeContainer
     /**
      * @throws LoaderError
      *
-     * @return \Twig\Environment|\Twig_Environment
+     * @return \Twig\Environment
      */
     public function getTwig()
     {
