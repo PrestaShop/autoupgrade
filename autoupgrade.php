@@ -24,8 +24,6 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
-use Dotenv\Dotenv;
-
 class Autoupgrade extends Module
 {
     /**
@@ -59,8 +57,6 @@ class Autoupgrade extends Module
         $this->description = $this->trans('Upgrade to the latest version of PrestaShop in a few clicks, thanks to this automated method.');
 
         $this->ps_versions_compliancy = ['min' => '1.7.0.0', 'max' => _PS_VERSION_];
-
-        $this->loadEnv();
     }
 
     /**
@@ -194,13 +190,5 @@ class Autoupgrade extends Module
         );
 
         return $translator->trans($id, $parameters);
-    }
-
-    private function loadEnv()
-    {
-        if (file_exists(__DIR__ . '/.env')) {
-            $dotenv = Dotenv::create(__DIR__);
-            $dotenv->load();
-        }
     }
 }

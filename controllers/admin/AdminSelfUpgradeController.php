@@ -124,6 +124,8 @@ class AdminSelfUpgradeController extends ModuleAdminController
             require_once $autoloadPath;
         }
 
+        $this->loadEnv();
+
         @set_time_limit(0);
         @ini_set('max_execution_time', '0');
         @ini_set('magic_quotes_runtime', '0');
@@ -537,5 +539,13 @@ class AdminSelfUpgradeController extends ModuleAdminController
         }
 
         return parent::initContent();
+    }
+
+    private function loadEnv()
+    {
+        if (file_exists(__DIR__ . '/../../.env')) {
+            $dotenv = new Symfony\Component\Dotenv\Dotenv();
+            $dotenv->load(__DIR__ . '/../../.env');
+        }
     }
 }
