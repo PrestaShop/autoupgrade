@@ -541,7 +541,10 @@ class AdminSelfUpgradeController extends ModuleAdminController
         return parent::initContent();
     }
 
-    private function loadEnv(): void
+    /**
+     * @return void
+     */
+    private function loadEnv()
     {
         if (file_exists(__DIR__ . '/../../.env')) {
             $dotenv = new Symfony\Component\Dotenv\Dotenv();
