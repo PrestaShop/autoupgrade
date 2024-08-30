@@ -41,6 +41,6 @@ class ModuleSourceTest extends TestCase
         $this->assertSame('TheModule', $source->getName());
         $this->assertSame('9.8.7', $source->getNewVersion());
         $this->assertSame('/somewhere/only/we/know.zip', $source->getPath());
-        $this->assertSame(true, $source->isUnzipable());
+        $this->assertSame(true, $source->isZipped());
     }
 }

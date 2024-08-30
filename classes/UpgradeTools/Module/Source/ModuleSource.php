@@ -4,16 +4,16 @@ namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source;
 
 class ModuleSource
 {
-    /** var string */
+    /** @var string */
     private $name;
 
-    /** var string */
+    /** @var string */
     private $newVersion;
 
-    /** var string */
+    /** @var string */
     private $path;
 
-    /** var bool */
+    /** @var bool */
     private $unzipable;
 
     public function __construct(string $name, string $newVersion, string $path, bool $unzipable)
@@ -39,11 +39,12 @@ class ModuleSource
         return $this->path;
     }
 
-    public function isUnzipable(): bool
+    public function isZipped(): bool
     {
         return $this->unzipable;
     }
 
+    /** @return array<string, string|boolean> */
     public function toArray(): array
     {
         return [

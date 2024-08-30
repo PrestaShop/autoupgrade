@@ -75,22 +75,20 @@ class UpgradeModules extends AbstractTask
 
         $modulesPath = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR;
 
-        $moduleDownloader = new ModuleDownloader($this->translator, $this->logger, $this->container->getState()->getInstallVersion());
+        $moduleDownloader = new ModuleDownloader($this->translator, $this->logger, $this->container->getProperty(UpgradeContainer::TMP_PATH));
         $moduleUnzipper = new ModuleUnzipper($this->translator, $this->container->getZipAction(), $modulesPath);
         $moduleMigration = new ModuleMigration($this->translator, $this->logger);
 
         if ($listModules->getRemainingTotal()) {
             $moduleInfos = $listModules->getNext();
 
-            $zipFullPath = $this->container->getProperty(UpgradeContainer::TMP_PATH) . DIRECTORY_SEPARATOR . $moduleInfos['name'] . '.zip';
-
             try {
                 $this->logger->debug($this->translator->trans('Updating module %module%...', ['%module%' => $moduleInfos['name']]));
 
-                $moduleDownloaderContext = new ModuleDownloaderContext($zipFullPath, $moduleInfos);
+                $moduleDownloaderContext = new ModuleDownloaderContext($moduleInfos);
                 $moduleDownloader->downloadModule($moduleDownloaderContext);
 
-                $moduleUnzipperContext = new ModuleUnzipperContext($zipFullPath, $moduleInfos['name']);
+                $moduleUnzipperContext = new ModuleUnzipperContext($moduleDownloaderContext->getPathToModuleUpdate(), $moduleInfos['name']);
                 $moduleUnzipper->unzipModule($moduleUnzipperContext);
 
                 $dbVersion = (new ModuleVersionAdapter())->get($moduleInfos['name']);
@@ -115,7 +113,9 @@ class UpgradeModules extends AbstractTask
                 }
             } finally {
                 // Cleanup of module assets
-                (new Filesystem())->remove([$zipFullPath]);
+                if (!empty($moduleDownloaderContext) && !empty($moduleDownloaderContext->getPathToModuleUpdate())) {
+                    (new Filesystem())->remove([$moduleDownloaderContext->getPathToModuleUpdate()]);
+                }
             }
         }
 

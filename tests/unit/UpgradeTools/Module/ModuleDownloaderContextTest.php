@@ -31,76 +31,53 @@ class ModuleDownloaderContextTest extends TestCase
 {
     public function testConstructWithCorrectSettings()
     {
-        $zipFullPath = 'path/to/zip/my_zip.zip';
         $moduleInfos = [
             'name' => 'mymodule',
-            'id' => '1245',
-            'is_local' => true,
+            'currentVersion' => '1.2.45',
         ];
 
-        $moduleDownloaderContext = new ModuleDownloaderContext($zipFullPath, $moduleInfos);
+        $moduleDownloaderContext = new ModuleDownloaderContext($moduleInfos);
 
-        $this->assertEquals($zipFullPath, $moduleDownloaderContext->getZipFullPath());
         $this->assertEquals('mymodule', $moduleDownloaderContext->getModuleName());
-        $this->assertEquals(1245, $moduleDownloaderContext->getModuleId());
-        $this->assertTrue($moduleDownloaderContext->getModuleIsLocal());
+        $this->assertEquals('1.2.45', $moduleDownloaderContext->getReferenceVersion());
     }
 
     public function testConstructWithCorrectSettingsAndNotIsLocal()
     {
-        $zipFullPath = 'path/to/zip/my_zip.zip';
         $moduleInfos = [
             'name' => 'mymodule',
-            'id' => '1245',
+            'currentVersion' => '1.2.45',
         ];
 
-        $moduleDownloaderContext = new ModuleDownloaderContext($zipFullPath, $moduleInfos);
+        $moduleDownloaderContext = new ModuleDownloaderContext($moduleInfos);
 
-        $this->assertEquals($zipFullPath, $moduleDownloaderContext->getZipFullPath());
         $this->assertEquals('mymodule', $moduleDownloaderContext->getModuleName());
-        $this->assertEquals(1245, $moduleDownloaderContext->getModuleId());
-        $this->assertFalse($moduleDownloaderContext->getModuleIsLocal());
-    }
-
-    public function testConstructWithEmptyStringZipFullPath()
-    {
-        $zipFullPath = '';
-        $moduleInfos = [
-            'name' => 'mymodule',
-            'id' => '1245',
-        ];
-
-        $this->expectException(\LogicException::class);
-        $this->expectExceptionMessage('Path to zip file is invalid.');
-
-        new ModuleDownloaderContext($zipFullPath, $moduleInfos);
+        $this->assertEquals('1.2.45', $moduleDownloaderContext->getReferenceVersion());
     }
 
     public function testConstructWithEmptyStringModuleName()
     {
-        $zipFullPath = 'path/to/zip/my_zip.zip';
         $moduleInfos = [
             'name' => '',
-            'id' => '1245',
+            'currentVersion' => '1.2.45',
         ];
 
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Module name is invalid.');
 
-        new ModuleDownloaderContext($zipFullPath, $moduleInfos);
+        new ModuleDownloaderContext($moduleInfos);
     }
 
     public function testConstructWithEmptyStringModuleID()
     {
-        $zipFullPath = 'path/to/zip/my_zip.zip';
         $moduleInfos = [
             'name' => 'mymodule',
-            'id' => '',
+            'currentVersion' => '',
         ];
 
         $this->expectException(\LogicException::class);
-        $this->expectExceptionMessage('Module ID is invalid.');
+        $this->expectExceptionMessage('Module version is invalid.');
 
-        new ModuleDownloaderContext($zipFullPath, $moduleInfos);
+        new ModuleDownloaderContext($moduleInfos);
     }
 }

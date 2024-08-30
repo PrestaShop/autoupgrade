@@ -46,7 +46,7 @@ class ModuleSourceAggregateTest extends TestCase
         ]);
         $moduleSourceList = new ModuleSourceAggregate([$dummyProvider1, $dummyProvider2]);
 
-        $moduleContext = new ModuleDownloaderContext('Module1', '1.0.0');
+        $moduleContext = new ModuleDownloaderContext(['name' => 'Module1', 'currentVersion' => '1.0.0']);
 
         $moduleSourceList->setSourcesIn($moduleContext);
 
@@ -68,7 +68,7 @@ class ModuleSourceAggregateTest extends TestCase
         ]);
         $moduleSourceList = new ModuleSourceAggregate([$dummyProvider1, $dummyProvider2]);
 
-        $moduleContext = new ModuleDownloaderContext('Module1', '1.0.0');
+        $moduleContext = new ModuleDownloaderContext(['name' => 'Module1', 'currentVersion' => '1.0.0']);
 
         $moduleSourceList->setSourcesIn($moduleContext);
 
@@ -93,7 +93,7 @@ class ModuleSourceAggregateTest extends TestCase
         ]);
         $moduleSourceList = new ModuleSourceAggregate([$dummyProvider1, $dummyProvider2]);
 
-        $moduleContext = new ModuleDownloaderContext('Module1', '1.0.0');
+        $moduleContext = new ModuleDownloaderContext(['name' => 'Module1', 'currentVersion' => '1.0.0']);
 
         $moduleSourceList->setSourcesIn($moduleContext);
 

@@ -18,9 +18,6 @@ class ModuleSourceAggregate
         $this->providers = $sourceProviders;
     }
 
-    /**
-     * @return ModuleSource[]
-     */
     public function setSourcesIn(ModuleDownloaderContext $moduleContext): void
     {
         $updateSources = [];
@@ -39,7 +36,7 @@ class ModuleSourceAggregate
     }
 
     /**
-     * @param ModuleSource[]
+     * @param ModuleSource[] $sources
      *
      * @return ModuleSource[]
      */

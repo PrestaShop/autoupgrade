@@ -27,9 +27,13 @@
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\Module;
 
 use LogicException;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\ModuleSource;
 
 class ModuleDownloaderContext
 {
+    /** @var string */
+    private $pathToModuleUpdate;
+
     /** @var string */
     private $moduleName;
 
@@ -39,10 +43,15 @@ class ModuleDownloaderContext
     /** @var ModuleSource[]|null */
     private $updateSources;
 
-    public function __construct(string $moduleName, string $referenceVersion)
+    /**
+     * @param array{name:string, currentVersion:string} $moduleInfos
+     */
+    public function __construct(array $moduleInfos)
     {
-        $this->moduleName = $moduleName;
-        $this->referenceVersion = $referenceVersion;
+        $this->moduleName = $moduleInfos['name'];
+        $this->referenceVersion = $moduleInfos['currentVersion'];
+
+        $this->validate();
     }
 
     /**
@@ -50,9 +59,19 @@ class ModuleDownloaderContext
      */
     public function validate(): void
     {
-        if (empty($this->updateSources)) {
-            throw new LogicException('List of updates is invalid.');
+        if (empty($this->moduleName)) {
+            throw new LogicException('Module name is invalid.');
         }
+
+        // TODO: Check version format as well?
+        if (empty($this->referenceVersion)) {
+            throw new LogicException('Module version is invalid.');
+        }
+    }
+
+    public function getPathToModuleUpdate(): string
+    {
+        return $this->pathToModuleUpdate;
     }
 
     public function getModuleName(): string
@@ -79,6 +98,13 @@ class ModuleDownloaderContext
     public function setUpdateSources(array $moduleSources): self
     {
         $this->updateSources = $moduleSources;
+
+        return $this;
+    }
+
+    public function setPathToModuleUpdate(string $pathToModuleUpdate): self
+    {
+        $this->pathToModuleUpdate = $pathToModuleUpdate;
 
         return $this;
     }
