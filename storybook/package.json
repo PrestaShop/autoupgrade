@@ -6,7 +6,7 @@
         "@storybook/addon-webpack5-compiler-swc": "^1.0.2",
         "@storybook/blocks": "^8.0.0",
         "@storybook/cli": "^8.0.0",
-        "prestashop-bo-themes": "PrestaShop/Prestashop-BO-themes-package",
+        "prestashop-bo-themes": "PrestaShop/Prestashop-BO-themes-package#main",
         "typescript": "^5.4.2",
         "webpack": "^5.90.3"
     },

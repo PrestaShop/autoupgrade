@@ -75,13 +75,17 @@ const preview: Preview = {
     (story, context) => {
       const selectedTheme = context.globals.backofficeTheme || defaultBoTheme;
       const cssContents = cssEntrypoints[selectedTheme];
+      // Replace dots with hyphens and prepend 'v'
+      const selectedThemeClass = `v${selectedTheme.replace(/\./g, '-')}`;
 
       const calledStory = story();
       calledStory.template = twig(`
         <div id="main">
-          <div id="content" class="bootstrap">
-            ${calledStory.template.getSource()}
-            ${cssContents.map((cssFile) => `<link rel="stylesheet" type="text/css" href="${cssFile}" />`)}
+          <div id="content" class="bootstrap update-assistant ${selectedThemeClass}">
+            <div id="update_assistant">
+              ${calledStory.template.getSource()}
+              ${cssContents.map((cssFile) => `<link rel="stylesheet" type="text/css" href="${cssFile}" />`)}
+            </div>
           </div>
         </div>
       `);

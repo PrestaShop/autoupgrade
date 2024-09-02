@@ -7,7 +7,7 @@ in different versions of Prestashop.
 
 - PHP >= 8.2
 - Composer - [Download Composer](https://getcomposer.org/)
-- Node.js >= 20 - [Download Node.js](https://nodejs.org/) (preference for LTS 20.11.0)
+- Node.js >= 19 - [Download Node.js](https://nodejs.org/)
 
 ## Install project dependencies
 
