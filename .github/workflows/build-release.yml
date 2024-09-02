@@ -28,7 +28,7 @@ jobs:
       - name: Install and build npm dependencies
         run:
           npm install --prefix ./_dev
-          npm vite:build --prefix ./_dev
+          npm run vite:build --prefix ./_dev
 
       - name: Clean-up project
         uses: PrestaShopCorp/github-action-clean-before-deploy@v2.0
