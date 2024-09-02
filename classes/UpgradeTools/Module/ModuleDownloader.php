@@ -61,9 +61,12 @@ class ModuleDownloader
             throw new LogicException('List of updates is empty.');
         }
 
-        for ($i = 0; $i < count($moduleDownloaderContext->getUpdateSources()); ++$i) {
+        $downloadSuccessful = false;
+
+        for ($i = 0; !$downloadSuccessful && $i < count($moduleDownloaderContext->getUpdateSources()); ++$i) {
             try {
                 $this->attemptDownload($moduleDownloaderContext, $i);
+                $downloadSuccessful = true;
             } catch (Exception $e) {
                 $this->logger->debug($e->getMessage());
                 $this->logger->debug($this->translator->trans('Download of source #%s has failed.', [$i]));
@@ -73,7 +76,6 @@ class ModuleDownloader
                 }
             }
         }
-
         $this->logger->notice($this->translator->trans('Module %s has been successfully downloaded.', [$moduleDownloaderContext->getModuleName()]));
     }
 

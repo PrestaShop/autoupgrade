@@ -64,6 +64,7 @@ class ModuleDownloaderTest extends TestCase
 
         $dummyProvider1 = (new ModuleSourceProviderMock())->setSources([
             new ModuleSource('mymodule', '2.0.0', realpath(__DIR__ . '/../../../fixtures/mymodule'), false),
+            new ModuleSource('mymodule', '1.2.0', realpath(__DIR__ . '/../../../fixtures/ArchiveExample.zip'), false),
         ]);
         $moduleSourceList = new ModuleSourceAggregate([$dummyProvider1]);
 
@@ -74,6 +75,9 @@ class ModuleDownloaderTest extends TestCase
             ->with('Module mymodule has been successfully downloaded.');
 
         $this->moduleDownloader->downloadModule($moduleContext);
+
+        // Only the first download should have run
+        $this->assertEquals('/tmp/fakeDownloaderDestination', $moduleContext->getPathToModuleUpdate());
     }
 
     public function testModuleDownloaderSucceedsOnFirstTryWithRemoteFile()
