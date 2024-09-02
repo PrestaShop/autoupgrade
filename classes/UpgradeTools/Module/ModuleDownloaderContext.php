@@ -32,9 +32,6 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\ModuleSource;
 class ModuleDownloaderContext
 {
     /** @var string */
-    private $pathToModuleUpdate;
-
-    /** @var string */
     private $moduleName;
 
     /** @var string */
@@ -42,6 +39,9 @@ class ModuleDownloaderContext
 
     /** @var ModuleSource[]|null */
     private $updateSources;
+
+    /** @var string|null */
+    private $pathToModuleUpdate;
 
     /**
      * @param array{name:string, currentVersion:string} $moduleInfos
@@ -69,7 +69,7 @@ class ModuleDownloaderContext
         }
     }
 
-    public function getPathToModuleUpdate(): string
+    public function getPathToModuleUpdate(): ?string
     {
         return $this->pathToModuleUpdate;
     }
@@ -85,9 +85,9 @@ class ModuleDownloaderContext
     }
 
     /**
-     * @return ModuleSource[]
+     * @return ModuleSource[]|null
      */
-    public function getUpdateSources(): array
+    public function getUpdateSources(): ?array
     {
         return $this->updateSources;
     }

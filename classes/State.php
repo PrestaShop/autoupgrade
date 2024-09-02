@@ -148,27 +148,8 @@ class State
         return get_object_vars($this);
     }
 
-    public function initDefault(Upgrader $upgrader, string $prodRootDir, string $version): void
+    public function initDefault(string $version): void
     {
-        $postData = http_build_query([
-            'action' => 'native',
-            'iso_code' => 'all',
-            'method' => 'listing',
-            'version' => $this->getInstallVersion(),
-        ]);
-        $xml_local = $prodRootDir . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml' . DIRECTORY_SEPARATOR . 'modules_native_addons.xml';
-        $xml = $upgrader->getApiAddons($xml_local, $postData, true);
-
-        $modules_addons = $modules_versions = [];
-        if (is_object($xml)) {
-            foreach ($xml as $mod) {
-                $modules_addons[(string) $mod->id] = (string) $mod->name;
-                $modules_versions[(string) $mod->id] = (string) $mod->version;
-            }
-        }
-        $this->setModulesAddons($modules_addons);
-        $this->setModulesVersions($modules_versions);
-
         // installedLanguagesIso is used to merge translations files
         $installedLanguagesIso = array_map(
             function ($v) { return $v['iso_code']; },
@@ -255,20 +236,6 @@ class State
     public function getInstalledLanguagesIso(): array
     {
         return $this->installedLanguagesIso;
-    }
-
-    /** @return array<string, string> Key is the module ID on Addons */
-    public function getModules_addons(): array
-    {
-        return $this->modules_addons;
-    }
-
-    /**
-     * @return array<string, string>
-     */
-    public function getModulesVersions(): array
-    {
-        return $this->modules_versions;
     }
 
     public function getWarningExists(): bool
@@ -395,16 +362,6 @@ class State
     public function setInstalledLanguagesIso(array $installedLanguagesIso): State
     {
         $this->installedLanguagesIso = $installedLanguagesIso;
-
-        return $this;
-    }
-
-    /**
-     * @param array<string, string> $modules_addons Key is the module ID on Addons
-     */
-    public function setModulesAddons(array $modules_addons): State
-    {
-        $this->modules_addons = $modules_addons;
 
         return $this;
     }
