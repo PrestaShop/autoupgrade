@@ -1,0 +1,93 @@
+@use "../variables" as *;
+
+$e: ".stepper";
+
+#{$ua-id} {
+  #{$e} {
+    --#{$ua-prefix}step-number-size: 1.75rem;
+    --#{$ua-prefix}step-line-color: var(--#{$ua-prefix}border-color);
+    --#{$ua-prefix}step-number-color: var(--#{$ua-prefix}white);
+    --#{$ua-prefix}step-normal-background-color: var(--#{$ua-prefix}primary-400);
+    --#{$ua-prefix}step-current-background-color: var(--#{$ua-prefix}primary);
+    --#{$ua-prefix}step-done-background-color: var(--#{$ua-prefix}green-50);
+    display: grid;
+    grid-auto-columns: minmax(7rem, 12rem);
+    grid-auto-flow: column;
+    align-items: flex-start;
+    max-width: fit-content;
+    padding-block-end: 0.5rem;
+    margin: 0 auto;
+    overflow-x: auto;
+
+    &__step {
+      position: relative;
+      display: grid;
+      flex-direction: column;
+      gap: 0.25rem;
+
+      &:not(#{$e}__step--last) {
+        &::before {
+          content: "";
+          position: absolute;
+          top: calc(var(--#{$ua-prefix}step-number-size) / 2);
+          left: 50%;
+          z-index: 0;
+          display: block;
+          width: 100%;
+          height: 0.0625rem;
+          background-color: var(--#{$ua-prefix}step-line-color);
+        }
+      }
+
+      &--normal {
+        #{$e}__step-number {
+          background-color: var(--#{$ua-prefix}step-normal-background-color);
+
+          &::before {
+            content: attr(data-step-number);
+          }
+        }
+      }
+
+      &--current {
+        #{$e}__step-number {
+          background-color: var(--#{$ua-prefix}step-current-background-color);
+
+          &::before {
+            content: attr(data-step-number);
+          }
+        }
+      }
+
+      &--done {
+        #{$e}__step-number {
+          background-color: var(--#{$ua-prefix}step-done-background-color);
+          background-image: url("../img/check.svg");
+          background-repeat: no-repeat;
+          background-position: center center;
+          background-size: 1rem 1rem;
+        }
+      }
+    }
+
+    &__step-number {
+      z-index: 1;
+      display: block;
+      width: var(--#{$ua-prefix}step-number-size);
+      height: var(--#{$ua-prefix}step-number-size);
+      margin: 0 auto;
+      background-color: var(--#{$ua-prefix}step-normal-background-color);
+      border-radius: 50%;
+      font-size: 0.875rem;
+      line-height: var(--#{$ua-prefix}step-number-size);
+      color: var(--#{$ua-prefix}step-number-color);
+      text-align: center;
+    }
+
+    &__step-title {
+      font-size: 0.75rem;
+      line-height: 1.5;
+      text-align: center;
+    }
+  }
+}

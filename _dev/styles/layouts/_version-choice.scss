@@ -1,0 +1,61 @@
+@use "../variables" as *;
+
+$e: ".version-page";
+
+#{$ua-id} {
+  #{$e} {
+    // Up To Date
+    .up-to-date {
+      margin-block-end: 1.5rem;
+
+      &--no-archive {
+        text-align: center;
+
+        .up-to-date__title {
+          justify-content: center;
+        }
+      }
+    }
+
+    .up-to-date__img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      margin-inline: auto;
+    }
+
+    .up-to-date__title {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+      margin-block-end: 0.5rem;
+
+      .material-icons {
+        font-size: 2rem;
+      }
+    }
+
+    // Not Up To Date
+    .not-up-to-date__title {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+      margin-block-end: 0.5rem;
+
+      .material-icons {
+        font-size: 2rem;
+      }
+    }
+
+    .not-up-to-date__message {
+      margin-block-end: 1.5rem;
+    }
+
+    &__card-list {
+      display: grid;
+      gap: 0.5rem;
+    }
+  }
+}

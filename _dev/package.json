@@ -8,7 +8,10 @@
     "vite:build": "vite build",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
-    "format": "prettier --write \"**/*.{ts,js}\""
+    "lint-scss": "npx stylelint 'styles/**/*.scss'",
+    "lint-scss:fix": "npx stylelint --fix 'styles/**/*.scss'",
+    "prettier": "prettier --check \"**/*.{ts,js,scss}\"",
+    "prettier:fix": "prettier --write \"**/*.{ts,js,scss}\""
   },
   "repository": {
     "type": "git",
@@ -22,6 +25,7 @@
   "homepage": "https://github.com/PrestaShop/autoupgrade#readme",
   "devDependencies": {
     "@eslint/js": "^9.9.1",
+    "@prestashopcorp/stylelint-config": "^1.0.0",
     "@typescript-eslint/eslint-plugin": "^8.3.0",
     "@typescript-eslint/parser": "^8.3.0",
     "eslint": "^9.9.1",

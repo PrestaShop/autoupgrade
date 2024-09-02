@@ -23,3 +23,7 @@ jobs:
       - name: Launch Eslint
         run:
           npm run lint --prefix ./_dev
+
+      - name: Launch Eslint
+        run:
+          npm run lint-scss --prefix ./_dev

@@ -1,0 +1,82 @@
+$ua-id: "#update_assistant";
+$ua-prefix: "ua-";
+$cdk-prefix: "cdk-";
+
+/* CSS variables */
+/* Global variables to handle both theme */
+/* 9.0.0 */
+:root {
+  /* Primitive */
+  --#{$ua-prefix}white: #ffffff;
+  --#{$ua-prefix}black: #000000;
+  --#{$ua-prefix}primary-800: var(--#{$cdk-prefix}primary-800, #1d1d1b);
+  --#{$ua-prefix}primary-700: var(--#{$cdk-prefix}primary-700, #3f3f3d);
+  --#{$ua-prefix}primary-600: var(--#{$cdk-prefix}primary-600, #5e5e5e);
+  --#{$ua-prefix}primary-500: var(--#{$cdk-prefix}primary-500, #bbbbbb);
+  --#{$ua-prefix}primary-400: var(--#{$cdk-prefix}primary-400, #dddddd);
+  --#{$ua-prefix}primary-200: var(--#{$cdk-prefix}primary-200, #f7f7f7);
+  --#{$ua-prefix}purple-500: var(--#{$cdk-prefix}purple-500, #decde7);
+  --#{$ua-prefix}purple-50: var(--#{$cdk-prefix}purple-50, #f8f0f7);
+  --#{$ua-prefix}ocean-blue-700: var(--#{$cdk-prefix}ocean-blue-700, #5c92aa);
+  --#{$ua-prefix}ocean-blue-500: var(--#{$cdk-prefix}ocean-blue-500, #a4dbe8);
+  --#{$ua-prefix}ocean-blue-50: var(--#{$cdk-prefix}ocean-blue-50, #e4f4f8);
+  --#{$ua-prefix}blue-500: var(--#{$cdk-prefix}blue-500, #174eef);
+  --#{$ua-prefix}blue-50: var(--#{$cdk-prefix}blue-50, #e8edfd);
+  --#{$ua-prefix}green-500: var(--#{$cdk-prefix}green-500, #207f4b);
+  --#{$ua-prefix}green-50: var(--#{$cdk-prefix}green-50, #eaf8ef);
+  --#{$ua-prefix}yellow-500: var(--#{$cdk-prefix}yellow-500, #ffa000);
+  --#{$ua-prefix}yellow-50: var(--#{$cdk-prefix}yellow-50, #fff5e5);
+  --#{$ua-prefix}red-500: var(--#{$cdk-prefix}red-500, #ba151a);
+  --#{$ua-prefix}red-50: var(--#{$cdk-prefix}red-50, #ffe4e6);
+
+  /* Global */
+  --#{$ua-prefix}border-radius: 0;
+  --#{$ua-prefix}base-text-color: var(--#{$ua-prefix}primary-800);
+  --#{$ua-prefix}base-text-color-hover: var(--#{$ua-prefix}primary-700);
+  --#{$ua-prefix}disabled-color: var(--#{$ua-prefix}primary-500);
+  --#{$ua-prefix}border-color: var(--#{$ua-prefix}primary-400);
+  --#{$ua-prefix}box-shadow-modal: var(
+    --#{$cdk-prefix}box-shadow-pop-modal,
+    0 12px 24px rgb(0 0 0 / 0.1)
+  );
+  --#{$ua-prefix}required-color: var(--#{$ua-prefix}red-500);
+  --#{$ua-prefix}primary: var(--#{$ua-prefix}primary-800);
+  --#{$ua-prefix}primary-hover: var(--#{$ua-prefix}primary-700);
+  --#{$ua-prefix}muted-background-color: var(--#{$ua-prefix}primary-200);
+  --#{$ua-prefix}font-family-material-icons: var(
+    --#{$cdk-prefix}font-family-material-icons,
+    "Material Icons"
+  );
+}
+
+/* 1.7.8.0 */
+.v1-7-8-0 {
+  --#{$ua-prefix}border-radius: 0.5rem;
+  --#{$ua-prefix}primary: #25b9d7;
+  --#{$ua-prefix}primary-hover: #1a8196;
+  --#{$ua-prefix}base-text-color: #555555;
+  --#{$ua-prefix}blue-500: #25b9d7;
+  --#{$ua-prefix}blue-50: #beeaf3;
+  --#{$ua-prefix}green-500: #53d572;
+  --#{$ua-prefix}green-50: #cbf2d4;
+  --#{$ua-prefix}yellow-500: #fab000;
+  --#{$ua-prefix}yellow-50: #fffbd3;
+  --#{$ua-prefix}red-500: #f44336;
+  --#{$ua-prefix}red-50: #fbc6c3;
+}
+
+/* 1.7.3.0 */
+.v1-7-3-0 {
+  --#{$ua-prefix}border-radius: 0.3125rem;
+  --#{$ua-prefix}primary: #00aff0;
+  --#{$ua-prefix}primary-hover: #008abd;
+  --#{$ua-prefix}base-text-color: #555555;
+  --#{$ua-prefix}blue-500: #4ac7e0;
+  --#{$ua-prefix}blue-50: #dcf4f9;
+  --#{$ua-prefix}green-500: #72c279;
+  --#{$ua-prefix}green-50: #ddf0de;
+  --#{$ua-prefix}yellow-500: #fcc94f;
+  --#{$ua-prefix}yellow-50: #fff3d7;
+  --#{$ua-prefix}red-500: #eab3b7;
+  --#{$ua-prefix}red-50: #ffe2e4;
+}
