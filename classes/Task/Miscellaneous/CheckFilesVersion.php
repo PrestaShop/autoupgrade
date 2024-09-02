@@ -56,10 +56,6 @@ class CheckFilesVersion extends AbstractTask
             return ExitCode::FAIL;
         }
 
-        foreach (['core', 'translation', 'mail'] as $type) {
-            $changedFileList[$type] = [];
-        }
-
         if ($checksumCompare->isAuthenticPrestashopVersion($currentPrestaShopVersion)) {
             $this->nextParams['status'] = 'ok';
             $this->nextParams['msg'] = $this->translator->trans('Core files are ok');
