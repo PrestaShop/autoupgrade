@@ -23,9 +23,11 @@ export default defineConfig({
           return 'js/[name].js';
         },
         assetFileNames: (assetInfo) => {
-          if (assetInfo.name?.endsWith('.css')) {
+          const assetName = assetInfo.name || '';
+
+          if (assetName.endsWith('.css')) {
             return 'css/autoupgrade.css';
-          } else if (/\.(webp|png|jpe?g|gif|svg)$/.test(assetInfo.name)) {
+          } else if (/\.(webp|png|jpe?g|gif|svg)$/.test(assetName)) {
             return 'img/[name].[ext]';
           }
           return 'assets/[name].[ext]';
