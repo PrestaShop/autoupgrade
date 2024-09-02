@@ -72,7 +72,7 @@ class ModuleDownloaderTest extends TestCase
 
         $this->logger->expects($this->once())
             ->method('notice')
-            ->with('Module mymodule has been successfully downloaded.');
+            ->with('Module mymodule update files have been fetched from ' . realpath(__DIR__ . '/../../../fixtures/mymodule') . '.');
 
         $this->moduleDownloader->downloadModule($moduleContext);
 
@@ -93,7 +93,7 @@ class ModuleDownloaderTest extends TestCase
 
         $this->logger->expects($this->once())
             ->method('notice')
-            ->with('Module autoupgrade has been successfully downloaded.');
+            ->with('Module autoupgrade update files have been fetched from https://github.com/PrestaShop/autoupgrade/releases/download/v6.0.0/autoupgrade-v6.0.0.zip.');
 
         $this->moduleDownloader->downloadModule($moduleContext);
     }
@@ -143,7 +143,7 @@ class ModuleDownloaderTest extends TestCase
             );
         $this->logger->expects($this->once())
             ->method('notice')
-            ->with('Module mymodule has been successfully downloaded.');
+            ->with('Module mymodule update files have been fetched from ' . realpath(__DIR__ . '/../../../fixtures/mymodule') . '.');
 
         $this->moduleDownloader->downloadModule($moduleContext);
     }

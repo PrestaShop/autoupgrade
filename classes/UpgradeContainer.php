@@ -41,6 +41,8 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\CacheCleaner;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FileFilter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleAdapter;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\LocalSourceProvider;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\ModuleSourceProviderInterface;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translation;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
@@ -135,6 +137,11 @@ class UpgradeContainer
      * @var ModuleAdapter
      */
     private $moduleAdapter;
+
+    /**
+     * @var ModuleSourceProviderInterface[]
+     */
+    private $moduleSourceProviders;
 
     /**
      * @var CompletionCalculator
@@ -467,6 +474,21 @@ class UpgradeContainer
         );
 
         return $this->moduleAdapter;
+    }
+
+    /** @return ModuleSourceProviderInterface[] */
+    public function getModuleSourceProviders(): array
+    {
+        if (null !== $this->moduleSourceProviders) {
+            return $this->moduleSourceProviders;
+        }
+
+        $this->moduleSourceProviders = [
+            new LocalSourceProvider($this->getProperty(self::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . 'modules', $this->getFileConfigurationStorage()),
+            // Other providers
+        ];
+
+        return $this->moduleSourceProviders;
     }
 
     public function getCompletionCalculator(): CompletionCalculator

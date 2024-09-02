@@ -137,6 +137,18 @@ class UpgradeFileNames
     const TRANSLATION_FILES_CUSTOM_LIST = 'translations-custom.list';
 
     /**
+     * Module Sources Providers are classes that fetching & compute data
+     * from the filesystem or an external resource like an API.
+     * Caching the data avoids this computation to happen again before each module.
+     *
+     * @var string
+     */
+    const MODULE_SOURCE_PROVIDER_CACHE_LOCAL = 'moduleSourcesLocal.cache';
+    const MODULE_SOURCE_PROVIDER_CACHE_COMPOSER = 'moduleSourcesComposer.cache';
+    const MODULE_SOURCE_PROVIDER_CACHE_MARKETPLACE_API = 'moduleSourcesMarketplace.cache';
+    const MODULE_SOURCE_PROVIDER_CACHE_DISTRIBUTION_API = 'moduleSourcesDistribution.cache';
+
+    /**
      * tmp_files contains an array of filename which will be removed
      * at the beginning of the upgrade process.
      *
@@ -155,5 +167,9 @@ class UpgradeFileNames
         'MAILS_CUSTOM_LIST',
         'TRANSLATION_FILES_CUSTOM_LIST',
         'MODULES_TO_UPGRADE_LIST',
+        'MODULE_SOURCE_PROVIDER_CACHE_LOCAL',
+        'MODULE_SOURCE_PROVIDER_CACHE_COMPOSER',
+        'MODULE_SOURCE_PROVIDER_CACHE_MARKETPLACE_API',
+        'MODULE_SOURCE_PROVIDER_CACHE_DISTRIBUTION_API',
     ];
 }

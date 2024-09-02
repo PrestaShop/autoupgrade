@@ -70,13 +70,12 @@ class ModuleDownloader
             } catch (Exception $e) {
                 $this->logger->debug($e->getMessage());
                 $this->logger->debug($this->translator->trans('Download of source #%s has failed.', [$i]));
-
-                if ($i + 1 === count($moduleDownloaderContext->getUpdateSources())) {
-                    throw (new UpgradeException('All download attempts have failed. Check your environment and try again.'))->setSeverity(UpgradeException::SEVERITY_ERROR);
-                }
             }
         }
-        $this->logger->notice($this->translator->trans('Module %s has been successfully downloaded.', [$moduleDownloaderContext->getModuleName()]));
+
+        if (!$downloadSuccessful) {
+            throw (new UpgradeException('All download attempts have failed. Check your environment and try again.'))->setSeverity(UpgradeException::SEVERITY_ERROR);
+        }
     }
 
     /**
@@ -100,6 +99,8 @@ class ModuleDownloader
 
         $this->assertDownloadedContentsIsValid($destinationPath);
         $moduleDownloaderContext->setPathToModuleUpdate($destinationPath);
+
+        $this->logger->notice($this->translator->trans('Module %s update files have been fetched from %s.', [$moduleDownloaderContext->getModuleName(), $moduleSource->getPath()]));
     }
 
     /**
