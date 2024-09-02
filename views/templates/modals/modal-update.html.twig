@@ -1,0 +1,35 @@
+{% extends '@ModuleAutoUpgrade/components/modal.html.twig' %}
+
+{% block modal_content %}
+	{% if noBackUp %}
+		<p>
+			{{ 'Before starting the update, make sure you have a complete and recent backup of your store (database, files, and images).'|trans({}) }}
+		</p>
+	{% else %}
+		{{ parent() }}
+	{% endif %}
+{% endblock %}
+
+{% block modal_extra_content %}
+	{% if noBackUp %}
+		<div class="modal__no-backup checkbox">
+			<label>
+				<input type="checkbox" value="">
+				{{ 'I have made my own backup and can restore it manually if a problem occur.'|trans({}) }}
+			</label>
+		</div>
+	{% endif %}
+{% endblock %}
+
+{% block modal_footer %}
+	<div class="modal-footer">
+		{% block modal_footer_inner %}
+			<button type="button" class="btn btn-link" data-dismiss="modal">{{ 'Cancel'|trans({}) }}</button>
+
+			<button type="button" class="btn btn-primary">
+				<img class="modal__rocket-icon rocket-icon" src="{{ psBaseUri }}img/rocket_white.svg"/>
+				{{ 'Start update'|trans({}) }}
+			</button>
+		{% endblock %}
+	</div>
+{% endblock %}

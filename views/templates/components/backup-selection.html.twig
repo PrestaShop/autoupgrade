@@ -1,0 +1,22 @@
+<div class="form-group backup-selection" id="restore_backup">
+  <div class="backup-selection__infos">
+    <label for="restore_select">{{ 'Select the backup you want to restore to'|trans({}) }}</label>
+    <select id="restore_select" name="restore_select">
+      <option value="0">{{ '-- Choose a backup to restore --'|trans({}) }}</option>';
+      {% if availableBackups is not empty %}
+        {% for backupName in availableBackups %}
+          <option value="{{ backupName }}">{{ backupName }}</option>
+        {% endfor %}
+      {% endif %}
+    </select>
+  </div>
+
+  {% if showDelete %}
+    <button class="btn btn-link backup-selection__delete" id="button_delete_backup" data-select-id="restore_select">
+      {{ 'Delete selection'|trans({}) }}
+      <i class="material-icons">
+        delete
+      </i>
+    </button>
+  {% endif %}
+</div>

@@ -1,0 +1,61 @@
+{% if (archiveFiles is defined and archiveFiles is not empty) and (xmlFiles is defined and xmlFiles is not empty) %}
+	<div class="local-archive">
+		<div class="form-group">
+			<label for="archive_prestashop">{{ 'Archive to use:'|trans({}) }}
+				<span class="require-star">*</span>
+			</label>
+
+			<select class="form-control {% if unableToFindVersion %} error {% endif %}" id="archive_prestashop" name="archive_prestashop" required>
+				<option value="">{{ 'Choose an archive'|trans({}) }}</option>
+				{% for file in archiveFiles %}
+					{% set fileName = file|replace({(downloadPath): ''}) %}
+					<option {% if archiveFileName == fileName %} selected {% endif %} value="{{ fileName }}">{{ fileName }}</option>
+				{% endfor %}
+			</select>
+
+			{% if unableToFindVersion %}
+				<div class="error-message">
+					<i class="material-icons">error</i>
+					{{ "We couldn't find a PrestaShop version in the .zip file you uploaded. Please try again."|trans({}) }}
+				</div>
+			{% endif %}
+		</div>
+
+		<div class="form-group">
+			<label for="archive_xml">{{ 'XML file to use:'|trans({}) }}
+				<span class="require-star">*</span>
+			</label>
+
+			<select class="form-control {% if unableToFindVersionInXML %} error {% endif %}" id="archive_xml" name="archive_xml" required>
+				<option value="">{{ 'Choose an XML file'|trans({}) }}</option>
+				{% for file in xmlFiles %}
+					{% set fileName = file|replace({(downloadPath): ''}) %}
+					<option {% if xmlFileName == fileName %} selected {% endif %} value="{{ fileName }}">{{ fileName }}</option>
+				{% endfor %}
+			</select>
+
+			{% if unableToFindVersionInXML %}
+				<div class="error-message">
+					<i class="material-icons">error</i>
+					{{ "We couldn't find a PrestaShop version in the XML file that was uploaded in your local archive. Please try again."|trans({}) }}
+				</div>
+			{% endif %}
+
+			{% if versionsMismatch and (not unableToFindVersionInXML and not unableToFindVersion) %}
+				<div class="local-archive__alert">
+					{% include '@ModuleAutoUpgrade/components/alert.html.twig' with {
+						title: "",
+						message: "The PrestaShop version in your archive doesn’t match the one in XML file. Please fix this issue and try again.",
+						alertStatus: "warning",
+						buttonLabel: "",
+						buttonUrl: "",
+					} %}
+				</div>
+			{% endif %}
+		</div>
+	</div>
+{% else %}
+	<div class="alert alert-warning">
+		{{ 'No archive found in your admin/autoupgrade/download directory'|trans({}) }}
+	</div>
+{% endif %}

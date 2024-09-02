@@ -1,0 +1,16 @@
+{% extends '@ModuleAutoUpgrade/components/modal.html.twig' %}
+
+{% block modal_extra_content %}{% endblock %}
+
+{% block modal_footer %}
+	<div class="modal-footer">
+		{% block modal_footer_inner %}
+			<button type="button" class="btn btn-link" data-dismiss="modal">{{ 'Cancel'|trans({}) }}</button>
+
+			<button type="button" class="btn btn-primary">
+				<i class="material-icons">settings_backup_restore</i>
+				{{ 'Start backup'|trans({}) }}
+			</button>
+		{% endblock %}
+	</div>
+{% endblock %}

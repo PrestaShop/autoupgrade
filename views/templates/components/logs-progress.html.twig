@@ -1,0 +1,15 @@
+<div class="log-progress">
+  <div class="log-progress__status">
+    <div class="log-progress__icon">
+      <i class="material-icons">loop</i>
+    </div>
+
+    <div id="log_progress_text" class="log-progress__text">
+      {{ progressStatus }}
+    </div>
+  </div>
+
+  <div class="progress log-progress__bar">
+    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{ progressPercentage }}%;"></div>
+  </div>
+</div>

@@ -1,0 +1,45 @@
+{% extends '@ModuleAutoUpgrade/components/modal.html.twig' %}
+
+
+{% block modal_content %}
+	<div class="modal__error-report-content">
+		<p>{{ 'Help us improve the module by sending us this error report. You can add details in the description if you want to.'|trans({}) }}</p>
+
+		{% if dataPrivacyLink %}
+			<p>
+				<a class="link" href="{{ dataPrivacyLink }}">
+					Learn more about your data and your rights<i class="material-icons">launch</i>
+				</a>
+			</p>
+		{% endif %}
+	</div>
+{% endblock %}
+
+{% block modal_extra_content_inner %}
+	<div class="modal__error-report-form">
+		<div class="form-group">
+			<label for="userEmail">Email (optional)</label>
+			<input type="password" class="form-control" id="userEmail" placeholder="Enter your email address">
+		</div>
+
+		<div class="form-group">
+			<label for="errorDescription">Description (optional)</label>
+			<input type="password" class="form-control" id="errorDescription" placeholder="You can add details about the error here. ">
+		</div>
+	</div>
+{% endblock %}
+
+{% block modal_footer %}
+	<div class="modal-footer">
+		{% block modal_footer_inner %}
+			<button type="button" class="btn btn-link" data-dismiss="modal">
+				Cancel
+			</button>
+
+			<button type="button" class="btn btn-primary">
+				<i class="material-icons">send</i>
+				Send error report
+			</button>
+		{% endblock %}
+	</div>
+{% endblock %}

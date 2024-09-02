@@ -1,0 +1,17 @@
+{% extends '@ModuleAutoUpgrade/layouts/page.html.twig' %}
+
+{% block page_class %}update-options-page{% endblock %}
+
+{% block title %}
+  <h1>{{ 'Backup selection'|trans({}) }}</h1>
+{% endblock %}
+
+{% block content %}
+  {% include '@ModuleAutoUpgrade/components/backup-selection.html.twig' %}
+{% endblock %}
+
+{% block buttons_inner %}
+  <button class="btn btn-lg btn-primary" type="button">
+    {{ 'Restore'|trans({}) }}
+  </button>
+{% endblock %}

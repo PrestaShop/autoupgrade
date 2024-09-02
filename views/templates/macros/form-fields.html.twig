@@ -1,0 +1,10 @@
+{% macro select(labelText, inputId, options) %}
+  <div class="form-group">
+    <label for="{{ inputId }}">{{ labelText|trans({}) }}</label>
+    <select class="form-control" id="{{ inputId }}">
+      {% for option in options %}
+        <option value="{{ option }}">{{ option }}</option>
+      {% endfor %}
+    </select>
+  </div>
+{% endmacro %}

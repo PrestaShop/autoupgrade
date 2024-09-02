@@ -1,0 +1,22 @@
+{% extends '@ModuleAutoUpgrade/layouts/page.html.twig' %}
+
+{% block page_class %}update-page{% endblock %}
+
+{% block title %}
+  <h1>{{ 'Update'|trans({}) }}</h1>
+{% endblock %}
+
+{% block content %}
+  {% include '@ModuleAutoUpgrade/components/logs-progress.html.twig' %}
+
+  {% include '@ModuleAutoUpgrade/components/logs.html.twig' %}
+{% endblock %}
+
+{% block buttons_inner %}
+  <button class="btn btn-lg btn-primary" type="button">
+    {{ 'Next'|trans({}) }}
+    <i class="material-icons">
+      arrow_forward
+    </i>
+  </button>
+{% endblock %}

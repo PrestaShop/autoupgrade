@@ -1,0 +1,20 @@
+{% if title or message %}
+	<div class="alert alert-{% if alertStatus %}{{ alertStatus }}{% else %}info{% endif %}">
+		<div class="alert__infos">
+			{% if title %}
+				<p class="alert__title">{{ title }}</p>
+			{% endif %}
+			{% if message %}
+				<p class="alert__message">{{ message|raw }}</p>
+			{% endif %}
+		</div>
+
+		{% if buttonLabel and buttonUrl %}
+			<div class="alert__action">
+				<a class="alert__link btn btn-{% if alertStatus %}{{ alertStatus }}{% else %}info{% endif %}" href="{{ buttonUrl }}">
+					{{ buttonLabel }}
+				</a>
+			</div>
+		{% endif %}
+	</div>
+{% endif %}

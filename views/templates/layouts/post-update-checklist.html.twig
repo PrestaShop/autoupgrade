@@ -1,0 +1,62 @@
+{% extends '@ModuleAutoUpgrade/layouts/page.html.twig' %}
+
+{% block page_class %}post-update-checklist-page{% endblock %}
+
+{% block title %}
+  <h1>{{ 'Post-update checklist'|trans({}) }}</h1>
+{% endblock %}
+
+{% block content %}
+  <div class="content__container">
+    {% include '@ModuleAutoUpgrade/components/alert.html.twig' with {
+      title: "Your store is up to date",
+      message: "Before continuing with your tasks, please review the following checklist to ensure smooth operation after recent updates.",
+      alertStatus: "success",
+      buttonLabel: "",
+      buttonUrl: "",
+    } %}
+
+    <div class="content__section">
+      <h3 class="h3">{{ 'Next steps'|trans({}) }}</h3>
+
+      <ul>
+        <li>{{ '<b>Open the developer documentation</b> to keep this checklist at-hand.'|trans({})|raw }}</li>
+        <li>{{ '<b>Re-enable and check your modules</b> one by one to prevent any compatibility issue.'|trans({})|raw }}</li>
+        <li>{{ '<b>Make sure your store’s front office is working properly:</b> try to create an account, place an order, add a product, etc.'|trans({})|raw }}</li>
+        <li>{{ '<b>Disable the maintenance mode</b> in General settings > Maintenance.'|trans({})|raw }}</li>
+      </ul>
+    </div>
+
+    <div class="content__section">
+      <h3 class="h3">{{ 'Troubleshooting'|trans({}) }}</h3>
+      
+      <ul>
+        <li>{{ 'If some images don’t appear in the front office, try regenerating thumbnails in Preferences > Images.'|trans({}) }}</li>
+        <li>{{ 'If something\'s wrong, you can restore a backup with this module. Your backup is available at {admin}/autoupgrade/backup.'|trans({}) }}</li>
+        <li>{{ 'If you can\'t access your back office, try enabling the debug mode manually in config/defines.inc.php by setting _PS_MODE_DEV_ to true.'|trans({}) }}</li>
+      </ul>
+    </div>
+
+    <div class="content__section">
+      <a class="link" href="#">
+        {{ 'Download update logs'|trans({}) }} <i class="material-icons">file_upload</i>
+      </a>
+    </div>
+  </div>
+{% endblock %}
+
+{% block buttons_inner %}
+  <button class="btn btn-lg btn-default" type="button">
+    <i class="material-icons">
+      exit_to_app
+    </i>
+    {{ 'Exit'|trans({}) }}
+  </button>
+
+  <button class="btn btn-lg btn-primary" type="button">
+    <i class="material-icons">
+      launch
+    </i>
+    {{ 'Open developer documentation'|trans({}) }}
+  </button>
+{% endblock %}

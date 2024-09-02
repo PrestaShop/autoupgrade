@@ -1,0 +1,59 @@
+{% if logs %}
+  <div class="logs">
+    <div class="logs__scroll">
+      <div class="logs__list">
+        {% for log in logs %}
+          <div class="logs__line logs__line--{{ log.status }}" {% if log.id is defined %} id="{{ log.id }}" {% endif %}>
+            {{ log.message }}
+          </div>
+        {% endfor %}
+      </div>
+
+      {% if logsSummaryWarning or logsSummaryError %}
+        <div class="logs__summaries">
+          {% if logsSummaryWarning %}
+            <div class="logs__summary">
+              <p class="logs__summary-title h3">{{ "Warning summary"|trans({}) }}</p>
+
+              {% for log in logsSummaryWarning %}
+                <div class="logs__line logs__line--warning">
+                  {{ log.message }}
+
+                  {% if log.anchor is defined %}
+                    <a class="logs__summary-anchor link" href="#{{ log.anchor }}">{{ "See warning"|trans({}) }}</a>
+                  {% endif %}
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+
+          {% if logsSummaryError %}
+            <div class="logs__summary">
+              <p class="logs__summary-title h3">{{ "Error summary"|trans({}) }}</p>
+
+              {% for log in logsSummaryError %}
+                <div class="logs__line logs__line--error">
+                  {{ log.message }}
+
+                  {% if log.anchor is defined %}
+                    <a class="logs__summary-anchor link" href="#{{ log.anchor }}">{{ "See error"|trans({}) }}</a>
+                  {% endif %}
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+    
+    {% if downloadLogsButtonUrl and downloadLogsButtonLabel %}
+      <div class="logs__buttons">
+        <a class="logs__download btn btn-primary" href="{{ downloadLogsButtonUrl }}">
+          <i class="material-icons">file_upload</i>
+          {{ downloadLogsButtonLabel }}
+        </a>
+      </div>
+    {% endif %}
+  </div>
+{% endif %}
+

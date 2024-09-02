@@ -1,0 +1,57 @@
+{% extends '@ModuleAutoUpgrade/layouts/page.html.twig' %}
+
+{% block page_class %}backup-page{% endblock %}
+
+{% block title %}
+  <h1>{{ 'Back up your store'|trans({}) }}</h1>
+{% endblock %}
+
+{% block content %}
+  <div class="backup-page__container">
+    <div class="backup-page__section">
+      <p>{{ 'Backing up your store\'s files, database, and images means you can restore to a previous version if something goes wrong during the update. This keeps your data safe and ensures your business stays up and running.'|trans({}) }}</p>
+    </div>
+    
+    <div class="backup-page__section">
+      {% include '@ModuleAutoUpgrade/components/render-bool.html.twig' with {
+        field: {
+          id: "backup_files_db",
+          title: "Back up files and database",
+          desc: "",
+          js: {
+            on: 'onclick="enableFeature()"',
+            off: 'onclick="disableFeature()"',
+          },
+          type: 'bool',
+          required: true,
+          disabled: true,
+        },
+        key: "PS_AUTOUP_BACKUP_FILES_DB",
+        val: true,
+      } %}
+
+      {% include '@ModuleAutoUpgrade/components/render-bool.html.twig' with {
+        field: {
+          id: "backup_files_db",
+          title: "Include images",
+          desc: "",
+          js: {
+            on: 'onclick="enableFeature()"',
+            off: 'onclick="disableFeature()"',
+          },
+          type: 'bool',
+          required: true,
+          disabled: true,
+        },
+        key: "PS_AUTOUP_BACKUP_WITH_IMAGES",
+        val: false,
+      } %}
+    </div>
+  </div>
+{% endblock %}
+
+{% block buttons_inner %}
+  <button class="btn btn-lg btn-primary" type="button">
+    {{ 'Launch backup'|trans({}) }}
+  </button>
+{% endblock %}
