@@ -155,7 +155,7 @@ UPDATE `PREFIX_configuration` SET `value` = '4' WHERE `name` = 'PS_LOGS_BY_EMAIL
 /* PHP:add_column('log', 'id_shop', 'INT(10) unsigned DEFAULT NULL after `object_id`'); */;
 /* PHP:add_column('log', 'id_shop_group', 'INT(10) unsigned DEFAULT NULL after `id_shop`'); */;
 /* PHP:add_column('log', 'id_lang', 'INT(10) unsigned DEFAULT NULL after `id_shop_group`'); */;
-/* PHP:add_column('log', 'in_all_shops', "TINYINT(1) unsigned NOT NULL DEFAULT '0'"); */;
+/* PHP:add_column('log', 'in_all_shops', 'TINYINT(1) unsigned NOT NULL DEFAULT \'0\''); */;
 
 /* PHP:add_column('tab', 'wording', ' VARCHAR(255) DEFAULT NULL AFTER `icon`'); */;
 /* PHP:add_column('tab', 'wording_domain', 'VARCHAR(255) DEFAULT NULL AFTER `wording`'); */;
@@ -170,7 +170,7 @@ ALTER TABLE `PREFIX_product` MODIFY COLUMN `redirect_type` ENUM(
     '404', '301-product', '302-product', '301-category', '302-category'
 ) NOT NULL DEFAULT '404';
 
-/* PHP:add_column('product', 'product_type', "ENUM('standard', 'pack', 'virtual', 'combinations', '') NOT NULL DEFAULT ''"); */;
+/* PHP:add_column('product', 'product_type', 'ENUM('standard', 'pack', 'virtual', 'combinations', '') NOT NULL DEFAULT \'\''); */;
 
 /* First set all products to standard type, then update them based on cached columns that identify the type */
 UPDATE `PREFIX_product` SET `product_type` = "standard";

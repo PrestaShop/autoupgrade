@@ -9,7 +9,7 @@ UPDATE `PREFIX_tab` SET `position` = 1 WHERE `class_name` = 'AdminCountries' AND
 /* PHP:ps_1730_move_some_aeuc_configuration_to_core(); */;
 
 /* PHP:add_column('product', 'low_stock_threshold', 'INT(10) NULL DEFAULT NULL AFTER `minimal_quantity`'); */;
-/* PHP:add_column('product', 'additional_delivery_times', "tinyint(1) unsigned NOT NULL DEFAULT '1' AFTER `out_of_stock`"); */;
+/* PHP:add_column('product', 'additional_delivery_times', 'tinyint(1) unsigned NOT NULL DEFAULT \'1\' AFTER `out_of_stock`'); */;
 /* PHP:add_column('product_lang', 'delivery_in_stock', 'varchar(255) DEFAULT NULL'); */;
 /* PHP:add_column('product_lang', 'delivery_out_stock', 'varchar(255) DEFAULT NULL'); */;
 /* PHP:add_column('product_shop', 'low_stock_threshold', 'INT(10) NULL DEFAULT NULL AFTER `minimal_quantity`'); */;
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `PREFIX_store_lang` (
 
 ALTER TABLE `PREFIX_feature_product` DROP PRIMARY KEY, ADD PRIMARY KEY (`id_feature`, `id_product`, `id_feature_value`);
 
-/* PHP:add_column('customization_field', 'is_deleted', "TINYINT(1) NOT NULL DEFAULT '0'"); */;
+/* PHP:add_column('customization_field', 'is_deleted', 'TINYINT(1) NOT NULL DEFAULT \'0\''); */;
 
 INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`) VALUES
   (NULL, 'displayAdminCustomersAddressesItemAction', 'Display new elements in the Back Office, tab AdminCustomers, Addresses actions', 'This hook launches modules when the Addresses list into the AdminCustomers tab is displayed in the Back Office', '1'),

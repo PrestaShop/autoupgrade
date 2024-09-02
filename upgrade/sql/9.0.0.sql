@@ -18,7 +18,7 @@ INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`
 ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
 
 /* Add feature flag types */
-/* PHP:add_column('feature_flag', 'type', "VARCHAR(64) DEFAULT 'env,dotenv,db' NOT NULL AFTER `name`"); */;
+/* PHP:add_column('feature_flag', 'type', 'VARCHAR(64) DEFAULT \'env,dotenv,db\' NOT NULL AFTER `name`'); */;
 UPDATE `PREFIX_feature_flag` SET `state` = 1 WHERE `name` = 'authorization_server';
 UPDATE `PREFIX_tab` SET `active` = 1 WHERE `class_name` = 'AdminAuthorizationServer';
 
@@ -36,8 +36,8 @@ INSERT INTO `PREFIX_feature_flag` (`name`, `type`, `label_wording`, `label_domai
 DELETE FROM `PREFIX_feature_flag` WHERE `name` IN ('product_page_v2', 'title', 'order_state', 'multiple_image_format');
 
 /* Category redirect */
-/* PHP:add_column('category', 'redirect_type', "ENUM('404', '410', '301', '302') NOT NULL DEFAULT '301'"); */;
-/* PHP:add_column('category', 'id_type_redirected', "int(10) unsigned NOT NULL DEFAULT '0'"); */;
+/* PHP:add_column('category', 'redirect_type', 'ENUM(\'404\', \'410\', \'301\', \'302\') NOT NULL DEFAULT \'301\''); */;
+/* PHP:add_column('category', 'id_type_redirected', 'int(10) unsigned NOT NULL DEFAULT \'0\''); */;
 UPDATE `PREFIX_category` SET `redirect_type` = '404' WHERE `is_root_category` = 1;
 
 /* Increase size of customized data - https://github.com/PrestaShop/PrestaShop/pull/31109 */

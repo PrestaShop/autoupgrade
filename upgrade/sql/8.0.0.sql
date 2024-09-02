@@ -203,13 +203,13 @@ ALTER TABLE `PREFIX_webservice_permission` MODIFY COLUMN `method` ENUM(
     'GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD'
 ) NOT NULL;
 
-/* PHP:add_column('product', 'unit_price', "decimal(20, 6) NOT NULL DEFAULT '0.000000' AFTER `unity`"); */;
-/* PHP:add_column('product_shop', 'unit_price', "decimal(20, 6) NOT NULL DEFAULT '0.000000' AFTER `unity`"); */;
+/* PHP:add_column('product', 'unit_price', 'decimal(20, 6) NOT NULL DEFAULT \'0.000000\' AFTER `unity`'); */;
+/* PHP:add_column('product_shop', 'unit_price', 'decimal(20, 6) NOT NULL DEFAULT \'0.000000\' AFTER `unity`'); */;
 
 UPDATE `PREFIX_product` SET `unit_price` = IF (`unit_price_ratio` != 0, `price` / `unit_price_ratio`, 0);
 UPDATE `PREFIX_product_shop` SET `unit_price` = IF (`unit_price_ratio` != 0, `price` / `unit_price_ratio`, 0);
 
-/* PHP:add_column('feature_flag', 'stability', "VARCHAR(64) DEFAULT 'beta' NOT NULL"); */;
+/* PHP:add_column('feature_flag', 'stability', 'VARCHAR(64) DEFAULT \'beta\' NOT NULL'); */;
 
 UPDATE `PREFIX_feature_flag` SET `state` = '0', `stability` = 'stable', `label_wording` = 'New product page - Single store', `description_wording` = 'This page benefits from increased performance and includes new features such as a new combination management system.' WHERE `name` = 'product_page_V2';
 

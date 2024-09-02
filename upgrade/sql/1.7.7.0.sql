@@ -61,8 +61,8 @@ ALTER TABLE PREFIX_product
     ADD INDEX supplier_reference_idx(supplier_reference);
 
 /* Add fields for currencies */
-/* PHP:add_column('currency', 'unofficial', "TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' AFTER `active`"); */;
-/* PHP:add_column('currency', 'modified', "TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' AFTER `unofficial`"); */;
+/* PHP:add_column('currency', 'unofficial', 'TINYINT(1) UNSIGNED NOT NULL DEFAULT \'0\' AFTER `active`'); */;
+/* PHP:add_column('currency', 'modified', 'TINYINT(1) UNSIGNED NOT NULL DEFAULT \'0\' AFTER `unofficial`'); */;
 /* PHP:add_column('currency_lang', 'pattern', 'varchar(255) DEFAULT NULL AFTER `symbol`'); */;
 
 /* Utf8mb4 conversion */
@@ -356,8 +356,8 @@ INSERT IGNORE INTO `PREFIX_hook_alias` (`name`, `alias`) VALUES
 ;
 
 /* Add refund amount on order detail, and fill new columns via data in order_slip_detail table */
-/* PHP:add_column('order_detail', 'total_refunded_tax_excl', "DECIMAL(20, 6) NOT NULL DEFAULT '0.000000' AFTER `original_wholesale_price`"); */;
-/* PHP:add_column('order_detail', 'total_refunded_tax_incl', "DECIMAL(20, 6) NOT NULL DEFAULT '0.000000' AFTER `total_refunded_tax_excl`"); */;
+/* PHP:add_column('order_detail', 'total_refunded_tax_excl', 'DECIMAL(20, 6) NOT NULL DEFAULT \'0.000000\' AFTER `original_wholesale_price`'); */;
+/* PHP:add_column('order_detail', 'total_refunded_tax_incl', 'DECIMAL(20, 6) NOT NULL DEFAULT \'0.000000\' AFTER `total_refunded_tax_excl`'); */;
 
 ALTER TABLE `PREFIX_group_reduction` CHANGE `reduction` `reduction` DECIMAL(5, 4) NOT NULL;
 ALTER TABLE `PREFIX_product_group_reduction_cache` CHANGE `reduction` `reduction` DECIMAL(5, 4) NOT NULL;
@@ -402,7 +402,7 @@ ALTER TABLE `PREFIX_order_cart_rule` CHANGE `value` `value` DECIMAL(20, 6) NOT N
 ALTER TABLE `PREFIX_order_cart_rule` CHANGE `value_tax_excl` `value_tax_excl` DECIMAL(20, 6) NOT NULL DEFAULT '0.000000';
 
 /* add deleted field */
-/* PHP:add_column('order_cart_rule', 'deleted', "TINYINT(1) UNSIGNED NOT NULL DEFAULT '0'"); */;
+/* PHP:add_column('order_cart_rule', 'deleted', 'TINYINT(1) UNSIGNED NOT NULL DEFAULT \'0\''); */;
 
 UPDATE
     `PREFIX_order_detail` `od`
