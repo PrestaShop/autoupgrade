@@ -7,10 +7,7 @@ import eslintPluginPrettier from 'eslint-plugin-prettier';
 import globals from 'globals';
 
 export default [
-  // Inclure la configuration recommandée d'ESLint
   eslint.configs.recommended,
-
-  // Inclure la configuration recommandée pour TypeScript
   {
     files: ['**/*.ts', '**/*.tsx'],
     languageOptions: {
@@ -32,8 +29,6 @@ export default [
       ...tseslintPlugin.configs.recommended.rules
     }
   },
-
-  // Inclure la configuration recommandée pour Prettier
   {
     plugins: {
       prettier: eslintPluginPrettier
