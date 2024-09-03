@@ -51,9 +51,13 @@ class MarketplaceSourceProvider implements ModuleSourceProviderInterface
     /** @var string */
     private $targetVersionOfPrestaShop;
 
-    public function __construct(string $targetVersionOfPrestaShop, FileLoader $fileLoader, FileConfigurationStorage $fileConfigurationStorage)
+    /** @var string */
+    private $prestashopRootFolder;
+
+    public function __construct(string $targetVersionOfPrestaShop, string $prestashopRootFolder, FileLoader $fileLoader, FileConfigurationStorage $fileConfigurationStorage)
     {
         $this->targetVersionOfPrestaShop = $targetVersionOfPrestaShop;
+        $this->prestashopRootFolder = $prestashopRootFolder;
         $this->fileLoader = $fileLoader;
         $this->fileConfigurationStorage = $fileConfigurationStorage;
     }
@@ -98,9 +102,15 @@ class MarketplaceSourceProvider implements ModuleSourceProviderInterface
         ]);
 
         $xml = $this->fileLoader->getXmlFile(
-            _PS_ROOT_DIR_ . '/config/xml/modules_native_addons.xml',
+            $this->prestashopRootFolder . '/config/xml/modules_native_addons.xml',
             self::ADDONS_API_URL . '/?' . $postData
         );
+
+        if ($xml === false) {
+            return;
+        }
+
+        $this->localModuleZips = [];
 
         foreach ($xml as $moduleInXml) {
             $this->localModuleZips[] = new ModuleSource(
