@@ -73,13 +73,13 @@ class UpgradeModules extends AbstractTask
             $moduleInfos = $listModules->getNext();
 
             try {
-                $this->logger->debug($this->translator->trans('Updating module %module%...', ['%module%' => $moduleInfos['name']]));
+                $this->logger->debug($this->translator->trans('Checking updates of module %module%...', ['%module%' => $moduleInfos['name']]));
 
                 $moduleDownloaderContext = new ModuleDownloaderContext($moduleInfos);
                 $moduleSourceList->setSourcesIn($moduleDownloaderContext);
 
                 if (empty($moduleDownloaderContext->getUpdateSources())) {
-                    $this->logger->debug($this->translator->trans('No updates available for module %module%...', ['%module%' => $moduleInfos['name']]));
+                    $this->logger->debug($this->translator->trans('Module %module% is up-to-date.', ['%module%' => $moduleInfos['name']]));
                 } else {
                     $moduleDownloader->downloadModule($moduleDownloaderContext);
 
@@ -124,12 +124,12 @@ class UpgradeModules extends AbstractTask
         if ($modules_left) {
             $this->stepDone = false;
             $this->next = 'upgradeModules';
-            $this->logger->info($this->translator->trans('%s modules left to upgrade.', [$modules_left]));
+            $this->logger->info($this->translator->trans('%s modules left to update.', [$modules_left]));
         } else {
             $this->stepDone = true;
             $this->status = 'ok';
             $this->next = 'cleanDatabase';
-            $this->logger->info($this->translator->trans('Addons modules files have been upgraded.'));
+            $this->logger->info($this->translator->trans('All modules have been updated.'));
         }
 
         return ExitCode::SUCCESS;
