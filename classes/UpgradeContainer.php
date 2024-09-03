@@ -42,6 +42,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\FileFilter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\LocalSourceProvider;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\MarketplaceSourceProvider;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\ModuleSourceProviderInterface;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translation;
@@ -485,6 +486,7 @@ class UpgradeContainer
 
         $this->moduleSourceProviders = [
             new LocalSourceProvider($this->getProperty(self::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . 'modules', $this->getFileConfigurationStorage()),
+            new MarketplaceSourceProvider($this->getState()->getInstallVersion(), $this->getFileLoader(), $this->getFileConfigurationStorage()),
             // Other providers
         ];
 
