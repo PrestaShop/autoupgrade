@@ -34,12 +34,13 @@ use PrestaShop\Module\AutoUpgrade\Parameters\FileConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
+use PrestaShop\Module\AutoUpgrade\Progress\CompletionCalculator;
 use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension;
 use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension3;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\CacheCleaner;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FileFilter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\ModuleAdapter;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translation;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
@@ -69,7 +70,6 @@ class UpgradeContainer
     const ARCHIVE_FILENAME = 'destDownloadFilename';
     const ARCHIVE_FILEPATH = 'destDownloadFilepath';
     const PS_VERSION = 'version';
-    const DB_CONFIG_KEYS = ['PS_DISABLE_OVERRIDES'];
 
     /**
      * @var Analytics
@@ -135,6 +135,11 @@ class UpgradeContainer
      * @var ModuleAdapter
      */
     private $moduleAdapter;
+
+    /**
+     * @var CompletionCalculator
+     */
+    private $completionCalculator;
 
     /**
      * @var Twig_Environment|\Twig\Environment
@@ -240,10 +245,9 @@ class UpgradeContainer
             $this->getProperty(self::WORKSPACE_PATH), [
             'properties' => [
                 'ps_version' => $this->getProperty(self::PS_VERSION),
-                'php_version' => PHP_VERSION_ID,
+                'php_version' => VersionUtils::getHumanReadableVersionOf(PHP_VERSION_ID),
                 'autoupgrade_version' => $this->getPrestaShopConfiguration()->getModuleVersion(),
-                // TODO: Improve this part by having a safe getter
-                'disable_all_overrides' => class_exists('\Configuration', false) ? \Configuration::get('PS_DISABLE_OVERRIDES') : null,
+                'disable_all_overrides' => class_exists('\Configuration', false) ? UpgradeConfiguration::isOverrideAllowed() : null,
             ],
         ]);
     }
@@ -375,7 +379,7 @@ class UpgradeContainer
                 if ($upgradeConfiguration->get('channel') == 'private' && !$upgradeConfiguration->get('private_allow_major')) {
                     $upgrader->checkPSVersion(false, ['private', 'minor']);
                 } else {
-                    $upgrader->checkPSVersion(false, ['minor']);
+                    $upgrader->checkPSVersion();
                 }
         }
         $this->getState()->setInstallVersion($upgrader->version_num);
@@ -459,13 +463,21 @@ class UpgradeContainer
         $this->moduleAdapter = new ModuleAdapter(
             $this->getTranslator(),
             $this->getProperty(self::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR,
-            $this->getProperty(self::TMP_PATH),
-            $this->getState()->getInstallVersion(),
-            $this->getZipAction(),
             $this->getSymfonyAdapter()
         );
 
         return $this->moduleAdapter;
+    }
+
+    public function getCompletionCalculator(): CompletionCalculator
+    {
+        if (null !== $this->completionCalculator) {
+            return $this->completionCalculator;
+        }
+
+        $this->completionCalculator = new CompletionCalculator($this->getUpgradeConfiguration());
+
+        return $this->completionCalculator;
     }
 
     /**
@@ -492,7 +504,16 @@ class UpgradeContainer
 
     public function getTranslator(): Translator
     {
-        return new Translator();
+        $locale = null;
+        // @phpstan-ignore booleanAnd.rightAlwaysTrue (If PrestaShop core is not instantiated properly, do not try to translate)
+        if (method_exists('\Context', 'getContext') && \Context::getContext()->language) {
+            $locale = \Context::getContext()->language->iso_code;
+        }
+
+        return new Translator(
+            $this->getProperty(self::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . 'autoupgrade' . DIRECTORY_SEPARATOR . 'translations' . DIRECTORY_SEPARATOR,
+            $locale
+        );
     }
 
     /**
@@ -595,7 +616,6 @@ class UpgradeContainer
         }
 
         $this->workspace = new Workspace(
-            $this->getLogger(),
             $this->getTranslator(),
             $paths
         );

@@ -30,8 +30,18 @@ namespace PrestaShop\Module\AutoUpgrade\Task\Upgrade;
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
+use PrestaShop\Module\AutoUpgrade\Progress\Backlog;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
+use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleDownloader;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleDownloaderContext;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleMigration;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleMigrationContext;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleUnzipper;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleUnzipperContext;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleVersionAdapter;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Upgrade all partners modules according to the installed prestashop version.
@@ -45,21 +55,11 @@ class UpgradeModules extends AbstractTask
      */
     public function run(): int
     {
-        $start_time = time();
         if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::MODULES_TO_UPGRADE_LIST)) {
             return $this->warmUp();
         }
 
-        $this->next = 'upgradeModules';
-        $listModules = $this->container->getFileConfigurationStorage()->load(UpgradeFileNames::MODULES_TO_UPGRADE_LIST);
-
-        if (!is_array($listModules)) {
-            $this->next = 'upgradeComplete';
-            $this->container->getState()->setWarningExists(true);
-            $this->logger->error($this->translator->trans('listModules is not an array. No module has been updated.'));
-
-            return ExitCode::SUCCESS;
-        }
+        $listModules = Backlog::fromContents($this->container->getFileConfigurationStorage()->load(UpgradeFileNames::MODULES_TO_UPGRADE_LIST));
 
         // add local modules that we want to upgrade to the list
         $localModules = $this->getLocalModules();
@@ -73,32 +73,62 @@ class UpgradeModules extends AbstractTask
             }
         }
 
-        // module list
-        if (count($listModules) > 0) {
-            do {
-                $module_info = array_pop($listModules);
-                try {
-                    $this->logger->debug($this->translator->trans('Updating module %module%...', ['%module%' => $module_info['name']]));
-                    $this->container->getModuleAdapter()->upgradeModule($module_info['id'], $module_info['name'], !empty($module_info['is_local']));
-                    $this->logger->info($this->translator->trans('The module %s has been updated.', [$module_info['name']]));
-                } catch (UpgradeException $e) {
-                    $this->handleException($e);
-                    if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {
-                        return ExitCode::FAIL;
-                    }
+        $modulesPath = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR;
+
+        $moduleDownloader = new ModuleDownloader($this->translator, $this->logger, $this->container->getState()->getInstallVersion());
+        $moduleUnzipper = new ModuleUnzipper($this->translator, $this->container->getZipAction(), $modulesPath);
+        $moduleMigration = new ModuleMigration($this->translator, $this->logger);
+
+        if ($listModules->getRemainingTotal()) {
+            $moduleInfos = $listModules->getNext();
+
+            $zipFullPath = $this->container->getProperty(UpgradeContainer::TMP_PATH) . DIRECTORY_SEPARATOR . $moduleInfos['name'] . '.zip';
+
+            try {
+                $this->logger->debug($this->translator->trans('Updating module %module%...', ['%module%' => $moduleInfos['name']]));
+
+                $moduleDownloaderContext = new ModuleDownloaderContext($zipFullPath, $moduleInfos);
+                $moduleDownloader->downloadModule($moduleDownloaderContext);
+
+                $moduleUnzipperContext = new ModuleUnzipperContext($zipFullPath, $moduleInfos['name']);
+                $moduleUnzipper->unzipModule($moduleUnzipperContext);
+
+                $dbVersion = (new ModuleVersionAdapter())->get($moduleInfos['name']);
+                $module = \Module::getInstanceByName($moduleInfos['name']);
+
+                if (!($module instanceof \Module)) {
+                    throw (new UpgradeException($this->translator->trans('[WARNING] Error when trying to retrieve module %s instance.', [$moduleInfos['name']])))->setSeverity(UpgradeException::SEVERITY_WARNING);
                 }
-                $time_elapsed = time() - $start_time;
-            } while (($time_elapsed < $this->container->getUpgradeConfiguration()->getTimePerCall()) && count($listModules) > 0);
 
-            $modules_left = count($listModules);
-            $this->container->getFileConfigurationStorage()->save($listModules, UpgradeFileNames::MODULES_TO_UPGRADE_LIST);
-            unset($listModules);
+                $moduleMigrationContext = new ModuleMigrationContext($module, $dbVersion);
 
-            $this->next = 'upgradeModules';
-            if ($modules_left) {
-                $this->logger->info($this->translator->trans('%s modules left to upgrade.', [$modules_left]));
+                if (!$moduleMigration->needMigration($moduleMigrationContext)) {
+                    $this->logger->info($this->translator->trans('Module %s does not need to be migrated. Module is up to date.', [$moduleInfos['name']]));
+                } else {
+                    $moduleMigration->runMigration($moduleMigrationContext);
+                }
+                $moduleMigration->saveVersionInDb($moduleMigrationContext);
+            } catch (UpgradeException $e) {
+                $this->handleException($e);
+                if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {
+                    return ExitCode::FAIL;
+                }
+            } finally {
+                // Cleanup of module assets
+                (new Filesystem())->remove([$zipFullPath]);
             }
+        }
+
+        $modules_left = $listModules->getRemainingTotal();
+        $this->container->getState()->setProgressPercentage(
+            $this->container->getCompletionCalculator()->computePercentage($listModules, self::class, CleanDatabase::class)
+        );
+        $this->container->getFileConfigurationStorage()->save($listModules->dump(), UpgradeFileNames::MODULES_TO_UPGRADE_LIST);
+
+        if ($modules_left) {
             $this->stepDone = false;
+            $this->next = 'upgradeModules';
+            $this->logger->info($this->translator->trans('%s modules left to upgrade.', [$modules_left]));
         } else {
             $this->stepDone = true;
             $this->status = 'ok';
@@ -147,20 +177,28 @@ class UpgradeModules extends AbstractTask
 
     public function warmUp(): int
     {
+        $this->container->getState()->setProgressPercentage(
+            $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
+        );
+
         try {
             $modulesToUpgrade = $this->container->getModuleAdapter()->listModulesToUpgrade(
                 $this->container->getState()->getModules_addons(),
                 $this->container->getState()->getModulesVersions()
             );
             $modulesToUpgrade = array_reverse($modulesToUpgrade);
-            $this->container->getFileConfigurationStorage()->save($modulesToUpgrade, UpgradeFileNames::MODULES_TO_UPGRADE_LIST);
+            $total_modules_to_upgrade = count($modulesToUpgrade);
+
+            $this->container->getFileConfigurationStorage()->save(
+                (new Backlog($modulesToUpgrade, $total_modules_to_upgrade))->dump(),
+                UpgradeFileNames::MODULES_TO_UPGRADE_LIST
+            );
         } catch (UpgradeException $e) {
             $this->handleException($e);
 
             return ExitCode::FAIL;
         }
 
-        $total_modules_to_upgrade = count($modulesToUpgrade);
         if ($total_modules_to_upgrade) {
             $this->logger->info($this->translator->trans('%s modules will be upgraded.', [$total_modules_to_upgrade]));
         }

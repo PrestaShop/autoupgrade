@@ -6,10 +6,27 @@ use SimpleXMLElement;
 
 class Translator
 {
+    const DEFAULT_LANGUAGE = 'en';
     /**
      * @var array<string,string>
      */
     private $translations = [];
+
+    /** @var string */
+    private $locale;
+
+    /** @var string */
+    private $translationsFilesPath;
+
+    /**
+     * @param string $translationsFilesPath
+     * @param string $locale
+     */
+    public function __construct($translationsFilesPath, $locale = self::DEFAULT_LANGUAGE)
+    {
+        $this->locale = $locale;
+        $this->translationsFilesPath = $translationsFilesPath;
+    }
 
     /**
      * Load translations from XLF files.
@@ -20,13 +37,8 @@ class Translator
      */
     private function loadTranslations()
     {
-        $language = \Context::getContext()->language->iso_code;
-
-        // Adjust the path to your XLF files as necessary
-        $basePath = _PS_MODULE_DIR_ . 'autoupgrade/translations/ModulesAutoupgradeAdmin';
-
         // use generic language file (e.g., fr)
-        $path = $basePath . '.' . $language . '.xlf';
+        $path = $this->translationsFilesPath . "ModulesAutoupgradeAdmin.{$this->locale}.xlf";
         if (file_exists($path)) {
             $this->loadXlfFile($path);
         }
@@ -63,11 +75,6 @@ class Translator
      */
     public function trans($id, array $parameters = [], $domain = null, $locale = null)
     {
-        // If PrestaShop core is not instantiated properly, do not try to translate
-        if (!method_exists('\Context', 'getContext') || null === \Context::getContext()->language) {
-            return $this->applyParameters($id, $parameters);
-        }
-
         if (empty($this->translations)) {
             try {
                 $this->loadTranslations();
@@ -111,6 +118,6 @@ class Translator
      */
     public function getLocale()
     {
-        return \Context::getContext()->language->locale;
+        return $this->locale;
     }
 }

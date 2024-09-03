@@ -22,16 +22,13 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
-$(document).ready(function(){
+$(document).ready(function () {
   var autoUpgradePanel = $("#autoupgradePhpWarn");
 
-  $(".list-toolbar-btn", autoUpgradePanel).click(function(event) {
-
+  $(".list-toolbar-btn", autoUpgradePanel).click(function (event) {
     event.preventDefault();
     autoUpgradePanel.fadeOut();
 
-    $.post(
-      $(this).attr("href")
-    );
+    $.post($(this).attr("href"));
   });
 });

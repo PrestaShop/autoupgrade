@@ -26,6 +26,7 @@
 import { Preview, twig } from "@sensiolabs/storybook-symfony-webpack5";
 
 const cssEntrypoints = {
+  "9.0.0": ["/9.0.0/default/theme.css"],
   "1.7.8.0": ["/1.7.8.0/default/theme.css"],
   "1.7.3.0": ["/1.7.3.0/default/theme.css"],
 };
@@ -44,9 +45,28 @@ const preview: Preview = {
       toolbar: {
         icon: "paintbrush",
         default: defaultBoTheme,
+        dynamicTitle: true,
         items: availableBoThemes.map((prestashopVersion) => ({
           value: prestashopVersion,
           title: `PrestaShop ${prestashopVersion}`,
+        })),
+      },
+    },
+    _locale: {
+      description: 'Internationalization locale',
+      defaultValue: 'en',
+      toolbar: {
+        icon: 'globe',
+        items: TRANSLATION_LOCALES.map((languageLocale) => ({
+          value: languageLocale,
+          title: new Intl.DisplayNames(
+              [navigator.language || 'en'],
+              {type: 'language'},
+            ).of(languageLocale),
+          right: String.fromCodePoint(...({'en': 'gb', 'cs': 'cz'}[languageLocale] || languageLocale)
+            .toUpperCase()
+            .split('')
+            .map(char =>  127397 + char.charCodeAt())),
         })),
       },
     },

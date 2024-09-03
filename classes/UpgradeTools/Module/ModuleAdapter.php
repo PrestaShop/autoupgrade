@@ -25,30 +25,19 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
+namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\Module;
 
 use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
-use PrestaShop\Module\AutoUpgrade\Tools14;
-use PrestaShop\Module\AutoUpgrade\ZipAction;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 use PrestaShop\PrestaShop\Adapter\Module\Repository\ModuleRepository;
-use Symfony\Component\Filesystem\Exception\IOException;
-use Symfony\Component\Filesystem\Filesystem;
-use Throwable;
 
 class ModuleAdapter
 {
     /** @var Translator */
     private $translator;
-    /** @var string PS version to update */
-    private $upgradeVersion;
     /** @var string */
     private $modulesPath;
-    /** @var string */
-    private $tempPath;
-    /**
-     * @var ZipAction
-     */
-    private $zipAction;
 
     /**
      * @var SymfonyAdapter
@@ -61,13 +50,10 @@ class ModuleAdapter
     /** @var \PrestaShop\PrestaShop\Core\CommandBus\CommandBusInterface */
     private $commandBus;
 
-    public function __construct(Translator $translator, string $modulesPath, string $tempPath, string $upgradeVersion, ZipAction $zipAction, SymfonyAdapter $symfonyAdapter)
+    public function __construct(Translator $translator, string $modulesPath, SymfonyAdapter $symfonyAdapter)
     {
         $this->translator = $translator;
         $this->modulesPath = $modulesPath;
-        $this->tempPath = $tempPath;
-        $this->upgradeVersion = $upgradeVersion;
-        $this->zipAction = $zipAction;
         $this->symfonyAdapter = $symfonyAdapter;
     }
 
@@ -178,113 +164,5 @@ class ModuleAdapter
         }
 
         return $list;
-    }
-
-    /**
-     * Upgrade module $name (identified by $id_module on addons server).
-     *
-     * @throws UpgradeException
-     */
-    public function upgradeModule(int $id, string $name, bool $isLocalModule = false): void
-    {
-        $zip_fullpath = $this->tempPath . DIRECTORY_SEPARATOR . $name . '.zip';
-        $local_module_used = false;
-
-        if ($isLocalModule) {
-            try {
-                $local_module_zip = $this->getLocalModuleZip($name);
-                if (!empty($local_module_zip)) {
-                    $filesystem = new Filesystem();
-                    $filesystem->copy($local_module_zip, $zip_fullpath);
-                    $local_module_used = true;
-                    unlink($local_module_zip);
-                }
-            } catch (IOException $e) {
-                // Do nothing, we will try to upgrade module from addons
-            }
-        }
-
-        if (false === $local_module_used) {
-            $addons_url = extension_loaded('openssl')
-                ? 'https://api.addons.prestashop.com'
-                : 'http://api.addons.prestashop.com';
-
-            // Make the request
-            $context = stream_context_create([
-                'http' => [
-                    'method' => 'POST',
-                    'content' => 'version=' . $this->upgradeVersion . '&method=module&id_module=' . (int) $id,
-                    'header' => 'Content-type: application/x-www-form-urlencoded',
-                    'timeout' => 10,
-                ],
-            ]);
-
-            // file_get_contents can return false if https is not supported (or warning)
-            $content = Tools14::file_get_contents($addons_url, false, $context);
-            if (empty($content) || substr($content, 5) == '<?xml') {
-                $msg = $this->translator->trans('[ERROR] No response from Addons server.');
-                throw new UpgradeException($msg);
-            }
-
-            if (false === (bool) file_put_contents($zip_fullpath, $content)) {
-                $msg = $this->translator->trans('[ERROR] Unable to write module %s\'s zip file in temporary directory.', [$name]);
-                throw new UpgradeException($msg);
-            }
-        }
-
-        if (filesize($zip_fullpath) <= 300) {
-            unlink($zip_fullpath);
-        }
-        // unzip in modules/[mod name] old files will be conserved
-        if (!$this->zipAction->extract($zip_fullpath, $this->modulesPath)) {
-            throw (new UpgradeException($this->translator->trans('[WARNING] Error when trying to extract module %s.', [$name])))->setSeverity(UpgradeException::SEVERITY_WARNING);
-        }
-        if (file_exists($zip_fullpath)) {
-            unlink($zip_fullpath);
-        }
-
-        $this->doUpgradeModule($name);
-    }
-
-    private function getLocalModuleZip(string $name): ?string
-    {
-        $autoupgrade_dir = _PS_ADMIN_DIR_ . DIRECTORY_SEPARATOR . 'autoupgrade';
-        $module_zip = $autoupgrade_dir . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $name . '.zip';
-
-        if (file_exists($module_zip) && is_readable($module_zip)) {
-            return $module_zip;
-        }
-
-        return null;
-    }
-
-    private function doUpgradeModule(string $name): void
-    {
-        $version = \Db::getInstance()->getValue(
-            'SELECT version FROM `' . _DB_PREFIX_ . 'module` WHERE name = "' . $name . '"'
-        );
-        $module = \Module::getInstanceByName($name);
-        if (!($module instanceof \Module)) {
-            return;
-        }
-        $module->installed = !empty($version);
-        $module->database_version = $version ?: 0;
-
-        try {
-            if (!\Module::initUpgradeModule($module)) {
-                return;
-            }
-
-            $module->runUpgradeModule();
-            \Module::upgradeModuleVersion($name, $module->version);
-        } catch (Throwable $t) {
-            throw (new UpgradeException($this->translator->trans('[WARNING] Error when trying to upgrade module %s.', [$name]), 0, $t))->setSeverity(UpgradeException::SEVERITY_WARNING);
-        }
-
-        $errorsList = $module->getErrors();
-
-        if (count($errorsList)) {
-            throw (new UpgradeException($this->translator->trans('[WARNING] Error when trying to upgrade module %s.', [$name])))->setSeverity(UpgradeException::SEVERITY_WARNING)->setQuickInfos($errorsList);
-        }
     }
 }

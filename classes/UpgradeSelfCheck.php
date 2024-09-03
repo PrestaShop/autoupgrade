@@ -29,6 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade;
 
 use Configuration;
 use ConfigurationTest;
+use Exception;
 use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
 use PrestaShop\Module\AutoUpgrade\Services\DistributionApiService;
 use Shop;
@@ -184,11 +185,6 @@ class UpgradeSelfCheck
     const PHP_REQUIREMENTS_VALID = 1;
     const PHP_REQUIREMENTS_UNKNOWN = 2;
 
-    /**
-     * @var bool
-     */
-    private $overrideDisabled;
-
     public function __construct(
         Upgrader $upgrader,
         PrestashopConfiguration $prestashopConfiguration,
@@ -244,15 +240,6 @@ class UpgradeSelfCheck
     public function getAdminAutoUpgradeDirectoryWritableReport(): string
     {
         return $this->adminAutoUpgradeDirectoryWritableReport;
-    }
-
-    public function isOverrideDisabled(): bool
-    {
-        if (null === $this->overrideDisabled) {
-            $this->overrideDisabled = $this->checkOverrideIsDisabled();
-        }
-
-        return $this->overrideDisabled;
     }
 
     public function isShopDeactivated(): bool
@@ -332,9 +319,9 @@ class UpgradeSelfCheck
     }
 
     /**
-     * @return bool
+     * @throws Exception
      */
-    public function isShopVersionMatchingVersionInDatabase()
+    public function isShopVersionMatchingVersionInDatabase(): bool
     {
         return version_compare(
             Configuration::get('PS_VERSION_DB'),
@@ -378,11 +365,6 @@ class UpgradeSelfCheck
     private function checkModuleVersionIsLastest(Upgrader $upgrader): bool
     {
         return version_compare($this->getModuleVersion(), $upgrader->autoupgrade_last_version, '>=');
-    }
-
-    private function checkOverrideIsDisabled(): bool
-    {
-        return (bool) Configuration::get('PS_DISABLE_OVERRIDES');
     }
 
     private function checkIsLocalEnvironment(): bool

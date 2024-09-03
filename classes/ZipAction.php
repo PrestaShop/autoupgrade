@@ -30,6 +30,7 @@ namespace PrestaShop\Module\AutoUpgrade;
 use PrestaShop\Module\AutoUpgrade\Exceptions\ZipActionException;
 use PrestaShop\Module\AutoUpgrade\Log\LoggerInterface;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Progress\Backlog;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 use Symfony\Component\Filesystem\Filesystem;
 use ZipArchive;
@@ -73,10 +74,8 @@ class ZipAction
     /**
      * Add files to an archive.
      * Note the number of files added can be limited.
-     *
-     * @param string[] $filesList List of files to add
      */
-    public function compress(array &$filesList, string $toFile): bool
+    public function compress(Backlog $backlog, string $toFile): bool
     {
         try {
             $zip = $this->open($toFile, ZipArchive::CREATE);
@@ -84,8 +83,8 @@ class ZipAction
             return false;
         }
 
-        for ($i = 0; $i < $this->configMaxNbFilesCompressedInARow && count($filesList); ++$i) {
-            $file = array_pop($filesList);
+        for ($i = 0; $i < $this->configMaxNbFilesCompressedInARow && $backlog->getRemainingTotal(); ++$i) {
+            $file = $backlog->getNext();
 
             $archiveFilename = $this->getFilepathInArchive($file);
             if (!$this->isFileWithinFileSizeLimit($file)) {
@@ -111,7 +110,7 @@ class ZipAction
                 '%filename% added to archive. %filescount% files left.',
                 [
                     '%filename%' => $archiveFilename,
-                    '%filescount%' => count($filesList),
+                    '%filescount%' => $backlog->getRemainingTotal(),
                 ]
             ));
         }

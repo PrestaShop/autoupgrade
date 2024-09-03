@@ -36,7 +36,7 @@ class Autoupgrade extends Module
         $this->name = 'autoupgrade';
         $this->tab = 'administration';
         $this->author = 'PrestaShop';
-        $this->version = '6.0.0';
+        $this->version = '6.1.0';
         $this->need_instance = 1;
         $this->module_key = '926bc3e16738b7b834f37fc63d59dcf8';
 
@@ -184,7 +184,10 @@ class Autoupgrade extends Module
     {
         require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/classes/UpgradeTools/Translator.php';
 
-        $translator = new \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator();
+        $translator = new \PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator(
+            _PS_ROOT_DIR_ . 'modules' . DIRECTORY_SEPARATOR . 'autoupgrade' . DIRECTORY_SEPARATOR . 'translations' . DIRECTORY_SEPARATOR,
+            \Context::getContext()->language->iso_code
+        );
 
         return $translator->trans($id, $parameters);
     }

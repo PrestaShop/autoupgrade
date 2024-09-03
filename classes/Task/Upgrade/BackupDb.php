@@ -29,6 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade\Task\Upgrade;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
+use PrestaShop\Module\AutoUpgrade\Progress\Backlog;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\Tools14;
@@ -43,9 +44,7 @@ class BackupDb extends AbstractTask
      */
     public function run(): int
     {
-        // TODO: Keep only one configuration property to toggle backups
-        if (!$this->container->getUpgradeConfiguration()->get('PS_AUTOUP_BACKUP')
-         || $this->container->getUpgradeConfiguration()->get('skip_backup')) {
+        if (!$this->container->getUpgradeConfiguration()->shouldBackupFilesAndDatabase()) {
             $this->stepDone = true;
             $this->container->getState()->setDbStep(0);
             $this->logger->info($this->translator->trans('Database backup skipped. Now upgrading files...'));
@@ -78,18 +77,21 @@ class BackupDb extends AbstractTask
 
         // INIT LOOP
         if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::DB_TABLES_TO_BACKUP_LIST)) {
+            $this->container->getState()->setProgressPercentage(
+                $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
+            );
+
             if (!is_dir($this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $this->container->getState()->getBackupName())) {
                 mkdir($this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $this->container->getState()->getBackupName());
             }
             $this->container->getState()->setDbStep(0);
-            $tablesToBackup = $this->container->getDb()->executeS('SHOW TABLES LIKE "' . _DB_PREFIX_ . '%"', true, false);
-            $tablesToBackup = array_reverse($tablesToBackup);
-            $this->container->getFileConfigurationStorage()->save($tablesToBackup, UpgradeFileNames::DB_TABLES_TO_BACKUP_LIST);
+            $listOfTables = $this->container->getDb()->executeS('SHOW TABLES LIKE "' . _DB_PREFIX_ . '%"', true, false);
+
+            $tablesToBackup = new Backlog($listOfTables, count($listOfTables));
+        } else {
+            $tablesToBackup = Backlog::fromContents($this->container->getFileConfigurationStorage()->load(UpgradeFileNames::DB_TABLES_TO_BACKUP_LIST));
         }
 
-        if (!isset($tablesToBackup)) {
-            $tablesToBackup = $this->container->getFileConfigurationStorage()->load(UpgradeFileNames::DB_TABLES_TO_BACKUP_LIST);
-        }
         $found = 0;
         $views = '';
         $fp = false;
@@ -102,10 +104,10 @@ class BackupDb extends AbstractTask
                 // only insert (schema already done)
                 $table = $this->container->getState()->getBackupTable();
             } else {
-                if (count($tablesToBackup) == 0) {
+                if (!$tablesToBackup->getRemainingTotal()) {
                     break;
                 }
-                $table = current(array_pop($tablesToBackup));
+                $table = current($tablesToBackup->getNext());
                 $this->container->getState()->setBackupLoopLimit(0);
             }
 
@@ -264,13 +266,16 @@ class BackupDb extends AbstractTask
             $fp = null;
         }
 
-        $this->container->getFileConfigurationStorage()->save($tablesToBackup, UpgradeFileNames::DB_TABLES_TO_BACKUP_LIST);
+        $this->container->getState()->setProgressPercentage(
+            $this->container->getCompletionCalculator()->computePercentage($tablesToBackup, self::class, UpgradeFiles::class)
+        );
+        $this->container->getFileConfigurationStorage()->save($tablesToBackup->dump(), UpgradeFileNames::DB_TABLES_TO_BACKUP_LIST);
 
-        if (count($tablesToBackup) > 0) {
+        if ($tablesToBackup->getRemainingTotal()) {
             $this->logger->debug($this->translator->trans('%s tables have been saved.', [$found]));
             $this->next = 'backupDb';
             $this->stepDone = false;
-            $this->logger->info($this->translator->trans('Database backup: %s table(s) left...', [count($tablesToBackup)]));
+            $this->logger->info($this->translator->trans('Database backup: %s table(s) left...', [$tablesToBackup->getRemainingTotal()]));
 
             return ExitCode::SUCCESS;
         }

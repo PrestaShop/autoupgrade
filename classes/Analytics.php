@@ -97,7 +97,7 @@ class Analytics
         }
 
         \Segment::track(array_merge(
-            ['event' => $event],
+            ['event' => '[SUE] ' . $event],
             $this->getProperties($propertiesType)
         ));
         \Segment::flush();
@@ -116,8 +116,7 @@ class Analytics
                     'from_ps_version' => $this->state->getOriginVersion(),
                     'to_ps_version' => $this->state->getInstallVersion(),
                     'upgrade_channel' => $this->upgradeConfiguration->getChannel(),
-                    'backup_files_and_databases' => $this->upgradeConfiguration->get('PS_AUTOUP_BACKUP')
-                        || !$this->upgradeConfiguration->get('skip_backup'),
+                    'backup_files_and_databases' => $this->upgradeConfiguration->shouldBackupFilesAndDatabase(),
                     'backup_images' => $this->upgradeConfiguration->shouldBackupImages(),
                     'server_performance' => $this->upgradeConfiguration->getPerformanceLevel(),
                     'disable_non_native_modules' => $this->upgradeConfiguration->shouldDeactivateCustomModules(),

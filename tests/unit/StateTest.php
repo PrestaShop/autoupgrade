@@ -106,4 +106,22 @@ class StateTest extends TestCase
                 ->getRestoreVersion()
         );
     }
+
+    public function testProgressionValue()
+    {
+        $state = new State();
+        $this->assertSame(null, $state->getProgressPercentage());
+
+        $state->setProgressPercentage(0);
+        $this->assertSame(0, $state->getProgressPercentage());
+
+        $state->setProgressPercentage(55);
+        $this->assertSame(55, $state->getProgressPercentage());
+
+        // Percentage cannot go down, an exception will be thrown
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Updated progress percentage cannot be lower than the currently set one.');
+
+        $state->setProgressPercentage(10);
+    }
 }

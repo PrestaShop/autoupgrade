@@ -27,7 +27,9 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Parameters;
 
+use Configuration;
 use Doctrine\Common\Collections\ArrayCollection;
+use Shop;
 
 /**
  * Contains the module configuration (form params).
@@ -36,12 +38,35 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class UpgradeConfiguration extends ArrayCollection
 {
+    const UPGRADE_CONST_KEYS = [
+        'PS_AUTOUP_PERFORMANCE',
+        'PS_AUTOUP_CUSTOM_MOD_DESACT',
+        'PS_AUTOUP_UPDATE_DEFAULT_THEME',
+        'PS_AUTOUP_CHANGE_DEFAULT_THEME',
+        'PS_AUTOUP_UPDATE_RTL_FILES',
+        'PS_AUTOUP_KEEP_MAILS',
+        'PS_AUTOUP_BACKUP',
+        'PS_AUTOUP_KEEP_IMAGES',
+        'PS_DISABLE_OVERRIDES',
+    ];
+
+    const PS_CONST_DEFAULT_VALUE = [
+        'PS_AUTOUP_PERFORMANCE' => 1,
+        'PS_AUTOUP_CUSTOM_MOD_DESACT' => 1,
+        'PS_AUTOUP_UPDATE_DEFAULT_THEME' => 1,
+        'PS_AUTOUP_CHANGE_DEFAULT_THEME' => 0,
+        'PS_AUTOUP_UPDATE_RTL_FILES' => 1,
+        'PS_AUTOUP_KEEP_MAILS' => 0,
+        'PS_AUTOUP_BACKUP' => 1,
+        'PS_AUTOUP_KEEP_IMAGES' => 1,
+    ];
+
     /**
      * Performance settings, if your server has a low memory size, lower these values.
      *
      * @var array<string, int[]>
      */
-    protected $performanceValues = [
+    private const PERFORMANCE_VALUES = [
         'loopFiles' => [400, 800, 1600], // files
         'loopTime' => [6, 12, 25], // seconds
         'maxBackupFileSize' => [15728640, 31457280, 62914560], // bytes
@@ -77,7 +102,7 @@ class UpgradeConfiguration extends ArrayCollection
      */
     public function getNumberOfFilesPerCall(): int
     {
-        return $this->performanceValues['loopFiles'][$this->getPerformanceLevel()];
+        return $this::PERFORMANCE_VALUES['loopFiles'][$this->getPerformanceLevel()];
     }
 
     /**
@@ -85,7 +110,7 @@ class UpgradeConfiguration extends ArrayCollection
      */
     public function getTimePerCall(): int
     {
-        return $this->performanceValues['loopTime'][$this->getPerformanceLevel()];
+        return $this::PERFORMANCE_VALUES['loopTime'][$this->getPerformanceLevel()];
     }
 
     /**
@@ -93,7 +118,7 @@ class UpgradeConfiguration extends ArrayCollection
      */
     public function getMaxSizeToWritePerCall(): int
     {
-        return $this->performanceValues['maxWrittenAllowed'][$this->getPerformanceLevel()];
+        return $this::PERFORMANCE_VALUES['maxWrittenAllowed'][$this->getPerformanceLevel()];
     }
 
     /**
@@ -101,7 +126,7 @@ class UpgradeConfiguration extends ArrayCollection
      */
     public function getMaxFileToBackup(): int
     {
-        return $this->performanceValues['maxBackupFileSize'][$this->getPerformanceLevel()];
+        return $this::PERFORMANCE_VALUES['maxBackupFileSize'][$this->getPerformanceLevel()];
     }
 
     /**
@@ -112,8 +137,13 @@ class UpgradeConfiguration extends ArrayCollection
         return $this->get('PS_AUTOUP_PERFORMANCE') - 1;
     }
 
+    public function shouldBackupFilesAndDatabase(): bool
+    {
+        return (bool) $this->get('PS_AUTOUP_BACKUP');
+    }
+
     /**
-     * @return bool True if the autoupgrade module should backup the images as well
+     * @return bool True if the autoupgrade module backup should include the images
      */
     public function shouldBackupImages(): bool
     {
@@ -158,6 +188,28 @@ class UpgradeConfiguration extends ArrayCollection
     public function shouldUpdateRTLFiles(): bool
     {
         return (bool) $this->get('PS_AUTOUP_UPDATE_RTL_FILES');
+    }
+
+    public static function isOverrideAllowed(): bool
+    {
+        return (bool) Configuration::get('PS_DISABLE_OVERRIDES');
+    }
+
+    public static function updateDisabledOverride(bool $value, ?int $shopId = null): void
+    {
+        if ($shopId) {
+            Configuration::updateValue('PS_DISABLE_OVERRIDES', $value, false, null, (int) $shopId);
+        } else {
+            Configuration::updateGlobalValue('PS_DISABLE_OVERRIDES', $value);
+        }
+    }
+
+    public static function updatePSDisableOverrides(bool $value): void
+    {
+        foreach (Shop::getCompleteListOfShopsID() as $id_shop) {
+            self::updateDisabledOverride($value, $id_shop);
+        }
+        self::updateDisabledOverride($value);
     }
 
     /**

@@ -29,11 +29,12 @@
 {% include '@ModuleAutoUpgrade/block/upgradeButtonBlock.html.twig' %}
 
 {% include '@ModuleAutoUpgrade/block/versionComparison.html.twig' %}
+{% include '@ModuleAutoUpgrade/block/postUpdateChecklistBlock.html.twig' %}
+{% include '@ModuleAutoUpgrade/block/postRestoreChecklistBlock.html.twig' %}
 {% include '@ModuleAutoUpgrade/block/activityLog.html.twig' %}
 
 {% include '@ModuleAutoUpgrade/block/rollbackForm.html.twig' %}
 
-<br>
 <form action="{{ currentIndex }}&amp;customSubmitAutoUpgrade=1&amp;token={{ token }}" method="post" class="form-horizontal" enctype="multipart/form-data">
     {{ backupOptions|raw }}
     {{ upgradeOptions|raw }}

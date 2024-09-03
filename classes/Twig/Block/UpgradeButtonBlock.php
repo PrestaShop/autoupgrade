@@ -74,11 +74,6 @@ class UpgradeButtonBlock
     private $token;
 
     /**
-     * @var bool
-     */
-    private $manualMode;
-
-    /**
      * @param Environment $twig
      */
     public function __construct(
@@ -88,8 +83,7 @@ class UpgradeButtonBlock
         Upgrader $upgrader,
         UpgradeSelfCheck $selfCheck,
         string $downloadPath,
-        string $token,
-        bool $manualMode
+        string $token
     ) {
         $this->twig = $twig;
         $this->translator = $translator;
@@ -98,7 +92,6 @@ class UpgradeButtonBlock
         $this->selfCheck = $selfCheck;
         $this->downloadPath = $downloadPath;
         $this->token = $token;
-        $this->manualMode = $manualMode;
     }
 
     /**
@@ -175,7 +168,6 @@ class UpgradeButtonBlock
             'archiveVersionNumber' => $this->config->get('archive.version_num'),
             'downloadPath' => $this->downloadPath . DIRECTORY_SEPARATOR,
             'directoryVersionNumber' => $this->config->get('directory.version_num'),
-            'manualMode' => $this->manualMode,
             'phpVersion' => PHP_VERSION,
         ];
 

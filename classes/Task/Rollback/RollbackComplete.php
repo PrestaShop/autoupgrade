@@ -44,6 +44,10 @@ class RollbackComplete extends AbstractTask
         $this->next = '';
         $this->container->getAnalytics()->track('Rollback Succeeded', Analytics::WITH_ROLLBACK_PROPERTIES);
 
+        $this->container->getState()->setProgressPercentage(
+            $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
+        );
+
         return ExitCode::SUCCESS;
     }
 }
