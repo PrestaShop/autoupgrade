@@ -100,7 +100,12 @@ class ModuleDownloader
         $this->assertDownloadedContentsIsValid($destinationPath);
         $moduleDownloaderContext->setPathToModuleUpdate($destinationPath);
 
-        $this->logger->notice($this->translator->trans('Module %s update files have been fetched from %s.', [$moduleDownloaderContext->getModuleName(), $moduleSource->getPath()]));
+        $this->logger->notice($this->translator->trans('Module %s update files (%s => %s) have been fetched from %s.', [
+            $moduleDownloaderContext->getModuleName(),
+            $moduleDownloaderContext->getReferenceVersion(),
+            $moduleSource->getNewVersion(),
+            $moduleSource->getPath(),
+        ]));
     }
 
     /**
