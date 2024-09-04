@@ -3,15 +3,15 @@
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source;
 
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleDownloaderContext;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\ModuleSourceProviderInterface;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\AbstractModuleSourceProvider;
 
 class ModuleSourceAggregate
 {
-    /** @var ModuleSourceProviderInterface[] */
+    /** @var AbstractModuleSourceProvider[] */
     private $providers;
 
     /**
-     * @param ModuleSourceProviderInterface[] $sourceProviders Ordered by priority (first provider has top priority)
+     * @param AbstractModuleSourceProvider[] $sourceProviders Ordered by priority (first provider has top priority)
      */
     public function __construct(array $sourceProviders)
     {

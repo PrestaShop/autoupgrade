@@ -35,12 +35,9 @@ use PrestaShop\Module\AutoUpgrade\Xml\FileLoader;
 /*
  * Get the updates from the marketplace API, based on the details stored in "native" XML feed.
  */
-class MarketplaceSourceProvider implements ModuleSourceProviderInterface
+class MarketplaceSourceProvider extends AbstractModuleSourceProvider
 {
     const ADDONS_API_URL = 'https://api.addons.prestashop.com';
-
-    /** @var ModuleSource[]|null */
-    private $localModuleZips;
 
     /** @var FileLoader */
     private $fileLoader;
@@ -60,30 +57,6 @@ class MarketplaceSourceProvider implements ModuleSourceProviderInterface
         $this->prestashopRootFolder = $prestashopRootFolder;
         $this->fileLoader = $fileLoader;
         $this->fileConfigurationStorage = $fileConfigurationStorage;
-    }
-
-    /** {@inheritdoc} */
-    public function getUpdatesOfModule(string $moduleName, string $currentVersion): array
-    {
-        if (null === $this->localModuleZips) {
-            $this->warmUp();
-        }
-
-        $sources = [];
-
-        foreach ($this->localModuleZips as $zip) {
-            if ($zip->getName() !== $moduleName) {
-                continue;
-            }
-
-            if (version_compare($zip->getNewVersion(), $currentVersion, '<=')) {
-                continue;
-            }
-
-            $sources[] = $zip;
-        }
-
-        return $sources;
     }
 
     public function warmUp(): void

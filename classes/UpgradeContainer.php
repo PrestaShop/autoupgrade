@@ -41,10 +41,10 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\CacheCleaner;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FileFilter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleAdapter;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\AbstractModuleSourceProvider;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\ComposerSourceProvider;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\LocalSourceProvider;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\MarketplaceSourceProvider;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\ModuleSourceProviderInterface;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translation;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
@@ -141,7 +141,7 @@ class UpgradeContainer
     private $moduleAdapter;
 
     /**
-     * @var ModuleSourceProviderInterface[]
+     * @var AbstractModuleSourceProvider[]
      */
     private $moduleSourceProviders;
 
@@ -478,7 +478,7 @@ class UpgradeContainer
         return $this->moduleAdapter;
     }
 
-    /** @return ModuleSourceProviderInterface[] */
+    /** @return AbstractModuleSourceProvider[] */
     public function getModuleSourceProviders(): array
     {
         if (null !== $this->moduleSourceProviders) {

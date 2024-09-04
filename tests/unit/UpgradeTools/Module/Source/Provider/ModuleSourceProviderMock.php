@@ -1,8 +1,8 @@
 <?php
 
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\ModuleSourceProviderInterface;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\AbstractModuleSourceProvider;
 
-class ModuleSourceProviderMock implements ModuleSourceProviderInterface
+class ModuleSourceProviderMock extends AbstractModuleSourceProvider
 {
     private $sources;
 
@@ -10,6 +10,11 @@ class ModuleSourceProviderMock implements ModuleSourceProviderInterface
     public function getUpdatesOfModule(string $moduleName, string $currentVersion): array
     {
         return $this->sources;
+    }
+
+    public function warmUp(): void
+    {
+        // Do nothing
     }
 
     /** @return ModuleSources[] */

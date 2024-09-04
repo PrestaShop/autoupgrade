@@ -34,12 +34,9 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\ModuleSource;
 /*
  * Gets the modules bundled with a PrestaShop release by reading its composer.lock file.
  */
-class ComposerSourceProvider implements ModuleSourceProviderInterface
+class ComposerSourceProvider extends AbstractModuleSourceProvider
 {
     const COMPOSER_PACKAGE_TYPE = 'prestashop-module';
-
-    /** @var ModuleSource[]|null */
-    private $localModuleZips;
 
     /** @var string */
     private $prestaShopReleaseFolder;
