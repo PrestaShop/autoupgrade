@@ -73,7 +73,8 @@
 .ocu-feature-list li {
   padding-left: 20px;
   margin: 0;
-  background: url("../img/admin/enabled.gif") no-repeat;
+  /* webpackIgnore: true */
+  background: url( "../img/admin/enabled.gif") no-repeat;
 }
 
 .label-small {

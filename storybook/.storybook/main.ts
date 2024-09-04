@@ -34,6 +34,7 @@ const config: StorybookConfig = {
     "@storybook/addon-webpack5-compiler-swc",
     "@storybook/addon-links",
     "@storybook/addon-essentials",
+    "@storybook/addon-styling-webpack"
   ],
   framework: {
     name: "@sensiolabs/storybook-symfony-webpack5",
@@ -49,6 +50,14 @@ const config: StorybookConfig = {
     },
   },
   webpackFinal: async (config) => {
+    config?.module?.rules?.push({
+      test: /\.scss$/,
+      use: [
+        "style-loader",
+        "css-loader",
+        "sass-loader"
+      ],
+    });
     // List translations files on compilation to fill language selection list
     const newPlugin = new webpack.DefinePlugin({
       TRANSLATION_LOCALES: JSON.stringify(
@@ -74,16 +83,12 @@ const config: StorybookConfig = {
         <link rel="stylesheet" type="text/css" href="/theme.css" />
     `,
   previewBody: (body) => `
-        <link rel="stylesheet" type="text/css" href="css/styles.css" />
         <link rel="stylesheet" type="text/css" href="/theme.css" />
         ${body}
     `,
   staticDirs: [
     "../public",
     "../node_modules/prestashop-bo-themes",
-    { from: "../../css", to: "css" },
-    { from: "../../js", to: "js" },
-    { from: "../../img", to: "img" },
   ],
 };
 export default config;

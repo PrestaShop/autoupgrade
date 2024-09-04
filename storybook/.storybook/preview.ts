@@ -24,6 +24,7 @@
  */
 
 import { Preview, twig } from "@sensiolabs/storybook-symfony-webpack5";
+import '../../_dev/styles/main.scss';
 
 const cssEntrypoints = {
   "9.0.0": ["/9.0.0/default/theme.css"],
