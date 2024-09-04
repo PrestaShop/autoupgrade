@@ -1,8 +1,5 @@
-import yolo from './test';
-
-const test = () => {
-  console.log('test');
-  yolo();
+const main = () => {
+  return null;
 };
 
-test();
+main();
