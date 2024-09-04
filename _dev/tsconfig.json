@@ -1,8 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "composite": true,
-    "declaration": true,
     "declarationMap": true,
     "forceConsistentCasingInFileNames": true,
     "inlineSources": false,
@@ -23,7 +21,13 @@
     "skipLibCheck": true,
     "types": [],
   },
+  "include": [
+    "src/ts/**/*.ts",
+    "vite.config.ts",
+    "vite.dev.config.ts"
+  ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "dist",
   ]
 }

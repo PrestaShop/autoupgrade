@@ -44,15 +44,15 @@ $e: ".logs";
       line-height: 1.4;
 
       &--success {
-        background-image: url("../img/check.svg");
+        background-image: url("../../img/check.svg");
       }
 
       &--warning {
-        background-image: url("../img/warning.svg");
+        background-image: url("../../img/warning.svg");
       }
 
       &--error {
-        background-image: url("../img/close.svg");
+        background-image: url("../../img/close.svg");
       }
     }
 

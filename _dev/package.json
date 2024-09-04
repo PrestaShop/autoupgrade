@@ -8,8 +8,8 @@
     "vite:build": "vite build",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
-    "lint-scss": "npx stylelint 'styles/**/*.scss'",
-    "lint-scss:fix": "npx stylelint --fix 'styles/**/*.scss'",
+    "lint-scss": "npx stylelint 'src/scss/**/*.scss'",
+    "lint-scss:fix": "npx stylelint --fix 'src/scss/**/*.scss'",
     "prettier": "prettier --check \"**/*.{ts,js,scss}\"",
     "prettier:fix": "prettier --write \"**/*.{ts,js,scss}\""
   },

@@ -8,8 +8,8 @@ export default defineConfig({
     cssCodeSplit: true,
     rollupOptions: {
       input: {
-        main: './scripts/main.ts',
-        theme: './styles/main.scss'
+        main: './src/ts/main.ts',
+        theme: './src/scss/main.scss'
       },
       output: {
         dir: resolve(__dirname, '../views/'),

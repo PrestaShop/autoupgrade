@@ -62,7 +62,7 @@ $e: ".stepper";
       &--done {
         #{$e}__step-number {
           background-color: var(--#{$ua-prefix}step-done-background-color);
-          background-image: url("../img/check.svg");
+          background-image: url("../../img/check.svg");
           background-repeat: no-repeat;
           background-position: center center;
           background-size: 1rem 1rem;
