@@ -92,25 +92,25 @@
                     </td>
                 </tr>
                 {% if not isLocalEnvironment %}
-                <tr>
-                    <td>
-                        {% if storeIsInMaintenance %}
-                            {{ 'Your store is in maintenance mode'|trans({}) }}
-                        {% else %}
-                            {{ 'Enable maintenance mode and add your maintenance IP in [1]Shop parameters > General > Maintenance[/1]'|trans({
-                              '[1]' : '<a href="' ~ maintenanceLink ~'" target="_blank">',
-                              '[/1]' : '</a>',
-                            })|raw }}
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if storeIsInMaintenance %}
-                            {{ icons.ok(psBaseUri) }}
-                        {% else %}
-                            {{ icons.nok(psBaseUri) }}
-                        {% endif %}
-                    </td>
-                </tr>
+                    <tr>
+                        <td>
+                            {% if storeIsInMaintenance %}
+                                {{ 'Your store is in maintenance mode'|trans({}) }}
+                            {% else %}
+                                {{ 'Enable maintenance mode and add your maintenance IP in [1]Shop parameters > General > Maintenance[/1]'|trans({
+                                    '[1]' : '<a href="' ~ maintenanceLink ~'" target="_blank">',
+                                    '[/1]' : '</a>',
+                                })|raw }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if storeIsInMaintenance %}
+                                {{ icons.ok(psBaseUri) }}
+                            {% else %}
+                                {{ icons.nok(psBaseUri) }}
+                            {% endif %}
+                        </td>
+                    </tr>
                 {% endif %}
                 <tr>
                     <td>{{ 'PrestaShop\'s caching features are disabled'|trans({}) }}</td>
@@ -139,101 +139,101 @@
                     </td>
                 </tr>
                 {% if not checkApacheModRewrite %}
-                  <tr>
-                    <td>{{ 'Apache mod_rewrite is disabled.'|trans({}) }}</td>
-                    <td>{{ icons.nok(psBaseUri) }}</td>
-                  </tr>
+                    <tr>
+                        <td>{{ 'Apache mod_rewrite is disabled.'|trans({}) }}</td>
+                        <td>{{ icons.nok(psBaseUri) }}</td>
+                    </tr>
                 {% endif %}
                 {% if notLoadedPhpExtensions|length > 0 %}
-                  <tr>
-                    <td>
-                      {% if notLoadedPhpExtensions|length > 1 %}
-                        {{ 'The following PHP extensions are not installed: %s.'|trans([notLoadedPhpExtensions|join(', ')]) }}
-                      {% else %}
-                        {{ 'The following PHP extension is not installed: %s.'|trans([notLoadedPhpExtensions|first]) }}
-                      {% endif %}
-                    </td>
-                    <td>{{ icons.nok(psBaseUri) }}</td>
-                  </tr>
+                    <tr>
+                        <td>
+                            {% if notLoadedPhpExtensions|length > 1 %}
+                                {{ 'The following PHP extensions are not installed: %s.'|trans([notLoadedPhpExtensions|join(', ')]) }}
+                            {% else %}
+                                {{ 'The following PHP extension is not installed: %s.'|trans([notLoadedPhpExtensions|first]) }}
+                            {% endif %}
+                        </td>
+                        <td>{{ icons.nok(psBaseUri) }}</td>
+                    </tr>
                 {% endif %}
                 {% if not checkMemoryLimit %}
-                <tr>
-                  <td>{{ 'PHP memory_limit is inferior to 256 MB.'|trans({}) }}</td>
-                  <td>{{ icons.nok(psBaseUri) }}</td>
-                </tr>
+                    <tr>
+                        <td>{{ 'PHP memory_limit is inferior to 256 MB.'|trans({}) }}</td>
+                        <td>{{ icons.nok(psBaseUri) }}</td>
+                    </tr>
                 {% endif %}
                 {% if not checkFileUploads %}
-                <tr>
-                  <td>{{ 'PHP file_uploads configuration is disabled.'|trans({}) }}</td>
-                  <td>{{ icons.nok(psBaseUri) }}</td>
-                </tr>
+                    <tr>
+                        <td>{{ 'PHP file_uploads configuration is disabled.'|trans({}) }}</td>
+                        <td>{{ icons.nok(psBaseUri) }}</td>
+                    </tr>
                 {% endif %}
                 {% if notExistsPhpFunctions|length > 0 %}
-                  <tr>
-                    <td>
-                      {% if notExistsPhpFunctions|length > 1 %}
-                        {{ 'The following PHP functions are not installed: %s.'|trans([notExistsPhpFunctions|join(', ')]) }}
-                      {% else %}
-                        {{ 'The following PHP function is not installed: %s.'|trans([notExistsPhpFunctions|first]) }}
-                      {% endif %}
-                    </td>
-                    <td>{{ icons.nok(psBaseUri) }}</td>
-                  </tr>
+                    <tr>
+                        <td>
+                            {% if notExistsPhpFunctions|length > 1 %}
+                                {{ 'The following PHP functions are not installed: %s.'|trans([notExistsPhpFunctions|join(', ')]) }}
+                            {% else %}
+                                {{ 'The following PHP function is not installed: %s.'|trans([notExistsPhpFunctions|first]) }}
+                            {% endif %}
+                        </td>
+                        <td>{{ icons.nok(psBaseUri) }}</td>
+                    </tr>
                 {% endif %}
                 {% if not checkPhpSessions %}
-                  <tr>
-                    <td>{{ 'It\'s not possible to create a PHP session.'|trans({}) }}</td>
-                    <td>{{ icons.nok(psBaseUri) }}</td>
-                  </tr>
+                    <tr>
+                        <td>{{ 'It\'s not possible to create a PHP session.'|trans({}) }}</td>
+                        <td>{{ icons.nok(psBaseUri) }}</td>
+                    </tr>
                 {% endif %}
                 {% if not checkKeyGeneration %}
-                  <tr>
-                    <td>{{ 'Unable to generate private keys using openssl_pkey_new. Check your OpenSSL configuration, especially the path to openssl.cafile.'|trans({}) }}</td>
-                    <td>{{ icons.nok(psBaseUri) }}</td>
-                  </tr>
+                    <tr>
+                        <td>{{ 'Unable to generate private keys using openssl_pkey_new. Check your OpenSSL configuration, especially the path to openssl.cafile.'|trans({}) }}</td>
+                        <td>{{ icons.nok(psBaseUri) }}</td>
+                    </tr>
                 {% endif %}
                 {% if missingFiles|length > 0 %}
-                  <tr>
-                    <td>
-                      {{ 'The following files are missing:'|trans({}) }}
-                      <ul>
-                        {% for file in missingFiles %}
-                        <li>{{ file }}</li>
-                        {% endfor %}
-                      </ul>
-                    </td>
-                    <td>{{ icons.nok(psBaseUri) }}</td>
-                  </tr>
+                    <tr>
+                        <td>
+                            {{ 'The following files are missing:'|trans({}) }}
+                            <ul>
+                                {% for file in missingFiles %}
+                                    <li>{{ file }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                        <td>{{ icons.nok(psBaseUri) }}</td>
+                    </tr>
                 {% endif %}
                 {% if notWritingDirectories|length > 0 %}
-                  <tr>
-                    <td>
-                      {{ 'It\'s not possible to write in the following folders:'|trans({}) }}
-                      <ul>
-                        {% for missingFile in notWritingDirectories %}
-                        <li>{{ missingFile }}</li>
-                        {% endfor %}
-                      </ul>
-                    </td>
-                    <td>{{ icons.nok(psBaseUri) }}</td>
-                  </tr>
+                    <tr>
+                        <td>
+                            {{ 'It\'s not possible to write in the following folders:'|trans({}) }}
+                            <ul>
+                                {% for missingFile in notWritingDirectories %}
+                                    <li>{{ missingFile }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                        <td>{{ icons.nok(psBaseUri) }}</td>
+                    </tr>
                 {% endif %}
                 {% if not isShopVersionMatchingVersionInDatabase %}
-                  <tr>
-                    <td>
-                      {{ 'The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table. [1]Learn more[/1].'|trans({
-                        '[1]': '<a href="https://devdocs.prestashop-project.org/8/faq/upgrade#the-version-of-prestashop-does-not-match-the-one-stored-in-database" target="_blank">',
-                        '[/1]': '</a>',
-                      })|raw }}
-                    </td>
-                    <td>{{ icons.nok(psBaseUri) }}</td>
-                  </tr>
+                    <tr>
+                        <td>
+                            {{ 'The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table. [1]Learn more[/1].'|trans({
+                                '[1]': '<a href="https://devdocs.prestashop-project.org/8/faq/upgrade#the-version-of-prestashop-does-not-match-the-one-stored-in-database" target="_blank">',
+                                '[/1]': '</a>',
+                            })|raw }}
+                        </td>
+                        <td>{{ icons.nok(psBaseUri) }}</td>
+                    </tr>
                 {% endif %}
             </table>
             <br>
             <p class="alert alert-info">{{ 'Please also make sure you make a full manual backup of your files and database.'|trans({}) }}</p>
             {% if showErrorMessage %}
-              <p class="alert alert-danger">{{ 'PrestaShop requirements are not satisfied.'|trans({}) }}</p>
+                <p class="alert alert-danger">{{ 'PrestaShop requirements are not satisfied.'|trans({}) }}</p>
             {% endif %}
         </div>
     </div>
