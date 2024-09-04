@@ -343,7 +343,7 @@ class UpgradeSelfCheck
             && ($this->isShopDeactivated() || $this->isLocalEnvironment())
             && $this->isCacheDisabled()
             && $this->isModuleVersionLatest()
-            && $this->getPhpRequirementsState() !== $this::PHP_REQUIREMENTS_INVALID
+            && $this->getPhpRequirementsState(PHP_VERSION_ID) !== $this::PHP_REQUIREMENTS_INVALID
             && $this->isShopVersionMatchingVersionInDatabase()
             && $this->isApacheModRewriteEnabled()
             && $this->checkKeyGeneration()
@@ -457,9 +457,11 @@ class UpgradeSelfCheck
     }
 
     /**
+     * @param int $currentVersionId
+     *
      * @return self::PHP_REQUIREMENTS_*
      */
-    public function getPhpRequirementsState(): int
+    public function getPhpRequirementsState($currentVersionId): int
     {
         $phpCompatibilityRange = $this->getPhpCompatibilityRange();
 
@@ -469,9 +471,13 @@ class UpgradeSelfCheck
 
         $versionMin = VersionUtils::getPhpVersionId($phpCompatibilityRange['php_min_version']);
         $versionMax = VersionUtils::getPhpVersionId($phpCompatibilityRange['php_max_version']);
-        $currentVersion = VersionUtils::getPhpMajorMinorVersionId();
 
-        if ($currentVersion >= $versionMin && $currentVersion <= $versionMax) {
+        $versionMinWithoutPatch = VersionUtils::getPhpMajorMinorVersionId($versionMin);
+        $versionMaxWithoutPatch = VersionUtils::getPhpMajorMinorVersionId($versionMax);
+
+        $currentVersion = VersionUtils::getPhpMajorMinorVersionId($currentVersionId);
+
+        if ($currentVersion >= $versionMinWithoutPatch && $currentVersion <= $versionMaxWithoutPatch) {
             return self::PHP_REQUIREMENTS_VALID;
         }
 

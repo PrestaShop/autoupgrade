@@ -92,12 +92,12 @@ class VersionUtils
     }
 
     /**
+     * @param int $phpVersionId
+     *
      * @return int
      */
-    public static function getPhpMajorMinorVersionId()
+    public static function getPhpMajorMinorVersionId($phpVersionId)
     {
-        $phpVersionId = PHP_VERSION_ID;
-
         $major = (int) ($phpVersionId / 10000);
         $minor = (int) (($phpVersionId % 10000) / 100);
 
