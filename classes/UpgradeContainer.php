@@ -41,6 +41,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\CacheCleaner;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FileFilter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleAdapter;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\ComposerSourceProvider;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\LocalSourceProvider;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\MarketplaceSourceProvider;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\ModuleSourceProviderInterface;
@@ -487,6 +488,7 @@ class UpgradeContainer
         $this->moduleSourceProviders = [
             new LocalSourceProvider($this->getProperty(self::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . 'modules', $this->getFileConfigurationStorage()),
             new MarketplaceSourceProvider($this->getState()->getInstallVersion(), $this->getProperty(self::PS_ROOT_PATH), $this->getFileLoader(), $this->getFileConfigurationStorage()),
+            new ComposerSourceProvider($this->getProperty(self::LATEST_PATH), $this->getFileConfigurationStorage()),
             // Other providers
         ];
 
