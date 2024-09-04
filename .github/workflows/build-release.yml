@@ -23,7 +23,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: '20.11.0'
+          node-version: '20.x'
 
       - name: Install and build npm dependencies
         run:

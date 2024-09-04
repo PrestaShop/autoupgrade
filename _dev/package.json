@@ -1,6 +1,6 @@
 {
   "name": "autoupgrade",
-  "version": "7.0.0",
+  "private": true,
   "type": "module",
   "description": "Upgrade to the latest version of PrestaShop in a few clicks, thanks to this automated method.",
   "scripts": {
