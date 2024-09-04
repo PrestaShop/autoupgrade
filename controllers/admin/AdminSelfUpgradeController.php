@@ -528,6 +528,16 @@ class AdminSelfUpgradeController extends ModuleAdminController
                 ->getJson()
         );
 
+        $this->addNewUIAssets();
+
+        return parent::initContent();
+    }
+
+    /**
+     * @return void
+     */
+    private function addNewUIAssets()
+    {
         if (!empty($_ENV['AUTOUPGRADE_DEV_WATCH_MODE']) && $_ENV['AUTOUPGRADE_DEV_WATCH_MODE'] === '1') {
             $vite_dev_url = 'http://localhost:5173/';
             $this->context->controller->addCSS($vite_dev_url . 'styles/main.scss');
@@ -537,8 +547,6 @@ class AdminSelfUpgradeController extends ModuleAdminController
             $this->context->controller->addCSS(_PS_ROOT_DIR_ . 'modules/autoupgrade/views/css/autoupgrade.css');
             $this->context->controller->addJS(_PS_ROOT_DIR_ . 'modules/autoupgrade/views/js/autoupgrade.js?version=' . $this->module->version);
         }
-
-        return parent::initContent();
     }
 
     /**
