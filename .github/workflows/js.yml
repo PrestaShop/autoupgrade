@@ -20,10 +20,10 @@ jobs:
         run:
           npm install --prefix ./_dev
 
-      - name: Launch Eslint
+      - name: Launch typescript linter
         run:
           npm run lint --prefix ./_dev
 
-      - name: Launch Eslint
+      - name: Launch scss linter
         run:
           npm run lint-scss --prefix ./_dev

@@ -191,7 +191,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const targetRect = targetElement.getBoundingClientRect();
         const containerRect = logsScroll.getBoundingClientRect();
         const offsetTop = targetRect.top - containerRect.top + logsScroll.scrollTop;
-        
+
         logsScroll.scrollTo({
           top: offsetTop,
           behavior: "smooth"
