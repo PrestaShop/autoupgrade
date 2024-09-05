@@ -73,6 +73,14 @@ class VersionUtilsTest extends TestCase
         $version = VersionUtils::getPhpVersionId('7.1');
 
         $this->assertSame(70100, $version);
+
+        $version = VersionUtils::getPhpVersionId('7.2.18');
+
+        $this->assertSame(70218, $version);
+
+        $version = VersionUtils::getPhpVersionId('7.2.5');
+
+        $this->assertSame(70205, $version);
     }
 
     public function testGetPhpVersionIdFailForBadType()
@@ -98,9 +106,9 @@ class VersionUtilsTest extends TestCase
 
     public function testGetPhpMajorMinorVersionId()
     {
-        $version = VersionUtils::getPhpMajorMinorVersionId();
+        $version = VersionUtils::getPhpMajorMinorVersionId(70218);
 
-        $this->assertSame(PHP_MAJOR_VERSION * 10000 + PHP_MINOR_VERSION * 100, $version);
+        $this->assertSame(70200, $version);
     }
 
     /**
