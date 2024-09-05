@@ -19,12 +19,12 @@
       <trans-unit id="8d8e0207549d32c6f864246403034279" approved="yes">
         <source>Core files are ok</source>
         <target state="final">Core file ok</target>
-        <note>Line: 65</note>
+        <note>Line: 61</note>
       </trans-unit>
       <trans-unit id="1642bf84232919297d598b2a66b3a894" approved="yes">
         <source>%modificationscount% file modifications have been detected, including %coremodifications% from core and native modules:</source>
         <target state="final">Sono state individuate %modificationscount% modifiche di file, incluse %coremodifications% modifiche del core e dei moduli nativi:</target>
-        <note>Line: 69</note>
+        <note>Line: 65</note>
       </trans-unit>
     </body>
   </file>
@@ -612,7 +612,7 @@ Comment: directory already exists</note>
       </trans-unit>
       <trans-unit id="da652b8ece8ba2da84d5f5116f6ef63e" approved="yes">
         <source>MD5 hash will be checked against %s</source>
-        <target state="final">L'hask MD% sarà confrontato con %s</target>
+        <target state="final">L'hask MD5 sarà confrontato con %s</target>
         <note>Line: 94</note>
       </trans-unit>
     </body>
