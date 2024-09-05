@@ -29,6 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider;
 
 use PrestaShop\Module\AutoUpgrade\Parameters\FileConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
+use PrestaShop\Module\AutoUpgrade\Services\ComposerService;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\ModuleSource;
 
 /*
@@ -36,17 +37,19 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\ModuleSource;
  */
 class ComposerSourceProvider extends AbstractModuleSourceProvider
 {
-    const COMPOSER_PACKAGE_TYPE = 'prestashop-module';
-
     /** @var string */
     private $prestaShopReleaseFolder;
+
+    /** @var ComposerService */
+    private $composerService;
 
     /** @var FileConfigurationStorage */
     private $fileConfigurationStorage;
 
-    public function __construct(string $prestaShopReleaseFolder, FileConfigurationStorage $fileConfigurationStorage)
+    public function __construct(string $prestaShopReleaseFolder, ComposerService $composerService, FileConfigurationStorage $fileConfigurationStorage)
     {
         $this->prestaShopReleaseFolder = $prestaShopReleaseFolder;
+        $this->composerService = $composerService;
         $this->fileConfigurationStorage = $fileConfigurationStorage;
     }
 
@@ -84,11 +87,7 @@ class ComposerSourceProvider extends AbstractModuleSourceProvider
 
         $this->localModuleZips = [];
 
-        $modulesList = $this->getModulesInComposerLock();
-
-        if ($modulesList === false) {
-            return;
-        }
+        $modulesList = $this->composerService->getModulesInComposerLock($this->prestaShopReleaseFolder . '/composer.lock');
 
         foreach ($modulesList as $module) {
             $this->localModuleZips[] = new ModuleSource(
@@ -100,39 +99,5 @@ class ComposerSourceProvider extends AbstractModuleSourceProvider
         }
 
         $this->fileConfigurationStorage->save($this->localModuleZips, UpgradeFileNames::MODULE_SOURCE_PROVIDER_CACHE_LOCAL);
-    }
-
-    /**
-     * Returns packages defined as PrestaShop modules in composer.lock
-     *
-     * @return array<array{name:string, version:string}>|false
-     */
-    private function getModulesInComposerLock()
-    {
-        $composerFile = $this->prestaShopReleaseFolder . '/composer.lock';
-        if (!file_exists($composerFile)) {
-            return false;
-        }
-        // Native modules are the one integrated in PrestaShop release via composer
-        // so we use the lock files to generate the list
-        $content = file_get_contents($composerFile);
-        $content = json_decode($content, true);
-        if (empty($content['packages'])) {
-            return false;
-        }
-
-        $modules = array_filter($content['packages'], function (array $package) {
-            return self::COMPOSER_PACKAGE_TYPE === $package['type'] && !empty($package['name']);
-        });
-        $modules = array_map(function (array $package) {
-            $vendorName = explode('/', $package['name']);
-
-            return [
-                'name' => $vendorName[1],
-                'version' => ltrim($package['version'], 'v'),
-            ];
-        }, $modules);
-
-        return $modules;
     }
 }

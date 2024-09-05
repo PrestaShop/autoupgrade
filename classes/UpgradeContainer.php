@@ -35,6 +35,7 @@ use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Progress\CompletionCalculator;
+use PrestaShop\Module\AutoUpgrade\Services\ComposerService;
 use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension;
 use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension3;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\CacheCleaner;
@@ -89,6 +90,9 @@ class UpgradeContainer
      * @var ChecksumCompare
      */
     private $checksumCompare;
+
+    /** @var ComposerService */
+    private $composerService;
 
     /**
      * @var Cookie
@@ -287,6 +291,16 @@ class UpgradeContainer
         return $this->checksumCompare;
     }
 
+    public function getComposerService(): ComposerService
+    {
+        if (null !== $this->composerService) {
+            return $this->composerService;
+        }
+        $this->composerService = new ComposerService();
+
+        return $this->composerService;
+    }
+
     /**
      * @throws Exception
      */
@@ -340,6 +354,7 @@ class UpgradeContainer
 
         $this->fileFilter = new FileFilter(
             $this->getUpgradeConfiguration(),
+            $this->getComposerService(),
             $this->getProperty(self::PS_ROOT_PATH)
         );
 
@@ -488,7 +503,7 @@ class UpgradeContainer
         $this->moduleSourceProviders = [
             new LocalSourceProvider($this->getProperty(self::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . 'modules', $this->getFileConfigurationStorage()),
             new MarketplaceSourceProvider($this->getState()->getInstallVersion(), $this->getProperty(self::PS_ROOT_PATH), $this->getFileLoader(), $this->getFileConfigurationStorage()),
-            new ComposerSourceProvider($this->getProperty(self::LATEST_PATH), $this->getFileConfigurationStorage()),
+            new ComposerSourceProvider($this->getProperty(self::LATEST_PATH), $this->getComposerService(), $this->getFileConfigurationStorage()),
             // Other providers
         ];
 
