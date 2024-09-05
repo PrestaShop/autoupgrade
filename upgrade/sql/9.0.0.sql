@@ -183,3 +183,15 @@ ALTER TABLE `PREFIX_shop_url` CHANGE `id_shop` `id_shop` int(11) unsigned NOT NU
 ALTER TABLE `PREFIX_shop_url` ADD UNIQUE KEY `full_shop_url` (`domain`,`physical_uri`,`virtual_uri`);
 ALTER TABLE `PREFIX_shop_url` ADD UNIQUE KEY `full_shop_url_ssl` (`domain_ssl`,`physical_uri`,`virtual_uri`);
 ALTER TABLE `PREFIX_shop_url` ADD KEY `id_shop` (`id_shop`,`main`);
+
+/* Unify varchar limits */
+/* https://github.com/PrestaShop/PrestaShop/pull/35882 */
+ALTER TABLE `PREFIX_meta_lang` CHANGE `url_rewrite` `url_rewrite` varchar(255) NOT NULL;
+ALTER TABLE `PREFIX_orders` CHANGE `reference` `reference` VARCHAR(255);
+ALTER TABLE `PREFIX_tax_rules_group` CHANGE `name` `name` VARCHAR(64) NOT NULL;
+ALTER TABLE `PREFIX_mail` CHANGE `recipient` `recipient` varchar(255) NOT NULL;
+ALTER TABLE `PREFIX_mail` CHANGE `subject` `subject` varchar(255) NOT NULL;
+ALTER TABLE `PREFIX_shop_url` CHANGE `domain` `domain` varchar(255) NOT NULL;
+ALTER TABLE `PREFIX_shop_url` CHANGE `domain_ssl` `domain_ssl` varchar(255) NOT NULL;
+ALTER TABLE `PREFIX_feature_flag` CHANGE `label_wording` `label_wording` VARCHAR(191) DEFAULT '' NOT NULL;
+ALTER TABLE `PREFIX_feature_flag` CHANGE `description_wording` `description_wording` VARCHAR(191) DEFAULT '' NOT NULL;
