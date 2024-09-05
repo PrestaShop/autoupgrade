@@ -170,7 +170,7 @@ ALTER TABLE `PREFIX_product` MODIFY COLUMN `redirect_type` ENUM(
     '404', '301-product', '302-product', '301-category', '302-category'
 ) NOT NULL DEFAULT '404';
 
-/* PHP:add_column('product', 'product_type', 'ENUM('standard', 'pack', 'virtual', 'combinations', '') NOT NULL DEFAULT \'\''); */;
+/* PHP:add_column('product', 'product_type', 'ENUM(\'standard\', \'pack\', \'virtual\', \'combinations\', \'\') NOT NULL DEFAULT \'\''); */;
 
 /* First set all products to standard type, then update them based on cached columns that identify the type */
 UPDATE `PREFIX_product` SET `product_type` = "standard";
