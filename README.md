@@ -101,7 +101,7 @@ This section outlines all the commands for code linting and testing. Before runn
 
 All backend commands should be executed from the root directory.
 
-- `./tests/phpstan/phpstan.sh [version]` ⮕ Runs **PHPStan**, a tool for static code analysis to identify potential errors in your PHP code. Available version options:
+- `./tests/phpstan/phpstan.sh [version]` ⮕ Runs **PHPStan**, a tool for static code analysis to identify potential errors in your PHP code (requires running a `composer install` in the `tests` folder). Available version options:
     - `1.7.2.5`
     - `1.7.3.4`
     - `1.7.4.4`
