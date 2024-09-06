@@ -118,7 +118,6 @@ class Analytics
                     'upgrade_channel' => $this->upgradeConfiguration->getChannel(),
                     'backup_files_and_databases' => $this->upgradeConfiguration->shouldBackupFilesAndDatabase(),
                     'backup_images' => $this->upgradeConfiguration->shouldBackupImages(),
-                    'server_performance' => $this->upgradeConfiguration->getPerformanceLevel(),
                     'disable_non_native_modules' => $this->upgradeConfiguration->shouldDeactivateCustomModules(),
                     'upgrade_default_theme' => $this->upgradeConfiguration->shouldUpdateDefaultTheme(),
                     'switch_to_default_theme' => $this->upgradeConfiguration->shouldSwitchToDefaultTheme(),

@@ -39,7 +39,6 @@ use Shop;
 class UpgradeConfiguration extends ArrayCollection
 {
     const UPGRADE_CONST_KEYS = [
-        'PS_AUTOUP_PERFORMANCE',
         'PS_AUTOUP_CUSTOM_MOD_DESACT',
         'PS_AUTOUP_UPDATE_DEFAULT_THEME',
         'PS_AUTOUP_CHANGE_DEFAULT_THEME',
@@ -51,7 +50,6 @@ class UpgradeConfiguration extends ArrayCollection
     ];
 
     const PS_CONST_DEFAULT_VALUE = [
-        'PS_AUTOUP_PERFORMANCE' => 1,
         'PS_AUTOUP_CUSTOM_MOD_DESACT' => 1,
         'PS_AUTOUP_UPDATE_DEFAULT_THEME' => 1,
         'PS_AUTOUP_CHANGE_DEFAULT_THEME' => 0,
@@ -64,13 +62,13 @@ class UpgradeConfiguration extends ArrayCollection
     /**
      * Performance settings, if your server has a low memory size, lower these values.
      *
-     * @var array<string, int[]>
+     * @var array<string, int>
      */
     private const PERFORMANCE_VALUES = [
-        'loopFiles' => [400, 800, 1600], // files
-        'loopTime' => [6, 12, 25], // seconds
-        'maxBackupFileSize' => [15728640, 31457280, 62914560], // bytes
-        'maxWrittenAllowed' => [4194304, 8388608, 16777216], // bytes
+        'loopFiles' => 400, // files
+        'loopTime' => 6, // seconds
+        'maxBackupFileSize' => 15728640, // bytes
+        'maxWrittenAllowed' => 4194304, // bytes
     ];
 
     /**
@@ -102,7 +100,7 @@ class UpgradeConfiguration extends ArrayCollection
      */
     public function getNumberOfFilesPerCall(): int
     {
-        return $this::PERFORMANCE_VALUES['loopFiles'][$this->getPerformanceLevel()];
+        return $this::PERFORMANCE_VALUES['loopFiles'];
     }
 
     /**
@@ -110,7 +108,7 @@ class UpgradeConfiguration extends ArrayCollection
      */
     public function getTimePerCall(): int
     {
-        return $this::PERFORMANCE_VALUES['loopTime'][$this->getPerformanceLevel()];
+        return $this::PERFORMANCE_VALUES['loopTime'];
     }
 
     /**
@@ -118,7 +116,7 @@ class UpgradeConfiguration extends ArrayCollection
      */
     public function getMaxSizeToWritePerCall(): int
     {
-        return $this::PERFORMANCE_VALUES['maxWrittenAllowed'][$this->getPerformanceLevel()];
+        return $this::PERFORMANCE_VALUES['maxWrittenAllowed'];
     }
 
     /**
@@ -126,15 +124,7 @@ class UpgradeConfiguration extends ArrayCollection
      */
     public function getMaxFileToBackup(): int
     {
-        return $this::PERFORMANCE_VALUES['maxBackupFileSize'][$this->getPerformanceLevel()];
-    }
-
-    /**
-     * @return int level of performance selected (0 for low, 2 for high)
-     */
-    public function getPerformanceLevel(): int
-    {
-        return $this->get('PS_AUTOUP_PERFORMANCE') - 1;
+        return $this::PERFORMANCE_VALUES['maxBackupFileSize'];
     }
 
     public function shouldBackupFilesAndDatabase(): bool

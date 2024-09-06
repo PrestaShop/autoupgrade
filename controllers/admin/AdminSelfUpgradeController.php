@@ -214,16 +214,6 @@ class AdminSelfUpgradeController extends ModuleAdminController
             ],
         ];
         $this->_fieldsUpgradeOptions = [
-            'PS_AUTOUP_PERFORMANCE' => [
-                'title' => $this->trans('Server performance'),
-                'cast' => 'intval',
-                'validation' => 'isInt',
-                'defaultValue' => '1',
-                'type' => 'select',
-                'desc' => $this->trans('Unless you are using a dedicated server, select "Low".') . '<br />' .
-                    $this->trans('A high value can cause the upgrade to fail if your server is not powerful enough to process the upgrade tasks in a short amount of time.'),
-                'choices' => [1 => $this->trans('Low (recommended)'), 2 => $this->trans('Medium'), 3 => $this->trans('High')],
-            ],
             'PS_AUTOUP_CUSTOM_MOD_DESACT' => [
                 'title' => $this->trans('Disable non-native modules'),
                 'cast' => 'intval',
