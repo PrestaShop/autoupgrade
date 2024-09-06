@@ -540,9 +540,9 @@ class AdminSelfUpgradeController extends ModuleAdminController
     {
         if (!empty($_ENV['AUTOUPGRADE_DEV_WATCH_MODE']) && $_ENV['AUTOUPGRADE_DEV_WATCH_MODE'] === '1') {
             $vite_dev_url = 'http://localhost:5173/';
-            $this->context->controller->addCSS($vite_dev_url . 'styles/main.scss');
+            $this->context->controller->addCSS($vite_dev_url . 'src/scss/main.scss');
             $twig = $this->upgradeContainer->getTwig();
-            $this->content .= $twig->render('@ModuleAutoUpgrade/module-script-tag.html.twig', ['src' => $vite_dev_url . 'scripts/main.ts']);
+            $this->content .= $twig->render('@ModuleAutoUpgrade/module-script-tag.html.twig', ['src' => $vite_dev_url . 'src/ts/main.ts']);
         } else {
             $this->context->controller->addCSS(_PS_ROOT_DIR_ . 'modules/autoupgrade/views/css/autoupgrade.css');
             $this->context->controller->addJS(_PS_ROOT_DIR_ . 'modules/autoupgrade/views/js/autoupgrade.js?version=' . $this->module->version);
