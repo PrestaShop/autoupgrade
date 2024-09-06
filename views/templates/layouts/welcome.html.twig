@@ -12,18 +12,19 @@
     <div class="welcome-page__card-list">
         {% include '@ModuleAutoUpgrade/components/radio-card.html.twig' with {
             checked: true,
-            title: "Update your store",
-            message: "Update your store to benefit from the latest improvements, bug fixes and security patches.",
-            badgeLabel: "",
-            releaseNote: "",
+            title: 'Update your store'|trans({}),
+            message: 'Update your store to benefit from the latest improvements, bug fixes and security patches.'|trans({}),
+            radioName: 'welcome_choices',
+            radioValue: 'upgrade'
         } %}
         {% include '@ModuleAutoUpgrade/components/radio-card.html.twig' with {
-            checked: true,
-            title: "Restore from a backup",
-            message: "Use this feature if the update failed or if your store or a  module is no longer working properly.",
-            disabled: true,
-            badgeLabel: "",
-            releaseNote: "",
+            checked: false,
+            title: 'Restore from a backup'|trans({}),
+            message: 'Use this feature if the update failed or if your store or a  module is no longer working properly.'|trans({}),
+            disabled: empty_backup,
+            radioName: 'welcome_choices',
+            radioValue: 'rollback',
+            disabledMessage: empty_backup ? 'No backup file found on your store.'|trans({}) : null
         } %}
     </div>
 {% endblock %}

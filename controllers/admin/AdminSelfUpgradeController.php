@@ -35,6 +35,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradePage;
 use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
+use PrestaShop\Module\AutoUpgrade\Router\Router;
 
 class AdminSelfUpgradeController extends ModuleAdminController
 {
@@ -487,6 +488,17 @@ class AdminSelfUpgradeController extends ModuleAdminController
             return parent::initContent();
         }
 
+        if (Tools::getValue('new-ui')) {
+            $this->addNewUIAssets();
+
+            // TODO: In the future, the router will return an object instead of a string.
+            // This object would be like a Symfony Response.
+            // TODO: The router should have a request-like object as input
+            $this->content .= (new Router($this->upgradeContainer))->handle(Tools::getValue('route'));
+
+            return parent::initContent();
+        }
+
         // update backup name
         $backupFinder = new BackupFinder($this->backupPath);
         $availableBackups = $backupFinder->getAvailableBackups();
@@ -527,8 +539,6 @@ class AdminSelfUpgradeController extends ModuleAdminController
                 ->setUpgradeConfiguration($this->upgradeContainer->getUpgradeConfiguration())
                 ->getJson()
         );
-
-        $this->addNewUIAssets();
 
         return parent::initContent();
     }

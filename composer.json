@@ -35,7 +35,8 @@
   "type": "prestashop-module",
   "autoload": {
     "psr-4": {
-      "PrestaShop\\Module\\AutoUpgrade\\": "classes/"
+      "PrestaShop\\Module\\AutoUpgrade\\": "classes/",
+      "PrestaShop\\Module\\AutoUpgrade\\Controller\\": "controllers/admin/self-managed"
     }
   },
   "author": "PrestaShop"

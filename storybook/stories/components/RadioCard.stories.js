@@ -38,6 +38,8 @@ export default {
   },
   args: {
     radioCardId: "",
+    radioName: "test",
+    radioValue: "",
     checked: false,
     title: "Update your store",
     message:
