@@ -31,6 +31,9 @@ export default {
   title: "Layouts/Pages/Welcome",
   args: {
     ...RadioCard.args,
+    badgeLabel: "",
+    badgeStatus: "",
+    releaseNote: "",
     ps_version: "ps_version",
     empty_backup: true,
   },
