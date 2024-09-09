@@ -36,6 +36,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradePage;
 use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 use PrestaShop\Module\AutoUpgrade\Router\Router;
+use Symfony\Component\HttpFoundation\Request;
 
 class AdminSelfUpgradeController extends ModuleAdminController
 {
@@ -491,10 +492,10 @@ class AdminSelfUpgradeController extends ModuleAdminController
         if (Tools::getValue('new-ui')) {
             $this->addNewUIAssets();
 
-            // TODO: In the future, the router will return an object instead of a string.
-            // This object would be like a Symfony Response.
-            // TODO: The router should have a request-like object as input
-            $this->content .= (new Router($this->upgradeContainer))->handle(Tools::getValue('route'));
+            $request = Request::createFromGlobals();
+
+            // TODO: In the future, the router will return an object instead of a string depending on controller called.
+            $this->content = (new Router($this->upgradeContainer))->handle($request);
 
             return parent::initContent();
         }
