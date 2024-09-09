@@ -113,7 +113,6 @@ class CompletionCalculatorTest extends TestCase
             new UpgradeConfiguration([
                 'PS_AUTOUP_PERFORMANCE' => 5,
                 'PS_AUTOUP_CUSTOM_MOD_DESACT' => 0,
-                'PS_AUTOUP_UPDATE_DEFAULT_THEME' => 1,
                 'PS_AUTOUP_CHANGE_DEFAULT_THEME' => 1,
                 'PS_AUTOUP_KEEP_MAILS' => 0,
                 'PS_AUTOUP_BACKUP' => $withBackup,

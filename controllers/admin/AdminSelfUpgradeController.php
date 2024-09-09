@@ -239,15 +239,6 @@ class AdminSelfUpgradeController extends ModuleAdminController
                 'type' => 'bool',
                 'desc' => $this->trans('Enable or disable all classes and controllers overrides.'),
             ],
-            'PS_AUTOUP_UPDATE_DEFAULT_THEME' => [
-                'title' => $this->trans('Upgrade the default theme'),
-                'cast' => 'intval',
-                'validation' => 'isBool',
-                'defaultValue' => '1',
-                'type' => 'bool',
-                'desc' => $this->trans('If you customized the default PrestaShop theme in its folder (folder name "classic" in 1.7), enabling this option will lose your modifications.') . '<br />'
-                    . $this->trans('If you are using your own theme, enabling this option will simply update the default theme files, and your own theme will be safe.'),
-            ],
             'PS_AUTOUP_UPDATE_RTL_FILES' => [
                 'title' => $this->trans('Regenerate RTL stylesheet'),
                 'cast' => 'intval',
