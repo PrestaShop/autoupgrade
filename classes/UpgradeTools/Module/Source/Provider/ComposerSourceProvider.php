@@ -53,30 +53,6 @@ class ComposerSourceProvider extends AbstractModuleSourceProvider
         $this->fileConfigurationStorage = $fileConfigurationStorage;
     }
 
-    /** {@inheritdoc} */
-    public function getUpdatesOfModule(string $moduleName, string $currentVersion): array
-    {
-        if (null === $this->localModuleZips) {
-            $this->warmUp();
-        }
-
-        $sources = [];
-
-        foreach ($this->localModuleZips as $zip) {
-            if ($zip->getName() !== $moduleName) {
-                continue;
-            }
-
-            if (version_compare($zip->getNewVersion(), $currentVersion, '<=')) {
-                continue;
-            }
-
-            $sources[] = $zip;
-        }
-
-        return $sources;
-    }
-
     public function warmUp(): void
     {
         if ($this->fileConfigurationStorage->exists(UpgradeFileNames::MODULE_SOURCE_PROVIDER_CACHE_LOCAL)) {

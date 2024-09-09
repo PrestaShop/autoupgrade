@@ -114,6 +114,7 @@ class ModuleDownloader
     private function assertDownloadedContentsIsValid(string $destinationPath): void
     {
         if (is_file($destinationPath)) {
+            // Arbitrary size value checking the zip file has at least a file in it.
             if (filesize($destinationPath) <= 300) {
                 throw (new UpgradeException($this->translator->trans('The received module archive is empty.')))->setSeverity(UpgradeException::SEVERITY_WARNING);
             }

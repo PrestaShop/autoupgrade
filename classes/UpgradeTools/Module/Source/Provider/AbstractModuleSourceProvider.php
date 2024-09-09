@@ -24,15 +24,9 @@ abstract class AbstractModuleSourceProvider
         $sources = [];
 
         foreach ($this->localModuleZips as $zip) {
-            if ($zip->getName() !== $moduleName) {
-                continue;
+            if ($zip->getName() === $moduleName && version_compare($zip->getNewVersion(), $currentVersion, '>')) {
+                $sources[] = $zip;
             }
-
-            if (version_compare($zip->getNewVersion(), $currentVersion, '<=')) {
-                continue;
-            }
-
-            $sources[] = $zip;
         }
 
         return $sources;
