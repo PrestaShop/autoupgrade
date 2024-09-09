@@ -316,7 +316,7 @@ class UpgradeSelfCheck
                 );
 
             case self::MODULE_VERSION_IS_OUT_OF_DATE:
-                return $this->translator->trans('Your current version of the module is out of date.');
+                return $this->translator->trans('Your current version of the module is outdated.');
 
             case self::PHP_REQUIREMENTS_UNKNOWN:
                 return $this->translator->trans('We were unable to check your PHP compatibility with the destination PrestaShop version.');
