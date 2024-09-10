@@ -40,7 +40,6 @@ class UpgradeConfiguration extends ArrayCollection
 {
     const UPGRADE_CONST_KEYS = [
         'PS_AUTOUP_CUSTOM_MOD_DESACT',
-        'PS_AUTOUP_UPDATE_DEFAULT_THEME',
         'PS_AUTOUP_CHANGE_DEFAULT_THEME',
         'PS_AUTOUP_UPDATE_RTL_FILES',
         'PS_AUTOUP_KEEP_MAILS',
@@ -51,7 +50,6 @@ class UpgradeConfiguration extends ArrayCollection
 
     const PS_CONST_DEFAULT_VALUE = [
         'PS_AUTOUP_CUSTOM_MOD_DESACT' => 1,
-        'PS_AUTOUP_UPDATE_DEFAULT_THEME' => 1,
         'PS_AUTOUP_CHANGE_DEFAULT_THEME' => 0,
         'PS_AUTOUP_UPDATE_RTL_FILES' => 1,
         'PS_AUTOUP_KEEP_MAILS' => 0,
@@ -162,14 +160,6 @@ class UpgradeConfiguration extends ArrayCollection
     public function shouldSwitchToDefaultTheme(): bool
     {
         return (bool) $this->get('PS_AUTOUP_CHANGE_DEFAULT_THEME');
-    }
-
-    /**
-     * @return bool True if we are allowed to update the default theme files
-     */
-    public function shouldUpdateDefaultTheme(): bool
-    {
-        return (bool) $this->get('PS_AUTOUP_UPDATE_DEFAULT_THEME');
     }
 
     /**

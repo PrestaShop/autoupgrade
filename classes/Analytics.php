@@ -119,7 +119,6 @@ class Analytics
                     'backup_files_and_databases' => $this->upgradeConfiguration->shouldBackupFilesAndDatabase(),
                     'backup_images' => $this->upgradeConfiguration->shouldBackupImages(),
                     'disable_non_native_modules' => $this->upgradeConfiguration->shouldDeactivateCustomModules(),
-                    'upgrade_default_theme' => $this->upgradeConfiguration->shouldUpdateDefaultTheme(),
                     'switch_to_default_theme' => $this->upgradeConfiguration->shouldSwitchToDefaultTheme(),
                     'regenerate_rtl_stylesheet' => $this->upgradeConfiguration->shouldUpdateRTLFiles(),
                     'keep_customized_email_templates' => $this->upgradeConfiguration->shouldKeepMails(),

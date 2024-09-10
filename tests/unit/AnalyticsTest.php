@@ -38,7 +38,6 @@ class AnalyticsTest extends TestCase
             ->setRestoreName('V1.2.3_blablabla-🐶');
         $upgradeConfiguration = (new UpgradeConfiguration([
             'PS_AUTOUP_CUSTOM_MOD_DESACT' => 0,
-            'PS_AUTOUP_UPDATE_DEFAULT_THEME' => 1,
             'PS_AUTOUP_CHANGE_DEFAULT_THEME' => 1,
             'PS_AUTOUP_KEEP_MAILS' => 0,
             'PS_AUTOUP_BACKUP' => 1,
@@ -93,7 +92,6 @@ class AnalyticsTest extends TestCase
                     'backup_files_and_databases' => true,
                     'backup_images' => false,
                     'disable_non_native_modules' => false,
-                    'upgrade_default_theme' => true,
                     'switch_to_default_theme' => true,
                     'regenerate_rtl_stylesheet' => false,
                     'keep_customized_email_templates' => false,

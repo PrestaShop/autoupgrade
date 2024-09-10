@@ -68,17 +68,6 @@ class UpgradeOptionsForm
                 'type' => 'bool',
                 'desc' => $translator->trans('Enable or disable all classes and controllers overrides.'),
             ],
-            'PS_AUTOUP_UPDATE_DEFAULT_THEME' => [
-                'title' => $translator->trans('Upgrade the default theme'),
-                'cast' => 'intval',
-                'validation' => 'isBool',
-                'defaultValue' => '1',
-                'type' => 'bool',
-                'desc' => $translator->trans(
-                        'If you customized the default PrestaShop theme in its folder (folder name "classic" in 1.7), enabling this option will lose your modifications.') . '<br />'
-                    . $translator->trans(
-                        'If you are using your own theme, enabling this option will simply update the default theme files, and your own theme will be safe.'),
-            ],
 
             'PS_AUTOUP_CHANGE_DEFAULT_THEME' => [
                 'title' => $translator->trans('Switch to the default theme'),
