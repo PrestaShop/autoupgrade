@@ -39,6 +39,8 @@ class BackupDb extends AbstractTask
 {
     const TASK_TYPE = 'upgrade';
 
+    const BATCH_SIZE = 10000;
+
     /**
      * @throws Exception
      */
@@ -75,6 +77,8 @@ class BackupDb extends AbstractTask
             _DB_PREFIX_ . 'guest',
             _DB_PREFIX_ . 'statssearch', ];
 
+        $db = $this->container->getDb();
+
         // INIT LOOP
         if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::DB_TABLES_TO_BACKUP_LIST)) {
             $this->container->getState()->setProgressPercentage(
@@ -85,7 +89,7 @@ class BackupDb extends AbstractTask
                 mkdir($this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $this->container->getState()->getBackupName());
             }
             $this->container->getState()->setDbStep(0);
-            $listOfTables = $this->container->getDb()->executeS('SHOW TABLES LIKE "' . _DB_PREFIX_ . '%"', true, false);
+            $listOfTables = $db->executeS('SHOW TABLES LIKE "' . _DB_PREFIX_ . '%"', true, false);
 
             $tablesToBackup = new Backlog($listOfTables, count($listOfTables));
         } else {
@@ -169,7 +173,7 @@ class BackupDb extends AbstractTask
             // start schema : drop & create table only
             if (null === $this->container->getState()->getBackupTable()) {
                 // Export the table schema
-                $schema = $this->container->getDb()->executeS('SHOW CREATE TABLE `' . $table . '`', true, false);
+                $schema = $db->executeS('SHOW CREATE TABLE `' . $table . '`', true, false);
 
                 if (count($schema) != 1 ||
                     !(isset($schema[0]['Table'], $schema[0]['Create Table'])
@@ -219,21 +223,21 @@ class BackupDb extends AbstractTask
             if (!in_array($table, $ignore_stats_table)) {
                 do {
                     $backup_loop_limit = $this->container->getState()->getBackupLoopLimit();
-                    $data = $this->container->getDb()->executeS('SELECT * FROM `' . $table . '` LIMIT ' . (int) $backup_loop_limit . ',200', false, false);
-                    $this->container->getState()->setBackupLoopLimit($this->container->getState()->getBackupLoopLimit() + 200);
-                    $sizeof = $this->container->getDb()->numRows();
+                    $data = $db->executeS('SELECT * FROM `' . $table . '` LIMIT ' . (int) $backup_loop_limit . ',' . self::BATCH_SIZE, false, false);
+                    $this->container->getState()->setBackupLoopLimit($this->container->getState()->getBackupLoopLimit() + self::BATCH_SIZE);
+                    $sizeof = $db->numRows();
                     if ($data && ($sizeof > 0)) {
                         // Export the table data
                         $written += fwrite($fp, 'INSERT INTO `' . $table . "` VALUES\n");
                         $i = 1;
-                        while ($row = $this->container->getDb()->nextRow($data)) {
+                        while ($row = $db->nextRow($data)) {
                             // this starts a row
                             $s = '(';
                             foreach ($row as $field => $value) {
                                 if ($value === null) {
                                     $s .= 'NULL,';
                                 } else {
-                                    $s .= "'" . $this->container->getDb()->escape($value, true) . "',";
+                                    $s .= "'" . $db->escape($value, true) . "',";
                                 }
                             }
                             $s = rtrim($s, ',');
