@@ -680,7 +680,7 @@ Comment: directory already exists</note>
       <trans-unit id="564b7c9d8683f1a94798e9f7449564e4">
         <source>Upgrade Options</source>
         <target>Upgrade Options</target>
-        <note>Line: 137</note>
+        <note>Line: 118</note>
       </trans-unit>
     </body>
   </file>
@@ -1285,110 +1285,80 @@ Comment: check DB access</note>
   </file>
   <file original="controllers/admin/AdminSelfUpgradeController.php" source-language="en-US" target-language="en-US" datatype="plaintext">
     <body>
-      <trans-unit id="5243e62512552a2cd6369e446bbf10f4">
-        <source>Server performance</source>
-        <target>Server performance</target>
-        <note>Line: 220</note>
-      </trans-unit>
-      <trans-unit id="a94e6f7e27ad55c963170658ee6a9e28">
-        <source>Unless you are using a dedicated server, select "Low".</source>
-        <target>Unless you are using a dedicated server, select "Low".</target>
-        <note>Line: 225</note>
-      </trans-unit>
-      <trans-unit id="9e435ab00f5e0606f46337fdc73164ff">
-        <source>A high value can cause the upgrade to fail if your server is not powerful enough to process the upgrade tasks in a short amount of time.</source>
-        <target>A high value can cause the upgrade to fail if your server is not powerful enough to process the upgrade tasks in a short amount of time.</target>
-        <note>Line: 226</note>
-      </trans-unit>
-      <trans-unit id="73ae0e1bfd470f9e26dac64d270cda9d">
-        <source>Low (recommended)</source>
-        <target>Low (recommended)</target>
-        <note>Line: 227</note>
-      </trans-unit>
-      <trans-unit id="87f8a6ab85c9ced3702b4ea641ad4bb5">
-        <source>Medium</source>
-        <target>Medium</target>
-        <note>Line: 227</note>
-      </trans-unit>
-      <trans-unit id="655d20c1ca69519ca647684edbb2db35">
-        <source>High</source>
-        <target>High</target>
-        <note>Line: 227</note>
-      </trans-unit>
       <trans-unit id="26f07ad840fb1c17d29f5be0f428f015">
         <source>Disable non-native modules</source>
         <target>Disable non-native modules</target>
-        <note>Line: 230</note>
+        <note>Line: 220</note>
       </trans-unit>
       <trans-unit id="70c06c37194d755dd9aef11cf0469981">
         <source>As non-native modules can experience some compatibility issues, we recommend to disable them by default.</source>
         <target>As non-native modules can experience some compatibility issues, we recommend to disable them by default.</target>
-        <note>Line: 234</note>
+        <note>Line: 224</note>
       </trans-unit>
       <trans-unit id="469ab377c49ea68b2ecdfe76d628a53b">
         <source>Keeping them enabled might prevent you from loading the "Modules" page properly after the upgrade.</source>
         <target>Keeping them enabled might prevent you from loading the "Modules" page properly after the upgrade.</target>
-        <note>Line: 235</note>
+        <note>Line: 225</note>
       </trans-unit>
       <trans-unit id="03a9e6840847f96325b7184d5f3c2769">
         <source>Disable all overrides</source>
         <target>Disable all overrides</target>
-        <note>Line: 238</note>
+        <note>Line: 228</note>
       </trans-unit>
       <trans-unit id="29826f9f4da3d473c1e4ecf2f6c4ef9f">
         <source>Enable or disable all classes and controllers overrides.</source>
         <target>Enable or disable all classes and controllers overrides.</target>
-        <note>Line: 242</note>
+        <note>Line: 232</note>
       </trans-unit>
       <trans-unit id="fa2508196ef3391139d01d8d38b2c1bb">
         <source>Upgrade the default theme</source>
         <target>Upgrade the default theme</target>
-        <note>Line: 245</note>
+        <note>Line: 235</note>
       </trans-unit>
       <trans-unit id="b6b1ed5508bc97f38ab9075ccf234c69">
         <source>If you customized the default PrestaShop theme in its folder (folder name "classic" in 1.7), enabling this option will lose your modifications.</source>
         <target>If you customized the default PrestaShop theme in its folder (folder name "classic" in 1.7), enabling this option will lose your modifications.</target>
-        <note>Line: 250</note>
+        <note>Line: 240</note>
       </trans-unit>
       <trans-unit id="97a989a73b46233ae4330fb7682a70a2">
         <source>If you are using your own theme, enabling this option will simply update the default theme files, and your own theme will be safe.</source>
         <target>If you are using your own theme, enabling this option will simply update the default theme files, and your own theme will be safe.</target>
-        <note>Line: 251</note>
+        <note>Line: 241</note>
       </trans-unit>
       <trans-unit id="92991497ed914de6bb7795b701b4c6e4">
         <source>Switch to the default theme</source>
         <target>Switch to the default theme</target>
-        <note>Line: 262</note>
+        <note>Line: 252</note>
       </trans-unit>
       <trans-unit id="c7ae0af8d5653beb68b344415aca135d">
         <source>This will change your theme: your shop will then use the default theme of the version of PrestaShop you are upgrading to.</source>
         <target>This will change your theme: your shop will then use the default theme of the version of PrestaShop you are upgrading to.</target>
-        <note>Line: 267</note>
+        <note>Line: 257</note>
       </trans-unit>
       <trans-unit id="309183e60345ce8ad09def36330218b8">
         <source>Regenerate RTL stylesheet</source>
         <target>Regenerate RTL stylesheet</target>
-        <note>Line: 254</note>
+        <note>Line: 244</note>
       </trans-unit>
       <trans-unit id="e31d0229913e78ae9dc2de61d9ac21aa">
         <source>If enabled, any RTL-specific files that you might have added to all your themes might be deleted by the created stylesheet.</source>
         <target>If enabled, any RTL-specific files that you might have added to all your themes might be deleted by the created stylesheet.</target>
-        <note>Line: 259</note>
+        <note>Line: 249</note>
       </trans-unit>
       <trans-unit id="f22d57f1f0b7fd2a55ca4760cd6ef68b">
         <source>Keep the customized email templates</source>
         <target>Keep the customized email templates</target>
-        <note>Line: 270</note>
+        <note>Line: 260</note>
       </trans-unit>
       <trans-unit id="5ea970658668e0b45cb6f64ce18b420e">
         <source>This will not upgrade the default PrestaShop e-mails.</source>
         <target>This will not upgrade the default PrestaShop e-mails.</target>
-        <note>Line: 274</note>
+        <note>Line: 264</note>
       </trans-unit>
       <trans-unit id="a83c73a145dbc0f4ea7c6a95203df43d">
         <source>If you customized the default PrestaShop e-mail templates, enabling this option will keep your modifications.</source>
         <target>If you customized the default PrestaShop e-mail templates, enabling this option will keep your modifications.</target>
-        <note>Line: 275</note>
+        <note>Line: 265</note>
       </trans-unit>
       <trans-unit id="bb7748991e29366d42f8fa2c361f4d55">
         <source>Back up my files and database</source>
@@ -1423,17 +1393,17 @@ Comment: check DB access</note>
       <trans-unit id="92a5801448b25f111961462b0b31995d">
         <source>Unable to create file %s</source>
         <target>Unable to create file %s</target>
-        <note>Line: 379</note>
+        <note>Line: 369</note>
       </trans-unit>
       <trans-unit id="56195ded2802813800f43e3be1babe1c">
         <source>Error when trying to delete backups %s</source>
         <target>Error when trying to delete backups %s</target>
-        <note>Line: 426</note>
+        <note>Line: 416</note>
       </trans-unit>
       <trans-unit id="f4eb320e09f7ef88a627229870458454">
         <source>The module %s requires PHP %s to work properly. Please upgrade your server configuration.</source>
         <target>The module %s requires PHP %s to work properly. Please upgrade your server configuration.</target>
-        <note>Line: 470</note>
+        <note>Line: 460</note>
       </trans-unit>
     </body>
   </file>
