@@ -78,7 +78,7 @@ class State
      */
     private $backup_loop_limit;
     /**
-     * @var string
+     * @var string the table being synchronized, in case mutiple requests are needed to sync the whole table
      */
     private $backup_table;
 
