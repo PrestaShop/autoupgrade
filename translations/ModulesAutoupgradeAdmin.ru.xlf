@@ -680,7 +680,7 @@ Comment: directory already exists</note>
       <trans-unit id="564b7c9d8683f1a94798e9f7449564e4" approved="yes">
         <source>Upgrade Options</source>
         <target state="final">Опции обновления</target>
-        <note>Line: 118</note>
+        <note>Line: 107</note>
       </trans-unit>
     </body>
   </file>
@@ -1310,55 +1310,40 @@ Comment: check DB access</note>
         <target state="needs-translation">Enable or disable all classes and controllers overrides.</target>
         <note>Line: 232</note>
       </trans-unit>
-      <trans-unit id="fa2508196ef3391139d01d8d38b2c1bb">
-        <source>Upgrade the default theme</source>
-        <target state="needs-translation">Upgrade the default theme</target>
-        <note>Line: 235</note>
-      </trans-unit>
-      <trans-unit id="b6b1ed5508bc97f38ab9075ccf234c69">
-        <source>If you customized the default PrestaShop theme in its folder (folder name "classic" in 1.7), enabling this option will lose your modifications.</source>
-        <target state="needs-translation">If you customized the default PrestaShop theme in its folder (folder name "classic" in 1.7), enabling this option will lose your modifications.</target>
-        <note>Line: 240</note>
-      </trans-unit>
-      <trans-unit id="97a989a73b46233ae4330fb7682a70a2">
-        <source>If you are using your own theme, enabling this option will simply update the default theme files, and your own theme will be safe.</source>
-        <target state="needs-translation">If you are using your own theme, enabling this option will simply update the default theme files, and your own theme will be safe.</target>
-        <note>Line: 241</note>
-      </trans-unit>
       <trans-unit id="92991497ed914de6bb7795b701b4c6e4">
         <source>Switch to the default theme</source>
         <target state="needs-translation">Switch to the default theme</target>
-        <note>Line: 252</note>
+        <note>Line: 243</note>
       </trans-unit>
       <trans-unit id="c7ae0af8d5653beb68b344415aca135d">
         <source>This will change your theme: your shop will then use the default theme of the version of PrestaShop you are upgrading to.</source>
         <target state="needs-translation">This will change your theme: your shop will then use the default theme of the version of PrestaShop you are upgrading to.</target>
-        <note>Line: 257</note>
+        <note>Line: 248</note>
       </trans-unit>
       <trans-unit id="309183e60345ce8ad09def36330218b8">
         <source>Regenerate RTL stylesheet</source>
         <target state="needs-translation">Regenerate RTL stylesheet</target>
-        <note>Line: 244</note>
+        <note>Line: 235</note>
       </trans-unit>
       <trans-unit id="e31d0229913e78ae9dc2de61d9ac21aa">
         <source>If enabled, any RTL-specific files that you might have added to all your themes might be deleted by the created stylesheet.</source>
         <target state="needs-translation">If enabled, any RTL-specific files that you might have added to all your themes might be deleted by the created stylesheet.</target>
-        <note>Line: 249</note>
+        <note>Line: 240</note>
       </trans-unit>
       <trans-unit id="f22d57f1f0b7fd2a55ca4760cd6ef68b">
         <source>Keep the customized email templates</source>
         <target state="needs-translation">Keep the customized email templates</target>
-        <note>Line: 260</note>
+        <note>Line: 251</note>
       </trans-unit>
       <trans-unit id="5ea970658668e0b45cb6f64ce18b420e">
         <source>This will not upgrade the default PrestaShop e-mails.</source>
         <target state="needs-translation">This will not upgrade the default PrestaShop e-mails.</target>
-        <note>Line: 264</note>
+        <note>Line: 255</note>
       </trans-unit>
       <trans-unit id="a83c73a145dbc0f4ea7c6a95203df43d">
         <source>If you customized the default PrestaShop e-mail templates, enabling this option will keep your modifications.</source>
         <target state="needs-translation">If you customized the default PrestaShop e-mail templates, enabling this option will keep your modifications.</target>
-        <note>Line: 265</note>
+        <note>Line: 256</note>
       </trans-unit>
       <trans-unit id="bb7748991e29366d42f8fa2c361f4d55">
         <source>Back up my files and database</source>
@@ -1393,17 +1378,17 @@ Comment: check DB access</note>
       <trans-unit id="92a5801448b25f111961462b0b31995d" approved="yes">
         <source>Unable to create file %s</source>
         <target state="final">Невозможно создать файл %s</target>
-        <note>Line: 369</note>
+        <note>Line: 360</note>
       </trans-unit>
       <trans-unit id="56195ded2802813800f43e3be1babe1c" approved="yes">
         <source>Error when trying to delete backups %s</source>
         <target state="final">Ошибка при удалении резервных копий %s </target>
-        <note>Line: 416</note>
+        <note>Line: 407</note>
       </trans-unit>
       <trans-unit id="f4eb320e09f7ef88a627229870458454">
         <source>The module %s requires PHP %s to work properly. Please upgrade your server configuration.</source>
         <target state="needs-translation">The module %s requires PHP %s to work properly. Please upgrade your server configuration.</target>
-        <note>Line: 460</note>
+        <note>Line: 451</note>
       </trans-unit>
     </body>
   </file>
