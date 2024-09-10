@@ -66,7 +66,7 @@ $ php bin/console
 For instance, to start upgrading your store, you would use:
 
 ```
-$ php bin/console update:start --admin-dir=[your-admin-dir] --config-file-path=[/path/to/config.json] --chain
+$ php bin/console update:start --config-file-path=[/path/to/config.json] --chain <your-admin-dir>
 ```
 
 You can see all available parameters and options directly from the console by using the `--help` option with any command.

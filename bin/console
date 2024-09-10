@@ -36,7 +36,7 @@ if (!is_dir(dirname(__DIR__).'/vendor')) {
 require_once dirname(__DIR__).'/vendor/autoload.php';
 
 if (!defined('_PS_ROOT_DIR_')) {
-    define('_PS_ROOT_DIR_', __DIR__ . '/../../../');
+    define('_PS_ROOT_DIR_', __DIR__ . '/../../..');
 }
 
 $application = new Application();

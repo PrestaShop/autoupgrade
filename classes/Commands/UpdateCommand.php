@@ -38,6 +38,7 @@ use PrestaShop\Module\AutoUpgrade\Task\Miscellaneous\UpdateConfig;
 use PrestaShop\Module\AutoUpgrade\Task\Runner\AllUpgradeTasks;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -62,13 +63,13 @@ class UpdateCommand extends Command
                 'This command allows you to start the update process. ' .
                 'Advanced users can refer to the ' . DeveloperDocumentation::DEV_DOC_UPGRADE_CLI_URL . ' for further details on available actions'
             )
-            ->addOption('admin-dir', 'ad', InputOption::VALUE_REQUIRED, 'The admin directory name.')
-            ->addOption('chain', 'ca', InputOption::VALUE_NONE, 'True by default. Allows you to chain update commands automatically. The command will continue executing subsequent tasks without requiring manual intervention to restart the process.')
-            ->addOption('no-chain', 'nca', InputOption::VALUE_NONE, 'Prevents chaining of update commands. The command will execute a task and then stop, logging the next command that needs to be run. You will need to manually restart the process to continue with the next step.')
-            ->addOption('channel', 'ce', InputOption::VALUE_OPTIONAL, 'Selects what update to run (minor, major etc.)')
-            ->addOption('config-file-path', 'cf', InputOption::VALUE_OPTIONAL, 'Configuration file location for update.')
-            ->addOption('action', 'a', InputOption::VALUE_OPTIONAL, 'Advanced users only. Sets the step you want to start from (Default: UpgradeNow, see ' . DeveloperDocumentation::DEV_DOC_UPGRADE_CLI_URL . ' for other values available)')
-            ->addOption('data', 'd', InputOption::VALUE_OPTIONAL, 'Advanced users only. Contains the state of the update process encoded in base64');
+            ->addArgument('admin-dir', InputArgument::REQUIRED, 'The admin directory name.')
+            ->addOption('chain', null, InputOption::VALUE_NONE, 'True by default. Allows you to chain update commands automatically. The command will continue executing subsequent tasks without requiring manual intervention to restart the process.')
+            ->addOption('no-chain', null, InputOption::VALUE_NONE, 'Prevents chaining of update commands. The command will execute a task and then stop, logging the next command that needs to be run. You will need to manually restart the process to continue with the next step.')
+            ->addOption('channel', null, InputOption::VALUE_REQUIRED, 'Selects what update to run (minor, major etc.)')
+            ->addOption('config-file-path', null, InputOption::VALUE_REQUIRED, 'Configuration file location for update.')
+            ->addOption('action', null, InputOption::VALUE_REQUIRED, 'Advanced users only. Sets the step you want to start from (Default: UpgradeNow, see ' . DeveloperDocumentation::DEV_DOC_UPGRADE_CLI_URL . ' for other values available)')
+            ->addOption('data', null, InputOption::VALUE_REQUIRED, 'Advanced users only. Contains the state of the update process encoded in base64');
     }
 
     /**
@@ -100,9 +101,9 @@ class UpdateCommand extends Command
             $prodRootDir = _PS_ROOT_DIR_;
             $this->logger->debug('Production root directory: ' . $prodRootDir);
 
-            $adminDir = $input->getOption('admin-dir');
+            $adminDir = _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . $input->getArgument('admin-dir');
             $this->logger->debug('Admin directory: ' . $adminDir);
-            define('_PS_ADMIN_DIR_', _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . $adminDir);
+            define('_PS_ADMIN_DIR_', $adminDir);
 
             $upgradeContainer = new UpgradeContainer($prodRootDir, $adminDir);
             $this->logger->debug('Upgrade container initialized.');
@@ -120,6 +121,8 @@ class UpdateCommand extends Command
                     return $exitCode;
                 }
                 $this->logger->debug('Configuration loaded successfully.');
+            } else {
+                $this->logger->debug('No configuration file defined, use default configuration instead.');
             }
 
             $controller = new AllUpgradeTasks($upgradeContainer);
@@ -147,7 +150,7 @@ class UpdateCommand extends Command
     /**
      * @throws Exception
      */
-    private function loadConfiguration(string $configPath, UpgradeContainer $upgradeContainer): int
+    private function loadConfiguration(string $configPath, ?UpgradeContainer $upgradeContainer): int
     {
         $this->logger->debug('Loading configuration from ' . $configPath);
         $configFile = file_get_contents($configPath);
@@ -158,6 +161,13 @@ class UpdateCommand extends Command
         }
 
         $inputData = json_decode($configFile, true);
+
+        if (!$inputData) {
+            $this->logger->error('An error occurred during the json decode process, please check the content and syntax of the file content');
+
+            return ExitCode::FAIL;
+        }
+
         $this->logger->debug('Configuration file content: ' . json_encode($inputData));
 
         $controller = new UpdateConfig($upgradeContainer);
