@@ -675,26 +675,12 @@ Comment: directory already exists</note>
       </trans-unit>
     </body>
   </file>
-  <file original="classes/Twig/Form/FormRenderer.php" source-language="en" target-language="es-ES" datatype="plaintext">
-    <body>
-      <trans-unit id="93cba07454f06a4a960172bbd6e2a435" approved="yes">
-        <source>Yes</source>
-        <target state="final">Sí</target>
-        <note>Line: 170</note>
-      </trans-unit>
-      <trans-unit id="bafd7322c6e97d25b6299b5d6fe8920b" approved="yes">
-        <source>No</source>
-        <target state="final">No</target>
-        <note>Line: 174</note>
-      </trans-unit>
-    </body>
-  </file>
   <file original="classes/Twig/Form/UpgradeOptionsForm.php" source-language="en" target-language="es-ES" datatype="plaintext">
     <body>
       <trans-unit id="564b7c9d8683f1a94798e9f7449564e4" approved="yes">
         <source>Upgrade Options</source>
         <target state="final">Opciones de actualización</target>
-        <note>Line: 137</note>
+        <note>Line: 118</note>
       </trans-unit>
     </body>
   </file>
@@ -714,11 +700,6 @@ Comment: directory already exists</note>
         <source>Are you sure you want to delete this backup?</source>
         <target state="final">¿Estás seguro de que quieres eliminar esta copia de seguridad?</target>
         <note>Line: 284</note>
-      </trans-unit>
-      <trans-unit id="f2a6c498fb90ee345d997f888fce3b18" approved="yes">
-        <source>Delete</source>
-        <target state="final">Eliminar</target>
-        <note>Line: 285</note>
       </trans-unit>
       <trans-unit id="f03a04d1f440e359840035679b49b212" approved="yes">
         <source>An update is currently in progress... Click "OK" to abort.</source>
@@ -1304,155 +1285,125 @@ Comment: check DB access</note>
   </file>
   <file original="controllers/admin/AdminSelfUpgradeController.php" source-language="en" target-language="es-ES" datatype="plaintext">
     <body>
-      <trans-unit id="5243e62512552a2cd6369e446bbf10f4">
-        <source>Server performance</source>
-        <target state="needs-translation">Server performance</target>
-        <note>Line: 218</note>
-      </trans-unit>
-      <trans-unit id="a94e6f7e27ad55c963170658ee6a9e28">
-        <source>Unless you are using a dedicated server, select "Low".</source>
-        <target state="needs-translation">Unless you are using a dedicated server, select "Low".</target>
-        <note>Line: 223</note>
-      </trans-unit>
-      <trans-unit id="9e435ab00f5e0606f46337fdc73164ff">
-        <source>A high value can cause the upgrade to fail if your server is not powerful enough to process the upgrade tasks in a short amount of time.</source>
-        <target state="needs-translation">A high value can cause the upgrade to fail if your server is not powerful enough to process the upgrade tasks in a short amount of time.</target>
-        <note>Line: 224</note>
-      </trans-unit>
-      <trans-unit id="73ae0e1bfd470f9e26dac64d270cda9d">
-        <source>Low (recommended)</source>
-        <target state="needs-translation">Low (recommended)</target>
-        <note>Line: 225</note>
-      </trans-unit>
-      <trans-unit id="87f8a6ab85c9ced3702b4ea641ad4bb5">
-        <source>Medium</source>
-        <target state="needs-translation">Medium</target>
-        <note>Line: 225</note>
-      </trans-unit>
-      <trans-unit id="655d20c1ca69519ca647684edbb2db35">
-        <source>High</source>
-        <target state="needs-translation">High</target>
-        <note>Line: 225</note>
-      </trans-unit>
       <trans-unit id="26f07ad840fb1c17d29f5be0f428f015">
         <source>Disable non-native modules</source>
         <target state="needs-translation">Disable non-native modules</target>
-        <note>Line: 228</note>
+        <note>Line: 220</note>
       </trans-unit>
       <trans-unit id="70c06c37194d755dd9aef11cf0469981">
         <source>As non-native modules can experience some compatibility issues, we recommend to disable them by default.</source>
         <target state="needs-translation">As non-native modules can experience some compatibility issues, we recommend to disable them by default.</target>
-        <note>Line: 232</note>
+        <note>Line: 224</note>
       </trans-unit>
       <trans-unit id="469ab377c49ea68b2ecdfe76d628a53b">
         <source>Keeping them enabled might prevent you from loading the "Modules" page properly after the upgrade.</source>
         <target state="needs-translation">Keeping them enabled might prevent you from loading the "Modules" page properly after the upgrade.</target>
-        <note>Line: 233</note>
+        <note>Line: 225</note>
       </trans-unit>
       <trans-unit id="03a9e6840847f96325b7184d5f3c2769">
         <source>Disable all overrides</source>
         <target state="needs-translation">Disable all overrides</target>
-        <note>Line: 236</note>
+        <note>Line: 228</note>
       </trans-unit>
       <trans-unit id="29826f9f4da3d473c1e4ecf2f6c4ef9f">
         <source>Enable or disable all classes and controllers overrides.</source>
         <target state="needs-translation">Enable or disable all classes and controllers overrides.</target>
-        <note>Line: 240</note>
+        <note>Line: 232</note>
       </trans-unit>
       <trans-unit id="fa2508196ef3391139d01d8d38b2c1bb">
         <source>Upgrade the default theme</source>
         <target state="needs-translation">Upgrade the default theme</target>
-        <note>Line: 243</note>
+        <note>Line: 235</note>
       </trans-unit>
       <trans-unit id="b6b1ed5508bc97f38ab9075ccf234c69">
         <source>If you customized the default PrestaShop theme in its folder (folder name "classic" in 1.7), enabling this option will lose your modifications.</source>
         <target state="needs-translation">If you customized the default PrestaShop theme in its folder (folder name "classic" in 1.7), enabling this option will lose your modifications.</target>
-        <note>Line: 248</note>
+        <note>Line: 240</note>
       </trans-unit>
       <trans-unit id="97a989a73b46233ae4330fb7682a70a2">
         <source>If you are using your own theme, enabling this option will simply update the default theme files, and your own theme will be safe.</source>
         <target state="needs-translation">If you are using your own theme, enabling this option will simply update the default theme files, and your own theme will be safe.</target>
-        <note>Line: 249</note>
+        <note>Line: 241</note>
       </trans-unit>
       <trans-unit id="92991497ed914de6bb7795b701b4c6e4">
         <source>Switch to the default theme</source>
         <target state="needs-translation">Switch to the default theme</target>
-        <note>Line: 260</note>
+        <note>Line: 252</note>
       </trans-unit>
       <trans-unit id="c7ae0af8d5653beb68b344415aca135d">
         <source>This will change your theme: your shop will then use the default theme of the version of PrestaShop you are upgrading to.</source>
         <target state="needs-translation">This will change your theme: your shop will then use the default theme of the version of PrestaShop you are upgrading to.</target>
-        <note>Line: 265</note>
+        <note>Line: 257</note>
       </trans-unit>
       <trans-unit id="309183e60345ce8ad09def36330218b8">
         <source>Regenerate RTL stylesheet</source>
         <target state="needs-translation">Regenerate RTL stylesheet</target>
-        <note>Line: 252</note>
+        <note>Line: 244</note>
       </trans-unit>
       <trans-unit id="e31d0229913e78ae9dc2de61d9ac21aa">
         <source>If enabled, any RTL-specific files that you might have added to all your themes might be deleted by the created stylesheet.</source>
         <target state="needs-translation">If enabled, any RTL-specific files that you might have added to all your themes might be deleted by the created stylesheet.</target>
-        <note>Line: 257</note>
+        <note>Line: 249</note>
       </trans-unit>
       <trans-unit id="f22d57f1f0b7fd2a55ca4760cd6ef68b">
         <source>Keep the customized email templates</source>
         <target state="needs-translation">Keep the customized email templates</target>
-        <note>Line: 268</note>
+        <note>Line: 260</note>
       </trans-unit>
       <trans-unit id="5ea970658668e0b45cb6f64ce18b420e">
         <source>This will not upgrade the default PrestaShop e-mails.</source>
         <target state="needs-translation">This will not upgrade the default PrestaShop e-mails.</target>
-        <note>Line: 272</note>
+        <note>Line: 264</note>
       </trans-unit>
       <trans-unit id="a83c73a145dbc0f4ea7c6a95203df43d">
         <source>If you customized the default PrestaShop e-mail templates, enabling this option will keep your modifications.</source>
         <target state="needs-translation">If you customized the default PrestaShop e-mail templates, enabling this option will keep your modifications.</target>
-        <note>Line: 273</note>
+        <note>Line: 265</note>
       </trans-unit>
       <trans-unit id="bb7748991e29366d42f8fa2c361f4d55">
         <source>Back up my files and database</source>
         <target state="needs-translation">Back up my files and database</target>
-        <note>Line: 200</note>
+        <note>Line: 202</note>
       </trans-unit>
       <trans-unit id="e53b4fd73748419564a1742f66ba631f">
         <source>Automatically back up your database and files in order to restore your shop if needed. This is experimental: you should still perform your own manual backup for safety.</source>
         <target state="needs-translation">Automatically back up your database and files in order to restore your shop if needed. This is experimental: you should still perform your own manual backup for safety.</target>
-        <note>Line: 205</note>
+        <note>Line: 207</note>
       </trans-unit>
       <trans-unit id="d5342bfd5b032cd75faeebdf2a918a79">
         <source>Back up my images</source>
         <target state="needs-translation">Back up my images</target>
-        <note>Line: 208</note>
+        <note>Line: 210</note>
       </trans-unit>
       <trans-unit id="9a2cad898ee3d0ea4573946becdec9cf">
         <source>To save time, you can decide not to back your images up. In any case, always make sure you did back them up manually.</source>
         <target state="needs-translation">To save time, you can decide not to back your images up. In any case, always make sure you did back them up manually.</target>
-        <note>Line: 213</note>
+        <note>Line: 215</note>
       </trans-unit>
       <trans-unit id="21dc065f2d8653ebca37ec552d17b37e" approved="yes">
         <source>Unable to create the directory "%s"</source>
         <target state="final">No se puede crear el directorio "%s"</target>
-        <note>Line: 180</note>
+        <note>Line: 182</note>
       </trans-unit>
       <trans-unit id="6215d33db0d099fcaae168dd4715135a">
         <source>Unable to write in the directory "%s"</source>
         <target state="needs-translation">Unable to write in the directory "%s"</target>
-        <note>Line: 148</note>
+        <note>Line: 150</note>
       </trans-unit>
       <trans-unit id="92a5801448b25f111961462b0b31995d" approved="yes">
         <source>Unable to create file %s</source>
         <target state="final">No se puede crear el archivo %s</target>
-        <note>Line: 377</note>
+        <note>Line: 369</note>
       </trans-unit>
       <trans-unit id="56195ded2802813800f43e3be1babe1c" approved="yes">
         <source>Error when trying to delete backups %s</source>
         <target state="final">Error al intentar eliminar las copias de seguridad %s</target>
-        <note>Line: 424</note>
+        <note>Line: 416</note>
       </trans-unit>
       <trans-unit id="f4eb320e09f7ef88a627229870458454">
         <source>The module %s requires PHP %s to work properly. Please upgrade your server configuration.</source>
         <target state="needs-translation">The module %s requires PHP %s to work properly. Please upgrade your server configuration.</target>
-        <note>Line: 468</note>
+        <note>Line: 460</note>
       </trans-unit>
     </body>
   </file>
@@ -1466,52 +1417,47 @@ Comment: check DB access</note>
       <trans-unit id="1f966606f0a941f655a4e9b7791a1ae0" approved="yes">
         <source>Currently processing</source>
         <target state="final">Proceso en curso</target>
-        <note>Line: 11</note>
+        <note>Line: 13</note>
       </trans-unit>
       <trans-unit id="21739f79b8e95f4187fce4fefb12af28" approved="yes">
         <source>Analyzing the situation...</source>
         <target state="final">Analizando la situación...</target>
-        <note>Line: 12</note>
+        <note>Line: 16</note>
       </trans-unit>
       <trans-unit id="5ef0c737746fae2ca90e66c39333f8f6" approved="yes">
         <source>Errors</source>
         <target state="final">Errores</target>
-        <note>Line: 19</note>
+        <note>Line: 23</note>
       </trans-unit>
       <trans-unit id="3406147c3ce729ce17ed76d45c2896f9">
         <source>Report a bug</source>
         <target state="needs-translation">Report a bug</target>
-        <note>Line: 22</note>
+        <note>Line: 27</note>
       </trans-unit>
       <trans-unit id="a11a94656093eefcfc56c9e9c15ef85b">
         <source>Give feedbacks</source>
         <target state="needs-translation">Give feedbacks</target>
-        <note>Line: 34</note>
+        <note>Line: 39</note>
       </trans-unit>
       <trans-unit id="ce8ae9da5b7cd6c3df2929543a9af92d" approved="yes">
         <source>Email</source>
         <target state="final">Email</target>
-        <note>Line: 41</note>
+        <note>Line: 46</note>
       </trans-unit>
       <trans-unit id="b5a7adde1af5c87d7fd797b6245c2a39" approved="yes">
         <source>Description</source>
         <target state="final">Descripción</target>
-        <note>Line: 43</note>
+        <note>Line: 49</note>
       </trans-unit>
       <trans-unit id="cabb081af34d6d6129acb90806ea1f6b">
         <source>Give us details about the error</source>
         <target state="needs-translation">Give us details about the error</target>
-        <note>Line: 45</note>
-      </trans-unit>
-      <trans-unit id="ea4788705e6873b424c65e91c2846b19" approved="yes">
-        <source>Cancel</source>
-        <target state="final">Cancelar</target>
-        <note>Line: 49</note>
+        <note>Line: 52</note>
       </trans-unit>
       <trans-unit id="c2ebe5da2f59b88f554016a78528c2de">
         <source>Send a bug report</source>
         <target state="needs-translation">Send a bug report</target>
-        <note>Line: 52</note>
+        <note>Line: 60</note>
       </trans-unit>
     </body>
   </file>
@@ -1566,6 +1512,16 @@ Comment: check DB access</note>
   </file>
   <file original="views/templates/block/checklist.html.twig" source-language="en" target-language="es-ES" datatype="plaintext">
     <body>
+      <trans-unit id="8406b91fd5a290de3a1e1516db6e79b8" approved="yes">
+        <source>Unable to generate private keys using openssl_pkey_new. Check your OpenSSL configuration, especially the path to openssl.cafile.</source>
+        <target state="final">No se pueden generar claves privadas usando openssl_pkey_new. Verifica la configuración de OpenSSL, especialmente la ruta al archivo openssl.cafile.</target>
+        <note>Line: 191</note>
+      </trans-unit>
+      <trans-unit id="9909617f8b4cdd63a60a0736026ce540">
+        <source>We were unable to check your PHP compatibility with the destination PrestaShop version.</source>
+        <target state="needs-translation">We were unable to check your PHP compatibility with the destination PrestaShop version.</target>
+        <note>Line: 30</note>
+      </trans-unit>
       <trans-unit id="69ff9aca0bd03b3981784593311d866a" approved="yes">
         <source>The pre-Upgrade checklist</source>
         <target state="final">La lista de comprobación previa a la actualización</target>
@@ -1595,11 +1551,6 @@ Comment: check DB access</note>
         <source>Your current PHP version isn't compatible with your PrestaShop version. (Expected: %s - %s | Current: %s)</source>
         <target state="needs-translation">Your current PHP version isn't compatible with your PrestaShop version. (Expected: %s - %s | Current: %s)</target>
         <note>Line: 24</note>
-      </trans-unit>
-      <trans-unit id="9909617f8b4cdd63a60a0736026ce540">
-        <source>We were unable to check your PHP compatibility with the destination PrestaShop version.</source>
-        <target state="needs-translation">We were unable to check your PHP compatibility with the destination PrestaShop version.</target>
-        <note>Line: 30</note>
       </trans-unit>
       <trans-unit id="50a5bcb757b1a7705007720863250da8" approved="yes">
         <source>Your store's root directory (%s) is writable (with appropriate CHMOD permissions).</source>
@@ -1691,11 +1642,6 @@ Comment: check DB access</note>
         <target state="final">No es posible crear una sesión de PHP.</target>
         <note>Line: 185</note>
       </trans-unit>
-      <trans-unit id="8406b91fd5a290de3a1e1516db6e79b8" approved="yes">
-        <source>Unable to generate private keys using openssl_pkey_new. Check your OpenSSL configuration, especially the path to openssl.cafile.</source>
-        <target state="final">No se pueden generar claves privadas usando openssl_pkey_new. Verifica la configuración de OpenSSL, especialmente la ruta al archivo openssl.cafile.</target>
-        <note>Line: 191</note>
-      </trans-unit>
       <trans-unit id="e78a48236a7c0830aa9de157a415e44c" approved="yes">
         <source>The following files are missing:</source>
         <target state="final">Faltan los siguientes archivos:</target>
@@ -1728,7 +1674,7 @@ Comment: check DB access</note>
       <trans-unit id="56c34c6410dd45c5cec44149ad0ce037">
         <source>Privacy policy</source>
         <target state="needs-translation">Privacy policy</target>
-        <note>Line: 6</note>
+        <note>Line: 7</note>
       </trans-unit>
     </body>
   </file>
@@ -1747,31 +1693,41 @@ Comment: check DB access</note>
       <trans-unit id="6d7d6c549fa8457fb326a8ec0c1bfa4f">
         <source>If you can't access your back office, try emptying the cache.</source>
         <target state="needs-translation">If you can't access your back office, try emptying the cache.</target>
-        <note>Line: 35</note>
+        <note>Line: 36</note>
       </trans-unit>
     </body>
   </file>
   <file original="views/templates/block/postUpdateChecklistBlock.html.twig" source-language="en" target-language="es-ES" datatype="plaintext">
     <body>
-      <trans-unit id="4ba42d4d681d17d9bee2f6228c326069">
-        <source>Open developer documentation</source>
-        <target state="needs-translation">Open developer documentation</target>
-        <note>Line: 15</note>
-      </trans-unit>
       <trans-unit id="cce78dc6ebbec7385a01f2146d6d01c8">
         <source>Next steps</source>
         <target state="needs-translation">Next steps</target>
-        <note>Line: 23</note>
-      </trans-unit>
-      <trans-unit id="79dc0855e9436fdc704a8f489d82f521">
-        <source><![CDATA[Disable the maintenance mode in General settings > Maintenance.]]></source>
-        <target state="needs-translation"><![CDATA[Disable the maintenance mode in General settings > Maintenance.]]></target>
-        <note>Line: 28</note>
+        <note>Line: 24</note>
       </trans-unit>
       <trans-unit id="231cf4c70d866b616c21baddaeed0696">
         <source>Troubleshooting</source>
         <target state="needs-translation">Troubleshooting</target>
-        <note>Line: 34</note>
+        <note>Line: 35</note>
+      </trans-unit>
+      <trans-unit id="b6e8290a312769f4d3919f3dd42a21a7">
+        <source>If something's wrong, you can restore a backup with this module. Your backup is available at {admin}/autoupgrade/backup.</source>
+        <target state="needs-translation">If something's wrong, you can restore a backup with this module. Your backup is available at {admin}/autoupgrade/backup.</target>
+        <note>Line: 40</note>
+      </trans-unit>
+      <trans-unit id="3cdf2387430d70296aec1dbe3d6772ad">
+        <source>If you can't access your back office, try enabling the debug mode manually in config/defines.inc.php by setting _PS_MODE_DEV_ to true.</source>
+        <target state="needs-translation">If you can't access your back office, try enabling the debug mode manually in config/defines.inc.php by setting _PS_MODE_DEV_ to true.</target>
+        <note>Line: 42</note>
+      </trans-unit>
+      <trans-unit id="4ba42d4d681d17d9bee2f6228c326069">
+        <source>Open developer documentation</source>
+        <target state="needs-translation">Open developer documentation</target>
+        <note>Line: 16</note>
+      </trans-unit>
+      <trans-unit id="79dc0855e9436fdc704a8f489d82f521">
+        <source><![CDATA[Disable the maintenance mode in General settings > Maintenance.]]></source>
+        <target state="needs-translation"><![CDATA[Disable the maintenance mode in General settings > Maintenance.]]></target>
+        <note>Line: 29</note>
       </trans-unit>
       <trans-unit id="91aac5a444c7ad75c9adad01b3253de8">
         <source>Your store is up to date</source>
@@ -1786,36 +1742,31 @@ Comment: check DB access</note>
       <trans-unit id="5bcbabb0f8d2cfc79ac25e7974624058">
         <source>Re-enable and check your modules one by one.</source>
         <target state="needs-translation">Re-enable and check your modules one by one.</target>
-        <note>Line: 26</note>
+        <note>Line: 27</note>
       </trans-unit>
       <trans-unit id="d2476bfa5f9cc15b02cbbe785fcb81b0">
         <source>Make sure your store's front office is working properly: try to create an account, place an order, add a product, etc.</source>
         <target state="needs-translation">Make sure your store's front office is working properly: try to create an account, place an order, add a product, etc.</target>
-        <note>Line: 27</note>
+        <note>Line: 28</note>
       </trans-unit>
       <trans-unit id="605f8e6688fdd2a7616a3614d741202d">
         <source><![CDATA[If some images don't appear in the front office, try regenerating thumbnails in Preferences > Images.]]></source>
         <target state="needs-translation"><![CDATA[If some images don't appear in the front office, try regenerating thumbnails in Preferences > Images.]]></target>
-        <note>Line: 37</note>
-      </trans-unit>
-      <trans-unit id="b6e8290a312769f4d3919f3dd42a21a7">
-        <source>If something's wrong, you can restore a backup with this module. Your backup is available at {admin}/autoupgrade/backup.</source>
-        <target state="needs-translation">If something's wrong, you can restore a backup with this module. Your backup is available at {admin}/autoupgrade/backup.</target>
-        <note>Line: 39</note>
-      </trans-unit>
-      <trans-unit id="3cdf2387430d70296aec1dbe3d6772ad">
-        <source>If you can't access your back office, try enabling the debug mode manually in config/defines.inc.php by setting _PS_MODE_DEV_ to true.</source>
-        <target state="needs-translation">If you can't access your back office, try enabling the debug mode manually in config/defines.inc.php by setting _PS_MODE_DEV_ to true.</target>
-        <note>Line: 41</note>
+        <note>Line: 38</note>
       </trans-unit>
     </body>
   </file>
   <file original="views/templates/block/rollbackForm.html.twig" source-language="en" target-language="es-ES" datatype="plaintext">
     <body>
+      <trans-unit id="c629f24e672b4e1165ebf1c10b5c5c5d" approved="yes">
+        <source>-- Choose a backup to restore --</source>
+        <target state="final">-- Elige una copia de seguridad a restaurar --</target>
+        <note>Line: 14</note>
+      </trans-unit>
       <trans-unit id="446c9e952debe114c86bbd9e5eea7d61" approved="yes">
         <source>Rollback</source>
         <target state="final">Revertir</target>
-        <note>Line: 27</note>
+        <note>Line: 29</note>
       </trans-unit>
       <trans-unit id="946a7fdf02f1a9f08e6711d014e3bc47" approved="yes">
         <source>After upgrading your shop, you can rollback to the previous database and files. Use this function if your theme or an essential module is not working correctly.</source>
@@ -1827,11 +1778,6 @@ Comment: check DB access</note>
         <target state="final">Elige tu copia de seguridad:</target>
         <note>Line: 11</note>
       </trans-unit>
-      <trans-unit id="c629f24e672b4e1165ebf1c10b5c5c5d" approved="yes">
-        <source>-- Choose a backup to restore --</source>
-        <target state="final">-- Elige una copia de seguridad a restaurar --</target>
-        <note>Line: 14</note>
-      </trans-unit>
     </body>
   </file>
   <file original="views/templates/block/upgradeButtonBlock.html.twig" source-language="en" target-language="es-ES" datatype="plaintext">
@@ -1839,12 +1785,37 @@ Comment: check DB access</note>
       <trans-unit id="9e68a57463e52beb2b2d4d116085044e" approved="yes">
         <source>More options (Expert mode)</source>
         <target state="final">Más opciones (modo Experto)</target>
-        <note>Line: 69</note>
+        <note>Line: 75</note>
+      </trans-unit>
+      <trans-unit id="780daf2510c5c9e1c58948f138629817" approved="yes">
+        <source>Archive to use:</source>
+        <target state="final">Archivo a utilizar:</target>
+        <note>Line: 119</note>
+      </trans-unit>
+      <trans-unit id="eb7d4dd49f36e74b58604842ee983efd" approved="yes">
+        <source>Choose an archive</source>
+        <target state="final">Seleccione un archivo</target>
+        <note>Line: 122</note>
+      </trans-unit>
+      <trans-unit id="d16e8ad31ee6eb7891c79ba25cad7863" approved="yes">
+        <source>XML file to use:</source>
+        <target state="final">Archivo XML a utilizar:</target>
+        <note>Line: 130</note>
+      </trans-unit>
+      <trans-unit id="cd0135bf9edaf19cb7944e0e7b36a9d6" approved="yes">
+        <source>Choose an XML file</source>
+        <target state="final">Seleccione un archivo XML</target>
+        <note>Line: 132</note>
+      </trans-unit>
+      <trans-unit id="5be0150b075f706fc27b09753ce6646d" approved="yes">
+        <source>No archive found in your admin/autoupgrade/download directory</source>
+        <target state="final">Ningun archivo encontrado en el directorio admin/autoupgrade/download</target>
+        <note>Line: 141</note>
       </trans-unit>
       <trans-unit id="c9cc8cce247e49bae79f15173ce97354" approved="yes">
         <source>Save</source>
         <target state="final">Guardar</target>
-        <note>Line: 149</note>
+        <note>Line: 165</note>
       </trans-unit>
       <trans-unit id="e58eae3d7ced672a49b5716587b15f89" approved="yes">
         <source>Start your Upgrade</source>
@@ -1879,157 +1850,132 @@ Comment: check DB access</note>
       <trans-unit id="f34ac641f410c44e719fbc1496efd3d8" approved="yes">
         <source>Upgrade PrestaShop now!</source>
         <target state="final">¡Actualizar PrestaShop ahora!</target>
-        <note>Line: 25</note>
+        <note>Line: 27</note>
       </trans-unit>
       <trans-unit id="7f6336f29afd114798bf8ff3e6f2f9c9" approved="yes">
         <source>PrestaShop will be downloaded from %s</source>
         <target state="final">PrestaShop se descargará desde %s</target>
-        <note>Line: 27</note>
+        <note>Line: 29</note>
       </trans-unit>
       <trans-unit id="f90fc047cda408422c9097339e455572" approved="yes">
         <source>Open changelog in a new window</source>
         <target state="final">Abrir el registro de cambios en una nueva ventana</target>
-        <note>Line: 30</note>
+        <note>Line: 33</note>
       </trans-unit>
       <trans-unit id="7f07c36a3eb42fc24f4777e3619316f0" approved="yes">
         <source>No file will be downloaded (channel %s is used)</source>
         <target state="final">Ningún archivo será descargado (se usa el canal %s)</target>
-        <note>Line: 34</note>
+        <note>Line: 37</note>
       </trans-unit>
       <trans-unit id="604862f03b56fde085c8f0350f63d707" approved="yes">
         <source>The following action are automatically replaced</source>
         <target state="final">La siguiente acción será reemplazada automáticamente</target>
-        <note>Line: 39</note>
+        <note>Line: 42</note>
       </trans-unit>
       <trans-unit id="380880e1c59f4c6f514f529512d2719a" approved="yes">
         <source>%old% will be replaced by %new%</source>
         <target state="final">%old% será reemplazado por %new%</target>
-        <note>Line: 43</note>
+        <note>Line: 46</note>
       </trans-unit>
       <trans-unit id="a07a3b4fc3a73fd0a8014aa40819c357" approved="yes">
         <source>To change this behavior, you need to manually edit your php files</source>
         <target state="final">Para cambiar este comportamiento, debes editar tus archivos php</target>
-        <note>Line: 47</note>
+        <note>Line: 50</note>
       </trans-unit>
       <trans-unit id="5b7ae750cd57d8ce894a3152aadbb4e3" approved="yes">
         <source>Refresh the page</source>
         <target state="final">Actualizar la página</target>
-        <note>Line: 54</note>
+        <note>Line: 58</note>
       </trans-unit>
       <trans-unit id="ef754ad37c689704ede322b9a6ae66a7" approved="yes">
         <source>Check if a new version is available</source>
         <target state="final">Comprobar si hay una nueva versión disponible</target>
-        <note>Line: 56</note>
+        <note>Line: 61</note>
       </trans-unit>
       <trans-unit id="89de86aa34494d545d8cbb4fff3a4e59" approved="yes">
         <source>Last check: %s</source>
         <target state="final">Última comprobación: %s</target>
-        <note>Line: 59</note>
+        <note>Line: 64</note>
       </trans-unit>
       <trans-unit id="ea3104b84db2df54a4e798e5a47d0073" approved="yes">
         <source>Last check: never</source>
         <target state="final">Última comprobación: nunca</target>
-        <note>Line: 61</note>
+        <note>Line: 66</note>
       </trans-unit>
       <trans-unit id="d0285505fd09db653a4ec0fd3799f357" approved="yes">
         <source>Expert mode</source>
         <target state="final">Modo experto</target>
-        <note>Line: 75</note>
+        <note>Line: 81</note>
       </trans-unit>
       <trans-unit id="89f144934543c527b7b064ee64361d90" approved="yes">
         <source>Please select your channel:</source>
         <target state="final">Por favor, selecciona tu canal:</target>
-        <note>Line: 77</note>
+        <note>Line: 83</note>
       </trans-unit>
       <trans-unit id="cdcf07ad291a3b7a0cc30b870705ba63" approved="yes">
         <source>Channels are offering you different ways to perform an upgrade. You can either upload the new version manually or let the 1-Click Upgrade module download it for you.</source>
         <target state="final">Los canales te ofrecen diferentes formas de realizar una actualización. Puedes subir la nueva versión manualmente o dejar que el módulo Actualización en 1-Clic la descargue para ti.</target>
-        <note>Line: 79</note>
+        <note>Line: 85</note>
       </trans-unit>
       <trans-unit id="87ad8a8ff4a99ffd2e72d5e69765f830" approved="yes">
         <source>The Alpha, Beta and Private channels give you the ability to upgrade to a non-official or unstable release (for testing purposes only).</source>
         <target state="final">Los canales Alpha, Beta y Privados te ofrecen la posibilidad de actualizar a una versión no oficial o inestable (con el propósito de probarla solamente).</target>
-        <note>Line: 80</note>
+        <note>Line: 87</note>
       </trans-unit>
       <trans-unit id="7d71d389caebafeecac50e98c8e14dec" approved="yes">
         <source>By default, you should use the "Minor release" channel which is offering the latest stable version available.</source>
         <target state="final">De manera predeterminada, debes utilizar la "Versión secundaria", el canal que ofrece la última versión estable disponible.</target>
-        <note>Line: 81</note>
+        <note>Line: 89</note>
       </trans-unit>
       <trans-unit id="3b3d4b4b6a128cfeafc8e3f8987ddb9b" approved="yes">
         <source>Channel:</source>
         <target state="final">Canal:</target>
-        <note>Line: 84</note>
+        <note>Line: 92</note>
       </trans-unit>
       <trans-unit id="ef2f59f06132ddc2e1bc8d00abbe6e02" approved="yes">
         <source>Link:</source>
         <target state="final">Enlace:</target>
-        <note>Line: 95</note>
+        <note>Line: 104</note>
       </trans-unit>
       <trans-unit id="6e843a36f447872179db90ceff68d970" approved="yes">
         <source>Hash key:</source>
         <target state="final">Clave Hash:</target>
-        <note>Line: 98</note>
+        <note>Line: 108</note>
       </trans-unit>
       <trans-unit id="b77d20ed1ba7b2ee7139dc4f3fd13117" approved="yes">
         <source>Allow major upgrade:</source>
         <target state="final">Autorizar actualización principal:</target>
-        <note>Line: 101</note>
-      </trans-unit>
-      <trans-unit id="780daf2510c5c9e1c58948f138629817" approved="yes">
-        <source>Archive to use:</source>
-        <target state="final">Archivo a utilizar:</target>
-        <note>Line: 107</note>
-      </trans-unit>
-      <trans-unit id="eb7d4dd49f36e74b58604842ee983efd" approved="yes">
-        <source>Choose an archive</source>
-        <target state="final">Seleccione un archivo</target>
-        <note>Line: 110</note>
-      </trans-unit>
-      <trans-unit id="d16e8ad31ee6eb7891c79ba25cad7863" approved="yes">
-        <source>XML file to use:</source>
-        <target state="final">Archivo XML a utilizar:</target>
-        <note>Line: 117</note>
-      </trans-unit>
-      <trans-unit id="cd0135bf9edaf19cb7944e0e7b36a9d6" approved="yes">
-        <source>Choose an XML file</source>
-        <target state="final">Seleccione un archivo XML</target>
-        <note>Line: 119</note>
-      </trans-unit>
-      <trans-unit id="5be0150b075f706fc27b09753ce6646d" approved="yes">
-        <source>No archive found in your admin/autoupgrade/download directory</source>
-        <target state="final">Ningun archivo encontrado en el directorio admin/autoupgrade/download</target>
-        <note>Line: 127</note>
+        <note>Line: 112</note>
       </trans-unit>
       <trans-unit id="fa7d667f96d6c7a7a959840bb1101b68" approved="yes">
         <source>Save in the following directory the archive file and XML file of the version you want to upgrade to: %s</source>
         <target state="final">Guarda en el siguiente directorio el archivo comprimido y el archivo XML de la versión a la que desea actualizar: %s</target>
-        <note>Line: 130</note>
+        <note>Line: 144</note>
       </trans-unit>
       <trans-unit id="acb4749e846c0f10c7236ec68b574ba3" approved="yes">
         <source>Click to save once the archive is there.</source>
         <target state="final">Haz clic para guardar una vez que el archivo esté allí.</target>
-        <note>Line: 142</note>
+        <note>Line: 158</note>
       </trans-unit>
       <trans-unit id="4b0319a87fb1baabe2fdb810e5cd4e62" approved="yes">
         <source>This option will skip the download step.</source>
         <target state="final">Esta opción omitirá el paso de descarga.</target>
-        <note>Line: 132</note>
+        <note>Line: 147</note>
       </trans-unit>
       <trans-unit id="b534ea98500fdbec0ba93d3733f85f91" approved="yes">
         <source>Save in the following directory the uncompressed PrestaShop files of the version you want to upgrade to: %s</source>
         <target state="final">Guarda en el siguiente directorio los archivos descomprimidos de PrestaShop de la versión a la que quieres actualizar: %s</target>
-        <note>Line: 137</note>
+        <note>Line: 152</note>
       </trans-unit>
       <trans-unit id="e170025f2eea43e9a73fa76b4f5649bc" approved="yes">
         <source>Please tell us which version you are upgrading to [1](1.7.0.1 for instance)[/1]</source>
         <target state="final">Por favor, indica a qué versión estás actualizando [1](por ejemplo 1.7.0.1)[/1]</target>
-        <note>Line: 139</note>
+        <note>Line: 154</note>
       </trans-unit>
       <trans-unit id="1e034b9b374950ec672faf75cdc3f713" approved="yes">
         <source>This option will skip both download and unzip steps and will use %1$s as the source directory</source>
         <target state="final">Esta opción omitirá tanto el paso de descarga como el de descompresión, y utilizará %1$s como directorio de origen</target>
-        <note>Line: 143</note>
+        <note>Line: 159</note>
       </trans-unit>
     </body>
   </file>
@@ -2052,22 +1998,431 @@ Comment: check DB access</note>
       </trans-unit>
     </body>
   </file>
+  <file original="views/templates/components/backup-selection.html.twig" source-language="en" target-language="es-ES" datatype="plaintext">
+    <body>
+      <trans-unit id="caef47f6ddf52575a8fe9e566b68dcd8">
+        <source>Select the backup you want to restore to</source>
+        <target state="needs-translation">Select the backup you want to restore to</target>
+        <note>Line: 3</note>
+      </trans-unit>
+      <trans-unit id="6adab6d3fdf92c448d60cf8824e4851c">
+        <source>Delete selection</source>
+        <target state="needs-translation">Delete selection</target>
+        <note>Line: 17</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="views/templates/components/check-requirements.html.twig" source-language="en" target-language="es-ES" datatype="plaintext">
+    <body>
+      <trans-unit id="d63d0e3addadd645300c8e4909c7e3b1">
+        <source>Checking requirements...</source>
+        <target state="needs-translation">Checking requirements...</target>
+        <note>Line: 8</note>
+      </trans-unit>
+      <trans-unit id="0db9e54978a2358b7bd40fa24cf224d4">
+        <source>Update requirements</source>
+        <target state="needs-translation">Update requirements</target>
+        <note>Line: 13</note>
+      </trans-unit>
+      <trans-unit id="c2be89ec4229ab7b25ab17f1f7caea13">
+        <source>Once all the following conditions are met, you can continue with the update. Read more in the [1]developer documentation[/1].</source>
+        <target state="needs-translation">Once all the following conditions are met, you can continue with the update. Read more in the [1]developer documentation[/1].</target>
+        <note>Line: 17</note>
+      </trans-unit>
+      <trans-unit id="90f6b49ee2232f28b4f4b347d3a6a202">
+        <source>Your current PHP version isn't compatible with PrestaShop %max_version%. (Expected: %min_version% - %max_version% | Current: %current_version%)</source>
+        <target state="needs-translation">Your current PHP version isn't compatible with PrestaShop %max_version%. (Expected: %min_version% - %max_version% | Current: %current_version%)</target>
+        <note>Line: 29</note>
+      </trans-unit>
+      <trans-unit id="a39b2e9b36f54c6981b7e55820143b11">
+        <source><![CDATA[Your store's root directory (%root_directory%) isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></source>
+        <target state="needs-translation"><![CDATA[Your store's root directory (%root_directory%) isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></target>
+        <note>Line: 41</note>
+      </trans-unit>
+      <trans-unit id="d7238cb2856938b3986f300a67e00480">
+        <source><![CDATA[The "/admin/autoupgrade" directory isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></source>
+        <target state="needs-translation"><![CDATA[The "/admin/autoupgrade" directory isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></target>
+        <note>Line: 50</note>
+      </trans-unit>
+      <trans-unit id="abfe505ee370819199423ad97df77dec">
+        <source>PHP's "Safe mode" needs to be disabled.</source>
+        <target state="needs-translation">PHP's "Safe mode" needs to be disabled.</target>
+        <note>Line: 57</note>
+      </trans-unit>
+      <trans-unit id="a4cbbaa504b6e21c9152bc783cf68aba">
+        <source>Files can't be downloaded. Enable PHP's "allow_url_fopen" option or install PHP extension "cURL".</source>
+        <target state="needs-translation">Files can't be downloaded. Enable PHP's "allow_url_fopen" option or install PHP extension "cURL".</target>
+        <note>Line: 64</note>
+      </trans-unit>
+      <trans-unit id="f331b3e71fc229a1cfd1aaa3241be853">
+        <source>Missing PHP extension "zip".</source>
+        <target state="needs-translation">Missing PHP extension "zip".</target>
+        <note>Line: 71</note>
+      </trans-unit>
+      <trans-unit id="d321763467936ac779fff7e090d8f0dc">
+        <source><![CDATA[Maintenance mode needs to be enabled. Enable maintenance mode and add your maintenance IP in [1]Shop parameters > General > Maintenance[/1].]]></source>
+        <target state="needs-translation"><![CDATA[Maintenance mode needs to be enabled. Enable maintenance mode and add your maintenance IP in [1]Shop parameters > General > Maintenance[/1].]]></target>
+        <note>Line: 80</note>
+      </trans-unit>
+      <trans-unit id="00010e5e74d3de76b6ade544d9341832">
+        <source><![CDATA[PrestaShop's caching features needs to be disabled. Disable caching features in [1]Advanced parameters > Performance > Caching[/1].]]></source>
+        <target state="needs-translation"><![CDATA[PrestaShop's caching features needs to be disabled. Disable caching features in [1]Advanced parameters > Performance > Caching[/1].]]></target>
+        <note>Line: 91</note>
+      </trans-unit>
+      <trans-unit id="8ff30224a9960da38da34b6a99d20751">
+        <source>PHP's max_execution_time setting needs to have a high value or needs to be disabled entirely (current value: %s seconds).</source>
+        <target state="needs-translation">PHP's max_execution_time setting needs to have a high value or needs to be disabled entirely (current value: %s seconds).</target>
+        <note>Line: 101</note>
+      </trans-unit>
+      <trans-unit id="26da0df3cbdf0052c8f1205b40ad5072">
+        <source>Apache mod_rewrite needs to be enabled.</source>
+        <target state="needs-translation">Apache mod_rewrite needs to be enabled.</target>
+        <note>Line: 109</note>
+      </trans-unit>
+      <trans-unit id="baf4b3d8ebc2067c85c65f47cfd0fdb0">
+        <source>The following PHP extensions need to be installed: %extensions%.</source>
+        <target state="needs-translation">The following PHP extensions need to be installed: %extensions%.</target>
+        <note>Line: 117</note>
+      </trans-unit>
+      <trans-unit id="a60972f0ec4829ac2cd7b2c3799b3b3b">
+        <source>The following PHP extension needs to be installed: %extension%.</source>
+        <target state="needs-translation">The following PHP extension needs to be installed: %extension%.</target>
+        <note>Line: 121</note>
+      </trans-unit>
+      <trans-unit id="047dc151bd4fea1e4925ce6ad50a53b3">
+        <source>The following PHP functions need to be allowed: %functions%.</source>
+        <target state="needs-translation">The following PHP functions need to be allowed: %functions%.</target>
+        <note>Line: 132</note>
+      </trans-unit>
+      <trans-unit id="fb38f71bf14702220f7f73dd50678abd">
+        <source>The following PHP function needs to be allowed: %function%.</source>
+        <target state="needs-translation">The following PHP function needs to be allowed: %function%.</target>
+        <note>Line: 136</note>
+      </trans-unit>
+      <trans-unit id="a220e0ac5c6f7fa8692c131148ed050a">
+        <source>PHP memory_limit needs to be greater than 256 MB.</source>
+        <target state="needs-translation">PHP memory_limit needs to be greater than 256 MB.</target>
+        <note>Line: 146</note>
+      </trans-unit>
+      <trans-unit id="24b3a661ea0947d7dfddb4fe68681907">
+        <source>PHP file_uploads configuration needs to be enabled.</source>
+        <target state="needs-translation">PHP file_uploads configuration needs to be enabled.</target>
+        <note>Line: 153</note>
+      </trans-unit>
+      <trans-unit id="6106c8ca4547ab68a21560b227fe91c6">
+        <source>It's not possible to write in the following folders: %directories%.</source>
+        <target state="needs-translation">It's not possible to write in the following folders: %directories%.</target>
+        <note>Line: 167</note>
+      </trans-unit>
+      <trans-unit id="774e7361cd125d0f1953bd4e4199be0f">
+        <source><![CDATA[Provide write access to the user running PHP with appropriate permission & ownership.]]></source>
+        <target state="needs-translation"><![CDATA[Provide write access to the user running PHP with appropriate permission & ownership.]]></target>
+        <note>Line: 170</note>
+      </trans-unit>
+      <trans-unit id="a99553cd5eff17f5895d093c44b5c430">
+        <source>The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table.</source>
+        <target state="needs-translation">The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table.</target>
+        <note>Line: 177</note>
+      </trans-unit>
+      <trans-unit id="3acd0ca5efe0e72cee2610e80f8d5024">
+        <source>Your current version of the module is out of date. Update now %link%</source>
+        <target state="needs-translation">Your current version of the module is out of date. Update now %link%</target>
+        <note>Line: 185</note>
+      </trans-unit>
+      <trans-unit id="9a5e39badf24a0adca4850f4862cd20f">
+        <source>Some core files have been altered, customization made on these files will be lost during the update. See the list in %link%</source>
+        <target state="needs-translation">Some core files have been altered, customization made on these files will be lost during the update. See the list in %link%</target>
+        <note>Line: 203</note>
+      </trans-unit>
+      <trans-unit id="3758c107f9d68f5fb6d56486dab9f2d4">
+        <source>Check requirements again</source>
+        <target state="needs-translation">Check requirements again</target>
+        <note>Line: 212</note>
+      </trans-unit>
+      <trans-unit id="c3f4ad9687b5bbb78f1d39e089a4be47">
+        <source>The requirements check is complete, you can update your store (to this version of PrestaShop).</source>
+        <target state="needs-translation">The requirements check is complete, you can update your store (to this version of PrestaShop).</target>
+        <note>Line: 219</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="views/templates/components/local-archive.html.twig" source-language="en" target-language="es-ES" datatype="plaintext">
+    <body>
+      <trans-unit id="0b4a925c935931bb73c6b28c285a21c0">
+        <source>We couldn't find a PrestaShop version in the .zip file you uploaded. Please try again.</source>
+        <target state="needs-translation">We couldn't find a PrestaShop version in the .zip file you uploaded. Please try again.</target>
+        <note>Line: 21</note>
+      </trans-unit>
+      <trans-unit id="a9c58dc4da830f87b1f0cb9e2b6f8a1c">
+        <source>We couldn't find a PrestaShop version in the XML file that was uploaded in your local archive. Please try again.</source>
+        <target state="needs-translation">We couldn't find a PrestaShop version in the XML file that was uploaded in your local archive. Please try again.</target>
+        <note>Line: 44</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="views/templates/components/logs.html.twig" source-language="en" target-language="es-ES" datatype="plaintext">
+    <body>
+      <trans-unit id="12b7e9bd62f15c5f79030a36509eedf0">
+        <source>Warning summary</source>
+        <target state="needs-translation">Warning summary</target>
+        <note>Line: 16</note>
+      </trans-unit>
+      <trans-unit id="94c3bbd272ff645e73a18da13399cc63">
+        <source>See warning</source>
+        <target state="needs-translation">See warning</target>
+        <note>Line: 24</note>
+      </trans-unit>
+      <trans-unit id="e3ee0344bd3867921755578619b2ba43">
+        <source>Error summary</source>
+        <target state="needs-translation">Error summary</target>
+        <note>Line: 33</note>
+      </trans-unit>
+      <trans-unit id="bbed65cc1e1133fa10ca61cae4e636f9">
+        <source>See error</source>
+        <target state="needs-translation">See error</target>
+        <note>Line: 41</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="views/templates/components/render-bool.html.twig" source-language="en" target-language="es-ES" datatype="plaintext">
+    <body>
+      <trans-unit id="93cba07454f06a4a960172bbd6e2a435">
+        <source>Yes</source>
+        <target state="needs-translation">Yes</target>
+        <note>Line: 9</note>
+      </trans-unit>
+      <trans-unit id="bafd7322c6e97d25b6299b5d6fe8920b">
+        <source>No</source>
+        <target state="needs-translation">No</target>
+        <note>Line: 15</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="views/templates/layouts/backup.html.twig" source-language="en" target-language="es-ES" datatype="plaintext">
+    <body>
+      <trans-unit id="8f54da32d0160f178f08b2530d1e690b">
+        <source>Back up your store</source>
+        <target state="needs-translation">Back up your store</target>
+        <note>Line: 6</note>
+      </trans-unit>
+      <trans-unit id="9c32ff52925ba5a296f9696cfbb7edcc">
+        <source>Backing up your store's files, database, and images means you can restore to a previous version if something goes wrong during the update. This keeps your data safe and ensures your business stays up and running.</source>
+        <target state="needs-translation">Backing up your store's files, database, and images means you can restore to a previous version if something goes wrong during the update. This keeps your data safe and ensures your business stays up and running.</target>
+        <note>Line: 12</note>
+      </trans-unit>
+      <trans-unit id="2284aa8fec405e1dd014326b51cde020">
+        <source>Launch backup</source>
+        <target state="needs-translation">Launch backup</target>
+        <note>Line: 55</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="views/templates/layouts/post-update-checklist.html.twig" source-language="en" target-language="es-ES" datatype="plaintext">
+    <body>
+      <trans-unit id="201ad8cac531a92e1ec77ae5c1e7aa20">
+        <source>Post-update checklist</source>
+        <target state="needs-translation">Post-update checklist</target>
+        <note>Line: 6</note>
+      </trans-unit>
+      <trans-unit id="21365dc8650278f56c2c27d349b073ce">
+        <source><![CDATA[<b>Open the developer documentation</b> to keep this checklist at-hand.]]></source>
+        <target state="needs-translation"><![CDATA[<b>Open the developer documentation</b> to keep this checklist at-hand.]]></target>
+        <note>Line: 23</note>
+      </trans-unit>
+      <trans-unit id="864362aa86ace037052914025702ef65">
+        <source><![CDATA[<b>Re-enable and check your modules</b> one by one to prevent any compatibility issue.]]></source>
+        <target state="needs-translation"><![CDATA[<b>Re-enable and check your modules</b> one by one to prevent any compatibility issue.]]></target>
+        <note>Line: 24</note>
+      </trans-unit>
+      <trans-unit id="bfe855f4b44497053dd5d7ef69763a33">
+        <source><![CDATA[<b>Make sure your store’s front office is working properly:</b> try to create an account, place an order, add a product, etc.]]></source>
+        <target state="needs-translation"><![CDATA[<b>Make sure your store’s front office is working properly:</b> try to create an account, place an order, add a product, etc.]]></target>
+        <note>Line: 25</note>
+      </trans-unit>
+      <trans-unit id="8049dd4a6a288956d38f40ef992e34b8">
+        <source><![CDATA[<b>Disable the maintenance mode</b> in General settings > Maintenance.]]></source>
+        <target state="needs-translation"><![CDATA[<b>Disable the maintenance mode</b> in General settings > Maintenance.]]></target>
+        <note>Line: 26</note>
+      </trans-unit>
+      <trans-unit id="205c978976a731026931342acb84d816">
+        <source><![CDATA[If some images don’t appear in the front office, try regenerating thumbnails in Preferences > Images.]]></source>
+        <target state="needs-translation"><![CDATA[If some images don’t appear in the front office, try regenerating thumbnails in Preferences > Images.]]></target>
+        <note>Line: 34</note>
+      </trans-unit>
+      <trans-unit id="ebdbffe8dea73e1e0285fd052f720259">
+        <source>Download update logs</source>
+        <target state="needs-translation">Download update logs</target>
+        <note>Line: 42</note>
+      </trans-unit>
+      <trans-unit id="fef46e5063ce3dc78b8ae64fa474241d">
+        <source>Exit</source>
+        <target state="needs-translation">Exit</target>
+        <note>Line: 53</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="views/templates/layouts/restore.html.twig" source-language="en" target-language="es-ES" datatype="plaintext">
+    <body>
+      <trans-unit id="f979b523cf73a9536c2d3dbea70d5a6f">
+        <source>Backup selection</source>
+        <target state="needs-translation">Backup selection</target>
+        <note>Line: 6</note>
+      </trans-unit>
+      <trans-unit id="2bd339d85ee3b33e513359ce781b60cc">
+        <source>Restore</source>
+        <target state="needs-translation">Restore</target>
+        <note>Line: 15</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="views/templates/layouts/update-options.html.twig" source-language="en" target-language="es-ES" datatype="plaintext">
+    <body>
+      <trans-unit id="df5820ca7f238b48987ff74db1271e4a">
+        <source>Update options</source>
+        <target state="needs-translation">Update options</target>
+        <note>Line: 6</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="views/templates/layouts/update.html.twig" source-language="en" target-language="es-ES" datatype="plaintext">
+    <body>
+      <trans-unit id="10ac3d04253ef7e1ddc73e6091c0cd55">
+        <source>Next</source>
+        <target state="needs-translation">Next</target>
+        <note>Line: 17</note>
+      </trans-unit>
+      <trans-unit id="06933067aafd48425d67bcb01bba5cb6">
+        <source>Update</source>
+        <target state="needs-translation">Update</target>
+        <note>Line: 6</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="views/templates/layouts/version-choice.html.twig" source-language="en" target-language="es-ES" datatype="plaintext">
+    <body>
+      <trans-unit id="02d133204e3ce382eb9a8a0712161999">
+        <source>Version choice</source>
+        <target state="needs-translation">Version choice</target>
+        <note>Line: 6</note>
+      </trans-unit>
+      <trans-unit id="7eda5b24c0a697e5b47dbe0be52b08cb">
+        <source>You’re up to date</source>
+        <target state="needs-translation">You’re up to date</target>
+        <note>Line: 18</note>
+      </trans-unit>
+      <trans-unit id="47f3da5f1fab5bb4e914e7bf37845bcf">
+        <source>Current PrestaShop version:</source>
+        <target state="needs-translation">Current PrestaShop version:</target>
+        <note>Line: 61</note>
+      </trans-unit>
+      <trans-unit id="c50f73567ba957b25c13a274f42003ba">
+        <source>Current PHP version:</source>
+        <target state="needs-translation">Current PHP version:</target>
+        <note>Line: 62</note>
+      </trans-unit>
+      <trans-unit id="34b3f55bce0f37bcd82294fbc4702aad">
+        <source>You are already using the latest PrestaShop version available but you can update to the version of your choice from a local archive.</source>
+        <target state="needs-translation">You are already using the latest PrestaShop version available but you can update to the version of your choice from a local archive.</target>
+        <note>Line: 38</note>
+      </trans-unit>
+      <trans-unit id="8846fe014be5f3ecb8f82a4deea082cc">
+        <source>A more recent version is available</source>
+        <target state="needs-translation">A more recent version is available</target>
+        <note>Line: 57</note>
+      </trans-unit>
+      <trans-unit id="8728e66e43173a809a2185c52dad29db">
+        <source>Select version:</source>
+        <target state="needs-translation">Select version:</target>
+        <note>Line: 68</note>
+      </trans-unit>
+      <trans-unit id="de8e4445ea5c918fe6c8e70eb7deb722">
+        <source>A more recent version of PrestaShop is available. You can also use a local archive.</source>
+        <target state="needs-translation">A more recent version of PrestaShop is available. You can also use a local archive.</target>
+        <note>Line: 73</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="views/templates/layouts/welcome.html.twig" source-language="en" target-language="es-ES" datatype="plaintext">
+    <body>
+      <trans-unit id="c940aa73d021ae9e13f265237b0e4f96">
+        <source>Welcome to PrestaShop Update Assistant</source>
+        <target state="needs-translation">Welcome to PrestaShop Update Assistant</target>
+        <note>Line: 8</note>
+      </trans-unit>
+      <trans-unit id="e0c4332e8c13be976552a059f106354f">
+        <source>Get Started</source>
+        <target state="needs-translation">Get Started</target>
+        <note>Line: 33</note>
+      </trans-unit>
+    </body>
+  </file>
   <file original="views/templates/main.html.twig" source-language="en" target-language="es-ES" datatype="plaintext">
     <body>
       <trans-unit id="9a843f20677a52ca79af903123147af0" approved="yes">
         <source>Welcome!</source>
         <target state="final">¡Bienvenido!</target>
-        <note>Line: 16</note>
+        <note>Line: 15</note>
       </trans-unit>
       <trans-unit id="d0ab112e427298327038f5e87aa40264" approved="yes">
         <source>Upgrade your store to benefit from the latest improvements, bug fixes and security patches.</source>
         <target state="final">Actualiza tu tienda para beneficiarte de las últimas mejoras, correcciones de errores y parches de seguridad.</target>
-        <note>Line: 19</note>
+        <note>Line: 18</note>
       </trans-unit>
       <trans-unit id="9cf9ee1ecc597007beb11670100081b2" approved="yes">
         <source>Upgrading your store on your own can be risky. If you don't feel comfortable doing the upgrade yourself, many agencies and developers in your area may also provide this kind of service.</source>
         <target state="final">Actualizar su tienda por su cuenta puede ser arriesgado. Si no se siente cómodo haciendo la actualización usted mismo, muchas agencias y desarrolladores en su área también pueden brindar este tipo de servicio.</target>
-        <note>Line: 22</note>
+        <note>Line: 21</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="views/templates/modals/modal-backup-delete.html.twig" source-language="en" target-language="es-ES" datatype="plaintext">
+    <body>
+      <trans-unit id="f2a6c498fb90ee345d997f888fce3b18">
+        <source>Delete</source>
+        <target state="needs-translation">Delete</target>
+        <note>Line: 11</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="views/templates/modals/modal-backup.html.twig" source-language="en" target-language="es-ES" datatype="plaintext">
+    <body>
+      <trans-unit id="ea4788705e6873b424c65e91c2846b19">
+        <source>Cancel</source>
+        <target state="needs-translation">Cancel</target>
+        <note>Line: 8</note>
+      </trans-unit>
+      <trans-unit id="0b69cd55a690bee672a1fb91091222f1">
+        <source>Start backup</source>
+        <target state="needs-translation">Start backup</target>
+        <note>Line: 12</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="views/templates/modals/modal-error-report.html.twig" source-language="en" target-language="es-ES" datatype="plaintext">
+    <body>
+      <trans-unit id="2bbf9588481e8a1615d65dba78ba435c">
+        <source>Help us improve the module by sending us this error report. You can add details in the description if you want to.</source>
+        <target state="needs-translation">Help us improve the module by sending us this error report. You can add details in the description if you want to.</target>
+        <note>Line: 6</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="views/templates/modals/modal-update.html.twig" source-language="en" target-language="es-ES" datatype="plaintext">
+    <body>
+      <trans-unit id="3d4d2d6f322e7a03fbe59ed1593215c8">
+        <source>Before starting the update, make sure you have a complete and recent backup of your store (database, files, and images).</source>
+        <target state="needs-translation">Before starting the update, make sure you have a complete and recent backup of your store (database, files, and images).</target>
+        <note>Line: 6</note>
+      </trans-unit>
+      <trans-unit id="3cedd2741ced15002cb3c9429ab45f55">
+        <source>I have made my own backup and can restore it manually if a problem occur.</source>
+        <target state="needs-translation">I have made my own backup and can restore it manually if a problem occur.</target>
+        <note>Line: 18</note>
+      </trans-unit>
+      <trans-unit id="880d6ec7b06e1f403347a16afbca8335">
+        <source>Start update</source>
+        <target state="needs-translation">Start update</target>
+        <note>Line: 31</note>
       </trans-unit>
     </body>
   </file>
