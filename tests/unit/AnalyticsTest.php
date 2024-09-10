@@ -37,7 +37,6 @@ class AnalyticsTest extends TestCase
             ->setInstallVersion('8.8.808')
             ->setRestoreName('V1.2.3_blablabla-🐶');
         $upgradeConfiguration = (new UpgradeConfiguration([
-            'PS_AUTOUP_PERFORMANCE' => 5,
             'PS_AUTOUP_CUSTOM_MOD_DESACT' => 0,
             'PS_AUTOUP_UPDATE_DEFAULT_THEME' => 1,
             'PS_AUTOUP_CHANGE_DEFAULT_THEME' => 1,
@@ -93,7 +92,6 @@ class AnalyticsTest extends TestCase
                     'upgrade_channel' => 'major',
                     'backup_files_and_databases' => true,
                     'backup_images' => false,
-                    'server_performance' => 4,
                     'disable_non_native_modules' => false,
                     'upgrade_default_theme' => true,
                     'switch_to_default_theme' => true,

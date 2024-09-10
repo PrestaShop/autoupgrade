@@ -52,25 +52,6 @@ class UpgradeOptionsForm
         $this->formRenderer = $formRenderer;
 
         $this->fields = [
-            'PS_AUTOUP_PERFORMANCE' => [
-                'title' => $translator->trans(
-                    'Server performance'
-                ),
-                'cast' => 'intval',
-                'validation' => 'isInt',
-                'defaultValue' => '1',
-                'type' => 'select', 'desc' => $translator->trans(
-                        'Unless you are using a dedicated server, select "Low".'
-                    ) . '<br />' .
-                    $translator->trans(
-                        'A high value can cause the upgrade to fail if your server is not powerful enough to process the upgrade tasks in a short amount of time.'
-                    ),
-                'choices' => [
-                    1 => $translator->trans('Low (recommended)'),
-                    2 => $translator->trans('Medium'),
-                    3 => $translator->trans('High'),
-                ],
-            ],
             'PS_AUTOUP_CUSTOM_MOD_DESACT' => [
                 'title' => $translator->trans('Disable non-native modules'),
                 'cast' => 'intval',
