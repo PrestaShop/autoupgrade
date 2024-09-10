@@ -4,11 +4,15 @@
             {{ 'Activity Log'|trans({}) }}
         </div>
 
-        <div><div id="upgradeResultToDoList" style="display: none;" class="alert alert-info col-xs-12"></div></div>
+        <div>
+            <div id="upgradeResultToDoList" style="display: none;" class="alert alert-info col-xs-12"></div>
+        </div>
 
         <div class="row">
             <div id="currentlyProcessing" class="col-xs-12" style="display:none;">
-                <h4 id="pleaseWait">{{ 'Currently processing'|trans({}) }} <img class="pleaseWait" src="{{ psBaseUri }}img/loader.gif"/></h4>
+                <h4 id="pleaseWait">{{ 'Currently processing'|trans({}) }} <img class="pleaseWait"
+                                                                                src="{{ psBaseUri }}img/loader.gif" />
+                </h4>
                 <div id="infoStep" class="processing">{{ 'Analyzing the situation...'|trans({}) }}</div>
             </div>
         </div>
@@ -18,7 +22,8 @@
             <div id="errorDuringUpgrade" class="col-xs-12" style="display:none;">
                 <h4>{{ 'Errors'|trans({}) }}</h4>
                 <div id="infoError" class="processing"></div>
-                <button id="reportErrorButton" class="btn btn-warning" style="margin-top: 10px;" data-toggle="modal" data-target="#errorModal">
+                <button id="reportErrorButton" class="btn btn-warning" style="margin-top: 10px;" data-toggle="modal"
+                        data-target="#errorModal">
                     {{ 'Report a bug'|trans({}) }}
                 </button>
             </div>
@@ -38,14 +43,17 @@
                             <label for="userEmail">
                                 {{ 'Email'|trans({}) }}
                             </label>
-                            <input id="userEmail" type="text" class="form-control" placeholder="{{ 'Email'|trans({}) }}" style="display: block; margin-bottom: 10px;">
+                            <input id="userEmail" type="text" class="form-control" placeholder="{{ 'Email'|trans({}) }}"
+                                   style="display: block; margin-bottom: 10px;">
                             <label for="errorDescription">
                                 {{ 'Description'|trans({}) }}
                             </label>
-                            <textarea id="errorDescription" rows="3" placeholder="{{ 'Give us details about the error'|trans({}) }}"></textarea>
+                            <textarea id="errorDescription" rows="3"
+                                      placeholder="{{ 'Give us details about the error'|trans({}) }}"></textarea>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal" style="text-transform: uppercase;">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                    style="text-transform: uppercase;">
                                 {{ 'Cancel'|trans({}) }}
                             </button>
                             <button id="submitErrorReport" type="button" class="btn btn-primary">

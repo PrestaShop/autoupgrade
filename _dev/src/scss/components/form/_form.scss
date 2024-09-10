@@ -1,0 +1,48 @@
+@use "../../variables" as *;
+
+#{$ua-id} {
+  .require-star {
+    color: var(--#{$ua-prefix}required-color);
+  }
+
+  .form {
+    &-group {
+      margin-block-end: 0.5rem;
+    }
+  }
+
+  label {
+    margin-block-end: 0.25rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  select {
+    padding-inline-end: 2rem;
+    background-image: url("../../img/unfold_more.svg");
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+    background-size: 1.125rem 1.125rem;
+    appearance: none;
+
+    &.error {
+      margin-block-end: 0.25rem;
+      border-color: var(--#{$ua-prefix}red-500);
+    }
+  }
+
+  .error-message {
+    display: flex;
+    gap: 0.25rem;
+    align-items: flex-start;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: var(--#{$ua-prefix}red-500);
+
+    .material-icons {
+      font-size: 1.125rem;
+      line-height: 1;
+    }
+  }
+}

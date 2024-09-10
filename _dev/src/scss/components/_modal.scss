@@ -1,0 +1,98 @@
+@use "../variables" as *;
+
+$e: ".modal";
+
+#{$ua-id} {
+  #{$e} {
+    &-content {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      border: none;
+      box-shadow: var(--#{$ua-prefix}box-shadow-modal);
+    }
+
+    &-header {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      width: 100%;
+      padding: 1.5rem;
+      padding-block-end: 0;
+      border: none;
+
+      .close {
+        flex-shrink: 0;
+        float: none;
+        margin: 0;
+        margin-inline-start: auto;
+        opacity: 1;
+        color: var(--#{$ua-prefix}base-text-color);
+        cursor: pointer;
+
+        &:hover {
+          color: var(--#{$ua-prefix}base-text-color-hover);
+        }
+
+        .material-icons {
+          font-size: 1.5rem;
+        }
+      }
+    }
+
+    &-body {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      padding-block: 0;
+      padding-inline: 1.5rem;
+      font-size: 1rem;
+      line-height: 1.375;
+    }
+
+    &-footer {
+      padding: 1.5rem;
+      padding-block-start: 0;
+      border: none;
+    }
+
+    // Custom modals
+    &__no-backup {
+      margin-block: 0;
+
+      label {
+        font-weight: 400;
+      }
+    }
+
+    &__rocket-icon {
+      width: 1.425em;
+      height: 1.425em;
+    }
+
+    &__error-report-form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    &--danger {
+      #{$e}-header {
+        &::before {
+          content: "\e872";
+          display: flex;
+          flex-shrink: 0;
+          align-items: center;
+          justify-content: center;
+          width: 2.5rem;
+          height: 2.5rem;
+          background-color: var(--#{$ua-prefix}red-50);
+          border-radius: 999px;
+          font-family: var(--#{$ua-prefix}font-family-material-icons);
+          font-size: 1.5rem;
+          font-weight: 400;
+        }
+      }
+    }
+  }
+}

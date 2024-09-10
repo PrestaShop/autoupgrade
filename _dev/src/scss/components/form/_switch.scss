@@ -1,0 +1,77 @@
+@use "../../variables" as *;
+
+$e: ".prestashop-switch";
+
+#{$ua-id} {
+  #{$e} {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin: 0;
+    background-color: transparent;
+    box-shadow: none;
+
+    // Custom switch ugly harmonization
+    input {
+      inset: 0;
+      z-index: 1;
+      margin: 0;
+      cursor: pointer;
+
+      &:checked {
+        z-index: 0;
+      }
+
+      &:first-of-type:checked ~ label:first-of-type {
+        display: block;
+      }
+
+      &:last-of-type:checked ~ label:last-of-type {
+        display: block;
+      }
+
+      &:first-of-type:checked ~ .slide-button::after {
+        transform: translateX(0.875rem);
+      }
+    }
+
+    label {
+      position: static;
+      inset: auto;
+      display: none;
+      height: auto;
+      padding: 0;
+      margin: 0;
+      font-weight: 500;
+      color: var(--#{$ua-prefix}base-text-color);
+      pointer-events: none;
+      transform: none;
+    }
+
+    .slide-button {
+      position: relative;
+      inset: auto;
+      z-index: 0;
+      display: block;
+      flex-shrink: 0;
+      width: 2.25rem;
+      height: 1.375rem;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 999px;
+      transform: none;
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: 0.125rem;
+        left: 0.125rem;
+        width: 1.125rem;
+        height: 1.125rem;
+        background: var(--#{$ua-prefix}white);
+        border-radius: 999px;
+        transform: none;
+      }
+    }
+  }
+}

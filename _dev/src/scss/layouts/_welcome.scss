@@ -1,0 +1,13 @@
+@use "../variables" as *;
+
+$e: ".welcome-page";
+
+#{$ua-id} {
+  #{$e} {
+    &__card-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  }
+}

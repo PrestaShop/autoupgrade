@@ -1,0 +1,41 @@
+{% block update_assistant %}
+    <div id="ua_main">
+        {% block stepper %}
+            <div id="ua_stepper">
+                {% include '@ModuleAutoUpgrade/components/stepper.html.twig' %}
+            </div>
+        {% endblock %}
+
+        {% block container %}
+            <div id="ua_container" class="{% block page_class %}default-page{% endblock %}">
+                {% block container_inner %}
+                    <div class="page__title">
+                        {% block title %}
+                            {# Default title or leave empty for child templates to provide #}
+                        {% endblock %}
+                    </div>
+
+                    <div class="page__content">
+                        {% block content %}
+                            {# Default content or leave empty for child templates to provide #}
+                        {% endblock %}
+                    </div>
+
+                    {% block buttons %}
+                        <div class="page__buttons">
+                            {% block buttons_inner %}
+                                {# Default buttons or leave empty for child templates to provide #}
+                            {% endblock %}
+                        </div>
+                    {% endblock %}
+                {% endblock %}
+            </div>
+        {% endblock %}
+
+        {% block privacy %}
+            <div id="ua_privacy">
+                {% include '@ModuleAutoUpgrade/components/privacy.html.twig' %}
+            </div>
+        {% endblock %}
+    </div>
+{% endblock %}

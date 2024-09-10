@@ -1,0 +1,22 @@
+@use "../variables" as *;
+
+$e: ".btn";
+
+#{$ua-id} {
+  #{$e} {
+    display: inline-flex;
+    gap: 0.5rem;
+    align-items: center;
+    font-weight: 500;
+    text-transform: none;
+
+    .material-icons {
+      font-size: 1.25rem;
+      line-height: 1;
+    }
+
+    &-lg {
+      font-size: 1rem;
+    }
+  }
+}

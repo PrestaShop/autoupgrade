@@ -28,7 +28,8 @@ Please note PrestaShop 1.6 and older are not maintained anymore.
 ## Prerequisites
 
 * PrestaShop 1.7 or 8
-* PHP 7.1+
+* PHP >= 7.1
+* Node.js >= 20 - [Download Node.js](https://nodejs.org/) (preference for LTS 20.11.0)
 
 ## Installation
 
@@ -40,6 +41,7 @@ If you download a ZIP archive that contains the source code or if you want to us
 
 * Clone (`git clone https://github.com/PrestaShop/autoupgrade.git`) or [download](https://github.com/PrestaShop/autoupgrade/archive/master.zip) the source code. You can also download a release **Source code** ([ex. v4.14.2](https://github.com/PrestaShop/autoupgrade/archive/v4.14.2.zip)). If you download a source code archive, you need to extract the file and rename the extracted folder to **autoupgrade**
 * Enter into folder **autoupgrade** and run the command `composer install`  ([composer](https://getcomposer.org/)).
+* Enter into folder **autoupgrade/_dev** and run the commands `npm install` and `npm run build:vite` ([npm](https://docs.npmjs.com/)).
 * Create a new ZIP archive from the of **autoupgrade** folder.
 * Now you can install it in your shop. For example, you can upload it using the dropzone in Module Manager back office page. 
 
@@ -90,6 +92,38 @@ $ php cli-rollback.php  --dir=admin-dev --backup=V1.7.5.1_20190502-191341-22e883
 The [Storybook folder](/storybook) contains a project allowing you to use Storybook to have an overview of the project interface under different versions of PrestaShop.
 
 More information on the project [README](/storybook/README.md).
+
+## Linting and Testing
+
+This section outlines all the commands for code linting and testing. Before running these, ensure you've followed the project setup steps and installed all dependencies.
+
+### Backend
+
+All backend commands should be executed from the root directory.
+
+- `./tests/phpstan/phpstan.sh [version]` ⮕ Runs **PHPStan**, a tool for static code analysis to identify potential errors in your PHP code (requires running a `composer install` in the `tests` folder). Available version options:
+    - `1.7.2.5`
+    - `1.7.3.4`
+    - `1.7.4.4`
+    - `1.7.5.1`
+    - `1.7.6`
+    - `1.7.7`
+    - `1.7.8`
+    - `8.0.0`
+    - `latest`
+
+- `./vendor/bin/phpunit ./tests/unit/` ⮕ Runs **PHPUnit**, a framework for running unit tests on your PHP code. You can modify the path to target specific test files.
+
+- `./vendor/bin/php-cs-fixer` ⮕ Runs **PHP CS Fixer**, a tool that ensures your PHP code follows the correct coding standards. Add the `fix` option to automatically resolve fixable style issues.
+
+### Frontend
+
+All frontend commands should be executed from the `_dev` directory.
+
+- `npm run lint` ⮕ Runs **ESLint** and **Prettier** to perform static code analysis and automatic formatting of your JavaScript code. Add `:fix` to the command to automatically fix fixable issues.
+
+- `npm run lint-scss` ⮕ Runs **Stylelint** to lint and format your SCSS files. You can append `:fix` to automatically resolve solvable formatting issues.
+
 
 ## Contributing
 
