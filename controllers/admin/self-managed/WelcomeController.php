@@ -3,7 +3,6 @@
 namespace PrestaShop\Module\AutoUpgrade\Controller;
 
 use PrestaShop\Module\AutoUpgrade\BackupFinder;
-use PrestaShop\Module\AutoUpgrade\Controller\AbstractPageController;
 
 class WelcomeController extends AbstractPageController
 {
@@ -15,7 +14,7 @@ class WelcomeController extends AbstractPageController
         return $this->renderPage(
             'welcome',
             [
-                'empty_backup' => empty($backupFinder->getAvailableBackups())
+                'empty_backup' => empty($backupFinder->getAvailableBackups()),
             ]
         );
     }

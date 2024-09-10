@@ -2,8 +2,6 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Controller;
 
-use PrestaShop\Module\AutoUpgrade\Controller\AbstractGlobalController;
-
 class AbstractPageController extends AbstractGlobalController
 {
     public function psVersionClass(): string
@@ -13,7 +11,7 @@ class AbstractPageController extends AbstractGlobalController
 
         if (version_compare($psVersion, '1.7.8.0', '<')) {
             $psClass = 'v1-7-3-0';
-        } else if (version_compare($psVersion, '9.0.0', '<')){
+        } elseif (version_compare($psVersion, '9.0.0', '<')) {
             $psClass = 'v1-7-8-0';
         }
 

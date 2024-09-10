@@ -8,6 +8,9 @@ use Symfony\Component\HttpFoundation\Request;
 
 class Router
 {
+    /**
+     * @var UpgradeContainer
+     */
     protected $upgradeContainer;
 
     public function __construct(UpgradeContainer $upgradeContainer)
