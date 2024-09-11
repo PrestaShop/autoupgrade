@@ -254,6 +254,12 @@ class BackupDb extends AbstractTask
                             ++$i;
                         }
                         $time_elapsed = time() - $start_time;
+                    } else if ($primary_key) {
+                        $maxId = (int)$this->container->getDb()->getValue("SELECT MAX($primary_key) FROM $table");
+                        if ($maxId > $backup_loop_limit) {
+                            $this->container->getState()->setBackupTable(null);
+                            break;
+                        }
                     } else {
                         $this->container->getState()->setBackupTable(null);
                         break;
