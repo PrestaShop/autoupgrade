@@ -32,115 +32,66 @@ use ConfigurationTest;
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
 use PrestaShop\Module\AutoUpgrade\Services\DistributionApiService;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
+use PrestaShop\Module\AutoUpgrade\Xml\ChecksumCompare;
 use Shop;
 
 class UpgradeSelfCheck
 {
-    /**
-     * @var bool
-     */
+    /** @var bool */
     private $fOpenOrCurlEnabled;
-
-    /**
-     * @var bool
-     */
+    /** @var bool */
     private $zipEnabled;
-
-    /**
-     * @var bool
-     */
+    /** @var bool */
     private $rootDirectoryWritable;
-
-    /**
-     * @var bool
-     */
+    /** @var bool */
     private $adminAutoUpgradeDirectoryWritable;
-
-    /**
-     * @var string
-     */
+    /** @var string */
     private $adminAutoUpgradeDirectoryWritableReport = '';
-
-    /**
-     * @var bool
-     */
+    /** @var bool */
     private $shopDeactivated;
-
-    /**
-     * @var bool
-     */
+    /** @var bool */
     private $localEnvironement;
-
-    /**
-     * @var bool
-     */
+    /** @var bool */
     private $cacheDisabled;
-
-    /**
-     * @var bool
-     */
+    /** @var bool */
     private $safeModeDisabled;
-
-    /**
-     * @var bool|mixed
-     */
+    /** @var bool|mixed */
     private $moduleVersionIsLatest;
-
-    /**
-     * @var string
-     */
-    private $rootWritableReport;
-
-    /**
-     * @var int
-     */
+    /** @var int */
     private $maxExecutionTime;
-
-    /**
-     * @var array<string, string>
-     */
+    /** @var array<string, string> */
     private $phpCompatibilityRange;
-
-    /**
-     * @var string
-     */
-    private $configDir = '/modules/autoupgrade/config.xml';
-
-    /**
-     * @var Upgrader
-     */
+    /** @var Upgrader */
     private $upgrader;
-
     /**
      * Path to the root folder of PS
      *
      * @var string
      */
     private $prodRootPath;
-
     /**
      * Path to the admin folder of PS
      *
      * @var string
      */
     private $adminPath;
-
     /**
      * Path to the root folder of the upgrade module
      *
      * @var string
      */
     private $autoUpgradePath;
-
-    /**
-     * @var PrestashopConfiguration
-     */
+    /** @var string */
+    private $originVersion;
+    /** @var PrestashopConfiguration */
     private $prestashopConfiguration;
-
-    /**
-     * @var DistributionApiService
-     */
+    /** @var DistributionApiService */
     private $distributionApiService;
+    /** @var Translator */
+    private $translator;
+    /** @var ChecksumCompare */
+    private $checksumCompare;
 
     const PRESTASHOP_17_PHP_REQUIREMENTS = [
         '1.7.0' => [
@@ -181,24 +132,213 @@ class UpgradeSelfCheck
         ],
     ];
 
+    // Errors const
     const PHP_REQUIREMENTS_INVALID = 0;
-    const PHP_REQUIREMENTS_VALID = 1;
-    const PHP_REQUIREMENTS_UNKNOWN = 2;
+    const ROOT_DIRECTORY_NOT_WRITABLE = 1;
+    const ADMIN_UPGRADE_DIRECTORY_NOT_WRITABLE = 2;
+    const SAFE_MODE_ENABLED = 3;
+    const F_OPEN_AND_CURL_DISABLED = 4;
+    const ZIP_DISABLED = 5;
+    const MAINTENANCE_MODE_DISABLED = 6;
+    const CACHE_ENABLED = 7;
+    const MAX_EXECUTION_TIME_VALUE_INCORRECT = 8;
+    const APACHE_MOD_REWRITE_DISABLED = 9;
+    const NOT_LOADED_PHP_EXTENSIONS_LIST_NOT_EMPTY = 10;
+    const NOT_EXIST_PHP_FUNCTIONS_LIST_NOT_EMPTY = 11;
+    const MEMORY_LIMIT_INVALID = 12;
+    const PHP_FILE_UPLOADS_CONFIGURATION_DISABLED = 13;
+    const KEY_GENERATION_INVALID = 14;
+    const NOT_WRITING_DIRECTORY_LIST_NOT_EMPTY = 15;
+    const SHOP_VERSION_NOT_MATCHING_VERSION_IN_DATABASE = 16;
+
+    // Warnings const
+    const MODULE_VERSION_IS_OUT_OF_DATE = 17;
+    const PHP_REQUIREMENTS_UNKNOWN = 18;
+    const TEMPERED_FILES_LIST_NOT_EMPTY = 19;
+
+    const PHP_REQUIREMENTS_VALID = 20;
 
     public function __construct(
         Upgrader $upgrader,
         PrestashopConfiguration $prestashopConfiguration,
+        Translator $translator,
         DistributionApiService $distributionApiService,
+        ChecksumCompare $checksumCompare,
         string $prodRootPath,
         string $adminPath,
-        string $autoUpgradePath
+        string $autoUpgradePath,
+        string $originVersion
     ) {
         $this->upgrader = $upgrader;
         $this->prestashopConfiguration = $prestashopConfiguration;
+        $this->translator = $translator;
         $this->distributionApiService = $distributionApiService;
+        $this->checksumCompare = $checksumCompare;
         $this->prodRootPath = $prodRootPath;
         $this->adminPath = $adminPath;
         $this->autoUpgradePath = $autoUpgradePath;
+        $this->originVersion = $originVersion;
+    }
+
+    /**
+     * @throws Exception
+     *
+     * @return array<int, bool>
+     */
+    public function getErrors(): array
+    {
+        $errors = [
+            self::PHP_REQUIREMENTS_INVALID => $this->getPhpRequirementsState(PHP_VERSION_ID) === self::PHP_REQUIREMENTS_INVALID,
+            self::ROOT_DIRECTORY_NOT_WRITABLE => !$this->isRootDirectoryWritable(),
+            self::ADMIN_UPGRADE_DIRECTORY_NOT_WRITABLE => !$this->isAdminAutoUpgradeDirectoryWritable(),
+            self::SAFE_MODE_ENABLED => !$this->isSafeModeDisabled(),
+            self::F_OPEN_AND_CURL_DISABLED => !$this->isFOpenOrCurlEnabled(),
+            self::ZIP_DISABLED => !$this->isZipEnabled(),
+            self::MAINTENANCE_MODE_DISABLED => !$this->isLocalEnvironment() && !$this->isShopDeactivated(),
+            self::CACHE_ENABLED => !$this->isCacheDisabled(),
+            self::MAX_EXECUTION_TIME_VALUE_INCORRECT => $this->getMaxExecutionTime() > 0 && $this->getMaxExecutionTime() < 30,
+            self::APACHE_MOD_REWRITE_DISABLED => !$this->isApacheModRewriteEnabled(),
+            self::NOT_LOADED_PHP_EXTENSIONS_LIST_NOT_EMPTY => !empty($this->getNotLoadedPhpExtensions()),
+            self::NOT_EXIST_PHP_FUNCTIONS_LIST_NOT_EMPTY => !empty($this->getNotExistsPhpFunctions()),
+            self::MEMORY_LIMIT_INVALID => !$this->isMemoryLimitValid(),
+            self::PHP_FILE_UPLOADS_CONFIGURATION_DISABLED => !$this->isPhpFileUploadsConfigurationEnabled(),
+            self::KEY_GENERATION_INVALID => !$this->checkKeyGeneration(),
+            self::NOT_WRITING_DIRECTORY_LIST_NOT_EMPTY => !empty($this->getNotWritingDirectories()),
+            self::SHOP_VERSION_NOT_MATCHING_VERSION_IN_DATABASE => !$this->isShopVersionMatchingVersionInDatabase(),
+        ];
+
+        return array_filter($errors);
+    }
+
+    /**
+     * @return array<int, bool>
+     */
+    public function getWarnings(): array
+    {
+        $warnings = [
+            self::MODULE_VERSION_IS_OUT_OF_DATE => !$this->isModuleVersionLatest(),
+            self::PHP_REQUIREMENTS_UNKNOWN => $this->getPhpRequirementsState(PHP_VERSION_ID) === self::PHP_REQUIREMENTS_UNKNOWN,
+            self::TEMPERED_FILES_LIST_NOT_EMPTY => !empty($this->getTamperedFiles()),
+        ];
+
+        return array_filter($warnings);
+    }
+
+    /**
+     * @param int $requirement
+     *
+     * @return string
+     */
+    public function getRequirementWording(int $requirement): string
+    {
+        $phpCompatibilityRange = $this->getPhpCompatibilityRange();
+
+        switch ($requirement) {
+            case self::PHP_REQUIREMENTS_INVALID:
+                return $this->translator->trans(
+                    'Your current PHP version isn\'t compatible with your PrestaShop version. (Expected: %s - %s | Current: %s)',
+                    [$phpCompatibilityRange['php_min_version'], $phpCompatibilityRange['php_max_version'], $phpCompatibilityRange['php_current_version']]
+                );
+
+            case self::ROOT_DIRECTORY_NOT_WRITABLE:
+                return $this->translator->trans(
+                    'Your store\'s root directory isn\'t writable. Provide write access to the user running PHP with appropriate permission & ownership.'
+                );
+
+            case self::ADMIN_UPGRADE_DIRECTORY_NOT_WRITABLE:
+                return $this->translator->trans(
+                    'The "/admin/autoupgrade" directory isn\'t writable. Provide write access to the user running PHP with appropriate permission & ownership.'
+                );
+
+            case self::SAFE_MODE_ENABLED:
+                return $this->translator->trans('PHP\'s "Safe mode" needs to be disabled.');
+
+            case self::F_OPEN_AND_CURL_DISABLED:
+                return $this->translator->trans(
+                    'Files can\'t be downloaded. Enable PHP\'s "allow_url_fopen" option or install PHP extension "cURL".'
+                );
+
+            case self::ZIP_DISABLED:
+                return $this->translator->trans('Missing PHP extension "zip".');
+
+            case self::MAINTENANCE_MODE_DISABLED:
+                return $this->translator->trans(
+                    'Maintenance mode needs to be enabled. Enable maintenance mode and add your maintenance IP.'
+                );
+
+            case self::CACHE_ENABLED:
+                return $this->translator->trans('PrestaShop\'s caching features needs to be disabled.');
+
+            case self::MAX_EXECUTION_TIME_VALUE_INCORRECT:
+                return $this->translator->trans(
+                    'PHP\'s max_execution_time setting needs to have a high value or needs to be disabled entirely (current value: %s seconds)',
+                    [$this->getMaxExecutionTime()]
+                );
+
+            case self::APACHE_MOD_REWRITE_DISABLED:
+                return $this->translator->trans('Apache mod_rewrite needs to be enabled.');
+
+            case self::NOT_LOADED_PHP_EXTENSIONS_LIST_NOT_EMPTY:
+                $phpExtensionsCount = count($this->getNotLoadedPhpExtensions());
+
+                return $this->translator->trans(
+                    'The following PHP extension%s need%s to be installed:',
+                    [$phpExtensionsCount > 1 ? 's' : '', $phpExtensionsCount === 1 ? 's' : '']
+                );
+
+            case self::NOT_EXIST_PHP_FUNCTIONS_LIST_NOT_EMPTY:
+                $phpFunctionsCount = count($this->getNotExistsPhpFunctions());
+
+                return $this->translator->trans(
+                    'The following PHP function%s need%s to be allowed:',
+                    [$phpFunctionsCount > 1 ? 's' : '', $phpFunctionsCount === 1 ? 's' : '']
+                );
+
+            case self::MEMORY_LIMIT_INVALID:
+                return $this->translator->trans('PHP memory_limit needs to be greater than 256 MB.');
+
+            case self::PHP_FILE_UPLOADS_CONFIGURATION_DISABLED:
+                return $this->translator->trans('PHP file_uploads configuration needs to be enabled.');
+
+            case self::KEY_GENERATION_INVALID:
+                return $this->translator->trans(
+                    'Unable to generate private keys using openssl_pkey_new. Check your OpenSSL configuration, especially the path to openssl.cafile.'
+                );
+
+            case self::NOT_WRITING_DIRECTORY_LIST_NOT_EMPTY:
+                return $this->translator->trans(
+                    'It\'s not possible to write in the following folders, please provide write access to the user running PHP with appropriate permission & ownership:'
+                );
+
+            case self::SHOP_VERSION_NOT_MATCHING_VERSION_IN_DATABASE:
+                return $this->translator->trans(
+                    'The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table.'
+                );
+
+            case self::MODULE_VERSION_IS_OUT_OF_DATE:
+                return $this->translator->trans('Your current version of the module is outdated.');
+
+            case self::PHP_REQUIREMENTS_UNKNOWN:
+                return $this->translator->trans('We were unable to check your PHP compatibility with the destination PrestaShop version.');
+
+            case self::TEMPERED_FILES_LIST_NOT_EMPTY:
+                return $this->translator->trans(
+                    'Some core files have been altered, customization made on these files will be lost during the update:'
+                );
+
+            default:
+                return $this->translator->trans('Unknown requirement.');
+        }
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getTamperedFiles(): array
+    {
+        $tamperedFiles = $this->checksumCompare->getTamperedFilesOnShop($this->originVersion);
+
+        return array_merge($tamperedFiles['core'], $tamperedFiles['mail']);
     }
 
     public function isFOpenOrCurlEnabled(): bool
@@ -287,26 +427,9 @@ class UpgradeSelfCheck
         return $this->moduleVersionIsLatest = $this->checkModuleVersionIsLastest($this->upgrader);
     }
 
-    public function getRootWritableReport(): string
-    {
-        if (null !== $this->rootWritableReport) {
-            return $this->rootWritableReport;
-        }
-
-        $this->rootWritableReport = '';
-        $this->isRootDirectoryWritable();
-
-        return $this->rootWritableReport;
-    }
-
     public function getModuleVersion(): ?string
     {
         return $this->prestashopConfiguration->getModuleVersion();
-    }
-
-    public function getConfigDir(): string
-    {
-        return $this->configDir;
     }
 
     public function getMaxExecutionTime(): int
@@ -332,92 +455,12 @@ class UpgradeSelfCheck
 
     /**
      * Indicates if the self check status allows going ahead with the upgrade.
+     *
+     * @throws Exception
      */
     public function isOkForUpgrade(): bool
     {
-        return
-            $this->isFOpenOrCurlEnabled()
-            && $this->isZipEnabled()
-            && $this->isRootDirectoryWritable()
-            && $this->isAdminAutoUpgradeDirectoryWritable()
-            && ($this->isShopDeactivated() || $this->isLocalEnvironment())
-            && $this->isCacheDisabled()
-            && $this->isModuleVersionLatest()
-            && $this->getPhpRequirementsState(PHP_VERSION_ID) !== $this::PHP_REQUIREMENTS_INVALID
-            && $this->isShopVersionMatchingVersionInDatabase()
-            && $this->isApacheModRewriteEnabled()
-            && $this->checkKeyGeneration()
-            && $this->getNotLoadedPhpExtensions() === []
-            && $this->isMemoryLimitValid()
-            && $this->isPhpFileUploadsConfigurationEnabled()
-            && $this->getNotExistsPhpFunctions() === []
-            && $this->isPhpSessionsValid()
-            && $this->getMissingFiles() === []
-            && $this->getNotWritingDirectories() === [];
-    }
-
-    private function checkRootWritable(): bool
-    {
-        // Root directory permissions cannot be checked recursively anymore, it takes too much time
-        return ConfigurationTest::test_dir('/', false, $this->rootWritableReport);
-    }
-
-    private function checkModuleVersionIsLastest(Upgrader $upgrader): bool
-    {
-        return version_compare($this->getModuleVersion(), $upgrader->autoupgrade_last_version, '>=');
-    }
-
-    private function checkIsLocalEnvironment(): bool
-    {
-        return in_array($this->getRemoteAddr(), ['127.0.0.1', 'localhost', '[::1]', '::1']);
-    }
-
-    private function checkShopIsDeactivated(): bool
-    {
-        // if multistore is not active, just check if shop is enabled and has a maintenance IP
-        if (!Shop::isFeatureActive()) {
-            return !Configuration::get('PS_SHOP_ENABLE') && Configuration::get('PS_MAINTENANCE_IP');
-        }
-
-        // multistore is active: all shops must be deactivated and have a maintenance IP, otherwise return false
-        foreach (Shop::getCompleteListOfShopsID() as $shopId) {
-            $shop = new Shop((int) $shopId);
-            $groupId = (int) $shop->getGroup()->id;
-            $isEnabled = Configuration::get('PS_SHOP_ENABLE', null, $groupId, (int) $shopId);
-            $maintenanceIp = Configuration::get('PS_MAINTENANCE_IP', null, $groupId, (int) $shopId);
-
-            if ($isEnabled || !$maintenanceIp) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private function checkAdminDirectoryWritable(string $prodRootPath, string $adminPath, string $adminAutoUpgradePath): bool
-    {
-        $relativeDirectory = trim(str_replace($prodRootPath, '', $adminAutoUpgradePath), DIRECTORY_SEPARATOR);
-
-        return ConfigurationTest::test_dir(
-            $relativeDirectory,
-            false,
-            $this->adminAutoUpgradeDirectoryWritableReport
-        );
-    }
-
-    private function checkSafeModeIsDisabled(): bool
-    {
-        $safeMode = @ini_get('safe_mode');
-        if (empty($safeMode)) {
-            $safeMode = '';
-        }
-
-        return !in_array(strtolower($safeMode), [1, 'on']);
-    }
-
-    private function checkMaxExecutionTime(): int
-    {
-        return (int) @ini_get('max_execution_time');
+        return empty($this->getErrors());
     }
 
     /**
@@ -587,14 +630,6 @@ class UpgradeSelfCheck
     /**
      * @return array<string>
      */
-    public function getMissingFiles(): array
-    {
-        return ConfigurationTest::test_files(true);
-    }
-
-    /**
-     * @return array<string>
-     */
     public function getNotWritingDirectories(): array
     {
         if (!class_exists(ConfigurationTest::class)) {
@@ -647,5 +682,69 @@ class UpgradeSelfCheck
         } else {
             return $_SERVER['REMOTE_ADDR'];
         }
+    }
+
+    private function checkRootWritable(): bool
+    {
+        // Root directory permissions cannot be checked recursively anymore, it takes too much time
+        return ConfigurationTest::test_dir('/', false);
+    }
+
+    private function checkModuleVersionIsLastest(Upgrader $upgrader): bool
+    {
+        return version_compare($this->getModuleVersion(), $upgrader->autoupgrade_last_version, '>=');
+    }
+
+    private function checkIsLocalEnvironment(): bool
+    {
+        return in_array($this->getRemoteAddr(), ['127.0.0.1', 'localhost', '[::1]', '::1']);
+    }
+
+    private function checkShopIsDeactivated(): bool
+    {
+        // if multistore is not active, just check if shop is enabled and has a maintenance IP
+        if (!Shop::isFeatureActive()) {
+            return !Configuration::get('PS_SHOP_ENABLE') && Configuration::get('PS_MAINTENANCE_IP');
+        }
+
+        // multistore is active: all shops must be deactivated and have a maintenance IP, otherwise return false
+        foreach (Shop::getCompleteListOfShopsID() as $shopId) {
+            $shop = new Shop((int) $shopId);
+            $groupId = (int) $shop->getGroup()->id;
+            $isEnabled = Configuration::get('PS_SHOP_ENABLE', null, $groupId, (int) $shopId);
+            $maintenanceIp = Configuration::get('PS_MAINTENANCE_IP', null, $groupId, (int) $shopId);
+
+            if ($isEnabled || !$maintenanceIp) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private function checkAdminDirectoryWritable(string $prodRootPath, string $adminPath, string $adminAutoUpgradePath): bool
+    {
+        $relativeDirectory = trim(str_replace($prodRootPath, '', $adminAutoUpgradePath), DIRECTORY_SEPARATOR);
+
+        return ConfigurationTest::test_dir(
+            $relativeDirectory,
+            false,
+            $this->adminAutoUpgradeDirectoryWritableReport
+        );
+    }
+
+    private function checkSafeModeIsDisabled(): bool
+    {
+        $safeMode = @ini_get('safe_mode');
+        if (empty($safeMode)) {
+            $safeMode = '';
+        }
+
+        return !in_array(strtolower($safeMode), [1, 'on']);
+    }
+
+    private function checkMaxExecutionTime(): int
+    {
+        return (int) @ini_get('max_execution_time');
     }
 }

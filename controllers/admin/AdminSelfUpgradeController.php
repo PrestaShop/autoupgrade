@@ -483,10 +483,13 @@ class AdminSelfUpgradeController extends ModuleAdminController
         $upgradeSelfCheck = new UpgradeSelfCheck(
             $upgrader,
             $this->upgradeContainer->getPrestaShopConfiguration(),
+            $this->upgradeContainer->getTranslator(),
             $distributionApiService,
+            $this->upgradeContainer->getChecksumCompare(),
             $this->prodRootDir,
             $this->adminDir,
-            $this->autoupgradePath
+            $this->autoupgradePath,
+            $this->upgradeContainer->getState()->getOriginVersion()
         );
         $response = new AjaxResponse($this->upgradeContainer->getState(), $this->upgradeContainer->getLogger());
         $this->content = (new UpgradePage(
