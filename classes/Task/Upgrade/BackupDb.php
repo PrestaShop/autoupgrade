@@ -121,6 +121,8 @@ class BackupDb extends AbstractTask
                 continue;
             }
 
+            $primary_key = $tablesToBackup->getPrimaryKey($table));
+
             if ($written == 0 || $written > $this->container->getUpgradeConfiguration()->getMaxSizeToWritePerCall()) {
                 // increment dbStep will increment filename each time here
                 $this->container->getState()->setDbStep($this->container->getState()->getDbStep() + 1);
@@ -219,7 +221,11 @@ class BackupDb extends AbstractTask
             if (!in_array($table, $ignore_stats_table)) {
                 do {
                     $backup_loop_limit = $this->container->getState()->getBackupLoopLimit();
-                    $data = $this->container->getDb()->executeS('SELECT * FROM `' . $table . '` LIMIT ' . (int) $backup_loop_limit . ',200', false, false);
+                    if ($primary_key) {
+                        $data = $this->container->getDb()->executeS('SELECT * FROM `' . $table . '` WHERE `' . $primary_key . '` BETWEEN ' . (int) $backup_loop_limit . ' AND ' . (int) $backup_loop_limit + 200 , false, false);
+                    } else {
+                        $data = $this->container->getDb()->executeS('SELECT * FROM `' . $table . '` LIMIT ' . (int) $backup_loop_limit . ',200', false, false);
+                    }
                     $this->container->getState()->setBackupLoopLimit($this->container->getState()->getBackupLoopLimit() + 200);
                     $sizeof = $this->container->getDb()->numRows();
                     if ($data && ($sizeof > 0)) {
