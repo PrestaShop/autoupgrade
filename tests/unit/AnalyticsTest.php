@@ -56,6 +56,7 @@ class AnalyticsTest extends TestCase
                     'php_version' => '6.0.8',
                     'autoupgrade_version' => '9.8.7',
                     'disable_all_overrides' => true,
+                    'regenerate_rtl_stylesheet' => false,
                 ],
             ]
         );
@@ -70,6 +71,7 @@ class AnalyticsTest extends TestCase
                     'autoupgrade_version' => '9.8.7',
                     'disable_all_overrides' => true,
                     'module' => 'autoupgrade',
+                    'regenerate_rtl_stylesheet' => false,
                 ]),
             ],
             $analytics->getProperties(Analytics::WITH_COMMON_PROPERTIES)
@@ -93,8 +95,8 @@ class AnalyticsTest extends TestCase
                     'backup_images' => false,
                     'disable_non_native_modules' => false,
                     'switch_to_default_theme' => true,
-                    'regenerate_rtl_stylesheet' => false,
                     'keep_customized_email_templates' => false,
+                    'regenerate_rtl_stylesheet' => false,
                 ]),
             ],
             $analytics->getProperties(Analytics::WITH_UPGRADE_PROPERTIES)
@@ -113,6 +115,7 @@ class AnalyticsTest extends TestCase
 
                     'from_ps_version' => '8.8.8',
                     'to_ps_version' => '1.2.3',
+                    'regenerate_rtl_stylesheet' => false,
                 ]),
             ],
             $analytics->getProperties(Analytics::WITH_ROLLBACK_PROPERTIES)

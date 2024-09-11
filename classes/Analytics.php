@@ -120,7 +120,6 @@ class Analytics
                     'backup_images' => $this->upgradeConfiguration->shouldBackupImages(),
                     'disable_non_native_modules' => $this->upgradeConfiguration->shouldDeactivateCustomModules(),
                     'switch_to_default_theme' => $this->upgradeConfiguration->shouldSwitchToDefaultTheme(),
-                    'regenerate_rtl_stylesheet' => $this->upgradeConfiguration->shouldUpdateRTLFiles(),
                     'keep_customized_email_templates' => $this->upgradeConfiguration->shouldKeepMails(),
                 ];
                 break;

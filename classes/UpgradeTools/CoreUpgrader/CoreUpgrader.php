@@ -30,6 +30,7 @@ namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader;
 use Cache;
 use Exception;
 use InvalidArgumentException;
+use Language;
 use ParseError;
 use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\Log\LoggerInterface;
@@ -806,7 +807,9 @@ abstract class CoreUpgrader
 
     protected function updateRTLFiles(): void
     {
-        if (!$this->container->getUpgradeConfiguration()->shouldUpdateRTLFiles()) {
+        if (!$this->container->shouldUpdateRTLFiles()) {
+            $this->logger->info($this->container->getTranslator()->trans('No RTL language detected, skipping RTL file update.'));
+
             return;
         }
 

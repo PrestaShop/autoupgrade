@@ -231,14 +231,6 @@ class AdminSelfUpgradeController extends ModuleAdminController
                 'type' => 'bool',
                 'desc' => $this->trans('Enable or disable all classes and controllers overrides.'),
             ],
-            'PS_AUTOUP_UPDATE_RTL_FILES' => [
-                'title' => $this->trans('Regenerate RTL stylesheet'),
-                'cast' => 'intval',
-                'validation' => 'isBool',
-                'defaultValue' => '1',
-                'type' => 'bool',
-                'desc' => $this->trans('If enabled, any RTL-specific files that you might have added to all your themes might be deleted by the created stylesheet.'),
-            ],
             'PS_AUTOUP_CHANGE_DEFAULT_THEME' => [
                 'title' => $this->trans('Switch to the default theme'),
                 'cast' => 'intval',
