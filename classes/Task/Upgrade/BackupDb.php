@@ -121,7 +121,7 @@ class BackupDb extends AbstractTask
                 continue;
             }
 
-            $primary_key = $tablesToBackup->getPrimaryKey($table));
+            $primary_key = $this->getPrimaryKey($table));
 
             if ($written == 0 || $written > $this->container->getUpgradeConfiguration()->getMaxSizeToWritePerCall()) {
                 // increment dbStep will increment filename each time here
@@ -311,5 +311,17 @@ class BackupDb extends AbstractTask
 
             return ExitCode::SUCCESS;
         }
+    }
+
+    private function getPrimaryKey($table)
+    {
+        // Obtenir les informations de la clé primaire via la requête SHOW INDEX
+        $result = $this->container->getDb()->executeS("SHOW INDEX FROM `$table` WHERE Key_name = 'PRIMARY'");
+        
+        if (!empty($result)) {
+            return $result[0]['Column_name']; // Retourner le nom de la colonne de la clé primaire
+        }
+
+        return null;
     }
 }
