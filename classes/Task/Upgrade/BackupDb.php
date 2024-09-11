@@ -121,7 +121,7 @@ class BackupDb extends AbstractTask
                 continue;
             }
 
-            $primary_key = $this->getPrimaryKey($table));
+            $primary_key = $this->getPrimaryKey($table);
 
             if ($written == 0 || $written > $this->container->getUpgradeConfiguration()->getMaxSizeToWritePerCall()) {
                 // increment dbStep will increment filename each time here
