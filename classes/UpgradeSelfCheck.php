@@ -194,7 +194,7 @@ class UpgradeSelfCheck
             self::SAFE_MODE_ENABLED => !$this->isSafeModeDisabled(),
             self::F_OPEN_AND_CURL_DISABLED => !$this->isFOpenOrCurlEnabled(),
             self::ZIP_DISABLED => !$this->isZipEnabled(),
-            self::MAINTENANCE_MODE_DISABLED => !$this->isLocalEnvironment() || !$this->isShopDeactivated(),
+            self::MAINTENANCE_MODE_DISABLED => !$this->isLocalEnvironment() && !$this->isShopDeactivated(),
             self::CACHE_ENABLED => !$this->isCacheDisabled(),
             self::MAX_EXECUTION_TIME_VALUE_INCORRECT => $this->getMaxExecutionTime() > 0 && $this->getMaxExecutionTime() < 30,
             self::APACHE_MOD_REWRITE_DISABLED => !$this->isApacheModRewriteEnabled(),
