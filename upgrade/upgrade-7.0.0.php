@@ -43,10 +43,9 @@ function upgrade_module_7_0_0($module)
         $tab = new \Tab();
         $tab->class_name = 'AdminSelfUpgrade';
         $tab->module = 'autoupgrade';
+        $tab->id_parent = (int) \Tab::getIdFromClassName('CONFIGURE');
+        $tab->icon = 'upgrade';
     }
-
-    $tab->id_parent = (int) \Tab::getIdFromClassName('CONFIGURE');
-    $tab->icon = 'upgrade';
 
     foreach (\Language::getLanguages(false) as $lang) {
         $tab->name[(int) $lang['id_lang']] = 'Update assistant';
