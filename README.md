@@ -1,4 +1,4 @@
-# 1-Click Upgrade
+# Update assistant
 
 ![PHP tests](https://github.com/PrestaShop/autoupgrade/workflows/PHP%20tests/badge.svg)
 ![Upgrades](https://github.com/PrestaShop/autoupgrade/workflows/Upgrades/badge.svg)

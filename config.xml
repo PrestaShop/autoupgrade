@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <module>
     <name>autoupgrade</name>
-    <displayName><![CDATA[1-Click Upgrade]]></displayName>
+    <displayName><![CDATA[Update assistant]]></displayName>
     <version><![CDATA[6.2.0]]></version>
     <description><![CDATA[Upgrade to the latest version of PrestaShop in a few clicks, thanks to this automated method.]]></description>
     <author><![CDATA[PrestaShop]]></author>

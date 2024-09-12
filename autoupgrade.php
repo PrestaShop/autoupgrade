@@ -53,7 +53,7 @@ class Autoupgrade extends Module
             }
         }
 
-        $this->displayName = $this->trans('1-Click Upgrade');
+        $this->displayName = $this->trans('Update assistant');
         $this->description = $this->trans('Upgrade to the latest version of PrestaShop in a few clicks, thanks to this automated method.');
 
         $this->ps_versions_compliancy = ['min' => '1.7.0.0', 'max' => _PS_VERSION_];
@@ -96,7 +96,7 @@ class Autoupgrade extends Module
             $tab->id_parent = (int) Tab::getIdFromClassName('CONFIGURE');
 
             foreach (Language::getLanguages(false) as $lang) {
-                $tab->name[(int) $lang['id_lang']] = '1-Click Upgrade';
+                $tab->name[(int) $lang['id_lang']] = 'Update assistant';
             }
             if (!$tab->save()) {
                 return $this->_abortInstall($this->trans('Unable to create the "AdminSelfUpgrade" tab'));
