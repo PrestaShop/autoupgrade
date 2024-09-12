@@ -1941,9 +1941,9 @@ Comment: check DB access</note>
         <target state="final">Por favor, selecciona tu canal:</target>
         <note>Line: 83</note>
       </trans-unit>
-      <trans-unit id="cdcf07ad291a3b7a0cc30b870705ba63" approved="yes">
-        <source>Channels are offering you different ways to perform an upgrade. You can either upload the new version manually or let the 1-Click Upgrade module download it for you.</source>
-        <target state="final">Los canales te ofrecen diferentes formas de realizar una actualización. Puedes subir la nueva versión manualmente o dejar que el módulo Actualización en 1-Clic la descargue para ti.</target>
+      <trans-unit id="0208f99ea55e5b45056b692a7cc824e2">
+        <source>Channels are offering you different ways to perform an upgrade. You can either upload the new version manually or let the Update assistant module download it for you.</source>
+        <target state="needs-translation">Channels are offering you different ways to perform an upgrade. You can either upload the new version manually or let the Update assistant module download it for you.</target>
         <note>Line: 85</note>
       </trans-unit>
       <trans-unit id="87ad8a8ff4a99ffd2e72d5e69765f830" approved="yes">
