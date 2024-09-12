@@ -858,6 +858,60 @@ Comment: directory already exists</note>
       </trans-unit>
     </body>
   </file>
+  <file original="classes/UpgradeSelfCheck.php" source-language="en" target-language="cs" datatype="plaintext">
+    <body>
+      <trans-unit id="edba86965121a77bf6e1b0cf4807becf">
+        <source><![CDATA[Your store's root directory isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></source>
+        <target state="needs-translation"><![CDATA[Your store's root directory isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></target>
+        <note>Line: 245</note>
+      </trans-unit>
+      <trans-unit id="386111d529c909238e33d642d0c35c0e">
+        <source>Maintenance mode needs to be enabled. Enable maintenance mode and add your maintenance IP.</source>
+        <target state="needs-translation">Maintenance mode needs to be enabled. Enable maintenance mode and add your maintenance IP.</target>
+        <note>Line: 266</note>
+      </trans-unit>
+      <trans-unit id="e05ace6fd033aad1296386cf51776dad">
+        <source>PrestaShop's caching features needs to be disabled.</source>
+        <target state="needs-translation">PrestaShop's caching features needs to be disabled.</target>
+        <note>Line: 270</note>
+      </trans-unit>
+      <trans-unit id="c99a5e5e996f81396e5c3f3055d3ea11">
+        <source>PHP's max_execution_time setting needs to have a high value or needs to be disabled entirely (current value: %s seconds)</source>
+        <target state="needs-translation">PHP's max_execution_time setting needs to have a high value or needs to be disabled entirely (current value: %s seconds)</target>
+        <note>Line: 274</note>
+      </trans-unit>
+      <trans-unit id="e469f21f7c9e2988397986b161345171">
+        <source>The following PHP extension%s need%s to be installed:</source>
+        <target state="needs-translation">The following PHP extension%s need%s to be installed:</target>
+        <note>Line: 285</note>
+      </trans-unit>
+      <trans-unit id="02f31136ff84e0c27a0a7d3328596fcd">
+        <source>The following PHP function%s need%s to be allowed:</source>
+        <target state="needs-translation">The following PHP function%s need%s to be allowed:</target>
+        <note>Line: 293</note>
+      </trans-unit>
+      <trans-unit id="bff482e6212a866690c7a81fac9ea04b">
+        <source><![CDATA[It's not possible to write in the following folders, please provide write access to the user running PHP with appropriate permission & ownership:]]></source>
+        <target state="needs-translation"><![CDATA[It's not possible to write in the following folders, please provide write access to the user running PHP with appropriate permission & ownership:]]></target>
+        <note>Line: 310</note>
+      </trans-unit>
+      <trans-unit id="72562d8e237567846f4c37c1bff5f04b">
+        <source>Your current version of the module is outdated.</source>
+        <target state="needs-translation">Your current version of the module is outdated.</target>
+        <note>Line: 319</note>
+      </trans-unit>
+      <trans-unit id="5163e27794d02cf99911da9f1bec323d">
+        <source>Some core files have been altered, customization made on these files will be lost during the update:</source>
+        <target state="needs-translation">Some core files have been altered, customization made on these files will be lost during the update:</target>
+        <note>Line: 326</note>
+      </trans-unit>
+      <trans-unit id="5ae505096414401ddbb2affa6620a869">
+        <source>Unknown requirement.</source>
+        <target state="needs-translation">Unknown requirement.</target>
+        <note>Line: 330</note>
+      </trans-unit>
+    </body>
+  </file>
   <file original="classes/UpgradeTools/CacheCleaner.php" source-language="en" target-language="cs" datatype="plaintext">
     <body>
       <trans-unit id="9dcf84f429818d396d05335d52ef5f42" approved="yes">
@@ -1497,6 +1551,11 @@ Comment: check DB access</note>
   </file>
   <file original="views/templates/block/checklist.html.twig" source-language="en" target-language="cs" datatype="plaintext">
     <body>
+      <trans-unit id="a4cc32e6dad17557895cc94c85c883e8" approved="yes">
+        <source>Your current PHP version isn't compatible with your PrestaShop version. (Expected: %s - %s | Current: %s)</source>
+        <target state="final">Aktuální nastavená verze PHP není kompatibilní s vaší verzí PrestaShopu. (Podporováno: %s - %s | Aktuální: %s)</target>
+        <note>Line: 24</note>
+      </trans-unit>
       <trans-unit id="8406b91fd5a290de3a1e1516db6e79b8" approved="yes">
         <source>Unable to generate private keys using openssl_pkey_new. Check your OpenSSL configuration, especially the path to openssl.cafile.</source>
         <target state="final">Nepodařilo se vygenerovat privátní klíče pomocí funkce openssl_pkey_new. Zkontrolujte a opravte prosím konfiguraci OpenSSL, např. cestu k openssl.cafile.</target>
@@ -1531,11 +1590,6 @@ Comment: check DB access</note>
         <source>Before starting the upgrade process, please make sure this checklist is all green.</source>
         <target state="final">Před zahájením procesu aktualizace se ujistěte, že tento seznam je celý zelený.</target>
         <note>Line: 18</note>
-      </trans-unit>
-      <trans-unit id="a4cc32e6dad17557895cc94c85c883e8" approved="yes">
-        <source>Your current PHP version isn't compatible with your PrestaShop version. (Expected: %s - %s | Current: %s)</source>
-        <target state="final">Aktuální nastavená verze PHP není kompatibilní s vaší verzí PrestaShopu. (Podporováno: %s - %s | Aktuální: %s)</target>
-        <note>Line: 24</note>
       </trans-unit>
       <trans-unit id="50a5bcb757b1a7705007720863250da8" approved="yes">
         <source>Your store's root directory (%s) is writable (with appropriate CHMOD permissions).</source>
@@ -1627,30 +1681,25 @@ Comment: check DB access</note>
         <target state="final">Není možné vytvořit PHP session.</target>
         <note>Line: 185</note>
       </trans-unit>
-      <trans-unit id="e78a48236a7c0830aa9de157a415e44c" approved="yes">
-        <source>The following files are missing:</source>
-        <target state="final">Následující soubory chybí:</target>
-        <note>Line: 198</note>
-      </trans-unit>
       <trans-unit id="588aebafed7c857178f75431b5af7d58" approved="yes">
         <source>It's not possible to write in the following folders:</source>
         <target state="final">Do následujících složek nelze zapisovat:</target>
-        <note>Line: 211</note>
+        <note>Line: 198</note>
       </trans-unit>
       <trans-unit id="3f3a0789a5678daaa3cd41067dd6855e" approved="yes">
         <source>The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table. [1]Learn more[/1].</source>
         <target state="final">Verze PrestaShopu na disku neodpovídá verzi uložené v databázi. Struktura vaší databáze možná není aktuální a/nebo je třeba aktualizovat hodnotu PS_VERSION_DB v tabulce configuration. [1]Další informace[/1].</target>
-        <note>Line: 224</note>
+        <note>Line: 211</note>
       </trans-unit>
       <trans-unit id="aa9b0228ac4e3e44b836f79eebf5e481" approved="yes">
         <source>Please also make sure you make a full manual backup of your files and database.</source>
         <target state="final">Ujistěte se prosím, že jste provedli kompletní zálohu souborů a databáze.</target>
-        <note>Line: 234</note>
+        <note>Line: 221</note>
       </trans-unit>
       <trans-unit id="2f5caf188163a31f04c828530331b096" approved="yes">
         <source>PrestaShop requirements are not satisfied.</source>
         <target state="final">Systémové požadavky PrestaShopu nejsou splněny.</target>
-        <note>Line: 236</note>
+        <note>Line: 223</note>
       </trans-unit>
     </body>
   </file>
@@ -1985,157 +2034,157 @@ Comment: check DB access</note>
   </file>
   <file original="views/templates/components/backup-selection.html.twig" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="caef47f6ddf52575a8fe9e566b68dcd8">
+      <trans-unit id="caef47f6ddf52575a8fe9e566b68dcd8" approved="yes">
         <source>Select the backup you want to restore to</source>
-        <target state="needs-translation">Select the backup you want to restore to</target>
+        <target state="final">Vyberte zálohu, kterou chcete obnovit</target>
         <note>Line: 3</note>
       </trans-unit>
-      <trans-unit id="6adab6d3fdf92c448d60cf8824e4851c">
+      <trans-unit id="6adab6d3fdf92c448d60cf8824e4851c" approved="yes">
         <source>Delete selection</source>
-        <target state="needs-translation">Delete selection</target>
+        <target state="final">Smazat výběr</target>
         <note>Line: 17</note>
       </trans-unit>
     </body>
   </file>
   <file original="views/templates/components/check-requirements.html.twig" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="d63d0e3addadd645300c8e4909c7e3b1">
-        <source>Checking requirements...</source>
-        <target state="needs-translation">Checking requirements...</target>
-        <note>Line: 8</note>
-      </trans-unit>
-      <trans-unit id="0db9e54978a2358b7bd40fa24cf224d4">
-        <source>Update requirements</source>
-        <target state="needs-translation">Update requirements</target>
-        <note>Line: 13</note>
-      </trans-unit>
-      <trans-unit id="c2be89ec4229ab7b25ab17f1f7caea13">
-        <source>Once all the following conditions are met, you can continue with the update. Read more in the [1]developer documentation[/1].</source>
-        <target state="needs-translation">Once all the following conditions are met, you can continue with the update. Read more in the [1]developer documentation[/1].</target>
-        <note>Line: 17</note>
-      </trans-unit>
-      <trans-unit id="90f6b49ee2232f28b4f4b347d3a6a202">
-        <source>Your current PHP version isn't compatible with PrestaShop %max_version%. (Expected: %min_version% - %max_version% | Current: %current_version%)</source>
-        <target state="needs-translation">Your current PHP version isn't compatible with PrestaShop %max_version%. (Expected: %min_version% - %max_version% | Current: %current_version%)</target>
-        <note>Line: 29</note>
-      </trans-unit>
-      <trans-unit id="a39b2e9b36f54c6981b7e55820143b11">
-        <source><![CDATA[Your store's root directory (%root_directory%) isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></source>
-        <target state="needs-translation"><![CDATA[Your store's root directory (%root_directory%) isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></target>
-        <note>Line: 41</note>
-      </trans-unit>
-      <trans-unit id="d7238cb2856938b3986f300a67e00480">
+      <trans-unit id="d7238cb2856938b3986f300a67e00480" approved="yes">
         <source><![CDATA[The "/admin/autoupgrade" directory isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></source>
-        <target state="needs-translation"><![CDATA[The "/admin/autoupgrade" directory isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></target>
+        <target state="final"><![CDATA[Do adresáře "/admin/autoupgrade" nelze zapisovat. Poskytněte uživateli, který používá PHP, přístup pro zápis s příslušným oprávněním a vlastnictvím.]]></target>
         <note>Line: 50</note>
       </trans-unit>
-      <trans-unit id="abfe505ee370819199423ad97df77dec">
+      <trans-unit id="abfe505ee370819199423ad97df77dec" approved="yes">
         <source>PHP's "Safe mode" needs to be disabled.</source>
-        <target state="needs-translation">PHP's "Safe mode" needs to be disabled.</target>
+        <target state="final">"Safe mode" PHP musí být zakázán.</target>
         <note>Line: 57</note>
       </trans-unit>
-      <trans-unit id="a4cbbaa504b6e21c9152bc783cf68aba">
+      <trans-unit id="a4cbbaa504b6e21c9152bc783cf68aba" approved="yes">
         <source>Files can't be downloaded. Enable PHP's "allow_url_fopen" option or install PHP extension "cURL".</source>
-        <target state="needs-translation">Files can't be downloaded. Enable PHP's "allow_url_fopen" option or install PHP extension "cURL".</target>
+        <target state="final">Soubory nelze stáhnout. Povolte volbu PHP „allow_url_fopen“ nebo nainstalujte rozšíření PHP „cURL“.</target>
         <note>Line: 64</note>
       </trans-unit>
-      <trans-unit id="f331b3e71fc229a1cfd1aaa3241be853">
+      <trans-unit id="f331b3e71fc229a1cfd1aaa3241be853" approved="yes">
         <source>Missing PHP extension "zip".</source>
-        <target state="needs-translation">Missing PHP extension "zip".</target>
+        <target state="final">Chybí rozšíření PHP "zip".</target>
         <note>Line: 71</note>
       </trans-unit>
-      <trans-unit id="d321763467936ac779fff7e090d8f0dc">
-        <source><![CDATA[Maintenance mode needs to be enabled. Enable maintenance mode and add your maintenance IP in [1]Shop parameters > General > Maintenance[/1].]]></source>
-        <target state="needs-translation"><![CDATA[Maintenance mode needs to be enabled. Enable maintenance mode and add your maintenance IP in [1]Shop parameters > General > Maintenance[/1].]]></target>
-        <note>Line: 80</note>
-      </trans-unit>
-      <trans-unit id="00010e5e74d3de76b6ade544d9341832">
-        <source><![CDATA[PrestaShop's caching features needs to be disabled. Disable caching features in [1]Advanced parameters > Performance > Caching[/1].]]></source>
-        <target state="needs-translation"><![CDATA[PrestaShop's caching features needs to be disabled. Disable caching features in [1]Advanced parameters > Performance > Caching[/1].]]></target>
-        <note>Line: 91</note>
-      </trans-unit>
-      <trans-unit id="8ff30224a9960da38da34b6a99d20751">
-        <source>PHP's max_execution_time setting needs to have a high value or needs to be disabled entirely (current value: %s seconds).</source>
-        <target state="needs-translation">PHP's max_execution_time setting needs to have a high value or needs to be disabled entirely (current value: %s seconds).</target>
-        <note>Line: 101</note>
-      </trans-unit>
-      <trans-unit id="26da0df3cbdf0052c8f1205b40ad5072">
+      <trans-unit id="26da0df3cbdf0052c8f1205b40ad5072" approved="yes">
         <source>Apache mod_rewrite needs to be enabled.</source>
-        <target state="needs-translation">Apache mod_rewrite needs to be enabled.</target>
+        <target state="final">Apache mod_rewrite musí být povolen.</target>
         <note>Line: 109</note>
       </trans-unit>
-      <trans-unit id="baf4b3d8ebc2067c85c65f47cfd0fdb0">
-        <source>The following PHP extensions need to be installed: %extensions%.</source>
-        <target state="needs-translation">The following PHP extensions need to be installed: %extensions%.</target>
-        <note>Line: 117</note>
-      </trans-unit>
-      <trans-unit id="a60972f0ec4829ac2cd7b2c3799b3b3b">
-        <source>The following PHP extension needs to be installed: %extension%.</source>
-        <target state="needs-translation">The following PHP extension needs to be installed: %extension%.</target>
-        <note>Line: 121</note>
-      </trans-unit>
-      <trans-unit id="047dc151bd4fea1e4925ce6ad50a53b3">
-        <source>The following PHP functions need to be allowed: %functions%.</source>
-        <target state="needs-translation">The following PHP functions need to be allowed: %functions%.</target>
-        <note>Line: 132</note>
-      </trans-unit>
-      <trans-unit id="fb38f71bf14702220f7f73dd50678abd">
-        <source>The following PHP function needs to be allowed: %function%.</source>
-        <target state="needs-translation">The following PHP function needs to be allowed: %function%.</target>
-        <note>Line: 136</note>
-      </trans-unit>
-      <trans-unit id="a220e0ac5c6f7fa8692c131148ed050a">
+      <trans-unit id="a220e0ac5c6f7fa8692c131148ed050a" approved="yes">
         <source>PHP memory_limit needs to be greater than 256 MB.</source>
-        <target state="needs-translation">PHP memory_limit needs to be greater than 256 MB.</target>
+        <target state="final">PHP memory_limit musí být větší než 256 MB.</target>
         <note>Line: 146</note>
       </trans-unit>
-      <trans-unit id="24b3a661ea0947d7dfddb4fe68681907">
+      <trans-unit id="24b3a661ea0947d7dfddb4fe68681907" approved="yes">
         <source>PHP file_uploads configuration needs to be enabled.</source>
-        <target state="needs-translation">PHP file_uploads configuration needs to be enabled.</target>
+        <target state="final">Je třeba povolit konfiguraci PHP file_uploads.</target>
         <note>Line: 153</note>
       </trans-unit>
-      <trans-unit id="6106c8ca4547ab68a21560b227fe91c6">
-        <source>It's not possible to write in the following folders: %directories%.</source>
-        <target state="needs-translation">It's not possible to write in the following folders: %directories%.</target>
-        <note>Line: 167</note>
-      </trans-unit>
-      <trans-unit id="774e7361cd125d0f1953bd4e4199be0f">
-        <source><![CDATA[Provide write access to the user running PHP with appropriate permission & ownership.]]></source>
-        <target state="needs-translation"><![CDATA[Provide write access to the user running PHP with appropriate permission & ownership.]]></target>
-        <note>Line: 170</note>
-      </trans-unit>
-      <trans-unit id="a99553cd5eff17f5895d093c44b5c430">
+      <trans-unit id="a99553cd5eff17f5895d093c44b5c430" approved="yes">
         <source>The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table.</source>
-        <target state="needs-translation">The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table.</target>
+        <target state="final">Verze PrestaShopu neodpovídá verzi uložené v databázi. Struktura vaší databáze možná není aktuální a/nebo je třeba aktualizovat hodnotu PS_VERSION_DB v tabulce configuration.</target>
         <note>Line: 177</note>
       </trans-unit>
-      <trans-unit id="3acd0ca5efe0e72cee2610e80f8d5024">
+      <trans-unit id="d63d0e3addadd645300c8e4909c7e3b1" approved="yes">
+        <source>Checking requirements...</source>
+        <target state="final">Kontrola stavu systému...</target>
+        <note>Line: 8</note>
+      </trans-unit>
+      <trans-unit id="0db9e54978a2358b7bd40fa24cf224d4" approved="yes">
+        <source>Update requirements</source>
+        <target state="final">Požadavky na aktualizaci</target>
+        <note>Line: 13</note>
+      </trans-unit>
+      <trans-unit id="c2be89ec4229ab7b25ab17f1f7caea13" approved="yes">
+        <source>Once all the following conditions are met, you can continue with the update. Read more in the [1]developer documentation[/1].</source>
+        <target state="final">Jakmile budou splněny všechny následující podmínky, můžete pokračovat v aktualizaci. Přečtěte si více v [1]dokumentaci pro vývojáře[/1].</target>
+        <note>Line: 17</note>
+      </trans-unit>
+      <trans-unit id="90f6b49ee2232f28b4f4b347d3a6a202" approved="yes">
+        <source>Your current PHP version isn't compatible with PrestaShop %max_version%. (Expected: %min_version% - %max_version% | Current: %current_version%)</source>
+        <target state="final">Vaše aktuální verze PHP není kompatibilní s PrestaShopem %max_version%. (Podporováno: %min_version% - %max_version% | Aktuální: %current_version%)</target>
+        <note>Line: 29</note>
+      </trans-unit>
+      <trans-unit id="a39b2e9b36f54c6981b7e55820143b11" approved="yes">
+        <source><![CDATA[Your store's root directory (%root_directory%) isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></source>
+        <target state="final"><![CDATA[Do kořenového adresáře vašeho obchodu (%root_directory%) nelze zapisovat. Poskytněte uživateli, který používá PHP, přístup pro zápis s příslušným oprávněním a vlastnictvím.]]></target>
+        <note>Line: 41</note>
+      </trans-unit>
+      <trans-unit id="d321763467936ac779fff7e090d8f0dc" approved="yes">
+        <source><![CDATA[Maintenance mode needs to be enabled. Enable maintenance mode and add your maintenance IP in [1]Shop parameters > General > Maintenance[/1].]]></source>
+        <target state="final"><![CDATA[Je třeba povolit režim údržby. Povolte režim údržby a přidejte svou IP v sekci [1]Parametry obchodu > Obecné > Údržba[/1].]]></target>
+        <note>Line: 80</note>
+      </trans-unit>
+      <trans-unit id="00010e5e74d3de76b6ade544d9341832" approved="yes">
+        <source><![CDATA[PrestaShop's caching features needs to be disabled. Disable caching features in [1]Advanced parameters > Performance > Caching[/1].]]></source>
+        <target state="final"><![CDATA[Cachovací funkce PrestaShopu musí být zakázány. Zakažte je v sekci [1]Nástroje > Výkon[/1].]]></target>
+        <note>Line: 91</note>
+      </trans-unit>
+      <trans-unit id="8ff30224a9960da38da34b6a99d20751" approved="yes">
+        <source>PHP's max_execution_time setting needs to have a high value or needs to be disabled entirely (current value: %s seconds).</source>
+        <target state="final">Nastavení max_execution_time PHP musí mít vysokou hodnotu nebo musí být zcela zakázáno (aktuální hodnota: %s sekund).</target>
+        <note>Line: 101</note>
+      </trans-unit>
+      <trans-unit id="baf4b3d8ebc2067c85c65f47cfd0fdb0" approved="yes">
+        <source>The following PHP extensions need to be installed: %extensions%.</source>
+        <target state="final">Je třeba nainstalovat následující rozšíření PHP: %extensions%.</target>
+        <note>Line: 117</note>
+      </trans-unit>
+      <trans-unit id="a60972f0ec4829ac2cd7b2c3799b3b3b" approved="yes">
+        <source>The following PHP extension needs to be installed: %extension%.</source>
+        <target state="final">Je třeba nainstalovat následující rozšíření PHP: %extension%.</target>
+        <note>Line: 121</note>
+      </trans-unit>
+      <trans-unit id="047dc151bd4fea1e4925ce6ad50a53b3" approved="yes">
+        <source>The following PHP functions need to be allowed: %functions%.</source>
+        <target state="final">Je třeba povolit následující funkce PHP: %functions%.</target>
+        <note>Line: 132</note>
+      </trans-unit>
+      <trans-unit id="fb38f71bf14702220f7f73dd50678abd" approved="yes">
+        <source>The following PHP function needs to be allowed: %function%.</source>
+        <target state="final">Musí být povolena následující funkce PHP: %function%.</target>
+        <note>Line: 136</note>
+      </trans-unit>
+      <trans-unit id="6106c8ca4547ab68a21560b227fe91c6" approved="yes">
+        <source>It's not possible to write in the following folders: %directories%.</source>
+        <target state="final">Není možné zapisovat do následujících složek: %directories%.</target>
+        <note>Line: 167</note>
+      </trans-unit>
+      <trans-unit id="774e7361cd125d0f1953bd4e4199be0f" approved="yes">
+        <source><![CDATA[Provide write access to the user running PHP with appropriate permission & ownership.]]></source>
+        <target state="final"><![CDATA[Poskytněte uživateli, který používá PHP, přístup pro zápis s příslušným oprávněním a vlastnictvím.]]></target>
+        <note>Line: 170</note>
+      </trans-unit>
+      <trans-unit id="3acd0ca5efe0e72cee2610e80f8d5024" approved="yes">
         <source>Your current version of the module is out of date. Update now %link%</source>
-        <target state="needs-translation">Your current version of the module is out of date. Update now %link%</target>
+        <target state="final">Vaše aktuální verze modulu je zastaralá, aktualizujte ho %link%</target>
         <note>Line: 185</note>
       </trans-unit>
-      <trans-unit id="9a5e39badf24a0adca4850f4862cd20f">
+      <trans-unit id="9a5e39badf24a0adca4850f4862cd20f" approved="yes">
         <source>Some core files have been altered, customization made on these files will be lost during the update. See the list in %link%</source>
-        <target state="needs-translation">Some core files have been altered, customization made on these files will be lost during the update. See the list in %link%</target>
+        <target state="final">Některé soubory jádra byly změněny, úpravy provedené v těchto souborech budou během aktualizace ztraceny. Viz seznam v %link%</target>
         <note>Line: 203</note>
       </trans-unit>
-      <trans-unit id="3758c107f9d68f5fb6d56486dab9f2d4">
+      <trans-unit id="3758c107f9d68f5fb6d56486dab9f2d4" approved="yes">
         <source>Check requirements again</source>
-        <target state="needs-translation">Check requirements again</target>
+        <target state="final">Znovu překontrolovat požadavky</target>
         <note>Line: 212</note>
       </trans-unit>
-      <trans-unit id="c3f4ad9687b5bbb78f1d39e089a4be47">
+      <trans-unit id="c3f4ad9687b5bbb78f1d39e089a4be47" approved="yes">
         <source>The requirements check is complete, you can update your store (to this version of PrestaShop).</source>
-        <target state="needs-translation">The requirements check is complete, you can update your store (to this version of PrestaShop).</target>
+        <target state="final">Kontrola požadavků je dokončena, nyní můžete aktualizovat svůj obchod (na tuto verzi PrestaShopu).</target>
         <note>Line: 219</note>
       </trans-unit>
     </body>
   </file>
   <file original="views/templates/components/local-archive.html.twig" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="0b4a925c935931bb73c6b28c285a21c0">
+      <trans-unit id="0b4a925c935931bb73c6b28c285a21c0" approved="yes">
         <source>We couldn't find a PrestaShop version in the .zip file you uploaded. Please try again.</source>
-        <target state="needs-translation">We couldn't find a PrestaShop version in the .zip file you uploaded. Please try again.</target>
+        <target state="final">V souboru .zip, který jste nahráli, jsme nenašli verzi PrestaShopu. Zkuste to znovu.</target>
         <note>Line: 21</note>
       </trans-unit>
       <trans-unit id="a9c58dc4da830f87b1f0cb9e2b6f8a1c">
@@ -2147,9 +2196,9 @@ Comment: check DB access</note>
   </file>
   <file original="views/templates/components/logs.html.twig" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="12b7e9bd62f15c5f79030a36509eedf0">
+      <trans-unit id="12b7e9bd62f15c5f79030a36509eedf0" approved="yes">
         <source>Warning summary</source>
-        <target state="needs-translation">Warning summary</target>
+        <target state="final">Shrnutí varování</target>
         <note>Line: 16</note>
       </trans-unit>
       <trans-unit id="94c3bbd272ff645e73a18da13399cc63">
@@ -2157,9 +2206,9 @@ Comment: check DB access</note>
         <target state="needs-translation">See warning</target>
         <note>Line: 24</note>
       </trans-unit>
-      <trans-unit id="e3ee0344bd3867921755578619b2ba43">
+      <trans-unit id="e3ee0344bd3867921755578619b2ba43" approved="yes">
         <source>Error summary</source>
-        <target state="needs-translation">Error summary</target>
+        <target state="final">Shrnutí chyb</target>
         <note>Line: 33</note>
       </trans-unit>
       <trans-unit id="bbed65cc1e1133fa10ca61cae4e636f9">
@@ -2171,42 +2220,42 @@ Comment: check DB access</note>
   </file>
   <file original="views/templates/components/render-bool.html.twig" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="93cba07454f06a4a960172bbd6e2a435">
+      <trans-unit id="93cba07454f06a4a960172bbd6e2a435" approved="yes">
         <source>Yes</source>
-        <target state="needs-translation">Yes</target>
+        <target state="final">Ano</target>
         <note>Line: 9</note>
       </trans-unit>
-      <trans-unit id="bafd7322c6e97d25b6299b5d6fe8920b">
+      <trans-unit id="bafd7322c6e97d25b6299b5d6fe8920b" approved="yes">
         <source>No</source>
-        <target state="needs-translation">No</target>
+        <target state="final">Ne</target>
         <note>Line: 15</note>
       </trans-unit>
     </body>
   </file>
   <file original="views/templates/layouts/backup.html.twig" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="8f54da32d0160f178f08b2530d1e690b">
+      <trans-unit id="8f54da32d0160f178f08b2530d1e690b" approved="yes">
         <source>Back up your store</source>
-        <target state="needs-translation">Back up your store</target>
+        <target state="final">Záloha obchodu</target>
         <note>Line: 6</note>
       </trans-unit>
-      <trans-unit id="9c32ff52925ba5a296f9696cfbb7edcc">
+      <trans-unit id="9c32ff52925ba5a296f9696cfbb7edcc" approved="yes">
         <source>Backing up your store's files, database, and images means you can restore to a previous version if something goes wrong during the update. This keeps your data safe and ensures your business stays up and running.</source>
-        <target state="needs-translation">Backing up your store's files, database, and images means you can restore to a previous version if something goes wrong during the update. This keeps your data safe and ensures your business stays up and running.</target>
+        <target state="final">Zálohování souborů, databáze a obrázků vašeho obchodu znamená, že pokud se během aktualizace něco pokazí, můžete obnovit předchozí verzi. Vaše data tak zůstanou v bezpečí a vaše firma zůstane v provozu.</target>
         <note>Line: 12</note>
       </trans-unit>
-      <trans-unit id="2284aa8fec405e1dd014326b51cde020">
+      <trans-unit id="2284aa8fec405e1dd014326b51cde020" approved="yes">
         <source>Launch backup</source>
-        <target state="needs-translation">Launch backup</target>
+        <target state="final">Spustit zálohování</target>
         <note>Line: 55</note>
       </trans-unit>
     </body>
   </file>
   <file original="views/templates/layouts/post-update-checklist.html.twig" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="201ad8cac531a92e1ec77ae5c1e7aa20">
+      <trans-unit id="201ad8cac531a92e1ec77ae5c1e7aa20" approved="yes">
         <source>Post-update checklist</source>
-        <target state="needs-translation">Post-update checklist</target>
+        <target state="final">Kontrolní seznam po aktualizaci</target>
         <note>Line: 6</note>
       </trans-unit>
       <trans-unit id="21365dc8650278f56c2c27d349b073ce">
@@ -2376,37 +2425,37 @@ Comment: check DB access</note>
         <target state="needs-translation">Cancel</target>
         <note>Line: 8</note>
       </trans-unit>
-      <trans-unit id="0b69cd55a690bee672a1fb91091222f1">
+      <trans-unit id="0b69cd55a690bee672a1fb91091222f1" approved="yes">
         <source>Start backup</source>
-        <target state="needs-translation">Start backup</target>
+        <target state="final">Spustit zálohování</target>
         <note>Line: 12</note>
       </trans-unit>
     </body>
   </file>
   <file original="views/templates/modals/modal-error-report.html.twig" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="2bbf9588481e8a1615d65dba78ba435c">
+      <trans-unit id="2bbf9588481e8a1615d65dba78ba435c" approved="yes">
         <source>Help us improve the module by sending us this error report. You can add details in the description if you want to.</source>
-        <target state="needs-translation">Help us improve the module by sending us this error report. You can add details in the description if you want to.</target>
+        <target state="final">Pomozte nám vylepšit tento modul zasláním tohoto chybového hlášení. Pokud chcete, můžete do popisu přidat podrobnosti.</target>
         <note>Line: 6</note>
       </trans-unit>
     </body>
   </file>
   <file original="views/templates/modals/modal-update.html.twig" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="3d4d2d6f322e7a03fbe59ed1593215c8">
+      <trans-unit id="3d4d2d6f322e7a03fbe59ed1593215c8" approved="yes">
         <source>Before starting the update, make sure you have a complete and recent backup of your store (database, files, and images).</source>
-        <target state="needs-translation">Before starting the update, make sure you have a complete and recent backup of your store (database, files, and images).</target>
+        <target state="final">Před zahájením aktualizace se ujistěte, že máte úplnou a aktuální zálohu svého obchodu (databáze, soubory a obrázky).</target>
         <note>Line: 6</note>
       </trans-unit>
-      <trans-unit id="3cedd2741ced15002cb3c9429ab45f55">
+      <trans-unit id="3cedd2741ced15002cb3c9429ab45f55" approved="yes">
         <source>I have made my own backup and can restore it manually if a problem occur.</source>
-        <target state="needs-translation">I have made my own backup and can restore it manually if a problem occur.</target>
+        <target state="final">Vytvořil jsem si vlastní zálohu a v případě problému ji mohu obnovit ručně.</target>
         <note>Line: 18</note>
       </trans-unit>
-      <trans-unit id="880d6ec7b06e1f403347a16afbca8335">
+      <trans-unit id="880d6ec7b06e1f403347a16afbca8335" approved="yes">
         <source>Start update</source>
-        <target state="needs-translation">Start update</target>
+        <target state="final">Spustit aktualizaci</target>
         <note>Line: 31</note>
       </trans-unit>
     </body>
