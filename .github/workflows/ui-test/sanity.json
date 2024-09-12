@@ -1,7 +1,7 @@
 {
   "include": [
     {
-      "comment": "1.7.7 ~ major PHP 7.2 ~ 7.3"
+      "comment": "1.7.7 ~ major PHP 7.2 - 7.3"
     },
     {
       "PS_VERSION_START": "1.7.7.0",
