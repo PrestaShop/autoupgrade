@@ -35,12 +35,17 @@ use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Progress\CompletionCalculator;
+use PrestaShop\Module\AutoUpgrade\Services\ComposerService;
 use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension;
 use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension3;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\CacheCleaner;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FileFilter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleAdapter;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\AbstractModuleSourceProvider;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\ComposerSourceProvider;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\LocalSourceProvider;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\MarketplaceSourceProvider;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translation;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
@@ -85,6 +90,9 @@ class UpgradeContainer
      * @var ChecksumCompare
      */
     private $checksumCompare;
+
+    /** @var ComposerService */
+    private $composerService;
 
     /**
      * @var Cookie
@@ -135,6 +143,11 @@ class UpgradeContainer
      * @var ModuleAdapter
      */
     private $moduleAdapter;
+
+    /**
+     * @var AbstractModuleSourceProvider[]
+     */
+    private $moduleSourceProviders;
 
     /**
      * @var CompletionCalculator
@@ -278,6 +291,16 @@ class UpgradeContainer
         return $this->checksumCompare;
     }
 
+    public function getComposerService(): ComposerService
+    {
+        if (null !== $this->composerService) {
+            return $this->composerService;
+        }
+        $this->composerService = new ComposerService();
+
+        return $this->composerService;
+    }
+
     /**
      * @throws Exception
      */
@@ -331,6 +354,7 @@ class UpgradeContainer
 
         $this->fileFilter = new FileFilter(
             $this->getUpgradeConfiguration(),
+            $this->getComposerService(),
             $this->getProperty(self::PS_ROOT_PATH)
         );
 
@@ -467,6 +491,23 @@ class UpgradeContainer
         );
 
         return $this->moduleAdapter;
+    }
+
+    /** @return AbstractModuleSourceProvider[] */
+    public function getModuleSourceProviders(): array
+    {
+        if (null !== $this->moduleSourceProviders) {
+            return $this->moduleSourceProviders;
+        }
+
+        $this->moduleSourceProviders = [
+            new LocalSourceProvider($this->getProperty(self::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . 'modules', $this->getFileConfigurationStorage()),
+            new MarketplaceSourceProvider($this->getState()->getInstallVersion(), $this->getProperty(self::PS_ROOT_PATH), $this->getFileLoader(), $this->getFileConfigurationStorage()),
+            new ComposerSourceProvider($this->getProperty(self::LATEST_PATH), $this->getComposerService(), $this->getFileConfigurationStorage()),
+            // Other providers
+        ];
+
+        return $this->moduleSourceProviders;
     }
 
     public function getCompletionCalculator(): CompletionCalculator

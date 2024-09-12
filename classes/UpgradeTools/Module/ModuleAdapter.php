@@ -111,16 +111,29 @@ class ModuleAdapter
     }
 
     /**
+     * @param string[]|null $filterOnModuleNames
+     *
+     * @return array<array{name:string, version:string}>
+     */
+    public function getInstalledVersionOfModules(array $filterOnModuleNames = null): array
+    {
+        $sql = 'SELECT name, version FROM ' . _DB_PREFIX_ . 'module';
+
+        if (!empty($filterOnModuleNames)) {
+            $sql .= ' WHERE name IN ("' . implode('", "', $filterOnModuleNames) . '")';
+        }
+
+        return \Db::getInstance()->executeS($sql);
+    }
+
+    /**
      * list modules to upgrade and save them in a serialized array in $this->toUpgradeModuleList.
      *
-     * @param array<string, string> $modulesFromAddons Modules available on the marketplace for download
-     * @param array<string, string> $modulesVersions
-     *
-     * @return array<string, array{'id':string, 'name':string}> Module available on the local filesystem and on the marketplace
+     * @return array<array{name:string, currentVersion:string}> Module available on the local filesystem and installed
      *
      * @throws UpgradeException
      */
-    public function listModulesToUpgrade(array $modulesFromAddons, array $modulesVersions): array
+    public function listModulesPresentInFolderAndInstalled(): array
     {
         $list = [];
         $dir = $this->modulesPath;
@@ -129,37 +142,27 @@ class ModuleAdapter
             throw (new UpgradeException($this->translator->trans('[ERROR] %dir% does not exist or is not a directory.', ['%dir%' => $dir])))->addQuickInfo($this->translator->trans('[ERROR] %s does not exist or is not a directory.', [$dir]))->setSeverity(UpgradeException::SEVERITY_ERROR);
         }
 
-        foreach (scandir($dir) as $module_name) {
+        foreach ($this->getInstalledVersionOfModules() as $moduleInstalled) {
             // We don't update autoupgrade module
-            if ($module_name === 'autoupgrade') {
+            if ($moduleInstalled['name'] === 'autoupgrade') {
                 continue;
             }
             // We have a file modules/mymodule
-            if (is_file($dir . $module_name)) {
+            if (is_file($dir . $moduleInstalled['name'])) {
                 continue;
             }
             // We don't have a file modules/mymodule/config.xml
-            if (!is_file($dir . $module_name . DIRECTORY_SEPARATOR . 'config.xml')) {
+            if (!is_file($dir . $moduleInstalled['name'] . DIRECTORY_SEPARATOR . 'config.xml')) {
                 continue;
             }
             // We don't have a file modules/mymodule/mymodule.php
-            if (!is_file($dir . $module_name . DIRECTORY_SEPARATOR . $module_name . '.php')) {
+            if (!is_file($dir . $moduleInstalled['name'] . DIRECTORY_SEPARATOR . $moduleInstalled['name'] . '.php')) {
                 continue;
             }
-            $id_addons = array_search($module_name, $modulesFromAddons);
-            // We don't find the module on Addons
-            if (false === $id_addons) {
-                continue;
-            }
-            $configXML = file_get_contents($dir . $module_name . DIRECTORY_SEPARATOR . 'config.xml');
-            $moduleXML = simplexml_load_string($configXML);
-            // The module installed has a higher version than this available on Addons
-            if (version_compare((string) $moduleXML->version, $modulesVersions[$id_addons]) >= 0) {
-                continue;
-            }
-            $list[$module_name] = [
-                'id' => $id_addons,
-                'name' => $module_name,
+
+            $list[] = [
+                'name' => $moduleInstalled['name'],
+                'currentVersion' => $moduleInstalled['version'],
             ];
         }
 

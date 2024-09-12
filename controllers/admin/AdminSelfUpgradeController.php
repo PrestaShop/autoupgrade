@@ -311,8 +311,6 @@ class AdminSelfUpgradeController extends ModuleAdminController
             );
 
             $this->upgradeContainer->getState()->initDefault(
-                $upgrader,
-                $this->upgradeContainer->getProperty(UpgradeContainer::PS_ROOT_PATH),
                 $this->upgradeContainer->getProperty(UpgradeContainer::PS_VERSION));
 
             if (isset($_GET['refreshCurrentVersion'])) {

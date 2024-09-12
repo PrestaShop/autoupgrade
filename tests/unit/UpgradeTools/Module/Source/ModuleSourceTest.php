@@ -24,45 +24,23 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\Module;
+use PHPUnit\Framework\TestCase;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\ModuleSource;
 
-use LogicException;
-
-class ModuleUnzipperContext
+class ModuleSourceTest extends TestCase
 {
-    /** @var string */
-    private $zipFullPath;
-
-    /** @var string */
-    private $moduleName;
-
-    public function __construct(string $zipFullPath, string $moduleName)
+    public function testClassIsProperlyCreated()
     {
-        $this->zipFullPath = $zipFullPath;
-        $this->moduleName = $moduleName;
-        $this->validate();
-    }
+        $moduleName = 'TheModule';
+        $newVersion = '9.8.7';
+        $path = '/somewhere/only/we/know.zip';
+        $unzipable = true;
 
-    /**
-     * @throws LogicException
-     */
-    private function validate(): void
-    {
-        if (empty($this->zipFullPath)) {
-            throw new LogicException('Path to zip file is invalid.');
-        }
-        if (empty($this->moduleName)) {
-            throw new LogicException('Module name is invalid.');
-        }
-    }
+        $source = new ModuleSource($moduleName, $newVersion, $path, $unzipable);
 
-    public function getDestinationFilePath(): string
-    {
-        return $this->zipFullPath;
-    }
-
-    public function getModuleName(): string
-    {
-        return $this->moduleName;
+        $this->assertSame('TheModule', $source->getName());
+        $this->assertSame('9.8.7', $source->getNewVersion());
+        $this->assertSame('/somewhere/only/we/know.zip', $source->getPath());
+        $this->assertSame(true, $source->isZipped());
     }
 }

@@ -75,7 +75,7 @@ class ModuleMigration
         $upgradeFiles = [];
 
         foreach ($files as $file) {
-            if (preg_match('/upgrade-(\d+(?:\.\d+){0,2}).php$/', basename($file), $matches)) {
+            if (preg_match('/(?:install|upgrade)-(\d+(?:\.\d+){0,2}).php$/', basename($file), $matches)) {
                 $fileVersion = $matches[1];
                 if (version_compare($fileVersion, $moduleMigrationContext->getDbVersion(), '>') && version_compare($fileVersion, $moduleMigrationContext->getLocalVersion(), '<=')) {
                     $upgradeFiles[] = ['file' => $file, 'version' => $fileVersion];
@@ -148,7 +148,7 @@ class ModuleMigration
     {
         $fileName = basename($filePath);
 
-        preg_match('/upgrade-([\d.]+)\.php$/', $fileName, $matches);
+        preg_match('/(?:install|upgrade)-([\d.]+)\.php$/', $fileName, $matches);
 
         $version = str_replace('.', '_', $matches[1]);
 

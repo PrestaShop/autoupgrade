@@ -114,10 +114,7 @@ class AllUpgradeTasks extends ChainedTasks
     {
         if ($this->step === self::initialTask) {
             parent::init();
-            $this->container->getState()->initDefault(
-                $this->container->getUpgrader(),
-                $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH),
-                $this->container->getProperty(UpgradeContainer::PS_VERSION));
+            $this->container->getState()->initDefault($this->container->getProperty(UpgradeContainer::PS_VERSION));
         }
     }
 }

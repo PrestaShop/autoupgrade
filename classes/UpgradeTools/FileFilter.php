@@ -29,6 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
 use DirectoryIterator;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Services\ComposerService;
 use SplFileInfo;
 
 class FileFilter
@@ -37,6 +38,9 @@ class FileFilter
      * @var UpgradeConfiguration
      */
     protected $configuration;
+
+    /** @var ComposerService */
+    protected $composerService;
 
     /**
      * @var string Autoupgrade sub directory
@@ -61,10 +65,12 @@ class FileFilter
 
     public function __construct(
         UpgradeConfiguration $configuration,
+        ComposerService $composerService,
         string $rootDir,
         string $autoupgradeDir = 'autoupgrade'
     ) {
         $this->configuration = $configuration;
+        $this->composerService = $composerService;
         $this->rootDir = $rootDir;
         $this->autoupgradeDir = $autoupgradeDir;
     }
@@ -148,8 +154,6 @@ class FileFilter
             '/img/logo_stores.gif',
             '/install',
             '/install-dev',
-            // TODO: Uncomment when a better management of modules upgrades is implemented
-            // '/modules',
             '/override',
             '/override/classes',
             '/override/controllers',
@@ -157,7 +161,10 @@ class FileFilter
         ];
 
         // Fetch all existing native modules
-        $nativeModules = $this->getNativeModules();
+        $nativeModules = array_column(
+            $this->composerService->getModulesInComposerLock($this->rootDir . '/composer.lock'),
+            'name'
+        );
 
         if (is_dir($this->rootDir . '/modules')) {
             $dir = new DirectoryIterator($this->rootDir . '/modules');
@@ -195,39 +202,5 @@ class FileFilter
             '.git',
             $this->autoupgradeDir,
         ];
-    }
-
-    /**
-     * Returns an array of native modules
-     *
-     * @return string[]
-     */
-    private function getNativeModules(): array
-    {
-        $composerFile = $this->rootDir . '/composer.lock';
-        if (!file_exists($composerFile)) {
-            return [];
-        }
-        // Native modules are the one integrated in PrestaShop release via composer
-        // so we use the lock files to generate the list
-        $content = file_get_contents($composerFile);
-        $content = json_decode($content, true);
-        if (empty($content['packages'])) {
-            return [];
-        }
-
-        $modules = array_filter($content['packages'], function (array $package) {
-            return self::COMPOSER_PACKAGE_TYPE === $package['type'] && !empty($package['name']);
-        });
-        $modules = array_map(function (array $package) {
-            $vendorName = explode('/', $package['name']);
-
-            return $vendorName[1];
-        }, $modules);
-
-        return array_merge(
-            $modules,
-            self::ADDITIONAL_ALLOWED_MODULES
-        );
     }
 }

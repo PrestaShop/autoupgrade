@@ -23,7 +23,7 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
-function upgrade_module_1_0_1(Module $module): bool
+function upgrade_module_1_0_2(Module $module): bool
 {
     return true;
 }

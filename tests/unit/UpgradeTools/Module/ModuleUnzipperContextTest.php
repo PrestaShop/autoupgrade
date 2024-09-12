@@ -38,7 +38,7 @@ class ModuleUnzipperContextTest extends TestCase
 
         $moduleUnzipperContext = new ModuleUnzipperContext($zipFullPath, $moduleName);
 
-        $this->assertEquals($zipFullPath, $moduleUnzipperContext->getZipFullPath());
+        $this->assertEquals($zipFullPath, $moduleUnzipperContext->getDestinationFilePath());
         $this->assertEquals($moduleName, $moduleUnzipperContext->getModuleName());
     }
 
