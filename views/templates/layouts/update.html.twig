@@ -1,9 +1,9 @@
 {% extends '@ModuleAutoUpgrade/layouts/page.html.twig' %}
 
-{% block page_class %}{{ step }}-page{% endblock %}
+{% block page_class %}{{ step.code }}-page{% endblock %}
 
 {% block title %}
-    <h1>{{ step_title }}</h1>
+    <h1>{{ step.title }}</h1>
 {% endblock %}
 
 {% block content %}

@@ -1,7 +1,7 @@
 {% extends '@ModuleAutoUpgrade/layouts/update.html.twig' %}
 
 {% block content %}
-    {% if step == "update-options" %}
+    {% if step.code == "update-options" %}
         {% include '@ModuleAutoUpgrade/steps/update-options.html.twig' %}
     {#    {% endif %}#}
     {#    {% elseif page == "backup" %}#}

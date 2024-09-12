@@ -2,6 +2,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Controller;
 
+use PrestaShop\Module\AutoUpgrade\VersionUtils;
 use Symfony\Component\HttpFoundation\Request;
 
 class UpdatePageController extends AbstractPageController
@@ -12,23 +13,34 @@ class UpdatePageController extends AbstractPageController
     private $steps = [
             'version-choice' => [
                 'state' => 'normal',
-                'title' => 'Version choice'
+                'title' => 'Version choice',
+                'params' => [
+                    'upToDate',
+                    'noLocalArchive',
+                    'psBaseUri',
+                    'currentPrestashopVersion',
+                    'currentPhpVersion',
+                ]
             ],
             'update-options' => [
                 'state' => 'normal',
-                'title' => 'Update options'
+                'title' => 'Update options',
+                'params' => []
             ],
             'backup' => [
                 'state' => 'normal',
-                'title' => 'Backup'
+                'title' => 'Backup',
+                'params' => []
             ],
             'update' => [
                 'state' => 'normal',
-                'title' => 'Update'
+                'title' => 'Update',
+                'params' => []
             ],
             'post-update' => [
                 'state' => 'normal',
-                'title' => 'Post-update'
+                'title' => 'Post-update',
+                'params' => []
             ]
         ];
 
@@ -36,13 +48,19 @@ class UpdatePageController extends AbstractPageController
     {
         $currentStep = $request->query->get('step') ?? 'version-choice';
 
+        $params = [
+            'step' => [
+                'code' => $currentStep,
+                'title' => $this->getStepName($currentStep),
+            ],
+            'steps' => $this->getSteps($currentStep)
+        ];
+
+        $params = array_merge($params, $this->getStepParams($currentStep));
+
         return $this->renderPage(
             'update',
-            [
-                'step' => $currentStep,
-                'step_title' => $this->getStepName($currentStep),
-                'steps' => $this->getSteps($currentStep)
-            ]
+            $params
         );
     }
 
@@ -64,11 +82,54 @@ class UpdatePageController extends AbstractPageController
             } else {
                 $step['state'] = 'normal';
             }
+
+            unset($step['params']);
         }
 
         return array_values($steps);
     }
 
+    /**
+     * @return array[]
+     */
+    private function getStepParams(string $step): array
+    {
+        if (!isset($this->steps[$step]['params'])) {
+            return [];
+        }
+
+        $inputParams = $this->steps[$step]['params'];
+        $outputParams = [];
+        foreach ($inputParams as $param) {
+            switch ($param) {
+                case $param === 'currentPrestashopVersion':
+                    $outputParams[$param] = $this->upgradeContainer->getProperty($this->upgradeContainer::PS_VERSION);
+                    break;
+                case $param === 'currentPhpVersion':
+                    $outputParams[$param] = VersionUtils::getHumanReadableVersionOf(PHP_VERSION_ID);
+                    break;
+                case $param === 'upToDate':
+                    // TODO
+                    $outputParams[$param] = true;
+                    break;
+                case $param === 'noLocalArchive':
+                    // TODO
+                    $outputParams[$param] = false;
+                    break;
+                case $param === 'psBaseUri':
+                    $outputParams[$param] = __PS_BASE_URI__;
+                    break;
+                default:
+                    $outputParams[$param] = null;
+            }
+        }
+
+        return $outputParams;
+    }
+
+    /**
+     * @return string
+     */
     private function getStepName(string $step): string
     {
         return $this->steps[$step]['title'];
