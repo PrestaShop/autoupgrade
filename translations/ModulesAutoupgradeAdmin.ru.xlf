@@ -541,35 +541,40 @@ Comment: directory already exists</note>
   </file>
   <file original="classes/Task/Upgrade/UpgradeModules.php" source-language="en" target-language="ru" datatype="plaintext">
     <body>
-      <trans-unit id="d2570f64d3e815681ef166d3601a52e6">
-        <source>Updating module %module%...</source>
-        <target state="needs-translation">Updating module %module%...</target>
-        <note>Line: 88</note>
+      <trans-unit id="78c6e760441165ec762746a0ab4b64cd">
+        <source>Checking updates of module %module%...</source>
+        <target state="needs-translation">Checking updates of module %module%...</target>
+        <note>Line: 76</note>
+      </trans-unit>
+      <trans-unit id="2b4da2b27a96bf23f0de18c59e9b1afe">
+        <source>Module %module% is up-to-date.</source>
+        <target state="needs-translation">Module %module% is up-to-date.</target>
+        <note>Line: 82</note>
       </trans-unit>
       <trans-unit id="ec44b213f2da02f294c10211129cdd77">
         <source>[WARNING] Error when trying to retrieve module %s instance.</source>
         <target state="needs-translation">[WARNING] Error when trying to retrieve module %s instance.</target>
-        <note>Line: 100</note>
+        <note>Line: 93</note>
       </trans-unit>
       <trans-unit id="a5db680b38097b4289b24d4925b8368e">
         <source>Module %s does not need to be migrated. Module is up to date.</source>
         <target state="needs-translation">Module %s does not need to be migrated. Module is up to date.</target>
-        <note>Line: 106</note>
+        <note>Line: 99</note>
       </trans-unit>
-      <trans-unit id="d88a8630bd4e8fdbd61c550e53d62a94" approved="yes">
-        <source>%s modules left to upgrade.</source>
-        <target state="final">осталось обновить модулей: %s.</target>
-        <note>Line: 131</note>
+      <trans-unit id="f88f4492f3805f4732cda67d58b70cc4">
+        <source>%s modules left to update.</source>
+        <target state="needs-translation">%s modules left to update.</target>
+        <note>Line: 127</note>
       </trans-unit>
-      <trans-unit id="f0d18de100ab33463602ea5b8165d842" approved="yes">
-        <source>Addons modules files have been upgraded.</source>
-        <target state="final">Модули дополнений были обновлены.</target>
-        <note>Line: 136</note>
+      <trans-unit id="d47b7d2553af843c2c037185c0279268">
+        <source>All modules have been updated.</source>
+        <target state="needs-translation">All modules have been updated.</target>
+        <note>Line: 132</note>
       </trans-unit>
       <trans-unit id="0530243ad5b9bd205a04b975d3ef8aaf" approved="yes">
         <source>%s modules will be upgraded.</source>
         <target state="final">будет обновлено модулей: %s.</target>
-        <note>Line: 203</note>
+        <note>Line: 160</note>
       </trans-unit>
     </body>
   </file>
@@ -1159,46 +1164,36 @@ Comment: check DB access</note>
       <trans-unit id="a739fd67729d2f540137b85917f13a21">
         <source>[ERROR] %dir% does not exist or is not a directory.</source>
         <target state="needs-translation">[ERROR] %dir% does not exist or is not a directory.</target>
-        <note>Line: 129</note>
+        <note>Line: 142</note>
       </trans-unit>
       <trans-unit id="99f0e3a6d61b6d39da9213c647fd35ce">
         <source>[ERROR] %s does not exist or is not a directory.</source>
         <target state="needs-translation">[ERROR] %s does not exist or is not a directory.</target>
-        <note>Line: 129</note>
+        <note>Line: 142</note>
       </trans-unit>
     </body>
   </file>
   <file original="classes/UpgradeTools/Module/ModuleDownloader.php" source-language="en" target-language="ru" datatype="plaintext">
     <body>
-      <trans-unit id="6b9ba379ceafd6e4308df511a029ffcd">
-        <source>[WARNING] An error occurred while downloading module %s, the received file is empty.</source>
-        <target state="needs-translation">[WARNING] An error occurred while downloading module %s, the received file is empty.</target>
-        <note>Line: 73</note>
+      <trans-unit id="de4c47f6bfc2283a2424f2e4610e06ea">
+        <source>Download of source #%s has failed.</source>
+        <target state="needs-translation">Download of source #%s has failed.</target>
+        <note>Line: 72</note>
       </trans-unit>
-      <trans-unit id="57898e974b7f70ea451b60dd2dca3929">
-        <source>Local module %s successfully copied.</source>
-        <target state="needs-translation">Local module %s successfully copied.</target>
-        <note>Line: 87</note>
+      <trans-unit id="88a8e935ad1b255eae2a4c490886b83a">
+        <source><![CDATA[Module %s update files (%s => %s) have been fetched from %s.]]></source>
+        <target state="needs-translation"><![CDATA[Module %s update files (%s => %s) have been fetched from %s.]]></target>
+        <note>Line: 103</note>
       </trans-unit>
-      <trans-unit id="6f2a7cdadd0626e3a0c375e39564beff">
-        <source>Can not found or copy local module %s. Trying to download it from Addons.</source>
-        <target state="needs-translation">Can not found or copy local module %s. Trying to download it from Addons.</target>
-        <note>Line: 91</note>
-      </trans-unit>
-      <trans-unit id="37a7fd9b821f1ee910fe84bd47d5efe9">
-        <source>[WARNING] No response from Addons server.</source>
-        <target state="needs-translation">[WARNING] No response from Addons server.</target>
+      <trans-unit id="83e483e14240bf9d88eff9fa253133ca">
+        <source>The received module archive is empty.</source>
+        <target state="needs-translation">The received module archive is empty.</target>
         <note>Line: 119</note>
       </trans-unit>
-      <trans-unit id="dcfe99d4f8db68d3dfb01d476b2a6776">
-        <source>[WARNING] Unable to write module %s's zip file in temporary directory.</source>
-        <target state="needs-translation">[WARNING] Unable to write module %s's zip file in temporary directory.</target>
-        <note>Line: 123</note>
-      </trans-unit>
-      <trans-unit id="7c4e820dec375d651a3a486c7b932b70">
-        <source>Module %s has been successfully downloaded from Addons.</source>
-        <target state="needs-translation">Module %s has been successfully downloaded from Addons.</target>
-        <note>Line: 126</note>
+      <trans-unit id="7a0dd1e622442e88dc5c8cf1520997b4">
+        <source>Invalid contents from provider (Got an XML file).</source>
+        <target state="needs-translation">Invalid contents from provider (Got an XML file).</target>
+        <note>Line: 124</note>
       </trans-unit>
     </body>
   </file>
@@ -1243,10 +1238,10 @@ Comment: check DB access</note>
   </file>
   <file original="classes/UpgradeTools/Module/ModuleUnzipper.php" source-language="en" target-language="ru" datatype="plaintext">
     <body>
-      <trans-unit id="8ed212a996fe818de7fcb6dd7e89a1b7">
-        <source>[WARNING] Error when trying to extract module %s.</source>
-        <target state="needs-translation">[WARNING] Error when trying to extract module %s.</target>
-        <note>Line: 58</note>
+      <trans-unit id="212d17b84ed7ed05df35b5fb0c805eea">
+        <source>Error when trying to extract module %s.</source>
+        <target state="needs-translation">Error when trying to extract module %s.</target>
+        <note>Line: 61</note>
       </trans-unit>
     </body>
   </file>
@@ -1432,17 +1427,17 @@ Comment: check DB access</note>
       <trans-unit id="92a5801448b25f111961462b0b31995d" approved="yes">
         <source>Unable to create file %s</source>
         <target state="final">Невозможно создать файл %s</target>
-        <note>Line: 360</note>
+        <note>Line: 358</note>
       </trans-unit>
       <trans-unit id="56195ded2802813800f43e3be1babe1c" approved="yes">
         <source>Error when trying to delete backups %s</source>
         <target state="final">Ошибка при удалении резервных копий %s </target>
-        <note>Line: 407</note>
+        <note>Line: 405</note>
       </trans-unit>
       <trans-unit id="f4eb320e09f7ef88a627229870458454">
         <source>The module %s requires PHP %s to work properly. Please upgrade your server configuration.</source>
         <target state="needs-translation">The module %s requires PHP %s to work properly. Please upgrade your server configuration.</target>
-        <note>Line: 451</note>
+        <note>Line: 449</note>
       </trans-unit>
     </body>
   </file>
