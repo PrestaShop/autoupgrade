@@ -1,8 +1,8 @@
 <div id="update_assistant" class="{{ ps_version }}">
-    {% if page == "welcome" %}
-        {% include '@ModuleAutoUpgrade/layouts/welcome.html.twig' %}
-    {% elseif page == "upgrade" %}
-        {% include '@ModuleAutoUpgrade/layouts/upgrade.html.twig' %}
+    {% if page == "home" %}
+        {% include '@ModuleAutoUpgrade/pages/home.html.twig' %}
+    {% elseif page == "update" %}
+        {% include '@ModuleAutoUpgrade/pages/update.html.twig' %}
     {% elseif page == "rollback" %}
         {% include '@ModuleAutoUpgrade/layouts/rollback.html.twig' %}
     {% endif %}

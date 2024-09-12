@@ -29,7 +29,7 @@ import RadioCard from "../components/RadioCard.stories";
 
 export default {
   component: VersionChoiceLayout,
-  title: "Layouts/Pages/Version choice",
+  title: "Layouts/Pages/Update/Version choice",
   args: {
     psBaseUri: "/",
     upToDate: true,

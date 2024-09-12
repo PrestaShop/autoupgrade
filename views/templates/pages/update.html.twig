@@ -1,0 +1,16 @@
+{% extends '@ModuleAutoUpgrade/layouts/update.html.twig' %}
+
+{% block content %}
+    {% if step == "update-options" %}
+        {% include '@ModuleAutoUpgrade/steps/update-options.html.twig' %}
+    {#    {% endif %}#}
+    {#    {% elseif page == "backup" %}#}
+    {#        {% include '@ModuleAutoUpgrade/pages/backup.html.twig' %}#}
+    {#    {% elseif page == "update" %}#}
+    {#        {% include '@ModuleAutoUpgrade/pages/update.html.twig' %}#}
+    {#    {% elseif page == "post-update" %}#}
+    {#        {% include '@ModuleAutoUpgrade/layouts/post-update.html.twig' %}#}
+    {% else %}
+        {% include '@ModuleAutoUpgrade/steps/version-choice.html.twig' %}
+    {% endif %}
+{% endblock %}

@@ -23,12 +23,12 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-import WelcomeLayout from "../../../views/templates/layouts/welcome.html.twig";
+import WelcomeLayout from "../../../views/templates/pages/home.html.twig";
 import RadioCard from "../components/RadioCard.stories";
 
 export default {
   component: WelcomeLayout,
-  title: "Layouts/Pages/Welcome",
+  title: "Layouts/Pages/Home",
   args: {
     ...RadioCard.args,
     badgeLabel: "",

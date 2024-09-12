@@ -24,14 +24,14 @@
  */
 
 import BaseLayout from "../../../views/templates/layouts/layout.html.twig";
-import Welcome from "./Welcome.stories";
+import Home from "../pages/Home.stories";
 
 export default {
   component: BaseLayout,
   title: "Layouts/Pages/Layout test",
   args: {
-    ...Welcome.args,
-    page: "welcome",
+    ...Home.args,
+    page: "home",
     ps_version: "ps_version",
     empty_backup: true,
   },

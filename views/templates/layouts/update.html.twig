@@ -1,15 +1,12 @@
 {% extends '@ModuleAutoUpgrade/layouts/page.html.twig' %}
 
-{% block page_class %}update-page{% endblock %}
+{% block page_class %}{{ step }}-page{% endblock %}
 
 {% block title %}
-    <h1>{{ 'Update'|trans({}) }}</h1>
+    <h1>{{ step_title }}</h1>
 {% endblock %}
 
 {% block content %}
-    {% include '@ModuleAutoUpgrade/components/logs-progress.html.twig' %}
-
-    {% include '@ModuleAutoUpgrade/components/logs.html.twig' %}
 {% endblock %}
 
 {% block buttons_inner %}

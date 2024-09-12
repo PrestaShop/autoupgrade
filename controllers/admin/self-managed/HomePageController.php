@@ -4,7 +4,7 @@ namespace PrestaShop\Module\AutoUpgrade\Controller;
 
 use PrestaShop\Module\AutoUpgrade\BackupFinder;
 
-class WelcomeController extends AbstractPageController
+class HomePageController extends AbstractPageController
 {
     public function index(): string
     {
@@ -12,7 +12,7 @@ class WelcomeController extends AbstractPageController
         $backupFinder = new BackupFinder($backupPath);
 
         return $this->renderPage(
-            'welcome',
+            'home',
             [
                 'empty_backup' => empty($backupFinder->getAvailableBackups()),
             ]

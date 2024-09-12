@@ -23,7 +23,7 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-import UpdateLayout from "../../../views/templates/layouts/update.html.twig";
+import UpdateLayout from "../../../views/templates/pages/update.html.twig";
 import LogsProgress from "../components/LogsProgress.stories";
 import Logs from "../components/Logs.stories";
 
