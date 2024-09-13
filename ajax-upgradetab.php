@@ -27,6 +27,8 @@
 
 use PrestaShop\Module\AutoUpgrade\Task\Runner\SingleTask;
 use PrestaShop\Module\AutoUpgrade\Tools14;
+use PrestaShop\Module\AutoUpgrade\Router\Router;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * This file is the entrypoint for all ajax requests during a upgrade, rollback or configuration.
@@ -49,7 +51,15 @@ if (!$container->getCookie()->check($_COOKIE)) {
     exit(1);
 }
 
-$controller = new SingleTask($container);
-$controller->setOptions(['action' => Tools14::getValue('action')]);
-$controller->run();
-echo $controller->getJsonResponse();
+$action = Tools14::getValue('action');
+
+if (!empty($action)) {
+    $controller = new SingleTask($container);
+    $controller->setOptions(['action' => $action]);
+    $controller->run();
+    echo $controller->getJsonResponse();
+} else {
+    echo (new Router($container))->handle(Request::createFromGlobals());
+}
+
+
