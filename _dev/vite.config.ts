@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
+import del from 'rollup-plugin-delete';
 
 export default defineConfig({
   base: './',
@@ -37,6 +38,17 @@ export default defineConfig({
     }
   },
   plugins: [
+    del({
+      targets: [
+        resolve(__dirname, '../views/js/*'),
+        resolve(__dirname, '../views/css/*'),
+        resolve(__dirname, '../views/img/*'),
+        resolve(__dirname, '../views/assets/*')
+      ],
+      force: true,
+      verbose: true,
+      hook: 'buildStart'
+    }),
     viteStaticCopy({
       targets: [
         {
