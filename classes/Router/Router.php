@@ -3,7 +3,7 @@
 namespace PrestaShop\Module\AutoUpgrade\Router;
 
 use PrestaShop\Module\AutoUpgrade\Controller\HomePageController;
-use PrestaShop\Module\AutoUpgrade\Controller\UpdatePageController;
+use PrestaShop\Module\AutoUpgrade\Controller\UpdateVersionChoicePageController;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -23,12 +23,10 @@ class Router
         'home' => [
             'controller' => HomePageController::class,
             'method' => 'index',
-            'params' => [],
         ],
-        'update' => [
-            'controller' => UpdatePageController::class,
+        'update-version-choice' => [
+            'controller' => UpdateVersionChoicePageController::class,
             'method' => 'index',
-            'params' => [],
         ]
     ];
 

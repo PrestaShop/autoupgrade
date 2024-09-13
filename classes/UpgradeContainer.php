@@ -40,6 +40,7 @@ use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension;
 use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension3;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\CacheCleaner;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FileFilter;
+use PrestaShop\Module\AutoUpgrade\Repository\LocalArchiveRepository;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\AbstractModuleSourceProvider;
@@ -183,6 +184,11 @@ class UpgradeContainer
      * @var ZipAction
      */
     private $zipAction;
+
+    /**
+     * @var LocalArchiveRepository
+     */
+    private $localArchiveRepository;
 
     /**
      * AdminSelfUpgrade::$autoupgradePath
@@ -565,7 +571,7 @@ class UpgradeContainer
     /**
      * @throws LoaderError
      *
-     * @return \Twig\Environment
+     * @return Twig_Environment | Environment
      */
     public function getTwig()
     {
@@ -685,6 +691,18 @@ class UpgradeContainer
             $this->getProperty(self::PS_ROOT_PATH));
 
         return $this->zipAction;
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getLocalArchiveRepository(): LocalArchiveRepository
+    {
+        if (null !== $this->localArchiveRepository) {
+            return $this->localArchiveRepository;
+        }
+
+        return $this->localArchiveRepository = new LocalArchiveRepository($this->getProperty($this::DOWNLOAD_PATH));
     }
 
     /**

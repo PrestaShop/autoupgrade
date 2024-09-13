@@ -4,9 +4,14 @@ namespace PrestaShop\Module\AutoUpgrade\Controller;
 
 class AbstractPageController extends AbstractGlobalController
 {
-    public function psVersionClass(): string
+    protected function getPsVersion(): string
     {
-        $psVersion = $this->upgradeContainer->getProperty($this->upgradeContainer::PS_VERSION);
+        return $this->upgradeContainer->getProperty($this->upgradeContainer::PS_VERSION);
+    }
+
+    private function getPsVersionClass(): string
+    {
+        $psVersion = $this->getPsVersion();
         $psClass = '';
 
         if (version_compare($psVersion, '1.7.8.0', '<')) {
@@ -25,7 +30,7 @@ class AbstractPageController extends AbstractGlobalController
             array_merge(
                 [
                     'page' => $page,
-                    'ps_version' => $this->psVersionClass(),
+                    'ps_version' => $this->getPsVersionClass(),
                 ],
                 $params
             )
