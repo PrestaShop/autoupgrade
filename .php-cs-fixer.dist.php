@@ -7,6 +7,7 @@ $config
     ->getFinder()
     ->in(__DIR__)
     ->exclude('vendor')
-    ->exclude('node_modules');
+    ->exclude('node_modules')
+    ->exclude('storybook/var/cache');
 
 return $config;
