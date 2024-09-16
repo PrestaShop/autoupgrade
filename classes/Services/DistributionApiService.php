@@ -28,6 +28,7 @@
 namespace PrestaShop\Module\AutoUpgrade\Services;
 
 use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
+use PrestaShop\Module\AutoUpgrade\Models\PrestashopRelease;
 
 class DistributionApiService
 {
@@ -56,5 +57,35 @@ class DistributionApiService
             }
         }
         throw new DistributionApiException('No version match in Distribution api for ' . $targetVersion, DistributionApiException::VERSION_NOT_FOUND_CODE);
+    }
+
+    /**
+     * @throws DistributionApiException
+     *
+     * @return PrestashopRelease[]
+     */
+    public function getReleases(): array
+    {
+        $response = @file_get_contents(self::API_URL . '/prestashop');
+
+        if (!$response) {
+            throw new DistributionApiException('Error when retrieving Prestashop versions from Distribution api', DistributionApiException::API_NOT_CALLABLE_CODE);
+        } else {
+            $releases = [];
+            $data = json_decode($response, true);
+            foreach ($data as $versionInfo) {
+                $releases[] = new PrestashopRelease(
+                    $versionInfo['version'],
+                    $versionInfo['php_max_version'],
+                    $versionInfo['php_min_version'],
+                    $versionInfo['zip_download_url'],
+                    $versionInfo['xml_download_url'],
+                    $versionInfo['zip_md5'],
+                    $versionInfo['stability']
+                );
+            }
+
+            return $releases;
+        }
     }
 }
