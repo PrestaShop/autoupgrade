@@ -58,7 +58,7 @@ class UpdateSteps
 
         $foundCurrentStep = false;
 
-        foreach ($steps as $key => & $step) {
+        foreach ($steps as $key => &$step) {
             if ($key === $currentStep) {
                 $step['state'] = $this::STATE_CURRENT;
                 $foundCurrentStep = true;
