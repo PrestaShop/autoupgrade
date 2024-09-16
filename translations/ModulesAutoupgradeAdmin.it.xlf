@@ -541,35 +541,40 @@ Comment: directory already exists</note>
   </file>
   <file original="classes/Task/Upgrade/UpgradeModules.php" source-language="en" target-language="it" datatype="plaintext">
     <body>
-      <trans-unit id="d2570f64d3e815681ef166d3601a52e6">
-        <source>Updating module %module%...</source>
-        <target state="needs-translation">Updating module %module%...</target>
-        <note>Line: 88</note>
+      <trans-unit id="78c6e760441165ec762746a0ab4b64cd">
+        <source>Checking updates of module %module%...</source>
+        <target state="needs-translation">Checking updates of module %module%...</target>
+        <note>Line: 76</note>
+      </trans-unit>
+      <trans-unit id="2b4da2b27a96bf23f0de18c59e9b1afe">
+        <source>Module %module% is up-to-date.</source>
+        <target state="needs-translation">Module %module% is up-to-date.</target>
+        <note>Line: 82</note>
       </trans-unit>
       <trans-unit id="ec44b213f2da02f294c10211129cdd77">
         <source>[WARNING] Error when trying to retrieve module %s instance.</source>
         <target state="needs-translation">[WARNING] Error when trying to retrieve module %s instance.</target>
-        <note>Line: 100</note>
+        <note>Line: 93</note>
       </trans-unit>
       <trans-unit id="a5db680b38097b4289b24d4925b8368e">
         <source>Module %s does not need to be migrated. Module is up to date.</source>
         <target state="needs-translation">Module %s does not need to be migrated. Module is up to date.</target>
-        <note>Line: 106</note>
+        <note>Line: 99</note>
       </trans-unit>
-      <trans-unit id="d88a8630bd4e8fdbd61c550e53d62a94" approved="yes">
-        <source>%s modules left to upgrade.</source>
-        <target state="final">Rimasti da aggiornare %s moduli.</target>
-        <note>Line: 131</note>
+      <trans-unit id="f88f4492f3805f4732cda67d58b70cc4">
+        <source>%s modules left to update.</source>
+        <target state="needs-translation">%s modules left to update.</target>
+        <note>Line: 127</note>
       </trans-unit>
-      <trans-unit id="f0d18de100ab33463602ea5b8165d842" approved="yes">
-        <source>Addons modules files have been upgraded.</source>
-        <target state="final">I file dei moduli addons sono stati aggiornati.</target>
-        <note>Line: 136</note>
+      <trans-unit id="d47b7d2553af843c2c037185c0279268">
+        <source>All modules have been updated.</source>
+        <target state="needs-translation">All modules have been updated.</target>
+        <note>Line: 132</note>
       </trans-unit>
       <trans-unit id="0530243ad5b9bd205a04b975d3ef8aaf" approved="yes">
         <source>%s modules will be upgraded.</source>
         <target state="final">%s moduli saranno aggiornati.</target>
-        <note>Line: 203</note>
+        <note>Line: 160</note>
       </trans-unit>
     </body>
   </file>
@@ -858,6 +863,60 @@ Comment: directory already exists</note>
       </trans-unit>
     </body>
   </file>
+  <file original="classes/UpgradeSelfCheck.php" source-language="en" target-language="it" datatype="plaintext">
+    <body>
+      <trans-unit id="edba86965121a77bf6e1b0cf4807becf">
+        <source><![CDATA[Your store's root directory isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></source>
+        <target state="needs-translation"><![CDATA[Your store's root directory isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></target>
+        <note>Line: 245</note>
+      </trans-unit>
+      <trans-unit id="386111d529c909238e33d642d0c35c0e">
+        <source>Maintenance mode needs to be enabled. Enable maintenance mode and add your maintenance IP.</source>
+        <target state="needs-translation">Maintenance mode needs to be enabled. Enable maintenance mode and add your maintenance IP.</target>
+        <note>Line: 266</note>
+      </trans-unit>
+      <trans-unit id="e05ace6fd033aad1296386cf51776dad">
+        <source>PrestaShop's caching features needs to be disabled.</source>
+        <target state="needs-translation">PrestaShop's caching features needs to be disabled.</target>
+        <note>Line: 270</note>
+      </trans-unit>
+      <trans-unit id="c99a5e5e996f81396e5c3f3055d3ea11">
+        <source>PHP's max_execution_time setting needs to have a high value or needs to be disabled entirely (current value: %s seconds)</source>
+        <target state="needs-translation">PHP's max_execution_time setting needs to have a high value or needs to be disabled entirely (current value: %s seconds)</target>
+        <note>Line: 274</note>
+      </trans-unit>
+      <trans-unit id="e469f21f7c9e2988397986b161345171">
+        <source>The following PHP extension%s need%s to be installed:</source>
+        <target state="needs-translation">The following PHP extension%s need%s to be installed:</target>
+        <note>Line: 285</note>
+      </trans-unit>
+      <trans-unit id="02f31136ff84e0c27a0a7d3328596fcd">
+        <source>The following PHP function%s need%s to be allowed:</source>
+        <target state="needs-translation">The following PHP function%s need%s to be allowed:</target>
+        <note>Line: 293</note>
+      </trans-unit>
+      <trans-unit id="bff482e6212a866690c7a81fac9ea04b">
+        <source><![CDATA[It's not possible to write in the following folders, please provide write access to the user running PHP with appropriate permission & ownership:]]></source>
+        <target state="needs-translation"><![CDATA[It's not possible to write in the following folders, please provide write access to the user running PHP with appropriate permission & ownership:]]></target>
+        <note>Line: 310</note>
+      </trans-unit>
+      <trans-unit id="72562d8e237567846f4c37c1bff5f04b">
+        <source>Your current version of the module is outdated.</source>
+        <target state="needs-translation">Your current version of the module is outdated.</target>
+        <note>Line: 319</note>
+      </trans-unit>
+      <trans-unit id="5163e27794d02cf99911da9f1bec323d">
+        <source>Some core files have been altered, customization made on these files will be lost during the update:</source>
+        <target state="needs-translation">Some core files have been altered, customization made on these files will be lost during the update:</target>
+        <note>Line: 326</note>
+      </trans-unit>
+      <trans-unit id="5ae505096414401ddbb2affa6620a869">
+        <source>Unknown requirement.</source>
+        <target state="needs-translation">Unknown requirement.</target>
+        <note>Line: 330</note>
+      </trans-unit>
+    </body>
+  </file>
   <file original="classes/UpgradeTools/CacheCleaner.php" source-language="en" target-language="it" datatype="plaintext">
     <body>
       <trans-unit id="9dcf84f429818d396d05335d52ef5f42" approved="yes">
@@ -1105,46 +1164,36 @@ Comment: check DB access</note>
       <trans-unit id="a739fd67729d2f540137b85917f13a21">
         <source>[ERROR] %dir% does not exist or is not a directory.</source>
         <target state="needs-translation">[ERROR] %dir% does not exist or is not a directory.</target>
-        <note>Line: 129</note>
+        <note>Line: 142</note>
       </trans-unit>
       <trans-unit id="99f0e3a6d61b6d39da9213c647fd35ce">
         <source>[ERROR] %s does not exist or is not a directory.</source>
         <target state="needs-translation">[ERROR] %s does not exist or is not a directory.</target>
-        <note>Line: 129</note>
+        <note>Line: 142</note>
       </trans-unit>
     </body>
   </file>
   <file original="classes/UpgradeTools/Module/ModuleDownloader.php" source-language="en" target-language="it" datatype="plaintext">
     <body>
-      <trans-unit id="6b9ba379ceafd6e4308df511a029ffcd">
-        <source>[WARNING] An error occurred while downloading module %s, the received file is empty.</source>
-        <target state="needs-translation">[WARNING] An error occurred while downloading module %s, the received file is empty.</target>
-        <note>Line: 73</note>
+      <trans-unit id="de4c47f6bfc2283a2424f2e4610e06ea">
+        <source>Download of source #%s has failed.</source>
+        <target state="needs-translation">Download of source #%s has failed.</target>
+        <note>Line: 72</note>
       </trans-unit>
-      <trans-unit id="57898e974b7f70ea451b60dd2dca3929">
-        <source>Local module %s successfully copied.</source>
-        <target state="needs-translation">Local module %s successfully copied.</target>
-        <note>Line: 87</note>
+      <trans-unit id="88a8e935ad1b255eae2a4c490886b83a">
+        <source><![CDATA[Module %s update files (%s => %s) have been fetched from %s.]]></source>
+        <target state="needs-translation"><![CDATA[Module %s update files (%s => %s) have been fetched from %s.]]></target>
+        <note>Line: 103</note>
       </trans-unit>
-      <trans-unit id="6f2a7cdadd0626e3a0c375e39564beff">
-        <source>Can not found or copy local module %s. Trying to download it from Addons.</source>
-        <target state="needs-translation">Can not found or copy local module %s. Trying to download it from Addons.</target>
-        <note>Line: 91</note>
-      </trans-unit>
-      <trans-unit id="37a7fd9b821f1ee910fe84bd47d5efe9">
-        <source>[WARNING] No response from Addons server.</source>
-        <target state="needs-translation">[WARNING] No response from Addons server.</target>
+      <trans-unit id="83e483e14240bf9d88eff9fa253133ca">
+        <source>The received module archive is empty.</source>
+        <target state="needs-translation">The received module archive is empty.</target>
         <note>Line: 119</note>
       </trans-unit>
-      <trans-unit id="dcfe99d4f8db68d3dfb01d476b2a6776">
-        <source>[WARNING] Unable to write module %s's zip file in temporary directory.</source>
-        <target state="needs-translation">[WARNING] Unable to write module %s's zip file in temporary directory.</target>
-        <note>Line: 123</note>
-      </trans-unit>
-      <trans-unit id="7c4e820dec375d651a3a486c7b932b70">
-        <source>Module %s has been successfully downloaded from Addons.</source>
-        <target state="needs-translation">Module %s has been successfully downloaded from Addons.</target>
-        <note>Line: 126</note>
+      <trans-unit id="7a0dd1e622442e88dc5c8cf1520997b4">
+        <source>Invalid contents from provider (Got an XML file).</source>
+        <target state="needs-translation">Invalid contents from provider (Got an XML file).</target>
+        <note>Line: 124</note>
       </trans-unit>
     </body>
   </file>
@@ -1189,10 +1238,10 @@ Comment: check DB access</note>
   </file>
   <file original="classes/UpgradeTools/Module/ModuleUnzipper.php" source-language="en" target-language="it" datatype="plaintext">
     <body>
-      <trans-unit id="8ed212a996fe818de7fcb6dd7e89a1b7">
-        <source>[WARNING] Error when trying to extract module %s.</source>
-        <target state="needs-translation">[WARNING] Error when trying to extract module %s.</target>
-        <note>Line: 58</note>
+      <trans-unit id="212d17b84ed7ed05df35b5fb0c805eea">
+        <source>Error when trying to extract module %s.</source>
+        <target state="needs-translation">Error when trying to extract module %s.</target>
+        <note>Line: 61</note>
       </trans-unit>
     </body>
   </file>
@@ -1378,17 +1427,17 @@ Comment: check DB access</note>
       <trans-unit id="92a5801448b25f111961462b0b31995d" approved="yes">
         <source>Unable to create file %s</source>
         <target state="final">Impossibile creare il file %s</target>
-        <note>Line: 360</note>
+        <note>Line: 358</note>
       </trans-unit>
       <trans-unit id="56195ded2802813800f43e3be1babe1c" approved="yes">
         <source>Error when trying to delete backups %s</source>
         <target state="final">Si è verificato un errore durante il tentativo di cancellazione dei backup %s</target>
-        <note>Line: 407</note>
+        <note>Line: 405</note>
       </trans-unit>
       <trans-unit id="f4eb320e09f7ef88a627229870458454">
         <source>The module %s requires PHP %s to work properly. Please upgrade your server configuration.</source>
         <target state="needs-translation">The module %s requires PHP %s to work properly. Please upgrade your server configuration.</target>
-        <note>Line: 451</note>
+        <note>Line: 449</note>
       </trans-unit>
     </body>
   </file>
@@ -1497,6 +1546,11 @@ Comment: check DB access</note>
   </file>
   <file original="views/templates/block/checklist.html.twig" source-language="en" target-language="it" datatype="plaintext">
     <body>
+      <trans-unit id="a4cc32e6dad17557895cc94c85c883e8">
+        <source>Your current PHP version isn't compatible with your PrestaShop version. (Expected: %s - %s | Current: %s)</source>
+        <target state="needs-translation">Your current PHP version isn't compatible with your PrestaShop version. (Expected: %s - %s | Current: %s)</target>
+        <note>Line: 24</note>
+      </trans-unit>
       <trans-unit id="8406b91fd5a290de3a1e1516db6e79b8" approved="yes">
         <source>Unable to generate private keys using openssl_pkey_new. Check your OpenSSL configuration, especially the path to openssl.cafile.</source>
         <target state="final">Impossibile generare chiavi private utilizzando openssl_pkey_new. Controlla la tua configurazione OpenSSL, in particolare il percorso di openssl.cafile.</target>
@@ -1531,11 +1585,6 @@ Comment: check DB access</note>
         <source>Before starting the upgrade process, please make sure this checklist is all green.</source>
         <target state="final">Prima di iniziare il processo di aggiornamento, si prega di assicurarsi che la checklist sia tutta verde.</target>
         <note>Line: 18</note>
-      </trans-unit>
-      <trans-unit id="a4cc32e6dad17557895cc94c85c883e8">
-        <source>Your current PHP version isn't compatible with your PrestaShop version. (Expected: %s - %s | Current: %s)</source>
-        <target state="needs-translation">Your current PHP version isn't compatible with your PrestaShop version. (Expected: %s - %s | Current: %s)</target>
-        <note>Line: 24</note>
       </trans-unit>
       <trans-unit id="50a5bcb757b1a7705007720863250da8" approved="yes">
         <source>Your store's root directory (%s) is writable (with appropriate CHMOD permissions).</source>
@@ -1627,30 +1676,25 @@ Comment: check DB access</note>
         <target state="final">Impossibile creare una sessione PHP.</target>
         <note>Line: 185</note>
       </trans-unit>
-      <trans-unit id="e78a48236a7c0830aa9de157a415e44c" approved="yes">
-        <source>The following files are missing:</source>
-        <target state="final">I file seguenti sono mancanti:</target>
-        <note>Line: 198</note>
-      </trans-unit>
       <trans-unit id="588aebafed7c857178f75431b5af7d58" approved="yes">
         <source>It's not possible to write in the following folders:</source>
         <target state="final">Impossibile scrivere nelle seguenti cartelle:</target>
-        <note>Line: 211</note>
+        <note>Line: 198</note>
       </trans-unit>
       <trans-unit id="3f3a0789a5678daaa3cd41067dd6855e">
         <source>The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table. [1]Learn more[/1].</source>
         <target state="needs-translation">The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table. [1]Learn more[/1].</target>
-        <note>Line: 224</note>
+        <note>Line: 211</note>
       </trans-unit>
       <trans-unit id="aa9b0228ac4e3e44b836f79eebf5e481" approved="yes">
         <source>Please also make sure you make a full manual backup of your files and database.</source>
         <target state="final">Assicurati di fare un backup manuale completo dei files e del database.</target>
-        <note>Line: 234</note>
+        <note>Line: 221</note>
       </trans-unit>
       <trans-unit id="2f5caf188163a31f04c828530331b096" approved="yes">
         <source>PrestaShop requirements are not satisfied.</source>
         <target state="final">I requisiti di PrestaShop non sono soddisfatti.</target>
-        <note>Line: 236</note>
+        <note>Line: 223</note>
       </trans-unit>
     </body>
   </file>
@@ -1897,9 +1941,9 @@ Comment: check DB access</note>
         <target state="final">Per favore seleziona il tuo canale:</target>
         <note>Line: 83</note>
       </trans-unit>
-      <trans-unit id="cdcf07ad291a3b7a0cc30b870705ba63" approved="yes">
-        <source>Channels are offering you different ways to perform an upgrade. You can either upload the new version manually or let the 1-Click Upgrade module download it for you.</source>
-        <target state="final">I Canali ti offrono modi differenti per effettuare un aggiornamento. Puoi caricare manualmente la nuova versione o lasciare che il modulo Aggiornamento in 1-Click lo scarichi per te.</target>
+      <trans-unit id="0208f99ea55e5b45056b692a7cc824e2">
+        <source>Channels are offering you different ways to perform an upgrade. You can either upload the new version manually or let the Update assistant module download it for you.</source>
+        <target state="needs-translation">Channels are offering you different ways to perform an upgrade. You can either upload the new version manually or let the Update assistant module download it for you.</target>
         <note>Line: 85</note>
       </trans-unit>
       <trans-unit id="87ad8a8ff4a99ffd2e72d5e69765f830" approved="yes">
@@ -1999,6 +2043,46 @@ Comment: check DB access</note>
   </file>
   <file original="views/templates/components/check-requirements.html.twig" source-language="en" target-language="it" datatype="plaintext">
     <body>
+      <trans-unit id="d7238cb2856938b3986f300a67e00480">
+        <source><![CDATA[The "/admin/autoupgrade" directory isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></source>
+        <target state="needs-translation"><![CDATA[The "/admin/autoupgrade" directory isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></target>
+        <note>Line: 50</note>
+      </trans-unit>
+      <trans-unit id="abfe505ee370819199423ad97df77dec">
+        <source>PHP's "Safe mode" needs to be disabled.</source>
+        <target state="needs-translation">PHP's "Safe mode" needs to be disabled.</target>
+        <note>Line: 57</note>
+      </trans-unit>
+      <trans-unit id="a4cbbaa504b6e21c9152bc783cf68aba">
+        <source>Files can't be downloaded. Enable PHP's "allow_url_fopen" option or install PHP extension "cURL".</source>
+        <target state="needs-translation">Files can't be downloaded. Enable PHP's "allow_url_fopen" option or install PHP extension "cURL".</target>
+        <note>Line: 64</note>
+      </trans-unit>
+      <trans-unit id="f331b3e71fc229a1cfd1aaa3241be853">
+        <source>Missing PHP extension "zip".</source>
+        <target state="needs-translation">Missing PHP extension "zip".</target>
+        <note>Line: 71</note>
+      </trans-unit>
+      <trans-unit id="26da0df3cbdf0052c8f1205b40ad5072">
+        <source>Apache mod_rewrite needs to be enabled.</source>
+        <target state="needs-translation">Apache mod_rewrite needs to be enabled.</target>
+        <note>Line: 109</note>
+      </trans-unit>
+      <trans-unit id="a220e0ac5c6f7fa8692c131148ed050a">
+        <source>PHP memory_limit needs to be greater than 256 MB.</source>
+        <target state="needs-translation">PHP memory_limit needs to be greater than 256 MB.</target>
+        <note>Line: 146</note>
+      </trans-unit>
+      <trans-unit id="24b3a661ea0947d7dfddb4fe68681907">
+        <source>PHP file_uploads configuration needs to be enabled.</source>
+        <target state="needs-translation">PHP file_uploads configuration needs to be enabled.</target>
+        <note>Line: 153</note>
+      </trans-unit>
+      <trans-unit id="a99553cd5eff17f5895d093c44b5c430">
+        <source>The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table.</source>
+        <target state="needs-translation">The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table.</target>
+        <note>Line: 177</note>
+      </trans-unit>
       <trans-unit id="d63d0e3addadd645300c8e4909c7e3b1">
         <source>Checking requirements...</source>
         <target state="needs-translation">Checking requirements...</target>
@@ -2024,26 +2108,6 @@ Comment: check DB access</note>
         <target state="needs-translation"><![CDATA[Your store's root directory (%root_directory%) isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></target>
         <note>Line: 41</note>
       </trans-unit>
-      <trans-unit id="d7238cb2856938b3986f300a67e00480">
-        <source><![CDATA[The "/admin/autoupgrade" directory isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></source>
-        <target state="needs-translation"><![CDATA[The "/admin/autoupgrade" directory isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></target>
-        <note>Line: 50</note>
-      </trans-unit>
-      <trans-unit id="abfe505ee370819199423ad97df77dec">
-        <source>PHP's "Safe mode" needs to be disabled.</source>
-        <target state="needs-translation">PHP's "Safe mode" needs to be disabled.</target>
-        <note>Line: 57</note>
-      </trans-unit>
-      <trans-unit id="a4cbbaa504b6e21c9152bc783cf68aba">
-        <source>Files can't be downloaded. Enable PHP's "allow_url_fopen" option or install PHP extension "cURL".</source>
-        <target state="needs-translation">Files can't be downloaded. Enable PHP's "allow_url_fopen" option or install PHP extension "cURL".</target>
-        <note>Line: 64</note>
-      </trans-unit>
-      <trans-unit id="f331b3e71fc229a1cfd1aaa3241be853">
-        <source>Missing PHP extension "zip".</source>
-        <target state="needs-translation">Missing PHP extension "zip".</target>
-        <note>Line: 71</note>
-      </trans-unit>
       <trans-unit id="d321763467936ac779fff7e090d8f0dc">
         <source><![CDATA[Maintenance mode needs to be enabled. Enable maintenance mode and add your maintenance IP in [1]Shop parameters > General > Maintenance[/1].]]></source>
         <target state="needs-translation"><![CDATA[Maintenance mode needs to be enabled. Enable maintenance mode and add your maintenance IP in [1]Shop parameters > General > Maintenance[/1].]]></target>
@@ -2058,11 +2122,6 @@ Comment: check DB access</note>
         <source>PHP's max_execution_time setting needs to have a high value or needs to be disabled entirely (current value: %s seconds).</source>
         <target state="needs-translation">PHP's max_execution_time setting needs to have a high value or needs to be disabled entirely (current value: %s seconds).</target>
         <note>Line: 101</note>
-      </trans-unit>
-      <trans-unit id="26da0df3cbdf0052c8f1205b40ad5072">
-        <source>Apache mod_rewrite needs to be enabled.</source>
-        <target state="needs-translation">Apache mod_rewrite needs to be enabled.</target>
-        <note>Line: 109</note>
       </trans-unit>
       <trans-unit id="baf4b3d8ebc2067c85c65f47cfd0fdb0">
         <source>The following PHP extensions need to be installed: %extensions%.</source>
@@ -2084,16 +2143,6 @@ Comment: check DB access</note>
         <target state="needs-translation">The following PHP function needs to be allowed: %function%.</target>
         <note>Line: 136</note>
       </trans-unit>
-      <trans-unit id="a220e0ac5c6f7fa8692c131148ed050a">
-        <source>PHP memory_limit needs to be greater than 256 MB.</source>
-        <target state="needs-translation">PHP memory_limit needs to be greater than 256 MB.</target>
-        <note>Line: 146</note>
-      </trans-unit>
-      <trans-unit id="24b3a661ea0947d7dfddb4fe68681907">
-        <source>PHP file_uploads configuration needs to be enabled.</source>
-        <target state="needs-translation">PHP file_uploads configuration needs to be enabled.</target>
-        <note>Line: 153</note>
-      </trans-unit>
       <trans-unit id="6106c8ca4547ab68a21560b227fe91c6">
         <source>It's not possible to write in the following folders: %directories%.</source>
         <target state="needs-translation">It's not possible to write in the following folders: %directories%.</target>
@@ -2103,11 +2152,6 @@ Comment: check DB access</note>
         <source><![CDATA[Provide write access to the user running PHP with appropriate permission & ownership.]]></source>
         <target state="needs-translation"><![CDATA[Provide write access to the user running PHP with appropriate permission & ownership.]]></target>
         <note>Line: 170</note>
-      </trans-unit>
-      <trans-unit id="a99553cd5eff17f5895d093c44b5c430">
-        <source>The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table.</source>
-        <target state="needs-translation">The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table.</target>
-        <note>Line: 177</note>
       </trans-unit>
       <trans-unit id="3acd0ca5efe0e72cee2610e80f8d5024">
         <source>Your current version of the module is out of date. Update now %link%</source>
