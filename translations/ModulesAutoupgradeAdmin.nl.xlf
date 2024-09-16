@@ -1337,107 +1337,107 @@ Comment: check DB access</note>
       <trans-unit id="26f07ad840fb1c17d29f5be0f428f015">
         <source>Disable non-native modules</source>
         <target state="needs-translation">Disable non-native modules</target>
-        <note>Line: 220</note>
+        <note>Line: 222</note>
       </trans-unit>
       <trans-unit id="70c06c37194d755dd9aef11cf0469981">
         <source>As non-native modules can experience some compatibility issues, we recommend to disable them by default.</source>
         <target state="needs-translation">As non-native modules can experience some compatibility issues, we recommend to disable them by default.</target>
-        <note>Line: 224</note>
+        <note>Line: 226</note>
       </trans-unit>
       <trans-unit id="469ab377c49ea68b2ecdfe76d628a53b">
         <source>Keeping them enabled might prevent you from loading the "Modules" page properly after the upgrade.</source>
         <target state="needs-translation">Keeping them enabled might prevent you from loading the "Modules" page properly after the upgrade.</target>
-        <note>Line: 225</note>
+        <note>Line: 227</note>
       </trans-unit>
       <trans-unit id="03a9e6840847f96325b7184d5f3c2769">
         <source>Disable all overrides</source>
         <target state="needs-translation">Disable all overrides</target>
-        <note>Line: 228</note>
+        <note>Line: 230</note>
       </trans-unit>
       <trans-unit id="29826f9f4da3d473c1e4ecf2f6c4ef9f">
         <source>Enable or disable all classes and controllers overrides.</source>
         <target state="needs-translation">Enable or disable all classes and controllers overrides.</target>
-        <note>Line: 232</note>
+        <note>Line: 234</note>
       </trans-unit>
       <trans-unit id="92991497ed914de6bb7795b701b4c6e4">
         <source>Switch to the default theme</source>
         <target state="needs-translation">Switch to the default theme</target>
-        <note>Line: 243</note>
+        <note>Line: 245</note>
       </trans-unit>
       <trans-unit id="c7ae0af8d5653beb68b344415aca135d">
         <source>This will change your theme: your shop will then use the default theme of the version of PrestaShop you are upgrading to.</source>
         <target state="needs-translation">This will change your theme: your shop will then use the default theme of the version of PrestaShop you are upgrading to.</target>
-        <note>Line: 248</note>
+        <note>Line: 250</note>
       </trans-unit>
       <trans-unit id="309183e60345ce8ad09def36330218b8">
         <source>Regenerate RTL stylesheet</source>
         <target state="needs-translation">Regenerate RTL stylesheet</target>
-        <note>Line: 235</note>
+        <note>Line: 237</note>
       </trans-unit>
       <trans-unit id="e31d0229913e78ae9dc2de61d9ac21aa">
         <source>If enabled, any RTL-specific files that you might have added to all your themes might be deleted by the created stylesheet.</source>
         <target state="needs-translation">If enabled, any RTL-specific files that you might have added to all your themes might be deleted by the created stylesheet.</target>
-        <note>Line: 240</note>
+        <note>Line: 242</note>
       </trans-unit>
       <trans-unit id="f22d57f1f0b7fd2a55ca4760cd6ef68b">
         <source>Keep the customized email templates</source>
         <target state="needs-translation">Keep the customized email templates</target>
-        <note>Line: 251</note>
+        <note>Line: 253</note>
       </trans-unit>
       <trans-unit id="5ea970658668e0b45cb6f64ce18b420e">
         <source>This will not upgrade the default PrestaShop e-mails.</source>
         <target state="needs-translation">This will not upgrade the default PrestaShop e-mails.</target>
-        <note>Line: 255</note>
+        <note>Line: 257</note>
       </trans-unit>
       <trans-unit id="a83c73a145dbc0f4ea7c6a95203df43d">
         <source>If you customized the default PrestaShop e-mail templates, enabling this option will keep your modifications.</source>
         <target state="needs-translation">If you customized the default PrestaShop e-mail templates, enabling this option will keep your modifications.</target>
-        <note>Line: 256</note>
+        <note>Line: 258</note>
       </trans-unit>
       <trans-unit id="bb7748991e29366d42f8fa2c361f4d55">
         <source>Back up my files and database</source>
         <target state="needs-translation">Back up my files and database</target>
-        <note>Line: 202</note>
+        <note>Line: 204</note>
       </trans-unit>
       <trans-unit id="e53b4fd73748419564a1742f66ba631f">
         <source>Automatically back up your database and files in order to restore your shop if needed. This is experimental: you should still perform your own manual backup for safety.</source>
         <target state="needs-translation">Automatically back up your database and files in order to restore your shop if needed. This is experimental: you should still perform your own manual backup for safety.</target>
-        <note>Line: 207</note>
+        <note>Line: 209</note>
       </trans-unit>
       <trans-unit id="d5342bfd5b032cd75faeebdf2a918a79">
         <source>Back up my images</source>
         <target state="needs-translation">Back up my images</target>
-        <note>Line: 210</note>
+        <note>Line: 212</note>
       </trans-unit>
       <trans-unit id="9a2cad898ee3d0ea4573946becdec9cf">
         <source>To save time, you can decide not to back your images up. In any case, always make sure you did back them up manually.</source>
         <target state="needs-translation">To save time, you can decide not to back your images up. In any case, always make sure you did back them up manually.</target>
-        <note>Line: 215</note>
+        <note>Line: 217</note>
       </trans-unit>
       <trans-unit id="21dc065f2d8653ebca37ec552d17b37e" approved="yes">
         <source>Unable to create the directory "%s"</source>
         <target state="final">Kan de map "%s" niet aanmaken</target>
-        <note>Line: 182</note>
+        <note>Line: 184</note>
       </trans-unit>
       <trans-unit id="6215d33db0d099fcaae168dd4715135a">
         <source>Unable to write in the directory "%s"</source>
         <target state="needs-translation">Unable to write in the directory "%s"</target>
-        <note>Line: 150</note>
+        <note>Line: 152</note>
       </trans-unit>
       <trans-unit id="92a5801448b25f111961462b0b31995d" approved="yes">
         <source>Unable to create file %s</source>
         <target state="final">Bestand %s aanmaken mislukt</target>
-        <note>Line: 358</note>
+        <note>Line: 360</note>
       </trans-unit>
       <trans-unit id="56195ded2802813800f43e3be1babe1c" approved="yes">
         <source>Error when trying to delete backups %s</source>
         <target state="final">Fout bij het verwijderen van backups %s</target>
-        <note>Line: 405</note>
+        <note>Line: 407</note>
       </trans-unit>
       <trans-unit id="f4eb320e09f7ef88a627229870458454">
         <source>The module %s requires PHP %s to work properly. Please upgrade your server configuration.</source>
         <target state="needs-translation">The module %s requires PHP %s to work properly. Please upgrade your server configuration.</target>
-        <note>Line: 449</note>
+        <note>Line: 451</note>
       </trans-unit>
     </body>
   </file>
@@ -2378,10 +2378,35 @@ Comment: check DB access</note>
         <target state="needs-translation">Welcome to PrestaShop Update Assistant</target>
         <note>Line: 8</note>
       </trans-unit>
+      <trans-unit id="6489bc9acc7ee9689e7cf4c070f4c8ea">
+        <source>Update your store</source>
+        <target state="needs-translation">Update your store</target>
+        <note>Line: 15</note>
+      </trans-unit>
+      <trans-unit id="7be24346a73074d40af62a38b9adb2b5">
+        <source>Update your store to benefit from the latest improvements, bug fixes and security patches.</source>
+        <target state="needs-translation">Update your store to benefit from the latest improvements, bug fixes and security patches.</target>
+        <note>Line: 16</note>
+      </trans-unit>
+      <trans-unit id="9280c14cf57cc764c0b9fc65e64e9a9b">
+        <source>Restore from a backup</source>
+        <target state="needs-translation">Restore from a backup</target>
+        <note>Line: 22</note>
+      </trans-unit>
+      <trans-unit id="53f93f09065ca3d5a66f07918c4fb55b">
+        <source>Use this feature if the update failed or if your store or a  module is no longer working properly.</source>
+        <target state="needs-translation">Use this feature if the update failed or if your store or a  module is no longer working properly.</target>
+        <note>Line: 23</note>
+      </trans-unit>
+      <trans-unit id="0fd677149c0fafac25862f5a04268ebf">
+        <source>No backup file found on your store.</source>
+        <target state="needs-translation">No backup file found on your store.</target>
+        <note>Line: 27</note>
+      </trans-unit>
       <trans-unit id="e0c4332e8c13be976552a059f106354f">
         <source>Get Started</source>
         <target state="needs-translation">Get Started</target>
-        <note>Line: 33</note>
+        <note>Line: 34</note>
       </trans-unit>
     </body>
   </file>
