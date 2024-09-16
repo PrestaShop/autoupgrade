@@ -32,6 +32,8 @@ export default {
   args: {
     ...Welcome.args,
     page: "welcome",
+    ps_version: "ps_version",
+    empty_backup: true,
   },
 };
 

@@ -9,7 +9,19 @@
 
     <div class="radio-card__radio-wrapper">
         <input class="radio"
-               type="radio" {% if radioCardId %} id="{{ radioCardId }}" name="{{ radioCardId }}" {% endif %} {% if disabled %} disabled {% endif %} {% if checked and not disabled %} checked {% endif %} />
+               type="radio"
+                {% if radioCardId %}
+                    id="{{ radioCardId }}"
+                {% endif %}
+                {% if radioValue %}
+                    value="{{ radioValue }}"
+                {% endif %}
+                {% if radioName %}
+                    name="{{ radioName }}"
+                {% endif %}
+                {% if disabled %} disabled {% endif %}
+                {% if checked and not disabled %} checked {% endif %}
+        />
     </div>
 
     <div class="radio-card__infos-wrapper">
@@ -19,8 +31,8 @@
 
                 {% if badgeLabel %}
                     <span class="radio-card__badge {% if badgeStatus %} radio-card__badge--{{ badgeStatus }} {% endif %}">
-            {{ badgeLabel }}
-          </span>
+                        {{ badgeLabel }}
+                    </span>
                 {% endif %}
             </p>
 

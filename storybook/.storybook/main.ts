@@ -87,6 +87,7 @@ const config: StorybookConfig = {
         ${body}
     `,
   staticDirs: [
+    { from: "../../_dev/img", to: "/img"},
     "../public",
     "../node_modules/prestashop-bo-themes",
   ],

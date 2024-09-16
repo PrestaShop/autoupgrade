@@ -6,7 +6,7 @@ concurrency:
 jobs:
   js-linter:
     name: JS linter syntax check
-    runs-on: unbuntu-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4

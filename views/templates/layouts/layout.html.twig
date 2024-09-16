@@ -1,5 +1,9 @@
-<div id="ua_app">
+<div id="update_assistant" class="{{ ps_version }}">
     {% if page == "welcome" %}
         {% include '@ModuleAutoUpgrade/layouts/welcome.html.twig' %}
+    {% elseif page == "upgrade" %}
+        {% include '@ModuleAutoUpgrade/layouts/upgrade.html.twig' %}
+    {% elseif page == "rollback" %}
+        {% include '@ModuleAutoUpgrade/layouts/rollback.html.twig' %}
     {% endif %}
 </div>
