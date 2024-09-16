@@ -622,11 +622,6 @@ class UpgradeSelfCheck
         return (bool) ConfigurationTest::test_upload();
     }
 
-    public function isPhpSessionsValid(): bool
-    {
-        return in_array(session_status(), [PHP_SESSION_ACTIVE, PHP_SESSION_NONE], true);
-    }
-
     /**
      * @return array<string>
      */

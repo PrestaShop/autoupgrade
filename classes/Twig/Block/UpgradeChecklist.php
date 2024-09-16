@@ -112,7 +112,6 @@ class UpgradeChecklist
             'checkMemoryLimit' => $this->selfCheck->isMemoryLimitValid(),
             'checkFileUploads' => $this->selfCheck->isPhpFileUploadsConfigurationEnabled(),
             'notExistsPhpFunctions' => $this->selfCheck->getNotExistsPhpFunctions(),
-            'checkPhpSessions' => $this->selfCheck->isPhpSessionsValid(),
             'notWritingDirectories' => $this->selfCheck->getNotWritingDirectories(),
         ];
     }

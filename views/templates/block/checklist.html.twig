@@ -180,12 +180,6 @@
                         <td>{{ icons.nok(psBaseUri) }}</td>
                     </tr>
                 {% endif %}
-                {% if not checkPhpSessions %}
-                    <tr>
-                        <td>{{ 'It\'s not possible to create a PHP session.'|trans({}) }}</td>
-                        <td>{{ icons.nok(psBaseUri) }}</td>
-                    </tr>
-                {% endif %}
                 {% if not checkKeyGeneration %}
                   <tr>
                     <td>{{ 'Unable to generate private keys using openssl_pkey_new. Check your OpenSSL configuration, especially the path to openssl.cafile.'|trans({}) }}</td>
