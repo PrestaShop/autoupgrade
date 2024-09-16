@@ -5,6 +5,9 @@ namespace PrestaShop\Module\AutoUpgrade\Controller;
 use PrestaShop\Module\AutoUpgrade\Twig\UpdateSteps;
 use PrestaShop\Module\AutoUpgrade\VersionUtils;
 use Symfony\Component\HttpFoundation\Request;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 class UpdateVersionChoicePageController extends AbstractPageController
 {
@@ -21,6 +24,23 @@ class UpdateVersionChoicePageController extends AbstractPageController
     {
         return $this->renderPage(
             'update',
+            $this->getParams()
+        );
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return string
+     *
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
+    public function step(Request $request): string
+    {
+        return $this->twig->render(
+            '@ModuleAutoUpgrade/steps/version-choice.html.twig',
             $this->getParams()
         );
     }
