@@ -19,7 +19,7 @@ class UpdateSteps
     /** @var Translator */
     private $translator;
 
-    /** @var array[] */
+    /** @var array<string, array<string,string>> */
     private $steps;
 
     public function __construct(Translator $translator)
@@ -45,12 +45,12 @@ class UpdateSteps
             ],
             self::POST_UPDATE => [
                 'title' => $this->translator->trans('Post-update'),
-            ]
+            ],
         ];
     }
 
     /**
-     * @return array[]
+     * @return array<int, array<string, string>>
      */
     public function getSteps(string $currentStep): array
     {

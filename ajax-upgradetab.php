@@ -25,9 +25,9 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
+use PrestaShop\Module\AutoUpgrade\Router\Router;
 use PrestaShop\Module\AutoUpgrade\Task\Runner\SingleTask;
 use PrestaShop\Module\AutoUpgrade\Tools14;
-use PrestaShop\Module\AutoUpgrade\Router\Router;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -61,5 +61,3 @@ if (!empty($action)) {
 } else {
     echo (new Router($container))->handle(Request::createFromGlobals());
 }
-
-

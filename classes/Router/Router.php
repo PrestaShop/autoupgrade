@@ -27,7 +27,7 @@ class Router
         'update-version-choice' => [
             'controller' => UpdateVersionChoicePageController::class,
             'method' => 'index',
-        ]
+        ],
     ];
 
     public function handle(Request $request): string

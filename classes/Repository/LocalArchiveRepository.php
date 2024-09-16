@@ -14,12 +14,18 @@ class LocalArchiveRepository
         $this->downloadPath = $downloadPath;
     }
 
-    public function getZipLocalArchive(): array
+    /**
+     * @return string[]|false
+     */
+    public function getZipLocalArchive()
     {
         return glob($this->downloadPath . DIRECTORY_SEPARATOR . '*.zip');
     }
 
-    public function getXmlLocalArchive(): array
+    /**
+     * @return string[]|false
+     */
+    public function getXmlLocalArchive()
     {
         return glob($this->downloadPath . DIRECTORY_SEPARATOR . '*.xml');
     }
