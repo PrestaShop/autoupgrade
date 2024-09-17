@@ -30,8 +30,9 @@ namespace PrestaShop\Module\AutoUpgrade;
 use Configuration;
 use ConfigurationTest;
 use Exception;
-use PrestaShop\Module\AutoUpgrade\Services\DistributionApiService;
-use PrestaShop\Module\AutoUpgrade\Services\PhpRequirementService;
+use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
+use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
+use PrestaShop\Module\AutoUpgrade\Services\PhpVersionResolverService;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 use PrestaShop\Module\AutoUpgrade\Xml\ChecksumCompare;
 use Shop;
@@ -84,9 +85,7 @@ class UpgradeSelfCheck
     private $originVersion;
     /** @var PrestashopConfiguration */
     private $prestashopConfiguration;
-    /** @var DistributionApiService */
-    private $distributionApiService;
-    /** @var PhpRequirementService */
+    /** @var PhpVersionResolverService */
     private $phpRequirementService;
     /** @var Translator */
     private $translator;
@@ -121,8 +120,7 @@ class UpgradeSelfCheck
         Upgrader $upgrader,
         PrestashopConfiguration $prestashopConfiguration,
         Translator $translator,
-        DistributionApiService $distributionApiService,
-        PhpRequirementService $phpRequirementService,
+        PhpVersionResolverService $phpRequirementService,
         ChecksumCompare $checksumCompare,
         string $prodRootPath,
         string $adminPath,
@@ -132,7 +130,6 @@ class UpgradeSelfCheck
         $this->upgrader = $upgrader;
         $this->prestashopConfiguration = $prestashopConfiguration;
         $this->translator = $translator;
-        $this->distributionApiService = $distributionApiService;
         $this->phpRequirementService = $phpRequirementService;
         $this->checksumCompare = $checksumCompare;
         $this->prodRootPath = $prodRootPath;
@@ -149,7 +146,6 @@ class UpgradeSelfCheck
     public function getErrors(): array
     {
         $errors = [
-            self::PHP_COMPATIBILITY_INVALID => $this->phpRequirementService->getPhpRequirementsState(PHP_VERSION_ID, $this->upgrader->version_num) === PhpRequirementService::COMPATIBILITY_INVALID,
             self::ROOT_DIRECTORY_NOT_WRITABLE => !$this->isRootDirectoryWritable(),
             self::ADMIN_UPGRADE_DIRECTORY_NOT_WRITABLE => !$this->isAdminAutoUpgradeDirectoryWritable(),
             self::SAFE_MODE_ENABLED => !$this->isSafeModeDisabled(),
@@ -168,19 +164,29 @@ class UpgradeSelfCheck
             self::SHOP_VERSION_NOT_MATCHING_VERSION_IN_DATABASE => !$this->isShopVersionMatchingVersionInDatabase(),
         ];
 
+        if ($this->upgrader->channel === Upgrader::CHANNEL_ARCHIVE) {
+            $errors[self::PHP_COMPATIBILITY_INVALID] = $this->getPhpRequirementsState() === PhpVersionResolverService::COMPATIBILITY_INVALID;
+        }
+
         return array_filter($errors);
     }
 
     /**
      * @return array<int, bool>
+     *
+     * @throws UpgradeException
+     * @throws DistributionApiException
      */
     public function getWarnings(): array
     {
         $warnings = [
             self::MODULE_VERSION_IS_OUT_OF_DATE => !$this->isModuleVersionLatest(),
-            self::PHP_COMPATIBILITY_UNKNOWN => $this->phpRequirementService->getPhpRequirementsState(PHP_VERSION_ID, $this->upgrader->version_num) === PhpRequirementService::COMPATIBILITY_UNKNOWN,
             self::TEMPERED_FILES_LIST_NOT_EMPTY => !empty($this->getTamperedFiles()),
         ];
+
+        if ($this->upgrader->channel === Upgrader::CHANNEL_ARCHIVE) {
+            $warnings[self::PHP_COMPATIBILITY_UNKNOWN] = $this->getPhpRequirementsState() === PhpVersionResolverService::COMPATIBILITY_UNKNOWN;
+        }
 
         return array_filter($warnings);
     }
@@ -189,10 +195,14 @@ class UpgradeSelfCheck
      * @param int $requirement
      *
      * @return string
+     *
+     * @throws UpgradeException
+     * @throws DistributionApiException
      */
     public function getRequirementWording(int $requirement): string
     {
-        $phpCompatibilityRange = $this->getPhpCompatibilityRange();
+        $version = $this->upgrader->getDestinationVersion();
+        $phpCompatibilityRange = $this->phpRequirementService->getPhpCompatibilityRange($version);
 
         switch ($requirement) {
             case self::PHP_COMPATIBILITY_INVALID:
@@ -379,13 +389,16 @@ class UpgradeSelfCheck
         return $this->safeModeDisabled = $this->checkSafeModeIsDisabled();
     }
 
+    /**
+     * @throws UpgradeException
+     */
     public function isModuleVersionLatest(): bool
     {
         if (null !== $this->moduleVersionIsLatest) {
             return $this->moduleVersionIsLatest;
         }
 
-        return $this->moduleVersionIsLatest = $this->checkModuleVersionIsLastest($this->upgrader);
+        return $this->moduleVersionIsLatest = $this->checkModuleVersionIsLastest();
     }
 
     public function getModuleVersion(): ?string
@@ -433,14 +446,14 @@ class UpgradeSelfCheck
         return true;
     }
 
+    /**
+     * @throws DistributionApiException
+     * @throws UpgradeException
+     */
     public function checkKeyGeneration(): bool
     {
-        if ($this->upgrader->version_num === null) {
-            return true;
-        }
-
         // Check if key is needed on the version we are upgrading to, if lower, not needed
-        if (version_compare($this->upgrader->version_num, '8.1.0', '<')) {
+        if (version_compare($this->upgrader->getDestinationVersion(), '8.1.0', '<')) {
             return true;
         }
 
@@ -520,6 +533,17 @@ class UpgradeSelfCheck
     }
 
     /**
+     * @throws DistributionApiException
+     * @throws UpgradeException
+     */
+    public function getPhpRequirementsState(): int
+    {
+        $version = $this->upgrader->getDestinationVersion();
+
+        return $this->phpRequirementService->getPhpRequirementsState(PHP_VERSION_ID, $version);
+    }
+
+    /**
      * @return array<string>
      */
     public function getNotWritingDirectories(): array
@@ -582,9 +606,12 @@ class UpgradeSelfCheck
         return ConfigurationTest::test_dir('/', false);
     }
 
-    private function checkModuleVersionIsLastest(Upgrader $upgrader): bool
+    /**
+     * @throws UpgradeException
+     */
+    private function checkModuleVersionIsLastest(): bool
     {
-        return version_compare($this->getModuleVersion(), $upgrader->autoupgrade_last_version, '>=');
+        return version_compare($this->getModuleVersion(), $this->upgrader->getLatestModuleVersion(), '>=');
     }
 
     private function checkIsLocalEnvironment(): bool

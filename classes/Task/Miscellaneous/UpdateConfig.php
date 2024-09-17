@@ -67,14 +67,6 @@ class UpdateConfig extends AbstractTask
         if (isset($configurationData['channel'])) {
             $config['channel'] = $configurationData['channel'];
             $config['archive.filename'] = Upgrader::DEFAULT_FILENAME;
-            // Switch on default theme if major upgrade (i.e: 1.6 -> 1.7)
-            $config['PS_AUTOUP_CHANGE_DEFAULT_THEME'] = ($configurationData['channel'] === 'major');
-        }
-        if (isset($configurationData['private_release_link'], $configurationData['private_release_md5'])) {
-            $config['channel'] = 'private';
-            $config['private_release_link'] = $configurationData['private_release_link'];
-            $config['private_release_md5'] = $configurationData['private_release_md5'];
-            $config['private_allow_major'] = $configurationData['private_allow_major'];
         }
 
         if (!empty($configurationData['archive_prestashop'])) {
@@ -114,23 +106,12 @@ class UpdateConfig extends AbstractTask
                 return ExitCode::FAIL;
             }
 
-            $config['channel'] = 'archive';
+            $config['channel'] = Upgrader::CHANNEL_ARCHIVE;
             $config['archive.filename'] = $configurationData['archive_prestashop'];
             $config['archive.version_num'] = $targetVersion;
             $config['archive.xml'] = $configurationData['archive_xml'];
 
             $this->logger->info($this->translator->trans('Upgrade process will use archive.'));
-        }
-        if (isset($configurationData['directory_num'])) {
-            $config['channel'] = 'directory';
-            if (empty($configurationData['directory_num']) || strpos($configurationData['directory_num'], '.') === false) {
-                $this->setErrorFlag();
-                $this->logger->info($this->translator->trans('Version number is missing. Unable to select that channel.'));
-
-                return ExitCode::FAIL;
-            }
-
-            $config['directory.version_num'] = $configurationData['directory_num'];
         }
 
         foreach (UpgradeConfiguration::UPGRADE_CONST_KEYS as $key) {
@@ -206,14 +187,10 @@ class UpdateConfig extends AbstractTask
      */
     private function writeConfig(array $config): bool
     {
-        if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::CONFIG_FILENAME) && !empty($config['channel'])) {
-            $this->container->getUpgrader()->channel = $config['channel'];
-            $this->container->getUpgrader()->checkPSVersion();
-
-            $this->container->getState()->setInstallVersion($this->container->getUpgrader()->version_num);
+        if (!empty($config['channel'])) {
+            $this->container->getState()->setInstallVersion($this->container->getUpgrader()->getDestinationVersion());
             $this->container->getState()->setOriginVersion($this->container->getProperty(UpgradeContainer::PS_VERSION));
         }
-
         $this->container->getUpgradeConfiguration()->merge($config);
         $this->logger->info($this->translator->trans('Configuration successfully updated.') . ' <strong>' . $this->translator->trans('This page will now be reloaded and the module will check if a new version is available.') . '</strong>');
 

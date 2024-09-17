@@ -781,35 +781,12 @@ $(document).ready(function () {
       $oldChannel = "";
 
       if ($oldChannel != $newChannel) {
-        var validChannels = ["major", "minor", "rc", "beta", "alpha"];
+        var validChannels = ["dynamic"];
         if (validChannels.indexOf($newChannel) !== -1) {
           params.channel = $newChannel;
         }
 
-        if ($newChannel === "private") {
-          if (
-            $("input[name=private_release_link]").val() == "" ||
-            $("input[name=private_release_md5]").val() == ""
-          ) {
-            showConfigResult(
-              input.translation.linkAndMd5CannotBeEmpty,
-              "error",
-            );
-            return false;
-          }
-          params.channel = "private";
-          params.private_release_link = $(
-            "input[name=private_release_link]",
-          ).val();
-          params.private_release_md5 = $(
-            "input[name=private_release_md5]",
-          ).val();
-          if ($("input[name=private_allow_major]").is(":checked")) {
-            params.private_allow_major = 1;
-          } else {
-            params.private_allow_major = 0;
-          }
-        } else if ($newChannel === "archive") {
+        if ($newChannel === "archive") {
           var archive_prestashop = $("select[name=archive_prestashop]").val();
           var archive_xml = $("select[name=archive_xml]").val();
           if (!archive_prestashop && !archive_xml) {
@@ -828,20 +805,6 @@ $(document).ready(function () {
           params.channel = "archive";
           params.archive_prestashop = archive_prestashop;
           params.archive_xml = archive_xml;
-        } else if ($newChannel === "directory") {
-          params.channel = "directory";
-          params.directory_prestashop = $(
-            "select[name=directory_prestashop] option:selected",
-          ).val();
-          let directory_num = $("input[name=directory_num]").val();
-          if (directory_num == "" || !directory_num.match(versionNumberRegex)) {
-            showConfigResult(
-              input.translation.needToEnterDirectoryVersionNumber,
-              "error",
-            );
-            return false;
-          }
-          params.directory_num = $("input[name=directory_num]").val();
         }
       }
       // note: skipBackup is currently not used

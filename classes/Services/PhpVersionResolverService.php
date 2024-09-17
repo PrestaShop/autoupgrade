@@ -34,7 +34,7 @@ use PrestaShop\Module\AutoUpgrade\Models\PrestashopRelease;
 use PrestaShop\Module\AutoUpgrade\VersionUtils;
 use PrestaShop\Module\AutoUpgrade\Xml\FileLoader;
 
-class PhpRequirementService
+class PhpVersionResolverService
 {
     const COMPATIBILITY_INVALID = 0;
     const COMPATIBILITY_VALID = 1;
@@ -44,14 +44,17 @@ class PhpRequirementService
     private $distributionApiService;
     /** @var FileLoader */
     private $fileLoader;
+    /** @var string */
+    private $currentPsVersion;
 
     /**
      * @param DistributionApiService $distributionApiService
      */
-    public function __construct(DistributionApiService $distributionApiService, FileLoader $fileLoader)
+    public function __construct(DistributionApiService $distributionApiService, FileLoader $fileLoader, string $currentPsVersion)
     {
         $this->distributionApiService = $distributionApiService;
         $this->fileLoader = $fileLoader;
+        $this->currentPsVersion = $currentPsVersion;
     }
 
     /**
@@ -130,39 +133,56 @@ class PhpRequirementService
             throw new LogicException('The minimum version to use the module is PHP 7.1');
         }
 
+        /** @var array<string, PrestashopRelease> $releasesFromChannelFile */
+        $releasesFromChannelFile = $this->getReleasesFromChannelFile();
+        if (empty($releasesFromChannelFile)) {
+            throw new UpgradeException('Unable to retrieve latest 1.7 release of Prestashop.');
+        }
+
         if ($currentPhpVersion < 70200) {
-            $prestashopRelease = $this->getLatestPrestashop17Release();
-
-            if (!$prestashopRelease) {
-                throw new UpgradeException('Unable to retrieve latest 1.7 release of Prestashop.');
-            }
-
-            return $prestashopRelease;
+            return $releasesFromChannelFile['1.7'];
         }
 
         $validReleases = [];
 
         foreach ($this->distributionApiService->getReleases() as $release) {
-            if ($release->getStability() === 'stable') {
-                $versionMin = VersionUtils::getPhpVersionId($release->getPhpMinVersion());
-                $versionMax = VersionUtils::getPhpVersionId($release->getPhpMaxVersion());
+            if ($release->getStability() !== 'stable') {
+                continue;
+            }
 
-                $versionMinWithoutPatch = VersionUtils::getPhpMajorMinorVersionId($versionMin);
-                $versionMaxWithoutPatch = VersionUtils::getPhpMajorMinorVersionId($versionMax);
+            // current version is superior or equal
+            if (version_compare($this->currentPsVersion, $release->getVersion(), '>=')) {
+                continue;
+            }
 
-                if ($currentPhpVersion >= $versionMinWithoutPatch && $currentPhpVersion <= $versionMaxWithoutPatch) {
+            $versionMin = VersionUtils::getPhpVersionId($release->getPhpMinVersion());
+            $versionMax = VersionUtils::getPhpVersionId($release->getPhpMaxVersion());
+
+            $versionMinWithoutPatch = VersionUtils::getPhpMajorMinorVersionId($versionMin);
+            $versionMaxWithoutPatch = VersionUtils::getPhpMajorMinorVersionId($versionMax);
+
+            // verify php compatibility
+            if ($currentPhpVersion >= $versionMinWithoutPatch && $currentPhpVersion <= $versionMaxWithoutPatch) {
+                // verify channel.xml matching
+                $branch = VersionUtils::splitPrestaShopVersion($release->getVersion())['minor'];
+                if (isset($releasesFromChannelFile[$branch])) {
+                    $changelog = $releasesFromChannelFile[$branch]->getChangelogUrl();
+                    $release->setChangelogUrl($changelog);
                     $validReleases[] = $release;
                 }
             }
         }
 
-        return array_reduce($validReleases, function ($carry, $item) {
+        /** @var PrestashopRelease $release */
+        $release = array_reduce($validReleases, function ($carry, $item) {
             if ($carry === null || version_compare($item->getVersion(), $carry->getVersion()) > 0) {
                 return $item;
             }
 
             return $carry;
         });
+
+        return $release;
     }
 
     /**
@@ -184,12 +204,13 @@ class PhpRequirementService
     }
 
     /**
-     * @return ?PrestashopRelease
+     * @return array<string, PrestashopRelease>
      *
      * @throws UpgradeException
      */
-    public function getLatestPrestashop17Release(): ?PrestashopRelease
+    public function getReleasesFromChannelFile(): array
     {
+        $releases = [];
         $channelFile = $this->fileLoader->getXmlChannel();
 
         if (!$channelFile) {
@@ -197,28 +218,30 @@ class PhpRequirementService
         }
 
         foreach ($channelFile->channel as $channel) {
+            if ((string) $channel['name'] !== 'stable') {
+                continue;
+            }
+
             foreach ($channel->branch as $branch) {
-                if ((string) $branch['name'] === '1.7') {
-                    $cleanedZipUrl = str_replace(["\n", "\r"], '', $branch->download->link);
-                    $cleanedZipUrl = trim($cleanedZipUrl);
+                $cleanedZipUrl = str_replace(["\n", "\r"], '', $branch->download->link);
+                $cleanedZipUrl = trim($cleanedZipUrl);
 
-                    $cleanedChangelogUrl = str_replace(["\n", "\r"], '', $branch->changelog);
-                    $cleanedChangelogUrl = trim($cleanedChangelogUrl);
+                $cleanedChangelogUrl = str_replace(["\n", "\r"], '', $branch->changelog);
+                $cleanedChangelogUrl = trim($cleanedChangelogUrl);
 
-                    return new PrestashopRelease(
+                $releases[(string) $branch['name']] = new PrestashopRelease(
                         (string) $branch->num,
-                        '7.4',
-                        '5.6',
-                        'stable',
+                    'stable',
+                    null,
+                    null,
                         $cleanedZipUrl,
                         'https://api.prestashop.com/xml/md5/' . $branch->num,
                         (string) $branch->download->md5,
                         $cleanedChangelogUrl
                     );
-                }
             }
         }
 
-        return null;
+        return $releases;
     }
 }

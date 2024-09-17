@@ -27,56 +27,46 @@
 
 namespace PrestaShop\Module\AutoUpgrade;
 
+use LogicException;
+use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
+use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
+use PrestaShop\Module\AutoUpgrade\Models\PrestashopRelease;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Services\PhpVersionResolverService;
 use PrestaShop\Module\AutoUpgrade\Xml\FileLoader;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
 class Upgrader
 {
+    const CHANNEL_DYNAMIC = 'dynamic';
+    const CHANNEL_ARCHIVE = 'archive';
+
     const DEFAULT_CHECK_VERSION_DELAY_HOURS = 12;
-    const DEFAULT_CHANNEL = 'minor';
+    const DEFAULT_CHANNEL = self::CHANNEL_DYNAMIC;
     const DEFAULT_FILENAME = 'prestashop.zip';
-
-    /**
-     * @var bool contains true if last version is not installed
-     */
-    private $need_upgrade = false;
-
-    /** @var string */
-    public $version_name;
-    /** @var ?string */
-    public $version_num;
-    /**
-     * @var string contains the url to download the file
-     */
-    public $link;
-    /** @var string */
-    public $autoupgrade_last_version;
-    /** @var string */
-    public $autoupgrade_module_link;
-    /** @var string */
-    public $changelog;
-    /** @var bool */
-    public $available;
-    /** @var string */
-    public $md5;
 
     /** @var string */
     public $channel = '';
-    /** @var string */
-    public $branch = '';
 
+    /** @var PrestashopRelease */
+    private $destinationRelease;
     /** @var string */
     protected $currentPsVersion;
-    /**
-     * @var FileLoader
-     */
-    protected $fileLoader;
+    /** @var PhpVersionResolverService */
+    protected $phpVersionResolverService;
+    /** @var UpgradeConfiguration */
+    protected $upgradeConfiguration;
 
-    public function __construct(string $version, FileLoader $fileLoader)
-    {
-        $this->currentPsVersion = $version;
-        $this->fileLoader = $fileLoader;
+    public function __construct(
+        PhpVersionResolverService $phpRequirementService,
+        UpgradeConfiguration $upgradeConfiguration,
+        string $currentPsVersion
+    ) {
+        $this->currentPsVersion = $currentPsVersion;
+        $this->phpVersionResolverService = $phpRequirementService;
+        $this->channel = $upgradeConfiguration->getChannel();
+        $this->upgradeConfiguration = $upgradeConfiguration;
     }
 
     /**
@@ -85,138 +75,85 @@ class Upgrader
      * @param string $dest directory where to save the file
      * @param string $filename new filename
      *
+     * @throws DistributionApiException
+     * @throws UpgradeException
+     *
      * @TODO ftp if copy is not possible (safe_mode for example)
      */
     public function downloadLast(string $dest, string $filename = 'prestashop.zip'): bool
     {
-        if (empty($this->link)) {
-            $this->checkPSVersion();
+        if ($this->destinationRelease === null) {
+            $this->getDynamicDestinationRelease();
         }
 
         $destPath = realpath($dest) . DIRECTORY_SEPARATOR . $filename;
 
         try {
             $filesystem = new Filesystem();
-            $filesystem->copy($this->link, $destPath);
+            $filesystem->copy($this->destinationRelease->getZipDownloadUrl(), $destPath);
         } catch (IOException $e) {
             // If the Symfony filesystem failed, we can try with
             // the legacy method which uses curl.
-            Tools14::copy($this->link, $destPath);
+            Tools14::copy($this->destinationRelease->getZipDownloadUrl(), $destPath);
         }
 
         return is_file($destPath);
     }
 
+    /**
+     * @throws DistributionApiException
+     * @throws UpgradeException
+     */
     public function isLastVersion(): bool
     {
-        if (empty($this->link)) {
-            $this->checkPSVersion();
-        }
-
-        return !$this->need_upgrade;
+        return version_compare($this->currentPsVersion, $this->getDestinationVersion(), '<');
     }
 
     /**
-     * checkPSVersion ask to prestashop.com if there is a new version. return an array if yes, false otherwise.
-     *
-     * @param bool $refresh if set to true, will force to download channel.xml
-     * @param string[] $array_no_major array of channels which will return only the immediate next version number
-     *
-     * @return array{'name':string,'link':string}|false
+     * @throws DistributionApiException
+     * @throws UpgradeException
      */
-    public function checkPSVersion(bool $refresh = false, array $array_no_major = ['minor'])
+    public function getDynamicDestinationRelease(): PrestashopRelease
     {
-        // if we use the autoupgrade process, we will never refresh it
-        // except if no check has been done before
-        $feed = $this->fileLoader->getXmlChannel($refresh);
-
-        // channel hierarchy :
-        // if you follow private, you follow stable release
-        // if you follow rc, you also follow stable
-        // if you follow beta, you also follow rc
-        // et caetera
-        $followed_channels = [];
-        $followed_channels[] = $this->channel;
-        switch ($this->channel) {
-        case 'alpha':
-            $followed_channels[] = 'beta';
-            // no break
-        case 'beta':
-            $followed_channels[] = 'rc';
-            // no break
-        case 'rc':
-            $followed_channels[] = 'stable';
-            // no break
-        case 'minor':
-        case 'major':
-        case 'private':
-            $followed_channels[] = 'stable';
+        if ($this->channel !== self::CHANNEL_ARCHIVE) {
+            throw new LogicException('channel must be dynamic to retrieve the version dynamically');
         }
 
-        if ($feed) {
-            $this->autoupgrade_last_version = (string) $feed->autoupgrade->last_version;
-            $this->autoupgrade_module_link = (string) $feed->autoupgrade->download->link;
+        if ($this->destinationRelease !== null) {
+            return $this->destinationRelease;
+        }
+        $this->destinationRelease = $this->phpVersionResolverService->getPrestashopDestinationRelease(PHP_VERSION_ID);
 
-            foreach ($feed->channel as $channel) {
-                $channel_available = (string) $channel['available'];
+        return $this->destinationRelease;
+    }
 
-                $channel_name = (string) $channel['name'];
-                // stable means major and minor
-                // boolean algebra
-                // skip if one of theses props are true:
-                // - "stable" in xml, "minor" or "major" in configuration
-                // - channel in xml is not channel in configuration
-                if (!(in_array($channel_name, $followed_channels))) {
-                    continue;
-                }
-                // now we are on the correct channel (minor, major, ...)
-                foreach ($channel as $branch) {
-                    // branch name = which version
-                    $branch_name = (string) $branch['name'];
-                    // if channel is "minor" in configuration, do not allow something else than current branch
-                    // otherwise, allow superior or equal
-                    if (
-                        (in_array($this->channel, $followed_channels)
-                        && version_compare($branch_name, $this->branch, '>='))
-                    ) {
-                        // skip if $branch->num is inferior to a previous one, skip it
-                        if ($this->version_num !== null && version_compare((string) $branch->num, $this->version_num, '<')) {
-                            continue;
-                        }
-                        // also skip if previous loop found an available upgrade and current is not
-                        if ($this->available && !($channel_available && (string) $branch['available'])) {
-                            continue;
-                        }
-                        // also skip if chosen channel is minor, and xml branch name is superior to current
-                        if (in_array($this->channel, $array_no_major) && version_compare($branch_name, $this->branch, '>')) {
-                            continue;
-                        }
-                        $this->version_name = (string) $branch->name;
-                        $this->version_num = (string) $branch->num;
-                        $this->link = (string) $branch->download->link;
-                        $this->md5 = (string) $branch->download->md5;
-                        $this->changelog = (string) $branch->changelog;
-                        if (extension_loaded('openssl')) {
-                            $this->link = str_replace('http://', 'https://', $this->link);
-                            $this->changelog = str_replace('http://', 'https://', $this->changelog);
-                        }
-                        $this->available = $channel_available && (string) $branch['available'];
-                    }
-                }
-            }
+    /**
+     * @throws DistributionApiException
+     * @throws UpgradeException
+     */
+    public function getDestinationVersion(): string
+    {
+        if ($this->channel === self::CHANNEL_ARCHIVE) {
+            return $this->upgradeConfiguration->get('archive.version_num');
         } else {
-            return false;
+            return $this->getDynamicDestinationRelease()->getVersion();
         }
-        // retro-compatibility :
-        // return array(name,link) if you don't use the last version
-        // false otherwise
-        if ($this->version_num !== null && version_compare($this->currentPsVersion, $this->version_num, '<')) {
-            $this->need_upgrade = true;
+    }
 
-            return ['name' => $this->version_name, 'link' => $this->link];
-        } else {
-            return false;
+    /**
+     * @throws UpgradeException
+     */
+    public function getLatestModuleVersion(): string
+    {
+        $fileLoader = new FileLoader();
+
+        $channelFile = $fileLoader->getXmlChannel();
+
+        if (empty($channelFile)) {
+            throw new UpgradeException('Unable to retrieve channel.xml.');
         }
+
+        return $channelFile->autoupgrade->last_version;
     }
 
     /**

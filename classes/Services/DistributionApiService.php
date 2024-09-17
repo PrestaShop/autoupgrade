@@ -76,12 +76,12 @@ class DistributionApiService
             foreach ($data as $versionInfo) {
                 $releases[] = new PrestashopRelease(
                     $versionInfo['version'],
+                    $versionInfo['stability'],
                     $versionInfo['php_max_version'],
                     $versionInfo['php_min_version'],
                     $versionInfo['zip_download_url'],
                     $versionInfo['xml_download_url'],
-                    $versionInfo['zip_md5'],
-                    $versionInfo['stability']
+                    $versionInfo['zip_md5']
                 );
             }
 

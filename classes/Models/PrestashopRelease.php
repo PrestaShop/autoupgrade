@@ -31,9 +31,9 @@ class PrestashopRelease
 {
     /** @var string */
     private $version;
-    /** @var string */
+    /** @var ?string */
     private $phpMaxVersion;
-    /** @var string */
+    /** @var ?string */
     private $phpMinVersion;
     /** @var ?string */
     private $zipDownloadUrl;
@@ -41,17 +41,20 @@ class PrestashopRelease
     private $xmlDownloadUrl;
     /** @var ?string */
     private $zipMd5;
+    /** @var ?string */
+    private $changelogUrl;
     /** @var 'rc'|'beta'|'stable' */
     private $stability;
 
     public function __construct(
         string $version,
-        string $phpMaxVersion,
-        string $phpMinVersion,
         string $stability,
+        ?string $phpMaxVersion = null,
+        ?string $phpMinVersion = null,
         ?string $zipDownloadUrl = null,
         ?string $xmlDownloadUrl = null,
-        ?string $zipMd5 = null
+        ?string $zipMd5 = null,
+        ?string $changelogUrl = null
     ) {
         $this->version = $version;
         $this->phpMaxVersion = $phpMaxVersion;
@@ -59,6 +62,7 @@ class PrestashopRelease
         $this->zipDownloadUrl = $zipDownloadUrl;
         $this->xmlDownloadUrl = $xmlDownloadUrl;
         $this->zipMd5 = $zipMd5;
+        $this->changelogUrl = $changelogUrl;
         $this->stability = $stability;
     }
 
@@ -67,12 +71,12 @@ class PrestashopRelease
         return $this->version;
     }
 
-    public function getPhpMaxVersion(): string
+    public function getPhpMaxVersion(): ?string
     {
         return $this->phpMaxVersion;
     }
 
-    public function getPhpMinVersion(): string
+    public function getPhpMinVersion(): ?string
     {
         return $this->phpMinVersion;
     }
@@ -95,5 +99,15 @@ class PrestashopRelease
     public function getStability(): string
     {
         return $this->stability;
+    }
+
+    public function getChangelogUrl(): ?string
+    {
+        return $this->changelogUrl;
+    }
+
+    public function setChangelogUrl(?string $changelogUrl): void
+    {
+        $this->changelogUrl = $changelogUrl;
     }
 }
