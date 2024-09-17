@@ -71,50 +71,40 @@ class Router
             'method' => 'index',
         ],
         self::UPDATE_STEP_VERSION_CHOICE => [
-            'ajax-only' => true,
             'controller' => UpdatePageVersionChoiceController::class,
             'method' => 'step',
-            'fallback' => self::UPDATE_PAGE_VERSION_CHOICE,
         ],
         self::UPDATE_PAGE_UPDATE_OPTIONS => [
             'controller' => UpdatePageUpdateOptionsController::class,
             'method' => 'index',
         ],
         self::UPDATE_STEP_UPDATE_OPTIONS => [
-            'ajax-only' => true,
             'controller' => UpdatePageUpdateOptionsController::class,
             'method' => 'step',
-            'fallback' => self::UPDATE_PAGE_UPDATE_OPTIONS,
         ],
         self::UPDATE_PAGE_BACKUP => [
             'controller' => UpdatePageBackupController::class,
             'method' => 'index',
         ],
         self::UPDATE_STEP_BACKUP => [
-            'ajax-only' => true,
             'controller' => UpdatePageBackupController::class,
             'method' => 'step',
-            'fallback' => self::UPDATE_PAGE_BACKUP,
         ],
         self::UPDATE_PAGE_UPDATE => [
             'controller' => UpdatePageUpdateController::class,
             'method' => 'index',
         ],
         self::UPDATE_STEP_UPDATE => [
-            'ajax-only' => true,
             'controller' => UpdatePageUpdateController::class,
             'method' => 'step',
-            'fallback' => self::UPDATE_PAGE_UPDATE,
         ],
         self::UPDATE_PAGE_POST_UPDATE => [
             'controller' => UpdatePagePostUpdateController::class,
             'method' => 'index',
         ],
         self::UPDATE_STEP_POST_UPDATE => [
-            'ajax-only' => true,
             'controller' => UpdatePagePostUpdateController::class,
             'method' => 'step',
-            'fallback' => self::UPDATE_PAGE_POST_UPDATE,
         ],
     ];
 
@@ -122,38 +112,13 @@ class Router
      * @param Request $request
      *
      * @return string
-     *
-     * @throws RuntimeException
      */
     public function handle(Request $request): string
     {
-        $route = $request->query->get('route');
-
-        if (!isset(self::ROUTES[$route])) {
-            $route = self::HOME_PAGE;
-        }
-
-        return $this->processRoute($route, $request);
-    }
-
-    /**
-     * @param string $routeKey
-     * @param Request $request
-     *
-     * @return string
-     *
-     * @throws RuntimeException
-     */
-    private function processRoute(string $routeKey, Request $request): string
-    {
-        $route = self::ROUTES[$routeKey];
+        $route = self::ROUTES[$request->query->get('route')] ?? self::ROUTES[self::HOME_PAGE];
 
         $method = $route['method'];
 
-        if (!isset($route['ajax-only']) || ($route['ajax-only'] === true && $request->isXmlHttpRequest())) {
-            return (new $route['controller']($this->upgradeContainer))->$method($request);
-        }
-
-        return $this->processRoute($route['fallback'], $request);
+        return (new $route['controller']($this->upgradeContainer))->$method($request);
     }
 }
