@@ -28,11 +28,11 @@
 namespace PrestaShop\Module\AutoUpgrade\Router;
 
 use PrestaShop\Module\AutoUpgrade\Controller\HomePageController;
-use PrestaShop\Module\AutoUpgrade\Controller\UpdatePageVersionChoiceController;
-use PrestaShop\Module\AutoUpgrade\Controller\UpdatePageUpdateOptionsController;
 use PrestaShop\Module\AutoUpgrade\Controller\UpdatePageBackupController;
-use PrestaShop\Module\AutoUpgrade\Controller\UpdatePageUpdateController;
 use PrestaShop\Module\AutoUpgrade\Controller\UpdatePagePostUpdateController;
+use PrestaShop\Module\AutoUpgrade\Controller\UpdatePageUpdateController;
+use PrestaShop\Module\AutoUpgrade\Controller\UpdatePageUpdateOptionsController;
+use PrestaShop\Module\AutoUpgrade\Controller\UpdatePageVersionChoiceController;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\Request;
@@ -74,7 +74,7 @@ class Router
             'ajax-only' => true,
             'controller' => UpdatePageVersionChoiceController::class,
             'method' => 'step',
-            'fallback' => self::UPDATE_PAGE_VERSION_CHOICE
+            'fallback' => self::UPDATE_PAGE_VERSION_CHOICE,
         ],
         self::UPDATE_PAGE_UPDATE_OPTIONS => [
             'controller' => UpdatePageUpdateOptionsController::class,
@@ -84,7 +84,7 @@ class Router
             'ajax-only' => true,
             'controller' => UpdatePageUpdateOptionsController::class,
             'method' => 'step',
-            'fallback' => self::UPDATE_PAGE_UPDATE_OPTIONS
+            'fallback' => self::UPDATE_PAGE_UPDATE_OPTIONS,
         ],
         self::UPDATE_PAGE_BACKUP => [
             'controller' => UpdatePageBackupController::class,
@@ -94,7 +94,7 @@ class Router
             'ajax-only' => true,
             'controller' => UpdatePageBackupController::class,
             'method' => 'step',
-            'fallback' => self::UPDATE_PAGE_BACKUP
+            'fallback' => self::UPDATE_PAGE_BACKUP,
         ],
         self::UPDATE_PAGE_UPDATE => [
             'controller' => UpdatePageUpdateController::class,
@@ -104,7 +104,7 @@ class Router
             'ajax-only' => true,
             'controller' => UpdatePageUpdateController::class,
             'method' => 'step',
-            'fallback' => self::UPDATE_PAGE_UPDATE
+            'fallback' => self::UPDATE_PAGE_UPDATE,
         ],
         self::UPDATE_PAGE_POST_UPDATE => [
             'controller' => UpdatePagePostUpdateController::class,
@@ -114,8 +114,8 @@ class Router
             'ajax-only' => true,
             'controller' => UpdatePagePostUpdateController::class,
             'method' => 'step',
-            'fallback' => self::UPDATE_PAGE_POST_UPDATE
-        ]
+            'fallback' => self::UPDATE_PAGE_POST_UPDATE,
+        ],
     ];
 
     /**
@@ -130,7 +130,7 @@ class Router
         $route = $request->query->get('route');
 
         if (!isset(self::ROUTES[$route])) {
-            $route =  self::HOME_PAGE;
+            $route = self::HOME_PAGE;
         }
 
         return $this->processRoute($route, $request);
