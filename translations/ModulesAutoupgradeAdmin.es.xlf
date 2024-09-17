@@ -1554,7 +1554,7 @@ Comment: check DB access</note>
       <trans-unit id="8406b91fd5a290de3a1e1516db6e79b8" approved="yes">
         <source>Unable to generate private keys using openssl_pkey_new. Check your OpenSSL configuration, especially the path to openssl.cafile.</source>
         <target state="final">No se pueden generar claves privadas usando openssl_pkey_new. Verifica la configuración de OpenSSL, especialmente la ruta al archivo openssl.cafile.</target>
-        <note>Line: 191</note>
+        <note>Line: 185</note>
       </trans-unit>
       <trans-unit id="9909617f8b4cdd63a60a0736026ce540">
         <source>We were unable to check your PHP compatibility with the destination PrestaShop version.</source>
@@ -1671,30 +1671,25 @@ Comment: check DB access</note>
         <target state="final">La siguiente función de PHP no está instalada: %s.</target>
         <note>Line: 177</note>
       </trans-unit>
-      <trans-unit id="2daccf866f94292785c4da181db40860" approved="yes">
-        <source>It's not possible to create a PHP session.</source>
-        <target state="final">No es posible crear una sesión de PHP.</target>
-        <note>Line: 185</note>
-      </trans-unit>
       <trans-unit id="588aebafed7c857178f75431b5af7d58" approved="yes">
         <source>It's not possible to write in the following folders:</source>
         <target state="final">No es posible escribir en las siguientes carpetas:</target>
-        <note>Line: 198</note>
+        <note>Line: 192</note>
       </trans-unit>
       <trans-unit id="3f3a0789a5678daaa3cd41067dd6855e">
         <source>The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table. [1]Learn more[/1].</source>
         <target state="needs-translation">The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table. [1]Learn more[/1].</target>
-        <note>Line: 211</note>
+        <note>Line: 205</note>
       </trans-unit>
       <trans-unit id="aa9b0228ac4e3e44b836f79eebf5e481" approved="yes">
         <source>Please also make sure you make a full manual backup of your files and database.</source>
         <target state="final">Por favor, asegúrate de realizar una copia de seguridad manual completa de tus archivos y de la base de datos.</target>
-        <note>Line: 221</note>
+        <note>Line: 215</note>
       </trans-unit>
       <trans-unit id="2f5caf188163a31f04c828530331b096" approved="yes">
         <source>PrestaShop requirements are not satisfied.</source>
         <target state="final">No se cumplen los requisitos de PrestaShop.</target>
-        <note>Line: 223</note>
+        <note>Line: 217</note>
       </trans-unit>
     </body>
   </file>
