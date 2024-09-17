@@ -37,21 +37,7 @@ use Twig\Error\SyntaxError;
 class UpdatePageVersionChoiceController extends AbstractPageController
 {
     const CURRENT_STEP = UpdateSteps::VERSION_CHOICE;
-
-    /**
-     * @param Request $request
-     *
-     * @return string
-     *
-     * @throws \Exception
-     */
-    public function index(Request $request): string
-    {
-        return $this->renderPage(
-            'update',
-            $this->getParams()
-        );
-    }
+    const CURRENT_PAGE = 'update';
 
     /**
      * @param Request $request
@@ -75,7 +61,7 @@ class UpdatePageVersionChoiceController extends AbstractPageController
      *
      * @throws \Exception
      */
-    private function getParams(): array
+    protected function getParams(): array
     {
         $updateSteps = new UpdateSteps($this->upgradeContainer->getTranslator());
 
@@ -85,7 +71,7 @@ class UpdatePageVersionChoiceController extends AbstractPageController
                 'title' => $updateSteps->getStepTitle($this::CURRENT_STEP),
             ],
             'steps' => $updateSteps->getSteps($this::CURRENT_STEP),
-            'upToDate' => true /* TODO */ ,
+            'upToDate' => false /* TODO */ ,
             'noLocalArchive' => !$this->upgradeContainer->getLocalArchiveRepository()->hasLocalArchive(),
             // TODO: How to find images based on shop URL ?
             'assetsBasePath' => $this->upgradeContainer->getAssetsEnvironment()->getAssetsBaseUrl(),

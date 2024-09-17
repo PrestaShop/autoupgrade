@@ -27,8 +27,12 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Controller;
 
-class AbstractPageController extends AbstractGlobalController
+use Symfony\Component\HttpFoundation\Request;
+
+abstract class AbstractPageController extends AbstractGlobalController
 {
+    const CURRENT_PAGE = '';
+
     protected function getPsVersion(): string
     {
         return $this->upgradeContainer->getProperty($this->upgradeContainer::PS_VERSION);
@@ -61,4 +65,24 @@ class AbstractPageController extends AbstractGlobalController
             )
         );
     }
+
+    /**
+     * @param Request $request
+     *
+     * @return string
+     *
+     * @throws \Exception
+     */
+    public function index(Request $request): string
+    {
+        return $this->renderPage(
+            $this::CURRENT_PAGE,
+            $this->getParams()
+        );
+    }
+
+    /**
+     * @return array
+     */
+    abstract protected function getParams(): array;
 }

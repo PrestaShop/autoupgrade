@@ -31,16 +31,20 @@ use PrestaShop\Module\AutoUpgrade\BackupFinder;
 
 class HomePageController extends AbstractPageController
 {
-    public function index(): string
+    const CURRENT_PAGE = 'home';
+
+    /**
+     * @return array
+     *
+     * @throws \Exception
+     */
+    protected function getParams(): array
     {
         $backupPath = $this->upgradeContainer->getProperty($this->upgradeContainer::BACKUP_PATH);
         $backupFinder = new BackupFinder($backupPath);
 
-        return $this->renderPage(
-            'home',
-            [
-                'empty_backup' => empty($backupFinder->getAvailableBackups()),
-            ]
-        );
+        return [
+            'empty_backup' => empty($backupFinder->getAvailableBackups()),
+        ];
     }
 }

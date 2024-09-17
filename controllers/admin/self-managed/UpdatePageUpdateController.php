@@ -36,21 +36,7 @@ use Twig\Error\SyntaxError;
 class UpdatePageUpdateController extends AbstractPageController
 {
     const CURRENT_STEP = UpdateSteps::UPDATE;
-
-    /**
-     * @param Request $request
-     *
-     * @return string
-     *
-     * @throws \Exception
-     */
-    public function index(Request $request): string
-    {
-        return $this->renderPage(
-            'update',
-            $this->getParams()
-        );
-    }
+    const CURRENT_PAGE = 'update';
 
     /**
      * @param Request $request
@@ -74,7 +60,7 @@ class UpdatePageUpdateController extends AbstractPageController
      *
      * @throws \Exception
      */
-    private function getParams(): array
+    protected function getParams(): array
     {
         $updateSteps = new UpdateSteps($this->upgradeContainer->getTranslator());
 
