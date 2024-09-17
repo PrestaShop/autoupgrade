@@ -20,6 +20,17 @@ $e: "#ua";
     background-color: var(--#{$ua-prefix}white);
   }
 
+  &_container {
+    padding: 4rem;
+    background-color: var(--#{$ua-prefix}white);
+  }
+
+  &_step_content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
   &_privacy {
     text-align: center;
   }

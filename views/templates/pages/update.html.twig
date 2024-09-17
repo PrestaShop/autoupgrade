@@ -1,6 +1,6 @@
-{% extends '@ModuleAutoUpgrade/layouts/update.html.twig' %}
+{% extends '@ModuleAutoUpgrade/layouts/page.html.twig' %}
 
-{% block content %}
+{% block container_inner %}
     {% if step.code == "update-options" %}
         {% include '@ModuleAutoUpgrade/steps/update-options.html.twig' %}
     {% elseif step.code == "backup" %}

@@ -1,1 +1,16 @@
-<h1>Update</h1>
+{% extends '@ModuleAutoUpgrade/layouts/step-content.html.twig' %}
+
+{% block title %}
+	<h1>{{ step.title }}</h1>
+{% endblock %}
+
+{% block content %}{% endblock %}
+
+{% block buttons_inner %}
+	<button class="btn btn-lg btn-primary" type="button">
+		{{ 'Next'|trans({}) }}
+		<i class="material-icons">
+			arrow_forward
+		</i>
+	</button>
+{% endblock %}
