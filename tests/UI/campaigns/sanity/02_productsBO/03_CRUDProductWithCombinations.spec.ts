@@ -60,7 +60,7 @@ test.describe('BO - Catalog - Products : CRUD product with combinations', async 
     attributes: [
       {
         name: 'color',
-        values: ['Gray', 'Taupe', 'Red'],
+        values: ['Gray', 'Grey','Taupe', 'Red'],
       },
       {
         name: 'size',
