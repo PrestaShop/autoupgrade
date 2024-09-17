@@ -96,7 +96,11 @@ class AllUpgradeTasks extends ChainedTasks
         $this->logger->info('Restart requested. Please run the following command to continue your upgrade:');
         $args = $_SERVER['argv'];
         foreach ($args as $key => $arg) {
-            if (strpos($arg, '--data') === 0 || strpos($arg, '--action') === 0) {
+            if (
+                strpos($arg, '--data') === 0
+                || strpos($arg, '--action') === 0
+                || strpos($arg, '--config-file-path') === 0
+            ) {
                 unset($args[$key]);
             }
         }
