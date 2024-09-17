@@ -104,7 +104,7 @@ class UpgradeChecklist
             'token' => $this->token,
             'cachingIsDisabled' => $this->selfCheck->isCacheDisabled(),
             'maxExecutionTime' => $this->selfCheck->getMaxExecutionTime(),
-            'phpRequirementsState' => $this->selfCheck->getPhpRequirementsState(),
+            'phpRequirementsState' => $this->selfCheck->getPhpRequirementsState(PHP_VERSION_ID),
             'phpCompatibilityRange' => $this->selfCheck->getPhpCompatibilityRange(),
             'checkApacheModRewrite' => $this->selfCheck->isApacheModRewriteEnabled(),
             'notLoadedPhpExtensions' => $this->selfCheck->getNotLoadedPhpExtensions(),
