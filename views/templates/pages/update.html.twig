@@ -3,13 +3,12 @@
 {% block content %}
     {% if step.code == "update-options" %}
         {% include '@ModuleAutoUpgrade/steps/update-options.html.twig' %}
-    {#    {% endif %}#}
-    {#    {% elseif page == "backup" %}#}
-    {#        {% include '@ModuleAutoUpgrade/pages/backup.html.twig' %}#}
-    {#    {% elseif page == "update" %}#}
-    {#        {% include '@ModuleAutoUpgrade/pages/update.html.twig' %}#}
-    {#    {% elseif page == "post-update" %}#}
-    {#        {% include '@ModuleAutoUpgrade/layouts/post-update.html.twig' %}#}
+    {% elseif step.code == "backup" %}
+        {% include '@ModuleAutoUpgrade/steps/backup.html.twig' %}
+    {% elseif step.code == "update" %}
+        {% include '@ModuleAutoUpgrade/steps/update.html.twig' %}
+    {% elseif step.code == "post-update" %}
+        {% include '@ModuleAutoUpgrade/steps/post-update.html.twig' %}
     {% else %}
         {% include '@ModuleAutoUpgrade/steps/version-choice.html.twig' %}
     {% endif %}
