@@ -87,7 +87,8 @@ class UpdatePageVersionChoiceController extends AbstractPageController
             'steps' => $updateSteps->getSteps($this::CURRENT_STEP),
             'upToDate' => true /* TODO */ ,
             'noLocalArchive' => !$this->upgradeContainer->getLocalArchiveRepository()->hasLocalArchive(),
-            'psBaseUri' => __PS_BASE_URI__,
+            // TODO: How to find images based on shop URL ?
+            'assetsBasePath' => $this->upgradeContainer->getAssetsEnvironment()->getAssetsBaseUrl(),
             'currentPrestashopVersion' => $this->getPsVersion(),
             'currentPhpVersion' => VersionUtils::getHumanReadableVersionOf(PHP_VERSION_ID),
             // TODO

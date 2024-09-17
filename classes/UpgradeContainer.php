@@ -52,6 +52,8 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translation;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 use PrestaShop\Module\AutoUpgrade\Xml\ChecksumCompare;
 use PrestaShop\Module\AutoUpgrade\Xml\FileLoader;
+use PrestaShop\Module\AutoUpgrade\Twig\AssetsEnvironment;
+use Symfony\Component\Dotenv\Dotenv;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Loader\FilesystemLoader;
@@ -191,6 +193,11 @@ class UpgradeContainer
     private $localArchiveRepository;
 
     /**
+     * @var AssetsEnvironment
+     */
+    private $assetsEnvironment;
+
+    /**
      * AdminSelfUpgrade::$autoupgradePath
      * Ex.: /var/www/html/PrestaShop/admin-dev/autoupgrade.
      *
@@ -213,6 +220,11 @@ class UpgradeContainer
         $this->autoupgradeWorkDir = $adminDir . DIRECTORY_SEPARATOR . $moduleSubDir;
         $this->adminDir = $adminDir;
         $this->psRootDir = $psRootDir;
+
+        if (file_exists($psRootDir . '/modules/autoupgrade/.env')) {
+            $dotenv = new Dotenv();
+            $dotenv->load($psRootDir . '/modules/autoupgrade/.env');
+        }
     }
 
     /**
@@ -703,6 +715,20 @@ class UpgradeContainer
         }
 
         return $this->localArchiveRepository = new LocalArchiveRepository($this->getProperty($this::DOWNLOAD_PATH));
+    }
+
+    /**
+     * @return AssetsEnvironment
+     *
+     * @throws Exception
+     */
+    public function getAssetsEnvironment(): AssetsEnvironment
+    {
+        if (null !== $this->assetsEnvironment) {
+            return $this->assetsEnvironment;
+        }
+
+        return $this->assetsEnvironment = new AssetsEnvironment($this->getProperty($this::PS_ROOT_PATH));
     }
 
     /**
