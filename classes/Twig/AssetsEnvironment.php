@@ -27,7 +27,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Twig;
 
-use PrestaShop\Module\AutoUpgrade\Tools14;
+use Symfony\Component\HttpFoundation\Request;
 
 class AssetsEnvironment
 {
@@ -38,12 +38,21 @@ class AssetsEnvironment
         return !empty($_ENV['AUTOUPGRADE_DEV_WATCH_MODE']) && $_ENV['AUTOUPGRADE_DEV_WATCH_MODE'] === '1';
     }
 
-    public function getAssetsBaseUrl(): string
+    public function getAssetsBaseUrl(Request $request): string
     {
         if ($this->isDevMode()) {
             return self::DEV_BASE_URL;
         }
 
-        return '//' . Tools14::getHttpHost() . '/modules/autoupgrade/views';
+        return $this->getShopUrlFromRequest($request) . '/modules/autoupgrade/views';
+    }
+
+    private function getShopUrlFromRequest(Request $request): string
+    {
+        // The calls are made from the admin folder. We remove it from the caller URL to get the shop path.
+        $path = explode('/', $request->getBasePath());
+        array_pop($path);
+
+        return $request->getSchemeAndHttpHost() . implode('/', $path);
     }
 }

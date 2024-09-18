@@ -77,12 +77,12 @@ abstract class AbstractPageController extends AbstractGlobalController
     {
         return $this->renderPage(
             $this::CURRENT_PAGE,
-            $this->getParams()
+            $this->getParams($request)
         );
     }
 
     /**
      * @return array
      */
-    abstract protected function getParams(): array;
+    abstract protected function getParams(Request $request): array;
 }

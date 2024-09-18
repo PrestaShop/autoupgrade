@@ -52,7 +52,7 @@ class UpdatePageVersionChoiceController extends AbstractPageController
     {
         return $this->twig->render(
             '@ModuleAutoUpgrade/steps/version-choice.html.twig',
-            $this->getParams()
+            $this->getParams($request)
         );
     }
 
@@ -61,7 +61,7 @@ class UpdatePageVersionChoiceController extends AbstractPageController
      *
      * @throws \Exception
      */
-    protected function getParams(): array
+    protected function getParams(Request $request): array
     {
         $updateSteps = new UpdateSteps($this->upgradeContainer->getTranslator());
 
@@ -71,10 +71,10 @@ class UpdatePageVersionChoiceController extends AbstractPageController
                 'title' => $updateSteps->getStepTitle($this::CURRENT_STEP),
             ],
             'steps' => $updateSteps->getSteps($this::CURRENT_STEP),
-            'upToDate' => false /* TODO */ ,
+            'upToDate' => true /* TODO */ ,
             'noLocalArchive' => !$this->upgradeContainer->getLocalArchiveRepository()->hasLocalArchive(),
             // TODO: How to find images based on shop URL ?
-            'assetsBasePath' => $this->upgradeContainer->getAssetsEnvironment()->getAssetsBaseUrl(),
+            'assetsBasePath' => $this->upgradeContainer->getAssetsEnvironment()->getAssetsBaseUrl($request),
             'currentPrestashopVersion' => $this->getPsVersion(),
             'currentPhpVersion' => VersionUtils::getHumanReadableVersionOf(PHP_VERSION_ID),
             // TODO

@@ -35,6 +35,7 @@ use PrestaShop\Module\AutoUpgrade\Controller\UpdatePageUpdateOptionsController;
 use PrestaShop\Module\AutoUpgrade\Controller\UpdatePageVersionChoiceController;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class Router
 {
@@ -110,9 +111,9 @@ class Router
     /**
      * @param Request $request
      *
-     * @return string
+     * @return Response|string
      */
-    public function handle(Request $request): string
+    public function handle(Request $request)
     {
         $route = self::ROUTES[$request->query->get('route')] ?? self::ROUTES[self::HOME_PAGE];
 

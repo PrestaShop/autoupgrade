@@ -459,9 +459,8 @@ class AdminSelfUpgradeController extends ModuleAdminController
         }
 
         if (Tools::getValue('new-ui')) {
-            $this->addNewUIAssets();
-
             $request = Request::createFromGlobals();
+            $this->addNewUIAssets($request);
 
             // TODO: In the future, the router will return an object instead of a string depending on controller called.
             $this->content = (new Router($this->upgradeContainer))->handle($request);
@@ -517,12 +516,14 @@ class AdminSelfUpgradeController extends ModuleAdminController
     }
 
     /**
+     * @param Request $request
+     *
      * @return void
      */
-    private function addNewUIAssets()
+    private function addNewUIAssets(Request $request)
     {
         $assetsEnvironment = $this->upgradeContainer->getAssetsEnvironment();
-        $assetsBaseUrl = $assetsEnvironment->getAssetsBaseUrl();
+        $assetsBaseUrl = $assetsEnvironment->getAssetsBaseUrl($request);
 
         if ($assetsEnvironment->isDevMode()) {
             $this->context->controller->addCSS($assetsBaseUrl . 'src/scss/main.scss');

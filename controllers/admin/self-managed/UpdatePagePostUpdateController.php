@@ -60,7 +60,7 @@ class UpdatePagePostUpdateController extends AbstractPageController
      *
      * @throws \Exception
      */
-    protected function getParams(): array
+    protected function getParams(Request $request): array
     {
         $updateSteps = new UpdateSteps($this->upgradeContainer->getTranslator());
 

@@ -59,5 +59,9 @@ if (!empty($action)) {
     $controller->run();
     echo $controller->getJsonResponse();
 } else {
-    echo (new Router($container))->handle(Request::createFromGlobals());
+    $response = (new Router($container))->handle(Request::createFromGlobals());
+    if ($response instanceof \Symfony\Component\HttpFoundation\Response) {
+        $response->send();
+    }
+    echo $response;
 }

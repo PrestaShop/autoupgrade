@@ -28,6 +28,7 @@
 namespace PrestaShop\Module\AutoUpgrade\Controller;
 
 use PrestaShop\Module\AutoUpgrade\BackupFinder;
+use Symfony\Component\HttpFoundation\Request;
 
 class HomePageController extends AbstractPageController
 {
@@ -38,7 +39,7 @@ class HomePageController extends AbstractPageController
      *
      * @throws \Exception
      */
-    protected function getParams(): array
+    protected function getParams(Request $request): array
     {
         $backupPath = $this->upgradeContainer->getProperty($this->upgradeContainer::BACKUP_PATH);
         $backupFinder = new BackupFinder($backupPath);
