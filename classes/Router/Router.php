@@ -34,7 +34,6 @@ use PrestaShop\Module\AutoUpgrade\Controller\UpdatePageUpdateController;
 use PrestaShop\Module\AutoUpgrade\Controller\UpdatePageUpdateOptionsController;
 use PrestaShop\Module\AutoUpgrade\Controller\UpdatePageVersionChoiceController;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
-use RuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 
 class Router
