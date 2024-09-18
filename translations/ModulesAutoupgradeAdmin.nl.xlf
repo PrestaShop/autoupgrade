@@ -442,6 +442,16 @@
   </file>
   <file original="classes/Task/Upgrade/UpgradeDb.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
+      <trans-unit id="badf6aad60d4a95b698028bc55aa3347">
+        <source>Cleaning file cache</source>
+        <target state="needs-translation">Cleaning file cache</target>
+        <note>Line: 83</note>
+      </trans-unit>
+      <trans-unit id="8c4204265814594491ae20c9899a0fff">
+        <source>Running opcache_reset</source>
+        <target state="needs-translation">Running opcache_reset</target>
+        <note>Line: 85</note>
+      </trans-unit>
       <trans-unit id="eac34868b4fb511702e53d1405c45454" approved="yes">
         <source>Error during database upgrade. You may need to restore your database.</source>
         <target state="final">Fout tijdens het bijwerken van de database. Het kan nodig zijn om uw database te herstellen.</target>
@@ -580,6 +590,11 @@ Comment: directory already exists</note>
   </file>
   <file original="classes/Task/Upgrade/UpgradeNow.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
+      <trans-unit id="37ce0f29c7377c827e7247fe5645a782">
+        <source>You already have the %s version.</source>
+        <target state="needs-translation">You already have the %s version.</target>
+        <note>Line: 69</note>
+      </trans-unit>
       <trans-unit id="ca895e37bd5dfe413d7ffdd592580117" approved="yes">
         <source>Starting upgrade...</source>
         <target state="final">Upgrade gestart...</target>
@@ -933,21 +948,6 @@ Comment: directory already exists</note>
   </file>
   <file original="classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
-      <trans-unit id="37ce0f29c7377c827e7247fe5645a782" approved="yes">
-        <source>You already have the %s version.</source>
-        <target state="final">U heeft reeds versie %s.</target>
-        <note>Line: 286</note>
-      </trans-unit>
-      <trans-unit id="badf6aad60d4a95b698028bc55aa3347">
-        <source>Cleaning file cache</source>
-        <target state="needs-translation">Cleaning file cache</target>
-        <note>Line: 882</note>
-      </trans-unit>
-      <trans-unit id="8c4204265814594491ae20c9899a0fff">
-        <source>Running opcache_reset</source>
-        <target state="needs-translation">Running opcache_reset</target>
-        <note>Line: 884</note>
-      </trans-unit>
       <trans-unit id="d90307511d557233464da663999f3151">
         <source>Initializing required environment constants</source>
         <target state="needs-translation">Initializing required environment constants</target>
@@ -1339,6 +1339,26 @@ Comment: check DB access</note>
   </file>
   <file original="controllers/admin/AdminSelfUpgradeController.php" source-language="en" target-language="nl" datatype="plaintext">
     <body>
+      <trans-unit id="bb7748991e29366d42f8fa2c361f4d55">
+        <source>Back up my files and database</source>
+        <target state="needs-translation">Back up my files and database</target>
+        <note>Line: 204</note>
+      </trans-unit>
+      <trans-unit id="e53b4fd73748419564a1742f66ba631f">
+        <source>Automatically back up your database and files in order to restore your shop if needed. This is experimental: you should still perform your own manual backup for safety.</source>
+        <target state="needs-translation">Automatically back up your database and files in order to restore your shop if needed. This is experimental: you should still perform your own manual backup for safety.</target>
+        <note>Line: 209</note>
+      </trans-unit>
+      <trans-unit id="d5342bfd5b032cd75faeebdf2a918a79">
+        <source>Back up my images</source>
+        <target state="needs-translation">Back up my images</target>
+        <note>Line: 212</note>
+      </trans-unit>
+      <trans-unit id="9a2cad898ee3d0ea4573946becdec9cf">
+        <source>To save time, you can decide not to back your images up. In any case, always make sure you did back them up manually.</source>
+        <target state="needs-translation">To save time, you can decide not to back your images up. In any case, always make sure you did back them up manually.</target>
+        <note>Line: 217</note>
+      </trans-unit>
       <trans-unit id="26f07ad840fb1c17d29f5be0f428f015">
         <source>Disable non-native modules</source>
         <target state="needs-translation">Disable non-native modules</target>
@@ -1389,26 +1409,6 @@ Comment: check DB access</note>
         <target state="needs-translation">If you customized the default PrestaShop e-mail templates, enabling this option will keep your modifications.</target>
         <note>Line: 250</note>
       </trans-unit>
-      <trans-unit id="bb7748991e29366d42f8fa2c361f4d55">
-        <source>Back up my files and database</source>
-        <target state="needs-translation">Back up my files and database</target>
-        <note>Line: 204</note>
-      </trans-unit>
-      <trans-unit id="e53b4fd73748419564a1742f66ba631f">
-        <source>Automatically back up your database and files in order to restore your shop if needed. This is experimental: you should still perform your own manual backup for safety.</source>
-        <target state="needs-translation">Automatically back up your database and files in order to restore your shop if needed. This is experimental: you should still perform your own manual backup for safety.</target>
-        <note>Line: 209</note>
-      </trans-unit>
-      <trans-unit id="d5342bfd5b032cd75faeebdf2a918a79">
-        <source>Back up my images</source>
-        <target state="needs-translation">Back up my images</target>
-        <note>Line: 212</note>
-      </trans-unit>
-      <trans-unit id="9a2cad898ee3d0ea4573946becdec9cf">
-        <source>To save time, you can decide not to back your images up. In any case, always make sure you did back them up manually.</source>
-        <target state="needs-translation">To save time, you can decide not to back your images up. In any case, always make sure you did back them up manually.</target>
-        <note>Line: 217</note>
-      </trans-unit>
       <trans-unit id="21dc065f2d8653ebca37ec552d17b37e" approved="yes">
         <source>Unable to create the directory "%s"</source>
         <target state="final">Kan de map "%s" niet aanmaken</target>
@@ -1438,6 +1438,11 @@ Comment: check DB access</note>
   </file>
   <file original="views/templates/block/activityLog.html.twig" source-language="en" target-language="nl" datatype="plaintext">
     <body>
+      <trans-unit id="ea4788705e6873b424c65e91c2846b19">
+        <source>Cancel</source>
+        <target state="needs-translation">Cancel</target>
+        <note>Line: 57</note>
+      </trans-unit>
       <trans-unit id="2b16564e6e838ce86608620b70beb570" approved="yes">
         <source>Activity Log</source>
         <target state="final">Activiteitenlog</target>
@@ -1545,16 +1550,6 @@ Comment: check DB access</note>
         <source>Your current PHP version isn't compatible with your PrestaShop version. (Expected: %s - %s | Current: %s)</source>
         <target state="needs-translation">Your current PHP version isn't compatible with your PrestaShop version. (Expected: %s - %s | Current: %s)</target>
         <note>Line: 24</note>
-      </trans-unit>
-      <trans-unit id="8406b91fd5a290de3a1e1516db6e79b8" approved="yes">
-        <source>Unable to generate private keys using openssl_pkey_new. Check your OpenSSL configuration, especially the path to openssl.cafile.</source>
-        <target state="final">Problemen met het genereren van de privésleutel gebruikmakend van openssl_pkey_new. Controleer uw OpenSSL configuratie, vooral het pad naar openssl.cafile.</target>
-        <note>Line: 185</note>
-      </trans-unit>
-      <trans-unit id="9909617f8b4cdd63a60a0736026ce540">
-        <source>We were unable to check your PHP compatibility with the destination PrestaShop version.</source>
-        <target state="needs-translation">We were unable to check your PHP compatibility with the destination PrestaShop version.</target>
-        <note>Line: 30</note>
       </trans-unit>
       <trans-unit id="69ff9aca0bd03b3981784593311d866a" approved="yes">
         <source>The pre-Upgrade checklist</source>
@@ -1688,15 +1683,6 @@ Comment: check DB access</note>
       </trans-unit>
     </body>
   </file>
-  <file original="views/templates/block/footer.html.twig" source-language="en" target-language="nl" datatype="plaintext">
-    <body>
-      <trans-unit id="56c34c6410dd45c5cec44149ad0ce037">
-        <source>Privacy policy</source>
-        <target state="needs-translation">Privacy policy</target>
-        <note>Line: 7</note>
-      </trans-unit>
-    </body>
-  </file>
   <file original="views/templates/block/postRestoreChecklistBlock.html.twig" source-language="en" target-language="nl" datatype="plaintext">
     <body>
       <trans-unit id="ae4a0e3a1c9d80344cf29e3f909861b5">
@@ -1718,31 +1704,6 @@ Comment: check DB access</note>
   </file>
   <file original="views/templates/block/postUpdateChecklistBlock.html.twig" source-language="en" target-language="nl" datatype="plaintext">
     <body>
-      <trans-unit id="cce78dc6ebbec7385a01f2146d6d01c8">
-        <source>Next steps</source>
-        <target state="needs-translation">Next steps</target>
-        <note>Line: 24</note>
-      </trans-unit>
-      <trans-unit id="231cf4c70d866b616c21baddaeed0696">
-        <source>Troubleshooting</source>
-        <target state="needs-translation">Troubleshooting</target>
-        <note>Line: 35</note>
-      </trans-unit>
-      <trans-unit id="b6e8290a312769f4d3919f3dd42a21a7">
-        <source>If something's wrong, you can restore a backup with this module. Your backup is available at {admin}/autoupgrade/backup.</source>
-        <target state="needs-translation">If something's wrong, you can restore a backup with this module. Your backup is available at {admin}/autoupgrade/backup.</target>
-        <note>Line: 40</note>
-      </trans-unit>
-      <trans-unit id="3cdf2387430d70296aec1dbe3d6772ad">
-        <source>If you can't access your back office, try enabling the debug mode manually in config/defines.inc.php by setting _PS_MODE_DEV_ to true.</source>
-        <target state="needs-translation">If you can't access your back office, try enabling the debug mode manually in config/defines.inc.php by setting _PS_MODE_DEV_ to true.</target>
-        <note>Line: 42</note>
-      </trans-unit>
-      <trans-unit id="4ba42d4d681d17d9bee2f6228c326069">
-        <source>Open developer documentation</source>
-        <target state="needs-translation">Open developer documentation</target>
-        <note>Line: 16</note>
-      </trans-unit>
       <trans-unit id="79dc0855e9436fdc704a8f489d82f521">
         <source><![CDATA[Disable the maintenance mode in General settings > Maintenance.]]></source>
         <target state="needs-translation"><![CDATA[Disable the maintenance mode in General settings > Maintenance.]]></target>
@@ -1777,11 +1738,6 @@ Comment: check DB access</note>
   </file>
   <file original="views/templates/block/rollbackForm.html.twig" source-language="en" target-language="nl" datatype="plaintext">
     <body>
-      <trans-unit id="c629f24e672b4e1165ebf1c10b5c5c5d" approved="yes">
-        <source>-- Choose a backup to restore --</source>
-        <target state="final">-- Kies een reserverkopie om terug te zetten --</target>
-        <note>Line: 14</note>
-      </trans-unit>
       <trans-unit id="446c9e952debe114c86bbd9e5eea7d61" approved="yes">
         <source>Rollback</source>
         <target state="final">Terugzetten</target>
@@ -1805,31 +1761,6 @@ Comment: check DB access</note>
         <source>More options (Expert mode)</source>
         <target state="final">Meer opties (Expert mode)</target>
         <note>Line: 75</note>
-      </trans-unit>
-      <trans-unit id="780daf2510c5c9e1c58948f138629817" approved="yes">
-        <source>Archive to use:</source>
-        <target state="final">Gebruik Archief:</target>
-        <note>Line: 119</note>
-      </trans-unit>
-      <trans-unit id="eb7d4dd49f36e74b58604842ee983efd" approved="yes">
-        <source>Choose an archive</source>
-        <target state="final">Een archief kiezen</target>
-        <note>Line: 122</note>
-      </trans-unit>
-      <trans-unit id="d16e8ad31ee6eb7891c79ba25cad7863" approved="yes">
-        <source>XML file to use:</source>
-        <target state="final">XML-bestand te gebruiken:</target>
-        <note>Line: 130</note>
-      </trans-unit>
-      <trans-unit id="cd0135bf9edaf19cb7944e0e7b36a9d6" approved="yes">
-        <source>Choose an XML file</source>
-        <target state="final">Kies een XML-bestand</target>
-        <note>Line: 132</note>
-      </trans-unit>
-      <trans-unit id="5be0150b075f706fc27b09753ce6646d" approved="yes">
-        <source>No archive found in your admin/autoupgrade/download directory</source>
-        <target state="final">Geen archief gevonden in uw admin/autoupgrade/download map</target>
-        <note>Line: 141</note>
       </trans-unit>
       <trans-unit id="c9cc8cce247e49bae79f15173ce97354" approved="yes">
         <source>Save</source>
@@ -2019,6 +1950,11 @@ Comment: check DB access</note>
   </file>
   <file original="views/templates/components/backup-selection.html.twig" source-language="en" target-language="nl" datatype="plaintext">
     <body>
+      <trans-unit id="c629f24e672b4e1165ebf1c10b5c5c5d">
+        <source>-- Choose a backup to restore --</source>
+        <target state="needs-translation">-- Choose a backup to restore --</target>
+        <note>Line: 5</note>
+      </trans-unit>
       <trans-unit id="caef47f6ddf52575a8fe9e566b68dcd8">
         <source>Select the backup you want to restore to</source>
         <target state="needs-translation">Select the backup you want to restore to</target>
@@ -2068,10 +2004,20 @@ Comment: check DB access</note>
         <target state="needs-translation">PHP file_uploads configuration needs to be enabled.</target>
         <note>Line: 153</note>
       </trans-unit>
+      <trans-unit id="8406b91fd5a290de3a1e1516db6e79b8">
+        <source>Unable to generate private keys using openssl_pkey_new. Check your OpenSSL configuration, especially the path to openssl.cafile.</source>
+        <target state="needs-translation">Unable to generate private keys using openssl_pkey_new. Check your OpenSSL configuration, especially the path to openssl.cafile.</target>
+        <note>Line: 160</note>
+      </trans-unit>
       <trans-unit id="a99553cd5eff17f5895d093c44b5c430">
         <source>The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table.</source>
         <target state="needs-translation">The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table.</target>
         <note>Line: 177</note>
+      </trans-unit>
+      <trans-unit id="9909617f8b4cdd63a60a0736026ce540">
+        <source>We were unable to check your PHP compatibility with the destination PrestaShop version.</source>
+        <target state="needs-translation">We were unable to check your PHP compatibility with the destination PrestaShop version.</target>
+        <note>Line: 195</note>
       </trans-unit>
       <trans-unit id="d63d0e3addadd645300c8e4909c7e3b1">
         <source>Checking requirements...</source>
@@ -2167,6 +2113,31 @@ Comment: check DB access</note>
   </file>
   <file original="views/templates/components/local-archive.html.twig" source-language="en" target-language="nl" datatype="plaintext">
     <body>
+      <trans-unit id="780daf2510c5c9e1c58948f138629817">
+        <source>Archive to use:</source>
+        <target state="needs-translation">Archive to use:</target>
+        <note>Line: 4</note>
+      </trans-unit>
+      <trans-unit id="eb7d4dd49f36e74b58604842ee983efd">
+        <source>Choose an archive</source>
+        <target state="needs-translation">Choose an archive</target>
+        <note>Line: 10</note>
+      </trans-unit>
+      <trans-unit id="d16e8ad31ee6eb7891c79ba25cad7863">
+        <source>XML file to use:</source>
+        <target state="needs-translation">XML file to use:</target>
+        <note>Line: 27</note>
+      </trans-unit>
+      <trans-unit id="cd0135bf9edaf19cb7944e0e7b36a9d6">
+        <source>Choose an XML file</source>
+        <target state="needs-translation">Choose an XML file</target>
+        <note>Line: 33</note>
+      </trans-unit>
+      <trans-unit id="5be0150b075f706fc27b09753ce6646d">
+        <source>No archive found in your admin/autoupgrade/download directory</source>
+        <target state="needs-translation">No archive found in your admin/autoupgrade/download directory</target>
+        <note>Line: 63</note>
+      </trans-unit>
       <trans-unit id="0b4a925c935931bb73c6b28c285a21c0">
         <source>We couldn't find a PrestaShop version in the .zip file you uploaded. Please try again.</source>
         <target state="needs-translation">We couldn't find a PrestaShop version in the .zip file you uploaded. Please try again.</target>
@@ -2200,6 +2171,15 @@ Comment: check DB access</note>
         <source>See error</source>
         <target state="needs-translation">See error</target>
         <note>Line: 41</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="views/templates/components/privacy.html.twig" source-language="en" target-language="nl" datatype="plaintext">
+    <body>
+      <trans-unit id="56c34c6410dd45c5cec44149ad0ce037">
+        <source>Privacy policy</source>
+        <target state="needs-translation">Privacy policy</target>
+        <note>Line: 2</note>
       </trans-unit>
     </body>
   </file>
@@ -2238,6 +2218,31 @@ Comment: check DB access</note>
   </file>
   <file original="views/templates/layouts/post-update-checklist.html.twig" source-language="en" target-language="nl" datatype="plaintext">
     <body>
+      <trans-unit id="4ba42d4d681d17d9bee2f6228c326069">
+        <source>Open developer documentation</source>
+        <target state="needs-translation">Open developer documentation</target>
+        <note>Line: 60</note>
+      </trans-unit>
+      <trans-unit id="cce78dc6ebbec7385a01f2146d6d01c8">
+        <source>Next steps</source>
+        <target state="needs-translation">Next steps</target>
+        <note>Line: 20</note>
+      </trans-unit>
+      <trans-unit id="231cf4c70d866b616c21baddaeed0696">
+        <source>Troubleshooting</source>
+        <target state="needs-translation">Troubleshooting</target>
+        <note>Line: 31</note>
+      </trans-unit>
+      <trans-unit id="b6e8290a312769f4d3919f3dd42a21a7">
+        <source>If something's wrong, you can restore a backup with this module. Your backup is available at {admin}/autoupgrade/backup.</source>
+        <target state="needs-translation">If something's wrong, you can restore a backup with this module. Your backup is available at {admin}/autoupgrade/backup.</target>
+        <note>Line: 35</note>
+      </trans-unit>
+      <trans-unit id="3cdf2387430d70296aec1dbe3d6772ad">
+        <source>If you can't access your back office, try enabling the debug mode manually in config/defines.inc.php by setting _PS_MODE_DEV_ to true.</source>
+        <target state="needs-translation">If you can't access your back office, try enabling the debug mode manually in config/defines.inc.php by setting _PS_MODE_DEV_ to true.</target>
+        <note>Line: 36</note>
+      </trans-unit>
       <trans-unit id="201ad8cac531a92e1ec77ae5c1e7aa20">
         <source>Post-update checklist</source>
         <target state="needs-translation">Post-update checklist</target>
@@ -2430,11 +2435,6 @@ Comment: check DB access</note>
   </file>
   <file original="views/templates/modals/modal-backup.html.twig" source-language="en" target-language="nl" datatype="plaintext">
     <body>
-      <trans-unit id="ea4788705e6873b424c65e91c2846b19">
-        <source>Cancel</source>
-        <target state="needs-translation">Cancel</target>
-        <note>Line: 8</note>
-      </trans-unit>
       <trans-unit id="0b69cd55a690bee672a1fb91091222f1">
         <source>Start backup</source>
         <target state="needs-translation">Start backup</target>
