@@ -101,15 +101,15 @@ In case you lost the page from your backoffice, note it can be triggered via CLI
 
 ### Command line parameters
 
-Rollback can be automated by calling *cli-rollback.php*.
-The following parameters are mandatory:
-
-* **--dir**: Tells where the admin directory is.
-* **--backup**: Select the backup to restore (this can be found in your folder `<admin>/autoupgrade/backup/`)
+For restore your store, you would use:
 
 ```
-$ php cli-rollback.php  --dir=admin-dev --backup=V1.7.5.1_20190502-191341-22e883bd
+$ php bin/console backup:restore --backup=[backup-name]  <your-admin-dir>
 ```
+
+You can see all available parameters and options directly from the console by using the `--help` option with any command.
+
+For more information on using commands, please refer to the [PrestaShop developer documentation](https://devdocs.prestashop-project.org/8/basics/keeping-up-to-date/upgrade-module/upgrade-cli/#rollback-cli)
 
 ## Documentation
 

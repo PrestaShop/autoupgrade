@@ -10,8 +10,6 @@ parameters:
 		- ./../../ajax-upgradetab.php
 		- ./../../ajax-upgradetabconfig.php
 		- ./../../autoupgrade.php
-		- ./../../cli-rollback.php
-		- ./../../cli-updateconfig.php
 	excludePaths:
 		- ./../../classes/Tools14.php
 		- ./../../classes/pclzip.lib.php
