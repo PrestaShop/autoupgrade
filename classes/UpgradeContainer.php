@@ -257,10 +257,15 @@ class UpgradeContainer
             $this->getState(),
             $this->getProperty(self::WORKSPACE_PATH), [
             'properties' => [
-                'ps_version' => $this->getProperty(self::PS_VERSION),
-                'php_version' => VersionUtils::getHumanReadableVersionOf(PHP_VERSION_ID),
-                'autoupgrade_version' => $this->getPrestaShopConfiguration()->getModuleVersion(),
-                'disable_all_overrides' => class_exists('\Configuration', false) ? UpgradeConfiguration::isOverrideAllowed() : null,
+                Analytics::WITH_COMMON_PROPERTIES => [
+                    'ps_version' => $this->getProperty(self::PS_VERSION),
+                    'php_version' => VersionUtils::getHumanReadableVersionOf(PHP_VERSION_ID),
+                    'autoupgrade_version' => $this->getPrestaShopConfiguration()->getModuleVersion(),
+                ],
+                Analytics::WITH_UPGRADE_PROPERTIES => [
+                    'disable_all_overrides' => class_exists('\Configuration', false) ? UpgradeConfiguration::isOverrideAllowed() : null,
+                    'regenerate_rtl_stylesheet' => class_exists('\Language', false) ? $this->shouldUpdateRTLFiles() : null,
+                ],
             ],
         ]);
     }
@@ -721,5 +726,21 @@ class UpgradeContainer
         }
 
         opcache_reset();
+    }
+
+    /**
+     * @return bool True if we should update RTL files
+     */
+    public function shouldUpdateRTLFiles(): bool
+    {
+        $languages = \Language::getLanguages(false);
+
+        foreach ($languages as $lang) {
+            if ($lang['is_rtl']) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

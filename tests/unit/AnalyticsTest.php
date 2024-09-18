@@ -52,10 +52,15 @@ class AnalyticsTest extends TestCase
             'somePathToAutoupgradeModule',
             [
                 'properties' => [
-                    'ps_version' => '8.8.8',
-                    'php_version' => '6.0.8',
-                    'autoupgrade_version' => '9.8.7',
-                    'disable_all_overrides' => true,
+                    Analytics::WITH_COMMON_PROPERTIES => [
+                        'ps_version' => '8.8.8',
+                        'php_version' => '6.0.8',
+                        'autoupgrade_version' => '9.8.7',
+                    ],
+                    Analytics::WITH_UPGRADE_PROPERTIES => [
+                        'disable_all_overrides' => true,
+                        'regenerate_rtl_stylesheet' => false,
+                    ],
                 ],
             ]
         );
@@ -63,14 +68,12 @@ class AnalyticsTest extends TestCase
         $this->assertEquals([
             'anonymousId' => '3cbc0821f904fd952a8526f17b9b92a8abde4b394a66c9171cf35c9beb2b4784',
             'channel' => 'browser',
-            'properties' => array_merge(
-                [
+            'properties' => [
                     'ps_version' => '8.8.8',
                     'php_version' => '6.0.8',
                     'autoupgrade_version' => '9.8.7',
-                    'disable_all_overrides' => true,
                     'module' => 'autoupgrade',
-                ]),
+                ],
             ],
             $analytics->getProperties(Analytics::WITH_COMMON_PROPERTIES)
         );
@@ -78,8 +81,7 @@ class AnalyticsTest extends TestCase
         $this->assertEquals([
             'anonymousId' => '3cbc0821f904fd952a8526f17b9b92a8abde4b394a66c9171cf35c9beb2b4784',
             'channel' => 'browser',
-            'properties' => array_merge(
-                [
+            'properties' => [
                     'ps_version' => '8.8.8',
                     'php_version' => '6.0.8',
                     'autoupgrade_version' => '9.8.7',
@@ -93,9 +95,9 @@ class AnalyticsTest extends TestCase
                     'backup_images' => false,
                     'disable_non_native_modules' => false,
                     'switch_to_default_theme' => true,
-                    'regenerate_rtl_stylesheet' => false,
                     'keep_customized_email_templates' => false,
-                ]),
+                    'regenerate_rtl_stylesheet' => false,
+                ],
             ],
             $analytics->getProperties(Analytics::WITH_UPGRADE_PROPERTIES)
         );
@@ -103,17 +105,15 @@ class AnalyticsTest extends TestCase
         $this->assertEquals([
             'anonymousId' => '3cbc0821f904fd952a8526f17b9b92a8abde4b394a66c9171cf35c9beb2b4784',
             'channel' => 'browser',
-            'properties' => array_merge(
-                [
+            'properties' => [
                     'ps_version' => '8.8.8',
                     'php_version' => '6.0.8',
                     'autoupgrade_version' => '9.8.7',
-                    'disable_all_overrides' => true,
                     'module' => 'autoupgrade',
 
                     'from_ps_version' => '8.8.8',
                     'to_ps_version' => '1.2.3',
-                ]),
+                ],
             ],
             $analytics->getProperties(Analytics::WITH_ROLLBACK_PROPERTIES)
         );

@@ -162,14 +162,6 @@ class UpgradeConfiguration extends ArrayCollection
         return (bool) $this->get('PS_AUTOUP_CHANGE_DEFAULT_THEME');
     }
 
-    /**
-     * @return bool True if we should update RTL files
-     */
-    public function shouldUpdateRTLFiles(): bool
-    {
-        return (bool) $this->get('PS_AUTOUP_UPDATE_RTL_FILES');
-    }
-
     public static function isOverrideAllowed(): bool
     {
         return (bool) Configuration::get('PS_DISABLE_OVERRIDES');
