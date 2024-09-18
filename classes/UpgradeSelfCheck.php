@@ -164,7 +164,7 @@ class UpgradeSelfCheck
             self::SHOP_VERSION_NOT_MATCHING_VERSION_IN_DATABASE => !$this->isShopVersionMatchingVersionInDatabase(),
         ];
 
-        if ($this->upgrader->channel === Upgrader::CHANNEL_ARCHIVE) {
+        if ($this->upgrader->getChannel() === Upgrader::CHANNEL_ARCHIVE) {
             $errors[self::PHP_COMPATIBILITY_INVALID] = $this->getPhpRequirementsState() === PhpVersionResolverService::COMPATIBILITY_INVALID;
         }
 
@@ -184,7 +184,7 @@ class UpgradeSelfCheck
             self::TEMPERED_FILES_LIST_NOT_EMPTY => !empty($this->getTamperedFiles()),
         ];
 
-        if ($this->upgrader->channel === Upgrader::CHANNEL_ARCHIVE) {
+        if ($this->upgrader->getChannel() === Upgrader::CHANNEL_ARCHIVE) {
             $warnings[self::PHP_COMPATIBILITY_UNKNOWN] = $this->getPhpRequirementsState() === PhpVersionResolverService::COMPATIBILITY_UNKNOWN;
         }
 

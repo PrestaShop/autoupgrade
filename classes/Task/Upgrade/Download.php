@@ -80,11 +80,7 @@ class Download extends AbstractTask
                     $this->next = 'error';
                 }
             } else {
-                if ($upgrader->channel == 'private') {
-                    $this->logger->error($this->translator->trans('Error during download. The private key may be incorrect.'));
-                } else {
-                    $this->logger->error($this->translator->trans('Error during download'));
-                }
+                $this->logger->error($this->translator->trans('Error during download'));
                 $this->next = 'error';
             }
         } else {

@@ -38,7 +38,7 @@ class FileLoader
     const URL_CHANNELS_FILE = 'https://api.prestashop.com/xml/channel.xml';
 
     /** @var array<string, string> */
-    public $version_md5 = [];
+    private $version_md5 = [];
 
     /**
      * @return SimpleXMLElement|false
@@ -100,5 +100,10 @@ class FileLoader
         }
 
         return $xml;
+    }
+
+    public function addXmlMd5File(string $version, string $path): void
+    {
+        $this->version_md5[$version] = $path;
     }
 }

@@ -47,7 +47,7 @@ class Upgrader
     const DEFAULT_FILENAME = 'prestashop.zip';
 
     /** @var string */
-    public $channel = '';
+    private $channel;
 
     /** @var PrestashopRelease */
     private $destinationRelease;
@@ -106,16 +106,20 @@ class Upgrader
      */
     public function isLastVersion(): bool
     {
-        return version_compare($this->currentPsVersion, $this->getDestinationVersion(), '<');
+        if ($this->getDestinationVersion() === null) {
+            return true;
+        }
+
+        return version_compare($this->currentPsVersion, $this->getDestinationVersion(), '>=');
     }
 
     /**
      * @throws DistributionApiException
      * @throws UpgradeException
      */
-    public function getDynamicDestinationRelease(): PrestashopRelease
+    public function getDynamicDestinationRelease(): ?PrestashopRelease
     {
-        if ($this->channel !== self::CHANNEL_ARCHIVE) {
+        if ($this->channel !== self::CHANNEL_DYNAMIC) {
             throw new LogicException('channel must be dynamic to retrieve the version dynamically');
         }
 
@@ -128,15 +132,17 @@ class Upgrader
     }
 
     /**
+     * @return ?string Prestashop destination version or null if no compatible version found
+     *
      * @throws DistributionApiException
      * @throws UpgradeException
      */
-    public function getDestinationVersion(): string
+    public function getDestinationVersion(): ?string
     {
         if ($this->channel === self::CHANNEL_ARCHIVE) {
             return $this->upgradeConfiguration->get('archive.version_num');
         } else {
-            return $this->getDynamicDestinationRelease()->getVersion();
+            return $this->getDynamicDestinationRelease() ? $this->getDynamicDestinationRelease()->getVersion() : null;
         }
     }
 
@@ -166,5 +172,10 @@ class Upgrader
         }
 
         return true;
+    }
+
+    public function getChannel(): string
+    {
+        return $this->channel;
     }
 }

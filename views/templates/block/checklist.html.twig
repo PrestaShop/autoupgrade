@@ -17,10 +17,10 @@
         <div id="currentConfiguration">
             <p class="alert alert-info">{{ 'Before starting the upgrade process, please make sure this checklist is all green.'|trans({}) }}</p>
             <table class="table" cellpadding="0" cellspacing="0">
-                {% if phpRequirementsState != constant('PrestaShop\\Module\\AutoUpgrade\\UpgradeSelfCheck::PHP_REQUIREMENTS_VALID') %}
+                {% if phpRequirementsState != constant('PrestaShop\\Module\\AutoUpgrade\\Services\\PhpVersionResolverService::COMPATIBILITY_VALID') %}
                     <tr>
                         <td>
-                            {% if phpRequirementsState == constant('PrestaShop\\Module\\AutoUpgrade\\UpgradeSelfCheck::PHP_REQUIREMENTS_INVALID') %}
+                            {% if phpRequirementsState == constant('PrestaShop\\Module\\AutoUpgrade\\Services\\PhpVersionResolverService::COMPATIBILITY_INVALID') %}
                                 {{ 'Your current PHP version isn\'t compatible with your PrestaShop version. (Expected: %s - %s | Current: %s)'|trans([
                                     phpCompatibilityRange['php_min_version'],
                                     phpCompatibilityRange['php_max_version'],
@@ -31,7 +31,7 @@
                             {% endif %}
                         </td>
                         <td>
-                            {% if phpRequirementsState == constant('PrestaShop\\Module\\AutoUpgrade\\UpgradeSelfCheck::PHP_REQUIREMENTS_INVALID') %}
+                            {% if phpRequirementsState == constant('PrestaShop\\Module\\AutoUpgrade\\Services\\PhpVersionResolverService::COMPATIBILITY_INVALID') %}
                                 {{ icons.nok(psBaseUri) }}
                             {% else %}
                                 {{ icons.warning(psBaseUri) }}

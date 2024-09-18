@@ -476,7 +476,11 @@ class AdminSelfUpgradeController extends ModuleAdminController
 
         $upgrader = $this->upgradeContainer->getUpgrader();
         $distributionApiService = new DistributionApiService();
-        $phpVersionResolverService = new PhpVersionResolverService($distributionApiService, $this->upgradeContainer->getFileLoader());
+        $phpVersionResolverService = new PhpVersionResolverService(
+            $distributionApiService,
+            $this->upgradeContainer->getFileLoader(),
+            $this->upgradeContainer->getState()->getOriginVersion()
+        );
         $upgradeSelfCheck = new UpgradeSelfCheck(
             $upgrader,
             $this->upgradeContainer->getPrestaShopConfiguration(),

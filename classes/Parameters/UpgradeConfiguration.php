@@ -29,6 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade\Parameters;
 
 use Configuration;
 use Doctrine\Common\Collections\ArrayCollection;
+use UnexpectedValueException;
 use Shop;
 
 /**
@@ -68,6 +69,9 @@ class UpgradeConfiguration extends ArrayCollection
         'maxBackupFileSize' => 15728640, // bytes
         'maxWrittenAllowed' => 4194304, // bytes
     ];
+
+    /** @var ConfigurationValidator */
+    private $validator;
 
     /**
      * Get the name of the new release archive.
@@ -188,9 +192,17 @@ class UpgradeConfiguration extends ArrayCollection
      * @param array<string, mixed> $array
      *
      * @return void
+     *
+     * @throws UnexpectedValueException
      */
     public function merge(array $array = []): void
     {
+        if ($this->validator === null) {
+            $this->validator = new ConfigurationValidator();
+        }
+
+        $this->validator->validate($array);
+
         foreach ($array as $key => $value) {
             $this->set($key, $value);
         }

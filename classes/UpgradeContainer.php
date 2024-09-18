@@ -37,9 +37,9 @@ use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Progress\CompletionCalculator;
 use PrestaShop\Module\AutoUpgrade\Repository\LocalArchiveRepository;
 use PrestaShop\Module\AutoUpgrade\Services\ComposerService;
-use PrestaShop\Module\AutoUpgrade\Twig\AssetsEnvironment;
 use PrestaShop\Module\AutoUpgrade\Services\DistributionApiService;
 use PrestaShop\Module\AutoUpgrade\Services\PhpVersionResolverService;
+use PrestaShop\Module\AutoUpgrade\Twig\AssetsEnvironment;
 use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension;
 use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension3;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\CacheCleaner;
@@ -409,6 +409,12 @@ class UpgradeContainer
 
         $this->getState()->setInstallVersion($upgrader->getDestinationVersion());
         $this->getState()->setOriginVersion($this->getProperty(self::PS_VERSION));
+
+        if ($upgrader->getChannel() === Upgrader::CHANNEL_ARCHIVE) {
+            $archiveXml = $this->getUpgradeConfiguration()->get('archive.xml');
+            $this->fileLoader->addXmlMd5File($this->getUpgrader()->getDestinationVersion(), $this->getProperty(self::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $archiveXml);
+        }
+
         $this->upgrader = $upgrader;
 
         return $this->upgrader;
@@ -437,6 +443,9 @@ class UpgradeContainer
         return $this->filesystemAdapter;
     }
 
+    /**
+     * @throws Exception
+     */
     public function getFileLoader(): FileLoader
     {
         if (null !== $this->fileLoader) {

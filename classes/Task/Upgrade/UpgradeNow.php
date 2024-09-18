@@ -57,12 +57,12 @@ class UpgradeNow extends AbstractTask
 
         if ($upgrader->isLastVersion()) {
             $this->next = '';
-            $this->logger->info($this->translator->trans('You already have the %s version.', [$upgrader->getDestinationVersion()]));
+            $this->logger->info($this->translator->trans('You are using the most up to date version for your PHP version'));
 
             return ExitCode::SUCCESS;
         }
 
-        switch ($upgrader->channel) {
+        switch ($upgrader->getChannel()) {
             case Upgrader::CHANNEL_ARCHIVE:
                 $this->next = 'unzip';
                 $this->logger->debug($this->translator->trans('Downloading step has been skipped, upgrade process will now unzip the local archive.'));

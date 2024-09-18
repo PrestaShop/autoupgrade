@@ -164,4 +164,23 @@ class VersionUtilsTest extends TestCase
 
         VersionUtils::splitPrestaShopVersion('1.7.7.10.1')['minor'];
     }
+
+    public function testGetUpdateType()
+    {
+        $updateType = VersionUtils::getUpdateType('1.7.7.10', '1.7.7.11');
+
+        $this->assertEquals($updateType, 'patch');
+
+        $updateType = VersionUtils::getUpdateType('1.7.7.10', '1.7.8.0');
+
+        $this->assertEquals($updateType, 'minor');
+
+        $updateType = VersionUtils::getUpdateType('1.7.7.10', '8.1.0');
+
+        $this->assertEquals($updateType, 'major');
+
+        $updateType = VersionUtils::getUpdateType('8.1.0', '9.0.0');
+
+        $this->assertEquals($updateType, 'major');
+    }
 }

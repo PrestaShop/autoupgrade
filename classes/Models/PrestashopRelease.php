@@ -42,7 +42,7 @@ class PrestashopRelease
     /** @var ?string */
     private $zipMd5;
     /** @var ?string */
-    private $changelogUrl;
+    private $releaseNoteUrl;
     /** @var 'rc'|'beta'|'stable' */
     private $stability;
 
@@ -54,7 +54,7 @@ class PrestashopRelease
         ?string $zipDownloadUrl = null,
         ?string $xmlDownloadUrl = null,
         ?string $zipMd5 = null,
-        ?string $changelogUrl = null
+        ?string $releaseNoteUrl = null
     ) {
         $this->version = $version;
         $this->phpMaxVersion = $phpMaxVersion;
@@ -62,7 +62,7 @@ class PrestashopRelease
         $this->zipDownloadUrl = $zipDownloadUrl;
         $this->xmlDownloadUrl = $xmlDownloadUrl;
         $this->zipMd5 = $zipMd5;
-        $this->changelogUrl = $changelogUrl;
+        $this->releaseNoteUrl = $releaseNoteUrl;
         $this->stability = $stability;
     }
 
@@ -101,13 +101,13 @@ class PrestashopRelease
         return $this->stability;
     }
 
-    public function getChangelogUrl(): ?string
+    public function getReleaseNoteUrl(): ?string
     {
-        return $this->changelogUrl;
+        return $this->releaseNoteUrl;
     }
 
-    public function setChangelogUrl(?string $changelogUrl): void
+    public function setReleaseNoteUrl(?string $releaseNoteUrl): void
     {
-        $this->changelogUrl = $changelogUrl;
+        $this->releaseNoteUrl = $releaseNoteUrl;
     }
 }

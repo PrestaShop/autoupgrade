@@ -65,14 +65,12 @@ class PhpVersionResolverService
         if (version_compare($targetVersion, '8', '<')) {
             $targetMinorVersion = VersionUtils::splitPrestaShopVersion($targetVersion)['minor'];
 
-            foreach ($this->getPrestashop17Requirements() as $release) {
-                $destinationMinorVersion = VersionUtils::splitPrestaShopVersion($release->getVersion())['minor'];
-                if ($destinationMinorVersion === $targetMinorVersion) {
-                    $range = [
-                        'php_min_version' => $release->getPhpMinVersion(),
-                        'php_max_version' => $release->getPhpMaxVersion(),
-                    ];
-                }
+            $requirements = $this->getPrestashop17Requirements();
+            if (isset($requirements[$targetMinorVersion])) {
+                $range = [
+                    'php_min_version' => $requirements[$targetMinorVersion]->getPhpMinVersion(),
+                    'php_max_version' => $requirements[$targetMinorVersion]->getPhpMaxVersion(),
+                ];
             }
 
             if (!isset($range)) {
@@ -140,6 +138,13 @@ class PhpVersionResolverService
         }
 
         if ($currentPhpVersion < 70200) {
+            $release = $releasesFromChannelFile['1.7'];
+
+            // current version is superior or equal
+            if (version_compare($this->currentPsVersion, $release->getVersion(), '>=')) {
+                return null;
+            }
+
             return $releasesFromChannelFile['1.7'];
         }
 
@@ -166,8 +171,8 @@ class PhpVersionResolverService
                 // verify channel.xml matching
                 $branch = VersionUtils::splitPrestaShopVersion($release->getVersion())['minor'];
                 if (isset($releasesFromChannelFile[$branch])) {
-                    $changelog = $releasesFromChannelFile[$branch]->getChangelogUrl();
-                    $release->setChangelogUrl($changelog);
+                    $releaseNote = $releasesFromChannelFile[$branch]->getReleaseNoteUrl();
+                    $release->setReleaseNoteUrl($releaseNote);
                     $validReleases[] = $release;
                 }
             }
@@ -186,20 +191,20 @@ class PhpVersionResolverService
     }
 
     /**
-     * @return PrestashopRelease[]
+     * @return array<string, PrestashopRelease>
      */
     private function getPrestashop17Requirements(): array
     {
         return [
-            new PrestashopRelease('1.7.0.0', '7.1', '5.4', 'stable'),
-            new PrestashopRelease('1.7.1.0', '7.1', '5.4', 'stable'),
-            new PrestashopRelease('1.7.2.0', '7.1', '5.4', 'stable'),
-            new PrestashopRelease('1.7.3.0', '7.1', '5.4', 'stable'),
-            new PrestashopRelease('1.7.4.0', '7.1', '5.6', 'stable'),
-            new PrestashopRelease('1.7.5.0', '7.2', '5.6', 'stable'),
-            new PrestashopRelease('1.7.6.0', '7.2', '5.6', 'stable'),
-            new PrestashopRelease('1.7.7.0', '7.3', '5.6', 'stable'),
-            new PrestashopRelease('1.7.8.0', '7.4', '5.6', 'stable'),
+            '1.7.0' => new PrestashopRelease('1.7.0.0', 'stable', '7.1', '5.4'),
+            '1.7.1' => new PrestashopRelease('1.7.1.0', 'stable', '7.1', '5.4'),
+            '1.7.2' => new PrestashopRelease('1.7.2.0', 'stable', '7.1', '5.4'),
+            '1.7.3' => new PrestashopRelease('1.7.3.0', 'stable', '7.1', '5.4'),
+            '1.7.4' => new PrestashopRelease('1.7.4.0', 'stable', '7.1', '5.6'),
+            '1.7.5' => new PrestashopRelease('1.7.5.0', 'stable', '7.2', '5.6'),
+            '1.7.6' => new PrestashopRelease('1.7.6.0', 'stable', '7.2', '5.6'),
+            '1.7.7' => new PrestashopRelease('1.7.7.0', 'stable', '7.3', '5.6'),
+            '1.7.8' => new PrestashopRelease('1.7.8.0', 'stable', '7.4', '5.6'),
         ];
     }
 

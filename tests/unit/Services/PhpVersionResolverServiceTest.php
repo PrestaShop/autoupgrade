@@ -278,7 +278,7 @@ class PhpVersionResolverServiceTest extends TestCase
         $release = $this->phpVersionResolverService->getPrestashopDestinationRelease(70318);
 
         $this->assertEquals('8.1.7', $release->getVersion());
-        $this->assertEquals('https://build.prestashop-project.org/news/2024/prestashop-8-1-7-maintenance-release/', $release->getChangelogUrl());
+        $this->assertEquals('https://build.prestashop-project.org/news/2024/prestashop-8-1-7-maintenance-release/', $release->getReleaseNoteUrl());
     }
 
     /**

@@ -64,21 +64,43 @@ class UpdatePageVersionChoiceController extends AbstractPageController
     protected function getParams(Request $request): array
     {
         $updateSteps = new UpdateSteps($this->upgradeContainer->getTranslator());
+        $isLastVersion = $this->upgradeContainer->getUpgrader()->isLastVersion();
+
+        if (!$isLastVersion) {
+            $updateType = VersionUtils::getUpdateType($this->getPsVersion(), $this->upgradeContainer->getUpgrader()->getDestinationVersion());
+            $releaseNote = VersionUtils::getUpdateType($this->getPsVersion(), $this->upgradeContainer->getUpgrader()->getDynamicDestinationRelease()->getReleaseNoteUrl());
+        } else {
+            $updateType = null;
+            $releaseNote = null;
+        }
+
+        switch ($updateType) {
+            case 'major':
+                $updateLabel = $this->upgradeContainer->getTranslator()->trans('Major version');
+                break;
+            case 'minor':
+                $updateLabel = $this->upgradeContainer->getTranslator()->trans('Minor version');
+                break;
+            case 'patch':
+                $updateLabel = $this->upgradeContainer->getTranslator()->trans('Patch version');
+                break;
+            default:
+                $updateLabel = null;
+        }
 
         return array_merge(
             $updateSteps->getStepParams($this::CURRENT_STEP),
             [
-                'upToDate' => true /* TODO */ ,
+                'upToDate' => $isLastVersion,
                 'noLocalArchive' => !$this->upgradeContainer->getLocalArchiveRepository()->hasLocalArchive(),
                 'assetsBasePath' => $this->upgradeContainer->getAssetsEnvironment()->getAssetsBaseUrl($request),
                 'currentPrestashopVersion' => $this->getPsVersion(),
                 'currentPhpVersion' => VersionUtils::getHumanReadableVersionOf(PHP_VERSION_ID),
-                // TODO
                 'nextRelease' => [
-                    'version' => '9.0.0',
-                    'badgeLabel' => 'Major version',
-                    'badgeStatus' => 'major',
-                    'releaseNote' => 'https://github.com/PrestaShop/autoupgrade',
+                    'version' => $this->upgradeContainer->getUpgrader()->getDestinationVersion(),
+                    'badgeLabel' => $updateLabel,
+                    'badgeStatus' => $updateType,
+                    'releaseNote' => $releaseNote,
                 ],
             ]
         );

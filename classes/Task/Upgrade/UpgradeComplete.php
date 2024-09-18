@@ -51,9 +51,11 @@ class UpgradeComplete extends AbstractTask
             $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
         );
 
+        $destinationVersion = $this->container->getState()->getInstallVersion();
+
         $this->logger->info($this->container->getState()->getWarningExists() ?
-            $this->translator->trans('Upgrade process done, but some warnings have been found.') :
-            $this->translator->trans('Upgrade process done. Congratulations! You can now reactivate your shop.')
+            $this->translator->trans('Shop updated to %s, but some warnings have been found.', [$destinationVersion]) :
+            $this->translator->trans('Shop updated to %s. Congratulations! You can now reactivate your shop.', [$destinationVersion])
         );
 
         $this->next = '';

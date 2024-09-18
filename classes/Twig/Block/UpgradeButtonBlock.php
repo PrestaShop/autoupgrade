@@ -103,15 +103,15 @@ class UpgradeButtonBlock
         $upgradeLink = '';
         $changelogLink = '';
         $skipActions = [];
-        $channel = $this->upgrader->channel;
+        $channel = $this->upgrader->getChannel();
 
         // decide to display "Start Upgrade" or not
-        if ($this->selfCheck->isOkForUpgrade()) {
+        if ($this->selfCheck->isOkForUpgrade() && !$this->upgrader->isLastVersion()) {
             $showUpgradeButton = true;
-            if ($this->upgrader->channel === Upgrader::CHANNEL_DYNAMIC) {
+            if ($this->upgrader->getChannel() === Upgrader::CHANNEL_DYNAMIC) {
                 $showUpgradeLink = true;
                 $upgradeLink = $this->upgrader->getDynamicDestinationRelease()->getZipDownloadUrl();
-                $changelogLink = $this->upgrader->getDynamicDestinationRelease()->getChangelogUrl();
+                $changelogLink = $this->upgrader->getDynamicDestinationRelease()->getReleaseNoteUrl();
             }
 
             // if skipActions property is used, we will handle that in the display :)
@@ -123,6 +123,7 @@ class UpgradeButtonBlock
 
         return [
             'currentPsVersion' => _PS_VERSION_,
+            'isLastVersion' => $this->upgrader->isLastVersion(),
             'destinationVersion' => $this->upgrader->getDestinationVersion(),
             'channel' => $channel,
             'showUpgradeButton' => $showUpgradeButton,

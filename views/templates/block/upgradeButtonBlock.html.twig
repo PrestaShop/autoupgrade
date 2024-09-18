@@ -4,9 +4,7 @@
             {{ 'Start your Upgrade'|trans({}) }}
         </div>
         <div class="blocOneClickUpgrade">
-            {% if versionCompare > 0 %}
-                <p class="alert alert-warning">{{ 'You come from the future! You are using a more recent version than the latest available!'|trans({}) }}</p>
-            {% elseif versionCompare == 0 %}
+            {% if isLastVersion %}
                 <p class="alert alert-success">{{ 'Congratulations, you are already using the latest version available!'|trans({}) }}</p>
             {% endif %}
             <p>
@@ -15,10 +13,9 @@
             <p>
                 {{ 'Your current PHP version'|trans({}) }}: <strong>{{ phpVersion }}</strong>
             </p>
-            <p>
-                {{ 'Version chosen for update'|trans([channel]) }}:
-                <strong>{{ destinationVersion }}</strong>
-            </p>
+            {% if not isLastVersion %}
+                <p>{{ 'Version chosen for update'|trans([channel]) }}: <strong>{{ destinationVersion }}</strong></p>
+            {% endif %}
         </div>
         <br>
         {% if showUpgradeButton %}
@@ -99,7 +96,6 @@
                             </option>
                         {% endfor %}
                     </select>
-                    {% include '@ModuleAutoUpgrade/block/channelInfo.html.twig' %}
                     <div id="for-usePrivate">
                         <p><label for="private_release_link">{{ 'Link:'|trans({}) }} *</label>
                             <input type="text" size="50" id="private_release_link" name="private_release_link"

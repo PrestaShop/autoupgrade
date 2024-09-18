@@ -28,6 +28,7 @@
 namespace PrestaShop\Module\AutoUpgrade;
 
 use InvalidArgumentException;
+use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 
 class VersionUtils
 {
@@ -110,6 +111,27 @@ class VersionUtils
     public static function isActualPHPVersionCompatible()
     {
         return PHP_VERSION_ID >= self::MODULE_COMPATIBLE_PHP_VERSION;
+    }
+
+    /**
+     * @return 'major'|'minor'|'patch'
+     *
+     * @throws UpgradeException
+     */
+    public static function getUpdateType(string $originVersion, string $destinationVersion)
+    {
+        $originVersionSplit = self::splitPrestaShopVersion($originVersion);
+        $destinationVersionSplit = self::splitPrestaShopVersion($destinationVersion);
+
+        if ($originVersionSplit['major'] !== $destinationVersionSplit['major']) {
+            return 'major';
+        } elseif ($originVersionSplit['minor'] !== $destinationVersionSplit['minor']) {
+            return 'minor';
+        } elseif ($originVersionSplit['patch'] !== $destinationVersionSplit['patch']) {
+            return 'patch';
+        }
+
+        throw new UpgradeException('Versions are identical');
     }
 
     /**
