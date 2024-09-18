@@ -1,6 +1,28 @@
 {
   "include": [
     {
+      "comment": "1.7.5 ~ major PHP 7.2"
+    },
+    {
+      "PS_VERSION_START": "1.7.5.0",
+      "PS_VERSION_END": "8.1.7",
+      "UPGRADE_CHANNEL": "major",
+      "PHP_VERSION": "7.2"
+    },
+    {
+      "PS_VERSION_START": "1.7.5.1",
+      "PS_VERSION_END": "8.1.7",
+      "UPGRADE_CHANNEL": "major",
+      "PHP_VERSION": "7.2"
+    },
+    {
+      "PS_VERSION_START": "1.7.5.2",
+      "PS_VERSION_END": "8.1.7",
+      "UPGRADE_CHANNEL": "major",
+      "PHP_VERSION": "7.2"
+    },
+
+    {
       "comment": "1.7.8 ~ minor PHP 7.4"
     },
     {
