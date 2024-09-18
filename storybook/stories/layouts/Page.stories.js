@@ -28,7 +28,7 @@ import Stepper from "../components/Stepper.stories";
 
 export default {
   component: PageLayout,
-  title: "Layouts/Pages/Base",
+  title: "Layouts/Pages",
   args: {
     ...Stepper.args,
   },

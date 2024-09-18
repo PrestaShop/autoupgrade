@@ -4,7 +4,6 @@
 
 {% block title %}
 	<h1 class="h2">{{ step.title }}</h1>
-  {{ modules_dir }}
 {% endblock %}
 
 {% block content %}
@@ -32,6 +31,8 @@
                 '%pathToLocalArchive%': '<b>/admin/autoupgrade/download/</b>',
             }),
             alertStatus: "info",
+						buttonLabel: "",
+						buttonUrl: "",
         } %}
 		{% else %}
 			<div class="version-page__local-archive">
@@ -95,6 +96,8 @@
                     '%pathToLocalArchive%': '<b>/admin/autoupgrade/download/</b>',
                 }),
                 alertStatus: "info",
+                buttonLabel: "",
+                buttonUrl: "",
             } %}
 			{% else %}
 				{% include '@ModuleAutoUpgrade/components/radio-card.html.twig' with {

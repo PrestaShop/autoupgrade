@@ -23,23 +23,33 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-import ChannelInfo from "../../views/templates/block/channelInfo.html.twig";
+import RestorePage from "../../../views/templates/pages/rollback.html.twig";
+import BackupSelection from "../components/BackupSelection.stories";
 
 export default {
-  component: ChannelInfo,
+  component: RestorePage,
+  title: "Pages/Rollback",
   args: {
-    psBaseUri: "/",
-    upgradeInfo: {
-      branch: "8",
-      available: 8,
-      version_num: "8.1.7",
-      version_name: "8 stable",
-      link: "https://github.com/PrestaShop/PrestaShop/releases/download/8.1.7/prestashop_8.1.7.zip",
-      md5: "52267b8918d8a7e0686016d013a0bfc3",
-      changelog:
-        "https://build.prestashop-project.org/news/2024/prestashop-8-1-7-maintenance-release/",
+    ...BackupSelection.args,
+    steps: [
+      {
+        state: "current",
+        title: "Backup selection",
+      },
+      {
+        state: "normal",
+        title: "Restore",
+      },
+      {
+        state: "normal",
+        title: "Post-restore",
+      },
+    ],
+    step: {
+      code: "restore",
+      title: "Backup selection",
     },
   },
 };
 
-export const Default = {};
+export const Restore = {};

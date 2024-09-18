@@ -1,10 +1,140 @@
 {% extends '@ModuleAutoUpgrade/layouts/step-content.html.twig' %}
 
 {% block title %}
-	<h1>{{ step.title }}</h1>
+	<h1 class="h2">{{ step.title }}</h1>
 {% endblock %}
 
-{% block content %}{% endblock %}
+{% block content %}
+	{% include '@ModuleAutoUpgrade/components/logs-progress.html.twig' with {
+		progressStatus: "Backup files in progress XX files left",
+    progressPercentage: 25,
+	} %}
+
+	{% include '@ModuleAutoUpgrade/components/logs.html.twig' with {
+		logs: [
+      {
+        status: "success",
+        message: "src/Core/Domain/Product/Pack/Query/GetPackedProducts.php added to archive. 13114 files left.",
+      },
+      {
+        status: "success",
+        message: "src/Core/Domain/Product/Pack/Query/GetPackedProducts.php added to archive. 13114 files left.",
+      },
+      {
+        status: "success",
+        message: "src/Core/Domain/Product/Pack/Query/GetPackedProducts.php added to archive. 13114 files left.",
+      },
+      {
+        status: "success",
+        message: "src/Core/Domain/Product/Pack/Query/GetPackedProducts.php added to archive. 13114 files left.",
+      },
+      {
+        status: "success",
+        message: "src/Core/Domain/Product/Pack/Query/GetPackedProducts.php added to archive. 13114 files left.",
+      },
+      {
+        status: "warning",
+        message: "src/Core/Domain/Product/Pack/Query/GetPackedProducts.php added to archive. 13114 files left.",
+        id: "warning_1",
+      },
+      {
+        status: "error",
+        message: "src/Core/Domain/Product/Pack/Query/GetPackedProducts.php added to archive. 13114 files left.",
+        id: "error_1",
+      },
+      {
+        status: "success",
+        message: "src/Core/Domain/Product/Pack/Query/GetPackedProducts.php added to archive. 13114 files left.",
+      },
+      {
+        status: "success",
+        message: "src/Core/Domain/Product/Pack/Query/GetPackedProducts.php added to archive. 13114 files left.",
+      },
+      {
+        status: "success",
+        message: "src/Core/Domain/Product/Pack/Query/GetPackedProducts.php added to archive. 13114 files left.",
+      },
+      {
+        status: "success",
+        message: "src/Core/Domain/Product/Pack/Query/GetPackedProducts.php added to archive. 13114 files left.",
+      },
+      {
+        status: "success",
+        message: "src/Core/Domain/Product/Pack/Query/GetPackedProducts.php added to archive. 13114 files left.",
+      },
+      {
+        status: "success",
+        message: "src/Core/Domain/Product/Pack/Query/GetPackedProducts.php added to archive. 13114 files left.",
+      },
+      {
+        status: "warning",
+        message: "src/Core/Domain/Product/Pack/Query/GetPackedProducts.php added to archive. 13114 files left.",
+        id: "warning_2",
+      },
+      {
+        status: "error",
+        message: "src/Core/Domain/Product/Pack/Query/GetPackedProducts.php added to archive. 13114 files left.",
+        id: "error_2",
+      },
+      {
+        status: "success",
+        message: "src/Core/Domain/Product/Pack/Query/GetPackedProducts.php added to archive. 13114 files left.",
+      },
+      {
+        status: "success",
+        message: "src/Core/Domain/Product/Pack/Query/GetPackedProducts.php added to archive. 13114 files left.",
+      },
+      {
+        status: "success",
+        message: "src/Core/Domain/Product/Pack/Query/GetPackedProducts.php added to archive. 13114 files left.",
+      },
+      {
+        status: "success",
+        message: "src/Core/Domain/Product/Pack/Query/GetPackedProducts.php added to archive. 13114 files left.",
+      },
+      {
+        status: "success",
+        message: "src/Core/Domain/Product/Pack/Query/GetPackedProducts.php added to archive. 13114 files left.",
+      },
+      {
+        status: "success",
+        message: "src/Core/Domain/Product/Pack/Query/GetPackedProducts.php added to archive. 13114 files left.",
+      },
+      {
+        status: "success",
+        message: "src/Core/Domain/Product/Pack/Query/GetPackedProducts.php added to archive. 13114 files left.",
+      },
+      {
+        status: "success",
+        message: "src/Core/Domain/Product/Pack/Query/GetPackedProducts.php added to archive. 13114 files left.",
+      },
+      {
+        status: "success",
+        message: "src/Core/Domain/Product/Pack/Query/GetPackedProducts.php added to archive. 13114 files left.",
+      },
+      {
+        status: "success",
+        message: "src/Core/Domain/Product/Pack/Query/GetPackedProducts.php added to archive. 13114 files left.",
+      },
+      {
+        status: "success",
+        message: "src/Core/Domain/Product/Pack/Query/GetPackedProducts.php added to archive. 13114 files left.",
+      },
+      {
+        status: "success",
+        message: "src/Core/Domain/Product/Pack/Query/GetPackedProducts.php added to archive. 13114 files left.",
+      },
+      {
+        status: "success",
+        message: "src/Core/Domain/Product/Pack/Query/GetPackedProducts.php added to archive. 13114 files left.",
+      },
+      {
+        status: "success",
+        message: "src/Core/Domain/Product/Pack/Query/GetPackedProducts.php added to archive. 13114 files left.",
+      },
+    ],
+	} %}
+{% endblock %}
 
 {% block buttons_inner %}
 	<button class="btn btn-lg btn-primary" type="button">

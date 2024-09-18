@@ -23,27 +23,47 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-import Main from "../../views/templates/main.html.twig";
-import UpgradeButton from "./UpgradeButton.stories";
-import UpgradeChecklist from "./UpgradeChecklist.stories";
-import RollbackForm from "./RollbackForm.stories";
+import UpdatePage from "../../../views/templates/pages/update.html.twig";
+import LogsProgress from "../components/LogsProgress.stories";
+import Logs from "../components/Logs.stories";
 
 export default {
-  component: Main,
-};
-
-export const Default = {
+  component: UpdatePage,
+  title: "Pages/Update",
   args: {
-    psBaseUri: "/",
-    translationDomain: "Modules.Autoupgrade.Admin",
-    jsParams: "tata",
-    backupOptions: "",
-    PS_AUTOUP_BACKUP: true,
-    upgradeOptions: "",
-    currentIndex: "index.php?controller=AdminSelfUpgrade",
-    token: "64e10c9ef64f54c44d510fe41bcf4328",
-    ...UpgradeButton.args,
-    ...UpgradeChecklist.args,
-    ...RollbackForm.args,
+    ...LogsProgress.args,
+    ...Logs.args,
+    steps: [
+      {
+        state: "done",
+        title: "Version choice",
+      },
+      {
+        state: "done",
+        title: "Update options",
+      },
+      {
+        state: "done",
+        title: "Backup",
+      },
+      {
+        state: "current",
+        title: "Update",
+      },
+      {
+        state: "normal",
+        title: "Post-update",
+      },
+    ],
+    step: {
+      code: "update",
+      title: "Update",
+    },
+    logsSummaryWarning: [],
+    logsSummaryError: [],
+    downloadLogsButtonUrl: "",
+    downloadLogsButtonLabel: "",
   },
 };
+
+export const Update = {};

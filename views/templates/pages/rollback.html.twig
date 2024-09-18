@@ -1,5 +1,5 @@
 {% extends '@ModuleAutoUpgrade/layouts/page.html.twig' %}
 
-{% block stepper %}{% endblock %}
-
-{% block container_inner %}{% endblock %}
+{% block container_inner %}
+  {% include '@ModuleAutoUpgrade/steps/restore.html.twig' %}
+{% endblock %}

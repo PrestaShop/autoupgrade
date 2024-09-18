@@ -23,28 +23,19 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-import VersionChoiceLayout from "../../../views/templates/layouts/version-choice.html.twig";
-import LocalArchive from "../components/LocalArchive.stories";
-import RadioCard from "../components/RadioCard.stories";
+import UpdateOptionsPage from "../../../views/templates/pages/update.html.twig";
 
 export default {
-  component: VersionChoiceLayout,
-  title: "Layouts/Pages/Update/Version choice",
+  component: UpdateOptionsPage,
+  title: "Pages/Update",
   args: {
-    psBaseUri: "/",
-    upToDate: true,
-    noLocalArchive: true,
-    currentPrestashopVersion: "8.1.6",
-    currentPhpVersion: "8.1",
-    ...RadioCard.args,
-    ...LocalArchive.args,
     steps: [
       {
-        state: "current",
+        state: "done",
         title: "Version choice",
       },
       {
-        state: "normal",
+        state: "current",
         title: "Update options",
       },
       {
@@ -60,7 +51,11 @@ export default {
         title: "Post-update",
       },
     ],
+    step: {
+      code: "update-options",
+      title: "Update options",
+    },
   },
 };
 
-export const Default = {};
+export const UpdateOptions = {};

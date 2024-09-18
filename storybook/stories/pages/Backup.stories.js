@@ -23,13 +23,39 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-import RollbackForm from "../../views/templates/block/rollbackForm.html.twig";
+import BackupPage from "../../../views/templates/pages/update.html.twig";
 
 export default {
-  component: RollbackForm,
+  component: BackupPage,
+  title: "Pages/Update",
   args: {
-    availableBackups: ["backup1", "backup2"],
+    steps: [
+      {
+        state: "done",
+        title: "Version choice",
+      },
+      {
+        state: "done",
+        title: "Update options",
+      },
+      {
+        state: "current",
+        title: "Backup",
+      },
+      {
+        state: "normal",
+        title: "Update",
+      },
+      {
+        state: "normal",
+        title: "Post-update",
+      },
+    ],
+    step: {
+      code: "backup",
+      title: "Backup",
+    },
   },
 };
 
-export const Default = {};
+export const Backup = {};
