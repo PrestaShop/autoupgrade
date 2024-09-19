@@ -27,7 +27,9 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Controller;
 
+use PrestaShop\Module\AutoUpgrade\Router\Router;
 use PrestaShop\Module\AutoUpgrade\Twig\UpdateSteps;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -64,12 +66,9 @@ class UpdatePageUpdateController extends AbstractPageController
     {
         $updateSteps = new UpdateSteps($this->upgradeContainer->getTranslator());
 
-        return [
-            'step' => [
-                'code' => $this::CURRENT_STEP,
-                'title' => $updateSteps->getStepTitle($this::CURRENT_STEP),
-            ],
-            'steps' => $updateSteps->getSteps($this::CURRENT_STEP),
-        ];
+        return array_merge(
+            $updateSteps->getStepParams($this::CURRENT_STEP),
+            []
+        );
     }
 }

@@ -65,25 +65,22 @@ class UpdatePageVersionChoiceController extends AbstractPageController
     {
         $updateSteps = new UpdateSteps($this->upgradeContainer->getTranslator());
 
-        return [
-            'step' => [
-                'code' => $this::CURRENT_STEP,
-                'title' => $updateSteps->getStepTitle($this::CURRENT_STEP),
-            ],
-            'steps' => $updateSteps->getSteps($this::CURRENT_STEP),
-            'upToDate' => true /* TODO */ ,
-            'noLocalArchive' => !$this->upgradeContainer->getLocalArchiveRepository()->hasLocalArchive(),
-            'assetsBasePath' => $this->upgradeContainer->getAssetsEnvironment()->getAssetsBaseUrl($request),
-            'currentPrestashopVersion' => $this->getPsVersion(),
-            'currentPhpVersion' => VersionUtils::getHumanReadableVersionOf(PHP_VERSION_ID),
-            // TODO
-            'nextRelease' => [
-                'version' => '9.0.0',
-                'releaseDate' => '01/05/2024',
-                'badgeLabel' => 'Major version',
-                'badgeStatus' => 'major',
-                'releaseNote' => 'https://github.com/PrestaShop/autoupgrade',
-            ],
-        ];
+        return array_merge(
+            $updateSteps->getStepParams($this::CURRENT_STEP),
+            [
+                'upToDate' => true /* TODO */ ,
+                'noLocalArchive' => !$this->upgradeContainer->getLocalArchiveRepository()->hasLocalArchive(),
+                'assetsBasePath' => $this->upgradeContainer->getAssetsEnvironment()->getAssetsBaseUrl($request),
+                'currentPrestashopVersion' => $this->getPsVersion(),
+                'currentPhpVersion' => VersionUtils::getHumanReadableVersionOf(PHP_VERSION_ID),
+                // TODO
+                'nextRelease' => [
+                    'version' => '9.0.0',
+                    'badgeLabel' => 'Major version',
+                    'badgeStatus' => 'major',
+                    'releaseNote' => 'https://github.com/PrestaShop/autoupgrade',
+                ],
+            ]
+        );
     }
 }

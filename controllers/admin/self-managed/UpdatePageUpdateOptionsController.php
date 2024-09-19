@@ -64,12 +64,9 @@ class UpdatePageUpdateOptionsController extends AbstractPageController
     {
         $updateSteps = new UpdateSteps($this->upgradeContainer->getTranslator());
 
-        return [
-            'step' => [
-                'code' => $this::CURRENT_STEP,
-                'title' => $updateSteps->getStepTitle($this::CURRENT_STEP),
-            ],
-            'steps' => $updateSteps->getSteps($this::CURRENT_STEP),
-        ];
+        return array_merge(
+            $updateSteps->getStepParams($this::CURRENT_STEP),
+            []
+        );
     }
 }
