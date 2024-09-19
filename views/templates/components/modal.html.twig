@@ -1,52 +1,51 @@
-<div class="modal fade {% if modalDanger %}modal--danger{% endif %}" {% if modalId %}id="{{ modalId }}"{% endif %}
-     role="dialog" tabindex="-1">
-    <div class="modal-dialog {% if modalSize and modalSize != "md" %} modal-{{ modalSize }} {% endif %}"
-         role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <p class="modal-title h2">
-                    {{ title }}
-                </p>
+<div class="modal fade {% if modalDanger %}modal--danger{% endif %}"
+  {% if modalId %}id="{{ modalId }}"{% endif %}
+  role="dialog"
+  tabindex="-1">
+  <div class="modal-dialog {% if modalSize and modalSize != "md" %}modal-{{ modalSize }}{% endif %}"
+    role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title h2">
+          {{ title }}
+        </p>
 
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">
-						<i class="material-icons">close</i>
-					</span>
-                </button>
-            </div>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">
+            <i class="material-icons">close</i>
+          </span>
+        </button>
+      </div>
 
-            <div class="modal-body">
-                {% block modal_content %}
-                    {# Default content can go here, or it can be left empty for children to override #}
-                    <p>
-                        {{ message|raw }}
-                    </p>
-                {% endblock %}
+      <div class="modal-body">
+        {% block modal_content %}
+          {# Default content can go here, or it can be left empty for children to override #}
+          <p>
+            {{ message|raw }}
+          </p>
+        {% endblock %}
 
-                {% block modal_extra_content %}
-                    <div class="modal__extra-content">
-                        {% block modal_extra_content_inner %}
-                            {# Default extra content can go here, or it can be left empty for children to override #}
-                            <p>Extra block content if needed</p>
-                        {% endblock %}
-                    </div>
-                {% endblock %}
-            </div>
-
-            {% block modal_footer %}
-                <div class="modal-footer">
-                    {% block modal_footer_inner %}
-                        {# Default footer content can go here, or it can be left empty for children to override #}
-                        <button type="button" class="btn btn-link" data-dismiss="modal">
-                            Link button
-                        </button>
-
-                        <button type="button" class="btn btn-primary">
-                            Primary button
-                        </button>
-                    {% endblock %}
-                </div>
+        {% block modal_extra_content %}
+          <div class="modal__extra-content">
+            {% block modal_extra_content_inner %}
+              {# Default extra content can go here, or it can be left empty for children to override #}
+              <p>
+                Extra block content if needed
+              </p>
             {% endblock %}
+          </div>
+        {% endblock %}
+      </div>
+
+      {% block modal_footer %}
+        <div class="modal-footer">
+          {% block modal_footer_inner %}
+            {# Default footer content can go here, or it can be left empty for children to override #}
+            <button type="button" class="btn btn-link" data-dismiss="modal">Link button</button>
+            <button type="button" class="btn btn-primary">Primary button</button>
+          {% endblock %}
         </div>
+      {% endblock %}
     </div>
+  </div>
 </div>

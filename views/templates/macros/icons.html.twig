@@ -1,9 +1,26 @@
 {% macro ok(psBaseUri) %}
-    <img src="{{ psBaseUri }}img/admin/enabled.gif" alt="ok">
+  <img
+    src="{{ psBaseUri }}img/admin/enabled.gif"
+    width="16"
+    height="16"
+    alt="ok"
+  />
 {% endmacro %}
+
 {% macro nok(psBaseUri) %}
-    <img src="{{ psBaseUri }}img/admin/disabled.gif" alt="nok">
+  <img
+    src="{{ psBaseUri }}img/admin/disabled.gif"
+    width="16"
+    height="16"
+    alt="nok"
+  />
 {% endmacro %}
+
 {% macro warning(psBaseUri) %}
-    <img src="{{ psBaseUri }}img/admin/warning.gif" alt="warn">
+  <img
+    src="{{ psBaseUri }}img/admin/warning.gif"
+    width="16"
+    height="16"
+    alt="warn"
+  />
 {% endmacro %}

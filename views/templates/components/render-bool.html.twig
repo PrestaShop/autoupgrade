@@ -1,19 +1,31 @@
-{% extends '@ModuleAutoUpgrade/components/render-field.html.twig' %}
+{% extends "@ModuleAutoUpgrade/components/render-field.html.twig" %}
 
 {% block action_content %}
-    <span class="render-field__switch switch prestashop-switch">
-		<input type="radio" name="{{ key }}" id="{{ key }}_on"
-               value="1" {{ val ? 'checked="checked"' }} {{ field.js.on|raw|default('') }}/>
-		<label for="{{ key }}_on" class="radioCheck">
-			<i class="color_success"></i>
-			{{ 'Yes'|trans }}
-		</label>
-		<input type="radio" name="{{ key }}" id="{{ key }}_off"
-               value="0" {{ not val ? 'checked="checked"' }} {{ field.js.off|raw|default('') }}/>
-		<label for="{{ key }}_off" class="radioCheck">
-			<i class="color_danger"></i>
-			{{ 'No'|trans }}
-		</label>
-		<a class="slide-button btn"></a>
-	</span>
+  <span class="render-field__switch switch prestashop-switch">
+    <input
+      type="radio"
+      name="{{ key }}"
+      id="{{ key }}_on"
+      {{ val ? 'checked="checked"' }}
+      {{ field.js.on|raw|default("") }}
+      value="1"
+    />
+    <label for="{{ key }}_on" class="radioCheck">
+      <i class="color_success"></i>
+      {{ 'Yes'|trans }}
+    </label>
+    <input
+      type="radio"
+      name="{{ key }}"
+      id="{{ key }}_off"
+      {{ not val ? 'checked="checked"' }}
+      {{ field.js.off|raw|default("") }}
+      value="0"
+    />
+    <label for="{{ key }}_off" class="radioCheck">
+      <i class="color_danger"></i>
+      {{ 'No'|trans }}
+    </label>
+    <a class="slide-button btn"></a>
+  </span>
 {% endblock %}
