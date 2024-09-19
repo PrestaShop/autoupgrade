@@ -43,6 +43,8 @@ class BackupDb extends AbstractTask
 {
     const TASK_TYPE = TaskType::TASK_TYPE_BACKUP;
 
+    const MAX_SIZE_PER_INSERT_STMT = 950000;
+
     /**
      * @throws Exception
      */
@@ -173,13 +175,14 @@ class BackupDb extends AbstractTask
                 $data = $dbLink->prepare('SELECT * FROM `' . $table . '` LIMIT ' . (int) $backup_loop_limit . ',18446744073709551615');
                 $data->execute();
 
-                $row = $data->fetch(PDO::FETCH_ASSOC);
-                if ($row) {
-                    $written += fwrite($fp, 'INSERT INTO `' . $table . "` VALUES\n");
-                }
+                $insertStmtSize = 0;
 
-                while ($row && $this->isRemainingTimeEnough($time_elapsed)) {
-                    if ($i) {
+                while (($row = $data->fetch(PDO::FETCH_ASSOC)) && $this->isRemainingTimeEnough($time_elapsed)) {
+                    if (!$insertStmtSize) {
+                        $written += fwrite($fp, 'INSERT INTO `' . $table . "` VALUES\n");
+                    }
+
+                    if ($i && $insertStmtSize) {
                         $s = "),\n(";
                     } else {
                         $s = '(';
@@ -196,13 +199,20 @@ class BackupDb extends AbstractTask
                     }
                     $s = rtrim($s, ',');
 
-                    $written += fwrite($fp, $s);
+                    $writtenBytes = fwrite($fp, $s);
+                    $written += $writtenBytes;
+                    $insertStmtSize += $writtenBytes;
+
+                    // If we reach the size limit of a single INSERT INTO statement, we close the list and start a new one.
+                    if ($insertStmtSize >= self::MAX_SIZE_PER_INSERT_STMT) {
+                        $written += fwrite($fp, ");\n");
+                        $insertStmtSize = 0;
+                    }
                     fflush($fp);
                     $time_elapsed = time() - $start_time;
-                    $row = $data->fetch(PDO::FETCH_ASSOC);
                 }
 
-                if ($i) {
+                if ($i && $insertStmtSize) {
                     $written += fwrite($fp, ");\n");
                 }
             }
