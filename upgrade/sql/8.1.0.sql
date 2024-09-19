@@ -25,7 +25,7 @@ INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VAL
   ('PS_MAIL_SUBJECT_PREFIX', '1', NOW(), NOW());
 
 /* Add new product_attribute_lang table and fill it with data */
-CREATE TABLE `PREFIX_product_attribute_lang` (
+CREATE TABLE IF NOT EXISTS `PREFIX_product_attribute_lang` (
   `id_product_attribute` int(10) unsigned NOT NULL,
   `id_lang` int(10) unsigned NOT NULL,
   `available_now` varchar(255) DEFAULT NULL,
@@ -83,9 +83,9 @@ ALTER TABLE `PREFIX_stock_mvt` CHANGE `physical_quantity` `physical_quantity` IN
 
 /* PHP:add_hook('actionAdminBreadcrumbModifier', 'Modify back office breadcrumb', 'This hook allows modifying back office breadcrumb'); */;
 
-ALTER TABLE `PREFIX_order_payment` ADD `id_employee` INT NULL AFTER `date_add`;
+/* PHP:add_column('order_payment', 'id_employee', 'INT NULL AFTER `date_add`'); */;
 
-CREATE TABLE `PREFIX_authorized_application`
+CREATE TABLE IF NOT EXISTS `PREFIX_authorized_application`
 (
     id_authorized_application INT UNSIGNED AUTO_INCREMENT NOT NULL,
     name                      VARCHAR(255) NOT NULL,
@@ -94,7 +94,7 @@ CREATE TABLE `PREFIX_authorized_application`
     PRIMARY KEY (id_authorized_application)
 ) ENGINE=ENGINE_TYPE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE `PREFIX_api_access`
+CREATE TABLE IF NOT EXISTS `PREFIX_api_access`
 (
     id_api_access             INT UNSIGNED AUTO_INCREMENT NOT NULL,
     id_authorized_application INT UNSIGNED NOT NULL,
