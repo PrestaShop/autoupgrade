@@ -64,7 +64,9 @@ class AssetsEnvironmentTest extends TestCase
     {
         $_ENV['AUTOUPGRADE_DEV_WATCH_MODE'] = '1';
 
-        $this->assertSame(AssetsEnvironment::DEV_BASE_URL, $this->assetsEnvironment->getAssetsBaseUrl());
+        $request = new Request();
+
+        $this->assertSame(AssetsEnvironment::DEV_BASE_URL, $this->assetsEnvironment->getAssetsBaseUrl($request));
     }
 
     public function testGetAssetsBaseUrlReturnsProductionUrlWhenNotInDevMode()
