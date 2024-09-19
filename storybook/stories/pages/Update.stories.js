@@ -23,18 +23,47 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-import BaseLayout from "../../../views/templates/layouts/layout.html.twig";
-import Welcome from "./Welcome.stories";
+import UpdatePage from "../../../views/templates/pages/update.html.twig";
+import LogsProgress from "../components/LogsProgress.stories";
+import Logs from "../components/Logs.stories";
 
 export default {
-  component: BaseLayout,
-  title: "Layouts/Pages/Layout test",
+  component: UpdatePage,
+  title: "Pages/Update",
   args: {
-    ...Welcome.args,
-    page: "welcome",
-    ps_version: "ps_version",
-    empty_backup: true,
+    ...LogsProgress.args,
+    ...Logs.args,
+    steps: [
+      {
+        state: "done",
+        title: "Version choice",
+      },
+      {
+        state: "done",
+        title: "Update options",
+      },
+      {
+        state: "done",
+        title: "Backup",
+      },
+      {
+        state: "current",
+        title: "Update",
+      },
+      {
+        state: "normal",
+        title: "Post-update",
+      },
+    ],
+    step: {
+      code: "update",
+      title: "Update",
+    },
+    logsSummaryWarning: [],
+    logsSummaryError: [],
+    downloadLogsButtonUrl: "",
+    downloadLogsButtonLabel: "",
   },
 };
 
-export const Default = {};
+export const Update = {};

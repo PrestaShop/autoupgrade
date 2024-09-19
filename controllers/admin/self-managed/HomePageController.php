@@ -1,3 +1,5 @@
+<?php
+
 /**
  * Copyright since 2007 PrestaShop SA and Contributors
  * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
@@ -23,13 +25,27 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-import RollbackForm from "../../views/templates/block/rollbackForm.html.twig";
+namespace PrestaShop\Module\AutoUpgrade\Controller;
 
-export default {
-  component: RollbackForm,
-  args: {
-    availableBackups: ["backup1", "backup2"],
-  },
-};
+use PrestaShop\Module\AutoUpgrade\BackupFinder;
+use Symfony\Component\HttpFoundation\Request;
 
-export const Default = {};
+class HomePageController extends AbstractPageController
+{
+    const CURRENT_PAGE = 'home';
+
+    /**
+     * @return array
+     *
+     * @throws \Exception
+     */
+    protected function getParams(Request $request): array
+    {
+        $backupPath = $this->upgradeContainer->getProperty($this->upgradeContainer::BACKUP_PATH);
+        $backupFinder = new BackupFinder($backupPath);
+
+        return [
+            'empty_backup' => empty($backupFinder->getAvailableBackups()),
+        ];
+    }
+}

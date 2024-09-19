@@ -3,7 +3,6 @@
         <label for="restore_select">{{ 'Select the backup you want to restore to'|trans({}) }}</label>
         <select id="restore_select" name="restore_select">
             <option value="0">{{ '-- Choose a backup to restore --'|trans({}) }}</option>
-            ';
             {% if availableBackups is not empty %}
                 {% for backupName in availableBackups %}
                     <option value="{{ backupName }}">{{ backupName }}</option>

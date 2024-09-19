@@ -1,9 +1,14 @@
 @use "../variables" as *;
 
-$e: ".version-page";
+$e: ".version-choice-page";
 
 #{$ua-id} {
   #{$e} {
+    .radio-card {
+      &:not(:last-child) {
+        margin-bottom: 0.5rem;
+      }
+    }
     // Up To Date
     .up-to-date {
       margin-block-end: 1.5rem;

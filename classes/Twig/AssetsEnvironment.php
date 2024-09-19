@@ -1,3 +1,5 @@
+<?php
+
 /**
  * Copyright since 2007 PrestaShop SA and Contributors
  * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
@@ -23,23 +25,34 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-import ChannelInfo from "../../views/templates/block/channelInfo.html.twig";
+namespace PrestaShop\Module\AutoUpgrade\Twig;
 
-export default {
-  component: ChannelInfo,
-  args: {
-    psBaseUri: "/",
-    upgradeInfo: {
-      branch: "8",
-      available: 8,
-      version_num: "8.1.7",
-      version_name: "8 stable",
-      link: "https://github.com/PrestaShop/PrestaShop/releases/download/8.1.7/prestashop_8.1.7.zip",
-      md5: "52267b8918d8a7e0686016d013a0bfc3",
-      changelog:
-        "https://build.prestashop-project.org/news/2024/prestashop-8-1-7-maintenance-release/",
-    },
-  },
-};
+use Symfony\Component\HttpFoundation\Request;
 
-export const Default = {};
+class AssetsEnvironment
+{
+    const DEV_BASE_URL = 'http://localhost:5173/';
+
+    public function isDevMode(): bool
+    {
+        return !empty($_ENV['AUTOUPGRADE_DEV_WATCH_MODE']) && $_ENV['AUTOUPGRADE_DEV_WATCH_MODE'] === '1';
+    }
+
+    public function getAssetsBaseUrl(Request $request): string
+    {
+        if ($this->isDevMode()) {
+            return self::DEV_BASE_URL;
+        }
+
+        return $this->getShopUrlFromRequest($request) . '/modules/autoupgrade/views';
+    }
+
+    private function getShopUrlFromRequest(Request $request): string
+    {
+        // The calls are made from the admin folder. We remove it from the caller URL to get the shop path.
+        $path = explode('/', $request->getBasePath());
+        array_pop($path);
+
+        return $request->getSchemeAndHttpHost() . implode('/', $path);
+    }
+}

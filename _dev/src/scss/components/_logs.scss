@@ -33,6 +33,8 @@ $e: ".logs";
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
+      max-height: 14rem;
+      overflow-y: auto;
     }
 
     &__line {

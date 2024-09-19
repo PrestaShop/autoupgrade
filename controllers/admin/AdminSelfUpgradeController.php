@@ -126,8 +126,6 @@ class AdminSelfUpgradeController extends ModuleAdminController
             require_once $autoloadPath;
         }
 
-        $this->loadEnv();
-
         @set_time_limit(0);
         @ini_set('max_execution_time', '0');
         @ini_set('magic_quotes_runtime', '0');
@@ -461,9 +459,8 @@ class AdminSelfUpgradeController extends ModuleAdminController
         }
 
         if (Tools::getValue('new-ui')) {
-            $this->addNewUIAssets();
-
             $request = Request::createFromGlobals();
+            $this->addNewUIAssets($request);
 
             // TODO: In the future, the router will return an object instead of a string depending on controller called.
             $this->content = (new Router($this->upgradeContainer))->handle($request);
@@ -519,29 +516,22 @@ class AdminSelfUpgradeController extends ModuleAdminController
     }
 
     /**
+     * @param Request $request
+     *
      * @return void
      */
-    private function addNewUIAssets()
+    private function addNewUIAssets(Request $request)
     {
-        if (!empty($_ENV['AUTOUPGRADE_DEV_WATCH_MODE']) && $_ENV['AUTOUPGRADE_DEV_WATCH_MODE'] === '1') {
-            $vite_dev_url = 'http://localhost:5173/';
-            $this->context->controller->addCSS($vite_dev_url . 'src/scss/main.scss');
-            $twig = $this->upgradeContainer->getTwig();
-            $this->content .= $twig->render('@ModuleAutoUpgrade/module-script-tag.html.twig', ['src' => $vite_dev_url . 'src/ts/main.ts']);
-        } else {
-            $this->context->controller->addCSS(_PS_ROOT_DIR_ . 'modules/autoupgrade/views/css/autoupgrade.css');
-            $this->context->controller->addJS(_PS_ROOT_DIR_ . 'modules/autoupgrade/views/js/autoupgrade.js?version=' . $this->module->version);
-        }
-    }
+        $assetsEnvironment = $this->upgradeContainer->getAssetsEnvironment();
+        $assetsBaseUrl = $assetsEnvironment->getAssetsBaseUrl($request);
 
-    /**
-     * @return void
-     */
-    private function loadEnv()
-    {
-        if (file_exists(__DIR__ . '/../../.env')) {
-            $dotenv = new Symfony\Component\Dotenv\Dotenv();
-            $dotenv->load(__DIR__ . '/../../.env');
+        if ($assetsEnvironment->isDevMode()) {
+            $this->context->controller->addCSS($assetsBaseUrl . 'src/scss/main.scss');
+            $twig = $this->upgradeContainer->getTwig();
+            $this->content .= $twig->render('@ModuleAutoUpgrade/module-script-tag.html.twig', ['src' => $assetsBaseUrl . 'src/ts/main.ts']);
+        } else {
+            $this->context->controller->addCSS($assetsBaseUrl . '/css/autoupgrade.css');
+            $this->context->controller->addJS($assetsBaseUrl . '/js/autoupgrade.js?version=' . $this->module->version);
         }
     }
 }

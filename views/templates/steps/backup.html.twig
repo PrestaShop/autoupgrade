@@ -1,9 +1,9 @@
-{% extends '@ModuleAutoUpgrade/layouts/page.html.twig' %}
+{% extends '@ModuleAutoUpgrade/layouts/step-content.html.twig' %}
 
 {% block page_class %}backup-page{% endblock %}
 
 {% block title %}
-    <h1>{{ 'Back up your store'|trans({}) }}</h1>
+	<h2>{{ step.title }}</h2>
 {% endblock %}
 
 {% block content %}

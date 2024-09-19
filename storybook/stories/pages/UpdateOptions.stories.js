@@ -23,27 +23,39 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-import Main from "../../views/templates/main.html.twig";
-import UpgradeButton from "./UpgradeButton.stories";
-import UpgradeChecklist from "./UpgradeChecklist.stories";
-import RollbackForm from "./RollbackForm.stories";
+import UpdateOptionsPage from "../../../views/templates/pages/update.html.twig";
 
 export default {
-  component: Main,
-};
-
-export const Default = {
+  component: UpdateOptionsPage,
+  title: "Pages/Update",
   args: {
-    psBaseUri: "/",
-    translationDomain: "Modules.Autoupgrade.Admin",
-    jsParams: "tata",
-    backupOptions: "",
-    PS_AUTOUP_BACKUP: true,
-    upgradeOptions: "",
-    currentIndex: "index.php?controller=AdminSelfUpgrade",
-    token: "64e10c9ef64f54c44d510fe41bcf4328",
-    ...UpgradeButton.args,
-    ...UpgradeChecklist.args,
-    ...RollbackForm.args,
+    steps: [
+      {
+        state: "done",
+        title: "Version choice",
+      },
+      {
+        state: "current",
+        title: "Update options",
+      },
+      {
+        state: "normal",
+        title: "Backup",
+      },
+      {
+        state: "normal",
+        title: "Update",
+      },
+      {
+        state: "normal",
+        title: "Post-update",
+      },
+    ],
+    step: {
+      code: "update-options",
+      title: "Update options",
+    },
   },
 };
+
+export const UpdateOptions = {};

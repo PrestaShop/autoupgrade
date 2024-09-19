@@ -23,29 +23,56 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-import RestoreLayout from "../../../views/templates/layouts/restore.html.twig";
-import BackupSelection from "../components/BackupSelection.stories";
+import VersionChoicePage from "../../../views/templates/pages/update.html.twig";
+import LocalArchive from "../components/LocalArchive.stories";
+import RadioCard from "../components/RadioCard.stories";
 
 export default {
-  component: RestoreLayout,
-  title: "Layouts/Pages/Restore",
+  component: VersionChoicePage,
+  title: "Pages/Update",
   args: {
-    ...BackupSelection.args,
+    psBaseUri: "/",
+    assetsBasePath: "/",
+    upToDate: true,
+    noLocalArchive: true,
+    currentPrestashopVersion: "8.1.6",
+    currentPhpVersion: "8.1",
+    nextRelease: {
+      version: "9.0.0",
+      releaseDate: "01/05/2024",
+      badgeLabel: "Major version",
+      badgeStatus: "major",
+      releaseNote: "https://github.com/PrestaShop/autoupgrade"
+    },
+    ...RadioCard.args,
+    ...LocalArchive.args,
     steps: [
       {
         state: "current",
-        title: "Backup selection",
+        title: "Version choice",
       },
       {
         state: "normal",
-        title: "Restore",
+        title: "Update options",
       },
       {
         state: "normal",
-        title: "Post-restore",
+        title: "Backup",
+      },
+      {
+        state: "normal",
+        title: "Update",
+      },
+      {
+        state: "normal",
+        title: "Post-update",
       },
     ],
+    step: {
+      code: "version-choice",
+      title: "Version choice",
+    },
   },
 };
 
-export const Default = {};
+export const VersionChoice = {};

@@ -17,3 +17,8 @@ node_modules/
 /tests/UI/report.json
 /tests/UI/reports/
 /tests/UI/test-results/
+
+## Compile assets
+/views/css/
+/views/img/
+/views/js/

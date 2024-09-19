@@ -1,9 +1,9 @@
-{% extends '@ModuleAutoUpgrade/layouts/page.html.twig' %}
+{% extends '@ModuleAutoUpgrade/layouts/step-content.html.twig' %}
 
 {% block page_class %}update-options-page{% endblock %}
 
 {% block title %}
-    <h1>{{ 'Update options'|trans({}) }}</h1>
+	<h2>{{ step.title }}</h2>
 {% endblock %}
 
 {% block content %}

@@ -23,13 +23,44 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-import VersionComparison from "../../views/templates/block/versionComparison.html.twig";
+import PostUpdatePage from "../../../views/templates/pages/update.html.twig";
 
 export default {
-  component: VersionComparison,
+  component: PostUpdatePage,
+  title: "Pages/Update",
   args: {
     psBaseUri: "/",
+    upToDate: true,
+    noLocalArchive: true,
+    currentPrestashopVersion: "8.1.6",
+    currentPhpVersion: "8.1",
+    steps: [
+      {
+        state: "done",
+        title: "Version choice",
+      },
+      {
+        state: "done",
+        title: "Update options",
+      },
+      {
+        state: "done",
+        title: "Backup",
+      },
+      {
+        state: "done",
+        title: "Update",
+      },
+      {
+        state: "current",
+        title: "Post-update",
+      },
+    ],
+    step: {
+      code: "post-update",
+      title: "Post-update checklist",
+    },
   },
 };
 
-export const Default = {};
+export const PostUpdate = {};

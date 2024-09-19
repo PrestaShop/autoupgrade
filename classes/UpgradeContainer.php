@@ -35,7 +35,9 @@ use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Progress\CompletionCalculator;
+use PrestaShop\Module\AutoUpgrade\Repository\LocalArchiveRepository;
 use PrestaShop\Module\AutoUpgrade\Services\ComposerService;
+use PrestaShop\Module\AutoUpgrade\Twig\AssetsEnvironment;
 use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension;
 use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension3;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\CacheCleaner;
@@ -51,6 +53,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translation;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 use PrestaShop\Module\AutoUpgrade\Xml\ChecksumCompare;
 use PrestaShop\Module\AutoUpgrade\Xml\FileLoader;
+use Symfony\Component\Dotenv\Dotenv;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Loader\FilesystemLoader;
@@ -185,6 +188,16 @@ class UpgradeContainer
     private $zipAction;
 
     /**
+     * @var LocalArchiveRepository
+     */
+    private $localArchiveRepository;
+
+    /**
+     * @var AssetsEnvironment
+     */
+    private $assetsEnvironment;
+
+    /**
      * AdminSelfUpgrade::$autoupgradePath
      * Ex.: /var/www/html/PrestaShop/admin-dev/autoupgrade.
      *
@@ -207,6 +220,11 @@ class UpgradeContainer
         $this->autoupgradeWorkDir = $adminDir . DIRECTORY_SEPARATOR . $moduleSubDir;
         $this->adminDir = $adminDir;
         $this->psRootDir = $psRootDir;
+
+        if (file_exists($psRootDir . '/modules/autoupgrade/.env')) {
+            $dotenv = new Dotenv();
+            $dotenv->load($psRootDir . '/modules/autoupgrade/.env');
+        }
     }
 
     /**
@@ -565,7 +583,7 @@ class UpgradeContainer
     /**
      * @throws LoaderError
      *
-     * @return \Twig\Environment
+     * @return Twig_Environment|Environment
      */
     public function getTwig()
     {
@@ -685,6 +703,32 @@ class UpgradeContainer
             $this->getProperty(self::PS_ROOT_PATH));
 
         return $this->zipAction;
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getLocalArchiveRepository(): LocalArchiveRepository
+    {
+        if (null !== $this->localArchiveRepository) {
+            return $this->localArchiveRepository;
+        }
+
+        return $this->localArchiveRepository = new LocalArchiveRepository($this->getProperty($this::DOWNLOAD_PATH));
+    }
+
+    /**
+     * @return AssetsEnvironment
+     *
+     * @throws Exception
+     */
+    public function getAssetsEnvironment(): AssetsEnvironment
+    {
+        if (null !== $this->assetsEnvironment) {
+            return $this->assetsEnvironment;
+        }
+
+        return $this->assetsEnvironment = new AssetsEnvironment();
     }
 
     /**

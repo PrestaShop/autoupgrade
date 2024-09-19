@@ -1,11 +1,9 @@
-{% extends '@ModuleAutoUpgrade/layouts/page.html.twig' %}
-
-{% block stepper %}{% endblock %}
+{% extends '@ModuleAutoUpgrade/layouts/step-content.html.twig' %}
 
 {% block page_class %}welcome-page{% endblock %}
 
 {% block title %}
-    <h1>{{ 'Welcome to PrestaShop Update Assistant'|trans({}) }}</h1>
+    <h2>{{ 'Welcome to PrestaShop Update Assistant'|trans({}) }}</h2>
 {% endblock %}
 
 {% block content %}
@@ -17,6 +15,7 @@
             radioName: 'welcome_choices',
             radioValue: 'upgrade'
         } %}
+
         {% include '@ModuleAutoUpgrade/components/radio-card.html.twig' with {
             checked: false,
             title: 'Restore from a backup'|trans({}),

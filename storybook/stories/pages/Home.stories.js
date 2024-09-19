@@ -23,10 +23,20 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-import Footer from "../../views/templates/block/footer.html.twig";
+import WelcomePage from "../../../views/templates/pages/home.html.twig";
+import RadioCard from "../components/RadioCard.stories";
 
 export default {
-  component: Footer,
+  component: WelcomePage,
+  title: "Pages/Home",
+  args: {
+    ...RadioCard.args,
+    badgeLabel: "",
+    badgeStatus: "",
+    releaseNote: "",
+    ps_version: "ps_version",
+    empty_backup: true,
+  },
 };
 
-export const Default = {};
+export const Welcome = {};

@@ -23,39 +23,33 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-import UpdateLayout from "../../../views/templates/layouts/update.html.twig";
-import LogsProgress from "../components/LogsProgress.stories";
-import Logs from "../components/Logs.stories";
+import RestorePage from "../../../views/templates/pages/rollback.html.twig";
+import BackupSelection from "../components/BackupSelection.stories";
 
 export default {
-  component: UpdateLayout,
-  title: "Layouts/Pages/Update",
+  component: RestorePage,
+  title: "Pages/Rollback",
   args: {
-    ...LogsProgress.args,
-    ...Logs.args,
+    ...BackupSelection.args,
     steps: [
       {
-        state: "done",
-        title: "Version choice",
-      },
-      {
-        state: "done",
-        title: "Update options",
-      },
-      {
-        state: "done",
-        title: "Backup",
-      },
-      {
         state: "current",
-        title: "Update",
+        title: "Backup selection",
       },
       {
         state: "normal",
-        title: "Post-update",
+        title: "Restore",
+      },
+      {
+        state: "normal",
+        title: "Post-restore",
       },
     ],
+    step: {
+      code: "restore",
+      title: "Backup selection",
+    },
   },
 };
 
-export const Default = {};
+export const Restore = {};

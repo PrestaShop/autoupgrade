@@ -27,62 +27,46 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Controller;
 
+use PrestaShop\Module\AutoUpgrade\Twig\UpdateSteps;
 use Symfony\Component\HttpFoundation\Request;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
-abstract class AbstractPageController extends AbstractGlobalController
+class UpdatePagePostUpdateController extends AbstractPageController
 {
-    const CURRENT_PAGE = '';
-
-    protected function getPsVersion(): string
-    {
-        return $this->upgradeContainer->getProperty($this->upgradeContainer::PS_VERSION);
-    }
-
-    private function getPsVersionClass(): string
-    {
-        $psVersion = $this->getPsVersion();
-        $psClass = '';
-
-        if (version_compare($psVersion, '1.7.8.0', '<')) {
-            $psClass = 'v1-7-3-0';
-        } elseif (version_compare($psVersion, '9.0.0', '<')) {
-            $psClass = 'v1-7-8-0';
-        }
-
-        return $psClass;
-    }
-
-    public function renderPage(string $page, array $params): string
-    {
-        return $this->twig->render(
-            '@ModuleAutoUpgrade/layouts/layout.html.twig',
-            array_merge(
-                [
-                    'page' => $page,
-                    'ps_version' => $this->getPsVersionClass(),
-                ],
-                $params
-            )
-        );
-    }
+    const CURRENT_STEP = UpdateSteps::STEP_POST_UPDATE;
+    const CURRENT_PAGE = 'update';
 
     /**
      * @param Request $request
      *
      * @return string
      *
-     * @throws \Exception
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function index(Request $request): string
+    public function step(Request $request): string
     {
-        return $this->renderPage(
-            $this::CURRENT_PAGE,
-            $this->getParams($request)
+        return $this->twig->render(
+            '@ModuleAutoUpgrade/steps/post-update.html.twig',
+            $this->getParams()
         );
     }
 
     /**
      * @return array
+     *
+     * @throws \Exception
      */
-    abstract protected function getParams(Request $request): array;
+    protected function getParams(Request $request): array
+    {
+        $updateSteps = new UpdateSteps($this->upgradeContainer->getTranslator());
+
+        return array_merge(
+            $updateSteps->getStepParams($this::CURRENT_STEP),
+            []
+        );
+    }
 }
