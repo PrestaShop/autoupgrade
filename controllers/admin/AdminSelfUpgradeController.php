@@ -458,8 +458,13 @@ class AdminSelfUpgradeController extends ModuleAdminController
             $request = Request::createFromGlobals();
             $this->addNewUIAssets($request);
 
-            // TODO: In the future, the router will return an object instead of a string depending on controller called.
-            $this->content = (new Router($this->upgradeContainer))->handle($request);
+            $response = (new Router($this->upgradeContainer))->handle($request);
+
+            if ($response instanceof \Symfony\Component\HttpFoundation\Response) {
+                $response->send();
+                exit;
+            }
+            $this->content = $response;
 
             return parent::initContent();
         }

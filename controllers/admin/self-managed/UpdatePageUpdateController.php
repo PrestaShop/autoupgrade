@@ -32,11 +32,20 @@ use Symfony\Component\HttpFoundation\Request;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
+use PrestaShop\Module\AutoUpgrade\Router\Router;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class UpdatePageUpdateController extends AbstractPageController
 {
     const CURRENT_STEP = UpdateSteps::STEP_UPDATE;
     const CURRENT_PAGE = 'update';
+
+    public function index(Request $request): RedirectResponse
+    {
+        return new RedirectResponse(
+            str_replace(Router::UPDATE_PAGE_UPDATE, Router::UPDATE_PAGE_BACKUP, $request->getUri())
+        );
+    }
 
     /**
      * @param Request $request
