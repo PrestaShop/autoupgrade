@@ -62,6 +62,7 @@ if (!empty($action)) {
     $response = (new Router($container))->handle(Request::createFromGlobals());
     if ($response instanceof \Symfony\Component\HttpFoundation\Response) {
         $response->send();
+    } else {
+        echo $response;
     }
-    echo $response;
 }
