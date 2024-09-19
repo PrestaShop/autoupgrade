@@ -66,6 +66,7 @@ jobs:
         run: |
          docker exec -t prestashop php modules/autoupgrade/bin/console update:start --channel=${{ matrix.UPGRADE_CHANNEL }} admin-dev
          docker exec -t prestashop chmod 777 -R /var/www/html/var/cache/dev
+         docker exec -t prestashop chmod 777 -R /var/www/html/var/logs
 
       - name: Install dependencies
         working-directory: tests/UI/
