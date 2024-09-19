@@ -83,21 +83,21 @@ class UpdateSteps
 
     /**
      * @return array{
-     *      step: array{
-     *          code: string,
-     *          title: string
-     *      },
-     *      steps: array<int, array<string, string>>
-     *  }
+     *                step: array{
+     *                code: string,
+     *                title: string
+     *                },
+     *                steps: array<int, array<string, string>>
+     *                }
      */
     public function getStepParams(string $step)
     {
         return [
             'step' => [
                 'code' => $step,
-                'title' => $this->getStepTitle($step)
+                'title' => $this->getStepTitle($step),
             ],
-            'steps' => $this->getSteps($step)
+            'steps' => $this->getSteps($step),
         ];
     }
 }
