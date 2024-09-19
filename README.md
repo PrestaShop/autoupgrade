@@ -153,6 +153,15 @@ All frontend commands should be executed from the `_dev` directory.
 
 - `npm run lint-scss` ⮕ Runs **Stylelint** to lint and format your SCSS files. You can append `:fix` to automatically resolve solvable formatting issues.
 
+### Twig tools
+
+These commands should be executed from the `root` directory.
+
+- `./tests/djLint/twig.sh lint` ⮕ Runs **djLint** to lint TWIG files.
+
+- `./tests/djLint/twig.sh format` ⮕ Runs **djLint** to check the format of TWIG files.
+
+- `./tests/djLint/twig.sh format:fix` ⮕ Runs **djLint** to automatically format TWIG files.
 
 ## Contributing
 
