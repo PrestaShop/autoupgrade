@@ -35,7 +35,7 @@ use Twig\Error\SyntaxError;
 
 class UpdatePagePostUpdateController extends AbstractPageController
 {
-    const CURRENT_STEP = UpdateSteps::POST_UPDATE;
+    const CURRENT_STEP = UpdateSteps::STEP_POST_UPDATE;
     const CURRENT_PAGE = 'update';
 
     /**

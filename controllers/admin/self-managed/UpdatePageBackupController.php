@@ -35,7 +35,7 @@ use Twig\Error\SyntaxError;
 
 class UpdatePageBackupController extends AbstractPageController
 {
-    const CURRENT_STEP = UpdateSteps::BACKUP;
+    const CURRENT_STEP = UpdateSteps::STEP_BACKUP;
     const CURRENT_PAGE = 'update';
 
     /**

@@ -36,7 +36,7 @@ use Twig\Error\SyntaxError;
 
 class UpdatePageVersionChoiceController extends AbstractPageController
 {
-    const CURRENT_STEP = UpdateSteps::VERSION_CHOICE;
+    const CURRENT_STEP = UpdateSteps::STEP_VERSION_CHOICE;
     const CURRENT_PAGE = 'update';
 
     /**
@@ -73,7 +73,6 @@ class UpdatePageVersionChoiceController extends AbstractPageController
             'steps' => $updateSteps->getSteps($this::CURRENT_STEP),
             'upToDate' => true /* TODO */ ,
             'noLocalArchive' => !$this->upgradeContainer->getLocalArchiveRepository()->hasLocalArchive(),
-            // TODO: How to find images based on shop URL ?
             'assetsBasePath' => $this->upgradeContainer->getAssetsEnvironment()->getAssetsBaseUrl($request),
             'currentPrestashopVersion' => $this->getPsVersion(),
             'currentPhpVersion' => VersionUtils::getHumanReadableVersionOf(PHP_VERSION_ID),
