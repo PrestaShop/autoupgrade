@@ -106,7 +106,7 @@ class UpdateConfig extends AbstractTask
                 return ExitCode::FAIL;
             }
 
-            $config['channel'] = Upgrader::CHANNEL_ARCHIVE;
+            $config['channel'] = Upgrader::CHANNEL_LOCAL;
             $config['archive.filename'] = $configurationData['archive_prestashop'];
             $config['archive.version_num'] = $targetVersion;
             $config['archive.xml'] = $configurationData['archive_xml'];

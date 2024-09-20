@@ -60,7 +60,7 @@ class UpgradeComplete extends AbstractTask
 
         $this->next = '';
 
-        if ($this->container->getUpgradeConfiguration()->get('channel') != Upgrader::CHANNEL_ARCHIVE && file_exists($this->container->getFilePath()) && unlink($this->container->getFilePath())) {
+        if ($this->container->getUpgradeConfiguration()->get('channel') != Upgrader::CHANNEL_LOCAL && file_exists($this->container->getFilePath()) && unlink($this->container->getFilePath())) {
             $this->logger->debug($this->translator->trans('%s removed', [$this->container->getFilePath()]));
         } elseif (is_file($this->container->getFilePath())) {
             $this->logger->debug('<strong>' . $this->translator->trans('Please remove %s by FTP', [$this->container->getFilePath()]) . '</strong>');

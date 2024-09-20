@@ -39,11 +39,11 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class Upgrader
 {
-    const CHANNEL_DYNAMIC = 'dynamic';
-    const CHANNEL_ARCHIVE = 'archive';
+    const CHANNEL_ONLINE = 'online';
+    const CHANNEL_LOCAL = 'local';
 
     const DEFAULT_CHECK_VERSION_DELAY_HOURS = 12;
-    const DEFAULT_CHANNEL = self::CHANNEL_DYNAMIC;
+    const DEFAULT_CHANNEL = self::CHANNEL_ONLINE;
     const DEFAULT_FILENAME = 'prestashop.zip';
 
     /** @var string */
@@ -83,7 +83,7 @@ class Upgrader
     public function downloadLast(string $dest, string $filename = 'prestashop.zip'): bool
     {
         if ($this->destinationRelease === null) {
-            $this->getDynamicDestinationRelease();
+            $this->getOnlineDestinationRelease();
         }
 
         $destPath = realpath($dest) . DIRECTORY_SEPARATOR . $filename;
@@ -117,10 +117,10 @@ class Upgrader
      * @throws DistributionApiException
      * @throws UpgradeException
      */
-    public function getDynamicDestinationRelease(): ?PrestashopRelease
+    public function getOnlineDestinationRelease(): ?PrestashopRelease
     {
-        if ($this->channel !== self::CHANNEL_DYNAMIC) {
-            throw new LogicException('channel must be dynamic to retrieve the version dynamically');
+        if ($this->channel !== self::CHANNEL_ONLINE) {
+            throw new LogicException('channel must be online to retrieve the version dynamically');
         }
 
         if ($this->destinationRelease !== null) {
@@ -139,10 +139,10 @@ class Upgrader
      */
     public function getDestinationVersion(): ?string
     {
-        if ($this->channel === self::CHANNEL_ARCHIVE) {
+        if ($this->channel === self::CHANNEL_LOCAL) {
             return $this->upgradeConfiguration->get('archive.version_num');
         } else {
-            return $this->getDynamicDestinationRelease() ? $this->getDynamicDestinationRelease()->getVersion() : null;
+            return $this->getOnlineDestinationRelease() ? $this->getOnlineDestinationRelease()->getVersion() : null;
         }
     }
 

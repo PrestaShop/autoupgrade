@@ -68,7 +68,7 @@ class UpdatePageVersionChoiceController extends AbstractPageController
 
         if (!$isLastVersion) {
             $updateType = VersionUtils::getUpdateType($this->getPsVersion(), $this->upgradeContainer->getUpgrader()->getDestinationVersion());
-            $releaseNote = VersionUtils::getUpdateType($this->getPsVersion(), $this->upgradeContainer->getUpgrader()->getDynamicDestinationRelease()->getReleaseNoteUrl());
+            $releaseNote = VersionUtils::getUpdateType($this->getPsVersion(), $this->upgradeContainer->getUpgrader()->getOnlineDestinationRelease()->getReleaseNoteUrl());
         } else {
             $updateType = null;
             $releaseNote = null;

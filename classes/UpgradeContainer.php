@@ -410,7 +410,7 @@ class UpgradeContainer
         $this->getState()->setInstallVersion($upgrader->getDestinationVersion());
         $this->getState()->setOriginVersion($this->getProperty(self::PS_VERSION));
 
-        if ($upgrader->getChannel() === Upgrader::CHANNEL_ARCHIVE) {
+        if ($upgrader->getChannel() === Upgrader::CHANNEL_LOCAL) {
             $archiveXml = $this->getUpgradeConfiguration()->get('archive.xml');
             $this->fileLoader->addXmlMd5File($this->getUpgrader()->getDestinationVersion(), $this->getProperty(self::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $archiveXml);
         }

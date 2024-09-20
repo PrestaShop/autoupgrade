@@ -108,10 +108,10 @@ class UpgradeButtonBlock
         // decide to display "Start Upgrade" or not
         if ($this->selfCheck->isOkForUpgrade() && !$this->upgrader->isLastVersion()) {
             $showUpgradeButton = true;
-            if ($this->upgrader->getChannel() === Upgrader::CHANNEL_DYNAMIC) {
+            if ($this->upgrader->getChannel() === Upgrader::CHANNEL_ONLINE) {
                 $showUpgradeLink = true;
-                $upgradeLink = $this->upgrader->getDynamicDestinationRelease()->getZipDownloadUrl();
-                $changelogLink = $this->upgrader->getDynamicDestinationRelease()->getReleaseNoteUrl();
+                $upgradeLink = $this->upgrader->getOnlineDestinationRelease()->getZipDownloadUrl();
+                $changelogLink = $this->upgrader->getOnlineDestinationRelease()->getReleaseNoteUrl();
             }
 
             // if skipActions property is used, we will handle that in the display :)
@@ -168,8 +168,8 @@ class UpgradeButtonBlock
         $translator = $this->translator;
 
         return [
-            ['useDynamic', Upgrader::CHANNEL_DYNAMIC, $translator->trans('Dynamic calculation')],
-            ['useArchive', Upgrader::CHANNEL_ARCHIVE, $translator->trans('Local archive')],
+            ['useOnline', Upgrader::CHANNEL_ONLINE, $translator->trans('Online')],
+            ['useLocal', Upgrader::CHANNEL_LOCAL, $translator->trans('Local archive')],
         ];
     }
 }

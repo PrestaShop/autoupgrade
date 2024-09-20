@@ -55,7 +55,7 @@ class ConfigurationValidator
      */
     private function validateChannel(string $channel): void
     {
-        if ($channel !== Upgrader::CHANNEL_ARCHIVE && $channel !== Upgrader::CHANNEL_DYNAMIC) {
+        if ($channel !== Upgrader::CHANNEL_LOCAL && $channel !== Upgrader::CHANNEL_ONLINE) {
             throw new UnexpectedValueException('Unknown channel ' . $channel);
         }
     }

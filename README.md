@@ -87,7 +87,7 @@ Here is an example of the different fields that can be found in it:
 
 ```json
 {
-  "channel": "archive", // see https://devdocs.prestashop-project.org/8/basics/keeping-up-to-date/upgrade-module/channels/
+  "channel": "local", // see https://devdocs.prestashop-project.org/8/basics/keeping-up-to-date/upgrade-module/channels/
   "archive_prestashop": "prestashop_8.0.0.zip", // Name of the zip file, specific to the archive channel, to be placed in the [your-admin-dir]/autoupgrade/download folder
   "archive_xml": "prestashop_8.0.0.xml", // Name of the XML file, specific to the archive channel, to be placed in the [your-admin-dir]/autoupgrade/download folder
   "archive_num": "8.0.0", // Release number, specific to the archive channel

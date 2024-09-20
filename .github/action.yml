@@ -45,12 +45,12 @@ runs:
 
     - name: Upgrade (intermediate)
       env:
-        CHANNEL: 'archive'
+        CHANNEL: 'local'
         ARCHIVE_URL: 'https://github.com/PrestaShop/PrestaShop/releases/download/1.7.7.8/prestashop_1.7.7.8.zip'
         XML_URL: 'https://api.prestashop.com/xml/md5/1.7.7.8.xml'
         VERSION: '1.7.7.8'
         FROM: ${{ matrix.from }}
-        SKIP: ${{ matrix.ps-versions.channel != 'archive' || !startsWith(matrix.from, '1.6') || startsWith(matrix.ps-versions.version, '1.7.7') }}
+        SKIP: ${{ matrix.ps-versions.channel != 'local' || !startsWith(matrix.from, '1.6') || startsWith(matrix.ps-versions.version, '1.7.7') }}
       shell: bash
       run: |
         [[ "$SKIP" == true ]] || ${{ github.action_path }}action_upgrade.sh

@@ -63,7 +63,7 @@ class UpgradeNow extends AbstractTask
         }
 
         switch ($upgrader->getChannel()) {
-            case Upgrader::CHANNEL_ARCHIVE:
+            case Upgrader::CHANNEL_LOCAL:
                 $this->next = 'unzip';
                 $this->logger->debug($this->translator->trans('Downloading step has been skipped, upgrade process will now unzip the local archive.'));
                 $this->logger->info($this->translator->trans('Shop deactivated. Extracting files...'));
@@ -71,8 +71,8 @@ class UpgradeNow extends AbstractTask
             default:
                 $this->next = 'download';
                 $this->logger->info($this->translator->trans('Shop deactivated. Now downloading... (this can take a while)'));
-                $this->logger->debug($this->translator->trans('Downloaded archive will come from %s', [$upgrader->getDynamicDestinationRelease()->getZipDownloadUrl()]));
-                $this->logger->debug($this->translator->trans('MD5 hash will be checked against %s', [$upgrader->getDynamicDestinationRelease()->getZipMd5()]));
+                $this->logger->debug($this->translator->trans('Downloaded archive will come from %s', [$upgrader->getOnlineDestinationRelease()->getZipDownloadUrl()]));
+                $this->logger->debug($this->translator->trans('MD5 hash will be checked against %s', [$upgrader->getOnlineDestinationRelease()->getZipMd5()]));
         }
         $this->container->getAnalytics()->track('Upgrade Launched', Analytics::WITH_UPGRADE_PROPERTIES);
 

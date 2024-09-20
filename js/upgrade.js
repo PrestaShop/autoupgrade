@@ -781,7 +781,7 @@ $(document).ready(function () {
       $oldChannel = "";
 
       if ($oldChannel != $newChannel) {
-        var validChannels = ["dynamic"];
+        var validChannels = ["online"];
         if (validChannels.indexOf($newChannel) !== -1) {
           params.channel = $newChannel;
         }
@@ -802,7 +802,7 @@ $(document).ready(function () {
             showConfigResult(input.translation.noXmlSelected, "error");
             return false;
           }
-          params.channel = "archive";
+          params.channel = "local";
           params.archive_prestashop = archive_prestashop;
           params.archive_xml = archive_xml;
         }
