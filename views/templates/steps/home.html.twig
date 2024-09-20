@@ -1,4 +1,4 @@
-{% extends '@ModuleAutoUpgrade/layouts/step-content.html.twig' %}
+{% extends "@ModuleAutoUpgrade/layouts/step-content.html.twig" %}
 
 {% block page_class %}welcome-page{% endblock %}
 
@@ -8,7 +8,7 @@
 
 {% block content %}
     <div class="welcome-page__card-list">
-        {% include '@ModuleAutoUpgrade/components/radio-card.html.twig' with {
+        {% include "@ModuleAutoUpgrade/components/radio-card.html.twig" with {
             checked: true,
             title: 'Update your store'|trans({}),
             message: 'Update your store to benefit from the latest improvements, bug fixes and security patches.'|trans({}),
@@ -16,7 +16,7 @@
             radioValue: 'upgrade'
         } %}
 
-        {% include '@ModuleAutoUpgrade/components/radio-card.html.twig' with {
+        {% include "@ModuleAutoUpgrade/components/radio-card.html.twig" with {
             checked: false,
             title: 'Restore from a backup'|trans({}),
             message: 'Use this feature if the update failed or if your store or a  module is no longer working properly.'|trans({}),

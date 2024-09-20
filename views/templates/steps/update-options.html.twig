@@ -1,4 +1,4 @@
-{% extends '@ModuleAutoUpgrade/layouts/step-content.html.twig' %}
+{% extends "@ModuleAutoUpgrade/layouts/step-content.html.twig" %}
 
 {% block page_class %}update-options-page{% endblock %}
 
@@ -8,7 +8,7 @@
 
 {% block content %}
     <div class="update-options-page__field-list">
-        {% include '@ModuleAutoUpgrade/components/render-bool.html.twig' with {
+        {% include "@ModuleAutoUpgrade/components/render-bool.html.twig" with {
             field: {
                 id: "deactivate_modules",
                 title: "Deactivate non-native modules",
@@ -25,7 +25,7 @@
             val: true,
         } %}
 
-        {% include '@ModuleAutoUpgrade/components/render-bool.html.twig' with {
+        {% include "@ModuleAutoUpgrade/components/render-bool.html.twig" with {
             field: {
                 id: "regen_email",
                 title: "Regenerate email templates",
@@ -42,7 +42,7 @@
             val: true,
         } %}
 
-        {% include '@ModuleAutoUpgrade/components/render-select.html.twig' with {
+        {% include "@ModuleAutoUpgrade/components/render-select.html.twig" with {
             field: {
                 id: "regen_mail",
                 title: "Switch the theme",
@@ -60,7 +60,7 @@
             val: "1",
         } %}
 
-        {% include '@ModuleAutoUpgrade/components/render-bool.html.twig' with {
+        {% include "@ModuleAutoUpgrade/components/render-bool.html.twig" with {
             field: {
                 id: "disable_override",
                 title: "Disable all overrides",

@@ -1,16 +1,16 @@
-{% extends '@ModuleAutoUpgrade/layouts/step-content.html.twig' %}
+{% extends "@ModuleAutoUpgrade/layouts/step-content.html.twig" %}
 
 {% block title %}
 	<h2>{{ step.title }}</h2>
 {% endblock %}
 
 {% block content %}
-	{% include '@ModuleAutoUpgrade/components/logs-progress.html.twig' with {
+	{% include "@ModuleAutoUpgrade/components/logs-progress.html.twig" with {
 		progressStatus: "Backup files in progress XX files left",
     progressPercentage: 25,
 	} %}
 
-	{% include '@ModuleAutoUpgrade/components/logs.html.twig' with {
+	{% include "@ModuleAutoUpgrade/components/logs.html.twig" with {
 		logs: [
       {
         status: "success",

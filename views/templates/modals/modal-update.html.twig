@@ -1,4 +1,4 @@
-{% extends '@ModuleAutoUpgrade/components/modal.html.twig' %}
+{% extends "@ModuleAutoUpgrade/components/modal.html.twig" %}
 
 {% block modal_content %}
     {% if noBackUp %}
@@ -27,7 +27,7 @@
             <button type="button" class="btn btn-link" data-dismiss="modal">{{ 'Cancel'|trans({}) }}</button>
 
             <button type="button" class="btn btn-primary">
-                <img class="modal__rocket-icon rocket-icon" src="{{ psBaseUri }}img/rocket_white.svg" />
+                <img class="modal__rocket-icon rocket-icon" src="{{ psBaseUri }}img/rocket_white.svg" width="20" height="20" alt="" />
                 {{ 'Start update'|trans({}) }}
             </button>
         {% endblock %}

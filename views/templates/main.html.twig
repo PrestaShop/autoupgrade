@@ -12,27 +12,27 @@
 <div class="bootstrap" id="informationBlock">
     <div class="panel">
         <div class="panel-heading">
-            {{ 'Welcome!'|trans({}) }}
+            {{ "Welcome!"|trans({}) }}
         </div>
         <p>
-            {{ 'Upgrade your store to benefit from the latest improvements, bug fixes and security patches.'|trans({}) }}
+            {{ "Upgrade your store to benefit from the latest improvements, bug fixes and security patches."|trans({}) }}
         </p>
         <p class="alert alert-warning">
-            {{ 'Upgrading your store on your own can be risky. If you don\'t feel comfortable doing the upgrade yourself, many agencies and developers in your area may also provide this kind of service.'|trans({}) }}
+            {{ "Upgrading your store on your own can be risky. If you don\'t feel comfortable doing the upgrade yourself, many agencies and developers in your area may also provide this kind of service."|trans({}) }}
         </p>
     </div>
 </div>
 
 {# content #}
-{% include '@ModuleAutoUpgrade/block/checklist.html.twig' %}
-{% include '@ModuleAutoUpgrade/block/upgradeButtonBlock.html.twig' %}
+{% include "@ModuleAutoUpgrade/block/checklist.html.twig" %}
+{% include "@ModuleAutoUpgrade/block/upgradeButtonBlock.html.twig" %}
 
-{% include '@ModuleAutoUpgrade/block/versionComparison.html.twig' %}
-{% include '@ModuleAutoUpgrade/block/postUpdateChecklistBlock.html.twig' %}
-{% include '@ModuleAutoUpgrade/block/postRestoreChecklistBlock.html.twig' %}
-{% include '@ModuleAutoUpgrade/block/activityLog.html.twig' %}
+{% include "@ModuleAutoUpgrade/block/versionComparison.html.twig" %}
+{% include "@ModuleAutoUpgrade/block/postUpdateChecklistBlock.html.twig" %}
+{% include "@ModuleAutoUpgrade/block/postRestoreChecklistBlock.html.twig" %}
+{% include "@ModuleAutoUpgrade/block/activityLog.html.twig" %}
 
-{% include '@ModuleAutoUpgrade/block/rollbackForm.html.twig' %}
+{% include "@ModuleAutoUpgrade/block/rollbackForm.html.twig" %}
 
 <form action="{{ currentIndex }}&amp;customSubmitAutoUpgrade=1&amp;token={{ token }}" method="post"
       class="form-horizontal" enctype="multipart/form-data">
@@ -40,7 +40,7 @@
     {{ upgradeOptions|raw }}
 </form>
 
-{% include '@ModuleAutoUpgrade/block/footer.html.twig' %}
+{% include "@ModuleAutoUpgrade/block/footer.html.twig" %}
 
 <script src="{{ psBaseUri }}modules/autoupgrade/js/jquery.xml2json.js"></script>
 <script>

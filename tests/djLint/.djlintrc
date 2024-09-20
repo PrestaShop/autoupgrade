@@ -4,6 +4,7 @@
   "files": [
     "/app/views/templates/"
   ],
+  "exclude": "/app/views/templates/block/",
   "ignore": "T003",
   "indent": "2",
   "line_break_after_multiline_tag": "true",

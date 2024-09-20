@@ -47,7 +47,7 @@
 
             {% if versionsMismatch and (not unableToFindVersionInXML and not unableToFindVersion) %}
                 <div class="local-archive__alert">
-                    {% include '@ModuleAutoUpgrade/components/alert.html.twig' with {
+                    {% include "@ModuleAutoUpgrade/components/alert.html.twig" with {
                         title: "",
                         message: "The PrestaShop version in your archive doesn’t match the one in XML file. Please fix this issue and try again.",
                         alertStatus: "warning",

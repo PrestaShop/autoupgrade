@@ -1,4 +1,4 @@
-{% extends '@ModuleAutoUpgrade/layouts/step-content.html.twig' %}
+{% extends "@ModuleAutoUpgrade/layouts/step-content.html.twig" %}
 
 {% block page_class %}backup-page{% endblock %}
 
@@ -9,11 +9,11 @@
 {% block content %}
     <div class="backup-page__container">
         <div class="backup-page__section">
-            <p>{{ 'Backing up your store\'s files, database, and images means you can restore to a previous version if something goes wrong during the update. This keeps your data safe and ensures your business stays up and running.'|trans({}) }}</p>
+            <p>{{ "Backing up your store's files, database, and images means you can restore to a previous version if something goes wrong during the update. This keeps your data safe and ensures your business stays up and running."|trans({}) }}</p>
         </div>
 
         <div class="backup-page__section">
-            {% include '@ModuleAutoUpgrade/components/render-bool.html.twig' with {
+            {% include "@ModuleAutoUpgrade/components/render-bool.html.twig" with {
                 field: {
                     id: "backup_files_db",
                     title: "Back up files and database",
@@ -30,7 +30,7 @@
                 val: true,
             } %}
 
-            {% include '@ModuleAutoUpgrade/components/render-bool.html.twig' with {
+            {% include "@ModuleAutoUpgrade/components/render-bool.html.twig" with {
                 field: {
                     id: "backup_files_db",
                     title: "Include images",
