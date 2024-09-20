@@ -1,35 +1,39 @@
 {% extends "@ModuleAutoUpgrade/layouts/step-content.html.twig" %}
 
-{% block page_class %}welcome-page{% endblock %}
+{% block page_class -%}
+  welcome-page
+{%- endblock %}
 
 {% block title %}
-    <h2>{{ 'Welcome to PrestaShop Update Assistant'|trans({}) }}</h2>
+  <h2>
+    {{ 'Welcome to PrestaShop Update Assistant'|trans({}) }}
+  </h2>
 {% endblock %}
 
 {% block content %}
-    <div class="welcome-page__card-list">
-        {% include "@ModuleAutoUpgrade/components/radio-card.html.twig" with {
-            checked: true,
-            title: 'Update your store'|trans({}),
-            message: 'Update your store to benefit from the latest improvements, bug fixes and security patches.'|trans({}),
-            radioName: 'welcome_choices',
-            radioValue: 'upgrade'
-        } %}
+  <div class="welcome-page__card-list">
+    {% include "@ModuleAutoUpgrade/components/radio-card.html.twig" with {
+    checked: true,
+    title: 'Update your store'|trans({}),
+    message: 'Update your store to benefit from the latest improvements, bug fixes and security patches.'|trans({}),
+    radioName: 'welcome_choices',
+    radioValue: 'upgrade'
+    } %}
 
-        {% include "@ModuleAutoUpgrade/components/radio-card.html.twig" with {
-            checked: false,
-            title: 'Restore from a backup'|trans({}),
-            message: 'Use this feature if the update failed or if your store or a  module is no longer working properly.'|trans({}),
-            disabled: empty_backup,
-            radioName: 'welcome_choices',
-            radioValue: 'rollback',
-            disabledMessage: empty_backup ? 'No backup file found on your store.'|trans({}) : null
-        } %}
-    </div>
+    {% include "@ModuleAutoUpgrade/components/radio-card.html.twig" with {
+    checked: false,
+    title: 'Restore from a backup'|trans({}),
+    message: 'Use this feature if the update failed or if your store or a  module is no longer working properly.'|trans({}),
+    disabled: empty_backup,
+    radioName: 'welcome_choices',
+    radioValue: 'rollback',
+    disabledMessage: empty_backup ? 'No backup file found on your store.'|trans({}) : null
+    } %}
+  </div>
 {% endblock %}
 
 {% block buttons_inner %}
-    <button class="btn btn-lg btn-primary" type="button">
-        {{ 'Get Started'|trans({}) }}
-    </button>
+  <button class="btn btn-lg btn-primary" type="button">
+    {{ 'Get Started'|trans({}) }}
+  </button>
 {% endblock %}

@@ -1,23 +1,24 @@
 {% block step_content %}
-	<div id="ua_step_content" class="{% block page_class %}default-page{% endblock %}">
-		<div class="page__title">
-			{% block title %}
-				{# Default title or leave empty for child templates to provide #}
-			{% endblock %}
-		</div>
+  <div id="ua_step_content"
+       class="{% block page_class %}default-page{% endblock %}">
+    <div class="page__title">
+      {% block title %}
+        {# Default title or leave empty for child templates to provide #}
+      {% endblock %}
+    </div>
 
-		<div class="page__content">
-			{% block content %}
-				{# Default content or leave empty for child templates to provide #}
-			{% endblock %}
-		</div>
+    <div class="page__content">
+      {% block content %}
+        {# Default content or leave empty for child templates to provide #}
+      {% endblock %}
+    </div>
 
-		{% block buttons %}
-			<div class="page__buttons">
-				{% block buttons_inner %}
-					{# Default buttons or leave empty for child templates to provide #}
-				{% endblock %}
-			</div>
-		{% endblock %}
-	</div>
+    {% block buttons %}
+      <div class="page__buttons">
+        {% block buttons_inner %}
+          {# Default buttons or leave empty for child templates to provide #}
+        {% endblock %}
+      </div>
+    {% endblock %}
+  </div>
 {% endblock %}

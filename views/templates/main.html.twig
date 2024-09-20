@@ -8,19 +8,21 @@
     jq162 = jQuery.noConflict(true);
   }
 </script>
-<link type="text/css" rel="stylesheet" href="{{ psBaseUri }}modules/autoupgrade/css/styles.css" />
+<link type="text/css"
+      rel="stylesheet"
+      href="{{ psBaseUri }}modules/autoupgrade/css/styles.css" />
 <div class="bootstrap" id="informationBlock">
-    <div class="panel">
-        <div class="panel-heading">
-            {{ "Welcome!"|trans({}) }}
-        </div>
-        <p>
-            {{ "Upgrade your store to benefit from the latest improvements, bug fixes and security patches."|trans({}) }}
-        </p>
-        <p class="alert alert-warning">
-            {{ "Upgrading your store on your own can be risky. If you don\'t feel comfortable doing the upgrade yourself, many agencies and developers in your area may also provide this kind of service."|trans({}) }}
-        </p>
+  <div class="panel">
+    <div class="panel-heading">
+      {{ "Welcome!"|trans({}) }}
     </div>
+    <p>
+      {{ "Upgrade your store to benefit from the latest improvements, bug fixes and security patches."|trans({}) }}
+    </p>
+    <p class="alert alert-warning">
+      {{ "Upgrading your store on your own can be risky. If you don\'t feel comfortable doing the upgrade yourself, many agencies and developers in your area may also provide this kind of service."|trans({}) }}
+    </p>
+  </div>
 </div>
 
 {# content #}
@@ -34,10 +36,12 @@
 
 {% include "@ModuleAutoUpgrade/block/rollbackForm.html.twig" %}
 
-<form action="{{ currentIndex }}&amp;customSubmitAutoUpgrade=1&amp;token={{ token }}" method="post"
-      class="form-horizontal" enctype="multipart/form-data">
-    {{ backupOptions|raw }}
-    {{ upgradeOptions|raw }}
+<form action="{{ currentIndex }}&amp;customSubmitAutoUpgrade=1&amp;token={{ token }}"
+      method="post"
+      class="form-horizontal"
+      enctype="multipart/form-data">
+  {{ backupOptions|raw }}
+  {{ upgradeOptions|raw }}
 </form>
 
 {% include "@ModuleAutoUpgrade/block/footer.html.twig" %}
