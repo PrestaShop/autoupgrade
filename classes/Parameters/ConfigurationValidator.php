@@ -27,8 +27,8 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Parameters;
 
-use UnexpectedValueException;
 use PrestaShop\Module\AutoUpgrade\Upgrader;
+use UnexpectedValueException;
 
 class ConfigurationValidator
 {

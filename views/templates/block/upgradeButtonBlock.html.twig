@@ -14,7 +14,7 @@
                 {{ 'Your current PHP version'|trans({}) }}: <strong>{{ phpVersion }}</strong>
             </p>
             {% if not isLastVersion %}
-                <p>{{ 'Version chosen for update'|trans([channel]) }}: <strong>{{ destinationVersion }}</strong></p>
+                <p>{{ 'Version available on channel %s:'|trans([channel]) }} <strong>{{ destinationVersion }}</strong></p>
             {% endif %}
         </div>
         <br>

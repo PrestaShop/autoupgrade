@@ -57,10 +57,12 @@ class UpgradeNow extends AbstractTask
 
         if ($upgrader->isLastVersion()) {
             $this->next = '';
-            $this->logger->info($this->translator->trans('You are using the most up to date version for your PHP version'));
+            $this->logger->info($this->translator->trans('Your shop is currently running the latest compatible version. No updates are needed at this time.'));
 
             return ExitCode::SUCCESS;
         }
+
+        $this->logger->info($this->translator->trans('Destination version: %s', [$upgrader->getDestinationVersion()]));
 
         switch ($upgrader->getChannel()) {
             case Upgrader::CHANNEL_LOCAL:

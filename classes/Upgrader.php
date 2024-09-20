@@ -27,7 +27,6 @@
 
 namespace PrestaShop\Module\AutoUpgrade;
 
-use LogicException;
 use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
 use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\Models\PrestashopRelease;
@@ -46,11 +45,11 @@ class Upgrader
     const DEFAULT_CHANNEL = self::CHANNEL_ONLINE;
     const DEFAULT_FILENAME = 'prestashop.zip';
 
-    /** @var string */
+    /** @var self::CHANNEL_* */
     private $channel;
 
     /** @var PrestashopRelease */
-    private $destinationRelease;
+    private $onlineDestinationRelease;
     /** @var string */
     protected $currentPsVersion;
     /** @var PhpVersionResolverService */
@@ -82,7 +81,7 @@ class Upgrader
      */
     public function downloadLast(string $dest, string $filename = 'prestashop.zip'): bool
     {
-        if ($this->destinationRelease === null) {
+        if ($this->onlineDestinationRelease === null) {
             $this->getOnlineDestinationRelease();
         }
 
@@ -90,11 +89,11 @@ class Upgrader
 
         try {
             $filesystem = new Filesystem();
-            $filesystem->copy($this->destinationRelease->getZipDownloadUrl(), $destPath);
+            $filesystem->copy($this->onlineDestinationRelease->getZipDownloadUrl(), $destPath);
         } catch (IOException $e) {
             // If the Symfony filesystem failed, we can try with
             // the legacy method which uses curl.
-            Tools14::copy($this->destinationRelease->getZipDownloadUrl(), $destPath);
+            Tools14::copy($this->onlineDestinationRelease->getZipDownloadUrl(), $destPath);
         }
 
         return is_file($destPath);
@@ -119,16 +118,12 @@ class Upgrader
      */
     public function getOnlineDestinationRelease(): ?PrestashopRelease
     {
-        if ($this->channel !== self::CHANNEL_ONLINE) {
-            throw new LogicException('channel must be online to retrieve the version dynamically');
+        if ($this->onlineDestinationRelease !== null) {
+            return $this->onlineDestinationRelease;
         }
+        $this->onlineDestinationRelease = $this->phpVersionResolverService->getPrestashopDestinationRelease(PHP_VERSION_ID);
 
-        if ($this->destinationRelease !== null) {
-            return $this->destinationRelease;
-        }
-        $this->destinationRelease = $this->phpVersionResolverService->getPrestashopDestinationRelease(PHP_VERSION_ID);
-
-        return $this->destinationRelease;
+        return $this->onlineDestinationRelease;
     }
 
     /**
@@ -174,6 +169,9 @@ class Upgrader
         return true;
     }
 
+    /**
+     * @return self::CHANNEL_*
+     */
     public function getChannel(): string
     {
         return $this->channel;

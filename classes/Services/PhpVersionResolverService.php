@@ -145,7 +145,7 @@ class PhpVersionResolverService
                 return null;
             }
 
-            return $releasesFromChannelFile['1.7'];
+            return $release;
         }
 
         $validReleases = [];

@@ -29,8 +29,8 @@ namespace PrestaShop\Module\AutoUpgrade\Parameters;
 
 use Configuration;
 use Doctrine\Common\Collections\ArrayCollection;
-use UnexpectedValueException;
 use Shop;
+use UnexpectedValueException;
 
 /**
  * Contains the module configuration (form params).

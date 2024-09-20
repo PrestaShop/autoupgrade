@@ -399,7 +399,6 @@ class UpgradeContainer
         }
 
         $currentPrestashopVersion = $this->getProperty(self::PS_VERSION);
-        // in order to not use Tools class
         $phpRequirementService = new PhpVersionResolverService(new DistributionApiService(), $this->getFileLoader(), $currentPrestashopVersion);
         $upgrader = new Upgrader(
             $phpRequirementService,
