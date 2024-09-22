@@ -777,7 +777,7 @@ $(document).ready(function () {
       var params = {};
       var $newChannel = $("select[name=channel] option:selected").val();
       var $oldChannel = $("select[name=channel] option.current").val();
-      var versionNumberRegex = /^\d+(.\d+){2,3}$/; // versionNumberRegex no definada, la agregue
+      var versionNumberRegex = /^\d+(.\d+){2,3}$/;
 
       $oldChannel = "";
 
