@@ -29,6 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade\Commands;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Services\DistributionApiService;
+use PrestaShop\Module\AutoUpgrade\Services\PhpVersionResolverService;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
 use Symfony\Component\Console\Input\InputArgument;
@@ -68,11 +69,18 @@ class CheckRequirementsCommand extends AbstractCommand
         $this->upgradeContainer->initPrestaShopAutoloader();
         $this->upgradeContainer->initPrestaShopCore();
 
+        $distributionApiService = new DistributionApiService();
+        $phpVersionResolverService = new PhpVersionResolverService(
+            $distributionApiService,
+            $this->upgradeContainer->getFileLoader(),
+            $this->upgradeContainer->getState()->getOriginVersion()
+        );
+
         $this->upgradeSelfCheck = new UpgradeSelfCheck(
             $this->upgradeContainer->getUpgrader(),
             $this->upgradeContainer->getPrestaShopConfiguration(),
             $this->upgradeContainer->getTranslator(),
-            new DistributionApiService(),
+            $phpVersionResolverService,
             $this->upgradeContainer->getChecksumCompare(),
             _PS_ROOT_DIR_,
             _PS_ADMIN_DIR_,
