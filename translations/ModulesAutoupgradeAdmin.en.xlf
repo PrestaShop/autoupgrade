@@ -1738,6 +1738,11 @@ Comment: check DB access</note>
         <target>Troubleshooting</target>
         <note>Line: 35</note>
       </trans-unit>
+      <trans-unit id="605f8e6688fdd2a7616a3614d741202d">
+        <source><![CDATA[If some images don't appear in the front office, try regenerating thumbnails in Preferences > Images.]]></source>
+        <target><![CDATA[If some images don't appear in the front office, try regenerating thumbnails in Preferences > Images.]]></target>
+        <note>Line: 38</note>
+      </trans-unit>
       <trans-unit id="b6e8290a312769f4d3919f3dd42a21a7">
         <source>If something's wrong, you can restore a backup with this module. Your backup is available at {admin}/autoupgrade/backup.</source>
         <target>If something's wrong, you can restore a backup with this module. Your backup is available at {admin}/autoupgrade/backup.</target>
@@ -1777,11 +1782,6 @@ Comment: check DB access</note>
         <source>Make sure your store's front office is working properly: try to create an account, place an order, add a product, etc.</source>
         <target>Make sure your store's front office is working properly: try to create an account, place an order, add a product, etc.</target>
         <note>Line: 28</note>
-      </trans-unit>
-      <trans-unit id="605f8e6688fdd2a7616a3614d741202d">
-        <source><![CDATA[If some images don't appear in the front office, try regenerating thumbnails in Preferences > Images.]]></source>
-        <target><![CDATA[If some images don't appear in the front office, try regenerating thumbnails in Preferences > Images.]]></target>
-        <note>Line: 38</note>
       </trans-unit>
     </body>
   </file>
@@ -2002,17 +2002,17 @@ Comment: check DB access</note>
       <trans-unit id="c629f24e672b4e1165ebf1c10b5c5c5d">
         <source>-- Choose a backup to restore --</source>
         <target>-- Choose a backup to restore --</target>
-        <note>Line: 5</note>
+        <note>Line: 9</note>
       </trans-unit>
       <trans-unit id="caef47f6ddf52575a8fe9e566b68dcd8">
         <source>Select the backup you want to restore to</source>
         <target>Select the backup you want to restore to</target>
-        <note>Line: 3</note>
+        <note>Line: 4</note>
       </trans-unit>
       <trans-unit id="6adab6d3fdf92c448d60cf8824e4851c">
         <source>Delete selection</source>
         <target>Delete selection</target>
-        <note>Line: 16</note>
+        <note>Line: 27</note>
       </trans-unit>
     </body>
   </file>
@@ -2041,32 +2041,32 @@ Comment: check DB access</note>
       <trans-unit id="26da0df3cbdf0052c8f1205b40ad5072">
         <source>Apache mod_rewrite needs to be enabled.</source>
         <target>Apache mod_rewrite needs to be enabled.</target>
-        <note>Line: 109</note>
+        <note>Line: 108</note>
       </trans-unit>
       <trans-unit id="a220e0ac5c6f7fa8692c131148ed050a">
         <source>PHP memory_limit needs to be greater than 256 MB.</source>
         <target>PHP memory_limit needs to be greater than 256 MB.</target>
-        <note>Line: 146</note>
+        <note>Line: 145</note>
       </trans-unit>
       <trans-unit id="24b3a661ea0947d7dfddb4fe68681907">
         <source>PHP file_uploads configuration needs to be enabled.</source>
         <target>PHP file_uploads configuration needs to be enabled.</target>
-        <note>Line: 153</note>
+        <note>Line: 152</note>
       </trans-unit>
       <trans-unit id="8406b91fd5a290de3a1e1516db6e79b8">
         <source>Unable to generate private keys using openssl_pkey_new. Check your OpenSSL configuration, especially the path to openssl.cafile.</source>
         <target>Unable to generate private keys using openssl_pkey_new. Check your OpenSSL configuration, especially the path to openssl.cafile.</target>
-        <note>Line: 160</note>
+        <note>Line: 159</note>
       </trans-unit>
       <trans-unit id="a99553cd5eff17f5895d093c44b5c430">
         <source>The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table.</source>
         <target>The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table.</target>
-        <note>Line: 177</note>
+        <note>Line: 176</note>
       </trans-unit>
       <trans-unit id="9909617f8b4cdd63a60a0736026ce540">
         <source>We were unable to check your PHP compatibility with the destination PrestaShop version.</source>
         <target>We were unable to check your PHP compatibility with the destination PrestaShop version.</target>
-        <note>Line: 195</note>
+        <note>Line: 194</note>
       </trans-unit>
       <trans-unit id="d63d0e3addadd645300c8e4909c7e3b1">
         <source>Checking requirements...</source>
@@ -2111,52 +2111,52 @@ Comment: check DB access</note>
       <trans-unit id="baf4b3d8ebc2067c85c65f47cfd0fdb0">
         <source>The following PHP extensions need to be installed: %extensions%.</source>
         <target>The following PHP extensions need to be installed: %extensions%.</target>
-        <note>Line: 117</note>
+        <note>Line: 116</note>
       </trans-unit>
       <trans-unit id="a60972f0ec4829ac2cd7b2c3799b3b3b">
         <source>The following PHP extension needs to be installed: %extension%.</source>
         <target>The following PHP extension needs to be installed: %extension%.</target>
-        <note>Line: 121</note>
+        <note>Line: 120</note>
       </trans-unit>
       <trans-unit id="047dc151bd4fea1e4925ce6ad50a53b3">
         <source>The following PHP functions need to be allowed: %functions%.</source>
         <target>The following PHP functions need to be allowed: %functions%.</target>
-        <note>Line: 132</note>
+        <note>Line: 131</note>
       </trans-unit>
       <trans-unit id="fb38f71bf14702220f7f73dd50678abd">
         <source>The following PHP function needs to be allowed: %function%.</source>
         <target>The following PHP function needs to be allowed: %function%.</target>
-        <note>Line: 136</note>
+        <note>Line: 135</note>
       </trans-unit>
       <trans-unit id="6106c8ca4547ab68a21560b227fe91c6">
         <source>It's not possible to write in the following folders: %directories%.</source>
         <target>It's not possible to write in the following folders: %directories%.</target>
-        <note>Line: 167</note>
+        <note>Line: 166</note>
       </trans-unit>
       <trans-unit id="774e7361cd125d0f1953bd4e4199be0f">
         <source><![CDATA[Provide write access to the user running PHP with appropriate permission & ownership.]]></source>
         <target><![CDATA[Provide write access to the user running PHP with appropriate permission & ownership.]]></target>
-        <note>Line: 170</note>
+        <note>Line: 169</note>
       </trans-unit>
       <trans-unit id="3acd0ca5efe0e72cee2610e80f8d5024">
         <source>Your current version of the module is out of date. Update now %link%</source>
         <target>Your current version of the module is out of date. Update now %link%</target>
-        <note>Line: 185</note>
+        <note>Line: 184</note>
       </trans-unit>
       <trans-unit id="9a5e39badf24a0adca4850f4862cd20f">
         <source>Some core files have been altered, customization made on these files will be lost during the update. See the list in %link%</source>
         <target>Some core files have been altered, customization made on these files will be lost during the update. See the list in %link%</target>
-        <note>Line: 203</note>
+        <note>Line: 202</note>
       </trans-unit>
       <trans-unit id="3758c107f9d68f5fb6d56486dab9f2d4">
         <source>Check requirements again</source>
         <target>Check requirements again</target>
-        <note>Line: 212</note>
+        <note>Line: 211</note>
       </trans-unit>
       <trans-unit id="c3f4ad9687b5bbb78f1d39e089a4be47">
         <source>The requirements check is complete, you can update your store (to this version of PrestaShop).</source>
         <target>The requirements check is complete, you can update your store (to this version of PrestaShop).</target>
-        <note>Line: 219</note>
+        <note>Line: 218</note>
       </trans-unit>
     </body>
   </file>
@@ -2165,37 +2165,37 @@ Comment: check DB access</note>
       <trans-unit id="780daf2510c5c9e1c58948f138629817">
         <source>Archive to use:</source>
         <target>Archive to use:</target>
-        <note>Line: 4</note>
+        <note>Line: 5</note>
       </trans-unit>
       <trans-unit id="eb7d4dd49f36e74b58604842ee983efd">
         <source>Choose an archive</source>
         <target>Choose an archive</target>
-        <note>Line: 10</note>
+        <note>Line: 15</note>
       </trans-unit>
       <trans-unit id="d16e8ad31ee6eb7891c79ba25cad7863">
         <source>XML file to use:</source>
         <target>XML file to use:</target>
-        <note>Line: 27</note>
+        <note>Line: 34</note>
       </trans-unit>
       <trans-unit id="cd0135bf9edaf19cb7944e0e7b36a9d6">
         <source>Choose an XML file</source>
         <target>Choose an XML file</target>
-        <note>Line: 33</note>
+        <note>Line: 44</note>
       </trans-unit>
       <trans-unit id="5be0150b075f706fc27b09753ce6646d">
         <source>No archive found in your admin/autoupgrade/download directory</source>
         <target>No archive found in your admin/autoupgrade/download directory</target>
-        <note>Line: 63</note>
+        <note>Line: 75</note>
       </trans-unit>
       <trans-unit id="0b4a925c935931bb73c6b28c285a21c0">
         <source>We couldn't find a PrestaShop version in the .zip file you uploaded. Please try again.</source>
         <target>We couldn't find a PrestaShop version in the .zip file you uploaded. Please try again.</target>
-        <note>Line: 21</note>
+        <note>Line: 27</note>
       </trans-unit>
       <trans-unit id="a9c58dc4da830f87b1f0cb9e2b6f8a1c">
         <source>We couldn't find a PrestaShop version in the XML file that was uploaded in your local archive. Please try again.</source>
         <target>We couldn't find a PrestaShop version in the XML file that was uploaded in your local archive. Please try again.</target>
-        <note>Line: 44</note>
+        <note>Line: 56</note>
       </trans-unit>
     </body>
   </file>
@@ -2204,22 +2204,22 @@ Comment: check DB access</note>
       <trans-unit id="12b7e9bd62f15c5f79030a36509eedf0">
         <source>Warning summary</source>
         <target>Warning summary</target>
-        <note>Line: 16</note>
+        <note>Line: 18</note>
       </trans-unit>
       <trans-unit id="94c3bbd272ff645e73a18da13399cc63">
         <source>See warning</source>
         <target>See warning</target>
-        <note>Line: 24</note>
+        <note>Line: 26</note>
       </trans-unit>
       <trans-unit id="e3ee0344bd3867921755578619b2ba43">
         <source>Error summary</source>
         <target>Error summary</target>
-        <note>Line: 33</note>
+        <note>Line: 36</note>
       </trans-unit>
       <trans-unit id="bbed65cc1e1133fa10ca61cae4e636f9">
         <source>See error</source>
         <target>See error</target>
-        <note>Line: 41</note>
+        <note>Line: 44</note>
       </trans-unit>
     </body>
   </file>
@@ -2228,7 +2228,7 @@ Comment: check DB access</note>
       <trans-unit id="56c34c6410dd45c5cec44149ad0ce037">
         <source>Privacy policy</source>
         <target>Privacy policy</target>
-        <note>Line: 2</note>
+        <note>Line: 6</note>
       </trans-unit>
     </body>
   </file>
@@ -2237,12 +2237,12 @@ Comment: check DB access</note>
       <trans-unit id="93cba07454f06a4a960172bbd6e2a435">
         <source>Yes</source>
         <target>Yes</target>
-        <note>Line: 9</note>
+        <note>Line: 15</note>
       </trans-unit>
       <trans-unit id="bafd7322c6e97d25b6299b5d6fe8920b">
         <source>No</source>
         <target>No</target>
-        <note>Line: 15</note>
+        <note>Line: 27</note>
       </trans-unit>
     </body>
   </file>
@@ -2251,17 +2251,17 @@ Comment: check DB access</note>
       <trans-unit id="9a843f20677a52ca79af903123147af0">
         <source>Welcome!</source>
         <target>Welcome!</target>
-        <note>Line: 15</note>
+        <note>Line: 21</note>
       </trans-unit>
       <trans-unit id="d0ab112e427298327038f5e87aa40264">
         <source>Upgrade your store to benefit from the latest improvements, bug fixes and security patches.</source>
         <target>Upgrade your store to benefit from the latest improvements, bug fixes and security patches.</target>
-        <note>Line: 18</note>
+        <note>Line: 24</note>
       </trans-unit>
       <trans-unit id="9cf9ee1ecc597007beb11670100081b2">
         <source>Upgrading your store on your own can be risky. If you don't feel comfortable doing the upgrade yourself, many agencies and developers in your area may also provide this kind of service.</source>
         <target>Upgrading your store on your own can be risky. If you don't feel comfortable doing the upgrade yourself, many agencies and developers in your area may also provide this kind of service.</target>
-        <note>Line: 21</note>
+        <note>Line: 27</note>
       </trans-unit>
     </body>
   </file>
@@ -2270,7 +2270,7 @@ Comment: check DB access</note>
       <trans-unit id="f2a6c498fb90ee345d997f888fce3b18">
         <source>Delete</source>
         <target>Delete</target>
-        <note>Line: 11</note>
+        <note>Line: 13</note>
       </trans-unit>
     </body>
   </file>
@@ -2279,7 +2279,7 @@ Comment: check DB access</note>
       <trans-unit id="0b69cd55a690bee672a1fb91091222f1">
         <source>Start backup</source>
         <target>Start backup</target>
-        <note>Line: 12</note>
+        <note>Line: 14</note>
       </trans-unit>
     </body>
   </file>
@@ -2307,7 +2307,7 @@ Comment: check DB access</note>
       <trans-unit id="880d6ec7b06e1f403347a16afbca8335">
         <source>Start update</source>
         <target>Start update</target>
-        <note>Line: 31</note>
+        <note>Line: 39</note>
       </trans-unit>
     </body>
   </file>
@@ -2316,12 +2316,12 @@ Comment: check DB access</note>
       <trans-unit id="9c32ff52925ba5a296f9696cfbb7edcc">
         <source>Backing up your store's files, database, and images means you can restore to a previous version if something goes wrong during the update. This keeps your data safe and ensures your business stays up and running.</source>
         <target>Backing up your store's files, database, and images means you can restore to a previous version if something goes wrong during the update. This keeps your data safe and ensures your business stays up and running.</target>
-        <note>Line: 12</note>
+        <note>Line: 13</note>
       </trans-unit>
       <trans-unit id="2284aa8fec405e1dd014326b51cde020">
         <source>Launch backup</source>
         <target>Launch backup</target>
-        <note>Line: 55</note>
+        <note>Line: 57</note>
       </trans-unit>
     </body>
   </file>
@@ -2369,37 +2369,32 @@ Comment: check DB access</note>
       <trans-unit id="21365dc8650278f56c2c27d349b073ce">
         <source><![CDATA[<b>Open the developer documentation</b> to keep this checklist at-hand.]]></source>
         <target><![CDATA[<b>Open the developer documentation</b> to keep this checklist at-hand.]]></target>
-        <note>Line: 23</note>
+        <note>Line: 26</note>
       </trans-unit>
       <trans-unit id="864362aa86ace037052914025702ef65">
         <source><![CDATA[<b>Re-enable and check your modules</b> one by one to prevent any compatibility issue.]]></source>
         <target><![CDATA[<b>Re-enable and check your modules</b> one by one to prevent any compatibility issue.]]></target>
-        <note>Line: 24</note>
+        <note>Line: 29</note>
       </trans-unit>
-      <trans-unit id="bfe855f4b44497053dd5d7ef69763a33">
-        <source><![CDATA[<b>Make sure your store’s front office is working properly:</b> try to create an account, place an order, add a product, etc.]]></source>
-        <target><![CDATA[<b>Make sure your store’s front office is working properly:</b> try to create an account, place an order, add a product, etc.]]></target>
-        <note>Line: 25</note>
+      <trans-unit id="ca8245b9f55d6afd2d6e7ecc0d6d317e">
+        <source><![CDATA[<b>Make sure your store's front office is working properly:</b> try to create an account, place an order, add a product, etc.]]></source>
+        <target><![CDATA[<b>Make sure your store's front office is working properly:</b> try to create an account, place an order, add a product, etc.]]></target>
+        <note>Line: 32</note>
       </trans-unit>
       <trans-unit id="8049dd4a6a288956d38f40ef992e34b8">
         <source><![CDATA[<b>Disable the maintenance mode</b> in General settings > Maintenance.]]></source>
         <target><![CDATA[<b>Disable the maintenance mode</b> in General settings > Maintenance.]]></target>
-        <note>Line: 26</note>
-      </trans-unit>
-      <trans-unit id="205c978976a731026931342acb84d816">
-        <source><![CDATA[If some images don’t appear in the front office, try regenerating thumbnails in Preferences > Images.]]></source>
-        <target><![CDATA[If some images don’t appear in the front office, try regenerating thumbnails in Preferences > Images.]]></target>
-        <note>Line: 34</note>
+        <note>Line: 35</note>
       </trans-unit>
       <trans-unit id="ebdbffe8dea73e1e0285fd052f720259">
         <source>Download update logs</source>
         <target>Download update logs</target>
-        <note>Line: 42</note>
+        <note>Line: 60</note>
       </trans-unit>
       <trans-unit id="fef46e5063ce3dc78b8ae64fa474241d">
         <source>Exit</source>
         <target>Exit</target>
-        <note>Line: 54</note>
+        <note>Line: 70</note>
       </trans-unit>
     </body>
   </file>
@@ -2426,57 +2421,57 @@ Comment: check DB access</note>
       <trans-unit id="15e90667b50b56b1f8a01bdb1190f3dc">
         <source>Local archive</source>
         <target>Local archive</target>
-        <note>Line: 105</note>
+        <note>Line: 114</note>
       </trans-unit>
-      <trans-unit id="7eda5b24c0a697e5b47dbe0be52b08cb">
-        <source>You’re up to date</source>
-        <target>You’re up to date</target>
-        <note>Line: 18</note>
+      <trans-unit id="a7446965a3635b6a69697078130d961a">
+        <source>You're up to date</source>
+        <target>You're up to date</target>
+        <note>Line: 25</note>
       </trans-unit>
       <trans-unit id="47f3da5f1fab5bb4e914e7bf37845bcf">
         <source>Current PrestaShop version:</source>
         <target>Current PrestaShop version:</target>
-        <note>Line: 60</note>
+        <note>Line: 68</note>
       </trans-unit>
       <trans-unit id="c50f73567ba957b25c13a274f42003ba">
         <source>Current PHP version:</source>
         <target>Current PHP version:</target>
-        <note>Line: 62</note>
+        <note>Line: 71</note>
       </trans-unit>
       <trans-unit id="d4399327e9bb1d9fb589b58332f07d48">
         <source>Unlock the local update feature and manually update your store to your preferred upgrade by saving the archive and XML files of the PrestaShop version in the following directory on your server: %pathToLocalArchive%</source>
         <target>Unlock the local update feature and manually update your store to your preferred upgrade by saving the archive and XML files of the PrestaShop version in the following directory on your server: %pathToLocalArchive%</target>
-        <note>Line: 94</note>
+        <note>Line: 103</note>
       </trans-unit>
       <trans-unit id="34b3f55bce0f37bcd82294fbc4702aad">
         <source>You are already using the latest PrestaShop version available but you can update to the version of your choice from a local archive.</source>
         <target>You are already using the latest PrestaShop version available but you can update to the version of your choice from a local archive.</target>
-        <note>Line: 40</note>
+        <note>Line: 48</note>
       </trans-unit>
       <trans-unit id="ad98a23bbe04b0a022dca72f7e5b5c6a">
         <source>Save the archive file of the version you want to update to in the following directory: /admin/autoupgrade/download/</source>
         <target>Save the archive file of the version you want to update to in the following directory: /admin/autoupgrade/download/</target>
-        <note>Line: 47</note>
+        <note>Line: 55</note>
       </trans-unit>
       <trans-unit id="8846fe014be5f3ecb8f82a4deea082cc">
         <source>A more recent version is available</source>
         <target>A more recent version is available</target>
-        <note>Line: 56</note>
+        <note>Line: 64</note>
       </trans-unit>
       <trans-unit id="8728e66e43173a809a2185c52dad29db">
         <source>Select version:</source>
         <target>Select version:</target>
-        <note>Line: 69</note>
+        <note>Line: 78</note>
       </trans-unit>
       <trans-unit id="de8e4445ea5c918fe6c8e70eb7deb722">
         <source>A more recent version of PrestaShop is available. You can also use a local archive.</source>
         <target>A more recent version of PrestaShop is available. You can also use a local archive.</target>
-        <note>Line: 74</note>
+        <note>Line: 83</note>
       </trans-unit>
       <trans-unit id="b9d4e763594017af5b607eb9e0034299">
         <source>PrestaShop %version%</source>
         <target>PrestaShop %version%</target>
-        <note>Line: 83</note>
+        <note>Line: 92</note>
       </trans-unit>
     </body>
   </file>
