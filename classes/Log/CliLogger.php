@@ -60,9 +60,11 @@ class CliLogger extends Logger
 
     public function __construct(OutputInterface $output)
     {
+        $successStyle = new OutputFormatterStyle('green', null, []);
         $warningStyle = new OutputFormatterStyle('yellow', null, []);
         $errorStyle = new OutputFormatterStyle('red', null, []);
         $criticalStyle = new OutputFormatterStyle('red', null, ['bold']);
+        $output->getFormatter()->setStyle('success', $successStyle);
         $output->getFormatter()->setStyle('warning', $warningStyle);
         $output->getFormatter()->setStyle('error', $errorStyle);
         $output->getFormatter()->setStyle('critical', $criticalStyle);

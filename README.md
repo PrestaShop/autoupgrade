@@ -63,7 +63,13 @@ To use the Symfony Console, simply run the following command from the root direc
 $ php bin/console
 ```
 
-For instance, to start upgrading your store, you would use:
+The requirements can be reviewed to confirm the shop is safe to update:
+
+```
+$ php bin/console update:check <your-admin-dir>
+```
+
+The update process can be launched with:
 
 ```
 $ php bin/console update:start --config-file-path=[/path/to/config.json] --chain <your-admin-dir>
