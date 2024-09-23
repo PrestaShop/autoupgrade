@@ -1,21 +1,23 @@
 {% block update_assistant %}
-	<div id="ua_main">
-		{% block stepper %}
-			<div id="ua_stepper">
-				{% include '@ModuleAutoUpgrade/components/stepper.html.twig' %}
-			</div>
-		{% endblock %}
+  <div id="ua_main">
+    {% block stepper %}
+      <div id="ua_stepper">
+        {% include "@ModuleAutoUpgrade/components/stepper.html.twig" %}
+      </div>
+    {% endblock %}
 
-		{% block container %}
-			<div id="ua_container">
-				{% block container_inner %}{% endblock %}
-			</div>
-		{% endblock %}
+    {% block container %}
+      <div id="ua_container">
+        {% block container_inner %}
+          {# Default container inner use in pages/ #}
+        {% endblock %}
+      </div>
+    {% endblock %}
 
-		{% block privacy %}
-			<div id="ua_privacy">
-				{% include '@ModuleAutoUpgrade/components/privacy.html.twig' %}
-			</div>
-		{% endblock %}
-	</div>
+    {% block privacy %}
+      <div id="ua_privacy">
+        {% include "@ModuleAutoUpgrade/components/privacy.html.twig" %}
+      </div>
+    {% endblock %}
+  </div>
 {% endblock %}

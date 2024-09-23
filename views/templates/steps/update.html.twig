@@ -1,17 +1,17 @@
-{% extends '@ModuleAutoUpgrade/layouts/step-content.html.twig' %}
+{% extends "@ModuleAutoUpgrade/layouts/step-content.html.twig" %}
 
 {% block title %}
-	<h2>{{ step.title }}</h2>
+  <h2>{{ step.title }}</h2>
 {% endblock %}
 
 {% block content %}
-	{% include '@ModuleAutoUpgrade/components/logs-progress.html.twig' with {
-		progressStatus: "Backup files in progress XX files left",
+  {% include "@ModuleAutoUpgrade/components/logs-progress.html.twig" with {
+    progressStatus: "Backup files in progress XX files left",
     progressPercentage: 25,
-	} %}
+  } %}
 
-	{% include '@ModuleAutoUpgrade/components/logs.html.twig' with {
-		logs: [
+  {% include "@ModuleAutoUpgrade/components/logs.html.twig" with {
+    logs: [
       {
         status: "success",
         message: "src/Core/Domain/Product/Pack/Query/GetPackedProducts.php added to archive. 13114 files left.",
@@ -133,14 +133,12 @@
         message: "src/Core/Domain/Product/Pack/Query/GetPackedProducts.php added to archive. 13114 files left.",
       },
     ],
-	} %}
+  } %}
 {% endblock %}
 
 {% block buttons_inner %}
-	<button class="btn btn-lg btn-primary" type="button">
-		{{ 'Next'|trans({}) }}
-		<i class="material-icons">
-			arrow_forward
-		</i>
-	</button>
+  <button class="btn btn-lg btn-primary" type="button">
+    {{ 'Next'|trans({}) }}
+    <i class="material-icons">arrow_forward</i>
+  </button>
 {% endblock %}

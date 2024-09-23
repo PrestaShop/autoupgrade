@@ -1,15 +1,15 @@
-{% extends '@ModuleAutoUpgrade/layouts/step-content.html.twig' %}
+{% extends "@ModuleAutoUpgrade/layouts/step-content.html.twig" %}
 
 {% block title %}
-    <h2>{{ step.title }}</h2>
+  <h2>{{ step.title }}</h2>
 {% endblock %}
 
 {% block content %}
-    {% include '@ModuleAutoUpgrade/components/backup-selection.html.twig' %}
+  {% include "@ModuleAutoUpgrade/components/backup-selection.html.twig" %}
 {% endblock %}
 
 {% block buttons_inner %}
-    <button class="btn btn-lg btn-primary" type="button">
-        {{ 'Restore'|trans({}) }}
-    </button>
+  <button class="btn btn-lg btn-primary" type="button">
+    {{ 'Restore'|trans({}) }}
+  </button>
 {% endblock %}

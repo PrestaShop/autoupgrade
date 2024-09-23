@@ -1,125 +1,132 @@
-{% extends '@ModuleAutoUpgrade/layouts/step-content.html.twig' %}
+{% extends "@ModuleAutoUpgrade/layouts/step-content.html.twig" %}
 
 {% block page_class %}version-choice-page{% endblock %}
 
 {% block title %}
-	<h2>{{ step.title }}</h2>
+  <h2>
+    {{ step.title }}
+  </h2>
 {% endblock %}
 
 {% block content %}
-	{% if upToDate %}
-		<div class="up-to-date {% if noLocalArchive %} up-to-date--no-archive {% endif %}">
-			{% if noLocalArchive %}
-        <img class="up-to-date__img" src="{{ assetsBasePath }}/img/up_to_date.svg"/>
-			{% endif %}
+  {% if upToDate %}
+    <div class="up-to-date {% if noLocalArchive %} up-to-date--no-archive {% endif %}">
+      {% if noLocalArchive %}
+        <img class="up-to-date__img"
+          src="{{ assetsBasePath }}/img/up_to_date.svg"
+          width="243"
+          height="203"
+          alt=""
+        />
+      {% endif %}
 
-			<p class="up-to-date__title text-success {% if noLocalArchive %} h2 {% else %} h3 {% endif %}">
-				<i class="material-icons">check_circle</i>
-				{{ 'You’re up to date'|trans({}) }}
-			</p>
+      <p class="up-to-date__title text-success {% if noLocalArchive %} h2 {% else %} h3 {% endif %}">
+        <i class="material-icons">check_circle</i>
+        {{ 'You\'re up to date'|trans({}) }}
+      </p>
 
-			<p class="up-to-date__message">
-				{{ 'Current PrestaShop version:'|trans({}) }}
-				{{ currentPrestashopVersion }}<br/>
-				{{ 'Current PHP version:'|trans({}) }}
-				{{ currentPhpVersion }}
-			</p>
-		</div>
-		{% if noLocalArchive %}
-			{% include '@ModuleAutoUpgrade/components/alert.html.twig' with {
-            message: "Unlock the local update feature and manually update your store to your preferred upgrade by saving the archive and XML files of the PrestaShop version in the following directory on your server: %pathToLocalArchive%"|trans({
-                '%pathToLocalArchive%': '<b>/admin/autoupgrade/download/</b>',
-            }),
-            alertStatus: "info",
-						buttonLabel: "",
-						buttonUrl: "",
+      <p class="up-to-date__message">
+        {{ 'Current PrestaShop version:'|trans({}) }}
+        {{ currentPrestashopVersion }}
+        <br />
+        {{ 'Current PHP version:'|trans({}) }}
+        {{ currentPhpVersion }}
+      </p>
+    </div>
+    {% if noLocalArchive %}
+      {% include "@ModuleAutoUpgrade/components/alert.html.twig" with {
+        message: "Unlock the local update feature and manually update your store to your preferred upgrade by saving the archive and XML files of the PrestaShop version in the following directory on your server: %pathToLocalArchive%"|trans({
+          '%pathToLocalArchive%': '<b>/admin/autoupgrade/download/</b>'
+        })|raw,
+        alertStatus: "info",
+        buttonLabel: "",
+        buttonUrl: "",
+      } %}
+    {% else %}
+      <div class="version-page__local-archive">
+        <p class="version-page__local-archive-message">
+          {{ 'You are already using the latest PrestaShop version available but you can update to the version of your choice from a local archive.'|trans({}) }}
+        </p>
+
+        {% include "@ModuleAutoUpgrade/components/radio-card.html.twig" with {
+          radioCardId: "",
+          checked: true,
+          title: "Local archive"|trans({}),
+          message: "Save the archive file of the version you want to update to in the following directory: /admin/autoupgrade/download/"|trans({}),
+          disabled: false,
+          archiveCard: true,
         } %}
-		{% else %}
-			<div class="version-page__local-archive">
-				<p class="version-page__local-archive-message">
-					{{ 'You are already using the latest PrestaShop version available but you can update to the version of your choice from a local archive.'|trans({}) }}
-				</p>
+      </div>
+    {% endif %}
+  {% else %}
+    <div class="not-up-to-date">
+      <p class="not-up-to-date__title h3">
+        {{ 'A more recent version is available'|trans({}) }}
+      </p>
 
-				{% include '@ModuleAutoUpgrade/components/radio-card.html.twig' with {
-                radioCardId: "",
-                checked: true,
-                title: "Local archive"|trans({}),
-                message: "Save the archive file of the version you want to update to in the following directory: /admin/autoupgrade/download/"|trans({}),
-                disabled: false,
-                archiveCard: true,
-            } %}
-			</div>
-		{% endif %}
-	{% else %}
-		<div class="not-up-to-date">
-			<p class="not-up-to-date__title h3">
-				{{ 'A more recent version is available'|trans({}) }}
-			</p>
+      <p class="not-up-to-date__message">
+        {{ 'Current PrestaShop version:'|trans({}) }}
+        {{ currentPrestashopVersion }}
+        <br />
+        {{ 'Current PHP version:'|trans({}) }}
+        {{ currentPhpVersion }}
+      </p>
 
-			<p class="not-up-to-date__message">
-				{{ 'Current PrestaShop version:'|trans({}) }}
-				{{ currentPrestashopVersion }}<br/>
-				{{ 'Current PHP version:'|trans({}) }}
-				{{ currentPhpVersion }}
-			</p>
+      {% if not noLocalArchive %}
+        <p>
+          <strong>
+            {{ 'Select version:'|trans({}) }}
+          </strong>
+        </p>
 
-			{% if not noLocalArchive %}
-				<p>
-					<strong>
-						{{ 'Select version:'|trans({}) }}
-					</strong>
-				</p>
+        <p>
+          {{ 'A more recent version of PrestaShop is available. You can also use a local archive.'|trans({}) }}
+        </p>
+      {% endif %}
+    </div>
 
-				<p>
-					{{ 'A more recent version of PrestaShop is available. You can also use a local archive.'|trans({}) }}
-				</p>
-			{% endif %}
-		</div>
+    <div class="version-page__card-list">
+      {% include "@ModuleAutoUpgrade/components/radio-card.html.twig" with {
+        radioCardId: "",
+        checked: true,
+        title: "PrestaShop %version%"|trans({'%version%': nextRelease.version}),
+        disabled: false,
+        badgeLabel: nextRelease.badgeLabel,
+        badgeStatus: nextRelease.badgeStatus,
+        releaseNote: nextRelease.releaseNote,
+        archiveCard: false,
+        checkRequirements: false,
+      } %}
 
-		<div class="version-page__card-list">
-			{% include '@ModuleAutoUpgrade/components/radio-card.html.twig' with {
-            radioCardId: "",
-            checked: true,
-            title: "PrestaShop %version%"|trans({'%version%': nextRelease.version}),
-            disabled: false,
-            badgeLabel: nextRelease.badgeLabel,
-            badgeStatus: nextRelease.badgeStatus,
-            releaseNote: nextRelease.releaseNote,
-            archiveCard: false,
-            checkRequirements: false,
+      {% if noLocalArchive %}
+        {% include "@ModuleAutoUpgrade/components/alert.html.twig" with {
+          message: "Unlock the local update feature and manually update your store to your preferred upgrade by saving the archive and XML files of the PrestaShop version in the following directory on your server: %pathToLocalArchive%"|trans({
+            '%pathToLocalArchive%': '<b>/admin/autoupgrade/download/</b>'
+          })|raw,
+          alertStatus: "info",
+          buttonLabel: "",
+          buttonUrl: "",
         } %}
-
-			{% if noLocalArchive %}
-				{% include '@ModuleAutoUpgrade/components/alert.html.twig' with {
-                message: "Unlock the local update feature and manually update your store to your preferred upgrade by saving the archive and XML files of the PrestaShop version in the following directory on your server: %pathToLocalArchive%"|trans({
-                    '%pathToLocalArchive%': '<b>/admin/autoupgrade/download/</b>',
-                }),
-                alertStatus: "info",
-                buttonLabel: "",
-                buttonUrl: "",
-            } %}
-			{% else %}
-				{% include '@ModuleAutoUpgrade/components/radio-card.html.twig' with {
-                radioCardId: "",
-                checked: false,
-                title: "Local archive"|trans({}),
-                message: "Save the archive file of the version you want to update to in the following directory: /admin/autoUpdate/download/",
-                disabled: false,
-                disabledMessage: "",
-                badgeLabel: "",
-                releaseNote: "",
-                archiveCard: true,
-            } %}
-			{% endif %}
-		</div>
-	{% endif %}
+      {% else %}
+        {% include "@ModuleAutoUpgrade/components/radio-card.html.twig" with {
+          radioCardId: "",
+          checked: false,
+          title: "Local archive"|trans({}),
+          message: "Save the archive file of the version you want to update to in the following directory: /admin/autoUpdate/download/",
+          disabled: false,
+          disabledMessage: "",
+          badgeLabel: "",
+          releaseNote: "",
+          archiveCard: true,
+        } %}
+      {% endif %}
+    </div>
+  {% endif %}
 {% endblock %}
 
 {% block buttons_inner %}
-	<button class="btn btn-lg btn-primary" type="button">
-		{{ 'Next'|trans({}) }}
-		<i class="material-icons">
-			arrow_forward
-		</i>
-	</button>
+  <button class="btn btn-lg btn-primary" type="button">
+    {{ 'Next'|trans({}) }}
+    <i class="material-icons">arrow_forward</i>
+  </button>
 {% endblock %}
