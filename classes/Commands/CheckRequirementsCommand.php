@@ -34,6 +34,7 @@ use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class CheckRequirementsCommand extends AbstractCommand
@@ -53,6 +54,7 @@ class CheckRequirementsCommand extends AbstractCommand
         $this
             ->setDescription('Check all prerequisites for an update.')
             ->setHelp('This command allows you to check the prerequisites necessary for the proper functioning of an update.')
+            ->addOption('config-file-path', null, InputOption::VALUE_REQUIRED, 'Configuration file location for update.')
             ->addArgument('admin-dir', InputArgument::REQUIRED, 'The admin directory name.');
     }
 
@@ -64,6 +66,12 @@ class CheckRequirementsCommand extends AbstractCommand
         $this->setupContainer($input, $output);
         $this->output = $output;
 
+        $configPath = $input->getOption('config-file-path');
+        $exitCode = $this->loadConfiguration($configPath, $this->upgradeContainer);
+        if ($exitCode !== ExitCode::SUCCESS) {
+            return $exitCode;
+        }
+        $this->logger->debug('Configuration loaded successfully.');
         $moduleConfigPath = _PS_ADMIN_DIR_ . DIRECTORY_SEPARATOR . self::MODULE_CONFIG_DIR;
 
         $this->upgradeContainer->initPrestaShopAutoloader();

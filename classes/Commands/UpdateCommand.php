@@ -30,9 +30,7 @@ namespace PrestaShop\Module\AutoUpgrade\Commands;
 use Exception;
 use PrestaShop\Module\AutoUpgrade\DeveloperDocumentation;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
-use PrestaShop\Module\AutoUpgrade\Task\Miscellaneous\UpdateConfig;
 use PrestaShop\Module\AutoUpgrade\Task\Runner\AllUpgradeTasks;
-use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -78,17 +76,18 @@ class UpdateCommand extends AbstractCommand
 
         try {
             $this->setupContainer($input, $output);
-            $configPath = $input->getOption('config-file-path');
-            if (!empty($configPath)) {
+
+            // in the case of commands containing the update status, it is not necessary to update the configuration
+            // also we do not want to repeat the update of the config in the recursive commands
+            if ($input->getOption('data') === null) {
+                $configPath = $input->getOption('config-file-path');
                 $exitCode = $this->loadConfiguration($configPath, $this->upgradeContainer);
                 if ($exitCode !== ExitCode::SUCCESS) {
                     return $exitCode;
                 }
-                $this->logger->debug('Configuration loaded successfully.');
-            } else {
-                $this->logger->debug('No configuration file defined, use default configuration instead.');
             }
 
+            $this->logger->debug('Configuration loaded successfully.');
             $this->logger->debug('Starting the update process.');
             $controller = new AllUpgradeTasks($this->upgradeContainer);
             $controller->setOptions([
@@ -110,36 +109,6 @@ class UpdateCommand extends AbstractCommand
 
             return ExitCode::FAIL;
         }
-    }
-
-    /**
-     * @throws Exception
-     */
-    private function loadConfiguration(string $configPath, ?UpgradeContainer $upgradeContainer): int
-    {
-        $this->logger->debug('Loading configuration from ' . $configPath);
-        $configFile = file_get_contents($configPath);
-        if (!$configFile) {
-            $this->logger->error('Configuration file not found a location ' . $configPath);
-
-            return ExitCode::FAIL;
-        }
-
-        $inputData = json_decode($configFile, true);
-
-        if (!$inputData) {
-            $this->logger->error('An error occurred during the json decode process, please check the content and syntax of the file content');
-
-            return ExitCode::FAIL;
-        }
-
-        $this->logger->debug('Configuration file content: ' . json_encode($inputData));
-
-        $controller = new UpdateConfig($upgradeContainer);
-        $controller->inputCliParameters($inputData);
-        $controller->init();
-
-        return $controller->run();
     }
 
     /**
