@@ -68,10 +68,10 @@ class UpdatePageUpdateOptionsController extends AbstractPageController
             $updateSteps->getStepParams($this::CURRENT_STEP),
             [
                 // TODO
-                'default-deactive-non-native-modules' => true,
-                'default-regenerate-email-templates' => true,
-                'switch-the-theme' => 'upgrade-default',
-                'disable-all-overrides' => false,
+                'default_deactive_non_native_modules' => true,
+                'default_regenerate_email_templates' => true,
+                'switch_the_theme' => '1',
+                'disable_all_overrides' => false,
             ]
         );
     }
