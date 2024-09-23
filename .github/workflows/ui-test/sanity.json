@@ -4,6 +4,7 @@
       "comment": "1.7.8.10 -> 1.7.8.11 PHP 7.1"
     },
     {
+      "comment": "https://github.com/PrestaShop/PrestaShop/issues/36425",
       "PS_VERSION_START": "1.7.8.10",
       "PS_VERSION_END": "1.7.8.11",
       "UPGRADE_CHANNEL": "online",
