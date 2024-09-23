@@ -1,7 +1,7 @@
 {% extends "@ModuleAutoUpgrade/components/render-field.html.twig" %}
 
 {% block action_content %}
-  <span class="render-field__select">
+  <div class="render-field__select">
     <select name="{{ key }}">
       {% for cValue, cKey in field.choices %}
         <option value="{{ cValue|default(0) }}" {{ cValue == val ? 'selected' : '' }}>
@@ -9,5 +9,5 @@
         </option>
       {% endfor %}
     </select>
-  </span>
+  </div>
 {% endblock %}

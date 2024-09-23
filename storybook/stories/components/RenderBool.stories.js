@@ -31,7 +31,16 @@ export default {
   argTypes: {
     type: {
       control: 'select',
-      options: ['disabled', 'bool', 'radio', 'select', 'textarea', 'container', 'container_end', 'text'],
+      options: [
+        "disabled",
+        "bool",
+        "radio",
+        "select",
+        "textarea",
+        "container",
+        "container_end",
+        "text",
+      ],
       defaultValue: 'bool',
     },
   },
@@ -40,15 +49,12 @@ export default {
       id: "deactivate_modules",
       title: "Deactivate non-native modules",
       desc: "All the modules installed after creating your store are considered non-native modules. They might be incompatible with the new version of PrestaShop. We recommend deactivating them during the update.",
-      js: {
-        on: 'onclick="enableFeature()"',
-        off: 'onclick="disableFeature()"',
-      },
       type: 'bool',
       required: true,
       disabled: true,
     },
-    key: "PS_AUTOUP_CUSTOM_MOD_DESACT",
+    BoolName: "PS_AUTOUP_CUSTOM_MOD_DESACT",
+    BoolId: "PS_AUTOUP_CUSTOM_MOD_DESACT",
     val: true,
   },
 };

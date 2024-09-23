@@ -47,6 +47,7 @@ $cdk-prefix: "cdk-";
     --#{$cdk-prefix}font-family-material-icons,
     "Material Icons"
   );
+  --#{$ua-prefix}default-transition-duration: var(--#{$cdk-prefix}default-transition-duration, 0.15s);
 }
 
 /* 1.7.8.0 */
