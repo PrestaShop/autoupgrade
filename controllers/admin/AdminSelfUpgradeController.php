@@ -441,6 +441,9 @@ class AdminSelfUpgradeController extends ModuleAdminController
         }
 
         if (Tools::getValue('new-ui')) {
+            $this->content = $this->upgradeContainer->getTwig()->render('@ModuleAutoUpgrade/module-script-variables.html.twig', [
+                'autoupgrade_variables' => $this->getScriptsVariables(),
+            ]);
             $request = Request::createFromGlobals();
             $this->addNewUIAssets($request);
 
@@ -450,7 +453,7 @@ class AdminSelfUpgradeController extends ModuleAdminController
                 $response->send();
                 exit;
             }
-            $this->content = $response;
+            $this->content .= $response;
 
             return parent::initContent();
         }
@@ -505,6 +508,20 @@ class AdminSelfUpgradeController extends ModuleAdminController
         );
 
         return parent::initContent();
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function getScriptsVariables(): array
+    {
+        $adminDir = trim(str_replace($this->prodRootDir, '', $this->adminDir), DIRECTORY_SEPARATOR);
+
+        return [
+            'token' => $this->token,
+            'admin_url' => __PS_BASE_URI__ . $adminDir,
+            'admin_dir' => $adminDir,
+        ];
     }
 
     /**
