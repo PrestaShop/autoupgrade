@@ -69,7 +69,7 @@ class UpdatePageBackupController extends AbstractPageController
             [
                 // TODO
                 'default_backup_files_and_database' => true,
-                'default_include_images' => false
+                'default_include_images' => false,
             ]
         );
     }
