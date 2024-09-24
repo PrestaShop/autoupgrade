@@ -47,6 +47,19 @@ $cdk-prefix: "cdk-";
     --#{$cdk-prefix}font-family-material-icons,
     "Material Icons"
   );
+  --#{$ua-prefix}header-offset: 10rem;
+  --#{$ua-prefix}bo-background-color: var(--#{$ua-prefix}primary-200);
+}
+
+// Update variable at body level
+body {
+  &:has(.v1-7-8-0) {
+    --#{$ua-prefix}bo-background-color: #eff1f2;
+  }
+
+  &:has(.v1-7-3-0) {
+    --#{$ua-prefix}bo-background-color: #eff1f2;
+  }
 }
 
 /* 1.7.8.0 */

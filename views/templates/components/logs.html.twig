@@ -1,13 +1,15 @@
 {% if logs %}
   <div class="logs">
-    <div class="logs__scroll">
-      <div class="logs__list">
-        {% for log in logs %}
-          <div class="logs__line logs__line--{{ log.status }}"
-            {% if log.id is defined %}id="{{ log.id }}"{% endif %}>
-            {{ log.message }}
-          </div>
-        {% endfor %}
+    <div class="logs__inner">
+      <div class="logs__scroll">
+        <div class="logs__list">
+          {% for log in logs %}
+            <div class="logs__line logs__line--{{ log.status }}"
+              {% if log.id is defined %}id="{{ log.id }}"{% endif %}>
+              {{ log.message }}
+            </div>
+          {% endfor %}
+        </div>
       </div>
 
       {% if logsSummaryWarning or logsSummaryError %}
