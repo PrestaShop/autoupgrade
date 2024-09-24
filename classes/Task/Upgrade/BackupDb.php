@@ -250,7 +250,7 @@ class BackupDb extends AbstractTask
             $this->next = 'backupDb';
             $this->stepDone = false;
             if ($numberOfSyncedTables) {
-                $this->logger->info($this->translator->trans('Database backup: %s table(s) left...', [$tablesToBackup->getRemainingTotal() + (int) !empty($row)]));
+                $this->logger->info($this->translator->trans('Database backup: %s table(s) left...', [$tablesToBackup->getRemainingTotal() + !empty($row)]));
             }
 
             return ExitCode::SUCCESS;
