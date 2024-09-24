@@ -29,6 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade\Controller;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use PrestaShop\Module\AutoUpgrade\Twig\PageSelectors;
 
 abstract class AbstractPageController extends AbstractGlobalController
 {
@@ -55,6 +56,8 @@ abstract class AbstractPageController extends AbstractGlobalController
 
     public function renderPage(string $page, array $params): string
     {
+        $pageSelectors = new PageSelectors();
+
         return $this->twig->render(
             '@ModuleAutoUpgrade/layouts/layout.html.twig',
             array_merge(
@@ -62,6 +65,7 @@ abstract class AbstractPageController extends AbstractGlobalController
                     'page' => $page,
                     'ps_version' => $this->getPsVersionClass(),
                 ],
+                $pageSelectors::getAllSelectors(),
                 $params
             )
         );
