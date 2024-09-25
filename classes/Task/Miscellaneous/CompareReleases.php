@@ -31,7 +31,6 @@ use Exception;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
-use PrestaShop\Module\AutoUpgrade\VersionUtils;
 
 /**
  * This class gets the list of all modified and deleted files between current version
@@ -46,26 +45,9 @@ class CompareReleases extends AbstractTask
     {
         // do nothing after this request (see javascript function doAjaxRequest )
         $this->next = '';
-        $channel = $this->container->getUpgradeConfiguration()->get('channel');
         $upgrader = $this->container->getUpgrader();
         $checksumCompare = $this->container->getChecksumCompare();
-        switch ($channel) {
-            case 'archive':
-                $version = $this->container->getUpgradeConfiguration()->get('archive.version_num');
-                break;
-            case 'directory':
-                $version = $this->container->getUpgradeConfiguration()->get('directory.version_num');
-                break;
-            default:
-                $upgrader->branch = VersionUtils::splitPrestaShopVersion(_PS_VERSION_)['major'];
-                $upgrader->channel = $channel;
-                if ($this->container->getUpgradeConfiguration()->get('channel') == 'private' && !$this->container->getUpgradeConfiguration()->get('private_allow_major')) {
-                    $upgrader->checkPSVersion(false, ['private', 'minor']);
-                } else {
-                    $upgrader->checkPSVersion(false, ['minor']);
-                }
-                $version = $upgrader->version_num;
-        }
+        $version = $upgrader->getDestinationVersion();
 
         // Get list of differences between these two versions. The differences will be fetched from a local
         // XML file if it exists, or from PrestaShop API.

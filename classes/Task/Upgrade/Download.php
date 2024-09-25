@@ -32,7 +32,6 @@ use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
-use PrestaShop\Module\AutoUpgrade\VersionUtils;
 
 /**
  * Download PrestaShop archive according to the chosen channel.
@@ -58,19 +57,8 @@ class Download extends AbstractTask
         );
 
         $upgrader = $this->container->getUpgrader();
-        $upgrader->channel = $this->container->getUpgradeConfiguration()->get('channel');
-        $upgrader->branch = VersionUtils::splitPrestaShopVersion(_PS_VERSION_)['major'];
-        if ($this->container->getUpgradeConfiguration()->get('channel') == 'private' && !$this->container->getUpgradeConfiguration()->get('private_allow_major')) {
-            $upgrader->checkPSVersion(false, ['private', 'minor']);
-        } else {
-            $upgrader->checkPSVersion();
-        }
 
-        if ($upgrader->channel == 'private') {
-            $upgrader->link = $this->container->getUpgradeConfiguration()->get('private_release_link');
-            $upgrader->md5 = $this->container->getUpgradeConfiguration()->get('private_release_md5');
-        }
-        $this->logger->debug($this->translator->trans('Downloading from %s', [$upgrader->link]));
+        $this->logger->debug($this->translator->trans('Downloading from %s', [$upgrader->getOnlineDestinationRelease()->getZipDownloadUrl()]));
         $this->logger->debug($this->translator->trans('File will be saved in %s', [$this->container->getFilePath()]));
         if (file_exists($this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH))) {
             FilesystemAdapter::deleteDirectory($this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH), false);
@@ -82,7 +70,7 @@ class Download extends AbstractTask
             $res = $upgrader->downloadLast($this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH), $this->container->getProperty(UpgradeContainer::ARCHIVE_FILENAME));
             if ($res) {
                 $md5file = md5_file(realpath($this->container->getProperty(UpgradeContainer::ARCHIVE_FILEPATH)));
-                if ($md5file == $upgrader->md5) {
+                if ($md5file == $upgrader->getOnlineDestinationRelease()->getZipMd5()) {
                     $this->next = 'unzip';
                     $this->logger->debug($this->translator->trans('Download complete.'));
                     $this->logger->info($this->translator->trans('Download complete. Now extracting...'));
@@ -92,11 +80,7 @@ class Download extends AbstractTask
                     $this->next = 'error';
                 }
             } else {
-                if ($upgrader->channel == 'private') {
-                    $this->logger->error($this->translator->trans('Error during download. The private key may be incorrect.'));
-                } else {
-                    $this->logger->error($this->translator->trans('Error during download'));
-                }
+                $this->logger->error($this->translator->trans('Error during download'));
                 $this->next = 'error';
             }
         } else {

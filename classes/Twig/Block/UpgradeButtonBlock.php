@@ -28,7 +28,6 @@
 namespace PrestaShop\Module\AutoUpgrade\Twig\Block;
 
 use Configuration;
-use PrestaShop\Module\AutoUpgrade\ChannelInfo;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Upgrader;
@@ -99,54 +98,33 @@ class UpgradeButtonBlock
      */
     public function getTemplateVars(): array
     {
-        $translator = $this->translator;
-
-        $versionCompare = $this->upgrader->version_num !== null
-            ? version_compare(_PS_VERSION_, $this->upgrader->version_num)
-            : 0
-        ;
-        $channel = $this->config->get('channel');
-
-        if (!in_array($channel, ['archive', 'directory']) && !empty($this->upgrader->version_num)) {
-            $latestVersion = "{$this->upgrader->version_name} - ({$this->upgrader->version_num})";
-        } else {
-            $latestVersion = $translator->trans('N/A');
-        }
-
         $showUpgradeButton = false;
         $showUpgradeLink = false;
         $upgradeLink = '';
         $changelogLink = '';
         $skipActions = [];
+        $channel = $this->upgrader->getChannel();
 
         // decide to display "Start Upgrade" or not
-        if ($this->selfCheck->isOkForUpgrade() && $versionCompare < 0) {
+        if ($this->selfCheck->isOkForUpgrade() && !$this->upgrader->isLastVersion()) {
             $showUpgradeButton = true;
-            if (!in_array($channel, ['archive', 'directory'])) {
-                if ($channel == 'private') {
-                    $this->upgrader->link = $this->config->get('private_release_link');
-                }
-
+            if ($this->upgrader->getChannel() === Upgrader::CHANNEL_ONLINE) {
                 $showUpgradeLink = true;
-                $upgradeLink = $this->upgrader->link;
-                $changelogLink = $this->upgrader->changelog;
+                $upgradeLink = $this->upgrader->getOnlineDestinationRelease()->getZipDownloadUrl();
+                $changelogLink = $this->upgrader->getOnlineDestinationRelease()->getReleaseNoteUrl();
             }
 
             // if skipActions property is used, we will handle that in the display :)
             $skipActions = AbstractTask::$skipAction;
         }
 
-        if (empty($channel)) {
-            $channel = Upgrader::DEFAULT_CHANNEL;
-        }
-
         $dir = glob($this->downloadPath . DIRECTORY_SEPARATOR . '*.zip');
         $xml = glob($this->downloadPath . DIRECTORY_SEPARATOR . '*.xml');
 
-        $templateVars = [
-            'versionCompare' => $versionCompare,
+        return [
             'currentPsVersion' => _PS_VERSION_,
-            'latestChannelVersion' => $latestVersion,
+            'isLastVersion' => $this->upgrader->isLastVersion(),
+            'destinationVersion' => $this->upgrader->getDestinationVersion(),
             'channel' => $channel,
             'showUpgradeButton' => $showUpgradeButton,
             'upgradeLink' => $upgradeLink,
@@ -170,8 +148,6 @@ class UpgradeButtonBlock
             'directoryVersionNumber' => $this->config->get('directory.version_num'),
             'phpVersion' => PHP_VERSION,
         ];
-
-        return array_merge($templateVars, $this->buildChannelInfoBlockVars($channel));
     }
 
     /**
@@ -192,32 +168,8 @@ class UpgradeButtonBlock
         $translator = $this->translator;
 
         return [
-            ['useMajor', 'major', $translator->trans('Major release')],
-            ['useMinor', 'minor', $translator->trans('Minor release (recommended)')],
-            ['useRC', 'rc', $translator->trans('Release candidates')],
-            ['useBeta', 'beta', $translator->trans('Beta releases')],
-            ['useAlpha', 'alpha', $translator->trans('Alpha releases')],
-            ['usePrivate', 'private', $translator->trans('Private release (require link and MD5 hash)')],
-            ['useArchive', 'archive', $translator->trans('Local archive')],
-            ['useDirectory', 'directory', $translator->trans('Local directory')],
+            ['useOnline', Upgrader::CHANNEL_ONLINE, $translator->trans('Online')],
+            ['useLocal', Upgrader::CHANNEL_LOCAL, $translator->trans('Local archive')],
         ];
-    }
-
-    private function getInfoForChannel(string $channel): ChannelInfo
-    {
-        return new ChannelInfo($this->upgrader, $this->config, $channel);
-    }
-
-    /**
-     * @param string $channel
-     *
-     * @return array<string, mixed>
-     */
-    private function buildChannelInfoBlockVars(string $channel): array
-    {
-        $channelInfo = $this->getInfoForChannel($channel);
-
-        return (new ChannelInfoBlock($this->config, $channelInfo, $this->twig))
-            ->getTemplateVars();
     }
 }

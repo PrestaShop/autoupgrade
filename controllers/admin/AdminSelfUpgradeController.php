@@ -31,6 +31,7 @@ use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Router\Router;
 use PrestaShop\Module\AutoUpgrade\Services\DistributionApiService;
+use PrestaShop\Module\AutoUpgrade\Services\PhpVersionResolverService;
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradePage;
@@ -309,12 +310,7 @@ class AdminSelfUpgradeController extends ModuleAdminController
                 $upgradeConfiguration = $this->upgradeContainer->getUpgradeConfiguration();
                 // delete the potential xml files we saved in config/xml (from last release and from current)
                 $upgrader->clearXmlMd5File($this->upgradeContainer->getProperty(UpgradeContainer::PS_VERSION));
-                $upgrader->clearXmlMd5File($upgrader->version_num);
-                if ($upgradeConfiguration->get('channel') == 'private' && !$upgradeConfiguration->get('private_allow_major')) {
-                    $upgrader->checkPSVersion(true, ['private', 'minor']);
-                } else {
-                    $upgrader->checkPSVersion(true, ['minor']);
-                }
+                $upgrader->clearXmlMd5File($upgrader->getDestinationVersion());
                 Tools14::redirectAdmin(self::$currentIndex . '&conf=5&token=' . Tools14::getValue('token'));
             }
             // removing temporary files
@@ -480,11 +476,16 @@ class AdminSelfUpgradeController extends ModuleAdminController
 
         $upgrader = $this->upgradeContainer->getUpgrader();
         $distributionApiService = new DistributionApiService();
+        $phpVersionResolverService = new PhpVersionResolverService(
+            $distributionApiService,
+            $this->upgradeContainer->getFileLoader(),
+            $this->upgradeContainer->getState()->getOriginVersion()
+        );
         $upgradeSelfCheck = new UpgradeSelfCheck(
             $upgrader,
             $this->upgradeContainer->getPrestaShopConfiguration(),
             $this->upgradeContainer->getTranslator(),
-            $distributionApiService,
+            $phpVersionResolverService,
             $this->upgradeContainer->getChecksumCompare(),
             $this->prodRootDir,
             $this->adminDir,

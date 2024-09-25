@@ -31,7 +31,8 @@ use Configuration;
 use ConfigurationTest;
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
-use PrestaShop\Module\AutoUpgrade\Services\DistributionApiService;
+use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
+use PrestaShop\Module\AutoUpgrade\Services\PhpVersionResolverService;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 use PrestaShop\Module\AutoUpgrade\Xml\ChecksumCompare;
 use Shop;
@@ -60,8 +61,6 @@ class UpgradeSelfCheck
     private $moduleVersionIsLatest;
     /** @var int */
     private $maxExecutionTime;
-    /** @var array<string, string> */
-    private $phpCompatibilityRange;
     /** @var Upgrader */
     private $upgrader;
     /**
@@ -86,54 +85,15 @@ class UpgradeSelfCheck
     private $originVersion;
     /** @var PrestashopConfiguration */
     private $prestashopConfiguration;
-    /** @var DistributionApiService */
-    private $distributionApiService;
+    /** @var PhpVersionResolverService */
+    private $phpRequirementService;
     /** @var Translator */
     private $translator;
     /** @var ChecksumCompare */
     private $checksumCompare;
 
-    const PRESTASHOP_17_PHP_REQUIREMENTS = [
-        '1.7.0' => [
-            'php_min_version' => '5.4',
-            'php_max_version' => '7.1',
-        ],
-        '1.7.1' => [
-            'php_min_version' => '5.4',
-            'php_max_version' => '7.1',
-        ],
-        '1.7.2' => [
-            'php_min_version' => '5.4',
-            'php_max_version' => '7.1',
-        ],
-        '1.7.3' => [
-            'php_min_version' => '5.4',
-            'php_max_version' => '7.1',
-        ],
-        '1.7.4' => [
-            'php_min_version' => '5.6',
-            'php_max_version' => '7.1',
-        ],
-        '1.7.5' => [
-            'php_min_version' => '5.6',
-            'php_max_version' => '7.2',
-        ],
-        '1.7.6' => [
-            'php_min_version' => '5.6',
-            'php_max_version' => '7.2',
-        ],
-        '1.7.7' => [
-            'php_min_version' => '5.6',
-            'php_max_version' => '7.3',
-        ],
-        '1.7.8' => [
-            'php_min_version' => '5.6',
-            'php_max_version' => '7.4',
-        ],
-    ];
-
     // Errors const
-    const PHP_REQUIREMENTS_INVALID = 0;
+    const PHP_COMPATIBILITY_INVALID = 0;
     const ROOT_DIRECTORY_NOT_WRITABLE = 1;
     const ADMIN_UPGRADE_DIRECTORY_NOT_WRITABLE = 2;
     const SAFE_MODE_ENABLED = 3;
@@ -153,16 +113,14 @@ class UpgradeSelfCheck
 
     // Warnings const
     const MODULE_VERSION_IS_OUT_OF_DATE = 17;
-    const PHP_REQUIREMENTS_UNKNOWN = 18;
+    const PHP_COMPATIBILITY_UNKNOWN = 18;
     const TEMPERED_FILES_LIST_NOT_EMPTY = 19;
-
-    const PHP_REQUIREMENTS_VALID = 20;
 
     public function __construct(
         Upgrader $upgrader,
         PrestashopConfiguration $prestashopConfiguration,
         Translator $translator,
-        DistributionApiService $distributionApiService,
+        PhpVersionResolverService $phpRequirementService,
         ChecksumCompare $checksumCompare,
         string $prodRootPath,
         string $adminPath,
@@ -172,7 +130,7 @@ class UpgradeSelfCheck
         $this->upgrader = $upgrader;
         $this->prestashopConfiguration = $prestashopConfiguration;
         $this->translator = $translator;
-        $this->distributionApiService = $distributionApiService;
+        $this->phpRequirementService = $phpRequirementService;
         $this->checksumCompare = $checksumCompare;
         $this->prodRootPath = $prodRootPath;
         $this->adminPath = $adminPath;
@@ -188,7 +146,6 @@ class UpgradeSelfCheck
     public function getErrors(): array
     {
         $errors = [
-            self::PHP_REQUIREMENTS_INVALID => $this->getPhpRequirementsState(PHP_VERSION_ID) === self::PHP_REQUIREMENTS_INVALID,
             self::ROOT_DIRECTORY_NOT_WRITABLE => !$this->isRootDirectoryWritable(),
             self::ADMIN_UPGRADE_DIRECTORY_NOT_WRITABLE => !$this->isAdminAutoUpgradeDirectoryWritable(),
             self::SAFE_MODE_ENABLED => !$this->isSafeModeDisabled(),
@@ -207,19 +164,29 @@ class UpgradeSelfCheck
             self::SHOP_VERSION_NOT_MATCHING_VERSION_IN_DATABASE => !$this->isShopVersionMatchingVersionInDatabase(),
         ];
 
+        if ($this->upgrader->getChannel() === Upgrader::CHANNEL_LOCAL) {
+            $errors[self::PHP_COMPATIBILITY_INVALID] = $this->getPhpRequirementsState() === PhpVersionResolverService::COMPATIBILITY_INVALID;
+        }
+
         return array_filter($errors);
     }
 
     /**
      * @return array<int, bool>
+     *
+     * @throws UpgradeException
+     * @throws DistributionApiException
      */
     public function getWarnings(): array
     {
         $warnings = [
             self::MODULE_VERSION_IS_OUT_OF_DATE => !$this->isModuleVersionLatest(),
-            self::PHP_REQUIREMENTS_UNKNOWN => $this->getPhpRequirementsState(PHP_VERSION_ID) === self::PHP_REQUIREMENTS_UNKNOWN,
             self::TEMPERED_FILES_LIST_NOT_EMPTY => !empty($this->getTamperedFiles()),
         ];
+
+        if ($this->upgrader->getChannel() === Upgrader::CHANNEL_LOCAL) {
+            $warnings[self::PHP_COMPATIBILITY_UNKNOWN] = $this->getPhpRequirementsState() === PhpVersionResolverService::COMPATIBILITY_UNKNOWN;
+        }
 
         return array_filter($warnings);
     }
@@ -228,13 +195,17 @@ class UpgradeSelfCheck
      * @param int $requirement
      *
      * @return string
+     *
+     * @throws UpgradeException
+     * @throws DistributionApiException
      */
     public function getRequirementWording(int $requirement): string
     {
-        $phpCompatibilityRange = $this->getPhpCompatibilityRange();
+        $version = $this->upgrader->getDestinationVersion();
+        $phpCompatibilityRange = $this->phpRequirementService->getPhpCompatibilityRange($version);
 
         switch ($requirement) {
-            case self::PHP_REQUIREMENTS_INVALID:
+            case self::PHP_COMPATIBILITY_INVALID:
                 return $this->translator->trans(
                     'Your current PHP version isn\'t compatible with your PrestaShop version. (Expected: %s - %s | Current: %s)',
                     [$phpCompatibilityRange['php_min_version'], $phpCompatibilityRange['php_max_version'], $phpCompatibilityRange['php_current_version']]
@@ -318,7 +289,7 @@ class UpgradeSelfCheck
             case self::MODULE_VERSION_IS_OUT_OF_DATE:
                 return $this->translator->trans('Your current version of the module is outdated.');
 
-            case self::PHP_REQUIREMENTS_UNKNOWN:
+            case self::PHP_COMPATIBILITY_UNKNOWN:
                 return $this->translator->trans('We were unable to check your PHP compatibility with the destination PrestaShop version.');
 
             case self::TEMPERED_FILES_LIST_NOT_EMPTY:
@@ -418,13 +389,16 @@ class UpgradeSelfCheck
         return $this->safeModeDisabled = $this->checkSafeModeIsDisabled();
     }
 
+    /**
+     * @throws UpgradeException
+     */
     public function isModuleVersionLatest(): bool
     {
         if (null !== $this->moduleVersionIsLatest) {
             return $this->moduleVersionIsLatest;
         }
 
-        return $this->moduleVersionIsLatest = $this->checkModuleVersionIsLastest($this->upgrader);
+        return $this->moduleVersionIsLatest = $this->checkModuleVersionIsLastest();
     }
 
     public function getModuleVersion(): ?string
@@ -463,70 +437,6 @@ class UpgradeSelfCheck
         return empty($this->getErrors());
     }
 
-    /**
-     * @return array{"php_min_version": string, "php_max_version": string, "php_current_version": string}|null
-     */
-    public function getPhpCompatibilityRange(): ?array
-    {
-        if (null !== $this->phpCompatibilityRange) {
-            return $this->phpCompatibilityRange;
-        }
-
-        $targetVersion = $this->upgrader->version_num;
-
-        if (null === $targetVersion) {
-            return null;
-        }
-
-        if (version_compare($targetVersion, '8', '<')) {
-            $targetMinorVersion = VersionUtils::splitPrestaShopVersion($targetVersion)['minor'];
-
-            if (!isset($this::PRESTASHOP_17_PHP_REQUIREMENTS[$targetMinorVersion])) {
-                return null;
-            }
-
-            $range = $this::PRESTASHOP_17_PHP_REQUIREMENTS[$targetMinorVersion];
-        } else {
-            try {
-                $range = $this->distributionApiService->getPhpVersionRequirements($targetVersion);
-            } catch (DistributionApiException $apiException) {
-                return null;
-            }
-        }
-        $currentPhpVersion = VersionUtils::getHumanReadableVersionOf(PHP_VERSION_ID);
-        $range['php_current_version'] = $currentPhpVersion;
-
-        return $this->phpCompatibilityRange = $range;
-    }
-
-    /**
-     * @param int $currentVersionId
-     *
-     * @return self::PHP_REQUIREMENTS_*
-     */
-    public function getPhpRequirementsState($currentVersionId): int
-    {
-        $phpCompatibilityRange = $this->getPhpCompatibilityRange();
-
-        if (null == $phpCompatibilityRange) {
-            return self::PHP_REQUIREMENTS_UNKNOWN;
-        }
-
-        $versionMin = VersionUtils::getPhpVersionId($phpCompatibilityRange['php_min_version']);
-        $versionMax = VersionUtils::getPhpVersionId($phpCompatibilityRange['php_max_version']);
-
-        $versionMinWithoutPatch = VersionUtils::getPhpMajorMinorVersionId($versionMin);
-        $versionMaxWithoutPatch = VersionUtils::getPhpMajorMinorVersionId($versionMax);
-
-        $currentVersion = VersionUtils::getPhpMajorMinorVersionId($currentVersionId);
-
-        if ($currentVersion >= $versionMinWithoutPatch && $currentVersion <= $versionMaxWithoutPatch) {
-            return self::PHP_REQUIREMENTS_VALID;
-        }
-
-        return self::PHP_REQUIREMENTS_INVALID;
-    }
-
     public function isApacheModRewriteEnabled(): bool
     {
         if (class_exists(ConfigurationTest::class) && is_callable([ConfigurationTest::class, 'test_apache_mod_rewrite'])) {
@@ -536,14 +446,14 @@ class UpgradeSelfCheck
         return true;
     }
 
+    /**
+     * @throws DistributionApiException
+     * @throws UpgradeException
+     */
     public function checkKeyGeneration(): bool
     {
-        if ($this->upgrader->version_num === null) {
-            return true;
-        }
-
         // Check if key is needed on the version we are upgrading to, if lower, not needed
-        if (version_compare($this->upgrader->version_num, '8.1.0', '<')) {
+        if (version_compare($this->upgrader->getDestinationVersion(), '8.1.0', '<')) {
             return true;
         }
 
@@ -623,6 +533,17 @@ class UpgradeSelfCheck
     }
 
     /**
+     * @throws DistributionApiException
+     * @throws UpgradeException
+     */
+    public function getPhpRequirementsState(): int
+    {
+        $version = $this->upgrader->getDestinationVersion();
+
+        return $this->phpRequirementService->getPhpRequirementsState(PHP_VERSION_ID, $version);
+    }
+
+    /**
      * @return array<string>
      */
     public function getNotWritingDirectories(): array
@@ -685,9 +606,12 @@ class UpgradeSelfCheck
         return ConfigurationTest::test_dir('/', false);
     }
 
-    private function checkModuleVersionIsLastest(Upgrader $upgrader): bool
+    /**
+     * @throws UpgradeException
+     */
+    private function checkModuleVersionIsLastest(): bool
     {
-        return version_compare($this->getModuleVersion(), $upgrader->autoupgrade_last_version, '>=');
+        return version_compare($this->getModuleVersion(), $this->upgrader->getLatestModuleVersion(), '>=');
     }
 
     private function checkIsLocalEnvironment(): bool

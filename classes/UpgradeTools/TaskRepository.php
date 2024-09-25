@@ -30,7 +30,6 @@ namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\Miscellaneous\CheckFilesVersion;
 use PrestaShop\Module\AutoUpgrade\Task\Miscellaneous\CompareReleases;
-use PrestaShop\Module\AutoUpgrade\Task\Miscellaneous\GetChannelInfo;
 use PrestaShop\Module\AutoUpgrade\Task\Miscellaneous\UpdateConfig;
 use PrestaShop\Module\AutoUpgrade\Task\NullTask;
 use PrestaShop\Module\AutoUpgrade\Task\Rollback\NoRollbackFound;
@@ -60,8 +59,6 @@ class TaskRepository
                 return new CheckFilesVersion($container);
             case 'compareReleases':
                 return new CompareReleases($container);
-            case 'getChannelInfo':
-                return new GetChannelInfo($container);
             case 'updateConfig':
                 return new UpdateConfig($container);
 

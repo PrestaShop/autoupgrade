@@ -1,39 +1,40 @@
 {
   "include": [
     {
-      "comment": "1.7.8 ~ minor PHP 7.4"
+      "comment": "1.7.8.10 -> 1.7.8.11 PHP 7.1"
     },
     {
+      "comment": "https://github.com/PrestaShop/PrestaShop/issues/36425",
       "PS_VERSION_START": "1.7.8.10",
       "PS_VERSION_END": "1.7.8.11",
-      "UPGRADE_CHANNEL": "minor",
-      "PHP_VERSION": "7.4"
+      "UPGRADE_CHANNEL": "online",
+      "PHP_VERSION": "7.1"
     },
     {
-      "comment": "1.7.8 ~ major PHP 7.4"
+      "comment": "1.7.8.11 -> 8.1.7 PHP 7.4"
     },
     {
       "PS_VERSION_START": "1.7.8.11",
       "PS_VERSION_END": "8.1.7",
-      "UPGRADE_CHANNEL": "major",
+      "UPGRADE_CHANNEL": "online",
       "PHP_VERSION": "7.4"
     },
     {
-      "comment": "8.0.5 ~ minor PHP 8.1"
+      "comment": "8.0.5 -> 8.1.7 PHP 8.1"
     },
     {
       "PS_VERSION_START": "8.0.5",
       "PS_VERSION_END": "8.1.7",
-      "UPGRADE_CHANNEL": "minor",
+      "UPGRADE_CHANNEL": "online",
       "PHP_VERSION": "8.1"
     },
     {
-      "comment": "8.1.6 ~ minor PHP 8.1"
+      "comment": "8.1.6 -> 8.1.7 PHP 8.1"
     },
     {
       "PS_VERSION_START": "8.1.6",
       "PS_VERSION_END": "8.1.7",
-      "UPGRADE_CHANNEL": "minor",
+      "UPGRADE_CHANNEL": "online",
       "PHP_VERSION": "8.1"
     }
   ]

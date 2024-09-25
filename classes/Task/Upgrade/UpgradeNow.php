@@ -31,7 +31,7 @@ use Exception;
 use PrestaShop\Module\AutoUpgrade\Analytics;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
-use PrestaShop\Module\AutoUpgrade\VersionUtils;
+use PrestaShop\Module\AutoUpgrade\Upgrader;
 
 /**
  * very first step of the upgrade process. The only thing done is the selection
@@ -53,32 +53,19 @@ class UpgradeNow extends AbstractTask
 
         $this->container->getWorkspace()->createFolders();
 
-        $channel = $this->container->getUpgradeConfiguration()->get('channel');
         $upgrader = $this->container->getUpgrader();
-
-        $upgrader->branch = VersionUtils::splitPrestaShopVersion(_PS_VERSION_)['major'];
-        $upgrader->channel = $channel;
-        if ($this->container->getUpgradeConfiguration()->get('channel') == 'private' && !$this->container->getUpgradeConfiguration()->get('private_allow_major')) {
-            $upgrader->checkPSVersion(false, ['private', 'minor']);
-        } else {
-            $upgrader->checkPSVersion();
-        }
 
         if ($upgrader->isLastVersion()) {
             $this->next = '';
-            $this->logger->info($this->translator->trans('You already have the %s version.', [$upgrader->version_name]));
+            $this->logger->info($this->translator->trans('Your shop is currently running the latest compatible version. No updates are needed at this time.'));
 
             return ExitCode::SUCCESS;
         }
 
-        switch ($channel) {
-            case 'directory':
-                // if channel directory is chosen, we assume it's "ready for use"
-                $this->next = 'backupFiles';
-                $this->logger->debug($this->translator->trans('Downloading and unzipping steps have been skipped, upgrade process will now remove sample data.'));
-                $this->logger->info($this->translator->trans('Shop deactivated. Now backing up files...'));
-                break;
-            case 'archive':
+        $this->logger->info($this->translator->trans('Destination version: %s', [$upgrader->getDestinationVersion()]));
+
+        switch ($upgrader->getChannel()) {
+            case Upgrader::CHANNEL_LOCAL:
                 $this->next = 'unzip';
                 $this->logger->debug($this->translator->trans('Downloading step has been skipped, upgrade process will now unzip the local archive.'));
                 $this->logger->info($this->translator->trans('Shop deactivated. Extracting files...'));
@@ -86,12 +73,8 @@ class UpgradeNow extends AbstractTask
             default:
                 $this->next = 'download';
                 $this->logger->info($this->translator->trans('Shop deactivated. Now downloading... (this can take a while)'));
-                if ($upgrader->channel == 'private') {
-                    $upgrader->link = $this->container->getUpgradeConfiguration()->get('private_release_link');
-                    $upgrader->md5 = $this->container->getUpgradeConfiguration()->get('private_release_md5');
-                }
-                $this->logger->debug($this->translator->trans('Downloaded archive will come from %s', [$upgrader->link]));
-                $this->logger->debug($this->translator->trans('MD5 hash will be checked against %s', [$upgrader->md5]));
+                $this->logger->debug($this->translator->trans('Downloaded archive will come from %s', [$upgrader->getOnlineDestinationRelease()->getZipDownloadUrl()]));
+                $this->logger->debug($this->translator->trans('MD5 hash will be checked against %s', [$upgrader->getOnlineDestinationRelease()->getZipMd5()]));
         }
         $this->container->getAnalytics()->track('Upgrade Launched', Analytics::WITH_UPGRADE_PROPERTIES);
 

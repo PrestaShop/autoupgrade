@@ -37,6 +37,8 @@ use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Progress\CompletionCalculator;
 use PrestaShop\Module\AutoUpgrade\Repository\LocalArchiveRepository;
 use PrestaShop\Module\AutoUpgrade\Services\ComposerService;
+use PrestaShop\Module\AutoUpgrade\Services\DistributionApiService;
+use PrestaShop\Module\AutoUpgrade\Services\PhpVersionResolverService;
 use PrestaShop\Module\AutoUpgrade\Twig\AssetsEnvironment;
 use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension;
 use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension3;
@@ -396,41 +398,22 @@ class UpgradeContainer
             define('_PS_ROOT_DIR_', $this->getProperty(self::PS_ROOT_PATH));
         }
 
-        $fileLoader = $this->getFileLoader();
-        // in order to not use Tools class
+        $currentPrestashopVersion = $this->getProperty(self::PS_VERSION);
+        $phpRequirementService = new PhpVersionResolverService(new DistributionApiService(), $this->getFileLoader(), $currentPrestashopVersion);
         $upgrader = new Upgrader(
-            $this->getProperty(self::PS_VERSION),
-            $fileLoader
+            $phpRequirementService,
+            $this->getUpgradeConfiguration(),
+            $currentPrestashopVersion
         );
-        $upgrader->branch = VersionUtils::splitPrestaShopVersion($this->getProperty(self::PS_VERSION))['major'];
-        $upgradeConfiguration = $this->getUpgradeConfiguration();
-        $channel = $upgradeConfiguration->get('channel');
-        switch ($channel) {
-            case 'archive':
-                $upgrader->channel = 'archive';
-                $upgrader->version_num = $upgradeConfiguration->get('archive.version_num');
-                $archiveXml = $upgradeConfiguration->get('archive.xml');
-                if (!empty($archiveXml)) {
-                    // TODO: Change this wild push to a public variable
-                    $fileLoader->version_md5[$upgrader->version_num] = $this->getProperty(self::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $archiveXml;
-                }
-                $upgrader->checkPSVersion(true, ['archive']);
-                break;
-            case 'directory':
-                $upgrader->channel = 'directory';
-                $upgrader->version_num = $upgradeConfiguration->get('directory.version_num');
-                $upgrader->checkPSVersion(true, ['directory']);
-                break;
-            default:
-                $upgrader->channel = $channel;
-                if ($upgradeConfiguration->get('channel') == 'private' && !$upgradeConfiguration->get('private_allow_major')) {
-                    $upgrader->checkPSVersion(false, ['private', 'minor']);
-                } else {
-                    $upgrader->checkPSVersion();
-                }
-        }
-        $this->getState()->setInstallVersion($upgrader->version_num);
+
+        $this->getState()->setInstallVersion($upgrader->getDestinationVersion());
         $this->getState()->setOriginVersion($this->getProperty(self::PS_VERSION));
+
+        if ($upgrader->getChannel() === Upgrader::CHANNEL_LOCAL) {
+            $archiveXml = $this->getUpgradeConfiguration()->get('archive.xml');
+            $this->fileLoader->addXmlMd5File($upgrader->getDestinationVersion(), $this->getProperty(self::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $archiveXml);
+        }
+
         $this->upgrader = $upgrader;
 
         return $this->upgrader;
@@ -459,6 +442,9 @@ class UpgradeContainer
         return $this->filesystemAdapter;
     }
 
+    /**
+     * @throws Exception
+     */
     public function getFileLoader(): FileLoader
     {
         if (null !== $this->fileLoader) {

@@ -4,9 +4,7 @@
             {{ 'Start your Upgrade'|trans({}) }}
         </div>
         <div class="blocOneClickUpgrade">
-            {% if versionCompare > 0 %}
-                <p class="alert alert-warning">{{ 'You come from the future! You are using a more recent version than the latest available!'|trans({}) }}</p>
-            {% elseif versionCompare == 0 %}
+            {% if isLastVersion %}
                 <p class="alert alert-success">{{ 'Congratulations, you are already using the latest version available!'|trans({}) }}</p>
             {% endif %}
             <p>
@@ -15,10 +13,9 @@
             <p>
                 {{ 'Your current PHP version'|trans({}) }}: <strong>{{ phpVersion }}</strong>
             </p>
-            <p>
-                {{ 'Latest official version for %s channel.'|trans([channel]) }}:
-                <strong>{{ latestChannelVersion }}</strong>
-            </p>
+            {% if not isLastVersion %}
+                <p>{{ 'Version available on channel %s:'|trans([channel]) }} <strong>{{ destinationVersion }}</strong></p>
+            {% endif %}
         </div>
         <br>
         {% if showUpgradeButton %}
@@ -99,22 +96,7 @@
                             </option>
                         {% endfor %}
                     </select>
-                    {% include '@ModuleAutoUpgrade/block/channelInfo.html.twig' %}
-                    <div id="for-usePrivate">
-                        <p><label for="private_release_link">{{ 'Link:'|trans({}) }} *</label>
-                            <input type="text" size="50" id="private_release_link" name="private_release_link"
-                                   value="{{ privateChannel.releaseLink }}" required>
-                        </p>
-                        <p><label for="private_release_md5">{{ 'Hash key:'|trans({}) }} *</label>
-                            <input type="text" size="32" id="private_release_md5" name="private_release_md5"
-                                   value="{{ privateChannel.releaseMd5 }}" required>
-                        </p>
-                        <p><label for="private_allow_major">{{ 'Allow major upgrade:'|trans({}) }}</label>
-                            <input type="checkbox" id="private_allow_major" name="private_allow_major"
-                                   value="1"{% if privateChannel.allowMajor %} checked{% endif %}>
-                        </p>
-                    </div>
-                    <div id="for-useArchive">
+                    <div id="for-useLocal">
                         {% if archiveFiles is not empty %}
                             <label for="archive_prestashop">{{ 'Archive to use:'|trans({}) }} *</label>
                             <div>
@@ -145,19 +127,6 @@
                             <br>
                             {{ 'Click to save once the archive is there.'|trans({}) }}<br>
                             {{ 'This option will skip the download step.'|trans({}) }}
-                        </div>
-                    </div>
-                    <div id="for-useDirectory">
-                        <div>
-                            {{ 'Save in the following directory the uncompressed PrestaShop files of the version you want to upgrade to: %s'|trans(['<b>/admin/autoupgrade/latest/</b>'])|raw }}
-                            <br><br>
-                            <label for="directory_num">{{ 'Please tell us which version you are upgrading to [1](1.7.0.1 for instance)[/1]'|trans({'[1]': '<small>', '[/1]': '</small>'})|raw }}</label>
-                            <input type="text" size="10" id="directory_num" name="directory_num"
-                                   value="{{ directoryVersionNumber }}" placeholder="1.7.0.1">
-                            <div class="margin-form">
-                                {{ 'Click to save once the archive is there.'|trans({}) }}<br>
-                                * {{ 'This option will skip both download and unzip steps and will use %1$s as the source directory'|trans(['<b>/admin/autoupgrade/latest/</b>'])|raw }}
-                            </div>
                         </div>
                     </div>
                     <br>

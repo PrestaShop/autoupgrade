@@ -1,0 +1,134 @@
+<prestashop>
+    <channel name="stable" available="1">
+        <branch name="1.4" available="1">
+            <name>1.4.11 stable</name>
+            <num>1.4.11.1</num>
+            <download>
+                <link>
+                    http://www.prestashop.com/download/old/prestashop_1.4.11.1.zip
+                </link>
+                <md5>5e98afb0b7d8d4749f2d6704c9d08dbf</md5>
+            </download>
+            <changelog>
+                http://www.prestashop.com/download/old/changelog_1.4.11.1-stable.txt
+            </changelog>
+        </branch>
+        <branch name="1.5" available="1">
+            <name>1.5.6.3 stable</name>
+            <num>1.5.6.3</num>
+            <download>
+                <link>
+                </link>
+                <md5>b3b70201b3e95f3b2feb0775a0cb02f6</md5>
+            </download>
+            <changelog>
+                http://www.prestashop.com/download/old/changelog_1.5.6.3-stable.txt
+            </changelog>
+        </branch>
+        <branch name="1.6" available="1">
+            <name>1.6.1 stable</name>
+            <num>1.6.1.24</num>
+            <download>
+                <link>
+                    http://download.prestashop.com/download/releases/prestashop_1.6.1.24.zip
+                </link>
+                <md5>8cd5dd3470bc42137c1018a1a8e97c0a</md5>
+            </download>
+            <changelog>
+                http://build.prestashop.com/news/prestashop-1-7-5-2-1-6-1-24-maintenance-release/
+            </changelog>
+        </branch>
+        <branch name="1.7" available="1">
+            <name>1.7.8 stable</name>
+            <num>1.7.8.11</num>
+            <download>
+                <link>
+                    https://github.com/PrestaShop/PrestaShop/releases/download/1.7.8.11/prestashop_1.7.8.11.zip
+                </link>
+                <md5>d29d55f89a2c44bef3d5c51b70e3a771</md5>
+            </download>
+            <changelog>
+                https://build.prestashop-project.org/news/2024/prestashop-1-7-8-11-maintenance-release/
+            </changelog>
+        </branch>
+        <!--
+         Actual branch for PS 8, below are compatibility branches for autoupgrade module
+        -->
+        <branch name="8" available="1">
+            <name>8 stable</name>
+            <num>8.1.7</num>
+            <download>
+                <link>
+                    https://github.com/PrestaShop/PrestaShop/releases/download/8.1.7/prestashop_8.1.7.zip
+                </link>
+                <md5>52267b8918d8a7e0686016d013a0bfc3</md5>
+            </download>
+            <changelog>
+                https://build.prestashop-project.org/news/2024/prestashop-8-1-7-maintenance-release/
+            </changelog>
+        </branch>
+        <!--
+         Compatibility branches for old versions of autoupgrade module (Below v6)
+        -->
+        <branch name="8.0" available="1">
+            <name>8 stable</name>
+            <num>8.1.7</num>
+            <download>
+                <link>
+                    https://github.com/PrestaShop/PrestaShop/releases/download/8.1.7/prestashop_8.1.7.zip
+                </link>
+                <md5>52267b8918d8a7e0686016d013a0bfc3</md5>
+            </download>
+            <changelog>
+                https://build.prestashop-project.org/news/2024/prestashop-8-1-7-maintenance-release/
+            </changelog>
+        </branch>
+        <branch name="8.1" available="1">
+            <name>8 stable</name>
+            <num>8.1.7</num>
+            <download>
+                <link>
+                    https://github.com/PrestaShop/PrestaShop/releases/download/8.1.7/prestashop_8.1.7.zip
+                </link>
+                <md5>52267b8918d8a7e0686016d013a0bfc3</md5>
+            </download>
+            <changelog>
+                https://build.prestashop-project.org/news/2024/prestashop-8-1-7-maintenance-release/
+            </changelog>
+        </branch>
+    </channel>
+    <channel name="rc" available="1"> </channel>
+    <channel name="beta" available="0"> </channel>
+    <channel name="alpha">
+        <branch name="1.5" available="0">
+            <name/>
+            <num/>
+            <download>
+                <link/>
+                <md5/>
+            </download>
+            <changelog/>
+        </branch>
+    </channel>
+    <channel name="private" available="0">
+        <branch name="1.5" available="0">
+            <name/>
+            <num/>
+            <download>
+                <link/>
+                <md5/>
+            </download>
+            <changelog/>
+        </branch>
+    </channel>
+    <autoupgrade>
+        <last_version>5.0.3</last_version>
+        <download>
+            <link>
+                https://github.com/PrestaShop/autoupgrade/releases/download/v5.0.3/autoupgrade.zip
+            </link>
+            <md5>a7b275677eecab0b4b0f033d8ba83e8b</md5>
+        </download>
+        <changelog/>
+    </autoupgrade>
+</prestashop>

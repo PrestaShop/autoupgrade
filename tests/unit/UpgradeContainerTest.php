@@ -42,7 +42,7 @@ class UpgradeContainerTest extends TestCase
     {
         $container = $this->getMockBuilder(UpgradeContainer::class)
             ->setConstructorArgs([__DIR__, __DIR__ . '/..'])
-            ->setMethods(['getDb'])
+            ->setMethods(['getDb', 'getUpgrader'])
             ->getMock();
 
         $container->getState()->setInstallVersion('1.7.1.0');
