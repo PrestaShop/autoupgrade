@@ -15,26 +15,31 @@ $e: ".logs";
     background-color: var(--#{$ua-prefix}logs-background-color);
     border-radius: var(--#{$ua-prefix}border-radius);
 
-    &__scroll {
+    &__inner {
       display: flex;
       flex-direction: column;
       flex-grow: 1;
       flex-shrink: 1;
       gap: 1rem;
       height: 100%;
-      overflow-y: auto;
     }
 
     &__buttons {
       flex-shrink: 0;
     }
 
+    &__scroll {
+      flex-grow: 1;
+      min-height: var(--#{$ua-prefix}logs-height);
+      overflow-y: scroll;
+      scroll-behavior: smooth;
+    }
+
     &__list {
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
-      max-height: 14rem;
-      overflow-y: auto;
+      max-height: 100%;
     }
 
     &__line {
@@ -44,6 +49,7 @@ $e: ".logs";
       background-size: 1.5rem 1.5rem;
       font-size: 0.875rem;
       line-height: 1.4;
+      word-break: break-word;
 
       &--success {
         background-image: url("../../img/check.svg");

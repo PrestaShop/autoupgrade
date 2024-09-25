@@ -1,0 +1,58 @@
+@use "../variables" as *;
+
+// Auto size logs section to use available height
+html {
+  &:has(#{$ua-id}) {
+    // Need class use in #ua_step_content to make it work
+    &:has(.update-page) {
+      container-type: size;
+      container-name: html-height;
+
+      body {
+        background-color: var(--#{$ua-prefix}bo-background-color);
+      }
+
+      #main {
+        padding-block-end: 0;
+      }
+
+      #content {
+        background-color: var(--#{$ua-prefix}bo-background-color);
+      }
+
+      // Logs adjustments
+      .logs {
+        flex-grow: 1;
+
+        &__scroll {
+          container-type: size;
+        }
+      }
+
+      // Page adjustments
+      @container html-height (min-width: 0) {
+        #{$ua-id} {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr);
+          min-height: calc(100cqh - var(--#{$ua-prefix}header-offset));
+
+          #ua_container {
+            flex-grow: 1;
+          }
+
+          #ua_step_content {
+            height: 100%;
+          }
+
+          .page {
+            &__content {
+              display: flex;
+              flex-direction: column;
+              flex-grow: 1;
+            }
+          }
+        }
+      }
+    }
+  }
+}

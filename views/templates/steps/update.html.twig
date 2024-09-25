@@ -1,5 +1,7 @@
 {% extends "@ModuleAutoUpgrade/layouts/step-content.html.twig" %}
 
+{% block page_class %}update-page{% endblock %}
+
 {% block title %}
   <h2>{{ step.title }}</h2>
 {% endblock %}
@@ -131,6 +133,26 @@
       {
         status: "success",
         message: "src/Core/Domain/Product/Pack/Query/GetPackedProducts.php added to archive. 13114 files left.",
+      },
+    ],
+    logsSummaryWarning: [
+      {
+        message: "src/Core/Domain/Product/Pack/Query/GetPackedProducts.php added to archive. 13114 files left.",
+        anchor: "warning_1",
+      },
+      {
+        message: "src/Core/Domain/Product/Pack/Query/GetPackedProducts.php added to archive. 13114 files left.",
+        anchor: "warning_2",
+      },
+    ],
+    logsSummaryError: [
+      {
+        message: "src/Core/Domain/Product/Pack/Query/GetPackedProducts.php added to archive. 13114 files left.",
+        anchor: "error_1",
+      },
+      {
+        message: "src/Core/Domain/Product/Pack/Query/GetPackedProducts.php added to archive. 13114 files left.",
+        anchor: "error_2",
       },
     ],
   } %}

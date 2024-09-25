@@ -185,20 +185,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const targetId = this.getAttribute("href").substring(1);
       const targetElement = document.getElementById(targetId);
-      const logsScroll = document.querySelector(".logs__scroll");
+      const logsList = document.querySelector(".logs__list");
 
-      if (logsScroll && targetElement) {
+      if (logsList && targetElement) {
         const targetRect = targetElement.getBoundingClientRect();
-        const containerRect = logsScroll.getBoundingClientRect();
-        const offsetTop = targetRect.top - containerRect.top + logsScroll.scrollTop;
+        const containerRect = logsList.getBoundingClientRect();
+        const offsetTop = targetRect.top - containerRect.top + logsList.scrollTop;
 
-        logsScroll.scrollTo({
+        logsList.scrollTo({
           top: offsetTop,
           behavior: "smooth"
         });
       } else {
         console.error("Element not found:", {
-          logsScroll: logsScroll,
+          logsList: logsList,
           targetElement: targetElement
         });
       }
