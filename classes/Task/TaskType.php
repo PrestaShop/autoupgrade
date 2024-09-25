@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright since 2007 PrestaShop SA and Contributors
  * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
@@ -23,30 +24,12 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
-use PHPUnit\Framework\TestCase;
-use PrestaShop\Module\AutoUpgrade\Log\Logger;
-use PrestaShop\Module\AutoUpgrade\Log\StreamedLogger;
 
-class StreamedLoggerTest extends TestCase
+namespace PrestaShop\Module\AutoUpgrade\Task;
+
+class TaskType
 {
-    /**
-     * @dataProvider filtersProvider
-     */
-    public function testFiltersProperlyApplied($level, $filterLevel, $expected)
-    {
-        $logger = new StreamedLogger();
-        $logger->setFilter($filterLevel);
-        $this->assertSame($expected, $logger->isFiltered($level));
-    }
-
-    public function filtersProvider()
-    {
-        return [
-            [Logger::EMERGENCY, Logger::INFO, false],
-            [Logger::INFO, Logger::EMERGENCY, true],
-            [Logger::ERROR, Logger::ERROR, false],
-            [Logger::ERROR, Logger::WARNING, false],
-            [Logger::ERROR, Logger::CRITICAL, true],
-        ];
-    }
+    const TASK_TYPE_BACKUP = 'backup';
+    const TASK_TYPE_UPGRADE = 'upgrade';
+    const TASK_TYPE_RESTORE = 'restore';
 }

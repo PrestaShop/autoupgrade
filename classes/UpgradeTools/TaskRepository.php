@@ -63,18 +63,20 @@ class TaskRepository
                 return new UpdateConfig($container);
 
             // ROLLBACK
+            case 'rollback':
+                return new Rollback($container);
             case 'noRollbackFound':
                 return new NoRollbackFound($container);
             case 'restoreDb':
                 return new RestoreDb($container);
             case 'restoreFiles':
                 return new RestoreFiles($container);
-            case 'rollback':
-                return new Rollback($container);
             case 'rollbackComplete':
                 return new RollbackComplete($container);
 
             // UPGRADE
+            case 'upgradeNow':
+                return new UpgradeNow($container);
             case 'backupDb':
                 return new BackupDb($container);
             case 'backupFiles':
@@ -91,8 +93,6 @@ class TaskRepository
                 return new UpgradeFiles($container);
             case 'upgradeModules':
                 return new UpgradeModules($container);
-            case 'upgradeNow':
-                return new UpgradeNow($container);
             case 'unzip':
                 return new Unzip($container);
         }

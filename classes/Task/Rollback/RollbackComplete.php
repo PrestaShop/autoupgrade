@@ -30,13 +30,14 @@ namespace PrestaShop\Module\AutoUpgrade\Task\Rollback;
 use PrestaShop\Module\AutoUpgrade\Analytics;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
+use PrestaShop\Module\AutoUpgrade\Task\TaskType;
 
 /**
  * Only displays the success message.
  */
 class RollbackComplete extends AbstractTask
 {
-    const TASK_TYPE = 'rollback';
+    const TASK_TYPE = TaskType::TASK_TYPE_RESTORE;
 
     public function run(): int
     {

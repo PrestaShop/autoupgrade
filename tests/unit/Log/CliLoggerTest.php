@@ -63,4 +63,25 @@ class CliLoggerTest extends TestCase
 
         $this->assertSame('INFO - Hello', $logger->getLastInfo());
     }
+
+    public function testSensitiveDataAreReplaced()
+    {
+        $output = new ConsoleOutput();
+        $logger = new CliLogger($output);
+        $logger->setSensitiveData([
+            'my-aldmin-folder' => '******',
+            '🚬' => '🚭',
+            'some@email.com' => '***@****.**',
+        ]);
+
+        $this->assertSame(
+            'File /shop/******/config.yml created',
+            $logger->cleanFromSensitiveData('File /shop/my-aldmin-folder/config.yml created')
+        );
+
+        $this->assertSame(
+            '***@****.** suggested 🚭',
+            $logger->cleanFromSensitiveData('some@email.com suggested 🚬')
+        );
+    }
 }

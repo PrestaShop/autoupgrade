@@ -28,7 +28,7 @@ namespace unit\UpgradeTools\CoreUpgrader;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use PrestaShop\Module\AutoUpgrade\Log\StreamedLogger;
+use PrestaShop\Module\AutoUpgrade\Log\WebLogger;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader17;
 use ReflectionClass;
@@ -44,7 +44,8 @@ class CoreUpgraderTest extends TestCase
 
     protected function setUp()
     {
-        $this->coreUpgrader = new CoreUpgrader17($this->createMock(UpgradeContainer::class), $this->createMock(StreamedLogger::class));
+        $container = new UpgradeContainer('/html', '/html/admin');
+        $this->coreUpgrader = new CoreUpgrader17($container, new WebLogger());
     }
 
     /**

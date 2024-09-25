@@ -25,7 +25,7 @@
  */
 use PHPUnit\Framework\TestCase;
 use PrestaShop\Module\AutoUpgrade\ErrorHandler;
-use PrestaShop\Module\AutoUpgrade\Log\LegacyLogger;
+use PrestaShop\Module\AutoUpgrade\Log\WebLogger;
 
 class ErrorHandlerTest extends TestCase
 {
@@ -36,7 +36,7 @@ class ErrorHandlerTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->logger = new LegacyLogger();
+        $this->logger = new WebLogger();
         $this->errorHandler = $this->getMockBuilder(ErrorHandler::class)
             ->setConstructorArgs([$this->logger])
             ->setMethods(['terminate'])

@@ -27,8 +27,8 @@
 
 namespace PrestaShop\Module\AutoUpgrade;
 
-use PrestaShop\Module\AutoUpgrade\Log\LegacyLogger;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
+use PrestaShop\Module\AutoUpgrade\Log\WebLogger;
 use Throwable;
 
 /**
@@ -148,7 +148,7 @@ class ErrorHandler
 
         try {
             $this->logger->log($type, $log);
-            if ($display && $this->logger instanceof LegacyLogger) {
+            if ($display && $this->logger instanceof WebLogger) {
                 echo $jsonResponse;
             }
         } catch (\Exception $e) {

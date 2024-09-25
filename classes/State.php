@@ -117,6 +117,9 @@ class State
     /** @var int */
     private $progressPercentage;
 
+    /** @var ?string */
+    private $processTimestamp;
+
     /**
      * @param array<string, mixed> $savedState from another request
      */
@@ -247,6 +250,11 @@ class State
     public function getProgressPercentage(): ?int
     {
         return $this->progressPercentage;
+    }
+
+    public function getProcessTimestamp(): ?string
+    {
+        return $this->processTimestamp;
     }
 
     // SETTERS
@@ -395,5 +403,10 @@ class State
         $this->progressPercentage = $progressPercentage;
 
         return $this;
+    }
+
+    public function setProcessTimestamp(string $processTimestamp): void
+    {
+        $this->processTimestamp = $processTimestamp;
     }
 }

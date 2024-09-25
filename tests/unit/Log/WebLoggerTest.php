@@ -24,23 +24,23 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 use PHPUnit\Framework\TestCase;
-use PrestaShop\Module\AutoUpgrade\Log\LegacyLogger;
+use PrestaShop\Module\AutoUpgrade\Log\WebLogger;
 
-class LegacyLoggerTest extends TestCase
+class WebLoggerTest extends TestCase
 {
     public function testLastInfoIsRegistered()
     {
-        $logger = new LegacyLogger();
-        $logger->log(LegacyLogger::INFO, 'Hello');
+        $logger = new WebLogger();
+        $logger->log(WebLogger::INFO, 'Hello');
 
         $this->assertSame('Hello', $logger->getLastInfo());
     }
 
     public function testSeveralLastInfoAreRegistered()
     {
-        $logger = new LegacyLogger();
-        $logger->log(LegacyLogger::INFO, 'Hello');
-        $logger->log(LegacyLogger::INFO, 'Good bye');
+        $logger = new WebLogger();
+        $logger->log(WebLogger::INFO, 'Hello');
+        $logger->log(WebLogger::INFO, 'Good bye');
 
         $this->assertSame('Good bye', $logger->getLastInfo());
         $infos = $logger->getInfos();
@@ -53,8 +53,8 @@ class LegacyLoggerTest extends TestCase
 
     public function testErrorIsRegistered()
     {
-        $logger = new LegacyLogger();
-        $logger->log(LegacyLogger::CRITICAL, 'Ach!!!');
+        $logger = new WebLogger();
+        $logger->log(WebLogger::CRITICAL, 'Ach!!!');
 
         $errors = $logger->getErrors();
         $this->assertCount(1, $errors);
@@ -64,8 +64,8 @@ class LegacyLoggerTest extends TestCase
 
     public function testMessageIsRegistered()
     {
-        $logger = new LegacyLogger();
-        $logger->log(LegacyLogger::DEBUG, 'Some stuff happened');
+        $logger = new WebLogger();
+        $logger->log(WebLogger::DEBUG, 'Some stuff happened');
 
         $messages = $logger->getInfos();
         $this->assertCount(1, $messages);
@@ -75,7 +75,7 @@ class LegacyLoggerTest extends TestCase
 
     public function testSensitiveDataAreReplaced()
     {
-        $logger = new LegacyLogger();
+        $logger = new WebLogger();
         $logger->setSensitiveData([
             'my-aldmin-folder' => '******',
             '🚬' => '🚭',
@@ -95,11 +95,11 @@ class LegacyLoggerTest extends TestCase
 
     public function testWholeLogContentIsProperlyOrdered()
     {
-        $logger = new LegacyLogger();
-        $logger->log(LegacyLogger::INFO, 'INFO #1');
-        $logger->log(LegacyLogger::WARNING, 'Oh no');
-        $logger->log(LegacyLogger::WARNING, 'Oh no 2');
-        $logger->log(LegacyLogger::INFO, 'INFO #2');
+        $logger = new WebLogger();
+        $logger->log(WebLogger::INFO, 'INFO #1');
+        $logger->log(WebLogger::WARNING, 'Oh no');
+        $logger->log(WebLogger::WARNING, 'Oh no 2');
+        $logger->log(WebLogger::INFO, 'INFO #2');
 
         $this->assertEquals('INFO #2', $logger->getLastInfo());
 

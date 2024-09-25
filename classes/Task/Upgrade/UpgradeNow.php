@@ -31,6 +31,7 @@ use Exception;
 use PrestaShop\Module\AutoUpgrade\Analytics;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
+use PrestaShop\Module\AutoUpgrade\Task\TaskType;
 use PrestaShop\Module\AutoUpgrade\Upgrader;
 
 /**
@@ -39,7 +40,7 @@ use PrestaShop\Module\AutoUpgrade\Upgrader;
  */
 class UpgradeNow extends AbstractTask
 {
-    const TASK_TYPE = 'upgrade';
+    const TASK_TYPE = TaskType::TASK_TYPE_UPGRADE;
 
     /**
      * @throws Exception
@@ -50,8 +51,6 @@ class UpgradeNow extends AbstractTask
         $this->container->getState()->setProgressPercentage(
             $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
         );
-
-        $this->container->getWorkspace()->createFolders();
 
         $upgrader = $this->container->getUpgrader();
 

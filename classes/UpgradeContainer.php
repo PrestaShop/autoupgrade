@@ -30,8 +30,8 @@ namespace PrestaShop\Module\AutoUpgrade;
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Backup\BackupFinder;
 use PrestaShop\Module\AutoUpgrade\Backup\BackupManager;
-use PrestaShop\Module\AutoUpgrade\Log\LegacyLogger;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
+use PrestaShop\Module\AutoUpgrade\Log\WebLogger;
 use PrestaShop\Module\AutoUpgrade\Parameters\FileConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfigurationStorage;
@@ -75,6 +75,7 @@ class UpgradeContainer
     const DOWNLOAD_PATH = 'download';
     const LATEST_PATH = 'latest'; // AdminSelfUpgrade::$latestRootDir
     const LATEST_DIR = 'latest/';
+    const LOGS_PATH = 'logs';
     const TMP_PATH = 'tmp';
     const PS_ADMIN_PATH = 'ps_admin';
     const PS_ADMIN_SUBDIR = 'ps_admin_subdir';
@@ -261,6 +262,8 @@ class UpgradeContainer
                 return $this->autoupgradeWorkDir . DIRECTORY_SEPARATOR . 'latest' . DIRECTORY_SEPARATOR;
             case self::TMP_PATH:
                 return $this->autoupgradeWorkDir . DIRECTORY_SEPARATOR . 'tmp';
+            case self::LOGS_PATH:
+                return $this->autoupgradeWorkDir . DIRECTORY_SEPARATOR . 'logs';
             case self::ARCHIVE_FILENAME:
                 return $this->getUpgradeConfiguration()->getArchiveFilename();
             case self::ARCHIVE_FILEPATH:
@@ -487,17 +490,13 @@ class UpgradeContainer
      *
      * @throws Exception
      */
-    public function getLogger()
+    public function getLogger(): Logger
     {
         if (null !== $this->logger) {
             return $this->logger;
         }
 
-        $logFile = null;
-        if (is_writable($this->getProperty(self::TMP_PATH))) {
-            $logFile = $this->getProperty(self::TMP_PATH) . DIRECTORY_SEPARATOR . 'log.txt';
-        }
-        $this->logger = (new LegacyLogger($logFile))
+        $this->logger = (new WebLogger())
             ->setSensitiveData([
                 $this->getProperty(self::PS_ADMIN_SUBDIR) => '**admin_folder**',
             ]);
@@ -683,9 +682,13 @@ class UpgradeContainer
 
         $paths = [];
         $properties = [
-            self::WORKSPACE_PATH, self::BACKUP_PATH,
-            self::DOWNLOAD_PATH, self::LATEST_PATH,
-            self::TMP_PATH, ];
+            self::WORKSPACE_PATH,
+            self::BACKUP_PATH,
+            self::DOWNLOAD_PATH,
+            self::LATEST_PATH,
+            self::LOGS_PATH,
+            self::TMP_PATH,
+        ];
 
         foreach ($properties as $property) {
             $paths[] = $this->getProperty($property);
@@ -798,5 +801,19 @@ class UpgradeContainer
         }
 
         return false;
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getLogsPath(string $task): ?string
+    {
+        $logPath = null;
+        if (is_writable($this->getProperty(self::LOGS_PATH))) {
+            $fileName = $this->getState()->getProcessTimestamp() . '-' . $task . '.txt';
+            $logPath = $this->getProperty(self::LOGS_PATH) . DIRECTORY_SEPARATOR . $fileName;
+        }
+
+        return $logPath;
     }
 }

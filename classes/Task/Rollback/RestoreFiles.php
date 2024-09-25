@@ -31,6 +31,7 @@ use Exception;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
+use PrestaShop\Module\AutoUpgrade\Task\TaskType;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 /**
@@ -39,7 +40,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
  */
 class RestoreFiles extends AbstractTask
 {
-    const TASK_TYPE = 'rollback';
+    const TASK_TYPE = TaskType::TASK_TYPE_RESTORE;
 
     /**
      * @throws Exception
