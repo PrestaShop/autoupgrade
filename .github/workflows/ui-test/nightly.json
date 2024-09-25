@@ -1,6 +1,15 @@
 {
   "include": [
     {
+      "comment": "1.7.0.6 ~ minor PHP 7.1"
+    },
+    {
+      "PS_VERSION_START": "1.7.0.6",
+      "PS_VERSION_END": "1.7.8.11",
+      "UPGRADE_CHANNEL": "minor",
+      "PHP_VERSION": "7.1"
+    },
+    {
       "comment": "1.7.8 ~ minor PHP 7.2 ~ 7.4"
     },
     {
