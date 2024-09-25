@@ -1,31 +1,25 @@
 {% extends "@ModuleAutoUpgrade/components/render-field.html.twig" %}
 
 {% block action_content %}
-  <span class="render-field__switch switch prestashop-switch">
-    <input
-      type="radio"
-      name="{{ key }}"
-      id="{{ key }}_on"
-      {{ val ? 'checked="checked"' }}
-      {{ field.js.on|raw|default("") }}
-      value="1"
-    />
-    <label for="{{ key }}_on" class="radioCheck">
-      <i class="color_success"></i>
-      {{ 'Yes'|trans }}
-    </label>
-    <input
-      type="radio"
-      name="{{ key }}"
-      id="{{ key }}_off"
-      {{ not val ? 'checked="checked"' }}
-      {{ field.js.off|raw|default("") }}
-      value="0"
-    />
-    <label for="{{ key }}_off" class="radioCheck">
-      <i class="color_danger"></i>
-      {{ 'No'|trans }}
-    </label>
-    <a class="slide-button btn"></a>
-  </span>
+  <div class="render-field__switch">
+    <span class="ua-switch">
+      <input
+        class="ua-switch__input"
+        type="checkbox"
+        name="{{ BoolName }}"
+        id="{{ BoolId }}"
+        {{ val ? 'checked' : '' }}
+      />
+
+      <label for="{{ BoolId }}" class="ua-switch__label">
+        <span class="ua-switch__slider"></span>
+        <span class="ua-switch__yes">
+          {{ 'Yes'|trans }}
+        </span>
+        <span class="ua-switch__no">
+          {{ 'No'|trans }}
+        </span>
+      </label>
+    </span>
+  </div>
 {% endblock %}

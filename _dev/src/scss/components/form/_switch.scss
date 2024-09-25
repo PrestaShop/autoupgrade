@@ -1,76 +1,92 @@
 @use "../../variables" as *;
 
-$e: ".prestashop-switch";
+$e: ".ua-switch";
 
 #{$ua-id} {
   #{$e} {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-    margin: 0;
-    background-color: transparent;
-    box-shadow: none;
+    --#{$ua-prefix}switch-background-color: var(--#{$ua-prefix}primary-700);
+    --#{$ua-prefix}switch-checked-background-color: var(--#{$ua-prefix}green-500);
+    --#{$ua-prefix}switch-outline-color: var(--#{$ua-prefix}blue-500);
+    position: relative;
 
-    // Custom switch ugly harmonization
-    input {
-      inset: 0;
-      z-index: 1;
+    &__label {
+      display: flex;
+      flex-direction: row-reverse;
+      gap: 1rem;
+      align-items: center;
       margin: 0;
       cursor: pointer;
 
-      &:checked {
-        z-index: 0;
-      }
-
-      &:first-of-type:checked ~ label:first-of-type {
-        display: block;
-      }
-
-      &:last-of-type:checked ~ label:last-of-type {
-        display: block;
-      }
-
-      &:first-of-type:checked ~ .slide-button::after {
-        transform: translateX(0.875rem);
+      &:active {
+        #{$e}__slider {
+          outline: 2px solid var(--#{$ua-prefix}switch-outline-color);
+        }
       }
     }
-
-    label {
-      position: static;
-      inset: auto;
+    
+    &__yes {
       display: none;
-      height: auto;
-      padding: 0;
-      margin: 0;
-      font-weight: 500;
-      color: var(--#{$ua-prefix}base-text-color);
-      pointer-events: none;
-      transform: none;
     }
 
-    .slide-button {
-      position: relative;
-      inset: auto;
-      z-index: 0;
-      display: block;
-      flex-shrink: 0;
-      width: 2.25rem;
-      height: 1.375rem;
-      padding: 0.5rem 1rem;
-      border: none;
-      border-radius: 999px;
-      transform: none;
+    &__no {
+      display: flex;
+    }
 
-      &::after {
+    &__slider {
+      position: relative;
+      width: 2.25rem;
+      height: 1.25rem;
+      background-color: var(--#{$ua-prefix}switch-background-color);
+      border-radius: 0.625rem;
+      cursor: pointer;
+      transition: background-color var(--#{$ua-prefix}default-transition-duration);
+
+      &::before {
         content: "";
         position: absolute;
-        top: 0.125rem;
+        bottom: 0.125rem;
         left: 0.125rem;
-        width: 1.125rem;
-        height: 1.125rem;
-        background: var(--#{$ua-prefix}white);
-        border-radius: 999px;
-        transform: none;
+        width: 1rem;
+        height: 1rem;
+        background-color: var(--#{$ua-prefix}white);
+        border-radius: 50%;
+        transition: transform var(--#{$ua-prefix}default-transition-duration);
+      }
+    }
+
+    &__input {
+      position: absolute;
+      width: 0;
+      height: 0;
+
+      &:checked {
+        + #{$e}__label {
+          #{$e}__slider {
+            background-color: var(--#{$ua-prefix}switch-checked-background-color);
+  
+            &::before {
+              transform: translateX(1rem);
+            }
+          }
+  
+          #{$e}__yes {
+            display: flex;
+          }
+  
+          #{$e}__no {
+            display: none;
+          }
+        }
+      }
+
+      &:active,
+      &:focus,
+      &:focus-visible {
+        + #{$e}__label {
+          #{$e}__slider {
+            outline: 2px solid var(--#{$ua-prefix}switch-outline-color);
+          }
+        }
       }
     }
   }

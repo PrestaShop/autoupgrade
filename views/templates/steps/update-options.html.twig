@@ -14,15 +14,12 @@
         title: "Deactivate non-native modules",
         desc: "All the modules installed after creating your store are considered non-native modules. They might be " ~
           "incompatible with the new version of PrestaShop. We recommend deactivating them during the update.",
-        js: {
-          on: 'onclick="enableFeature()"',
-          off: 'onclick="disableFeature()"'
-        },
         type: 'bool',
         required: true,
         disabled: true
       },
-      key: "PS_AUTOUP_CUSTOM_MOD_DESACT",
+      BoolName: "PS_AUTOUP_CUSTOM_MOD_DESACT",
+      BoolId: "PS_AUTOUP_CUSTOM_MOD_DESACT",
       val: true
     } %}
 
@@ -31,15 +28,12 @@
         id: "regen_email",
         title: "Regenerate email templates",
         desc: "If you've customized email templates, your changes will be lost if you activate this option.",
-        js: {
-          on: 'onclick="enableFeature()"',
-          off: 'onclick="disableFeature()"'
-        },
         type: 'bool',
         required: true,
         disabled: true
       },
-      key: "PS_AUTOUP_REGEN_EMAIL",
+      BoolName: "PS_AUTOUP_REGEN_EMAIL",
+      BoolId: "PS_AUTOUP_REGEN_EMAIL",
       val: true
     } %}
 
@@ -69,15 +63,12 @@
         desc: "Overriding is a way to replace business behaviors (class files and controller files) to target only " ~
           "one method or as many as you need. This option disables all classes & controllers overrides, allowing " ~
           "you to avoid conflicts during and after updates.",
-        js: {
-          on: 'onclick="enableFeature()"',
-          off: 'onclick="disableFeature()"'
-        },
         type: 'bool',
         required: true,
         disabled: true
       },
-      key: "PS_AUTOUP_DISABLE_OVERRIDE",
+      BoolName: "PS_AUTOUP_DISABLE_OVERRIDE",
+      BoolId: "PS_AUTOUP_DISABLE_OVERRIDE",
       val: false
     } %}
   </div>
