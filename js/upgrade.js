@@ -786,7 +786,7 @@ $(document).ready(function () {
           params.channel = $newChannel;
         }
 
-        if ($newChannel === "archive") {
+        if ($newChannel === "local") {
           var archive_prestashop = $("select[name=archive_prestashop]").val();
           var archive_xml = $("select[name=archive_xml]").val();
           if (!archive_prestashop && !archive_xml) {

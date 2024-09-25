@@ -411,7 +411,7 @@ class UpgradeContainer
 
         if ($upgrader->getChannel() === Upgrader::CHANNEL_LOCAL) {
             $archiveXml = $this->getUpgradeConfiguration()->get('archive.xml');
-            $this->fileLoader->addXmlMd5File($this->getUpgrader()->getDestinationVersion(), $this->getProperty(self::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $archiveXml);
+            $this->fileLoader->addXmlMd5File($upgrader->getDestinationVersion(), $this->getProperty(self::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $archiveXml);
         }
 
         $this->upgrader = $upgrader;
