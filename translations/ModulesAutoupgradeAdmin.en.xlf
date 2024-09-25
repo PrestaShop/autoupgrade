@@ -2237,12 +2237,12 @@ Comment: check DB access</note>
       <trans-unit id="93cba07454f06a4a960172bbd6e2a435">
         <source>Yes</source>
         <target>Yes</target>
-        <note>Line: 15</note>
+        <note>Line: 17</note>
       </trans-unit>
       <trans-unit id="bafd7322c6e97d25b6299b5d6fe8920b">
         <source>No</source>
         <target>No</target>
-        <note>Line: 27</note>
+        <note>Line: 20</note>
       </trans-unit>
     </body>
   </file>
@@ -2321,7 +2321,7 @@ Comment: check DB access</note>
       <trans-unit id="2284aa8fec405e1dd014326b51cde020">
         <source>Launch backup</source>
         <target>Launch backup</target>
-        <note>Line: 57</note>
+        <note>Line: 51</note>
       </trans-unit>
     </body>
   </file>
