@@ -47,7 +47,7 @@ class Analytics
     private $anonymousId;
 
     /**
-     * @var array<string, mixed>
+     * @var array<int, array<string, mixed>>
      */
     private $properties;
 
@@ -62,19 +62,18 @@ class Analytics
     private $state;
 
     /**
-     * @param string $anonymousUserId
-     * @param array{'properties'?: array<string, mixed>} $options
+     * @param array{'properties'?: array<int, array<string, mixed>>} $options
      */
     public function __construct(
         UpgradeConfiguration $upgradeConfiguration,
         State $state,
-        $anonymousUserId,
+        string $anonymousUserId,
         array $options
     ) {
         $this->upgradeConfiguration = $upgradeConfiguration;
         $this->state = $state;
 
-        $this->anonymousId = hash('sha256', $anonymousUserId, false);
+        $this->anonymousId = hash('sha256', $anonymousUserId);
         $this->properties = $options['properties'] ?? [];
 
         if ($this->hasOptedOut()) {
@@ -87,10 +86,8 @@ class Analytics
     /**
      * @param string $event
      * @param self::WITH_*_PROPERTIES $propertiesType
-     *
-     * @return void
      */
-    public function track($event, $propertiesType = self::WITH_COMMON_PROPERTIES)
+    public function track(string $event, $propertiesType = self::WITH_COMMON_PROPERTIES): void
     {
         if ($this->hasOptedOut()) {
             return;
@@ -108,7 +105,7 @@ class Analytics
      *
      * @return array<string, mixed>
      */
-    public function getProperties($type)
+    public function getProperties($type): array
     {
         switch ($type) {
             case self::WITH_UPGRADE_PROPERTIES:
@@ -118,29 +115,32 @@ class Analytics
                     'upgrade_channel' => $this->upgradeConfiguration->getChannel(),
                     'backup_files_and_databases' => $this->upgradeConfiguration->shouldBackupFilesAndDatabase(),
                     'backup_images' => $this->upgradeConfiguration->shouldBackupImages(),
-                    'server_performance' => $this->upgradeConfiguration->getPerformanceLevel(),
                     'disable_non_native_modules' => $this->upgradeConfiguration->shouldDeactivateCustomModules(),
-                    'upgrade_default_theme' => $this->upgradeConfiguration->shouldUpdateDefaultTheme(),
                     'switch_to_default_theme' => $this->upgradeConfiguration->shouldSwitchToDefaultTheme(),
-                    'regenerate_rtl_stylesheet' => $this->upgradeConfiguration->shouldUpdateRTLFiles(),
                     'keep_customized_email_templates' => $this->upgradeConfiguration->shouldKeepMails(),
                 ];
+                $upgradeProperties = $this->properties[self::WITH_UPGRADE_PROPERTIES] ?? [];
+                $additionalProperties = array_merge($upgradeProperties, $additionalProperties);
                 break;
             case self::WITH_ROLLBACK_PROPERTIES:
                 $additionalProperties = [
-                    'from_ps_version' => $this->properties['ps_version'] ?? null,
+                    'from_ps_version' => $this->properties[self::WITH_COMMON_PROPERTIES]['ps_version'] ?? null,
                     'to_ps_version' => $this->state->getRestoreVersion(),
                 ];
+                $rollbackProperties = $this->properties[self::WITH_ROLLBACK_PROPERTIES] ?? [];
+                $additionalProperties = array_merge($rollbackProperties, $additionalProperties);
                 break;
             default:
                 $additionalProperties = [];
         }
 
+        $commonProperties = $this->properties[self::WITH_COMMON_PROPERTIES] ?? [];
+
         return [
             'anonymousId' => $this->anonymousId,
             'channel' => 'browser',
             'properties' => array_merge(
-                $this->properties,
+                $commonProperties,
                 $additionalProperties,
                 [
                     'module' => 'autoupgrade',

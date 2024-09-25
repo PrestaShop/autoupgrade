@@ -37,9 +37,7 @@ class AnalyticsTest extends TestCase
             ->setInstallVersion('8.8.808')
             ->setRestoreName('V1.2.3_blablabla-🐶');
         $upgradeConfiguration = (new UpgradeConfiguration([
-            'PS_AUTOUP_PERFORMANCE' => 5,
             'PS_AUTOUP_CUSTOM_MOD_DESACT' => 0,
-            'PS_AUTOUP_UPDATE_DEFAULT_THEME' => 1,
             'PS_AUTOUP_CHANGE_DEFAULT_THEME' => 1,
             'PS_AUTOUP_KEEP_MAILS' => 0,
             'PS_AUTOUP_BACKUP' => 1,
@@ -54,10 +52,15 @@ class AnalyticsTest extends TestCase
             'somePathToAutoupgradeModule',
             [
                 'properties' => [
-                    'ps_version' => '8.8.8',
-                    'php_version' => '6.0.8',
-                    'autoupgrade_version' => '9.8.7',
-                    'disable_all_overrides' => true,
+                    Analytics::WITH_COMMON_PROPERTIES => [
+                        'ps_version' => '8.8.8',
+                        'php_version' => '6.0.8',
+                        'autoupgrade_version' => '9.8.7',
+                    ],
+                    Analytics::WITH_UPGRADE_PROPERTIES => [
+                        'disable_all_overrides' => true,
+                        'regenerate_rtl_stylesheet' => false,
+                    ],
                 ],
             ]
         );
@@ -65,14 +68,12 @@ class AnalyticsTest extends TestCase
         $this->assertEquals([
             'anonymousId' => '3cbc0821f904fd952a8526f17b9b92a8abde4b394a66c9171cf35c9beb2b4784',
             'channel' => 'browser',
-            'properties' => array_merge(
-                [
+            'properties' => [
                     'ps_version' => '8.8.8',
                     'php_version' => '6.0.8',
                     'autoupgrade_version' => '9.8.7',
-                    'disable_all_overrides' => true,
                     'module' => 'autoupgrade',
-                ]),
+                ],
             ],
             $analytics->getProperties(Analytics::WITH_COMMON_PROPERTIES)
         );
@@ -80,8 +81,7 @@ class AnalyticsTest extends TestCase
         $this->assertEquals([
             'anonymousId' => '3cbc0821f904fd952a8526f17b9b92a8abde4b394a66c9171cf35c9beb2b4784',
             'channel' => 'browser',
-            'properties' => array_merge(
-                [
+            'properties' => [
                     'ps_version' => '8.8.8',
                     'php_version' => '6.0.8',
                     'autoupgrade_version' => '9.8.7',
@@ -93,13 +93,11 @@ class AnalyticsTest extends TestCase
                     'upgrade_channel' => 'major',
                     'backup_files_and_databases' => true,
                     'backup_images' => false,
-                    'server_performance' => 4,
                     'disable_non_native_modules' => false,
-                    'upgrade_default_theme' => true,
                     'switch_to_default_theme' => true,
-                    'regenerate_rtl_stylesheet' => false,
                     'keep_customized_email_templates' => false,
-                ]),
+                    'regenerate_rtl_stylesheet' => false,
+                ],
             ],
             $analytics->getProperties(Analytics::WITH_UPGRADE_PROPERTIES)
         );
@@ -107,17 +105,15 @@ class AnalyticsTest extends TestCase
         $this->assertEquals([
             'anonymousId' => '3cbc0821f904fd952a8526f17b9b92a8abde4b394a66c9171cf35c9beb2b4784',
             'channel' => 'browser',
-            'properties' => array_merge(
-                [
+            'properties' => [
                     'ps_version' => '8.8.8',
                     'php_version' => '6.0.8',
                     'autoupgrade_version' => '9.8.7',
-                    'disable_all_overrides' => true,
                     'module' => 'autoupgrade',
 
                     'from_ps_version' => '8.8.8',
                     'to_ps_version' => '1.2.3',
-                ]),
+                ],
             ],
             $analytics->getProperties(Analytics::WITH_ROLLBACK_PROPERTIES)
         );

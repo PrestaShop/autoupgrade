@@ -29,6 +29,9 @@ namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader;
 
 use Cache;
 use Exception;
+use InvalidArgumentException;
+use Language;
+use ParseError;
 use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\Log\LoggerInterface;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
@@ -394,33 +397,66 @@ abstract class CoreUpgrader
         $this->runSqlQuery($upgrade_file, $query);
     }
 
+    /**
+     * @param string $query
+     *
+     * @return false|string
+     */
+    private function extractPhpStringFromQuery(string $query)
+    {
+        $pos = strpos($query, '/* PHP:') + strlen('/* PHP:');
+
+        return substr($query, $pos, strlen($query) - $pos - strlen(' */;'));
+    }
+
+    /**
+     * @param string $phpString
+     *
+     * @return string
+     */
+    private function extractParametersAsString(string $phpString): string
+    {
+        preg_match('/\((.*)\)/', $phpString, $pattern);
+
+        return $pattern[0];
+    }
+
+    /**
+     * @param string $paramsString
+     *
+     * @return array<mixed>
+     */
+    private function extractParametersFromString(string $paramsString): array
+    {
+        $paramsString = trim($paramsString, '()');
+        $code = "return [$paramsString];";
+
+        try {
+            $parameters = eval($code);
+        } catch (ParseError $e) {
+            throw new InvalidArgumentException('Error while parsing the parameter string.');
+        }
+
+        return $parameters;
+    }
+
     protected function runPhpQuery(string $upgrade_file, string $query): void
     {
         // Parsing php code
-        $pos = strpos($query, '/* PHP:') + strlen('/* PHP:');
-        $phpString = substr($query, $pos, strlen($query) - $pos - strlen(' */;'));
+        $phpString = $this->extractPhpStringFromQuery($query);
         $php = explode('::', $phpString);
-        preg_match('/\((.*)\)/', $phpString, $pattern);
-        $paramsString = trim($pattern[0], '()');
-        preg_match_all('/([^,]+),? ?/', $paramsString, $parameters);
-        // TODO: Could be `$parameters = $parameters[1] ?? [];` if PHP min version was > 7.0
-        $parameters = isset($parameters[1]) ?
-            $parameters[1] :
-            [];
-        foreach ($parameters as &$parameter) {
-            $parameter = str_replace('\'', '', $parameter);
-        }
+        $stringParameters = $this->extractParametersAsString($phpString);
+        $parameters = $this->extractParametersFromString($stringParameters);
 
         // reset phpRes to a null value
         $phpRes = null;
         // Call a simple function
         if (strpos($phpString, '::') === false) {
-            $func_name = str_replace($pattern[0], '', $php[0]);
+            $func_name = str_replace($stringParameters, '', $php[0]);
             $pathToPhpDirectory = $this->pathToUpgradeScripts . 'php/';
 
             if (!file_exists($pathToPhpDirectory . strtolower($func_name) . '.php')) {
-                $this->logger->error('[ERROR] ' . $pathToPhpDirectory . strtolower($func_name) . ' PHP - missing file ' . $query);
-                $this->container->getState()->setWarningExists(true);
+                $this->logMissingFileError($pathToPhpDirectory, $func_name, $query);
 
                 return;
             }
@@ -430,22 +466,55 @@ abstract class CoreUpgrader
         }
         // Or an object method
         else {
-            $func_name = [$php[0], str_replace($pattern[0], '', $php[1])];
-            $this->logger->error('[ERROR] ' . $upgrade_file . ' PHP - Object Method call is forbidden (' . $php[0] . '::' . str_replace($pattern[0], '', $php[1]) . ')');
-            $this->container->getState()->setWarningExists(true);
+            $this->logForbiddenObjectMethodError($phpString, $upgrade_file);
 
             return;
         }
 
-        if (isset($phpRes) && (is_array($phpRes) && !empty($phpRes['error'])) || $phpRes === false) {
-            $this->logger->error('
-                [ERROR] PHP ' . $upgrade_file . ' ' . $query . "\n" . '
-                ' . (empty($phpRes['error']) ? '' : $phpRes['error'] . "\n") . '
-                ' . (empty($phpRes['msg']) ? '' : ' - ' . $phpRes['msg'] . "\n"));
-            $this->container->getState()->setWarningExists(true);
+        if ($this->hasPhpError($phpRes)) {
+            $this->logPhpError($upgrade_file, $query, $phpRes);
         } else {
             $this->logger->debug('<div class="upgradeDbOk">[OK] PHP ' . $upgrade_file . ' : ' . $query . '</div>');
         }
+    }
+
+    /**
+     * @param mixed $phpRes
+     *
+     * @return bool
+     */
+    private function hasPhpError($phpRes): bool
+    {
+        return isset($phpRes) && (is_array($phpRes) && !empty($phpRes['error'])) || $phpRes === false;
+    }
+
+    /**
+     * @param string $upgrade_file
+     * @param string $query
+     * @param mixed $phpRes
+     *
+     * @return void
+     */
+    private function logPhpError(string $upgrade_file, string $query, $phpRes): void
+    {
+        $this->logger->error(
+            '[ERROR] PHP ' . $upgrade_file . ' ' . $query . "\n" .
+            (empty($phpRes['error']) ? '' : $phpRes['error'] . "\n") .
+            (empty($phpRes['msg']) ? '' : ' - ' . $phpRes['msg'] . "\n")
+        );
+        $this->container->getState()->setWarningExists(true);
+    }
+
+    private function logMissingFileError(string $path, string $func_name, string $query): void
+    {
+        $this->logger->error('[ERROR] ' . $path . strtolower($func_name) . ' PHP - missing file ' . $query);
+        $this->container->getState()->setWarningExists(true);
+    }
+
+    private function logForbiddenObjectMethodError(string $phpString, string $upgrade_file): void
+    {
+        $this->logger->error('[ERROR] ' . $upgrade_file . ' PHP - Object Method call is forbidden (' . $phpString . ')');
+        $this->container->getState()->setWarningExists(true);
     }
 
     protected function runSqlQuery(string $upgrade_file, string $query): void
@@ -738,7 +807,9 @@ abstract class CoreUpgrader
 
     protected function updateRTLFiles(): void
     {
-        if (!$this->container->getUpgradeConfiguration()->shouldUpdateRTLFiles()) {
+        if (!$this->container->shouldUpdateRTLFiles()) {
+            $this->logger->info($this->container->getTranslator()->trans('No RTL language detected, skipping RTL file update.'));
+
             return;
         }
 

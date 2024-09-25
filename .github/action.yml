@@ -43,10 +43,6 @@ runs:
           --password=prestashop_demo --email=demo@prestashop.com --language=en --country=fr \
           --all_languages=0 --newsletter=0 --send_email=0 --ssl=0
 
-    - name: Copy autoupgrade module
-      shell: bash
-      run: docker exec -u www-data prestashop_autoupgrade cp modules/autoupgrade/ -R admin-dev
-
     - name: Upgrade (intermediate)
       env:
         CHANNEL: 'archive'
@@ -83,8 +79,7 @@ runs:
       shell: bash
       run: |
         backupName=$(docker exec prestashop_autoupgrade bash -c "ls -td -- /var/www/html/admin-dev/autoupgrade/backup/*/ | head -n 1 | cut -d'/' -f8 | tr -d '\n'")
-        docker exec -u www-data prestashop_autoupgrade php admin-dev/autoupgrade/cli-rollback.php --dir="admin-dev" \
-        --backup=$backupName;
+        docker exec -u www-data prestashop_autoupgrade php modules/autoupgrade/bin/console backup:restore --backup=$backupName admin-dev
 
     - name: Check endpoints response
       shell: bash

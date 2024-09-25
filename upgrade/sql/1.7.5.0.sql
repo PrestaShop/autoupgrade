@@ -5,13 +5,12 @@ SET NAMES 'utf8';
 
 /* PHP:ps_1750_update_module_tabs(); */;
 
+/* PHP:add_column('cms_lang', 'head_seo_title', 'varchar(255) DEFAULT NULL AFTER `meta_title`'); */;
 ALTER TABLE `PREFIX_cms_lang`
-  ADD `head_seo_title` varchar(255) DEFAULT NULL AFTER `meta_title`,
   CHANGE `meta_title` `meta_title` VARCHAR(255) NOT NULL,
   CHANGE `meta_description` `meta_description` VARCHAR(512) DEFAULT NULL;
 
-ALTER TABLE `PREFIX_stock_available`
-  ADD `location` VARCHAR(255) NOT NULL DEFAULT '' AFTER `out_of_stock`;
+/* PHP:add_column('stock_available', 'location', 'VARCHAR(255) NOT NULL DEFAULT \'\' AFTER `out_of_stock`'); */;
 
 ALTER TABLE `PREFIX_store`
   CHANGE `email` `email` VARCHAR(255) DEFAULT NULL;

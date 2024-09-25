@@ -68,7 +68,7 @@ class CacheCleaner
             'classic',
         ];
 
-        if (defined('_THEME_NAME_') && $this->container->getUpgradeConfiguration()->shouldUpdateDefaultTheme() && in_array(_THEME_NAME_, $defaultThemeNames)) {
+        if (defined('_THEME_NAME_') && in_array(_THEME_NAME_, $defaultThemeNames)) {
             $dirsToClean[] = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/themes/' . _THEME_NAME_ . '/cache/';
         }
 

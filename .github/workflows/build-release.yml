@@ -20,10 +20,22 @@ jobs:
       - name: Install composer dependencies
         run: composer install --ansi --prefer-dist --no-interaction --no-progress --no-dev
 
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+
+      - name: Install and build npm dependencies
+        run:
+          npm install --prefix ./_dev
+          npm run vite:build --prefix ./_dev
+
       - name: Clean-up project
         uses: PrestaShopCorp/github-action-clean-before-deploy@v2.0
         with:
-          paths: storybook
+          paths:
+            - storybook
+            - _dev
 
       - name: Create & upload artifact
         uses: actions/upload-artifact@v4.1.0

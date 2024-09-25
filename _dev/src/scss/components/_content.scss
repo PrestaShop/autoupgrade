@@ -1,0 +1,26 @@
+@use "../variables" as *;
+
+$e: ".content";
+
+#{$ua-id} {
+  #{$e} {
+    &__container {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    &__section {
+      font-size: 1rem;
+
+      .h3 {
+        /* stylelint-disable */
+        margin: 0 !important;
+        margin-block-end: 1rem !important;
+        border: none !important;
+        background-color: transparent !important;
+        /* stylelint-enable */
+      }
+    }
+  }
+}

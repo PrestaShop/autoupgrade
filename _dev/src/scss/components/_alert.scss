@@ -1,0 +1,76 @@
+@use "../variables" as *;
+
+$e: ".alert";
+
+#{$ua-id} {
+  --#{$ua-prefix}alert-info-button-background-color-hover: var(--#{$ua-prefix}blue-500);
+  --#{$ua-prefix}alert-success-button-background-color-hover: var(--#{$ua-prefix}green-500);
+  --#{$ua-prefix}alert-warning-button-background-color-hover: var(--#{$ua-prefix}yellow-500);
+  --#{$ua-prefix}alert-danger-button-background-color-hover: var(--#{$ua-prefix}red-500);
+  #{$e} {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: flex-start;
+    margin-block-end: 0;
+    border: none;
+
+    &__title {
+      margin-block: 0;
+      font-size: 1.125rem;
+      font-weight: 600;
+      line-height: 1;
+      color: var(--#{$ua-prefix}base-text-color);
+    }
+
+    &__message {
+      margin-block: 0;
+      font-size: 0.875rem;
+      line-height: 1.4;
+      color: var(--#{$ua-prefix}base-text-color);
+      word-break: break-word;
+      word-wrap: break-word;
+    }
+
+    &__infos {
+      display: flex;
+      flex-basis: 70%;
+      flex-direction: column;
+      flex-grow: 1;
+      gap: 0.5rem;
+    }
+
+    &__link {
+      background-color: transparent;
+      color: var(--#{$ua-prefix}base-text-color);
+      text-decoration: none;
+      white-space: normal;
+
+      &:hover {
+        &.btn-info {
+          background-color: var(--#{$ua-prefix}alert-info-button-background-color-hover);
+          border-color: var(--#{$ua-prefix}alert-info-button-background-color-hover);
+          color: var(--#{$ua-prefix}white);
+        }
+
+        &.btn-success {
+          background-color: var(--#{$ua-prefix}alert-success-button-background-color-hover);
+          border-color: var(--#{$ua-prefix}alert-success-button-background-color-hover);
+          color: var(--#{$ua-prefix}white);
+        }
+
+        &.btn-warning {
+          background-color: var(--#{$ua-prefix}alert-warning-button-background-color-hover);
+          border-color: var(--#{$ua-prefix}alert-warning-button-background-color-hover);
+          color: var(--#{$ua-prefix}white);
+        }
+
+        &.btn-danger {
+          background-color: var(--#{$ua-prefix}alert-danger-button-background-color-hover);
+          border-color: var(--#{$ua-prefix}alert-danger-button-background-color-hover);
+          color: var(--#{$ua-prefix}white);
+        }
+      }
+    }
+  }
+}

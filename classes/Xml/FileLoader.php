@@ -52,6 +52,8 @@ class FileLoader
             }
             mkdir(_PS_ROOT_DIR_ . '/config/xml', 0777);
         }
+        // End TODO
+
         if ($refresh || !file_exists($xml_localfile) || @filemtime($xml_localfile) < (time() - (3600 * Upgrader::DEFAULT_CHECK_VERSION_DELAY_HOURS))) {
             $xml_string = Tools14::file_get_contents($xml_remotefile, false, stream_context_create(['http' => ['timeout' => 10]]));
             $xml = @simplexml_load_string($xml_string);

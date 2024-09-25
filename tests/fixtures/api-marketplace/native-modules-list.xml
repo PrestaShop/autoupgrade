@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modules><module>
+<id>5496</id>
+<name>autoupgrade</name>
+<displayName>1-Click Upgrade</displayName>
+<categoryName><![CDATA[Data migration & Backup]]></categoryName>
+<description>
+Upgrade to the latest version of PrestaShop in a few clicks, thanks to this automated method
+</description>
+<author>PrestaShop</author>
+<img>https://medias1.prestastore.com/img/pico/5496.jpg</img>
+<description_full>
+Upgrade to the latest version of PrestaShop in a few clicks, thanks to this automated method.
+</description_full>
+<additional_description>
+Use this native module to:Keep your store up-to-date: benefit from the latest features and improvements available.Protect your store: stay up-to-date with the latest on security for modules you have downloaded from PrestaShop Addons.
+</additional_description>
+<tab>migration_tools</tab>
+<version>6.0.0</version>
+<compatibility>
+<from>1.7.0.0</from>
+<to>8.1.7</to>
+</compatibility>
+<price>
+<EUR>0</EUR>
+<USD>0</USD>
+<GBP>0</GBP>
+</price>
+<badges>
+<badge label="Made by PrestaShop">
+https://medias2.prestastore.com/themes/prestastore/img/front/sprites/badges/made-by-prestashop.png
+</badge>
+</badges>
+<cover>
+<small>
+https://addons.prestashop.com/1630684-pprod/1-click-upgrade.jpg
+</small>
+<big>
+https://addons.prestashop.com/1630684-pbig/1-click-upgrade.jpg
+</big>
+</cover>
+</module>
+<module>
+<id>9131</id>
+<name>blockwishlist</name>
+<displayName>Wishlist block</displayName>
+<categoryName>Non téléchargeables</categoryName>
+<description>
+Allow customers to create wishlists to save their favorite products for later
+</description>
+<author>PrestaShop</author>
+<img>https://medias1.prestastore.com/img/pico/9131.jpg</img>
+<description_full>
+Allow customers to create wishlists to save their favorite products for later.
+</description_full>
+<tab></tab>
+<version>3.0.1</version>
+<compatibility>
+<from>8.0.0</from>
+<to>8.1.7</to>
+</compatibility>
+<price>
+<EUR>0</EUR>
+<USD>0</USD>
+<GBP>0</GBP>
+</price>
+<badges>
+<badge label="Made by PrestaShop">
+https://medias2.prestastore.com/themes/prestastore/img/front/sprites/badges/made-by-prestashop.png
+</badge>
+</badges>
+<cover>
+<small>
+https://addons.prestashop.com/1483984-pprod/wishlist-block.jpg
+</small>
+<big>
+https://addons.prestashop.com/1483984-pbig/wishlist-block.jpg
+</big>
+</cover>
+</module>
+<module>
+<id>9144</id>
+<name>productcomments</name>
+<displayName>Product Comments</displayName>
+<categoryName>Non téléchargeables</categoryName>
+<description>
+Allow users to post reviews on your products and/or rate them based on specific criteria
+</description>
+<author>PrestaShop</author>
+<img>https://medias1.prestastore.com/img/pico/9144.jpg</img>
+<description_full>
+Allow users to post reviews on your products and/or rate them based on specific criteria.
+</description_full>
+<additional_description>
+Use this native module to:Boost your sales: increase your conversion rate with a comments section, helpful to reassure and show your visitors your store is trustworthy.Improve your SEO: search engines will use it to discover new content.Rich snippets: enrich your search engine results by displaying rating stars on your store - it allows you to gain visibility, and therefore increase your traffic.
+</additional_description>
+<tab></tab>
+<version>6.0.2</version>
+<compatibility>
+<from>1.7.7.0</from>
+<to>8.1.7</to>
+</compatibility>
+<price>
+<EUR>0</EUR>
+<USD>0</USD>
+<GBP>0</GBP>
+</price>
+<badges>
+<badge label="Made by PrestaShop">
+https://medias2.prestastore.com/themes/prestastore/img/front/sprites/badges/made-by-prestashop.png
+</badge>
+</badges>
+<cover>
+<small>
+https://addons.prestashop.com/1430579-pprod/product-comments.jpg
+</small>
+<big>
+https://addons.prestashop.com/1430579-pbig/product-comments.jpg
+</big>
+</cover>
+</module>
+</modules>

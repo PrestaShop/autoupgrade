@@ -30,8 +30,8 @@ namespace PrestaShop\Module\AutoUpgrade\Log;
 use Exception;
 
 /**
- * Logger to use when the messages can be seen as soon as they are created.
- * For instance, in a CLI context.
+ * Basic logger for files, not allowing formatting.
+ * Messages can be seen as soon as they are created.
  */
 class StreamedLogger extends Logger
 {
@@ -98,7 +98,9 @@ class StreamedLogger extends Logger
 
         if (!$this->isFiltered($level)) {
             fwrite($this->out, $log);
-            $this->lastInfo = $log;
+            if ($level === self::INFO) {
+                $this->lastInfo = $log;
+            }
         }
     }
 

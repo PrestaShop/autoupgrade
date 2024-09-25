@@ -2,6 +2,8 @@ includes:
 	- %currentWorkingDirectory%/tests/vendor/prestashop/php-dev-tools/phpstan/ps-module-extension.neon
 
 parameters:
+	bootstrapFiles:
+		- ./forceAutoload.php
 	paths:
 		# From PHPStan 0.12, paths to check are relative to the neon file
 		- ./../../classes
@@ -10,9 +12,6 @@ parameters:
 		- ./../../ajax-upgradetab.php
 		- ./../../ajax-upgradetabconfig.php
 		- ./../../autoupgrade.php
-		- ./../../cli-rollback.php
-		- ./../../cli-updateconfig.php
-		- ./../../cli-upgrade.php
 	excludePaths:
 		- ./../../classes/Tools14.php
 		- ./../../classes/pclzip.lib.php

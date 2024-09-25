@@ -35,17 +35,25 @@ use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Progress\CompletionCalculator;
+use PrestaShop\Module\AutoUpgrade\Repository\LocalArchiveRepository;
+use PrestaShop\Module\AutoUpgrade\Services\ComposerService;
+use PrestaShop\Module\AutoUpgrade\Twig\AssetsEnvironment;
 use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension;
 use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension3;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\CacheCleaner;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FileFilter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleAdapter;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\AbstractModuleSourceProvider;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\ComposerSourceProvider;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\LocalSourceProvider;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\MarketplaceSourceProvider;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translation;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 use PrestaShop\Module\AutoUpgrade\Xml\ChecksumCompare;
 use PrestaShop\Module\AutoUpgrade\Xml\FileLoader;
+use Symfony\Component\Dotenv\Dotenv;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Loader\FilesystemLoader;
@@ -85,6 +93,9 @@ class UpgradeContainer
      * @var ChecksumCompare
      */
     private $checksumCompare;
+
+    /** @var ComposerService */
+    private $composerService;
 
     /**
      * @var Cookie
@@ -137,6 +148,11 @@ class UpgradeContainer
     private $moduleAdapter;
 
     /**
+     * @var AbstractModuleSourceProvider[]
+     */
+    private $moduleSourceProviders;
+
+    /**
      * @var CompletionCalculator
      */
     private $completionCalculator;
@@ -172,6 +188,16 @@ class UpgradeContainer
     private $zipAction;
 
     /**
+     * @var LocalArchiveRepository
+     */
+    private $localArchiveRepository;
+
+    /**
+     * @var AssetsEnvironment
+     */
+    private $assetsEnvironment;
+
+    /**
      * AdminSelfUpgrade::$autoupgradePath
      * Ex.: /var/www/html/PrestaShop/admin-dev/autoupgrade.
      *
@@ -194,6 +220,11 @@ class UpgradeContainer
         $this->autoupgradeWorkDir = $adminDir . DIRECTORY_SEPARATOR . $moduleSubDir;
         $this->adminDir = $adminDir;
         $this->psRootDir = $psRootDir;
+
+        if (file_exists($psRootDir . '/modules/autoupgrade/.env')) {
+            $dotenv = new Dotenv();
+            $dotenv->load($psRootDir . '/modules/autoupgrade/.env');
+        }
     }
 
     /**
@@ -244,10 +275,15 @@ class UpgradeContainer
             $this->getState(),
             $this->getProperty(self::WORKSPACE_PATH), [
             'properties' => [
-                'ps_version' => $this->getProperty(self::PS_VERSION),
-                'php_version' => VersionUtils::getHumanReadableVersionOf(PHP_VERSION_ID),
-                'autoupgrade_version' => $this->getPrestaShopConfiguration()->getModuleVersion(),
-                'disable_all_overrides' => class_exists('\Configuration', false) ? UpgradeConfiguration::isOverrideAllowed() : null,
+                Analytics::WITH_COMMON_PROPERTIES => [
+                    'ps_version' => $this->getProperty(self::PS_VERSION),
+                    'php_version' => VersionUtils::getHumanReadableVersionOf(PHP_VERSION_ID),
+                    'autoupgrade_version' => $this->getPrestaShopConfiguration()->getModuleVersion(),
+                ],
+                Analytics::WITH_UPGRADE_PROPERTIES => [
+                    'disable_all_overrides' => class_exists('\Configuration', false) ? UpgradeConfiguration::isOverrideAllowed() : null,
+                    'regenerate_rtl_stylesheet' => class_exists('\Language', false) ? $this->shouldUpdateRTLFiles() : null,
+                ],
             ],
         ]);
     }
@@ -276,6 +312,16 @@ class UpgradeContainer
         );
 
         return $this->checksumCompare;
+    }
+
+    public function getComposerService(): ComposerService
+    {
+        if (null !== $this->composerService) {
+            return $this->composerService;
+        }
+        $this->composerService = new ComposerService();
+
+        return $this->composerService;
     }
 
     /**
@@ -331,6 +377,7 @@ class UpgradeContainer
 
         $this->fileFilter = new FileFilter(
             $this->getUpgradeConfiguration(),
+            $this->getComposerService(),
             $this->getProperty(self::PS_ROOT_PATH)
         );
 
@@ -469,6 +516,23 @@ class UpgradeContainer
         return $this->moduleAdapter;
     }
 
+    /** @return AbstractModuleSourceProvider[] */
+    public function getModuleSourceProviders(): array
+    {
+        if (null !== $this->moduleSourceProviders) {
+            return $this->moduleSourceProviders;
+        }
+
+        $this->moduleSourceProviders = [
+            new LocalSourceProvider($this->getProperty(self::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . 'modules', $this->getFileConfigurationStorage()),
+            new MarketplaceSourceProvider($this->getState()->getInstallVersion(), $this->getProperty(self::PS_ROOT_PATH), $this->getFileLoader(), $this->getFileConfigurationStorage()),
+            new ComposerSourceProvider($this->getProperty(self::LATEST_PATH), $this->getComposerService(), $this->getFileConfigurationStorage()),
+            // Other providers
+        ];
+
+        return $this->moduleSourceProviders;
+    }
+
     public function getCompletionCalculator(): CompletionCalculator
     {
         if (null !== $this->completionCalculator) {
@@ -519,7 +583,7 @@ class UpgradeContainer
     /**
      * @throws LoaderError
      *
-     * @return \Twig\Environment|\Twig_Environment
+     * @return Twig_Environment|Environment
      */
     public function getTwig()
     {
@@ -642,6 +706,32 @@ class UpgradeContainer
     }
 
     /**
+     * @throws Exception
+     */
+    public function getLocalArchiveRepository(): LocalArchiveRepository
+    {
+        if (null !== $this->localArchiveRepository) {
+            return $this->localArchiveRepository;
+        }
+
+        return $this->localArchiveRepository = new LocalArchiveRepository($this->getProperty($this::DOWNLOAD_PATH));
+    }
+
+    /**
+     * @return AssetsEnvironment
+     *
+     * @throws Exception
+     */
+    public function getAssetsEnvironment(): AssetsEnvironment
+    {
+        if (null !== $this->assetsEnvironment) {
+            return $this->assetsEnvironment;
+        }
+
+        return $this->assetsEnvironment = new AssetsEnvironment();
+    }
+
+    /**
      * Checks if the composer autoload exists, and loads it.
      *
      * @throws Exception
@@ -680,5 +770,21 @@ class UpgradeContainer
         }
 
         opcache_reset();
+    }
+
+    /**
+     * @return bool True if we should update RTL files
+     */
+    public function shouldUpdateRTLFiles(): bool
+    {
+        $languages = \Language::getLanguages(false);
+
+        foreach ($languages as $lang) {
+            if ($lang['is_rtl']) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

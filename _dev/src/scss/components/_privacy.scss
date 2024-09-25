@@ -1,0 +1,31 @@
+@use "../variables" as *;
+
+$e: ".privacy-link";
+
+#{$ua-id} {
+  #{$e} {
+    --#{$ua-prefix}privacy-link-color: var(--#{$ua-prefix}base-text-color);
+    --#{$ua-prefix}privacy-link-border-color: var(--#{$ua-prefix}border-color);
+    --#{$ua-prefix}privacy-link-border-color-hover: var(--#{$ua-prefix}privacy-link-color);
+    display: inline-flex;
+    gap: 0.25rem;
+    align-items: center;
+    justify-self: center;
+    border-bottom: 0.0625rem solid var(--#{$ua-prefix}privacy-link-border-color);
+    font-size: 1rem;
+    line-height: 1.4;
+    color: var(--#{$ua-prefix}privacy-link-color);
+    text-decoration: none;
+    transition: border-color 0.15s;
+
+    &:hover {
+      border-color: var(--#{$ua-prefix}privacy-link-border-color-hover);
+      text-decoration: none;
+    }
+
+    i {
+      font-size: 1rem;
+      line-height: 1;
+    }
+  }
+}

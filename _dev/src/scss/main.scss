@@ -1,0 +1,111 @@
+@use "components";
+@use "layouts";
+
+.upgradestep {
+  padding-right: 5px;
+  padding-left: 10px;
+  margin-right: 5px;
+}
+
+.processing {
+  margin-top: 1px;
+  overflow: auto;
+  border: 2px outset gray;
+}
+
+#infoStep {
+  height: 100px;
+}
+
+#infoError {
+  height: 100px;
+}
+
+#quickInfo {
+  height: 200px;
+}
+
+#errorDuringUpgrade {
+  color: #cc0000;
+}
+
+#checkPrestaShopFilesVersion,
+#checkPrestaShopModifiedFiles {
+  margin-bottom: 20px;
+}
+
+.changedFileList {
+  padding-left: 5px;
+  margin-left: 20px;
+}
+
+.changedNotice li {
+  color: gray;
+}
+
+.changedImportant li {
+  font-weight: 700;
+  color: red;
+}
+
+.upgradeDbError {
+  background-color: #feefb3;
+}
+
+.upgradeDbOk {
+  background-color: #dff2bf;
+}
+
+.small_label {
+  float: none;
+  width: 300px;
+  padding: 0;
+  font-weight: 400;
+  text-align: left;
+}
+
+.ocu-feature-list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.ocu-feature-list li {
+  padding-left: 20px;
+  margin: 0;
+  /* webpackIgnore: true */
+  background: url("../img/admin/enabled.gif") no-repeat;
+}
+
+.label-small {
+  width: 130px;
+}
+
+.margin-form-small {
+  padding: 0 0 1em 130px;
+}
+
+.nextStep {
+  font-weight: 700;
+}
+
+#diffList,
+#changedList {
+  margin-top: 20px;
+}
+
+#autoupgradePhpWarningMainIcon {
+  font-size: 3em;
+}
+
+#autoupgradePhpWarn .icon-stack-text {
+  color: white;
+}
+
+.panel-heading {
+  text-transform: uppercase;
+}
+
+.required {
+  color: #cc0000;
+}

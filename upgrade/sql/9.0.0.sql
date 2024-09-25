@@ -18,7 +18,7 @@ INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`
 ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
 
 /* Add feature flag types */
-ALTER TABLE `PREFIX_feature_flag` ADD `type` VARCHAR(64) DEFAULT 'env,dotenv,db' NOT NULL AFTER `name`;
+/* PHP:add_column('feature_flag', 'type', 'VARCHAR(64) DEFAULT \'env,dotenv,db\' NOT NULL AFTER `name`'); */;
 UPDATE `PREFIX_feature_flag` SET `state` = 1 WHERE `name` = 'authorization_server';
 UPDATE `PREFIX_tab` SET `active` = 1 WHERE `class_name` = 'AdminAuthorizationServer';
 
@@ -36,10 +36,8 @@ INSERT INTO `PREFIX_feature_flag` (`name`, `type`, `label_wording`, `label_domai
 DELETE FROM `PREFIX_feature_flag` WHERE `name` IN ('product_page_v2', 'title', 'order_state', 'multiple_image_format');
 
 /* Category redirect */
-ALTER TABLE `PREFIX_category` ADD `redirect_type` ENUM(
-    '404', '410', '301', '302'
-) NOT NULL DEFAULT '301';
-ALTER TABLE `PREFIX_category` ADD `id_type_redirected`int(10) unsigned NOT NULL DEFAULT '0';
+/* PHP:add_column('category', 'redirect_type', 'ENUM(\'404\', \'410\', \'301\', \'302\') NOT NULL DEFAULT \'301\''); */;
+/* PHP:add_column('category', 'id_type_redirected', 'int(10) unsigned NOT NULL DEFAULT \'0\''); */;
 UPDATE `PREFIX_category` SET `redirect_type` = '404' WHERE `is_root_category` = 1;
 
 /* Increase size of customized data - https://github.com/PrestaShop/PrestaShop/pull/31109 */
@@ -104,6 +102,7 @@ DELETE FROM `PREFIX_tab` WHERE `id_parent` > 0 AND `id_parent` NOT IN (SELECT `i
 DELETE FROM `PREFIX_tab_lang` WHERE `id_tab` NOT IN (SELECT `id_tab` FROM `PREFIX_tab`);
 
 /* Change the length of the ean13 field */
+/* https://github.com/PrestaShop/PrestaShop/pull/35697 */
 ALTER TABLE `PREFIX_product` MODIFY COLUMN `ean13` VARCHAR(20);
 ALTER TABLE `PREFIX_order_detail` MODIFY COLUMN `product_ean13` VARCHAR(20);
 ALTER TABLE `PREFIX_product_attribute` MODIFY COLUMN `ean13` VARCHAR(20);
@@ -111,9 +110,9 @@ ALTER TABLE `PREFIX_stock` MODIFY COLUMN `ean13` VARCHAR(20);
 ALTER TABLE `PREFIX_supply_order_detail` MODIFY COLUMN `ean13` VARCHAR(20);
 
 /* Change all empty string to 'default' */
+/* https://github.com/PrestaShop/PrestaShop/pull/35996 */
 UPDATE `PREFIX_product` SET `redirect_type` = 'default' WHERE `redirect_type` = '';
 UPDATE `PREFIX_product_shop` SET `redirect_type` = 'default' WHERE `redirect_type` = '';
-
 ALTER TABLE `PREFIX_product` MODIFY COLUMN `redirect_type` ENUM(
     '404','410','301-product','302-product','301-category','302-category','200-displayed','404-displayed','410-displayed','default'
     ) NOT NULL DEFAULT 'default';
@@ -121,8 +120,8 @@ ALTER TABLE `PREFIX_product_shop` MODIFY COLUMN `redirect_type` ENUM(
     '404','410','301-product','302-product','301-category','302-category','200-displayed','404-displayed','410-displayed','default'
     ) NOT NULL DEFAULT 'default';
 
-
 /* Fixing duplicates for table "accessory" where can be duplicate records from older version of PrestaShop, because of missing PRIMARY index */
+/* https://github.com/PrestaShop/PrestaShop/pull/34530 */
 CREATE TABLE `PREFIX_accessory_tmp` SELECT DISTINCT `id_product_1`, `id_product_2` FROM `PREFIX_accessory`;
 ALTER TABLE `PREFIX_accessory_tmp` ADD CONSTRAINT accessory_product PRIMARY KEY (`id_product_1`, `id_product_2`);
 DROP TABLE `PREFIX_accessory`;
@@ -132,7 +131,7 @@ ALTER TABLE `PREFIX_stock_mvt` MODIFY `id_supply_order` INT(11) DEFAULT '0';
 
 DROP TABLE IF EXISTS `PREFIX_api_access`;
 DROP TABLE IF EXISTS `PREFIX_authorized_application`;
-CREATE TABLE `PREFIX_api_client`
+CREATE TABLE IF NOT EXISTS `PREFIX_api_client`
 (
      `id_api_client` int(10) unsigned NOT NULL AUTO_INCREMENT,
      `client_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -158,7 +157,7 @@ ALTER TABLE `PREFIX_image_type`
     DROP key `image_type_name`,
     ADD UNIQUE KEY `UNIQ_907C95215E237E06` (`name`);
 
-CREATE TABLE `PREFIX_mutation` (
+CREATE TABLE IF NOT EXISTS `PREFIX_mutation` (
    `id_mutation` int(10) unsigned NOT NULL AUTO_INCREMENT,
    `mutation_table` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
    `mutation_row_id` bigint(20) NOT NULL,
@@ -183,3 +182,15 @@ ALTER TABLE `PREFIX_shop_url` CHANGE `id_shop` `id_shop` int(11) unsigned NOT NU
 ALTER TABLE `PREFIX_shop_url` ADD UNIQUE KEY `full_shop_url` (`domain`,`physical_uri`,`virtual_uri`);
 ALTER TABLE `PREFIX_shop_url` ADD UNIQUE KEY `full_shop_url_ssl` (`domain_ssl`,`physical_uri`,`virtual_uri`);
 ALTER TABLE `PREFIX_shop_url` ADD KEY `id_shop` (`id_shop`,`main`);
+
+/* Unify varchar limits */
+/* https://github.com/PrestaShop/PrestaShop/pull/35882 */
+ALTER TABLE `PREFIX_meta_lang` CHANGE `url_rewrite` `url_rewrite` varchar(255) NOT NULL;
+ALTER TABLE `PREFIX_orders` CHANGE `reference` `reference` VARCHAR(255);
+ALTER TABLE `PREFIX_tax_rules_group` CHANGE `name` `name` VARCHAR(64) NOT NULL;
+ALTER TABLE `PREFIX_mail` CHANGE `recipient` `recipient` varchar(255) NOT NULL;
+ALTER TABLE `PREFIX_mail` CHANGE `subject` `subject` varchar(255) NOT NULL;
+ALTER TABLE `PREFIX_shop_url` CHANGE `domain` `domain` varchar(255) NOT NULL;
+ALTER TABLE `PREFIX_shop_url` CHANGE `domain_ssl` `domain_ssl` varchar(255) NOT NULL;
+ALTER TABLE `PREFIX_feature_flag` CHANGE `label_wording` `label_wording` VARCHAR(191) DEFAULT '' NOT NULL;
+ALTER TABLE `PREFIX_feature_flag` CHANGE `description_wording` `description_wording` VARCHAR(191) DEFAULT '' NOT NULL;

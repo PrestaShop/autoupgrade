@@ -1,0 +1,93 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "b0fcc9b01c1cdeab61574a29544c92a6",
+    "packages": [
+        {
+            "name": "prestashop/contactform",
+            "version": "v3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PrestaShop/contactform.git",
+                "reference": "fabe592df4dac4f1a06d1c52377c4ec98275935e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PrestaShop/contactform/zipball/fabe592df4dac4f1a06d1c52377c4ec98275935e",
+                "reference": "fabe592df4dac4f1a06d1c52377c4ec98275935e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "type": "prestashop-module",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "AFL - Academic Free License (AFL 3.0)"
+            ],
+            "authors": [
+                {
+                    "name": "PrestaShop SA",
+                    "email": "contact@prestashop.com"
+                }
+            ],
+            "description": "PrestaShop module contactform",
+            "homepage": "https://github.com/PrestaShop/contactform",
+            "time": "2017-06-23T09:48:19+00:00"
+        },
+        {
+            "name": "prestashop/dashactivity",
+            "version": "v2.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PrestaShop/dashactivity.git",
+                "reference": "8d41fab7a58cdaeabc0248f6fd571da32d7615d4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PrestaShop/dashactivity/zipball/8d41fab7a58cdaeabc0248f6fd571da32d7615d4",
+                "reference": "8d41fab7a58cdaeabc0248f6fd571da32d7615d4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "type": "prestashop-module",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "AFL - Academic Free License (AFL 3.0)"
+            ],
+            "authors": [
+                {
+                    "name": "PrestaShop SA",
+                    "email": "contact@prestashop.com"
+                }
+            ],
+            "description": "PrestaShop module dashactivity",
+            "homepage": "https://github.com/PrestaShop/dashactivity",
+            "time": "2017-12-08T11:06:01+00:00"
+        }
+    ],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "prestashop/smarty": 20,
+        "cssjanus/cssjanus": 20,
+        "phake/phake": 0
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=5.4",
+        "ext-curl": "*",
+        "ext-intl": "*",
+        "ext-zip": "*"
+    },
+    "platform-dev": [],
+    "platform-overrides": {
+        "php": "5.4.0"
+    }
+}

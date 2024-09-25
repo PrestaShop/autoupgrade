@@ -30,6 +30,7 @@ use LogicException;
 use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 use PrestaShop\Module\AutoUpgrade\ZipAction;
+use Symfony\Component\Filesystem\Filesystem;
 
 class ModuleUnzipper
 {
@@ -40,13 +41,13 @@ class ModuleUnzipper
     private $zipAction;
 
     /** @var string */
-    private $modulesPath;
+    private $modulesFolder;
 
-    public function __construct(Translator $translator, ZipAction $zipAction, string $modulesPath)
+    public function __construct(Translator $translator, ZipAction $zipAction, string $modulesFolder)
     {
         $this->translator = $translator;
         $this->zipAction = $zipAction;
-        $this->modulesPath = $modulesPath;
+        $this->modulesFolder = $modulesFolder;
     }
 
     /**
@@ -54,8 +55,16 @@ class ModuleUnzipper
      */
     public function unzipModule(ModuleUnzipperContext $moduleUnzipperContext): void
     {
-        if (!$this->zipAction->extract($moduleUnzipperContext->getZipFullPath(), $this->modulesPath)) {
-            throw (new UpgradeException($this->translator->trans('[WARNING] Error when trying to extract module %s.', [$moduleUnzipperContext->getModuleName()])))->setSeverity(UpgradeException::SEVERITY_WARNING);
+        $updatedModulePath = $moduleUnzipperContext->getDestinationFilePath();
+
+        if (is_file($updatedModulePath) && !$this->zipAction->extract($updatedModulePath, $this->modulesFolder)) {
+            throw (new UpgradeException($this->translator->trans('Error when trying to extract module %s.', [$moduleUnzipperContext->getModuleName()])))->setSeverity(UpgradeException::SEVERITY_WARNING);
+        }
+
+        // Module is already unzipped, we make the actual move in the modules folder.
+        if (is_dir($updatedModulePath)) {
+            $filesystem = new Filesystem();
+            $filesystem->mirror($updatedModulePath, $this->modulesFolder);
         }
     }
 }

@@ -54,7 +54,6 @@ class FilesystemAdapterTest extends TestCase
     {
         parent::setUp();
         $this->container = new UpgradeContainer('/html', '/html/admin');        // We expect in these tests to NOT update the theme
-        $this->container->getUpgradeConfiguration()->set('PS_AUTOUP_UPDATE_DEFAULT_THEME', false);
         $this->filesystemAdapter = $this->container->getFilesystemAdapter();
     }
 
@@ -62,24 +61,6 @@ class FilesystemAdapterTest extends TestCase
     {
         $expected = $this->loadFixtureAndAddPrefixToFilePaths(
             __DIR__ . '/../../fixtures/listOfFiles-upgrade.json',
-            self::$pathToFakeRelease
-        );
-
-        $actual = $this->filesystemAdapter->listFilesInDir(
-            self::$pathToFakeRelease,
-            'upgrade',
-            true
-        );
-        // TODO: Should try using assertEqualsCanonicalizing after upgrade of PHPUnit
-        $this->assertEquals([], array_diff($expected, $actual), "There are more files in the expected array than in the actual list: \n" . implode("\n", array_diff($expected, $actual)));
-        $this->assertEquals([], array_diff($actual, $expected), "There are more files in the actual array than in the expected list: \n" . implode("\n", array_diff($actual, $expected)));
-    }
-
-    public function testListFilesInDirForUpgradeWithTheme()
-    {
-        $this->container->getUpgradeConfiguration()->set('PS_AUTOUP_UPDATE_DEFAULT_THEME', true);
-        $expected = $this->loadFixtureAndAddPrefixToFilePaths(
-            __DIR__ . '/../../fixtures/listOfFiles-upgrade-with-theme.json',
             self::$pathToFakeRelease
         );
 
@@ -229,8 +210,6 @@ class FilesystemAdapterTest extends TestCase
             ['install', '/install', 'upgrade'],
 
             ['parameters.yml', '/app/config/parameters.yml', 'upgrade'],
-
-            ['classic', '/themes/classic', 'upgrade'],
         ];
     }
 
@@ -247,6 +226,8 @@ class FilesystemAdapterTest extends TestCase
             ['doge.txt', '/doge.txt', 'upgrade'],
             ['parameters.yml', '/parameters.yml', 'upgrade'],
             ['parameters.yml.dist', '/app/config/parameters.yml.dist', 'upgrade'],
+
+            ['classic', '/themes/classic', 'upgrade'],
         ];
     }
 

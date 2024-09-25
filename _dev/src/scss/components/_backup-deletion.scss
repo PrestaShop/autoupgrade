@@ -1,0 +1,32 @@
+@use "../mixins" as *;
+@use "../variables" as *;
+
+$e: ".backup-selection";
+
+#{$ua-id} {
+  #{$e} {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: flex-end;
+
+    &__infos {
+      flex-basis: 70%;
+      flex-grow: 1;
+
+      select {
+        margin-block-end: 0;
+      }
+    }
+
+    &__delete {
+      padding-inline: 0.5rem;
+      text-decoration: none;
+
+      &:hover {
+        color: var(--#{$ua-prefix}red-500);
+        text-decoration: none;
+      }
+    }
+  }
+}

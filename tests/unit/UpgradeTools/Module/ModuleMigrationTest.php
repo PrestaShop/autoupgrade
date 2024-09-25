@@ -137,7 +137,8 @@ class ModuleMigrationTest extends TestCase
         $moduleMigrationContext = new ModuleMigrationContext($mymodule, $dbVersion);
 
         $this->assertEquals([
-            __DIR__ . '/../../../fixtures/mymodule/upgrade/upgrade-1.0.1.php',
+            __DIR__ . '/../../../fixtures/mymodule/upgrade/install-1.0.1.php',
+            __DIR__ . '/../../../fixtures/mymodule/upgrade/upgrade-1.0.2.php',
             __DIR__ . '/../../../fixtures/mymodule/upgrade/upgrade-1.1.php',
         ], $this->moduleMigration->listUpgradeFiles($moduleMigrationContext));
     }
@@ -165,13 +166,14 @@ class ModuleMigrationTest extends TestCase
 
         $this->moduleMigration->needMigration($moduleMigrationContext);
 
-        $this->logger->expects($this->exactly(4))
+        $this->logger->expects($this->exactly(5))
             ->method('notice')
             ->withConsecutive(
-                ['(1/4) Applying migration file upgrade-1.php.'],
-                ['(2/4) Applying migration file upgrade-1.0.1.php.'],
-                ['(3/4) Applying migration file upgrade-1.1.php.'],
-                ['(4/4) Applying migration file upgrade-1.1.1.php.']
+                ['(1/5) Applying migration file upgrade-1.php.'],
+                ['(2/5) Applying migration file install-1.0.1.php.'],
+                ['(3/5) Applying migration file upgrade-1.0.2.php.'],
+                ['(4/5) Applying migration file upgrade-1.1.php.'],
+                ['(5/5) Applying migration file upgrade-1.1.1.php.']
             );
 
         $this->moduleMigration->runMigration($moduleMigrationContext);

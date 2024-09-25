@@ -26,9 +26,10 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\Module;
 
+use Exception;
+use LogicException;
 use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
-use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
@@ -42,16 +43,13 @@ class ModuleDownloader
     private $logger;
 
     /** @var string */
-    private $psVersion;
+    private $downloadFolder;
 
-    /** @var string */
-    private $addonsUrl = 'api.addons.prestashop.com';
-
-    public function __construct(Translator $translator, Logger $logger, string $psVersion)
+    public function __construct(Translator $translator, Logger $logger, string $downloadFolder)
     {
         $this->translator = $translator;
         $this->logger = $logger;
-        $this->psVersion = $psVersion;
+        $this->downloadFolder = $downloadFolder;
     }
 
     /**
@@ -59,82 +57,73 @@ class ModuleDownloader
      */
     public function downloadModule(ModuleDownloaderContext $moduleDownloaderContext): void
     {
-        $localModuleUsed = false;
-
-        if ($moduleDownloaderContext->getModuleIsLocal()) {
-            $localModuleUsed = $this->downloadModuleFromLocalZip($moduleDownloaderContext);
+        if (empty($moduleDownloaderContext->getUpdateSources())) {
+            throw new LogicException('List of updates is empty.');
         }
 
-        if (!$localModuleUsed) {
-            $this->downloadModuleFromAddons($moduleDownloaderContext);
-        }
+        $downloadSuccessful = false;
 
-        if (filesize($moduleDownloaderContext->getZipFullPath()) <= 300) {
-            throw (new UpgradeException($this->translator->trans('[WARNING] An error occurred while downloading module %s, the received file is empty.', [$moduleDownloaderContext->getModuleName()])))->setSeverity(UpgradeException::SEVERITY_WARNING);
-        }
-    }
-
-    private function downloadModuleFromLocalZip(ModuleDownloaderContext $moduleDownloaderContext): bool
-    {
-        try {
-            $localModuleZip = $this->getLocalModuleZipPath($moduleDownloaderContext->getModuleName());
-            if (empty($localModuleZip)) {
-                return false;
+        for ($i = 0; !$downloadSuccessful && $i < count($moduleDownloaderContext->getUpdateSources()); ++$i) {
+            try {
+                $this->attemptDownload($moduleDownloaderContext, $i);
+                $downloadSuccessful = true;
+            } catch (Exception $e) {
+                $this->logger->debug($e->getMessage());
+                $this->logger->debug($this->translator->trans('Download of source #%s has failed.', [$i]));
             }
-            $filesystem = new Filesystem();
-            $filesystem->copy($localModuleZip, $moduleDownloaderContext->getZipFullPath());
-            unlink($localModuleZip);
-            $this->logger->notice($this->translator->trans('Local module %s successfully copied.', [$moduleDownloaderContext->getModuleName()]));
-
-            return true;
-        } catch (IOException $e) {
-            $this->logger->notice($this->translator->trans('Can not found or copy local module %s. Trying to download it from Addons.', [$moduleDownloaderContext->getModuleName()]));
         }
 
-        return false;
+        if (!$downloadSuccessful) {
+            throw (new UpgradeException('All download attempts have failed. Check your environment and try again.'))->setSeverity(UpgradeException::SEVERITY_ERROR);
+        }
     }
 
     /**
-     * @throws UpgradeException
+     * @throws IOException When copy fails
      */
-    private function downloadModuleFromAddons(ModuleDownloaderContext $moduleDownloaderContext): void
+    private function attemptDownload(ModuleDownloaderContext $moduleDownloaderContext, int $index): void
     {
-        $addonsUrl = extension_loaded('openssl')
-            ? 'https://' . $this->addonsUrl
-            : 'http://' . $this->addonsUrl;
+        $moduleSource = $moduleDownloaderContext->getUpdateSources()[$index];
+        $filesystem = new Filesystem();
 
-        // Make the request
-        $context = stream_context_create([
-            'http' => [
-                'method' => 'POST',
-                'content' => 'version=' . $this->psVersion . '&method=module&id_module=' . $moduleDownloaderContext->getModuleId(),
-                'header' => 'Content-type: application/x-www-form-urlencoded',
-                'timeout' => 10,
-            ],
-        ]);
+        $destinationPath = $this->downloadFolder;
 
-        // file_get_contents can return false if https is not supported (or warning)
-        $content = Tools14::file_get_contents($addonsUrl, false, $context);
-        if (empty($content) || substr($content, 5) == '<?xml') {
-            throw (new UpgradeException($this->translator->trans('[WARNING] No response from Addons server.')))->setSeverity(UpgradeException::SEVERITY_WARNING);
+        if ($moduleSource->isZipped()) {
+            $destinationPath .= '/' . $moduleDownloaderContext->getModuleName() . '.zip';
+            $filesystem->copy($moduleSource->getPath(), $destinationPath);
+        } else {
+            // Module contents is already unzipped.
+            // We move it first in the sandbox folder to make sure all the files can be read.
+            $filesystem->mirror($moduleSource->getPath(), $this->downloadFolder);
         }
 
-        if (false === (bool) file_put_contents($moduleDownloaderContext->getZipFullPath(), $content)) {
-            throw (new UpgradeException($this->translator->trans('[WARNING] Unable to write module %s\'s zip file in temporary directory.', [$moduleDownloaderContext->getModuleName()])))->setSeverity(UpgradeException::SEVERITY_WARNING);
-        }
+        $this->assertDownloadedContentsIsValid($destinationPath);
+        $moduleDownloaderContext->setPathToModuleUpdate($destinationPath);
 
-        $this->logger->notice($this->translator->trans('Module %s has been successfully downloaded from Addons.', [$moduleDownloaderContext->getModuleName()]));
+        $this->logger->notice($this->translator->trans('Module %s update files (%s => %s) have been fetched from %s.', [
+            $moduleDownloaderContext->getModuleName(),
+            $moduleDownloaderContext->getReferenceVersion(),
+            $moduleSource->getNewVersion(),
+            $moduleSource->getPath(),
+        ]));
     }
 
-    private function getLocalModuleZipPath(string $name): ?string
+    /**
+     * @throws UpgradeException If download content is invalid
+     */
+    private function assertDownloadedContentsIsValid(string $destinationPath): void
     {
-        $autoUpgradeDir = _PS_ADMIN_DIR_ . DIRECTORY_SEPARATOR . 'autoupgrade';
-        $module_zip = $autoUpgradeDir . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $name . '.zip';
+        if (is_file($destinationPath)) {
+            // Arbitrary size value checking the zip file has at least a file in it.
+            if (filesize($destinationPath) <= 300) {
+                throw (new UpgradeException($this->translator->trans('The received module archive is empty.')))->setSeverity(UpgradeException::SEVERITY_WARNING);
+            }
 
-        if (file_exists($module_zip) && is_readable($module_zip)) {
-            return $module_zip;
+            $downloadedFile = fopen($destinationPath, 'r');
+            if (!$downloadedFile || fread($downloadedFile, 5) == '<?xml') {
+                throw (new UpgradeException($this->translator->trans('Invalid contents from provider (Got an XML file).')))->setSeverity(UpgradeException::SEVERITY_WARNING);
+            }
+            fclose($downloadedFile);
         }
-
-        return null;
     }
 }

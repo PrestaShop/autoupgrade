@@ -1,12 +1,12 @@
 SET SESSION sql_mode = '';
 SET NAMES 'utf8';
 
-ALTER TABLE `PREFIX_currency` ADD `numeric_iso_code` varchar(3) DEFAULT NULL AFTER `iso_code`;
-ALTER TABLE `PREFIX_currency` ADD `precision` int(2) NOT NULL DEFAULT 6 AFTER `numeric_iso_code`;
+/* PHP:add_column('currency', 'numeric_iso_code', 'varchar(3) DEFAULT NULL AFTER `iso_code`'); */;
+/* PHP:add_column('currency', 'precision', 'int(2) NOT NULL DEFAULT 6 AFTER `numeric_iso_code`'); */;
 ALTER TABLE `PREFIX_currency` ADD KEY `currency_iso_code` (`iso_code`);
 
 /* Localized currency information */
-CREATE TABLE `PREFIX_currency_lang` (
+CREATE TABLE IF NOT EXISTS `PREFIX_currency_lang` (
     `id_currency` int(10) unsigned NOT NULL,
     `id_lang` int(10) unsigned NOT NULL,
     `name` varchar(255) NOT NULL,
@@ -273,7 +273,8 @@ INSERT IGNORE INTO `PREFIX_authorization_role` (`slug`) VALUES
   ('ROLE_MOD_TAB_ADMINPARENTMODULESCATALOG_DELETE');
 
 DROP INDEX admin_filter_search_idx ON `PREFIX_admin_filter`;
-ALTER TABLE `PREFIX_admin_filter` ADD filter_id VARCHAR(255) NOT NULL;
+/* PHP:add_column('admin_filter', 'filter_id', 'VARCHAR(255) NOT NULL'); */;
+
 CREATE UNIQUE INDEX admin_filter_search_id_idx ON `PREFIX_admin_filter` (employee, shop, controller, action, filter_id);
 DROP INDEX id_product ON `PREFIX_product_download`;
 DROP INDEX product_active ON `PREFIX_product_download`;

@@ -1,9 +1,11 @@
 nbproject
 
 vendor/
+node_modules/
 /config_*.xml
 .php_cs.cache
 .idea
+.env
 
 ## QA Nightly
 /artifacts
@@ -15,3 +17,8 @@ vendor/
 /tests/UI/report.json
 /tests/UI/reports/
 /tests/UI/test-results/
+
+## Compile assets
+/views/css/
+/views/img/
+/views/js/

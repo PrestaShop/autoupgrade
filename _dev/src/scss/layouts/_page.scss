@@ -1,0 +1,13 @@
+@use "../variables" as *;
+
+$e: ".page";
+
+#{$e} {
+  &__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    justify-content: flex-end;
+  }
+}

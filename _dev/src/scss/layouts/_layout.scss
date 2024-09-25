@@ -1,0 +1,35 @@
+@use "../variables" as *;
+
+$e: "#ua";
+
+#{$e} {
+  &_main {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding-block: 1rem;
+    container-type: inline-size;
+    container-name: ua-main;
+  }
+
+  &_container {
+    padding: 4rem;
+    background-color: var(--#{$ua-prefix}white);
+  }
+
+  &_step_content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  &_privacy {
+    text-align: center;
+  }
+
+  @container ua-main (max-width: 700px) {
+    &_container {
+      padding: 2rem;
+    }
+  }
+}

@@ -52,25 +52,6 @@ class UpgradeOptionsForm
         $this->formRenderer = $formRenderer;
 
         $this->fields = [
-            'PS_AUTOUP_PERFORMANCE' => [
-                'title' => $translator->trans(
-                    'Server performance'
-                ),
-                'cast' => 'intval',
-                'validation' => 'isInt',
-                'defaultValue' => '1',
-                'type' => 'select', 'desc' => $translator->trans(
-                        'Unless you are using a dedicated server, select "Low".'
-                    ) . '<br />' .
-                    $translator->trans(
-                        'A high value can cause the upgrade to fail if your server is not powerful enough to process the upgrade tasks in a short amount of time.'
-                    ),
-                'choices' => [
-                    1 => $translator->trans('Low (recommended)'),
-                    2 => $translator->trans('Medium'),
-                    3 => $translator->trans('High'),
-                ],
-            ],
             'PS_AUTOUP_CUSTOM_MOD_DESACT' => [
                 'title' => $translator->trans('Disable non-native modules'),
                 'cast' => 'intval',
@@ -87,17 +68,6 @@ class UpgradeOptionsForm
                 'type' => 'bool',
                 'desc' => $translator->trans('Enable or disable all classes and controllers overrides.'),
             ],
-            'PS_AUTOUP_UPDATE_DEFAULT_THEME' => [
-                'title' => $translator->trans('Upgrade the default theme'),
-                'cast' => 'intval',
-                'validation' => 'isBool',
-                'defaultValue' => '1',
-                'type' => 'bool',
-                'desc' => $translator->trans(
-                        'If you customized the default PrestaShop theme in its folder (folder name "classic" in 1.7), enabling this option will lose your modifications.') . '<br />'
-                    . $translator->trans(
-                        'If you are using your own theme, enabling this option will simply update the default theme files, and your own theme will be safe.'),
-            ],
 
             'PS_AUTOUP_CHANGE_DEFAULT_THEME' => [
                 'title' => $translator->trans('Switch to the default theme'),
@@ -106,16 +76,6 @@ class UpgradeOptionsForm
                 'defaultValue' => '0',
                 'type' => 'bool',
                 'desc' => $translator->trans('This will change your theme: your shop will then use the default theme of the version of PrestaShop you are upgrading to.'),
-            ],
-
-            'PS_AUTOUP_UPDATE_RTL_FILES' => [
-                'title' => $translator->trans('Regenerate RTL stylesheet'),
-                'cast' => 'intval',
-                'validation' => 'isBool',
-                'defaultValue' => '1',
-                'type' => 'bool',
-                'desc' => $translator->trans(
-                    'If enabled, any RTL-specific files that you might have added to all your themes might be deleted by the created stylesheet.'),
             ],
 
             'PS_AUTOUP_KEEP_MAILS' => [

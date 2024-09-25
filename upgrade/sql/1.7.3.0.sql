@@ -8,22 +8,17 @@ UPDATE `PREFIX_tab` SET `position` = 1 WHERE `class_name` = 'AdminCountries' AND
 
 /* PHP:ps_1730_move_some_aeuc_configuration_to_core(); */;
 
-ALTER TABLE `PREFIX_product` ADD `low_stock_threshold` INT(10) NULL DEFAULT NULL AFTER `minimal_quantity`;
-
-ALTER TABLE `PREFIX_product` ADD `additional_delivery_times` tinyint(1) unsigned NOT NULL DEFAULT '1' AFTER `out_of_stock`;
-ALTER TABLE `PREFIX_product_lang` ADD `delivery_in_stock` varchar(255) DEFAULT NULL;
-ALTER TABLE `PREFIX_product_lang` ADD `delivery_out_stock` varchar(255) DEFAULT NULL;
-
-ALTER TABLE `PREFIX_product_shop` ADD `low_stock_threshold` INT(10) NULL DEFAULT NULL AFTER `minimal_quantity`;
-
-ALTER TABLE `PREFIX_product_attribute` ADD `low_stock_threshold` INT(10) NULL DEFAULT NULL AFTER `minimal_quantity`;
-ALTER TABLE `PREFIX_product_attribute_shop` ADD `low_stock_threshold` INT(10) NULL DEFAULT NULL AFTER `minimal_quantity`;
-
-ALTER TABLE `PREFIX_product` ADD `low_stock_alert` TINYINT(1) NOT NULL DEFAULT 0 AFTER `low_stock_threshold`;
-ALTER TABLE `PREFIX_product_shop` ADD `low_stock_alert` TINYINT(1) NOT NULL DEFAULT 0 AFTER `low_stock_threshold`;
-
-ALTER TABLE `PREFIX_product_attribute` ADD `low_stock_alert` TINYINT(1) NOT NULL DEFAULT 0 AFTER `low_stock_threshold`;
-ALTER TABLE `PREFIX_product_attribute_shop` ADD `low_stock_alert` TINYINT(1) NOT NULL DEFAULT 0 AFTER `low_stock_threshold`;
+/* PHP:add_column('product', 'low_stock_threshold', 'INT(10) NULL DEFAULT NULL AFTER `minimal_quantity`'); */;
+/* PHP:add_column('product', 'additional_delivery_times', 'tinyint(1) unsigned NOT NULL DEFAULT \'1\' AFTER `out_of_stock`'); */;
+/* PHP:add_column('product_lang', 'delivery_in_stock', 'varchar(255) DEFAULT NULL'); */;
+/* PHP:add_column('product_lang', 'delivery_out_stock', 'varchar(255) DEFAULT NULL'); */;
+/* PHP:add_column('product_shop', 'low_stock_threshold', 'INT(10) NULL DEFAULT NULL AFTER `minimal_quantity`'); */;
+/* PHP:add_column('product_attribute', 'low_stock_threshold', 'INT(10) NULL DEFAULT NULL AFTER `minimal_quantity`'); */;
+/* PHP:add_column('product_attribute_shop', 'low_stock_threshold', 'INT(10) NULL DEFAULT NULL AFTER `minimal_quantity`'); */;
+/* PHP:add_column('product', 'low_stock_alert', 'TINYINT(1) NOT NULL DEFAULT 0 AFTER `low_stock_threshold`'); */;
+/* PHP:add_column('product_shop', 'low_stock_alert', 'TINYINT(1) NOT NULL DEFAULT 0 AFTER `low_stock_threshold`'); */;
+/* PHP:add_column('product_attribute', 'low_stock_alert', 'TINYINT(1) NOT NULL DEFAULT 0 AFTER `low_stock_threshold`'); */;
+/* PHP:add_column('product_attribute_shop', 'low_stock_alert', 'TINYINT(1) NOT NULL DEFAULT 0 AFTER `low_stock_threshold`'); */;
 
 CREATE TABLE IF NOT EXISTS `PREFIX_store_lang` (
   `id_store` int(11) unsigned NOT NULL,
@@ -37,12 +32,15 @@ CREATE TABLE IF NOT EXISTS `PREFIX_store_lang` (
 ) ENGINE=ENGINE_TYPE DEFAULT CHARSET=utf8;
 
 /* PHP:ps_1730_migrate_data_from_store_to_store_lang_and_clean_store(); */;
-
-ALTER TABLE `PREFIX_store` DROP `name`, DROP `address1`, DROP `address2`, DROP `hours`, DROP `note`;
+/* PHP:drop_column_if_exists('store', 'name'); */;
+/* PHP:drop_column_if_exists('store', 'address1'); */;
+/* PHP:drop_column_if_exists('store', 'address2'); */;
+/* PHP:drop_column_if_exists('store', 'hours'); */;
+/* PHP:drop_column_if_exists('store', 'note'); */;
 
 ALTER TABLE `PREFIX_feature_product` DROP PRIMARY KEY, ADD PRIMARY KEY (`id_feature`, `id_product`, `id_feature_value`);
 
-ALTER TABLE `PREFIX_customization_field` ADD `is_deleted` TINYINT(1) NOT NULL DEFAULT '0';
+/* PHP:add_column('customization_field', 'is_deleted', 'TINYINT(1) NOT NULL DEFAULT \'0\''); */;
 
 INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`) VALUES
   (NULL, 'displayAdminCustomersAddressesItemAction', 'Display new elements in the Back Office, tab AdminCustomers, Addresses actions', 'This hook launches modules when the Addresses list into the AdminCustomers tab is displayed in the Back Office', '1'),

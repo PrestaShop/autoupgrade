@@ -29,12 +29,14 @@ use PrestaShop\Module\AutoUpgrade\AjaxResponse;
 use PrestaShop\Module\AutoUpgrade\BackupFinder;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
+use PrestaShop\Module\AutoUpgrade\Router\Router;
 use PrestaShop\Module\AutoUpgrade\Services\DistributionApiService;
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradePage;
 use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
+use Symfony\Component\HttpFoundation\Request;
 
 class AdminSelfUpgradeController extends ModuleAdminController
 {
@@ -136,14 +138,14 @@ class AdminSelfUpgradeController extends ModuleAdminController
         self::$currentIndex = $_SERVER['SCRIPT_NAME'] . (($controller = Tools14::getValue('controller')) ? '?controller=' . $controller : '');
 
         if (defined('_PS_ADMIN_DIR_')) {
-            // Check that the 1-click upgrade working directory is existing or create it
+            // Check that the Update assistant working directory is existing or create it
             if (!file_exists($this->autoupgradePath) && !@mkdir($this->autoupgradePath)) {
                 $this->_errors[] = $this->trans('Unable to create the directory "%s"', [$this->autoupgradePath]);
 
                 return;
             }
 
-            // Make sure that the 1-click upgrade working directory is writeable
+            // Make sure that the Update assistant working directory is writeable
             if (!is_writable($this->autoupgradePath)) {
                 $this->_errors[] = $this->trans('Unable to write in the directory "%s"', [$this->autoupgradePath]);
 
@@ -214,16 +216,6 @@ class AdminSelfUpgradeController extends ModuleAdminController
             ],
         ];
         $this->_fieldsUpgradeOptions = [
-            'PS_AUTOUP_PERFORMANCE' => [
-                'title' => $this->trans('Server performance'),
-                'cast' => 'intval',
-                'validation' => 'isInt',
-                'defaultValue' => '1',
-                'type' => 'select',
-                'desc' => $this->trans('Unless you are using a dedicated server, select "Low".') . '<br />' .
-                    $this->trans('A high value can cause the upgrade to fail if your server is not powerful enough to process the upgrade tasks in a short amount of time.'),
-                'choices' => [1 => $this->trans('Low (recommended)'), 2 => $this->trans('Medium'), 3 => $this->trans('High')],
-            ],
             'PS_AUTOUP_CUSTOM_MOD_DESACT' => [
                 'title' => $this->trans('Disable non-native modules'),
                 'cast' => 'intval',
@@ -238,23 +230,6 @@ class AdminSelfUpgradeController extends ModuleAdminController
                 'validation' => 'isBool',
                 'type' => 'bool',
                 'desc' => $this->trans('Enable or disable all classes and controllers overrides.'),
-            ],
-            'PS_AUTOUP_UPDATE_DEFAULT_THEME' => [
-                'title' => $this->trans('Upgrade the default theme'),
-                'cast' => 'intval',
-                'validation' => 'isBool',
-                'defaultValue' => '1',
-                'type' => 'bool',
-                'desc' => $this->trans('If you customized the default PrestaShop theme in its folder (folder name "classic" in 1.7), enabling this option will lose your modifications.') . '<br />'
-                    . $this->trans('If you are using your own theme, enabling this option will simply update the default theme files, and your own theme will be safe.'),
-            ],
-            'PS_AUTOUP_UPDATE_RTL_FILES' => [
-                'title' => $this->trans('Regenerate RTL stylesheet'),
-                'cast' => 'intval',
-                'validation' => 'isBool',
-                'defaultValue' => '1',
-                'type' => 'bool',
-                'desc' => $this->trans('If enabled, any RTL-specific files that you might have added to all your themes might be deleted by the created stylesheet.'),
             ],
             'PS_AUTOUP_CHANGE_DEFAULT_THEME' => [
                 'title' => $this->trans('Switch to the default theme'),
@@ -328,8 +303,6 @@ class AdminSelfUpgradeController extends ModuleAdminController
             );
 
             $this->upgradeContainer->getState()->initDefault(
-                $upgrader,
-                $this->upgradeContainer->getProperty(UpgradeContainer::PS_ROOT_PATH),
                 $this->upgradeContainer->getProperty(UpgradeContainer::PS_VERSION));
 
             if (isset($_GET['refreshCurrentVersion'])) {
@@ -485,6 +458,16 @@ class AdminSelfUpgradeController extends ModuleAdminController
             return parent::initContent();
         }
 
+        if (Tools::getValue('new-ui')) {
+            $request = Request::createFromGlobals();
+            $this->addNewUIAssets($request);
+
+            // TODO: In the future, the router will return an object instead of a string depending on controller called.
+            $this->content = (new Router($this->upgradeContainer))->handle($request);
+
+            return parent::initContent();
+        }
+
         // update backup name
         $backupFinder = new BackupFinder($this->backupPath);
         $availableBackups = $backupFinder->getAvailableBackups();
@@ -500,10 +483,13 @@ class AdminSelfUpgradeController extends ModuleAdminController
         $upgradeSelfCheck = new UpgradeSelfCheck(
             $upgrader,
             $this->upgradeContainer->getPrestaShopConfiguration(),
+            $this->upgradeContainer->getTranslator(),
             $distributionApiService,
+            $this->upgradeContainer->getChecksumCompare(),
             $this->prodRootDir,
             $this->adminDir,
-            $this->autoupgradePath
+            $this->autoupgradePath,
+            $this->upgradeContainer->getState()->getOriginVersion()
         );
         $response = new AjaxResponse($this->upgradeContainer->getState(), $this->upgradeContainer->getLogger());
         $this->content = (new UpgradePage(
@@ -527,5 +513,25 @@ class AdminSelfUpgradeController extends ModuleAdminController
         );
 
         return parent::initContent();
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return void
+     */
+    private function addNewUIAssets(Request $request)
+    {
+        $assetsEnvironment = $this->upgradeContainer->getAssetsEnvironment();
+        $assetsBaseUrl = $assetsEnvironment->getAssetsBaseUrl($request);
+
+        if ($assetsEnvironment->isDevMode()) {
+            $this->context->controller->addCSS($assetsBaseUrl . 'src/scss/main.scss');
+            $twig = $this->upgradeContainer->getTwig();
+            $this->content .= $twig->render('@ModuleAutoUpgrade/module-script-tag.html.twig', ['src' => $assetsBaseUrl . 'src/ts/main.ts']);
+        } else {
+            $this->context->controller->addCSS($assetsBaseUrl . '/css/autoupgrade.css');
+            $this->context->controller->addJS($assetsBaseUrl . '/js/autoupgrade.js?version=' . $this->module->version);
+        }
     }
 }

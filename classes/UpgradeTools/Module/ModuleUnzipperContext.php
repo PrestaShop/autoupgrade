@@ -56,7 +56,7 @@ class ModuleUnzipperContext
         }
     }
 
-    public function getZipFullPath(): string
+    public function getDestinationFilePath(): string
     {
         return $this->zipFullPath;
     }

@@ -28,7 +28,6 @@
 namespace PrestaShop\Module\AutoUpgrade;
 
 use PrestaShop\Module\AutoUpgrade\Xml\FileLoader;
-use SimpleXMLElement;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -37,8 +36,6 @@ class Upgrader
     const DEFAULT_CHECK_VERSION_DELAY_HOURS = 12;
     const DEFAULT_CHANNEL = 'minor';
     const DEFAULT_FILENAME = 'prestashop.zip';
-
-    const ADDONS_API_URL = 'api.addons.prestashop.com';
 
     /**
      * @var bool contains true if last version is not installed
@@ -232,52 +229,5 @@ class Upgrader
         }
 
         return true;
-    }
-
-    /**
-     * use the addons api to get xml files.
-     *
-     * @param string $postData
-     *
-     * @return SimpleXMLElement|false
-     */
-    public function getApiAddons(string $xml_localfile, string $postData, bool $refresh = false)
-    {
-        if (!is_dir(_PS_ROOT_DIR_ . '/config/xml')) {
-            if (is_file(_PS_ROOT_DIR_ . '/config/xml')) {
-                unlink(_PS_ROOT_DIR_ . '/config/xml');
-            }
-            mkdir(_PS_ROOT_DIR_ . '/config/xml');
-        }
-        if ($refresh || !file_exists($xml_localfile) || @filemtime($xml_localfile) < (time() - (3600 * self::DEFAULT_CHECK_VERSION_DELAY_HOURS))) {
-            $protocolsList = ['https://' => 443, 'http://' => 80];
-            if (!extension_loaded('openssl')) {
-                unset($protocolsList['https://']);
-            }
-            // Make the request
-            $opts = [
-                'http' => [
-                    'method' => 'POST',
-                    'content' => $postData,
-                    'header' => 'Content-type: application/x-www-form-urlencoded',
-                    'timeout' => 10,
-                ], ];
-            $context = stream_context_create($opts);
-            $xml = false;
-            foreach ($protocolsList as $protocol => $port) {
-                $xml_string = Tools14::file_get_contents($protocol . self::ADDONS_API_URL, false, $context);
-                if ($xml_string) {
-                    $xml = @simplexml_load_string($xml_string);
-                    break;
-                }
-            }
-            if ($xml !== false) {
-                file_put_contents($xml_localfile, $xml_string);
-            }
-        } else {
-            $xml = @simplexml_load_file($xml_localfile);
-        }
-
-        return $xml;
     }
 }
