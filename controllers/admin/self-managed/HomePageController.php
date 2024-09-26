@@ -69,6 +69,7 @@ class HomePageController extends AbstractPageController
 
         return [
             'empty_backup' => empty($backupFinder->getAvailableBackups()),
+            'form_route' => Router::HOME_PAGE_FORM,
         ];
     }
 }

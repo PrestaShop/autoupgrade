@@ -40,8 +40,11 @@ export default class HomePage extends PageAbstract {
     if (this.form) {
       const formData = new FormData(this.form);
 
-      // TODO: add route to call inside data form
-      new RequestHandler().post('home-page-form', formData);
+      const route = this.form.dataset.route;
+
+      if (route) {
+        new RequestHandler().post(route, formData);
+      }
     }
   };
 
