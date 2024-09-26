@@ -384,6 +384,7 @@ class BackupDb extends AbstractTask
             return true;
         }
 
+        // Remove 5 seconds on the allowed time to make sure we have time to save data and close files.
         return $elapsedTime < $timeAllowed - 5;
     }
 }
