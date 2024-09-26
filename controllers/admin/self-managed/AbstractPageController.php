@@ -27,10 +27,10 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Controller;
 
+use PrestaShop\Module\AutoUpgrade\Twig\PageSelectors;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use PrestaShop\Module\AutoUpgrade\Twig\PageSelectors;
 
 abstract class AbstractPageController extends AbstractGlobalController
 {

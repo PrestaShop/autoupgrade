@@ -10,7 +10,7 @@ class PageSelectors
     /**
      * @return array<string, string>
      */
-    static function getAllSelectors(): array
+    public static function getAllSelectors(): array
     {
         return [
             'page_parent_id' => self::PAGE_PARENT_ID,

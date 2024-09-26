@@ -70,7 +70,7 @@ class Router
         ],
         self::HOME_PAGE_FORM => [
             'controller' => HomePageController::class,
-            'method' => 'submit'
+            'method' => 'submit',
         ],
         self::UPDATE_PAGE_VERSION_CHOICE => [
             'controller' => UpdatePageVersionChoiceController::class,
