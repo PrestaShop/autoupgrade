@@ -36,7 +36,7 @@ class AbstractGlobalController
     /** @var UpgradeContainer */
     protected $upgradeContainer;
 
-    /** @var Twig_Environment|Environment */
+    /** @var Environment|Twig_Environment */
     protected $twig;
 
     public function __construct(UpgradeContainer $upgradeContainer)
