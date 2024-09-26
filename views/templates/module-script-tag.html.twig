@@ -1,1 +1,1 @@
-<script type="module" src="{{ src|escape('html', 'UTF-8') }}"></script>
+<script {% if module_type %}type="module"{% endif %} src="{{ src|escape('html', 'UTF-8') }}"></script>
