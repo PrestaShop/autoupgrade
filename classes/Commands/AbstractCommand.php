@@ -32,6 +32,8 @@ use PrestaShop\Module\AutoUpgrade\ErrorHandler;
 use PrestaShop\Module\AutoUpgrade\Log\CliLogger;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
 use PrestaShop\Module\AutoUpgrade\Log\StreamedLogger;
+use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
+use PrestaShop\Module\AutoUpgrade\Task\Miscellaneous\UpdateConfig;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -77,5 +79,39 @@ abstract class AbstractCommand extends Command
         $this->upgradeContainer->setLogger($this->logger);
         (new ErrorHandler($this->logger))->enable();
         $this->logger->debug('Error handler enabled.');
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function loadConfiguration(?string $configPath, UpgradeContainer $upgradeContainer): int
+    {
+        $controller = new UpdateConfig($upgradeContainer);
+
+        if ($configPath !== null) {
+            $this->logger->debug('Loading configuration from ' . $configPath);
+            $configFile = file_get_contents($configPath);
+            if (!$configFile) {
+                $this->logger->error('Configuration file not found a location ' . $configPath);
+
+                return ExitCode::FAIL;
+            }
+
+            $inputData = json_decode($configFile, true);
+
+            if (!$inputData) {
+                $this->logger->error('An error occurred during the json decode process, please check the content and syntax of the file content');
+
+                return ExitCode::FAIL;
+            }
+
+            $this->logger->debug('Configuration file content: ' . json_encode($inputData));
+
+            $controller->inputCliParameters($inputData);
+        }
+
+        $controller->init();
+
+        return $controller->run();
     }
 }

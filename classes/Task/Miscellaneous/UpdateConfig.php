@@ -133,6 +133,9 @@ class UpdateConfig extends AbstractTask
             return ExitCode::FAIL;
         }
 
+        $this->container->getState()->setInstallVersion($this->container->getUpgrader()->getDestinationVersion());
+        $this->container->getState()->setOriginVersion($this->container->getProperty(UpgradeContainer::PS_VERSION));
+
         return ExitCode::SUCCESS;
     }
 
@@ -187,14 +190,14 @@ class UpdateConfig extends AbstractTask
      */
     private function writeConfig(array $config): bool
     {
-        if (!empty($config['channel'])) {
-            $this->container->getState()->setInstallVersion($this->container->getUpgrader()->getDestinationVersion());
-            $this->container->getState()->setOriginVersion($this->container->getProperty(UpgradeContainer::PS_VERSION));
-        }
         $this->container->getUpgradeConfiguration()->merge($config);
         $this->logger->info($this->translator->trans('Configuration successfully updated.') . ' <strong>' . $this->translator->trans('This page will now be reloaded and the module will check if a new version is available.') . '</strong>');
 
-        return (new UpgradeConfigurationStorage($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR))->save($this->container->getUpgradeConfiguration(), UpgradeFileNames::CONFIG_FILENAME);
+        $config = $this->container->getUpgradeConfiguration();
+
+        $this->container->getLogger()->debug('Configuration update: ' . json_encode($config->toArray(), JSON_PRETTY_PRINT));
+
+        return (new UpgradeConfigurationStorage($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR))->save($config, UpgradeFileNames::CONFIG_FILENAME);
     }
 
     /**
