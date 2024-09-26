@@ -8,8 +8,12 @@ export default class Hydration {
     if (elementToUpdate && data.new_content) {
       elementToUpdate.innerHTML = data.new_content;
 
-      if (data.new_route && !fromPopState) {
-        new RouteHandler().setNewRoute(data.new_route);
+      if (data.new_route) {
+        window.AutoUpgradeScriptHandler.updateRouteScript(data.new_route);
+
+        if (!fromPopState) {
+          new RouteHandler().setNewRoute(data.new_route);
+        }
       }
     }
   }

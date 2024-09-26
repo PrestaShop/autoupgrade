@@ -1,7 +1,5 @@
-import HomePage from './pages/Home';
 import RouteHandler from './routing/RouteHandler';
+import ScriptHandler from './routing/ScriptHandler';
 
 new RouteHandler().init();
-
-const page = new HomePage();
-page.mount();
+new ScriptHandler();

@@ -1,10 +1,12 @@
 import RequestHandler from '../api/RequestHandler';
+import PageAbstract from './PageAbstract';
 
-export default class HomePage {
+export default class HomePage extends PageAbstract {
   form: HTMLFormElement | null;
   submitButton: HTMLButtonElement | null;
 
   constructor() {
+    super();
     this.form = document.forms.namedItem('next_page');
     this.submitButton = this.getSubmitButton();
   }
