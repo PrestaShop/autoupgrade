@@ -513,7 +513,7 @@ class AdminSelfUpgradeController extends ModuleAdminController
     /**
      * @return array<string, mixed>
      */
-    private function getScriptsVariables(): array
+    private function getScriptsVariables()
     {
         $adminDir = trim(str_replace($this->prodRootDir, '', $this->adminDir), DIRECTORY_SEPARATOR);
 
