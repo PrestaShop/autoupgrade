@@ -18,5 +18,42 @@ $e: ".btn";
     &-lg {
       font-size: 1rem;
     }
+
+    &--loading {
+      &:is(#{$e}-default, #{$e}-primary) {
+        position: relative;
+        pointer-events: none;
+
+        &::before {
+          content: "";
+          display: block;
+          width: 1.25rem;
+          height: 1.25rem;
+          border: 2px solid rgba(var(--#{$ua-prefix}white-rgb), 0.25);
+          border-top-color: var(--#{$ua-prefix}base-text-color);
+          border-radius: 50%;
+          line-height: 1;
+          animation: rotate 1.5s linear infinite;
+        }
+      }
+
+      &:is(#{$e}-default) {
+        &::before {
+          border: 2px solid rgba(var(--#{$ua-prefix}black-rgb), 0.25);
+          border-top-color: var(--#{$ua-prefix}base-text-color);
+        }
+      }
+
+      &:is(#{$e}-primary) {
+        &::before {
+          border: 2px solid rgba(var(--#{$ua-prefix}white-rgb), 0.25);
+          border-top-color: var(--#{$ua-prefix}white);
+        }
+      }
+
+      i {
+        display: none;
+      }
+    }
   }
 }

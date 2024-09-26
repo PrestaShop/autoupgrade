@@ -9,6 +9,8 @@ $cdk-prefix: "cdk-";
   /* Primitive */
   --#{$ua-prefix}white: #ffffff;
   --#{$ua-prefix}black: #000000;
+  --#{$ua-prefix}white-rgb: 255, 255, 255;
+  --#{$ua-prefix}black-rgb: 0, 0, 0;
   --#{$ua-prefix}primary-800: var(--#{$cdk-prefix}primary-800, #1d1d1b);
   --#{$ua-prefix}primary-700: var(--#{$cdk-prefix}primary-700, #3f3f3d);
   --#{$ua-prefix}primary-600: var(--#{$cdk-prefix}primary-600, #5e5e5e);
