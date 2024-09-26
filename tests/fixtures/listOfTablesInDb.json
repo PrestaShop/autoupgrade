@@ -1,0 +1,818 @@
+[
+    {
+        "Tables_in_psreference (doge_%)": "doge_access"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_accessory"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_address"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_address_format"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_admin_filter"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_advice"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_advice_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_alias"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_attachment"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_attachment_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_attribute"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_attribute_group"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_attribute_group_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_attribute_group_shop"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_attribute_impact"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_attribute_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_attribute_shop"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_authorization_role"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_badge"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_badge_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_carrier"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_carrier_group"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_carrier_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_carrier_shop"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_carrier_tax_rules_group_shop"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_carrier_zone"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_cart"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_cart_cart_rule"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_cart_product"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_cart_rule"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_cart_rule_carrier"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_cart_rule_combination"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_cart_rule_country"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_cart_rule_group"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_cart_rule_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_cart_rule_product_rule"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_cart_rule_product_rule_group"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_cart_rule_product_rule_value"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_cart_rule_shop"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_category"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_category_group"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_category_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_category_product"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_category_shop"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_cms"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_cms_category"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_cms_category_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_cms_category_shop"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_cms_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_cms_role"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_cms_role_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_cms_shop"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_condition"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_condition_advice"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_condition_badge"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_configuration"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_configuration_kpi"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_configuration_kpi_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_configuration_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_connections"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_connections_page"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_connections_source"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_contact"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_contact_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_contact_shop"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_country"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_country_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_country_shop"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_currency"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_currency_shop"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_customer"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_customer_group"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_customer_message"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_customer_message_sync_imap"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_customer_thread"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_customization"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_customization_field"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_customization_field_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_customized_data"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_date_range"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_delivery"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_emailsubscription"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_employee"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_employee_shop"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_fb_category_match"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_feature"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_feature_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_feature_product"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_feature_shop"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_feature_value"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_feature_value_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_gender"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "yo_doge"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_gender_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_group"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_group_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_group_reduction"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_group_shop"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_gsitemap_sitemap"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_guest"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_homeslider"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_homeslider_slides"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_homeslider_slides_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_hook"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_hook_alias"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_hook_module"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_hook_module_exceptions"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_image"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_image_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_image_shop"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_image_type"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_import_match"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_info"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_info_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_info_shop"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_lang_shop"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_layered_category"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_layered_filter"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_layered_filter_shop"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_layered_indexable_attribute_group"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_layered_indexable_attribute_group_lang_value"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_layered_indexable_attribute_lang_value"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_layered_indexable_feature"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_layered_indexable_feature_lang_value"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_layered_indexable_feature_value_lang_value"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_layered_price_index"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_layered_product_attribute"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_link_block"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_link_block_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_link_block_shop"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_linksmenutop"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_linksmenutop_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_log"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_mail"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_manufacturer"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_manufacturer_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_manufacturer_shop"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_memcached_servers"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_message"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_message_readed"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_meta"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_meta_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_module"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_module_access"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_module_carrier"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_module_country"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_module_currency"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_module_group"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_module_history"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_module_preference"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_module_shop"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_operating_system"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_order_carrier"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_order_cart_rule"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_order_detail"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_order_detail_tax"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_order_history"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_order_invoice"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_order_invoice_payment"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_order_invoice_tax"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_order_message"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_order_message_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_order_payment"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_order_return"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_order_return_detail"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_order_return_state"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_order_return_state_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_order_slip"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_order_slip_detail"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_order_slip_detail_tax"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_order_state"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_order_state_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_orders"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_pack"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_page"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_page_type"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_page_viewed"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_pagenotfound"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_product"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_product_attachment"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_product_attribute"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_product_attribute_combination"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_product_attribute_image"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_product_attribute_shop"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_product_carrier"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_product_country_tax"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_product_download"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_product_group_reduction_cache"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_product_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_product_sale"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_product_shop"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_product_supplier"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_product_tag"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_profile"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_profile_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_pscheckout_cart"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_pscheckout_funding_source"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_pscheckout_order_matrice"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_psgdpr_consent"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_psgdpr_consent_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_psgdpr_log"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_quick_access"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_quick_access_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_range_price"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_range_weight"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_reassurance"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_reassurance_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_referrer"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_referrer_cache"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_referrer_shop"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_request_sql"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_required_field"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_risk"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_risk_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_search_engine"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_search_index"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_search_word"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_sekeyword"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_shop"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_shop_group"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_shop_url"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_smarty_cache"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_smarty_last_flush"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_smarty_lazy_cache"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_specific_price"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_specific_price_priority"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_specific_price_rule"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_specific_price_rule_condition"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_specific_price_rule_condition_group"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_state"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_statssearch"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_stock"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_stock_available"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_stock_mvt"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_stock_mvt_reason"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_stock_mvt_reason_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_store"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_store_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_store_shop"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_supplier"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_supplier_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_supplier_shop"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_supply_order"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_supply_order_detail"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_supply_order_history"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_supply_order_receipt_history"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_supply_order_state"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_supply_order_state_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_tab"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_tab_advice"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_tab_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_tab_module_preference"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_tag"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_tag_count"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_tax"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_tax_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_tax_rule"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_tax_rules_group"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_tax_rules_group_shop"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_timezone"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_translation"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_warehouse"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_warehouse_carrier"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_warehouse_product_location"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_warehouse_shop"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_web_browser"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_webservice_account"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_webservice_account_shop"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_webservice_permission"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_zone"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_zone_shop"
+    }
+]

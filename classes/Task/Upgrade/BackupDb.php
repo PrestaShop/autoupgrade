@@ -86,7 +86,7 @@ class BackupDb extends AbstractTask
             $table = $this->container->getState()->getBackupTable();
             if (null === $table) {
                 // Or get the next one to sync
-                $table = current($tablesToBackup->getNext());
+                $table = $tablesToBackup->getNext();
                 $this->container->getState()->setBackupLoopLimit(0);
             }
 
@@ -292,11 +292,33 @@ class BackupDb extends AbstractTask
             mkdir($this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $this->container->getState()->getBackupName());
         }
         $this->container->getState()->setDbStep(0);
-        $listOfTables = $this->container->getDb()->executeS('SHOW TABLES LIKE "' . _DB_PREFIX_ . '%"', true, false);
+        $listOfTables = $this->filterTablesToSync(
+            $this->container->getDb()->executeS('SHOW TABLES LIKE "' . _DB_PREFIX_ . '%"', true, false)
+        );
 
-        $tablesToBackup = array_filter(array_map('current', $listOfTables), function ($table) {
+        if (empty($listOfTables)) {
+            throw (new UpgradeException($this->translator->trans('No valid tables were found to back up. Backup of database canceled.')))->setSeverity(UpgradeException::SEVERITY_ERROR);
+        }
+
+        $tablesToBackup = new Backlog($listOfTables, count($listOfTables));
+
+        $this->container->getFileConfigurationStorage()->save($tablesToBackup->dump(), UpgradeFileNames::DB_TABLES_TO_BACKUP_LIST);
+
+        return ExitCode::SUCCESS;
+    }
+
+    /**
+     * @param array<array<string, string>> $listOfTables
+     *
+     * @internal Method is public for unit tests
+     *
+     * @return string[]
+     */
+    public function filterTablesToSync(array $listOfTables): array
+    {
+        return array_filter(array_map('current', $listOfTables), function ($table) {
             // Skip tables which do not start with _DB_PREFIX_
-            if (strlen($table) <= strlen(_DB_PREFIX_) || strncmp($table, _DB_PREFIX_, strlen(_DB_PREFIX_)) != 0) {
+            if (strlen($table) <= strlen(_DB_PREFIX_) || strncmp($table, _DB_PREFIX_, strlen(_DB_PREFIX_)) !== 0) {
                 return false;
             }
 
@@ -307,16 +329,6 @@ class BackupDb extends AbstractTask
 
             return true;
         });
-
-        if (empty($tablesToBackup)) {
-            throw (new UpgradeException($this->translator->trans('No valid tables were found to back up. Backup of database canceled.')))->setSeverity(UpgradeException::SEVERITY_ERROR);
-        }
-
-        $tablesToBackup = new Backlog($listOfTables, count($listOfTables));
-
-        $this->container->getFileConfigurationStorage()->save($tablesToBackup->dump(), UpgradeFileNames::DB_TABLES_TO_BACKUP_LIST);
-
-        return ExitCode::SUCCESS;
     }
 
     /**
