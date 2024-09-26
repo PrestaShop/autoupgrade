@@ -1,5 +1,7 @@
-const main = () => {
-  return null;
-};
+import HomePage from './pages/Home';
+import RouteHandler from './routing/RouteHandler';
 
-main();
+new RouteHandler().init();
+
+const page = new HomePage();
+page.mount();
