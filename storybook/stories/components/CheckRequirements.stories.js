@@ -30,7 +30,6 @@ export default {
   title: "Components/Check requirements",
   args: {
     requirementsOk: true,
-    checkingForRequirements: true,
     updateAssistantDocs: 
       "https://devdocs.prestashop-project.org/8/basics/keeping-up-to-date/use-autoupgrade-module/",
     moduleIsUpToDate: false,
