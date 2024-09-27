@@ -64,7 +64,7 @@ export const Archive = {
     checked: true,
     title: "Local archive",
     message:
-      "Save the archive file of the version you want to update to in the following directory: /admin/autoUpdate/download/",
+      "Save the archive file of the version you want to update to in the following directory: /admin/autoupgrade/download/",
     disabled: false,
     disabledMessage: "No backup file found on your store.",
     badgeLabel: "",
