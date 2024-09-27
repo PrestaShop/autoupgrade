@@ -27,7 +27,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Controller;
 
-use PrestaShop\Module\AutoUpgrade\BackupFinder;
+use PrestaShop\Module\AutoUpgrade\Backup\BackupFinder;
 use Symfony\Component\HttpFoundation\Request;
 
 class HomePageController extends AbstractPageController

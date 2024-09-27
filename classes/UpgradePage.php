@@ -27,6 +27,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade;
 
+use PrestaShop\Module\AutoUpgrade\Backup\BackupFinder;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Twig\Block\RollbackForm;
 use PrestaShop\Module\AutoUpgrade\Twig\Block\UpgradeButtonBlock;
