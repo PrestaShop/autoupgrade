@@ -2311,7 +2311,7 @@ Comment: check DB access</note>
       <trans-unit id="15e90667b50b56b1f8a01bdb1190f3dc">
         <source>Local archive</source>
         <target>Local archive</target>
-        <note>Line: 114</note>
+        <note>Line: 118</note>
       </trans-unit>
       <trans-unit id="a7446965a3635b6a69697078130d961a">
         <source>You're up to date</source>
@@ -2331,7 +2331,7 @@ Comment: check DB access</note>
       <trans-unit id="d4399327e9bb1d9fb589b58332f07d48">
         <source>Unlock the local update feature and manually update your store to your preferred upgrade by saving the archive and XML files of the PrestaShop version in the following directory on your server: %pathToLocalArchive%</source>
         <target>Unlock the local update feature and manually update your store to your preferred upgrade by saving the archive and XML files of the PrestaShop version in the following directory on your server: %pathToLocalArchive%</target>
-        <note>Line: 103</note>
+        <note>Line: 105</note>
       </trans-unit>
       <trans-unit id="34b3f55bce0f37bcd82294fbc4702aad">
         <source>You are already using the latest PrestaShop version available but you can update to the version of your choice from a local archive.</source>
@@ -2361,7 +2361,7 @@ Comment: check DB access</note>
       <trans-unit id="b9d4e763594017af5b607eb9e0034299">
         <source>PrestaShop %version%</source>
         <target>PrestaShop %version%</target>
-        <note>Line: 92</note>
+        <note>Line: 94</note>
       </trans-unit>
     </body>
   </file>
