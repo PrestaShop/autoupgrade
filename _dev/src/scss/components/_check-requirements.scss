@@ -6,54 +6,10 @@ $e: ".check-requirements";
 #{$ua-id} {
   #{$e} {
     --#{$ua-prefix}requirements-background-color: var(--#{$ua-prefix}muted-background-color);
-    --#{$ua-prefix}requirements-loader-color: var(--#{$ua-prefix}base-text-color);
-    --#{$ua-prefix}requirements-loader-dot-color: var(--#{$ua-prefix}ocean-blue-700);
-    --#{$ua-prefix}requirements-loader-gradient-color: var(--#{$ua-prefix}ocean-blue-500);
     padding: 1rem;
     margin-block-start: 0.5rem;
     background-color: var(--#{$ua-prefix}requirements-background-color);
     border-radius: var(--#{$ua-prefix}border-radius);
-
-    &__loader {
-      position: relative;
-      width: 1.625rem;
-      height: 1.625rem;
-      margin-block-end: 1rem;
-      margin-inline: auto;
-      background:
-        linear-gradient(
-            var(--#{$ua-prefix}requirements-background-color),
-            var(--#{$ua-prefix}requirements-background-color)
-          )
-          padding-box,
-        conic-gradient(from 0, transparent, var(--#{$ua-prefix}requirements-loader-gradient-color))
-          border-box;
-      border: 0.1875rem solid transparent;
-      border-radius: 100%;
-      text-align: center;
-      animation: rotate 1.5s linear infinite;
-
-      &::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 50%;
-        display: block;
-        width: 0.1875rem;
-        height: 0.1875rem;
-        background: var(--#{$ua-prefix}requirements-loader-dot-color);
-        border-radius: 50%;
-        transform: translate(-50%, -100%);
-      }
-    }
-
-    &__loader-title {
-      font-size: 0.875rem;
-      font-weight: 700;
-      line-height: 1.4;
-      color: var(--#{$ua-prefix}requirements-loader-color);
-      text-align: center;
-    }
 
     &__title {
       margin-block-end: 0.5rem;

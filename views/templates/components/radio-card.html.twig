@@ -1,67 +1,86 @@
-<label class="radio-card {% if disabled %} radio-card--disabled {% endif %}"
-  {% if radioCardId %} for="{{ radioCardId }}" {% endif %}>
-  {% if disabledMessage %}
-    <div class="radio-card__disabled-message">
-      <div class="radio-card__disabled-message-placement">
-        {{ disabledMessage }}
+<div id="radio_card_{{ radioCardId }}">
+  <label class="radio-card {% if disabled %} radio-card--disabled {% endif %}"
+    {% if radioCardId %} for="{{ radioCardId }}" {% endif %}>
+    {% if disabledMessage %}
+      <div class="radio-card__disabled-message">
+        <div class="radio-card__disabled-message-placement">
+          {{ disabledMessage }}
+        </div>
       </div>
+    {% endif %}
+
+    <div class="radio-card__radio-wrapper">
+      <input class="radio"
+        type="radio"
+        {% if radioCardId %} id="{{ radioCardId }}" {% endif %}
+        {% if radioValue %} value="{{ radioValue }}" {% endif %}
+        {% if radioName %} name="{{ radioName }}" {% endif %}
+        {% if disabled %} disabled {% endif %}
+        {% if checked and not disabled %} checked {% endif %}
+      />
     </div>
-  {% endif %}
 
-  <div class="radio-card__radio-wrapper">
-    <input class="radio"
-      type="radio"
-      {% if radioCardId %} id="{{ radioCardId }}" {% endif %}
-      {% if radioValue %} value="{{ radioValue }}" {% endif %}
-      {% if radioName %} name="{{ radioName }}" {% endif %}
-      {% if disabled %} disabled {% endif %}
-      {% if checked and not disabled %} checked {% endif %}
-      {% if required %} required {% endif %}
-    />
-  </div>
+    <div class="radio-card__radio-wrapper">
+      <input class="radio"
+        type="radio"
+        {% if radioCardId %} id="{{ radioCardId }}" {% endif %}
+        {% if radioValue %} value="{{ radioValue }}" {% endif %}
+        {% if radioName %} name="{{ radioName }}" {% endif %}
+        {% if disabled %} disabled {% endif %}
+        {% if checked and not disabled %} checked {% endif %}
+        {% if required %} required {% endif %}
+      />
+    </div>
 
-  <div class="radio-card__infos-wrapper">
-    <div class="radio-card__infos-top radio-card__infos-top">
-      <p class="radio-card__title">
-        {{ title }}
+    <div class="radio-card__infos-wrapper">
+      <div class="radio-card__infos-top radio-card__infos-top">
+        <p class="radio-card__title">
+          {{ title }}
 
-        {% if badgeLabel %}
-          <span class="radio-card__badge {% if badgeStatus %} radio-card__badge--{{ badgeStatus }} {% endif %}">
-            {{ badgeLabel }}
-          </span>
+          {% if badgeLabel %}
+            <span class="radio-card__badge {% if badgeStatus %} radio-card__badge--{{ badgeStatus }} {% endif %}">
+              {{ badgeLabel }}
+            </span>
+          {% endif %}
+        </p>
+
+        {% if releaseNote != null %}
+          <a class="radio-card__release-note"
+            href="{{ releaseNote }}"
+            target="_blank"
+            rel="noopener"
+          >
+            Release note
+            <i class="material-icons">open_in_new</i>
+          </a>
         {% endif %}
+      </div>
+
+      <p class="radio-card__message">
+        {{ message }}
       </p>
 
-      {% if releaseNote != null %}
-        <a class="radio-card__release-note"
-          href="{{ releaseNote }}"
-          target="_blank"
-          rel="noopener"
-        >
-          Release note
-          <i class="material-icons">open_in_new</i>
-        </a>
-      {% endif %}
-    </div>
-
-    <p class="radio-card__message">
-      {{ message }}
-    </p>
-
-    {% if not disabled %}
-      {% if checked %}
+      {% if not disabled %}
         {% if archiveCard %}
           <div class="radio-card__local-archive">
             {% include "@ModuleAutoUpgrade/components/local-archive.html.twig" %}
           </div>
         {% endif %}
-
+        
         {% if checkRequirements %}
+          <div class="radio-card__loader-wrapper">
+            <div class="radio-card__loader"></div>
+
+            <div class="radio-card__loader-title">
+              {{ "Checking requirements..."|trans({}) }}
+            </div>
+          </div>
+
           <div class="radio-card__check-requirements">
             {% include "@ModuleAutoUpgrade/components/check-requirements.html.twig" %}
           </div>
         {% endif %}
       {% endif %}
-    {% endif %}
-  </div>
-</label>
+    </div>
+  </label>
+</div>

@@ -23,12 +23,11 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-import RadioCard from "../../../views/templates/components/radio-card.html.twig";
-import LocalArchive from "./LocalArchive.stories";
+import RadioCardOnline from "../../../views/templates/components/radio-card-online.html.twig";
 import CheckRequirements from "./CheckRequirements.stories";
 
 export default {
-  component: RadioCard,
+  component: RadioCardOnline,
   title: "Components/Radio card",
   argTypes: {
     badgeStatus: {
@@ -37,48 +36,24 @@ export default {
     },
   },
   args: {
-    radioCardId: "",
-    radioName: "test",
-    radioValue: "",
-    checked: false,
-    title: "Update your store",
-    message: "Update your store to benefit from the latest improvements, bug fixes and security patches.",
-    disabled: false,
-    disabledMessage: "No backup file found on your store.",
-    badgeLabel: "Major version",
-    badgeStatus: "major",
-    releaseNote: "https://github.com/PrestaShop/autoupgrade",
-    archiveCard: false,
-    checkRequirements: false,
-    ...LocalArchive.args,
     ...CheckRequirements.args,
   },
 };
 
-export const Default = {};
-
-export const Requirements = {
+export const Online = {
   args: {
+    radioCardId: "canal_choice",
+    radioName: "canal_choice",
+    radioValue: "online",
     checked: true,
+    title: "Local archive",
+    message: "The maximum version of PrestaShop to which you can upgrade your store, based on its PHP version.",
+    disabled: false,
+    disabledMessage: "",
+    archiveCard: false,
+    archiveFiles: "",
+    xmlFiles: "",
     checkRequirements: true,
-    ...LocalArchive.args,
     ...CheckRequirements.args,
-    requirementsOk: false,
   },
 };
-
-document.addEventListener("DOMContentLoaded", () => {
-  const radioCards = document.querySelectorAll(
-    '.radio-card input[type="radio"]',
-  );
-
-  radioCards.forEach((radio) => {
-    radio.addEventListener("click", function () {
-      radioCards.forEach((radio) => {
-        if (radio !== this) {
-          radio.checked = false;
-        }
-      });
-    });
-  });
-});
