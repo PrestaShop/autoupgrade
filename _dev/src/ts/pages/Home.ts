@@ -1,4 +1,3 @@
-import RequestHandler from '../api/RequestHandler';
 import PageAbstract from './PageAbstract';
 
 export default class HomePage extends PageAbstract {
@@ -42,8 +41,8 @@ export default class HomePage extends PageAbstract {
 
       const route = this.form.dataset.route;
 
-      if (route) {
-        new RequestHandler().post(route, formData);
+      if (route && window.AutoUpgrade.classes.RequestHandler) {
+        window.AutoUpgrade.classes.RequestHandler.post(route, formData);
       }
     }
   };

@@ -1,6 +1,9 @@
-import RequestHandler from '../api/RequestHandler';
-
 export default class RouteHandler {
+  constructor() {
+    window.AutoUpgrade.classes.RouteHandler = this;
+    this.init();
+  }
+
   private getCurrentUrl(): URL {
     return new URL(window.location.href);
   }
@@ -32,8 +35,8 @@ export default class RouteHandler {
 
   private handleRouteChange() {
     const newRoute = this.getCurrentRoute();
-    if (newRoute !== null) {
-      new RequestHandler().post(newRoute, new FormData(), true);
+    if (newRoute !== null && window.AutoUpgrade.classes.RequestHandler) {
+      window.AutoUpgrade.classes.RequestHandler.post(newRoute, new FormData(), true);
     }
   }
 }

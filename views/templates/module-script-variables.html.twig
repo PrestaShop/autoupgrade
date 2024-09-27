@@ -1,3 +1,6 @@
 <script>
-  var AutoUpgrade = {{ autoupgrade_variables|json_encode|raw }}
+  var AutoUpgrade = {
+    variables: {{ autoupgrade_variables|json_encode|raw }},
+    classes: {},
+  }
 </script>

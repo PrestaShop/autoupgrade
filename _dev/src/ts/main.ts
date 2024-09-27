@@ -1,5 +1,7 @@
 import RouteHandler from './routing/RouteHandler';
 import ScriptHandler from './routing/ScriptHandler';
+import RequestHandler from './api/RequestHandler';
 
-new RouteHandler().init();
+new RequestHandler();
+new RouteHandler();
 new ScriptHandler();

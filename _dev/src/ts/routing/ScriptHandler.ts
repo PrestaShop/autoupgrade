@@ -1,12 +1,11 @@
 import HomePage from '../pages/Home';
 import Update from '../pages/Update';
-import RouteHandler from './RouteHandler';
 import PageAbstract from '../pages/PageAbstract';
 import { RoutesMatching } from '../types/scriptHandlerTypes';
 
 export default class ScriptHandler {
   constructor() {
-    window.AutoUpgradeScriptHandler = this;
+    window.AutoUpgrade.classes.ScriptHandler = this;
     this.init();
   }
 
@@ -18,7 +17,7 @@ export default class ScriptHandler {
   };
 
   public init() {
-    const currentRoute = new RouteHandler().getCurrentRoute();
+    const currentRoute = window.AutoUpgrade.classes.RouteHandler?.getCurrentRoute();
 
     if (currentRoute) {
       this.loadScript(currentRoute);
