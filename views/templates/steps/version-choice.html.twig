@@ -33,6 +33,7 @@
         {{ current_php_version }}
       </p>
     </div>
+
     {% if no_local_archive %}
       {% include "@ModuleAutoUpgrade/components/alert.html.twig" with {
         message: "Unlock the local update feature and manually update your store to your preferred upgrade by saving the archive and XML files of the PrestaShop version in the following directory on your server: %pathToLocalArchive%"|trans({
@@ -43,18 +44,14 @@
         buttonUrl: "",
       } %}
     {% else %}
-      <div class="version-page__local-archive">
-        <p class="version-page__local-archive-message">
+      <div class="version-choice-page__local-archive">
+        <p class="version-choice-page__local-archive-message">
           {{ 'You are already using the latest PrestaShop version available but you can update to the version of your choice from a local archive.'|trans({}) }}
         </p>
 
-        {% include "@ModuleAutoUpgrade/components/radio-card.html.twig" with {
-          radioCardId: "",
-          checked: true,
-          title: "Local archive"|trans({}),
-          message: "Save the archive file of the version you want to update to in the following directory: /admin/autoupgrade/download/"|trans({}),
-          disabled: false,
-          archiveCard: true,
+        {% include "@ModuleAutoUpgrade/components/radio-card-archive.html.twig" with {
+          archiveFiles: local_archives.zip,
+          xmlFiles: local_archives.xml,
         } %}
       </div>
     {% endif %}
@@ -85,19 +82,13 @@
       {% endif %}
     </div>
 
-    <div class="version-page__card-list">
-      {% include "@ModuleAutoUpgrade/components/radio-card.html.twig" with {
-        radioCardId: "",
-        radioName: "canal_choice",
-        radioValue: "online",
+    <div class="version-choice-page__card-list">
+      {% include "@ModuleAutoUpgrade/components/radio-card-online.html.twig" with {
         checked: true,
         title: "PrestaShop %version%"|trans({'%version%': next_release.version}),
-        disabled: false,
         badgeLabel: next_release.badge_label,
         badgeStatus: next_release.badge_status,
         releaseNote: next_release.release_note,
-        archiveCard: false,
-        checkRequirements: false,
       } %}
 
       {% if no_local_archive %}
@@ -110,18 +101,7 @@
           buttonUrl: "",
         } %}
       {% else %}
-        {% include "@ModuleAutoUpgrade/components/radio-card.html.twig" with {
-          radioCardId: "",
-          radioName: "canal_choice",
-          radioValue: "local",
-          checked: false,
-          title: "Local archive"|trans({}),
-          message: "Save the archive file of the version you want to update to in the following directory: /admin/autoupgrade/download/",
-          disabled: false,
-          disabledMessage: "",
-          badgeLabel: "",
-          releaseNote: "",
-          archiveCard: true,
+        {% include "@ModuleAutoUpgrade/components/radio-card-archive.html.twig" with {
           archiveFiles: local_archives.zip,
           xmlFiles: local_archives.xml,
         } %}
