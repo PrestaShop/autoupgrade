@@ -29,6 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade\Task\Rollback;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Analytics;
+use PrestaShop\Module\AutoUpgrade\Backup\BackupFinder;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
@@ -64,7 +65,7 @@ class Rollback extends AbstractTask
         $files = scandir($this->container->getProperty(UpgradeContainer::BACKUP_PATH));
         // find backup filenames, and be sure they exists
         foreach ($files as $file) {
-            if (preg_match('#' . preg_quote('auto-backupfiles_' . $restoreName) . '#', $file)) {
+            if (preg_match('#' . preg_quote(BackupFinder::BACKUP_ZIP_NAME_PREFIX . $restoreName) . '#', $file)) {
                 $this->container->getState()->setRestoreFilesFilename($file);
                 break;
             }
@@ -78,7 +79,7 @@ class Rollback extends AbstractTask
         }
         $files = scandir($this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $restoreName);
         foreach ($files as $file) {
-            if (preg_match('#auto-backupdb_[0-9]{6}_' . preg_quote($restoreName) . '#', $file)) {
+            if (preg_match('#' . BackupFinder::BACKUP_DB_FOLDER_NAME_PREFIX . '[0-9]{6}_' . preg_quote($restoreName) . '#', $file)) {
                 $restoreDbFilenames[] = $file;
             }
         }

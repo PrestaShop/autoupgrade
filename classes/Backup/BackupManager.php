@@ -25,25 +25,38 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\Controller;
+namespace PrestaShop\Module\AutoUpgrade\Backup;
 
-use Symfony\Component\HttpFoundation\Request;
+use InvalidArgumentException;
+use Symfony\Component\Filesystem\Filesystem;
 
-class HomePageController extends AbstractPageController
+class BackupManager
 {
-    const CURRENT_PAGE = 'home';
+    /**
+     * @var BackupFinder
+     */
+    private $backupFinder;
+
+    public function __construct(BackupFinder $backupFinder)
+    {
+        $this->backupFinder = $backupFinder;
+    }
 
     /**
-     * @return array
-     *
-     * @throws \Exception
+     * @throws InvalidArgumentException
      */
-    protected function getParams(Request $request): array
+    public function deleteBackup(string $backupName): void
     {
-        $backupFinder = $this->upgradeContainer->getBackupFinder();
+        if (!in_array($backupName, $this->backupFinder->getAvailableBackups())) {
+            throw new InvalidArgumentException('Backup requested for deletion does not exist.');
+        }
 
-        return [
-            'empty_backup' => empty($backupFinder->getAvailableBackups()),
-        ];
+        $filesystem = new Filesystem();
+        $filesystem->remove([
+            $this->backupFinder->getBackupPath() . DIRECTORY_SEPARATOR . BackupFinder::BACKUP_ZIP_NAME_PREFIX . $backupName,
+            $this->backupFinder->getBackupPath() . DIRECTORY_SEPARATOR . $backupName,
+        ]);
+
+        $this->backupFinder->resetBackupList();
     }
 }

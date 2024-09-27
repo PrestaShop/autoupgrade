@@ -26,7 +26,6 @@
  */
 
 use PrestaShop\Module\AutoUpgrade\AjaxResponse;
-use PrestaShop\Module\AutoUpgrade\Backup\BackupFinder;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Router\Router;
@@ -36,7 +35,6 @@ use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradePage;
 use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\Request;
 
 class AdminSelfUpgradeController extends ModuleAdminController
@@ -373,23 +371,11 @@ class AdminSelfUpgradeController extends ModuleAdminController
      */
     private function handleDeletebackupForm()
     {
-        $res = false;
         $name = Tools14::getValue('name');
-        $filelist = scandir($this->backupPath);
-        foreach ($filelist as $filename) {
-            // the following will match file or dir related to the selected backup
-            if (!empty($filename) && $filename[0] != '.' && $filename != 'index.php' && $filename != '.htaccess'
-                && preg_match('#^(auto-backupfiles_|)' . preg_quote($name) . '(\.zip|)$#', $filename)) {
-                if (is_file($this->backupPath . DIRECTORY_SEPARATOR . $filename)) {
-                    $res &= unlink($this->backupPath . DIRECTORY_SEPARATOR . $filename);
-                } elseif (!empty($name) && is_dir($this->backupPath . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR)) {
-                    $res = FilesystemAdapter::deleteDirectory($this->backupPath . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR);
-                }
-            }
-        }
-        if ($res) {
+        try {
+            $this->upgradeContainer->getBackupManager()->deleteBackup($name);
             Tools14::redirectAdmin(self::$currentIndex . '&conf=1&token=' . Tools14::getValue('token'));
-        } else {
+        } catch (InvalidArgumentException $e) {
             $this->_errors[] = $this->trans('Error when trying to delete backups %s', [$name]);
         }
     }
@@ -465,7 +451,7 @@ class AdminSelfUpgradeController extends ModuleAdminController
         }
 
         // update backup name
-        $backupFinder = new BackupFinder($this->backupPath);
+        $backupFinder = $this->upgradeContainer->getBackupFinder();
         $availableBackups = $backupFinder->getAvailableBackups();
         if (!$this->upgradeContainer->getUpgradeConfiguration()->shouldBackupFilesAndDatabase()
             && !empty($availableBackups)

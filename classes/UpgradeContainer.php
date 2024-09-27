@@ -28,6 +28,8 @@
 namespace PrestaShop\Module\AutoUpgrade;
 
 use Exception;
+use PrestaShop\Module\AutoUpgrade\Backup\BackupFinder;
+use PrestaShop\Module\AutoUpgrade\Backup\BackupManager;
 use PrestaShop\Module\AutoUpgrade\Log\LegacyLogger;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
 use PrestaShop\Module\AutoUpgrade\Parameters\FileConfigurationStorage;
@@ -85,6 +87,12 @@ class UpgradeContainer
      * @var Analytics
      */
     private $analytics;
+
+    /** @var BackupFinder */
+    private $backupFinder;
+
+    /** @var BackupManager */
+    private $backupManager;
 
     /**
      * @var CacheCleaner
@@ -288,6 +296,24 @@ class UpgradeContainer
                 ],
             ],
         ]);
+    }
+
+    public function getBackupFinder(): BackupFinder
+    {
+        if (null !== $this->backupFinder) {
+            return $this->backupFinder;
+        }
+
+        return $this->backupFinder = new BackupFinder($this->getProperty(self::BACKUP_PATH));
+    }
+
+    public function getBackupManager(): BackupManager
+    {
+        if (null !== $this->backupManager) {
+            return $this->backupManager;
+        }
+
+        return $this->backupManager = new BackupManager($this->getBackupFinder());
     }
 
     /**

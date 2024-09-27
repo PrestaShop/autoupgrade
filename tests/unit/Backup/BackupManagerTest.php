@@ -25,9 +25,10 @@
  */
 use PHPUnit\Framework\TestCase;
 use PrestaShop\Module\AutoUpgrade\Backup\BackupFinder;
+use PrestaShop\Module\AutoUpgrade\Backup\BackupManager;
 use Symfony\Component\Filesystem\Filesystem;
 
-class BackupFinderTest extends TestCase
+class BackupManagerTest extends TestCase
 {
     /** string */
     private static $pathToBackup;
@@ -35,21 +36,30 @@ class BackupFinderTest extends TestCase
     public static function setUpBeforeClass()
     {
         // Create directory of a fake shop & release
-        self::$pathToBackup = sys_get_temp_dir() . '/BackupFinderFolder';
+        self::$pathToBackup = sys_get_temp_dir() . '/BackupManagerFolder';
         self::createTreeStructureFromJsonFile(__DIR__ . '/../../fixtures/list-of-files/backup-folder.json', self::$pathToBackup);
     }
 
-    public function testListingOfBackups()
+    public function testBackupIsDeleted()
     {
         $backupFinder = new BackupFinder(self::$pathToBackup);
+        $backupManager = new BackupManager($backupFinder);
 
-        $expected = [
+        $expectedBeforeDeletion = [
             'V1.7.5.0_20240927-115034-19c6d35c',
             'V1.7.5.0_20240927-115350-466afd74',
             'V8.1.0_20240927-122157-25f311e3',
         ];
-        $this->assertNotContains('V8.1.8_20241224-094523-wololo12', $backupFinder->getAvailableBackups());
-        $this->assertEquals($expected, $backupFinder->getAvailableBackups());
+        $expectedAfterDeletion = [
+            'V1.7.5.0_20240927-115034-19c6d35c',
+            'V8.1.0_20240927-122157-25f311e3',
+        ];
+
+        $this->assertEquals($expectedBeforeDeletion, $backupFinder->getAvailableBackups());
+
+        $backupManager->deleteBackup('V1.7.5.0_20240927-115350-466afd74');
+
+        $this->assertEquals($expectedAfterDeletion, $backupFinder->getAvailableBackups());
     }
 
     public static function tearDownAfterClass()

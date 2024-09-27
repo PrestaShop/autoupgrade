@@ -28,6 +28,7 @@
 namespace PrestaShop\Module\AutoUpgrade\Task\Rollback;
 
 use Exception;
+use PrestaShop\Module\AutoUpgrade\Backup\BackupFinder;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Progress\Backlog;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
@@ -71,7 +72,7 @@ class RestoreDb extends AbstractTask
         if ((!isset($backlog) || !$backlog->getRemainingTotal()) && count($restoreDbFilenames) > 0) {
             $currentDbFilename = array_shift($restoreDbFilenames);
             $this->container->getState()->setRestoreDbFilenames($restoreDbFilenames);
-            if (!preg_match('#auto-backupdb_([0-9]{6})_#', $currentDbFilename, $match)) {
+            if (!preg_match('#' . BackupFinder::BACKUP_DB_FOLDER_NAME_PREFIX . '([0-9]{6})_#', $currentDbFilename, $match)) {
                 $this->next = 'error';
                 $this->setErrorFlag();
                 $this->logger->error($this->translator->trans('%s: File format does not match.', [$currentDbFilename]));

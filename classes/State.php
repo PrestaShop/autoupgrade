@@ -28,6 +28,7 @@
 namespace PrestaShop\Module\AutoUpgrade;
 
 use InvalidArgumentException;
+use PrestaShop\Module\AutoUpgrade\Backup\BackupFinder;
 
 /**
  * Class storing the temporary data to keep between 2 ajax requests.
@@ -266,8 +267,8 @@ class State
     public function setBackupName(string $backupName): State
     {
         $this->backupName = $backupName;
-        $this->setBackupFilesFilename('auto-backupfiles_' . $backupName . '.zip')
-            ->setBackupDbFilename('auto-backupdb_XXXXXX_' . $backupName . '.sql');
+        $this->setBackupFilesFilename(BackupFinder::BACKUP_ZIP_NAME_PREFIX . $backupName . '.zip')
+            ->setBackupDbFilename(BackupFinder::BACKUP_DB_FOLDER_NAME_PREFIX . 'XXXXXX_' . $backupName . '.sql');
 
         return $this;
     }
