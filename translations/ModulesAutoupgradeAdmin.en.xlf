@@ -67,12 +67,12 @@
       <trans-unit id="f2ff9d001d0a553c78da73443e7fcd97">
         <source>Configuration successfully updated.</source>
         <target>Configuration successfully updated.</target>
-        <note>Line: 195</note>
+        <note>Line: 194</note>
       </trans-unit>
       <trans-unit id="40b980e89ae332507380470cd26cdf4d">
         <source>This page will now be reloaded and the module will check if a new version is available.</source>
         <target>This page will now be reloaded and the module will check if a new version is available.</target>
-        <note>Line: 195</note>
+        <note>Line: 194</note>
       </trans-unit>
     </body>
   </file>
