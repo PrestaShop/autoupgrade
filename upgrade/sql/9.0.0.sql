@@ -194,3 +194,7 @@ ALTER TABLE `PREFIX_shop_url` CHANGE `domain` `domain` varchar(255) NOT NULL;
 ALTER TABLE `PREFIX_shop_url` CHANGE `domain_ssl` `domain_ssl` varchar(255) NOT NULL;
 ALTER TABLE `PREFIX_feature_flag` CHANGE `label_wording` `label_wording` VARCHAR(191) DEFAULT '' NOT NULL;
 ALTER TABLE `PREFIX_feature_flag` CHANGE `description_wording` `description_wording` VARCHAR(191) DEFAULT '' NOT NULL;
+
+/* Feature value position */
+/* https://github.com/PrestaShop/PrestaShop/pull/37042 */
+/* PHP:add_column('feature_value', 'position', 'int(10) unsigned NOT NULL DEFAULT \'0\''); */;
