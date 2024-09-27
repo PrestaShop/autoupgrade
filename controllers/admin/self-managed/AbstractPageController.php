@@ -27,6 +27,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Controller;
 
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 abstract class AbstractPageController extends AbstractGlobalController
@@ -69,11 +70,11 @@ abstract class AbstractPageController extends AbstractGlobalController
     /**
      * @param Request $request
      *
-     * @return string
+     * @return RedirectResponse|string
      *
      * @throws \Exception
      */
-    public function index(Request $request): string
+    public function index(Request $request)
     {
         return $this->renderPage(
             $this::CURRENT_PAGE,

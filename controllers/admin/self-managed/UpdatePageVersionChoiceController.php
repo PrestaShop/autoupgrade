@@ -68,7 +68,7 @@ class UpdatePageVersionChoiceController extends AbstractPageController
 
         if (!$isLastVersion) {
             $updateType = VersionUtils::getUpdateType($this->getPsVersion(), $this->upgradeContainer->getUpgrader()->getDestinationVersion());
-            $releaseNote = VersionUtils::getUpdateType($this->getPsVersion(), $this->upgradeContainer->getUpgrader()->getOnlineDestinationRelease()->getReleaseNoteUrl());
+            $releaseNote = $this->upgradeContainer->getUpgrader()->getOnlineDestinationRelease()->getReleaseNoteUrl();
         } else {
             $updateType = null;
             $releaseNote = null;
@@ -87,20 +87,25 @@ class UpdatePageVersionChoiceController extends AbstractPageController
             default:
                 $updateLabel = null;
         }
+        $archiveRepository = $this->upgradeContainer->getLocalArchiveRepository();
 
         return array_merge(
             $updateSteps->getStepParams($this::CURRENT_STEP),
             [
-                'upToDate' => $isLastVersion,
-                'noLocalArchive' => !$this->upgradeContainer->getLocalArchiveRepository()->hasLocalArchive(),
-                'assetsBasePath' => $this->upgradeContainer->getAssetsEnvironment()->getAssetsBaseUrl($request),
-                'currentPrestashopVersion' => $this->getPsVersion(),
-                'currentPhpVersion' => VersionUtils::getHumanReadableVersionOf(PHP_VERSION_ID),
-                'nextRelease' => [
+                'up_to_date' => $isLastVersion,
+                'no_local_archive' => !$this->upgradeContainer->getLocalArchiveRepository()->hasLocalArchive(),
+                'assets_base_path' => $this->upgradeContainer->getAssetsEnvironment()->getAssetsBaseUrl($request),
+                'current_prestashop_version' => $this->getPsVersion(),
+                'current_php_version' => VersionUtils::getHumanReadableVersionOf(PHP_VERSION_ID),
+                'local_archives' => [
+                    'zip' => $archiveRepository->getZipLocalArchive(),
+                    'xml' => $archiveRepository->getXmlLocalArchive(),
+                ],
+                'next_release' => [
                     'version' => $this->upgradeContainer->getUpgrader()->getDestinationVersion(),
-                    'badgeLabel' => $updateLabel,
-                    'badgeStatus' => $updateType,
-                    'releaseNote' => $releaseNote,
+                    'badge_label' => $updateLabel,
+                    'badge_status' => $updateType,
+                    'release_note' => $releaseNote,
                 ],
             ]
         );

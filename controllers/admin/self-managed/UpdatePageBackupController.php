@@ -66,7 +66,11 @@ class UpdatePageBackupController extends AbstractPageController
 
         return array_merge(
             $updateSteps->getStepParams($this::CURRENT_STEP),
-            []
+            [
+                // TODO
+                'default_backup_files_and_database' => true,
+                'default_include_images' => false,
+            ]
         );
     }
 }

@@ -66,7 +66,10 @@ class UpdatePagePostUpdateController extends AbstractPageController
 
         return array_merge(
             $updateSteps->getStepParams($this::CURRENT_STEP),
-            []
+            [
+                // TODO
+                'backlog_link' => 'https://myshop.com/my-backlog.txt',
+            ]
         );
     }
 }

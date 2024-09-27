@@ -9,31 +9,31 @@
 {% endblock %}
 
 {% block content %}
-  {% if upToDate %}
-    <div class="up-to-date {% if noLocalArchive %} up-to-date--no-archive {% endif %}">
-      {% if noLocalArchive %}
+  {% if up_to_date %}
+    <div class="up-to-date {% if no_local_archive %} up-to-date--no-archive {% endif %}">
+      {% if no_local_archive %}
         <img class="up-to-date__img"
-          src="{{ assetsBasePath }}/img/up_to_date.svg"
+          src="{{ assets_base_path }}/img/up_to_date.svg"
           width="243"
           height="203"
           alt=""
         />
       {% endif %}
 
-      <p class="up-to-date__title text-success {% if noLocalArchive %} h2 {% else %} h3 {% endif %}">
+      <p class="up-to-date__title text-success {% if no_local_archive %} h2 {% else %} h3 {% endif %}">
         <i class="material-icons">check_circle</i>
         {{ 'You\'re up to date'|trans({}) }}
       </p>
 
       <p class="up-to-date__message">
         {{ 'Current PrestaShop version:'|trans({}) }}
-        {{ currentPrestashopVersion }}
+        {{ current_prestashop_version }}
         <br />
         {{ 'Current PHP version:'|trans({}) }}
-        {{ currentPhpVersion }}
+        {{ current_php_version }}
       </p>
     </div>
-    {% if noLocalArchive %}
+    {% if no_local_archive %}
       {% include "@ModuleAutoUpgrade/components/alert.html.twig" with {
         message: "Unlock the local update feature and manually update your store to your preferred upgrade by saving the archive and XML files of the PrestaShop version in the following directory on your server: %pathToLocalArchive%"|trans({
           '%pathToLocalArchive%': '<b>/admin/autoupgrade/download/</b>'
@@ -66,13 +66,13 @@
 
       <p class="not-up-to-date__message">
         {{ 'Current PrestaShop version:'|trans({}) }}
-        {{ currentPrestashopVersion }}
+        {{ current_prestashop_version }}
         <br />
         {{ 'Current PHP version:'|trans({}) }}
-        {{ currentPhpVersion }}
+        {{ current_php_version }}
       </p>
 
-      {% if not noLocalArchive %}
+      {% if not no_local_archive %}
         <p>
           <strong>
             {{ 'Select version:'|trans({}) }}
@@ -88,17 +88,19 @@
     <div class="version-page__card-list">
       {% include "@ModuleAutoUpgrade/components/radio-card.html.twig" with {
         radioCardId: "",
+        radioName: "canal_choice",
+        radioValue: "online",
         checked: true,
-        title: "PrestaShop %version%"|trans({'%version%': nextRelease.version}),
+        title: "PrestaShop %version%"|trans({'%version%': next_release.version}),
         disabled: false,
-        badgeLabel: nextRelease.badgeLabel,
-        badgeStatus: nextRelease.badgeStatus,
-        releaseNote: nextRelease.releaseNote,
+        badgeLabel: next_release.badge_label,
+        badgeStatus: next_release.badge_status,
+        releaseNote: next_release.release_note,
         archiveCard: false,
         checkRequirements: false,
       } %}
 
-      {% if noLocalArchive %}
+      {% if no_local_archive %}
         {% include "@ModuleAutoUpgrade/components/alert.html.twig" with {
           message: "Unlock the local update feature and manually update your store to your preferred upgrade by saving the archive and XML files of the PrestaShop version in the following directory on your server: %pathToLocalArchive%"|trans({
             '%pathToLocalArchive%': '<b>/admin/autoupgrade/download/</b>'
@@ -110,14 +112,18 @@
       {% else %}
         {% include "@ModuleAutoUpgrade/components/radio-card.html.twig" with {
           radioCardId: "",
+          radioName: "canal_choice",
+          radioValue: "local",
           checked: false,
           title: "Local archive"|trans({}),
-          message: "Save the archive file of the version you want to update to in the following directory: /admin/autoUpdate/download/",
+          message: "Save the archive file of the version you want to update to in the following directory: /admin/autoupgrade/download/",
           disabled: false,
           disabledMessage: "",
           badgeLabel: "",
           releaseNote: "",
           archiveCard: true,
+          archiveFiles: local_archives.zip,
+          xmlFiles: local_archives.xml,
         } %}
       {% endif %}
     </div>

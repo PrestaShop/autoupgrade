@@ -26,7 +26,7 @@
         },
         BoolName: "PS_AUTOUP_BACKUP_FILES_DB",
         BoolId: "PS_AUTOUP_BACKUP_FILES_DB",
-        val: true,
+        val: default_backup_files_and_database,
       } %}
 
       {% include "@ModuleAutoUpgrade/components/render-bool.html.twig" with {
@@ -40,7 +40,7 @@
         },
         BoolName: "PS_AUTOUP_BACKUP_WITH_IMAGES",
         BoolId: "PS_AUTOUP_BACKUP_WITH_IMAGES",
-        val: false,
+        val: default_include_images,
       } %}
     </div>
   </div>
