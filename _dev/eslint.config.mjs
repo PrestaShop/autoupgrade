@@ -4,6 +4,7 @@ import eslint from '@eslint/js';
 import tseslintPlugin from '@typescript-eslint/eslint-plugin';
 import tseslintParser from '@typescript-eslint/parser';
 import eslintPluginPrettier from 'eslint-plugin-prettier';
+import eslintPluginJest from 'eslint-plugin-jest';
 import globals from 'globals';
 
 export default [
@@ -38,6 +39,23 @@ export default [
     },
     rules: {
       ...tseslintPlugin.configs.recommended.rules
+    }
+  },
+  {
+    files: ['**/*.test.ts'],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'module',
+      globals: {
+        ...globals.jest,
+        ...globals.node
+      }
+    },
+    plugins: {
+      jest: eslintPluginJest
+    },
+    rules: {
+      ...eslintPluginJest.configs.recommended.rules
     }
   },
   {
