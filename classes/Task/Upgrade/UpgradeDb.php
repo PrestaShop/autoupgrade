@@ -38,7 +38,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader81;
 
 class UpgradeDb extends AbstractTask
 {
-    const TASK_TYPE = TaskType::TASK_TYPE_UPGRADE;
+    const TASK_TYPE = TaskType::TASK_TYPE_UPDATE;
 
     public function run(): int
     {

@@ -30,6 +30,6 @@ namespace PrestaShop\Module\AutoUpgrade\Task;
 class TaskType
 {
     const TASK_TYPE_BACKUP = 'backup';
-    const TASK_TYPE_UPGRADE = 'upgrade';
+    const TASK_TYPE_UPDATE = 'update';
     const TASK_TYPE_RESTORE = 'restore';
 }

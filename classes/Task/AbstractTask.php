@@ -157,9 +157,23 @@ abstract class AbstractTask
         // TODO: Add this? $this->next = 'error';
 
         if (static::TASK_TYPE) {
+            $propertiesType = null;
+
+            switch (static::TASK_TYPE) {
+                case TaskType::TASK_TYPE_UPDATE:
+                    $propertiesType = Analytics::WITH_UPDATE_PROPERTIES;
+                    break;
+                case TaskType::TASK_TYPE_BACKUP:
+                    $propertiesType = Analytics::WITH_BACKUP_PROPERTIES;
+                    break;
+                case TaskType::TASK_TYPE_RESTORE:
+                    $propertiesType = Analytics::WITH_RESTORE_PROPERTIES;
+                    break;
+            }
+
             $this->container->getAnalytics()->track(
                 ucfirst(static::TASK_TYPE) . ' Failed',
-                static::TASK_TYPE === TaskType::TASK_TYPE_UPGRADE ? Analytics::WITH_UPGRADE_PROPERTIES : Analytics::WITH_ROLLBACK_PROPERTIES
+                $propertiesType
             );
         }
     }

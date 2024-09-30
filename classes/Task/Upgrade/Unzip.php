@@ -28,6 +28,7 @@
 namespace PrestaShop\Module\AutoUpgrade\Task\Upgrade;
 
 use Exception;
+use PrestaShop\Module\AutoUpgrade\Analytics;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\Task\TaskType;
@@ -40,7 +41,7 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 class Unzip extends AbstractTask
 {
-    const TASK_TYPE = TaskType::TASK_TYPE_UPGRADE;
+    const TASK_TYPE = TaskType::TASK_TYPE_UPDATE;
 
     /**
      * @throws Exception
@@ -125,6 +126,8 @@ class Unzip extends AbstractTask
 
         $this->next = 'backupFiles';
         $this->logger->info($this->translator->trans('File extraction complete. Now backing up files...'));
+
+        $this->container->getAnalytics()->track('Backup Launched', Analytics::WITH_BACKUP_PROPERTIES);
 
         @unlink($newZip);
 

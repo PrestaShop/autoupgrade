@@ -293,7 +293,7 @@ class UpgradeContainer
                     'php_version' => VersionUtils::getHumanReadableVersionOf(PHP_VERSION_ID),
                     'autoupgrade_version' => $this->getPrestaShopConfiguration()->getModuleVersion(),
                 ],
-                Analytics::WITH_UPGRADE_PROPERTIES => [
+                Analytics::WITH_UPDATE_PROPERTIES => [
                     'disable_all_overrides' => class_exists('\Configuration', false) ? UpgradeConfiguration::isOverrideAllowed() : null,
                     'regenerate_rtl_stylesheet' => class_exists('\Language', false) ? $this->shouldUpdateRTLFiles() : null,
                 ],

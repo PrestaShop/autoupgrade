@@ -43,7 +43,7 @@ class RollbackComplete extends AbstractTask
     {
         $this->logger->info($this->translator->trans('Restoration process done. Congratulations! You can now reactivate your shop.'));
         $this->next = '';
-        $this->container->getAnalytics()->track('Rollback Succeeded', Analytics::WITH_ROLLBACK_PROPERTIES);
+        $this->container->getAnalytics()->track('Restore Succeeded', Analytics::WITH_RESTORE_PROPERTIES);
 
         $this->container->getState()->setProgressPercentage(
             $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
