@@ -83,8 +83,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - run: composer install --prefer-dist
-      - run: ./vendor/phpunit/phpunit/phpunit tests
+      - run: composer install --working-dir tests --prefer-dist
+      - run: ./tests/vendor/phpunit/phpunit/phpunit -c tests/phpunit.xml tests
 
   # Run PHPStan against the module and a PrestaShop release
   phpstan:

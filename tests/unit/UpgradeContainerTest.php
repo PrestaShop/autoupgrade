@@ -50,7 +50,7 @@ class UpgradeContainerTest extends TestCase
         $this->assertSame($actualClass, $expectedClass);
     }
 
-    public function objectsToInstanciateProvider()
+    public static function objectsToInstanciateProvider(): array
     {
         // | Function to call | Expected class |
         return [

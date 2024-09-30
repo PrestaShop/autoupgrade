@@ -33,7 +33,7 @@ class ErrorHandlerTest extends TestCase
     protected $adminSelfUpgradeStub;
     protected $logger;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->logger = new LegacyLogger();
@@ -81,7 +81,7 @@ class ErrorHandlerTest extends TestCase
         $this->assertNotNull(json_decode($this->errorHandler->generateJsonLog($log)));
     }
 
-    public function logProvider()
+    public static function logProvider(): array
     {
         return [
             ["[INTERNAL] /var/www/html/modules/autoupgrade/classes/Task/Upgrade/BackupFiles.php line 55 - Class 'PrestaShop\Module\AutoUpgrade\Task\Upgrade\UpgradeContainer' not found"],

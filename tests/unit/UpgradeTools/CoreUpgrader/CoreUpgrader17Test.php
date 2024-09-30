@@ -32,7 +32,7 @@ class CoreUpgrader17Test extends TestCase
 {
     protected $coreUpgrader;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -50,7 +50,7 @@ class CoreUpgrader17Test extends TestCase
         $this->assertSame($expected, $this->coreUpgrader->normalizeVersion($source));
     }
 
-    public function versionProvider()
+    public static function versionProvider(): array
     {
         return [
             ['1.7', '1.7.0.0'],

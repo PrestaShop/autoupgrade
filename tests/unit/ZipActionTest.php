@@ -34,7 +34,7 @@ class ZipActionTest extends TestCase
     private $container;
     private $contentExcepted;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->contentExcepted = [
             'dummyFolder/',
