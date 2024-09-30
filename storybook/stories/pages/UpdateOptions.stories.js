@@ -55,6 +55,10 @@ export default {
       code: "update-options",
       title: "Update options",
     },
+    default_deactive_non_native_modules: true,
+    default_regenerate_email_templates: true,
+    switch_the_theme: 1,
+    disable_all_overrides: false,
   },
 };
 

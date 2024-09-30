@@ -29,11 +29,6 @@ export default {
   component: PostUpdatePage,
   title: "Pages/Update",
   args: {
-    psBaseUri: "/",
-    upToDate: true,
-    noLocalArchive: true,
-    currentPrestashopVersion: "8.1.6",
-    currentPhpVersion: "8.1",
     steps: [
       {
         state: "done",
@@ -60,6 +55,12 @@ export default {
       code: "post-update",
       title: "Post-update checklist",
     },
+    psBaseUri: "/",
+    upToDate: true,
+    noLocalArchive: true,
+    currentPrestashopVersion: "8.1.6",
+    currentPhpVersion: "8.1",
+    backlog_link: "https://myshop.com/my-backlog.txt",
   },
 };
 

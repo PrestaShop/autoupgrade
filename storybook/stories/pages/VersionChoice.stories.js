@@ -31,19 +31,6 @@ export default {
   component: VersionChoicePage,
   title: "Pages/Update",
   args: {
-    psBaseUri: "/",
-    assetsBasePath: "/",
-    upToDate: true,
-    noLocalArchive: true,
-    currentPrestashopVersion: "8.1.6",
-    currentPhpVersion: "8.1",
-    nextRelease: {
-      version: "9.0.0",
-      releaseDate: "01/05/2024",
-      badgeLabel: "Major version",
-      badgeStatus: "major",
-      releaseNote: "https://github.com/PrestaShop/autoupgrade"
-    },
     ...RadioCard.args,
     ...LocalArchive.args,
     steps: [
@@ -72,6 +59,23 @@ export default {
       code: "version-choice",
       title: "Version choice",
     },
+    psBaseUri: "/",
+    assetsBasePath: "/",
+    up_to_date: false,
+    no_local_archive: true,
+    current_prestashop_version: "8.1.6",
+    current_php_version: "8.1",
+    next_release: {
+      version: "9.0.0",
+      badge_label: "Major version",
+      badge_status: "major",
+      release_note: "https://github.com/PrestaShop/autoupgrade"
+    },
+    local_archives: {
+      zip: ["prestashop.zip"],
+      xml: ["prestashop.xml"],
+    },
+    assets_base_path: "",
   },
 };
 
