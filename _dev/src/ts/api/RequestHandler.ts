@@ -8,9 +8,7 @@ export default class RequestHandler {
   }
 
   public post(route: string, data = new FormData(), fromPopState?: boolean) {
-    if (data) {
-      data.append('dir', window.AutoUpgrade.variables.admin_dir);
-    }
+    data.append('dir', window.AutoUpgrade.variables.admin_dir);
 
     baseApi
       .post('', data, {
