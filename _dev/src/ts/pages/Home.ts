@@ -1,56 +1,56 @@
 import PageAbstract from './PageAbstract';
+import api from '../api/RequestHandler';
 
 export default class HomePage extends PageAbstract {
-  form: HTMLFormElement | null;
-  submitButton: HTMLButtonElement | null;
+  form: HTMLFormElement;
+  submitButton: HTMLButtonElement;
 
   constructor() {
     super();
-    this.form = document.forms.namedItem('next_page');
-    this.submitButton = this.getSubmitButton();
+    const form = document.forms.namedItem('next_page');
+    if (form) {
+      this.form = form;
+    } else {
+      throw new Error("The form wasn't found inside DOM. HomePage can't be initiated properly");
+    }
+    const submitButton = Array.from(this.form.elements).find(
+      (element) => element instanceof HTMLButtonElement && element.type === 'submit'
+    ) as HTMLButtonElement | null;
+    if (submitButton) {
+      this.submitButton = submitButton;
+    } else {
+      throw new Error(
+        "The submit button wasn't found inside DOM. HomePage can't be initiated properly"
+      );
+    }
   }
 
   public mount = () => {
-    if (this.form) {
-      this.checkForm();
-      this.form.addEventListener('change', this.checkForm);
-      this.form.addEventListener('submit', this.handleSubmit);
-    }
+    this.checkForm();
+    this.form.addEventListener('change', this.checkForm);
+    this.form.addEventListener('submit', this.handleSubmit);
   };
 
-  private getSubmitButton = (): HTMLButtonElement | null => {
-    if (!this.form) return null;
-    const elements = Array.from(this.form.elements);
-    return elements.find(
-      (element) => element instanceof HTMLButtonElement && element.type === 'submit'
-    ) as HTMLButtonElement | null;
+  public beforeDestroy = () => {
+    this.form.removeEventListener('change', this.checkForm);
+    this.form.removeEventListener('submit', this.handleSubmit);
   };
 
   private checkForm = () => {
-    if (this.form?.checkValidity()) {
-      this.submitButton?.removeAttribute('disabled');
+    if (this.form.checkValidity()) {
+      this.submitButton.removeAttribute('disabled');
     } else {
-      this.submitButton?.setAttribute('disabled', 'true');
+      this.submitButton.setAttribute('disabled', 'true');
     }
   };
 
   private handleSubmit = (event: Event) => {
     event.preventDefault();
-    if (this.form) {
+    const route = this.form.dataset.route;
+
+    if (route) {
       const formData = new FormData(this.form);
-
-      const route = this.form.dataset.route;
-
-      if (route && window.AutoUpgrade.classes.RequestHandler) {
-        window.AutoUpgrade.classes.RequestHandler.post(route, formData);
-      }
-    }
-  };
-
-  public beforeDestroy = () => {
-    if (this.form) {
-      this.form.removeEventListener('change', this.checkForm);
-      this.form.removeEventListener('submit', this.handleSubmit);
+      api.post(route, formData);
     }
   };
 }

@@ -1,10 +1,10 @@
 import axios from 'axios';
 
 const baseApi = axios.create({
-  baseURL: `${window.AutoUpgrade.variables.admin_url}/autoupgrade/ajax-upgradetab.php`,
+  baseURL: `${window.AutoUpgradeVariables.admin_url}/autoupgrade/ajax-upgradetab.php`,
   headers: {
     'X-Requested-With': 'XMLHttpRequest',
-    Authorization: `Bearer ${() => window.AutoUpgrade.variables.token}`
+    Authorization: `Bearer ${() => window.AutoUpgradeVariables.token}`
   }
 });
 

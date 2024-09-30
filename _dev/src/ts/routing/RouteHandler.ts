@@ -1,7 +1,11 @@
+import api from '../api/RequestHandler';
+
 export default class RouteHandler {
   constructor() {
-    window.AutoUpgrade.classes.RouteHandler = this;
-    this.init();
+    if (!this.getCurrentRoute()) {
+      this.setNewRoute('home-page');
+    }
+    window.addEventListener('popstate', () => this.handleRouteChange());
   }
 
   private getCurrentUrl(): URL {
@@ -25,18 +29,10 @@ export default class RouteHandler {
     window.history.pushState(null, '', newUrl);
   }
 
-  public init() {
-    if (!this.getCurrentRoute()) {
-      this.setNewRoute('home-page');
-    }
-
-    window.addEventListener('popstate', () => this.handleRouteChange());
-  }
-
   private handleRouteChange() {
     const newRoute = this.getCurrentRoute();
-    if (newRoute !== null && window.AutoUpgrade.classes.RequestHandler) {
-      window.AutoUpgrade.classes.RequestHandler.post(newRoute, new FormData(), true);
+    if (newRoute !== null) {
+      api.post(newRoute, new FormData(), true);
     }
   }
 }

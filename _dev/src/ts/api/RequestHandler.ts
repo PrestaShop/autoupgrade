@@ -2,13 +2,9 @@ import baseApi from './baseApi';
 import { ApiResponse } from '../types/apiTypes';
 import Hydration from '../utils/Hydration';
 
-export default class RequestHandler {
-  constructor() {
-    window.AutoUpgrade.classes.RequestHandler = this;
-  }
-
+class RequestHandler {
   public post(route: string, data = new FormData(), fromPopState?: boolean) {
-    data.append('dir', window.AutoUpgrade.variables.admin_dir);
+    data.append('dir', window.AutoUpgradeVariables.admin_dir);
 
     baseApi
       .post('', data, {
@@ -29,3 +25,7 @@ export default class RequestHandler {
     }
   }
 }
+
+const api = new RequestHandler();
+
+export default api;

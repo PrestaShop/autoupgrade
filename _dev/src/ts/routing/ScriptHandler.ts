@@ -2,11 +2,15 @@ import HomePage from '../pages/Home';
 import Update from '../pages/Update';
 import PageAbstract from '../pages/PageAbstract';
 import { RoutesMatching } from '../types/scriptHandlerTypes';
+import { routeHandler } from '../autoUpgrade';
 
 export default class ScriptHandler {
   constructor() {
-    window.AutoUpgrade.classes.ScriptHandler = this;
-    this.init();
+    const currentRoute = routeHandler.getCurrentRoute();
+
+    if (currentRoute) {
+      this.loadScript(currentRoute);
+    }
   }
 
   private currentScript: PageAbstract | undefined;
@@ -15,14 +19,6 @@ export default class ScriptHandler {
     'home-page': HomePage,
     'update-page-version-choice': Update
   };
-
-  public init() {
-    const currentRoute = window.AutoUpgrade.classes.RouteHandler?.getCurrentRoute();
-
-    if (currentRoute) {
-      this.loadScript(currentRoute);
-    }
-  }
 
   private loadScript(routeName: string) {
     if (this.routesMatching[routeName]) {

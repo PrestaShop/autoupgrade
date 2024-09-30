@@ -1,4 +1,5 @@
 import { ApiResponseHydration } from '../types/apiTypes';
+import { routeHandler, scriptHandler } from '../autoUpgrade';
 
 export default class Hydration {
   public hydrate(data: ApiResponseHydration, fromPopState?: boolean) {
@@ -7,11 +8,11 @@ export default class Hydration {
     if (elementToUpdate && data.new_content) {
       elementToUpdate.innerHTML = data.new_content;
 
-      if (data.new_route && window.AutoUpgrade.classes.ScriptHandler) {
-        window.AutoUpgrade.classes.ScriptHandler.updateRouteScript(data.new_route);
+      if (data.new_route) {
+        scriptHandler.updateRouteScript(data.new_route);
 
-        if (!fromPopState && window.AutoUpgrade.classes.RouteHandler) {
-          window.AutoUpgrade.classes.RouteHandler.setNewRoute(data.new_route);
+        if (!fromPopState) {
+          routeHandler.setNewRoute(data.new_route);
         }
       }
     }
