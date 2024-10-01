@@ -84,8 +84,7 @@ describe('Hydration', () => {
     const response: ApiResponseHydration = {
       hydration: true,
       new_content: `<p>New Content</p>`,
-      parent_to_update: 'non_existent_id',
-      new_route: undefined
+      parent_to_update: 'non_existent_id'
     };
 
     hydration.hydrate(response);
