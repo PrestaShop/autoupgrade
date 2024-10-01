@@ -90,6 +90,16 @@ jobs:
          backupName=$(docker exec -t prestashop bash -c "ls -td -- /var/www/html/admin-dev/autoupgrade/backup/*/ | head -n 1 | cut -d'/' -f8 | tr -d '\n'")
          docker exec -t prestashop php modules/autoupgrade/bin/console backup:restore --backup=$backupName admin-dev
 
+      - name: Run Sanity tests
+        working-directory: tests/UI/
+        env:
+          PS_VERSION: ${{ matrix.PS_VERSION_END }}
+          DB_USER: prestashop
+          DB_PASSWD: prestashop
+          DB_NAME: prestashop
+          DB_PREFIX: ps_
+        run: npx playwright test
+
       - name: Export Docker errors
         working-directory: tests/UI/
         if: always()
