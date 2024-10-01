@@ -37,6 +37,8 @@ use Symfony\Component\HttpFoundation\Request;
  * Calling it from the module/autoupgrade folder will have unwanted consequences on the upgrade and your shop.
  */
 require_once realpath(dirname(__FILE__) . '/../../modules/autoupgrade') . '/ajax-upgradetabconfig.php';
+// TODO: We need to remove this in the future and add Twig into the module dependencies.
+require_once realpath(dirname(__FILE__) . '/../../vendor/autoload.php');
 $container = autoupgrade_init_container(dirname(__FILE__));
 
 (new \PrestaShop\Module\AutoUpgrade\ErrorHandler($container->getLogger()))->enable();

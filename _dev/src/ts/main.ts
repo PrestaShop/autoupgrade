@@ -1,5 +1,1 @@
-const main = () => {
-  return null;
-};
-
-main();
+import './autoUpgrade';

@@ -441,6 +441,9 @@ class AdminSelfUpgradeController extends ModuleAdminController
         }
 
         if (Tools::getValue('new-ui')) {
+            $this->content = $this->upgradeContainer->getTwig()->render('@ModuleAutoUpgrade/module-script-variables.html.twig', [
+                'autoupgrade_variables' => $this->getScriptsVariables(),
+            ]);
             $request = Request::createFromGlobals();
             $this->addNewUIAssets($request);
 
@@ -450,7 +453,7 @@ class AdminSelfUpgradeController extends ModuleAdminController
                 $response->send();
                 exit;
             }
-            $this->content = $response;
+            $this->content .= $response;
 
             return parent::initContent();
         }
@@ -508,6 +511,20 @@ class AdminSelfUpgradeController extends ModuleAdminController
     }
 
     /**
+     * @return array<string, mixed>
+     */
+    private function getScriptsVariables()
+    {
+        $adminDir = trim(str_replace($this->prodRootDir, '', $this->adminDir), DIRECTORY_SEPARATOR);
+
+        return [
+            'token' => $this->token,
+            'admin_url' => __PS_BASE_URI__ . $adminDir,
+            'admin_dir' => $adminDir,
+        ];
+    }
+
+    /**
      * @param Request $request
      *
      * @return void
@@ -516,14 +533,14 @@ class AdminSelfUpgradeController extends ModuleAdminController
     {
         $assetsEnvironment = $this->upgradeContainer->getAssetsEnvironment();
         $assetsBaseUrl = $assetsEnvironment->getAssetsBaseUrl($request);
+        $twig = $this->upgradeContainer->getTwig();
 
         if ($assetsEnvironment->isDevMode()) {
             $this->context->controller->addCSS($assetsBaseUrl . 'src/scss/main.scss');
-            $twig = $this->upgradeContainer->getTwig();
-            $this->content .= $twig->render('@ModuleAutoUpgrade/module-script-tag.html.twig', ['src' => $assetsBaseUrl . 'src/ts/main.ts']);
+            $this->content .= $twig->render('@ModuleAutoUpgrade/module-script-tag.html.twig', ['module_type' => true, 'src' => $assetsBaseUrl . 'src/ts/main.ts']);
         } else {
             $this->context->controller->addCSS($assetsBaseUrl . '/css/autoupgrade.css');
-            $this->context->controller->addJS($assetsBaseUrl . '/js/autoupgrade.js?version=' . $this->module->version);
+            $this->content .= $twig->render('@ModuleAutoUpgrade/module-script-tag.html.twig', ['src' => $assetsBaseUrl . '/js/autoupgrade.js?version=' . $this->module->version]);
         }
     }
 }

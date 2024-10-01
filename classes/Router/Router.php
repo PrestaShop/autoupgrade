@@ -50,6 +50,7 @@ class Router
     }
 
     const HOME_PAGE = 'home-page';
+    const HOME_PAGE_FORM = 'home-page-form';
     const UPDATE_PAGE_VERSION_CHOICE = 'update-page-version-choice';
     const UPDATE_STEP_VERSION_CHOICE = 'update-step-version-choice';
     const UPDATE_PAGE_UPDATE_OPTIONS = 'update-page-update-options';
@@ -60,11 +61,16 @@ class Router
     const UPDATE_STEP_UPDATE = 'update-step-update';
     const UPDATE_PAGE_POST_UPDATE = 'update-page-post-update';
     const UPDATE_STEP_POST_UPDATE = 'update-step-post-update';
+    const RESTORE_PAGE_BACKUP_SELECTION = 'restore-page-backup-selection';
 
     const ROUTES = [
         self::HOME_PAGE => [
             'controller' => HomePageController::class,
             'method' => 'index',
+        ],
+        self::HOME_PAGE_FORM => [
+            'controller' => HomePageController::class,
+            'method' => 'submit',
         ],
         self::UPDATE_PAGE_VERSION_CHOICE => [
             'controller' => UpdatePageVersionChoiceController::class,
@@ -106,6 +112,10 @@ class Router
             'controller' => UpdatePagePostUpdateController::class,
             'method' => 'step',
         ],
+//        self::RESTORE_PAGE_BACKUP_SELECTION => [
+//            'controller' => 'todo',
+//            'method' => 'index',
+//        ]
     ];
 
     /**

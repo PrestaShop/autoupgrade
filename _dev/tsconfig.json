@@ -24,7 +24,8 @@
   "include": [
     "src/ts/**/*.ts",
     "vite.config.ts",
-    "vite.dev.config.ts"
+    "vite.dev.config.ts",
+    "global.d.ts"
   ],
   "exclude": [
     "node_modules",
