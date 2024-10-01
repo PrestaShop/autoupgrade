@@ -67,12 +67,12 @@
       <trans-unit id="f2ff9d001d0a553c78da73443e7fcd97" approved="yes">
         <source>Configuration successfully updated.</source>
         <target state="final">Nastavení bylo aktualizováno.</target>
-        <note>Line: 195</note>
+        <note>Line: 194</note>
       </trans-unit>
       <trans-unit id="40b980e89ae332507380470cd26cdf4d" approved="yes">
         <source>This page will now be reloaded and the module will check if a new version is available.</source>
         <target state="final">Tato stránka bude nyní znovu načtena a zkontroluje se, zda není dostupná nová verze modulu.</target>
-        <note>Line: 195</note>
+        <note>Line: 194</note>
       </trans-unit>
     </body>
   </file>
@@ -408,14 +408,14 @@
   </file>
   <file original="classes/Task/Upgrade/UpgradeComplete.php" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="64d7e13ba8bcd0c4a6977cf271577a03">
+      <trans-unit id="64d7e13ba8bcd0c4a6977cf271577a03" approved="yes">
         <source>Shop updated to %s, but some warnings have been found.</source>
-        <target state="needs-translation">Shop updated to %s, but some warnings have been found.</target>
+        <target state="final">Obchod byl aktualizován na %s, ale je tu několik varování.</target>
         <note>Line: 57</note>
       </trans-unit>
-      <trans-unit id="f14a0e3c163ebd24ef367ac1079cf000">
+      <trans-unit id="f14a0e3c163ebd24ef367ac1079cf000" approved="yes">
         <source>Shop updated to %s. Congratulations! You can now reactivate your shop.</source>
-        <target state="needs-translation">Shop updated to %s. Congratulations! You can now reactivate your shop.</target>
+        <target state="final">Obchod byl aktualizován na %s. Blahopřejeme! Nyní můžete znovu aktivovat svůj obchod.</target>
         <note>Line: 58</note>
       </trans-unit>
       <trans-unit id="d2b9f1e39aa8e96bb61f3a4bfe133f58" approved="yes">
@@ -432,14 +432,14 @@
   </file>
   <file original="classes/Task/Upgrade/UpgradeDb.php" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="badf6aad60d4a95b698028bc55aa3347">
+      <trans-unit id="badf6aad60d4a95b698028bc55aa3347" approved="yes">
         <source>Cleaning file cache</source>
-        <target state="needs-translation">Cleaning file cache</target>
+        <target state="final">Čistím cache souborů</target>
         <note>Line: 83</note>
       </trans-unit>
-      <trans-unit id="8c4204265814594491ae20c9899a0fff">
+      <trans-unit id="8c4204265814594491ae20c9899a0fff" approved="yes">
         <source>Running opcache_reset</source>
-        <target state="needs-translation">Running opcache_reset</target>
+        <target state="final">Spouštím opcache_reset</target>
         <note>Line: 85</note>
       </trans-unit>
       <trans-unit id="eac34868b4fb511702e53d1405c45454" approved="yes">
@@ -541,14 +541,14 @@ Comment: directory already exists</note>
   </file>
   <file original="classes/Task/Upgrade/UpgradeModules.php" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="78c6e760441165ec762746a0ab4b64cd">
+      <trans-unit id="78c6e760441165ec762746a0ab4b64cd" approved="yes">
         <source>Checking updates of module %module%...</source>
-        <target state="needs-translation">Checking updates of module %module%...</target>
+        <target state="final">Kontrola aktualizací modulu %module%...</target>
         <note>Line: 76</note>
       </trans-unit>
-      <trans-unit id="2b4da2b27a96bf23f0de18c59e9b1afe">
+      <trans-unit id="2b4da2b27a96bf23f0de18c59e9b1afe" approved="yes">
         <source>Module %module% is up-to-date.</source>
-        <target state="needs-translation">Module %module% is up-to-date.</target>
+        <target state="final">Modul %module% je aktuální.</target>
         <note>Line: 82</note>
       </trans-unit>
       <trans-unit id="ec44b213f2da02f294c10211129cdd77" approved="yes">
@@ -561,14 +561,14 @@ Comment: directory already exists</note>
         <target state="final">Modul %s není potřeba migrovat, je aktuální.</target>
         <note>Line: 99</note>
       </trans-unit>
-      <trans-unit id="f88f4492f3805f4732cda67d58b70cc4">
+      <trans-unit id="f88f4492f3805f4732cda67d58b70cc4" approved="yes">
         <source>%s modules left to update.</source>
-        <target state="needs-translation">%s modules left to update.</target>
+        <target state="final">Zbývá aktualizovat %s modulů.</target>
         <note>Line: 127</note>
       </trans-unit>
-      <trans-unit id="d47b7d2553af843c2c037185c0279268">
+      <trans-unit id="d47b7d2553af843c2c037185c0279268" approved="yes">
         <source>All modules have been updated.</source>
-        <target state="needs-translation">All modules have been updated.</target>
+        <target state="final">Všechny moduly byly aktualizovány.</target>
         <note>Line: 132</note>
       </trans-unit>
       <trans-unit id="0530243ad5b9bd205a04b975d3ef8aaf" approved="yes">
@@ -585,14 +585,14 @@ Comment: directory already exists</note>
         <target state="final">Začínám aktualizovat...</target>
         <note>Line: 49</note>
       </trans-unit>
-      <trans-unit id="6457b7906763efc16e4c05fe806cb680">
+      <trans-unit id="6457b7906763efc16e4c05fe806cb680" approved="yes">
         <source>Your shop is currently running the latest compatible version. No updates are needed at this time.</source>
-        <target state="needs-translation">Your shop is currently running the latest compatible version. No updates are needed at this time.</target>
+        <target state="final">Váš obchod aktuálně používá nejnovější kompatibilní verzi. V tuto chvíli nejsou potřeba žádné aktualizace.</target>
         <note>Line: 60</note>
       </trans-unit>
-      <trans-unit id="02aa51bf9b62b390e5b799c57f0367a7">
+      <trans-unit id="02aa51bf9b62b390e5b799c57f0367a7" approved="yes">
         <source>Destination version: %s</source>
-        <target state="needs-translation">Destination version: %s</target>
+        <target state="final">Cílová verze: %s</target>
         <note>Line: 65</note>
       </trans-unit>
       <trans-unit id="fd89b081ead6c32f16c370771cfe92e1" approved="yes">
@@ -624,9 +624,9 @@ Comment: directory already exists</note>
   </file>
   <file original="classes/Twig/Block/UpgradeButtonBlock.php" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="54f664c70c22054ea0d8d26fc3997ce7">
+      <trans-unit id="54f664c70c22054ea0d8d26fc3997ce7" approved="yes">
         <source>Online</source>
-        <target state="needs-translation">Online</target>
+        <target state="final">Online</target>
         <note>Line: 171</note>
       </trans-unit>
     </body>
@@ -651,29 +651,29 @@ Comment: directory already exists</note>
   </file>
   <file original="classes/Twig/UpdateSteps.php" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="02d133204e3ce382eb9a8a0712161999">
+      <trans-unit id="02d133204e3ce382eb9a8a0712161999" approved="yes">
         <source>Version choice</source>
-        <target state="needs-translation">Version choice</target>
+        <target state="final">Volba verze</target>
         <note>Line: 35</note>
       </trans-unit>
-      <trans-unit id="df5820ca7f238b48987ff74db1271e4a">
+      <trans-unit id="df5820ca7f238b48987ff74db1271e4a" approved="yes">
         <source>Update options</source>
-        <target state="needs-translation">Update options</target>
+        <target state="final">Možnosti aktualizace</target>
         <note>Line: 38</note>
       </trans-unit>
-      <trans-unit id="3500ba09d0538297440ca620c9dd46bf">
+      <trans-unit id="3500ba09d0538297440ca620c9dd46bf" approved="yes">
         <source>Backup</source>
-        <target state="needs-translation">Backup</target>
+        <target state="final">Záloha</target>
         <note>Line: 41</note>
       </trans-unit>
-      <trans-unit id="06933067aafd48425d67bcb01bba5cb6">
+      <trans-unit id="06933067aafd48425d67bcb01bba5cb6" approved="yes">
         <source>Update</source>
-        <target state="needs-translation">Update</target>
+        <target state="final">Aktualizovat</target>
         <note>Line: 44</note>
       </trans-unit>
-      <trans-unit id="13d3fd796fa75eea78ac8b6257fda2b6">
+      <trans-unit id="13d3fd796fa75eea78ac8b6257fda2b6" approved="yes">
         <source>Post-update</source>
-        <target state="needs-translation">Post-update</target>
+        <target state="final">Po aktualizaci</target>
         <note>Line: 47</note>
       </trans-unit>
     </body>
@@ -1018,9 +1018,9 @@ Comment: check DB access</note>
         <target state="final">Současná verze: %oldversion%. Verze k nainstalování: %newversion%.</target>
         <note>Line: 284</note>
       </trans-unit>
-      <trans-unit id="37ce0f29c7377c827e7247fe5645a782">
+      <trans-unit id="37ce0f29c7377c827e7247fe5645a782" approved="yes">
         <source>You already have the %s version.</source>
-        <target state="needs-translation">You already have the %s version.</target>
+        <target state="final">Již máte verzi %s.</target>
         <note>Line: 286</note>
       </trans-unit>
       <trans-unit id="f25792b5b08a78dd01810297d219c10c" approved="yes">
@@ -1222,9 +1222,9 @@ Comment: check DB access</note>
   </file>
   <file original="classes/UpgradeTools/Module/ModuleUnzipper.php" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="212d17b84ed7ed05df35b5fb0c805eea">
+      <trans-unit id="212d17b84ed7ed05df35b5fb0c805eea" approved="yes">
         <source>Error when trying to extract module %s.</source>
-        <target state="needs-translation">Error when trying to extract module %s.</target>
+        <target state="final">Chyba při pokusu o rozbalení modulu %s.</target>
         <note>Line: 61</note>
       </trans-unit>
     </body>
@@ -1417,28 +1417,28 @@ Comment: check DB access</note>
   </file>
   <file original="controllers/admin/self-managed/UpdatePageVersionChoiceController.php" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="001c32426a6cfb48ebb848b13141593c">
+      <trans-unit id="001c32426a6cfb48ebb848b13141593c" approved="yes">
         <source>Major version</source>
-        <target state="needs-translation">Major version</target>
+        <target state="final">Hlavní verze</target>
         <note>Line: 79</note>
       </trans-unit>
-      <trans-unit id="c5439de366a407641018f189da1ad4a7">
+      <trans-unit id="c5439de366a407641018f189da1ad4a7" approved="yes">
         <source>Minor version</source>
-        <target state="needs-translation">Minor version</target>
+        <target state="final">Menší verze</target>
         <note>Line: 82</note>
       </trans-unit>
-      <trans-unit id="8a0dd44f366bc5604b8329a87be5f933">
+      <trans-unit id="8a0dd44f366bc5604b8329a87be5f933" approved="yes">
         <source>Patch version</source>
-        <target state="needs-translation">Patch version</target>
+        <target state="final">Opravná verze</target>
         <note>Line: 85</note>
       </trans-unit>
     </body>
   </file>
   <file original="views/templates/block/activityLog.html.twig" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="ea4788705e6873b424c65e91c2846b19">
+      <trans-unit id="ea4788705e6873b424c65e91c2846b19" approved="yes">
         <source>Cancel</source>
-        <target state="needs-translation">Cancel</target>
+        <target state="final">Zrušit</target>
         <note>Line: 57</note>
       </trans-unit>
       <trans-unit id="2b16564e6e838ce86608620b70beb570" approved="yes">
@@ -1653,14 +1653,14 @@ Comment: check DB access</note>
   </file>
   <file original="views/templates/block/postUpdateChecklistBlock.html.twig" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="cce78dc6ebbec7385a01f2146d6d01c8">
+      <trans-unit id="cce78dc6ebbec7385a01f2146d6d01c8" approved="yes">
         <source>Next steps</source>
-        <target state="needs-translation">Next steps</target>
+        <target state="final">Další kroky</target>
         <note>Line: 24</note>
       </trans-unit>
-      <trans-unit id="231cf4c70d866b616c21baddaeed0696">
+      <trans-unit id="231cf4c70d866b616c21baddaeed0696" approved="yes">
         <source>Troubleshooting</source>
-        <target state="needs-translation">Troubleshooting</target>
+        <target state="final">Řešení problémů</target>
         <note>Line: 35</note>
       </trans-unit>
       <trans-unit id="605f8e6688fdd2a7616a3614d741202d" approved="yes">
@@ -1668,19 +1668,19 @@ Comment: check DB access</note>
         <target state="final"><![CDATA[Pokud se některé obrázky nezobrazují správně, zkuste přegenerovat miniatury v sekci Vzhled > Nastavení obrázků.]]></target>
         <note>Line: 38</note>
       </trans-unit>
-      <trans-unit id="b6e8290a312769f4d3919f3dd42a21a7">
+      <trans-unit id="b6e8290a312769f4d3919f3dd42a21a7" approved="yes">
         <source>If something's wrong, you can restore a backup with this module. Your backup is available at {admin}/autoupgrade/backup.</source>
-        <target state="needs-translation">If something's wrong, you can restore a backup with this module. Your backup is available at {admin}/autoupgrade/backup.</target>
+        <target state="final">Pokud se něco pokazí, můžete pomocí tohoto modulu obnovit zálohu. Záloha je k dispozici ve složce {admin}/autoupgrade/backup.</target>
         <note>Line: 40</note>
       </trans-unit>
-      <trans-unit id="3cdf2387430d70296aec1dbe3d6772ad">
+      <trans-unit id="3cdf2387430d70296aec1dbe3d6772ad" approved="yes">
         <source>If you can't access your back office, try enabling the debug mode manually in config/defines.inc.php by setting _PS_MODE_DEV_ to true.</source>
-        <target state="needs-translation">If you can't access your back office, try enabling the debug mode manually in config/defines.inc.php by setting _PS_MODE_DEV_ to true.</target>
+        <target state="final">Pokud nebudete mít přístup do administrace, zkuste ručně povolit režim ladění v souboru config/defines.inc.php nastavením _PS_MODE_DEV_ na hodnotu true.</target>
         <note>Line: 42</note>
       </trans-unit>
-      <trans-unit id="4ba42d4d681d17d9bee2f6228c326069">
+      <trans-unit id="4ba42d4d681d17d9bee2f6228c326069" approved="yes">
         <source>Open developer documentation</source>
-        <target state="needs-translation">Open developer documentation</target>
+        <target state="final">Otevřít dokumentaci pro vývojáře</target>
         <note>Line: 16</note>
       </trans-unit>
       <trans-unit id="79dc0855e9436fdc704a8f489d82f521" approved="yes">
@@ -1761,9 +1761,9 @@ Comment: check DB access</note>
         <target state="final">Vaše současná verze PHP</target>
         <note>Line: 14</note>
       </trans-unit>
-      <trans-unit id="11425ee4f65e60d5c0b81f3d820ed0f4">
+      <trans-unit id="11425ee4f65e60d5c0b81f3d820ed0f4" approved="yes">
         <source>Version available on channel %s:</source>
-        <target state="needs-translation">Version available on channel %s:</target>
+        <target state="final">Verze k dispozici na kanálu %s:</target>
         <note>Line: 17</note>
       </trans-unit>
       <trans-unit id="f34ac641f410c44e719fbc1496efd3d8" approved="yes">
@@ -1831,9 +1831,9 @@ Comment: check DB access</note>
         <target state="final">Prosím vyberte kanál:</target>
         <note>Line: 80</note>
       </trans-unit>
-      <trans-unit id="0208f99ea55e5b45056b692a7cc824e2">
+      <trans-unit id="0208f99ea55e5b45056b692a7cc824e2" approved="yes">
         <source>Channels are offering you different ways to perform an upgrade. You can either upload the new version manually or let the Update assistant module download it for you.</source>
-        <target state="needs-translation">Channels are offering you different ways to perform an upgrade. You can either upload the new version manually or let the Update assistant module download it for you.</target>
+        <target state="final">Kanály Vám nabízí různé způsoby, jak provést aktualizaci. Buď můžete nahrát novou verzi ručně nebo nechat tento modul stáhnout ji za vás.</target>
         <note>Line: 82</note>
       </trans-unit>
       <trans-unit id="87ad8a8ff4a99ffd2e72d5e69765f830" approved="yes">
@@ -1889,9 +1889,9 @@ Comment: check DB access</note>
   </file>
   <file original="views/templates/components/backup-selection.html.twig" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="c629f24e672b4e1165ebf1c10b5c5c5d">
+      <trans-unit id="c629f24e672b4e1165ebf1c10b5c5c5d" approved="yes">
         <source>-- Choose a backup to restore --</source>
-        <target state="needs-translation">-- Choose a backup to restore --</target>
+        <target state="final">– Vyberte zálohu, kterou chcete obnovit –</target>
         <note>Line: 9</note>
       </trans-unit>
       <trans-unit id="caef47f6ddf52575a8fe9e566b68dcd8" approved="yes">
@@ -1943,9 +1943,9 @@ Comment: check DB access</note>
         <target state="final">Je třeba povolit konfiguraci PHP file_uploads.</target>
         <note>Line: 152</note>
       </trans-unit>
-      <trans-unit id="8406b91fd5a290de3a1e1516db6e79b8">
+      <trans-unit id="8406b91fd5a290de3a1e1516db6e79b8" approved="yes">
         <source>Unable to generate private keys using openssl_pkey_new. Check your OpenSSL configuration, especially the path to openssl.cafile.</source>
-        <target state="needs-translation">Unable to generate private keys using openssl_pkey_new. Check your OpenSSL configuration, especially the path to openssl.cafile.</target>
+        <target state="final">Nepodařilo se vygenerovat privátní klíče pomocí funkce openssl_pkey_new. Zkontrolujte a opravte prosím konfiguraci OpenSSL, např. cestu k openssl.cafile.</target>
         <note>Line: 159</note>
       </trans-unit>
       <trans-unit id="a99553cd5eff17f5895d093c44b5c430" approved="yes">
@@ -1953,9 +1953,9 @@ Comment: check DB access</note>
         <target state="final">Verze PrestaShopu neodpovídá verzi uložené v databázi. Struktura vaší databáze možná není aktuální a/nebo je třeba aktualizovat hodnotu PS_VERSION_DB v tabulce configuration.</target>
         <note>Line: 176</note>
       </trans-unit>
-      <trans-unit id="9909617f8b4cdd63a60a0736026ce540">
+      <trans-unit id="9909617f8b4cdd63a60a0736026ce540" approved="yes">
         <source>We were unable to check your PHP compatibility with the destination PrestaShop version.</source>
-        <target state="needs-translation">We were unable to check your PHP compatibility with the destination PrestaShop version.</target>
+        <target state="final">Nepodařilo se nám zkontrolovat kompatibilitu verze PHP s cílovou verzí PrestaShopu.</target>
         <note>Line: 194</note>
       </trans-unit>
       <trans-unit id="d63d0e3addadd645300c8e4909c7e3b1" approved="yes">
@@ -2052,29 +2052,29 @@ Comment: check DB access</note>
   </file>
   <file original="views/templates/components/local-archive.html.twig" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="780daf2510c5c9e1c58948f138629817">
+      <trans-unit id="780daf2510c5c9e1c58948f138629817" approved="yes">
         <source>Archive to use:</source>
-        <target state="needs-translation">Archive to use:</target>
+        <target state="final">Archiv k použití:</target>
         <note>Line: 5</note>
       </trans-unit>
-      <trans-unit id="eb7d4dd49f36e74b58604842ee983efd">
+      <trans-unit id="eb7d4dd49f36e74b58604842ee983efd" approved="yes">
         <source>Choose an archive</source>
-        <target state="needs-translation">Choose an archive</target>
+        <target state="final">Vyberte archiv</target>
         <note>Line: 15</note>
       </trans-unit>
-      <trans-unit id="d16e8ad31ee6eb7891c79ba25cad7863">
+      <trans-unit id="d16e8ad31ee6eb7891c79ba25cad7863" approved="yes">
         <source>XML file to use:</source>
-        <target state="needs-translation">XML file to use:</target>
+        <target state="final">XML soubor, který použít:</target>
         <note>Line: 34</note>
       </trans-unit>
-      <trans-unit id="cd0135bf9edaf19cb7944e0e7b36a9d6">
+      <trans-unit id="cd0135bf9edaf19cb7944e0e7b36a9d6" approved="yes">
         <source>Choose an XML file</source>
-        <target state="needs-translation">Choose an XML file</target>
+        <target state="final">Vyberte XML soubor</target>
         <note>Line: 44</note>
       </trans-unit>
-      <trans-unit id="5be0150b075f706fc27b09753ce6646d">
+      <trans-unit id="5be0150b075f706fc27b09753ce6646d" approved="yes">
         <source>No archive found in your admin/autoupgrade/download directory</source>
-        <target state="needs-translation">No archive found in your admin/autoupgrade/download directory</target>
+        <target state="final">V adresáři admin/autoupgrade/download nebyl nalezen žádný archiv</target>
         <note>Line: 75</note>
       </trans-unit>
       <trans-unit id="0b4a925c935931bb73c6b28c285a21c0" approved="yes">
@@ -2082,9 +2082,9 @@ Comment: check DB access</note>
         <target state="final">V souboru .zip, který jste nahráli, jsme nenašli verzi PrestaShopu. Zkuste to znovu.</target>
         <note>Line: 27</note>
       </trans-unit>
-      <trans-unit id="a9c58dc4da830f87b1f0cb9e2b6f8a1c">
+      <trans-unit id="a9c58dc4da830f87b1f0cb9e2b6f8a1c" approved="yes">
         <source>We couldn't find a PrestaShop version in the XML file that was uploaded in your local archive. Please try again.</source>
-        <target state="needs-translation">We couldn't find a PrestaShop version in the XML file that was uploaded in your local archive. Please try again.</target>
+        <target state="final">Verzi Prestashopu, která jsme získali z XML souboru, jsme nenašli v nahraném archivu. Zkuste to prosím znovu.</target>
         <note>Line: 56</note>
       </trans-unit>
     </body>
@@ -2115,9 +2115,9 @@ Comment: check DB access</note>
   </file>
   <file original="views/templates/components/privacy.html.twig" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="56c34c6410dd45c5cec44149ad0ce037">
+      <trans-unit id="56c34c6410dd45c5cec44149ad0ce037" approved="yes">
         <source>Privacy policy</source>
-        <target state="needs-translation">Privacy policy</target>
+        <target state="final">Zásady ochrany soukromí</target>
         <note>Line: 6</note>
       </trans-unit>
     </body>
@@ -2203,23 +2203,23 @@ Comment: check DB access</note>
   </file>
   <file original="views/templates/steps/backup.html.twig" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="9c32ff52925ba5a296f9696cfbb7edcc">
+      <trans-unit id="9c32ff52925ba5a296f9696cfbb7edcc" approved="yes">
         <source>Backing up your store's files, database, and images means you can restore to a previous version if something goes wrong during the update. This keeps your data safe and ensures your business stays up and running.</source>
-        <target state="needs-translation">Backing up your store's files, database, and images means you can restore to a previous version if something goes wrong during the update. This keeps your data safe and ensures your business stays up and running.</target>
+        <target state="final">Zálohování souborů, databáze a obrázků vašeho obchodu znamená, že pokud se během aktualizace něco pokazí, můžete obnovit předchozí verzi. Vaše data tak zůstanou v bezpečí a vaše firma zůstane v provozu.</target>
         <note>Line: 13</note>
       </trans-unit>
-      <trans-unit id="2284aa8fec405e1dd014326b51cde020">
+      <trans-unit id="2284aa8fec405e1dd014326b51cde020" approved="yes">
         <source>Launch backup</source>
-        <target state="needs-translation">Launch backup</target>
+        <target state="final">Spustit zálohování</target>
         <note>Line: 51</note>
       </trans-unit>
     </body>
   </file>
   <file original="views/templates/steps/home.html.twig" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="c940aa73d021ae9e13f265237b0e4f96">
+      <trans-unit id="c940aa73d021ae9e13f265237b0e4f96" approved="yes">
         <source>Welcome to PrestaShop Update Assistant</source>
-        <target state="needs-translation">Welcome to PrestaShop Update Assistant</target>
+        <target state="final">Vítejte v PrestaShop Update Assistant</target>
         <note>Line: 6</note>
       </trans-unit>
       <trans-unit id="6489bc9acc7ee9689e7cf4c070f4c8ea">
@@ -2242,28 +2242,28 @@ Comment: check DB access</note>
         <target state="needs-translation">Use this feature if the update failed or if your store or a  module is no longer working properly.</target>
         <note>Line: 22</note>
       </trans-unit>
-      <trans-unit id="0fd677149c0fafac25862f5a04268ebf">
+      <trans-unit id="0fd677149c0fafac25862f5a04268ebf" approved="yes">
         <source>No backup file found on your store.</source>
-        <target state="needs-translation">No backup file found on your store.</target>
+        <target state="final">V obchodě nebyl nalezen žádný záložní soubor.</target>
         <note>Line: 26</note>
       </trans-unit>
-      <trans-unit id="e0c4332e8c13be976552a059f106354f">
+      <trans-unit id="e0c4332e8c13be976552a059f106354f" approved="yes">
         <source>Get Started</source>
-        <target state="needs-translation">Get Started</target>
+        <target state="final">Jdeme na to</target>
         <note>Line: 33</note>
       </trans-unit>
     </body>
   </file>
   <file original="views/templates/steps/post-update.html.twig" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="21365dc8650278f56c2c27d349b073ce">
+      <trans-unit id="21365dc8650278f56c2c27d349b073ce" approved="yes">
         <source><![CDATA[<b>Open the developer documentation</b> to keep this checklist at-hand.]]></source>
-        <target state="needs-translation"><![CDATA[<b>Open the developer documentation</b> to keep this checklist at-hand.]]></target>
+        <target state="final"><![CDATA[<b>Otevřete dokumentaci pro vývojáře</b>, abyste měli tento kontrolní seznam po ruce.]]></target>
         <note>Line: 26</note>
       </trans-unit>
-      <trans-unit id="864362aa86ace037052914025702ef65">
+      <trans-unit id="864362aa86ace037052914025702ef65" approved="yes">
         <source><![CDATA[<b>Re-enable and check your modules</b> one by one to prevent any compatibility issue.]]></source>
-        <target state="needs-translation"><![CDATA[<b>Re-enable and check your modules</b> one by one to prevent any compatibility issue.]]></target>
+        <target state="final"><![CDATA[<b>Znovu povolte a zkontrolujte své moduly</b> jeden po druhém, abyste předešli problémům s kompatibilitou.]]></target>
         <note>Line: 29</note>
       </trans-unit>
       <trans-unit id="ca8245b9f55d6afd2d6e7ecc0d6d317e">
@@ -2271,71 +2271,71 @@ Comment: check DB access</note>
         <target state="needs-translation"><![CDATA[<b>Make sure your store's front office is working properly:</b> try to create an account, place an order, add a product, etc.]]></target>
         <note>Line: 32</note>
       </trans-unit>
-      <trans-unit id="8049dd4a6a288956d38f40ef992e34b8">
+      <trans-unit id="8049dd4a6a288956d38f40ef992e34b8" approved="yes">
         <source><![CDATA[<b>Disable the maintenance mode</b> in General settings > Maintenance.]]></source>
-        <target state="needs-translation"><![CDATA[<b>Disable the maintenance mode</b> in General settings > Maintenance.]]></target>
+        <target state="final"><![CDATA[<b>Vypněte režim údržby</b> v sekci Nastavení eshopu > Hlavní > Údržba obchodu.]]></target>
         <note>Line: 35</note>
       </trans-unit>
-      <trans-unit id="ebdbffe8dea73e1e0285fd052f720259">
+      <trans-unit id="ebdbffe8dea73e1e0285fd052f720259" approved="yes">
         <source>Download update logs</source>
-        <target state="needs-translation">Download update logs</target>
+        <target state="final">Stáhnout protokoly aktualizace</target>
         <note>Line: 60</note>
       </trans-unit>
-      <trans-unit id="fef46e5063ce3dc78b8ae64fa474241d">
+      <trans-unit id="fef46e5063ce3dc78b8ae64fa474241d" approved="yes">
         <source>Exit</source>
-        <target state="needs-translation">Exit</target>
+        <target state="final">Konec</target>
         <note>Line: 70</note>
       </trans-unit>
     </body>
   </file>
   <file original="views/templates/steps/restore.html.twig" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="2bd339d85ee3b33e513359ce781b60cc">
+      <trans-unit id="2bd339d85ee3b33e513359ce781b60cc" approved="yes">
         <source>Restore</source>
-        <target state="needs-translation">Restore</target>
+        <target state="final">Obnovit</target>
         <note>Line: 13</note>
       </trans-unit>
     </body>
   </file>
   <file original="views/templates/steps/update.html.twig" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="10ac3d04253ef7e1ddc73e6091c0cd55">
+      <trans-unit id="10ac3d04253ef7e1ddc73e6091c0cd55" approved="yes">
         <source>Next</source>
-        <target state="needs-translation">Next</target>
+        <target state="final">Další</target>
         <note>Line: 163</note>
       </trans-unit>
     </body>
   </file>
   <file original="views/templates/steps/version-choice.html.twig" source-language="en" target-language="cs" datatype="plaintext">
     <body>
-      <trans-unit id="15e90667b50b56b1f8a01bdb1190f3dc">
+      <trans-unit id="15e90667b50b56b1f8a01bdb1190f3dc" approved="yes">
         <source>Local archive</source>
-        <target state="needs-translation">Local archive</target>
-        <note>Line: 114</note>
+        <target state="final">Místní archiv</target>
+        <note>Line: 118</note>
       </trans-unit>
-      <trans-unit id="a7446965a3635b6a69697078130d961a">
+      <trans-unit id="a7446965a3635b6a69697078130d961a" approved="yes">
         <source>You're up to date</source>
-        <target state="needs-translation">You're up to date</target>
+        <target state="final">Jste na poslední verzi</target>
         <note>Line: 25</note>
       </trans-unit>
-      <trans-unit id="47f3da5f1fab5bb4e914e7bf37845bcf">
+      <trans-unit id="47f3da5f1fab5bb4e914e7bf37845bcf" approved="yes">
         <source>Current PrestaShop version:</source>
-        <target state="needs-translation">Current PrestaShop version:</target>
+        <target state="final">Aktuální verze PrestaShopu:</target>
         <note>Line: 68</note>
       </trans-unit>
-      <trans-unit id="c50f73567ba957b25c13a274f42003ba">
+      <trans-unit id="c50f73567ba957b25c13a274f42003ba" approved="yes">
         <source>Current PHP version:</source>
-        <target state="needs-translation">Current PHP version:</target>
+        <target state="final">Aktuální verze PHP:</target>
         <note>Line: 71</note>
       </trans-unit>
       <trans-unit id="d4399327e9bb1d9fb589b58332f07d48">
         <source>Unlock the local update feature and manually update your store to your preferred upgrade by saving the archive and XML files of the PrestaShop version in the following directory on your server: %pathToLocalArchive%</source>
         <target state="needs-translation">Unlock the local update feature and manually update your store to your preferred upgrade by saving the archive and XML files of the PrestaShop version in the following directory on your server: %pathToLocalArchive%</target>
-        <note>Line: 103</note>
+        <note>Line: 105</note>
       </trans-unit>
-      <trans-unit id="34b3f55bce0f37bcd82294fbc4702aad">
+      <trans-unit id="34b3f55bce0f37bcd82294fbc4702aad" approved="yes">
         <source>You are already using the latest PrestaShop version available but you can update to the version of your choice from a local archive.</source>
-        <target state="needs-translation">You are already using the latest PrestaShop version available but you can update to the version of your choice from a local archive.</target>
+        <target state="final">Již používáte nejnovější dostupnou verzi PrestaShopu, ale můžete ji aktualizovat na verzi dle vašeho výběru z místního archivu.</target>
         <note>Line: 48</note>
       </trans-unit>
       <trans-unit id="ad98a23bbe04b0a022dca72f7e5b5c6a">
@@ -2343,25 +2343,25 @@ Comment: check DB access</note>
         <target state="needs-translation">Save the archive file of the version you want to update to in the following directory: /admin/autoupgrade/download/</target>
         <note>Line: 55</note>
       </trans-unit>
-      <trans-unit id="8846fe014be5f3ecb8f82a4deea082cc">
+      <trans-unit id="8846fe014be5f3ecb8f82a4deea082cc" approved="yes">
         <source>A more recent version is available</source>
-        <target state="needs-translation">A more recent version is available</target>
+        <target state="final">K dispozici je novější verze</target>
         <note>Line: 64</note>
       </trans-unit>
-      <trans-unit id="8728e66e43173a809a2185c52dad29db">
+      <trans-unit id="8728e66e43173a809a2185c52dad29db" approved="yes">
         <source>Select version:</source>
-        <target state="needs-translation">Select version:</target>
+        <target state="final">Vyberte verzi:</target>
         <note>Line: 78</note>
       </trans-unit>
-      <trans-unit id="de8e4445ea5c918fe6c8e70eb7deb722">
+      <trans-unit id="de8e4445ea5c918fe6c8e70eb7deb722" approved="yes">
         <source>A more recent version of PrestaShop is available. You can also use a local archive.</source>
-        <target state="needs-translation">A more recent version of PrestaShop is available. You can also use a local archive.</target>
+        <target state="final">K dispozici je novější verze PrestaShopu. Můžete také použít místní archiv.</target>
         <note>Line: 83</note>
       </trans-unit>
-      <trans-unit id="b9d4e763594017af5b607eb9e0034299">
+      <trans-unit id="b9d4e763594017af5b607eb9e0034299" approved="yes">
         <source>PrestaShop %version%</source>
-        <target state="needs-translation">PrestaShop %version%</target>
-        <note>Line: 92</note>
+        <target state="final">PrestaShop %version%</target>
+        <note>Line: 94</note>
       </trans-unit>
     </body>
   </file>
