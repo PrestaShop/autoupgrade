@@ -42,7 +42,7 @@ export default [
     }
   },
   {
-    files: ['**/*.test.ts'],
+    files: ['**/*.test.ts', 'jest.setup.ts'],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'module',
