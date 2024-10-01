@@ -30,6 +30,7 @@ namespace PrestaShop\Module\AutoUpgrade\Task\Runner;
 use Exception;
 use PrestaShop\Module\AutoUpgrade\AjaxResponse;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\Task\TaskName;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\TaskRepository;
 use Throwable;
 
@@ -74,7 +75,7 @@ abstract class ChainedTasks extends AbstractTask
             $this->nextParams = $result->getNextParams();
         }
 
-        return (int) ($this->error || $this->step === 'error');
+        return (int) ($this->error || $this->step === TaskName::TASK_ERROR);
     }
 
     /**
@@ -89,15 +90,11 @@ abstract class ChainedTasks extends AbstractTask
      */
     protected function canContinue(): bool
     {
-        if (empty($this->step)) {
+        if ($this->error || $this->next === TaskName::TASK_COMPLETE) {
             return false;
         }
 
-        if ($this->error) {
-            return false;
-        }
-
-        return $this->step !== 'error';
+        return $this->step !== TaskName::TASK_ERROR;
     }
 
     /**
@@ -111,7 +108,7 @@ abstract class ChainedTasks extends AbstractTask
 
     private function setupLogging(): void
     {
-        $initializationSteps = ['upgradeNow', 'rollback'];
+        $initializationSteps = [TaskName::TASK_BACKUP_INITIALIZATION, TaskName::TASK_UPDATE_INITIALIZATION, TaskName::TASK_RESTORE];
 
         if (in_array($this->step, $initializationSteps)) {
             $this->container->getWorkspace()->createFolders();

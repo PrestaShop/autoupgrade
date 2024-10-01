@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Copyright since 2007 PrestaShop SA and Contributors
  * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
@@ -24,31 +23,12 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
+header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 
-namespace PrestaShop\Module\AutoUpgrade\Task\Rollback;
+header('Cache-Control: no-store, no-cache, must-revalidate');
+header('Cache-Control: post-check=0, pre-check=0', false);
+header('Pragma: no-cache');
 
-use PrestaShop\Module\AutoUpgrade\Analytics;
-use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
-use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
-use PrestaShop\Module\AutoUpgrade\Task\TaskType;
-
-/**
- * Only displays the success message.
- */
-class RollbackComplete extends AbstractTask
-{
-    const TASK_TYPE = TaskType::TASK_TYPE_RESTORE;
-
-    public function run(): int
-    {
-        $this->logger->info($this->translator->trans('Restoration process done. Congratulations! You can now reactivate your shop.'));
-        $this->next = '';
-        $this->container->getAnalytics()->track('Restore Succeeded', Analytics::WITH_RESTORE_PROPERTIES);
-
-        $this->container->getState()->setProgressPercentage(
-            $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
-        );
-
-        return ExitCode::SUCCESS;
-    }
-}
+header('Location: ../');
+exit;

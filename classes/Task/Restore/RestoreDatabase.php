@@ -33,6 +33,7 @@ use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Progress\Backlog;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
+use PrestaShop\Module\AutoUpgrade\Task\TaskName;
 use PrestaShop\Module\AutoUpgrade\Task\TaskType;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Database;
@@ -40,7 +41,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\Database;
 /**
  * Restores database from backup file.
  */
-class RestoreDb extends AbstractTask
+class RestoreDatabase extends AbstractTask
 {
     const TASK_TYPE = TaskType::TASK_TYPE_RESTORE;
 
@@ -74,7 +75,7 @@ class RestoreDb extends AbstractTask
             $currentDbFilename = array_shift($restoreDbFilenames);
             $this->container->getState()->setRestoreDbFilenames($restoreDbFilenames);
             if (!preg_match('#' . BackupFinder::BACKUP_DB_FOLDER_NAME_PREFIX . '([0-9]{6})_#', $currentDbFilename, $match)) {
-                $this->next = 'error';
+                $this->next = TaskName::TASK_ERROR;
                 $this->setErrorFlag();
                 $this->logger->error($this->translator->trans('%s: File format does not match.', [$currentDbFilename]));
 
@@ -127,7 +128,7 @@ class RestoreDb extends AbstractTask
 
             if (empty($content)) {
                 $this->logger->error($this->translator->trans('Database backup is empty.'));
-                $this->next = 'rollback';
+                $this->next = TaskName::TASK_RESTORE;
 
                 return ExitCode::FAIL;
             }
@@ -187,10 +188,10 @@ class RestoreDb extends AbstractTask
 
                     $this->stepDone = true;
                     $this->status = 'ok';
-                    $this->next = 'restoreDb';
+                    $this->next = TaskName::TASK_RESTORE_DATABASE;
 
                     if ($restoreDbFilenamesCount === 0) {
-                        $this->next = 'rollbackComplete';
+                        $this->next = TaskName::TASK_RESTORE_COMPLETE;
                         $this->logger->info($this->translator->trans('Database has been restored.'));
 
                         $databaseTools->cleanTablesAfterBackup($this->container->getFileConfigurationStorage()->load(UpgradeFileNames::DB_TABLES_TO_CLEAN_LIST));
@@ -224,7 +225,7 @@ class RestoreDb extends AbstractTask
             }
 
             $this->stepDone = false;
-            $this->next = 'restoreDb';
+            $this->next = TaskName::TASK_RESTORE_DATABASE;
             $this->logger->info($this->translator->trans(
                 '%numberqueries% queries left for file %filename%...',
                 [
@@ -235,7 +236,7 @@ class RestoreDb extends AbstractTask
         } else {
             $this->stepDone = true;
             $this->status = 'ok';
-            $this->next = 'rollbackComplete';
+            $this->next = TaskName::TASK_RESTORE_COMPLETE;
             $this->logger->info($this->translator->trans('Database restoration done.'));
 
             $databaseTools->cleanTablesAfterBackup($this->container->getFileConfigurationStorage()->load(UpgradeFileNames::DB_TABLES_TO_CLEAN_LIST));

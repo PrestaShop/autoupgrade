@@ -25,7 +25,7 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\Task\Upgrade;
+namespace PrestaShop\Module\AutoUpgrade\Task\Backup;
 
 use Exception;
 use PDO;
@@ -35,11 +35,12 @@ use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Progress\Backlog;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
+use PrestaShop\Module\AutoUpgrade\Task\TaskName;
 use PrestaShop\Module\AutoUpgrade\Task\TaskType;
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
-class BackupDb extends AbstractTask
+class BackupDatabase extends AbstractTask
 {
     const TASK_TYPE = TaskType::TASK_TYPE_BACKUP;
 
@@ -60,7 +61,7 @@ class BackupDb extends AbstractTask
         }
 
         $this->stepDone = false;
-        $this->next = 'backupDb';
+        $this->next = TaskName::TASK_BACKUP_DATABASE;
         $start_time = time();
         $time_elapsed = 0;
 
@@ -130,7 +131,7 @@ class BackupDb extends AbstractTask
                     }
                     $this->logger->error($this->translator->trans('An error occurred while backing up. Unable to obtain the schema of %s', [$table]));
                     $this->logger->info($this->translator->trans('Error during database backup.'));
-                    $this->next = 'error';
+                    $this->next = TaskName::TASK_ERROR;
                     $this->setErrorFlag();
 
                     return ExitCode::FAIL;
@@ -238,7 +239,7 @@ class BackupDb extends AbstractTask
         }
 
         $this->container->getState()->setProgressPercentage(
-            $this->container->getCompletionCalculator()->computePercentage($tablesToBackup, self::class, UpgradeFiles::class)
+            $this->container->getCompletionCalculator()->computePercentage($tablesToBackup, self::class, BackupComplete::class)
         );
         $this->container->getFileConfigurationStorage()->save($tablesToBackup->dump(), UpgradeFileNames::DB_TABLES_TO_BACKUP_LIST);
 

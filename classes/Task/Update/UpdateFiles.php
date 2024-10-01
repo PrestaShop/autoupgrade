@@ -25,18 +25,19 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\Task\Upgrade;
+namespace PrestaShop\Module\AutoUpgrade\Task\Update;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Progress\Backlog;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
+use PrestaShop\Module\AutoUpgrade\Task\TaskName;
 use PrestaShop\Module\AutoUpgrade\Task\TaskType;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 
-class UpgradeFiles extends AbstractTask
+class UpdateFiles extends AbstractTask
 {
     const TASK_TYPE = TaskType::TASK_TYPE_UPDATE;
 
@@ -58,7 +59,7 @@ class UpgradeFiles extends AbstractTask
         // later we could choose between _PS_ROOT_DIR_ or _PS_TEST_DIR_
         $this->destUpgradePath = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH);
 
-        $this->next = 'upgradeFiles';
+        $this->next = TaskName::TASK_UPDATE_FILES;
 
         // Now we load the list of files to be upgraded, prepared previously by warmUp method.
         $filesToUpgrade = Backlog::fromContents(
@@ -68,7 +69,7 @@ class UpgradeFiles extends AbstractTask
         // @TODO : does not upgrade files in modules, translations if they have not a correct md5 (or crc32, or whatever) from previous version
         for ($i = 0; $i < $this->container->getUpgradeConfiguration()->getNumberOfFilesPerCall(); ++$i) {
             if (!$filesToUpgrade->getRemainingTotal()) {
-                $this->next = 'upgradeDb';
+                $this->next = TaskName::TASK_UPDATE_DATABASE;
                 $this->logger->info($this->translator->trans('All files upgraded. Now upgrading database...'));
                 $this->stepDone = true;
                 break;
@@ -79,13 +80,13 @@ class UpgradeFiles extends AbstractTask
             // Note - upgrade this file means do whatever is needed for that file to be in the final state, delete included.
             if (!$this->upgradeThisFile($file)) {
                 // put the file back to the begin of the list
-                $this->next = 'error';
+                $this->next = TaskName::TASK_ERROR;
                 $this->logger->error($this->translator->trans('Error when trying to upgrade file %s.', [$file]));
                 break;
             }
         }
         $this->container->getState()->setProgressPercentage(
-            $this->container->getCompletionCalculator()->computePercentage($filesToUpgrade, self::class, UpgradeDb::class)
+            $this->container->getCompletionCalculator()->computePercentage($filesToUpgrade, self::class, UpdateDatabase::class)
         );
         $this->container->getFileConfigurationStorage()->save($filesToUpgrade->dump(), UpgradeFileNames::FILES_TO_UPGRADE_LIST);
 
@@ -95,7 +96,7 @@ class UpgradeFiles extends AbstractTask
             $this->stepDone = false;
         }
 
-        return $this->next == 'error' ? ExitCode::FAIL : ExitCode::SUCCESS;
+        return $this->next == TaskName::TASK_ERROR ? ExitCode::FAIL : ExitCode::SUCCESS;
     }
 
     /**
@@ -135,7 +136,7 @@ class UpgradeFiles extends AbstractTask
 
                     return true;
                 } else {
-                    $this->next = 'error';
+                    $this->next = TaskName::TASK_ERROR;
                     $this->logger->error($this->translator->trans('Error while creating directory %s.', [$dest]));
 
                     return false;
@@ -167,7 +168,7 @@ class UpgradeFiles extends AbstractTask
 
                 return true;
             } else {
-                $this->next = 'error';
+                $this->next = TaskName::TASK_ERROR;
                 $this->logger->error($this->translator->trans('Error while copying file %s', [$file]));
 
                 return false;
@@ -205,7 +206,7 @@ class UpgradeFiles extends AbstractTask
         if (!$this->container->getFilesystemAdapter()->isReleaseValid($newReleasePath)) {
             $this->logger->error($this->translator->trans('Could not assert the folder %s contains a valid PrestaShop release, exiting.', [$newReleasePath]));
             $this->logger->error($this->translator->trans('A file may be missing, or the release is stored in a subfolder by mistake.'));
-            $this->next = 'error';
+            $this->next = TaskName::TASK_ERROR;
 
             return ExitCode::FAIL;
         }
@@ -266,12 +267,12 @@ class UpgradeFiles extends AbstractTask
 
         if ($total_files_to_upgrade === 0) {
             $this->logger->error($this->translator->trans('[ERROR] Unable to find files to upgrade.'));
-            $this->next = 'error';
+            $this->next = TaskName::TASK_ERROR;
 
             return ExitCode::FAIL;
         }
         $this->logger->info($this->translator->trans('%s files will be upgraded.', [$total_files_to_upgrade]));
-        $this->next = 'upgradeFiles';
+        $this->next = TaskName::TASK_UPDATE_FILES;
         $this->stepDone = false;
 
         return ExitCode::SUCCESS;

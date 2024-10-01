@@ -25,40 +25,35 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\Task\Runner;
+namespace PrestaShop\Module\AutoUpgrade\Task\Backup;
 
-/**
- * Execute the whole upgrade process in a single request.
- */
-class AllRollbackTasks extends ChainedTasks
+use Exception;
+use PrestaShop\Module\AutoUpgrade\Analytics;
+use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
+use PrestaShop\Module\AutoUpgrade\Task\TaskName;
+use PrestaShop\Module\AutoUpgrade\Task\TaskType;
+
+class BackupInitialization extends AbstractTask
 {
-    const initialTask = 'rollback';
+    const TASK_TYPE = TaskType::TASK_TYPE_BACKUP;
 
     /**
-     * @var string
+     * @throws Exception
      */
-    protected $step = self::initialTask;
-
-    /**
-     * Customize the execution context with several options
-     * > action: Replace the initial step to run
-     * > channel: Makes a specific upgrade (minor, major etc.)
-     * > data: Loads an encoded array of data coming from another request.
-     *
-     * @param array<string, string> $options
-     */
-    public function setOptions(array $options): void
+    public function run(): int
     {
-        if (!empty($options['backup'])) {
-            $this->container->getState()->setRestoreName($options['backup']);
-        }
-    }
+        $this->container->getState()->setProgressPercentage(
+            $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
+        );
 
-    /**
-     * Set default config on first run.
-     */
-    public function init(): void
-    {
-        // Do nothing
+        $this->container->getAnalytics()->track('Backup launched', Analytics::WITH_BACKUP_PROPERTIES);
+
+        $this->stepDone = true;
+
+        $this->logger->info($this->translator->trans('Starting backup...'));
+        $this->next = TaskName::TASK_BACKUP_FILES;
+
+        return ExitCode::SUCCESS;
     }
 }

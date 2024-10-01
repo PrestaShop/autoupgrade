@@ -34,6 +34,7 @@ use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
+use PrestaShop\Module\AutoUpgrade\Task\TaskName;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\Upgrader;
 use RuntimeException;
@@ -58,7 +59,7 @@ class UpdateConfig extends AbstractTask
     public function run(): int
     {
         // nothing next
-        $this->next = '';
+        $this->next = TaskName::TASK_COMPLETE;
 
         // Was coming from AdminSelfUpgrade::currentParams before
         $configurationData = $this->getConfigurationData();

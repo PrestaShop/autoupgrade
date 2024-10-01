@@ -33,13 +33,14 @@ use PrestaShop\Module\AutoUpgrade\Backup\BackupFinder;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
+use PrestaShop\Module\AutoUpgrade\Task\TaskName;
 use PrestaShop\Module\AutoUpgrade\Task\TaskType;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 /**
  * First step executed during a rollback.
  */
-class Rollback extends AbstractTask
+class Restore extends AbstractTask
 {
     const TASK_TYPE = TaskType::TASK_TYPE_RESTORE;
 
@@ -58,7 +59,7 @@ class Rollback extends AbstractTask
         $restoreDbFilenames = $this->container->getState()->getRestoreDbFilenames();
 
         if (empty($restoreName)) {
-            $this->next = 'noRollbackFound';
+            $this->next = TaskName::TASK_NO_RESTORE_FOUND;
 
             return ExitCode::SUCCESS;
         }
@@ -72,7 +73,7 @@ class Rollback extends AbstractTask
             }
         }
         if (!is_file($this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $this->container->getState()->getRestoreFilesFilename())) {
-            $this->next = 'error';
+            $this->next = TaskName::TASK_ERROR;
             $this->setErrorFlag();
             $this->logger->error($this->translator->trans('[ERROR] File %s is missing: unable to restore files. Operation aborted.', [$this->container->getState()->getRestoreFilesFilename()]));
 
@@ -89,14 +90,14 @@ class Rollback extends AbstractTask
         sort($restoreDbFilenames);
         $this->container->getState()->setRestoreDbFilenames($restoreDbFilenames);
         if (count($restoreDbFilenames) == 0) {
-            $this->next = 'error';
+            $this->next = TaskName::TASK_ERROR;
             $this->setErrorFlag();
             $this->logger->error($this->translator->trans('[ERROR] No backup database files found: it would be impossible to restore the database. Operation aborted.'));
 
             return ExitCode::FAIL;
         }
 
-        $this->next = 'restoreFiles';
+        $this->next = TaskName::TASK_RESTORE_FILES;
         $this->logger->info($this->translator->trans('Restoring files ...'));
         // remove tmp files related to restoreFiles
         if (file_exists($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . UpgradeFileNames::FILES_FROM_ARCHIVE_LIST)) {

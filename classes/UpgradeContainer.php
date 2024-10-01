@@ -550,7 +550,7 @@ class UpgradeContainer
             return $this->completionCalculator;
         }
 
-        $this->completionCalculator = new CompletionCalculator($this->getUpgradeConfiguration());
+        $this->completionCalculator = new CompletionCalculator();
 
         return $this->completionCalculator;
     }
