@@ -93,7 +93,7 @@ jobs:
       - name: Run Sanity tests
         working-directory: tests/UI/
         env:
-          PS_VERSION: ${{ matrix.PS_VERSION_END }}
+          PS_VERSION: ${{ matrix.PS_VERSION_START }}
           DB_USER: prestashop
           DB_PASSWD: prestashop
           DB_NAME: prestashop
