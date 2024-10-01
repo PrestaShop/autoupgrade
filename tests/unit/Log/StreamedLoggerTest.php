@@ -39,7 +39,7 @@ class StreamedLoggerTest extends TestCase
         $this->assertSame($expected, $logger->isFiltered($level));
     }
 
-    public function filtersProvider()
+    public static function filtersProvider(): array
     {
         return [
             [Logger::EMERGENCY, Logger::INFO, false],

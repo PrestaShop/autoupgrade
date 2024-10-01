@@ -35,7 +35,7 @@ class CoreUpgrader80Test extends TestCase
 {
     protected $coreUpgrader;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

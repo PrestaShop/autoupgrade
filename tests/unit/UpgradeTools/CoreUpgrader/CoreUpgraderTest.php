@@ -42,9 +42,9 @@ class CoreUpgraderTest extends TestCase
      */
     private $coreUpgrader;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->coreUpgrader = new CoreUpgrader17($this->createMock(UpgradeContainer::class), $this->createMock(StreamedLogger::class));
+        $this->coreUpgrader = new CoreUpgrader17($this->createMock(UpgradeContainer::class), new StreamedLogger());
     }
 
     /**

@@ -40,7 +40,7 @@ class PhpVersionResolverServiceTest extends TestCase
     /** @var PhpVersionResolverService */
     private $phpVersionResolverService;
 
-    public function setUp()
+    public function setUp(): void
     {
         if (PHP_VERSION_ID >= 80000) {
             $this->markTestSkipped('An issue with this version of PHPUnit and PHP 8+ prevents this test to run.');

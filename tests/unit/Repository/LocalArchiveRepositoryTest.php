@@ -31,7 +31,7 @@ class LocalArchiveRepositoryTest extends TestCase
     private $downloadPath;
     private $repository;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->downloadPath = __DIR__ . '/../../fixtures/repository/localArchives/';
         if (!is_dir($this->downloadPath)) {
@@ -40,7 +40,7 @@ class LocalArchiveRepositoryTest extends TestCase
         $this->repository = new LocalArchiveRepository($this->downloadPath);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         array_map('unlink', glob($this->downloadPath . '/*'));
         rmdir($this->downloadPath);

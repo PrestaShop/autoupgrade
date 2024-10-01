@@ -41,7 +41,7 @@ class FilesystemAdapterTest extends TestCase
      */
     private static $pathToFakeRelease;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         // Create directory of a fake shop & release
         self::$pathToFakeShop = sys_get_temp_dir() . '/fakeShop';
@@ -50,7 +50,7 @@ class FilesystemAdapterTest extends TestCase
         self::createTreeStructureFromJsonFile(__DIR__ . '/../../fixtures/listOfFiles-releaseExample.json', self::$pathToFakeRelease);
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->container = new UpgradeContainer('/html', '/html/admin');        // We expect in these tests to NOT update the theme
@@ -190,7 +190,7 @@ class FilesystemAdapterTest extends TestCase
         );
     }
 
-    public function ignoredFilesProvider()
+    public static function ignoredFilesProvider(): array
     {
         return [
             ['.git', '/.git', 'upgrade'],
@@ -213,7 +213,7 @@ class FilesystemAdapterTest extends TestCase
         ];
     }
 
-    public function notIgnoredFilesProvider()
+    public static function notIgnoredFilesProvider(): array
     {
         return [
             ['parameters.yml', '/app/config/parameters.yml', 'backup'],

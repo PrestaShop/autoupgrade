@@ -40,13 +40,13 @@ class ModuleDownloaderTest extends TestCase
     /** @var PHPUnit_Framework_MockObject_MockObject|Logger|(Logger&PHPUnit_Framework_MockObject_MockObject) */
     private $logger;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         require_once __DIR__ . '/Source/Provider/ModuleSourceProviderMock.php';
         @mkdir(sys_get_temp_dir() . '/fakeDownloaderDestination');
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $translator = $this->createMock(Translator::class);
         $translator->method('trans')

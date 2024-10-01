@@ -31,12 +31,12 @@ class AssetsEnvironmentTest extends TestCase
 {
     private $assetsEnvironment;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->assetsEnvironment = new AssetsEnvironment();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         unset($_ENV['AUTOUPGRADE_DEV_WATCH_MODE']);
     }

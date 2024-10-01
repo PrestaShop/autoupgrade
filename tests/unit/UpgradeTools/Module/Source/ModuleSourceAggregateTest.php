@@ -31,7 +31,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\ModuleSourceAggrega
 
 class ModuleSourceAggregateTest extends TestCase
 {
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         require_once __DIR__ . '/Provider/ModuleSourceProviderMock.php';
     }

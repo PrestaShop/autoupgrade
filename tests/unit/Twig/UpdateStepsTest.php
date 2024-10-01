@@ -38,7 +38,7 @@ class UpdateStepsTest extends TestCase
     /** @var UpdateSteps */
     private $updateSteps;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->translator = $this->createMock(Translator::class);
 
