@@ -87,8 +87,8 @@ jobs:
 
       - name: Rollback
         run: |
-         backupName=$(docker exec prestashop_autoupgrade bash -c "ls -td -- /var/www/html/admin-dev/autoupgrade/backup/*/ | head -n 1 | cut -d'/' -f8 | tr -d '\n'")
-         docker exec -u www-data prestashop_autoupgrade php modules/autoupgrade/bin/console backup:restore --backup=$backupName admin-dev
+         backupName=$(docker exec -t prestashop bash -c "ls -td -- /var/www/html/admin-dev/autoupgrade/backup/*/ | head -n 1 | cut -d'/' -f8 | tr -d '\n'")
+         docker exec -t prestashop php modules/autoupgrade/bin/console backup:restore --backup=$backupName admin-dev
 
       - name: Export Docker errors
         working-directory: tests/UI/
