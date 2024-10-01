@@ -83,7 +83,7 @@ abstract class AbstractTask
      */
     protected $nextParams = [];
     /**
-     * @var string
+     * @var TaskName::TASK_*|null
      */
     protected $next;
 

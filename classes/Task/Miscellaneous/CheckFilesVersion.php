@@ -31,6 +31,7 @@ use Exception;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
+use PrestaShop\Module\AutoUpgrade\Task\TaskName;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 /**
@@ -44,7 +45,7 @@ class CheckFilesVersion extends AbstractTask
     public function run(): int
     {
         // do nothing after this request (see javascript function doAjaxRequest )
-        $this->next = '';
+        $this->next = TaskName::TASK_COMPLETE;
         $checksumCompare = $this->container->getChecksumCompare();
         $currentPrestaShopVersion = $this->container->getProperty(UpgradeContainer::PS_VERSION);
         $changedFileList = $checksumCompare->getTamperedFilesOnShop($currentPrestaShopVersion);

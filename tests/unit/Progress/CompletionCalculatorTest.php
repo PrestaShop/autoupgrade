@@ -24,37 +24,23 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 use PHPUnit\Framework\TestCase;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Progress\Backlog;
 use PrestaShop\Module\AutoUpgrade\Progress\CompletionCalculator;
 use PrestaShop\Module\AutoUpgrade\Task\Rollback\RestoreFiles;
 use PrestaShop\Module\AutoUpgrade\Task\Runner\SingleTask;
-use PrestaShop\Module\AutoUpgrade\Task\Upgrade\UpgradeDb;
-use PrestaShop\Module\AutoUpgrade\Task\Upgrade\UpgradeFiles;
-use PrestaShop\Module\AutoUpgrade\Task\Upgrade\UpgradeModules;
-use PrestaShop\Module\AutoUpgrade\Task\Upgrade\UpgradeNow;
+use PrestaShop\Module\AutoUpgrade\Task\Update\UpdateDatabase;
+use PrestaShop\Module\AutoUpgrade\Task\Update\UpdateFiles;
+use PrestaShop\Module\AutoUpgrade\Task\Update\UpdateInitialization;
+use PrestaShop\Module\AutoUpgrade\Task\Update\UpdateModules;
 
 class CompletionCalculatorTest extends TestCase
 {
     public function testRetrievalOfBasePercentages()
     {
-        $completionCalculator = $this->getCompletionCalculator(true);
+        $completionCalculator = new CompletionCalculator();
 
-        $this->assertSame(0, $completionCalculator->getBasePercentageOfTask(UpgradeNow::class));
-        $this->assertSame(90, $completionCalculator->getBasePercentageOfTask(UpgradeModules::class));
-        $this->assertSame(33, $completionCalculator->getBasePercentageOfTask(RestoreFiles::class));
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(SingleTask::class . ' has no percentage. Make sure to send an upgrade, backup or restore task.');
-        $completionCalculator->getBasePercentageOfTask(SingleTask::class);
-    }
-
-    public function testRetrievalOfBasePercentagesWithoutBackup()
-    {
-        $completionCalculator = $this->getCompletionCalculator(false);
-
-        $this->assertSame(0, $completionCalculator->getBasePercentageOfTask(UpgradeNow::class));
-        $this->assertSame(80, $completionCalculator->getBasePercentageOfTask(UpgradeModules::class));
+        $this->assertSame(0, $completionCalculator->getBasePercentageOfTask(UpdateInitialization::class));
+        $this->assertSame(80, $completionCalculator->getBasePercentageOfTask(UpdateModules::class));
         $this->assertSame(33, $completionCalculator->getBasePercentageOfTask(RestoreFiles::class));
 
         $this->expectException(InvalidArgumentException::class);
@@ -64,62 +50,46 @@ class CompletionCalculatorTest extends TestCase
 
     public function testComputationOfPercentages()
     {
-        $completionCalculator = $this->getCompletionCalculator(false);
+        $completionCalculator = new CompletionCalculator();
 
         $backlog = new Backlog(['stuff', 'stuff', 'stuff'], 3);
 
         $this->assertSame(
             40,
-            $completionCalculator->computePercentage($backlog, UpgradeFiles::class, UpgradeDb::class)
+            $completionCalculator->computePercentage($backlog, UpdateFiles::class, UpdateDatabase::class)
         );
 
         $backlog->getNext();
 
         $this->assertSame(
             46,
-            $completionCalculator->computePercentage($backlog, UpgradeFiles::class, UpgradeDb::class)
+            $completionCalculator->computePercentage($backlog, UpdateFiles::class, UpdateDatabase::class)
         );
 
         $backlog->getNext();
 
         $this->assertSame(
             53,
-            $completionCalculator->computePercentage($backlog, UpgradeFiles::class, UpgradeDb::class)
+            $completionCalculator->computePercentage($backlog, UpdateFiles::class, UpdateDatabase::class)
         );
 
         $backlog->getNext();
 
         $this->assertSame(
             60,
-            $completionCalculator->computePercentage($backlog, UpgradeFiles::class, UpgradeDb::class)
+            $completionCalculator->computePercentage($backlog, UpdateFiles::class, UpdateDatabase::class)
         );
     }
 
     public function testComputationOfPercentagesOfEmptyBacklog()
     {
-        $completionCalculator = $this->getCompletionCalculator(false);
+        $completionCalculator = new CompletionCalculator();
 
         $backlog = new Backlog([], 0);
 
         $this->assertSame(
             60,
-            $completionCalculator->computePercentage($backlog, UpgradeFiles::class, UpgradeDb::class)
-        );
-    }
-
-    private function getCompletionCalculator(bool $withBackup): CompletionCalculator
-    {
-        return new CompletionCalculator(
-            new UpgradeConfiguration([
-                'PS_AUTOUP_CUSTOM_MOD_DESACT' => 0,
-                'PS_AUTOUP_CHANGE_DEFAULT_THEME' => 1,
-                'PS_AUTOUP_KEEP_MAILS' => 0,
-                'PS_AUTOUP_BACKUP' => $withBackup,
-                'skip_backup' => !$withBackup,
-                'PS_AUTOUP_KEEP_IMAGES' => 0,
-                'channel' => 'major',
-                'archive_zip' => 'zip.zip',
-            ])
+            $completionCalculator->computePercentage($backlog, UpdateFiles::class, UpdateDatabase::class)
         );
     }
 }

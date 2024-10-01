@@ -25,12 +25,13 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\Task\Upgrade;
+namespace PrestaShop\Module\AutoUpgrade\Task\Update;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Analytics;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
+use PrestaShop\Module\AutoUpgrade\Task\TaskName;
 use PrestaShop\Module\AutoUpgrade\Task\TaskType;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
@@ -63,7 +64,7 @@ class Unzip extends AbstractTask
         $report = '';
         if (!\ConfigurationTest::test_dir($relative_extract_path, false, $report)) {
             $this->logger->error($this->translator->trans('Extraction directory %s is not writable.', [$destExtract]));
-            $this->next = 'error';
+            $this->next = TaskName::TASK_ERROR;
             $this->setErrorFlag();
 
             return ExitCode::FAIL;
@@ -72,7 +73,7 @@ class Unzip extends AbstractTask
         $res = $this->container->getZipAction()->extract($filepath, $destExtract);
 
         if (!$res) {
-            $this->next = 'error';
+            $this->next = TaskName::TASK_ERROR;
             $this->setErrorFlag();
             $this->logger->info($this->translator->trans(
                 'Unable to extract %filepath% file into %destination% folder...',
@@ -94,7 +95,7 @@ class Unzip extends AbstractTask
 
             $subRes = $this->container->getZipAction()->extract($newZip, $destExtract);
             if (!$subRes) {
-                $this->next = 'error';
+                $this->next = TaskName::TASK_ERROR;
                 $this->logger->info($this->translator->trans(
                     'Unable to extract %filepath% file into %destination% folder...',
                     [
@@ -109,7 +110,7 @@ class Unzip extends AbstractTask
             $filesystem = new Filesystem();
             $zipSubfolder = $destExtract . '/prestashop/';
             if (!is_dir($zipSubfolder)) {
-                $this->next = 'error';
+                $this->next = TaskName::TASK_ERROR;
                 $this->logger->error(
                     $this->translator->trans('No prestashop/ folder found in the ZIP file. Aborting.'));
 
@@ -124,8 +125,8 @@ class Unzip extends AbstractTask
             }
         }
 
-        $this->next = 'backupFiles';
-        $this->logger->info($this->translator->trans('File extraction complete. Now backing up files...'));
+        $this->next = TaskName::TASK_UPDATE_FILES;
+        $this->logger->info($this->translator->trans('File extraction complete. Now upgrading files...'));
 
         $this->container->getAnalytics()->track('Backup Launched', Analytics::WITH_BACKUP_PROPERTIES);
 

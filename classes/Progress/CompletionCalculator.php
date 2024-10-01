@@ -28,57 +28,58 @@
 namespace PrestaShop\Module\AutoUpgrade\Progress;
 
 use InvalidArgumentException;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
-use PrestaShop\Module\AutoUpgrade\Task\Rollback\RestoreDb;
+use PrestaShop\Module\AutoUpgrade\Task\Backup\BackupComplete;
+use PrestaShop\Module\AutoUpgrade\Task\Backup\BackupDatabase;
+use PrestaShop\Module\AutoUpgrade\Task\Backup\BackupFiles;
+use PrestaShop\Module\AutoUpgrade\Task\Backup\BackupInitialization;
+use PrestaShop\Module\AutoUpgrade\Task\Rollback\Restore;
+use PrestaShop\Module\AutoUpgrade\Task\Rollback\RestoreComplete;
+use PrestaShop\Module\AutoUpgrade\Task\Rollback\RestoreDatabase;
 use PrestaShop\Module\AutoUpgrade\Task\Rollback\RestoreFiles;
-use PrestaShop\Module\AutoUpgrade\Task\Rollback\Rollback;
-use PrestaShop\Module\AutoUpgrade\Task\Rollback\RollbackComplete;
-use PrestaShop\Module\AutoUpgrade\Task\Upgrade\BackupDb;
-use PrestaShop\Module\AutoUpgrade\Task\Upgrade\BackupFiles;
-use PrestaShop\Module\AutoUpgrade\Task\Upgrade\CleanDatabase;
-use PrestaShop\Module\AutoUpgrade\Task\Upgrade\Download;
-use PrestaShop\Module\AutoUpgrade\Task\Upgrade\Unzip;
-use PrestaShop\Module\AutoUpgrade\Task\Upgrade\UpgradeComplete;
-use PrestaShop\Module\AutoUpgrade\Task\Upgrade\UpgradeDb;
-use PrestaShop\Module\AutoUpgrade\Task\Upgrade\UpgradeFiles;
-use PrestaShop\Module\AutoUpgrade\Task\Upgrade\UpgradeModules;
-use PrestaShop\Module\AutoUpgrade\Task\Upgrade\UpgradeNow;
+use PrestaShop\Module\AutoUpgrade\Task\Update\CleanDatabase;
+use PrestaShop\Module\AutoUpgrade\Task\Update\Download;
+use PrestaShop\Module\AutoUpgrade\Task\Update\Unzip;
+use PrestaShop\Module\AutoUpgrade\Task\Update\UpdateComplete;
+use PrestaShop\Module\AutoUpgrade\Task\Update\UpdateDatabase;
+use PrestaShop\Module\AutoUpgrade\Task\Update\UpdateFiles;
+use PrestaShop\Module\AutoUpgrade\Task\Update\UpdateInitialization;
+use PrestaShop\Module\AutoUpgrade\Task\Update\UpdateModules;
 
 class CompletionCalculator
 {
-    /** @var UpgradeConfiguration */
-    private $upgradeConfiguration;
-
-    public function __construct(UpgradeConfiguration $upgradeConfiguration)
+    public function __construct()
     {
-        $this->upgradeConfiguration = $upgradeConfiguration;
     }
 
     /**
      * The key baseWithoutBackup exists while the backup and upgrade are on the same workflow
      *
-     * @return array<string, array{base:int, baseWithoutBackup:int|null}>
+     * @return array<string, int>
      */
     private static function getPercentages(): array
     {
         return [
-            // Upgrade (+ backup)
-            UpgradeNow::class => ['base' => 0],
-            Download::class => ['base' => 5, 'baseWithoutBackup' => 10],
-            Unzip::class => ['base' => 10, 'baseWithoutBackup' => 20],
-            BackupFiles::class => ['base' => 20],
-            BackupDb::class => ['base' => 40],
-            UpgradeFiles::class => ['base' => 50, 'baseWithoutBackup' => 40],
-            UpgradeDb::class => ['base' => 70, 'baseWithoutBackup' => 60],
-            UpgradeModules::class => ['base' => 90, 'baseWithoutBackup' => 80],
-            CleanDatabase::class => ['base' => 100],
-            UpgradeComplete::class => ['base' => 100],
+            // Backup
+            BackupInitialization::class => 0,
+            BackupFiles::class => 33,
+            BackupDatabase::class => 66,
+            BackupComplete::class => 100,
+
+            // Update
+            UpdateInitialization::class => 0,
+            Download::class => 10,
+            Unzip::class => 20,
+            UpdateFiles::class => 40,
+            UpdateDatabase::class => 60,
+            UpdateModules::class => 80,
+            CleanDatabase::class => 100,
+            UpdateComplete::class => 100,
 
             // Restore
-            Rollback::class => ['base' => 0],
-            RestoreFiles::class => ['base' => 33],
-            RestoreDb::class => ['base' => 66],
-            RollbackComplete::class => ['base' => 100],
+            Restore::class => 0,
+            RestoreFiles::class => 33,
+            RestoreDatabase::class => 66,
+            RestoreComplete::class => 100,
         ];
     }
 
@@ -94,13 +95,7 @@ class CompletionCalculator
             throw new InvalidArgumentException($taskName . ' has no percentage. Make sure to send an upgrade, backup or restore task.');
         }
 
-        $withoutBackup = !$this->upgradeConfiguration->shouldBackupFilesAndDatabase();
-
-        if ($withoutBackup && isset($percentages[$taskName]['baseWithoutBackup'])) {
-            return $percentages[$taskName]['baseWithoutBackup'];
-        }
-
-        return $percentages[$taskName]['base'];
+        return $percentages[$taskName];
     }
 
     /**

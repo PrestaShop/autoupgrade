@@ -25,13 +25,14 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\Task\Upgrade;
+namespace PrestaShop\Module\AutoUpgrade\Task\Backup;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Progress\Backlog;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
+use PrestaShop\Module\AutoUpgrade\Task\TaskName;
 use PrestaShop\Module\AutoUpgrade\Task\TaskType;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
@@ -44,18 +45,10 @@ class BackupFiles extends AbstractTask
      */
     public function run(): int
     {
-        if (!$this->container->getUpgradeConfiguration()->shouldBackupFilesAndDatabase()) {
-            $this->stepDone = true;
-            $this->next = 'backupDb';
-            $this->logger->info('File backup skipped.');
-
-            return ExitCode::SUCCESS;
-        }
-
         $this->stepDone = false;
         $backupFilesFilename = $this->container->getState()->getBackupFilesFilename();
         if (empty($backupFilesFilename)) {
-            $this->next = 'error';
+            $this->next = TaskName::TASK_ERROR;
             $this->setErrorFlag();
             $this->logger->info($this->translator->trans('Error during backupFiles'));
             $this->logger->error($this->translator->trans('[ERROR] backupFiles filename has not been set'));
@@ -87,7 +80,7 @@ class BackupFiles extends AbstractTask
             $backlog = Backlog::fromContents($this->container->getFileConfigurationStorage()->load(UpgradeFileNames::FILES_TO_BACKUP_LIST));
         }
 
-        $this->next = 'backupFiles';
+        $this->next = TaskName::TASK_BACKUP_FILES;
         $remainingFiles = $backlog->getRemainingTotal();
         if ($remainingFiles) {
             $this->logger->info($this->translator->trans('Backup files in progress. %d files left', [$remainingFiles]));
@@ -95,19 +88,19 @@ class BackupFiles extends AbstractTask
             $this->stepDone = false;
             $res = $this->container->getZipAction()->compress($backlog, $this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $backupFilesFilename);
             if (!$res) {
-                $this->next = 'error';
+                $this->next = TaskName::TASK_ERROR;
                 $this->logger->info($this->translator->trans('Unable to open archive'));
 
                 return ExitCode::FAIL;
             }
             $this->container->getFileConfigurationStorage()->save($backlog->dump(), UpgradeFileNames::FILES_TO_BACKUP_LIST);
             $this->container->getState()->setProgressPercentage(
-                $this->container->getCompletionCalculator()->computePercentage($backlog, self::class, BackupDb::class)
+                $this->container->getCompletionCalculator()->computePercentage($backlog, self::class, BackupDatabase::class)
             );
         } else {
             $this->stepDone = true;
             $this->status = 'ok';
-            $this->next = 'backupDb';
+            $this->next = TaskName::TASK_BACKUP_DATABASE;
             $this->logger->debug($this->translator->trans('All files have been added to archive.'));
             $this->logger->info($this->translator->trans('All files saved. Now backing up database'));
         }

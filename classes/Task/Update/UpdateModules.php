@@ -25,7 +25,7 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\Task\Upgrade;
+namespace PrestaShop\Module\AutoUpgrade\Task\Update;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
@@ -33,6 +33,7 @@ use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Progress\Backlog;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
+use PrestaShop\Module\AutoUpgrade\Task\TaskName;
 use PrestaShop\Module\AutoUpgrade\Task\TaskType;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleDownloader;
@@ -48,7 +49,7 @@ use Symfony\Component\Filesystem\Filesystem;
 /**
  * Upgrade all partners modules according to the installed prestashop version.
  */
-class UpgradeModules extends AbstractTask
+class UpdateModules extends AbstractTask
 {
     const TASK_TYPE = TaskType::TASK_TYPE_UPDATE;
 
@@ -124,12 +125,12 @@ class UpgradeModules extends AbstractTask
 
         if ($modules_left) {
             $this->stepDone = false;
-            $this->next = 'upgradeModules';
+            $this->next = TaskName::TASK_UPDATE_MODULES;
             $this->logger->info($this->translator->trans('%s modules left to update.', [$modules_left]));
         } else {
             $this->stepDone = true;
             $this->status = 'ok';
-            $this->next = 'cleanDatabase';
+            $this->next = TaskName::TASK_CLEAN_DATABASE;
             $this->logger->info($this->translator->trans('All modules have been updated.'));
         }
 
@@ -162,7 +163,7 @@ class UpgradeModules extends AbstractTask
         }
 
         $this->stepDone = false;
-        $this->next = 'upgradeModules';
+        $this->next = TaskName::TASK_UPDATE_MODULES;
 
         return ExitCode::SUCCESS;
     }
@@ -170,7 +171,7 @@ class UpgradeModules extends AbstractTask
     private function handleException(UpgradeException $e): void
     {
         if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {
-            $this->next = 'error';
+            $this->next = TaskName::TASK_ERROR;
             $this->setErrorFlag();
             $this->logger->error($e->getMessage());
         }

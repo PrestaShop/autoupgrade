@@ -214,7 +214,7 @@ $(document).ready(function () {
   $.ajaxSetup({ timeout: 7200000 });
 
   // prepare available button here, without params ?
-  prepareNextButton("#upgradeNow", firstTimeParams);
+  prepareNextButton("#UpdateInitialization", firstTimeParams);
 
   /**
    * reset rollbackParams js array (used to init rollback button)
@@ -236,7 +236,7 @@ $(document).ready(function () {
     }
 
     if (val != 0) {
-      $("#rollback").removeAttr("disabled");
+      $("#Restore").removeAttr("disabled");
       var rollbackParams = $.extend(true, {}, firstTimeParams);
 
       delete rollbackParams.backupName;
@@ -247,9 +247,9 @@ $(document).ready(function () {
 
       // init new name to backup
       rollbackParams.restoreName = val;
-      prepareNextButton("#rollback", rollbackParams);
+      prepareNextButton("#Restore", rollbackParams);
     } else {
-      $("#rollback").attr("disabled", "disabled");
+      $("#Restore").attr("disabled", "disabled");
     }
   });
 
@@ -301,7 +301,7 @@ function afterUpdateConfig(res) {
     showConfigResult(res.next_desc);
   }
 
-  $("#upgradeNow")
+  $("#UpdateInitialization")
     .unbind()
     .replaceWith(
       '<a class="button-autoupgrade" href="' +
@@ -342,15 +342,26 @@ function startProcess(type) {
   });
 }
 
-function afterUpgradeNow(res) {
+function afterUpdateInitialization(res) {
   startProcess("upgrade");
-  $("#upgradeNow")
+  $("#UpdateInitialization")
     .unbind()
     .replaceWith(
       '<span id="upgradeNow" class="button-autoupgrade">' +
         input.translation.upgradingPrestaShop +
         " ...</span>",
     );
+}
+
+function afterBackupInitialization(res) {
+  startProcess("upgrade");
+  $("#UpdateInitialization")
+      .unbind()
+      .replaceWith(
+          '<span id="upgradeNow" class="button-autoupgrade">' +
+          input.translation.upgradingPrestaShop +
+          " ...</span>",
+      );
 }
 
 function afterUpgradeComplete(res) {
@@ -386,17 +397,17 @@ function afterError(res) {
   addQuickInfo(["unbind :) "]);
 }
 
-function afterRollback(res) {
+function afterRestore(res) {
   startProcess("rollback");
 }
 
-function afterRollbackComplete(res) {
+function afterRestoreComplete(res) {
   $("#pleaseWait").hide();
   $("#postRestoreChecklist").show();
   $(window).unbind();
 }
 
-function afterRestoreDb(params) {
+function afterRestoreDatabase(params) {
   // $("#restoreBackupContainer").hide();
 }
 
@@ -412,7 +423,7 @@ function afterBackupFiles(res) {
 /**
  * afterBackupDb display the button
  */
-function afterBackupDb(res) {
+function afterBackupDatabase(res) {
   var params = res.nextParams;
 
   if (res.stepDone && input.PS_AUTOUP_BACKUP === true) {
@@ -434,7 +445,7 @@ function call_function(func) {
   this[func].apply(this, Array.prototype.slice.call(arguments, 1));
 }
 
-function doAjaxRequest(action, nextParams) {
+function doAjaxRequest(action, nextParams, successCallBack) {
   if (input._PS_MODE_DEV_ === true) {
     addQuickInfo(["[DEV] ajax request : " + action]);
   }
@@ -455,14 +466,14 @@ function doAjaxRequest(action, nextParams) {
     beforeSend: (jqXHR) => $.xhrPool.push(jqXHR),
     complete: (jqXHR) => $.xhrPool.pop(),
     success: (res, textStatus, jqXHR) =>
-      handleRequestSuccess(res, textStatus, jqXHR, action),
+      handleRequestSuccess(res, textStatus, jqXHR, action, successCallBack),
     error: (jqXHR, textStatus, errorThrown) =>
       handleRequestError(jqXHR, textStatus, errorThrown, action),
   });
   return req;
 }
 
-function handleRequestSuccess(res, textStatus, jqXHR, action) {
+function handleRequestSuccess(res, textStatus, jqXHR, action, successCallBack) {
   $("#pleaseWait").hide();
   $("#rollbackForm").show();
 
@@ -495,12 +506,15 @@ function handleRequestSuccess(res, textStatus, jqXHR, action) {
 
   if (res.next !== "") {
     // if next is rollback, prepare nextParams with rollbackDbFilename and rollbackFilesFilename
-    if (res.next === "rollback") {
+    if (res.next === "Restore") {
       res.nextParams.restoreName = "";
     }
-    doAjaxRequest(res.next, res.nextParams);
+    doAjaxRequest(res.next, res.nextParams, successCallBack);
   } else {
     // Way To Go, end of upgrade process
+    if (successCallBack) {
+      successCallBack();
+    }
     addQuickInfo(input.translation.endOfProcess);
   }
 }
@@ -537,7 +551,7 @@ function handleRequestError(jqXHR, textStatus, errorThrown, action) {
  * @return void
  */
 function prepareNextButton(button_selector, nextParams) {
-  if (button_selector === "#rollback") {
+  if (button_selector === "#Restore") {
     $("#postUpdateChecklist").hide();
   }
 
@@ -547,7 +561,12 @@ function prepareNextButton(button_selector, nextParams) {
       e.preventDefault();
       $("#currentlyProcessing").show();
       var action = button_selector.substr(1);
-      doAjaxRequest(action, nextParams);
+
+      if (action === 'UpdateInitialization') {
+        doAjaxRequest('BackupInitialization', nextParams, () => doAjaxRequest(action, nextParams));
+      } else {
+        doAjaxRequest(action, nextParams);
+      }
     });
 }
 
@@ -591,7 +610,7 @@ $(document).ready(function () {
       dir: input.adminDir,
       token: input.token,
       tab: input.tab,
-      action: "checkFilesVersion",
+      action: "CheckFilesVersion",
       ajaxMode: "1",
       params: {},
     },
@@ -677,7 +696,7 @@ $(document).ready(function () {
       dir: input.adminDir,
       token: input.token,
       tab: input.tab,
-      action: "compareReleases",
+      action: "CompareReleases",
       ajaxMode: "1",
       params: {},
     },

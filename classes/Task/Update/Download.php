@@ -25,11 +25,12 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\Task\Upgrade;
+namespace PrestaShop\Module\AutoUpgrade\Task\Update;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
+use PrestaShop\Module\AutoUpgrade\Task\TaskName;
 use PrestaShop\Module\AutoUpgrade\Task\TaskType;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
@@ -48,7 +49,7 @@ class Download extends AbstractTask
     {
         if (!\ConfigurationTest::test_fopen() && !\ConfigurationTest::test_curl()) {
             $this->logger->error($this->translator->trans('You need allow_url_fopen or cURL enabled for automatic download to work. You can also manually upload it in filepath %s.', [$this->container->getFilePath()]));
-            $this->next = 'error';
+            $this->next = TaskName::TASK_ERROR;
 
             return ExitCode::FAIL;
         }
@@ -72,23 +73,23 @@ class Download extends AbstractTask
             if ($res) {
                 $md5file = md5_file(realpath($this->container->getProperty(UpgradeContainer::ARCHIVE_FILEPATH)));
                 if ($md5file == $upgrader->getOnlineDestinationRelease()->getZipMd5()) {
-                    $this->next = 'unzip';
+                    $this->next = TaskName::TASK_UNZIP;
                     $this->logger->debug($this->translator->trans('Download complete.'));
                     $this->logger->info($this->translator->trans('Download complete. Now extracting...'));
                 } else {
                     $this->logger->error($this->translator->trans('Download complete but MD5 sum does not match (%s).', [$md5file]));
                     $this->logger->info($this->translator->trans('Download complete but MD5 sum does not match (%s). Operation aborted.', [$md5file]));
-                    $this->next = 'error';
+                    $this->next = TaskName::TASK_ERROR;
                 }
             } else {
                 $this->logger->error($this->translator->trans('Error during download'));
-                $this->next = 'error';
+                $this->next = TaskName::TASK_ERROR;
             }
         } else {
             $this->logger->error($this->translator->trans('Download directory %s is not writable.', [$this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH)]));
-            $this->next = 'error';
+            $this->next = TaskName::TASK_ERROR;
         }
 
-        return $this->next == 'error' ? ExitCode::FAIL : ExitCode::SUCCESS;
+        return $this->next == TaskName::TASK_ERROR ? ExitCode::FAIL : ExitCode::SUCCESS;
     }
 }

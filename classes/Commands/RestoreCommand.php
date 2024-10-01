@@ -29,7 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade\Commands;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
-use PrestaShop\Module\AutoUpgrade\Task\Runner\AllRollbackTasks;
+use PrestaShop\Module\AutoUpgrade\Task\Runner\AllRestoreTasks;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -70,7 +70,7 @@ class RestoreCommand extends AbstractCommand
                 return ExitCode::FAIL;
             }
 
-            $controller = new AllRollbackTasks($this->upgradeContainer);
+            $controller = new AllRestoreTasks($this->upgradeContainer);
             $controller->setOptions([
                 'backup' => $backup,
             ]);
