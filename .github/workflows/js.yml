@@ -23,10 +23,6 @@ jobs:
       - name: Launch typescript linter
         run:
           npm run test --prefix ./_dev
-
-      - uses: MishaKav/jest-coverage-comment@main
-        with:
-          coverage-summary-path: './_dev/coverage/coverage-final.json'
   js-linter:
     name: JS linter syntax check
     runs-on: ubuntu-latest
