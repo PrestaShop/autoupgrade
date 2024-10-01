@@ -97,7 +97,14 @@ class UpdateConfig extends AbstractTask
                 return ExitCode::FAIL;
             }
 
-            $xmlVersion = $this->getXmlVersion($fullXmlPath);
+            try {
+                $xmlVersion = $this->extractPrestashopVersionFromXml($fullXmlPath);
+            } catch (Exception $exception) {
+                $this->setErrorFlag();
+                $this->logger->info($this->translator->trans('We couldn\'t find a PrestaShop version in the XML file that was uploaded in your local archive. Please try again'));
+
+                return ExitCode::FAIL;
+            }
 
             if ($xmlVersion !== $targetVersion) {
                 $this->error = true;
@@ -253,9 +260,16 @@ class UpdateConfig extends AbstractTask
         }
     }
 
-    private function getXmlVersion(string $xmlPath): string
+    /**
+     * @throws RuntimeException
+     */
+    private function extractPrestashopVersionFromXml(string $xmlPath): string
     {
         $xml = @simplexml_load_file($xmlPath);
+
+        if (!isset($xml->ps_root_dir['version'])) {
+            throw new RuntimeException('Prestashop version not found in file ' . $xmlPath);
+        }
 
         return $xml->ps_root_dir['version'];
     }
