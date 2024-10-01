@@ -42,9 +42,7 @@ class UpdatePageUpdateController extends AbstractPageController
 
     public function index(Request $request): RedirectResponse
     {
-        return new RedirectResponse(
-            str_replace(Routes::UPDATE_PAGE_UPDATE, Routes::UPDATE_PAGE_BACKUP, $request->getUri())
-        );
+        return $this->redirectTo(Routes::UPDATE_PAGE_BACKUP);
     }
 
     /**
