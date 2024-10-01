@@ -1420,17 +1420,17 @@ Comment: check DB access</note>
       <trans-unit id="001c32426a6cfb48ebb848b13141593c">
         <source>Major version</source>
         <target>Major version</target>
-        <note>Line: 79</note>
+        <note>Line: 81</note>
       </trans-unit>
       <trans-unit id="c5439de366a407641018f189da1ad4a7">
         <source>Minor version</source>
         <target>Minor version</target>
-        <note>Line: 82</note>
+        <note>Line: 84</note>
       </trans-unit>
       <trans-unit id="8a0dd44f366bc5604b8329a87be5f933">
         <source>Patch version</source>
         <target>Patch version</target>
-        <note>Line: 85</note>
+        <note>Line: 87</note>
       </trans-unit>
     </body>
   </file>
@@ -2235,22 +2235,22 @@ Comment: check DB access</note>
       <trans-unit id="9280c14cf57cc764c0b9fc65e64e9a9b">
         <source>Restore from a backup</source>
         <target>Restore from a backup</target>
-        <note>Line: 21</note>
+        <note>Line: 22</note>
       </trans-unit>
       <trans-unit id="53f93f09065ca3d5a66f07918c4fb55b">
         <source>Use this feature if the update failed or if your store or a  module is no longer working properly.</source>
         <target>Use this feature if the update failed or if your store or a  module is no longer working properly.</target>
-        <note>Line: 22</note>
+        <note>Line: 23</note>
       </trans-unit>
       <trans-unit id="0fd677149c0fafac25862f5a04268ebf">
         <source>No backup file found on your store.</source>
         <target>No backup file found on your store.</target>
-        <note>Line: 26</note>
+        <note>Line: 28</note>
       </trans-unit>
       <trans-unit id="e0c4332e8c13be976552a059f106354f">
         <source>Get Started</source>
         <target>Get Started</target>
-        <note>Line: 33</note>
+        <note>Line: 36</note>
       </trans-unit>
     </body>
   </file>
