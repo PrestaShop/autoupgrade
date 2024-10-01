@@ -25,44 +25,38 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\Twig\Block;
+namespace PrestaShop\Module\AutoUpgrade\Backup;
 
-use PrestaShop\Module\AutoUpgrade\Backup\BackupFinder;
-use Twig\Environment;
+use InvalidArgumentException;
+use Symfony\Component\Filesystem\Filesystem;
 
-class RollbackForm
+class BackupManager
 {
-    /**
-     * @var Environment
-     */
-    private $twig;
-
     /**
      * @var BackupFinder
      */
     private $backupFinder;
 
-    /**
-     * @param Environment $twig
-     */
-    public function __construct($twig, BackupFinder $backupFinder)
+    public function __construct(BackupFinder $backupFinder)
     {
-        $this->twig = $twig;
         $this->backupFinder = $backupFinder;
     }
 
     /**
-     * @return array<string, mixed>
+     * @throws InvalidArgumentException
      */
-    public function getTemplateVars(): array
+    public function deleteBackup(string $backupName): void
     {
-        return [
-            'availableBackups' => $this->backupFinder->getAvailableBackups(),
-        ];
-    }
+        if (!in_array($backupName, $this->backupFinder->getAvailableBackups())) {
+            throw new InvalidArgumentException('Backup requested for deletion does not exist.');
+        }
 
-    public function render(): string
-    {
-        return $this->twig->render('@ModuleAutoUpgrade/block/rollbackForm.html.twig', $this->getTemplateVars());
+        $filesystem = new Filesystem();
+        $filesystem->remove([
+            $this->backupFinder->getBackupPath() . DIRECTORY_SEPARATOR . BackupFinder::BACKUP_ZIP_NAME_PREFIX . $backupName,
+            $this->backupFinder->getBackupPath() . DIRECTORY_SEPARATOR . $backupName,
+        ]);
+
+        $this->backupFinder->resetBackupList();
     }
 }

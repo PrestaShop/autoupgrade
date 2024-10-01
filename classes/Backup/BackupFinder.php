@@ -25,12 +25,14 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade;
+namespace PrestaShop\Module\AutoUpgrade\Backup;
 
 class BackupFinder
 {
+    const BACKUP_ZIP_NAME_PREFIX = 'auto-backupfiles_';
+    const BACKUP_DB_FOLDER_NAME_PREFIX = 'auto-backupdb_';
     /**
-     * @var string[]
+     * @var string[]|null
      */
     private $availableBackups;
 
@@ -59,6 +61,16 @@ class BackupFinder
         }
 
         return $this->availableBackups;
+    }
+
+    public function getBackupPath(): string
+    {
+        return $this->backupPath;
+    }
+
+    public function resetBackupList(): void
+    {
+        $this->availableBackups = null;
     }
 
     /**
@@ -100,7 +112,7 @@ class BackupFinder
 
         foreach ($files as $file) {
             if ($file[0] != '.' && substr($file, 0, 16) == 'auto-backupfiles') {
-                $array[] = preg_replace('#^auto-backupfiles_(.*-[0-9a-f]{1,8})\..*$#', '$1', $file);
+                $array[] = preg_replace('#^' . self::BACKUP_ZIP_NAME_PREFIX . '(.*-[0-9a-f]{1,8})\..*$#', '$1', $file);
             }
         }
 
