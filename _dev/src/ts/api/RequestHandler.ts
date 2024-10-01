@@ -2,7 +2,7 @@ import baseApi from './baseApi';
 import { ApiResponse } from '../types/apiTypes';
 import Hydration from '../utils/Hydration';
 
-class RequestHandler {
+export class RequestHandler {
   public post(route: string, data = new FormData(), fromPopState?: boolean) {
     data.append('dir', window.AutoUpgradeVariables.admin_dir);
 
