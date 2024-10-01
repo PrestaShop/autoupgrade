@@ -73,54 +73,63 @@
       "comment": "1.7.8.0 ~ 1.7.8.11 -> 8.1.7 PHP 7.2 ~ 7.4"
     },
     {
+      "comment": "https://github.com/PrestaShop/PrestaShop/issues/36958",
       "PS_VERSION_START": "1.7.8.0",
       "PS_VERSION_END": "8.1.7",
       "UPGRADE_CHANNEL": "online",
       "PHP_VERSION": "7.2"
     },
     {
+      "comment": "https://github.com/PrestaShop/PrestaShop/issues/36958",
       "PS_VERSION_START": "1.7.8.0",
       "PS_VERSION_END": "8.1.7",
       "UPGRADE_CHANNEL": "online",
       "PHP_VERSION": "7.3"
     },
     {
+      "comment": "https://github.com/PrestaShop/PrestaShop/issues/36958",
       "PS_VERSION_START": "1.7.8.0",
       "PS_VERSION_END": "8.1.7",
       "UPGRADE_CHANNEL": "online",
       "PHP_VERSION": "7.4"
     },
     {
+      "comment": "https://github.com/PrestaShop/PrestaShop/issues/36958",
       "PS_VERSION_START": "1.7.8.1",
       "PS_VERSION_END": "8.1.7",
       "UPGRADE_CHANNEL": "online",
       "PHP_VERSION": "7.2"
     },
     {
+      "comment": "https://github.com/PrestaShop/PrestaShop/issues/36958",
       "PS_VERSION_START": "1.7.8.1",
       "PS_VERSION_END": "8.1.7",
       "UPGRADE_CHANNEL": "online",
       "PHP_VERSION": "7.3"
     },
     {
+      "comment": "https://github.com/PrestaShop/PrestaShop/issues/36958",
       "PS_VERSION_START": "1.7.8.1",
       "PS_VERSION_END": "8.1.7",
       "UPGRADE_CHANNEL": "online",
       "PHP_VERSION": "7.4"
     },
     {
+      "comment": "https://github.com/PrestaShop/PrestaShop/issues/36958",
       "PS_VERSION_START": "1.7.8.2",
       "PS_VERSION_END": "8.1.7",
       "UPGRADE_CHANNEL": "online",
       "PHP_VERSION": "7.2"
     },
     {
+      "comment": "https://github.com/PrestaShop/PrestaShop/issues/36958",
       "PS_VERSION_START": "1.7.8.2",
       "PS_VERSION_END": "8.1.7",
       "UPGRADE_CHANNEL": "online",
       "PHP_VERSION": "7.3"
     },
     {
+      "comment": "https://github.com/PrestaShop/PrestaShop/issues/36958",
       "PS_VERSION_START": "1.7.8.2",
       "PS_VERSION_END": "8.1.7",
       "UPGRADE_CHANNEL": "online",
