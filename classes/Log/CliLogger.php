@@ -60,14 +60,16 @@ class CliLogger extends Logger
 
     public function __construct(OutputInterface $output)
     {
-        $successStyle = new OutputFormatterStyle('green', null, []);
-        $warningStyle = new OutputFormatterStyle('yellow', null, []);
-        $errorStyle = new OutputFormatterStyle('red', null, []);
-        $criticalStyle = new OutputFormatterStyle('red', null, ['bold']);
-        $output->getFormatter()->setStyle('success', $successStyle);
-        $output->getFormatter()->setStyle('warning', $warningStyle);
-        $output->getFormatter()->setStyle('error', $errorStyle);
-        $output->getFormatter()->setStyle('critical', $criticalStyle);
+        if ($output->isDecorated()) {
+            $successStyle = new OutputFormatterStyle('green', null, []);
+            $warningStyle = new OutputFormatterStyle('yellow', null, []);
+            $errorStyle = new OutputFormatterStyle('red', null, []);
+            $criticalStyle = new OutputFormatterStyle('red', null, ['bold']);
+            $output->getFormatter()->setStyle('success', $successStyle);
+            $output->getFormatter()->setStyle('warning', $warningStyle);
+            $output->getFormatter()->setStyle('error', $errorStyle);
+            $output->getFormatter()->setStyle('critical', $criticalStyle);
+        }
 
         $this->out = $output;
         $this->err = $output instanceof ConsoleOutputInterface ? $output->getErrorOutput() : $output;
@@ -128,21 +130,30 @@ class CliLogger extends Logger
                 $this->lastInfo = $log;
             }
         }
+
+        $message = $this->cleanFromSensitiveData($message);
+        parent::log($level, $message, $context);
     }
 
     private function formatLog(int $level, string $message): string
     {
+        $logBase = self::$levels[$level] . ' - ' . $message;
+
+        if (!$this->out->isDecorated()) {
+            return $logBase;
+        }
+
         switch ($level) {
             case self::WARNING:
-                return '<warning>' . self::$levels[$level] . ' - ' . $message . '</warning>';
+                return '<warning>' . $logBase . '</warning>';
             case self::ERROR:
-                return '<error>' . self::$levels[$level] . ' - ' . $message . '</error>';
+                return '<error>' . $logBase . '</error>';
             case self::CRITICAL:
             case self::ALERT:
             case self::EMERGENCY:
-             return '<critical>' . self::$levels[$level] . ' - ' . $message . '</critical>';
+             return '<critical>' . $logBase . '</critical>';
             default:
-                return self::$levels[$level] . ' - ' . $message;
+                return $logBase;
         }
     }
 

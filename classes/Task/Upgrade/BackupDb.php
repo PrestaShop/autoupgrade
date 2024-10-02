@@ -28,16 +28,18 @@
 namespace PrestaShop\Module\AutoUpgrade\Task\Upgrade;
 
 use Exception;
+use PrestaShop\Module\AutoUpgrade\Analytics;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Progress\Backlog;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
+use PrestaShop\Module\AutoUpgrade\Task\TaskType;
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 class BackupDb extends AbstractTask
 {
-    const TASK_TYPE = 'upgrade';
+    const TASK_TYPE = TaskType::TASK_TYPE_BACKUP;
 
     /**
      * @throws Exception
@@ -302,6 +304,8 @@ class BackupDb extends AbstractTask
 
             $this->logger->info($this->translator->trans('Database backup done in filename %s. Now upgrading files...', [$this->container->getState()->getBackupName()]));
             $this->next = 'upgradeFiles';
+
+            $this->container->getAnalytics()->track('Backup Succeeded', Analytics::WITH_BACKUP_PROPERTIES);
 
             return ExitCode::SUCCESS;
         }

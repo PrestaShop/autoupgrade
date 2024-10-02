@@ -31,6 +31,7 @@ use Exception;
 use PrestaShop\Module\AutoUpgrade\Analytics;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
+use PrestaShop\Module\AutoUpgrade\Task\TaskType;
 use PrestaShop\Module\AutoUpgrade\Upgrader;
 
 /**
@@ -39,7 +40,7 @@ use PrestaShop\Module\AutoUpgrade\Upgrader;
  */
 class UpgradeNow extends AbstractTask
 {
-    const TASK_TYPE = 'upgrade';
+    const TASK_TYPE = TaskType::TASK_TYPE_UPDATE;
 
     /**
      * @throws Exception
@@ -50,8 +51,6 @@ class UpgradeNow extends AbstractTask
         $this->container->getState()->setProgressPercentage(
             $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
         );
-
-        $this->container->getWorkspace()->createFolders();
 
         $upgrader = $this->container->getUpgrader();
 
@@ -76,7 +75,7 @@ class UpgradeNow extends AbstractTask
                 $this->logger->debug($this->translator->trans('Downloaded archive will come from %s', [$upgrader->getOnlineDestinationRelease()->getZipDownloadUrl()]));
                 $this->logger->debug($this->translator->trans('MD5 hash will be checked against %s', [$upgrader->getOnlineDestinationRelease()->getZipMd5()]));
         }
-        $this->container->getAnalytics()->track('Upgrade Launched', Analytics::WITH_UPGRADE_PROPERTIES);
+        $this->container->getAnalytics()->track('Upgrade Launched', Analytics::WITH_UPDATE_PROPERTIES);
 
         return ExitCode::SUCCESS;
     }

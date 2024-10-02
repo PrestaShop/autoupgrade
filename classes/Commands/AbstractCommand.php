@@ -31,7 +31,6 @@ use Exception;
 use PrestaShop\Module\AutoUpgrade\ErrorHandler;
 use PrestaShop\Module\AutoUpgrade\Log\CliLogger;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
-use PrestaShop\Module\AutoUpgrade\Log\StreamedLogger;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\Task\Miscellaneous\UpdateConfig;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
@@ -55,7 +54,7 @@ abstract class AbstractCommand extends Command
      */
     protected function setupContainer(InputInterface $input, OutputInterface $output): void
     {
-        $this->logger = $output->isDecorated() ? new CliLogger($output) : new StreamedLogger();
+        $this->logger = new CliLogger($output);
         if ($output->isQuiet()) {
             $this->logger->setFilter(Logger::ERROR);
         } elseif ($output->isVerbose()) {
@@ -76,6 +75,9 @@ abstract class AbstractCommand extends Command
 
         $this->logger->debug('Logger initialized: ' . get_class($this->logger));
 
+        $this->logger->setSensitiveData([
+            $this->upgradeContainer->getProperty(UpgradeContainer::PS_ADMIN_SUBDIR) => '**admin_folder**',
+        ]);
         $this->upgradeContainer->setLogger($this->logger);
         (new ErrorHandler($this->logger))->enable();
         $this->logger->debug('Error handler enabled.');

@@ -27,7 +27,7 @@
 namespace unit\UpgradeTools\CoreUpgrader;
 
 use PHPUnit\Framework\TestCase;
-use PrestaShop\Module\AutoUpgrade\Log\LegacyLogger;
+use PrestaShop\Module\AutoUpgrade\Log\WebLogger;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader80;
 
@@ -39,10 +39,8 @@ class CoreUpgrader80Test extends TestCase
     {
         parent::setUp();
 
-        $stub = $this->getMockBuilder(UpgradeContainer::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->coreUpgrader = new CoreUpgrader80($stub, new LegacyLogger());
+        $container = new UpgradeContainer('/html', '/html/admin');
+        $this->coreUpgrader = new CoreUpgrader80($container, new WebLogger());
     }
 
     /**

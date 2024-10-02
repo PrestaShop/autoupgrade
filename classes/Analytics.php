@@ -35,8 +35,9 @@ class Analytics
     const SEGMENT_CLIENT_KEY_JS = 'RM87m03McDSL4Fvm3GJ3piBPbAL3Fa2i';
 
     const WITH_COMMON_PROPERTIES = 0;
-    const WITH_UPGRADE_PROPERTIES = 1;
-    const WITH_ROLLBACK_PROPERTIES = 2;
+    const WITH_UPDATE_PROPERTIES = 1;
+    const WITH_BACKUP_PROPERTIES = 2;
+    const WITH_RESTORE_PROPERTIES = 3;
 
     // Reusing environment variable from Distribution API
     public const URL_TRACKING_ENV_NAME = 'PS_URL_TRACKING';
@@ -108,26 +109,32 @@ class Analytics
     public function getProperties($type): array
     {
         switch ($type) {
-            case self::WITH_UPGRADE_PROPERTIES:
+            case self::WITH_BACKUP_PROPERTIES:
+                $additionalProperties = [
+                    'backup_files_and_databases' => $this->upgradeConfiguration->shouldBackupFilesAndDatabase(),
+                    'backup_images' => $this->upgradeConfiguration->shouldBackupImages(),
+                ];
+                $upgradeProperties = $this->properties[self::WITH_BACKUP_PROPERTIES] ?? [];
+                $additionalProperties = array_merge($upgradeProperties, $additionalProperties);
+                break;
+            case self::WITH_UPDATE_PROPERTIES:
                 $additionalProperties = [
                     'from_ps_version' => $this->state->getOriginVersion(),
                     'to_ps_version' => $this->state->getInstallVersion(),
                     'upgrade_channel' => $this->upgradeConfiguration->getChannel(),
-                    'backup_files_and_databases' => $this->upgradeConfiguration->shouldBackupFilesAndDatabase(),
-                    'backup_images' => $this->upgradeConfiguration->shouldBackupImages(),
                     'disable_non_native_modules' => $this->upgradeConfiguration->shouldDeactivateCustomModules(),
                     'switch_to_default_theme' => $this->upgradeConfiguration->shouldSwitchToDefaultTheme(),
                     'keep_customized_email_templates' => $this->upgradeConfiguration->shouldKeepMails(),
                 ];
-                $upgradeProperties = $this->properties[self::WITH_UPGRADE_PROPERTIES] ?? [];
+                $upgradeProperties = $this->properties[self::WITH_UPDATE_PROPERTIES] ?? [];
                 $additionalProperties = array_merge($upgradeProperties, $additionalProperties);
                 break;
-            case self::WITH_ROLLBACK_PROPERTIES:
+            case self::WITH_RESTORE_PROPERTIES:
                 $additionalProperties = [
                     'from_ps_version' => $this->properties[self::WITH_COMMON_PROPERTIES]['ps_version'] ?? null,
                     'to_ps_version' => $this->state->getRestoreVersion(),
                 ];
-                $rollbackProperties = $this->properties[self::WITH_ROLLBACK_PROPERTIES] ?? [];
+                $rollbackProperties = $this->properties[self::WITH_RESTORE_PROPERTIES] ?? [];
                 $additionalProperties = array_merge($rollbackProperties, $additionalProperties);
                 break;
             default:

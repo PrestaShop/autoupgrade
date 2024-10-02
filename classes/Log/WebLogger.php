@@ -31,7 +31,7 @@ namespace PrestaShop\Module\AutoUpgrade\Log;
  * This class reimplement the old properties of the class AdminSelfUpgrade,
  * where all the mesages were stored.
  */
-class LegacyLogger extends Logger
+class WebLogger extends Logger
 {
     /** @var string[] */
     protected $normalMessages = [];
@@ -41,28 +41,6 @@ class LegacyLogger extends Logger
 
     /** @var string */
     protected $lastInfo = '';
-
-    /** @var array<string, string> */
-    protected $sensitiveData = [];
-
-    /**
-     * @var resource|false|null File descriptor of the log file
-     */
-    protected $fd;
-
-    public function __construct(string $fileName = null)
-    {
-        if (null !== $fileName) {
-            $this->fd = fopen($fileName, 'a');
-        }
-    }
-
-    public function __destruct()
-    {
-        if (is_resource($this->fd)) {
-            fclose($this->fd);
-        }
-    }
 
     /**
      * {@inheritdoc}
@@ -93,16 +71,6 @@ class LegacyLogger extends Logger
     }
 
     /**
-     * @param array<string, string> $sensitiveData List of data to change with another value
-     */
-    public function setSensitiveData(array $sensitiveData): self
-    {
-        $this->sensitiveData = $sensitiveData;
-
-        return $this;
-    }
-
-    /**
      * {@inheritdoc}
      *
      * @param array<mixed> $context
@@ -114,10 +82,7 @@ class LegacyLogger extends Logger
         }
 
         $message = $this->cleanFromSensitiveData($message);
-
-        if (is_resource($this->fd)) {
-            fwrite($this->fd, '[' . date('Y-m-d H:i:s') . '] ' . $message . PHP_EOL);
-        }
+        parent::log($level, $message, $context);
 
         if ($level === self::INFO) {
             $this->lastInfo = $message;
@@ -128,18 +93,5 @@ class LegacyLogger extends Logger
         } else {
             $this->severeMessages[] = $message;
         }
-    }
-
-    public function cleanFromSensitiveData(string $message): string
-    {
-        if (empty($this->sensitiveData)) {
-            return $message;
-        }
-
-        return str_replace(
-            array_keys($this->sensitiveData),
-            array_values($this->sensitiveData),
-            $message
-        );
     }
 }

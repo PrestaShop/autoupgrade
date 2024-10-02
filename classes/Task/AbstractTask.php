@@ -61,7 +61,7 @@ abstract class AbstractTask
     protected $container;
 
     /**
-     * @var 'upgrade'|'rollback'|null
+     * @var TaskType::TASK_TYPE_*|null
      */
     const TASK_TYPE = null;
 
@@ -96,6 +96,13 @@ abstract class AbstractTask
         $this->logger = $this->container->getLogger();
         $this->translator = $this->container->getTranslator();
         $this->checkTaskMayRun();
+
+        if ($this::TASK_TYPE !== null) {
+            $logPath = $this->container->getLogsPath($this::TASK_TYPE);
+            if ($logPath !== null) {
+                $this->logger->updateLogsPath($logPath);
+            }
+        }
     }
 
     /**
@@ -150,9 +157,23 @@ abstract class AbstractTask
         // TODO: Add this? $this->next = 'error';
 
         if (static::TASK_TYPE) {
+            $propertiesType = null;
+
+            switch (static::TASK_TYPE) {
+                case TaskType::TASK_TYPE_UPDATE:
+                    $propertiesType = Analytics::WITH_UPDATE_PROPERTIES;
+                    break;
+                case TaskType::TASK_TYPE_BACKUP:
+                    $propertiesType = Analytics::WITH_BACKUP_PROPERTIES;
+                    break;
+                case TaskType::TASK_TYPE_RESTORE:
+                    $propertiesType = Analytics::WITH_RESTORE_PROPERTIES;
+                    break;
+            }
+
             $this->container->getAnalytics()->track(
                 ucfirst(static::TASK_TYPE) . ' Failed',
-                static::TASK_TYPE === 'upgrade' ? Analytics::WITH_UPGRADE_PROPERTIES : Analytics::WITH_ROLLBACK_PROPERTIES
+                $propertiesType
             );
         }
     }

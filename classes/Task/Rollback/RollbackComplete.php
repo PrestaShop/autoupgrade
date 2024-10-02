@@ -30,19 +30,20 @@ namespace PrestaShop\Module\AutoUpgrade\Task\Rollback;
 use PrestaShop\Module\AutoUpgrade\Analytics;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
+use PrestaShop\Module\AutoUpgrade\Task\TaskType;
 
 /**
  * Only displays the success message.
  */
 class RollbackComplete extends AbstractTask
 {
-    const TASK_TYPE = 'rollback';
+    const TASK_TYPE = TaskType::TASK_TYPE_RESTORE;
 
     public function run(): int
     {
         $this->logger->info($this->translator->trans('Restoration process done. Congratulations! You can now reactivate your shop.'));
         $this->next = '';
-        $this->container->getAnalytics()->track('Rollback Succeeded', Analytics::WITH_ROLLBACK_PROPERTIES);
+        $this->container->getAnalytics()->track('Restore Succeeded', Analytics::WITH_RESTORE_PROPERTIES);
 
         $this->container->getState()->setProgressPercentage(
             $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)

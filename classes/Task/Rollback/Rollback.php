@@ -33,6 +33,7 @@ use PrestaShop\Module\AutoUpgrade\Backup\BackupFinder;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
+use PrestaShop\Module\AutoUpgrade\Task\TaskType;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 /**
@@ -40,7 +41,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
  */
 class Rollback extends AbstractTask
 {
-    const TASK_TYPE = 'rollback';
+    const TASK_TYPE = TaskType::TASK_TYPE_RESTORE;
 
     /**
      * @throws Exception
@@ -105,7 +106,7 @@ class Rollback extends AbstractTask
             unlink($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . UpgradeFileNames::FILES_TO_REMOVE_LIST);
         }
 
-        $this->container->getAnalytics()->track('Rollback Launched', Analytics::WITH_ROLLBACK_PROPERTIES);
+        $this->container->getAnalytics()->track('Restore Launched', Analytics::WITH_RESTORE_PROPERTIES);
 
         return ExitCode::SUCCESS;
     }

@@ -29,13 +29,14 @@ namespace PrestaShop\Module\AutoUpgrade\Task\Upgrade;
 
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
+use PrestaShop\Module\AutoUpgrade\Task\TaskType;
 
 /**
  * Clean the database from unwanted entries.
  */
 class CleanDatabase extends AbstractTask
 {
-    const TASK_TYPE = 'upgrade';
+    const TASK_TYPE = TaskType::TASK_TYPE_UPDATE;
 
     public function run(): int
     {

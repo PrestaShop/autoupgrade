@@ -56,6 +56,21 @@ abstract class Logger implements LoggerInterface
     ];
 
     /**
+     * @var resource|false|null File descriptor of the log file
+     */
+    protected $fd;
+
+    /** @var array<string, string> */
+    protected $sensitiveData = [];
+
+    public function __destruct()
+    {
+        if (is_resource($this->fd)) {
+            fclose($this->fd);
+        }
+    }
+
+    /**
      * @param array<mixed> $context
      */
     public function alert(string $message, array $context = []): void
@@ -151,5 +166,45 @@ abstract class Logger implements LoggerInterface
     public function getLastInfo(): string
     {
         return '';
+    }
+
+    public function updateLogsPath(string $logsPath): void
+    {
+        $this->fd = fopen($logsPath, 'a');
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @param array<mixed> $context
+     */
+    public function log($level, string $message, array $context = []): void
+    {
+        if (is_resource($this->fd)) {
+            fwrite($this->fd, '[' . date('Y-m-d H:i:s') . '] ' . self::$levels[$level] . ' - ' . $message . PHP_EOL);
+        }
+    }
+
+    /**
+     * @param array<string, string> $sensitiveData List of data to change with another value
+     */
+    public function setSensitiveData(array $sensitiveData): self
+    {
+        $this->sensitiveData = $sensitiveData;
+
+        return $this;
+    }
+
+    public function cleanFromSensitiveData(string $message): string
+    {
+        if (empty($this->sensitiveData)) {
+            return $message;
+        }
+
+        return str_replace(
+            array_keys($this->sensitiveData),
+            array_values($this->sensitiveData),
+            $message
+        );
     }
 }

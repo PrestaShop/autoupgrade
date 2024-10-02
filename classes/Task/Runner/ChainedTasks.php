@@ -52,11 +52,13 @@ abstract class ChainedTasks extends AbstractTask
      */
     public function run(): int
     {
+        $this->setupLogging();
+
         $requireRestart = false;
         while ($this->canContinue() && !$requireRestart) {
-            $this->logger->info('=== Step ' . $this->step);
             $controller = TaskRepository::get($this->step, $this->container);
             $controller->init();
+            $this->logger->debug('Step ' . $this->step);
             try {
                 $controller->run();
             } catch (Throwable $t) {
@@ -105,5 +107,15 @@ abstract class ChainedTasks extends AbstractTask
     protected function checkIfRestartRequested(AjaxResponse $response): bool
     {
         return false;
+    }
+
+    private function setupLogging(): void
+    {
+        $initializationSteps = ['upgradeNow', 'rollback'];
+
+        if (in_array($this->step, $initializationSteps)) {
+            $this->container->getWorkspace()->createFolders();
+            $this->container->getState()->setProcessTimestamp(date('Y-m-d-His'));
+        }
     }
 }

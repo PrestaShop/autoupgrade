@@ -62,7 +62,7 @@ class UpgradeContainerTest extends TestCase
             // ['getUpgrader', \PrestaShop\Module\AutoUpgrade\Upgrader::class],
             ['getFilesystemAdapter', PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter::class],
             ['getFileLoader', PrestaShop\Module\AutoUpgrade\Xml\FileLoader::class],
-            ['getLogger', PrestaShop\Module\AutoUpgrade\Log\LegacyLogger::class],
+            ['getLogger', PrestaShop\Module\AutoUpgrade\Log\WebLogger::class],
             ['getModuleAdapter', \PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleAdapter::class],
             ['getState', \PrestaShop\Module\AutoUpgrade\State::class],
             ['getSymfonyAdapter', PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter::class],

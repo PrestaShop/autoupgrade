@@ -31,6 +31,7 @@ use Exception;
 use PrestaShop\Module\AutoUpgrade\Analytics;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
+use PrestaShop\Module\AutoUpgrade\Task\TaskType;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\Upgrader;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
@@ -40,7 +41,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
  */
 class UpgradeComplete extends AbstractTask
 {
-    const TASK_TYPE = 'upgrade';
+    const TASK_TYPE = TaskType::TASK_TYPE_UPDATE;
 
     /**
      * @throws Exception
@@ -74,7 +75,7 @@ class UpgradeComplete extends AbstractTask
 
         // removing temporary files
         $this->container->getFileConfigurationStorage()->cleanAll();
-        $this->container->getAnalytics()->track('Upgrade Succeeded', Analytics::WITH_UPGRADE_PROPERTIES);
+        $this->container->getAnalytics()->track('Upgrade Succeeded', Analytics::WITH_UPDATE_PROPERTIES);
 
         return ExitCode::SUCCESS;
     }
