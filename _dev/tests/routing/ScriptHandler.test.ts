@@ -35,7 +35,7 @@ describe('ScriptHandler', () => {
     (routeHandler.getCurrentRoute as jest.Mock).mockReturnValue('home-page');
   });
 
-  it('should load the correct script based on the current route (home-page)', () => {
+  it('should load the correct script based on the default route (home-page)', () => {
     scriptHandler = new ScriptHandler();
 
     expect(HomePage).toHaveBeenCalledTimes(1);

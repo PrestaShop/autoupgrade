@@ -46,7 +46,8 @@ describe('RequestHandler', () => {
     await requestHandler.post(route, formData);
 
     expect(baseApi.post).toHaveBeenCalledTimes(2);
-    expect(baseApi.post).toHaveBeenCalledWith('', formData, { params: { route: 'next_route' } });
+    expect(baseApi.post).toHaveBeenNthCalledWith(1, '', formData, { params: { route } });
+    expect(baseApi.post).toHaveBeenNthCalledWith(2, '', formData, { params: { route: 'next_route' } });
   });
 
   it('should handle hydration response', async () => {
