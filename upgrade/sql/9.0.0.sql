@@ -194,3 +194,7 @@ ALTER TABLE `PREFIX_shop_url` CHANGE `domain` `domain` varchar(255) NOT NULL;
 ALTER TABLE `PREFIX_shop_url` CHANGE `domain_ssl` `domain_ssl` varchar(255) NOT NULL;
 ALTER TABLE `PREFIX_feature_flag` CHANGE `label_wording` `label_wording` VARCHAR(191) DEFAULT '' NOT NULL;
 ALTER TABLE `PREFIX_feature_flag` CHANGE `description_wording` `description_wording` VARCHAR(191) DEFAULT '' NOT NULL;
+
+/* Raise payment reference to unify with orders table */
+/* https://github.com/PrestaShop/PrestaShop/pull/37038 */
+ALTER TABLE `PREFIX_order_payment` CHANGE `order_reference` `order_reference` VARCHAR(255);
