@@ -123,6 +123,6 @@ class Router
 
         $method = $route['method'];
 
-        return (new $route['controller']($this->upgradeContainer, $request))->$method($request);
+        return (new $route['controller']($this->upgradeContainer, $request))->$method();
     }
 }

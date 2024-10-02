@@ -12,6 +12,15 @@ class AbstractGlobalControllerTest extends TestCase
         require_once __DIR__ . '/DummyController.php';
     }
 
+    protected function setUp()
+    {
+        parent::setUp();
+
+        if (PHP_VERSION_ID >= 80000) {
+            $this->markTestSkipped('An issue with this version of PHPUnit and PHP 8+ prevents this test to run.');
+        }
+    }
+
     /**
      * @dataProvider redirectionTestsProvider
      */

@@ -28,7 +28,6 @@
 namespace PrestaShop\Module\AutoUpgrade\Controller;
 
 use PrestaShop\Module\AutoUpgrade\Twig\UpdateSteps;
-use Symfony\Component\HttpFoundation\Request;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
@@ -39,15 +38,13 @@ class UpdatePagePostUpdateController extends AbstractPageController
     const CURRENT_PAGE = 'update';
 
     /**
-     * @param Request $request
-     *
      * @return string
      *
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    public function step(Request $request): string
+    public function step(): string
     {
         return $this->twig->render(
             '@ModuleAutoUpgrade/steps/post-update.html.twig',
@@ -60,7 +57,7 @@ class UpdatePagePostUpdateController extends AbstractPageController
      *
      * @throws \Exception
      */
-    protected function getParams(Request $request): array
+    protected function getParams(): array
     {
         $updateSteps = new UpdateSteps($this->upgradeContainer->getTranslator());
 

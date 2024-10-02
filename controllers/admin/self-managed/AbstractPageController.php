@@ -30,7 +30,6 @@ namespace PrestaShop\Module\AutoUpgrade\Controller;
 use PrestaShop\Module\AutoUpgrade\Twig\PageSelectors;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
 
 abstract class AbstractPageController extends AbstractGlobalController
 {
@@ -87,34 +86,32 @@ abstract class AbstractPageController extends AbstractGlobalController
     }
 
     /**
-     * @param Request $request
-     *
      * @return RedirectResponse|string
      *
      * @throws \Exception
      */
-    public function index(Request $request)
+    public function index()
     {
-        if ($request->isXmlHttpRequest()) {
+        if ($this->request->isXmlHttpRequest()) {
             return new JsonResponse([
                 'hydration' => true,
                 'new_route' => $this::CURRENT_ROUTE,
                 'parent_to_update' => PageSelectors::PAGE_PARENT_ID,
                 'new_content' => $this->renderPageContent(
                     $this::CURRENT_PAGE,
-                    $this->getParams($request)
+                    $this->getParams()
                 ),
             ]);
         }
 
         return $this->renderPage(
             $this::CURRENT_PAGE,
-            $this->getParams($request)
+            $this->getParams()
         );
     }
 
     /**
      * @return array
      */
-    abstract protected function getParams(Request $request): array;
+    abstract protected function getParams(): array;
 }

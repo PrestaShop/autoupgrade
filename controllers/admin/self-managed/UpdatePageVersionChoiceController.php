@@ -31,7 +31,6 @@ use PrestaShop\Module\AutoUpgrade\Router\Routes;
 use PrestaShop\Module\AutoUpgrade\Twig\UpdateSteps;
 use PrestaShop\Module\AutoUpgrade\VersionUtils;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
@@ -52,19 +51,17 @@ class UpdatePageVersionChoiceController extends AbstractPageController
     ];
 
     /**
-     * @param Request $request
-     *
      * @return string
      *
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    public function step(Request $request): string
+    public function step(): string
     {
         return $this->twig->render(
             '@ModuleAutoUpgrade/steps/version-choice.html.twig',
-            $this->getParams($request)
+            $this->getParams()
         );
     }
 
@@ -73,7 +70,7 @@ class UpdatePageVersionChoiceController extends AbstractPageController
      *
      * @throws \Exception
      */
-    protected function getParams(Request $request): array
+    protected function getParams(): array
     {
         $updateSteps = new UpdateSteps($this->upgradeContainer->getTranslator());
         $isLastVersion = $this->upgradeContainer->getUpgrader()->isLastVersion();
@@ -106,7 +103,7 @@ class UpdatePageVersionChoiceController extends AbstractPageController
             [
                 'up_to_date' => $isLastVersion,
                 'no_local_archive' => !$this->upgradeContainer->getLocalArchiveRepository()->hasLocalArchive(),
-                'assets_base_path' => $this->upgradeContainer->getAssetsEnvironment()->getAssetsBaseUrl($request),
+                'assets_base_path' => $this->upgradeContainer->getAssetsEnvironment()->getAssetsBaseUrl($this->request),
                 'current_prestashop_version' => $this->getPsVersion(),
                 'current_php_version' => VersionUtils::getHumanReadableVersionOf(PHP_VERSION_ID),
                 'local_archives' => [

@@ -30,7 +30,6 @@ namespace PrestaShop\Module\AutoUpgrade\Controller;
 use PrestaShop\Module\AutoUpgrade\Router\Routes;
 use PrestaShop\Module\AutoUpgrade\Twig\UpdateSteps;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
@@ -40,21 +39,19 @@ class UpdatePageUpdateController extends AbstractPageController
     const CURRENT_STEP = UpdateSteps::STEP_UPDATE;
     const CURRENT_PAGE = 'update';
 
-    public function index(Request $request): RedirectResponse
+    public function index(): RedirectResponse
     {
         return $this->redirectTo(Routes::UPDATE_PAGE_BACKUP);
     }
 
     /**
-     * @param Request $request
-     *
      * @return string
      *
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    public function step(Request $request): string
+    public function step(): string
     {
         return $this->twig->render(
             '@ModuleAutoUpgrade/steps/update.html.twig',
@@ -67,7 +64,7 @@ class UpdatePageUpdateController extends AbstractPageController
      *
      * @throws \Exception
      */
-    protected function getParams(Request $request): array
+    protected function getParams(): array
     {
         $updateSteps = new UpdateSteps($this->upgradeContainer->getTranslator());
 
