@@ -49,30 +49,35 @@
         <target>Unable to retrieve version from zip: %s.</target>
         <note>Line: 86</note>
       </trans-unit>
+      <trans-unit id="497b68a6d0e3a6abf823f78631233e6a">
+        <source>We couldn't find a PrestaShop version in the XML file that was uploaded in your local archive. Please try again</source>
+        <target>We couldn't find a PrestaShop version in the XML file that was uploaded in your local archive. Please try again</target>
+        <note>Line: 104</note>
+      </trans-unit>
       <trans-unit id="2d1b3a71b7f8c5f533921fe116788422">
         <source>Prestashop version detected in the xml (%s) does not match the zip version (%s).</source>
         <target>Prestashop version detected in the xml (%s) does not match the zip version (%s).</target>
-        <note>Line: 104</note>
+        <note>Line: 111</note>
       </trans-unit>
       <trans-unit id="ab232f4b20c0e50dad9081bc39382569">
         <source>Upgrade process will use archive.</source>
         <target>Upgrade process will use archive.</target>
-        <note>Line: 114</note>
+        <note>Line: 121</note>
       </trans-unit>
       <trans-unit id="1fe9dd96f646eaa0cd3a0fcc7632ce12">
         <source>Error on saving configuration</source>
         <target>Error on saving configuration</target>
-        <note>Line: 131</note>
+        <note>Line: 138</note>
       </trans-unit>
       <trans-unit id="f2ff9d001d0a553c78da73443e7fcd97">
         <source>Configuration successfully updated.</source>
         <target>Configuration successfully updated.</target>
-        <note>Line: 194</note>
+        <note>Line: 201</note>
       </trans-unit>
       <trans-unit id="40b980e89ae332507380470cd26cdf4d">
         <source>This page will now be reloaded and the module will check if a new version is available.</source>
         <target>This page will now be reloaded and the module will check if a new version is available.</target>
-        <note>Line: 194</note>
+        <note>Line: 201</note>
       </trans-unit>
     </body>
   </file>
