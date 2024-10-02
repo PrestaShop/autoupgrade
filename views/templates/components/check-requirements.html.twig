@@ -23,16 +23,14 @@
       <div class="check-requirements__list">
         {# ERROR #}
         {# Check for PHP compatibility error #}
-        {% if phpRequirementsState != constant('PrestaShop\\Module\\AutoUpgrade\\Services\\PhpVersionResolverService::COMPATIBILITY_VALID') %}
-          {% if phpRequirementsState == constant('PrestaShop\\Module\\AutoUpgrade\\Services\\PhpVersionResolverService::COMPATIBILITY_INVALID') %}
-            <div class="check-requirements__requirement check-requirements__requirement--error">
-              {{ 'Your current PHP version isn\'t compatible with your PrestaShop version. (Expected: %s - %s | Current: %s)'|trans([
-                phpCompatibilityRange['php_min_version'],
-                phpCompatibilityRange['php_max_version'],
-                phpCompatibilityRange['php_current_version'],
-              ]) }}
-            </div>
-          {% endif %}
+        {% if phpRequirementsState == constant('PrestaShop\\Module\\AutoUpgrade\\Services\\PhpVersionResolverService::COMPATIBILITY_INVALID') %}
+          <div class="check-requirements__requirement check-requirements__requirement--error">
+            {{ 'Your current PHP version isn\'t compatible with your PrestaShop version. (Expected: %s - %s | Current: %s)'|trans([
+              phpCompatibilityRange['php_min_version'],
+              phpCompatibilityRange['php_max_version'],
+              phpCompatibilityRange['php_current_version'],
+            ]) }}
+          </div>
         {% endif %}
 
         {# Check if root directory is writable #}
@@ -188,12 +186,10 @@
         {% endif %}
 
         {# Check for PHP compatibility warning #}
-        {% if phpRequirementsState != constant('PrestaShop\\Module\\AutoUpgrade\\Services\\PhpVersionResolverService::COMPATIBILITY_VALID') %}
-          {% if phpRequirementsState != constant('PrestaShop\\Module\\AutoUpgrade\\Services\\PhpVersionResolverService::COMPATIBILITY_INVALID') %}
-            <div class="check-requirements__requirement check-requirements__requirement--warning">
-              {{ 'We were unable to check your PHP compatibility with the destination PrestaShop version.'|trans({}) }}
-            </div>
-          {% endif %}
+        {% if phpRequirementsState == constant('PrestaShop\\Module\\AutoUpgrade\\Services\\PhpVersionResolverService::COMPATIBILITY_UNKNOWN') %}
+          <div class="check-requirements__requirement check-requirements__requirement--warning">
+            {{ 'We were unable to check your PHP compatibility with the destination PrestaShop version.'|trans({}) }}
+          </div>
         {% endif %}
 
         {# Check for missing core files #}
