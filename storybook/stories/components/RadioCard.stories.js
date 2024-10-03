@@ -50,7 +50,7 @@ export default {
     badgeStatus: "major",
     releaseNote: "https://github.com/PrestaShop/autoupgrade",
     archiveCard: false,
-    checkRequirements: false,
+    enableRequirementsCheck: false,
     ...LocalArchive.args,
     ...CheckRequirements.args,
   },
@@ -61,7 +61,7 @@ export const Default = {};
 export const Requirements = {
   args: {
     checked: true,
-    checkRequirements: true,
+    enableRequirementsCheck: true,
     ...LocalArchive.args,
     ...CheckRequirements.args,
     requirementsOk: false,

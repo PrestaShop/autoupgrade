@@ -53,7 +53,7 @@ export const Online = {
     badgeLabel: "Major version",
     badgeStatus: "major",
     releaseNote: "https://github.com/PrestaShop/autoupgrade",
-    checkRequirements: true,
+    enableRequirementsCheck: true,
     ...CheckRequirements.args,
   },
 };

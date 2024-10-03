@@ -57,7 +57,7 @@ export const Archive = {
     badgeLabel: "",
     releaseNote: "",
     archiveCard: true,
-    checkRequirements: false,
+    enableRequirementsCheck: false,
     ...LocalArchive.args,
     ...CheckRequirements.args,
   },
