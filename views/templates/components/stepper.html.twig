@@ -1,11 +1,11 @@
-<div class="stepper">
+<div class="stepper" id="{{ stepper_parent_id }}">
   {% if steps %}
     {% for step in steps %}
-      <div class="stepper__step stepper__step--{{ step.state }} {% if loop.first %} stepper__step--first {% elseif loop.last %} stepper__step--last {% endif %}">
+      <div class="stepper__step stepper__step--{{ step.state }} {% if loop.first %} stepper__step--first {% elseif loop.last %} stepper__step--last {% endif %}" data-step-code="{{ step.code }}">
         <div class="stepper__step-number" data-step-number="{{ loop.index }}"></div>
 
         <div class="stepper__step-title">
-          {{ step.title }}
+            {{ step.title }}
         </div>
       </div>
     {% endfor %}

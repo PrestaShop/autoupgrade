@@ -29,26 +29,32 @@ export default {
   component: Stepper,
   title: "Components/Stepper",
   args: {
+    stepper_parent_id: "stepper_content",
     steps: [
       {
         state: "done",
         title: "Version choice",
+        code: "version_choice",
       },
       {
         state: "current",
         title: "Update options",
+        code: "update_options",
       },
       {
         state: "normal",
         title: "Backup",
+        code: "backup",
       },
       {
         state: "normal",
         title: "Update",
+        code: "update",
       },
       {
         state: "normal",
         title: "Post-update",
+        code: "post_update",
       },
     ],
   },
