@@ -19,10 +19,13 @@
     "esModuleInterop": true,
     "lib": ["ESNext", "DOM"],
     "skipLibCheck": true,
-    "types": [],
+    "types": ["jest", "node"],
   },
   "include": [
     "src/ts/**/*.ts",
+    "tests/**/*.ts",
+    "jest.setup.ts",
+    "jest.config.ts",
     "vite.config.ts",
     "vite.dev.config.ts",
     "global.d.ts"
