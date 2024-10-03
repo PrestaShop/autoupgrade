@@ -41,6 +41,7 @@ export default {
     radioName: "test",
     radioValue: "",
     checked: false,
+    required: false,
     title: "Update your store",
     message: "Update your store to benefit from the latest improvements, bug fixes and security patches.",
     disabled: false,

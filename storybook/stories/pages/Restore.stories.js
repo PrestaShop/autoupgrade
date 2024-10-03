@@ -49,6 +49,7 @@ export default {
       code: "restore",
       title: "Backup selection",
     },
+    step_parent_id: "ua_container",
   },
 };
 

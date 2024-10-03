@@ -49,10 +49,12 @@
           {{ 'You are already using the latest PrestaShop version available but you can update to the version of your choice from a local archive.'|trans({}) }}
         </p>
 
-        {% include "@ModuleAutoUpgrade/components/radio-card-archive.html.twig" with {
-          archiveFiles: local_archives.zip,
-          xmlFiles: local_archives.xml,
-        } %}
+        <div id="{{ radio_card_archive_parent_id }}">
+          {% include "@ModuleAutoUpgrade/components/radio-card-archive.html.twig" with {
+            archiveFiles: local_archives.zip,
+            xmlFiles: local_archives.xml,
+          } %}
+        </div>
       </div>
     {% endif %}
   {% else %}
@@ -83,13 +85,15 @@
     </div>
 
     <div class="version-choice-page__card-list">
-      {% include "@ModuleAutoUpgrade/components/radio-card-online.html.twig" with {
-        checked: true,
-        title: "PrestaShop %version%"|trans({'%version%': next_release.version}),
-        badgeLabel: next_release.badge_label,
-        badgeStatus: next_release.badge_status,
-        releaseNote: next_release.release_note,
-      } %}
+      <div id="{{ radio_card_online_parent_id }}">
+        {% include "@ModuleAutoUpgrade/components/radio-card-online.html.twig" with {
+          checked: false,
+          title: "PrestaShop %version%"|trans({'%version%': next_release.version}),
+          badgeLabel: next_release.badge_label,
+          badgeStatus: next_release.badge_status,
+          releaseNote: next_release.release_note,
+        } %}
+      </div>
 
       {% if no_local_archive %}
         {% include "@ModuleAutoUpgrade/components/alert.html.twig" with {
@@ -101,10 +105,12 @@
           buttonUrl: "",
         } %}
       {% else %}
-        {% include "@ModuleAutoUpgrade/components/radio-card-archive.html.twig" with {
-          archiveFiles: local_archives.zip,
-          xmlFiles: local_archives.xml,
-        } %}
+        <div id="{{ radio_card_archive_parent_id }}">
+          {% include "@ModuleAutoUpgrade/components/radio-card-archive.html.twig" with {
+            archiveFiles: local_archives.zip,
+            xmlFiles: local_archives.xml,
+          } %}
+        </div>
       {% endif %}
     </div>
   {% endif %}

@@ -36,6 +36,8 @@ export default {
     releaseNote: "",
     ps_version: "ps_version",
     empty_backup: true,
+    step_parent_id: "ua_container",
+    form_route: "form_route",
   },
 };
 

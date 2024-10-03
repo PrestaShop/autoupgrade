@@ -76,6 +76,9 @@ export default {
       xml: ["prestashop.xml"],
     },
     assets_base_path: "",
+    step_parent_id: "ua_container",
+    radio_card_online_parent_id: "radio_card_online",
+    radio_card_archive_parent_id: "radio_card_archive",
   },
 };
 

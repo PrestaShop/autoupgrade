@@ -1,15 +1,10 @@
 {% include "@ModuleAutoUpgrade/components/radio-card.html.twig" with {
   radioCardId: "local_archive",
-  radioName: "local_archive",
+  radioName: "canal_choice",
   radioValue: "local",
   checked: false,
   title: "Local archive"|trans({}),
   message: "Save the archive file of the version you want to update to in the following directory: /admin/autoupgrade/download/"|trans({}),
-  disabled: false,
-  disabledMessage: "",
-  badgeLabel: "",
-  badgeStatus: "",
-  releaseNote: "",
   archiveCard: true,
   checkRequirements: true,
 } %}
