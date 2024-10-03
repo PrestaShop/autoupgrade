@@ -57,6 +57,7 @@ export default {
     },
     default_backup_files_and_database: true,
     default_include_images: false,
+    step_parent_id: "ua_container",
   },
 };
 

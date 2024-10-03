@@ -61,6 +61,7 @@ export default {
     currentPrestashopVersion: "8.1.6",
     currentPhpVersion: "8.1",
     backlog_link: "https://myshop.com/my-backlog.txt",
+    step_parent_id: "ua_container",
   },
 };
 

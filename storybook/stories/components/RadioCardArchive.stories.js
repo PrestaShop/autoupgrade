@@ -48,6 +48,7 @@ export const Archive = {
     radioName: "local_archive",
     radioValue: "local",
     checked: true,
+    required: false,
     title: "Local archive",
     message:
       "Save the archive file of the version you want to update to in the following directory: /admin/autoupgrade/download/",
