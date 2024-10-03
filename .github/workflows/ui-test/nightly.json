@@ -697,6 +697,18 @@
       "PS_VERSION_START": "8.1.7",
       "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "online",
+      "PHP_VERSION": "7.2"
+    },
+    {
+      "PS_VERSION_START": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
+      "UPGRADE_CHANNEL": "online",
+      "PHP_VERSION": "7.3"
+    },
+    {
+      "PS_VERSION_START": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
+      "UPGRADE_CHANNEL": "online",
       "PHP_VERSION": "7.4"
     },
     {
