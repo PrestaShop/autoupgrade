@@ -23,42 +23,42 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-import BackupPage from "../../../views/templates/pages/update.html.twig";
+import RadioCardArchive from "../../../views/templates/components/radio-card-archive.html.twig";
+import LocalArchive from "./LocalArchive.stories";
+import CheckRequirements from "./CheckRequirements.stories";
 
 export default {
-  component: BackupPage,
-  title: "Pages/Update",
-  args: {
-    steps: [
-      {
-        state: "done",
-        title: "Version choice",
-      },
-      {
-        state: "done",
-        title: "Update options",
-      },
-      {
-        state: "current",
-        title: "Backup",
-      },
-      {
-        state: "normal",
-        title: "Update",
-      },
-      {
-        state: "normal",
-        title: "Post-update",
-      },
-    ],
-    step: {
-      code: "backup",
-      title: "Backup",
+  component: RadioCardArchive,
+  title: "Components/Radio card",
+  argTypes: {
+    badgeStatus: {
+      control: "select",
+      options: ["major", "minor", "patch"],
     },
-    default_backup_files_and_database: true,
-    default_include_images: false,
-    step_parent_id: "ua_container",
+  },
+  args: {
+    ...LocalArchive.args,
+    ...CheckRequirements.args,
   },
 };
 
-export const Backup = {};
+export const Archive = {
+  args: {
+    radioCardId: "local_archive",
+    radioName: "local_archive",
+    radioValue: "local",
+    checked: true,
+    required: false,
+    title: "Local archive",
+    message:
+      "Save the archive file of the version you want to update to in the following directory: /admin/autoupgrade/download/",
+    disabled: false,
+    disabledMessage: "No backup file found on your store.",
+    badgeLabel: "",
+    releaseNote: "",
+    archiveCard: true,
+    enableRequirementsCheck: false,
+    ...LocalArchive.args,
+    ...CheckRequirements.args,
+  },
+};

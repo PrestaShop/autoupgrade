@@ -41,16 +41,16 @@ export default {
     radioName: "test",
     radioValue: "",
     checked: false,
+    required: false,
     title: "Update your store",
-    message:
-      "Update your store to benefit from the latest improvements, bug fixes and security patches.",
+    message: "Update your store to benefit from the latest improvements, bug fixes and security patches.",
     disabled: false,
     disabledMessage: "No backup file found on your store.",
     badgeLabel: "Major version",
     badgeStatus: "major",
     releaseNote: "https://github.com/PrestaShop/autoupgrade",
     archiveCard: false,
-    checkRequirements: false,
+    enableRequirementsCheck: false,
     ...LocalArchive.args,
     ...CheckRequirements.args,
   },
@@ -58,32 +58,13 @@ export default {
 
 export const Default = {};
 
-export const Archive = {
-  args: {
-    radioCardId: "",
-    checked: true,
-    title: "Local archive",
-    message:
-      "Save the archive file of the version you want to update to in the following directory: /admin/autoupgrade/download/",
-    disabled: false,
-    disabledMessage: "No backup file found on your store.",
-    badgeLabel: "",
-    releaseNote: "",
-    archiveCard: true,
-    checkRequirements: false,
-    ...LocalArchive.args,
-    ...CheckRequirements.args,
-  },
-};
-
 export const Requirements = {
   args: {
     checked: true,
-    checkRequirements: true,
+    enableRequirementsCheck: true,
     ...LocalArchive.args,
     ...CheckRequirements.args,
     requirementsOk: false,
-    checkingForRequirements: false,
   },
 };
 

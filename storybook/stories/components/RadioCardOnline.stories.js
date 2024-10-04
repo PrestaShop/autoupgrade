@@ -23,42 +23,37 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-import BackupPage from "../../../views/templates/pages/update.html.twig";
+import RadioCardOnline from "../../../views/templates/components/radio-card-online.html.twig";
+import CheckRequirements from "./CheckRequirements.stories";
 
 export default {
-  component: BackupPage,
-  title: "Pages/Update",
-  args: {
-    steps: [
-      {
-        state: "done",
-        title: "Version choice",
-      },
-      {
-        state: "done",
-        title: "Update options",
-      },
-      {
-        state: "current",
-        title: "Backup",
-      },
-      {
-        state: "normal",
-        title: "Update",
-      },
-      {
-        state: "normal",
-        title: "Post-update",
-      },
-    ],
-    step: {
-      code: "backup",
-      title: "Backup",
+  component: RadioCardOnline,
+  title: "Components/Radio card",
+  argTypes: {
+    badgeStatus: {
+      control: "select",
+      options: ["major", "minor", "patch"],
     },
-    default_backup_files_and_database: true,
-    default_include_images: false,
-    step_parent_id: "ua_container",
+  },
+  args: {
+    ...CheckRequirements.args,
   },
 };
 
-export const Backup = {};
+export const Online = {
+  args: {
+    radioCardId: "canal_choice",
+    radioName: "canal_choice",
+    radioValue: "online",
+    checked: false,
+    title: "Local archive",
+    message: "The maximum version of PrestaShop to which you can upgrade your store, based on its PHP version.",
+    disabled: false,
+    disabledMessage: "",
+    badgeLabel: "Major version",
+    badgeStatus: "major",
+    releaseNote: "https://github.com/PrestaShop/autoupgrade",
+    enableRequirementsCheck: true,
+    ...CheckRequirements.args,
+  },
+};

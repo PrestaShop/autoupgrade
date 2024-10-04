@@ -32,7 +32,7 @@
         {% endif %}
       </p>
 
-      {% if releaseNote != null %}
+      {% if releaseNote %}
         <a class="radio-card__release-note"
           href="{{ releaseNote }}"
           target="_blank"
@@ -48,20 +48,24 @@
       {{ message }}
     </p>
 
-    {% if not disabled %}
-      {% if checked %}
-        {% if archiveCard %}
-          <div class="radio-card__local-archive">
-            {% include "@ModuleAutoUpgrade/components/local-archive.html.twig" %}
-          </div>
-        {% endif %}
+    {% if archiveCard %}
+      <div class="radio-card__local-archive">
+        {% include "@ModuleAutoUpgrade/components/local-archive.html.twig" %}
+      </div>
+    {% endif %}
+    
+    {% if enableRequirementsCheck %}
+      <div class="radio-card__loader-wrapper">
+        <div class="radio-card__loader"></div>
 
-        {% if checkRequirements %}
-          <div class="radio-card__check-requirements">
-            {% include "@ModuleAutoUpgrade/components/check-requirements.html.twig" %}
-          </div>
-        {% endif %}
-      {% endif %}
+        <div class="radio-card__loader-title">
+          {{ "Checking requirements..."|trans({}) }}
+        </div>
+      </div>
+
+      <div class="radio-card__check-requirements">
+        {% include "@ModuleAutoUpgrade/components/check-requirements.html.twig" %}
+      </div>
     {% endif %}
   </div>
 </label>

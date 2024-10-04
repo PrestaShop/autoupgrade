@@ -63,6 +63,7 @@ export default {
     logsSummaryError: [],
     downloadLogsButtonUrl: "",
     downloadLogsButtonLabel: "",
+    step_parent_id: "ua_container",
   },
 };
 

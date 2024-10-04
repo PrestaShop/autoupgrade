@@ -59,6 +59,7 @@ export default {
     default_regenerate_email_templates: true,
     switch_the_theme: 1,
     disable_all_overrides: false,
+    step_parent_id: "ua_container",
   },
 };
 
