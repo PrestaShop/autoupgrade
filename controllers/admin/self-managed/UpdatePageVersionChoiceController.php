@@ -30,6 +30,7 @@ namespace PrestaShop\Module\AutoUpgrade\Controller;
 use PrestaShop\Module\AutoUpgrade\Router\Routes;
 use PrestaShop\Module\AutoUpgrade\Twig\UpdateSteps;
 use PrestaShop\Module\AutoUpgrade\VersionUtils;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -113,5 +114,16 @@ class UpdatePageVersionChoiceController extends AbstractPageController
                 'form_route_to_save' => Routes::UPDATE_STEP_VERSION_CHOICE_SAVE_FORM,
             ]
         );
+    }
+
+    public function updateForm()
+    {}
+
+    public function saveForm()
+    {
+        /** todo: check everything is ok before send next route */
+        return new JsonResponse([
+            'next_route' => Routes::UPDATE_STEP_UPDATE_OPTIONS,
+        ]);
     }
 }

@@ -12,7 +12,7 @@
       checked: false,
       title: 'Update your store'|trans({}),
       message: 'Update your store to benefit from the latest improvements, bug fixes and security patches.'|trans({}),
-      radioName: 'route_choice',
+      radioName: form_fields.route_choice,
       radioValue: form_options.update_value,
       required: true
     } %}
@@ -22,7 +22,7 @@
       title: 'Restore from a backup'|trans({}),
       message: 'Use this feature if the update failed or if your store or a  module is no longer working properly.'|trans({}),
       disabled: false,
-      radioName: 'route_choice',
+      radioName: form_fields.route_choice,
       radioValue: form_options.restore_value,
       disabled: empty_backup,
       disabledMessage: empty_backup ? 'No backup file found on your store.'|trans({}) : null,

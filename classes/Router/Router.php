@@ -66,9 +66,17 @@ class Router
             'controller' => UpdatePageVersionChoiceController::class,
             'method' => 'step',
         ],
+        Routes::UPDATE_STEP_VERSION_CHOICE_UPDATE_FORM => [
+            'controller' => UpdatePageVersionChoiceController::class,
+            'method' => 'updateForm',
+        ],
+        Routes::UPDATE_STEP_VERSION_CHOICE_SAVE_FORM => [
+            'controller' => UpdatePageVersionChoiceController::class,
+            'method' => 'updateForm',
+        ],
         Routes::UPDATE_PAGE_UPDATE_OPTIONS => [
             'controller' => UpdatePageUpdateOptionsController::class,
-            'method' => 'index',
+            'method' => 'saveForm',
         ],
         Routes::UPDATE_STEP_UPDATE_OPTIONS => [
             'controller' => UpdatePageUpdateOptionsController::class,
