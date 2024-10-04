@@ -47,8 +47,8 @@
       <form
         class="version-choice-page__local-archive"
         action=""
-        data-route-to-update="{{ form_route_to_update }}"
-        data-route-to-save="{{ form_route_to_save }}"
+        data-route-to-update="{{ form_route_to_save }}"
+        data-route-to-save="{{ form_route_to_submit }}"
         id="{{ form_version_choice_name }}"
         name="{{ form_version_choice_name }}"
       >
@@ -94,8 +94,8 @@
     <form
       class="version-choice-page__card-list"
       action=""
-      data-route-to-update="{{ form_route_to_update }}"
       data-route-to-save="{{ form_route_to_save }}"
+      data-route-to-submit="{{ form_route_to_submit }}"
       id="{{ form_version_choice_name }}"
       name="{{ form_version_choice_name }}"
     >
@@ -129,7 +129,7 @@
 {% endblock %}
 
 {% block buttons_inner %}
-  <button class="btn btn-lg btn-primary" type="submit" form="{{ form_version_choice_name }}">
+  <button class="btn btn-lg btn-primary" type="submit" form="{{ form_version_choice_name }}" disabled>
     {{ 'Next'|trans({}) }}
     <i class="material-icons">arrow_forward</i>
   </button>

@@ -38,9 +38,18 @@ use Twig\Error\SyntaxError;
 
 class UpdatePageVersionChoiceController extends AbstractPageController
 {
-    const CURRENT_STEP = UpdateSteps::STEP_VERSION_CHOICE;
-    const CURRENT_ROUTE = Routes::UPDATE_PAGE_VERSION_CHOICE;
     const CURRENT_PAGE = 'update';
+    const CURRENT_ROUTE = Routes::UPDATE_PAGE_VERSION_CHOICE;
+    const CURRENT_STEP = UpdateSteps::STEP_VERSION_CHOICE;
+    const FORM_FIELDS = [
+        'canal_choice' => 'canal_choice',
+        'archive_zip' => 'archive_zip',
+        'archive_xml' => 'archive_xml'
+    ];
+    const FORM_OPTIONS = [
+        'online_value' => 'online',
+        'local_value' => 'local',
+    ];
 
     /**
      * @param Request $request
@@ -110,16 +119,18 @@ class UpdatePageVersionChoiceController extends AbstractPageController
                     'badge_status' => $updateType,
                     'release_note' => $releaseNote,
                 ],
-                'form_route_to_update' => Routes::UPDATE_STEP_VERSION_CHOICE_UPDATE_FORM,
                 'form_route_to_save' => Routes::UPDATE_STEP_VERSION_CHOICE_SAVE_FORM,
+                'form_route_to_submit' => Routes::UPDATE_STEP_VERSION_CHOICE_SUBMIT_FORM,
+                'form_fields' => self::FORM_FIELDS,
+                'form_options' => self::FORM_OPTIONS,
             ]
         );
     }
 
-    public function updateForm()
+    public function save()
     {}
 
-    public function saveForm()
+    public function submit()
     {
         /** todo: check everything is ok before send next route */
         return new JsonResponse([

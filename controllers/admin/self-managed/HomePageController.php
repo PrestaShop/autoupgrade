@@ -76,7 +76,7 @@ class HomePageController extends AbstractPageController
 
         return [
             'empty_backup' => empty($backupFinder->getAvailableBackups()),
-            'form_route' => Routes::HOME_PAGE_FORM,
+            'form_route_to_submit' => Routes::HOME_PAGE_SUBMIT_FORM,
             'form_fields' => self::FORM_FIELDS,
             'form_options' => self::FORM_OPTIONS,
         ];

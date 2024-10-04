@@ -54,7 +54,7 @@ class Router
             'controller' => HomePageController::class,
             'method' => 'index',
         ],
-        Routes::HOME_PAGE_FORM => [
+        Routes::HOME_PAGE_SUBMIT_FORM => [
             'controller' => HomePageController::class,
             'method' => 'submit',
         ],
@@ -66,17 +66,17 @@ class Router
             'controller' => UpdatePageVersionChoiceController::class,
             'method' => 'step',
         ],
-        Routes::UPDATE_STEP_VERSION_CHOICE_UPDATE_FORM => [
-            'controller' => UpdatePageVersionChoiceController::class,
-            'method' => 'updateForm',
-        ],
         Routes::UPDATE_STEP_VERSION_CHOICE_SAVE_FORM => [
             'controller' => UpdatePageVersionChoiceController::class,
-            'method' => 'updateForm',
+            'method' => 'save',
+        ],
+        Routes::UPDATE_STEP_VERSION_CHOICE_SUBMIT_FORM => [
+            'controller' => UpdatePageVersionChoiceController::class,
+            'method' => 'submit',
         ],
         Routes::UPDATE_PAGE_UPDATE_OPTIONS => [
             'controller' => UpdatePageUpdateOptionsController::class,
-            'method' => 'saveForm',
+            'method' => 'index',
         ],
         Routes::UPDATE_STEP_UPDATE_OPTIONS => [
             'controller' => UpdatePageUpdateOptionsController::class,

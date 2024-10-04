@@ -1,15 +1,15 @@
 {% if (archiveFiles is defined and archiveFiles is not empty) and (xmlFiles is defined and xmlFiles is not empty) %}
   <div class="local-archive">
     <div class="form-group">
-      <label for="archive_prestashop">
+      <label for="{{ form_fields.archive_zip }}">
         {{ 'Archive to use:'|trans({}) }}
         <span class="require-star">*</span>
       </label>
 
       <select
         class="form-control {% if unableToFindVersion %} error {% endif %}"
-        id="archive_prestashop"
-        name="archive_prestashop"
+        id="{{ form_fields.archive_zip }}"
+        name="{{ form_fields.archive_zip }}"
         required
       >
         <option value="">{{ 'Choose an archive'|trans({}) }}</option>
@@ -30,15 +30,15 @@
     </div>
 
     <div class="form-group">
-      <label for="archive_xml">
+      <label for="{{ form_fields.archive_xml }}">
         {{ 'XML file to use:'|trans({}) }}
         <span class="require-star">*</span>
       </label>
 
       <select
         class="form-control {% if unableToFindVersionInXML %} error {% endif %}"
-        id="archive_xml"
-        name="archive_xml"
+        id="{{ form_fields.archive_xml }}"
+        name="{{ form_fields.archive_xml }}"
         required
       >
         <option value="">{{ 'Choose an XML file'|trans({}) }}</option>

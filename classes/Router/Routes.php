@@ -6,14 +6,14 @@ class Routes
 {
     /* HOME PAGE */
     const HOME_PAGE = 'home-page';
-    const HOME_PAGE_FORM = 'home-page-form';
+    const HOME_PAGE_SUBMIT_FORM = 'home-page-submit-form';
 
     /* UPDATE PAGE */
     /* step: version choice */
     const UPDATE_PAGE_VERSION_CHOICE = 'update-page-version-choice';
     const UPDATE_STEP_VERSION_CHOICE = 'update-step-version-choice';
-    const UPDATE_STEP_VERSION_CHOICE_UPDATE_FORM = 'update-step-version-choice-update-form';
     const UPDATE_STEP_VERSION_CHOICE_SAVE_FORM = 'update-step-version-choice-save-form';
+    const UPDATE_STEP_VERSION_CHOICE_SUBMIT_FORM = 'update-step-version-choice-submit-form';
 
     /* step: update options */
     const UPDATE_PAGE_UPDATE_OPTIONS = 'update-page-update-options';
