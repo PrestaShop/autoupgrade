@@ -27,7 +27,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Controller;
 
-use PrestaShop\Module\AutoUpgrade\Router\Router;
+use PrestaShop\Module\AutoUpgrade\Router\Routes;
 use PrestaShop\Module\AutoUpgrade\Twig\UpdateSteps;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,7 +43,7 @@ class UpdatePageUpdateController extends AbstractPageController
     public function index(Request $request): RedirectResponse
     {
         return new RedirectResponse(
-            str_replace(Router::UPDATE_PAGE_UPDATE, Router::UPDATE_PAGE_BACKUP, $request->getUri())
+            str_replace(Routes::UPDATE_PAGE_UPDATE, Routes::UPDATE_PAGE_BACKUP, $request->getUri())
         );
     }
 

@@ -27,7 +27,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Controller;
 
-use PrestaShop\Module\AutoUpgrade\Router\Router;
+use PrestaShop\Module\AutoUpgrade\Router\Routes;
 use PrestaShop\Module\AutoUpgrade\Twig\UpdateSteps;
 use PrestaShop\Module\AutoUpgrade\VersionUtils;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,7 +38,7 @@ use Twig\Error\SyntaxError;
 class UpdatePageVersionChoiceController extends AbstractPageController
 {
     const CURRENT_STEP = UpdateSteps::STEP_VERSION_CHOICE;
-    const CURRENT_ROUTE = Router::UPDATE_PAGE_VERSION_CHOICE;
+    const CURRENT_ROUTE = Routes::UPDATE_PAGE_VERSION_CHOICE;
     const CURRENT_PAGE = 'update';
 
     /**
@@ -109,8 +109,8 @@ class UpdatePageVersionChoiceController extends AbstractPageController
                     'badge_status' => $updateType,
                     'release_note' => $releaseNote,
                 ],
-                'form_route_to_update' => Router::UPDATE_STEP_VERSION_CHOICE_UPDATE_FORM,
-                'form_route_to_save' => Router::UPDATE_STEP_VERSION_CHOICE_SAVE_FORM,
+                'form_route_to_update' => Routes::UPDATE_STEP_VERSION_CHOICE_UPDATE_FORM,
+                'form_route_to_save' => Routes::UPDATE_STEP_VERSION_CHOICE_SAVE_FORM,
             ]
         );
     }
