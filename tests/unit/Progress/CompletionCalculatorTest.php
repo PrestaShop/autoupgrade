@@ -26,7 +26,7 @@
 use PHPUnit\Framework\TestCase;
 use PrestaShop\Module\AutoUpgrade\Progress\Backlog;
 use PrestaShop\Module\AutoUpgrade\Progress\CompletionCalculator;
-use PrestaShop\Module\AutoUpgrade\Task\Rollback\RestoreFiles;
+use PrestaShop\Module\AutoUpgrade\Task\Restore\RestoreFiles;
 use PrestaShop\Module\AutoUpgrade\Task\Runner\SingleTask;
 use PrestaShop\Module\AutoUpgrade\Task\Update\UpdateDatabase;
 use PrestaShop\Module\AutoUpgrade\Task\Update\UpdateFiles;

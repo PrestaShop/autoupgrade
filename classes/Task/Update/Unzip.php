@@ -126,7 +126,7 @@ class Unzip extends AbstractTask
         }
 
         $this->next = TaskName::TASK_UPDATE_FILES;
-        $this->logger->info($this->translator->trans('File extraction complete. Now upgrading files...'));
+        $this->logger->info($this->translator->trans('File extraction complete. Now updating files...'));
 
         $this->container->getAnalytics()->track('Backup Launched', Analytics::WITH_BACKUP_PROPERTIES);
 

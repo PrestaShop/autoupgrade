@@ -36,7 +36,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
  */
 class AllBackupTasks extends ChainedTasks
 {
-    const initialTask = TaskName::TASK_BACKUP_FILES;
+    const initialTask = TaskName::TASK_BACKUP_INITIALIZATION;
 
     /**
      * @var string

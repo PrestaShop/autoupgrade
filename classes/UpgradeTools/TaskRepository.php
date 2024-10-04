@@ -36,11 +36,11 @@ use PrestaShop\Module\AutoUpgrade\Task\Miscellaneous\CheckFilesVersion;
 use PrestaShop\Module\AutoUpgrade\Task\Miscellaneous\CompareReleases;
 use PrestaShop\Module\AutoUpgrade\Task\Miscellaneous\UpdateConfig;
 use PrestaShop\Module\AutoUpgrade\Task\NullTask;
-use PrestaShop\Module\AutoUpgrade\Task\Rollback\NoRestoreFound;
-use PrestaShop\Module\AutoUpgrade\Task\Rollback\Restore;
-use PrestaShop\Module\AutoUpgrade\Task\Rollback\RestoreComplete;
-use PrestaShop\Module\AutoUpgrade\Task\Rollback\RestoreDatabase;
-use PrestaShop\Module\AutoUpgrade\Task\Rollback\RestoreFiles;
+use PrestaShop\Module\AutoUpgrade\Task\Restore\Restore;
+use PrestaShop\Module\AutoUpgrade\Task\Restore\RestoreComplete;
+use PrestaShop\Module\AutoUpgrade\Task\Restore\RestoreDatabase;
+use PrestaShop\Module\AutoUpgrade\Task\Restore\RestoreEmpty;
+use PrestaShop\Module\AutoUpgrade\Task\Restore\RestoreFiles;
 use PrestaShop\Module\AutoUpgrade\Task\TaskName;
 use PrestaShop\Module\AutoUpgrade\Task\Update\CleanDatabase;
 use PrestaShop\Module\AutoUpgrade\Task\Update\Download;
@@ -68,8 +68,8 @@ class TaskRepository
             // RESTORE
             case TaskName::TASK_RESTORE:
                 return new Restore($container);
-            case TaskName::TASK_NO_RESTORE_FOUND:
-                return new NoRestoreFound($container);
+            case TaskName::TASK_RESTORE_EMPTY:
+                return new RestoreEmpty($container);
             case TaskName::TASK_RESTORE_DATABASE:
                 return new RestoreDatabase($container);
             case TaskName::TASK_RESTORE_FILES:

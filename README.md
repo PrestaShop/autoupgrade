@@ -69,6 +69,12 @@ The requirements can be reviewed to confirm the shop is safe to update:
 $ php bin/console update:check <your-admin-dir>
 ```
 
+A backup of the shop is created with:
+
+```
+$ php bin/console backup:create --config-file-path=[/path/to/config.json] <your-admin-dir>
+```
+
 The update process can be launched with:
 
 ```

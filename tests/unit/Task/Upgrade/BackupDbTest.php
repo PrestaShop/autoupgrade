@@ -26,17 +26,20 @@
  */
 
 use PHPUnit\Framework\TestCase;
-use PrestaShop\Module\AutoUpgrade\Task\Upgrade\BackupDb;
+use PrestaShop\Module\AutoUpgrade\Task\Backup\BackupDatabase;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
-class BackupDbTest extends TestCase
+class BackupDatabaseTest extends TestCase
 {
+    /**
+     * @throws Exception
+     */
     public function testTablesAreIgnored()
     {
         define('_DB_PREFIX_', 'doge_');
 
         $container = new UpgradeContainer(__DIR__, __DIR__ . '/..');
-        $task = new BackupDb($container);
+        $task = new BackupDatabase($container);
 
         $tables = json_decode(file_get_contents(__DIR__ . '/../../../fixtures/listOfTablesInDb.json'), true);
         $expectedTables = $this->getExpectedTablesToSync();

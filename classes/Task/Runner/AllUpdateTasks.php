@@ -64,7 +64,7 @@ class AllUpdateTasks extends ChainedTasks
         if (!empty($options['channel'])) {
             $config = [
                 'channel' => $options['channel'],
-            ]);
+            ];
             $this->container->getUpgradeConfiguration()->validate($config);
             $this->container->getUpgradeConfiguration()->merge($config);
         }

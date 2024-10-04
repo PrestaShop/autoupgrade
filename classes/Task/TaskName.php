@@ -40,7 +40,7 @@ class TaskName
 
     // RESTORE
     const TASK_RESTORE = 'Restore';
-    const TASK_NO_RESTORE_FOUND = 'NoRestoreFound';
+    const TASK_RESTORE_EMPTY = 'RestoreEmpty';
     const TASK_RESTORE_DATABASE = 'RestoreDatabase';
     const TASK_RESTORE_FILES = 'RestoreFiles';
     const TASK_RESTORE_COMPLETE = 'RestoreComplete';

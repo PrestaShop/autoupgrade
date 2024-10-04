@@ -29,7 +29,6 @@ namespace PrestaShop\Module\AutoUpgrade\Task\Backup;
 
 use Exception;
 use PDO;
-use PrestaShop\Module\AutoUpgrade\Analytics;
 use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Progress\Backlog;
@@ -51,15 +50,6 @@ class BackupDatabase extends AbstractTask
      */
     public function run(): int
     {
-        if (!$this->container->getUpgradeConfiguration()->shouldBackupFilesAndDatabase()) {
-            $this->stepDone = true;
-            $this->container->getState()->setDbStep(0);
-            $this->logger->info($this->translator->trans('Database backup skipped. Now upgrading files...'));
-            $this->next = 'upgradeFiles';
-
-            return ExitCode::SUCCESS;
-        }
-
         $this->stepDone = false;
         $this->next = TaskName::TASK_BACKUP_DATABASE;
         $start_time = time();
@@ -248,7 +238,7 @@ class BackupDatabase extends AbstractTask
         }
 
         if ($tablesToBackup->getRemainingTotal()) {
-            $this->next = 'backupDb';
+            $this->next = TaskName::TASK_BACKUP_DATABASE;
             $this->stepDone = false;
             if ($numberOfSyncedTables) {
                 $this->logger->info($this->translator->trans('Database backup: %s table(s) left...', [$tablesToBackup->getRemainingTotal() + !empty($row)]));
@@ -265,10 +255,8 @@ class BackupDatabase extends AbstractTask
         // reset dbStep at the end of this step
         $this->container->getState()->setDbStep(0);
 
-        $this->logger->info($this->translator->trans('Database backup done in filename %s. Now upgrading files...', [$this->container->getState()->getBackupName()]));
-        $this->next = 'upgradeFiles';
-
-        $this->container->getAnalytics()->track('Backup Succeeded', Analytics::WITH_BACKUP_PROPERTIES);
+        $this->logger->info($this->translator->trans('Database backup done in filename %s.', [$this->container->getState()->getBackupName()]));
+        $this->next = TaskName::TASK_BACKUP_COMPLETE;
 
         return ExitCode::SUCCESS;
     }
@@ -283,7 +271,7 @@ class BackupDatabase extends AbstractTask
         $report = '';
         if (!\ConfigurationTest::test_dir($relative_backup_path, false, $report)) {
             $this->logger->error($this->translator->trans('Backup directory is not writable (%path%).', ['%path%' => $this->container->getProperty(UpgradeContainer::BACKUP_PATH)]));
-            $this->next = 'error';
+            $this->next = TaskName::TASK_ERROR;
             $this->setErrorFlag();
 
             return ExitCode::FAIL;

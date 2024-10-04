@@ -25,7 +25,7 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\Task\Rollback;
+namespace PrestaShop\Module\AutoUpgrade\Task\Restore;
 
 use PrestaShop\Module\AutoUpgrade\Analytics;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
