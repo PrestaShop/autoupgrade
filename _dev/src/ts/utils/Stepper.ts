@@ -4,55 +4,61 @@ export default class Stepper {
   private stepper: HTMLDivElement;
   private steps: Step[];
 
-  private stepClasses = {
-    current: 'stepper__step--current',
-    done: 'stepper__step--done'
-  };
+  private baseClass = 'stepper__step';
+  private currentClass = `${this.baseClass}--current`;
+  private doneClass = `${this.baseClass}--done`;
+  private normalClass = `${this.baseClass}--normal`;
 
   constructor() {
     const stepper = document.getElementById(
       window.AutoUpgradeVariables.stepper_parent_id
     ) as HTMLDivElement | null;
-    if (stepper) {
-      this.stepper = stepper;
-    } else {
+    if (!stepper) {
       throw new Error("The stepper wasn't found inside DOM. stepper can't be initiated properly");
     }
 
+    this.stepper = stepper;
+
     const domSteps = Array.from(this.stepper.children) as HTMLElement[];
+
     if (!domSteps.length) {
       throw new Error("The stepper hasn't steps inside DOM. stepper can't be initiated properly");
     }
 
-    this.steps = [];
-
-    domSteps.forEach((step) => {
+    this.steps = domSteps.map((step) => {
       const stepCode = step.dataset.stepCode;
-      if (stepCode) {
-        this.steps.push({
-          code: stepCode,
-          element: step
-        });
-      } else {
+      if (!stepCode) {
         throw new Error(
           "Step code is missing in one of the steps. stepper can't be initiated properly"
         );
       }
+      return {
+        code: stepCode,
+        element: step
+      };
     });
   }
 
   public setCurrentStep = (currentStep: string) => {
-    let foundCurrentStep = false;
+    let isBeforeCurrentStep = true;
+
     this.steps.forEach((step) => {
-      step.element.classList.remove(this.stepClasses.current);
-      step.element.classList.remove(this.stepClasses.done);
+      const { element } = step;
+
+      const newClass =
+        step.code === currentStep
+          ? this.currentClass
+          : isBeforeCurrentStep
+            ? this.doneClass
+            : this.normalClass;
+
+      if (!element.classList.contains(newClass)) {
+        element.classList.remove(this.currentClass, this.doneClass, this.normalClass);
+        element.classList.add(newClass);
+      }
+
       if (step.code === currentStep) {
-        step.element.classList.add(this.stepClasses.current);
-        foundCurrentStep = true;
-      } else {
-        if (!foundCurrentStep) {
-          step.element.classList.add(this.stepClasses.done);
-        }
+        isBeforeCurrentStep = false;
       }
     });
   };

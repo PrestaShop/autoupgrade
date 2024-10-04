@@ -80,6 +80,12 @@ describe('Stepper', () => {
     expect(updateStep?.classList.contains('stepper__step--current')).toBe(false);
     expect(postUpdateStep?.classList.contains('stepper__step--current')).toBe(false);
 
+    expect(versionChoiceStep?.classList.contains('stepper__step--normal')).toBe(false);
+    expect(updateOptionsStep?.classList.contains('stepper__step--normal')).toBe(true);
+    expect(backupStep?.classList.contains('stepper__step--normal')).toBe(true);
+    expect(updateStep?.classList.contains('stepper__step--normal')).toBe(true);
+    expect(postUpdateStep?.classList.contains('stepper__step--normal')).toBe(true);
+
     stepper.setCurrentStep('update');
 
     expect(versionChoiceStep?.classList.contains('stepper__step--done')).toBe(true);
@@ -93,5 +99,11 @@ describe('Stepper', () => {
     expect(backupStep?.classList.contains('stepper__step--current')).toBe(false);
     expect(updateStep?.classList.contains('stepper__step--current')).toBe(true);
     expect(postUpdateStep?.classList.contains('stepper__step--current')).toBe(false);
+
+    expect(versionChoiceStep?.classList.contains('stepper__step--normal')).toBe(false);
+    expect(updateOptionsStep?.classList.contains('stepper__step--normal')).toBe(false);
+    expect(backupStep?.classList.contains('stepper__step--normal')).toBe(false);
+    expect(updateStep?.classList.contains('stepper__step--normal')).toBe(false);
+    expect(postUpdateStep?.classList.contains('stepper__step--normal')).toBe(true);
   });
 });
