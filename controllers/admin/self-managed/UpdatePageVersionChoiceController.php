@@ -44,7 +44,7 @@ class UpdatePageVersionChoiceController extends AbstractPageController
     const FORM_FIELDS = [
         'canal_choice' => 'canal_choice',
         'archive_zip' => 'archive_zip',
-        'archive_xml' => 'archive_xml'
+        'archive_xml' => 'archive_xml',
     ];
     const FORM_OPTIONS = [
         'online_value' => 'online',
@@ -128,11 +128,12 @@ class UpdatePageVersionChoiceController extends AbstractPageController
     }
 
     public function save()
-    {}
+    {
+    }
 
     public function submit()
     {
-        /** todo: check everything is ok before send next route */
+        /* todo: check everything is ok before send next route */
         return new JsonResponse([
             'next_route' => Routes::UPDATE_STEP_UPDATE_OPTIONS,
         ]);
