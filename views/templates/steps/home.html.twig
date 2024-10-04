@@ -13,7 +13,7 @@
       title: 'Update your store'|trans({}),
       message: 'Update your store to benefit from the latest improvements, bug fixes and security patches.'|trans({}),
       radioName: 'route_choice',
-      radioValue: 'update',
+      radioValue: form_options.update_value,
       required: true
     } %}
 
@@ -23,7 +23,7 @@
       message: 'Use this feature if the update failed or if your store or a  module is no longer working properly.'|trans({}),
       disabled: false,
       radioName: 'route_choice',
-      radioValue: 'rollback',
+      radioValue: form_options.restore_value,
       disabled: empty_backup,
       disabledMessage: empty_backup ? 'No backup file found on your store.'|trans({}) : null,
       required: true
@@ -32,7 +32,7 @@
 {% endblock %}
 
 {% block buttons_inner %}
-  <button class="btn btn-lg btn-primary" type="submit" form="next_page">
+  <button class="btn btn-lg btn-primary" type="submit" form="next_page" disabled>
     {{ 'Get Started'|trans({}) }}
   </button>
 {% endblock %}

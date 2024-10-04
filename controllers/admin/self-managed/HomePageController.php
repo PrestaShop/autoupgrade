@@ -35,12 +35,16 @@ class HomePageController extends AbstractPageController
 {
     const CURRENT_PAGE = 'home';
     const CURRENT_ROUTE = Routes::HOME_PAGE;
+    const FORM_OPTIONS = [
+        'update_value' => 'update',
+        'restore_value' => 'restore'
+    ];
 
     public function submit(Request $request): JsonResponse
     {
         $routeChoice = $request->request->get('route_choice');
 
-        if ($routeChoice === 'update') {
+        if ($routeChoice === self::FORM_OPTIONS['update_value']) {
             return new JsonResponse([
                 'next_route' => Routes::UPDATE_PAGE_VERSION_CHOICE,
             ]);
@@ -70,6 +74,7 @@ class HomePageController extends AbstractPageController
         return [
             'empty_backup' => empty($backupFinder->getAvailableBackups()),
             'form_route' => Routes::HOME_PAGE_FORM,
+            'form_options' => self::FORM_OPTIONS
         ];
     }
 }
