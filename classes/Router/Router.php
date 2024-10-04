@@ -53,6 +53,8 @@ class Router
     const HOME_PAGE_FORM = 'home-page-form';
     const UPDATE_PAGE_VERSION_CHOICE = 'update-page-version-choice';
     const UPDATE_STEP_VERSION_CHOICE = 'update-step-version-choice';
+    const UPDATE_STEP_VERSION_CHOICE_UPDATE_FORM = 'update-step-version-choice-update-form';
+    const UPDATE_STEP_VERSION_CHOICE_SAVE_FORM = 'update-step-version-choice-save-form';
     const UPDATE_PAGE_UPDATE_OPTIONS = 'update-page-update-options';
     const UPDATE_STEP_UPDATE_OPTIONS = 'update-step-update-options';
     const UPDATE_PAGE_BACKUP = 'update-page-backup';

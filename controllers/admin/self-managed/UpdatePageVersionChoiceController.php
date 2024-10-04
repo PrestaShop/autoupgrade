@@ -109,6 +109,8 @@ class UpdatePageVersionChoiceController extends AbstractPageController
                     'badge_status' => $updateType,
                     'release_note' => $releaseNote,
                 ],
+                'form_route_to_update' => Router::UPDATE_STEP_VERSION_CHOICE_UPDATE_FORM,
+                'form_route_to_save' => Router::UPDATE_STEP_VERSION_CHOICE_SAVE_FORM,
             ]
         );
     }

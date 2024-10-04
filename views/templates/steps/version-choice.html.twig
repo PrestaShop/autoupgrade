@@ -1,5 +1,7 @@
 {% extends "@ModuleAutoUpgrade/layouts/step-content.html.twig" %}
 
+{% set form_version_choice_name = 'version_choice' %}
+
 {% block page_class %}version-choice-page{% endblock %}
 
 {% block title %}
@@ -40,11 +42,16 @@
           '%pathToLocalArchive%': '<b>/admin/autoupgrade/download/</b>'
         })|raw,
         alertStatus: "info",
-        buttonLabel: "",
-        buttonUrl: "",
       } %}
     {% else %}
-      <div class="version-choice-page__local-archive">
+      <form
+        class="version-choice-page__local-archive"
+        action=""
+        data-route-to-update="{{ form_route_to_update }}"
+        data-route-to-save="{{ form_route_to_save }}"
+        id="{{ form_version_choice_name }}"
+        name="{{ form_version_choice_name }}"
+      >
         <p class="version-choice-page__local-archive-message">
           {{ 'You are already using the latest PrestaShop version available but you can update to the version of your choice from a local archive.'|trans({}) }}
         </p>
@@ -55,7 +62,7 @@
             xmlFiles: local_archives.xml,
           } %}
         </div>
-      </div>
+      </form>
     {% endif %}
   {% else %}
     <div class="not-up-to-date">
@@ -84,7 +91,14 @@
       {% endif %}
     </div>
 
-    <div class="version-choice-page__card-list">
+    <form
+      class="version-choice-page__card-list"
+      action=""
+      data-route-to-update="{{ form_route_to_update }}"
+      data-route-to-save="{{ form_route_to_save }}"
+      id="{{ form_version_choice_name }}"
+      name="{{ form_version_choice_name }}"
+    >
       <div id="{{ radio_card_online_parent_id }}">
         {% include "@ModuleAutoUpgrade/components/radio-card-online.html.twig" with {
           checked: false,
@@ -101,8 +115,6 @@
             '%pathToLocalArchive%': '<b>/admin/autoupgrade/download/</b>'
           })|raw,
           alertStatus: "info",
-          buttonLabel: "",
-          buttonUrl: "",
         } %}
       {% else %}
         <div id="{{ radio_card_archive_parent_id }}">
@@ -112,12 +124,12 @@
           } %}
         </div>
       {% endif %}
-    </div>
+    </form>
   {% endif %}
 {% endblock %}
 
 {% block buttons_inner %}
-  <button class="btn btn-lg btn-primary" type="button">
+  <button class="btn btn-lg btn-primary" type="submit" form="{{ form_version_choice_name }}">
     {{ 'Next'|trans({}) }}
     <i class="material-icons">arrow_forward</i>
   </button>
