@@ -36,11 +36,11 @@ class HomePageController extends AbstractPageController
     const CURRENT_PAGE = 'home';
     const CURRENT_ROUTE = Routes::HOME_PAGE;
     const FORM_FIELDS = [
-        'route_choice' => 'route_choice'
+        'route_choice' => 'route_choice',
     ];
     const FORM_OPTIONS = [
         'update_value' => 'update',
-        'restore_value' => 'restore'
+        'restore_value' => 'restore',
     ];
 
     public function submit(Request $request): JsonResponse
