@@ -864,6 +864,26 @@ Comment: directory already exists</note>
         <target><![CDATA[Your store's root directory isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></target>
         <note>Line: 216</note>
       </trans-unit>
+      <trans-unit id="d7238cb2856938b3986f300a67e00480">
+        <source><![CDATA[The "/admin/autoupgrade" directory isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></source>
+        <target><![CDATA[The "/admin/autoupgrade" directory isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></target>
+        <note>Line: 221</note>
+      </trans-unit>
+      <trans-unit id="abfe505ee370819199423ad97df77dec">
+        <source>PHP's "Safe mode" needs to be disabled.</source>
+        <target>PHP's "Safe mode" needs to be disabled.</target>
+        <note>Line: 225</note>
+      </trans-unit>
+      <trans-unit id="a4cbbaa504b6e21c9152bc783cf68aba">
+        <source>Files can't be downloaded. Enable PHP's "allow_url_fopen" option or install PHP extension "cURL".</source>
+        <target>Files can't be downloaded. Enable PHP's "allow_url_fopen" option or install PHP extension "cURL".</target>
+        <note>Line: 229</note>
+      </trans-unit>
+      <trans-unit id="f331b3e71fc229a1cfd1aaa3241be853">
+        <source>Missing PHP extension "zip".</source>
+        <target>Missing PHP extension "zip".</target>
+        <note>Line: 233</note>
+      </trans-unit>
       <trans-unit id="386111d529c909238e33d642d0c35c0e">
         <source>Maintenance mode needs to be enabled. Enable maintenance mode and add your maintenance IP.</source>
         <target>Maintenance mode needs to be enabled. Enable maintenance mode and add your maintenance IP.</target>
@@ -879,6 +899,11 @@ Comment: directory already exists</note>
         <target>PHP's max_execution_time setting needs to have a high value or needs to be disabled entirely (current value: %s seconds)</target>
         <note>Line: 245</note>
       </trans-unit>
+      <trans-unit id="26da0df3cbdf0052c8f1205b40ad5072">
+        <source>Apache mod_rewrite needs to be enabled.</source>
+        <target>Apache mod_rewrite needs to be enabled.</target>
+        <note>Line: 250</note>
+      </trans-unit>
       <trans-unit id="e469f21f7c9e2988397986b161345171">
         <source>The following PHP extension%s need%s to be installed:</source>
         <target>The following PHP extension%s need%s to be installed:</target>
@@ -889,10 +914,25 @@ Comment: directory already exists</note>
         <target>The following PHP function%s need%s to be allowed:</target>
         <note>Line: 264</note>
       </trans-unit>
+      <trans-unit id="a220e0ac5c6f7fa8692c131148ed050a">
+        <source>PHP memory_limit needs to be greater than 256 MB.</source>
+        <target>PHP memory_limit needs to be greater than 256 MB.</target>
+        <note>Line: 269</note>
+      </trans-unit>
+      <trans-unit id="24b3a661ea0947d7dfddb4fe68681907">
+        <source>PHP file_uploads configuration needs to be enabled.</source>
+        <target>PHP file_uploads configuration needs to be enabled.</target>
+        <note>Line: 272</note>
+      </trans-unit>
       <trans-unit id="bff482e6212a866690c7a81fac9ea04b">
         <source><![CDATA[It's not possible to write in the following folders, please provide write access to the user running PHP with appropriate permission & ownership:]]></source>
         <target><![CDATA[It's not possible to write in the following folders, please provide write access to the user running PHP with appropriate permission & ownership:]]></target>
         <note>Line: 281</note>
+      </trans-unit>
+      <trans-unit id="a99553cd5eff17f5895d093c44b5c430">
+        <source>The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table.</source>
+        <target>The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table.</target>
+        <note>Line: 286</note>
       </trans-unit>
       <trans-unit id="72562d8e237567846f4c37c1bff5f04b">
         <source>Your current version of the module is outdated.</source>
@@ -1425,17 +1465,17 @@ Comment: check DB access</note>
       <trans-unit id="001c32426a6cfb48ebb848b13141593c">
         <source>Major version</source>
         <target>Major version</target>
-        <note>Line: 88</note>
+        <note>Line: 95</note>
       </trans-unit>
       <trans-unit id="c5439de366a407641018f189da1ad4a7">
         <source>Minor version</source>
         <target>Minor version</target>
-        <note>Line: 91</note>
+        <note>Line: 98</note>
       </trans-unit>
       <trans-unit id="8a0dd44f366bc5604b8329a87be5f933">
         <source>Patch version</source>
         <target>Patch version</target>
-        <note>Line: 94</note>
+        <note>Line: 101</note>
       </trans-unit>
     </body>
   </file>
@@ -1500,6 +1540,21 @@ Comment: check DB access</note>
   </file>
   <file original="views/templates/block/checklist.html.twig" source-language="en-US" target-language="en-US" datatype="plaintext">
     <body>
+      <trans-unit id="a4cc32e6dad17557895cc94c85c883e8">
+        <source>Your current PHP version isn't compatible with your PrestaShop version. (Expected: %s - %s | Current: %s)</source>
+        <target>Your current PHP version isn't compatible with your PrestaShop version. (Expected: %s - %s | Current: %s)</target>
+        <note>Line: 24</note>
+      </trans-unit>
+      <trans-unit id="8406b91fd5a290de3a1e1516db6e79b8">
+        <source>Unable to generate private keys using openssl_pkey_new. Check your OpenSSL configuration, especially the path to openssl.cafile.</source>
+        <target>Unable to generate private keys using openssl_pkey_new. Check your OpenSSL configuration, especially the path to openssl.cafile.</target>
+        <note>Line: 185</note>
+      </trans-unit>
+      <trans-unit id="9909617f8b4cdd63a60a0736026ce540">
+        <source>We were unable to check your PHP compatibility with the destination PrestaShop version.</source>
+        <target>We were unable to check your PHP compatibility with the destination PrestaShop version.</target>
+        <note>Line: 30</note>
+      </trans-unit>
       <trans-unit id="69ff9aca0bd03b3981784593311d866a">
         <source>The pre-Upgrade checklist</source>
         <target>The pre-Upgrade checklist</target>
@@ -1908,61 +1963,6 @@ Comment: check DB access</note>
   </file>
   <file original="views/templates/components/check-requirements.html.twig" source-language="en-US" target-language="en-US" datatype="plaintext">
     <body>
-      <trans-unit id="a4cc32e6dad17557895cc94c85c883e8">
-        <source>Your current PHP version isn't compatible with your PrestaShop version. (Expected: %s - %s | Current: %s)</source>
-        <target>Your current PHP version isn't compatible with your PrestaShop version. (Expected: %s - %s | Current: %s)</target>
-        <note>Line: 19</note>
-      </trans-unit>
-      <trans-unit id="d7238cb2856938b3986f300a67e00480">
-        <source><![CDATA[The "/admin/autoupgrade" directory isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></source>
-        <target><![CDATA[The "/admin/autoupgrade" directory isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></target>
-        <note>Line: 39</note>
-      </trans-unit>
-      <trans-unit id="abfe505ee370819199423ad97df77dec">
-        <source>PHP's "Safe mode" needs to be disabled.</source>
-        <target>PHP's "Safe mode" needs to be disabled.</target>
-        <note>Line: 46</note>
-      </trans-unit>
-      <trans-unit id="a4cbbaa504b6e21c9152bc783cf68aba">
-        <source>Files can't be downloaded. Enable PHP's "allow_url_fopen" option or install PHP extension "cURL".</source>
-        <target>Files can't be downloaded. Enable PHP's "allow_url_fopen" option or install PHP extension "cURL".</target>
-        <note>Line: 53</note>
-      </trans-unit>
-      <trans-unit id="f331b3e71fc229a1cfd1aaa3241be853">
-        <source>Missing PHP extension "zip".</source>
-        <target>Missing PHP extension "zip".</target>
-        <note>Line: 60</note>
-      </trans-unit>
-      <trans-unit id="26da0df3cbdf0052c8f1205b40ad5072">
-        <source>Apache mod_rewrite needs to be enabled.</source>
-        <target>Apache mod_rewrite needs to be enabled.</target>
-        <note>Line: 97</note>
-      </trans-unit>
-      <trans-unit id="a220e0ac5c6f7fa8692c131148ed050a">
-        <source>PHP memory_limit needs to be greater than 256 MB.</source>
-        <target>PHP memory_limit needs to be greater than 256 MB.</target>
-        <note>Line: 134</note>
-      </trans-unit>
-      <trans-unit id="24b3a661ea0947d7dfddb4fe68681907">
-        <source>PHP file_uploads configuration needs to be enabled.</source>
-        <target>PHP file_uploads configuration needs to be enabled.</target>
-        <note>Line: 141</note>
-      </trans-unit>
-      <trans-unit id="8406b91fd5a290de3a1e1516db6e79b8">
-        <source>Unable to generate private keys using openssl_pkey_new. Check your OpenSSL configuration, especially the path to openssl.cafile.</source>
-        <target>Unable to generate private keys using openssl_pkey_new. Check your OpenSSL configuration, especially the path to openssl.cafile.</target>
-        <note>Line: 148</note>
-      </trans-unit>
-      <trans-unit id="a99553cd5eff17f5895d093c44b5c430">
-        <source>The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table.</source>
-        <target>The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table.</target>
-        <note>Line: 165</note>
-      </trans-unit>
-      <trans-unit id="9909617f8b4cdd63a60a0736026ce540">
-        <source>We were unable to check your PHP compatibility with the destination PrestaShop version.</source>
-        <target>We were unable to check your PHP compatibility with the destination PrestaShop version.</target>
-        <note>Line: 182</note>
-      </trans-unit>
       <trans-unit id="0db9e54978a2358b7bd40fa24cf224d4">
         <source>Update requirements</source>
         <target>Update requirements</target>
@@ -1973,75 +1973,15 @@ Comment: check DB access</note>
         <target>Once all the following conditions are met, you can continue with the update. Read more in the [1]developer documentation[/1].</target>
         <note>Line: 8</note>
       </trans-unit>
-      <trans-unit id="a39b2e9b36f54c6981b7e55820143b11">
-        <source><![CDATA[Your store's root directory (%root_directory%) isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></source>
-        <target><![CDATA[Your store's root directory (%root_directory%) isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></target>
-        <note>Line: 30</note>
-      </trans-unit>
-      <trans-unit id="d321763467936ac779fff7e090d8f0dc">
-        <source><![CDATA[Maintenance mode needs to be enabled. Enable maintenance mode and add your maintenance IP in [1]Shop parameters > General > Maintenance[/1].]]></source>
-        <target><![CDATA[Maintenance mode needs to be enabled. Enable maintenance mode and add your maintenance IP in [1]Shop parameters > General > Maintenance[/1].]]></target>
-        <note>Line: 69</note>
-      </trans-unit>
-      <trans-unit id="00010e5e74d3de76b6ade544d9341832">
-        <source><![CDATA[PrestaShop's caching features needs to be disabled. Disable caching features in [1]Advanced parameters > Performance > Caching[/1].]]></source>
-        <target><![CDATA[PrestaShop's caching features needs to be disabled. Disable caching features in [1]Advanced parameters > Performance > Caching[/1].]]></target>
-        <note>Line: 80</note>
-      </trans-unit>
-      <trans-unit id="8ff30224a9960da38da34b6a99d20751">
-        <source>PHP's max_execution_time setting needs to have a high value or needs to be disabled entirely (current value: %s seconds).</source>
-        <target>PHP's max_execution_time setting needs to have a high value or needs to be disabled entirely (current value: %s seconds).</target>
-        <note>Line: 90</note>
-      </trans-unit>
-      <trans-unit id="baf4b3d8ebc2067c85c65f47cfd0fdb0">
-        <source>The following PHP extensions need to be installed: %extensions%.</source>
-        <target>The following PHP extensions need to be installed: %extensions%.</target>
-        <note>Line: 105</note>
-      </trans-unit>
-      <trans-unit id="a60972f0ec4829ac2cd7b2c3799b3b3b">
-        <source>The following PHP extension needs to be installed: %extension%.</source>
-        <target>The following PHP extension needs to be installed: %extension%.</target>
-        <note>Line: 109</note>
-      </trans-unit>
-      <trans-unit id="047dc151bd4fea1e4925ce6ad50a53b3">
-        <source>The following PHP functions need to be allowed: %functions%.</source>
-        <target>The following PHP functions need to be allowed: %functions%.</target>
-        <note>Line: 120</note>
-      </trans-unit>
-      <trans-unit id="fb38f71bf14702220f7f73dd50678abd">
-        <source>The following PHP function needs to be allowed: %function%.</source>
-        <target>The following PHP function needs to be allowed: %function%.</target>
-        <note>Line: 124</note>
-      </trans-unit>
-      <trans-unit id="6106c8ca4547ab68a21560b227fe91c6">
-        <source>It's not possible to write in the following folders: %directories%.</source>
-        <target>It's not possible to write in the following folders: %directories%.</target>
-        <note>Line: 155</note>
-      </trans-unit>
-      <trans-unit id="774e7361cd125d0f1953bd4e4199be0f">
-        <source><![CDATA[Provide write access to the user running PHP with appropriate permission & ownership.]]></source>
-        <target><![CDATA[Provide write access to the user running PHP with appropriate permission & ownership.]]></target>
-        <note>Line: 158</note>
-      </trans-unit>
-      <trans-unit id="3acd0ca5efe0e72cee2610e80f8d5024">
-        <source>Your current version of the module is out of date. Update now %link%</source>
-        <target>Your current version of the module is out of date. Update now %link%</target>
-        <note>Line: 173</note>
-      </trans-unit>
-      <trans-unit id="9a5e39badf24a0adca4850f4862cd20f">
-        <source>Some core files have been altered, customization made on these files will be lost during the update. See the list in %link%</source>
-        <target>Some core files have been altered, customization made on these files will be lost during the update. See the list in %link%</target>
-        <note>Line: 189</note>
-      </trans-unit>
       <trans-unit id="3758c107f9d68f5fb6d56486dab9f2d4">
         <source>Check requirements again</source>
         <target>Check requirements again</target>
-        <note>Line: 198</note>
+        <note>Line: 31</note>
       </trans-unit>
       <trans-unit id="c3f4ad9687b5bbb78f1d39e089a4be47">
         <source>The requirements check is complete, you can update your store (to this version of PrestaShop).</source>
         <target>The requirements check is complete, you can update your store (to this version of PrestaShop).</target>
-        <note>Line: 204</note>
+        <note>Line: 37</note>
       </trans-unit>
     </body>
   </file>
