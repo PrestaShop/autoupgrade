@@ -1425,17 +1425,17 @@ Comment: check DB access</note>
       <trans-unit id="001c32426a6cfb48ebb848b13141593c">
         <source>Major version</source>
         <target>Major version</target>
-        <note>Line: 81</note>
+        <note>Line: 91</note>
       </trans-unit>
       <trans-unit id="c5439de366a407641018f189da1ad4a7">
         <source>Minor version</source>
         <target>Minor version</target>
-        <note>Line: 84</note>
+        <note>Line: 94</note>
       </trans-unit>
       <trans-unit id="8a0dd44f366bc5604b8329a87be5f933">
         <source>Patch version</source>
         <target>Patch version</target>
-        <note>Line: 87</note>
+        <note>Line: 97</note>
       </trans-unit>
     </body>
   </file>
@@ -2338,47 +2338,47 @@ Comment: check DB access</note>
       <trans-unit id="a7446965a3635b6a69697078130d961a">
         <source>You're up to date</source>
         <target>You're up to date</target>
-        <note>Line: 25</note>
+        <note>Line: 27</note>
       </trans-unit>
       <trans-unit id="47f3da5f1fab5bb4e914e7bf37845bcf">
         <source>Current PrestaShop version:</source>
         <target>Current PrestaShop version:</target>
-        <note>Line: 67</note>
+        <note>Line: 74</note>
       </trans-unit>
       <trans-unit id="c50f73567ba957b25c13a274f42003ba">
         <source>Current PHP version:</source>
         <target>Current PHP version:</target>
-        <note>Line: 70</note>
+        <note>Line: 77</note>
       </trans-unit>
       <trans-unit id="d4399327e9bb1d9fb589b58332f07d48">
         <source>Unlock the local update feature and manually update your store to your preferred upgrade by saving the archive and XML files of the PrestaShop version in the following directory on your server: %pathToLocalArchive%</source>
         <target>Unlock the local update feature and manually update your store to your preferred upgrade by saving the archive and XML files of the PrestaShop version in the following directory on your server: %pathToLocalArchive%</target>
-        <note>Line: 100</note>
+        <note>Line: 114</note>
       </trans-unit>
       <trans-unit id="34b3f55bce0f37bcd82294fbc4702aad">
         <source>You are already using the latest PrestaShop version available but you can update to the version of your choice from a local archive.</source>
         <target>You are already using the latest PrestaShop version available but you can update to the version of your choice from a local archive.</target>
-        <note>Line: 49</note>
+        <note>Line: 56</note>
       </trans-unit>
       <trans-unit id="8846fe014be5f3ecb8f82a4deea082cc">
         <source>A more recent version is available</source>
         <target>A more recent version is available</target>
-        <note>Line: 63</note>
+        <note>Line: 70</note>
       </trans-unit>
       <trans-unit id="8728e66e43173a809a2185c52dad29db">
         <source>Select version:</source>
         <target>Select version:</target>
-        <note>Line: 77</note>
+        <note>Line: 84</note>
       </trans-unit>
       <trans-unit id="de8e4445ea5c918fe6c8e70eb7deb722">
         <source>A more recent version of PrestaShop is available. You can also use a local archive.</source>
         <target>A more recent version of PrestaShop is available. You can also use a local archive.</target>
-        <note>Line: 82</note>
+        <note>Line: 89</note>
       </trans-unit>
       <trans-unit id="b9d4e763594017af5b607eb9e0034299">
         <source>PrestaShop %version%</source>
         <target>PrestaShop %version%</target>
-        <note>Line: 91</note>
+        <note>Line: 105</note>
       </trans-unit>
     </body>
   </file>
