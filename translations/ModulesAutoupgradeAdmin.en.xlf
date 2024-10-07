@@ -1425,17 +1425,17 @@ Comment: check DB access</note>
       <trans-unit id="001c32426a6cfb48ebb848b13141593c">
         <source>Major version</source>
         <target>Major version</target>
-        <note>Line: 91</note>
+        <note>Line: 88</note>
       </trans-unit>
       <trans-unit id="c5439de366a407641018f189da1ad4a7">
         <source>Minor version</source>
         <target>Minor version</target>
-        <note>Line: 94</note>
+        <note>Line: 91</note>
       </trans-unit>
       <trans-unit id="8a0dd44f366bc5604b8329a87be5f933">
         <source>Patch version</source>
         <target>Patch version</target>
-        <note>Line: 97</note>
+        <note>Line: 94</note>
       </trans-unit>
     </body>
   </file>
