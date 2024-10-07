@@ -7,13 +7,13 @@
 {% endblock %}
 
 {% block content %}
-  <form class="welcome-page__card-list" action="" data-route="{{ form_route }}"  id="next_page" name="next_page">
+  <form class="welcome-page__card-list" action="" data-route="{{ form_route_to_submit }}"  id="next_page" name="next_page">
     {% include "@ModuleAutoUpgrade/components/radio-card.html.twig" with {
       checked: false,
       title: 'Update your store'|trans({}),
       message: 'Update your store to benefit from the latest improvements, bug fixes and security patches.'|trans({}),
-      radioName: 'route_choice',
-      radioValue: 'update',
+      radioName: form_fields.route_choice,
+      radioValue: form_options.update_value,
       required: true
     } %}
 
@@ -22,8 +22,8 @@
       title: 'Restore from a backup'|trans({}),
       message: 'Use this feature if the update failed or if your store or a  module is no longer working properly.'|trans({}),
       disabled: false,
-      radioName: 'route_choice',
-      radioValue: 'rollback',
+      radioName: form_fields.route_choice,
+      radioValue: form_options.restore_value,
       disabled: empty_backup,
       disabledMessage: empty_backup ? 'No backup file found on your store.'|trans({}) : null,
       required: true
@@ -32,7 +32,7 @@
 {% endblock %}
 
 {% block buttons_inner %}
-  <button class="btn btn-lg btn-primary" type="submit" form="next_page">
+  <button class="btn btn-lg btn-primary" type="submit" form="next_page" disabled>
     {{ 'Get Started'|trans({}) }}
   </button>
 {% endblock %}

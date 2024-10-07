@@ -1,5 +1,5 @@
-import HomePage from '../pages/Home';
-import Update from '../pages/Update';
+import HomePage from '../pages/HomePage';
+import UpdatePageVersionChoice from '../pages/UpdatePageVersionChoice';
 import PageAbstract from '../pages/PageAbstract';
 import { RoutesMatching } from '../types/scriptHandlerTypes';
 import { routeHandler } from '../autoUpgrade';
@@ -17,7 +17,7 @@ export default class ScriptHandler {
 
   private routesMatching: RoutesMatching = {
     'home-page': HomePage,
-    'update-page-version-choice': Update
+    'update-page-version-choice': UpdatePageVersionChoice
   };
 
   private loadScript(routeName: string) {

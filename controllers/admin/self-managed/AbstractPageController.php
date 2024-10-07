@@ -35,6 +35,7 @@ use Symfony\Component\HttpFoundation\Request;
 abstract class AbstractPageController extends AbstractGlobalController
 {
     const CURRENT_PAGE = '';
+    const CURRENT_ROUTE = '';
 
     protected function getPsVersion(): string
     {

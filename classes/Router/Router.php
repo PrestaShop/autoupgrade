@@ -49,66 +49,60 @@ class Router
         $this->upgradeContainer = $upgradeContainer;
     }
 
-    const HOME_PAGE = 'home-page';
-    const HOME_PAGE_FORM = 'home-page-form';
-    const UPDATE_PAGE_VERSION_CHOICE = 'update-page-version-choice';
-    const UPDATE_STEP_VERSION_CHOICE = 'update-step-version-choice';
-    const UPDATE_PAGE_UPDATE_OPTIONS = 'update-page-update-options';
-    const UPDATE_STEP_UPDATE_OPTIONS = 'update-step-update-options';
-    const UPDATE_PAGE_BACKUP = 'update-page-backup';
-    const UPDATE_STEP_BACKUP = 'update-step-backup';
-    const UPDATE_PAGE_UPDATE = 'update-page-update';
-    const UPDATE_STEP_UPDATE = 'update-step-update';
-    const UPDATE_PAGE_POST_UPDATE = 'update-page-post-update';
-    const UPDATE_STEP_POST_UPDATE = 'update-step-post-update';
-    const RESTORE_PAGE_BACKUP_SELECTION = 'restore-page-backup-selection';
-
     const ROUTES = [
-        self::HOME_PAGE => [
+        Routes::HOME_PAGE => [
             'controller' => HomePageController::class,
             'method' => 'index',
         ],
-        self::HOME_PAGE_FORM => [
+        Routes::HOME_PAGE_SUBMIT_FORM => [
             'controller' => HomePageController::class,
             'method' => 'submit',
         ],
-        self::UPDATE_PAGE_VERSION_CHOICE => [
+        Routes::UPDATE_PAGE_VERSION_CHOICE => [
             'controller' => UpdatePageVersionChoiceController::class,
             'method' => 'index',
         ],
-        self::UPDATE_STEP_VERSION_CHOICE => [
+        Routes::UPDATE_STEP_VERSION_CHOICE => [
             'controller' => UpdatePageVersionChoiceController::class,
             'method' => 'step',
         ],
-        self::UPDATE_PAGE_UPDATE_OPTIONS => [
+        Routes::UPDATE_STEP_VERSION_CHOICE_SAVE_FORM => [
+            'controller' => UpdatePageVersionChoiceController::class,
+            'method' => 'save',
+        ],
+        Routes::UPDATE_STEP_VERSION_CHOICE_SUBMIT_FORM => [
+            'controller' => UpdatePageVersionChoiceController::class,
+            'method' => 'submit',
+        ],
+        Routes::UPDATE_PAGE_UPDATE_OPTIONS => [
             'controller' => UpdatePageUpdateOptionsController::class,
             'method' => 'index',
         ],
-        self::UPDATE_STEP_UPDATE_OPTIONS => [
+        Routes::UPDATE_STEP_UPDATE_OPTIONS => [
             'controller' => UpdatePageUpdateOptionsController::class,
             'method' => 'step',
         ],
-        self::UPDATE_PAGE_BACKUP => [
+        Routes::UPDATE_PAGE_BACKUP => [
             'controller' => UpdatePageBackupController::class,
             'method' => 'index',
         ],
-        self::UPDATE_STEP_BACKUP => [
+        Routes::UPDATE_STEP_BACKUP => [
             'controller' => UpdatePageBackupController::class,
             'method' => 'step',
         ],
-        self::UPDATE_PAGE_UPDATE => [
+        Routes::UPDATE_PAGE_UPDATE => [
             'controller' => UpdatePageUpdateController::class,
             'method' => 'index',
         ],
-        self::UPDATE_STEP_UPDATE => [
+        Routes::UPDATE_STEP_UPDATE => [
             'controller' => UpdatePageUpdateController::class,
             'method' => 'step',
         ],
-        self::UPDATE_PAGE_POST_UPDATE => [
+        Routes::UPDATE_PAGE_POST_UPDATE => [
             'controller' => UpdatePagePostUpdateController::class,
             'method' => 'index',
         ],
-        self::UPDATE_STEP_POST_UPDATE => [
+        Routes::UPDATE_STEP_POST_UPDATE => [
             'controller' => UpdatePagePostUpdateController::class,
             'method' => 'step',
         ],
@@ -125,7 +119,7 @@ class Router
      */
     public function handle(Request $request)
     {
-        $route = self::ROUTES[$request->query->get('route')] ?? self::ROUTES[self::HOME_PAGE];
+        $route = self::ROUTES[$request->query->get('route')] ?? self::ROUTES[Routes::HOME_PAGE];
 
         $method = $route['method'];
 

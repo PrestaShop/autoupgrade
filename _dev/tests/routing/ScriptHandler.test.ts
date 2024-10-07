@@ -1,6 +1,6 @@
 import ScriptHandler from '../../src/ts/routing/ScriptHandler';
-import HomePage from '../../src/ts/pages/Home';
-import Update from '../../src/ts/pages/Update';
+import HomePage from '../../src/ts/pages/HomePage';
+import UpdatePageVersionChoice from '../../src/ts/pages/UpdatePageVersionChoice';
 import { routeHandler } from '../../src/ts/autoUpgrade';
 
 jest.mock('../../src/ts/autoUpgrade', () => ({
@@ -11,7 +11,7 @@ jest.mock('../../src/ts/autoUpgrade', () => ({
 
 const homeMount = jest.fn();
 const homeDestroy = jest.fn();
-jest.mock('../../src/ts/pages/Home', () => {
+jest.mock('../../src/ts/pages/HomePage', () => {
   return jest.fn().mockImplementation(() => ({
     mount: homeMount,
     beforeDestroy: homeDestroy
@@ -20,7 +20,7 @@ jest.mock('../../src/ts/pages/Home', () => {
 
 const updateMount = jest.fn();
 const updateDestroy = jest.fn();
-jest.mock('../../src/ts/pages/Update', () => {
+jest.mock('../../src/ts/pages/UpdatePageVersionChoice', () => {
   return jest.fn().mockImplementation(() => ({
     mount: updateMount,
     beforeDestroy: updateDestroy
@@ -48,7 +48,7 @@ describe('ScriptHandler', () => {
 
     scriptHandler = new ScriptHandler();
 
-    expect(Update).toHaveBeenCalledTimes(1);
+    expect(UpdatePageVersionChoice).toHaveBeenCalledTimes(1);
     expect(updateMount).toHaveBeenCalledTimes(1);
   });
 
@@ -58,7 +58,7 @@ describe('ScriptHandler', () => {
     scriptHandler = new ScriptHandler();
 
     expect(HomePage).not.toHaveBeenCalled();
-    expect(Update).not.toHaveBeenCalled();
+    expect(UpdatePageVersionChoice).not.toHaveBeenCalled();
   });
 
   it('should update the route script and destroy the previous one', () => {
@@ -70,7 +70,7 @@ describe('ScriptHandler', () => {
     scriptHandler.updateRouteScript('update-page-version-choice');
 
     expect(homeDestroy).toHaveBeenCalledTimes(1);
-    expect(Update).toHaveBeenCalledTimes(1);
+    expect(UpdatePageVersionChoice).toHaveBeenCalledTimes(1);
     expect(updateMount).toHaveBeenCalledTimes(1);
   });
 });

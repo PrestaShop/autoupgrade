@@ -27,22 +27,29 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Controller;
 
-use PrestaShop\Module\AutoUpgrade\Router\Router;
+use PrestaShop\Module\AutoUpgrade\Router\Routes;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class HomePageController extends AbstractPageController
 {
     const CURRENT_PAGE = 'home';
-    const CURRENT_ROUTE = Router::HOME_PAGE;
+    const CURRENT_ROUTE = Routes::HOME_PAGE;
+    const FORM_FIELDS = [
+        'route_choice' => 'route_choice',
+    ];
+    const FORM_OPTIONS = [
+        'update_value' => 'update',
+        'restore_value' => 'restore',
+    ];
 
     public function submit(Request $request): JsonResponse
     {
-        $routeChoice = $request->request->get('route_choice');
+        $routeChoice = $request->request->get(self::FORM_FIELDS['route_choice']);
 
-        if ($routeChoice === 'update') {
+        if ($routeChoice === self::FORM_OPTIONS['update_value']) {
             return new JsonResponse([
-                'next_route' => Router::UPDATE_PAGE_VERSION_CHOICE,
+                'next_route' => Routes::UPDATE_PAGE_VERSION_CHOICE,
             ]);
         }
 
@@ -54,7 +61,7 @@ class HomePageController extends AbstractPageController
         }
 
         return new JsonResponse([
-            'next_route' => Router::RESTORE_PAGE_BACKUP_SELECTION,
+            'next_route' => Routes::RESTORE_PAGE_BACKUP_SELECTION,
         ]);
     }
 
@@ -69,7 +76,9 @@ class HomePageController extends AbstractPageController
 
         return [
             'empty_backup' => empty($backupFinder->getAvailableBackups()),
-            'form_route' => Router::HOME_PAGE_FORM,
+            'form_route_to_submit' => Routes::HOME_PAGE_SUBMIT_FORM,
+            'form_fields' => self::FORM_FIELDS,
+            'form_options' => self::FORM_OPTIONS,
         ];
     }
 }

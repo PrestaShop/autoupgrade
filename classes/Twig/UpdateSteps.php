@@ -70,7 +70,7 @@ class UpdateSteps
                 $step['state'] = $this::STATE_NORMAL;
             }
 
-            unset($step['params']);
+            $step['code'] = $key;
         }
 
         return array_values($steps);
