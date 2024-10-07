@@ -37,18 +37,6 @@ $max-steps: 8;
       flex-direction: column;
       gap: 0.25rem;
       padding-block-start: 0.25rem;
-      
-      @for $iteration from 2 through $max-steps {
-        &:nth-child(#{$iteration}) {
-          #{$e}__step-number {
-            animation-delay: calc(($iteration - 1) * var(--#{$ua-prefix}animation-number-delay));
-          }
-
-          &::after {
-            animation-delay: calc(($iteration - 1) * var(--#{$ua-prefix}animation-line-delay));
-          }
-        }
-      }
 
       &:not(#{$e}__step--last) {
         &::before {
@@ -63,7 +51,7 @@ $max-steps: 8;
           background-color: var(--#{$ua-prefix}step-line-color);
         }
 
-        &:not(#{$e}__step--normal){
+        &:not(#{$e}__step--normal) {
           &:not(#{$e}__step--current) {
             &::after {
               content: "";
@@ -117,6 +105,18 @@ $max-steps: 8;
           animation-name: stepper-done;
           animation-duration: var(--#{$ua-prefix}animation-number-duration);
           animation-timing-function: ease-in-out;
+        }
+      }
+
+      @for $iteration from 2 through $max-steps {
+        &:nth-child(#{$iteration}) {
+          #{$e}__step-number {
+            animation-delay: calc(($iteration - 1) * var(--#{$ua-prefix}animation-number-delay));
+          }
+
+          &::after {
+            animation-delay: calc(($iteration - 1) * var(--#{$ua-prefix}animation-line-delay));
+          }
         }
       }
     }
