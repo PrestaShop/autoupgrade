@@ -118,7 +118,7 @@ class CompletionCalculatorTest extends TestCase
                 'skip_backup' => !$withBackup,
                 'PS_AUTOUP_KEEP_IMAGES' => 0,
                 'channel' => 'major',
-                'archive.filename' => 'zip.zip',
+                'archive_zip' => 'zip.zip',
             ])
         );
     }

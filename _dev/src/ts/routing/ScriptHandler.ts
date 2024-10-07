@@ -1,5 +1,9 @@
 import HomePage from '../pages/HomePage';
 import UpdatePageVersionChoice from '../pages/UpdatePageVersionChoice';
+import UpdatePageUpdateOptions from '../pages/UpdatePageUpdateOptions';
+import UpdatePageBackup from '../pages/UpdatePageBackup';
+import UpdatePageUpdate from '../pages/UpdatePageUpdate';
+import UpdatePagePostUpdate from '../pages/UpdatePagePostUpdate';
 import PageAbstract from '../pages/PageAbstract';
 import { RoutesMatching } from '../types/scriptHandlerTypes';
 import { routeHandler } from '../autoUpgrade';
@@ -17,7 +21,11 @@ export default class ScriptHandler {
 
   private routesMatching: RoutesMatching = {
     'home-page': HomePage,
-    'update-page-version-choice': UpdatePageVersionChoice
+    'update-page-version-choice': UpdatePageVersionChoice,
+    'update-page-update-options': UpdatePageUpdateOptions,
+    'update-page-backup': UpdatePageBackup,
+    'update-page-update': UpdatePageUpdate,
+    'update-page-post-update': UpdatePagePostUpdate
   };
 
   private loadScript(routeName: string) {

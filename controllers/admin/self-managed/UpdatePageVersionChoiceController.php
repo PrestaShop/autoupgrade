@@ -27,8 +27,15 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Controller;
 
+use Exception;
 use PrestaShop\Module\AutoUpgrade\Router\Routes;
+use PrestaShop\Module\AutoUpgrade\Services\DistributionApiService;
+use PrestaShop\Module\AutoUpgrade\Services\PhpVersionResolverService;
+use PrestaShop\Module\AutoUpgrade\Task\Miscellaneous\UpdateConfig;
 use PrestaShop\Module\AutoUpgrade\Twig\UpdateSteps;
+use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
+use PrestaShop\Module\AutoUpgrade\Upgrader;
+use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
 use PrestaShop\Module\AutoUpgrade\VersionUtils;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Twig\Error\LoaderError;
@@ -41,7 +48,7 @@ class UpdatePageVersionChoiceController extends AbstractPageController
     const CURRENT_ROUTE = Routes::UPDATE_PAGE_VERSION_CHOICE;
     const CURRENT_STEP = UpdateSteps::STEP_VERSION_CHOICE;
     const FORM_FIELDS = [
-        'canal_choice' => 'canal_choice',
+        'channel' => 'channel',
         'archive_zip' => 'archive_zip',
         'archive_xml' => 'archive_xml',
     ];
@@ -124,8 +131,63 @@ class UpdatePageVersionChoiceController extends AbstractPageController
         );
     }
 
-    public function save()
+    /**
+     * @throws Exception
+     */
+    public function save(): string
     {
+        $channel = $this->request->get(self::FORM_FIELDS['canal_choice']);
+
+        $controller = new UpdateConfig($this->upgradeContainer);
+        $controller->init();
+        $controller->run();
+
+        $distributionApiService = new DistributionApiService();
+        $phpVersionResolverService = new PhpVersionResolverService(
+            $distributionApiService,
+            $this->upgradeContainer->getFileLoader(),
+            $this->upgradeContainer->getState()->getOriginVersion()
+        );
+
+        $upgradeSelfCheck = new UpgradeSelfCheck(
+            $this->upgradeContainer->getUpgrader(),
+            $this->upgradeContainer->getPrestaShopConfiguration(),
+            $this->upgradeContainer->getTranslator(),
+            $phpVersionResolverService,
+            $this->upgradeContainer->getChecksumCompare(),
+            _PS_ROOT_DIR_,
+            _PS_ADMIN_DIR_,
+            $this->upgradeContainer->getProperty(UpgradeContainer::WORKSPACE_PATH),
+            $this->upgradeContainer->getState()->getOriginVersion()
+        );
+
+        $warnings = $upgradeSelfCheck->getWarnings();
+        foreach ($warnings as $warning) {
+            $warnings[$warning] = $upgradeSelfCheck->getRequirementWording($warning);
+        }
+
+        $errors = $upgradeSelfCheck->getErrors();
+        foreach ($errors as $error) {
+            $errors[$error] = $upgradeSelfCheck->getRequirementWording($error);
+        }
+
+        $params = [
+            'requirementsOk' => empty($errors),
+            'warnings' => $warnings,
+            'errors' => $errors,
+        ];
+
+        if ($channel === Upgrader::CHANNEL_LOCAL) {
+            return $this->twig->render(
+                '@ModuleAutoUpgrade/components/radio-card-archive.html.twig',
+                $params
+            );
+        }
+
+        return $this->twig->render(
+            '@ModuleAutoUpgrade/components/radio-card-online.html.twig',
+            $params
+        );
     }
 
     public function submit()

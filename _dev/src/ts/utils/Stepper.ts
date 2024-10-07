@@ -42,6 +42,8 @@ export default class Stepper {
   public setCurrentStep = (currentStep: string) => {
     let isBeforeCurrentStep = true;
 
+    this.stepper.classList.add('stepper--hydration');
+
     this.steps.forEach((step) => {
       const { element } = step;
 

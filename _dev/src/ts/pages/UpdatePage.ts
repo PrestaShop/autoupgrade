@@ -13,7 +13,10 @@ export default class UpdatePage extends PageAbstract {
   public beforeDestroy() {}
 
   protected initStepper = () => {
-    const stepper = new Stepper();
-    stepper.setCurrentStep(this.stepCode);
+    if (!window.UpdatePageStepper) {
+      window.UpdatePageStepper = new Stepper();
+    } else {
+      window.UpdatePageStepper.setCurrentStep(this.stepCode);
+    }
   };
 }

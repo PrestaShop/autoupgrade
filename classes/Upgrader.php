@@ -135,7 +135,7 @@ class Upgrader
     public function getDestinationVersion(): ?string
     {
         if ($this->channel === self::CHANNEL_LOCAL) {
-            return $this->upgradeConfiguration->get('archive.version_num');
+            return $this->upgradeConfiguration->getArchiveVersion();
         } else {
             return $this->getOnlineDestinationRelease() ? $this->getOnlineDestinationRelease()->getVersion() : null;
         }

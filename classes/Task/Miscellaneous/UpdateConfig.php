@@ -66,11 +66,11 @@ class UpdateConfig extends AbstractTask
         // update channel
         if (isset($configurationData['channel'])) {
             $config['channel'] = $configurationData['channel'];
-            $config['archive.filename'] = Upgrader::DEFAULT_FILENAME;
+            $config['archive_zip'] = Upgrader::DEFAULT_FILENAME;
         }
 
-        if (!empty($configurationData['archive_prestashop'])) {
-            $file = $configurationData['archive_prestashop'];
+        if (!empty($configurationData['archive_zip'])) {
+            $file = $configurationData['archive_zip'];
             $fullFilePath = $this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $file;
             if (!file_exists($fullFilePath)) {
                 $this->setErrorFlag();
@@ -114,9 +114,9 @@ class UpdateConfig extends AbstractTask
             }
 
             $config['channel'] = Upgrader::CHANNEL_LOCAL;
-            $config['archive.filename'] = $configurationData['archive_prestashop'];
-            $config['archive.version_num'] = $targetVersion;
-            $config['archive.xml'] = $configurationData['archive_xml'];
+            $config['archive_zip'] = $configurationData['archive_zip'];
+            $config['archive_version_num'] = $targetVersion;
+            $config['archive_xml'] = $configurationData['archive_xml'];
 
             $this->logger->info($this->translator->trans('Upgrade process will use archive.'));
         }

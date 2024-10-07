@@ -23,7 +23,7 @@ $e: ".ua-switch";
         }
       }
     }
-    
+
     &__yes {
       display: none;
     }
@@ -63,16 +63,16 @@ $e: ".ua-switch";
         + #{$e}__label {
           #{$e}__slider {
             background-color: var(--#{$ua-prefix}switch-checked-background-color);
-  
+
             &::before {
               transform: translateX(1rem);
             }
           }
-  
+
           #{$e}__yes {
             display: flex;
           }
-  
+
           #{$e}__no {
             display: none;
           }

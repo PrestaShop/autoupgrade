@@ -8,3 +8,48 @@
     transform: rotate(360deg);
   }
 }
+
+@keyframes stepper-done {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.25);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes stepper-current {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.25);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes stepper-line {
+  0% {
+    left: 50%;
+    width: 0;
+  }
+
+  50% {
+    left: 50%;
+    width: 100%;
+  }
+
+  100% {
+    left: 150%;
+    width: 0%;
+  }
+}
