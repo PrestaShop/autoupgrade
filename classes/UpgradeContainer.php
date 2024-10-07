@@ -265,7 +265,7 @@ class UpgradeContainer
             case self::LOGS_PATH:
                 return $this->autoupgradeWorkDir . DIRECTORY_SEPARATOR . 'logs';
             case self::ARCHIVE_FILENAME:
-                return $this->getUpgradeConfiguration()->getArchiveFilename();
+                return $this->getUpgradeConfiguration()->getArchiveZip();
             case self::ARCHIVE_FILEPATH:
                 return $this->getProperty(self::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $this->getProperty(self::ARCHIVE_FILENAME);
             case self::PS_VERSION:
@@ -439,7 +439,7 @@ class UpgradeContainer
         $this->getState()->setOriginVersion($this->getProperty(self::PS_VERSION));
 
         if ($upgrader->getChannel() === Upgrader::CHANNEL_LOCAL) {
-            $archiveXml = $this->getUpgradeConfiguration()->get('archive.xml');
+            $archiveXml = $this->getUpgradeConfiguration()->getArchiveXml();
             $this->fileLoader->addXmlMd5File($upgrader->getDestinationVersion(), $this->getProperty(self::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $archiveXml);
         }
 

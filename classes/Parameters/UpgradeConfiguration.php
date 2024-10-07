@@ -76,9 +76,14 @@ class UpgradeConfiguration extends ArrayCollection
     /**
      * Get the name of the new release archive.
      */
-    public function getArchiveFilename(): string
+    public function getArchiveZip(): string
     {
-        return $this->get('archive.filename');
+        return $this->get('archive_zip');
+    }
+
+    public function getArchiveXml(): string
+    {
+        return $this->get('archive_xml');
     }
 
     /**
@@ -86,7 +91,7 @@ class UpgradeConfiguration extends ArrayCollection
      */
     public function getArchiveVersion(): string
     {
-        return $this->get('archive.version_num');
+        return $this->get('archive_version_num');
     }
 
     /**
