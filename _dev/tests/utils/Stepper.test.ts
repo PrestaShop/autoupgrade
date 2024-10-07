@@ -57,6 +57,16 @@ describe('Stepper', () => {
     );
   });
 
+  it('should add class to stepper parent then using setCurrentStep method', () => {
+    const stepperParent = document.getElementById('stepper_content');
+
+    expect(stepperParent!.classList.contains('stepper--hydration')).toBe(false);
+
+    new Stepper().setCurrentStep('update-options');
+
+    expect(stepperParent!.classList.contains('stepper--hydration')).toBe(true);
+  });
+
   it('should mark all previous steps as done and the current one as current', () => {
     const stepper = new Stepper();
 

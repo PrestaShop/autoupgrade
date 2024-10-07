@@ -43,7 +43,7 @@ export default class Stepper {
     let isBeforeCurrentStep = true;
 
     this.stepper.classList.add('stepper--hydration');
-    
+
     this.steps.forEach((step) => {
       const { element } = step;
 
