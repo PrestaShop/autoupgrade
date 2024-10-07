@@ -7,7 +7,7 @@ services:
     depends_on:
       - mysql
     environment:
-      - PS_DEV_MODE=1
+      - PS_DEV_MODE=0
       - PS_DOMAIN=localhost
       - PS_LANGUAGE=en
       - PS_COUNTRY=fr
