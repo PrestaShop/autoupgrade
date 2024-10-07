@@ -49,7 +49,10 @@ $cdk-prefix: "cdk-";
     --#{$cdk-prefix}font-family-material-icons,
     "Material Icons"
   );
-  --#{$ua-prefix}default-transition-duration: var(--#{$cdk-prefix}default-transition-duration, 0.15s);
+  --#{$ua-prefix}default-transition-duration: var(
+    --#{$cdk-prefix}default-transition-duration,
+    0.15s
+  );
   --#{$ua-prefix}header-offset: 10rem;
   --#{$ua-prefix}bo-background-color: var(--#{$ua-prefix}primary-200);
 }
