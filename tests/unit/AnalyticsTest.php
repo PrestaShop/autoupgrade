@@ -43,7 +43,7 @@ class AnalyticsTest extends TestCase
             'PS_AUTOUP_BACKUP' => 1,
             'PS_AUTOUP_KEEP_IMAGES' => 0,
             'channel' => 'major',
-            'archive.filename' => 'zip.zip',
+            'archive_zip' => 'zip.zip',
         ]));
 
         $analytics = new Analytics(

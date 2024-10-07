@@ -61,7 +61,7 @@ class UpgradeConfigurationStorage extends FileConfigurationStorage
     {
         return array_merge(UpgradeConfiguration::PS_CONST_DEFAULT_VALUE, [
             'channel' => Upgrader::DEFAULT_CHANNEL,
-            'archive.filename' => Upgrader::DEFAULT_FILENAME,
+            'archive_zip' => Upgrader::DEFAULT_FILENAME,
         ]);
     }
 }

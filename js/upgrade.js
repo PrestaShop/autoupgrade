@@ -803,7 +803,7 @@ $(document).ready(function () {
             return false;
           }
           params.channel = "local";
-          params.archive_prestashop = archive_prestashop;
+          params.archive_zip = archive_prestashop;
           params.archive_xml = archive_xml;
         }
       }
