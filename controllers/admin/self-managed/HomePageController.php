@@ -29,7 +29,6 @@ namespace PrestaShop\Module\AutoUpgrade\Controller;
 
 use PrestaShop\Module\AutoUpgrade\Router\Routes;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 
 class HomePageController extends AbstractPageController
 {
@@ -43,9 +42,9 @@ class HomePageController extends AbstractPageController
         'restore_value' => 'restore',
     ];
 
-    public function submit(Request $request): JsonResponse
+    public function submit(): JsonResponse
     {
-        $routeChoice = $request->request->get(self::FORM_FIELDS['route_choice']);
+        $routeChoice = $this->request->request->get(self::FORM_FIELDS['route_choice']);
 
         if ($routeChoice === self::FORM_OPTIONS['update_value']) {
             return new JsonResponse([
@@ -54,7 +53,7 @@ class HomePageController extends AbstractPageController
         }
 
         // if is not update is restore
-        if ($this->getParams($request)['empty_backup']) {
+        if ($this->getParams()['empty_backup']) {
             return new JsonResponse([
                 'error' => 'You can\'t acced this route because you haven\'t backup.',
             ], 401);
@@ -70,7 +69,7 @@ class HomePageController extends AbstractPageController
      *
      * @throws \Exception
      */
-    protected function getParams(Request $request): array
+    protected function getParams(): array
     {
         $backupFinder = $this->upgradeContainer->getBackupFinder();
 

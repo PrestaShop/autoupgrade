@@ -28,10 +28,12 @@
 namespace PrestaShop\Module\AutoUpgrade\Controller;
 
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Twig\Environment;
 use Twig_Environment;
 
-class AbstractGlobalController
+abstract class AbstractGlobalController
 {
     /** @var UpgradeContainer */
     protected $upgradeContainer;
@@ -39,9 +41,22 @@ class AbstractGlobalController
     /** @var Environment|Twig_Environment */
     protected $twig;
 
-    public function __construct(UpgradeContainer $upgradeContainer)
+    /** @var Request */
+    protected $request;
+
+    public function __construct(UpgradeContainer $upgradeContainer, Request $request)
     {
         $this->upgradeContainer = $upgradeContainer;
         $this->twig = $this->upgradeContainer->getTwig();
+        $this->request = $request;
+    }
+
+    protected function redirectTo(string $destinationRoute): RedirectResponse
+    {
+        $params = [];
+        parse_str($this->request->server->get('QUERY_STRING'), $params);
+        $nextQueryParams = http_build_query(array_merge($params, ['route' => $destinationRoute]));
+
+        return new RedirectResponse($this->request->getSchemeAndHttpHost() . $this->request->getBaseUrl() . $this->request->getPathInfo() . '?' . $nextQueryParams);
     }
 }
