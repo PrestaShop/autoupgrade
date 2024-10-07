@@ -4,10 +4,6 @@ $e: ".stepper";
 
 // Animation variables
 $max-steps: 8;
-$animation-number-delay: 0.4s;
-$animation-line-delay: 0.4s;
-$animation-number-duration: 0.55s;
-$animation-line-duration: 0.55s;
 
 #{$ua-id} {
   #{$e} {
@@ -17,6 +13,10 @@ $animation-line-duration: 0.55s;
     --#{$ua-prefix}step-normal-background-color: var(--#{$ua-prefix}primary-400);
     --#{$ua-prefix}step-current-background-color: var(--#{$ua-prefix}primary);
     --#{$ua-prefix}step-done-background-color: var(--#{$ua-prefix}green-50);
+    --#{$ua-prefix}animation-number-delay: 0.25s;
+    --#{$ua-prefix}animation-line-delay: 0.25s;
+    --#{$ua-prefix}animation-number-duration: 0.55s;
+    --#{$ua-prefix}animation-line-duration: 0.55s;
     display: grid;
     grid-auto-columns: minmax(7rem, 12rem);
     grid-auto-flow: column;
@@ -25,6 +25,11 @@ $animation-line-duration: 0.55s;
     padding-block-end: 0.5rem;
     margin: 0 auto;
     overflow-x: auto;
+
+    &--hydration {
+      --#{$ua-prefix}animation-number-delay: 0s;
+      --#{$ua-prefix}animation-line-delay: 0s;
+    }
 
     &__step {
       position: relative;
@@ -36,11 +41,11 @@ $animation-line-duration: 0.55s;
       @for $iteration from 2 through $max-steps {
         &:nth-child(#{$iteration}) {
           #{$e}__step-number {
-            animation-delay: calc(($iteration - 1) * $animation-number-delay);
+            animation-delay: calc(($iteration - 1) * var(--#{$ua-prefix}animation-number-delay));
           }
 
           &::after {
-            animation-delay: calc(($iteration - 1) * $animation-line-delay);
+            animation-delay: calc(($iteration - 1) * var(--#{$ua-prefix}animation-line-delay));
           }
         }
       }
@@ -71,7 +76,7 @@ $animation-line-duration: 0.55s;
               height: 0.0625rem;
               background-color: var(--#{$ua-prefix}green-500);
               animation-name: stepper-line;
-              animation-duration: $animation-line-duration;
+              animation-duration: var(--#{$ua-prefix}animation-line-duration);
               animation-timing-function: linear;
               will-change: auto;
             }
@@ -93,7 +98,7 @@ $animation-line-duration: 0.55s;
         #{$e}__step-number {
           background-color: var(--#{$ua-prefix}step-current-background-color);
           animation-name: stepper-current;
-          animation-duration: $animation-number-duration;
+          animation-duration: var(--#{$ua-prefix}animation-number-duration);
           animation-timing-function: ease-in-out;
 
           &::before {
@@ -110,7 +115,7 @@ $animation-line-duration: 0.55s;
           background-position: center center;
           background-size: 1rem 1rem;
           animation-name: stepper-done;
-          animation-duration: $animation-number-duration;
+          animation-duration: var(--#{$ua-prefix}animation-number-duration);
           animation-timing-function: ease-in-out;
         }
       }
