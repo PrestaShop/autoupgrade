@@ -98,9 +98,9 @@
                     </select>
                     <div id="for-useLocal">
                         {% if archiveFiles is not empty %}
-                            <label for="archive_prestashop">{{ 'Archive to use:'|trans({}) }} *</label>
+                            <label for="archive_zip">{{ 'Archive to use:'|trans({}) }} *</label>
                             <div>
-                                <select id="archive_prestashop" name="archive_prestashop" required>
+                                <select id="archive_zip" name="archive_zip" required>
                                     <option value="">{{ 'Choose an archive'|trans({}) }}</option>
                                     {% for file in archiveFiles %}
                                         {% set fileName = file|replace({(downloadPath): ''}) %}
