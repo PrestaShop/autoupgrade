@@ -28,10 +28,12 @@
 namespace PrestaShop\Module\AutoUpgrade\Controller;
 
 use Exception;
+use PrestaShop\Module\AutoUpgrade\AjaxResponseBuilder;
 use PrestaShop\Module\AutoUpgrade\Router\Routes;
 use PrestaShop\Module\AutoUpgrade\Services\DistributionApiService;
 use PrestaShop\Module\AutoUpgrade\Services\PhpVersionResolverService;
 use PrestaShop\Module\AutoUpgrade\Task\Miscellaneous\UpdateConfig;
+use PrestaShop\Module\AutoUpgrade\Twig\PageSelectors;
 use PrestaShop\Module\AutoUpgrade\Twig\UpdateSteps;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\Upgrader;
@@ -54,8 +56,8 @@ class UpdatePageVersionChoiceController extends AbstractPageController
         'archive_xml' => 'archive_xml',
     ];
     const FORM_OPTIONS = [
-        'online_value' => 'online',
-        'local_value' => 'local',
+        'online_value' => Upgrader::CHANNEL_ONLINE,
+        'local_value' => Upgrader::CHANNEL_LOCAL,
     ];
 
     /**
@@ -138,7 +140,7 @@ class UpdatePageVersionChoiceController extends AbstractPageController
      */
     public function save(): string
     {
-        $channel = $this->request->get(self::FORM_FIELDS['canal_choice']);
+        $channel = $this->request->get(self::FORM_FIELDS['channel']);
 
         $controller = new UpdateConfig($this->upgradeContainer);
         $controller->init();
@@ -173,23 +175,26 @@ class UpdatePageVersionChoiceController extends AbstractPageController
             $errors[$error] = $upgradeSelfCheck->getRequirementWording($error);
         }
 
-        $params = [
-            'requirementsOk' => empty($errors),
-            'warnings' => $warnings,
-            'errors' => $errors,
-        ];
+        $params = array_merge(
+            $this->getParams(),
+            [
+                'requirementsOk' => empty($errors),
+                'warnings' => $warnings,
+                'errors' => $errors,
+            ]
+        );
 
-        if ($channel === Upgrader::CHANNEL_LOCAL) {
-            return $this->twig->render(
+        if ($channel === self::FORM_OPTIONS['local_value']) {
+            return AjaxResponseBuilder::hydrationResponse(PageSelectors::RADIO_CARD_ARCHIVE_PARENT_ID, $this->twig->render(
                 '@ModuleAutoUpgrade/components/radio-card-archive.html.twig',
                 $params
-            );
+            ));
         }
 
-        return $this->twig->render(
+        return AjaxResponseBuilder::hydrationResponse(PageSelectors::RADIO_CARD_ONLINE_PARENT_ID, $this->twig->render(
             '@ModuleAutoUpgrade/components/radio-card-online.html.twig',
             $params
-        );
+        ));
     }
 
     public function submit()
