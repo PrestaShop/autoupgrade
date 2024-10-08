@@ -47,6 +47,7 @@ class UpdatePageVersionChoiceController extends AbstractPageController
     const CURRENT_PAGE = 'update';
     const CURRENT_ROUTE = Routes::UPDATE_PAGE_VERSION_CHOICE;
     const CURRENT_STEP = UpdateSteps::STEP_VERSION_CHOICE;
+    const FORM_NAME = 'version_choice';
     const FORM_FIELDS = [
         'channel' => 'channel',
         'archive_zip' => 'archive_zip',
@@ -123,6 +124,7 @@ class UpdatePageVersionChoiceController extends AbstractPageController
                     'badge_status' => $updateType,
                     'release_note' => $releaseNote,
                 ],
+                'form_version_choice_name' => self::FORM_NAME,
                 'form_route_to_save' => Routes::UPDATE_STEP_VERSION_CHOICE_SAVE_FORM,
                 'form_route_to_submit' => Routes::UPDATE_STEP_VERSION_CHOICE_SUBMIT_FORM,
                 'form_fields' => self::FORM_FIELDS,
