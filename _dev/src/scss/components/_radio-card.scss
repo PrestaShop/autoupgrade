@@ -57,16 +57,28 @@ $e: ".radio-card";
       }
     }
 
+    &:has(input[type="radio"]:checked.radio--show-requirements-loader) {
+      #{$e}__loader-wrapper {
+        display: block;
+      }
+
+      #{$e}__check-requirements {
+        display: none;
+      }
+    }
+
+    &:not(:has(input[type="radio"]:checked)) {
+      #{$e}__check-requirements {
+        display: none;
+      }
+    }
+
     &__loader-wrapper {
       display: none;
       padding: 1rem;
       margin-block-start: 0.5rem;
       background-color: var(--#{$ua-prefix}radio-card-loader-background-color);
       border-radius: var(--#{$ua-prefix}border-radius);
-
-      &--show {
-        display: block;
-      }
     }
 
     &__loader {
@@ -215,14 +227,6 @@ $e: ".radio-card";
     &__local-archive {
       display: none;
       padding-block-start: 0.5rem;
-    }
-
-    &__check-requirements {
-      display: none;
-
-      &--show {
-        display: block;
-      }
     }
 
     &--disabled {
