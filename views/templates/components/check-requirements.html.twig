@@ -12,14 +12,12 @@
     </p>
 
     <div class="check-requirements__list">
-      {# ERROR #}
       {% for error in errors %}
         <div class="check-requirements__requirement check-requirements__requirement--error">
           {{ error }}
         </div>
       {% endfor %}
 
-      {# WARNING #}
       {% for warning in warnings %}
         <div class="check-requirements__requirement check-requirements__requirement--warning">
           {{ warning }}
