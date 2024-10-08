@@ -53,7 +53,7 @@
         {% include "@ModuleAutoUpgrade/components/local-archive.html.twig" %}
       </div>
     {% endif %}
-    
+
     {% if enableRequirementsCheck %}
       <div class="radio-card__loader-wrapper">
         <div class="radio-card__loader"></div>
@@ -63,9 +63,11 @@
         </div>
       </div>
 
-      <div class="radio-card__check-requirements">
-        {% include "@ModuleAutoUpgrade/components/check-requirements.html.twig" %}
-      </div>
+      {% if requirementsOk is defined %}
+        <div class="radio-card__check-requirements">
+          {% include "@ModuleAutoUpgrade/components/check-requirements.html.twig" %}
+        </div>
+      {% endif %}
     {% endif %}
   </div>
 </label>
