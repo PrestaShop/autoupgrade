@@ -5,7 +5,7 @@ import {
   boDashboardPage,
   boLoginPage,
   boOrdersPage,
-  boOrdersViewProductsBlockPage,
+  boOrdersViewBlockProductsPage,
   // Import data
   dataOrderStatuses,
 } from '@prestashop-core/ui-testing';
@@ -64,21 +64,21 @@ test.describe('BO - Orders - Orders : Edit Order BO', async () => {
 
     await boOrdersPage.goToOrder(page, 1);
 
-    const pageTitle = await boOrdersViewProductsBlockPage.getPageTitle(page);
-    expect(pageTitle).toContain(boOrdersViewProductsBlockPage.pageTitle);
+    const pageTitle = await boOrdersViewBlockProductsPage.getPageTitle(page);
+    expect(pageTitle).toContain(boOrdersViewBlockProductsPage.pageTitle);
   });
 
   test('should modify the product quantity and check the validation', async () => {
     await utilsTest.addContextItem(test.info(), 'testIdentifier', 'editProductQuantity', baseContext);
 
-    const newQuantity = await boOrdersViewProductsBlockPage.modifyProductQuantity(page, 1, 5);
+    const newQuantity = await boOrdersViewBlockProductsPage.modifyProductQuantity(page, 1, 5);
     expect(newQuantity, 'Quantity was not updated').toEqual(5);
   });
 
   test('should modify the order status and check the validation', async () => {
     await utilsTest.addContextItem(test.info(), 'testIdentifier', 'editOrderStatus', baseContext);
 
-    const orderStatus = await boOrdersViewProductsBlockPage.modifyOrderStatus(page, dataOrderStatuses.paymentAccepted.name);
+    const orderStatus = await boOrdersViewBlockProductsPage.modifyOrderStatus(page, dataOrderStatuses.paymentAccepted.name);
     expect(orderStatus).toEqual(dataOrderStatuses.paymentAccepted.name);
   });
 
