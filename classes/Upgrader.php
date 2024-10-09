@@ -64,7 +64,7 @@ class Upgrader
     ) {
         $this->currentPsVersion = $currentPsVersion;
         $this->phpVersionResolverService = $phpRequirementService;
-        $this->channel = $upgradeConfiguration->getChannel();
+        $this->channel = $upgradeConfiguration->getChannel() ?? self::DEFAULT_CHANNEL;
         $this->upgradeConfiguration = $upgradeConfiguration;
     }
 
