@@ -2,6 +2,9 @@ import { ApiResponseHydration } from '../types/apiTypes';
 import { routeHandler, scriptHandler } from '../autoUpgrade';
 
 export default class Hydration {
+  public static hydrationEventName = 'hydrate';
+  public hydrationEvent = new Event(Hydration.hydrationEventName);
+
   public hydrate(data: ApiResponseHydration, fromPopState?: boolean) {
     const elementToUpdate = document.getElementById(data.parent_to_update);
 
@@ -15,6 +18,8 @@ export default class Hydration {
           routeHandler.setNewRoute(data.new_route);
         }
       }
+
+      elementToUpdate.dispatchEvent(this.hydrationEvent);
     }
   }
 }
