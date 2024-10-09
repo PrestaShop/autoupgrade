@@ -29,6 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade\Controller;
 
 use PrestaShop\Module\AutoUpgrade\AjaxResponseBuilder;
 use PrestaShop\Module\AutoUpgrade\Router\Routes;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class HomePageController extends AbstractPageController
 {
