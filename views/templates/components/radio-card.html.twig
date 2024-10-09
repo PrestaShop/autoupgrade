@@ -62,8 +62,7 @@
           {{ "Checking requirements..."|trans({}) }}
         </div>
       </div>
-
-      {% if requirementsOk is defined %}
+      {% if requirements is not null %}
         <div class="radio-card__check-requirements">
           {% include "@ModuleAutoUpgrade/components/check-requirements.html.twig" %}
         </div>

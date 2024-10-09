@@ -1,4 +1,4 @@
-{% if not requirementsOk %}
+{% if not requirements.requirementsOk %}
   <div class="check-requirements check-requirements--failed">
     <p class="check-requirements__title h3">
       {{ "Update requirements"|trans({}) }}
@@ -12,13 +12,13 @@
     </p>
 
     <div class="check-requirements__list">
-      {% for error in errors %}
+      {% for error in requirements.errors %}
         <div class="check-requirements__requirement check-requirements__requirement--error">
           {{ error }}
         </div>
       {% endfor %}
 
-      {% for warning in warnings %}
+      {% for warning in requirements.warnings %}
         <div class="check-requirements__requirement check-requirements__requirement--warning">
           {{ warning }}
         </div>
