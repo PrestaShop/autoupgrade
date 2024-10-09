@@ -63,14 +63,23 @@ class UpdateConfig extends AbstractTask
         // Was coming from AdminSelfUpgrade::currentParams before
         $configurationData = $this->getConfigurationData();
         $config = [];
-        // update channel
-        if (isset($configurationData['channel'])) {
-            $config['channel'] = $configurationData['channel'];
-            $config['archive_zip'] = Upgrader::DEFAULT_FILENAME;
+
+        foreach (UpgradeConfiguration::UPGRADE_CONST_KEYS as $key) {
+            if (!isset($configurationData[$key])) {
+                continue;
+            }
+            // The PS_DISABLE_OVERRIDES variable must only be updated on the database side
+            if ($key === 'PS_DISABLE_OVERRIDES') {
+                UpgradeConfiguration::updatePSDisableOverrides((bool) $configurationData[$key]);
+            } else {
+                $config[$key] = $configurationData[$key];
+            }
         }
 
-        if (!empty($configurationData['archive_zip'])) {
-            $file = $configurationData['archive_zip'];
+        $this->container->getUpgradeConfiguration()->validate($config);
+
+        if ($config['channel'] === Upgrader::CHANNEL_LOCAL) {
+            $file = $config['archive_zip'];
             $fullFilePath = $this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $file;
             if (!file_exists($fullFilePath)) {
                 $this->setErrorFlag();
@@ -88,7 +97,7 @@ class UpdateConfig extends AbstractTask
                 return ExitCode::FAIL;
             }
 
-            $xmlFile = $configurationData['archive_xml'];
+            $xmlFile = $config['archive_xml'];
             $fullXmlPath = $this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $xmlFile;
             if (!empty($xmlFile) && !file_exists($fullXmlPath)) {
                 $this->setErrorFlag();
@@ -113,24 +122,8 @@ class UpdateConfig extends AbstractTask
                 return ExitCode::FAIL;
             }
 
-            $config['channel'] = Upgrader::CHANNEL_LOCAL;
-            $config['archive_zip'] = $configurationData['archive_zip'];
             $config['archive_version_num'] = $targetVersion;
-            $config['archive_xml'] = $configurationData['archive_xml'];
-
             $this->logger->info($this->translator->trans('Upgrade process will use archive.'));
-        }
-
-        foreach (UpgradeConfiguration::UPGRADE_CONST_KEYS as $key) {
-            if (!isset($configurationData[$key])) {
-                continue;
-            }
-            // The PS_DISABLE_OVERRIDES variable must only be updated on the database side
-            if ($key === 'PS_DISABLE_OVERRIDES') {
-                UpgradeConfiguration::updatePSDisableOverrides((bool) $configurationData[$key]);
-            } else {
-                $config[$key] = $configurationData[$key];
-            }
         }
 
         if (!$this->writeConfig($config)) {
