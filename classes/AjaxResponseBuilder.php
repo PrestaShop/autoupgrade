@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class AjaxResponseBuilder
 {
-    public static function hydrationResponse(string $parentToUpdate, string $newContent, ?string $newRoute): JsonResponse
+    public static function hydrationResponse(string $parentToUpdate, string $newContent, ?string $newRoute = null): JsonResponse
     {
         $arrayToReturn = [
             'hydration' => true,
