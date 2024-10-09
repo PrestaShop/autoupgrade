@@ -84,9 +84,10 @@ class UpdatePageVersionChoiceController extends AbstractPageController
     {
         $updateSteps = new UpdateSteps($this->upgradeContainer->getTranslator());
         $isLastVersion = $this->upgradeContainer->getUpgrader()->isLastVersion();
+        $onlineDestination = $this->upgradeContainer->getUpgrader()->getOnlineDestinationRelease();
 
         if (!$isLastVersion) {
-            $updateType = VersionUtils::getUpdateType($this->getPsVersion(), $this->upgradeContainer->getUpgrader()->getDestinationVersion());
+            $updateType = VersionUtils::getUpdateType($this->getPsVersion(), $onlineDestination->getVersion());
             $releaseNote = $this->upgradeContainer->getUpgrader()->getOnlineDestinationRelease()->getReleaseNoteUrl();
         } else {
             $updateType = null;
@@ -109,8 +110,9 @@ class UpdatePageVersionChoiceController extends AbstractPageController
         $archiveRepository = $this->upgradeContainer->getLocalArchiveRepository();
 
         $upgradeConfiguration = $this->upgradeContainer->getUpgradeConfiguration();
+        $currentChannel = $upgradeConfiguration->getChannel();
 
-        return array_merge(
+        $params = array_merge(
             $updateSteps->getStepParams($this::CURRENT_STEP),
             [
                 'up_to_date' => $isLastVersion,
@@ -123,7 +125,7 @@ class UpdatePageVersionChoiceController extends AbstractPageController
                     'xml' => $archiveRepository->getXmlLocalArchive(),
                 ],
                 'next_release' => [
-                    'version' => $this->upgradeContainer->getUpgrader()->getDestinationVersion(),
+                    'version' => $onlineDestination ? $onlineDestination->getVersion() : '0.0.0',
                     'badge_label' => $updateLabel,
                     'badge_status' => $updateType,
                     'release_note' => $releaseNote,
@@ -134,25 +136,22 @@ class UpdatePageVersionChoiceController extends AbstractPageController
                 'form_fields' => self::FORM_FIELDS,
                 'form_options' => self::FORM_OPTIONS,
                 'current_values' => [
-                    self::FORM_FIELDS['channel'] => $upgradeConfiguration->getChannel(),
+                    self::FORM_FIELDS['channel'] => $currentChannel,
                     self::FORM_FIELDS['archive_zip'] => $upgradeConfiguration->getArchiveZip(),
                     self::FORM_FIELDS['archive_xml'] => $upgradeConfiguration->getArchiveXml(),
                 ]
             ]
         );
+
+        if ($currentChannel) {
+            $params[$currentChannel. '_requirements'] = $this->getRequirements();
+        }
+
+        return $params;
     }
 
-    /**
-     * @throws Exception
-     */
-    public function save(): JsonResponse
+    private function getRequirements(): array
     {
-        $channel = $this->request->get(self::FORM_FIELDS['channel']);
-
-        $controller = new UpdateConfig($this->upgradeContainer);
-        $controller->init();
-        $controller->run();
-
         $distributionApiService = new DistributionApiService();
         $phpVersionResolverService = new PhpVersionResolverService(
             $distributionApiService,
@@ -182,31 +181,40 @@ class UpdatePageVersionChoiceController extends AbstractPageController
             $errors[$errorKey] = $upgradeSelfCheck->getRequirementWording($errorKey);
         }
 
-        $params = array_merge(
-            $this->getParams(),
-            [
-                'requirementsOk' => empty($errors),
-                'warnings' => $warnings,
-                'errors' => $errors,
-            ]
-        );
+        return [
+            'requirementsOk' => empty($errors),
+            'warnings' => $warnings,
+            'errors' => $errors,
+        ];
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function save(): JsonResponse
+    {
+        $channel = $this->request->get(self::FORM_FIELDS['channel']);
+
+        $controller = new UpdateConfig($this->upgradeContainer);
+        $controller->init();
+        $controller->run();
 
         if ($channel === self::FORM_OPTIONS['local_value']) {
             return AjaxResponseBuilder::hydrationResponse(PageSelectors::RADIO_CARD_ARCHIVE_PARENT_ID, $this->twig->render(
                 '@ModuleAutoUpgrade/components/radio-card-archive.html.twig',
-                $params
+                $this->getParams()
             ));
         }
 
         return AjaxResponseBuilder::hydrationResponse(PageSelectors::RADIO_CARD_ONLINE_PARENT_ID, $this->twig->render(
             '@ModuleAutoUpgrade/components/radio-card-online.html.twig',
-            $params
+            $this->getParams()
         ));
     }
 
     public function submit(): JsonResponse
     {
-        /* todo: check everything is ok before send next route */
+        /** we dont check again because the button is only accessible if check are ok */
         return new JsonResponse([
             'next_route' => Routes::UPDATE_STEP_UPDATE_OPTIONS,
         ]);
