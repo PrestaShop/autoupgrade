@@ -108,6 +108,8 @@ class UpdatePageVersionChoiceController extends AbstractPageController
         }
         $archiveRepository = $this->upgradeContainer->getLocalArchiveRepository();
 
+        $upgradeConfiguration = $this->upgradeContainer->getUpgradeConfiguration();
+
         return array_merge(
             $updateSteps->getStepParams($this::CURRENT_STEP),
             [
@@ -131,6 +133,11 @@ class UpdatePageVersionChoiceController extends AbstractPageController
                 'form_route_to_submit' => Routes::UPDATE_STEP_VERSION_CHOICE_SUBMIT_FORM,
                 'form_fields' => self::FORM_FIELDS,
                 'form_options' => self::FORM_OPTIONS,
+                'current_values' => [
+                    self::FORM_FIELDS['channel'] => $upgradeConfiguration->getChannel(),
+                    self::FORM_FIELDS['archive_zip'] => $upgradeConfiguration->getArchiveZip(),
+                    self::FORM_FIELDS['archive_xml'] => $upgradeConfiguration->getArchiveXml(),
+                ]
             ]
         );
     }
