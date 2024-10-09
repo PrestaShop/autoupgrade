@@ -1,10 +1,13 @@
 import UpdatePage from './UpdatePage';
 import api from '../api/RequestHandler';
+import Hydration from '../utils/Hydration';
 
 export default class UpdatePageVersionChoice extends UpdatePage {
   protected stepCode = 'version-choice';
   private radioLoadingClass = 'radio--show-requirements-loader';
   form?: HTMLFormElement;
+  onlineCardParent?: HTMLDivElement;
+  localCardParent?: HTMLDivElement;
   submitButton?: HTMLButtonElement;
 
   constructor() {
@@ -13,14 +16,20 @@ export default class UpdatePageVersionChoice extends UpdatePage {
     if (form) {
       this.form = form;
 
-      const submitButton = Array.from(this.form.elements).find(
-        (element) => element instanceof HTMLButtonElement && element.type === 'submit'
-      ) as HTMLButtonElement | null;
+      this.onlineCardParent = document.getElementById('radio_card_online') as
+        | HTMLDivElement
+        | undefined;
 
-      if (submitButton) {
-        this.submitButton = submitButton;
-      }
+      this.localCardParent = document.getElementById('radio_card_archive') as
+        | HTMLDivElement
+        | undefined;
+
+      this.submitButton = Array.from(this.form.elements).find(
+        (element) => element instanceof HTMLButtonElement && element.type === 'submit'
+      ) as HTMLButtonElement | undefined;
     }
+
+    console.log(this);
   }
 
   public mount() {
@@ -28,6 +37,12 @@ export default class UpdatePageVersionChoice extends UpdatePage {
     if (this.form) {
       this.form.addEventListener('change', this.handleSave.bind(this));
       this.form.addEventListener('submit', this.handleSubmit);
+      if (this.onlineCardParent) {
+        this.onlineCardParent.addEventListener(Hydration.hydrationEventName, this.handleHydration);
+      }
+      if (this.localCardParent) {
+        this.localCardParent.addEventListener(Hydration.hydrationEventName, this.handleHydration);
+      }
     }
   }
 
@@ -35,12 +50,28 @@ export default class UpdatePageVersionChoice extends UpdatePage {
     if (this.form) {
       this.form.removeEventListener('change', this.handleSave);
       this.form.removeEventListener('submit', this.handleSubmit);
+      if (this.onlineCardParent) {
+        this.onlineCardParent.removeEventListener(
+          Hydration.hydrationEventName,
+          this.handleHydration
+        );
+      }
+      if (this.localCardParent) {
+        this.localCardParent.removeEventListener(
+          Hydration.hydrationEventName,
+          this.handleHydration
+        );
+      }
     }
   };
 
   private sendForm(routeToSend: string) {
     const formData = new FormData(this.form);
     api.post(routeToSend, formData);
+  }
+
+  private handleHydration(event: Event) {
+    console.log('I M HYDRATED :', event);
   }
 
   private handleSave() {
