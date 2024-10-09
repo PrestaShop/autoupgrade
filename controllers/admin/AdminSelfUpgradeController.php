@@ -402,6 +402,7 @@ class AdminSelfUpgradeController extends ModuleAdminController
         }
 
         $UpConfig = $this->upgradeContainer->getUpgradeConfiguration();
+        $UpConfig->validate($config);
         $UpConfig->merge($config);
 
         if ($this->upgradeContainer->getUpgradeConfigurationStorage()->save(
