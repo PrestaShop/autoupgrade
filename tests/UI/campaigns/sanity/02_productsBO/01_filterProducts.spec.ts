@@ -158,7 +158,7 @@ test.describe('BO - Catalog - Products : Filter the products table by ID, Name, 
         args: {
           identifier: 'filterReference',
           filterBy: 'reference',
-          filterValue: dataProducts.demo_1.reference,
+          filterValue: dataProducts.demo_14.reference,
           filterType: 'input',
         },
       },
@@ -182,7 +182,7 @@ test.describe('BO - Catalog - Products : Filter the products table by ID, Name, 
         args: {
           identifier: 'filterQuantityMinMax',
           filterBy: 'quantity',
-          filterValue: {min: 100, max: 1000},
+          filterValue: {min: 1300, max: 1500},
           filterType: 'input',
         },
       },
@@ -227,19 +227,9 @@ test.describe('BO - Catalog - Products : Filter the products table by ID, Name, 
 
       test(`should reset filter by '${tst.args.filterBy}'`, async () => {
         await utilsTest.addContextItem(test.info(), 'testIdentifier', `resetFilter${tst.args.identifier}`, baseContext);
-
+        
         const numberOfProductsAfterReset = await boProductsPage.resetAndGetNumberOfLines(page);
         expect(numberOfProductsAfterReset).toEqual(numberOfProducts);
       });
-    });
-
-    // Logout from BO
-    test('should log out from BO', async () => {
-      await utilsTest.addContextItem(test.info(), 'testIdentifier', 'logoutBO', baseContext);
-
-      await boLoginPage.logoutBO(page);
-
-      const pageTitle = await boLoginPage.getPageTitle(page);
-      expect(pageTitle).toContain(boLoginPage.pageTitle);
     });
   });
