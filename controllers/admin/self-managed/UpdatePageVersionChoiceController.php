@@ -138,7 +138,7 @@ class UpdatePageVersionChoiceController extends AbstractPageController
     /**
      * @throws Exception
      */
-    public function save(): string
+    public function save(): JsonResponse
     {
         $channel = $this->request->get(self::FORM_FIELDS['channel']);
 
@@ -197,7 +197,7 @@ class UpdatePageVersionChoiceController extends AbstractPageController
         ));
     }
 
-    public function submit()
+    public function submit(): JsonResponse
     {
         /* todo: check everything is ok before send next route */
         return new JsonResponse([
