@@ -5,7 +5,7 @@
       <trans-unit id="435d516735dbf7f622c7d14585f66840" approved="yes">
         <source>Action %s skipped</source>
         <target state="final">Akcja %s pominięta</target>
-        <note>Line: 143</note>
+        <note>Line: 150</note>
       </trans-unit>
     </body>
   </file>
@@ -67,12 +67,12 @@
       <trans-unit id="f2ff9d001d0a553c78da73443e7fcd97" approved="yes">
         <source>Configuration successfully updated.</source>
         <target state="final">Konfiguracja zaktualizowana pomyślnie.</target>
-        <note>Line: 195</note>
+        <note>Line: 194</note>
       </trans-unit>
       <trans-unit id="40b980e89ae332507380470cd26cdf4d" approved="yes">
         <source>This page will now be reloaded and the module will check if a new version is available.</source>
         <target state="final">Strona zostanie odświeżona i moduł zweryfikuje czy jest dostępna nowa wersja.</target>
-        <note>Line: 195</note>
+        <note>Line: 194</note>
       </trans-unit>
     </body>
   </file>
@@ -81,7 +81,7 @@
       <trans-unit id="222102295c3c6626ff141687b0f49b6b" approved="yes">
         <source>Nothing to restore</source>
         <target state="final">Nic do przywrócenia</target>
-        <note>Line: 39</note>
+        <note>Line: 40</note>
       </trans-unit>
     </body>
   </file>
@@ -90,52 +90,52 @@
       <trans-unit id="6a5e5c0047907eaf8062e9933f0de8df" approved="yes">
         <source>%s: File format does not match.</source>
         <target state="final">%s: Format pliku nie pasuje.</target>
-        <note>Line: 77</note>
+        <note>Line: 79</note>
       </trans-unit>
       <trans-unit id="c2bcd4d44d646c47753473ff94cc66ac" approved="yes">
         <source>Opening backup database file %filename% in %extension% mode</source>
         <target state="final">Otwieranie pliku kopii zapasowej bazy danych %filename% w trybie %extension%</target>
-        <note>Line: 89</note>
+        <note>Line: 91</note>
       </trans-unit>
       <trans-unit id="5ce67d010ab9c98ae1dbd6b5ea149982" approved="yes">
         <source>Database backup is empty.</source>
         <target state="final">Kopia zapasowa bazy danych jest pusta.</target>
-        <note>Line: 127</note>
+        <note>Line: 129</note>
       </trans-unit>
       <trans-unit id="ad12a553fe534ba86e1cebf77b27300d" approved="yes">
         <source>Database restoration file %filename% done. %filescount% file(s) left...</source>
         <target state="final">Przywracanie pliku bazy danych %filename% zrobione. %filescount% plik(i) opuszczone...</target>
-        <note>Line: 176</note>
+        <note>Line: 178</note>
       </trans-unit>
       <trans-unit id="55fc6682e256e387afb10ebf6c95aed5" approved="yes">
         <source>Database restoration file %1$s done.</source>
         <target state="final">Tworzenie pliku %1$s przywracania bazy zakończone.</target>
-        <note>Line: 183</note>
+        <note>Line: 185</note>
       </trans-unit>
       <trans-unit id="5b37242b8a0a39af0a9dc28abdabba28" approved="yes">
         <source>Database has been restored.</source>
         <target state="final">Baza danych została przywrócona.</target>
-        <note>Line: 192</note>
+        <note>Line: 194</note>
       </trans-unit>
       <trans-unit id="8f226504481b55e9f588e4bc14b5882f" approved="yes">
         <source>[SQL ERROR]</source>
         <target state="final">[Błąd SQL]</target>
-        <note>Line: 204</note>
+        <note>Line: 206</note>
       </trans-unit>
       <trans-unit id="b232a418538e3f6904357039ff7b1052" approved="yes">
         <source>Error during database restoration</source>
         <target state="final">Błąd podczas przywracania bazy danych</target>
-        <note>Line: 205</note>
+        <note>Line: 207</note>
       </trans-unit>
       <trans-unit id="85f6ad54304538449ff3da4435be5336" approved="yes">
         <source>%numberqueries% queries left for file %filename%...</source>
         <target state="final">%numberqueries% kwerendy pozostały do pliku %filename%...</target>
-        <note>Line: 227</note>
+        <note>Line: 229</note>
       </trans-unit>
       <trans-unit id="30da45f850d1f1a2b42f215836382f19" approved="yes">
         <source>Database restoration done.</source>
         <target state="final">Wykonano przywracanie bazy danych.</target>
-        <note>Line: 237</note>
+        <note>Line: 239</note>
       </trans-unit>
     </body>
   </file>
@@ -144,37 +144,37 @@
       <trans-unit id="7ead6886c2e0fb40e873da8426e80988" approved="yes">
         <source>%s file(s) will be removed before restoring the backup files.</source>
         <target state="final">%s plików będzie usuniętych przed przywróceniem plików kopii zapasowej.</target>
-        <note>Line: 80</note>
+        <note>Line: 81</note>
       </trans-unit>
       <trans-unit id="e3ca00e5b833d0a90d433416435dcaf5" approved="yes">
         <source>[ERROR] Backup file %s does not exist.</source>
         <target state="final">[BŁĄD] Plik kopii zapasowej %s nie istnieje.</target>
-        <note>Line: 85</note>
+        <note>Line: 86</note>
       </trans-unit>
       <trans-unit id="8dbf48bc796e7f70a17c63dd084bf068" approved="yes">
         <source>[ERROR] File "%s" does not exist.</source>
         <target state="final">[BŁĄD] Plik %s nie istnieje.</target>
-        <note>Line: 88</note>
+        <note>Line: 89</note>
       </trans-unit>
       <trans-unit id="2a2c187bdb804ba79fd4bf8972ba5073" approved="yes">
         <source>Unable to remove upgraded files.</source>
         <target state="final">Nie można usunąć zaktualizowanych plików.</target>
-        <note>Line: 90</note>
+        <note>Line: 91</note>
       </trans-unit>
       <trans-unit id="1f63628adef352c2a7ee4225b9dcd576" approved="yes">
         <source>Unable to extract file %filename% into directory %directoryname%.</source>
         <target state="final">Nie można wyodrębnić pliku %filename% do katalogu %directoryname%.</target>
-        <note>Line: 107</note>
+        <note>Line: 108</note>
       </trans-unit>
       <trans-unit id="cb7dce5f6a1934d54c0d3335c7ffe841" approved="yes">
         <source>Files restored.</source>
         <target state="final">Pliki przywrócone.</target>
-        <note>Line: 124</note>
+        <note>Line: 125</note>
       </trans-unit>
       <trans-unit id="671537225baa948d4c92cf4681283326" approved="yes">
         <source>Files restored. Now restoring database...</source>
         <target state="final">Pliki przywrócone. Teraz przywracam bazę danych...</target>
-        <note>Line: 125</note>
+        <note>Line: 126</note>
       </trans-unit>
     </body>
   </file>
@@ -183,17 +183,17 @@
       <trans-unit id="d75374f4463479bfc16764f06fc8d33e" approved="yes">
         <source>[ERROR] File %s is missing: unable to restore files. Operation aborted.</source>
         <target state="final">[ERROR] Brakuje pliku %s: nie można przywrócić plików. Operacja przerwana.</target>
-        <note>Line: 75</note>
+        <note>Line: 77</note>
       </trans-unit>
       <trans-unit id="99db61185a28a3f862dcb99e891b2897" approved="yes">
         <source>[ERROR] No backup database files found: it would be impossible to restore the database. Operation aborted.</source>
         <target state="final">[BŁĄD] Nie odnaleziono kopii zapasowej plików bazy danych: byłoby to niemożliwe, aby przywrócić bazę danych. Operacja przerwana.</target>
-        <note>Line: 92</note>
+        <note>Line: 94</note>
       </trans-unit>
       <trans-unit id="0438424c05d45646dc089ef15df7e0e2" approved="yes">
         <source>Restoring files ...</source>
         <target state="final">Przywracanie plików ...</target>
-        <note>Line: 98</note>
+        <note>Line: 100</note>
       </trans-unit>
     </body>
   </file>
@@ -202,7 +202,7 @@
       <trans-unit id="a520e5cbdc465c7b7d39c98f78fe2506" approved="yes">
         <source>Restoration process done. Congratulations! You can now reactivate your shop.</source>
         <target state="final">Proces odzyskiwania zakończony. Gratulacje! Możesz teraz aktywować sklep ponownie.</target>
-        <note>Line: 43</note>
+        <note>Line: 44</note>
       </trans-unit>
     </body>
   </file>
@@ -211,62 +211,62 @@
       <trans-unit id="926abe867e8b1be1c0b053234cae77ba" approved="yes">
         <source>Database backup skipped. Now upgrading files...</source>
         <target state="final">Kopia bazy danych została pominięta. Aktualizowanie plików...</target>
-        <note>Line: 50</note>
+        <note>Line: 52</note>
       </trans-unit>
       <trans-unit id="555231214d7c729089e80f561e118f45" approved="yes">
         <source>Backup directory is not writable (%path%).</source>
         <target state="final">Brak możliwości zapisu w folderze kopii bezpieczeństwa (%path%).</target>
-        <note>Line: 60</note>
+        <note>Line: 62</note>
       </trans-unit>
       <trans-unit id="d12ae4e7f0d20f4a4ca357d48e42877e" approved="yes">
         <source>Backup file %s already exists. Operation aborted.</source>
         <target state="final">Plik kopii zapasowej %s już istnieje. Operacja anulowana.</target>
-        <note>Line: 140</note>
+        <note>Line: 142</note>
       </trans-unit>
       <trans-unit id="d82896159c60199272e5ea481a733eba" approved="yes">
         <source>Unable to create backup database file %s.</source>
         <target state="final">Nie można utworzyć kopii zapasowej pliku bazy danych %s.</target>
-        <note>Line: 154</note>
+        <note>Line: 156</note>
       </trans-unit>
       <trans-unit id="dcb7d833c69d6e0c3f009381c51f898e" approved="yes">
         <source>Error during database backup.</source>
         <target state="final">Błąd podczas kopii zapasowej bazy danych.</target>
-        <note>Line: 182</note>
+        <note>Line: 184</note>
       </trans-unit>
       <trans-unit id="52033453d4d673bae012b9c8ccb1e79c" approved="yes">
         <source>An error occurred while backing up. Unable to obtain the schema of %s</source>
         <target state="final">Wystąpił błąd podczas tworzenia kopii zapasowej. Nie można uzyskać schematu %s</target>
-        <note>Line: 181</note>
+        <note>Line: 183</note>
       </trans-unit>
       <trans-unit id="4d4c62fccb481224ff3a5c36b45de3fd" approved="yes">
         <source>%s table has been saved.</source>
         <target state="final">%s tabela została zapisana.</target>
-        <note>Line: 259</note>
+        <note>Line: 261</note>
       </trans-unit>
       <trans-unit id="71426d0545181d601dc135b78e74ac8f" approved="yes">
         <source>%s tables have been saved.</source>
         <target state="final">%s tabel zostało zapisanych.</target>
-        <note>Line: 297</note>
+        <note>Line: 299</note>
       </trans-unit>
       <trans-unit id="c2a086cb5c3373d7e11acbd3ace6a553" approved="yes">
         <source>Database backup: %s table(s) left...</source>
         <target state="final">kopia zapasowa bazy danych: pozostało %s tabel...</target>
-        <note>Line: 278</note>
+        <note>Line: 280</note>
       </trans-unit>
       <trans-unit id="f5f6ee32184b6a03c5c9928cbefa07f7" approved="yes">
         <source>No valid tables were found to back up. Backup of file %s canceled.</source>
         <target state="final">Nie znaleziono poprawnych tabel do zrobienia kopi zapasowej. Tworzenie kopii zapasowych pliku %s anulowane.</target>
-        <note>Line: 286</note>
+        <note>Line: 288</note>
       </trans-unit>
       <trans-unit id="0e27b7ac485e03dabd5648acd5982dde" approved="yes">
         <source>Error during database backup for file %s.</source>
         <target state="final">Błąd podczas tworzenia kopii zapasowej bazy danych dla pliku %s.</target>
-        <note>Line: 287</note>
+        <note>Line: 289</note>
       </trans-unit>
       <trans-unit id="4b85e344355a8c135644f239db898749" approved="yes">
         <source>Database backup done in filename %s. Now upgrading files...</source>
         <target state="final">Kopie zapasowe baz danych zrobione w nazwa_pliku %s. Teraz aktualizacja plików ...</target>
-        <note>Line: 303</note>
+        <note>Line: 305</note>
       </trans-unit>
     </body>
   </file>
@@ -275,42 +275,42 @@
       <trans-unit id="e6de5ce7d70a6ed1e2d2d2a25c1bffb4" approved="yes">
         <source>Error during backupFiles</source>
         <target state="final">Błąd podczas backupFiles</target>
-        <note>Line: 59</note>
+        <note>Line: 60</note>
       </trans-unit>
       <trans-unit id="f2afc9e120786d21fd6809c836258669" approved="yes">
         <source>[ERROR] backupFiles filename has not been set</source>
         <target state="final">[BŁĄD] PlikKopiiZapasowej nazwa pliku nie została ustawiona</target>
-        <note>Line: 60</note>
+        <note>Line: 61</note>
       </trans-unit>
       <trans-unit id="48f95ff09327408a578e91655ed872a1" approved="yes">
         <source>%s Files to backup.</source>
         <target state="final">%s plików do wykonania kopii zapasowej.</target>
-        <note>Line: 76</note>
+        <note>Line: 77</note>
       </trans-unit>
       <trans-unit id="ae10eb1b240ad1b32e2a18e8c9694120" approved="yes">
         <source>Backup files initialized in %s</source>
         <target state="final">Kopia zapasowa zainicjowana w %s</target>
-        <note>Line: 84</note>
+        <note>Line: 85</note>
       </trans-unit>
       <trans-unit id="9bebecbf68b6ce5a6d656c5ea793b762" approved="yes">
         <source>Backup files in progress. %d files left</source>
         <target state="final">Kopia zapasowa plików w trakcie wykonywania. Pozostało %d plików</target>
-        <note>Line: 92</note>
+        <note>Line: 93</note>
       </trans-unit>
       <trans-unit id="b31006b398a0fc315119a145aa1b0466" approved="yes">
         <source>Unable to open archive</source>
         <target state="final">Nie można otworzyć archiwum</target>
-        <note>Line: 98</note>
+        <note>Line: 99</note>
       </trans-unit>
       <trans-unit id="f39b870765d50b64ba7a6facea83010d" approved="yes">
         <source>All files have been added to archive.</source>
         <target state="final">Wszystkie pliki zostały dodane do archiwum.</target>
-        <note>Line: 110</note>
+        <note>Line: 111</note>
       </trans-unit>
       <trans-unit id="f36d7ee6cae92008008a95bf5898daf2" approved="yes">
         <source>All files saved. Now backing up database</source>
         <target state="final">Wszystkie pliki zapisane. Trwa teraz tworzenie kopii zapasowej bazy danych</target>
-        <note>Line: 111</note>
+        <note>Line: 112</note>
       </trans-unit>
     </body>
   </file>
@@ -319,7 +319,7 @@
       <trans-unit id="ead14b0273e8d6cae7d146130d4be8f6" approved="yes">
         <source>The database has been cleaned.</source>
         <target state="final">Baza danych została oczyszczona.</target>
-        <note>Line: 56</note>
+        <note>Line: 57</note>
       </trans-unit>
     </body>
   </file>
@@ -328,52 +328,52 @@
       <trans-unit id="fb1ca1f5f3eb5a2ca85201f449525527" approved="yes">
         <source>You need allow_url_fopen or cURL enabled for automatic download to work. You can also manually upload it in filepath %s.</source>
         <target state="final">Do pracy, potrzebujesz allow_url_fopen lub cURL włączony do automatycznego pobrania. Można również ręcznie przesłać go ścieżka_pliku %s.</target>
-        <note>Line: 49</note>
+        <note>Line: 50</note>
       </trans-unit>
       <trans-unit id="f31c50f6d0edbbb94aa24943b118e316" approved="yes">
         <source>Downloading from %s</source>
         <target state="final">Pobieranie z %s</target>
-        <note>Line: 61</note>
+        <note>Line: 62</note>
       </trans-unit>
       <trans-unit id="73227d741d23c1c6c0ae027b2dbc9e73" approved="yes">
         <source>File will be saved in %s</source>
         <target state="final">Plik został zapisany w %s</target>
-        <note>Line: 62</note>
+        <note>Line: 63</note>
       </trans-unit>
       <trans-unit id="53be0a7251b3bd0de81f488687bc0464" approved="yes">
         <source>Download directory has been emptied</source>
         <target state="final">Katalog pobierania został opróżniony</target>
-        <note>Line: 65</note>
+        <note>Line: 66</note>
       </trans-unit>
       <trans-unit id="3c2681ea85407c2c0d252e05a8eaf6aa" approved="yes">
         <source>Download complete.</source>
         <target state="final">Pobieranie zakończone.</target>
-        <note>Line: 75</note>
+        <note>Line: 76</note>
       </trans-unit>
       <trans-unit id="a55401a11251f53f612e950d4115e116" approved="yes">
         <source>Download complete. Now extracting...</source>
         <target state="final">Pobieranie ukończone. Wyodrębnianie...</target>
-        <note>Line: 76</note>
+        <note>Line: 77</note>
       </trans-unit>
       <trans-unit id="2d9a3f4a92c008b32903541e9af8aff0" approved="yes">
         <source>Download complete but MD5 sum does not match (%s).</source>
         <target state="final">Pobieranie ukończone ale suma md5 nie jest zgodna (%s).</target>
-        <note>Line: 78</note>
+        <note>Line: 79</note>
       </trans-unit>
       <trans-unit id="df88998b6b9585bbcfd201186695b686" approved="yes">
         <source>Download complete but MD5 sum does not match (%s). Operation aborted.</source>
         <target state="final">Pobranie kompletne ale suma MD5 nie zgadza się (%s). Operacja przerwana.</target>
-        <note>Line: 79</note>
+        <note>Line: 80</note>
       </trans-unit>
       <trans-unit id="0c0db54fe8212c1a7215005fef75d7dd" approved="yes">
         <source>Error during download</source>
         <target state="final">Błąd podczas pobierania</target>
-        <note>Line: 83</note>
+        <note>Line: 84</note>
       </trans-unit>
       <trans-unit id="5385901e5bed459563860e2f08a90a1c" approved="yes">
         <source>Download directory %s is not writable.</source>
         <target state="final">Folder pobierania  %s nie jest zapisywalny.</target>
-        <note>Line: 87</note>
+        <note>Line: 88</note>
       </trans-unit>
     </body>
   </file>
@@ -382,27 +382,27 @@
       <trans-unit id="654f7ceb787fd455c166d5d8744cbf90" approved="yes">
         <source>"/latest" directory has been emptied</source>
         <target state="final">Katalog "/latest" zaostał opróżniony</target>
-        <note>Line: 58</note>
+        <note>Line: 60</note>
       </trans-unit>
       <trans-unit id="01d9d38b1d4d8eff5b530eeecfd3ccd5" approved="yes">
         <source>Extraction directory %s is not writable.</source>
         <target state="final">Katalog do rozpakowania %s nie ma prawa zapisu.</target>
-        <note>Line: 63</note>
+        <note>Line: 65</note>
       </trans-unit>
       <trans-unit id="69ae4bbd4b14ae388e4e3882945a542e" approved="yes">
         <source>Unable to extract %filepath% file into %destination% folder...</source>
         <target state="final">Nie można wyodrębnić pliku %filepath% do folderu %destination%...</target>
-        <note>Line: 97</note>
+        <note>Line: 99</note>
       </trans-unit>
       <trans-unit id="5d3c14ccb814427455842b838bbd6f21" approved="yes">
         <source>No prestashop/ folder found in the ZIP file. Aborting.</source>
         <target state="final">W pliku ZIP nie znaleziono folderu prestashop/. Przerwanie.</target>
-        <note>Line: 112</note>
+        <note>Line: 114</note>
       </trans-unit>
       <trans-unit id="231e6cd17aead2388d971f9e75810ca1" approved="yes">
         <source>File extraction complete. Now backing up files...</source>
         <target state="final">Rozpakowywanie plików zakończone. Tworzenie kopii zapasowej plików...</target>
-        <note>Line: 126</note>
+        <note>Line: 128</note>
       </trans-unit>
     </body>
   </file>
@@ -411,22 +411,22 @@
       <trans-unit id="64d7e13ba8bcd0c4a6977cf271577a03">
         <source>Shop updated to %s, but some warnings have been found.</source>
         <target state="needs-translation">Shop updated to %s, but some warnings have been found.</target>
-        <note>Line: 57</note>
+        <note>Line: 58</note>
       </trans-unit>
       <trans-unit id="f14a0e3c163ebd24ef367ac1079cf000">
         <source>Shop updated to %s. Congratulations! You can now reactivate your shop.</source>
         <target state="needs-translation">Shop updated to %s. Congratulations! You can now reactivate your shop.</target>
-        <note>Line: 58</note>
+        <note>Line: 59</note>
       </trans-unit>
       <trans-unit id="d2b9f1e39aa8e96bb61f3a4bfe133f58" approved="yes">
         <source>%s removed</source>
         <target state="final">%s usunięto</target>
-        <note>Line: 70</note>
+        <note>Line: 71</note>
       </trans-unit>
       <trans-unit id="75802ba44ba3369defd92ef897bf2f21" approved="yes">
         <source>Please remove %s by FTP</source>
         <target state="final">Proszę usunąć %s przez FTP</target>
-        <note>Line: 72</note>
+        <note>Line: 73</note>
       </trans-unit>
     </body>
   </file>
@@ -435,22 +435,22 @@
       <trans-unit id="badf6aad60d4a95b698028bc55aa3347">
         <source>Cleaning file cache</source>
         <target state="needs-translation">Cleaning file cache</target>
-        <note>Line: 83</note>
+        <note>Line: 84</note>
       </trans-unit>
       <trans-unit id="8c4204265814594491ae20c9899a0fff">
         <source>Running opcache_reset</source>
         <target state="needs-translation">Running opcache_reset</target>
-        <note>Line: 85</note>
+        <note>Line: 86</note>
       </trans-unit>
       <trans-unit id="eac34868b4fb511702e53d1405c45454" approved="yes">
         <source>Error during database upgrade. You may need to restore your database.</source>
         <target state="final">Błąd podczas aktualizacji bazy danych. Może trzeba przywrócić bazę danych.</target>
-        <note>Line: 56</note>
+        <note>Line: 57</note>
       </trans-unit>
       <trans-unit id="08ee54c048e1589f4072a351035db2ad" approved="yes">
         <source>Database upgraded. Now upgrading your Addons modules...</source>
         <target state="final">Baza danych zaktualizowana. Aktualizacja dodatków...</target>
-        <note>Line: 63</note>
+        <note>Line: 64</note>
       </trans-unit>
     </body>
   </file>
@@ -459,83 +459,83 @@
       <trans-unit id="6274f940a4c03421253b1acc4064349e" approved="yes">
         <source>All files upgraded. Now upgrading database...</source>
         <target state="final">Wszystkie pliki uaktualniono. Aktualizacja bazy danych...</target>
-        <note>Line: 71</note>
+        <note>Line: 72</note>
       </trans-unit>
       <trans-unit id="41deb3bc122b8e650d7a4758ea95f5c3" approved="yes">
         <source>Error when trying to upgrade file %s.</source>
         <target state="final">Błąd podczas próby aktualizacji pliku %s.</target>
-        <note>Line: 82</note>
+        <note>Line: 83</note>
       </trans-unit>
       <trans-unit id="481343ab83a2b8e7c7f6c710279f2a6d" approved="yes">
         <source>%s files left to upgrade.</source>
         <target state="final">%s plików do zaktualizowania.</target>
-        <note>Line: 93</note>
+        <note>Line: 94</note>
       </trans-unit>
       <trans-unit id="9a2f2cf276ea9f79b31a815897c0e3e6" approved="yes">
         <source>%s ignored</source>
         <target state="final">%s ignorowane</target>
-        <note>Line: 121</note>
+        <note>Line: 122</note>
       </trans-unit>
       <trans-unit id="4794a520f862841749c18466119acfed" approved="yes">
         <source>[WARNING] File %1$s has been deleted.</source>
         <target state="final">[OSTRZEŻENIE] %1$s plik został usunięty.</target>
-        <note>Line: 129</note>
+        <note>Line: 130</note>
       </trans-unit>
       <trans-unit id="cbfafdaa2e7968a86bd6a437027edfea" approved="yes">
         <source>Directory %1$s created.</source>
         <target state="final">katalog %1$s utworzony.</target>
-        <note>Line: 133</note>
+        <note>Line: 134</note>
       </trans-unit>
       <trans-unit id="a61e66de5e0b581cc66f73f5662660c6" approved="yes">
         <source>Error while creating directory %s.</source>
         <target state="final">Błąd podczas tworzenia katalogu %s.</target>
-        <note>Line: 138</note>
+        <note>Line: 139</note>
       </trans-unit>
       <trans-unit id="0a6c2db1b18cb6420ad40d46db8707de" approved="yes">
         <source>Directory %s already exists.</source>
         <target state="final">Katalog %s już istnieje.</target>
-        <note>Line: 143
+        <note>Line: 144
 Comment: directory already exists</note>
       </trans-unit>
       <trans-unit id="e877efcbee96fb597e27a9d83b362f0c" approved="yes">
         <source>[TRANSLATION] The translation files have been merged into file %s.</source>
         <target state="final">[TRANSLATION] Pliki z tłumaczeniami zostały połączone w pliku %s.</target>
-        <note>Line: 152</note>
+        <note>Line: 153</note>
       </trans-unit>
       <trans-unit id="b6a405342d9de91fa9f190b13b842b5c" approved="yes">
         <source>[TRANSLATION] The translation files have not been merged into file %filename%. Switch to copy %filename%.</source>
         <target state="final">[TRANSLATION] Pliki tłumaczeń nie zostały włączone do pliku %filename%. Przełączyć na kopię %filename%.</target>
-        <note>Line: 157</note>
+        <note>Line: 158</note>
       </trans-unit>
       <trans-unit id="b8db10001e04b8f947415aeb8b8fd19f" approved="yes">
         <source>Copied %1$s.</source>
         <target state="final">Skopiowano %1$s.</target>
-        <note>Line: 165</note>
+        <note>Line: 166</note>
       </trans-unit>
       <trans-unit id="eae82e869fe0a47087214e2748ae710a" approved="yes">
         <source>Error while copying file %s</source>
         <target state="final">Błąd podczas kopiowania pliku %s</target>
-        <note>Line: 170</note>
+        <note>Line: 171</note>
       </trans-unit>
       <trans-unit id="20aed4fb9f6ee15bc601227bbfb85acd" approved="yes">
         <source>Could not assert the folder %s contains a valid PrestaShop release, exiting.</source>
         <target state="final">Nie można potwierdzić, że folder %s zawiera prawidłową wersję PrestaShop, wychodzenie.</target>
-        <note>Line: 205</note>
+        <note>Line: 206</note>
       </trans-unit>
       <trans-unit id="312d54356778124e7ad6d8c7be6ff1a0" approved="yes">
         <source>A file may be missing, or the release is stored in a subfolder by mistake.</source>
         <target state="final">Może brakować pliku lub wydanie zostało przez pomyłkę zapisane w podfolderze.</target>
-        <note>Line: 206</note>
+        <note>Line: 207</note>
       </trans-unit>
       <trans-unit id="2de9cd00fdcc22adb43ea03f2a09dee5" approved="yes">
         <source>[ERROR] Unable to find files to upgrade.</source>
         <target state="final">[BŁĄD] Nie można znaleźć plików do uaktualnienia.</target>
-        <note>Line: 267</note>
+        <note>Line: 268</note>
       </trans-unit>
       <trans-unit id="5479863b0426e29c3a17a3f9cc6e3746" approved="yes">
         <source>%s files will be upgraded.</source>
         <target state="final">%s plików będzie zaktualizowanych.</target>
-        <note>Line: 272</note>
+        <note>Line: 273</note>
       </trans-unit>
     </body>
   </file>
@@ -544,37 +544,37 @@ Comment: directory already exists</note>
       <trans-unit id="78c6e760441165ec762746a0ab4b64cd">
         <source>Checking updates of module %module%...</source>
         <target state="needs-translation">Checking updates of module %module%...</target>
-        <note>Line: 76</note>
+        <note>Line: 77</note>
       </trans-unit>
       <trans-unit id="2b4da2b27a96bf23f0de18c59e9b1afe">
         <source>Module %module% is up-to-date.</source>
         <target state="needs-translation">Module %module% is up-to-date.</target>
-        <note>Line: 82</note>
+        <note>Line: 83</note>
       </trans-unit>
       <trans-unit id="ec44b213f2da02f294c10211129cdd77">
         <source>[WARNING] Error when trying to retrieve module %s instance.</source>
         <target state="needs-translation">[WARNING] Error when trying to retrieve module %s instance.</target>
-        <note>Line: 93</note>
+        <note>Line: 94</note>
       </trans-unit>
       <trans-unit id="a5db680b38097b4289b24d4925b8368e">
         <source>Module %s does not need to be migrated. Module is up to date.</source>
         <target state="needs-translation">Module %s does not need to be migrated. Module is up to date.</target>
-        <note>Line: 99</note>
+        <note>Line: 100</note>
       </trans-unit>
       <trans-unit id="f88f4492f3805f4732cda67d58b70cc4">
         <source>%s modules left to update.</source>
         <target state="needs-translation">%s modules left to update.</target>
-        <note>Line: 127</note>
+        <note>Line: 128</note>
       </trans-unit>
       <trans-unit id="d47b7d2553af843c2c037185c0279268">
         <source>All modules have been updated.</source>
         <target state="needs-translation">All modules have been updated.</target>
-        <note>Line: 132</note>
+        <note>Line: 133</note>
       </trans-unit>
       <trans-unit id="0530243ad5b9bd205a04b975d3ef8aaf" approved="yes">
         <source>%s modules will be upgraded.</source>
         <target state="final">%s modułów zostanie zaktualizowanych.</target>
-        <note>Line: 160</note>
+        <note>Line: 161</note>
       </trans-unit>
     </body>
   </file>
@@ -583,42 +583,42 @@ Comment: directory already exists</note>
       <trans-unit id="ca895e37bd5dfe413d7ffdd592580117" approved="yes">
         <source>Starting upgrade...</source>
         <target state="final">Rozpoczęcie aktualizacji...</target>
-        <note>Line: 49</note>
+        <note>Line: 50</note>
       </trans-unit>
       <trans-unit id="6457b7906763efc16e4c05fe806cb680">
         <source>Your shop is currently running the latest compatible version. No updates are needed at this time.</source>
         <target state="needs-translation">Your shop is currently running the latest compatible version. No updates are needed at this time.</target>
-        <note>Line: 60</note>
+        <note>Line: 59</note>
       </trans-unit>
       <trans-unit id="02aa51bf9b62b390e5b799c57f0367a7">
         <source>Destination version: %s</source>
         <target state="needs-translation">Destination version: %s</target>
-        <note>Line: 65</note>
+        <note>Line: 64</note>
       </trans-unit>
       <trans-unit id="fd89b081ead6c32f16c370771cfe92e1" approved="yes">
         <source>Downloading step has been skipped, upgrade process will now unzip the local archive.</source>
         <target state="final">Krok pobierania został pominięty, proces aktualizacji rozpakuje teraz lokalne archiwum.</target>
-        <note>Line: 70</note>
+        <note>Line: 69</note>
       </trans-unit>
       <trans-unit id="1a74ca8250ceb3e4df43a70181064e03" approved="yes">
         <source>Shop deactivated. Extracting files...</source>
         <target state="final">Sklep dezaktywowany. Wyodrębnianie plików...</target>
-        <note>Line: 71</note>
+        <note>Line: 70</note>
       </trans-unit>
       <trans-unit id="a3e702f156f1b517ba98d2487f58bd91" approved="yes">
         <source>Shop deactivated. Now downloading... (this can take a while)</source>
         <target state="final">Sklep zdezaktywowany. Trwa pobieranie... (to może chwilę potrwać)</target>
-        <note>Line: 75</note>
+        <note>Line: 74</note>
       </trans-unit>
       <trans-unit id="10b5aa33077df49427f04cd33ad3843f" approved="yes">
         <source>Downloaded archive will come from %s</source>
         <target state="final">Pobrane archiwum będzie pochodzić z %s</target>
-        <note>Line: 76</note>
+        <note>Line: 75</note>
       </trans-unit>
       <trans-unit id="da652b8ece8ba2da84d5f5116f6ef63e" approved="yes">
         <source>MD5 hash will be checked against %s</source>
         <target state="final">MD5 będą sprawdzane z %s</target>
-        <note>Line: 77</note>
+        <note>Line: 76</note>
       </trans-unit>
     </body>
   </file>
@@ -683,172 +683,172 @@ Comment: directory already exists</note>
       <trans-unit id="a7eca295291f53a23ab7ba0a9c7fd9de" approved="yes">
         <source>This functionality has been disabled.</source>
         <target state="final">Ta funkcjonalność została wyłączona.</target>
-        <note>Line: 241</note>
+        <note>Line: 242</note>
       </trans-unit>
       <trans-unit id="c1b55bdd4c292214e4ef2570ffe069dc" approved="yes">
         <source>[TECHNICAL ERROR] ajax-upgradetab.php is missing. Please reinstall or reset the module.</source>
         <target state="final">[BŁĄD TECHNICZNY] brakuje ajax-upgradetab.php. Zainstaluj ponownie lub zresetuj moduł.</target>
-        <note>Line: 248</note>
+        <note>Line: 249</note>
       </trans-unit>
       <trans-unit id="48995d15304fe79fc0240bf6544f2395" approved="yes">
         <source>Are you sure you want to delete this backup?</source>
         <target state="final">Czy jesteś pewien że chcesz usunąć tą kopię zapasową?</target>
-        <note>Line: 284</note>
+        <note>Line: 285</note>
       </trans-unit>
       <trans-unit id="f03a04d1f440e359840035679b49b212" approved="yes">
         <source>An update is currently in progress... Click "OK" to abort.</source>
         <target state="final">Aktualizacja jest obecnie przetwarzania ... Kliknij "OK" aby anulować.</target>
-        <note>Line: 286</note>
+        <note>Line: 287</note>
       </trans-unit>
       <trans-unit id="98a399b35ec9e03ec985254acfe5e3a0" approved="yes">
         <source>Upgrading PrestaShop</source>
         <target state="final">Aktualizowanie PrestaShop</target>
-        <note>Line: 287</note>
+        <note>Line: 288</note>
       </trans-unit>
       <trans-unit id="e02d726a7e733ffb7737e53c89be5e4f" approved="yes">
         <source>Upgrade complete</source>
         <target state="final">Aktualizacja ukończona</target>
-        <note>Line: 288</note>
+        <note>Line: 289</note>
       </trans-unit>
       <trans-unit id="f67d595b77c8c85da5434ddf41b840d4" approved="yes">
         <source>Upgrade complete, but warning notifications has been found.</source>
         <target state="final">Aktualizacja zakończona, ale wystąpiły ostrzeżenia.</target>
-        <note>Line: 289</note>
+        <note>Line: 290</note>
       </trans-unit>
       <trans-unit id="ecb2935cd99ace66750ffdee7954f126" approved="yes">
         <source>Starting restoration...</source>
         <target state="final">Rozpoczęto przywracanie...</target>
-        <note>Line: 290</note>
+        <note>Line: 291</note>
       </trans-unit>
       <trans-unit id="bdec5eb7ca6ae2b5646bb9524df5579a" approved="yes">
         <source>Restoration complete.</source>
         <target state="final">Przywracanie zakończone.</target>
-        <note>Line: 291</note>
+        <note>Line: 292</note>
       </trans-unit>
       <trans-unit id="f15547fe5f9f307bd42b2c01657efbcb" approved="yes">
         <source>Your server cannot download the file. Please upload it first by ftp in your admin/autoupgrade directory</source>
         <target state="final">Twój serwer nie może pobrać pliku. Wgraj go najpierw przez FTP do katalogu /admin/autoupgrade.</target>
-        <note>Line: 292</note>
+        <note>Line: 293</note>
       </trans-unit>
       <trans-unit id="a8192fd08a431bf547ebf9a3eaa9b6bb" approved="yes">
         <source>Javascript error (parseJSON) detected for action </source>
         <target state="final">Błąd Javascript (parseJSON) wykryto dla akcji</target>
-        <note>Line: 293</note>
+        <note>Line: 294</note>
       </trans-unit>
       <trans-unit id="67dab01827a619fdbcb137f18a83feb5" approved="yes">
         <source>End of process</source>
         <target state="final">Koniec procesu</target>
-        <note>Line: 294</note>
+        <note>Line: 295</note>
       </trans-unit>
       <trans-unit id="3b388ab38f6539009cf82a0577205cd8" approved="yes">
         <source>Operation canceled. Checking for restoration...</source>
         <target state="final">Operacja anulowana. Sprawdzanie możliwości przywracania...</target>
-        <note>Line: 295</note>
+        <note>Line: 296</note>
       </trans-unit>
       <trans-unit id="d5dfd6fbb959405ade102657ece534fa" approved="yes">
         <source>Do you want to restore %s?</source>
         <target state="final">Czy chcesz przywrócić %s?</target>
-        <note>Line: 296</note>
+        <note>Line: 297</note>
       </trans-unit>
       <trans-unit id="f234e8051cec7a79e996e67f179bd68b" approved="yes">
         <source>Operation canceled. An error happened.</source>
         <target state="final">Operacja anulowana. Wydarzył się błąd.</target>
-        <note>Line: 297</note>
+        <note>Line: 298</note>
       </trans-unit>
       <trans-unit id="df54e40fe544b0ca34929e0e690a93c1" approved="yes">
         <source>[TECHNICAL ERROR] ajax-upgradetab.php is missing. Please reinstall the module.</source>
         <target state="final">[BŁĄD TECHNICZNY] Brak pliku ajax-upgradetab.php. Zainstaluj ponownie moduł.</target>
-        <note>Line: 298</note>
+        <note>Line: 299</note>
       </trans-unit>
       <trans-unit id="f1a1fb67c8350e8881bc59f09e42d5ab" approved="yes">
         <source>Click to refresh the page and use the new configuration</source>
         <target state="final">Kliknij aby odświeżyć stronę i użyć nowej konfiguracji</target>
-        <note>Line: 299</note>
+        <note>Line: 300</note>
       </trans-unit>
       <trans-unit id="e47b67bdaa4f2c695e46ce1e5231aa9f" approved="yes">
         <source>Error detected during</source>
         <target state="final">Błąd wykryty podczas</target>
-        <note>Line: 300</note>
+        <note>Line: 301</note>
       </trans-unit>
       <trans-unit id="4e265d12ee7ee679a4f40a4c4fde1208" approved="yes">
         <source>The request exceeded the max_time_limit. Please change your server configuration.</source>
         <target state="final">Żądanie przekroczyło max_time_limit. Zmień proszę konfigurację Twojego serwera.</target>
-        <note>Line: 301</note>
+        <note>Line: 302</note>
       </trans-unit>
       <trans-unit id="1607e6098b7b62a2791653b059c975d2" approved="yes">
         <source>See or hide the list</source>
         <target state="final">Zobacz lub ukryj listę</target>
-        <note>Line: 302</note>
+        <note>Line: 303</note>
       </trans-unit>
       <trans-unit id="25b91596a896c6cf688104169b4b6a71" approved="yes">
         <source>Core file(s)</source>
         <target state="final">Pliki źródłowe</target>
-        <note>Line: 303</note>
+        <note>Line: 304</note>
       </trans-unit>
       <trans-unit id="65f04958837ddd3643fd5edaee3a0f8d" approved="yes">
         <source>Mail file(s)</source>
         <target state="final">Plik(i) poczty</target>
-        <note>Line: 304</note>
+        <note>Line: 305</note>
       </trans-unit>
       <trans-unit id="54aca96b35b48dd39265175f61b6bdd2" approved="yes">
         <source>Translation file(s)</source>
         <target state="final">Plik(i) tłumaczenia</target>
-        <note>Line: 305</note>
+        <note>Line: 306</note>
       </trans-unit>
       <trans-unit id="e3da2aa16a78084597288574550e7f39" approved="yes">
         <source>Link and MD5 hash cannot be empty</source>
         <target state="final">Link i hash MD5 nie mogą być puste</target>
-        <note>Line: 306</note>
+        <note>Line: 307</note>
       </trans-unit>
       <trans-unit id="0fdb05748bf1f267f54c2353b9fa5fbb" approved="yes">
         <source>You need to enter the version number associated with the archive.</source>
         <target state="final">Musisz wprowadzić numer wersji przypisany do archiwum.</target>
-        <note>Line: 307</note>
+        <note>Line: 308</note>
       </trans-unit>
       <trans-unit id="4f926e733c4f9087633a1be8c59cbd5e" approved="yes">
         <source>No archive has been selected.</source>
         <target state="final">Żaden plik nie został wybrany.</target>
-        <note>Line: 308</note>
+        <note>Line: 309</note>
       </trans-unit>
       <trans-unit id="69baf56a7bdc48c0637f98298742332d" approved="yes">
         <source>You need to enter the version number associated with the directory.</source>
         <target state="final">Musisz wprowadzić numer wersji przypisany do katalogu.</target>
-        <note>Line: 309</note>
+        <note>Line: 310</note>
       </trans-unit>
       <trans-unit id="3414adbd0397d764eec7f8900051331f" approved="yes">
         <source>Please confirm that you want to skip the backup.</source>
         <target state="final">Proszę potwierdź, że chcesz pominąć tworzenie kopii zapasowej.</target>
-        <note>Line: 310</note>
+        <note>Line: 311</note>
       </trans-unit>
       <trans-unit id="43195fe6505d6439239d03e00a8e7310" approved="yes">
         <source>Please confirm that you want to preserve file options.</source>
         <target state="final">Proszę potwierdzić, że chcesz zachować opcje pliku.</target>
-        <note>Line: 311</note>
+        <note>Line: 312</note>
       </trans-unit>
       <trans-unit id="8c4e88bd9187e21ab076fb9a92343e8b" approved="yes">
         <source>Less options</source>
         <target state="final">Mniej opcji</target>
-        <note>Line: 312</note>
+        <note>Line: 313</note>
       </trans-unit>
       <trans-unit id="a08641c2063d7908c34acbd1982a0eb9" approved="yes">
         <source>These files will be deleted</source>
         <target state="final">Te pliki zostaną usunięte</target>
-        <note>Line: 314</note>
+        <note>Line: 315</note>
       </trans-unit>
       <trans-unit id="8d89ef701bfdd6de52bf08dc3b0222f2" approved="yes">
         <source>These files will be replaced</source>
         <target state="final">Te pliki zostaną zastąpione</target>
-        <note>Line: 315</note>
+        <note>Line: 316</note>
       </trans-unit>
       <trans-unit id="9c48e683e6132f6e6147f1bc24b97e25" approved="yes">
         <source>No XML file has been selected.</source>
         <target state="final">Nie wybrano pliku XML.</target>
-        <note>Line: 316</note>
+        <note>Line: 317</note>
       </trans-unit>
       <trans-unit id="d05b1d567b28c4baea0567450ee4e49e">
         <source>No archive and no XML file have been selected.</source>
         <target state="needs-translation">No archive and no XML file have been selected.</target>
-        <note>Line: 317</note>
+        <note>Line: 318</note>
       </trans-unit>
     </body>
   </file>
@@ -1321,97 +1321,97 @@ Comment: check DB access</note>
       <trans-unit id="bb7748991e29366d42f8fa2c361f4d55">
         <source>Back up my files and database</source>
         <target state="needs-translation">Back up my files and database</target>
-        <note>Line: 203</note>
+        <note>Line: 201</note>
       </trans-unit>
       <trans-unit id="e53b4fd73748419564a1742f66ba631f">
         <source>Automatically back up your database and files in order to restore your shop if needed. This is experimental: you should still perform your own manual backup for safety.</source>
         <target state="needs-translation">Automatically back up your database and files in order to restore your shop if needed. This is experimental: you should still perform your own manual backup for safety.</target>
-        <note>Line: 208</note>
+        <note>Line: 206</note>
       </trans-unit>
       <trans-unit id="d5342bfd5b032cd75faeebdf2a918a79">
         <source>Back up my images</source>
         <target state="needs-translation">Back up my images</target>
-        <note>Line: 211</note>
+        <note>Line: 209</note>
       </trans-unit>
       <trans-unit id="9a2cad898ee3d0ea4573946becdec9cf">
         <source>To save time, you can decide not to back your images up. In any case, always make sure you did back them up manually.</source>
         <target state="needs-translation">To save time, you can decide not to back your images up. In any case, always make sure you did back them up manually.</target>
-        <note>Line: 216</note>
+        <note>Line: 214</note>
       </trans-unit>
       <trans-unit id="26f07ad840fb1c17d29f5be0f428f015">
         <source>Disable non-native modules</source>
         <target state="needs-translation">Disable non-native modules</target>
-        <note>Line: 221</note>
+        <note>Line: 219</note>
       </trans-unit>
       <trans-unit id="70c06c37194d755dd9aef11cf0469981">
         <source>As non-native modules can experience some compatibility issues, we recommend to disable them by default.</source>
         <target state="needs-translation">As non-native modules can experience some compatibility issues, we recommend to disable them by default.</target>
-        <note>Line: 225</note>
+        <note>Line: 223</note>
       </trans-unit>
       <trans-unit id="469ab377c49ea68b2ecdfe76d628a53b">
         <source>Keeping them enabled might prevent you from loading the "Modules" page properly after the upgrade.</source>
         <target state="needs-translation">Keeping them enabled might prevent you from loading the "Modules" page properly after the upgrade.</target>
-        <note>Line: 226</note>
+        <note>Line: 224</note>
       </trans-unit>
       <trans-unit id="03a9e6840847f96325b7184d5f3c2769">
         <source>Disable all overrides</source>
         <target state="needs-translation">Disable all overrides</target>
-        <note>Line: 229</note>
+        <note>Line: 227</note>
       </trans-unit>
       <trans-unit id="29826f9f4da3d473c1e4ecf2f6c4ef9f">
         <source>Enable or disable all classes and controllers overrides.</source>
         <target state="needs-translation">Enable or disable all classes and controllers overrides.</target>
-        <note>Line: 233</note>
+        <note>Line: 231</note>
       </trans-unit>
       <trans-unit id="92991497ed914de6bb7795b701b4c6e4">
         <source>Switch to the default theme</source>
         <target state="needs-translation">Switch to the default theme</target>
-        <note>Line: 236</note>
+        <note>Line: 234</note>
       </trans-unit>
       <trans-unit id="c7ae0af8d5653beb68b344415aca135d">
         <source>This will change your theme: your shop will then use the default theme of the version of PrestaShop you are upgrading to.</source>
         <target state="needs-translation">This will change your theme: your shop will then use the default theme of the version of PrestaShop you are upgrading to.</target>
-        <note>Line: 241</note>
+        <note>Line: 239</note>
       </trans-unit>
       <trans-unit id="f22d57f1f0b7fd2a55ca4760cd6ef68b">
         <source>Keep the customized email templates</source>
         <target state="needs-translation">Keep the customized email templates</target>
-        <note>Line: 244</note>
+        <note>Line: 242</note>
       </trans-unit>
       <trans-unit id="5ea970658668e0b45cb6f64ce18b420e">
         <source>This will not upgrade the default PrestaShop e-mails.</source>
         <target state="needs-translation">This will not upgrade the default PrestaShop e-mails.</target>
-        <note>Line: 248</note>
+        <note>Line: 246</note>
       </trans-unit>
       <trans-unit id="a83c73a145dbc0f4ea7c6a95203df43d">
         <source>If you customized the default PrestaShop e-mail templates, enabling this option will keep your modifications.</source>
         <target state="needs-translation">If you customized the default PrestaShop e-mail templates, enabling this option will keep your modifications.</target>
-        <note>Line: 249</note>
+        <note>Line: 247</note>
       </trans-unit>
       <trans-unit id="21dc065f2d8653ebca37ec552d17b37e" approved="yes">
         <source>Unable to create the directory "%s"</source>
         <target state="final">Nie można utworzyć katalogu "%s"</target>
-        <note>Line: 183</note>
+        <note>Line: 181</note>
       </trans-unit>
       <trans-unit id="6215d33db0d099fcaae168dd4715135a">
         <source>Unable to write in the directory "%s"</source>
         <target state="needs-translation">Unable to write in the directory "%s"</target>
-        <note>Line: 151</note>
+        <note>Line: 149</note>
       </trans-unit>
       <trans-unit id="92a5801448b25f111961462b0b31995d" approved="yes">
         <source>Unable to create file %s</source>
         <target state="final">Nie można utworzyć pliku %s</target>
-        <note>Line: 346</note>
+        <note>Line: 344</note>
       </trans-unit>
       <trans-unit id="56195ded2802813800f43e3be1babe1c" approved="yes">
         <source>Error when trying to delete backups %s</source>
         <target state="final">Błąd podczas próby usuwania kopii zapasowych %s</target>
-        <note>Line: 393</note>
+        <note>Line: 379</note>
       </trans-unit>
       <trans-unit id="f4eb320e09f7ef88a627229870458454" approved="yes">
         <source>The module %s requires PHP %s to work properly. Please upgrade your server configuration.</source>
         <target state="final">Moduł %s wymaga PHP %s do poprawnego działania. Zaktualizuj konfigurację serwera.</target>
-        <note>Line: 437</note>
+        <note>Line: 423</note>
       </trans-unit>
     </body>
   </file>
@@ -1420,17 +1420,17 @@ Comment: check DB access</note>
       <trans-unit id="001c32426a6cfb48ebb848b13141593c">
         <source>Major version</source>
         <target state="needs-translation">Major version</target>
-        <note>Line: 79</note>
+        <note>Line: 81</note>
       </trans-unit>
       <trans-unit id="c5439de366a407641018f189da1ad4a7">
         <source>Minor version</source>
         <target state="needs-translation">Minor version</target>
-        <note>Line: 82</note>
+        <note>Line: 84</note>
       </trans-unit>
       <trans-unit id="8a0dd44f366bc5604b8329a87be5f933">
         <source>Patch version</source>
         <target state="needs-translation">Patch version</target>
-        <note>Line: 85</note>
+        <note>Line: 87</note>
       </trans-unit>
     </body>
   </file>
@@ -2235,22 +2235,22 @@ Comment: check DB access</note>
       <trans-unit id="9280c14cf57cc764c0b9fc65e64e9a9b">
         <source>Restore from a backup</source>
         <target state="needs-translation">Restore from a backup</target>
-        <note>Line: 21</note>
+        <note>Line: 22</note>
       </trans-unit>
       <trans-unit id="53f93f09065ca3d5a66f07918c4fb55b">
         <source>Use this feature if the update failed or if your store or a  module is no longer working properly.</source>
         <target state="needs-translation">Use this feature if the update failed or if your store or a  module is no longer working properly.</target>
-        <note>Line: 22</note>
+        <note>Line: 23</note>
       </trans-unit>
       <trans-unit id="0fd677149c0fafac25862f5a04268ebf">
         <source>No backup file found on your store.</source>
         <target state="needs-translation">No backup file found on your store.</target>
-        <note>Line: 26</note>
+        <note>Line: 28</note>
       </trans-unit>
       <trans-unit id="e0c4332e8c13be976552a059f106354f">
         <source>Get Started</source>
         <target state="needs-translation">Get Started</target>
-        <note>Line: 33</note>
+        <note>Line: 36</note>
       </trans-unit>
     </body>
   </file>
@@ -2311,7 +2311,7 @@ Comment: check DB access</note>
       <trans-unit id="15e90667b50b56b1f8a01bdb1190f3dc">
         <source>Local archive</source>
         <target state="needs-translation">Local archive</target>
-        <note>Line: 114</note>
+        <note>Line: 118</note>
       </trans-unit>
       <trans-unit id="a7446965a3635b6a69697078130d961a">
         <source>You're up to date</source>
@@ -2331,7 +2331,7 @@ Comment: check DB access</note>
       <trans-unit id="d4399327e9bb1d9fb589b58332f07d48">
         <source>Unlock the local update feature and manually update your store to your preferred upgrade by saving the archive and XML files of the PrestaShop version in the following directory on your server: %pathToLocalArchive%</source>
         <target state="needs-translation">Unlock the local update feature and manually update your store to your preferred upgrade by saving the archive and XML files of the PrestaShop version in the following directory on your server: %pathToLocalArchive%</target>
-        <note>Line: 103</note>
+        <note>Line: 105</note>
       </trans-unit>
       <trans-unit id="34b3f55bce0f37bcd82294fbc4702aad">
         <source>You are already using the latest PrestaShop version available but you can update to the version of your choice from a local archive.</source>
@@ -2361,7 +2361,7 @@ Comment: check DB access</note>
       <trans-unit id="b9d4e763594017af5b607eb9e0034299">
         <source>PrestaShop %version%</source>
         <target state="needs-translation">PrestaShop %version%</target>
-        <note>Line: 92</note>
+        <note>Line: 94</note>
       </trans-unit>
     </body>
   </file>
