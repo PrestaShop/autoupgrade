@@ -25,12 +25,13 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\Task\Rollback;
+namespace PrestaShop\Module\AutoUpgrade\Task\Restore;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
+use PrestaShop\Module\AutoUpgrade\Task\TaskName;
 use PrestaShop\Module\AutoUpgrade\Task\TaskType;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
@@ -52,7 +53,7 @@ class RestoreFiles extends AbstractTask
         );
 
         // loop
-        $this->next = 'restoreFiles';
+        $this->next = TaskName::TASK_RESTORE_FILES;
         if (!file_exists($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . UpgradeFileNames::FILES_FROM_ARCHIVE_LIST)
             || !file_exists($this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . UpgradeFileNames::FILES_TO_REMOVE_LIST)) {
             // cleanup current PS tree
@@ -89,7 +90,7 @@ class RestoreFiles extends AbstractTask
                     $this->logger->error($this->translator->trans('[ERROR] File "%s" does not exist.', [UpgradeFileNames::FILES_TO_REMOVE_LIST]));
                 }
                 $this->logger->info($this->translator->trans('Unable to remove upgraded files.'));
-                $this->next = 'error';
+                $this->next = TaskName::TASK_ERROR;
                 $this->setErrorFlag();
 
                 return ExitCode::FAIL;
@@ -102,7 +103,7 @@ class RestoreFiles extends AbstractTask
 
             $res = $this->container->getZipAction()->extract($filepath, $destExtract);
             if (!$res) {
-                $this->next = 'error';
+                $this->next = TaskName::TASK_ERROR;
                 $this->setErrorFlag();
                 $this->logger->error($this->translator->trans(
                     'Unable to extract file %filename% into directory %directoryname%.',
@@ -121,7 +122,7 @@ class RestoreFiles extends AbstractTask
                 }
             }
 
-            $this->next = 'restoreDb';
+            $this->next = TaskName::TASK_RESTORE_DATABASE;
             $this->logger->debug($this->translator->trans('Files restored.'));
             $this->logger->info($this->translator->trans('Files restored. Now restoring database...'));
         }

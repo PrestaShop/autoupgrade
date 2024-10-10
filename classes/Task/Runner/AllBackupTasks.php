@@ -25,30 +25,38 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\Task\Rollback;
+namespace PrestaShop\Module\AutoUpgrade\Task\Runner;
 
-use PrestaShop\Module\AutoUpgrade\Analytics;
-use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
-use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
-use PrestaShop\Module\AutoUpgrade\Task\TaskType;
+use Exception;
+use PrestaShop\Module\AutoUpgrade\Task\TaskName;
+use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 /**
- * Only displays the success message.
+ * Execute the whole upgrade process in a single request.
  */
-class RollbackComplete extends AbstractTask
+class AllBackupTasks extends ChainedTasks
 {
-    const TASK_TYPE = TaskType::TASK_TYPE_RESTORE;
+    const initialTask = TaskName::TASK_BACKUP_INITIALIZATION;
 
-    public function run(): int
+    /**
+     * @var string
+     */
+    protected $step = self::initialTask;
+
+    /**
+     * Set default config on first run.
+     *
+     * @throws Exception
+     */
+    public function init(): void
     {
-        $this->logger->info($this->translator->trans('Restoration process done. Congratulations! You can now reactivate your shop.'));
-        $this->next = '';
-        $this->container->getAnalytics()->track('Restore Succeeded', Analytics::WITH_RESTORE_PROPERTIES);
+        if ($this->step === self::initialTask) {
+            parent::init();
+            $this->container->getState()->initDefault($this->container->getProperty(UpgradeContainer::PS_VERSION));
+        }
+    }
 
-        $this->container->getState()->setProgressPercentage(
-            $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
-        );
-
-        return ExitCode::SUCCESS;
+    public function setOptions(array $options): void
+    {
     }
 }

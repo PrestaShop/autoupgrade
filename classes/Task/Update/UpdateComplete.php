@@ -25,12 +25,13 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\Task\Upgrade;
+namespace PrestaShop\Module\AutoUpgrade\Task\Update;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Analytics;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
+use PrestaShop\Module\AutoUpgrade\Task\TaskName;
 use PrestaShop\Module\AutoUpgrade\Task\TaskType;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\Upgrader;
@@ -39,7 +40,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 /**
  * Ends the upgrade process and displays the success message.
  */
-class UpgradeComplete extends AbstractTask
+class UpdateComplete extends AbstractTask
 {
     const TASK_TYPE = TaskType::TASK_TYPE_UPDATE;
 
@@ -59,7 +60,7 @@ class UpgradeComplete extends AbstractTask
             $this->translator->trans('Shop updated to %s. Congratulations! You can now reactivate your shop.', [$destinationVersion])
         );
 
-        $this->next = '';
+        $this->next = TaskName::TASK_COMPLETE;
 
         if ($this->container->getUpgradeConfiguration()->get('channel') != Upgrader::CHANNEL_LOCAL && file_exists($this->container->getFilePath()) && unlink($this->container->getFilePath())) {
             $this->logger->debug($this->translator->trans('%s removed', [$this->container->getFilePath()]));

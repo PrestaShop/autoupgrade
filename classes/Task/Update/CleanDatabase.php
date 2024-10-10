@@ -25,10 +25,11 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\Task\Upgrade;
+namespace PrestaShop\Module\AutoUpgrade\Task\Update;
 
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
+use PrestaShop\Module\AutoUpgrade\Task\TaskName;
 use PrestaShop\Module\AutoUpgrade\Task\TaskType;
 
 /**
@@ -53,7 +54,7 @@ class CleanDatabase extends AbstractTask
         }
 
         $this->status = 'ok';
-        $this->next = 'upgradeComplete';
+        $this->next = TaskName::TASK_UPDATE_COMPLETE;
         $this->logger->info($this->translator->trans('The database has been cleaned.'));
 
         return ExitCode::SUCCESS;

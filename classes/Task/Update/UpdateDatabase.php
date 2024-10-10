@@ -25,18 +25,19 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\Task\Upgrade;
+namespace PrestaShop\Module\AutoUpgrade\Task\Update;
 
 use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
+use PrestaShop\Module\AutoUpgrade\Task\TaskName;
 use PrestaShop\Module\AutoUpgrade\Task\TaskType;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader17;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader80;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader81;
 
-class UpgradeDb extends AbstractTask
+class UpdateDatabase extends AbstractTask
 {
     const TASK_TYPE = TaskType::TASK_TYPE_UPDATE;
 
@@ -49,7 +50,7 @@ class UpgradeDb extends AbstractTask
         try {
             $this->getCoreUpgrader()->doUpgrade();
         } catch (UpgradeException $e) {
-            $this->next = 'error';
+            $this->next = TaskName::TASK_ERROR;
             $this->setErrorFlag();
             foreach ($e->getQuickInfos() as $log) {
                 $this->logger->debug($log);
@@ -59,7 +60,7 @@ class UpgradeDb extends AbstractTask
 
             return ExitCode::FAIL;
         }
-        $this->next = 'upgradeModules';
+        $this->next = TaskName::TASK_UPDATE_MODULES;
         $this->stepDone = true;
         $this->logger->info($this->translator->trans('Database upgraded. Now upgrading your Addons modules...'));
 

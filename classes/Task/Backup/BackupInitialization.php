@@ -25,20 +25,34 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\Task\Rollback;
+namespace PrestaShop\Module\AutoUpgrade\Task\Backup;
 
+use Exception;
+use PrestaShop\Module\AutoUpgrade\Analytics;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
+use PrestaShop\Module\AutoUpgrade\Task\TaskName;
 use PrestaShop\Module\AutoUpgrade\Task\TaskType;
 
-class NoRollbackFound extends AbstractTask
+class BackupInitialization extends AbstractTask
 {
-    const TASK_TYPE = TaskType::TASK_TYPE_RESTORE;
+    const TASK_TYPE = TaskType::TASK_TYPE_BACKUP;
 
+    /**
+     * @throws Exception
+     */
     public function run(): int
     {
-        $this->logger->info($this->translator->trans('Nothing to restore'));
-        $this->next = 'rollbackComplete';
+        $this->container->getState()->setProgressPercentage(
+            $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
+        );
+
+        $this->container->getAnalytics()->track('Backup launched', Analytics::WITH_BACKUP_PROPERTIES);
+
+        $this->stepDone = true;
+
+        $this->logger->info($this->translator->trans('Starting backup...'));
+        $this->next = TaskName::TASK_BACKUP_FILES;
 
         return ExitCode::SUCCESS;
     }

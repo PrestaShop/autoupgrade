@@ -31,6 +31,7 @@ use Exception;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
+use PrestaShop\Module\AutoUpgrade\Task\TaskName;
 
 /**
  * This class gets the list of all modified and deleted files between current version
@@ -44,7 +45,7 @@ class CompareReleases extends AbstractTask
     public function run(): int
     {
         // do nothing after this request (see javascript function doAjaxRequest )
-        $this->next = '';
+        $this->next = TaskName::TASK_COMPLETE;
         $upgrader = $this->container->getUpgrader();
         $checksumCompare = $this->container->getChecksumCompare();
         $version = $upgrader->getDestinationVersion();

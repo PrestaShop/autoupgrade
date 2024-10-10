@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Copyright since 2007 PrestaShop SA and Contributors
  * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
@@ -24,41 +23,12 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
+header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 
-namespace PrestaShop\Module\AutoUpgrade\Task\Runner;
+header('Cache-Control: no-store, no-cache, must-revalidate');
+header('Cache-Control: post-check=0, pre-check=0', false);
+header('Pragma: no-cache');
 
-/**
- * Execute the whole upgrade process in a single request.
- */
-class AllRollbackTasks extends ChainedTasks
-{
-    const initialTask = 'rollback';
-
-    /**
-     * @var string
-     */
-    protected $step = self::initialTask;
-
-    /**
-     * Customize the execution context with several options
-     * > action: Replace the initial step to run
-     * > channel: Makes a specific upgrade (minor, major etc.)
-     * > data: Loads an encoded array of data coming from another request.
-     *
-     * @param array<string, string> $options
-     */
-    public function setOptions(array $options): void
-    {
-        if (!empty($options['backup'])) {
-            $this->container->getState()->setRestoreName($options['backup']);
-        }
-    }
-
-    /**
-     * Set default config on first run.
-     */
-    public function init(): void
-    {
-        // Do nothing
-    }
-}
+header('Location: ../');
+exit;
