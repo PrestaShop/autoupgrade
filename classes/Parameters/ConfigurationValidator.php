@@ -41,10 +41,24 @@ class ConfigurationValidator
      */
     public function validate(array $array = []): void
     {
+        $isLocal = isset($array['channel']) && $array['channel'] === Upgrader::CHANNEL_LOCAL;
+
         foreach ($array as $key => $value) {
             switch ($key) {
                 case 'channel':
                     $this->validateChannel($value);
+                    break;
+                case 'archive_zip':
+                    $this->validateArchiveZip($value, $isLocal);
+                    break;
+                case 'archive_xml':
+                    $this->validateArchiveXml($value, $isLocal);
+                    break;
+                case 'PS_AUTOUP_CUSTOM_MOD_DESACT':
+                case 'PS_AUTOUP_KEEP_MAILS':
+                case 'PS_AUTOUP_KEEP_IMAGES':
+                case 'PS_DISABLE_OVERRIDES':
+                    $this->validateBool($value, $key);
                     break;
             }
         }
@@ -57,6 +71,36 @@ class ConfigurationValidator
     {
         if ($channel !== Upgrader::CHANNEL_LOCAL && $channel !== Upgrader::CHANNEL_ONLINE) {
             throw new UnexpectedValueException('Unknown channel ' . $channel);
+        }
+    }
+
+    /**
+     * @throws UnexpectedValueException
+     */
+    private function validateArchiveZip(string $zip, bool $isLocal): void
+    {
+        if ($isLocal && empty($zip)) {
+            throw new UnexpectedValueException('No zip archive provided');
+        }
+    }
+
+    /**
+     * @throws UnexpectedValueException
+     */
+    private function validateArchiveXml(string $xml, bool $isLocal): void
+    {
+        if ($isLocal && empty($xml)) {
+            throw new UnexpectedValueException('No xml archive provided');
+        }
+    }
+
+    /**
+     * @throws UnexpectedValueException
+     */
+    private function validateBool(string $boolValue, string $key): void
+    {
+        if (filter_var($boolValue, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) === null) {
+            throw new UnexpectedValueException('Value must be a boolean for ' . $key);
         }
     }
 }

@@ -61,11 +61,13 @@ class AllUpgradeTasks extends ChainedTasks
         }
 
         if (!empty($options['channel'])) {
-            $this->container->getUpgradeConfiguration()->merge([
+            $config = [
                 'channel' => $options['channel'],
                 // Switch on default theme if major upgrade (i.e: 1.6 -> 1.7)
                 'PS_AUTOUP_CHANGE_DEFAULT_THEME' => ($options['channel'] === 'major'),
-            ]);
+            ];
+            $this->container->getUpgradeConfiguration()->validate($config);
+            $this->container->getUpgradeConfiguration()->merge($config);
         }
 
         if (!empty($options['data'])) {

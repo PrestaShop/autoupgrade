@@ -42,17 +42,19 @@ class UpgradeConfiguration extends ArrayCollection
     const UPGRADE_CONST_KEYS = [
         'PS_AUTOUP_CUSTOM_MOD_DESACT',
         'PS_AUTOUP_CHANGE_DEFAULT_THEME',
-        'PS_AUTOUP_UPDATE_RTL_FILES',
         'PS_AUTOUP_KEEP_MAILS',
         'PS_AUTOUP_BACKUP',
         'PS_AUTOUP_KEEP_IMAGES',
         'PS_DISABLE_OVERRIDES',
+        'channel',
+        'archive_zip',
+        'archive_xml',
+        'archive_version_num',
     ];
 
     const PS_CONST_DEFAULT_VALUE = [
         'PS_AUTOUP_CUSTOM_MOD_DESACT' => 1,
         'PS_AUTOUP_CHANGE_DEFAULT_THEME' => 0,
-        'PS_AUTOUP_UPDATE_RTL_FILES' => 1,
         'PS_AUTOUP_KEEP_MAILS' => 0,
         'PS_AUTOUP_BACKUP' => 1,
         'PS_AUTOUP_KEEP_IMAGES' => 1,
@@ -202,14 +204,24 @@ class UpgradeConfiguration extends ArrayCollection
      */
     public function merge(array $array = []): void
     {
+        foreach ($array as $key => $value) {
+            $this->set($key, $value);
+        }
+    }
+
+    /**
+     * @param array<string, mixed> $array
+     *
+     * @return void
+     *
+     * @throws UnexpectedValueException
+     */
+    public function validate(array $array = []): void
+    {
         if ($this->validator === null) {
             $this->validator = new ConfigurationValidator();
         }
 
         $this->validator->validate($array);
-
-        foreach ($array as $key => $value) {
-            $this->set($key, $value);
-        }
     }
 }
