@@ -59,7 +59,7 @@ abstract class AbstractPageController extends AbstractGlobalController
     {
         $pageSelectors = new PageSelectors();
 
-        return $this->twig->render(
+        return $this->getTwig()->render(
             '@ModuleAutoUpgrade/layouts/layout.html.twig',
             array_merge(
                 [
@@ -76,7 +76,7 @@ abstract class AbstractPageController extends AbstractGlobalController
     {
         $pageSelectors = new PageSelectors();
 
-        return $this->twig->render(
+        return $this->getTwig()->render(
             '@ModuleAutoUpgrade/pages/' . $page . '.html.twig',
             array_merge(
                 $pageSelectors::getAllSelectors(),
