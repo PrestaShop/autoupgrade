@@ -1,4 +1,4 @@
-{% if not requirements.requirementsOk %}
+{% if requirements.warnings|length > 0 or requirements.errors|length > 0 %}
   <div class="check-requirements check-requirements--failed">
     <p class="check-requirements__title h3">
       {{ "Update requirements"|trans({}) }}
