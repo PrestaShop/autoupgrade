@@ -27,8 +27,6 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Parameters;
 
-use PrestaShop\Module\AutoUpgrade\Upgrader;
-
 class UpgradeConfigurationStorage extends FileConfigurationStorage
 {
     public function load(string $fileName = ''): UpgradeConfiguration
