@@ -69,7 +69,7 @@ class UpdatePageVersionChoiceController extends AbstractPageController
      */
     public function step(): string
     {
-        return $this->twig->render(
+        return $this->getTwig()->render(
             '@ModuleAutoUpgrade/steps/version-choice.html.twig',
             $this->getParams()
         );
@@ -212,13 +212,13 @@ class UpdatePageVersionChoiceController extends AbstractPageController
         $controller->run();
 
         if ($channel === self::FORM_OPTIONS['local_value']) {
-            return AjaxResponseBuilder::hydrationResponse(PageSelectors::RADIO_CARD_ARCHIVE_PARENT_ID, $this->twig->render(
+            return AjaxResponseBuilder::hydrationResponse(PageSelectors::RADIO_CARD_ARCHIVE_PARENT_ID, $this->getTwig()->render(
                 '@ModuleAutoUpgrade/components/radio-card-archive.html.twig',
                 $this->getParams()
             ));
         }
 
-        return AjaxResponseBuilder::hydrationResponse(PageSelectors::RADIO_CARD_ONLINE_PARENT_ID, $this->twig->render(
+        return AjaxResponseBuilder::hydrationResponse(PageSelectors::RADIO_CARD_ONLINE_PARENT_ID, $this->getTwig()->render(
             '@ModuleAutoUpgrade/components/radio-card-online.html.twig',
             $this->getParams()
         ));
