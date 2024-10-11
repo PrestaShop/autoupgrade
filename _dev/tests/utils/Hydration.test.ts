@@ -94,4 +94,24 @@ describe('Hydration', () => {
         <p>Old Content</p>
       `);
   });
+
+  it('should dispatch the hydration event on the updated element', () => {
+    const response: ApiResponseHydration = {
+      hydration: true,
+      new_content: `<p>New Content</p>`,
+      parent_to_update: 'parent',
+      new_route: undefined
+    };
+
+    const updatedElement = document.getElementById('parent');
+    const dispatchEventSpy = jest.spyOn(updatedElement!, 'dispatchEvent');
+
+    hydration.hydrate(response);
+
+    expect(dispatchEventSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: Hydration.hydrationEventName
+      })
+    );
+  });
 });
