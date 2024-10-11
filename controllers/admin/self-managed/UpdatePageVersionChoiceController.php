@@ -143,7 +143,13 @@ class UpdatePageVersionChoiceController extends AbstractPageController
             ]
         );
 
-        if ($currentChannel) {
+        if ($currentChannel === self::FORM_OPTIONS['online_value'] ||
+            (
+                $currentChannel === self::FORM_OPTIONS['local_value']
+                && in_array($upgradeConfiguration->getArchiveZip(), $archiveRepository->getZipLocalArchive())
+                && in_array($upgradeConfiguration->getArchiveXml(), $archiveRepository->getXmlLocalArchive())
+            )
+        ) {
             $params[$currentChannel. '_requirements'] = $this->getRequirements();
         }
 
@@ -182,7 +188,7 @@ class UpdatePageVersionChoiceController extends AbstractPageController
         }
 
         return [
-            'requirementsOk' => empty($errors),
+            'requirements_ok' => empty($errors),
             'warnings' => $warnings,
             'errors' => $errors,
         ];
