@@ -602,19 +602,19 @@ class UpgradeContainer
             return $this->twig;
         }
 
-        if (class_exists(Twig_Environment::class)) {
+        if (class_exists(Environment::class)) {
+            // We use Twig 3
+            $loader = new FilesystemLoader();
+            $loader->addPath(realpath(__DIR__ . '/..') . '/views/templates', 'ModuleAutoUpgrade');
+            $twig = new Environment($loader);
+            $twig->addExtension(new TransFilterExtension3($this->getTranslator()));
+        } else {
             // We use Twig 1
             // Using independant template engine for 1.6 & 1.7 compatibility
             $loader = new Twig_Loader_Filesystem();
             $loader->addPath(realpath(__DIR__ . '/..') . '/views/templates', 'ModuleAutoUpgrade');
             $twig = new Twig_Environment($loader);
             $twig->addExtension(new TransFilterExtension($this->getTranslator()));
-        } else {
-            // We use Twig 3
-            $loader = new FilesystemLoader();
-            $loader->addPath(realpath(__DIR__ . '/..') . '/views/templates', 'ModuleAutoUpgrade');
-            $twig = new Environment($loader);
-            $twig->addExtension(new TransFilterExtension3($this->getTranslator()));
         }
 
         $this->twig = $twig;
