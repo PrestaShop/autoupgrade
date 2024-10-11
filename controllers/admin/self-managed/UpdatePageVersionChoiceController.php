@@ -156,8 +156,14 @@ class UpdatePageVersionChoiceController extends AbstractPageController
         return $params;
     }
 
+    /**
+     * @throws Exception
+     */
     private function getRequirements(): array
     {
+        $controller = new UpdateConfig($this->upgradeContainer);
+        $controller->init();
+
         $distributionApiService = new DistributionApiService();
         $phpVersionResolverService = new PhpVersionResolverService(
             $distributionApiService,
