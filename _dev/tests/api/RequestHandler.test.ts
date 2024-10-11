@@ -1,6 +1,5 @@
 import baseApi from '../../src/ts/api/baseApi';
 import { ApiResponse } from '../../src/ts/types/apiTypes';
-import Hydration from '../../src/ts/utils/Hydration';
 import { RequestHandler } from '../../src/ts/api/RequestHandler';
 
 jest.mock('../../src/ts/api/baseApi', () => ({
