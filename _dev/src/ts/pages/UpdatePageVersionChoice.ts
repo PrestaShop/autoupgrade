@@ -10,8 +10,6 @@ export default class UpdatePageVersionChoice extends UpdatePage {
     super();
   }
 
-  // TODO : add check requirements again handle on click
-
   public mount = () => {
     this.initStepper();
     if (this.form) {
