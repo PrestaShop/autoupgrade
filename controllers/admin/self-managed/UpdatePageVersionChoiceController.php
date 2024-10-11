@@ -139,7 +139,7 @@ class UpdatePageVersionChoiceController extends AbstractPageController
                     self::FORM_FIELDS['channel'] => $currentChannel,
                     self::FORM_FIELDS['archive_zip'] => $upgradeConfiguration->getArchiveZip(),
                     self::FORM_FIELDS['archive_xml'] => $upgradeConfiguration->getArchiveXml(),
-                ]
+                ],
             ]
         );
 
@@ -150,7 +150,7 @@ class UpdatePageVersionChoiceController extends AbstractPageController
                 && in_array($upgradeConfiguration->getArchiveXml(), $archiveRepository->getXmlLocalArchive())
             )
         ) {
-            $params[$currentChannel. '_requirements'] = $this->getRequirements();
+            $params[$currentChannel . '_requirements'] = $this->getRequirements();
         }
 
         return $params;
@@ -220,7 +220,7 @@ class UpdatePageVersionChoiceController extends AbstractPageController
 
     public function submit(): JsonResponse
     {
-        /** we dont check again because the button is only accessible if check are ok */
+        /* we dont check again because the button is only accessible if check are ok */
         return new JsonResponse([
             'next_route' => Routes::UPDATE_STEP_UPDATE_OPTIONS,
         ]);

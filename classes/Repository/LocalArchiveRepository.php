@@ -20,7 +20,8 @@ class LocalArchiveRepository
     public function getZipLocalArchive()
     {
         $files = glob($this->downloadPath . DIRECTORY_SEPARATOR . '*.zip');
-        return $files ? array_map('basename', $files): false;
+
+        return $files ? array_map('basename', $files) : false;
     }
 
     /**
@@ -29,7 +30,8 @@ class LocalArchiveRepository
     public function getXmlLocalArchive()
     {
         $files = glob($this->downloadPath . DIRECTORY_SEPARATOR . '*.xml');
-        return $files ? array_map('basename', $files): false;
+
+        return $files ? array_map('basename', $files) : false;
     }
 
     public function hasLocalArchive(): bool
