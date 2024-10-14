@@ -125,7 +125,7 @@ class UpdatePageVersionChoiceController extends AbstractPageController
                     'xml' => $archiveRepository->getXmlLocalArchive(),
                 ],
                 'next_release' => [
-                    'version' => $onlineDestination ? $onlineDestination->getVersion() : '0.0.0',
+                    'version' => $onlineDestination ? $onlineDestination->getVersion() : null,
                     'badge_label' => $updateLabel,
                     'badge_status' => $updateType,
                     'release_note' => $releaseNote,
