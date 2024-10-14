@@ -79,9 +79,69 @@ class Backlog
         return array_pop($this->backlog);
     }
 
-    public function getRemainingTotal(): int
+    /**
+     * @return int|string|null
+     */
+    public function getFirstKey()
     {
-        return count($this->backlog);
+        if (empty($this->backlog)) {
+            return null;
+        }
+
+        reset($this->backlog);
+
+        return key($this->backlog);
+    }
+
+    /**
+     * @return mixed|null
+     */
+    public function getFirstValue()
+    {
+        if (empty($this->backlog)) {
+            return null;
+        }
+
+        return reset($this->backlog);
+    }
+
+    /**
+     * @param int|string $key
+     * @param mixed $content
+     */
+    public function updateItem($key, $content): void
+    {
+        if (empty($content)) {
+            unset($this->backlog[$key]);
+        } else {
+            $this->backlog[$key] = $content;
+        }
+    }
+
+    public function getRemainingTotal(int $depth = 1): int
+    {
+        return $this->countElements($this->backlog, $depth);
+    }
+
+    /**
+     * @param mixed[] $array
+     */
+    private function countElements(array $array, int $depth): int
+    {
+        if ($depth === 1) {
+            return count($array);
+        }
+
+        $total = 0;
+        foreach ($array as $value) {
+            if (is_array($value)) {
+                $total += $this->countElements($value, $depth - 1);
+            } else {
+                ++$total;
+            }
+        }
+
+        return $total;
     }
 
     public function getInitialTotal(): int
