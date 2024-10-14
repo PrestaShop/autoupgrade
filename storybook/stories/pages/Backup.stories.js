@@ -24,33 +24,16 @@
  */
 
 import BackupPage from "../../../views/templates/pages/update.html.twig";
+import { Backup as Stepper } from "../components/Stepper.stories";
 
 export default {
   component: BackupPage,
   title: "Pages/Update",
+};
+
+export const Backup = {
   args: {
-    steps: [
-      {
-        state: "done",
-        title: "Version choice",
-      },
-      {
-        state: "done",
-        title: "Update options",
-      },
-      {
-        state: "current",
-        title: "Backup",
-      },
-      {
-        state: "normal",
-        title: "Update",
-      },
-      {
-        state: "normal",
-        title: "Post-update",
-      },
-    ],
+    // Step
     step: {
       code: "backup",
       title: "Backup",
@@ -58,7 +41,7 @@ export default {
     default_backup_files_and_database: true,
     default_include_images: false,
     step_parent_id: "ua_container",
+    // Stepper
+    ...Stepper.args,
   },
 };
-
-export const Backup = {};

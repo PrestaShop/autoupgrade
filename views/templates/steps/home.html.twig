@@ -26,7 +26,9 @@
       radioValue: form_options.restore_value,
       disabled: empty_backup,
       disabledMessage: empty_backup ? 'No backup file found on your store.'|trans({}) : null,
-      required: true
+      required: true,
+      badgeLabel: "",
+      badgeStatus: "",
     } %}
   </form>
 {% endblock %}

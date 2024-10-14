@@ -28,6 +28,9 @@ import Logs from "../../../views/templates/components/logs.html.twig";
 export default {
   component: Logs,
   title: "Components/Logs",
+};
+
+export const Default = {
   args: {
     logs: [
       {
@@ -175,8 +178,6 @@ export default {
     downloadLogsButtonLabel: "Download update logs",
   },
 };
-
-export const Default = {};
 
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".logs__summary-anchor").forEach(anchor => {

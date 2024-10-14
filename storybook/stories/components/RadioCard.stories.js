@@ -24,8 +24,8 @@
  */
 
 import RadioCard from "../../../views/templates/components/radio-card.html.twig";
-import LocalArchive from "./LocalArchive.stories";
-import CheckRequirements from "./CheckRequirements.stories";
+import { Default as LocalArchive } from "./LocalArchive.stories";
+import { Default as CheckRequirements } from "./CheckRequirements.stories";
 
 export default {
   component: RadioCard,
@@ -36,50 +36,40 @@ export default {
       options: ["major", "minor", "patch"],
     },
   },
+};
+
+export const Default = {
   args: {
+    // Local archive
+    ...LocalArchive.args,
+    // Requirements
+    ...CheckRequirements.args,
     radioCardId: "",
-    radioName: "test",
+    radioName: "",
     radioValue: "",
     checked: false,
     required: false,
-    title: "Update your store",
-    message: "Update your store to benefit from the latest improvements, bug fixes and security patches.",
+    title: "Radio card title",
+    message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eros lacus, tincidunt egestas lacus ac, placerat eleifend eros.",
     disabled: false,
-    disabledMessage: "No backup file found on your store.",
-    badgeLabel: "Major version",
-    badgeStatus: "major",
-    releaseNote: "https://github.com/PrestaShop/autoupgrade",
+    disabledMessage: "",
+    badgeLabel: "",
+    badgeStatus: "",
+    releaseNote: "",
     archiveCard: false,
     enableRequirementsCheck: false,
-    ...LocalArchive.args,
-    ...CheckRequirements.args,
+    form_options: {
+      update_value: "update",
+      restore_value: "restore",
+    },
   },
 };
-
-export const Default = {};
 
 export const Requirements = {
   args: {
+    // Requirements
+    ...Default.args,
     checked: true,
     enableRequirementsCheck: true,
-    ...LocalArchive.args,
-    ...CheckRequirements.args,
-    requirementsOk: false,
   },
 };
-
-document.addEventListener("DOMContentLoaded", () => {
-  const radioCards = document.querySelectorAll(
-    '.radio-card input[type="radio"]',
-  );
-
-  radioCards.forEach((radio) => {
-    radio.addEventListener("click", function () {
-      radioCards.forEach((radio) => {
-        if (radio !== this) {
-          radio.checked = false;
-        }
-      });
-    });
-  });
-});

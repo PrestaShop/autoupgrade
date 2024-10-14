@@ -34,6 +34,10 @@ export default {
       options: ["info", "success", "warning", "danger"],
     },
   },
+  includeStories: ["Default"],
+};
+
+export const Default = {
   args: {
     title: "Backup completed",
     message: "It’s available at admin/autoupgrade/backup. You're ready to start the update now.",
@@ -43,4 +47,13 @@ export default {
   },
 };
 
-export const Default = {};
+export const NoLocalArchive = {
+  args: {
+    title: "",
+    message: "It’s available at admin/autoupgrade/backup. You're ready to start the update now.",
+    alertStatus: "success",
+    buttonLabel: "",
+    buttonUrl: "",
+  },
+};
+

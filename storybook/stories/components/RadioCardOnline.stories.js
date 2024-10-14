@@ -24,36 +24,38 @@
  */
 
 import RadioCardOnline from "../../../views/templates/components/radio-card-online.html.twig";
-import CheckRequirements from "./CheckRequirements.stories";
 
 export default {
   component: RadioCardOnline,
   title: "Components/Radio card",
-  argTypes: {
-    badgeStatus: {
-      control: "select",
-      options: ["major", "minor", "patch"],
-    },
-  },
-  args: {
-    ...CheckRequirements.args,
-  },
 };
 
 export const Online = {
   args: {
-    radioCardId: "canal_choice",
-    radioName: "canal_choice",
-    radioValue: "online",
-    checked: false,
-    title: "Local archive",
-    message: "The maximum version of PrestaShop to which you can upgrade your store, based on its PHP version.",
     disabled: false,
     disabledMessage: "",
-    badgeLabel: "Major version",
-    badgeStatus: "major",
-    releaseNote: "https://github.com/PrestaShop/autoupgrade",
-    enableRequirementsCheck: true,
-    ...CheckRequirements.args,
+    form_options: {
+      online_value: false,
+      local_value: false,
+    },
+    form_fields: {
+      channel: "online",
+      archive_zip: "online",
+      archive_xml: "online",
+    },
+    current_values: {
+      channel: "online",
+    },
+    next_release: {
+      badge_label: "Major version",
+      badge_status: "major",
+      release_note: "https://github.com/PrestaShop/autoupgrade",
+      version: "9.0.0",
+    },
+    online_requirements: {
+      requirements_ok: true,
+      errors: [],
+      warnings: [],
+    },
   },
 };

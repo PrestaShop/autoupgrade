@@ -28,6 +28,10 @@ import Stepper from "../../../views/templates/components/stepper.html.twig";
 export default {
   component: Stepper,
   title: "Components/Stepper",
+  includeStories: ["Default"],
+};
+
+export const Default = {
   args: {
     stepper_parent_id: "stepper_content",
     steps: [
@@ -60,4 +64,190 @@ export default {
   },
 };
 
-export const Default = {};
+export const VersionChoice = {
+  args: {
+    stepper_parent_id: "stepper_content",
+    steps: [
+      {
+        state: "current",
+        title: "Version choice",
+        code: "version_choice",
+      },
+      {
+        state: "normal",
+        title: "Update options",
+        code: "update_options",
+      },
+      {
+        state: "normal",
+        title: "Backup",
+        code: "backup",
+      },
+      {
+        state: "normal",
+        title: "Update",
+        code: "update",
+      },
+      {
+        state: "normal",
+        title: "Post-update",
+        code: "post_update",
+      },
+    ],
+  },
+};
+
+export const UpdateOptions = {
+  args: {
+    stepper_parent_id: "stepper_content",
+    steps: [
+      {
+        state: "done",
+        title: "Version choice",
+        code: "version_choice",
+      },
+      {
+        state: "current",
+        title: "Update options",
+        code: "update_options",
+      },
+      {
+        state: "normal",
+        title: "Backup",
+        code: "backup",
+      },
+      {
+        state: "normal",
+        title: "Update",
+        code: "update",
+      },
+      {
+        state: "normal",
+        title: "Post-update",
+        code: "post_update",
+      },
+    ],
+  },
+};
+
+export const Backup = {
+  args: {
+    stepper_parent_id: "stepper_content",
+    steps: [
+      {
+        state: "done",
+        title: "Version choice",
+        code: "version_choice",
+      },
+      {
+        state: "done",
+        title: "Update options",
+        code: "update_options",
+      },
+      {
+        state: "current",
+        title: "Backup",
+        code: "backup",
+      },
+      {
+        state: "normal",
+        title: "Update",
+        code: "update",
+      },
+      {
+        state: "normal",
+        title: "Post-update",
+        code: "post_update",
+      },
+    ],
+  },
+};
+
+export const Update = {
+  args: {
+    stepper_parent_id: "stepper_content",
+    steps: [
+      {
+        state: "done",
+        title: "Version choice",
+        code: "version_choice",
+      },
+      {
+        state: "done",
+        title: "Update options",
+        code: "update_options",
+      },
+      {
+        state: "done",
+        title: "Backup",
+        code: "backup",
+      },
+      {
+        state: "current",
+        title: "Update",
+        code: "update",
+      },
+      {
+        state: "normal",
+        title: "Post-update",
+        code: "post_update",
+      },
+    ],
+  },
+};
+
+export const PostUpdate = {
+  args: {
+    stepper_parent_id: "stepper_content",
+    steps: [
+      {
+        state: "done",
+        title: "Version choice",
+        code: "version_choice",
+      },
+      {
+        state: "done",
+        title: "Update options",
+        code: "update_options",
+      },
+      {
+        state: "done",
+        title: "Backup",
+        code: "backup",
+      },
+      {
+        state: "done",
+        title: "Update",
+        code: "update",
+      },
+      {
+        state: "current",
+        title: "Post-update",
+        code: "post_update",
+      },
+    ],
+  },
+};
+
+export const Restore = {
+  args: {
+    stepper_parent_id: "stepper_content",
+    steps: [
+      {
+        state: "current",
+        title: "Backup selection",
+        code: "backup_selection",
+      },
+      {
+        state: "normal",
+        title: "Restore",
+        code: "restore",
+      },
+      {
+        state: "normal",
+        title: "Post-restore",
+        code: "post_restore",
+      },
+    ],
+  },
+};

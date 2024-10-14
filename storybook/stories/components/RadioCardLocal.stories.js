@@ -23,42 +23,52 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-import RadioCardArchive from "../../../views/templates/components/radio-card-local.html.twig";
-import LocalArchive from "./LocalArchive.stories";
-import CheckRequirements from "./CheckRequirements.stories";
+import RadioCardLocal from "../../../views/templates/components/radio-card-local.html.twig";
+import { Default as LocalArchive } from "./LocalArchive.stories";
 
 export default {
-  component: RadioCardArchive,
+  component: RadioCardLocal,
   title: "Components/Radio card",
-  argTypes: {
-    badgeStatus: {
-      control: "select",
-      options: ["major", "minor", "patch"],
-    },
-  },
-  args: {
-    ...LocalArchive.args,
-    ...CheckRequirements.args,
-  },
 };
 
-export const Archive = {
+export const Local = {
   args: {
-    radioCardId: "local_archive",
-    radioName: "local_archive",
-    radioValue: "local",
-    checked: true,
-    required: false,
-    title: "Local archive",
-    message:
-      "Save the archive file of the version you want to update to in the following directory: /admin/autoupgrade/download/",
+    ...LocalArchive.args,
     disabled: false,
     disabledMessage: "No backup file found on your store.",
+    required: false,
     badgeLabel: "",
     releaseNote: "",
-    archiveCard: true,
-    enableRequirementsCheck: false,
-    ...LocalArchive.args,
-    ...CheckRequirements.args,
+    form_options: {
+      online_value: false,
+      local_value: false,
+    },
+    form_fields: {
+      channel: "local",
+      archive_zip: "local",
+      archive_xml: "local",
+    },
+    current_values: {
+      channel: "local",
+      archive_zip: "local.zip",
+      archive_xml: "local.xml",
+    },
+    local_archives: {
+      zip: [
+        "archive1.zip",
+        "archive2.zip",
+        "archive3.zip",
+      ],
+      xml: [
+        "archive1.xml",
+        "archive2.xml",
+        "archive3.xml",
+      ]
+    },
+    local_requirements: {
+      requirements_ok: true,
+      errors: [],
+      warnings: [],
+    },
   },
 };

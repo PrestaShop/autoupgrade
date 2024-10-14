@@ -157,6 +157,7 @@ $e: ".radio-card";
       font-size: 0.75rem;
       font-weight: 600;
       line-height: 1.5;
+      border-radius: var(--#{$ua-prefix}border-radius);
       color: var(--#{$ua-prefix}radio-card-badge-color);
 
       &--major {

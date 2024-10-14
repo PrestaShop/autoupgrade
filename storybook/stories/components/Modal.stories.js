@@ -34,6 +34,9 @@ export default {
       options: ["sm", "md", "lg"],
     },
   },
+};
+
+export const Default = {
   args: {
     modalId: "modal_id",
     title: "Title goes here",
@@ -43,8 +46,6 @@ export default {
     modalDanger: false,
   },
 };
-
-export const Default = {};
 
 document.addEventListener("DOMContentLoaded", () => {
   const modals = document.querySelectorAll(".modal");

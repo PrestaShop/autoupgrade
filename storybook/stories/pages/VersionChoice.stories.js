@@ -24,62 +24,40 @@
  */
 
 import VersionChoicePage from "../../../views/templates/pages/update.html.twig";
-import LocalArchive from "../components/LocalArchive.stories";
-import RadioCard from "../components/RadioCard.stories";
+import { Online } from "../components/RadioCardOnline.stories";
+import { Local } from "../components/RadioCardLocal.stories";
+import { NoLocalArchive } from "../components/Alert.stories";
+import { VersionChoice as Stepper } from "../components/Stepper.stories";
 
 export default {
   component: VersionChoicePage,
   title: "Pages/Update",
+};
+
+export const VersionChoice = {
   args: {
-    ...RadioCard.args,
-    ...LocalArchive.args,
-    steps: [
-      {
-        state: "current",
-        title: "Version choice",
-      },
-      {
-        state: "normal",
-        title: "Update options",
-      },
-      {
-        state: "normal",
-        title: "Backup",
-      },
-      {
-        state: "normal",
-        title: "Update",
-      },
-      {
-        state: "normal",
-        title: "Post-update",
-      },
-    ],
+    // Step
     step: {
       code: "version-choice",
       title: "Version choice",
     },
-    psBaseUri: "/",
-    assetsBasePath: "/",
     up_to_date: false,
     no_local_archive: true,
     current_prestashop_version: "8.1.6",
     current_php_version: "8.1",
-    next_release: {
-      version: "9.0.0",
-      badge_label: "Major version",
-      badge_status: "major",
-      release_note: "https://github.com/PrestaShop/autoupgrade"
-    },
-    local_archives: {
-      zip: ["prestashop.zip"],
-      xml: ["prestashop.xml"],
-    },
     assets_base_path: "",
     step_parent_id: "ua_container",
+    stepper_parent_id: "stepper_content",
     radio_card_online_parent_id: "radio_card_online",
     radio_card_archive_parent_id: "radio_card_archive",
+    form_route_to_save: "update-step-version-choice-save-form",
+    form_route_to_submit: "update-step-version-choice-submit-form",
+    // Radio cards
+    ...Online.args,
+    ...Local.args,
+    // Stepper
+    ...Stepper.args,
+    // Alert
+    ...NoLocalArchive.args,
   },
 };
-
-export const VersionChoice = {};

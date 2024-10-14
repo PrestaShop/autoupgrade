@@ -24,14 +24,16 @@
  */
 
 import PageLayout from "../../../views/templates/layouts/page.html.twig";
-import Stepper from "../components/Stepper.stories";
+import { Default as Stepper } from "../components/Stepper.stories";
 
 export default {
   component: PageLayout,
   title: "Layouts/Pages",
-  args: {
-    ...Stepper.args,
-  },
 };
 
-export const Default = {};
+export const Default = {
+  args: {
+    ...Stepper.args,
+    step_parent_id: "ua_container",
+  },
+};
