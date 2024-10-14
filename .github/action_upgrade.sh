@@ -24,7 +24,7 @@ if [[ $CHANNEL == "local" ]]; then
     docker exec -u www-data prestashop_autoupgrade php modules/autoupgrade/bin/console backup:create admin-dev
   fi
 
-  echo "{\"channel\":\"local\",\"archive_prestashop\":\"prestashop.zip\",\"archive_num\":\"${VERSION}\", \"archive_xml\":\"prestashop.xml\", \"PS_AUTOUP_CHANGE_DEFAULT_THEME\":${UPDATE_THEME}" > modules/autoupgrade/config.json
+  echo "{\"channel\":\"local\",\"archive_zip\":\"prestashop.zip\",\"archive_num\":\"${VERSION}\", \"archive_xml\":\"prestashop.xml\", \"PS_AUTOUP_CHANGE_DEFAULT_THEME\":${UPDATE_THEME}" > modules/autoupgrade/config.json
   docker exec -u www-data prestashop_autoupgrade php modules/autoupgrade/bin/console update:start --action="CompareReleases" --config-file-path="modules/autoupgrade/config.json" admin-dev
   docker exec -u www-data prestashop_autoupgrade php modules/autoupgrade/bin/console update:start --config-file-path="modules/autoupgrade/config.json" admin-dev
 fi
