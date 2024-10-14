@@ -241,7 +241,7 @@ class UpgradeContainer
     /**
      * @throws Exception
      */
-    public function getProperty(string $property): string
+    public function getProperty(string $property): ?string
     {
         switch ($property) {
             case self::PS_ADMIN_PATH:
