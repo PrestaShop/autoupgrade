@@ -213,7 +213,7 @@ class UpdatePageVersionChoiceController extends AbstractPageController
 
         if ($channel === self::FORM_OPTIONS['local_value']) {
             return AjaxResponseBuilder::hydrationResponse(PageSelectors::RADIO_CARD_ARCHIVE_PARENT_ID, $this->getTwig()->render(
-                '@ModuleAutoUpgrade/components/radio-card-archive.html.twig',
+                '@ModuleAutoUpgrade/components/radio-card-local.html.twig',
                 $this->getParams()
             ));
         }

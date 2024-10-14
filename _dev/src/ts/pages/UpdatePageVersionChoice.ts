@@ -152,7 +152,7 @@ export default class UpdatePageVersionChoice extends UpdatePage {
 
   private get onlineInputElement(): HTMLInputElement | undefined {
     return this.form
-      ? (this.form!.elements.namedItem('online') as HTMLInputElement | undefined)
+      ? (this.form?.elements.namedItem('online') as HTMLInputElement | undefined)
       : undefined;
   }
 
@@ -167,7 +167,7 @@ export default class UpdatePageVersionChoice extends UpdatePage {
 
   private get localInputElement(): HTMLInputElement | undefined {
     return this.form
-      ? (this.form!.elements.namedItem('local') as HTMLInputElement | undefined)
+      ? (this.form?.elements.namedItem('local') as HTMLInputElement | undefined)
       : undefined;
   }
 
@@ -177,7 +177,7 @@ export default class UpdatePageVersionChoice extends UpdatePage {
 
   private get archiveZipSelectElement(): HTMLSelectElement | undefined {
     return this.form
-      ? (this.form!.elements.namedItem('archive_zip') as HTMLSelectElement | undefined)
+      ? (this.form?.elements.namedItem('archive_zip') as HTMLSelectElement | undefined)
       : undefined;
   }
 
@@ -187,7 +187,7 @@ export default class UpdatePageVersionChoice extends UpdatePage {
 
   private get archiveXmlSelectElement(): HTMLSelectElement | undefined {
     return this.form
-      ? (this.form!.elements.namedItem('archive_xml') as HTMLSelectElement | undefined)
+      ? (this.form?.elements.namedItem('archive_xml') as HTMLSelectElement | undefined)
       : undefined;
   }
 
