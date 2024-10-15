@@ -33,7 +33,7 @@ INSERT INTO `PREFIX_feature_flag` (`name`, `type`, `label_wording`, `label_domai
   ('merchandise_return', 'env,dotenv,db', 'Merchandise return', 'Admin.Advparameters.Feature', 'Enable / Disable the merchandise return page.', 'Admin.Advparameters.Help', 0, 'beta');
 
 /* Remove old feature flags from 8.1.x */
-DELETE FROM `PREFIX_feature_flag` WHERE `name` IN ('product_page_v2', 'title', 'order_state', 'multiple_image_format');
+DELETE FROM `PREFIX_feature_flag` WHERE `name` IN ('product_page_v2', 'title', 'order_state', 'multiple_image_format', 'attribute_group');
 
 /* Category redirect */
 /* PHP:add_column('category', 'redirect_type', 'ENUM(\'404\', \'410\', \'301\', \'302\') NOT NULL DEFAULT \'301\''); */;
