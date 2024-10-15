@@ -42,17 +42,19 @@ class UpgradeConfiguration extends ArrayCollection
     const UPGRADE_CONST_KEYS = [
         'PS_AUTOUP_CUSTOM_MOD_DESACT',
         'PS_AUTOUP_CHANGE_DEFAULT_THEME',
-        'PS_AUTOUP_UPDATE_RTL_FILES',
         'PS_AUTOUP_KEEP_MAILS',
         'PS_AUTOUP_BACKUP',
         'PS_AUTOUP_KEEP_IMAGES',
         'PS_DISABLE_OVERRIDES',
+        'channel',
+        'archive_zip',
+        'archive_xml',
+        'archive_version_num',
     ];
 
     const PS_CONST_DEFAULT_VALUE = [
         'PS_AUTOUP_CUSTOM_MOD_DESACT' => 1,
         'PS_AUTOUP_CHANGE_DEFAULT_THEME' => 0,
-        'PS_AUTOUP_UPDATE_RTL_FILES' => 1,
         'PS_AUTOUP_KEEP_MAILS' => 0,
         'PS_AUTOUP_BACKUP' => 1,
         'PS_AUTOUP_KEEP_IMAGES' => 1,
@@ -76,12 +78,12 @@ class UpgradeConfiguration extends ArrayCollection
     /**
      * Get the name of the new release archive.
      */
-    public function getArchiveZip(): string
+    public function getArchiveZip(): ?string
     {
         return $this->get('archive_zip');
     }
 
-    public function getArchiveXml(): string
+    public function getArchiveXml(): ?string
     {
         return $this->get('archive_xml');
     }
@@ -89,7 +91,7 @@ class UpgradeConfiguration extends ArrayCollection
     /**
      * Get the version included in the new release.
      */
-    public function getArchiveVersion(): string
+    public function getArchiveVersion(): ?string
     {
         return $this->get('archive_version_num');
     }
@@ -136,7 +138,7 @@ class UpgradeConfiguration extends ArrayCollection
 
     public function shouldBackupFilesAndDatabase(): bool
     {
-        return (bool) $this->get('PS_AUTOUP_BACKUP');
+        return filter_var($this->get('PS_AUTOUP_BACKUP'), FILTER_VALIDATE_BOOLEAN);
     }
 
     /**
@@ -144,7 +146,7 @@ class UpgradeConfiguration extends ArrayCollection
      */
     public function shouldBackupImages(): bool
     {
-        return (bool) $this->get('PS_AUTOUP_KEEP_IMAGES');
+        return filter_var($this->get('PS_AUTOUP_KEEP_IMAGES'), FILTER_VALIDATE_BOOLEAN);
     }
 
     /**
@@ -152,7 +154,7 @@ class UpgradeConfiguration extends ArrayCollection
      */
     public function shouldDeactivateCustomModules(): bool
     {
-        return (bool) $this->get('PS_AUTOUP_CUSTOM_MOD_DESACT');
+        return filter_var($this->get('PS_AUTOUP_CUSTOM_MOD_DESACT'), FILTER_VALIDATE_BOOLEAN);
     }
 
     /**
@@ -160,7 +162,7 @@ class UpgradeConfiguration extends ArrayCollection
      */
     public function shouldKeepMails(): bool
     {
-        return (bool) $this->get('PS_AUTOUP_KEEP_MAILS');
+        return filter_var($this->get('PS_AUTOUP_KEEP_MAILS'), FILTER_VALIDATE_BOOLEAN);
     }
 
     /**
@@ -168,7 +170,7 @@ class UpgradeConfiguration extends ArrayCollection
      */
     public function shouldSwitchToDefaultTheme(): bool
     {
-        return (bool) $this->get('PS_AUTOUP_CHANGE_DEFAULT_THEME');
+        return filter_var($this->get('PS_AUTOUP_CHANGE_DEFAULT_THEME'), FILTER_VALIDATE_BOOLEAN);
     }
 
     public static function isOverrideAllowed(): bool
@@ -202,14 +204,24 @@ class UpgradeConfiguration extends ArrayCollection
      */
     public function merge(array $array = []): void
     {
+        foreach ($array as $key => $value) {
+            $this->set($key, $value);
+        }
+    }
+
+    /**
+     * @param array<string, mixed> $array
+     *
+     * @return void
+     *
+     * @throws UnexpectedValueException
+     */
+    public function validate(array $array = []): void
+    {
         if ($this->validator === null) {
             $this->validator = new ConfigurationValidator();
         }
 
         $this->validator->validate($array);
-
-        foreach ($array as $key => $value) {
-            $this->set($key, $value);
-        }
     }
 }
