@@ -72,14 +72,14 @@ class Upgrader
      * downloadLast download the last version of PrestaShop and save it in $dest/$filename.
      *
      * @param string $dest directory where to save the file
-     * @param string $filename new filename
+     * @param string|null $filename new filename
      *
      * @throws DistributionApiException
      * @throws UpgradeException
      *
      * @TODO ftp if copy is not possible (safe_mode for example)
      */
-    public function downloadLast(string $dest, string $filename = 'prestashop.zip'): bool
+    public function downloadLast(string $dest, ?string $filename = self::DEFAULT_FILENAME): bool
     {
         if ($this->onlineDestinationRelease === null) {
             $this->getOnlineDestinationRelease();
