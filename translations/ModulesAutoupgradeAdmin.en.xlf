@@ -216,62 +216,57 @@
       <trans-unit id="926abe867e8b1be1c0b053234cae77ba">
         <source>Database backup skipped. Now upgrading files...</source>
         <target>Database backup skipped. Now upgrading files...</target>
-        <note>Line: 52</note>
-      </trans-unit>
-      <trans-unit id="555231214d7c729089e80f561e118f45">
-        <source>Backup directory is not writable (%path%).</source>
-        <target>Backup directory is not writable (%path%).</target>
-        <note>Line: 62</note>
-      </trans-unit>
-      <trans-unit id="d12ae4e7f0d20f4a4ca357d48e42877e">
-        <source>Backup file %s already exists. Operation aborted.</source>
-        <target>Backup file %s already exists. Operation aborted.</target>
-        <note>Line: 142</note>
-      </trans-unit>
-      <trans-unit id="d82896159c60199272e5ea481a733eba">
-        <source>Unable to create backup database file %s.</source>
-        <target>Unable to create backup database file %s.</target>
-        <note>Line: 156</note>
-      </trans-unit>
-      <trans-unit id="dcb7d833c69d6e0c3f009381c51f898e">
-        <source>Error during database backup.</source>
-        <target>Error during database backup.</target>
-        <note>Line: 184</note>
+        <note>Line: 56</note>
       </trans-unit>
       <trans-unit id="52033453d4d673bae012b9c8ccb1e79c">
         <source>An error occurred while backing up. Unable to obtain the schema of %s</source>
         <target>An error occurred while backing up. Unable to obtain the schema of %s</target>
-        <note>Line: 183</note>
+        <note>Line: 131</note>
+      </trans-unit>
+      <trans-unit id="dcb7d833c69d6e0c3f009381c51f898e">
+        <source>Error during database backup.</source>
+        <target>Error during database backup.</target>
+        <note>Line: 132</note>
       </trans-unit>
       <trans-unit id="4d4c62fccb481224ff3a5c36b45de3fd">
         <source>%s table has been saved.</source>
         <target>%s table has been saved.</target>
-        <note>Line: 261</note>
+        <note>Line: 226</note>
       </trans-unit>
       <trans-unit id="71426d0545181d601dc135b78e74ac8f">
         <source>%s tables have been saved.</source>
         <target>%s tables have been saved.</target>
-        <note>Line: 299</note>
+        <note>Line: 246</note>
       </trans-unit>
       <trans-unit id="c2a086cb5c3373d7e11acbd3ace6a553">
         <source>Database backup: %s table(s) left...</source>
         <target>Database backup: %s table(s) left...</target>
-        <note>Line: 280</note>
-      </trans-unit>
-      <trans-unit id="f5f6ee32184b6a03c5c9928cbefa07f7">
-        <source>No valid tables were found to back up. Backup of file %s canceled.</source>
-        <target>No valid tables were found to back up. Backup of file %s canceled.</target>
-        <note>Line: 288</note>
-      </trans-unit>
-      <trans-unit id="0e27b7ac485e03dabd5648acd5982dde">
-        <source>Error during database backup for file %s.</source>
-        <target>Error during database backup for file %s.</target>
-        <note>Line: 289</note>
+        <note>Line: 253</note>
       </trans-unit>
       <trans-unit id="4b85e344355a8c135644f239db898749">
         <source>Database backup done in filename %s. Now upgrading files...</source>
         <target>Database backup done in filename %s. Now upgrading files...</target>
-        <note>Line: 305</note>
+        <note>Line: 267</note>
+      </trans-unit>
+      <trans-unit id="555231214d7c729089e80f561e118f45">
+        <source>Backup directory is not writable (%path%).</source>
+        <target>Backup directory is not writable (%path%).</target>
+        <note>Line: 284</note>
+      </trans-unit>
+      <trans-unit id="d721e1d318aff72741125f97535b8ac7">
+        <source>No valid tables were found to back up. Backup of database canceled.</source>
+        <target>No valid tables were found to back up. Backup of database canceled.</target>
+        <note>Line: 300</note>
+      </trans-unit>
+      <trans-unit id="d12ae4e7f0d20f4a4ca357d48e42877e">
+        <source>Backup file %s already exists. Operation aborted.</source>
+        <target>Backup file %s already exists. Operation aborted.</target>
+        <note>Line: 359</note>
+      </trans-unit>
+      <trans-unit id="d82896159c60199272e5ea481a733eba">
+        <source>Unable to create backup database file %s.</source>
+        <target>Unable to create backup database file %s.</target>
+        <note>Line: 373</note>
       </trans-unit>
     </body>
   </file>
