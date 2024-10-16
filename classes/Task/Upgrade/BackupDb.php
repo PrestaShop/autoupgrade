@@ -28,7 +28,9 @@
 namespace PrestaShop\Module\AutoUpgrade\Task\Upgrade;
 
 use Exception;
+use PDO;
 use PrestaShop\Module\AutoUpgrade\Analytics;
+use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Progress\Backlog;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
@@ -40,6 +42,8 @@ use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 class BackupDb extends AbstractTask
 {
     const TASK_TYPE = TaskType::TASK_TYPE_BACKUP;
+
+    const MAX_SIZE_PER_INSERT_STMT = 950000;
 
     /**
      * @throws Exception
@@ -55,111 +59,55 @@ class BackupDb extends AbstractTask
             return ExitCode::SUCCESS;
         }
 
-        $timeAllowed = $this->container->getUpgradeConfiguration()->getNumberOfFilesPerCall();
-        $relative_backup_path = str_replace(_PS_ROOT_DIR_, '', $this->container->getProperty(UpgradeContainer::BACKUP_PATH));
-        $report = '';
-        if (!\ConfigurationTest::test_dir($relative_backup_path, false, $report)) {
-            $this->logger->error($this->translator->trans('Backup directory is not writable (%path%).', ['%path%' => $this->container->getProperty(UpgradeContainer::BACKUP_PATH)]));
-            $this->next = 'error';
-            $this->setErrorFlag();
-
-            return ExitCode::FAIL;
-        }
-
         $this->stepDone = false;
         $this->next = 'backupDb';
         $start_time = time();
         $time_elapsed = 0;
 
-        $ignore_stats_table = [_DB_PREFIX_ . 'connections',
-            _DB_PREFIX_ . 'connections_page',
-            _DB_PREFIX_ . 'connections_source',
-            _DB_PREFIX_ . 'guest',
-            _DB_PREFIX_ . 'statssearch', ];
+        $db = $this->container->getDb();
+        $dbLink = $db->connect();
 
-        // INIT LOOP
         if (!$this->container->getFileConfigurationStorage()->exists(UpgradeFileNames::DB_TABLES_TO_BACKUP_LIST)) {
-            $this->container->getState()->setProgressPercentage(
-                $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
-            );
-
-            if (!is_dir($this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $this->container->getState()->getBackupName())) {
-                mkdir($this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $this->container->getState()->getBackupName());
-            }
-            $this->container->getState()->setDbStep(0);
-            $listOfTables = $this->container->getDb()->executeS('SHOW TABLES LIKE "' . _DB_PREFIX_ . '%"', true, false);
-
-            $tablesToBackup = new Backlog($listOfTables, count($listOfTables));
-        } else {
-            $tablesToBackup = Backlog::fromContents($this->container->getFileConfigurationStorage()->load(UpgradeFileNames::DB_TABLES_TO_BACKUP_LIST));
+            return $this->warmUp();
         }
 
-        $found = 0;
-        $views = '';
+        $tablesToBackup = Backlog::fromContents($this->container->getFileConfigurationStorage()->load(UpgradeFileNames::DB_TABLES_TO_BACKUP_LIST));
+
+        $numberOfSyncedTables = 0;
         $fp = false;
         $backupfile = null;
 
         // MAIN BACKUP LOOP //
         $written = 0;
-        do {
-            if (null !== $this->container->getState()->getBackupTable()) {
-                // only insert (schema already done)
-                $table = $this->container->getState()->getBackupTable();
-            } else {
-                if (!$tablesToBackup->getRemainingTotal()) {
-                    break;
-                }
-                $table = current($tablesToBackup->getNext());
+        while ($this->isRemainingTimeEnough($time_elapsed)
+            && $tablesToBackup->getRemainingTotal()
+        ) {
+            // Recover table partially synced
+            $table = $this->container->getState()->getBackupTable();
+            if (null === $table) {
+                // Or get the next one to sync
+                $table = $tablesToBackup->getNext();
                 $this->container->getState()->setBackupLoopLimit(0);
             }
 
-            // Skip tables which do not start with _DB_PREFIX_
-            if (strlen($table) <= strlen(_DB_PREFIX_) || strncmp($table, _DB_PREFIX_, strlen(_DB_PREFIX_)) != 0) {
-                continue;
-            }
-
-            // Ignore stat tables
-            if (in_array($table, $ignore_stats_table)) {
-                continue;
-            }
-
-            if ($written == 0 || $written > $this->container->getUpgradeConfiguration()->getMaxSizeToWritePerCall()) {
-                // increment dbStep will increment filename each time here
-                $this->container->getState()->setDbStep($this->container->getState()->getDbStep() + 1);
-                // new file, new step
+            if ($written > $this->container->getUpgradeConfiguration()->getMaxSizeToWritePerCall()) {
+                // In the previous loop execution, we reached the limit of data to store in a single file.
+                // We reset the stream
                 $written = 0;
                 if (is_resource($fp)) {
                     fclose($fp);
                 }
+            }
+
+            if ($written === 0) {
+                // increment dbStep will increment the number in filename
+                $this->container->getState()->setDbStep($this->container->getState()->getDbStep() + 1);
+
                 $backupfile = $this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $this->container->getState()->getBackupName() . DIRECTORY_SEPARATOR . $this->container->getState()->getBackupDbFilename();
                 $backupfile = preg_replace('#_XXXXXX_#', '_' . str_pad(strval($this->container->getState()->getDbStep()), 6, '0', STR_PAD_LEFT) . '_', $backupfile);
 
                 // start init file
-                // Figure out what compression is available and open the file
-                if (file_exists($backupfile)) {
-                    $this->next = 'error';
-                    $this->setErrorFlag();
-                    $this->logger->error($this->translator->trans('Backup file %s already exists. Operation aborted.', [$backupfile]));
-                }
-
-                if (function_exists('bzopen')) {
-                    $backupfile .= '.bz2';
-                    $fp = bzopen($backupfile, 'w');
-                } elseif (function_exists('gzopen')) {
-                    $backupfile .= '.gz';
-                    $fp = gzopen($backupfile, 'w');
-                } else {
-                    $fp = fopen($backupfile, 'w');
-                }
-
-                if ($fp === false) {
-                    $this->logger->error($this->translator->trans('Unable to create backup database file %s.', [addslashes($backupfile)]));
-                    $this->next = 'error';
-                    $this->setErrorFlag();
-                    $this->logger->info($this->translator->trans('Error during database backup.'));
-
-                    return ExitCode::FAIL;
-                }
+                $fp = $this->openPartialBackupFile($backupfile);
 
                 $written += fwrite($fp, '/* Backup ' . $this->container->getState()->getDbStep() . ' for ' . Tools14::getHttpHost() . __PS_BASE_URI__ . "\n *  at " . date('r') . "\n */\n");
                 $written += fwrite($fp, "\n" . 'SET SESSION sql_mode = \'\';' . "\n\n");
@@ -171,7 +119,7 @@ class BackupDb extends AbstractTask
             // start schema : drop & create table only
             if (null === $this->container->getState()->getBackupTable()) {
                 // Export the table schema
-                $schema = $this->container->getDb()->executeS('SHOW CREATE TABLE `' . $table . '`', true, false);
+                $schema = $db->executeS('SHOW CREATE TABLE `' . $table . '`', true, false);
 
                 if (count($schema) != 1 ||
                     !(isset($schema[0]['Table'], $schema[0]['Create Table'])
@@ -190,25 +138,24 @@ class BackupDb extends AbstractTask
 
                 // case view
                 if (isset($schema[0]['View'])) {
-                    $views .= '/* Scheme for view' . $schema[0]['View'] . " */\n";
+                    $written += fwrite($fp, '/* Scheme for view' . $schema[0]['View'] . " */\n");
                     // If some *upgrade* transform a table in a view, drop both just in case
-                    $views .= 'DROP TABLE IF EXISTS `' . $schema[0]['View'] . '`;' . "\n";
-                    $views .= 'DROP VIEW IF EXISTS `' . $schema[0]['View'] . '`;' . "\n";
-                    $views .= preg_replace('#DEFINER=[^\s]+\s#', 'DEFINER=CURRENT_USER ', $schema[0]['Create View']) . ";\n\n";
-                    $written += fwrite($fp, "\n" . $views);
+                    $written += fwrite($fp, 'DROP TABLE IF EXISTS `' . $schema[0]['View'] . '`;' . "\n");
+                    $written += fwrite($fp, 'DROP VIEW IF EXISTS `' . $schema[0]['View'] . '`;' . "\n");
+                    $written += fwrite($fp, preg_replace('#DEFINER=[^\s]+\s#', 'DEFINER=CURRENT_USER ', $schema[0]['Create View']) . ";\n\n");
+
                     $ignore_stats_table[] = $schema[0]['View'];
+                // There is no data to sync -> setBackupTable is not set.
                 }
                 // case table
                 elseif (isset($schema[0]['Table'])) {
                     // Case common table
                     $written += fwrite($fp, '/* Scheme for table ' . $schema[0]['Table'] . " */\n");
-                    if (!in_array($schema[0]['Table'], $ignore_stats_table)) {
-                        // If some *upgrade* transform a table in a view, drop both just in case
-                        $written += fwrite($fp, 'DROP TABLE IF EXISTS `' . $schema[0]['Table'] . '`;' . "\n");
-                        $written += fwrite($fp, 'DROP VIEW IF EXISTS `' . $schema[0]['Table'] . '`;' . "\n");
-                        // CREATE TABLE
-                        $written += fwrite($fp, $schema[0]['Create Table'] . ";\n\n");
-                    }
+                    // If some *upgrade* transform a table in a view, drop both just in case
+                    $written += fwrite($fp, 'DROP TABLE IF EXISTS `' . $schema[0]['Table'] . '`;' . "\n");
+                    $written += fwrite($fp, 'DROP VIEW IF EXISTS `' . $schema[0]['Table'] . '`;' . "\n");
+                    // CREATE TABLE
+                    $written += fwrite($fp, $schema[0]['Create Table'] . ";\n\n");
                     // schema created, now we need to create the missing vars
                     $this->container->getState()->setBackupTable($table);
                     $lines = explode("\n", $schema[0]['Create Table']);
@@ -217,49 +164,71 @@ class BackupDb extends AbstractTask
             }
             // end of schema
 
+            $i = 0;
+
             // POPULATE TABLE
-            if (!in_array($table, $ignore_stats_table)) {
-                do {
-                    $backup_loop_limit = $this->container->getState()->getBackupLoopLimit();
-                    $data = $this->container->getDb()->executeS('SELECT * FROM `' . $table . '` LIMIT ' . (int) $backup_loop_limit . ',200', false, false);
-                    $this->container->getState()->setBackupLoopLimit($this->container->getState()->getBackupLoopLimit() + 200);
-                    $sizeof = $this->container->getDb()->numRows();
-                    if ($data && ($sizeof > 0)) {
-                        // Export the table data
+            if ($this->container->getState()->getBackupTable()) {
+                $backup_loop_limit = $this->container->getState()->getBackupLoopLimit();
+
+                $dbLink->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, false);
+                /** @see https://dev.mysql.com/doc/refman/8.4/en/select.html specifies a large LIMIT value to get the whole table */
+                $data = $dbLink->prepare('SELECT * FROM `' . $table . '` LIMIT ' . (int) $backup_loop_limit . ',18446744073709551615');
+                $data->execute();
+
+                $insertStmtSize = 0;
+
+                while (($row = $data->fetch(PDO::FETCH_ASSOC)) && $this->isRemainingTimeEnough($time_elapsed)) {
+                    if (!$insertStmtSize) {
                         $written += fwrite($fp, 'INSERT INTO `' . $table . "` VALUES\n");
-                        $i = 1;
-                        while ($row = $this->container->getDb()->nextRow($data)) {
-                            // this starts a row
-                            $s = '(';
-                            foreach ($row as $field => $value) {
-                                if ($value === null) {
-                                    $s .= 'NULL,';
-                                } else {
-                                    $s .= "'" . $this->container->getDb()->escape($value, true) . "',";
-                                }
-                            }
-                            $s = rtrim($s, ',');
-
-                            if ($i < $sizeof) {
-                                $s .= "),\n";
-                            } else {
-                                $s .= ");\n";
-                            }
-
-                            $written += fwrite($fp, $s);
-                            ++$i;
-                        }
-                        $time_elapsed = time() - $start_time;
-                    } else {
-                        $this->container->getState()->setBackupTable(null);
-                        break;
                     }
-                } while (($time_elapsed < $timeAllowed) && ($written < $this->container->getUpgradeConfiguration()->getMaxSizeToWritePerCall()));
+
+                    if ($i && $insertStmtSize) {
+                        $s = "),\n(";
+                    } else {
+                        $s = '(';
+                    }
+                    ++$i;
+
+                    // this starts a row
+                    foreach ($row as $value) {
+                        if ($value === null) {
+                            $s .= 'NULL,';
+                        } else {
+                            $s .= "'" . $db->escape($value, true) . "',";
+                        }
+                    }
+                    $s = rtrim($s, ',');
+
+                    $writtenBytes = fwrite($fp, $s);
+                    $written += $writtenBytes;
+                    $insertStmtSize += $writtenBytes;
+
+                    // If we reach the size limit of a single INSERT INTO statement, we close the list and start a new one.
+                    if ($insertStmtSize >= self::MAX_SIZE_PER_INSERT_STMT) {
+                        $written += fwrite($fp, ");\n");
+                        $insertStmtSize = 0;
+                    }
+                    fflush($fp);
+                    $time_elapsed = time() - $start_time;
+                }
+
+                if ($i && $insertStmtSize) {
+                    $written += fwrite($fp, ");\n");
+                }
             }
-            ++$found;
+
+            if (!empty($row)) {
+                // Still data to store, prepare state
+                $this->container->getState()->setBackupLoopLimit($this->container->getState()->getBackupLoopLimit() + $i);
+            } else {
+                // Sync is complete for the table
+                ++$numberOfSyncedTables;
+                $this->logger->debug($this->translator->trans('%s table has been saved.', [$table]));
+                $this->container->getState()->setBackupTable(null);
+            }
+
             $time_elapsed = time() - $start_time;
-            $this->logger->debug($this->translator->trans('%s table has been saved.', [$table]));
-        } while (($time_elapsed < $timeAllowed) && ($written < $this->container->getUpgradeConfiguration()->getMaxSizeToWritePerCall()));
+        }
 
         // end of loop
         if (is_resource($fp)) {
@@ -273,41 +242,149 @@ class BackupDb extends AbstractTask
         );
         $this->container->getFileConfigurationStorage()->save($tablesToBackup->dump(), UpgradeFileNames::DB_TABLES_TO_BACKUP_LIST);
 
+        if ($numberOfSyncedTables) {
+            $this->logger->info($this->translator->trans('%s tables have been saved.', [$numberOfSyncedTables]));
+        }
+
         if ($tablesToBackup->getRemainingTotal()) {
-            $this->logger->debug($this->translator->trans('%s tables have been saved.', [$found]));
             $this->next = 'backupDb';
             $this->stepDone = false;
-            $this->logger->info($this->translator->trans('Database backup: %s table(s) left...', [$tablesToBackup->getRemainingTotal()]));
+            if ($numberOfSyncedTables) {
+                $this->logger->info($this->translator->trans('Database backup: %s table(s) left...', [$tablesToBackup->getRemainingTotal() + !empty($row)]));
+            }
 
             return ExitCode::SUCCESS;
         }
-        if ($found == 0 && !empty($backupfile)) {
-            if (file_exists($backupfile)) {
-                unlink($backupfile);
-            }
-            $this->logger->error($this->translator->trans('No valid tables were found to back up. Backup of file %s canceled.', [$backupfile]));
-            $this->logger->info($this->translator->trans('Error during database backup for file %s.', [$backupfile]));
+        $this->container->getState()
+            ->setBackupLoopLimit(null)
+            ->setBackupLines(null)
+            ->setBackupTable(null);
+
+        $this->stepDone = true;
+        // reset dbStep at the end of this step
+        $this->container->getState()->setDbStep(0);
+
+        $this->logger->info($this->translator->trans('Database backup done in filename %s. Now upgrading files...', [$this->container->getState()->getBackupName()]));
+        $this->next = 'upgradeFiles';
+
+        $this->container->getAnalytics()->track('Backup Succeeded', Analytics::WITH_BACKUP_PROPERTIES);
+
+        return ExitCode::SUCCESS;
+    }
+
+    protected function warmUp(): int
+    {
+        $this->container->getState()->setProgressPercentage(
+            $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
+        );
+
+        $relative_backup_path = str_replace(_PS_ROOT_DIR_, '', $this->container->getProperty(UpgradeContainer::BACKUP_PATH));
+        $report = '';
+        if (!\ConfigurationTest::test_dir($relative_backup_path, false, $report)) {
+            $this->logger->error($this->translator->trans('Backup directory is not writable (%path%).', ['%path%' => $this->container->getProperty(UpgradeContainer::BACKUP_PATH)]));
+            $this->next = 'error';
             $this->setErrorFlag();
 
             return ExitCode::FAIL;
-        } else {
-            $this->container->getState()
-                ->setBackupLoopLimit(null)
-                ->setBackupLines(null)
-                ->setBackupTable(null);
-            if ($found) {
-                $this->logger->info($this->translator->trans('%s tables have been saved.', [$found]));
-            }
-            $this->stepDone = true;
-            // reset dbStep at the end of this step
-            $this->container->getState()->setDbStep(0);
-
-            $this->logger->info($this->translator->trans('Database backup done in filename %s. Now upgrading files...', [$this->container->getState()->getBackupName()]));
-            $this->next = 'upgradeFiles';
-
-            $this->container->getAnalytics()->track('Backup Succeeded', Analytics::WITH_BACKUP_PROPERTIES);
-
-            return ExitCode::SUCCESS;
         }
+
+        if (!is_dir($this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $this->container->getState()->getBackupName())) {
+            mkdir($this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $this->container->getState()->getBackupName());
+        }
+        $this->container->getState()->setDbStep(0);
+        $listOfTables = $this->filterTablesToSync(
+            $this->container->getDb()->executeS('SHOW TABLES LIKE "' . _DB_PREFIX_ . '%"', true, false)
+        );
+
+        if (empty($listOfTables)) {
+            throw (new UpgradeException($this->translator->trans('No valid tables were found to back up. Backup of database canceled.')))->setSeverity(UpgradeException::SEVERITY_ERROR);
+        }
+
+        $tablesToBackup = new Backlog($listOfTables, count($listOfTables));
+
+        $this->container->getFileConfigurationStorage()->save($tablesToBackup->dump(), UpgradeFileNames::DB_TABLES_TO_BACKUP_LIST);
+
+        return ExitCode::SUCCESS;
+    }
+
+    /**
+     * @param array<array<string, string>> $listOfTables
+     *
+     * @internal Method is public for unit tests
+     *
+     * @return string[]
+     */
+    public function filterTablesToSync(array $listOfTables): array
+    {
+        return array_filter(array_map('current', $listOfTables), function ($table) {
+            // Skip tables which do not start with _DB_PREFIX_
+            if (strlen($table) <= strlen(_DB_PREFIX_) || strncmp($table, _DB_PREFIX_, strlen(_DB_PREFIX_)) !== 0) {
+                return false;
+            }
+
+            // Ignore stat tables
+            if (in_array($table, $this->getTablesToIgnore())) {
+                return false;
+            }
+
+            return true;
+        });
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getTablesToIgnore(): array
+    {
+        return [
+            _DB_PREFIX_ . 'connections',
+            _DB_PREFIX_ . 'connections_page',
+            _DB_PREFIX_ . 'connections_source',
+            _DB_PREFIX_ . 'guest',
+            _DB_PREFIX_ . 'statssearch',
+        ];
+    }
+
+    // MANAGEMENT OF BACKUP FILE RESOURCE
+
+    /**
+     * @return resource
+     *
+     * @throws Exception if file already exists or cannot be written
+     */
+    private function openPartialBackupFile(string $backupfile)
+    {
+        // Figure out what compression is available and open the file
+        if (file_exists($backupfile)) {
+            throw (new UpgradeException($this->translator->trans('Backup file %s already exists. Operation aborted.', [$backupfile])))->setSeverity(UpgradeException::SEVERITY_ERROR);
+        }
+
+        if (function_exists('bzopen')) {
+            $backupfile .= '.bz2';
+            $fp = bzopen($backupfile, 'w');
+        } elseif (function_exists('gzopen')) {
+            $backupfile .= '.gz';
+            $fp = gzopen($backupfile, 'w');
+        } else {
+            $fp = fopen($backupfile, 'w');
+        }
+
+        if ($fp === false) {
+            throw (new UpgradeException($this->translator->trans('Unable to create backup database file %s.', [addslashes($backupfile)])))->setSeverity(UpgradeException::SEVERITY_ERROR);
+        }
+
+        return $fp;
+    }
+
+    private function isRemainingTimeEnough(int $elapsedTime): bool
+    {
+        $timeAllowed = (int) @ini_get('max_execution_time');
+
+        if ($timeAllowed <= 0) {
+            return true;
+        }
+
+        // Remove 5 seconds on the allowed time to make sure we have time to save data and close files.
+        return $elapsedTime < $timeAllowed - 5;
     }
 }
