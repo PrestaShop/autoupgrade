@@ -7,16 +7,6 @@ INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VAL
   ('PS_PRODUCT_BREADCRUMB_CATEGORY', 'default', NOW(), NOW())
 ;
 
-INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`) VALUES
-  (NULL, 'actionUpdateCartAddress', 'Triggers after changing address on the cart', 'This hook is called after address is changed on the cart', '1'),
-  (NULL, 'actionPresentCategory', 'Category Presenter', 'This hook is called before a category is presented', '1'),
-  (NULL, 'actionPresentStore', 'Store Presenter', 'This hook is called before a store is presented', '1'),
-  (NULL, 'actionPresentSupplier', 'Supplier Presenter', 'This hook is called before a supplier is presented', '1'),
-  (NULL, 'actionPresentManufacturer', 'Manufacturer Presenter', 'This hook is called before a manufacturer is presented', '1'),
-  (NULL, 'actionValidateCartRule', 'Alter cart rule validation process', 'Allow modules to implement their own rules to validate a cart rule.', '1'),
-  (NULL, 'actionCartGetPackageShippingCost', 'After getting package shipping cost value', 'This hook is called in order to allow to modify package shipping cost', '1')
-ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
-
 /* Add feature flag types */
 /* PHP:add_column('feature_flag', 'type', 'VARCHAR(64) DEFAULT \'env,dotenv,db\' NOT NULL AFTER `name`'); */;
 UPDATE `PREFIX_feature_flag` SET `state` = 1 WHERE `name` = 'authorization_server';
@@ -46,13 +36,9 @@ ALTER TABLE `PREFIX_customized_data` MODIFY `value` varchar(1024) NOT NULL;
 /* Request optimization for back office KPI and others */
 ALTER TABLE `PREFIX_orders` ADD INDEX `invoice_date` (`invoice_date`);
 
-/* Remove obsolete enable/disable module on mobile feature */
+/* Remove obsolete enable/disable module on mobile feature, obsolete hooks are removed below */
 /* https://github.com/PrestaShop/PrestaShop/pull/31151 */
 DELETE FROM `PREFIX_configuration` WHERE `name` = 'PS_ALLOW_MOBILE_DEVICE';
-DELETE FROM `PREFIX_hook` WHERE `name` = 'actionBeforeEnableMobileModule';
-DELETE FROM `PREFIX_hook` WHERE `name` = 'actionBeforeDisableMobileModule';
-DELETE FROM `PREFIX_hook_module` WHERE `id_hook` NOT IN (SELECT id_hook FROM `PREFIX_hook`);
-DELETE FROM `PREFIX_hook_module_exceptions` WHERE `id_hook` NOT IN (SELECT id_hook FROM `PREFIX_hook`);
 UPDATE `PREFIX_module_shop` SET `enable_device` = '7';
 
 /* Allow cover configuration */
@@ -198,3 +184,110 @@ ALTER TABLE `PREFIX_feature_flag` CHANGE `description_wording` `description_word
 /* Raise payment reference to unify with orders table */
 /* https://github.com/PrestaShop/PrestaShop/pull/37038 */
 ALTER TABLE `PREFIX_order_payment` CHANGE `order_reference` `order_reference` VARCHAR(255);
+
+/* Auto generated hooks added for version 9.0.0 */
+INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`) VALUES
+  (NULL, 'actionMailAlterMessageBeforeSend', 'Modify Swift Message before sending', 'This hook is called before the Swift Message is sent in Mail.php', '1'),
+  (NULL, 'actionValidateOrderBefore', 'Before validating an order', 'This hook is called before validating an order by core', '1'),
+  (NULL, 'actionPresentSupplier', 'Supplier Presenter', 'This hook is called before a supplier is presented', '1'),
+  (NULL, 'actionPresentManufacturer', 'Manufacturer Presenter', 'This hook is called before a manufacturer is presented', '1'),
+  (NULL, 'actionPresentStore', 'Store Presenter', 'This hook is called before a store is presented', '1'),
+  (NULL, 'actionPresentCategory', 'Category Presenter', 'This hook is called before a category is presented', '1'),
+  (NULL, 'actionCartGetPackageShippingCost', 'After getting package shipping cost value', 'This hook is called in order to allow to modify package shipping cost', '1'),
+  (NULL, 'actionUpdateCartAddress', 'Triggers after changing address on the cart', 'This hook is called after address is changed on the cart', '1'),
+  (NULL, 'actionValidateCartRule', 'Alter cart rule validation process', 'Allow modules to implement their own rules to validate a cart rule.', '1'),
+  (NULL, 'actionFeatureValueFormBuilderModifier', 'Modify feature value identifiable object form', 'This hook allows to modify feature value identifiable object forms content by modifying form builder data or FormBuilder itself', '1'),
+  (NULL, 'actionCartRuleFormBuilderModifier', 'Modify cart rule identifiable object form', 'This hook allows to modify cart rule identifiable object forms content by modifying form builder data or FormBuilder itself', '1'),
+  (NULL, 'actionTitleFormBuilderModifier', 'Modify title identifiable object form', 'This hook allows to modify title identifiable object forms content by modifying form builder data or FormBuilder itself', '1'),
+  (NULL, 'actionApiClientFormBuilderModifier', 'Modify api client identifiable object form', 'This hook allows to modify api client identifiable object forms content by modifying form builder data or FormBuilder itself', '1'),
+  (NULL, 'actionImageTypeFormBuilderModifier', 'Modify image type identifiable object form', 'This hook allows to modify image type identifiable object forms content by modifying form builder data or FormBuilder itself', '1'),
+  (NULL, 'actionCarrierFormBuilderModifier', 'Modify carrier identifiable object form', 'This hook allows to modify carrier identifiable object forms content by modifying form builder data or FormBuilder itself', '1'),
+  (NULL, 'actionFeatureValueFormDataProviderData', 'Provide feature value identifiable object form data for update', 'This hook allows to provide feature value identifiable object form data which will prefill the form in update/edition page', '1'),
+  (NULL, 'actionCartRuleFormDataProviderData', 'Provide cart rule identifiable object form data for update', 'This hook allows to provide cart rule identifiable object form data which will prefill the form in update/edition page', '1'),
+  (NULL, 'actionTitleFormDataProviderData', 'Provide title identifiable object form data for update', 'This hook allows to provide title identifiable object form data which will prefill the form in update/edition page', '1'),
+  (NULL, 'actionApiClientFormDataProviderData', 'Provide api client identifiable object form data for update', 'This hook allows to provide api client identifiable object form data which will prefill the form in update/edition page', '1'),
+  (NULL, 'actionImageTypeFormDataProviderData', 'Provide image type identifiable object form data for update', 'This hook allows to provide image type identifiable object form data which will prefill the form in update/edition page', '1'),
+  (NULL, 'actionCarrierFormDataProviderData', 'Provide carrier identifiable object form data for update', 'This hook allows to provide carrier identifiable object form data which will prefill the form in update/edition page', '1'),
+  (NULL, 'actionFeatureValueFormDataProviderDefaultData', 'Provide feature value identifiable object default form data for creation', 'This hook allows to provide feature value identifiable object form data which will prefill the form in creation page', '1'),
+  (NULL, 'actionCartRuleFormDataProviderDefaultData', 'Provide cart rule identifiable object default form data for creation', 'This hook allows to provide cart rule identifiable object form data which will prefill the form in creation page', '1'),
+  (NULL, 'actionTitleFormDataProviderDefaultData', 'Provide title identifiable object default form data for creation', 'This hook allows to provide title identifiable object form data which will prefill the form in creation page', '1'),
+  (NULL, 'actionApiClientFormDataProviderDefaultData', 'Provide api client identifiable object default form data for creation', 'This hook allows to provide api client identifiable object form data which will prefill the form in creation page', '1'),
+  (NULL, 'actionImageTypeFormDataProviderDefaultData', 'Provide image type identifiable object default form data for creation', 'This hook allows to provide image type identifiable object form data which will prefill the form in creation page', '1'),
+  (NULL, 'actionCarrierFormDataProviderDefaultData', 'Provide carrier identifiable object default form data for creation', 'This hook allows to provide carrier identifiable object form data which will prefill the form in creation page', '1'),
+  (NULL, 'actionBeforeUpdateFeatureValueFormHandler', 'Modify feature value identifiable object data before updating it', 'This hook allows to modify feature value identifiable object forms data before it was updated', '1'),
+  (NULL, 'actionBeforeUpdateCartRuleFormHandler', 'Modify cart rule identifiable object data before updating it', 'This hook allows to modify cart rule identifiable object forms data before it was updated', '1'),
+  (NULL, 'actionBeforeUpdateTitleFormHandler', 'Modify title identifiable object data before updating it', 'This hook allows to modify title identifiable object forms data before it was updated', '1'),
+  (NULL, 'actionBeforeUpdateApiClientFormHandler', 'Modify api client identifiable object data before updating it', 'This hook allows to modify api client identifiable object forms data before it was updated', '1'),
+  (NULL, 'actionBeforeUpdateImageTypeFormHandler', 'Modify image type identifiable object data before updating it', 'This hook allows to modify image type identifiable object forms data before it was updated', '1'),
+  (NULL, 'actionBeforeUpdateCarrierFormHandler', 'Modify carrier identifiable object data before updating it', 'This hook allows to modify carrier identifiable object forms data before it was updated', '1'),
+  (NULL, 'actionAfterUpdateFeatureValueFormHandler', 'Modify feature value identifiable object data after updating it', 'This hook allows to modify feature value identifiable object forms data after it was updated', '1'),
+  (NULL, 'actionAfterUpdateCartRuleFormHandler', 'Modify cart rule identifiable object data after updating it', 'This hook allows to modify cart rule identifiable object forms data after it was updated', '1'),
+  (NULL, 'actionAfterUpdateTitleFormHandler', 'Modify title identifiable object data after updating it', 'This hook allows to modify title identifiable object forms data after it was updated', '1'),
+  (NULL, 'actionAfterUpdateApiClientFormHandler', 'Modify api client identifiable object data after updating it', 'This hook allows to modify api client identifiable object forms data after it was updated', '1'),
+  (NULL, 'actionAfterUpdateImageTypeFormHandler', 'Modify image type identifiable object data after updating it', 'This hook allows to modify image type identifiable object forms data after it was updated', '1'),
+  (NULL, 'actionAfterUpdateCarrierFormHandler', 'Modify carrier identifiable object data after updating it', 'This hook allows to modify carrier identifiable object forms data after it was updated', '1'),
+  (NULL, 'actionBeforeCreateFeatureValueFormHandler', 'Modify feature value identifiable object data before creating it', 'This hook allows to modify feature value identifiable object forms data before it was created', '1'),
+  (NULL, 'actionBeforeCreateCartRuleFormHandler', 'Modify cart rule identifiable object data before creating it', 'This hook allows to modify cart rule identifiable object forms data before it was created', '1'),
+  (NULL, 'actionBeforeCreateTitleFormHandler', 'Modify title identifiable object data before creating it', 'This hook allows to modify title identifiable object forms data before it was created', '1'),
+  (NULL, 'actionBeforeCreateApiClientFormHandler', 'Modify api client identifiable object data before creating it', 'This hook allows to modify api client identifiable object forms data before it was created', '1'),
+  (NULL, 'actionBeforeCreateImageTypeFormHandler', 'Modify image type identifiable object data before creating it', 'This hook allows to modify image type identifiable object forms data before it was created', '1'),
+  (NULL, 'actionBeforeCreateCarrierFormHandler', 'Modify carrier identifiable object data before creating it', 'This hook allows to modify carrier identifiable object forms data before it was created', '1'),
+  (NULL, 'actionAfterCreateFeatureValueFormHandler', 'Modify feature value identifiable object data after creating it', 'This hook allows to modify feature value identifiable object forms data after it was created', '1'),
+  (NULL, 'actionAfterCreateCartRuleFormHandler', 'Modify cart rule identifiable object data after creating it', 'This hook allows to modify cart rule identifiable object forms data after it was created', '1'),
+  (NULL, 'actionAfterCreateTitleFormHandler', 'Modify title identifiable object data after creating it', 'This hook allows to modify title identifiable object forms data after it was created', '1'),
+  (NULL, 'actionAfterCreateApiClientFormHandler', 'Modify api client identifiable object data after creating it', 'This hook allows to modify api client identifiable object forms data after it was created', '1'),
+  (NULL, 'actionAfterCreateImageTypeFormHandler', 'Modify image type identifiable object data after creating it', 'This hook allows to modify image type identifiable object forms data after it was created', '1'),
+  (NULL, 'actionAfterCreateCarrierFormHandler', 'Modify carrier identifiable object data after creating it', 'This hook allows to modify carrier identifiable object forms data after it was created', '1'),
+  (NULL, 'actionImageSettingsPageForm', 'Modify image settings page options form content', 'This hook allows to modify image settings page options form FormBuilder', '1'),
+  (NULL, 'actionAdminAPIForm', 'Modify admin api options form content', 'This hook allows to modify admin api options form FormBuilder', '1'),
+  (NULL, 'actionBackOfficeLoginForm', 'Modify back office login options form content', 'This hook allows to modify back office login options form FormBuilder', '1'),
+  (NULL, 'actionEmployeeRequestPasswordResetForm', 'Modify employee request password reset options form content', 'This hook allows to modify employee request password reset options form FormBuilder', '1'),
+  (NULL, 'actionEmployeeResetPasswordForm', 'Modify employee reset password options form content', 'This hook allows to modify employee reset password options form FormBuilder', '1'),
+  (NULL, 'actionImageSettingsPageSave', 'Modify image settings page options form saved data', 'This hook allows to modify data of image settings page options form after it was saved', '1'),
+  (NULL, 'actionAdminAPISave', 'Modify admin api options form saved data', 'This hook allows to modify data of admin api options form after it was saved', '1'),
+  (NULL, 'actionBackOfficeLoginSave', 'Modify back office login options form saved data', 'This hook allows to modify data of back office login options form after it was saved', '1'),
+  (NULL, 'actionEmployeeRequestPasswordResetSave', 'Modify employee request password reset options form saved data', 'This hook allows to modify data of employee request password reset options form after it was saved', '1'),
+  (NULL, 'actionEmployeeResetPasswordSave', 'Modify employee reset password options form saved data', 'This hook allows to modify data of employee reset password options form after it was saved', '1'),
+  (NULL, 'actionCustomerCartGridDefinitionModifier', 'Modify customer cart grid definition', 'This hook allows to alter customer cart grid columns, actions and filters', '1'),
+  (NULL, 'actionCustomerOrderGridDefinitionModifier', 'Modify customer order grid definition', 'This hook allows to alter customer order grid columns, actions and filters', '1'),
+  (NULL, 'actionCustomerBoughtProductGridDefinitionModifier', 'Modify customer bought product grid definition', 'This hook allows to alter customer bought product grid columns, actions and filters', '1'),
+  (NULL, 'actionCustomerViewedProductGridDefinitionModifier', 'Modify customer viewed product grid definition', 'This hook allows to alter customer viewed product grid columns, actions and filters', '1'),
+  (NULL, 'actionCustomerGroupsGridDefinitionModifier', 'Modify customer groups grid definition', 'This hook allows to alter customer groups grid columns, actions and filters', '1'),
+  (NULL, 'actionCustomerCartGridQueryBuilderModifier', 'Modify customer cart grid query builder', 'This hook allows to alter Doctrine query builder for customer cart grid', '1'),
+  (NULL, 'actionCustomerOrderGridQueryBuilderModifier', 'Modify customer order grid query builder', 'This hook allows to alter Doctrine query builder for customer order grid', '1'),
+  (NULL, 'actionCustomerBoughtProductGridQueryBuilderModifier', 'Modify customer bought product grid query builder', 'This hook allows to alter Doctrine query builder for customer bought product grid', '1'),
+  (NULL, 'actionCustomerViewedProductGridQueryBuilderModifier', 'Modify customer viewed product grid query builder', 'This hook allows to alter Doctrine query builder for customer viewed product grid', '1'),
+  (NULL, 'actionCustomerGroupsGridQueryBuilderModifier', 'Modify customer groups grid query builder', 'This hook allows to alter Doctrine query builder for customer groups grid', '1'),
+  (NULL, 'actionCustomerCartGridDataModifier', 'Modify customer cart grid data', 'This hook allows to modify customer cart grid data', '1'),
+  (NULL, 'actionCustomerOrderGridDataModifier', 'Modify customer order grid data', 'This hook allows to modify customer order grid data', '1'),
+  (NULL, 'actionCustomerBoughtProductGridDataModifier', 'Modify customer bought product grid data', 'This hook allows to modify customer bought product grid data', '1'),
+  (NULL, 'actionCustomerViewedProductGridDataModifier', 'Modify customer viewed product grid data', 'This hook allows to modify customer viewed product grid data', '1'),
+  (NULL, 'actionCustomerGroupsGridDataModifier', 'Modify customer groups grid data', 'This hook allows to modify customer groups grid data', '1'),
+  (NULL, 'actionCustomerCartGridFilterFormModifier', 'Modify customer cart grid filters', 'This hook allows to modify filters for customer cart grid', '1'),
+  (NULL, 'actionCustomerOrderGridFilterFormModifier', 'Modify customer order grid filters', 'This hook allows to modify filters for customer order grid', '1'),
+  (NULL, 'actionCustomerBoughtProductGridFilterFormModifier', 'Modify customer bought product grid filters', 'This hook allows to modify filters for customer bought product grid', '1'),
+  (NULL, 'actionCustomerViewedProductGridFilterFormModifier', 'Modify customer viewed product grid filters', 'This hook allows to modify filters for customer viewed product grid', '1'),
+  (NULL, 'actionCustomerGroupsGridFilterFormModifier', 'Modify customer groups grid filters', 'This hook allows to modify filters for customer groups grid', '1'),
+  (NULL, 'actionCustomerCartGridPresenterModifier', 'Modify customer cart grid template data', 'This hook allows to modify data which is about to be used in template for customer cart grid', '1'),
+  (NULL, 'actionCustomerOrderGridPresenterModifier', 'Modify customer order grid template data', 'This hook allows to modify data which is about to be used in template for customer order grid', '1'),
+  (NULL, 'actionCustomerBoughtProductGridPresenterModifier', 'Modify customer bought product grid template data', 'This hook allows to modify data which is about to be used in template for customer bought product grid', '1'),
+  (NULL, 'actionCustomerViewedProductGridPresenterModifier', 'Modify customer viewed product grid template data', 'This hook allows to modify data which is about to be used in template for customer viewed product grid', '1'),
+  (NULL, 'actionCustomerGroupsGridPresenterModifier', 'Modify customer groups grid template data', 'This hook allows to modify data which is about to be used in template for customer groups grid', '1')
+ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
+
+/* Auto generated hooks removed for version 9.0.0 */
+DELETE FROM `PREFIX_hook` WHERE `name` IN (
+  'actionAdminLoginControllerBefore',
+  'actionAdminLoginControllerLoginBefore',
+  'actionAdminLoginControllerLoginAfter',
+  'actionAdminLoginControllerForgotBefore',
+  'actionAdminLoginControllerForgotAfter',
+  'actionAdminLoginControllerResetBefore',
+  'actionAdminLoginControllerResetAfter',
+  'actionBeforeEnableMobileModule',
+  'actionBeforeDisableMobileModule',
+  'actionAjaxDieBefore'
+);
+/* Clean hook registrations related to removed hooks */
+DELETE FROM `PREFIX_hook_module` WHERE `id_hook` NOT IN (SELECT id_hook FROM `PREFIX_hook`);
+DELETE FROM `PREFIX_hook_module_exceptions` WHERE `id_hook` NOT IN (SELECT id_hook FROM `PREFIX_hook`);
