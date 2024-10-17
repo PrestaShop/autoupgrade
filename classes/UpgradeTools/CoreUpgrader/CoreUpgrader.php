@@ -99,14 +99,14 @@ abstract class CoreUpgrader
         $this->filesystem = new Filesystem();
     }
 
-    public function doUpgrade(): void
+    /**
+     * @throws UpgradeException
+     * @throws Exception
+     */
+    public function setupUpdateEnvironment(): void
     {
         $this->logger->info($this->container->getTranslator()->trans('Initializing required environment constants'));
         $this->initConstants();
-
-        $this->logger->info($this->container->getTranslator()->trans('Checking version validity'));
-        $oldversion = $this->getPreUpgradeVersion();
-        $this->checkVersionIsNewer($oldversion);
 
         //check DB access
         $this->logger->info($this->container->getTranslator()->trans('Checking connection to database'));
@@ -115,21 +115,13 @@ abstract class CoreUpgrader
         if ($resultDB !== 0) {
             throw new UpgradeException($this->container->getTranslator()->trans('Invalid database configuration'));
         }
+    }
 
-        if ($this->container->getUpgradeConfiguration()->shouldDeactivateCustomModules()) {
-            $this->logger->info($this->container->getTranslator()->trans('Disabling all non native modules'));
-            $this->disableCustomModules();
-        } else {
-            $this->logger->info($this->container->getTranslator()->trans('Keeping non native modules enabled'));
-        }
-
-        $this->logger->info($this->container->getTranslator()->trans('Updating database data and structure'));
-        $this->upgradeDb($oldversion);
-
-        // At this point, database upgrade is over.
-        // Now we need to add all previous missing settings items, and reset cache and compile directories
-        $this->writeNewSettings();
-
+    /**
+     * @throws UpgradeException
+     */
+    public function finalizeCoreUpdate(): void
+    {
         $this->logger->info($this->container->getTranslator()->trans('Running generic queries'));
         $this->runRecurrentQueries();
 
@@ -247,71 +239,14 @@ abstract class CoreUpgrader
         $this->db = \Db::getInstance();
     }
 
-    protected function getPreUpgradeVersion(): string
-    {
-        return $this->normalizeVersion($this->container->getState()->getOriginVersion());
-    }
-
-    /**
-     * Add missing levels in version.
-     * Example: 1.7 will become 1.7.0.0 and 8.1 will become 8.1.0.
-     *
-     * @internal public for tests
-     */
-    public function normalizeVersion(string $version): string
-    {
-        $arrayVersion = explode('.', $version);
-        $versionLevels = 1 == $arrayVersion[0] ? 4 : 3;
-        if (count($arrayVersion) < $versionLevels) {
-            $arrayVersion = array_pad($arrayVersion, $versionLevels, '0');
-        }
-
-        return implode('.', $arrayVersion);
-    }
-
-    /**
-     * @throws UpgradeException
-     */
-    protected function checkVersionIsNewer(string $oldVersion): void
-    {
-        if (strpos($this->destinationUpgradeVersion, '.') === false) {
-            throw new UpgradeException($this->container->getTranslator()->trans('%s is not a valid version number.', [$this->destinationUpgradeVersion]));
-        }
-
-        $versionCompare = version_compare($this->destinationUpgradeVersion, $oldVersion);
-
-        if ($versionCompare === -1) {
-            throw new UpgradeException($this->container->getTranslator()->trans('[ERROR] Version to install is too old.') . ' ' . $this->container->getTranslator()->trans('Current version: %oldversion%. Version to install: %newversion%.', ['%oldversion%' => $oldVersion, '%newversion%' => $this->destinationUpgradeVersion]));
-        } elseif ($versionCompare === 0) {
-            throw new UpgradeException($this->container->getTranslator()->trans('You already have the %s version.', [$this->destinationUpgradeVersion]));
-        }
-    }
-
     /**
      * Ask the core to disable the modules not coming from PrestaShop.
      *
      * @throws Exception
      */
-    protected function disableCustomModules(): void
+    public function disableCustomModules(): void
     {
         $this->container->getModuleAdapter()->disableNonNativeModules($this->pathToUpgradeScripts);
-    }
-
-    /**
-     * @throws UpgradeException
-     */
-    protected function upgradeDb(string $oldversion): void
-    {
-        $upgrade_dir_sql = $this->pathToUpgradeScripts . '/sql/';
-        $sqlContentVersion = $this->applySqlParams(
-            $this->getUpgradeSqlFilesListToApply($upgrade_dir_sql, $oldversion)
-        );
-
-        foreach ($sqlContentVersion as $upgrade_file => $sqlContent) {
-            foreach ($sqlContent as $query) {
-                $this->runQuery($upgrade_file, $query);
-            }
-        }
     }
 
     /**
@@ -353,6 +288,20 @@ abstract class CoreUpgrader
     }
 
     /**
+     * @throws UpgradeException
+     *
+     * @return array<string, array<int, string>>
+     */
+    public function getSqlContentList(string $originVersion): array
+    {
+        $upgrade_dir_sql = $this->pathToUpgradeScripts . '/sql/';
+
+        return $this->applySqlParams(
+            $this->getUpgradeSqlFilesListToApply($upgrade_dir_sql, $originVersion)
+        );
+    }
+
+    /**
      * Replace some placeholders in the SQL upgrade files (prefix, engine...).
      *
      * @param array<string, string> $sqlFiles
@@ -369,7 +318,7 @@ abstract class CoreUpgrader
         foreach ($sqlFiles as $version => $file) {
             $sqlContent = file_get_contents($file) . "\n";
             $sqlContent = str_replace($search, $replace, $sqlContent);
-            $sqlContent = preg_split("/;\s*[\r\n]+/", $sqlContent);
+            $sqlContent = array_filter(preg_split("/;\s*[\r\n]+/", $sqlContent));
             $sqlRequests[$version] = $sqlContent;
         }
 
@@ -382,7 +331,7 @@ abstract class CoreUpgrader
      * @param string $upgrade_file File in which the request is stored (for logs)
      * @param string $query
      */
-    protected function runQuery(string $upgrade_file, string $query): void
+    public function runQuery(string $upgrade_file, string $query): void
     {
         $query = trim($query);
         if (empty($query)) {

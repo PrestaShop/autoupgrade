@@ -121,7 +121,7 @@ class CoreUpgrader80 extends CoreUpgrader
         // TODO: Update AdminTranslationsController::addNewTabs to install tabs translated
     }
 
-    protected function disableCustomModules(): void
+    public function disableCustomModules(): void
     {
         $moduleRepository = new ModuleRepository(_PS_ROOT_DIR_, _PS_MODULE_DIR_);
         $this->container->getModuleAdapter()->disableNonNativeModules80($this->pathToUpgradeScripts, $moduleRepository);
