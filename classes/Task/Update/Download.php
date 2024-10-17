@@ -70,8 +70,7 @@ class Download extends AbstractTask
         $relative_download_path = str_replace(_PS_ROOT_DIR_, '', $this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH));
         if (\ConfigurationTest::test_dir($relative_download_path, false, $report)) {
             $res = $upgrader->downloadLast(
-                $this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH),
-                $this->container->getProperty(UpgradeContainer::ARCHIVE_FILENAME)
+                $this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH)
             );
             if ($res) {
                 $md5file = md5_file(realpath($this->container->getProperty(UpgradeContainer::ARCHIVE_FILEPATH)));
