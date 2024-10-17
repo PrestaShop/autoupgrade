@@ -42,42 +42,42 @@
       <trans-unit id="1d1a5763d2901dbd435b378358a149b4" approved="yes">
         <source>File %s does not exist. Unable to select that channel.</source>
         <target state="final">файл %s не существует. Невозможно выбрать данный канал.</target>
-        <note>Line: 95</note>
+        <note>Line: 104</note>
       </trans-unit>
       <trans-unit id="3d6985514f7836cb0e8efb8c286ca0f5">
         <source>Unable to retrieve version from zip: %s.</source>
         <target state="needs-translation">Unable to retrieve version from zip: %s.</target>
-        <note>Line: 86</note>
+        <note>Line: 95</note>
       </trans-unit>
       <trans-unit id="497b68a6d0e3a6abf823f78631233e6a">
         <source>We couldn't find a PrestaShop version in the XML file that was uploaded in your local archive. Please try again</source>
         <target state="needs-translation">We couldn't find a PrestaShop version in the XML file that was uploaded in your local archive. Please try again</target>
-        <note>Line: 104</note>
+        <note>Line: 113</note>
       </trans-unit>
       <trans-unit id="2d1b3a71b7f8c5f533921fe116788422">
         <source>Prestashop version detected in the xml (%s) does not match the zip version (%s).</source>
         <target state="needs-translation">Prestashop version detected in the xml (%s) does not match the zip version (%s).</target>
-        <note>Line: 111</note>
+        <note>Line: 120</note>
       </trans-unit>
       <trans-unit id="ab232f4b20c0e50dad9081bc39382569" approved="yes">
         <source>Upgrade process will use archive.</source>
         <target state="final">Для обновления будет использоваться архив.</target>
-        <note>Line: 121</note>
+        <note>Line: 126</note>
       </trans-unit>
       <trans-unit id="1fe9dd96f646eaa0cd3a0fcc7632ce12" approved="yes">
         <source>Error on saving configuration</source>
         <target state="final">Ошибка при сохранении конфигурации</target>
-        <note>Line: 138</note>
+        <note>Line: 131</note>
       </trans-unit>
       <trans-unit id="f2ff9d001d0a553c78da73443e7fcd97" approved="yes">
         <source>Configuration successfully updated.</source>
         <target state="final">Конфигурация обновлена.</target>
-        <note>Line: 201</note>
+        <note>Line: 194</note>
       </trans-unit>
       <trans-unit id="40b980e89ae332507380470cd26cdf4d" approved="yes">
         <source>This page will now be reloaded and the module will check if a new version is available.</source>
         <target state="final">Эта страница будет перезагружена и модуль проверит наличие доступных обновлений.</target>
-        <note>Line: 201</note>
+        <note>Line: 194</note>
       </trans-unit>
     </body>
   </file>
@@ -216,62 +216,57 @@
       <trans-unit id="926abe867e8b1be1c0b053234cae77ba" approved="yes">
         <source>Database backup skipped. Now upgrading files...</source>
         <target state="final">Создание резервной копии базы данных пропущено. Начинается обновление файлов...</target>
-        <note>Line: 52</note>
-      </trans-unit>
-      <trans-unit id="555231214d7c729089e80f561e118f45" approved="yes">
-        <source>Backup directory is not writable (%path%).</source>
-        <target state="final">Запись в директорию резервных копий запрещена (%path%).</target>
-        <note>Line: 62</note>
-      </trans-unit>
-      <trans-unit id="d12ae4e7f0d20f4a4ca357d48e42877e" approved="yes">
-        <source>Backup file %s already exists. Operation aborted.</source>
-        <target state="final">Файл резервной копии %s уже существует. Действие отменено.</target>
-        <note>Line: 142</note>
-      </trans-unit>
-      <trans-unit id="d82896159c60199272e5ea481a733eba" approved="yes">
-        <source>Unable to create backup database file %s.</source>
-        <target state="final">Невозможно создать файл резервной копии базы данных %s.</target>
-        <note>Line: 156</note>
-      </trans-unit>
-      <trans-unit id="dcb7d833c69d6e0c3f009381c51f898e" approved="yes">
-        <source>Error during database backup.</source>
-        <target state="final">Ошибка при создании резервной копии базы данных.</target>
-        <note>Line: 184</note>
+        <note>Line: 56</note>
       </trans-unit>
       <trans-unit id="52033453d4d673bae012b9c8ccb1e79c" approved="yes">
         <source>An error occurred while backing up. Unable to obtain the schema of %s</source>
         <target state="final">При создании резервной копии возникла ошибка. Невозможно получить схему %s</target>
-        <note>Line: 183</note>
+        <note>Line: 131</note>
+      </trans-unit>
+      <trans-unit id="dcb7d833c69d6e0c3f009381c51f898e" approved="yes">
+        <source>Error during database backup.</source>
+        <target state="final">Ошибка при создании резервной копии базы данных.</target>
+        <note>Line: 132</note>
       </trans-unit>
       <trans-unit id="4d4c62fccb481224ff3a5c36b45de3fd" approved="yes">
         <source>%s table has been saved.</source>
         <target state="final">Таблица %s сохранена.</target>
-        <note>Line: 261</note>
+        <note>Line: 226</note>
       </trans-unit>
       <trans-unit id="71426d0545181d601dc135b78e74ac8f" approved="yes">
         <source>%s tables have been saved.</source>
         <target state="final">Сохранено таблиц: %s.</target>
-        <note>Line: 299</note>
+        <note>Line: 246</note>
       </trans-unit>
       <trans-unit id="c2a086cb5c3373d7e11acbd3ace6a553" approved="yes">
         <source>Database backup: %s table(s) left...</source>
         <target state="final">Резервное копирование базы данных. Осталось таблиц: %s...</target>
-        <note>Line: 280</note>
-      </trans-unit>
-      <trans-unit id="f5f6ee32184b6a03c5c9928cbefa07f7" approved="yes">
-        <source>No valid tables were found to back up. Backup of file %s canceled.</source>
-        <target state="final">Подходящих для резервирования таблиц не обнаружено. Резервное копирование файла %s отменено.</target>
-        <note>Line: 288</note>
-      </trans-unit>
-      <trans-unit id="0e27b7ac485e03dabd5648acd5982dde" approved="yes">
-        <source>Error during database backup for file %s.</source>
-        <target state="final">Ошибка при резервировании базы данных в файл %s.</target>
-        <note>Line: 289</note>
+        <note>Line: 253</note>
       </trans-unit>
       <trans-unit id="4b85e344355a8c135644f239db898749" approved="yes">
         <source>Database backup done in filename %s. Now upgrading files...</source>
         <target state="final">Резервная копия базы данных сохранена в файл %s. Идет обновление файлов...</target>
-        <note>Line: 305</note>
+        <note>Line: 267</note>
+      </trans-unit>
+      <trans-unit id="555231214d7c729089e80f561e118f45" approved="yes">
+        <source>Backup directory is not writable (%path%).</source>
+        <target state="final">Запись в директорию резервных копий запрещена (%path%).</target>
+        <note>Line: 284</note>
+      </trans-unit>
+      <trans-unit id="d721e1d318aff72741125f97535b8ac7">
+        <source>No valid tables were found to back up. Backup of database canceled.</source>
+        <target state="needs-translation">No valid tables were found to back up. Backup of database canceled.</target>
+        <note>Line: 300</note>
+      </trans-unit>
+      <trans-unit id="d12ae4e7f0d20f4a4ca357d48e42877e" approved="yes">
+        <source>Backup file %s already exists. Operation aborted.</source>
+        <target state="final">Файл резервной копии %s уже существует. Действие отменено.</target>
+        <note>Line: 359</note>
+      </trans-unit>
+      <trans-unit id="d82896159c60199272e5ea481a733eba" approved="yes">
+        <source>Unable to create backup database file %s.</source>
+        <target state="final">Невозможно создать файл резервной копии базы данных %s.</target>
+        <note>Line: 373</note>
       </trans-unit>
     </body>
   </file>
@@ -1460,7 +1455,7 @@ Comment: check DB access</note>
       <trans-unit id="f4eb320e09f7ef88a627229870458454">
         <source>The module %s requires PHP %s to work properly. Please upgrade your server configuration.</source>
         <target state="needs-translation">The module %s requires PHP %s to work properly. Please upgrade your server configuration.</target>
-        <note>Line: 423</note>
+        <note>Line: 424</note>
       </trans-unit>
     </body>
   </file>
