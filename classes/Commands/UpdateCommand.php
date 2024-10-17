@@ -79,7 +79,7 @@ class UpdateCommand extends AbstractCommand
 
             // in the case of commands containing the update status, it is not necessary to update the configuration
             // also we do not want to repeat the update of the config in the recursive commands
-            if ($input->getOption('data') === null) {
+            if (!$input->hasOption('data')) {
                 $configPath = $input->getOption('config-file-path');
                 $exitCode = $this->loadConfiguration($configPath, $this->upgradeContainer);
                 if ($exitCode !== ExitCode::SUCCESS) {
