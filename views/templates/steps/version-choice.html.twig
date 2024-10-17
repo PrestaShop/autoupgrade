@@ -57,10 +57,7 @@
         </p>
 
         <div id="{{ radio_card_archive_parent_id }}">
-          {% include "@ModuleAutoUpgrade/components/radio-card-archive.html.twig" with {
-            archiveFiles: local_archives.zip,
-            xmlFiles: local_archives.xml,
-          } %}
+          {% include "@ModuleAutoUpgrade/components/radio-card-local.html.twig" %}
         </div>
       </form>
     {% endif %}
@@ -100,13 +97,7 @@
       name="{{ form_version_choice_name }}"
     >
       <div id="{{ radio_card_online_parent_id }}">
-        {% include "@ModuleAutoUpgrade/components/radio-card-online.html.twig" with {
-          checked: false,
-          title: "PrestaShop %version%"|trans({'%version%': next_release.version}),
-          badgeLabel: next_release.badge_label,
-          badgeStatus: next_release.badge_status,
-          releaseNote: next_release.release_note,
-        } %}
+        {% include "@ModuleAutoUpgrade/components/radio-card-online.html.twig" %}
       </div>
 
       {% if no_local_archive %}
@@ -118,10 +109,7 @@
         } %}
       {% else %}
         <div id="{{ radio_card_archive_parent_id }}">
-          {% include "@ModuleAutoUpgrade/components/radio-card-archive.html.twig" with {
-            archiveFiles: local_archives.zip,
-            xmlFiles: local_archives.xml,
-          } %}
+          {% include "@ModuleAutoUpgrade/components/radio-card-local.html.twig" %}
         </div>
       {% endif %}
     </form>

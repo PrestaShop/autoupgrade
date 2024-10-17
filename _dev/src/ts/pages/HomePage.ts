@@ -2,23 +2,12 @@ import PageAbstract from './PageAbstract';
 import api from '../api/RequestHandler';
 
 export default class HomePage extends PageAbstract {
-  form: HTMLFormElement;
-  submitButton: HTMLButtonElement;
-
   constructor() {
     super();
-    const form = document.forms.namedItem('next_page');
-    if (form) {
-      this.form = form;
-    } else {
+    if (!this.form) {
       throw new Error("The form wasn't found inside DOM. HomePage can't be initiated properly");
     }
-    const submitButton = Array.from(this.form.elements).find(
-      (element) => element instanceof HTMLButtonElement && element.type === 'submit'
-    ) as HTMLButtonElement | null;
-    if (submitButton) {
-      this.submitButton = submitButton;
-    } else {
+    if (!this.submitButton) {
       throw new Error(
         "The submit button wasn't found inside DOM. HomePage can't be initiated properly"
       );
@@ -26,31 +15,51 @@ export default class HomePage extends PageAbstract {
   }
 
   public mount = () => {
-    this.checkForm();
-    this.form.addEventListener('change', this.checkForm);
-    this.form.addEventListener('submit', this.handleSubmit);
+    if (this.form) {
+      this.checkForm();
+      this.form.addEventListener('change', this.checkForm);
+      this.form.addEventListener('submit', this.handleSubmit);
+    }
   };
 
   public beforeDestroy = () => {
-    this.form.removeEventListener('change', this.checkForm);
-    this.form.removeEventListener('submit', this.handleSubmit);
+    if (this.form) {
+      this.form.removeEventListener('change', this.checkForm);
+      this.form.removeEventListener('submit', this.handleSubmit);
+    }
   };
 
   private checkForm = () => {
-    if (this.form.checkValidity()) {
-      this.submitButton.removeAttribute('disabled');
+    if (this.formIsValid) {
+      this.submitButton?.removeAttribute('disabled');
     } else {
-      this.submitButton.setAttribute('disabled', 'true');
+      this.submitButton?.setAttribute('disabled', 'true');
     }
   };
 
   private handleSubmit = (event: Event) => {
     event.preventDefault();
-    const route = this.form.dataset.route;
+    const routeToSubmit = this.form?.dataset.routeToSubmit;
 
-    if (route) {
+    if (routeToSubmit) {
       const formData = new FormData(this.form);
-      api.post(route, formData);
+      api.post(routeToSubmit, formData);
     }
   };
+
+  private get form(): HTMLFormElement | null {
+    return document.forms.namedItem('next_page');
+  }
+
+  private get formIsValid(): boolean {
+    return this.form ? this.form.checkValidity() : false;
+  }
+
+  private get submitButton(): HTMLButtonElement | undefined {
+    return this.form
+      ? (Array.from(this.form.elements).find(
+          (element) => element instanceof HTMLButtonElement && element.type === 'submit'
+        ) as HTMLButtonElement | undefined)
+      : undefined;
+  }
 }

@@ -48,28 +48,30 @@ class LocalArchiveRepositoryTest extends TestCase
 
     public function testGetZipLocalArchiveReturnsEmptyArrayWhenNoFiles()
     {
-        $this->assertSame([], $this->repository->getZipLocalArchive());
+        $this->assertEquals(false, $this->repository->getZipLocalArchive());
     }
 
     public function testGetXmlLocalArchiveReturnsEmptyArrayWhenNoFiles()
     {
-        $this->assertSame([], $this->repository->getXmlLocalArchive());
+        $this->assertEquals(false, $this->repository->getXmlLocalArchive());
     }
 
     public function testGetZipLocalArchiveReturnsZipFiles()
     {
-        $zipFile = $this->downloadPath . '/test.zip';
+        $zipName = 'test.zip';
+        $zipFile = $this->downloadPath . '/' . $zipName;
         touch($zipFile);
 
-        $this->assertSame([$zipFile], $this->repository->getZipLocalArchive());
+        $this->assertSame([$zipName], $this->repository->getZipLocalArchive());
     }
 
     public function testGetXmlLocalArchiveReturnsXmlFiles()
     {
-        $xmlFile = $this->downloadPath . '/test.xml';
+        $xmlName = 'test.xml';
+        $xmlFile = $this->downloadPath . '/' . $xmlName;
         touch($xmlFile);
 
-        $this->assertSame([$xmlFile], $this->repository->getXmlLocalArchive());
+        $this->assertSame([$xmlName], $this->repository->getXmlLocalArchive());
     }
 
     public function testHasLocalArchiveReturnsFalseWhenNoFiles()

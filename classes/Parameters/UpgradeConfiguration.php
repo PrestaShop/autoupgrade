@@ -99,7 +99,7 @@ class UpgradeConfiguration extends ArrayCollection
     /**
      * Get channel selected on config panel (Minor, major ...).
      */
-    public function getChannel(): string
+    public function getChannel(): ?string
     {
         return $this->get('channel');
     }

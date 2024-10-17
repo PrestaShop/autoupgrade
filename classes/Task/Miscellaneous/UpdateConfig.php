@@ -177,7 +177,7 @@ class UpdateConfig extends AbstractTask
      */
     protected function getRequestParams(): array
     {
-        return empty($_REQUEST['params']) ? [] : $_REQUEST['params'];
+        return empty($_REQUEST['params']) ? $_REQUEST : $_REQUEST['params'];
     }
 
     /**
