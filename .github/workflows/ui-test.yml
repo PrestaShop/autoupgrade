@@ -62,7 +62,11 @@ jobs:
         run: |
           docker exec -t prestashop php -v bin/console prestashop:module install autoupgrade
 
-      - name: Upgrade
+      - name: Backup
+        run: |
+          docker exec -t prestashop php modules/autoupgrade/bin/console backup:create admin-dev
+
+      - name: Update
         run: |
          docker exec -t prestashop php modules/autoupgrade/bin/console update:start --channel=${{ matrix.UPGRADE_CHANNEL }} admin-dev
          docker exec -t prestashop chmod 777 -R /var/www/html/var/cache

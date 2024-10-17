@@ -28,25 +28,28 @@
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\Task\Backup\BackupComplete;
+use PrestaShop\Module\AutoUpgrade\Task\Backup\BackupDatabase;
+use PrestaShop\Module\AutoUpgrade\Task\Backup\BackupFiles;
+use PrestaShop\Module\AutoUpgrade\Task\Backup\BackupInitialization;
 use PrestaShop\Module\AutoUpgrade\Task\Miscellaneous\CheckFilesVersion;
 use PrestaShop\Module\AutoUpgrade\Task\Miscellaneous\CompareReleases;
 use PrestaShop\Module\AutoUpgrade\Task\Miscellaneous\UpdateConfig;
 use PrestaShop\Module\AutoUpgrade\Task\NullTask;
-use PrestaShop\Module\AutoUpgrade\Task\Rollback\NoRollbackFound;
-use PrestaShop\Module\AutoUpgrade\Task\Rollback\RestoreDb;
-use PrestaShop\Module\AutoUpgrade\Task\Rollback\RestoreFiles;
-use PrestaShop\Module\AutoUpgrade\Task\Rollback\Rollback;
-use PrestaShop\Module\AutoUpgrade\Task\Rollback\RollbackComplete;
-use PrestaShop\Module\AutoUpgrade\Task\Upgrade\BackupDb;
-use PrestaShop\Module\AutoUpgrade\Task\Upgrade\BackupFiles;
-use PrestaShop\Module\AutoUpgrade\Task\Upgrade\CleanDatabase;
-use PrestaShop\Module\AutoUpgrade\Task\Upgrade\Download;
-use PrestaShop\Module\AutoUpgrade\Task\Upgrade\Unzip;
-use PrestaShop\Module\AutoUpgrade\Task\Upgrade\UpgradeComplete;
-use PrestaShop\Module\AutoUpgrade\Task\Upgrade\UpgradeDb;
-use PrestaShop\Module\AutoUpgrade\Task\Upgrade\UpgradeFiles;
-use PrestaShop\Module\AutoUpgrade\Task\Upgrade\UpgradeModules;
-use PrestaShop\Module\AutoUpgrade\Task\Upgrade\UpgradeNow;
+use PrestaShop\Module\AutoUpgrade\Task\Restore\Restore;
+use PrestaShop\Module\AutoUpgrade\Task\Restore\RestoreComplete;
+use PrestaShop\Module\AutoUpgrade\Task\Restore\RestoreDatabase;
+use PrestaShop\Module\AutoUpgrade\Task\Restore\RestoreEmpty;
+use PrestaShop\Module\AutoUpgrade\Task\Restore\RestoreFiles;
+use PrestaShop\Module\AutoUpgrade\Task\TaskName;
+use PrestaShop\Module\AutoUpgrade\Task\Update\CleanDatabase;
+use PrestaShop\Module\AutoUpgrade\Task\Update\Download;
+use PrestaShop\Module\AutoUpgrade\Task\Update\Unzip;
+use PrestaShop\Module\AutoUpgrade\Task\Update\UpdateComplete;
+use PrestaShop\Module\AutoUpgrade\Task\Update\UpdateDatabase;
+use PrestaShop\Module\AutoUpgrade\Task\Update\UpdateFiles;
+use PrestaShop\Module\AutoUpgrade\Task\Update\UpdateInitialization;
+use PrestaShop\Module\AutoUpgrade\Task\Update\UpdateModules;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 class TaskRepository
@@ -55,45 +58,51 @@ class TaskRepository
     {
         switch ($step) {
             // MISCELLANEOUS (upgrade configuration, checks etc.)
-            case 'checkFilesVersion':
+            case TaskName::TASK_CHECK_FILES_VERSION:
                 return new CheckFilesVersion($container);
-            case 'compareReleases':
+            case TaskName::TASK_COMPARE_RELEASES:
                 return new CompareReleases($container);
-            case 'updateConfig':
+            case TaskName::TASK_UPDATE_CONFIG:
                 return new UpdateConfig($container);
 
-            // ROLLBACK
-            case 'rollback':
-                return new Rollback($container);
-            case 'noRollbackFound':
-                return new NoRollbackFound($container);
-            case 'restoreDb':
-                return new RestoreDb($container);
-            case 'restoreFiles':
+            // RESTORE
+            case TaskName::TASK_RESTORE:
+                return new Restore($container);
+            case TaskName::TASK_RESTORE_EMPTY:
+                return new RestoreEmpty($container);
+            case TaskName::TASK_RESTORE_DATABASE:
+                return new RestoreDatabase($container);
+            case TaskName::TASK_RESTORE_FILES:
                 return new RestoreFiles($container);
-            case 'rollbackComplete':
-                return new RollbackComplete($container);
+            case TaskName::TASK_RESTORE_COMPLETE:
+                return new RestoreComplete($container);
+
+            // BACKUP
+            case TaskName::TASK_BACKUP_INITIALIZATION:
+                return new BackupInitialization($container);
+            case TaskName::TASK_BACKUP_DATABASE:
+                return new BackupDatabase($container);
+            case TaskName::TASK_BACKUP_FILES:
+                return new BackupFiles($container);
+            case TaskName::TASK_BACKUP_COMPLETE:
+                return new BackupComplete($container);
 
             // UPGRADE
-            case 'upgradeNow':
-                return new UpgradeNow($container);
-            case 'backupDb':
-                return new BackupDb($container);
-            case 'backupFiles':
-                return new BackupFiles($container);
-            case 'cleanDatabase':
+            case TaskName::TASK_UPDATE_INITIALIZATION:
+                return new UpdateInitialization($container);
+            case TaskName::TASK_CLEAN_DATABASE:
                 return new CleanDatabase($container);
-            case 'download':
+            case TaskName::TASK_DOWNLOAD:
                 return new Download($container);
-            case 'upgradeComplete':
-                return new UpgradeComplete($container);
-            case 'upgradeDb':
-                return new UpgradeDb($container);
-            case 'upgradeFiles':
-                return new UpgradeFiles($container);
-            case 'upgradeModules':
-                return new UpgradeModules($container);
-            case 'unzip':
+            case TaskName::TASK_UPDATE_COMPLETE:
+                return new UpdateComplete($container);
+            case TaskName::TASK_UPDATE_DATABASE:
+                return new UpdateDatabase($container);
+            case TaskName::TASK_UPDATE_FILES:
+                return new UpdateFiles($container);
+            case TaskName::TASK_UPDATE_MODULES:
+                return new UpdateModules($container);
+            case TaskName::TASK_UNZIP:
                 return new Unzip($container);
         }
         error_log('Unknown step ' . $step);

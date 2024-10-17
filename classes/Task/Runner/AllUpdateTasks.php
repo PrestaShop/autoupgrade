@@ -29,15 +29,16 @@ namespace PrestaShop\Module\AutoUpgrade\Task\Runner;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\AjaxResponse;
+use PrestaShop\Module\AutoUpgrade\Task\TaskName;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 /**
  * Execute the whole upgrade process in a single request.
  */
-class AllUpgradeTasks extends ChainedTasks
+class AllUpdateTasks extends ChainedTasks
 {
-    const initialTask = 'upgradeNow';
-    const TASKS_WITH_RESTART = ['upgradeFiles', 'upgradeDb', 'upgradeModules'];
+    const initialTask = TaskName::TASK_UPDATE_INITIALIZATION;
+    const TASKS_WITH_RESTART = [TaskName::TASK_UPDATE_FILES, TaskName::TASK_UPDATE_DATABASE, TaskName::TASK_UPDATE_MODULES];
 
     /**
      * @var string
@@ -63,8 +64,6 @@ class AllUpgradeTasks extends ChainedTasks
         if (!empty($options['channel'])) {
             $config = [
                 'channel' => $options['channel'],
-                // Switch on default theme if major upgrade (i.e: 1.6 -> 1.7)
-                'PS_AUTOUP_CHANGE_DEFAULT_THEME' => ($options['channel'] === 'major'),
             ];
             $this->container->getUpgradeConfiguration()->validate($config);
             $this->container->getUpgradeConfiguration()->merge($config);

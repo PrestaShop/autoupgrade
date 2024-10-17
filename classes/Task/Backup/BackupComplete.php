@@ -1,4 +1,3 @@
-#!/usr/bin/env php
 <?php
 
 /**
@@ -26,33 +25,34 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-use PrestaShop\Module\AutoUpgrade\Commands\CheckRequirementsCommand;
-use PrestaShop\Module\AutoUpgrade\Commands\CreateBackupCommand;
-use PrestaShop\Module\AutoUpgrade\Commands\RestoreCommand;
-use PrestaShop\Module\AutoUpgrade\Commands\UpdateCommand;
-use Symfony\Component\Console\Application;
+namespace PrestaShop\Module\AutoUpgrade\Task\Backup;
 
-if (!is_dir(dirname(__DIR__).'/vendor')) {
-    throw new LogicException('Dependencies are missing. Try running "composer install".');
+use Exception;
+use PrestaShop\Module\AutoUpgrade\Analytics;
+use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
+use PrestaShop\Module\AutoUpgrade\Task\TaskName;
+use PrestaShop\Module\AutoUpgrade\Task\TaskType;
+
+class BackupComplete extends AbstractTask
+{
+    const TASK_TYPE = TaskType::TASK_TYPE_BACKUP;
+
+    /**
+     * @throws Exception
+     */
+    public function run(): int
+    {
+        $this->container->getState()->setProgressPercentage(
+            $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
+        );
+
+        $this->stepDone = true;
+        $this->next = TaskName::TASK_COMPLETE;
+
+        $this->container->getAnalytics()->track('Backup Succeeded', Analytics::WITH_BACKUP_PROPERTIES);
+        $this->logger->info($this->translator->trans('Backup completed successfully.'));
+
+        return ExitCode::SUCCESS;
+    }
 }
-
-require_once dirname(__DIR__).'/vendor/autoload.php';
-
-if (!defined('_PS_ROOT_DIR_')) {
-    define('_PS_ROOT_DIR_', __DIR__ . '/../../..');
-}
-
-$application = new Application();
-
-$application->add(new UpdateCommand());
-$application->add(new RestoreCommand());
-$application->add(new CheckRequirementsCommand());
-$application->add(new CreateBackupCommand());
-
-try {
-    $application->run();
-} catch (Exception $e) {
-    echo 'An error occurred: '. $e->getMessage() . PHP_EOL;
-    exit(1);
-}
-

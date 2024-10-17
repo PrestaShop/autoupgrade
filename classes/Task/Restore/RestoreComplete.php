@@ -1,4 +1,3 @@
-#!/usr/bin/env php
 <?php
 
 /**
@@ -26,33 +25,31 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-use PrestaShop\Module\AutoUpgrade\Commands\CheckRequirementsCommand;
-use PrestaShop\Module\AutoUpgrade\Commands\CreateBackupCommand;
-use PrestaShop\Module\AutoUpgrade\Commands\RestoreCommand;
-use PrestaShop\Module\AutoUpgrade\Commands\UpdateCommand;
-use Symfony\Component\Console\Application;
+namespace PrestaShop\Module\AutoUpgrade\Task\Restore;
 
-if (!is_dir(dirname(__DIR__).'/vendor')) {
-    throw new LogicException('Dependencies are missing. Try running "composer install".');
+use PrestaShop\Module\AutoUpgrade\Analytics;
+use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
+use PrestaShop\Module\AutoUpgrade\Task\TaskName;
+use PrestaShop\Module\AutoUpgrade\Task\TaskType;
+
+/**
+ * Only displays the success message.
+ */
+class RestoreComplete extends AbstractTask
+{
+    const TASK_TYPE = TaskType::TASK_TYPE_RESTORE;
+
+    public function run(): int
+    {
+        $this->logger->info($this->translator->trans('Restoration process done. Congratulations! You can now reactivate your shop.'));
+        $this->next = TaskName::TASK_COMPLETE;
+        $this->container->getAnalytics()->track('Restore Succeeded', Analytics::WITH_RESTORE_PROPERTIES);
+
+        $this->container->getState()->setProgressPercentage(
+            $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
+        );
+
+        return ExitCode::SUCCESS;
+    }
 }
-
-require_once dirname(__DIR__).'/vendor/autoload.php';
-
-if (!defined('_PS_ROOT_DIR_')) {
-    define('_PS_ROOT_DIR_', __DIR__ . '/../../..');
-}
-
-$application = new Application();
-
-$application->add(new UpdateCommand());
-$application->add(new RestoreCommand());
-$application->add(new CheckRequirementsCommand());
-$application->add(new CreateBackupCommand());
-
-try {
-    $application->run();
-} catch (Exception $e) {
-    echo 'An error occurred: '. $e->getMessage() . PHP_EOL;
-    exit(1);
-}
-

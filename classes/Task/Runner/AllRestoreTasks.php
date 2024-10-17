@@ -1,4 +1,3 @@
-#!/usr/bin/env php
 <?php
 
 /**
@@ -26,33 +25,42 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-use PrestaShop\Module\AutoUpgrade\Commands\CheckRequirementsCommand;
-use PrestaShop\Module\AutoUpgrade\Commands\CreateBackupCommand;
-use PrestaShop\Module\AutoUpgrade\Commands\RestoreCommand;
-use PrestaShop\Module\AutoUpgrade\Commands\UpdateCommand;
-use Symfony\Component\Console\Application;
+namespace PrestaShop\Module\AutoUpgrade\Task\Runner;
 
-if (!is_dir(dirname(__DIR__).'/vendor')) {
-    throw new LogicException('Dependencies are missing. Try running "composer install".');
+use PrestaShop\Module\AutoUpgrade\Task\TaskName;
+
+/**
+ * Execute the whole upgrade process in a single request.
+ */
+class AllRestoreTasks extends ChainedTasks
+{
+    const initialTask = TaskName::TASK_RESTORE;
+
+    /**
+     * @var string
+     */
+    protected $step = self::initialTask;
+
+    /**
+     * Customize the execution context with several options
+     * > action: Replace the initial step to run
+     * > channel: Makes a specific upgrade (minor, major etc.)
+     * > data: Loads an encoded array of data coming from another request.
+     *
+     * @param array<string, string> $options
+     */
+    public function setOptions(array $options): void
+    {
+        if (!empty($options['backup'])) {
+            $this->container->getState()->setRestoreName($options['backup']);
+        }
+    }
+
+    /**
+     * Set default config on first run.
+     */
+    public function init(): void
+    {
+        // Do nothing
+    }
 }
-
-require_once dirname(__DIR__).'/vendor/autoload.php';
-
-if (!defined('_PS_ROOT_DIR_')) {
-    define('_PS_ROOT_DIR_', __DIR__ . '/../../..');
-}
-
-$application = new Application();
-
-$application->add(new UpdateCommand());
-$application->add(new RestoreCommand());
-$application->add(new CheckRequirementsCommand());
-$application->add(new CreateBackupCommand());
-
-try {
-    $application->run();
-} catch (Exception $e) {
-    echo 'An error occurred: '. $e->getMessage() . PHP_EOL;
-    exit(1);
-}
-

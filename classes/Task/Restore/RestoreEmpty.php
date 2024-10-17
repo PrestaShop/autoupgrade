@@ -25,40 +25,22 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-namespace PrestaShop\Module\AutoUpgrade\Task\Runner;
+namespace PrestaShop\Module\AutoUpgrade\Task\Restore;
 
-/**
- * Execute the whole upgrade process in a single request.
- */
-class AllRollbackTasks extends ChainedTasks
+use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
+use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
+use PrestaShop\Module\AutoUpgrade\Task\TaskName;
+use PrestaShop\Module\AutoUpgrade\Task\TaskType;
+
+class RestoreEmpty extends AbstractTask
 {
-    const initialTask = 'rollback';
+    const TASK_TYPE = TaskType::TASK_TYPE_RESTORE;
 
-    /**
-     * @var string
-     */
-    protected $step = self::initialTask;
-
-    /**
-     * Customize the execution context with several options
-     * > action: Replace the initial step to run
-     * > channel: Makes a specific upgrade (minor, major etc.)
-     * > data: Loads an encoded array of data coming from another request.
-     *
-     * @param array<string, string> $options
-     */
-    public function setOptions(array $options): void
+    public function run(): int
     {
-        if (!empty($options['backup'])) {
-            $this->container->getState()->setRestoreName($options['backup']);
-        }
-    }
+        $this->logger->info($this->translator->trans('Nothing to restore'));
+        $this->next = TaskName::TASK_RESTORE_COMPLETE;
 
-    /**
-     * Set default config on first run.
-     */
-    public function init(): void
-    {
-        // Do nothing
+        return ExitCode::SUCCESS;
     }
 }

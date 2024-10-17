@@ -30,7 +30,7 @@ namespace PrestaShop\Module\AutoUpgrade\Commands;
 use Exception;
 use PrestaShop\Module\AutoUpgrade\DeveloperDocumentation;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
-use PrestaShop\Module\AutoUpgrade\Task\Runner\AllUpgradeTasks;
+use PrestaShop\Module\AutoUpgrade\Task\Runner\AllUpdateTasks;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -89,7 +89,7 @@ class UpdateCommand extends AbstractCommand
 
             $this->logger->debug('Configuration loaded successfully.');
             $this->logger->debug('Starting the update process.');
-            $controller = new AllUpgradeTasks($this->upgradeContainer);
+            $controller = new AllUpdateTasks($this->upgradeContainer);
             $controller->setOptions([
                 'data' => $input->getOption('data'),
                 'action' => $input->getOption('action'),

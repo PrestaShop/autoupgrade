@@ -29,29 +29,24 @@ namespace PrestaShop\Module\AutoUpgrade\Commands;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
-use PrestaShop\Module\AutoUpgrade\Task\Runner\AllRestoreTasks;
+use PrestaShop\Module\AutoUpgrade\Task\Runner\AllBackupTasks;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class RestoreCommand extends AbstractCommand
+class CreateBackupCommand extends AbstractCommand
 {
-    /**
-     * @var string
-     */
-    protected static $defaultName = 'backup:restore';
+    /** @var string */
+    protected static $defaultName = 'backup:create';
 
     protected function configure(): void
     {
         $this
-            ->setDescription('Restore your store.')
-            ->setHelp(
-                'This command allows you to restore your store from a backup.' .
-                'See https://devdocs.prestashop-project.org/8/basics/keeping-up-to-date/upgrade-module/upgrade-cli/#rollback-cli for more details'
-            )
-            ->addArgument('admin-dir', InputArgument::REQUIRED, 'The admin directory name.')
-            ->addOption('backup', null, InputOption::VALUE_REQUIRED, 'Specify the backup name to restore (this can be found in your folder <admin directory>/autoupgrade/backup/)');
+            ->setDescription('Create backup.')
+            ->setHelp('This command triggers the creation of the files and database backup.')
+            ->addOption('config-file-path', null, InputOption::VALUE_REQUIRED, 'Configuration file location.')
+            ->addArgument('admin-dir', InputArgument::REQUIRED, 'The admin directory name.');
     }
 
     /**
@@ -62,25 +57,14 @@ class RestoreCommand extends AbstractCommand
         try {
             $this->setupContainer($input, $output);
 
-            $backup = $input->getOption('backup');
-
-            if (!$backup) {
-                $this->logger->error("The '--backup' option is required.");
-
-                return ExitCode::FAIL;
-            }
-
-            $controller = new AllRestoreTasks($this->upgradeContainer);
-            $controller->setOptions([
-                'backup' => $backup,
-            ]);
+            $controller = new AllBackupTasks($this->upgradeContainer);
             $controller->init();
             $exitCode = $controller->run();
             $this->logger->debug('Process completed with exit code: ' . $exitCode);
 
             return $exitCode;
         } catch (Exception $e) {
-            $this->logger->error('An error occurred during the restoration process: ' . $e->getMessage());
+            $this->logger->error('An error occurred during the backup process: ' . $e->getMessage());
 
             return ExitCode::FAIL;
         }
