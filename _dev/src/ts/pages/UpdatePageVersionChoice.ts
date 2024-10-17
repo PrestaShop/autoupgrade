@@ -12,47 +12,32 @@ export default class UpdatePageVersionChoice extends UpdatePage {
 
   public mount = () => {
     this.initStepper();
-    if (this.form) {
-      this.form.addEventListener('change', this.saveForm.bind(this));
-      this.form.addEventListener('submit', this.handleSubmit);
-      if (this.onlineCardParent) {
-        this.onlineCardParent.addEventListener(Hydration.hydrationEventName, this.handleHydrate);
-      }
-      if (this.localCardParent) {
-        this.localCardParent.addEventListener(Hydration.hydrationEventName, this.handleHydrate);
-      }
-      this.toggleNextButton();
-      this.addListenerToCheckRequirementsAgainButtons();
-    }
+    if (!this.form) return;
+
+    this.form.addEventListener('change', this.saveForm.bind(this));
+    this.form.addEventListener('submit', this.handleSubmit);
+
+    this.onlineCardParent?.addEventListener(Hydration.hydrationEventName, this.handleHydrate);
+    this.localCardParent?.addEventListener(Hydration.hydrationEventName, this.handleHydrate);
+
+    this.toggleNextButton();
+    this.addListenerToCheckRequirementsAgainButtons();
   };
 
   public beforeDestroy = () => {
-    if (this.form) {
-      this.form.removeEventListener('change', this.saveForm);
-      this.form.removeEventListener('submit', this.handleSubmit);
-      if (this.onlineCardParent) {
-        this.onlineCardParent.removeEventListener(
-          Hydration.hydrationEventName,
-          this.toggleNextButton
-        );
-      }
-      if (this.localCardParent) {
-        this.localCardParent.removeEventListener(
-          Hydration.hydrationEventName,
-          this.toggleNextButton
-        );
-      }
-      this.checkRequirementsAgainButtons?.forEach((element) => {
-        element.removeEventListener('click', this.saveForm);
-      });
-    }
+    if (!this.form) return;
+    this.form.removeEventListener('change', this.saveForm);
+    this.form.removeEventListener('submit', this.handleSubmit);
+    this.onlineCardParent?.removeEventListener(Hydration.hydrationEventName, this.toggleNextButton);
+    this.localCardParent?.removeEventListener(Hydration.hydrationEventName, this.toggleNextButton);
+    this.checkRequirementsAgainButtons?.forEach((element) => {
+      element.removeEventListener('click', this.saveForm);
+    });
   };
 
   private sendForm = (routeToSend: string) => {
-    if (this.form) {
-      const formData = new FormData(this.form);
-      api.post(routeToSend, formData);
-    }
+    const formData = new FormData(this.form!);
+    api.post(routeToSend, formData);
   };
 
   private addListenerToCheckRequirementsAgainButtons = () => {
@@ -151,9 +136,7 @@ export default class UpdatePageVersionChoice extends UpdatePage {
   }
 
   private get onlineInputElement(): HTMLInputElement | undefined {
-    return this.form
-      ? (this.form?.elements.namedItem('online') as HTMLInputElement | undefined)
-      : undefined;
+    return this.form?.elements.namedItem('online') as HTMLInputElement | undefined;
   }
 
   private get onlineInputIsChecked(): boolean {
@@ -166,9 +149,7 @@ export default class UpdatePageVersionChoice extends UpdatePage {
   }
 
   private get localInputElement(): HTMLInputElement | undefined {
-    return this.form
-      ? (this.form?.elements.namedItem('local') as HTMLInputElement | undefined)
-      : undefined;
+    return this.form?.elements.namedItem('local') as HTMLInputElement | undefined;
   }
 
   private get localInputIsChecked(): boolean {
@@ -176,9 +157,7 @@ export default class UpdatePageVersionChoice extends UpdatePage {
   }
 
   private get archiveZipSelectElement(): HTMLSelectElement | undefined {
-    return this.form
-      ? (this.form?.elements.namedItem('archive_zip') as HTMLSelectElement | undefined)
-      : undefined;
+    return this.form?.elements.namedItem('archive_zip') as HTMLSelectElement | undefined;
   }
 
   private get archiveZipIsFilled(): boolean {
@@ -186,9 +165,7 @@ export default class UpdatePageVersionChoice extends UpdatePage {
   }
 
   private get archiveXmlSelectElement(): HTMLSelectElement | undefined {
-    return this.form
-      ? (this.form?.elements.namedItem('archive_xml') as HTMLSelectElement | undefined)
-      : undefined;
+    return this.form!.elements.namedItem('archive_xml') as HTMLSelectElement | undefined;
   }
 
   private get archiveXmlIsFilled(): boolean {
