@@ -42,8 +42,6 @@ class Upgrader
     const CHANNEL_LOCAL = 'local';
 
     const DEFAULT_CHECK_VERSION_DELAY_HOURS = 12;
-    const DEFAULT_CHANNEL = self::CHANNEL_ONLINE;
-    const DEFAULT_FILENAME = 'prestashop.zip';
 
     /** @var self::CHANNEL_* */
     private $channel;
@@ -64,7 +62,7 @@ class Upgrader
     ) {
         $this->currentPsVersion = $currentPsVersion;
         $this->phpVersionResolverService = $phpRequirementService;
-        $this->channel = $upgradeConfiguration->getChannel() ?? self::DEFAULT_CHANNEL;
+        $this->channel = $upgradeConfiguration->getChannel() ? $upgradeConfiguration->getChannel() : UpgradeConfiguration::DEFAULT_CHANNEL;
         $this->upgradeConfiguration = $upgradeConfiguration;
     }
 
@@ -72,14 +70,14 @@ class Upgrader
      * downloadLast download the last version of PrestaShop and save it in $dest/$filename.
      *
      * @param string $dest directory where to save the file
-     * @param string|null $filename new filename
+     * @param string $filename new filename
      *
      * @throws DistributionApiException
      * @throws UpgradeException
      *
      * @TODO ftp if copy is not possible (safe_mode for example)
      */
-    public function downloadLast(string $dest, ?string $filename = self::DEFAULT_FILENAME): bool
+    public function downloadLast(string $dest, string $filename = UpgradeConfiguration::DEFAULT_FILENAME): bool
     {
         if ($this->onlineDestinationRelease === null) {
             $this->getOnlineDestinationRelease();
