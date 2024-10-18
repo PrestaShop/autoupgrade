@@ -29,6 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade\Parameters;
 
 use Configuration;
 use Doctrine\Common\Collections\ArrayCollection;
+use PrestaShop\Module\AutoUpgrade\Upgrader;
 use Shop;
 use UnexpectedValueException;
 
@@ -53,12 +54,15 @@ class UpgradeConfiguration extends ArrayCollection
     ];
 
     const PS_CONST_DEFAULT_VALUE = [
-        'PS_AUTOUP_CUSTOM_MOD_DESACT' => 1,
-        'PS_AUTOUP_CHANGE_DEFAULT_THEME' => 0,
-        'PS_AUTOUP_KEEP_MAILS' => 0,
-        'PS_AUTOUP_BACKUP' => 1,
-        'PS_AUTOUP_KEEP_IMAGES' => 1,
+        'PS_AUTOUP_CUSTOM_MOD_DESACT' => true,
+        'PS_AUTOUP_CHANGE_DEFAULT_THEME' => false,
+        'PS_AUTOUP_KEEP_MAILS' => false,
+        'PS_AUTOUP_BACKUP' => true,
+        'PS_AUTOUP_KEEP_IMAGES' => true,
     ];
+
+    const DEFAULT_CHANNEL = Upgrader::CHANNEL_ONLINE;
+    const DEFAULT_FILENAME = 'prestashop.zip';
 
     /**
      * Performance settings, if your server has a low memory size, lower these values.
@@ -138,7 +142,9 @@ class UpgradeConfiguration extends ArrayCollection
 
     public function shouldBackupFilesAndDatabase(): bool
     {
-        return filter_var($this->get('PS_AUTOUP_BACKUP'), FILTER_VALIDATE_BOOLEAN);
+        $currentValue = filter_var($this->get('PS_AUTOUP_BACKUP'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+
+        return $currentValue !== null ? $currentValue : self::PS_CONST_DEFAULT_VALUE['PS_AUTOUP_BACKUP'];
     }
 
     /**
@@ -146,7 +152,9 @@ class UpgradeConfiguration extends ArrayCollection
      */
     public function shouldBackupImages(): bool
     {
-        return filter_var($this->get('PS_AUTOUP_KEEP_IMAGES'), FILTER_VALIDATE_BOOLEAN);
+        $currentValue = filter_var($this->get('PS_AUTOUP_KEEP_IMAGES'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+
+        return $currentValue !== null ? $currentValue : self::PS_CONST_DEFAULT_VALUE['PS_AUTOUP_KEEP_IMAGES'];
     }
 
     /**
@@ -154,7 +162,9 @@ class UpgradeConfiguration extends ArrayCollection
      */
     public function shouldDeactivateCustomModules(): bool
     {
-        return filter_var($this->get('PS_AUTOUP_CUSTOM_MOD_DESACT'), FILTER_VALIDATE_BOOLEAN);
+        $currentValue = filter_var($this->get('PS_AUTOUP_CUSTOM_MOD_DESACT'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+
+        return $currentValue !== null ? $currentValue : self::PS_CONST_DEFAULT_VALUE['PS_AUTOUP_CUSTOM_MOD_DESACT'];
     }
 
     /**
@@ -162,7 +172,9 @@ class UpgradeConfiguration extends ArrayCollection
      */
     public function shouldKeepMails(): bool
     {
-        return filter_var($this->get('PS_AUTOUP_KEEP_MAILS'), FILTER_VALIDATE_BOOLEAN);
+        $currentValue = filter_var($this->get('PS_AUTOUP_KEEP_MAILS'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+
+        return $currentValue !== null ? $currentValue : self::PS_CONST_DEFAULT_VALUE['PS_AUTOUP_KEEP_MAILS'];
     }
 
     /**
@@ -170,7 +182,9 @@ class UpgradeConfiguration extends ArrayCollection
      */
     public function shouldSwitchToDefaultTheme(): bool
     {
-        return filter_var($this->get('PS_AUTOUP_CHANGE_DEFAULT_THEME'), FILTER_VALIDATE_BOOLEAN);
+        $currentValue = filter_var($this->get('PS_AUTOUP_CHANGE_DEFAULT_THEME'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+
+        return $currentValue !== null ? $currentValue : self::PS_CONST_DEFAULT_VALUE['PS_AUTOUP_CHANGE_DEFAULT_THEME'];
     }
 
     public static function isOverrideAllowed(): bool

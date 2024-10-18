@@ -79,7 +79,7 @@ class UpdateCommand extends AbstractCommand
 
             // in the case of commands containing the update status, it is not necessary to update the configuration
             // also we do not want to repeat the update of the config in the recursive commands
-            if (!$input->hasOption('data')) {
+            if ($input->getOption('data') === null) {
                 $configPath = $input->getOption('config-file-path');
                 $exitCode = $this->loadConfiguration($configPath, $this->upgradeContainer);
                 if ($exitCode !== ExitCode::SUCCESS) {
@@ -118,6 +118,10 @@ class UpdateCommand extends AbstractCommand
     {
         $lastInfo = $this->logger->getLastInfo();
 
+        if (!$lastInfo) {
+            return ExitCode::SUCCESS;
+        }
+
         if (strpos($lastInfo, 'bin/console update:start') !== false) {
             if (preg_match('/--action=(\S+)/', $lastInfo, $actionMatches)) {
                 $action = $actionMatches[1];
@@ -133,7 +137,7 @@ class UpdateCommand extends AbstractCommand
 
                 return ExitCode::FAIL;
             }
-            $new_string = str_replace('INFO - $ ', '', $this->logger->getLastInfo());
+            $new_string = str_replace('INFO - $ ', '', $lastInfo);
             $decorationParam = $output->isDecorated() ? ' --ansi' : '';
             system('php ' . $new_string . $decorationParam, $exitCode);
 

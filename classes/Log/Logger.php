@@ -160,13 +160,8 @@ abstract class Logger implements LoggerInterface
      * Return the last message stored with the INFO level.
      * Equivalent of the old $next_desc
      * Used during upgrade. Will be displayed on the top left panel.
-     *
-     * @return string Stores the main information about the current step
      */
-    public function getLastInfo(): string
-    {
-        return '';
-    }
+    abstract public function getLastInfo(): ?string;
 
     public function updateLogsPath(string $logsPath): void
     {
