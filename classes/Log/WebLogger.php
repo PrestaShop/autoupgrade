@@ -39,8 +39,8 @@ class WebLogger extends Logger
     /** @var string[] */
     protected $severeMessages = [];
 
-    /** @var string */
-    protected $lastInfo = '';
+    /** @var ?string */
+    protected $lastInfo;
 
     /**
      * {@inheritdoc}
@@ -65,7 +65,7 @@ class WebLogger extends Logger
     /**
      * {@inheritdoc}
      */
-    public function getLastInfo(): string
+    public function getLastInfo(): ?string
     {
         return $this->lastInfo;
     }
