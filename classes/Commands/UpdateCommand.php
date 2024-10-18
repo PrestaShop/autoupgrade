@@ -118,6 +118,10 @@ class UpdateCommand extends AbstractCommand
     {
         $lastInfo = $this->logger->getLastInfo();
 
+        if (!$lastInfo) {
+            return ExitCode::SUCCESS;
+        }
+
         if (strpos($lastInfo, 'bin/console update:start') !== false) {
             if (preg_match('/--action=(\S+)/', $lastInfo, $actionMatches)) {
                 $action = $actionMatches[1];
@@ -133,7 +137,7 @@ class UpdateCommand extends AbstractCommand
 
                 return ExitCode::FAIL;
             }
-            $new_string = str_replace('INFO - $ ', '', $this->logger->getLastInfo());
+            $new_string = str_replace('INFO - $ ', '', $lastInfo);
             $decorationParam = $output->isDecorated() ? ' --ansi' : '';
             system('php ' . $new_string . $decorationParam, $exitCode);
 

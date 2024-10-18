@@ -806,15 +806,15 @@ $(document).ready(function () {
         }
 
         if ($newChannel === "local") {
-          var archive_prestashop = $("select[name=archive_prestashop]").val();
+          var archive_zip = $("select[name=archive_zip]").val();
           var archive_xml = $("select[name=archive_xml]").val();
-          if (!archive_prestashop && !archive_xml) {
+          if (!archive_zip && !archive_xml) {
             showConfigResult(
               input.translation.noArchiveAndXmlSelected,
               "error",
             );
             return false;
-          } else if (!archive_prestashop) {
+          } else if (!archive_zip) {
             showConfigResult(input.translation.noArchiveSelected, "error");
             return false;
           } else if (!archive_xml) {
@@ -822,7 +822,7 @@ $(document).ready(function () {
             return false;
           }
           params.channel = "local";
-          params.archive_zip = archive_prestashop;
+          params.archive_zip = archive_zip;
           params.archive_xml = archive_xml;
         }
       }

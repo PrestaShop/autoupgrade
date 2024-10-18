@@ -79,7 +79,7 @@ class UpdateConfig extends AbstractTask
 
         $this->container->getUpgradeConfiguration()->validate($config);
 
-        if ($config['channel'] === Upgrader::CHANNEL_LOCAL) {
+        if (isset($config['channel']) && $config['channel'] === Upgrader::CHANNEL_LOCAL) {
             $file = $config['archive_zip'];
             $fullFilePath = $this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $file;
             if (!file_exists($fullFilePath)) {
@@ -177,7 +177,7 @@ class UpdateConfig extends AbstractTask
      */
     protected function getRequestParams(): array
     {
-        return empty($_REQUEST['params']) ? [] : $_REQUEST['params'];
+        return empty($_REQUEST['params']) ? $_REQUEST : $_REQUEST['params'];
     }
 
     /**

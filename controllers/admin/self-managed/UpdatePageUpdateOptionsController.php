@@ -46,7 +46,7 @@ class UpdatePageUpdateOptionsController extends AbstractPageController
      */
     public function step(): string
     {
-        return $this->twig->render(
+        return $this->getTwig()->render(
             '@ModuleAutoUpgrade/steps/update-options.html.twig',
             $this->getParams()
         );

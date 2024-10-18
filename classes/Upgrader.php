@@ -42,8 +42,6 @@ class Upgrader
     const CHANNEL_LOCAL = 'local';
 
     const DEFAULT_CHECK_VERSION_DELAY_HOURS = 12;
-    const DEFAULT_CHANNEL = self::CHANNEL_ONLINE;
-    const DEFAULT_FILENAME = 'prestashop.zip';
 
     /** @var self::CHANNEL_* */
     private $channel;
@@ -64,7 +62,7 @@ class Upgrader
     ) {
         $this->currentPsVersion = $currentPsVersion;
         $this->phpVersionResolverService = $phpRequirementService;
-        $this->channel = $upgradeConfiguration->getChannel();
+        $this->channel = $upgradeConfiguration->getChannel() ? $upgradeConfiguration->getChannel() : UpgradeConfiguration::DEFAULT_CHANNEL;
         $this->upgradeConfiguration = $upgradeConfiguration;
     }
 
@@ -79,7 +77,7 @@ class Upgrader
      *
      * @TODO ftp if copy is not possible (safe_mode for example)
      */
-    public function downloadLast(string $dest, string $filename = 'prestashop.zip'): bool
+    public function downloadLast(string $dest, string $filename = UpgradeConfiguration::DEFAULT_FILENAME): bool
     {
         if ($this->onlineDestinationRelease === null) {
             $this->getOnlineDestinationRelease();

@@ -241,7 +241,7 @@ class UpgradeContainer
     /**
      * @throws Exception
      */
-    public function getProperty(string $property): string
+    public function getProperty(string $property): ?string
     {
         switch ($property) {
             case self::PS_ADMIN_PATH:
@@ -265,7 +265,7 @@ class UpgradeContainer
             case self::LOGS_PATH:
                 return $this->autoupgradeWorkDir . DIRECTORY_SEPARATOR . 'logs';
             case self::ARCHIVE_FILENAME:
-                return $this->getUpgradeConfiguration()->getArchiveZip();
+                return $this->getUpgradeConfiguration()->getArchiveZip() ? $this->getUpgradeConfiguration()->getArchiveZip() : UpgradeConfiguration::DEFAULT_FILENAME;
             case self::ARCHIVE_FILEPATH:
                 return $this->getProperty(self::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $this->getProperty(self::ARCHIVE_FILENAME);
             case self::PS_VERSION:
@@ -602,19 +602,19 @@ class UpgradeContainer
             return $this->twig;
         }
 
-        if (class_exists(Twig_Environment::class)) {
+        if (class_exists(Environment::class)) {
+            // We use Twig 3
+            $loader = new FilesystemLoader();
+            $loader->addPath(realpath(__DIR__ . '/..') . '/views/templates', 'ModuleAutoUpgrade');
+            $twig = new Environment($loader);
+            $twig->addExtension(new TransFilterExtension3($this->getTranslator()));
+        } else {
             // We use Twig 1
             // Using independant template engine for 1.6 & 1.7 compatibility
             $loader = new Twig_Loader_Filesystem();
             $loader->addPath(realpath(__DIR__ . '/..') . '/views/templates', 'ModuleAutoUpgrade');
             $twig = new Twig_Environment($loader);
             $twig->addExtension(new TransFilterExtension($this->getTranslator()));
-        } else {
-            // We use Twig 3
-            $loader = new FilesystemLoader();
-            $loader->addPath(realpath(__DIR__ . '/..') . '/views/templates', 'ModuleAutoUpgrade');
-            $twig = new Environment($loader);
-            $twig->addExtension(new TransFilterExtension3($this->getTranslator()));
         }
 
         $this->twig = $twig;

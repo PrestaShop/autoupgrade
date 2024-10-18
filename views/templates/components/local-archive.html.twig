@@ -15,7 +15,12 @@
         <option value="">{{ 'Choose an archive'|trans({}) }}</option>
         {% for file in archiveFiles %}
           {% set fileName = file|replace({(downloadPath): ''}) %}
-          <option {% if archiveFileName == fileName %} selected {% endif %} value="{{ fileName }}">
+          <option
+            {% if current_values is defined and current_values.archive_zip == fileName %}
+              selected
+            {% endif %}
+            value="{{ fileName }}"
+          >
             {{ fileName }}
           </option>
         {% endfor %}
@@ -44,7 +49,12 @@
         <option value="">{{ 'Choose an XML file'|trans({}) }}</option>
         {% for file in xmlFiles %}
           {% set fileName = file|replace({(downloadPath): ''}) %}
-          <option {% if xmlFileName == fileName %} selected {% endif %} value="{{ fileName }}">
+          <option
+            {% if current_values is defined and current_values.archive_xml == fileName %}
+              selected
+            {% endif %}
+            value="{{ fileName }}"
+          >
             {{ fileName }}
           </option>
         {% endfor %}
