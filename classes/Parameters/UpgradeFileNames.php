@@ -58,6 +58,15 @@ class UpgradeFileNames
     const FILES_TO_UPGRADE_LIST = 'filesToUpgrade.list';
 
     /**
+     * during upgradeFiles process,
+     * this files contains the list of files left to upgrade in a serialized array.
+     * (this file is deleted in init() method if you reload the page).
+     *
+     * @var string
+     */
+    const SQL_TO_EXECUTE_LIST = 'sqlToExecute.list';
+
+    /**
      * during upgradeModules process,
      * this files contains the list of modules left to upgrade in a serialized array.
      * (this file is deleted in init() method if you reload the page).

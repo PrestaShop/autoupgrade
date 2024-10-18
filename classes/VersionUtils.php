@@ -166,4 +166,23 @@ class VersionUtils
             'patch' => $matches['patch'],
         ];
     }
+
+    /**
+     * Add missing levels in version.
+     * Example: 1.7 will become 1.7.0.0 and 8.1 will become 8.1.0.
+     *
+     * @param string $version
+     *
+     * @return string
+     */
+    public static function normalizePrestaShopVersion($version)
+    {
+        $arrayVersion = explode('.', $version);
+        $versionLevels = 1 == $arrayVersion[0] ? 4 : 3;
+        if (count($arrayVersion) < $versionLevels) {
+            $arrayVersion = array_pad($arrayVersion, $versionLevels, '0');
+        }
+
+        return implode('.', $arrayVersion);
+    }
 }
