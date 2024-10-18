@@ -55,25 +55,19 @@ class UpdateDatabase extends AbstractTask
                 $this->warmUp();
                 $originVersion = $this->container->getState()->getOriginVersion();
                 $sqlContentList = $this->getCoreUpgrader()->getSqlContentList($originVersion);
-
-                $totalQueries = 0;
-                foreach ($sqlContentList as $queries) {
-                    $totalQueries += count($queries);
-                }
-
-                $backlog = new Backlog($sqlContentList, $totalQueries);
+                $backlog = new Backlog($sqlContentList, count($sqlContentList));
             } else {
                 $this->getCoreUpgrader()->setupUpdateEnvironment();
                 $backlog = Backlog::fromContents($this->container->getFileConfigurationStorage()->load(UpgradeFileNames::SQL_TO_EXECUTE_LIST));
             }
 
-            if ($backlog->getRemainingTotal(2) > 0) {
-                $this->logger->info($this->translator->trans('Update database in progress. %d queries left', [$backlog->getRemainingTotal(2)]));
+            if ($backlog->getRemainingTotal() > 0) {
+                $this->logger->info($this->translator->trans('Update database in progress. %d queries left', [$backlog->getRemainingTotal()]));
 
                 $this->updateDatabase($backlog);
 
                 $this->container->getState()->setProgressPercentage(
-                    $this->container->getCompletionCalculator()->computePercentage($backlog, self::class, UpdateModules::class, 2)
+                    $this->container->getCompletionCalculator()->computePercentage($backlog, self::class, UpdateModules::class)
                 );
 
                 $this->next = TaskName::TASK_UPDATE_DATABASE;
@@ -182,16 +176,12 @@ class UpdateDatabase extends AbstractTask
 
     protected function updateDatabase(Backlog $backlog): void
     {
-        $upgradeFile = $backlog->getFirstKey();
         $sqlContent = $backlog->getFirstValue();
+        $key = $backlog->getFirstKey();
 
-        $query = reset($sqlContent);
-        $queryIndex = key($sqlContent);
+        $this->getCoreUpgrader()->runQuery($sqlContent['version'], $sqlContent['query']);
+        $backlog->removeAt($key);
 
-        $this->getCoreUpgrader()->runQuery($upgradeFile, $query);
-
-        unset($sqlContent[$queryIndex]);
-        $backlog->updateItem($upgradeFile, $sqlContent);
         $this->container->getFileConfigurationStorage()->save($backlog->dump(), UpgradeFileNames::SQL_TO_EXECUTE_LIST);
     }
 }

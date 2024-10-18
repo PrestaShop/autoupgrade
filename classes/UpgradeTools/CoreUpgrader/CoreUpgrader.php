@@ -290,7 +290,7 @@ abstract class CoreUpgrader
     /**
      * @throws UpgradeException
      *
-     * @return array<string, array<int, string>>
+     * @return array<array{'version':string,'query':string}>
      */
     public function getSqlContentList(string $originVersion): array
     {
@@ -306,7 +306,7 @@ abstract class CoreUpgrader
      *
      * @param array<string, string> $sqlFiles
      *
-     * @return array<string, string[]> of SQL requests per version
+     * @return array<array{'version':string,'query':string}> of SQL requests per version
      */
     protected function applySqlParams(array $sqlFiles): array
     {
@@ -319,7 +319,12 @@ abstract class CoreUpgrader
             $sqlContent = file_get_contents($file) . "\n";
             $sqlContent = str_replace($search, $replace, $sqlContent);
             $sqlContent = array_filter(preg_split("/;\s*[\r\n]+/", $sqlContent));
-            $sqlRequests[$version] = $sqlContent;
+            foreach ($sqlContent as $query) {
+                $sqlRequests[] = [
+                    'version' => $version,
+                    'query' => $query,
+                ];
+            }
         }
 
         return $sqlRequests;

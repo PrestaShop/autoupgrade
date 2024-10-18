@@ -106,42 +106,16 @@ class Backlog
     }
 
     /**
-     * @param int|string $key
-     * @param mixed $content
+     * @param int|string $backlogKey
      */
-    public function updateItem($key, $content): void
+    public function removeAt($backlogKey): void
     {
-        if (empty($content)) {
-            unset($this->backlog[$key]);
-        } else {
-            $this->backlog[$key] = $content;
-        }
+        unset($this->backlog[$backlogKey]);
     }
 
-    public function getRemainingTotal(int $depth = 1): int
+    public function getRemainingTotal(): int
     {
-        return $this->countElements($this->backlog, $depth);
-    }
-
-    /**
-     * @param mixed[] $array
-     */
-    private function countElements(array $array, int $depth): int
-    {
-        if ($depth === 1) {
-            return count($array);
-        }
-
-        $total = 0;
-        foreach ($array as $value) {
-            if (is_array($value)) {
-                $total += $this->countElements($value, $depth - 1);
-            } else {
-                ++$total;
-            }
-        }
-
-        return $total;
+        return count($this->backlog);
     }
 
     public function getInitialTotal(): int

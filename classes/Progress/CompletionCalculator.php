@@ -97,7 +97,7 @@ class CompletionCalculator
     /**
      * @return int<0, 100>
      */
-    public function computePercentage(Backlog $backlog, string $currentTaskClass, string $nextTaskClass, int $backlogDepth = 1): int
+    public function computePercentage(Backlog $backlog, string $currentTaskClass, string $nextTaskClass): int
     {
         $currentBaseProgress = $this->getBasePercentageOfTask($currentTaskClass);
         $nextBaseProgress = $this->getBasePercentageOfTask($nextTaskClass);
@@ -108,6 +108,6 @@ class CompletionCalculator
         }
 
         // Casting as integer is equivalent to using floor(), and we want to round down.
-        return (int) ($currentBaseProgress + (($nextBaseProgress - $currentBaseProgress) * ($backlog->getInitialTotal() - $backlog->getRemainingTotal($backlogDepth)) / $backlog->getInitialTotal()));
+        return (int) ($currentBaseProgress + (($nextBaseProgress - $currentBaseProgress) * ($backlog->getInitialTotal() - $backlog->getRemainingTotal()) / $backlog->getInitialTotal()));
     }
 }
