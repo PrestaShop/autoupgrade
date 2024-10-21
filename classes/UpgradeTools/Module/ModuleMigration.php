@@ -143,7 +143,7 @@ class ModuleMigration
      *
      * @throws UpgradeException
      */
-    private function loadAndCallFunction(string $file, string $methodName,\Module $moduleInstance): void
+    private function loadAndCallFunction(string $file, string $methodName, \Module $moduleInstance): void
     {
         include_once $file;
 
