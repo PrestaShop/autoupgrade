@@ -105,31 +105,14 @@ class ModuleMigration
 
             $methodName = $this->getUpgradeMethodName($migrationFilePath);
 
-            // check if function already exists to prevent upgrade crash
-            if (function_exists($methodName)) {
-                $moduleMigrationContext->getModuleInstance()->disable();
-                throw (new UpgradeException($this->translator->trans('[WARNING] Method %s already exists. Migration for module %s aborted, you can try again later on the module manager. Module %s disabled.', [$methodName, $moduleMigrationContext->getModuleName(), $moduleMigrationContext->getModuleName()])))->setSeverity(UpgradeException::SEVERITY_WARNING);
-            }
-
-            include $migrationFilePath;
-
-            // @phpstan-ignore booleanNot.alwaysTrue (we ignore this error because we load a file with methods)
-            if (!function_exists($methodName)) {
-                $moduleMigrationContext->getModuleInstance()->disable();
-                throw (new UpgradeException($this->translator->trans('[WARNING] Method %s does not exist. Module %s disabled.', [$methodName, $moduleMigrationContext->getModuleName()])))->setSeverity(UpgradeException::SEVERITY_WARNING);
-            }
-
-            // @phpstan-ignore deadCode.unreachable (we ignore this error because the previous if can be true or false)
             try {
-                if (!$methodName($moduleMigrationContext->getModuleInstance())) {
-                    throw (new UpgradeException($this->translator->trans('[WARNING] Migration failed while running the file %s. Module %s disabled.', [basename($migrationFilePath), $moduleMigrationContext->getModuleName()])))->setSeverity(UpgradeException::SEVERITY_WARNING);
-                }
+                $this->loadAndCallFunction($migrationFilePath, $methodName, $moduleMigrationContext->getModuleInstance());
             } catch (UpgradeException $e) {
                 $moduleMigrationContext->getModuleInstance()->disable();
                 throw $e;
             } catch (Throwable $t) {
                 $moduleMigrationContext->getModuleInstance()->disable();
-                throw (new UpgradeException($this->translator->trans('[WARNING] Unexpected error when trying to upgrade module %s. Module %s disabled.', [$moduleMigrationContext->getModuleName(), $moduleMigrationContext->getModuleName()]), 0, $t))->setSeverity(UpgradeException::SEVERITY_WARNING);
+                throw new UpgradeException($this->translator->trans('[WARNING] Unexpected error when trying to upgrade module %s. Module %s disabled.', [$moduleMigrationContext->getModuleName(), $moduleMigrationContext->getModuleName()]), 0, $t);
             }
         }
     }
@@ -153,5 +136,35 @@ class ModuleMigration
         $version = str_replace('.', '_', $matches[1]);
 
         return 'upgrade_module_' . $version;
+    }
+
+    /**
+     * Allows to load migration files with the same name by instantiating a class created on the fly
+     *
+     * @throws UpgradeException
+     */
+    private function loadAndCallFunction(string $file, string $methodName,\Module $moduleInstance): void
+    {
+        include_once $file;
+
+        $className = 'DynamicClass_' . uniqid();
+
+        eval("
+            class $className {
+                public function $methodName(\$moduleInstance) {
+                    if (function_exists('$methodName')) {
+                        return $methodName(\$moduleInstance);
+                    } else {
+                        throw new UpgradeException('Method $methodName not found in file $file.');
+                    }
+                }
+            }
+        ");
+
+        $instance = new $className();
+
+        if (!$instance->$methodName($moduleInstance)) {
+            throw new UpgradeException('Migration failed when running the file ' . basename($file));
+        }
     }
 }
