@@ -145,13 +145,17 @@ class ModuleMigration
      */
     private function loadAndCallFunction(string $filePath, string $methodName, \Module $moduleInstance): bool
     {
+        $uniqueMethodName = $moduleInstance->getModuleName() . '_' . $methodName;
+
         $fileContent = file_get_contents($filePath);
 
         if ($fileContent === false) {
             throw new UpgradeException(sprintf('[WARNING] Could not read file %s.', $filePath));
         }
 
-        return (function() use ($fileContent, $methodName, $moduleInstance) {
+        $fileContent = str_replace($methodName, $uniqueMethodName, $fileContent);
+
+        return (function () use ($fileContent, $methodName, $moduleInstance) {
             eval($fileContent);
 
             if (!function_exists($methodName)) {
