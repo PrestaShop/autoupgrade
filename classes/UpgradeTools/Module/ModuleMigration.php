@@ -139,28 +139,26 @@ class ModuleMigration
     }
 
     /**
-     * Allows to load migration files with the same name by instantiating a class created on the fly
+     * Loads the migration file and calls the specified method using eval.
      *
      * @throws UpgradeException
      */
-    private function loadAndCallFunction(string $file, string $methodName, \Module $moduleInstance): void
+    private function loadAndCallFunction(string $filePath, string $methodName, \Module $moduleInstance): bool
     {
-        $migrationFunction = (function () use ($file, $methodName) {
-            include_once $file;
+        $fileContent = file_get_contents($filePath);
 
-            if (function_exists($methodName)) {
-                return $methodName;
+        if ($fileContent === false) {
+            throw new UpgradeException(sprintf('[WARNING] Could not read file %s.', $filePath));
+        }
+
+        return (function() use ($fileContent, $methodName, $moduleInstance) {
+            eval($fileContent);
+
+            if (!function_exists($methodName)) {
+                throw new UpgradeException(sprintf('[WARNING] Method %s does not exist in evaluated file.', $methodName));
             }
 
-            return null;
+            return call_user_func($methodName, $moduleInstance);
         })();
-
-        if ($migrationFunction === null) {
-            throw new UpgradeException("Method $methodName not found in file $file.");
-        }
-
-        if (!$migrationFunction($moduleInstance)) {
-            throw new UpgradeException('Migration failed when running the file ' . basename($file));
-        }
     }
 }
