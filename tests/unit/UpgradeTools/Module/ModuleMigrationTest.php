@@ -42,6 +42,14 @@ class ModuleMigrationTest extends TestCase
      */
     private $moduleMigration;
 
+    private static $fixtureFolder;
+
+    public static function setUpBeforeClass()
+    {
+        self::$fixtureFolder = sys_get_temp_dir() . '/fakeMigrationFilesDestination';
+        @mkdir(self::$fixtureFolder);
+    }
+
     protected function setUp(): void
     {
         if (!defined('_PS_MODULE_DIR_')) {
@@ -58,7 +66,7 @@ class ModuleMigrationTest extends TestCase
             });
 
         $this->logger = $this->createMock(Logger::class);
-        $this->moduleMigration = new ModuleMigration($translator, $this->logger);
+        $this->moduleMigration = new ModuleMigration($translator, $this->logger, self::$fixtureFolder);
     }
 
     public function testNeedMigrationWithSameVersion()
@@ -179,22 +187,6 @@ class ModuleMigrationTest extends TestCase
         $this->moduleMigration->runMigration($moduleMigrationContext);
     }
 
-    public function testRunMigrationWithSameInstanceThrowDuplicateMethod()
-    {
-        $mymodule = new \fixtures\mymodule\mymodule();
-        $mymodule->version = '1.1.1';
-        $dbVersion = '0.0.9';
-
-        $moduleMigrationContext = new ModuleMigrationContext($mymodule, $dbVersion);
-
-        $this->moduleMigration->needMigration($moduleMigrationContext);
-
-        $this->expectException(\PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException::class);
-        $this->expectExceptionMessage('[WARNING] Method upgrade_module_1 already exists. Migration for module mymodule aborted, you can try again later on the module manager. Module mymodule disabled.');
-
-        $this->moduleMigration->runMigration($moduleMigrationContext);
-    }
-
     public function testRunMigrationWithBadUpgradeMethodName()
     {
         $mymodule = new \fixtures\mymodule\mymodule();
@@ -206,7 +198,7 @@ class ModuleMigrationTest extends TestCase
         $this->moduleMigration->needMigration($moduleMigrationContext);
 
         $this->expectException(\PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException::class);
-        $this->expectExceptionMessage('[WARNING] Method upgrade_module_1_2_0 does not exist. Module mymodule disabled.');
+        $this->expectExceptionMessage('[WARNING] Method mymodule_upgrade_module_1_2_0 does not exist. Module mymodule disabled.');
 
         $this->moduleMigration->runMigration($moduleMigrationContext);
     }
