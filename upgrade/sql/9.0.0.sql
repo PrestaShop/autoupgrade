@@ -24,7 +24,6 @@ UPDATE `PREFIX_tab` SET `active` = 1 WHERE `class_name` = 'AdminAuthorizationSer
 
 /* Insert new feature flags introduced by v9 */
 INSERT INTO `PREFIX_feature_flag` (`name`, `type`, `label_wording`, `label_domain`, `description_wording`, `description_domain`, `state`, `stability`) VALUES
-  ('authorization_server_multistore', 'env,dotenv,db', 'Authorization server - Multistore', 'Admin.Advparameters.Feature', 'Enable or disable the Authorization server when multistore is enabled.', 'Admin.Advparameters.Help', 0, 'beta'),
   ('symfony_layout', 'env,query,dotenv,db', 'Symfony layout', 'Admin.Advparameters.Feature', 'Enable / Disable symfony layout (in opposition to legacy layout).', 'Admin.Advparameters.Help', 1, 'beta'),
   ('front_container_v2', 'env,dotenv,db', 'New front container', 'Admin.Advparameters.Feature', 'Enable / Disable the new front container.', 'Admin.Advparameters.Help', 0, 'beta'),
   ('customer_group', 'env,dotenv,db', 'Customer group', 'Admin.Advparameters.Feature', 'Enable / Disable the customer group page.', 'Admin.Advparameters.Help', 0, 'beta'),
@@ -198,3 +197,19 @@ ALTER TABLE `PREFIX_feature_flag` CHANGE `description_wording` `description_word
 /* Raise payment reference to unify with orders table */
 /* https://github.com/PrestaShop/PrestaShop/pull/37038 */
 ALTER TABLE `PREFIX_order_payment` CHANGE `order_reference` `order_reference` VARCHAR(255);
+
+/* Update Admin API tabs and roles */
+UPDATE `PREFIX_tab` SET `wording`='Admin API', `wording_domain`='Admin.Navigation.Menu', `class_name`='AdminAdminAPI', `active`=1 WHERE `class_name`='AdminAuthorizationServer' AND COALESCE(`wording`, '') = '' AND COALESCE(`wording_domain`, '') = '';
+UPDATE `PREFIX_authorization_role` SET `slug`='ROLE_MOD_TAB_ADMINADMINAPI_CREATE' WHERE `slug`='ROLE_MOD_TAB_ADMINAUTHORIZATIONSERVER_CREATE';
+UPDATE `PREFIX_authorization_role` SET `slug`='ROLE_MOD_TAB_ADMINADMINAPI_READ' WHERE `slug`='ROLE_MOD_TAB_ADMINAUTHORIZATIONSERVER_READ';
+UPDATE `PREFIX_authorization_role` SET `slug`='ROLE_MOD_TAB_ADMINADMINAPI_UPDATE' WHERE `slug`='ROLE_MOD_TAB_ADMINAUTHORIZATIONSERVER_UPDATE';
+UPDATE `PREFIX_authorization_role` SET `slug`='ROLE_MOD_TAB_ADMINADMINAPI_DELETE' WHERE `slug`='ROLE_MOD_TAB_ADMINAUTHORIZATIONSERVER_DELETE';
+INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES
+    ('PS_ENABLE_ADMIN_API', '1', NOW(), NOW()),
+    ('PS_ADMIN_API_FORCE_DEBUG_SECURED', '1', NOW(), NOW())
+;
+DELETE FROM `PREFIX_feature_flag` WHERE `name`='authorization_server';
+INSERT INTO `PREFIX_feature_flag` (`name`, `type`, `label_wording`, `label_domain`, `description_wording`, `description_domain`, `state`, `stability`) VALUES
+   ('admin_api_multistore', 'env,query,dotenv,db', 'Admin API - Multistore', 'Admin.Advparameters.Feature', 'Enable or disable the Admin API when multistore is enabled.', 'Admin.Advparameters.Help', 1, 'beta'),
+   ('admin_api_experimental_endpoints', 'env,dotenv,db', 'Admin API - Enable experimental endpoints', 'Admin.Advparameters.Feature', 'Experimental API endpoints are disabled by default in prod environment, this configuration allows to forcefully enable them.', 'Admin.Advparameters.Help', 0, 'beta')
+;
