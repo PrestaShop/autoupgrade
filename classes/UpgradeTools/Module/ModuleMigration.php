@@ -145,8 +145,8 @@ class ModuleMigration
      */
     private function loadAndCallFunction(string $file, string $methodName, \Module $moduleInstance): void
     {
-        $migrationFunction = (function() use ($file, $methodName) {
-            include $file;
+        $migrationFunction = (function () use ($file, $methodName) {
+            include_once $file;
 
             if (function_exists($methodName)) {
                 return $methodName;
