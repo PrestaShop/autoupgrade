@@ -106,7 +106,7 @@ class ModuleMigration
             $methodName = $this->getUpgradeMethodName($migrationFilePath);
 
             try {
-                $this->loadAndCallFunction($migrationFilePath, $methodName, $moduleMigrationContext->getModuleInstance());
+                $this->loadAndCallFunction($migrationFilePath, $methodName, $moduleMigrationContext);
             } catch (UpgradeException $e) {
                 $moduleMigrationContext->getModuleInstance()->disable();
                 throw $e;
@@ -143,9 +143,9 @@ class ModuleMigration
      *
      * @throws UpgradeException
      */
-    private function loadAndCallFunction(string $filePath, string $methodName, \Module $moduleInstance): bool
+    private function loadAndCallFunction(string $filePath, string $methodName, ModuleMigrationContext $moduleMigrationContext): bool
     {
-        $uniqueMethodName = $moduleInstance->getModuleName() . '_' . $methodName;
+        $uniqueMethodName = $moduleMigrationContext->getModuleName() . '_' . $methodName;
 
         $fileContent = file_get_contents($filePath);
 
@@ -155,14 +155,14 @@ class ModuleMigration
 
         $fileContent = str_replace($methodName, $uniqueMethodName, $fileContent);
 
-        return (function () use ($fileContent, $uniqueMethodName, $moduleInstance) {
+        return (function () use ($fileContent, $uniqueMethodName, $moduleMigrationContext) {
             eval($fileContent);
 
             if (!function_exists($uniqueMethodName)) {
                 throw new UpgradeException(sprintf('[WARNING] Method %s does not exist in evaluated file.', $uniqueMethodName));
             }
 
-            return call_user_func($uniqueMethodName, $moduleInstance);
+            return call_user_func($uniqueMethodName, $moduleMigrationContext->getModuleInstance());
         })();
     }
 }
