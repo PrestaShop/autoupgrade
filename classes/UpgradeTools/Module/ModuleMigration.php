@@ -154,6 +154,7 @@ class ModuleMigration
         }
 
         $fileContent = str_replace($methodName, $uniqueMethodName, $fileContent);
+        $fileContent = str_replace(['<?php', '?>'], '', $fileContent);
 
         return (function () use ($fileContent, $uniqueMethodName, $moduleMigrationContext) {
             eval($fileContent);
