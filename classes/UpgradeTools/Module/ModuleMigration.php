@@ -159,7 +159,7 @@ class ModuleMigration
             eval($fileContent);
 
             if (!function_exists($uniqueMethodName)) {
-                throw new UpgradeException(sprintf('[WARNING] Method %s does not exist in evaluated file.', $methodName));
+                throw new UpgradeException(sprintf('[WARNING] Method %s does not exist in evaluated file.', $uniqueMethodName));
             }
 
             return call_user_func($uniqueMethodName, $moduleInstance);
