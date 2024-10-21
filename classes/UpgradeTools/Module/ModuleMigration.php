@@ -145,25 +145,21 @@ class ModuleMigration
      */
     private function loadAndCallFunction(string $file, string $methodName, \Module $moduleInstance): void
     {
-        include_once $file;
+        $migrationFunction = (function() use ($file, $methodName) {
+            include $file;
 
-        $className = 'DynamicClass_' . uniqid();
-
-        eval("
-            class $className {
-                public function $methodName(\$moduleInstance) {
-                    if (function_exists('$methodName')) {
-                        return $methodName(\$moduleInstance);
-                    } else {
-                        throw new UpgradeException('Method $methodName not found in file $file.');
-                    }
-                }
+            if (function_exists($methodName)) {
+                return $methodName;
             }
-        ");
 
-        $instance = new $className();
+            return null;
+        })();
 
-        if (!$instance->$methodName($moduleInstance)) {
+        if ($migrationFunction === null) {
+            throw new UpgradeException("Method $methodName not found in file $file.");
+        }
+
+        if (!$migrationFunction($moduleInstance)) {
             throw new UpgradeException('Migration failed when running the file ' . basename($file));
         }
     }
