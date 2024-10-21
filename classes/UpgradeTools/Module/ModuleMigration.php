@@ -155,14 +155,14 @@ class ModuleMigration
 
         $fileContent = str_replace($methodName, $uniqueMethodName, $fileContent);
 
-        return (function () use ($fileContent, $methodName, $moduleInstance) {
+        return (function () use ($fileContent, $uniqueMethodName, $moduleInstance) {
             eval($fileContent);
 
-            if (!function_exists($methodName)) {
+            if (!function_exists($uniqueMethodName)) {
                 throw new UpgradeException(sprintf('[WARNING] Method %s does not exist in evaluated file.', $methodName));
             }
 
-            return call_user_func($methodName, $moduleInstance);
+            return call_user_func($uniqueMethodName, $moduleInstance);
         })();
     }
 }
