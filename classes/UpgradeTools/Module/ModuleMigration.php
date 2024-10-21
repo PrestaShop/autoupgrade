@@ -41,10 +41,14 @@ class ModuleMigration
     /** @var Logger */
     private $logger;
 
-    public function __construct(Translator $translator, Logger $logger)
+    /** @var string */
+    private $sandboxFolder;
+
+    public function __construct(Translator $translator, Logger $logger, string $sandboxFolder)
     {
         $this->translator = $translator;
         $this->logger = $logger;
+        $this->sandboxFolder = $sandboxFolder;
     }
 
     public function needMigration(ModuleMigrationContext $moduleMigrationContext): bool
@@ -105,23 +109,8 @@ class ModuleMigration
 
             $methodName = $this->getUpgradeMethodName($migrationFilePath);
 
-            // check if function already exists to prevent upgrade crash
-            if (function_exists($methodName)) {
-                $moduleMigrationContext->getModuleInstance()->disable();
-                throw (new UpgradeException($this->translator->trans('[WARNING] Method %s already exists. Migration for module %s aborted, you can try again later on the module manager. Module %s disabled.', [$methodName, $moduleMigrationContext->getModuleName(), $moduleMigrationContext->getModuleName()])))->setSeverity(UpgradeException::SEVERITY_WARNING);
-            }
-
-            include $migrationFilePath;
-
-            // @phpstan-ignore booleanNot.alwaysTrue (we ignore this error because we load a file with methods)
-            if (!function_exists($methodName)) {
-                $moduleMigrationContext->getModuleInstance()->disable();
-                throw (new UpgradeException($this->translator->trans('[WARNING] Method %s does not exist. Module %s disabled.', [$methodName, $moduleMigrationContext->getModuleName()])))->setSeverity(UpgradeException::SEVERITY_WARNING);
-            }
-
-            // @phpstan-ignore deadCode.unreachable (we ignore this error because the previous if can be true or false)
             try {
-                if (!$methodName($moduleMigrationContext->getModuleInstance())) {
+                if (!$this->loadAndCallFunction($migrationFilePath, $methodName, $moduleMigrationContext)) {
                     throw (new UpgradeException($this->translator->trans('[WARNING] Migration failed while running the file %s. Module %s disabled.', [basename($migrationFilePath), $moduleMigrationContext->getModuleName()])))->setSeverity(UpgradeException::SEVERITY_WARNING);
                 }
             } catch (UpgradeException $e) {
@@ -153,5 +142,29 @@ class ModuleMigration
         $version = str_replace('.', '_', $matches[1]);
 
         return 'upgrade_module_' . $version;
+    }
+
+    /**
+     * Loads the migration file and calls the specified method using eval.
+     *
+     * @throws UpgradeException
+     */
+    private function loadAndCallFunction(string $filePath, string $methodName, ModuleMigrationContext $moduleMigrationContext): bool
+    {
+        $uniqueMethodName = $moduleMigrationContext->getModuleName() . '_' . $methodName;
+
+        $sandboxedFilePath = $this->sandboxFolder . DIRECTORY_SEPARATOR . $uniqueMethodName . '.php';
+        $pushedFileContents = file_put_contents($sandboxedFilePath, str_replace($methodName, $uniqueMethodName, file_get_contents($filePath)));
+
+        if ($pushedFileContents === false) {
+            throw (new UpgradeException($this->translator->trans('[WARNING] Could not write temporary file %s.', [$sandboxedFilePath])))->setSeverity(UpgradeException::SEVERITY_WARNING);
+        }
+
+        require_once $sandboxedFilePath;
+        if (!function_exists($uniqueMethodName)) {
+            throw (new UpgradeException($this->translator->trans('[WARNING] Method %s does not exist. Module %s disabled.', [$uniqueMethodName, $moduleMigrationContext->getModuleName()])))->setSeverity(UpgradeException::SEVERITY_WARNING);
+        }
+
+        return call_user_func($uniqueMethodName, $moduleMigrationContext->getModuleInstance());
     }
 }
