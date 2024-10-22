@@ -119,7 +119,7 @@ class Router
      */
     public function handle(Request $request)
     {
-        $route = self::ROUTES[$request->query->get('route')] ?? self::ROUTES[Routes::HOME_PAGE];
+        $route = self::ROUTES[$request->query->get('route')] ? self::ROUTES[$request->query->get('route')] : self::ROUTES[Routes::HOME_PAGE];
 
         $method = $route['method'];
 
