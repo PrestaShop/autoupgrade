@@ -56,7 +56,7 @@ class ModuleMigrationContext
         $this->upgradeFilesRootPath = _PS_MODULE_DIR_ . $moduleName . DIRECTORY_SEPARATOR . 'upgrade';
 
         $this->localVersion = $this->moduleInstance->version;
-        $this->dbVersion = $dbVersion ?? '0';
+        $this->dbVersion = $dbVersion ? $dbVersion : '0';
     }
 
     public function getModuleInstance(): \Module
