@@ -46,7 +46,7 @@ class UpdatePageBackupController extends AbstractPageController
      */
     public function step(): string
     {
-        return $this->twig->render(
+        return $this->getTwig()->render(
             '@ModuleAutoUpgrade/steps/backup.html.twig',
             $this->getParams()
         );

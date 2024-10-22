@@ -23,7 +23,7 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
-import RadioCardArchive from "../../../views/templates/components/radio-card-archive.html.twig";
+import RadioCardArchive from "../../../views/templates/components/radio-card-local.html.twig";
 import LocalArchive from "./LocalArchive.stories";
 import CheckRequirements from "./CheckRequirements.stories";
 

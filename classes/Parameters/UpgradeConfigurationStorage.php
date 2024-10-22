@@ -27,18 +27,11 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Parameters;
 
-use PrestaShop\Module\AutoUpgrade\Upgrader;
-
 class UpgradeConfigurationStorage extends FileConfigurationStorage
 {
     public function load(string $fileName = ''): UpgradeConfiguration
     {
-        $data = array_merge(
-            $this->getDefaultData(),
-            parent::load($fileName)
-        );
-
-        return new UpgradeConfiguration($data);
+        return new UpgradeConfiguration(parent::load($fileName));
     }
 
     /**
@@ -52,16 +45,5 @@ class UpgradeConfigurationStorage extends FileConfigurationStorage
         }
 
         return parent::save($config->toArray(), $fileName);
-    }
-
-    /**
-     * @return array<string, int|string>
-     */
-    public function getDefaultData(): array
-    {
-        return array_merge(UpgradeConfiguration::PS_CONST_DEFAULT_VALUE, [
-            'channel' => Upgrader::DEFAULT_CHANNEL,
-            'archive_zip' => Upgrader::DEFAULT_FILENAME,
-        ]);
     }
 }

@@ -1,4 +1,4 @@
-{% if not requirementsOk %}
+{% if requirements.warnings|length > 0 or requirements.errors|length > 0 %}
   <div class="check-requirements check-requirements--failed">
     <p class="check-requirements__title h3">
       {{ "Update requirements"|trans({}) }}
@@ -12,21 +12,19 @@
     </p>
 
     <div class="check-requirements__list">
-      {# ERROR #}
-      {% for error in errors %}
+      {% for error in requirements.errors %}
         <div class="check-requirements__requirement check-requirements__requirement--error">
           {{ error }}
         </div>
       {% endfor %}
 
-      {# WARNING #}
-      {% for warning in warnings %}
+      {% for warning in requirements.warnings %}
         <div class="check-requirements__requirement check-requirements__requirement--warning">
           {{ warning }}
         </div>
       {% endfor %}
     </div>
-    <button type="button" class="btn btn-primary">
+    <button type="button" class="btn btn-primary" data-action="check-requirements-again">
       <i class="material-icons">refresh</i>
       {{ 'Check requirements again'|trans({}) }}
     </button>

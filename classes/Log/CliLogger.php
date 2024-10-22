@@ -54,7 +54,7 @@ class CliLogger extends Logger
     protected $err;
 
     /**
-     * @var string
+     * @var ?string
      */
     protected $lastInfo;
 
@@ -160,7 +160,7 @@ class CliLogger extends Logger
     /**
      * {@inheritdoc}
      */
-    public function getLastInfo(): string
+    public function getLastInfo(): ?string
     {
         return $this->lastInfo;
     }
