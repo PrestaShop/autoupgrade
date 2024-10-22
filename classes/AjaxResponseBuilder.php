@@ -32,6 +32,6 @@ class AjaxResponseBuilder
     {
         return new JsonResponse([
             'error' => $error,
-        ], $errorNumber ?? 400);
+        ], $errorNumber ? $errorNumber : 400);
     }
 }
