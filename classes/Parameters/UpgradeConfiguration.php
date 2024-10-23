@@ -142,9 +142,7 @@ class UpgradeConfiguration extends ArrayCollection
 
     public function shouldBackupFilesAndDatabase(): bool
     {
-        $currentValue = filter_var($this->get('PS_AUTOUP_BACKUP'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-
-        return $currentValue !== null ? $currentValue : self::PS_CONST_DEFAULT_VALUE['PS_AUTOUP_BACKUP'];
+        return $this->computeBooleanConfiguration('PS_AUTOUP_BACKUP');
     }
 
     /**
@@ -152,9 +150,7 @@ class UpgradeConfiguration extends ArrayCollection
      */
     public function shouldBackupImages(): bool
     {
-        $currentValue = filter_var($this->get('PS_AUTOUP_KEEP_IMAGES'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-
-        return $currentValue !== null ? $currentValue : self::PS_CONST_DEFAULT_VALUE['PS_AUTOUP_KEEP_IMAGES'];
+        return $this->computeBooleanConfiguration('PS_AUTOUP_KEEP_IMAGES');
     }
 
     /**
@@ -162,9 +158,7 @@ class UpgradeConfiguration extends ArrayCollection
      */
     public function shouldDeactivateCustomModules(): bool
     {
-        $currentValue = filter_var($this->get('PS_AUTOUP_CUSTOM_MOD_DESACT'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-
-        return $currentValue !== null ? $currentValue : self::PS_CONST_DEFAULT_VALUE['PS_AUTOUP_CUSTOM_MOD_DESACT'];
+        return $this->computeBooleanConfiguration('PS_AUTOUP_CUSTOM_MOD_DESACT');
     }
 
     /**
@@ -172,9 +166,7 @@ class UpgradeConfiguration extends ArrayCollection
      */
     public function shouldKeepMails(): bool
     {
-        $currentValue = filter_var($this->get('PS_AUTOUP_KEEP_MAILS'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-
-        return $currentValue !== null ? $currentValue : self::PS_CONST_DEFAULT_VALUE['PS_AUTOUP_KEEP_MAILS'];
+        return $this->computeBooleanConfiguration('PS_AUTOUP_KEEP_MAILS');
     }
 
     /**
@@ -182,9 +174,21 @@ class UpgradeConfiguration extends ArrayCollection
      */
     public function shouldSwitchToDefaultTheme(): bool
     {
-        $currentValue = filter_var($this->get('PS_AUTOUP_CHANGE_DEFAULT_THEME'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+        return $this->computeBooleanConfiguration('PS_AUTOUP_CHANGE_DEFAULT_THEME');
+    }
 
-        return $currentValue !== null ? $currentValue : self::PS_CONST_DEFAULT_VALUE['PS_AUTOUP_CHANGE_DEFAULT_THEME'];
+    private function computeBooleanConfiguration(string $const): bool
+    {
+        $currentValue = $this->get($const);
+        $defaultValue = self::PS_CONST_DEFAULT_VALUE[$const];
+
+        if ($currentValue === null) {
+            return $defaultValue;
+        }
+
+        $currentValue = filter_var($currentValue, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+
+        return $currentValue !== null ? $currentValue : $defaultValue;
     }
 
     public static function isOverrideAllowed(): bool
