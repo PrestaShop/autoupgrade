@@ -55,7 +55,7 @@ class UpdateDatabase extends AbstractTask
                 $this->warmUp();
                 $originVersion = $this->container->getState()->getOriginVersion();
                 $sqlContentList = $this->getCoreUpgrader()->getSqlContentList($originVersion);
-                $backlog = new Backlog($sqlContentList, count($sqlContentList));
+                $backlog = new Backlog(array_reverse($sqlContentList), count($sqlContentList));
             } else {
                 $this->getCoreUpgrader()->setupUpdateEnvironment();
                 $backlog = Backlog::fromContents($this->container->getFileConfigurationStorage()->load(UpgradeFileNames::SQL_TO_EXECUTE_LIST));
@@ -176,12 +176,8 @@ class UpdateDatabase extends AbstractTask
 
     protected function updateDatabase(Backlog $backlog): void
     {
-        $sqlContent = $backlog->getFirstValue();
-        $key = $backlog->getFirstKey();
-
+        $sqlContent = $backlog->getNext();
         $this->getCoreUpgrader()->runQuery($sqlContent['version'], $sqlContent['query']);
-        $backlog->removeAt($key);
-
         $this->container->getFileConfigurationStorage()->save($backlog->dump(), UpgradeFileNames::SQL_TO_EXECUTE_LIST);
     }
 }

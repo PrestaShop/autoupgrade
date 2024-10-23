@@ -79,40 +79,6 @@ class Backlog
         return array_pop($this->backlog);
     }
 
-    /**
-     * @return int|string|null
-     */
-    public function getFirstKey()
-    {
-        if (empty($this->backlog)) {
-            return null;
-        }
-
-        reset($this->backlog);
-
-        return key($this->backlog);
-    }
-
-    /**
-     * @return mixed|null
-     */
-    public function getFirstValue()
-    {
-        if (empty($this->backlog)) {
-            return null;
-        }
-
-        return reset($this->backlog);
-    }
-
-    /**
-     * @param int|string $backlogKey
-     */
-    public function removeAt($backlogKey): void
-    {
-        unset($this->backlog[$backlogKey]);
-    }
-
     public function getRemainingTotal(): int
     {
         return count($this->backlog);

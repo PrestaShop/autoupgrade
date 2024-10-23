@@ -95,8 +95,14 @@ abstract class CoreUpgrader
     {
         $this->container = $container;
         $this->logger = $logger;
-
         $this->filesystem = new Filesystem();
+        $this->destinationUpgradeVersion = $this->container->getState()->getInstallVersion();
+        $this->pathToInstallFolder = realpath($this->container->getProperty(UpgradeContainer::LATEST_PATH) . DIRECTORY_SEPARATOR . 'install');
+        $this->pathToUpgradeScripts = dirname(__DIR__, 3) . '/upgrade/';
+        if (file_exists($this->pathToInstallFolder . DIRECTORY_SEPARATOR . 'autoload.php')) {
+            require_once $this->pathToInstallFolder . DIRECTORY_SEPARATOR . 'autoload.php';
+        }
+        $this->db = \Db::getInstance();
     }
 
     /**
@@ -187,30 +193,54 @@ abstract class CoreUpgrader
         }
         $_SERVER['REQUEST_URI'] = str_replace('//', '/', $_SERVER['REQUEST_URI']);
 
-        $this->destinationUpgradeVersion = $this->container->getState()->getInstallVersion();
-        $this->pathToInstallFolder = realpath($this->container->getProperty(UpgradeContainer::LATEST_PATH) . DIRECTORY_SEPARATOR . 'install');
         // Kept for backward compatbility (unknown consequences on old versions of PrestaShop)
-        define('INSTALL_VERSION', $this->destinationUpgradeVersion);
+        if (!defined('INSTALL_VERSION')) {
+            define('INSTALL_VERSION', $this->destinationUpgradeVersion);
+        }
         // 1.4
-        define('INSTALL_PATH', $this->pathToInstallFolder);
+        if (!defined('INSTALL_PATH')) {
+            define('INSTALL_PATH', $this->pathToInstallFolder);
+        }
         // 1.5 ...
         if (!defined('_PS_CORE_DIR_')) {
             define('_PS_CORE_DIR_', _PS_ROOT_DIR_);
         }
-
-        define('PS_INSTALLATION_IN_PROGRESS', true);
-        define('SETTINGS_FILE_PHP', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/app/config/parameters.php');
-        define('SETTINGS_FILE_YML', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/app/config/parameters.yml');
-        define('DEFINES_FILE', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/config/defines.inc.php');
-        define('INSTALLER__PS_BASE_URI', substr($_SERVER['REQUEST_URI'], 0, -1 * (strlen($_SERVER['REQUEST_URI']) - strrpos($_SERVER['REQUEST_URI'], '/')) - strlen(substr(dirname($_SERVER['REQUEST_URI']), strrpos(dirname($_SERVER['REQUEST_URI']), '/') + 1))));
-
-        define('_PS_INSTALL_PATH_', $this->pathToInstallFolder . '/');
-        define('_PS_INSTALL_DATA_PATH_', _PS_INSTALL_PATH_ . 'data/');
-        define('_PS_INSTALL_CONTROLLERS_PATH_', _PS_INSTALL_PATH_ . 'controllers/');
-        define('_PS_INSTALL_MODELS_PATH_', _PS_INSTALL_PATH_ . 'models/');
-        define('_PS_INSTALL_LANGS_PATH_', _PS_INSTALL_PATH_ . 'langs/');
-        define('_PS_INSTALL_FIXTURES_PATH_', _PS_INSTALL_PATH_ . 'fixtures/');
-
+        if (!defined('PS_INSTALLATION_IN_PROGRESS')) {
+            define('PS_INSTALLATION_IN_PROGRESS', true);
+        }
+        if (!defined('SETTINGS_FILE_PHP')) {
+            define('SETTINGS_FILE_PHP', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/app/config/parameters.php');
+        }
+        if (!defined('SETTINGS_FILE_YML')) {
+            define('SETTINGS_FILE_YML', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/app/config/parameters.yml');
+        }
+        if (!defined('DEFINES_FILE')) {
+            define('DEFINES_FILE', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/config/defines.inc.php');
+        }
+        if (!defined('INSTALLER__PS_BASE_URI')) {
+            define('INSTALLER__PS_BASE_URI', substr($_SERVER['REQUEST_URI'], 0, -1 * (strlen($_SERVER['REQUEST_URI']) - strrpos($_SERVER['REQUEST_URI'], '/')) - strlen(substr(dirname($_SERVER['REQUEST_URI']), strrpos(dirname($_SERVER['REQUEST_URI']), '/') + 1))));
+        }
+        if (!defined('_PS_INSTALL_PATH_')) {
+            define('_PS_INSTALL_PATH_', $this->pathToInstallFolder . '/');
+        }
+        if (!defined('_PS_INSTALL_DATA_PATH_')) {
+            define('_PS_INSTALL_DATA_PATH_', _PS_INSTALL_PATH_ . 'data/');
+        }
+        if (!defined('_PS_INSTALL_CONTROLLERS_PATH_')) {
+            define('_PS_INSTALL_CONTROLLERS_PATH_', _PS_INSTALL_PATH_ . 'controllers/');
+        }
+        if (!defined('_PS_INSTALL_MODELS_PATH_')) {
+            define('_PS_INSTALL_MODELS_PATH_', _PS_INSTALL_PATH_ . 'models/');
+        }
+        if (!defined('_PS_INSTALL_LANGS_PATH_')) {
+            define('_PS_INSTALL_LANGS_PATH_', _PS_INSTALL_PATH_ . 'langs/');
+        }
+        if (!defined('_PS_INSTALL_FIXTURES_PATH_')) {
+            define('_PS_INSTALL_FIXTURES_PATH_', _PS_INSTALL_PATH_ . 'fixtures/');
+        }
+        if (!defined('_PS_INSTALLER_PHP_UPGRADE_DIR_')) {
+            define('_PS_INSTALLER_PHP_UPGRADE_DIR_', $this->pathToUpgradeScripts . 'php/');
+        }
         if (function_exists('date_default_timezone_set')) {
             date_default_timezone_set('Europe/Paris');
         }
@@ -222,9 +252,6 @@ abstract class CoreUpgrader
             define('_PS_MODULE_DIR_', $this->pathToInstallFolder . '/../modules/');
         }
 
-        $this->pathToUpgradeScripts = dirname(__DIR__, 3) . '/upgrade/';
-        define('_PS_INSTALLER_PHP_UPGRADE_DIR_', $this->pathToUpgradeScripts . 'php/');
-
         if (!defined('__PS_BASE_URI__')) {
             define('__PS_BASE_URI__', realpath(dirname($_SERVER['SCRIPT_NAME'])) . '/../../');
         }
@@ -232,11 +259,6 @@ abstract class CoreUpgrader
         if (!defined('_THEMES_DIR_')) {
             define('_THEMES_DIR_', __PS_BASE_URI__ . 'themes/');
         }
-
-        if (file_exists($this->pathToInstallFolder . DIRECTORY_SEPARATOR . 'autoload.php')) {
-            require_once $this->pathToInstallFolder . DIRECTORY_SEPARATOR . 'autoload.php';
-        }
-        $this->db = \Db::getInstance();
     }
 
     /**
