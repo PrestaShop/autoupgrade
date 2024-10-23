@@ -119,6 +119,9 @@ export default defineConfig({
             width: 1680,
             height: 900,
           },
+          recordVideo: {
+            dir: './videos'
+          }
         },
       },
     },
