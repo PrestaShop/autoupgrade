@@ -853,7 +853,7 @@ $(document).ready(function () {
           return false;
         }
       }
-      var res = doAjaxRequest("updateConfig", params);
+      var res = doAjaxRequest("UpdateConfig", params);
     },
   );
 });
