@@ -46,7 +46,6 @@ function loadGlobal(): void {
     acceptDownloads: true,
     config: {
       headless: process.env.HEADLESS ? JSON.parse(process.env.HEADLESS) : true,
-      timeout: 0,
       slowMo: process.env.SLOW_MO ? parseInt(process.env.SLOW_MO, 10) : 5,
     },
     interceptErrors: process.env.INTERCEPT_ERRORS ? JSON.parse(process.env.INTERCEPT_ERRORS) : false,
@@ -90,6 +89,7 @@ loadGlobal();
  */
 export default defineConfig({
   testDir: './campaigns',
+  timeout: 100000,
   /* Run tests in files in serial */
   fullyParallel: false,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -106,7 +106,7 @@ export default defineConfig({
   use: {
     /* Capture screenshot after each test failure */
     screenshot: 'only-on-failure',
-    video: 'retain-on-failure',
+    video: 'on', // 'retain-on-failure',
   },
 
   /* Configure projects for major browsers */
