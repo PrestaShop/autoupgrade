@@ -68,7 +68,7 @@ jobs:
 
       - name: Update
         run: |
-         docker exec -t prestashop php modules/autoupgrade/bin/console update:start --channel=${{ matrix.UPGRADE_CHANNEL }} admin-dev
+         docker exec -t prestashop php modules/autoupgrade/bin/console update:start --channel=online admin-dev
          docker exec -t prestashop chmod 777 -R /var/www/html/var/cache
 
       - name: Install dependencies
