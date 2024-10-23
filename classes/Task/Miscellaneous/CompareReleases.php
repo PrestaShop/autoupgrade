@@ -28,7 +28,6 @@
 namespace PrestaShop\Module\AutoUpgrade\Task\Miscellaneous;
 
 use Exception;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\Task\TaskName;
@@ -36,6 +35,8 @@ use PrestaShop\Module\AutoUpgrade\Task\TaskName;
 /**
  * This class gets the list of all modified and deleted files between current version
  * and target version (according to channel configuration).
+ *
+ * TODO Task to remove after removing the old UI
  */
 class CompareReleases extends AbstractTask
 {
@@ -57,7 +58,6 @@ class CompareReleases extends AbstractTask
             $this->nextParams['status'] = 'error';
             $this->nextParams['msg'] = sprintf('Unable to generate diff file list between %1$s and %2$s.', _PS_VERSION_, $version);
         } else {
-            $this->container->getFileConfigurationStorage()->save($diffFileList, UpgradeFileNames::FILES_DIFF_LIST);
             $this->nextParams['msg'] = $this->translator->trans(
                 '%modifiedfiles% files will be modified, %deletedfiles% files will be deleted (if they are found).',
                 [

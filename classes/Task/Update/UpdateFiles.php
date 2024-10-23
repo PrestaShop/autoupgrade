@@ -224,30 +224,24 @@ class UpdateFiles extends AbstractTask
             rename($newReleasePath . DIRECTORY_SEPARATOR . 'install-dev', $newReleasePath . DIRECTORY_SEPARATOR . 'install');
         }
 
-        // Now, we will get the list of changed and removed files between the versions. This was generated previously by
-        // CompareReleases task.
-        $filepath_list_diff = $this->container->getProperty(UpgradeContainer::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . UpgradeFileNames::FILES_DIFF_LIST;
-        $list_files_diff = [];
+        $destinationVersion = $this->container->getUpgrader()->getDestinationVersion();
+        $diffFileList = $this->container->getChecksumCompare()->getFilesDiffBetweenVersions(_PS_VERSION_, $destinationVersion);
 
-        // We check if that file exists first and load it
-        if (file_exists($filepath_list_diff)) {
-            $list_files_diff = $this->container->getFileConfigurationStorage()->load(UpgradeFileNames::FILES_DIFF_LIST);
-            // $list_files_diff now contains an array with a list of changed and deleted files.
-            // We only keep list of files to delete. The modified files will be listed in list_files_to_upgrade below.
-            $list_files_diff = $list_files_diff['deleted'];
+        // $diffFileList now contains an array with a list of changed and deleted files.
+        // We only keep list of files to delete. The modified files will be listed in list_files_to_upgrade below.
+        $diffFileList = $diffFileList['deleted'];
 
-            // Admin folder name in this deleted files list is standard /admin/.
-            // We will need to change it to our own admin folder name.
-            $admin_dir = trim(str_replace($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH), '', $this->container->getProperty(UpgradeContainer::PS_ADMIN_PATH)), DIRECTORY_SEPARATOR);
-            foreach ($list_files_diff as $k => $path) {
-                if (preg_match('#autoupgrade#', $path)) {
-                    unset($list_files_diff[$k]);
-                } elseif (substr($path, 0, 6) === '/admin') {
-                    // Please make sure that the condition to check if the string starts with /admin stays here, because it was replacing
-                    // admin even in the middle of a path, not deleting some files as a result.
-                    // Also, do not use DIRECTORY_SEPARATOR, keep forward slash, because the path come from the XML standardized.
-                    $list_files_diff[$k] = '/' . $admin_dir . substr($path, 6);
-                }
+        // Admin folder name in this deleted files list is standard /admin/.
+        // We will need to change it to our own admin folder name.
+        $admin_dir = trim(str_replace($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH), '', $this->container->getProperty(UpgradeContainer::PS_ADMIN_PATH)), DIRECTORY_SEPARATOR);
+        foreach ($diffFileList as $k => $path) {
+            if (preg_match('#autoupgrade#', $path)) {
+                unset($diffFileList[$k]);
+            } elseif (substr($path, 0, 6) === '/admin') {
+                // Please make sure that the condition to check if the string starts with /admin stays here, because it was replacing
+                // admin even in the middle of a path, not deleting some files as a result.
+                // Also, do not use DIRECTORY_SEPARATOR, keep forward slash, because the path come from the XML standardized.
+                $diffFileList[$k] = '/' . $admin_dir . substr($path, 6);
             }
         }
 
@@ -257,7 +251,7 @@ class UpdateFiles extends AbstractTask
         );
 
         // Add our previously created list of deleted files
-        $list_files_to_upgrade = array_reverse(array_merge($list_files_diff, $list_files_to_upgrade));
+        $list_files_to_upgrade = array_reverse(array_merge($diffFileList, $list_files_to_upgrade));
 
         $total_files_to_upgrade = count($list_files_to_upgrade);
         $this->container->getFileConfigurationStorage()->save(

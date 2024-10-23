@@ -67,15 +67,6 @@ class UpgradeFileNames
     const MODULES_TO_UPGRADE_LIST = 'modulesToUpgrade.list';
 
     /**
-     * during upgradeFiles process,
-     * this files contains the list of files left to upgrade in a serialized array.
-     * (this file is deleted in init() method if you reload the page).
-     *
-     * @var string
-     */
-    const FILES_DIFF_LIST = 'filesDiff.list';
-
-    /**
      * during backupFiles process,
      * this files contains the list of files left to save in a serialized array.
      * (this file is deleted in init() method if you reload the page).
@@ -157,7 +148,6 @@ class UpgradeFileNames
     public static $tmp_files = [
         'QUERIES_TO_UPGRADE_LIST', // used ?
         'FILES_TO_UPGRADE_LIST',
-        'FILES_DIFF_LIST',
         'FILES_TO_BACKUP_LIST',
         'DB_TABLES_TO_BACKUP_LIST',
         'QUERIES_TO_RESTORE_LIST',
