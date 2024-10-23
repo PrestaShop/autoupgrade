@@ -146,7 +146,7 @@ INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VAL
 
 /* PHP:add_column('hook', 'active', 'TINYINT(1) UNSIGNED DEFAULT 1 NOT NULL AFTER `description`'); */;
 
-/* PHP:add_column('orders', 'note', 'TEXT AFTER `date_upd``'); */;
+/* PHP:add_column('orders', 'note', 'TEXT AFTER `date_upd`'); */;
 
 ALTER TABLE `PREFIX_currency` CHANGE `numeric_iso_code` `numeric_iso_code` varchar(3) NULL DEFAULT NULL;
 
