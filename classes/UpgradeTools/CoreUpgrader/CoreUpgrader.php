@@ -111,16 +111,8 @@ abstract class CoreUpgrader
      */
     public function setupUpdateEnvironment(): void
     {
-        $this->logger->info($this->container->getTranslator()->trans('Initializing required environment constants'));
         $this->initConstants();
-
-        //check DB access
-        $this->logger->info($this->container->getTranslator()->trans('Checking connection to database'));
         error_reporting(E_ALL);
-        $resultDB = \Db::checkConnection(_DB_SERVER_, _DB_USER_, _DB_PASSWD_, _DB_NAME_);
-        if ($resultDB !== 0) {
-            throw new UpgradeException($this->container->getTranslator()->trans('Invalid database configuration'));
-        }
     }
 
     /**
@@ -450,7 +442,7 @@ abstract class CoreUpgrader
         if ($this->hasPhpError($phpRes)) {
             $this->logPhpError($upgrade_file, $query, $phpRes);
         } else {
-            $this->logger->debug('<div class="upgradeDbOk">[OK] PHP ' . $upgrade_file . ' : ' . $query . '</div>');
+            $this->logger->debug('Migration file: ' . $upgrade_file . ', Query: ' . $query);
         }
     }
 
@@ -501,23 +493,22 @@ abstract class CoreUpgrader
             if (!empty($matches[1])) {
                 $drop = 'DROP TABLE IF EXISTS `' . _DB_PREFIX_ . $matches[1] . '`;';
                 if ($this->db->execute($drop, false)) {
-                    $this->logger->debug('<div class="upgradeDbOk">' . $this->container->getTranslator()->trans('[DROP] SQL %s table has been dropped.', ['`' . _DB_PREFIX_ . $matches[1] . '`']) . '</div>');
+                    $this->logger->debug($this->container->getTranslator()->trans('[DROP] SQL %s table has been dropped.', ['`' . _DB_PREFIX_ . $matches[1] . '`']));
                 }
             }
         }
 
         if ($this->db->execute($query, false)) {
-            $this->logger->debug('<div class="upgradeDbOk">[OK] SQL ' . $upgrade_file . ' ' . $query . '</div>');
+            $this->logger->debug('Migration file: ' . $upgrade_file . ', Query: ' . $query);
 
             return;
         }
 
         $error = $this->db->getMsgError();
         $error_number = $this->db->getNumberError();
-        $this->logger->warning('
-            <div class="upgradeDbError">
-            [WARNING] SQL ' . $upgrade_file . '
-            ' . $error_number . ' in ' . $query . ': ' . $error . '</div>');
+
+        $this->logger->warning('Error occurred during the execution of a query: ' . $error_number . ', ' . $error);
+        $this->logger->warning('Migration file: ' . $upgrade_file . ', Query: ' . $query);
 
         $duplicates = ['1050', '1054', '1060', '1061', '1062', '1091'];
         if (!in_array($error_number, $duplicates)) {

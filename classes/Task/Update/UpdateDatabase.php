@@ -127,8 +127,6 @@ class UpdateDatabase extends AbstractTask
     }
 
     /**
-     * First call of this task needs a warmup, where we load the files list to be upgraded.
-     *
      * @throws UpgradeException
      * @throws Exception
      */
