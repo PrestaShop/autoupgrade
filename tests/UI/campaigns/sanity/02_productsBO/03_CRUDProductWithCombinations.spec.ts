@@ -49,7 +49,7 @@ test.describe('BO - Catalog - Products : CRUD product with combinations', async 
       },
     ],
   });
-    // Data to update product with combinations
+  // Data to update product with combinations
   const updateProductData: FakerProduct = new FakerProduct({
     type: 'combinations',
     taxRule: 'No tax',
@@ -60,7 +60,7 @@ test.describe('BO - Catalog - Products : CRUD product with combinations', async 
     attributes: [
       {
         name: 'color',
-        values: ['Gray', 'Taupe', 'Red'],
+        values: ['Gray', 'Grey', 'Taupe', 'Red'],
       },
       {
         name: 'size',
