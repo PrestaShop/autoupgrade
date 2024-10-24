@@ -198,3 +198,8 @@ ALTER TABLE `PREFIX_feature_flag` CHANGE `description_wording` `description_word
 /* Raise payment reference to unify with orders table */
 /* https://github.com/PrestaShop/PrestaShop/pull/37038 */
 ALTER TABLE `PREFIX_order_payment` CHANGE `order_reference` `order_reference` VARCHAR(255);
+
+/* Feature value position */
+/* https://github.com/PrestaShop/PrestaShop/pull/37042 */
+/* PHP:add_column('feature_value', 'position', 'int(10) unsigned NOT NULL DEFAULT \'0\''); */;
+INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES ('PS_FEATURE_VALUES_ORDER', 'name', NOW(), NOW());
