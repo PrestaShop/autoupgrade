@@ -211,16 +211,21 @@ class UpdatePageVersionChoiceController extends AbstractPageController
         $controller->init();
         $controller->run();
 
+        $params = array_merge(
+            $this->getParams(),
+            ['current_values' => $this->request->request->all()]
+        );
+
         if ($channel === self::FORM_OPTIONS['local_value']) {
             return AjaxResponseBuilder::hydrationResponse(PageSelectors::RADIO_CARD_ARCHIVE_PARENT_ID, $this->getTwig()->render(
                 '@ModuleAutoUpgrade/components/radio-card-local.html.twig',
-                $this->getParams()
+                $params
             ));
         }
 
         return AjaxResponseBuilder::hydrationResponse(PageSelectors::RADIO_CARD_ONLINE_PARENT_ID, $this->getTwig()->render(
             '@ModuleAutoUpgrade/components/radio-card-online.html.twig',
-            $this->getParams()
+            $params
         ));
     }
 
