@@ -31,6 +31,7 @@ import { VersionChoice as Stepper } from "../components/Stepper.stories";
 
 export default {
   component: VersionChoicePage,
+  id: "31",
   title: "Pages/Update",
 };
 

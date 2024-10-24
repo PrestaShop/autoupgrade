@@ -28,6 +28,7 @@ import { Backup as Stepper } from "../components/Stepper.stories";
 
 export default {
   component: BackupPage,
+  id: "33",
   title: "Pages/Update",
 };
 

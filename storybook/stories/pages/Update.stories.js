@@ -30,6 +30,7 @@ import { Update as Stepper } from "../components/Stepper.stories";
 
 export default {
   component: UpdatePage,
+  id: "34",
   title: "Pages/Update",
 };
 

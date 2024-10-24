@@ -28,6 +28,7 @@ import { PostUpdate as Stepper } from "../components/Stepper.stories";
 
 export default {
   component: PostUpdatePage,
+  id: "35",
   title: "Pages/Update",
 };
 

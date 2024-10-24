@@ -28,6 +28,7 @@ import { UpdateOptions as Stepper } from "../components/Stepper.stories";
 
 export default {
   component: UpdateOptionsPage,
+  id: "32",
   title: "Pages/Update",
 };
 

@@ -28,6 +28,7 @@ import { Default as Stepper } from "../components/Stepper.stories";
 
 export default {
   component: PageLayout,
+  id: "2",
   title: "Layouts/Pages",
 };
 
