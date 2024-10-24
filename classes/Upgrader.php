@@ -114,6 +114,19 @@ class Upgrader
      * @throws DistributionApiException
      * @throws UpgradeException
      */
+    public function isNewerVersionAvailableOnline(): bool
+    {
+        if ($this->getOnlineDestinationRelease() === null) {
+            return false;
+        }
+
+        return version_compare($this->currentPsVersion, $this->getOnlineDestinationRelease()->getVersion(), '<');
+    }
+
+    /**
+     * @throws DistributionApiException
+     * @throws UpgradeException
+     */
     public function getOnlineDestinationRelease(): ?PrestashopRelease
     {
         if ($this->onlineDestinationRelease !== null) {

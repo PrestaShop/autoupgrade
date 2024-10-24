@@ -83,10 +83,10 @@ class UpdatePageVersionChoiceController extends AbstractPageController
     protected function getParams(): array
     {
         $updateSteps = new UpdateSteps($this->upgradeContainer->getTranslator());
-        $isLastVersion = $this->upgradeContainer->getUpgrader()->isLastVersion();
+        $isNewerVersionAvailableOnline = $this->upgradeContainer->getUpgrader()->isNewerVersionAvailableOnline();
         $onlineDestination = $this->upgradeContainer->getUpgrader()->getOnlineDestinationRelease();
 
-        if (!$isLastVersion) {
+        if ($isNewerVersionAvailableOnline) {
             $updateType = VersionUtils::getUpdateType($this->getPsVersion(), $onlineDestination->getVersion());
             $releaseNote = $this->upgradeContainer->getUpgrader()->getOnlineDestinationRelease()->getReleaseNoteUrl();
         } else {
@@ -115,7 +115,7 @@ class UpdatePageVersionChoiceController extends AbstractPageController
         $params = array_merge(
             $updateSteps->getStepParams($this::CURRENT_STEP),
             [
-                'up_to_date' => $isLastVersion,
+                'up_to_date' => !$isNewerVersionAvailableOnline,
                 'no_local_archive' => !$this->upgradeContainer->getLocalArchiveRepository()->hasLocalArchive(),
                 'assets_base_path' => $this->upgradeContainer->getAssetsEnvironment()->getAssetsBaseUrl($this->request),
                 'current_prestashop_version' => $this->getPsVersion(),
