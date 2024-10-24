@@ -30,7 +30,7 @@ export default {
   component: RenderBool,
 };
 
-export const Boolean = {
+export const Switch = {
   args: {
     field: {
       id: "deactivate_modules",
