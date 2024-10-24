@@ -183,4 +183,22 @@ class VersionUtilsTest extends TestCase
 
         $this->assertEquals($updateType, 'major');
     }
+
+    /**
+     * @dataProvider versionProvider
+     */
+    public function testVersionNormalization($source, $expected)
+    {
+        $this->assertSame($expected, VersionUtils::normalizePrestaShopVersion($source));
+    }
+
+    public function versionProvider(): array
+    {
+        return [
+            ['1.7', '1.7.0.0'],
+            ['1.7.2', '1.7.2.0'],
+            ['1.6.1.0-beta', '1.6.1.0-beta'],
+            ['1.6.1-beta', '1.6.1-beta.0'], // Weird, but still a test
+        ];
+    }
 }

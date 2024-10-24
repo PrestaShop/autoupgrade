@@ -95,41 +95,31 @@ abstract class CoreUpgrader
     {
         $this->container = $container;
         $this->logger = $logger;
-
         $this->filesystem = new Filesystem();
+        $this->destinationUpgradeVersion = $this->container->getState()->getInstallVersion();
+        $this->pathToInstallFolder = realpath($this->container->getProperty(UpgradeContainer::LATEST_PATH) . DIRECTORY_SEPARATOR . 'install');
+        $this->pathToUpgradeScripts = dirname(__DIR__, 3) . '/upgrade/';
+        if (file_exists($this->pathToInstallFolder . DIRECTORY_SEPARATOR . 'autoload.php')) {
+            require_once $this->pathToInstallFolder . DIRECTORY_SEPARATOR . 'autoload.php';
+        }
+        $this->db = \Db::getInstance();
     }
 
-    public function doUpgrade(): void
+    /**
+     * @throws UpgradeException
+     * @throws Exception
+     */
+    public function setupUpdateEnvironment(): void
     {
-        $this->logger->info($this->container->getTranslator()->trans('Initializing required environment constants'));
         $this->initConstants();
-
-        $this->logger->info($this->container->getTranslator()->trans('Checking version validity'));
-        $oldversion = $this->getPreUpgradeVersion();
-        $this->checkVersionIsNewer($oldversion);
-
-        //check DB access
-        $this->logger->info($this->container->getTranslator()->trans('Checking connection to database'));
         error_reporting(E_ALL);
-        $resultDB = \Db::checkConnection(_DB_SERVER_, _DB_USER_, _DB_PASSWD_, _DB_NAME_);
-        if ($resultDB !== 0) {
-            throw new UpgradeException($this->container->getTranslator()->trans('Invalid database configuration'));
-        }
+    }
 
-        if ($this->container->getUpgradeConfiguration()->shouldDeactivateCustomModules()) {
-            $this->logger->info($this->container->getTranslator()->trans('Disabling all non native modules'));
-            $this->disableCustomModules();
-        } else {
-            $this->logger->info($this->container->getTranslator()->trans('Keeping non native modules enabled'));
-        }
-
-        $this->logger->info($this->container->getTranslator()->trans('Updating database data and structure'));
-        $this->upgradeDb($oldversion);
-
-        // At this point, database upgrade is over.
-        // Now we need to add all previous missing settings items, and reset cache and compile directories
-        $this->writeNewSettings();
-
+    /**
+     * @throws UpgradeException
+     */
+    public function finalizeCoreUpdate(): void
+    {
         $this->logger->info($this->container->getTranslator()->trans('Running generic queries'));
         $this->runRecurrentQueries();
 
@@ -195,30 +185,54 @@ abstract class CoreUpgrader
         }
         $_SERVER['REQUEST_URI'] = str_replace('//', '/', $_SERVER['REQUEST_URI']);
 
-        $this->destinationUpgradeVersion = $this->container->getState()->getInstallVersion();
-        $this->pathToInstallFolder = realpath($this->container->getProperty(UpgradeContainer::LATEST_PATH) . DIRECTORY_SEPARATOR . 'install');
         // Kept for backward compatbility (unknown consequences on old versions of PrestaShop)
-        define('INSTALL_VERSION', $this->destinationUpgradeVersion);
+        if (!defined('INSTALL_VERSION')) {
+            define('INSTALL_VERSION', $this->destinationUpgradeVersion);
+        }
         // 1.4
-        define('INSTALL_PATH', $this->pathToInstallFolder);
+        if (!defined('INSTALL_PATH')) {
+            define('INSTALL_PATH', $this->pathToInstallFolder);
+        }
         // 1.5 ...
         if (!defined('_PS_CORE_DIR_')) {
             define('_PS_CORE_DIR_', _PS_ROOT_DIR_);
         }
-
-        define('PS_INSTALLATION_IN_PROGRESS', true);
-        define('SETTINGS_FILE_PHP', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/app/config/parameters.php');
-        define('SETTINGS_FILE_YML', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/app/config/parameters.yml');
-        define('DEFINES_FILE', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/config/defines.inc.php');
-        define('INSTALLER__PS_BASE_URI', substr($_SERVER['REQUEST_URI'], 0, -1 * (strlen($_SERVER['REQUEST_URI']) - strrpos($_SERVER['REQUEST_URI'], '/')) - strlen(substr(dirname($_SERVER['REQUEST_URI']), strrpos(dirname($_SERVER['REQUEST_URI']), '/') + 1))));
-
-        define('_PS_INSTALL_PATH_', $this->pathToInstallFolder . '/');
-        define('_PS_INSTALL_DATA_PATH_', _PS_INSTALL_PATH_ . 'data/');
-        define('_PS_INSTALL_CONTROLLERS_PATH_', _PS_INSTALL_PATH_ . 'controllers/');
-        define('_PS_INSTALL_MODELS_PATH_', _PS_INSTALL_PATH_ . 'models/');
-        define('_PS_INSTALL_LANGS_PATH_', _PS_INSTALL_PATH_ . 'langs/');
-        define('_PS_INSTALL_FIXTURES_PATH_', _PS_INSTALL_PATH_ . 'fixtures/');
-
+        if (!defined('PS_INSTALLATION_IN_PROGRESS')) {
+            define('PS_INSTALLATION_IN_PROGRESS', true);
+        }
+        if (!defined('SETTINGS_FILE_PHP')) {
+            define('SETTINGS_FILE_PHP', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/app/config/parameters.php');
+        }
+        if (!defined('SETTINGS_FILE_YML')) {
+            define('SETTINGS_FILE_YML', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/app/config/parameters.yml');
+        }
+        if (!defined('DEFINES_FILE')) {
+            define('DEFINES_FILE', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/config/defines.inc.php');
+        }
+        if (!defined('INSTALLER__PS_BASE_URI')) {
+            define('INSTALLER__PS_BASE_URI', substr($_SERVER['REQUEST_URI'], 0, -1 * (strlen($_SERVER['REQUEST_URI']) - strrpos($_SERVER['REQUEST_URI'], '/')) - strlen(substr(dirname($_SERVER['REQUEST_URI']), strrpos(dirname($_SERVER['REQUEST_URI']), '/') + 1))));
+        }
+        if (!defined('_PS_INSTALL_PATH_')) {
+            define('_PS_INSTALL_PATH_', $this->pathToInstallFolder . '/');
+        }
+        if (!defined('_PS_INSTALL_DATA_PATH_')) {
+            define('_PS_INSTALL_DATA_PATH_', _PS_INSTALL_PATH_ . 'data/');
+        }
+        if (!defined('_PS_INSTALL_CONTROLLERS_PATH_')) {
+            define('_PS_INSTALL_CONTROLLERS_PATH_', _PS_INSTALL_PATH_ . 'controllers/');
+        }
+        if (!defined('_PS_INSTALL_MODELS_PATH_')) {
+            define('_PS_INSTALL_MODELS_PATH_', _PS_INSTALL_PATH_ . 'models/');
+        }
+        if (!defined('_PS_INSTALL_LANGS_PATH_')) {
+            define('_PS_INSTALL_LANGS_PATH_', _PS_INSTALL_PATH_ . 'langs/');
+        }
+        if (!defined('_PS_INSTALL_FIXTURES_PATH_')) {
+            define('_PS_INSTALL_FIXTURES_PATH_', _PS_INSTALL_PATH_ . 'fixtures/');
+        }
+        if (!defined('_PS_INSTALLER_PHP_UPGRADE_DIR_')) {
+            define('_PS_INSTALLER_PHP_UPGRADE_DIR_', $this->pathToUpgradeScripts . 'php/');
+        }
         if (function_exists('date_default_timezone_set')) {
             date_default_timezone_set('Europe/Paris');
         }
@@ -230,60 +244,12 @@ abstract class CoreUpgrader
             define('_PS_MODULE_DIR_', $this->pathToInstallFolder . '/../modules/');
         }
 
-        $this->pathToUpgradeScripts = dirname(__DIR__, 3) . '/upgrade/';
-        define('_PS_INSTALLER_PHP_UPGRADE_DIR_', $this->pathToUpgradeScripts . 'php/');
-
         if (!defined('__PS_BASE_URI__')) {
             define('__PS_BASE_URI__', realpath(dirname($_SERVER['SCRIPT_NAME'])) . '/../../');
         }
 
         if (!defined('_THEMES_DIR_')) {
             define('_THEMES_DIR_', __PS_BASE_URI__ . 'themes/');
-        }
-
-        if (file_exists($this->pathToInstallFolder . DIRECTORY_SEPARATOR . 'autoload.php')) {
-            require_once $this->pathToInstallFolder . DIRECTORY_SEPARATOR . 'autoload.php';
-        }
-        $this->db = \Db::getInstance();
-    }
-
-    protected function getPreUpgradeVersion(): string
-    {
-        return $this->normalizeVersion($this->container->getState()->getOriginVersion());
-    }
-
-    /**
-     * Add missing levels in version.
-     * Example: 1.7 will become 1.7.0.0 and 8.1 will become 8.1.0.
-     *
-     * @internal public for tests
-     */
-    public function normalizeVersion(string $version): string
-    {
-        $arrayVersion = explode('.', $version);
-        $versionLevels = 1 == $arrayVersion[0] ? 4 : 3;
-        if (count($arrayVersion) < $versionLevels) {
-            $arrayVersion = array_pad($arrayVersion, $versionLevels, '0');
-        }
-
-        return implode('.', $arrayVersion);
-    }
-
-    /**
-     * @throws UpgradeException
-     */
-    protected function checkVersionIsNewer(string $oldVersion): void
-    {
-        if (strpos($this->destinationUpgradeVersion, '.') === false) {
-            throw new UpgradeException($this->container->getTranslator()->trans('%s is not a valid version number.', [$this->destinationUpgradeVersion]));
-        }
-
-        $versionCompare = version_compare($this->destinationUpgradeVersion, $oldVersion);
-
-        if ($versionCompare === -1) {
-            throw new UpgradeException($this->container->getTranslator()->trans('[ERROR] Version to install is too old.') . ' ' . $this->container->getTranslator()->trans('Current version: %oldversion%. Version to install: %newversion%.', ['%oldversion%' => $oldVersion, '%newversion%' => $this->destinationUpgradeVersion]));
-        } elseif ($versionCompare === 0) {
-            throw new UpgradeException($this->container->getTranslator()->trans('You already have the %s version.', [$this->destinationUpgradeVersion]));
         }
     }
 
@@ -292,26 +258,9 @@ abstract class CoreUpgrader
      *
      * @throws Exception
      */
-    protected function disableCustomModules(): void
+    public function disableCustomModules(): void
     {
         $this->container->getModuleAdapter()->disableNonNativeModules($this->pathToUpgradeScripts);
-    }
-
-    /**
-     * @throws UpgradeException
-     */
-    protected function upgradeDb(string $oldversion): void
-    {
-        $upgrade_dir_sql = $this->pathToUpgradeScripts . '/sql/';
-        $sqlContentVersion = $this->applySqlParams(
-            $this->getUpgradeSqlFilesListToApply($upgrade_dir_sql, $oldversion)
-        );
-
-        foreach ($sqlContentVersion as $upgrade_file => $sqlContent) {
-            foreach ($sqlContent as $query) {
-                $this->runQuery($upgrade_file, $query);
-            }
-        }
     }
 
     /**
@@ -353,11 +302,25 @@ abstract class CoreUpgrader
     }
 
     /**
+     * @throws UpgradeException
+     *
+     * @return array<array{'version':string,'query':string}>
+     */
+    public function getSqlContentList(string $originVersion): array
+    {
+        $upgrade_dir_sql = $this->pathToUpgradeScripts . '/sql/';
+
+        return $this->applySqlParams(
+            $this->getUpgradeSqlFilesListToApply($upgrade_dir_sql, $originVersion)
+        );
+    }
+
+    /**
      * Replace some placeholders in the SQL upgrade files (prefix, engine...).
      *
      * @param array<string, string> $sqlFiles
      *
-     * @return array<string, string[]> of SQL requests per version
+     * @return array<array{'version':string,'query':string}> of SQL requests per version
      */
     protected function applySqlParams(array $sqlFiles): array
     {
@@ -369,8 +332,13 @@ abstract class CoreUpgrader
         foreach ($sqlFiles as $version => $file) {
             $sqlContent = file_get_contents($file) . "\n";
             $sqlContent = str_replace($search, $replace, $sqlContent);
-            $sqlContent = preg_split("/;\s*[\r\n]+/", $sqlContent);
-            $sqlRequests[$version] = $sqlContent;
+            $sqlContent = array_filter(preg_split("/;\s*[\r\n]+/", $sqlContent));
+            foreach ($sqlContent as $query) {
+                $sqlRequests[] = [
+                    'version' => $version,
+                    'query' => $query,
+                ];
+            }
         }
 
         return $sqlRequests;
@@ -382,7 +350,7 @@ abstract class CoreUpgrader
      * @param string $upgrade_file File in which the request is stored (for logs)
      * @param string $query
      */
-    protected function runQuery(string $upgrade_file, string $query): void
+    public function runQuery(string $upgrade_file, string $query): void
     {
         $query = trim($query);
         if (empty($query)) {
@@ -474,7 +442,7 @@ abstract class CoreUpgrader
         if ($this->hasPhpError($phpRes)) {
             $this->logPhpError($upgrade_file, $query, $phpRes);
         } else {
-            $this->logger->debug('<div class="upgradeDbOk">[OK] PHP ' . $upgrade_file . ' : ' . $query . '</div>');
+            $this->logger->debug('Migration file: ' . $upgrade_file . ', Query: ' . $query);
         }
     }
 
@@ -525,23 +493,22 @@ abstract class CoreUpgrader
             if (!empty($matches[1])) {
                 $drop = 'DROP TABLE IF EXISTS `' . _DB_PREFIX_ . $matches[1] . '`;';
                 if ($this->db->execute($drop, false)) {
-                    $this->logger->debug('<div class="upgradeDbOk">' . $this->container->getTranslator()->trans('[DROP] SQL %s table has been dropped.', ['`' . _DB_PREFIX_ . $matches[1] . '`']) . '</div>');
+                    $this->logger->debug($this->container->getTranslator()->trans('[DROP] SQL %s table has been dropped.', ['`' . _DB_PREFIX_ . $matches[1] . '`']));
                 }
             }
         }
 
         if ($this->db->execute($query, false)) {
-            $this->logger->debug('<div class="upgradeDbOk">[OK] SQL ' . $upgrade_file . ' ' . $query . '</div>');
+            $this->logger->debug('Migration file: ' . $upgrade_file . ', Query: ' . $query);
 
             return;
         }
 
         $error = $this->db->getMsgError();
         $error_number = $this->db->getNumberError();
-        $this->logger->warning('
-            <div class="upgradeDbError">
-            [WARNING] SQL ' . $upgrade_file . '
-            ' . $error_number . ' in ' . $query . ': ' . $error . '</div>');
+
+        $this->logger->warning('Error occurred during the execution of a query: ' . $error_number . ', ' . $error);
+        $this->logger->warning('Migration file: ' . $upgrade_file . ', Query: ' . $query);
 
         $duplicates = ['1050', '1054', '1060', '1061', '1062', '1091'];
         if (!in_array($error_number, $duplicates)) {

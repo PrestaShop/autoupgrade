@@ -58,6 +58,15 @@ class UpgradeFileNames
     const FILES_TO_UPGRADE_LIST = 'filesToUpgrade.list';
 
     /**
+     * during updateDatabase process,
+     * this files contains the list of queries left to execute in a serialized array.
+     * (this file is deleted in init() method if you reload the page).
+     *
+     * @var string
+     */
+    const SQL_TO_EXECUTE_LIST = 'sqlToExecute.list';
+
+    /**
      * during upgradeModules process,
      * this files contains the list of modules left to upgrade in a serialized array.
      * (this file is deleted in init() method if you reload the page).
@@ -171,5 +180,6 @@ class UpgradeFileNames
         'MODULE_SOURCE_PROVIDER_CACHE_COMPOSER',
         'MODULE_SOURCE_PROVIDER_CACHE_MARKETPLACE_API',
         'MODULE_SOURCE_PROVIDER_CACHE_DISTRIBUTION_API',
+        'SQL_TO_EXECUTE_LIST',
     ];
 }

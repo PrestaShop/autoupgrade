@@ -33,31 +33,11 @@ use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 class CoreUpgrader81 extends CoreUpgrader80
 {
-    /** @var bool */
-    private $settingsMigrated = false;
-
-    /**
-     * @throws UpgradeException
-     */
-    public function doUpgrade(): void
-    {
-        // We need to write the new settings before initConstants() is called
-        // because the new settings are needed for the Kernel
-        $this->writeNewSettings();
-        $this->settingsMigrated = true;
-
-        parent::doUpgrade();
-    }
-
     /**
      * @throws UpgradeException
      */
     public function writeNewSettings(): void
     {
-        if ($this->settingsMigrated) {
-            return;
-        }
-
         $parametersPath = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/app/config/parameters.php';
         $parameters = require $parametersPath;
         if (!isset($parameters['parameters']['api_public_key']) || isset($parameters['parameters']['api_private_key'])) {
