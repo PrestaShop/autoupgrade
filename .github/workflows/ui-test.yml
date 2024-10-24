@@ -69,7 +69,7 @@ jobs:
       - name: Update
         run: |
          docker exec -t prestashop php modules/autoupgrade/bin/console update:start --channel=online admin-dev
-         docker exec -t prestashop chmod 777 -R /var/www/html/var/cache
+         docker exec -t prestashop chmod 777 -R /var/www/html/var
 
       - name: Install dependencies
         working-directory: tests/UI/

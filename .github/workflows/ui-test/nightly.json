@@ -26,7 +26,6 @@
     {
       "PS_VERSION_START": "1.7.8.4",
       "PS_VERSION_END": "1.7.8.11",
-      "UPGRADE_CHANNEL": "online",
       "PHP_VERSION": "7.1"
     },
     {
@@ -47,7 +46,6 @@
     {
       "PS_VERSION_START": "1.7.8.8",
       "PS_VERSION_END": "1.7.8.11",
-      "UPGRADE_CHANNEL": "online",
       "PHP_VERSION": "7.1"
     },
     {
