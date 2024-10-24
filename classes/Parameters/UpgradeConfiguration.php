@@ -62,7 +62,7 @@ class UpgradeConfiguration extends ArrayCollection
     ];
 
     const DEFAULT_CHANNEL = Upgrader::CHANNEL_ONLINE;
-    const DEFAULT_FILENAME = 'prestashop.zip';
+    const ONLINE_CHANNEL_ZIP = 'prestashop.zip';
 
     /**
      * Performance settings, if your server has a low memory size, lower these values.
@@ -82,12 +82,21 @@ class UpgradeConfiguration extends ArrayCollection
     /**
      * Get the name of the new release archive.
      */
-    public function getArchiveZip(): ?string
+    public function getLocalChannelZip(): ?string
     {
         return $this->get('archive_zip');
     }
 
-    public function getArchiveXml(): ?string
+    public function getChannelZip(): ?string
+    {
+        if ($this->getChannel() === Upgrader::CHANNEL_LOCAL) {
+            $this->getLocalChannelZip();
+        }
+
+        return self::ONLINE_CHANNEL_ZIP;
+    }
+
+    public function getLocalChannelXml(): ?string
     {
         return $this->get('archive_xml');
     }
@@ -95,7 +104,7 @@ class UpgradeConfiguration extends ArrayCollection
     /**
      * Get the version included in the new release.
      */
-    public function getArchiveVersion(): ?string
+    public function getLocalChannelVersion(): ?string
     {
         return $this->get('archive_version_num');
     }

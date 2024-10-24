@@ -77,7 +77,7 @@ class Upgrader
      *
      * @TODO ftp if copy is not possible (safe_mode for example)
      */
-    public function downloadLast(string $dest, string $filename = UpgradeConfiguration::DEFAULT_FILENAME): bool
+    public function downloadLast(string $dest, string $filename): bool
     {
         if ($this->onlineDestinationRelease === null) {
             $this->getOnlineDestinationRelease();
@@ -146,7 +146,7 @@ class Upgrader
     public function getDestinationVersion(): ?string
     {
         if ($this->channel === self::CHANNEL_LOCAL) {
-            return $this->upgradeConfiguration->getArchiveVersion();
+            return $this->upgradeConfiguration->getLocalChannelVersion();
         } else {
             return $this->getOnlineDestinationRelease() ? $this->getOnlineDestinationRelease()->getVersion() : null;
         }
