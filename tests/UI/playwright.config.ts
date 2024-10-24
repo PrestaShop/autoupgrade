@@ -106,7 +106,6 @@ export default defineConfig({
   use: {
     /* Capture screenshot after each test failure */
     screenshot: 'only-on-failure',
-    video: 'retain-on-failure',
   },
 
   /* Configure projects for major browsers */
@@ -120,9 +119,6 @@ export default defineConfig({
             width: 1680,
             height: 900,
           },
-          recordVideo: {
-            dir: './videos'
-          }
         },
       },
     },
