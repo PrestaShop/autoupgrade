@@ -53,7 +53,7 @@ class HomePageController extends AbstractPageController
 
         // if is not update is restore
         if ($this->getParams()['empty_backup']) {
-            return AjaxResponseBuilder::errorResponse('You can\'t acced this route because you haven\'t backup.', 401);
+            return AjaxResponseBuilder::errorResponse('You can\'t access this route because you have no backups.', 401);
         }
 
         return AjaxResponseBuilder::nextRouteResponse(Routes::RESTORE_PAGE_BACKUP_SELECTION);
