@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-  <form class="welcome-page__card-list" action="" data-route="{{ form_route_to_submit }}"  id="next_page" name="next_page">
+  <form class="welcome-page__card-list" action="" data-route-to-submit="{{ form_route_to_submit }}"  id="next_page" name="next_page">
     {% include "@ModuleAutoUpgrade/components/radio-card.html.twig" with {
       checked: false,
       title: 'Update your store'|trans({}),
@@ -26,7 +26,9 @@
       radioValue: form_options.restore_value,
       disabled: empty_backup,
       disabledMessage: empty_backup ? 'No backup file found on your store.'|trans({}) : null,
-      required: true
+      required: true,
+      badgeLabel: "",
+      badgeStatus: "",
     } %}
   </form>
 {% endblock %}

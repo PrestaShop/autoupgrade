@@ -28,52 +28,38 @@ import CheckRequirements from "../../../views/templates/components/check-require
 export default {
   component: CheckRequirements,
   title: "Components/Check requirements",
-  args: {
-    requirementsOk: true,
-    updateAssistantDocs: 
-      "https://devdocs.prestashop-project.org/8/basics/keeping-up-to-date/use-autoupgrade-module/",
-    moduleIsUpToDate: false,
-    moduleUpdateLink:
-      "/admin/index.php/improve/modules/updates?_token=MbkhzPrMc9ZknpvSTqeKbKiekftXvp4IowAxrW4Jcfw",
-    noMissingFiles: false,
-    informationLink: 
-      "/admin/index.php/configure/advanced/system-information/?_token=MbkhzPrMc9ZknpvSTqeKbKiekftXvp4IowAxrW4Jcfw",
-    phpRequirementsState: 1,
-    phpCompatibilityRange: {
-      php_min_version: "7.2.5",
-      php_max_version: "8.1",
-      php_current_version: "7.4.33",
-    },
-    rootDirectoryIsWritable: false,
-    rootDirectory: "/var/www/html",
-    adminDirectoryIsWritable: false,
-    adminDirectoryWritableReport: "", // Not used
-    safeModeIsDisabled: false,
-    allowUrlFopenOrCurlIsEnabled: false,
-    zipIsEnabled: false,
-    isLocalEnvironment: false,
-    storeIsInMaintenance: false,
-    maintenanceLink:
-      "/admin/index.php/configure/shop/maintenance/?_token=MbkhzPrMc9ZknpvSTqeKbKiekftXvp4IowAxrW4Jcfw",
-    cachingIsDisabled: false,
-    cacheLink:
-      "/admin/index.php/configure/advanced/performance/?_token=MbkhzPrMc9ZknpvSTqeKbKiekftXvp4IowAxrW4Jcfw",
-    maxExecutionTime: 5,
-    checkApacheModRewrite: false,
-    notLoadedPhpExtensions: [
-      "curl", "dom", "fileinfo", "gd", "intl", "json", "mbstring", "openssl", "pdo_mysql", "simplexml", "zip"
-    ],
-    notExistsPhpFunctions: [
-      "fopen", "fclose", "fread", "fwrite", "rename", "file_exists", "unlink", "rmdir", "mkdir", "getcwd", "chdir", "chmod"
-    ],
-    checkMemoryLimit: false,
-    checkFileUploads: false,
-    checkKeyGeneration: false,
-    notWritingDirectories: [
-      "autoupgrade", "views", "js", "css"
-    ],
-    isShopVersionMatchingVersionInDatabase: false,
-  },
 };
 
-export const Default = {};
+export const Default = {
+  args: {
+    updateAssistantDocs: 
+      "https://devdocs.prestashop-project.org/8/basics/keeping-up-to-date/use-autoupgrade-module/",
+    requirements: {
+      requirements_ok: true,
+      errors: [
+        'Your current PHP version isn\'t compatible with PrestaShop 9.0.0. (Expected: 8.1 - 8.3 | Current: 8.0)',
+        'Your store\'s root directory xxx isn\'t writable. Provide write access to the user running PHP with appropriate permission & ownership.',
+        'The "/admin/autoupgrade" directory isn\'t writable. Provide write access to the user running PHP with appropriate permission & ownership.',
+        'PHP\'s "Safe mode" needs to be disabled.',
+        'Files can\'t be downloaded. Enable PHP\'s "allow_url_fopen" option or install PHP extension "cURL".',
+        'Missing PHP extension "zip".',
+        'Maintenance mode needs to be enabled. Enable maintenance mode and add your maintenance IP in Shop parameters > General > Maintenance.',
+        'PrestaShop\'s caching features needs to be disabled. Disable caching features in Advanced parameters > Performance > Caching',
+        'PHP\'s max_execution_time setting needs to have a high value or needs to be disabled entirely (current value: 15 seconds)',
+        'Apache mod_rewrite needs to be enabled.',
+        'The following PHP extensions needs to be installed: curl, dom, fileinfo, gd',
+        'The following PHP functions needs to be allowed: fopen, fclose, fread, fwrite',
+        'PHP memory_limit needs to be greater than 256 MB.',
+        'PHP file_uploads configuration needs to be enabled.',
+        'Unable to generate private keys using openssl_pkey_new. Check your OpenSSL configuration, especially the path to openssl.cafile.',
+        'It\'s not possible to write in the following folders: xxx, yyy, zzz. Provide write access to the user running PHP with appropriate permission & ownership.',
+        'The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table.',
+      ],
+      warnings: [
+        'Your current version of the module is out of date. Update now Modules > Module Manager > Updates',
+        'We were unable to check your PHP compatibility with PrestaShop 9.0.0',
+        'Some core files have been altered, customization made on these files will be lost during the update. See the list in Advanced parameters > Information',
+      ],
+    },
+  },
+};

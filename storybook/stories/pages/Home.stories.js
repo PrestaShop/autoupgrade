@@ -24,13 +24,16 @@
  */
 
 import WelcomePage from "../../../views/templates/pages/home.html.twig";
-import RadioCard from "../components/RadioCard.stories";
+import { Default as RadioCard } from "../components/RadioCard.stories";
 
 export default {
   component: WelcomePage,
   title: "Pages/Home",
+};
+
+export const Welcome = {
   args: {
-    ...RadioCard.args,
+    //Step
     badgeLabel: "",
     badgeStatus: "",
     releaseNote: "",
@@ -38,7 +41,12 @@ export default {
     empty_backup: true,
     step_parent_id: "ua_container",
     form_route: "form_route",
+    form_route_to_save: "update-step-version-choice-save-form",
+    form_route_to_submit: "update-step-version-choice-submit-form",
+    // Radio card
+    ...RadioCard.args,
+    form_fields: {
+      route_choice: "",
+    }
   },
 };
-
-export const Welcome = {};

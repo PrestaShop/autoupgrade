@@ -28,28 +28,15 @@ import RenderBool from "../../../views/templates/components/render-bool.html.twi
 export default {
   title: "Components/Render fields",
   component: RenderBool,
-  argTypes: {
-    type: {
-      control: 'select',
-      options: [
-        "disabled",
-        "bool",
-        "radio",
-        "select",
-        "textarea",
-        "container",
-        "container_end",
-        "text",
-      ],
-      defaultValue: 'bool',
-    },
-  },
+};
+
+export const Switch = {
   args: {
     field: {
       id: "deactivate_modules",
       title: "Deactivate non-native modules",
       desc: "All the modules installed after creating your store are considered non-native modules. They might be incompatible with the new version of PrestaShop. We recommend deactivating them during the update.",
-      type: 'bool',
+      type: "bool",
       required: true,
       disabled: true,
     },
@@ -58,5 +45,3 @@ export default {
     val: true,
   },
 };
-
-export const Boolean = {};

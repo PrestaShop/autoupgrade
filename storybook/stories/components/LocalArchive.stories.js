@@ -28,7 +28,14 @@ import LocalArchive from "../../../views/templates/components/local-archive.html
 export default {
   component: LocalArchive,
   title: "Components/Local archive",
+};
+
+export const Default = {
   args: {
+    form_fields: {
+      archive_zip: "archive.zip",
+      archive_xml: "archive.xml",
+    },
     archiveFiles: [
       "backup1.zip",
       "backup2.zip",
@@ -48,5 +55,3 @@ export default {
     versionsMismatch: false,
   },
 };
-
-export const Default = {};

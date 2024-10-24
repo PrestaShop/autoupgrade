@@ -28,22 +28,9 @@ import RenderSelect from "../../../views/templates/components/render-select.html
 export default {
   title: "Components/Render fields",
   component: RenderSelect,
-  argTypes: {
-    type: {
-      control: "select",
-      options: [
-        "disabled",
-        "bool",
-        "radio",
-        "select",
-        "textarea",
-        "container",
-        "container_end",
-        "text",
-      ],
-      defaultValue: "select",
-    },
-  },
+};
+
+export const Select = {
   args: {
     field: {
       id: "switch_theme",
@@ -59,8 +46,6 @@ export default {
       disabled: false,
     },
     key: "PS_AUTOUP_SWITCH_THEME",
-    val: "1",
+    val: 1,
   },
 };
-
-export const Select = {};

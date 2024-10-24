@@ -24,33 +24,17 @@
  */
 
 import UpdateOptionsPage from "../../../views/templates/pages/update.html.twig";
+import { UpdateOptions as Stepper } from "../components/Stepper.stories";
 
 export default {
   component: UpdateOptionsPage,
+  id: "32",
   title: "Pages/Update",
+};
+
+export const UpdateOptions = {
   args: {
-    steps: [
-      {
-        state: "done",
-        title: "Version choice",
-      },
-      {
-        state: "current",
-        title: "Update options",
-      },
-      {
-        state: "normal",
-        title: "Backup",
-      },
-      {
-        state: "normal",
-        title: "Update",
-      },
-      {
-        state: "normal",
-        title: "Post-update",
-      },
-    ],
+    // Step
     step: {
       code: "update-options",
       title: "Update options",
@@ -60,7 +44,8 @@ export default {
     switch_the_theme: 1,
     disable_all_overrides: false,
     step_parent_id: "ua_container",
+    stepper_parent_id: "stepper_content",
+    // Stepper
+    ...Stepper.args,
   },
 };
-
-export const UpdateOptions = {};

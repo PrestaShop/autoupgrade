@@ -24,11 +24,14 @@
  */
 
 import ModalBackup from "../../../views/templates/modals/modal-backup-all.html.twig";
-import Modal from "./Modal.stories";
+import { Default as Modal } from "./Modal.stories";
 
 export default {
   title: "Components/Modal",
   component: ModalBackup,
+};
+
+export const BackupWithImg = {
   args: {
     ...Modal.args,
     title: "Start backup?",
@@ -36,5 +39,3 @@ export default {
     modalSize: "md",
   },
 };
-
-export const BackupWithImg = {};

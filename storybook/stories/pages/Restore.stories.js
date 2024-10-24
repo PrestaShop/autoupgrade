@@ -24,33 +24,25 @@
  */
 
 import RestorePage from "../../../views/templates/pages/rollback.html.twig";
-import BackupSelection from "../components/BackupSelection.stories";
+import { Default as BackupSelection } from "../components/BackupSelection.stories";
+import { Restore as Stepper } from "../components/Stepper.stories";
 
 export default {
   component: RestorePage,
   title: "Pages/Rollback",
+};
+
+export const Restore = {
   args: {
-    ...BackupSelection.args,
-    steps: [
-      {
-        state: "current",
-        title: "Backup selection",
-      },
-      {
-        state: "normal",
-        title: "Restore",
-      },
-      {
-        state: "normal",
-        title: "Post-restore",
-      },
-    ],
+    // Step
     step: {
       code: "restore",
       title: "Backup selection",
     },
     step_parent_id: "ua_container",
+    // Backup
+    ...BackupSelection.args,
+    // Stepper
+    ...Stepper.args,
   },
 };
-
-export const Restore = {};

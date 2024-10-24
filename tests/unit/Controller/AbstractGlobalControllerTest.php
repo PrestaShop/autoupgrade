@@ -1,7 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use PrestaShop\Module\AutoUpgrade\Router\Router;
+use PrestaShop\Module\AutoUpgrade\Router\Routes;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -47,9 +47,9 @@ class AbstractGlobalControllerTest extends TestCase
     public static function redirectionTestsProvider()
     {
         return [
-            [Router::HOME_PAGE, 'route=update-page-update', 'http://localhost/hello-world/admin-wololo/index.php?route=home-page'],
-            [Router::HOME_PAGE, '', 'http://localhost/hello-world/admin-wololo/index.php?route=home-page'],
-            [Router::HOME_PAGE, 'token=oh-no&route=oh-yes', 'http://localhost/hello-world/admin-wololo/index.php?token=oh-no&route=home-page'],
+            [Routes::HOME_PAGE, 'route=update-page-update', 'http://localhost/hello-world/admin-wololo/index.php?route=home-page'],
+            [Routes::HOME_PAGE, '', 'http://localhost/hello-world/admin-wololo/index.php?route=home-page'],
+            [Routes::HOME_PAGE, 'token=oh-no&route=oh-yes', 'http://localhost/hello-world/admin-wololo/index.php?token=oh-no&route=home-page'],
         ];
     }
 }

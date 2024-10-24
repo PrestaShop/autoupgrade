@@ -24,37 +24,19 @@
  */
 
 import UpdatePage from "../../../views/templates/pages/update.html.twig";
-import LogsProgress from "../components/LogsProgress.stories";
-import Logs from "../components/Logs.stories";
+import { Default as LogsProgress } from "../components/LogsProgress.stories";
+import { Default as Logs } from "../components/Logs.stories";
+import { Update as Stepper } from "../components/Stepper.stories";
 
 export default {
   component: UpdatePage,
+  id: "34",
   title: "Pages/Update",
+};
+
+export const Update = {
   args: {
-    ...LogsProgress.args,
-    ...Logs.args,
-    steps: [
-      {
-        state: "done",
-        title: "Version choice",
-      },
-      {
-        state: "done",
-        title: "Update options",
-      },
-      {
-        state: "done",
-        title: "Backup",
-      },
-      {
-        state: "current",
-        title: "Update",
-      },
-      {
-        state: "normal",
-        title: "Post-update",
-      },
-    ],
+    // Step
     step: {
       code: "update",
       title: "Update",
@@ -64,7 +46,11 @@ export default {
     downloadLogsButtonUrl: "",
     downloadLogsButtonLabel: "",
     step_parent_id: "ua_container",
+    stepper_parent_id: "stepper_content",
+    // Logs
+    ...LogsProgress.args,
+    ...Logs.args,
+    // Stepper
+    ...Stepper.args,
   },
 };
-
-export const Update = {};

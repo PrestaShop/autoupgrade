@@ -24,11 +24,14 @@
  */
 
 import ModalBackupDelete from "../../../views/templates/modals/modal-backup-delete.html.twig";
-import Modal from "./Modal.stories";
+import { Default as Modal } from "./Modal.stories";
 
 export default {
   title: "Components/Modal",
   component: ModalBackupDelete,
+};
+
+export const BackupDelete = {
   args: {
     ...Modal.args,
     title: "Delete backup",
@@ -37,5 +40,3 @@ export default {
     modalDanger: true,
   },
 };
-
-export const BackupDelete = {};

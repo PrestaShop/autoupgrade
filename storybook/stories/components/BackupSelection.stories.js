@@ -28,6 +28,9 @@ import BackupSelection from "../../../views/templates/components/backup-selectio
 export default {
   component: BackupSelection,
   title: "Components/Backup selection",
+};
+
+export const Default = {
   args: {
     availableBackups: [
       "autoupgrade_save_8.1.6 - 15/07/2024 8:00",
@@ -37,5 +40,3 @@ export default {
     showDelete: false,
   },
 };
-
-export const Default = {};

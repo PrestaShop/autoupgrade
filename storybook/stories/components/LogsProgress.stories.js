@@ -28,10 +28,11 @@ import LogsProgress from "../../../views/templates/components/logs-progress.html
 export default {
   component: LogsProgress,
   title: "Components/Logs progress",
+};
+
+export const Default = {
   args: {
     progressStatus: "Backup files in progress XX files left",
     progressPercentage: 25,
   }
 };
-
-export const Default = {};

@@ -24,33 +24,17 @@
  */
 
 import PostUpdatePage from "../../../views/templates/pages/update.html.twig";
+import { PostUpdate as Stepper } from "../components/Stepper.stories";
 
 export default {
   component: PostUpdatePage,
+  id: "35",
   title: "Pages/Update",
+};
+
+export const PostUpdate = {
   args: {
-    steps: [
-      {
-        state: "done",
-        title: "Version choice",
-      },
-      {
-        state: "done",
-        title: "Update options",
-      },
-      {
-        state: "done",
-        title: "Backup",
-      },
-      {
-        state: "done",
-        title: "Update",
-      },
-      {
-        state: "current",
-        title: "Post-update",
-      },
-    ],
+    // Step
     step: {
       code: "post-update",
       title: "Post-update checklist",
@@ -62,7 +46,7 @@ export default {
     currentPhpVersion: "8.1",
     backlog_link: "https://myshop.com/my-backlog.txt",
     step_parent_id: "ua_container",
+    // Stepper
+    ...Stepper.args
   },
 };
-
-export const PostUpdate = {};

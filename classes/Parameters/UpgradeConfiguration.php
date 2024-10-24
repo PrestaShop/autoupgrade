@@ -29,6 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade\Parameters;
 
 use Configuration;
 use Doctrine\Common\Collections\ArrayCollection;
+use PrestaShop\Module\AutoUpgrade\Upgrader;
 use Shop;
 use UnexpectedValueException;
 
@@ -53,12 +54,15 @@ class UpgradeConfiguration extends ArrayCollection
     ];
 
     const PS_CONST_DEFAULT_VALUE = [
-        'PS_AUTOUP_CUSTOM_MOD_DESACT' => 1,
-        'PS_AUTOUP_CHANGE_DEFAULT_THEME' => 0,
-        'PS_AUTOUP_KEEP_MAILS' => 0,
-        'PS_AUTOUP_BACKUP' => 1,
-        'PS_AUTOUP_KEEP_IMAGES' => 1,
+        'PS_AUTOUP_CUSTOM_MOD_DESACT' => true,
+        'PS_AUTOUP_CHANGE_DEFAULT_THEME' => false,
+        'PS_AUTOUP_KEEP_MAILS' => false,
+        'PS_AUTOUP_BACKUP' => true,
+        'PS_AUTOUP_KEEP_IMAGES' => true,
     ];
+
+    const DEFAULT_CHANNEL = Upgrader::CHANNEL_ONLINE;
+    const ONLINE_CHANNEL_ZIP = 'prestashop.zip';
 
     /**
      * Performance settings, if your server has a low memory size, lower these values.
@@ -78,12 +82,21 @@ class UpgradeConfiguration extends ArrayCollection
     /**
      * Get the name of the new release archive.
      */
-    public function getArchiveZip(): ?string
+    public function getLocalChannelZip(): ?string
     {
         return $this->get('archive_zip');
     }
 
-    public function getArchiveXml(): ?string
+    public function getChannelZip(): ?string
+    {
+        if ($this->getChannel() === Upgrader::CHANNEL_LOCAL) {
+            $this->getLocalChannelZip();
+        }
+
+        return self::ONLINE_CHANNEL_ZIP;
+    }
+
+    public function getLocalChannelXml(): ?string
     {
         return $this->get('archive_xml');
     }
@@ -91,7 +104,7 @@ class UpgradeConfiguration extends ArrayCollection
     /**
      * Get the version included in the new release.
      */
-    public function getArchiveVersion(): ?string
+    public function getLocalChannelVersion(): ?string
     {
         return $this->get('archive_version_num');
     }
@@ -99,7 +112,7 @@ class UpgradeConfiguration extends ArrayCollection
     /**
      * Get channel selected on config panel (Minor, major ...).
      */
-    public function getChannel(): string
+    public function getChannel(): ?string
     {
         return $this->get('channel');
     }
@@ -138,7 +151,7 @@ class UpgradeConfiguration extends ArrayCollection
 
     public function shouldBackupFilesAndDatabase(): bool
     {
-        return filter_var($this->get('PS_AUTOUP_BACKUP'), FILTER_VALIDATE_BOOLEAN);
+        return $this->computeBooleanConfiguration('PS_AUTOUP_BACKUP');
     }
 
     /**
@@ -146,7 +159,7 @@ class UpgradeConfiguration extends ArrayCollection
      */
     public function shouldBackupImages(): bool
     {
-        return filter_var($this->get('PS_AUTOUP_KEEP_IMAGES'), FILTER_VALIDATE_BOOLEAN);
+        return $this->computeBooleanConfiguration('PS_AUTOUP_KEEP_IMAGES');
     }
 
     /**
@@ -154,7 +167,7 @@ class UpgradeConfiguration extends ArrayCollection
      */
     public function shouldDeactivateCustomModules(): bool
     {
-        return filter_var($this->get('PS_AUTOUP_CUSTOM_MOD_DESACT'), FILTER_VALIDATE_BOOLEAN);
+        return $this->computeBooleanConfiguration('PS_AUTOUP_CUSTOM_MOD_DESACT');
     }
 
     /**
@@ -162,7 +175,7 @@ class UpgradeConfiguration extends ArrayCollection
      */
     public function shouldKeepMails(): bool
     {
-        return filter_var($this->get('PS_AUTOUP_KEEP_MAILS'), FILTER_VALIDATE_BOOLEAN);
+        return $this->computeBooleanConfiguration('PS_AUTOUP_KEEP_MAILS');
     }
 
     /**
@@ -170,7 +183,21 @@ class UpgradeConfiguration extends ArrayCollection
      */
     public function shouldSwitchToDefaultTheme(): bool
     {
-        return filter_var($this->get('PS_AUTOUP_CHANGE_DEFAULT_THEME'), FILTER_VALIDATE_BOOLEAN);
+        return $this->computeBooleanConfiguration('PS_AUTOUP_CHANGE_DEFAULT_THEME');
+    }
+
+    private function computeBooleanConfiguration(string $const): bool
+    {
+        $currentValue = $this->get($const);
+        $defaultValue = self::PS_CONST_DEFAULT_VALUE[$const];
+
+        if ($currentValue === null) {
+            return $defaultValue;
+        }
+
+        $currentValue = filter_var($currentValue, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+
+        return $currentValue !== null ? $currentValue : $defaultValue;
     }
 
     public static function isOverrideAllowed(): bool

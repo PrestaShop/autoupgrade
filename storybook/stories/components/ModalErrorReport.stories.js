@@ -24,11 +24,14 @@
  */
 
 import ModalErrorReport from "../../../views/templates/modals/modal-error-report.html.twig";
-import Modal from "./Modal.stories";
+import { Default as Modal } from "./Modal.stories";
 
 export default {
   title: "Components/Modal",
   component: ModalErrorReport,
+};
+
+export const ErrorReport = {
   args: {
     ...Modal.args,
     modalId: "errorModal",
@@ -38,5 +41,3 @@ export default {
     dataPrivacyLink: "#"
   },
 };
-
-export const ErrorReport = {};

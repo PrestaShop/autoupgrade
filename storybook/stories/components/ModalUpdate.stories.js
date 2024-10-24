@@ -24,11 +24,14 @@
  */
 
 import ModalUpdate from "../../../views/templates/modals/modal-update.html.twig";
-import Modal from "./Modal.stories";
+import { Default as Modal } from "./Modal.stories";
 
 export default {
   title: "Components/Modal",
   component: ModalUpdate,
+};
+
+export const Update = {
   args: {
     ...Modal.args,
     title: "Start update?",
@@ -37,5 +40,3 @@ export default {
     noBackUp: false,
   },
 };
-
-export const Update = {};
