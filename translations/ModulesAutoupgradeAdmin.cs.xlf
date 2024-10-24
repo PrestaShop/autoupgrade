@@ -1313,37 +1313,37 @@ Comment: check DB access</note>
       <trans-unit id="8f38733175adf1f9ee790c7d108bf9b1" approved="yes">
         <source>No version present in database for module %s, all files for upgrade will be applied.</source>
         <target state="final">V databázi není žádná verze modulu %s, použijí se všechny soubory pro upgrade.</target>
-        <note>Line: 70</note>
+        <note>Line: 74</note>
       </trans-unit>
       <trans-unit id="b7158eb495a4a06e4a75736c3707e1da" approved="yes">
         <source>(%s/%s) Applying migration file %s.</source>
         <target state="final">(%s/%s) Aplikuji migrační soubor %s.</target>
-        <note>Line: 104</note>
-      </trans-unit>
-      <trans-unit id="e46a854b6f61f10b78bf1cc9eb91d841" approved="yes">
-        <source>[WARNING] Method %s already exists. Migration for module %s aborted, you can try again later on the module manager. Module %s disabled.</source>
-        <target state="final">[VAROVÁNÍ] Metoda %s již existuje. Migrace modulu %s byla přerušena, můžete to zkusit znovu později ve správci modulů. Modul %s byl zakázán.</target>
-        <note>Line: 111</note>
-      </trans-unit>
-      <trans-unit id="92b76c0e0cef06a602701b9c617cad35" approved="yes">
-        <source>[WARNING] Method %s does not exist. Module %s disabled.</source>
-        <target state="final">[VAROVÁNÍ] Metoda %s neexistuje. Modul %s zakázán.</target>
-        <note>Line: 119</note>
+        <note>Line: 108</note>
       </trans-unit>
       <trans-unit id="990cd5bffcdc70ca21ede43a4fedaff4" approved="yes">
         <source>[WARNING] Migration failed while running the file %s. Module %s disabled.</source>
         <target state="final">[VAROVÁNÍ] Migrace selhala při spouštění souboru %s. Modul %s byl zakázán.</target>
-        <note>Line: 125</note>
+        <note>Line: 114</note>
       </trans-unit>
       <trans-unit id="b68ce0bec6698c81522d26e4c66070d1" approved="yes">
         <source>[WARNING] Unexpected error when trying to upgrade module %s. Module %s disabled.</source>
         <target state="final">[VAROVÁNÍ] Neočekávaná chyba při pokusu o upgrade modulu %s. Modul %s byl zakázán.</target>
-        <note>Line: 132</note>
+        <note>Line: 121</note>
       </trans-unit>
       <trans-unit id="027f29df1c91bae7d74f0ac2bc3588f0" approved="yes">
         <source>[WARNING] Module %s version could not be updated. Database might be unavailable.</source>
         <target state="final">[VAROVÁNÍ] Verzi modulu %s nelze aktualizovat. Databáze může být nedostupná.</target>
-        <note>Line: 143</note>
+        <note>Line: 132</note>
+      </trans-unit>
+      <trans-unit id="a2f1ed668f2c66064e7b145ef238ad21">
+        <source>[WARNING] Could not write temporary file %s.</source>
+        <target state="needs-translation">[WARNING] Could not write temporary file %s.</target>
+        <note>Line: 160</note>
+      </trans-unit>
+      <trans-unit id="92b76c0e0cef06a602701b9c617cad35" approved="yes">
+        <source>[WARNING] Method %s does not exist. Module %s disabled.</source>
+        <target state="final">[VAROVÁNÍ] Metoda %s neexistuje. Modul %s zakázán.</target>
+        <note>Line: 165</note>
       </trans-unit>
     </body>
   </file>
