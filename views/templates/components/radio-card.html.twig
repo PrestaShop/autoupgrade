@@ -17,6 +17,7 @@
       {% if disabled %} disabled {% endif %}
       {% if checked and not disabled %} checked {% endif %}
       {% if required %} required {% endif %}
+      {% if requirements and requirements.requirements_ok == true %}data-requirements-are-ok="1"{% endif %}
     />
   </div>
 
@@ -53,7 +54,7 @@
         {% include "@ModuleAutoUpgrade/components/local-archive.html.twig" %}
       </div>
     {% endif %}
-    
+
     {% if enableRequirementsCheck %}
       <div class="radio-card__loader-wrapper">
         <div class="radio-card__loader"></div>
@@ -62,10 +63,11 @@
           {{ "Checking requirements..."|trans({}) }}
         </div>
       </div>
-
-      <div class="radio-card__check-requirements">
-        {% include "@ModuleAutoUpgrade/components/check-requirements.html.twig" %}
-      </div>
+      {% if requirements is not null %}
+        <div class="radio-card__check-requirements">
+          {% include "@ModuleAutoUpgrade/components/check-requirements.html.twig" %}
+        </div>
+      {% endif %}
     {% endif %}
   </div>
 </label>

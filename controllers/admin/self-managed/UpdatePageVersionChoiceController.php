@@ -28,10 +28,12 @@
 namespace PrestaShop\Module\AutoUpgrade\Controller;
 
 use Exception;
+use PrestaShop\Module\AutoUpgrade\AjaxResponseBuilder;
 use PrestaShop\Module\AutoUpgrade\Router\Routes;
 use PrestaShop\Module\AutoUpgrade\Services\DistributionApiService;
 use PrestaShop\Module\AutoUpgrade\Services\PhpVersionResolverService;
 use PrestaShop\Module\AutoUpgrade\Task\Miscellaneous\UpdateConfig;
+use PrestaShop\Module\AutoUpgrade\Twig\PageSelectors;
 use PrestaShop\Module\AutoUpgrade\Twig\UpdateSteps;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\Upgrader;
@@ -47,14 +49,15 @@ class UpdatePageVersionChoiceController extends AbstractPageController
     const CURRENT_PAGE = 'update';
     const CURRENT_ROUTE = Routes::UPDATE_PAGE_VERSION_CHOICE;
     const CURRENT_STEP = UpdateSteps::STEP_VERSION_CHOICE;
+    const FORM_NAME = 'version_choice';
     const FORM_FIELDS = [
         'channel' => 'channel',
         'archive_zip' => 'archive_zip',
         'archive_xml' => 'archive_xml',
     ];
     const FORM_OPTIONS = [
-        'online_value' => 'online',
-        'local_value' => 'local',
+        'online_value' => Upgrader::CHANNEL_ONLINE,
+        'local_value' => Upgrader::CHANNEL_LOCAL,
     ];
 
     /**
@@ -66,7 +69,7 @@ class UpdatePageVersionChoiceController extends AbstractPageController
      */
     public function step(): string
     {
-        return $this->twig->render(
+        return $this->getTwig()->render(
             '@ModuleAutoUpgrade/steps/version-choice.html.twig',
             $this->getParams()
         );
@@ -80,10 +83,11 @@ class UpdatePageVersionChoiceController extends AbstractPageController
     protected function getParams(): array
     {
         $updateSteps = new UpdateSteps($this->upgradeContainer->getTranslator());
-        $isLastVersion = $this->upgradeContainer->getUpgrader()->isLastVersion();
+        $isNewerVersionAvailableOnline = $this->upgradeContainer->getUpgrader()->isNewerVersionAvailableOnline();
+        $onlineDestination = $this->upgradeContainer->getUpgrader()->getOnlineDestinationRelease();
 
-        if (!$isLastVersion) {
-            $updateType = VersionUtils::getUpdateType($this->getPsVersion(), $this->upgradeContainer->getUpgrader()->getDestinationVersion());
+        if ($isNewerVersionAvailableOnline) {
+            $updateType = VersionUtils::getUpdateType($this->getPsVersion(), $onlineDestination->getVersion());
             $releaseNote = $this->upgradeContainer->getUpgrader()->getOnlineDestinationRelease()->getReleaseNoteUrl();
         } else {
             $updateType = null;
@@ -105,10 +109,13 @@ class UpdatePageVersionChoiceController extends AbstractPageController
         }
         $archiveRepository = $this->upgradeContainer->getLocalArchiveRepository();
 
-        return array_merge(
+        $upgradeConfiguration = $this->upgradeContainer->getUpgradeConfiguration();
+        $currentChannel = $upgradeConfiguration->getChannel();
+
+        $params = array_merge(
             $updateSteps->getStepParams($this::CURRENT_STEP),
             [
-                'up_to_date' => $isLastVersion,
+                'up_to_date' => !$isNewerVersionAvailableOnline,
                 'no_local_archive' => !$this->upgradeContainer->getLocalArchiveRepository()->hasLocalArchive(),
                 'assets_base_path' => $this->upgradeContainer->getAssetsEnvironment()->getAssetsBaseUrl($this->request),
                 'current_prestashop_version' => $this->getPsVersion(),
@@ -118,29 +125,44 @@ class UpdatePageVersionChoiceController extends AbstractPageController
                     'xml' => $archiveRepository->getXmlLocalArchive(),
                 ],
                 'next_release' => [
-                    'version' => $this->upgradeContainer->getUpgrader()->getDestinationVersion(),
+                    'version' => $onlineDestination ? $onlineDestination->getVersion() : null,
                     'badge_label' => $updateLabel,
                     'badge_status' => $updateType,
                     'release_note' => $releaseNote,
                 ],
+                'form_version_choice_name' => self::FORM_NAME,
                 'form_route_to_save' => Routes::UPDATE_STEP_VERSION_CHOICE_SAVE_FORM,
                 'form_route_to_submit' => Routes::UPDATE_STEP_VERSION_CHOICE_SUBMIT_FORM,
                 'form_fields' => self::FORM_FIELDS,
                 'form_options' => self::FORM_OPTIONS,
+                'current_values' => [
+                    self::FORM_FIELDS['channel'] => $currentChannel,
+                    self::FORM_FIELDS['archive_zip'] => $upgradeConfiguration->getLocalChannelZip(),
+                    self::FORM_FIELDS['archive_xml'] => $upgradeConfiguration->getLocalChannelXml(),
+                ],
             ]
         );
+
+        if ($currentChannel === self::FORM_OPTIONS['online_value'] ||
+            (
+                $currentChannel === self::FORM_OPTIONS['local_value']
+                && in_array($upgradeConfiguration->getLocalChannelZip(), $archiveRepository->getZipLocalArchive())
+                && in_array($upgradeConfiguration->getLocalChannelXml(), $archiveRepository->getXmlLocalArchive())
+            )
+        ) {
+            $params[$currentChannel . '_requirements'] = $this->getRequirements();
+        }
+
+        return $params;
     }
 
     /**
      * @throws Exception
      */
-    public function save(): string
+    private function getRequirements(): array
     {
-        $channel = $this->request->get(self::FORM_FIELDS['canal_choice']);
-
         $controller = new UpdateConfig($this->upgradeContainer);
         $controller->init();
-        $controller->run();
 
         $distributionApiService = new DistributionApiService();
         $phpVersionResolverService = new PhpVersionResolverService(
@@ -162,37 +184,54 @@ class UpdatePageVersionChoiceController extends AbstractPageController
         );
 
         $warnings = $upgradeSelfCheck->getWarnings();
-        foreach ($warnings as $warning) {
-            $warnings[$warning] = $upgradeSelfCheck->getRequirementWording($warning);
+        foreach ($warnings as $warningKey => $warningValue) {
+            $warnings[$warningKey] = $upgradeSelfCheck->getRequirementWording($warningKey);
         }
 
         $errors = $upgradeSelfCheck->getErrors();
-        foreach ($errors as $error) {
-            $errors[$error] = $upgradeSelfCheck->getRequirementWording($error);
+        foreach ($errors as $errorKey => $errorValue) {
+            $errors[$errorKey] = $upgradeSelfCheck->getRequirementWording($errorKey);
         }
 
-        $params = [
-            'requirementsOk' => empty($errors),
+        return [
+            'requirements_ok' => empty($errors),
             'warnings' => $warnings,
             'errors' => $errors,
         ];
-
-        if ($channel === Upgrader::CHANNEL_LOCAL) {
-            return $this->twig->render(
-                '@ModuleAutoUpgrade/components/radio-card-archive.html.twig',
-                $params
-            );
-        }
-
-        return $this->twig->render(
-            '@ModuleAutoUpgrade/components/radio-card-online.html.twig',
-            $params
-        );
     }
 
-    public function submit()
+    /**
+     * @throws Exception
+     */
+    public function save(): JsonResponse
     {
-        /* todo: check everything is ok before send next route */
+        $channel = $this->request->get(self::FORM_FIELDS['channel']);
+
+        $controller = new UpdateConfig($this->upgradeContainer);
+        $controller->init();
+        $controller->run();
+
+        $params = array_merge(
+            $this->getParams(),
+            ['current_values' => $this->request->request->all()]
+        );
+
+        if ($channel === self::FORM_OPTIONS['local_value']) {
+            return AjaxResponseBuilder::hydrationResponse(PageSelectors::RADIO_CARD_ARCHIVE_PARENT_ID, $this->getTwig()->render(
+                '@ModuleAutoUpgrade/components/radio-card-local.html.twig',
+                $params
+            ));
+        }
+
+        return AjaxResponseBuilder::hydrationResponse(PageSelectors::RADIO_CARD_ONLINE_PARENT_ID, $this->getTwig()->render(
+            '@ModuleAutoUpgrade/components/radio-card-online.html.twig',
+            $params
+        ));
+    }
+
+    public function submit(): JsonResponse
+    {
+        /* we dont check again because the button is only accessible if check are ok */
         return new JsonResponse([
             'next_route' => Routes::UPDATE_STEP_UPDATE_OPTIONS,
         ]);
