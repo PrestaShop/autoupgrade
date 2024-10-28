@@ -1,0 +1,34 @@
+name: Twig Check
+
+on: [push, pull_request]
+
+jobs:
+  twig_cs_check:
+    name: Twig Check
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository to access the code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Set up PHP with Composer
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'  # Use the appropriate PHP version for your project
+          tools: composer
+
+      # Install project dependencies (including Twig CS Fixer)
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+        working-directory: ./tests/twig-check
+
+      # Run the Twig CS Fixer check command
+      - name: Run Twig CS Fixer check
+        run: |
+          composer run twig || {
+            echo "::error::Twig CS Fixer check failed. Run 'composer run twig:fix' to fix the issues.";
+            exit 1;
+          }
+        working-directory: ./tests/twig-check

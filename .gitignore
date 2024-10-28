@@ -22,3 +22,4 @@ node_modules/
 /views/css/
 /views/img/
 /views/js/
+tests/twig-check/.twig-cs-fixer.cache

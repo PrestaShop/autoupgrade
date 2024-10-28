@@ -1,0 +1,14 @@
+{
+  "require-dev": {
+    "vincentlanglet/twig-cs-fixer": "^3.1"
+  },
+  "config": {
+    "platform": {
+      "php": "8.2"
+    }
+  },
+  "scripts": {
+    "twig": "vendor/bin/twig-cs-fixer lint \"../../views/templates\"",
+    "twig:fix": "vendor/bin/twig-cs-fixer fix \"../../views/templates\""
+  }
+}
