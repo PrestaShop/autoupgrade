@@ -1,4 +1,4 @@
-{% extends "@ModuleAutoUpgrade/layouts/step-content.html.twig" %}
+{% extends '@ModuleAutoUpgrade/layouts/step-content.html.twig' %}
 
 {% block page_class %}welcome-page{% endblock %}
 
@@ -8,16 +8,16 @@
 
 {% block content %}
   <form class="welcome-page__card-list" action="" data-route-to-submit="{{ form_route_to_submit }}"  id="next_page" name="next_page">
-    {% include "@ModuleAutoUpgrade/components/radio-card.html.twig" with {
+    {{ include('@ModuleAutoUpgrade/components/radio-card.html.twig', {
       checked: false,
       title: 'Update your store'|trans({}),
       message: 'Update your store to benefit from the latest improvements, bug fixes and security patches.'|trans({}),
       radioName: form_fields.route_choice,
       radioValue: form_options.update_value,
       required: true
-    } %}
+    }) }}
 
-    {% include "@ModuleAutoUpgrade/components/radio-card.html.twig" with {
+    {{ include('@ModuleAutoUpgrade/components/radio-card.html.twig', {
       checked: false,
       title: 'Restore from a backup'|trans({}),
       message: 'Use this feature if the update failed or if your store or a  module is no longer working properly.'|trans({}),
@@ -27,9 +27,9 @@
       disabled: empty_backup,
       disabledMessage: empty_backup ? 'No backup file found on your store.'|trans({}) : null,
       required: true,
-      badgeLabel: "",
-      badgeStatus: "",
-    } %}
+      badgeLabel: '',
+      badgeStatus: '',
+    }) }}
   </form>
 {% endblock %}
 

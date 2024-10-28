@@ -1,4 +1,4 @@
-{% extends "@ModuleAutoUpgrade/layouts/step-content.html.twig" %}
+{% extends '@ModuleAutoUpgrade/layouts/step-content.html.twig' %}
 
 {% block page_class %}update-options-page{% endblock %}
 
@@ -8,69 +8,69 @@
 
 {% block content %}
   <div class="update-options-page__field-list">
-    {% include "@ModuleAutoUpgrade/components/render-bool.html.twig" with {
+    {{ include('@ModuleAutoUpgrade/components/render-bool.html.twig', {
       field: {
-        id: "deactivate_modules",
-        title: "Deactivate non-native modules",
-        desc: "All the modules installed after creating your store are considered non-native modules. They might be " ~
-          "incompatible with the new version of PrestaShop. We recommend deactivating them during the update.",
+        id: 'deactivate_modules',
+        title: 'Deactivate non-native modules',
+        desc: 'All the modules installed after creating your store are considered non-native modules. They might be ' ~
+          'incompatible with the new version of PrestaShop. We recommend deactivating them during the update.',
         type: 'bool',
         required: true,
         disabled: true
       },
-      BoolName: "PS_AUTOUP_CUSTOM_MOD_DESACT",
-      BoolId: "PS_AUTOUP_CUSTOM_MOD_DESACT",
+      BoolName: 'PS_AUTOUP_CUSTOM_MOD_DESACT',
+      BoolId: 'PS_AUTOUP_CUSTOM_MOD_DESACT',
       val: default_deactive_non_native_modules
-    } %}
+    }) }}
 
-    {% include "@ModuleAutoUpgrade/components/render-bool.html.twig" with {
+    {{ include('@ModuleAutoUpgrade/components/render-bool.html.twig', {
       field: {
-        id: "regen_email",
-        title: "Regenerate email templates",
+        id: 'regen_email',
+        title: 'Regenerate email templates',
         desc: "If you've customized email templates, your changes will be lost if you activate this option.",
         type: 'bool',
         required: true,
         disabled: true
       },
-      BoolName: "PS_AUTOUP_REGEN_EMAIL",
-      BoolId: "PS_AUTOUP_REGEN_EMAIL",
+      BoolName: 'PS_AUTOUP_REGEN_EMAIL',
+      BoolId: 'PS_AUTOUP_REGEN_EMAIL',
       val: default_regenerate_email_templates
-    } %}
+    }) }}
 
-    {% include "@ModuleAutoUpgrade/components/render-select.html.twig" with {
+    {{ include('@ModuleAutoUpgrade/components/render-select.html.twig', {
       field: {
-        id: "regen_mail",
-        title: "Switch the theme",
-        desc: "Custom themes may cause compatibility issues. We recommend using a default theme during the update " ~
-          "and change it afterwards.",
+        id: 'regen_mail',
+        title: 'Switch the theme',
+        desc: 'Custom themes may cause compatibility issues. We recommend using a default theme during the update ' ~
+          'and change it afterwards.',
         choices: {
-          0: "Keep the actual theme",
-          1: "Upgrade the default theme",
-          2: "Do nothing"
+          0: 'Keep the actual theme',
+          1: 'Upgrade the default theme',
+          2: 'Do nothing'
         },
-        type: "select",
+        type: 'select',
         required: true,
         disabled: false
       },
-      key: "PS_AUTOUP_SWITCH_THEME",
+      key: 'PS_AUTOUP_SWITCH_THEME',
       val: switch_the_theme
-    } %}
+    }) }}
 
-    {% include "@ModuleAutoUpgrade/components/render-bool.html.twig" with {
+    {{ include('@ModuleAutoUpgrade/components/render-bool.html.twig', {
       field: {
-        id: "disable_override",
-        title: "Disable all overrides",
-        desc: "Overriding is a way to replace business behaviors (class files and controller files) to target only " ~
-          "one method or as many as you need. This option disables all classes & controllers overrides, allowing " ~
-          "you to avoid conflicts during and after updates.",
+        id: 'disable_override',
+        title: 'Disable all overrides',
+        desc: 'Overriding is a way to replace business behaviors (class files and controller files) to target only ' ~
+          'one method or as many as you need. This option disables all classes & controllers overrides, allowing ' ~
+          'you to avoid conflicts during and after updates.',
         type: 'bool',
         required: true,
         disabled: true
       },
-      BoolName: "PS_AUTOUP_DISABLE_OVERRIDE",
-      BoolId: "PS_AUTOUP_DISABLE_OVERRIDE",
+      BoolName: 'PS_AUTOUP_DISABLE_OVERRIDE',
+      BoolId: 'PS_AUTOUP_DISABLE_OVERRIDE',
       val: disable_all_overrides
-    } %}
+    }) }}
   </div>
 {% endblock %}
 

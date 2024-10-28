@@ -51,7 +51,7 @@
 
     {% if archiveCard %}
       <div class="radio-card__local-archive">
-        {% include "@ModuleAutoUpgrade/components/local-archive.html.twig" %}
+        {{ include('@ModuleAutoUpgrade/components/local-archive.html.twig') }}
       </div>
     {% endif %}
 
@@ -60,12 +60,12 @@
         <div class="radio-card__loader"></div>
 
         <div class="radio-card__loader-title">
-          {{ "Checking requirements..."|trans({}) }}
+          {{ 'Checking requirements...'|trans({}) }}
         </div>
       </div>
       {% if requirements is not null %}
         <div class="radio-card__check-requirements">
-          {% include "@ModuleAutoUpgrade/components/check-requirements.html.twig" %}
+          {{ include('@ModuleAutoUpgrade/components/check-requirements.html.twig') }}
         </div>
       {% endif %}
     {% endif %}

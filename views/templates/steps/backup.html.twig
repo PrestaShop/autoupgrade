@@ -1,4 +1,4 @@
-{% extends "@ModuleAutoUpgrade/layouts/step-content.html.twig" %}
+{% extends '@ModuleAutoUpgrade/layouts/step-content.html.twig' %}
 
 {% block page_class %}backup-page{% endblock %}
 
@@ -15,33 +15,33 @@
     </div>
 
     <div class="backup-page__section">
-      {% include "@ModuleAutoUpgrade/components/render-bool.html.twig" with {
+      {{ include('@ModuleAutoUpgrade/components/render-bool.html.twig', {
         field: {
-          id: "backup_files_db",
-          title: "Back up files and database",
-          desc: "",
+          id: 'backup_files_db',
+          title: 'Back up files and database',
+          desc: '',
           type: 'bool',
           required: true,
           disabled: true,
         },
-        BoolName: "PS_AUTOUP_BACKUP_FILES_DB",
-        BoolId: "PS_AUTOUP_BACKUP_FILES_DB",
+        BoolName: 'PS_AUTOUP_BACKUP_FILES_DB',
+        BoolId: 'PS_AUTOUP_BACKUP_FILES_DB',
         val: default_backup_files_and_database,
-      } %}
+      }) }}
 
-      {% include "@ModuleAutoUpgrade/components/render-bool.html.twig" with {
+      {{ include('@ModuleAutoUpgrade/components/render-bool.html.twig', {
         field: {
-          id: "backup_files_db",
-          title: "Include images",
-          desc: "",
+          id: 'backup_files_db',
+          title: 'Include images',
+          desc: '',
           type: 'bool',
           required: true,
           disabled: true,
         },
-        BoolName: "PS_AUTOUP_BACKUP_WITH_IMAGES",
-        BoolId: "PS_AUTOUP_BACKUP_WITH_IMAGES",
+        BoolName: 'PS_AUTOUP_BACKUP_WITH_IMAGES',
+        BoolId: 'PS_AUTOUP_BACKUP_WITH_IMAGES',
         val: default_include_images,
-      } %}
+      }) }}
     </div>
   </div>
 {% endblock %}

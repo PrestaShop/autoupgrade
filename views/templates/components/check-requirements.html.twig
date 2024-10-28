@@ -1,13 +1,13 @@
 {% if requirements.warnings|length > 0 or requirements.errors|length > 0 %}
   <div class="check-requirements check-requirements--failed">
     <p class="check-requirements__title h3">
-      {{ "Update requirements"|trans({}) }}
+      {{ 'Update requirements'|trans({}) }}
     </p>
 
     <p class="check-requirements__message">
       {{ 'Once all the following conditions are met, you can continue with the update. Read more in the [1]developer documentation[/1].'|trans({
-        '[1]' : '<a class="link" href="' ~ updateAssistantDocs ~'" target="_blank">',
-        '[/1]' : '</a>',
+        '[1]': '<a class="link" href="' ~ updateAssistantDocs ~ '" target="_blank">',
+        '[/1]': '</a>',
       })|raw }}
     </p>
 

@@ -1,4 +1,4 @@
-{% extends "@ModuleAutoUpgrade/layouts/step-content.html.twig" %}
+{% extends '@ModuleAutoUpgrade/layouts/step-content.html.twig' %}
 
 {% set form_version_choice_name = 'version_choice' %}
 
@@ -37,12 +37,12 @@
     </div>
 
     {% if no_local_archive %}
-      {% include "@ModuleAutoUpgrade/components/alert.html.twig" with {
-        message: "Unlock the local update feature and manually update your store to your preferred upgrade by saving the archive and XML files of the PrestaShop version in the following directory on your server: %pathToLocalArchive%"|trans({
+      {{ include('@ModuleAutoUpgrade/components/alert.html.twig', {
+        message: 'Unlock the local update feature and manually update your store to your preferred upgrade by saving the archive and XML files of the PrestaShop version in the following directory on your server: %pathToLocalArchive%'|trans({
           '%pathToLocalArchive%': '<b>/admin/autoupgrade/download/</b>'
         })|raw,
-        alertStatus: "info",
-      } %}
+        alertStatus: 'info',
+      }) }}
     {% else %}
       <form
         class="version-choice-page__local-archive"
@@ -57,7 +57,7 @@
         </p>
 
         <div id="{{ radio_card_archive_parent_id }}">
-          {% include "@ModuleAutoUpgrade/components/radio-card-local.html.twig" %}
+          {{ include('@ModuleAutoUpgrade/components/radio-card-local.html.twig') }}
         </div>
       </form>
     {% endif %}
@@ -97,19 +97,19 @@
       name="{{ form_version_choice_name }}"
     >
       <div id="{{ radio_card_online_parent_id }}">
-        {% include "@ModuleAutoUpgrade/components/radio-card-online.html.twig" %}
+        {{ include('@ModuleAutoUpgrade/components/radio-card-online.html.twig') }}
       </div>
 
       {% if no_local_archive %}
-        {% include "@ModuleAutoUpgrade/components/alert.html.twig" with {
-          message: "Unlock the local update feature and manually update your store to your preferred upgrade by saving the archive and XML files of the PrestaShop version in the following directory on your server: %pathToLocalArchive%"|trans({
+        {{ include('@ModuleAutoUpgrade/components/alert.html.twig', {
+          message: 'Unlock the local update feature and manually update your store to your preferred upgrade by saving the archive and XML files of the PrestaShop version in the following directory on your server: %pathToLocalArchive%'|trans({
             '%pathToLocalArchive%': '<b>/admin/autoupgrade/download/</b>'
           })|raw,
-          alertStatus: "info",
-        } %}
+          alertStatus: 'info',
+        }) }}
       {% else %}
         <div id="{{ radio_card_archive_parent_id }}">
-          {% include "@ModuleAutoUpgrade/components/radio-card-local.html.twig" %}
+          {{ include('@ModuleAutoUpgrade/components/radio-card-local.html.twig') }}
         </div>
       {% endif %}
     </form>

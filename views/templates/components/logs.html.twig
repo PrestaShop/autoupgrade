@@ -17,7 +17,7 @@
           {% if logsSummaryWarning %}
             <div class="logs__summary">
               <p class="logs__summary-title h3">
-                {{ "Warning summary"|trans({}) }}
+                {{ 'Warning summary'|trans({}) }}
               </p>
 
               {% for log in logsSummaryWarning %}
@@ -25,7 +25,7 @@
                   {{ log.message }}
 
                   {% if log.anchor is defined %}
-                    <a class="logs__summary-anchor link" href="#{{ log.anchor }}">{{ "See warning"|trans({}) }}</a>
+                    <a class="logs__summary-anchor link" href="#{{ log.anchor }}">{{ 'See warning'|trans({}) }}</a>
                   {% endif %}
                 </div>
               {% endfor %}
@@ -35,7 +35,7 @@
           {% if logsSummaryError %}
             <div class="logs__summary">
               <p class="logs__summary-title h3">
-                {{ "Error summary"|trans({}) }}
+                {{ 'Error summary'|trans({}) }}
               </p>
 
               {% for log in logsSummaryError %}
@@ -43,7 +43,7 @@
                   {{ log.message }}
 
                   {% if log.anchor is defined %}
-                    <a class="logs__summary-anchor link" href="#{{ log.anchor }}">{{ "See error"|trans({}) }}</a>
+                    <a class="logs__summary-anchor link" href="#{{ log.anchor }}">{{ 'See error'|trans({}) }}</a>
                   {% endif %}
                 </div>
               {% endfor %}

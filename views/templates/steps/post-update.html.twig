@@ -1,4 +1,4 @@
-{% extends "@ModuleAutoUpgrade/layouts/step-content.html.twig" %}
+{% extends '@ModuleAutoUpgrade/layouts/step-content.html.twig' %}
 
 {% block page_class %}post-update-checklist-page{% endblock %}
 
@@ -8,13 +8,13 @@
 
 {% block content %}
   <div class="content__container">
-    {% include "@ModuleAutoUpgrade/components/alert.html.twig" with {
-      title: "Your store is up to date",
-      message: "Before continuing with your tasks, please review the following checklist to ensure smooth operation after recent updates.",
-      alertStatus: "success",
-      buttonLabel: "",
-      buttonUrl: "",
-    } %}
+    {{ include('@ModuleAutoUpgrade/components/alert.html.twig', {
+      title: 'Your store is up to date',
+      message: 'Before continuing with your tasks, please review the following checklist to ensure smooth operation after recent updates.',
+      alertStatus: 'success',
+      buttonLabel: '',
+      buttonUrl: '',
+    }) }}
 
     <div class="content__section">
       <h3 class="h3">
