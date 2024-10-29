@@ -157,6 +157,10 @@ All backend commands should be executed from the root directory.
 
 - `./vendor/bin/php-cs-fixer` ⮕ Runs **PHP CS Fixer**, a tool that ensures your PHP code follows the correct coding standards. Add the `fix` option to automatically resolve fixable style issues.
 
+- `./tests/twig-check/vendor/bin/twig-cs-fixer lint ./views/templates` ⮕ Runs **Twig CS Fixer - Lint**, a tool that ensures your Twig code follows the correct coding standards.
+
+- `./tests/twig-check/vendor/bin/twig-cs-fixer fix ./views/templates` ⮕ Runs **Twig CS Fixer - Fix**, to automatically resolve fixable coding standard issues.
+
 ### Frontend
 
 All frontend commands should be executed from the `_dev` directory.

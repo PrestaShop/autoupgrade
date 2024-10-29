@@ -4,6 +4,7 @@ vendor/
 node_modules/
 /config_*.xml
 .php_cs.cache
+.twig-cs-fixer.cache
 .idea
 .env
 
@@ -22,4 +23,3 @@ node_modules/
 /views/css/
 /views/img/
 /views/js/
-tests/twig-check/.twig-cs-fixer.cache
