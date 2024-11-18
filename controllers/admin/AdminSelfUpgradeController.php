@@ -163,6 +163,8 @@ class AdminSelfUpgradeController extends ModuleAdminController
                 // copy new file
                 @copy(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $this->autoupgradeDir . DIRECTORY_SEPARATOR . 'ajax-upgradetab.php',
                     $this->autoupgradePath . DIRECTORY_SEPARATOR . 'ajax-upgradetab.php');
+                // adjust file modification time
+                @touch($this->autoupgradePath . DIRECTORY_SEPARATOR . 'ajax-upgradetab.php', $file);
             }
 
             // Make sure that the XML config directory exists
