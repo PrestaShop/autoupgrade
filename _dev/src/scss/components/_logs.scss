@@ -44,10 +44,8 @@ $e-logs: ".logs";
         padding-inline-start: 2.75rem;
         font-size: 0.75rem;
         line-height: 1.25rem;
-
-        &::before {
-          font-size: 1.2rem;
-        }
+        background-size: 1.25rem 1.25rem;
+        background-position: 1rem 0.125rem;
       }
     }
 
@@ -63,7 +61,6 @@ $e-logs: ".logs";
     }
 
     &__line {
-      position: relative;
       padding-block: 0.125rem;
       padding-inline: 2.75rem 1rem;
       background-repeat: no-repeat;
@@ -74,39 +71,16 @@ $e-logs: ".logs";
       word-break: break-word;
       transition: background-color 0.3s ease-in-out;
 
-      &::before {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 1rem;
-        display: block;
-        width: 1.375rem;
-        height: 1.25rem;
-        font-family: var(--#{$ua-prefix}font-family-material-icons);
-        font-size: 1.25rem;
-        line-height: 1;
-        transform: translateY(-50%);
-      }
-
       &--success {
-        &::before {
-          content: "check";
-          color: var(--#{$ua-prefix}green-500);
-        }
+        background-image: url("../../img/check.svg");
       }
 
       &--warning {
-        &::before {
-          content: "warning";
-          color: var(--#{$ua-prefix}yellow-500);
-        }
+        background-image: url("../../img/warning.svg");
       }
 
       &--error {
-        &::before {
-          content: "close";
-          color: var(--#{$ua-prefix}red-500);
-        }
+        background-image: url("../../img/close.svg");
       }
 
       &--pointed {
