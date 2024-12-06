@@ -119,11 +119,10 @@ export default class LogsViewer extends ComponentAbstract implements Destroyable
   #createLogLine = (logEntry: LogEntry): HTMLDivElement => {
     const logLineFragment = this.#templateLogLine.content.cloneNode(true) as DocumentFragment;
     const logLine = logLineFragment.querySelector('.logs__line') as HTMLDivElement;
-    const logLineContent = logLineFragment.querySelector('.logs__line-content') as HTMLDivElement;
 
     logLine.classList.add(`logs__line--${logEntry.className}`);
     logLine.setAttribute('data-status', logEntry.className);
-    logLineContent.textContent = logEntry.message;
+    logLine.textContent = logEntry.message;
 
     return logLine;
   };
