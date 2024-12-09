@@ -1,4 +1,4 @@
-<div class="stepper sb-thin" id="{{ stepper_parent_id }}">
+<div class="stepper" id="{{ stepper_parent_id }}">
   {% if steps %}
     {% for step in steps %}
       <div class="stepper__step stepper__step--{{ step.state }} {% if loop.first %} stepper__step--first {% elseif loop.last %} stepper__step--last {% endif %}" data-step-code="{{ step.code }}">
