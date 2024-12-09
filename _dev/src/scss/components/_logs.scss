@@ -42,10 +42,10 @@ $e-logs: ".logs";
 
       #{$e-logs}__line {
         padding-inline-start: 2.75rem;
+        background-position: 1rem 0.125rem;
+        background-size: 1.25rem 1.25rem;
         font-size: 0.75rem;
         line-height: 1.25rem;
-        background-size: 1.25rem 1.25rem;
-        background-position: 1rem 0.125rem;
       }
     }
 
