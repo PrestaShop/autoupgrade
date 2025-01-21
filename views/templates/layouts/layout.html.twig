@@ -21,4 +21,8 @@
     {% include "@ModuleAutoUpgrade/pages/" ~ page ~ ".html.twig" %}
   </div>
   <div id="{{ dialog_parent_id }}"></div>
+  <template id="error-page-template">
+    {% set error_code='placeholder' %}
+    {% include "@ModuleAutoUpgrade/pages/errors/generic.html.twig" %}
+  </template>
 </div>

@@ -62,6 +62,9 @@ abstract class AbstractPageController extends AbstractGlobalController
                     'page' => $page,
                     'ps_version' => $this->getPsVersionClass(),
                     'data_transparency_link' => DocumentationLinks::PRESTASHOP_PROJECT_DATA_TRANSPARENCY_URL,
+
+                    'exit_to_shop_admin' => $this->upgradeContainer->getUrlGenerator()->getShopAdminAbsolutePathFromRequest($this->request),
+                    'exit_to_app_home' => Routes::HOME_PAGE,
                 ],
                 $pageSelectors::getAllSelectors(),
                 $params

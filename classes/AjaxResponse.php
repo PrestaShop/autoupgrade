@@ -89,6 +89,7 @@ class AjaxResponse
     public function getResponse(): array
     {
         return [
+            'kind' => 'action',
             'error' => $this->error,
             'stepDone' => $this->stepDone,
             'next' => $this->next,

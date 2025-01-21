@@ -41,7 +41,7 @@ export class RequestHandler {
    */
   public async post(
     route: string,
-    data: FormData = new FormData(),
+    data?: FormData,
     fromPopState?: boolean
   ): Promise<void> {
     this.abortCurrentPost();
@@ -49,9 +49,6 @@ export class RequestHandler {
     // Create a new AbortController for the current request (used to cancel previous request)
     this.#currentRequestAbortController = new AbortController();
     const { signal } = this.#currentRequestAbortController;
-
-    // Append admin dir required by backend
-    data.append('dir', window.AutoUpgradeVariables.admin_dir);
 
     try {
       const response = await baseApi.post<ApiResponse>('', data, {
@@ -62,16 +59,8 @@ export class RequestHandler {
       const responseData = response.data;
       await this.#handleResponse(responseData, fromPopState);
     } catch (error) {
-      // A couple or errors are returned in an actual response (i.e 404 or 500)
-      if (error instanceof AxiosError) {
-        if (error.response?.data) {
-          const responseData = error.response.data;
-          responseData.new_route = 'error-page';
-          await this.#handleResponse(responseData, true);
-        }
-      } else {
-        // TODO: catch errors
-        console.error(error);
+      if (error) {
+        await this.#handleError(error as AxiosError);
       }
     }
   }
@@ -85,13 +74,11 @@ export class RequestHandler {
    */
   public async postAction(action: string): Promise<ApiResponseAction | void> {
     const data = new FormData();
-
-    data.append('dir', window.AutoUpgradeVariables.admin_dir);
     data.append('action', action);
 
     try {
-      const response = await baseApi.post('', data);
-      return response.data as ApiResponseAction;
+      const response = await baseApi.post<ApiResponseAction>('', data);
+      return response.data;
     } catch (error: unknown) {
       if (error instanceof AxiosError && error?.response?.data?.error) {
         return error.response.data as ApiResponseAction;
@@ -115,6 +102,14 @@ export class RequestHandler {
     if ('hydration' in response) {
       new Hydration().hydrate(response, fromPopState);
     }
+  }
+
+  async #handleError(error: AxiosError): Promise<void> {
+    new Hydration().hydrateError({
+      code: error.status,
+      type: error.code,
+      additionalContents: error.response?.data,
+    });
   }
 }
 

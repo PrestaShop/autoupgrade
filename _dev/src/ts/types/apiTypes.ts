@@ -17,6 +17,7 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 interface ApiResponseHydration {
+  kind: 'hydrate',
   hydration: boolean;
   new_content: string;
   new_route?: string;
@@ -25,10 +26,12 @@ interface ApiResponseHydration {
 }
 
 interface ApiResponseNextRoute {
+  kind: 'next',
   next_route: string;
 }
 
 interface ApiResponseAction {
+  kind: 'action',
   error: null | boolean;
   stepDone: null | boolean;
   next: string;
@@ -42,6 +45,15 @@ interface ApiResponseAction {
   };
 }
 
+export interface ApiError {
+  code?: number,
+  type?: string,
+  additionalContents?: string|object
+}
+
 type ApiResponse = ApiResponseHydration | ApiResponseNextRoute | ApiResponseAction;
+
+export const APP_ERR_RESPONSE_BAD_TYPE = 'APP_ERR_RESPONSE_BAD_TYPE';
+export const APP_ERR_RESPONSE_INVALID = 'APP_ERR_RESPONSE_INVALID';
 
 export type { ApiResponseHydration, ApiResponseNextRoute, ApiResponseAction, ApiResponse };

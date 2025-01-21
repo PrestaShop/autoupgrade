@@ -18,27 +18,8 @@
  *#}
 {% extends "@ModuleAutoUpgrade/layouts/error.html.twig" %}
 
-{% block title %}
-  <h2 class="error-page__title">
-    {{ 'Something went wrong...'|trans({}) }}
-  </h2>
-{% endblock %}
-
 {% block description %}
   <p class="error-page__desc">
     {{ 'The page you requested cannot be found.'|trans({}) }}
   </p>
-{% endblock %}
-
-{% block button %}
-  <form id="home-page-form" name="home-page-form" data-route-to-submit="{{ exit_to_app_home }}" class="hidden">
-    <button class="error-page__button btn btn-primary btn-lg" type="submit">
-      {{ 'Go back to Update assistant'|trans({}) }}
-    </button>
-  </form>
-
-  <a id="exit-button" class="error-page__button btn btn-primary btn-lg hidden" href="{{ exit_to_shop_admin }}">
-    <i class="material-icons">exit_to_app</i>
-    {{ 'Exit'|trans({}) }}
-  </a>
 {% endblock %}
