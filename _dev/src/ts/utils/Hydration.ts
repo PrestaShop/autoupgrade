@@ -19,7 +19,6 @@
 import { ApiError, ApiResponseHydration } from '../types/apiTypes';
 import { dialogContainer, routeHandler, scriptHandler } from '../autoUpgrade';
 import { ScriptType } from '../types/scriptHandlerTypes';
-import { AxiosError } from 'axios';
 import ErrorPage from '../pages/ErrorPage';
 
 export default class Hydration {

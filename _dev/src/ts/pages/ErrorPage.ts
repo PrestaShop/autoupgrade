@@ -17,7 +17,9 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 import api from '../api/RequestHandler';
+import { logStore } from '../store/LogStore';
 import { ApiError } from '../types/apiTypes';
+import { Severity } from '../types/logsTypes';
 import Hydration from '../utils/Hydration';
 import PageAbstract from './PageAbstract';
 
@@ -48,6 +50,8 @@ export default class ErrorPage extends PageAbstract {
 
   public beforeDestroy = (): void => {
     this.#errorTemplateElement.removeEventListener(Hydration.hydrationEventName, this.#onError.bind(this));
+    this.#submitErrorReportForm?.removeEventListener('submit', this.#onSubmit);
+    logStore.clearLogs();
   };
 
   get #errorTemplateElement(): HTMLTemplateElement {
@@ -93,10 +97,18 @@ export default class ErrorPage extends PageAbstract {
       errorDescriptionElement.innerHTML = event.detail.type;
     }
 
-    // Store the contents in the hidden field so it can be used in the error reporting modal
-    const additionalContentsElement = errorElement.querySelector('.error-page__contents');
-    if (additionalContentsElement && event.detail.additionalContents) {
-      additionalContentsElement.innerHTML = new String(event.detail.additionalContents).toString();
+    // Store the contents in the logs so it can be used in the error reporting modal
+    if (event.detail.additionalContents) {
+      const logsContents = typeof event.detail.additionalContents === 'object'
+        ? JSON.stringify(event.detail.additionalContents)
+        : event.detail.additionalContents;
+
+      logStore.addLog({
+        severity: Severity.SUCCESS,
+        height: 0,
+        offsetTop: 0,
+        message: logsContents,
+      });
     }
 
     // Finally, append the result on the page
@@ -106,13 +118,28 @@ export default class ErrorPage extends PageAbstract {
     }
     targetElementToUpdate.replaceChildren(errorElement);
 
+    // Retrieve the route we called to fill in the context.
+    let route: string|null = null;
+    if (event.detail.requestParams?.responseURL) {
+      const params = new URLSearchParams(new URL(event.detail.requestParams?.responseURL)?.search);
+      route = params?.get('route');
+    }
+
+    logStore.addLog({
+      severity: Severity.ERROR,
+      height: 0,
+      offsetTop: 0,
+      message: `An HTTP request failed on route ${route || 'N/A'}. Type: ${event.detail.type || 'N/A'} - Code ${event.detail.code || 'N/A'}`,
+    });
+
     // Enable events and page features
     this.#mountErrorPage(document.querySelector('.error-page')!);
   }
 
   #mountErrorPage(errorPage: Element): void {
-    console.log('mounting', errorPage);
     this.#form.addEventListener('submit', this.#onSubmit, {once: true});
+
+    this.#submitErrorReportForm?.addEventListener('submit', this.#onSubmit);
 
     // Display the proper action buttons
     const activeButtonElement = this.isOnHomePage
@@ -139,9 +166,13 @@ export default class ErrorPage extends PageAbstract {
     return form;
   }
 
-  readonly #onSubmit = async (event: Event): Promise<void> => {
+  get #submitErrorReportForm(): HTMLFormElement|null {
+    return document.forms.namedItem('submit-error-report');
+  }
+
+  readonly #onSubmit = async (event: SubmitEvent): Promise<void> => {
     event.preventDefault();
 
-    await api.post(this.#form.dataset.routeToSubmit!, new FormData(this.#form));
+    await api.post((event.target as HTMLFormElement).dataset.routeToSubmit!, new FormData(this.#form));
   };
 }
