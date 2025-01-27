@@ -41,13 +41,13 @@
         <div class="error-page__buttons">
           {% block button %}
             {# Default buttons go here, and children can override them #}
-            <form class="error-page__home-page-form hidden" name="home-page-form" data-route-to-submit="{{ exit_to_app_home }}">
-              <button class="error-page__button btn btn-primary btn-lg" type="submit">
+            <form class="error-page__home-page-form hidden" id="home-page-form" name="home-page-form" data-route-to-submit="{{ exit_to_app_home }}">
+              <button class="btn btn-primary btn-lg" type="submit">
                 {{ 'Go back to Update assistant'|trans({}) }}
               </button>
             </form>
 
-            <a class="error-page__exit-button error-page__button btn btn-primary btn-lg hidden" href="{{ exit_to_shop_admin }}">
+            <a class="btn btn-primary btn-lg hidden" id="exit-button" href="{{ exit_to_shop_admin }}">
               <i class="material-icons">exit_to_app</i>
               {{ 'Exit'|trans({}) }}
             </a>

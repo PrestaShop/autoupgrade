@@ -85,7 +85,8 @@ export default class ErrorPage extends PageAbstract {
       errorCodeSlotElements.forEach((element: Element, index: number) => {
         element.innerHTML = strigifiedCode[index];
       });
-      errorElement.querySelector('.error-page__code-missing')?.classList.add('hidden');
+    } else {
+      errorElement.querySelector('.error-page__code')?.classList.add('hidden');
     }
 
     // Display a user friendly text related to the code if it exists, otherwise write the error code.
@@ -143,8 +144,8 @@ export default class ErrorPage extends PageAbstract {
 
     // Display the proper action buttons
     const activeButtonElement = this.isOnHomePage
-      ? errorPage.querySelector('.error-page__exit-button')
-      : errorPage.querySelector('.error-page__home-page-form');
+      ? errorPage.querySelector('#exit-button')
+      : errorPage.querySelector('#home-page-form');
 
     if (activeButtonElement) {
       activeButtonElement.classList.remove('hidden');
