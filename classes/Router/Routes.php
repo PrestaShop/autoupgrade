@@ -93,5 +93,4 @@ class Routes
     const FAKE_ERROR_502 = 'fake-error-502';
     const FAKE_INVALID_RESPONSE = 'fake-invalid-response';
     const FAKE_TIMEOUT = 'fake-timeout';
-
 }

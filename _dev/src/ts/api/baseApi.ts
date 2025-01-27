@@ -27,8 +27,8 @@ const baseApi = axios.create({
     Authorization: `Bearer ${() => window.AutoUpgradeVariables.token}`
   },
   transitional: {
-    clarifyTimeoutError: true,
-  },
+    clarifyTimeoutError: true
+  }
 });
 
 addRequestInterceptor(baseApi);

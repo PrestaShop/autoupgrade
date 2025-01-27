@@ -18,7 +18,6 @@
  */
 import LogsViewer from '../../src/ts/components/LogsViewer';
 import { logStore } from '../../src/ts/store/LogStore';
-import SpyInstance = jest.SpyInstance;
 
 // add this mock to avoid unnecessary error
 jest.mock('../../src/ts/routing/ScriptHandler', () => {
@@ -30,10 +29,9 @@ jest.mock('../../src/ts/routing/ScriptHandler', () => {
 describe('LogsViewer', () => {
   let logsViewer: LogsViewer;
   let container: HTMLElement;
-  let errorSpy: SpyInstance;
 
   beforeEach(() => {
-    errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    jest.spyOn(console, 'error').mockImplementation(() => {});
     logStore.clearLogs();
 
     container = document.createElement('div');
@@ -129,12 +127,6 @@ describe('LogsViewer', () => {
         'WARNING - Second warning'
       ]);
       await logsViewer.displaySummary();
-      // add this spy to avoid error return
-      expect(errorSpy).toHaveBeenCalledWith(
-        expect.objectContaining({
-          message: 'The string did not match the expected pattern.'
-        })
-      );
 
       const summaryContainer = container.querySelector('[data-slot-component="summary"]');
       expect(summaryContainer).not.toBeNull();

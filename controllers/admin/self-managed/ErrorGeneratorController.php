@@ -46,7 +46,7 @@ class ErrorGeneratorController extends AbstractGlobalController
         return new Response('[CONTENTS] Not a valid JSON, only a basic string');
     }
 
-    public function generateTimeout(): never
+    public function generateTimeout(): void
     {
         sleep(60);
     }

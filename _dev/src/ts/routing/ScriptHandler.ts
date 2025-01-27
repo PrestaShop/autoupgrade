@@ -99,7 +99,9 @@ export default class ScriptHandler {
       console.debug(`No matching class found for ID: ${scriptID}`);
       // Outside a hydration, the scriptID matches the route query param.
       // If it does not exist, we load the error management script instead.
-      this.loadScript('error-page');
+      if (!this.#currentScripts[ScriptType.PAGE]) {
+        this.loadScript('error-page');
+      }
       return;
     }
 

@@ -24,9 +24,7 @@ import Hydration from '../utils/Hydration';
 import PageAbstract from './PageAbstract';
 
 export default class ErrorPage extends PageAbstract {
-  public static templateId: string = 'error-page-template';
-  // TODO: Improve this by putting the target in the template and sent it from the back end
-  public static targetElementIdToUpdate: string = 'ua_page';
+  public static readonly templateId: string = 'error-page-template';
 
   isOnHomePage: boolean = false;
 
@@ -37,19 +35,25 @@ export default class ErrorPage extends PageAbstract {
   }
 
   public mount = (): void => {
-    
     // If the error page is already present on the DOM (For instance on a whole page refresh),
     // initalize it at once instead of waiting for an event.
     const errorPageFromBackEnd = document.querySelector('.error-page');
     if (errorPageFromBackEnd) {
       this.#mountErrorPage(errorPageFromBackEnd);
     } else {
-      this.#errorTemplateElement.addEventListener(Hydration.hydrationEventName, this.#onError.bind(this), {once: true});
+      this.#errorTemplateElement.addEventListener(
+        Hydration.hydrationEventName,
+        this.#onError.bind(this),
+        { once: true }
+      );
     }
   };
 
   public beforeDestroy = (): void => {
-    this.#errorTemplateElement.removeEventListener(Hydration.hydrationEventName, this.#onError.bind(this));
+    this.#errorTemplateElement.removeEventListener(
+      Hydration.hydrationEventName,
+      this.#onError.bind(this)
+    );
     this.#submitErrorReportForm?.removeEventListener('submit', this.#onSubmit);
     logStore.clearLogs();
   };
@@ -61,11 +65,13 @@ export default class ErrorPage extends PageAbstract {
       throw new Error('Error template not found');
     }
 
-    return element as HTMLTemplateElement;
-  }
+    ['target'].forEach((data) => {
+      if (!element.dataset[data]) {
+        throw new Error(`Missing data ${data} from element dataset.`);
+      }
+    });
 
-  #onError = async (event: CustomEvent<ApiError>): Promise<void> => {
-    this.#createErrorPage(event);
+    return element as HTMLTemplateElement;
   }
 
   #createErrorPage(event: CustomEvent<ApiError>): void {
@@ -78,9 +84,14 @@ export default class ErrorPage extends PageAbstract {
       errorChild.id = `ua_error_${event.detail.type}`;
     }
 
+    const IsCodeAnHttpErrorCode =
+      typeof event.detail.code === 'number' &&
+      event.detail.code >= 300 &&
+      event.detail.code.toString().length === 3;
+
     // If code is a HTTP error number (i.e 404, 500 etc.), let's change the text in the left column with it.
-    if (typeof event.detail.code === 'number' && event.detail.code >= 300 && event.detail.code.toString().length === 3) {
-      const strigifiedCode = event.detail.code.toString().replaceAll('0', 'O');
+    if (IsCodeAnHttpErrorCode) {
+      const strigifiedCode = (event.detail.code as number).toString().replaceAll('0', 'O');
       const errorCodeSlotElements = errorElement.querySelectorAll('.error-page__code-char');
       errorCodeSlotElements.forEach((element: Element, index: number) => {
         element.innerHTML = strigifiedCode[index];
@@ -91,7 +102,9 @@ export default class ErrorPage extends PageAbstract {
 
     // Display a user friendly text related to the code if it exists, otherwise write the error code.
     const errorDescriptionElement = errorElement.querySelector('.error-page__desc');
-    const userFriendlyDescriptionElement = errorDescriptionElement?.querySelector(`.error-page__desc-${event.detail.code || event.detail.type}`);
+    const userFriendlyDescriptionElement = errorDescriptionElement?.querySelector(
+      `.error-page__desc-${IsCodeAnHttpErrorCode ? event.detail.code : event.detail.type}`
+    );
     if (userFriendlyDescriptionElement) {
       userFriendlyDescriptionElement.classList.remove('hidden');
     } else if (errorDescriptionElement && event.detail.type) {
@@ -100,27 +113,30 @@ export default class ErrorPage extends PageAbstract {
 
     // Store the contents in the logs so it can be used in the error reporting modal
     if (event.detail.additionalContents) {
-      const logsContents = typeof event.detail.additionalContents === 'object'
-        ? JSON.stringify(event.detail.additionalContents)
-        : event.detail.additionalContents;
+      const logsContents =
+        typeof event.detail.additionalContents === 'object'
+          ? JSON.stringify(event.detail.additionalContents)
+          : event.detail.additionalContents;
 
       logStore.addLog({
         severity: Severity.SUCCESS,
         height: 0,
         offsetTop: 0,
-        message: logsContents,
+        message: logsContents
       });
     }
 
     // Finally, append the result on the page
-    const targetElementToUpdate = document.getElementById(ErrorPage.targetElementIdToUpdate);
+    const targetElementToUpdate = document.getElementById(
+      this.#errorTemplateElement.dataset.target!
+    );
     if (!targetElementToUpdate) {
       throw new Error('Target element cannot be found');
     }
     targetElementToUpdate.replaceChildren(errorElement);
 
     // Retrieve the route we called to fill in the context.
-    let route: string|null = null;
+    let route: string | null = null;
     if (event.detail.requestParams?.responseURL) {
       const params = new URLSearchParams(new URL(event.detail.requestParams?.responseURL)?.search);
       route = params?.get('route');
@@ -130,7 +146,7 @@ export default class ErrorPage extends PageAbstract {
       severity: Severity.ERROR,
       height: 0,
       offsetTop: 0,
-      message: `An HTTP request failed on route ${route || 'N/A'}. Type: ${event.detail.type || 'N/A'} - Code ${event.detail.code || 'N/A'}`,
+      message: `HTTP request failed: Route ${route ?? 'N/A'} - Type: ${event.detail.type ?? 'N/A'} - Code ${event.detail.code ?? 'N/A'}`
     });
 
     // Enable events and page features
@@ -138,7 +154,7 @@ export default class ErrorPage extends PageAbstract {
   }
 
   #mountErrorPage(errorPage: Element): void {
-    this.#form.addEventListener('submit', this.#onSubmit, {once: true});
+    this.#form.addEventListener('submit', this.#onSubmit, { once: true });
 
     this.#submitErrorReportForm?.addEventListener('submit', this.#onSubmit);
 
@@ -167,13 +183,24 @@ export default class ErrorPage extends PageAbstract {
     return form;
   }
 
-  get #submitErrorReportForm(): HTMLFormElement|null {
+  get #submitErrorReportForm(): HTMLFormElement | null {
     return document.forms.namedItem('submit-error-report');
   }
+
+  readonly #onError = async (event: Event | CustomEvent<ApiError>): Promise<void> => {
+    if (!(event instanceof CustomEvent)) {
+      console.debug('Unexpected type of event received.');
+      return;
+    }
+    this.#createErrorPage(event);
+  };
 
   readonly #onSubmit = async (event: SubmitEvent): Promise<void> => {
     event.preventDefault();
 
-    await api.post((event.target as HTMLFormElement).dataset.routeToSubmit!, new FormData(this.#form));
+    await api.post(
+      (event.target as HTMLFormElement).dataset.routeToSubmit!,
+      new FormData(this.#form)
+    );
   };
 }

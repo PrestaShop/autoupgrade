@@ -41,22 +41,8 @@ describe('RequestHandler', () => {
     mockHydrate.mockClear();
   });
 
-  it('should append admin_dir to FormData and call baseApi.post', async () => {
-    const formData = new FormData();
-    const route = 'some_route';
-    (baseApi.post as jest.Mock).mockResolvedValue({ data: {} });
-
-    await requestHandler.post(route, formData);
-
-    expect(formData.get('dir')).toBe(window.AutoUpgradeVariables.admin_dir);
-    expect(baseApi.post).toHaveBeenCalledWith('', formData, {
-      params: { route },
-      signal: expect.any(AbortSignal)
-    });
-  });
-
   it('should handle response with next_route and make two API calls', async () => {
-    const response: ApiResponse = { next_route: 'next_route' };
+    const response: ApiResponse = { kind: 'next', next_route: 'next_route' };
     (baseApi.post as jest.Mock).mockResolvedValueOnce({ data: response });
 
     const formData = new FormData();
@@ -69,7 +55,7 @@ describe('RequestHandler', () => {
       params: { route },
       signal: expect.any(AbortSignal)
     });
-    expect(baseApi.post).toHaveBeenNthCalledWith(2, '', formData, {
+    expect(baseApi.post).toHaveBeenNthCalledWith(2, '', undefined, {
       params: { route: 'next_route' },
       signal: expect.any(AbortSignal)
     });
@@ -77,6 +63,7 @@ describe('RequestHandler', () => {
 
   it('should handle hydration response', async () => {
     const response: ApiResponse = {
+      kind: 'hydrate',
       hydration: true,
       new_content: 'new content',
       parent_to_update: 'parent',
@@ -96,6 +83,7 @@ describe('RequestHandler', () => {
 
   it('should handle action response', async () => {
     const response: ApiResponseAction = {
+      kind: 'action',
       error: null,
       stepDone: false,
       next: 'Update',

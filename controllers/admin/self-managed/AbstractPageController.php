@@ -64,6 +64,7 @@ abstract class AbstractPageController extends AbstractGlobalController
                     'data_transparency_link' => DocumentationLinks::PRESTASHOP_PROJECT_DATA_TRANSPARENCY_URL,
 
                     // Data for generic error page
+                    'error_template_target' => PageSelectors::PAGE_PARENT_ID,
                     'exit_to_shop_admin' => $this->upgradeContainer->getUrlGenerator()->getShopAdminAbsolutePathFromRequest($this->request),
                     'exit_to_app_home' => Routes::HOME_PAGE,
                     'submit_error_report_route' => Routes::DISPLAY_ERROR_REPORT_MODAL,

@@ -78,6 +78,8 @@ export default class Hydration {
     scriptHandler.loadScript('error-page');
 
     const elementToUpdate = document.getElementById(ErrorPage.templateId);
-    elementToUpdate?.dispatchEvent(new CustomEvent(Hydration.hydrationEventName, {detail: error}));
+    elementToUpdate?.dispatchEvent(
+      new CustomEvent(Hydration.hydrationEventName, { detail: error })
+    );
   }
 }

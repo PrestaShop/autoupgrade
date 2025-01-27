@@ -36,6 +36,15 @@ jest.mock('../../src/ts/components/DialogContainer', () => {
   });
 });
 
+jest.mock('../../src/ts/pages/ErrorPage', () => {
+  return jest.fn().mockImplementation(() => {
+    return {
+      mount: () => {},
+      beforeDestroy: () => {}
+    };
+  });
+});
+
 jest.mock('../../src/ts/pages/HomePage', () => {
   return jest.fn().mockImplementation(() => {
     return {
@@ -79,6 +88,7 @@ describe('Hydration', () => {
 
   it('should update the innerHTML of the target element', () => {
     const response: ApiResponseHydration = {
+      kind: 'hydrate',
       hydration: true,
       new_content: `<p>New Content</p>`,
       parent_to_update: 'parent',
@@ -93,6 +103,7 @@ describe('Hydration', () => {
 
   it('should call scriptHandler.loadScript when new_route is provided', () => {
     const response: ApiResponseHydration = {
+      kind: 'hydrate',
       hydration: true,
       new_content: `<p>New Content</p>`,
       parent_to_update: 'parent',
@@ -109,6 +120,7 @@ describe('Hydration', () => {
 
   it('should call scriptHandler.loadScript when add_script is provided', () => {
     const response: ApiResponseHydration = {
+      kind: 'hydrate',
       hydration: true,
       new_content: `<p>New Content</p>`,
       parent_to_update: 'parent',
@@ -122,6 +134,7 @@ describe('Hydration', () => {
 
   it('should call routeHandler.setNewRoute when new_route is provided and fromPopState is false', () => {
     const response: ApiResponseHydration = {
+      kind: 'hydrate',
       hydration: true,
       new_content: `<p>New Content</p>`,
       parent_to_update: 'parent',
@@ -135,6 +148,7 @@ describe('Hydration', () => {
 
   it('should not call routeHandler.setNewRoute when fromPopState is true', () => {
     const response: ApiResponseHydration = {
+      kind: 'hydrate',
       hydration: true,
       new_content: `<p>New Content</p>`,
       parent_to_update: 'parent',
@@ -148,6 +162,7 @@ describe('Hydration', () => {
 
   it('should not update the content if the element does not exist', () => {
     const response: ApiResponseHydration = {
+      kind: 'hydrate',
       hydration: true,
       new_content: `<p>New Content</p>`,
       parent_to_update: 'non_existent_id'
@@ -163,6 +178,7 @@ describe('Hydration', () => {
 
   it('should dispatch the hydration event on the updated element', () => {
     const response: ApiResponseHydration = {
+      kind: 'hydrate',
       hydration: true,
       new_content: `<p>New Content</p>`,
       parent_to_update: 'parent',
@@ -183,6 +199,7 @@ describe('Hydration', () => {
 
   it('should not refresh the dialog container if the DOM is untouched', () => {
     const response: ApiResponseHydration = {
+      kind: 'hydrate',
       hydration: true,
       new_content: `<p>New Content</p>`,
       parent_to_update: 'non_existent_id'
@@ -213,6 +230,7 @@ describe('Hydration and scripts lifecycle', () => {
 
   it('should unload the current script safely before loading the next one', () => {
     const initialResponse: ApiResponseHydration = {
+      kind: 'hydrate',
       hydration: true,
       new_content: `<p id="my_paragraph">Old Content</p>`,
       parent_to_update: 'parent',
@@ -224,6 +242,7 @@ describe('Hydration and scripts lifecycle', () => {
     expect(unloadRouteScriptMock).toHaveBeenCalledTimes(1);
 
     const nextResponse: ApiResponseHydration = {
+      kind: 'hydrate',
       hydration: true,
       new_content: `<p>New Content</p>`,
       parent_to_update: 'parent',
