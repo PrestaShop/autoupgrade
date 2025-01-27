@@ -50,7 +50,7 @@ class UpdateComplete extends AbstractTask
 
         $destinationVersion = $state->getDestinationVersion();
 
-        $this->logger->info($state->getWarningExists() ?
+        $this->logger->info($state->isWarningDetected() ?
             $this->translator->trans('Shop updated to %s, but some warnings have been found.', [$destinationVersion]) :
             $this->translator->trans('Shop updated to %s. Congratulations! You can now reactivate your shop.', [$destinationVersion])
         );

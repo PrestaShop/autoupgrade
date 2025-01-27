@@ -121,7 +121,7 @@ class ModuleDownloaderTest extends TestCase
                 PHP_VERSION_ID >= 80000 ? ['RecursiveDirectoryIterator::__construct(/non-existing-folder): Failed to open directory: No such file or directory']
                     : ['RecursiveDirectoryIterator::__construct(/non-existing-folder): failed to open dir: No such file or directory'], ['Download of source #0 has failed.']
             );
-        $this->expectExceptionMessage('All download attempts have failed. Check your environment and try again.');
+        $this->expectExceptionMessage('All download attempts have failed. The module mymodule has been disabled. You can try to update it manually afterwards.');
 
         $this->moduleDownloader->downloadModule($moduleContext);
     }
@@ -171,7 +171,7 @@ class ModuleDownloaderTest extends TestCase
                 ['Invalid contents from provider (Got an XML file).'],
                 ['Download of source #0 has failed.']
             );
-        $this->expectExceptionMessage('All download attempts have failed. Check your environment and try again.');
+        $this->expectExceptionMessage('All download attempts have failed. The module mymodule has been disabled. You can try to update it manually afterwards.');
 
         $this->downloadService
             ->method('downloadWithRetry')

@@ -51,10 +51,8 @@ class UpdateState extends AbstractState
 
     /**
      * @var bool Determining if all steps went totally successfully
-     *
-     * @deprecated To remove with the old UI
      */
-    protected $warning_exists = false;
+    protected $warningDetected = false;
 
     protected function getFileNameForPersistentStorage(): string
     {
@@ -115,20 +113,14 @@ class UpdateState extends AbstractState
         return $this;
     }
 
-    /**
-     * @deprecated Unused on the UIs from v7
-     */
-    public function getWarningExists(): bool
+    public function isWarningDetected(): bool
     {
-        return $this->warning_exists;
+        return $this->warningDetected;
     }
 
-    /**
-     * @deprecated Unused on the UIs from v7
-     */
-    public function setWarningExists(bool $warning_exists): self
+    public function setWarningDetected(bool $warningDetected): self
     {
-        $this->warning_exists = $warning_exists;
+        $this->warningDetected = $warningDetected;
         $this->save();
 
         return $this;

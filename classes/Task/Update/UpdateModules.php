@@ -178,6 +178,7 @@ class UpdateModules extends AbstractTask
         }
         if ($e->getSeverity() === UpgradeException::SEVERITY_WARNING) {
             $this->logger->warning($e->getMessage());
+            $this->container->getUpdateState()->setWarningDetected(true);
         }
 
         foreach ($e->getQuickInfos() as $log) {

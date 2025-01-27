@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright since 2007 PrestaShop SA and Contributors
  * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
@@ -18,22 +19,14 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 
-use PrestaShop\Module\AutoUpgrade\Database\DbWrapper;
+namespace PrestaShop\Module\AutoUpgrade\Database;
 
-/**
- * @return void
- *
- * @throws \PrestaShop\Module\AutoUpgrade\Exceptions\UpdateDatabaseException
- */
-function ps_900_set_url_lang_prefix()
+class MysqlErrorCode
 {
-    $numberOfActiveLanguages = (int) DbWrapper::getValue(
-        'SELECT COUNT(*) AS lang_count FROM `' . _DB_PREFIX_ . 'lang` WHERE `active` = 1'
-    );
-
-    if ($numberOfActiveLanguages > 1) {
-        Configuration::updateValue('PS_DEFAULT_LANGUAGE_URL_PREFIX', 1);
-    } else {
-        Configuration::updateValue('PS_DEFAULT_LANGUAGE_URL_PREFIX', 0);
-    }
+    public const TABLE_ALREADY_EXISTS = '1050';
+    public const UNKNOWN_COLUMN_IN_FIELD_LIST = '1054';
+    public const DUPLICATE_COLUMN_NAME = '1060';
+    public const DUPLICATE_KEY = '1061';
+    public const DUPLICATE_ENTRY = '1062';
+    public const CANNOT_DROP_KEY = '1091';
 }
