@@ -37,8 +37,6 @@ export default class HomePage extends PageAbstract {
       this.checkForm();
       this.form.addEventListener('change', this.checkForm);
       this.form.addEventListener('submit', this.handleSubmit);
-
-      document.getElementById('update_assistant')?.addEventListener('click', this.#onClick);
     }
   };
 
@@ -46,22 +44,6 @@ export default class HomePage extends PageAbstract {
     if (this.form) {
       this.form.removeEventListener('change', this.checkForm);
       this.form.removeEventListener('submit', this.handleSubmit);
-    }
-    document.getElementById('update_assistant')?.removeEventListener('click', this.#onClick);
-  };
-
-  readonly #onClick = async (ev: Event): Promise<void> => {
-    if ((ev.target as HTMLElement).id === 'trigger-1') {
-      await api.post('fake-error-500');
-    }
-    if ((ev.target as HTMLElement).id === 'trigger-2') {
-      await api.post('fake-error-502');
-    }
-    if ((ev.target as HTMLElement).id === 'trigger-3') {
-      await api.post('fake-invalid-response');
-    }
-    if ((ev.target as HTMLElement).id === 'trigger-4') {
-      await api.post('fake-timeout');
     }
   };
 

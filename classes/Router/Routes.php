@@ -88,9 +88,4 @@ class Routes
 
     /* errors */
     const ERROR_404 = 'error-404';
-
-    const FAKE_ERROR_500 = 'fake-error-500';
-    const FAKE_ERROR_502 = 'fake-error-502';
-    const FAKE_INVALID_RESPONSE = 'fake-invalid-response';
-    const FAKE_TIMEOUT = 'fake-timeout';
 }
