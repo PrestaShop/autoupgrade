@@ -67,6 +67,20 @@ $e: ".error-page";
       margin-block-end: 2rem;
       font-size: 1rem;
       font-weight: 500;
+
+      > [class^="error-page__desc"] {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      p,
+      ul {
+        gap: 0.25rem;
+        margin: 0;
+        font-size: 1rem;
+        line-height: 1.375rem;
+      }
     }
 
     &__buttons {
