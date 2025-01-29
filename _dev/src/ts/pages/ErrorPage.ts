@@ -17,6 +17,7 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 import api from '../api/RequestHandler';
+import ErrorPageBuilder from '../components/ErrorPageBuilder';
 import { logStore } from '../store/LogStore';
 import { ApiError } from '../types/apiTypes';
 import { Severity } from '../types/logsTypes';
@@ -36,7 +37,7 @@ export default class ErrorPage extends PageAbstract {
 
   public mount = (): void => {
     // If the error page is already present on the DOM (For instance on a whole page refresh),
-    // initalize it at once instead of waiting for an event.
+    // initialize it at once instead of waiting for an event.
     const errorPageFromBackEnd = document.querySelector('.error-page');
     if (errorPageFromBackEnd) {
       this.#mountErrorPage(errorPageFromBackEnd);
@@ -78,38 +79,10 @@ export default class ErrorPage extends PageAbstract {
     // Duplicate the error template before alteration
     const errorElement = this.#errorTemplateElement.content.cloneNode(true) as DocumentFragment;
 
-    // Set the id of the cloned element
-    const errorChild = errorElement.getElementById('ua_error_placeholder');
-    if (errorChild) {
-      errorChild.id = `ua_error_${event.detail.type}`;
-    }
-
-    const isHttpErrorCode =
-      typeof event.detail.code === 'number' &&
-      event.detail.code >= 300 &&
-      event.detail.code.toString().length === 3;
-
-    // If code is a HTTP error number (i.e 404, 500 etc.), let's change the text in the left column with it.
-    if (isHttpErrorCode) {
-      const stringifiedCode = (event.detail.code as number).toString().replaceAll('0', 'O');
-      const errorCodeSlotElements = errorElement.querySelectorAll('.error-page__code-char');
-      errorCodeSlotElements.forEach((element: Element, index: number) => {
-        element.innerHTML = stringifiedCode[index];
-      });
-    } else {
-      errorElement.querySelector('.error-page__code')?.classList.add('hidden');
-    }
-
-    // Display a user friendly text related to the code if it exists, otherwise write the error code.
-    const errorDescriptionElement = errorElement.querySelector('.error-page__desc');
-    const userFriendlyDescriptionElement = errorDescriptionElement?.querySelector(
-      `.error-page__desc-${isHttpErrorCode ? event.detail.code : event.detail.type}`
-    );
-    if (userFriendlyDescriptionElement) {
-      userFriendlyDescriptionElement.classList.remove('hidden');
-    } else if (errorDescriptionElement && event.detail.type) {
-      errorDescriptionElement.innerHTML = event.detail.type;
-    }
+    const pageBuilder = new ErrorPageBuilder(errorElement);
+    pageBuilder.updateId(event.detail.type);
+    pageBuilder.updateLeftColumn(event.detail.code);
+    pageBuilder.updateDescriptionBlock(event.detail);
 
     // Store the contents in the logs so it can be used in the error reporting modal
     if (event.detail.additionalContents) {

@@ -16,6 +16,10 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
+import { TextEncoder, TextDecoder } from 'util';
+// Needed to avoid error "ReferenceError: TextEncoder is not defined" when using JSDOM in tests
+Object.assign(global, { TextDecoder, TextEncoder });
+
 // We don't wait for the call to beforeAll to define window properties.
 window.AutoUpgradeVariables = {
   token: 'test-token',
