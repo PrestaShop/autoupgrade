@@ -19,7 +19,14 @@
 {% extends "@ModuleAutoUpgrade/layouts/error.html.twig" %}
 
 {% block description %}
-  <p class="error-page__desc">
-    {{ 'The page you requested cannot be found.'|trans({}) }}
-  </p>
+  <div class="error-page__desc">
+    <div class="error-page__desc-404">
+      <p>{{ 'The requested page or resource could not be found. This might be due to:'|trans({}) }}</p>
+      <ul>
+        <li>{{ 'A broken or outdated link.'|trans({}) }}</li>
+        <li>{{ 'The page being moved or deleted.'|trans({}) }}</li>
+        <li>{{ 'A typo in the URL.'|trans({}) }}</li>
+      </ul>
+    </div>
+  </div>
 {% endblock %}

@@ -9,7 +9,14 @@
 
 {% block description %}
   <div class="error-page__desc">
-    <p class="error-page__desc-404 hidden">{{ 'The page you requested cannot be found.'|trans({}) }}</p>
+    <div class="error-page__desc-404 hidden">
+      <p>{{ 'The requested page or resource could not be found. This might be due to:'|trans({}) }}</p>
+      <ul>
+        <li>{{ 'A broken or outdated link.'|trans({}) }}</li>
+        <li>{{ 'The page being moved or deleted.'|trans({}) }}</li>
+        <li>{{ 'A typo in the URL.'|trans({}) }}</li>
+      </ul>
+    </div>
     <div class="error-page__desc-500 hidden">
       <p>{{ 'It seems there was an issue with the server. This type of error usually happens when:'|trans({}) }}</p>
       <ul>
