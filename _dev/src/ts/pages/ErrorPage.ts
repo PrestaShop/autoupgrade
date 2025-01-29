@@ -84,17 +84,17 @@ export default class ErrorPage extends PageAbstract {
       errorChild.id = `ua_error_${event.detail.type}`;
     }
 
-    const IsCodeAnHttpErrorCode =
+    const isHttpErrorCode =
       typeof event.detail.code === 'number' &&
       event.detail.code >= 300 &&
       event.detail.code.toString().length === 3;
 
     // If code is a HTTP error number (i.e 404, 500 etc.), let's change the text in the left column with it.
-    if (IsCodeAnHttpErrorCode) {
-      const strigifiedCode = (event.detail.code as number).toString().replaceAll('0', 'O');
+    if (isHttpErrorCode) {
+      const stringifiedCode = (event.detail.code as number).toString().replaceAll('0', 'O');
       const errorCodeSlotElements = errorElement.querySelectorAll('.error-page__code-char');
       errorCodeSlotElements.forEach((element: Element, index: number) => {
-        element.innerHTML = strigifiedCode[index];
+        element.innerHTML = stringifiedCode[index];
       });
     } else {
       errorElement.querySelector('.error-page__code')?.classList.add('hidden');
@@ -103,7 +103,7 @@ export default class ErrorPage extends PageAbstract {
     // Display a user friendly text related to the code if it exists, otherwise write the error code.
     const errorDescriptionElement = errorElement.querySelector('.error-page__desc');
     const userFriendlyDescriptionElement = errorDescriptionElement?.querySelector(
-      `.error-page__desc-${IsCodeAnHttpErrorCode ? event.detail.code : event.detail.type}`
+      `.error-page__desc-${isHttpErrorCode ? event.detail.code : event.detail.type}`
     );
     if (userFriendlyDescriptionElement) {
       userFriendlyDescriptionElement.classList.remove('hidden');
