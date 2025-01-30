@@ -25,8 +25,9 @@
 
 import type { StorybookConfig } from "@sensiolabs/storybook-symfony-webpack5";
 import webpack from "webpack";
-import fs from 'fs';
-import path from 'path';
+import fs from "fs";
+import path from "path";
+import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
 
 const config: StorybookConfig = {
   stories: ["../stories/**/*.stories.[tj]s", "../stories/**/*.mdx"],
@@ -35,7 +36,7 @@ const config: StorybookConfig = {
     "@storybook/addon-links",
     "@storybook/addon-essentials",
     "@storybook/addon-styling-webpack",
-    "@storybook/addon-a11y"
+    "@storybook/addon-a11y",
   ],
   framework: {
     name: "@sensiolabs/storybook-symfony-webpack5",
@@ -51,12 +52,21 @@ const config: StorybookConfig = {
   webpackFinal: async (config) => {
     config?.module?.rules?.push({
       test: /\.scss$/,
-      use: [
-        "style-loader",
-        "css-loader",
-        "sass-loader"
-      ],
+      use: ["style-loader", "css-loader", "sass-loader"],
     });
+    // Ensure shared component stories are transpiled.
+    config?.module?.rules?.push({
+      test: /\.ts$/,
+    });
+    if (config.resolve) {
+      config.resolve.plugins = [
+        ...(config.resolve.plugins || []),
+        new TsconfigPathsPlugin({
+          extensions: config.resolve.extensions,
+          configFile: "../_dev/tsconfig.json",
+        }),
+      ];
+    }
     // List translations files on compilation to fill language selection list
     const newPlugin = new webpack.DefinePlugin({
       TRANSLATION_LOCALES: JSON.stringify(
