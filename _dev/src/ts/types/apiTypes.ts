@@ -26,7 +26,7 @@ interface ApiResponseHydration {
 }
 
 interface ApiResponseNextRoute {
-  kind: 'next';
+  kind: 'next_route';
   next_route: string;
 }
 

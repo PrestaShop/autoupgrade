@@ -42,7 +42,7 @@ describe('RequestHandler', () => {
   });
 
   it('should handle response with next_route and make two API calls', async () => {
-    const response: ApiResponse = { kind: 'next', next_route: 'next_route' };
+    const response: ApiResponse = { kind: 'next_route', next_route: 'next_route' };
     (baseApi.post as jest.Mock).mockResolvedValueOnce({ data: response });
 
     const formData = new FormData();
