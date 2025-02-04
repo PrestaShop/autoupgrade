@@ -51,7 +51,7 @@ class Download extends AbstractTask
     public function run(): int
     {
         if (!\ConfigurationTest::test_fopen() && !\ConfigurationTest::test_curl()) {
-            $this->logger->error($this->translator->trans('You need allow_url_fopen or cURL enabled for automatic download to work. You can also manually upload it in filepath %s.', [$this->container->getFilePath()]));
+            $this->logger->error($this->translator->trans('You need allow_url_fopen or cURL enabled for automatic download to work. You can also manually upload it in filepath %s.', [$this->container->getArchiveFilePath()]));
             $this->next = TaskName::TASK_ERROR;
 
             return ExitCode::FAIL;
@@ -62,25 +62,19 @@ class Download extends AbstractTask
         );
 
         $this->logger->debug($this->translator->trans('Downloading from %s', [$this->container->getUpgrader()->getOnlineDestinationRelease()->getZipDownloadUrl()]));
-        $this->logger->debug($this->translator->trans('File will be saved in %s', [$this->container->getFilePath()]));
+        $this->logger->debug($this->translator->trans('File will be saved in %s', [$this->container->getArchiveFilePath()]));
 
-        $downloadPath = $this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH);
-
-        if ($this->container->getFileSystem()->exists($downloadPath)) {
-            foreach (scandir($downloadPath) as $item) {
-                if ($item !== '.' && $item !== '..') {
-                    $path = $downloadPath . DIRECTORY_SEPARATOR . $item;
-                    $this->container->getFileSystem()->remove($path);
-                }
-            }
+        $releasesDir = $this->container->getProperty(UpgradeContainer::TMP_RELEASES_DIR);
+        if ($this->container->getFilesystemAdapter()->clearDirectory($releasesDir)) {
             $this->logger->debug($this->translator->trans('Download directory has been emptied'));
         }
+
         $report = '';
-        $relative_download_path = str_replace(_PS_ROOT_DIR_, '', $downloadPath);
+        $relative_download_path = str_replace(_PS_ROOT_DIR_, '', $releasesDir);
         if (\ConfigurationTest::test_dir($relative_download_path, false, $report)) {
             $this->downloadArchive();
         } else {
-            $this->logger->error($this->translator->trans('Download directory %s is not writable.', [$this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH)]));
+            $this->logger->error($this->translator->trans('Download directory %s is not writable.', [$this->container->getProperty(UpgradeContainer::TMP_RELEASES_DIR)]));
             $this->next = TaskName::TASK_ERROR;
         }
 
@@ -94,7 +88,7 @@ class Download extends AbstractTask
      */
     public function downloadArchive(): void
     {
-        $destPath = realpath($this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH)) . DIRECTORY_SEPARATOR . $this->container->getProperty(UpgradeContainer::ARCHIVE_FILENAME);
+        $destPath = realpath($this->container->getProperty(UpgradeContainer::TMP_RELEASES_DIR)) . DIRECTORY_SEPARATOR . $this->container->getProperty(UpgradeContainer::ARCHIVE_FILENAME);
         $archiveUrl = $this->container->getUpgrader()->getOnlineDestinationRelease()->getZipDownloadUrl();
 
         try {

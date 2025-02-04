@@ -106,7 +106,7 @@ class UpdateFiles extends AbstractTask
         // later, we could handle customization with some kind of diff functions
         // for now, just copy $file in str_replace($this->latestRootDir,_PS_ROOT_DIR_)
 
-        $file = str_replace($this->container->getProperty(UpgradeContainer::LATEST_PATH), '', $orig);
+        $file = str_replace($this->container->getProperty(UpgradeContainer::TMP_FILES_PATH), '', $orig);
 
         // The path to the file in our prestashop directory
         $dest = $this->destUpgradePath . $file;
@@ -203,7 +203,7 @@ class UpdateFiles extends AbstractTask
         }
 
         // Get path to the folder with release we will use to upgrade and check if it's valid
-        $newReleasePath = $this->container->getProperty(UpgradeContainer::LATEST_PATH);
+        $newReleasePath = $this->container->getProperty(UpgradeContainer::TMP_FILES_PATH);
         if (!$this->container->getFilesystemAdapter()->isReleaseValid($newReleasePath)) {
             $this->logger->error($this->translator->trans('Could not assert the folder %s contains a valid PrestaShop release, exiting.', [$newReleasePath]));
             $this->logger->error($this->translator->trans('A file may be missing, or the release is stored in a subfolder by mistake.'));

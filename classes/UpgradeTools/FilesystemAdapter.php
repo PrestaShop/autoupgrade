@@ -71,7 +71,6 @@ class FilesystemAdapter
     ) {
         $this->filesystem = $filesystem;
         $this->fileFilter = $fileFilter;
-
         $this->autoupgradeDir = $autoupgradeDir;
         $this->adminSubDir = $adminSubDir;
         $this->prodRootDir = $prodRootDir;
@@ -228,6 +227,22 @@ class FilesystemAdapter
         }
 
         return true;
+    }
+
+    public function clearDirectory(string $folderToClear): bool
+    {
+        if ($this->filesystem->exists($folderToClear)) {
+            foreach (scandir($folderToClear) as $item) {
+                if ($item !== '.' && $item !== '..' && $item !== 'index.php') {
+                    $path = $folderToClear . DIRECTORY_SEPARATOR . $item;
+                    $this->filesystem->remove($path);
+
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**

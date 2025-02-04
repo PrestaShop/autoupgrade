@@ -92,7 +92,7 @@ abstract class CoreUpgrader
         $this->fileSystem = $this->container->getFileSystem();
         $this->logger = $logger;
         $this->destinationUpgradeVersion = $this->container->getUpdateState()->getDestinationVersion();
-        $this->pathToInstallFolder = realpath($this->container->getProperty(UpgradeContainer::LATEST_PATH) . DIRECTORY_SEPARATOR . 'install');
+        $this->pathToInstallFolder = realpath($this->container->getProperty(UpgradeContainer::TMP_FILES_PATH) . DIRECTORY_SEPARATOR . 'install');
         $this->pathToUpgradeScripts = dirname(__DIR__, 3) . '/upgrade/';
         if ($this->fileSystem->exists($this->pathToInstallFolder . DIRECTORY_SEPARATOR . 'autoload.php')) {
             require_once $this->pathToInstallFolder . DIRECTORY_SEPARATOR . 'autoload.php';

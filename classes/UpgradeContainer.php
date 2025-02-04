@@ -80,16 +80,23 @@ use Twig_Loader_Filesystem;
  */
 class UpgradeContainer
 {
-    const WORKSPACE_PATH = 'workspace'; // AdminSelfUpgrade::$autoupgradePath
+    const WORKSPACE_PATH = 'workspace';
     const BACKUP_PATH = 'backup';
     const DOWNLOAD_PATH = 'download';
-    const LATEST_PATH = 'latest'; // AdminSelfUpgrade::$latestRootDir
-    const LATEST_DIR = 'latest/';
     const LOGS_PATH = 'logs';
+
+    // temporary folders
     const TMP_PATH = 'tmp';
+    const TMP_FILES_PATH = 'files';
+    const TMP_FILES_DIR = 'files/';
+    const TMP_MODULES_PATH = 'modules';
+    const TMP_MODULES_DIR = 'modules/';
+    const TMP_RELEASES_PATH = 'releases';
+    const TMP_RELEASES_DIR = 'releases/';
+
     const PS_ADMIN_PATH = 'ps_admin';
     const PS_ADMIN_SUBDIR = 'ps_admin_subdir';
-    const PS_ROOT_PATH = 'ps_root'; // AdminSelfUpgrade::$prodRootDir
+    const PS_ROOT_PATH = 'ps_root';
     const ARCHIVE_FILENAME = 'destDownloadFilename';
     const ARCHIVE_FILEPATH = 'destDownloadFilepath';
     const PS_VERSION = 'version';
@@ -279,23 +286,45 @@ class UpgradeContainer
                 return $this->autoupgradeWorkDir . DIRECTORY_SEPARATOR . 'backup';
             case self::DOWNLOAD_PATH:
                 return $this->autoupgradeWorkDir . DIRECTORY_SEPARATOR . 'download';
-            case self::LATEST_PATH:
-                return $this->autoupgradeWorkDir . DIRECTORY_SEPARATOR . 'latest';
-            case self::LATEST_DIR:
-                return $this->autoupgradeWorkDir . DIRECTORY_SEPARATOR . 'latest' . DIRECTORY_SEPARATOR;
             case self::TMP_PATH:
                 return $this->autoupgradeWorkDir . DIRECTORY_SEPARATOR . 'tmp';
+            case self::TMP_MODULES_PATH:
+                return $this->getProperty(self::TMP_PATH) . DIRECTORY_SEPARATOR . 'modules';
+            case self::TMP_MODULES_DIR:
+                return $this->getProperty(self::TMP_MODULES_PATH) . DIRECTORY_SEPARATOR;
+            case self::TMP_RELEASES_PATH:
+                return $this->getProperty(self::TMP_PATH) . DIRECTORY_SEPARATOR . 'releases';
+            case self::TMP_RELEASES_DIR:
+                return $this->getProperty(self::TMP_RELEASES_PATH) . DIRECTORY_SEPARATOR;
+            case self::TMP_FILES_PATH:
+                return $this->getProperty(self::TMP_PATH) . DIRECTORY_SEPARATOR . 'files';
+            case self::TMP_FILES_DIR:
+                return $this->getProperty(self::TMP_FILES_PATH) . DIRECTORY_SEPARATOR;
             case self::LOGS_PATH:
                 return $this->autoupgradeWorkDir . DIRECTORY_SEPARATOR . 'logs';
             case self::ARCHIVE_FILENAME:
                 return $this->getUpdateConfiguration()->getChannelZip();
             case self::ARCHIVE_FILEPATH:
-                return $this->getProperty(self::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $this->getProperty(self::ARCHIVE_FILENAME);
+                return $this->getArchiveFilePath();
             case self::PS_VERSION:
                 return $this->getCurrentPrestaShopVersion();
             default:
                 return '';
         }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getArchiveFilePath(): ?string
+    {
+        $fileName = $this->getProperty(self::ARCHIVE_FILENAME);
+
+        if ($this->getUpdateConfiguration()->isChannelLocal()) {
+            return $this->getProperty(self::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $fileName;
+        }
+
+        return $this->getProperty(self::TMP_RELEASES_DIR) . $fileName;
     }
 
     public function getAnalytics(): Analytics
@@ -406,16 +435,6 @@ class UpgradeContainer
     public function getDb(): \Db
     {
         return \Db::getInstance();
-    }
-
-    /**
-     * Return the path to the zipfile containing prestashop.
-     *
-     * @throws Exception
-     */
-    public function getFilePath(): string
-    {
-        return $this->getProperty(self::ARCHIVE_FILEPATH);
     }
 
     public function getFileStorage(): FileStorage
@@ -560,7 +579,7 @@ class UpgradeContainer
             $this->moduleSourceProviders = [
                 new LocalSourceProvider($this->getProperty(self::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . 'modules', $this->getFileStorage()),
                 new MarketplaceSourceProvider($this->getUpdateState()->getDestinationVersion(), $this->getProperty(self::PS_ROOT_PATH), $this->getFileLoader(), $this->getFileStorage()),
-                new ComposerSourceProvider($this->getProperty(self::LATEST_PATH), $this->getComposerService(), $this->getFileStorage()),
+                new ComposerSourceProvider($this->getProperty(self::TMP_FILES_PATH), $this->getComposerService(), $this->getFileStorage()),
                 // Other providers
             ];
         }
@@ -839,9 +858,11 @@ class UpgradeContainer
                 self::WORKSPACE_PATH,
                 self::BACKUP_PATH,
                 self::DOWNLOAD_PATH,
-                self::LATEST_PATH,
+                self::TMP_FILES_PATH,
                 self::LOGS_PATH,
                 self::TMP_PATH,
+                self::TMP_MODULES_DIR,
+                self::TMP_RELEASES_DIR,
             ];
 
             foreach ($properties as $property) {

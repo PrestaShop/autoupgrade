@@ -58,8 +58,8 @@ class UpdateComplete extends AbstractTask
         $this->next = TaskName::TASK_COMPLETE;
 
         $filesystem = $this->container->getFileSystem();
-        $filePath = $this->container->getFilePath();
-        $latestPath = $this->container->getProperty(UpgradeContainer::LATEST_PATH);
+        $filePath = $this->container->getArchiveFilePath();
+        $latestPath = $this->container->getProperty(UpgradeContainer::TMP_FILES_PATH);
 
         if ($filesystem->exists($filePath)) {
             if ($this->container->getUpdateConfiguration()->isChannelOnline()) {
@@ -77,6 +77,11 @@ class UpdateComplete extends AbstractTask
         $this->container->getFileStorage()->clean(UpgradeFileNames::UPDATE_CONFIG_FILENAME);
 
         // removing temporary files
+        $tmpModulePath = $this->container->getProperty(UpgradeContainer::TMP_MODULES_PATH);
+        if ($this->container->getFilesystemAdapter()->clearDirectory($tmpModulePath)) {
+            $this->logger->debug($this->translator->trans('The temporary directory of modules has been emptied'));
+        }
+
         $this->container->getFileStorage()->cleanAllUpdateFiles();
         $this->container->getAnalytics()->track('Upgrade Succeeded', Analytics::WITH_UPDATE_PROPERTIES);
 
