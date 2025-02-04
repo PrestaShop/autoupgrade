@@ -83,16 +83,7 @@ export default class ErrorPage extends PageAbstract {
     pageBuilder.updateId(event.detail.type);
     pageBuilder.updateLeftColumn(event.detail.code);
     pageBuilder.updateDescriptionBlock(event.detail);
-
-    // Store the contents in the logs so it can be used in the error reporting modal
-    if (event.detail.additionalContents) {
-      logStore.addLog({
-        severity: Severity.SUCCESS,
-        height: 0,
-        offsetTop: 0,
-        message: event.detail.additionalContents
-      });
-    }
+    pageBuilder.updateResponseBlock(event.detail.additionalContents);
 
     // Finally, append the result on the page
     const targetElementToUpdate = document.getElementById(
@@ -114,7 +105,7 @@ export default class ErrorPage extends PageAbstract {
       severity: Severity.ERROR,
       height: 0,
       offsetTop: 0,
-      message: `HTTP request failed: Route ${route ?? 'N/A'} - Type: ${event.detail.type ?? 'N/A'} - Code ${event.detail.code ?? 'N/A'}`
+      message: `HTTP request failed. Route ${route ?? 'N/A'} - Type: ${event.detail.type ?? 'N/A'} - HTTP Code ${event.detail.code ?? 'N/A'}`
     });
 
     // Enable events and page features

@@ -44,6 +44,7 @@ describe('LogsViewer', () => {
           <div data-slot-component="list" class="logs__list"></div>
         </div>
         <div data-slot-component="summary" class="logs__summaries"></div>
+        <pre id="log-additional-contents" class="hidden"></pre>
       </div>
       <template id="log-line">
         <div class="logs__line">

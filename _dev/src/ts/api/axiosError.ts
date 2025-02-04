@@ -1,5 +1,5 @@
-import { AxiosError } from "axios";
-import { ApiError, ApiResponseAction } from "../types/apiTypes";
+import { AxiosError } from 'axios';
+import { ApiError, ApiResponseAction } from '../types/apiTypes';
 
 export const toApiError = (error: AxiosError): ApiError => ({
   code: error.status,
@@ -24,11 +24,10 @@ export const toApiResponseAction = (error: AxiosError): ApiResponseAction => ({
 
 export const isHttpErrorCode = (code?: number): boolean => {
   return typeof code === 'number' && code >= 300 && code.toString().length === 3;
-}
-const formatResponseContents = (error: AxiosError): string|undefined => {
+};
+
+const formatResponseContents = (error: AxiosError): string | undefined => {
   return typeof error.response?.data === 'string'
     ? error.response?.data
     : JSON.stringify(error.response?.data);
 };
-
-

@@ -55,30 +55,34 @@ Sentry.init({
  * This function attaches log files, captures a custom event, and optionally sends user feedback with an associated event ID.
  *
  * @param {string} message - The message to describe the feedback or error.
- * @param {Logs} [logs={}] - An object containing optional logs, warnings, and errors to attach.
+ * @param {{Logs, Map}} attachments - An object containing optional logs, warnings and errors messages and other data to attach.
  * @param {Feedback} [feedback={}] - An object containing optional user feedback fields such as email and comments.
  * @param {SeverityLevel} [level='error'] - The severity level of the event (e.g., 'info', 'warning', 'error').
  */
 export function sendUserFeedback(
   message: string,
-  logs: Logs = {},
+  attachments: { logs: Logs; other: Map<string, string> },
   feedback: Feedback = {},
   level: SeverityLevel = 'error'
 ) {
-  const attachments: { key: LogsFields; filename: string }[] = [
+  const logsAttachments: { key: LogsFields; filename: string }[] = [
     { key: LogsFields.LOGS, filename: 'logs.txt' },
     { key: LogsFields.WARNINGS, filename: 'summary_warnings.txt' },
     { key: LogsFields.ERRORS, filename: 'summary_errors.txt' }
   ];
 
-  attachments.forEach(({ key, filename }) => {
-    if (logs[key]) {
+  logsAttachments.forEach(({ key, filename }) => {
+    if (attachments.logs[key]) {
       Sentry.getCurrentScope().addAttachment({
         filename,
-        data: logs[key],
+        data: attachments.logs[key],
         contentType: 'text/plain'
       });
     }
+  });
+
+  attachments.other.forEach((data, filename) => {
+    Sentry.getCurrentScope().addAttachment({ filename, data });
   });
 
   const maskedUrl = maskSensitiveInfoInUrl(window.location.href, adminDir);

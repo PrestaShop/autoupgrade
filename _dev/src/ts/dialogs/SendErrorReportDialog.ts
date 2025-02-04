@@ -21,6 +21,7 @@ import { Feedback, FeedbackFields, Logs } from '../types/sentryApi';
 import { logStore } from '../store/LogStore';
 import { formatLogsMessages } from '../utils/logsUtils';
 import DialogAbstract from './DialogAbstract';
+import ErrorPageBuilder from '../components/ErrorPageBuilder';
 
 export default class SendErrorReportDialog extends DialogAbstract {
   protected readonly formId = 'form-error-feedback';
@@ -54,10 +55,19 @@ export default class SendErrorReportDialog extends DialogAbstract {
   onSubmit = async (event: SubmitEvent) => {
     event.preventDefault();
 
-    const logs = this.#getLogs();
+    const attachments = {
+      logs: this.#getLogs(),
+      other: new Map<string, string>()
+    };
+    const responseContents = document.getElementById(
+      ErrorPageBuilder.externalAdditionalContentsPanelId
+    )?.textContent;
+    if (responseContents) {
+      attachments.other.set('response_raw.txt', responseContents);
+    }
     const feedback = this.#getFeedback(event.target as HTMLFormElement);
 
-    sendUserFeedback(this.#lastErrorMessage, logs, feedback);
+    sendUserFeedback(this.#lastErrorMessage, attachments, feedback);
 
     this.dispatchDialogContainerOkEvent(event);
   };

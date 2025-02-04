@@ -20,6 +20,8 @@ import { isHttpErrorCode } from '../api/axiosError';
 import { ApiError } from '../types/apiTypes';
 
 export default class ErrorPageBuilder {
+  public static readonly externalAdditionalContentsPanelId = 'log-additional-contents';
+
   public constructor(private readonly errorElement: DocumentFragment) {}
 
   /**
@@ -59,6 +61,18 @@ export default class ErrorPageBuilder {
       userFriendlyDescriptionElement.classList.remove('hidden');
     } else if (errorDescriptionElement && errorDetails.type) {
       errorDescriptionElement.innerHTML = errorDetails.type;
+    }
+  }
+
+  /**
+   * Store the response contents on the DOM to keep it ready to send in the report.
+   */
+  public updateResponseBlock(response: ApiError['additionalContents']): void {
+    const errorDescriptionElement = this.errorElement.getElementById(
+      ErrorPageBuilder.externalAdditionalContentsPanelId
+    );
+    if (errorDescriptionElement && response) {
+      errorDescriptionElement.textContent = response;
     }
   }
 }

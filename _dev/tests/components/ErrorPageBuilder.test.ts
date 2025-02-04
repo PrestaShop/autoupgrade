@@ -109,7 +109,9 @@ describe('ErrorPageBuilder', () => {
         </div>
       </div>
     </div>
-  </div>`);
+  </div>
+
+  <pre id="log-additional-contents" class="hidden"></pre>`);
     errorPageBuilder = new ErrorPageBuilder(errorElement);
   });
 
@@ -168,5 +170,12 @@ describe('ErrorPageBuilder', () => {
   test('updateDescriptionBlock should set error type as text if no message available', () => {
     errorPageBuilder.updateDescriptionBlock({ code: 999, type: 'CUSTOM_ERROR' });
     expect(errorElement.querySelector('.error-page__desc')!.innerHTML).toBe('CUSTOM_ERROR');
+  });
+
+  test('updateResponseBlock should get the response contents', () => {
+    errorPageBuilder.updateResponseBlock('{"Some data": "Oh no!"}');
+    expect(errorElement.getElementById('log-additional-contents')?.textContent).toBe(
+      '{"Some data": "Oh no!"}'
+    );
   });
 });

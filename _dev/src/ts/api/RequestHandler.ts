@@ -17,7 +17,7 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 import baseApi from './baseApi';
-import { ApiError, ApiResponse, ApiResponseAction, ApiResponseUnknown } from '../types/apiTypes';
+import { ApiResponse, ApiResponseAction, ApiResponseUnknown } from '../types/apiTypes';
 import Hydration from '../utils/Hydration';
 import { AxiosError } from 'axios';
 import { toApiError, toApiResponseAction } from './axiosError';
