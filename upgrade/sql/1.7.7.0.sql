@@ -3,13 +3,11 @@ SET NAMES 'utf8';
 
 ALTER DATABASE `DB_NAME` CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
-INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES
-    ('PS_DISPLAY_MANUFACTURERS', '1', NOW(), NOW()),
-    ('PS_ORDER_PRODUCTS_NB_PER_PAGE', '8', NOW(), NOW()),
-    ('PS_SEARCH_FUZZY', '1', NOW(), NOW()),
-    ('PS_SEARCH_FUZZY_MAX_LOOP', '4', NOW(), NOW()),
-    ('PS_SEARCH_MAX_WORD_LENGTH', '15', NOW(), NOW())
-;
+/* PHP:add_configuration_if_not_exists('PS_DISPLAY_MANUFACTURERS', '1'); */;
+/* PHP:add_configuration_if_not_exists('PS_ORDER_PRODUCTS_NB_PER_PAGE', '8'); */;
+/* PHP:add_configuration_if_not_exists('PS_SEARCH_FUZZY', '1'); */;
+/* PHP:add_configuration_if_not_exists('PS_SEARCH_FUZZY_MAX_LOOP', '4'); */;
+/* PHP:add_configuration_if_not_exists('PS_SEARCH_MAX_WORD_LENGTH', '15'); */;
 
 /* Add field MPN to tables and assign empty values */
 /* PHP:add_column('order_detail', 'product_mpn', 'VARCHAR(40) NULL AFTER `product_upc`'); */;

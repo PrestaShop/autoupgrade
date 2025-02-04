@@ -22,14 +22,12 @@ DELETE FROM `PREFIX_access`
 DELETE FROM `PREFIX_configuration`
   WHERE `name` IN ('PS_REFERRERS_CACHE_LIKE', 'PS_REFERRERS_CACHE_DATE');
 
-INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES
-    ('PS_MAIL_DKIM_ENABLE', '0', NOW(), NOW()),
-    ('PS_MAIL_DKIM_DOMAIN', '', NOW(), NOW()),
-    ('PS_MAIL_DKIM_SELECTOR', '', NOW(), NOW()),
-    ('PS_MAIL_DKIM_KEY', '', NOW(), NOW()),
-    ('PS_WEBP_QUALITY', '80', NOW(), NOW()),
-    ('PS_SECURITY_TOKEN', '1', NOW(), NOW())
-;
+/* PHP:add_configuration_if_not_exists('PS_MAIL_DKIM_ENABLE', '0'); */;
+/* PHP:add_configuration_if_not_exists('PS_MAIL_DKIM_DOMAIN', ''); */;
+/* PHP:add_configuration_if_not_exists('PS_MAIL_DKIM_SELECTOR', ''); */;
+/* PHP:add_configuration_if_not_exists('PS_MAIL_DKIM_KEY', ''); */;
+/* PHP:add_configuration_if_not_exists('PS_WEBP_QUALITY', '80'); */;
+/* PHP:add_configuration_if_not_exists('PS_SECURITY_TOKEN', '1'); */;
 
 INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`) VALUES
   (NULL, 'actionValidateOrderAfter', 'New Order', 'This hook is called after validating an order by core', '1'),
@@ -223,11 +221,9 @@ UPDATE `PREFIX_tab` SET wording = 'New & Experimental Features' WHERE `class_nam
 UPDATE `PREFIX_quick_access` SET `link` = 'index.php/sell/orders' WHERE `link` = 'index.php?controller=AdminOrders';
 
 /* Insert new password policy configuration values */
-INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES
-  ('PS_SECURITY_PASSWORD_POLICY_MAXIMUM_LENGTH', '72', NOW(), NOW()),
-  ('PS_SECURITY_PASSWORD_POLICY_MINIMUM_LENGTH', '8', NOW(), NOW()),
-  ('PS_SECURITY_PASSWORD_POLICY_MINIMUM_SCORE', '3', NOW(), NOW())
-;
+/* PHP:add_configuration_if_not_exists('PS_SECURITY_PASSWORD_POLICY_MAXIMUM_LENGTH', '72'); */;
+/* PHP:add_configuration_if_not_exists('PS_SECURITY_PASSWORD_POLICY_MINIMUM_LENGTH', '8'); */;
+/* PHP:add_configuration_if_not_exists('PS_SECURITY_PASSWORD_POLICY_MINIMUM_SCORE', '3'); */;
 
 UPDATE `PREFIX_carrier` SET `name` = 'Click and collect' WHERE `name` = '0';
 
