@@ -16,6 +16,7 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
+import { isHttpErrorCode } from '../api/axiosError';
 import { ApiError } from '../types/apiTypes';
 
 export default class ErrorPageBuilder {
@@ -35,7 +36,7 @@ export default class ErrorPageBuilder {
    * If code is a HTTP error number (i.e 404, 500 etc.), let's change the text in the left column with it.
    */
   public updateLeftColumn(code: ApiError['code']): void {
-    if (this.#isHttpErrorCode(code)) {
+    if (isHttpErrorCode(code)) {
       const stringifiedCode = (code as number).toString().replaceAll('0', 'O');
       const errorCodeSlotElements = this.errorElement.querySelectorAll('.error-page__code-char');
       errorCodeSlotElements.forEach((element: Element, index: number) => {
@@ -52,16 +53,12 @@ export default class ErrorPageBuilder {
   public updateDescriptionBlock(errorDetails: Pick<ApiError, 'code' | 'type'>): void {
     const errorDescriptionElement = this.errorElement.querySelector('.error-page__desc');
     const userFriendlyDescriptionElement = errorDescriptionElement?.querySelector(
-      `.error-page__desc-${this.#isHttpErrorCode(errorDetails.code) ? errorDetails.code : errorDetails.type}`
+      `.error-page__desc-${isHttpErrorCode(errorDetails.code) ? errorDetails.code : errorDetails.type}`
     );
     if (userFriendlyDescriptionElement) {
       userFriendlyDescriptionElement.classList.remove('hidden');
     } else if (errorDescriptionElement && errorDetails.type) {
       errorDescriptionElement.innerHTML = errorDetails.type;
     }
-  }
-
-  #isHttpErrorCode(code?: number): boolean {
-    return typeof code === 'number' && code >= 300 && code.toString().length === 3;
   }
 }

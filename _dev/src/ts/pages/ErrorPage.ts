@@ -86,16 +86,11 @@ export default class ErrorPage extends PageAbstract {
 
     // Store the contents in the logs so it can be used in the error reporting modal
     if (event.detail.additionalContents) {
-      const logsContents =
-        typeof event.detail.additionalContents === 'object'
-          ? JSON.stringify(event.detail.additionalContents)
-          : event.detail.additionalContents;
-
       logStore.addLog({
         severity: Severity.SUCCESS,
         height: 0,
         offsetTop: 0,
-        message: logsContents
+        message: event.detail.additionalContents
       });
     }
 

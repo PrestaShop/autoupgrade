@@ -38,18 +38,18 @@ interface ApiResponseAction {
   status: string;
   next_desc: null | string;
   nextQuickInfo: string[];
-  nextErrors: string[];
   nextParams: {
     progressPercentage: number;
     [key: string]: unknown;
   };
+  apiError?: ApiError;
 }
 
 export interface ApiError {
   code?: number;
   type?: string;
   requestParams?: XMLHttpRequest;
-  additionalContents?: string | object;
+  additionalContents?: string;
 }
 export class SilencedApiError extends Error {}
 

@@ -17,9 +17,10 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 import baseApi from './baseApi';
-import { ApiResponse, ApiResponseAction, ApiResponseUnknown } from '../types/apiTypes';
+import { ApiError, ApiResponse, ApiResponseAction, ApiResponseUnknown } from '../types/apiTypes';
 import Hydration from '../utils/Hydration';
 import { AxiosError } from 'axios';
+import { toApiError, toApiResponseAction } from './axiosError';
 
 export class RequestHandler {
   #currentRequestAbortController: AbortController | null = null;
@@ -68,7 +69,7 @@ export class RequestHandler {
    * @description Sends a POST request to the API with the specified action.
    *              Automatically includes the `admin_dir` required by the backend.
    */
-  public async postAction(action: string): Promise<ApiResponseAction | void> {
+  public async postAction(action: string): Promise<ApiResponseAction> {
     const data = new FormData();
     data.append('action', action);
 
@@ -76,11 +77,11 @@ export class RequestHandler {
       const response = await baseApi.post<ApiResponseAction>('', data);
       return response.data;
     } catch (error: unknown) {
-      if (error instanceof AxiosError && error?.response?.data?.error) {
-        return error.response.data as ApiResponseAction;
+      if (error instanceof AxiosError) {
+        return toApiResponseAction(error);
       }
-      // TODO: catch errors
-      console.error(error);
+
+      throw error;
     }
   }
 
@@ -101,12 +102,7 @@ export class RequestHandler {
   }
 
   async #handleError(error: AxiosError<ApiResponseUnknown, XMLHttpRequest>): Promise<void> {
-    new Hydration().hydrateError({
-      code: error.status,
-      type: error.code,
-      requestParams: error.request,
-      additionalContents: error.response?.data
-    });
+    new Hydration().hydrateError(toApiError(error));
   }
 }
 

@@ -90,7 +90,6 @@ describe('RequestHandler', () => {
       status: 'ok',
       next_desc: 'description step',
       nextQuickInfo: [],
-      nextErrors: [],
       nextParams: {
         progressPercentage: 80
       }
