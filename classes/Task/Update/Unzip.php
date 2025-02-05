@@ -57,7 +57,7 @@ class Unzip extends AbstractTask
         );
 
         if ($this->container->getFilesystemAdapter()->clearDirectory($destExtract)) {
-            $this->logger->debug($this->translator->trans('files directory has been emptied'));
+            $this->logger->debug($this->translator->trans('Temporary files directory has been emptied'));
         }
         $relative_extract_path = str_replace(_PS_ROOT_DIR_, '', $destExtract);
         $report = '';

@@ -229,22 +229,6 @@ class FilesystemAdapter
         return true;
     }
 
-    public function clearDirectory(string $folderToClear): bool
-    {
-        if ($this->filesystem->exists($folderToClear)) {
-            foreach (scandir($folderToClear) as $item) {
-                if ($item !== '.' && $item !== '..' && $item !== 'index.php') {
-                    $path = $folderToClear . DIRECTORY_SEPARATOR . $item;
-                    $this->filesystem->remove($path);
-
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
     /**
      * Clears the contents of a given directory, optionally deleting the directory itself.
      *
