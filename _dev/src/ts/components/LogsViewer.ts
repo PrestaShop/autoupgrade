@@ -126,10 +126,10 @@ export default class LogsViewer extends ComponentAbstract implements DomLifecycl
       `.error-page__desc .error-page__desc-${isHttpErrorCode(error.code) ? error.code : error.type}`
     );
     if (detailedError) {
-      this.addLogs([`ERROR - ${detailedError.textContent}`]);
+      this.addLogs([`ERROR - ${detailedError.textContent}`.replace(/\n(\s)*$/gm, '')]);
     }
     this.addLogs([
-      `ERROR - HTTP request failed. Type: ${error.type ?? 'N/A'} - HTTP Code ${error.code ?? 'N/A'}`
+      `ERROR - HTTP request failed. Type: ${error.type ?? 'N/A'} - HTTP Code: ${error.code ?? 'N/A'}`
     ]);
 
     // Contents is added on the DOM in a hidden panel in order to:

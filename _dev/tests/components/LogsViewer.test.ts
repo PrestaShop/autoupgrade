@@ -16,6 +16,7 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
+import { AxiosError } from 'axios';
 import LogsViewer from '../../src/ts/components/LogsViewer';
 import { logStore } from '../../src/ts/store/LogStore';
 
@@ -70,6 +71,19 @@ describe('LogsViewer', () => {
       </template>
       <template id="summary-error-link">
         <a class="logs__summary-anchor link">See error</a>
+      </template>
+
+      <template id="error-page-template">
+        <div class="error-page__desc">
+          <div class="error-page__desc-404 hidden">
+            <p>The requested page or resource could not be found. This might be due to:</p>
+            <ul>
+              <li>A broken or outdated link.</li>
+              <li>The page being moved or deleted.</li>
+              <li>A typo in the URL.</li>
+            </ul>
+          </div>
+        </div>
       </template>
     `;
     document.body.appendChild(container);
@@ -166,6 +180,59 @@ describe('LogsViewer', () => {
       expect(consoleSpy).toHaveBeenCalledWith('Cannot display summary because logs are empty');
 
       consoleSpy.mockRestore();
+    });
+  });
+
+  describe('addError', () => {
+    beforeEach(() => {
+      jest.spyOn(logsViewer, 'addLogs').mockImplementation(() => {});
+    });
+
+    it('should add the detailed and generic error messages', () => {
+      logsViewer.addError({
+        type: 'IRRELEVANT_CODE',
+        code: 404,
+      });
+
+      expect(logsViewer.addLogs).toHaveBeenCalledTimes(2);
+      expect(logsViewer.addLogs).toHaveBeenNthCalledWith(1, [`ERROR - 
+            The requested page or resource could not be found. This might be due to:
+              A broken or outdated link.
+              The page being moved or deleted.
+              A typo in the URL.`]);
+      expect(logsViewer.addLogs).toHaveBeenNthCalledWith(2, ['ERROR - HTTP request failed. Type: IRRELEVANT_CODE - HTTP Code: 404']);
+      expect((container.querySelector('#log-additional-contents') as HTMLPreElement|null)?.innerText).toBeUndefined();
+    });
+
+    it('should only add the generic error message', () => {
+      logsViewer.addError({
+        type: 'SOME_ERROR_REASON_WE_HAVE_NOT_DETAILED',
+        code: 200,
+      });
+
+      expect(logsViewer.addLogs).toHaveBeenCalledTimes(1);
+      expect(logsViewer.addLogs).toHaveBeenNthCalledWith(1, ['ERROR - HTTP request failed. Type: SOME_ERROR_REASON_WE_HAVE_NOT_DETAILED - HTTP Code: 200']);
+      expect((container.querySelector('#log-additional-contents') as HTMLPreElement|null)?.innerText).toBeUndefined();
+    });
+
+    it('should fallback when no data is provided', () => {
+      logsViewer.addError({});
+
+      expect(logsViewer.addLogs).toHaveBeenCalledTimes(1);
+      expect(logsViewer.addLogs).toHaveBeenNthCalledWith(1, ['ERROR - HTTP request failed. Type: N/A - HTTP Code: N/A']);
+      expect((container.querySelector('#log-additional-contents') as HTMLPreElement|null)?.innerText).toBeUndefined();
+    });
+
+    it('should add the response contents in the block when provided', () => {
+      logsViewer.addError({
+        type: AxiosError.ERR_BAD_RESPONSE,
+        code: 500,
+        additionalContents: 'Oh no!'
+      });
+
+      expect(logsViewer.addLogs).toHaveBeenCalledTimes(1);
+      expect(logsViewer.addLogs).toHaveBeenNthCalledWith(1, ['ERROR - HTTP request failed. Type: ERR_BAD_RESPONSE - HTTP Code: 500']);
+      expect((container.querySelector('#log-additional-contents') as HTMLPreElement|null)?.innerText).toBe('Oh no!');
     });
   });
 });
