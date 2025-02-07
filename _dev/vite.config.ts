@@ -36,28 +36,34 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: './src/ts/main.ts',
-        theme: './src/scss/main.scss'
+        notificationsScript: './src/ts/notifications.ts',
+        theme: './src/scss/main.scss',
+        notificationsStyle: './src/scss/notifications.scss'
       },
       output: {
         dir: resolve(__dirname, '../views/'),
         entryFileNames: (chunkInfo) => {
-          if (
-            chunkInfo.facadeModuleId?.endsWith('.ts') ||
-            chunkInfo.facadeModuleId?.endsWith('.js')
-          ) {
+          if (chunkInfo.name === 'main') {
             return 'js/autoupgrade.js';
+          } else if (chunkInfo.name === 'notificationsScript') {
+            return 'js/notifications.js';
           }
           return 'js/[name].js';
         },
         assetFileNames: (assetInfo) => {
           const assetName = assetInfo.name || '';
 
-          if (assetName.endsWith('.css')) {
+          if (assetName === 'theme.css') {
             return 'css/autoupgrade.css';
-          } else if (/\.(webp|png|jpe?g|gif|svg)$/.test(assetName)) {
-            return 'img/[name].[ext]';
+          } else if (assetName === 'notificationsStyle.css') {
+            return 'css/notifications.css';
           }
-          return 'assets/[name].[ext]';
+
+          if (/\.(webp|png|jpe?g|gif|svg)$/.test(assetName)) {
+            return 'img/[name][extname]';
+          }
+
+          return 'assets/[name][extname]';
         }
       }
     },
