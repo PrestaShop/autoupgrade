@@ -2,6 +2,7 @@ on:
   push:
     branches:
       - dev
+      - fix/translation-extraction
 
 jobs:
   sync-translations:
@@ -16,7 +17,7 @@ jobs:
       - name: Checkout module-translation-tool
         uses: actions/checkout@v4
         with:
-          repository: PrestaShopCorp/module-translation-tool
+          repository: ga-devfront/module-translation-tool
           ref: main
       - name: Create config for module-translation-tool
         run: |
