@@ -191,36 +191,50 @@ describe('LogsViewer', () => {
     it('should add the detailed and generic error messages', () => {
       logsViewer.addError({
         type: 'IRRELEVANT_CODE',
-        code: 404,
+        code: 404
       });
 
       expect(logsViewer.addLogs).toHaveBeenCalledTimes(2);
-      expect(logsViewer.addLogs).toHaveBeenNthCalledWith(1, [`ERROR - 
+      expect(logsViewer.addLogs).toHaveBeenNthCalledWith(1, [
+        `ERROR - 
             The requested page or resource could not be found. This might be due to:
               A broken or outdated link.
               The page being moved or deleted.
-              A typo in the URL.`]);
-      expect(logsViewer.addLogs).toHaveBeenNthCalledWith(2, ['ERROR - HTTP request failed. Type: IRRELEVANT_CODE - HTTP Code: 404']);
-      expect((container.querySelector('#log-additional-contents') as HTMLPreElement|null)?.innerText).toBeUndefined();
+              A typo in the URL.`
+      ]);
+      expect(logsViewer.addLogs).toHaveBeenNthCalledWith(2, [
+        'ERROR - HTTP request failed. Type: IRRELEVANT_CODE - HTTP Code: 404'
+      ]);
+      expect(
+        (container.querySelector('#log-additional-contents') as HTMLPreElement | null)?.innerText
+      ).toBeUndefined();
     });
 
     it('should only add the generic error message', () => {
       logsViewer.addError({
         type: 'SOME_ERROR_REASON_WE_HAVE_NOT_DETAILED',
-        code: 200,
+        code: 200
       });
 
       expect(logsViewer.addLogs).toHaveBeenCalledTimes(1);
-      expect(logsViewer.addLogs).toHaveBeenNthCalledWith(1, ['ERROR - HTTP request failed. Type: SOME_ERROR_REASON_WE_HAVE_NOT_DETAILED - HTTP Code: 200']);
-      expect((container.querySelector('#log-additional-contents') as HTMLPreElement|null)?.innerText).toBeUndefined();
+      expect(logsViewer.addLogs).toHaveBeenNthCalledWith(1, [
+        'ERROR - HTTP request failed. Type: SOME_ERROR_REASON_WE_HAVE_NOT_DETAILED - HTTP Code: 200'
+      ]);
+      expect(
+        (container.querySelector('#log-additional-contents') as HTMLPreElement | null)?.innerText
+      ).toBeUndefined();
     });
 
     it('should fallback when no data is provided', () => {
       logsViewer.addError({});
 
       expect(logsViewer.addLogs).toHaveBeenCalledTimes(1);
-      expect(logsViewer.addLogs).toHaveBeenNthCalledWith(1, ['ERROR - HTTP request failed. Type: N/A - HTTP Code: N/A']);
-      expect((container.querySelector('#log-additional-contents') as HTMLPreElement|null)?.innerText).toBeUndefined();
+      expect(logsViewer.addLogs).toHaveBeenNthCalledWith(1, [
+        'ERROR - HTTP request failed. Type: N/A - HTTP Code: N/A'
+      ]);
+      expect(
+        (container.querySelector('#log-additional-contents') as HTMLPreElement | null)?.innerText
+      ).toBeUndefined();
     });
 
     it('should add the response contents in the block when provided', () => {
@@ -231,8 +245,12 @@ describe('LogsViewer', () => {
       });
 
       expect(logsViewer.addLogs).toHaveBeenCalledTimes(1);
-      expect(logsViewer.addLogs).toHaveBeenNthCalledWith(1, ['ERROR - HTTP request failed. Type: ERR_BAD_RESPONSE - HTTP Code: 500']);
-      expect((container.querySelector('#log-additional-contents') as HTMLPreElement|null)?.innerText).toBe('Oh no!');
+      expect(logsViewer.addLogs).toHaveBeenNthCalledWith(1, [
+        'ERROR - HTTP request failed. Type: ERR_BAD_RESPONSE - HTTP Code: 500'
+      ]);
+      expect(
+        (container.querySelector('#log-additional-contents') as HTMLPreElement | null)?.innerText
+      ).toBe('Oh no!');
     });
   });
 });
