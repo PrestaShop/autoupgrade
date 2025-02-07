@@ -1,0 +1,166 @@
+/**
+ * Copyright since 2007 PrestaShop SA and Contributors
+ * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License version 3.0
+ * that is bundled with this package in the file LICENSE.md.
+ * It is also available through the world-wide-web at this URL:
+ * https://opensource.org/licenses/AFL-3.0
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@prestashop.com so we can send you a copy immediately.
+ *
+ * @author    PrestaShop SA and Contributors <contact@prestashop.com>
+ * @copyright Since 2007 PrestaShop SA and Contributors
+ * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
+ */
+@use "../variables" as *;
+
+$e: ".ua-dialog";
+
+#{$e} {
+  --#{$ua-prefix}dialog-animation-duration: 0.25s;
+  width: 508px;
+  height: 100%;
+  max-width: calc(100% - 2rem);
+  padding: 0;
+  border: none;
+  border-radius: var(--#{$ua-prefix}border-radius);
+  box-shadow: var(--#{$ua-prefix}box-shadow-dialog);
+  transition: display var(--#{$ua-prefix}dialog-animation-duration) ease-out allow-discrete,
+  overlay var(--#{$ua-prefix}dialog-animation-duration) ease-out allow-discrete;
+  animation: dialog-hide var(--#{$ua-prefix}dialog-animation-duration) ease-out forwards;
+
+  &::backdrop {
+    background-color: rgb(0 0 0 / 0.5);
+    animation: backdrop-hide var(--#{$ua-prefix}dialog-animation-duration) ease-out forwards;
+  }
+
+  &[open] {
+    animation: dialog-show var(--#{$ua-prefix}dialog-animation-duration) ease-out forwards;
+
+    &::backdrop {
+      animation: backdrop-show var(--#{$ua-prefix}dialog-animation-duration) ease-out forwards;
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  &__header {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    width: 100%;
+    padding: 1.5rem;
+    padding-block-end: 0;
+    border: none;
+
+    .close {
+      display: flex;
+      flex-shrink: 0;
+      align-items: center;
+      float: none;
+      padding: 0.75rem;
+      margin: 0;
+      margin-inline-start: auto;
+      opacity: 1;
+      color: var(--#{$ua-prefix}base-text-color);
+      cursor: pointer;
+
+      &:hover {
+        color: var(--#{$ua-prefix}base-text-color-hover);
+      }
+
+      .material-icons {
+        font-size: 1.5rem;
+      }
+    }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding-block: 0;
+    padding-inline: 1.5rem;
+    font-size: 1rem;
+    line-height: 1.375;
+  }
+
+  &__footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: flex-end;
+    padding: 1.5rem;
+    padding-block-start: 0;
+    border: none;
+  }
+
+  // Custom dialogs
+  &:not(:has(#{$e}__footer)) {
+    #{$e}__body {
+      padding-block-end: 1.5rem;
+    }
+  }
+
+  &__spacer {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  &__no-backup {
+    margin-block: 0;
+
+    label {
+      font-weight: 400;
+    }
+  }
+
+  &__rocket-icon {
+    width: 1.425em;
+    height: 1.425em;
+  }
+
+  &__error-report-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  &--md {
+    width: 904px;
+    max-width: calc(100% - 2rem);
+  }
+
+  &--lg {
+    width: 1127px;
+    max-width: calc(100% - 2rem);
+  }
+
+  &--danger {
+    #{$e}__header {
+      &::before {
+        content: "\e872";
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+        width: 2.5rem;
+        height: 2.5rem;
+        background-color: var(--#{$ua-prefix}red-50);
+        border-radius: 999px;
+        font-family: var(--#{$ua-prefix}font-family-material-icons);
+        font-size: 1.5rem;
+        font-weight: 400;
+      }
+    }
+  }
+}

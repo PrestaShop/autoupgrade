@@ -11,6 +11,7 @@
     "scripts": {
         "vite:watch": "vite --config vite.dev.config.ts",
         "vite:build": "vite build",
+        "watch": "vite build --watch",
         "lint": "eslint",
         "lint:fix": "eslint --fix",
         "stylelint": "stylelint 'src/scss/**/*.scss'",

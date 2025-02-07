@@ -97,7 +97,7 @@ class Autoupgrade extends Module
             }
         }
 
-        return parent::install();
+        return parent::install() && $this->registerHook('actionAdminControllerSetMedia') && $this->registerHook('displayBackOfficeFooter');
     }
 
     /**
@@ -184,5 +184,29 @@ class Autoupgrade extends Module
         );
 
         return $translator->trans($id, $parameters);
+    }
+
+    /**
+     * Hook called after the backoffice content is rendered.
+     * Used to display the update notification dialog.
+     *
+     * @return string
+     */
+    public function hookDisplayBackOfficeFooter()
+    {
+        if (Tools::getValue('controller') == 'AdminDashboard') {           
+            $twig = new \Twig\Environment(new \Twig\Loader\FilesystemLoader([
+                _PS_ROOT_DIR_ . '/modules/' . $this->name . '/views/templates/hooks/'
+            ]));
+            
+            return $twig->render('dialog-update-notification.twig');
+        }
+    }
+
+
+    public function hookActionAdminControllerSetMedia()
+    {
+        $this->context->controller->addCSS($this->_path . 'views/css/notifications.css');
+        $this->context->controller->addJS($this->_path . 'views/js/notifications.js');
     }
 }
