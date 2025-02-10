@@ -17,149 +17,159 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 @use "../variables" as *;
+@use "../mixins" as *;
+@use "../fonts" as *;
 
-$e: ".ua-dialog";
+$e: ".dialog-notification";
+$media-query-mobile: 992px;
 
-#{$e} {
-  --#{$ua-prefix}dialog-animation-duration: 0.25s;
-  width: 508px;
-  height: 100%;
-  max-width: calc(100% - 2rem);
-  padding: 0;
-  border: none;
-  border-radius: var(--#{$ua-prefix}border-radius);
-  box-shadow: var(--#{$ua-prefix}box-shadow-dialog);
-  transition: display var(--#{$ua-prefix}dialog-animation-duration) ease-out allow-discrete,
-  overlay var(--#{$ua-prefix}dialog-animation-duration) ease-out allow-discrete;
-  animation: dialog-hide var(--#{$ua-prefix}dialog-animation-duration) ease-out forwards;
-
-  &::backdrop {
-    background-color: rgb(0 0 0 / 0.5);
-    animation: backdrop-hide var(--#{$ua-prefix}dialog-animation-duration) ease-out forwards;
-  }
-
-  &[open] {
-    animation: dialog-show var(--#{$ua-prefix}dialog-animation-duration) ease-out forwards;
+#ua-dialog {
+  #{$e} {
+    --#{$ua-prefix}dialog-animation-duration: 0.25s;
+    width: 30rem;
+    min-height: 33rem;
+    max-width: calc(100% - 2rem);
+    max-height: calc(100% - 2rem);
+    padding: 0;
+    border: none;
+    border-radius: var(--#{$ua-prefix}border-radius);
+    box-shadow: var(--#{$ua-prefix}box-shadow-dialog);
+    transition: display var(--#{$ua-prefix}dialog-animation-duration) ease-out allow-discrete,
+    overlay var(--#{$ua-prefix}dialog-animation-duration) ease-out allow-discrete;
+    animation: dialog-hide var(--#{$ua-prefix}dialog-animation-duration) ease-out forwards;
 
     &::backdrop {
-      animation: backdrop-show var(--#{$ua-prefix}dialog-animation-duration) ease-out forwards;
+      background-color: rgb(0 0 0 / 0.6);
+      animation: backdrop-hide var(--#{$ua-prefix}dialog-animation-duration) ease-out forwards;
     }
-  }
 
-  &__content {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
+    &[open] {
+      display: grid;
+      animation: dialog-show var(--#{$ua-prefix}dialog-animation-duration) ease-out forwards;
 
-  &__header {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-    width: 100%;
-    padding: 1.5rem;
-    padding-block-end: 0;
-    border: none;
+      &::backdrop {
+        animation: backdrop-show var(--#{$ua-prefix}dialog-animation-duration) ease-out forwards;
+      }
+    }
 
-    .close {
+    &__content {
+      display: grid;
+      grid-template-columns: 1fr;
+      height: 100%;
+    }
+
+    &__left {
+      display: grid;
+      align-content: center;
+      justify-items: start;
+      gap: 1rem;
+      padding: 1.5rem 1.25rem;
+      background-color: var(--#{$ua-prefix}black);
+    }
+
+    &__right {
       display: flex;
-      flex-shrink: 0;
-      align-items: center;
-      float: none;
-      padding: 0.75rem;
-      margin: 0;
-      margin-inline-start: auto;
-      opacity: 1;
-      color: var(--#{$ua-prefix}base-text-color);
-      cursor: pointer;
+      flex-direction: column;
+      align-content: center;
+      gap: 1.5rem;
+      padding: 1rem;
+    }
+
+    &__badge {
+      font-size: 0.875rem;
+      line-height: 1.25;
+      font-weight: 600;
+      padding: 0.1875rem 0.5rem;
+      border-radius: 0.5rem;
+      background-color: var(--#{$ua-prefix}primary);
+    }
+
+    &__title {
+      font-family: var(--#{$ua-prefix}font-family-prestafont);
+      font-size: clamp(2rem, 1.75vw + 1.5rem, 2.875rem);
+      font-weight: 400;
+      line-height: 1.125;
+      text-wrap: balance;
+      color: var(--#{$ua-prefix}white);
+      word-break: break-word;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    &__informations {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    &__section {
+      display: grid;
+      gap: 0.25rem;
+
+      &-title {
+        font-size: 0.75rem;
+        line-height: 1.5;
+        color: var(--#{$ua-prefix}primary-600);
+      }
+
+      &-content {
+        font-size: 0.875rem;
+        line-height: 1.5;
+        color: var(--#{$ua-prefix}primary-700);
+        margin: 0;
+      }
+    }
+
+    &__link {
+      white-space: nowrap;
+      color: var(--#{$ua-prefix}primary-700);
+      text-decoration: underline;
+      text-underline-offset: 0.125rem;
+      transition: text-underline-offset 0.15s;
 
       &:hover {
-        color: var(--#{$ua-prefix}base-text-color-hover);
-      }
-
-      .material-icons {
-        font-size: 1.5rem;
+        color: var(--#{$ua-prefix}primary-800);
+        text-underline-offset: 0.25rem;
       }
     }
-  }
 
-  &__body {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    padding-block: 0;
-    padding-inline: 1.5rem;
-    font-size: 1rem;
-    line-height: 1.375;
-  }
+    &__buttons {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
 
-  &__footer {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: flex-end;
-    padding: 1.5rem;
-    padding-block-start: 0;
-    border: none;
-  }
-
-  // Custom dialogs
-  &:not(:has(#{$e}__footer)) {
-    #{$e}__body {
-      padding-block-end: 1.5rem;
+    &__button {
+      text-transform: none;
     }
   }
 
-  &__spacer {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
+  @media screen and (min-width: $media-query-mobile) {
+    #{$e} {
+      width: 58rem;
 
-  &__no-backup {
-    margin-block: 0;
+      &__content {
+        grid-template-columns: 33rem 1fr;
+        height: 100%;
+      }
 
-    label {
-      font-weight: 400;
-    }
-  }
+      &__left {
+        padding: 1.25rem;
+      }
 
-  &__rocket-icon {
-    width: 1.425em;
-    height: 1.425em;
-  }
+      &__right {
+        gap: 1rem;
+        padding: 1.5rem;
+      }
 
-  &__error-report-form {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
+      &__title {
+        font-size: 3.375rem;
+      }
 
-  &--md {
-    width: 904px;
-    max-width: calc(100% - 2rem);
-  }
-
-  &--lg {
-    width: 1127px;
-    max-width: calc(100% - 2rem);
-  }
-
-  &--danger {
-    #{$e}__header {
-      &::before {
-        content: "\e872";
-        display: flex;
-        flex-shrink: 0;
-        align-items: center;
-        justify-content: center;
-        width: 2.5rem;
-        height: 2.5rem;
-        background-color: var(--#{$ua-prefix}red-50);
-        border-radius: 999px;
-        font-family: var(--#{$ua-prefix}font-family-material-icons);
-        font-size: 1.5rem;
-        font-weight: 400;
+      &__badge {
+        font-size: 1.125rem;
+        padding: 0.1875rem 1rem;
       }
     }
   }
