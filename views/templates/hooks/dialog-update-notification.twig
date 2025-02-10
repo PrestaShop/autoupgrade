@@ -1,68 +1,81 @@
-{# vite load the script #}
-<script type="module" src="http://localhost:5173/@vite/client" defer></script>
-<link rel="stylesheet" href="http://localhost:5173/src/scss/notifications.scss" type="text/css">
+{# @todo translation + add dynamic ps version #}
+{% set version_type = 'major' %}
+{% set version_type_label = 'Major' %}
+{% set version = '9.0.0' %}
+{% set contact_expert_url = 'https://experts.prestashop.com/english/experts/' %}
 
-<div id="ua-dialog" class="v1-7-8-0">
-  <dialog class="dialog-notification" id="dialog-update-notification" aria-label="Update notification">
+<div id="ua-dialog" class="bootstrap">
+  <dialog class="dialog-notification" id="dialog-update-notification" aria-label="{{ 'Update notification' }}">
     <div class="dialog-notification__content">
       <div class="dialog-notification__left">
         <span class="dialog-notification__badge">
-          Nouvelle version disponible
+          {{ 'New available ' ~ version_type_label }}
         </span>
+
         <span class="dialog-notification__title">
-          De nouvelles fonctionnalités sont disponibles
+          {{ 'New features are available' }}
         </span>
       </div>
+
       <div class="dialog-notification__right">
         <div class="dialog-notification__informations">
           <div class="dialog-notification__section">
             <span class="dialog-notification__section-title">
-              Description
+              {{ 'Description'}}
             </span>
 
             <p class="dialog-notification__section-content">
-              Les versions majeures introduisent de nouvelles fonctionnalités qui peuvent rompre la compatibilité ascendante, ainsi que de nouvelles fonctionnalités rétrocompatibles et des corrections de bugs.
-              <a class="dialog-notification__link" href="#">Voir la mise à jour</a>
+              {{ 'Patches are fixes made between major and minor versions. They introduce security and bug fixes.' }}
+              <a class="dialog-notification__link" href="#" target="_blank">{{ 'See the update' }}</a>
             </p>
           </div>
 
           <div class="dialog-notification__section">
             <span class="dialog-notification__section-title">
-              Version
+              {{ 'Version' }}
             </span>
+
             <p class="dialog-notification__section-content">
-              8.7.2
+              {{ version }}
             </p>
           </div>
 
           <div class="dialog-notification__section">
             <span class="dialog-notification__section-title">
-              Type d'améliorations
+              {{ 'Type of improvements' }}
             </span>
+
             <p class="dialog-notification__section-content">
-              Nouvelles fonctionnalités<br>
-              Améliorations de fonctionnalités existantes<br>
-              Correctifs de sécurité et de bugs
+              {% if version_type == 'patch' %}
+                {{ 'Bugs, security patches' }}
+              {% elseif version_type == 'minor' %}
+                {{ 'Bugs, security patches, new features' }}
+              {% elseif version_type == 'major' %}
+                {{ 'New features, Improvements to existing features, Security and bug fixes' }}
+              {% endif %}
             </p>
           </div>
 
           <div class="dialog-notification__section">
             <span class="dialog-notification__section-title">
-              Besoin d'aide ?
+              {{ 'Need help?' }}
             </span>
+
             <p class="dialog-notification__section-content">
-              Si vous rencontrez des difficultés pour installer la mise à jour, nos experts peuvent vous aider !
-              <a class="dialog-notification__link" href="#">Contactez un expert</a>
+              {{ 'If you\'re having trouble performing the update, our experts can help!'}}
+              <a class="dialog-notification__link" href="{{ contact_expert_url }}" target="_blank">{{ 'Contact an expert' }}</a>
             </p>
           </div>
         </div>
+
         <div class="dialog-notification__buttons">
-          <button class="dialog-notification__button btn btn-default" data-dismiss="dialog">
-            Later
-          </button>
-          <button class="dialog-notification__button btn btn-primary">
-            Update
-          </button>
+          <a class="dialog-notification__button btn btn-default" href="#" data-dismiss="dialog">
+            {{ 'Later' }}
+          </a>
+
+          <a class="dialog-notification__button btn btn-primary" href="#">
+            {{ 'Update' }}
+          </a>
         </div>
       </div>
     </div>

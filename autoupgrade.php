@@ -97,7 +97,7 @@ class Autoupgrade extends Module
             }
         }
 
-        return parent::install() && $this->registerHook('actionAdminControllerSetMedia') && $this->registerHook('displayBackOfficeFooter');
+        return parent::install() && $this->registerHook('actionAdminControllerSetMedia') && $this->registerHook('displayBackOfficeHeader');
     }
 
     /**
@@ -192,17 +192,23 @@ class Autoupgrade extends Module
      *
      * @return string
      */
-    public function hookDisplayBackOfficeFooter()
+    public function hookDisplayBackOfficeHeader()
     {
-        if (Tools::getValue('controller') == 'AdminDashboard') {           
+        $controller = Tools::getValue('controller');
+        $employee = new Employee($this->context->employee->id);
+        $default_tab_id = $employee->default_tab;
+
+        $tab = new Tab($default_tab_id);
+        $default_controller = $tab->class_name;
+
+        if ($controller == $default_controller) {
             $twig = new \Twig\Environment(new \Twig\Loader\FilesystemLoader([
                 _PS_ROOT_DIR_ . '/modules/' . $this->name . '/views/templates/hooks/'
             ]));
-            
+
             return $twig->render('dialog-update-notification.twig');
         }
     }
-
 
     public function hookActionAdminControllerSetMedia()
     {
