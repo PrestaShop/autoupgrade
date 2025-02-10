@@ -27,8 +27,8 @@ $media-query-mobile: 992px;
   #{$e} {
     --#{$ua-prefix}dialog-animation-duration: 0.25s;
     width: 30rem;
-    min-height: 33rem;
     max-width: calc(100% - 2rem);
+    min-height: 33rem;
     max-height: calc(100% - 2rem);
     padding: 0;
     border: none;
@@ -60,9 +60,9 @@ $media-query-mobile: 992px;
 
     &__left {
       display: grid;
+      gap: 1rem;
       align-content: center;
       justify-items: start;
-      gap: 1rem;
       padding: 1.5rem 1.25rem;
       background-color: var(--#{$ua-prefix}black);
     }
@@ -70,18 +70,18 @@ $media-query-mobile: 992px;
     &__right {
       display: flex;
       flex-direction: column;
-      align-content: center;
       gap: 1.5rem;
+      align-content: center;
       padding: 1rem;
     }
 
     &__badge {
-      font-size: 0.875rem;
-      line-height: 1.25;
-      font-weight: 600;
       padding: 0.1875rem 0.5rem;
-      border-radius: 0.5rem;
       background-color: var(--#{$ua-prefix}primary);
+      border-radius: 0.5rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      line-height: 1.25;
     }
 
     &__title {
@@ -89,18 +89,18 @@ $media-query-mobile: 992px;
       font-size: clamp(2rem, 1.75vw + 1.5rem, 2.875rem);
       font-weight: 400;
       line-height: 1.125;
-      text-wrap: balance;
       color: var(--#{$ua-prefix}white);
+      text-wrap: balance;
       word-break: break-word;
       -webkit-font-smoothing: antialiased;
     }
 
     &__informations {
-      flex-grow: 1;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      flex-grow: 1;
       gap: 1rem;
+      justify-content: center;
     }
 
     &__section {
@@ -114,18 +114,18 @@ $media-query-mobile: 992px;
       }
 
       &-content {
+        margin: 0;
         font-size: 0.875rem;
         line-height: 1.5;
         color: var(--#{$ua-prefix}primary-700);
-        margin: 0;
       }
     }
 
     &__link {
-      white-space: nowrap;
       color: var(--#{$ua-prefix}primary-700);
       text-decoration: underline;
       text-underline-offset: 0.125rem;
+      white-space: nowrap;
       transition: text-underline-offset 0.15s;
 
       &:hover {
@@ -168,8 +168,8 @@ $media-query-mobile: 992px;
       }
 
       &__badge {
-        font-size: 1.125rem;
         padding: 0.1875rem 1rem;
+        font-size: 1.125rem;
       }
     }
   }
