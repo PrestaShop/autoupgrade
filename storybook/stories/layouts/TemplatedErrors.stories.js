@@ -28,8 +28,8 @@ export default {
   args: {
     psBaseUri: "/",
     assets_base_path: "",
-    ps_version: "9️⃣.0️⃣.0️⃣",
-    app_parent_id: "update-assistant",
+    ps_version: "9.0.0",
+    app_parent_id: "update_assistant",
     page_parent_id: "ua_page",
     step_parent_id: "ua_container",
     stepper_parent_id: "stepper_content",
