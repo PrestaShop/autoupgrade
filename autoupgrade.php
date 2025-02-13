@@ -191,9 +191,26 @@ class Autoupgrade extends Module
      * Used to display the update notification dialog.
      *
      * @return string
+     *
+     * @throws \PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException
+     * @throws \PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
      */
     public function hookDisplayBackOfficeHeader()
     {
+        require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/classes/VersionUtils.php';
+        if (!\PrestaShop\Module\AutoUpgrade\VersionUtils::isActualPHPVersionCompatible()) {
+            return;
+        }
+
+        $autoloadPath = __DIR__ . '/vendor/autoload.php';
+        if (file_exists($autoloadPath)) {
+            require_once $autoloadPath;
+        }
+
+        // check if we are on employee default page
         $controller = Tools::getValue('controller');
         $employee = new Employee($this->context->employee->id);
         $default_tab_id = $employee->default_tab;
@@ -201,18 +218,70 @@ class Autoupgrade extends Module
         $tab = new Tab($default_tab_id);
         $default_controller = $tab->class_name;
 
-        if ($controller == $default_controller) {
-            $twig = new \Twig\Environment(new \Twig\Loader\FilesystemLoader([
-                _PS_ROOT_DIR_ . '/modules/' . $this->name . '/views/templates/hooks/'
-            ]));
-
-            return $twig->render('dialog-update-notification.twig');
+        if ($controller !== $default_controller) {
+            return;
         }
+
+        require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/classes/UpgradeContainer.php';
+        require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/classes/Router/Routes.php';
+
+        $container = new \PrestaShop\Module\AutoUpgrade\UpgradeContainer(_PS_ROOT_DIR_, realpath(_PS_ADMIN_DIR_));
+
+        // check if new version is available
+        if (!$container->getUpgrader()->isNewerVersionAvailableOnline()) {
+            return;
+        }
+
+        $twig = $container->getTwig();
+
+        $htmlToReturn = '<script src="' . ($this->_path . 'views/js/autoupgrade-notifications.js') . '" type="module"></script>';
+
+        $psVersion = $container->getProperty($container::PS_VERSION);
+        $psClass = '';
+
+        if (version_compare($psVersion, '1.7.8.0', '<')) {
+            $psClass = 'v1-7-3-0';
+        } elseif (version_compare($psVersion, '9.0.0', '<')) {
+            $psClass = 'v1-7-8-0';
+        }
+
+        $onlineDestination = $container->getUpgrader()->getOnlineDestinationRelease();
+        $onlineVersion = $onlineDestination->getVersion();
+        $releaseNote = $onlineDestination->getReleaseNoteUrl();
+
+        $updateType = \PrestaShop\Module\AutoUpgrade\VersionUtils::getUpdateType($psVersion, $onlineVersion);
+
+        $translator = $container->getTranslator();
+
+        $updateTypeLabel = '';
+
+        switch($updateType) {
+            case 'major';
+                $updateTypeLabel = $translator->trans('Major');
+                break;
+            case 'minor';
+                $updateTypeLabel = $translator->trans('Minor');
+                break;
+            case 'patch';
+                $updateTypeLabel = $translator->trans('Patch');
+                break;
+        }
+
+        $htmlToReturn .= $twig->render('@ModuleAutoUpgrade/hooks/dialog-update-notification.html.twig', [
+            'version_class' => $psClass,
+            'version_type' => $updateType,
+            'version_type_label' => $updateTypeLabel,
+            'version' => $onlineVersion,
+            'contact_expert_url' => 'https://experts.prestashop.com/english/experts/',
+            'update_link' => $this->context->link->getAdminLink('AdminSelfUpgrade') . '&route=' . \PrestaShop\Module\AutoUpgrade\Router\Routes::UPDATE_PAGE_VERSION_CHOICE,
+            'release_note' => $releaseNote,
+        ]);
+
+        return $htmlToReturn;
     }
 
     public function hookActionAdminControllerSetMedia()
     {
-        $this->context->controller->addCSS($this->_path . 'views/css/notifications.css');
-        $this->context->controller->addJS($this->_path . 'views/js/notifications.js');
+        $this->context->controller->addCSS($this->_path . 'views/css/autoupgrade-notifications.css');
     }
 }

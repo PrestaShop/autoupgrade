@@ -46,7 +46,7 @@ export default defineConfig({
           if (chunkInfo.name === 'main') {
             return 'js/autoupgrade.js';
           } else if (chunkInfo.name === 'notificationsScript') {
-            return 'js/notifications.js';
+            return 'js/autoupgrade-notifications.js';
           }
           return 'js/[name].js';
         },
@@ -56,7 +56,7 @@ export default defineConfig({
           if (assetName === 'theme.css') {
             return 'css/autoupgrade.css';
           } else if (assetName === 'notificationsStyle.css') {
-            return 'css/notifications.css';
+            return 'css/autoupgrade-notifications.css';
           }
 
           if (/\.(webp|png|jpe?g|gif|svg)$/.test(assetName)) {
