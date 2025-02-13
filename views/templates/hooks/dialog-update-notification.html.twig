@@ -1,19 +1,13 @@
-{# @todo translation + add dynamic ps version #}
-{% set version_type = 'major' %}
-{% set version_type_label = 'Major' %}
-{% set version = '9.0.0' %}
-{% set contact_expert_url = 'https://experts.prestashop.com/english/experts/' %}
-
-<div id="ua-dialog" class="bootstrap">
+<div id="ua-dialog" class="bootstrap {{ version_class }}">
   <dialog class="dialog-notification" id="dialog-update-notification" aria-label="{{ 'Update notification' }}">
     <div class="dialog-notification__content">
       <div class="dialog-notification__left">
         <span class="dialog-notification__badge">
-          {{ 'New available ' ~ version_type_label }}
+          {{ 'New available %version_type_label%'|trans({ '%version_type_label%': version_type_label }) }}
         </span>
 
         <span class="dialog-notification__title">
-          {{ 'New features are available' }}
+          {{ 'New features are available'|trans({}) }}
         </span>
       </div>
 
@@ -21,18 +15,24 @@
         <div class="dialog-notification__informations">
           <div class="dialog-notification__section">
             <span class="dialog-notification__section-title">
-              {{ 'Description'}}
+              {{ 'Description'|trans({}) }}
             </span>
 
             <p class="dialog-notification__section-content">
-              {{ 'Patches are fixes made between major and minor versions. They introduce security and bug fixes.' }}
-              <a class="dialog-notification__link" href="#" target="_blank">{{ 'See the update' }}</a>
+              {% if version_type == 'patch' %}
+                {{ 'Patches are fixes made between major and minor versions. They introduce security and bug fixes.'|trans({}) }}
+              {% elseif version_type == 'minor' %}
+                {{ 'The minor releases introduce new backward-compatible features, security improvements and bug fixes.'|trans({}) }}
+              {% elseif version_type == 'major' %}
+                {{ 'Major releases introduce new features that may break backward compatibility, as well as new backward-compatible features and bug fixes.'|trans({}) }}
+              {% endif %}
+              <a class="dialog-notification__link" href="{{ release_note }}" target="_blank">{{ 'See the update'|trans({}) }}</a>
             </p>
           </div>
 
           <div class="dialog-notification__section">
             <span class="dialog-notification__section-title">
-              {{ 'Version' }}
+              {{ 'Version'|trans({}) }}
             </span>
 
             <p class="dialog-notification__section-content">
@@ -42,39 +42,39 @@
 
           <div class="dialog-notification__section">
             <span class="dialog-notification__section-title">
-              {{ 'Type of improvements' }}
+              {{ 'Type of improvements'|trans({}) }}
             </span>
 
             <p class="dialog-notification__section-content">
               {% if version_type == 'patch' %}
-                {{ 'Bugs, security patches' }}
+                {{ 'Bugs, security patches'|trans({}) }}
               {% elseif version_type == 'minor' %}
-                {{ 'Bugs, security patches, new features' }}
+                {{ 'Bugs, security patches, new features'|trans({}) }}
               {% elseif version_type == 'major' %}
-                {{ 'New features, Improvements to existing features, Security and bug fixes' }}
+                {{ 'New features, Improvements to existing features, Security and bug fixes'|trans({}) }}
               {% endif %}
             </p>
           </div>
 
           <div class="dialog-notification__section">
             <span class="dialog-notification__section-title">
-              {{ 'Need help?' }}
+              {{ 'Need help?'|trans({}) }}
             </span>
 
             <p class="dialog-notification__section-content">
-              {{ 'If you\'re having trouble performing the update, our experts can help!'}}
-              <a class="dialog-notification__link" href="{{ contact_expert_url }}" target="_blank">{{ 'Contact an expert' }}</a>
+              {{ 'If you\'re having trouble performing the update, our experts can help!'|trans({}) }}
+              <a class="dialog-notification__link" href="{{ contact_expert_url }}" target="_blank">{{ 'Contact an expert'|trans({}) }}</a>
             </p>
           </div>
         </div>
 
         <div class="dialog-notification__buttons">
           <a class="dialog-notification__button btn btn-default" href="#" data-dismiss="dialog">
-            {{ 'Later' }}
+            {{ 'Later'|trans({}) }}
           </a>
 
-          <a class="dialog-notification__button btn btn-primary" href="#">
-            {{ 'Update' }}
+          <a class="dialog-notification__button btn btn-primary" href="{{ update_link }}">
+            {{ 'Update'|trans({}) }}
           </a>
         </div>
       </div>
