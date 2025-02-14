@@ -36,17 +36,17 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: './src/ts/main.ts',
-        notificationsScript: './src/ts/notifications.ts',
+        externalScript: './src/ts/external.ts',
         theme: './src/scss/main.scss',
-        notificationsStyle: './src/scss/notifications.scss'
+        externalTheme: './src/scss/external.scss'
       },
       output: {
         dir: resolve(__dirname, '../views/'),
         entryFileNames: (chunkInfo) => {
           if (chunkInfo.name === 'main') {
             return 'js/autoupgrade.js';
-          } else if (chunkInfo.name === 'notificationsScript') {
-            return 'js/autoupgrade-notifications.js';
+          } else if (chunkInfo.name === 'externalScript') {
+            return 'js/autoupgrade-external.js';
           }
           return 'js/[name].js';
         },
@@ -55,8 +55,8 @@ export default defineConfig({
 
           if (assetName === 'theme.css') {
             return 'css/autoupgrade.css';
-          } else if (assetName === 'notificationsStyle.css') {
-            return 'css/autoupgrade-notifications.css';
+          } else if (assetName === 'externalTheme.css') {
+            return 'css/autoupgrade-external.css';
           }
 
           if (/\.(webp|png|jpe?g|gif|svg)$/.test(assetName)) {
