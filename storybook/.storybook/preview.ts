@@ -27,7 +27,7 @@ import { Preview, twig } from "@sensiolabs/storybook-symfony-webpack5";
 import "../../_dev/src/scss/main.scss";
 import "../../_dev/tests/fakeWindow";
 import "../../_dev/src/ts/main";
-import '../../_dev/src/scss/notifications.scss'
+import '../../_dev/src/scss/external.scss'
 
 const cssEntrypoints = {
   "9.0.0": ["/9.0.0/default/theme.css"],
@@ -89,7 +89,7 @@ const preview: Preview = {
       const calledStory = story();
       calledStory.template = context.parameters.internalWrapper ? twig(`
         <div id="main">
-          <div id="ua-dialog" class="bootstrap ${selectedThemeClass}">
+          <div id="update_assistant_external" class="${selectedThemeClass}">
             ${calledStory.template.getSource()}
             ${cssContents.map((cssFile) => `<link rel="stylesheet" type="text/css" href="${cssFile}" />`)}
           </div>

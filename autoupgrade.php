@@ -224,6 +224,7 @@ class Autoupgrade extends Module
 
         require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/classes/UpgradeContainer.php';
         require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/classes/Router/Routes.php';
+        require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/classes/Twig/PageSelectors.php';
 
         $container = new \PrestaShop\Module\AutoUpgrade\UpgradeContainer(_PS_ROOT_DIR_, realpath(_PS_ADMIN_DIR_));
 
@@ -234,7 +235,7 @@ class Autoupgrade extends Module
 
         $twig = $container->getTwig();
 
-        $htmlToReturn = '<script src="' . ($this->_path . 'views/js/autoupgrade-notifications.js') . '" type="module"></script>';
+        $htmlToReturn = '<script src="' . ($this->_path . 'views/js/autoupgrade-external.js') . '" type="module"></script>';
 
         $psVersion = $container->getProperty($container::PS_VERSION);
         $psClass = '';
@@ -253,7 +254,9 @@ class Autoupgrade extends Module
 
         $translator = $container->getTranslator();
 
-        $htmlToReturn .= $twig->render('@ModuleAutoUpgrade/hooks/dialog-update-notification.html.twig', [
+        $htmlToReturn .= $twig->render('@ModuleAutoUpgrade/hooks/external-layout.html.twig', [
+            'external_parent_id' => \PrestaShop\Module\AutoUpgrade\Twig\PageSelectors::EXTERNAL_PARENT_ID,
+            'component' => 'dialog-update-notification',
             'version_class' => $psClass,
             'version_type' => $updateType,
             'version' => $onlineVersion,
@@ -267,6 +270,6 @@ class Autoupgrade extends Module
 
     public function hookActionAdminControllerSetMedia()
     {
-        $this->context->controller->addCSS($this->_path . 'views/css/autoupgrade-notifications.css');
+        $this->context->controller->addCSS($this->_path . 'views/css/autoupgrade-external.css');
     }
 }
