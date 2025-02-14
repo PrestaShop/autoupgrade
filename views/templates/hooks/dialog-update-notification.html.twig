@@ -3,7 +3,13 @@
     <div class="dialog-notification__content">
       <div class="dialog-notification__left">
         <span class="dialog-notification__badge">
-          {{ 'New available %version_type_label%'|trans({ '%version_type_label%': version_type_label }) }}
+          {% if version_type == 'patch' %}
+            {{ 'New available Patch'|trans({}) }}
+          {% elseif version_type == 'minor' %}
+            {{ 'New available Minor'|trans({}) }}
+          {% elseif version_type == 'major' %}
+            {{ 'New available Major'|trans({}) }}
+          {% endif %}
         </span>
 
         <span class="dialog-notification__title">
