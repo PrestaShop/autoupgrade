@@ -35,8 +35,9 @@ $media-query-mobile: 992px;
     border: none;
     border-radius: var(--#{$ua-prefix}border-radius);
     box-shadow: var(--#{$ua-prefix}box-shadow-dialog);
-    transition: display var(--#{$ua-prefix}dialog-animation-duration) ease-out allow-discrete,
-    overlay var(--#{$ua-prefix}dialog-animation-duration) ease-out allow-discrete;
+    transition:
+      display var(--#{$ua-prefix}dialog-animation-duration) ease-out allow-discrete,
+      overlay var(--#{$ua-prefix}dialog-animation-duration) ease-out allow-discrete;
     animation: dialog-hide var(--#{$ua-prefix}dialog-animation-duration) ease-out forwards;
 
     &::backdrop {
