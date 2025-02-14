@@ -20,11 +20,11 @@
 @use "../mixins" as *;
 @use "../fonts" as *;
 
-$dialog-id: "#ua-dialog";
+$external-id: "#update_assistant_external";
 $e: ".dialog-notification";
 $media-query-mobile: 992px;
 
-#{$dialog-id} {
+#{$external-id} {
   #{$e} {
     --#{$ua-prefix}dialog-animation-duration: 0.25s;
     --#{$ua-prefix}dialog-badge-background-color: var(--#{$ua-prefix}purple-500);
