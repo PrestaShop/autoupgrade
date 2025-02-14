@@ -16,7 +16,7 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   const dialog = document.getElementById('dialog-update-notification');
 
   if (dialog instanceof HTMLDialogElement) {
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
       dialog.showModal();
     }, 1500);
   }
-  
+
   const closeButton = dialog?.querySelector('[data-dismiss="dialog"]');
 
   if (closeButton) {
