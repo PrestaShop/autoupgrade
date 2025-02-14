@@ -202,7 +202,7 @@ class Autoupgrade extends Module
     {
         require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/classes/VersionUtils.php';
         if (!\PrestaShop\Module\AutoUpgrade\VersionUtils::isActualPHPVersionCompatible()) {
-            return;
+            return '';
         }
 
         $autoloadPath = __DIR__ . '/vendor/autoload.php';
@@ -219,7 +219,7 @@ class Autoupgrade extends Module
         $default_controller = $tab->class_name;
 
         if ($controller !== $default_controller) {
-            return;
+            return '';
         }
 
         require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/classes/UpgradeContainer.php';
@@ -230,7 +230,7 @@ class Autoupgrade extends Module
 
         // check if new version is available
         if (!$container->getUpgrader()->isNewerVersionAvailableOnline()) {
-            return;
+            return '';
         }
 
         $twig = $container->getTwig();
@@ -252,8 +252,6 @@ class Autoupgrade extends Module
 
         $updateType = \PrestaShop\Module\AutoUpgrade\VersionUtils::getUpdateType($psVersion, $onlineVersion);
 
-        $translator = $container->getTranslator();
-
         $htmlToReturn .= $twig->render('@ModuleAutoUpgrade/hooks/external-layout.html.twig', [
             'external_parent_id' => \PrestaShop\Module\AutoUpgrade\Twig\PageSelectors::EXTERNAL_PARENT_ID,
             'component' => 'dialog-update-notification',
@@ -268,6 +266,9 @@ class Autoupgrade extends Module
         return $htmlToReturn;
     }
 
+    /**
+     * @return void
+     */
     public function hookActionAdminControllerSetMedia()
     {
         $this->context->controller->addCSS($this->_path . 'views/css/autoupgrade-external.css');
