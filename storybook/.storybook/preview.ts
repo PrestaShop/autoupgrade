@@ -27,6 +27,7 @@ import { Preview, twig } from "@sensiolabs/storybook-symfony-webpack5";
 import "../../_dev/src/scss/main.scss";
 import "../../_dev/tests/fakeWindow";
 import "../../_dev/src/ts/main";
+import '../../_dev/src/scss/notifications.scss'
 
 const cssEntrypoints = {
   "9.0.0": ["/9.0.0/default/theme.css"],
@@ -41,6 +42,7 @@ const preview: Preview = {
     backgrounds: {
       disable: true,
     },
+    internalWrapper: false,
     options: {
       storySort: (a, b) =>
         a.id === b.id ? 0 : a.id.localeCompare(b.id, undefined, { numeric: true }),
@@ -82,11 +84,17 @@ const preview: Preview = {
     (story, context) => {
       const selectedTheme = context.globals.backofficeTheme || defaultBoTheme;
       const cssContents = cssEntrypoints[selectedTheme];
-      // Replace dots with hyphens and prepend 'v'
       const selectedThemeClass = `v${selectedTheme.replace(/\./g, '-')}`;
 
       const calledStory = story();
-      calledStory.template = twig(`
+      calledStory.template = context.parameters.internalWrapper ? twig(`
+        <div id="main">
+          <div id="ua-dialog" class="bootstrap ${selectedThemeClass}">
+            ${calledStory.template.getSource()}
+            ${cssContents.map((cssFile) => `<link rel="stylesheet" type="text/css" href="${cssFile}" />`)}
+          </div>
+        </div>
+      `) : twig(`
         <div id="main">
           <div id="content" class="bootstrap update-assistant">
             <div id="update_assistant" class="${selectedThemeClass}">
@@ -95,7 +103,7 @@ const preview: Preview = {
             </div>
           </div>
         </div>
-      `);
+      `)
       return calledStory;
     },
   ],

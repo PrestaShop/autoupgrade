@@ -253,24 +253,9 @@ class Autoupgrade extends Module
 
         $translator = $container->getTranslator();
 
-        $updateTypeLabel = '';
-
-        switch($updateType) {
-            case 'major';
-                $updateTypeLabel = $translator->trans('Major');
-                break;
-            case 'minor';
-                $updateTypeLabel = $translator->trans('Minor');
-                break;
-            case 'patch';
-                $updateTypeLabel = $translator->trans('Patch');
-                break;
-        }
-
         $htmlToReturn .= $twig->render('@ModuleAutoUpgrade/hooks/dialog-update-notification.html.twig', [
             'version_class' => $psClass,
             'version_type' => $updateType,
-            'version_type_label' => $updateTypeLabel,
             'version' => $onlineVersion,
             'contact_expert_url' => 'https://experts.prestashop.com/english/experts/',
             'update_link' => $this->context->link->getAdminLink('AdminSelfUpgrade') . '&route=' . \PrestaShop\Module\AutoUpgrade\Router\Routes::UPDATE_PAGE_VERSION_CHOICE,
