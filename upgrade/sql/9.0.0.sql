@@ -348,3 +348,4 @@ INSERT INTO `PREFIX_feature_flag` (`name`, `type`, `label_wording`, `label_domai
    ('admin_api_multistore', 'env,query,dotenv,db', 'Admin API - Multistore', 'Admin.Advparameters.Feature', 'Enable or disable the Admin API when multistore is enabled.', 'Admin.Advparameters.Help', 1, 'beta'),
    ('admin_api_experimental_endpoints', 'env,dotenv,db', 'Admin API - Enable experimental endpoints', 'Admin.Advparameters.Feature', 'Experimental API endpoints are disabled by default in prod environment, this configuration allows to forcefully enable them.', 'Admin.Advparameters.Help', 0, 'beta')
 ;
+/* PHP:install_ps_apiresources(); */;
