@@ -40,7 +40,6 @@ export const VersionChoice = {
     no_local_archive: true,
     current_prestashop_version: "8.1.6",
     current_php_version: "8.1",
-    assets_base_path: "",
     step_parent_id: "ua_container",
     stepper_parent_id: "stepper_content",
     radio_card_online_parent_id: "radio_card_online",

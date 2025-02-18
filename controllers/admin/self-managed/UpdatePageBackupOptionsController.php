@@ -69,9 +69,6 @@ class UpdatePageBackupOptionsController extends AbstractPageWithStepController
             'dialogId' => 'dialog-confirm-update',
 
             'form_route_to_confirm' => Routes::UPDATE_STEP_BACKUP_CONFIRM_UPDATE,
-
-            // TODO: assets_base_path is provided by all controllers. What about a asset() twig function instead?
-            'assets_base_path' => $this->upgradeContainer->getAssetsEnvironment()->getAssetsBaseUrl($this->request),
         ]);
     }
 

@@ -47,9 +47,6 @@ class Error404Controller extends AbstractPageController
     protected function getParams(): array
     {
         return [
-            // TODO: assets_base_path is provided by all controllers. What about a asset() twig function instead?
-            'assets_base_path' => $this->upgradeContainer->getAssetsEnvironment()->getAssetsBaseUrl($this->request),
-
             'error_code' => Response::HTTP_NOT_FOUND,
 
             'exit_to_shop_admin' => $this->upgradeContainer->getUrlGenerator()->getShopAdminAbsolutePathFromRequest($this->request),

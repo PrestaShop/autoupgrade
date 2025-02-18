@@ -48,6 +48,8 @@ use PrestaShop\Module\AutoUpgrade\State\LogsState;
 use PrestaShop\Module\AutoUpgrade\State\RestoreState;
 use PrestaShop\Module\AutoUpgrade\State\UpdateState;
 use PrestaShop\Module\AutoUpgrade\Task\TaskType;
+use PrestaShop\Module\AutoUpgrade\Twig\AssetFunctionExtension;
+use PrestaShop\Module\AutoUpgrade\Twig\AssetFunctionExtension3;
 use PrestaShop\Module\AutoUpgrade\Twig\AssetsEnvironment;
 use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension;
 use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension3;
@@ -66,6 +68,7 @@ use PrestaShop\Module\AutoUpgrade\Xml\ChecksumCompare;
 use PrestaShop\Module\AutoUpgrade\Xml\FileLoader;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\Request;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Loader\FilesystemLoader;
@@ -202,6 +205,9 @@ class UpgradeContainer
 
     /** @var PhpVersionResolverService */
     private $phpVersionResolverService;
+
+    /** @var Request */
+    private $request;
 
     /** @var DistributionApiService */
     private $distributionApiService;
@@ -664,6 +670,7 @@ class UpgradeContainer
                 $loader->addPath(realpath(__DIR__ . '/..') . '/views/templates', 'ModuleAutoUpgrade');
                 $twig = new Environment($loader);
                 $twig->addExtension(new TransFilterExtension3($this->getTranslator()));
+                $twig->addExtension(new AssetFunctionExtension3($this));
             } else {
                 // We use Twig 1
                 // Using independant template engine for 1.6 & 1.7 compatibility
@@ -671,6 +678,7 @@ class UpgradeContainer
                 $loader->addPath(realpath(__DIR__ . '/..') . '/views/templates', 'ModuleAutoUpgrade');
                 $twig = new Twig_Environment($loader);
                 $twig->addExtension(new TransFilterExtension($this->getTranslator()));
+                $twig->addExtension(new AssetFunctionExtension($this));
             }
 
             $this->twig = $twig;
@@ -765,6 +773,16 @@ class UpgradeContainer
         }
 
         return $this->phpVersionResolverService;
+    }
+
+    public function getRequest(): ?Request
+    {
+        return $this->request;
+    }
+
+    public function setRequest(Request $request): void
+    {
+        $this->request = $request;
     }
 
     /**

@@ -44,6 +44,8 @@ class Router
      */
     public function handle(Request $request)
     {
+        $this->upgradeContainer->setRequest($request);
+
         $routeName = $request->query->get('route') ?? Routes::HOME_PAGE;
         $redirected = $request->query->get('_redirected') === '1';
 

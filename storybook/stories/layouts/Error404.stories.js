@@ -25,7 +25,6 @@ export default {
   args: {
     psBaseUri: "/",
     error_code: "404",
-    assets_base_path: "",
 
     exit_to_shop_admin: '#',
     exit_to_app_home: '#',

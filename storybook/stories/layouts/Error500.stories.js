@@ -25,7 +25,6 @@ export default {
   args: {
     psBaseUri: "/",
     error_code: "500",
-    assets_base_path: "",
   }
 };
 

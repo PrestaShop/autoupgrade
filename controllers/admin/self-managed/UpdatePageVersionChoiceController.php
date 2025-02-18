@@ -106,8 +106,6 @@ class UpdatePageVersionChoiceController extends AbstractPageWithStepController
                 'dev_doc_upgrade_web_url' => DocumentationLinks::DEV_DOC_UPGRADE_WEB_URL,
                 'up_to_date' => !$isNewerVersionAvailableOnline,
                 'no_local_archive' => !$this->upgradeContainer->getLocalArchiveRepository()->hasLocalArchive(),
-                // TODO: assets_base_path is provided by all controllers. What about a asset() twig function instead?
-                'assets_base_path' => $this->upgradeContainer->getAssetsEnvironment()->getAssetsBaseUrl($this->request),
                 'current_prestashop_version' => $this->getPsVersion(),
                 'current_php_version' => VersionUtils::getHumanReadableVersionOf(PHP_VERSION_ID),
                 'local_archives' => [

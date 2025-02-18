@@ -25,8 +25,4 @@ export default {
   excludeStories: ["Default"],
 };
 
-export const Default = {
-  args: {
-    assets_base_path: "",
-  },
-};
+export const Default = {};
