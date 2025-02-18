@@ -72,7 +72,9 @@ class UpdateFiles extends AbstractTask
             $file = $filesToUpgrade->getNext();
 
             // Note - upgrade this file means do whatever is needed for that file to be in the final state, delete included.
-            if (!$this->upgradeThisFile($file)) {
+            $relativeFile = str_replace($this->container->getProperty(UpgradeContainer::TMP_FILES_PATH), '', $file);
+            $symbolicLinkTarget = $filesToUpgrade->getSymbolicLinks()[$relativeFile] ?? null;
+            if (!$this->upgradeThisFile($file, $relativeFile, $symbolicLinkTarget)) {
                 // put the file back to the begin of the list
                 $this->next = TaskName::TASK_ERROR;
                 $this->logger->error($this->translator->trans('Error when trying to update file %s.', [$file]));
@@ -97,17 +99,12 @@ class UpdateFiles extends AbstractTask
      * upgradeThisFile.
      *
      * @param mixed $orig The absolute path to the file from the upgrade archive
+     * @param string $file Relative file path from root
      *
      * @throws Exception
      */
-    public function upgradeThisFile($orig): bool
+    protected function upgradeThisFile($orig, string $file, ?string $symbolicLinkTarget): bool
     {
-        // translations_custom and mails_custom list are currently not used
-        // later, we could handle customization with some kind of diff functions
-        // for now, just copy $file in str_replace($this->latestRootDir,_PS_ROOT_DIR_)
-
-        $file = str_replace($this->container->getProperty(UpgradeContainer::TMP_FILES_PATH), '', $orig);
-
         // The path to the file in our prestashop directory
         $dest = $this->destUpgradePath . $file;
 
@@ -118,7 +115,19 @@ class UpdateFiles extends AbstractTask
 
             return true;
         }
-        if (is_dir($orig)) {
+
+        // Special case for symbolic links
+        if (!empty($symbolicLinkTarget)) {
+            // Remove the file/folder in case it already exists
+            if ($this->container->getFileSystem()->exists($dest)) {
+                $this->container->getFileSystem()->remove($dest);
+            }
+
+            symlink($symbolicLinkTarget, $dest);
+            $this->logger->debug($this->translator->trans('Symbolic link %s to %s.', [$file, $symbolicLinkTarget]));
+
+            return true;
+        } elseif (is_dir($orig)) {
             // if $dest is not a directory (that can happen), just remove that file
             if (!is_dir($dest) && $this->container->getFileSystem()->exists($dest)) {
                 $this->container->getFileSystem()->remove($dest);
@@ -254,6 +263,20 @@ class UpdateFiles extends AbstractTask
             }
         }
 
+        // Prepare symbolic links list
+        $symbolicLinks = $this->container->getChecksumCompare()->getSymbolicLinks($state->getDestinationVersion());
+        foreach ($symbolicLinks as $linkRelativePath => $linkTarget) {
+            if (substr($linkRelativePath, 0, 6) === '/admin') {
+                // Please make sure that the condition to check if the string starts with /admin stays here, because it was replacing
+                // admin even in the middle of a path, not deleting some files as a result.
+                // Also, do not use DIRECTORY_SEPARATOR, keep forward slash, because the path come from the XML standardized.
+                $newLinkRelativePath = '/' . $admin_dir . substr($linkRelativePath, 6);
+                $symbolicLinks[$newLinkRelativePath] = $linkTarget;
+                unset($symbolicLinks[$linkRelativePath]);
+            }
+        }
+        $this->logger->debug('Warmup symbolic links : ' . var_export($symbolicLinks, true));
+
         // Now, we get the list of files that are either new or must be modified
         $list_files_to_upgrade = $this->container->getFilesystemAdapter()->listFilesInDir(
             $newReleasePath, 'upgrade', true
@@ -264,7 +287,7 @@ class UpdateFiles extends AbstractTask
 
         $total_files_to_upgrade = count($list_files_to_upgrade);
         $this->container->getFileStorage()->save(
-            (new Backlog($list_files_to_upgrade, $total_files_to_upgrade))->dump(),
+            (new Backlog($list_files_to_upgrade, $total_files_to_upgrade, $symbolicLinks))->dump(),
             UpgradeFileNames::FILES_TO_UPGRADE_LIST
         );
 

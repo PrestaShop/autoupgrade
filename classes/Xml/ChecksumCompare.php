@@ -144,6 +144,18 @@ class ChecksumCompare
         return $this->fileDifferences;
     }
 
+    /**
+     * @param string $version
+     *
+     * @return string[] Indexed by relative path from root folder, value is the symbolic link target
+     */
+    public function getSymbolicLinks(string $version): array
+    {
+        $checksum = $this->fileLoader->getXmlMd5File($version);
+
+        return $this->symbolicLinksAsArray($checksum->ps_root_dir[0]);
+    }
+
     public function isAuthenticPrestashopVersion(string $version): bool
     {
         return !$this->getTamperedFilesOnShop($version);
@@ -257,6 +269,26 @@ class ChecksumCompare
         }
 
         return $array;
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    protected function symbolicLinksAsArray(SimpleXMLElement $node, string $dir = ''): array
+    {
+        $links = [];
+        foreach ($node as $child) {
+            if (is_object($child) && $child->getName() == 'dir') {
+                $subDir = (string) $child['name'];
+                $subDirLinks = $this->symbolicLinksAsArray($child, $dir . DIRECTORY_SEPARATOR . $subDir);
+                $links = $links + $subDirLinks;
+            } elseif (is_object($child) && $child->getName() == 'link') {
+                $linkName = (string) $child['name'];
+                $links[$dir . DIRECTORY_SEPARATOR . $linkName] = (string) $child;
+            }
+        }
+
+        return $links;
     }
 
     /** populate $this->$this->file_differences with $path

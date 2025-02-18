@@ -36,71 +36,86 @@ class BacklogTest extends TestCase
         $this->assertSame([
             'backlog' => ['🍌🍌', '🍊🍊🍊', '🦄', '🫕'],
             'initialTotal' => 4,
+            'symbolicLinks' => [],
         ], $instance1->dump());
 
         $this->assertSame([
             'backlog' => ['🍌🍌', '🍊🍊🍊', '🦄', '🫕'],
             'initialTotal' => 4,
+            'symbolicLinks' => [],
         ], $instance2->dump());
     }
 
     public function testManipulationOfBacklog()
     {
         $shoppingList = ['🍌🍌', '🍊🍊🍊', '🦄', '🫕'];
+        $symbolicLinks = ['/admin/bundles/apiplatform' => '../../vendor/api-platform/core/src/Symfony/Bundle/Resources/public/'];
         $numberOfDifferentThingsToBuy = 4;
 
-        $backlog = new Backlog($shoppingList, $numberOfDifferentThingsToBuy);
+        $backlog = new Backlog($shoppingList, $numberOfDifferentThingsToBuy, $symbolicLinks);
 
         $this->assertSame([
             'backlog' => ['🍌🍌', '🍊🍊🍊', '🦄', '🫕'],
             'initialTotal' => 4,
+            'symbolicLinks' => ['/admin/bundles/apiplatform' => '../../vendor/api-platform/core/src/Symfony/Bundle/Resources/public/'],
         ], $backlog->dump());
         $this->assertSame(4, $backlog->getRemainingTotal());
         $this->assertSame(4, $backlog->getInitialTotal());
+        $this->assertSame(['/admin/bundles/apiplatform' => '../../vendor/api-platform/core/src/Symfony/Bundle/Resources/public/'], $backlog->getSymbolicLinks());
 
         $nextToBuy = $backlog->getNext();
         $this->assertSame([
             'backlog' => ['🍌🍌', '🍊🍊🍊', '🦄'],
             'initialTotal' => 4,
+            'symbolicLinks' => ['/admin/bundles/apiplatform' => '../../vendor/api-platform/core/src/Symfony/Bundle/Resources/public/'],
         ], $backlog->dump());
         $this->assertSame('🫕', $nextToBuy);
         $this->assertSame(3, $backlog->getRemainingTotal());
         $this->assertSame(4, $backlog->getInitialTotal());
+        $this->assertSame(['/admin/bundles/apiplatform' => '../../vendor/api-platform/core/src/Symfony/Bundle/Resources/public/'], $backlog->getSymbolicLinks());
 
         $nextToBuy = $backlog->getNext();
         $this->assertSame([
             'backlog' => ['🍌🍌', '🍊🍊🍊'],
             'initialTotal' => 4,
+            'symbolicLinks' => ['/admin/bundles/apiplatform' => '../../vendor/api-platform/core/src/Symfony/Bundle/Resources/public/'],
         ], $backlog->dump());
         $this->assertSame('🦄', $nextToBuy);
         $this->assertSame(2, $backlog->getRemainingTotal());
         $this->assertSame(4, $backlog->getInitialTotal());
+        $this->assertSame(['/admin/bundles/apiplatform' => '../../vendor/api-platform/core/src/Symfony/Bundle/Resources/public/'], $backlog->getSymbolicLinks());
 
         $nextToBuy = $backlog->getNext();
         $this->assertSame([
             'backlog' => ['🍌🍌'],
             'initialTotal' => 4,
+            'symbolicLinks' => ['/admin/bundles/apiplatform' => '../../vendor/api-platform/core/src/Symfony/Bundle/Resources/public/'],
         ], $backlog->dump());
         $this->assertSame('🍊🍊🍊', $nextToBuy);
         $this->assertSame(1, $backlog->getRemainingTotal());
         $this->assertSame(4, $backlog->getInitialTotal());
+        $this->assertSame(['/admin/bundles/apiplatform' => '../../vendor/api-platform/core/src/Symfony/Bundle/Resources/public/'], $backlog->getSymbolicLinks());
 
         $nextToBuy = $backlog->getNext();
         $this->assertSame([
             'backlog' => [],
             'initialTotal' => 4,
+            'symbolicLinks' => ['/admin/bundles/apiplatform' => '../../vendor/api-platform/core/src/Symfony/Bundle/Resources/public/'],
         ], $backlog->dump());
         $this->assertSame('🍌🍌', $nextToBuy);
         $this->assertSame(0, $backlog->getRemainingTotal());
         $this->assertSame(4, $backlog->getInitialTotal());
+        $this->assertSame(['/admin/bundles/apiplatform' => '../../vendor/api-platform/core/src/Symfony/Bundle/Resources/public/'], $backlog->getSymbolicLinks());
 
         $nextToBuy = $backlog->getNext();
         $this->assertSame([
             'backlog' => [],
             'initialTotal' => 4,
+            'symbolicLinks' => ['/admin/bundles/apiplatform' => '../../vendor/api-platform/core/src/Symfony/Bundle/Resources/public/'],
         ], $backlog->dump());
         $this->assertSame(null, $nextToBuy);
         $this->assertSame(0, $backlog->getRemainingTotal());
         $this->assertSame(4, $backlog->getInitialTotal());
+        $this->assertSame(['/admin/bundles/apiplatform' => '../../vendor/api-platform/core/src/Symfony/Bundle/Resources/public/'], $backlog->getSymbolicLinks());
     }
 }

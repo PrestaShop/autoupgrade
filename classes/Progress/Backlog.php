@@ -38,30 +38,39 @@ class Backlog
     private $backlog;
 
     /**
-     * @param mixed[] $backlog
+     * @var array<string, string> Indexed by relative path from root folder, value is the symbolic link target
      */
-    public function __construct(array $backlog, int $initialTotal)
+    private $symbolicLinks;
+
+    /**
+     * @param mixed[] $backlog
+     * @param int $initialTotal
+     * @param array<string, string> $symbolicLinks
+     */
+    public function __construct(array $backlog, int $initialTotal, array $symbolicLinks = [])
     {
         $this->backlog = $backlog;
         $this->initialTotal = $initialTotal;
+        $this->symbolicLinks = $symbolicLinks;
     }
 
     /**
-     * @param array{'backlog':mixed[],'initialTotal':int} $contents
+     * @param array{'backlog':mixed[],'initialTotal':int, 'symbolicLinks':array<string, string>} $contents
      */
     public static function fromContents($contents): self
     {
-        return new self($contents['backlog'], $contents['initialTotal']);
+        return new self($contents['backlog'], $contents['initialTotal'], $contents['symbolicLinks']);
     }
 
     /**
-     * @return array{'backlog':mixed[],'initialTotal':int}
+     * @return array{'backlog':mixed[],'initialTotal':int, 'symbolicLinks':array<string, string>}
      */
     public function dump(): array
     {
         return [
             'backlog' => $this->backlog,
             'initialTotal' => $this->initialTotal,
+            'symbolicLinks' => $this->symbolicLinks,
         ];
     }
 
@@ -81,5 +90,13 @@ class Backlog
     public function getInitialTotal(): int
     {
         return $this->initialTotal;
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function getSymbolicLinks(): array
+    {
+        return $this->symbolicLinks;
     }
 }
