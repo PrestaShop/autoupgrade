@@ -186,6 +186,18 @@ class Autoupgrade extends Module
         return $translator->trans($id, $parameters);
     }
 
+    private function isDefaultController()
+    {
+        $controller = Tools::getValue('controller');
+        $employee = new Employee($this->context->employee->id);
+        $default_tab_id = $employee->default_tab;
+
+        $tab = new Tab($default_tab_id);
+        $default_controller = $tab->class_name;
+
+        return $controller === $default_controller;
+    }
+
     /**
      * Hook called after the backoffice content is rendered.
      * Used to display the update notification dialog.
@@ -210,58 +222,15 @@ class Autoupgrade extends Module
             require_once $autoloadPath;
         }
 
-        // check if we are on employee default page
-        $controller = Tools::getValue('controller');
-        $employee = new Employee($this->context->employee->id);
-        $default_tab_id = $employee->default_tab;
-
-        $tab = new Tab($default_tab_id);
-        $default_controller = $tab->class_name;
-
-        if ($controller !== $default_controller) {
+        if (!$this->isDefaultController()) {
             return '';
         }
 
-        require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/classes/UpgradeContainer.php';
-        require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/classes/Router/Routes.php';
-        require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/classes/Twig/PageSelectors.php';
-
-        $container = new \PrestaShop\Module\AutoUpgrade\UpgradeContainer(_PS_ROOT_DIR_, realpath(_PS_ADMIN_DIR_));
-
-        // check if new version is available
-        if (!$container->getUpgrader()->isNewerVersionAvailableOnline()) {
-            return '';
-        }
-
-        $twig = $container->getTwig();
+        require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/classes/Hooks/DisplayBackOfficeHeader.php';
 
         $htmlToReturn = '<script src="' . ($this->_path . 'views/js/autoupgrade-external.js') . '" type="module"></script>';
 
-        $psVersion = $container->getProperty($container::PS_VERSION);
-        $psClass = '';
-
-        if (version_compare($psVersion, '1.7.8.0', '<')) {
-            $psClass = 'v1-7-3-0';
-        } elseif (version_compare($psVersion, '9.0.0', '<')) {
-            $psClass = 'v1-7-8-0';
-        }
-
-        $onlineDestination = $container->getUpgrader()->getOnlineDestinationRelease();
-        $onlineVersion = $onlineDestination->getVersion();
-        $releaseNote = $onlineDestination->getReleaseNoteUrl();
-
-        $updateType = \PrestaShop\Module\AutoUpgrade\VersionUtils::getUpdateType($psVersion, $onlineVersion);
-
-        $htmlToReturn .= $twig->render('@ModuleAutoUpgrade/hooks/external-layout.html.twig', [
-            'external_parent_id' => \PrestaShop\Module\AutoUpgrade\Twig\PageSelectors::EXTERNAL_PARENT_ID,
-            'component' => 'dialog-update-notification',
-            'version_class' => $psClass,
-            'version_type' => $updateType,
-            'version' => $onlineVersion,
-            'contact_expert_url' => 'https://experts.prestashop.com/english/experts/',
-            'update_link' => $this->context->link->getAdminLink('AdminSelfUpgrade') . '&route=' . \PrestaShop\Module\AutoUpgrade\Router\Routes::UPDATE_PAGE_VERSION_CHOICE,
-            'release_note' => $releaseNote,
-        ]);
+        $htmlToReturn .= (new \PrestaShop\Module\AutoUpgrade\Hooks\DisplayBackOfficeHeader())->renderUpdateNotification();
 
         return $htmlToReturn;
     }
