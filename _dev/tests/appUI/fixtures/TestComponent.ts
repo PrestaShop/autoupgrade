@@ -16,9 +16,10 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
-@font-face {
-  font-family: "Prestafont";
-  font-weight: 400;
-  src: url("@fonts/Prestafont-Regular.woff");
-  font-display: swap;
+import ComponentAbstract from '../../../src/ts/appUI/components/ComponentAbstract';
+
+export default class TestComponent extends ComponentAbstract {
+  public getElement<T extends HTMLElement>(selector: string, errorMessage: string): T {
+    return this.queryElement<T>(selector, errorMessage);
+  }
 }

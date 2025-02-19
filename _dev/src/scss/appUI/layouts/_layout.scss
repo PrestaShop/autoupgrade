@@ -16,9 +16,51 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
-@font-face {
-  font-family: "Prestafont";
-  font-weight: 400;
-  src: url("@fonts/Prestafont-Regular.woff");
-  font-display: swap;
+@use "../../variables" as *;
+
+$e: "#ua";
+
+#{$ua-id} {
+  // Default BO theme layout fix
+  padding-inline-end: 5px;
+
+  &:not(.v1-7-8-0):not(.v1-7-3-0) {
+    padding-inline-end: 0;
+  }
+}
+
+#{$e} {
+  &_main {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding-block: 1rem;
+    container-type: inline-size;
+    container-name: ua-main;
+  }
+
+  &_container {
+    padding: 4rem;
+    background-color: var(--#{$ua-prefix}white);
+  }
+
+  &_step_content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  &_privacy {
+    text-align: center;
+  }
+
+  &_modal {
+    height: 0;
+  }
+
+  @container ua-main (max-width: 700px) {
+    &_container {
+      padding: 2rem;
+    }
+  }
 }

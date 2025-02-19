@@ -16,9 +16,14 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
-@font-face {
-  font-family: "Prestafont";
-  font-weight: 400;
-  src: url("@fonts/Prestafont-Regular.woff");
-  font-display: swap;
+@use "../../variables" as *;
+
+$e: ".local-archive";
+
+#{$ua-id} {
+  #{$e} {
+    &__alert {
+      margin-top: 0.75rem;
+    }
+  }
 }

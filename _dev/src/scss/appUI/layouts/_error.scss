@@ -1,0 +1,176 @@
+/**
+ * Copyright since 2007 PrestaShop SA and Contributors
+ * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License version 3.0
+ * that is bundled with this package in the file LICENSE.md.
+ * It is also available through the world-wide-web at this URL:
+ * https://opensource.org/licenses/AFL-3.0
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@prestashop.com so we can send you a copy immediately.
+ *
+ * @author    PrestaShop SA and Contributors <contact@prestashop.com>
+ * @copyright Since 2007 PrestaShop SA and Contributors
+ * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
+ */
+@use "../../variables" as *;
+@use "../../fonts" as *;
+
+$e: ".error-page";
+
+#{$ua-id} {
+  #{$e} {
+    &__container {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 4.5rem;
+      place-items: center;
+      padding: 4rem;
+      background-color: var(--#{$ua-prefix}white);
+      border: 1px solid var(--#{$ua-prefix}border-color);
+
+      &:has(#{$e}__code.hidden) {
+        grid-template-columns: auto;
+        place-content: center;
+      }
+    }
+
+    &__code {
+      font-family: var(--#{$ua-prefix}font-family-prestafont);
+      font-size: clamp(7rem, 13vw, 12rem);
+      line-height: 1;
+      color: var(--#{$ua-prefix}primary-800);
+    }
+
+    &__code-char {
+      &[data-error-code-char-index="2"] {
+        font-feature-settings: "ss02";
+      }
+
+      &[data-error-code-char-index="3"] {
+        font-feature-settings: "ss01";
+      }
+    }
+
+    &__infos {
+      justify-self: start;
+    }
+
+    &__title {
+      margin-block-end: 1rem;
+    }
+
+    &__desc {
+      margin-block-end: 2rem;
+      font-size: 1rem;
+      font-weight: 500;
+
+      > [class^="error-page__desc"] {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      p,
+      ul {
+        gap: 0.25rem;
+        margin: 0;
+        font-size: 1rem;
+        line-height: 1.375rem;
+      }
+    }
+
+    &__buttons {
+      display: flex;
+      gap: 1rem 2rem;
+    }
+
+    @container ua-error (max-width: 700px) {
+      &__container {
+        grid-template-rows: min-content;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 2rem;
+        place-items: start center;
+        padding: 2rem;
+      }
+
+      &__infos {
+        justify-self: center;
+        width: 100%;
+      }
+
+      &__buttons {
+        flex-direction: column;
+        gap: 1rem;
+
+        > * {
+          width: 100%;
+        }
+
+        .btn {
+          justify-content: center;
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+// Enable auto fit height
+html {
+  &:has(#{$ua-id}) {
+    &:has(#{$e}) {
+      container-type: size;
+      container-name: html-block;
+
+      #{$ua-id} {
+        &:not(.v1-7-8-0):not(.v1-7-3-0) {
+          #{$e} {
+            padding-block-end: 0;
+          }
+        }
+      }
+
+      #{$e} {
+        display: grid;
+        height: 100%;
+        container-type: inline-size;
+        container-name: ua-error;
+        padding-block-end: 0.75rem;
+      }
+
+      // Custom styles to adapt PrestaShop Back Office
+      body {
+        overflow-y: auto;
+        background-color: var(--#{$ua-prefix}bo-background-color);
+
+        #nav-sidebar {
+          height: calc(100% - var(--#{$ua-prefix}header-height));
+        }
+      }
+
+      #main {
+        padding-block-end: 0;
+      }
+
+      // Handle auto fit height
+      @container html-block (min-width: 0) {
+        #{$ua-id} {
+          display: grid;
+          grid-template-rows: 1fr;
+          grid-template-columns: minmax(0, 1fr);
+          min-height: calc(100cqh - var(--#{$ua-prefix}header-offset-mobile));
+        }
+      }
+
+      @container html-block (min-width: 1024px) {
+        #{$ua-id} {
+          min-height: calc(100cqh - var(--#{$ua-prefix}header-offset));
+        }
+      }
+    }
+  }
+}

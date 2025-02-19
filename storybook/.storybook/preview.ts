@@ -24,10 +24,10 @@
  */
 
 import { Preview, twig } from "@sensiolabs/storybook-symfony-webpack5";
-import "../../_dev/src/scss/main.scss";
-import "../../_dev/tests/fakeWindow";
-import "../../_dev/src/ts/main";
-import '../../_dev/src/scss/external.scss'
+import "../../_dev/src/scss/appUI/main.scss";
+import "../../_dev/tests/appUI/fakeWindow";
+import "../../_dev/src/ts/appUI/main";
+import '../../_dev/src/scss/appUpdateNotification/main.scss'
 
 const cssEntrypoints = {
   "9.0.0": ["/9.0.0/default/theme.css"],

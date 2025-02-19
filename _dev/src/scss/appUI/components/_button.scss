@@ -1,0 +1,79 @@
+/**
+ * Copyright since 2007 PrestaShop SA and Contributors
+ * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License version 3.0
+ * that is bundled with this package in the file LICENSE.md.
+ * It is also available through the world-wide-web at this URL:
+ * https://opensource.org/licenses/AFL-3.0
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@prestashop.com so we can send you a copy immediately.
+ *
+ * @author    PrestaShop SA and Contributors <contact@prestashop.com>
+ * @copyright Since 2007 PrestaShop SA and Contributors
+ * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
+ */
+@use "../../variables" as *;
+
+$e: ".btn";
+
+#{$ua-id} {
+  #{$e} {
+    display: inline-flex;
+    gap: 0.5rem;
+    align-items: center;
+    font-weight: 500;
+    text-transform: none;
+
+    .material-icons {
+      font-size: 1.25rem;
+      line-height: 1;
+    }
+
+    &-lg {
+      padding-block: 0.875rem;
+      font-size: 1rem;
+      line-height: 1.25;
+    }
+
+    &--loading {
+      &:is(#{$e}-default, #{$e}-primary) {
+        position: relative;
+        pointer-events: none;
+
+        &::before {
+          content: "";
+          display: block;
+          width: 1.25rem;
+          height: 1.25rem;
+          border: 2px solid rgba(var(--#{$ua-prefix}white-rgb), 0.25);
+          border-top-color: var(--#{$ua-prefix}base-text-color);
+          border-radius: 50%;
+          line-height: 1;
+          animation: rotate 1.5s linear infinite;
+        }
+      }
+
+      &:is(#{$e}-default) {
+        &::before {
+          border: 2px solid rgba(var(--#{$ua-prefix}black-rgb), 0.25);
+          border-top-color: var(--#{$ua-prefix}base-text-color);
+        }
+      }
+
+      &:is(#{$e}-primary) {
+        &::before {
+          border: 2px solid rgba(var(--#{$ua-prefix}white-rgb), 0.25);
+          border-top-color: var(--#{$ua-prefix}white);
+        }
+      }
+
+      i {
+        display: none;
+      }
+    }
+  }
+}

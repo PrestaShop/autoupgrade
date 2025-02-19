@@ -16,9 +16,21 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
-@font-face {
-  font-family: "Prestafont";
-  font-weight: 400;
-  src: url("@fonts/Prestafont-Regular.woff");
-  font-display: swap;
+
+const dialog = document.getElementById('dialog-update-notification');
+
+if (dialog instanceof HTMLDialogElement) {
+  setTimeout(() => {
+    dialog.showModal();
+  }, 1500);
+}
+
+const closeButton = dialog?.querySelector('[data-dismiss="dialog"]');
+
+if (closeButton) {
+  closeButton.addEventListener('click', () => {
+    if (dialog instanceof HTMLDialogElement) {
+      dialog.close();
+    }
+  });
 }

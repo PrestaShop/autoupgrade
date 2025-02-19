@@ -228,7 +228,7 @@ class Autoupgrade extends Module
 
         require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/classes/Hooks/DisplayBackOfficeHeader.php';
 
-        $htmlToReturn = '<script src="' . ($this->_path . 'views/js/autoupgrade-external.js') . '" type="module"></script>';
+        $htmlToReturn = '<script src="' . ($this->_path . 'views/js/autoupgrade-notification.js') . '" type="module"></script>';
 
         $htmlToReturn .= (new \PrestaShop\Module\AutoUpgrade\Hooks\DisplayBackOfficeHeader())->renderUpdateNotification();
 
@@ -240,6 +240,6 @@ class Autoupgrade extends Module
      */
     public function hookActionAdminControllerSetMedia()
     {
-        $this->context->controller->addCSS($this->_path . 'views/css/autoupgrade-external.css');
+        $this->context->controller->addCSS($this->_path . 'views/css/autoupgrade-notification.css');
     }
 }
