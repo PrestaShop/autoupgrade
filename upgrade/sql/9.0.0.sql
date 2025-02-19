@@ -346,3 +346,7 @@ INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VAL
     ('PS_ADMIN_API_FORCE_DEBUG_SECURED', '1', NOW(), NOW())
 ;
 /* PHP:install_ps_apiresources(); */;
+
+/* Reorganize search aliases */
+/* https://github.com/PrestaShop/PrestaShop/pull/37470 */
+/* PHP:ps_900_reorganize_aliases(); */
