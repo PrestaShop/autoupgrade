@@ -17,6 +17,7 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 import { defineConfig } from 'vite';
+import { resolve } from 'path';
 
 export default defineConfig({
   server: {
@@ -31,15 +32,10 @@ export default defineConfig({
       }
     }
   },
-  build: {
-    rollupOptions: {
-      input: {
-        main: './src/ts/main.ts',
-        theme: './src/scss/main.scss'
-      },
-      output: {
-        dir: 'public'
-      }
+  resolve: {
+    alias: {
+      '@fonts': resolve(__dirname, './src/fonts'),
+      '@img': resolve(__dirname, './img')
     }
   }
 });

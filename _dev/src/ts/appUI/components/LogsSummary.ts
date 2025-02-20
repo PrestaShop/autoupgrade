@@ -17,7 +17,7 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 import ComponentAbstract from './ComponentAbstract';
-import { Destroyable } from '../types/DomLifecycle';
+import { Destroyable } from '../../types/DomLifecycle';
 
 export default class LogsSummary extends ComponentAbstract implements Destroyable {
   #logsSummaryText = this.queryElement<HTMLDivElement>(

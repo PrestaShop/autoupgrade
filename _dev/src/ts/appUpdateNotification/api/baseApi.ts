@@ -16,7 +16,17 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
-import UpdateNotificationDialog from './dialogs/UpdateNotificationDialog';
+import axios from 'axios';
 
-const updateNotificationDialog = new UpdateNotificationDialog();
-updateNotificationDialog.mount();
+const baseApi = axios.create({
+  baseURL: `${window.AutoUpgradeVariables.admin_url}/index.php?controller=AdminAutoupgradeAjax`,
+  headers: {
+    'X-Requested-With': 'XMLHttpRequest'
+  },
+  params: {
+    ajax: 1,
+    token: window.AutoUpgradeVariables.token
+  }
+});
+
+export default baseApi;

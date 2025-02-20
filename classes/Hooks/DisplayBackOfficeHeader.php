@@ -2,17 +2,29 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Hooks;
 
+use PrestaShop\Module\AutoUpgrade\DocumentationLinks;
 use PrestaShop\Module\AutoUpgrade\Models\UpdateNotificationConfiguration;
 use PrestaShop\Module\AutoUpgrade\Services\UpdateNotificationService;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\Upgrader;
-use PrestaShop\Module\AutoUpgrade\Router\Routes;
 use PrestaShop\Module\AutoUpgrade\Twig\PageSelectors;
 use PrestaShop\Module\AutoUpgrade\VersionUtils;
+use Symfony\Component\HttpFoundation\Request;
+use Exception;
+use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
+use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
+use Context;
+use Tools;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
+use Tab;
+use Employee;
 
 class DisplayBackOfficeHeader
 {
     const INTERVAL_CHECK_TIME_IN_SECONDS = 2592000; // 30 days
+
     /**
      * @var UpgradeContainer
      */
@@ -29,23 +41,47 @@ class DisplayBackOfficeHeader
     private $updateNotificationConfiguration;
 
     /**
-     * @throws \Exception
+     * @var string
+     */
+    private $content = '';
+
+    /**
+     * @var string
+     */
+    private $psVersion;
+
+    /**
+     * @var Context
+     */
+    private $context;
+
+    /**
+     * @var int
+     */
+    private $employeeId;
+
+    /**
+     * @throws Exception
      */
     public function __construct()
     {
         $this->container = new UpgradeContainer(_PS_ROOT_DIR_, realpath(_PS_ADMIN_DIR_));
         $this->upgrader = $this->container->getUpgrader();
         $this->updateNotificationConfiguration = (new UpdateNotificationService())->getUpdateNotificationConfiguration();
+        $this->psVersion = $this->container->getProperty(UpgradeContainer::PS_VERSION);
+        $this->context = Context::getContext();
+        $this->employeeId = $this->context->employee->id;
+
     }
 
     /**
      * @return string
      *
-     * @throws \PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException
-     * @throws \PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
+     * @throws DistributionApiException
+     * @throws UpgradeException
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function renderUpdateNotification(): string
     {
@@ -56,24 +92,85 @@ class DisplayBackOfficeHeader
             $this->checkNewerVersion();
         }
 
-        $currentEmployeeId = \Context::getContext()->employee->id;
+        $this->addScriptsVariables();
+
+        $request = Request::createFromGlobals();
+        $this->addUIAssets($request);
+
+        if (!$this->isDefaultController()) {
+            return $this->content;
+        }
 
         $employees = $this->updateNotificationConfiguration->getEmployees();
 
-        $employeeExists = array_filter($employees, function($employee) use ($currentEmployeeId) {
-            return $employee['employeeID'] === $currentEmployeeId;
+        $employeeExists = array_filter($employees, function($employee) {
+            return $employee['employeeID'] === $this->employeeId;
         });
 
-        if (empty($employeeExists)) {
-            return $this->container->getTwig()->render('@ModuleAutoUpgrade/hooks/external-layout.html.twig', $this->getParams());
+        if (empty($employeeExists) || time() > $employeeExists[0]['timestamp']) {
+            $this->content .= $this->container->getTwig()->render('@ModuleAutoUpgrade/hooks/external-layout.html.twig', $this->getParams());
         }
 
-        return '';
+        return $this->content;
     }
 
     /**
-     * @throws \PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException
-     * @throws \PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
+    private function addScriptsVariables()
+    {
+        $adminDir = trim(str_replace(_PS_ROOT_DIR_, '', realpath(_PS_ADMIN_DIR_)), DIRECTORY_SEPARATOR);
+
+        $scriptsVariables = [
+            'token' => Tools::getAdminTokenLite('AdminAutoupgradeAjax'),
+            'admin_url' => __PS_BASE_URI__ . $adminDir,
+            'admin_dir' => $adminDir,
+        ];
+
+        $this->content .= $this->container->getTwig()->render('@ModuleAutoUpgrade/module-script-variables.html.twig', [
+            'autoupgrade_variables' => $scriptsVariables,
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
+    private function addUIAssets(Request $request)
+    {
+        $assetsEnvironment = $this->container->getAssetsEnvironment();
+        $assetsBaseUrl = $assetsEnvironment->getAssetsBaseUrl($request);
+        $twig = $this->container->getTwig();
+
+        if ($assetsEnvironment->isDevMode()) {
+            $this->context->controller->addCSS($assetsBaseUrl . '/src/scss/appUpdateNotification/main.scss');
+            $this->content .= $twig->render('@ModuleAutoUpgrade/module-script-tag.html.twig', ['module_type' => true, 'src' => $assetsBaseUrl . '/src/ts/appUpdateNotification/main.ts']);
+        } else {
+            $this->context->controller->addCSS($assetsBaseUrl . '/css/autoupgrade-.css');
+            $this->content .= $twig->render('@ModuleAutoUpgrade/module-script-tag.html.twig', ['src' => $assetsBaseUrl . '/js/autoupgrade.js?version=' . $this->psVersion]);
+        }
+    }
+
+    private function isDefaultController()
+    {
+        $controller = Tools::getValue('controller');
+        $employee = new Employee($this->employeeId);
+        $default_tab_id = $employee->default_tab;
+
+        $tab = new Tab($default_tab_id);
+        $default_controller = $tab->class_name;
+
+        return $controller === $default_controller;
+    }
+
+    /**
+     * @throws DistributionApiException
+     * @throws UpgradeException
      */
     private function checkNewerVersion(): void
     {
@@ -89,37 +186,35 @@ class DisplayBackOfficeHeader
             $this->updateNotificationConfiguration->setReleaseNote($releaseNote);
         }
 
-        (new UpdateNotificationService)->setUpdateNotificationConfiguration($this->updateNotificationConfiguration);
+        (new UpdateNotificationService)->saveUpdateNotificationConfiguration($this->updateNotificationConfiguration);
     }
 
     /**
      * @return array<string, mixed>
      *
-     * @throws \PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException
+     * @throws UpgradeException
      */
     private function getParams(): array
     {
-        $psVersion = $this->container->getProperty(UpgradeContainer::PS_VERSION);
         $psClass = '';
 
-        if (version_compare($psVersion, '1.7.8.0', '<')) {
+        if (version_compare($this->psVersion, '1.7.8.0', '<')) {
             $psClass = 'v1-7-3-0';
-        } elseif (version_compare($psVersion, '9.0.0', '<')) {
+        } elseif (version_compare($this->psVersion, '9.0.0', '<')) {
             $psClass = 'v1-7-8-0';
         }
 
         $onlineVersion = $this->updateNotificationConfiguration->getVersion();
 
-        $updateType = VersionUtils::getUpdateType($psVersion, $onlineVersion);
+        $updateType = VersionUtils::getUpdateType($this->psVersion, $onlineVersion);
 
         return [
-            'external_parent_id' => PageSelectors::EXTERNAL_PARENT_ID,
+            'external_parent_id' => PageSelectors::NOTIFICATION_PARENT_ID,
             'component' => 'dialog-update-notification',
             'version_class' => $psClass,
             'version_type' => $updateType,
             'version' => $onlineVersion,
-            'contact_expert_url' => 'https://experts.prestashop.com/english/experts/',
-            'update_link' => \Context::getContext()->link->getAdminLink('AdminSelfUpgrade') . '&route=' . Routes::UPDATE_PAGE_VERSION_CHOICE,
+            'contact_expert_url' => DocumentationLinks::PRESTASHOP_EXPERTS,
             'release_note' => $this->updateNotificationConfiguration->getReleaseNote(),
         ];
     }

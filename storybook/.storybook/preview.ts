@@ -89,7 +89,7 @@ const preview: Preview = {
       const calledStory = story();
       calledStory.template = context.parameters.internalWrapper ? twig(`
         <div id="main">
-          <div id="update_assistant_external" class="${selectedThemeClass}">
+          <div id="update_assistant_notification" class="${selectedThemeClass}">
             ${calledStory.template.getSource()}
             ${cssContents.map((cssFile) => `<link rel="stylesheet" type="text/css" href="${cssFile}" />`)}
           </div>

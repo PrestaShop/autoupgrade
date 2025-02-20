@@ -14,7 +14,7 @@ class UpdateNotificationService
         return new UpdateNotificationConfiguration(json_decode(Configuration::get(self::CONFIG_KEY), true));
     }
 
-    public function setUpdateNotificationConfiguration(UpdateNotificationConfiguration $configuration): void
+    public function saveUpdateNotificationConfiguration(UpdateNotificationConfiguration $configuration): void
     {
         Configuration::updateValue(self::CONFIG_KEY, $configuration->toJson());
     }

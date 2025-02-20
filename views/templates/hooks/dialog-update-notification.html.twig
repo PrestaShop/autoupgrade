@@ -92,13 +92,16 @@
       </div>
 
       <div class="dialog-notification__buttons">
-        <a class="dialog-notification__button btn btn-default" href="#" data-dismiss="dialog">
-          {{ 'Later'|trans({}) }}
-        </a>
-
-        <a class="dialog-notification__button btn btn-primary" href="{{ update_link }}">
-          {{ 'Update'|trans({}) }}
-        </a>
+        <form id="dismiss-update" name="dismiss-update" action="" data-action="dismiss-update">
+          <button type="submit" class="dialog-notification__button btn btn-default"  data-dismiss="dialog">
+            {{ 'Later'|trans({}) }}
+          </button>
+        </form>
+        <form id="submit-update" name="submit-update" action="" data-action="submit-update">
+          <button type="submit" class="dialog-notification__button btn btn-primary" autofocus>
+            {{ 'Update'|trans({}) }}
+          </button>
+        </form>
       </div>
     </div>
   </div>

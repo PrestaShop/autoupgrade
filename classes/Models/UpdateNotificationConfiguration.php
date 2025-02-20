@@ -80,6 +80,21 @@ class UpdateNotificationConfiguration
         return $this->releaseNote;
     }
 
+    public function addEmployee(int $employeeId, int $timestamp): void
+    {
+        foreach ($this->employees as &$employee) {
+            if ($employee['employeeID'] === $employeeId) {
+                $employee['timestamp'] = $timestamp;
+                return;
+            }
+        }
+
+        $this->employees[] = [
+            'employeeID' => $employeeId,
+            'timestamp' => $timestamp,
+        ];
+    }
+
     /**
      * @return array<array{employeeID: int, timestamp: int}>
      */

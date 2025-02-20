@@ -30,7 +30,7 @@ class PageSelectors
     public const RADIO_CARD_ONLINE_PARENT_ID = 'radio_card_online';
     public const RADIO_CARD_ARCHIVE_PARENT_ID = 'radio_card_archive';
     public const DOWNLOAD_LOGS_PARENT_ID = 'download_logs';
-    public const EXTERNAL_PARENT_ID = 'update_assistant_external';
+    public const NOTIFICATION_PARENT_ID = 'update_assistant_notification';
 
     /**
      * @return array<string, string>

@@ -97,6 +97,20 @@ class Autoupgrade extends Module
             }
         }
 
+        if (!Tab::getIdFromClassName('AdminAutoupgradeAjax')) {
+            $ajaxTab = new Tab();
+            $ajaxTab->class_name = 'AdminAutoupgradeAjax';
+            $ajaxTab->module = 'autoupgrade';
+            $ajaxTab->id_parent = -1;
+
+            foreach (Language::getLanguages(false) as $lang) {
+                $ajaxTab->name[(int) $lang['id_lang']] = 'Update assistant';
+            }
+            if (!$ajaxTab->save()) {
+                return $this->_abortInstall($this->trans('Unable to create the "AdminAutoupgradeAjax" tab'));
+            }
+        }
+
         return parent::install() && $this->registerHook('actionAdminControllerSetMedia') && $this->registerHook('displayBackOfficeHeader');
     }
 
@@ -105,11 +119,17 @@ class Autoupgrade extends Module
      */
     public function uninstall()
     {
-        // Delete the 1-click upgrade Back-office tab
+        // Delete the module Back-office tab
         $id_tab = Tab::getIdFromClassName('AdminSelfUpgrade');
         if ($id_tab) {
             $tab = new Tab((int) $id_tab);
             $tab->delete();
+        }
+
+        $id_ajax_tab = Tab::getIdFromClassName('AdminAutoupgradeAjax');
+        if ($id_ajax_tab) {
+            $ajaxTab = new Tab((int) $id_ajax_tab);
+            $ajaxTab->delete();
         }
 
         // Remove the 1-click upgrade working directory
@@ -186,18 +206,6 @@ class Autoupgrade extends Module
         return $translator->trans($id, $parameters);
     }
 
-    private function isDefaultController()
-    {
-        $controller = Tools::getValue('controller');
-        $employee = new Employee($this->context->employee->id);
-        $default_tab_id = $employee->default_tab;
-
-        $tab = new Tab($default_tab_id);
-        $default_controller = $tab->class_name;
-
-        return $controller === $default_controller;
-    }
-
     /**
      * Hook called after the backoffice content is rendered.
      * Used to display the update notification dialog.
@@ -222,24 +230,8 @@ class Autoupgrade extends Module
             require_once $autoloadPath;
         }
 
-        if (!$this->isDefaultController()) {
-            return '';
-        }
-
         require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/classes/Hooks/DisplayBackOfficeHeader.php';
 
-        $htmlToReturn = '<script src="' . ($this->_path . 'views/js/autoupgrade-notification.js') . '" type="module"></script>';
-
-        $htmlToReturn .= (new \PrestaShop\Module\AutoUpgrade\Hooks\DisplayBackOfficeHeader())->renderUpdateNotification();
-
-        return $htmlToReturn;
-    }
-
-    /**
-     * @return void
-     */
-    public function hookActionAdminControllerSetMedia()
-    {
-        $this->context->controller->addCSS($this->_path . 'views/css/autoupgrade-notification.css');
+        return (new \PrestaShop\Module\AutoUpgrade\Hooks\DisplayBackOfficeHeader())->renderUpdateNotification();
     }
 }
