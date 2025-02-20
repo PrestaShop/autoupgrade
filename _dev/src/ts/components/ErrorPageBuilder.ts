@@ -54,13 +54,12 @@ export default class ErrorPageBuilder {
    */
   public updateDescriptionBlock(errorDetails: Pick<ApiError, 'code' | 'type'>): void {
     const errorDescriptionElement = this.errorElement.querySelector('.error-page__desc');
-    const userFriendlyDescriptionElement = errorDescriptionElement?.querySelector(
-      `.error-page__desc-${isHttpErrorCode(errorDetails.code) ? errorDetails.code : errorDetails.type}`
-    );
+    const userFriendlyDescriptionElement =
+      errorDescriptionElement?.querySelector(
+        `.error-page__desc-${isHttpErrorCode(errorDetails.code) ? errorDetails.code : errorDetails.type}`
+      ) || errorDescriptionElement?.querySelector('.error-page__desc-unknown');
     if (userFriendlyDescriptionElement) {
       userFriendlyDescriptionElement.classList.remove('hidden');
-    } else if (errorDescriptionElement && errorDetails.type) {
-      errorDescriptionElement.innerHTML = errorDetails.type;
     }
   }
 

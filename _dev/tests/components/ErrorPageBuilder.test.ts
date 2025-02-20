@@ -86,6 +86,10 @@ describe('ErrorPageBuilder', () => {
         <li>There's an issue with the network or connection.</li>
       </ul>
     </div>
+
+    <div class="error-page__desc-unknown hidden">
+      <p>{{ 'An unknown error occurred. It was unexpected and may be caused by a temporary issue with the server.'|trans({}) }}</p>
+    </div>
   </div>
 
         <div class="error-page__buttons">
@@ -167,9 +171,11 @@ describe('ErrorPageBuilder', () => {
     ).toBe(false);
   });
 
-  test('updateDescriptionBlock should set error type as text if no message available', () => {
+  test('updateDescriptionBlock should set a default messahe if no specific one is available', () => {
     errorPageBuilder.updateDescriptionBlock({ code: 999, type: 'CUSTOM_ERROR' });
-    expect(errorElement.querySelector('.error-page__desc')!.innerHTML).toBe('CUSTOM_ERROR');
+    expect(
+      errorElement.querySelector('.error-page__desc-unknown')!.classList.contains('hidden')
+    ).toBe(false);
   });
 
   test('updateResponseBlock should get the response contents', () => {

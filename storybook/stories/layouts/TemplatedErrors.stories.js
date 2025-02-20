@@ -71,6 +71,12 @@ export const Error502 = {
   },
 };
 
+export const Error560 = {
+  play: async ({ canvasElement }) => {
+    new Hydration().hydrateError({ code: 560 });
+  },
+};
+
 export const Timeout = {
   play: async ({ canvasElement }) => {
     new Hydration().hydrateError({ type: "ETIMEDOUT" });
