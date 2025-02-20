@@ -42,29 +42,27 @@ class UpdateNotificationConfiguration
      */
     private $employees = [];
 
-    public function __construct($configuration = null)
+    /**
+     * @param array{lastCheck: array{timestamp: int|null, version: string|null, releaseNote: string|null}, employees: array<array{employeeID: int, timestamp: int}>}|null $configuration
+     */
+    public function __construct(array $configuration = null)
     {
         if ($configuration) {
-            if (isset($configuration['lastCheck'])) {
-                $lastCheck = $configuration['lastCheck'];
+            $lastCheck = $configuration['lastCheck'];
 
-                if (isset($lastCheck['timestamp'])) {
-                    $this->timestamp = $lastCheck['timestamp'];
-                }
-
-                if (isset($lastCheck['version'])) {
-                    $this->version = $lastCheck['version'];
-                }
-
-                if (isset($lastCheck['releaseNote'])) {
-                    $this->releaseNote = $lastCheck['releaseNote'];
-                }
+            if (isset($lastCheck['timestamp'])) {
+                $this->timestamp = $lastCheck['timestamp'];
             }
 
-            if (isset($configuration['employees'])) {
-                $this->employees = $configuration['employees'];
+            if (isset($lastCheck['version'])) {
+                $this->version = $lastCheck['version'];
             }
-        } else {
+
+            if (isset($lastCheck['releaseNote'])) {
+                $this->releaseNote = $lastCheck['releaseNote'];
+            }
+
+            $this->employees = $configuration['employees'];
         }
     }
 
@@ -122,7 +120,7 @@ class UpdateNotificationConfiguration
         return $this->employees;
     }
 
-    public function toJson()
+    public function toJson(): string
     {
         return json_encode([
             'lastCheck' => [

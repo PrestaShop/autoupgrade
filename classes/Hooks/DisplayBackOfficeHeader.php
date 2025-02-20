@@ -136,7 +136,7 @@ class DisplayBackOfficeHeader
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    private function addScriptsVariables()
+    private function addScriptsVariables(): void
     {
         $adminDir = trim(str_replace(_PS_ROOT_DIR_, '', realpath(_PS_ADMIN_DIR_)), DIRECTORY_SEPARATOR);
 
@@ -158,7 +158,7 @@ class DisplayBackOfficeHeader
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    private function addUIAssets(Request $request)
+    private function addUIAssets(Request $request): void
     {
         $assetsEnvironment = $this->container->getAssetsEnvironment();
         $assetsBaseUrl = $assetsEnvironment->getAssetsBaseUrl($request);
@@ -173,7 +173,7 @@ class DisplayBackOfficeHeader
         }
     }
 
-    private function isDefaultController()
+    private function isDefaultController(): bool
     {
         $controller = Tools::getValue('controller');
         $employee = new Employee($this->employeeId);

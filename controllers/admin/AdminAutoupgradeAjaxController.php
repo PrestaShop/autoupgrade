@@ -48,7 +48,7 @@ class AdminAutoupgradeAjaxController extends ModuleAdminController
     public function postProcess()
     {
         if (!$this->isActualPHPVersionCompatible) {
-            return;
+            return false;
         }
 
         $action = Tools::getValue('action');
@@ -66,5 +66,7 @@ class AdminAutoupgradeAjaxController extends ModuleAdminController
             ]))->send();
             exit;
         }
+
+        return true;
     }
 }
