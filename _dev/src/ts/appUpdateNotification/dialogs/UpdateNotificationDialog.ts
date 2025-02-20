@@ -87,15 +87,19 @@ export default class UpdateNotificationDialog implements DomLifecycle {
       this.#dialog.close();
     }
 
-    const response = await api.post('', null, {
-      params: { action: form.dataset.action }
-    });
+    try {
+      const response = await api.post('', null, {
+        params: { action: form.dataset.action }
+      });
 
-    if (response.data.url_to_redirect) {
-      window.location = response.data.url_to_redirect;
+      if (response.data.url_to_redirect) {
+        window.location = response.data.url_to_redirect;
+      }
+
+      this.beforeDestroy();
+    } catch (error) {
+      console.error(error);
     }
-
-    this.beforeDestroy();
   };
 
   #preventClose = (event: Event): void => {
