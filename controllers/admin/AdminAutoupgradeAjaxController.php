@@ -18,10 +18,10 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 
-use PrestaShop\Module\AutoUpgrade\Services\UpdateNotificationService;
-use PrestaShop\Module\AutoUpgrade\Router\Routes;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use PrestaShop\Module\AutoUpgrade\Hooks\DisplayBackOfficeHeader;
+use PrestaShop\Module\AutoUpgrade\Router\Routes;
+use PrestaShop\Module\AutoUpgrade\Services\UpdateNotificationService;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class AdminAutoupgradeAjaxController extends ModuleAdminController
 {

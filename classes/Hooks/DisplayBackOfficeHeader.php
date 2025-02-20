@@ -20,24 +20,24 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Hooks;
 
+use Context;
+use Employee;
+use Exception;
 use PrestaShop\Module\AutoUpgrade\DocumentationLinks;
+use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
+use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\Models\UpdateNotificationConfiguration;
 use PrestaShop\Module\AutoUpgrade\Services\UpdateNotificationService;
+use PrestaShop\Module\AutoUpgrade\Twig\PageSelectors;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\Upgrader;
-use PrestaShop\Module\AutoUpgrade\Twig\PageSelectors;
 use PrestaShop\Module\AutoUpgrade\VersionUtils;
 use Symfony\Component\HttpFoundation\Request;
-use Exception;
-use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
-use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
-use Context;
+use Tab;
 use Tools;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
-use Tab;
-use Employee;
 
 class DisplayBackOfficeHeader
 {
@@ -89,7 +89,6 @@ class DisplayBackOfficeHeader
         $this->psVersion = $this->container->getProperty(UpgradeContainer::PS_VERSION);
         $this->context = Context::getContext();
         $this->employeeId = $this->context->employee->id;
-
     }
 
     /**
@@ -121,7 +120,7 @@ class DisplayBackOfficeHeader
 
         $employees = $this->updateNotificationConfiguration->getEmployees();
 
-        $employeeExists = array_filter($employees, function($employee) {
+        $employeeExists = array_filter($employees, function ($employee) {
             return $employee['employeeID'] === $this->employeeId;
         });
 
@@ -204,7 +203,7 @@ class DisplayBackOfficeHeader
             $this->updateNotificationConfiguration->setReleaseNote($releaseNote);
         }
 
-        (new UpdateNotificationService)->saveUpdateNotificationConfiguration($this->updateNotificationConfiguration);
+        (new UpdateNotificationService())->saveUpdateNotificationConfiguration($this->updateNotificationConfiguration);
     }
 
     /**

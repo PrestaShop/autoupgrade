@@ -103,6 +103,7 @@ class UpdateNotificationConfiguration
         foreach ($this->employees as &$employee) {
             if ($employee['employeeID'] === $employeeId) {
                 $employee['timestamp'] = $timestamp;
+
                 return;
             }
         }
