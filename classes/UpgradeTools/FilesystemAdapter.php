@@ -236,11 +236,10 @@ class FilesystemAdapter
      * @throws IOException if the removal of a file or directory fails
      *
      * @param string $folderToClear the absolute path of the directory to be cleared
-     * @param bool $deleteFolder whether to delete the entire directory after clearing its contents
      *
-     * @return bool returns `true` if any files or the directory itself were deleted, `false` otherwise
+     * @return bool returns `true` if any files/folders were deleted, `false` otherwise
      */
-    public function clearDirectory(string $folderToClear, bool $deleteFolder = false): bool
+    public function clearDirectory(string $folderToClear): bool
     {
         $hasDeletedItems = false;
 
@@ -252,11 +251,6 @@ class FilesystemAdapter
 
                     $hasDeletedItems = true;
                 }
-            }
-
-            if ($deleteFolder) {
-                $this->filesystem->remove($folderToClear);
-                $hasDeletedItems = true;
             }
         }
 

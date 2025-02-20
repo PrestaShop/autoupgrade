@@ -71,13 +71,8 @@ class CacheCleaner
                 $this->logger->debug($this->container->getTranslator()->trans('Directory "%s" does not exist and cannot be emptied.', [str_replace($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH), '', $dir)]));
                 continue;
             }
-            foreach (scandir($dir) as $file) {
-                if ($file[0] === '.' || $file === 'index.php') {
-                    continue;
-                }
-                $this->container->getFilesystemAdapter()->clearDirectory($dir . $file, true);
-                $this->logger->debug($this->container->getTranslator()->trans('File %s removed', [$file]));
-            }
+            $this->container->getFilesystemAdapter()->clearDirectory($dir);
+            $this->logger->debug($this->container->getTranslator()->trans('Directory %s emptied', [$dir]));
         }
     }
 }
