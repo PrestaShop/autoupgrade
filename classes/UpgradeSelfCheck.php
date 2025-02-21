@@ -51,8 +51,6 @@ class UpgradeSelfCheck
     private $localEnvironement;
     /** @var bool */
     private $cacheDisabled;
-    /** @var bool */
-    private $safeModeDisabled;
     /** @var bool|mixed */
     private $moduleVersionIsLatest;
     /** @var int */
@@ -96,7 +94,6 @@ class UpgradeSelfCheck
     const PHP_COMPATIBILITY_INVALID = 0;
     const ROOT_DIRECTORY_NOT_WRITABLE = 1;
     const ADMIN_UPGRADE_DIRECTORY_NOT_WRITABLE = 2;
-    const SAFE_MODE_ENABLED = 3;
     const F_OPEN_AND_CURL_DISABLED = 4;
     const ZIP_DISABLED = 5;
     const MAINTENANCE_MODE_DISABLED = 6;
@@ -152,7 +149,6 @@ class UpgradeSelfCheck
         $errors = [
             self::ROOT_DIRECTORY_NOT_WRITABLE => !$this->isRootDirectoryWritable(),
             self::ADMIN_UPGRADE_DIRECTORY_NOT_WRITABLE => !$this->isAdminAutoUpgradeDirectoryWritable(),
-            self::SAFE_MODE_ENABLED => !$this->isSafeModeDisabled(),
             self::F_OPEN_AND_CURL_DISABLED => !$this->isFOpenOrCurlEnabled(),
             self::ZIP_DISABLED => !$this->isZipEnabled(),
             self::MAINTENANCE_MODE_DISABLED => !$this->isLocalEnvironment() && !$this->isShopDeactivated(),
@@ -232,11 +228,6 @@ class UpgradeSelfCheck
                         'The %s directory isn\'t writable. Provide write access to the user running PHP with appropriate permission & ownership.',
                         [$this->autoUpgradePath]
                     ),
-                ];
-
-            case self::SAFE_MODE_ENABLED:
-                return [
-                    'message' => $this->translator->trans('PHP\'s "Safe mode" needs to be disabled.'),
                 ];
 
             case self::F_OPEN_AND_CURL_DISABLED:
@@ -507,15 +498,6 @@ class UpgradeSelfCheck
         return $this->cacheDisabled = !(defined('_PS_CACHE_ENABLED_') && false != _PS_CACHE_ENABLED_);
     }
 
-    public function isSafeModeDisabled(): bool
-    {
-        if (null !== $this->safeModeDisabled) {
-            return $this->safeModeDisabled;
-        }
-
-        return $this->safeModeDisabled = $this->checkSafeModeIsDisabled();
-    }
-
     /**
      * @throws UpgradeException
      */
@@ -769,16 +751,6 @@ class UpgradeSelfCheck
             false,
             $this->adminAutoUpgradeDirectoryWritableReport
         );
-    }
-
-    private function checkSafeModeIsDisabled(): bool
-    {
-        $safeMode = @ini_get('safe_mode');
-        if (empty($safeMode)) {
-            $safeMode = '';
-        }
-
-        return !in_array(strtolower($safeMode), [1, 'on']);
     }
 
     private function checkMaxExecutionTime(): int
