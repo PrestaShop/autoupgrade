@@ -982,14 +982,14 @@ Comment: directory already exists</note>
         <target state="final">Apache mod_rewrite musí být povolen.</target>
         <note>Line: 250</note>
       </trans-unit>
-      <trans-unit id="e469f21f7c9e2988397986b161345171">
+      <trans-unit id="e469f21f7c9e2988397986b161345171" approved="yes">
         <source>The following PHP extension%s need%s to be installed:</source>
-        <target state="needs-translation">The following PHP extension%s need%s to be installed:</target>
+        <target state="final">Je třeba nainstalovat následující rozšíření PHP%s%s:</target>
         <note>Line: 256</note>
       </trans-unit>
-      <trans-unit id="02f31136ff84e0c27a0a7d3328596fcd">
+      <trans-unit id="02f31136ff84e0c27a0a7d3328596fcd" approved="yes">
         <source>The following PHP function%s need%s to be allowed:</source>
-        <target state="needs-translation">The following PHP function%s need%s to be allowed:</target>
+        <target state="final">Následující funkce PHP musí být povoleny%s%s:</target>
         <note>Line: 264</note>
       </trans-unit>
       <trans-unit id="a220e0ac5c6f7fa8692c131148ed050a" approved="yes">
