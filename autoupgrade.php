@@ -193,7 +193,7 @@ class Autoupgrade extends Module
      *
      * @return void
      */
-    public function hookDisplayBackOfficeEmployeeMenu(array $params): void
+    public function hookDisplayBackOfficeEmployeeMenu(array $params)
     {
         if (
             !class_exists(\PrestaShop\PrestaShop\Core\Action\ActionsBarButtonsCollection::class)
