@@ -186,6 +186,13 @@ class Autoupgrade extends Module
         return $translator->trans($id, $parameters);
     }
 
+    /**
+     * Only available from PS8.
+     *
+     * @param array{links: \PrestaShop\PrestaShop\Core\Action\ActionsBarButtonsCollection} $params
+     *
+     * @return void
+     */
     public function hookDisplayBackOfficeEmployeeMenu(array $params): void
     {
         if (

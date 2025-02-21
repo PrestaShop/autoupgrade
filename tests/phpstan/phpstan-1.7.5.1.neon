@@ -13,6 +13,7 @@ parameters:
 		- "#^Class PrestaShop\\\\Module\\\\AutoUpgrade\\\\Parameters\\\\RestoreConfiguration @extends tag contains incompatible type Doctrine\\\\Common\\\\Collections\\\\ArrayCollection&iterable\\<string, mixed\\>\\.$#"
 		- '#Instantiated class AdminKernel not found\.#'
 		- "#^Parameter \\#1 \\$callback of function array_map expects \\(callable\\(int\\)\\: mixed\\)\\|null, 'add_quotes' given\\.$#"
+		- '#Parameter \$params of method Autoupgrade::hookDisplayBackOfficeEmployeeMenu\(\) has invalid type PrestaShop\\PrestaShop\\Core\\Action\\ActionsBarButtonsCollection.#'
 		-
 			identifier: booleanAnd.rightAlwaysTrue
 			path: ./../../classes/UpgradeSelfCheck.php
