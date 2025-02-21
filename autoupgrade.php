@@ -97,7 +97,7 @@ class Autoupgrade extends Module
             }
         }
 
-        return parent::install();
+        return parent::install() && $this->registerHook('displayBackOfficeEmployeeMenu');
     }
 
     /**
@@ -184,5 +184,28 @@ class Autoupgrade extends Module
         );
 
         return $translator->trans($id, $parameters);
+    }
+
+    public function hookDisplayBackOfficeEmployeeMenu(array $params): void
+    {
+        if (
+            !class_exists(\PrestaShop\PrestaShop\Core\Action\ActionsBarButtonsCollection::class)
+            || !class_exists(\PrestaShop\PrestaShop\Core\Action\ActionsBarButton::class)
+            || !($params['links'] instanceof \PrestaShop\PrestaShop\Core\Action\ActionsBarButtonsCollection)
+        ) {
+            return;
+        }
+
+        $params['links']->add(
+            new \PrestaShop\PrestaShop\Core\Action\ActionsBarButton(
+                __CLASS__,
+                [
+                    'link' => 'https://build.prestashop-project.org/tag/releases/',
+                    'icon' => 'history',
+                    'isExternalLink' => true,
+                ],
+                $this->trans('Discover the latest releases')
+            )
+        );
     }
 }
