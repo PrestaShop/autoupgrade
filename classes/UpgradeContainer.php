@@ -43,6 +43,7 @@ use PrestaShop\Module\AutoUpgrade\Services\DownloadService;
 use PrestaShop\Module\AutoUpgrade\Services\LogsService;
 use PrestaShop\Module\AutoUpgrade\Services\PhpVersionResolverService;
 use PrestaShop\Module\AutoUpgrade\Services\PrestashopVersionService;
+use PrestaShop\Module\AutoUpgrade\Services\UpdateNotificationService;
 use PrestaShop\Module\AutoUpgrade\State\AbstractState;
 use PrestaShop\Module\AutoUpgrade\State\BackupState;
 use PrestaShop\Module\AutoUpgrade\State\LogsState;
@@ -205,6 +206,9 @@ class UpgradeContainer
 
     /** @var UpgradeSelfCheck */
     private $upgradeSelfCheck;
+
+    /** @var UpdateNotificationService */
+    private $updateNotificationService;
 
     /** @var PhpVersionResolverService */
     private $phpVersionResolverService;
@@ -752,6 +756,15 @@ class UpgradeContainer
         }
 
         return $this->restoreConfiguration;
+    }
+
+    public function getUpdateNotificationService(): UpdateNotificationService
+    {
+        if (null === $this->updateNotificationService) {
+            $this->updateNotificationService = new UpdateNotificationService();
+        }
+
+        return $this->updateNotificationService;
     }
 
     /**

@@ -54,6 +54,11 @@ class DisplayBackOfficeHeader
     private $upgrader;
 
     /**
+     * @var UpdateNotificationService
+     */
+    private $updateNotificationService;
+
+    /**
      * @var UpdateNotificationConfiguration
      */
     private $updateNotificationConfiguration;
@@ -85,7 +90,8 @@ class DisplayBackOfficeHeader
     {
         $this->container = new UpgradeContainer(_PS_ROOT_DIR_, realpath(_PS_ADMIN_DIR_));
         $this->upgrader = $this->container->getUpgrader();
-        $this->updateNotificationConfiguration = (new UpdateNotificationService())->getUpdateNotificationConfiguration();
+        $this->updateNotificationService = $this->container->getUpdateNotificationService();
+        $this->updateNotificationConfiguration = $this->updateNotificationService->getUpdateNotificationConfiguration();
         $this->psVersion = $this->container->getProperty(UpgradeContainer::PS_VERSION);
         $this->context = Context::getContext();
         $this->employeeId = $this->context->employee->id;
@@ -114,7 +120,7 @@ class DisplayBackOfficeHeader
         $request = Request::createFromGlobals();
         $this->addUIAssets($request);
 
-        if (!$this->isDefaultController()) {
+        if (!$this->isEmployeeDefaultController()) {
             return $this->content;
         }
 
@@ -173,7 +179,7 @@ class DisplayBackOfficeHeader
         }
     }
 
-    private function isDefaultController(): bool
+    private function isEmployeeDefaultController(): bool
     {
         $controller = Tools::getValue('controller');
         $employee = new Employee($this->employeeId);
@@ -203,7 +209,7 @@ class DisplayBackOfficeHeader
             $this->updateNotificationConfiguration->setReleaseNote($releaseNote);
         }
 
-        (new UpdateNotificationService())->saveUpdateNotificationConfiguration($this->updateNotificationConfiguration);
+        $this->updateNotificationService->saveUpdateNotificationConfiguration($this->updateNotificationConfiguration);
     }
 
     /**
