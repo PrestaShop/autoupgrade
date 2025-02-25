@@ -25,6 +25,11 @@ class Autoupgrade extends Module
      */
     public $multishop_context;
 
+    /**
+     * @var \PrestaShop\Module\AutoUpgrade\UpgradeContainer
+     */
+    protected $container;
+
     public function __construct()
     {
         $this->name = 'autoupgrade';
@@ -220,9 +225,21 @@ class Autoupgrade extends Module
      */
     public function hookDisplayBackOfficeHeader()
     {
+        if (!$this->initAutoloaderIfCompliant()) {
+            return '';
+        }
+
+        return (new \PrestaShop\Module\AutoUpgrade\Hooks\DisplayBackOfficeHeader($this->getUpgradeContainer()))->renderUpdateNotification();
+    }
+
+    /**
+     * @return bool
+     */
+    public function initAutoloaderIfCompliant()
+    {
         require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/classes/VersionUtils.php';
         if (!\PrestaShop\Module\AutoUpgrade\VersionUtils::isActualPHPVersionCompatible()) {
-            return '';
+            return false;
         }
 
         $autoloadPath = __DIR__ . '/vendor/autoload.php';
@@ -230,6 +247,18 @@ class Autoupgrade extends Module
             require_once $autoloadPath;
         }
 
-        return (new \PrestaShop\Module\AutoUpgrade\Hooks\DisplayBackOfficeHeader())->renderUpdateNotification();
+        return true;
+    }
+
+    /**
+     * @return \PrestaShop\Module\AutoUpgrade\UpgradeContainer
+     */
+    public function getUpgradeContainer()
+    {
+        if (null === $this->container) {
+            $this->container = new \PrestaShop\Module\AutoUpgrade\UpgradeContainer(_PS_ROOT_DIR_, realpath(_PS_ADMIN_DIR_));
+        }
+
+        return $this->container;
     }
 }

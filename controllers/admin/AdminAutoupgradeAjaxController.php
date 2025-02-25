@@ -20,29 +20,33 @@
 
 use PrestaShop\Module\AutoUpgrade\Hooks\DisplayBackOfficeHeader;
 use PrestaShop\Module\AutoUpgrade\Router\Routes;
-use PrestaShop\Module\AutoUpgrade\Services\UpdateNotificationService;
+use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class AdminAutoupgradeAjaxController extends ModuleAdminController
 {
+    /** @var Autoupgrade */
+    public $module;
+
     /** @var bool */
     private $isActualPHPVersionCompatible = true;
+
+    /**
+     * @var UpgradeContainer
+     */
+    private $upgradeContainer;
 
     public function __construct()
     {
         parent::__construct();
-        require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/classes/VersionUtils.php';
 
-        if (!\PrestaShop\Module\AutoUpgrade\VersionUtils::isActualPHPVersionCompatible()) {
+        if (!$this->module->initAutoloaderIfCompliant()) {
             $this->isActualPHPVersionCompatible = false;
 
             return;
         }
 
-        $autoloadPath = __DIR__ . '/../../vendor/autoload.php';
-        if (file_exists($autoloadPath)) {
-            require_once $autoloadPath;
-        }
+        $this->upgradeContainer = $this->module->getUpgradeContainer();
     }
 
     public function postProcess()
@@ -54,7 +58,7 @@ class AdminAutoupgradeAjaxController extends ModuleAdminController
         $action = Tools::getValue('action');
         $currentEmployeeId = \Context::getContext()->employee->id;
 
-        $updateNotificationService = new UpdateNotificationService();
+        $updateNotificationService = $this->upgradeContainer->getUpdateNotificationService();
         $updateNotificationConfiguration = $updateNotificationService->getUpdateNotificationConfiguration();
         $updateNotificationConfiguration->addEmployee($currentEmployeeId, time() + DisplayBackOfficeHeader::INTERVAL_CHECK_TIME_IN_SECONDS);
 

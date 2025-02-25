@@ -86,9 +86,9 @@ class DisplayBackOfficeHeader
     /**
      * @throws Exception
      */
-    public function __construct()
+    public function __construct(UpgradeContainer $container)
     {
-        $this->container = new UpgradeContainer(_PS_ROOT_DIR_, realpath(_PS_ADMIN_DIR_));
+        $this->container = $container;
         $this->upgrader = $this->container->getUpgrader();
         $this->updateNotificationService = $this->container->getUpdateNotificationService();
         $this->updateNotificationConfiguration = $this->updateNotificationService->getUpdateNotificationConfiguration();

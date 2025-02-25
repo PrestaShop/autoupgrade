@@ -87,17 +87,10 @@ class AdminSelfUpgradeController extends ModuleAdminController
     {
         $this->bootstrap = true;
         parent::__construct();
-        require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/classes/VersionUtils.php';
-
-        if (!\PrestaShop\Module\AutoUpgrade\VersionUtils::isActualPHPVersionCompatible()) {
+        if (!$this->module->initAutoloaderIfCompliant()) {
             $this->isActualPHPVersionCompatible = false;
 
             return;
-        }
-
-        $autoloadPath = __DIR__ . '/../../vendor/autoload.php';
-        if (file_exists($autoloadPath)) {
-            require_once $autoloadPath;
         }
 
         @set_time_limit(0);
