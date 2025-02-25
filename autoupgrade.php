@@ -111,7 +111,7 @@ class Autoupgrade extends Module
             }
         }
 
-        return parent::install() && $this->registerHook('actionAdminControllerSetMedia') && $this->registerHook('displayBackOfficeHeader');
+        return parent::install() && $this->registerHook('displayBackOfficeHeader');
     }
 
     /**
@@ -229,8 +229,6 @@ class Autoupgrade extends Module
         if (file_exists($autoloadPath)) {
             require_once $autoloadPath;
         }
-
-        require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/classes/Hooks/DisplayBackOfficeHeader.php';
 
         return (new \PrestaShop\Module\AutoUpgrade\Hooks\DisplayBackOfficeHeader())->renderUpdateNotification();
     }
