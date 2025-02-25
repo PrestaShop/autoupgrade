@@ -23,7 +23,7 @@ export default {
   component: DialogUpdateNotification,
   title: "Hooks/hookDisplayBackOfficeHeader/Dialog update notification",
   parameters: {
-    internalWrapper: true,
+    storyContext: 'STANDALONE',
   },
   argTypes: {
     version_type: {

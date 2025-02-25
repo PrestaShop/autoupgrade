@@ -42,7 +42,7 @@ const preview: Preview = {
     backgrounds: {
       disable: true,
     },
-    internalWrapper: false,
+    storyContext: 'MODULE_UI' as 'MODULE_UI' | 'STANDALONE',
     options: {
       storySort: (a, b) =>
         a.id === b.id ? 0 : a.id.localeCompare(b.id, undefined, { numeric: true }),
@@ -87,7 +87,7 @@ const preview: Preview = {
       const selectedThemeClass = `v${selectedTheme.replace(/\./g, '-')}`;
 
       const calledStory = story();
-      calledStory.template = context.parameters.internalWrapper ? twig(`
+      calledStory.template = context.parameters.storyContext === 'STANDALONE' ? twig(`
         <div id="main">
           <div id="update_assistant_notification" class="${selectedThemeClass}">
             ${calledStory.template.getSource()}
@@ -103,7 +103,7 @@ const preview: Preview = {
             </div>
           </div>
         </div>
-      `)
+      `);
       return calledStory;
     },
   ],
