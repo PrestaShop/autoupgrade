@@ -14,7 +14,10 @@
         "// TypeScript Check": "Script to check typescript",
         "check:typescript": "tsc --build ./tsconfig.json",
         "// Run tests": "Script to run sanity tests",
-        "test:sanity": "npx playwright test --ui --headed"
+        "// Sanity": "Scripts to run sanity tests",
+        "test:sanity": "npx playwright test /sanity",
+        "// Functional": "Scripts to run functional tests",
+        "test:functional": "npx playwright test /functional"
     },
     "keywords": [],
     "devDependencies": {

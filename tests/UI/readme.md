@@ -74,12 +74,10 @@ npx playwright install
 ```bash
 # 1 - Install a docker image of the version you need to test (for example 8.1.5 on php 7.2)
 PS_VERSION=8.1.5-7.2 PS_DOMAIN=localhost:9999 docker-compose -f "docker-compose.yml" up --build
-# 2 - Install autoupgrade module
-docker exec -t prestashop php bin/console prestashop:module install autoupgrade
-# 3 - Create backup
+# 2 - Create backup
 docker exec -t prestashop php modules/autoupgrade/bin/console backup:create admin-dev
 
-# 4 - If you want to upgrade using channel **local**
+# 3 - If you want to upgrade using channel **local**
 # Download local ZIP and XML of PS 8.2.0
 docker exec -t prestashop curl --fail -L https://github.com/PrestaShop/zip-archives/raw/main/prestashop_8.2.0.zip
  -o admin-dev/autoupgrade/download/prestashop_8.2.0.zip
@@ -89,19 +87,19 @@ docker exec -t prestashop sh -c "echo '{\"local\":\"online\",\"archive_zip\":\"p
 \"archive_xml\":\"prestashop_8.2.0.xml\",\"PS_AUTOUP_CUSTOM_MOD_DESACT\":\"true\",\"PS_AUTOUP_CHANGE_DEFAULT_THEME\"
 :\"false\",\"PS_AUTOUP_KEEP_IMAGES\":\"true\",\"PS_DISABLE_OVERRIDES\":\"true\"}' > modules/autoupgrade/config.json"
 
-# 4 - If you want to upgrade using channel **online**
+# 3 - If you want to upgrade using channel **online**
 # Create config file of new version 8.2.0
 docker exec -t prestashop sh -c "echo '{\"channel\":\"online\",\"archive_zip\":\"prestashop_8.2.0.zip\",
 \"archive_xml\":\"prestashop_8.2.0.xml\",\"PS_AUTOUP_CUSTOM_MOD_DESACT\":\"true\",\"PS_AUTOUP_CHANGE_DEFAULT_THEME\"
 :\"false\",\"PS_AUTOUP_KEEP_IMAGES\":\"true\",\"PS_DISABLE_OVERRIDES\":\"true\"}' > modules/autoupgrade/config.json"
 
-# 5 - Update to 8.2.0
+# 4 - Update to 8.2.0
 docker exec -t prestashop php modules/autoupgrade/bin/console update:start --config-file-path=modules/autoupgrade/config.json
  --channel=online admin-dev
-# 6 - Permission
+# 5 - Permission
 docker exec -t prestashop chmod 777 -R /var/www/html/var
 
-# 7 - If your PS start version is < 1.7.1 you should disable welcome module
+# 6 - If your PS start version is < 1.7.1 you should disable welcome module
 docker exec -t prestashop php bin/console prestashop:module disable welcome
 docker exec -t prestashop chmod 777 -R /var/www/html/var
 ```
