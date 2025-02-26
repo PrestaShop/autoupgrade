@@ -2,6 +2,21 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file original="messages" source-language="en-US" target-language="en-US" datatype="plaintext">
     <body>
+      <trans-unit id="21dc065f2d8653ebca37ec552d17b37e">
+        <source>Unable to create the directory "%s"</source>
+        <target>Unable to create the directory "%s"</target>
+        <note>controllers/admin/AdminSelfUpgradeController.php:158</note>
+      </trans-unit>
+      <trans-unit id="6215d33db0d099fcaae168dd4715135a">
+        <source>Unable to write in the directory "%s"</source>
+        <target>Unable to write in the directory "%s"</target>
+        <note>controllers/admin/AdminSelfUpgradeController.php:124</note>
+      </trans-unit>
+      <trans-unit id="f4eb320e09f7ef88a627229870458454">
+        <source>The module %s requires PHP %s to work properly. Please upgrade your server configuration.</source>
+        <target>The module %s requires PHP %s to work properly. Please upgrade your server configuration.</target>
+        <note>controllers/admin/AdminSelfUpgradeController.php:262</note>
+      </trans-unit>
       <trans-unit id="001c32426a6cfb48ebb848b13141593c">
         <source>Major version</source>
         <target>Major version</target>
@@ -37,140 +52,45 @@
         <target>Some theme files have been altered, customization made on these files will be lost during the update.</target>
         <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:255</note>
       </trans-unit>
-      <trans-unit id="21dc065f2d8653ebca37ec552d17b37e">
-        <source>Unable to create the directory "%s"</source>
-        <target>Unable to create the directory "%s"</target>
-        <note>controllers/admin/AdminSelfUpgradeController.php:158</note>
+      <trans-unit id="708a3f63d9d379278db1b2bb25f7b79b">
+        <source>Download attempt %d/%d failed: %s</source>
+        <target>Download attempt %d/%d failed: %s</target>
+        <note>classes/Services/DownloadService.php:61</note>
       </trans-unit>
-      <trans-unit id="6215d33db0d099fcaae168dd4715135a">
-        <source>Unable to write in the directory "%s"</source>
-        <target>Unable to write in the directory "%s"</target>
-        <note>controllers/admin/AdminSelfUpgradeController.php:124</note>
+      <trans-unit id="00941baee2b9096432b9269913074b2d">
+        <source>All download attempts have failed.</source>
+        <target>All download attempts have failed.</target>
+        <note>classes/Services/DownloadService.php:69</note>
       </trans-unit>
-      <trans-unit id="f4eb320e09f7ef88a627229870458454">
-        <source>The module %s requires PHP %s to work properly. Please upgrade your server configuration.</source>
-        <target>The module %s requires PHP %s to work properly. Please upgrade your server configuration.</target>
-        <note>controllers/admin/AdminSelfUpgradeController.php:262</note>
+      <trans-unit id="d85af10b8037ad6ab6e4f37877b54867">
+        <source>The file could not be downloaded or is empty. Destination path: "%s", Source URL: "%s".</source>
+        <target>The file could not be downloaded or is empty. Destination path: "%s", Source URL: "%s".</target>
+        <note>classes/Services/DownloadService.php:78</note>
       </trans-unit>
-      <trans-unit id="26b9f7a72f6303211ad6d2f635ea680e">
-        <source>Your current PHP version isn't compatible with PrestaShop %s. (Expected: %s - %s | Current: %s)</source>
-        <target>Your current PHP version isn't compatible with PrestaShop %s. (Expected: %s - %s | Current: %s)</target>
-        <note>classes/UpgradeSelfCheck.php:215</note>
+      <trans-unit id="9e08efbdb97e0fc7bae5cffff0ce59e8">
+        <source>Error when retrieving Prestashop versions from Distribution api</source>
+        <target>Error when retrieving Prestashop versions from Distribution api</target>
+        <note>classes/Services/DistributionApiService.php:77</note>
       </trans-unit>
-      <trans-unit id="1c66c3bb21f2926dee75dc54c1c6435f">
-        <source><![CDATA[Your store's root directory %s isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></source>
-        <target><![CDATA[Your store's root directory %s isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></target>
-        <note>classes/UpgradeSelfCheck.php:223</note>
+      <trans-unit id="90983283d1e14aa535ea65a1f9033115">
+        <source>No version match in Distribution api for %s</source>
+        <target>No version match in Distribution api for %s</target>
+        <note>classes/Services/DistributionApiService.php:64</note>
       </trans-unit>
-      <trans-unit id="75c48e6592370a40d426a3ff0a753901">
-        <source><![CDATA[The %s directory isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></source>
-        <target><![CDATA[The %s directory isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></target>
-        <note>classes/UpgradeSelfCheck.php:232</note>
+      <trans-unit id="7f8f7ff0c4bb4599a45fa5b3708dd2c4">
+        <source>Download backup logs</source>
+        <target>Download backup logs</target>
+        <note>views/templates/steps/backup-options.html.twig:41</note>
       </trans-unit>
-      <trans-unit id="abfe505ee370819199423ad97df77dec">
-        <source>PHP's "Safe mode" needs to be disabled.</source>
-        <target>PHP's "Safe mode" needs to be disabled.</target>
-        <note>classes/UpgradeSelfCheck.php:239</note>
+      <trans-unit id="deaf32a53ead325a232c297209dc187f">
+        <source>Download restore logs</source>
+        <target>Download restore logs</target>
+        <note>classes/Services/LogsService.php:113</note>
       </trans-unit>
-      <trans-unit id="a4cbbaa504b6e21c9152bc783cf68aba">
-        <source>Files can't be downloaded. Enable PHP's "allow_url_fopen" option or install PHP extension "cURL".</source>
-        <target>Files can't be downloaded. Enable PHP's "allow_url_fopen" option or install PHP extension "cURL".</target>
-        <note>classes/UpgradeSelfCheck.php:244</note>
-      </trans-unit>
-      <trans-unit id="f331b3e71fc229a1cfd1aaa3241be853">
-        <source>Missing PHP extension "zip".</source>
-        <target>Missing PHP extension "zip".</target>
-        <note>classes/UpgradeSelfCheck.php:249</note>
-      </trans-unit>
-      <trans-unit id="d321763467936ac779fff7e090d8f0dc">
-        <source><![CDATA[Maintenance mode needs to be enabled. Enable maintenance mode and add your maintenance IP in [1]Shop parameters > General > Maintenance[/1].]]></source>
-        <target><![CDATA[Maintenance mode needs to be enabled. Enable maintenance mode and add your maintenance IP in [1]Shop parameters > General > Maintenance[/1].]]></target>
-        <note>classes/UpgradeSelfCheck.php:267</note>
-      </trans-unit>
-      <trans-unit id="00010e5e74d3de76b6ade544d9341832">
-        <source><![CDATA[PrestaShop's caching features needs to be disabled. Disable caching features in [1]Advanced parameters > Performance > Caching[/1].]]></source>
-        <target><![CDATA[PrestaShop's caching features needs to be disabled. Disable caching features in [1]Advanced parameters > Performance > Caching[/1].]]></target>
-        <note>classes/UpgradeSelfCheck.php:285</note>
-      </trans-unit>
-      <trans-unit id="8ff30224a9960da38da34b6a99d20751">
-        <source>PHP's max_execution_time setting needs to have a high value or needs to be disabled entirely (current value: %s seconds).</source>
-        <target>PHP's max_execution_time setting needs to have a high value or needs to be disabled entirely (current value: %s seconds).</target>
-        <note>classes/UpgradeSelfCheck.php:291</note>
-      </trans-unit>
-      <trans-unit id="26da0df3cbdf0052c8f1205b40ad5072">
-        <source>Apache mod_rewrite needs to be enabled.</source>
-        <target>Apache mod_rewrite needs to be enabled.</target>
-        <note>classes/UpgradeSelfCheck.php:298</note>
-      </trans-unit>
-      <trans-unit id="57bd2c4dc4936edbe3b9247c97e97033">
-        <source>The following PHP extensions need to be installed: </source>
-        <target>The following PHP extensions need to be installed:</target>
-        <note>classes/UpgradeSelfCheck.php:303</note>
-      </trans-unit>
-      <trans-unit id="774da4dc59398b2c1dfcf9be03aaa110">
-        <source>The following PHP functions need to be allowed: </source>
-        <target>The following PHP functions need to be allowed:</target>
-        <note>classes/UpgradeSelfCheck.php:309</note>
-      </trans-unit>
-      <trans-unit id="a220e0ac5c6f7fa8692c131148ed050a">
-        <source>PHP memory_limit needs to be greater than 256 MB.</source>
-        <target>PHP memory_limit needs to be greater than 256 MB.</target>
-        <note>classes/UpgradeSelfCheck.php:315</note>
-      </trans-unit>
-      <trans-unit id="24b3a661ea0947d7dfddb4fe68681907">
-        <source>PHP file_uploads configuration needs to be enabled.</source>
-        <target>PHP file_uploads configuration needs to be enabled.</target>
-        <note>classes/UpgradeSelfCheck.php:320</note>
-      </trans-unit>
-      <trans-unit id="8406b91fd5a290de3a1e1516db6e79b8">
-        <source>Unable to generate private keys using openssl_pkey_new. Check your OpenSSL configuration, especially the path to openssl.cafile.</source>
-        <target>Unable to generate private keys using openssl_pkey_new. Check your OpenSSL configuration, especially the path to openssl.cafile.</target>
-        <note>classes/UpgradeSelfCheck.php:325</note>
-      </trans-unit>
-      <trans-unit id="1f2d0f1827f406e61d44d41b8c3b9a53">
-        <source><![CDATA[It's not possible to write in the following folders. Provide write access to the user running PHP with appropriate permission & ownership: ]]></source>
-        <target><![CDATA[It's not possible to write in the following folders. Provide write access to the user running PHP with appropriate permission & ownership:]]></target>
-        <note>classes/UpgradeSelfCheck.php:330</note>
-      </trans-unit>
-      <trans-unit id="a99553cd5eff17f5895d093c44b5c430">
-        <source>The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table.</source>
-        <target>The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table.</target>
-        <note>classes/UpgradeSelfCheck.php:336</note>
-      </trans-unit>
-      <trans-unit id="68bb3863ee3524f0cfa0f13d5d2ee792">
-        <source><![CDATA[Your current version of the module is out of date. Update now [1]Modules > Module Manager > Updates[/1]]]></source>
-        <target><![CDATA[Your current version of the module is out of date. Update now [1]Modules > Module Manager > Updates[/1]]]></target>
-        <note>classes/UpgradeSelfCheck.php:354</note>
-      </trans-unit>
-      <trans-unit id="e95e7ec14a924e726e71503f90468a66">
-        <source>We were unable to check your PHP compatibility with PrestaShop %s.</source>
-        <target>We were unable to check your PHP compatibility with PrestaShop %s.</target>
-        <note>classes/UpgradeSelfCheck.php:360</note>
-      </trans-unit>
-      <trans-unit id="8fe7d00736157606de57d3d048e341d6">
-        <source>Some core files have been altered or removed. Any changes made to these files may be overwritten during the update. [1]See the list of changes.[/1]</source>
-        <target>Some core files have been altered or removed. Any changes made to these files may be overwritten during the update. [1]See the list of changes.[/1]</target>
-        <note>classes/UpgradeSelfCheck.php:371</note>
-      </trans-unit>
-      <trans-unit id="427da216e71ba0cd2ce8f0cc71fa7943">
-        <source>Some core files have been altered or removed. Any changes made to these files may be overwritten during the update.</source>
-        <target>Some core files have been altered or removed. Any changes made to these files may be overwritten during the update.</target>
-        <note>classes/UpgradeSelfCheck.php:373</note>
-      </trans-unit>
-      <trans-unit id="61404918d61b02676f938f187bdd4481">
-        <source>Some theme files have been altered or removed. Any changes made to these files may be overwritten during the update. [1]See the list of changes.[/1]</source>
-        <target>Some theme files have been altered or removed. Any changes made to these files may be overwritten during the update. [1]See the list of changes.[/1]</target>
-        <note>classes/UpgradeSelfCheck.php:386</note>
-      </trans-unit>
-      <trans-unit id="77e552478a3a1c92107ccae8722476a3">
-        <source>Some theme files have been altered or removed. Any changes made to these files may be overwritten during the update.</source>
-        <target>Some theme files have been altered or removed. Any changes made to these files may be overwritten during the update.</target>
-        <note>classes/UpgradeSelfCheck.php:388</note>
-      </trans-unit>
-      <trans-unit id="5ae505096414401ddbb2affa6620a869">
-        <source>Unknown requirement.</source>
-        <target>Unknown requirement.</target>
-        <note>classes/UpgradeSelfCheck.php:397</note>
+      <trans-unit id="ebdbffe8dea73e1e0285fd052f720259">
+        <source>Download update logs</source>
+        <target>Download update logs</target>
+        <note>classes/Services/LogsService.php:115</note>
       </trans-unit>
       <trans-unit id="31098a445d00d6606542c429524f464f">
         <source>Unable to add %filename% to archive %archive%: %error%</source>
@@ -222,45 +142,60 @@
         <target>Unable to open archive %s: %s</target>
         <note>classes/ZipAction.php:274</note>
       </trans-unit>
-      <trans-unit id="f979b523cf73a9536c2d3dbea70d5a6f">
-        <source>Backup selection</source>
-        <target>Backup selection</target>
-        <note>classes/Twig/Steps/RestoreSteps.php:44</note>
+      <trans-unit id="494e9240706355902c051f7edbff16d8">
+        <source>Unknown channel %s</source>
+        <target>Unknown channel %s</target>
+        <note>classes/Parameters/ConfigurationValidator.php:79</note>
       </trans-unit>
-      <trans-unit id="2bd339d85ee3b33e513359ce781b60cc">
-        <source>Restore</source>
-        <target>Restore</target>
-        <note>views/templates/dialogs/dialog-restore-from-backup.html.twig:39</note>
+      <trans-unit id="a1e2f27f691acb7eff72046d0c6d15b9">
+        <source>No zip archive provided</source>
+        <target>No zip archive provided</target>
+        <note>classes/Parameters/ConfigurationValidator.php:88</note>
       </trans-unit>
-      <trans-unit id="349b93d2884e6ca3d41d0d9dab41dcd8">
-        <source>Post-restore</source>
-        <target>Post-restore</target>
-        <note>classes/Twig/Steps/RestoreSteps.php:50</note>
+      <trans-unit id="08ecdfa1e85ff7b6cc146b6a61690840">
+        <source>No xml archive provided</source>
+        <target>No xml archive provided</target>
+        <note>classes/Parameters/ConfigurationValidator.php:97</note>
       </trans-unit>
-      <trans-unit id="02d133204e3ce382eb9a8a0712161999">
-        <source>Version choice</source>
-        <target>Version choice</target>
-        <note>classes/Twig/Steps/UpdateSteps.php:46</note>
+      <trans-unit id="8f6819dd1d8ef2e214833f667fe994b0">
+        <source>Value must be a boolean for %s</source>
+        <target>Value must be a boolean for %s</target>
+        <note>classes/Parameters/ConfigurationValidator.php:109</note>
       </trans-unit>
-      <trans-unit id="df5820ca7f238b48987ff74db1271e4a">
-        <source>Update options</source>
-        <target>Update options</target>
-        <note>classes/Twig/Steps/UpdateSteps.php:49</note>
+      <trans-unit id="a262dcc571fbbaf29e2df23238ce2f89">
+        <source>Backup name is missing</source>
+        <target>Backup name is missing</target>
+        <note>classes/Parameters/RestoreConfigurationValidator.php:82</note>
       </trans-unit>
-      <trans-unit id="3500ba09d0538297440ca620c9dd46bf">
-        <source>Backup</source>
-        <target>Backup</target>
-        <note>classes/Twig/Steps/UpdateSteps.php:52</note>
+      <trans-unit id="394fde085070ca40c83c0238953f7c08">
+        <source>Backup %s does not exist</source>
+        <target>Backup %s does not exist</target>
+        <note>classes/Parameters/RestoreConfigurationValidator.php:91</note>
       </trans-unit>
-      <trans-unit id="06933067aafd48425d67bcb01bba5cb6">
-        <source>Update</source>
-        <target>Update</target>
-        <note>classes/Twig/Steps/UpdateSteps.php:55</note>
+      <trans-unit id="80c25611ea9134bac1da1d91eb03544a">
+        <source>Both 'xml' and 'zip' files attributes must be provided to use the local channel.</source>
+        <target>Both 'xml' and 'zip' files attributes must be provided to use the local channel.</target>
+        <note>classes/Parameters/LocalChannelConfigurationValidator.php:113</note>
       </trans-unit>
-      <trans-unit id="13d3fd796fa75eea78ac8b6257fda2b6">
-        <source>Post-update</source>
-        <target>Post-update</target>
-        <note>classes/Twig/Steps/UpdateSteps.php:58</note>
+      <trans-unit id="1d1a5763d2901dbd435b378358a149b4">
+        <source>File %s does not exist. Unable to select that channel.</source>
+        <target>File %s does not exist. Unable to select that channel.</target>
+        <note>classes/Parameters/LocalChannelConfigurationValidator.php:155</note>
+      </trans-unit>
+      <trans-unit id="8cd1c74d3c55f934c1b312fc65f9022f">
+        <source>We couldn't find a PrestaShop version in the .zip file that was uploaded in your local archive. Please try again.</source>
+        <target>We couldn't find a PrestaShop version in the .zip file that was uploaded in your local archive. Please try again.</target>
+        <note>classes/Task/Miscellaneous/UpdateConfig.php:96</note>
+      </trans-unit>
+      <trans-unit id="a9c58dc4da830f87b1f0cb9e2b6f8a1c">
+        <source>We couldn't find a PrestaShop version in the XML file that was uploaded in your local archive. Please try again.</source>
+        <target>We couldn't find a PrestaShop version in the XML file that was uploaded in your local archive. Please try again.</target>
+        <note>classes/Parameters/LocalChannelConfigurationValidator.php:164</note>
+      </trans-unit>
+      <trans-unit id="9faf1391c6c018a5f5343bd509fe8e96">
+        <source>The PrestaShop version in your archive doesn't match the one in XML file. Please fix this issue and try again.</source>
+        <target>The PrestaShop version in your archive doesn't match the one in XML file. Please fix this issue and try again.</target>
+        <note>classes/Parameters/LocalChannelConfigurationValidator.php:179</note>
       </trans-unit>
       <trans-unit id="fff77a9b7fadd2dd38b16678c8b000cf">
         <source>Unable to create directory %s: %s</source>
@@ -272,590 +207,105 @@
         <target>Cannot write to the directory. Please ensure you have the necessary write permissions on "%s".</target>
         <note>classes/Workspace.php:64</note>
       </trans-unit>
-      <trans-unit id="3f512c6c1dc3d4b9d2bf78bcc1c312a8">
-        <source>Backup requested for deletion does not exist.</source>
-        <target>Backup requested for deletion does not exist.</target>
-        <note>classes/Backup/BackupManager.php:47</note>
-      </trans-unit>
-      <trans-unit id="ed88d11e6f590319e0be757ac6a6f399">
-        <source>An error occurred while formatting the backup name.</source>
-        <target>An error occurred while formatting the backup name.</target>
-        <note>classes/Backup/BackupFinder.php:161</note>
-      </trans-unit>
-      <trans-unit id="9e08efbdb97e0fc7bae5cffff0ce59e8">
-        <source>Error when retrieving Prestashop versions from Distribution api</source>
-        <target>Error when retrieving Prestashop versions from Distribution api</target>
-        <note>classes/Services/DistributionApiService.php:77</note>
-      </trans-unit>
-      <trans-unit id="90983283d1e14aa535ea65a1f9033115">
-        <source>No version match in Distribution api for %s</source>
-        <target>No version match in Distribution api for %s</target>
-        <note>classes/Services/DistributionApiService.php:64</note>
-      </trans-unit>
-      <trans-unit id="708a3f63d9d379278db1b2bb25f7b79b">
-        <source>Download attempt %d/%d failed: %s</source>
-        <target>Download attempt %d/%d failed: %s</target>
-        <note>classes/Services/DownloadService.php:61</note>
-      </trans-unit>
-      <trans-unit id="00941baee2b9096432b9269913074b2d">
-        <source>All download attempts have failed.</source>
-        <target>All download attempts have failed.</target>
-        <note>classes/Services/DownloadService.php:69</note>
-      </trans-unit>
-      <trans-unit id="d85af10b8037ad6ab6e4f37877b54867">
-        <source>The file could not be downloaded or is empty. Destination path: "%s", Source URL: "%s".</source>
-        <target>The file could not be downloaded or is empty. Destination path: "%s", Source URL: "%s".</target>
-        <note>classes/Services/DownloadService.php:78</note>
-      </trans-unit>
-      <trans-unit id="7f8f7ff0c4bb4599a45fa5b3708dd2c4">
-        <source>Download backup logs</source>
-        <target>Download backup logs</target>
-        <note>views/templates/steps/backup-options.html.twig:41</note>
-      </trans-unit>
-      <trans-unit id="deaf32a53ead325a232c297209dc187f">
-        <source>Download restore logs</source>
-        <target>Download restore logs</target>
-        <note>classes/Services/LogsService.php:113</note>
-      </trans-unit>
-      <trans-unit id="ebdbffe8dea73e1e0285fd052f720259">
-        <source>Download update logs</source>
-        <target>Download update logs</target>
-        <note>classes/Services/LogsService.php:115</note>
-      </trans-unit>
-      <trans-unit id="435d516735dbf7f622c7d14585f66840">
-        <source>Action %s skipped</source>
-        <target>Action %s skipped</target>
-        <note>classes/Task/AbstractTask.php:152</note>
-      </trans-unit>
-      <trans-unit id="52033453d4d673bae012b9c8ccb1e79c">
-        <source>An error occurred while backing up. Unable to obtain the schema of %s</source>
-        <target>An error occurred while backing up. Unable to obtain the schema of %s</target>
-        <note>classes/Task/Backup/BackupDatabase.php:126</note>
-      </trans-unit>
-      <trans-unit id="dcb7d833c69d6e0c3f009381c51f898e">
-        <source>Error during database backup.</source>
-        <target>Error during database backup.</target>
-        <note>classes/Task/Backup/BackupDatabase.php:127</note>
-      </trans-unit>
-      <trans-unit id="4d4c62fccb481224ff3a5c36b45de3fd">
-        <source>%s table has been saved.</source>
-        <target>%s table has been saved.</target>
-        <note>classes/Task/Backup/BackupDatabase.php:219</note>
-      </trans-unit>
-      <trans-unit id="71426d0545181d601dc135b78e74ac8f">
-        <source>%s tables have been saved.</source>
-        <target>%s tables have been saved.</target>
-        <note>classes/Task/Backup/BackupDatabase.php:239</note>
-      </trans-unit>
-      <trans-unit id="c2a086cb5c3373d7e11acbd3ace6a553">
-        <source>Database backup: %s table(s) left...</source>
-        <target>Database backup: %s table(s) left...</target>
-        <note>classes/Task/Backup/BackupDatabase.php:246</note>
-      </trans-unit>
-      <trans-unit id="10d423ad12429f952b0864b9f506551e">
-        <source>Database backup done in filename %s.</source>
-        <target>Database backup done in filename %s.</target>
-        <note>classes/Task/Backup/BackupDatabase.php:259</note>
-      </trans-unit>
-      <trans-unit id="555231214d7c729089e80f561e118f45">
-        <source>Backup directory is not writable (%path%).</source>
-        <target>Backup directory is not writable (%path%).</target>
-        <note>classes/Task/Backup/BackupDatabase.php:276</note>
-      </trans-unit>
-      <trans-unit id="d721e1d318aff72741125f97535b8ac7">
-        <source>No valid tables were found to back up. Backup of database canceled.</source>
-        <target>No valid tables were found to back up. Backup of database canceled.</target>
-        <note>classes/Task/Backup/BackupDatabase.php:292</note>
-      </trans-unit>
-      <trans-unit id="d12ae4e7f0d20f4a4ca357d48e42877e">
-        <source>Backup file %s already exists. Operation aborted.</source>
-        <target>Backup file %s already exists. Operation aborted.</target>
-        <note>classes/Task/Backup/BackupDatabase.php:351</note>
-      </trans-unit>
-      <trans-unit id="d82896159c60199272e5ea481a733eba">
-        <source>Unable to create backup database file %s.</source>
-        <target>Unable to create backup database file %s.</target>
-        <note>classes/Task/Backup/BackupDatabase.php:365</note>
-      </trans-unit>
-      <trans-unit id="88b3ca1ea582b35668b5ed49bbf8206b">
-        <source>Backup completed successfully.</source>
-        <target>Backup completed successfully.</target>
-        <note>classes/Task/Backup/BackupComplete.php:55</note>
-      </trans-unit>
-      <trans-unit id="4bf9d5ef55fcefa2b09d76e729f9c273">
-        <source>Starting backup...</source>
-        <target>Starting backup...</target>
-        <note>classes/Task/Backup/BackupInitialization.php:53</note>
-      </trans-unit>
-      <trans-unit id="189c2b1a17529c88f5d6f297a4b59ebe">
-        <source>Backup filename has not been set</source>
-        <target>Backup filename has not been set</target>
-        <note>classes/Task/Backup/BackupFiles.php:48</note>
-      </trans-unit>
-      <trans-unit id="48f95ff09327408a578e91655ed872a1">
-        <source>%s Files to backup.</source>
-        <target>%s Files to backup.</target>
-        <note>classes/Task/Backup/BackupFiles.php:64</note>
-      </trans-unit>
-      <trans-unit id="ae10eb1b240ad1b32e2a18e8c9694120">
-        <source>Backup files initialized in %s</source>
-        <target>Backup files initialized in %s</target>
-        <note>classes/Task/Backup/BackupFiles.php:72</note>
-      </trans-unit>
-      <trans-unit id="9bebecbf68b6ce5a6d656c5ea793b762">
-        <source>Backup files in progress. %d files left</source>
-        <target>Backup files in progress. %d files left</target>
-        <note>classes/Task/Backup/BackupFiles.php:80</note>
-      </trans-unit>
-      <trans-unit id="b31006b398a0fc315119a145aa1b0466">
-        <source>Unable to open archive</source>
-        <target>Unable to open archive</target>
-        <note>classes/Task/Backup/BackupFiles.php:85</note>
-      </trans-unit>
-      <trans-unit id="f39b870765d50b64ba7a6facea83010d">
-        <source>All files have been added to archive.</source>
-        <target>All files have been added to archive.</target>
-        <note>classes/Task/Backup/BackupFiles.php:97</note>
-      </trans-unit>
-      <trans-unit id="f36d7ee6cae92008008a95bf5898daf2">
-        <source>All files saved. Now backing up database</source>
-        <target>All files saved. Now backing up database</target>
-        <note>classes/Task/Backup/BackupFiles.php:98</note>
-      </trans-unit>
-      <trans-unit id="222102295c3c6626ff141687b0f49b6b">
-        <source>Nothing to restore</source>
-        <target>Nothing to restore</target>
-        <note>classes/Task/Restore/RestoreEmpty.php:35</note>
-      </trans-unit>
-      <trans-unit id="b579142dc2ece4e07e8fcc1f99cd75c8">
-        <source>Restoration process done. Congratulations! You can now reactivate your store.</source>
-        <target>Restoration process done. Congratulations! You can now reactivate your store.</target>
-        <note>classes/Task/Restore/RestoreComplete.php:39</note>
-      </trans-unit>
-      <trans-unit id="3fdd2bbfdfb85efef6dd8029183d9311">
-        <source>File %s is missing: unable to restore files. Operation aborted.</source>
-        <target>File %s is missing: unable to restore files. Operation aborted.</target>
-        <note>classes/Task/Restore/RestoreInitialization.php:77</note>
-      </trans-unit>
-      <trans-unit id="63427da10dfe2dc64d1e9bc666ccc65c">
-        <source>No backup database files found: it would be impossible to restore the database. Operation aborted.</source>
-        <target>No backup database files found: it would be impossible to restore the database. Operation aborted.</target>
-        <note>classes/Task/Restore/RestoreInitialization.php:94</note>
-      </trans-unit>
-      <trans-unit id="0438424c05d45646dc089ef15df7e0e2">
-        <source>Restoring files ...</source>
-        <target>Restoring files ...</target>
-        <note>classes/Task/Restore/RestoreInitialization.php:100</note>
-      </trans-unit>
-      <trans-unit id="6a5e5c0047907eaf8062e9933f0de8df">
-        <source>%s: File format does not match.</source>
-        <target>%s: File format does not match.</target>
-        <note>classes/Task/Restore/RestoreDatabase.php:76</note>
-      </trans-unit>
-      <trans-unit id="c2bcd4d44d646c47753473ff94cc66ac">
-        <source>Opening backup database file %filename% in %extension% mode</source>
-        <target>Opening backup database file %filename% in %extension% mode</target>
-        <note>classes/Task/Restore/RestoreDatabase.php:88</note>
-      </trans-unit>
-      <trans-unit id="5ce67d010ab9c98ae1dbd6b5ea149982">
-        <source>Database backup is empty.</source>
-        <target>Database backup is empty.</target>
-        <note>classes/Task/Restore/RestoreDatabase.php:126</note>
-      </trans-unit>
-      <trans-unit id="ad12a553fe534ba86e1cebf77b27300d">
-        <source>Database restoration file %filename% done. %filescount% file(s) left...</source>
-        <target>Database restoration file %filename% done. %filescount% file(s) left...</target>
-        <note>classes/Task/Restore/RestoreDatabase.php:175</note>
-      </trans-unit>
-      <trans-unit id="55fc6682e256e387afb10ebf6c95aed5">
-        <source>Database restoration file %1$s done.</source>
-        <target>Database restoration file %1$s done.</target>
-        <note>classes/Task/Restore/RestoreDatabase.php:182</note>
-      </trans-unit>
-      <trans-unit id="5b37242b8a0a39af0a9dc28abdabba28">
-        <source>Database has been restored.</source>
-        <target>Database has been restored.</target>
-        <note>classes/Task/Restore/RestoreDatabase.php:191</note>
-      </trans-unit>
-      <trans-unit id="3830c02583d9671297848d8b9aa7d016">
-        <source>Error during database restoration: </source>
-        <target>Error during database restoration:</target>
-        <note>classes/Task/Restore/RestoreDatabase.php:203</note>
-      </trans-unit>
-      <trans-unit id="85f6ad54304538449ff3da4435be5336">
-        <source>%numberqueries% queries left for file %filename%...</source>
-        <target>%numberqueries% queries left for file %filename%...</target>
-        <note>classes/Task/Restore/RestoreDatabase.php:225</note>
-      </trans-unit>
-      <trans-unit id="30da45f850d1f1a2b42f215836382f19">
-        <source>Database restoration done.</source>
-        <target>Database restoration done.</target>
-        <note>classes/Task/Restore/RestoreDatabase.php:235</note>
-      </trans-unit>
-      <trans-unit id="7ead6886c2e0fb40e873da8426e80988">
-        <source>%s file(s) will be removed before restoring the backup files.</source>
-        <target>%s file(s) will be removed before restoring the backup files.</target>
-        <note>classes/Task/Restore/RestoreFiles.php:77</note>
-      </trans-unit>
-      <trans-unit id="52c69c0d7cf5eea4c9a8a65e3453370c">
-        <source>Backup file %s does not exist.</source>
-        <target>Backup file %s does not exist.</target>
-        <note>classes/Task/Restore/RestoreFiles.php:82</note>
-      </trans-unit>
-      <trans-unit id="1a56eca6c17206b678aaeb1dac9f2ff7">
-        <source>File "%s" does not exist.</source>
-        <target>File "%s" does not exist.</target>
-        <note>classes/Task/Restore/RestoreFiles.php:85</note>
-      </trans-unit>
-      <trans-unit id="5302f8c3bb6a8eb50f74b2d060b99883">
-        <source>Unable to remove updated files.</source>
-        <target>Unable to remove updated files.</target>
-        <note>classes/Task/Restore/RestoreFiles.php:87</note>
-      </trans-unit>
-      <trans-unit id="1f63628adef352c2a7ee4225b9dcd576">
-        <source>Unable to extract file %filename% into directory %directoryname%.</source>
-        <target>Unable to extract file %filename% into directory %directoryname%.</target>
-        <note>classes/Task/Restore/RestoreFiles.php:104</note>
-      </trans-unit>
-      <trans-unit id="cb7dce5f6a1934d54c0d3335c7ffe841">
-        <source>Files restored.</source>
-        <target>Files restored.</target>
-        <note>classes/Task/Restore/RestoreFiles.php:121</note>
-      </trans-unit>
-      <trans-unit id="671537225baa948d4c92cf4681283326">
-        <source>Files restored. Now restoring database...</source>
-        <target>Files restored. Now restoring database...</target>
-        <note>classes/Task/Restore/RestoreFiles.php:122</note>
-      </trans-unit>
-      <trans-unit id="d70699057bcd09b03129da2391b47d67">
-        <source>Update process will use archive.</source>
-        <target>Update process will use archive.</target>
-        <note>classes/Task/Miscellaneous/UpdateConfig.php:93</note>
-      </trans-unit>
-      <trans-unit id="8cd1c74d3c55f934c1b312fc65f9022f">
-        <source>We couldn't find a PrestaShop version in the .zip file that was uploaded in your local archive. Please try again.</source>
-        <target>We couldn't find a PrestaShop version in the .zip file that was uploaded in your local archive. Please try again.</target>
-        <note>classes/Parameters/LocalChannelConfigurationValidator.php:138</note>
-      </trans-unit>
-      <trans-unit id="1fe9dd96f646eaa0cd3a0fcc7632ce12">
-        <source>Error on saving configuration</source>
-        <target>Error on saving configuration</target>
-        <note>classes/Task/Miscellaneous/UpdateConfig.php:104</note>
-      </trans-unit>
-      <trans-unit id="f2ff9d001d0a553c78da73443e7fcd97">
-        <source>Configuration successfully updated.</source>
-        <target>Configuration successfully updated.</target>
-        <note>classes/Task/Miscellaneous/UpdateConfig.php:167</note>
-      </trans-unit>
-      <trans-unit id="cd818c1af28e4f3df2000686b150648d">
-        <source>Starting update...</source>
-        <target>Starting update...</target>
-        <note>classes/Task/Update/UpdateInitialization.php:46</note>
-      </trans-unit>
-      <trans-unit id="bb7a6c45c2321b57cf0558fb48c7a357">
-        <source>Your store is currently running the latest compatible version. No updates are needed at this time.</source>
-        <target>Your store is currently running the latest compatible version. No updates are needed at this time.</target>
-        <note>classes/Task/Update/UpdateInitialization.php:61</note>
-      </trans-unit>
-      <trans-unit id="02aa51bf9b62b390e5b799c57f0367a7">
-        <source>Destination version: %s</source>
-        <target>Destination version: %s</target>
-        <note>classes/Task/Update/UpdateInitialization.php:66</note>
-      </trans-unit>
-      <trans-unit id="f82790d7b72439c8a630725ba9948cff">
-        <source>Downloading step has been skipped, update process will now unzip the local archive.</source>
-        <target>Downloading step has been skipped, update process will now unzip the local archive.</target>
-        <note>classes/Task/Update/UpdateInitialization.php:71</note>
-      </trans-unit>
-      <trans-unit id="eeeace3d8262c74ad32f412c8d56fea4">
-        <source>Store deactivated. Extracting files...</source>
-        <target>Store deactivated. Extracting files...</target>
-        <note>classes/Task/Update/UpdateInitialization.php:72</note>
-      </trans-unit>
-      <trans-unit id="05170d952c90239be93cdf479e4fe5e6">
-        <source>Store deactivated. Now downloading... (this can take a while)</source>
-        <target>Store deactivated. Now downloading... (this can take a while)</target>
-        <note>classes/Task/Update/UpdateInitialization.php:76</note>
-      </trans-unit>
-      <trans-unit id="10b5aa33077df49427f04cd33ad3843f">
-        <source>Downloaded archive will come from %s</source>
-        <target>Downloaded archive will come from %s</target>
-        <note>classes/Task/Update/UpdateInitialization.php:77</note>
-      </trans-unit>
-      <trans-unit id="da652b8ece8ba2da84d5f5116f6ef63e">
-        <source>MD5 hash will be checked against %s</source>
-        <target>MD5 hash will be checked against %s</target>
-        <note>classes/Task/Update/UpdateInitialization.php:78</note>
-      </trans-unit>
-      <trans-unit id="78c6e760441165ec762746a0ab4b64cd">
-        <source>Checking updates of module %module%...</source>
-        <target>Checking updates of module %module%...</target>
-        <note>classes/Task/Update/UpdateModules.php:71</note>
-      </trans-unit>
-      <trans-unit id="2b4da2b27a96bf23f0de18c59e9b1afe">
-        <source>Module %module% is up-to-date.</source>
-        <target>Module %module% is up-to-date.</target>
-        <note>classes/Task/Update/UpdateModules.php:77</note>
-      </trans-unit>
-      <trans-unit id="798df2395d946f1f5b75ef9f6d8d8b1e">
-        <source>Retrieving the module instance of %s failed.</source>
-        <target>Retrieving the module instance of %s failed.</target>
-        <note>classes/Task/Update/UpdateModules.php:88</note>
-      </trans-unit>
-      <trans-unit id="a5db680b38097b4289b24d4925b8368e">
-        <source>Module %s does not need to be migrated. Module is up to date.</source>
-        <target>Module %s does not need to be migrated. Module is up to date.</target>
-        <note>classes/Task/Update/UpdateModules.php:94</note>
-      </trans-unit>
-      <trans-unit id="cf131dfbf6e4bd352b1e5ed65b169b0e">
-        <source>%s modules left to check.</source>
-        <target>%s modules left to check.</target>
-        <note>classes/Task/Update/UpdateModules.php:122</note>
-      </trans-unit>
-      <trans-unit id="d47b7d2553af843c2c037185c0279268">
-        <source>All modules have been updated.</source>
-        <target>All modules have been updated.</target>
-        <note>classes/Task/Update/UpdateModules.php:127</note>
-      </trans-unit>
-      <trans-unit id="5775d9e6d353c11bc7c6fe21776d3b2c">
-        <source>%s modules will be updated.</source>
-        <target>%s modules will be updated.</target>
-        <note>classes/Task/Update/UpdateModules.php:155</note>
-      </trans-unit>
-      <trans-unit id="877f3f1346509ff0d53b27c14c49faaf">
-        <source>Update database in progress. %d queries left</source>
-        <target>Update database in progress. %d queries left</target>
-        <note>classes/Task/Update/UpdateDatabase.php:59</note>
-      </trans-unit>
-      <trans-unit id="9f50aa4bbbbb4463ece530c2c72cb8c0">
-        <source>Error during database update. You may need to restore your database.</source>
-        <target>Error during database update. You may need to restore your database.</target>
-        <note>classes/Task/Update/UpdateDatabase.php:80</note>
-      </trans-unit>
-      <trans-unit id="b4d58e71eb2164fb3d7729f24b745083">
-        <source>Database updated. Now updating your Addons modules...</source>
-        <target>Database updated. Now updating your Addons modules...</target>
-        <note>classes/Task/Update/UpdateDatabase.php:87</note>
-      </trans-unit>
-      <trans-unit id="badf6aad60d4a95b698028bc55aa3347">
-        <source>Cleaning file cache</source>
-        <target>Cleaning file cache</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:834</note>
-      </trans-unit>
-      <trans-unit id="8c4204265814594491ae20c9899a0fff">
-        <source>Running opcache_reset</source>
-        <target>Running opcache_reset</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:836</note>
-      </trans-unit>
-      <trans-unit id="c5ada796f937732385b6594d7364b69a">
-        <source>Updating database data and structure</source>
-        <target>Updating database data and structure</target>
-        <note>classes/Task/Update/UpdateDatabase.php:129</note>
-      </trans-unit>
-      <trans-unit id="956ef5a4e2df09d2f7415c9f1284d17c">
-        <source>Checking version validity</source>
-        <target>Checking version validity</target>
-        <note>classes/Task/Update/UpdateDatabase.php:137</note>
-      </trans-unit>
-      <trans-unit id="de4026a3fc9813c32f3a247370c29f54">
-        <source>Disabling all non native modules</source>
-        <target>Disabling all non native modules</target>
-        <note>classes/Task/Update/UpdateDatabase.php:147</note>
-      </trans-unit>
-      <trans-unit id="ffb63e7ff1e05430b4a292ac8651f1e4">
-        <source>Keeping non native modules enabled</source>
-        <target>Keeping non native modules enabled</target>
-        <note>classes/Task/Update/UpdateDatabase.php:150</note>
-      </trans-unit>
-      <trans-unit id="a6f9db17fdafdd976f34333d8a217531">
-        <source>Version to install is too old. Current version: %oldversion%. Version to install: %newversion%.</source>
-        <target>Version to install is too old. Current version: %oldversion%. Version to install: %newversion%.</target>
-        <note>classes/Task/Update/UpdateDatabase.php:167</note>
-      </trans-unit>
-      <trans-unit id="37ce0f29c7377c827e7247fe5645a782">
-        <source>You already have the %s version.</source>
-        <target>You already have the %s version.</target>
-        <note>classes/Task/Update/UpdateDatabase.php:169</note>
-      </trans-unit>
-      <trans-unit id="ead14b0273e8d6cae7d146130d4be8f6">
-        <source>The database has been cleaned.</source>
-        <target>The database has been cleaned.</target>
-        <note>classes/Task/Update/CleanDatabase.php:53</note>
-      </trans-unit>
-      <trans-unit id="654f7ceb787fd455c166d5d8744cbf90">
-        <source>"/latest" directory has been emptied</source>
-        <target>"/latest" directory has been emptied</target>
-        <note>classes/Task/Update/Unzip.php:67</note>
-      </trans-unit>
-      <trans-unit id="01d9d38b1d4d8eff5b530eeecfd3ccd5">
-        <source>Extraction directory %s is not writable.</source>
-        <target>Extraction directory %s is not writable.</target>
-        <note>classes/Task/Update/Unzip.php:72</note>
-      </trans-unit>
-      <trans-unit id="69ae4bbd4b14ae388e4e3882945a542e">
-        <source>Unable to extract %filepath% file into %destination% folder...</source>
-        <target>Unable to extract %filepath% file into %destination% folder...</target>
-        <note>classes/Task/Update/Unzip.php:107</note>
-      </trans-unit>
-      <trans-unit id="5d3c14ccb814427455842b838bbd6f21">
-        <source>No prestashop/ folder found in the ZIP file. Aborting.</source>
-        <target>No prestashop/ folder found in the ZIP file. Aborting.</target>
-        <note>classes/Task/Update/Unzip.php:121</note>
-      </trans-unit>
-      <trans-unit id="c308874e9b5347709e9dc8bad11d8198">
-        <source>File extraction complete. Now updating files...</source>
-        <target>File extraction complete. Now updating files...</target>
-        <note>classes/Task/Update/Unzip.php:135</note>
-      </trans-unit>
-      <trans-unit id="d3b9b6cf6979d03762f425fb7d0d4e12">
-        <source>All files updated. Now updating database...</source>
-        <target>All files updated. Now updating database...</target>
-        <note>classes/Task/Update/UpdateFiles.php:67</note>
-      </trans-unit>
-      <trans-unit id="46cf45a00b2e8abfe1c5635601ff2e48">
-        <source>Error when trying to update file %s.</source>
-        <target>Error when trying to update file %s.</target>
-        <note>classes/Task/Update/UpdateFiles.php:78</note>
-      </trans-unit>
-      <trans-unit id="13c5f7e7473980468149551b4df7da8c">
-        <source>%s files left to update.</source>
-        <target>%s files left to update.</target>
-        <note>classes/Task/Update/UpdateFiles.php:89</note>
-      </trans-unit>
-      <trans-unit id="9a2f2cf276ea9f79b31a815897c0e3e6">
-        <source>%s ignored</source>
-        <target>%s ignored</target>
-        <note>classes/Task/Update/UpdateFiles.php:117</note>
-      </trans-unit>
-      <trans-unit id="ba4bea05b16daf8e0652a6048cf741c6">
-        <source>File %1$s has been deleted.</source>
-        <target>File %1$s has been deleted.</target>
-        <note>classes/Task/Update/UpdateFiles.php:125</note>
-      </trans-unit>
-      <trans-unit id="cbfafdaa2e7968a86bd6a437027edfea">
-        <source>Directory %1$s created.</source>
-        <target>Directory %1$s created.</target>
-        <note>classes/Task/Update/UpdateFiles.php:130</note>
-      </trans-unit>
-      <trans-unit id="47e555d00d52a54c20b5f936ee706fc8">
-        <source>Error while creating directory %s: %s.</source>
-        <target>Error while creating directory %s: %s.</target>
-        <note>classes/Task/Update/UpdateFiles.php:135</note>
-      </trans-unit>
-      <trans-unit id="0a6c2db1b18cb6420ad40d46db8707de">
-        <source>Directory %s already exists.</source>
-        <target>Directory %s already exists.</target>
-        <note>classes/Task/Update/UpdateFiles.php:140</note>
-      </trans-unit>
-      <trans-unit id="e33b6cbf66a4417503eac526d8a94626">
-        <source>The translation files have been merged into file %s.</source>
-        <target>The translation files have been merged into file %s.</target>
-        <note>classes/Task/Update/UpdateFiles.php:149</note>
-      </trans-unit>
-      <trans-unit id="7cfde7149c7a53bbbe854a0562ac0807">
-        <source>The translation files have not been merged into file %filename%. Switch to copy %filename%.</source>
-        <target>The translation files have not been merged into file %filename%. Switch to copy %filename%.</target>
-        <note>classes/Task/Update/UpdateFiles.php:154</note>
-      </trans-unit>
-      <trans-unit id="b8db10001e04b8f947415aeb8b8fd19f">
-        <source>Copied %1$s.</source>
-        <target>Copied %1$s.</target>
-        <note>classes/Task/Update/UpdateFiles.php:163</note>
-      </trans-unit>
-      <trans-unit id="4a6c74e011e44e5fb206a6dcedfc1185">
-        <source>Error while copying file %s: %s</source>
-        <target>Error while copying file %s: %s</target>
-        <note>classes/Task/Update/UpdateFiles.php:168</note>
-      </trans-unit>
-      <trans-unit id="20aed4fb9f6ee15bc601227bbfb85acd">
-        <source>Could not assert the folder %s contains a valid PrestaShop release, exiting.</source>
-        <target>Could not assert the folder %s contains a valid PrestaShop release, exiting.</target>
-        <note>classes/Task/Update/UpdateFiles.php:208</note>
-      </trans-unit>
-      <trans-unit id="312d54356778124e7ad6d8c7be6ff1a0">
-        <source>A file may be missing, or the release is stored in a subfolder by mistake.</source>
-        <target>A file may be missing, or the release is stored in a subfolder by mistake.</target>
-        <note>classes/Task/Update/UpdateFiles.php:209</note>
-      </trans-unit>
-      <trans-unit id="fa5d2fc42275582a8b7be9935084ad45">
-        <source>Generate diff file list between %s and %s.</source>
-        <target>Generate diff file list between %s and %s.</target>
-        <note>classes/Task/Update/UpdateFiles.php:230</note>
-      </trans-unit>
-      <trans-unit id="a845839e72a2af510180c93273119199">
-        <source>Unable to generate diff file list between %s and %s.</source>
-        <target>Unable to generate diff file list between %s and %s.</target>
-        <note>classes/Task/Update/UpdateFiles.php:233</note>
-      </trans-unit>
-      <trans-unit id="b66f7c9b911acb4711e96eb7a7605bfb">
-        <source>Unable to find files to update.</source>
-        <target>Unable to find files to update.</target>
-        <note>classes/Task/Update/UpdateFiles.php:272</note>
-      </trans-unit>
-      <trans-unit id="ee2e293c4bce5a37e5925743d549af8e">
-        <source>%s files will be updated.</source>
-        <target>%s files will be updated.</target>
-        <note>classes/Task/Update/UpdateFiles.php:277</note>
-      </trans-unit>
-      <trans-unit id="64d7e13ba8bcd0c4a6977cf271577a03">
-        <source>Shop updated to %s, but some warnings have been found.</source>
-        <target>Shop updated to %s, but some warnings have been found.</target>
-        <note>classes/Task/Update/UpdateComplete.php:54</note>
-      </trans-unit>
-      <trans-unit id="f14a0e3c163ebd24ef367ac1079cf000">
-        <source>Shop updated to %s. Congratulations! You can now reactivate your shop.</source>
-        <target>Shop updated to %s. Congratulations! You can now reactivate your shop.</target>
-        <note>classes/Task/Update/UpdateComplete.php:55</note>
-      </trans-unit>
-      <trans-unit id="75802ba44ba3369defd92ef897bf2f21">
-        <source>Please remove %s by FTP</source>
-        <target>Please remove %s by FTP</target>
-        <note>classes/Task/Update/UpdateComplete.php:92</note>
-      </trans-unit>
-      <trans-unit id="d2b9f1e39aa8e96bb61f3a4bfe133f58">
-        <source>%s removed</source>
-        <target>%s removed</target>
-        <note>classes/Task/Update/UpdateComplete.php:90</note>
-      </trans-unit>
-      <trans-unit id="fb1ca1f5f3eb5a2ca85201f449525527">
-        <source>You need allow_url_fopen or cURL enabled for automatic download to work. You can also manually upload it in filepath %s.</source>
-        <target>You need allow_url_fopen or cURL enabled for automatic download to work. You can also manually upload it in filepath %s.</target>
-        <note>classes/Task/Update/Download.php:54</note>
-      </trans-unit>
-      <trans-unit id="f31c50f6d0edbbb94aa24943b118e316">
-        <source>Downloading from %s</source>
-        <target>Downloading from %s</target>
-        <note>classes/Task/Update/Download.php:64</note>
-      </trans-unit>
-      <trans-unit id="73227d741d23c1c6c0ae027b2dbc9e73">
-        <source>File will be saved in %s</source>
-        <target>File will be saved in %s</target>
-        <note>classes/Task/Update/Download.php:65</note>
-      </trans-unit>
-      <trans-unit id="53be0a7251b3bd0de81f488687bc0464">
-        <source>Download directory has been emptied</source>
-        <target>Download directory has been emptied</target>
-        <note>classes/Task/Update/Download.php:76</note>
-      </trans-unit>
-      <trans-unit id="5385901e5bed459563860e2f08a90a1c">
-        <source>Download directory %s is not writable.</source>
-        <target>Download directory %s is not writable.</target>
-        <note>classes/Task/Update/Download.php:83</note>
-      </trans-unit>
-      <trans-unit id="a55401a11251f53f612e950d4115e116">
-        <source>Download complete. Now extracting...</source>
-        <target>Download complete. Now extracting...</target>
-        <note>classes/Task/Update/Download.php:106</note>
-      </trans-unit>
-      <trans-unit id="2d9a3f4a92c008b32903541e9af8aff0">
-        <source>Download complete but MD5 sum does not match (%s).</source>
-        <target>Download complete but MD5 sum does not match (%s).</target>
-        <note>classes/Task/Update/Download.php:108</note>
-      </trans-unit>
-      <trans-unit id="31cc7d01dc7b85c42d9eb731b1060af7">
-        <source>The .zip archive could not be downloaded. The update is currently impossible. Please try again later.</source>
-        <target>The .zip archive could not be downloaded. The update is currently impossible. Please try again later.</target>
-        <note>classes/Task/Update/Download.php:112</note>
+      <trans-unit id="2f6767f7a35a93e9462d6ec6a237fd0d">
+        <source>%dir% does not exist or is not a directory.</source>
+        <target>%dir% does not exist or is not a directory.</target>
+        <note>classes/UpgradeTools/Module/ModuleAdapter.php:136</note>
+      </trans-unit>
+      <trans-unit id="0ffc32ecace92b6d10bd5247b54fff15">
+        <source>%s does not exist or is not a directory.</source>
+        <target>%s does not exist or is not a directory.</target>
+        <note>classes/UpgradeTools/Module/ModuleAdapter.php:136</note>
+      </trans-unit>
+      <trans-unit id="de4c47f6bfc2283a2424f2e4610e06ea">
+        <source>Download of source #%s has failed.</source>
+        <target>Download of source #%s has failed.</target>
+        <note>classes/UpgradeTools/Module/ModuleDownloader.php:70</note>
+      </trans-unit>
+      <trans-unit id="9fffa3812df1e3754b9bbbd256c37437">
+        <source>All download attempts have failed. Check your environment and try again.</source>
+        <target>All download attempts have failed. Check your environment and try again.</target>
+        <note>classes/UpgradeTools/Module/ModuleDownloader.php:75</note>
+      </trans-unit>
+      <trans-unit id="88a8e935ad1b255eae2a4c490886b83a">
+        <source><![CDATA[Module %s update files (%s => %s) have been fetched from %s.]]></source>
+        <target><![CDATA[Module %s update files (%s => %s) have been fetched from %s.]]></target>
+        <note>classes/UpgradeTools/Module/ModuleDownloader.php:101</note>
+      </trans-unit>
+      <trans-unit id="83e483e14240bf9d88eff9fa253133ca">
+        <source>The received module archive is empty.</source>
+        <target>The received module archive is empty.</target>
+        <note>classes/UpgradeTools/Module/ModuleDownloader.php:117</note>
+      </trans-unit>
+      <trans-unit id="7a0dd1e622442e88dc5c8cf1520997b4">
+        <source>Invalid contents from provider (Got an XML file).</source>
+        <target>Invalid contents from provider (Got an XML file).</target>
+        <note>classes/UpgradeTools/Module/ModuleDownloader.php:122</note>
+      </trans-unit>
+      <trans-unit id="212d17b84ed7ed05df35b5fb0c805eea">
+        <source>Error when trying to extract module %s.</source>
+        <target>Error when trying to extract module %s.</target>
+        <note>classes/UpgradeTools/Module/ModuleUnzipper.php:55</note>
+      </trans-unit>
+      <trans-unit id="ffecf7f010dec7170bcc2749d49c41ff">
+        <source>No version present in database for module %s, all files for update will be applied.</source>
+        <target>No version present in database for module %s, all files for update will be applied.</target>
+        <note>classes/UpgradeTools/Module/ModuleMigration.php:74</note>
+      </trans-unit>
+      <trans-unit id="b7158eb495a4a06e4a75736c3707e1da">
+        <source>(%s/%s) Applying migration file %s.</source>
+        <target>(%s/%s) Applying migration file %s.</target>
+        <note>classes/UpgradeTools/Module/ModuleMigration.php:108</note>
+      </trans-unit>
+      <trans-unit id="058ed3d02fc89ad3fe8acab223bec2f7">
+        <source>Migration failed while running the file %s. Module %s disabled.</source>
+        <target>Migration failed while running the file %s. Module %s disabled.</target>
+        <note>classes/UpgradeTools/Module/ModuleMigration.php:114</note>
+      </trans-unit>
+      <trans-unit id="f044ca443a1f50d889be336f90a355b7">
+        <source>Unexpected issue when trying to upgrade module %s. Module %s disabled.</source>
+        <target>Unexpected issue when trying to upgrade module %s. Module %s disabled.</target>
+        <note>classes/UpgradeTools/Module/ModuleMigration.php:121</note>
+      </trans-unit>
+      <trans-unit id="84d66da5dc8362f2103d65efdb405865">
+        <source>Module %s version could not be updated. Database might be unavailable.</source>
+        <target>Module %s version could not be updated. Database might be unavailable.</target>
+        <note>classes/UpgradeTools/Module/ModuleMigration.php:132</note>
+      </trans-unit>
+      <trans-unit id="094e7ea97940f72a1decb2dc4d79ebfd">
+        <source>Could not write temporary file %s.</source>
+        <target>Could not write temporary file %s.</target>
+        <note>classes/UpgradeTools/Module/ModuleMigration.php:161</note>
+      </trans-unit>
+      <trans-unit id="911a8f7a6f03e27072bf825463ac5a7e">
+        <source>Method %s does not exist. Module %s disabled.</source>
+        <target>Method %s does not exist. Module %s disabled.</target>
+        <note>classes/UpgradeTools/Module/ModuleMigration.php:166</note>
+      </trans-unit>
+      <trans-unit id="d34ff4aaea46577cb23bcbd044592ebc">
+        <source>Directory "%s" does not exist and cannot be emptied.</source>
+        <target>Directory "%s" does not exist and cannot be emptied.</target>
+        <note>classes/UpgradeTools/CacheCleaner.php:71</note>
+      </trans-unit>
+      <trans-unit id="1ef478938e58dcb132dc969cda209fcb">
+        <source>File %s removed</source>
+        <target>File %s removed</target>
+        <note>classes/UpgradeTools/CacheCleaner.php:79</note>
+      </trans-unit>
+      <trans-unit id="3188ac0ee6355c23c3b26c3b5e71f3dd">
+        <source>File %s does not exist, merge skipped.</source>
+        <target>File %s does not exist, merge skipped.</target>
+        <note>classes/UpgradeTools/Translation.php:141</note>
+      </trans-unit>
+      <trans-unit id="9e25d028554081cd5afb26eaf99dbd9e">
+        <source>%variablename% variable missing in file %filename%. Merge skipped.</source>
+        <target>%variablename% variable missing in file %filename%. Merge skipped.</target>
+        <note>classes/UpgradeTools/Translation.php:129</note>
+      </trans-unit>
+      <trans-unit id="688481c74263a37393118aff2b012987">
+        <source>%variablename% variable missing in file %filename%. File %filename% deleted and merge skipped.</source>
+        <target>%variablename% variable missing in file %filename%. File %filename% deleted and merge skipped.</target>
+        <note>classes/UpgradeTools/Translation.php:153</note>
       </trans-unit>
       <trans-unit id="4d46d96c1ea641735ee0c26c6381c75e">
         <source>API keys not present in parameters, generating</source>
@@ -886,16 +336,6 @@
         <source>Parameters file updated</source>
         <target>Parameters file updated</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader81.php:60</note>
-      </trans-unit>
-      <trans-unit id="ebd70d87d57d2e22c5fb9cb1fa959f92">
-        <source>Download of the language pack %lang% failed. %details%</source>
-        <target>Download of the language pack %lang% failed. %details%</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader80.php:77</note>
-      </trans-unit>
-      <trans-unit id="1439aa876aad656c4e8ddc2b06ce32d2">
-        <source>Error while updating translations for the language pack %lang%. %details%</source>
-        <target>Error while updating translations for the language pack %lang%. %details%</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader80.php:110</note>
       </trans-unit>
       <trans-unit id="4e32fd9d99ee0c3370c870d4da3d31a9">
         <source>Running generic queries</source>
@@ -1007,6 +447,16 @@
         <target>PHP Impossible to generate RTL files for theme %s: %s</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:811</note>
       </trans-unit>
+      <trans-unit id="badf6aad60d4a95b698028bc55aa3347">
+        <source>Cleaning file cache</source>
+        <target>Cleaning file cache</target>
+        <note>classes/Task/Update/UpdateDatabase.php:112</note>
+      </trans-unit>
+      <trans-unit id="8c4204265814594491ae20c9899a0fff">
+        <source>Running opcache_reset</source>
+        <target>Running opcache_reset</target>
+        <note>classes/Task/Update/UpdateDatabase.php:114</note>
+      </trans-unit>
       <trans-unit id="061a241a2e3b54e5546a13792de11b82">
         <source>An error was raised when warming up the core cache: 
  %s</source>
@@ -1029,6 +479,11 @@
         <target>Downloading language pack for %lang%</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader80.php:75</note>
       </trans-unit>
+      <trans-unit id="ebd70d87d57d2e22c5fb9cb1fa959f92">
+        <source>Download of the language pack %lang% failed. %details%</source>
+        <target>Download of the language pack %lang% failed. %details%</target>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader17.php:54</note>
+      </trans-unit>
       <trans-unit id="3bd67bb11ef4eca367343a48a437116c">
         <source>Installing %lang% language pack</source>
         <target>Installing %lang% language pack</target>
@@ -1044,160 +499,1125 @@
         <target>Cannot generate email templates: %s.</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader80.php:105</note>
       </trans-unit>
-      <trans-unit id="3188ac0ee6355c23c3b26c3b5e71f3dd">
-        <source>File %s does not exist, merge skipped.</source>
-        <target>File %s does not exist, merge skipped.</target>
-        <note>classes/UpgradeTools/Translation.php:141</note>
+      <trans-unit id="1439aa876aad656c4e8ddc2b06ce32d2">
+        <source>Error while updating translations for the language pack %lang%. %details%</source>
+        <target>Error while updating translations for the language pack %lang%. %details%</target>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader17.php:65</note>
       </trans-unit>
-      <trans-unit id="9e25d028554081cd5afb26eaf99dbd9e">
-        <source>%variablename% variable missing in file %filename%. Merge skipped.</source>
-        <target>%variablename% variable missing in file %filename%. Merge skipped.</target>
-        <note>classes/UpgradeTools/Translation.php:129</note>
+      <trans-unit id="26b9f7a72f6303211ad6d2f635ea680e">
+        <source>Your current PHP version isn't compatible with PrestaShop %s. (Expected: %s - %s | Current: %s)</source>
+        <target>Your current PHP version isn't compatible with PrestaShop %s. (Expected: %s - %s | Current: %s)</target>
+        <note>classes/UpgradeSelfCheck.php:211</note>
       </trans-unit>
-      <trans-unit id="688481c74263a37393118aff2b012987">
-        <source>%variablename% variable missing in file %filename%. File %filename% deleted and merge skipped.</source>
-        <target>%variablename% variable missing in file %filename%. File %filename% deleted and merge skipped.</target>
-        <note>classes/UpgradeTools/Translation.php:153</note>
+      <trans-unit id="1c66c3bb21f2926dee75dc54c1c6435f">
+        <source><![CDATA[Your store's root directory %s isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></source>
+        <target><![CDATA[Your store's root directory %s isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></target>
+        <note>classes/UpgradeSelfCheck.php:219</note>
       </trans-unit>
-      <trans-unit id="d34ff4aaea46577cb23bcbd044592ebc">
-        <source>Directory "%s" does not exist and cannot be emptied.</source>
-        <target>Directory "%s" does not exist and cannot be emptied.</target>
-        <note>classes/UpgradeTools/CacheCleaner.php:71</note>
+      <trans-unit id="75c48e6592370a40d426a3ff0a753901">
+        <source><![CDATA[The %s directory isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></source>
+        <target><![CDATA[The %s directory isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></target>
+        <note>classes/UpgradeSelfCheck.php:228</note>
       </trans-unit>
-      <trans-unit id="1ef478938e58dcb132dc969cda209fcb">
-        <source>File %s removed</source>
-        <target>File %s removed</target>
-        <note>classes/UpgradeTools/CacheCleaner.php:79</note>
+      <trans-unit id="a4cbbaa504b6e21c9152bc783cf68aba">
+        <source>Files can't be downloaded. Enable PHP's "allow_url_fopen" option or install PHP extension "cURL".</source>
+        <target>Files can't be downloaded. Enable PHP's "allow_url_fopen" option or install PHP extension "cURL".</target>
+        <note>classes/UpgradeSelfCheck.php:235</note>
       </trans-unit>
-      <trans-unit id="ffecf7f010dec7170bcc2749d49c41ff">
-        <source>No version present in database for module %s, all files for update will be applied.</source>
-        <target>No version present in database for module %s, all files for update will be applied.</target>
-        <note>classes/UpgradeTools/Module/ModuleMigration.php:74</note>
+      <trans-unit id="f331b3e71fc229a1cfd1aaa3241be853">
+        <source>Missing PHP extension "zip".</source>
+        <target>Missing PHP extension "zip".</target>
+        <note>classes/UpgradeSelfCheck.php:240</note>
       </trans-unit>
-      <trans-unit id="b7158eb495a4a06e4a75736c3707e1da">
-        <source>(%s/%s) Applying migration file %s.</source>
-        <target>(%s/%s) Applying migration file %s.</target>
-        <note>classes/UpgradeTools/Module/ModuleMigration.php:108</note>
+      <trans-unit id="d321763467936ac779fff7e090d8f0dc">
+        <source><![CDATA[Maintenance mode needs to be enabled. Enable maintenance mode and add your maintenance IP in [1]Shop parameters > General > Maintenance[/1].]]></source>
+        <target><![CDATA[Maintenance mode needs to be enabled. Enable maintenance mode and add your maintenance IP in [1]Shop parameters > General > Maintenance[/1].]]></target>
+        <note>classes/UpgradeSelfCheck.php:258</note>
       </trans-unit>
-      <trans-unit id="058ed3d02fc89ad3fe8acab223bec2f7">
-        <source>Migration failed while running the file %s. Module %s disabled.</source>
-        <target>Migration failed while running the file %s. Module %s disabled.</target>
-        <note>classes/UpgradeTools/Module/ModuleMigration.php:114</note>
+      <trans-unit id="00010e5e74d3de76b6ade544d9341832">
+        <source><![CDATA[PrestaShop's caching features needs to be disabled. Disable caching features in [1]Advanced parameters > Performance > Caching[/1].]]></source>
+        <target><![CDATA[PrestaShop's caching features needs to be disabled. Disable caching features in [1]Advanced parameters > Performance > Caching[/1].]]></target>
+        <note>classes/UpgradeSelfCheck.php:276</note>
       </trans-unit>
-      <trans-unit id="f044ca443a1f50d889be336f90a355b7">
-        <source>Unexpected issue when trying to upgrade module %s. Module %s disabled.</source>
-        <target>Unexpected issue when trying to upgrade module %s. Module %s disabled.</target>
-        <note>classes/UpgradeTools/Module/ModuleMigration.php:121</note>
+      <trans-unit id="8ff30224a9960da38da34b6a99d20751">
+        <source>PHP's max_execution_time setting needs to have a high value or needs to be disabled entirely (current value: %s seconds).</source>
+        <target>PHP's max_execution_time setting needs to have a high value or needs to be disabled entirely (current value: %s seconds).</target>
+        <note>classes/UpgradeSelfCheck.php:282</note>
       </trans-unit>
-      <trans-unit id="84d66da5dc8362f2103d65efdb405865">
-        <source>Module %s version could not be updated. Database might be unavailable.</source>
-        <target>Module %s version could not be updated. Database might be unavailable.</target>
-        <note>classes/UpgradeTools/Module/ModuleMigration.php:132</note>
+      <trans-unit id="26da0df3cbdf0052c8f1205b40ad5072">
+        <source>Apache mod_rewrite needs to be enabled.</source>
+        <target>Apache mod_rewrite needs to be enabled.</target>
+        <note>classes/UpgradeSelfCheck.php:289</note>
       </trans-unit>
-      <trans-unit id="094e7ea97940f72a1decb2dc4d79ebfd">
-        <source>Could not write temporary file %s.</source>
-        <target>Could not write temporary file %s.</target>
-        <note>classes/UpgradeTools/Module/ModuleMigration.php:161</note>
+      <trans-unit id="57bd2c4dc4936edbe3b9247c97e97033">
+        <source>The following PHP extensions need to be installed: </source>
+        <target>The following PHP extensions need to be installed:</target>
+        <note>classes/UpgradeSelfCheck.php:294</note>
       </trans-unit>
-      <trans-unit id="911a8f7a6f03e27072bf825463ac5a7e">
-        <source>Method %s does not exist. Module %s disabled.</source>
-        <target>Method %s does not exist. Module %s disabled.</target>
-        <note>classes/UpgradeTools/Module/ModuleMigration.php:166</note>
+      <trans-unit id="774da4dc59398b2c1dfcf9be03aaa110">
+        <source>The following PHP functions need to be allowed: </source>
+        <target>The following PHP functions need to be allowed:</target>
+        <note>classes/UpgradeSelfCheck.php:300</note>
       </trans-unit>
-      <trans-unit id="212d17b84ed7ed05df35b5fb0c805eea">
-        <source>Error when trying to extract module %s.</source>
-        <target>Error when trying to extract module %s.</target>
-        <note>classes/UpgradeTools/Module/ModuleUnzipper.php:55</note>
+      <trans-unit id="a220e0ac5c6f7fa8692c131148ed050a">
+        <source>PHP memory_limit needs to be greater than 256 MB.</source>
+        <target>PHP memory_limit needs to be greater than 256 MB.</target>
+        <note>classes/UpgradeSelfCheck.php:306</note>
       </trans-unit>
-      <trans-unit id="de4c47f6bfc2283a2424f2e4610e06ea">
-        <source>Download of source #%s has failed.</source>
-        <target>Download of source #%s has failed.</target>
-        <note>classes/UpgradeTools/Module/ModuleDownloader.php:70</note>
+      <trans-unit id="24b3a661ea0947d7dfddb4fe68681907">
+        <source>PHP file_uploads configuration needs to be enabled.</source>
+        <target>PHP file_uploads configuration needs to be enabled.</target>
+        <note>classes/UpgradeSelfCheck.php:311</note>
       </trans-unit>
-      <trans-unit id="9fffa3812df1e3754b9bbbd256c37437">
-        <source>All download attempts have failed. Check your environment and try again.</source>
-        <target>All download attempts have failed. Check your environment and try again.</target>
-        <note>classes/UpgradeTools/Module/ModuleDownloader.php:75</note>
+      <trans-unit id="8406b91fd5a290de3a1e1516db6e79b8">
+        <source>Unable to generate private keys using openssl_pkey_new. Check your OpenSSL configuration, especially the path to openssl.cafile.</source>
+        <target>Unable to generate private keys using openssl_pkey_new. Check your OpenSSL configuration, especially the path to openssl.cafile.</target>
+        <note>classes/UpgradeSelfCheck.php:316</note>
       </trans-unit>
-      <trans-unit id="88a8e935ad1b255eae2a4c490886b83a">
-        <source><![CDATA[Module %s update files (%s => %s) have been fetched from %s.]]></source>
-        <target><![CDATA[Module %s update files (%s => %s) have been fetched from %s.]]></target>
-        <note>classes/UpgradeTools/Module/ModuleDownloader.php:101</note>
+      <trans-unit id="1f2d0f1827f406e61d44d41b8c3b9a53">
+        <source><![CDATA[It's not possible to write in the following folders. Provide write access to the user running PHP with appropriate permission & ownership: ]]></source>
+        <target><![CDATA[It's not possible to write in the following folders. Provide write access to the user running PHP with appropriate permission & ownership:]]></target>
+        <note>classes/UpgradeSelfCheck.php:321</note>
       </trans-unit>
-      <trans-unit id="83e483e14240bf9d88eff9fa253133ca">
-        <source>The received module archive is empty.</source>
-        <target>The received module archive is empty.</target>
-        <note>classes/UpgradeTools/Module/ModuleDownloader.php:117</note>
+      <trans-unit id="a99553cd5eff17f5895d093c44b5c430">
+        <source>The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table.</source>
+        <target>The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table.</target>
+        <note>classes/UpgradeSelfCheck.php:327</note>
       </trans-unit>
-      <trans-unit id="7a0dd1e622442e88dc5c8cf1520997b4">
-        <source>Invalid contents from provider (Got an XML file).</source>
-        <target>Invalid contents from provider (Got an XML file).</target>
-        <note>classes/UpgradeTools/Module/ModuleDownloader.php:122</note>
+      <trans-unit id="68bb3863ee3524f0cfa0f13d5d2ee792">
+        <source><![CDATA[Your current version of the module is out of date. Update now [1]Modules > Module Manager > Updates[/1]]]></source>
+        <target><![CDATA[Your current version of the module is out of date. Update now [1]Modules > Module Manager > Updates[/1]]]></target>
+        <note>classes/UpgradeSelfCheck.php:345</note>
       </trans-unit>
-      <trans-unit id="2f6767f7a35a93e9462d6ec6a237fd0d">
-        <source>%dir% does not exist or is not a directory.</source>
-        <target>%dir% does not exist or is not a directory.</target>
-        <note>classes/UpgradeTools/Module/ModuleAdapter.php:136</note>
+      <trans-unit id="e95e7ec14a924e726e71503f90468a66">
+        <source>We were unable to check your PHP compatibility with PrestaShop %s.</source>
+        <target>We were unable to check your PHP compatibility with PrestaShop %s.</target>
+        <note>classes/UpgradeSelfCheck.php:351</note>
       </trans-unit>
-      <trans-unit id="0ffc32ecace92b6d10bd5247b54fff15">
-        <source>%s does not exist or is not a directory.</source>
-        <target>%s does not exist or is not a directory.</target>
-        <note>classes/UpgradeTools/Module/ModuleAdapter.php:136</note>
+      <trans-unit id="8fe7d00736157606de57d3d048e341d6">
+        <source>Some core files have been altered or removed. Any changes made to these files may be overwritten during the update. [1]See the list of changes.[/1]</source>
+        <target>Some core files have been altered or removed. Any changes made to these files may be overwritten during the update. [1]See the list of changes.[/1]</target>
+        <note>classes/UpgradeSelfCheck.php:362</note>
       </trans-unit>
-      <trans-unit id="494e9240706355902c051f7edbff16d8">
-        <source>Unknown channel %s</source>
-        <target>Unknown channel %s</target>
-        <note>classes/Parameters/ConfigurationValidator.php:79</note>
+      <trans-unit id="427da216e71ba0cd2ce8f0cc71fa7943">
+        <source>Some core files have been altered or removed. Any changes made to these files may be overwritten during the update.</source>
+        <target>Some core files have been altered or removed. Any changes made to these files may be overwritten during the update.</target>
+        <note>classes/UpgradeSelfCheck.php:364</note>
       </trans-unit>
-      <trans-unit id="a1e2f27f691acb7eff72046d0c6d15b9">
-        <source>No zip archive provided</source>
-        <target>No zip archive provided</target>
-        <note>classes/Parameters/ConfigurationValidator.php:88</note>
+      <trans-unit id="61404918d61b02676f938f187bdd4481">
+        <source>Some theme files have been altered or removed. Any changes made to these files may be overwritten during the update. [1]See the list of changes.[/1]</source>
+        <target>Some theme files have been altered or removed. Any changes made to these files may be overwritten during the update. [1]See the list of changes.[/1]</target>
+        <note>classes/UpgradeSelfCheck.php:377</note>
       </trans-unit>
-      <trans-unit id="08ecdfa1e85ff7b6cc146b6a61690840">
-        <source>No xml archive provided</source>
-        <target>No xml archive provided</target>
-        <note>classes/Parameters/ConfigurationValidator.php:97</note>
+      <trans-unit id="77e552478a3a1c92107ccae8722476a3">
+        <source>Some theme files have been altered or removed. Any changes made to these files may be overwritten during the update.</source>
+        <target>Some theme files have been altered or removed. Any changes made to these files may be overwritten during the update.</target>
+        <note>classes/UpgradeSelfCheck.php:379</note>
       </trans-unit>
-      <trans-unit id="8f6819dd1d8ef2e214833f667fe994b0">
-        <source>Value must be a boolean for %s</source>
-        <target>Value must be a boolean for %s</target>
-        <note>classes/Parameters/ConfigurationValidator.php:109</note>
-      </trans-unit>
-      <trans-unit id="80c25611ea9134bac1da1d91eb03544a">
-        <source>Both 'xml' and 'zip' files attributes must be provided to use the local channel.</source>
-        <target>Both 'xml' and 'zip' files attributes must be provided to use the local channel.</target>
-        <note>classes/Parameters/LocalChannelConfigurationValidator.php:113</note>
-      </trans-unit>
-      <trans-unit id="1d1a5763d2901dbd435b378358a149b4">
-        <source>File %s does not exist. Unable to select that channel.</source>
-        <target>File %s does not exist. Unable to select that channel.</target>
-        <note>classes/Parameters/LocalChannelConfigurationValidator.php:155</note>
-      </trans-unit>
-      <trans-unit id="a9c58dc4da830f87b1f0cb9e2b6f8a1c">
-        <source>We couldn't find a PrestaShop version in the XML file that was uploaded in your local archive. Please try again.</source>
-        <target>We couldn't find a PrestaShop version in the XML file that was uploaded in your local archive. Please try again.</target>
-        <note>classes/Parameters/LocalChannelConfigurationValidator.php:164</note>
-      </trans-unit>
-      <trans-unit id="9faf1391c6c018a5f5343bd509fe8e96">
-        <source>The PrestaShop version in your archive doesn't match the one in XML file. Please fix this issue and try again.</source>
-        <target>The PrestaShop version in your archive doesn't match the one in XML file. Please fix this issue and try again.</target>
-        <note>classes/Parameters/LocalChannelConfigurationValidator.php:179</note>
-      </trans-unit>
-      <trans-unit id="a262dcc571fbbaf29e2df23238ce2f89">
-        <source>Backup name is missing</source>
-        <target>Backup name is missing</target>
-        <note>classes/Parameters/RestoreConfigurationValidator.php:82</note>
-      </trans-unit>
-      <trans-unit id="394fde085070ca40c83c0238953f7c08">
-        <source>Backup %s does not exist</source>
-        <target>Backup %s does not exist</target>
-        <note>classes/Parameters/RestoreConfigurationValidator.php:91</note>
+      <trans-unit id="5ae505096414401ddbb2affa6620a869">
+        <source>Unknown requirement.</source>
+        <target>Unknown requirement.</target>
+        <note>classes/UpgradeSelfCheck.php:388</note>
       </trans-unit>
       <trans-unit id="08272c6ff59a6aec084b9a2afc3e9cff">
         <source>Unable to retrieve channel.xml.</source>
         <target>Unable to retrieve channel.xml.</target>
         <note>classes/Upgrader.php:131</note>
+      </trans-unit>
+      <trans-unit id="3f512c6c1dc3d4b9d2bf78bcc1c312a8">
+        <source>Backup requested for deletion does not exist.</source>
+        <target>Backup requested for deletion does not exist.</target>
+        <note>classes/Backup/BackupManager.php:47</note>
+      </trans-unit>
+      <trans-unit id="ed88d11e6f590319e0be757ac6a6f399">
+        <source>An error occurred while formatting the backup name.</source>
+        <target>An error occurred while formatting the backup name.</target>
+        <note>classes/Backup/BackupFinder.php:161</note>
+      </trans-unit>
+      <trans-unit id="52033453d4d673bae012b9c8ccb1e79c">
+        <source>An error occurred while backing up. Unable to obtain the schema of %s</source>
+        <target>An error occurred while backing up. Unable to obtain the schema of %s</target>
+        <note>classes/Task/Backup/BackupDatabase.php:126</note>
+      </trans-unit>
+      <trans-unit id="dcb7d833c69d6e0c3f009381c51f898e">
+        <source>Error during database backup.</source>
+        <target>Error during database backup.</target>
+        <note>classes/Task/Backup/BackupDatabase.php:127</note>
+      </trans-unit>
+      <trans-unit id="4d4c62fccb481224ff3a5c36b45de3fd">
+        <source>%s table has been saved.</source>
+        <target>%s table has been saved.</target>
+        <note>classes/Task/Backup/BackupDatabase.php:219</note>
+      </trans-unit>
+      <trans-unit id="71426d0545181d601dc135b78e74ac8f">
+        <source>%s tables have been saved.</source>
+        <target>%s tables have been saved.</target>
+        <note>classes/Task/Backup/BackupDatabase.php:239</note>
+      </trans-unit>
+      <trans-unit id="c2a086cb5c3373d7e11acbd3ace6a553">
+        <source>Database backup: %s table(s) left...</source>
+        <target>Database backup: %s table(s) left...</target>
+        <note>classes/Task/Backup/BackupDatabase.php:246</note>
+      </trans-unit>
+      <trans-unit id="10d423ad12429f952b0864b9f506551e">
+        <source>Database backup done in filename %s.</source>
+        <target>Database backup done in filename %s.</target>
+        <note>classes/Task/Backup/BackupDatabase.php:259</note>
+      </trans-unit>
+      <trans-unit id="555231214d7c729089e80f561e118f45">
+        <source>Backup directory is not writable (%path%).</source>
+        <target>Backup directory is not writable (%path%).</target>
+        <note>classes/Task/Backup/BackupDatabase.php:276</note>
+      </trans-unit>
+      <trans-unit id="d721e1d318aff72741125f97535b8ac7">
+        <source>No valid tables were found to back up. Backup of database canceled.</source>
+        <target>No valid tables were found to back up. Backup of database canceled.</target>
+        <note>classes/Task/Backup/BackupDatabase.php:292</note>
+      </trans-unit>
+      <trans-unit id="d12ae4e7f0d20f4a4ca357d48e42877e">
+        <source>Backup file %s already exists. Operation aborted.</source>
+        <target>Backup file %s already exists. Operation aborted.</target>
+        <note>classes/Task/Backup/BackupDatabase.php:351</note>
+      </trans-unit>
+      <trans-unit id="d82896159c60199272e5ea481a733eba">
+        <source>Unable to create backup database file %s.</source>
+        <target>Unable to create backup database file %s.</target>
+        <note>classes/Task/Backup/BackupDatabase.php:365</note>
+      </trans-unit>
+      <trans-unit id="88b3ca1ea582b35668b5ed49bbf8206b">
+        <source>Backup completed successfully.</source>
+        <target>Backup completed successfully.</target>
+        <note>classes/Task/Backup/BackupComplete.php:55</note>
+      </trans-unit>
+      <trans-unit id="4bf9d5ef55fcefa2b09d76e729f9c273">
+        <source>Starting backup...</source>
+        <target>Starting backup...</target>
+        <note>classes/Task/Backup/BackupInitialization.php:53</note>
+      </trans-unit>
+      <trans-unit id="189c2b1a17529c88f5d6f297a4b59ebe">
+        <source>Backup filename has not been set</source>
+        <target>Backup filename has not been set</target>
+        <note>classes/Task/Backup/BackupFiles.php:48</note>
+      </trans-unit>
+      <trans-unit id="48f95ff09327408a578e91655ed872a1">
+        <source>%s Files to backup.</source>
+        <target>%s Files to backup.</target>
+        <note>classes/Task/Backup/BackupFiles.php:64</note>
+      </trans-unit>
+      <trans-unit id="ae10eb1b240ad1b32e2a18e8c9694120">
+        <source>Backup files initialized in %s</source>
+        <target>Backup files initialized in %s</target>
+        <note>classes/Task/Backup/BackupFiles.php:72</note>
+      </trans-unit>
+      <trans-unit id="9bebecbf68b6ce5a6d656c5ea793b762">
+        <source>Backup files in progress. %d files left</source>
+        <target>Backup files in progress. %d files left</target>
+        <note>classes/Task/Backup/BackupFiles.php:80</note>
+      </trans-unit>
+      <trans-unit id="b31006b398a0fc315119a145aa1b0466">
+        <source>Unable to open archive</source>
+        <target>Unable to open archive</target>
+        <note>classes/Task/Backup/BackupFiles.php:85</note>
+      </trans-unit>
+      <trans-unit id="f39b870765d50b64ba7a6facea83010d">
+        <source>All files have been added to archive.</source>
+        <target>All files have been added to archive.</target>
+        <note>classes/Task/Backup/BackupFiles.php:97</note>
+      </trans-unit>
+      <trans-unit id="f36d7ee6cae92008008a95bf5898daf2">
+        <source>All files saved. Now backing up database</source>
+        <target>All files saved. Now backing up database</target>
+        <note>classes/Task/Backup/BackupFiles.php:98</note>
+      </trans-unit>
+      <trans-unit id="435d516735dbf7f622c7d14585f66840">
+        <source>Action %s skipped</source>
+        <target>Action %s skipped</target>
+        <note>classes/Task/AbstractTask.php:152</note>
+      </trans-unit>
+      <trans-unit id="d70699057bcd09b03129da2391b47d67">
+        <source>Update process will use archive.</source>
+        <target>Update process will use archive.</target>
+        <note>classes/Task/Miscellaneous/UpdateConfig.php:93</note>
+      </trans-unit>
+      <trans-unit id="1fe9dd96f646eaa0cd3a0fcc7632ce12">
+        <source>Error on saving configuration</source>
+        <target>Error on saving configuration</target>
+        <note>classes/Task/Miscellaneous/UpdateConfig.php:104</note>
+      </trans-unit>
+      <trans-unit id="f2ff9d001d0a553c78da73443e7fcd97">
+        <source>Configuration successfully updated.</source>
+        <target>Configuration successfully updated.</target>
+        <note>classes/Task/Miscellaneous/UpdateConfig.php:167</note>
+      </trans-unit>
+      <trans-unit id="6a5e5c0047907eaf8062e9933f0de8df">
+        <source>%s: File format does not match.</source>
+        <target>%s: File format does not match.</target>
+        <note>classes/Task/Restore/RestoreDatabase.php:76</note>
+      </trans-unit>
+      <trans-unit id="c2bcd4d44d646c47753473ff94cc66ac">
+        <source>Opening backup database file %filename% in %extension% mode</source>
+        <target>Opening backup database file %filename% in %extension% mode</target>
+        <note>classes/Task/Restore/RestoreDatabase.php:88</note>
+      </trans-unit>
+      <trans-unit id="5ce67d010ab9c98ae1dbd6b5ea149982">
+        <source>Database backup is empty.</source>
+        <target>Database backup is empty.</target>
+        <note>classes/Task/Restore/RestoreDatabase.php:126</note>
+      </trans-unit>
+      <trans-unit id="ad12a553fe534ba86e1cebf77b27300d">
+        <source>Database restoration file %filename% done. %filescount% file(s) left...</source>
+        <target>Database restoration file %filename% done. %filescount% file(s) left...</target>
+        <note>classes/Task/Restore/RestoreDatabase.php:175</note>
+      </trans-unit>
+      <trans-unit id="55fc6682e256e387afb10ebf6c95aed5">
+        <source>Database restoration file %1$s done.</source>
+        <target>Database restoration file %1$s done.</target>
+        <note>classes/Task/Restore/RestoreDatabase.php:182</note>
+      </trans-unit>
+      <trans-unit id="5b37242b8a0a39af0a9dc28abdabba28">
+        <source>Database has been restored.</source>
+        <target>Database has been restored.</target>
+        <note>classes/Task/Restore/RestoreDatabase.php:191</note>
+      </trans-unit>
+      <trans-unit id="3830c02583d9671297848d8b9aa7d016">
+        <source>Error during database restoration: </source>
+        <target>Error during database restoration:</target>
+        <note>classes/Task/Restore/RestoreDatabase.php:203</note>
+      </trans-unit>
+      <trans-unit id="85f6ad54304538449ff3da4435be5336">
+        <source>%numberqueries% queries left for file %filename%...</source>
+        <target>%numberqueries% queries left for file %filename%...</target>
+        <note>classes/Task/Restore/RestoreDatabase.php:225</note>
+      </trans-unit>
+      <trans-unit id="30da45f850d1f1a2b42f215836382f19">
+        <source>Database restoration done.</source>
+        <target>Database restoration done.</target>
+        <note>classes/Task/Restore/RestoreDatabase.php:235</note>
+      </trans-unit>
+      <trans-unit id="222102295c3c6626ff141687b0f49b6b">
+        <source>Nothing to restore</source>
+        <target>Nothing to restore</target>
+        <note>classes/Task/Restore/RestoreEmpty.php:35</note>
+      </trans-unit>
+      <trans-unit id="b579142dc2ece4e07e8fcc1f99cd75c8">
+        <source>Restoration process done. Congratulations! You can now reactivate your store.</source>
+        <target>Restoration process done. Congratulations! You can now reactivate your store.</target>
+        <note>classes/Task/Restore/RestoreComplete.php:39</note>
+      </trans-unit>
+      <trans-unit id="3fdd2bbfdfb85efef6dd8029183d9311">
+        <source>File %s is missing: unable to restore files. Operation aborted.</source>
+        <target>File %s is missing: unable to restore files. Operation aborted.</target>
+        <note>classes/Task/Restore/RestoreInitialization.php:77</note>
+      </trans-unit>
+      <trans-unit id="63427da10dfe2dc64d1e9bc666ccc65c">
+        <source>No backup database files found: it would be impossible to restore the database. Operation aborted.</source>
+        <target>No backup database files found: it would be impossible to restore the database. Operation aborted.</target>
+        <note>classes/Task/Restore/RestoreInitialization.php:94</note>
+      </trans-unit>
+      <trans-unit id="0438424c05d45646dc089ef15df7e0e2">
+        <source>Restoring files ...</source>
+        <target>Restoring files ...</target>
+        <note>classes/Task/Restore/RestoreInitialization.php:100</note>
+      </trans-unit>
+      <trans-unit id="7ead6886c2e0fb40e873da8426e80988">
+        <source>%s file(s) will be removed before restoring the backup files.</source>
+        <target>%s file(s) will be removed before restoring the backup files.</target>
+        <note>classes/Task/Restore/RestoreFiles.php:77</note>
+      </trans-unit>
+      <trans-unit id="52c69c0d7cf5eea4c9a8a65e3453370c">
+        <source>Backup file %s does not exist.</source>
+        <target>Backup file %s does not exist.</target>
+        <note>classes/Task/Restore/RestoreFiles.php:82</note>
+      </trans-unit>
+      <trans-unit id="1a56eca6c17206b678aaeb1dac9f2ff7">
+        <source>File "%s" does not exist.</source>
+        <target>File "%s" does not exist.</target>
+        <note>classes/Task/Restore/RestoreFiles.php:85</note>
+      </trans-unit>
+      <trans-unit id="5302f8c3bb6a8eb50f74b2d060b99883">
+        <source>Unable to remove updated files.</source>
+        <target>Unable to remove updated files.</target>
+        <note>classes/Task/Restore/RestoreFiles.php:87</note>
+      </trans-unit>
+      <trans-unit id="1f63628adef352c2a7ee4225b9dcd576">
+        <source>Unable to extract file %filename% into directory %directoryname%.</source>
+        <target>Unable to extract file %filename% into directory %directoryname%.</target>
+        <note>classes/Task/Restore/RestoreFiles.php:104</note>
+      </trans-unit>
+      <trans-unit id="cb7dce5f6a1934d54c0d3335c7ffe841">
+        <source>Files restored.</source>
+        <target>Files restored.</target>
+        <note>classes/Task/Restore/RestoreFiles.php:121</note>
+      </trans-unit>
+      <trans-unit id="671537225baa948d4c92cf4681283326">
+        <source>Files restored. Now restoring database...</source>
+        <target>Files restored. Now restoring database...</target>
+        <note>classes/Task/Restore/RestoreFiles.php:122</note>
+      </trans-unit>
+      <trans-unit id="64d7e13ba8bcd0c4a6977cf271577a03">
+        <source>Shop updated to %s, but some warnings have been found.</source>
+        <target>Shop updated to %s, but some warnings have been found.</target>
+        <note>classes/Task/Update/UpdateComplete.php:54</note>
+      </trans-unit>
+      <trans-unit id="f14a0e3c163ebd24ef367ac1079cf000">
+        <source>Shop updated to %s. Congratulations! You can now reactivate your shop.</source>
+        <target>Shop updated to %s. Congratulations! You can now reactivate your shop.</target>
+        <note>classes/Task/Update/UpdateComplete.php:55</note>
+      </trans-unit>
+      <trans-unit id="75802ba44ba3369defd92ef897bf2f21">
+        <source>Please remove %s by FTP</source>
+        <target>Please remove %s by FTP</target>
+        <note>classes/Task/Update/UpdateComplete.php:92</note>
+      </trans-unit>
+      <trans-unit id="d2b9f1e39aa8e96bb61f3a4bfe133f58">
+        <source>%s removed</source>
+        <target>%s removed</target>
+        <note>classes/Task/Update/UpdateComplete.php:90</note>
+      </trans-unit>
+      <trans-unit id="ead14b0273e8d6cae7d146130d4be8f6">
+        <source>The database has been cleaned.</source>
+        <target>The database has been cleaned.</target>
+        <note>classes/Task/Update/CleanDatabase.php:53</note>
+      </trans-unit>
+      <trans-unit id="d3b9b6cf6979d03762f425fb7d0d4e12">
+        <source>All files updated. Now updating database...</source>
+        <target>All files updated. Now updating database...</target>
+        <note>classes/Task/Update/UpdateFiles.php:67</note>
+      </trans-unit>
+      <trans-unit id="46cf45a00b2e8abfe1c5635601ff2e48">
+        <source>Error when trying to update file %s.</source>
+        <target>Error when trying to update file %s.</target>
+        <note>classes/Task/Update/UpdateFiles.php:78</note>
+      </trans-unit>
+      <trans-unit id="13c5f7e7473980468149551b4df7da8c">
+        <source>%s files left to update.</source>
+        <target>%s files left to update.</target>
+        <note>classes/Task/Update/UpdateFiles.php:89</note>
+      </trans-unit>
+      <trans-unit id="9a2f2cf276ea9f79b31a815897c0e3e6">
+        <source>%s ignored</source>
+        <target>%s ignored</target>
+        <note>classes/Task/Update/UpdateFiles.php:117</note>
+      </trans-unit>
+      <trans-unit id="ba4bea05b16daf8e0652a6048cf741c6">
+        <source>File %1$s has been deleted.</source>
+        <target>File %1$s has been deleted.</target>
+        <note>classes/Task/Update/UpdateFiles.php:125</note>
+      </trans-unit>
+      <trans-unit id="cbfafdaa2e7968a86bd6a437027edfea">
+        <source>Directory %1$s created.</source>
+        <target>Directory %1$s created.</target>
+        <note>classes/Task/Update/UpdateFiles.php:130</note>
+      </trans-unit>
+      <trans-unit id="47e555d00d52a54c20b5f936ee706fc8">
+        <source>Error while creating directory %s: %s.</source>
+        <target>Error while creating directory %s: %s.</target>
+        <note>classes/Task/Update/UpdateFiles.php:135</note>
+      </trans-unit>
+      <trans-unit id="0a6c2db1b18cb6420ad40d46db8707de">
+        <source>Directory %s already exists.</source>
+        <target>Directory %s already exists.</target>
+        <note>classes/Task/Update/UpdateFiles.php:140</note>
+      </trans-unit>
+      <trans-unit id="e33b6cbf66a4417503eac526d8a94626">
+        <source>The translation files have been merged into file %s.</source>
+        <target>The translation files have been merged into file %s.</target>
+        <note>classes/Task/Update/UpdateFiles.php:149</note>
+      </trans-unit>
+      <trans-unit id="7cfde7149c7a53bbbe854a0562ac0807">
+        <source>The translation files have not been merged into file %filename%. Switch to copy %filename%.</source>
+        <target>The translation files have not been merged into file %filename%. Switch to copy %filename%.</target>
+        <note>classes/Task/Update/UpdateFiles.php:154</note>
+      </trans-unit>
+      <trans-unit id="b8db10001e04b8f947415aeb8b8fd19f">
+        <source>Copied %1$s.</source>
+        <target>Copied %1$s.</target>
+        <note>classes/Task/Update/UpdateFiles.php:163</note>
+      </trans-unit>
+      <trans-unit id="4a6c74e011e44e5fb206a6dcedfc1185">
+        <source>Error while copying file %s: %s</source>
+        <target>Error while copying file %s: %s</target>
+        <note>classes/Task/Update/UpdateFiles.php:168</note>
+      </trans-unit>
+      <trans-unit id="20aed4fb9f6ee15bc601227bbfb85acd">
+        <source>Could not assert the folder %s contains a valid PrestaShop release, exiting.</source>
+        <target>Could not assert the folder %s contains a valid PrestaShop release, exiting.</target>
+        <note>classes/Task/Update/UpdateFiles.php:208</note>
+      </trans-unit>
+      <trans-unit id="312d54356778124e7ad6d8c7be6ff1a0">
+        <source>A file may be missing, or the release is stored in a subfolder by mistake.</source>
+        <target>A file may be missing, or the release is stored in a subfolder by mistake.</target>
+        <note>classes/Task/Update/UpdateFiles.php:209</note>
+      </trans-unit>
+      <trans-unit id="fa5d2fc42275582a8b7be9935084ad45">
+        <source>Generate diff file list between %s and %s.</source>
+        <target>Generate diff file list between %s and %s.</target>
+        <note>classes/Task/Update/UpdateFiles.php:230</note>
+      </trans-unit>
+      <trans-unit id="a845839e72a2af510180c93273119199">
+        <source>Unable to generate diff file list between %s and %s.</source>
+        <target>Unable to generate diff file list between %s and %s.</target>
+        <note>classes/Task/Update/UpdateFiles.php:233</note>
+      </trans-unit>
+      <trans-unit id="b66f7c9b911acb4711e96eb7a7605bfb">
+        <source>Unable to find files to update.</source>
+        <target>Unable to find files to update.</target>
+        <note>classes/Task/Update/UpdateFiles.php:272</note>
+      </trans-unit>
+      <trans-unit id="ee2e293c4bce5a37e5925743d549af8e">
+        <source>%s files will be updated.</source>
+        <target>%s files will be updated.</target>
+        <note>classes/Task/Update/UpdateFiles.php:277</note>
+      </trans-unit>
+      <trans-unit id="fb1ca1f5f3eb5a2ca85201f449525527">
+        <source>You need allow_url_fopen or cURL enabled for automatic download to work. You can also manually upload it in filepath %s.</source>
+        <target>You need allow_url_fopen or cURL enabled for automatic download to work. You can also manually upload it in filepath %s.</target>
+        <note>classes/Task/Update/Download.php:54</note>
+      </trans-unit>
+      <trans-unit id="f31c50f6d0edbbb94aa24943b118e316">
+        <source>Downloading from %s</source>
+        <target>Downloading from %s</target>
+        <note>classes/Task/Update/Download.php:64</note>
+      </trans-unit>
+      <trans-unit id="73227d741d23c1c6c0ae027b2dbc9e73">
+        <source>File will be saved in %s</source>
+        <target>File will be saved in %s</target>
+        <note>classes/Task/Update/Download.php:65</note>
+      </trans-unit>
+      <trans-unit id="53be0a7251b3bd0de81f488687bc0464">
+        <source>Download directory has been emptied</source>
+        <target>Download directory has been emptied</target>
+        <note>classes/Task/Update/Download.php:76</note>
+      </trans-unit>
+      <trans-unit id="5385901e5bed459563860e2f08a90a1c">
+        <source>Download directory %s is not writable.</source>
+        <target>Download directory %s is not writable.</target>
+        <note>classes/Task/Update/Download.php:83</note>
+      </trans-unit>
+      <trans-unit id="a55401a11251f53f612e950d4115e116">
+        <source>Download complete. Now extracting...</source>
+        <target>Download complete. Now extracting...</target>
+        <note>classes/Task/Update/Download.php:106</note>
+      </trans-unit>
+      <trans-unit id="2d9a3f4a92c008b32903541e9af8aff0">
+        <source>Download complete but MD5 sum does not match (%s).</source>
+        <target>Download complete but MD5 sum does not match (%s).</target>
+        <note>classes/Task/Update/Download.php:108</note>
+      </trans-unit>
+      <trans-unit id="31cc7d01dc7b85c42d9eb731b1060af7">
+        <source>The .zip archive could not be downloaded. The update is currently impossible. Please try again later.</source>
+        <target>The .zip archive could not be downloaded. The update is currently impossible. Please try again later.</target>
+        <note>classes/Task/Update/Download.php:112</note>
+      </trans-unit>
+      <trans-unit id="877f3f1346509ff0d53b27c14c49faaf">
+        <source>Update database in progress. %d queries left</source>
+        <target>Update database in progress. %d queries left</target>
+        <note>classes/Task/Update/UpdateDatabase.php:59</note>
+      </trans-unit>
+      <trans-unit id="9f50aa4bbbbb4463ece530c2c72cb8c0">
+        <source>Error during database update. You may need to restore your database.</source>
+        <target>Error during database update. You may need to restore your database.</target>
+        <note>classes/Task/Update/UpdateDatabase.php:80</note>
+      </trans-unit>
+      <trans-unit id="b4d58e71eb2164fb3d7729f24b745083">
+        <source>Database updated. Now updating your Addons modules...</source>
+        <target>Database updated. Now updating your Addons modules...</target>
+        <note>classes/Task/Update/UpdateDatabase.php:87</note>
+      </trans-unit>
+      <trans-unit id="c5ada796f937732385b6594d7364b69a">
+        <source>Updating database data and structure</source>
+        <target>Updating database data and structure</target>
+        <note>classes/Task/Update/UpdateDatabase.php:129</note>
+      </trans-unit>
+      <trans-unit id="956ef5a4e2df09d2f7415c9f1284d17c">
+        <source>Checking version validity</source>
+        <target>Checking version validity</target>
+        <note>classes/Task/Update/UpdateDatabase.php:137</note>
+      </trans-unit>
+      <trans-unit id="de4026a3fc9813c32f3a247370c29f54">
+        <source>Disabling all non native modules</source>
+        <target>Disabling all non native modules</target>
+        <note>classes/Task/Update/UpdateDatabase.php:147</note>
+      </trans-unit>
+      <trans-unit id="ffb63e7ff1e05430b4a292ac8651f1e4">
+        <source>Keeping non native modules enabled</source>
+        <target>Keeping non native modules enabled</target>
+        <note>classes/Task/Update/UpdateDatabase.php:150</note>
+      </trans-unit>
+      <trans-unit id="a6f9db17fdafdd976f34333d8a217531">
+        <source>Version to install is too old. Current version: %oldversion%. Version to install: %newversion%.</source>
+        <target>Version to install is too old. Current version: %oldversion%. Version to install: %newversion%.</target>
+        <note>classes/Task/Update/UpdateDatabase.php:167</note>
+      </trans-unit>
+      <trans-unit id="37ce0f29c7377c827e7247fe5645a782">
+        <source>You already have the %s version.</source>
+        <target>You already have the %s version.</target>
+        <note>classes/Task/Update/UpdateDatabase.php:169</note>
+      </trans-unit>
+      <trans-unit id="654f7ceb787fd455c166d5d8744cbf90">
+        <source>"/latest" directory has been emptied</source>
+        <target>"/latest" directory has been emptied</target>
+        <note>classes/Task/Update/Unzip.php:67</note>
+      </trans-unit>
+      <trans-unit id="01d9d38b1d4d8eff5b530eeecfd3ccd5">
+        <source>Extraction directory %s is not writable.</source>
+        <target>Extraction directory %s is not writable.</target>
+        <note>classes/Task/Update/Unzip.php:72</note>
+      </trans-unit>
+      <trans-unit id="69ae4bbd4b14ae388e4e3882945a542e">
+        <source>Unable to extract %filepath% file into %destination% folder...</source>
+        <target>Unable to extract %filepath% file into %destination% folder...</target>
+        <note>classes/Task/Update/Unzip.php:107</note>
+      </trans-unit>
+      <trans-unit id="5d3c14ccb814427455842b838bbd6f21">
+        <source>No prestashop/ folder found in the ZIP file. Aborting.</source>
+        <target>No prestashop/ folder found in the ZIP file. Aborting.</target>
+        <note>classes/Task/Update/Unzip.php:121</note>
+      </trans-unit>
+      <trans-unit id="c308874e9b5347709e9dc8bad11d8198">
+        <source>File extraction complete. Now updating files...</source>
+        <target>File extraction complete. Now updating files...</target>
+        <note>classes/Task/Update/Unzip.php:135</note>
+      </trans-unit>
+      <trans-unit id="78c6e760441165ec762746a0ab4b64cd">
+        <source>Checking updates of module %module%...</source>
+        <target>Checking updates of module %module%...</target>
+        <note>classes/Task/Update/UpdateModules.php:71</note>
+      </trans-unit>
+      <trans-unit id="2b4da2b27a96bf23f0de18c59e9b1afe">
+        <source>Module %module% is up-to-date.</source>
+        <target>Module %module% is up-to-date.</target>
+        <note>classes/Task/Update/UpdateModules.php:77</note>
+      </trans-unit>
+      <trans-unit id="798df2395d946f1f5b75ef9f6d8d8b1e">
+        <source>Retrieving the module instance of %s failed.</source>
+        <target>Retrieving the module instance of %s failed.</target>
+        <note>classes/Task/Update/UpdateModules.php:88</note>
+      </trans-unit>
+      <trans-unit id="a5db680b38097b4289b24d4925b8368e">
+        <source>Module %s does not need to be migrated. Module is up to date.</source>
+        <target>Module %s does not need to be migrated. Module is up to date.</target>
+        <note>classes/Task/Update/UpdateModules.php:94</note>
+      </trans-unit>
+      <trans-unit id="cf131dfbf6e4bd352b1e5ed65b169b0e">
+        <source>%s modules left to check.</source>
+        <target>%s modules left to check.</target>
+        <note>classes/Task/Update/UpdateModules.php:122</note>
+      </trans-unit>
+      <trans-unit id="d47b7d2553af843c2c037185c0279268">
+        <source>All modules have been updated.</source>
+        <target>All modules have been updated.</target>
+        <note>classes/Task/Update/UpdateModules.php:127</note>
+      </trans-unit>
+      <trans-unit id="5775d9e6d353c11bc7c6fe21776d3b2c">
+        <source>%s modules will be updated.</source>
+        <target>%s modules will be updated.</target>
+        <note>classes/Task/Update/UpdateModules.php:155</note>
+      </trans-unit>
+      <trans-unit id="cd818c1af28e4f3df2000686b150648d">
+        <source>Starting update...</source>
+        <target>Starting update...</target>
+        <note>classes/Task/Update/UpdateInitialization.php:46</note>
+      </trans-unit>
+      <trans-unit id="bb7a6c45c2321b57cf0558fb48c7a357">
+        <source>Your store is currently running the latest compatible version. No updates are needed at this time.</source>
+        <target>Your store is currently running the latest compatible version. No updates are needed at this time.</target>
+        <note>classes/Task/Update/UpdateInitialization.php:61</note>
+      </trans-unit>
+      <trans-unit id="02aa51bf9b62b390e5b799c57f0367a7">
+        <source>Destination version: %s</source>
+        <target>Destination version: %s</target>
+        <note>classes/Task/Update/UpdateInitialization.php:66</note>
+      </trans-unit>
+      <trans-unit id="f82790d7b72439c8a630725ba9948cff">
+        <source>Downloading step has been skipped, update process will now unzip the local archive.</source>
+        <target>Downloading step has been skipped, update process will now unzip the local archive.</target>
+        <note>classes/Task/Update/UpdateInitialization.php:71</note>
+      </trans-unit>
+      <trans-unit id="eeeace3d8262c74ad32f412c8d56fea4">
+        <source>Store deactivated. Extracting files...</source>
+        <target>Store deactivated. Extracting files...</target>
+        <note>classes/Task/Update/UpdateInitialization.php:72</note>
+      </trans-unit>
+      <trans-unit id="05170d952c90239be93cdf479e4fe5e6">
+        <source>Store deactivated. Now downloading... (this can take a while)</source>
+        <target>Store deactivated. Now downloading... (this can take a while)</target>
+        <note>classes/Task/Update/UpdateInitialization.php:76</note>
+      </trans-unit>
+      <trans-unit id="10b5aa33077df49427f04cd33ad3843f">
+        <source>Downloaded archive will come from %s</source>
+        <target>Downloaded archive will come from %s</target>
+        <note>classes/Task/Update/UpdateInitialization.php:77</note>
+      </trans-unit>
+      <trans-unit id="da652b8ece8ba2da84d5f5116f6ef63e">
+        <source>MD5 hash will be checked against %s</source>
+        <target>MD5 hash will be checked against %s</target>
+        <note>classes/Task/Update/UpdateInitialization.php:78</note>
+      </trans-unit>
+      <trans-unit id="02d133204e3ce382eb9a8a0712161999">
+        <source>Version choice</source>
+        <target>Version choice</target>
+        <note>classes/Twig/Steps/UpdateSteps.php:46</note>
+      </trans-unit>
+      <trans-unit id="df5820ca7f238b48987ff74db1271e4a">
+        <source>Update options</source>
+        <target>Update options</target>
+        <note>classes/Twig/Steps/UpdateSteps.php:49</note>
+      </trans-unit>
+      <trans-unit id="3500ba09d0538297440ca620c9dd46bf">
+        <source>Backup</source>
+        <target>Backup</target>
+        <note>classes/Twig/Steps/UpdateSteps.php:52</note>
+      </trans-unit>
+      <trans-unit id="06933067aafd48425d67bcb01bba5cb6">
+        <source>Update</source>
+        <target>Update</target>
+        <note>classes/Twig/Steps/UpdateSteps.php:55</note>
+      </trans-unit>
+      <trans-unit id="13d3fd796fa75eea78ac8b6257fda2b6">
+        <source>Post-update</source>
+        <target>Post-update</target>
+        <note>classes/Twig/Steps/UpdateSteps.php:58</note>
+      </trans-unit>
+      <trans-unit id="f979b523cf73a9536c2d3dbea70d5a6f">
+        <source>Backup selection</source>
+        <target>Backup selection</target>
+        <note>classes/Twig/Steps/RestoreSteps.php:44</note>
+      </trans-unit>
+      <trans-unit id="2bd339d85ee3b33e513359ce781b60cc">
+        <source>Restore</source>
+        <target>Restore</target>
+        <note>views/templates/dialogs/dialog-restore-from-backup.html.twig:39</note>
+      </trans-unit>
+      <trans-unit id="349b93d2884e6ca3d41d0d9dab41dcd8">
+        <source>Post-restore</source>
+        <target>Post-restore</target>
+        <note>classes/Twig/Steps/RestoreSteps.php:50</note>
+      </trans-unit>
+      <trans-unit id="c9cc8cce247e49bae79f15173ce97354">
+        <source>Save</source>
+        <target>Save</target>
+        <note>views/templates/form.html.twig:37</note>
+      </trans-unit>
+      <trans-unit id="3d6cd7dd6feb249f99dd689ec7db7e81">
+        <source>Post-restore checklist</source>
+        <target>Post-restore checklist</target>
+        <note>views/templates/steps/post-restore.html.twig:24</note>
+      </trans-unit>
+      <trans-unit id="ae4a0e3a1c9d80344cf29e3f909861b5">
+        <source>Your restoration is complete</source>
+        <target>Your restoration is complete</target>
+        <note>views/templates/steps/post-restore.html.twig:30</note>
+      </trans-unit>
+      <trans-unit id="f0d3705e1f022dae2bb3e57a0007d3e2">
+        <source>Before continuing with your tasks, please review the following checklist to ensure smooth operation after recent recovery.</source>
+        <target>Before continuing with your tasks, please review the following checklist to ensure smooth operation after recent recovery.</target>
+        <note>views/templates/steps/post-restore.html.twig:31</note>
+      </trans-unit>
+      <trans-unit id="cce78dc6ebbec7385a01f2146d6d01c8">
+        <source>Next steps</source>
+        <target>Next steps</target>
+        <note>views/templates/steps/post-update.html.twig:37</note>
+      </trans-unit>
+      <trans-unit id="e6196201ba7431ba94d3bac5d6af97c8">
+        <source>%startbold%Open the developer documentation%endbold% to keep this checklist at-hand.</source>
+        <target>%startbold%Open the developer documentation%endbold% to keep this checklist at-hand.</target>
+        <note>views/templates/steps/post-update.html.twig:42</note>
+      </trans-unit>
+      <trans-unit id="289390be5b219643de2f47be7d8b9c53">
+        <source><![CDATA[%startbold%Disable the maintenance mode%endbold% in General settings > Maintenance.]]></source>
+        <target><![CDATA[%startbold%Disable the maintenance mode%endbold% in General settings > Maintenance.]]></target>
+        <note>views/templates/steps/post-update.html.twig:60</note>
+      </trans-unit>
+      <trans-unit id="231cf4c70d866b616c21baddaeed0696">
+        <source>Troubleshooting</source>
+        <target>Troubleshooting</target>
+        <note>views/templates/steps/post-update.html.twig:70</note>
+      </trans-unit>
+      <trans-unit id="6d7d6c549fa8457fb326a8ec0c1bfa4f">
+        <source>If you can't access your back office, try emptying the cache.</source>
+        <target>If you can't access your back office, try emptying the cache.</target>
+        <note>views/templates/steps/post-restore.html.twig:63</note>
+      </trans-unit>
+      <trans-unit id="fef46e5063ce3dc78b8ae64fa474241d">
+        <source>Exit</source>
+        <target>Exit</target>
+        <note>views/templates/layouts/error.html.twig:52</note>
+      </trans-unit>
+      <trans-unit id="4ba42d4d681d17d9bee2f6228c326069">
+        <source>Open developer documentation</source>
+        <target>Open developer documentation</target>
+        <note>views/templates/steps/post-update.html.twig:105</note>
+      </trans-unit>
+      <trans-unit id="9c32ff52925ba5a296f9696cfbb7edcc">
+        <source>Backing up your store's files, database, and images means you can restore to a previous version if something goes wrong during the update. This keeps your data safe and ensures your business stays up and running.</source>
+        <target>Backing up your store's files, database, and images means you can restore to a previous version if something goes wrong during the update. This keeps your data safe and ensures your business stays up and running.</target>
+        <note>views/templates/steps/backup-options.html.twig:31</note>
+      </trans-unit>
+      <trans-unit id="d7f31683c24e4c4b7f0c7f376fe3a8fe">
+        <source>Backup failed</source>
+        <target>Backup failed</target>
+        <note>views/templates/steps/backup.html.twig:38</note>
+      </trans-unit>
+      <trans-unit id="48fa328a70d6cbeb701e7f50ea26465f">
+        <source>Please try again or perform a manual backup. In any case, ensure you have a backup before starting the update to avoid any data loss.</source>
+        <target>Please try again or perform a manual backup. In any case, ensure you have a backup before starting the update to avoid any data loss.</target>
+        <note>views/templates/steps/backup.html.twig:40</note>
+      </trans-unit>
+      <trans-unit id="6890c3f9a573b71dacdcaf6dbcf91bec">
+        <source>Retry backup</source>
+        <target>Retry backup</target>
+        <note>views/templates/steps/backup.html.twig:71</note>
+      </trans-unit>
+      <trans-unit id="b27bea61eb2963cb570ce625b87ea053">
+        <source>Update without backup</source>
+        <target>Update without backup</target>
+        <note>views/templates/steps/backup-options.html.twig:91</note>
+      </trans-unit>
+      <trans-unit id="8f54da32d0160f178f08b2530d1e690b">
+        <source>Back up your store</source>
+        <target>Back up your store</target>
+        <note>views/templates/steps/backup-options.html.twig:24</note>
+      </trans-unit>
+      <trans-unit id="a2eabcbade98a44462292c4666e62044">
+        <source>Backup completed</source>
+        <target>Backup completed</target>
+        <note>views/templates/steps/backup-options.html.twig:38</note>
+      </trans-unit>
+      <trans-unit id="11934523e2ab02034c868cd62e048c7f">
+        <source>It is available at /your-admin-directory/autoupgrade/backup. You're ready to start the update now.</source>
+        <target>It is available at /your-admin-directory/autoupgrade/backup. You're ready to start the update now.</target>
+        <note>views/templates/steps/backup-options.html.twig:39</note>
+      </trans-unit>
+      <trans-unit id="a946e4190a81d83574867d2182261e35">
+        <source>Include images in your backup</source>
+        <target>Include images in your backup</target>
+        <note>views/templates/steps/backup-options.html.twig:62</note>
+      </trans-unit>
+      <trans-unit id="880d6ec7b06e1f403347a16afbca8335">
+        <source>Start update</source>
+        <target>Start update</target>
+        <note>views/templates/dialogs/dialog-update.html.twig:72</note>
+      </trans-unit>
+      <trans-unit id="2284aa8fec405e1dd014326b51cde020">
+        <source>Launch backup</source>
+        <target>Launch backup</target>
+        <note>views/templates/steps/backup-options.html.twig:97</note>
+      </trans-unit>
+      <trans-unit id="a7446965a3635b6a69697078130d961a">
+        <source>You're up to date</source>
+        <target>You're up to date</target>
+        <note>views/templates/steps/version-choice.html.twig:45</note>
+      </trans-unit>
+      <trans-unit id="51f5b5450d5049fad7db124dbd2c9bbc">
+        <source>Current PrestaShop version: %currentPrestashopVersion%</source>
+        <target>Current PrestaShop version: %currentPrestashopVersion%</target>
+        <note>views/templates/steps/version-choice.html.twig:91</note>
+      </trans-unit>
+      <trans-unit id="ec1cf222806c00ea71fb3800dd34d039">
+        <source>Current PHP version: %currentPhpVersion%</source>
+        <target>Current PHP version: %currentPhpVersion%</target>
+        <note>views/templates/steps/version-choice.html.twig:95</note>
+      </trans-unit>
+      <trans-unit id="d4399327e9bb1d9fb589b58332f07d48">
+        <source>Unlock the local update feature and manually update your store to your preferred upgrade by saving the archive and XML files of the PrestaShop version in the following directory on your server: %pathToLocalArchive%</source>
+        <target>Unlock the local update feature and manually update your store to your preferred upgrade by saving the archive and XML files of the PrestaShop version in the following directory on your server: %pathToLocalArchive%</target>
+        <note>views/templates/steps/version-choice.html.twig:127</note>
+      </trans-unit>
+      <trans-unit id="34b3f55bce0f37bcd82294fbc4702aad">
+        <source>You are already using the latest PrestaShop version available but you can update to the version of your choice from a local archive.</source>
+        <target>You are already using the latest PrestaShop version available but you can update to the version of your choice from a local archive.</target>
+        <note>views/templates/steps/version-choice.html.twig:76</note>
+      </trans-unit>
+      <trans-unit id="8846fe014be5f3ecb8f82a4deea082cc">
+        <source>A more recent version is available</source>
+        <target>A more recent version is available</target>
+        <note>views/templates/steps/version-choice.html.twig:87</note>
+      </trans-unit>
+      <trans-unit id="87f38afeefb1be807bf6150edbb2669b">
+        <source>Select version</source>
+        <target>Select version</target>
+        <note>views/templates/steps/version-choice.html.twig:103</note>
+      </trans-unit>
+      <trans-unit id="de8e4445ea5c918fe6c8e70eb7deb722">
+        <source>A more recent version of PrestaShop is available. You can also use a local archive.</source>
+        <target>A more recent version of PrestaShop is available. You can also use a local archive.</target>
+        <note>views/templates/steps/version-choice.html.twig:108</note>
+      </trans-unit>
+      <trans-unit id="10ac3d04253ef7e1ddc73e6091c0cd55">
+        <source>Next</source>
+        <target>Next</target>
+        <note>views/templates/steps/update-options.html.twig:70</note>
+      </trans-unit>
+      <trans-unit id="6e8e3d194e68b2ad276cd4defa252c1f">
+        <source>Restoration failed</source>
+        <target>Restoration failed</target>
+        <note>views/templates/steps/restore.html.twig:32</note>
+      </trans-unit>
+      <trans-unit id="047cdd7b0b3174eb3d6459a44a510ec7">
+        <source>Please try again. You can also send us an error report to help us improve the Update assistant module.</source>
+        <target>Please try again. You can also send us an error report to help us improve the Update assistant module.</target>
+        <note>views/templates/steps/restore.html.twig:33</note>
+      </trans-unit>
+      <trans-unit id="f915a95e609bbd517a8a1e7bdcceef37">
+        <source>Try again</source>
+        <target>Try again</target>
+        <note>views/templates/steps/restore.html.twig:52</note>
+      </trans-unit>
+      <trans-unit id="c940aa73d021ae9e13f265237b0e4f96">
+        <source>Welcome to PrestaShop Update Assistant</source>
+        <target>Welcome to PrestaShop Update Assistant</target>
+        <note>views/templates/steps/home.html.twig:24</note>
+      </trans-unit>
+      <trans-unit id="6489bc9acc7ee9689e7cf4c070f4c8ea">
+        <source>Update your store</source>
+        <target>Update your store</target>
+        <note>views/templates/steps/home.html.twig:31</note>
+      </trans-unit>
+      <trans-unit id="7be24346a73074d40af62a38b9adb2b5">
+        <source>Update your store to benefit from the latest improvements, bug fixes and security patches.</source>
+        <target>Update your store to benefit from the latest improvements, bug fixes and security patches.</target>
+        <note>views/templates/steps/home.html.twig:32</note>
+      </trans-unit>
+      <trans-unit id="9280c14cf57cc764c0b9fc65e64e9a9b">
+        <source>Restore from a backup</source>
+        <target>Restore from a backup</target>
+        <note>views/templates/steps/home.html.twig:40</note>
+      </trans-unit>
+      <trans-unit id="b4c0d851a41a50a0da7ccc10062d178a">
+        <source>Use this feature if the update failed or if your store or a module is no longer working properly.</source>
+        <target>Use this feature if the update failed or if your store or a module is no longer working properly.</target>
+        <note>views/templates/steps/home.html.twig:41</note>
+      </trans-unit>
+      <trans-unit id="0fd677149c0fafac25862f5a04268ebf">
+        <source>No backup file found on your store.</source>
+        <target>No backup file found on your store.</target>
+        <note>views/templates/steps/home.html.twig:46</note>
+      </trans-unit>
+      <trans-unit id="e0c4332e8c13be976552a059f106354f">
+        <source>Get Started</source>
+        <target>Get Started</target>
+        <note>views/templates/steps/home.html.twig:56</note>
+      </trans-unit>
+      <trans-unit id="201ad8cac531a92e1ec77ae5c1e7aa20">
+        <source>Post-update checklist</source>
+        <target>Post-update checklist</target>
+        <note>views/templates/steps/post-update.html.twig:24</note>
+      </trans-unit>
+      <trans-unit id="91aac5a444c7ad75c9adad01b3253de8">
+        <source>Your store is up to date</source>
+        <target>Your store is up to date</target>
+        <note>views/templates/steps/post-update.html.twig:30</note>
+      </trans-unit>
+      <trans-unit id="82460737463ae4ea8d57b1bc7a1997ac">
+        <source>Before continuing with your tasks, please review the following checklist to ensure smooth operation after recent updates.</source>
+        <target>Before continuing with your tasks, please review the following checklist to ensure smooth operation after recent updates.</target>
+        <note>views/templates/steps/post-update.html.twig:31</note>
+      </trans-unit>
+      <trans-unit id="8d964175f80bfdf13131bec74401ba00">
+        <source>%startbold%Re-enable and check your modules%endbold% one by one to prevent any compatibility issue.</source>
+        <target>%startbold%Re-enable and check your modules%endbold% one by one to prevent any compatibility issue.</target>
+        <note>views/templates/steps/post-update.html.twig:48</note>
+      </trans-unit>
+      <trans-unit id="e02d13d319c57ef97c30eb990d857ba5">
+        <source>%startbold%Make sure your store's front office is working properly:%endbold% try to create an account, place an order, add a product, etc.</source>
+        <target>%startbold%Make sure your store's front office is working properly:%endbold% try to create an account, place an order, add a product, etc.</target>
+        <note>views/templates/steps/post-update.html.twig:54</note>
+      </trans-unit>
+      <trans-unit id="605f8e6688fdd2a7616a3614d741202d">
+        <source><![CDATA[If some images don't appear in the front office, try regenerating thumbnails in Preferences > Images.]]></source>
+        <target><![CDATA[If some images don't appear in the front office, try regenerating thumbnails in Preferences > Images.]]></target>
+        <note>views/templates/steps/post-update.html.twig:75</note>
+      </trans-unit>
+      <trans-unit id="b6e8290a312769f4d3919f3dd42a21a7">
+        <source>If something's wrong, you can restore a backup with this module. Your backup is available at {admin}/autoupgrade/backup.</source>
+        <target>If something's wrong, you can restore a backup with this module. Your backup is available at {admin}/autoupgrade/backup.</target>
+        <note>views/templates/steps/post-update.html.twig:78</note>
+      </trans-unit>
+      <trans-unit id="3cdf2387430d70296aec1dbe3d6772ad">
+        <source>If you can't access your back office, try enabling the debug mode manually in config/defines.inc.php by setting _PS_MODE_DEV_ to true.</source>
+        <target>If you can't access your back office, try enabling the debug mode manually in config/defines.inc.php by setting _PS_MODE_DEV_ to true.</target>
+        <note>views/templates/steps/post-update.html.twig:81</note>
+      </trans-unit>
+      <trans-unit id="caef47f6ddf52575a8fe9e566b68dcd8">
+        <source>Select the backup you want to restore to</source>
+        <target>Select the backup you want to restore to</target>
+        <note>views/templates/components/render-backup-selection.html.twig:24</note>
+      </trans-unit>
+      <trans-unit id="754e7de2554f7664a9ccacff4791b8cc">
+        <source>Deactivate non-native modules</source>
+        <target>Deactivate non-native modules</target>
+        <note>views/templates/steps/update-options.html.twig:39</note>
+      </trans-unit>
+      <trans-unit id="fab66f5eb74bc9e4bbba4898fa2254ed">
+        <source>All the modules installed after creating your store are considered non-native modules. They might be incompatible with the new version of PrestaShop. We recommend deactivating them during the update.</source>
+        <target>All the modules installed after creating your store are considered non-native modules. They might be incompatible with the new version of PrestaShop. We recommend deactivating them during the update.</target>
+        <note>views/templates/steps/update-options.html.twig:40</note>
+      </trans-unit>
+      <trans-unit id="81b6978502363841a3bf10daba2245a0">
+        <source>Regenerate email templates</source>
+        <target>Regenerate email templates</target>
+        <note>views/templates/steps/update-options.html.twig:48</note>
+      </trans-unit>
+      <trans-unit id="fa7822529883d315d967479ca1b03086">
+        <source>If you've customized email templates, your changes will be lost if you activate this option.</source>
+        <target>If you've customized email templates, your changes will be lost if you activate this option.</target>
+        <note>views/templates/steps/update-options.html.twig:49</note>
+      </trans-unit>
+      <trans-unit id="03a9e6840847f96325b7184d5f3c2769">
+        <source>Disable all overrides</source>
+        <target>Disable all overrides</target>
+        <note>views/templates/steps/update-options.html.twig:57</note>
+      </trans-unit>
+      <trans-unit id="88ddcf190382d59544798dece18b890b">
+        <source><![CDATA[Overriding is a way to replace business behaviors (class files and controller files) to target only one method or as many as you need. This option disables all classes & controllers overrides, allowing you to avoid conflicts during and after updates.]]></source>
+        <target><![CDATA[Overriding is a way to replace business behaviors (class files and controller files) to target only one method or as many as you need. This option disables all classes & controllers overrides, allowing you to avoid conflicts during and after updates.]]></target>
+        <note>views/templates/steps/update-options.html.twig:58</note>
+      </trans-unit>
+      <trans-unit id="6d7d82d9c1d7f68064d14e673d53eb19">
+        <source>Update failed</source>
+        <target>Update failed</target>
+        <note>views/templates/steps/update.html.twig:32</note>
+      </trans-unit>
+      <trans-unit id="332353244a1a1fb11835b6b06fc16da3">
+        <source>Your store may not work properly anymore. Select the backup you want to use and restore it to avoid any data loss.</source>
+        <target>Your store may not work properly anymore. Select the backup you want to use and restore it to avoid any data loss.</target>
+        <note>views/templates/steps/update.html.twig:34</note>
+      </trans-unit>
+      <trans-unit id="e5648ebb64955fd371f7506445ec724d">
+        <source>You didn’t back up your store with the Update assistant module but you can restore using your own manual backup.</source>
+        <target>You didn’t back up your store with the Update assistant module but you can restore using your own manual backup.</target>
+        <note>views/templates/steps/update.html.twig:35</note>
+      </trans-unit>
+      <trans-unit id="b6cf8e12bbbeee058067ebf8c8dda7e2">
+        <source>Delete backup</source>
+        <target>Delete backup</target>
+        <note>views/templates/dialogs/dialog-delete-backup.html.twig:21</note>
+      </trans-unit>
+      <trans-unit id="41ee96bba9c1ea02aa9a3702024391a9">
+        <source>You are about to delete the %backup_name% backup made on %backup_date%. As it's your only backup, you will be redirected to the module's home page.</source>
+        <target>You are about to delete the %backup_name% backup made on %backup_date%. As it's your only backup, you will be redirected to the module's home page.</target>
+        <note>views/templates/dialogs/dialog-delete-backup.html.twig:25</note>
+      </trans-unit>
+      <trans-unit id="e732a5a0788d58831c86721e173482cc">
+        <source>You are about to delete the %backup_name% backup made on %backup_date%.</source>
+        <target>You are about to delete the %backup_name% backup made on %backup_date%.</target>
+        <note>views/templates/dialogs/dialog-delete-backup.html.twig:26</note>
+      </trans-unit>
+      <trans-unit id="ea4788705e6873b424c65e91c2846b19">
+        <source>Cancel</source>
+        <target>Cancel</target>
+        <note>views/templates/dialogs/dialog-error-report.html.twig:87</note>
+      </trans-unit>
+      <trans-unit id="f2a6c498fb90ee345d997f888fce3b18">
+        <source>Delete</source>
+        <target>Delete</target>
+        <note>views/templates/dialogs/dialog-delete-backup.html.twig:42</note>
+      </trans-unit>
+      <trans-unit id="d9ea955da44076b696c6e31e407bb7a9">
+        <source>Restore from a backup?</source>
+        <target>Restore from a backup?</target>
+        <note>views/templates/dialogs/dialog-restore-from-backup.html.twig:21</note>
+      </trans-unit>
+      <trans-unit id="44e1fe4813ed848371c541e35e8422c3">
+        <source>You are about to restore %backup_version% using the backup from %backup_date%.</source>
+        <target>You are about to restore %backup_version% using the backup from %backup_date%.</target>
+        <note>views/templates/dialogs/dialog-restore-from-backup.html.twig:23</note>
+      </trans-unit>
+      <trans-unit id="a55151123e9668d00ca7edbfbaf34b49">
+        <source>Start backup?</source>
+        <target>Start backup?</target>
+        <note>views/templates/dialogs/dialog-backup.html.twig:21</note>
+      </trans-unit>
+      <trans-unit id="4de1325d17b745018ee0473aa24e40be">
+        <source>Your files, database, and images will be backed up.</source>
+        <target>Your files, database, and images will be backed up.</target>
+        <note>views/templates/dialogs/dialog-backup.html.twig:23</note>
+      </trans-unit>
+      <trans-unit id="c48b010e2f019b37cd748419f50a83c8">
+        <source>Your files and database will be backed up.</source>
+        <target>Your files and database will be backed up.</target>
+        <note>views/templates/dialogs/dialog-backup.html.twig:23</note>
+      </trans-unit>
+      <trans-unit id="0b69cd55a690bee672a1fb91091222f1">
+        <source>Start backup</source>
+        <target>Start backup</target>
+        <note>views/templates/dialogs/dialog-backup.html.twig:39</note>
+      </trans-unit>
+      <trans-unit id="2ca0ff94d146821c12f5340b117b9ecf">
+        <source>Start update?</source>
+        <target>Start update?</target>
+        <note>views/templates/dialogs/dialog-update.html.twig:21</note>
+      </trans-unit>
+      <trans-unit id="3d4d2d6f322e7a03fbe59ed1593215c8">
+        <source>Before starting the update, make sure you have a complete and recent backup of your store (database, files, and images).</source>
+        <target>Before starting the update, make sure you have a complete and recent backup of your store (database, files, and images).</target>
+        <note>views/templates/dialogs/dialog-update.html.twig:34</note>
+      </trans-unit>
+      <trans-unit id="4d7ff7fe82a3cec141ca2f2619b82794">
+        <source>You are about to launch the update, do you want to continue?</source>
+        <target>You are about to launch the update, do you want to continue?</target>
+        <note>views/templates/dialogs/dialog-update.html.twig:37</note>
+      </trans-unit>
+      <trans-unit id="3cedd2741ced15002cb3c9429ab45f55">
+        <source>I have made my own backup and can restore it manually if a problem occur.</source>
+        <target>I have made my own backup and can restore it manually if a problem occur.</target>
+        <note>views/templates/dialogs/dialog-update.html.twig:47</note>
+      </trans-unit>
+      <trans-unit id="845ceb9fbcd6f7a5e5b55c0fc0264c3b">
+        <source>Send error report?</source>
+        <target>Send error report?</target>
+        <note>views/templates/dialogs/dialog-error-report.html.twig:22</note>
+      </trans-unit>
+      <trans-unit id="b283581d613b9844810fbd3721f5747f">
+        <source>Help us improve the module by sending us this error report. For your information, the logs will be attached with your message. You can add more details in the description if you wish</source>
+        <target>Help us improve the module by sending us this error report. For your information, the logs will be attached with your message. You can add more details in the description if you wish</target>
+        <note>views/templates/dialogs/dialog-error-report.html.twig:28</note>
+      </trans-unit>
+      <trans-unit id="e3c2f912efa622f6e06c414660d40034">
+        <source>Learn more about your data and your rights</source>
+        <target>Learn more about your data and your rights</target>
+        <note>views/templates/dialogs/dialog-error-report.html.twig:34</note>
+      </trans-unit>
+      <trans-unit id="e20cbb947afcf84cf58de1358ee1068d">
+        <source>Error message</source>
+        <target>Error message</target>
+        <note>views/templates/dialogs/dialog-error-report.html.twig:45</note>
+      </trans-unit>
+      <trans-unit id="ea5957193770106ccbb79106b47c06a6">
+        <source>Email (optional)</source>
+        <target>Email (optional)</target>
+        <note>views/templates/dialogs/dialog-error-report.html.twig:59</note>
+      </trans-unit>
+      <trans-unit id="6832ac593617c3e5f61c82a20b0d9a3a">
+        <source>Enter your email address</source>
+        <target>Enter your email address</target>
+        <note>views/templates/dialogs/dialog-error-report.html.twig:66</note>
+      </trans-unit>
+      <trans-unit id="0ba3309bf076bf416d0bb498fdfcb77f">
+        <source>Description (optional)</source>
+        <target>Description (optional)</target>
+        <note>views/templates/dialogs/dialog-error-report.html.twig:72</note>
+      </trans-unit>
+      <trans-unit id="70570ccbf37717a289b3ac438d3cf0c4">
+        <source>You can add details about the error here.</source>
+        <target>You can add details about the error here.</target>
+        <note>views/templates/dialogs/dialog-error-report.html.twig:78</note>
+      </trans-unit>
+      <trans-unit id="f685da009437ded5271e842075eaf743">
+        <source>Send error report</source>
+        <target>Send error report</target>
+        <note>views/templates/components/form-open-error-report.html.twig:26</note>
+      </trans-unit>
+      <trans-unit id="2b3196ae5bc51de9273f565ca1fb9fef">
+        <source>List of files missing</source>
+        <target>List of files missing</target>
+        <note>views/templates/dialogs/dialog-tempered-files.html.twig:26</note>
+      </trans-unit>
+      <trans-unit id="845d6ad834a73165f8da00625a00dd76">
+        <source>List of files changed</source>
+        <target>List of files changed</target>
+        <note>views/templates/dialogs/dialog-tempered-files.html.twig:34</note>
       </trans-unit>
       <trans-unit id="145fb1b6e329f327f5da09ba6843675b">
         <source>The requested page or resource could not be found. This might be due to:</source>
@@ -1279,426 +1699,6 @@
         <target>There’s an issue processing the response on the app or browser.</target>
         <note>views/templates/pages/errors/generic.html.twig:68</note>
       </trans-unit>
-      <trans-unit id="201ad8cac531a92e1ec77ae5c1e7aa20">
-        <source>Post-update checklist</source>
-        <target>Post-update checklist</target>
-        <note>views/templates/steps/post-update.html.twig:24</note>
-      </trans-unit>
-      <trans-unit id="91aac5a444c7ad75c9adad01b3253de8">
-        <source>Your store is up to date</source>
-        <target>Your store is up to date</target>
-        <note>views/templates/steps/post-update.html.twig:30</note>
-      </trans-unit>
-      <trans-unit id="82460737463ae4ea8d57b1bc7a1997ac">
-        <source>Before continuing with your tasks, please review the following checklist to ensure smooth operation after recent updates.</source>
-        <target>Before continuing with your tasks, please review the following checklist to ensure smooth operation after recent updates.</target>
-        <note>views/templates/steps/post-update.html.twig:31</note>
-      </trans-unit>
-      <trans-unit id="cce78dc6ebbec7385a01f2146d6d01c8">
-        <source>Next steps</source>
-        <target>Next steps</target>
-        <note>views/templates/steps/post-restore.html.twig:37</note>
-      </trans-unit>
-      <trans-unit id="e6196201ba7431ba94d3bac5d6af97c8">
-        <source>%startbold%Open the developer documentation%endbold% to keep this checklist at-hand.</source>
-        <target>%startbold%Open the developer documentation%endbold% to keep this checklist at-hand.</target>
-        <note>views/templates/steps/post-restore.html.twig:42</note>
-      </trans-unit>
-      <trans-unit id="8d964175f80bfdf13131bec74401ba00">
-        <source>%startbold%Re-enable and check your modules%endbold% one by one to prevent any compatibility issue.</source>
-        <target>%startbold%Re-enable and check your modules%endbold% one by one to prevent any compatibility issue.</target>
-        <note>views/templates/steps/post-update.html.twig:48</note>
-      </trans-unit>
-      <trans-unit id="e02d13d319c57ef97c30eb990d857ba5">
-        <source>%startbold%Make sure your store's front office is working properly:%endbold% try to create an account, place an order, add a product, etc.</source>
-        <target>%startbold%Make sure your store's front office is working properly:%endbold% try to create an account, place an order, add a product, etc.</target>
-        <note>views/templates/steps/post-update.html.twig:54</note>
-      </trans-unit>
-      <trans-unit id="289390be5b219643de2f47be7d8b9c53">
-        <source><![CDATA[%startbold%Disable the maintenance mode%endbold% in General settings > Maintenance.]]></source>
-        <target><![CDATA[%startbold%Disable the maintenance mode%endbold% in General settings > Maintenance.]]></target>
-        <note>views/templates/steps/post-restore.html.twig:48</note>
-      </trans-unit>
-      <trans-unit id="231cf4c70d866b616c21baddaeed0696">
-        <source>Troubleshooting</source>
-        <target>Troubleshooting</target>
-        <note>views/templates/steps/post-restore.html.twig:58</note>
-      </trans-unit>
-      <trans-unit id="605f8e6688fdd2a7616a3614d741202d">
-        <source><![CDATA[If some images don't appear in the front office, try regenerating thumbnails in Preferences > Images.]]></source>
-        <target><![CDATA[If some images don't appear in the front office, try regenerating thumbnails in Preferences > Images.]]></target>
-        <note>views/templates/steps/post-update.html.twig:75</note>
-      </trans-unit>
-      <trans-unit id="b6e8290a312769f4d3919f3dd42a21a7">
-        <source>If something's wrong, you can restore a backup with this module. Your backup is available at {admin}/autoupgrade/backup.</source>
-        <target>If something's wrong, you can restore a backup with this module. Your backup is available at {admin}/autoupgrade/backup.</target>
-        <note>views/templates/steps/post-update.html.twig:78</note>
-      </trans-unit>
-      <trans-unit id="3cdf2387430d70296aec1dbe3d6772ad">
-        <source>If you can't access your back office, try enabling the debug mode manually in config/defines.inc.php by setting _PS_MODE_DEV_ to true.</source>
-        <target>If you can't access your back office, try enabling the debug mode manually in config/defines.inc.php by setting _PS_MODE_DEV_ to true.</target>
-        <note>views/templates/steps/post-update.html.twig:81</note>
-      </trans-unit>
-      <trans-unit id="fef46e5063ce3dc78b8ae64fa474241d">
-        <source>Exit</source>
-        <target>Exit</target>
-        <note>views/templates/layouts/error.html.twig:52</note>
-      </trans-unit>
-      <trans-unit id="4ba42d4d681d17d9bee2f6228c326069">
-        <source>Open developer documentation</source>
-        <target>Open developer documentation</target>
-        <note>views/templates/steps/post-restore.html.twig:87</note>
-      </trans-unit>
-      <trans-unit id="3d6cd7dd6feb249f99dd689ec7db7e81">
-        <source>Post-restore checklist</source>
-        <target>Post-restore checklist</target>
-        <note>views/templates/steps/post-restore.html.twig:24</note>
-      </trans-unit>
-      <trans-unit id="ae4a0e3a1c9d80344cf29e3f909861b5">
-        <source>Your restoration is complete</source>
-        <target>Your restoration is complete</target>
-        <note>views/templates/steps/post-restore.html.twig:30</note>
-      </trans-unit>
-      <trans-unit id="f0d3705e1f022dae2bb3e57a0007d3e2">
-        <source>Before continuing with your tasks, please review the following checklist to ensure smooth operation after recent recovery.</source>
-        <target>Before continuing with your tasks, please review the following checklist to ensure smooth operation after recent recovery.</target>
-        <note>views/templates/steps/post-restore.html.twig:31</note>
-      </trans-unit>
-      <trans-unit id="6d7d6c549fa8457fb326a8ec0c1bfa4f">
-        <source>If you can't access your back office, try emptying the cache.</source>
-        <target>If you can't access your back office, try emptying the cache.</target>
-        <note>views/templates/steps/post-restore.html.twig:63</note>
-      </trans-unit>
-      <trans-unit id="8f54da32d0160f178f08b2530d1e690b">
-        <source>Back up your store</source>
-        <target>Back up your store</target>
-        <note>views/templates/steps/backup-options.html.twig:24</note>
-      </trans-unit>
-      <trans-unit id="9c32ff52925ba5a296f9696cfbb7edcc">
-        <source>Backing up your store's files, database, and images means you can restore to a previous version if something goes wrong during the update. This keeps your data safe and ensures your business stays up and running.</source>
-        <target>Backing up your store's files, database, and images means you can restore to a previous version if something goes wrong during the update. This keeps your data safe and ensures your business stays up and running.</target>
-        <note>views/templates/steps/backup.html.twig:30</note>
-      </trans-unit>
-      <trans-unit id="a2eabcbade98a44462292c4666e62044">
-        <source>Backup completed</source>
-        <target>Backup completed</target>
-        <note>views/templates/steps/backup-options.html.twig:38</note>
-      </trans-unit>
-      <trans-unit id="11934523e2ab02034c868cd62e048c7f">
-        <source>It is available at /your-admin-directory/autoupgrade/backup. You're ready to start the update now.</source>
-        <target>It is available at /your-admin-directory/autoupgrade/backup. You're ready to start the update now.</target>
-        <note>views/templates/steps/backup-options.html.twig:39</note>
-      </trans-unit>
-      <trans-unit id="a946e4190a81d83574867d2182261e35">
-        <source>Include images in your backup</source>
-        <target>Include images in your backup</target>
-        <note>views/templates/steps/backup-options.html.twig:62</note>
-      </trans-unit>
-      <trans-unit id="880d6ec7b06e1f403347a16afbca8335">
-        <source>Start update</source>
-        <target>Start update</target>
-        <note>views/templates/dialogs/dialog-update.html.twig:72</note>
-      </trans-unit>
-      <trans-unit id="b27bea61eb2963cb570ce625b87ea053">
-        <source>Update without backup</source>
-        <target>Update without backup</target>
-        <note>views/templates/steps/backup.html.twig:60</note>
-      </trans-unit>
-      <trans-unit id="2284aa8fec405e1dd014326b51cde020">
-        <source>Launch backup</source>
-        <target>Launch backup</target>
-        <note>views/templates/steps/backup-options.html.twig:97</note>
-      </trans-unit>
-      <trans-unit id="754e7de2554f7664a9ccacff4791b8cc">
-        <source>Deactivate non-native modules</source>
-        <target>Deactivate non-native modules</target>
-        <note>views/templates/steps/update-options.html.twig:39</note>
-      </trans-unit>
-      <trans-unit id="fab66f5eb74bc9e4bbba4898fa2254ed">
-        <source>All the modules installed after creating your store are considered non-native modules. They might be incompatible with the new version of PrestaShop. We recommend deactivating them during the update.</source>
-        <target>All the modules installed after creating your store are considered non-native modules. They might be incompatible with the new version of PrestaShop. We recommend deactivating them during the update.</target>
-        <note>views/templates/steps/update-options.html.twig:40</note>
-      </trans-unit>
-      <trans-unit id="81b6978502363841a3bf10daba2245a0">
-        <source>Regenerate email templates</source>
-        <target>Regenerate email templates</target>
-        <note>views/templates/steps/update-options.html.twig:48</note>
-      </trans-unit>
-      <trans-unit id="fa7822529883d315d967479ca1b03086">
-        <source>If you've customized email templates, your changes will be lost if you activate this option.</source>
-        <target>If you've customized email templates, your changes will be lost if you activate this option.</target>
-        <note>views/templates/steps/update-options.html.twig:49</note>
-      </trans-unit>
-      <trans-unit id="03a9e6840847f96325b7184d5f3c2769">
-        <source>Disable all overrides</source>
-        <target>Disable all overrides</target>
-        <note>views/templates/steps/update-options.html.twig:57</note>
-      </trans-unit>
-      <trans-unit id="88ddcf190382d59544798dece18b890b">
-        <source><![CDATA[Overriding is a way to replace business behaviors (class files and controller files) to target only one method or as many as you need. This option disables all classes & controllers overrides, allowing you to avoid conflicts during and after updates.]]></source>
-        <target><![CDATA[Overriding is a way to replace business behaviors (class files and controller files) to target only one method or as many as you need. This option disables all classes & controllers overrides, allowing you to avoid conflicts during and after updates.]]></target>
-        <note>views/templates/steps/update-options.html.twig:58</note>
-      </trans-unit>
-      <trans-unit id="10ac3d04253ef7e1ddc73e6091c0cd55">
-        <source>Next</source>
-        <target>Next</target>
-        <note>views/templates/steps/version-choice.html.twig:143</note>
-      </trans-unit>
-      <trans-unit id="c940aa73d021ae9e13f265237b0e4f96">
-        <source>Welcome to PrestaShop Update Assistant</source>
-        <target>Welcome to PrestaShop Update Assistant</target>
-        <note>views/templates/steps/home.html.twig:24</note>
-      </trans-unit>
-      <trans-unit id="6489bc9acc7ee9689e7cf4c070f4c8ea">
-        <source>Update your store</source>
-        <target>Update your store</target>
-        <note>views/templates/steps/home.html.twig:31</note>
-      </trans-unit>
-      <trans-unit id="7be24346a73074d40af62a38b9adb2b5">
-        <source>Update your store to benefit from the latest improvements, bug fixes and security patches.</source>
-        <target>Update your store to benefit from the latest improvements, bug fixes and security patches.</target>
-        <note>views/templates/steps/home.html.twig:32</note>
-      </trans-unit>
-      <trans-unit id="9280c14cf57cc764c0b9fc65e64e9a9b">
-        <source>Restore from a backup</source>
-        <target>Restore from a backup</target>
-        <note>views/templates/steps/home.html.twig:40</note>
-      </trans-unit>
-      <trans-unit id="b4c0d851a41a50a0da7ccc10062d178a">
-        <source>Use this feature if the update failed or if your store or a module is no longer working properly.</source>
-        <target>Use this feature if the update failed or if your store or a module is no longer working properly.</target>
-        <note>views/templates/steps/home.html.twig:41</note>
-      </trans-unit>
-      <trans-unit id="0fd677149c0fafac25862f5a04268ebf">
-        <source>No backup file found on your store.</source>
-        <target>No backup file found on your store.</target>
-        <note>views/templates/steps/home.html.twig:46</note>
-      </trans-unit>
-      <trans-unit id="e0c4332e8c13be976552a059f106354f">
-        <source>Get Started</source>
-        <target>Get Started</target>
-        <note>views/templates/steps/home.html.twig:56</note>
-      </trans-unit>
-      <trans-unit id="a7446965a3635b6a69697078130d961a">
-        <source>You're up to date</source>
-        <target>You're up to date</target>
-        <note>views/templates/steps/version-choice.html.twig:45</note>
-      </trans-unit>
-      <trans-unit id="51f5b5450d5049fad7db124dbd2c9bbc">
-        <source>Current PrestaShop version: %currentPrestashopVersion%</source>
-        <target>Current PrestaShop version: %currentPrestashopVersion%</target>
-        <note>views/templates/steps/version-choice.html.twig:91</note>
-      </trans-unit>
-      <trans-unit id="ec1cf222806c00ea71fb3800dd34d039">
-        <source>Current PHP version: %currentPhpVersion%</source>
-        <target>Current PHP version: %currentPhpVersion%</target>
-        <note>views/templates/steps/version-choice.html.twig:95</note>
-      </trans-unit>
-      <trans-unit id="d4399327e9bb1d9fb589b58332f07d48">
-        <source>Unlock the local update feature and manually update your store to your preferred upgrade by saving the archive and XML files of the PrestaShop version in the following directory on your server: %pathToLocalArchive%</source>
-        <target>Unlock the local update feature and manually update your store to your preferred upgrade by saving the archive and XML files of the PrestaShop version in the following directory on your server: %pathToLocalArchive%</target>
-        <note>views/templates/steps/version-choice.html.twig:127</note>
-      </trans-unit>
-      <trans-unit id="34b3f55bce0f37bcd82294fbc4702aad">
-        <source>You are already using the latest PrestaShop version available but you can update to the version of your choice from a local archive.</source>
-        <target>You are already using the latest PrestaShop version available but you can update to the version of your choice from a local archive.</target>
-        <note>views/templates/steps/version-choice.html.twig:76</note>
-      </trans-unit>
-      <trans-unit id="8846fe014be5f3ecb8f82a4deea082cc">
-        <source>A more recent version is available</source>
-        <target>A more recent version is available</target>
-        <note>views/templates/steps/version-choice.html.twig:87</note>
-      </trans-unit>
-      <trans-unit id="87f38afeefb1be807bf6150edbb2669b">
-        <source>Select version</source>
-        <target>Select version</target>
-        <note>views/templates/steps/version-choice.html.twig:103</note>
-      </trans-unit>
-      <trans-unit id="de8e4445ea5c918fe6c8e70eb7deb722">
-        <source>A more recent version of PrestaShop is available. You can also use a local archive.</source>
-        <target>A more recent version of PrestaShop is available. You can also use a local archive.</target>
-        <note>views/templates/steps/version-choice.html.twig:108</note>
-      </trans-unit>
-      <trans-unit id="6e8e3d194e68b2ad276cd4defa252c1f">
-        <source>Restoration failed</source>
-        <target>Restoration failed</target>
-        <note>views/templates/steps/restore.html.twig:32</note>
-      </trans-unit>
-      <trans-unit id="047cdd7b0b3174eb3d6459a44a510ec7">
-        <source>Please try again. You can also send us an error report to help us improve the Update assistant module.</source>
-        <target>Please try again. You can also send us an error report to help us improve the Update assistant module.</target>
-        <note>views/templates/steps/restore.html.twig:33</note>
-      </trans-unit>
-      <trans-unit id="f915a95e609bbd517a8a1e7bdcceef37">
-        <source>Try again</source>
-        <target>Try again</target>
-        <note>views/templates/steps/restore.html.twig:52</note>
-      </trans-unit>
-      <trans-unit id="6d7d82d9c1d7f68064d14e673d53eb19">
-        <source>Update failed</source>
-        <target>Update failed</target>
-        <note>views/templates/steps/update.html.twig:32</note>
-      </trans-unit>
-      <trans-unit id="332353244a1a1fb11835b6b06fc16da3">
-        <source>Your store may not work properly anymore. Select the backup you want to use and restore it to avoid any data loss.</source>
-        <target>Your store may not work properly anymore. Select the backup you want to use and restore it to avoid any data loss.</target>
-        <note>views/templates/steps/update.html.twig:34</note>
-      </trans-unit>
-      <trans-unit id="e5648ebb64955fd371f7506445ec724d">
-        <source>You didn’t back up your store with the Update assistant module but you can restore using your own manual backup.</source>
-        <target>You didn’t back up your store with the Update assistant module but you can restore using your own manual backup.</target>
-        <note>views/templates/steps/update.html.twig:35</note>
-      </trans-unit>
-      <trans-unit id="d7f31683c24e4c4b7f0c7f376fe3a8fe">
-        <source>Backup failed</source>
-        <target>Backup failed</target>
-        <note>views/templates/steps/backup.html.twig:38</note>
-      </trans-unit>
-      <trans-unit id="48fa328a70d6cbeb701e7f50ea26465f">
-        <source>Please try again or perform a manual backup. In any case, ensure you have a backup before starting the update to avoid any data loss.</source>
-        <target>Please try again or perform a manual backup. In any case, ensure you have a backup before starting the update to avoid any data loss.</target>
-        <note>views/templates/steps/backup.html.twig:40</note>
-      </trans-unit>
-      <trans-unit id="6890c3f9a573b71dacdcaf6dbcf91bec">
-        <source>Retry backup</source>
-        <target>Retry backup</target>
-        <note>views/templates/steps/backup.html.twig:71</note>
-      </trans-unit>
-      <trans-unit id="b6cf8e12bbbeee058067ebf8c8dda7e2">
-        <source>Delete backup</source>
-        <target>Delete backup</target>
-        <note>views/templates/dialogs/dialog-delete-backup.html.twig:21</note>
-      </trans-unit>
-      <trans-unit id="41ee96bba9c1ea02aa9a3702024391a9">
-        <source>You are about to delete the %backup_name% backup made on %backup_date%. As it's your only backup, you will be redirected to the module's home page.</source>
-        <target>You are about to delete the %backup_name% backup made on %backup_date%. As it's your only backup, you will be redirected to the module's home page.</target>
-        <note>views/templates/dialogs/dialog-delete-backup.html.twig:25</note>
-      </trans-unit>
-      <trans-unit id="e732a5a0788d58831c86721e173482cc">
-        <source>You are about to delete the %backup_name% backup made on %backup_date%.</source>
-        <target>You are about to delete the %backup_name% backup made on %backup_date%.</target>
-        <note>views/templates/dialogs/dialog-delete-backup.html.twig:26</note>
-      </trans-unit>
-      <trans-unit id="ea4788705e6873b424c65e91c2846b19">
-        <source>Cancel</source>
-        <target>Cancel</target>
-        <note>views/templates/dialogs/dialog-backup.html.twig:33</note>
-      </trans-unit>
-      <trans-unit id="f2a6c498fb90ee345d997f888fce3b18">
-        <source>Delete</source>
-        <target>Delete</target>
-        <note>views/templates/dialogs/dialog-delete-backup.html.twig:42</note>
-      </trans-unit>
-      <trans-unit id="d9ea955da44076b696c6e31e407bb7a9">
-        <source>Restore from a backup?</source>
-        <target>Restore from a backup?</target>
-        <note>views/templates/dialogs/dialog-restore-from-backup.html.twig:21</note>
-      </trans-unit>
-      <trans-unit id="44e1fe4813ed848371c541e35e8422c3">
-        <source>You are about to restore %backup_version% using the backup from %backup_date%.</source>
-        <target>You are about to restore %backup_version% using the backup from %backup_date%.</target>
-        <note>views/templates/dialogs/dialog-restore-from-backup.html.twig:23</note>
-      </trans-unit>
-      <trans-unit id="845ceb9fbcd6f7a5e5b55c0fc0264c3b">
-        <source>Send error report?</source>
-        <target>Send error report?</target>
-        <note>views/templates/dialogs/dialog-error-report.html.twig:22</note>
-      </trans-unit>
-      <trans-unit id="b283581d613b9844810fbd3721f5747f">
-        <source>Help us improve the module by sending us this error report. For your information, the logs will be attached with your message. You can add more details in the description if you wish</source>
-        <target>Help us improve the module by sending us this error report. For your information, the logs will be attached with your message. You can add more details in the description if you wish</target>
-        <note>views/templates/dialogs/dialog-error-report.html.twig:28</note>
-      </trans-unit>
-      <trans-unit id="e3c2f912efa622f6e06c414660d40034">
-        <source>Learn more about your data and your rights</source>
-        <target>Learn more about your data and your rights</target>
-        <note>views/templates/dialogs/dialog-error-report.html.twig:34</note>
-      </trans-unit>
-      <trans-unit id="e20cbb947afcf84cf58de1358ee1068d">
-        <source>Error message</source>
-        <target>Error message</target>
-        <note>views/templates/dialogs/dialog-error-report.html.twig:45</note>
-      </trans-unit>
-      <trans-unit id="ea5957193770106ccbb79106b47c06a6">
-        <source>Email (optional)</source>
-        <target>Email (optional)</target>
-        <note>views/templates/dialogs/dialog-error-report.html.twig:59</note>
-      </trans-unit>
-      <trans-unit id="6832ac593617c3e5f61c82a20b0d9a3a">
-        <source>Enter your email address</source>
-        <target>Enter your email address</target>
-        <note>views/templates/dialogs/dialog-error-report.html.twig:66</note>
-      </trans-unit>
-      <trans-unit id="0ba3309bf076bf416d0bb498fdfcb77f">
-        <source>Description (optional)</source>
-        <target>Description (optional)</target>
-        <note>views/templates/dialogs/dialog-error-report.html.twig:72</note>
-      </trans-unit>
-      <trans-unit id="70570ccbf37717a289b3ac438d3cf0c4">
-        <source>You can add details about the error here.</source>
-        <target>You can add details about the error here.</target>
-        <note>views/templates/dialogs/dialog-error-report.html.twig:78</note>
-      </trans-unit>
-      <trans-unit id="f685da009437ded5271e842075eaf743">
-        <source>Send error report</source>
-        <target>Send error report</target>
-        <note>views/templates/components/form-open-error-report.html.twig:26</note>
-      </trans-unit>
-      <trans-unit id="2ca0ff94d146821c12f5340b117b9ecf">
-        <source>Start update?</source>
-        <target>Start update?</target>
-        <note>views/templates/dialogs/dialog-update.html.twig:21</note>
-      </trans-unit>
-      <trans-unit id="3d4d2d6f322e7a03fbe59ed1593215c8">
-        <source>Before starting the update, make sure you have a complete and recent backup of your store (database, files, and images).</source>
-        <target>Before starting the update, make sure you have a complete and recent backup of your store (database, files, and images).</target>
-        <note>views/templates/dialogs/dialog-update.html.twig:34</note>
-      </trans-unit>
-      <trans-unit id="4d7ff7fe82a3cec141ca2f2619b82794">
-        <source>You are about to launch the update, do you want to continue?</source>
-        <target>You are about to launch the update, do you want to continue?</target>
-        <note>views/templates/dialogs/dialog-update.html.twig:37</note>
-      </trans-unit>
-      <trans-unit id="3cedd2741ced15002cb3c9429ab45f55">
-        <source>I have made my own backup and can restore it manually if a problem occur.</source>
-        <target>I have made my own backup and can restore it manually if a problem occur.</target>
-        <note>views/templates/dialogs/dialog-update.html.twig:47</note>
-      </trans-unit>
-      <trans-unit id="a55151123e9668d00ca7edbfbaf34b49">
-        <source>Start backup?</source>
-        <target>Start backup?</target>
-        <note>views/templates/dialogs/dialog-backup.html.twig:21</note>
-      </trans-unit>
-      <trans-unit id="4de1325d17b745018ee0473aa24e40be">
-        <source>Your files, database, and images will be backed up.</source>
-        <target>Your files, database, and images will be backed up.</target>
-        <note>views/templates/dialogs/dialog-backup.html.twig:23</note>
-      </trans-unit>
-      <trans-unit id="c48b010e2f019b37cd748419f50a83c8">
-        <source>Your files and database will be backed up.</source>
-        <target>Your files and database will be backed up.</target>
-        <note>views/templates/dialogs/dialog-backup.html.twig:23</note>
-      </trans-unit>
-      <trans-unit id="0b69cd55a690bee672a1fb91091222f1">
-        <source>Start backup</source>
-        <target>Start backup</target>
-        <note>views/templates/dialogs/dialog-backup.html.twig:39</note>
-      </trans-unit>
-      <trans-unit id="2b3196ae5bc51de9273f565ca1fb9fef">
-        <source>List of files missing</source>
-        <target>List of files missing</target>
-        <note>views/templates/dialogs/dialog-tempered-files.html.twig:26</note>
-      </trans-unit>
-      <trans-unit id="845d6ad834a73165f8da00625a00dd76">
-        <source>List of files changed</source>
-        <target>List of files changed</target>
-        <note>views/templates/dialogs/dialog-tempered-files.html.twig:34</note>
-      </trans-unit>
-      <trans-unit id="c9cc8cce247e49bae79f15173ce97354">
-        <source>Save</source>
-        <target>Save</target>
-        <note>views/templates/form.html.twig:37</note>
-      </trans-unit>
       <trans-unit id="8a862ffce3e06bbe655506fd73fe017c">
         <source>Something went wrong...</source>
         <target>Something went wrong...</target>
@@ -1709,45 +1709,35 @@
         <target>Go back to Update assistant</target>
         <note>views/templates/layouts/error.html.twig:46</note>
       </trans-unit>
-      <trans-unit id="fd27020a39b44ef689eb32970c365045">
-        <source>Release note</source>
-        <target>Release note</target>
-        <note>views/templates/components/radio-card.html.twig:60</note>
+      <trans-unit id="6adab6d3fdf92c448d60cf8824e4851c">
+        <source>Delete selection</source>
+        <target>Delete selection</target>
+        <note>views/templates/components/render-backup-selection.html.twig:47</note>
       </trans-unit>
-      <trans-unit id="d63d0e3addadd645300c8e4909c7e3b1">
-        <source>Checking requirements...</source>
-        <target>Checking requirements...</target>
-        <note>views/templates/components/radio-card.html.twig:81</note>
+      <trans-unit id="15e90667b50b56b1f8a01bdb1190f3dc">
+        <source>Local archive</source>
+        <target>Local archive</target>
+        <note>views/templates/components/radio-card-local.html.twig:24</note>
       </trans-unit>
-      <trans-unit id="12b7e9bd62f15c5f79030a36509eedf0">
-        <source>Warning summary</source>
-        <target>Warning summary</target>
-        <note>views/templates/components/logs-templates.html.twig:35</note>
+      <trans-unit id="18cbb933cdcd103c46947bd153117274">
+        <source>Save the archive file of the version you want to update to in the following directory: /your-admin-directory/autoupgrade/download/</source>
+        <target>Save the archive file of the version you want to update to in the following directory: /your-admin-directory/autoupgrade/download/</target>
+        <note>views/templates/components/radio-card-local.html.twig:25</note>
       </trans-unit>
-      <trans-unit id="e3ee0344bd3867921755578619b2ba43">
-        <source>Error summary</source>
-        <target>Error summary</target>
-        <note>views/templates/components/logs-templates.html.twig:36</note>
+      <trans-unit id="56242ca6bc44ac0537fb3ce8097ff0d9">
+        <source>Progress is {progress_percentage}%</source>
+        <target>Progress is {progress_percentage}%</target>
+        <note>views/templates/components/progress-bar.html.twig:22</note>
       </trans-unit>
-      <trans-unit id="94c3bbd272ff645e73a18da13399cc63">
-        <source>See warning</source>
-        <target>See warning</target>
-        <note>views/templates/components/logs-templates.html.twig:39</note>
+      <trans-unit id="00068df4be432f78c52f344b746857bb">
+        <source>The maximum version of PrestaShop to which you can upgrade your store, based on its PHP version.</source>
+        <target>The maximum version of PrestaShop to which you can upgrade your store, based on its PHP version.</target>
+        <note>views/templates/components/radio-card-online.html.twig:25</note>
       </trans-unit>
-      <trans-unit id="bbed65cc1e1133fa10ca61cae4e636f9">
-        <source>See error</source>
-        <target>See error</target>
-        <note>views/templates/components/logs-templates.html.twig:42</note>
-      </trans-unit>
-      <trans-unit id="93cba07454f06a4a960172bbd6e2a435">
-        <source>Yes</source>
-        <target>Yes</target>
-        <note>views/templates/components/render-switch.html.twig:35</note>
-      </trans-unit>
-      <trans-unit id="bafd7322c6e97d25b6299b5d6fe8920b">
-        <source>No</source>
-        <target>No</target>
-        <note>views/templates/components/render-switch.html.twig:38</note>
+      <trans-unit id="b9d4e763594017af5b607eb9e0034299">
+        <source>PrestaShop %version%</source>
+        <target>PrestaShop %version%</target>
+        <note>views/templates/components/radio-card-online.html.twig:32</note>
       </trans-unit>
       <trans-unit id="1dc0b5d6a26b5b7488bbc222a96d9f52">
         <source>Archive to use</source>
@@ -1774,15 +1764,20 @@
         <target>No archive found in the following directory: /your-admin-directory/autoupgrade/download/</target>
         <note>views/templates/components/local-archive.html.twig:98</note>
       </trans-unit>
-      <trans-unit id="15e90667b50b56b1f8a01bdb1190f3dc">
-        <source>Local archive</source>
-        <target>Local archive</target>
-        <note>views/templates/components/radio-card-local.html.twig:24</note>
+      <trans-unit id="c2efe4bbd13e6cb0db293e72884273c0">
+        <source>Starting</source>
+        <target>Starting</target>
+        <note>views/templates/components/logs-summary.html.twig:25</note>
       </trans-unit>
-      <trans-unit id="18cbb933cdcd103c46947bd153117274">
-        <source>Save the archive file of the version you want to update to in the following directory: /your-admin-directory/autoupgrade/download/</source>
-        <target>Save the archive file of the version you want to update to in the following directory: /your-admin-directory/autoupgrade/download/</target>
-        <note>views/templates/components/radio-card-local.html.twig:25</note>
+      <trans-unit id="fd27020a39b44ef689eb32970c365045">
+        <source>Release note</source>
+        <target>Release note</target>
+        <note>views/templates/components/radio-card.html.twig:60</note>
+      </trans-unit>
+      <trans-unit id="d63d0e3addadd645300c8e4909c7e3b1">
+        <source>Checking requirements...</source>
+        <target>Checking requirements...</target>
+        <note>views/templates/components/radio-card.html.twig:81</note>
       </trans-unit>
       <trans-unit id="0db9e54978a2358b7bd40fa24cf224d4">
         <source>Update requirements</source>
@@ -1814,35 +1809,35 @@
         <target>Privacy policy</target>
         <note>views/templates/components/privacy.html.twig:24</note>
       </trans-unit>
-      <trans-unit id="00068df4be432f78c52f344b746857bb">
-        <source>The maximum version of PrestaShop to which you can upgrade your store, based on its PHP version.</source>
-        <target>The maximum version of PrestaShop to which you can upgrade your store, based on its PHP version.</target>
-        <note>views/templates/components/radio-card-online.html.twig:25</note>
+      <trans-unit id="12b7e9bd62f15c5f79030a36509eedf0">
+        <source>Warning summary</source>
+        <target>Warning summary</target>
+        <note>views/templates/components/logs-templates.html.twig:35</note>
       </trans-unit>
-      <trans-unit id="b9d4e763594017af5b607eb9e0034299">
-        <source>PrestaShop %version%</source>
-        <target>PrestaShop %version%</target>
-        <note>views/templates/components/radio-card-online.html.twig:32</note>
+      <trans-unit id="e3ee0344bd3867921755578619b2ba43">
+        <source>Error summary</source>
+        <target>Error summary</target>
+        <note>views/templates/components/logs-templates.html.twig:36</note>
       </trans-unit>
-      <trans-unit id="56242ca6bc44ac0537fb3ce8097ff0d9">
-        <source>Progress is {progress_percentage}%</source>
-        <target>Progress is {progress_percentage}%</target>
-        <note>views/templates/components/progress-bar.html.twig:22</note>
+      <trans-unit id="94c3bbd272ff645e73a18da13399cc63">
+        <source>See warning</source>
+        <target>See warning</target>
+        <note>views/templates/components/logs-templates.html.twig:39</note>
       </trans-unit>
-      <trans-unit id="caef47f6ddf52575a8fe9e566b68dcd8">
-        <source>Select the backup you want to restore to</source>
-        <target>Select the backup you want to restore to</target>
-        <note>views/templates/components/backup-selection.html.twig:30</note>
+      <trans-unit id="bbed65cc1e1133fa10ca61cae4e636f9">
+        <source>See error</source>
+        <target>See error</target>
+        <note>views/templates/components/logs-templates.html.twig:42</note>
       </trans-unit>
-      <trans-unit id="6adab6d3fdf92c448d60cf8824e4851c">
-        <source>Delete selection</source>
-        <target>Delete selection</target>
-        <note>views/templates/components/backup-selection.html.twig:52</note>
+      <trans-unit id="93cba07454f06a4a960172bbd6e2a435">
+        <source>Yes</source>
+        <target>Yes</target>
+        <note>views/templates/components/render-switch.html.twig:35</note>
       </trans-unit>
-      <trans-unit id="c2efe4bbd13e6cb0db293e72884273c0">
-        <source>Starting</source>
-        <target>Starting</target>
-        <note>views/templates/components/logs-summary.html.twig:25</note>
+      <trans-unit id="bafd7322c6e97d25b6299b5d6fe8920b">
+        <source>No</source>
+        <target>No</target>
+        <note>views/templates/components/render-switch.html.twig:38</note>
       </trans-unit>
     </body>
   </file>
