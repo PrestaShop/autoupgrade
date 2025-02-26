@@ -1444,6 +1444,11 @@
         <target>If you can't access your back office, try enabling the debug mode manually in config/defines.inc.php by setting _PS_MODE_DEV_ to true.</target>
         <note>views/templates/steps/post-update.html.twig:81</note>
       </trans-unit>
+      <trans-unit id="caef47f6ddf52575a8fe9e566b68dcd8">
+        <source>Select the backup you want to restore to</source>
+        <target>Select the backup you want to restore to</target>
+        <note>views/templates/components/render-backup-selection.html.twig:24</note>
+      </trans-unit>
       <trans-unit id="754e7de2554f7664a9ccacff4791b8cc">
         <source>Deactivate non-native modules</source>
         <target>Deactivate non-native modules</target>
@@ -1709,6 +1714,11 @@
         <target>Go back to Update assistant</target>
         <note>views/templates/layouts/error.html.twig:46</note>
       </trans-unit>
+      <trans-unit id="6adab6d3fdf92c448d60cf8824e4851c">
+        <source>Delete selection</source>
+        <target>Delete selection</target>
+        <note>views/templates/components/render-backup-selection.html.twig:47</note>
+      </trans-unit>
       <trans-unit id="15e90667b50b56b1f8a01bdb1190f3dc">
         <source>Local archive</source>
         <target>Local archive</target>
@@ -1758,16 +1768,6 @@
         <source>No archive found in the following directory: /your-admin-directory/autoupgrade/download/</source>
         <target>No archive found in the following directory: /your-admin-directory/autoupgrade/download/</target>
         <note>views/templates/components/local-archive.html.twig:98</note>
-      </trans-unit>
-      <trans-unit id="caef47f6ddf52575a8fe9e566b68dcd8">
-        <source>Select the backup you want to restore to</source>
-        <target>Select the backup you want to restore to</target>
-        <note>views/templates/components/backup-selection.html.twig:30</note>
-      </trans-unit>
-      <trans-unit id="6adab6d3fdf92c448d60cf8824e4851c">
-        <source>Delete selection</source>
-        <target>Delete selection</target>
-        <note>views/templates/components/backup-selection.html.twig:52</note>
       </trans-unit>
       <trans-unit id="c2efe4bbd13e6cb0db293e72884273c0">
         <source>Starting</source>
