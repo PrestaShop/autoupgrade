@@ -79,7 +79,7 @@ class RestoreConfigurationValidator
     private function validateBackupName(array $backupConfiguration): ?string
     {
         if (empty($backupConfiguration[RestoreConfiguration::BACKUP_NAME])) {
-            return $this->translator->trans('Backup name is missing');
+            return $this->translator->trans('Invalid configuration, backup name is missing.');
         }
 
         return null;
@@ -88,7 +88,7 @@ class RestoreConfigurationValidator
     private function validateBackupExist(string $backupName): ?string
     {
         if (!in_array($backupName, $this->backupFinder->getAvailableBackups())) {
-            return $this->translator->trans('Backup %s does not exist', [$backupName]);
+            return $this->translator->trans('Invalid configuration, backup %s doesn\'t exist', [$backupName]);
         }
 
         return null;

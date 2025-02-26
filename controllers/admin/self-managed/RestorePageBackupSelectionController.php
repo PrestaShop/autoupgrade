@@ -139,9 +139,12 @@ class RestorePageBackupSelectionController extends AbstractPageWithStepControlle
      */
     public function save(): JsonResponse
     {
-        $this->saveBackupConfiguration();
+        $errors = $this->saveBackupConfiguration();
 
-        return AjaxResponseBuilder::nextRouteResponse(Routes::RESTORE_STEP_BACKUP_SELECTION);
+        return $this->getRefreshOfForm(array_merge(
+            $this->getParams(),
+            ['errors' => ValidatorToFormFormater::format($errors)]
+        ));
     }
 
     /**
@@ -170,15 +173,24 @@ class RestorePageBackupSelectionController extends AbstractPageWithStepControlle
      */
     public function startRestore(): JsonResponse
     {
-        $this->saveBackupConfiguration();
+        $errors = $this->saveBackupConfiguration();
+
+        if (!empty($errors)) {
+            return $this->getRefreshOfForm(array_merge(
+                $this->getParams(),
+                ['errors' => ValidatorToFormFormater::format($errors)]
+            ));
+        }
 
         return AjaxResponseBuilder::nextRouteResponse(Routes::RESTORE_STEP_RESTORE);
     }
 
     /**
      * @throws \Exception
+     *
+     * @return array<string, mixed>
      */
-    private function saveBackupConfiguration(): JsonResponse
+    private function saveBackupConfiguration(): array
     {
         $configurationStorage = $this->upgradeContainer->getConfigurationStorage();
         $restoreConfiguration = $this->upgradeContainer->getRestoreConfiguration();
@@ -194,10 +206,7 @@ class RestorePageBackupSelectionController extends AbstractPageWithStepControlle
             $configurationStorage->save($restoreConfiguration);
         }
 
-        return $this->getRefreshOfForm(array_merge(
-            $this->getParams(),
-            ['errors' => ValidatorToFormFormater::format($errors)]
-        ));
+        return $errors;
     }
 
     /**
@@ -226,7 +235,8 @@ class RestorePageBackupSelectionController extends AbstractPageWithStepControlle
             $this->getTwig()->render(
                 '@ModuleAutoUpgrade/steps/' . $this->getStepTemplate() . '.html.twig',
                 $params
-            )
+            ),
+            ['newRoute' => $this->displayRouteInUrl()]
         );
     }
 }
