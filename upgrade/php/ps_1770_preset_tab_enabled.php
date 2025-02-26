@@ -18,7 +18,7 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 
-use PrestaShop\Module\AutoUpgrade\DbWrapper;
+use PrestaShop\Module\AutoUpgrade\Database\DbWrapper;
 
 /**
  * Preset enabled new column in tabs to true for all (except for disabled modules)

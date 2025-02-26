@@ -72,7 +72,8 @@ class ModuleDownloader
         }
 
         if (!$downloadSuccessful) {
-            throw (new UpgradeException($this->translator->trans('All download attempts have failed. Check your environment and try again.')))->setSeverity(UpgradeException::SEVERITY_ERROR);
+            $message = $this->translator->trans('All download attempts have failed. The module %s has been disabled. You can try to update it manually afterwards.', [$moduleDownloaderContext->getModuleName()]);
+            throw (new UpgradeException($message))->setSeverity(UpgradeException::SEVERITY_WARNING);
         }
     }
 

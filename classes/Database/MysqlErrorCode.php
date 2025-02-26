@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright since 2007 PrestaShop SA and Contributors
  * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
@@ -18,18 +19,14 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 
-use PrestaShop\Module\AutoUpgrade\Database\DbWrapper;
+namespace PrestaShop\Module\AutoUpgrade\Database;
 
-/**
- * @return bool
- *
- * @throws \PrestaShop\Module\AutoUpgrade\Exceptions\UpdateDatabaseException
- */
-function add_hook($hook, $title, $description, $position = 1)
+class MysqlErrorCode
 {
-    return (bool) DbWrapper::execute('
-        INSERT INTO `' . _DB_PREFIX_ . 'hook` (`name`, `title`, `description`, `position`)
-        VALUES ("' . pSQL($hook) . '", "' . pSQL($title) . '", "' . pSQL($description) . '", ' . (int) $position . ')
-        ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`)    
-    ');
+    public const TABLE_ALREADY_EXISTS = '1050';
+    public const UNKNOWN_COLUMN_IN_FIELD_LIST = '1054';
+    public const DUPLICATE_COLUMN_NAME = '1060';
+    public const DUPLICATE_KEY = '1061';
+    public const DUPLICATE_ENTRY = '1062';
+    public const CANNOT_DROP_KEY = '1091';
 }

@@ -26,6 +26,7 @@ use Exception;
 use InvalidArgumentException;
 use Language;
 use ParseError;
+use PrestaShop\Module\AutoUpgrade\Database\MysqlErrorCode;
 use PrestaShop\Module\AutoUpgrade\Exceptions\UpdateDatabaseException;
 use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\Log\LoggerInterface;
@@ -140,7 +141,7 @@ abstract class CoreUpgrader
 
         $this->runCoreCacheClean();
 
-        if ($this->container->getUpdateState()->getWarningExists()) {
+        if ($this->container->getUpdateState()->isWarningDetected()) {
             $this->logger->warning($this->container->getTranslator()->trans('Warning detected during update.'));
         } else {
             $this->logger->info($this->container->getTranslator()->trans('Database update completed'));
@@ -456,20 +457,20 @@ abstract class CoreUpgrader
 
     private function logPhpError(string $upgrade_file, string $query, string $message): void
     {
-        $this->logger->error('PHP ' . $upgrade_file . ' ' . $query . ": \n" . $message);
-        $this->container->getUpdateState()->setWarningExists(true);
+        $this->logger->warning('PHP ' . $upgrade_file . ' ' . $query . ": \n" . $message);
+        $this->container->getUpdateState()->setWarningDetected(true);
     }
 
     private function logMissingFileError(string $path, string $func_name, string $query): void
     {
-        $this->logger->error($path . strtolower($func_name) . ' PHP - missing file ' . $query);
-        $this->container->getUpdateState()->setWarningExists(true);
+        $this->logger->warning($this->container->getTranslator()->trans('%s PHP - missing file %s', [$path . strtolower($func_name), $query]));
+        $this->container->getUpdateState()->setWarningDetected(true);
     }
 
     private function logForbiddenObjectMethodError(string $phpString, string $upgrade_file): void
     {
-        $this->logger->error($upgrade_file . ' PHP - Object Method call is forbidden (' . $phpString . ')');
-        $this->container->getUpdateState()->setWarningExists(true);
+        $this->logger->warning($this->container->getTranslator()->trans('%s PHP - Object Method call is forbidden (%s)', [$upgrade_file, $phpString]));
+        $this->container->getUpdateState()->setWarningDetected(true);
     }
 
     protected function runSqlQuery(string $upgrade_file, string $query): void
@@ -494,13 +495,21 @@ abstract class CoreUpgrader
         $error = $this->db->getMsgError();
         $error_number = $this->db->getNumberError();
 
-        $this->logger->warning($this->container->getTranslator()->trans('The execution of the query failed: %s, %s', [$error_number, $error]));
-        $this->logger->warning($this->container->getTranslator()->trans('Migration file: %s, Query: %s', [$upgrade_file, $query]));
-
-        $duplicates = ['1050', '1054', '1060', '1061', '1062', '1091'];
+        $duplicates = [
+            MysqlErrorCode::TABLE_ALREADY_EXISTS,
+            MysqlErrorCode::UNKNOWN_COLUMN_IN_FIELD_LIST,
+            MysqlErrorCode::DUPLICATE_COLUMN_NAME,
+            MysqlErrorCode::DUPLICATE_KEY,
+            MysqlErrorCode::DUPLICATE_ENTRY,
+            MysqlErrorCode::CANNOT_DROP_KEY,
+        ];
         if (!in_array($error_number, $duplicates)) {
-            $this->logger->error($this->container->getTranslator()->trans('SQL %s %s in %s: %s'), [$upgrade_file, $error_number, $query, $error]);
-            $this->container->getUpdateState()->setWarningExists(true);
+            $this->logger->warning($this->container->getTranslator()->trans('The execution of the query failed: %s, %s', [$error_number, $error]));
+            $this->logger->warning($this->container->getTranslator()->trans('Migration file: %s, Query: %s', [$upgrade_file, $query]));
+            $this->container->getUpdateState()->setWarningDetected(true);
+        } else {
+            $this->logger->debug($this->container->getTranslator()->trans('The execution of the query failed: %s, %s. This error code can be safely ignored.', [$error_number, $error]));
+            $this->logger->debug($this->container->getTranslator()->trans('Migration file: %s, Query: %s', [$upgrade_file, $query]));
         }
     }
 
@@ -810,7 +819,7 @@ abstract class CoreUpgrader
             } catch (CoreException $e) {
                 $this->logger->warning($this->container->getTranslator()->trans('PHP Impossible to generate RTL files for theme %s: %s', [$theme['name'], $e->getMessage()]));
 
-                $this->container->getUpdateState()->setWarningExists(true);
+                $this->container->getUpdateState()->setWarningDetected(true);
             }
         }
     }

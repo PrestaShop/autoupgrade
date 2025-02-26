@@ -23,7 +23,7 @@ namespace PrestaShop\Module\AutoUpgrade\Task\Runner;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\AjaxResponse;
-use PrestaShop\Module\AutoUpgrade\DbWrapper;
+use PrestaShop\Module\AutoUpgrade\Database\DbWrapper;
 use PrestaShop\Module\AutoUpgrade\Exceptions\UpdateDatabaseException;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\TaskName;

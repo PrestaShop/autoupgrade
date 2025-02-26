@@ -45,7 +45,7 @@ class UpdateStateTest extends TestCase
             'currentVersion' => '1.7.8.6',
             'destinationVersion' => '9.0.0',
             'installedLanguagesIso' => [],
-            'warning_exists' => false,
+            'warningDetected' => false,
 
             'progressPercentage' => 20,
         ];

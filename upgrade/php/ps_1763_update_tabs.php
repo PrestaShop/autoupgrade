@@ -18,7 +18,7 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 
-use PrestaShop\Module\AutoUpgrade\DbWrapper;
+use PrestaShop\Module\AutoUpgrade\Database\DbWrapper;
 
 /**
  * File copied from ps_1750_update_module_tabs.php and modified to add new roles
