@@ -1,4 +1,4 @@
-name: UI Tests
+name: Upgrade CLI
 on:
   ## Check each PR
   push:
@@ -20,10 +20,10 @@ env:
 jobs:
   ui_test_matrix:
     if: github.event.pull_request.draft == false
-    name: UI Tests (Matrix)
+    name: Upgrade CLI (Matrix)
     runs-on: ubuntu-latest
     env:
-      JSON_FILE: ${{ (github.event_name == 'schedule' || (github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'dev' && github.event.pull_request.base.ref == 'master')) && 'nightly.json' || 'sanity.json' }}
+      JSON_FILE: ${{ (github.event_name == 'schedule' || (github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'dev' && github.event.pull_request.base.ref == 'master')) && 'nightlySanity.json' || 'sanity.json' }}
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
@@ -34,7 +34,7 @@ jobs:
         run: echo "matrix=$(jq -c '. | del(.include[] | select(has("comment")))' .github/workflows/ui-test/${{ env.JSON_FILE }})" >> $GITHUB_OUTPUT
 
   ui_test:
-    name: UI Tests
+    name: Sanity Tests
     runs-on: ubuntu-latest
     needs: ui_test_matrix
     strategy:
@@ -112,7 +112,7 @@ jobs:
           DB_PASSWD: prestashop
           DB_NAME: prestashop
           DB_PREFIX: ps_
-        run: npx playwright test
+        run: npm run test:sanity
 
       - name: Rollback
         run: |
@@ -128,7 +128,7 @@ jobs:
           DB_PASSWD: prestashop
           DB_NAME: prestashop
           DB_PREFIX: ps_
-        run: npx playwright test
+        run: npm run test:sanity
 
       - name: Export Docker errors
         working-directory: tests/UI/

@@ -1,0 +1,154 @@
+name: Upgrade UI
+on:
+  ## Check each PR
+  push:
+    branches:
+      - dev
+      - master
+  pull_request:
+  ## Manual execution on branch
+  workflow_dispatch:
+  ## Nightly
+  ### Needs secrets
+  #### GC_PROJECT_ID
+  #### GC_SERVICE_KEY
+  #### NIGHTLY_TOKEN
+  schedule:
+    - cron: '0 0 * * *'
+env:
+  CAMPAIGN: 'autoupgrade'
+jobs:
+  ui_test_matrix:
+    if: github.event.pull_request.draft == false
+    name: Upgrade UI (Matrix)
+    runs-on: ubuntu-latest
+    env:
+      JSON_FILE: ${{ (github.event_name == 'schedule' || (github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'dev' && github.event.pull_request.base.ref == 'master')) && 'nightlyUI.json' || 'ui.json' }}
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set matrix
+        id: set-matrix
+        run: echo "matrix=$(jq -c '. | del(.include[] | select(has("comment")))' .github/workflows/ui-test/${{ env.JSON_FILE }})" >> $GITHUB_OUTPUT
+
+  ui_test:
+    name: UI Tests
+    runs-on: ubuntu-latest
+    needs: ui_test_matrix
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.ui_test_matrix.outputs.matrix) }}
+    env:
+      PS_DOCKER: ${{ matrix.PS_VERSION_START }}-${{ matrix.PHP_VERSION }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Start containers
+        working-directory: tests/UI/
+        env:
+          PS_VERSION: ${{ env.PS_DOCKER }}
+        run: |
+          docker compose -f "docker-compose.yml" up -d --build
+          bash -c 'while [[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost/)" != "200" ]]; do sleep 5; done'
+
+      - name: Composer install
+        run: composer install
+
+      - name: Display new interface
+        run: |
+          docker exec -t prestashop bash -c 'apt-get update'
+          docker exec -t prestashop bash -c 'curl -sL https://deb.nodesource.com/setup_20.x | bash -'
+          docker exec -t prestashop bash -c 'apt-get install -y nodejs'
+          docker exec -t prestashop bash -c 'cd /var/www/html/modules/autoupgrade/_dev && npm install && npm run vite:build'
+
+      - name: Install dependencies
+        working-directory: tests/UI/
+        run: npm ci
+
+      - name: Install Playwright Browsers
+        working-directory: tests/UI/
+        run: npx playwright install chromium --with-deps
+
+      - name: Run functional tests
+        working-directory: tests/UI/
+        env:
+          PS_VERSION: ${{ matrix.PS_VERSION_START }}
+          DB_USER: prestashop
+          DB_PASSWD: prestashop
+          DB_NAME: prestashop
+          DB_PREFIX: ps_
+        run: npm run test:functional
+
+      - name: Export Docker errors
+        working-directory: tests/UI/
+        if: always()
+        run: docker compose logs --no-color >& docker-compose.log
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report-${{ matrix.PS_VERSION_START }}-${{ matrix.PS_VERSION_END }}-${{ matrix.UPGRADE_CHANNEL }}-${{ matrix.PHP_VERSION }}
+          path: |
+            tests/UI/reports/
+            tests/UI/report.json
+            tests/UI/docker-compose.log
+          retention-days: 30
+
+  nightly:
+    name: Nightly Report
+    if: ${{ github.event_name == 'schedule' }}
+    needs:
+      - ui_test_matrix
+      - ui_test
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.ui_test_matrix.outputs.matrix) }}
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download report
+        uses: actions/download-artifact@v4
+        with:
+          name: playwright-report-${{ matrix.PS_VERSION_START }}-${{ matrix.PS_VERSION_END }}-${{ matrix.UPGRADE_CHANNEL }}-${{ matrix.PHP_VERSION }}
+          path: tests/UI/
+
+      # Nightly : Rename file
+      - name: "Nightly : Rename file"
+        working-directory: tests/UI/
+        run: |
+          mkdir -p nightly
+          REPORT_NAME="${{ env.CAMPAIGN }}_$(date +%Y-%m-%d)-${{ matrix.PS_VERSION_START }}_(Channel:_${{ matrix.UPGRADE_CHANNEL }}_PHP:_${{ matrix.PHP_VERSION }})"
+          mv report.json nightly/${REPORT_NAME}.json
+
+      # Nightly : Auth GCP
+      - name: "Nightly : Auth GCP"
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GC_SERVICE_KEY }}
+          project_id: ${{ secrets.GC_PROJECT_ID }}
+
+      # Nightly : Setup GCP
+      - name: "Nightly : Setup GCP"
+        uses: google-github-actions/setup-gcloud@v2
+
+      # Nightly : Upload to Google Cloud Storage (GCS)
+      - name: "Nightly : Upload to Google Cloud Storage (GCS)"
+        working-directory: tests/UI/
+        run: gsutil cp -r "nightly/**" gs://prestashop-core-nightly/reports
+
+      # Nightly : Push Report
+      - name: "Nightly : Push Report"
+        run: |
+          REPORT_NAME="${{ env.CAMPAIGN }}_$(date +%Y-%m-%d)-${{ matrix.PS_VERSION_START }}_(Channel:_${{ matrix.UPGRADE_CHANNEL }}_PHP:_${{ matrix.PHP_VERSION }})"
+          curl -v "https://api-nightly.prestashop-project.org/import/report/playwright?token=${{ secrets.NIGHTLY_TOKEN }}&filename=${REPORT_NAME}.json&campaign=${{ env.CAMPAIGN }}&platform=cli"
