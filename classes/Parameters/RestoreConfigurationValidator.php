@@ -88,7 +88,7 @@ class RestoreConfigurationValidator
     private function validateBackupExist(string $backupName): ?string
     {
         if (!in_array($backupName, $this->backupFinder->getAvailableBackups())) {
-            return $this->translator->trans('Invalid configuration, backup %s doesn\'t exist', [$backupName]);
+            return $this->translator->trans('Invalid configuration, backup %s doesn\'t exist.', [$backupName]);
         }
 
         return null;

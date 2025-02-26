@@ -50,7 +50,7 @@ class RestoreConfigurationValidatorTest extends TestCase
         $errors = $this->validator->validate([]);
 
         $this->assertCount(1, $errors);
-        $this->assertSame(['message' => 'Backup name is missing', 'target' => RestoreConfiguration::BACKUP_NAME], $errors[0]);
+        $this->assertSame(['message' => 'Invalid configuration, backup name is missing.', 'target' => RestoreConfiguration::BACKUP_NAME], $errors[0]);
     }
 
     public function testValidateReturnsErrorWhenBackupDoesNotExist(): void
@@ -64,7 +64,7 @@ class RestoreConfigurationValidatorTest extends TestCase
         $errors = $this->validator->validate([RestoreConfiguration::BACKUP_NAME => $backupName]);
 
         $this->assertCount(1, $errors);
-        $this->assertSame(['message' => 'Backup non_existing_backup.zip does not exist', 'target' => RestoreConfiguration::BACKUP_NAME], $errors[0]);
+        $this->assertSame(['message' => 'Invalid configuration, backup non_existing_backup.zip doesn\'t exist.', 'target' => RestoreConfiguration::BACKUP_NAME], $errors[0]);
     }
 
     public function testValidateReturnsNoErrorsWhenBackupIsValid(): void
