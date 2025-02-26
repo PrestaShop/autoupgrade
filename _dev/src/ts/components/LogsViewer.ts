@@ -120,11 +120,15 @@ export default class LogsViewer extends ComponentAbstract implements DomLifecycl
   };
 
   public addError = (error: ApiError): void => {
-    const detailedError = (
-      document.getElementById(ErrorPage.templateId) as HTMLTemplateElement | null
-    )?.content?.querySelector(
-      `.error-page__desc .error-page__desc-${isHttpErrorCode(error.code) ? error.code : error.type}`
-    );
+    const errorTemplate = document.getElementById(
+      ErrorPage.templateId
+    ) as HTMLTemplateElement | null;
+
+    const detailedError =
+      errorTemplate?.content?.querySelector(
+        `.error-page__desc .error-page__desc-${isHttpErrorCode(error.code) ? error.code : error.type}`
+      ) || errorTemplate?.content?.querySelector('.error-page__desc-unknown');
+
     if (detailedError) {
       this.addLogs([`ERROR - ${detailedError.textContent}`.replace(/\n(\s)*$/gm, '')]);
     }
