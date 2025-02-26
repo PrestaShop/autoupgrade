@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `PREFIX_shipment` (
     `created_at` datetime NOT NULL,
     `updated_at` datetime NOT NULL,
     PRIMARY KEY (`id_shipment`),
-) ENGINE = ENGINE_TYPE DEFAULT CHARSET = utf8mb4 COLLATION;
+) ENGINE = ENGINE_TYPE DEFAULT CHARSET = utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `PREFIX_shipment_product` (
     `shipment_product_id` int(10) NOT NULL,
@@ -28,4 +28,4 @@ CREATE TABLE IF NOT EXISTS `PREFIX_shipment_product` (
     `order_detail_id` int(10) NOT NULL,
     `quantity` int(10) DEFAULT NULL,
     PRIMARY KEY (shipment_id),
-) ENGINE = ENGINE_TYPE DEFAULT CHARSET = utf8mb4 COLLATION;
+) ENGINE = ENGINE_TYPE DEFAULT CHARSET = utf8mb4;
