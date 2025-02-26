@@ -287,10 +287,10 @@
         <target state="needs-translation">Directory "%s" does not exist and cannot be emptied.</target>
         <note>classes/UpgradeTools/CacheCleaner.php:71</note>
       </trans-unit>
-      <trans-unit id="1ef478938e58dcb132dc969cda209fcb" approved="yes">
-        <source>File %s removed</source>
-        <target state="final">Fichier %s supprimé</target>
-        <note>classes/UpgradeTools/CacheCleaner.php:79</note>
+      <trans-unit id="72966a016e6dd03e2eab13287244dc1a">
+        <source>Directory %s emptied</source>
+        <target state="needs-translation">Directory %s emptied</target>
+        <note>classes/UpgradeTools/CacheCleaner.php:75</note>
       </trans-unit>
       <trans-unit id="3188ac0ee6355c23c3b26c3b5e71f3dd" approved="yes">
         <source>File %s does not exist, merge skipped.</source>
