@@ -228,6 +228,13 @@ class RestorePageBackupSelectionController extends AbstractPageWithStepControlle
         );
     }
 
+    /**
+     * @param array<string, mixed> $params
+     *
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
     private function getRefreshOfForm(array $params): JsonResponse
     {
         return AjaxResponseBuilder::hydrationResponse(

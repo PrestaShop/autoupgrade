@@ -21,8 +21,8 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Task\Runner;
 
-use PrestaShop\Module\AutoUpgrade\Task\TaskName;
 use InvalidArgumentException;
+use PrestaShop\Module\AutoUpgrade\Task\TaskName;
 
 /**
  * Execute the whole upgrade process in a single request.
