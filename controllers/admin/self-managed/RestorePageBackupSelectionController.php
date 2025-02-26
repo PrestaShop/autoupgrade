@@ -29,6 +29,7 @@ use PrestaShop\Module\AutoUpgrade\Task\TaskType;
 use PrestaShop\Module\AutoUpgrade\Twig\PageSelectors;
 use PrestaShop\Module\AutoUpgrade\Twig\Steps\RestoreSteps;
 use PrestaShop\Module\AutoUpgrade\Twig\Steps\Stepper;
+use PrestaShop\Module\AutoUpgrade\Twig\ValidatorToFormFormater;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -177,7 +178,7 @@ class RestorePageBackupSelectionController extends AbstractPageWithStepControlle
     /**
      * @throws \Exception
      */
-    private function saveBackupConfiguration(): void
+    private function saveBackupConfiguration(): JsonResponse
     {
         $configurationStorage = $this->upgradeContainer->getConfigurationStorage();
         $restoreConfiguration = $this->upgradeContainer->getRestoreConfiguration();
@@ -186,8 +187,17 @@ class RestorePageBackupSelectionController extends AbstractPageWithStepControlle
             RestoreConfiguration::BACKUP_NAME => $this->request->request->get(RestoreConfiguration::BACKUP_NAME),
         ];
 
-        $restoreConfiguration->merge($config);
-        $configurationStorage->save($restoreConfiguration);
+        $errors = $this->upgradeContainer->getRestoreConfigurationValidator()->validate($config);
+
+        if (empty($errors)) {
+            $restoreConfiguration->merge($config);
+            $configurationStorage->save($restoreConfiguration);
+        }
+
+        return $this->getRefreshOfForm(array_merge(
+            $this->getParams(),
+            ['errors' => ValidatorToFormFormater::format($errors)]
+        ));
     }
 
     /**
@@ -206,6 +216,17 @@ class RestorePageBackupSelectionController extends AbstractPageWithStepControlle
                 $params
             ),
             ['addScript' => $scriptName]
+        );
+    }
+
+    private function getRefreshOfForm(array $params): JsonResponse
+    {
+        return AjaxResponseBuilder::hydrationResponse(
+            PageSelectors::STEP_PARENT_ID,
+            $this->getTwig()->render(
+                '@ModuleAutoUpgrade/steps/' . $this->getStepTemplate() . '.html.twig',
+                $params
+            )
         );
     }
 }
