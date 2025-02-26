@@ -64,16 +64,23 @@ $e: ".render-field";
 
     // Backup selection variant
     &--backup-selection {
-      display: block;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.25rem;
       padding-block-end: 0;
       margin-block-end: 0;
       border-block-end: 0;
+
+      #{$e}__action {
+        width: 100%;
+      }
 
       #{$e}__backup-selection-wrapper {
         display: flex;
         flex-wrap: wrap;
         gap: 1rem;
-        align-items: flex-end;
+        align-items: center;
       }
 
       #{$e}__backup-selection-select {
