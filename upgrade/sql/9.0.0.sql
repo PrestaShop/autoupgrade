@@ -293,7 +293,8 @@ INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`
   (NULL, 'actionCustomerViewedProductGridPresenterModifier', 'Modify customer viewed product grid template data', 'This hook allows to modify data which is about to be used in template for customer viewed product grid', '1'),
   (NULL, 'actionCustomerGroupsGridPresenterModifier', 'Modify customer groups grid template data', 'This hook allows to modify data which is about to be used in template for customer groups grid', '1'),
   (NULL, 'actionValidateOrderBefore', 'Before validating an order', 'This hook is called before validating an order by core', '1'),
-  (NULL, 'actionPDFInvoiceRender', 'PDF Invoice Render', 'This hook is called when a PDF invoice is rendered from the Front Office and the Back Office', '1')
+  (NULL, 'actionPDFInvoiceRender', 'PDF Invoice Render', 'This hook is called when a PDF invoice is rendered from the Front Office and the Back Office', '1'),
+  (NULL, 'actionPresentObject', 'Object Presenter', 'This hook is called before an object is presented', '1') 
 ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
 
 /* Auto generated hooks removed for version 9.0.0 */
