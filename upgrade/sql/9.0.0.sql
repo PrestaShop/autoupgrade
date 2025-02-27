@@ -25,18 +25,21 @@ INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VAL
 
 /* Add feature flag types */
 /* PHP:add_column('feature_flag', 'type', 'VARCHAR(64) DEFAULT \'env,dotenv,db\' NOT NULL AFTER `name`'); */;
-UPDATE `PREFIX_feature_flag` SET `state` = 1 WHERE `name` = 'authorization_server';
-UPDATE `PREFIX_tab` SET `active` = 1 WHERE `class_name` = 'AdminAuthorizationServer';
 
 /* Insert new feature flags introduced by v9 */
 INSERT INTO `PREFIX_feature_flag` (`name`, `type`, `label_wording`, `label_domain`, `description_wording`, `description_domain`, `state`, `stability`) VALUES
-  ('authorization_server_multistore', 'env,dotenv,db', 'Authorization server - Multistore', 'Admin.Advparameters.Feature', 'Enable or disable the Authorization server when multistore is enabled.', 'Admin.Advparameters.Help', 0, 'beta'),
   ('symfony_layout', 'env,query,dotenv,db', 'Symfony layout', 'Admin.Advparameters.Feature', 'Enable / Disable symfony layout (in opposition to legacy layout).', 'Admin.Advparameters.Help', 1, 'beta'),
   ('front_container_v2', 'env,dotenv,db', 'New front container', 'Admin.Advparameters.Feature', 'Enable / Disable the new front container.', 'Admin.Advparameters.Help', 0, 'beta'),
   ('customer_group', 'env,dotenv,db', 'Customer group', 'Admin.Advparameters.Feature', 'Enable / Disable the customer group page.', 'Admin.Advparameters.Help', 0, 'beta'),
   ('store', 'env,dotenv,db', 'Store', 'Admin.Advparameters.Feature', 'Enable / Disable the store page.', 'Admin.Advparameters.Help', 0, 'beta'),
   ('search_conf', 'env,dotenv,db', 'Search configuration', 'Admin.Advparameters.Feature', 'Enable / Disable the search configuration page.', 'Admin.Advparameters.Help', 0, 'beta'),
-  ('merchandise_return', 'env,dotenv,db', 'Merchandise return', 'Admin.Advparameters.Feature', 'Enable / Disable the merchandise return page.', 'Admin.Advparameters.Help', 0, 'beta');
+  ('merchandise_return', 'env,dotenv,db', 'Merchandise return', 'Admin.Advparameters.Feature', 'Enable / Disable the merchandise return page.', 'Admin.Advparameters.Help', 0, 'beta'),
+  ('admin_api_multistore', 'env,query,dotenv,db', 'Admin API - Multistore', 'Admin.Advparameters.Feature', 'Enable or disable the Admin API when multistore is enabled.', 'Admin.Advparameters.Help', 1, 'beta'),
+  ('admin_api_experimental_endpoints', 'env,dotenv,db', 'Admin API - Enable experimental endpoints', 'Admin.Advparameters.Feature', 'Experimental API endpoints are disabled by default in prod environment, this configuration allows to forcefully enable them.', 'Admin.Advparameters.Help', 0, 'beta')
+;
+
+/* Remove olf feature flag before Authorization server was renamed into Admin API */
+DELETE FROM `PREFIX_feature_flag` WHERE `name`='authorization_server';
 
 /* Update carrier feature flag to stable, but we don't force enabled by default */
 UPDATE `PREFIX_feature_flag` SET `stability` = 'stable' WHERE `name` = 'carrier';
@@ -294,7 +297,7 @@ INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`
   (NULL, 'actionCustomerGroupsGridPresenterModifier', 'Modify customer groups grid template data', 'This hook allows to modify data which is about to be used in template for customer groups grid', '1'),
   (NULL, 'actionValidateOrderBefore', 'Before validating an order', 'This hook is called before validating an order by core', '1'),
   (NULL, 'actionPDFInvoiceRender', 'PDF Invoice Render', 'This hook is called when a PDF invoice is rendered from the Front Office and the Back Office', '1'),
-  (NULL, 'actionPresentObject', 'Object Presenter', 'This hook is called before an object is presented', '1') 
+  (NULL, 'actionPresentObject', 'Object Presenter', 'This hook is called before an object is presented', '1')
 ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
 
 /* Auto generated hooks removed for version 9.0.0 */
@@ -331,3 +334,17 @@ ALTER TABLE `PREFIX_attachment_lang` MODIFY COLUMN `name` varchar(255) DEFAULT N
 /* Add id_product in customer message table */
 /* https://github.com/PrestaShop/PrestaShop/pull/37861 */
 /* PHP:add_column('customer_message', 'id_product', 'INT UNSIGNED DEFAULT NULL AFTER `id_employee`'); */;
+
+/* Update Admin API tabs and roles */
+UPDATE `PREFIX_tab` SET `wording`='Admin API', `wording_domain`='Admin.Navigation.Menu', `class_name`='AdminAdminAPI', `route_name`='admin_api_index', `active`=1 WHERE `class_name`='AdminAuthorizationServer';
+/* PHP:ps_update_tab_lang('Admin.Navigation.Menu', 'AdminAdminAPI'); */;
+
+UPDATE `PREFIX_authorization_role` SET `slug`='ROLE_MOD_TAB_ADMINADMINAPI_CREATE' WHERE `slug`='ROLE_MOD_TAB_ADMINAUTHORIZATIONSERVER_CREATE';
+UPDATE `PREFIX_authorization_role` SET `slug`='ROLE_MOD_TAB_ADMINADMINAPI_READ' WHERE `slug`='ROLE_MOD_TAB_ADMINAUTHORIZATIONSERVER_READ';
+UPDATE `PREFIX_authorization_role` SET `slug`='ROLE_MOD_TAB_ADMINADMINAPI_UPDATE' WHERE `slug`='ROLE_MOD_TAB_ADMINAUTHORIZATIONSERVER_UPDATE';
+UPDATE `PREFIX_authorization_role` SET `slug`='ROLE_MOD_TAB_ADMINADMINAPI_DELETE' WHERE `slug`='ROLE_MOD_TAB_ADMINAUTHORIZATIONSERVER_DELETE';
+INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES
+    ('PS_ENABLE_ADMIN_API', '1', NOW(), NOW()),
+    ('PS_ADMIN_API_FORCE_DEBUG_SECURED', '1', NOW(), NOW())
+;
+/* PHP:install_ps_apiresources(); */;
