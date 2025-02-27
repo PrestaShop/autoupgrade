@@ -49,22 +49,15 @@ class Unzip extends AbstractTask
      */
     public function run(): int
     {
-        $filepath = $this->container->getFilePath();
-        $destExtract = $this->container->getProperty(UpgradeContainer::LATEST_PATH);
+        $filepath = $this->container->getArchiveFilePath();
+        $destExtract = $this->container->getProperty(UpgradeContainer::TMP_FILES_PATH);
 
         $this->container->getUpdateState()->setProgressPercentage(
             $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
         );
 
-        if ($this->container->getFileSystem()->exists($destExtract)) {
-            foreach (scandir($destExtract) as $item) {
-                if ($item !== '.' && $item !== '..') {
-                    $path = $destExtract . DIRECTORY_SEPARATOR . $item;
-                    $this->container->getFileSystem()->remove($path);
-                }
-            }
-
-            $this->logger->debug($this->translator->trans('"/latest" directory has been emptied'));
+        if ($this->container->getFilesystemAdapter()->clearDirectory($destExtract)) {
+            $this->logger->debug($this->translator->trans('Temporary files directory has been emptied'));
         }
         $relative_extract_path = str_replace(_PS_ROOT_DIR_, '', $destExtract);
         $report = '';

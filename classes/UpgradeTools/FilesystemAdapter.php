@@ -71,7 +71,6 @@ class FilesystemAdapter
     ) {
         $this->filesystem = $filesystem;
         $this->fileFilter = $fileFilter;
-
         $this->autoupgradeDir = $autoupgradeDir;
         $this->adminSubDir = $adminSubDir;
         $this->prodRootDir = $prodRootDir;
