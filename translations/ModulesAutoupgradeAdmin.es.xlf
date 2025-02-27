@@ -222,25 +222,25 @@
         <target state="needs-translation">Download of source #%s has failed.</target>
         <note>classes/UpgradeTools/Module/ModuleDownloader.php:70</note>
       </trans-unit>
-      <trans-unit id="9fffa3812df1e3754b9bbbd256c37437">
-        <source>All download attempts have failed. Check your environment and try again.</source>
-        <target state="needs-translation">All download attempts have failed. Check your environment and try again.</target>
+      <trans-unit id="94afb77f327c3408fcc77d2e9e357298">
+        <source>All download attempts have failed. The module %s has been disabled. You can try to update it manually afterwards.</source>
+        <target state="needs-translation">All download attempts have failed. The module %s has been disabled. You can try to update it manually afterwards.</target>
         <note>classes/UpgradeTools/Module/ModuleDownloader.php:75</note>
       </trans-unit>
       <trans-unit id="88a8e935ad1b255eae2a4c490886b83a">
         <source><![CDATA[Module %s update files (%s => %s) have been fetched from %s.]]></source>
         <target state="needs-translation"><![CDATA[Module %s update files (%s => %s) have been fetched from %s.]]></target>
-        <note>classes/UpgradeTools/Module/ModuleDownloader.php:101</note>
+        <note>classes/UpgradeTools/Module/ModuleDownloader.php:102</note>
       </trans-unit>
       <trans-unit id="83e483e14240bf9d88eff9fa253133ca">
         <source>The received module archive is empty.</source>
         <target state="needs-translation">The received module archive is empty.</target>
-        <note>classes/UpgradeTools/Module/ModuleDownloader.php:117</note>
+        <note>classes/UpgradeTools/Module/ModuleDownloader.php:118</note>
       </trans-unit>
       <trans-unit id="7a0dd1e622442e88dc5c8cf1520997b4">
         <source>Invalid contents from provider (Got an XML file).</source>
         <target state="needs-translation">Invalid contents from provider (Got an XML file).</target>
-        <note>classes/UpgradeTools/Module/ModuleDownloader.php:122</note>
+        <note>classes/UpgradeTools/Module/ModuleDownloader.php:123</note>
       </trans-unit>
       <trans-unit id="212d17b84ed7ed05df35b5fb0c805eea">
         <source>Error when trying to extract module %s.</source>
@@ -340,112 +340,122 @@
       <trans-unit id="4e32fd9d99ee0c3370c870d4da3d31a9">
         <source>Running generic queries</source>
         <target state="needs-translation">Running generic queries</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:118</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:119</note>
       </trans-unit>
       <trans-unit id="589998cc1fe1a29f99a7bac84b1c121f">
         <source>Database update OK</source>
         <target state="needs-translation">Database update OK</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:121</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:122</note>
       </trans-unit>
       <trans-unit id="947d41a2e41f66e6a8581d2ab5726685">
         <source>Updating languages</source>
         <target state="needs-translation">Updating languages</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:123</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:124</note>
       </trans-unit>
       <trans-unit id="88bbbc84f51424b4b0c6da6aec2c2154">
         <source>Regenerating htaccess</source>
         <target state="needs-translation">Regenerating htaccess</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:126</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:127</note>
       </trans-unit>
       <trans-unit id="128e1c61a1a4477ec05609569cc4d9d8">
         <source>Cleaning XML files</source>
         <target state="needs-translation">Cleaning XML files</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:129</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:130</note>
       </trans-unit>
       <trans-unit id="12473a5949de1a1cd37806a14a56dbde">
         <source>Keeping overrides in place</source>
         <target state="needs-translation">Keeping overrides in place</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:133</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:134</note>
       </trans-unit>
       <trans-unit id="ed176ad3db6e004d4c272928acf3d0ac">
         <source>Disabling overrides</source>
         <target state="needs-translation">Disabling overrides</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:135</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:136</note>
       </trans-unit>
       <trans-unit id="4afddec024bf8a4d5170ded7dc6c5665">
         <source>Warning detected during update.</source>
         <target state="needs-translation">Warning detected during update.</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:144</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:145</note>
       </trans-unit>
       <trans-unit id="a5b60046bfbbe89f0598a1a3b48e4bab">
         <source>Database update completed</source>
         <target state="needs-translation">Database update completed</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:146</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:147</note>
       </trans-unit>
       <trans-unit id="f25792b5b08a78dd01810297d219c10c" approved="yes">
         <source>Unable to find upgrade directory in the installation path.</source>
         <target state="final">No es posible encontrar la carpeta de actualización en la ruta de instalación.</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:266</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:267</note>
       </trans-unit>
       <trans-unit id="aae22c1ae9a2b451abca76ae8c5c79e8" approved="yes">
         <source>Error while loading SQL upgrade file "%s".</source>
         <target state="final">Error al cargar el archivo de actualización de SQL "%s".</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:276</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:277</note>
       </trans-unit>
       <trans-unit id="8abd985d095a1282f6f01b98c121b41b" approved="yes">
         <source>Cannot find the SQL upgrade files. Please check that the %s folder is not empty.</source>
         <target state="final">No es posible encontrar los archivos de actualización SQL. Por favor, comprueba que la carpeta %s no esté vacía.</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:283</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:284</note>
       </trans-unit>
       <trans-unit id="10cdbccd344337ec910129a02cdfaac2">
         <source>Migration file: %s, Query: %s</source>
         <target state="needs-translation">Migration file: %s, Query: %s</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:498</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:512</note>
+      </trans-unit>
+      <trans-unit id="4541f052250eb4a4175730f1b2a9e556">
+        <source>%s PHP - missing file %s</source>
+        <target state="needs-translation">%s PHP - missing file %s</target>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:466</note>
+      </trans-unit>
+      <trans-unit id="b413563efb053e11acb49c7a239004bb">
+        <source>%s PHP - Object Method call is forbidden (%s)</source>
+        <target state="needs-translation">%s PHP - Object Method call is forbidden (%s)</target>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:472</note>
       </trans-unit>
       <trans-unit id="bd996c5d2ed7b7ff38aef7377fc28b8a">
         <source>SQL %s table has been dropped.</source>
         <target state="needs-translation">SQL %s table has been dropped.</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:483</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:484</note>
       </trans-unit>
       <trans-unit id="a5f51c587cf3395667758cbdb04a5e0b">
         <source>The execution of the query failed: %s, %s</source>
         <target state="needs-translation">The execution of the query failed: %s, %s</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:497</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:507</note>
       </trans-unit>
-      <trans-unit id="6a1fd2698386e16037dcf5981add2506">
-        <source>SQL %s %s in %s: %s</source>
-        <target state="needs-translation">SQL %s %s in %s: %s</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:502</note>
+      <trans-unit id="fc1c5074f1d436f7827b3749ad05dc1d">
+        <source>The execution of the query failed: %s, %s. This error code can be safely ignored.</source>
+        <target state="needs-translation">The execution of the query failed: %s, %s. This error code can be safely ignored.</target>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:511</note>
       </trans-unit>
       <trans-unit id="53983059bf39e1325bba11081ca40e97">
         <source>Keeping current theme</source>
         <target state="needs-translation">Keeping current theme</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:744</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:753</note>
       </trans-unit>
       <trans-unit id="796b7c49e21f09173214f029c7f02f9d" approved="yes">
         <source>Switching to default theme.</source>
         <target state="final">Cambiando al tema predeterminado.</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:749</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:758</note>
       </trans-unit>
       <trans-unit id="475d2ad61e3486ec4af224c5c701b668">
         <source>No RTL language detected, skipping RTL file update.</source>
         <target state="needs-translation">No RTL language detected, skipping RTL file update.</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:766</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:775</note>
       </trans-unit>
       <trans-unit id="865502b07194399bc188582c6a3e266c">
         <source>Update the RTL files of back-office themes.</source>
         <target state="needs-translation">Update the RTL files of back-office themes.</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:773</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:782</note>
       </trans-unit>
       <trans-unit id="751c05018f86933c195f46ec3ab55bf8">
         <source>Update the RTL files of front-office themes.</source>
         <target state="needs-translation">Update the RTL files of front-office themes.</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:794</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:803</note>
       </trans-unit>
       <trans-unit id="3beb9b10d6bd297fde87d3ba5163975d">
         <source>PHP Impossible to generate RTL files for theme %s: %s</source>
         <target state="needs-translation">PHP Impossible to generate RTL files for theme %s: %s</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:811</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:820</note>
       </trans-unit>
       <trans-unit id="badf6aad60d4a95b698028bc55aa3347">
         <source>Cleaning file cache</source>
@@ -462,12 +472,12 @@
  %s</source>
         <target state="needs-translation">An error was raised when warming up the core cache: 
  %s</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:863</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:872</note>
       </trans-unit>
       <trans-unit id="068cba215a30b9ffbd27e680475be575">
         <source>Core cache has been generated to avoid dependency conflicts.</source>
         <target state="needs-translation">Core cache has been generated to avoid dependency conflicts.</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:865</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:874</note>
       </trans-unit>
       <trans-unit id="b5ffb77b13ab03298982a49842ce78aa">
         <source>%lang% is not a valid iso code, skipping</source>
@@ -1698,6 +1708,11 @@
         <source>There’s an issue processing the response on the app or browser.</source>
         <target state="needs-translation">There’s an issue processing the response on the app or browser.</target>
         <note>views/templates/pages/errors/generic.html.twig:68</note>
+      </trans-unit>
+      <trans-unit id="2a0d9890111bde325bfe4d4cb48dc3b0">
+        <source>An unknown error occurred. It was unexpected and may be caused by a temporary issue with the server.</source>
+        <target state="needs-translation">An unknown error occurred. It was unexpected and may be caused by a temporary issue with the server.</target>
+        <note>views/templates/pages/errors/generic.html.twig:81</note>
       </trans-unit>
       <trans-unit id="8a862ffce3e06bbe655506fd73fe017c">
         <source>Something went wrong...</source>
