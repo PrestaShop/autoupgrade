@@ -19,6 +19,8 @@
 6. [Restore a store](#restore-a-store)
    - [Command line parameters](#restore-with-command-line-parameters)
 7. [Configuration Parameters](#configuration-parameters)
+8. [Update modules from local source](#update-modules-from-local-source)
+8. [Local temporary assets](#local-temporary-assets)
 8. [Documentation](#documentation)
 9. [Use Storybook for an interface overview](#use-storybook-for-an-interface-overview)
 10. [Linting and Testing](#linting-and-testing)
@@ -160,6 +162,28 @@ impact.
 | `update:start`                              | `PS_AUTOUP_REGEN_EMAIL`                       | `--regenerate-email-templates` | `true` (default), `false`, `'true'`, `'false'`, `'1'`, `'0'`, `1`, `0`, `'on'`, `'off'` | If enabled, keeps the store's customized email templates. Otherwise, the templates are replaced with the default ones.                        |
 | `update:start`                              | `PS_DISABLE_OVERRIDES`                        | `--disable-all-overrides`      | `true` (default), `false`, `'true'`, `'false'`, `'1'`, `'0'`, `1`, `0`, `'on'`, `'off'` | If enabled, disables all PHP overrides in PrestaShop, ensuring better compatibility during the update process.                                |
 | `backup:create`                             | `PS_AUTOUP_KEEP_IMAGES`                       | `--include-images`             | `true` (default), `false`, `'true'`, `'false'`, `'1'`, `'0'`, `1`, `0`, `'on'`, `'off'` | If enabled, retains all images in the backup. This operation can take a long time depending on the storage of your images                     |
+
+## Update modules from local source
+
+During the Update process, we check for new module versions in the PrestaShop Marketplace. If there is one, we download it and then Update it.
+
+Developers must release and push their module to the Marketplace in order to test the Update process, which is inconvenient. In order to simplify the testing process, you can place the ZIP file of your module in `/ADMIN_DIR/autoupgrade/modules/MODULE_NAME.zip`. This will allow you to use your local version for upgrading purposes.
+
+In case your local archive with a module fails to work, the latest version will be downloaded from the Marketplace.
+
+## Local temporary assets
+
+In order to work properly, the Update module needs to write some files to your filesystem server. These files are stored in the following folders, all available in the `<admin folder>/autoupgrade` path.
+
+```
+ <admin folder>/autoupgrade/
+ ├── download/              Directory for XML and ZIP archives for local updates.
+ ├── modules/               Folder where you can put an archive of a module. This one will be used when updating modules.
+ ├── tmp/
+ │   ├── files/             Working directory of the autoupgrade. This is where the destination version of PrestaShop will be unziped, before copy.
+ │   ├── releases/          Stores downloaded releases in online mode, emptied at the end of the update process
+ │   ├── modules/           Stores module zip files and migration scripts, emptied at the end of the update process.
+ ```
 
 ## Documentation
 
