@@ -6,9 +6,30 @@
 [![Total Downloads](https://poser.pugx.org/PrestaShop/autoupgrade/downloads)](//packagist.org/packages/PrestaShop/autoupgrade)
 [![GitHub license](https://img.shields.io/github/license/PrestaShop/autoupgrade)](https://github.com/PrestaShop/autoupgrade/LICENSE.md)
 
+## Table of Contents
+
+1. [About](#about)
+2. [Branches](#branches)
+3. [Prerequisites](#prerequisites)
+4. [Installation](#installation)
+   - [Create a module from source code](#create-a-module-from-source-code)
+5. [Running an update on PrestaShop](#running-an-update-on-prestashop)
+   - [Command line parameters](#update-with-command-line-parameters)
+   - [Configuration file](#configuration-file)
+6. [Restore a store](#restore-a-store)
+   - [Command line parameters](#restore-with-command-line-parameters)
+7. [Configuration Parameters](#configuration-parameters)
+8. [Documentation](#documentation)
+9. [Use Storybook for an interface overview](#use-storybook-for-an-interface-overview)
+10. [Linting and Testing](#linting-and-testing)
+11. [Contributing](#contributing)
+    - [Reporting issues](#reporting-issues)
+    - [Translations](#translations)
+12. [License](#license)
+
 ## About
 
-This module allows to upgrade your shop to a more recent version of PrestaShop. It can be used as a CLI tool or with a web assistant.
+This module allows to update your store to a more recent version of PrestaShop. It can be used as a CLI tool or with a web assistant.
 The latest versions of the module are compatible with all PrestaShop 1.7 and higher releases.
 
 > [!IMPORTANT]  
@@ -16,12 +37,12 @@ The latest versions of the module are compatible with all PrestaShop 1.7 and hig
 
 ## Branches
 
-Branch `develop` contains code for future versions of the module, which allows upgrades from 1.7.x versions to higher.
+Branch `develop` contains code for future versions of the module, which allows updates from 1.7.x versions to higher.
 
-Branch `4.14.x` contains code for `4.14.x` patch versions which allow upgrading from 1.6.x versions to 1.7.x .
+Branch `4.14.x` contains code for `4.14.x` patch versions which allow updating from 1.6.x versions to 1.7.x .
 
-If you wish to upgrade a shop powered by PrestaShop 1.6, **please use the latest 4.14.3 version** to upgrade to a 1.7 version.
-Upgrades from 1.6.x to 8.x should be done in 2 steps (1.6.x to 1.7.x then 1.7.x to 8.x).
+If you wish to update a store powered by PrestaShop 1.6, **please use the latest 4.14.3 version** to update to a 1.7 version.
+Updates from 1.6.x to 8.x should be done in 2 steps (1.6.x to 1.7.x then 1.7.x to 8.x).
 
 Please note PrestaShop 1.6 and older are not maintained anymore.
 
@@ -43,16 +64,16 @@ If you download a ZIP archive that contains the source code or if you want to us
 * Enter into folder **autoupgrade** and run the command `composer install`  ([composer](https://getcomposer.org/)).
 * Enter into folder **autoupgrade/_dev** and run the commands `npm install` and `npm run build:vite` ([npm](https://docs.npmjs.com/)).
 * Create a new ZIP archive from the of **autoupgrade** folder.
-* Now you can install it in your shop. For example, you can upload it using the dropzone in Module Manager back office page. 
+* Now you can install it in your store. For example, you can upload it using the dropzone in Module Manager back office page. 
 
-## Running an upgrade on PrestaShop
+## Running an update on PrestaShop
 
-Upgrading a shop can be done using:
+Updating a store can be done using:
 
 * the configuration page of the module (browse the back office page provided by the module)
 * in command line by calling `bin/console`
 
-### Command line parameters
+### Update with command line parameters
 
 This module provide a powerful command-line interface based on Symfony Console, allowing you to execute various commands
 to manage your store. You can use this interface to perform updates, rollbacks, and check system requirements.
@@ -63,13 +84,13 @@ To use the Symfony Console, simply run the following command from the root direc
 $ php bin/console
 ```
 
-The requirements can be reviewed to confirm the shop is safe to update:
+The requirements can be reviewed to confirm the store is safe to update:
 
 ```
 $ php bin/console update:check <your-admin-dir>
 ```
 
-A backup of the shop is created with:
+A backup of the store is created with:
 
 ```
 $ php bin/console backup:create --config-file-path=[/path/to/config.json] <your-admin-dir>
@@ -106,12 +127,12 @@ Here is an example of the different fields that can be found in it:
 
 Please see the section [Configuration Parameters](#configuration-parameters) for explanations concerning the configurations
 
-## Rollback a shop
+## Restore a store
 
-If an error occurs during the upgrade process, the rollback will be suggested.
+If an error occurs during the update process, the restore will be suggested.
 In case you lost the page from your backoffice, note it can be triggered via CLI.
 
-### Command line parameters
+### Restore with command line parameters
 
 For restore your store, you would use:
 
