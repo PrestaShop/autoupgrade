@@ -279,12 +279,13 @@ class ChecksumCompare
         $links = [];
         foreach ($node as $child) {
             if (is_object($child) && $child->getName() == 'dir') {
-                $subDir = (string) $child['name'];
-                $subDirLinks = $this->symbolicLinksAsArray($child, $dir . DIRECTORY_SEPARATOR . $subDir);
+                $subDir = $dir ? $dir . DIRECTORY_SEPARATOR : '';
+                $subDir .= (string) $child['name'];
+                $subDirLinks = $this->symbolicLinksAsArray($child, $subDir);
                 $links = $links + $subDirLinks;
             } elseif (is_object($child) && $child->getName() == 'link') {
                 $linkName = (string) $child['name'];
-                $links[$dir . DIRECTORY_SEPARATOR . $linkName] = (string) $child;
+                $links[] = ['name' => $dir . DIRECTORY_SEPARATOR . $linkName, 'target' => (string) $child];
             }
         }
 
