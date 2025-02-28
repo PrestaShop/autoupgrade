@@ -12,22 +12,29 @@
 2. [Branches](#branches)
 3. [Prerequisites](#prerequisites)
 4. [Installation](#installation)
-   - [Create a module from source code](#create-a-module-from-source-code)
+    - [Create a module from source code](#create-a-module-from-source-code)
 5. [Running an update on PrestaShop](#running-an-update-on-prestashop)
-   - [Command line parameters](#update-with-command-line-parameters)
-   - [Configuration file](#configuration-file)
+    - [Update with command line parameters](#update-with-command-line-parameters)
+    - [Configuration file](#configuration-file)
 6. [Restore a store](#restore-a-store)
-   - [Command line parameters](#restore-with-command-line-parameters)
-7. [Configuration Parameters](#configuration-parameters)
-8. [Update modules from local source](#update-modules-from-local-source)
-8. [Local temporary assets](#local-temporary-assets)
-8. [Documentation](#documentation)
-9. [Use Storybook for an interface overview](#use-storybook-for-an-interface-overview)
-10. [Linting and Testing](#linting-and-testing)
-11. [Contributing](#contributing)
+    - [Restore with command line parameters](#restore-with-command-line-parameters)
+7. [Channels](#channels)
+8. [Configuration Parameters](#configuration-parameters)
+9. [Update modules from local source](#update-modules-from-local-source)
+10. [Local temporary assets](#local-temporary-assets)
+11. [Process steps](#process-steps)
+    - [Update steps](#update-steps)
+    - [Backup steps](#backup-steps)
+    - [Restore steps](#restore-steps)
+12. [Use Storybook for an interface overview](#use-storybook-for-an-interface-overview)
+13. [Linting and Testing](#linting-and-testing)
+    - [Backend](#backend)
+    - [Frontend](#frontend)
+14. [Documentation](#documentation)
+15. [Contributing](#contributing)
     - [Reporting issues](#reporting-issues)
     - [Translations](#translations)
-12. [License](#license)
+16. [License](#license)
 
 ## About
 
@@ -78,7 +85,7 @@ Updating a store can be done using:
 ### Update with command line parameters
 
 This module provide a powerful command-line interface based on Symfony Console, allowing you to execute various commands
-to manage your store. You can use this interface to perform updates, rollbacks, and check system requirements.
+to manage your store. You can use this interface to perform updates, restores, and check system requirements.
 
 To use the Symfony Console, simply run the following command from the root directory of autoupgrade module:
 
@@ -150,8 +157,8 @@ For more information on using commands, please refer to the [PrestaShop develope
 
 There are 2 channels available for an update:
 
-* **ONLINE** - This channel corresponds to the official "online" update for your store, detected by PrestaShop APIs (major, minor or patch versions). This update is the most recent version of PrestaShop compatible with the PHP version of your server.
-* **LOCAL** - This channel corresponds to the “local” update, displaying customized updates detected inside your server `[your-admin-dir]/autoupgrade/download` folder (based on .ZIP and XML files).
+* `online` - This channel corresponds to the official "online" update for your store, detected by PrestaShop APIs (major, minor or patch versions). This update is the most recent version of PrestaShop compatible with the PHP version of your server.
+* `local` - This channel corresponds to the “local” update, displaying customized updates detected inside your server `[your-admin-dir]/autoupgrade/download` folder (based on .ZIP and XML files).
 
 ## Configuration Parameters
 
@@ -174,7 +181,7 @@ impact.
 
 During the Update process, we check for new module versions in the PrestaShop Marketplace. If there is one, we download it and then Update it.
 
-Developers must release and push their module to the Marketplace in order to test the Update process, which is inconvenient. In order to simplify the testing process, you can place the ZIP file of your module in `/ADMIN_DIR/autoupgrade/modules/MODULE_NAME.zip`. This will allow you to use your local version for upgrading purposes.
+Developers must release and push their module to the Marketplace in order to test the Update process, which is inconvenient. In order to simplify the testing process, you can place the ZIP file of your module in `/ADMIN_DIR/autoupgrade/modules/MODULE_NAME.zip`. This will allow you to use your local version for updating purposes.
 
 In case your local archive with a module fails to work, the latest version will be downloaded from the Marketplace.
 
@@ -191,6 +198,69 @@ In order to work properly, the Update module needs to write some files to your f
  │   ├── releases/          Stores downloaded releases in online mode, emptied at the end of the update process
  │   ├── modules/           Stores module zip files and migration scripts, emptied at the end of the update process.
  ```
+
+## Process steps
+
+Here you will find the list of actions done during the processes.
+
+### Update steps
+
+```mermaid
+graph
+    UpdateInitialization -->|Channel Online| Download
+    UpdateInitialization -->|Channel Local| Unzip
+    Download --> Unzip
+    Unzip --> UpdateFiles
+    UpdateFiles --> UpdateDatabase
+    UpdateDatabase --> UpdateModules
+    UpdateModules --> CleanDatabase
+    CleanDatabase --> UpdateComplete
+```
+
+The following steps will be executed during the update:
+
+1. **UpdateInitialization**: Start of the whole process, clear potential leftover temporary files from a previous process. The next step will be chosen depending on the configuration.
+2. **Download**: Download the appropriate archive for your PHP version
+3. **Unzip**: Unzip the downloaded archive
+4. **UpdateFiles**: Now the current content is saved, it can alter the store content. This step will run several time. The first call will initialize the files list, then the next ones will copy a part of this list.
+5. **UpdateDatabase**: This step runs all the update SQL files available for the destination version. Then, it will run some additional steps, such as cache deletion, language update…
+6. **UpdateModules**: This step updates the modules and executes potential migrations from local sources, composer or from the Prestashop marketplace.
+7. **CleanDatabase**: This step run some SQL queries in order to remove obsolete or wrong data. Note the concerned data is not coming from the update itself, but from the use of PrestaShop.
+8. **UpdateComplete**: This step will display a success message, clear temporary files and will end the process.
+
+### Backup steps
+
+```mermaid
+graph
+    BackupInitialization --> BackupFiles
+    BackupFiles --> BackupDatabase
+    BackupDatabase --> BackupComplete
+```
+
+The following steps will be executed during the backup:
+
+1. **BackupInitialization**: Start of the whole process, clear potential leftover temporary files from a previous process.
+2. **BackupFiles**: Backup store files, including or not images depending on the configuration.
+3. **BackupDatabase**: It saves the current database structure and content.
+4. **BackupComplete**: This step will display a success message, clear temporary files and will end the process.
+
+### Restore steps
+
+```mermaid
+graph
+    RestoreInitialization -->|No backup name match| RestoreEmpty
+    RestoreInitialization -->|Backup name match| RestoreFiles
+    RestoreFiles --> RestoreDatabase
+    RestoreDatabase --> RestoreComplete
+```
+
+The following steps will be executed during the restore:
+
+1. **RestoreInitialization**: Start of the whole process, clear potential leftover temporary files from a previous process.
+2. **RestoreEmpty**: A classic step used to display a message saying no backup matches the given parameters, and terminates the process.
+3. **RestoreFiles**: Like the step **UpdateFiles**, this step copies the files from the archive and remove the files missing from the original environment.
+4. **RestoreDatabase**: This step reads and runs the files generated by **BackupDatabase**.
+5. **RestoreComplete**: This step will display a success message, clear temporary files and will end the process.
 
 ## Use Storybook for an interface overview
 
