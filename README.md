@@ -146,6 +146,13 @@ You can see all available parameters and options directly from the console by us
 
 For more information on using commands, please refer to the [PrestaShop developer documentation](https://devdocs.prestashop-project.org/8/basics/keeping-up-to-date/upgrade-module/upgrade-cli/#rollback-cli)
 
+## Channels
+
+There are 2 channels available for an update:
+
+* **ONLINE** - This channel corresponds to the official "online" update for your store, detected by PrestaShop APIs (major, minor or patch versions). This update is the most recent version of PrestaShop compatible with the PHP version of your server.
+* **LOCAL** - This channel corresponds to the “local” update, displaying customized updates detected inside your server `[your-admin-dir]/autoupgrade/download` folder (based on .ZIP and XML files).
+
 ## Configuration Parameters
 
 When using the command line interface (CLI), you can configure the module's behavior through a JSON file or by passing
@@ -185,11 +192,6 @@ In order to work properly, the Update module needs to write some files to your f
  │   ├── modules/           Stores module zip files and migration scripts, emptied at the end of the update process.
  ```
 
-## Documentation
-
-* Documentation is hosted on [the Developer documentation][doc].
-* Privacy documentation is hosted [on the PrestaShop Project website][prestashop-privacy].
-
 ## Use Storybook for an interface overview
 
 The [Storybook folder](/storybook) contains a project allowing you to use Storybook to have an overview of the project interface under different versions of PrestaShop.
@@ -227,6 +229,10 @@ All frontend commands should be executed from the `_dev` directory.
 
 - `npm run stylelint` ⮕ Runs **Stylelint** to lint and format your SCSS files. You can append `:fix` to automatically resolve solvable formatting issues.
 
+## Documentation
+
+* Documentation is hosted on [the Developer documentation][doc].
+* Privacy documentation is hosted [on the PrestaShop Project website][prestashop-privacy].
 
 ## Contributing
 
