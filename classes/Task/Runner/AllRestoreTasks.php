@@ -21,6 +21,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Task\Runner;
 
+use InvalidArgumentException;
 use PrestaShop\Module\AutoUpgrade\Task\TaskName;
 
 /**
@@ -48,6 +49,14 @@ class AllRestoreTasks extends ChainedTasks
     public function setOptions(array $options): void
     {
         $restoreConfiguration = $this->container->getRestoreConfiguration();
+        $restoreConfigurationValidator = $this->container->getRestoreConfigurationValidator();
+
+        $errors = $restoreConfigurationValidator->validate($options);
+
+        if (!empty($errors)) {
+            throw new InvalidArgumentException(reset($errors)['message']);
+        }
+
         $restoreConfiguration->merge($options);
 
         $this->container->getConfigurationStorage()->save($restoreConfiguration);

@@ -29,6 +29,7 @@ use PrestaShop\Module\AutoUpgrade\Task\TaskType;
 use PrestaShop\Module\AutoUpgrade\Twig\PageSelectors;
 use PrestaShop\Module\AutoUpgrade\Twig\Steps\RestoreSteps;
 use PrestaShop\Module\AutoUpgrade\Twig\Steps\Stepper;
+use PrestaShop\Module\AutoUpgrade\Twig\ValidatorToFormFormater;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -138,9 +139,12 @@ class RestorePageBackupSelectionController extends AbstractPageWithStepControlle
      */
     public function save(): JsonResponse
     {
-        $this->saveBackupConfiguration();
+        $errors = $this->saveBackupConfiguration();
 
-        return AjaxResponseBuilder::nextRouteResponse(Routes::RESTORE_STEP_BACKUP_SELECTION);
+        return $this->getRefreshOfForm(array_merge(
+            $this->getParams(),
+            ['errors' => ValidatorToFormFormater::format($errors)]
+        ));
     }
 
     /**
@@ -169,15 +173,24 @@ class RestorePageBackupSelectionController extends AbstractPageWithStepControlle
      */
     public function startRestore(): JsonResponse
     {
-        $this->saveBackupConfiguration();
+        $errors = $this->saveBackupConfiguration();
+
+        if (!empty($errors)) {
+            return $this->getRefreshOfForm(array_merge(
+                $this->getParams(),
+                ['errors' => ValidatorToFormFormater::format($errors)]
+            ));
+        }
 
         return AjaxResponseBuilder::nextRouteResponse(Routes::RESTORE_STEP_RESTORE);
     }
 
     /**
      * @throws \Exception
+     *
+     * @return array<string, mixed>
      */
-    private function saveBackupConfiguration(): void
+    private function saveBackupConfiguration(): array
     {
         $configurationStorage = $this->upgradeContainer->getConfigurationStorage();
         $restoreConfiguration = $this->upgradeContainer->getRestoreConfiguration();
@@ -186,8 +199,14 @@ class RestorePageBackupSelectionController extends AbstractPageWithStepControlle
             RestoreConfiguration::BACKUP_NAME => $this->request->request->get(RestoreConfiguration::BACKUP_NAME),
         ];
 
-        $restoreConfiguration->merge($config);
-        $configurationStorage->save($restoreConfiguration);
+        $errors = $this->upgradeContainer->getRestoreConfigurationValidator()->validate($config);
+
+        if (empty($errors)) {
+            $restoreConfiguration->merge($config);
+            $configurationStorage->save($restoreConfiguration);
+        }
+
+        return $errors;
     }
 
     /**
@@ -206,6 +225,25 @@ class RestorePageBackupSelectionController extends AbstractPageWithStepControlle
                 $params
             ),
             ['addScript' => $scriptName]
+        );
+    }
+
+    /**
+     * @param array<string, mixed> $params
+     *
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
+    private function getRefreshOfForm(array $params): JsonResponse
+    {
+        return AjaxResponseBuilder::hydrationResponse(
+            PageSelectors::STEP_PARENT_ID,
+            $this->getTwig()->render(
+                '@ModuleAutoUpgrade/steps/' . $this->getStepTemplate() . '.html.twig',
+                $params
+            ),
+            ['newRoute' => $this->displayRouteInUrl()]
         );
     }
 }
