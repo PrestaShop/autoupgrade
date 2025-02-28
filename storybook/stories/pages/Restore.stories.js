@@ -36,6 +36,10 @@ export const Restore = {
       title: "Restore",
     },
     step_parent_id: "ua_container",
+    download_logs_route: "download-logs",
+    download_logs_type: "restore",
+    submit_error_report_route: "update-step-update-submit-error-report",
+    try_again_route: "restore-page-backup-selection",
     data_transparency_link: "https://www.prestashop-project.org/data-transparency",
     // Logs
     ...LogsProgress.args,

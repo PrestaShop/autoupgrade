@@ -66,5 +66,9 @@ export const Requirements = {
     ...Default.args,
     checked: true,
     enableRequirementsCheck: true,
+    title: "PrestaShop 9.0.0",
+    message: "The maximum version of PrestaShop to which you can upgrade your store, based on its PHP version.",
+    badgeLabel: "Major version",
+    releaseNote: "#",
   },
 };

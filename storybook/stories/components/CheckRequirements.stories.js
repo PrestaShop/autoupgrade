@@ -26,8 +26,7 @@ export default {
 
 export const Default = {
   args: {
-    updateAssistantDocs: 
-      "https://devdocs.prestashop-project.org/8/basics/keeping-up-to-date/use-autoupgrade-module/",
+    dev_doc_upgrade_web_url: "https://devdocs.prestashop-project.org/8/basics/keeping-up-to-date/use-autoupgrade-module/",
     requirements: {
       requirements_ok: true,
       errors: [

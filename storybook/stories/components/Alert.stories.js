@@ -23,6 +23,7 @@ export default {
   component: Alert,
   title: "Components/Alert",
   id: "1",
+  includeStories: ["Default", "AlertWithForm", "AlertWithLink"],
   argTypes: {
     alertStatus: {
       control: "select",
@@ -33,8 +34,8 @@ export default {
 
 export const Default = {
   args: {
-    title: "Backup completed",
-    message: "It’s available at admin/autoupgrade/backup. You're ready to start the update now.",
+    title: "",
+    message: "The requirements check is complete, you can update your store to this version of PrestaShop.",
     alertStatus: "success",
   },
 };

@@ -18,7 +18,7 @@
  */
 
 import BackupSelectionPage from "../../../views/templates/pages/restore.html.twig";
-import { Default as BackupSelectionComponent } from "../components/BackupSelection.stories";
+import { BackupSelection as BackupSelectionComponent } from "../components/RenderBackUpSelection.stories";
 import { BackupSelection as Stepper } from "../components/Stepper.stories";
 
 export default {
@@ -35,6 +35,10 @@ export const BackupSelection = {
       title: "Backup selection",
     },
     step_parent_id: "ua_container",
+    form_backup_selection_name: "backup_choice",
+    form_route_to_save: "restore-step-backup-selection-save-form",
+    form_route_to_submit_restore: "restore-step-backup-selection-submit-restore-form",
+    form_route_to_submit_delete: "restore-step-backup-selection-submit-delete-form",
     data_transparency_link: "https://www.prestashop-project.org/data-transparency",
     // Backup
     ...BackupSelectionComponent.args,

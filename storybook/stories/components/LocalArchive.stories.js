@@ -27,8 +27,8 @@ export default {
 export const Default = {
   args: {
     form_fields: {
-      archive_zip: "archive.zip",
-      archive_xml: "archive.xml",
+      archive_zip: "archive_zip",
+      archive_xml: "archive_xml",
     },
     archiveFiles: [
       "backup1.zip",
@@ -49,8 +49,8 @@ export const Default = {
     versionsMismatch: false,
     errors: {
       "global": "",
-      "archive.zip": "",
-      "archive.xml": ""
+      "archive_zip": "",
+      "archive_xml": ""
     }
   },
 };

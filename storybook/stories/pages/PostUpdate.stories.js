@@ -33,13 +33,9 @@ export const PostUpdate = {
       code: "post-update",
       title: "Post-update checklist",
     },
-    psBaseUri: "/",
-    upToDate: true,
-    noLocalArchive: true,
-    currentPrestashopVersion: "8.1.6",
-    currentPhpVersion: "8.1",
-    backlog_link: "https://myshop.com/my-backlog.txt",
     step_parent_id: "ua_container",
+    exit_link: "#",
+    dev_doc_link: "#",
     data_transparency_link: "https://www.prestashop-project.org/data-transparency",
     // Stepper
     ...Stepper.args

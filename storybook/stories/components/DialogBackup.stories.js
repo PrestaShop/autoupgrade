@@ -25,6 +25,10 @@ export default {
 };
 
 export const Backup = {
+  args: {
+    image_included: true,
+    form_route_to_confirm_backup: "/",
+  },
   play: async () => {
     const dialog = document.querySelector('.dialog');
     dialog.showModal();

@@ -25,7 +25,7 @@ export default {
   args: {
     backup_version: "1.7.8.1",
     backup_name: "backup-name",
-    backup_date: "2024-01-01",
+    backup_date: "02/28/25 12:16:10",
     form_name: "backup_to_restore",
     form_route_to_confirm_restore: "/",
     form_fields: {
