@@ -17,19 +17,32 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 
-import PageLayout from "../../../views/templates/layouts/page.html.twig";
-import { Default as Stepper } from "../components/Stepper.stories";
+import { routeHandler } from "../../../_dev/src/ts/autoUpgrade";
+import ErrorPage from "../../../_dev/src/ts/pages/ErrorPage";
+import ErrorCode404 from "../../../views/templates/pages/errors/404.html.twig";
 
 export default {
-  component: PageLayout,
-  id: "2",
-  title: "Layouts/Pages",
+  component: ErrorCode404,
+  title: "Pages/Errors",
+  args: {
+    psBaseUri: "/",
+    error_code: "404",
+    assets_base_path: "",
+
+    exit_to_shop_admin: "#",
+    exit_to_app_home: "#",
+  },
 };
 
-export const Default = {
-  args: {
-    ...Stepper.args,
-    step_parent_id: "ua_container",
-    data_transparency_link: "https://www.prestashop-project.org/data-transparency",
+export const Error404OnHomePage = {
+  play: async ({ canvasElement }) => {
+    routeHandler.setNewRoute("home-page");
+    new ErrorPage().mount();
+  },
+};
+export const Error404 = {
+  play: async ({ canvasElement }) => {
+    routeHandler.setNewRoute("any-other-page");
+    new ErrorPage().mount();
   },
 };
