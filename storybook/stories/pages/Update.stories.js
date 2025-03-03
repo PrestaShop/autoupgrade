@@ -18,6 +18,8 @@
  */
 
 import UpdatePage from "../../../views/templates/pages/update.html.twig";
+import LogsViewerJS from "../../../_dev/src/ts/components/LogsViewer";
+import { Default as LogsTemplates } from "../components/LogsTemplates.stories";
 import { Default as LogsProgress } from "../components/LogsProgress.stories";
 import { Default as LogsViewer } from "../components/LogsViewer.stories";
 import { Update as Stepper } from "../components/Stepper.stories";
@@ -53,5 +55,11 @@ export const Update = {
     ...LogsViewer.args,
     // Stepper
     ...Stepper.args,
+  },
+  play: async ({ args }) => {
+    const logsViewerElement = document.querySelector("[data-component='logs-viewer']");
+    const logsViewer = new LogsViewerJS(logsViewerElement);
+    logsViewer.addLogs(LogsTemplates.args.logs);
+    logsViewer.displaySummary(LogsTemplates.args.logsSummaryWarning, LogsTemplates.args.logsSummaryError);
   },
 };
