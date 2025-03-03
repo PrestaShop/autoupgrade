@@ -1,7 +1,9 @@
 # Update assistant
 
 ![PHP tests](https://github.com/PrestaShop/autoupgrade/workflows/PHP%20tests/badge.svg)
-![Upgrades](https://github.com/PrestaShop/autoupgrade/workflows/Upgrades/badge.svg)
+![UI tests](https://github.com/PrestaShop/autoupgrade/workflows/UI%20Tests/badge.svg)
+![JS tests](https://github.com/PrestaShop/autoupgrade/workflows/JS%20tests/badge.svg)
+![SCSS tests](https://github.com/PrestaShop/autoupgrade/workflows/SCSS%20tests/badge.svg)
 [![Latest Stable Version](https://poser.pugx.org/PrestaShop/autoupgrade/v)](//packagist.org/packages/PrestaShop/autoupgrade)
 [![Total Downloads](https://poser.pugx.org/PrestaShop/autoupgrade/downloads)](//packagist.org/packages/PrestaShop/autoupgrade)
 [![GitHub license](https://img.shields.io/github/license/PrestaShop/autoupgrade)](https://github.com/PrestaShop/autoupgrade/LICENSE.md)
@@ -57,7 +59,7 @@ Please note PrestaShop 1.6 and older are not maintained anymore.
 
 ## Prerequisites
 
-* PrestaShop 1.7 or 8
+* PrestaShop >= 1.7
 * PHP >= 7.1
 * Node.js >= 20 - [Download Node.js](https://nodejs.org/) (preference for LTS 20.11.0)
 

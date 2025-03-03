@@ -1,4 +1,4 @@
-name: Web Integration Check
+name: SCSS tests
 
 on: [push, pull_request]
 
