@@ -162,14 +162,14 @@
         <target>Value must be a boolean for %s</target>
         <note>classes/Parameters/ConfigurationValidator.php:109</note>
       </trans-unit>
-      <trans-unit id="a262dcc571fbbaf29e2df23238ce2f89">
-        <source>Backup name is missing</source>
-        <target>Backup name is missing</target>
+      <trans-unit id="0067de0b699a1ff27fe4faa758932986">
+        <source>Invalid configuration, backup name is missing.</source>
+        <target>Invalid configuration, backup name is missing.</target>
         <note>classes/Parameters/RestoreConfigurationValidator.php:82</note>
       </trans-unit>
-      <trans-unit id="394fde085070ca40c83c0238953f7c08">
-        <source>Backup %s does not exist</source>
-        <target>Backup %s does not exist</target>
+      <trans-unit id="2aa754c876879a7a9bb7a8f4273730f8">
+        <source>Invalid configuration, backup %s doesn't exist.</source>
+        <target>Invalid configuration, backup %s doesn't exist.</target>
         <note>classes/Parameters/RestoreConfigurationValidator.php:91</note>
       </trans-unit>
       <trans-unit id="80c25611ea9134bac1da1d91eb03544a">
