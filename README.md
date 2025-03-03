@@ -48,7 +48,7 @@ The latest versions of the module are compatible with all PrestaShop 1.7 and hig
 
 ## Branches
 
-Branch `develop` contains code for future versions of the module, which allows updates from 1.7.x versions to higher.
+Branch `dev` contains code for future versions of the module, which allows updates from 1.7.x versions to higher.
 
 Branch `4.14.x` contains code for `4.14.x` patch versions which allow updating from 1.6.x versions to 1.7.x .
 
@@ -73,7 +73,7 @@ If you download a ZIP archive that contains the source code or if you want to us
 
 * Clone (`git clone https://github.com/PrestaShop/autoupgrade.git`) or [download](https://github.com/PrestaShop/autoupgrade/archive/master.zip) the source code. You can also download a release **Source code** ([ex. v4.14.2](https://github.com/PrestaShop/autoupgrade/archive/v4.14.2.zip)). If you download a source code archive, you need to extract the file and rename the extracted folder to **autoupgrade**
 * Enter into folder **autoupgrade** and run the command `composer install`  ([composer](https://getcomposer.org/)).
-* Enter into folder **autoupgrade/_dev** and run the commands `npm install` and `npm run build:vite` ([npm](https://docs.npmjs.com/)).
+* Enter into folder **autoupgrade/_dev** and run the commands `npm install` and `npm run vite:build` ([npm](https://docs.npmjs.com/)).
 * Create a new ZIP archive from the of **autoupgrade** folder.
 * Now you can install it in your store. For example, you can upload it using the dropzone in Module Manager back office page. 
 
@@ -148,7 +148,7 @@ In case you lost the page from your backoffice, note it can be triggered via CLI
 For restore your store, you would use:
 
 ```
-$ php bin/console backup:restore --backup=[backup-name]  <your-admin-dir>
+$ php bin/console backup:restore --backup=[backup-name] <your-admin-dir>
 ```
 
 You can see all available parameters and options directly from the console by using the `--help` option with any command.
@@ -160,7 +160,7 @@ For more information on using commands, please refer to the [PrestaShop develope
 There are 2 channels available for an update:
 
 * `online` - This channel corresponds to the official "online" update for your store, detected by PrestaShop APIs (major, minor or patch versions). This update is the most recent version of PrestaShop compatible with the PHP version of your server.
-* `local` - This channel corresponds to the “local” update, displaying customized updates detected inside your server `[your-admin-dir]/autoupgrade/download` folder (based on .ZIP and XML files).
+* `local` - This channel corresponds to the “local” update, displaying customized updates detected inside your server `[your-admin-dir]/autoupgrade/download` folder (based on .ZIP and .XML files).
 
 ## Configuration Parameters
 
@@ -191,10 +191,10 @@ In case your local archive with a module fails to work, the latest version will 
 
 ## Local temporary assets
 
-In order to work properly, the Update module needs to write some files to your filesystem server. These files are stored in the following folders, all available in the `<admin folder>/autoupgrade` path.
+In order to work properly, the Update module needs to write some files to your filesystem server. These files are stored in the following folders, all available in the `[your-admin-dir]/autoupgrade` path.
 
 ```
- <admin folder>/autoupgrade/
+ [your-admin-dir]/autoupgrade/
  ├── download/              Directory for XML and ZIP archives for local updates.
  ├── modules/               Folder where you can put an archive of a module. This one will be used when updating modules.
  ├── tmp/
@@ -224,8 +224,8 @@ graph
 The following steps will be executed during the update:
 
 1. **UpdateInitialization**: Start of the whole process, clear potential leftover temporary files from a previous process. The next step will be chosen depending on the configuration.
-2. **Download**: Download the appropriate archive for your PHP version
-3. **Unzip**: Unzip the downloaded archive
+2. **Download**: Download the appropriate archive for your PHP version.
+3. **Unzip**: Unzip the downloaded archive.
 4. **UpdateFiles**: Now the current content is saved, it can alter the store content. This step will run several time. The first call will initialize the files list, then the next ones will copy a part of this list.
 5. **UpdateDatabase**: This step runs all the update SQL files available for the destination version. Then, it will run some additional steps, such as cache deletion, language update…
 6. **UpdateModules**: This step updates the modules and executes potential migrations from local sources, composer or from the Prestashop marketplace.
