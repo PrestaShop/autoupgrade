@@ -22,6 +22,9 @@ import RenderBackupSelection from "../../../views/templates/components/render-ba
 export default {
   title: "Components/Render fields",
   component: RenderBackupSelection,
+  argTypes: {
+    backup_selection: { control: false },
+  },
 };
 
 export const BackupSelection = {
