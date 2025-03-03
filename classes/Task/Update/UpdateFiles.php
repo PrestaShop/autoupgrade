@@ -135,7 +135,7 @@ class UpdateFiles extends AbstractTask
 
         /*
          * Note about symlinks: This is the place where we expected to handle symbolic links.
-         * Unfortunately, PHP does not extract them properly (see https://bugs.php.net/bug.php?id=46013).
+         * Unfortunately, PHP does not extract them properly from the archive (see https://bugs.php.net/bug.php?id=46013).
          * They will be handled in a dedicated backlog by relying on the XML files instead.
          */
         if (is_dir($orig)) {
@@ -282,8 +282,8 @@ class UpdateFiles extends AbstractTask
             if (preg_match('#autoupgrade#', $path)) {
                 unset($diffFileList[$k]);
             } elseif (substr($path, 0, 6) === '/admin') {
-                // Please make sure that the condition to check if the string starts with /admin stays here, because it was replacing
-                // admin even in the middle of a path, not deleting some files as a result.
+                // Please make sure that the condition to check if the string starts with /admin stays here,
+                // because it was replacing "admin" even in the middle of a path, not deleting some files as a result.
                 // Also, do not use DIRECTORY_SEPARATOR, keep forward slash, because the path come from the XML standardized.
                 $diffFileList[$k] = '/' . $admin_dir . substr($path, 6);
             }
@@ -295,13 +295,12 @@ class UpdateFiles extends AbstractTask
         /** @var array{'name':string,'target':string} $symlink */
         foreach ($symbolicLinks as &$symlink) {
             if (substr($symlink['name'], 0, 6) === 'admin/') {
-                // Please make sure that the condition to check if the string starts with /admin stays here, because it was replacing
-                // admin even in the middle of a path, not deleting some files as a result.
+                // Please make sure that the condition to check if the string starts with /admin stays here,
+                // because it was replacing "admin" even in the middle of a path, not deleting some files as a result.
                 // Also, do not use DIRECTORY_SEPARATOR, keep forward slash, because the path come from the XML standardized.
                 $symlink['name'] = $admin_dir . '/' . substr($symlink['name'], 6);
             }
         }
-        $this->logger->debug('Warmup symbolic links : ' . var_export($symbolicLinks, true));
 
         $totalSymbolicLinks = count($symbolicLinks);
         $this->container->getFileStorage()->save(
