@@ -26,7 +26,7 @@ export default {
 
 export const Online = {
   args: {
-    updateAssistantDocs: 
+    updateAssistantDocs:
       "https://devdocs.prestashop-project.org/8/basics/keeping-up-to-date/use-autoupgrade-module/",
     disabled: false,
     disabledMessage: "",

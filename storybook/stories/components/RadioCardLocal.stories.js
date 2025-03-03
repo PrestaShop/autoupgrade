@@ -28,7 +28,7 @@ export default {
 export const Local = {
   args: {
     ...LocalArchive.args,
-    updateAssistantDocs: 
+    updateAssistantDocs:
       "https://devdocs.prestashop-project.org/8/basics/keeping-up-to-date/use-autoupgrade-module/",
     disabled: false,
     disabledMessage: "No backup file found on your store.",
@@ -50,16 +50,8 @@ export const Local = {
       archive_xml: "local.xml",
     },
     local_archives: {
-      zip: [
-        "archive1.zip",
-        "archive2.zip",
-        "archive3.zip",
-      ],
-      xml: [
-        "archive1.xml",
-        "archive2.xml",
-        "archive3.xml",
-      ]
+      zip: ["archive1.zip", "archive2.zip", "archive3.zip"],
+      xml: ["archive1.xml", "archive2.xml", "archive3.xml"],
     },
     local_requirements: {
       requirements_ok: true,

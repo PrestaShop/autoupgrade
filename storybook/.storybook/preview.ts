@@ -43,7 +43,9 @@ const preview: Preview = {
     },
     options: {
       storySort: (a, b) =>
-        a.id === b.id ? 0 : a.id.localeCompare(b.id, undefined, { numeric: true }),
+        a.id === b.id
+          ? 0
+          : a.id.localeCompare(b.id, undefined, { numeric: true }),
     },
   },
   globalTypes: {
@@ -60,20 +62,21 @@ const preview: Preview = {
       },
     },
     _locale: {
-      description: 'Internationalization locale',
-      defaultValue: 'en',
+      description: "Internationalization locale",
+      defaultValue: "en",
       toolbar: {
-        icon: 'globe',
+        icon: "globe",
         items: TRANSLATION_LOCALES.map((languageLocale) => ({
           value: languageLocale,
-          title: new Intl.DisplayNames(
-              [navigator.language || 'en'],
-              {type: 'language'},
-            ).of(languageLocale),
-          right: String.fromCodePoint(...({'en': 'gb', 'cs': 'cz'}[languageLocale] || languageLocale)
-            .toUpperCase()
-            .split('')
-            .map(char =>  127397 + char.charCodeAt())),
+          title: new Intl.DisplayNames([navigator.language || "en"], {
+            type: "language",
+          }).of(languageLocale),
+          right: String.fromCodePoint(
+            ...({ en: "gb", cs: "cz" }[languageLocale] || languageLocale)
+              .toUpperCase()
+              .split("")
+              .map((char) => 127397 + char.charCodeAt()),
+          ),
         })),
       },
     },
@@ -83,7 +86,7 @@ const preview: Preview = {
       const selectedTheme = context.globals.backofficeTheme || defaultBoTheme;
       const cssContents = cssEntrypoints[selectedTheme];
       // Replace dots with hyphens and prepend 'v'
-      const selectedThemeClass = `v${selectedTheme.replace(/\./g, '-')}`;
+      const selectedThemeClass = `v${selectedTheme.replace(/\./g, "-")}`;
 
       const calledStory = story();
       calledStory.template = twig(`

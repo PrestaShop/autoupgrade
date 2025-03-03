@@ -31,7 +31,7 @@ export const Default = {
     downloadLogsButtonLabel: "Download update logs",
     downloadLogsRoute: "/",
     downloadLogsType: "update",
-    download_logs_parent_id: "download_logs"
+    download_logs_parent_id: "download_logs",
   },
 };
 
@@ -41,6 +41,6 @@ export const RestoreLogsViewer = {
     downloadLogsButtonLabel: "Download restore logs",
     downloadLogsRoute: "/",
     downloadLogsType: "restore",
-    download_logs_parent_id: "download_logs"
+    download_logs_parent_id: "download_logs",
   },
 };

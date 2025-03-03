@@ -46,21 +46,21 @@ export default create({
   appPreviewBg: "#ffffff",
   appBorderColor: "#dddddd",
   appBorderRadius: 0,
-  
+
   // Typography
   fontBase: "IBM Plex Sans, Open Sans, Helvetica, Verdana, sans-serif",
-  
+
   // Text
   textColor: "#1d1d1b",
   textInverseColor: "#ffffff",
   textMutedColor: "#5e5e5e",
-  
+
   // Toolbar
   barBg: "#ffffff",
   barTextColor: "#1d1d1b",
   barHoverColor: "#3f3f3d",
   barSelectedColor: "#1d1d1b",
-  
+
   // Input
   inputBg: "#ffffff",
   inputBorder: "#dddddd",

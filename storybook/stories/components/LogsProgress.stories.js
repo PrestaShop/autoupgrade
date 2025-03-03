@@ -27,19 +27,19 @@ export default {
     textSlots.forEach((slot) => {
       slot.textContent = args.progressStatus;
     });
-  }
+  },
 };
 
 export const Default = {
   args: {
     progressStatus: "Backup files in progress XX files left",
     progressPercentage: 25,
-  }
+  },
 };
 
 export const RestoreLogsProgress = {
   args: {
     progressStatus: "Restoration in progress",
     progressPercentage: 45,
-  }
+  },
 };

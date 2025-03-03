@@ -30,7 +30,7 @@ export const Backup = {
     form_route_to_confirm_backup: "/",
   },
   play: async () => {
-    const dialog = document.querySelector('.dialog');
+    const dialog = document.querySelector(".dialog");
     dialog.showModal();
   },
 };

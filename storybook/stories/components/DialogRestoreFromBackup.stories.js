@@ -36,7 +36,7 @@ export default {
 
 export const RestoreFromBackup = {
   play: async () => {
-    const dialog = document.querySelector('.dialog');
+    const dialog = document.querySelector(".dialog");
     dialog.showModal();
   },
 };

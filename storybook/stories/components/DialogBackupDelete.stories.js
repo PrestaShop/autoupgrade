@@ -36,7 +36,7 @@ export const BackupDelete = {
     },
   },
   play: async () => {
-    const dialog = document.querySelector('.dialog');
+    const dialog = document.querySelector(".dialog");
     dialog.showModal();
   },
 };

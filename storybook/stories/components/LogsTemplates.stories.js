@@ -30,7 +30,7 @@ export const Default = {
     logs: [
       "DEBUG - Step UpdateInitialization",
       "INFO - Starting upgrade...",
-      "INFO - Destination version: 8.2.0", 
+      "INFO - Destination version: 8.2.0",
       "INFO - Shop deactivated. Now downloading... (this can take a while)",
       "DEBUG - Downloaded archive will come from https://api.prestashop-project.org/assets/prestashop/8.2.0/prestashop.zip",
       "DEBUG - MD5 hash will be checked against 5a203ec132fe3f50b24889bc91ffb8d9",
@@ -41,7 +41,7 @@ export const Default = {
       "DEBUG - Download complete.",
       "INFO - Download complete. Now extracting...",
       "DEBUG - Step Unzip",
-      "DEBUG - \"/latest\" directory has been emptied",
+      'DEBUG - "/latest" directory has been emptied',
       "DEBUG - Content of archive /var/www/html/**admin_folder**/autoupgrade/download/prestashop.zip is extracted",
       "DEBUG - Content of archive /var/www/html/**admin_folder**/autoupgrade/latest/prestashop.zip is extracted",
       "INFO - File extraction complete. Now updating files...",

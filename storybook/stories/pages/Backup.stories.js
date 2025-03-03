@@ -38,8 +38,8 @@ export const Backup = {
     filename: "backup.zip",
     form_fields: {
       include_images: {
-          field: 'PS_AUTOUP_KEEP_IMAGES',
-          value: true,
+        field: "PS_AUTOUP_KEEP_IMAGES",
+        value: true,
       },
     },
     form_route_to_save: "update-step-backup-save-option",
@@ -49,7 +49,8 @@ export const Backup = {
     form_route_to_submit_update: "update-step-backup-submit-update",
     form_route_to_submit_backup: "update-step-update-options-submit-form",
     step_parent_id: "ua_container",
-    data_transparency_link: "https://www.prestashop-project.org/data-transparency",
+    data_transparency_link:
+      "https://www.prestashop-project.org/data-transparency",
     // Stepper
     ...Stepper.args,
   },

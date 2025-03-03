@@ -36,8 +36,9 @@ export const PostUpdate = {
     step_parent_id: "ua_container",
     exit_link: "#",
     dev_doc_link: "#",
-    data_transparency_link: "https://www.prestashop-project.org/data-transparency",
+    data_transparency_link:
+      "https://www.prestashop-project.org/data-transparency",
     // Stepper
-    ...Stepper.args
+    ...Stepper.args,
   },
 };

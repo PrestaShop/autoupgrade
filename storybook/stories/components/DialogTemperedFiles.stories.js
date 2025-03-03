@@ -29,7 +29,8 @@ export const TemperedFiles = {
   args: {
     ...Dialog.args,
     title: "List of core alterations",
-    message: "Some core files have been altered, customization made on these files will be lost during the update.",
+    message:
+      "Some core files have been altered, customization made on these files will be lost during the update.",
     missing_files: [
       "adminProjetX/autoupgrade/index.php",
       "adminProjetX/backups/index.php",

@@ -49,7 +49,8 @@ export const Update = {
     success_route: "update-step-post-update",
     download_logs_route: "download-logs",
     submit_error_report_route: "update-step-update-submit-error-report",
-    data_transparency_link: "https://www.prestashop-project.org/data-transparency",
+    data_transparency_link:
+      "https://www.prestashop-project.org/data-transparency",
     // Logs
     ...LogsProgress.args,
     ...LogsViewer.args,
@@ -57,9 +58,14 @@ export const Update = {
     ...Stepper.args,
   },
   play: async ({ args }) => {
-    const logsViewerElement = document.querySelector("[data-component='logs-viewer']");
+    const logsViewerElement = document.querySelector(
+      "[data-component='logs-viewer']",
+    );
     const logsViewer = new LogsViewerJS(logsViewerElement);
     logsViewer.addLogs(LogsTemplates.args.logs);
-    logsViewer.displaySummary(LogsTemplates.args.logsSummaryWarning, LogsTemplates.args.logsSummaryError);
+    logsViewer.displaySummary(
+      LogsTemplates.args.logsSummaryWarning,
+      LogsTemplates.args.logsSummaryError,
+    );
   },
 };

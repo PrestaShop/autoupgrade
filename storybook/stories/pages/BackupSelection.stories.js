@@ -37,9 +37,12 @@ export const BackupSelection = {
     step_parent_id: "ua_container",
     form_backup_selection_name: "backup_choice",
     form_route_to_save: "restore-step-backup-selection-save-form",
-    form_route_to_submit_restore: "restore-step-backup-selection-submit-restore-form",
-    form_route_to_submit_delete: "restore-step-backup-selection-submit-delete-form",
-    data_transparency_link: "https://www.prestashop-project.org/data-transparency",
+    form_route_to_submit_restore:
+      "restore-step-backup-selection-submit-restore-form",
+    form_route_to_submit_delete:
+      "restore-step-backup-selection-submit-delete-form",
+    data_transparency_link:
+      "https://www.prestashop-project.org/data-transparency",
     // Backup
     ...BackupSelectionComponent.args,
     // Stepper

@@ -32,7 +32,7 @@ export const Update = {
     form_route_to_confirm: "/",
   },
   play: async () => {
-    const dialog = document.querySelector('.dialog');
+    const dialog = document.querySelector(".dialog");
     dialog.showModal();
   },
 };
