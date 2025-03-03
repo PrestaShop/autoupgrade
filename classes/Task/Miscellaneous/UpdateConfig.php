@@ -52,6 +52,12 @@ class UpdateConfig extends AbstractTask
         $configurationData = $this->getConfigurationData();
         $config = [];
 
+        $diff = array_diff($configurationData, UpgradeConfiguration::UPGRADE_CONST_KEYS);
+
+        foreach (array_keys($diff) as $configDiff) {
+            $this->logger->warning($this->translator->trans("Unknown configuration key '%s', Ignoring.", [$configDiff]));
+        }
+
         foreach (UpgradeConfiguration::UPGRADE_CONST_KEYS as $key) {
             if (!isset($configurationData[$key])) {
                 continue;
@@ -89,7 +95,7 @@ class UpdateConfig extends AbstractTask
             $file = $config[UpgradeConfiguration::ARCHIVE_ZIP];
             $fullFilePath = $this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $file;
             try {
-                $config['archive_version_num'] = $this->container->getPrestashopVersionService()->extractPrestashopVersionFromZip($fullFilePath);
+                $config[UpgradeConfiguration::ARCHIVE_VERSION_NUM] = $this->container->getPrestashopVersionService()->extractPrestashopVersionFromZip($fullFilePath);
                 $this->logger->info($this->translator->trans('Update process will use archive.'));
             } catch (Exception $exception) {
                 $this->setErrorFlag();
