@@ -25,7 +25,7 @@ export default {
   includeStories: [],
 };
 
-export const Default = {
+export const UpdateLogsViewer = {
   args: {
     downloadLogsButtonUrl: "#",
     downloadLogsButtonLabel: "Download update logs",

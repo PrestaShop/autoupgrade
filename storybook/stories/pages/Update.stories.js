@@ -18,10 +18,10 @@
  */
 
 import UpdatePage from "../../../views/templates/pages/update.html.twig";
-import LogsViewerJS from "../../../_dev/src/ts/components/LogsViewer";
+import LogsViewer from "../../../_dev/src/ts/components/LogsViewer";
 import { Default as LogsTemplates } from "../components/LogsTemplates.stories";
-import { Default as LogsProgress } from "../components/LogsProgress.stories";
-import { Default as LogsViewer } from "../components/LogsViewer.stories";
+import { UpdateLogsProgress } from "../components/LogsProgress.stories";
+import { UpdateLogsViewer } from "../components/LogsViewer.stories";
 import { Update as Stepper } from "../components/Stepper.stories";
 
 export default {
@@ -52,8 +52,8 @@ export const Update = {
     data_transparency_link:
       "https://www.prestashop-project.org/data-transparency",
     // Logs
-    ...LogsProgress.args,
-    ...LogsViewer.args,
+    ...UpdateLogsProgress.args,
+    ...UpdateLogsViewer.args,
     // Stepper
     ...Stepper.args,
   },
@@ -61,7 +61,7 @@ export const Update = {
     const logsViewerElement = document.querySelector(
       "[data-component='logs-viewer']",
     );
-    const logsViewer = new LogsViewerJS(logsViewerElement);
+    const logsViewer = new LogsViewer(logsViewerElement);
     logsViewer.addLogs(LogsTemplates.args.logs);
     logsViewer.displaySummary(
       LogsTemplates.args.logsSummaryWarning,

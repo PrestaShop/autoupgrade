@@ -18,10 +18,10 @@
  */
 
 import RestorePage from "../../../views/templates/pages/restore.html.twig";
-import LogsViewerJS from "../../../_dev/src/ts/components/LogsViewer";
+import LogsViewer from "../../../_dev/src/ts/components/LogsViewer";
 import { Default as LogsTemplates } from "../components/LogsTemplates.stories";
-import { RestoreLogsProgress as LogsProgress } from "../components/LogsProgress.stories";
-import { RestoreLogsViewer as LogsViewer } from "../components/LogsViewer.stories";
+import { RestoreLogsProgress } from "../components/LogsProgress.stories";
+import { RestoreLogsViewer } from "../components/LogsViewer.stories";
 import { Restore as Stepper } from "../components/Stepper.stories";
 
 export default {
@@ -45,8 +45,8 @@ export const Restore = {
     data_transparency_link:
       "https://www.prestashop-project.org/data-transparency",
     // Logs
-    ...LogsProgress.args,
-    ...LogsViewer.args,
+    ...RestoreLogsProgress.args,
+    ...RestoreLogsViewer.args,
     // Stepper
     ...Stepper.args,
   },
@@ -54,7 +54,7 @@ export const Restore = {
     const logsViewerElement = document.querySelector(
       "[data-component='logs-viewer']",
     );
-    const logsViewer = new LogsViewerJS(logsViewerElement);
+    const logsViewer = new LogsViewer(logsViewerElement);
     logsViewer.addLogs(LogsTemplates.args.logs);
     logsViewer.displaySummary(
       LogsTemplates.args.logsSummaryWarning,
