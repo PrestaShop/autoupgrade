@@ -100,6 +100,7 @@ class UpgradeContainer
     const ARCHIVE_FILENAME = 'destDownloadFilename';
     const ARCHIVE_FILEPATH = 'destDownloadFilepath';
     const PS_VERSION = 'version';
+    const ANONYMOUS_USER_ID = 'anonymous_user_id';
 
     /** @var Analytics */
     private $analytics;
@@ -308,6 +309,8 @@ class UpgradeContainer
                 return $this->getArchiveFilePath();
             case self::PS_VERSION:
                 return $this->getCurrentPrestaShopVersion();
+            case self::ANONYMOUS_USER_ID:
+                return hash('sha256', $this->getProperty(self::WORKSPACE_PATH));
             default:
                 return '';
         }
@@ -338,7 +341,7 @@ class UpgradeContainer
                     'update' => $this->getUpdateState(),
                     'restore' => $this->getRestoreState(),
                 ],
-                $this->getProperty(self::WORKSPACE_PATH), [
+                $this->getProperty(self::ANONYMOUS_USER_ID), [
                 'properties' => [
                     Analytics::WITH_COMMON_PROPERTIES => [
                         'ps_version' => $this->getProperty(self::PS_VERSION),

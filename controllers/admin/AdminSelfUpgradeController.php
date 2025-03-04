@@ -310,7 +310,7 @@ class AdminSelfUpgradeController extends ModuleAdminController
             'stepper_parent_id' => \PrestaShop\Module\AutoUpgrade\Twig\PageSelectors::STEPPER_PARENT_ID,
             'module_version' => $this->module->version,
             'php_version' => VersionUtils::getHumanReadableVersionOf(PHP_VERSION_ID),
-            'anonymous_id' => $this->upgradeContainer->getAnalytics()->getAnonymousId(),
+            'anonymous_id' => $this->upgradeContainer->getProperty(UpgradeContainer::ANONYMOUS_USER_ID),
         ];
     }
 

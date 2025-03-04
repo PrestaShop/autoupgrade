@@ -71,7 +71,7 @@ class Analytics
         $this->updateConfiguration = $updateConfiguration;
         $this->states = $states;
 
-        $this->anonymousId = hash('sha256', $anonymousUserId);
+        $this->anonymousId = $anonymousUserId;
         $this->properties = $options['properties'] ?? [];
 
         if ($this->hasOptedOut()) {
