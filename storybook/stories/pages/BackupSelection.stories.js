@@ -24,7 +24,7 @@ import { BackupSelection as Stepper } from "../components/Stepper.stories";
 export default {
   component: BackupSelectionPage,
   id: "40",
-  title: "Pages/Rollback",
+  title: "Pages/Restore",
 };
 
 export const BackupSelection = {

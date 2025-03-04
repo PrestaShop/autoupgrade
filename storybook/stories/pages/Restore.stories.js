@@ -27,7 +27,7 @@ import { Restore as Stepper } from "../components/Stepper.stories";
 export default {
   component: RestorePage,
   id: "41",
-  title: "Pages/Rollback",
+  title: "Pages/Restore",
 };
 
 export const Restore = {
