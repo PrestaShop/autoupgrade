@@ -344,6 +344,7 @@ class UpgradeContainer
                         'ps_version' => $this->getProperty(self::PS_VERSION),
                         'php_version' => VersionUtils::getHumanReadableVersionOf(PHP_VERSION_ID),
                         'autoupgrade_version' => $this->getPrestaShopConfiguration()->getModuleVersion(),
+                        'php_context' => php_sapi_name() === 'cli' ? 'cli' : 'web',
                     ],
                     Analytics::WITH_UPDATE_PROPERTIES => [
                         'disable_all_overrides' => class_exists('\Configuration', false) ? UpgradeConfiguration::isOverrideAllowed() : null,
