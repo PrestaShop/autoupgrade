@@ -162,14 +162,14 @@
         <target state="final">La valeur doit être un booléen pour %s</target>
         <note>classes/Parameters/ConfigurationValidator.php:109</note>
       </trans-unit>
-      <trans-unit id="a262dcc571fbbaf29e2df23238ce2f89" approved="yes">
-        <source>Backup name is missing</source>
-        <target state="final">Le nom de la sauvegarde est manquant</target>
+      <trans-unit id="0067de0b699a1ff27fe4faa758932986">
+        <source>Invalid configuration, backup name is missing.</source>
+        <target state="needs-translation">Invalid configuration, backup name is missing.</target>
         <note>classes/Parameters/RestoreConfigurationValidator.php:82</note>
       </trans-unit>
-      <trans-unit id="394fde085070ca40c83c0238953f7c08" approved="yes">
-        <source>Backup %s does not exist</source>
-        <target state="final">La sauvegarde %s n'existe pas</target>
+      <trans-unit id="2aa754c876879a7a9bb7a8f4273730f8">
+        <source>Invalid configuration, backup %s doesn't exist.</source>
+        <target state="needs-translation">Invalid configuration, backup %s doesn't exist.</target>
         <note>classes/Parameters/RestoreConfigurationValidator.php:91</note>
       </trans-unit>
       <trans-unit id="80c25611ea9134bac1da1d91eb03544a" approved="yes">
@@ -877,12 +877,17 @@
       <trans-unit id="75802ba44ba3369defd92ef897bf2f21" approved="yes">
         <source>Please remove %s by FTP</source>
         <target state="final">Veuillez supprimer %s via FTP</target>
-        <note>classes/Task/Update/UpdateComplete.php:92</note>
+        <note>classes/Task/Update/UpdateComplete.php:97</note>
+      </trans-unit>
+      <trans-unit id="1b24cc8e4bf3ac0babd1a96fbc83e369">
+        <source>The temporary directory of modules has been emptied</source>
+        <target state="needs-translation">The temporary directory of modules has been emptied</target>
+        <note>classes/Task/Update/UpdateComplete.php:82</note>
       </trans-unit>
       <trans-unit id="d2b9f1e39aa8e96bb61f3a4bfe133f58" approved="yes">
         <source>%s removed</source>
         <target state="final">%s supprimé</target>
-        <note>classes/Task/Update/UpdateComplete.php:90</note>
+        <note>classes/Task/Update/UpdateComplete.php:95</note>
       </trans-unit>
       <trans-unit id="ead14b0273e8d6cae7d146130d4be8f6" approved="yes">
         <source>The database has been cleaned.</source>
@@ -997,27 +1002,27 @@
       <trans-unit id="53be0a7251b3bd0de81f488687bc0464" approved="yes">
         <source>Download directory has been emptied</source>
         <target state="final">Le dossier de téléchargement a été vidé.</target>
-        <note>classes/Task/Update/Download.php:76</note>
+        <note>classes/Task/Update/Download.php:69</note>
       </trans-unit>
       <trans-unit id="5385901e5bed459563860e2f08a90a1c" approved="yes">
         <source>Download directory %s is not writable.</source>
         <target state="final">Impossible d'écrire dans le dossier de téléchargement %s.</target>
-        <note>classes/Task/Update/Download.php:83</note>
+        <note>classes/Task/Update/Download.php:77</note>
       </trans-unit>
       <trans-unit id="a55401a11251f53f612e950d4115e116" approved="yes">
         <source>Download complete. Now extracting...</source>
         <target state="final">Téléchargement terminé. Extraction...</target>
-        <note>classes/Task/Update/Download.php:106</note>
+        <note>classes/Task/Update/Download.php:100</note>
       </trans-unit>
       <trans-unit id="2d9a3f4a92c008b32903541e9af8aff0" approved="yes">
         <source>Download complete but MD5 sum does not match (%s).</source>
         <target state="final">Téléchargement terminé, mais le calcul MD5 ne correspond pas (%s).</target>
-        <note>classes/Task/Update/Download.php:108</note>
+        <note>classes/Task/Update/Download.php:102</note>
       </trans-unit>
       <trans-unit id="31cc7d01dc7b85c42d9eb731b1060af7" approved="yes">
         <source>The .zip archive could not be downloaded. The update is currently impossible. Please try again later.</source>
         <target state="final">L'archive .zip n'a pas pu être téléchargée. La mise à jour est actuellement impossible. Veuillez réessayer ultérieurement.</target>
-        <note>classes/Task/Update/Download.php:112</note>
+        <note>classes/Task/Update/Download.php:106</note>
       </trans-unit>
       <trans-unit id="877f3f1346509ff0d53b27c14c49faaf" approved="yes">
         <source>Update database in progress. %d queries left</source>
@@ -1064,31 +1069,31 @@
         <target state="final">Vous êtes déjà en possession de la version %s</target>
         <note>classes/Task/Update/UpdateDatabase.php:169</note>
       </trans-unit>
-      <trans-unit id="654f7ceb787fd455c166d5d8744cbf90" approved="yes">
-        <source>"/latest" directory has been emptied</source>
-        <target state="final">Le répertoire "/latest" a été vidé</target>
-        <note>classes/Task/Update/Unzip.php:67</note>
+      <trans-unit id="57d362fe2965e2071229eeaf44ae1f5b">
+        <source>Temporary files directory has been emptied</source>
+        <target state="needs-translation">Temporary files directory has been emptied</target>
+        <note>classes/Task/Update/Unzip.php:60</note>
       </trans-unit>
       <trans-unit id="01d9d38b1d4d8eff5b530eeecfd3ccd5" approved="yes">
         <source>Extraction directory %s is not writable.</source>
         <target state="final">Impossible d'écrire dans le dossier d'extraction %s.</target>
-        <note>classes/Task/Update/Unzip.php:72</note>
+        <note>classes/Task/Update/Unzip.php:65</note>
       </trans-unit>
       <trans-unit id="69ae4bbd4b14ae388e4e3882945a542e" approved="yes">
         <source>Unable to extract %filepath% file into %destination% folder...</source>
         <target state="final">Impossible d'extraire le fichier %filepath% vers le dossier %destination%...</target>
-        <note>classes/Task/Update/Unzip.php:107</note>
+        <note>classes/Task/Update/Unzip.php:100</note>
       </trans-unit>
       <trans-unit id="5d3c14ccb814427455842b838bbd6f21" approved="yes">
         <source>No prestashop/ folder found in the ZIP file. Aborting.</source>
         <target state="final">Aucun dossier prestashop/ trouvé dans le fichier ZIP. Abandon.
 </target>
-        <note>classes/Task/Update/Unzip.php:121</note>
+        <note>classes/Task/Update/Unzip.php:114</note>
       </trans-unit>
       <trans-unit id="c308874e9b5347709e9dc8bad11d8198" approved="yes">
         <source>File extraction complete. Now updating files...</source>
         <target state="final">Extraction du fichier terminée. Mise à jour des fichiers en cours...</target>
-        <note>classes/Task/Update/Unzip.php:135</note>
+        <note>classes/Task/Update/Unzip.php:128</note>
       </trans-unit>
       <trans-unit id="78c6e760441165ec762746a0ab4b64cd" approved="yes">
         <source>Checking updates of module %module%...</source>
