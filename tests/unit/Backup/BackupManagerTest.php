@@ -18,6 +18,7 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 use PHPUnit\Framework\TestCase;
+use PrestaShop\Module\AutoUpgrade\Analytics;
 use PrestaShop\Module\AutoUpgrade\Backup\BackupFinder;
 use PrestaShop\Module\AutoUpgrade\Backup\BackupManager;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
@@ -29,10 +30,13 @@ class BackupManagerTest extends TestCase
     private static $pathToBackup;
     /** @var Translator */
     private $translator;
+    /** @var Analytics */
+    private $analytics;
 
     public function setUp()
     {
         $this->translator = $this->createMock(Translator::class);
+        $this->analytics = $this->createMock(Analytics::class);
     }
 
     public static function setUpBeforeClass()
@@ -45,7 +49,7 @@ class BackupManagerTest extends TestCase
     public function testBackupIsDeleted()
     {
         $backupFinder = new BackupFinder($this->translator, self::$pathToBackup);
-        $backupManager = new BackupManager($this->translator, $backupFinder);
+        $backupManager = new BackupManager($this->translator, $backupFinder, $this->analytics);
 
         $expectedBeforeDeletion = [
             'V1.7.5.0_20240927-115034-19c6d35c',

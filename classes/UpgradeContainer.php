@@ -369,7 +369,7 @@ class UpgradeContainer
     public function getBackupManager(): BackupManager
     {
         if (null === $this->backupManager) {
-            $this->backupManager = new BackupManager($this->getTranslator(), $this->getBackupFinder());
+            $this->backupManager = new BackupManager($this->getTranslator(), $this->getBackupFinder(), $this->getAnalytics());
         }
 
         return $this->backupManager;

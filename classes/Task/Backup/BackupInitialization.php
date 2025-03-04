@@ -46,7 +46,7 @@ class BackupInitialization extends AbstractTask
             $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
         );
 
-        $this->container->getAnalytics()->track('Backup launched', Analytics::WITH_BACKUP_PROPERTIES);
+        $this->container->getAnalytics()->track('Backup Launched', Analytics::WITH_BACKUP_PROPERTIES);
 
         $this->stepDone = true;
 

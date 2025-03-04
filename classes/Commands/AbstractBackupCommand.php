@@ -25,7 +25,6 @@ use Exception;
 use PrestaShop\Module\AutoUpgrade\Backup\BackupFinder;
 use PrestaShop\Module\AutoUpgrade\Backup\BackupManager;
 use PrestaShop\Module\AutoUpgrade\Exceptions\BackupException;
-use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
@@ -41,8 +40,8 @@ abstract class AbstractBackupCommand extends AbstractCommand
     protected function setupEnvironment(InputInterface $input, OutputInterface $output): void
     {
         parent::setupEnvironment($input, $output);
-        $this->backupFinder = new BackupFinder($this->upgradeContainer->getTranslator(), $this->upgradeContainer->getProperty(UpgradeContainer::BACKUP_PATH));
-        $this->backupManager = new BackupManager($this->upgradeContainer->getTranslator(), $this->backupFinder);
+        $this->backupFinder = $this->upgradeContainer->getBackupFinder();
+        $this->backupManager = $this->upgradeContainer->getBackupManager();
     }
 
     /**
