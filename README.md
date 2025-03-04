@@ -181,13 +181,18 @@ impact.
 | `backup:restore`                            | no option available                           | `--backup`                     | Valid file name                                                                         | Specify the backup name to restore. The allowed values can be found with backup:list command)                                                 |
 | `backup:delete`                             | no option available                           | `--backup`                     | Valid file name                                                                         | Specify the backup name to delete. The allowed values can be found with backup:list command)                                                  |
 
-## Update modules from local source
+## Test module updates locally
 
-During the Update process, we check for new module versions in the PrestaShop Marketplace. If there is one, we download it and then Update it.
+During the update process, we check for new module versions on the PrestaShop Marketplace. If a new version is found, it is downloaded and installed automatically.
 
-Developers must release and push their module to the Marketplace in order to test the Update process, which is inconvenient. In order to simplify the testing process, you can place the ZIP file of your module in `/ADMIN_DIR/autoupgrade/modules/MODULE_NAME.zip`. This will allow you to use your local version for updating purposes.
+However, to test the update process without publishing the module to the Marketplace (which can be inconvenient for developers), you can use a local version of your module. Here’s how:
 
-In case your local archive with a module fails to work, the latest version will be downloaded from the Marketplace.
+1. Create a ZIP archive of your module.
+2. Place the ZIP file in the following directory: `[your-admin-dir]/autoupgrade/modules/MODULE_NAME.zip`.
+
+This will make the update process use your local archive instead of downloading the latest version from the Marketplace.
+
+⚠️ Note: If your local module archive is invalid, the updater will fall back to downloading the latest available version from the Marketplace.
 
 ## Local temporary assets
 
