@@ -119,7 +119,6 @@ class Analytics
                     'to_ps_version' => $this->states['update']->getDestinationVersion(),
                     'upgrade_channel' => $this->updateConfiguration->getChannel(),
                     'disable_non_native_modules' => $this->updateConfiguration->shouldDeactivateCustomModules(),
-                    'switch_to_default_theme' => $this->updateConfiguration->shouldSwitchToDefaultTheme(),
                     'regenerate_customized_email_templates' => $this->updateConfiguration->shouldRegenerateMailTemplates(),
                 ];
                 $upgradeProperties = $this->properties[self::WITH_UPDATE_PROPERTIES] ?? [];
