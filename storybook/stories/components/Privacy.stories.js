@@ -23,7 +23,8 @@ export default {
   component: Privacy,
   title: "Components/Privacy",
   args: {
-    data_transparency_link: "https://www.prestashop-project.org/data-transparency",
+    data_transparency_link:
+      "https://www.prestashop-project.org/data-transparency",
   },
 };
 

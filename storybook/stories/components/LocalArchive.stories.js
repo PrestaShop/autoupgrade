@@ -27,20 +27,12 @@ export default {
 export const Default = {
   args: {
     form_fields: {
-      archive_zip: "archive.zip",
-      archive_xml: "archive.xml",
+      archive_zip: "archive_zip",
+      archive_xml: "archive_xml",
     },
-    archiveFiles: [
-      "backup1.zip",
-      "backup2.zip",
-      "backup3.zip"
-    ],
+    archiveFiles: ["backup1.zip", "backup2.zip", "backup3.zip"],
     archiveFileName: "backup1.zip",
-    xmlFiles: [
-      "xml1.xml",
-      "xml2.xml",
-      "xml2.xml"
-    ],
+    xmlFiles: ["xml1.xml", "xml2.xml", "xml2.xml"],
     xmlFileName: "xml1.xml",
     downloadPath:
       "/var/www/html/admin128ejliho1ih29s5ahu/autoupgrade/download/",
@@ -48,9 +40,9 @@ export const Default = {
     unableToFindVersionInXML: false,
     versionsMismatch: false,
     errors: {
-      "global": "",
-      "archive.zip": "",
-      "archive.xml": ""
-    }
+      global: "",
+      archive_zip: "",
+      archive_xml: "",
+    },
   },
 };

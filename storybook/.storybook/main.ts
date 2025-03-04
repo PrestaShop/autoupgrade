@@ -70,9 +70,15 @@ const config: StorybookConfig = {
     // List translations files on compilation to fill language selection list
     const newPlugin = new webpack.DefinePlugin({
       TRANSLATION_LOCALES: JSON.stringify(
-        fs.readdirSync(path.resolve(__dirname, '../../translations'))
-          .map((file) => new RegExp("^ModulesAutoupgradeAdmin.([a-z]+).xlf$", "i").exec(file)?.[1])
-          .filter((locale) => !!locale)
+        fs
+          .readdirSync(path.resolve(__dirname, "../../translations"))
+          .map(
+            (file) =>
+              new RegExp("^ModulesAutoupgradeAdmin.([a-z]+).xlf$", "i").exec(
+                file,
+              )?.[1],
+          )
+          .filter((locale) => !!locale),
       ),
     });
     if (config.plugins?.length) {
@@ -96,7 +102,7 @@ const config: StorybookConfig = {
         ${body}
     `,
   staticDirs: [
-    { from: "../../_dev/img", to: "/img"},
+    { from: "../../_dev/img", to: "/img" },
     "../public",
     "../node_modules/prestashop-bo-themes",
   ],

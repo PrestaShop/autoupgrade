@@ -17,19 +17,33 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 
-import PageLayout from "../../../views/templates/layouts/page.html.twig";
-import { Default as Stepper } from "../components/Stepper.stories";
+import RenderBackupSelection from "../../../views/templates/components/render-backup-selection.html.twig";
 
 export default {
-  component: PageLayout,
-  id: "2",
-  title: "Layouts/Pages",
+  title: "Components/Render fields",
+  component: RenderBackupSelection,
+  argTypes: {
+    backup_selection: { control: false },
+  },
 };
 
-export const Default = {
+export const BackupSelection = {
   args: {
-    ...Stepper.args,
-    step_parent_id: "ua_container",
-    data_transparency_link: "https://www.prestashop-project.org/data-transparency",
+    backup_selection: true,
+    form_fields: {
+      BACKUP_NAME: "BACKUP_NAME",
+    },
+    backups_available: [
+      {
+        filename: "V1.7.6.3_20250118-120000-7f540970",
+        datetime: "01/18/25 12:00:00",
+      },
+      {
+        filename: "V1.7.6.3_20250122-180000-8D420630",
+        datetime: "01/22/25 18:00:00",
+      },
+    ],
+    current_backup: "V1.7.6.3_20250118-120000-7f540970",
+    error_message: "",
   },
 };

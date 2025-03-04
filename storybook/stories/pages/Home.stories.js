@@ -38,11 +38,12 @@ export const Welcome = {
     form_route: "form_route",
     form_route_to_save: "update-step-version-choice-save-form",
     form_route_to_submit: "update-step-version-choice-submit-form",
-    data_transparency_link: "https://www.prestashop-project.org/data-transparency",
+    data_transparency_link:
+      "https://www.prestashop-project.org/data-transparency",
     // Radio card
     ...RadioCard.args,
     form_fields: {
       route_choice: "",
-    }
+    },
   },
 };

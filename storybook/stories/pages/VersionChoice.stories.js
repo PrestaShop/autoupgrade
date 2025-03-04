@@ -47,7 +47,8 @@ export const VersionChoice = {
     radio_card_archive_parent_id: "radio_card_archive",
     form_route_to_save: "update-step-version-choice-save-form",
     form_route_to_submit: "update-step-version-choice-submit-form",
-    data_transparency_link: "https://www.prestashop-project.org/data-transparency",
+    data_transparency_link:
+      "https://www.prestashop-project.org/data-transparency",
     // Radio cards
     ...Online.args,
     ...Local.args,

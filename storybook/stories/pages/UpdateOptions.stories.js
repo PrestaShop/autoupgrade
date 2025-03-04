@@ -35,16 +35,16 @@ export const UpdateOptions = {
     },
     form_fields: {
       deactive_non_native_modules: {
-          field: 'PS_AUTOUP_CUSTOM_MOD_DESACT',
-          value: true,
+        field: "PS_AUTOUP_CUSTOM_MOD_DESACT",
+        value: true,
       },
       regenerate_email_templates: {
-          field: 'PS_AUTOUP_REGEN_EMAIL',
-          value: true,
+        field: "PS_AUTOUP_REGEN_EMAIL",
+        value: true,
       },
       disable_all_overrides: {
-          field: 'PS_DISABLE_OVERRIDES',
-          value: false,
+        field: "PS_DISABLE_OVERRIDES",
+        value: false,
       },
     },
     step_parent_id: "ua_container",
@@ -52,9 +52,11 @@ export const UpdateOptions = {
     form_route_to_save: "update-step-update-options-save-option",
     form_route_to_submit: "update-step-update-options-submit-form",
     error: {
-      'PS_AUTOUP_REGEN_EMAIL': 'Example of an error that occured when switching the value!',
+      PS_AUTOUP_REGEN_EMAIL:
+        "Example of an error that occured when switching the value!",
     },
-    data_transparency_link: "https://www.prestashop-project.org/data-transparency",
+    data_transparency_link:
+      "https://www.prestashop-project.org/data-transparency",
     // Stepper
     ...Stepper.args,
   },

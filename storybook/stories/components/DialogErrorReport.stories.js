@@ -26,10 +26,11 @@ export default {
 
 export const ErrorReport = {
   args: {
-    data_transparency_link: "https://www.prestashop-project.org/data-transparency",
+    data_transparency_link:
+      "https://www.prestashop-project.org/data-transparency",
   },
   play: async () => {
-    const dialog = document.querySelector('.dialog');
+    const dialog = document.querySelector(".dialog");
     dialog.showModal();
   },
 };

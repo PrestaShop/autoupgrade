@@ -23,7 +23,7 @@ import ErrorCode404 from "../../../views/templates/pages/errors/404.html.twig";
 
 export default {
   component: ErrorCode404,
-  title: "Layouts/Errors",
+  title: "Pages/Errors",
   args: {
     psBaseUri: "/",
     error_code: "404",

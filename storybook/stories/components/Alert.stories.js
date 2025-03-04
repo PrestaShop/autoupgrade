@@ -23,6 +23,7 @@ export default {
   component: Alert,
   title: "Components/Alert",
   id: "1",
+  includeStories: ["Default", "AlertWithForm", "AlertWithLink"],
   argTypes: {
     alertStatus: {
       control: "select",
@@ -33,8 +34,9 @@ export default {
 
 export const Default = {
   args: {
-    title: "Backup completed",
-    message: "It’s available at admin/autoupgrade/backup. You're ready to start the update now.",
+    title: "",
+    message:
+      "The requirements check is complete, you can update your store to this version of PrestaShop.",
     alertStatus: "success",
   },
 };
@@ -42,7 +44,8 @@ export const Default = {
 export const AlertWithForm = {
   args: {
     title: "Update failed",
-    message: "Your store may not work properly anymore. Select the backup you want to use and restore it to avoid any data loss.",
+    message:
+      "Your store may not work properly anymore. Select the backup you want to use and restore it to avoid any data loss.",
     alertStatus: "warning",
     // Required for form
     buttonLabel: "Restore",
@@ -54,7 +57,8 @@ export const AlertWithForm = {
 export const AlertWithLink = {
   args: {
     title: "Backup completed",
-    message: "It’s available at /your-admin-directory/autoupgrade/backup. You're ready to start the update now.",
+    message:
+      "It’s available at /your-admin-directory/autoupgrade/backup. You're ready to start the update now.",
     alertStatus: "success",
     buttonDownload: "backup.log",
     // Required for link
@@ -66,8 +70,8 @@ export const AlertWithLink = {
 export const NoLocalArchive = {
   args: {
     title: "",
-    message: "It’s available at admin/autoupgrade/backup. You're ready to start the update now.",
+    message:
+      "It’s available at admin/autoupgrade/backup. You're ready to start the update now.",
     alertStatus: "success",
   },
 };
-

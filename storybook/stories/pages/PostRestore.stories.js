@@ -23,7 +23,7 @@ import { PostRestore as Stepper } from "../components/Stepper.stories";
 export default {
   component: PostRestorePage,
   id: "42",
-  title: "Pages/Rollback",
+  title: "Pages/Restore",
 };
 
 export const PostRestore = {
@@ -33,14 +33,11 @@ export const PostRestore = {
       code: "post-restore",
       title: "Post-restore checklist",
     },
-    psBaseUri: "/",
-    upToDate: true,
-    noLocalArchive: true,
-    currentPrestashopVersion: "8.1.6",
-    currentPhpVersion: "8.1",
-    backlog_link: "https://myshop.com/my-backlog.txt",
     step_parent_id: "ua_container",
-    data_transparency_link: "https://www.prestashop-project.org/data-transparency",
+    exit_link: "#",
+    dev_doc_link: "#",
+    data_transparency_link:
+      "https://www.prestashop-project.org/data-transparency",
     // Stepper
     ...Stepper.args,
   },

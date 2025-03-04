@@ -26,8 +26,8 @@ export default {
 
 export const BackupDelete = {
   args: {
-    backup_name: "autoupgrade_save_8.1.6",
-    backup_date: "15/07/2024 8:00",
+    backup_name: "V1.7.6.3_20250118-120000-7f540970",
+    backup_date: "01/18/25 12:00:00",
     only_backup: true,
     form_name: "delete-backup",
     form_route_to_confirm_delete: "/",
@@ -36,7 +36,7 @@ export const BackupDelete = {
     },
   },
   play: async () => {
-    const dialog = document.querySelector('.dialog');
+    const dialog = document.querySelector(".dialog");
     dialog.showModal();
   },
 };

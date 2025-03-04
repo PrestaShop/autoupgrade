@@ -24,7 +24,7 @@ import Layout from "../../../views/templates/layouts/layout.html.twig";
 
 export default {
   component: Layout,
-  title: "Layouts/Errors",
+  title: "Pages/Errors",
   args: {
     psBaseUri: "/",
     assets_base_path: "",
