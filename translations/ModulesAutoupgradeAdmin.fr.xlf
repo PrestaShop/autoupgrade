@@ -1570,14 +1570,14 @@
         <target state="needs-translation">Before starting the update, make sure you have a complete and recent backup of your store (database, files, and images).</target>
         <note>views/templates/dialogs/dialog-update.html.twig:34</note>
       </trans-unit>
-      <trans-unit id="4d7ff7fe82a3cec141ca2f2619b82794">
+      <trans-unit id="4d7ff7fe82a3cec141ca2f2619b82794" approved="yes">
         <source>You are about to launch the update, do you want to continue?</source>
-        <target state="needs-translation">You are about to launch the update, do you want to continue?</target>
+        <target state="final">Vous êtes sur le point de lancer la mise à jour, voulez-vous continuer ?</target>
         <note>views/templates/dialogs/dialog-update.html.twig:37</note>
       </trans-unit>
-      <trans-unit id="3cedd2741ced15002cb3c9429ab45f55">
+      <trans-unit id="3cedd2741ced15002cb3c9429ab45f55" approved="yes">
         <source>I have made my own backup and can restore it manually if a problem occur.</source>
-        <target state="needs-translation">I have made my own backup and can restore it manually if a problem occur.</target>
+        <target state="final">J'ai fait ma propre sauvegarde et je peux la restaurer manuellement si un problème survient.</target>
         <note>views/templates/dialogs/dialog-update.html.twig:47</note>
       </trans-unit>
       <trans-unit id="845ceb9fbcd6f7a5e5b55c0fc0264c3b" approved="yes">
