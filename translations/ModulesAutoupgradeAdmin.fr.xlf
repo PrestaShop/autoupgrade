@@ -1530,9 +1530,9 @@
         <target state="final">Supprimer</target>
         <note>views/templates/dialogs/dialog-delete-backup.html.twig:42</note>
       </trans-unit>
-      <trans-unit id="d9ea955da44076b696c6e31e407bb7a9">
+      <trans-unit id="d9ea955da44076b696c6e31e407bb7a9" approved="yes">
         <source>Restore from a backup?</source>
-        <target state="needs-translation">Restore from a backup?</target>
+        <target state="final">Restaurer à partir d'une sauvegarde ?</target>
         <note>views/templates/dialogs/dialog-restore-from-backup.html.twig:21</note>
       </trans-unit>
       <trans-unit id="44e1fe4813ed848371c541e35e8422c3">
@@ -1560,9 +1560,9 @@
         <target state="needs-translation">Start backup</target>
         <note>views/templates/dialogs/dialog-backup.html.twig:39</note>
       </trans-unit>
-      <trans-unit id="2ca0ff94d146821c12f5340b117b9ecf">
+      <trans-unit id="2ca0ff94d146821c12f5340b117b9ecf" approved="yes">
         <source>Start update?</source>
-        <target state="needs-translation">Start update?</target>
+        <target state="final">Démarrer la mise à jour ?</target>
         <note>views/templates/dialogs/dialog-update.html.twig:21</note>
       </trans-unit>
       <trans-unit id="3d4d2d6f322e7a03fbe59ed1593215c8">
@@ -1585,9 +1585,9 @@
         <target state="needs-translation">Send error report?</target>
         <note>views/templates/dialogs/dialog-error-report.html.twig:22</note>
       </trans-unit>
-      <trans-unit id="b283581d613b9844810fbd3721f5747f">
-        <source>Help us improve the module by sending us this error report. For your information, the logs will be attached with your message. You can add more details in the description if you wish</source>
-        <target state="needs-translation">Help us improve the module by sending us this error report. For your information, the logs will be attached with your message. You can add more details in the description if you wish</target>
+      <trans-unit id="65da25f3a4f8c1e4a90a26894f0a7928">
+        <source>Help us improve the module by sending us this error report. For your information, the logs will be attached with your message. You can add more details in the description if you wish.</source>
+        <target state="needs-translation">Help us improve the module by sending us this error report. For your information, the logs will be attached with your message. You can add more details in the description if you wish.</target>
         <note>views/templates/dialogs/dialog-error-report.html.twig:28</note>
       </trans-unit>
       <trans-unit id="e3c2f912efa622f6e06c414660d40034">
