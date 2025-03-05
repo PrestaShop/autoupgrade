@@ -162,14 +162,14 @@
         <target state="final">La valeur doit être un booléen pour %s</target>
         <note>classes/Parameters/ConfigurationValidator.php:109</note>
       </trans-unit>
-      <trans-unit id="0067de0b699a1ff27fe4faa758932986">
+      <trans-unit id="0067de0b699a1ff27fe4faa758932986" approved="yes">
         <source>Invalid configuration, backup name is missing.</source>
-        <target state="needs-translation">Invalid configuration, backup name is missing.</target>
+        <target state="final">Configuration non valide, le nom de sauvegarde est manquant.</target>
         <note>classes/Parameters/RestoreConfigurationValidator.php:82</note>
       </trans-unit>
-      <trans-unit id="2aa754c876879a7a9bb7a8f4273730f8">
+      <trans-unit id="2aa754c876879a7a9bb7a8f4273730f8" approved="yes">
         <source>Invalid configuration, backup %s doesn't exist.</source>
-        <target state="needs-translation">Invalid configuration, backup %s doesn't exist.</target>
+        <target state="final">Configuration non valide, la sauvegarde %s n'existe pas.</target>
         <note>classes/Parameters/RestoreConfigurationValidator.php:91</note>
       </trans-unit>
       <trans-unit id="80c25611ea9134bac1da1d91eb03544a" approved="yes">
@@ -222,9 +222,9 @@
         <target state="final">Le téléchargement de la source #%s a échoué.</target>
         <note>classes/UpgradeTools/Module/ModuleDownloader.php:70</note>
       </trans-unit>
-      <trans-unit id="94afb77f327c3408fcc77d2e9e357298">
+      <trans-unit id="94afb77f327c3408fcc77d2e9e357298" approved="yes">
         <source>All download attempts have failed. The module %s has been disabled. You can try to update it manually afterwards.</source>
-        <target state="needs-translation">All download attempts have failed. The module %s has been disabled. You can try to update it manually afterwards.</target>
+        <target state="final">Toutes les tentatives de téléchargement ont échoué. Le module %s a été désactivé. Vous pouvez essayer de le mettre à jour manuellement par la suite.</target>
         <note>classes/UpgradeTools/Module/ModuleDownloader.php:75</note>
       </trans-unit>
       <trans-unit id="88a8e935ad1b255eae2a4c490886b83a">
@@ -247,9 +247,9 @@
         <target state="final">Erreur lors de la tentative d'extraction du module %s.</target>
         <note>classes/UpgradeTools/Module/ModuleUnzipper.php:55</note>
       </trans-unit>
-      <trans-unit id="ffecf7f010dec7170bcc2749d49c41ff">
+      <trans-unit id="ffecf7f010dec7170bcc2749d49c41ff" approved="yes">
         <source>No version present in database for module %s, all files for update will be applied.</source>
-        <target state="needs-translation">No version present in database for module %s, all files for update will be applied.</target>
+        <target state="final">Aucune version présente dans la base de données pour le module %s, tous les fichiers de mise à jour seront appliqués.</target>
         <note>classes/UpgradeTools/Module/ModuleMigration.php:74</note>
       </trans-unit>
       <trans-unit id="b7158eb495a4a06e4a75736c3707e1da" approved="yes">
@@ -257,9 +257,9 @@
         <target state="final">(%s/%s) Application du fichier de migration %s.</target>
         <note>classes/UpgradeTools/Module/ModuleMigration.php:108</note>
       </trans-unit>
-      <trans-unit id="058ed3d02fc89ad3fe8acab223bec2f7">
+      <trans-unit id="058ed3d02fc89ad3fe8acab223bec2f7" approved="yes">
         <source>Migration failed while running the file %s. Module %s disabled.</source>
-        <target state="needs-translation">Migration failed while running the file %s. Module %s disabled.</target>
+        <target state="final">La migration a échoué lors de l'exécution du fichier %s. Le module %s est désactivé.</target>
         <note>classes/UpgradeTools/Module/ModuleMigration.php:114</note>
       </trans-unit>
       <trans-unit id="f044ca443a1f50d889be336f90a355b7">
@@ -287,9 +287,9 @@
         <target state="needs-translation">Directory "%s" does not exist and cannot be emptied.</target>
         <note>classes/UpgradeTools/CacheCleaner.php:71</note>
       </trans-unit>
-      <trans-unit id="72966a016e6dd03e2eab13287244dc1a">
+      <trans-unit id="72966a016e6dd03e2eab13287244dc1a" approved="yes">
         <source>Directory %s emptied</source>
-        <target state="needs-translation">Directory %s emptied</target>
+        <target state="final">Répertoire %s vidé</target>
         <note>classes/UpgradeTools/CacheCleaner.php:75</note>
       </trans-unit>
       <trans-unit id="3188ac0ee6355c23c3b26c3b5e71f3dd" approved="yes">
@@ -879,9 +879,9 @@
         <target state="final">Veuillez supprimer %s via FTP</target>
         <note>classes/Task/Update/UpdateComplete.php:97</note>
       </trans-unit>
-      <trans-unit id="1b24cc8e4bf3ac0babd1a96fbc83e369">
+      <trans-unit id="1b24cc8e4bf3ac0babd1a96fbc83e369" approved="yes">
         <source>The temporary directory of modules has been emptied</source>
-        <target state="needs-translation">The temporary directory of modules has been emptied</target>
+        <target state="final">Le répertoire temporaire des modules a été vidé</target>
         <note>classes/Task/Update/UpdateComplete.php:82</note>
       </trans-unit>
       <trans-unit id="d2b9f1e39aa8e96bb61f3a4bfe133f58" approved="yes">
@@ -1270,9 +1270,9 @@
         <target state="final">La sauvegarde des fichiers, de la base de données et des images de votre boutique signifie que vous pouvez restaurer une version antérieure en cas de problème lors de la mise à jour. Cela permet de protéger vos données et de garantir la continuité de votre activité.</target>
         <note>views/templates/steps/backup-options.html.twig:31</note>
       </trans-unit>
-      <trans-unit id="d7f31683c24e4c4b7f0c7f376fe3a8fe">
+      <trans-unit id="d7f31683c24e4c4b7f0c7f376fe3a8fe" approved="yes">
         <source>Backup failed</source>
-        <target state="needs-translation">Backup failed</target>
+        <target state="final">La sauvegarde a échoué</target>
         <note>views/templates/steps/backup.html.twig:38</note>
       </trans-unit>
       <trans-unit id="48fa328a70d6cbeb701e7f50ea26465f">
@@ -1280,9 +1280,9 @@
         <target state="needs-translation">Please try again or perform a manual backup. In any case, ensure you have a backup before starting the update to avoid any data loss.</target>
         <note>views/templates/steps/backup.html.twig:40</note>
       </trans-unit>
-      <trans-unit id="6890c3f9a573b71dacdcaf6dbcf91bec">
+      <trans-unit id="6890c3f9a573b71dacdcaf6dbcf91bec" approved="yes">
         <source>Retry backup</source>
-        <target state="needs-translation">Retry backup</target>
+        <target state="final">Réessayer la sauvegarde</target>
         <note>views/templates/steps/backup.html.twig:71</note>
       </trans-unit>
       <trans-unit id="b27bea61eb2963cb570ce625b87ea053" approved="yes">
@@ -1365,19 +1365,19 @@
         <target state="final">Suivant</target>
         <note>views/templates/steps/update-options.html.twig:70</note>
       </trans-unit>
-      <trans-unit id="6e8e3d194e68b2ad276cd4defa252c1f">
+      <trans-unit id="6e8e3d194e68b2ad276cd4defa252c1f" approved="yes">
         <source>Restoration failed</source>
-        <target state="needs-translation">Restoration failed</target>
+        <target state="final">La restauration a échoué</target>
         <note>views/templates/steps/restore.html.twig:32</note>
       </trans-unit>
-      <trans-unit id="047cdd7b0b3174eb3d6459a44a510ec7">
+      <trans-unit id="047cdd7b0b3174eb3d6459a44a510ec7" approved="yes">
         <source>Please try again. You can also send us an error report to help us improve the Update assistant module.</source>
-        <target state="needs-translation">Please try again. You can also send us an error report to help us improve the Update assistant module.</target>
+        <target state="final">Veuillez réessayer. Vous pouvez également nous envoyer un rapport d'erreur pour nous aider à améliorer le module Date Assistant.</target>
         <note>views/templates/steps/restore.html.twig:33</note>
       </trans-unit>
-      <trans-unit id="f915a95e609bbd517a8a1e7bdcceef37">
+      <trans-unit id="f915a95e609bbd517a8a1e7bdcceef37" approved="yes">
         <source>Try again</source>
-        <target state="needs-translation">Try again</target>
+        <target state="final">Réessayer</target>
         <note>views/templates/steps/restore.html.twig:52</note>
       </trans-unit>
       <trans-unit id="c940aa73d021ae9e13f265237b0e4f96">
@@ -1405,9 +1405,9 @@
         <target state="needs-translation">Use this feature if the update failed or if your store or a module is no longer working properly.</target>
         <note>views/templates/steps/home.html.twig:41</note>
       </trans-unit>
-      <trans-unit id="0fd677149c0fafac25862f5a04268ebf">
+      <trans-unit id="0fd677149c0fafac25862f5a04268ebf" approved="yes">
         <source>No backup file found on your store.</source>
-        <target state="needs-translation">No backup file found on your store.</target>
+        <target state="final">Aucun fichier de sauvegarde trouvé sur votre boutique.</target>
         <note>views/templates/steps/home.html.twig:46</note>
       </trans-unit>
       <trans-unit id="e0c4332e8c13be976552a059f106354f" approved="yes">
@@ -1490,9 +1490,9 @@
         <target state="needs-translation"><![CDATA[Overriding is a way to replace business behaviors (class files and controller files) to target only one method or as many as you need. This option disables all classes & controllers overrides, allowing you to avoid conflicts during and after updates.]]></target>
         <note>views/templates/steps/update-options.html.twig:58</note>
       </trans-unit>
-      <trans-unit id="6d7d82d9c1d7f68064d14e673d53eb19">
+      <trans-unit id="6d7d82d9c1d7f68064d14e673d53eb19" approved="yes">
         <source>Update failed</source>
-        <target state="needs-translation">Update failed</target>
+        <target state="final">La mise à jour a échoué</target>
         <note>views/templates/steps/update.html.twig:32</note>
       </trans-unit>
       <trans-unit id="332353244a1a1fb11835b6b06fc16da3">
@@ -1505,9 +1505,9 @@
         <target state="needs-translation">You didn’t back up your store with the Update assistant module but you can restore using your own manual backup.</target>
         <note>views/templates/steps/update.html.twig:35</note>
       </trans-unit>
-      <trans-unit id="b6cf8e12bbbeee058067ebf8c8dda7e2">
+      <trans-unit id="b6cf8e12bbbeee058067ebf8c8dda7e2" approved="yes">
         <source>Delete backup</source>
-        <target state="needs-translation">Delete backup</target>
+        <target state="final">Supprimer la sauvegarde</target>
         <note>views/templates/dialogs/dialog-delete-backup.html.twig:21</note>
       </trans-unit>
       <trans-unit id="41ee96bba9c1ea02aa9a3702024391a9">
@@ -1530,9 +1530,9 @@
         <target state="final">Supprimer</target>
         <note>views/templates/dialogs/dialog-delete-backup.html.twig:42</note>
       </trans-unit>
-      <trans-unit id="d9ea955da44076b696c6e31e407bb7a9">
+      <trans-unit id="d9ea955da44076b696c6e31e407bb7a9" approved="yes">
         <source>Restore from a backup?</source>
-        <target state="needs-translation">Restore from a backup?</target>
+        <target state="final">Restaurer à partir d'une sauvegarde ?</target>
         <note>views/templates/dialogs/dialog-restore-from-backup.html.twig:21</note>
       </trans-unit>
       <trans-unit id="44e1fe4813ed848371c541e35e8422c3">
@@ -1540,9 +1540,9 @@
         <target state="needs-translation">You are about to restore %backup_version% using the backup from %backup_date%.</target>
         <note>views/templates/dialogs/dialog-restore-from-backup.html.twig:23</note>
       </trans-unit>
-      <trans-unit id="a55151123e9668d00ca7edbfbaf34b49">
+      <trans-unit id="a55151123e9668d00ca7edbfbaf34b49" approved="yes">
         <source>Start backup?</source>
-        <target state="needs-translation">Start backup?</target>
+        <target state="final">Démarrer la sauvegarde ?</target>
         <note>views/templates/dialogs/dialog-backup.html.twig:21</note>
       </trans-unit>
       <trans-unit id="4de1325d17b745018ee0473aa24e40be">
@@ -1550,19 +1550,19 @@
         <target state="needs-translation">Your files, database, and images will be backed up.</target>
         <note>views/templates/dialogs/dialog-backup.html.twig:23</note>
       </trans-unit>
-      <trans-unit id="c48b010e2f019b37cd748419f50a83c8">
+      <trans-unit id="c48b010e2f019b37cd748419f50a83c8" approved="yes">
         <source>Your files and database will be backed up.</source>
-        <target state="needs-translation">Your files and database will be backed up.</target>
+        <target state="final">Vos fichiers et votre base de données seront sauvegardés.</target>
         <note>views/templates/dialogs/dialog-backup.html.twig:23</note>
       </trans-unit>
-      <trans-unit id="0b69cd55a690bee672a1fb91091222f1">
+      <trans-unit id="0b69cd55a690bee672a1fb91091222f1" approved="yes">
         <source>Start backup</source>
-        <target state="needs-translation">Start backup</target>
+        <target state="final">Démarrer la sauvegarde</target>
         <note>views/templates/dialogs/dialog-backup.html.twig:39</note>
       </trans-unit>
-      <trans-unit id="2ca0ff94d146821c12f5340b117b9ecf">
+      <trans-unit id="2ca0ff94d146821c12f5340b117b9ecf" approved="yes">
         <source>Start update?</source>
-        <target state="needs-translation">Start update?</target>
+        <target state="final">Démarrer la mise à jour ?</target>
         <note>views/templates/dialogs/dialog-update.html.twig:21</note>
       </trans-unit>
       <trans-unit id="3d4d2d6f322e7a03fbe59ed1593215c8">
@@ -1580,14 +1580,14 @@
         <target state="needs-translation">I have made my own backup and can restore it manually if a problem occur.</target>
         <note>views/templates/dialogs/dialog-update.html.twig:47</note>
       </trans-unit>
-      <trans-unit id="845ceb9fbcd6f7a5e5b55c0fc0264c3b">
+      <trans-unit id="845ceb9fbcd6f7a5e5b55c0fc0264c3b" approved="yes">
         <source>Send error report?</source>
-        <target state="needs-translation">Send error report?</target>
+        <target state="final">Envoyer un rapport d'erreur ?</target>
         <note>views/templates/dialogs/dialog-error-report.html.twig:22</note>
       </trans-unit>
-      <trans-unit id="b283581d613b9844810fbd3721f5747f">
-        <source>Help us improve the module by sending us this error report. For your information, the logs will be attached with your message. You can add more details in the description if you wish</source>
-        <target state="needs-translation">Help us improve the module by sending us this error report. For your information, the logs will be attached with your message. You can add more details in the description if you wish</target>
+      <trans-unit id="65da25f3a4f8c1e4a90a26894f0a7928">
+        <source>Help us improve the module by sending us this error report. For your information, the logs will be attached with your message. You can add more details in the description if you wish.</source>
+        <target state="needs-translation">Help us improve the module by sending us this error report. For your information, the logs will be attached with your message. You can add more details in the description if you wish.</target>
         <note>views/templates/dialogs/dialog-error-report.html.twig:28</note>
       </trans-unit>
       <trans-unit id="e3c2f912efa622f6e06c414660d40034">
@@ -1600,39 +1600,39 @@
         <target state="final">Message d'erreur</target>
         <note>views/templates/dialogs/dialog-error-report.html.twig:45</note>
       </trans-unit>
-      <trans-unit id="ea5957193770106ccbb79106b47c06a6">
+      <trans-unit id="ea5957193770106ccbb79106b47c06a6" approved="yes">
         <source>Email (optional)</source>
-        <target state="needs-translation">Email (optional)</target>
+        <target state="final">E-mail (optionnel)</target>
         <note>views/templates/dialogs/dialog-error-report.html.twig:59</note>
       </trans-unit>
-      <trans-unit id="6832ac593617c3e5f61c82a20b0d9a3a">
+      <trans-unit id="6832ac593617c3e5f61c82a20b0d9a3a" approved="yes">
         <source>Enter your email address</source>
-        <target state="needs-translation">Enter your email address</target>
+        <target state="final">Entrez votre adresse E-mail</target>
         <note>views/templates/dialogs/dialog-error-report.html.twig:66</note>
       </trans-unit>
-      <trans-unit id="0ba3309bf076bf416d0bb498fdfcb77f">
+      <trans-unit id="0ba3309bf076bf416d0bb498fdfcb77f" approved="yes">
         <source>Description (optional)</source>
-        <target state="needs-translation">Description (optional)</target>
+        <target state="final">Description (optionnel)</target>
         <note>views/templates/dialogs/dialog-error-report.html.twig:72</note>
       </trans-unit>
-      <trans-unit id="70570ccbf37717a289b3ac438d3cf0c4">
+      <trans-unit id="70570ccbf37717a289b3ac438d3cf0c4" approved="yes">
         <source>You can add details about the error here.</source>
-        <target state="needs-translation">You can add details about the error here.</target>
+        <target state="final">Vous pouvez ajouter des détails concernant l'erreur ici.</target>
         <note>views/templates/dialogs/dialog-error-report.html.twig:78</note>
       </trans-unit>
-      <trans-unit id="f685da009437ded5271e842075eaf743">
+      <trans-unit id="f685da009437ded5271e842075eaf743" approved="yes">
         <source>Send error report</source>
-        <target state="needs-translation">Send error report</target>
+        <target state="final">Envoyer un rapport d'erreur</target>
         <note>views/templates/components/form-open-error-report.html.twig:26</note>
       </trans-unit>
-      <trans-unit id="2b3196ae5bc51de9273f565ca1fb9fef">
+      <trans-unit id="2b3196ae5bc51de9273f565ca1fb9fef" approved="yes">
         <source>List of files missing</source>
-        <target state="needs-translation">List of files missing</target>
+        <target state="final">Liste des fichiers manquants</target>
         <note>views/templates/dialogs/dialog-tempered-files.html.twig:26</note>
       </trans-unit>
-      <trans-unit id="845d6ad834a73165f8da00625a00dd76">
+      <trans-unit id="845d6ad834a73165f8da00625a00dd76" approved="yes">
         <source>List of files changed</source>
-        <target state="needs-translation">List of files changed</target>
+        <target state="final">Liste des fichiers modifiés</target>
         <note>views/templates/dialogs/dialog-tempered-files.html.twig:34</note>
       </trans-unit>
       <trans-unit id="145fb1b6e329f327f5da09ba6843675b" approved="yes">
