@@ -18,6 +18,7 @@
  */
 import api from '../api/RequestHandler';
 import PageAbstract from './PageAbstract';
+import analytics from '../api/SegmentApi';
 
 export default class HomePage extends PageAbstract {
   constructor() {
@@ -37,6 +38,7 @@ export default class HomePage extends PageAbstract {
       this.checkForm();
       this.form.addEventListener('change', this.checkForm);
       this.form.addEventListener('submit', this.handleSubmit);
+      analytics.track('test');
     }
   };
 

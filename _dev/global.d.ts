@@ -26,6 +26,9 @@ interface AutoUpgradeVariables {
   module_version: string;
   php_version: string;
   anonymous_id: string;
+  ps_version: string;
+  bo_language: string;
+  bo_timezone: string;
 }
 
 declare global {
