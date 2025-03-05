@@ -18,6 +18,10 @@ RUN apt update \
 
 COPY --from=build /autoupgrade /autoupgrade
 
+WORKDIR /autoupgrade/_dev
+
+RUN npm install --omit=dev
+
 WORKDIR /autoupgrade/storybook
 
 RUN npm install
