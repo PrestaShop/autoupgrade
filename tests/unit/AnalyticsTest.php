@@ -81,7 +81,7 @@ class AnalyticsTest extends TestCase
         );
 
         $this->assertEquals([
-            'anonymousId' => '3cbc0821f904fd952a8526f17b9b92a8abde4b394a66c9171cf35c9beb2b4784',
+            'anonymousId' => 'somePathToAutoupgradeModule',
             'channel' => 'browser',
             'properties' => [
                     'ps_version' => '8.8.8',
@@ -94,7 +94,7 @@ class AnalyticsTest extends TestCase
         );
 
         $this->assertEquals([
-            'anonymousId' => '3cbc0821f904fd952a8526f17b9b92a8abde4b394a66c9171cf35c9beb2b4784',
+            'anonymousId' => 'somePathToAutoupgradeModule',
             'channel' => 'browser',
             'properties' => [
                     'ps_version' => '8.8.8',
@@ -116,7 +116,7 @@ class AnalyticsTest extends TestCase
         );
 
         $this->assertEquals([
-            'anonymousId' => '3cbc0821f904fd952a8526f17b9b92a8abde4b394a66c9171cf35c9beb2b4784',
+            'anonymousId' => 'somePathToAutoupgradeModule',
             'channel' => 'browser',
             'properties' => [
                 'ps_version' => '8.8.8',
@@ -131,7 +131,7 @@ class AnalyticsTest extends TestCase
         );
 
         $this->assertEquals([
-            'anonymousId' => '3cbc0821f904fd952a8526f17b9b92a8abde4b394a66c9171cf35c9beb2b4784',
+            'anonymousId' => 'somePathToAutoupgradeModule',
             'channel' => 'browser',
             'properties' => [
                     'ps_version' => '8.8.8',
