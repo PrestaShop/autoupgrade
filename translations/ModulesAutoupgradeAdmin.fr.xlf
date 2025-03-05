@@ -1385,9 +1385,9 @@
         <target state="needs-translation">Welcome to PrestaShop Update Assistant</target>
         <note>views/templates/steps/home.html.twig:24</note>
       </trans-unit>
-      <trans-unit id="6489bc9acc7ee9689e7cf4c070f4c8ea">
+      <trans-unit id="6489bc9acc7ee9689e7cf4c070f4c8ea" approved="yes">
         <source>Update your store</source>
-        <target state="needs-translation">Update your store</target>
+        <target state="final">Mettre à jour votre boutique</target>
         <note>views/templates/steps/home.html.twig:31</note>
       </trans-unit>
       <trans-unit id="7be24346a73074d40af62a38b9adb2b5">
@@ -1395,9 +1395,9 @@
         <target state="needs-translation">Update your store to benefit from the latest improvements, bug fixes and security patches.</target>
         <note>views/templates/steps/home.html.twig:32</note>
       </trans-unit>
-      <trans-unit id="9280c14cf57cc764c0b9fc65e64e9a9b">
+      <trans-unit id="9280c14cf57cc764c0b9fc65e64e9a9b" approved="yes">
         <source>Restore from a backup</source>
-        <target state="needs-translation">Restore from a backup</target>
+        <target state="final">Restaurer à partir d'une sauvegarde</target>
         <note>views/templates/steps/home.html.twig:40</note>
       </trans-unit>
       <trans-unit id="b4c0d851a41a50a0da7ccc10062d178a">
@@ -1470,14 +1470,14 @@
         <target state="needs-translation">All the modules installed after creating your store are considered non-native modules. They might be incompatible with the new version of PrestaShop. We recommend deactivating them during the update.</target>
         <note>views/templates/steps/update-options.html.twig:40</note>
       </trans-unit>
-      <trans-unit id="81b6978502363841a3bf10daba2245a0">
+      <trans-unit id="81b6978502363841a3bf10daba2245a0" approved="yes">
         <source>Regenerate email templates</source>
-        <target state="needs-translation">Regenerate email templates</target>
+        <target state="final">Régénérer les templates d'e-mails</target>
         <note>views/templates/steps/update-options.html.twig:48</note>
       </trans-unit>
-      <trans-unit id="fa7822529883d315d967479ca1b03086">
+      <trans-unit id="fa7822529883d315d967479ca1b03086" approved="yes">
         <source>If you've customized email templates, your changes will be lost if you activate this option.</source>
-        <target state="needs-translation">If you've customized email templates, your changes will be lost if you activate this option.</target>
+        <target state="final">Si vous avez personnalisé des templates d'e-mails, vos modifications seront perdues si vous activez cette option.</target>
         <note>views/templates/steps/update-options.html.twig:49</note>
       </trans-unit>
       <trans-unit id="03a9e6840847f96325b7184d5f3c2769" approved="yes">
