@@ -1584,9 +1584,9 @@
         <target state="final">Poslat chybové hlášení?</target>
         <note>views/templates/dialogs/dialog-error-report.html.twig:22</note>
       </trans-unit>
-      <trans-unit id="b283581d613b9844810fbd3721f5747f" approved="yes">
-        <source>Help us improve the module by sending us this error report. For your information, the logs will be attached with your message. You can add more details in the description if you wish</source>
-        <target state="final">Pomozte nám vylepšit modul zasláním tohoto chybového hlášení. Protokoly budou připojeny k vaší zprávě. Pokud chcete, můžete v popisu přidat další podrobnosti</target>
+      <trans-unit id="65da25f3a4f8c1e4a90a26894f0a7928" approved="yes">
+        <source>Help us improve the module by sending us this error report. For your information, the logs will be attached with your message. You can add more details in the description if you wish.</source>
+        <target state="final">Pomozte nám vylepšit modul zasláním tohoto chybového hlášení. Protokoly budou připojeny k vaší zprávě. Pokud chcete, můžete v popisu přidat další podrobnosti.</target>
         <note>views/templates/dialogs/dialog-error-report.html.twig:28</note>
       </trans-unit>
       <trans-unit id="e3c2f912efa622f6e06c414660d40034" approved="yes">
