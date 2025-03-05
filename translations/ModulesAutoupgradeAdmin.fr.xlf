@@ -1385,9 +1385,9 @@
         <target state="needs-translation">Welcome to PrestaShop Update Assistant</target>
         <note>views/templates/steps/home.html.twig:24</note>
       </trans-unit>
-      <trans-unit id="6489bc9acc7ee9689e7cf4c070f4c8ea">
+      <trans-unit id="6489bc9acc7ee9689e7cf4c070f4c8ea" approved="yes">
         <source>Update your store</source>
-        <target state="needs-translation">Update your store</target>
+        <target state="final">Mettre à jour votre boutique</target>
         <note>views/templates/steps/home.html.twig:31</note>
       </trans-unit>
       <trans-unit id="7be24346a73074d40af62a38b9adb2b5">
@@ -1395,9 +1395,9 @@
         <target state="needs-translation">Update your store to benefit from the latest improvements, bug fixes and security patches.</target>
         <note>views/templates/steps/home.html.twig:32</note>
       </trans-unit>
-      <trans-unit id="9280c14cf57cc764c0b9fc65e64e9a9b">
+      <trans-unit id="9280c14cf57cc764c0b9fc65e64e9a9b" approved="yes">
         <source>Restore from a backup</source>
-        <target state="needs-translation">Restore from a backup</target>
+        <target state="final">Restaurer à partir d'une sauvegarde</target>
         <note>views/templates/steps/home.html.twig:40</note>
       </trans-unit>
       <trans-unit id="b4c0d851a41a50a0da7ccc10062d178a">
