@@ -38,7 +38,6 @@ export default class HomePage extends PageAbstract {
       this.checkForm();
       this.form.addEventListener('change', this.checkForm);
       this.form.addEventListener('submit', this.handleSubmit);
-      analytics.track('test');
     }
   };
 
