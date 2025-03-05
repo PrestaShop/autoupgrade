@@ -18,7 +18,6 @@
  */
 import api from '../api/RequestHandler';
 import PageAbstract from './PageAbstract';
-import analytics from '../api/SegmentApi';
 
 export default class HomePage extends PageAbstract {
   constructor() {
