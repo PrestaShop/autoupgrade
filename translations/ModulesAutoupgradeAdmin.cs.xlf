@@ -162,14 +162,14 @@
         <target state="final">Hodnota %s musí být boolean</target>
         <note>classes/Parameters/ConfigurationValidator.php:109</note>
       </trans-unit>
-      <trans-unit id="0067de0b699a1ff27fe4faa758932986">
+      <trans-unit id="0067de0b699a1ff27fe4faa758932986" approved="yes">
         <source>Invalid configuration, backup name is missing.</source>
-        <target state="needs-translation">Invalid configuration, backup name is missing.</target>
+        <target state="final">Neplatná konfigurace, chybí název zálohy.</target>
         <note>classes/Parameters/RestoreConfigurationValidator.php:82</note>
       </trans-unit>
-      <trans-unit id="2aa754c876879a7a9bb7a8f4273730f8">
+      <trans-unit id="2aa754c876879a7a9bb7a8f4273730f8" approved="yes">
         <source>Invalid configuration, backup %s doesn't exist.</source>
-        <target state="needs-translation">Invalid configuration, backup %s doesn't exist.</target>
+        <target state="final">Neplatná konfigurace, záloha %s neexistuje.</target>
         <note>classes/Parameters/RestoreConfigurationValidator.php:91</note>
       </trans-unit>
       <trans-unit id="80c25611ea9134bac1da1d91eb03544a" approved="yes">
@@ -222,9 +222,9 @@
         <target state="final">Stažení zdroje #%s se nezdařilo.</target>
         <note>classes/UpgradeTools/Module/ModuleDownloader.php:70</note>
       </trans-unit>
-      <trans-unit id="94afb77f327c3408fcc77d2e9e357298">
+      <trans-unit id="94afb77f327c3408fcc77d2e9e357298" approved="yes">
         <source>All download attempts have failed. The module %s has been disabled. You can try to update it manually afterwards.</source>
-        <target state="needs-translation">All download attempts have failed. The module %s has been disabled. You can try to update it manually afterwards.</target>
+        <target state="final">Žádný pokus o stažení se nezdařil. Modul %s byl zakázán. Můžete jej zkusit aktualizovat později ručně.</target>
         <note>classes/UpgradeTools/Module/ModuleDownloader.php:75</note>
       </trans-unit>
       <trans-unit id="88a8e935ad1b255eae2a4c490886b83a" approved="yes">
@@ -287,9 +287,9 @@
         <target state="final">Adresář "%s" neexistuje a nelze jej vyprázdnit.</target>
         <note>classes/UpgradeTools/CacheCleaner.php:71</note>
       </trans-unit>
-      <trans-unit id="72966a016e6dd03e2eab13287244dc1a">
+      <trans-unit id="72966a016e6dd03e2eab13287244dc1a" approved="yes">
         <source>Directory %s emptied</source>
-        <target state="needs-translation">Directory %s emptied</target>
+        <target state="final">Adresář %s vyprázdněn</target>
         <note>classes/UpgradeTools/CacheCleaner.php:75</note>
       </trans-unit>
       <trans-unit id="3188ac0ee6355c23c3b26c3b5e71f3dd" approved="yes">
@@ -402,14 +402,14 @@
         <target state="final">Migrační soubor: %s, Dotaz: %s</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:512</note>
       </trans-unit>
-      <trans-unit id="4541f052250eb4a4175730f1b2a9e556">
+      <trans-unit id="4541f052250eb4a4175730f1b2a9e556" approved="yes">
         <source>%s PHP - missing file %s</source>
-        <target state="needs-translation">%s PHP - missing file %s</target>
+        <target state="final">%s PHP - chybějící soubor %s</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:466</note>
       </trans-unit>
-      <trans-unit id="b413563efb053e11acb49c7a239004bb">
+      <trans-unit id="b413563efb053e11acb49c7a239004bb" approved="yes">
         <source>%s PHP - Object Method call is forbidden (%s)</source>
-        <target state="needs-translation">%s PHP - Object Method call is forbidden (%s)</target>
+        <target state="final">%s PHP - volání metody objektu je zakázáno (%s)</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:472</note>
       </trans-unit>
       <trans-unit id="bd996c5d2ed7b7ff38aef7377fc28b8a" approved="yes">
@@ -422,9 +422,9 @@
         <target state="final">Provedení dotazu se nezdařilo: %s, %s</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:507</note>
       </trans-unit>
-      <trans-unit id="fc1c5074f1d436f7827b3749ad05dc1d">
+      <trans-unit id="fc1c5074f1d436f7827b3749ad05dc1d" approved="yes">
         <source>The execution of the query failed: %s, %s. This error code can be safely ignored.</source>
-        <target state="needs-translation">The execution of the query failed: %s, %s. This error code can be safely ignored.</target>
+        <target state="final">Provedení dotazu selhalo: %s, %s. Tento chybový kód může být bezpečně ignorován.</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:511</note>
       </trans-unit>
       <trans-unit id="53983059bf39e1325bba11081ca40e97" approved="yes">
@@ -879,9 +879,9 @@
         <target state="final">Odeberte prosím %s pomocí FTP</target>
         <note>classes/Task/Update/UpdateComplete.php:97</note>
       </trans-unit>
-      <trans-unit id="1b24cc8e4bf3ac0babd1a96fbc83e369">
+      <trans-unit id="1b24cc8e4bf3ac0babd1a96fbc83e369" approved="yes">
         <source>The temporary directory of modules has been emptied</source>
-        <target state="needs-translation">The temporary directory of modules has been emptied</target>
+        <target state="final">Dočasná složka s moduly byla vyprázdněna</target>
         <note>classes/Task/Update/UpdateComplete.php:82</note>
       </trans-unit>
       <trans-unit id="d2b9f1e39aa8e96bb61f3a4bfe133f58" approved="yes">
@@ -1069,9 +1069,9 @@
         <target state="final">Již máte verzi %s.</target>
         <note>classes/Task/Update/UpdateDatabase.php:169</note>
       </trans-unit>
-      <trans-unit id="57d362fe2965e2071229eeaf44ae1f5b">
+      <trans-unit id="57d362fe2965e2071229eeaf44ae1f5b" approved="yes">
         <source>Temporary files directory has been emptied</source>
-        <target state="needs-translation">Temporary files directory has been emptied</target>
+        <target state="final">Složka s dočasnými soubory byla vyprázdněna</target>
         <note>classes/Task/Update/Unzip.php:60</note>
       </trans-unit>
       <trans-unit id="01d9d38b1d4d8eff5b530eeecfd3ccd5" approved="yes">
@@ -1714,9 +1714,9 @@
         <target state="final">Došlo k problému při zpracování odpovědi v aplikaci nebo prohlížeči.</target>
         <note>views/templates/pages/errors/generic.html.twig:68</note>
       </trans-unit>
-      <trans-unit id="2a0d9890111bde325bfe4d4cb48dc3b0">
+      <trans-unit id="2a0d9890111bde325bfe4d4cb48dc3b0" approved="yes">
         <source>An unknown error occurred. It was unexpected and may be caused by a temporary issue with the server.</source>
-        <target state="needs-translation">An unknown error occurred. It was unexpected and may be caused by a temporary issue with the server.</target>
+        <target state="final">Došlo k neznámé chybě. Byla neočekávaná a může být způsobena dočasným problémem se serverem.</target>
         <note>views/templates/pages/errors/generic.html.twig:81</note>
       </trans-unit>
       <trans-unit id="8a862ffce3e06bbe655506fd73fe017c" approved="yes">
