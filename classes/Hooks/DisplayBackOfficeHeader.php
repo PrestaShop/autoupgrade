@@ -133,7 +133,6 @@ class DisplayBackOfficeHeader
         if ((empty($employeeExists) || time() > $employeeExists[0]['timestamp']) && $this->updateIsAvailable()) {
             $this->content .= $this->container->getTwig()->render('@ModuleAutoUpgrade/hooks/external-layout.html.twig', $this->getParams());
         }
-
         return $this->content;
     }
 
@@ -175,7 +174,7 @@ class DisplayBackOfficeHeader
             $this->content .= $twig->render('@ModuleAutoUpgrade/module-script-tag.html.twig', ['module_type' => true, 'src' => $assetsBaseUrl . '/src/ts/appUpdateNotification/main.ts']);
         } else {
             $this->context->controller->addCSS($assetsBaseUrl . '/css/autoupgrade-notification.css');
-            $this->content .= $twig->render('@ModuleAutoUpgrade/module-script-tag.html.twig', ['src' => $assetsBaseUrl . '/js/autoupgrade-notification.js?version=' . $this->psVersion]);
+            $this->content .= $twig->render('@ModuleAutoUpgrade/module-script-tag.html.twig', ['module_type' => true, 'src' => $assetsBaseUrl . '/js/autoupgrade-notification.js?version=' . $this->psVersion]);
         }
     }
 
