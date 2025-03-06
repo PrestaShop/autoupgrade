@@ -637,7 +637,7 @@
       <trans-unit id="3f512c6c1dc3d4b9d2bf78bcc1c312a8">
         <source>Backup requested for deletion does not exist.</source>
         <target>Backup requested for deletion does not exist.</target>
-        <note>classes/Backup/BackupManager.php:47</note>
+        <note>classes/Backup/BackupManager.php:51</note>
       </trans-unit>
       <trans-unit id="ed88d11e6f590319e0be757ac6a6f399">
         <source>An error occurred while formatting the backup name.</source>
@@ -1072,27 +1072,27 @@
       <trans-unit id="57d362fe2965e2071229eeaf44ae1f5b">
         <source>Temporary files directory has been emptied</source>
         <target>Temporary files directory has been emptied</target>
-        <note>classes/Task/Update/Unzip.php:60</note>
+        <note>classes/Task/Update/Unzip.php:59</note>
       </trans-unit>
       <trans-unit id="01d9d38b1d4d8eff5b530eeecfd3ccd5">
         <source>Extraction directory %s is not writable.</source>
         <target>Extraction directory %s is not writable.</target>
-        <note>classes/Task/Update/Unzip.php:65</note>
+        <note>classes/Task/Update/Unzip.php:64</note>
       </trans-unit>
       <trans-unit id="69ae4bbd4b14ae388e4e3882945a542e">
         <source>Unable to extract %filepath% file into %destination% folder...</source>
         <target>Unable to extract %filepath% file into %destination% folder...</target>
-        <note>classes/Task/Update/Unzip.php:100</note>
+        <note>classes/Task/Update/Unzip.php:99</note>
       </trans-unit>
       <trans-unit id="5d3c14ccb814427455842b838bbd6f21">
         <source>No prestashop/ folder found in the ZIP file. Aborting.</source>
         <target>No prestashop/ folder found in the ZIP file. Aborting.</target>
-        <note>classes/Task/Update/Unzip.php:114</note>
+        <note>classes/Task/Update/Unzip.php:113</note>
       </trans-unit>
       <trans-unit id="c308874e9b5347709e9dc8bad11d8198">
         <source>File extraction complete. Now updating files...</source>
         <target>File extraction complete. Now updating files...</target>
-        <note>classes/Task/Update/Unzip.php:128</note>
+        <note>classes/Task/Update/Unzip.php:127</note>
       </trans-unit>
       <trans-unit id="78c6e760441165ec762746a0ab4b64cd">
         <source>Checking updates of module %module%...</source>
