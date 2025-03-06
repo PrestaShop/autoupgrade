@@ -402,9 +402,9 @@
         <target state="final">Fichier de migration : %s, Requête : %s</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:512</note>
       </trans-unit>
-      <trans-unit id="4541f052250eb4a4175730f1b2a9e556">
+      <trans-unit id="4541f052250eb4a4175730f1b2a9e556" approved="yes">
         <source>%s PHP - missing file %s</source>
-        <target state="needs-translation">%s PHP - missing file %s</target>
+        <target state="final">%s PHP - fichier manquant %s</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:466</note>
       </trans-unit>
       <trans-unit id="b413563efb053e11acb49c7a239004bb">
@@ -1725,9 +1725,9 @@
         <target state="final">Quelque chose s'est mal passé...</target>
         <note>views/templates/layouts/error.html.twig:33</note>
       </trans-unit>
-      <trans-unit id="9af7e43160937bd2ba87e3828a4f90a6">
+      <trans-unit id="9af7e43160937bd2ba87e3828a4f90a6" approved="yes">
         <source>Go back to Update assistant</source>
-        <target state="needs-translation">Go back to Update assistant</target>
+        <target state="final">Retourner sur l'Update Assistant</target>
         <note>views/templates/layouts/error.html.twig:46</note>
       </trans-unit>
       <trans-unit id="6adab6d3fdf92c448d60cf8824e4851c" approved="yes">
@@ -1755,19 +1755,19 @@
         <target state="needs-translation">The maximum version of PrestaShop to which you can upgrade your store, based on its PHP version.</target>
         <note>views/templates/components/radio-card-online.html.twig:25</note>
       </trans-unit>
-      <trans-unit id="b9d4e763594017af5b607eb9e0034299">
+      <trans-unit id="b9d4e763594017af5b607eb9e0034299" approved="yes">
         <source>PrestaShop %version%</source>
-        <target state="needs-translation">PrestaShop %version%</target>
+        <target state="final">PrestaShop %version%</target>
         <note>views/templates/components/radio-card-online.html.twig:32</note>
       </trans-unit>
-      <trans-unit id="1dc0b5d6a26b5b7488bbc222a96d9f52">
+      <trans-unit id="1dc0b5d6a26b5b7488bbc222a96d9f52" approved="yes">
         <source>Archive to use</source>
-        <target state="needs-translation">Archive to use</target>
+        <target state="final">Archive à utiliser</target>
         <note>views/templates/components/local-archive.html.twig:23</note>
       </trans-unit>
-      <trans-unit id="04f8084b8320ddd1d2ecd6b5e7513974">
+      <trans-unit id="04f8084b8320ddd1d2ecd6b5e7513974" approved="yes">
         <source>Select an archive</source>
-        <target state="needs-translation">Select an archive</target>
+        <target state="final">Sélectionner une archive</target>
         <note>views/templates/components/local-archive.html.twig:32</note>
       </trans-unit>
       <trans-unit id="647dca555edd0836cd8b882d91a22ecf" approved="yes">
@@ -1775,24 +1775,24 @@
         <target state="final">Fichier XML à utiliser </target>
         <note>views/templates/components/local-archive.html.twig:55</note>
       </trans-unit>
-      <trans-unit id="792744786ed30c5623dd1cf0c16f4ffe">
+      <trans-unit id="792744786ed30c5623dd1cf0c16f4ffe" approved="yes">
         <source>Select a file</source>
-        <target state="needs-translation">Select a file</target>
+        <target state="final">Sélectionner un fichier</target>
         <note>views/templates/components/local-archive.html.twig:64</note>
       </trans-unit>
-      <trans-unit id="965d52547523b6380bc716f5ed0ce570">
+      <trans-unit id="965d52547523b6380bc716f5ed0ce570" approved="yes">
         <source>No archive found in the following directory: /your-admin-directory/autoupgrade/download/</source>
-        <target state="needs-translation">No archive found in the following directory: /your-admin-directory/autoupgrade/download/</target>
+        <target state="final">Aucune archive trouvée dans le répertoire suivant : /your-admin-directory/autoupgrade/download/</target>
         <note>views/templates/components/local-archive.html.twig:98</note>
       </trans-unit>
-      <trans-unit id="c2efe4bbd13e6cb0db293e72884273c0">
+      <trans-unit id="c2efe4bbd13e6cb0db293e72884273c0" approved="yes">
         <source>Starting</source>
-        <target state="needs-translation">Starting</target>
+        <target state="final">Démarrage</target>
         <note>views/templates/components/logs-summary.html.twig:25</note>
       </trans-unit>
-      <trans-unit id="fd27020a39b44ef689eb32970c365045">
+      <trans-unit id="fd27020a39b44ef689eb32970c365045" approved="yes">
         <source>Release note</source>
-        <target state="needs-translation">Release note</target>
+        <target state="final">Release note</target>
         <note>views/templates/components/radio-card.html.twig:60</note>
       </trans-unit>
       <trans-unit id="d63d0e3addadd645300c8e4909c7e3b1">
@@ -1805,14 +1805,14 @@
         <target state="needs-translation">Update requirements</target>
         <note>views/templates/components/check-requirements.html.twig:22</note>
       </trans-unit>
-      <trans-unit id="c2be89ec4229ab7b25ab17f1f7caea13">
+      <trans-unit id="c2be89ec4229ab7b25ab17f1f7caea13" approved="yes">
         <source>Once all the following conditions are met, you can continue with the update. Read more in the [1]developer documentation[/1].</source>
-        <target state="needs-translation">Once all the following conditions are met, you can continue with the update. Read more in the [1]developer documentation[/1].</target>
+        <target state="final">Une fois que toutes les conditions suivantes sont remplies, vous pouvez poursuivre la mise à jour. Pour en savoir plus, consultez la [1]documentation destinée aux développeurs[/1].</target>
         <note>views/templates/components/check-requirements.html.twig:27</note>
       </trans-unit>
-      <trans-unit id="b40bb42243c77c74dee5c2743fb49e7f">
+      <trans-unit id="b40bb42243c77c74dee5c2743fb49e7f" approved="yes">
         <source>Please consider these warnings before continuing with the update. Read more in the [1]developer documentation[/1].</source>
-        <target state="needs-translation">Please consider these warnings before continuing with the update. Read more in the [1]developer documentation[/1].</target>
+        <target state="final">Veuillez tenir compte de ces avertissements avant de poursuivre la mise à jour. Pour en savoir plus, consultez la [1]documentation destinée aux développeurs[/1].</target>
         <note>views/templates/components/check-requirements.html.twig:32</note>
       </trans-unit>
       <trans-unit id="3758c107f9d68f5fb6d56486dab9f2d4">
@@ -1830,24 +1830,24 @@
         <target state="final">Politique de confidentialité</target>
         <note>views/templates/components/privacy.html.twig:24</note>
       </trans-unit>
-      <trans-unit id="12b7e9bd62f15c5f79030a36509eedf0">
+      <trans-unit id="12b7e9bd62f15c5f79030a36509eedf0" approved="yes">
         <source>Warning summary</source>
-        <target state="needs-translation">Warning summary</target>
+        <target state="final">Résumé des avertissements</target>
         <note>views/templates/components/logs-templates.html.twig:35</note>
       </trans-unit>
-      <trans-unit id="e3ee0344bd3867921755578619b2ba43">
+      <trans-unit id="e3ee0344bd3867921755578619b2ba43" approved="yes">
         <source>Error summary</source>
-        <target state="needs-translation">Error summary</target>
+        <target state="final">Résumé de(s) erreur(s)</target>
         <note>views/templates/components/logs-templates.html.twig:36</note>
       </trans-unit>
-      <trans-unit id="94c3bbd272ff645e73a18da13399cc63">
+      <trans-unit id="94c3bbd272ff645e73a18da13399cc63" approved="yes">
         <source>See warning</source>
-        <target state="needs-translation">See warning</target>
+        <target state="final">Voir l'avertissement</target>
         <note>views/templates/components/logs-templates.html.twig:39</note>
       </trans-unit>
-      <trans-unit id="bbed65cc1e1133fa10ca61cae4e636f9">
+      <trans-unit id="bbed65cc1e1133fa10ca61cae4e636f9" approved="yes">
         <source>See error</source>
-        <target state="needs-translation">See error</target>
+        <target state="final">Voir l'erreur</target>
         <note>views/templates/components/logs-templates.html.twig:42</note>
       </trans-unit>
       <trans-unit id="93cba07454f06a4a960172bbd6e2a435" approved="yes">
