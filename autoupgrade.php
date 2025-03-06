@@ -39,14 +39,6 @@ class Autoupgrade extends Module
 
         $this->multishop_context = Shop::CONTEXT_ALL;
 
-        if (!defined('_PS_ADMIN_DIR_')) {
-            if (defined('PS_ADMIN_DIR')) {
-                define('_PS_ADMIN_DIR_', PS_ADMIN_DIR);
-            } else {
-                $this->_errors[] = $this->trans('This version of PrestaShop cannot be upgraded: the PS_ADMIN_DIR constant is missing.');
-            }
-        }
-
         $this->displayName = $this->trans('Update assistant');
         $this->description = $this->trans('Upgrade to the latest version of PrestaShop in a few clicks, thanks to this automated method.');
 
