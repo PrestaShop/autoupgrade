@@ -22,6 +22,9 @@ import { maskSensitiveInfoInUrl } from '../utils/urlUtils';
 class Analytics {
   analytics: AnalyticsBrowser;
 
+  /**
+   * @description Initializes the Analytics class and loads the Segment analytics with the provided write key.
+   */
   public constructor() {
     this.analytics = AnalyticsBrowser.load(
       { writeKey: 'RM87m03McDSL4Fvm3GJ3piBPbAL3Fa2i' },
@@ -30,6 +33,12 @@ class Analytics {
     this.analytics.identify(window.AutoUpgradeVariables.anonymous_id);
   }
 
+  /**
+   * @public
+   * @param {string} event - The name of the event to track.
+   * @param {object} [properties] - Optional properties to include with the event.
+   * @description Tracks an event with optional properties.
+   */
   public track = (event: string, properties?: object) => {
     this.analytics.track(
       event,
@@ -44,7 +53,11 @@ class Analytics {
     );
   };
 
-  #getDefaultProperties = (): object => {
+  /**
+   * @returns {object} The default properties.
+   * @description Returns the default properties for tracking events.
+   */
+  readonly #getDefaultProperties = (): object => {
     return {
       module: 'autoupgrade',
       autoupgrade_version: window.AutoUpgradeVariables.module_version,
@@ -55,7 +68,11 @@ class Analytics {
     };
   };
 
-  #getMaskedPageData = (): object => {
+  /**
+   * @returns {object} The masked page data.$
+   * @description Returns the masked page data to avoid exposing sensitive information.
+   */
+  readonly #getMaskedPageData = (): object => {
     const adminDir = window.AutoUpgradeVariables.admin_dir;
     return {
       path: maskSensitiveInfoInUrl(window.location.pathname, adminDir),
