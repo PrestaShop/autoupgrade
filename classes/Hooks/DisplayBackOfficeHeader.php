@@ -130,7 +130,7 @@ class DisplayBackOfficeHeader
             return $employee['employeeID'] === $this->employeeId;
         });
 
-        if ((empty($employeeExists) || time() > $employeeExists[0]['timestamp']) && !empty($this->updateNotificationConfiguration->getVersion()) && version_compare($this->updateNotificationConfiguration->getVersion(), $this->psVersion, '>')) {
+        if ((empty($employeeExists) || time() > $employeeExists[0]['timestamp']) && $this->updateIsAvailable()) {
             $this->content .= $this->container->getTwig()->render('@ModuleAutoUpgrade/hooks/external-layout.html.twig', $this->getParams());
         }
 
@@ -210,6 +210,11 @@ class DisplayBackOfficeHeader
         }
 
         $this->updateNotificationService->saveUpdateNotificationConfiguration($this->updateNotificationConfiguration);
+    }
+
+    private function updateIsAvailable(): bool
+    {
+        return !empty($this->updateNotificationConfiguration->getVersion()) && version_compare($this->updateNotificationConfiguration->getVersion(), $this->psVersion, '>');
     }
 
     /**
