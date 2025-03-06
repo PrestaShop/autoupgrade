@@ -227,9 +227,9 @@
         <target state="final">Toutes les tentatives de téléchargement ont échoué. Le module %s a été désactivé. Vous pouvez essayer de le mettre à jour manuellement par la suite.</target>
         <note>classes/UpgradeTools/Module/ModuleDownloader.php:75</note>
       </trans-unit>
-      <trans-unit id="88a8e935ad1b255eae2a4c490886b83a">
+      <trans-unit id="88a8e935ad1b255eae2a4c490886b83a" approved="yes">
         <source><![CDATA[Module %s update files (%s => %s) have been fetched from %s.]]></source>
-        <target state="needs-translation"><![CDATA[Module %s update files (%s => %s) have been fetched from %s.]]></target>
+        <target state="final"><![CDATA[Les fichiers de mise à jour du module %s (%s => %s) ont été récupérés à partir de %s.]]></target>
         <note>classes/UpgradeTools/Module/ModuleDownloader.php:102</note>
       </trans-unit>
       <trans-unit id="83e483e14240bf9d88eff9fa253133ca" approved="yes">
@@ -262,14 +262,14 @@
         <target state="final">La migration a échoué lors de l'exécution du fichier %s. Le module %s est désactivé.</target>
         <note>classes/UpgradeTools/Module/ModuleMigration.php:114</note>
       </trans-unit>
-      <trans-unit id="f044ca443a1f50d889be336f90a355b7">
+      <trans-unit id="f044ca443a1f50d889be336f90a355b7" approved="yes">
         <source>Unexpected issue when trying to upgrade module %s. Module %s disabled.</source>
-        <target state="needs-translation">Unexpected issue when trying to upgrade module %s. Module %s disabled.</target>
+        <target state="final">Problème inattendu lors de la tentative de mise à jour du module %s. Module %s désactivé.</target>
         <note>classes/UpgradeTools/Module/ModuleMigration.php:121</note>
       </trans-unit>
-      <trans-unit id="84d66da5dc8362f2103d65efdb405865">
+      <trans-unit id="84d66da5dc8362f2103d65efdb405865" approved="yes">
         <source>Module %s version could not be updated. Database might be unavailable.</source>
-        <target state="needs-translation">Module %s version could not be updated. Database might be unavailable.</target>
+        <target state="final">La version du module %s n'a pas pu être mise à jour. La base de données n'est peut-être pas disponible.</target>
         <note>classes/UpgradeTools/Module/ModuleMigration.php:132</note>
       </trans-unit>
       <trans-unit id="094e7ea97940f72a1decb2dc4d79ebfd" approved="yes">
@@ -282,9 +282,9 @@
         <target state="final">La méthode %s n'existe pas. Le module %s est désactivé.</target>
         <note>classes/UpgradeTools/Module/ModuleMigration.php:166</note>
       </trans-unit>
-      <trans-unit id="d34ff4aaea46577cb23bcbd044592ebc">
+      <trans-unit id="d34ff4aaea46577cb23bcbd044592ebc" approved="yes">
         <source>Directory "%s" does not exist and cannot be emptied.</source>
-        <target state="needs-translation">Directory "%s" does not exist and cannot be emptied.</target>
+        <target state="final">Le répertoire «%s» n'existe pas et ne peut pas être vidé.</target>
         <note>classes/UpgradeTools/CacheCleaner.php:71</note>
       </trans-unit>
       <trans-unit id="72966a016e6dd03e2eab13287244dc1a" approved="yes">
@@ -297,14 +297,14 @@
         <target state="final">Le fichier %s n'existe pas, la fusion a été ignorée.</target>
         <note>classes/UpgradeTools/Translation.php:141</note>
       </trans-unit>
-      <trans-unit id="9e25d028554081cd5afb26eaf99dbd9e">
+      <trans-unit id="9e25d028554081cd5afb26eaf99dbd9e" approved="yes">
         <source>%variablename% variable missing in file %filename%. Merge skipped.</source>
-        <target state="needs-translation">%variablename% variable missing in file %filename%. Merge skipped.</target>
+        <target state="final">La variable %variablename% est manquante dans le fichier %filename%. Fusion ignorée.</target>
         <note>classes/UpgradeTools/Translation.php:129</note>
       </trans-unit>
-      <trans-unit id="688481c74263a37393118aff2b012987">
+      <trans-unit id="688481c74263a37393118aff2b012987" approved="yes">
         <source>%variablename% variable missing in file %filename%. File %filename% deleted and merge skipped.</source>
-        <target state="needs-translation">%variablename% variable missing in file %filename%. File %filename% deleted and merge skipped.</target>
+        <target state="final">La variable %variablename% est manquante dans le fichier %filename%. Fichier %filename% supprimé et fusion ignorée.</target>
         <note>classes/UpgradeTools/Translation.php:153</note>
       </trans-unit>
       <trans-unit id="4d46d96c1ea641735ee0c26c6381c75e" approved="yes">
@@ -407,9 +407,9 @@
         <target state="final">%s PHP - fichier manquant %s</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:466</note>
       </trans-unit>
-      <trans-unit id="b413563efb053e11acb49c7a239004bb">
+      <trans-unit id="b413563efb053e11acb49c7a239004bb" approved="yes">
         <source>%s PHP - Object Method call is forbidden (%s)</source>
-        <target state="needs-translation">%s PHP - Object Method call is forbidden (%s)</target>
+        <target state="final">%s PHP - L'appel de cette méthode objet est interdit (%s)</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:472</note>
       </trans-unit>
       <trans-unit id="bd996c5d2ed7b7ff38aef7377fc28b8a" approved="yes">
@@ -422,9 +422,9 @@
         <target state="final">L'exécution de la requête a échoué : %s, %s</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:507</note>
       </trans-unit>
-      <trans-unit id="fc1c5074f1d436f7827b3749ad05dc1d">
+      <trans-unit id="fc1c5074f1d436f7827b3749ad05dc1d" approved="yes">
         <source>The execution of the query failed: %s, %s. This error code can be safely ignored.</source>
-        <target state="needs-translation">The execution of the query failed: %s, %s. This error code can be safely ignored.</target>
+        <target state="final">L'exécution de la requête a échoué : %s, %s. Ce code d'erreur peut être ignoré en toute sécurité.</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:511</note>
       </trans-unit>
       <trans-unit id="53983059bf39e1325bba11081ca40e97" approved="yes">
@@ -1069,9 +1069,9 @@
         <target state="final">Vous êtes déjà en possession de la version %s</target>
         <note>classes/Task/Update/UpdateDatabase.php:169</note>
       </trans-unit>
-      <trans-unit id="57d362fe2965e2071229eeaf44ae1f5b">
+      <trans-unit id="57d362fe2965e2071229eeaf44ae1f5b" approved="yes">
         <source>Temporary files directory has been emptied</source>
-        <target state="needs-translation">Temporary files directory has been emptied</target>
+        <target state="final">Le répertoire des fichiers temporaires a été vidé</target>
         <note>classes/Task/Update/Unzip.php:60</note>
       </trans-unit>
       <trans-unit id="01d9d38b1d4d8eff5b530eeecfd3ccd5" approved="yes">
@@ -1235,14 +1235,14 @@
         <target state="final">Étapes suivantes</target>
         <note>views/templates/steps/post-update.html.twig:37</note>
       </trans-unit>
-      <trans-unit id="e6196201ba7431ba94d3bac5d6af97c8">
+      <trans-unit id="e6196201ba7431ba94d3bac5d6af97c8" approved="yes">
         <source>%startbold%Open the developer documentation%endbold% to keep this checklist at-hand.</source>
-        <target state="needs-translation">%startbold%Open the developer documentation%endbold% to keep this checklist at-hand.</target>
+        <target state="final">%startbold% Consultez la documentation développeur %endbold% pour garder cette liste de contrôle à portée de main.</target>
         <note>views/templates/steps/post-update.html.twig:42</note>
       </trans-unit>
-      <trans-unit id="289390be5b219643de2f47be7d8b9c53">
+      <trans-unit id="289390be5b219643de2f47be7d8b9c53" approved="yes">
         <source><![CDATA[%startbold%Disable the maintenance mode%endbold% in General settings > Maintenance.]]></source>
-        <target state="needs-translation"><![CDATA[%startbold%Disable the maintenance mode%endbold% in General settings > Maintenance.]]></target>
+        <target state="final"><![CDATA[%startbold% Désactivez le mode maintenance %endbold% dans Paramètres généraux > Maintenance.]]></target>
         <note>views/templates/steps/post-update.html.twig:60</note>
       </trans-unit>
       <trans-unit id="231cf4c70d866b616c21baddaeed0696" approved="yes">
@@ -1430,14 +1430,14 @@
         <target state="final">Avant de continuer vos tâches, veuillez consulter la checklist suivante pour vous assurer du bon fonctionnement de votre boutique suite aux mises à jour récentes.</target>
         <note>views/templates/steps/post-update.html.twig:31</note>
       </trans-unit>
-      <trans-unit id="8d964175f80bfdf13131bec74401ba00">
+      <trans-unit id="8d964175f80bfdf13131bec74401ba00" approved="yes">
         <source>%startbold%Re-enable and check your modules%endbold% one by one to prevent any compatibility issue.</source>
-        <target state="needs-translation">%startbold%Re-enable and check your modules%endbold% one by one to prevent any compatibility issue.</target>
+        <target state="final">%startbold% Réactivez et vérifiez vos modules %endbold% un par un pour éviter tout problème de compatibilité.</target>
         <note>views/templates/steps/post-update.html.twig:48</note>
       </trans-unit>
-      <trans-unit id="e02d13d319c57ef97c30eb990d857ba5">
+      <trans-unit id="e02d13d319c57ef97c30eb990d857ba5" approved="yes">
         <source>%startbold%Make sure your store's front office is working properly:%endbold% try to create an account, place an order, add a product, etc.</source>
-        <target state="needs-translation">%startbold%Make sure your store's front office is working properly:%endbold% try to create an account, place an order, add a product, etc.</target>
+        <target state="final">%startbold% Assurez-vous que le front-office de votre boutique fonctionne correctement : %endbold% essayez de créer un compte, de passer une commande, d'ajouter un produit, etc.</target>
         <note>views/templates/steps/post-update.html.twig:54</note>
       </trans-unit>
       <trans-unit id="605f8e6688fdd2a7616a3614d741202d" approved="yes">
@@ -1510,14 +1510,14 @@
         <target state="final">Supprimer la sauvegarde</target>
         <note>views/templates/dialogs/dialog-delete-backup.html.twig:21</note>
       </trans-unit>
-      <trans-unit id="41ee96bba9c1ea02aa9a3702024391a9">
+      <trans-unit id="41ee96bba9c1ea02aa9a3702024391a9" approved="yes">
         <source>You are about to delete the %backup_name% backup made on %backup_date%. As it's your only backup, you will be redirected to the module's home page.</source>
-        <target state="needs-translation">You are about to delete the %backup_name% backup made on %backup_date%. As it's your only backup, you will be redirected to the module's home page.</target>
+        <target state="final">Vous êtes sur le point de supprimer la sauvegarde %backup_name% effectuée le %backup_date%. Comme il s'agit de votre seule sauvegarde, vous serez redirigé vers la page d'accueil du module.</target>
         <note>views/templates/dialogs/dialog-delete-backup.html.twig:25</note>
       </trans-unit>
-      <trans-unit id="e732a5a0788d58831c86721e173482cc">
+      <trans-unit id="e732a5a0788d58831c86721e173482cc" approved="yes">
         <source>You are about to delete the %backup_name% backup made on %backup_date%.</source>
-        <target state="needs-translation">You are about to delete the %backup_name% backup made on %backup_date%.</target>
+        <target state="final">Vous êtes sur le point de supprimer la sauvegarde %backup_name% effectuée le %backup_date%.</target>
         <note>views/templates/dialogs/dialog-delete-backup.html.twig:26</note>
       </trans-unit>
       <trans-unit id="ea4788705e6873b424c65e91c2846b19" approved="yes">
@@ -1535,9 +1535,9 @@
         <target state="final">Restaurer à partir d'une sauvegarde ?</target>
         <note>views/templates/dialogs/dialog-restore-from-backup.html.twig:21</note>
       </trans-unit>
-      <trans-unit id="44e1fe4813ed848371c541e35e8422c3">
+      <trans-unit id="44e1fe4813ed848371c541e35e8422c3" approved="yes">
         <source>You are about to restore %backup_version% using the backup from %backup_date%.</source>
-        <target state="needs-translation">You are about to restore %backup_version% using the backup from %backup_date%.</target>
+        <target state="final">Vous êtes sur le point de restaurer %backup_version% en utilisant la sauvegarde de %backup_date%.</target>
         <note>views/templates/dialogs/dialog-restore-from-backup.html.twig:23</note>
       </trans-unit>
       <trans-unit id="a55151123e9668d00ca7edbfbaf34b49" approved="yes">
@@ -1740,19 +1740,19 @@
         <target state="final">Archive locale</target>
         <note>views/templates/components/radio-card-local.html.twig:24</note>
       </trans-unit>
-      <trans-unit id="18cbb933cdcd103c46947bd153117274">
+      <trans-unit id="18cbb933cdcd103c46947bd153117274" approved="yes">
         <source>Save the archive file of the version you want to update to in the following directory: /your-admin-directory/autoupgrade/download/</source>
-        <target state="needs-translation">Save the archive file of the version you want to update to in the following directory: /your-admin-directory/autoupgrade/download/</target>
+        <target state="final">Enregistrez l'archive de la version vers laquelle vous souhaitez mettre à jour votre boutique dans le répertoire suivant : /your-admin-directory/autoupgrade/download/</target>
         <note>views/templates/components/radio-card-local.html.twig:25</note>
       </trans-unit>
-      <trans-unit id="56242ca6bc44ac0537fb3ce8097ff0d9">
+      <trans-unit id="56242ca6bc44ac0537fb3ce8097ff0d9" approved="yes">
         <source>Progress is {progress_percentage}%</source>
-        <target state="needs-translation">Progress is {progress_percentage}%</target>
+        <target state="final">Progression de {progress_percentage}%</target>
         <note>views/templates/components/progress-bar.html.twig:22</note>
       </trans-unit>
-      <trans-unit id="00068df4be432f78c52f344b746857bb">
+      <trans-unit id="00068df4be432f78c52f344b746857bb" approved="yes">
         <source>The maximum version of PrestaShop to which you can upgrade your store, based on its PHP version.</source>
-        <target state="needs-translation">The maximum version of PrestaShop to which you can upgrade your store, based on its PHP version.</target>
+        <target state="final">La version maximale de PrestaShop vers laquelle vous pouvez mettre à jour votre boutique, en fonction de sa version PHP.</target>
         <note>views/templates/components/radio-card-online.html.twig:25</note>
       </trans-unit>
       <trans-unit id="b9d4e763594017af5b607eb9e0034299" approved="yes">
@@ -1795,14 +1795,14 @@
         <target state="final">Release note</target>
         <note>views/templates/components/radio-card.html.twig:60</note>
       </trans-unit>
-      <trans-unit id="d63d0e3addadd645300c8e4909c7e3b1">
+      <trans-unit id="d63d0e3addadd645300c8e4909c7e3b1" approved="yes">
         <source>Checking requirements...</source>
-        <target state="needs-translation">Checking requirements...</target>
+        <target state="final">Vérification des prérequis...</target>
         <note>views/templates/components/radio-card.html.twig:81</note>
       </trans-unit>
-      <trans-unit id="0db9e54978a2358b7bd40fa24cf224d4">
+      <trans-unit id="0db9e54978a2358b7bd40fa24cf224d4" approved="yes">
         <source>Update requirements</source>
-        <target state="needs-translation">Update requirements</target>
+        <target state="final">Mise à jour des prérequis</target>
         <note>views/templates/components/check-requirements.html.twig:22</note>
       </trans-unit>
       <trans-unit id="c2be89ec4229ab7b25ab17f1f7caea13" approved="yes">
@@ -1815,14 +1815,14 @@
         <target state="final">Veuillez tenir compte de ces avertissements avant de poursuivre la mise à jour. Pour en savoir plus, consultez la [1]documentation destinée aux développeurs[/1].</target>
         <note>views/templates/components/check-requirements.html.twig:32</note>
       </trans-unit>
-      <trans-unit id="3758c107f9d68f5fb6d56486dab9f2d4">
+      <trans-unit id="3758c107f9d68f5fb6d56486dab9f2d4" approved="yes">
         <source>Check requirements again</source>
-        <target state="needs-translation">Check requirements again</target>
+        <target state="final">Nouvelle vérification des prérequis</target>
         <note>views/templates/components/check-requirements.html.twig:60</note>
       </trans-unit>
-      <trans-unit id="e964dbbc34b653f925c68e27cd08141a">
+      <trans-unit id="e964dbbc34b653f925c68e27cd08141a" approved="yes">
         <source>The requirements check is complete, you can update your store to this version of PrestaShop.</source>
-        <target state="needs-translation">The requirements check is complete, you can update your store to this version of PrestaShop.</target>
+        <target state="final">La vérification des prérequis est terminée, vous pouvez mettre à jour votre boutique vers cette version de PrestaShop.</target>
         <note>views/templates/components/check-requirements.html.twig:67</note>
       </trans-unit>
       <trans-unit id="56c34c6410dd45c5cec44149ad0ce037" approved="yes">
