@@ -174,8 +174,8 @@ class DisplayBackOfficeHeader
             $this->context->controller->addCSS($assetsBaseUrl . '/src/scss/appUpdateNotification/main.scss');
             $this->content .= $twig->render('@ModuleAutoUpgrade/module-script-tag.html.twig', ['module_type' => true, 'src' => $assetsBaseUrl . '/src/ts/appUpdateNotification/main.ts']);
         } else {
-            $this->context->controller->addCSS($assetsBaseUrl . '/css/autoupgrade-.css');
-            $this->content .= $twig->render('@ModuleAutoUpgrade/module-script-tag.html.twig', ['src' => $assetsBaseUrl . '/js/autoupgrade.js?version=' . $this->psVersion]);
+            $this->context->controller->addCSS($assetsBaseUrl . '/css/autoupgrade-notification.css');
+            $this->content .= $twig->render('@ModuleAutoUpgrade/module-script-tag.html.twig', ['src' => $assetsBaseUrl . '/js/autoupgrade-notification.js?version=' . $this->psVersion]);
         }
     }
 
