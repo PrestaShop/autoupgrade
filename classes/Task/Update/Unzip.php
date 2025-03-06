@@ -22,7 +22,6 @@
 namespace PrestaShop\Module\AutoUpgrade\Task\Update;
 
 use Exception;
-use PrestaShop\Module\AutoUpgrade\Analytics;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\Task\TaskName;
@@ -126,8 +125,6 @@ class Unzip extends AbstractTask
 
         $this->next = TaskName::TASK_UPDATE_FILES;
         $this->logger->info($this->translator->trans('File extraction complete. Now updating files...'));
-
-        $this->container->getAnalytics()->track('Backup Launched', Analytics::WITH_BACKUP_PROPERTIES);
 
         $this->container->getFileSystem()->remove($newZip);
 

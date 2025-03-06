@@ -22,6 +22,7 @@
 namespace PrestaShop\Module\AutoUpgrade\Backup;
 
 use InvalidArgumentException;
+use PrestaShop\Module\AutoUpgrade\Analytics;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -31,11 +32,14 @@ class BackupManager
     private $translator;
     /** @var BackupFinder */
     private $backupFinder;
+    /** @var Analytics */
+    private $analytics;
 
-    public function __construct(Translator $translator, BackupFinder $backupFinder)
+    public function __construct(Translator $translator, BackupFinder $backupFinder, Analytics $analytics)
     {
         $this->translator = $translator;
         $this->backupFinder = $backupFinder;
+        $this->analytics = $analytics;
     }
 
     /**
@@ -54,5 +58,6 @@ class BackupManager
         ]);
 
         $this->backupFinder->resetBackupList();
+        $this->analytics->track('Backup Deleted');
     }
 }
