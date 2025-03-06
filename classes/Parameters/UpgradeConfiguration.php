@@ -215,6 +215,8 @@ class UpgradeConfiguration extends ArrayCollection
     }
 
     /**
+     * @deprecated
+     *
      * @return bool True if we have to set the native theme by default
      */
     public function shouldSwitchToDefaultTheme(): bool

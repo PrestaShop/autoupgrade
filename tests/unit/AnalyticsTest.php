@@ -107,7 +107,6 @@ class AnalyticsTest extends TestCase
                     'to_ps_version' => '8.8.808',
                     'upgrade_channel' => 'local',
                     'disable_non_native_modules' => false,
-                    'switch_to_default_theme' => true,
                     'regenerate_customized_email_templates' => true,
                     'regenerate_rtl_stylesheet' => false,
                 ],
