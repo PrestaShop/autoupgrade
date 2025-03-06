@@ -23,8 +23,10 @@ class Analytics {
   analytics: AnalyticsBrowser;
 
   public constructor() {
-    this.analytics = new AnalyticsBrowser();
-    this.analytics.load({ writeKey: 'RM87m03McDSL4Fvm3GJ3piBPbAL3Fa2i' });
+    this.analytics = AnalyticsBrowser.load(
+      { writeKey: 'RM87m03McDSL4Fvm3GJ3piBPbAL3Fa2i' },
+      { disableClientPersistence: true }
+    );
     this.analytics.identify(window.AutoUpgradeVariables.anonymous_id);
   }
 

@@ -312,7 +312,7 @@ class AdminSelfUpgradeController extends ModuleAdminController
             'php_version' => VersionUtils::getHumanReadableVersionOf(PHP_VERSION_ID),
             'anonymous_id' => $this->upgradeContainer->getProperty(UpgradeContainer::ANONYMOUS_USER_ID),
             'ps_version' => $this->upgradeContainer->getProperty(UpgradeContainer::PS_VERSION),
-            'bo_language' => \Context::getContext()->language->locale,
+            'bo_language' => $this->context->language->locale,
             'bo_timezone' => date_default_timezone_get(),
         ];
     }
