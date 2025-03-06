@@ -17,12 +17,15 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 import DomLifecycle from '../types/DomLifecycle';
+import AutoTracker from '../utils/AutoTracker';
+import analytics from '../api/SegmentApi';
 
 /**
  * @abstract
  * @description Base abstract class defining the structure for page components, requiring implementation of lifecycle methods for mounting and destruction.
  */
 export default abstract class PageAbstract implements DomLifecycle {
+  autoTracker: AutoTracker = new AutoTracker(document.body);
   /**
    * @abstract
    * @description Method to initialize and mount the page component. Should be implemented by subclasses to set up event listeners, render content, etc.
@@ -36,4 +39,9 @@ export default abstract class PageAbstract implements DomLifecycle {
    * @returns {void}
    */
   abstract beforeDestroy(): void;
+
+  initTracking(): void {
+    analytics.track('[SUE] Autoupgrade Unique Page Viewed');
+    this.autoTracker.mount();
+  }
 }
