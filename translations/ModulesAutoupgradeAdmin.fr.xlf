@@ -1275,9 +1275,9 @@
         <target state="final">La sauvegarde a échoué</target>
         <note>views/templates/steps/backup.html.twig:38</note>
       </trans-unit>
-      <trans-unit id="48fa328a70d6cbeb701e7f50ea26465f">
+      <trans-unit id="48fa328a70d6cbeb701e7f50ea26465f" approved="yes">
         <source>Please try again or perform a manual backup. In any case, ensure you have a backup before starting the update to avoid any data loss.</source>
-        <target state="needs-translation">Please try again or perform a manual backup. In any case, ensure you have a backup before starting the update to avoid any data loss.</target>
+        <target state="final">Veuillez réessayer ou effectuer une sauvegarde manuelle. Dans tous les cas, assurez-vous d'avoir une sauvegarde avant de lancer la mise à jour pour éviter toute perte de données.</target>
         <note>views/templates/steps/backup.html.twig:40</note>
       </trans-unit>
       <trans-unit id="6890c3f9a573b71dacdcaf6dbcf91bec" approved="yes">
@@ -1340,9 +1340,9 @@
         <target state="final">Déverrouillez la fonctionnalité de mise à jour locale et mettez à jour manuellement votre boutique vers votre distribution personnalisée en enregistrant l'archive et le fichier XML de la version PrestaShop dans le répertoire suivant sur votre serveur : %pathToLocalArchive%</target>
         <note>views/templates/steps/version-choice.html.twig:127</note>
       </trans-unit>
-      <trans-unit id="34b3f55bce0f37bcd82294fbc4702aad">
+      <trans-unit id="34b3f55bce0f37bcd82294fbc4702aad" approved="yes">
         <source>You are already using the latest PrestaShop version available but you can update to the version of your choice from a local archive.</source>
-        <target state="needs-translation">You are already using the latest PrestaShop version available but you can update to the version of your choice from a local archive.</target>
+        <target state="final">Vous utilisez déjà la dernière version de PrestaShop disponible, mais vous pouvez mettre à jour vers la version de votre choix à partir d'une archive locale.</target>
         <note>views/templates/steps/version-choice.html.twig:76</note>
       </trans-unit>
       <trans-unit id="8846fe014be5f3ecb8f82a4deea082cc" approved="yes">
@@ -1355,9 +1355,9 @@
         <target state="final">Sélectionner la version</target>
         <note>views/templates/steps/version-choice.html.twig:103</note>
       </trans-unit>
-      <trans-unit id="de8e4445ea5c918fe6c8e70eb7deb722">
+      <trans-unit id="de8e4445ea5c918fe6c8e70eb7deb722" approved="yes">
         <source>A more recent version of PrestaShop is available. You can also use a local archive.</source>
-        <target state="needs-translation">A more recent version of PrestaShop is available. You can also use a local archive.</target>
+        <target state="final">Une version plus récente de PrestaShop est disponible. Vous pouvez également utiliser une archive locale.</target>
         <note>views/templates/steps/version-choice.html.twig:108</note>
       </trans-unit>
       <trans-unit id="10ac3d04253ef7e1ddc73e6091c0cd55" approved="yes">
@@ -1380,9 +1380,9 @@
         <target state="final">Réessayer</target>
         <note>views/templates/steps/restore.html.twig:52</note>
       </trans-unit>
-      <trans-unit id="c940aa73d021ae9e13f265237b0e4f96">
+      <trans-unit id="c940aa73d021ae9e13f265237b0e4f96" approved="yes">
         <source>Welcome to PrestaShop Update Assistant</source>
-        <target state="needs-translation">Welcome to PrestaShop Update Assistant</target>
+        <target state="final">Bienvenue dans l'assistant de mise à jour de PrestaShop</target>
         <note>views/templates/steps/home.html.twig:24</note>
       </trans-unit>
       <trans-unit id="6489bc9acc7ee9689e7cf4c070f4c8ea" approved="yes">
@@ -1390,9 +1390,9 @@
         <target state="final">Mettre à jour votre boutique</target>
         <note>views/templates/steps/home.html.twig:31</note>
       </trans-unit>
-      <trans-unit id="7be24346a73074d40af62a38b9adb2b5">
+      <trans-unit id="7be24346a73074d40af62a38b9adb2b5" approved="yes">
         <source>Update your store to benefit from the latest improvements, bug fixes and security patches.</source>
-        <target state="needs-translation">Update your store to benefit from the latest improvements, bug fixes and security patches.</target>
+        <target state="final">Mettez à jour votre boutique pour profiter des dernières améliorations, corrections de bugs et correctifs de sécurité.</target>
         <note>views/templates/steps/home.html.twig:32</note>
       </trans-unit>
       <trans-unit id="9280c14cf57cc764c0b9fc65e64e9a9b" approved="yes">
@@ -1400,9 +1400,9 @@
         <target state="final">Restaurer à partir d'une sauvegarde</target>
         <note>views/templates/steps/home.html.twig:40</note>
       </trans-unit>
-      <trans-unit id="b4c0d851a41a50a0da7ccc10062d178a">
+      <trans-unit id="b4c0d851a41a50a0da7ccc10062d178a" approved="yes">
         <source>Use this feature if the update failed or if your store or a module is no longer working properly.</source>
-        <target state="needs-translation">Use this feature if the update failed or if your store or a module is no longer working properly.</target>
+        <target state="final">Utilisez cette fonctionnalité si la mise à jour a échoué ou si votre boutique ou un module ne fonctionne plus correctement.</target>
         <note>views/templates/steps/home.html.twig:41</note>
       </trans-unit>
       <trans-unit id="0fd677149c0fafac25862f5a04268ebf" approved="yes">
@@ -1455,9 +1455,9 @@
         <target state="final">Si vous ne pouvez pas accéder à votre back-office, essayez d'activer le mode debug manuellement dans config/defines.inc.php en définissant _PS_MODE_DEV_ sur true.</target>
         <note>views/templates/steps/post-update.html.twig:81</note>
       </trans-unit>
-      <trans-unit id="caef47f6ddf52575a8fe9e566b68dcd8">
+      <trans-unit id="caef47f6ddf52575a8fe9e566b68dcd8" approved="yes">
         <source>Select the backup you want to restore to</source>
-        <target state="needs-translation">Select the backup you want to restore to</target>
+        <target state="final">Sélectionnez la sauvegarde que vous souhaitez restaurer</target>
         <note>views/templates/components/render-backup-selection.html.twig:24</note>
       </trans-unit>
       <trans-unit id="754e7de2554f7664a9ccacff4791b8cc" approved="yes">
@@ -1465,9 +1465,9 @@
         <target state="final">Désactiver les modules non natifs</target>
         <note>views/templates/steps/update-options.html.twig:39</note>
       </trans-unit>
-      <trans-unit id="fab66f5eb74bc9e4bbba4898fa2254ed">
+      <trans-unit id="fab66f5eb74bc9e4bbba4898fa2254ed" approved="yes">
         <source>All the modules installed after creating your store are considered non-native modules. They might be incompatible with the new version of PrestaShop. We recommend deactivating them during the update.</source>
-        <target state="needs-translation">All the modules installed after creating your store are considered non-native modules. They might be incompatible with the new version of PrestaShop. We recommend deactivating them during the update.</target>
+        <target state="final">Tous les modules installés après la création de votre boutique sont considérés comme des modules non natifs. Ils peuvent être incompatibles avec la nouvelle version de PrestaShop. Nous vous recommandons de les désactiver lors de la mise à jour.</target>
         <note>views/templates/steps/update-options.html.twig:40</note>
       </trans-unit>
       <trans-unit id="81b6978502363841a3bf10daba2245a0" approved="yes">
@@ -1485,9 +1485,9 @@
         <target state="final">Désactiver toutes les surcharges</target>
         <note>views/templates/steps/update-options.html.twig:57</note>
       </trans-unit>
-      <trans-unit id="88ddcf190382d59544798dece18b890b">
+      <trans-unit id="88ddcf190382d59544798dece18b890b" approved="yes">
         <source><![CDATA[Overriding is a way to replace business behaviors (class files and controller files) to target only one method or as many as you need. This option disables all classes & controllers overrides, allowing you to avoid conflicts during and after updates.]]></source>
-        <target state="needs-translation"><![CDATA[Overriding is a way to replace business behaviors (class files and controller files) to target only one method or as many as you need. This option disables all classes & controllers overrides, allowing you to avoid conflicts during and after updates.]]></target>
+        <target state="final"><![CDATA[Les overrides permettent de remplacer les comportements métier (fichiers de classe et fichiers de contrôleur) pour cibler une seule méthode ou autant que nécessaire. Cette option désactive tous les remplacements de classes et de contrôleurs, ce qui vous permet d'éviter les conflits pendant et après les mises à jour.]]></target>
         <note>views/templates/steps/update-options.html.twig:58</note>
       </trans-unit>
       <trans-unit id="6d7d82d9c1d7f68064d14e673d53eb19" approved="yes">
@@ -1495,14 +1495,14 @@
         <target state="final">La mise à jour a échoué</target>
         <note>views/templates/steps/update.html.twig:32</note>
       </trans-unit>
-      <trans-unit id="332353244a1a1fb11835b6b06fc16da3">
+      <trans-unit id="332353244a1a1fb11835b6b06fc16da3" approved="yes">
         <source>Your store may not work properly anymore. Select the backup you want to use and restore it to avoid any data loss.</source>
-        <target state="needs-translation">Your store may not work properly anymore. Select the backup you want to use and restore it to avoid any data loss.</target>
+        <target state="final">Il est possible que votre boutique ne fonctionne plus correctement. Sélectionnez la sauvegarde que vous souhaitez utiliser et restaurez-la pour éviter toute perte de données.</target>
         <note>views/templates/steps/update.html.twig:34</note>
       </trans-unit>
-      <trans-unit id="e5648ebb64955fd371f7506445ec724d">
+      <trans-unit id="e5648ebb64955fd371f7506445ec724d" approved="yes">
         <source>You didn’t back up your store with the Update assistant module but you can restore using your own manual backup.</source>
-        <target state="needs-translation">You didn’t back up your store with the Update assistant module but you can restore using your own manual backup.</target>
+        <target state="final">Vous n'avez pas sauvegardé votre boutique avec le module Update Assistant, mais vous pouvez la restaurer à l'aide de votre propre sauvegarde manuelle.</target>
         <note>views/templates/steps/update.html.twig:35</note>
       </trans-unit>
       <trans-unit id="b6cf8e12bbbeee058067ebf8c8dda7e2" approved="yes">
@@ -1545,9 +1545,9 @@
         <target state="final">Démarrer la sauvegarde ?</target>
         <note>views/templates/dialogs/dialog-backup.html.twig:21</note>
       </trans-unit>
-      <trans-unit id="4de1325d17b745018ee0473aa24e40be">
+      <trans-unit id="4de1325d17b745018ee0473aa24e40be" approved="yes">
         <source>Your files, database, and images will be backed up.</source>
-        <target state="needs-translation">Your files, database, and images will be backed up.</target>
+        <target state="final">Vos fichiers, votre base de données et vos images seront sauvegardés.</target>
         <note>views/templates/dialogs/dialog-backup.html.twig:23</note>
       </trans-unit>
       <trans-unit id="c48b010e2f019b37cd748419f50a83c8" approved="yes">
@@ -1565,9 +1565,9 @@
         <target state="final">Démarrer la mise à jour ?</target>
         <note>views/templates/dialogs/dialog-update.html.twig:21</note>
       </trans-unit>
-      <trans-unit id="3d4d2d6f322e7a03fbe59ed1593215c8">
+      <trans-unit id="3d4d2d6f322e7a03fbe59ed1593215c8" approved="yes">
         <source>Before starting the update, make sure you have a complete and recent backup of your store (database, files, and images).</source>
-        <target state="needs-translation">Before starting the update, make sure you have a complete and recent backup of your store (database, files, and images).</target>
+        <target state="final">Avant de commencer la mise à jour, assurez-vous d'avoir une sauvegarde complète et récente de votre boutique (base de données, fichiers et images).</target>
         <note>views/templates/dialogs/dialog-update.html.twig:34</note>
       </trans-unit>
       <trans-unit id="4d7ff7fe82a3cec141ca2f2619b82794" approved="yes">
@@ -1585,14 +1585,14 @@
         <target state="final">Envoyer un rapport d'erreur ?</target>
         <note>views/templates/dialogs/dialog-error-report.html.twig:22</note>
       </trans-unit>
-      <trans-unit id="65da25f3a4f8c1e4a90a26894f0a7928">
+      <trans-unit id="65da25f3a4f8c1e4a90a26894f0a7928" approved="yes">
         <source>Help us improve the module by sending us this error report. For your information, the logs will be attached with your message. You can add more details in the description if you wish.</source>
-        <target state="needs-translation">Help us improve the module by sending us this error report. For your information, the logs will be attached with your message. You can add more details in the description if you wish.</target>
+        <target state="final">Aidez-nous à améliorer le module en nous envoyant ce rapport d'erreur. Pour information, les logs seront joints à votre message. Vous pouvez ajouter plus de détails dans la description si vous le souhaitez.</target>
         <note>views/templates/dialogs/dialog-error-report.html.twig:28</note>
       </trans-unit>
-      <trans-unit id="e3c2f912efa622f6e06c414660d40034">
+      <trans-unit id="e3c2f912efa622f6e06c414660d40034" approved="yes">
         <source>Learn more about your data and your rights</source>
-        <target state="needs-translation">Learn more about your data and your rights</target>
+        <target state="final">En savoir plus sur vos données et vos droits</target>
         <note>views/templates/dialogs/dialog-error-report.html.twig:34</note>
       </trans-unit>
       <trans-unit id="e20cbb947afcf84cf58de1358ee1068d" approved="yes">
@@ -1715,14 +1715,14 @@
         <target state="final">Il y a un problème lors du traitement de la réponse sur l'application ou le navigateur.</target>
         <note>views/templates/pages/errors/generic.html.twig:68</note>
       </trans-unit>
-      <trans-unit id="2a0d9890111bde325bfe4d4cb48dc3b0">
+      <trans-unit id="2a0d9890111bde325bfe4d4cb48dc3b0" approved="yes">
         <source>An unknown error occurred. It was unexpected and may be caused by a temporary issue with the server.</source>
-        <target state="needs-translation">An unknown error occurred. It was unexpected and may be caused by a temporary issue with the server.</target>
+        <target state="final">Une erreur inconnue s'est produite. Elle était inattendue et peut être causée par un problème temporaire avec le serveur.</target>
         <note>views/templates/pages/errors/generic.html.twig:81</note>
       </trans-unit>
-      <trans-unit id="8a862ffce3e06bbe655506fd73fe017c">
+      <trans-unit id="8a862ffce3e06bbe655506fd73fe017c" approved="yes">
         <source>Something went wrong...</source>
-        <target state="needs-translation">Something went wrong...</target>
+        <target state="final">Quelque chose s'est mal passé...</target>
         <note>views/templates/layouts/error.html.twig:33</note>
       </trans-unit>
       <trans-unit id="9af7e43160937bd2ba87e3828a4f90a6">
