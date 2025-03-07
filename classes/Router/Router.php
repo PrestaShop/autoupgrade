@@ -73,7 +73,7 @@ class Router
     {
         $newUrl = $this->upgradeContainer->getUrlGenerator()->getUrlToRoute($request, $route, ['_redirected' => '1']);
 
-        header('Location: ' . $newUrl, true, 302);
+        header('Location: ' . $newUrl, true, 307);
         exit;
     }
 }
