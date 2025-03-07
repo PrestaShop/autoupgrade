@@ -36,7 +36,8 @@ export const toApiResponseAction = (error: AxiosError): ApiResponseAction => ({
   nextParams: {
     progressPercentage: 0
   },
-  nextQuickInfo: [],
+  // Pick up & display details from the PHP ErrorHandler if provided
+  nextQuickInfo: (<ApiResponseAction>error.response?.data)?.nextQuickInfo || [],
   apiError: toApiError(error)
 });
 
