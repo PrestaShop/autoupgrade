@@ -121,8 +121,10 @@ describe('ErrorPageBuilder', () => {
 
   test('updateId should update the id of the error placeholder', () => {
     const referenceToDiv = errorElement.getElementById('ua_error_placeholder');
-    errorPageBuilder.updateId('404');
+    errorPageBuilder.updateId({ code: 404, type: 'ERR_BAD_RESPONSE' });
     expect(referenceToDiv!.id).toBe('ua_error_404');
+    expect(referenceToDiv!.dataset.error_code).toBe('404');
+    expect(referenceToDiv!.dataset.error_type).toBe('ERR_BAD_RESPONSE');
   });
 
   test('updateLeftColumn should update error code display with HTTP 404', () => {

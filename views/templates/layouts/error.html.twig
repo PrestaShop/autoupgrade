@@ -19,7 +19,7 @@
 {% extends "@ModuleAutoUpgrade/layouts/page.html.twig" %}
 
 {% block update_assistant %}
-  <div id="ua_error_{{ error_code }}" class="error-page">
+  <div id="ua_error_{{ error_code }}" class="error-page" {% if error_code %}data-error_code="{{ error_code }}"{% endif %}>
     <div class="error-page__container">
       {% block error_code %}
         <div class="error-page__code">

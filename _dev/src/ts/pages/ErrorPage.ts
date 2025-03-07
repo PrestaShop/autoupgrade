@@ -80,7 +80,7 @@ export default class ErrorPage extends PageAbstract {
     const errorElement = this.#errorTemplateElement.content.cloneNode(true) as DocumentFragment;
 
     const pageBuilder = new ErrorPageBuilder(errorElement);
-    pageBuilder.updateId(event.detail.type);
+    pageBuilder.updateId(event.detail);
     pageBuilder.updateLeftColumn(event.detail.code);
     pageBuilder.updateDescriptionBlock(event.detail);
     pageBuilder.updateResponseBlock(event.detail.additionalContents);
