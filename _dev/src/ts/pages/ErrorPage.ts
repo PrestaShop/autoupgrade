@@ -23,6 +23,7 @@ import { ApiError } from '../types/apiTypes';
 import { Severity } from '../types/logsTypes';
 import Hydration from '../utils/Hydration';
 import PageAbstract from './PageAbstract';
+import { analytics } from '../autoUpgrade';
 
 export default class ErrorPage extends PageAbstract {
   public static readonly templateId: string = 'error-page-template';
@@ -125,6 +126,7 @@ export default class ErrorPage extends PageAbstract {
     if (activeButtonElement) {
       activeButtonElement.classList.remove('hidden');
     }
+    this.#trackError();
   }
 
   get #form(): HTMLFormElement {
@@ -161,5 +163,13 @@ export default class ErrorPage extends PageAbstract {
       (event.target as HTMLFormElement).dataset.routeToSubmit!,
       new FormData(this.#form)
     );
+  };
+
+  readonly #trackError = () => {
+    const errorPage = document.querySelector('.error-page') as HTMLDivElement;
+    analytics.track('[SUE] Error displayed', {
+      error_code: errorPage?.dataset.errorCode,
+      error_type: errorPage?.dataset.errorType
+    });
   };
 }
