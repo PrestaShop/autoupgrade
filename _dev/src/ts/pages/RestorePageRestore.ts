@@ -39,7 +39,6 @@ export default class RestorePageRestore extends StepPage {
 
   public mount = (): void => {
     this.initStepper();
-    this.initTracking();
     this.#processContainer.mount();
   };
 
@@ -48,7 +47,6 @@ export default class RestorePageRestore extends StepPage {
 
     this.#tryAgainButtonForm?.removeEventListener('submit', this.#handleSubmit);
     this.#submitErrorReportForm?.removeEventListener('submit', this.#handleSubmit);
-    this.autoTracker.beforeDestroy();
   };
 
   #onError = (): void => {

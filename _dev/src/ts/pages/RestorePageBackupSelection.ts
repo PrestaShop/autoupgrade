@@ -30,13 +30,11 @@ export default class RestorePageBackupSelection extends StepPage {
     this.initStepper();
     this.#form.addEventListener('change', this.#saveForm.bind(this));
     this.#form.addEventListener('submit', this.#handleSubmit);
-    this.initTracking();
   };
 
   public beforeDestroy = () => {
     this.#form.removeEventListener('change', this.#saveForm.bind(this));
     this.#form.removeEventListener('submit', this.#handleSubmit);
-    this.autoTracker.beforeDestroy();
   };
 
   get #form(): HTMLFormElement {

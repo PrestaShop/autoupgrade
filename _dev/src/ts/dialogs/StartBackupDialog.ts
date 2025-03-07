@@ -18,7 +18,7 @@
  */
 import DialogAbstract from './DialogAbstract';
 import api from '../api/RequestHandler';
-import analytics from '../api/SegmentApi';
+import { analytics } from '../autoUpgrade';
 
 export default class StartBackupDialog extends DialogAbstract {
   protected readonly formId = 'form-confirm-backup';

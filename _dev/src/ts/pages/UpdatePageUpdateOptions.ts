@@ -18,14 +18,13 @@
  */
 import StepPage from './StepPage';
 import api from '../api/RequestHandler';
-import analytics from '../api/SegmentApi';
+import { analytics } from '../autoUpgrade';
 
 export default class UpdatePageUpdateOptions extends StepPage {
   protected stepCode = 'update-options';
 
   public mount() {
     this.initStepper();
-    this.initTracking();
     this.#form.addEventListener('submit', this.#onSubmit);
     this.#form.addEventListener('change', this.#onChange);
   }
@@ -37,7 +36,6 @@ export default class UpdatePageUpdateOptions extends StepPage {
     } catch {
       // Do Nothing, page is likely removed from the DOM already
     }
-    this.autoTracker.beforeDestroy();
   }
 
   get #form(): HTMLFormElement {

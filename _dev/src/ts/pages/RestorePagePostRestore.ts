@@ -27,10 +27,5 @@ export default class RestorePagePostRestore extends StepPage {
 
   public mount() {
     this.initStepper();
-    this.initTracking();
-  }
-
-  public beforeDestroy() {
-    this.autoTracker.beforeDestroy();
   }
 }

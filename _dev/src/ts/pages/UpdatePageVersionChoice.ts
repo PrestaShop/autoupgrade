@@ -18,7 +18,7 @@
  */
 import StepPage from './StepPage';
 import api from '../api/RequestHandler';
-import analytics from '../api/SegmentApi';
+import { analytics } from '../autoUpgrade';
 import Hydration from '../utils/Hydration';
 
 export default class UpdatePageVersionChoice extends StepPage {
@@ -31,7 +31,6 @@ export default class UpdatePageVersionChoice extends StepPage {
 
   public mount = () => {
     this.initStepper();
-    this.initTracking();
     if (!this.#form) return;
 
     this.#form.addEventListener('change', this.#saveForm.bind(this));
@@ -62,7 +61,6 @@ export default class UpdatePageVersionChoice extends StepPage {
       element.removeEventListener('click', this.#saveForm);
     });
     this.#requirementsListContainer?.removeEventListener('click', this.#onClickDialogLink);
-    this.autoTracker.beforeDestroy();
   };
 
   #sendForm = async (routeToSend: string) => {

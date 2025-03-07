@@ -23,10 +23,5 @@ export default class UpdatePagePostUpdate extends StepPage {
 
   public mount() {
     this.initStepper();
-    this.initTracking();
-  }
-
-  public beforeDestroy() {
-    this.autoTracker.beforeDestroy();
   }
 }

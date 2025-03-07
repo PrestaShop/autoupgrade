@@ -24,7 +24,6 @@ export default class UpdatePageBackupOptions extends StepPage {
 
   public mount(): void {
     this.initStepper();
-    this.initTracking();
     this.#updateForm.addEventListener('submit', this.#onFormSubmit);
     this.#backupForm.addEventListener('submit', this.#onFormSubmit);
     this.#backupForm.addEventListener('change', this.#onInputChange);
@@ -34,7 +33,6 @@ export default class UpdatePageBackupOptions extends StepPage {
     this.#updateForm.removeEventListener('submit', this.#onFormSubmit);
     this.#backupForm.removeEventListener('submit', this.#onFormSubmit);
     this.#backupForm.removeEventListener('change', this.#onInputChange);
-    this.autoTracker.beforeDestroy();
   }
 
   get #backupForm(): HTMLFormElement {

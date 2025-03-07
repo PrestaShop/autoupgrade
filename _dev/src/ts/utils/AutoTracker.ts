@@ -10,19 +10,26 @@ export default class AutoTracker implements DomLifecycle {
   }
 
   mount(): void {
-    const elementsToTrack: NodeListOf<HTMLElement> =
-      this.container.querySelectorAll('[data-au-tracking]');
-
-    elementsToTrack.forEach((element) => {
-      const listener = () => this.#trackElement(element);
-      element.addEventListener('click', listener);
-      this.listeners.set(element, listener);
-    });
+    this.scanElementsToTrack();
   }
 
   readonly #trackElement = (element: HTMLElement) => {
     const eventToSubmit = element.dataset.auTracking;
     analytics.track(`[SUE] ${eventToSubmit}`);
+  };
+
+  public readonly scanElementsToTrack = () => {
+    const elementsToTrack: NodeListOf<HTMLElement> =
+      this.container.querySelectorAll('[data-au-tracking]');
+
+    elementsToTrack.forEach((element) => {
+      if (!this.listeners.get(element)) {
+        const listener = () => this.#trackElement(element);
+
+        element.addEventListener('click', listener);
+        this.listeners.set(element, listener);
+      }
+    });
   };
 
   beforeDestroy(): void {

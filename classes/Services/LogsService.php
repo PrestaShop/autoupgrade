@@ -55,6 +55,7 @@ class LogsService
 
         return [
             'button_label' => $this->getDownloadLogsLabel($task),
+            'button_tracking_event' => $this->getDownloadLogsTrackingEvent($task),
             'download_path' => $logsPath,
             'filename' => basename($logsPath),
         ];
@@ -113,6 +114,21 @@ class LogsService
                 return $this->translator->trans('Download restore logs');
             case TaskType::TASK_TYPE_UPDATE:
                 return $this->translator->trans('Download update logs');
+        }
+    }
+
+    /**
+     * @param TaskType::TASK_TYPE_* $taskType
+     */
+    private function getDownloadLogsTrackingEvent(string $taskType): string
+    {
+        switch ($taskType) {
+            case TaskType::TASK_TYPE_BACKUP:
+                return 'Backup logs downloaded';
+            case TaskType::TASK_TYPE_RESTORE:
+                return 'Restore logs downloaded';
+            case TaskType::TASK_TYPE_UPDATE:
+                return 'Update logs downloaded';
         }
     }
 }
