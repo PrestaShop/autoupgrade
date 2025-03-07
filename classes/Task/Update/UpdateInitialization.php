@@ -43,7 +43,6 @@ class UpdateInitialization extends AbstractTask
      */
     public function run(): int
     {
-        throw new Exception('HO NO ! YOUR SHOP IS BROKEN =)');
         $this->logger->info($this->translator->trans('Starting update...'));
         $this->container->getFileStorage()->cleanAllUpdateFiles();
 
