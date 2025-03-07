@@ -17,6 +17,7 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 import api from '../api/RequestHandler';
+import analytics from '../api/SegmentApi';
 import PageAbstract from './PageAbstract';
 
 export default class HomePage extends PageAbstract {
@@ -38,6 +39,7 @@ export default class HomePage extends PageAbstract {
       this.form.addEventListener('change', this.checkForm);
       this.form.addEventListener('submit', this.handleSubmit);
     }
+    this.initTracking();
   };
 
   public beforeDestroy = () => {
@@ -45,6 +47,7 @@ export default class HomePage extends PageAbstract {
       this.form.removeEventListener('change', this.checkForm);
       this.form.removeEventListener('submit', this.handleSubmit);
     }
+    this.autoTracker.beforeDestroy();
   };
 
   private checkForm = () => {
@@ -64,6 +67,14 @@ export default class HomePage extends PageAbstract {
       this.submitButton?.setAttribute('inert', '');
 
       const formData = new FormData(this.form);
+
+      if (formData.get('route_choice') === 'update') {
+        analytics.track('[SUE] Update initiated');
+      }
+      if (formData.get('route_choice') === 'restore') {
+        analytics.track('[SUE] Restore initiated');
+      }
+
       await api.post(routeToSubmit, formData);
 
       this.submitButton?.classList.remove('btn--loading');

@@ -18,7 +18,6 @@
  */
 import DomLifecycle from '../types/DomLifecycle';
 import AutoTracker from '../utils/AutoTracker';
-import analytics from '../api/SegmentApi';
 
 /**
  * @abstract
@@ -41,7 +40,6 @@ export default abstract class PageAbstract implements DomLifecycle {
   abstract beforeDestroy(): void;
 
   initTracking(): void {
-    analytics.track('[SUE] Autoupgrade Unique Page Viewed');
     this.autoTracker.mount();
   }
 }

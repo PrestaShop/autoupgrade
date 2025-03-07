@@ -24,6 +24,9 @@
 >
   <button
     class="alert__link btn btn-{% if alertStatus is defined and alertStatus is not empty %}{{ alertStatus }}{% else %}info{% endif %}"
+    {% if buttonTrack is defined and buttonTrack is not empty %}
+      data-au-tracking="{{ buttonTrack }}"
+    {% endif %}
     type="submit"
   >
     {{ buttonLabel }}

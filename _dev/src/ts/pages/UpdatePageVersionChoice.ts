@@ -18,6 +18,7 @@
  */
 import StepPage from './StepPage';
 import api from '../api/RequestHandler';
+import analytics from '../api/SegmentApi';
 import Hydration from '../utils/Hydration';
 
 export default class UpdatePageVersionChoice extends StepPage {
@@ -30,6 +31,7 @@ export default class UpdatePageVersionChoice extends StepPage {
 
   public mount = () => {
     this.initStepper();
+    this.initTracking();
     if (!this.#form) return;
 
     this.#form.addEventListener('change', this.#saveForm.bind(this));
@@ -60,6 +62,7 @@ export default class UpdatePageVersionChoice extends StepPage {
       element.removeEventListener('click', this.#saveForm);
     });
     this.#requirementsListContainer?.removeEventListener('click', this.#onClickDialogLink);
+    this.autoTracker.beforeDestroy();
   };
 
   #sendForm = async (routeToSend: string) => {
@@ -144,6 +147,10 @@ export default class UpdatePageVersionChoice extends StepPage {
     if (!routeToSubmit) {
       throw new Error('No route to submit form provided. Impossible to submit form.');
     }
+
+    analytics.track('[SUE] Version choice submitted', {
+      upgrade_channel: this.#onlineInputIsChecked ? 'online' : 'local'
+    });
 
     await this.#sendForm(routeToSubmit);
   };

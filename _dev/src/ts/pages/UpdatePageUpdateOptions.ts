@@ -18,12 +18,14 @@
  */
 import StepPage from './StepPage';
 import api from '../api/RequestHandler';
+import analytics from '../api/SegmentApi';
 
 export default class UpdatePageUpdateOptions extends StepPage {
   protected stepCode = 'update-options';
 
   public mount() {
     this.initStepper();
+    this.initTracking();
     this.#form.addEventListener('submit', this.#onSubmit);
     this.#form.addEventListener('change', this.#onChange);
   }
@@ -35,6 +37,7 @@ export default class UpdatePageUpdateOptions extends StepPage {
     } catch {
       // Do Nothing, page is likely removed from the DOM already
     }
+    this.autoTracker.beforeDestroy();
   }
 
   get #form(): HTMLFormElement {
@@ -64,6 +67,14 @@ export default class UpdatePageUpdateOptions extends StepPage {
   readonly #onSubmit = async (event: Event) => {
     event.preventDefault();
 
-    await api.post(this.#form.dataset.routeToSubmit!, new FormData(this.#form));
+    const data = new FormData(this.#form);
+
+    analytics.track('[SUE] Update options configured', {
+      disable_all_overrides: Boolean(data.get('PS_DISABLE_OVERRIDES')),
+      disable_non_native_modules: Boolean(data.get('PS_AUTOUP_CUSTOM_MOD_DESACT')),
+      keep_customized_email_templates: Boolean(data.get('PS_AUTOUP_REGEN_EMAIL'))
+    });
+
+    await api.post(this.#form.dataset.routeToSubmit!, data);
   };
 }

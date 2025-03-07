@@ -19,14 +19,20 @@
 import DomLifecycle from '../types/DomLifecycle';
 import api from '../api/RequestHandler';
 import DialogContainer from '../components/DialogContainer';
+import AutoTracker from '../utils/AutoTracker';
 
 export default abstract class DialogAbstract implements DomLifecycle {
+  autoTracker: AutoTracker | null = null;
+
   public mount = (): void => {
+    this.autoTracker = new AutoTracker(this.form);
+    this.autoTracker.mount();
     this.form.addEventListener('submit', this.onSubmit);
   };
 
   public beforeDestroy = (): void => {
     this.form.removeEventListener('submit', this.onSubmit);
+    this.autoTracker?.beforeDestroy();
   };
 
   abstract get form(): HTMLFormElement;

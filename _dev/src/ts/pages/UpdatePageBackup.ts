@@ -41,7 +41,7 @@ export default class UpdatePageBackup extends StepPage {
 
   public mount = async () => {
     this.initStepper();
-
+    this.initTracking();
     this.#processContainer.mount();
   };
 
@@ -52,6 +52,7 @@ export default class UpdatePageBackup extends StepPage {
     this.#submitErrorReportForm?.removeEventListener('submit', this.#handleSubmit);
     this.#submitRetryForm?.removeEventListener('submit', this.#handleSubmit);
     this.#submitRetryAlert?.removeEventListener('submit', this.#handleSubmit);
+    this.autoTracker.beforeDestroy();
   };
 
   #onError = (): void => {

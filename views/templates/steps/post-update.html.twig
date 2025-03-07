@@ -85,7 +85,7 @@
 
     {% if download_logs is defined %}
     <div class="content__section">
-      <a class="link" href="{{ download_logs.download_path }}" download="{{ download_logs.filename }}">
+      <a class="link" href="{{ download_logs.download_path }}" download="{{ download_logs.filename }}" data-au-tracking="Update logs downloaded">
         {{ download_logs.button_label }}
         <i class="material-icons">file_upload</i>
       </a>
@@ -100,7 +100,7 @@
     {{ 'Exit'|trans({}) }}
   </a>
 
-  <a class="btn btn-lg btn-primary" type="button" href="{{ dev_doc_link }}" target="_blank">
+  <a class="btn btn-lg btn-primary" type="button" href="{{ dev_doc_link }}" target="_blank" data-au-tracking="Developer documentation clicked">
     <i class="material-icons">launch</i>
     {{ 'Open developer documentation'|trans({}) }}
   </a>

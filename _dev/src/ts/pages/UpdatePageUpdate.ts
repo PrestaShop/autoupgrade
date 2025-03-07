@@ -40,7 +40,7 @@ export default class UpdatePageUpdate extends StepPage {
 
   public mount = (): void => {
     this.initStepper();
-
+    this.initTracking();
     this.#processContainer.mount();
   };
 
@@ -50,6 +50,7 @@ export default class UpdatePageUpdate extends StepPage {
     this.#restoreAlertForm?.removeEventListener('submit', this.#handleSubmit);
     this.#restoreButtonForm?.removeEventListener('submit', this.#handleSubmit);
     this.#submitErrorReportForm?.removeEventListener('submit', this.#handleSubmit);
+    this.autoTracker.beforeDestroy();
   };
 
   #onError = (): void => {
