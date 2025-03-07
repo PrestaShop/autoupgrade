@@ -27,10 +27,13 @@ export default class ErrorPageBuilder {
   /**
    * Replace the id of the cloned element
    */
-  public updateId(type: ApiError['type']): void {
+  public updateId(errorDetails: Pick<ApiError, 'code' | 'type'>): void {
     const errorChild = this.errorElement.getElementById('ua_error_placeholder');
     if (errorChild) {
-      errorChild.id = `ua_error_${type}`;
+      errorChild.id = `ua_error_${isHttpErrorCode(errorDetails.code) ? errorDetails.code : errorDetails.type}`;
+
+      errorChild.dataset.error_code = errorDetails.code?.toString();
+      errorChild.dataset.error_type = errorDetails.type;
     }
   }
 
