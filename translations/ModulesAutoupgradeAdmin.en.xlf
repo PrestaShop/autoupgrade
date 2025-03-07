@@ -185,7 +185,7 @@
       <trans-unit id="8cd1c74d3c55f934c1b312fc65f9022f">
         <source>We couldn't find a PrestaShop version in the .zip file that was uploaded in your local archive. Please try again.</source>
         <target>We couldn't find a PrestaShop version in the .zip file that was uploaded in your local archive. Please try again.</target>
-        <note>classes/Task/Miscellaneous/UpdateConfig.php:96</note>
+        <note>classes/Task/Miscellaneous/UpdateConfig.php:102</note>
       </trans-unit>
       <trans-unit id="a9c58dc4da830f87b1f0cb9e2b6f8a1c">
         <source>We couldn't find a PrestaShop version in the XML file that was uploaded in your local archive. Please try again.</source>
@@ -744,20 +744,25 @@
         <target>Action %s skipped</target>
         <note>classes/Task/AbstractTask.php:152</note>
       </trans-unit>
+      <trans-unit id="1c041a27877f172964552beef6c228e6">
+        <source>Unknown configuration key '%s', Ignoring.</source>
+        <target>Unknown configuration key '%s', Ignoring.</target>
+        <note>classes/Task/Miscellaneous/UpdateConfig.php:58</note>
+      </trans-unit>
       <trans-unit id="d70699057bcd09b03129da2391b47d67">
         <source>Update process will use archive.</source>
         <target>Update process will use archive.</target>
-        <note>classes/Task/Miscellaneous/UpdateConfig.php:93</note>
+        <note>classes/Task/Miscellaneous/UpdateConfig.php:99</note>
       </trans-unit>
       <trans-unit id="1fe9dd96f646eaa0cd3a0fcc7632ce12">
         <source>Error on saving configuration</source>
         <target>Error on saving configuration</target>
-        <note>classes/Task/Miscellaneous/UpdateConfig.php:104</note>
+        <note>classes/Task/Miscellaneous/UpdateConfig.php:110</note>
       </trans-unit>
       <trans-unit id="f2ff9d001d0a553c78da73443e7fcd97">
         <source>Configuration successfully updated.</source>
         <target>Configuration successfully updated.</target>
-        <note>classes/Task/Miscellaneous/UpdateConfig.php:167</note>
+        <note>classes/Task/Miscellaneous/UpdateConfig.php:173</note>
       </trans-unit>
       <trans-unit id="6a5e5c0047907eaf8062e9933f0de8df">
         <source>%s: File format does not match.</source>
