@@ -47,7 +47,7 @@ class Router
         $routeName = $request->query->get('route') ?? Routes::HOME_PAGE;
         $redirected = $request->query->get('_redirected') === '1';
 
-        $route = isset(RoutesConfig::ROUTES[$routeName]) ? $routeName : Routes::ERROR_404;
+        $route = $routeName = isset(RoutesConfig::ROUTES[$routeName]) ? $routeName : Routes::ERROR_404;
 
         if (!$redirected) {
             $route = (new MiddlewareHandler($this->upgradeContainer))->process($route);
