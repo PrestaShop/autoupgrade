@@ -24,8 +24,8 @@ namespace PrestaShop\Module\AutoUpgrade\Services;
 use Exception;
 use PrestaShop\Module\AutoUpgrade\State\LogsState;
 use PrestaShop\Module\AutoUpgrade\Task\TaskType;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 use PrestaShop\Module\AutoUpgrade\Twig\Events;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 
 class LogsService
 {
