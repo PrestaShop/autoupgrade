@@ -17,12 +17,10 @@ INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`
 ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
 
 /* Default configuration for backorder, in order to keep behavior */
-INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES
-  ('PS_ENABLE_BACKORDER_STATUS', '1', NOW(), NOW());
+/* PHP:add_configuration_if_not_exists('PS_ENABLE_BACKORDER_STATUS', '1'); */;
 
 /* Keep sending e-mails with prefixed subject to avoid behaviour change */
-INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES
-  ('PS_MAIL_SUBJECT_PREFIX', '1', NOW(), NOW());
+/* PHP:add_configuration_if_not_exists('PS_MAIL_SUBJECT_PREFIX', '1'); */;
 
 /* Add new product_attribute_lang table and fill it with data */
 CREATE TABLE IF NOT EXISTS `PREFIX_product_attribute_lang` (
@@ -39,12 +37,10 @@ SELECT pa.id_product_attribute, l.id_lang, '', ''
 FROM `PREFIX_product_attribute` pa CROSS JOIN `PREFIX_lang` l;
 
 /* Add default redirect configuration */
-INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES
-  ('PS_PRODUCT_REDIRECTION_DEFAULT', '404', NOW(), NOW()),
-  ('PS_MAINTENANCE_ALLOW_ADMINS', 1, NOW(), NOW()),
-  ('PS_AVIF_QUALITY', '90', NOW(), NOW()),
-  ('PS_IMAGE_FORMAT', 'jpg', NOW(), NOW())
-;
+/* PHP:add_configuration_if_not_exists('PS_PRODUCT_REDIRECTION_DEFAULT', '404'); */;
+/* PHP:add_configuration_if_not_exists('PS_MAINTENANCE_ALLOW_ADMINS', '1'); */;
+/* PHP:add_configuration_if_not_exists('PS_AVIF_QUALITY', '90'); */;
+/* PHP:add_configuration_if_not_exists('PS_IMAGE_FORMAT', 'jpg'); */;
 
 /* Update ENUM values in both tables*/
 ALTER TABLE `PREFIX_product` MODIFY COLUMN `redirect_type` ENUM(

@@ -138,11 +138,9 @@ ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`descr
 
 /* PHP:add_column('employee', 'has_enabled_gravatar', 'TINYINT UNSIGNED DEFAULT 0 NOT NULL'); */;
 
-INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES
-    ('PS_COOKIE_SAMESITE', 'Lax', NOW(), NOW()),
-    ('PS_SHOW_LABEL_OOS_LISTING_PAGES', '1', NOW(), NOW()),
-    ('ADDONS_API_MODULE_CHANNEL', 'stable', NOW(), NOW())
-;
+/* PHP:add_configuration_if_not_exists('PS_COOKIE_SAMESITE', 'Lax'); */;
+/* PHP:add_configuration_if_not_exists('PS_SHOW_LABEL_OOS_LISTING_PAGES', '1'); */;
+/* PHP:add_configuration_if_not_exists('ADDONS_API_MODULE_CHANNEL', 'stable'); */;
 
 /* PHP:add_column('hook', 'active', 'TINYINT(1) UNSIGNED DEFAULT 1 NOT NULL AFTER `description`'); */;
 

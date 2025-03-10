@@ -3,13 +3,11 @@ SET NAMES 'utf8mb4';
 
 /* Add a file separator input to the sql manager settings - https://github.com/PrestaShop/PrestaShop/pull/35843 */
 /* Allow configuring maximum word difference - https://github.com/PrestaShop/PrestaShop/pull/37261 */
-INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES
-  ('PS_DEBUG_COOKIE_NAME', '', NOW(), NOW()),
-  ('PS_DEBUG_COOKIE_VALUE', '', NOW(), NOW()),
-  ('PS_SEPARATOR_FILE_MANAGER_SQL', ';', NOW(), NOW()),
-  ('PS_PRODUCT_BREADCRUMB_CATEGORY', 'default', NOW(), NOW()),
-  ('PS_SEARCH_FUZZY_MAX_DIFFERENCE', 5, NOW(), NOW())
-;
+/* PHP:add_configuration_if_not_exists('PS_DEBUG_COOKIE_NAME', ''); */;
+/* PHP:add_configuration_if_not_exists('PS_DEBUG_COOKIE_VALUE', ''); */;
+/* PHP:add_configuration_if_not_exists('PS_SEPARATOR_FILE_MANAGER_SQL', ';'); */;
+/* PHP:add_configuration_if_not_exists('PS_PRODUCT_BREADCRUMB_CATEGORY', 'default'); */;
+/* PHP:add_configuration_if_not_exists('PS_SEARCH_FUZZY_MAX_DIFFERENCE', 5); */;
 
 /* Enable controlling of default language URL prefix - https://github.com/PrestaShop/PrestaShop/pull/37236 */
 /* PHP:ps_900_set_url_lang_prefix(); */;
@@ -65,7 +63,7 @@ UPDATE `PREFIX_module_shop` SET `enable_device` = '7';
 
 /* Allow cover configuration */
 /* https://github.com/PrestaShop/PrestaShop/pull/33363 */
-INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES ('PS_USE_COMBINATION_IMAGE_IN_LISTING', '0', NOW(), NOW());
+/* PHP:add_configuration_if_not_exists('PS_USE_COMBINATION_IMAGE_IN_LISTING', '0'); */;
 
 /* Remove purpose of store */
 /* https://github.com/PrestaShop/PrestaShop/pull/33232 */
@@ -320,7 +318,7 @@ DELETE FROM `PREFIX_hook_module_exceptions` WHERE `id_hook` NOT IN (SELECT id_ho
 /* Feature value position */
 /* https://github.com/PrestaShop/PrestaShop/pull/37042 */
 /* PHP:add_column('feature_value', 'position', 'int(10) unsigned NOT NULL DEFAULT \'0\''); */;
-INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES ('PS_FEATURE_VALUES_ORDER', 'name', NOW(), NOW());
+/* PHP:add_configuration_if_not_exists('PS_FEATURE_VALUES_ORDER', 'name'); */;
 
 /* Upgrade attachment names length */
 /* https://github.com/PrestaShop/PrestaShop/pull/37598 */
