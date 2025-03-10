@@ -25,6 +25,7 @@ use Exception;
 use PrestaShop\Module\AutoUpgrade\State\LogsState;
 use PrestaShop\Module\AutoUpgrade\Task\TaskType;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
+use PrestaShop\Module\AutoUpgrade\Twig\Events;
 
 class LogsService
 {
@@ -124,11 +125,11 @@ class LogsService
     {
         switch ($taskType) {
             case TaskType::TASK_TYPE_BACKUP:
-                return 'Backup logs downloaded';
+                return Events::BACKUP_LOGS_DOWNLOADED;
             case TaskType::TASK_TYPE_RESTORE:
-                return 'Restore logs downloaded';
+                return Events::RESTORE_LOGS_DOWNLOADED;
             case TaskType::TASK_TYPE_UPDATE:
-                return 'Update logs downloaded';
+                return Events::UPDATE_LOGS_DOWNLOADED;
         }
     }
 }

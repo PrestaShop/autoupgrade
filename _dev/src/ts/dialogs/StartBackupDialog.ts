@@ -48,7 +48,7 @@ export default class StartBackupDialog extends DialogAbstract {
     await api.post(form.dataset.routeToSubmit!, new FormData(form));
 
     analytics.track('[SUE] Backup configured', {
-      backup_images: Boolean(dataOptions.get('PS_AUTOUP_KEEP_IMAGES'))
+      backup_images: !!dataOptions.get('PS_AUTOUP_KEEP_IMAGES')
     });
 
     this.dispatchDialogContainerOkEvent(event);

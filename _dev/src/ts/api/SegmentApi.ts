@@ -31,7 +31,7 @@ class Analytics {
       { disableClientPersistence: true }
     );
     this.analytics.identify(window.AutoUpgradeVariables.anonymous_id);
-    this.#autoTrack();
+    this.#setupAutoTrack();
   }
 
   /**
@@ -54,7 +54,7 @@ class Analytics {
     );
   };
 
-  readonly #autoTrack = () => {
+  readonly #setupAutoTrack = () => {
     document.addEventListener('click', (event) => {
       const element = (event.target as HTMLElement)?.closest('[data-au-tracking]') as HTMLElement;
 

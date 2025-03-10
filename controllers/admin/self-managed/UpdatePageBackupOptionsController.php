@@ -25,6 +25,7 @@ use PrestaShop\Module\AutoUpgrade\AjaxResponseBuilder;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Router\Routes;
 use PrestaShop\Module\AutoUpgrade\Task\TaskType;
+use PrestaShop\Module\AutoUpgrade\Twig\Events;
 use PrestaShop\Module\AutoUpgrade\Twig\PageSelectors;
 use PrestaShop\Module\AutoUpgrade\Twig\Steps\Stepper;
 use PrestaShop\Module\AutoUpgrade\Twig\Steps\UpdateSteps;
@@ -131,6 +132,7 @@ class UpdatePageBackupOptionsController extends AbstractPageWithStepController
                 'backup_completed' => $this->upgradeContainer->getUpdateConfiguration()->isBackupCompleted(),
                 'download_path' => $logsPath,
                 'filename' => basename($logsPath),
+                'tracking_event' => Events::BACKUP_LOGS_DOWNLOADED,
 
                 'form_route_to_save' => Routes::UPDATE_STEP_BACKUP_SAVE_OPTION,
                 'form_route_to_submit_backup' => Routes::UPDATE_STEP_BACKUP_SUBMIT_BACKUP,
