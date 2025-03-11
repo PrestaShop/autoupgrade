@@ -61,7 +61,7 @@ jobs:
 
       - name: Install dependencies in UI tests directory
         working-directory: tests/UI
-        run: pnpm install
+        run: npm install -g pnpm && pnpm install --recursive --no-optional
 
       - name: Check TypeScript errors
         working-directory: tests/UI
