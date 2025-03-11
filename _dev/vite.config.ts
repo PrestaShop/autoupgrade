@@ -20,6 +20,7 @@ import { defineConfig } from 'vite';
 import { resolve } from 'path';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 import del from 'rollup-plugin-delete';
+import pkg from './package.json' assert { type: 'json' };
 
 export default defineConfig({
   base: './',
@@ -45,7 +46,8 @@ export default defineConfig({
             chunkInfo.facadeModuleId?.endsWith('.ts') ||
             chunkInfo.facadeModuleId?.endsWith('.js')
           ) {
-            return 'js/autoupgrade.js';
+            const moduleVersion = pkg.version;
+            return `js/autoupgrade.v${moduleVersion}.js`;
           }
           return 'js/[name].js';
         },
