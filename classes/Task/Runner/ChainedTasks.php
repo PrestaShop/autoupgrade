@@ -24,7 +24,6 @@ namespace PrestaShop\Module\AutoUpgrade\Task\Runner;
 use Exception;
 use PrestaShop\Module\AutoUpgrade\AjaxResponse;
 use PrestaShop\Module\AutoUpgrade\Database\DbWrapper;
-use PrestaShop\Module\AutoUpgrade\Exceptions\UpdateDatabaseException;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\TaskName;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\TaskRepository;
@@ -118,10 +117,10 @@ abstract class ChainedTasks extends AbstractTask
 
         if (in_array($this->step, $initializationSteps)) {
             if (php_sapi_name() !== 'cli') {
-                $this->container->initPrestaShopCore();
                 try {
+                    $this->container->initPrestaShopCore();
                     $timeZone = DbWrapper::getValue('SELECT `value` FROM `' . _DB_PREFIX_ . 'configuration` WHERE `name` = \'PS_TIMEZONE\'');
-                } catch (UpdateDatabaseException $e) {
+                } catch (Throwable $t) {
                     $timeZone = date_default_timezone_get();
                 }
                 $logsState->setTimeZone($timeZone);
