@@ -18,6 +18,7 @@
  */
 import StepPage from './StepPage';
 import api from '../api/RequestHandler';
+import { analytics } from '../main';
 import Hydration from '../utils/Hydration';
 
 export default class UpdatePageVersionChoice extends StepPage {
@@ -144,6 +145,10 @@ export default class UpdatePageVersionChoice extends StepPage {
     if (!routeToSubmit) {
       throw new Error('No route to submit form provided. Impossible to submit form.');
     }
+
+    analytics.track('[SUE] Version choice submitted', {
+      upgrade_channel: this.#onlineInputIsChecked ? 'online' : 'local'
+    });
 
     await this.#sendForm(routeToSubmit);
   };

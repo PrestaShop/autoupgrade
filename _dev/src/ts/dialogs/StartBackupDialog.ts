@@ -17,6 +17,8 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 import DialogAbstract from './DialogAbstract';
+import api from '../api/RequestHandler';
+import { analytics } from '../main';
 
 export default class StartBackupDialog extends DialogAbstract {
   protected readonly formId = 'form-confirm-backup';
@@ -35,4 +37,20 @@ export default class StartBackupDialog extends DialogAbstract {
 
     return form;
   }
+
+  protected onSubmit = async (event: SubmitEvent): Promise<void> => {
+    event.preventDefault();
+
+    const form = event.target as HTMLFormElement;
+
+    const dataOptions = new FormData(document.forms.namedItem('update-backup-page-form')!);
+
+    await api.post(form.dataset.routeToSubmit!, new FormData(form));
+
+    analytics.track('[SUE] Backup configured', {
+      backup_images: !!dataOptions.get('PS_AUTOUP_KEEP_IMAGES')
+    });
+
+    this.dispatchDialogContainerOkEvent(event);
+  };
 }

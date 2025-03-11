@@ -41,8 +41,7 @@ export default class UpdatePageBackup extends StepPage {
 
   public mount = async () => {
     this.initStepper();
-
-    this.#processContainer.mount();
+    await this.#processContainer.mount();
   };
 
   public beforeDestroy = (): void => {

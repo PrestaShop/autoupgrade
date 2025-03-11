@@ -17,7 +17,7 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 import { ApiError, ApiResponseHydration } from '../types/apiTypes';
-import { dialogContainer, routeHandler, scriptHandler } from '../autoUpgrade';
+import { dialogContainer, routeHandler, scriptHandler } from '../main';
 import { ScriptType } from '../types/scriptHandlerTypes';
 import ErrorPage from '../pages/ErrorPage';
 

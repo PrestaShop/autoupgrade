@@ -1,3 +1,4 @@
+<?php
 /**
  * Copyright since 2007 PrestaShop SA and Contributors
  * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
@@ -16,13 +17,12 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
-import DialogContainer from './components/DialogContainer';
-import RouteHandler from './routing/RouteHandler';
-import ScriptHandler from './routing/ScriptHandler';
 
-export const routeHandler = new RouteHandler();
+namespace PrestaShop\Module\AutoUpgrade\Twig;
 
-export const dialogContainer = new DialogContainer();
-export const scriptHandler = new ScriptHandler();
-
-export default { routeHandler, scriptHandler, dialogContainer };
+class Events
+{
+    public const BACKUP_LOGS_DOWNLOADED = 'Backup logs downloaded';
+    public const RESTORE_LOGS_DOWNLOADED = 'Restore logs downloaded';
+    public const UPDATE_LOGS_DOWNLOADED = 'Update logs downloaded';
+}

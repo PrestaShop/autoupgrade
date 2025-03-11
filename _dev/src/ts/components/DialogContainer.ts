@@ -18,7 +18,7 @@
  */
 import DomLifecycle from '../types/DomLifecycle';
 import Hydration from '../utils/Hydration';
-import { scriptHandler } from '../autoUpgrade';
+import { scriptHandler } from '../main';
 import { ScriptType } from '../types/scriptHandlerTypes';
 
 export default class DialogContainer implements DomLifecycle {

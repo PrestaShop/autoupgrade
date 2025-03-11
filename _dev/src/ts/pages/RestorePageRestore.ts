@@ -39,7 +39,6 @@ export default class RestorePageRestore extends StepPage {
 
   public mount = (): void => {
     this.initStepper();
-
     this.#processContainer.mount();
   };
 

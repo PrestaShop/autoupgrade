@@ -21,6 +21,31 @@ import { resolve } from 'path';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 import del from 'rollup-plugin-delete';
 
+function segmentIdsToChunks(id: string): string | null {
+  const nodules = 'node_modules';
+
+  if (id.includes(nodules)) {
+    let parts = id.split(nodules);
+    let modulePath = parts[1];
+    // Remove the initial / if present
+    if (modulePath.startsWith('/')) {
+      modulePath = modulePath.slice(1);
+    }
+
+    // Split the rest by "/"
+    // so you get @segment, analytics-core, dist, esm, analytics, dispatch.js
+    let moduleParts = modulePath.split('/');
+
+    // Create one chunk per Segment library
+    if (moduleParts.length > 0 && moduleParts[0] === '@segment') {
+      return `segment-${moduleParts[1]}`;
+    }
+  }
+
+  // Keep original chunking
+  return null;
+}
+
 export default defineConfig({
   base: './',
   css: {
@@ -45,10 +70,11 @@ export default defineConfig({
             chunkInfo.facadeModuleId?.endsWith('.ts') ||
             chunkInfo.facadeModuleId?.endsWith('.js')
           ) {
-            return 'js/autoupgrade.js';
+            return `js/autoupgrade.js`;
           }
           return 'js/[name].js';
         },
+        manualChunks: segmentIdsToChunks,
         assetFileNames: (assetInfo) => {
           const assetName = assetInfo.name || '';
 

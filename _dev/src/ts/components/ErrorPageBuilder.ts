@@ -32,8 +32,8 @@ export default class ErrorPageBuilder {
     if (errorChild) {
       errorChild.id = `ua_error_${isHttpErrorCode(errorDetails.code) ? errorDetails.code : errorDetails.type}`;
 
-      errorChild.dataset.error_code = errorDetails.code?.toString();
-      errorChild.dataset.error_type = errorDetails.type;
+      errorChild.dataset.errorCode = errorDetails.code?.toString();
+      errorChild.dataset.errorType = errorDetails.type;
     }
   }
 

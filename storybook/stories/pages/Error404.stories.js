@@ -17,7 +17,7 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 
-import { routeHandler } from "../../../_dev/src/ts/autoUpgrade";
+import { routeHandler } from "../../../_dev/src/ts/main";
 import ErrorPage from "../../../_dev/src/ts/pages/ErrorPage";
 import ErrorCode404 from "../../../views/templates/pages/errors/404.html.twig";
 

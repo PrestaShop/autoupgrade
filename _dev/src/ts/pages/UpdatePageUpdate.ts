@@ -40,7 +40,6 @@ export default class UpdatePageUpdate extends StepPage {
 
   public mount = (): void => {
     this.initStepper();
-
     this.#processContainer.mount();
   };
 

@@ -31,6 +31,7 @@ class Analytics {
       { disableClientPersistence: true }
     );
     this.analytics.identify(window.AutoUpgradeVariables.anonymous_id);
+    this.#setupAutoTrack();
   }
 
   /**
@@ -51,6 +52,17 @@ class Analytics {
         page: this.#getMaskedPageData()
       }
     );
+  };
+
+  readonly #setupAutoTrack = () => {
+    document.addEventListener('click', (event) => {
+      const element = (event.target as HTMLElement)?.closest('[data-au-tracking]') as HTMLElement;
+
+      if (element) {
+        const eventToSubmit = element.dataset.auTracking;
+        this.track(`[SUE] ${eventToSubmit}`);
+      }
+    });
   };
 
   /**
@@ -82,6 +94,4 @@ class Analytics {
   };
 }
 
-const analytics = new Analytics();
-
-export default analytics;
+export default Analytics;

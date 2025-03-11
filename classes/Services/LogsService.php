@@ -24,6 +24,7 @@ namespace PrestaShop\Module\AutoUpgrade\Services;
 use Exception;
 use PrestaShop\Module\AutoUpgrade\State\LogsState;
 use PrestaShop\Module\AutoUpgrade\Task\TaskType;
+use PrestaShop\Module\AutoUpgrade\Twig\Events;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 
 class LogsService
@@ -55,6 +56,7 @@ class LogsService
 
         return [
             'button_label' => $this->getDownloadLogsLabel($task),
+            'button_tracking_event' => $this->getDownloadLogsTrackingEvent($task),
             'download_path' => $logsPath,
             'filename' => basename($logsPath),
         ];
@@ -113,6 +115,21 @@ class LogsService
                 return $this->translator->trans('Download restore logs');
             case TaskType::TASK_TYPE_UPDATE:
                 return $this->translator->trans('Download update logs');
+        }
+    }
+
+    /**
+     * @param TaskType::TASK_TYPE_* $taskType
+     */
+    private function getDownloadLogsTrackingEvent(string $taskType): string
+    {
+        switch ($taskType) {
+            case TaskType::TASK_TYPE_BACKUP:
+                return Events::BACKUP_LOGS_DOWNLOADED;
+            case TaskType::TASK_TYPE_RESTORE:
+                return Events::RESTORE_LOGS_DOWNLOADED;
+            case TaskType::TASK_TYPE_UPDATE:
+                return Events::UPDATE_LOGS_DOWNLOADED;
         }
     }
 }

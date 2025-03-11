@@ -16,4 +16,15 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
-import './autoUpgrade';
+import DialogContainer from './components/DialogContainer';
+import RouteHandler from './routing/RouteHandler';
+import ScriptHandler from './routing/ScriptHandler';
+import Analytics from './api/SegmentApi';
+
+export const analytics = new Analytics();
+export const routeHandler = new RouteHandler();
+
+export const dialogContainer = new DialogContainer();
+export const scriptHandler = new ScriptHandler();
+
+export default { routeHandler, scriptHandler, dialogContainer, analytics };
