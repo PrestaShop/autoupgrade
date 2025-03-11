@@ -19,9 +19,9 @@
 import ScriptHandler from '../../src/ts/routing/ScriptHandler';
 import HomePage from '../../src/ts/pages/HomePage';
 import UpdatePageVersionChoice from '../../src/ts/pages/UpdatePageVersionChoice';
-import { routeHandler } from '../../src/ts/autoUpgrade';
+import { routeHandler } from '../../src/ts/main';
 
-jest.mock('../../src/ts/autoUpgrade', () => ({
+jest.mock('../../src/ts/main', () => ({
   routeHandler: {
     getCurrentRoute: jest.fn()
   }

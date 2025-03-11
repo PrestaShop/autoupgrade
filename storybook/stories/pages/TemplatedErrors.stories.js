@@ -17,7 +17,6 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 
-import { routeHandler } from "../../../_dev/src/ts/autoUpgrade";
 import DialogContainer from "../../../_dev/src/ts/components/DialogContainer";
 import Hydration from "../../../_dev/src/ts/utils/Hydration";
 import Layout from "../../../views/templates/layouts/layout.html.twig";

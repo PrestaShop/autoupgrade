@@ -35,7 +35,7 @@ import StartBackupDialog from '../dialogs/StartBackupDialog';
 import SendErrorReportDialog from '../dialogs/SendErrorReportDialog';
 
 import { ScriptType, ScriptsMatching, CurrentScripts } from '../types/scriptHandlerTypes';
-import { routeHandler } from '../autoUpgrade';
+import { routeHandler } from '../main';
 import ErrorPage from '../pages/ErrorPage';
 
 export default class ScriptHandler {

@@ -17,7 +17,7 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 import api from '../api/RequestHandler';
-import { analytics } from '../autoUpgrade';
+import { analytics } from '../main';
 import PageAbstract from './PageAbstract';
 
 export default class HomePage extends PageAbstract {

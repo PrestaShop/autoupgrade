@@ -18,7 +18,7 @@
  */
 import StepPage from './StepPage';
 import api from '../api/RequestHandler';
-import { analytics } from '../autoUpgrade';
+import { analytics } from '../main';
 
 export default class UpdatePageUpdateOptions extends StepPage {
   protected stepCode = 'update-options';

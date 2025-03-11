@@ -23,7 +23,7 @@ import { ApiError } from '../types/apiTypes';
 import { Severity } from '../types/logsTypes';
 import Hydration from '../utils/Hydration';
 import PageAbstract from './PageAbstract';
-import { analytics } from '../autoUpgrade';
+import { analytics } from '../main';
 
 export default class ErrorPage extends PageAbstract {
   public static readonly templateId: string = 'error-page-template';

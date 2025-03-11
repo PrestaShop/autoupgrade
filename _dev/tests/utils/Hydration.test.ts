@@ -20,7 +20,7 @@ import Hydration from '../../src/ts/utils/Hydration';
 import { ApiResponseHydration } from '../../src/ts/types/apiTypes';
 import RouteHandler from '../../src/ts/routing/RouteHandler';
 import ScriptHandler from '../../src/ts/routing/ScriptHandler';
-import { dialogContainer } from '../../src/ts/autoUpgrade';
+import { dialogContainer } from '../../src/ts/main';
 import SpyInstance = jest.SpyInstance;
 
 const setNewRouteMock = jest.spyOn(RouteHandler.prototype, 'setNewRoute');

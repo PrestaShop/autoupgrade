@@ -18,7 +18,7 @@
  */
 import StepPage from './StepPage';
 import api from '../api/RequestHandler';
-import { analytics } from '../autoUpgrade';
+import { analytics } from '../main';
 import Hydration from '../utils/Hydration';
 
 export default class UpdatePageVersionChoice extends StepPage {
