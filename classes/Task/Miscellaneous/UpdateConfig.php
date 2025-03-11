@@ -52,9 +52,9 @@ class UpdateConfig extends AbstractTask
         $configurationData = $this->getConfigurationData();
         $config = [];
 
-        $diff = array_diff($configurationData, UpgradeConfiguration::UPGRADE_CONST_KEYS);
+        $diff = array_diff_key($configurationData, UpgradeConfiguration::UPGRADE_CONST_KEYS);
 
-        foreach (array_keys($diff) as $configDiff) {
+        foreach ($diff as $configDiff) {
             $this->logger->warning($this->translator->trans("Unknown configuration key '%s', Ignoring.", [$configDiff]));
         }
 

@@ -725,3 +725,19 @@ ALTER TABLE `PREFIX_translation` CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 ALTER TABLE `PREFIX_translation` CHANGE `translation` `translation` text COLLATE utf8mb4_unicode_ci NOT NULL;
 ALTER TABLE `PREFIX_translation` CHANGE `domain` `domain` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL;
 ALTER TABLE `PREFIX_translation` CHANGE `theme` `theme` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL;
+
+INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`) VALUES
+  (NULL, 'actionAfterCreateFeatureFormHandler', 'Modify feature identifiable object data after creating it','This hook allows to modify feature identifiable object forms data after it was created', '1'),
+  (NULL, 'actionAfterUpdateFeatureFormHandler', 'Modify feature identifiable object data after updating it','This hook allows to modify feature identifiable object forms data after it was updated', '1'),
+  (NULL, 'displayAdminOrderBottom', 'Admin Order Side Column Bottom','This hook displays content in the order view page at the bottom of the side column', '1')
+ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
+
+UPDATE `PREFIX_hook_module` AS hm
+INNER JOIN `PREFIX_hook` AS hfrom ON hm.id_hook = hfrom.id_hook AND hfrom.name = 'displayAdminOrderSideBottom'
+INNER JOIN `PREFIX_hook` AS hto ON hto.name = 'displayAdminOrderBottom'
+SET hm.id_hook = hto.id_hook;
+DELETE FROM `PREFIX_hook` WHERE name = 'displayAdminOrderSideBottom';
+
+UPDATE `PREFIX_country` SET `zip_code_format` = 'NNNNN' WHERE `iso_code` = "KR";
+
+/* PHP:ps_1770_add_states(); */;
