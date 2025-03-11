@@ -85,12 +85,12 @@
       <trans-unit id="deaf32a53ead325a232c297209dc187f">
         <source>Download restore logs</source>
         <target>Download restore logs</target>
-        <note>classes/Services/LogsService.php:113</note>
+        <note>classes/Services/LogsService.php:115</note>
       </trans-unit>
       <trans-unit id="ebdbffe8dea73e1e0285fd052f720259">
         <source>Download update logs</source>
         <target>Download update logs</target>
-        <note>classes/Services/LogsService.php:115</note>
+        <note>classes/Services/LogsService.php:117</note>
       </trans-unit>
       <trans-unit id="31098a445d00d6606542c429524f464f">
         <source>Unable to add %filename% to archive %archive%: %error%</source>
@@ -1292,7 +1292,7 @@
       <trans-unit id="b27bea61eb2963cb570ce625b87ea053">
         <source>Update without backup</source>
         <target>Update without backup</target>
-        <note>views/templates/steps/backup-options.html.twig:91</note>
+        <note>views/templates/steps/backup-options.html.twig:92</note>
       </trans-unit>
       <trans-unit id="8f54da32d0160f178f08b2530d1e690b">
         <source>Back up your store</source>
@@ -1312,7 +1312,7 @@
       <trans-unit id="a946e4190a81d83574867d2182261e35">
         <source>Include images in your backup</source>
         <target>Include images in your backup</target>
-        <note>views/templates/steps/backup-options.html.twig:62</note>
+        <note>views/templates/steps/backup-options.html.twig:63</note>
       </trans-unit>
       <trans-unit id="880d6ec7b06e1f403347a16afbca8335">
         <source>Start update</source>
@@ -1322,7 +1322,7 @@
       <trans-unit id="2284aa8fec405e1dd014326b51cde020">
         <source>Launch backup</source>
         <target>Launch backup</target>
-        <note>views/templates/steps/backup-options.html.twig:97</note>
+        <note>views/templates/steps/backup-options.html.twig:98</note>
       </trans-unit>
       <trans-unit id="a7446965a3635b6a69697078130d961a">
         <source>You're up to date</source>
@@ -1832,7 +1832,7 @@
       <trans-unit id="56c34c6410dd45c5cec44149ad0ce037">
         <source>Privacy policy</source>
         <target>Privacy policy</target>
-        <note>views/templates/components/privacy.html.twig:24</note>
+        <note>views/templates/components/privacy.html.twig:25</note>
       </trans-unit>
       <trans-unit id="12b7e9bd62f15c5f79030a36509eedf0">
         <source>Warning summary</source>
