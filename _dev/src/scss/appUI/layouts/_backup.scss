@@ -16,27 +16,27 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
-@use "../variables" as *;
+@use "../../variables" as *;
 
-$e: ".page";
+$e: ".backup-page";
 
-#{$e} {
-  &__buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    align-items: center;
-    justify-content: flex-end;
+#{$ua-id} {
+  #{$e} {
+    &__container {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
 
-    @container ua-main (max-width: 479px) {
-      > form {
-        width: 100%;
-      }
-
-      .btn {
-        justify-content: center;
-        width: 100%;
-        white-space: normal;
+    &__section {
+      &:has(.render-field) {
+        &:not(:has(.render-field:nth-child(2))) {
+          .render-field {
+            padding-block-end: 0;
+            margin-block-end: 0;
+            border-block-end: 0;
+          }
+        }
       }
     }
   }

@@ -18,49 +18,49 @@
  */
 @use "../../variables" as *;
 
+$e: "#ua";
+
 #{$ua-id} {
-  .require-star {
-    color: var(--#{$ua-prefix}required-color);
+  // Default BO theme layout fix
+  padding-inline-end: 5px;
+
+  &:not(.v1-7-8-0):not(.v1-7-3-0) {
+    padding-inline-end: 0;
   }
+}
 
-  .form {
-    &-group {
-      margin-block-end: 0.5rem;
-    }
-  }
-
-  label {
-    margin-block-end: 0.25rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-    line-height: 1.4;
-  }
-
-  select {
-    padding-inline-end: 2rem;
-    background-image: url("../../img/unfold_more.svg");
-    background-repeat: no-repeat;
-    background-position: right 0.5rem center;
-    background-size: 1.125rem 1.125rem;
-    appearance: none;
-
-    &.error {
-      margin-block-end: 0.25rem;
-      border-color: var(--#{$ua-prefix}red-500);
-    }
-  }
-
-  .error-message {
+#{$e} {
+  &_main {
     display: flex;
-    gap: 0.25rem;
-    align-items: flex-start;
-    font-size: 0.75rem;
-    line-height: 1.5;
-    color: var(--#{$ua-prefix}red-500);
+    flex-direction: column;
+    gap: 2rem;
+    padding-block: 1rem;
+    container-type: inline-size;
+    container-name: ua-main;
+  }
 
-    .material-icons {
-      font-size: 1.125rem;
-      line-height: 1;
+  &_container {
+    padding: 4rem;
+    background-color: var(--#{$ua-prefix}white);
+  }
+
+  &_step_content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  &_privacy {
+    text-align: center;
+  }
+
+  &_modal {
+    height: 0;
+  }
+
+  @container ua-main (max-width: 700px) {
+    &_container {
+      padding: 2rem;
     }
   }
 }

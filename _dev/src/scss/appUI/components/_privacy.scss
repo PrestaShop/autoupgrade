@@ -16,28 +16,34 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
-@use "../variables" as *;
+@use "../../variables" as *;
 
-$e: ".backup-page";
+$e: ".privacy-link";
 
 #{$ua-id} {
   #{$e} {
-    &__container {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
+    --#{$ua-prefix}privacy-link-color: var(--#{$ua-prefix}base-text-color);
+    --#{$ua-prefix}privacy-link-border-color: var(--#{$ua-prefix}border-color);
+    --#{$ua-prefix}privacy-link-border-color-hover: var(--#{$ua-prefix}privacy-link-color);
+    display: inline-flex;
+    gap: 0.25rem;
+    align-items: center;
+    justify-self: center;
+    border-bottom: 0.0625rem solid var(--#{$ua-prefix}privacy-link-border-color);
+    font-size: 1rem;
+    line-height: 1.4;
+    color: var(--#{$ua-prefix}privacy-link-color);
+    text-decoration: none;
+    transition: border-color 0.15s;
+
+    &:hover {
+      border-color: var(--#{$ua-prefix}privacy-link-border-color-hover);
+      text-decoration: none;
     }
 
-    &__section {
-      &:has(.render-field) {
-        &:not(:has(.render-field:nth-child(2))) {
-          .render-field {
-            padding-block-end: 0;
-            margin-block-end: 0;
-            border-block-end: 0;
-          }
-        }
-      }
+    i {
+      font-size: 1rem;
+      line-height: 1;
     }
   }
 }

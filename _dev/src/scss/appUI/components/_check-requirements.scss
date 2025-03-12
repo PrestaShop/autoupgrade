@@ -16,8 +16,8 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
-@use "../mixins" as *;
-@use "../variables" as *;
+@use "../../mixins" as *;
+@use "../../variables" as *;
 
 $e: ".check-requirements";
 
@@ -53,15 +53,15 @@ $e: ".check-requirements";
       line-height: 1.4;
 
       &--success {
-        background-image: url("../../img/check.svg");
+        background-image: url("@img/check.svg");
       }
 
       &--warning {
-        background-image: url("../../img/warning.svg");
+        background-image: url("@img/warning.svg");
       }
 
       &--error {
-        background-image: url("../../img/close.svg");
+        background-image: url("@img/close.svg");
       }
     }
 

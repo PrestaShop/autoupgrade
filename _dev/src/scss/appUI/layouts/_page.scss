@@ -16,14 +16,28 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
-@use "../variables" as *;
+@use "../../variables" as *;
 
-$e: ".local-archive";
+$e: ".page";
 
-#{$ua-id} {
-  #{$e} {
-    &__alert {
-      margin-top: 0.75rem;
+#{$e} {
+  &__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    justify-content: flex-end;
+
+    @container ua-main (max-width: 479px) {
+      > form {
+        width: 100%;
+      }
+
+      .btn {
+        justify-content: center;
+        width: 100%;
+        white-space: normal;
+      }
     }
   }
 }

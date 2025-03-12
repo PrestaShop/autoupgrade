@@ -16,16 +16,16 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
-@use "../../variables" as *;
+@use "../../../variables" as *;
 
-$e: ".radio";
+$e: ".checkbox";
 
 #{$ua-id} {
   #{$e} {
-    --#{$ua-prefix}radio-border-color: var(--#{$ua-prefix}primary);
-    --#{$ua-prefix}radio-checked-background-color: var(--#{$ua-prefix}primary);
-    --#{$ua-prefix}radio-checked-border-color: var(--#{$ua-prefix}primary);
-    --#{$ua-prefix}radio-disabled-border-color: var(--#{$ua-prefix}disabled-color);
+    --#{$ua-prefix}checkbox-border-color: var(--#{$ua-prefix}primary);
+    --#{$ua-prefix}checkbox-checked-background-color: var(--#{$ua-prefix}primary);
+    --#{$ua-prefix}checkbox-checked-border-color: var(--#{$ua-prefix}primary);
+    --#{$ua-prefix}checkbox-disabled-border-color: var(--#{$ua-prefix}disabled-color);
 
     &-inline {
       margin-block-end: 0.5rem;
@@ -34,36 +34,49 @@ $e: ".radio";
     label {
       display: inline-flex;
       gap: 0.5rem;
-      align-items: center;
+      align-items: flex-start;
       padding: 0;
+      line-height: 1.25rem;
       cursor: pointer;
     }
 
-    input[type="radio"],
-    &:is(input[type="radio"]) {
+    input[type="checkbox"],
+    &:is(input[type="checkbox"]) {
       position: relative;
       flex-shrink: 0;
       width: 1.25rem;
       height: 1.25rem;
       padding: 0;
       margin: 0;
-      background: transparent;
-      background-clip: content-box;
-      border: 0.125rem solid var(--#{$ua-prefix}radio-border-color);
-      border-radius: 50%;
-      outline: none;
+      background: none;
+      border: 0.125rem solid var(--#{$ua-prefix}checkbox-border-color);
+      border-radius: 0.125rem;
+      outline: 0;
       line-height: 0;
       -webkit-appearance: none;
       cursor: pointer;
 
       &:checked {
-        padding: 0.1875rem;
-        background-color: var(--#{$ua-prefix}radio-checked-background-color);
-        border: 0.125rem solid var(--#{$ua-prefix}radio-checked-border-color);
+        background-color: var(--#{$ua-prefix}checkbox-checked-background-color);
+        border-color: var(--#{$ua-prefix}checkbox-checked-border-color);
       }
 
       &:disabled {
-        border-color: var(--#{$ua-prefix}radio-disabled-border-color);
+        border-color: var(--#{$ua-prefix}checkbox-disabled-border-color);
+      }
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: 50%;
+        z-index: 2;
+        width: 0.3125rem;
+        height: 0.625rem;
+        margin: -0.0625rem -0.0625rem 0;
+        border: solid var(--#{$ua-prefix}white);
+        border-width: 0 0.125rem 0.125rem 0;
+        transform: rotate(45deg) translate(-50%, -50%);
       }
     }
   }

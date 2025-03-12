@@ -24,7 +24,7 @@
  */
 
 import { Preview, twig } from "@sensiolabs/storybook-symfony-webpack5";
-import "../../_dev/src/scss/main.scss";
+import "../../_dev/src/scss/appUI/main.scss";
 import "../../_dev/tests/fakeWindow";
 import "../../_dev/src/ts/main";
 

@@ -16,6 +16,22 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
-@use "utilities";
-@use "components";
-@use "layouts";
+@use "../../variables" as *;
+
+$e: ".welcome-page";
+
+#{$ua-id} {
+  &:has(.welcome-page) {
+    #ua_main {
+      padding-block-start: 0;
+    }
+  }
+
+  #{$e} {
+    &__card-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  }
+}

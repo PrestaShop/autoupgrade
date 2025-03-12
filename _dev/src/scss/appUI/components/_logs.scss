@@ -16,7 +16,7 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
-@use "../variables" as *;
+@use "../../variables" as *;
 
 $e-tracker: ".progress-tracker";
 $e-logs: ".logs";
@@ -92,15 +92,15 @@ $e-logs: ".logs";
       transition: background-color 0.3s ease-in-out;
 
       &--success {
-        background-image: url("../../img/check.svg");
+        background-image: url("@img/check.svg");
       }
 
       &--warning {
-        background-image: url("../../img/warning.svg");
+        background-image: url("@img/warning.svg");
       }
 
       &--error {
-        background-image: url("../../img/close.svg");
+        background-image: url("@img/close.svg");
       }
 
       &--pointed {

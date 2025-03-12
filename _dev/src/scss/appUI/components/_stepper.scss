@@ -16,7 +16,7 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
-@use "../variables" as *;
+@use "../../variables" as *;
 
 $e: ".stepper";
 
@@ -116,7 +116,7 @@ $max-steps: 8;
       &--done {
         #{$e}__step-number {
           background-color: var(--#{$ua-prefix}step-done-background-color);
-          background-image: url("../../img/check.svg");
+          background-image: url("@img/check.svg");
           background-repeat: no-repeat;
           background-position: center center;
           background-size: 1rem 1rem;
