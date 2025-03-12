@@ -329,8 +329,8 @@ class AdminSelfUpgradeController extends ModuleAdminController
         $twig = $this->upgradeContainer->getTwig();
 
         if ($assetsEnvironment->isDevMode()) {
-            $this->context->controller->addCSS($assetsBaseUrl . '/src/scss/main.scss');
-            $this->content .= $twig->render('@ModuleAutoUpgrade/module-script-tag.html.twig', ['module_type' => true, 'src' => $assetsBaseUrl . '/src/ts/main.ts']);
+            $this->context->controller->addCSS($assetsBaseUrl . '/src/scss/appUI/main.scss');
+            $this->content .= $twig->render('@ModuleAutoUpgrade/module-script-tag.html.twig', ['module_type' => true, 'src' => $assetsBaseUrl . '/src/ts/appUI/main.ts']);
         } else {
             $this->context->controller->addCSS($assetsBaseUrl . '/css/autoupgrade.css');
             $this->content .= $twig->render('@ModuleAutoUpgrade/module-script-tag.html.twig', ['module_type' => true, 'src' => $assetsBaseUrl . '/js/autoupgrade.js?v=' . $this->module->version]);
