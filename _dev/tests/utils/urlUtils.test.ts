@@ -16,7 +16,7 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
-import { maskSensitiveInfoInUrl } from '../../src/ts/utils/urlUtils';
+import { maskSensitiveInfoInUrl } from '../../src/ts/appUI/utils/urlUtils';
 
 describe('urlUtils', () => {
   describe('maskSensitiveInfoInUrl', () => {

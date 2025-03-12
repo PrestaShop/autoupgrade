@@ -17,11 +17,11 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 import { AxiosError } from 'axios';
-import LogsViewer from '../../src/ts/components/LogsViewer';
-import { logStore } from '../../src/ts/store/LogStore';
+import LogsViewer from '../../src/ts/appUI/components/LogsViewer';
+import { logStore } from '../../src/ts/appUI/store/LogStore';
 
 // add this mock to avoid unnecessary error
-jest.mock('../../src/ts/routing/ScriptHandler', () => {
+jest.mock('../../src/ts/appUI/routing/ScriptHandler', () => {
   return jest.fn().mockImplementation(() => ({
     loadScript: jest.fn()
   }));

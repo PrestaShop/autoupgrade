@@ -19,7 +19,7 @@
 import ComponentAbstract from './ComponentAbstract';
 import { LogEntry, Log, Severity, VisibleLogs } from '../types/logsTypes';
 import { parseLogWithSeverity, debounce } from '../utils/logsUtils';
-import DomLifecycle from '../types/DomLifecycle';
+import DomLifecycle from '../../types/DomLifecycle';
 import { logStore } from '../store/LogStore';
 import api from '../api/RequestHandler';
 import { ApiError } from '../types/apiTypes';

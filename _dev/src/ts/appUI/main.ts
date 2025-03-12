@@ -16,29 +16,15 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
-import ComponentAbstract from './ComponentAbstract';
-import { Destroyable } from '../types/DomLifecycle';
+import DialogContainer from './components/DialogContainer';
+import RouteHandler from './routing/RouteHandler';
+import ScriptHandler from './routing/ScriptHandler';
+import Analytics from '../api/SegmentApi';
 
-export default class LogsSummary extends ComponentAbstract implements Destroyable {
-  #logsSummaryText = this.queryElement<HTMLDivElement>(
-    '[data-slot-component="text"]',
-    'Logs summary text not found'
-  );
+export const analytics = new Analytics();
+export const routeHandler = new RouteHandler();
 
-  /**
-   * @public
-   * @description Removes the associated DOM element from the document.
-   */
-  public beforeDestroy = () => {
-    this.element.remove();
-  };
+export const dialogContainer = new DialogContainer();
+export const scriptHandler = new ScriptHandler();
 
-  /**
-   * @public
-   * @param text - text summary to display.
-   * @description Allows to update the summary text of the logs.
-   */
-  public setLogsSummaryText = (text: string): void => {
-    this.#logsSummaryText.innerText = text;
-  };
-}
+export default { routeHandler, scriptHandler, dialogContainer, analytics };

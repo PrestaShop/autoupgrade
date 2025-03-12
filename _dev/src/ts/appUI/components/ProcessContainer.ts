@@ -18,7 +18,7 @@
  */
 import api from '../api/RequestHandler';
 import { ApiResponseAction } from '../types/apiTypes';
-import DomLifecycle from '../types/DomLifecycle';
+import DomLifecycle from '../../types/DomLifecycle';
 import { ProcessContainerCallbacks } from '../types/Process';
 import Process from '../utils/Process';
 import ProgressTracker from './ProgressTracker';

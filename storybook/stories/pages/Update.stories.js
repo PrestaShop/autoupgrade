@@ -18,7 +18,7 @@
  */
 
 import UpdatePage from "../../../views/templates/pages/update.html.twig";
-import LogsViewer from "../../../_dev/src/ts/components/LogsViewer";
+import LogsViewer from "../../../_dev/src/ts/appUI/components/LogsViewer";
 import { Default as LogsTemplates } from "../components/LogsTemplates.stories";
 import { UpdateLogsProgress } from "../components/LogsProgress.stories";
 import { UpdateLogsViewer } from "../components/LogsViewer.stories";

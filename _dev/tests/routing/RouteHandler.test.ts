@@ -16,10 +16,10 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
-import RouteHandler from '../../src/ts/routing/RouteHandler';
-import api from '../../src/ts/api/RequestHandler';
+import RouteHandler from '../../src/ts/appUI/routing/RouteHandler';
+import api from '../../src/ts/appUI/api/RequestHandler';
 
-jest.mock('../../src/ts/api/RequestHandler', () => ({
+jest.mock('../../src/ts/appUI/api/RequestHandler', () => ({
   post: jest.fn()
 }));
 

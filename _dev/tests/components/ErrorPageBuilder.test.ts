@@ -17,7 +17,7 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 import { JSDOM } from 'jsdom';
-import ErrorPageBuilder from '../../src/ts/components/ErrorPageBuilder';
+import ErrorPageBuilder from '../../src/ts/appUI/components/ErrorPageBuilder';
 
 describe('ErrorPageBuilder', () => {
   let errorElement: DocumentFragment;

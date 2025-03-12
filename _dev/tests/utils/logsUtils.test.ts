@@ -16,8 +16,8 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
-import { parseLogWithSeverity } from '../../src/ts/utils/logsUtils';
-import { Severity, LogEntry } from '../../src/ts/types/logsTypes';
+import { parseLogWithSeverity } from '../../src/ts/appUI/utils/logsUtils';
+import { Severity, LogEntry } from '../../src/ts/appUI/types/logsTypes';
 
 describe('parseLogWithSeverity', () => {
   it('should parse a log with SUCCESS severity', () => {

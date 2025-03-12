@@ -16,7 +16,7 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
-import DomLifecycle from '../types/DomLifecycle';
+import DomLifecycle from '../../types/DomLifecycle';
 import Hydration from '../utils/Hydration';
 import { scriptHandler } from '../main';
 import { ScriptType } from '../types/scriptHandlerTypes';
