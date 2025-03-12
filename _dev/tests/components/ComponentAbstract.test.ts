@@ -16,7 +16,7 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
-import ComponentAbstract from '../../src/ts/components/ComponentAbstract';
+import ComponentAbstract from '../../src/ts/appUI/components/ComponentAbstract';
 import TestComponent from '../fixtures/TestComponent';
 
 describe('ComponentAbstract', () => {

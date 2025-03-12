@@ -17,7 +17,7 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 import { AnalyticsBrowser } from '@segment/analytics-next';
-import { maskSensitiveInfoInUrl } from '../utils/urlUtils';
+import { maskSensitiveInfoInUrl } from '../appUI/utils/urlUtils';
 
 class Analytics {
   analytics: AnalyticsBrowser;

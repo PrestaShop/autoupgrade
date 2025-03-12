@@ -16,12 +16,12 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
-import ScriptHandler from '../../src/ts/routing/ScriptHandler';
-import HomePage from '../../src/ts/pages/HomePage';
-import UpdatePageVersionChoice from '../../src/ts/pages/UpdatePageVersionChoice';
-import { routeHandler } from '../../src/ts/main';
+import ScriptHandler from '../../src/ts/appUI/routing/ScriptHandler';
+import HomePage from '../../src/ts/appUI/pages/HomePage';
+import UpdatePageVersionChoice from '../../src/ts/appUI/pages/UpdatePageVersionChoice';
+import { routeHandler } from '../../src/ts/appUI/main';
 
-jest.mock('../../src/ts/main', () => ({
+jest.mock('../../src/ts/appUI/main', () => ({
   routeHandler: {
     getCurrentRoute: jest.fn()
   }
@@ -29,7 +29,7 @@ jest.mock('../../src/ts/main', () => ({
 
 const homeMount = jest.fn();
 const homeDestroy = jest.fn();
-jest.mock('../../src/ts/pages/HomePage', () => {
+jest.mock('../../src/ts/appUI/pages/HomePage', () => {
   return jest.fn().mockImplementation(() => ({
     mount: homeMount,
     beforeDestroy: homeDestroy
@@ -38,7 +38,7 @@ jest.mock('../../src/ts/pages/HomePage', () => {
 
 const updateMount = jest.fn();
 const updateDestroy = jest.fn();
-jest.mock('../../src/ts/pages/UpdatePageVersionChoice', () => {
+jest.mock('../../src/ts/appUI/pages/UpdatePageVersionChoice', () => {
   return jest.fn().mockImplementation(() => ({
     mount: updateMount,
     beforeDestroy: updateDestroy

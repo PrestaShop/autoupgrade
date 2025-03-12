@@ -16,17 +16,17 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
-import baseApi from '../../src/ts/api/baseApi';
-import { ApiResponse, ApiResponseAction } from '../../src/ts/types/apiTypes';
-import { RequestHandler } from '../../src/ts/api/RequestHandler';
+import baseApi from '../../src/ts/appUI/api/baseApi';
+import { ApiResponse, ApiResponseAction } from '../../src/ts/appUI/types/apiTypes';
+import { RequestHandler } from '../../src/ts/appUI/api/RequestHandler';
 
-jest.mock('../../src/ts/api/baseApi', () => ({
+jest.mock('../../src/ts/appUI/api/baseApi', () => ({
   post: jest.fn()
 }));
 
 const mockHydrate = jest.fn();
 
-jest.mock('../../src/ts/utils/Hydration', () => {
+jest.mock('../../src/ts/appUI/utils/Hydration', () => {
   return jest.fn().mockImplementation(() => ({
     hydrate: mockHydrate
   }));

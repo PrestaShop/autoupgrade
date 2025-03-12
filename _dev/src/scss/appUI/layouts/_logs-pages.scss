@@ -1,0 +1,93 @@
+/**
+ * Copyright since 2007 PrestaShop SA and Contributors
+ * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License version 3.0
+ * that is bundled with this package in the file LICENSE.md.
+ * It is also available through the world-wide-web at this URL:
+ * https://opensource.org/licenses/AFL-3.0
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@prestashop.com so we can send you a copy immediately.
+ *
+ * @author    PrestaShop SA and Contributors <contact@prestashop.com>
+ * @copyright Since 2007 PrestaShop SA and Contributors
+ * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
+ */
+@use "../../variables" as *;
+
+// Auto size logs section to use available height
+html {
+  &:has(#{$ua-id}) {
+    // Need class use in #ua_step_content to make it work
+    &:has(.update-page, .restore-page) {
+      container-type: size;
+      container-name: html-block;
+
+      // Custom styles to adapt PrestaShop Back Office
+      body {
+        overflow-y: auto;
+        background-color: var(--#{$ua-prefix}bo-background-color);
+
+        #nav-sidebar {
+          height: calc(100% - var(--#{$ua-prefix}header-height));
+        }
+      }
+
+      #main {
+        padding-block-end: 0;
+      }
+
+      #content {
+        background-color: var(--#{$ua-prefix}bo-background-color);
+      }
+
+      // Logs adjustments
+      .logs {
+        flex-grow: 1;
+
+        &__scroll {
+          container-type: size;
+        }
+      }
+
+      // Page adjustments to handle auto fit height
+      @container html-block (min-width: 0) {
+        #{$ua-id} {
+          display: grid;
+          grid-template-rows: 1fr;
+          grid-template-columns: minmax(0, 1fr);
+          min-height: calc(100cqh - var(--#{$ua-prefix}header-offset-mobile));
+
+          #ua_main {
+            height: 100%;
+          }
+
+          #ua_container {
+            flex-grow: 1;
+          }
+
+          #ua_step_content {
+            height: 100%;
+          }
+
+          .page {
+            &__content {
+              display: flex;
+              flex-direction: column;
+              flex-grow: 1;
+            }
+          }
+        }
+      }
+
+      @container html-block (min-width: 1024px) {
+        #{$ua-id} {
+          min-height: calc(100cqh - var(--#{$ua-prefix}header-offset));
+        }
+      }
+    }
+  }
+}

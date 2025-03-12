@@ -55,21 +55,24 @@ export default defineConfig({
       }
     }
   },
+  resolve: {
+    alias: {
+      '@fonts': resolve(__dirname, './src/fonts'),
+      '@img': resolve(__dirname, './img')
+    }
+  },
   build: {
     assetsInlineLimit: 0,
     cssCodeSplit: true,
     rollupOptions: {
       input: {
-        main: './src/ts/main.ts',
-        theme: './src/scss/main.scss'
+        app_ui_script: './src/ts/appUI/main.ts',
+        app_ui_theme: './src/scss/appUI/main.scss'
       },
       output: {
         dir: resolve(__dirname, '../views/'),
         entryFileNames: (chunkInfo) => {
-          if (
-            chunkInfo.facadeModuleId?.endsWith('.ts') ||
-            chunkInfo.facadeModuleId?.endsWith('.js')
-          ) {
+          if (chunkInfo.name === 'app_ui_script') {
             return `js/autoupgrade.js`;
           }
           return 'js/[name].js';
@@ -78,12 +81,12 @@ export default defineConfig({
         assetFileNames: (assetInfo) => {
           const assetName = assetInfo.name || '';
 
-          if (assetName.endsWith('.css')) {
+          if (assetName === 'app_ui_theme.css') {
             return 'css/autoupgrade.css';
           } else if (/\.(webp|png|jpe?g|gif|svg)$/.test(assetName)) {
-            return 'img/[name].[ext]';
+            return 'img/[name].[extname]';
           }
-          return 'assets/[name].[ext]';
+          return 'assets/[name].[extname]';
         }
       }
     },

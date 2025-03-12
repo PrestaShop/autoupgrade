@@ -17,8 +17,8 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 
-import DialogContainer from "../../../_dev/src/ts/components/DialogContainer";
-import Hydration from "../../../_dev/src/ts/utils/Hydration";
+import DialogContainer from "../../../_dev/src/ts/appUI/components/DialogContainer";
+import Hydration from "../../../_dev/src/ts/appUI/utils/Hydration";
 import Layout from "../../../views/templates/layouts/layout.html.twig";
 
 export default {

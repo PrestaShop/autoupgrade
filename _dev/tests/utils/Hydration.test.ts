@@ -16,18 +16,18 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
-import Hydration from '../../src/ts/utils/Hydration';
-import { ApiResponseHydration } from '../../src/ts/types/apiTypes';
-import RouteHandler from '../../src/ts/routing/RouteHandler';
-import ScriptHandler from '../../src/ts/routing/ScriptHandler';
-import { dialogContainer } from '../../src/ts/main';
+import Hydration from '../../src/ts/appUI/utils/Hydration';
+import { ApiResponseHydration } from '../../src/ts/appUI/types/apiTypes';
+import RouteHandler from '../../src/ts/appUI/routing/RouteHandler';
+import ScriptHandler from '../../src/ts/appUI/routing/ScriptHandler';
+import { dialogContainer } from '../../src/ts/appUI/main';
 import SpyInstance = jest.SpyInstance;
 
 const setNewRouteMock = jest.spyOn(RouteHandler.prototype, 'setNewRoute');
 const unloadRouteScriptMock = jest.spyOn(ScriptHandler.prototype, 'unloadScriptType');
 const loadScriptMock = jest.spyOn(ScriptHandler.prototype, 'loadScript');
 
-jest.mock('../../src/ts/components/DialogContainer', () => {
+jest.mock('../../src/ts/appUI/components/DialogContainer', () => {
   return jest.fn().mockImplementation(() => {
     return {
       mount: jest.fn(),
@@ -36,7 +36,7 @@ jest.mock('../../src/ts/components/DialogContainer', () => {
   });
 });
 
-jest.mock('../../src/ts/pages/ErrorPage', () => {
+jest.mock('../../src/ts/appUI/pages/ErrorPage', () => {
   return jest.fn().mockImplementation(() => {
     return {
       mount: () => {},
@@ -45,7 +45,7 @@ jest.mock('../../src/ts/pages/ErrorPage', () => {
   });
 });
 
-jest.mock('../../src/ts/pages/HomePage', () => {
+jest.mock('../../src/ts/appUI/pages/HomePage', () => {
   return jest.fn().mockImplementation(() => {
     return {
       mount: () => {},
@@ -54,7 +54,7 @@ jest.mock('../../src/ts/pages/HomePage', () => {
   });
 });
 
-jest.mock('../../src/ts/pages/UpdatePageBackupOptions', () => {
+jest.mock('../../src/ts/appUI/pages/UpdatePageBackupOptions', () => {
   return jest.fn().mockImplementation(() => ({
     mount: () => {},
     beforeDestroy: () => {

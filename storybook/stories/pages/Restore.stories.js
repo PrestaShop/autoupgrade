@@ -18,7 +18,7 @@
  */
 
 import RestorePage from "../../../views/templates/pages/restore.html.twig";
-import LogsViewer from "../../../_dev/src/ts/components/LogsViewer";
+import LogsViewer from "../../../_dev/src/ts/appUI/components/LogsViewer";
 import { Default as LogsTemplates } from "../components/LogsTemplates.stories";
 import { RestoreLogsProgress } from "../components/LogsProgress.stories";
 import { RestoreLogsViewer } from "../components/LogsViewer.stories";
