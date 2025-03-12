@@ -53,3 +53,9 @@ INSERT IGNORE INTO `PREFIX_authorization_role` (`slug`) VALUES
   ('ROLE_MOD_TAB_DEFAULT_READ'),
   ('ROLE_MOD_TAB_DEFAULT_UPDATE'),
   ('ROLE_MOD_TAB_DEFAULT_DELETE');
+
+UPDATE `PREFIX_configuration` SET `value` = 'In Stock' WHERE `name` = "PS_LABEL_IN_STOCK_PRODUCTS" AND `value` IS NULL;
+UPDATE `PREFIX_configuration` SET `value` = 'Product available for orders' WHERE `name` = "PS_LABEL_OOS_PRODUCTS_BOA" AND `value` IS NULL;
+UPDATE `PREFIX_configuration` SET `value` = 'Out-of-Stock' WHERE `name` = "PS_LABEL_OOS_PRODUCTS_BOD" AND `value` IS NULL;
+UPDATE `PREFIX_configuration` SET `value` = '28' WHERE `name` = "SHOP_LOGO_HEIGHT" AND `value` = '23';
+UPDATE `PREFIX_configuration` SET `value` = '100' WHERE `name` = "SHOP_LOGO_WIDTH" AND `value` = '117';

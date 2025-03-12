@@ -22,6 +22,8 @@ DELETE FROM `PREFIX_access`
 DELETE FROM `PREFIX_configuration`
   WHERE `name` IN ('PS_REFERRERS_CACHE_LIKE', 'PS_REFERRERS_CACHE_DATE');
 
+UPDATE `PREFIX_configuration` SET `value` = 'id_group;id_currency;id_country;id_shop' WHERE `name` = "PS_SPECIFIC_PRICE_PRIORITIES" AND `value` = 'id_shop;id_currency;id_country;id_group';
+
 /* PHP:add_configuration_if_not_exists('PS_MAIL_DKIM_ENABLE', '0'); */;
 /* PHP:add_configuration_if_not_exists('PS_MAIL_DKIM_DOMAIN', ''); */;
 /* PHP:add_configuration_if_not_exists('PS_MAIL_DKIM_SELECTOR', ''); */;
@@ -171,8 +173,25 @@ INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`
   (NULL, 'actionProductGridPresenterModifier', 'Modify product grid template data', 'This hook allows to modify data which is about to be used in template for product grid', '1'),
   (NULL, 'actionSecuritySessionEmployeeGridPresenterModifier', 'Modify security session employee grid template data', 'This hook allows to modify data which is about to be used in template for security session employee grid', '1'),
   (NULL, 'actionSecuritySessionCustomerGridPresenterModifier', 'Modify security session customer grid template data', 'This hook allows to modify data which is about to be used in template for security session customer grid', '1'),
-  (NULL, 'actionStateGridPresenterModifier', 'Modify state grid template data', 'This hook allows to modify data which is about to be used in template for state grid', '1'),
-  (NULL, 'actionTitleGridPresenterModifier', 'Modify title grid template data', 'This hook allows to modify data which is about to be used in template for title grid', '1')
+  (NULL, 'actionAfterCreateCartSummaryFormHandler','Modify back office order data after creating it','This hook allows to modify order created from back office data after it is created', '1'),
+  (NULL, 'actionBeforeCreateCartSummaryFormHandler','Modify back office order data before creating it','This hook allows to modify order created from back office data before it is created', '1'),
+  (NULL, 'actionBeforeDisableMobileModule','Before a module is disabled for mobile','This hook is called just before a module is disabled for mobile', '1'),
+  (NULL, 'actionBeforeDisableModule','Before a module is disabled','This hook is called just before a module is disabled', '1'),
+  (NULL, 'actionBeforeEnableMobileModule','Before a module is enabled for mobile','This hook is called just before a module is enabled for mobile', '1'),
+  (NULL, 'actionBeforeEnableModule','Before a module is enabled','This hook is called just before a module is enabled', '1'),
+  (NULL, 'actionBeforeInstallModule','Before a module is installed','This hook is called just before a module is installed', '1'),
+  (NULL, 'actionBeforePostInstallModule','Before method `postInstall()` is called','This hook is called juste before a module execute its `postInstall()` method', '1'),
+  (NULL, 'actionBeforeResetModule','Before a module is reset','This hook is called just before a module is reset', '1'),
+  (NULL, 'actionBeforeUninstallModule','Before a module is uninstalled','This hook is called just before a module is uninstalled', '1'),
+  (NULL, 'actionBeforeUpgradeModule','Before a module is upgraded','This hook is called just before a module is upgraded', '1'),
+  (NULL, 'actionFilterDeliveryOptionList','Modify delivery option list result','This hook allows you to modify delivery option list', '1'),
+  (NULL, 'actionGetAdminToolbarButtons','Allows to add buttons in any toolbar in the back office','This hook allows you to define descriptions of buttons to add in any toolbar of the back office', '1'),
+  (NULL, 'actionListModules','Add modules to the module manager list','This hook allows you to add modules to the list of modules displayed in the module manager page', '1'),
+  (NULL, 'actionValidateOrderAfter','After validating an order','This hook is called after validating an order by core', '1'),
+  (NULL, 'displayBackOfficeEmployeeMenu','Administration Employee menu','This hook is displayed in the employee menu', '1'),
+  (NULL, 'displayEmptyModuleCategoryExtraMessage','Extra message to display for an empty modules category','This hook allows to add an extra message to display in the Module manager page when a category does not have any module', '1'),
+  (NULL, 'actionStateGridPresenterModifier','Modify state grid template data','This hook allows to modify data which is about to be used in template for state grid', '1'),
+  (NULL, 'actionTitleGridPresenterModifier','Modify title grid template data','This hook allows to modify data which is about to be used in template for title grid', '1')
 ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
 
 /* PHP:add_column('employee_session', 'date_upd', 'DATETIME NOT NULL AFTER `token`'); */;
@@ -209,7 +228,7 @@ UPDATE `PREFIX_product_shop` SET `unit_price` = IF (`unit_price_ratio` != 0, `pr
 
 /* PHP:add_column('feature_flag', 'stability', 'VARCHAR(64) DEFAULT \'beta\' NOT NULL'); */;
 
-UPDATE `PREFIX_feature_flag` SET `state` = '0', `stability` = 'stable', `label_wording` = 'New product page - Single store', `description_wording` = 'This page benefits from increased performance and includes new features such as a new combination management system.' WHERE `name` = 'product_page_V2';
+UPDATE `PREFIX_feature_flag` SET `state` = '0', `stability` = 'beta', `label_wording` = 'New product page - Single store', `description_wording` = 'This page benefits from increased performance and includes new features such as a new combination management system.' WHERE `name` = 'product_page_V2';
 
 INSERT INTO `PREFIX_feature_flag` (`name`, `state`, `label_wording`, `label_domain`, `description_wording`, `description_domain`, `stability`)
 VALUES ('product_page_v2_multi_shop', '0', 'New product page - Multi store', 'Admin.Advparameters.Feature', 'Access the new product page, even in a multistore context. This is a work in progress and some features are not available.', 'Admin.Advparameters.Help', 'beta');
@@ -238,3 +257,5 @@ UPDATE `PREFIX_carrier` SET `name` = 'Click and collect' WHERE `name` = '0';
 
 ALTER TABLE `PREFIX_feature_flag` CHANGE label_wording label_wording VARCHAR(512) DEFAULT '' NOT NULL;
 ALTER TABLE `PREFIX_feature_flag` CHANGE description_wording description_wording VARCHAR(512) DEFAULT '' NOT NULL;
+
+UPDATE `PREFIX_state` SET `iso_code` = 'AGU' WHERE `name` = 'Aguascalientes';
