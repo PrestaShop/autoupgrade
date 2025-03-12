@@ -22,7 +22,7 @@
     - [Restore with command line parameters](#restore-with-command-line-parameters)
 7. [Channels](#channels)
 8. [Configuration Parameters](#configuration-parameters)
-9. [Update modules from local source](#update-modules-from-local-source)
+9. [Test module updates locally](#test-module-updates-locally)
 10. [Local temporary assets](#local-temporary-assets)
 11. [Process steps](#process-steps)
     - [Update steps](#update-steps)
