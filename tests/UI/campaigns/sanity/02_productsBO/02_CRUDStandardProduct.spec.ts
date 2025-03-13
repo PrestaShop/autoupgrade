@@ -35,6 +35,7 @@ import {
   test, expect, Page, BrowserContext,
 } from '@playwright/test';
 import semver from 'semver';
+import getExpectedProductTitle from "utils/index";
 
 const psVersion = utilsTest.getPSVersion();
 
@@ -169,7 +170,7 @@ test.describe('BO - Catalog - Products : CRUD standard product', async () => {
       page = await foClassicProductPage.closePage(browserContext, page, 0);
 
       const pageTitle = await boProductsCreatePage.getPageTitle(page);
-      expect(pageTitle).toContain(boProductsCreatePage.pageTitle);
+      expect(pageTitle).toContain(getExpectedProductTitle());
     });
 
     test('should update the created product', async () => {
@@ -205,7 +206,7 @@ test.describe('BO - Catalog - Products : CRUD standard product', async () => {
       page = await foClassicProductPage.closePage(browserContext, page, 0);
 
       const pageTitle = await boProductsCreatePage.getPageTitle(page);
-      expect(pageTitle).toContain(boProductsCreatePage.pageTitle);
+      expect(pageTitle).toContain(getExpectedProductTitle());
     });
 
     test('should delete product', async () => {

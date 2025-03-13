@@ -35,6 +35,7 @@ import {
   test, expect, Page, BrowserContext,
 } from '@playwright/test';
 import semver from 'semver';
+import getExpectedProductTitle from "utils/index";
 
 const psVersion = utilsTest.getPSVersion();
 
@@ -92,7 +93,7 @@ test.describe('BO - Catalog - Products : CRUD virtual product', async () => {
     await boProductsPage.closeSfToolBar(page);
 
     const pageTitle = await boProductsPage.getPageTitle(page);
-    expect(pageTitle).toContain(boProductsPage.pageTitle);
+    expect(pageTitle).toContain(getExpectedProductTitle());
   });
 
   // @todo : https://github.com/PrestaShop/PrestaShop/issues/36097
@@ -120,7 +121,7 @@ test.describe('BO - Catalog - Products : CRUD virtual product', async () => {
         await boProductsPage.clickOnAddNewProduct(page);
       }
       const pageTitle = await boProductsCreatePage.getPageTitle(page);
-      expect(pageTitle).toContain(boProductsCreatePage.pageTitle);
+      expect(pageTitle).toContain(getExpectedProductTitle());
     });
 
     test('should create virtual product', async () => {
@@ -160,7 +161,7 @@ test.describe('BO - Catalog - Products : CRUD virtual product', async () => {
       page = await foClassicProductPage.closePage(browserContext, page, 0);
 
       const pageTitle = await boProductsCreatePage.getPageTitle(page);
-      expect(pageTitle).toContain(boProductsCreatePage.pageTitle);
+      expect(pageTitle).toContain(getExpectedProductTitle());
     });
   });
 
@@ -198,7 +199,7 @@ test.describe('BO - Catalog - Products : CRUD virtual product', async () => {
       page = await foClassicProductPage.closePage(browserContext, page, 0);
 
       const pageTitle = await boProductsCreatePage.getPageTitle(page);
-      expect(pageTitle).toContain(boProductsCreatePage.pageTitle);
+      expect(pageTitle).toContain(getExpectedProductTitle());
     });
 
     test('should delete product', async () => {
