@@ -35,7 +35,7 @@ import {
   test, expect, Page, BrowserContext,
 } from '@playwright/test';
 import semver from 'semver';
-import getExpectedProductTitle from "utils/index";
+import getExpectedProductTitle from 'utils/index';
 
 const psVersion = utilsTest.getPSVersion();
 
