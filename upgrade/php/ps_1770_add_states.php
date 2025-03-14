@@ -66,6 +66,14 @@ function ps_1770_add_states()
     ];
 
     foreach ($states as $key => $value) {
+        $row = DbWrapper::getRow(
+            'SELECT * FROM `' . _DB_PREFIX_ . 'state` WHERE name =  \'' . $key . '\' AND id_country = ' . (int) $row['id_country'] . ''
+        );
+
+        if (!empty($row)) {
+            continue;
+        }
+
         $query = 'INSERT INTO `' . _DB_PREFIX_ . 'state` (`id_country`, `id_zone`, `name`, `iso_code`, `tax_behavior`, `active`) VALUES (' . (int) $row['id_country'] . ', ' . (int) $row['id_zone'] . ', \'' . $key . '\', \'' . $value . '\', 0, 1);';
         $result = DbWrapper::execute($query);
 
