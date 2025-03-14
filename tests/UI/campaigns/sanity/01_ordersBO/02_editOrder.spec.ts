@@ -27,15 +27,17 @@ import {
   dataOrderStatuses,
 } from '@prestashop-core/ui-testing';
 
+import setupSmtpConfigTest from 'commonTests/smtp';
+
 import {
   test, expect, Page, BrowserContext,
 } from '@playwright/test';
 
 /*
-  Connect to the BO
-  Edit the first order
-  Logout from the BO
- */
+Connect to the BO
+Edit the first order
+Logout from the BO
+*/
 test.describe('BO - Orders - Orders : Edit Order BO', async () => {
   let browserContext: BrowserContext;
   let page: Page;
@@ -48,6 +50,9 @@ test.describe('BO - Orders - Orders : Edit Order BO', async () => {
   test.afterAll(async () => {
     await page.close();
   });
+
+  // Pre-Condition: Setup config SMTP
+  setupSmtpConfigTest();
 
   // Steps
   test('should login in BO', async () => {
