@@ -20,7 +20,7 @@ import {
   // Import BO
   boProductsCreatePage,
 } from '@prestashop-core/ui-testing';
-//because we have an exception with page title, it's currently "Products" instead of "Product"
+//because we have an exception with page title, it's currently "Products" instead of "Product" -> https://github.com/PrestaShop/PrestaShop/issues/38253
 const getExpectedProductTitle = ():string => {
   let expectedTitle = boProductsCreatePage.pageTitle;
 
