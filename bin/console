@@ -44,10 +44,10 @@ if (!is_dir(dirname(__DIR__).'/vendor')) {
 require_once dirname(__DIR__).'/vendor/autoload.php';
 
 if (!defined('_PS_ROOT_DIR_')) {
-    define('_PS_ROOT_DIR_', __DIR__ . '/../../..');
+    define('_PS_ROOT_DIR_', __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..');
 }
 
-$moduleConfig = @simplexml_load_file(dirname(__DIR__).'/config.xml');
+$moduleConfig = @simplexml_load_file(dirname(__DIR__). DIRECTORY_SEPARATOR . 'config.xml');
 
 $application = new Application();
 

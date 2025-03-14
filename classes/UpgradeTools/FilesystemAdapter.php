@@ -86,7 +86,7 @@ class FilesystemAdapter
         $files = [];
         $directory = new RecursiveDirectoryIterator(
             $dir,
-            FilesystemIterator::SKIP_DOTS | FilesystemIterator::KEY_AS_FILENAME | FilesystemIterator::CURRENT_AS_PATHNAME | FilesystemIterator::UNIX_PATHS
+            FilesystemIterator::SKIP_DOTS | FilesystemIterator::KEY_AS_FILENAME | FilesystemIterator::CURRENT_AS_PATHNAME
         );
         $filter = new RecursiveCallbackFilterIterator($directory, function ($current, $key, $iterator) use ($way, $dir) {
             return !$this->isFileSkipped($key, $current, $way, $dir);
