@@ -66,11 +66,11 @@ function ps_1770_add_states()
     ];
 
     foreach ($states as $key => $value) {
-        $row = DbWrapper::getRow(
+        $duplicateRow = DbWrapper::getRow(
             'SELECT * FROM `' . _DB_PREFIX_ . 'state` WHERE name =  \'' . $key . '\' AND id_country = ' . (int) $row['id_country'] . ''
         );
 
-        if (!empty($row)) {
+        if (!empty($duplicateRow)) {
             continue;
         }
 
