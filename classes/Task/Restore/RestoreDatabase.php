@@ -152,6 +152,8 @@ class RestoreDatabase extends AbstractTask
 
                 if (!empty($tablesToRemove)) {
                     $this->container->getFileStorage()->save($tablesToRemove, UpgradeFileNames::DB_TABLES_TO_CLEAN_LIST);
+                    // TODO: This is a temporary workaround and does not properly handle.
+                    $databaseTools->cleanTablesAfterBackup($this->container->getFileStorage()->load(UpgradeFileNames::DB_TABLES_TO_CLEAN_LIST));
                 }
             }
             $backlog = new Backlog(array_reverse($listQuery), count($listQuery));
@@ -233,8 +235,6 @@ class RestoreDatabase extends AbstractTask
             $this->status = 'ok';
             $this->next = TaskName::TASK_RESTORE_COMPLETE;
             $this->logger->info($this->translator->trans('Database restoration done.'));
-
-            $databaseTools->cleanTablesAfterBackup($this->container->getFileStorage()->load(UpgradeFileNames::DB_TABLES_TO_CLEAN_LIST));
         }
 
         return ExitCode::SUCCESS;
