@@ -152,7 +152,7 @@ class RestoreDatabase extends AbstractTask
 
                 if (!empty($tablesToRemove)) {
                     $this->container->getFileStorage()->save($tablesToRemove, UpgradeFileNames::DB_TABLES_TO_CLEAN_LIST);
-                    // TODO: This is a temporary workaround and does not properly handle.
+                    // TODO: This is a temporary workaround and does not properly handle multiple files.
                     $databaseTools->cleanTablesAfterBackup($this->container->getFileStorage()->load(UpgradeFileNames::DB_TABLES_TO_CLEAN_LIST));
                 }
             }
