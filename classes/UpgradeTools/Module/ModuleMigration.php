@@ -74,8 +74,7 @@ class ModuleMigration
             $this->logger->notice($this->translator->trans('No version present in database for module %s, all files for update will be applied.', [$moduleMigrationContext->getModuleName()]));
         }
 
-        $files = glob($moduleMigrationContext->getUpgradeFilesRootPath() . '/*.php', GLOB_BRACE);
-
+        $files = glob($moduleMigrationContext->getUpgradeFilesRootPath() . DIRECTORY_SEPARATOR . '*.php', GLOB_BRACE);
         $upgradeFiles = [];
 
         foreach ($files as $file) {

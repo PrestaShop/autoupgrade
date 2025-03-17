@@ -45,12 +45,13 @@ class CoreUpgrader80 extends CoreUpgrader
     protected function forceRemovingFiles(): void
     {
         $filesToForceRemove = [
-            '/src/PrestaShopBundle/Resources/config/services/adapter/news.yml',
+            'src' . DIRECTORY_SEPARATOR . 'PrestaShopBundle' . DIRECTORY_SEPARATOR . 'Resources' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'services' . DIRECTORY_SEPARATOR . 'adapter' . DIRECTORY_SEPARATOR . 'news.yml',
         ];
 
         foreach ($filesToForceRemove as $file) {
-            if ($this->fileSystem->exists(_PS_ROOT_DIR_ . $file)) {
-                $this->fileSystem->remove(_PS_ROOT_DIR_ . $file);
+            $filePath = _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . $file;
+            if ($this->fileSystem->exists($filePath)) {
+                $this->fileSystem->remove($filePath);
             }
         }
     }

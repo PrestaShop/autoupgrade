@@ -32,7 +32,7 @@ class CoreUpgrader81 extends CoreUpgrader80
      */
     public function writeNewSettings(): void
     {
-        $parametersPath = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/app/config/parameters.php';
+        $parametersPath = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'parameters.php';
         $parameters = require $parametersPath;
         if (!isset($parameters['parameters']['api_public_key']) || isset($parameters['parameters']['api_private_key'])) {
             $this->logger->debug($this->container->getTranslator()->trans('API keys not present in parameters, generating'));

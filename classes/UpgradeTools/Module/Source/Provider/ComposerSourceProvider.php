@@ -57,7 +57,7 @@ class ComposerSourceProvider extends AbstractModuleSourceProvider
 
         $this->localModuleZips = [];
 
-        $modulesList = $this->composerService->getModulesInComposerLock($this->prestaShopReleaseFolder . '/composer.lock');
+        $modulesList = $this->composerService->getModulesInComposerLock($this->prestaShopReleaseFolder . DIRECTORY_SEPARATOR . 'composer.lock');
 
         foreach ($modulesList as $module) {
             $this->localModuleZips[] = new ModuleSource(

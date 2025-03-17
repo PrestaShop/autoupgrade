@@ -49,21 +49,21 @@ class CacheCleaner
     public function cleanFolders(): void
     {
         $dirsToClean = [
-            $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/app/cache/',
-            $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/cache/smarty/cache/',
-            $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/cache/smarty/compile/',
-            $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/var/cache/',
-        ];
+        $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR,
+        $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'smarty' . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR,
+        $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'smarty' . DIRECTORY_SEPARATOR . 'compile' . DIRECTORY_SEPARATOR,
+        $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR,
+    ];
 
         $defaultThemeNames = [
-            'default',
-            'prestashop',
-            'default-boostrap',
-            'classic',
-        ];
+        'default',
+        'prestashop',
+        'default-boostrap',
+        'classic',
+    ];
 
         if (defined('_THEME_NAME_') && in_array(_THEME_NAME_, $defaultThemeNames)) {
-            $dirsToClean[] = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/themes/' . _THEME_NAME_ . '/cache/';
+            $dirsToClean[] = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'themes' . DIRECTORY_SEPARATOR . _THEME_NAME_ . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR;
         }
 
         foreach ($dirsToClean as $dir) {

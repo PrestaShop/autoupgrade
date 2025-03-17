@@ -263,9 +263,9 @@ class UpgradeContainer
         $this->adminDir = $adminDir;
         $this->psRootDir = $psRootDir;
 
-        if ($this->getFileSystem()->exists($psRootDir . '/modules/autoupgrade/.env')) {
+        if ($this->getFileSystem()->exists($psRootDir . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . 'autoupgrade' . DIRECTORY_SEPARATOR . '.env')) {
             $dotenv = new Dotenv();
-            $dotenv->load($psRootDir . '/modules/autoupgrade/.env');
+            $dotenv->load($psRootDir . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . 'autoupgrade' . DIRECTORY_SEPARATOR . '.env');
         }
     }
 
@@ -711,14 +711,14 @@ class UpgradeContainer
             if (version_compare($this->getProperty(self::PS_VERSION), '1.7.8.0', '>')) {
                 // We use Twig 3
                 $loader = new FilesystemLoader();
-                $loader->addPath(realpath(__DIR__ . '/..') . '/views/templates', 'ModuleAutoUpgrade');
+                $loader->addPath(realpath(__DIR__ . DIRECTORY_SEPARATOR . '..') . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'templates', 'ModuleAutoUpgrade');
                 $twig = new Environment($loader);
                 $twig->addExtension(new TransFilterExtension3($this->getTranslator()));
             } else {
                 // We use Twig 1
                 // Using independant template engine for 1.6 & 1.7 compatibility
                 $loader = new Twig_Loader_Filesystem();
-                $loader->addPath(realpath(__DIR__ . '/..') . '/views/templates', 'ModuleAutoUpgrade');
+                $loader->addPath(realpath(__DIR__ . DIRECTORY_SEPARATOR . '..') . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'templates', 'ModuleAutoUpgrade');
                 $twig = new Twig_Environment($loader);
                 $twig->addExtension(new TransFilterExtension($this->getTranslator()));
             }
@@ -1023,13 +1023,13 @@ class UpgradeContainer
      */
     public function initPrestaShopAutoloader(): void
     {
-        $autoloader = $this->getProperty(self::PS_ROOT_PATH) . '/vendor/autoload.php';
+        $autoloader = $this->getProperty(self::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
         if ($this->getFileSystem()->exists($autoloader)) {
             require_once $autoloader;
         }
 
-        require_once $this->getProperty(self::PS_ROOT_PATH) . '/config/defines.inc.php';
-        require_once $this->getProperty(self::PS_ROOT_PATH) . '/config/autoload.php';
+        require_once $this->getProperty(self::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'defines.inc.php';
+        require_once $this->getProperty(self::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'autoload.php';
     }
 
     /**
@@ -1037,7 +1037,7 @@ class UpgradeContainer
      */
     public function initPrestaShopCore(): void
     {
-        require_once $this->getProperty(self::PS_ROOT_PATH) . '/config/config.inc.php';
+        require_once $this->getProperty(self::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'config.inc.php';
 
         $id_employee = !empty($_COOKIE['id_employee']) ? $_COOKIE['id_employee'] : 1;
         \Context::getContext()->employee = new \Employee((int) $id_employee);

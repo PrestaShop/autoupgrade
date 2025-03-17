@@ -54,7 +54,7 @@ class FilesystemAdapter
     private $releaseFileChecks = [
         'files' => [
             'index.php',
-            'config/defines.inc.php',
+            'config' . DIRECTORY_SEPARATOR . 'defines.inc.php',
         ],
         'folders' => [
             'classes',

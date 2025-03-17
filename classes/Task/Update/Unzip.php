@@ -89,8 +89,8 @@ class Unzip extends AbstractTask
         $newZip = $destExtract . DIRECTORY_SEPARATOR . 'prestashop.zip';
         if ($this->container->getFileSystem()->exists($newZip)) {
             $this->container->getFileSystem()->remove([
-                $destExtract . DIRECTORY_SEPARATOR . '/index.php',
-                $destExtract . DIRECTORY_SEPARATOR . '/Install_PrestaShop.html',
+                $destExtract . DIRECTORY_SEPARATOR . 'index.php',
+                $destExtract . DIRECTORY_SEPARATOR . 'Install_PrestaShop.html',
             ]);
             $subRes = $this->container->getZipAction()->extract($newZip, $destExtract);
             if (!$subRes) {
@@ -106,7 +106,7 @@ class Unzip extends AbstractTask
                 return ExitCode::FAIL;
             }
         } else {
-            $zipSubfolder = $destExtract . '/prestashop/';
+            $zipSubfolder = $destExtract . DIRECTORY_SEPARATOR . 'prestashop' . DIRECTORY_SEPARATOR;
             if (!is_dir($zipSubfolder)) {
                 $this->next = TaskName::TASK_ERROR;
                 $this->logger->error(
@@ -119,7 +119,7 @@ class Unzip extends AbstractTask
                 if ($file[0] === '.') {
                     continue;
                 }
-                $this->container->getFileSystem()->rename($zipSubfolder . $file, $destExtract . '/' . $file);
+                $this->container->getFileSystem()->rename($zipSubfolder . $file, $destExtract . DIRECTORY_SEPARATOR . $file);
             }
         }
 

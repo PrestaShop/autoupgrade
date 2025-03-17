@@ -69,7 +69,7 @@ class MarketplaceSourceProvider extends AbstractModuleSourceProvider
         ]);
 
         $xml = $this->fileLoader->getXmlFile(
-            $this->prestashopRootFolder . '/config/xml/modules_native_addons.xml',
+            $this->prestashopRootFolder . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml' . DIRECTORY_SEPARATOR . 'modules_native_addons.xml',
             self::ADDONS_API_URL . '/?' . $postData
         );
 

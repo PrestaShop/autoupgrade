@@ -81,7 +81,7 @@ class LocalSourceProvider extends AbstractModuleSourceProvider
         $zipArchive = new ZipArchive();
         $zipArchive->open($zipFilePath);
 
-        $xml = simplexml_load_string($zipArchive->getFromName($moduleName . '/config.xml'));
+        $xml = simplexml_load_string($zipArchive->getFromName($moduleName . DIRECTORY_SEPARATOR . 'config.xml'));
 
         if (!$xml) {
             $zipArchive->close();

@@ -94,7 +94,7 @@ abstract class CoreUpgrader
         $this->logger = $logger;
         $this->destinationUpgradeVersion = $this->container->getUpdateState()->getDestinationVersion();
         $this->pathToInstallFolder = realpath($this->container->getProperty(UpgradeContainer::TMP_FILES_PATH) . DIRECTORY_SEPARATOR . 'install');
-        $this->pathToUpgradeScripts = dirname(__DIR__, 3) . '/upgrade/';
+        $this->pathToUpgradeScripts = dirname(__DIR__, 3) . DIRECTORY_SEPARATOR . 'upgrade' . DIRECTORY_SEPARATOR;
         if ($this->fileSystem->exists($this->pathToInstallFolder . DIRECTORY_SEPARATOR . 'autoload.php')) {
             require_once $this->pathToInstallFolder . DIRECTORY_SEPARATOR . 'autoload.php';
         }
@@ -170,7 +170,7 @@ abstract class CoreUpgrader
             }
             if (isset($_SERVER['SCRIPT_NAME'])) {
                 if (basename($_SERVER['SCRIPT_NAME']) == 'index.php' && empty($_SERVER['QUERY_STRING'])) {
-                    $_SERVER['REQUEST_URI'] = dirname($_SERVER['SCRIPT_NAME']) . '/';
+                    $_SERVER['REQUEST_URI'] = dirname($_SERVER['SCRIPT_NAME']) . DIRECTORY_SEPARATOR;
                 } else {
                     $_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_NAME'];
                     if (isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING'])) {
@@ -181,7 +181,7 @@ abstract class CoreUpgrader
         }
         $_SERVER['REQUEST_URI'] = str_replace('//', '/', $_SERVER['REQUEST_URI']);
 
-        // Kept for backward compatbility (unknown consequences on old versions of PrestaShop)
+        // Kept for backward compatibility (unknown consequences on old versions of PrestaShop)
         if (!defined('INSTALL_VERSION')) {
             define('INSTALL_VERSION', $this->destinationUpgradeVersion);
         }
@@ -197,52 +197,52 @@ abstract class CoreUpgrader
             define('PS_INSTALLATION_IN_PROGRESS', true);
         }
         if (!defined('SETTINGS_FILE_PHP')) {
-            define('SETTINGS_FILE_PHP', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/app/config/parameters.php');
+            define('SETTINGS_FILE_PHP', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'parameters.php');
         }
         if (!defined('SETTINGS_FILE_YML')) {
-            define('SETTINGS_FILE_YML', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/app/config/parameters.yml');
+            define('SETTINGS_FILE_YML', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'parameters.yml');
         }
         if (!defined('DEFINES_FILE')) {
-            define('DEFINES_FILE', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . '/config/defines.inc.php');
+            define('DEFINES_FILE', $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'defines.inc.php');
         }
         if (!defined('INSTALLER__PS_BASE_URI')) {
             define('INSTALLER__PS_BASE_URI', substr($_SERVER['REQUEST_URI'], 0, -1 * (strlen($_SERVER['REQUEST_URI']) - strrpos($_SERVER['REQUEST_URI'], '/')) - strlen(substr(dirname($_SERVER['REQUEST_URI']), strrpos(dirname($_SERVER['REQUEST_URI']), '/') + 1))));
         }
         if (!defined('_PS_INSTALL_PATH_')) {
-            define('_PS_INSTALL_PATH_', $this->pathToInstallFolder . '/');
+            define('_PS_INSTALL_PATH_', $this->pathToInstallFolder . DIRECTORY_SEPARATOR);
         }
         if (!defined('_PS_INSTALL_DATA_PATH_')) {
-            define('_PS_INSTALL_DATA_PATH_', _PS_INSTALL_PATH_ . 'data/');
+            define('_PS_INSTALL_DATA_PATH_', _PS_INSTALL_PATH_ . 'data' . DIRECTORY_SEPARATOR);
         }
         if (!defined('_PS_INSTALL_CONTROLLERS_PATH_')) {
-            define('_PS_INSTALL_CONTROLLERS_PATH_', _PS_INSTALL_PATH_ . 'controllers/');
+            define('_PS_INSTALL_CONTROLLERS_PATH_', _PS_INSTALL_PATH_ . 'controllers' . DIRECTORY_SEPARATOR);
         }
         if (!defined('_PS_INSTALL_MODELS_PATH_')) {
-            define('_PS_INSTALL_MODELS_PATH_', _PS_INSTALL_PATH_ . 'models/');
+            define('_PS_INSTALL_MODELS_PATH_', _PS_INSTALL_PATH_ . 'models' . DIRECTORY_SEPARATOR);
         }
         if (!defined('_PS_INSTALL_LANGS_PATH_')) {
-            define('_PS_INSTALL_LANGS_PATH_', _PS_INSTALL_PATH_ . 'langs/');
+            define('_PS_INSTALL_LANGS_PATH_', _PS_INSTALL_PATH_ . 'langs' . DIRECTORY_SEPARATOR);
         }
         if (!defined('_PS_INSTALL_FIXTURES_PATH_')) {
-            define('_PS_INSTALL_FIXTURES_PATH_', _PS_INSTALL_PATH_ . 'fixtures/');
+            define('_PS_INSTALL_FIXTURES_PATH_', _PS_INSTALL_PATH_ . 'fixtures' . DIRECTORY_SEPARATOR);
         }
         if (!defined('_PS_INSTALLER_PHP_UPGRADE_DIR_')) {
-            define('_PS_INSTALLER_PHP_UPGRADE_DIR_', $this->pathToUpgradeScripts . 'php/');
+            define('_PS_INSTALLER_PHP_UPGRADE_DIR_', $this->pathToUpgradeScripts . DIRECTORY_SEPARATOR . 'php' . DIRECTORY_SEPARATOR);
         }
 
         // if _PS_ROOT_DIR_ is defined, use it instead of "guessing" the module dir.
         if (defined('_PS_ROOT_DIR_') && !defined('_PS_MODULE_DIR_')) {
-            define('_PS_MODULE_DIR_', _PS_ROOT_DIR_ . '/modules/');
+            define('_PS_MODULE_DIR_', _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR);
         } elseif (!defined('_PS_MODULE_DIR_')) {
-            define('_PS_MODULE_DIR_', $this->pathToInstallFolder . '/../modules/');
+            define('_PS_MODULE_DIR_', $this->pathToInstallFolder . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR);
         }
 
         if (!defined('__PS_BASE_URI__')) {
-            define('__PS_BASE_URI__', realpath(dirname($_SERVER['SCRIPT_NAME'])) . '/../../');
+            define('__PS_BASE_URI__', realpath(dirname($_SERVER['SCRIPT_NAME'])) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR);
         }
 
         if (!defined('_THEMES_DIR_')) {
-            define('_THEMES_DIR_', __PS_BASE_URI__ . 'themes/');
+            define('_THEMES_DIR_', __PS_BASE_URI__ . 'themes' . DIRECTORY_SEPARATOR);
         }
     }
 
@@ -301,7 +301,7 @@ abstract class CoreUpgrader
      */
     public function getSqlContentList(string $originVersion): array
     {
-        $upgrade_dir_sql = $this->pathToUpgradeScripts . '/sql/';
+        $upgrade_dir_sql = $this->pathToUpgradeScripts . DIRECTORY_SEPARATOR . 'sql' . DIRECTORY_SEPARATOR;
 
         return $this->applySqlParams(
             $this->getUpgradeSqlFilesListToApply($upgrade_dir_sql, $originVersion)
@@ -535,16 +535,16 @@ abstract class CoreUpgrader
     protected function upgradeLanguages(): void
     {
         if (!defined('_PS_TOOL_DIR_')) {
-            define('_PS_TOOL_DIR_', _PS_ROOT_DIR_ . '/tools/');
+            define('_PS_TOOL_DIR_', _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'tools' . DIRECTORY_SEPARATOR);
         }
         if (!defined('_PS_TRANSLATIONS_DIR_')) {
-            define('_PS_TRANSLATIONS_DIR_', _PS_ROOT_DIR_ . '/translations/');
+            define('_PS_TRANSLATIONS_DIR_', _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'translations' . DIRECTORY_SEPARATOR);
         }
         if (!defined('_PS_MODULE_DIR_')) {
-            define('_PS_MODULE_DIR_', _PS_ROOT_DIR_ . '/modules/');
+            define('_PS_MODULE_DIR_', _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR);
         }
         if (!defined('_PS_MAILS_DIR_')) {
-            define('_PS_MAILS_DIR_', _PS_ROOT_DIR_ . '/mails/');
+            define('_PS_MAILS_DIR_', _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'mails' . DIRECTORY_SEPARATOR);
         }
 
         $langs = $this->db->executeS('SELECT * FROM `' . _DB_PREFIX_ . 'lang` WHERE `active` = 1');
@@ -566,8 +566,8 @@ abstract class CoreUpgrader
     {
         $this->loadEntityInterface();
 
-        if ($this->fileSystem->exists(_PS_ROOT_DIR_ . '/classes/Tools.php')) {
-            require_once _PS_ROOT_DIR_ . '/classes/Tools.php';
+        if ($this->fileSystem->exists(_PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'classes' . DIRECTORY_SEPARATOR . 'Tools.php')) {
+            require_once _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'classes' . DIRECTORY_SEPARATOR . 'Tools.php';
         }
 
         if (!class_exists('ToolsCore') || !method_exists('ToolsCore', 'generateHtaccess')) {
@@ -583,109 +583,24 @@ abstract class CoreUpgrader
             define('_PS_USE_SQL_SLAVE_', false);
         }
 
-        if ($this->fileSystem->exists(_PS_ROOT_DIR_ . '/classes/ObjectModel.php')) {
-            require_once _PS_ROOT_DIR_ . '/classes/ObjectModel.php';
-        }
-        if (!class_exists('ObjectModel', false) && class_exists('ObjectModelCore')) {
-            eval('abstract class ObjectModel extends ObjectModelCore{}');
-        }
+        $classes = [
+            'ObjectModel', 'Configuration', 'Cache', 'PrestaShopCollection', 'ShopUrl',
+            'Shop', 'Translate', 'Module', 'Validate', 'Language', 'Tab', 'Dispatcher',
+            'Hook', 'Context', 'Group',
+        ];
 
-        if ($this->fileSystem->exists(_PS_ROOT_DIR_ . '/classes/Configuration.php')) {
-            require_once _PS_ROOT_DIR_ . '/classes/Configuration.php';
-        }
-        if (!class_exists('Configuration', false) && class_exists('ConfigurationCore')) {
-            eval('class Configuration extends ConfigurationCore{}');
-        }
+        foreach ($classes as $class) {
+            $path = _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'classes' . DIRECTORY_SEPARATOR .
+                (strpos($class, 'Shop') === 0 ? 'shop' . DIRECTORY_SEPARATOR : (strpos($class, 'Module') === 0 ? 'module' . DIRECTORY_SEPARATOR : '')) .
+                $class . '.php';
 
-        if ($this->fileSystem->exists(_PS_ROOT_DIR_ . '/classes/cache/Cache.php')) {
-            require_once _PS_ROOT_DIR_ . '/classes/cache/Cache.php';
-        }
-        if (!class_exists('Cache', false) && class_exists('CacheCore')) {
-            eval('abstract class Cache extends CacheCore{}');
-        }
+            if ($this->fileSystem->exists($path)) {
+                require_once $path;
+            }
 
-        if ($this->fileSystem->exists(_PS_ROOT_DIR_ . '/classes/PrestaShopCollection.php')) {
-            require_once _PS_ROOT_DIR_ . '/classes/PrestaShopCollection.php';
-        }
-        if (!class_exists('PrestaShopCollection', false) && class_exists('PrestaShopCollectionCore')) {
-            eval('class PrestaShopCollection extends PrestaShopCollectionCore{}');
-        }
-
-        if ($this->fileSystem->exists(_PS_ROOT_DIR_ . '/classes/shop/ShopUrl.php')) {
-            require_once _PS_ROOT_DIR_ . '/classes/shop/ShopUrl.php';
-        }
-        if (!class_exists('ShopUrl', false) && class_exists('ShopUrlCore')) {
-            eval('class ShopUrl extends ShopUrlCore{}');
-        }
-
-        if ($this->fileSystem->exists(_PS_ROOT_DIR_ . '/classes/shop/Shop.php')) {
-            require_once _PS_ROOT_DIR_ . '/classes/shop/Shop.php';
-        }
-        if (!class_exists('Shop', false) && class_exists('ShopCore')) {
-            eval('class Shop extends ShopCore{}');
-        }
-
-        if ($this->fileSystem->exists(_PS_ROOT_DIR_ . '/classes/Translate.php')) {
-            require_once _PS_ROOT_DIR_ . '/classes/Translate.php';
-        }
-        if (!class_exists('Translate', false) && class_exists('TranslateCore')) {
-            eval('class Translate extends TranslateCore{}');
-        }
-
-        if ($this->fileSystem->exists(_PS_ROOT_DIR_ . '/classes/module/Module.php')) {
-            require_once _PS_ROOT_DIR_ . '/classes/module/Module.php';
-        }
-        if (!class_exists('Module', false) && class_exists('ModuleCore')) {
-            eval('class Module extends ModuleCore{}');
-        }
-
-        if ($this->fileSystem->exists(_PS_ROOT_DIR_ . '/classes/Validate.php')) {
-            require_once _PS_ROOT_DIR_ . '/classes/Validate.php';
-        }
-        if (!class_exists('Validate', false) && class_exists('ValidateCore')) {
-            eval('class Validate extends ValidateCore{}');
-        }
-
-        if ($this->fileSystem->exists(_PS_ROOT_DIR_ . '/classes/Language.php')) {
-            require_once _PS_ROOT_DIR_ . '/classes/Language.php';
-        }
-        if (!class_exists('Language', false) && class_exists('LanguageCore')) {
-            eval('class Language extends LanguageCore{}');
-        }
-
-        if ($this->fileSystem->exists(_PS_ROOT_DIR_ . '/classes/Tab.php')) {
-            require_once _PS_ROOT_DIR_ . '/classes/Tab.php';
-        }
-        if (!class_exists('Tab', false) && class_exists('TabCore')) {
-            eval('class Tab extends TabCore{}');
-        }
-
-        if ($this->fileSystem->exists(_PS_ROOT_DIR_ . '/classes/Dispatcher.php')) {
-            require_once _PS_ROOT_DIR_ . '/classes/Dispatcher.php';
-        }
-        if (!class_exists('Dispatcher', false) && class_exists('DispatcherCore')) {
-            eval('class Dispatcher extends DispatcherCore{}');
-        }
-
-        if ($this->fileSystem->exists(_PS_ROOT_DIR_ . '/classes/Hook.php')) {
-            require_once _PS_ROOT_DIR_ . '/classes/Hook.php';
-        }
-        if (!class_exists('Hook', false) && class_exists('HookCore')) {
-            eval('class Hook extends HookCore{}');
-        }
-
-        if ($this->fileSystem->exists(_PS_ROOT_DIR_ . '/classes/Context.php')) {
-            require_once _PS_ROOT_DIR_ . '/classes/Context.php';
-        }
-        if (!class_exists('Context', false) && class_exists('ContextCore')) {
-            eval('class Context extends ContextCore{}');
-        }
-
-        if ($this->fileSystem->exists(_PS_ROOT_DIR_ . '/classes/Group.php')) {
-            require_once _PS_ROOT_DIR_ . '/classes/Group.php';
-        }
-        if (!class_exists('Group', false) && class_exists('GroupCore')) {
-            eval('class Group extends GroupCore{}');
+            if (!class_exists($class, false) && class_exists($class . 'Core')) {
+                eval('class ' . $class . ' extends ' . $class . 'Core{}');
+            }
         }
 
         \ToolsCore::generateHtaccess(null, $url_rewrite);
@@ -693,7 +608,7 @@ abstract class CoreUpgrader
 
     protected function loadEntityInterface(): void
     {
-        require_once _PS_ROOT_DIR_ . '/src/Core/Foundation/Database/EntityInterface.php';
+        require_once _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR . 'Foundation' . DIRECTORY_SEPARATOR . 'Database' . DIRECTORY_SEPARATOR . 'EntityInterface.php';
     }
 
     /**
@@ -703,20 +618,21 @@ abstract class CoreUpgrader
     {
         $files = [
             $this->container->getProperty(UpgradeContainer::PS_ADMIN_PATH) . DIRECTORY_SEPARATOR . 'themes' . DIRECTORY_SEPARATOR . 'default' . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . 'controllers' . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . 'header.tpl',
-            _PS_ROOT_DIR_ . '/app/cache/dev/class_index.php',
-            _PS_ROOT_DIR_ . '/app/cache/prod/class_index.php',
-            _PS_ROOT_DIR_ . '/cache/class_index.php',
-            _PS_ROOT_DIR_ . '/config/xml/blog-fr.xml',
-            _PS_ROOT_DIR_ . '/config/xml/default_country_modules_list.xml',
-            _PS_ROOT_DIR_ . '/config/xml/modules_list.xml',
-            _PS_ROOT_DIR_ . '/config/xml/modules_native_addons.xml',
-            _PS_ROOT_DIR_ . '/config/xml/must_have_modules_list.xml',
-            _PS_ROOT_DIR_ . '/config/xml/tab_modules_list.xml',
-            _PS_ROOT_DIR_ . '/config/xml/trusted_modules_list.xml',
-            _PS_ROOT_DIR_ . '/config/xml/untrusted_modules_list.xml',
-            _PS_ROOT_DIR_ . '/var/cache/dev/class_index.php',
-            _PS_ROOT_DIR_ . '/var/cache/prod/class_index.php',
+            _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'dev' . DIRECTORY_SEPARATOR . 'class_index.php',
+            _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'prod' . DIRECTORY_SEPARATOR . 'class_index.php',
+            _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'class_index.php',
+            _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml' . DIRECTORY_SEPARATOR . 'blog-fr.xml',
+            _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml' . DIRECTORY_SEPARATOR . 'default_country_modules_list.xml',
+            _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml' . DIRECTORY_SEPARATOR . 'modules_list.xml',
+            _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml' . DIRECTORY_SEPARATOR . 'modules_native_addons.xml',
+            _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml' . DIRECTORY_SEPARATOR . 'must_have_modules_list.xml',
+            _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml' . DIRECTORY_SEPARATOR . 'tab_modules_list.xml',
+            _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml' . DIRECTORY_SEPARATOR . 'trusted_modules_list.xml',
+            _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml' . DIRECTORY_SEPARATOR . 'untrusted_modules_list.xml',
+            _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'dev' . DIRECTORY_SEPARATOR . 'class_index.php',
+            _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'prod' . DIRECTORY_SEPARATOR . 'class_index.php',
         ];
+
         foreach ($files as $path) {
             if ($this->fileSystem->exists($path)) {
                 $this->fileSystem->remove($path);
@@ -862,7 +778,7 @@ abstract class CoreUpgrader
     public function warmupCoreCache(): void
     {
         $rootPath = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH);
-        $command = 'php ' . $rootPath . '/bin/console cache:warmup --no-interaction --env=prod';
+        $command = 'php ' . $rootPath . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'console cache:warmup --no-interaction --env=prod';
         $output = [];
         $resultCode = 0;
 

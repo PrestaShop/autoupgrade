@@ -139,7 +139,7 @@ class Upgrader
      */
     public function clearXmlMd5File(string $version): void
     {
-        $fileToRemove = _PS_ROOT_DIR_ . '/config/xml/' . $version . '.xml';
+        $fileToRemove = _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'xml' . DIRECTORY_SEPARATOR . $version . '.xml';
         if ($this->filesystem->exists($fileToRemove)) {
             $this->filesystem->remove($fileToRemove);
         }

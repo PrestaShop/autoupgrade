@@ -52,7 +52,7 @@ class PrestashopVersionService
     public function extractPrestashopVersionFromZip(string $zipFile): string
     {
         $internalZipFileName = 'prestashop.zip';
-        $versionFile = 'install/install_version.php';
+        $versionFile = 'install' . DIRECTORY_SEPARATOR . 'install_version.php';
 
         if (!$this->filesystem->exists($zipFile)) {
             throw new FileNotFoundException("Unable to find $zipFile file");

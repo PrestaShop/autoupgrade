@@ -50,8 +50,8 @@ class ThemeAdapter
      */
     public function getListFromDisk(): array
     {
-        $suffix = 'config/theme.yml';
-        $themeDirectories = glob(_PS_ALL_THEMES_DIR_ . '*/' . $suffix, GLOB_NOSORT);
+        $suffix = 'config' . DIRECTORY_SEPARATOR . 'theme.yml';
+        $themeDirectories = glob(_PS_ALL_THEMES_DIR_ . '*' . DIRECTORY_SEPARATOR . $suffix, GLOB_NOSORT);
 
         $themes = [];
         foreach ($themeDirectories as $directory) {

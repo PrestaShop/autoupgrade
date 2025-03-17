@@ -59,7 +59,7 @@ class PrestashopConfiguration
         }
 
         // TODO: to be moved as property class in order to make tests possible
-        $path = _PS_ROOT_DIR_ . '/modules/autoupgrade/config.xml';
+        $path = _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . 'autoupgrade' . DIRECTORY_SEPARATOR . 'config.xml';
 
         if ($this->filesystem->exists($path)
             && $xml_module_version = simplexml_load_file($path)
@@ -79,11 +79,11 @@ class PrestashopConfiguration
             return _PS_VERSION_;
         }
         $files = [
-            $this->psRootDir . '/config/settings.inc.php',
-            $this->psRootDir . '/config/autoload.php',
-            $this->psRootDir . '/app/AppKernel.php',
-            $this->psRootDir . '/src/Core/Version.php',
-        ];
+        $this->psRootDir . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'settings.inc.php',
+        $this->psRootDir . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'autoload.php',
+        $this->psRootDir . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'AppKernel.php',
+        $this->psRootDir . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR . 'Version.php',
+    ];
         foreach ($files as $file) {
             if (!$this->filesystem->exists($file)) {
                 continue;

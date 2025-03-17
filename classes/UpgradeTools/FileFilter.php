@@ -76,22 +76,22 @@ class FileFilter
     {
         // during backup, do not save
         $backupIgnoreAbsoluteFiles = [
-            '/app/cache',
-            '/cache/smarty/compile',
-            '/cache/smarty/cache',
-            '/cache/tcpdf',
-            '/cache/cachefs',
-            '/var/cache',
+        DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'cache',
+        DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'smarty' . DIRECTORY_SEPARATOR . 'compile',
+        DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'smarty' . DIRECTORY_SEPARATOR . 'cache',
+        DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'tcpdf',
+        DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'cachefs',
+        DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'cache',
 
-            // do not care about the two autoupgrade dir we use;
-            '/modules/autoupgrade',
-            '/admin/autoupgrade',
-        ];
+        // do not care about the two autoupgrade dir we use;
+        DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . 'autoupgrade',
+        DIRECTORY_SEPARATOR . 'admin' . DIRECTORY_SEPARATOR . 'autoupgrade',
+    ];
 
         if (!$this->updateConfiguration->shouldBackupImages()) {
-            $backupIgnoreAbsoluteFiles[] = '/img';
+            $backupIgnoreAbsoluteFiles[] = DIRECTORY_SEPARATOR . 'img';
         } else {
-            $backupIgnoreAbsoluteFiles[] = '/img/tmp';
+            $backupIgnoreAbsoluteFiles[] = DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'tmp';
         }
 
         return $backupIgnoreAbsoluteFiles;
@@ -103,18 +103,18 @@ class FileFilter
     public function getFilesToIgnoreOnRestore(): array
     {
         $restoreIgnoreAbsoluteFiles = [
-            '/app/config/parameters.php',
-            '/app/config/parameters.yml',
-            '/modules/autoupgrade',
-            '/admin/autoupgrade',
-            '.',
-            '..',
-        ];
+        DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'parameters.php',
+        DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'parameters.yml',
+        DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . 'autoupgrade',
+        DIRECTORY_SEPARATOR . 'admin' . DIRECTORY_SEPARATOR . 'autoupgrade',
+        '.',
+        '..',
+    ];
 
         if (!$this->updateConfiguration->shouldBackupImages()) {
-            $restoreIgnoreAbsoluteFiles[] = '/img';
+            $restoreIgnoreAbsoluteFiles[] = DIRECTORY_SEPARATOR . 'img';
         } else {
-            $restoreIgnoreAbsoluteFiles[] = '/img/tmp';
+            $restoreIgnoreAbsoluteFiles[] = DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'tmp';
         }
 
         return $restoreIgnoreAbsoluteFiles;
@@ -130,38 +130,38 @@ class FileFilter
         }
 
         $this->excludeAbsoluteFilesFromUpgrade = [
-            '/app/config/parameters.php',
-            '/app/config/parameters.yml',
-            '/img/c/*.jpg',
-            '/img/cms/*.jpg',
-            '/img/l/*.jpg',
-            '/img/m/*.jpg',
-            '/img/os/*.jpg',
-            '/img/p/*.jpg',
-            '/img/s/*.jpg',
-            '/img/scenes/*.jpg',
-            '/img/st/*.jpg',
-            '/img/su/*.jpg',
-            '/img/404.gif',
-            '/img/favicon.ico',
-            '/img/logo.jpg',
-            '/img/logo_stores.gif',
-            '/install',
-            '/install-dev',
-            '/override',
-            '/override/classes',
-            '/override/controllers',
-            '/override/modules',
-        ];
+        DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'parameters.php',
+        DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'parameters.yml',
+        DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'c' . DIRECTORY_SEPARATOR . '*.jpg',
+        DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'cms' . DIRECTORY_SEPARATOR . '*.jpg',
+        DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'l' . DIRECTORY_SEPARATOR . '*.jpg',
+        DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'm' . DIRECTORY_SEPARATOR . '*.jpg',
+        DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'os' . DIRECTORY_SEPARATOR . '*.jpg',
+        DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'p' . DIRECTORY_SEPARATOR . '*.jpg',
+        DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 's' . DIRECTORY_SEPARATOR . '*.jpg',
+        DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'scenes' . DIRECTORY_SEPARATOR . '*.jpg',
+        DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'st' . DIRECTORY_SEPARATOR . '*.jpg',
+        DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'su' . DIRECTORY_SEPARATOR . '*.jpg',
+        DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . '404.gif',
+        DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'favicon.ico',
+        DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'logo.jpg',
+        DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'logo_stores.gif',
+        DIRECTORY_SEPARATOR . 'install',
+        DIRECTORY_SEPARATOR . 'install-dev',
+        DIRECTORY_SEPARATOR . 'override',
+        DIRECTORY_SEPARATOR . 'override' . DIRECTORY_SEPARATOR . 'classes',
+        DIRECTORY_SEPARATOR . 'override' . DIRECTORY_SEPARATOR . 'controllers',
+        DIRECTORY_SEPARATOR . 'override' . DIRECTORY_SEPARATOR . 'modules',
+    ];
 
         // Fetch all existing native modules
         $nativeModules = array_column(
-            $this->composerService->getModulesInComposerLock($this->rootDir . '/composer.lock'),
-            'name'
-        );
+        $this->composerService->getModulesInComposerLock($this->rootDir . DIRECTORY_SEPARATOR . 'composer.lock'),
+        'name'
+    );
 
-        if (is_dir($this->rootDir . '/modules')) {
-            $dir = new DirectoryIterator($this->rootDir . '/modules');
+        if (is_dir($this->rootDir . DIRECTORY_SEPARATOR . 'modules')) {
+            $dir = new DirectoryIterator($this->rootDir . DIRECTORY_SEPARATOR . 'modules');
             foreach ($dir as $fileinfo) {
                 if (!$fileinfo->isDir() || $fileinfo->isDot()) {
                     continue;
@@ -169,12 +169,12 @@ class FileFilter
                 if (!in_array($fileinfo->getFilename(), $nativeModules)) {
                     continue;
                 }
-                if (!(new SplFileInfo($this->rootDir . '/modules/' . $fileinfo->getFilename() . '/vendor'))->isDir()) {
+                if (!(new SplFileInfo($this->rootDir . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $fileinfo->getFilename() . DIRECTORY_SEPARATOR . 'vendor'))->isDir()) {
                     // If a vendor folder is found in the module, this means it has been upgraded or manually installed
                     // and can be ignored during the upgrade process
                     continue;
                 }
-                $this->excludeAbsoluteFilesFromUpgrade[] = '/modules/' . $fileinfo->getFilename();
+                $this->excludeAbsoluteFilesFromUpgrade[] = DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $fileinfo->getFilename();
             }
         }
 
