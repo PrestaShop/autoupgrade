@@ -85,6 +85,9 @@ abstract class AbstractPageController extends AbstractGlobalController
         return $this->getTwig()->render(
             '@ModuleAutoUpgrade/pages/' . $page . '.html.twig',
             array_merge(
+                [
+                    'data_transparency_link' => DocumentationLinks::PRESTASHOP_PROJECT_DATA_TRANSPARENCY_URL,
+                ],
                 $pageSelectors::getAllSelectors(),
                 $params
             )
