@@ -359,7 +359,7 @@ class UpgradeSelfCheck
                         '[1]' => '<a class="link" href="#update-step-version-choice-core-tempered-files-dialog">',
                         '[/1]' => '</a>',
                     ];
-                    $message = $this->translator->trans('Some core files have been altered or removed. Any changes made to these files may be overwritten during the update. [1]See the list of changes.[/1]', $params);
+                    $message = $this->translator->trans('Some core files have been altered or removed. Any changes made to these files may be overwritten during the update. [1]See the list of changes[/1].', $params);
                 } else {
                     $message = $this->translator->trans('Some core files have been altered or removed. Any changes made to these files may be overwritten during the update.');
                 }
@@ -374,7 +374,7 @@ class UpgradeSelfCheck
                         '[1]' => '<a class="link" href="#update-step-version-choice-theme-tempered-files-dialog">',
                         '[/1]' => '</a>',
                     ];
-                    $message = $this->translator->trans('Some theme files have been altered or removed. Any changes made to these files may be overwritten during the update. [1]See the list of changes.[/1]', $params);
+                    $message = $this->translator->trans('Some theme files have been altered or removed. Any changes made to these files may be overwritten during the update. [1]See the list of changes[/1].', $params);
                 } else {
                     $message = $this->translator->trans('Some theme files have been altered or removed. Any changes made to these files may be overwritten during the update.');
                 }
