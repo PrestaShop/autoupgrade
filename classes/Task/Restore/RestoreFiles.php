@@ -96,6 +96,12 @@ class RestoreFiles extends AbstractTask
             $filepath = $this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $state->getRestoreFilesFilename();
             $destExtract = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH);
 
+            if (!empty($toRemoveOnly)) {
+                foreach ($toRemoveOnly as $fileToRemove) {
+                    $this->container->getFileSystem()->remove($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . $fileToRemove);
+                }
+            }
+
             $res = $this->container->getZipAction()->extract($filepath, $destExtract);
             if (!$res) {
                 $this->next = TaskName::TASK_ERROR;
@@ -109,12 +115,6 @@ class RestoreFiles extends AbstractTask
                 ));
 
                 return ExitCode::FAIL;
-            }
-
-            if (!empty($toRemoveOnly)) {
-                foreach ($toRemoveOnly as $fileToRemove) {
-                    $this->container->getFileSystem()->remove($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . $fileToRemove);
-                }
             }
 
             $this->next = TaskName::TASK_RESTORE_DATABASE;
