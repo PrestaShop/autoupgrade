@@ -25,7 +25,8 @@ class TableFilter
     /**
      * @return string[]
      */
-    public static function tablesToIgnore(): array {
+    public static function tablesToIgnore(): array
+    {
         return [
             _DB_PREFIX_ . 'connections',
             _DB_PREFIX_ . 'connections_page',

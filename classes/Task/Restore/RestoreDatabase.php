@@ -23,6 +23,7 @@ namespace PrestaShop\Module\AutoUpgrade\Task\Restore;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Backup\BackupFinder;
+use PrestaShop\Module\AutoUpgrade\Database\TableFilter;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Progress\Backlog;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
@@ -30,7 +31,6 @@ use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\Task\TaskName;
 use PrestaShop\Module\AutoUpgrade\Task\TaskType;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
-use PrestaShop\Module\AutoUpgrade\Database\TableFilter;
 
 /**
  * Restores database from backup file.
@@ -72,8 +72,10 @@ class RestoreDatabase extends AbstractTask
                 $this->status = 'ok';
                 $this->next = TaskName::TASK_RESTORE_COMPLETE;
                 $this->logger->info($this->translator->trans('Database restoration done.'));
+
                 return ExitCode::SUCCESS;
             }
+
             return $this->loadNextDbFile();
         }
 
@@ -85,10 +87,11 @@ class RestoreDatabase extends AbstractTask
         $time_elapsed = time() - $startTime;
 
         while ($time_elapsed < $this->container->getUpdateConfiguration()->getTimePerCall() && $queriesBacklog->getRemainingTotal() > 0) {
-            $query= trim($queriesBacklog->getNext());
+            $query = trim($queriesBacklog->getNext());
             if (!empty($query) && !$db->execute($query, false)) {
                 $this->logger->error($this->translator->trans('Error during database restoration: ') . ' ' . $query . ' - ' . $this->container->getDb()->getMsgError());
                 $this->setErrorFlag();
+
                 return ExitCode::FAIL;
             }
 
@@ -96,6 +99,7 @@ class RestoreDatabase extends AbstractTask
         }
 
         $this->container->getFileStorage()->save($queriesBacklog->dump(), UpgradeFileNames::QUERIES_TO_RESTORE_LIST);
+
         return ExitCode::SUCCESS;
     }
 

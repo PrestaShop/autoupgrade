@@ -23,6 +23,7 @@ namespace PrestaShop\Module\AutoUpgrade\Task\Backup;
 
 use Exception;
 use PDO;
+use PrestaShop\Module\AutoUpgrade\Database\TableFilter;
 use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Progress\Backlog;
@@ -32,7 +33,6 @@ use PrestaShop\Module\AutoUpgrade\Task\TaskName;
 use PrestaShop\Module\AutoUpgrade\Task\TaskType;
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
-use PrestaShop\Module\AutoUpgrade\Database\TableFilter;
 
 class BackupDatabase extends AbstractTask
 {
