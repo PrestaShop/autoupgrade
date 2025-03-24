@@ -32,6 +32,7 @@ use PrestaShop\Module\AutoUpgrade\Task\TaskName;
 use PrestaShop\Module\AutoUpgrade\Task\TaskType;
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
+use PrestaShop\Module\AutoUpgrade\Database\TableFilter;
 
 class BackupDatabase extends AbstractTask
 {
@@ -315,26 +316,12 @@ class BackupDatabase extends AbstractTask
             }
 
             // Ignore stat tables
-            if (in_array($table, $this->getTablesToIgnore())) {
+            if (in_array($table, TableFilter::tablesToIgnore())) {
                 return false;
             }
 
             return true;
         });
-    }
-
-    /**
-     * @return string[]
-     */
-    private function getTablesToIgnore(): array
-    {
-        return [
-            _DB_PREFIX_ . 'connections',
-            _DB_PREFIX_ . 'connections_page',
-            _DB_PREFIX_ . 'connections_source',
-            _DB_PREFIX_ . 'guest',
-            _DB_PREFIX_ . 'statssearch',
-        ];
     }
 
     // MANAGEMENT OF BACKUP FILE RESOURCE
