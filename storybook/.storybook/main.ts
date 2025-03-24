@@ -59,6 +59,13 @@ const config: StorybookConfig = {
       test: /\.ts$/,
     });
     if (config.resolve) {
+      // Add aliases
+      config.resolve.alias = {
+        ...(config.resolve.alias || {}),
+        "@img": path.resolve(__dirname, "../../_dev/img"),
+        "@fonts": path.resolve(__dirname, "../../_dev/src/fonts"),
+      };
+
       config.resolve.plugins = [
         ...(config.resolve.plugins || []),
         new TsconfigPathsPlugin({
