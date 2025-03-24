@@ -210,19 +210,19 @@ class RestoreDatabase extends AbstractTask
 
     private function cleanDb(): void
     {
-//        $db = $this->container->getDb();
-//        $tables = $db->executes("SHOW TABLES LIKE '" . pSQL(_DB_PREFIX_) . "%'");
-//
-//        if (!$tables) {
-//            $this->logger->warning($this->translator->trans('No tables matching the prefix "%s" were found in the database.', [_DB_PREFIX_]));
-//        }
-//
-//        foreach ($tables as $tableRow) {
-//            $tableName = reset($tableRow);
-//
-//            if (!in_array($tableName, TableFilter::tablesToIgnore(), true)) {
-//                $db->execute("TRUNCATE TABLE `$tableName`");
-//            }
-//        }
+        $db = $this->container->getDb();
+        $tables = $db->executes("SHOW TABLES LIKE '" . pSQL(_DB_PREFIX_) . "%'");
+
+        if (!$tables) {
+            $this->logger->warning($this->translator->trans('No tables matching the prefix "%s" were found in the database.', [_DB_PREFIX_]));
+        }
+
+        foreach ($tables as $tableRow) {
+            $tableName = reset($tableRow);
+
+            if (!in_array($tableName, TableFilter::tablesToIgnore(), true)) {
+                $db->execute("TRUNCATE TABLE `$tableName`");
+            }
+        }
     }
 }
