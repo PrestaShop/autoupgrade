@@ -144,8 +144,8 @@ class RestoreDatabase extends AbstractTask
 
         $backupDbPath = $this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $state->getRestoreName();
 
-        $dotPosition = strrpos($nextDbFilename, '.');
-        $fileExtension = substr($nextDbFilename, $dotPosition + 1);
+        $fullFilePath = $backupDbPath . DIRECTORY_SEPARATOR . $nextDbFilename;
+        $fileExtension = pathinfo($fullFilePath, PATHINFO_EXTENSION);
         $content = '';
 
         $this->logger->debug($this->translator->trans(
@@ -159,7 +159,7 @@ class RestoreDatabase extends AbstractTask
         switch ($fileExtension) {
             case 'bz':
             case 'bz2':
-                $fp = bzopen($backupDbPath . DIRECTORY_SEPARATOR . $nextDbFilename, 'r');
+                $fp = bzopen($fullFilePath, 'r');
                 if (is_resource($fp)) {
                     while (!feof($fp)) {
                         $content .= bzread($fp, 4096);
@@ -168,7 +168,7 @@ class RestoreDatabase extends AbstractTask
                 }
                 break;
             case 'gz':
-                $fp = gzopen($backupDbPath . DIRECTORY_SEPARATOR . $nextDbFilename, 'r');
+                $fp = gzopen($fullFilePath, 'r');
                 if (is_resource($fp)) {
                     while (!feof($fp)) {
                         $content .= gzread($fp, 4096);
@@ -177,7 +177,7 @@ class RestoreDatabase extends AbstractTask
                 }
                 break;
             default:
-                $fp = fopen($backupDbPath . DIRECTORY_SEPARATOR . $nextDbFilename, 'r');
+                $fp = fopen($fullFilePath, 'r');
                 if (is_resource($fp)) {
                     while (!feof($fp)) {
                         $content .= fread($fp, 4096);
