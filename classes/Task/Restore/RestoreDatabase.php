@@ -63,11 +63,14 @@ class RestoreDatabase extends AbstractTask
             return $this->warmUp();
         }
 
+        $db = $this->container->getDb();
+
         $dbFilenamesBacklog = Backlog::fromContents($this->container->getFileStorage()->load(UpgradeFileNames::DB_FILES_TO_RESTORE_LIST));
         $queriesBacklog = Backlog::fromContents($this->container->getFileStorage()->load(UpgradeFileNames::QUERIES_TO_RESTORE_LIST));
 
         if (!$queriesBacklog->getRemainingTotal()) {
             if (!$dbFilenamesBacklog->getRemainingTotal()) {
+                $db->execute('SET FOREIGN_KEY_CHECKS=1');
                 $this->stepDone = true;
                 $this->status = 'ok';
                 $this->next = TaskName::TASK_RESTORE_COMPLETE;
@@ -78,8 +81,6 @@ class RestoreDatabase extends AbstractTask
 
             return $this->loadNextDbFile();
         }
-
-        $db = $this->container->getDb();
 
         $db->execute('SET SESSION sql_mode = \'\'');
         $db->execute('SET FOREIGN_KEY_CHECKS=0');
@@ -211,7 +212,7 @@ class RestoreDatabase extends AbstractTask
     private function cleanDb(): void
     {
         $db = $this->container->getDb();
-        $tables = $db->executes("SHOW TABLES LIKE '" . pSQL(_DB_PREFIX_) . "%'");
+        $tables = $db->executes("SHOW TABLES LIKE '" . _DB_PREFIX_ . "%'");
 
         if (!$tables) {
             $this->logger->warning($this->translator->trans('No tables matching the prefix "%s" were found in the database.', [_DB_PREFIX_]));
@@ -221,7 +222,8 @@ class RestoreDatabase extends AbstractTask
             $tableName = reset($tableRow);
 
             if (!in_array($tableName, TableFilter::tablesToIgnore(), true)) {
-                $db->execute("DROP TABLE `$tableName`");
+                $db->execute('DROP TABLE IF EXISTS `' . bqSql($tableName) . '`');
+                $db->execute('DROP VIEW IF EXISTS `' . bqSql($tableName) . '`');
             }
         }
     }
