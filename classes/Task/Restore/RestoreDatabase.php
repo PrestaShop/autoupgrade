@@ -221,7 +221,7 @@ class RestoreDatabase extends AbstractTask
             $tableName = reset($tableRow);
 
             if (!in_array($tableName, TableFilter::tablesToIgnore(), true)) {
-                $db->execute("TRUNCATE TABLE `$tableName`");
+                $db->execute("DROP TABLE `$tableName`");
             }
         }
     }
