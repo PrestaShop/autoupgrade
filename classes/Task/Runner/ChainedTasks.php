@@ -117,16 +117,10 @@ abstract class ChainedTasks extends AbstractTask
 
         if (in_array($this->step, $initializationSteps)) {
             if (php_sapi_name() !== 'cli') {
-                try {
-                    $this->container->initPrestaShopCore();
-                    $timeZone = DbWrapper::getValue('SELECT `value` FROM `' . _DB_PREFIX_ . 'configuration` WHERE `name` = \'PS_TIMEZONE\'');
-                } catch (Throwable $t) {
-                    $timeZone = date_default_timezone_get();
-                }
+                $timeZone = $this->getCoreTimezone();
                 $logsState->setTimeZone($timeZone);
                 date_default_timezone_set($timeZone);
             }
-
             $timestamp = date('Y-m-d-His');
             switch ($this->step) {
                 case TaskName::TASK_BACKUP_INITIALIZATION:
@@ -145,5 +139,21 @@ abstract class ChainedTasks extends AbstractTask
                 date_default_timezone_set($timeZone);
             }
         }
+    }
+
+    private function getCoreTimezone(): string
+    {
+        if ($this->step === TaskName::TASK_RESTORE_INITIALIZATION) {
+            $timeZone = date_default_timezone_get();
+        } else {
+            try {
+                $this->container->initPrestaShopCore();
+                $timeZone = DbWrapper::getValue('SELECT `value` FROM `' . _DB_PREFIX_ . 'configuration` WHERE `name` = \'PS_TIMEZONE\'');
+            } catch (Throwable $t) {
+                $timeZone = date_default_timezone_get();
+            }
+        }
+
+        return $timeZone;
     }
 }
