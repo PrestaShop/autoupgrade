@@ -47,7 +47,7 @@ describe('Stepper', () => {
   it('should throw an error if the stepper is not found in the DOM', () => {
     document.body.innerHTML = '';
 
-    expect(() => new Stepper()).toThrow(
+    expect(() => new Stepper().setCurrentStep('backup')).toThrow(
       "The stepper wasn't found inside DOM. stepper can't be initiated properly"
     );
   });
@@ -55,7 +55,7 @@ describe('Stepper', () => {
   it('should throw an error if the stepper contains no steps', () => {
     document.body.innerHTML = '<div class="stepper" id="stepper_content"></div>';
 
-    expect(() => new Stepper()).toThrow(
+    expect(() => new Stepper().setCurrentStep('backup')).toThrow(
       "The stepper hasn't steps inside DOM. stepper can't be initiated properly"
     );
   });
@@ -63,7 +63,7 @@ describe('Stepper', () => {
   it('should throw an error if a step is missing the step code', () => {
     document.querySelector('[data-step-code="backup"]')?.removeAttribute('data-step-code');
 
-    expect(() => new Stepper()).toThrow(
+    expect(() => new Stepper().setCurrentStep('backup')).toThrow(
       "Step code is missing in one of the steps. stepper can't be initiated properly"
     );
   });

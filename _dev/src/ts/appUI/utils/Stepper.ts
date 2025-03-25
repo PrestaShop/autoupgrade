@@ -19,51 +19,11 @@
 import type { Step } from '../types/Stepper';
 
 export default class Stepper {
-  #stepper: HTMLDivElement | null = null;
-  #steps: Step[] = [];
-
   #baseClass = 'stepper__step';
   #currentClass = `${this.#baseClass}--current`;
   #doneClass = `${this.#baseClass}--done`;
   #normalClass = `${this.#baseClass}--normal`;
   #stepperHydrationClass = 'stepper--hydration';
-
-  constructor() {
-    this.#initStepper();
-  }
-
-  /**
-   * @private
-   * @throws Error Will throw an error if the stepper or its steps are not found in the DOM.
-   * @description Initializes the Stepper by finding the parent element in the DOM and setting up the steps.
-   */
-  #initStepper = (): void => {
-    this.#stepper = document.getElementById(
-      window.AutoUpgradeVariables.stepper_parent_id
-    ) as HTMLDivElement | null;
-    if (!this.#stepper) {
-      throw new Error("The stepper wasn't found inside DOM. stepper can't be initiated properly");
-    }
-
-    const domSteps = Array.from(this.#stepper.children) as HTMLElement[];
-
-    if (!domSteps.length) {
-      throw new Error("The stepper hasn't steps inside DOM. stepper can't be initiated properly");
-    }
-
-    this.#steps = domSteps.map((step) => {
-      const stepCode = step.dataset.stepCode;
-      if (!stepCode) {
-        throw new Error(
-          "Step code is missing in one of the steps. stepper can't be initiated properly"
-        );
-      }
-      return {
-        code: stepCode,
-        element: step
-      };
-    });
-  };
 
   /**
    * @public
@@ -71,10 +31,6 @@ export default class Stepper {
    * @description Sets the current step in the stepper and updates the classes for each step accordingly.
    */
   public setCurrentStep = (currentStep: string) => {
-    if (this.#getStepIndex(currentStep) === -1) {
-      this.#initStepper();
-    }
-
     const stepIndex = this.#getStepIndex(currentStep);
 
     if (stepIndex === -1) {
@@ -110,5 +66,36 @@ export default class Stepper {
     }
 
     return this.#normalClass;
+  }
+
+  get #stepper(): HTMLDivElement {
+    const stepper = document.getElementById(
+      window.AutoUpgradeVariables.stepper_parent_id
+    ) as HTMLDivElement | null;
+    if (!stepper) {
+      throw new Error("The stepper wasn't found inside DOM. stepper can't be initiated properly");
+    }
+    return stepper;
+  }
+
+  get #steps(): Step[] {
+    const domSteps = Array.from(this.#stepper.children) as HTMLElement[];
+
+    if (!domSteps.length) {
+      throw new Error("The stepper hasn't steps inside DOM. stepper can't be initiated properly");
+    }
+
+    return domSteps.map((step) => {
+      const stepCode = step.dataset.stepCode;
+      if (!stepCode) {
+        throw new Error(
+          "Step code is missing in one of the steps. stepper can't be initiated properly"
+        );
+      }
+      return {
+        code: stepCode,
+        element: step
+      };
+    });
   }
 }
