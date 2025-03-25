@@ -109,5 +109,8 @@ export function debounce<T extends Procedure>(
  * @description
  */
 export function formatLogsMessages(logs: Log[]): string {
-  return logs.map((log) => log.message).join('\n');
+  const formattedLogs = logs.map((log) => log.message).join('\n');
+  // We limit to 5 million characters so that each log file is approximately 5MB in size.
+  // Since we send 4 files, this ensures the total size does not exceed Sentry's 20MB limit.
+  return formattedLogs.slice(-5_000_000); // Limit due to Sentry attachment constraints
 }
