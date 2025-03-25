@@ -107,12 +107,13 @@ class UpgradeSelfCheck
     const KEY_GENERATION_INVALID = 14;
     const NOT_WRITING_DIRECTORY_LIST_NOT_EMPTY = 15;
     const SHOP_VERSION_NOT_MATCHING_VERSION_IN_DATABASE = 16;
+    const TEMPERED_FILES_UNKNOWN = 17;
 
     // Warnings const
-    const MODULE_VERSION_IS_OUT_OF_DATE = 17;
-    const PHP_COMPATIBILITY_UNKNOWN = 18;
-    const CORE_TEMPERED_FILES_LIST_NOT_EMPTY = 19;
-    const THEME_TEMPERED_FILES_LIST_NOT_EMPTY = 20;
+    const MODULE_VERSION_IS_OUT_OF_DATE = 18;
+    const PHP_COMPATIBILITY_UNKNOWN = 19;
+    const CORE_TEMPERED_FILES_LIST_NOT_EMPTY = 20;
+    const THEME_TEMPERED_FILES_LIST_NOT_EMPTY = 21;
 
     public function __construct(
         Upgrader $upgrader,
@@ -162,6 +163,7 @@ class UpgradeSelfCheck
             self::KEY_GENERATION_INVALID => !$this->checkKeyGeneration(),
             self::NOT_WRITING_DIRECTORY_LIST_NOT_EMPTY => !empty($this->getNotWritingDirectories()),
             self::SHOP_VERSION_NOT_MATCHING_VERSION_IN_DATABASE => !$this->isShopVersionMatchingVersionInDatabase(),
+            self::TEMPERED_FILES_UNKNOWN => $this->isAlteredFilesNull(),
         ];
 
         if ($this->updateConfiguration->isChannelLocal()) {
@@ -178,10 +180,20 @@ class UpgradeSelfCheck
      */
     public function getWarnings(): array
     {
+        $warnings = [];
+
+        if ($this->isAlteredFilesNull()) {
+            $isCoreTemperedFileListNotEmpty = false;
+            $isThemeTemperedFileListNotEmpty = false;
+        } else {
+            $isCoreTemperedFileListNotEmpty = !empty($this->getCoreAlteredFiles()) || !empty($this->getCoreMissingFiles());
+            $isThemeTemperedFileListNotEmpty = !empty($this->getThemeAlteredFiles()) || !empty($this->getThemeMissingFiles());
+        }
+
         $warnings = [
             self::MODULE_VERSION_IS_OUT_OF_DATE => !$this->isModuleVersionLatest(),
-            self::CORE_TEMPERED_FILES_LIST_NOT_EMPTY => !empty($this->getCoreAlteredFiles()) || !empty($this->getCoreMissingFiles()),
-            self::THEME_TEMPERED_FILES_LIST_NOT_EMPTY => !empty($this->getThemeAlteredFiles()) || !empty($this->getThemeMissingFiles()),
+            self::THEME_TEMPERED_FILES_LIST_NOT_EMPTY => $isThemeTemperedFileListNotEmpty,
+            self::CORE_TEMPERED_FILES_LIST_NOT_EMPTY => $isCoreTemperedFileListNotEmpty,
         ];
 
         if ($this->updateConfiguration->isChannelLocal()) {
@@ -383,6 +395,11 @@ class UpgradeSelfCheck
                     'message' => $message,
                 ];
 
+            case self::TEMPERED_FILES_UNKNOWN:
+                return [
+                    'message' => $this->translator->trans('We were unable to fetch missing or altered files. In these conditions, your store cannot be updated to avoid any further bugs.'),
+                ];
+
             default:
                 return [
                     'message' => $this->translator->trans('Unknown requirement.'),
@@ -393,9 +410,12 @@ class UpgradeSelfCheck
     /**
      * @return string[]
      */
-    public function getCoreMissingFiles(): array
+    public function getCoreMissingFiles(): ?array
     {
         $missingFiles = $this->checksumCompare->getTamperedFilesOnShop($this->currentVersion);
+        if (!$missingFiles) {
+            return null;
+        }
 
         return array_merge($missingFiles['core']['missing'], $missingFiles['mail']['missing']);
     }
@@ -403,9 +423,12 @@ class UpgradeSelfCheck
     /**
      * @return string[]
      */
-    public function getCoreAlteredFiles(): array
+    public function getCoreAlteredFiles(): ?array
     {
         $alteredFiles = $this->checksumCompare->getTamperedFilesOnShop($this->currentVersion);
+        if (!$alteredFiles) {
+            return null;
+        }
 
         return array_merge($alteredFiles['core']['altered'], $alteredFiles['mail']['altered']);
     }
@@ -413,9 +436,12 @@ class UpgradeSelfCheck
     /**
      * @return string[]
      */
-    public function getThemeMissingFiles(): array
+    public function getThemeMissingFiles(): ?array
     {
         $missingFiles = $this->checksumCompare->getTamperedFilesOnShop($this->currentVersion);
+        if (!$missingFiles) {
+            return null;
+        }
 
         return $missingFiles['themes']['missing'];
     }
@@ -423,11 +449,22 @@ class UpgradeSelfCheck
     /**
      * @return string[]
      */
-    public function getThemeAlteredFiles(): array
+    public function getThemeAlteredFiles(): ?array
     {
         $alteredFiles = $this->checksumCompare->getTamperedFilesOnShop($this->currentVersion);
+        if (!$alteredFiles) {
+            return null;
+        }
 
         return $alteredFiles['themes']['altered'];
+    }
+
+    public function isAlteredFilesNull(): bool
+    {
+        return $this->getCoreAlteredFiles() === null
+            || $this->getCoreMissingFiles() === null
+            || $this->getThemeAlteredFiles() === null
+            || $this->getThemeMissingFiles() === null;
     }
 
     public function isFOpenOrCurlEnabled(): bool
