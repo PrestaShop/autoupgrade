@@ -22,9 +22,9 @@
 namespace PrestaShop\Module\AutoUpgrade\Backup;
 
 use DateTime;
+use IntlDateFormatter;
 use PrestaShop\Module\AutoUpgrade\Exceptions\BackupException;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
-use IntlDateFormatter;
 
 class BackupFinder
 {
@@ -190,6 +190,7 @@ class BackupFinder
 
         // Fallback if Intl extension is not loaded
         setlocale(LC_TIME, '');
+
         return strftime('%x %X', $timestamp);
     }
 }

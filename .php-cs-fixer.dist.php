@@ -9,6 +9,7 @@ $config
     ->exclude('vendor')
     ->exclude('node_modules')
     ->exclude('storybook/var/cache')
-    ->exclude('tests/fixtures/checksum-compare');
+    ->exclude('tests/fixtures/checksum-compare')
+    ->notPath('tests/unit/Backup/BackupFinderTest.php');
 
 return $config;
