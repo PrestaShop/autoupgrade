@@ -67,14 +67,19 @@ export default defineConfig({
     rollupOptions: {
       input: {
         app_ui_script: './src/ts/appUI/main.ts',
-        app_ui_theme: './src/scss/appUI/main.scss'
+        app_update_notification_script: './src/ts/appUpdateNotification/main.ts',
+        app_ui_theme: './src/scss/appUI/main.scss',
+        app_update_notification_theme: './src/scss/appUpdateNotification/main.scss'
       },
       output: {
         dir: resolve(__dirname, '../views/'),
         entryFileNames: (chunkInfo) => {
           if (chunkInfo.name === 'app_ui_script') {
             return `js/autoupgrade.js`;
+          } else if (chunkInfo.name === 'app_update_notification_script') {
+            return 'js/autoupgrade-notification.js';
           }
+
           return 'js/[name].js';
         },
         manualChunks: segmentIdsToChunks,
@@ -83,9 +88,14 @@ export default defineConfig({
 
           if (assetName === 'app_ui_theme.css') {
             return 'css/autoupgrade.css';
-          } else if (/\.(webp|png|jpe?g|gif|svg)$/.test(assetName)) {
+          } else if (assetName === 'app_update_notification_theme.css') {
+            return 'css/autoupgrade-notification.css';
+          }
+
+          if (/\.(webp|png|jpe?g|gif|svg)$/.test(assetName)) {
             return 'img/[name].[extname]';
           }
+
           return 'assets/[name].[extname]';
         }
       }
