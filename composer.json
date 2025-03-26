@@ -12,6 +12,7 @@
     "require": {
         "php": ">=7.1",
         "ext-zip": "*",
+        "ext-intl": "*",
         "symfony/filesystem": "^3.0",
         "doctrine/collections": "^1.8",
         "segmentio/analytics-php": "^1.8",
