@@ -85,12 +85,12 @@
       <trans-unit id="deaf32a53ead325a232c297209dc187f" approved="yes">
         <source>Download restore logs</source>
         <target state="final">Stáhnout protokoly o obnově</target>
-        <note>classes/Services/LogsService.php:113</note>
+        <note>classes/Services/LogsService.php:115</note>
       </trans-unit>
       <trans-unit id="ebdbffe8dea73e1e0285fd052f720259" approved="yes">
         <source>Download update logs</source>
         <target state="final">Stáhnout protokoly aktualizace</target>
-        <note>classes/Services/LogsService.php:115</note>
+        <note>classes/Services/LogsService.php:117</note>
       </trans-unit>
       <trans-unit id="31098a445d00d6606542c429524f464f" approved="yes">
         <source>Unable to add %filename% to archive %archive%: %error%</source>
@@ -744,9 +744,9 @@
         <target state="final">Akce %s přeskočena</target>
         <note>classes/Task/AbstractTask.php:152</note>
       </trans-unit>
-      <trans-unit id="1c041a27877f172964552beef6c228e6">
+      <trans-unit id="1c041a27877f172964552beef6c228e6" approved="yes">
         <source>Unknown configuration key '%s', Ignoring.</source>
-        <target state="needs-translation">Unknown configuration key '%s', Ignoring.</target>
+        <target state="final">Neznámý konfigurační klíč '%s', ignoruji.</target>
         <note>classes/Task/Miscellaneous/UpdateConfig.php:58</note>
       </trans-unit>
       <trans-unit id="d70699057bcd09b03129da2391b47d67" approved="yes">
@@ -1292,7 +1292,7 @@
       <trans-unit id="b27bea61eb2963cb570ce625b87ea053" approved="yes">
         <source>Update without backup</source>
         <target state="final">Aktualizovat bez zálohy</target>
-        <note>views/templates/steps/backup-options.html.twig:91</note>
+        <note>views/templates/steps/backup-options.html.twig:92</note>
       </trans-unit>
       <trans-unit id="8f54da32d0160f178f08b2530d1e690b" approved="yes">
         <source>Back up your store</source>
@@ -1312,7 +1312,7 @@
       <trans-unit id="a946e4190a81d83574867d2182261e35" approved="yes">
         <source>Include images in your backup</source>
         <target state="final">Zálohovat i obrázky</target>
-        <note>views/templates/steps/backup-options.html.twig:62</note>
+        <note>views/templates/steps/backup-options.html.twig:63</note>
       </trans-unit>
       <trans-unit id="880d6ec7b06e1f403347a16afbca8335" approved="yes">
         <source>Start update</source>
@@ -1322,7 +1322,7 @@
       <trans-unit id="2284aa8fec405e1dd014326b51cde020" approved="yes">
         <source>Launch backup</source>
         <target state="final">Spustit zálohování</target>
-        <note>views/templates/steps/backup-options.html.twig:97</note>
+        <note>views/templates/steps/backup-options.html.twig:98</note>
       </trans-unit>
       <trans-unit id="a7446965a3635b6a69697078130d961a" approved="yes">
         <source>You're up to date</source>
@@ -1832,7 +1832,7 @@
       <trans-unit id="56c34c6410dd45c5cec44149ad0ce037" approved="yes">
         <source>Privacy policy</source>
         <target state="final">Zásady ochrany soukromí</target>
-        <note>views/templates/components/privacy.html.twig:24</note>
+        <note>views/templates/components/privacy.html.twig:25</note>
       </trans-unit>
       <trans-unit id="12b7e9bd62f15c5f79030a36509eedf0" approved="yes">
         <source>Warning summary</source>
