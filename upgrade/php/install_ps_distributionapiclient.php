@@ -27,6 +27,7 @@ function install_ps_distributionapiclient()
 {
     if (class_exists('Ps_Distributionapiclient')) {
         $module = new Ps_Distributionapiclient();
+        $module->updateTranslationsAfterInstall(false);
         $module->install();
     }
 }

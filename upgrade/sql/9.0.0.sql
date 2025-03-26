@@ -1,11 +1,25 @@
 SET SESSION sql_mode='';
 SET NAMES 'utf8mb4';
 
+/* Enable controlling of default language URL prefix - https://github.com/PrestaShop/PrestaShop/pull/37236 */
+/* Add a file separator input to the sql manager settings - https://github.com/PrestaShop/PrestaShop/pull/35843 */
+/* Allow configuring maximum word difference - https://github.com/PrestaShop/PrestaShop/pull/37261 */
 INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES
   ('PS_DEBUG_COOKIE_NAME', '', NOW(), NOW()),
   ('PS_DEBUG_COOKIE_VALUE', '', NOW(), NOW()),
-  ('PS_PRODUCT_BREADCRUMB_CATEGORY', 'default', NOW(), NOW())
+  ('PS_PRODUCT_BREADCRUMB_CATEGORY', 'default', NOW(), NOW()),
+  ('PS_SEARCH_FUZZY_MAX_DIFFERENCE', 5, NOW(), NOW()),
+  ('PS_DEFAULT_LANGUAGE_URL_PREFIX', 1, NOW(), NOW())
 ;
+
+/* Remove meta keywords - https://github.com/PrestaShop/PrestaShop/pull/36873 */
+/* PHP:drop_column_if_exists('category_lang', 'meta_keywords'); */;
+/* PHP:drop_column_if_exists('cms_lang', 'meta_keywords'); */;
+/* PHP:drop_column_if_exists('cms_category_lang', 'meta_keywords'); */;
+/* PHP:drop_column_if_exists('manufacturer_lang', 'meta_keywords'); */;
+/* PHP:drop_column_if_exists('meta_lang', 'keywords'); */;
+/* PHP:drop_column_if_exists('product_lang', 'meta_keywords'); */;
+/* PHP:drop_column_if_exists('supplier_lang', 'meta_keywords'); */;
 
 INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`) VALUES
   (NULL, 'actionUpdateCartAddress', 'Triggers after changing address on the cart', 'This hook is called after address is changed on the cart', '1'),

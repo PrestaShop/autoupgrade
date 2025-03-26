@@ -206,217 +206,217 @@
     },
     {
       "PS_VERSION_START": "1.7.8.0",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "major",
       "PHP_VERSION": "7.2"
     },
     {
       "PS_VERSION_START": "1.7.8.0",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "major",
       "PHP_VERSION": "7.3"
     },
     {
       "PS_VERSION_START": "1.7.8.0",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "major",
       "PHP_VERSION": "7.4"
     },
     {
       "PS_VERSION_START": "1.7.8.1",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "major",
       "PHP_VERSION": "7.2"
     },
     {
       "PS_VERSION_START": "1.7.8.1",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "major",
       "PHP_VERSION": "7.3"
     },
     {
       "PS_VERSION_START": "1.7.8.1",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "major",
       "PHP_VERSION": "7.4"
     },
     {
       "PS_VERSION_START": "1.7.8.2",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "major",
       "PHP_VERSION": "7.2"
     },
     {
       "PS_VERSION_START": "1.7.8.2",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "major",
       "PHP_VERSION": "7.3"
     },
     {
       "PS_VERSION_START": "1.7.8.2",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "major",
       "PHP_VERSION": "7.4"
     },
     {
       "PS_VERSION_START": "1.7.8.3",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "major",
       "PHP_VERSION": "7.2"
     },
     {
       "PS_VERSION_START": "1.7.8.3",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "major",
       "PHP_VERSION": "7.3"
     },
     {
       "PS_VERSION_START": "1.7.8.3",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "major",
       "PHP_VERSION": "7.4"
     },
     {
       "PS_VERSION_START": "1.7.8.4",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "major",
       "PHP_VERSION": "7.2"
     },
     {
       "PS_VERSION_START": "1.7.8.4",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "major",
       "PHP_VERSION": "7.3"
     },
     {
       "PS_VERSION_START": "1.7.8.4",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "major",
       "PHP_VERSION": "7.4"
     },
     {
       "PS_VERSION_START": "1.7.8.5",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "major",
       "PHP_VERSION": "7.2"
     },
     {
       "PS_VERSION_START": "1.7.8.5",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "major",
       "PHP_VERSION": "7.3"
     },
     {
       "PS_VERSION_START": "1.7.8.5",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "major",
       "PHP_VERSION": "7.4"
     },
     {
       "PS_VERSION_START": "1.7.8.6",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "major",
       "PHP_VERSION": "7.2"
     },
     {
       "PS_VERSION_START": "1.7.8.6",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "major",
       "PHP_VERSION": "7.3"
     },
     {
       "PS_VERSION_START": "1.7.8.6",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "major",
       "PHP_VERSION": "7.4"
     },
     {
       "PS_VERSION_START": "1.7.8.7",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "major",
       "PHP_VERSION": "7.2"
     },
     {
       "PS_VERSION_START": "1.7.8.7",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "major",
       "PHP_VERSION": "7.3"
     },
     {
       "PS_VERSION_START": "1.7.8.7",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "major",
       "PHP_VERSION": "7.4"
     },
     {
       "PS_VERSION_START": "1.7.8.8",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "major",
       "PHP_VERSION": "7.2"
     },
     {
       "PS_VERSION_START": "1.7.8.8",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "major",
       "PHP_VERSION": "7.3"
     },
     {
       "PS_VERSION_START": "1.7.8.8",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "major",
       "PHP_VERSION": "7.4"
     },
     {
       "PS_VERSION_START": "1.7.8.9",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "major",
       "PHP_VERSION": "7.2"
     },
     {
       "PS_VERSION_START": "1.7.8.9",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "major",
       "PHP_VERSION": "7.3"
     },
     {
       "PS_VERSION_START": "1.7.8.9",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "major",
       "PHP_VERSION": "7.4"
     },
     {
       "PS_VERSION_START": "1.7.8.10",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "major",
       "PHP_VERSION": "7.2"
     },
     {
       "PS_VERSION_START": "1.7.8.10",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "major",
       "PHP_VERSION": "7.3"
     },
     {
       "PS_VERSION_START": "1.7.8.10",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "major",
       "PHP_VERSION": "7.4"
     },
     {
       "PS_VERSION_START": "1.7.8.11",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "major",
       "PHP_VERSION": "7.2"
     },
     {
       "PS_VERSION_START": "1.7.8.11",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "major",
       "PHP_VERSION": "7.3"
     },
     {
       "PS_VERSION_START": "1.7.8.11",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "major",
       "PHP_VERSION": "7.4"
     },
@@ -425,31 +425,31 @@
     },
     {
       "PS_VERSION_START": "8.0.0",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.2"
     },
     {
       "PS_VERSION_START": "8.0.0",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.3"
     },
     {
       "PS_VERSION_START": "8.0.0",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.4"
     },
     {
       "PS_VERSION_START": "8.0.0",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "8.0"
     },
     {
       "PS_VERSION_START": "8.0.0",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "8.1"
     },
@@ -458,31 +458,31 @@
     },
     {
       "PS_VERSION_START": "8.0.1",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.2"
     },
     {
       "PS_VERSION_START": "8.0.1",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.3"
     },
     {
       "PS_VERSION_START": "8.0.1",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.4"
     },
     {
       "PS_VERSION_START": "8.0.1",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "8.0"
     },
     {
       "PS_VERSION_START": "8.0.1",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "8.1"
     },
@@ -491,31 +491,31 @@
     },
     {
       "PS_VERSION_START": "8.0.2",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.2"
     },
     {
       "PS_VERSION_START": "8.0.2",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.3"
     },
     {
       "PS_VERSION_START": "8.0.2",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.4"
     },
     {
       "PS_VERSION_START": "8.0.2",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "8.0"
     },
     {
       "PS_VERSION_START": "8.0.2",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "8.1"
     },
@@ -524,31 +524,31 @@
     },
     {
       "PS_VERSION_START": "8.0.3",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.2"
     },
     {
       "PS_VERSION_START": "8.0.3",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.3"
     },
     {
       "PS_VERSION_START": "8.0.3",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.4"
     },
     {
       "PS_VERSION_START": "8.0.3",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "8.0"
     },
     {
       "PS_VERSION_START": "8.0.3",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "8.1"
     },
@@ -557,31 +557,31 @@
     },
     {
       "PS_VERSION_START": "8.0.4",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.2"
     },
     {
       "PS_VERSION_START": "8.0.4",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.3"
     },
     {
       "PS_VERSION_START": "8.0.4",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.4"
     },
     {
       "PS_VERSION_START": "8.0.4",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "8.0"
     },
     {
       "PS_VERSION_START": "8.0.4",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "8.1"
     },
@@ -590,31 +590,31 @@
     },
     {
       "PS_VERSION_START": "8.0.5",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.2"
     },
     {
       "PS_VERSION_START": "8.0.5",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.3"
     },
     {
       "PS_VERSION_START": "8.0.5",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.4"
     },
     {
       "PS_VERSION_START": "8.0.5",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "8.0"
     },
     {
       "PS_VERSION_START": "8.0.5",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "8.1"
     },
@@ -623,31 +623,31 @@
     },
     {
       "PS_VERSION_START": "8.1.0",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.2"
     },
     {
       "PS_VERSION_START": "8.1.0",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.3"
     },
     {
       "PS_VERSION_START": "8.1.0",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.4"
     },
     {
       "PS_VERSION_START": "8.1.0",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "8.0"
     },
     {
       "PS_VERSION_START": "8.1.0",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "8.1"
     },
@@ -656,31 +656,31 @@
     },
     {
       "PS_VERSION_START": "8.1.1",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.2"
     },
     {
       "PS_VERSION_START": "8.1.1",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.3"
     },
     {
       "PS_VERSION_START": "8.1.1",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.4"
     },
     {
       "PS_VERSION_START": "8.1.1",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "8.0"
     },
     {
       "PS_VERSION_START": "8.1.1",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "8.1"
     },
@@ -689,31 +689,31 @@
     },
     {
       "PS_VERSION_START": "8.1.2",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.2"
     },
     {
       "PS_VERSION_START": "8.1.2",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.3"
     },
     {
       "PS_VERSION_START": "8.1.2",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.4"
     },
     {
       "PS_VERSION_START": "8.1.2",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "8.0"
     },
     {
       "PS_VERSION_START": "8.1.2",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "8.1"
     },
@@ -722,31 +722,31 @@
     },
     {
       "PS_VERSION_START": "8.1.3",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.2"
     },
     {
       "PS_VERSION_START": "8.1.3",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.3"
     },
     {
       "PS_VERSION_START": "8.1.3",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.4"
     },
     {
       "PS_VERSION_START": "8.1.3",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "8.0"
     },
     {
       "PS_VERSION_START": "8.1.3",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "8.1"
     },
@@ -755,31 +755,31 @@
     },
     {
       "PS_VERSION_START": "8.1.4",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.2"
     },
     {
       "PS_VERSION_START": "8.1.4",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.3"
     },
     {
       "PS_VERSION_START": "8.1.4",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.4"
     },
     {
       "PS_VERSION_START": "8.1.4",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "8.0"
     },
     {
       "PS_VERSION_START": "8.1.4",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "8.1"
     },
@@ -788,31 +788,31 @@
     },
     {
       "PS_VERSION_START": "8.1.5",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.2"
     },
     {
       "PS_VERSION_START": "8.1.5",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.3"
     },
     {
       "PS_VERSION_START": "8.1.5",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.4"
     },
     {
       "PS_VERSION_START": "8.1.5",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "8.0"
     },
     {
       "PS_VERSION_START": "8.1.5",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "8.1"
     },
@@ -821,31 +821,31 @@
     },
     {
       "PS_VERSION_START": "8.1.6",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.2"
     },
     {
       "PS_VERSION_START": "8.1.6",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.3"
     },
     {
       "PS_VERSION_START": "8.1.6",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "7.4"
     },
     {
       "PS_VERSION_START": "8.1.6",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "8.0"
     },
     {
       "PS_VERSION_START": "8.1.6",
-      "PS_VERSION_END": "8.1.7",
+      "PS_VERSION_END": "8.2.0",
       "UPGRADE_CHANNEL": "minor",
       "PHP_VERSION": "8.1"
     }
