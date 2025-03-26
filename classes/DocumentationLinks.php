@@ -31,4 +31,5 @@ class DocumentationLinks
     public const DEV_DOC_UPGRADE_POST_RESTORE_URL = self:: DEV_DOC_UPGRADE_URL . '/post-restore-checklist';
     public const PRESTASHOP_PROJECT_URL = 'https://www.prestashop-project.org';
     public const PRESTASHOP_PROJECT_DATA_TRANSPARENCY_URL = self::PRESTASHOP_PROJECT_URL . '/data-transparency';
+    public const PRESTASHOP_EXPERTS = 'https://experts.prestashop.com/english/experts/';
 }

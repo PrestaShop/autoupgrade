@@ -25,6 +25,11 @@ class Autoupgrade extends Module
      */
     public $multishop_context;
 
+    /**
+     * @var \PrestaShop\Module\AutoUpgrade\UpgradeContainer
+     */
+    protected $container;
+
     public function __construct()
     {
         $this->name = 'autoupgrade';
@@ -89,7 +94,21 @@ class Autoupgrade extends Module
             }
         }
 
-        return parent::install();
+        if (!Tab::getIdFromClassName('AdminAutoupgradeAjax')) {
+            $ajaxTab = new Tab();
+            $ajaxTab->class_name = 'AdminAutoupgradeAjax';
+            $ajaxTab->module = 'autoupgrade';
+            $ajaxTab->id_parent = -1;
+
+            foreach (Language::getLanguages(false) as $lang) {
+                $ajaxTab->name[(int) $lang['id_lang']] = 'Update assistant';
+            }
+            if (!$ajaxTab->save()) {
+                return $this->_abortInstall($this->trans('Unable to create the "AdminAutoupgradeAjax" tab'));
+            }
+        }
+
+        return parent::install() && $this->registerHook('displayBackOfficeHeader');
     }
 
     /**
@@ -97,11 +116,17 @@ class Autoupgrade extends Module
      */
     public function uninstall()
     {
-        // Delete the 1-click upgrade Back-office tab
+        // Delete the module Back-office tab
         $id_tab = Tab::getIdFromClassName('AdminSelfUpgrade');
         if ($id_tab) {
             $tab = new Tab((int) $id_tab);
             $tab->delete();
+        }
+
+        $id_ajax_tab = Tab::getIdFromClassName('AdminAutoupgradeAjax');
+        if ($id_ajax_tab) {
+            $ajaxTab = new Tab((int) $id_ajax_tab);
+            $ajaxTab->delete();
         }
 
         // Remove the 1-click upgrade working directory
@@ -176,5 +201,56 @@ class Autoupgrade extends Module
         );
 
         return $translator->trans($id, $parameters);
+    }
+
+    /**
+     * Hook called after the backoffice content is rendered.
+     * Used to display the update notification dialog.
+     *
+     * @return string
+     *
+     * @throws \PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException
+     * @throws \PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
+    public function hookDisplayBackOfficeHeader()
+    {
+        if (!$this->initAutoloaderIfCompliant()) {
+            return '';
+        }
+
+        return (new \PrestaShop\Module\AutoUpgrade\Hooks\DisplayBackOfficeHeader($this->getUpgradeContainer()))->renderUpdateNotification();
+    }
+
+    /**
+     * @return bool
+     */
+    public function initAutoloaderIfCompliant()
+    {
+        require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/classes/VersionUtils.php';
+        if (!\PrestaShop\Module\AutoUpgrade\VersionUtils::isActualPHPVersionCompatible()) {
+            return false;
+        }
+
+        $autoloadPath = __DIR__ . '/vendor/autoload.php';
+        if (file_exists($autoloadPath)) {
+            require_once $autoloadPath;
+        }
+
+        return true;
+    }
+
+    /**
+     * @return \PrestaShop\Module\AutoUpgrade\UpgradeContainer
+     */
+    public function getUpgradeContainer()
+    {
+        if (null === $this->container) {
+            $this->container = new \PrestaShop\Module\AutoUpgrade\UpgradeContainer(_PS_ROOT_DIR_, realpath(_PS_ADMIN_DIR_));
+        }
+
+        return $this->container;
     }
 }
