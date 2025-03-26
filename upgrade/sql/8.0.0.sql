@@ -22,8 +22,6 @@ DELETE FROM `PREFIX_access`
 DELETE FROM `PREFIX_configuration`
   WHERE `name` IN ('PS_REFERRERS_CACHE_LIKE', 'PS_REFERRERS_CACHE_DATE');
 
-UPDATE `PREFIX_configuration` SET `value` = 'id_group;id_currency;id_country;id_shop' WHERE `name` = "PS_SPECIFIC_PRICE_PRIORITIES" AND `value` = 'id_shop;id_currency;id_country;id_group';
-
 /* PHP:add_configuration_if_not_exists('PS_MAIL_DKIM_ENABLE', '0'); */;
 /* PHP:add_configuration_if_not_exists('PS_MAIL_DKIM_DOMAIN', ''); */;
 /* PHP:add_configuration_if_not_exists('PS_MAIL_DKIM_SELECTOR', ''); */;

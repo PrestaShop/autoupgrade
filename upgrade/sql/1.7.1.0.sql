@@ -131,9 +131,9 @@ ALTER TABLE `PREFIX_tab_lang` CHANGE `id_lang` `id_lang` INT(11) NOT NULL;
 ALTER TABLE `PREFIX_tab_lang` CHANGE `name` `name` varchar(128) NOT NULL;
 ALTER TABLE `PREFIX_tab_lang` ADD KEY `IDX_CFD9262DED47AB56` (`id_tab`);
 
+ALTER TABLE `PREFIX_translation` DROP INDEX `theme`;
+
 ALTER TABLE `PREFIX_translation` CHANGE `domain` `domain` varchar(80) NOT NULL;
 ALTER TABLE `PREFIX_translation` CHANGE `theme` `theme` varchar(32) DEFAULT NULL;
 ALTER TABLE `PREFIX_translation` CHANGE `key` `key` text COLLATE utf8_unicode_ci NOT NULL;
 ALTER TABLE `PREFIX_translation` CHANGE `translation` `translation` text COLLATE utf8_unicode_ci NOT NULL;
-
-ALTER TABLE `PREFIX_translation` DROP INDEX `theme`;

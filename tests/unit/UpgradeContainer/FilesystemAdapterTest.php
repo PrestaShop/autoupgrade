@@ -112,34 +112,8 @@ class FilesystemAdapterTest extends TestCase
         $this->assertEquals([], array_diff($actual, $expected), "There are more files in the actual array than in the expected list: \n" . implode("\n", array_diff($actual, $expected)));
     }
 
-    public function testListFilesInDirForRestoreWithImages()
+    public function testListFilesInDirForRestore()
     {
-        $configurationStorage = $this->container->getConfigurationStorage();
-        $configuration = $this->container->getUpdateConfiguration();
-        $configuration->merge([UpgradeConfiguration::PS_AUTOUP_KEEP_IMAGES => true]);
-        $configurationStorage->save($configuration);
-
-        $expected = $this->loadFixtureAndAddPrefixToFilePaths(
-            __DIR__ . '/../../fixtures/listOfFiles-restore-with-images.json',
-            self::$pathToFakeShop
-        );
-
-        $actual = $this->filesystemAdapter->listFilesInDir(
-            self::$pathToFakeShop,
-            'restore'
-        );
-        // TODO: Should try using assertEqualsCanonicalizing after upgrade of PHPUnit
-        $this->assertEquals([], array_diff($expected, $actual), "There are more files in the expected array than in the actual list: \n" . implode("\n", array_diff($expected, $actual)));
-        $this->assertEquals([], array_diff($actual, $expected), "There are more files in the actual array than in the expected list: \n" . implode("\n", array_diff($actual, $expected)));
-    }
-
-    public function testListFilesInDirForRestoreWithoutImages()
-    {
-        $configurationStorage = $this->container->getConfigurationStorage();
-        $configuration = $this->container->getUpdateConfiguration();
-        $configuration->merge([UpgradeConfiguration::PS_AUTOUP_KEEP_IMAGES => false]);
-        $configurationStorage->save($configuration);
-
         $expected = $this->loadFixtureAndAddPrefixToFilePaths(
             __DIR__ . '/../../fixtures/listOfFiles-restore-without-images.json',
             self::$pathToFakeShop

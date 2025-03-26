@@ -1,4 +1,5 @@
-{#**
+<?php
+/**
  * Copyright since 2007 PrestaShop SA and Contributors
  * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
  *
@@ -15,19 +16,23 @@
  * @author    PrestaShop SA and Contributors <contact@prestashop.com>
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
- *#}
-{% include "@ModuleAutoUpgrade/components/radio-card.html.twig" with {
-  radioCardId: form_options.online_value,
-  radioName: form_fields.channel,
-  radioValue: form_options.online_value,
-  checked: current_values.channel == form_options.online_value,
-  required: true,
-  message: "The maximum version of PrestaShop to which you can update your store, based on its PHP version."|trans({}),
-  archiveCard: false,
-  enableRequirementsCheck: true,
-  badgeLabel: next_release.badge_label,
-  badgeStatus: next_release.badge_status,
-  releaseNote: next_release.release_note,
-  requirements: online_requirements,
-  title: "PrestaShop %version%"|trans({'%version%': next_release.version}),
-} %}
+ */
+
+namespace PrestaShop\Module\AutoUpgrade\Database;
+
+class TableFilter
+{
+    /**
+     * @return string[]
+     */
+    public static function tablesToIgnore(): array
+    {
+        return [
+            _DB_PREFIX_ . 'connections',
+            _DB_PREFIX_ . 'connections_page',
+            _DB_PREFIX_ . 'connections_source',
+            _DB_PREFIX_ . 'guest',
+            _DB_PREFIX_ . 'statssearch',
+        ];
+    }
+}
