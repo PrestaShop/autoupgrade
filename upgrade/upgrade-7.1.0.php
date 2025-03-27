@@ -42,6 +42,7 @@ function upgrade_module_7_1_0($module)
     }
 
     $module->registerHook('displayBackOfficeHeader');
+    $module->registerHook('displayBackOfficeEmployeeMenu');
 
     return true;
 }
