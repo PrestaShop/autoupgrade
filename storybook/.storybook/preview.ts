@@ -27,6 +27,7 @@ import { Preview, twig } from "@sensiolabs/storybook-symfony-webpack5";
 import "../../_dev/src/scss/appUI/main.scss";
 import "../../_dev/tests/fakeWindow";
 import "../../_dev/src/ts/appUI/main";
+import '../../_dev/src/scss/appUpdateNotification/main.scss'
 
 const cssEntrypoints = {
   "9.0.0": ["/9.0.0/default/theme.css"],
@@ -41,6 +42,7 @@ const preview: Preview = {
     backgrounds: {
       disable: true,
     },
+    storyContext: 'MODULE_UI' as 'MODULE_UI' | 'STANDALONE',
     options: {
       storySort: (a, b) =>
         a.id === b.id
@@ -89,7 +91,14 @@ const preview: Preview = {
       const selectedThemeClass = `v${selectedTheme.replace(/\./g, "-")}`;
 
       const calledStory = story();
-      calledStory.template = twig(`
+      calledStory.template = context.parameters.storyContext === 'STANDALONE' ? twig(`
+        <div id="main">
+          <div id="update_assistant_notification" class="${selectedThemeClass}">
+            ${calledStory.template.getSource()}
+            ${cssContents.map((cssFile) => `<link rel="stylesheet" type="text/css" href="${cssFile}" />`)}
+          </div>
+        </div>
+      `) : twig(`
         <div id="main">
           <div id="content" class="bootstrap update-assistant">
             <div id="update_assistant" class="${selectedThemeClass}">
