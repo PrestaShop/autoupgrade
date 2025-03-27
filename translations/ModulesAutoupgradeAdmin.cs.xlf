@@ -185,7 +185,7 @@
       <trans-unit id="8cd1c74d3c55f934c1b312fc65f9022f" approved="yes">
         <source>We couldn't find a PrestaShop version in the .zip file that was uploaded in your local archive. Please try again.</source>
         <target state="final">V nahraném .zip souboru v místním archivu nebyla nalezena žádná verze PrestaShopu. Zkuste to prosím znovu.</target>
-        <note>classes/Task/Miscellaneous/UpdateConfig.php:102</note>
+        <note>classes/Task/Miscellaneous/UpdateConfig.php:103</note>
       </trans-unit>
       <trans-unit id="a9c58dc4da830f87b1f0cb9e2b6f8a1c" approved="yes">
         <source>We couldn't find a PrestaShop version in the XML file that was uploaded in your local archive. Please try again.</source>
@@ -517,117 +517,122 @@
       <trans-unit id="26b9f7a72f6303211ad6d2f635ea680e" approved="yes">
         <source>Your current PHP version isn't compatible with PrestaShop %s. (Expected: %s - %s | Current: %s)</source>
         <target state="final">Vaše aktuální verze PHP není kompatibilní s PrestaShopem %s. (Podporováno: %s - %s | Aktuální: %s)</target>
-        <note>classes/UpgradeSelfCheck.php:211</note>
+        <note>classes/UpgradeSelfCheck.php:223</note>
       </trans-unit>
       <trans-unit id="1c66c3bb21f2926dee75dc54c1c6435f" approved="yes">
         <source><![CDATA[Your store's root directory %s isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></source>
         <target state="final"><![CDATA[Do kořenového adresáře vašeho obchodu %s nelze zapisovat. Poskytněte uživateli, který používá PHP, přístup pro zápis s příslušným oprávněním a vlastnictvím.]]></target>
-        <note>classes/UpgradeSelfCheck.php:219</note>
+        <note>classes/UpgradeSelfCheck.php:231</note>
       </trans-unit>
       <trans-unit id="75c48e6592370a40d426a3ff0a753901" approved="yes">
         <source><![CDATA[The %s directory isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></source>
         <target state="final"><![CDATA[Do adresáře %s nelze zapisovat. Poskytněte uživateli, který používá PHP, přístup pro zápis s příslušným oprávněním a vlastnictvím.]]></target>
-        <note>classes/UpgradeSelfCheck.php:228</note>
+        <note>classes/UpgradeSelfCheck.php:240</note>
       </trans-unit>
       <trans-unit id="a4cbbaa504b6e21c9152bc783cf68aba" approved="yes">
         <source>Files can't be downloaded. Enable PHP's "allow_url_fopen" option or install PHP extension "cURL".</source>
         <target state="final">Soubory nelze stáhnout. Povolte volbu PHP „allow_url_fopen“ nebo nainstalujte rozšíření PHP „cURL“.</target>
-        <note>classes/UpgradeSelfCheck.php:235</note>
+        <note>classes/UpgradeSelfCheck.php:247</note>
       </trans-unit>
       <trans-unit id="f331b3e71fc229a1cfd1aaa3241be853" approved="yes">
         <source>Missing PHP extension "zip".</source>
         <target state="final">Chybí rozšíření PHP "zip".</target>
-        <note>classes/UpgradeSelfCheck.php:240</note>
+        <note>classes/UpgradeSelfCheck.php:252</note>
       </trans-unit>
       <trans-unit id="d321763467936ac779fff7e090d8f0dc" approved="yes">
         <source><![CDATA[Maintenance mode needs to be enabled. Enable maintenance mode and add your maintenance IP in [1]Shop parameters > General > Maintenance[/1].]]></source>
         <target state="final"><![CDATA[Je třeba povolit režim údržby. Povolte režim údržby a přidejte svou IP v sekci [1]Parametry obchodu > Obecné > Údržba[/1].]]></target>
-        <note>classes/UpgradeSelfCheck.php:258</note>
+        <note>classes/UpgradeSelfCheck.php:270</note>
       </trans-unit>
       <trans-unit id="00010e5e74d3de76b6ade544d9341832" approved="yes">
         <source><![CDATA[PrestaShop's caching features needs to be disabled. Disable caching features in [1]Advanced parameters > Performance > Caching[/1].]]></source>
         <target state="final"><![CDATA[Cachovací funkce PrestaShopu musí být zakázány. Zakažte je v sekci [1]Nástroje > Výkon[/1].]]></target>
-        <note>classes/UpgradeSelfCheck.php:276</note>
+        <note>classes/UpgradeSelfCheck.php:288</note>
       </trans-unit>
       <trans-unit id="8ff30224a9960da38da34b6a99d20751" approved="yes">
         <source>PHP's max_execution_time setting needs to have a high value or needs to be disabled entirely (current value: %s seconds).</source>
         <target state="final">Nastavení max_execution_time PHP musí mít vysokou hodnotu nebo musí být zcela zakázáno (aktuální hodnota: %s sekund).</target>
-        <note>classes/UpgradeSelfCheck.php:282</note>
+        <note>classes/UpgradeSelfCheck.php:294</note>
       </trans-unit>
       <trans-unit id="26da0df3cbdf0052c8f1205b40ad5072" approved="yes">
         <source>Apache mod_rewrite needs to be enabled.</source>
         <target state="final">Apache mod_rewrite musí být povolen.</target>
-        <note>classes/UpgradeSelfCheck.php:289</note>
+        <note>classes/UpgradeSelfCheck.php:301</note>
       </trans-unit>
       <trans-unit id="57bd2c4dc4936edbe3b9247c97e97033" approved="yes">
         <source>The following PHP extensions need to be installed: </source>
         <target state="final">Je třeba nainstalovat následující rozšíření PHP: </target>
-        <note>classes/UpgradeSelfCheck.php:294</note>
+        <note>classes/UpgradeSelfCheck.php:306</note>
       </trans-unit>
       <trans-unit id="774da4dc59398b2c1dfcf9be03aaa110" approved="yes">
         <source>The following PHP functions need to be allowed: </source>
         <target state="final">Je třeba povolit následující funkce PHP: </target>
-        <note>classes/UpgradeSelfCheck.php:300</note>
+        <note>classes/UpgradeSelfCheck.php:312</note>
       </trans-unit>
       <trans-unit id="a220e0ac5c6f7fa8692c131148ed050a" approved="yes">
         <source>PHP memory_limit needs to be greater than 256 MB.</source>
         <target state="final">PHP memory_limit musí být větší než 256 MB.</target>
-        <note>classes/UpgradeSelfCheck.php:306</note>
+        <note>classes/UpgradeSelfCheck.php:318</note>
       </trans-unit>
       <trans-unit id="24b3a661ea0947d7dfddb4fe68681907" approved="yes">
         <source>PHP file_uploads configuration needs to be enabled.</source>
         <target state="final">Je třeba povolit konfiguraci PHP file_uploads.</target>
-        <note>classes/UpgradeSelfCheck.php:311</note>
+        <note>classes/UpgradeSelfCheck.php:323</note>
       </trans-unit>
       <trans-unit id="8406b91fd5a290de3a1e1516db6e79b8" approved="yes">
         <source>Unable to generate private keys using openssl_pkey_new. Check your OpenSSL configuration, especially the path to openssl.cafile.</source>
         <target state="final">Nepodařilo se vygenerovat privátní klíče pomocí funkce openssl_pkey_new. Zkontrolujte a opravte prosím konfiguraci OpenSSL, např. cestu k openssl.cafile.</target>
-        <note>classes/UpgradeSelfCheck.php:316</note>
+        <note>classes/UpgradeSelfCheck.php:328</note>
       </trans-unit>
       <trans-unit id="1f2d0f1827f406e61d44d41b8c3b9a53" approved="yes">
         <source><![CDATA[It's not possible to write in the following folders. Provide write access to the user running PHP with appropriate permission & ownership: ]]></source>
         <target state="final"><![CDATA[Není možné zapisovat do následujících složek, poskytněte prosím přístup pro zápis uživateli s PHP s příslušným oprávněním a vlastnictvím: ]]></target>
-        <note>classes/UpgradeSelfCheck.php:321</note>
+        <note>classes/UpgradeSelfCheck.php:333</note>
       </trans-unit>
       <trans-unit id="a99553cd5eff17f5895d093c44b5c430" approved="yes">
         <source>The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table.</source>
         <target state="final">Verze PrestaShopu neodpovídá verzi uložené v databázi. Struktura vaší databáze možná není aktuální a/nebo je třeba aktualizovat hodnotu PS_VERSION_DB v tabulce configuration.</target>
-        <note>classes/UpgradeSelfCheck.php:327</note>
+        <note>classes/UpgradeSelfCheck.php:339</note>
       </trans-unit>
       <trans-unit id="68bb3863ee3524f0cfa0f13d5d2ee792" approved="yes">
         <source><![CDATA[Your current version of the module is out of date. Update now [1]Modules > Module Manager > Updates[/1]]]></source>
         <target state="final"><![CDATA[Vaše aktuální verze modulu je zastaralá. Aktualizujte ho v sekci [1]Moduly > Manažer modulů > Aktualizace[/1]]]></target>
-        <note>classes/UpgradeSelfCheck.php:345</note>
+        <note>classes/UpgradeSelfCheck.php:357</note>
       </trans-unit>
       <trans-unit id="e95e7ec14a924e726e71503f90468a66" approved="yes">
         <source>We were unable to check your PHP compatibility with PrestaShop %s.</source>
         <target state="final">Nepodařilo se nám zkontrolovat kompatibilitu verze PHP s PrestaShopem %s.</target>
-        <note>classes/UpgradeSelfCheck.php:351</note>
+        <note>classes/UpgradeSelfCheck.php:363</note>
       </trans-unit>
-      <trans-unit id="8fe7d00736157606de57d3d048e341d6" approved="yes">
-        <source>Some core files have been altered or removed. Any changes made to these files may be overwritten during the update. [1]See the list of changes.[/1]</source>
-        <target state="final">Některé soubory jádra byly změněny nebo odstraněny. Jakékoliv změny provedené v těchto souborech mohou být přepsány během aktualizace. [1]Viz seznam změn.[/1]</target>
-        <note>classes/UpgradeSelfCheck.php:362</note>
+      <trans-unit id="b931000d0edc9aa4941f7dee725bf723">
+        <source>Some core files have been altered or removed. Any changes made to these files may be overwritten during the update. [1]See the list of changes[/1].</source>
+        <target state="needs-translation">Some core files have been altered or removed. Any changes made to these files may be overwritten during the update. [1]See the list of changes[/1].</target>
+        <note>classes/UpgradeSelfCheck.php:374</note>
       </trans-unit>
       <trans-unit id="427da216e71ba0cd2ce8f0cc71fa7943" approved="yes">
         <source>Some core files have been altered or removed. Any changes made to these files may be overwritten during the update.</source>
         <target state="final">Některé soubory jádra byly změněny nebo odstraněny. Jakékoliv změny provedené v těchto souborech mohou být přepsány během aktualizace.</target>
-        <note>classes/UpgradeSelfCheck.php:364</note>
+        <note>classes/UpgradeSelfCheck.php:376</note>
       </trans-unit>
-      <trans-unit id="61404918d61b02676f938f187bdd4481" approved="yes">
-        <source>Some theme files have been altered or removed. Any changes made to these files may be overwritten during the update. [1]See the list of changes.[/1]</source>
-        <target state="final">Některé soubory šablony byly změněny nebo odstraněny. Jakékoliv změny provedené v těchto souborech mohou být přepsány během aktualizace. [1]Viz seznam změn.[/1]</target>
-        <note>classes/UpgradeSelfCheck.php:377</note>
+      <trans-unit id="5b42ef8b92485316d4af646da0abf22f">
+        <source>Some theme files have been altered or removed. Any changes made to these files may be overwritten during the update. [1]See the list of changes[/1].</source>
+        <target state="needs-translation">Some theme files have been altered or removed. Any changes made to these files may be overwritten during the update. [1]See the list of changes[/1].</target>
+        <note>classes/UpgradeSelfCheck.php:389</note>
       </trans-unit>
       <trans-unit id="77e552478a3a1c92107ccae8722476a3" approved="yes">
         <source>Some theme files have been altered or removed. Any changes made to these files may be overwritten during the update.</source>
         <target state="final">Některé soubory šablony byly změněny nebo odstraněny. Jakékoliv změny provedené v těchto souborech mohou být přepsány během aktualizace.</target>
-        <note>classes/UpgradeSelfCheck.php:379</note>
+        <note>classes/UpgradeSelfCheck.php:391</note>
+      </trans-unit>
+      <trans-unit id="d56247f7a1c66e65f265b936b6d26dd9">
+        <source>We were unable to fetch missing or altered files. In these conditions, your store cannot be updated to avoid any further bugs.</source>
+        <target state="needs-translation">We were unable to fetch missing or altered files. In these conditions, your store cannot be updated to avoid any further bugs.</target>
+        <note>classes/UpgradeSelfCheck.php:400</note>
       </trans-unit>
       <trans-unit id="5ae505096414401ddbb2affa6620a869" approved="yes">
         <source>Unknown requirement.</source>
         <target state="final">Neznámý požadavek.</target>
-        <note>classes/UpgradeSelfCheck.php:388</note>
+        <note>classes/UpgradeSelfCheck.php:405</note>
       </trans-unit>
       <trans-unit id="08272c6ff59a6aec084b9a2afc3e9cff" approved="yes">
         <source>Unable to retrieve channel.xml.</source>
@@ -647,52 +652,52 @@
       <trans-unit id="52033453d4d673bae012b9c8ccb1e79c" approved="yes">
         <source>An error occurred while backing up. Unable to obtain the schema of %s</source>
         <target state="final">Při zálohování došlo k chybě. Nelze získat schéma %s</target>
-        <note>classes/Task/Backup/BackupDatabase.php:126</note>
+        <note>classes/Task/Backup/BackupDatabase.php:127</note>
       </trans-unit>
       <trans-unit id="dcb7d833c69d6e0c3f009381c51f898e" approved="yes">
         <source>Error during database backup.</source>
         <target state="final">Chyba při zálohování databáze.</target>
-        <note>classes/Task/Backup/BackupDatabase.php:127</note>
+        <note>classes/Task/Backup/BackupDatabase.php:128</note>
       </trans-unit>
       <trans-unit id="4d4c62fccb481224ff3a5c36b45de3fd" approved="yes">
         <source>%s table has been saved.</source>
         <target state="final">Tabulka %s byla uložena.</target>
-        <note>classes/Task/Backup/BackupDatabase.php:219</note>
+        <note>classes/Task/Backup/BackupDatabase.php:220</note>
       </trans-unit>
       <trans-unit id="71426d0545181d601dc135b78e74ac8f" approved="yes">
         <source>%s tables have been saved.</source>
         <target state="final">%s tabulek bylo uloženo.</target>
-        <note>classes/Task/Backup/BackupDatabase.php:239</note>
+        <note>classes/Task/Backup/BackupDatabase.php:240</note>
       </trans-unit>
       <trans-unit id="c2a086cb5c3373d7e11acbd3ace6a553" approved="yes">
         <source>Database backup: %s table(s) left...</source>
         <target state="final">Záloha databáze: zbývá %s tabulek...</target>
-        <note>classes/Task/Backup/BackupDatabase.php:246</note>
+        <note>classes/Task/Backup/BackupDatabase.php:247</note>
       </trans-unit>
       <trans-unit id="10d423ad12429f952b0864b9f506551e" approved="yes">
         <source>Database backup done in filename %s.</source>
         <target state="final">Záloha databáze byla provedena do souboru %s.</target>
-        <note>classes/Task/Backup/BackupDatabase.php:259</note>
+        <note>classes/Task/Backup/BackupDatabase.php:260</note>
       </trans-unit>
       <trans-unit id="555231214d7c729089e80f561e118f45" approved="yes">
         <source>Backup directory is not writable (%path%).</source>
         <target state="final">Adresář zálohy není zapisovatelný (%path%).</target>
-        <note>classes/Task/Backup/BackupDatabase.php:276</note>
+        <note>classes/Task/Backup/BackupDatabase.php:277</note>
       </trans-unit>
       <trans-unit id="d721e1d318aff72741125f97535b8ac7" approved="yes">
         <source>No valid tables were found to back up. Backup of database canceled.</source>
         <target state="final">Nebyly nalezeny žádné platné tabulky k zálohování. Zálohování databáze zrušeno.</target>
-        <note>classes/Task/Backup/BackupDatabase.php:292</note>
+        <note>classes/Task/Backup/BackupDatabase.php:293</note>
       </trans-unit>
       <trans-unit id="d12ae4e7f0d20f4a4ca357d48e42877e" approved="yes">
         <source>Backup file %s already exists. Operation aborted.</source>
         <target state="final">Záložní soubor %s již existuje. Operace byla přerušena.</target>
-        <note>classes/Task/Backup/BackupDatabase.php:351</note>
+        <note>classes/Task/Backup/BackupDatabase.php:338</note>
       </trans-unit>
       <trans-unit id="d82896159c60199272e5ea481a733eba" approved="yes">
         <source>Unable to create backup database file %s.</source>
         <target state="final">Nebylo možné vytvořit soubor se zálohou databáze %s.</target>
-        <note>classes/Task/Backup/BackupDatabase.php:365</note>
+        <note>classes/Task/Backup/BackupDatabase.php:352</note>
       </trans-unit>
       <trans-unit id="88b3ca1ea582b35668b5ed49bbf8206b" approved="yes">
         <source>Backup completed successfully.</source>
@@ -747,67 +752,52 @@
       <trans-unit id="1c041a27877f172964552beef6c228e6" approved="yes">
         <source>Unknown configuration key '%s', Ignoring.</source>
         <target state="final">Neznámý konfigurační klíč '%s', ignoruji.</target>
-        <note>classes/Task/Miscellaneous/UpdateConfig.php:58</note>
+        <note>classes/Task/Miscellaneous/UpdateConfig.php:59</note>
       </trans-unit>
       <trans-unit id="d70699057bcd09b03129da2391b47d67" approved="yes">
         <source>Update process will use archive.</source>
         <target state="final">Proces aktualizace použije archiv.</target>
-        <note>classes/Task/Miscellaneous/UpdateConfig.php:99</note>
+        <note>classes/Task/Miscellaneous/UpdateConfig.php:100</note>
       </trans-unit>
       <trans-unit id="1fe9dd96f646eaa0cd3a0fcc7632ce12" approved="yes">
         <source>Error on saving configuration</source>
         <target state="final">Chyba při ukládání nastavení</target>
-        <note>classes/Task/Miscellaneous/UpdateConfig.php:110</note>
+        <note>classes/Task/Miscellaneous/UpdateConfig.php:111</note>
       </trans-unit>
       <trans-unit id="f2ff9d001d0a553c78da73443e7fcd97" approved="yes">
         <source>Configuration successfully updated.</source>
         <target state="final">Nastavení bylo aktualizováno.</target>
-        <note>classes/Task/Miscellaneous/UpdateConfig.php:173</note>
-      </trans-unit>
-      <trans-unit id="6a5e5c0047907eaf8062e9933f0de8df" approved="yes">
-        <source>%s: File format does not match.</source>
-        <target state="final">%s: formát souboru neodpovídá.</target>
-        <note>classes/Task/Restore/RestoreDatabase.php:76</note>
-      </trans-unit>
-      <trans-unit id="c2bcd4d44d646c47753473ff94cc66ac" approved="yes">
-        <source>Opening backup database file %filename% in %extension% mode</source>
-        <target state="final">Otevírání souboru záložní databáze %filename% v režimu %extension%</target>
-        <note>classes/Task/Restore/RestoreDatabase.php:88</note>
-      </trans-unit>
-      <trans-unit id="5ce67d010ab9c98ae1dbd6b5ea149982" approved="yes">
-        <source>Database backup is empty.</source>
-        <target state="final">Záloha databáze je prázdná.</target>
-        <note>classes/Task/Restore/RestoreDatabase.php:126</note>
-      </trans-unit>
-      <trans-unit id="ad12a553fe534ba86e1cebf77b27300d" approved="yes">
-        <source>Database restoration file %filename% done. %filescount% file(s) left...</source>
-        <target state="final">Soubor obnovení databáze %filename% vytvořen. Zbývá %filescount% souborů...</target>
-        <note>classes/Task/Restore/RestoreDatabase.php:175</note>
-      </trans-unit>
-      <trans-unit id="55fc6682e256e387afb10ebf6c95aed5" approved="yes">
-        <source>Database restoration file %1$s done.</source>
-        <target state="final">Obnova databáze ze souboru %1$s byla dokončena.</target>
-        <note>classes/Task/Restore/RestoreDatabase.php:182</note>
-      </trans-unit>
-      <trans-unit id="5b37242b8a0a39af0a9dc28abdabba28" approved="yes">
-        <source>Database has been restored.</source>
-        <target state="final">Databáze byla obnovena.</target>
-        <note>classes/Task/Restore/RestoreDatabase.php:191</note>
-      </trans-unit>
-      <trans-unit id="3830c02583d9671297848d8b9aa7d016" approved="yes">
-        <source>Error during database restoration: </source>
-        <target state="final">Nastala chyba během obnovy databáze: </target>
-        <note>classes/Task/Restore/RestoreDatabase.php:203</note>
-      </trans-unit>
-      <trans-unit id="85f6ad54304538449ff3da4435be5336" approved="yes">
-        <source>%numberqueries% queries left for file %filename%...</source>
-        <target state="final">Zbývá %numberqueries% dotazů pro soubor %filename%...</target>
-        <note>classes/Task/Restore/RestoreDatabase.php:225</note>
+        <note>classes/Task/Miscellaneous/UpdateConfig.php:174</note>
       </trans-unit>
       <trans-unit id="30da45f850d1f1a2b42f215836382f19" approved="yes">
         <source>Database restoration done.</source>
         <target state="final">Obnova databáze dokončena.</target>
-        <note>classes/Task/Restore/RestoreDatabase.php:235</note>
+        <note>classes/Task/Restore/RestoreDatabase.php:77</note>
+      </trans-unit>
+      <trans-unit id="3830c02583d9671297848d8b9aa7d016" approved="yes">
+        <source>Error during database restoration: </source>
+        <target state="final">Nastala chyba během obnovy databáze: </target>
+        <note>classes/Task/Restore/RestoreDatabase.php:93</note>
+      </trans-unit>
+      <trans-unit id="6a5e5c0047907eaf8062e9933f0de8df" approved="yes">
+        <source>%s: File format does not match.</source>
+        <target state="final">%s: formát souboru neodpovídá.</target>
+        <note>classes/Task/Restore/RestoreDatabase.php:141</note>
+      </trans-unit>
+      <trans-unit id="c2bcd4d44d646c47753473ff94cc66ac" approved="yes">
+        <source>Opening backup database file %filename% in %extension% mode</source>
+        <target state="final">Otevírání souboru záložní databáze %filename% v režimu %extension%</target>
+        <note>classes/Task/Restore/RestoreDatabase.php:153</note>
+      </trans-unit>
+      <trans-unit id="5ce67d010ab9c98ae1dbd6b5ea149982" approved="yes">
+        <source>Database backup is empty.</source>
+        <target state="final">Záloha databáze je prázdná.</target>
+        <note>classes/Task/Restore/RestoreDatabase.php:191</note>
+      </trans-unit>
+      <trans-unit id="d34a47950a4648f312fd84a843b190b2">
+        <source>No tables matching the prefix "%s" were found in the database.</source>
+        <target state="needs-translation">No tables matching the prefix "%s" were found in the database.</target>
+        <note>classes/Task/Restore/RestoreDatabase.php:218</note>
       </trans-unit>
       <trans-unit id="222102295c3c6626ff141687b0f49b6b" approved="yes">
         <source>Nothing to restore</source>
@@ -857,7 +847,7 @@
       <trans-unit id="1f63628adef352c2a7ee4225b9dcd576" approved="yes">
         <source>Unable to extract file %filename% into directory %directoryname%.</source>
         <target state="final">Nelze rozbalit soubor %filename% do adresáře %directoryname%.</target>
-        <note>classes/Task/Restore/RestoreFiles.php:104</note>
+        <note>classes/Task/Restore/RestoreFiles.php:110</note>
       </trans-unit>
       <trans-unit id="cb7dce5f6a1934d54c0d3335c7ffe841" approved="yes">
         <source>Files restored.</source>
@@ -1414,9 +1404,9 @@
         <target state="final">V obchodě nebyl nalezen žádný záložní soubor.</target>
         <note>views/templates/steps/home.html.twig:46</note>
       </trans-unit>
-      <trans-unit id="e0c4332e8c13be976552a059f106354f" approved="yes">
-        <source>Get Started</source>
-        <target state="final">Jdeme na to</target>
+      <trans-unit id="be11c74c1dd7f307bb80183a90dc2067">
+        <source>Get started</source>
+        <target state="needs-translation">Get started</target>
         <note>views/templates/steps/home.html.twig:56</note>
       </trans-unit>
       <trans-unit id="201ad8cac531a92e1ec77ae5c1e7aa20" approved="yes">
@@ -1754,9 +1744,9 @@
         <target state="final">Průběh je {progress_percentage}%</target>
         <note>views/templates/components/progress-bar.html.twig:22</note>
       </trans-unit>
-      <trans-unit id="00068df4be432f78c52f344b746857bb" approved="yes">
-        <source>The maximum version of PrestaShop to which you can upgrade your store, based on its PHP version.</source>
-        <target state="final">Maximální verze PrestaShopu, na kterou můžete upgradovat svůj obchod, na základě jeho verze PHP.</target>
+      <trans-unit id="c810616e41e5c7d30bf8bfd118405833">
+        <source>The maximum version of PrestaShop to which you can update your store, based on its PHP version.</source>
+        <target state="needs-translation">The maximum version of PrestaShop to which you can update your store, based on its PHP version.</target>
         <note>views/templates/components/radio-card-online.html.twig:25</note>
       </trans-unit>
       <trans-unit id="b9d4e763594017af5b607eb9e0034299" approved="yes">
