@@ -133,6 +133,7 @@ class DisplayBackOfficeHeader
         if ((empty($employeeExists) || time() > $employeeExists[0]['timestamp']) && $this->updateIsAvailable()) {
             $this->content .= $this->container->getTwig()->render('@ModuleAutoUpgrade/hooks/external-layout.html.twig', $this->getParams());
         }
+
         return $this->content;
     }
 
