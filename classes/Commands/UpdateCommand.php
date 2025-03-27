@@ -48,7 +48,7 @@ class UpdateCommand extends AbstractCommand
             ->setDescription('Update your store.')
             ->setHelp(
                 'This command allows you to start the update process. ' .
-                'Advanced users can refer to the ' . DocumentationLinks::DEV_DOC_UPGRADE_CLI_URL . ' for further details on available actions'
+                'Advanced users can refer to the ' . DocumentationLinks::getDevDocUpdateAssistantCliUrl() . ' for further details on available actions'
             )
             ->addArgument('admin-dir', InputArgument::REQUIRED, 'The admin directory name.')
             ->addOption('chain', null, InputOption::VALUE_NONE, 'True by default. Allows you to chain update commands automatically. The command will continue executing subsequent tasks without requiring manual intervention to restart the process.')
@@ -60,7 +60,7 @@ class UpdateCommand extends AbstractCommand
             ->addOption('regenerate-email-templates', null, InputOption::VALUE_REQUIRED, "Regenerate email templates. If you've customized email templates, your changes will be lost if you activate this option (1 for yes, 0 for no)")
             ->addOption('disable-all-overrides', null, InputOption::VALUE_REQUIRED, 'Overriding is a way to replace business behaviors (class files and controller files) to target only one method or as many as you need. This option disables all classes & controllers overrides, allowing you to avoid conflicts during and after updates (1 for yes, 0 for no)')
             ->addOption('config-file-path', null, InputOption::VALUE_REQUIRED, 'Configuration file location for update.')
-            ->addOption('action', null, InputOption::VALUE_REQUIRED, 'Advanced users only. Sets the step you want to start from. Only the "' . TaskName::TASK_UPDATE_INITIALIZATION . '" task updates the configuration. (Default: ' . TaskName::TASK_UPDATE_INITIALIZATION . ', see ' . DocumentationLinks::DEV_DOC_UPGRADE_CLI_URL . ' for other values available)');
+            ->addOption('action', null, InputOption::VALUE_REQUIRED, 'Advanced users only. Sets the step you want to start from. Only the "' . TaskName::TASK_UPDATE_INITIALIZATION . '" task updates the configuration. (Default: ' . TaskName::TASK_UPDATE_INITIALIZATION . ', see ' . DocumentationLinks::getDevDocUpdateAssistantCliUrl() . ' for other values available)');
     }
 
     /**

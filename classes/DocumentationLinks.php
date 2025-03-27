@@ -22,14 +22,63 @@ namespace PrestaShop\Module\AutoUpgrade;
 
 class DocumentationLinks
 {
-    public const DEV_DOC_URL = 'https://devdocs.prestashop-project.org/8';
-    public const DEV_DOC_UP_TO_DATE_URL = self::DEV_DOC_URL . '/basics/keeping-up-to-date';
-    public const DEV_DOC_UPGRADE_URL = self::DEV_DOC_UP_TO_DATE_URL . '/upgrade-module';
-    public const DEV_DOC_UPGRADE_CLI_URL = self::DEV_DOC_UPGRADE_URL . '/upgrade-cli';
-    public const DEV_DOC_UPGRADE_WEB_URL = self::DEV_DOC_UP_TO_DATE_URL . '/use-autoupgrade-module';
-    public const DEV_DOC_UPGRADE_POST_UPGRADE_URL = self:: DEV_DOC_UPGRADE_URL . '/post-update-checklist';
-    public const DEV_DOC_UPGRADE_POST_RESTORE_URL = self:: DEV_DOC_UPGRADE_URL . '/post-restore-checklist';
-    public const PRESTASHOP_PROJECT_URL = 'https://www.prestashop-project.org';
-    public const PRESTASHOP_PROJECT_DATA_TRANSPARENCY_URL = self::PRESTASHOP_PROJECT_URL . '/data-transparency';
-    public const PRESTASHOP_EXPERTS = 'https://experts.prestashop.com/english/experts/';
+    /** @return string */
+    public static function getDevDocUrl(string $prestashopVersion = '8')
+    {
+        return "https://devdocs.prestashop-project.org/{$prestashopVersion}";
+    }
+
+    /** @return string */
+    public static function getDevDocUpToDateUrl(string $prestashopVersion = '8')
+    {
+        return self::getDevDocUrl($prestashopVersion) . '/basics/keeping-up-to-date';
+    }
+
+    /** @return string */
+    public static function getDevDocUpdateAssistantUrl(string $prestashopVersion = '8')
+    {
+        return self::getDevDocUpToDateUrl($prestashopVersion) . '/update';
+    }
+
+    /** @return string */
+    public static function getDevDocUpdateAssistantCliUrl(string $prestashopVersion = '8')
+    {
+        return self::getDevDocUpdateAssistantUrl($prestashopVersion) . '/update-from-the-cli';
+    }
+
+    /** @return string */
+    public static function getDevDocUpdateAssistantWebUrl(string $prestashopVersion = '8')
+    {
+        return self::getDevDocUpToDateUrl($prestashopVersion) . '/update-from-the-back-office';
+    }
+
+    /** @return string */
+    public static function getDevDocUpdateAssistantPostUpdateUrl(string $prestashopVersion = '8')
+    {
+        return self::getDevDocUpdateAssistantUrl($prestashopVersion) . '/post-update-checklist';
+    }
+
+    /** @return string */
+    public static function getDevDocUpdateAssistantPostRestoreUrl(string $prestashopVersion = '8')
+    {
+        return self::getDevDocUpdateAssistantUrl($prestashopVersion) . '/post-restore-checklist';
+    }
+
+    /** @return string */
+    public static function getPrestashopProjectUrl()
+    {
+        return 'https://www.prestashop-project.org';
+    }
+
+    /** @return string */
+    public static function getPrestashopProjectDataTransparencyUrl()
+    {
+        return self::getPrestashopProjectUrl() . '/data-transparency';
+    }
+
+    /** @return string */
+    public static function getPrestashopExpertsUrl()
+    {
+        return 'https://experts.prestashop.com/english/experts/';
+    }
 }

@@ -103,7 +103,7 @@ class UpdatePageVersionChoiceController extends AbstractPageWithStepController
         return array_merge(
             $updateSteps->getStepParams($this::CURRENT_STEP),
             [
-                'dev_doc_upgrade_web_url' => DocumentationLinks::DEV_DOC_UPGRADE_WEB_URL,
+                'dev_doc_upgrade_web_url' => DocumentationLinks::getDevDocUpdateAssistantWebUrl(),
                 'up_to_date' => !$isNewerVersionAvailableOnline,
                 'no_local_archive' => !$this->upgradeContainer->getLocalArchiveRepository()->hasLocalArchive(),
                 // TODO: assets_base_path is provided by all controllers. What about a asset() twig function instead?

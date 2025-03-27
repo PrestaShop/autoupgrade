@@ -59,7 +59,7 @@ class RestorePagePostRestoreController extends AbstractPageWithStepController
             $updateSteps->getStepParams($this::CURRENT_STEP),
             [
                 'exit_link' => $this->upgradeContainer->getUrlGenerator()->getShopAdminAbsolutePathFromRequest($this->request),
-                'dev_doc_link' => DocumentationLinks::DEV_DOC_UPGRADE_POST_RESTORE_URL,
+                'dev_doc_link' => DocumentationLinks::getDevDocUpdateAssistantPostRestoreUrl(),
                 'download_logs' => $this->upgradeContainer->getLogsService()->getDownloadLogsData(TaskType::TASK_TYPE_RESTORE),
             ]
         );

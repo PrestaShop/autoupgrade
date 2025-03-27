@@ -16,17 +16,25 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
-import DialogContainer from './components/DialogContainer';
-import RouteHandler from './routing/RouteHandler';
-import ScriptHandler from './routing/ScriptHandler';
-import Analytics from '../api/SegmentApi';
-import ToolbarHelpLink from './components/ToolbarHelpLink';
 
-export const analytics = new Analytics();
-export const routeHandler = new RouteHandler();
+class ToolbarHelpLink {
+  public get helpLink(): HTMLElement {
+    const container = document.querySelector('.toolbar_btn.btn-help');
 
-export const dialogContainer = new DialogContainer();
-export const toolbarHelpLink = new ToolbarHelpLink();
-export const scriptHandler = new ScriptHandler();
+    if (!container || !(container instanceof HTMLElement)) {
+      throw new Error('Cannot find help link to initialize.');
+    }
+    return container;
+  }
 
-export default { routeHandler, scriptHandler, dialogContainer, analytics, toolbarHelpLink };
+  public updateHelpLink = (): void => {
+    this.helpLink.setAttribute('target', '_blank');
+    this.helpLink.addEventListener('click', this.#onClick, true);
+  };
+
+  #onClick(ev: Event): void {
+    ev.stopImmediatePropagation();
+  }
+}
+
+export default ToolbarHelpLink;

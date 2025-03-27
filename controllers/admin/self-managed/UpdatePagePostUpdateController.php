@@ -59,7 +59,7 @@ class UpdatePagePostUpdateController extends AbstractPageWithStepController
             $updateSteps->getStepParams($this::CURRENT_STEP),
             [
                 'exit_link' => $this->upgradeContainer->getUrlGenerator()->getShopAdminAbsolutePathFromRequest($this->request),
-                'dev_doc_link' => DocumentationLinks::DEV_DOC_UPGRADE_POST_UPGRADE_URL,
+                'dev_doc_link' => DocumentationLinks::getDevDocUpdateAssistantPostUpdateUrl(),
                 'download_logs' => $this->upgradeContainer->getLogsService()->getDownloadLogsData(TaskType::TASK_TYPE_UPDATE),
             ]
         );

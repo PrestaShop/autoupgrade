@@ -35,7 +35,7 @@ class ErrorReportController extends AbstractGlobalController
             $this->getTwig()->render(
                 '@ModuleAutoUpgrade/dialogs/dialog-error-report.html.twig',
                 [
-                    'data_transparency_link' => DocumentationLinks::PRESTASHOP_PROJECT_DATA_TRANSPARENCY_URL,
+                    'data_transparency_link' => DocumentationLinks::getPrestashopProjectDataTransparencyUrl(),
                 ]
             ),
             ['addScript' => 'send-error-report-dialog']
