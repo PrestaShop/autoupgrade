@@ -647,7 +647,7 @@
       <trans-unit id="ed88d11e6f590319e0be757ac6a6f399">
         <source>An error occurred while formatting the backup name.</source>
         <target>An error occurred while formatting the backup name.</target>
-        <note>classes/Backup/BackupFinder.php:161</note>
+        <note>classes/Backup/BackupFinder.php:162</note>
       </trans-unit>
       <trans-unit id="52033453d4d673bae012b9c8ccb1e79c">
         <source>An error occurred while backing up. Unable to obtain the schema of %s</source>
