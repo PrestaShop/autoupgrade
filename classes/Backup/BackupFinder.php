@@ -22,6 +22,7 @@
 namespace PrestaShop\Module\AutoUpgrade\Backup;
 
 use DateTime;
+use IntlDateFormatter;
 use PrestaShop\Module\AutoUpgrade\Exceptions\BackupException;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 
@@ -174,6 +175,20 @@ class BackupFinder
 
     private function getFormattedDatetime(int $timestamp): string
     {
+        // Check if Intl extension is loaded
+        if (extension_loaded('intl')) {
+            $locale = $this->translator->getLocale();
+
+            $formatter = new IntlDateFormatter(
+                $locale,
+                IntlDateFormatter::SHORT,
+                IntlDateFormatter::SHORT
+            );
+
+            return $formatter->format($timestamp);
+        }
+
+        // Fallback if Intl extension is not loaded
         setlocale(LC_TIME, '');
 
         return strftime('%x %X', $timestamp);
