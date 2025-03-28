@@ -152,6 +152,15 @@ class RestorePageBackupSelectionController extends AbstractPageWithStepControlle
      */
     public function submitRestore(): JsonResponse
     {
+        $errors = $this->saveBackupConfiguration();
+
+        if (!empty($errors)) {
+            return $this->getRefreshOfForm(array_merge(
+                $this->getParams(),
+                ['errors' => ValidatorToFormFormater::format($errors)]
+            ));
+        }
+
         $backupName = $this->request->request->get(RestoreConfiguration::BACKUP_NAME);
         $backupVersion = $this->upgradeContainer->getBackupFinder()->parseBackupMetadata($backupName)['version'];
 
