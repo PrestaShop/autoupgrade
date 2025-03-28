@@ -293,8 +293,6 @@ class AdminSelfUpgradeController extends ModuleAdminController
             exit;
         }
 
-        $this->updateHelpLink();
-
         $this->content .= $response;
 
         return parent::initContent();
@@ -306,6 +304,8 @@ class AdminSelfUpgradeController extends ModuleAdminController
     private function getScriptsVariables()
     {
         $adminDir = trim(str_replace($this->prodRootDir, '', $this->adminDir), DIRECTORY_SEPARATOR);
+        $currentPsVersion = $this->upgradeContainer->getProperty(UpgradeContainer::PS_VERSION);
+        $currentMajorVersion = VersionUtils::splitPrestaShopVersion($currentPsVersion)['major'];
 
         return [
             'token' => $this->token,
@@ -315,18 +315,11 @@ class AdminSelfUpgradeController extends ModuleAdminController
             'module_version' => $this->module->version,
             'php_version' => VersionUtils::getHumanReadableVersionOf(PHP_VERSION_ID),
             'anonymous_id' => $this->upgradeContainer->getProperty(UpgradeContainer::ANONYMOUS_USER_ID),
-            'ps_version' => $this->upgradeContainer->getProperty(UpgradeContainer::PS_VERSION),
+            'ps_version' => $currentPsVersion,
             'bo_language' => $this->context->language->locale,
             'bo_timezone' => date_default_timezone_get(),
+            'help_link' => DocumentationLinks::getDevDocUpdateAssistantWebUrl($currentMajorVersion),
         ];
-    }
-
-    /** @return void */
-    private function updateHelpLink()
-    {
-        $currentPsVersion = $this->upgradeContainer->getProperty(UpgradeContainer::PS_VERSION);
-        $currentMajorVersion = VersionUtils::splitPrestaShopVersion($currentPsVersion)['major'];
-        $this->context->smarty->assign('help_link', DocumentationLinks::getDevDocUpdateAssistantWebUrl($currentMajorVersion));
     }
 
     /**
