@@ -23,6 +23,7 @@ namespace PrestaShop\Module\AutoUpgrade\Task\Backup;
 
 use Exception;
 use PDO;
+use PrestaShop\Module\AutoUpgrade\Database\TableFilter;
 use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Progress\Backlog;
@@ -315,26 +316,12 @@ class BackupDatabase extends AbstractTask
             }
 
             // Ignore stat tables
-            if (in_array($table, $this->getTablesToIgnore())) {
+            if (in_array($table, TableFilter::tablesToIgnore())) {
                 return false;
             }
 
             return true;
         });
-    }
-
-    /**
-     * @return string[]
-     */
-    private function getTablesToIgnore(): array
-    {
-        return [
-            _DB_PREFIX_ . 'connections',
-            _DB_PREFIX_ . 'connections_page',
-            _DB_PREFIX_ . 'connections_source',
-            _DB_PREFIX_ . 'guest',
-            _DB_PREFIX_ . 'statssearch',
-        ];
     }
 
     // MANAGEMENT OF BACKUP FILE RESOURCE

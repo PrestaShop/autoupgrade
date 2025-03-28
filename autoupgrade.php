@@ -39,8 +39,8 @@ class Autoupgrade extends Module
 
         $this->multishop_context = Shop::CONTEXT_ALL;
 
-        $this->displayName = $this->trans('Update assistant');
-        $this->description = $this->trans('Upgrade to the latest version of PrestaShop in a few clicks, thanks to this automated method.');
+        $this->displayName = $this->trans('Update Assistant');
+        $this->description = $this->trans('The Update Assistant module helps you backup, update and restore your PrestaShop store. With just a few clicks, you can move to the latest version of PrestaShop with confidence.');
 
         $this->ps_versions_compliancy = ['min' => '1.7.0.0', 'max' => _PS_VERSION_];
     }

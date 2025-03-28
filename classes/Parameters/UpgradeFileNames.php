@@ -95,13 +95,19 @@ class UpgradeFileNames
 
     /**
      * during restoreDb process,
+     * this file contains a serialized array of db files which left to extract queries for restoring database
+     * (this file is deleted in init() method if you reload the page).
+     */
+    const DB_FILES_TO_RESTORE_LIST = 'dbFilesToRestore.list';
+
+    /**
+     * during restoreDb process,
      * this file contains a serialized array of queries which left to execute for restoring database
      * (this file is deleted in init() method if you reload the page).
      *
      * @var string
      */
     const QUERIES_TO_RESTORE_LIST = 'queryToRestore.list';
-    const DB_TABLES_TO_CLEAN_LIST = 'tableToClean.list';
 
     /**
      * during restoreFiles process,
@@ -141,7 +147,6 @@ class UpgradeFileNames
     public static $update_tmp_files = [
         'STATE_FILENAME' => self::STATE_UPDATE_FILENAME,
         'FILES_TO_UPGRADE_LIST' => self::FILES_TO_UPGRADE_LIST,
-        'DB_TABLES_TO_CLEAN_LIST' => self::DB_TABLES_TO_CLEAN_LIST,
         'FILES_TO_REMOVE_LIST' => self::FILES_TO_REMOVE_LIST,
         'MODULES_TO_UPGRADE_LIST' => self::MODULES_TO_UPGRADE_LIST,
         'MODULE_SOURCE_PROVIDER_CACHE_LOCAL' => self::MODULE_SOURCE_PROVIDER_CACHE_LOCAL,
@@ -166,6 +171,7 @@ class UpgradeFileNames
     public static $restore_tmp_files = [
         'STATE_FILENAME' => self::STATE_RESTORE_FILENAME,
         'QUERIES_TO_RESTORE_LIST' => self::QUERIES_TO_RESTORE_LIST,
+        'DB_FILES_TO_RESTORE_LIST' => self::DB_FILES_TO_RESTORE_LIST,
         'FILES_FROM_ARCHIVE_LIST' => self::FILES_FROM_ARCHIVE_LIST,
     ];
 }

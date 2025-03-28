@@ -48,14 +48,26 @@ The latest versions of the module are compatible with all PrestaShop 1.7 and hig
 
 ## Branches
 
-Branch `dev` contains code for future versions of the module, which allows updates from 1.7.x versions to higher.
+| Branch                                                            | Status            | Docs                                    | PrestaShop Version |
+|-------------------------------------------------------------------|-------------------|-----------------------------------------|--------------------|
+| [master](https://github.com/PrestaShop/autoupgrade/tree/master)   | Latest (Stable)   | [Developer documentation][devdocs]      | >=1.7              |
+| [dev](https://github.com/PrestaShop/autoupgrade/tree/dev)         | Latest (Unstable) | [Developer documentation][devdocs]      | >=1.7              |
+| [7.0.x](https://github.com/PrestaShop/autoupgrade/tree/7.0.x)     | Bug fix only      | [Developer documentation][devdocs]      | >=1.7              |
+| [6.x](https://github.com/PrestaShop/autoupgrade/tree/6.x)         | Unmaintained      | [Developer documentation][devdocs]      | >=1.7              |
+| [5.x](https://github.com/PrestaShop/autoupgrade/tree/5.x)         | Unmaintained      | [Developer documentation][devdocs]      | >=1.7              |
+| [4.14.x](https://github.com/PrestaShop/autoupgrade/tree/4.14.x)   | Unmaintained      | [PrestaShop 1.6 documentation][doc-1.6] | >=1.6              |
+
+[devdocs]: https://devdocs.prestashop-project.org/9/basics/keeping-up-to-date/
+[doc-1.6]: https://docs.prestashop-project.org/1-6-documentation/english-documentation/updating-prestashop/automatic-update
+
+Branch `dev` contains code for future versions of the module, which allows updates from 1.7.x versions to higher. This is the main branch to target when opening a pull-request.
 
 Branch `4.14.x` contains code for `4.14.x` patch versions which allow updating from 1.6.x versions to 1.7.x .
 
 If you wish to update a store powered by PrestaShop 1.6, **please use the latest 4.14.3 version** to update to a 1.7 version.
-Updates from 1.6.x to 8.x should be done in 2 steps (1.6.x to 1.7.x then 1.7.x to 8.x).
+To upgrade from PrestaShop 1.6.x to version 8.x or higher, you must do it in two steps: first, upgrade from 1.6.x to 1.7.x, then update your store using the latest version of the module to reach your target version.
 
-Please note PrestaShop 1.6 and older are not maintained anymore.
+Please note that PrestaShop versions 1.6 and older are no longer maintained.
 
 ## Prerequisites
 

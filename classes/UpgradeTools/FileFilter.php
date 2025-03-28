@@ -111,11 +111,10 @@ class FileFilter
         '..',
     ];
 
-        if (!$this->updateConfiguration->shouldBackupImages()) {
-            $restoreIgnoreAbsoluteFiles[] = DIRECTORY_SEPARATOR . 'img';
-        } else {
-            $restoreIgnoreAbsoluteFiles[] = DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'tmp';
-        }
+        // TODO: Let the images being overwritten by the backup if they exist.
+        // For the images created after the backup, they will remain of the filesystem until
+        // we find a condition based on the presence of the images in the backup.
+        $restoreIgnoreAbsoluteFiles[] = DIRECTORY_SEPARATOR . 'img';
 
         return $restoreIgnoreAbsoluteFiles;
     }
