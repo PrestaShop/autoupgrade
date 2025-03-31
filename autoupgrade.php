@@ -231,12 +231,12 @@ class Autoupgrade extends Module
      */
     public function initAutoloaderIfCompliant()
     {
-        require_once _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR.  'modules'  . DIRECTORY_SEPARATOR .  'autoupgrade' . DIRECTORY_SEPARATOR . 'classes'  . DIRECTORY_SEPARATOR . 'VersionUtils.php';
+        require_once _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . 'autoupgrade' . DIRECTORY_SEPARATOR . 'classes' . DIRECTORY_SEPARATOR . 'VersionUtils.php';
         if (!\PrestaShop\Module\AutoUpgrade\VersionUtils::isActualPHPVersionCompatible()) {
             return false;
         }
 
-        $autoloadPath = __DIR__ . DIRECTORY_SEPARATOR .'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
+        $autoloadPath = __DIR__ . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
         if (file_exists($autoloadPath)) {
             require_once $autoloadPath;
         }
