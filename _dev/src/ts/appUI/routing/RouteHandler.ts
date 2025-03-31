@@ -18,6 +18,7 @@
  */
 import api from '../api/RequestHandler';
 import ToolbarHelpLink from '../components/ToolbarHelpLink';
+
 export default class RouteHandler {
   /**
    * @constructor

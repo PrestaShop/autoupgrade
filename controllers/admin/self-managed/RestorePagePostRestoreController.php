@@ -26,6 +26,8 @@ use PrestaShop\Module\AutoUpgrade\Router\Routes;
 use PrestaShop\Module\AutoUpgrade\Task\TaskType;
 use PrestaShop\Module\AutoUpgrade\Twig\Steps\RestoreSteps;
 use PrestaShop\Module\AutoUpgrade\Twig\Steps\Stepper;
+use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
+use PrestaShop\Module\AutoUpgrade\VersionUtils;
 
 class RestorePagePostRestoreController extends AbstractPageWithStepController
 {
@@ -54,12 +56,14 @@ class RestorePagePostRestoreController extends AbstractPageWithStepController
     protected function getParams(): array
     {
         $updateSteps = new Stepper($this->upgradeContainer->getTranslator(), TaskType::TASK_TYPE_RESTORE);
+        $currentPsVersion = $this->upgradeContainer->getProperty(UpgradeContainer::PS_VERSION);
+        $currentMajorVersion = VersionUtils::splitPrestaShopVersion($currentPsVersion)['major'];
 
         return array_merge(
             $updateSteps->getStepParams($this::CURRENT_STEP),
             [
                 'exit_link' => $this->upgradeContainer->getUrlGenerator()->getShopAdminAbsolutePathFromRequest($this->request),
-                'dev_doc_link' => DocumentationLinks::getDevDocUpdateAssistantPostRestoreUrl(),
+                'dev_doc_link' => DocumentationLinks::getDevDocUpdateAssistantPostRestoreUrl($currentMajorVersion),
                 'download_logs' => $this->upgradeContainer->getLogsService()->getDownloadLogsData(TaskType::TASK_TYPE_RESTORE),
             ]
         );
