@@ -24,7 +24,7 @@ export default class UpdateNotificationDialog implements DomLifecycle {
   readonly #formDismissId = 'dismiss-update';
   readonly #formSubmitId = 'submit-update';
 
-  public mount() {
+  public mount(): void {
     this.#dialog.showModal();
 
     this.#dialog.addEventListener('close', this.#preventClose);

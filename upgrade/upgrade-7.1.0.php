@@ -22,8 +22,6 @@ if (!defined('_PS_VERSION_')) {
 }
 
 /**
- * Manually remove the dashboardZoneOne hook.
- *
  * @return bool
  */
 function upgrade_module_7_1_0($module)

@@ -77,9 +77,10 @@ class Autoupgrade extends Module
         }
 
         // If the "AdminSelfUpgrade" tab does not exist yet, create it
-        if (!Tab::getIdFromClassName('AdminSelfUpgrade')) {
+        $moduleTabName = 'AdminSelfUpgrade';
+        if (!Tab::getIdFromClassName($moduleTabName)) {
             $tab = new Tab();
-            $tab->class_name = 'AdminSelfUpgrade';
+            $tab->class_name = $moduleTabName;
             $tab->icon = 'arrow_upward';
             $tab->module = 'autoupgrade';
 
@@ -90,13 +91,14 @@ class Autoupgrade extends Module
                 $tab->name[(int) $lang['id_lang']] = 'Update assistant';
             }
             if (!$tab->save()) {
-                return $this->_abortInstall($this->trans('Unable to create the "AdminSelfUpgrade" tab'));
+                return $this->_abortInstall($this->trans('Unable to create the %s tab', [$moduleTabName]));
             }
         }
 
-        if (!Tab::getIdFromClassName('AdminAutoupgradeAjax')) {
+        $ajaxTabName = 'AdminAutoupgradeAjax';
+        if (!Tab::getIdFromClassName($ajaxTabName)) {
             $ajaxTab = new Tab();
-            $ajaxTab->class_name = 'AdminAutoupgradeAjax';
+            $ajaxTab->class_name = $ajaxTabName;
             $ajaxTab->module = 'autoupgrade';
             $ajaxTab->id_parent = -1;
 
@@ -104,7 +106,7 @@ class Autoupgrade extends Module
                 $ajaxTab->name[(int) $lang['id_lang']] = 'Update assistant';
             }
             if (!$ajaxTab->save()) {
-                return $this->_abortInstall($this->trans('Unable to create the "AdminAutoupgradeAjax" tab'));
+                return $this->_abortInstall($this->trans('Unable to create the %s tab', [$ajaxTabName]));
             }
         }
 
@@ -229,12 +231,12 @@ class Autoupgrade extends Module
      */
     public function initAutoloaderIfCompliant()
     {
-        require_once _PS_ROOT_DIR_ . '/modules/autoupgrade/classes/VersionUtils.php';
+        require_once _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR.  'modules'  . DIRECTORY_SEPARATOR .  'autoupgrade' . DIRECTORY_SEPARATOR . 'classes'  . DIRECTORY_SEPARATOR . 'VersionUtils.php';
         if (!\PrestaShop\Module\AutoUpgrade\VersionUtils::isActualPHPVersionCompatible()) {
             return false;
         }
 
-        $autoloadPath = __DIR__ . '/vendor/autoload.php';
+        $autoloadPath = __DIR__ . DIRECTORY_SEPARATOR .'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
         if (file_exists($autoloadPath)) {
             require_once $autoloadPath;
         }

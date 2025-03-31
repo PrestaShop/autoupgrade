@@ -79,9 +79,9 @@ class DisplayBackOfficeHeader
     private $context;
 
     /**
-     * @var int
+     * @var Employee
      */
-    private $employeeId;
+    private $employee;
 
     /**
      * @throws Exception
@@ -94,7 +94,7 @@ class DisplayBackOfficeHeader
         $this->updateNotificationConfiguration = $this->updateNotificationService->getUpdateNotificationConfiguration();
         $this->psVersion = $this->container->getProperty(UpgradeContainer::PS_VERSION);
         $this->context = Context::getContext();
-        $this->employeeId = $this->context->employee->id;
+        $this->employee = $this->context->employee;
     }
 
     /**
@@ -127,7 +127,7 @@ class DisplayBackOfficeHeader
         $employees = $this->updateNotificationConfiguration->getEmployees();
 
         $employeeExists = array_filter($employees, function ($employee) {
-            return $employee['employeeID'] === $this->employeeId;
+            return $employee['employeeID'] === $this->employee->id;
         });
 
         if ((empty($employeeExists) || time() > $employeeExists[0]['timestamp']) && $this->updateIsAvailable()) {
@@ -182,7 +182,7 @@ class DisplayBackOfficeHeader
     private function isEmployeeDefaultController(): bool
     {
         $controller = Tools::getValue('controller');
-        $employee = new Employee($this->employeeId);
+        $employee = $this->employee;
         $default_tab_id = $employee->default_tab;
 
         $tab = new Tab($default_tab_id);
