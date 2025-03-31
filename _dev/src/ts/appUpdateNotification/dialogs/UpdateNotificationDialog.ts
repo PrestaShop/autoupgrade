@@ -47,13 +47,14 @@ export default class UpdateNotificationDialog implements DomLifecycle {
     return dialog;
   }
 
-  get #dismissForm(): HTMLFormElement {
-    const form = document.forms.namedItem(this.#formDismissId);
+  #getFormById(formId: string, requireDataset: string[] = ['action']): HTMLFormElement {
+    const form = document.forms.namedItem(formId);
+
     if (!form) {
       throw new Error('Form not found');
     }
 
-    ['action'].forEach((data) => {
+    requireDataset.forEach((data) => {
       if (!form.dataset[data]) {
         throw new Error(`Missing data ${data} from form dataset.`);
       }
@@ -62,19 +63,12 @@ export default class UpdateNotificationDialog implements DomLifecycle {
     return form;
   }
 
+  get #dismissForm(): HTMLFormElement {
+    return this.#getFormById(this.#formDismissId);
+  }
+
   get #submitForm(): HTMLFormElement {
-    const form = document.forms.namedItem(this.#formSubmitId);
-    if (!form) {
-      throw new Error('Form not found');
-    }
-
-    ['action'].forEach((data) => {
-      if (!form.dataset[data]) {
-        throw new Error(`Missing data ${data} from form dataset.`);
-      }
-    });
-
-    return form;
+    return this.#getFormById(this.#formSubmitId);
   }
 
   #sendForm = async (event: SubmitEvent): Promise<void> => {
