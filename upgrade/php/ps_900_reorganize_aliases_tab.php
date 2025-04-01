@@ -18,18 +18,21 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 
-use PrestaShop\Module\AutoUpgrade\DbWrapper;
+ use PrestaShop\Module\AutoUpgrade\Database\DbWrapper;
 
 /**
  * @return void
  *
  * @throws \PrestaShop\Module\AutoUpgrade\Exceptions\UpdateDatabaseException
  */
-function ps_900_reorganize_aliases()
+function ps_900_reorganize_aliases_tab()
 {
+    include_once __DIR__ . '/add_new_tab.php';
+
     // Add new tab for aliases
-    add_new_tab_17('AdminAliases', 'en:Aliases', 0, false, 'Search');
+    add_new_tab_17('AdminAliases', 'en:Aliases', 0, false, 'AdminParentSearchConf');
 
     // Delete the search configuration feature flag
     DbWrapper::delete('feature_flag', '`name` = \'search_conf\'');
+    DbWrapper::execute('UPDATE `' . _DB_PREFIX_ . 'tab` SET `active`=1, `enabled`=1, `wording`="Aliases", `icon`="", `wording_domain`="Admin.Navigation.Menu" WHERE `class_name` = "AdminAliases"');
 }
