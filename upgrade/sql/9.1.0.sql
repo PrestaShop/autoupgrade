@@ -9,6 +9,6 @@ INSERT INTO `PREFIX_feature_flag` (`name`, `type`, `label_wording`, `label_domai
 
 /* Add a new field to cart_rule */
 /* https://github.com/PrestaShop/PrestaShop/pull/37911/ */
-ALTER TABLE `PREFIX_cart_rule` ADD COLUMN `type` varchar(128) DEFAULT NULL;
+/* PHP:add_column('cart_rule', 'type', 'VARCHAR(128) DEFAULT NULL'); */;
 CREATE INDEX `type` ON `PREFIX_cart_rule` (`type`);
 
