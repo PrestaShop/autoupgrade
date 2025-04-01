@@ -1,7 +1,7 @@
 {
   "id_product" : "5496",
   "technical_name" : "autoupgrade",
-  "display_name" : "1-Click Upgrade - AutoUpgrade",
+  "display_name" : "Update Assistant",
   "channel" : "stable",
   "type_upgrade" : "minor",
   "product_type" : "module",
