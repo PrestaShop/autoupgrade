@@ -158,6 +158,7 @@ class DisplayBackOfficeHeader
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
+     * @throws Exception
      */
     private function addScriptsVariables(): void
     {
@@ -167,6 +168,12 @@ class DisplayBackOfficeHeader
             'token' => Tools::getAdminTokenLite('AdminAutoupgradeAjax'),
             'admin_url' => __PS_BASE_URI__ . $adminDir,
             'admin_dir' => $adminDir,
+            'module_version' => $this->container->getPrestaShopConfiguration()->getModuleVersion(),
+            'php_version' => VersionUtils::getHumanReadableVersionOf(PHP_VERSION_ID),
+            'anonymous_id' => $this->container->getProperty(UpgradeContainer::ANONYMOUS_USER_ID),
+            'ps_version' => $this->container->getProperty(UpgradeContainer::PS_VERSION),
+            'bo_language' => $this->context->language->locale,
+            'bo_timezone' => date_default_timezone_get(),
         ];
 
         $this->content .= $this->container->getTwig()->render('@ModuleAutoUpgrade/module-script-variables.html.twig', [

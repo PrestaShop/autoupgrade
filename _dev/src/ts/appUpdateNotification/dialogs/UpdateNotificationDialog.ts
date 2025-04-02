@@ -18,6 +18,9 @@
  */
 import api from '../api/baseApi';
 import DomLifecycle from '../../types/DomLifecycle';
+import Analytics from '../../api/SegmentApi';
+
+const analytics = new Analytics();
 
 export default class UpdateNotificationDialog implements DomLifecycle {
   readonly #dialogId = 'dialog-update-notification';
@@ -28,6 +31,8 @@ export default class UpdateNotificationDialog implements DomLifecycle {
     if (!this.#dialog) {
       return;
     }
+
+    analytics.track('[SUE] Update modal displayed');
 
     this.#dialog.showModal();
 
@@ -90,6 +95,11 @@ export default class UpdateNotificationDialog implements DomLifecycle {
 
       if (submitButton.value) {
         Object.assign(params, { value: submitButton.value });
+        analytics.track('[SUE] Update modal closed', {
+          representation_delays: submitButton.value
+        });
+      } else {
+        analytics.track('[SUE] Update module opened following modal display');
       }
 
       const response = await api.post('', null, {
