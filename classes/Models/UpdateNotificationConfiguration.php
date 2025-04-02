@@ -40,7 +40,7 @@ class UpdateNotificationConfiguration
     private $releaseNote = null;
 
     /**
-     * @var array<array{employeeID: int, timestamp: int}>
+     * @var array<array{employeeID: int, timestamp?: int, versionChecked?: string}>
      */
     private $employees = [];
 
@@ -133,7 +133,7 @@ class UpdateNotificationConfiguration
     }
 
     /**
-     * @return array<array{employeeID: int, timestamp: int}>
+     * @return array<array{employeeID: int, timestamp?: int, versionChecked?: string}>
      */
     public function getEmployees(): array
     {
