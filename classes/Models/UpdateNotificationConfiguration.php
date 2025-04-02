@@ -20,6 +20,8 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Models;
 
+use PrestaShop\Module\AutoUpgrade\Hooks\DisplayBackOfficeHeader;
+
 class UpdateNotificationConfiguration
 {
     /**
@@ -96,20 +98,38 @@ class UpdateNotificationConfiguration
         return $this->releaseNote;
     }
 
-    public function addEmployee(int $employeeId, int $timestamp): void
+    /**
+     * @param DisplayBackOfficeHeader::DISMISS_FORM_OPTIONS | null $timeValue
+     */
+    public function addEmployee(int $employeeId, $timeValue = null): void
     {
+        $dataTime = [];
+
+        switch($timeValue) {
+            case DisplayBackOfficeHeader::DISMISS_FORM_OPTIONS['UNTIL_NEXT_RELEASE']:
+                $dataTime['versionChecked'] = $this->getVersion();
+                break;
+            case DisplayBackOfficeHeader::DISMISS_FORM_OPTIONS['7_DAYS']:
+                $dataTime['timestamp'] = time() + DisplayBackOfficeHeader::TIMESTAMP_7_DAYS;
+                break;
+            case DisplayBackOfficeHeader::DISMISS_FORM_OPTIONS['30_DAYS']:
+            default;
+                $dataTime['timestamp'] = time() + DisplayBackOfficeHeader::TIMESTAMP_30_DAYS;
+        }
+
         foreach ($this->employees as &$employee) {
             if ($employee['employeeID'] === $employeeId) {
-                $employee['timestamp'] = $timestamp;
+                unset($employee['versionChecked'], $employee['timestamp']);
+
+                $employee = array_merge($employee, $dataTime);
 
                 return;
             }
         }
 
-        $this->employees[] = [
-            'employeeID' => $employeeId,
-            'timestamp' => $timestamp,
-        ];
+        $this->employees[] = array_merge([
+            'employeeID' => $employeeId
+        ], $dataTime);
     }
 
     /**
