@@ -99,13 +99,13 @@ class UpdateNotificationConfiguration
     }
 
     /**
-     * @param DisplayBackOfficeHeader::DISMISS_FORM_OPTIONS | null $timeValue
+     * @param DisplayBackOfficeHeader::DISMISS_FORM_OPTIONS|null $timeValue
      */
     public function addEmployee(int $employeeId, $timeValue = null): void
     {
         $dataTime = [];
 
-        switch($timeValue) {
+        switch ($timeValue) {
             case DisplayBackOfficeHeader::DISMISS_FORM_OPTIONS['UNTIL_NEXT_RELEASE']:
                 $dataTime['versionChecked'] = $this->getVersion();
                 break;
@@ -113,7 +113,7 @@ class UpdateNotificationConfiguration
                 $dataTime['timestamp'] = time() + DisplayBackOfficeHeader::TIMESTAMP_7_DAYS;
                 break;
             case DisplayBackOfficeHeader::DISMISS_FORM_OPTIONS['30_DAYS']:
-            default;
+            default:
                 $dataTime['timestamp'] = time() + DisplayBackOfficeHeader::TIMESTAMP_30_DAYS;
         }
 
@@ -128,7 +128,7 @@ class UpdateNotificationConfiguration
         }
 
         $this->employees[] = array_merge([
-            'employeeID' => $employeeId
+            'employeeID' => $employeeId,
         ], $dataTime);
     }
 
