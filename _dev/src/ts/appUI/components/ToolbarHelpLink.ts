@@ -28,7 +28,7 @@ class ToolbarHelpLink {
   }
 
   public updateHelpLink = (): void => {
-    this.helpLink.setAttribute('href', window.AutoUpgradeVariables.help_link);
+    this.helpLink.setAttribute('href', window.AutoUpgradeVariables.links.help);
     this.helpLink.setAttribute('target', '_blank');
     this.helpLink.addEventListener('click', this.#onClick, true);
   };

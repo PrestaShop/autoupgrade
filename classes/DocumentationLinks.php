@@ -22,44 +22,46 @@ namespace PrestaShop\Module\AutoUpgrade;
 
 class DocumentationLinks
 {
+    public const DEV_DOC_BASE_VERSION = '8';
+
     /** @return string */
-    public static function getDevDocUrl(string $prestashopVersion = '8')
+    public static function getDevDocUrl(string $prestashopVersion = self::DEV_DOC_BASE_VERSION)
     {
         return "https://devdocs.prestashop-project.org/{$prestashopVersion}";
     }
 
     /** @return string */
-    public static function getDevDocUpToDateUrl(string $prestashopVersion = '8')
+    public static function getDevDocUpToDateUrl(string $prestashopVersion = self::DEV_DOC_BASE_VERSION)
     {
         return self::getDevDocUrl($prestashopVersion) . '/basics/keeping-up-to-date';
     }
 
     /** @return string */
-    public static function getDevDocUpdateAssistantUrl(string $prestashopVersion = '8')
+    public static function getDevDocUpdateAssistantUrl(string $prestashopVersion = self::DEV_DOC_BASE_VERSION)
     {
         return self::getDevDocUpToDateUrl($prestashopVersion) . '/update';
     }
 
     /** @return string */
-    public static function getDevDocUpdateAssistantCliUrl(string $prestashopVersion = '8')
+    public static function getDevDocUpdateAssistantCliUrl(string $prestashopVersion = self::DEV_DOC_BASE_VERSION)
     {
         return self::getDevDocUpdateAssistantUrl($prestashopVersion) . '/update-from-the-cli';
     }
 
     /** @return string */
-    public static function getDevDocUpdateAssistantWebUrl(string $prestashopVersion = '8')
+    public static function getDevDocUpdateAssistantWebUrl(string $prestashopVersion = self::DEV_DOC_BASE_VERSION)
     {
-        return self::getDevDocUpToDateUrl($prestashopVersion) . '/update-from-the-back-office';
+        return self::getDevDocUpdateAssistantUrl($prestashopVersion) . '/update-from-the-back-office';
     }
 
     /** @return string */
-    public static function getDevDocUpdateAssistantPostUpdateUrl(string $prestashopVersion = '8')
+    public static function getDevDocUpdateAssistantPostUpdateUrl(string $prestashopVersion = self::DEV_DOC_BASE_VERSION)
     {
         return self::getDevDocUpdateAssistantUrl($prestashopVersion) . '/post-update-checklist';
     }
 
     /** @return string */
-    public static function getDevDocUpdateAssistantPostRestoreUrl(string $prestashopVersion = '8')
+    public static function getDevDocUpdateAssistantPostRestoreUrl(string $prestashopVersion = self::DEV_DOC_BASE_VERSION)
     {
         return self::getDevDocUpdateAssistantUrl($prestashopVersion) . '/post-restore-checklist';
     }

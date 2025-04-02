@@ -242,7 +242,7 @@ class DisplayBackOfficeHeader
             'version_class' => $psClass,
             'version_type' => $updateType,
             'version' => $onlineVersion,
-            'contact_expert_url' => DocumentationLinks::PRESTASHOP_EXPERTS,
+            'contact_expert_url' => DocumentationLinks::getPrestashopExpertsUrl(),
             'release_note' => $this->updateNotificationConfiguration->getReleaseNote(),
         ];
     }

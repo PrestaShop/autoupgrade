@@ -318,7 +318,9 @@ class AdminSelfUpgradeController extends ModuleAdminController
             'ps_version' => $currentPsVersion,
             'bo_language' => $this->context->language->locale,
             'bo_timezone' => date_default_timezone_get(),
-            'help_link' => DocumentationLinks::getDevDocUpdateAssistantWebUrl($currentMajorVersion),
+            'links' => [
+                'help' => DocumentationLinks::getDevDocUpdateAssistantWebUrl($currentMajorVersion),
+            ],
         ];
     }
 
