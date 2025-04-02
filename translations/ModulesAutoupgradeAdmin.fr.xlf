@@ -1183,7 +1183,7 @@
       <trans-unit id="06933067aafd48425d67bcb01bba5cb6" approved="yes">
         <source>Update</source>
         <target state="final">Mise à jour</target>
-        <note>classes/Twig/Steps/UpdateSteps.php:55</note>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:102</note>
       </trans-unit>
       <trans-unit id="13d3fd796fa75eea78ac8b6257fda2b6" approved="yes">
         <source>Post-update</source>
@@ -1854,6 +1854,96 @@
         <source>No</source>
         <target state="final">Non</target>
         <note>views/templates/components/render-switch.html.twig:38</note>
+      </trans-unit>
+      <trans-unit id="c5bc1e392726aeee07f7da54da693536">
+        <source>New available Patch</source>
+        <target state="needs-translation">New available Patch</target>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:24</note>
+      </trans-unit>
+      <trans-unit id="caff5b924cb41f48bb4b867e8e7b8e96">
+        <source>New available Minor</source>
+        <target state="needs-translation">New available Minor</target>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:26</note>
+      </trans-unit>
+      <trans-unit id="c46ec0404f781b06ef3829d92c42c307">
+        <source>New available Major</source>
+        <target state="needs-translation">New available Major</target>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:28</note>
+      </trans-unit>
+      <trans-unit id="d9efef68765c7b7800b682c5c6db1701">
+        <source>New features are available</source>
+        <target state="needs-translation">New features are available</target>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:33</note>
+      </trans-unit>
+      <trans-unit id="b5a7adde1af5c87d7fd797b6245c2a39" approved="yes">
+        <source>Description</source>
+        <target state="final">Description</target>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:41</note>
+      </trans-unit>
+      <trans-unit id="e4db438a6d6be2f031b9249d55b69316">
+        <source>Patches are fixes made between major and minor versions. They introduce security and bug fixes.</source>
+        <target state="needs-translation">Patches are fixes made between major and minor versions. They introduce security and bug fixes.</target>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:46</note>
+      </trans-unit>
+      <trans-unit id="31ee024917b3be58355bbd3fbcb2eedd">
+        <source>The minor releases introduce new backward-compatible features, security improvements and bug fixes.</source>
+        <target state="needs-translation">The minor releases introduce new backward-compatible features, security improvements and bug fixes.</target>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:48</note>
+      </trans-unit>
+      <trans-unit id="562beba5e4769e797787408ae01e84f8">
+        <source>Major releases introduce new features that may break backward compatibility, as well as new backward-compatible features and bug fixes.</source>
+        <target state="needs-translation">Major releases introduce new features that may break backward compatibility, as well as new backward-compatible features and bug fixes.</target>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:50</note>
+      </trans-unit>
+      <trans-unit id="4923b1e1acea9d8d68e8341fc9191065">
+        <source>See the update</source>
+        <target state="needs-translation">See the update</target>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:52</note>
+      </trans-unit>
+      <trans-unit id="34b6cd75171affba6957e308dcbd92be">
+        <source>Version</source>
+        <target state="needs-translation">Version</target>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:58</note>
+      </trans-unit>
+      <trans-unit id="65842a77c93adc909117aa8bcd9cba60">
+        <source>Type of improvements</source>
+        <target state="needs-translation">Type of improvements</target>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:68</note>
+      </trans-unit>
+      <trans-unit id="fc95fedb22471990ecb3afbc23badc4a">
+        <source>Bugs, security patches</source>
+        <target state="needs-translation">Bugs, security patches</target>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:73</note>
+      </trans-unit>
+      <trans-unit id="a85e49f0a0baeee147f21c2ab87d0d41">
+        <source>Bugs, security patches, new features</source>
+        <target state="needs-translation">Bugs, security patches, new features</target>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:75</note>
+      </trans-unit>
+      <trans-unit id="b6d5d804eba0eb1e3eba27e2b231ed24">
+        <source>New features, Improvements to existing features, Security and bug fixes</source>
+        <target state="needs-translation">New features, Improvements to existing features, Security and bug fixes</target>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:77</note>
+      </trans-unit>
+      <trans-unit id="4bd9ef088a14b5f6fd9ef86e6f33037f">
+        <source>Need help?</source>
+        <target state="needs-translation">Need help?</target>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:84</note>
+      </trans-unit>
+      <trans-unit id="88b6873bad2a00d2ccc5ffb60098bf31">
+        <source>If you're having trouble performing the update, our experts can help!</source>
+        <target state="needs-translation">If you're having trouble performing the update, our experts can help!</target>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:88</note>
+      </trans-unit>
+      <trans-unit id="994a3ae394af1da6734ab785ca93f17f">
+        <source>Contact an expert</source>
+        <target state="needs-translation">Contact an expert</target>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:89</note>
+      </trans-unit>
+      <trans-unit id="61057a0c84605444201929bdd72014f0">
+        <source>Later</source>
+        <target state="needs-translation">Later</target>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:97</note>
       </trans-unit>
     </body>
   </file>
