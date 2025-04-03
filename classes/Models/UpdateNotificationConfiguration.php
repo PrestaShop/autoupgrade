@@ -101,7 +101,7 @@ class UpdateNotificationConfiguration
     /**
      * @param DisplayBackOfficeHeader::DISMISS_FORM_OPTIONS|null $timeValue
      */
-    public function addEmployee(int $employeeId, $timeValue = null): void
+    public function addEmployeeReminderChoice(int $employeeId, $timeValue = null): void
     {
         $dataTime = [];
 
@@ -135,7 +135,7 @@ class UpdateNotificationConfiguration
     /**
      * @return array<array{employeeID: int, timestamp?: int, versionChecked?: string}>
      */
-    public function getEmployees(): array
+    public function getEmployeesReminderChoice(): array
     {
         return $this->employees;
     }
@@ -148,7 +148,7 @@ class UpdateNotificationConfiguration
                 'version' => $this->getVersion(),
                 'releaseNote' => $this->getReleaseNote(),
             ],
-            'employees' => $this->getEmployees(),
+            'employees' => $this->getEmployeesReminderChoice(),
         ]);
     }
 }

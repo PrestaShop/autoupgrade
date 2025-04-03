@@ -61,7 +61,7 @@ class AdminAutoupgradeAjaxController extends ModuleAdminController
         $updateNotificationService = $this->upgradeContainer->getUpdateNotificationService();
         $updateNotificationConfiguration = $updateNotificationService->getUpdateNotificationConfiguration();
 
-        $updateNotificationConfiguration->addEmployee($currentEmployeeId, $timeValue);
+        $updateNotificationConfiguration->addEmployeeReminderChoice($currentEmployeeId, $timeValue);
 
         $updateNotificationService->saveUpdateNotificationConfiguration($updateNotificationConfiguration);
 
