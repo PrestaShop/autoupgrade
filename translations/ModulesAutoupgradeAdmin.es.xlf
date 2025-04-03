@@ -5,17 +5,17 @@
       <trans-unit id="21dc065f2d8653ebca37ec552d17b37e" approved="yes">
         <source>Unable to create the directory "%s"</source>
         <target state="final">No se puede crear el directorio "%s"</target>
-        <note>controllers/admin/AdminSelfUpgradeController.php:158</note>
+        <note>controllers/admin/AdminSelfUpgradeController.php:159</note>
       </trans-unit>
       <trans-unit id="6215d33db0d099fcaae168dd4715135a" approved="yes">
         <source>Unable to write in the directory "%s"</source>
         <target state="final">No se puede escribir en el directorio "%s"</target>
-        <note>controllers/admin/AdminSelfUpgradeController.php:124</note>
+        <note>controllers/admin/AdminSelfUpgradeController.php:125</note>
       </trans-unit>
       <trans-unit id="f4eb320e09f7ef88a627229870458454">
         <source>The module %s requires PHP %s to work properly. Please upgrade your server configuration.</source>
         <target state="needs-translation">The module %s requires PHP %s to work properly. Please upgrade your server configuration.</target>
-        <note>controllers/admin/AdminSelfUpgradeController.php:262</note>
+        <note>controllers/admin/AdminSelfUpgradeController.php:263</note>
       </trans-unit>
       <trans-unit id="001c32426a6cfb48ebb848b13141593c">
         <source>Major version</source>
@@ -35,22 +35,22 @@
       <trans-unit id="064903b5aa01cf4bc4e5c073d9917678">
         <source>List of core alterations</source>
         <target state="needs-translation">List of core alterations</target>
-        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:241</note>
+        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:243</note>
       </trans-unit>
       <trans-unit id="673cc49de07389091a77d1872687cf64">
         <source>Some core files have been altered, customization made on these files will be lost during the update.</source>
         <target state="needs-translation">Some core files have been altered, customization made on these files will be lost during the update.</target>
-        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:242</note>
+        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:244</note>
       </trans-unit>
       <trans-unit id="3e520d769e66a4dcdf43029803ab4e8e">
         <source>List of theme alterations</source>
         <target state="needs-translation">List of theme alterations</target>
-        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:254</note>
+        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:256</note>
       </trans-unit>
       <trans-unit id="fa22ace14d701200f848374a39f3e88c">
         <source>Some theme files have been altered, customization made on these files will be lost during the update.</source>
         <target state="needs-translation">Some theme files have been altered, customization made on these files will be lost during the update.</target>
-        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:255</note>
+        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:257</note>
       </trans-unit>
       <trans-unit id="708a3f63d9d379278db1b2bb25f7b79b">
         <source>Download attempt %d/%d failed: %s</source>
