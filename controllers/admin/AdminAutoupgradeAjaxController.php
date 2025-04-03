@@ -18,7 +18,6 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 
-use PrestaShop\Module\AutoUpgrade\Hooks\DisplayBackOfficeHeader;
 use PrestaShop\Module\AutoUpgrade\Router\Routes;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -56,11 +55,13 @@ class AdminAutoupgradeAjaxController extends ModuleAdminController
         }
 
         $action = Tools::getValue('action');
+        $timeValue = Tools::getValue('value');
         $currentEmployeeId = \Context::getContext()->employee->id;
 
         $updateNotificationService = $this->upgradeContainer->getUpdateNotificationService();
         $updateNotificationConfiguration = $updateNotificationService->getUpdateNotificationConfiguration();
-        $updateNotificationConfiguration->addEmployee($currentEmployeeId, time() + DisplayBackOfficeHeader::INTERVAL_CHECK_TIME_IN_SECONDS);
+
+        $updateNotificationConfiguration->addEmployeeReminderChoice($currentEmployeeId, $timeValue);
 
         $updateNotificationService->saveUpdateNotificationConfiguration($updateNotificationConfiguration);
 

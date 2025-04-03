@@ -92,10 +92,21 @@
       </div>
 
       <div class="dialog-notification__buttons">
-        <form id="dismiss-update" name="dismiss-update" action="" data-action="dismiss-update">
-          <button type="submit" class="dialog-notification__button btn btn-default"  data-dismiss="dialog">
-            {{ 'Later'|trans({}) }}
+        <form id="remin-me-later-update" name="remind-me-later-update" action="" data-action="remind-me-later-update" class="dropdown dropup">
+          <button type="button" class="dialog-notification__button btn btn-default dropdown-toggle" data-toggle="dropdown">
+            {{ 'Remind me later'|trans({}) }}
           </button>
+          <div class="dropdown-menu">
+            <button data-dismiss="dialog" type="submit" class="dropdown-item" value="{{ dismiss_form_options['7_DAYS'] }}">
+              {{ '7 days'|trans({}) }}
+            </button>
+            <button data-dismiss="dialog" type="submit" class="dropdown-item" value="{{ dismiss_form_options['30_DAYS'] }}">
+              {{ '30 days'|trans({}) }}
+            </button>
+            <button data-dismiss="dialog" type="submit" class="dropdown-item" value="{{ dismiss_form_options['UNTIL_NEXT_RELEASE'] }}">
+              {{ 'Until the next version'|trans({}) }}
+            </button>
+          </div>
         </form>
         <form id="submit-update" name="submit-update" action="" data-action="submit-update">
           <button type="submit" class="dialog-notification__button btn btn-primary" autofocus>

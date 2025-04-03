@@ -41,7 +41,14 @@ use Twig\Error\SyntaxError;
 
 class DisplayBackOfficeHeader
 {
-    const INTERVAL_CHECK_TIME_IN_SECONDS = 2592000; // 30 days
+    const TIMESTAMP_7_DAYS = 7 * 24 * 60 * 60;
+    const TIMESTAMP_30_DAYS = 30 * 24 * 60 * 60;
+
+    const DISMISS_FORM_OPTIONS = [
+        '7_DAYS' => '7_days',
+        '30_DAYS' => '30_days',
+        'UNTIL_NEXT_RELEASE' => 'until_next_release',
+    ];
 
     /**
      * @var UpgradeContainer
@@ -110,7 +117,7 @@ class DisplayBackOfficeHeader
     {
         if (
             !$this->updateNotificationConfiguration->getTimestamp()
-            || (time() - $this->updateNotificationConfiguration->getTimestamp()) > self::INTERVAL_CHECK_TIME_IN_SECONDS
+            || time() > $this->updateNotificationConfiguration->getTimestamp()
         ) {
             $this->checkNewerVersion();
         }
@@ -124,14 +131,24 @@ class DisplayBackOfficeHeader
             return $this->content;
         }
 
-        $employees = $this->updateNotificationConfiguration->getEmployees();
+        $employees = $this->updateNotificationConfiguration->getEmployeesReminderChoice();
 
         $employeeExists = array_filter($employees, function ($employee) {
             return $employee['employeeID'] === $this->employee->id;
         });
 
-        if ((empty($employeeExists) || time() > $employeeExists[0]['timestamp']) && $this->updateIsAvailable()) {
-            $this->content .= $this->container->getTwig()->render('@ModuleAutoUpgrade/hooks/external-layout.html.twig', $this->getParams());
+        if ($this->updateIsAvailable()) {
+            if (
+                empty($employeeExists) // if no employee match in JSON
+                || (empty($employeeExists[0]['timestamp']) && empty($employeeExists[0]['versionChecked'])) // if employee exist but without remind me field
+                || (!empty($employeeExists[0]['timestamp']) && time() > $employeeExists[0]['timestamp']) // if timestamp is outdated
+                || (!empty($employeeExists[0]['versionChecked'])
+                    && !empty($this->updateNotificationConfiguration->getVersion())
+                    && version_compare($employeeExists[0]['versionChecked'], $this->updateNotificationConfiguration->getVersion(), '<')
+                ) // if the version checked by employee is less then new version available
+            ) {
+                $this->content .= $this->container->getTwig()->render('@ModuleAutoUpgrade/hooks/external-layout.html.twig', $this->getParams());
+            }
         }
 
         return $this->content;
@@ -197,7 +214,7 @@ class DisplayBackOfficeHeader
      */
     private function checkNewerVersion(): void
     {
-        $this->updateNotificationConfiguration->setTimestamp(time());
+        $this->updateNotificationConfiguration->setTimestamp(time() + self::TIMESTAMP_30_DAYS);
 
         if ($this->upgrader->isNewerVersionAvailableOnline()) {
             $onlineDestination = $this->upgrader->getOnlineDestinationRelease();
@@ -244,6 +261,7 @@ class DisplayBackOfficeHeader
             'version' => $onlineVersion,
             'contact_expert_url' => DocumentationLinks::getPrestashopExpertsUrl(),
             'release_note' => $this->updateNotificationConfiguration->getReleaseNote(),
+            'dismiss_form_options' => self::DISMISS_FORM_OPTIONS,
         ];
     }
 }

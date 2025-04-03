@@ -21,30 +21,34 @@ import DomLifecycle from '../../types/DomLifecycle';
 
 export default class UpdateNotificationDialog implements DomLifecycle {
   readonly #dialogId = 'dialog-update-notification';
-  readonly #formDismissId = 'dismiss-update';
+  readonly #formRemindMeLaterId = 'remind-me-later-update';
   readonly #formSubmitId = 'submit-update';
 
   public mount(): void {
+    if (!this.#dialog) {
+      return;
+    }
+
     this.#dialog.showModal();
 
     this.#dialog.addEventListener('close', this.#preventClose);
-    this.#dismissForm.addEventListener('submit', this.#sendForm);
+    this.#remindMeLaterForm.addEventListener('submit', this.#sendForm);
     this.#submitForm.addEventListener('submit', this.#sendForm);
   }
 
   public beforeDestroy(): void {
+    if (!this.#dialog) {
+      return;
+    }
+
     this.#dialog.removeEventListener('close', this.#preventClose);
-    this.#dismissForm.removeEventListener('submit', this.#sendForm);
+    this.#remindMeLaterForm.removeEventListener('submit', this.#sendForm);
     this.#submitForm.removeEventListener('submit', this.#sendForm);
   }
 
-  get #dialog(): HTMLDialogElement {
-    const dialog = document.getElementById(this.#dialogId);
-    if (!dialog || !(dialog instanceof HTMLDialogElement)) {
-      throw new Error('Dialog not found');
-    }
-
-    return dialog;
+  get #dialog(): HTMLDialogElement | null {
+    const element = document.getElementById(this.#dialogId);
+    return element instanceof HTMLDialogElement ? element : null;
   }
 
   #getFormById(formId: string, requireDataset: string[] = ['action']): HTMLFormElement {
@@ -63,8 +67,8 @@ export default class UpdateNotificationDialog implements DomLifecycle {
     return form;
   }
 
-  get #dismissForm(): HTMLFormElement {
-    return this.#getFormById(this.#formDismissId);
+  get #remindMeLaterForm(): HTMLFormElement {
+    return this.#getFormById(this.#formRemindMeLaterId);
   }
 
   get #submitForm(): HTMLFormElement {
@@ -75,15 +79,21 @@ export default class UpdateNotificationDialog implements DomLifecycle {
     event.preventDefault();
 
     const form = event.target as HTMLFormElement;
-    const submitButton = event.submitter as HTMLElement;
+    const submitButton = event.submitter as HTMLButtonElement;
 
     if (submitButton.dataset.dismiss === 'dialog') {
-      this.#dialog.close();
+      this.#dialog!.close();
     }
 
     try {
+      const params = { action: form.dataset.action };
+
+      if (submitButton.value) {
+        Object.assign(params, { value: submitButton.value });
+      }
+
       const response = await api.post('', null, {
-        params: { action: form.dataset.action }
+        params: params
       });
 
       if (response.data.url_to_redirect) {
