@@ -61,7 +61,7 @@ abstract class AbstractPageController extends AbstractGlobalController
                 [
                     'page' => $page,
                     'ps_version' => $this->getPsVersionClass(),
-                    'data_transparency_link' => DocumentationLinks::PRESTASHOP_PROJECT_DATA_TRANSPARENCY_URL,
+                    'data_transparency_link' => DocumentationLinks::getPrestashopProjectDataTransparencyUrl(),
 
                     // Data for generic error page
                     'error_template_target' => PageSelectors::PAGE_PARENT_ID,
@@ -86,7 +86,7 @@ abstract class AbstractPageController extends AbstractGlobalController
             '@ModuleAutoUpgrade/pages/' . $page . '.html.twig',
             array_merge(
                 [
-                    'data_transparency_link' => DocumentationLinks::PRESTASHOP_PROJECT_DATA_TRANSPARENCY_URL,
+                    'data_transparency_link' => DocumentationLinks::getPrestashopProjectDataTransparencyUrl(),
                 ],
                 $pageSelectors::getAllSelectors(),
                 $params

@@ -29,6 +29,9 @@ interface AutoUpgradeVariables {
   ps_version: string;
   bo_language: string;
   bo_timezone: string;
+  links: {
+    help: string;
+  };
 }
 
 declare global {

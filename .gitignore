@@ -26,3 +26,6 @@ node_modules/
 
 ## Storybook
 /storybook/storybook-static/
+
+## JS Tests
+_dev/coverage

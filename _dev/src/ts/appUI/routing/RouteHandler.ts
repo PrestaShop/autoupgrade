@@ -17,6 +17,7 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 import api from '../api/RequestHandler';
+import ToolbarHelpLink from '../components/ToolbarHelpLink';
 
 export default class RouteHandler {
   /**
@@ -32,6 +33,7 @@ export default class RouteHandler {
       this.setNewRoute('home-page');
     }
     window.addEventListener('popstate', () => this.#handleRouteChange());
+    window.addEventListener('load', () => this.#updateToolbarHelpLink());
   }
 
   /**
@@ -103,5 +105,15 @@ export default class RouteHandler {
       const newUrl = `${this.#getCurrentUrl().pathname}?${queryParams.toString()}`;
       window.history.replaceState(null, '', newUrl);
     }
+  }
+
+  /**
+   * @private
+   * @description Updates the behavior of the toolbar help link to disable the default documentation sidebar opening
+   * and allow adding a 'target="_blank"' attribute for external links.
+   */
+  #updateToolbarHelpLink(): void {
+    const toolbarHelpLink = new ToolbarHelpLink();
+    toolbarHelpLink.updateHelpLink();
   }
 }

@@ -19,6 +19,7 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 
+use PrestaShop\Module\AutoUpgrade\DocumentationLinks;
 use PrestaShop\Module\AutoUpgrade\Router\Router;
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
@@ -291,6 +292,7 @@ class AdminSelfUpgradeController extends ModuleAdminController
             $response->send();
             exit;
         }
+
         $this->content .= $response;
 
         return parent::initContent();
@@ -302,6 +304,8 @@ class AdminSelfUpgradeController extends ModuleAdminController
     private function getScriptsVariables()
     {
         $adminDir = trim(str_replace($this->prodRootDir, '', $this->adminDir), DIRECTORY_SEPARATOR);
+        $currentPsVersion = $this->upgradeContainer->getProperty(UpgradeContainer::PS_VERSION);
+        $currentMajorVersion = VersionUtils::splitPrestaShopVersion($currentPsVersion)['major'];
 
         return [
             'token' => $this->token,
@@ -311,9 +315,12 @@ class AdminSelfUpgradeController extends ModuleAdminController
             'module_version' => $this->module->version,
             'php_version' => VersionUtils::getHumanReadableVersionOf(PHP_VERSION_ID),
             'anonymous_id' => $this->upgradeContainer->getProperty(UpgradeContainer::ANONYMOUS_USER_ID),
-            'ps_version' => $this->upgradeContainer->getProperty(UpgradeContainer::PS_VERSION),
+            'ps_version' => $currentPsVersion,
             'bo_language' => $this->context->language->locale,
             'bo_timezone' => date_default_timezone_get(),
+            'links' => [
+                'help' => DocumentationLinks::getDevDocUpdateAssistantWebUrl($currentMajorVersion),
+            ],
         ];
     }
 

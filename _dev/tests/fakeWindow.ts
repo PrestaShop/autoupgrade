@@ -27,5 +27,8 @@ window.AutoUpgradeVariables = {
   php_version: '7.4.33',
   ps_version: '8.0.0',
   bo_language: 'fr-FR',
-  bo_timezone: 'Europe/Paris'
+  bo_timezone: 'Europe/Paris',
+  links: {
+    help: 'https://devdocs.prestashop-project.org/8/basics/keeping-up-to-date/update-from-the-back-office'
+  }
 };
