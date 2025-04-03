@@ -95,8 +95,8 @@ export default class UpdateNotificationDialog implements DomLifecycle {
 
       if (submitButton.value) {
         Object.assign(params, { value: submitButton.value });
-        analytics.track('[SUE] Update modal closed', {
-          representation_delays: submitButton.value
+        analytics.track('[SUE] Update modal snoozed', {
+          representation_delay: submitButton.value
         });
       } else {
         analytics.track('[SUE] Update module opened following modal display');
