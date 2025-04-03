@@ -248,7 +248,7 @@ class Autoupgrade extends Module
             new \PrestaShop\PrestaShop\Core\Action\ActionsBarButton(
                 __CLASS__,
                 [
-                    'link' => \PrestaShop\Module\AutoUpgrade\DocumentationLinks::PRESTASHOP_RELEASES,
+                    'link' => \PrestaShop\Module\AutoUpgrade\DocumentationLinks::getPrestashopReleasesUrl(),
                     'icon' => 'history',
                     'isExternalLink' => true,
                 ],
