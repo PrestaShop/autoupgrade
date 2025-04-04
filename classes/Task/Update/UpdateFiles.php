@@ -272,7 +272,7 @@ class UpdateFiles extends AbstractTask
             return ExitCode::FAIL;
         }
         // $diffFileList now contains an array with a list of changed and deleted files.
-        // We only keep list of files to delete. The modified files will be listed in list_files_to_upgrade below.
+        // We only keep list of files to delete. The modified files will be listed in listFilesToUpgrade below.
         $diffFileList = $diffFileList['deleted'];
 
         // Admin folder name in this deleted files list is standard /admin/.
@@ -309,26 +309,26 @@ class UpdateFiles extends AbstractTask
         );
 
         // Now, we get the list of files that are either new or must be modified
-        $list_files_to_upgrade = $this->container->getFilesystemAdapter()->listFilesInDir(
+        $listFilesToUpgrade = $this->container->getFilesystemAdapter()->listFilesInDir(
             $newReleasePath, 'upgrade', true
         );
 
         // Add our previously created list of deleted files
-        $list_files_to_upgrade = array_reverse(array_merge($diffFileList, $list_files_to_upgrade));
+        $listFilesToUpgrade = array_reverse(array_merge($diffFileList, $listFilesToUpgrade));
 
-        $total_files_to_upgrade = count($list_files_to_upgrade);
+        $totalFilesToUpgrade = count($listFilesToUpgrade);
         $this->container->getFileStorage()->save(
-            (new Backlog($list_files_to_upgrade, $total_files_to_upgrade))->dump(),
+            (new Backlog($listFilesToUpgrade, $totalFilesToUpgrade))->dump(),
             UpgradeFileNames::FILES_TO_UPGRADE_LIST
         );
 
-        if ($total_files_to_upgrade === 0 && $totalSymbolicLinks === 0) {
+        if ($totalFilesToUpgrade === 0 && $totalSymbolicLinks === 0) {
             $this->logger->error($this->translator->trans('Unable to find files to update.'));
             $this->next = TaskName::TASK_ERROR;
 
             return ExitCode::FAIL;
         }
-        $this->logger->info($this->translator->trans('%s files will be updated.', [$total_files_to_upgrade + $totalSymbolicLinks]));
+        $this->logger->info($this->translator->trans('%s files will be updated.', [$totalFilesToUpgrade + $totalSymbolicLinks]));
         $this->next = TaskName::TASK_UPDATE_FILES;
         $this->stepDone = false;
 
