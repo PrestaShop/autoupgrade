@@ -1182,7 +1182,7 @@
       <trans-unit id="06933067aafd48425d67bcb01bba5cb6">
         <source>Update</source>
         <target state="needs-translation">Update</target>
-        <note>views/templates/hooks/dialog-update-notification.html.twig:102</note>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:113</note>
       </trans-unit>
       <trans-unit id="13d3fd796fa75eea78ac8b6257fda2b6">
         <source>Post-update</source>
@@ -1939,10 +1939,25 @@
         <target state="needs-translation">Contact an expert</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:89</note>
       </trans-unit>
-      <trans-unit id="61057a0c84605444201929bdd72014f0">
-        <source>Later</source>
-        <target state="needs-translation">Later</target>
+      <trans-unit id="7a4f0d12efdf9db50039b22cad69d84e">
+        <source>Remind me later</source>
+        <target state="needs-translation">Remind me later</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:97</note>
+      </trans-unit>
+      <trans-unit id="cb8f14fd3a41cfe1236a3c6b90077ca0">
+        <source>7 days</source>
+        <target state="needs-translation">7 days</target>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:101</note>
+      </trans-unit>
+      <trans-unit id="947d8520f04473da621f2718138f3bc6">
+        <source>30 days</source>
+        <target state="needs-translation">30 days</target>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:104</note>
+      </trans-unit>
+      <trans-unit id="a8edf9d8efdf30be6c6473396b947301">
+        <source>Until the next version</source>
+        <target state="needs-translation">Until the next version</target>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:107</note>
       </trans-unit>
     </body>
   </file>

@@ -5,17 +5,17 @@
       <trans-unit id="21dc065f2d8653ebca37ec552d17b37e" approved="yes">
         <source>Unable to create the directory "%s"</source>
         <target state="final">Nebylo možné vytvořit adresář "%s"</target>
-        <note>controllers/admin/AdminSelfUpgradeController.php:158</note>
+        <note>controllers/admin/AdminSelfUpgradeController.php:159</note>
       </trans-unit>
       <trans-unit id="6215d33db0d099fcaae168dd4715135a" approved="yes">
         <source>Unable to write in the directory "%s"</source>
         <target state="final">Nelze zapisovat do adresáře "%s"</target>
-        <note>controllers/admin/AdminSelfUpgradeController.php:124</note>
+        <note>controllers/admin/AdminSelfUpgradeController.php:125</note>
       </trans-unit>
       <trans-unit id="f4eb320e09f7ef88a627229870458454" approved="yes">
         <source>The module %s requires PHP %s to work properly. Please upgrade your server configuration.</source>
         <target state="final">Modul %s vyžaduje ke správnému fungování PHP %s. Upravte prosím nastavení serveru.</target>
-        <note>controllers/admin/AdminSelfUpgradeController.php:262</note>
+        <note>controllers/admin/AdminSelfUpgradeController.php:263</note>
       </trans-unit>
       <trans-unit id="001c32426a6cfb48ebb848b13141593c" approved="yes">
         <source>Major version</source>
@@ -35,22 +35,22 @@
       <trans-unit id="064903b5aa01cf4bc4e5c073d9917678" approved="yes">
         <source>List of core alterations</source>
         <target state="final">Seznam změn v jádře</target>
-        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:241</note>
+        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:243</note>
       </trans-unit>
       <trans-unit id="673cc49de07389091a77d1872687cf64" approved="yes">
         <source>Some core files have been altered, customization made on these files will be lost during the update.</source>
         <target state="final">Některé soubory jádra byly změněny, úpravy provedené v těchto souborech budou během aktualizace ztraceny.</target>
-        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:242</note>
+        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:244</note>
       </trans-unit>
       <trans-unit id="3e520d769e66a4dcdf43029803ab4e8e" approved="yes">
         <source>List of theme alterations</source>
         <target state="final">Seznam změn v šabloně</target>
-        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:254</note>
+        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:256</note>
       </trans-unit>
       <trans-unit id="fa22ace14d701200f848374a39f3e88c" approved="yes">
         <source>Some theme files have been altered, customization made on these files will be lost during the update.</source>
         <target state="final">Některé soubory šablony byly změněny, úpravy provedené v těchto souborech budou během aktualizace ztraceny.</target>
-        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:255</note>
+        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:257</note>
       </trans-unit>
       <trans-unit id="708a3f63d9d379278db1b2bb25f7b79b" approved="yes">
         <source>Download attempt %d/%d failed: %s</source>
@@ -1182,7 +1182,7 @@
       <trans-unit id="06933067aafd48425d67bcb01bba5cb6" approved="yes">
         <source>Update</source>
         <target state="final">Aktualizovat</target>
-        <note>views/templates/hooks/dialog-update-notification.html.twig:102</note>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:113</note>
       </trans-unit>
       <trans-unit id="13d3fd796fa75eea78ac8b6257fda2b6" approved="yes">
         <source>Post-update</source>
@@ -1939,10 +1939,25 @@
         <target state="needs-translation">Contact an expert</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:89</note>
       </trans-unit>
-      <trans-unit id="61057a0c84605444201929bdd72014f0">
-        <source>Later</source>
-        <target state="needs-translation">Later</target>
+      <trans-unit id="7a4f0d12efdf9db50039b22cad69d84e">
+        <source>Remind me later</source>
+        <target state="needs-translation">Remind me later</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:97</note>
+      </trans-unit>
+      <trans-unit id="cb8f14fd3a41cfe1236a3c6b90077ca0">
+        <source>7 days</source>
+        <target state="needs-translation">7 days</target>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:101</note>
+      </trans-unit>
+      <trans-unit id="947d8520f04473da621f2718138f3bc6">
+        <source>30 days</source>
+        <target state="needs-translation">30 days</target>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:104</note>
+      </trans-unit>
+      <trans-unit id="a8edf9d8efdf30be6c6473396b947301">
+        <source>Until the next version</source>
+        <target state="needs-translation">Until the next version</target>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:107</note>
       </trans-unit>
     </body>
   </file>
