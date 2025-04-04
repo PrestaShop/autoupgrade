@@ -45,6 +45,7 @@ if (!$container->getCookie()->check($_COOKIE)) {
     exit(1);
 }
 
+$container->loadNecessaryClasses();
 $action = Tools14::getValue('action');
 
 if (!empty($action)) {
