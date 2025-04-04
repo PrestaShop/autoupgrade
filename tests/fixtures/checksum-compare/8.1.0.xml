@@ -4,6 +4,9 @@
 		<dir name="admin">
 			<md5file name=".htaccess">f9801a6607a14db3eebab2da3a649716</md5file>
 			<md5file name="init.php">dc55d3ee8cd557eacc4e191643207698</md5file>
+			<dir name="bundles">
+				<link name="apiplatform">../../vendor/api-platform/core/src/Symfony/Bundle/Resources/public/</link>
+			</dir>
 		</dir>
 		<dir name="app">
 			<md5file name="AppKernel.php">37d3976fc4877231fa652567e4e02cd4</md5file>

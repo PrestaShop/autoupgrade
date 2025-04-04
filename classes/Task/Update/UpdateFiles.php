@@ -59,24 +59,39 @@ class UpdateFiles extends AbstractTask
         $filesToUpgrade = Backlog::fromContents(
             $this->container->getFileStorage()->load(UpgradeFileNames::FILES_TO_UPGRADE_LIST)
         );
+        $symlinksToUpdate = Backlog::fromContents(
+            $this->container->getFileStorage()->load(UpgradeFileNames::SYMLINKS_TO_UPGRADE_LIST)
+        );
 
         // @TODO : does not upgrade files in modules, translations if they have not a correct md5 (or crc32, or whatever) from previous version
         for ($i = 0; $i < $this->container->getUpdateConfiguration()->getNumberOfFilesPerCall(); ++$i) {
-            if (!$filesToUpgrade->getRemainingTotal()) {
+            $hasAtLeastOneFileToUpdate = $filesToUpgrade->getRemainingTotal();
+
+            if (!$hasAtLeastOneFileToUpdate && !$symlinksToUpdate->getRemainingTotal()) {
                 $this->next = TaskName::TASK_UPDATE_DATABASE;
                 $this->logger->info($this->translator->trans('All files updated. Now updating database...'));
                 $this->stepDone = true;
                 break;
             }
 
-            $file = $filesToUpgrade->getNext();
+            if ($hasAtLeastOneFileToUpdate) {
+                $file = $filesToUpgrade->getNext();
 
-            // Note - upgrade this file means do whatever is needed for that file to be in the final state, delete included.
-            if (!$this->upgradeThisFile($file)) {
-                // put the file back to the begin of the list
-                $this->next = TaskName::TASK_ERROR;
-                $this->logger->error($this->translator->trans('Error when trying to update file %s.', [$file]));
-                break;
+                // Note - upgrade this file means do whatever is needed for that file to be in the final state, delete included.
+                if (!$this->upgradeThisFile($file)) {
+                    $this->next = TaskName::TASK_ERROR;
+                    $this->logger->error($this->translator->trans('Error when trying to update file %s.', [$file]));
+                    break;
+                }
+            } else {
+                // If there was no file to update, reaching this part of the code means we have symbolic links to update
+                /** @var array{'name':string,'target':string} */
+                $symlink = $symlinksToUpdate->getNext();
+                if (!$this->updateThisSymbolicLink($symlink['name'], $symlink['target'])) {
+                    $this->next = TaskName::TASK_ERROR;
+                    $this->logger->error($this->translator->trans('Error when trying to update link %s.', [$symlink['name']]));
+                    break;
+                }
             }
         }
         $this->container->getUpdateState()->setProgressPercentage(
@@ -100,12 +115,11 @@ class UpdateFiles extends AbstractTask
      *
      * @throws Exception
      */
-    public function upgradeThisFile($orig): bool
+    protected function upgradeThisFile($orig): bool
     {
         // translations_custom and mails_custom list are currently not used
         // later, we could handle customization with some kind of diff functions
         // for now, just copy $file in str_replace($this->latestRootDir,_PS_ROOT_DIR_)
-
         $file = str_replace($this->container->getProperty(UpgradeContainer::TMP_FILES_PATH), '', $orig);
 
         // The path to the file in our prestashop directory
@@ -118,6 +132,12 @@ class UpdateFiles extends AbstractTask
 
             return true;
         }
+
+        /*
+         * Note about symlinks: This is the place where we expected to handle symbolic links.
+         * Unfortunately, PHP does not extract them properly from the archive (see https://bugs.php.net/bug.php?id=46013).
+         * They will be handled in a dedicated backlog by relying on the XML files instead.
+         */
         if (is_dir($orig)) {
             // if $dest is not a directory (that can happen), just remove that file
             if (!is_dir($dest) && $this->container->getFileSystem()->exists($dest)) {
@@ -184,6 +204,21 @@ class UpdateFiles extends AbstractTask
         }
     }
 
+    protected function updateThisSymbolicLink(string $symLinkFile, string $symLinkTarget): bool
+    {
+        $file = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . $symLinkFile;
+
+        // Remove the file/folder, it already exists from $this->upgradeThisFile(...)
+        if ($this->container->getFileSystem()->exists($file)) {
+            $this->container->getFileSystem()->remove($file);
+        }
+
+        $this->container->getFileSystem()->symlink($symLinkTarget, $file);
+        $this->logger->debug($this->translator->trans('Created link %s to %s.', [$symLinkFile, $symLinkTarget]));
+
+        return true;
+    }
+
     /**
      * First call of this task needs a warmup, where we load the files list to be upgraded.
      *
@@ -237,7 +272,7 @@ class UpdateFiles extends AbstractTask
             return ExitCode::FAIL;
         }
         // $diffFileList now contains an array with a list of changed and deleted files.
-        // We only keep list of files to delete. The modified files will be listed in list_files_to_upgrade below.
+        // We only keep list of files to delete. The modified files will be listed in listFilesToUpgrade below.
         $diffFileList = $diffFileList['deleted'];
 
         // Admin folder name in this deleted files list is standard /admin/.
@@ -247,34 +282,53 @@ class UpdateFiles extends AbstractTask
             if (preg_match('#autoupgrade#', $path)) {
                 unset($diffFileList[$k]);
             } elseif (substr($path, 0, 6) === '/admin') {
-                // Please make sure that the condition to check if the string starts with /admin stays here, because it was replacing
-                // admin even in the middle of a path, not deleting some files as a result.
+                // Please make sure that the condition to check if the string starts with /admin stays here,
+                // because it was replacing "admin" even in the middle of a path, not deleting some files as a result.
                 // Also, do not use DIRECTORY_SEPARATOR, keep forward slash, because the path come from the XML standardized.
                 $diffFileList[$k] = '/' . $admin_dir . substr($path, 6);
             }
         }
 
+        // Prepare symbolic links list
+        $symbolicLinks = $this->container->getChecksumCompare()->getSymbolicLinks($state->getDestinationVersion());
+
+        /** @var array{'name':string,'target':string} $symlink */
+        foreach ($symbolicLinks as &$symlink) {
+            if (substr($symlink['name'], 0, 6) === 'admin/') {
+                // Please make sure that the condition to check if the string starts with /admin stays here,
+                // because it was replacing "admin" even in the middle of a path, not deleting some files as a result.
+                // Also, do not use DIRECTORY_SEPARATOR, keep forward slash, because the path come from the XML standardized.
+                $symlink['name'] = $admin_dir . '/' . substr($symlink['name'], 6);
+            }
+        }
+
+        $totalSymbolicLinks = count($symbolicLinks);
+        $this->container->getFileStorage()->save(
+            (new Backlog($symbolicLinks, $totalSymbolicLinks))->dump(),
+            UpgradeFileNames::SYMLINKS_TO_UPGRADE_LIST
+        );
+
         // Now, we get the list of files that are either new or must be modified
-        $list_files_to_upgrade = $this->container->getFilesystemAdapter()->listFilesInDir(
+        $listFilesToUpgrade = $this->container->getFilesystemAdapter()->listFilesInDir(
             $newReleasePath, 'upgrade', true
         );
 
         // Add our previously created list of deleted files
-        $list_files_to_upgrade = array_reverse(array_merge($diffFileList, $list_files_to_upgrade));
+        $listFilesToUpgrade = array_reverse(array_merge($diffFileList, $listFilesToUpgrade));
 
-        $total_files_to_upgrade = count($list_files_to_upgrade);
+        $totalFilesToUpgrade = count($listFilesToUpgrade);
         $this->container->getFileStorage()->save(
-            (new Backlog($list_files_to_upgrade, $total_files_to_upgrade))->dump(),
+            (new Backlog($listFilesToUpgrade, $totalFilesToUpgrade))->dump(),
             UpgradeFileNames::FILES_TO_UPGRADE_LIST
         );
 
-        if ($total_files_to_upgrade === 0) {
+        if ($totalFilesToUpgrade === 0 && $totalSymbolicLinks === 0) {
             $this->logger->error($this->translator->trans('Unable to find files to update.'));
             $this->next = TaskName::TASK_ERROR;
 
             return ExitCode::FAIL;
         }
-        $this->logger->info($this->translator->trans('%s files will be updated.', [$total_files_to_upgrade]));
+        $this->logger->info($this->translator->trans('%s files will be updated.', [$totalFilesToUpgrade + $totalSymbolicLinks]));
         $this->next = TaskName::TASK_UPDATE_FILES;
         $this->stepDone = false;
 

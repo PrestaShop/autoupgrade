@@ -58,6 +58,15 @@ class UpgradeFileNames
     const FILES_TO_UPGRADE_LIST = 'filesToUpgrade.list';
 
     /**
+     * during upgradeFiles process,
+     * this files contains the list of symbolic links left to upgrade in a serialized array.
+     * (this file is deleted in init() method if you reload the page).
+     *
+     * @var string
+     */
+    const SYMLINKS_TO_UPGRADE_LIST = 'symLinksToUpgrade.list';
+
+    /**
      * during updateDatabase process,
      * this files contains the list of queries left to execute in a serialized array.
      * (this file is deleted in init() method if you reload the page).
@@ -147,6 +156,7 @@ class UpgradeFileNames
     public static $update_tmp_files = [
         'STATE_FILENAME' => self::STATE_UPDATE_FILENAME,
         'FILES_TO_UPGRADE_LIST' => self::FILES_TO_UPGRADE_LIST,
+        'SYMLINKS_TO_UPGRADE_LIST' => self::SYMLINKS_TO_UPGRADE_LIST,
         'FILES_TO_REMOVE_LIST' => self::FILES_TO_REMOVE_LIST,
         'MODULES_TO_UPGRADE_LIST' => self::MODULES_TO_UPGRADE_LIST,
         'MODULE_SOURCE_PROVIDER_CACHE_LOCAL' => self::MODULE_SOURCE_PROVIDER_CACHE_LOCAL,
