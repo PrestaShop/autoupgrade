@@ -83,4 +83,10 @@ class DocumentationLinks
     {
         return 'https://experts.prestashop.com/english/experts/';
     }
+
+    /** @return string */
+    public static function getPrestashopReleasesUrl()
+    {
+        return 'https://build.prestashop-project.org/tag/releases/';
+    }
 }

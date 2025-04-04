@@ -110,7 +110,7 @@ class Autoupgrade extends Module
             }
         }
 
-        return parent::install() && $this->registerHook('displayBackOfficeHeader');
+        return parent::install() && $this->registerHook('displayBackOfficeHeader') && $this->registerHook('displayBackOfficeEmployeeMenu');
     }
 
     /**
@@ -224,6 +224,37 @@ class Autoupgrade extends Module
         }
 
         return (new \PrestaShop\Module\AutoUpgrade\Hooks\DisplayBackOfficeHeader($this->getUpgradeContainer()))->renderUpdateNotification();
+    }
+
+    /**
+     * Only available from PS8.
+     *
+     * @param array{links: \PrestaShop\PrestaShop\Core\Action\ActionsBarButtonsCollection} $params
+     *
+     * @return void
+     */
+    public function hookDisplayBackOfficeEmployeeMenu(array $params)
+    {
+        if (
+            !$this->initAutoloaderIfCompliant()
+            || !class_exists(\PrestaShop\PrestaShop\Core\Action\ActionsBarButtonsCollection::class)
+            || !class_exists(\PrestaShop\PrestaShop\Core\Action\ActionsBarButton::class)
+            || !($params['links'] instanceof \PrestaShop\PrestaShop\Core\Action\ActionsBarButtonsCollection)
+        ) {
+            return;
+        }
+
+        $params['links']->add(
+            new \PrestaShop\PrestaShop\Core\Action\ActionsBarButton(
+                __CLASS__,
+                [
+                    'link' => \PrestaShop\Module\AutoUpgrade\DocumentationLinks::getPrestashopReleasesUrl(),
+                    'icon' => 'history',
+                    'isExternalLink' => true,
+                ],
+                $this->trans('Discover the latest releases')
+            )
+        );
     }
 
     /**
