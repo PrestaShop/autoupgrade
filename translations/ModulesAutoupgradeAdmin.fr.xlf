@@ -744,9 +744,9 @@
         <target state="final">L'action %s a été ignorée</target>
         <note>classes/Task/AbstractTask.php:152</note>
       </trans-unit>
-      <trans-unit id="1c041a27877f172964552beef6c228e6">
+      <trans-unit id="1c041a27877f172964552beef6c228e6" approved="yes">
         <source>Unknown configuration key '%s', Ignoring.</source>
-        <target state="needs-translation">Unknown configuration key '%s', Ignoring.</target>
+        <target state="final">Clé de configuration inconnue '%s', ignorée.</target>
         <note>classes/Task/Miscellaneous/UpdateConfig.php:58</note>
       </trans-unit>
       <trans-unit id="d70699057bcd09b03129da2391b47d67" approved="yes">
