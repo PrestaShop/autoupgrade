@@ -892,92 +892,102 @@
       <trans-unit id="d3b9b6cf6979d03762f425fb7d0d4e12">
         <source>All files updated. Now updating database...</source>
         <target state="needs-translation">All files updated. Now updating database...</target>
-        <note>classes/Task/Update/UpdateFiles.php:67</note>
+        <note>classes/Task/Update/UpdateFiles.php:72</note>
       </trans-unit>
       <trans-unit id="46cf45a00b2e8abfe1c5635601ff2e48">
         <source>Error when trying to update file %s.</source>
         <target state="needs-translation">Error when trying to update file %s.</target>
-        <note>classes/Task/Update/UpdateFiles.php:78</note>
+        <note>classes/Task/Update/UpdateFiles.php:83</note>
+      </trans-unit>
+      <trans-unit id="7d2bf6e31c66674c961484ef8be451cd">
+        <source>Error when trying to update link %s.</source>
+        <target state="needs-translation">Error when trying to update link %s.</target>
+        <note>classes/Task/Update/UpdateFiles.php:92</note>
       </trans-unit>
       <trans-unit id="13c5f7e7473980468149551b4df7da8c">
         <source>%s files left to update.</source>
         <target state="needs-translation">%s files left to update.</target>
-        <note>classes/Task/Update/UpdateFiles.php:89</note>
+        <note>classes/Task/Update/UpdateFiles.php:104</note>
       </trans-unit>
       <trans-unit id="9a2f2cf276ea9f79b31a815897c0e3e6" approved="yes">
         <source>%s ignored</source>
         <target state="final">%s ignorado</target>
-        <note>classes/Task/Update/UpdateFiles.php:117</note>
+        <note>classes/Task/Update/UpdateFiles.php:131</note>
       </trans-unit>
       <trans-unit id="ba4bea05b16daf8e0652a6048cf741c6">
         <source>File %1$s has been deleted.</source>
         <target state="needs-translation">File %1$s has been deleted.</target>
-        <note>classes/Task/Update/UpdateFiles.php:125</note>
+        <note>classes/Task/Update/UpdateFiles.php:145</note>
       </trans-unit>
       <trans-unit id="cbfafdaa2e7968a86bd6a437027edfea" approved="yes">
         <source>Directory %1$s created.</source>
         <target state="final">Pasta %1$s foi criada.</target>
-        <note>classes/Task/Update/UpdateFiles.php:130</note>
+        <note>classes/Task/Update/UpdateFiles.php:150</note>
       </trans-unit>
       <trans-unit id="47e555d00d52a54c20b5f936ee706fc8">
         <source>Error while creating directory %s: %s.</source>
         <target state="needs-translation">Error while creating directory %s: %s.</target>
-        <note>classes/Task/Update/UpdateFiles.php:135</note>
+        <note>classes/Task/Update/UpdateFiles.php:155</note>
       </trans-unit>
       <trans-unit id="0a6c2db1b18cb6420ad40d46db8707de" approved="yes">
         <source>Directory %s already exists.</source>
         <target state="final">A pasta %s já existe.</target>
-        <note>classes/Task/Update/UpdateFiles.php:140</note>
+        <note>classes/Task/Update/UpdateFiles.php:160</note>
       </trans-unit>
       <trans-unit id="e33b6cbf66a4417503eac526d8a94626">
         <source>The translation files have been merged into file %s.</source>
         <target state="needs-translation">The translation files have been merged into file %s.</target>
-        <note>classes/Task/Update/UpdateFiles.php:149</note>
+        <note>classes/Task/Update/UpdateFiles.php:169</note>
       </trans-unit>
       <trans-unit id="7cfde7149c7a53bbbe854a0562ac0807">
         <source>The translation files have not been merged into file %filename%. Switch to copy %filename%.</source>
         <target state="needs-translation">The translation files have not been merged into file %filename%. Switch to copy %filename%.</target>
-        <note>classes/Task/Update/UpdateFiles.php:154</note>
+        <note>classes/Task/Update/UpdateFiles.php:174</note>
       </trans-unit>
       <trans-unit id="b8db10001e04b8f947415aeb8b8fd19f" approved="yes">
         <source>Copied %1$s.</source>
         <target state="final">%1$s copiado.</target>
-        <note>classes/Task/Update/UpdateFiles.php:163</note>
+        <note>classes/Task/Update/UpdateFiles.php:183</note>
       </trans-unit>
       <trans-unit id="4a6c74e011e44e5fb206a6dcedfc1185">
         <source>Error while copying file %s: %s</source>
         <target state="needs-translation">Error while copying file %s: %s</target>
-        <note>classes/Task/Update/UpdateFiles.php:168</note>
+        <note>classes/Task/Update/UpdateFiles.php:188</note>
+      </trans-unit>
+      <trans-unit id="806d4247967402b8667340da2916cf4c">
+        <source>Created link %s to %s.</source>
+        <target state="needs-translation">Created link %s to %s.</target>
+        <note>classes/Task/Update/UpdateFiles.php:217</note>
       </trans-unit>
       <trans-unit id="20aed4fb9f6ee15bc601227bbfb85acd" approved="yes">
         <source>Could not assert the folder %s contains a valid PrestaShop release, exiting.</source>
         <target state="final">Não foi possível confirmar que a pasta %s contém uma versão válida da PrestaShop, encerrando.</target>
-        <note>classes/Task/Update/UpdateFiles.php:208</note>
+        <note>classes/Task/Update/UpdateFiles.php:243</note>
       </trans-unit>
       <trans-unit id="312d54356778124e7ad6d8c7be6ff1a0" approved="yes">
         <source>A file may be missing, or the release is stored in a subfolder by mistake.</source>
         <target state="final">Pode faltar um ficheiro ou a versão está armazenada numa subpasta por engano.</target>
-        <note>classes/Task/Update/UpdateFiles.php:209</note>
+        <note>classes/Task/Update/UpdateFiles.php:244</note>
       </trans-unit>
       <trans-unit id="fa5d2fc42275582a8b7be9935084ad45">
         <source>Generate diff file list between %s and %s.</source>
         <target state="needs-translation">Generate diff file list between %s and %s.</target>
-        <note>classes/Task/Update/UpdateFiles.php:230</note>
+        <note>classes/Task/Update/UpdateFiles.php:265</note>
       </trans-unit>
       <trans-unit id="a845839e72a2af510180c93273119199">
         <source>Unable to generate diff file list between %s and %s.</source>
         <target state="needs-translation">Unable to generate diff file list between %s and %s.</target>
-        <note>classes/Task/Update/UpdateFiles.php:233</note>
+        <note>classes/Task/Update/UpdateFiles.php:268</note>
       </trans-unit>
       <trans-unit id="b66f7c9b911acb4711e96eb7a7605bfb">
         <source>Unable to find files to update.</source>
         <target state="needs-translation">Unable to find files to update.</target>
-        <note>classes/Task/Update/UpdateFiles.php:272</note>
+        <note>classes/Task/Update/UpdateFiles.php:326</note>
       </trans-unit>
       <trans-unit id="ee2e293c4bce5a37e5925743d549af8e">
         <source>%s files will be updated.</source>
         <target state="needs-translation">%s files will be updated.</target>
-        <note>classes/Task/Update/UpdateFiles.php:277</note>
+        <note>classes/Task/Update/UpdateFiles.php:331</note>
       </trans-unit>
       <trans-unit id="fb1ca1f5f3eb5a2ca85201f449525527" approved="yes">
         <source>You need allow_url_fopen or cURL enabled for automatic download to work. You can also manually upload it in filepath %s.</source>
