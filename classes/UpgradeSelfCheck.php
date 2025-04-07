@@ -325,7 +325,7 @@ class UpgradeSelfCheck
 
             case self::KEY_GENERATION_INVALID:
                 return [
-                    'message' => $this->translator->trans('Unable to generate private keys using openssl_pkey_new. Check your OpenSSL configuration, especially the path to openssl.cafile.'),
+                    'message' => $this->translator->trans('Failed to generate private keys using openssl_pkey_new(). Please check your PHP configuration, especially the openssl.cafile setting, and ensure that the specified file exists and is accessible.'),
                 ];
 
             case self::NOT_WRITING_DIRECTORY_LIST_NOT_EMPTY:
