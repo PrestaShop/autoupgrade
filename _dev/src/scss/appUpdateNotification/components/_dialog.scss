@@ -144,8 +144,8 @@ $media-query-mobile: 992px;
     &__buttons {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, auto));
-      align-items: stretch;
       gap: 1rem;
+      align-items: stretch;
     }
 
     &__button {
