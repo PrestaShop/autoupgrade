@@ -155,10 +155,28 @@ $media-query-mobile: 992px;
     }
   }
 
-  &.v1-7-8-0,
-  &.v1-7-3-0 {
+  &.v1-7-8-0 {
     #{$e} {
       --#{$ua-prefix}dialog-badge-background-color: var(--#{$ua-prefix}primary);
+    }
+  }
+
+  &.v1-7-3-0 {
+    #{$e} {
+      --#{$ua-prefix}dialog-badge-background-color: #25b9d7;
+
+      @at-root {
+        // CSS class to identify legacy BO themes
+        .ps_back-office {
+          #{$notification-id} {
+            &.v1-7-3-0 {
+              #{$e} {
+                --#{$ua-prefix}dialog-badge-background-color: var(--#{$ua-prefix}primary);
+              }
+            }
+          }
+        }
+      }
     }
   }
 
