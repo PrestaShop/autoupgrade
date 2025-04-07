@@ -164,6 +164,7 @@ $media-query-mobile: 992px;
   &.v1-7-3-0 {
     #{$e} {
       --#{$ua-prefix}dialog-badge-background-color: #25b9d7;
+      border-radius: 0;
 
       @at-root {
         // CSS class to identify legacy BO themes
@@ -172,6 +173,7 @@ $media-query-mobile: 992px;
             &.v1-7-3-0 {
               #{$e} {
                 --#{$ua-prefix}dialog-badge-background-color: var(--#{$ua-prefix}primary);
+                border-radius: var(--#{$ua-prefix}border-radius);
               }
             }
           }
