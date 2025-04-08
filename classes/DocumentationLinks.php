@@ -79,9 +79,9 @@ class DocumentationLinks
     }
 
     /** @return string */
-    public static function getPrestashopExpertsUrl()
+    public static function getFindSupportUrl()
     {
-        return 'https://experts.prestashop.com/english/experts/';
+        return 'https://www.prestashop-project.org/support/';
     }
 
     /** @return string */

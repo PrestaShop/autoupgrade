@@ -266,7 +266,7 @@ class DisplayBackOfficeHeader
             'version_class' => $psClass,
             'version_type' => $updateType,
             'version' => $onlineVersion,
-            'contact_expert_url' => DocumentationLinks::getPrestashopExpertsUrl(),
+            'find_support_url' => DocumentationLinks::getFindSupportUrl(),
             'release_note' => $this->updateNotificationConfiguration->getReleaseNote(),
             'dismiss_form_options' => self::DISMISS_FORM_OPTIONS,
         ];
