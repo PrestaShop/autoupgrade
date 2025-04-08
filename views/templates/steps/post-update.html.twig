@@ -27,7 +27,7 @@
 {% block content %}
   <div class="content__container">
     {% include '@ModuleAutoUpgrade/components/alert.html.twig' with {
-      title: 'Your store is up to date'|trans({}),
+      title: 'Your store has been updated to PrestaShop version %version%'|trans({ '%version%': ps_version }),
       message: 'Before continuing with your tasks, please review the following checklist to ensure smooth operation after recent updates.'|trans({}),
       alertStatus: 'success',
     } %}
