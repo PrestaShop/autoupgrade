@@ -133,9 +133,9 @@ class DisplayBackOfficeHeader
 
         $employees = $this->updateNotificationConfiguration->getEmployeesReminderChoice();
 
-        $employeeExists = array_filter($employees, function ($employee) {
+        $employeeExists = array_values(array_filter($employees, function ($employee) {
             return $employee['employeeID'] === $this->employee->id;
-        });
+        }));
 
         if ($this->updateIsAvailable()) {
             if (
