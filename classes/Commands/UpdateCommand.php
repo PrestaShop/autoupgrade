@@ -30,6 +30,7 @@ use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\Task\Runner\AllUpdateTasks;
 use PrestaShop\Module\AutoUpgrade\Task\TaskName;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
+use PrestaShop\Module\AutoUpgrade\VersionUtils;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -108,6 +109,11 @@ class UpdateCommand extends AbstractCommand
             ]);
             $controller->init();
             $exitCode = $controller->run();
+
+            $version = $this->upgradeContainer->getPrestaShopConfiguration()->getPrestaShopVersion();
+            $major = VersionUtils::splitPrestaShopVersion($version)['major'];
+
+            $output->writeln('We recommend you to visit the Post-update checklist page in the developer documentation for any further help: ' . DocumentationLinks::getDevDocUpdateAssistantPostUpdateUrl($major));
             $this->logger->debug('Process completed with exit code: ' . $exitCode);
 
             if ($noChainMode || $exitCode !== ExitCode::SUCCESS) {
