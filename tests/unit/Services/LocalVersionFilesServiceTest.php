@@ -137,4 +137,57 @@ class LocalVersionFilesServiceTest extends TestCase
 
         $this->assertEquals($expected, $localVersionFilesService->getLocalVersionsFiles());
     }
+
+    /**
+     * @throws ZipActionException
+     */
+    public function testGetFlatZipAndXmlLists()
+    {
+        $this->prestashopVersionService->method('extractPrestashopVersionFromZip')
+            ->withConsecutive(
+                ['1.7.7.7.zip'],
+                ['8.1.7.zip'],
+                ['8.2.0.zip'],
+                ['9.0.0.zip']
+            )
+            ->willReturnOnConsecutiveCalls(
+                '1.7.7.7',
+                '8.1.7',
+                '8.2.0',
+                '9.0.0'
+            );
+        $this->prestashopVersionService->method('extractPrestashopVersionFromXml')
+            ->withConsecutive(
+                ['1.7.7.7.xml'],
+                ['8.1.7.xml'],
+                ['8.2.0.xml']
+            )
+            ->willReturnOnConsecutiveCalls(
+                '1.7.7.7',
+                '8.1.7',
+                '8.2.0'
+            );
+
+        $localVersionFilesService = $this->getMockBuilder(LocalVersionFilesService::class)
+            ->setConstructorArgs([$this->prestashopVersionService, 'fakeDownloadPath', '1.7.8.11'])
+            ->setMethods(['getAllFilesFromFolder'])
+            ->getMock();
+
+        $localVersionFilesService->method('getAllFilesFromFolder')
+            ->withConsecutive(
+                ['fakeDownloadPath', LocalVersionFilesService::TYPE_ZIP],
+                ['fakeDownloadPath', LocalVersionFilesService::TYPE_XML]
+            )
+            ->willReturnOnConsecutiveCalls(
+                ['1.7.7.7.zip', '8.1.7.zip', '8.2.0.zip', '9.0.0.zip'],
+                ['1.7.7.7.xml', '8.1.7.xml', '8.2.0.xml']
+            );
+
+        $expected = [
+            'xml' => ['8.1.7.xml', '8.2.0.xml'],
+            'zip' => ['8.1.7.zip', '8.2.0.zip'],
+        ];
+
+        $this->assertEquals($expected, $localVersionFilesService->getFlatZipAndXmlLists());
+    }
 }

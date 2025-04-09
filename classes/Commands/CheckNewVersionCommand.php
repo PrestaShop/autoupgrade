@@ -62,7 +62,7 @@ class CheckNewVersionCommand extends AbstractCommand
 
             $currentVersion = $this->upgradeContainer->getProperty(UpgradeContainer::PS_VERSION);
 
-            $localFilesService = new LocalVersionFilesService($this->upgradeContainer->getPrestashopVersionService(), $this->upgradeContainer->getProperty(UpgradeContainer::DOWNLOAD_PATH), $currentVersion);
+            $localFilesService = $this->upgradeContainer->getLocalVersionFilesService();
 
             $localVersions = $localFilesService->getLocalVersionsFiles();
 
