@@ -899,9 +899,9 @@
         <target state="final">Chyba při pokusu o aktualizaci souboru %s.</target>
         <note>classes/Task/Update/UpdateFiles.php:83</note>
       </trans-unit>
-      <trans-unit id="7d2bf6e31c66674c961484ef8be451cd">
+      <trans-unit id="7d2bf6e31c66674c961484ef8be451cd" approved="yes">
         <source>Error when trying to update link %s.</source>
-        <target state="needs-translation">Error when trying to update link %s.</target>
+        <target state="final">Chyba při pokusu o aktualizaci odkazu %s.</target>
         <note>classes/Task/Update/UpdateFiles.php:92</note>
       </trans-unit>
       <trans-unit id="13c5f7e7473980468149551b4df7da8c" approved="yes">
@@ -954,9 +954,9 @@
         <target state="final">Chyba při kopírování souboru %s: %s</target>
         <note>classes/Task/Update/UpdateFiles.php:188</note>
       </trans-unit>
-      <trans-unit id="806d4247967402b8667340da2916cf4c">
+      <trans-unit id="806d4247967402b8667340da2916cf4c" approved="yes">
         <source>Created link %s to %s.</source>
-        <target state="needs-translation">Created link %s to %s.</target>
+        <target state="final">Byl vytvořen odkaz %s na %s.</target>
         <note>classes/Task/Update/UpdateFiles.php:217</note>
       </trans-unit>
       <trans-unit id="20aed4fb9f6ee15bc601227bbfb85acd" approved="yes">
@@ -1864,24 +1864,24 @@
         <target state="final">Ne</target>
         <note>views/templates/components/render-switch.html.twig:38</note>
       </trans-unit>
-      <trans-unit id="c5bc1e392726aeee07f7da54da693536">
+      <trans-unit id="c5bc1e392726aeee07f7da54da693536" approved="yes">
         <source>New available Patch</source>
-        <target state="needs-translation">New available Patch</target>
+        <target state="final">Nová dostupná patch verze</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:24</note>
       </trans-unit>
-      <trans-unit id="caff5b924cb41f48bb4b867e8e7b8e96">
+      <trans-unit id="caff5b924cb41f48bb4b867e8e7b8e96" approved="yes">
         <source>New available Minor</source>
-        <target state="needs-translation">New available Minor</target>
+        <target state="final">Nová dostupná minor verze</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:26</note>
       </trans-unit>
-      <trans-unit id="c46ec0404f781b06ef3829d92c42c307">
+      <trans-unit id="c46ec0404f781b06ef3829d92c42c307" approved="yes">
         <source>New available Major</source>
-        <target state="needs-translation">New available Major</target>
+        <target state="final">Nová dostupná major verze</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:28</note>
       </trans-unit>
-      <trans-unit id="d9efef68765c7b7800b682c5c6db1701">
+      <trans-unit id="d9efef68765c7b7800b682c5c6db1701" approved="yes">
         <source>New features are available</source>
-        <target state="needs-translation">New features are available</target>
+        <target state="final">K dispozici jsou nové funkce</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:33</note>
       </trans-unit>
       <trans-unit id="b5a7adde1af5c87d7fd797b6245c2a39" approved="yes">
@@ -1889,84 +1889,84 @@
         <target state="final">Popis</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:41</note>
       </trans-unit>
-      <trans-unit id="e4db438a6d6be2f031b9249d55b69316">
+      <trans-unit id="e4db438a6d6be2f031b9249d55b69316" approved="yes">
         <source>Patches are fixes made between major and minor versions. They introduce security and bug fixes.</source>
-        <target state="needs-translation">Patches are fixes made between major and minor versions. They introduce security and bug fixes.</target>
+        <target state="final">Patche jsou opravy mezi hlavními a menšími verzemi. Přinášejí opravy chyb a zabezpečení.</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:46</note>
       </trans-unit>
-      <trans-unit id="31ee024917b3be58355bbd3fbcb2eedd">
+      <trans-unit id="31ee024917b3be58355bbd3fbcb2eedd" approved="yes">
         <source>The minor releases introduce new backward-compatible features, security improvements and bug fixes.</source>
-        <target state="needs-translation">The minor releases introduce new backward-compatible features, security improvements and bug fixes.</target>
+        <target state="final">Menší verze zavádějí nové zpětně kompatibilní funkce, vylepšení zabezpečení a opravy chyb.</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:48</note>
       </trans-unit>
-      <trans-unit id="562beba5e4769e797787408ae01e84f8">
+      <trans-unit id="562beba5e4769e797787408ae01e84f8" approved="yes">
         <source>Major releases introduce new features that may break backward compatibility, as well as new backward-compatible features and bug fixes.</source>
-        <target state="needs-translation">Major releases introduce new features that may break backward compatibility, as well as new backward-compatible features and bug fixes.</target>
+        <target state="final">Hlavní verze zavádějí nové funkce, které mohou narušit zpětnou kompatibilitu, stejně jako nové funkce zachovávající zpětnou kompatibilitu a opravy chyb.</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:50</note>
       </trans-unit>
-      <trans-unit id="4923b1e1acea9d8d68e8341fc9191065">
+      <trans-unit id="4923b1e1acea9d8d68e8341fc9191065" approved="yes">
         <source>See the update</source>
-        <target state="needs-translation">See the update</target>
+        <target state="final">Zobrazit aktualizaci</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:52</note>
       </trans-unit>
-      <trans-unit id="34b6cd75171affba6957e308dcbd92be">
+      <trans-unit id="34b6cd75171affba6957e308dcbd92be" approved="yes">
         <source>Version</source>
-        <target state="needs-translation">Version</target>
+        <target state="final">Verze</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:58</note>
       </trans-unit>
-      <trans-unit id="65842a77c93adc909117aa8bcd9cba60">
+      <trans-unit id="65842a77c93adc909117aa8bcd9cba60" approved="yes">
         <source>Type of improvements</source>
-        <target state="needs-translation">Type of improvements</target>
+        <target state="final">Typ vylepšení</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:68</note>
       </trans-unit>
-      <trans-unit id="fc95fedb22471990ecb3afbc23badc4a">
+      <trans-unit id="fc95fedb22471990ecb3afbc23badc4a" approved="yes">
         <source>Bugs, security patches</source>
-        <target state="needs-translation">Bugs, security patches</target>
+        <target state="final">Opravy chyb, bezpečnostní záplaty</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:73</note>
       </trans-unit>
-      <trans-unit id="a85e49f0a0baeee147f21c2ab87d0d41">
+      <trans-unit id="a85e49f0a0baeee147f21c2ab87d0d41" approved="yes">
         <source>Bugs, security patches, new features</source>
-        <target state="needs-translation">Bugs, security patches, new features</target>
+        <target state="final">Opravy chyb, bezpečnostní záplaty, nové funkce</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:75</note>
       </trans-unit>
-      <trans-unit id="b6d5d804eba0eb1e3eba27e2b231ed24">
+      <trans-unit id="b6d5d804eba0eb1e3eba27e2b231ed24" approved="yes">
         <source>New features, Improvements to existing features, Security and bug fixes</source>
-        <target state="needs-translation">New features, Improvements to existing features, Security and bug fixes</target>
+        <target state="final">Nové funkce, vylepšení stávajících funkcí, opravy chyb a zabezpečení</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:77</note>
       </trans-unit>
-      <trans-unit id="4bd9ef088a14b5f6fd9ef86e6f33037f">
+      <trans-unit id="4bd9ef088a14b5f6fd9ef86e6f33037f" approved="yes">
         <source>Need help?</source>
-        <target state="needs-translation">Need help?</target>
+        <target state="final">Potřebujete pomoc?</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:84</note>
       </trans-unit>
-      <trans-unit id="88b6873bad2a00d2ccc5ffb60098bf31">
-        <source>If you're having trouble performing the update, our experts can help!</source>
-        <target state="needs-translation">If you're having trouble performing the update, our experts can help!</target>
+      <trans-unit id="5abe12fb2b39a8244449ecae60f0c77f">
+        <source>If you're having trouble performing the update, consider seeking help from the community or a qualified developer.</source>
+        <target state="needs-translation">If you're having trouble performing the update, consider seeking help from the community or a qualified developer.</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:88</note>
       </trans-unit>
-      <trans-unit id="994a3ae394af1da6734ab785ca93f17f">
-        <source>Contact an expert</source>
-        <target state="needs-translation">Contact an expert</target>
+      <trans-unit id="c4a3e4914cdb81cab8c515737d2bc38a">
+        <source>Find Support</source>
+        <target state="needs-translation">Find Support</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:89</note>
       </trans-unit>
-      <trans-unit id="7a4f0d12efdf9db50039b22cad69d84e">
+      <trans-unit id="7a4f0d12efdf9db50039b22cad69d84e" approved="yes">
         <source>Remind me later</source>
-        <target state="needs-translation">Remind me later</target>
+        <target state="final">Připomenout později</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:97</note>
       </trans-unit>
-      <trans-unit id="cb8f14fd3a41cfe1236a3c6b90077ca0">
+      <trans-unit id="cb8f14fd3a41cfe1236a3c6b90077ca0" approved="yes">
         <source>7 days</source>
-        <target state="needs-translation">7 days</target>
+        <target state="final">7 dní</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:101</note>
       </trans-unit>
-      <trans-unit id="947d8520f04473da621f2718138f3bc6">
+      <trans-unit id="947d8520f04473da621f2718138f3bc6" approved="yes">
         <source>30 days</source>
-        <target state="needs-translation">30 days</target>
+        <target state="final">30 dní</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:104</note>
       </trans-unit>
-      <trans-unit id="a8edf9d8efdf30be6c6473396b947301">
+      <trans-unit id="a8edf9d8efdf30be6c6473396b947301" approved="yes">
         <source>Until the next version</source>
-        <target state="needs-translation">Until the next version</target>
+        <target state="final">Do další verze</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:107</note>
       </trans-unit>
     </body>
