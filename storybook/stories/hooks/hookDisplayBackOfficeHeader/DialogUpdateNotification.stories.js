@@ -34,7 +34,7 @@ export default {
     args: {
         'version_type': 'major',
         'version': '9.0.0',
-        'contact_expert_url': 'https://experts.prestashop.com/english/experts/',
+        'find_support_url': 'https://www.prestashop-project.org/support/',
         'update_link': '#',
         'release_note': '#',
     },
