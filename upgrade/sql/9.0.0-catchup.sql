@@ -11,10 +11,8 @@ UPDATE `PREFIX_configuration` SET `value` = '28' WHERE `name` = "SHOP_LOGO_HEIGH
 UPDATE `PREFIX_configuration` SET `value` = '100' WHERE `name` = "SHOP_LOGO_WIDTH" AND `value` = '117';
 
 /* 1.7.4.0 */
-/* PHP:add_configuration_if_not_exists('PS_SSL_ENABLED_EVERYWHERE', '0'); */;
 INSERT INTO `PREFIX_hook` (`name`, `title`, `description`, `position`) VALUES
-  ('actionBuildFrontEndObject', 'Manage elements added to the \"prestashop\" javascript object', 'This hook allows you to customize the \"prestashop\" javascript object that is included in all front office pages', '1'),
-  ('actionFrontControllerAfterInit', 'Perform actions after front office controller initialization', 'This hook is launched after the initialization of all front office controllers', '1')
+  ('actionBuildFrontEndObject', 'Manage elements added to the \"prestashop\" javascript object', 'This hook allows you to customize the \"prestashop\" javascript object that is included in all front office pages', '1')
 ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
 
 /* 1.7.5.0 */
@@ -47,7 +45,7 @@ ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`descr
 /* 1.7.6.0 */
 INSERT INTO `PREFIX_hook` (`name`, `title`, `description`, `position`) VALUES
 	('additionalCustomerAddressFields', 'Add fields to the Customer address form', 'This hook returns an array of FormFields to add them to the customer address registration form', '1'),
-  ('displayPersonalInformationTop', 'Content in the checkout funnel, on top of the personal informati', 'Display actions or additional content in the personal details tab of the checkout funnel.', '1'),
+  ('displayPersonalInformationTop', 'Content in the checkout funnel, on top of the personal information panel', 'Display actions or additional content in the personal details tab of the checkout funnel.', '1'),
   ('displayProductActions', 'Display additional action button on the product page', 'This hook allow additional actions to be triggered, near the add to cart button.', '1')
 ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
 
@@ -108,9 +106,7 @@ ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`descr
 INSERT INTO `PREFIX_hook` (`name`, `title`, `description`, `position`) VALUES
 	('actionAfterCreateCartSummaryFormHandler','Modify back office order data after creating it','This hook allows to modify order created from back office data after it is created', '1'),
   ('actionBeforeCreateCartSummaryFormHandler','Modify back office order data before creating it','This hook allows to modify order created from back office data before it is created', '1'),
-  ('actionBeforeDisableMobileModule','Before a module is disabled for mobile','This hook is called just before a module is disabled for mobile', '1'),
   ('actionBeforeDisableModule','Before a module is disabled','This hook is called just before a module is disabled', '1'),
-  ('actionBeforeEnableMobileModule','Before a module is enabled for mobile','This hook is called just before a module is enabled for mobile', '1'),
   ('actionBeforeEnableModule','Before a module is enabled','This hook is called just before a module is enabled', '1'),
   ('actionBeforeInstallModule','Before a module is installed','This hook is called just before a module is installed', '1'),
   ('actionBeforePostInstallModule','Before method `postInstall()` is called','This hook is called juste before a module execute its `postInstall()` method', '1'),
@@ -179,25 +175,21 @@ ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`descr
 
 
 INSERT IGNORE INTO `PREFIX_authorization_role` (`slug`) VALUES
-  ('ROLE_MOD_TAB_ADMINAUTHORIZATIONSERVER_CREATE'),
-  ('ROLE_MOD_TAB_ADMINAUTHORIZATIONSERVER_DELETE'),
-  ('ROLE_MOD_TAB_ADMINAUTHORIZATIONSERVER_READ'),
-  ('ROLE_MOD_TAB_ADMINAUTHORIZATIONSERVER_UPDATE');
+  ('ROLE_MOD_TAB_ADMINADMINAPI_CREATE'),
+  ('ROLE_MOD_TAB_ADMINADMINAPI_DELETE'),
+  ('ROLE_MOD_TAB_ADMINADMINAPI_READ'),
+  ('ROLE_MOD_TAB_ADMINADMINAPI_UPDATE');
 
 INSERT IGNORE INTO `PREFIX_feature_flag` (`name`, `label_wording`, `label_domain`, `description_wording`, `description_domain`, `state`, `stability`)
 VALUES
-    ('attribute_group', 'Attribute group', 'Admin.Advparameters.Feature', 'Enable / Disable migrated attribute group page.', 'Admin.Advparameters.Help', 0, 'beta'),
-    ('authorization_server', 'Authorization server', 'Admin.Advparameters.Feature', 'Enable or disable the authorization server page.', 'Admin.Advparameters.Help', 0, 'beta'),
     ('cart_rule', 'Cart rules', 'Admin.Advparameters.Feature', 'Enable / Disable the migrated cart rules page.', 'Admin.Advparameters.Help', 0, 'beta'),
     ('catalog_price_rule', 'Catalog price rules', 'Admin.Advparameters.Feature', 'Enable / Disable the migrated catalog price rules page.', 'Admin.Advparameters.Help', 0, 'beta'),
     ('country', 'Countries', 'Admin.Advparameters.Feature', 'Enable / Disable the migrated countries page.', 'Admin.Advparameters.Help', 0, 'beta'),
     ('state', 'States', 'Admin.Advparameters.Feature', 'Enable / Disable the migrated states page.', 'Admin.Advparameters.Help', 0, 'beta'),
-    ('carrier', 'Carriers', 'Admin.Advparameters.Feature', 'Enable / Disable the migrated carriers page.', 'Admin.Advparameters.Help', 0, 'beta'),
-    ('title', 'Titles', 'Admin.Advparameters.Feature', 'Enable / Disable the migrated titles page.', 'Admin.Advparameters.Help', 0, 'beta'),
+    ('carrier', 'Carriers', 'Admin.Advparameters.Feature', 'Enable / Disable the migrated carriers page.', 'Admin.Advparameters.Help', 0, 'stable'),
     ('permission', 'Permissions', 'Admin.Advparameters.Feature', 'Enable / Disable the migrated permissions page.', 'Admin.Advparameters.Help', 0, 'beta'),
     ('tax_rules_group', 'Tax rule groups', 'Admin.Advparameters.Feature', 'Enable / Disable the migrated tax rules page.', 'Admin.Advparameters.Help', 0, 'beta'),
-    ('customer_threads', 'Customer threads', 'Admin.Advparameters.Feature', 'Enable / Disable the migrated customer threads page.', 'Admin.Advparameters.Help', 0, 'beta'),
-    ('order_state', 'Order states', 'Admin.Advparameters.Feature', 'Enable / Disable the migrated order states page.', 'Admin.Advparameters.Help', 0, 'beta');
+    ('customer_threads', 'Customer threads', 'Admin.Advparameters.Feature', 'Enable / Disable the migrated customer threads page.', 'Admin.Advparameters.Help', 0, 'beta');
 
 /* 8.2.0 */
 INSERT INTO `PREFIX_hook` (`name`, `title`, `description`, `position`) VALUES

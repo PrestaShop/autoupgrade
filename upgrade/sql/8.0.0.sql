@@ -187,7 +187,6 @@ INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`
   (NULL, 'actionFilterDeliveryOptionList','Modify delivery option list result','This hook allows you to modify delivery option list', '1'),
   (NULL, 'actionGetAdminToolbarButtons','Allows to add buttons in any toolbar in the back office','This hook allows you to define descriptions of buttons to add in any toolbar of the back office', '1'),
   (NULL, 'actionListModules','Add modules to the module manager list','This hook allows you to add modules to the list of modules displayed in the module manager page', '1'),
-  (NULL, 'actionValidateOrderAfter','After validating an order','This hook is called after validating an order by core', '1'),
   (NULL, 'displayBackOfficeEmployeeMenu','Administration Employee menu','This hook is displayed in the employee menu', '1'),
   (NULL, 'displayEmptyModuleCategoryExtraMessage','Extra message to display for an empty modules category','This hook allows to add an extra message to display in the Module manager page when a category does not have any module', '1'),
   (NULL, 'actionStateGridPresenterModifier','Modify state grid template data','This hook allows to modify data which is about to be used in template for state grid', '1'),
