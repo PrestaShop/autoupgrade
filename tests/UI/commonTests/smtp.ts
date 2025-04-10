@@ -25,7 +25,7 @@ import {
 } from '@prestashop-core/ui-testing';
 
 import {
-  test, expect,
+  test, expect, Page,
 } from '@playwright/test';
 
 const {smtpServer, smtpPort} = {
@@ -36,38 +36,36 @@ const {smtpServer, smtpPort} = {
 /**
  * Setup SMTP configuration
  */
-const setupSmtpConfigTest = ():void => {
-  test('PRE-TEST: Setup SMTP config', async ({page}) => {
-    await test.step('should login in BO', async () => {
-      await boLoginPage.goTo(page, global.BO.URL);
-      await boLoginPage.successLogin(page, global.BO.EMAIL, global.BO.PASSWD);
+const setupSmtpConfigTest = async (page: Page): Promise<void> => {
+  await test.step('should login in BO', async () => {
+    await boLoginPage.goTo(page, global.BO.URL);
+    await boLoginPage.successLogin(page, global.BO.EMAIL, global.BO.PASSWD);
 
-      const pageTitle = await boDashboardPage.getPageTitle(page);
-      expect(pageTitle).toContain(boDashboardPage.pageTitle);
-    });
+    const pageTitle = await boDashboardPage.getPageTitle(page);
+    expect(pageTitle).toContain(boDashboardPage.pageTitle);
+  });
 
-    await test.step('should go to \'Advanced Parameters > E-mail\' page', async () => {
-      await boDashboardPage.goToSubMenu(
-        page,
-        boDashboardPage.advancedParametersLink,
-        boDashboardPage.emailLink,
-      );
-      await boEmailPage.closeSfToolBar(page);
+  await test.step('should go to \'Advanced Parameters > E-mail\' page', async () => {
+    await boDashboardPage.goToSubMenu(
+      page,
+      boDashboardPage.advancedParametersLink,
+      boDashboardPage.emailLink,
+    );
+    await boEmailPage.closeSfToolBar(page);
 
-      const pageTitle = await boEmailPage.getPageTitle(page);
-      expect(pageTitle).toContain(boEmailPage.pageTitle);
-    });
+    const pageTitle = await boEmailPage.getPageTitle(page);
+    expect(pageTitle).toContain(boEmailPage.pageTitle);
+  });
 
-    await test.step('should fill the smtp parameters form fields', async () => {
-      const alertSuccessMessage = await boEmailPage.setupSmtpParameters(
-        page,
-        smtpServer,
-        dataCustomers.johnDoe.email,
-        dataCustomers.johnDoe.password,
-        smtpPort.toString(),
-      );
-      expect(alertSuccessMessage).toContain(boEmailPage.successfulUpdateMessage);
-    });
+  await test.step('should fill the smtp parameters form fields', async () => {
+    const alertSuccessMessage = await boEmailPage.setupSmtpParameters(
+      page,
+      smtpServer,
+      dataCustomers.johnDoe.email,
+      dataCustomers.johnDoe.password,
+      smtpPort.toString(),
+    );
+    expect(alertSuccessMessage).toContain(boEmailPage.successfulUpdateMessage);
   });
 };
 
