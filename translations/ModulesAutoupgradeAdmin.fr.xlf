@@ -604,9 +604,9 @@
         <target state="final">Nous n'avons pas pu vérifier votre compatibilité PHP avec PrestaShop %s.</target>
         <note>classes/UpgradeSelfCheck.php:363</note>
       </trans-unit>
-      <trans-unit id="b931000d0edc9aa4941f7dee725bf723">
+      <trans-unit id="b931000d0edc9aa4941f7dee725bf723" approved="yes">
         <source>Some core files have been altered or removed. Any changes made to these files may be overwritten during the update. [1]See the list of changes[/1].</source>
-        <target state="needs-translation">Some core files have been altered or removed. Any changes made to these files may be overwritten during the update. [1]See the list of changes[/1].</target>
+        <target state="final">Certains fichiers du core ont été modifiés ou supprimés. Toute modification apportée à ces fichiers peut être écrasée lors de la mise à jour. [1]Voir la liste des modifications.[/1].</target>
         <note>classes/UpgradeSelfCheck.php:374</note>
       </trans-unit>
       <trans-unit id="427da216e71ba0cd2ce8f0cc71fa7943" approved="yes">
@@ -614,9 +614,9 @@
         <target state="final">Certains fichiers du core ont été modifiés ou supprimés. Toute modification apportée à ces fichiers peut être écrasée lors de la mise à jour.</target>
         <note>classes/UpgradeSelfCheck.php:376</note>
       </trans-unit>
-      <trans-unit id="5b42ef8b92485316d4af646da0abf22f">
+      <trans-unit id="5b42ef8b92485316d4af646da0abf22f" approved="yes">
         <source>Some theme files have been altered or removed. Any changes made to these files may be overwritten during the update. [1]See the list of changes[/1].</source>
-        <target state="needs-translation">Some theme files have been altered or removed. Any changes made to these files may be overwritten during the update. [1]See the list of changes[/1].</target>
+        <target state="final">Certains fichiers du thème ont été modifiés ou supprimés. Toute modification apportée à ces fichiers peut être écrasée lors de la mise à jour. [1]Voir la liste des modifications.[/1].</target>
         <note>classes/UpgradeSelfCheck.php:389</note>
       </trans-unit>
       <trans-unit id="77e552478a3a1c92107ccae8722476a3" approved="yes">
@@ -624,9 +624,9 @@
         <target state="final">Certains fichiers du thème ont été modifiés ou supprimés. Toute modification apportée à ces fichiers peut être écrasée lors de la mise à jour.</target>
         <note>classes/UpgradeSelfCheck.php:391</note>
       </trans-unit>
-      <trans-unit id="d56247f7a1c66e65f265b936b6d26dd9">
+      <trans-unit id="d56247f7a1c66e65f265b936b6d26dd9" approved="yes">
         <source>We were unable to fetch missing or altered files. In these conditions, your store cannot be updated to avoid any further bugs.</source>
-        <target state="needs-translation">We were unable to fetch missing or altered files. In these conditions, your store cannot be updated to avoid any further bugs.</target>
+        <target state="final">Nous n'avons pas pu récupérer les fichiers manquants ou modifiés. Dans ces conditions et afin d'éviter d'autres bugs, votre boutique ne peut pas être mise à jour.</target>
         <note>classes/UpgradeSelfCheck.php:400</note>
       </trans-unit>
       <trans-unit id="5ae505096414401ddbb2affa6620a869" approved="yes">
@@ -749,9 +749,9 @@
         <target state="final">L'action %s a été ignorée</target>
         <note>classes/Task/AbstractTask.php:152</note>
       </trans-unit>
-      <trans-unit id="1c041a27877f172964552beef6c228e6">
+      <trans-unit id="1c041a27877f172964552beef6c228e6" approved="yes">
         <source>Unknown configuration key '%s', Ignoring.</source>
-        <target state="needs-translation">Unknown configuration key '%s', Ignoring.</target>
+        <target state="final">Clé de configuration inconnue '%s', ignorée.</target>
         <note>classes/Task/Miscellaneous/UpdateConfig.php:59</note>
       </trans-unit>
       <trans-unit id="d70699057bcd09b03129da2391b47d67" approved="yes">
@@ -794,9 +794,9 @@
         <target state="final">La sauvegarde de la base de données est vide.</target>
         <note>classes/Task/Restore/RestoreDatabase.php:191</note>
       </trans-unit>
-      <trans-unit id="d34a47950a4648f312fd84a843b190b2">
+      <trans-unit id="d34a47950a4648f312fd84a843b190b2" approved="yes">
         <source>No tables matching the prefix "%s" were found in the database.</source>
-        <target state="needs-translation">No tables matching the prefix "%s" were found in the database.</target>
+        <target state="final">Aucune table correspondant au préfixe «%s» n'a été trouvée dans la base de données.</target>
         <note>classes/Task/Restore/RestoreDatabase.php:218</note>
       </trans-unit>
       <trans-unit id="222102295c3c6626ff141687b0f49b6b" approved="yes">
@@ -899,9 +899,9 @@
         <target state="final">Erreur lors de la tentative de mise à jour du fichier %s.</target>
         <note>classes/Task/Update/UpdateFiles.php:83</note>
       </trans-unit>
-      <trans-unit id="7d2bf6e31c66674c961484ef8be451cd">
+      <trans-unit id="7d2bf6e31c66674c961484ef8be451cd" approved="yes">
         <source>Error when trying to update link %s.</source>
-        <target state="needs-translation">Error when trying to update link %s.</target>
+        <target state="final">Erreur lors de la tentative de mise à jour du lien %s.</target>
         <note>classes/Task/Update/UpdateFiles.php:92</note>
       </trans-unit>
       <trans-unit id="13c5f7e7473980468149551b4df7da8c" approved="yes">
@@ -954,9 +954,9 @@
         <target state="final">Erreur lors de la copie du fichier %s : %s</target>
         <note>classes/Task/Update/UpdateFiles.php:188</note>
       </trans-unit>
-      <trans-unit id="806d4247967402b8667340da2916cf4c">
+      <trans-unit id="806d4247967402b8667340da2916cf4c" approved="yes">
         <source>Created link %s to %s.</source>
-        <target state="needs-translation">Created link %s to %s.</target>
+        <target state="final">Lien créé %s vers %s.</target>
         <note>classes/Task/Update/UpdateFiles.php:217</note>
       </trans-unit>
       <trans-unit id="20aed4fb9f6ee15bc601227bbfb85acd" approved="yes">
@@ -1415,9 +1415,9 @@
         <target state="final">Aucun fichier de sauvegarde trouvé sur votre boutique.</target>
         <note>views/templates/steps/home.html.twig:46</note>
       </trans-unit>
-      <trans-unit id="be11c74c1dd7f307bb80183a90dc2067">
+      <trans-unit id="be11c74c1dd7f307bb80183a90dc2067" approved="yes">
         <source>Get started</source>
-        <target state="needs-translation">Get started</target>
+        <target state="final">Commencer</target>
         <note>views/templates/steps/home.html.twig:56</note>
       </trans-unit>
       <trans-unit id="201ad8cac531a92e1ec77ae5c1e7aa20" approved="yes">
@@ -1755,9 +1755,9 @@
         <target state="final">Progression de {progress_percentage}%</target>
         <note>views/templates/components/progress-bar.html.twig:22</note>
       </trans-unit>
-      <trans-unit id="c810616e41e5c7d30bf8bfd118405833">
+      <trans-unit id="c810616e41e5c7d30bf8bfd118405833" approved="yes">
         <source>The maximum version of PrestaShop to which you can update your store, based on its PHP version.</source>
-        <target state="needs-translation">The maximum version of PrestaShop to which you can update your store, based on its PHP version.</target>
+        <target state="final">La version maximale de PrestaShop vers laquelle vous pouvez mettre à jour votre boutique, en fonction de sa version PHP.</target>
         <note>views/templates/components/radio-card-online.html.twig:25</note>
       </trans-unit>
       <trans-unit id="b9d4e763594017af5b607eb9e0034299" approved="yes">
@@ -1865,24 +1865,24 @@
         <target state="final">Non</target>
         <note>views/templates/components/render-switch.html.twig:38</note>
       </trans-unit>
-      <trans-unit id="c5bc1e392726aeee07f7da54da693536">
+      <trans-unit id="c5bc1e392726aeee07f7da54da693536" approved="yes">
         <source>New available Patch</source>
-        <target state="needs-translation">New available Patch</target>
+        <target state="final">Nouvelle version patch disponible</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:24</note>
       </trans-unit>
-      <trans-unit id="caff5b924cb41f48bb4b867e8e7b8e96">
+      <trans-unit id="caff5b924cb41f48bb4b867e8e7b8e96" approved="yes">
         <source>New available Minor</source>
-        <target state="needs-translation">New available Minor</target>
+        <target state="final">Nouvelle version mineure disponible</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:26</note>
       </trans-unit>
-      <trans-unit id="c46ec0404f781b06ef3829d92c42c307">
+      <trans-unit id="c46ec0404f781b06ef3829d92c42c307" approved="yes">
         <source>New available Major</source>
-        <target state="needs-translation">New available Major</target>
+        <target state="final">Nouvelle version majeure disponible</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:28</note>
       </trans-unit>
-      <trans-unit id="d9efef68765c7b7800b682c5c6db1701">
+      <trans-unit id="d9efef68765c7b7800b682c5c6db1701" approved="yes">
         <source>New features are available</source>
-        <target state="needs-translation">New features are available</target>
+        <target state="final">De nouvelles fonctionnalités sont disponibles</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:33</note>
       </trans-unit>
       <trans-unit id="b5a7adde1af5c87d7fd797b6245c2a39" approved="yes">
@@ -1890,84 +1890,84 @@
         <target state="final">Description</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:41</note>
       </trans-unit>
-      <trans-unit id="e4db438a6d6be2f031b9249d55b69316">
+      <trans-unit id="e4db438a6d6be2f031b9249d55b69316" approved="yes">
         <source>Patches are fixes made between major and minor versions. They introduce security and bug fixes.</source>
-        <target state="needs-translation">Patches are fixes made between major and minor versions. They introduce security and bug fixes.</target>
+        <target state="final">Les versions Patch sont des correctifs faits entre les versions majeures et mineures, qui introduisent des éléments de sécurité et des corrections de bogues.</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:46</note>
       </trans-unit>
-      <trans-unit id="31ee024917b3be58355bbd3fbcb2eedd">
+      <trans-unit id="31ee024917b3be58355bbd3fbcb2eedd" approved="yes">
         <source>The minor releases introduce new backward-compatible features, security improvements and bug fixes.</source>
-        <target state="needs-translation">The minor releases introduce new backward-compatible features, security improvements and bug fixes.</target>
+        <target state="final">Les versions mineures introduisent de nouvelles fonctionnalités rétrocompatibles, des améliorations de sécurité et des corrections de bogues.</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:48</note>
       </trans-unit>
-      <trans-unit id="562beba5e4769e797787408ae01e84f8">
+      <trans-unit id="562beba5e4769e797787408ae01e84f8" approved="yes">
         <source>Major releases introduce new features that may break backward compatibility, as well as new backward-compatible features and bug fixes.</source>
-        <target state="needs-translation">Major releases introduce new features that may break backward compatibility, as well as new backward-compatible features and bug fixes.</target>
+        <target state="final">Les versions majeures introduisent de nouvelles fonctionnalités susceptibles de rompre la compatibilité descendante, ainsi que de nouvelles fonctionnalités rétrocompatibles et des corrections de bogues.</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:50</note>
       </trans-unit>
-      <trans-unit id="4923b1e1acea9d8d68e8341fc9191065">
+      <trans-unit id="4923b1e1acea9d8d68e8341fc9191065" approved="yes">
         <source>See the update</source>
-        <target state="needs-translation">See the update</target>
+        <target state="final">Voir la mise à jour</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:52</note>
       </trans-unit>
-      <trans-unit id="34b6cd75171affba6957e308dcbd92be">
+      <trans-unit id="34b6cd75171affba6957e308dcbd92be" approved="yes">
         <source>Version</source>
-        <target state="needs-translation">Version</target>
+        <target state="final">Version</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:58</note>
       </trans-unit>
-      <trans-unit id="65842a77c93adc909117aa8bcd9cba60">
+      <trans-unit id="65842a77c93adc909117aa8bcd9cba60" approved="yes">
         <source>Type of improvements</source>
-        <target state="needs-translation">Type of improvements</target>
+        <target state="final">Type d'améliorations</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:68</note>
       </trans-unit>
-      <trans-unit id="fc95fedb22471990ecb3afbc23badc4a">
+      <trans-unit id="fc95fedb22471990ecb3afbc23badc4a" approved="yes">
         <source>Bugs, security patches</source>
-        <target state="needs-translation">Bugs, security patches</target>
+        <target state="final">Bugs, correctifs de sécurité</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:73</note>
       </trans-unit>
-      <trans-unit id="a85e49f0a0baeee147f21c2ab87d0d41">
+      <trans-unit id="a85e49f0a0baeee147f21c2ab87d0d41" approved="yes">
         <source>Bugs, security patches, new features</source>
-        <target state="needs-translation">Bugs, security patches, new features</target>
+        <target state="final">Bugs, correctifs de sécurité, nouvelles fonctionnalités</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:75</note>
       </trans-unit>
-      <trans-unit id="b6d5d804eba0eb1e3eba27e2b231ed24">
+      <trans-unit id="b6d5d804eba0eb1e3eba27e2b231ed24" approved="yes">
         <source>New features, Improvements to existing features, Security and bug fixes</source>
-        <target state="needs-translation">New features, Improvements to existing features, Security and bug fixes</target>
+        <target state="final">Nouvelles fonctionnalités, améliorations des fonctionnalités existantes, sécurité et corrections de bugs</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:77</note>
       </trans-unit>
-      <trans-unit id="4bd9ef088a14b5f6fd9ef86e6f33037f">
+      <trans-unit id="4bd9ef088a14b5f6fd9ef86e6f33037f" approved="yes">
         <source>Need help?</source>
-        <target state="needs-translation">Need help?</target>
+        <target state="final">Besoin d'aide?</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:84</note>
       </trans-unit>
-      <trans-unit id="88b6873bad2a00d2ccc5ffb60098bf31">
-        <source>If you're having trouble performing the update, our experts can help!</source>
-        <target state="needs-translation">If you're having trouble performing the update, our experts can help!</target>
+      <trans-unit id="5abe12fb2b39a8244449ecae60f0c77f">
+        <source>If you're having trouble performing the update, consider seeking help from the community or a qualified developer.</source>
+        <target state="needs-translation">If you're having trouble performing the update, consider seeking help from the community or a qualified developer.</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:88</note>
       </trans-unit>
-      <trans-unit id="994a3ae394af1da6734ab785ca93f17f">
-        <source>Contact an expert</source>
-        <target state="needs-translation">Contact an expert</target>
+      <trans-unit id="c4a3e4914cdb81cab8c515737d2bc38a">
+        <source>Find Support</source>
+        <target state="needs-translation">Find Support</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:89</note>
       </trans-unit>
-      <trans-unit id="7a4f0d12efdf9db50039b22cad69d84e">
+      <trans-unit id="7a4f0d12efdf9db50039b22cad69d84e" approved="yes">
         <source>Remind me later</source>
-        <target state="needs-translation">Remind me later</target>
+        <target state="final">Me le rappeler plus tard</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:97</note>
       </trans-unit>
-      <trans-unit id="cb8f14fd3a41cfe1236a3c6b90077ca0">
+      <trans-unit id="cb8f14fd3a41cfe1236a3c6b90077ca0" approved="yes">
         <source>7 days</source>
-        <target state="needs-translation">7 days</target>
+        <target state="final">7 jours</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:101</note>
       </trans-unit>
-      <trans-unit id="947d8520f04473da621f2718138f3bc6">
+      <trans-unit id="947d8520f04473da621f2718138f3bc6" approved="yes">
         <source>30 days</source>
-        <target state="needs-translation">30 days</target>
+        <target state="final">30 jours</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:104</note>
       </trans-unit>
-      <trans-unit id="a8edf9d8efdf30be6c6473396b947301">
+      <trans-unit id="a8edf9d8efdf30be6c6473396b947301" approved="yes">
         <source>Until the next version</source>
-        <target state="needs-translation">Until the next version</target>
+        <target state="final">Jusqu'à la prochaine version</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:107</note>
       </trans-unit>
     </body>
