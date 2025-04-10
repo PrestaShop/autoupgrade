@@ -143,20 +143,42 @@ $media-query-mobile: 992px;
 
     &__buttons {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, auto));
       gap: 1rem;
+      align-items: stretch;
     }
 
     &__button {
       width: 100%;
+      height: 100%;
       text-transform: none;
     }
   }
 
-  &.v1-7-8-0,
-  &.v1-7-3-0 {
+  &.v1-7-8-0 {
     #{$e} {
       --#{$ua-prefix}dialog-badge-background-color: var(--#{$ua-prefix}primary);
+    }
+  }
+
+  &.v1-7-3-0 {
+    #{$e} {
+      --#{$ua-prefix}dialog-badge-background-color: #25b9d7;
+      border-radius: 0;
+
+      @at-root {
+        // CSS class to identify legacy BO themes
+        .ps_back-office {
+          #{$notification-id} {
+            &.v1-7-3-0 {
+              #{$e} {
+                --#{$ua-prefix}dialog-badge-background-color: var(--#{$ua-prefix}primary);
+                border-radius: var(--#{$ua-prefix}border-radius);
+              }
+            }
+          }
+        }
+      }
     }
   }
 

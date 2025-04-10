@@ -1,0 +1,169 @@
+/**
+ * Copyright since 2007 PrestaShop SA and Contributors
+ * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License version 3.0
+ * that is bundled with this package in the file LICENSE.md.
+ * It is also available through the world-wide-web at this URL:
+ * https://opensource.org/licenses/AFL-3.0
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@prestashop.com so we can send you a copy immediately.
+ *
+ * @author    PrestaShop SA and Contributors <contact@prestashop.com>
+ * @copyright Since 2007 PrestaShop SA and Contributors
+ * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
+ */
+@use "../../variables" as *;
+
+$notification-id: "#update_assistant_notification";
+$e: ".dropdown";
+
+#{$notification-id} {
+  #{$e} {
+    --#{$ua-prefix}dropdown-menu-border-color: 0;
+    --#{$ua-prefix}dropdown-menu-box-shadow: var(--#{$ua-prefix}box-shadow-md);
+    --#{$ua-prefix}dropdown-menu-item-color: var(--#{$ua-prefix}primary-800);
+    --#{$ua-prefix}dropdown-menu-item-color-hover: var(--#{$ua-prefix}primary);
+    --#{$ua-prefix}dropdown-menu-item-background-color-hover: var(--#{$ua-prefix}primary-200);
+
+    &.open,
+    &.show {
+      #{$e}-toggle {
+        &::after {
+          transform: rotate(0.5turn);
+        }
+      }
+    }
+
+    &-menu {
+      min-width: 100%;
+      margin-block: 0 0.125rem;
+      border: var(--#{$ua-prefix}dropdown-menu-border-color);
+      box-shadow: var(--#{$ua-prefix}dropdown-menu-box-shadow);
+    }
+
+    &-toggle {
+      display: inline-flex;
+      gap: 0.5rem;
+      align-items: center;
+      justify-content: space-between;
+      padding-inline: 1rem;
+      text-align: left;
+
+      &::after {
+        content: "\e5ce";
+        margin: 0;
+        font-family: var(--#{$ua-prefix}font-family-material-icons);
+        font-size: 1.25rem;
+        font-weight: 400;
+        line-height: 0;
+        transition: transform var(--#{$ua-prefix}default-transition-duration);
+      }
+    }
+
+    &-item {
+      display: block;
+      width: 100%;
+      padding: 0.375rem 1rem;
+      clear: both;
+      background-color: transparent;
+      border: 0;
+      font-size: 0.875rem;
+      font-weight: 400;
+      line-height: 1.25rem;
+      color: var(--#{$ua-prefix}dropdown-menu-item-color);
+      text-align: inherit;
+      text-decoration: none;
+      white-space: nowrap;
+      cursor: pointer;
+
+      &:hover {
+        background-color: var(--#{$ua-prefix}dropdown-menu-item-background-color-hover);
+        color: var(--#{$ua-prefix}dropdown-menu-item-color-hover);
+      }
+    }
+  }
+
+  // Unified UI accross versions and BO themes
+  &.v1-7-8-0 {
+    #{$e} {
+      --#{$ua-prefix}dropdown-menu-border-color: 1px solid #b3c7cd;
+      --#{$ua-prefix}dropdown-menu-box-shadow: 1px 1px 2px 0 rgb(0 0 0 / 0.3);
+      --#{$ua-prefix}dropdown-menu-item-color: #576c72;
+      --#{$ua-prefix}dropdown-menu-item-color-hover: var(--#{$ua-prefix}primary);
+      --#{$ua-prefix}dropdown-menu-item-background-color-hover: #f4fcfd;
+
+      &.open,
+      &.show {
+        #{$e}-toggle {
+          &:focus {
+            color: var(--#{$ua-prefix}white);
+          }
+        }
+      }
+
+      &.show {
+        #{$e}-toggle {
+          color: var(--#{$ua-prefix}white);
+        }
+      }
+
+      &-menu {
+        padding: 1px 0;
+        border-radius: 0.25rem;
+      }
+
+      &-item {
+        padding: 0.438rem 1rem 0.438rem 0.938rem;
+        line-height: inherit;
+
+        &:first-child {
+          border-start-start-radius: 0.1875rem;
+          border-start-end-radius: 0.1875rem;
+        }
+
+        &:last-child {
+          border-end-start-radius: 0.1875rem;
+          border-end-end-radius: 0.1875rem;
+        }
+      }
+    }
+  }
+
+  &.v1-7-3-0 {
+    #{$e} {
+      --#{$ua-prefix}dropdown-menu-border-color: 1px solid #bbcdd2;
+      --#{$ua-prefix}dropdown-menu-box-shadow: 1px 1px 2px 0 rgb(0 0 0 / 0.3);
+      --#{$ua-prefix}dropdown-menu-item-color: #576c72;
+      --#{$ua-prefix}dropdown-menu-item-color-hover: var(--#{$ua-prefix}white);
+      --#{$ua-prefix}dropdown-menu-item-background-color-hover: #25b9d7;
+
+      &-menu {
+        padding: 0.3125rem 0;
+      }
+
+      &-item {
+        line-height: inherit;
+      }
+
+      @at-root {
+        // CSS class to identify legacy BO themes
+        .ps_back-office {
+          #{$notification-id} {
+            &.v1-7-3-0 {
+              #{$e} {
+                --#{$ua-prefix}dropdown-menu-box-shadow: 0 6px 12px rgb(0 0 0 / 0.175);
+                --#{$ua-prefix}dropdown-menu-item-background-color-hover: var(
+                  --#{$ua-prefix}primary
+                );
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

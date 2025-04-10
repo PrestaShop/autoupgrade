@@ -60,6 +60,10 @@ $cdk-prefix: "cdk-";
     --#{$cdk-prefix}box-shadow-pop-modal,
     0 12px 24px rgb(0 0 0 / 0.1)
   );
+  --#{$ua-prefix}box-shadow-md: var(
+    --#{$cdk-prefix}box-shadow-md,
+    0 4px 6px -1px rgb(29 29 27 / 0.2)
+  );
   --#{$ua-prefix}required-color: var(--#{$ua-prefix}red-500);
   --#{$ua-prefix}primary: var(--#{$ua-prefix}primary-800);
   --#{$ua-prefix}primary-hover: var(--#{$ua-prefix}primary-700);
