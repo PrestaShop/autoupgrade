@@ -124,6 +124,7 @@ export default defineConfig({
   use: {
     /* Capture screenshot after each test failure */
     screenshot: 'only-on-failure',
+    viewport: { width: 1920, height: 1080 },
   },
 
   /* Configure projects for major browsers */
@@ -131,13 +132,7 @@ export default defineConfig({
     {
       name: 'chromium',
       use: {
-        ...devices['Desktop Chrome'],
-        contextOptions: {
-          screen: {
-            width: 1680,
-            height: 900,
-          },
-        },
+        browserName: 'chromium',
       },
     },
   ],
