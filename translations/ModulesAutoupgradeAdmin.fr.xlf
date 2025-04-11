@@ -1425,9 +1425,9 @@
         <target state="final">Post-mise à jour checklist</target>
         <note>views/templates/steps/post-update.html.twig:24</note>
       </trans-unit>
-      <trans-unit id="91aac5a444c7ad75c9adad01b3253de8" approved="yes">
-        <source>Your store is up to date</source>
-        <target state="final">Votre boutique est à jour</target>
+      <trans-unit id="fbbbd71f71ee845a88d3c1f91a225c27">
+        <source>Your store has been updated to PrestaShop version %version%</source>
+        <target state="needs-translation">Your store has been updated to PrestaShop version %version%</target>
         <note>views/templates/steps/post-update.html.twig:30</note>
       </trans-unit>
       <trans-unit id="82460737463ae4ea8d57b1bc7a1997ac" approved="yes">
