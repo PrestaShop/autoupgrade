@@ -27,7 +27,7 @@ import type {
   GlobalMaildevConfig,
   GlobalKeycloakConfig,
 } from '@prestashop-core/ui-testing';
-/* eslint-disable vars-on-top, no-var */
+/* eslint-disable no-var */
 declare global {
   var INSTALL: GlobalInstall;
   var URLHasPort: boolean;
@@ -35,7 +35,6 @@ declare global {
   var BO: GlobalBO;
   var PSConfig: GlobalPSConfig;
   var BROWSER: GlobalBrowserConfig;
-  var GENERATE_FAILED_STEPS: any;
   var SCREENSHOT: GlobalScreenshot;
   var maildevConfig: GlobalMaildevConfig;
   var keycloakConfig: GlobalKeycloakConfig;
