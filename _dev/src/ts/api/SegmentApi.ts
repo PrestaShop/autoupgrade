@@ -40,8 +40,8 @@ class Analytics {
    * @param {object} [properties] - Optional properties to include with the event.
    * @description Tracks an event with optional properties.
    */
-  public track = (event: string, properties?: object) => {
-    this.analytics.track(
+  public track = async (event: string, properties?: object) => {
+    await this.analytics.track(
       event,
       {
         module: 'autoupgrade',

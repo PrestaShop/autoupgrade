@@ -95,11 +95,11 @@ export default class UpdateNotificationDialog implements DomLifecycle {
 
       if (submitButton.value) {
         Object.assign(params, { value: submitButton.value });
-        analytics.track('[SUE] Update modal snoozed', {
+        await analytics.track('[SUE] Update modal snoozed', {
           representation_delay: submitButton.value
         });
       } else {
-        analytics.track('[SUE] Update module opened following modal display');
+        await analytics.track('[SUE] Update module opened following modal display');
       }
 
       const response = await api.post('', null, {
