@@ -38,7 +38,7 @@
     },
     "dependencies": {
         "@playwright/test": "^1.44.0",
-        "@prestashop-core/ui-testing": "https://github.com/PrestaShop/ui-testing-library#main",
+        "@prestashop-core/ui-testing": "https://github.com/PrestaShop/ui-testing-library#pull/523/head",
         "dotenv": "^16.3.1",
         "maildev": "^2.2.1",
         "mysql2": "^3.10.0",
