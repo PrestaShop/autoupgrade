@@ -169,6 +169,10 @@ class RoutesConfig
                 'controller' => UpdatePagePostUpdateController::class,
                 'method' => 'step',
             ],
+            Routes::UPDATE_STEP_POST_UPDATE_CONFIRM_MODULE_MANAGER_DIALOG => [
+                'controller' => UpdatePagePostUpdateController::class,
+                'method' => 'confirmModuleManagerDialog',
+            ],
             /* RESTORE PAGE */
             /* step: backup selection */
             Routes::RESTORE_PAGE_BACKUP_SELECTION => [
