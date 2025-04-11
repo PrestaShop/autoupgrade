@@ -52,7 +52,7 @@ export default class UpdatePagePostUpdate extends StepPage {
   get #dialogConfirmModuleManagerLink(): HTMLAnchorElement {
     const link = document.getElementById('dialog-confirm-module-manager-link');
     if (!link) {
-      throw new Error('Dialog trigger link not found');
+      throw new Error('Dialog trigger link ID was not found');
     }
     return link as HTMLAnchorElement;
   }  

@@ -77,8 +77,8 @@ class UpdatePagePostUpdateController extends AbstractPageWithStepController
 
     public function confirmModuleManagerDialog(): JsonResponse
     {
-        $adminPath = $this->upgradeContainer->getUrlGenerator()->getShopAdminAbsolutePathFromRequest($this->request);
-        $moduleManagerLink = $adminPath . '/index.php?controller=AdminLogin&redirect=AdminModules';
+        $this->upgradeContainer->initPrestaShopCore();
+        $moduleManagerLink = Context::getContext()->link->getAdminLink('AdminModules');
 
         return AjaxResponseBuilder::hydrationResponse(
             PageSelectors::DIALOG_PARENT_ID,
