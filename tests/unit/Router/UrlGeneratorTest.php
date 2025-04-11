@@ -28,9 +28,8 @@ class UrlGeneratorTest extends TestCase
 
     protected function setUp()
     {
-        $shopBasePath = '/yo/doge';
-        $adminPath = 'wololo';
-        $this->urlGenerator = new UrlGenerator($shopBasePath, $adminPath);
+        $adminPath = 'admin-wololo';
+        $this->urlGenerator = new UrlGenerator($adminPath);
     }
 
     public function testGetShopUrlReturnsUrl()
@@ -47,12 +46,12 @@ class UrlGeneratorTest extends TestCase
         $request = new Request([], [], [], [], [], $server);
 
         $expectedAbsoluteUrlPathToShop = '/';
-        $expectedAbsoluteUrlPathToAdmin = '/wololo';
+        $expectedAbsoluteUrlPathToAdmin = '/admin-wololo';
         $this->assertSame($expectedAbsoluteUrlPathToShop, $this->urlGenerator->getShopAbsolutePathFromRequest($request));
         $this->assertSame($expectedAbsoluteUrlPathToAdmin, $this->urlGenerator->getShopAdminAbsolutePathFromRequest($request));
     }
 
-    public function testGetShopUrlReturnsUrlWithShopInSubFolder()
+    public function testUrlWithShopInSubFolder()
     {
         $server = [
             'HTTP_HOST' => 'localhost',
@@ -66,12 +65,32 @@ class UrlGeneratorTest extends TestCase
         $request = new Request([], [], [], [], [], $server);
 
         $expectedAbsoluteUrlPathToShop = '/hello-world';
-        $expectedAbsoluteUrlPathToAdmin = '/hello-world/wololo';
+        $expectedAbsoluteUrlPathToAdmin = '/hello-world/admin-wololo';
         $this->assertSame($expectedAbsoluteUrlPathToShop, $this->urlGenerator->getShopAbsolutePathFromRequest($request));
         $this->assertSame($expectedAbsoluteUrlPathToAdmin, $this->urlGenerator->getShopAdminAbsolutePathFromRequest($request));
     }
 
-    public function testGetShopUrlReturnsUrlWithCustomEntrypoint()
+    public function testUrlWithShopInSubFolderBehindSymbolicLink()
+    {
+        $server = [
+            'HTTP_HOST' => 'localhost',
+            'SERVER_PORT' => '80',
+            'QUERY_STRING' => 'controller=AdminSelfUpgrade&token=0fbeae3341a7e5f5f3fdc901f783271d',
+            'PHP_SELF' => '/PrestaShop-zip/admin-wololo/index.php',
+            // Script filepath could be different if the root shop is behind a symlink
+            'SCRIPT_FILENAME' => '/var/www/html/PrestaShop-zip/admin-wololo/index.php',
+            'REQUEST_URI' => '/PrestaShop-zip/admin-wololo/index.php?controller=AdminSelfUpgrade&token=0fbeae3341a7e5f5f3fdc901f783271d',
+        ];
+
+        $request = new Request([], [], [], [], [], $server);
+
+        $expectedAbsoluteUrlPathToShop = '/PrestaShop-zip';
+        $expectedAbsoluteUrlPathToAdmin = '/PrestaShop-zip/admin-wololo';
+        $this->assertSame($expectedAbsoluteUrlPathToShop, $this->urlGenerator->getShopAbsolutePathFromRequest($request));
+        $this->assertSame($expectedAbsoluteUrlPathToAdmin, $this->urlGenerator->getShopAdminAbsolutePathFromRequest($request));
+    }
+
+    public function testUrlWithCustomEntrypoint()
     {
         $server = [
             'HTTP_HOST' => 'localhost',
@@ -85,12 +104,12 @@ class UrlGeneratorTest extends TestCase
         $request = new Request([], [], [], [], [], $server);
 
         $expectedAbsoluteUrlPathToShop = '/';
-        $expectedAbsoluteUrlPathToAdmin = '/wololo';
+        $expectedAbsoluteUrlPathToAdmin = '/admin-wololo';
         $this->assertSame($expectedAbsoluteUrlPathToShop, $this->urlGenerator->getShopAbsolutePathFromRequest($request));
         $this->assertSame($expectedAbsoluteUrlPathToAdmin, $this->urlGenerator->getShopAdminAbsolutePathFromRequest($request));
     }
 
-    public function testGetShopUrlReturnsUrlWithShopInSubFolderAndParams()
+    public function testUrlWithShopInSubFolderAndParams()
     {
         $server = [
             'HTTP_HOST' => 'localhost',
@@ -104,7 +123,7 @@ class UrlGeneratorTest extends TestCase
         $request = new Request([], [], [], [], [], $server);
 
         $expectedAbsoluteUrlPathToShop = '/hello-world';
-        $expectedAbsoluteUrlPathToAdmin = '/hello-world/wololo';
+        $expectedAbsoluteUrlPathToAdmin = '/hello-world/admin-wololo';
         $this->assertSame($expectedAbsoluteUrlPathToShop, $this->urlGenerator->getShopAbsolutePathFromRequest($request));
         $this->assertSame($expectedAbsoluteUrlPathToAdmin, $this->urlGenerator->getShopAdminAbsolutePathFromRequest($request));
     }

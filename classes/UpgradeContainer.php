@@ -1021,7 +1021,6 @@ class UpgradeContainer
     {
         if (null === $this->urlGenerator) {
             $this->urlGenerator = new UrlGenerator(
-                $this->getProperty(self::PS_ROOT_PATH),
                 $this->getProperty(self::PS_ADMIN_SUBDIR)
             );
         }

@@ -26,37 +26,19 @@ use Symfony\Component\HttpFoundation\Request;
 class UrlGenerator
 {
     /** @var string */
-    private $shopBasePath;
-    /** @var string */
     private $adminFolder;
 
-    public function __construct(string $shopBasePath, string $adminFolder)
+    public function __construct(string $adminFolder)
     {
-        $this->shopBasePath = $shopBasePath;
         $this->adminFolder = $adminFolder;
     }
 
     public function getShopAbsolutePathFromRequest(Request $request): string
     {
-        // Determine the subdirectories of the PHP entry point (the script being executed)
-        // relative to the shop root folder.
-        // This calculation helps generate a base path that correctly accounts for any subfolder in which
-        // the shop might be installed.
-        $subDirs = explode(
-            DIRECTORY_SEPARATOR,
-            trim(
-                str_replace(
-                    $this->shopBasePath,
-                    '',
-                    dirname($request->server->get('SCRIPT_FILENAME', '')
-                )
-            ), DIRECTORY_SEPARATOR)
-        );
-        $numberOfSubDirs = count($subDirs);
-
         $path = explode('/', $request->getBasePath());
+        $keyOfAdminInPath = array_search($this->adminFolder, $path);
 
-        $path = array_splice($path, 0, -$numberOfSubDirs);
+        array_splice($path, $keyOfAdminInPath);
 
         return implode('/', $path) ?: '/';
     }

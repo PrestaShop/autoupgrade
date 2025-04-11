@@ -51,7 +51,7 @@ class AbstractGlobalControllerTest extends TestCase
             ->getMock();
 
         $upgradeContainer->method('getUrlGenerator')
-            ->willReturn(new UrlGenerator('/yo/doge', 'admin-wololo'));
+            ->willReturn(new UrlGenerator('admin-wololo'));
 
         $server = [
             'HTTP_HOST' => 'localhost',
