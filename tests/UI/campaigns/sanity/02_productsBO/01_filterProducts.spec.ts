@@ -209,7 +209,10 @@ test.describe('BO - Catalog - Products : Filter the products table by ID, Name, 
       },
     ].forEach((tst) => {
       test(`should filter list by '${tst.args.filterBy}' and check result`, async () => {
-        let filterValue: any = '';
+        let filterValue:  string | {
+          min: number
+          max: number
+        } = '';
 
         if (numberOfProducts > 7) {
           // For PS version > 1.7.2

@@ -77,6 +77,11 @@ test('BO - Orders - Orders : Edit Order BO', async ({page}) => {
   });
 
   await test.step('should modify the order status and check the validation', async () => {
+    // // eslint-disable-next-line max-len
+    // await page.locator('#update_order_status_action_input').selectOption({label: dataOrderStatuses.paymentAccepted.name.toString()}, {force: false});
+    // await page.locator('#update_order_status_action_btn').first().click();
+    // const orderStatus = await page.locator("#update_order_status_action_input option[selected='selected']").first().textContent();
+
     const orderStatus = await boOrdersViewBasePage.modifyOrderStatus(page, dataOrderStatuses.paymentAccepted.name);
     expect(orderStatus).toEqual(dataOrderStatuses.paymentAccepted.name);
   });
