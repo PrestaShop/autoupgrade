@@ -24,12 +24,12 @@ export default class UpdatePagePostUpdate extends StepPage {
 
   public mount() {
     this.initStepper();
-    this.#handleHydrate();
+    this.#addListenerToDialogConfirmModuleManagerLink();
   }
 
-  #handleHydrate = () => {
-    this.#addListenerToDialogConfirmModuleManagerLink();
-  };
+  public beforeDestroy() {
+    this.#removeListenerToDialogConfirmModuleManagerLink();
+  }
 
   #onClickDialogLink = async (event: MouseEvent) => {
     const target = event.target as HTMLAnchorElement;
@@ -47,6 +47,10 @@ export default class UpdatePagePostUpdate extends StepPage {
 
   #addListenerToDialogConfirmModuleManagerLink = () => {
     this.#dialogConfirmModuleManagerLink.addEventListener('click', this.#onClickDialogLink);
+  };
+
+  #removeListenerToDialogConfirmModuleManagerLink = () => {
+    this.#dialogConfirmModuleManagerLink.removeEventListener('click', this.#onClickDialogLink);
   };
 
   get #dialogConfirmModuleManagerLink(): HTMLAnchorElement {
