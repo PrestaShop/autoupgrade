@@ -55,5 +55,5 @@ export default class UpdatePagePostUpdate extends StepPage {
       throw new Error('Dialog trigger link ID was not found');
     }
     return link as HTMLAnchorElement;
-  }  
+  }
 }
