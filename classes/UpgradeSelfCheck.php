@@ -55,6 +55,8 @@ class UpgradeSelfCheck
     private $moduleVersionIsLatest;
     /** @var int */
     private $maxExecutionTime;
+    /** @var int */
+    private $oPCacheRevalidateFrequency;
     /** @var Upgrader */
     private $upgrader;
     /**
@@ -108,12 +110,13 @@ class UpgradeSelfCheck
     const NOT_WRITING_DIRECTORY_LIST_NOT_EMPTY = 15;
     const SHOP_VERSION_NOT_MATCHING_VERSION_IN_DATABASE = 16;
     const TEMPERED_FILES_UNKNOWN = 17;
+    const OP_CACHE_REVALIDATE_FREQUENCY_INVALID = 18;
 
     // Warnings const
-    const MODULE_VERSION_IS_OUT_OF_DATE = 18;
-    const PHP_COMPATIBILITY_UNKNOWN = 19;
-    const CORE_TEMPERED_FILES_LIST_NOT_EMPTY = 20;
-    const THEME_TEMPERED_FILES_LIST_NOT_EMPTY = 21;
+    const MODULE_VERSION_IS_OUT_OF_DATE = 19;
+    const PHP_COMPATIBILITY_UNKNOWN = 20;
+    const CORE_TEMPERED_FILES_LIST_NOT_EMPTY = 21;
+    const THEME_TEMPERED_FILES_LIST_NOT_EMPTY = 22;
 
     public function __construct(
         Upgrader $upgrader,
@@ -154,7 +157,7 @@ class UpgradeSelfCheck
             self::ZIP_DISABLED => !$this->isZipEnabled(),
             self::MAINTENANCE_MODE_DISABLED => !$this->isLocalEnvironment() && !$this->isShopDeactivated(),
             self::CACHE_ENABLED => !$this->isCacheDisabled(),
-            self::MAX_EXECUTION_TIME_VALUE_INCORRECT => $this->getMaxExecutionTime() > 0 && $this->getMaxExecutionTime() < 30,
+            self::MAX_EXECUTION_TIME_VALUE_INCORRECT => !$this->checkMaxExecutionTimeIsValid(),
             self::APACHE_MOD_REWRITE_DISABLED => !$this->isApacheModRewriteEnabled(),
             self::NOT_LOADED_PHP_EXTENSIONS_LIST_NOT_EMPTY => !empty($this->getNotLoadedPhpExtensions()),
             self::NOT_EXIST_PHP_FUNCTIONS_LIST_NOT_EMPTY => !empty($this->getNotExistsPhpFunctions()),
@@ -164,6 +167,7 @@ class UpgradeSelfCheck
             self::NOT_WRITING_DIRECTORY_LIST_NOT_EMPTY => !empty($this->getNotWritingDirectories()),
             self::SHOP_VERSION_NOT_MATCHING_VERSION_IN_DATABASE => !$this->isShopVersionMatchingVersionInDatabase(),
             self::TEMPERED_FILES_UNKNOWN => $this->isAlteredFilesNull(),
+            self::OP_CACHE_REVALIDATE_FREQUENCY_INVALID => !$this->checkOPCacheRevalidateFrequencyIsValid(),
         ];
 
         if ($this->updateConfiguration->isChannelLocal()) {
@@ -213,15 +217,14 @@ class UpgradeSelfCheck
      */
     public function getRequirementWording(int $requirement, bool $isWebVersion = false): array
     {
-        $version = $this->destinationVersion;
-        $phpCompatibilityRange = $this->phpRequirementService->getPhpCompatibilityRange($version);
-
         switch ($requirement) {
             case self::PHP_COMPATIBILITY_INVALID:
+                $phpCompatibilityRange = $this->phpRequirementService->getPhpCompatibilityRange($this->destinationVersion);
+
                 return [
                     'message' => $this->translator->trans(
                         'Your current PHP version isn\'t compatible with PrestaShop %s. (Expected: %s - %s | Current: %s)',
-                        [$version, $phpCompatibilityRange['php_min_version'], $phpCompatibilityRange['php_max_version'], $phpCompatibilityRange['php_current_version']]
+                        [$this->destinationVersion, $phpCompatibilityRange['php_min_version'], $phpCompatibilityRange['php_max_version'], $phpCompatibilityRange['php_current_version']]
                     ),
                 ];
 
@@ -318,6 +321,11 @@ class UpgradeSelfCheck
                     'message' => $this->translator->trans('PHP memory_limit needs to be greater than 256 MB.'),
                 ];
 
+            case self::OP_CACHE_REVALIDATE_FREQUENCY_INVALID:
+                return [
+                    'message' => $this->translator->trans("OPCache is enabled and the value of 'opcache.revalidate_freq' is set to %d. This may cause file updates to be ignored during the update. Please set 'opcache.revalidate_freq=0' temporarily before updating.", [$this->getOPCacheRevalidateFrequency()]),
+                ];
+
             case self::PHP_FILE_UPLOADS_CONFIGURATION_DISABLED:
                 return [
                     'message' => $this->translator->trans('PHP file_uploads configuration needs to be enabled.'),
@@ -361,7 +369,7 @@ class UpgradeSelfCheck
                 return [
                     'message' => $this->translator->trans(
                         'We were unable to check your PHP compatibility with PrestaShop %s.',
-                        [$version]
+                        [$this->destinationVersion]
                     ),
                 ];
 
@@ -558,7 +566,32 @@ class UpgradeSelfCheck
             return $this->maxExecutionTime;
         }
 
-        return $this->maxExecutionTime = $this->checkMaxExecutionTime();
+        return $this->maxExecutionTime = (int) @ini_get('max_execution_time');
+    }
+
+    private function checkMaxExecutionTimeIsValid(): bool
+    {
+        return $this->getMaxExecutionTime() === 0 || $this->getMaxExecutionTime() >= 30;
+    }
+
+    private function getOPCacheRevalidateFrequency(): int
+    {
+        if (null !== $this->oPCacheRevalidateFrequency) {
+            return $this->oPCacheRevalidateFrequency;
+        }
+
+        return $this->oPCacheRevalidateFrequency = (int) @ini_get('opcache.revalidate_freq');
+    }
+
+    private function checkOPCacheRevalidateFrequencyIsValid(): bool
+    {
+        if (php_sapi_name() === 'cli' && (0 === (int) @ini_get('opcache.enable_cli'))) {
+            return true;
+        } elseif (0 === (int) @ini_get('opcache.enable')) {
+            return true;
+        }
+
+        return $this->getOPCacheRevalidateFrequency() === 0;
     }
 
     /**
@@ -788,10 +821,5 @@ class UpgradeSelfCheck
             false,
             $this->adminAutoUpgradeDirectoryWritableReport
         );
-    }
-
-    private function checkMaxExecutionTime(): int
-    {
-        return (int) @ini_get('max_execution_time');
     }
 }
