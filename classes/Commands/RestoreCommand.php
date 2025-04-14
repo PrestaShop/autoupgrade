@@ -23,9 +23,11 @@ namespace PrestaShop\Module\AutoUpgrade\Commands;
 
 use Exception;
 use InvalidArgumentException;
+use PrestaShop\Module\AutoUpgrade\DocumentationLinks;
 use PrestaShop\Module\AutoUpgrade\Parameters\RestoreConfiguration;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\Task\Runner\AllRestoreTasks;
+use PrestaShop\Module\AutoUpgrade\VersionUtils;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -77,6 +79,11 @@ class RestoreCommand extends AbstractBackupCommand
             ]);
             $controller->init();
             $exitCode = $controller->run();
+
+            $version = $this->upgradeContainer->getPrestaShopConfiguration()->getPrestaShopVersion();
+            $major = VersionUtils::splitPrestaShopVersion($version)['major'];
+
+            $output->writeln('We recommend you to visit the Post-restore checklist page in the developer documentation for any further help: ' . DocumentationLinks::getDevDocUpdateAssistantPostRestoreUrl($major));
             $this->logger->debug('Process completed with exit code: ' . $exitCode);
 
             return $exitCode;
