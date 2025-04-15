@@ -35,22 +35,22 @@
       <trans-unit id="064903b5aa01cf4bc4e5c073d9917678">
         <source>List of core alterations</source>
         <target>List of core alterations</target>
-        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:243</note>
+        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:244</note>
       </trans-unit>
       <trans-unit id="673cc49de07389091a77d1872687cf64">
         <source>Some core files have been altered, customization made on these files will be lost during the update.</source>
         <target>Some core files have been altered, customization made on these files will be lost during the update.</target>
-        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:244</note>
+        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:245</note>
       </trans-unit>
       <trans-unit id="3e520d769e66a4dcdf43029803ab4e8e">
         <source>List of theme alterations</source>
         <target>List of theme alterations</target>
-        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:256</note>
+        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:257</note>
       </trans-unit>
       <trans-unit id="fa22ace14d701200f848374a39f3e88c">
         <source>Some theme files have been altered, customization made on these files will be lost during the update.</source>
         <target>Some theme files have been altered, customization made on these files will be lost during the update.</target>
-        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:257</note>
+        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:258</note>
       </trans-unit>
       <trans-unit id="708a3f63d9d379278db1b2bb25f7b79b">
         <source>Download attempt %d/%d failed: %s</source>
