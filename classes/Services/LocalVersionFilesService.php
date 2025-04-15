@@ -117,4 +117,31 @@ class LocalVersionFilesService
             $groupedByVersion[$version][$type][] = $filename;
         }
     }
+
+    /**
+     * @return array{'zip': string[], 'xml': string[]}
+     *
+     * @throws Exception
+     */
+    public function getFlatZipAndXmlLists(): array
+    {
+        $localVersionsFiles = $this->getLocalVersionsFiles();
+
+        $zipList = [];
+        $xmlList = [];
+
+        foreach ($localVersionsFiles as $files) {
+            if (!empty($files[self::TYPE_ZIP])) {
+                $zipList = array_merge($zipList, $files[self::TYPE_ZIP]);
+            }
+            if (!empty($files[self::TYPE_XML])) {
+                $xmlList = array_merge($xmlList, $files[self::TYPE_XML]);
+            }
+        }
+
+        return [
+            self::TYPE_ZIP => $zipList,
+            self::TYPE_XML => $xmlList,
+        ];
+    }
 }

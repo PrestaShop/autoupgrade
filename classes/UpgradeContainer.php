@@ -36,11 +36,11 @@ use PrestaShop\Module\AutoUpgrade\Parameters\RestoreConfiguration;
 use PrestaShop\Module\AutoUpgrade\Parameters\RestoreConfigurationValidator;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Progress\CompletionCalculator;
-use PrestaShop\Module\AutoUpgrade\Repository\LocalArchiveRepository;
 use PrestaShop\Module\AutoUpgrade\Router\UrlGenerator;
 use PrestaShop\Module\AutoUpgrade\Services\ComposerService;
 use PrestaShop\Module\AutoUpgrade\Services\DistributionApiService;
 use PrestaShop\Module\AutoUpgrade\Services\DownloadService;
+use PrestaShop\Module\AutoUpgrade\Services\LocalVersionFilesService;
 use PrestaShop\Module\AutoUpgrade\Services\LogsService;
 use PrestaShop\Module\AutoUpgrade\Services\PhpVersionResolverService;
 use PrestaShop\Module\AutoUpgrade\Services\PrestashopVersionService;
@@ -200,9 +200,6 @@ class UpgradeContainer
     /** @var ZipAction */
     private $zipAction;
 
-    /** @var LocalArchiveRepository */
-    private $localArchiveRepository;
-
     /** @var AssetsEnvironment */
     private $assetsEnvironment;
 
@@ -231,6 +228,9 @@ class UpgradeContainer
 
     /** @var DistributionApiService */
     private $distributionApiService;
+
+    /** @var LocalVersionFilesService */
+    private $localVersionFilesService;
 
     /** @var Filesystem */
     private $filesystem;
@@ -918,18 +918,6 @@ class UpgradeContainer
     }
 
     /**
-     * @throws Exception
-     */
-    public function getLocalArchiveRepository(): LocalArchiveRepository
-    {
-        if (null === $this->localArchiveRepository) {
-            $this->localArchiveRepository = new LocalArchiveRepository($this->getProperty($this::DOWNLOAD_PATH));
-        }
-
-        return $this->localArchiveRepository;
-    }
-
-    /**
      * @return AssetsEnvironment
      *
      * @throws Exception
@@ -1016,6 +1004,18 @@ class UpgradeContainer
         }
 
         return $this->downloadService = new DownloadService($this->getTranslator(), $this->getLogger());
+    }
+
+    /**
+     * @return LocalVersionFilesService
+     */
+    public function getLocalVersionFilesService(): LocalVersionFilesService
+    {
+        if (null === $this->localVersionFilesService) {
+            $this->localVersionFilesService = new LocalVersionFilesService($this->getPrestashopVersionService(), $this->getProperty(UpgradeContainer::DOWNLOAD_PATH), $this->getProperty(UpgradeContainer::PS_VERSION));
+        }
+
+        return $this->localVersionFilesService;
     }
 
     /**

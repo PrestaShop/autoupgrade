@@ -96,9 +96,10 @@ class UpdatePageVersionChoiceController extends AbstractPageWithStepController
             default:
                 $updateLabel = null;
         }
-        $archiveRepository = $this->upgradeContainer->getLocalArchiveRepository();
 
         $upgradeConfiguration = $this->upgradeContainer->getUpdateConfiguration();
+        $localVersions = $this->upgradeContainer->getLocalVersionFilesService()->getFlatZipAndXmlLists();
+        $noLocalArchive = empty($localVersions['zip']) && empty($localVersions['xml']);
         $currentPsVersion = $this->upgradeContainer->getProperty(UpgradeContainer::PS_VERSION);
         $currentMajorVersion = VersionUtils::splitPrestaShopVersion($currentPsVersion)['major'];
 
@@ -107,14 +108,14 @@ class UpdatePageVersionChoiceController extends AbstractPageWithStepController
             [
                 'dev_doc_upgrade_web_url' => DocumentationLinks::getDevDocUpdateAssistantWebUrl($currentMajorVersion),
                 'up_to_date' => !$isNewerVersionAvailableOnline,
-                'no_local_archive' => !$this->upgradeContainer->getLocalArchiveRepository()->hasLocalArchive(),
+                'no_local_archive' => $noLocalArchive,
                 // TODO: assets_base_path is provided by all controllers. What about a asset() twig function instead?
                 'assets_base_path' => $this->upgradeContainer->getAssetsEnvironment()->getAssetsBaseUrl($this->request),
                 'current_prestashop_version' => $this->getPsVersion(),
                 'current_php_version' => VersionUtils::getHumanReadableVersionOf(PHP_VERSION_ID),
                 'local_archives' => [
-                    'zip' => $archiveRepository->getZipLocalArchive(),
-                    'xml' => $archiveRepository->getXmlLocalArchive(),
+                    'zip' => $localVersions['zip'],
+                    'xml' => $localVersions['xml'],
                 ],
                 'next_release' => [
                     'version' => $onlineDestination ? $onlineDestination->getVersion() : null,
