@@ -75,6 +75,8 @@ abstract class AbstractCommand extends Command
         define('_PS_ADMIN_DIR_', $adminDir);
 
         $this->upgradeContainer = new UpgradeContainer($prodRootDir, $adminDir);
+        $this->upgradeContainer->loadNecessaryClasses();
+
         // We need to store the timezone this early because it can be altered by the core initialization later.
         $this->upgradeContainer->getLogsState()->setTimeZone(date_default_timezone_get());
 

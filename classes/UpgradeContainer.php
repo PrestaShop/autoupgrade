@@ -67,8 +67,12 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translation;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 use PrestaShop\Module\AutoUpgrade\Xml\ChecksumCompare;
 use PrestaShop\Module\AutoUpgrade\Xml\FileLoader;
+use Symfony\Component\Console\Helper\Helper;
+use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Helper\TableStyle;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Loader\FilesystemLoader;
@@ -1027,6 +1031,18 @@ class UpgradeContainer
         }
 
         return $this->urlGenerator;
+    }
+
+    /**
+     * Loads classes that should normally have collisions with Prestashop dependencies.
+     */
+    public function loadNecessaryClasses(): void
+    {
+        // PrestaShop v9.0.0
+        class_exists(Table::class);
+        class_exists(TableStyle::class);
+        class_exists(Helper::class);
+        class_exists(ResponseHeaderBag::class);
     }
 
     /**
