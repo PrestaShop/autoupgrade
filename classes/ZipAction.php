@@ -91,7 +91,13 @@ class ZipAction
                 continue;
             }
 
-            if (!$zip->addFile($file, $archiveFilename)) {
+            if (is_link($file)) {
+                $result = $this->addSymlink($file, $archiveFilename, $zip);
+            } else {
+                $result = $zip->addFile($file, $archiveFilename);
+            }
+
+            if (!$result) {
                 $error = $zip->getStatusString();
                 // if an error occur, it's more safe to delete the corrupted backup
                 $zip->close();
@@ -132,6 +138,18 @@ class ZipAction
         }
 
         return true;
+    }
+
+    private function addSymlink(string $file, string $archiveFilename, ZipArchive $zip): bool
+    {
+        $targetPath = readlink($file);
+        $stat = lstat($file);
+
+        return $zip->addFromString($archiveFilename, $targetPath)
+            && $zip->setExternalAttributesName($archiveFilename,
+                ZipArchive::OPSYS_UNIX,
+                $stat['mode'] << 16
+            );
     }
 
     /**

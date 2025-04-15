@@ -20,6 +20,7 @@
 use PHPUnit\Framework\TestCase;
 use PrestaShop\Module\AutoUpgrade\Progress\Backlog;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
+use Symfony\Component\Filesystem\Filesystem;
 
 class ZipActionTest extends TestCase
 {
@@ -27,6 +28,7 @@ class ZipActionTest extends TestCase
     const IDENTICAL_CONTENT_FILE_PATH = __DIR__ . '/../fixtures/ArchiveExample/dummyFolder/AppKernelExample.php.txt';
     const NOT_IDENTICAL_CONTENT_FILE_PATH = __DIR__ . '/../fixtures/AppKernelExample.php.txt';
 
+    /** @var UpgradeContainer */
     private $container;
     private $contentExcepted;
 
@@ -37,7 +39,8 @@ class ZipActionTest extends TestCase
             'dummyFolder/AppKernelExample.php.txt',
         ];
 
-        $this->container = new UpgradeContainer(__DIR__, __DIR__ . '/..');
+        $rootDir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . uniqid();
+        $this->container = new UpgradeContainer($rootDir, $rootDir . DIRECTORY_SEPARATOR . 'admin');
     }
 
     public function testArchiveContentWithZipArchive()
@@ -85,5 +88,61 @@ class ZipActionTest extends TestCase
 
         $this->assertTrue($zipAction->isFileUnchanged(self::IDENTICAL_CONTENT_FILE_PATH, 'dummyFolder/AppKernelExample.php.txt', $zip));
         $this->assertFalse($zipAction->isFileUnchanged(self::NOT_IDENTICAL_CONTENT_FILE_PATH, 'dummyFolder/AppKernelExample.php.txt', $zip));
+    }
+
+    public function testCompleteCompressionAndExtractionOfFiles()
+    {
+        $filesystem = new Filesystem();
+
+        // Create contents to be zipped and unzipped
+        $sourceFolder = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH);
+        $destinationFolder = sys_get_temp_dir() . DIRECTORY_SEPARATOR . uniqid();
+        $temporaryZipFile = tempnam(sys_get_temp_dir(), 'mod');
+
+        $filesystem->mkdir([
+            $sourceFolder,
+            $sourceFolder . DIRECTORY_SEPARATOR . 'folder/folder2',
+            $destinationFolder,
+        ]);
+        $filesystem->touch([
+            $sourceFolder . DIRECTORY_SEPARATOR . 'file1.txt',
+            $sourceFolder . DIRECTORY_SEPARATOR . 'file2.txt',
+            $sourceFolder . DIRECTORY_SEPARATOR . 'folder/file3.txt',
+        ]);
+        $filesystem->symlink(
+            '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'file2.txt',
+            $sourceFolder . DIRECTORY_SEPARATOR . 'folder/folder2/file4.txt'
+        );
+
+        $backlog = new Backlog([
+            $sourceFolder . DIRECTORY_SEPARATOR . 'file1.txt',
+            $sourceFolder . DIRECTORY_SEPARATOR . 'file2.txt',
+            $sourceFolder . DIRECTORY_SEPARATOR . 'folder/file3.txt',
+            $sourceFolder . DIRECTORY_SEPARATOR . 'folder/folder2/file4.txt',
+        ], 4);
+
+        // Run
+        $zipAction = $this->container->getZipAction();
+        $resultOfCompress = $zipAction->compress($backlog, $temporaryZipFile);
+        $resultOfExtract = $zipAction->extract($temporaryZipFile, $destinationFolder);
+
+        // Check
+        $this->assertTrue($resultOfCompress);
+        $this->assertTrue($resultOfExtract);
+
+        echo $destinationFolder;
+
+        $this->assertTrue(is_dir($destinationFolder . DIRECTORY_SEPARATOR . 'folder'));
+        $this->assertTrue(is_dir($destinationFolder . DIRECTORY_SEPARATOR . 'folder/folder2'));
+
+        $this->assertTrue(is_file($destinationFolder . DIRECTORY_SEPARATOR . 'file1.txt'));
+        $this->assertTrue(is_file($destinationFolder . DIRECTORY_SEPARATOR . 'file2.txt'));
+        $this->assertTrue(is_file($destinationFolder . DIRECTORY_SEPARATOR . 'folder/file3.txt'));
+
+        $this->assertTrue(is_link($destinationFolder . DIRECTORY_SEPARATOR . 'folder/folder2/file4.txt'));
+        $this->assertSame(
+            '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'file2.txt',
+            readlink($destinationFolder . DIRECTORY_SEPARATOR . 'folder/folder2/file4.txt')
+        );
     }
 }
