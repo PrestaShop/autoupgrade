@@ -130,8 +130,6 @@ class ZipActionTest extends TestCase
         $this->assertTrue($resultOfCompress);
         $this->assertTrue($resultOfExtract);
 
-        echo $destinationFolder;
-
         $this->assertTrue(is_dir($destinationFolder . DIRECTORY_SEPARATOR . 'folder'));
         $this->assertTrue(is_dir($destinationFolder . DIRECTORY_SEPARATOR . 'folder/folder2'));
 
@@ -144,5 +142,14 @@ class ZipActionTest extends TestCase
             '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'file2.txt',
             readlink($destinationFolder . DIRECTORY_SEPARATOR . 'folder/folder2/file4.txt')
         );
+    }
+
+    public function testCompressedFilesAreSimlinks()
+    {
+        $zipAction = $this->container->getZipAction();
+
+        $this->assertFalse($zipAction->isCompressedFileASymLink(2179792896, 'file.txt'));
+        $this->assertFalse($zipAction->isCompressedFileASymLink(2180841472, 'file.txt'));
+        $this->assertTrue($zipAction->isCompressedFileASymLink(2717843456, 'file.txt'));
     }
 }

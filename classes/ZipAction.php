@@ -184,7 +184,31 @@ class ZipAction
 
         for ($i = 0; $i < $zip->numFiles; ++$i) {
             $nameIndex = $zip->getNameIndex($i);
-            if (!$zip->extractTo($to_dir, [$nameIndex])) {
+            $zip->getExternalAttributesName($nameIndex, $opsys, $stat);
+
+            /*
+             * Symlink case. Matches octal value 12000 and does not end with a separator
+             * @see https://discuss.python.org/t/how-info-zip-represents-symlinks/4104/2
+             * @see https://pkware.cachefly.net/webdocs/casestudies/APPNOTE.TXT - 4.5.7 -UNIX Extra Field (0x000d):
+             */
+            if ($opsys === ZipArchive::OPSYS_UNIX && $this->isCompressedFileASymLink($stat, $nameIndex)) {
+                try {
+                    $this->filesystem->symlink($zip->getFromIndex($i), $to_dir . DIRECTORY_SEPARATOR . $nameIndex);
+                } catch (IOException $e) {
+                    $this->logger->error(
+                        $this->translator->trans(
+                            'Could not extract symbolic link %file% from archive: %error%',
+                            [
+                                '%file%' => $nameIndex,
+                                '%error%' => $e->getMessage(),
+                            ]
+                        )
+                    );
+                    $zip->close();
+
+                    return false;
+                }
+            } elseif (!$zip->extractTo($to_dir, [$nameIndex])) {
                 $issue = $zip->getStatusString() ?: $this->translator->trans('Unknown extraction error (possible permission issue or filesystem error)');
 
                 $fullDiskPath = rtrim($to_dir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $nameIndex;
@@ -339,5 +363,10 @@ class ZipAction
         }
 
         return $pass;
+    }
+
+    public function isCompressedFileASymLink(int $stat, string $file): bool
+    {
+        return (($stat >> 16) & 0120000) === 0120000 && !in_array(substr($file, -1), ['/', '\\']);
     }
 }
