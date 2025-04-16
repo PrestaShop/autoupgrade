@@ -29,7 +29,7 @@ import {
 } from '@prestashop-core/ui-testing';
 
 import {
-  test, expect, Page, BrowserContext,
+  test, expect,
 } from '@playwright/test';
 import semver from 'semver';
 
@@ -40,21 +40,10 @@ const psVersion = utilsTest.getPSVersion();
   Filter the Orders table
   Logout from the BO
  */
-test.describe('BO - Orders - Orders : Filter the Orders table by ID, REFERENCE, STATUS', () => {
-  let browserContext: BrowserContext;
-  let page: Page;
+test('BO - Orders - Orders : Filter the Orders table by ID, REFERENCE, STATUS', async ({page}) => {
   let numberOfOrders: number;
-
-  test.beforeAll(async ({browser}) => {
-    browserContext = await browser.newContext();
-    page = await browserContext.newPage();
-  });
-  test.afterAll(async () => {
-    await page.close();
-  });
-
   // Steps
-  test('should login in BO', async () => {
+ await test.step('should login in BO', async () => {
     await boLoginPage.goTo(page, global.BO.URL);
     await boLoginPage.successLogin(page, global.BO.EMAIL, global.BO.PASSWD);
 
@@ -62,7 +51,7 @@ test.describe('BO - Orders - Orders : Filter the Orders table by ID, REFERENCE, 
     expect(pageTitle).toContain(boDashboardPage.pageTitle);
   });
 
-  test('should go to the \'Orders > Orders\' page', async () => {
+  await test.step('should go to the \'Orders > Orders\' page', async () => {
     await boDashboardPage.goToSubMenu(
       page,
       boDashboardPage.ordersParentLink,
@@ -74,7 +63,7 @@ test.describe('BO - Orders - Orders : Filter the Orders table by ID, REFERENCE, 
     await expect(pageTitle).toContain(boOrdersPage.pageTitle);
   });
 
-  test('should reset all filters and get number of orders', async () => {
+  await test.step('should reset all filters and get number of orders', async () => {
     numberOfOrders = await boOrdersPage.resetAndGetNumberOfLines(page);
     await expect(numberOfOrders).toBeGreaterThan(0);
   });
@@ -103,8 +92,9 @@ test.describe('BO - Orders - Orders : Filter the Orders table by ID, REFERENCE, 
     },
   ];
 
-  tests.forEach((tst, index: number) => {
-    test(`should filter the Orders table by '${tst.args.filterBy}' and check the result`, async () => {
+  for (const tst of tests) {
+    const index: number = tests.indexOf(tst);
+    await test.step(`should filter the Orders table by '${tst.args.filterBy}' and check the result`, async () => {
       if (semver.lte(psVersion, '7.6.9') && index === 2) {
         await boOrdersPage.filterOrders(
           page,
@@ -125,14 +115,14 @@ test.describe('BO - Orders - Orders : Filter the Orders table by ID, REFERENCE, 
       await expect(textColumn).toEqual(tst.args.filterValue.toString());
     });
 
-    test(`should reset filter by '${tst.args.filterBy}'`, async () => {
+    await test.step(`should reset filter by '${tst.args.filterBy}'`, async () => {
       const numberOfOrdersAfterReset = await boOrdersPage.resetAndGetNumberOfLines(page);
       await expect(numberOfOrdersAfterReset).toEqual(numberOfOrders);
     });
-  });
+  }
 
   // Logout from BO
-  test('should log out from BO', async () => {
+  await test.step('should log out from BO', async () => {
     await boLoginPage.logoutBO(page);
 
     const pageTitle = await boLoginPage.getPageTitle(page);
