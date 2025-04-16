@@ -42,23 +42,13 @@ const psVersion = utilsTest.getPSVersion();
   Filter products table by ID, Name, Reference, Category, Price, Quantity and Status
   Logout from the BO
  */
-test.describe('BO - Catalog - Products : Filter the products table by ID, Name, Reference, Category, Price, Quantity and Status',
-  async () => {
-    let browserContext: BrowserContext;
-    let page: Page;
+test('BO - Catalog - Products : Filter the products table by ID, Name, Reference, Category, Price, Quantity and Status',
+  async ({page}) => {
     let numberOfProducts: number = 0;
     let isProductPageV1: boolean = false;
 
-    test.beforeAll(async ({browser}) => {
-      browserContext = await browser.newContext();
-      page = await browserContext.newPage();
-    });
-    test.afterAll(async () => {
-      await page.close();
-    });
-
     // Steps
-    test('should login in BO', async () => {
+    test.step('should login in BO', async () => {
       await boLoginPage.goTo(page, global.BO.URL);
       await boLoginPage.successLogin(page, global.BO.EMAIL, global.BO.PASSWD);
 
@@ -66,7 +56,7 @@ test.describe('BO - Catalog - Products : Filter the products table by ID, Name, 
       expect(pageTitle).toContain(boDashboardPage.pageTitle);
     });
 
-    test('should go to \'Catalog > Products\' page', async () => {
+    test.step('should go to \'Catalog > Products\' page', async () => {
       await boDashboardPage.goToSubMenu(
         page,
         boDashboardPage.catalogParentLink,
@@ -80,7 +70,7 @@ test.describe('BO - Catalog - Products : Filter the products table by ID, Name, 
       isProductPageV1 = !await boProductsPage.isProductPageV2(page);
     });
 
-    test('should go to \'Advanced Parameters > New & Experimental Features\' page', async () => {
+    test.step('should go to \'Advanced Parameters > New & Experimental Features\' page', async () => {
       if (semver.gte(psVersion, '8.1.0') && isProductPageV1) {
         await boDashboardPage.goToSubMenu(
           page,
@@ -96,7 +86,7 @@ test.describe('BO - Catalog - Products : Filter the products table by ID, Name, 
       }
     });
 
-    test('should enable product page V2', async () => {
+    test.step('should enable product page V2', async () => {
       if (semver.gte(psVersion, '8.1.0') && isProductPageV1) {
         const successMessage = await boNewExperimentalFeaturesPage.setFeatureFlag(
           page, boNewExperimentalFeaturesPage.featureFlagProductPageV2, true);
@@ -106,7 +96,7 @@ test.describe('BO - Catalog - Products : Filter the products table by ID, Name, 
       }
     });
 
-    test('should go back to \'Catalog > Products\' page', async () => {
+    test.step('should go back to \'Catalog > Products\' page', async () => {
       if (semver.gte(psVersion, '8.1.0') && isProductPageV1) {
         await boDashboardPage.goToSubMenu(
           page,
@@ -122,12 +112,12 @@ test.describe('BO - Catalog - Products : Filter the products table by ID, Name, 
       }
     });
 
-    test('should check that no filter is applied by default', async () => {
+    test.step('should check that no filter is applied by default', async () => {
       const isVisible = await boProductsPage.isResetButtonVisible(page);
       expect(isVisible, 'Reset button is visible!').toEqual(false);
     });
 
-    test('should get the number of products', async () => {
+    test.step('should get the number of products', async () => {
       if (semver.lt(psVersion, '8.1.0') || isProductPageV1) {
         numberOfProducts = await boProductsPage.getNumberOfProductsFromList(page);
       } else {
@@ -208,7 +198,7 @@ test.describe('BO - Catalog - Products : Filter the products table by ID, Name, 
         },
       },
     ].forEach((tst) => {
-      test(`should filter list by '${tst.args.filterBy}' and check result`, async () => {
+      test.step(`should filter list by '${tst.args.filterBy}' and check result`, async () => {
         let filterValue:  string | {
           min: number
           max: number
@@ -249,7 +239,7 @@ test.describe('BO - Catalog - Products : Filter the products table by ID, Name, 
         }
       });
 
-      test(`should reset filter by '${tst.args.filterBy}'`, async () => {
+      test.step(`should reset filter by '${tst.args.filterBy}'`, async () => {
         const numberOfProductsAfterReset = await boProductsPage.resetAndGetNumberOfLines(page);
         expect(numberOfProductsAfterReset).toEqual(numberOfProducts);
       });

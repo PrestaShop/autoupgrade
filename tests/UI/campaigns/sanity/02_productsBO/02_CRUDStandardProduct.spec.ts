@@ -44,11 +44,9 @@ const psVersion = utilsTest.getPSVersion();
   Go to Catalog > Products page
   Create/View/Update/Delete standard product
  */
-test.describe('BO - Catalog - Products : CRUD standard product', async () => {
-  let browserContext: BrowserContext;
-  let page: Page;
+test('BO - Catalog - Products : CRUD standard product', async ({page}) => {
   let productPageURL: string;
-  let isProductPageV1: boolean = false;
+  let isProductPageV1: boolean = true;
 
   // Data to create standard product
   const newProductData: FakerProduct = new FakerProduct({
@@ -69,16 +67,8 @@ test.describe('BO - Catalog - Products : CRUD standard product', async () => {
     status: true,
   });
 
-  test.beforeAll(async ({browser}) => {
-    browserContext = await browser.newContext();
-    page = await browserContext.newPage();
-  });
-  test.afterAll(async () => {
-    await page.close();
-  });
-
   // Steps
-  test('should login in BO', async () => {
+  await test.step('should login in BO', async () => {
     await boLoginPage.goTo(page, global.BO.URL);
     await boLoginPage.successLogin(page, global.BO.EMAIL, global.BO.PASSWD);
 
@@ -86,7 +76,7 @@ test.describe('BO - Catalog - Products : CRUD standard product', async () => {
     expect(pageTitle).toContain(boDashboardPage.pageTitle);
   });
 
-  test('should go to \'Catalog > Products\' page', async () => {
+  await test.step('should go to \'Catalog > Products\' page', async () => {
     await boDashboardPage.goToSubMenu(
       page,
       boDashboardPage.catalogParentLink,
@@ -98,14 +88,14 @@ test.describe('BO - Catalog - Products : CRUD standard product', async () => {
     expect(pageTitle).toContain(boProductsPage.pageTitle);
 
     productPageURL = await boProductsPage.getCurrentURL(page);
-    if (productPageURL.split('products-v1').length - 1) {
-      isProductPageV1 = true;
+    if (productPageURL.split('products-v2').length - 1) {
+      isProductPageV1 = false;
     }
   });
 
   // @todo : https://github.com/PrestaShop/PrestaShop/issues/36097
   if (semver.lte(psVersion, '8.1.6') && semver.gte(psVersion, '7.3.0')) {
-    test('should close the menu', async () => {
+    await test.step('should close the menu', async () => {
       await boDashboardPage.setSidebarCollapsed(page, true);
 
       const isSidebarCollapsed = await boDashboardPage.isSidebarCollapsed(page);
@@ -113,13 +103,13 @@ test.describe('BO - Catalog - Products : CRUD standard product', async () => {
     });
   }
 
-  test.describe('Create product', async () => {
-    test('should click on \'New product\' button', async () => {
+  // test.describe('Create product', async () => {
+    await test.step('Create product: should click on \'New product\' button', async () => {
       const isVisible = await boProductsPage.clickOnNewProductButton(page);
       expect(isVisible).toEqual(true);
     });
 
-    if (semver.gte(psVersion, '8.1.0') || isProductPageV1) {
+    if (semver.gte(psVersion, '8.1.0') || !isProductPageV1) {
       test('should choose \'Standard product\'', async () => {
         await boProductsPage.selectProductType(page, newProductData.type);
         await boProductsPage.clickOnAddNewProduct(page);
@@ -129,31 +119,31 @@ test.describe('BO - Catalog - Products : CRUD standard product', async () => {
       });
     }
 
-    test('should create standard product', async () => {
+  await test.step('should create standard product', async () => {
       const createProductMessage = await boProductsCreatePage.setProduct(page, newProductData);
       expect(createProductMessage).toEqual(boProductsCreatePage.successfulUpdateMessage);
     });
 
-    if (semver.gte(psVersion, '8.1.0') || isProductPageV1) {
-      test('should check that the save button is changed to \'Save and publish\'', async () => {
+    if (semver.gte(psVersion, '8.1.0') || !isProductPageV1) {
+      await test.step('should check that the save button is changed to \'Save and publish\'', async () => {
         const saveButtonName = await boProductsCreatePage.getSaveButtonName(page);
         expect(saveButtonName).toEqual('Save and publish');
       });
     }
 
-    test('should preview product', async () => {
+  await test.step('should preview product', async () => {
       // Click on preview button
       page = await boProductsCreatePage.previewProduct(page);
 
       await foClassicProductPage.changeLanguage(page, 'en');
 
-      if (semver.gte(psVersion, '8.1.0') || isProductPageV1) {
+      if (semver.gte(psVersion, '8.1.0') || !isProductPageV1) {
         const pageTitle = await foClassicProductPage.getPageTitle(page);
         expect(pageTitle).toContain(newProductData.name);
       }
     });
 
-    test('should check all product information', async () => {
+  await test.step('should check all product information', async () => {
       const result = await foClassicProductPage.getProductInformation(page);
       await Promise.all([
         expect(result.name).toEqual(newProductData.name),
@@ -162,23 +152,23 @@ test.describe('BO - Catalog - Products : CRUD standard product', async () => {
         expect(result.description).toEqual(newProductData.description),
       ]);
     });
-  });
+  // });
 
-  test.describe('Update product', async () => {
-    test('should go back to BO to update product', async () => {
+  // test.describe('Update product', async () => {
+  await test.step('Update product: should go back to BO to update product', async () => {
       // Go back to BO
-      page = await foClassicProductPage.closePage(browserContext, page, 0);
-
+      // page = await foClassicProductPage.closePage(browserContext, page, 0);
+    await boProductsPage.closeSfToolBar(page);
       const pageTitle = await boProductsCreatePage.getPageTitle(page);
       expect(pageTitle).toContain(getExpectedProductTitle());
     });
 
-    test('should update the created product', async () => {
+await test.step('should update the created product', async () => {
       const createProductMessage = await boProductsCreatePage.setProduct(page, updateProductData);
       expect(createProductMessage).toEqual(boProductsCreatePage.successfulUpdateMessage);
     });
 
-    test('should preview product', async () => {
+await test.step('should preview product', async () => {
       // Click on preview button
       page = await boProductsCreatePage.previewProduct(page);
 
@@ -188,7 +178,7 @@ test.describe('BO - Catalog - Products : CRUD standard product', async () => {
       expect(pageTitle).toContain(updateProductData.name);
     });
 
-    test('should check all product information', async () => {
+await test.step('should check all product information', async () => {
       const taxValue = await utilsCore.percentage(updateProductData.priceTaxExcluded, 10);
 
       const result = await foClassicProductPage.getProductInformation(page);
@@ -198,13 +188,13 @@ test.describe('BO - Catalog - Products : CRUD standard product', async () => {
         expect(result.description).toEqual(updateProductData.description),
       ]);
     });
-  });
+  // });
 
-  test.describe('Delete product', async () => {
-    test('should go back to BO to delete product', async () => {
+  // test.describe('Delete product', async () => {
+await test.step('should go back to BO to delete product', async () => {
       // Go back to BO
-      page = await foClassicProductPage.closePage(browserContext, page, 0);
-
+      // page = await foClassicProductPage.closePage(browserContext, page, 0);
+  await boProductsPage.closeSfToolBar(page);
       const pageTitle = await boProductsCreatePage.getPageTitle(page);
       expect(pageTitle).toContain(getExpectedProductTitle());
     });
@@ -213,5 +203,5 @@ test.describe('BO - Catalog - Products : CRUD standard product', async () => {
       const createProductMessage = await boProductsCreatePage.deleteProduct(page);
       expect(createProductMessage).toEqual(boProductsPage.successfulDeleteMessage);
     });
-  });
+  // });
 });
