@@ -62,6 +62,14 @@
             '%endbold%': '</b>'
           })|raw }}
         </li>
+        <li>
+          {{ '%startbold%Check the %startlink%Module Manager%endlink%%endbold% to discover and install the modules extracted on your server during the update process.'|trans({
+            '%startbold%': '<b>',
+            '%endbold%': '</b>',
+            '%startlink%': '<a id="dialog-confirm-module-manager-link" class="link" href="#' ~ form_route_to_confirm_module_manager_dialog ~ '">',
+            '%endlink%': '</a>'
+          })|raw }}
+        </li>
       </ul>
     </div>
 

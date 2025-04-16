@@ -21,13 +21,17 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Controller;
 
+use Context;
+use PrestaShop\Module\AutoUpgrade\AjaxResponseBuilder;
 use PrestaShop\Module\AutoUpgrade\DocumentationLinks;
 use PrestaShop\Module\AutoUpgrade\Router\Routes;
 use PrestaShop\Module\AutoUpgrade\Task\TaskType;
+use PrestaShop\Module\AutoUpgrade\Twig\PageSelectors;
 use PrestaShop\Module\AutoUpgrade\Twig\Steps\Stepper;
 use PrestaShop\Module\AutoUpgrade\Twig\Steps\UpdateSteps;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\VersionUtils;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class UpdatePagePostUpdateController extends AbstractPageWithStepController
 {
@@ -66,7 +70,24 @@ class UpdatePagePostUpdateController extends AbstractPageWithStepController
                 'dev_doc_link' => DocumentationLinks::getDevDocUpdateAssistantPostUpdateUrl($currentMajorVersion),
                 'download_logs' => $this->upgradeContainer->getLogsService()->getDownloadLogsData(TaskType::TASK_TYPE_UPDATE),
                 'ps_version' => $this->upgradeContainer->getCurrentPrestaShopVersion(),
+                'form_route_to_confirm_module_manager_dialog' => Routes::UPDATE_STEP_POST_UPDATE_CONFIRM_MODULE_MANAGER_DIALOG,
             ]
+        );
+    }
+
+    public function confirmModuleManagerDialog(): JsonResponse
+    {
+        $this->upgradeContainer->initPrestaShopCore();
+        $moduleManagerLink = Context::getContext()->link->getAdminLink('AdminModules');
+
+        return AjaxResponseBuilder::hydrationResponse(
+            PageSelectors::DIALOG_PARENT_ID,
+            $this->getTwig()->render(
+                '@ModuleAutoUpgrade/dialogs/dialog-confirm-module-manager.html.twig',
+                [
+                    'module_manager_link' => $moduleManagerLink,
+                ]
+            )
         );
     }
 }

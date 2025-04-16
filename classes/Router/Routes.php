@@ -60,6 +60,7 @@ class Routes
     /* step: post update */
     const UPDATE_PAGE_POST_UPDATE = 'update-page-post-update';
     const UPDATE_STEP_POST_UPDATE = 'update-step-post-update';
+    const UPDATE_STEP_POST_UPDATE_CONFIRM_MODULE_MANAGER_DIALOG = 'update-step-post-update-confirm-module-manager-dialog';
 
     /* RESTORE PAGE */
     /* step: backup selection */

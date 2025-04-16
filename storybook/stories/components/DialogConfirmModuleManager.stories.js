@@ -17,31 +17,20 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 
-import PostUpdatePage from "../../../views/templates/pages/update.html.twig";
-import { PostUpdate as Stepper } from "../components/Stepper.stories";
+import DialogConfirmModuleManager from "../../../views/templates/dialogs/dialog-confirm-module-manager.html.twig";
 
 export default {
-  component: PostUpdatePage,
-  id: "35",
-  title: "Pages/Update",
+  title: "Components/Dialog",
+  component: DialogConfirmModuleManager,
 };
 
-export const PostUpdate = {
+export const ConfirmModuleManager = {
   args: {
-    // Step
-    step: {
-      code: "post-update",
-      title: "Post-update checklist",
-    },
-    step_parent_id: "ua_container",
-    exit_link: "#",
-    dev_doc_link: "#",
-    data_transparency_link:
-      "https://www.prestashop-project.org/data-transparency",
-    admin_url: "#",
-    ps_version: "9.0.0",
-    form_route_to_confirm_module_manager_dialog: "#",
-    // Stepper
-    ...Stepper.args,
+    form_route_to_confirm_module_manager_dialog: "/",
+    module_manager_link: "/",
+  },
+  play: async () => {
+    const dialog = document.querySelector(".dialog");
+    dialog.showModal();
   },
 };
