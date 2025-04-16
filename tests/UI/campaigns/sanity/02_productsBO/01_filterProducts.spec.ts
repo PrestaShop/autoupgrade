@@ -30,7 +30,7 @@ import {
 } from '@prestashop-core/ui-testing';
 
 import {
-  test, expect, Page, BrowserContext,
+  test, expect,
 } from '@playwright/test';
 import semver from 'semver';
 
