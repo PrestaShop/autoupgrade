@@ -39,6 +39,8 @@ class PrestashopRelease
     private $releaseNoteUrl;
     /** @var 'rc'|'beta'|'stable' */
     private $stability;
+    /** @var 'open_source'|'classic' */
+    private $distribution;
 
     public function __construct(
         string $version,
@@ -48,7 +50,8 @@ class PrestashopRelease
         ?string $zipDownloadUrl = null,
         ?string $xmlDownloadUrl = null,
         ?string $zipMd5 = null,
-        ?string $releaseNoteUrl = null
+        ?string $releaseNoteUrl = null,
+        ?string $distribution = null
     ) {
         $this->version = $version;
         $this->phpMaxVersion = $phpMaxVersion;
@@ -58,6 +61,8 @@ class PrestashopRelease
         $this->zipMd5 = $zipMd5;
         $this->releaseNoteUrl = $releaseNoteUrl;
         $this->stability = $stability;
+        $this->releaseNoteUrl = $releaseNoteUrl;
+        $this->distribution = $distribution;
     }
 
     public function getVersion(): string
@@ -100,6 +105,12 @@ class PrestashopRelease
         return $this->releaseNoteUrl;
     }
 
+    public function getDistribution(): string
+    {
+        return $this->distribution;
+    }
+
+    // TODO: to delete
     public function setReleaseNoteUrl(?string $releaseNoteUrl): void
     {
         $this->releaseNoteUrl = $releaseNoteUrl;

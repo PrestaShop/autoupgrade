@@ -86,7 +86,9 @@ class DistributionApiService
                     $versionInfo['php_min_version'],
                     $versionInfo['zip_download_url'],
                     $versionInfo['xml_download_url'],
-                    $versionInfo['zip_md5']
+                    $versionInfo['zip_md5'],
+                    $versionInfo['release_notes_url'],
+                    $versionInfo['distribution']
                 );
             }
 
