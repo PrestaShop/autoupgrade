@@ -31,8 +31,5 @@ function ps_900_reorganize_aliases_tab()
 
     // Add new tab for aliases
     add_new_tab_17('AdminAliases', 'en:Aliases', 0, false, 'AdminParentSearchConf');
-
-    // Delete the search configuration feature flag
-    DbWrapper::delete('feature_flag', '`name` = \'search_conf\'');
     DbWrapper::execute('UPDATE `' . _DB_PREFIX_ . 'tab` SET `active`=1, `enabled`=1, `wording`="Aliases", `icon`="", `wording_domain`="Admin.Navigation.Menu" WHERE `class_name` = "AdminAliases"');
 }

@@ -26,13 +26,11 @@ SET NAMES 'utf8mb4';
 
 /* Insert new feature flags introduced by v9 */
 INSERT INTO `PREFIX_feature_flag` (`name`, `type`, `label_wording`, `label_domain`, `description_wording`, `description_domain`, `state`, `stability`) VALUES
-  ('symfony_layout', 'env,query,dotenv,db', 'Symfony layout', 'Admin.Advparameters.Feature', 'Enable / Disable symfony layout (in opposition to legacy layout).', 'Admin.Advparameters.Help', 1, 'beta'),
   ('front_container_v2', 'env,dotenv,db', 'New front container', 'Admin.Advparameters.Feature', 'Enable / Disable the new front container.', 'Admin.Advparameters.Help', 0, 'beta'),
   ('customer_group', 'env,dotenv,db', 'Customer group', 'Admin.Advparameters.Feature', 'Enable / Disable the customer group page.', 'Admin.Advparameters.Help', 0, 'beta'),
   ('store', 'env,dotenv,db', 'Store', 'Admin.Advparameters.Feature', 'Enable / Disable the store page.', 'Admin.Advparameters.Help', 0, 'beta'),
-  ('search_conf', 'env,dotenv,db', 'Search configuration', 'Admin.Advparameters.Feature', 'Enable / Disable the search configuration page.', 'Admin.Advparameters.Help', 0, 'beta'),
   ('merchandise_return', 'env,dotenv,db', 'Merchandise return', 'Admin.Advparameters.Feature', 'Enable / Disable the merchandise return page.', 'Admin.Advparameters.Help', 0, 'beta'),
-  ('admin_api_multistore', 'env,query,dotenv,db', 'Admin API - Multistore', 'Admin.Advparameters.Feature', 'Enable or disable the Admin API when multistore is enabled.', 'Admin.Advparameters.Help', 1, 'beta'),
+  ('admin_api_multistore', 'env,query,dotenv,db', 'Admin API - Multistore', 'Admin.Advparameters.Feature', 'Enable or disable the Admin API when multistore is enabled.', 'Admin.Advparameters.Help', 0, 'beta'),
   ('admin_api_experimental_endpoints', 'env,dotenv,db', 'Admin API - Enable experimental endpoints', 'Admin.Advparameters.Feature', 'Experimental API endpoints are disabled by default in prod environment, this configuration allows to forcefully enable them.', 'Admin.Advparameters.Help', 0, 'beta')
 ;
 
