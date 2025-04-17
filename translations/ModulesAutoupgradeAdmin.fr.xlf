@@ -1450,9 +1450,9 @@
         <target state="final">%startbold% Assurez-vous que le front-office de votre boutique fonctionne correctement : %endbold% essayez de créer un compte, de passer une commande, d'ajouter un produit, etc.</target>
         <note>views/templates/steps/post-update.html.twig:54</note>
       </trans-unit>
-      <trans-unit id="0ffd8c518061d780545d966155ac9b97">
+      <trans-unit id="0ffd8c518061d780545d966155ac9b97" approved="yes">
         <source>%startbold%Check the %startlink%Module Manager%endlink%%endbold% to discover and install the modules extracted on your server during the update process.</source>
-        <target state="needs-translation">%startbold%Check the %startlink%Module Manager%endlink%%endbold% to discover and install the modules extracted on your server during the update process.</target>
+        <target state="final">%startbold%Vérifier le %startlink%Gestionnaire de Modules%endlink%%endbold% pour découvrir et installer les modules extraits sur votre serveur durant le process de mise à jour.</target>
         <note>views/templates/steps/post-update.html.twig:66</note>
       </trans-unit>
       <trans-unit id="605f8e6688fdd2a7616a3614d741202d" approved="yes">
