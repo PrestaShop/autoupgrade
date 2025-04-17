@@ -1258,7 +1258,7 @@
       <trans-unit id="231cf4c70d866b616c21baddaeed0696" approved="yes">
         <source>Troubleshooting</source>
         <target state="final">Dépannage</target>
-        <note>views/templates/steps/post-update.html.twig:70</note>
+        <note>views/templates/steps/post-update.html.twig:78</note>
       </trans-unit>
       <trans-unit id="6d7d6c549fa8457fb326a8ec0c1bfa4f" approved="yes">
         <source>If you can't access your back office, try emptying the cache.</source>
@@ -1273,7 +1273,7 @@
       <trans-unit id="4ba42d4d681d17d9bee2f6228c326069" approved="yes">
         <source>Open developer documentation</source>
         <target state="final">Ouvrir la documentation développeur</target>
-        <note>views/templates/steps/post-update.html.twig:105</note>
+        <note>views/templates/steps/post-update.html.twig:113</note>
       </trans-unit>
       <trans-unit id="9c32ff52925ba5a296f9696cfbb7edcc" approved="yes">
         <source>Backing up your store's files, database, and images means you can restore to a previous version if something goes wrong during the update. This keeps your data safe and ensures your business stays up and running.</source>
@@ -1450,20 +1450,25 @@
         <target state="final">%startbold% Assurez-vous que le front-office de votre boutique fonctionne correctement : %endbold% essayez de créer un compte, de passer une commande, d'ajouter un produit, etc.</target>
         <note>views/templates/steps/post-update.html.twig:54</note>
       </trans-unit>
+      <trans-unit id="0ffd8c518061d780545d966155ac9b97">
+        <source>%startbold%Check the %startlink%Module Manager%endlink%%endbold% to discover and install the modules extracted on your server during the update process.</source>
+        <target state="needs-translation">%startbold%Check the %startlink%Module Manager%endlink%%endbold% to discover and install the modules extracted on your server during the update process.</target>
+        <note>views/templates/steps/post-update.html.twig:66</note>
+      </trans-unit>
       <trans-unit id="605f8e6688fdd2a7616a3614d741202d" approved="yes">
         <source><![CDATA[If some images don't appear in the front office, try regenerating thumbnails in Preferences > Images.]]></source>
         <target state="final"><![CDATA[Si certaines images n'apparaissent pas dans le front-office, essayez de régénérer les miniatures dans Préférences > Images.]]></target>
-        <note>views/templates/steps/post-update.html.twig:75</note>
+        <note>views/templates/steps/post-update.html.twig:83</note>
       </trans-unit>
       <trans-unit id="b6e8290a312769f4d3919f3dd42a21a7" approved="yes">
         <source>If something's wrong, you can restore a backup with this module. Your backup is available at {admin}/autoupgrade/backup.</source>
         <target state="final">Si quelque chose ne va pas, vous pouvez restaurer une sauvegarde avec ce module. Votre sauvegarde est disponible dans {admin}/autoupgrade/backup.</target>
-        <note>views/templates/steps/post-update.html.twig:78</note>
+        <note>views/templates/steps/post-update.html.twig:86</note>
       </trans-unit>
       <trans-unit id="3cdf2387430d70296aec1dbe3d6772ad" approved="yes">
         <source>If you can't access your back office, try enabling the debug mode manually in config/defines.inc.php by setting _PS_MODE_DEV_ to true.</source>
         <target state="final">Si vous ne pouvez pas accéder à votre back-office, essayez d'activer le mode debug manuellement dans config/defines.inc.php en définissant _PS_MODE_DEV_ sur true.</target>
-        <note>views/templates/steps/post-update.html.twig:81</note>
+        <note>views/templates/steps/post-update.html.twig:89</note>
       </trans-unit>
       <trans-unit id="caef47f6ddf52575a8fe9e566b68dcd8" approved="yes">
         <source>Select the backup you want to restore to</source>
@@ -1533,7 +1538,7 @@
       <trans-unit id="ea4788705e6873b424c65e91c2846b19" approved="yes">
         <source>Cancel</source>
         <target state="final">Annuler</target>
-        <note>views/templates/dialogs/dialog-error-report.html.twig:87</note>
+        <note>views/templates/dialogs/dialog-confirm-module-manager.html.twig:33</note>
       </trans-unit>
       <trans-unit id="f2a6c498fb90ee345d997f888fce3b18" approved="yes">
         <source>Delete</source>
@@ -1634,6 +1639,21 @@
         <source>Send error report</source>
         <target state="final">Envoyer un rapport d'erreur</target>
         <note>views/templates/components/form-open-error-report.html.twig:26</note>
+      </trans-unit>
+      <trans-unit id="fcfaee795fc8b429c1761004e00199a2">
+        <source>Access the Module Manager?</source>
+        <target state="needs-translation">Access the Module Manager?</target>
+        <note>views/templates/dialogs/dialog-confirm-module-manager.html.twig:21</note>
+      </trans-unit>
+      <trans-unit id="2df168b66d6492a1a8140d1b3c92b5c4">
+        <source>To reach the module manager, you will be logged out of your session and will have to log in again. Do you want to continue?</source>
+        <target state="needs-translation">To reach the module manager, you will be logged out of your session and will have to log in again. Do you want to continue?</target>
+        <note>views/templates/dialogs/dialog-confirm-module-manager.html.twig:23</note>
+      </trans-unit>
+      <trans-unit id="84422a7841825d9496d555ff527b16cf">
+        <source>Go to Module Manager</source>
+        <target state="needs-translation">Go to Module Manager</target>
+        <note>views/templates/dialogs/dialog-confirm-module-manager.html.twig:38</note>
       </trans-unit>
       <trans-unit id="2b3196ae5bc51de9273f565ca1fb9fef" approved="yes">
         <source>List of files missing</source>
