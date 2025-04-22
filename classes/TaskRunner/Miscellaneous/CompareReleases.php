@@ -54,9 +54,9 @@ class CompareReleases extends AbstractTask
                 $upgrader->branch = $matches[1];
                 $upgrader->channel = $channel;
                 if ($this->container->getUpgradeConfiguration()->get('channel') == 'private' && !$this->container->getUpgradeConfiguration()->get('private_allow_major')) {
-                    $upgrader->checkPSVersion(false, array('private', 'minor'));
+                    $upgrader->checkPSVersion(array('private', 'minor'));
                 } else {
-                    $upgrader->checkPSVersion(false, array('minor'));
+                    $upgrader->checkPSVersion(array('minor'));
                 }
                 $version = $upgrader->version_num;
         }

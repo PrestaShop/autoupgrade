@@ -48,9 +48,16 @@ class UpgradeNow extends AbstractTask
         $upgrader->branch = $matches[1];
         $upgrader->channel = $channel;
         if ($this->container->getUpgradeConfiguration()->get('channel') == 'private' && !$this->container->getUpgradeConfiguration()->get('private_allow_major')) {
-            $upgrader->checkPSVersion(false, array('private', 'minor'));
+            $upgrader->checkPSVersion(array('private', 'minor'));
         } else {
-            $upgrader->checkPSVersion(false, array('minor'));
+            $upgrader->checkPSVersion(array('minor'));
+        }
+
+        if (!$upgrader->isDestinationVersionCompatible()) {
+            $this->next = '';
+            $this->logger->info($this->translator->trans('This version of Update Assistant supports updates to PrestaShop 1.7. The process has been stopped to protect your store from updating to an unsupported version. Please update to PrestaShop 1.7 first, then use the latest version of Update Assistant to continue.', [], 'Modules.Autoupgrade.Admin'));
+
+            return;
         }
 
         if ($upgrader->isLastVersion()) {

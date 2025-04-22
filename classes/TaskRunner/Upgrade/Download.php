@@ -51,9 +51,9 @@ class Download extends AbstractTask
         $upgrader->channel = $this->container->getUpgradeConfiguration()->get('channel');
         $upgrader->branch = $matches[1];
         if ($this->container->getUpgradeConfiguration()->get('channel') == 'private' && !$this->container->getUpgradeConfiguration()->get('private_allow_major')) {
-            $upgrader->checkPSVersion(false, array('private', 'minor'));
+            $upgrader->checkPSVersion(array('private', 'minor'));
         } else {
-            $upgrader->checkPSVersion(false, array('minor'));
+            $upgrader->checkPSVersion(array('minor'));
         }
 
         if ($upgrader->channel == 'private') {
