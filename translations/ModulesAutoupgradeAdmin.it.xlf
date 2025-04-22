@@ -584,9 +584,9 @@
         <target state="final">La configurazione file_uploads del PHP è disabilitata.</target>
         <note>classes/UpgradeSelfCheck.php:331</note>
       </trans-unit>
-      <trans-unit id="8406b91fd5a290de3a1e1516db6e79b8" approved="yes">
-        <source>Unable to generate private keys using openssl_pkey_new. Check your OpenSSL configuration, especially the path to openssl.cafile.</source>
-        <target state="final">Impossibile generare chiavi private utilizzando openssl_pkey_new. Controlla la tua configurazione OpenSSL, in particolare il percorso di openssl.cafile.</target>
+      <trans-unit id="cf84e48841529f3b9972825d3ffe8dec">
+        <source>Failed to generate private keys using openssl_pkey_new(). Please check your PHP configuration, especially the openssl.cafile setting, and ensure that the specified file exists and is accessible.</source>
+        <target state="needs-translation">Failed to generate private keys using openssl_pkey_new(). Please check your PHP configuration, especially the openssl.cafile setting, and ensure that the specified file exists and is accessible.</target>
         <note>classes/UpgradeSelfCheck.php:336</note>
       </trans-unit>
       <trans-unit id="1f2d0f1827f406e61d44d41b8c3b9a53" approved="yes">
