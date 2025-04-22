@@ -37,6 +37,11 @@ export default {
         'find_support_url': 'https://www.prestashop-project.org/support/',
         'update_link': '#',
         'release_note': '#',
+        'dismiss_form_options': {
+            '7_DAYS': '7_days',
+            '30_DAYS': '30_days',
+            'UNTIL_NEXT_RELEASE': 'until_next_release',
+        },
     },
     play: async () => {
         const dialog = document.getElementById('dialog-update-notification');

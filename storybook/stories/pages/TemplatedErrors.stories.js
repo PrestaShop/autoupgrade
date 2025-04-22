@@ -50,6 +50,7 @@ export default {
     exit_link: "#",
     dev_doc_link: "#",
     data_transparency_link: "#",
+    form_route_to_confirm_module_manager_dialog: "#",
 
     error_template_target: "ua_page",
     exit_to_shop_admin: "#",
