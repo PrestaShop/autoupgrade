@@ -56,26 +56,10 @@ class PhpVersionResolverService
      */
     public function getPhpCompatibilityRange(string $targetVersion): ?array
     {
-        if (version_compare($targetVersion, '8', '<')) {
-            $targetMinorVersion = VersionUtils::splitPrestaShopVersion($targetVersion)['minor'];
-
-            $requirements = $this->getPrestashop17Requirements();
-            if (isset($requirements[$targetMinorVersion])) {
-                $range = [
-                    'php_min_version' => $requirements[$targetMinorVersion]->getPhpMinVersion(),
-                    'php_max_version' => $requirements[$targetMinorVersion]->getPhpMaxVersion(),
-                ];
-            }
-
-            if (!isset($range)) {
-                return null;
-            }
-        } else {
-            try {
-                $range = $this->distributionApiService->getPhpVersionRequirements($targetVersion);
-            } catch (DistributionApiException $apiException) {
-                return null;
-            }
+        try {
+            $range = $this->distributionApiService->getPhpVersionRequirements($targetVersion);
+        } catch (DistributionApiException $apiException) {
+            return null;
         }
         $currentPhpVersion = VersionUtils::getHumanReadableVersionOf(PHP_VERSION_ID);
         $range['php_current_version'] = $currentPhpVersion;
@@ -125,26 +109,15 @@ class PhpVersionResolverService
             throw new LogicException('The minimum version to use the module is PHP 7.1');
         }
 
-        /** @var array<string, PrestashopRelease> $releasesFromChannelFile */
-        $releasesFromChannelFile = $this->getReleasesFromChannelFile();
-        if (empty($releasesFromChannelFile)) {
+        $releases = $this->distributionApiService->getReleases();
+
+        if (empty($releases)) {
             throw new UpgradeException('Unable to retrieve latest 1.7 release of Prestashop.');
-        }
-
-        if ($currentPhpVersion < 70200) {
-            $release = $releasesFromChannelFile['1.7'];
-
-            // current version is superior or equal
-            if (version_compare($this->currentPsVersion, $release->getVersion(), '>=')) {
-                return null;
-            }
-
-            return $release;
         }
 
         $validReleases = [];
 
-        foreach ($this->distributionApiService->getReleases() as $release) {
+        foreach ($releases as $release) {
             if ($release->getStability() !== 'stable') {
                 continue;
             }
@@ -165,8 +138,6 @@ class PhpVersionResolverService
                 // verify channel.xml matching
                 $branch = VersionUtils::splitPrestaShopVersion($release->getVersion())['minor'];
                 if (isset($releasesFromChannelFile[$branch]) && version_compare($releasesFromChannelFile[$branch]->getVersion(), $release->getVersion(), '>=')) {
-                    $releaseNote = $releasesFromChannelFile[$branch]->getReleaseNoteUrl();
-                    $release->setReleaseNoteUrl($releaseNote);
                     $validReleases[] = $release;
                 }
             }
@@ -182,65 +153,5 @@ class PhpVersionResolverService
         });
 
         return $release;
-    }
-
-    /**
-     * @return array<string, PrestashopRelease>
-     */
-    private function getPrestashop17Requirements(): array
-    {
-        return [
-            '1.7.0' => new PrestashopRelease('1.7.0.0', 'stable', '7.1', '5.4'),
-            '1.7.1' => new PrestashopRelease('1.7.1.0', 'stable', '7.1', '5.4'),
-            '1.7.2' => new PrestashopRelease('1.7.2.0', 'stable', '7.1', '5.4'),
-            '1.7.3' => new PrestashopRelease('1.7.3.0', 'stable', '7.1', '5.4'),
-            '1.7.4' => new PrestashopRelease('1.7.4.0', 'stable', '7.1', '5.6'),
-            '1.7.5' => new PrestashopRelease('1.7.5.0', 'stable', '7.2', '5.6'),
-            '1.7.6' => new PrestashopRelease('1.7.6.0', 'stable', '7.2', '5.6'),
-            '1.7.7' => new PrestashopRelease('1.7.7.0', 'stable', '7.3', '5.6'),
-            '1.7.8' => new PrestashopRelease('1.7.8.0', 'stable', '7.4', '5.6'),
-        ];
-    }
-
-    /**
-     * @return array<string, PrestashopRelease>
-     *
-     * @throws UpgradeException
-     */
-    public function getReleasesFromChannelFile(): array
-    {
-        $releases = [];
-        $channelFile = $this->fileLoader->getXmlChannel();
-
-        if (!$channelFile) {
-            throw new UpgradeException('Unable to retrieve channel.xml from API.');
-        }
-
-        foreach ($channelFile->channel as $channel) {
-            if ((string) $channel['name'] !== 'stable') {
-                continue;
-            }
-
-            foreach ($channel->branch as $branch) {
-                $cleanedZipUrl = str_replace(["\n", "\r"], '', $branch->download->link);
-                $cleanedZipUrl = trim($cleanedZipUrl);
-
-                $cleanedChangelogUrl = str_replace(["\n", "\r"], '', $branch->changelog);
-                $cleanedChangelogUrl = trim($cleanedChangelogUrl);
-
-                $releases[(string) $branch['name']] = new PrestashopRelease(
-                        (string) $branch->num,
-                    'stable',
-                    null,
-                    null,
-                        $cleanedZipUrl,
-                        'https://api.prestashop.com/xml/md5/' . $branch->num,
-                        (string) $branch->download->md5,
-                        $cleanedChangelogUrl
-                    );
-            }
-        }
-
-        return $releases;
     }
 }

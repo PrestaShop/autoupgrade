@@ -490,6 +490,7 @@ class UpgradeContainer
                 $this->getUpdateConfiguration(),
                 $this->getFileSystem(),
                 $this->getFileLoader(),
+                $this->getDistributionApiService(),
                 $this->getProperty(self::PS_VERSION)
             );
 

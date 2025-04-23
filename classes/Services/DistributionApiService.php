@@ -65,6 +65,11 @@ class DistributionApiService
         throw new DistributionApiException($this->translator->trans('No version match in Distribution api for %s', [$targetVersion]), DistributionApiException::VERSION_NOT_FOUND_CODE);
     }
 
+    /**
+     * @return AutoupgradeRelease[]
+     *
+     * @throws DistributionApiException
+     */
     public function getAutoupgradeReleases(): array
     {
         $response = @file_get_contents(self::API_URL . '/autoupgrade');

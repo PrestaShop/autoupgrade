@@ -109,10 +109,4 @@ class PrestashopRelease
     {
         return $this->distribution;
     }
-
-    // TODO: to delete
-    public function setReleaseNoteUrl(?string $releaseNoteUrl): void
-    {
-        $this->releaseNoteUrl = $releaseNoteUrl;
-    }
 }

@@ -25,6 +25,7 @@ use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
 use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\Models\PrestashopRelease;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Services\DistributionApiService;
 use PrestaShop\Module\AutoUpgrade\Services\PhpVersionResolverService;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 use PrestaShop\Module\AutoUpgrade\Xml\FileLoader;
@@ -48,6 +49,8 @@ class Upgrader
     protected $filesystem;
     /** @var FileLoader */
     protected $fileLoader;
+    /** @var DistributionApiService */
+    protected $distributionApiService;
 
     public function __construct(
         Translator $translator,
@@ -55,14 +58,16 @@ class Upgrader
         UpgradeConfiguration $updateConfiguration,
         Filesystem $filesystem,
         FileLoader $fileLoader,
+        DistributionApiService $distributionApiService,
         string $currentPsVersion
     ) {
         $this->translator = $translator;
-        $this->currentPsVersion = $currentPsVersion;
         $this->phpVersionResolverService = $phpRequirementService;
         $this->updateConfiguration = $updateConfiguration;
         $this->filesystem = $filesystem;
         $this->fileLoader = $fileLoader;
+        $this->distributionApiService = $distributionApiService;
+        $this->currentPsVersion = $currentPsVersion;
     }
 
     /**
@@ -121,17 +126,30 @@ class Upgrader
     }
 
     /**
+     * @throws DistributionApiException
      * @throws UpgradeException
      */
     public function getLatestModuleVersion(): string
     {
-        $channelFile = $this->fileLoader->getXmlChannel();
+        $autoupgradeReleases = $this->distributionApiService->getAutoupgradeReleases();
 
-        if (empty($channelFile)) {
-            throw new UpgradeException($this->translator->trans('Unable to retrieve channel.xml.'));
+        if (empty($autoupgradeReleases)) {
+            throw new UpgradeException($this->translator->trans('Unable to retrieve autoupgrade releases.'));
         }
 
-        return $channelFile->autoupgrade->last_version;
+        $destinationVersion = $this->getDestinationVersion();
+
+        $eligibleAutoupgradeReleases = array_filter($autoupgradeReleases, function($autoupgradeRelease) use ($destinationVersion) {
+            return $autoupgradeRelease->getPrestashopMinVersion() >= $destinationVersion && $autoupgradeRelease->getPrestashopMaxVersion() <= $destinationVersion;
+        });
+
+        $autoupgradeRelease = reset($eligibleAutoupgradeReleases);
+
+        if ($autoupgradeRelease === false) {
+            throw new UpgradeException($this->translator->trans('Unable to retrieve autoupgrade recommended release.'));
+        }
+
+        return $autoupgradeRelease->getRecommendedVersion();
     }
 
     /**
