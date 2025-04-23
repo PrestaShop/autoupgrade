@@ -108,7 +108,7 @@ class PhpVersionResolverService
         $releases = $this->distributionApiService->getReleases();
 
         if (empty($releases)) {
-            throw new UpgradeException('Unable to retrieve latest 1.7 release of Prestashop.');
+            throw new UpgradeException('Unable to retrieve releases of Prestashop.');
         }
 
         $validReleases = [];

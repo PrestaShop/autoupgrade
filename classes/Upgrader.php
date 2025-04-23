@@ -140,7 +140,7 @@ class Upgrader
         $destinationVersion = $this->getDestinationVersion();
 
         $eligibleAutoupgradeReleases = array_filter($autoupgradeReleases, function ($autoupgradeRelease) use ($destinationVersion) {
-            return $autoupgradeRelease->getPrestashopMinVersion() >= $destinationVersion && $autoupgradeRelease->getPrestashopMaxVersion() <= $destinationVersion;
+            return $autoupgradeRelease->getPrestashopMinVersion() <= $destinationVersion && $autoupgradeRelease->getPrestashopMaxVersion() >= $destinationVersion;
         });
 
         $autoupgradeRelease = reset($eligibleAutoupgradeReleases);

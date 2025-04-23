@@ -33,7 +33,7 @@ class AutoupgradeRelease
     private $recommendedVersionLink;
     /** @var string */
     private $recommendedVersionMd5;
-    /** @var string */
+    /** @var string|null */
     private $recommendedVersionChangelog;
 
     public function __construct(
@@ -42,7 +42,7 @@ class AutoupgradeRelease
         string $recommendedVersion,
         string $recommendedVersionLink,
         string $recommendedVersionMd5,
-        string $recommendedVersionChangelog
+        ?string $recommendedVersionChangelog
     ) {
         $this->prestashopMinVersion = $prestashopMinVersion;
         $this->prestashopMaxVersion = $prestashopMaxVersion;
@@ -77,7 +77,7 @@ class AutoupgradeRelease
         return $this->recommendedVersionMd5;
     }
 
-    public function getRecommendedVersionChangelog(): string
+    public function getRecommendedVersionChangelog(): ?string
     {
         return $this->recommendedVersionChangelog;
     }

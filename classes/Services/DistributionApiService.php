@@ -78,7 +78,7 @@ class DistributionApiService
         } else {
             $releases = [];
             $data = json_decode($response, true);
-            foreach ($data as $versionInfo) {
+            foreach ($data['prestashop'] as $versionInfo) {
                 $releases[] = new AutoupgradeRelease(
                     $versionInfo['prestashop_min'],
                     $versionInfo['prestashop_max'],
