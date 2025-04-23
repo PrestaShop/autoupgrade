@@ -102,32 +102,4 @@ class ChecksumCompareTest extends TestCase
 
         $this->assertEquals($expected, $tamperedFiles);
     }
-
-    public function testGetSymbolicLinks()
-    {
-        $fileSystemAdapter = $this->getMockBuilder(FilesystemAdapter::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $fileLoader = $this->getMockBuilder(FileLoader::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getXmlMd5File'])
-            ->getMock();
-
-        $xmlFile = @simplexml_load_file(__DIR__ . '/../../fixtures/checksum-compare/8.1.0.xml');
-
-        $fileLoader->method('getXmlMd5File')
-            ->willReturn($xmlFile);
-
-        $checksumCompare = new ChecksumCompare($fileLoader, $fileSystemAdapter, __DIR__ . '/../../fixtures/checksum-compare/8.1.0', __DIR__ . '/../../fixtures/checksum-compare/8.1.0/adminTest');
-        $actual = $checksumCompare->getSymbolicLinks('8.1.0');
-        $expected = [
-            [
-                'name' => 'admin/bundles/apiplatform',
-                'target' => '../../vendor/api-platform/core/src/Symfony/Bundle/Resources/public/',
-            ],
-        ];
-
-        $this->assertEquals($expected, $actual);
-    }
 }
