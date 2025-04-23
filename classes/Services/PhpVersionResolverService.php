@@ -36,18 +36,15 @@ class PhpVersionResolverService
 
     /** @var DistributionApiService */
     private $distributionApiService;
-    /** @var FileLoader */
-    private $fileLoader;
     /** @var string */
     private $currentPsVersion;
 
     /**
      * @param DistributionApiService $distributionApiService
      */
-    public function __construct(DistributionApiService $distributionApiService, FileLoader $fileLoader, string $currentPsVersion)
+    public function __construct(DistributionApiService $distributionApiService, string $currentPsVersion)
     {
         $this->distributionApiService = $distributionApiService;
-        $this->fileLoader = $fileLoader;
         $this->currentPsVersion = $currentPsVersion;
     }
 
@@ -135,11 +132,7 @@ class PhpVersionResolverService
 
             // verify php compatibility
             if ($currentPhpVersion >= $versionMinWithoutPatch && $currentPhpVersion <= $versionMaxWithoutPatch) {
-                // verify channel.xml matching
-                $branch = VersionUtils::splitPrestaShopVersion($release->getVersion())['minor'];
-                if (isset($releasesFromChannelFile[$branch]) && version_compare($releasesFromChannelFile[$branch]->getVersion(), $release->getVersion(), '>=')) {
-                    $validReleases[] = $release;
-                }
+                $validReleases[] = $release;
             }
         }
 
