@@ -26,7 +26,6 @@ use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
 use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\Models\PrestashopRelease;
 use PrestaShop\Module\AutoUpgrade\VersionUtils;
-use PrestaShop\Module\AutoUpgrade\Xml\FileLoader;
 
 class PhpVersionResolverService
 {

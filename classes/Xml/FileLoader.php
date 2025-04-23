@@ -21,7 +21,6 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Xml;
 
-use Configuration;
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\Upgrader;
 use SimpleXMLElement;
