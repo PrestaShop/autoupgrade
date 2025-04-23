@@ -23,6 +23,7 @@ namespace PrestaShop\Module\AutoUpgrade\Services;
 
 use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
 use PrestaShop\Module\AutoUpgrade\Models\PrestashopRelease;
+use PrestaShop\Module\AutoUpgrade\Models\AutoupgradeRelease;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 
 class DistributionApiService
@@ -62,6 +63,29 @@ class DistributionApiService
             }
         }
         throw new DistributionApiException($this->translator->trans('No version match in Distribution api for %s', [$targetVersion]), DistributionApiException::VERSION_NOT_FOUND_CODE);
+    }
+
+    public function getAutoupgradeReleases(): array
+    {
+        $response = @file_get_contents(self::API_URL . '/autoupgrade');
+        if (!$response) {
+            throw new DistributionApiException($this->translator->trans('Error when retrieving Prestashop versions from Distribution api'), DistributionApiException::API_NOT_CALLABLE_CODE);
+        } else {
+            $releases = [];
+            $data = json_decode($response, true);
+            foreach ($data as $versionInfo) {
+                $releases[] = new AutoupgradeRelease(
+                    $versionInfo['prestashop_min'],
+                    $versionInfo['prestashop_max'],
+                    $versionInfo['autoupgrade_recommended']['last_version'],
+                    $versionInfo['autoupgrade_recommended']['download']['link'],
+                    $versionInfo['autoupgrade_recommended']['download']['md5'],
+                    $versionInfo['autoupgrade_recommended']['changelog']
+                );
+            }
+
+            return $releases;
+        }
     }
 
     /**
