@@ -57,8 +57,6 @@ class UpgradeSelfCheck
     private $moduleVersionIsLatest;
     /** @var int */
     private $maxExecutionTime;
-    /** @var int */
-    private $oPCacheRevalidateFrequency;
     /** @var Upgrader */
     private $upgrader;
     /**

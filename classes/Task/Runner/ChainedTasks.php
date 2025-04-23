@@ -53,6 +53,7 @@ abstract class ChainedTasks extends AbstractTask
      */
     public function run(): int
     {
+        $this->disableOPCacheIfNecessary();
         $this->setupLogging();
 
         $requireRestart = false;
@@ -155,5 +156,14 @@ abstract class ChainedTasks extends AbstractTask
         }
 
         return $timeZone;
+    }
+
+    private function disableOPCacheIfNecessary(): void
+    {
+        $steps = [TaskName::TASK_UPDATE_FILES, TaskName::TASK_UPDATE_DATABASE, TaskName::TASK_UPDATE_MODULES, TaskName::TASK_RESTORE_DATABASE];
+
+        if (in_array($this->step, $steps)) {
+            @ini_set('opcache.enable', '0');
+        }
     }
 }

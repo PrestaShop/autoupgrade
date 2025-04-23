@@ -127,32 +127,6 @@ abstract class AbstractTask
             ->setUpgradeConfiguration($this->container->getUpdateConfiguration());
     }
 
-    /**
-     * @return TaskType::TASK_TYPE_* $task
-     */
-    private function getTaskType(): string
-    {
-        if ($this instanceof ChainedTasks) {
-            return $this->stepClass::TASK_TYPE;
-        }
-
-        return $this::TASK_TYPE;
-    }
-
-    private function checkTaskMayRun(): void
-    {
-        // PrestaShop demo mode
-        if (defined('_PS_MODE_DEMO_') && _PS_MODE_DEMO_ == true) {
-            return;
-        }
-
-        $currentAction = get_class($this);
-        if (isset(self::$skipAction[$currentAction])) {
-            $this->next = self::$skipAction[$currentAction];
-            $this->logger->info($this->translator->trans('Action %s skipped', [$currentAction]));
-        }
-    }
-
     public function setErrorFlag(): void
     {
         $this->error = true;
@@ -185,4 +159,30 @@ abstract class AbstractTask
     }
 
     abstract public function run(): int;
+
+    /**
+     * @return TaskType::TASK_TYPE_* $task
+     */
+    private function getTaskType(): string
+    {
+        if ($this instanceof ChainedTasks) {
+            return $this->stepClass::TASK_TYPE;
+        }
+
+        return $this::TASK_TYPE;
+    }
+
+    private function checkTaskMayRun(): void
+    {
+        // PrestaShop demo mode
+        if (defined('_PS_MODE_DEMO_') && _PS_MODE_DEMO_ == true) {
+            return;
+        }
+
+        $currentAction = get_class($this);
+        if (isset(self::$skipAction[$currentAction])) {
+            $this->next = self::$skipAction[$currentAction];
+            $this->logger->info($this->translator->trans('Action %s skipped', [$currentAction]));
+        }
+    }
 }
