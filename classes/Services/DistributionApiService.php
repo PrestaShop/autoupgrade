@@ -43,7 +43,7 @@ class DistributionApiService
     /**
      * @throws DistributionApiException
      *
-     * @return array<string, string>
+     * @return array{php_min_version: string, php_max_version: string}
      */
     public function getPhpVersionRequirements(string $targetVersion): array
     {
