@@ -28,9 +28,8 @@ class AssetsEnvironmentTest extends TestCase
 
     protected function setUp()
     {
-        $shopBasePath = '/yo/doge';
-        $adminPath = 'wololo';
-        $this->assetsEnvironment = new AssetsEnvironment(new UrlGenerator($shopBasePath, $adminPath));
+        $adminPath = 'admin-wololo';
+        $this->assetsEnvironment = new AssetsEnvironment(new UrlGenerator($adminPath));
     }
 
     protected function tearDown()
