@@ -121,7 +121,7 @@ class PhpVersionResolverService
         $validReleases = [];
 
         foreach ($releases as $release) {
-            if ($release->getStability() !== 'stable') {
+            if ($release->getStability() !== 'stable' || $release->getZipDownloadUrl() === null || $release->getXmlDownloadUrl() === null) {
                 continue;
             }
 
