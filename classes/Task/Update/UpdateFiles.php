@@ -118,7 +118,26 @@ class UpdateFiles extends AbstractTask
 
             return true;
         }
-        if (is_dir($orig)) {
+
+        if (is_link($orig)) {
+            $symLinkTarget = readlink($orig);
+
+            if ($this->container->getFileSystem()->exists($dest)) {
+                $this->container->getFileSystem()->remove($dest);
+            }
+
+            try {
+                $this->container->getFileSystem()->symlink($symLinkTarget, $dest);
+                $this->logger->debug($this->translator->trans('Created link %s to %s.', [$file, $symLinkTarget]));
+
+                return true;
+            } catch (IOException $e) {
+                $this->next = TaskName::TASK_ERROR;
+                $this->logger->error($this->translator->trans('Error while creating link %s: %s', [$file, $e->getMessage()]));
+
+                return false;
+            }
+        } elseif (is_dir($orig)) {
             // if $dest is not a directory (that can happen), just remove that file
             if (!is_dir($dest) && $this->container->getFileSystem()->exists($dest)) {
                 $this->container->getFileSystem()->remove($dest);
