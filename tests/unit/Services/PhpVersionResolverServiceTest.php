@@ -153,7 +153,7 @@ class PhpVersionResolverServiceTest extends TestCase
         $this->distributionApiService->method('getApiEndpoint')
             ->will($this->returnValueMap([
                 ['/prestashop', @file_get_contents(__DIR__ . '/../../fixtures/api-distribution/prestashop.json')],
-                ['/autoupgrade', @file_get_contents(__DIR__ . '/../../fixtures/api-distribution/empty_autoupgrade.json')]
+                ['/autoupgrade', @file_get_contents(__DIR__ . '/../../fixtures/api-distribution/empty_autoupgrade.json')],
             ]));
 
         $this->expectException(UpgradeException::class);
@@ -168,8 +168,8 @@ class PhpVersionResolverServiceTest extends TestCase
     public function prestashopDestinationReleaseProvider(): array
     {
         return [
-            'too_high_php_version' => [999999, null],
-            'max_php_version' => [80100, new PrestashopRelease('8.2.1',
+            [999999, null],
+            [80100, new PrestashopRelease('8.2.1',
                 'stable',
                 '8.1',
                 '7.2.5',
@@ -179,7 +179,7 @@ class PhpVersionResolverServiceTest extends TestCase
                 'https://build.prestashop-project.org/news/2025/prestashop-8-2-1-maintenance-release/',
                 'open_source'
             )],
-            'min_php_version' => [70205, new PrestashopRelease('8.2.1',
+            [70205, new PrestashopRelease('8.2.1',
                 'stable',
                 '8.1',
                 '7.2.5',
@@ -189,7 +189,7 @@ class PhpVersionResolverServiceTest extends TestCase
                 'https://build.prestashop-project.org/news/2025/prestashop-8-2-1-maintenance-release/',
                 'open_source'
             )],
-            'min_php_version_2' => [70103, new PrestashopRelease('1.7.8.11',
+            [70103, new PrestashopRelease('1.7.8.11',
                 'stable',
                 '7.4',
                 '7.1.3',
@@ -214,7 +214,7 @@ class PhpVersionResolverServiceTest extends TestCase
         $this->distributionApiService->method('getApiEndpoint')
             ->will($this->returnValueMap([
                 ['/prestashop', @file_get_contents(__DIR__ . '/../../fixtures/api-distribution/prestashop.json')],
-                ['/autoupgrade', @file_get_contents(__DIR__ . '/../../fixtures/api-distribution/autoupgrade.json')]
+                ['/autoupgrade', @file_get_contents(__DIR__ . '/../../fixtures/api-distribution/autoupgrade.json')],
             ]));
 
         $this->assertEquals($expected, $this->phpVersionResolverService->getPrestashopDestinationRelease($input));
