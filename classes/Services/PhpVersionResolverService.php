@@ -96,6 +96,7 @@ class PhpVersionResolverService
     /**
      * @throws DistributionApiException
      * @throws UpgradeException
+     * @throws LogicException
      */
     public function getPrestashopDestinationRelease(int $currentPhpVersionId): ?PrestashopRelease
     {
@@ -111,6 +112,12 @@ class PhpVersionResolverService
             throw new UpgradeException('Unable to retrieve releases of Prestashop.');
         }
 
+        $autoupgradeCompatibilities = $this->distributionApiService->getAutoupgradeReleases();
+
+        if (empty($autoupgradeCompatibilities)) {
+            throw new UpgradeException('Unable to retrieve autoupgrade compatibilities.');
+        }
+
         $validReleases = [];
 
         foreach ($releases as $release) {
@@ -122,6 +129,22 @@ class PhpVersionResolverService
             if (version_compare($this->currentPsVersion, $release->getVersion(), '>=')) {
                 continue;
             }
+
+            // add check compat with autoupgrade module
+
+            $autoupgradeSupportVersion = false;
+
+            foreach ($autoupgradeCompatibilities as $autoupgradeCompatibility) {
+                if ($autoupgradeCompatibility->getPrestashopMaxVersion() >= $release->getVersion() && $autoupgradeCompatibility->getPrestashopMinVersion() <= $release->getVersion()) {
+                    $autoupgradeSupportVersion = true;
+                }
+            }
+
+            if (!$autoupgradeSupportVersion) {
+                continue;
+            }
+
+            // add check compat with autoupgrade endpoint
 
             $versionMin = VersionUtils::getPhpVersionId($release->getPhpMinVersion());
             $versionMax = VersionUtils::getPhpVersionId($release->getPhpMaxVersion());
