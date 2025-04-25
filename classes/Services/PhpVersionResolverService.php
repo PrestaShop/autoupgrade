@@ -143,7 +143,7 @@ class PhpVersionResolverService
             $versionMaxWithoutPatch = VersionUtils::getPhpMajorMinorVersionId($versionMax);
 
             // verify php compatibility
-            if ($currentPhpVersion >= $versionMinWithoutPatch && $currentPhpVersion <= $versionMaxWithoutPatch) {
+            if (version_compare($currentPhpVersion, $versionMinWithoutPatch, '>=') && version_compare($currentPhpVersion, $versionMaxWithoutPatch, '<=')) {
                 $validReleases[] = $release;
             }
         }
