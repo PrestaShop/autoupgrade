@@ -28,7 +28,6 @@ use PrestaShop\Module\AutoUpgrade\State\UpdateState;
 class Analytics
 {
     const SEGMENT_CLIENT_KEY_PHP = 'NrWZk42rDrA56DkEt9Tj18DBirLoRLhj';
-    const SEGMENT_CLIENT_KEY_JS = 'RM87m03McDSL4Fvm3GJ3piBPbAL3Fa2i';
 
     const WITH_COMMON_PROPERTIES = 0;
     const WITH_UPDATE_PROPERTIES = 1;
@@ -92,6 +91,7 @@ class Analytics
         }
 
         \Segment::track(array_merge(
+            ['userId' => $this->anonymousId],
             ['event' => '[SUE] ' . $event],
             $this->getProperties($propertiesType)
         ));
@@ -139,7 +139,6 @@ class Analytics
         $commonProperties = $this->properties[self::WITH_COMMON_PROPERTIES] ?? [];
 
         return [
-            'anonymousId' => $this->anonymousId,
             'channel' => 'browser',
             'properties' => array_merge(
                 $commonProperties,
@@ -155,10 +154,5 @@ class Analytics
     {
         return isset($_SERVER[self::URL_TRACKING_ENV_NAME])
             && ((bool) $_SERVER[self::URL_TRACKING_ENV_NAME] === false || $_SERVER[self::URL_TRACKING_ENV_NAME] === 'false');
-    }
-
-    public function getAnonymousId(): string
-    {
-        return $this->anonymousId;
     }
 }
