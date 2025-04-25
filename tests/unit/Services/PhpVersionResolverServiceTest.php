@@ -171,33 +171,36 @@ class PhpVersionResolverServiceTest extends TestCase
             [999999, null],
             [80100, new PrestashopRelease('8.2.1',
                 'stable',
+                'open_source',
                 '8.1',
                 '7.2.5',
                 'https://api.prestashop-project.org/assets/prestashop/8.2.1/prestashop.zip',
                 'https://api.prestashop-project.org/assets/prestashop/8.2.1/prestashop.xml',
                 '513bd62a9f9ad35a723f362d88c99790',
                 'https://build.prestashop-project.org/news/2025/prestashop-8-2-1-maintenance-release/',
-                'open_source'
+            null
             )],
             [70205, new PrestashopRelease('8.2.1',
                 'stable',
+                'open_source',
                 '8.1',
                 '7.2.5',
                 'https://api.prestashop-project.org/assets/prestashop/8.2.1/prestashop.zip',
                 'https://api.prestashop-project.org/assets/prestashop/8.2.1/prestashop.xml',
                 '513bd62a9f9ad35a723f362d88c99790',
                 'https://build.prestashop-project.org/news/2025/prestashop-8-2-1-maintenance-release/',
-                'open_source'
+            null
             )],
             [70103, new PrestashopRelease('1.7.8.11',
                 'stable',
+                'open_source',
                 '7.4',
                 '7.1.3',
                 'https://api.prestashop-project.org/assets/prestashop/1.7.8.11/prestashop.zip',
                 'https://api.prestashop-project.org/assets/prestashop/1.7.8.11/prestashop.xml',
                 'd29d55f89a2c44bef3d5c51b70e3a771',
                 'https://build.prestashop-project.org/news/2024/prestashop-1-7-8-11-maintenance-release/',
-                'open_source'
+                null
             )],
         ];
     }

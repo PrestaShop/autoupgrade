@@ -25,6 +25,10 @@ class PrestashopRelease
 {
     /** @var string */
     private $version;
+    /** @var 'rc'|'beta'|'stable' */
+    private $stability;
+    /** @var 'open_source'|'classic' */
+    private $distribution;
     /** @var ?string */
     private $phpMaxVersion;
     /** @var ?string */
@@ -37,37 +41,46 @@ class PrestashopRelease
     private $zipMd5;
     /** @var ?string */
     private $releaseNoteUrl;
-    /** @var 'rc'|'beta'|'stable' */
-    private $stability;
-    /** @var 'open_source'|'classic' */
-    private $distribution;
+    /** @var ?string */
+    private $distributionVersion;
 
     public function __construct(
         string $version,
         string $stability,
+        string $distribution = null,
         ?string $phpMaxVersion = null,
         ?string $phpMinVersion = null,
         ?string $zipDownloadUrl = null,
         ?string $xmlDownloadUrl = null,
         ?string $zipMd5 = null,
         ?string $releaseNoteUrl = null,
-        ?string $distribution = null
+        ?string $distributionVersion = null
     ) {
         $this->version = $version;
+        $this->stability = $stability;
+        $this->distribution = $distribution;
         $this->phpMaxVersion = $phpMaxVersion;
         $this->phpMinVersion = $phpMinVersion;
         $this->zipDownloadUrl = $zipDownloadUrl;
         $this->xmlDownloadUrl = $xmlDownloadUrl;
         $this->zipMd5 = $zipMd5;
         $this->releaseNoteUrl = $releaseNoteUrl;
-        $this->stability = $stability;
-        $this->releaseNoteUrl = $releaseNoteUrl;
-        $this->distribution = $distribution;
+        $this->distributionVersion = $distributionVersion;
     }
 
     public function getVersion(): string
     {
         return $this->version;
+    }
+
+    public function getStability(): string
+    {
+        return $this->stability;
+    }
+
+    public function getDistribution(): string
+    {
+        return $this->distribution;
     }
 
     public function getPhpMaxVersion(): ?string
@@ -95,18 +108,13 @@ class PrestashopRelease
         return $this->zipMd5;
     }
 
-    public function getStability(): string
-    {
-        return $this->stability;
-    }
-
     public function getReleaseNoteUrl(): ?string
     {
         return $this->releaseNoteUrl;
     }
 
-    public function getDistribution(): string
+    public function getDistributionVersion(): ?string
     {
-        return $this->distribution;
+        return $this->distributionVersion;
     }
 }

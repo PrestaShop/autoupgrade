@@ -91,13 +91,14 @@ class DistributionApiService
             $releases[] = new PrestashopRelease(
                 $versionInfo['version'],
                 $versionInfo['stability'],
+                $versionInfo['distribution'],
                 $versionInfo['php_max_version'],
                 $versionInfo['php_min_version'],
                 $versionInfo['zip_download_url'],
                 $versionInfo['xml_download_url'],
                 $versionInfo['zip_md5'],
                 $versionInfo['release_notes_url'],
-                $versionInfo['distribution']
+                $versionInfo['distribution_version']
             );
         }
 
@@ -105,9 +106,9 @@ class DistributionApiService
     }
 
     /**
-     * @return AutoupgradeRelease[]
-     *
      * @throws DistributionApiException
+     *
+     * @return AutoupgradeRelease[]
      */
     public function getAutoupgradeReleases(): array
     {
