@@ -23,7 +23,6 @@ namespace PrestaShop\Module\AutoUpgrade\Services;
 
 use LogicException;
 use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
-use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\Models\PrestashopRelease;
 use PrestaShop\Module\AutoUpgrade\VersionUtils;
 

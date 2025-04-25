@@ -27,8 +27,8 @@ use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\Models\PrestashopRelease;
 use PrestaShop\Module\AutoUpgrade\Services\DistributionApiService;
 use PrestaShop\Module\AutoUpgrade\Services\PhpVersionResolverService;
-use PrestaShop\Module\AutoUpgrade\VersionUtils;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
+use PrestaShop\Module\AutoUpgrade\VersionUtils;
 
 class PhpVersionResolverServiceTest extends TestCase
 {

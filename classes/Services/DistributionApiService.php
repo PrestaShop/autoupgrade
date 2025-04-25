@@ -45,7 +45,7 @@ class DistributionApiService
      *
      * @param string $path
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     public function getApiEndpoint(string $path)
     {
