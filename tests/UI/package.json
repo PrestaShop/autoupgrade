@@ -34,7 +34,7 @@
         "typescript": "^5.3.3"
     },
     "dependencies": {
-        "@playwright/test": "^1.44.0",
+        "@playwright/test": "^1.48.1",
         "@prestashop-core/ui-testing": "https://github.com/PrestaShop/ui-testing-library#main",
         "dotenv": "^16.3.1",
         "maildev": "^2.2.1",
