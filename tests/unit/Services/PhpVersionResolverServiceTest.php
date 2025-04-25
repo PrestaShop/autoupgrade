@@ -28,6 +28,7 @@ use PrestaShop\Module\AutoUpgrade\Models\PrestashopRelease;
 use PrestaShop\Module\AutoUpgrade\Services\DistributionApiService;
 use PrestaShop\Module\AutoUpgrade\Services\PhpVersionResolverService;
 use PrestaShop\Module\AutoUpgrade\VersionUtils;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 
 class PhpVersionResolverServiceTest extends TestCase
 {
@@ -40,8 +41,14 @@ class PhpVersionResolverServiceTest extends TestCase
             $this->markTestSkipped('An issue with this version of PHPUnit and PHP 8+ prevents this test to run.');
         }
 
+        $translator = $this->createMock(Translator::class);
+        $translator->method('trans')
+            ->willReturnCallback(function ($message, $parameters = []) {
+                return vsprintf($message, $parameters);
+            });
+
         $this->distributionApiService = $this->getMockBuilder(DistributionApiService::class)
-            ->disableOriginalConstructor()
+            ->setConstructorArgs([$translator])
             ->setMethods(['getPhpVersionRequirements', 'getApiEndpoint'])
             ->getMock();
 
@@ -135,10 +142,10 @@ class PhpVersionResolverServiceTest extends TestCase
     public function testGetPrestashopDestinationReleaseWithoutReleases()
     {
         $this->distributionApiService->method('getApiEndpoint')
-            ->willReturn(@file_get_contents(__DIR__ . '/../../fixtures/api-distribution/empty_prestashop.json'));
+            ->willReturn(json_decode(@file_get_contents(__DIR__ . '/../../fixtures/api-distribution/empty_prestashop.json'), true));
 
-        $this->expectException(UpgradeException::class);
-        $this->expectExceptionMessage('Unable to retrieve releases of Prestashop.');
+        $this->expectException(DistributionApiException::class);
+        $this->expectExceptionMessage('Unable to retrieve Prestashop releases from distribution API.');
 
         $this->phpVersionResolverService->getPrestashopDestinationRelease(80000);
     }
@@ -152,12 +159,12 @@ class PhpVersionResolverServiceTest extends TestCase
     {
         $this->distributionApiService->method('getApiEndpoint')
             ->will($this->returnValueMap([
-                ['/prestashop', @file_get_contents(__DIR__ . '/../../fixtures/api-distribution/prestashop.json')],
-                ['/autoupgrade', @file_get_contents(__DIR__ . '/../../fixtures/api-distribution/empty_autoupgrade.json')],
+                ['/prestashop', json_decode(@file_get_contents(__DIR__ . '/../../fixtures/api-distribution/prestashop.json'), true)],
+                ['/autoupgrade', json_decode(@file_get_contents(__DIR__ . '/../../fixtures/api-distribution/empty_autoupgrade.json'), true)],
             ]));
 
-        $this->expectException(UpgradeException::class);
-        $this->expectExceptionMessage('Unable to retrieve autoupgrade compatibilities.');
+        $this->expectException(DistributionApiException::class);
+        $this->expectExceptionMessage('Unable to retrieve autoupgrade compatibilities from distribution API.');
 
         $this->phpVersionResolverService->getPrestashopDestinationRelease(80000);
     }
@@ -216,8 +223,8 @@ class PhpVersionResolverServiceTest extends TestCase
     {
         $this->distributionApiService->method('getApiEndpoint')
             ->will($this->returnValueMap([
-                ['/prestashop', @file_get_contents(__DIR__ . '/../../fixtures/api-distribution/prestashop.json')],
-                ['/autoupgrade', @file_get_contents(__DIR__ . '/../../fixtures/api-distribution/autoupgrade.json')],
+                ['/prestashop', json_decode(@file_get_contents(__DIR__ . '/../../fixtures/api-distribution/prestashop.json'), true)],
+                ['/autoupgrade', json_decode(@file_get_contents(__DIR__ . '/../../fixtures/api-distribution/autoupgrade.json'), true)],
             ]));
 
         $this->assertEquals($expected, $this->phpVersionResolverService->getPrestashopDestinationRelease($input));

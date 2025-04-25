@@ -131,7 +131,7 @@ class Upgrader
      */
     public function getLatestModuleVersion(): string
     {
-        $autoupgradeReleases = $this->distributionApiService->getAutoupgradeReleases();
+        $autoupgradeReleases = $this->distributionApiService->getAutoupgradeCompatibilities();
 
         if (empty($autoupgradeReleases)) {
             throw new UpgradeException($this->translator->trans('Unable to retrieve autoupgrade releases.'));
