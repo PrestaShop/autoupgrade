@@ -120,7 +120,11 @@ class UpdateFiles extends AbstractTask
         }
 
         if (is_link($orig)) {
-            $symLinkTarget = readlink($orig);
+            $rawSymlink = readlink($orig);
+            // Windows resolves the symlink target to an absolute path. We restore the original path.
+            $symLinkTarget = $this->container->getFileSystem()->isAbsolutePath($rawSymlink)
+                ? $this->container->getFileSystem()->makePathRelative(readlink($orig), pathinfo($orig, PATHINFO_DIRNAME))
+                : $rawSymlink;
 
             if ($this->container->getFileSystem()->exists($dest)) {
                 $this->container->getFileSystem()->remove($dest);
