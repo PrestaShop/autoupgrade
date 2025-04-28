@@ -91,7 +91,6 @@ class Analytics
         }
 
         \Segment::track(array_merge(
-            ['userId' => $this->anonymousId],
             ['event' => '[SUE] ' . $event],
             $this->getProperties($propertiesType)
         ));
@@ -139,6 +138,7 @@ class Analytics
         $commonProperties = $this->properties[self::WITH_COMMON_PROPERTIES] ?? [];
 
         return [
+            'userId' => $this->anonymousId,
             'channel' => 'browser',
             'properties' => array_merge(
                 $commonProperties,

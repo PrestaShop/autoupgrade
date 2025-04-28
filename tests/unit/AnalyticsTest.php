@@ -82,6 +82,7 @@ class AnalyticsTest extends TestCase
 
         $this->assertEquals([
             'channel' => 'browser',
+            'userId' => 'somePathToAutoupgradeModule',
             'properties' => [
                     'ps_version' => '8.8.8',
                     'php_version' => '6.0.8',
@@ -94,6 +95,7 @@ class AnalyticsTest extends TestCase
 
         $this->assertEquals([
             'channel' => 'browser',
+            'userId' => 'somePathToAutoupgradeModule',
             'properties' => [
                     'ps_version' => '8.8.8',
                     'php_version' => '6.0.8',
@@ -114,6 +116,7 @@ class AnalyticsTest extends TestCase
 
         $this->assertEquals([
             'channel' => 'browser',
+            'userId' => 'somePathToAutoupgradeModule',
             'properties' => [
                 'ps_version' => '8.8.8',
                 'php_version' => '6.0.8',
@@ -128,6 +131,7 @@ class AnalyticsTest extends TestCase
 
         $this->assertEquals([
             'channel' => 'browser',
+            'userId' => 'somePathToAutoupgradeModule',
             'properties' => [
                     'ps_version' => '8.8.8',
                     'php_version' => '6.0.8',
