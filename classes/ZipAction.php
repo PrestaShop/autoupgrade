@@ -165,21 +165,31 @@ class ZipAction
         }
 
         for ($i = 0; $i < $zip->numFiles; ++$i) {
-            if (!$zip->extractTo($to_dir, [$zip->getNameIndex($i)])) {
-                $error = $zip->getStatusString();
+            $nameIndex = $zip->getNameIndex($i);
+            if (!$zip->extractTo($to_dir, [$nameIndex])) {
+                $issue = $zip->getStatusString() ?: $this->translator->trans('Unknown extraction error (possible permission issue or filesystem error)');
 
-                $this->logger->error(
+                $fullDiskPath = rtrim($to_dir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $nameIndex;
+                $isFileUnchanged = $this->isFileUnchanged($fullDiskPath, $nameIndex, $zip);
+
+                $nonCriticalIssueNotice = $isFileUnchanged ? $this->translator->trans(', but ignoring as source and destination appear identical') : '';
+
+                $this->logger->warning(
                     $this->translator->trans(
-                        'Could not extract %file% from archive: %error%',
+                        'Could not extract %file% from archive%nonCriticalIssueNotice%: %$issue%.',
                         [
-                            '%file%' => $zip->statIndex($i)['name'],
-                            '%error%' => $error,
+                            '%file%' => $nameIndex,
+                            '%nonCriticalIssueNotice%' => $nonCriticalIssueNotice,
+                            '%$issue%' => $issue,
                         ]
                     )
                 );
-                $zip->close();
 
-                return false;
+                if (!$isFileUnchanged) {
+                    $zip->close();
+
+                    return false;
+                }
             }
         }
 
@@ -219,42 +229,6 @@ class ZipAction
     }
 
     /**
-     * Get the path of a file from the archive root
-     *
-     * @param string $filepath Path of the file on the filesystem
-     *
-     * @return string Path of the file in the backup archive
-     */
-    private function getFilepathInArchive(string $filepath): string
-    {
-        return ltrim(str_replace($this->prodRootDir, '', $filepath), DIRECTORY_SEPARATOR);
-    }
-
-    /**
-     * Checks a file size matches the given limits
-     *
-     * @param string $filepath Path to a file
-     *
-     * @return bool Size is inside the maximum limit
-     */
-    private function isFileWithinFileSizeLimit(string $filepath): bool
-    {
-        $size = filesize($filepath);
-        $pass = ($size < $this->configMaxFileSizeAllowed);
-        if (!$pass) {
-            $this->logger->debug($this->translator->trans(
-                'File %filename% (size: %filesize%) has been skipped during backup.',
-                [
-                    '%filename%' => $this->getFilepathInArchive($filepath),
-                    '%filesize%' => $size,
-                ]
-            ));
-        }
-
-        return $pass;
-    }
-
-    /**
      * Open an archive
      *
      * @param string $zipFile Path to the archive
@@ -288,5 +262,64 @@ class ZipAction
             return $zip->getFromIndex($fileIndex);
         }
         throw new ZipActionException("Unable to find $fileName file");
+    }
+
+    /**
+     * Determines whether a file on disk is identical to its counterpart in a ZIP archive.
+     *
+     * This method compares the MD5 hash of the file content extracted from the ZIP archive
+     * with the MD5 hash of the file located on the given disk path. If the file does not exist
+     * on disk, the comparison will return false.
+     *
+     * @param string $diskFilePath absolute path to the file on disk
+     * @param string $nameIndex the name of the file inside the ZIP archive
+     * @param ZipArchive $zip the ZipArchive instance containing the file to compare
+     *
+     * @return bool returns true if the file on disk is unchanged (identical content),
+     *              false if it is different or does not exist
+     */
+    public function isFileUnchanged(string $diskFilePath, string $nameIndex, ZipArchive $zip): bool
+    {
+        $zipFileContent = $zip->getFromName($nameIndex);
+        $md5FromZip = md5($zipFileContent);
+        $md5FromDisk = is_file($diskFilePath) ? md5_file($diskFilePath) : null;
+
+        return $md5FromZip === $md5FromDisk;
+    }
+
+    /**
+     * Get the path of a file from the archive root
+     *
+     * @param string $filepath Path of the file on the filesystem
+     *
+     * @return string Path of the file in the backup archive
+     */
+    private function getFilepathInArchive(string $filepath): string
+    {
+        return ltrim(str_replace($this->prodRootDir, '', $filepath), DIRECTORY_SEPARATOR);
+    }
+
+    /**
+     * Checks a file size matches the given limits
+     *
+     * @param string $filepath Path to a file
+     *
+     * @return bool Size is inside the maximum limit
+     */
+    private function isFileWithinFileSizeLimit(string $filepath): bool
+    {
+        $size = filesize($filepath);
+        $pass = ($size < $this->configMaxFileSizeAllowed);
+        if (!$pass) {
+            $this->logger->debug($this->translator->trans(
+                'File %filename% (size: %filesize%) has been skipped during backup.',
+                [
+                    '%filename%' => $this->getFilepathInArchive($filepath),
+                    '%filesize%' => $size,
+                ]
+            ));
+        }
+
+        return $pass;
     }
 }

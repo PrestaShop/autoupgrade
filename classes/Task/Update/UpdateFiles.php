@@ -184,6 +184,17 @@ class UpdateFiles extends AbstractTask
 
                 return true;
             } catch (IOException $e) {
+                $checksumOrig = md5_file($orig);
+                $checksumDest = md5_file($dest);
+
+                $isFileUnchanged = $checksumOrig === $checksumDest;
+
+                if ($isFileUnchanged) {
+                    $this->logger->warning($this->translator->trans('Unable to copy %s, but ignoring as source and destination appear identical.', [$file]));
+
+                    return true;
+                }
+
                 $this->next = TaskName::TASK_ERROR;
                 $this->logger->error($this->translator->trans('Error while copying file %s: %s', [$file, $e->getMessage()]));
 
