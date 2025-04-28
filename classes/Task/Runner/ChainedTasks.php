@@ -53,7 +53,6 @@ abstract class ChainedTasks extends AbstractTask
      */
     public function run(): int
     {
-        $this->disableOPCacheIfNecessary();
         $this->setupLogging();
 
         $requireRestart = false;
@@ -61,6 +60,7 @@ abstract class ChainedTasks extends AbstractTask
             $controller = TaskRepository::get($this->step, $this->container);
             $this->stepClass = get_class($controller);
             $controller->init();
+            $this->disableOPCacheIfNecessary();
             $this->logger->debug('Step ' . $this->step);
             try {
                 $controller->run();
@@ -160,9 +160,39 @@ abstract class ChainedTasks extends AbstractTask
 
     private function disableOPCacheIfNecessary(): void
     {
-        $steps = [TaskName::TASK_UPDATE_FILES, TaskName::TASK_UPDATE_DATABASE, TaskName::TASK_UPDATE_MODULES, TaskName::TASK_RESTORE_DATABASE];
+        $disableSteps = [
+            TaskName::TASK_UPDATE_FILES,
+            TaskName::TASK_UPDATE_DATABASE,
+            TaskName::TASK_UPDATE_MODULES,
+            TaskName::TASK_RESTORE_DATABASE,
+        ];
 
-        if (in_array($this->step, $steps)) {
+        $logSteps = [
+            TaskName::TASK_UPDATE_INITIALIZATION,
+            TaskName::TASK_RESTORE_INITIALIZATION,
+        ];
+
+        $allRelevantSteps = array_merge($disableSteps, $logSteps);
+
+        if (!in_array($this->step, $allRelevantSteps, true)) {
+            return;
+        }
+
+        if (!(bool) @ini_get('opcache.enable')) {
+            return;
+        }
+
+        $revalidateFrequency = (int) @ini_get('opcache.revalidate_freq');
+        $validateTimestamps = (int) @ini_get('opcache.validate_timestamps');
+
+        $needsDisabling = ($revalidateFrequency > 0 || $validateTimestamps === 0);
+        if (!$needsDisabling) {
+            return;
+        }
+
+        if (in_array($this->step, $logSteps, true)) {
+            $this->logger->debug($this->container->getTranslator()->trans('OPCache will be disabled for the duration of the process.'));
+        } else {
             @ini_set('opcache.enable', '0');
         }
     }
