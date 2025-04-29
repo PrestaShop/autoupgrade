@@ -186,18 +186,13 @@ class ZipAction
             $nameIndex = $zip->getNameIndex($i);
             $zip->getExternalAttributesName($nameIndex, $opsys, $stat);
 
-            /*
-             * Symlink case. Matches octal value 12000 and does not end with a separator
-             * @see https://discuss.python.org/t/how-info-zip-represents-symlinks/4104/2
-             * @see https://pkware.cachefly.net/webdocs/casestudies/APPNOTE.TXT - 4.5.7 -UNIX Extra Field (0x000d):
-             */
             if ($opsys === ZipArchive::OPSYS_UNIX && $this->isCompressedFileASymLink($stat, $nameIndex)) {
                 try {
                     $this->filesystem->symlink($zip->getFromIndex($i), $to_dir . DIRECTORY_SEPARATOR . $nameIndex);
                 } catch (IOException $e) {
-                    $this->logger->error(
+                    $this->logger->warning(
                         $this->translator->trans(
-                            'Could not extract symbolic link %file% from archive: %error%',
+                            'Could not extract link %file% from archive: %error%',
                             [
                                 '%file%' => $nameIndex,
                                 '%error%' => $e->getMessage(),
@@ -365,6 +360,11 @@ class ZipAction
         return $pass;
     }
 
+    /*
+     * Detect files stored as symlinks. Matches octal value 12000 and does not end with a separator
+     * @see https://discuss.python.org/t/how-info-zip-represents-symlinks/4104/2
+     * @see https://pkware.cachefly.net/webdocs/casestudies/APPNOTE.TXT - 4.5.7 -UNIX Extra Field (0x000d):
+     */
     public function isCompressedFileASymLink(int $stat, string $file): bool
     {
         return (($stat >> 16) & 0120000) === 0120000 && !in_array(substr($file, -1), ['/', '\\']);

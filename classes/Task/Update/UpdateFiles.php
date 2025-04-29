@@ -73,7 +73,6 @@ class UpdateFiles extends AbstractTask
 
             // Note - upgrade this file means do whatever is needed for that file to be in the final state, delete included.
             if (!$this->upgradeThisFile($file)) {
-                // put the file back to the begin of the list
                 $this->next = TaskName::TASK_ERROR;
                 $this->logger->error($this->translator->trans('Error when trying to update file %s.', [$file]));
                 break;
@@ -100,7 +99,7 @@ class UpdateFiles extends AbstractTask
      *
      * @throws Exception
      */
-    public function upgradeThisFile($orig): bool
+    protected function upgradeThisFile($orig): bool
     {
         // translations_custom and mails_custom list are currently not used
         // later, we could handle customization with some kind of diff functions
@@ -123,14 +122,14 @@ class UpdateFiles extends AbstractTask
             $rawSymlink = readlink($orig);
             // Windows resolves the symlink target to an absolute path. We restore the original path.
             $symLinkTarget = $this->container->getFileSystem()->isAbsolutePath($rawSymlink)
-                ? $this->container->getFileSystem()->makePathRelative(readlink($orig), pathinfo($orig, PATHINFO_DIRNAME))
+                ? $this->container->getFileSystem()->makePathRelative($rawSymlink, pathinfo($orig, PATHINFO_DIRNAME))
                 : $rawSymlink;
 
-            if ($this->container->getFileSystem()->exists($dest)) {
-                $this->container->getFileSystem()->remove($dest);
-            }
-
             try {
+                if ($this->container->getFileSystem()->exists($dest)) {
+                    $this->container->getFileSystem()->remove($dest);
+                }
+
                 $this->container->getFileSystem()->symlink($symLinkTarget, $dest);
                 $this->logger->debug($this->translator->trans('Created link %s to %s.', [$file, $symLinkTarget]));
 
