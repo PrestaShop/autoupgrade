@@ -305,19 +305,19 @@ class UpgradeContainer
                 if (!empty($archiveXml)) {
                     $upgrader->version_md5[$upgrader->version_num] = $this->getProperty(self::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $archiveXml;
                 }
-                $upgrader->checkPSVersion(true, array('archive'));
+                $upgrader->checkPSVersion(array('archive'));
                 break;
             case 'directory':
                 $upgrader->channel = 'directory';
                 $upgrader->version_num = $upgradeConfiguration->get('directory.version_num');
-                $upgrader->checkPSVersion(true, array('directory'));
+                $upgrader->checkPSVersion(array('directory'));
                 break;
             default:
                 $upgrader->channel = $channel;
                 if ($upgradeConfiguration->get('channel') == 'private' && !$upgradeConfiguration->get('private_allow_major')) {
-                    $upgrader->checkPSVersion(false, array('private', 'minor'));
+                    $upgrader->checkPSVersion(array('private', 'minor'));
                 } else {
-                    $upgrader->checkPSVersion(false, array('minor'));
+                    $upgrader->checkPSVersion(array('minor'));
                 }
         }
         $this->getState()->setInstallVersion($upgrader->version_num);

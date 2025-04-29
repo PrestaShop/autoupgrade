@@ -56,9 +56,9 @@ class ChannelInfo
 
         if (in_array($channel, $publicChannels)) {
             if ($channel == 'private' && !$config->get('private_allow_major')) {
-                $upgrader->checkPSVersion(false, array('private', 'minor'));
+                $upgrader->checkPSVersion(array('private', 'minor'));
             } else {
-                $upgrader->checkPSVersion(false, array('minor'));
+                $upgrader->checkPSVersion(array('minor'));
             }
 
             $this->info = array(
@@ -77,9 +77,9 @@ class ChannelInfo
         switch ($channel) {
             case 'private':
                 if (!$config->get('private_allow_major')) {
-                    $upgrader->checkPSVersion(false, array('private', 'minor'));
+                    $upgrader->checkPSVersion(array('private', 'minor'));
                 } else {
-                    $upgrader->checkPSVersion(false, array('minor'));
+                    $upgrader->checkPSVersion(array('minor'));
                 }
 
                 $this->info = array(

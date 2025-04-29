@@ -29,6 +29,7 @@ namespace PrestaShop\Module\AutoUpgrade;
 
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOException;
+use RuntimeException;
 use Configuration;
 
 class Upgrader
@@ -38,9 +39,8 @@ class Upgrader
     const DEFAULT_FILENAME = 'prestashop.zip';
 
     public $addons_api = 'api.addons.prestashop.com';
-    public $rss_channel_link = 'https://api.prestashop.com/xml/channel.xml';
-    public $rss_md5file_link_dir = 'https://api.prestashop.com/xml/md5/';
-
+    public $rss_md5file_link_dir = 'https://api.prestashop-project.org/assets/prestashop/%s/prestashop.xml';
+    
     /**
      * @var bool contains true if last version is not installed
      */
@@ -84,7 +84,6 @@ class Upgrader
             $this->checkPSVersion();
         }
         if (!extension_loaded('openssl')) {
-            $this->rss_channel_link = str_replace('https://', 'http://', $this->rss_channel_link);
             $this->rss_md5file_link_dir = str_replace('https://', 'http://', $this->rss_md5file_link_dir);
         }
     }
@@ -128,19 +127,25 @@ class Upgrader
         return !$this->need_upgrade;
     }
 
+    public function isDestinationVersionCompatible()
+    {
+        return version_compare($this->version_num, '8.0.0', '<');
+    }
+
     /**
      * checkPSVersion ask to prestashop.com if there is a new version. return an array if yes, false otherwise.
      *
-     * @param bool $refresh if set to true, will force to download channel.xml
      * @param array $array_no_major array of channels which will return only the immediate next version number
      *
      * @return mixed
      */
-    public function checkPSVersion($refresh = false, $array_no_major = array('minor'))
+    public function checkPSVersion($array_no_major = array('minor'))
     {
-        // if we use the autoupgrade process, we will never refresh it
-        // except if no check has been done before
-        $feed = $this->getXmlChannel($refresh);
+        Configuration::updateValue('PS_LAST_VERSION_CHECK', time());
+        $channelXml = simplexml_load_file(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'upgrade' . DIRECTORY_SEPARATOR . 'channel.xml');
+        if ($channelXml === false) {
+           throw new RuntimeException("Unable to retrieve channel.xml.");
+        }
         $branch_name = '';
         $channel_name = '';
 
@@ -167,12 +172,12 @@ class Upgrader
             $followed_channels[] = 'stable';
         }
 
-        if ($feed) {
-            $this->autoupgrade_module = (int) $feed->autoupgrade_module;
-            $this->autoupgrade_last_version = (string) $feed->autoupgrade->last_version;
-            $this->autoupgrade_module_link = (string) $feed->autoupgrade->download->link;
+        if ($channelXml) {
+            $this->autoupgrade_module = (int) $channelXml->autoupgrade_module;
+            $this->autoupgrade_last_version = (string) $channelXml->autoupgrade->last_version;
+            $this->autoupgrade_module_link = (string) $channelXml->autoupgrade->download->link;
 
-            foreach ($feed->channel as $channel) {
+            foreach ($channelXml->channel as $channel) {
                 $channel_available = (string) $channel['available'];
 
                 $channel_name = (string) $channel['name'];
@@ -319,22 +324,6 @@ class Upgrader
         return $xml;
     }
 
-    public function getXmlChannel($refresh = false)
-    {
-        $xml = $this->getXmlFile(
-            _PS_ROOT_DIR_ . '/config/xml/' . pathinfo($this->rss_channel_link, PATHINFO_BASENAME),
-            $this->rss_channel_link,
-            $refresh
-        );
-        if ($refresh) {
-            if (class_exists('Configuration', false)) {
-                Configuration::updateValue('PS_LAST_VERSION_CHECK', time());
-            }
-        }
-
-        return $xml;
-    }
-
     /**
      * return xml containing the list of all default PrestaShop files for version $version,
      * and their respective md5sum.
@@ -349,7 +338,7 @@ class Upgrader
             return @simplexml_load_file($this->version_md5[$version]);
         }
 
-        return $this->getXmlFile(_PS_ROOT_DIR_ . '/config/xml/' . $version . '.xml', $this->rss_md5file_link_dir . $version . '.xml', $refresh);
+        return $this->getXmlFile(_PS_ROOT_DIR_ . '/config/xml/' . $version . '.xml', sprintf($this->rss_md5file_link_dir, $version), $refresh);
     }
 
     /**
