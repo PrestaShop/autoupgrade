@@ -191,9 +191,10 @@ abstract class ChainedTasks extends AbstractTask
         }
 
         if (in_array($this->step, $logSteps, true)) {
-            $this->logger->debug($this->container->getTranslator()->trans('OPCache will be disabled for the duration of the process.'));
+            $this->logger->debug($this->container->getTranslator()->trans('OPCache will be changed for the duration of the process.'));
         } else {
-            @ini_set('opcache.enable', '0');
+            @ini_set('opcache.revalidate_freq', '0');
+            @ini_set('opcache.validate_timestamps', '1');
         }
     }
 }
