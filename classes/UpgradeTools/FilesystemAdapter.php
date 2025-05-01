@@ -21,7 +21,9 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
+use CallbackFilterIterator;
 use FilesystemIterator;
+use IteratorIterator;
 use RecursiveCallbackFilterIterator;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -242,17 +244,24 @@ class FilesystemAdapter
     {
         $hasDeletedItems = false;
 
-        if ($this->filesystem->exists($folderToClear)) {
-            foreach (scandir($folderToClear) as $item) {
-                if ($item !== '.' && $item !== '..' && $item !== 'index.php') {
-                    $path = $folderToClear . DIRECTORY_SEPARATOR . $item;
-                    $this->filesystem->remove($path);
-
-                    $hasDeletedItems = true;
-                }
-            }
+        if (!$this->filesystem->exists($folderToClear)) {
+            return $hasDeletedItems;
         }
 
-        return $hasDeletedItems;
+        $directory = new FilesystemIterator(
+            $folderToClear, FilesystemIterator::SKIP_DOTS | FilesystemIterator::CURRENT_AS_FILEINFO
+        );
+        $filter = new CallbackFilterIterator($directory, function ($current) {
+            return $current->getFilename() !== 'index.php';
+        });
+        $iterator = new IteratorIterator($filter);
+
+        foreach ($iterator as $file) {
+            $this->filesystem->remove($file);
+        }
+
+        clearstatcache();
+
+        return (bool) iterator_count($iterator);
     }
 }
