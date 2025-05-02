@@ -88,6 +88,23 @@ $e: ".error-page";
       gap: 1rem 2rem;
     }
 
+    @container ua-error (max-width: 992px) {
+      &__container {
+        gap: 2rem;
+        padding: 2rem;
+      }
+
+      &__buttons {
+        gap: 1rem;
+
+        > * {
+          .btn {
+            height: 100%;
+          }
+        }
+      }
+    }
+
     @container ua-error (max-width: 700px) {
       &__container {
         grid-template-rows: min-content;
