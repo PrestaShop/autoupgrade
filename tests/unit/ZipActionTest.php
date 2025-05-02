@@ -23,7 +23,9 @@ use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 class ZipActionTest extends TestCase
 {
-    const ZIP_CONTENT_PATH = __DIR__ . '/../fixtures/ArchiveExample.zip';
+    const ZIP_CONTENT_PATH = __DIR__ . '/../fixtures/ArchiveExample/ArchiveExample.zip';
+    const IDENTICAL_CONTENT_FILE_PATH = __DIR__ . '/../fixtures/ArchiveExample/dummyFolder/AppKernelExample.php.txt';
+    const NOT_IDENTICAL_CONTENT_FILE_PATH = __DIR__ . '/../fixtures/AppKernelExample.php.txt';
 
     private $container;
     private $contentExcepted;
@@ -72,5 +74,16 @@ class ZipActionTest extends TestCase
                 "$completePath does not exist"
             );
         }
+    }
+
+    public function testIsFileUnchanged()
+    {
+        $zipAction = $this->container->getZipAction();
+
+        $zip = new ZipArchive();
+        $zip->open(self::ZIP_CONTENT_PATH);
+
+        $this->assertTrue($zipAction->isFileUnchanged(self::IDENTICAL_CONTENT_FILE_PATH, 'dummyFolder/AppKernelExample.php.txt', $zip));
+        $this->assertFalse($zipAction->isFileUnchanged(self::NOT_IDENTICAL_CONTENT_FILE_PATH, 'dummyFolder/AppKernelExample.php.txt', $zip));
     }
 }
