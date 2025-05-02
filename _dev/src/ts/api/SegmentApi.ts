@@ -21,6 +21,7 @@ import { maskSensitiveInfoInUrl } from '../appUI/utils/urlUtils';
 
 class Analytics {
   analytics: AnalyticsBrowser;
+  #isAutoTrackSet = false;
 
   /**
    * @description Initializes the Analytics class and loads the Segment analytics with the provided write key.
@@ -55,6 +56,13 @@ class Analytics {
   };
 
   readonly #setupAutoTrack = () => {
+    if (this.#isAutoTrackSet) {
+      console.warn('Segment Api auto tracking already initialized.');
+      return;
+    }
+
+    this.#isAutoTrackSet = true;
+
     document.addEventListener('click', (event) => {
       const element = (event.target as HTMLElement)?.closest('[data-au-tracking]') as HTMLElement;
 
@@ -94,4 +102,6 @@ class Analytics {
   };
 }
 
-export default Analytics;
+const analyticsInstance = new Analytics();
+
+export default analyticsInstance;

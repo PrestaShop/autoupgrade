@@ -19,10 +19,10 @@
 import DialogContainer from './components/DialogContainer';
 import RouteHandler from './routing/RouteHandler';
 import ScriptHandler from './routing/ScriptHandler';
-import Analytics from '../api/SegmentApi';
+import analyticsInstance from '../api/SegmentApi';
 import ToolbarHelpLink from './components/ToolbarHelpLink';
 
-export const analytics = new Analytics();
+export const analytics = analyticsInstance;
 export const routeHandler = new RouteHandler();
 
 export const dialogContainer = new DialogContainer();
