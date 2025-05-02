@@ -669,45 +669,50 @@
         <target>Copied %1$s.</target>
         <note>classes/Task/Update/UpdateFiles.php:183</note>
       </trans-unit>
+      <trans-unit id="9c65b7a1b163ef55b0e169e244090de4">
+        <source>Unable to copy %s, but ignoring as source and destination appear identical.</source>
+        <target>Unable to copy %s, but ignoring as source and destination appear identical.</target>
+        <note>classes/Task/Update/UpdateFiles.php:193</note>
+      </trans-unit>
       <trans-unit id="4a6c74e011e44e5fb206a6dcedfc1185">
         <source>Error while copying file %s: %s</source>
         <target>Error while copying file %s: %s</target>
-        <note>classes/Task/Update/UpdateFiles.php:188</note>
+        <note>classes/Task/Update/UpdateFiles.php:199</note>
       </trans-unit>
       <trans-unit id="806d4247967402b8667340da2916cf4c">
         <source>Created link %s to %s.</source>
         <target>Created link %s to %s.</target>
-        <note>classes/Task/Update/UpdateFiles.php:217</note>
+        <note>classes/Task/Update/UpdateFiles.php:228</note>
       </trans-unit>
       <trans-unit id="20aed4fb9f6ee15bc601227bbfb85acd">
         <source>Could not assert the folder %s contains a valid PrestaShop release, exiting.</source>
         <target>Could not assert the folder %s contains a valid PrestaShop release, exiting.</target>
-        <note>classes/Task/Update/UpdateFiles.php:243</note>
+        <note>classes/Task/Update/UpdateFiles.php:254</note>
       </trans-unit>
       <trans-unit id="312d54356778124e7ad6d8c7be6ff1a0">
         <source>A file may be missing, or the release is stored in a subfolder by mistake.</source>
         <target>A file may be missing, or the release is stored in a subfolder by mistake.</target>
-        <note>classes/Task/Update/UpdateFiles.php:244</note>
+        <note>classes/Task/Update/UpdateFiles.php:255</note>
       </trans-unit>
       <trans-unit id="fa5d2fc42275582a8b7be9935084ad45">
         <source>Generate diff file list between %s and %s.</source>
         <target>Generate diff file list between %s and %s.</target>
-        <note>classes/Task/Update/UpdateFiles.php:265</note>
+        <note>classes/Task/Update/UpdateFiles.php:276</note>
       </trans-unit>
       <trans-unit id="a845839e72a2af510180c93273119199">
         <source>Unable to generate diff file list between %s and %s.</source>
         <target>Unable to generate diff file list between %s and %s.</target>
-        <note>classes/Task/Update/UpdateFiles.php:268</note>
+        <note>classes/Task/Update/UpdateFiles.php:279</note>
       </trans-unit>
       <trans-unit id="b66f7c9b911acb4711e96eb7a7605bfb">
         <source>Unable to find files to update.</source>
         <target>Unable to find files to update.</target>
-        <note>classes/Task/Update/UpdateFiles.php:326</note>
+        <note>classes/Task/Update/UpdateFiles.php:337</note>
       </trans-unit>
       <trans-unit id="ee2e293c4bce5a37e5925743d549af8e">
         <source>%s files will be updated.</source>
         <target>%s files will be updated.</target>
-        <note>classes/Task/Update/UpdateFiles.php:331</note>
+        <note>classes/Task/Update/UpdateFiles.php:342</note>
       </trans-unit>
       <trans-unit id="fb1ca1f5f3eb5a2ca85201f449525527">
         <source>You need allow_url_fopen or cURL enabled for automatic download to work. You can also manually upload it in filepath %s.</source>
@@ -1154,30 +1159,40 @@
         <target>Unable to create directory %s.</target>
         <note>classes/ZipAction.php:155</note>
       </trans-unit>
-      <trans-unit id="47cb4b86d62a75548519cd992be451d5">
-        <source>Could not extract %file% from archive: %error%</source>
-        <target>Could not extract %file% from archive: %error%</target>
-        <note>classes/ZipAction.php:173</note>
+      <trans-unit id="c5d44aa12d9b83be6755df96442769a7">
+        <source>Unknown extraction error (possible permission issue or filesystem error)</source>
+        <target>Unknown extraction error (possible permission issue or filesystem error)</target>
+        <note>classes/ZipAction.php:170</note>
+      </trans-unit>
+      <trans-unit id="f06d0a5ba06e08a923c0b98a2e60203b">
+        <source>, but ignoring as source and destination appear identical</source>
+        <target>, but ignoring as source and destination appear identical</target>
+        <note>classes/ZipAction.php:175</note>
+      </trans-unit>
+      <trans-unit id="1d5458f6e759798c246772cc7d39ffb0">
+        <source>Could not extract %file% from archive%nonCriticalIssueNotice%: %$issue%.</source>
+        <target>Could not extract %file% from archive%nonCriticalIssueNotice%: %$issue%.</target>
+        <note>classes/ZipAction.php:179</note>
       </trans-unit>
       <trans-unit id="b6fadb405627a21f30cbe97d9f47d7a3">
         <source>Content of archive %zip% is extracted</source>
         <target>Content of archive %zip% is extracted</target>
-        <note>classes/ZipAction.php:187</note>
+        <note>classes/ZipAction.php:197</note>
       </trans-unit>
       <trans-unit id="206e6b8346294e90dc99fa4c130afbcc">
         <source>Unable to list archived files</source>
         <target>Unable to list archived files</target>
-        <note>classes/ZipAction.php:208</note>
-      </trans-unit>
-      <trans-unit id="fe718bdde198efa66b9e3a9a5cf476e6">
-        <source>File %filename% (size: %filesize%) has been skipped during backup.</source>
-        <target>File %filename% (size: %filesize%) has been skipped during backup.</target>
-        <note>classes/ZipAction.php:246</note>
+        <note>classes/ZipAction.php:218</note>
       </trans-unit>
       <trans-unit id="ced3e0d550ba1c19d14f9cf7080de9b6">
         <source>Unable to open archive %s: %s</source>
         <target>Unable to open archive %s: %s</target>
-        <note>classes/ZipAction.php:274</note>
+        <note>classes/ZipAction.php:248</note>
+      </trans-unit>
+      <trans-unit id="fe718bdde198efa66b9e3a9a5cf476e6">
+        <source>File %filename% (size: %filesize%) has been skipped during backup.</source>
+        <target>File %filename% (size: %filesize%) has been skipped during backup.</target>
+        <note>classes/ZipAction.php:315</note>
       </trans-unit>
       <trans-unit id="708a3f63d9d379278db1b2bb25f7b79b">
         <source>Download attempt %d/%d failed: %s</source>
