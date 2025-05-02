@@ -20,13 +20,11 @@ import DialogContainer from './components/DialogContainer';
 import RouteHandler from './routing/RouteHandler';
 import ScriptHandler from './routing/ScriptHandler';
 import analyticsInstance from '../api/SegmentApi';
-import ToolbarHelpLink from './components/ToolbarHelpLink';
 
 export const analytics = analyticsInstance;
 export const routeHandler = new RouteHandler();
 
 export const dialogContainer = new DialogContainer();
-export const toolbarHelpLink = new ToolbarHelpLink();
 export const scriptHandler = new ScriptHandler();
 
-export default { routeHandler, scriptHandler, dialogContainer, analytics, toolbarHelpLink };
+export default { routeHandler, scriptHandler, dialogContainer, analytics };
