@@ -51,6 +51,8 @@ class UpgradeSelfCheck
     private $localEnvironement;
     /** @var bool */
     private $cacheDisabled;
+    /** @var string */
+    private $latestCompatibleModuleVersion;
     /** @var bool|mixed */
     private $moduleVersionIsLatest;
     /** @var int */
@@ -117,6 +119,7 @@ class UpgradeSelfCheck
     const PHP_COMPATIBILITY_UNKNOWN = 20;
     const CORE_TEMPERED_FILES_LIST_NOT_EMPTY = 21;
     const THEME_TEMPERED_FILES_LIST_NOT_EMPTY = 22;
+    const DESTINATION_VERSION_IS_NOT_SUPPORTED = 23;
 
     public function __construct(
         Upgrader $upgrader,
@@ -195,10 +198,14 @@ class UpgradeSelfCheck
         }
 
         $warnings = [
-            self::MODULE_VERSION_IS_OUT_OF_DATE => !$this->isModuleVersionLatest(),
+            self::DESTINATION_VERSION_IS_NOT_SUPPORTED => empty($this->getLatestCompatibleModuleVersion()),
             self::THEME_TEMPERED_FILES_LIST_NOT_EMPTY => $isThemeTemperedFileListNotEmpty,
             self::CORE_TEMPERED_FILES_LIST_NOT_EMPTY => $isCoreTemperedFileListNotEmpty,
         ];
+
+        if (!$warnings[self::DESTINATION_VERSION_IS_NOT_SUPPORTED]) {
+            $warnings[self::MODULE_VERSION_IS_OUT_OF_DATE] = !$this->isModuleVersionLatest();
+        }
 
         if ($this->updateConfiguration->isChannelLocal()) {
             $warnings[self::PHP_COMPATIBILITY_UNKNOWN] = $this->getPhpRequirementsState() === PhpVersionResolverService::COMPATIBILITY_UNKNOWN;
@@ -345,6 +352,11 @@ class UpgradeSelfCheck
             case self::SHOP_VERSION_NOT_MATCHING_VERSION_IN_DATABASE:
                 return [
                     'message' => $this->translator->trans('The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table.'),
+                ];
+
+            case self::DESTINATION_VERSION_IS_NOT_SUPPORTED:
+                return [
+                    'message' => $this->translator->trans('Updates to this PrestaShop version are not officially supported by the Update Assistant module.'),
                 ];
 
             case self::MODULE_VERSION_IS_OUT_OF_DATE:
@@ -541,6 +553,15 @@ class UpgradeSelfCheck
         }
 
         return $this->cacheDisabled = !(defined('_PS_CACHE_ENABLED_') && false != _PS_CACHE_ENABLED_);
+    }
+
+    public function getLatestCompatibleModuleVersion(): string
+    {
+        if (null !== $this->latestCompatibleModuleVersion) {
+            return $this->latestCompatibleModuleVersion;
+        }
+
+        return $this->latestCompatibleModuleVersion = $this->upgrader->getLatestCompatibleModuleVersion();
     }
 
     /**
@@ -782,7 +803,7 @@ class UpgradeSelfCheck
      */
     private function checkModuleVersionIsLastest(): bool
     {
-        return version_compare($this->getModuleVersion(), $this->upgrader->getLatestModuleVersion(), '>=');
+        return version_compare($this->getModuleVersion(), $this->getLatestCompatibleModuleVersion(), '>=');
     }
 
     private function checkIsLocalEnvironment(): bool

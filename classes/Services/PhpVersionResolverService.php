@@ -121,15 +121,15 @@ class PhpVersionResolverService
 
             // add check compat with autoupgrade module
 
-            $autoupgradeSupportVersion = false;
+            $isEligibleForUpdate = false;
 
             foreach ($autoupgradeCompatibilities as $autoupgradeCompatibility) {
                 if (version_compare($autoupgradeCompatibility->getPrestashopMaxVersion(), $release->getVersion(), '>=') && version_compare($autoupgradeCompatibility->getPrestashopMinVersion(), $release->getVersion(), '<=')) {
-                    $autoupgradeSupportVersion = true;
+                    $isEligibleForUpdate = true;
                 }
             }
 
-            if (!$autoupgradeSupportVersion) {
+            if (!$isEligibleForUpdate) {
                 continue;
             }
 

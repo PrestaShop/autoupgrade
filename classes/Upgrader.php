@@ -129,12 +129,12 @@ class Upgrader
      * @throws DistributionApiException
      * @throws UpgradeException
      */
-    public function getLatestModuleVersion(): string
+    public function getLatestCompatibleModuleVersion(): string
     {
         $autoupgradeReleases = $this->distributionApiService->getAutoupgradeCompatibilities();
 
         if (empty($autoupgradeReleases)) {
-            throw new UpgradeException($this->translator->trans('Unable to retrieve autoupgrade releases.'));
+            throw new UpgradeException($this->translator->trans('Unable to retrieve the recommended releases of Update Assistant.'));
         }
 
         $destinationVersion = $this->getDestinationVersion();
@@ -145,11 +145,7 @@ class Upgrader
 
         $autoupgradeRelease = reset($eligibleAutoupgradeReleases);
 
-        if ($autoupgradeRelease === false) {
-            throw new UpgradeException($this->translator->trans('Unable to retrieve autoupgrade recommended release.'));
-        }
-
-        return $autoupgradeRelease->getRecommendedVersion();
+        return $autoupgradeRelease ? $autoupgradeRelease->getRecommendedVersion(): '';
     }
 
     /**
