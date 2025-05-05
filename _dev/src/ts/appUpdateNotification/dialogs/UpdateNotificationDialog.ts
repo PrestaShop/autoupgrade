@@ -18,9 +18,9 @@
  */
 import api from '../api/baseApi';
 import DomLifecycle from '../../types/DomLifecycle';
-import Analytics from '../../api/SegmentApi';
+import analyticsInstance from '../../api/SegmentApi';
 
-const analytics = new Analytics();
+const analytics = analyticsInstance;
 
 export default class UpdateNotificationDialog implements DomLifecycle {
   readonly #dialogId = 'dialog-update-notification';
