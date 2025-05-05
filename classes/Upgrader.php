@@ -145,7 +145,7 @@ class Upgrader
 
         $autoupgradeRelease = reset($eligibleAutoupgradeReleases);
 
-        return $autoupgradeRelease ? $autoupgradeRelease->getRecommendedVersion(): '';
+        return $autoupgradeRelease ? $autoupgradeRelease->getRecommendedVersion() : '';
     }
 
     /**
