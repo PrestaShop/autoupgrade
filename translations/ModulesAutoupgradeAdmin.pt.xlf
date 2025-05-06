@@ -612,107 +612,107 @@
       <trans-unit id="d3b9b6cf6979d03762f425fb7d0d4e12" approved="yes">
         <source>All files updated. Now updating database...</source>
         <target state="final">Todos os ficheiros atualizados. A atualizar base de dados...</target>
-        <note>classes/Task/Update/UpdateFiles.php:72</note>
+        <note>classes/Task/Update/UpdateFiles.php:67</note>
       </trans-unit>
       <trans-unit id="46cf45a00b2e8abfe1c5635601ff2e48" approved="yes">
         <source>Error when trying to update file %s.</source>
         <target state="final">Erro ao tentar atualizar o ficheiro %s.</target>
-        <note>classes/Task/Update/UpdateFiles.php:83</note>
-      </trans-unit>
-      <trans-unit id="7d2bf6e31c66674c961484ef8be451cd">
-        <source>Error when trying to update link %s.</source>
-        <target state="needs-translation">Error when trying to update link %s.</target>
-        <note>classes/Task/Update/UpdateFiles.php:92</note>
+        <note>classes/Task/Update/UpdateFiles.php:77</note>
       </trans-unit>
       <trans-unit id="13c5f7e7473980468149551b4df7da8c" approved="yes">
         <source>%s files left to update.</source>
         <target state="final">%s ficheiros restantes para atualizar.</target>
-        <note>classes/Task/Update/UpdateFiles.php:104</note>
+        <note>classes/Task/Update/UpdateFiles.php:88</note>
       </trans-unit>
       <trans-unit id="9a2f2cf276ea9f79b31a815897c0e3e6" approved="yes">
         <source>%s ignored</source>
         <target state="final">%s ignorado</target>
-        <note>classes/Task/Update/UpdateFiles.php:131</note>
-      </trans-unit>
-      <trans-unit id="ba4bea05b16daf8e0652a6048cf741c6" approved="yes">
-        <source>File %1$s has been deleted.</source>
-        <target state="final">O ficheiro %1$s foi eliminado.</target>
-        <note>classes/Task/Update/UpdateFiles.php:145</note>
-      </trans-unit>
-      <trans-unit id="cbfafdaa2e7968a86bd6a437027edfea" approved="yes">
-        <source>Directory %1$s created.</source>
-        <target state="final">Pasta %1$s foi criada.</target>
-        <note>classes/Task/Update/UpdateFiles.php:150</note>
-      </trans-unit>
-      <trans-unit id="47e555d00d52a54c20b5f936ee706fc8" approved="yes">
-        <source>Error while creating directory %s: %s.</source>
-        <target state="final">Erro ao criar diretório %s: %s.</target>
-        <note>classes/Task/Update/UpdateFiles.php:155</note>
-      </trans-unit>
-      <trans-unit id="0a6c2db1b18cb6420ad40d46db8707de" approved="yes">
-        <source>Directory %s already exists.</source>
-        <target state="final">A pasta %s já existe.</target>
-        <note>classes/Task/Update/UpdateFiles.php:160</note>
-      </trans-unit>
-      <trans-unit id="e33b6cbf66a4417503eac526d8a94626" approved="yes">
-        <source>The translation files have been merged into file %s.</source>
-        <target state="final">Os ficheiros de tradução foram combinados no ficheiro %s.</target>
-        <note>classes/Task/Update/UpdateFiles.php:169</note>
-      </trans-unit>
-      <trans-unit id="7cfde7149c7a53bbbe854a0562ac0807" approved="yes">
-        <source>The translation files have not been merged into file %filename%. Switch to copy %filename%.</source>
-        <target state="final">Os ficheiros de tradução não foram combinados no ficheiro %filename%. Mudar para copiar %filename%.</target>
-        <note>classes/Task/Update/UpdateFiles.php:174</note>
-      </trans-unit>
-      <trans-unit id="b8db10001e04b8f947415aeb8b8fd19f" approved="yes">
-        <source>Copied %1$s.</source>
-        <target state="final">%1$s copiado.</target>
-        <note>classes/Task/Update/UpdateFiles.php:183</note>
-      </trans-unit>
-      <trans-unit id="9c65b7a1b163ef55b0e169e244090de4">
-        <source>Unable to copy %s, but ignoring as source and destination appear identical.</source>
-        <target state="needs-translation">Unable to copy %s, but ignoring as source and destination appear identical.</target>
-        <note>classes/Task/Update/UpdateFiles.php:193</note>
-      </trans-unit>
-      <trans-unit id="4a6c74e011e44e5fb206a6dcedfc1185" approved="yes">
-        <source>Error while copying file %s: %s</source>
-        <target state="final">Erro ao copiar o ficheiro %s: %s</target>
-        <note>classes/Task/Update/UpdateFiles.php:199</note>
+        <note>classes/Task/Update/UpdateFiles.php:116</note>
       </trans-unit>
       <trans-unit id="806d4247967402b8667340da2916cf4c">
         <source>Created link %s to %s.</source>
         <target state="needs-translation">Created link %s to %s.</target>
-        <note>classes/Task/Update/UpdateFiles.php:228</note>
+        <note>classes/Task/Update/UpdateFiles.php:134</note>
+      </trans-unit>
+      <trans-unit id="db72a2f164bdc2d7b668e34e594852cb">
+        <source>Error while creating link %s: %s</source>
+        <target state="needs-translation">Error while creating link %s: %s</target>
+        <note>classes/Task/Update/UpdateFiles.php:139</note>
+      </trans-unit>
+      <trans-unit id="ba4bea05b16daf8e0652a6048cf741c6" approved="yes">
+        <source>File %1$s has been deleted.</source>
+        <target state="final">O ficheiro %1$s foi eliminado.</target>
+        <note>classes/Task/Update/UpdateFiles.php:147</note>
+      </trans-unit>
+      <trans-unit id="cbfafdaa2e7968a86bd6a437027edfea" approved="yes">
+        <source>Directory %1$s created.</source>
+        <target state="final">Pasta %1$s foi criada.</target>
+        <note>classes/Task/Update/UpdateFiles.php:152</note>
+      </trans-unit>
+      <trans-unit id="47e555d00d52a54c20b5f936ee706fc8" approved="yes">
+        <source>Error while creating directory %s: %s.</source>
+        <target state="final">Erro ao criar diretório %s: %s.</target>
+        <note>classes/Task/Update/UpdateFiles.php:157</note>
+      </trans-unit>
+      <trans-unit id="0a6c2db1b18cb6420ad40d46db8707de" approved="yes">
+        <source>Directory %s already exists.</source>
+        <target state="final">A pasta %s já existe.</target>
+        <note>classes/Task/Update/UpdateFiles.php:162</note>
+      </trans-unit>
+      <trans-unit id="e33b6cbf66a4417503eac526d8a94626" approved="yes">
+        <source>The translation files have been merged into file %s.</source>
+        <target state="final">Os ficheiros de tradução foram combinados no ficheiro %s.</target>
+        <note>classes/Task/Update/UpdateFiles.php:171</note>
+      </trans-unit>
+      <trans-unit id="7cfde7149c7a53bbbe854a0562ac0807" approved="yes">
+        <source>The translation files have not been merged into file %filename%. Switch to copy %filename%.</source>
+        <target state="final">Os ficheiros de tradução não foram combinados no ficheiro %filename%. Mudar para copiar %filename%.</target>
+        <note>classes/Task/Update/UpdateFiles.php:176</note>
+      </trans-unit>
+      <trans-unit id="b8db10001e04b8f947415aeb8b8fd19f" approved="yes">
+        <source>Copied %1$s.</source>
+        <target state="final">%1$s copiado.</target>
+        <note>classes/Task/Update/UpdateFiles.php:185</note>
+      </trans-unit>
+      <trans-unit id="9c65b7a1b163ef55b0e169e244090de4">
+        <source>Unable to copy %s, but ignoring as source and destination appear identical.</source>
+        <target state="needs-translation">Unable to copy %s, but ignoring as source and destination appear identical.</target>
+        <note>classes/Task/Update/UpdateFiles.php:195</note>
+      </trans-unit>
+      <trans-unit id="4a6c74e011e44e5fb206a6dcedfc1185" approved="yes">
+        <source>Error while copying file %s: %s</source>
+        <target state="final">Erro ao copiar o ficheiro %s: %s</target>
+        <note>classes/Task/Update/UpdateFiles.php:201</note>
       </trans-unit>
       <trans-unit id="20aed4fb9f6ee15bc601227bbfb85acd" approved="yes">
         <source>Could not assert the folder %s contains a valid PrestaShop release, exiting.</source>
         <target state="final">Não foi possível confirmar que a pasta %s contém uma versão válida da PrestaShop, encerrando.</target>
-        <note>classes/Task/Update/UpdateFiles.php:254</note>
+        <note>classes/Task/Update/UpdateFiles.php:241</note>
       </trans-unit>
       <trans-unit id="312d54356778124e7ad6d8c7be6ff1a0" approved="yes">
         <source>A file may be missing, or the release is stored in a subfolder by mistake.</source>
         <target state="final">Pode faltar um ficheiro ou a versão está armazenada numa subpasta por engano.</target>
-        <note>classes/Task/Update/UpdateFiles.php:255</note>
+        <note>classes/Task/Update/UpdateFiles.php:242</note>
       </trans-unit>
       <trans-unit id="fa5d2fc42275582a8b7be9935084ad45" approved="yes">
         <source>Generate diff file list between %s and %s.</source>
         <target state="final">Gerar lista de ficheiros diff entre %s e %s.</target>
-        <note>classes/Task/Update/UpdateFiles.php:276</note>
+        <note>classes/Task/Update/UpdateFiles.php:263</note>
       </trans-unit>
       <trans-unit id="a845839e72a2af510180c93273119199" approved="yes">
         <source>Unable to generate diff file list between %s and %s.</source>
         <target state="final">Não foi possível gerar a lista de ficheiros diff entre %s e %s.</target>
-        <note>classes/Task/Update/UpdateFiles.php:279</note>
+        <note>classes/Task/Update/UpdateFiles.php:266</note>
       </trans-unit>
       <trans-unit id="b66f7c9b911acb4711e96eb7a7605bfb" approved="yes">
         <source>Unable to find files to update.</source>
         <target state="final">Não foi possível encontrar ficheiros para atualizar.</target>
-        <note>classes/Task/Update/UpdateFiles.php:337</note>
+        <note>classes/Task/Update/UpdateFiles.php:305</note>
       </trans-unit>
       <trans-unit id="ee2e293c4bce5a37e5925743d549af8e" approved="yes">
         <source>%s files will be updated.</source>
         <target state="final">%s ficheiros serão atualizados.</target>
-        <note>classes/Task/Update/UpdateFiles.php:342</note>
+        <note>classes/Task/Update/UpdateFiles.php:310</note>
       </trans-unit>
       <trans-unit id="fb1ca1f5f3eb5a2ca85201f449525527" approved="yes">
         <source>You need allow_url_fopen or cURL enabled for automatic download to work. You can also manually upload it in filepath %s.</source>
@@ -1137,62 +1137,67 @@
       <trans-unit id="31098a445d00d6606542c429524f464f" approved="yes">
         <source>Unable to add %filename% to archive %archive%: %error%</source>
         <target state="final">Não foi possível adicionar %filename% ao arquivo %archive%: %error%</target>
-        <note>classes/ZipAction.php:100</note>
+        <note>classes/ZipAction.php:106</note>
       </trans-unit>
       <trans-unit id="1d7a665a8b724a2a30e72af54b8fd313" approved="yes">
         <source>%filename% added to archive. %filescount% files left.</source>
         <target state="final">%filename% adicionado ao ficheiro. %filescount% ficheiros restantes.</target>
-        <note>classes/ZipAction.php:112</note>
+        <note>classes/ZipAction.php:118</note>
       </trans-unit>
       <trans-unit id="e2791f065857bf0bec8ce49645861c2f" approved="yes">
         <source>Could not close the Zip file %toFile%: %error%</source>
         <target state="final">Não foi possível fechar o ficheiro Zip %toFile%: %error%</target>
-        <note>classes/ZipAction.php:124</note>
+        <note>classes/ZipAction.php:130</note>
       </trans-unit>
       <trans-unit id="9311ab161709b4f5efe9c6ff08b33699" approved="yes">
         <source>%s is not a file</source>
         <target state="final">%s não é um ficheiro</target>
-        <note>classes/ZipAction.php:146</note>
+        <note>classes/ZipAction.php:164</note>
       </trans-unit>
       <trans-unit id="3d72a59cd44079c486a184a6a7bcec34" approved="yes">
         <source>Unable to create directory %s.</source>
         <target state="final">Não é possível criar a pasta %s.</target>
-        <note>classes/ZipAction.php:155</note>
+        <note>classes/ZipAction.php:173</note>
+      </trans-unit>
+      <trans-unit id="f6a4e177e838e889a3c9785d5286b7a6">
+        <source>Could not extract link %file% from archive: %error%</source>
+        <target state="needs-translation">Could not extract link %file% from archive: %error%</target>
+        <note>classes/ZipAction.php:195</note>
       </trans-unit>
       <trans-unit id="c5d44aa12d9b83be6755df96442769a7">
         <source>Unknown extraction error (possible permission issue or filesystem error)</source>
         <target state="needs-translation">Unknown extraction error (possible permission issue or filesystem error)</target>
-        <note>classes/ZipAction.php:170</note>
+        <note>classes/ZipAction.php:207</note>
       </trans-unit>
       <trans-unit id="f06d0a5ba06e08a923c0b98a2e60203b">
         <source>, but ignoring as source and destination appear identical</source>
         <target state="needs-translation">, but ignoring as source and destination appear identical</target>
-        <note>classes/ZipAction.php:175</note>
+        <note>classes/ZipAction.php:212</note>
       </trans-unit>
       <trans-unit id="1d5458f6e759798c246772cc7d39ffb0">
         <source>Could not extract %file% from archive%nonCriticalIssueNotice%: %$issue%.</source>
         <target state="needs-translation">Could not extract %file% from archive%nonCriticalIssueNotice%: %$issue%.</target>
-        <note>classes/ZipAction.php:179</note>
+        <note>classes/ZipAction.php:216</note>
       </trans-unit>
       <trans-unit id="b6fadb405627a21f30cbe97d9f47d7a3" approved="yes">
         <source>Content of archive %zip% is extracted</source>
         <target state="final">O conteúdo do arquivo %zip% é extraído</target>
-        <note>classes/ZipAction.php:197</note>
+        <note>classes/ZipAction.php:234</note>
       </trans-unit>
       <trans-unit id="206e6b8346294e90dc99fa4c130afbcc" approved="yes">
         <source>Unable to list archived files</source>
         <target state="final">Não foi possível listar os ficheiros arquivados</target>
-        <note>classes/ZipAction.php:218</note>
+        <note>classes/ZipAction.php:255</note>
       </trans-unit>
       <trans-unit id="ced3e0d550ba1c19d14f9cf7080de9b6" approved="yes">
         <source>Unable to open archive %s: %s</source>
         <target state="final">Não foi possível abrir o arquivo %s: %s</target>
-        <note>classes/ZipAction.php:248</note>
+        <note>classes/ZipAction.php:285</note>
       </trans-unit>
       <trans-unit id="fe718bdde198efa66b9e3a9a5cf476e6" approved="yes">
         <source>File %filename% (size: %filesize%) has been skipped during backup.</source>
         <target state="final">Ficheiro %filename% (tamanho: %filesize%) foi ignorado durante a cópia de segurança.</target>
-        <note>classes/ZipAction.php:315</note>
+        <note>classes/ZipAction.php:352</note>
       </trans-unit>
       <trans-unit id="708a3f63d9d379278db1b2bb25f7b79b" approved="yes">
         <source>Download attempt %d/%d failed: %s</source>
