@@ -91,7 +91,13 @@ class ZipAction
                 continue;
             }
 
-            if (!$zip->addFile($file, $archiveFilename)) {
+            if (is_link($file)) {
+                $result = $this->addSymlink($file, $archiveFilename, $zip);
+            } else {
+                $result = $zip->addFile($file, $archiveFilename);
+            }
+
+            if (!$result) {
                 $error = $zip->getStatusString();
                 // if an error occur, it's more safe to delete the corrupted backup
                 $zip->close();
@@ -134,6 +140,18 @@ class ZipAction
         return true;
     }
 
+    private function addSymlink(string $file, string $archiveFilename, ZipArchive $zip): bool
+    {
+        $targetPath = readlink($file);
+        $stat = lstat($file);
+
+        return $zip->addFromString($archiveFilename, $targetPath)
+            && $zip->setExternalAttributesName($archiveFilename,
+                ZipArchive::OPSYS_UNIX,
+                $stat['mode'] << 16
+            );
+    }
+
     /**
      * Extract an archive to the given directory
      *
@@ -166,7 +184,26 @@ class ZipAction
 
         for ($i = 0; $i < $zip->numFiles; ++$i) {
             $nameIndex = $zip->getNameIndex($i);
-            if (!$zip->extractTo($to_dir, [$nameIndex])) {
+            $zip->getExternalAttributesName($nameIndex, $opsys, $stat);
+
+            if ($opsys === ZipArchive::OPSYS_UNIX && $this->isCompressedFileASymLink($stat, $nameIndex)) {
+                try {
+                    $this->filesystem->symlink($zip->getFromIndex($i), $to_dir . DIRECTORY_SEPARATOR . $nameIndex);
+                } catch (IOException $e) {
+                    $this->logger->warning(
+                        $this->translator->trans(
+                            'Could not extract link %file% from archive: %error%',
+                            [
+                                '%file%' => $nameIndex,
+                                '%error%' => $e->getMessage(),
+                            ]
+                        )
+                    );
+                    $zip->close();
+
+                    return false;
+                }
+            } elseif (!$zip->extractTo($to_dir, [$nameIndex])) {
                 $issue = $zip->getStatusString() ?: $this->translator->trans('Unknown extraction error (possible permission issue or filesystem error)');
 
                 $fullDiskPath = rtrim($to_dir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $nameIndex;
@@ -321,5 +358,15 @@ class ZipAction
         }
 
         return $pass;
+    }
+
+    /*
+     * Detect files stored as symlinks. Matches octal value 12000 and does not end with a separator
+     * @see https://discuss.python.org/t/how-info-zip-represents-symlinks/4104/2
+     * @see https://pkware.cachefly.net/webdocs/casestudies/APPNOTE.TXT - 4.5.7 -UNIX Extra Field (0x000d):
+     */
+    public function isCompressedFileASymLink(int $stat, string $file): bool
+    {
+        return (($stat >> 16) & 0120000) === 0120000 && !in_array(substr($file, -1), ['/', '\\']);
     }
 }
