@@ -258,10 +258,10 @@ class UpgradeSelfCheck
             case self::MAINTENANCE_MODE_DISABLED:
                 if ($isWebVersion) {
                     $psVersion = $this->prestashopConfiguration->getPrestaShopVersion();
-                    /** We are using a hardcoded route for version 1.7.4 because handling getAdminLink for the `AdminMaintenance` control results in an error. */
+                    /* We are using a hardcoded route for version 1.7.4 because handling getAdminLink for the `AdminMaintenance` controller results in an error. */
                     if (version_compare($psVersion, '1.7.4', '>=') && version_compare($psVersion, '1.7.5', '<')) {
                         /** We are not adding the token because there is no way to retrieve it due to the route retrieval issue in 1.7.4. We have taken into consideration that the user will land on an alert page. */
-                        $maintenanceLink = Context::getContext()->link->getBaseLink().basename(_PS_ADMIN_DIR_).'/configure/shop/maintenance';
+                        $maintenanceLink = Context::getContext()->link->getBaseLink() . basename(_PS_ADMIN_DIR_) . '/configure/shop/maintenance';
                     } else {
                         $maintenanceLink = Context::getContext()->link->getAdminLink('AdminMaintenance');
                     }
