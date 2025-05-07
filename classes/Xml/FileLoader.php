@@ -21,7 +21,6 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Xml;
 
-use Configuration;
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\Upgrader;
 use SimpleXMLElement;
@@ -30,7 +29,6 @@ use Symfony\Component\Filesystem\Filesystem;
 class FileLoader
 {
     const BASE_URL_MD5_FILES = 'https://api.prestashop.com/xml/md5/';
-    const URL_CHANNELS_FILE = 'https://api.prestashop.com/xml/channel.xml';
 
     /** @var array<string, string> */
     private $version_md5 = [];
@@ -82,26 +80,6 @@ class FileLoader
         }
 
         return $this->getXmlFile(_PS_ROOT_DIR_ . '/config/xml/' . $version . '.xml', self::BASE_URL_MD5_FILES . $version . '.xml', $refresh);
-    }
-
-    /**
-     * @return SimpleXMLElement|false
-     */
-    public function getXmlChannel(bool $refresh = false)
-    {
-        $xml = $this->getXmlFile(
-            _PS_ROOT_DIR_ . '/config/xml/' . pathinfo(self::URL_CHANNELS_FILE, PATHINFO_BASENAME),
-            self::URL_CHANNELS_FILE,
-            $refresh
-        );
-        if ($refresh) {
-            // TODO: Check this is triggered anywhere
-            if (class_exists('Configuration', false)) {
-                Configuration::updateValue('PS_LAST_VERSION_CHECK', time());
-            }
-        }
-
-        return $xml;
     }
 
     public function addXmlMd5File(string $version, string $path): void

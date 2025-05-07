@@ -27,7 +27,8 @@ use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\Models\PrestashopRelease;
 use PrestaShop\Module\AutoUpgrade\Services\DistributionApiService;
 use PrestaShop\Module\AutoUpgrade\Services\PhpVersionResolverService;
-use PrestaShop\Module\AutoUpgrade\Xml\FileLoader;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
+use PrestaShop\Module\AutoUpgrade\VersionUtils;
 
 class PhpVersionResolverServiceTest extends TestCase
 {
@@ -40,353 +41,90 @@ class PhpVersionResolverServiceTest extends TestCase
             $this->markTestSkipped('An issue with this version of PHPUnit and PHP 8+ prevents this test to run.');
         }
 
-        $this->phpVersionResolverService = $this->getMockBuilder(PhpVersionResolverService::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getPhpCompatibilityRange'])
+        $translator = $this->createMock(Translator::class);
+        $translator->method('trans')
+            ->willReturnCallback(function ($message, $parameters = []) {
+                return vsprintf($message, $parameters);
+            });
+
+        $this->distributionApiService = $this->getMockBuilder(DistributionApiService::class)
+            ->setConstructorArgs([$translator])
+            ->setMethods(['getPhpVersionRequirements', 'getApiEndpoint'])
             ->getMock();
+
+        $this->phpVersionResolverService = new PhpVersionResolverService($this->distributionApiService, '1.7.0.0');
+    }
+
+    public function testGetPhpCompatibilityRangeThenDistributionApiThrowException()
+    {
+        $this->distributionApiService->method('getPhpVersionRequirements')
+            ->willThrowException(new DistributionApiException());
+
+        $this->assertEquals(null, $this->phpVersionResolverService->getPhpCompatibilityRange('blabla'));
+    }
+
+    public function testGetPhpCompatibilityRange()
+    {
+        $this->distributionApiService->method('getPhpVersionRequirements')
+            ->willReturn([
+                'php_min_version' => '7.2.5',
+                'php_max_version' => '8.1',
+            ]);
+
+        $this->assertEquals([
+            'php_min_version' => '7.2.5',
+            'php_max_version' => '8.1',
+            'php_current_version' => VersionUtils::getHumanReadableVersionOf(PHP_VERSION_ID),
+        ], $this->phpVersionResolverService->getPhpCompatibilityRange('8.2.1'));
+    }
+
+    public function testInvalidPsVersionCompatibilityRange()
+    {
+        $this->assertEquals(PhpVersionResolverService::COMPATIBILITY_UNKNOWN, $this->phpVersionResolverService->getPhpRequirementsState(80000, null));
+    }
+
+    public function testUnknownCompatibilityRange()
+    {
+        $this->distributionApiService->method('getPhpVersionRequirements')
+            ->willThrowException(new DistributionApiException());
+
+        $this->assertEquals(PhpVersionResolverService::COMPATIBILITY_UNKNOWN, $this->phpVersionResolverService->getPhpRequirementsState(70300, '1.7.7.7'));
     }
 
     public function testInvalidCompatibilityRange()
     {
-        $this->phpVersionResolverService->method('getPhpCompatibilityRange')
-            ->willReturn(['php_min_version' => '7.1.0', 'php_max_version' => '7.4.0']);
+        $this->distributionApiService->method('getPhpVersionRequirements')
+            ->willReturn([
+                'php_min_version' => '7.1.0',
+                'php_max_version' => '7.4.0',
+            ]);
 
         $this->assertEquals(PhpVersionResolverService::COMPATIBILITY_INVALID, $this->phpVersionResolverService->getPhpRequirementsState(80000, '1.7.7.7'));
     }
 
     public function testValidCompatibilityRange()
     {
-        $this->phpVersionResolverService->method('getPhpCompatibilityRange')
-            ->willReturn(['php_min_version' => '7.1.0', 'php_max_version' => '7.4.0']);
+        $this->distributionApiService->method('getPhpVersionRequirements')
+            ->willReturn([
+                'php_min_version' => '7.1.0',
+                'php_max_version' => '7.4.0',
+            ]);
 
         $this->assertEquals(PhpVersionResolverService::COMPATIBILITY_VALID, $this->phpVersionResolverService->getPhpRequirementsState(70300, '1.7.7.7'));
 
-        $this->phpVersionResolverService->method('getPhpCompatibilityRange')
-            ->willReturn(['php_min_version' => '7.2.5', 'php_max_version' => '8.1']);
+        $this->distributionApiService->method('getPhpVersionRequirements')
+            ->willReturn([
+                'php_min_version' => '7.2.5',
+                'php_max_version' => '8.1',
+            ]);
 
         $this->assertEquals(PhpVersionResolverService::COMPATIBILITY_VALID, $this->phpVersionResolverService->getPhpRequirementsState(70213, '1.7.7.7'));
     }
 
-    public function testUnknownCompatibilityRange()
-    {
-        $this->phpVersionResolverService->method('getPhpCompatibilityRange')
-            ->willReturn(null);
-
-        $this->assertEquals(PhpVersionResolverService::COMPATIBILITY_UNKNOWN, $this->phpVersionResolverService->getPhpRequirementsState(70300, '1.7.7.7'));
-    }
-
-    /**
-     * @throws UpgradeException
-     */
-    public function testGetLatestPrestashop17ReleaseWillReturnRelease()
-    {
-        $fileLoader = $this->getMockBuilder(FileLoader::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getXmlChannel'])
-            ->getMock();
-
-        $channel = simplexml_load_file(__DIR__ . '/../../fixtures/xml/channel.xml');
-        $fileLoader->method('getXmlChannel')
-            ->willReturn($channel);
-
-        $distributionApiService = $this->getMockBuilder(DistributionApiService::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getReleases', 'getPhpVersionRequirements'])
-            ->getMock();
-
-        $this->phpVersionResolverService = $this->getMockBuilder(PhpVersionResolverService::class)
-            ->setConstructorArgs([$distributionApiService, $fileLoader, '1.6.0.0'])
-            ->setMethods(['getPhpCompatibilityRange'])
-            ->getMock();
-
-        $prestashopRelease = new PrestashopRelease(
-            '1.7.8.11',
-            'stable',
-            null,
-            null,
-'https://github.com/PrestaShop/PrestaShop/releases/download/1.7.8.11/prestashop_1.7.8.11.zip',
-            'https://api.prestashop.com/xml/md5/1.7.8.11',
-            'd29d55f89a2c44bef3d5c51b70e3a771',
-            'https://build.prestashop-project.org/news/2024/prestashop-1-7-8-11-maintenance-release/'
-        );
-
-        $this->assertEquals($prestashopRelease, $this->phpVersionResolverService->getReleasesFromChannelFile()['1.7']);
-    }
-
-    /**
-     * @throws UpgradeException
-     */
-    public function testGetLatestPrestashop17ReleaseWillReturnNull()
-    {
-        $fileLoader = $this->getMockBuilder(FileLoader::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getXmlChannel'])
-            ->getMock();
-
-        $distributionApiService = $this->getMockBuilder(DistributionApiService::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getReleases', 'getPhpVersionRequirements'])
-            ->getMock();
-
-        $this->phpVersionResolverService = $this->getMockBuilder(PhpVersionResolverService::class)
-            ->setConstructorArgs([$distributionApiService, $fileLoader, '1.6.0.0'])
-            ->setMethods(['getPhpCompatibilityRange'])
-            ->getMock();
-
-        $this->expectException(UpgradeException::class);
-        $this->expectExceptionMessage('Unable to retrieve channel.xml from API.');
-
-        $this->phpVersionResolverService->getReleasesFromChannelFile()['1.7'];
-    }
-
     /**
      * @throws UpgradeException
      * @throws DistributionApiException
-     */
-    public function testGetPrestashopDestinationReleaseForPHP71()
-    {
-        $fileLoader = $this->getMockBuilder(FileLoader::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getXmlChannel'])
-            ->getMock();
-
-        $channel = simplexml_load_file(__DIR__ . '/../../fixtures/xml/channel.xml');
-        $fileLoader->method('getXmlChannel')
-            ->willReturn($channel);
-
-        $distributionApiService = $this->getMockBuilder(DistributionApiService::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getReleases', 'getPhpVersionRequirements'])
-            ->getMock();
-
-        $this->phpVersionResolverService = $this->getMockBuilder(PhpVersionResolverService::class)
-            ->setConstructorArgs([$distributionApiService, $fileLoader, '1.6.0.0'])
-            ->setMethods(['getPhpCompatibilityRange'])
-            ->getMock();
-
-        $prestashopRelease = new PrestashopRelease(
-            '1.7.8.11',
-            'stable',
-            null,
-            null,
-            'https://github.com/PrestaShop/PrestaShop/releases/download/1.7.8.11/prestashop_1.7.8.11.zip',
-            'https://api.prestashop.com/xml/md5/1.7.8.11',
-            'd29d55f89a2c44bef3d5c51b70e3a771',
-            'https://build.prestashop-project.org/news/2024/prestashop-1-7-8-11-maintenance-release/'
-        );
-
-        $this->assertEquals($prestashopRelease, $this->phpVersionResolverService->getPrestashopDestinationRelease(70118));
-    }
-
-    /**
-     * @throws UpgradeException
-     * @throws DistributionApiException
-     */
-    public function testGetPrestashopDestinationReleaseForPHP73()
-    {
-        $fileLoader = $this->getMockBuilder(FileLoader::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getXmlChannel'])
-            ->getMock();
-
-        $channel = simplexml_load_file(__DIR__ . '/../../fixtures/xml/channel.xml');
-        $fileLoader->method('getXmlChannel')
-            ->willReturn($channel);
-
-        $distributionApiService = $this->getMockBuilder(DistributionApiService::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getReleases', 'getPhpVersionRequirements'])
-            ->getMock();
-
-        $releases = [
-            new PrestashopRelease(
-                '8.0.5',
-                'stable',
-                '8.1',
-                '7.2.5'
-            ),
-            new PrestashopRelease(
-                '8.1.7',
-                'stable',
-                '8.1',
-                '7.2.5'
-            ),
-            new PrestashopRelease(
-                '9.0.0',
-                'stable',
-                '8.1',
-                '7.4'
-            ),
-        ];
-        $distributionApiService->method('getReleases')
-            ->willReturn($releases);
-
-        $this->phpVersionResolverService = $this->getMockBuilder(PhpVersionResolverService::class)
-            ->setConstructorArgs([$distributionApiService, $fileLoader, '1.6.0.0'])
-            ->setMethods(['getPhpCompatibilityRange'])
-            ->getMock();
-
-        $release = $this->phpVersionResolverService->getPrestashopDestinationRelease(70318);
-
-        $this->assertEquals('8.1.7', $release->getVersion());
-    }
-
-    /**
-     * @throws UpgradeException
-     * @throws DistributionApiException
-     */
-    public function testGetPrestashopDestinationReleaseWithNoMatchingChannelXml()
-    {
-        $fileLoader = $this->getMockBuilder(FileLoader::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getXmlChannel'])
-            ->getMock();
-
-        $channel = simplexml_load_file(__DIR__ . '/../../fixtures/xml/channel.xml');
-        $fileLoader->method('getXmlChannel')
-            ->willReturn($channel);
-
-        $distributionApiService = $this->getMockBuilder(DistributionApiService::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getReleases', 'getPhpVersionRequirements'])
-            ->getMock();
-
-        $releases = [
-            new PrestashopRelease(
-                '8.0.5',
-                'stable',
-                '8.1',
-                '7.2.5'
-            ),
-            new PrestashopRelease(
-                '8.1.7',
-                'stable',
-                '8.1',
-                '7.2.5'
-            ),
-            new PrestashopRelease(
-                '8.1.9',
-                'stable',
-                '8.1',
-                '7.2.5'
-            ),
-            new PrestashopRelease(
-                '8.2.1',
-                'stable',
-                '8.1',
-                '7.2.5'
-            ),
-            new PrestashopRelease(
-                '9.0.0',
-                'stable',
-                '8.1',
-                '7.2.5'
-            ),
-        ];
-        $distributionApiService->method('getReleases')
-            ->willReturn($releases);
-
-        $this->phpVersionResolverService = $this->getMockBuilder(PhpVersionResolverService::class)
-            ->setConstructorArgs([$distributionApiService, $fileLoader, '1.6.0.0'])
-            ->setMethods(['getPhpCompatibilityRange'])
-            ->getMock();
-
-        $release = $this->phpVersionResolverService->getPrestashopDestinationRelease(70318);
-
-        $this->assertEquals('8.1.7', $release->getVersion());
-        $this->assertEquals('https://build.prestashop-project.org/news/2024/prestashop-8-1-7-maintenance-release/', $release->getReleaseNoteUrl());
-    }
-
-    /**
-     * @throws UpgradeException
-     * @throws DistributionApiException
-     */
-    public function testGetPrestashopDestinationReleaseWithCurrentVersionUpToDate()
-    {
-        $fileLoader = $this->getMockBuilder(FileLoader::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getXmlChannel'])
-            ->getMock();
-
-        $channel = simplexml_load_file(__DIR__ . '/../../fixtures/xml/channel.xml');
-        $fileLoader->method('getXmlChannel')
-            ->willReturn($channel);
-
-        $distributionApiService = $this->getMockBuilder(DistributionApiService::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getReleases', 'getPhpVersionRequirements'])
-            ->getMock();
-
-        $releases = [
-            new PrestashopRelease(
-                '8.0.5',
-                'stable',
-                '8.1',
-                '7.2.5'
-            ),
-            new PrestashopRelease(
-                '8.1.7',
-                'stable',
-                '8.1',
-                '7.2.5'
-            ),
-            new PrestashopRelease(
-                '9.0.0',
-                'stable',
-                '8.1',
-                '7.4'
-            ),
-        ];
-        $distributionApiService->method('getReleases')
-            ->willReturn($releases);
-
-        $this->phpVersionResolverService = $this->getMockBuilder(PhpVersionResolverService::class)
-            ->setConstructorArgs([$distributionApiService, $fileLoader, '8.1.7'])
-            ->setMethods(['getPhpCompatibilityRange'])
-            ->getMock();
-
-        $release = $this->phpVersionResolverService->getPrestashopDestinationRelease(70318);
-
-        $this->assertEquals(null, $release);
-    }
-
-    /**
-     * @throws UpgradeException
-     * @throws DistributionApiException
-     */
-    public function testGetPrestashopDestinationReleaseWhenAPIReturnEmptyResponse()
-    {
-        $fileLoader = $this->getMockBuilder(FileLoader::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getXmlChannel'])
-            ->getMock();
-
-        $channel = simplexml_load_file(__DIR__ . '/../../fixtures/xml/channel.xml');
-        $fileLoader->method('getXmlChannel')
-            ->willReturn($channel);
-
-        $distributionApiService = $this->getMockBuilder(DistributionApiService::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getReleases', 'getPhpVersionRequirements'])
-            ->getMock();
-
-        $releases = [];
-        $distributionApiService->method('getReleases')
-            ->willReturn($releases);
-
-        $this->phpVersionResolverService = $this->getMockBuilder(PhpVersionResolverService::class)
-            ->setConstructorArgs([$distributionApiService, $fileLoader, '1.6.0.0'])
-            ->setMethods(['getPhpCompatibilityRange'])
-            ->getMock();
-
-        $release = $this->phpVersionResolverService->getPrestashopDestinationRelease(70318);
-
-        $this->assertEquals(null, $release);
-    }
-
-    /**
-     * @throws UpgradeException
-     * @throws DistributionApiException
+     * @throws LogicException
      */
     public function testGetPrestashopDestinationReleaseForPHP5()
     {
@@ -394,5 +132,101 @@ class PhpVersionResolverServiceTest extends TestCase
         $this->expectExceptionMessage('The minimum version to use the module is PHP 7.1');
 
         $this->phpVersionResolverService->getPrestashopDestinationRelease(50600);
+    }
+
+    /**
+     * @throws UpgradeException
+     * @throws DistributionApiException
+     * @throws LogicException
+     */
+    public function testGetPrestashopDestinationReleaseWithoutReleases()
+    {
+        $this->distributionApiService->method('getApiEndpoint')
+            ->willReturn(json_decode(@file_get_contents(__DIR__ . '/../../fixtures/api-distribution/empty_prestashop.json'), true));
+
+        $this->expectException(DistributionApiException::class);
+        $this->expectExceptionMessage('Unable to retrieve Prestashop releases from distribution API.');
+
+        $this->phpVersionResolverService->getPrestashopDestinationRelease(80000);
+    }
+
+    /**
+     * @throws UpgradeException
+     * @throws DistributionApiException
+     * @throws LogicException
+     */
+    public function testGetPrestashopDestinationReleaseWithoutAutoupgradeCompatibility()
+    {
+        $this->distributionApiService->method('getApiEndpoint')
+            ->will($this->returnValueMap([
+                ['/prestashop', json_decode(@file_get_contents(__DIR__ . '/../../fixtures/api-distribution/prestashop.json'), true)],
+                ['/autoupgrade', json_decode(@file_get_contents(__DIR__ . '/../../fixtures/api-distribution/empty_autoupgrade.json'), true)],
+            ]));
+
+        $this->expectException(DistributionApiException::class);
+        $this->expectExceptionMessage('Unable to retrieve autoupgrade compatibilities from distribution API.');
+
+        $this->phpVersionResolverService->getPrestashopDestinationRelease(80000);
+    }
+
+    /**
+     * @return array[]
+     */
+    public function prestashopDestinationReleaseProvider(): array
+    {
+        return [
+            [999999, null],
+            [80100, new PrestashopRelease('8.2.1',
+                'stable',
+                'open_source',
+                '8.1',
+                '7.2.5',
+                'https://api.prestashop-project.org/assets/prestashop/8.2.1/prestashop.zip',
+                'https://api.prestashop-project.org/assets/prestashop/8.2.1/prestashop.xml',
+                '513bd62a9f9ad35a723f362d88c99790',
+                'https://build.prestashop-project.org/news/2025/prestashop-8-2-1-maintenance-release/',
+            null
+            )],
+            [70205, new PrestashopRelease('8.2.1',
+                'stable',
+                'open_source',
+                '8.1',
+                '7.2.5',
+                'https://api.prestashop-project.org/assets/prestashop/8.2.1/prestashop.zip',
+                'https://api.prestashop-project.org/assets/prestashop/8.2.1/prestashop.xml',
+                '513bd62a9f9ad35a723f362d88c99790',
+                'https://build.prestashop-project.org/news/2025/prestashop-8-2-1-maintenance-release/',
+            null
+            )],
+            [70103, new PrestashopRelease('1.7.8.11',
+                'stable',
+                'open_source',
+                '7.4',
+                '7.1.3',
+                'https://api.prestashop-project.org/assets/prestashop/1.7.8.11/prestashop.zip',
+                'https://api.prestashop-project.org/assets/prestashop/1.7.8.11/prestashop.xml',
+                'd29d55f89a2c44bef3d5c51b70e3a771',
+                'https://build.prestashop-project.org/news/2024/prestashop-1-7-8-11-maintenance-release/',
+                null
+            )],
+        ];
+    }
+
+    /**
+     * @throws UpgradeException
+     * @throws DistributionApiException
+     * @throws LogicException
+     *
+     * @dataProvider prestashopDestinationReleaseProvider
+     */
+    public function testValidGetPrestashopDestinationRelease($input, $expected)
+    {
+        $this->distributionApiService->method('getApiEndpoint')
+            ->will($this->returnValueMap([
+                ['/prestashop', json_decode(@file_get_contents(__DIR__ . '/../../fixtures/api-distribution/prestashop.json'), true)],
+                ['/autoupgrade', json_decode(@file_get_contents(__DIR__ . '/../../fixtures/api-distribution/autoupgrade.json'), true)],
+            ]));
+
+        $this->assertEquals($expected, $this->phpVersionResolverService->getPrestashopDestinationRelease($input));
     }
 }

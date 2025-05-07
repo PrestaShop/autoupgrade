@@ -27,4 +27,5 @@ class DistributionApiException extends Exception
 {
     const API_NOT_CALLABLE_CODE = 0;
     const VERSION_NOT_FOUND_CODE = 1;
+    const EMPTY_DATA_CODE = 2;
 }

@@ -22,6 +22,7 @@
 namespace PrestaShop\Module\AutoUpgrade\Services;
 
 use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
+use PrestaShop\Module\AutoUpgrade\Models\AutoupgradeRelease;
 use PrestaShop\Module\AutoUpgrade\Models\PrestashopRelease;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 
@@ -42,25 +43,39 @@ class DistributionApiService
     /**
      * @throws DistributionApiException
      *
-     * @return array<string, string>
+     * @param string $path
+     *
+     * @return mixed|null
+     */
+    public function getApiEndpoint(string $path)
+    {
+        $response = @file_get_contents(self::API_URL . $path);
+
+        if (!$response) {
+            throw new DistributionApiException($this->translator->trans('Error when retrieving data from Distribution API'), DistributionApiException::API_NOT_CALLABLE_CODE);
+        }
+
+        return json_decode($response, true);
+    }
+
+    /**
+     * @throws DistributionApiException
+     *
+     * @return array{php_min_version: string, php_max_version: string}
      */
     public function getPhpVersionRequirements(string $targetVersion): array
     {
-        $response = @file_get_contents(self::API_URL . '/prestashop');
+        $data = $this->getApiEndpoint('/prestashop');
 
-        if (!$response) {
-            throw new DistributionApiException($this->translator->trans('Error when retrieving Prestashop versions from Distribution api'), DistributionApiException::API_NOT_CALLABLE_CODE);
-        } else {
-            $data = json_decode($response, true);
-            foreach ($data as $versionInfo) {
-                if ($versionInfo['version'] === $targetVersion) {
-                    return [
-                        'php_min_version' => $versionInfo['php_min_version'],
-                        'php_max_version' => $versionInfo['php_max_version'],
-                    ];
-                }
+        foreach ($data as $versionInfo) {
+            if ($versionInfo['version'] === $targetVersion) {
+                return [
+                    'php_min_version' => $versionInfo['php_min_version'],
+                    'php_max_version' => $versionInfo['php_max_version'],
+                ];
             }
         }
+
         throw new DistributionApiException($this->translator->trans('No version match in Distribution api for %s', [$targetVersion]), DistributionApiException::VERSION_NOT_FOUND_CODE);
     }
 
@@ -71,26 +86,56 @@ class DistributionApiService
      */
     public function getReleases(): array
     {
-        $response = @file_get_contents(self::API_URL . '/prestashop');
+        $data = $this->getApiEndpoint('/prestashop');
 
-        if (!$response) {
-            throw new DistributionApiException($this->translator->trans('Error when retrieving Prestashop versions from Distribution api'), DistributionApiException::API_NOT_CALLABLE_CODE);
-        } else {
-            $releases = [];
-            $data = json_decode($response, true);
-            foreach ($data as $versionInfo) {
-                $releases[] = new PrestashopRelease(
-                    $versionInfo['version'],
-                    $versionInfo['stability'],
-                    $versionInfo['php_max_version'],
-                    $versionInfo['php_min_version'],
-                    $versionInfo['zip_download_url'],
-                    $versionInfo['xml_download_url'],
-                    $versionInfo['zip_md5']
-                );
-            }
-
-            return $releases;
+        if (empty($data)) {
+            throw new DistributionApiException($this->translator->trans('Unable to retrieve Prestashop releases from distribution API.'), DistributionApiException::EMPTY_DATA_CODE);
         }
+
+        $releases = [];
+        foreach ($data as $versionInfo) {
+            $releases[] = new PrestashopRelease(
+                $versionInfo['version'],
+                $versionInfo['stability'],
+                $versionInfo['distribution'],
+                $versionInfo['php_max_version'],
+                $versionInfo['php_min_version'],
+                $versionInfo['zip_download_url'],
+                $versionInfo['xml_download_url'],
+                $versionInfo['zip_md5'],
+                $versionInfo['release_notes_url'],
+                $versionInfo['distribution_version']
+            );
+        }
+
+        return $releases;
+    }
+
+    /**
+     * @throws DistributionApiException
+     *
+     * @return AutoupgradeRelease[]
+     */
+    public function getAutoupgradeCompatibilities(): array
+    {
+        $data = $this->getApiEndpoint('/autoupgrade');
+
+        if (empty($data) || empty($data['prestashop'])) {
+            throw new DistributionApiException($this->translator->trans('Unable to retrieve autoupgrade compatibilities from distribution API.'), DistributionApiException::EMPTY_DATA_CODE);
+        }
+
+        $releases = [];
+        foreach ($data['prestashop'] as $versionInfo) {
+            $releases[] = new AutoupgradeRelease(
+                $versionInfo['prestashop_min'],
+                $versionInfo['prestashop_max'],
+                $versionInfo['autoupgrade_recommended']['last_version'],
+                $versionInfo['autoupgrade_recommended']['download']['link'],
+                $versionInfo['autoupgrade_recommended']['download']['md5'],
+                $versionInfo['autoupgrade_recommended']['changelog'] ?? null
+            );
+        }
+
+        return $releases;
     }
 }
