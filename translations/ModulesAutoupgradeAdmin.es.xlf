@@ -317,69 +317,69 @@
         <target state="final">Claves generadas usando openssl_pkey_new, exportando claves privadas y públicas</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader81.php:44</note>
       </trans-unit>
-      <trans-unit id="a971bd83f9fe8a03c10c29a065d3bd41">
+      <trans-unit id="a971bd83f9fe8a03c10c29a065d3bd41" approved="yes">
         <source>Updating parameters file</source>
-        <target state="needs-translation">Updating parameters file</target>
+        <target state="final">Actualizando archivo de parámetros</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader81.php:51</note>
       </trans-unit>
-      <trans-unit id="f24283fb7f4ba875f0f8c0391587695e">
+      <trans-unit id="f24283fb7f4ba875f0f8c0391587695e" approved="yes">
         <source>Unable to migrate parameters</source>
-        <target state="needs-translation">Unable to migrate parameters</target>
+        <target state="final">No se pueden migrar parámetros</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader81.php:53</note>
       </trans-unit>
-      <trans-unit id="43987038411fdc693ba35bf02e6cf496">
+      <trans-unit id="43987038411fdc693ba35bf02e6cf496" approved="yes">
         <source>Invalidating opcache for parameters file</source>
-        <target state="needs-translation">Invalidating opcache for parameters file</target>
+        <target state="final">Invalidación de opcache para el archivo de parámetros</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader81.php:57</note>
       </trans-unit>
-      <trans-unit id="d87028000710df8bad6886cfc6b4c98b">
+      <trans-unit id="d87028000710df8bad6886cfc6b4c98b" approved="yes">
         <source>Parameters file updated</source>
-        <target state="needs-translation">Parameters file updated</target>
+        <target state="final">Archivo de parámetros actualizado</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader81.php:60</note>
       </trans-unit>
-      <trans-unit id="4e32fd9d99ee0c3370c870d4da3d31a9">
+      <trans-unit id="4e32fd9d99ee0c3370c870d4da3d31a9" approved="yes">
         <source>Running generic queries</source>
-        <target state="needs-translation">Running generic queries</target>
+        <target state="final">Ejecutando consultas genéricas</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:119</note>
       </trans-unit>
-      <trans-unit id="589998cc1fe1a29f99a7bac84b1c121f">
+      <trans-unit id="589998cc1fe1a29f99a7bac84b1c121f" approved="yes">
         <source>Database update OK</source>
-        <target state="needs-translation">Database update OK</target>
+        <target state="final">Actualización de la base de datos correcta</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:122</note>
       </trans-unit>
-      <trans-unit id="947d41a2e41f66e6a8581d2ab5726685">
+      <trans-unit id="947d41a2e41f66e6a8581d2ab5726685" approved="yes">
         <source>Updating languages</source>
-        <target state="needs-translation">Updating languages</target>
+        <target state="final">Actualizando idiomas</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:124</note>
       </trans-unit>
-      <trans-unit id="88bbbc84f51424b4b0c6da6aec2c2154">
+      <trans-unit id="88bbbc84f51424b4b0c6da6aec2c2154" approved="yes">
         <source>Regenerating htaccess</source>
-        <target state="needs-translation">Regenerating htaccess</target>
+        <target state="final">Regenerando htaccess</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:127</note>
       </trans-unit>
-      <trans-unit id="128e1c61a1a4477ec05609569cc4d9d8">
+      <trans-unit id="128e1c61a1a4477ec05609569cc4d9d8" approved="yes">
         <source>Cleaning XML files</source>
-        <target state="needs-translation">Cleaning XML files</target>
+        <target state="final">Limpiando archivos XML</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:130</note>
       </trans-unit>
-      <trans-unit id="12473a5949de1a1cd37806a14a56dbde">
+      <trans-unit id="12473a5949de1a1cd37806a14a56dbde" approved="yes">
         <source>Keeping overrides in place</source>
-        <target state="needs-translation">Keeping overrides in place</target>
+        <target state="final">Manteniendo overrides </target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:134</note>
       </trans-unit>
-      <trans-unit id="ed176ad3db6e004d4c272928acf3d0ac">
+      <trans-unit id="ed176ad3db6e004d4c272928acf3d0ac" approved="yes">
         <source>Disabling overrides</source>
-        <target state="needs-translation">Disabling overrides</target>
+        <target state="final">Deshabilitando overrides</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:136</note>
       </trans-unit>
-      <trans-unit id="4afddec024bf8a4d5170ded7dc6c5665">
+      <trans-unit id="4afddec024bf8a4d5170ded7dc6c5665" approved="yes">
         <source>Warning detected during update.</source>
-        <target state="needs-translation">Warning detected during update.</target>
+        <target state="final">Advertencia detectada durante la actualización.</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:145</note>
       </trans-unit>
-      <trans-unit id="a5b60046bfbbe89f0598a1a3b48e4bab">
+      <trans-unit id="a5b60046bfbbe89f0598a1a3b48e4bab" approved="yes">
         <source>Database update completed</source>
-        <target state="needs-translation">Database update completed</target>
+        <target state="final">Actualización de la base de datos completada</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:147</note>
       </trans-unit>
       <trans-unit id="f25792b5b08a78dd01810297d219c10c" approved="yes">
@@ -397,39 +397,39 @@
         <target state="final">No es posible encontrar los archivos de actualización SQL. Por favor, comprueba que la carpeta %s no esté vacía.</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:284</note>
       </trans-unit>
-      <trans-unit id="10cdbccd344337ec910129a02cdfaac2">
+      <trans-unit id="10cdbccd344337ec910129a02cdfaac2" approved="yes">
         <source>Migration file: %s, Query: %s</source>
-        <target state="needs-translation">Migration file: %s, Query: %s</target>
+        <target state="final">Archivo de migración: %s, Consulta: %s</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:512</note>
       </trans-unit>
-      <trans-unit id="4541f052250eb4a4175730f1b2a9e556">
+      <trans-unit id="4541f052250eb4a4175730f1b2a9e556" approved="yes">
         <source>%s PHP - missing file %s</source>
-        <target state="needs-translation">%s PHP - missing file %s</target>
+        <target state="final">%s PHP - falta el archivo %s</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:466</note>
       </trans-unit>
-      <trans-unit id="b413563efb053e11acb49c7a239004bb">
+      <trans-unit id="b413563efb053e11acb49c7a239004bb" approved="yes">
         <source>%s PHP - Object Method call is forbidden (%s)</source>
-        <target state="needs-translation">%s PHP - Object Method call is forbidden (%s)</target>
+        <target state="final">%s PHP - La llamada al método de objeto está prohibida (%s)</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:472</note>
       </trans-unit>
-      <trans-unit id="bd996c5d2ed7b7ff38aef7377fc28b8a">
+      <trans-unit id="bd996c5d2ed7b7ff38aef7377fc28b8a" approved="yes">
         <source>SQL %s table has been dropped.</source>
-        <target state="needs-translation">SQL %s table has been dropped.</target>
+        <target state="final">Se ha eliminado la tabla SQL %s.</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:484</note>
       </trans-unit>
-      <trans-unit id="a5f51c587cf3395667758cbdb04a5e0b">
+      <trans-unit id="a5f51c587cf3395667758cbdb04a5e0b" approved="yes">
         <source>The execution of the query failed: %s, %s</source>
-        <target state="needs-translation">The execution of the query failed: %s, %s</target>
+        <target state="final">La ejecución de la consulta falló: %s, %s</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:507</note>
       </trans-unit>
-      <trans-unit id="fc1c5074f1d436f7827b3749ad05dc1d">
+      <trans-unit id="fc1c5074f1d436f7827b3749ad05dc1d" approved="yes">
         <source>The execution of the query failed: %s, %s. This error code can be safely ignored.</source>
-        <target state="needs-translation">The execution of the query failed: %s, %s. This error code can be safely ignored.</target>
+        <target state="final">La ejecución de la consulta falló: %s, %s. Este código de error se puede ignorar sin problemas.</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:511</note>
       </trans-unit>
-      <trans-unit id="53983059bf39e1325bba11081ca40e97">
+      <trans-unit id="53983059bf39e1325bba11081ca40e97" approved="yes">
         <source>Keeping current theme</source>
-        <target state="needs-translation">Keeping current theme</target>
+        <target state="final">Mantener el tema actual</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:753</note>
       </trans-unit>
       <trans-unit id="796b7c49e21f09173214f029c7f02f9d" approved="yes">
@@ -437,14 +437,14 @@
         <target state="final">Cambiando al tema predeterminado.</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:758</note>
       </trans-unit>
-      <trans-unit id="475d2ad61e3486ec4af224c5c701b668">
+      <trans-unit id="475d2ad61e3486ec4af224c5c701b668" approved="yes">
         <source>No RTL language detected, skipping RTL file update.</source>
-        <target state="needs-translation">No RTL language detected, skipping RTL file update.</target>
+        <target state="final">No se detectó ningún idioma RTL, se omite la actualización del archivo RTL.</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:775</note>
       </trans-unit>
-      <trans-unit id="865502b07194399bc188582c6a3e266c">
+      <trans-unit id="865502b07194399bc188582c6a3e266c" approved="yes">
         <source>Update the RTL files of back-office themes.</source>
-        <target state="needs-translation">Update the RTL files of back-office themes.</target>
+        <target state="final">Actualizar los archivos RTL de los temas del back-office.</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:782</note>
       </trans-unit>
       <trans-unit id="751c05018f86933c195f46ec3ab55bf8">
