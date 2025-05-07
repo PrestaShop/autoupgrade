@@ -12,9 +12,9 @@
         <target state="final">No se puede escribir en el directorio "%s"</target>
         <note>controllers/admin/AdminSelfUpgradeController.php:124</note>
       </trans-unit>
-      <trans-unit id="f4eb320e09f7ef88a627229870458454">
+      <trans-unit id="f4eb320e09f7ef88a627229870458454" approved="yes">
         <source>The module %s requires PHP %s to work properly. Please upgrade your server configuration.</source>
-        <target state="needs-translation">The module %s requires PHP %s to work properly. Please upgrade your server configuration.</target>
+        <target state="final">El módulo %s requiere PHP %s para funcionar correctamente. Actualiza la configuración de tu servidor.</target>
         <note>controllers/admin/AdminSelfUpgradeController.php:262</note>
       </trans-unit>
       <trans-unit id="001c32426a6cfb48ebb848b13141593c">
@@ -42,9 +42,9 @@
         <target state="needs-translation">Some core files have been altered, customization made on these files will be lost during the update.</target>
         <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:242</note>
       </trans-unit>
-      <trans-unit id="3e520d769e66a4dcdf43029803ab4e8e">
+      <trans-unit id="3e520d769e66a4dcdf43029803ab4e8e" approved="yes">
         <source>List of theme alterations</source>
-        <target state="needs-translation">List of theme alterations</target>
+        <target state="final">Lista de modificaciones del tema</target>
         <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:254</note>
       </trans-unit>
       <trans-unit id="fa22ace14d701200f848374a39f3e88c">
@@ -192,14 +192,14 @@
         <target state="final">No pudimos encontrar una versión de PrestaShop en el archivo XML que se cargó en su archivo local. Inténtelo nuevamente.</target>
         <note>classes/Parameters/LocalChannelConfigurationValidator.php:164</note>
       </trans-unit>
-      <trans-unit id="9faf1391c6c018a5f5343bd509fe8e96">
+      <trans-unit id="9faf1391c6c018a5f5343bd509fe8e96" approved="yes">
         <source>The PrestaShop version in your archive doesn't match the one in XML file. Please fix this issue and try again.</source>
-        <target state="needs-translation">The PrestaShop version in your archive doesn't match the one in XML file. Please fix this issue and try again.</target>
+        <target state="final">La versión de PrestaShop en tu archivo no coincide con la del archivo XML. Soluciona el problema y vuelve a intentarlo.</target>
         <note>classes/Parameters/LocalChannelConfigurationValidator.php:179</note>
       </trans-unit>
-      <trans-unit id="fff77a9b7fadd2dd38b16678c8b000cf">
+      <trans-unit id="fff77a9b7fadd2dd38b16678c8b000cf" approved="yes">
         <source>Unable to create directory %s: %s</source>
-        <target state="needs-translation">Unable to create directory %s: %s</target>
+        <target state="final">No se puede crear el directorio %s: %s</target>
         <note>classes/Workspace.php:60</note>
       </trans-unit>
       <trans-unit id="8dd96e697f4c74182122bacf75fa32f4">
