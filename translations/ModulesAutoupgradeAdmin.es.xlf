@@ -2,29 +2,29 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file original="messages" source-language="en" target-language="es-ES" datatype="plaintext">
     <body>
-      <trans-unit id="001c32426a6cfb48ebb848b13141593c">
+      <trans-unit id="001c32426a6cfb48ebb848b13141593c" approved="yes">
         <source>Major version</source>
-        <target state="needs-translation">Major version</target>
+        <target state="final">Versión mayor</target>
         <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:88</note>
       </trans-unit>
-      <trans-unit id="c5439de366a407641018f189da1ad4a7">
+      <trans-unit id="c5439de366a407641018f189da1ad4a7" approved="yes">
         <source>Minor version</source>
-        <target state="needs-translation">Minor version</target>
+        <target state="final">Versión menor</target>
         <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:91</note>
       </trans-unit>
-      <trans-unit id="8a0dd44f366bc5604b8329a87be5f933">
+      <trans-unit id="8a0dd44f366bc5604b8329a87be5f933" approved="yes">
         <source>Patch version</source>
-        <target state="needs-translation">Patch version</target>
+        <target state="final">Versión del parche</target>
         <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:94</note>
       </trans-unit>
-      <trans-unit id="064903b5aa01cf4bc4e5c073d9917678">
+      <trans-unit id="064903b5aa01cf4bc4e5c073d9917678" approved="yes">
         <source>List of core alterations</source>
-        <target state="needs-translation">List of core alterations</target>
+        <target state="final">Lista de  modificaciones del core </target>
         <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:244</note>
       </trans-unit>
-      <trans-unit id="673cc49de07389091a77d1872687cf64">
+      <trans-unit id="673cc49de07389091a77d1872687cf64" approved="yes">
         <source>Some core files have been altered, customization made on these files will be lost during the update.</source>
-        <target state="needs-translation">Some core files have been altered, customization made on these files will be lost during the update.</target>
+        <target state="final">Se han cambiado algunos archivos core, la personalización realizada en estos archivos se perderá durante la actualización.</target>
         <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:245</note>
       </trans-unit>
       <trans-unit id="3e520d769e66a4dcdf43029803ab4e8e" approved="yes">
@@ -32,9 +32,9 @@
         <target state="final">Lista de modificaciones del tema</target>
         <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:257</note>
       </trans-unit>
-      <trans-unit id="fa22ace14d701200f848374a39f3e88c">
+      <trans-unit id="fa22ace14d701200f848374a39f3e88c" approved="yes">
         <source>Some theme files have been altered, customization made on these files will be lost during the update.</source>
-        <target state="needs-translation">Some theme files have been altered, customization made on these files will be lost during the update.</target>
+        <target state="final">Se han cambiado algunos archivos del tema, la personalización realizada en estos archivos se perderá durante la actualización.</target>
         <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:258</note>
       </trans-unit>
       <trans-unit id="21dc065f2d8653ebca37ec552d17b37e" approved="yes">
@@ -57,9 +57,9 @@
         <target state="needs-translation">Error when retrieving data from Distribution API</target>
         <note>classes/Services/DistributionApiService.php:55</note>
       </trans-unit>
-      <trans-unit id="90983283d1e14aa535ea65a1f9033115">
+      <trans-unit id="90983283d1e14aa535ea65a1f9033115" approved="yes">
         <source>No version match in Distribution api for %s</source>
-        <target state="needs-translation">No version match in Distribution api for %s</target>
+        <target state="final">No hay coincidencia de versión en la API de distribución para %s</target>
         <note>classes/Services/DistributionApiService.php:79</note>
       </trans-unit>
       <trans-unit id="f7801f49915e2be6cdb6a920e41a9025">
@@ -72,34 +72,34 @@
         <target state="needs-translation">Unable to retrieve autoupgrade compatibilities from distribution API.</target>
         <note>classes/Services/DistributionApiService.php:124</note>
       </trans-unit>
-      <trans-unit id="708a3f63d9d379278db1b2bb25f7b79b">
+      <trans-unit id="708a3f63d9d379278db1b2bb25f7b79b" approved="yes">
         <source>Download attempt %d/%d failed: %s</source>
-        <target state="needs-translation">Download attempt %d/%d failed: %s</target>
+        <target state="final">Intento de descarga %d/%d fallido: %s</target>
         <note>classes/Services/DownloadService.php:61</note>
       </trans-unit>
-      <trans-unit id="00941baee2b9096432b9269913074b2d">
+      <trans-unit id="00941baee2b9096432b9269913074b2d" approved="yes">
         <source>All download attempts have failed.</source>
-        <target state="needs-translation">All download attempts have failed.</target>
+        <target state="final">Todos los intentos de descarga han fallado.</target>
         <note>classes/Services/DownloadService.php:69</note>
       </trans-unit>
-      <trans-unit id="d85af10b8037ad6ab6e4f37877b54867">
+      <trans-unit id="d85af10b8037ad6ab6e4f37877b54867" approved="yes">
         <source>The file could not be downloaded or is empty. Destination path: "%s", Source URL: "%s".</source>
-        <target state="needs-translation">The file could not be downloaded or is empty. Destination path: "%s", Source URL: "%s".</target>
+        <target state="final">El archivo no se pudo descargar o está vacío. Ruta de destino: "%s", URL de origen: "%s".</target>
         <note>classes/Services/DownloadService.php:78</note>
       </trans-unit>
-      <trans-unit id="7f8f7ff0c4bb4599a45fa5b3708dd2c4">
+      <trans-unit id="7f8f7ff0c4bb4599a45fa5b3708dd2c4" approved="yes">
         <source>Download backup logs</source>
-        <target state="needs-translation">Download backup logs</target>
+        <target state="final">Descargar registros de copias de seguridad</target>
         <note>views/templates/steps/backup-options.html.twig:41</note>
       </trans-unit>
-      <trans-unit id="deaf32a53ead325a232c297209dc187f">
+      <trans-unit id="deaf32a53ead325a232c297209dc187f" approved="yes">
         <source>Download restore logs</source>
-        <target state="needs-translation">Download restore logs</target>
+        <target state="final">Descargar registros de restauración</target>
         <note>classes/Services/LogsService.php:115</note>
       </trans-unit>
-      <trans-unit id="ebdbffe8dea73e1e0285fd052f720259">
+      <trans-unit id="ebdbffe8dea73e1e0285fd052f720259" approved="yes">
         <source>Download update logs</source>
-        <target state="needs-translation">Download update logs</target>
+        <target state="final">Descargar registros de actualización</target>
         <note>classes/Services/LogsService.php:117</note>
       </trans-unit>
       <trans-unit id="b5ffb77b13ab03298982a49842ce78aa">
@@ -137,49 +137,49 @@
         <target state="needs-translation">Error while updating translations for the language pack %lang%. %details%</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader17.php:65</note>
       </trans-unit>
-      <trans-unit id="4e32fd9d99ee0c3370c870d4da3d31a9">
+      <trans-unit id="4e32fd9d99ee0c3370c870d4da3d31a9" approved="yes">
         <source>Running generic queries</source>
-        <target state="needs-translation">Running generic queries</target>
+        <target state="final">Ejecutando consultas genéricas</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:119</note>
       </trans-unit>
-      <trans-unit id="589998cc1fe1a29f99a7bac84b1c121f">
+      <trans-unit id="589998cc1fe1a29f99a7bac84b1c121f" approved="yes">
         <source>Database update OK</source>
-        <target state="needs-translation">Database update OK</target>
+        <target state="final">Actualización de la base de datos correcta</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:122</note>
       </trans-unit>
-      <trans-unit id="947d41a2e41f66e6a8581d2ab5726685">
+      <trans-unit id="947d41a2e41f66e6a8581d2ab5726685" approved="yes">
         <source>Updating languages</source>
-        <target state="needs-translation">Updating languages</target>
+        <target state="final">Actualizando idiomas</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:124</note>
       </trans-unit>
-      <trans-unit id="88bbbc84f51424b4b0c6da6aec2c2154">
+      <trans-unit id="88bbbc84f51424b4b0c6da6aec2c2154" approved="yes">
         <source>Regenerating htaccess</source>
-        <target state="needs-translation">Regenerating htaccess</target>
+        <target state="final">Regenerando htaccess</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:127</note>
       </trans-unit>
-      <trans-unit id="128e1c61a1a4477ec05609569cc4d9d8">
+      <trans-unit id="128e1c61a1a4477ec05609569cc4d9d8" approved="yes">
         <source>Cleaning XML files</source>
-        <target state="needs-translation">Cleaning XML files</target>
+        <target state="final">Limpiando archivos XML</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:130</note>
       </trans-unit>
-      <trans-unit id="12473a5949de1a1cd37806a14a56dbde">
+      <trans-unit id="12473a5949de1a1cd37806a14a56dbde" approved="yes">
         <source>Keeping overrides in place</source>
-        <target state="needs-translation">Keeping overrides in place</target>
+        <target state="final">Manteniendo overrides </target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:134</note>
       </trans-unit>
-      <trans-unit id="ed176ad3db6e004d4c272928acf3d0ac">
+      <trans-unit id="ed176ad3db6e004d4c272928acf3d0ac" approved="yes">
         <source>Disabling overrides</source>
-        <target state="needs-translation">Disabling overrides</target>
+        <target state="final">Deshabilitando overrides</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:136</note>
       </trans-unit>
-      <trans-unit id="4afddec024bf8a4d5170ded7dc6c5665">
+      <trans-unit id="4afddec024bf8a4d5170ded7dc6c5665" approved="yes">
         <source>Warning detected during update.</source>
-        <target state="needs-translation">Warning detected during update.</target>
+        <target state="final">Advertencia detectada durante la actualización.</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:145</note>
       </trans-unit>
-      <trans-unit id="a5b60046bfbbe89f0598a1a3b48e4bab">
+      <trans-unit id="a5b60046bfbbe89f0598a1a3b48e4bab" approved="yes">
         <source>Database update completed</source>
-        <target state="needs-translation">Database update completed</target>
+        <target state="final">Actualización de la base de datos completada</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:147</note>
       </trans-unit>
       <trans-unit id="f25792b5b08a78dd01810297d219c10c" approved="yes">
@@ -197,39 +197,39 @@
         <target state="final">No es posible encontrar los archivos de actualización SQL. Por favor, comprueba que la carpeta %s no esté vacía.</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:284</note>
       </trans-unit>
-      <trans-unit id="10cdbccd344337ec910129a02cdfaac2">
+      <trans-unit id="10cdbccd344337ec910129a02cdfaac2" approved="yes">
         <source>Migration file: %s, Query: %s</source>
-        <target state="needs-translation">Migration file: %s, Query: %s</target>
+        <target state="final">Archivo de migración: %s, Consulta: %s</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:512</note>
       </trans-unit>
-      <trans-unit id="4541f052250eb4a4175730f1b2a9e556">
+      <trans-unit id="4541f052250eb4a4175730f1b2a9e556" approved="yes">
         <source>%s PHP - missing file %s</source>
-        <target state="needs-translation">%s PHP - missing file %s</target>
+        <target state="final">%s PHP - falta el archivo %s</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:466</note>
       </trans-unit>
-      <trans-unit id="b413563efb053e11acb49c7a239004bb">
+      <trans-unit id="b413563efb053e11acb49c7a239004bb" approved="yes">
         <source>%s PHP - Object Method call is forbidden (%s)</source>
-        <target state="needs-translation">%s PHP - Object Method call is forbidden (%s)</target>
+        <target state="final">%s PHP - La llamada al método de objeto está prohibida (%s)</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:472</note>
       </trans-unit>
-      <trans-unit id="bd996c5d2ed7b7ff38aef7377fc28b8a">
+      <trans-unit id="bd996c5d2ed7b7ff38aef7377fc28b8a" approved="yes">
         <source>SQL %s table has been dropped.</source>
-        <target state="needs-translation">SQL %s table has been dropped.</target>
+        <target state="final">Se ha eliminado la tabla SQL %s.</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:484</note>
       </trans-unit>
-      <trans-unit id="a5f51c587cf3395667758cbdb04a5e0b">
+      <trans-unit id="a5f51c587cf3395667758cbdb04a5e0b" approved="yes">
         <source>The execution of the query failed: %s, %s</source>
-        <target state="needs-translation">The execution of the query failed: %s, %s</target>
+        <target state="final">La ejecución de la consulta falló: %s, %s</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:507</note>
       </trans-unit>
-      <trans-unit id="fc1c5074f1d436f7827b3749ad05dc1d">
+      <trans-unit id="fc1c5074f1d436f7827b3749ad05dc1d" approved="yes">
         <source>The execution of the query failed: %s, %s. This error code can be safely ignored.</source>
-        <target state="needs-translation">The execution of the query failed: %s, %s. This error code can be safely ignored.</target>
+        <target state="final">La ejecución de la consulta falló: %s, %s. Este código de error se puede ignorar sin problemas.</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:511</note>
       </trans-unit>
-      <trans-unit id="53983059bf39e1325bba11081ca40e97">
+      <trans-unit id="53983059bf39e1325bba11081ca40e97" approved="yes">
         <source>Keeping current theme</source>
-        <target state="needs-translation">Keeping current theme</target>
+        <target state="final">Mantener el tema actual</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:753</note>
       </trans-unit>
       <trans-unit id="796b7c49e21f09173214f029c7f02f9d" approved="yes">
@@ -237,14 +237,14 @@
         <target state="final">Cambiando al tema predeterminado.</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:758</note>
       </trans-unit>
-      <trans-unit id="475d2ad61e3486ec4af224c5c701b668">
+      <trans-unit id="475d2ad61e3486ec4af224c5c701b668" approved="yes">
         <source>No RTL language detected, skipping RTL file update.</source>
-        <target state="needs-translation">No RTL language detected, skipping RTL file update.</target>
+        <target state="final">No se detectó ningún idioma RTL, se omite la actualización del archivo RTL.</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:775</note>
       </trans-unit>
-      <trans-unit id="865502b07194399bc188582c6a3e266c">
+      <trans-unit id="865502b07194399bc188582c6a3e266c" approved="yes">
         <source>Update the RTL files of back-office themes.</source>
-        <target state="needs-translation">Update the RTL files of back-office themes.</target>
+        <target state="final">Actualizar los archivos RTL de los temas del back-office.</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:782</note>
       </trans-unit>
       <trans-unit id="751c05018f86933c195f46ec3ab55bf8">
@@ -279,139 +279,139 @@
         <target state="needs-translation">Core cache has been generated to avoid dependency conflicts.</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:874</note>
       </trans-unit>
-      <trans-unit id="4d46d96c1ea641735ee0c26c6381c75e">
+      <trans-unit id="4d46d96c1ea641735ee0c26c6381c75e" approved="yes">
         <source>API keys not present in parameters, generating</source>
-        <target state="needs-translation">API keys not present in parameters, generating</target>
+        <target state="final">Claves API no presentes en los parámetros, generando</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader81.php:38</note>
       </trans-unit>
-      <trans-unit id="f32686b54f6af06671f1c3575df12c7c">
+      <trans-unit id="f32686b54f6af06671f1c3575df12c7c" approved="yes">
         <source>Keys generated using openssl_pkey_new, exporting private and public keys</source>
-        <target state="needs-translation">Keys generated using openssl_pkey_new, exporting private and public keys</target>
+        <target state="final">Claves generadas usando openssl_pkey_new, exportando claves privadas y públicas</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader81.php:44</note>
       </trans-unit>
-      <trans-unit id="a971bd83f9fe8a03c10c29a065d3bd41">
+      <trans-unit id="a971bd83f9fe8a03c10c29a065d3bd41" approved="yes">
         <source>Updating parameters file</source>
-        <target state="needs-translation">Updating parameters file</target>
+        <target state="final">Actualizando archivo de parámetros</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader81.php:51</note>
       </trans-unit>
-      <trans-unit id="f24283fb7f4ba875f0f8c0391587695e">
+      <trans-unit id="f24283fb7f4ba875f0f8c0391587695e" approved="yes">
         <source>Unable to migrate parameters</source>
-        <target state="needs-translation">Unable to migrate parameters</target>
+        <target state="final">No se pueden migrar parámetros</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader81.php:53</note>
       </trans-unit>
-      <trans-unit id="43987038411fdc693ba35bf02e6cf496">
+      <trans-unit id="43987038411fdc693ba35bf02e6cf496" approved="yes">
         <source>Invalidating opcache for parameters file</source>
-        <target state="needs-translation">Invalidating opcache for parameters file</target>
+        <target state="final">Invalidación de opcache para el archivo de parámetros</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader81.php:57</note>
       </trans-unit>
-      <trans-unit id="d87028000710df8bad6886cfc6b4c98b">
+      <trans-unit id="d87028000710df8bad6886cfc6b4c98b" approved="yes">
         <source>Parameters file updated</source>
-        <target state="needs-translation">Parameters file updated</target>
+        <target state="final">Archivo de parámetros actualizado</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader81.php:60</note>
       </trans-unit>
-      <trans-unit id="d34ff4aaea46577cb23bcbd044592ebc">
+      <trans-unit id="d34ff4aaea46577cb23bcbd044592ebc" approved="yes">
         <source>Directory "%s" does not exist and cannot be emptied.</source>
-        <target state="needs-translation">Directory "%s" does not exist and cannot be emptied.</target>
+        <target state="final">El directorio "%s" no existe y no puede ser vaciado.</target>
         <note>classes/UpgradeTools/CacheCleaner.php:71</note>
       </trans-unit>
-      <trans-unit id="72966a016e6dd03e2eab13287244dc1a">
+      <trans-unit id="72966a016e6dd03e2eab13287244dc1a" approved="yes">
         <source>Directory %s emptied</source>
-        <target state="needs-translation">Directory %s emptied</target>
+        <target state="final">Directorio %s vaciado</target>
         <note>classes/UpgradeTools/CacheCleaner.php:75</note>
       </trans-unit>
-      <trans-unit id="2f6767f7a35a93e9462d6ec6a237fd0d">
+      <trans-unit id="2f6767f7a35a93e9462d6ec6a237fd0d" approved="yes">
         <source>%dir% does not exist or is not a directory.</source>
-        <target state="needs-translation">%dir% does not exist or is not a directory.</target>
+        <target state="final">%dir% no existe o no es un directorio.</target>
         <note>classes/UpgradeTools/Module/ModuleAdapter.php:136</note>
       </trans-unit>
-      <trans-unit id="0ffc32ecace92b6d10bd5247b54fff15">
+      <trans-unit id="0ffc32ecace92b6d10bd5247b54fff15" approved="yes">
         <source>%s does not exist or is not a directory.</source>
-        <target state="needs-translation">%s does not exist or is not a directory.</target>
+        <target state="final">%s no existe o no es un directorio.</target>
         <note>classes/UpgradeTools/Module/ModuleAdapter.php:136</note>
       </trans-unit>
-      <trans-unit id="de4c47f6bfc2283a2424f2e4610e06ea">
+      <trans-unit id="de4c47f6bfc2283a2424f2e4610e06ea" approved="yes">
         <source>Download of source #%s has failed.</source>
-        <target state="needs-translation">Download of source #%s has failed.</target>
+        <target state="final">La descarga de la fuente n.°%s ha fallado.</target>
         <note>classes/UpgradeTools/Module/ModuleDownloader.php:70</note>
       </trans-unit>
-      <trans-unit id="94afb77f327c3408fcc77d2e9e357298">
+      <trans-unit id="94afb77f327c3408fcc77d2e9e357298" approved="yes">
         <source>All download attempts have failed. The module %s has been disabled. You can try to update it manually afterwards.</source>
-        <target state="needs-translation">All download attempts have failed. The module %s has been disabled. You can try to update it manually afterwards.</target>
+        <target state="final">Todos los intentos de descarga han fallado. El módulo %s ha sido deshabilitado. Puedes intentar actualizarlo manualmente después.</target>
         <note>classes/UpgradeTools/Module/ModuleDownloader.php:75</note>
       </trans-unit>
-      <trans-unit id="88a8e935ad1b255eae2a4c490886b83a">
+      <trans-unit id="88a8e935ad1b255eae2a4c490886b83a" approved="yes">
         <source><![CDATA[Module %s update files (%s => %s) have been fetched from %s.]]></source>
-        <target state="needs-translation"><![CDATA[Module %s update files (%s => %s) have been fetched from %s.]]></target>
+        <target state="final"><![CDATA[Los archivos de actualización del módulo %s (%s => %s) se han obtenido de %s.]]></target>
         <note>classes/UpgradeTools/Module/ModuleDownloader.php:102</note>
       </trans-unit>
-      <trans-unit id="83e483e14240bf9d88eff9fa253133ca">
+      <trans-unit id="83e483e14240bf9d88eff9fa253133ca" approved="yes">
         <source>The received module archive is empty.</source>
-        <target state="needs-translation">The received module archive is empty.</target>
+        <target state="final">El archivo del módulo recibido está vacío.</target>
         <note>classes/UpgradeTools/Module/ModuleDownloader.php:118</note>
       </trans-unit>
-      <trans-unit id="7a0dd1e622442e88dc5c8cf1520997b4">
+      <trans-unit id="7a0dd1e622442e88dc5c8cf1520997b4" approved="yes">
         <source>Invalid contents from provider (Got an XML file).</source>
-        <target state="needs-translation">Invalid contents from provider (Got an XML file).</target>
+        <target state="final">Contenido no válido del proveedor (Obtuvo un archivo XML).</target>
         <note>classes/UpgradeTools/Module/ModuleDownloader.php:123</note>
       </trans-unit>
-      <trans-unit id="ffecf7f010dec7170bcc2749d49c41ff">
+      <trans-unit id="ffecf7f010dec7170bcc2749d49c41ff" approved="yes">
         <source>No version present in database for module %s, all files for update will be applied.</source>
-        <target state="needs-translation">No version present in database for module %s, all files for update will be applied.</target>
+        <target state="final">No hay ninguna versión presente en la base de datos para el módulo %s, se aplicarán todos los archivos para actualizar.</target>
         <note>classes/UpgradeTools/Module/ModuleMigration.php:74</note>
       </trans-unit>
-      <trans-unit id="b7158eb495a4a06e4a75736c3707e1da">
+      <trans-unit id="b7158eb495a4a06e4a75736c3707e1da" approved="yes">
         <source>(%s/%s) Applying migration file %s.</source>
-        <target state="needs-translation">(%s/%s) Applying migration file %s.</target>
+        <target state="final">(%s/%s) Aplicando archivo de migración %s.</target>
         <note>classes/UpgradeTools/Module/ModuleMigration.php:108</note>
       </trans-unit>
-      <trans-unit id="058ed3d02fc89ad3fe8acab223bec2f7">
+      <trans-unit id="058ed3d02fc89ad3fe8acab223bec2f7" approved="yes">
         <source>Migration failed while running the file %s. Module %s disabled.</source>
-        <target state="needs-translation">Migration failed while running the file %s. Module %s disabled.</target>
+        <target state="final">Error en la migración al ejecutar el archivo %s. Módulo %s deshabilitado.</target>
         <note>classes/UpgradeTools/Module/ModuleMigration.php:114</note>
       </trans-unit>
-      <trans-unit id="f044ca443a1f50d889be336f90a355b7">
+      <trans-unit id="f044ca443a1f50d889be336f90a355b7" approved="yes">
         <source>Unexpected issue when trying to upgrade module %s. Module %s disabled.</source>
-        <target state="needs-translation">Unexpected issue when trying to upgrade module %s. Module %s disabled.</target>
+        <target state="final">Problema inesperado al intentar actualizar el módulo %s. Módulo %s deshabilitado.</target>
         <note>classes/UpgradeTools/Module/ModuleMigration.php:121</note>
       </trans-unit>
-      <trans-unit id="84d66da5dc8362f2103d65efdb405865">
+      <trans-unit id="84d66da5dc8362f2103d65efdb405865" approved="yes">
         <source>Module %s version could not be updated. Database might be unavailable.</source>
-        <target state="needs-translation">Module %s version could not be updated. Database might be unavailable.</target>
+        <target state="final">No se pudo actualizar la versión del módulo %s . La base de datos podría no estar disponible.</target>
         <note>classes/UpgradeTools/Module/ModuleMigration.php:132</note>
       </trans-unit>
-      <trans-unit id="094e7ea97940f72a1decb2dc4d79ebfd">
+      <trans-unit id="094e7ea97940f72a1decb2dc4d79ebfd" approved="yes">
         <source>Could not write temporary file %s.</source>
-        <target state="needs-translation">Could not write temporary file %s.</target>
+        <target state="final">No se pudo escribir el archivo temporal %s.</target>
         <note>classes/UpgradeTools/Module/ModuleMigration.php:161</note>
       </trans-unit>
-      <trans-unit id="911a8f7a6f03e27072bf825463ac5a7e">
+      <trans-unit id="911a8f7a6f03e27072bf825463ac5a7e" approved="yes">
         <source>Method %s does not exist. Module %s disabled.</source>
-        <target state="needs-translation">Method %s does not exist. Module %s disabled.</target>
+        <target state="final">El método %s no existe. El módulo %s está deshabilitado.</target>
         <note>classes/UpgradeTools/Module/ModuleMigration.php:166</note>
       </trans-unit>
-      <trans-unit id="212d17b84ed7ed05df35b5fb0c805eea">
+      <trans-unit id="212d17b84ed7ed05df35b5fb0c805eea" approved="yes">
         <source>Error when trying to extract module %s.</source>
-        <target state="needs-translation">Error when trying to extract module %s.</target>
+        <target state="final">Error al intentar extraer el módulo %s.</target>
         <note>classes/UpgradeTools/Module/ModuleUnzipper.php:55</note>
       </trans-unit>
-      <trans-unit id="3188ac0ee6355c23c3b26c3b5e71f3dd">
+      <trans-unit id="3188ac0ee6355c23c3b26c3b5e71f3dd" approved="yes">
         <source>File %s does not exist, merge skipped.</source>
-        <target state="needs-translation">File %s does not exist, merge skipped.</target>
+        <target state="final">El archivo %s no existe, se omitió la fusión.</target>
         <note>classes/UpgradeTools/Translation.php:141</note>
       </trans-unit>
-      <trans-unit id="9e25d028554081cd5afb26eaf99dbd9e">
+      <trans-unit id="9e25d028554081cd5afb26eaf99dbd9e" approved="yes">
         <source>%variablename% variable missing in file %filename%. Merge skipped.</source>
-        <target state="needs-translation">%variablename% variable missing in file %filename%. Merge skipped.</target>
+        <target state="final">Variable %variablename% no se encuentra en el archivo %filename%. Se omitió la fusión.</target>
         <note>classes/UpgradeTools/Translation.php:129</note>
       </trans-unit>
-      <trans-unit id="688481c74263a37393118aff2b012987">
+      <trans-unit id="688481c74263a37393118aff2b012987" approved="yes">
         <source>%variablename% variable missing in file %filename%. File %filename% deleted and merge skipped.</source>
-        <target state="needs-translation">%variablename% variable missing in file %filename%. File %filename% deleted and merge skipped.</target>
+        <target state="final">Falta la variable %variablename% en el archivo %filename%. Se eliminó el archivo %filename% y se omitió la fusión.</target>
         <note>classes/UpgradeTools/Translation.php:153</note>
       </trans-unit>
-      <trans-unit id="80c25611ea9134bac1da1d91eb03544a">
+      <trans-unit id="80c25611ea9134bac1da1d91eb03544a" approved="yes">
         <source>Both 'xml' and 'zip' files attributes must be provided to use the local channel.</source>
-        <target state="needs-translation">Both 'xml' and 'zip' files attributes must be provided to use the local channel.</target>
+        <target state="final">Se deben proporcionar los atributos de archivo 'XML' y 'ZIP' para utilizar el canal local.</target>
         <note>classes/Parameters/LocalChannelConfigurationValidator.php:113</note>
       </trans-unit>
       <trans-unit id="1d1a5763d2901dbd435b378358a149b4" approved="yes">
@@ -419,9 +419,9 @@
         <target state="final">El archivo %s no existe. No se puede seleccionar ese canal.</target>
         <note>classes/Parameters/LocalChannelConfigurationValidator.php:155</note>
       </trans-unit>
-      <trans-unit id="8cd1c74d3c55f934c1b312fc65f9022f">
+      <trans-unit id="8cd1c74d3c55f934c1b312fc65f9022f" approved="yes">
         <source>We couldn't find a PrestaShop version in the .zip file that was uploaded in your local archive. Please try again.</source>
-        <target state="needs-translation">We couldn't find a PrestaShop version in the .zip file that was uploaded in your local archive. Please try again.</target>
+        <target state="final">No se pudo encontrar la versión de PrestaShop en el archivo .zip que subiste a tu archivo local. Inténtalo de nuevo.</target>
         <note>classes/Task/Miscellaneous/UpdateConfig.php:103</note>
       </trans-unit>
       <trans-unit id="a9c58dc4da830f87b1f0cb9e2b6f8a1c" approved="yes">
@@ -434,39 +434,39 @@
         <target state="final">La versión de PrestaShop en tu archivo no coincide con la del archivo XML. Soluciona el problema y vuelve a intentarlo.</target>
         <note>classes/Parameters/LocalChannelConfigurationValidator.php:179</note>
       </trans-unit>
-      <trans-unit id="494e9240706355902c051f7edbff16d8">
+      <trans-unit id="494e9240706355902c051f7edbff16d8" approved="yes">
         <source>Unknown channel %s</source>
-        <target state="needs-translation">Unknown channel %s</target>
+        <target state="final">Canal desconocido %s</target>
         <note>classes/Parameters/ConfigurationValidator.php:79</note>
       </trans-unit>
-      <trans-unit id="a1e2f27f691acb7eff72046d0c6d15b9">
+      <trans-unit id="a1e2f27f691acb7eff72046d0c6d15b9" approved="yes">
         <source>No zip archive provided</source>
-        <target state="needs-translation">No zip archive provided</target>
+        <target state="final">No se proporcionó ningún archivo ZIP</target>
         <note>classes/Parameters/ConfigurationValidator.php:88</note>
       </trans-unit>
-      <trans-unit id="08ecdfa1e85ff7b6cc146b6a61690840">
+      <trans-unit id="08ecdfa1e85ff7b6cc146b6a61690840" approved="yes">
         <source>No xml archive provided</source>
-        <target state="needs-translation">No xml archive provided</target>
+        <target state="final">No se proporcionó ningún archivo XML</target>
         <note>classes/Parameters/ConfigurationValidator.php:97</note>
       </trans-unit>
-      <trans-unit id="8f6819dd1d8ef2e214833f667fe994b0">
+      <trans-unit id="8f6819dd1d8ef2e214833f667fe994b0" approved="yes">
         <source>Value must be a boolean for %s</source>
-        <target state="needs-translation">Value must be a boolean for %s</target>
+        <target state="final">El valor debe ser un booleano para %s</target>
         <note>classes/Parameters/ConfigurationValidator.php:109</note>
       </trans-unit>
-      <trans-unit id="0067de0b699a1ff27fe4faa758932986">
+      <trans-unit id="0067de0b699a1ff27fe4faa758932986" approved="yes">
         <source>Invalid configuration, backup name is missing.</source>
-        <target state="needs-translation">Invalid configuration, backup name is missing.</target>
+        <target state="final">Configuración no válida, falta el nombre de la copia de seguridad.</target>
         <note>classes/Parameters/RestoreConfigurationValidator.php:82</note>
       </trans-unit>
-      <trans-unit id="2aa754c876879a7a9bb7a8f4273730f8">
+      <trans-unit id="2aa754c876879a7a9bb7a8f4273730f8" approved="yes">
         <source>Invalid configuration, backup %s doesn't exist.</source>
-        <target state="needs-translation">Invalid configuration, backup %s doesn't exist.</target>
+        <target state="final">Configuración no válida, la copia de seguridad %s no existe.</target>
         <note>classes/Parameters/RestoreConfigurationValidator.php:91</note>
       </trans-unit>
-      <trans-unit id="31098a445d00d6606542c429524f464f">
+      <trans-unit id="31098a445d00d6606542c429524f464f" approved="yes">
         <source>Unable to add %filename% to archive %archive%: %error%</source>
-        <target state="needs-translation">Unable to add %filename% to archive %archive%: %error%</target>
+        <target state="final">No se puede agregar %filename% al archivo %archive%: %error%</target>
         <note>classes/ZipAction.php:106</note>
       </trans-unit>
       <trans-unit id="1d7a665a8b724a2a30e72af54b8fd313" approved="yes">
@@ -474,9 +474,9 @@
         <target state="final">%filename% añadido al archivo. %filescount% archivos restantes.</target>
         <note>classes/ZipAction.php:118</note>
       </trans-unit>
-      <trans-unit id="e2791f065857bf0bec8ce49645861c2f">
+      <trans-unit id="e2791f065857bf0bec8ce49645861c2f" approved="yes">
         <source>Could not close the Zip file %toFile%: %error%</source>
-        <target state="needs-translation">Could not close the Zip file %toFile%: %error%</target>
+        <target state="final">No se pudo cerrar el archivo Zip %toFile%: %error%</target>
         <note>classes/ZipAction.php:130</note>
       </trans-unit>
       <trans-unit id="9311ab161709b4f5efe9c6ff08b33699" approved="yes">
@@ -514,14 +514,14 @@
         <target state="final">Se extrae el contenido del archivo %zip%</target>
         <note>classes/ZipAction.php:234</note>
       </trans-unit>
-      <trans-unit id="206e6b8346294e90dc99fa4c130afbcc">
+      <trans-unit id="206e6b8346294e90dc99fa4c130afbcc" approved="yes">
         <source>Unable to list archived files</source>
-        <target state="needs-translation">Unable to list archived files</target>
+        <target state="final">No se pueden listar los archivos archivados</target>
         <note>classes/ZipAction.php:255</note>
       </trans-unit>
-      <trans-unit id="ced3e0d550ba1c19d14f9cf7080de9b6">
+      <trans-unit id="ced3e0d550ba1c19d14f9cf7080de9b6" approved="yes">
         <source>Unable to open archive %s: %s</source>
-        <target state="needs-translation">Unable to open archive %s: %s</target>
+        <target state="final">No se puede abrir el archivo %s: %s</target>
         <note>classes/ZipAction.php:285</note>
       </trans-unit>
       <trans-unit id="fe718bdde198efa66b9e3a9a5cf476e6" approved="yes">
@@ -529,44 +529,44 @@
         <target state="final">El archivo %filename% (tamaño: %filesize%) ha sido omitido durante la copia de seguridad.</target>
         <note>classes/ZipAction.php:352</note>
       </trans-unit>
-      <trans-unit id="877f3f1346509ff0d53b27c14c49faaf">
+      <trans-unit id="877f3f1346509ff0d53b27c14c49faaf" approved="yes">
         <source>Update database in progress. %d queries left</source>
-        <target state="needs-translation">Update database in progress. %d queries left</target>
+        <target state="final">Actualización de la base de datos en curso. Quedan %d consultas</target>
         <note>classes/Task/Update/UpdateDatabase.php:59</note>
       </trans-unit>
-      <trans-unit id="9f50aa4bbbbb4463ece530c2c72cb8c0">
+      <trans-unit id="9f50aa4bbbbb4463ece530c2c72cb8c0" approved="yes">
         <source>Error during database update. You may need to restore your database.</source>
-        <target state="needs-translation">Error during database update. You may need to restore your database.</target>
+        <target state="final">Error durante la actualización de la base de datos. Es posible que debas restaurarla.</target>
         <note>classes/Task/Update/UpdateDatabase.php:80</note>
       </trans-unit>
-      <trans-unit id="b4d58e71eb2164fb3d7729f24b745083">
+      <trans-unit id="b4d58e71eb2164fb3d7729f24b745083" approved="yes">
         <source>Database updated. Now updating your Addons modules...</source>
-        <target state="needs-translation">Database updated. Now updating your Addons modules...</target>
+        <target state="final">Base de datos actualizada. Actualizando ahora tus módulos de Addons...</target>
         <note>classes/Task/Update/UpdateDatabase.php:87</note>
       </trans-unit>
-      <trans-unit id="c5ada796f937732385b6594d7364b69a">
+      <trans-unit id="c5ada796f937732385b6594d7364b69a" approved="yes">
         <source>Updating database data and structure</source>
-        <target state="needs-translation">Updating database data and structure</target>
+        <target state="final">Actualizando base de datos y estructura</target>
         <note>classes/Task/Update/UpdateDatabase.php:129</note>
       </trans-unit>
-      <trans-unit id="956ef5a4e2df09d2f7415c9f1284d17c">
+      <trans-unit id="956ef5a4e2df09d2f7415c9f1284d17c" approved="yes">
         <source>Checking version validity</source>
-        <target state="needs-translation">Checking version validity</target>
+        <target state="final">Comprobando la validez de la versión</target>
         <note>classes/Task/Update/UpdateDatabase.php:137</note>
       </trans-unit>
-      <trans-unit id="de4026a3fc9813c32f3a247370c29f54">
+      <trans-unit id="de4026a3fc9813c32f3a247370c29f54" approved="yes">
         <source>Disabling all non native modules</source>
-        <target state="needs-translation">Disabling all non native modules</target>
+        <target state="final">Deshabilitando todos los módulos no nativos</target>
         <note>classes/Task/Update/UpdateDatabase.php:147</note>
       </trans-unit>
-      <trans-unit id="ffb63e7ff1e05430b4a292ac8651f1e4">
+      <trans-unit id="ffb63e7ff1e05430b4a292ac8651f1e4" approved="yes">
         <source>Keeping non native modules enabled</source>
-        <target state="needs-translation">Keeping non native modules enabled</target>
+        <target state="final">Manteniendo los módulos no nativos habilitados</target>
         <note>classes/Task/Update/UpdateDatabase.php:150</note>
       </trans-unit>
-      <trans-unit id="a6f9db17fdafdd976f34333d8a217531">
+      <trans-unit id="a6f9db17fdafdd976f34333d8a217531" approved="yes">
         <source>Version to install is too old. Current version: %oldversion%. Version to install: %newversion%.</source>
-        <target state="needs-translation">Version to install is too old. Current version: %oldversion%. Version to install: %newversion%.</target>
+        <target state="final">La versión a instalar es demasiado antigua. Versión actual: %oldversion%. Versión a instalar: %newversion%.</target>
         <note>classes/Task/Update/UpdateDatabase.php:167</note>
       </trans-unit>
       <trans-unit id="37ce0f29c7377c827e7247fe5645a782" approved="yes">
@@ -614,39 +614,39 @@
         <target state="final">Hash MD5 se cotejará con %s</target>
         <note>classes/Task/Update/UpdateInitialization.php:78</note>
       </trans-unit>
-      <trans-unit id="78c6e760441165ec762746a0ab4b64cd">
+      <trans-unit id="78c6e760441165ec762746a0ab4b64cd" approved="yes">
         <source>Checking updates of module %module%...</source>
-        <target state="needs-translation">Checking updates of module %module%...</target>
+        <target state="final">Comprobando actualizaciones del módulo %module%...</target>
         <note>classes/Task/Update/UpdateModules.php:71</note>
       </trans-unit>
-      <trans-unit id="2b4da2b27a96bf23f0de18c59e9b1afe">
+      <trans-unit id="2b4da2b27a96bf23f0de18c59e9b1afe" approved="yes">
         <source>Module %module% is up-to-date.</source>
-        <target state="needs-translation">Module %module% is up-to-date.</target>
+        <target state="final">El módulo %module% está actualizado.</target>
         <note>classes/Task/Update/UpdateModules.php:77</note>
       </trans-unit>
-      <trans-unit id="798df2395d946f1f5b75ef9f6d8d8b1e">
+      <trans-unit id="798df2395d946f1f5b75ef9f6d8d8b1e" approved="yes">
         <source>Retrieving the module instance of %s failed.</source>
-        <target state="needs-translation">Retrieving the module instance of %s failed.</target>
+        <target state="final">Error al recuperar la instancia del módulo de %s.</target>
         <note>classes/Task/Update/UpdateModules.php:88</note>
       </trans-unit>
-      <trans-unit id="a5db680b38097b4289b24d4925b8368e">
+      <trans-unit id="a5db680b38097b4289b24d4925b8368e" approved="yes">
         <source>Module %s does not need to be migrated. Module is up to date.</source>
-        <target state="needs-translation">Module %s does not need to be migrated. Module is up to date.</target>
+        <target state="final">El módulo %s no necesita ser migrado. El módulo está actualizado.</target>
         <note>classes/Task/Update/UpdateModules.php:94</note>
       </trans-unit>
-      <trans-unit id="cf131dfbf6e4bd352b1e5ed65b169b0e">
+      <trans-unit id="cf131dfbf6e4bd352b1e5ed65b169b0e" approved="yes">
         <source>%s modules left to check.</source>
-        <target state="needs-translation">%s modules left to check.</target>
+        <target state="final">Quedan %s módulos por revisar.</target>
         <note>classes/Task/Update/UpdateModules.php:122</note>
       </trans-unit>
-      <trans-unit id="d47b7d2553af843c2c037185c0279268">
+      <trans-unit id="d47b7d2553af843c2c037185c0279268" approved="yes">
         <source>All modules have been updated.</source>
-        <target state="needs-translation">All modules have been updated.</target>
+        <target state="final">Todos los módulos han sido actualizados.</target>
         <note>classes/Task/Update/UpdateModules.php:127</note>
       </trans-unit>
-      <trans-unit id="5775d9e6d353c11bc7c6fe21776d3b2c">
+      <trans-unit id="5775d9e6d353c11bc7c6fe21776d3b2c" approved="yes">
         <source>%s modules will be updated.</source>
-        <target state="needs-translation">%s modules will be updated.</target>
+        <target state="final">Los módulos %s se actualizarán.</target>
         <note>classes/Task/Update/UpdateModules.php:155</note>
       </trans-unit>
       <trans-unit id="ead14b0273e8d6cae7d146130d4be8f6" approved="yes">
@@ -654,19 +654,19 @@
         <target state="final">La base de datos ha sido limpiada.</target>
         <note>classes/Task/Update/CleanDatabase.php:53</note>
       </trans-unit>
-      <trans-unit id="d3b9b6cf6979d03762f425fb7d0d4e12">
+      <trans-unit id="d3b9b6cf6979d03762f425fb7d0d4e12" approved="yes">
         <source>All files updated. Now updating database...</source>
-        <target state="needs-translation">All files updated. Now updating database...</target>
+        <target state="final">Todos los archivos actualizados. Actualizando la base de datos...</target>
         <note>classes/Task/Update/UpdateFiles.php:67</note>
       </trans-unit>
-      <trans-unit id="46cf45a00b2e8abfe1c5635601ff2e48">
+      <trans-unit id="46cf45a00b2e8abfe1c5635601ff2e48" approved="yes">
         <source>Error when trying to update file %s.</source>
-        <target state="needs-translation">Error when trying to update file %s.</target>
+        <target state="final">Error al intentar actualizar el archivo %s.</target>
         <note>classes/Task/Update/UpdateFiles.php:77</note>
       </trans-unit>
-      <trans-unit id="13c5f7e7473980468149551b4df7da8c">
+      <trans-unit id="13c5f7e7473980468149551b4df7da8c" approved="yes">
         <source>%s files left to update.</source>
-        <target state="needs-translation">%s files left to update.</target>
+        <target state="final">Quedan %s archivos por actualizar.</target>
         <note>classes/Task/Update/UpdateFiles.php:88</note>
       </trans-unit>
       <trans-unit id="9a2f2cf276ea9f79b31a815897c0e3e6" approved="yes">
@@ -684,9 +684,9 @@
         <target state="needs-translation">Error while creating link %s: %s</target>
         <note>classes/Task/Update/UpdateFiles.php:139</note>
       </trans-unit>
-      <trans-unit id="ba4bea05b16daf8e0652a6048cf741c6">
+      <trans-unit id="ba4bea05b16daf8e0652a6048cf741c6" approved="yes">
         <source>File %1$s has been deleted.</source>
-        <target state="needs-translation">File %1$s has been deleted.</target>
+        <target state="final">El archivo %1$s ha sido eliminado.</target>
         <note>classes/Task/Update/UpdateFiles.php:147</note>
       </trans-unit>
       <trans-unit id="cbfafdaa2e7968a86bd6a437027edfea" approved="yes">
@@ -694,9 +694,9 @@
         <target state="final">Directorio %1$s creado.</target>
         <note>classes/Task/Update/UpdateFiles.php:152</note>
       </trans-unit>
-      <trans-unit id="47e555d00d52a54c20b5f936ee706fc8">
+      <trans-unit id="47e555d00d52a54c20b5f936ee706fc8" approved="yes">
         <source>Error while creating directory %s: %s.</source>
-        <target state="needs-translation">Error while creating directory %s: %s.</target>
+        <target state="final">Error al crear el directorio %s: %s.</target>
         <note>classes/Task/Update/UpdateFiles.php:157</note>
       </trans-unit>
       <trans-unit id="0a6c2db1b18cb6420ad40d46db8707de" approved="yes">
@@ -704,14 +704,14 @@
         <target state="final">El directorio %s ya existe.</target>
         <note>classes/Task/Update/UpdateFiles.php:162</note>
       </trans-unit>
-      <trans-unit id="e33b6cbf66a4417503eac526d8a94626">
+      <trans-unit id="e33b6cbf66a4417503eac526d8a94626" approved="yes">
         <source>The translation files have been merged into file %s.</source>
-        <target state="needs-translation">The translation files have been merged into file %s.</target>
+        <target state="final">Los archivos de traducción se han fusionado en el archivo %s.</target>
         <note>classes/Task/Update/UpdateFiles.php:171</note>
       </trans-unit>
-      <trans-unit id="7cfde7149c7a53bbbe854a0562ac0807">
+      <trans-unit id="7cfde7149c7a53bbbe854a0562ac0807" approved="yes">
         <source>The translation files have not been merged into file %filename%. Switch to copy %filename%.</source>
-        <target state="needs-translation">The translation files have not been merged into file %filename%. Switch to copy %filename%.</target>
+        <target state="final">Los archivos de traducción no se han combinado con el archivo %filename%. Cambiar a la copia %filename%.</target>
         <note>classes/Task/Update/UpdateFiles.php:176</note>
       </trans-unit>
       <trans-unit id="b8db10001e04b8f947415aeb8b8fd19f" approved="yes">
@@ -724,9 +724,9 @@
         <target state="needs-translation">Unable to copy %s, but ignoring as source and destination appear identical.</target>
         <note>classes/Task/Update/UpdateFiles.php:195</note>
       </trans-unit>
-      <trans-unit id="4a6c74e011e44e5fb206a6dcedfc1185">
+      <trans-unit id="4a6c74e011e44e5fb206a6dcedfc1185" approved="yes">
         <source>Error while copying file %s: %s</source>
-        <target state="needs-translation">Error while copying file %s: %s</target>
+        <target state="final">Error al copiar el archivo %s: %s</target>
         <note>classes/Task/Update/UpdateFiles.php:201</note>
       </trans-unit>
       <trans-unit id="20aed4fb9f6ee15bc601227bbfb85acd" approved="yes">
@@ -739,34 +739,34 @@
         <target state="final">Es posible que falte un archivo o que el lanzamiento de la descarga se almacene en una subcarpeta por error.</target>
         <note>classes/Task/Update/UpdateFiles.php:242</note>
       </trans-unit>
-      <trans-unit id="fa5d2fc42275582a8b7be9935084ad45">
+      <trans-unit id="fa5d2fc42275582a8b7be9935084ad45" approved="yes">
         <source>Generate diff file list between %s and %s.</source>
-        <target state="needs-translation">Generate diff file list between %s and %s.</target>
+        <target state="final">Generar lista de archivos diff entre %s y %s.</target>
         <note>classes/Task/Update/UpdateFiles.php:263</note>
       </trans-unit>
-      <trans-unit id="a845839e72a2af510180c93273119199">
+      <trans-unit id="a845839e72a2af510180c93273119199" approved="yes">
         <source>Unable to generate diff file list between %s and %s.</source>
-        <target state="needs-translation">Unable to generate diff file list between %s and %s.</target>
+        <target state="final">No se puede generar la lista de archivos diff entre %s y %s.</target>
         <note>classes/Task/Update/UpdateFiles.php:266</note>
       </trans-unit>
-      <trans-unit id="b66f7c9b911acb4711e96eb7a7605bfb">
+      <trans-unit id="b66f7c9b911acb4711e96eb7a7605bfb" approved="yes">
         <source>Unable to find files to update.</source>
-        <target state="needs-translation">Unable to find files to update.</target>
+        <target state="final">No se pueden encontrar archivos para actualizar.</target>
         <note>classes/Task/Update/UpdateFiles.php:305</note>
       </trans-unit>
-      <trans-unit id="ee2e293c4bce5a37e5925743d549af8e">
+      <trans-unit id="ee2e293c4bce5a37e5925743d549af8e" approved="yes">
         <source>%s files will be updated.</source>
-        <target state="needs-translation">%s files will be updated.</target>
+        <target state="final">Los archivos %s se actualizarán.</target>
         <note>classes/Task/Update/UpdateFiles.php:310</note>
       </trans-unit>
-      <trans-unit id="64d7e13ba8bcd0c4a6977cf271577a03">
+      <trans-unit id="64d7e13ba8bcd0c4a6977cf271577a03" approved="yes">
         <source>Shop updated to %s, but some warnings have been found.</source>
-        <target state="needs-translation">Shop updated to %s, but some warnings have been found.</target>
+        <target state="final">Tienda actualizada a %s, pero se han encontrado algunas advertencias.</target>
         <note>classes/Task/Update/UpdateComplete.php:54</note>
       </trans-unit>
-      <trans-unit id="f14a0e3c163ebd24ef367ac1079cf000">
+      <trans-unit id="f14a0e3c163ebd24ef367ac1079cf000" approved="yes">
         <source>Shop updated to %s. Congratulations! You can now reactivate your shop.</source>
-        <target state="needs-translation">Shop updated to %s. Congratulations! You can now reactivate your shop.</target>
+        <target state="final">Tienda actualizada a %s. ¡Enhorabuena! Ya puedes reactivar tu tienda.</target>
         <note>classes/Task/Update/UpdateComplete.php:55</note>
       </trans-unit>
       <trans-unit id="75802ba44ba3369defd92ef897bf2f21" approved="yes">
@@ -774,9 +774,9 @@
         <target state="final">Por favor, elimina %s desde FTP</target>
         <note>classes/Task/Update/UpdateComplete.php:97</note>
       </trans-unit>
-      <trans-unit id="1b24cc8e4bf3ac0babd1a96fbc83e369">
+      <trans-unit id="1b24cc8e4bf3ac0babd1a96fbc83e369" approved="yes">
         <source>The temporary directory of modules has been emptied</source>
-        <target state="needs-translation">The temporary directory of modules has been emptied</target>
+        <target state="final">El directorio temporal de módulos se ha vaciado</target>
         <note>classes/Task/Update/UpdateComplete.php:82</note>
       </trans-unit>
       <trans-unit id="d2b9f1e39aa8e96bb61f3a4bfe133f58" approved="yes">
@@ -784,9 +784,9 @@
         <target state="final">%s eliminado</target>
         <note>classes/Task/Update/UpdateComplete.php:95</note>
       </trans-unit>
-      <trans-unit id="57d362fe2965e2071229eeaf44ae1f5b">
+      <trans-unit id="57d362fe2965e2071229eeaf44ae1f5b" approved="yes">
         <source>Temporary files directory has been emptied</source>
-        <target state="needs-translation">Temporary files directory has been emptied</target>
+        <target state="final">El directorio de archivos temporales ha sido vaciado</target>
         <note>classes/Task/Update/Unzip.php:59</note>
       </trans-unit>
       <trans-unit id="01d9d38b1d4d8eff5b530eeecfd3ccd5" approved="yes">
@@ -804,9 +804,9 @@
         <target state="final">No se encontró el directorio prestashop/ en el archivo ZIP. Cancelando el proceso.</target>
         <note>classes/Task/Update/Unzip.php:113</note>
       </trans-unit>
-      <trans-unit id="c308874e9b5347709e9dc8bad11d8198">
+      <trans-unit id="c308874e9b5347709e9dc8bad11d8198" approved="yes">
         <source>File extraction complete. Now updating files...</source>
-        <target state="needs-translation">File extraction complete. Now updating files...</target>
+        <target state="final">Extracción de archivo completa. Actualizando archivos...</target>
         <note>classes/Task/Update/Unzip.php:127</note>
       </trans-unit>
       <trans-unit id="fb1ca1f5f3eb5a2ca85201f449525527" approved="yes">
@@ -844,9 +844,9 @@
         <target state="final">Descarga completada, pero la suma MD5 no coincide (%s).</target>
         <note>classes/Task/Update/Download.php:102</note>
       </trans-unit>
-      <trans-unit id="31cc7d01dc7b85c42d9eb731b1060af7">
+      <trans-unit id="31cc7d01dc7b85c42d9eb731b1060af7" approved="yes">
         <source>The .zip archive could not be downloaded. The update is currently impossible. Please try again later.</source>
-        <target state="needs-translation">The .zip archive could not be downloaded. The update is currently impossible. Please try again later.</target>
+        <target state="final">No se pudo descargar el archivo .zip. La actualización no es posible en este momento. Inténtalo de nuevo más tarde.</target>
         <note>classes/Task/Update/Download.php:106</note>
       </trans-unit>
       <trans-unit id="435d516735dbf7f622c7d14585f66840" approved="yes">
@@ -854,14 +854,14 @@
         <target state="final">Acción %s omitida</target>
         <note>classes/Task/AbstractTask.php:152</note>
       </trans-unit>
-      <trans-unit id="1c041a27877f172964552beef6c228e6">
+      <trans-unit id="1c041a27877f172964552beef6c228e6" approved="yes">
         <source>Unknown configuration key '%s', Ignoring.</source>
-        <target state="needs-translation">Unknown configuration key '%s', Ignoring.</target>
+        <target state="final">Clave de configuración desconocida '%s', Ignorando.</target>
         <note>classes/Task/Miscellaneous/UpdateConfig.php:59</note>
       </trans-unit>
-      <trans-unit id="d70699057bcd09b03129da2391b47d67">
+      <trans-unit id="d70699057bcd09b03129da2391b47d67" approved="yes">
         <source>Update process will use archive.</source>
-        <target state="needs-translation">Update process will use archive.</target>
+        <target state="final">El proceso de actualización utilizará el archivo.</target>
         <note>classes/Task/Miscellaneous/UpdateConfig.php:100</note>
       </trans-unit>
       <trans-unit id="1fe9dd96f646eaa0cd3a0fcc7632ce12" approved="yes">
@@ -909,19 +909,19 @@
         <target state="final">Se eliminarán %s archivos antes de restaurar los archivos de respaldo.</target>
         <note>classes/Task/Restore/RestoreFiles.php:77</note>
       </trans-unit>
-      <trans-unit id="52c69c0d7cf5eea4c9a8a65e3453370c">
+      <trans-unit id="52c69c0d7cf5eea4c9a8a65e3453370c" approved="yes">
         <source>Backup file %s does not exist.</source>
-        <target state="needs-translation">Backup file %s does not exist.</target>
+        <target state="final">El archivo de copia de seguridad %s no existe.</target>
         <note>classes/Task/Restore/RestoreFiles.php:82</note>
       </trans-unit>
-      <trans-unit id="1a56eca6c17206b678aaeb1dac9f2ff7">
+      <trans-unit id="1a56eca6c17206b678aaeb1dac9f2ff7" approved="yes">
         <source>File "%s" does not exist.</source>
-        <target state="needs-translation">File "%s" does not exist.</target>
+        <target state="final">El archivo "%s" no existe.</target>
         <note>classes/Task/Restore/RestoreFiles.php:85</note>
       </trans-unit>
-      <trans-unit id="5302f8c3bb6a8eb50f74b2d060b99883">
+      <trans-unit id="5302f8c3bb6a8eb50f74b2d060b99883" approved="yes">
         <source>Unable to remove updated files.</source>
-        <target state="needs-translation">Unable to remove updated files.</target>
+        <target state="final">No se pueden eliminar los archivos actualizados.</target>
         <note>classes/Task/Restore/RestoreFiles.php:87</note>
       </trans-unit>
       <trans-unit id="1f63628adef352c2a7ee4225b9dcd576" approved="yes">
@@ -939,14 +939,14 @@
         <target state="final">Archivos restaurados. Restaurando la base de datos...</target>
         <note>classes/Task/Restore/RestoreFiles.php:122</note>
       </trans-unit>
-      <trans-unit id="3fdd2bbfdfb85efef6dd8029183d9311">
+      <trans-unit id="3fdd2bbfdfb85efef6dd8029183d9311" approved="yes">
         <source>File %s is missing: unable to restore files. Operation aborted.</source>
-        <target state="needs-translation">File %s is missing: unable to restore files. Operation aborted.</target>
+        <target state="final">Falta el archivo %s : no se pueden restaurar los archivos. Operación cancelada.</target>
         <note>classes/Task/Restore/RestoreInitialization.php:77</note>
       </trans-unit>
-      <trans-unit id="63427da10dfe2dc64d1e9bc666ccc65c">
+      <trans-unit id="63427da10dfe2dc64d1e9bc666ccc65c" approved="yes">
         <source>No backup database files found: it would be impossible to restore the database. Operation aborted.</source>
-        <target state="needs-translation">No backup database files found: it would be impossible to restore the database. Operation aborted.</target>
+        <target state="final">No se encontraron archivos de backup de la base de datos: sería imposible restaurarla. Operación cancelada.</target>
         <note>classes/Task/Restore/RestoreInitialization.php:94</note>
       </trans-unit>
       <trans-unit id="0438424c05d45646dc089ef15df7e0e2" approved="yes">
@@ -954,9 +954,9 @@
         <target state="final">Restaurando archivos...</target>
         <note>classes/Task/Restore/RestoreInitialization.php:100</note>
       </trans-unit>
-      <trans-unit id="b579142dc2ece4e07e8fcc1f99cd75c8">
+      <trans-unit id="b579142dc2ece4e07e8fcc1f99cd75c8" approved="yes">
         <source>Restoration process done. Congratulations! You can now reactivate your store.</source>
-        <target state="needs-translation">Restoration process done. Congratulations! You can now reactivate your store.</target>
+        <target state="final">Proceso de restauración completado. ¡Enhorabuena! Ya puedes reactivar tu tienda.</target>
         <note>classes/Task/Restore/RestoreComplete.php:39</note>
       </trans-unit>
       <trans-unit id="222102295c3c6626ff141687b0f49b6b" approved="yes">
@@ -964,9 +964,9 @@
         <target state="final">Nada que restaurar</target>
         <note>classes/Task/Restore/RestoreEmpty.php:35</note>
       </trans-unit>
-      <trans-unit id="189c2b1a17529c88f5d6f297a4b59ebe">
+      <trans-unit id="189c2b1a17529c88f5d6f297a4b59ebe" approved="yes">
         <source>Backup filename has not been set</source>
-        <target state="needs-translation">Backup filename has not been set</target>
+        <target state="final">No se ha establecido el nombre de la copia de seguridad</target>
         <note>classes/Task/Backup/BackupFiles.php:48</note>
       </trans-unit>
       <trans-unit id="48f95ff09327408a578e91655ed872a1" approved="yes">
@@ -1109,9 +1109,9 @@
         <target state="final">No se puede crear el directorio %s: %s</target>
         <note>classes/Workspace.php:60</note>
       </trans-unit>
-      <trans-unit id="8dd96e697f4c74182122bacf75fa32f4">
+      <trans-unit id="8dd96e697f4c74182122bacf75fa32f4" approved="yes">
         <source>Cannot write to the directory. Please ensure you have the necessary write permissions on "%s".</source>
-        <target state="needs-translation">Cannot write to the directory. Please ensure you have the necessary write permissions on "%s".</target>
+        <target state="final">No se puede escribir en el directorio. Asegúrate de tener los permisos de escritura necesarios en "%s".</target>
         <note>classes/Workspace.php:64</note>
       </trans-unit>
       <trans-unit id="26b9f7a72f6303211ad6d2f635ea680e">
@@ -1219,9 +1219,9 @@
         <target state="final">Se han modificado o eliminado algunos archivos principales. Cualquier cambio realizado en estos archivos podría sobrescribirse durante la actualización. [1]Consulta la lista de cambios[/1].</target>
         <note>classes/UpgradeSelfCheck.php:402</note>
       </trans-unit>
-      <trans-unit id="427da216e71ba0cd2ce8f0cc71fa7943">
+      <trans-unit id="427da216e71ba0cd2ce8f0cc71fa7943" approved="yes">
         <source>Some core files have been altered or removed. Any changes made to these files may be overwritten during the update.</source>
-        <target state="needs-translation">Some core files have been altered or removed. Any changes made to these files may be overwritten during the update.</target>
+        <target state="final">Se han modificado o eliminado algunos archivos principales. Cualquier cambio realizado en estos archivos podría sobrescribirse durante la actualización.</target>
         <note>classes/UpgradeSelfCheck.php:404</note>
       </trans-unit>
       <trans-unit id="5b42ef8b92485316d4af646da0abf22f" approved="yes">
@@ -1229,9 +1229,9 @@
         <target state="final">Se han modificado o eliminado algunos archivos de tema. Cualquier cambio realizado en estos archivos podría sobrescribirse durante la actualización. [1]Consulta la lista de cambios[/1].</target>
         <note>classes/UpgradeSelfCheck.php:417</note>
       </trans-unit>
-      <trans-unit id="77e552478a3a1c92107ccae8722476a3">
+      <trans-unit id="77e552478a3a1c92107ccae8722476a3" approved="yes">
         <source>Some theme files have been altered or removed. Any changes made to these files may be overwritten during the update.</source>
-        <target state="needs-translation">Some theme files have been altered or removed. Any changes made to these files may be overwritten during the update.</target>
+        <target state="final">Se han modificado o eliminado algunos archivos de tema. Cualquier cambio realizado en estos archivos podría sobrescribirse durante la actualización.</target>
         <note>classes/UpgradeSelfCheck.php:419</note>
       </trans-unit>
       <trans-unit id="d56247f7a1c66e65f265b936b6d26dd9" approved="yes">
@@ -1239,19 +1239,19 @@
         <target state="final">No se han podido recuperar los archivos que faltan o se modificaron. En estas circunstancias,  tu tienda no se puede actualizar para evitar más bugs.</target>
         <note>classes/UpgradeSelfCheck.php:428</note>
       </trans-unit>
-      <trans-unit id="5ae505096414401ddbb2affa6620a869">
+      <trans-unit id="5ae505096414401ddbb2affa6620a869" approved="yes">
         <source>Unknown requirement.</source>
-        <target state="needs-translation">Unknown requirement.</target>
+        <target state="final">Requisito desconocido.</target>
         <note>classes/UpgradeSelfCheck.php:433</note>
       </trans-unit>
-      <trans-unit id="3f512c6c1dc3d4b9d2bf78bcc1c312a8">
+      <trans-unit id="3f512c6c1dc3d4b9d2bf78bcc1c312a8" approved="yes">
         <source>Backup requested for deletion does not exist.</source>
-        <target state="needs-translation">Backup requested for deletion does not exist.</target>
+        <target state="final">La copia de seguridad solicitada para su eliminación no existe.</target>
         <note>classes/Backup/BackupManager.php:51</note>
       </trans-unit>
-      <trans-unit id="ed88d11e6f590319e0be757ac6a6f399">
+      <trans-unit id="ed88d11e6f590319e0be757ac6a6f399" approved="yes">
         <source>An error occurred while formatting the backup name.</source>
-        <target state="needs-translation">An error occurred while formatting the backup name.</target>
+        <target state="final">Se produjo un error al formatear el nombre de la copia de seguridad.</target>
         <note>classes/Backup/BackupFinder.php:162</note>
       </trans-unit>
       <trans-unit id="c5bc1e392726aeee07f7da54da693536" approved="yes">
@@ -1259,14 +1259,14 @@
         <target state="final">Nuevo parche disponible</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:24</note>
       </trans-unit>
-      <trans-unit id="caff5b924cb41f48bb4b867e8e7b8e96">
+      <trans-unit id="caff5b924cb41f48bb4b867e8e7b8e96" approved="yes">
         <source>New available Minor</source>
-        <target state="needs-translation">New available Minor</target>
+        <target state="final">Nueva versión secundaria disponible</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:26</note>
       </trans-unit>
-      <trans-unit id="c46ec0404f781b06ef3829d92c42c307">
+      <trans-unit id="c46ec0404f781b06ef3829d92c42c307" approved="yes">
         <source>New available Major</source>
-        <target state="needs-translation">New available Major</target>
+        <target state="final">Nueva versión principal disponible</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:28</note>
       </trans-unit>
       <trans-unit id="d9efef68765c7b7800b682c5c6db1701" approved="yes">
@@ -1279,19 +1279,19 @@
         <target state="final">Descripción</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:41</note>
       </trans-unit>
-      <trans-unit id="e4db438a6d6be2f031b9249d55b69316">
+      <trans-unit id="e4db438a6d6be2f031b9249d55b69316" approved="yes">
         <source>Patches are fixes made between major and minor versions. They introduce security and bug fixes.</source>
-        <target state="needs-translation">Patches are fixes made between major and minor versions. They introduce security and bug fixes.</target>
+        <target state="final">Los parches son correcciones realizadas entre versiones principales y secundarias. Ofrecen mejoras de seguridad y corrigen errores.</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:46</note>
       </trans-unit>
-      <trans-unit id="31ee024917b3be58355bbd3fbcb2eedd">
+      <trans-unit id="31ee024917b3be58355bbd3fbcb2eedd" approved="yes">
         <source>The minor releases introduce new backward-compatible features, security improvements and bug fixes.</source>
-        <target state="needs-translation">The minor releases introduce new backward-compatible features, security improvements and bug fixes.</target>
+        <target state="final">Las versiones menores introducen nuevas funciones de compatibilidad con versiones anteriores, mejoras de seguridad y correcciones de errores.</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:48</note>
       </trans-unit>
-      <trans-unit id="562beba5e4769e797787408ae01e84f8">
+      <trans-unit id="562beba5e4769e797787408ae01e84f8" approved="yes">
         <source>Major releases introduce new features that may break backward compatibility, as well as new backward-compatible features and bug fixes.</source>
-        <target state="needs-translation">Major releases introduce new features that may break backward compatibility, as well as new backward-compatible features and bug fixes.</target>
+        <target state="final">Las versiones principales introducen nuevas características que pueden romper la compatibilidad con versiones anteriores, así como nuevas características compatibles con versiones anteriores y correcciones de errores.</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:50</note>
       </trans-unit>
       <trans-unit id="4923b1e1acea9d8d68e8341fc9191065" approved="yes">
@@ -1359,9 +1359,9 @@
         <target state="final">Hasta la próxima versión</target>
         <note>views/templates/hooks/dialog-update-notification.html.twig:107</note>
       </trans-unit>
-      <trans-unit id="201ad8cac531a92e1ec77ae5c1e7aa20">
+      <trans-unit id="201ad8cac531a92e1ec77ae5c1e7aa20" approved="yes">
         <source>Post-update checklist</source>
-        <target state="needs-translation">Post-update checklist</target>
+        <target state="final">Lista de control post-restauración</target>
         <note>views/templates/steps/post-update.html.twig:24</note>
       </trans-unit>
       <trans-unit id="fbbbd71f71ee845a88d3c1f91a225c27" approved="yes">
@@ -1369,9 +1369,9 @@
         <target state="final">Tu tienda se ha actualizado a la versión %version% de PrestaShop</target>
         <note>views/templates/steps/post-update.html.twig:30</note>
       </trans-unit>
-      <trans-unit id="82460737463ae4ea8d57b1bc7a1997ac">
+      <trans-unit id="82460737463ae4ea8d57b1bc7a1997ac" approved="yes">
         <source>Before continuing with your tasks, please review the following checklist to ensure smooth operation after recent updates.</source>
-        <target state="needs-translation">Before continuing with your tasks, please review the following checklist to ensure smooth operation after recent updates.</target>
+        <target state="final">Antes de continuar con las tareas, revisa la siguiente lista de verificación para garantizar un funcionamiento sin problemas después de las actualizaciones recientes.</target>
         <note>views/templates/steps/post-update.html.twig:31</note>
       </trans-unit>
       <trans-unit id="cce78dc6ebbec7385a01f2146d6d01c8">
@@ -1384,14 +1384,14 @@
         <target state="needs-translation">%startbold%Open the developer documentation%endbold% to keep this checklist at-hand.</target>
         <note>views/templates/steps/post-restore.html.twig:42</note>
       </trans-unit>
-      <trans-unit id="8d964175f80bfdf13131bec74401ba00">
+      <trans-unit id="8d964175f80bfdf13131bec74401ba00" approved="yes">
         <source>%startbold%Re-enable and check your modules%endbold% one by one to prevent any compatibility issue.</source>
-        <target state="needs-translation">%startbold%Re-enable and check your modules%endbold% one by one to prevent any compatibility issue.</target>
+        <target state="final">%startbold%Vuelve a habilitar y verifica tus módulos%endbold% uno por uno para evitar cualquier problema de compatibilidad.</target>
         <note>views/templates/steps/post-update.html.twig:48</note>
       </trans-unit>
-      <trans-unit id="e02d13d319c57ef97c30eb990d857ba5">
+      <trans-unit id="e02d13d319c57ef97c30eb990d857ba5" approved="yes">
         <source>%startbold%Make sure your store's front office is working properly:%endbold% try to create an account, place an order, add a product, etc.</source>
-        <target state="needs-translation">%startbold%Make sure your store's front office is working properly:%endbold% try to create an account, place an order, add a product, etc.</target>
+        <target state="final">%startbold%Asegúrate de que el front office de tu tienda está funcionando correctamente:%endbold% intenta crear una cuenta, realiza un pedido, añade un producto, etc.</target>
         <note>views/templates/steps/post-update.html.twig:54</note>
       </trans-unit>
       <trans-unit id="289390be5b219643de2f47be7d8b9c53">
@@ -1399,9 +1399,9 @@
         <target state="needs-translation"><![CDATA[%startbold%Disable the maintenance mode%endbold% in General settings > Maintenance.]]></target>
         <note>views/templates/steps/post-restore.html.twig:48</note>
       </trans-unit>
-      <trans-unit id="0ffd8c518061d780545d966155ac9b97">
+      <trans-unit id="0ffd8c518061d780545d966155ac9b97" approved="yes">
         <source>%startbold%Check the %startlink%Module Manager%endlink%%endbold% to discover and install the modules extracted on your server during the update process.</source>
-        <target state="needs-translation">%startbold%Check the %startlink%Module Manager%endlink%%endbold% to discover and install the modules extracted on your server during the update process.</target>
+        <target state="final">%startbold%Cbloquea el %startlink%Module Manager%endlink%%endbold% para descubrir e instalar los módulos extraídos en tu servidor durante el proceso de actualización.</target>
         <note>views/templates/steps/post-update.html.twig:66</note>
       </trans-unit>
       <trans-unit id="231cf4c70d866b616c21baddaeed0696">
@@ -1409,19 +1409,19 @@
         <target state="needs-translation">Troubleshooting</target>
         <note>views/templates/steps/post-restore.html.twig:58</note>
       </trans-unit>
-      <trans-unit id="605f8e6688fdd2a7616a3614d741202d">
+      <trans-unit id="605f8e6688fdd2a7616a3614d741202d" approved="yes">
         <source><![CDATA[If some images don't appear in the front office, try regenerating thumbnails in Preferences > Images.]]></source>
-        <target state="needs-translation"><![CDATA[If some images don't appear in the front office, try regenerating thumbnails in Preferences > Images.]]></target>
+        <target state="final"><![CDATA[Si algunas imágenes no aparecen en el front office, intenta regenerar las miniaturas en Preferencias > Imágenes.]]></target>
         <note>views/templates/steps/post-update.html.twig:83</note>
       </trans-unit>
-      <trans-unit id="b6e8290a312769f4d3919f3dd42a21a7">
+      <trans-unit id="b6e8290a312769f4d3919f3dd42a21a7" approved="yes">
         <source>If something's wrong, you can restore a backup with this module. Your backup is available at {admin}/autoupgrade/backup.</source>
-        <target state="needs-translation">If something's wrong, you can restore a backup with this module. Your backup is available at {admin}/autoupgrade/backup.</target>
+        <target state="final">Si algo falla, puedes restaurar una copia de seguridad con este módulo. Tu copia de seguridad está disponible en {admin}/autoupgrade/backup.</target>
         <note>views/templates/steps/post-update.html.twig:86</note>
       </trans-unit>
-      <trans-unit id="3cdf2387430d70296aec1dbe3d6772ad">
+      <trans-unit id="3cdf2387430d70296aec1dbe3d6772ad" approved="yes">
         <source>If you can't access your back office, try enabling the debug mode manually in config/defines.inc.php by setting _PS_MODE_DEV_ to true.</source>
-        <target state="needs-translation">If you can't access your back office, try enabling the debug mode manually in config/defines.inc.php by setting _PS_MODE_DEV_ to true.</target>
+        <target state="final">Si no puedes acceder a tu back office, intenta habilitar el modo de depuración manualmente en config/defines.inc.php configurando _PS_MODE_DEV_ en true.</target>
         <note>views/templates/steps/post-update.html.twig:89</note>
       </trans-unit>
       <trans-unit id="fef46e5063ce3dc78b8ae64fa474241d">
@@ -1449,19 +1449,19 @@
         <target state="needs-translation">Update your store to benefit from the latest improvements, bug fixes and security patches.</target>
         <note>views/templates/steps/home.html.twig:32</note>
       </trans-unit>
-      <trans-unit id="9280c14cf57cc764c0b9fc65e64e9a9b">
+      <trans-unit id="9280c14cf57cc764c0b9fc65e64e9a9b" approved="yes">
         <source>Restore from a backup</source>
-        <target state="needs-translation">Restore from a backup</target>
+        <target state="final">Restaurar desde una copia de seguridad</target>
         <note>views/templates/steps/home.html.twig:40</note>
       </trans-unit>
-      <trans-unit id="b4c0d851a41a50a0da7ccc10062d178a">
+      <trans-unit id="b4c0d851a41a50a0da7ccc10062d178a" approved="yes">
         <source>Use this feature if the update failed or if your store or a module is no longer working properly.</source>
-        <target state="needs-translation">Use this feature if the update failed or if your store or a module is no longer working properly.</target>
+        <target state="final">Utiliza esta función si la actualización falló o si tu tienda o un módulo ya no funciona correctamente.</target>
         <note>views/templates/steps/home.html.twig:41</note>
       </trans-unit>
-      <trans-unit id="0fd677149c0fafac25862f5a04268ebf">
+      <trans-unit id="0fd677149c0fafac25862f5a04268ebf" approved="yes">
         <source>No backup file found on your store.</source>
-        <target state="needs-translation">No backup file found on your store.</target>
+        <target state="final">No se ha encontrado ningún archivo de copia de seguridad en tu tienda.</target>
         <note>views/templates/steps/home.html.twig:46</note>
       </trans-unit>
       <trans-unit id="be11c74c1dd7f307bb80183a90dc2067" approved="yes">
@@ -1469,9 +1469,9 @@
         <target state="final">Empezar</target>
         <note>views/templates/steps/home.html.twig:56</note>
       </trans-unit>
-      <trans-unit id="caef47f6ddf52575a8fe9e566b68dcd8">
+      <trans-unit id="caef47f6ddf52575a8fe9e566b68dcd8" approved="yes">
         <source>Select the backup you want to restore to</source>
-        <target state="needs-translation">Select the backup you want to restore to</target>
+        <target state="final">Selecciona la copia de seguridad que deseas restaurar</target>
         <note>views/templates/components/render-backup-selection.html.twig:24</note>
       </trans-unit>
       <trans-unit id="8f54da32d0160f178f08b2530d1e690b">
@@ -1514,9 +1514,9 @@
         <target state="needs-translation">Launch backup</target>
         <note>views/templates/steps/backup-options.html.twig:98</note>
       </trans-unit>
-      <trans-unit id="6d7d82d9c1d7f68064d14e673d53eb19">
+      <trans-unit id="6d7d82d9c1d7f68064d14e673d53eb19" approved="yes">
         <source>Update failed</source>
-        <target state="needs-translation">Update failed</target>
+        <target state="final">Actualización fallida</target>
         <note>views/templates/steps/update.html.twig:32</note>
       </trans-unit>
       <trans-unit id="332353244a1a1fb11835b6b06fc16da3">
@@ -1529,24 +1529,24 @@
         <target state="needs-translation">You didn’t back up your store with the Update assistant module but you can restore using your own manual backup.</target>
         <note>views/templates/steps/update.html.twig:35</note>
       </trans-unit>
-      <trans-unit id="754e7de2554f7664a9ccacff4791b8cc">
+      <trans-unit id="754e7de2554f7664a9ccacff4791b8cc" approved="yes">
         <source>Deactivate non-native modules</source>
-        <target state="needs-translation">Deactivate non-native modules</target>
+        <target state="final">Desactivar módulos no nativos</target>
         <note>views/templates/steps/update-options.html.twig:39</note>
       </trans-unit>
-      <trans-unit id="fab66f5eb74bc9e4bbba4898fa2254ed">
+      <trans-unit id="fab66f5eb74bc9e4bbba4898fa2254ed" approved="yes">
         <source>All the modules installed after creating your store are considered non-native modules. They might be incompatible with the new version of PrestaShop. We recommend deactivating them during the update.</source>
-        <target state="needs-translation">All the modules installed after creating your store are considered non-native modules. They might be incompatible with the new version of PrestaShop. We recommend deactivating them during the update.</target>
+        <target state="final">Todos los módulos instalados después de crear tu tienda se consideran módulos no nativos. Pueden ser incompatibles con la nueva versión de PrestaShop. Recomendamos desactivarlos durante la actualización.</target>
         <note>views/templates/steps/update-options.html.twig:40</note>
       </trans-unit>
-      <trans-unit id="81b6978502363841a3bf10daba2245a0">
+      <trans-unit id="81b6978502363841a3bf10daba2245a0" approved="yes">
         <source>Regenerate email templates</source>
-        <target state="needs-translation">Regenerate email templates</target>
+        <target state="final">Regenerar plantillas de correo electrónico</target>
         <note>views/templates/steps/update-options.html.twig:48</note>
       </trans-unit>
-      <trans-unit id="fa7822529883d315d967479ca1b03086">
+      <trans-unit id="fa7822529883d315d967479ca1b03086" approved="yes">
         <source>If you've customized email templates, your changes will be lost if you activate this option.</source>
-        <target state="needs-translation">If you've customized email templates, your changes will be lost if you activate this option.</target>
+        <target state="final">Si ha personalizado plantillas de correo electrónico, los cambios se perderán si activas esta opción.</target>
         <note>views/templates/steps/update-options.html.twig:49</note>
       </trans-unit>
       <trans-unit id="03a9e6840847f96325b7184d5f3c2769" approved="yes">
@@ -1554,9 +1554,9 @@
         <target state="final">Desactivar todos los métodos overrides</target>
         <note>views/templates/steps/update-options.html.twig:57</note>
       </trans-unit>
-      <trans-unit id="88ddcf190382d59544798dece18b890b">
+      <trans-unit id="88ddcf190382d59544798dece18b890b" approved="yes">
         <source><![CDATA[Overriding is a way to replace business behaviors (class files and controller files) to target only one method or as many as you need. This option disables all classes & controllers overrides, allowing you to avoid conflicts during and after updates.]]></source>
-        <target state="needs-translation"><![CDATA[Overriding is a way to replace business behaviors (class files and controller files) to target only one method or as many as you need. This option disables all classes & controllers overrides, allowing you to avoid conflicts during and after updates.]]></target>
+        <target state="final"><![CDATA[Overriding es una manera de reemplazar comportamientos (archivos de clases y archivos de controladores) para enfocarte en un método o los que necesites. Esta opción desactiva todas las clases y controladores, permitiéndote evitar conflictos durante y después de las actualizaciones.]]></target>
         <note>views/templates/steps/update-options.html.twig:58</note>
       </trans-unit>
       <trans-unit id="10ac3d04253ef7e1ddc73e6091c0cd55">
