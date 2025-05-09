@@ -418,7 +418,7 @@ abstract class CoreUpgrader
             if (!empty($matches[1])) {
                 $drop = 'DROP TABLE IF EXISTS `' . _DB_PREFIX_ . $matches[1] . '`;';
                 if ($this->db->execute($drop, false)) {
-                    $this->logger->debug('<div class="upgradeDbOk">' . $this->container->getTranslator()->trans('[DROP] SQL %s table has been dropped.', array('`' . _DB_PREFIX_ . $matches[1] . '`'), 'Modules.Autoupgrade.Admin') . '</div>');
+                    $this->logger->debug('<div class="upgradeDbOk">[DROP] SQL `' . _DB_PREFIX_ . $matches[1] . '` table has been dropped.</div>');
                 }
             }
         }
