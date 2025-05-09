@@ -52,9 +52,9 @@
         <target state="final">Modul %s vyžaduje ke správnému fungování PHP %s. Upravte prosím nastavení serveru.</target>
         <note>controllers/admin/AdminSelfUpgradeController.php:263</note>
       </trans-unit>
-      <trans-unit id="0ea1ca0772a9eb4ee22ecfb14406271d">
+      <trans-unit id="0ea1ca0772a9eb4ee22ecfb14406271d" approved="yes">
         <source>Error when retrieving data from Distribution API</source>
-        <target state="needs-translation">Error when retrieving data from Distribution API</target>
+        <target state="final">Chyba při načítání dat z Distribution API</target>
         <note>classes/Services/DistributionApiService.php:55</note>
       </trans-unit>
       <trans-unit id="90983283d1e14aa535ea65a1f9033115" approved="yes">
@@ -62,14 +62,14 @@
         <target state="final">Žádná odpovídající verze v Distribution API pro %s</target>
         <note>classes/Services/DistributionApiService.php:79</note>
       </trans-unit>
-      <trans-unit id="f7801f49915e2be6cdb6a920e41a9025">
+      <trans-unit id="f7801f49915e2be6cdb6a920e41a9025" approved="yes">
         <source>Unable to retrieve Prestashop releases from distribution API.</source>
-        <target state="needs-translation">Unable to retrieve Prestashop releases from distribution API.</target>
+        <target state="final">Nelze načíst verze Prestashopu z distribučního API.</target>
         <note>classes/Services/DistributionApiService.php:92</note>
       </trans-unit>
-      <trans-unit id="c72cf5e003d8be6f88a36cc605d1bee4">
+      <trans-unit id="c72cf5e003d8be6f88a36cc605d1bee4" approved="yes">
         <source>Unable to retrieve autoupgrade compatibilities from distribution API.</source>
-        <target state="needs-translation">Unable to retrieve autoupgrade compatibilities from distribution API.</target>
+        <target state="final">Nelze načíst kompatibilitu autoupgrade z distribučního API.</target>
         <note>classes/Services/DistributionApiService.php:124</note>
       </trans-unit>
       <trans-unit id="708a3f63d9d379278db1b2bb25f7b79b" approved="yes">
@@ -489,24 +489,24 @@
         <target state="final">Nebylo možné vytvořit složku %s.</target>
         <note>classes/ZipAction.php:173</note>
       </trans-unit>
-      <trans-unit id="f6a4e177e838e889a3c9785d5286b7a6">
+      <trans-unit id="f6a4e177e838e889a3c9785d5286b7a6" approved="yes">
         <source>Could not extract link %file% from archive: %error%</source>
-        <target state="needs-translation">Could not extract link %file% from archive: %error%</target>
+        <target state="final">Nelze extrahovat odkaz %file% z archivu: %error%</target>
         <note>classes/ZipAction.php:195</note>
       </trans-unit>
-      <trans-unit id="c5d44aa12d9b83be6755df96442769a7">
+      <trans-unit id="c5d44aa12d9b83be6755df96442769a7" approved="yes">
         <source>Unknown extraction error (possible permission issue or filesystem error)</source>
-        <target state="needs-translation">Unknown extraction error (possible permission issue or filesystem error)</target>
+        <target state="final">Neznámá chyba při extrakci (možná problém s právy oprávnění nebo chyba souborového systému)</target>
         <note>classes/ZipAction.php:207</note>
       </trans-unit>
-      <trans-unit id="f06d0a5ba06e08a923c0b98a2e60203b">
+      <trans-unit id="f06d0a5ba06e08a923c0b98a2e60203b" approved="yes">
         <source>, but ignoring as source and destination appear identical</source>
-        <target state="needs-translation">, but ignoring as source and destination appear identical</target>
+        <target state="final">, ale ignoruji to, protože zdroj a cíl vypadají stejně</target>
         <note>classes/ZipAction.php:212</note>
       </trans-unit>
-      <trans-unit id="1d5458f6e759798c246772cc7d39ffb0">
+      <trans-unit id="1d5458f6e759798c246772cc7d39ffb0" approved="yes">
         <source>Could not extract %file% from archive%nonCriticalIssueNotice%: %$issue%.</source>
-        <target state="needs-translation">Could not extract %file% from archive%nonCriticalIssueNotice%: %$issue%.</target>
+        <target state="final">Nelze extrahovat %file% z archivu%nonCriticalIssueNotice%: %$issue%.</target>
         <note>classes/ZipAction.php:216</note>
       </trans-unit>
       <trans-unit id="b6fadb405627a21f30cbe97d9f47d7a3" approved="yes">
@@ -679,9 +679,9 @@
         <target state="final">Byl vytvořen odkaz %s na %s.</target>
         <note>classes/Task/Update/UpdateFiles.php:134</note>
       </trans-unit>
-      <trans-unit id="db72a2f164bdc2d7b668e34e594852cb">
+      <trans-unit id="db72a2f164bdc2d7b668e34e594852cb" approved="yes">
         <source>Error while creating link %s: %s</source>
-        <target state="needs-translation">Error while creating link %s: %s</target>
+        <target state="final">Chyba při vytváření odkazu %s: %s</target>
         <note>classes/Task/Update/UpdateFiles.php:139</note>
       </trans-unit>
       <trans-unit id="ba4bea05b16daf8e0652a6048cf741c6" approved="yes">
@@ -719,9 +719,9 @@
         <target state="final">Zkopírováno %1$s.</target>
         <note>classes/Task/Update/UpdateFiles.php:185</note>
       </trans-unit>
-      <trans-unit id="9c65b7a1b163ef55b0e169e244090de4">
+      <trans-unit id="9c65b7a1b163ef55b0e169e244090de4" approved="yes">
         <source>Unable to copy %s, but ignoring as source and destination appear identical.</source>
-        <target state="needs-translation">Unable to copy %s, but ignoring as source and destination appear identical.</target>
+        <target state="final">Nepodařilo se zkopírovat %s, ale ignoruji to, protože zdroj a cíl vypadají stejně.</target>
         <note>classes/Task/Update/UpdateFiles.php:195</note>
       </trans-unit>
       <trans-unit id="4a6c74e011e44e5fb206a6dcedfc1185" approved="yes">
@@ -1059,9 +1059,9 @@
         <target state="final">Spouštění zálohování...</target>
         <note>classes/Task/Backup/BackupInitialization.php:53</note>
       </trans-unit>
-      <trans-unit id="ddfec814758f41dd73e219d374d1d15a">
+      <trans-unit id="ddfec814758f41dd73e219d374d1d15a" approved="yes">
         <source>Unable to retrieve the recommended releases of Update Assistant.</source>
-        <target state="needs-translation">Unable to retrieve the recommended releases of Update Assistant.</target>
+        <target state="final">Nepodařilo se získat doporučené verze modulu Update Assistant.</target>
         <note>classes/Upgrader.php:137</note>
       </trans-unit>
       <trans-unit id="f979b523cf73a9536c2d3dbea70d5a6f" approved="yes">
@@ -1199,9 +1199,9 @@
         <target state="final">Verze PrestaShopu neodpovídá verzi uložené v databázi. Struktura vaší databáze možná není aktuální a/nebo je třeba aktualizovat hodnotu PS_VERSION_DB v tabulce configuration.</target>
         <note>classes/UpgradeSelfCheck.php:362</note>
       </trans-unit>
-      <trans-unit id="dcdd2ee47b461e33517dd76f32aaea84">
+      <trans-unit id="dcdd2ee47b461e33517dd76f32aaea84" approved="yes">
         <source>Updates to this PrestaShop version are not officially supported by the Update Assistant module.</source>
-        <target state="needs-translation">Updates to this PrestaShop version are not officially supported by the Update Assistant module.</target>
+        <target state="final">Aktualizace na tuto verzi PrestaShopu nejsou v modulu Update Assistant oficiálně podporovány.</target>
         <note>classes/UpgradeSelfCheck.php:367</note>
       </trans-unit>
       <trans-unit id="68bb3863ee3524f0cfa0f13d5d2ee792" approved="yes">
