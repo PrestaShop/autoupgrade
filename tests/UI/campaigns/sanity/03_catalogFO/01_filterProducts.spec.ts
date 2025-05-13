@@ -91,6 +91,11 @@ test.describe('FO - Catalog : Filter Products by categories in Home page', async
 
   test('should filter products by subcategory and check result', async () => {
     await foClassicCategoryPage.reloadPage(page);
+    // Based on the scenario, the mouse already points to a menu that must be opened in the next steps.
+    // On PS 1.7.3.0, the menu does not react if the mouse hovers it while the JS is being initialized,
+    // so we move it elsewhere.
+    await page.mouse.move(0, 0);
+
     if (allProductsNumber > 7) {
       await foClassicCategoryPage.goToSubCategory(page, dataCategories.accessories.id, dataCategories.stationery.id);
     } else {
