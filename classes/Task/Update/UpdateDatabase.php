@@ -111,8 +111,6 @@ class UpdateDatabase extends AbstractTask
         if (!$this->container->getFileStorage()->exists(UpgradeFileNames::SQL_TO_EXECUTE_LIST)) {
             $this->logger->info($this->translator->trans('Cleaning file cache'));
             $this->container->getCacheCleaner()->cleanFolders();
-            $this->logger->info($this->translator->trans('Running opcache_reset'));
-            $this->container->resetOpcache();
         }
 
         // Migrating settings file

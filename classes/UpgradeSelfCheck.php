@@ -57,8 +57,6 @@ class UpgradeSelfCheck
     private $moduleVersionIsLatest;
     /** @var int */
     private $maxExecutionTime;
-    /** @var int */
-    private $oPCacheRevalidateFrequency;
     /** @var Upgrader */
     private $upgrader;
     /**
@@ -112,14 +110,13 @@ class UpgradeSelfCheck
     const NOT_WRITING_DIRECTORY_LIST_NOT_EMPTY = 15;
     const SHOP_VERSION_NOT_MATCHING_VERSION_IN_DATABASE = 16;
     const TEMPERED_FILES_UNKNOWN = 17;
-    const OP_CACHE_REVALIDATE_FREQUENCY_INVALID = 18;
 
     // Warnings const
-    const MODULE_VERSION_IS_OUT_OF_DATE = 19;
-    const PHP_COMPATIBILITY_UNKNOWN = 20;
-    const CORE_TEMPERED_FILES_LIST_NOT_EMPTY = 21;
-    const THEME_TEMPERED_FILES_LIST_NOT_EMPTY = 22;
-    const DESTINATION_VERSION_IS_NOT_SUPPORTED = 23;
+    const MODULE_VERSION_IS_OUT_OF_DATE = 18;
+    const PHP_COMPATIBILITY_UNKNOWN = 19;
+    const CORE_TEMPERED_FILES_LIST_NOT_EMPTY = 20;
+    const THEME_TEMPERED_FILES_LIST_NOT_EMPTY = 21;
+    const DESTINATION_VERSION_IS_NOT_SUPPORTED = 22;
 
     public function __construct(
         Upgrader $upgrader,
@@ -170,7 +167,6 @@ class UpgradeSelfCheck
             self::NOT_WRITING_DIRECTORY_LIST_NOT_EMPTY => !empty($this->getNotWritingDirectories()),
             self::SHOP_VERSION_NOT_MATCHING_VERSION_IN_DATABASE => !$this->isShopVersionMatchingVersionInDatabase(),
             self::TEMPERED_FILES_UNKNOWN => $this->isAlteredFilesNull(),
-            self::OP_CACHE_REVALIDATE_FREQUENCY_INVALID => !$this->checkOPCacheRevalidateFrequencyIsValid(),
         ];
 
         if ($this->updateConfiguration->isChannelLocal()) {
@@ -334,11 +330,6 @@ class UpgradeSelfCheck
             case self::MEMORY_LIMIT_INVALID:
                 return [
                     'message' => $this->translator->trans('PHP memory_limit needs to be greater than 256 MB.'),
-                ];
-
-            case self::OP_CACHE_REVALIDATE_FREQUENCY_INVALID:
-                return [
-                    'message' => $this->translator->trans("OPCache is enabled and the value of 'opcache.revalidate_freq' is set to %d. This may cause file updates to be ignored during the update. Please set 'opcache.revalidate_freq=0' temporarily before updating.", [$this->getOPCacheRevalidateFrequency()]),
                 ];
 
             case self::PHP_FILE_UPLOADS_CONFIGURATION_DISABLED:
@@ -601,26 +592,6 @@ class UpgradeSelfCheck
     private function checkMaxExecutionTimeIsValid(): bool
     {
         return $this->getMaxExecutionTime() === 0 || $this->getMaxExecutionTime() >= 30;
-    }
-
-    private function getOPCacheRevalidateFrequency(): int
-    {
-        if (null !== $this->oPCacheRevalidateFrequency) {
-            return $this->oPCacheRevalidateFrequency;
-        }
-
-        return $this->oPCacheRevalidateFrequency = (int) @ini_get('opcache.revalidate_freq');
-    }
-
-    private function checkOPCacheRevalidateFrequencyIsValid(): bool
-    {
-        if (php_sapi_name() === 'cli' && (0 === (int) @ini_get('opcache.enable_cli'))) {
-            return true;
-        } elseif (0 === (int) @ini_get('opcache.enable')) {
-            return true;
-        }
-
-        return $this->getOPCacheRevalidateFrequency() === 0;
     }
 
     /**

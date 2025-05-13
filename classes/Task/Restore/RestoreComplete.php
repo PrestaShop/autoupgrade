@@ -46,6 +46,9 @@ class RestoreComplete extends AbstractTask
             $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
         );
 
+        $this->logger->info($this->translator->trans('Running opcache_reset'));
+        $this->container->resetOpcache();
+
         return ExitCode::SUCCESS;
     }
 }

@@ -85,6 +85,9 @@ class UpdateComplete extends AbstractTask
         $this->container->getFileStorage()->cleanAllUpdateFiles();
         $this->container->getAnalytics()->track('Upgrade Succeeded', Analytics::WITH_UPDATE_PROPERTIES);
 
+        $this->logger->info($this->translator->trans('Running opcache_reset'));
+        $this->container->resetOpcache();
+
         return ExitCode::SUCCESS;
     }
 

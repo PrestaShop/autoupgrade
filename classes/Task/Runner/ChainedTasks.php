@@ -60,6 +60,7 @@ abstract class ChainedTasks extends AbstractTask
             $controller = TaskRepository::get($this->step, $this->container);
             $this->stepClass = get_class($controller);
             $controller->init();
+            $this->disableOPCacheIfNecessary();
             $this->logger->debug('Step ' . $this->step);
             try {
                 $controller->run();
@@ -155,5 +156,46 @@ abstract class ChainedTasks extends AbstractTask
         }
 
         return $timeZone;
+    }
+
+    private function disableOPCacheIfNecessary(): void
+    {
+        $disableSteps = [
+            TaskName::TASK_UPDATE_FILES,
+            TaskName::TASK_UPDATE_DATABASE,
+            TaskName::TASK_UPDATE_MODULES,
+            TaskName::TASK_RESTORE_DATABASE,
+        ];
+
+        $logSteps = [
+            TaskName::TASK_UPDATE_INITIALIZATION,
+            TaskName::TASK_RESTORE_INITIALIZATION,
+        ];
+
+        $allRelevantSteps = array_merge($disableSteps, $logSteps);
+
+        if (!in_array($this->step, $allRelevantSteps, true)) {
+            return;
+        }
+
+        if (!(bool) @ini_get('opcache.enable')) {
+            return;
+        }
+
+        $revalidateFrequency = (int) @ini_get('opcache.revalidate_freq');
+        $validateTimestamps = (int) @ini_get('opcache.validate_timestamps');
+
+        $needsDisabling = ($revalidateFrequency > 0 || $validateTimestamps === 0);
+        if (!$needsDisabling) {
+            return;
+        }
+
+        if (in_array($this->step, $logSteps, true)) {
+            $this->logger->debug($this->container->getTranslator()->trans('OPCache will be changed for the duration of the process.'));
+        } else {
+            $this->container->resetOpcache();
+            @ini_set('opcache.revalidate_freq', '0');
+            @ini_set('opcache.validate_timestamps', '1');
+        }
     }
 }

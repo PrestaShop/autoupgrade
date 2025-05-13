@@ -110,13 +110,13 @@ class UpdateCommand extends AbstractCommand
             $controller->init();
             $exitCode = $controller->run();
 
-            $version = $this->upgradeContainer->getPrestaShopConfiguration()->getPrestaShopVersion();
-            $major = VersionUtils::splitPrestaShopVersion($version)['major'];
-
-            $output->writeln('We recommend you to visit the Post-update checklist page in the developer documentation for any further help: ' . DocumentationLinks::getDevDocUpdateAssistantPostUpdateUrl($major));
             $this->logger->debug('Process completed with exit code: ' . $exitCode);
 
             if ($noChainMode || $exitCode !== ExitCode::SUCCESS) {
+                if ($noChainMode && $action === TaskName::TASK_UPDATE_COMPLETE) {
+                    $this->printPostUpdateChecklist($output);
+                }
+
                 return $exitCode;
             }
 
@@ -153,6 +153,8 @@ class UpdateCommand extends AbstractCommand
             return $exitCode;
         }
 
+        $this->printPostUpdateChecklist($output);
+
         return ExitCode::SUCCESS;
     }
 
@@ -172,5 +174,12 @@ class UpdateCommand extends AbstractCommand
                 $this->consoleInputConfiguration[$configKey] = $optionValue;
             }
         }
+    }
+
+    private function printPostUpdateChecklist(OutputInterface $output): void
+    {
+        $version = $this->upgradeContainer->getPrestaShopConfiguration()->getPrestaShopVersion();
+        $major = VersionUtils::splitPrestaShopVersion($version)['major'];
+        $output->writeln('We recommend you to visit the Post-update checklist page in the developer documentation for any further help: ' . DocumentationLinks::getDevDocUpdateAssistantPostUpdateUrl($major));
     }
 }
