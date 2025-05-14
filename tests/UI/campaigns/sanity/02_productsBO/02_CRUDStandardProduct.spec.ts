@@ -43,7 +43,7 @@ const psVersion = utilsTest.getPSVersion();
   Go to Catalog > Products page
   Create/View/Update/Delete standard product
  */
-productsPage('BO - Catalog - Products : CRUD standard product', async ({page}) => {
+productsPage('BO - Catalog - Products : CRUD standard product', async ({page,context}) => {
   let productPageURL: string;
   let isProductPageV1: boolean = true;
 
@@ -115,7 +115,7 @@ productsPage('BO - Catalog - Products : CRUD standard product', async ({page}) =
     });
 
     if (semver.gte(psVersion, '8.1.0') || !isProductPageV1) {
-      test('Should choose \'Standard product\'', async () => {
+      await test.step('Should choose \'Standard product\'', async () => {
         await boProductsPage.selectProductType(page, newProductData.type);
         await boProductsPage.clickOnAddNewProduct(page);
 
@@ -160,7 +160,7 @@ productsPage('BO - Catalog - Products : CRUD standard product', async ({page}) =
 
   await test.step('[UPDATE] Should go back to BO to update product', async () => {
       // Go back to BO
-      // page = await foClassicProductPage.closePage(browserContext, page, 0);
+    page = await foClassicProductPage.closePage(context, page, 0);
     await boProductsPage.closeSfToolBar(page);
       const pageTitle = await boProductsCreatePage.getPageTitle(page);
       expect(pageTitle).toContain(getExpectedProductTitle());
@@ -194,13 +194,13 @@ await test.step('Should check all product information', async () => {
 
 await test.step('[DELETE] Should go back to BO to delete product', async () => {
       // Go back to BO
-      // page = await foClassicProductPage.closePage(browserContext, page, 0);
+    page = await foClassicProductPage.closePage(context, page, 0);
   await boProductsPage.closeSfToolBar(page);
       const pageTitle = await boProductsCreatePage.getPageTitle(page);
       expect(pageTitle).toContain(getExpectedProductTitle());
     });
 
-    test('should delete product', async () => {
+    await test.step('should delete product', async () => {
       const createProductMessage = await boProductsCreatePage.deleteProduct(page);
       expect(createProductMessage).toEqual(boProductsPage.successfulDeleteMessage);
     });
