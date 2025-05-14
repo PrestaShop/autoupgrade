@@ -121,7 +121,7 @@ class DistributionApiService
         $data = $this->getApiEndpoint('/autoupgrade');
 
         if (empty($data) || empty($data['prestashop'])) {
-            throw new DistributionApiException($this->translator->trans('Unable to retrieve autoupgrade compatibilities from distribution API.'), DistributionApiException::EMPTY_DATA_CODE);
+            throw new DistributionApiException($this->translator->trans('Unable to retrieve Update Assistant compatibilities from distribution API.'), DistributionApiException::EMPTY_DATA_CODE);
         }
 
         $releases = [];
