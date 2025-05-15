@@ -18,6 +18,7 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 use PHPUnit\Framework\TestCase;
+use PrestaShop\Module\AutoUpgrade\Router\Routes;
 use PrestaShop\Module\AutoUpgrade\Router\UrlGenerator;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -126,5 +127,23 @@ class UrlGeneratorTest extends TestCase
         $expectedAbsoluteUrlPathToAdmin = '/hello-world/admin-wololo';
         $this->assertSame($expectedAbsoluteUrlPathToShop, $this->urlGenerator->getShopAbsolutePathFromRequest($request));
         $this->assertSame($expectedAbsoluteUrlPathToAdmin, $this->urlGenerator->getShopAdminAbsolutePathFromRequest($request));
+    }
+
+    public function testGetUrlToRoute()
+    {
+        $server = [
+            'HTTP_HOST' => 'localhost:8001',
+            'SERVER_PORT' => '8001',
+            'QUERY_STRING' => '',
+            'PHP_SELF' => '/admin-dev/autoupgrade/ajax-upgradetab.php',
+            'SCRIPT_FILENAME' => '/var/www/html/admin-dev/autoupgrade/ajax-upgradetab.php',
+            'REQUEST_URI' => '/admin-dev/autoupgrade/ajax-upgradetab.php?route=home-page-submit-form',
+        ];
+
+        $request = new Request([], [], [], [], [], $server);
+
+        $expected = 'http://localhost:8001/admin-dev/autoupgrade/ajax-upgradetab.php?route=home-page';
+
+        $this->assertSame($expected, $this->urlGenerator->getUrlToRoute($request, Routes::HOME_PAGE));
     }
 }

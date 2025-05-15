@@ -61,6 +61,6 @@ class UrlGenerator
         parse_str($request->server->get('QUERY_STRING'), $queryStringParams);
         $nextQueryParams = http_build_query(array_merge($queryStringParams, $params, ['route' => $destinationRoute]));
 
-        return $request->getSchemeAndHttpHost() . $request->getBaseUrl() . $request->getPathInfo() . '?' . $nextQueryParams;
+        return $request->getSchemeAndHttpHost() . $request->getBaseUrl() . rtrim($request->getPathInfo(), '/') . '?' . $nextQueryParams;
     }
 }
