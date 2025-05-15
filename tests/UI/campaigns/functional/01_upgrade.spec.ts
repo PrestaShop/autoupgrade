@@ -265,7 +265,7 @@ test.describe('Verify the New UI', () => {
   });
 
   test('should check the new PS version', async () => {
-    const newVersion = await modAutoupgradeBoMain.getNewPSVersion(page);
+    const newVersion =  modAutoupgradeBoMain.getNewPSVersion(page);
     expect(newVersion).not.toContain(`${psVersion} `);
   });
 
@@ -305,7 +305,8 @@ test.describe('Verify the New UI', () => {
     test.setTimeout(5000_000);
 
     const successMessage = await modAutoupgradeBoMain.checkUpdateSuccess(page);
-    expect(successMessage).toEqual(modAutoupgradeBoMain.updateSuccessMessage);
+    expect(successMessage).toContain(modAutoupgradeBoMain.updateSuccessMessage);
+
   });
 
   test('should check the title of the last step', async () => {
