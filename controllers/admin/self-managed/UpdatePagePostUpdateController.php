@@ -78,7 +78,14 @@ class UpdatePagePostUpdateController extends AbstractPageWithStepController
     public function confirmModuleManagerDialog(): JsonResponse
     {
         $this->upgradeContainer->initPrestaShopCore();
-        $moduleManagerLink = Context::getContext()->link->getAdminLink('AdminModules');
+
+        // All the different versions of PrestaShop require a different controller name to the Module Manager.
+        // The existing names in the database plus the management of redirect requires us to use different values, because:
+        // - With AdminModulesSf on PS 1.7, we get the proper module/manage, then AdminLogin without the next parameter,
+        // - With AdminModules on PS 9, we get the AdminLogin login page with the next paramater, but then a missing controller error.
+        $destinationController = version_compare($this->upgradeContainer->getProperty(UpgradeContainer::PS_VERSION), '9', '>=')
+            ? 'AdminModulesSf' : 'AdminModules';
+        $moduleManagerLink = Context::getContext()->link->getAdminLink($destinationController);
 
         return AjaxResponseBuilder::hydrationResponse(
             PageSelectors::DIALOG_PARENT_ID,
