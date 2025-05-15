@@ -10,7 +10,7 @@ defaults:
     working-directory: ./tests/UI/
 
 env:
-  NODE_VERSION: '20'
+  NODE_VERSION: "20"
 
 jobs:
   lint:
@@ -61,6 +61,7 @@ jobs:
 
       - name: Install dependencies in UI tests directory
         working-directory: tests/UI
+        shell: bash
         run: npm ci
 
       - name: Check TypeScript errors
