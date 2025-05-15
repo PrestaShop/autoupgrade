@@ -58,8 +58,8 @@ function loadGlobal(): void {
   global.BROWSER = {
     name: process.env.BROWSER || 'chromium',
     lang: process.env.BROWSER_LANG || 'en-GB',
-    width: process.env.BROWSER_WIDTH ? parseInt(process.env.BROWSER_WIDTH, 10) : 1680,
-    height: process.env.BROWSER_HEIGHT ? parseInt(process.env.BROWSER_HEIGHT, 10) : 900,
+    //width: process.env.BROWSER_WIDTH ? parseInt(process.env.BROWSER_WIDTH, 10) : 1680,
+    //height: process.env.BROWSER_HEIGHT ? parseInt(process.env.BROWSER_HEIGHT, 10) : 900,
     sandboxArgs: ['--no-sandbox', '--disable-setuid-sandbox'],
     acceptDownloads: true,
     config: {
@@ -124,7 +124,7 @@ export default defineConfig({
   use: {
     /* Capture screenshot after each test failure */
     screenshot: 'only-on-failure',
-    viewport: { width: 1920, height: 1080 },
+    viewport: { width: 1680, height: 900 },
   },
 
   /* Configure projects for major browsers */
