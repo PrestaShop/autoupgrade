@@ -80,10 +80,10 @@ class RestoreCommand extends AbstractBackupCommand
             $controller->init();
             $exitCode = $controller->run();
 
-            $version = $this->upgradeContainer->getPrestaShopConfiguration()->getPrestaShopVersion();
-            $major = VersionUtils::splitPrestaShopVersion($version)['major'];
+            if ($exitCode === ExitCode::SUCCESS) {
+                $this->printPostProcessChecklist($output);
+            }
 
-            $output->writeln('We recommend you to visit the Post-restore checklist page in the developer documentation for any further help: ' . DocumentationLinks::getDevDocUpdateAssistantPostRestoreUrl($major));
             $this->logger->debug('Process completed with exit code: ' . $exitCode);
 
             return $exitCode;
@@ -91,5 +91,13 @@ class RestoreCommand extends AbstractBackupCommand
             $this->logger->error("An error occurred during the restoration process:\n" . $e);
             throw $e;
         }
+    }
+
+    private function printPostProcessChecklist(OutputInterface $output): void
+    {
+        $version = $this->upgradeContainer->getPrestaShopConfiguration()->getPrestaShopVersion();
+        $major = VersionUtils::splitPrestaShopVersion($version)['major'];
+
+        $output->writeln('We recommend you to visit the Post-restore checklist page in the developer documentation for any further help: ' . DocumentationLinks::getDevDocUpdateAssistantPostRestoreUrl($major));
     }
 }
