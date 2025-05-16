@@ -164,7 +164,7 @@ class PhpVersionResolverServiceTest extends TestCase
             ]));
 
         $this->expectException(DistributionApiException::class);
-        $this->expectExceptionMessage('Unable to retrieve autoupgrade compatibilities from distribution API.');
+        $this->expectExceptionMessage('Unable to retrieve Update Assistant compatibilities from distribution API.');
 
         $this->phpVersionResolverService->getPrestashopDestinationRelease(80000);
     }
