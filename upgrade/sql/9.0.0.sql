@@ -386,7 +386,17 @@ INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`
   (NULL, 'actionBeforeUpdateSearchTermFormHandler', 'Modify search term identifiable object data before updating it', 'This hook allows to modify search term identifiable object forms data before it was updated', '1'),
   (NULL, 'actionAfterUpdateSearchTermFormHandler', 'Modify search term identifiable object data after updating it', 'This hook allows to modify search term identifiable object forms data after it was updated', '1'),
   (NULL, 'actionBeforeCreateSearchTermFormHandler', 'Modify search term identifiable object data before creating it', 'This hook allows to modify search term identifiable object forms data before it was created', '1'),
-  (NULL, 'actionAfterCreateSearchTermFormHandler', 'Modify search term identifiable object data after creating it', 'This hook allows to modify search term identifiable object forms data after it was created', '1')
+  (NULL, 'actionAfterCreateSearchTermFormHandler', 'Modify search term identifiable object data after creating it', 'This hook allows to modify search term identifiable object forms data after it was created', '1'),
+  (NULL, 'actionDuplicateCartData', 'Cart duplication', 'This hook is triggered after all the cart related data has been duplicated', '1'),
+  (NULL, 'actionFeatureFormBuilderModifier', 'Modify feature identifiable object form', 'This hook allows to modify feature identifiable object forms content by modifying form builder data or FormBuilder itself', '1'),
+  (NULL, 'actionGetPdfRenderer', 'Provide a PDF renderer', 'This hook allows to provide a custom PDF renderer to generate PDF files', '1'),
+  (NULL, 'actionObjectDuplicateAfter', 'After duplicating an object', 'This hook is called after duplicating an object by the core.', '1'),
+  (NULL, 'actionProductGetAttributesGroupsAfter', 'Triggers after getting product attributes groups', 'Allows to modify product attributes groups after they are retrieved from the database.', '1'),
+  (NULL, 'actionProductGetAttributesGroupsBefore', 'Triggers before getting product attributes groups', 'Allows to modify product attributes groups SQL query before they are retrieved from the database.', '1'),
+  (NULL, 'actionSubmitAccountBefore', 'Before customer account creation', 'This hook is called before a customer account creation', '1'),
+  (NULL, 'displayAdminStoreInformation', 'Display extra store information', 'This hook displays content in the Information page to add store information', '1'),
+  (NULL, 'displayCartExtraProductInfo', 'Extra information in shopping cart product line', 'This hook adds extra information to the product lines, in the shopping cart', '1'),
+  (NULL, 'displayEmptyModuleCategoryExtraMessage', 'Extra message to display for an empty modules category', "This hook allows to add an extra message to display in the Module manager page when a category doesn't have any module", '1')
 ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
 
 /* Auto generated hooks removed for version 9.0.0 */
