@@ -447,46 +447,46 @@
         <target state="final">Actualizar los archivos RTL de los temas del back-office.</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:782</note>
       </trans-unit>
-      <trans-unit id="751c05018f86933c195f46ec3ab55bf8">
+      <trans-unit id="751c05018f86933c195f46ec3ab55bf8" approved="yes">
         <source>Update the RTL files of front-office themes.</source>
-        <target state="needs-translation">Update the RTL files of front-office themes.</target>
+        <target state="final">Actualizar los archivos RTL de temas de front-office.</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:803</note>
       </trans-unit>
-      <trans-unit id="3beb9b10d6bd297fde87d3ba5163975d">
+      <trans-unit id="3beb9b10d6bd297fde87d3ba5163975d" approved="yes">
         <source>PHP Impossible to generate RTL files for theme %s: %s</source>
-        <target state="needs-translation">PHP Impossible to generate RTL files for theme %s: %s</target>
+        <target state="final">PHP Imposible generar archivos RTL para el tema %s: %s</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:820</note>
       </trans-unit>
-      <trans-unit id="badf6aad60d4a95b698028bc55aa3347">
+      <trans-unit id="badf6aad60d4a95b698028bc55aa3347" approved="yes">
         <source>Cleaning file cache</source>
-        <target state="needs-translation">Cleaning file cache</target>
+        <target state="final">Limpiando caché de archivos</target>
         <note>classes/Task/Update/UpdateDatabase.php:112</note>
       </trans-unit>
-      <trans-unit id="8c4204265814594491ae20c9899a0fff">
+      <trans-unit id="8c4204265814594491ae20c9899a0fff" approved="yes">
         <source>Running opcache_reset</source>
-        <target state="needs-translation">Running opcache_reset</target>
+        <target state="final">Ejecutando opcache_reset</target>
         <note>classes/Task/Update/UpdateDatabase.php:114</note>
       </trans-unit>
-      <trans-unit id="061a241a2e3b54e5546a13792de11b82">
+      <trans-unit id="061a241a2e3b54e5546a13792de11b82" approved="yes">
         <source>An error was raised when warming up the core cache: 
  %s</source>
-        <target state="needs-translation">An error was raised when warming up the core cache: 
+        <target state="final">Se produjo un error al calentar la caché del núcleo: 
  %s</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:872</note>
       </trans-unit>
-      <trans-unit id="068cba215a30b9ffbd27e680475be575">
+      <trans-unit id="068cba215a30b9ffbd27e680475be575" approved="yes">
         <source>Core cache has been generated to avoid dependency conflicts.</source>
-        <target state="needs-translation">Core cache has been generated to avoid dependency conflicts.</target>
+        <target state="final">Se ha generado la caché del núcleo para evitar conflictos de dependencias.</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:874</note>
       </trans-unit>
-      <trans-unit id="b5ffb77b13ab03298982a49842ce78aa">
+      <trans-unit id="b5ffb77b13ab03298982a49842ce78aa" approved="yes">
         <source>%lang% is not a valid iso code, skipping</source>
-        <target state="needs-translation">%lang% is not a valid iso code, skipping</target>
+        <target state="final">%lang% no es un código ISO válido, se omite</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader80.php:69</note>
       </trans-unit>
-      <trans-unit id="141ff76ab0d97a8ec25a295f763c9acc">
+      <trans-unit id="141ff76ab0d97a8ec25a295f763c9acc" approved="yes">
         <source>Downloading language pack for %lang%</source>
-        <target state="needs-translation">Downloading language pack for %lang%</target>
+        <target state="final">Descargando paquete de idioma para %lang%</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader80.php:75</note>
       </trans-unit>
       <trans-unit id="ebd70d87d57d2e22c5fb9cb1fa959f92" approved="yes">
@@ -494,14 +494,14 @@
         <target state="final">La descarga del paquete de idioma %lang% falló. %details%</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader17.php:54</note>
       </trans-unit>
-      <trans-unit id="3bd67bb11ef4eca367343a48a437116c">
+      <trans-unit id="3bd67bb11ef4eca367343a48a437116c" approved="yes">
         <source>Installing %lang% language pack</source>
-        <target state="needs-translation">Installing %lang% language pack</target>
+        <target state="final">Instalando el paquete de idioma %lang%</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader80.php:80</note>
       </trans-unit>
-      <trans-unit id="56f2d5890d12afbf29f105bcf5fc2624">
+      <trans-unit id="56f2d5890d12afbf29f105bcf5fc2624" approved="yes">
         <source>Generating mail templates for %lang%</source>
-        <target state="needs-translation">Generating mail templates for %lang%</target>
+        <target state="final">Generando plantillas de correo para %lang%</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader80.php:85</note>
       </trans-unit>
       <trans-unit id="eb98c1e496a76fc9a930ed4731977498" approved="yes">
@@ -509,74 +509,74 @@
         <target state="final">No se pueden generar plantillas de email: %s.</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader80.php:105</note>
       </trans-unit>
-      <trans-unit id="1439aa876aad656c4e8ddc2b06ce32d2">
+      <trans-unit id="1439aa876aad656c4e8ddc2b06ce32d2" approved="yes">
         <source>Error while updating translations for the language pack %lang%. %details%</source>
-        <target state="needs-translation">Error while updating translations for the language pack %lang%. %details%</target>
+        <target state="final">Error al actualizar las traducciones del paquete de idioma %lang%. %details%</target>
         <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader17.php:65</note>
       </trans-unit>
-      <trans-unit id="26b9f7a72f6303211ad6d2f635ea680e">
+      <trans-unit id="26b9f7a72f6303211ad6d2f635ea680e" approved="yes">
         <source>Your current PHP version isn't compatible with PrestaShop %s. (Expected: %s - %s | Current: %s)</source>
-        <target state="needs-translation">Your current PHP version isn't compatible with PrestaShop %s. (Expected: %s - %s | Current: %s)</target>
+        <target state="final">Tu versión actual de PHP no es compatible con PrestaShop %s. (Esperado: %s - %s | Actual: %s)</target>
         <note>classes/UpgradeSelfCheck.php:211</note>
       </trans-unit>
-      <trans-unit id="1c66c3bb21f2926dee75dc54c1c6435f">
+      <trans-unit id="1c66c3bb21f2926dee75dc54c1c6435f" approved="yes">
         <source><![CDATA[Your store's root directory %s isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></source>
-        <target state="needs-translation"><![CDATA[Your store's root directory %s isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></target>
+        <target state="final"><![CDATA[El directorio raíz de tu tienda %s no tiene permisos de escritura. Proporciona acceso de escritura al usuario que ejecuta PHP con el permiso y la propiedad apropiados.]]></target>
         <note>classes/UpgradeSelfCheck.php:219</note>
       </trans-unit>
-      <trans-unit id="75c48e6592370a40d426a3ff0a753901">
+      <trans-unit id="75c48e6592370a40d426a3ff0a753901" approved="yes">
         <source><![CDATA[The %s directory isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></source>
-        <target state="needs-translation"><![CDATA[The %s directory isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></target>
+        <target state="final"><![CDATA[El directorio %s no tiene permisos de escritura. Proporciona acceso de escritura al usuario que ejecuta PHP con el permiso y la propiedad apropiados.]]></target>
         <note>classes/UpgradeSelfCheck.php:228</note>
       </trans-unit>
-      <trans-unit id="a4cbbaa504b6e21c9152bc783cf68aba">
+      <trans-unit id="a4cbbaa504b6e21c9152bc783cf68aba" approved="yes">
         <source>Files can't be downloaded. Enable PHP's "allow_url_fopen" option or install PHP extension "cURL".</source>
-        <target state="needs-translation">Files can't be downloaded. Enable PHP's "allow_url_fopen" option or install PHP extension "cURL".</target>
+        <target state="final">No se pueden descargar archivos. Activa la opción "allow_url_fopen" de PHP o instala la extensión "cURL" de PHP.</target>
         <note>classes/UpgradeSelfCheck.php:235</note>
       </trans-unit>
-      <trans-unit id="f331b3e71fc229a1cfd1aaa3241be853">
+      <trans-unit id="f331b3e71fc229a1cfd1aaa3241be853" approved="yes">
         <source>Missing PHP extension "zip".</source>
-        <target state="needs-translation">Missing PHP extension "zip".</target>
+        <target state="final">Falta la extensión PHP "zip".</target>
         <note>classes/UpgradeSelfCheck.php:240</note>
       </trans-unit>
-      <trans-unit id="d321763467936ac779fff7e090d8f0dc">
+      <trans-unit id="d321763467936ac779fff7e090d8f0dc" approved="yes">
         <source><![CDATA[Maintenance mode needs to be enabled. Enable maintenance mode and add your maintenance IP in [1]Shop parameters > General > Maintenance[/1].]]></source>
-        <target state="needs-translation"><![CDATA[Maintenance mode needs to be enabled. Enable maintenance mode and add your maintenance IP in [1]Shop parameters > General > Maintenance[/1].]]></target>
+        <target state="final"><![CDATA[El modo de mantenimiento debe estar habilitado. Activa el modo mantenimiento y añade tu IP de mantenimiento en [1]Parámetros de la tienda > General > Mantenimiento[/1].]]></target>
         <note>classes/UpgradeSelfCheck.php:258</note>
       </trans-unit>
-      <trans-unit id="00010e5e74d3de76b6ade544d9341832">
+      <trans-unit id="00010e5e74d3de76b6ade544d9341832" approved="yes">
         <source><![CDATA[PrestaShop's caching features needs to be disabled. Disable caching features in [1]Advanced parameters > Performance > Caching[/1].]]></source>
-        <target state="needs-translation"><![CDATA[PrestaShop's caching features needs to be disabled. Disable caching features in [1]Advanced parameters > Performance > Caching[/1].]]></target>
+        <target state="final"><![CDATA[Es necesario desactivar las funciones de caché de PrestaShop. Desactívalas en [1]Parámetros avanzados > Rendimiento > Almacenamiento en caché[/1].]]></target>
         <note>classes/UpgradeSelfCheck.php:276</note>
       </trans-unit>
-      <trans-unit id="8ff30224a9960da38da34b6a99d20751">
+      <trans-unit id="8ff30224a9960da38da34b6a99d20751" approved="yes">
         <source>PHP's max_execution_time setting needs to have a high value or needs to be disabled entirely (current value: %s seconds).</source>
-        <target state="needs-translation">PHP's max_execution_time setting needs to have a high value or needs to be disabled entirely (current value: %s seconds).</target>
+        <target state="final">La configuración max_execution_time de PHP debe tener un valor alto o debe deshabilitarse por completo (valor actual: %s segundos).</target>
         <note>classes/UpgradeSelfCheck.php:282</note>
       </trans-unit>
-      <trans-unit id="26da0df3cbdf0052c8f1205b40ad5072">
+      <trans-unit id="26da0df3cbdf0052c8f1205b40ad5072" approved="yes">
         <source>Apache mod_rewrite needs to be enabled.</source>
-        <target state="needs-translation">Apache mod_rewrite needs to be enabled.</target>
+        <target state="final">Apache mod_rewrite necesita estar habilitado.</target>
         <note>classes/UpgradeSelfCheck.php:289</note>
       </trans-unit>
-      <trans-unit id="57bd2c4dc4936edbe3b9247c97e97033">
+      <trans-unit id="57bd2c4dc4936edbe3b9247c97e97033" approved="yes">
         <source>The following PHP extensions need to be installed: </source>
-        <target state="needs-translation">The following PHP extensions need to be installed: </target>
+        <target state="final">Es necesario instalar las siguientes extensiones PHP: </target>
         <note>classes/UpgradeSelfCheck.php:294</note>
       </trans-unit>
-      <trans-unit id="774da4dc59398b2c1dfcf9be03aaa110">
+      <trans-unit id="774da4dc59398b2c1dfcf9be03aaa110" approved="yes">
         <source>The following PHP functions need to be allowed: </source>
-        <target state="needs-translation">The following PHP functions need to be allowed: </target>
+        <target state="final">Se deben permitir las siguientes funciones PHP: </target>
         <note>classes/UpgradeSelfCheck.php:300</note>
       </trans-unit>
-      <trans-unit id="a220e0ac5c6f7fa8692c131148ed050a">
+      <trans-unit id="a220e0ac5c6f7fa8692c131148ed050a" approved="yes">
         <source>PHP memory_limit needs to be greater than 256 MB.</source>
-        <target state="needs-translation">PHP memory_limit needs to be greater than 256 MB.</target>
+        <target state="final">El límite de memoria de PHP debe ser superior a 256 MB.</target>
         <note>classes/UpgradeSelfCheck.php:306</note>
       </trans-unit>
-      <trans-unit id="24b3a661ea0947d7dfddb4fe68681907">
+      <trans-unit id="24b3a661ea0947d7dfddb4fe68681907" approved="yes">
         <source>PHP file_uploads configuration needs to be enabled.</source>
-        <target state="needs-translation">PHP file_uploads configuration needs to be enabled.</target>
+        <target state="final">Es necesario habilitar la configuración de file_uploads de PHP.</target>
         <note>classes/UpgradeSelfCheck.php:311</note>
       </trans-unit>
       <trans-unit id="8406b91fd5a290de3a1e1516db6e79b8" approved="yes">
@@ -584,24 +584,24 @@
         <target state="final">No se pueden generar claves privadas usando openssl_pkey_new. Verifica la configuración de OpenSSL, especialmente la ruta al archivo openssl.cafile.</target>
         <note>classes/UpgradeSelfCheck.php:316</note>
       </trans-unit>
-      <trans-unit id="1f2d0f1827f406e61d44d41b8c3b9a53">
+      <trans-unit id="1f2d0f1827f406e61d44d41b8c3b9a53" approved="yes">
         <source><![CDATA[It's not possible to write in the following folders. Provide write access to the user running PHP with appropriate permission & ownership: ]]></source>
-        <target state="needs-translation"><![CDATA[It's not possible to write in the following folders. Provide write access to the user running PHP with appropriate permission & ownership: ]]></target>
+        <target state="final"><![CDATA[No es posible escribir en las siguientes carpetas. Otorga acceso de escritura al usuario que ejecuta PHP con los permisos y la propiedad adecuados: ]]></target>
         <note>classes/UpgradeSelfCheck.php:321</note>
       </trans-unit>
-      <trans-unit id="a99553cd5eff17f5895d093c44b5c430">
+      <trans-unit id="a99553cd5eff17f5895d093c44b5c430" approved="yes">
         <source>The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table.</source>
-        <target state="needs-translation">The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table.</target>
+        <target state="final">La versión de PrestaShop no coincide con la almacenada en la base de datos. Su estructura de base de datos puede no estar actualizada y/o el valor de PS_VERSION_DB necesita ser actualizado en la tabla de configuración.</target>
         <note>classes/UpgradeSelfCheck.php:327</note>
       </trans-unit>
-      <trans-unit id="68bb3863ee3524f0cfa0f13d5d2ee792">
+      <trans-unit id="68bb3863ee3524f0cfa0f13d5d2ee792" approved="yes">
         <source><![CDATA[Your current version of the module is out of date. Update now [1]Modules > Module Manager > Updates[/1]]]></source>
-        <target state="needs-translation"><![CDATA[Your current version of the module is out of date. Update now [1]Modules > Module Manager > Updates[/1]]]></target>
+        <target state="final"><![CDATA[Tu versión actual del módulo no está actualizada. Actualízala ahora [1]Módulos > Administrador de módulos > Actualizaciones[/1]]]></target>
         <note>classes/UpgradeSelfCheck.php:345</note>
       </trans-unit>
-      <trans-unit id="e95e7ec14a924e726e71503f90468a66">
+      <trans-unit id="e95e7ec14a924e726e71503f90468a66" approved="yes">
         <source>We were unable to check your PHP compatibility with PrestaShop %s.</source>
-        <target state="needs-translation">We were unable to check your PHP compatibility with PrestaShop %s.</target>
+        <target state="final">No pudimos comprobar tu compatibilidad de PHP con PrestaShop %s.</target>
         <note>classes/UpgradeSelfCheck.php:351</note>
       </trans-unit>
       <trans-unit id="8fe7d00736157606de57d3d048e341d6" approved="yes">
@@ -1134,34 +1134,34 @@
         <target state="final">Los módulos %s se actualizarán.</target>
         <note>classes/Task/Update/UpdateModules.php:155</note>
       </trans-unit>
-      <trans-unit id="cd818c1af28e4f3df2000686b150648d">
+      <trans-unit id="cd818c1af28e4f3df2000686b150648d" approved="yes">
         <source>Starting update...</source>
-        <target state="needs-translation">Starting update...</target>
+        <target state="final">Iniciando actualización...</target>
         <note>classes/Task/Update/UpdateInitialization.php:46</note>
       </trans-unit>
-      <trans-unit id="bb7a6c45c2321b57cf0558fb48c7a357">
+      <trans-unit id="bb7a6c45c2321b57cf0558fb48c7a357" approved="yes">
         <source>Your store is currently running the latest compatible version. No updates are needed at this time.</source>
-        <target state="needs-translation">Your store is currently running the latest compatible version. No updates are needed at this time.</target>
+        <target state="final">Tu tienda está ejecutando la última versión compatible. No se necesitan actualizaciones en este momento.</target>
         <note>classes/Task/Update/UpdateInitialization.php:61</note>
       </trans-unit>
-      <trans-unit id="02aa51bf9b62b390e5b799c57f0367a7">
+      <trans-unit id="02aa51bf9b62b390e5b799c57f0367a7" approved="yes">
         <source>Destination version: %s</source>
-        <target state="needs-translation">Destination version: %s</target>
+        <target state="final">Versión de destino: %s</target>
         <note>classes/Task/Update/UpdateInitialization.php:66</note>
       </trans-unit>
-      <trans-unit id="f82790d7b72439c8a630725ba9948cff">
+      <trans-unit id="f82790d7b72439c8a630725ba9948cff" approved="yes">
         <source>Downloading step has been skipped, update process will now unzip the local archive.</source>
-        <target state="needs-translation">Downloading step has been skipped, update process will now unzip the local archive.</target>
+        <target state="final">Se ha omitido el paso de descarga, el proceso de actualización descomprimirá el archivo local.</target>
         <note>classes/Task/Update/UpdateInitialization.php:71</note>
       </trans-unit>
-      <trans-unit id="eeeace3d8262c74ad32f412c8d56fea4">
+      <trans-unit id="eeeace3d8262c74ad32f412c8d56fea4" approved="yes">
         <source>Store deactivated. Extracting files...</source>
-        <target state="needs-translation">Store deactivated. Extracting files...</target>
+        <target state="final">Tienda desactivada. Extrayendo archivos...</target>
         <note>classes/Task/Update/UpdateInitialization.php:72</note>
       </trans-unit>
-      <trans-unit id="05170d952c90239be93cdf479e4fe5e6">
+      <trans-unit id="05170d952c90239be93cdf479e4fe5e6" approved="yes">
         <source>Store deactivated. Now downloading... (this can take a while)</source>
-        <target state="needs-translation">Store deactivated. Now downloading... (this can take a while)</target>
+        <target state="final">Tienda desactivada. Descargando ahora... (puede tardar un poco)</target>
         <note>classes/Task/Update/UpdateInitialization.php:76</note>
       </trans-unit>
       <trans-unit id="10b5aa33077df49427f04cd33ad3843f" approved="yes">
@@ -1174,44 +1174,44 @@
         <target state="final">Hash MD5 se cotejará con %s</target>
         <note>classes/Task/Update/UpdateInitialization.php:78</note>
       </trans-unit>
-      <trans-unit id="02d133204e3ce382eb9a8a0712161999">
+      <trans-unit id="02d133204e3ce382eb9a8a0712161999" approved="yes">
         <source>Version choice</source>
-        <target state="needs-translation">Version choice</target>
+        <target state="final">Elección de versión</target>
         <note>classes/Twig/Steps/UpdateSteps.php:46</note>
       </trans-unit>
-      <trans-unit id="df5820ca7f238b48987ff74db1271e4a">
+      <trans-unit id="df5820ca7f238b48987ff74db1271e4a" approved="yes">
         <source>Update options</source>
-        <target state="needs-translation">Update options</target>
+        <target state="final">Opciones de actualización</target>
         <note>classes/Twig/Steps/UpdateSteps.php:49</note>
       </trans-unit>
-      <trans-unit id="3500ba09d0538297440ca620c9dd46bf">
+      <trans-unit id="3500ba09d0538297440ca620c9dd46bf" approved="yes">
         <source>Backup</source>
-        <target state="needs-translation">Backup</target>
+        <target state="final">Backup</target>
         <note>classes/Twig/Steps/UpdateSteps.php:52</note>
       </trans-unit>
-      <trans-unit id="06933067aafd48425d67bcb01bba5cb6">
+      <trans-unit id="06933067aafd48425d67bcb01bba5cb6" approved="yes">
         <source>Update</source>
-        <target state="needs-translation">Update</target>
+        <target state="final">Actualizar</target>
         <note>classes/Twig/Steps/UpdateSteps.php:55</note>
       </trans-unit>
-      <trans-unit id="13d3fd796fa75eea78ac8b6257fda2b6">
+      <trans-unit id="13d3fd796fa75eea78ac8b6257fda2b6" approved="yes">
         <source>Post-update</source>
-        <target state="needs-translation">Post-update</target>
+        <target state="final">Post-actualización</target>
         <note>classes/Twig/Steps/UpdateSteps.php:58</note>
       </trans-unit>
-      <trans-unit id="f979b523cf73a9536c2d3dbea70d5a6f">
+      <trans-unit id="f979b523cf73a9536c2d3dbea70d5a6f" approved="yes">
         <source>Backup selection</source>
-        <target state="needs-translation">Backup selection</target>
+        <target state="final">Selección de copia de seguridad</target>
         <note>classes/Twig/Steps/RestoreSteps.php:44</note>
       </trans-unit>
-      <trans-unit id="2bd339d85ee3b33e513359ce781b60cc">
+      <trans-unit id="2bd339d85ee3b33e513359ce781b60cc" approved="yes">
         <source>Restore</source>
-        <target state="needs-translation">Restore</target>
+        <target state="final">Restaurar</target>
         <note>views/templates/dialogs/dialog-restore-from-backup.html.twig:39</note>
       </trans-unit>
-      <trans-unit id="349b93d2884e6ca3d41d0d9dab41dcd8">
+      <trans-unit id="349b93d2884e6ca3d41d0d9dab41dcd8" approved="yes">
         <source>Post-restore</source>
-        <target state="needs-translation">Post-restore</target>
+        <target state="final">Post-restauración</target>
         <note>classes/Twig/Steps/RestoreSteps.php:50</note>
       </trans-unit>
       <trans-unit id="c9cc8cce247e49bae79f15173ce97354" approved="yes">
@@ -1219,44 +1219,44 @@
         <target state="final">Guardar</target>
         <note>views/templates/form.html.twig:37</note>
       </trans-unit>
-      <trans-unit id="3d6cd7dd6feb249f99dd689ec7db7e81">
+      <trans-unit id="3d6cd7dd6feb249f99dd689ec7db7e81" approved="yes">
         <source>Post-restore checklist</source>
-        <target state="needs-translation">Post-restore checklist</target>
+        <target state="final">Lista de control post-restauración</target>
         <note>views/templates/steps/post-restore.html.twig:24</note>
       </trans-unit>
-      <trans-unit id="ae4a0e3a1c9d80344cf29e3f909861b5">
+      <trans-unit id="ae4a0e3a1c9d80344cf29e3f909861b5" approved="yes">
         <source>Your restoration is complete</source>
-        <target state="needs-translation">Your restoration is complete</target>
+        <target state="final">Tu restauración está completa</target>
         <note>views/templates/steps/post-restore.html.twig:30</note>
       </trans-unit>
-      <trans-unit id="f0d3705e1f022dae2bb3e57a0007d3e2">
+      <trans-unit id="f0d3705e1f022dae2bb3e57a0007d3e2" approved="yes">
         <source>Before continuing with your tasks, please review the following checklist to ensure smooth operation after recent recovery.</source>
-        <target state="needs-translation">Before continuing with your tasks, please review the following checklist to ensure smooth operation after recent recovery.</target>
+        <target state="final">Antes de continuar con las tareas, revisa la siguiente lista de verificación para garantizar un funcionamiento sin problemas después de la recuperación reciente.</target>
         <note>views/templates/steps/post-restore.html.twig:31</note>
       </trans-unit>
-      <trans-unit id="cce78dc6ebbec7385a01f2146d6d01c8">
+      <trans-unit id="cce78dc6ebbec7385a01f2146d6d01c8" approved="yes">
         <source>Next steps</source>
-        <target state="needs-translation">Next steps</target>
+        <target state="final">Próximos pasos</target>
         <note>views/templates/steps/post-update.html.twig:37</note>
       </trans-unit>
-      <trans-unit id="e6196201ba7431ba94d3bac5d6af97c8">
+      <trans-unit id="e6196201ba7431ba94d3bac5d6af97c8" approved="yes">
         <source>%startbold%Open the developer documentation%endbold% to keep this checklist at-hand.</source>
-        <target state="needs-translation">%startbold%Open the developer documentation%endbold% to keep this checklist at-hand.</target>
+        <target state="final">%startbold%Oabre la documentación para desarrolladores%endbold% para tener esta lista de verificación a mano.</target>
         <note>views/templates/steps/post-update.html.twig:42</note>
       </trans-unit>
-      <trans-unit id="289390be5b219643de2f47be7d8b9c53">
+      <trans-unit id="289390be5b219643de2f47be7d8b9c53" approved="yes">
         <source><![CDATA[%startbold%Disable the maintenance mode%endbold% in General settings > Maintenance.]]></source>
-        <target state="needs-translation"><![CDATA[%startbold%Disable the maintenance mode%endbold% in General settings > Maintenance.]]></target>
+        <target state="final"><![CDATA[%startbold%Desactiva el modo de mantenimiento%endbold% en Configuración general > Mantenimiento.]]></target>
         <note>views/templates/steps/post-update.html.twig:60</note>
       </trans-unit>
-      <trans-unit id="231cf4c70d866b616c21baddaeed0696">
+      <trans-unit id="231cf4c70d866b616c21baddaeed0696" approved="yes">
         <source>Troubleshooting</source>
-        <target state="needs-translation">Troubleshooting</target>
+        <target state="final">Solución de problemas</target>
         <note>views/templates/steps/post-update.html.twig:70</note>
       </trans-unit>
-      <trans-unit id="6d7d6c549fa8457fb326a8ec0c1bfa4f">
+      <trans-unit id="6d7d6c549fa8457fb326a8ec0c1bfa4f" approved="yes">
         <source>If you can't access your back office, try emptying the cache.</source>
-        <target state="needs-translation">If you can't access your back office, try emptying the cache.</target>
+        <target state="final">Si no puedes acceder a tu back office, intenta vaciar el caché.</target>
         <note>views/templates/steps/post-restore.html.twig:63</note>
       </trans-unit>
       <trans-unit id="fef46e5063ce3dc78b8ae64fa474241d">
