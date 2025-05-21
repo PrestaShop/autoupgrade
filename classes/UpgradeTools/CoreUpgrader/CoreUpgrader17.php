@@ -45,7 +45,7 @@ class CoreUpgrader17 extends CoreUpgrader
     {
         $isoCode = $lang['iso_code'];
 
-        if (!\Validate::isLangIsoCode($isoCode)) {
+        if (!\Validate::isLangIsoCode($isoCode) || !\Language::getLangDetails($isoCode)) {
             return;
         }
         $errorsLanguage = [];

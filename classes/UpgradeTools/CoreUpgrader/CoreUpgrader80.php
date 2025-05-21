@@ -65,7 +65,7 @@ class CoreUpgrader80 extends CoreUpgrader
     {
         $isoCode = $lang['iso_code'];
 
-        if (!\Validate::isLangIsoCode($isoCode)) {
+        if (!\Validate::isLangIsoCode($isoCode) || !\Language::getLangDetails($isoCode)) {
             $this->logger->debug($this->container->getTranslator()->trans('%lang% is not a valid iso code, skipping', ['%lang%' => $isoCode]));
 
             return;
