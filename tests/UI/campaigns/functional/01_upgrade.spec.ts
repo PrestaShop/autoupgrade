@@ -142,6 +142,26 @@ test.describe('Verify the New UI', () => {
       const isInstalled = await boModuleManagerUninstalledModulesPage.installModule(page, dataModules.autoupgrade.tag);
       expect(isInstalled).toBeTruthy();
     });
+  } else {
+    test('should go to \'Modules > Module Manager\' page', async () => {
+      await boDashboardPage.goToSubMenu(
+          page,
+          boDashboardPage.modulesParentLink,
+          boDashboardPage.moduleManagerLink,
+      );
+      await boModuleManagerPage.closeSfToolBar(page);
+
+      const pageTitle = await boModuleManagerPage.getPageTitle(page);
+      expect(pageTitle).toContain(boModuleManagerPage.pageTitle);
+    });
+
+    test(`should install the module '${dataModules.autoupgrade.name}'`, async () => {
+      const isModuleVisible = await boInstalledModulesPage.searchModule(page, dataModules.autoupgrade);
+      expect(isModuleVisible).toEqual(true);
+
+      const isInstalled = await boModuleManagerUninstalledModulesPage.installModule(page, dataModules.autoupgrade.tag);
+      expect(isInstalled).toBeTruthy();
+    });
   }
 
   // Steps to go to module configuration page
