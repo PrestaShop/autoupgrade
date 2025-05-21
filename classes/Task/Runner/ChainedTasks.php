@@ -164,6 +164,7 @@ abstract class ChainedTasks extends AbstractTask
             TaskName::TASK_UPDATE_FILES,
             TaskName::TASK_UPDATE_DATABASE,
             TaskName::TASK_UPDATE_MODULES,
+            TaskName::TASK_RESTORE_FILES,
             TaskName::TASK_RESTORE_DATABASE,
         ];
 
