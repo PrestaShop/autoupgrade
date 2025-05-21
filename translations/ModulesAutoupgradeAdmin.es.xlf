@@ -1259,144 +1259,144 @@
         <target state="final">Si no puedes acceder a tu back office, intenta vaciar el caché.</target>
         <note>views/templates/steps/post-restore.html.twig:63</note>
       </trans-unit>
-      <trans-unit id="fef46e5063ce3dc78b8ae64fa474241d">
+      <trans-unit id="fef46e5063ce3dc78b8ae64fa474241d" approved="yes">
         <source>Exit</source>
-        <target state="needs-translation">Exit</target>
+        <target state="final">Salir</target>
         <note>views/templates/layouts/error.html.twig:52</note>
       </trans-unit>
-      <trans-unit id="4ba42d4d681d17d9bee2f6228c326069">
+      <trans-unit id="4ba42d4d681d17d9bee2f6228c326069" approved="yes">
         <source>Open developer documentation</source>
-        <target state="needs-translation">Open developer documentation</target>
+        <target state="final">Abrir documentación del desarrollador</target>
         <note>views/templates/steps/post-update.html.twig:105</note>
       </trans-unit>
-      <trans-unit id="9c32ff52925ba5a296f9696cfbb7edcc">
+      <trans-unit id="9c32ff52925ba5a296f9696cfbb7edcc" approved="yes">
         <source>Backing up your store's files, database, and images means you can restore to a previous version if something goes wrong during the update. This keeps your data safe and ensures your business stays up and running.</source>
-        <target state="needs-translation">Backing up your store's files, database, and images means you can restore to a previous version if something goes wrong during the update. This keeps your data safe and ensures your business stays up and running.</target>
+        <target state="final">Hacer una copia de seguridad de los archivos, la base de datos y las imágenes de tu tienda te permite restaurar una versión anterior si surge algún problema durante la actualización. Mantienes tus datos seguros y garantizas que tu negocio siga funcionando.</target>
         <note>views/templates/steps/backup-options.html.twig:31</note>
       </trans-unit>
-      <trans-unit id="d7f31683c24e4c4b7f0c7f376fe3a8fe">
+      <trans-unit id="d7f31683c24e4c4b7f0c7f376fe3a8fe" approved="yes">
         <source>Backup failed</source>
-        <target state="needs-translation">Backup failed</target>
+        <target state="final">La copia de seguridad falló</target>
         <note>views/templates/steps/backup.html.twig:38</note>
       </trans-unit>
-      <trans-unit id="48fa328a70d6cbeb701e7f50ea26465f">
+      <trans-unit id="48fa328a70d6cbeb701e7f50ea26465f" approved="yes">
         <source>Please try again or perform a manual backup. In any case, ensure you have a backup before starting the update to avoid any data loss.</source>
-        <target state="needs-translation">Please try again or perform a manual backup. In any case, ensure you have a backup before starting the update to avoid any data loss.</target>
+        <target state="final">Inténtalo de nuevo o realiza una copia de seguridad manual. En cualquier caso, asegúrate de tener una copia de seguridad antes de iniciar la actualización para evitar la pérdida de datos.</target>
         <note>views/templates/steps/backup.html.twig:40</note>
       </trans-unit>
-      <trans-unit id="6890c3f9a573b71dacdcaf6dbcf91bec">
+      <trans-unit id="6890c3f9a573b71dacdcaf6dbcf91bec" approved="yes">
         <source>Retry backup</source>
-        <target state="needs-translation">Retry backup</target>
+        <target state="final">Reintentar copia de seguridad</target>
         <note>views/templates/steps/backup.html.twig:71</note>
       </trans-unit>
-      <trans-unit id="b27bea61eb2963cb570ce625b87ea053">
+      <trans-unit id="b27bea61eb2963cb570ce625b87ea053" approved="yes">
         <source>Update without backup</source>
-        <target state="needs-translation">Update without backup</target>
+        <target state="final">Actualizar sin copia de seguridad</target>
         <note>views/templates/steps/backup-options.html.twig:92</note>
       </trans-unit>
-      <trans-unit id="8f54da32d0160f178f08b2530d1e690b">
+      <trans-unit id="8f54da32d0160f178f08b2530d1e690b" approved="yes">
         <source>Back up your store</source>
-        <target state="needs-translation">Back up your store</target>
+        <target state="final">Realiza una copia de seguridad de tu tienda</target>
         <note>views/templates/steps/backup-options.html.twig:24</note>
       </trans-unit>
-      <trans-unit id="a2eabcbade98a44462292c4666e62044">
+      <trans-unit id="a2eabcbade98a44462292c4666e62044" approved="yes">
         <source>Backup completed</source>
-        <target state="needs-translation">Backup completed</target>
+        <target state="final">Copia de seguridad completada</target>
         <note>views/templates/steps/backup-options.html.twig:38</note>
       </trans-unit>
-      <trans-unit id="11934523e2ab02034c868cd62e048c7f">
+      <trans-unit id="11934523e2ab02034c868cd62e048c7f" approved="yes">
         <source>It is available at /your-admin-directory/autoupgrade/backup. You're ready to start the update now.</source>
-        <target state="needs-translation">It is available at /your-admin-directory/autoupgrade/backup. You're ready to start the update now.</target>
+        <target state="final">Está disponible en /your-admin-directory/autoupgrade/backup. Ya puedes iniciar la actualización.</target>
         <note>views/templates/steps/backup-options.html.twig:39</note>
       </trans-unit>
-      <trans-unit id="a946e4190a81d83574867d2182261e35">
+      <trans-unit id="a946e4190a81d83574867d2182261e35" approved="yes">
         <source>Include images in your backup</source>
-        <target state="needs-translation">Include images in your backup</target>
+        <target state="final">Incluir imágenes en tu copia de seguridad</target>
         <note>views/templates/steps/backup-options.html.twig:63</note>
       </trans-unit>
-      <trans-unit id="880d6ec7b06e1f403347a16afbca8335">
+      <trans-unit id="880d6ec7b06e1f403347a16afbca8335" approved="yes">
         <source>Start update</source>
-        <target state="needs-translation">Start update</target>
+        <target state="final">Iniciar actualización</target>
         <note>views/templates/dialogs/dialog-update.html.twig:72</note>
       </trans-unit>
-      <trans-unit id="2284aa8fec405e1dd014326b51cde020">
+      <trans-unit id="2284aa8fec405e1dd014326b51cde020" approved="yes">
         <source>Launch backup</source>
-        <target state="needs-translation">Launch backup</target>
+        <target state="final">Iniciar copia de seguridad</target>
         <note>views/templates/steps/backup-options.html.twig:98</note>
       </trans-unit>
-      <trans-unit id="a7446965a3635b6a69697078130d961a">
+      <trans-unit id="a7446965a3635b6a69697078130d961a" approved="yes">
         <source>You're up to date</source>
-        <target state="needs-translation">You're up to date</target>
+        <target state="final">Estás al día</target>
         <note>views/templates/steps/version-choice.html.twig:45</note>
       </trans-unit>
-      <trans-unit id="51f5b5450d5049fad7db124dbd2c9bbc">
+      <trans-unit id="51f5b5450d5049fad7db124dbd2c9bbc" approved="yes">
         <source>Current PrestaShop version: %currentPrestashopVersion%</source>
-        <target state="needs-translation">Current PrestaShop version: %currentPrestashopVersion%</target>
+        <target state="final">Versión actual de PrestaShop: %currentPrestashopVersion%</target>
         <note>views/templates/steps/version-choice.html.twig:91</note>
       </trans-unit>
-      <trans-unit id="ec1cf222806c00ea71fb3800dd34d039">
+      <trans-unit id="ec1cf222806c00ea71fb3800dd34d039" approved="yes">
         <source>Current PHP version: %currentPhpVersion%</source>
-        <target state="needs-translation">Current PHP version: %currentPhpVersion%</target>
+        <target state="final">Versión actual de PHP: %currentPhpVersion%</target>
         <note>views/templates/steps/version-choice.html.twig:95</note>
       </trans-unit>
-      <trans-unit id="d4399327e9bb1d9fb589b58332f07d48">
+      <trans-unit id="d4399327e9bb1d9fb589b58332f07d48" approved="yes">
         <source>Unlock the local update feature and manually update your store to your preferred upgrade by saving the archive and XML files of the PrestaShop version in the following directory on your server: %pathToLocalArchive%</source>
-        <target state="needs-translation">Unlock the local update feature and manually update your store to your preferred upgrade by saving the archive and XML files of the PrestaShop version in the following directory on your server: %pathToLocalArchive%</target>
+        <target state="final">Desbloquea la función de actualización local y actualiza manualmente tu tienda a la actualización que prefieras, guardando el archivo y los archivos XML de la versión de PrestaShop en el siguiente directorio en tu servidor: %pathToLocalArchive%</target>
         <note>views/templates/steps/version-choice.html.twig:127</note>
       </trans-unit>
-      <trans-unit id="34b3f55bce0f37bcd82294fbc4702aad">
+      <trans-unit id="34b3f55bce0f37bcd82294fbc4702aad" approved="yes">
         <source>You are already using the latest PrestaShop version available but you can update to the version of your choice from a local archive.</source>
-        <target state="needs-translation">You are already using the latest PrestaShop version available but you can update to the version of your choice from a local archive.</target>
+        <target state="final">Ya estás utilizando la última versión de PrestaShop disponible, pero puedes actualizar a la versión que elijas desde un archivo local.</target>
         <note>views/templates/steps/version-choice.html.twig:76</note>
       </trans-unit>
-      <trans-unit id="8846fe014be5f3ecb8f82a4deea082cc">
+      <trans-unit id="8846fe014be5f3ecb8f82a4deea082cc" approved="yes">
         <source>A more recent version is available</source>
-        <target state="needs-translation">A more recent version is available</target>
+        <target state="final">Hay una versión más reciente disponible</target>
         <note>views/templates/steps/version-choice.html.twig:87</note>
       </trans-unit>
-      <trans-unit id="87f38afeefb1be807bf6150edbb2669b">
+      <trans-unit id="87f38afeefb1be807bf6150edbb2669b" approved="yes">
         <source>Select version</source>
-        <target state="needs-translation">Select version</target>
+        <target state="final">Seleccionar versión</target>
         <note>views/templates/steps/version-choice.html.twig:103</note>
       </trans-unit>
-      <trans-unit id="de8e4445ea5c918fe6c8e70eb7deb722">
+      <trans-unit id="de8e4445ea5c918fe6c8e70eb7deb722" approved="yes">
         <source>A more recent version of PrestaShop is available. You can also use a local archive.</source>
-        <target state="needs-translation">A more recent version of PrestaShop is available. You can also use a local archive.</target>
+        <target state="final">Está disponible una versión más reciente de PrestaShop. También puedes utilizar un archivo local.</target>
         <note>views/templates/steps/version-choice.html.twig:108</note>
       </trans-unit>
-      <trans-unit id="10ac3d04253ef7e1ddc73e6091c0cd55">
+      <trans-unit id="10ac3d04253ef7e1ddc73e6091c0cd55" approved="yes">
         <source>Next</source>
-        <target state="needs-translation">Next</target>
+        <target state="final">Siguiente</target>
         <note>views/templates/steps/update-options.html.twig:70</note>
       </trans-unit>
-      <trans-unit id="6e8e3d194e68b2ad276cd4defa252c1f">
+      <trans-unit id="6e8e3d194e68b2ad276cd4defa252c1f" approved="yes">
         <source>Restoration failed</source>
-        <target state="needs-translation">Restoration failed</target>
+        <target state="final">Restauración fallida</target>
         <note>views/templates/steps/restore.html.twig:32</note>
       </trans-unit>
-      <trans-unit id="047cdd7b0b3174eb3d6459a44a510ec7">
+      <trans-unit id="047cdd7b0b3174eb3d6459a44a510ec7" approved="yes">
         <source>Please try again. You can also send us an error report to help us improve the Update assistant module.</source>
-        <target state="needs-translation">Please try again. You can also send us an error report to help us improve the Update assistant module.</target>
+        <target state="final">Inténtalo de nuevo. También puedes enviarnos un informe de error para ayudarnos a mejorar el módulo Update assistant.</target>
         <note>views/templates/steps/restore.html.twig:33</note>
       </trans-unit>
-      <trans-unit id="f915a95e609bbd517a8a1e7bdcceef37">
+      <trans-unit id="f915a95e609bbd517a8a1e7bdcceef37" approved="yes">
         <source>Try again</source>
-        <target state="needs-translation">Try again</target>
+        <target state="final">Inténtalo de nuevo</target>
         <note>views/templates/steps/restore.html.twig:52</note>
       </trans-unit>
-      <trans-unit id="c940aa73d021ae9e13f265237b0e4f96">
+      <trans-unit id="c940aa73d021ae9e13f265237b0e4f96" approved="yes">
         <source>Welcome to PrestaShop Update Assistant</source>
-        <target state="needs-translation">Welcome to PrestaShop Update Assistant</target>
+        <target state="final">Bienvenido a PrestaShop Update Assistant</target>
         <note>views/templates/steps/home.html.twig:24</note>
       </trans-unit>
-      <trans-unit id="6489bc9acc7ee9689e7cf4c070f4c8ea">
+      <trans-unit id="6489bc9acc7ee9689e7cf4c070f4c8ea" approved="yes">
         <source>Update your store</source>
-        <target state="needs-translation">Update your store</target>
+        <target state="final">Actualiza tu tienda</target>
         <note>views/templates/steps/home.html.twig:31</note>
       </trans-unit>
-      <trans-unit id="7be24346a73074d40af62a38b9adb2b5">
+      <trans-unit id="7be24346a73074d40af62a38b9adb2b5" approved="yes">
         <source>Update your store to benefit from the latest improvements, bug fixes and security patches.</source>
-        <target state="needs-translation">Update your store to benefit from the latest improvements, bug fixes and security patches.</target>
+        <target state="final">Actualiza tu tienda para beneficiarte de las últimas mejoras, correcciones de errores y parches de seguridad.</target>
         <note>views/templates/steps/home.html.twig:32</note>
       </trans-unit>
       <trans-unit id="9280c14cf57cc764c0b9fc65e64e9a9b" approved="yes">
@@ -1499,29 +1499,29 @@
         <target state="final">Actualización fallida</target>
         <note>views/templates/steps/update.html.twig:32</note>
       </trans-unit>
-      <trans-unit id="332353244a1a1fb11835b6b06fc16da3">
+      <trans-unit id="332353244a1a1fb11835b6b06fc16da3" approved="yes">
         <source>Your store may not work properly anymore. Select the backup you want to use and restore it to avoid any data loss.</source>
-        <target state="needs-translation">Your store may not work properly anymore. Select the backup you want to use and restore it to avoid any data loss.</target>
+        <target state="final">Es posible que tu tienda ya no funcione correctamente. Selecciona la copia de seguridad que quieras usar y restáurala para evitar la pérdida de datos.</target>
         <note>views/templates/steps/update.html.twig:34</note>
       </trans-unit>
-      <trans-unit id="e5648ebb64955fd371f7506445ec724d">
+      <trans-unit id="e5648ebb64955fd371f7506445ec724d" approved="yes">
         <source>You didn’t back up your store with the Update assistant module but you can restore using your own manual backup.</source>
-        <target state="needs-translation">You didn’t back up your store with the Update assistant module but you can restore using your own manual backup.</target>
+        <target state="final">No realizaste una copia de seguridad de tu tienda con el módulo Update assistant pero puedes restaurarla utilizando tu propia copia de seguridad manual.</target>
         <note>views/templates/steps/update.html.twig:35</note>
       </trans-unit>
-      <trans-unit id="b6cf8e12bbbeee058067ebf8c8dda7e2">
+      <trans-unit id="b6cf8e12bbbeee058067ebf8c8dda7e2" approved="yes">
         <source>Delete backup</source>
-        <target state="needs-translation">Delete backup</target>
+        <target state="final">Eliminar copia de seguridad</target>
         <note>views/templates/dialogs/dialog-delete-backup.html.twig:21</note>
       </trans-unit>
-      <trans-unit id="41ee96bba9c1ea02aa9a3702024391a9">
+      <trans-unit id="41ee96bba9c1ea02aa9a3702024391a9" approved="yes">
         <source>You are about to delete the %backup_name% backup made on %backup_date%. As it's your only backup, you will be redirected to the module's home page.</source>
-        <target state="needs-translation">You are about to delete the %backup_name% backup made on %backup_date%. As it's your only backup, you will be redirected to the module's home page.</target>
+        <target state="final">Estás a punto de eliminar la copia de seguridad %backup_name% realizada el %backup_date%. Como es tu única copia de seguridad, serás redirigido a la página principal del módulo.</target>
         <note>views/templates/dialogs/dialog-delete-backup.html.twig:25</note>
       </trans-unit>
-      <trans-unit id="e732a5a0788d58831c86721e173482cc">
+      <trans-unit id="e732a5a0788d58831c86721e173482cc" approved="yes">
         <source>You are about to delete the %backup_name% backup made on %backup_date%.</source>
-        <target state="needs-translation">You are about to delete the %backup_name% backup made on %backup_date%.</target>
+        <target state="final">Estás a punto de eliminar la copia de seguridad %backup_name% realizada el %backup_date%.</target>
         <note>views/templates/dialogs/dialog-delete-backup.html.twig:26</note>
       </trans-unit>
       <trans-unit id="ea4788705e6873b424c65e91c2846b19" approved="yes">
@@ -1534,209 +1534,209 @@
         <target state="final">Eliminar</target>
         <note>views/templates/dialogs/dialog-delete-backup.html.twig:42</note>
       </trans-unit>
-      <trans-unit id="d9ea955da44076b696c6e31e407bb7a9">
+      <trans-unit id="d9ea955da44076b696c6e31e407bb7a9" approved="yes">
         <source>Restore from a backup?</source>
-        <target state="needs-translation">Restore from a backup?</target>
+        <target state="final">¿Restaurar desde copia de seguridad?</target>
         <note>views/templates/dialogs/dialog-restore-from-backup.html.twig:21</note>
       </trans-unit>
-      <trans-unit id="44e1fe4813ed848371c541e35e8422c3">
+      <trans-unit id="44e1fe4813ed848371c541e35e8422c3" approved="yes">
         <source>You are about to restore %backup_version% using the backup from %backup_date%.</source>
-        <target state="needs-translation">You are about to restore %backup_version% using the backup from %backup_date%.</target>
+        <target state="final">Está a punto de restaurar %backup_version% utilizando la copia de seguridad de %backup_date%.</target>
         <note>views/templates/dialogs/dialog-restore-from-backup.html.twig:23</note>
       </trans-unit>
-      <trans-unit id="a55151123e9668d00ca7edbfbaf34b49">
+      <trans-unit id="a55151123e9668d00ca7edbfbaf34b49" approved="yes">
         <source>Start backup?</source>
-        <target state="needs-translation">Start backup?</target>
+        <target state="final">¿Iniciar copia de seguridad?</target>
         <note>views/templates/dialogs/dialog-backup.html.twig:21</note>
       </trans-unit>
-      <trans-unit id="4de1325d17b745018ee0473aa24e40be">
+      <trans-unit id="4de1325d17b745018ee0473aa24e40be" approved="yes">
         <source>Your files, database, and images will be backed up.</source>
-        <target state="needs-translation">Your files, database, and images will be backed up.</target>
+        <target state="final">Se realizarán copias de seguridad de tus archivos, base de datos e imágenes.</target>
         <note>views/templates/dialogs/dialog-backup.html.twig:23</note>
       </trans-unit>
-      <trans-unit id="c48b010e2f019b37cd748419f50a83c8">
+      <trans-unit id="c48b010e2f019b37cd748419f50a83c8" approved="yes">
         <source>Your files and database will be backed up.</source>
-        <target state="needs-translation">Your files and database will be backed up.</target>
+        <target state="final">Se realizará un backup de tus archivos y base de datos.</target>
         <note>views/templates/dialogs/dialog-backup.html.twig:23</note>
       </trans-unit>
-      <trans-unit id="0b69cd55a690bee672a1fb91091222f1">
+      <trans-unit id="0b69cd55a690bee672a1fb91091222f1" approved="yes">
         <source>Start backup</source>
-        <target state="needs-translation">Start backup</target>
+        <target state="final">Iniciar copia de seguridad</target>
         <note>views/templates/dialogs/dialog-backup.html.twig:39</note>
       </trans-unit>
-      <trans-unit id="2ca0ff94d146821c12f5340b117b9ecf">
+      <trans-unit id="2ca0ff94d146821c12f5340b117b9ecf" approved="yes">
         <source>Start update?</source>
-        <target state="needs-translation">Start update?</target>
+        <target state="final">¿Iniciar actualización?</target>
         <note>views/templates/dialogs/dialog-update.html.twig:21</note>
       </trans-unit>
-      <trans-unit id="3d4d2d6f322e7a03fbe59ed1593215c8">
+      <trans-unit id="3d4d2d6f322e7a03fbe59ed1593215c8" approved="yes">
         <source>Before starting the update, make sure you have a complete and recent backup of your store (database, files, and images).</source>
-        <target state="needs-translation">Before starting the update, make sure you have a complete and recent backup of your store (database, files, and images).</target>
+        <target state="final">Antes de iniciar la actualización, asegúrate de tener una copia de seguridad completa y reciente de tu tienda (base de datos, archivos e imágenes).</target>
         <note>views/templates/dialogs/dialog-update.html.twig:34</note>
       </trans-unit>
-      <trans-unit id="4d7ff7fe82a3cec141ca2f2619b82794">
+      <trans-unit id="4d7ff7fe82a3cec141ca2f2619b82794" approved="yes">
         <source>You are about to launch the update, do you want to continue?</source>
-        <target state="needs-translation">You are about to launch the update, do you want to continue?</target>
+        <target state="final">Estas a punto de lanzar la actualización, ¿deseas continuar?</target>
         <note>views/templates/dialogs/dialog-update.html.twig:37</note>
       </trans-unit>
-      <trans-unit id="3cedd2741ced15002cb3c9429ab45f55">
+      <trans-unit id="3cedd2741ced15002cb3c9429ab45f55" approved="yes">
         <source>I have made my own backup and can restore it manually if a problem occur.</source>
-        <target state="needs-translation">I have made my own backup and can restore it manually if a problem occur.</target>
+        <target state="final">He realizado mi propia copia de seguridad y puedo restaurarla manualmente si ocurre un problema.</target>
         <note>views/templates/dialogs/dialog-update.html.twig:47</note>
       </trans-unit>
-      <trans-unit id="845ceb9fbcd6f7a5e5b55c0fc0264c3b">
+      <trans-unit id="845ceb9fbcd6f7a5e5b55c0fc0264c3b" approved="yes">
         <source>Send error report?</source>
-        <target state="needs-translation">Send error report?</target>
+        <target state="final">¿Enviar informe de error?</target>
         <note>views/templates/dialogs/dialog-error-report.html.twig:22</note>
       </trans-unit>
-      <trans-unit id="65da25f3a4f8c1e4a90a26894f0a7928">
+      <trans-unit id="65da25f3a4f8c1e4a90a26894f0a7928" approved="yes">
         <source>Help us improve the module by sending us this error report. For your information, the logs will be attached with your message. You can add more details in the description if you wish.</source>
-        <target state="needs-translation">Help us improve the module by sending us this error report. For your information, the logs will be attached with your message. You can add more details in the description if you wish.</target>
+        <target state="final">Ayúdanos a mejorar el módulo enviándonos este informe de errores. Para tu información, los registros se adjuntarán a tu mensaje. Puedes añadir más detalles en la descripción si lo deseas.</target>
         <note>views/templates/dialogs/dialog-error-report.html.twig:28</note>
       </trans-unit>
-      <trans-unit id="e3c2f912efa622f6e06c414660d40034">
+      <trans-unit id="e3c2f912efa622f6e06c414660d40034" approved="yes">
         <source>Learn more about your data and your rights</source>
-        <target state="needs-translation">Learn more about your data and your rights</target>
+        <target state="final">Infórmate sobre tus datos y tus derechos</target>
         <note>views/templates/dialogs/dialog-error-report.html.twig:34</note>
       </trans-unit>
-      <trans-unit id="e20cbb947afcf84cf58de1358ee1068d">
+      <trans-unit id="e20cbb947afcf84cf58de1358ee1068d" approved="yes">
         <source>Error message</source>
-        <target state="needs-translation">Error message</target>
+        <target state="final">Mensaje de error</target>
         <note>views/templates/dialogs/dialog-error-report.html.twig:45</note>
       </trans-unit>
-      <trans-unit id="ea5957193770106ccbb79106b47c06a6">
+      <trans-unit id="ea5957193770106ccbb79106b47c06a6" approved="yes">
         <source>Email (optional)</source>
-        <target state="needs-translation">Email (optional)</target>
+        <target state="final">Correo electrónico (opcional)</target>
         <note>views/templates/dialogs/dialog-error-report.html.twig:59</note>
       </trans-unit>
-      <trans-unit id="6832ac593617c3e5f61c82a20b0d9a3a">
+      <trans-unit id="6832ac593617c3e5f61c82a20b0d9a3a" approved="yes">
         <source>Enter your email address</source>
-        <target state="needs-translation">Enter your email address</target>
+        <target state="final">Introduce tu dirección de correo electrónico</target>
         <note>views/templates/dialogs/dialog-error-report.html.twig:66</note>
       </trans-unit>
-      <trans-unit id="0ba3309bf076bf416d0bb498fdfcb77f">
+      <trans-unit id="0ba3309bf076bf416d0bb498fdfcb77f" approved="yes">
         <source>Description (optional)</source>
-        <target state="needs-translation">Description (optional)</target>
+        <target state="final">Descripción (opcional)</target>
         <note>views/templates/dialogs/dialog-error-report.html.twig:72</note>
       </trans-unit>
-      <trans-unit id="70570ccbf37717a289b3ac438d3cf0c4">
+      <trans-unit id="70570ccbf37717a289b3ac438d3cf0c4" approved="yes">
         <source>You can add details about the error here.</source>
-        <target state="needs-translation">You can add details about the error here.</target>
+        <target state="final">Puedes añadir detalles sobre el error aquí.</target>
         <note>views/templates/dialogs/dialog-error-report.html.twig:78</note>
       </trans-unit>
-      <trans-unit id="f685da009437ded5271e842075eaf743">
+      <trans-unit id="f685da009437ded5271e842075eaf743" approved="yes">
         <source>Send error report</source>
-        <target state="needs-translation">Send error report</target>
+        <target state="final">Enviar informe de errores</target>
         <note>views/templates/components/form-open-error-report.html.twig:26</note>
       </trans-unit>
-      <trans-unit id="2b3196ae5bc51de9273f565ca1fb9fef">
+      <trans-unit id="2b3196ae5bc51de9273f565ca1fb9fef" approved="yes">
         <source>List of files missing</source>
-        <target state="needs-translation">List of files missing</target>
+        <target state="final">Falta lista de archivos </target>
         <note>views/templates/dialogs/dialog-tempered-files.html.twig:26</note>
       </trans-unit>
-      <trans-unit id="845d6ad834a73165f8da00625a00dd76">
+      <trans-unit id="845d6ad834a73165f8da00625a00dd76" approved="yes">
         <source>List of files changed</source>
-        <target state="needs-translation">List of files changed</target>
+        <target state="final">Lista de archivos modificados</target>
         <note>views/templates/dialogs/dialog-tempered-files.html.twig:34</note>
       </trans-unit>
-      <trans-unit id="145fb1b6e329f327f5da09ba6843675b">
+      <trans-unit id="145fb1b6e329f327f5da09ba6843675b" approved="yes">
         <source>The requested page or resource could not be found. This might be due to:</source>
-        <target state="needs-translation">The requested page or resource could not be found. This might be due to:</target>
+        <target state="final">No se pudo encontrar la página o el recurso solicitado. Esto podría deberse a:</target>
         <note>views/templates/pages/errors/404.html.twig:24</note>
       </trans-unit>
-      <trans-unit id="8c3c66ab18ac1d6716a6be5263d06b7d">
+      <trans-unit id="8c3c66ab18ac1d6716a6be5263d06b7d" approved="yes">
         <source>A broken or outdated link.</source>
-        <target state="needs-translation">A broken or outdated link.</target>
+        <target state="final">Un enlace roto o desactualizado.</target>
         <note>views/templates/pages/errors/404.html.twig:26</note>
       </trans-unit>
-      <trans-unit id="3b2a346bb68a2fee49d471ea80d05279">
+      <trans-unit id="3b2a346bb68a2fee49d471ea80d05279" approved="yes">
         <source>The page being moved or deleted.</source>
-        <target state="needs-translation">The page being moved or deleted.</target>
+        <target state="final">La página se ha movido o eliminado.</target>
         <note>views/templates/pages/errors/404.html.twig:27</note>
       </trans-unit>
-      <trans-unit id="ad16662df4855044f3ab48f0a786186f">
+      <trans-unit id="ad16662df4855044f3ab48f0a786186f" approved="yes">
         <source>A typo in the URL.</source>
-        <target state="needs-translation">A typo in the URL.</target>
+        <target state="final">Un error tipográfico en la URL.</target>
         <note>views/templates/pages/errors/404.html.twig:28</note>
       </trans-unit>
-      <trans-unit id="0030b42e4333ad592ea86064f241c287">
+      <trans-unit id="0030b42e4333ad592ea86064f241c287" approved="yes">
         <source>It seems there was an issue with the server. This type of error usually happens when:</source>
-        <target state="needs-translation">It seems there was an issue with the server. This type of error usually happens when:</target>
+        <target state="final">Parece que hubo un problema con el servidor. Este tipo de error suele ocurrir cuando:</target>
         <note>views/templates/pages/errors/generic.html.twig:40</note>
       </trans-unit>
-      <trans-unit id="994b142d19dee01440bbd763dd9dda42">
+      <trans-unit id="994b142d19dee01440bbd763dd9dda42" approved="yes">
         <source>The server is temporarily unavailable.</source>
-        <target state="needs-translation">The server is temporarily unavailable.</target>
+        <target state="final">El servidor no está disponible temporalmente.</target>
         <note>views/templates/pages/errors/generic.html.twig:75</note>
       </trans-unit>
-      <trans-unit id="014c30741ff5c89cbf8f6e913e1e0848">
+      <trans-unit id="014c30741ff5c89cbf8f6e913e1e0848" approved="yes">
         <source>There's a misconfiguration or unexpected problem on the server.</source>
-        <target state="needs-translation">There's a misconfiguration or unexpected problem on the server.</target>
+        <target state="final">Hay una configuración incorrecta o un problema inesperado en el servidor.</target>
         <note>views/templates/pages/errors/generic.html.twig:43</note>
       </trans-unit>
-      <trans-unit id="b984541b3506893e8f0c3f91503dbcfc">
+      <trans-unit id="b984541b3506893e8f0c3f91503dbcfc" approved="yes">
         <source>It looks like there is no data received from the server. This can happen if:</source>
-        <target state="needs-translation">It looks like there is no data received from the server. This can happen if:</target>
+        <target state="final">Parece que no se reciben datos del servidor. Esto puede ocurrir si:</target>
         <note>views/templates/pages/errors/generic.html.twig:73</note>
       </trans-unit>
-      <trans-unit id="3a70d4513215a450c03e6d61d47ca44a">
+      <trans-unit id="3a70d4513215a450c03e6d61d47ca44a" approved="yes">
         <source>There's an issue with the network or connection.</source>
-        <target state="needs-translation">There's an issue with the network or connection.</target>
+        <target state="final">Hay un problema con la red o la conexión.</target>
         <note>views/templates/pages/errors/generic.html.twig:76</note>
       </trans-unit>
-      <trans-unit id="1c59b2d566cf0f4533a11c6aee1efbe0">
+      <trans-unit id="1c59b2d566cf0f4533a11c6aee1efbe0" approved="yes">
         <source>The request timed out. It seems the connection took too long to respond. This could be due to:</source>
-        <target state="needs-translation">The request timed out. It seems the connection took too long to respond. This could be due to:</target>
+        <target state="final">Se agotó el tiempo de espera de la solicitud. Parece que la conexión tardó demasiado en responder. Esto podría deberse a:</target>
         <note>views/templates/pages/errors/generic.html.twig:56</note>
       </trans-unit>
-      <trans-unit id="041882b89e5cb17a517964726e83d6fe">
+      <trans-unit id="041882b89e5cb17a517964726e83d6fe" approved="yes">
         <source>A slow or unstable internet connection.</source>
-        <target state="needs-translation">A slow or unstable internet connection.</target>
+        <target state="final">Una conexión a Internet lenta o inestable.</target>
         <note>views/templates/pages/errors/generic.html.twig:58</note>
       </trans-unit>
-      <trans-unit id="24585fc097351e62dbb51f1b03253c0c">
+      <trans-unit id="24585fc097351e62dbb51f1b03253c0c" approved="yes">
         <source>The server is currently busy or unresponsive.</source>
-        <target state="needs-translation">The server is currently busy or unresponsive.</target>
+        <target state="final">El servidor está actualmente ocupado o no responde.</target>
         <note>views/templates/pages/errors/generic.html.twig:59</note>
       </trans-unit>
-      <trans-unit id="8696259259c446a2a399d95c55769172">
+      <trans-unit id="8696259259c446a2a399d95c55769172" approved="yes">
         <source>Temporary network issues.</source>
-        <target state="needs-translation">Temporary network issues.</target>
+        <target state="final">Problemas temporales de red.</target>
         <note>views/templates/pages/errors/generic.html.twig:60</note>
       </trans-unit>
-      <trans-unit id="46ca90ea04d6e0d0d7d3f4b09b25f4a1">
+      <trans-unit id="46ca90ea04d6e0d0d7d3f4b09b25f4a1" approved="yes">
         <source>The response received from the server in malformed. This can happen if:</source>
-        <target state="needs-translation">The response received from the server in malformed. This can happen if:</target>
+        <target state="final">La respuesta recibida del servidor está mal formada. Esto puede ocurrir si:</target>
         <note>views/templates/pages/errors/generic.html.twig:65</note>
       </trans-unit>
-      <trans-unit id="e47f6a28b0c444959e5f81a81becfc1e">
+      <trans-unit id="e47f6a28b0c444959e5f81a81becfc1e" approved="yes">
         <source>The request did not reach the module.</source>
-        <target state="needs-translation">The request did not reach the module.</target>
+        <target state="final">La solicitud no llegó al módulo.</target>
         <note>views/templates/pages/errors/generic.html.twig:67</note>
       </trans-unit>
-      <trans-unit id="cdec08a91e267ead2efe690cabf53ab8">
+      <trans-unit id="cdec08a91e267ead2efe690cabf53ab8" approved="yes">
         <source>There’s an issue processing the response on the app or browser.</source>
-        <target state="needs-translation">There’s an issue processing the response on the app or browser.</target>
+        <target state="final">Hay un problema al procesar la respuesta en la aplicación o el navegador.</target>
         <note>views/templates/pages/errors/generic.html.twig:68</note>
       </trans-unit>
-      <trans-unit id="2a0d9890111bde325bfe4d4cb48dc3b0">
+      <trans-unit id="2a0d9890111bde325bfe4d4cb48dc3b0" approved="yes">
         <source>An unknown error occurred. It was unexpected and may be caused by a temporary issue with the server.</source>
-        <target state="needs-translation">An unknown error occurred. It was unexpected and may be caused by a temporary issue with the server.</target>
+        <target state="final">Se produjo un error desconocido. Fue inesperado y podría deberse a un problema temporal con el servidor.</target>
         <note>views/templates/pages/errors/generic.html.twig:81</note>
       </trans-unit>
-      <trans-unit id="8a862ffce3e06bbe655506fd73fe017c">
+      <trans-unit id="8a862ffce3e06bbe655506fd73fe017c" approved="yes">
         <source>Something went wrong...</source>
-        <target state="needs-translation">Something went wrong...</target>
+        <target state="final">Algo salió mal...</target>
         <note>views/templates/layouts/error.html.twig:33</note>
       </trans-unit>
-      <trans-unit id="9af7e43160937bd2ba87e3828a4f90a6">
+      <trans-unit id="9af7e43160937bd2ba87e3828a4f90a6" approved="yes">
         <source>Go back to Update assistant</source>
-        <target state="needs-translation">Go back to Update assistant</target>
+        <target state="final">Volver al Update assistant</target>
         <note>views/templates/layouts/error.html.twig:46</note>
       </trans-unit>
-      <trans-unit id="6adab6d3fdf92c448d60cf8824e4851c">
+      <trans-unit id="6adab6d3fdf92c448d60cf8824e4851c" approved="yes">
         <source>Delete selection</source>
-        <target state="needs-translation">Delete selection</target>
+        <target state="final">Eliminar selección</target>
         <note>views/templates/components/render-backup-selection.html.twig:47</note>
       </trans-unit>
       <trans-unit id="15e90667b50b56b1f8a01bdb1190f3dc" approved="yes">
@@ -1744,24 +1744,24 @@
         <target state="final">Archivo local</target>
         <note>views/templates/components/radio-card-local.html.twig:24</note>
       </trans-unit>
-      <trans-unit id="18cbb933cdcd103c46947bd153117274">
+      <trans-unit id="18cbb933cdcd103c46947bd153117274" approved="yes">
         <source>Save the archive file of the version you want to update to in the following directory: /your-admin-directory/autoupgrade/download/</source>
-        <target state="needs-translation">Save the archive file of the version you want to update to in the following directory: /your-admin-directory/autoupgrade/download/</target>
+        <target state="final">Guarda el archivo de la versión a la que deseas actualizar en el siguiente directorio: /your-admin-directory/autoupgrade/download/</target>
         <note>views/templates/components/radio-card-local.html.twig:25</note>
       </trans-unit>
-      <trans-unit id="56242ca6bc44ac0537fb3ce8097ff0d9">
+      <trans-unit id="56242ca6bc44ac0537fb3ce8097ff0d9" approved="yes">
         <source>Progress is {progress_percentage}%</source>
-        <target state="needs-translation">Progress is {progress_percentage}%</target>
+        <target state="final">El progreso es {progress_percentage}%</target>
         <note>views/templates/components/progress-bar.html.twig:22</note>
       </trans-unit>
-      <trans-unit id="00068df4be432f78c52f344b746857bb">
+      <trans-unit id="00068df4be432f78c52f344b746857bb" approved="yes">
         <source>The maximum version of PrestaShop to which you can upgrade your store, based on its PHP version.</source>
-        <target state="needs-translation">The maximum version of PrestaShop to which you can upgrade your store, based on its PHP version.</target>
+        <target state="final">La versión máxima de PrestaShop a la que puedes actualizar tu tienda, en función de su versión de PHP.</target>
         <note>views/templates/components/radio-card-online.html.twig:25</note>
       </trans-unit>
-      <trans-unit id="b9d4e763594017af5b607eb9e0034299">
+      <trans-unit id="b9d4e763594017af5b607eb9e0034299" approved="yes">
         <source>PrestaShop %version%</source>
-        <target state="needs-translation">PrestaShop %version%</target>
+        <target state="final">PrestaShop %version%</target>
         <note>views/templates/components/radio-card-online.html.twig:32</note>
       </trans-unit>
       <trans-unit id="1dc0b5d6a26b5b7488bbc222a96d9f52" approved="yes">
@@ -1769,9 +1769,9 @@
         <target state="final">Archivo a utilizar</target>
         <note>views/templates/components/local-archive.html.twig:23</note>
       </trans-unit>
-      <trans-unit id="04f8084b8320ddd1d2ecd6b5e7513974">
+      <trans-unit id="04f8084b8320ddd1d2ecd6b5e7513974" approved="yes">
         <source>Select an archive</source>
-        <target state="needs-translation">Select an archive</target>
+        <target state="final">Selecciona un archivo</target>
         <note>views/templates/components/local-archive.html.twig:32</note>
       </trans-unit>
       <trans-unit id="647dca555edd0836cd8b882d91a22ecf" approved="yes">
@@ -1779,79 +1779,79 @@
         <target state="final">Archivo XML a utilizar</target>
         <note>views/templates/components/local-archive.html.twig:55</note>
       </trans-unit>
-      <trans-unit id="792744786ed30c5623dd1cf0c16f4ffe">
+      <trans-unit id="792744786ed30c5623dd1cf0c16f4ffe" approved="yes">
         <source>Select a file</source>
-        <target state="needs-translation">Select a file</target>
+        <target state="final">Selecciona un archivo</target>
         <note>views/templates/components/local-archive.html.twig:64</note>
       </trans-unit>
-      <trans-unit id="965d52547523b6380bc716f5ed0ce570">
+      <trans-unit id="965d52547523b6380bc716f5ed0ce570" approved="yes">
         <source>No archive found in the following directory: /your-admin-directory/autoupgrade/download/</source>
-        <target state="needs-translation">No archive found in the following directory: /your-admin-directory/autoupgrade/download/</target>
+        <target state="final">No se encontró ningún archivo en el siguiente directorio: /your-admin-directory/autoupgrade/download/</target>
         <note>views/templates/components/local-archive.html.twig:98</note>
       </trans-unit>
-      <trans-unit id="c2efe4bbd13e6cb0db293e72884273c0">
+      <trans-unit id="c2efe4bbd13e6cb0db293e72884273c0" approved="yes">
         <source>Starting</source>
-        <target state="needs-translation">Starting</target>
+        <target state="final">Iniciando</target>
         <note>views/templates/components/logs-summary.html.twig:25</note>
       </trans-unit>
-      <trans-unit id="fd27020a39b44ef689eb32970c365045">
+      <trans-unit id="fd27020a39b44ef689eb32970c365045" approved="yes">
         <source>Release note</source>
-        <target state="needs-translation">Release note</target>
+        <target state="final">Nota de lanzamiento</target>
         <note>views/templates/components/radio-card.html.twig:60</note>
       </trans-unit>
-      <trans-unit id="d63d0e3addadd645300c8e4909c7e3b1">
+      <trans-unit id="d63d0e3addadd645300c8e4909c7e3b1" approved="yes">
         <source>Checking requirements...</source>
-        <target state="needs-translation">Checking requirements...</target>
+        <target state="final">Comprobando requisitos...</target>
         <note>views/templates/components/radio-card.html.twig:81</note>
       </trans-unit>
-      <trans-unit id="0db9e54978a2358b7bd40fa24cf224d4">
+      <trans-unit id="0db9e54978a2358b7bd40fa24cf224d4" approved="yes">
         <source>Update requirements</source>
-        <target state="needs-translation">Update requirements</target>
+        <target state="final">Requisitos de actualización</target>
         <note>views/templates/components/check-requirements.html.twig:22</note>
       </trans-unit>
-      <trans-unit id="c2be89ec4229ab7b25ab17f1f7caea13">
+      <trans-unit id="c2be89ec4229ab7b25ab17f1f7caea13" approved="yes">
         <source>Once all the following conditions are met, you can continue with the update. Read more in the [1]developer documentation[/1].</source>
-        <target state="needs-translation">Once all the following conditions are met, you can continue with the update. Read more in the [1]developer documentation[/1].</target>
+        <target state="final">Una vez que se cumplan todas las condiciones siguientes, puedes continuar con la actualización. Lee más en la [1]documentación para desarrolladores[/1].</target>
         <note>views/templates/components/check-requirements.html.twig:27</note>
       </trans-unit>
-      <trans-unit id="b40bb42243c77c74dee5c2743fb49e7f">
+      <trans-unit id="b40bb42243c77c74dee5c2743fb49e7f" approved="yes">
         <source>Please consider these warnings before continuing with the update. Read more in the [1]developer documentation[/1].</source>
-        <target state="needs-translation">Please consider these warnings before continuing with the update. Read more in the [1]developer documentation[/1].</target>
+        <target state="final">Ten en cuenta estas advertencias antes de continuar con la actualización. Lee más en la [1]documentación para desarrolladores[/1].</target>
         <note>views/templates/components/check-requirements.html.twig:32</note>
       </trans-unit>
-      <trans-unit id="3758c107f9d68f5fb6d56486dab9f2d4">
+      <trans-unit id="3758c107f9d68f5fb6d56486dab9f2d4" approved="yes">
         <source>Check requirements again</source>
-        <target state="needs-translation">Check requirements again</target>
+        <target state="final">Verifica los requisitos nuevamente</target>
         <note>views/templates/components/check-requirements.html.twig:60</note>
       </trans-unit>
-      <trans-unit id="e964dbbc34b653f925c68e27cd08141a">
+      <trans-unit id="e964dbbc34b653f925c68e27cd08141a" approved="yes">
         <source>The requirements check is complete, you can update your store to this version of PrestaShop.</source>
-        <target state="needs-translation">The requirements check is complete, you can update your store to this version of PrestaShop.</target>
+        <target state="final">La verificación de requisitos ha finalizado, puedes actualizar tu tienda a esta versión de PrestaShop.</target>
         <note>views/templates/components/check-requirements.html.twig:67</note>
       </trans-unit>
-      <trans-unit id="56c34c6410dd45c5cec44149ad0ce037">
+      <trans-unit id="56c34c6410dd45c5cec44149ad0ce037" approved="yes">
         <source>Privacy policy</source>
-        <target state="needs-translation">Privacy policy</target>
+        <target state="final">Política de privacidad</target>
         <note>views/templates/components/privacy.html.twig:25</note>
       </trans-unit>
-      <trans-unit id="12b7e9bd62f15c5f79030a36509eedf0">
+      <trans-unit id="12b7e9bd62f15c5f79030a36509eedf0" approved="yes">
         <source>Warning summary</source>
-        <target state="needs-translation">Warning summary</target>
+        <target state="final">Resumen de advertencia</target>
         <note>views/templates/components/logs-templates.html.twig:35</note>
       </trans-unit>
-      <trans-unit id="e3ee0344bd3867921755578619b2ba43">
+      <trans-unit id="e3ee0344bd3867921755578619b2ba43" approved="yes">
         <source>Error summary</source>
-        <target state="needs-translation">Error summary</target>
+        <target state="final">Resumen de errores</target>
         <note>views/templates/components/logs-templates.html.twig:36</note>
       </trans-unit>
-      <trans-unit id="94c3bbd272ff645e73a18da13399cc63">
+      <trans-unit id="94c3bbd272ff645e73a18da13399cc63" approved="yes">
         <source>See warning</source>
-        <target state="needs-translation">See warning</target>
+        <target state="final">Ver advertencia</target>
         <note>views/templates/components/logs-templates.html.twig:39</note>
       </trans-unit>
-      <trans-unit id="bbed65cc1e1133fa10ca61cae4e636f9">
+      <trans-unit id="bbed65cc1e1133fa10ca61cae4e636f9" approved="yes">
         <source>See error</source>
-        <target state="needs-translation">See error</target>
+        <target state="final">Ver error</target>
         <note>views/templates/components/logs-templates.html.twig:42</note>
       </trans-unit>
       <trans-unit id="93cba07454f06a4a960172bbd6e2a435" approved="yes">
