@@ -160,24 +160,10 @@ abstract class ChainedTasks extends AbstractTask
 
     private function disableOPCacheIfNecessary(): void
     {
-        $disableSteps = [
-            TaskName::TASK_UPDATE_FILES,
-            TaskName::TASK_UPDATE_DATABASE,
-            TaskName::TASK_UPDATE_MODULES,
-            TaskName::TASK_RESTORE_FILES,
-            TaskName::TASK_RESTORE_DATABASE,
-        ];
-
         $logSteps = [
             TaskName::TASK_UPDATE_INITIALIZATION,
             TaskName::TASK_RESTORE_INITIALIZATION,
         ];
-
-        $allRelevantSteps = array_merge($disableSteps, $logSteps);
-
-        if (!in_array($this->step, $allRelevantSteps, true)) {
-            return;
-        }
 
         if (!(bool) @ini_get('opcache.enable')) {
             return;
