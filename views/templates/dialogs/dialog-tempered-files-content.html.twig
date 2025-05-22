@@ -1,0 +1,15 @@
+{% if missing_files is defined and missing_files|length > 0 %}
+  {% include "@ModuleAutoUpgrade/components/scrollable-list.html.twig" with {
+    'title': 'List of files missing'|trans({}),
+    'items': missing_files,
+    'status': 'warning',
+  } %}
+{% endif %}
+
+  {% if altered_files is defined and altered_files|length > 0 %}
+    {% include "@ModuleAutoUpgrade/components/scrollable-list.html.twig" with {
+      'title': 'List of files changed'|trans({}),
+      'items': altered_files,
+      'status': 'warning',
+    } %}
+  {% endif %}

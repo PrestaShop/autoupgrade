@@ -33,7 +33,9 @@ class Routes
     const UPDATE_STEP_VERSION_CHOICE_SAVE_FORM = 'update-step-version-choice-save-form';
     const UPDATE_STEP_VERSION_CHOICE_SUBMIT_FORM = 'update-step-version-choice-submit-form';
     const UPDATE_STEP_VERSION_CHOICE_CORE_TEMPERED_FILES_DIALOG = 'update-step-version-choice-core-tempered-files-dialog';
+    const UPDATE_STEP_VERSION_CHOICE_CORE_TEMPERED_FILES_CONTENT = 'update-step-version-choice-core-tempered-files-content';
     const UPDATE_STEP_VERSION_CHOICE_THEME_TEMPERED_FILES_DIALOG = 'update-step-version-choice-theme-tempered-files-dialog';
+    const UPDATE_STEP_VERSION_CHOICE_THEME_TEMPERED_FILES_CONTENT = 'update-step-version-choice-theme-tempered-files-content';
 
     /* step: update options */
     const UPDATE_PAGE_UPDATE_OPTIONS = 'update-page-update-options';

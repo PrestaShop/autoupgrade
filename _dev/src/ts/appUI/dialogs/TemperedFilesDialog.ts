@@ -1,4 +1,4 @@
-{#**
+/**
  * Copyright since 2007 PrestaShop SA and Contributors
  * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
  *
@@ -15,15 +15,24 @@
  * @author    PrestaShop SA and Contributors <contact@prestashop.com>
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
- *#}
-{% extends "@ModuleAutoUpgrade/components/dialog.html.twig" %}
+ */
+import DomLifecycle from '../../types/DomLifecycle';
+import api from '../api/RequestHandler';
 
-{% set dialogSize = 'lg' %}
+export default class TemperedFilesDialog implements DomLifecycle {
+  contentContainerId = 'tempered_files_container';
 
-{% block dialog_extra_content %}
-  <div id="{{ container_id }}" data-action="{{ content_action }}">
-    Je dois être remplacé !
-  </div>
-{% endblock %}
+  mount = (): void => {
+    const contentContainer = document.getElementById(this.contentContainerId);
+    if (!contentContainer) {
+      throw new Error('Content container missing, cannot loading content.');
+    }
+    const contentAction = contentContainer.dataset.action;
+    if (!contentAction) {
+      throw new Error('Content action missing, cannot loading content.');
+    }
+    api.post(contentAction);
+  };
 
-{% block dialog_footer %}{% endblock %}
+  beforeDestroy = (): void => {};
+}
