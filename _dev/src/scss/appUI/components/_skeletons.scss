@@ -9,17 +9,17 @@ $e: ".skeleton";
 
     // Skeletons
     &--title {
-      height: 1.125rem;
-      width: max(12.5rem, 25%);
-      border-radius: 0.25rem;
       @extend %skeleton-gradient;
+      width: max(12.5rem, 25%);
+      height: 1.125rem;
+      border-radius: 0.25rem;
     }
 
     &--paragraph {
-      height: 1.125rem;
-      width: 100%;
-      border-radius: 0.25rem;
       @extend %skeleton-gradient;
+      width: 100%;
+      height: 1.125rem;
+      border-radius: 0.25rem;
     }
 
     // Scrollable list
