@@ -22,7 +22,17 @@
 
 {% block dialog_extra_content %}
   <div id="{{ container_id }}" data-skeleton="{{ content_action }}">
-    Je dois être remplacé !
+    {% for skeletonScrollableList in 1..2 %}
+      <div class="skeleton-scrollable-list">
+        <div class="skeleton-scrollable-list__title skeleton skeleton--title"></div>
+
+        <div class="skeleton-scrollable-list__wrapper">
+          {% for skeletonParagraph in 1..5 %}
+            <div class="skeleton skeleton--paragraph"></div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endfor %}
   </div>
 {% endblock %}
 
