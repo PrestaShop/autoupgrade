@@ -49,6 +49,8 @@ class RestoreComplete extends AbstractTask
         $this->logger->info($this->translator->trans('Running opcache_reset'));
         $this->container->resetOpcache();
 
+        $this->container->getCacheCleaner()->cleanFolders();
+
         return ExitCode::SUCCESS;
     }
 }
