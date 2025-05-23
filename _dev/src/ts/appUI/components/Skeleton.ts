@@ -1,6 +1,3 @@
-import { Mountable } from '../../types/DomLifecycle';
-import api from '../api/RequestHandler';
-
 /**
  * Copyright since 2007 PrestaShop SA and Contributors
  * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
@@ -19,6 +16,9 @@ import api from '../api/RequestHandler';
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
+import { Mountable } from '../../types/DomLifecycle';
+import api from '../api/RequestHandler';
+
 export default class Skeleton implements Mountable {
   mount = () => {
     const skeletons = document.querySelectorAll('[data-skeleton]');
