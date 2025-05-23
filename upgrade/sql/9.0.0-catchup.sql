@@ -60,7 +60,6 @@ UPDATE `PREFIX_hook_module` AS hm
 INNER JOIN `PREFIX_hook` AS hfrom ON hm.id_hook = hfrom.id_hook AND hfrom.name = 'displayAdminOrderSideBottom'
 INNER JOIN `PREFIX_hook` AS hto ON hto.name = 'displayAdminOrderBottom'
 SET hm.id_hook = hto.id_hook;
-DELETE FROM `PREFIX_hook` WHERE name = 'displayAdminOrderSideBottom';
 
 UPDATE `PREFIX_country` SET `zip_code_format` = 'NNNNN' WHERE `iso_code` = "KR";
 
@@ -118,7 +117,7 @@ INSERT INTO `PREFIX_hook` (`name`, `title`, `description`, `position`) VALUES
   ('actionListModules','Add modules to the module manager list','This hook allows you to add modules to the list of modules displayed in the module manager page', '1'),
   ('actionValidateOrderAfter','After validating an order','This hook is called after validating an order by core', '1'),
   ('displayBackOfficeEmployeeMenu','Administration Employee menu','This hook is displayed in the employee menu', '1'),
-  ('displayEmptyModuleCategoryExtraMessage','Extra message to display for an empty modules category','This hook allows to add an extra message to display in the Module manager page when a category does not have any module', '1'),
+  ('displayEmptyModuleCategoryExtraMessage', 'Extra message to display for an empty modules category', "This hook allows to add an extra message to display in the Module manager page when a category doesn't have any module", '1'),
   ('actionStateGridPresenterModifier','Modify state grid template data','This hook allows to modify data which is about to be used in template for state grid', '1'),
   ('actionTitleGridPresenterModifier','Modify title grid template data','This hook allows to modify data which is about to be used in template for title grid', '1')
 ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
