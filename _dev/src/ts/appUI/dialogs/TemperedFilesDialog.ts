@@ -17,21 +17,11 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 import DomLifecycle from '../../types/DomLifecycle';
-import api from '../api/RequestHandler';
+import Skeleton from '../components/Skeleton';
 
 export default class TemperedFilesDialog implements DomLifecycle {
-  contentContainerId = 'tempered_files_container';
-
   mount = (): void => {
-    const contentContainer = document.getElementById(this.contentContainerId);
-    if (!contentContainer) {
-      throw new Error('Content container missing, cannot loading content.');
-    }
-    const contentAction = contentContainer.dataset.action;
-    if (!contentAction) {
-      throw new Error('Content action missing, cannot loading content.');
-    }
-    api.post(contentAction);
+    new Skeleton().mount();
   };
 
   beforeDestroy = (): void => {};

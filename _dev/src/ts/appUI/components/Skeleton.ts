@@ -1,4 +1,7 @@
-{#**
+import { Mountable } from '../../types/DomLifecycle';
+import api from '../api/RequestHandler';
+
+/**
  * Copyright since 2007 PrestaShop SA and Contributors
  * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
  *
@@ -15,15 +18,20 @@
  * @author    PrestaShop SA and Contributors <contact@prestashop.com>
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
- *#}
-{% extends "@ModuleAutoUpgrade/components/dialog.html.twig" %}
+ */
+export default class Skeleton implements Mountable {
+  mount = () => {
+    const skeletons = document.querySelectorAll('[data-skeleton]');
+    skeletons.forEach((skeleton) => {
+      this.#loadSkeletonContent(skeleton as HTMLElement);
+    });
+  };
 
-{% set dialogSize = 'lg' %}
-
-{% block dialog_extra_content %}
-  <div id="{{ container_id }}" data-skeleton="{{ content_action }}">
-    Je dois être remplacé !
-  </div>
-{% endblock %}
-
-{% block dialog_footer %}{% endblock %}
+  #loadSkeletonContent = async (skeleton: HTMLElement): Promise<void> => {
+    const contentAction = skeleton?.dataset.skeleton;
+    if (!contentAction) {
+      throw new Error('Skeleton content action missing, cannot loading content.');
+    }
+    await api.post(contentAction);
+  };
+}
