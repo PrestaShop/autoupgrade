@@ -29,7 +29,7 @@ $e: ".skeleton";
       border-radius: var(--#{$ua-prefix}border-radius);
 
       + #{$e}-scrollable-list {
-        margin-block-start: 1rem;
+        margin-block-start: 1.5rem;
       }
 
       &__title {
