@@ -31,6 +31,7 @@ class PageSelectors
     public const RADIO_CARD_ARCHIVE_PARENT_ID = 'radio_card_archive';
     public const DOWNLOAD_LOGS_PARENT_ID = 'download_logs';
     public const NOTIFICATION_PARENT_ID = 'update_assistant_notification';
+    public const TEMPERED_FILES_CONTAINER_ID = 'tempered_files_container';
 
     /**
      * @return array<string, string>

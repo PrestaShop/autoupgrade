@@ -37,7 +37,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class UpdatePageVersionChoiceController extends AbstractPageWithStepController
 {
-    const TEMPERED_FILES_CONTAINER_ID = 'tempered_files_container';
     const CURRENT_STEP = UpdateSteps::STEP_VERSION_CHOICE;
     const FORM_NAME = 'version_choice';
     const FORM_FIELDS = [
@@ -244,7 +243,7 @@ class UpdatePageVersionChoiceController extends AbstractPageWithStepController
             $this->getTemperedFilesDialog([
                 'title' => $this->upgradeContainer->getTranslator()->trans('List of core alterations'),
                 'message' => $this->upgradeContainer->getTranslator()->trans('Some core files have been altered, customization made on these files will be lost during the update.'),
-                'container_id' => self::TEMPERED_FILES_CONTAINER_ID,
+                'container_id' => PageSelectors::TEMPERED_FILES_CONTAINER_ID,
                 'content_action' => Routes::UPDATE_STEP_VERSION_CHOICE_CORE_TEMPERED_FILES_CONTENT,
             ]),
             ['addScript' => 'tempered-files-dialog']
@@ -254,7 +253,7 @@ class UpdatePageVersionChoiceController extends AbstractPageWithStepController
     public function coreTemperedFilesContent(): JsonResponse
     {
         return AjaxResponseBuilder::hydrationResponse(
-            self::TEMPERED_FILES_CONTAINER_ID,
+            PageSelectors::TEMPERED_FILES_CONTAINER_ID,
             $this->getTemperedFilesDialogContent([
                 'missing_files' => $this->upgradeContainer->getUpgradeSelfCheck()->getCoreMissingFiles(),
                 'altered_files' => $this->upgradeContainer->getUpgradeSelfCheck()->getCoreAlteredFiles(),
@@ -269,7 +268,7 @@ class UpdatePageVersionChoiceController extends AbstractPageWithStepController
             $this->getTemperedFilesDialog([
                 'title' => $this->upgradeContainer->getTranslator()->trans('List of theme alterations'),
                 'message' => $this->upgradeContainer->getTranslator()->trans('Some theme files have been altered, customization made on these files will be lost during the update.'),
-                'container_id' => self::TEMPERED_FILES_CONTAINER_ID,
+                'container_id' => PageSelectors::TEMPERED_FILES_CONTAINER_ID,
                 'content_action' => Routes::UPDATE_STEP_VERSION_CHOICE_THEME_TEMPERED_FILES_CONTENT,
             ]),
             ['addScript' => 'tempered-files-dialog']
@@ -279,7 +278,7 @@ class UpdatePageVersionChoiceController extends AbstractPageWithStepController
     public function themeTemperedFilesContent(): JsonResponse
     {
         return AjaxResponseBuilder::hydrationResponse(
-            self::TEMPERED_FILES_CONTAINER_ID,
+            PageSelectors::TEMPERED_FILES_CONTAINER_ID,
             $this->getTemperedFilesDialogContent([
                 'missing_files' => $this->upgradeContainer->getUpgradeSelfCheck()->getThemeMissingFiles(),
                 'altered_files' => $this->upgradeContainer->getUpgradeSelfCheck()->getThemeAlteredFiles(),
