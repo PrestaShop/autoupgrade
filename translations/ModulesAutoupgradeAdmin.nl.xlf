@@ -467,7 +467,7 @@
       <trans-unit id="b5ffb77b13ab03298982a49842ce78aa" approved="yes">
         <source>%lang% is not a valid iso code, skipping</source>
         <target state="final">%lang% is geen geldige iso-code, wordt overgeslagen</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader80.php:69</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader17.php:49</note>
       </trans-unit>
       <trans-unit id="141ff76ab0d97a8ec25a295f763c9acc" approved="yes">
         <source>Downloading language pack for %lang%</source>
@@ -477,7 +477,7 @@
       <trans-unit id="ebd70d87d57d2e22c5fb9cb1fa959f92" approved="yes">
         <source>Download of the language pack %lang% failed. %details%</source>
         <target state="final">Het downloaden van het taalpakket %lang% is mislukt. %details%</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader17.php:54</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader17.php:56</note>
       </trans-unit>
       <trans-unit id="3bd67bb11ef4eca367343a48a437116c" approved="yes">
         <source>Installing %lang% language pack</source>
@@ -497,7 +497,7 @@
       <trans-unit id="1439aa876aad656c4e8ddc2b06ce32d2" approved="yes">
         <source>Error while updating translations for the language pack %lang%. %details%</source>
         <target state="final">Fout bij het bijwerken van vertalingen voor het taalpakket %lang%. %details%</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader17.php:65</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader17.php:67</note>
       </trans-unit>
       <trans-unit id="4d46d96c1ea641735ee0c26c6381c75e" approved="yes">
         <source>API keys not present in parameters, generating</source>
@@ -667,7 +667,7 @@
       <trans-unit id="64ace91c75e6a8dcba8262e5215df07f">
         <source>OPCache configuration will be changed for the duration of the process.</source>
         <target state="needs-translation">OPCache configuration will be changed for the duration of the process.</target>
-        <note>classes/Task/Runner/ChainedTasks.php:194</note>
+        <note>classes/Task/Runner/ChainedTasks.php:195</note>
       </trans-unit>
       <trans-unit id="435d516735dbf7f622c7d14585f66840" approved="yes">
         <source>Action %s skipped</source>
