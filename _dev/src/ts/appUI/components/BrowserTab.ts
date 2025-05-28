@@ -41,11 +41,11 @@ export default class BrowserTab implements DomLifecycle {
   };
 
   public setSuccess = () => {
-    this.#setProcessEnd('SUCCESS');
+    this.#setProcessEnd(window.AutoUpgradeVariables.translations.success);
   };
 
   public setError = () => {
-    this.#setProcessEnd('FAILED');
+    this.#setProcessEnd(window.AutoUpgradeVariables.translations.failed);
   };
 
   #setProcessEnd = (processEnd: string) => {

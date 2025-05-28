@@ -321,6 +321,10 @@ class AdminSelfUpgradeController extends ModuleAdminController
             'links' => [
                 'help' => DocumentationLinks::getDevDocUpdateAssistantWebUrl($currentMajorVersion),
             ],
+            'translations' => [
+                'success' => $this->trans('SUCCESS'),
+                'failed' => $this->trans('FAILED'),
+            ]
         ];
     }
 
