@@ -30,5 +30,9 @@ window.AutoUpgradeVariables = {
   bo_timezone: 'Europe/Paris',
   links: {
     help: 'https://devdocs.prestashop-project.org/8/basics/keeping-up-to-date/update-from-the-back-office'
+  },
+  translations: {
+    success: 'SUCCESS',
+    failed: 'FAILED'
   }
 };
