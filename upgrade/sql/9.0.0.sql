@@ -450,4 +450,12 @@ INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VAL
 
 /* Reorganize search aliases */
 /* https://github.com/PrestaShop/PrestaShop/pull/37470 */
-/* PHP:ps_900_reorganize_aliases_tab(); */
+/* PHP:ps_900_reorganize_aliases_tab(); */;
+
+/* Add theme_name in image type table */
+/* https://github.com/PrestaShop/PrestaShop/pull/38745 */
+/* https://github.com/PrestaShop/PrestaShop/pull/38767 */
+ALTER TABLE `PREFIX_image_type`
+    ADD COLUMN `theme_name` VARCHAR(255) DEFAULT NULL AFTER `stores`,
+    ADD UNIQUE KEY `UNIQ_907C95215E237E0614E48A3B` (`name`,`theme_name`),
+    DROP INDEX `UNIQ_907C95215E237E06`;
