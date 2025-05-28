@@ -450,7 +450,7 @@ INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VAL
 
 /* Reorganize search aliases */
 /* https://github.com/PrestaShop/PrestaShop/pull/37470 */
-/* PHP:ps_900_reorganize_aliases_tab(); */
+/* PHP:ps_900_reorganize_aliases_tab(); */;
 
 /* Add theme_name in image type table */
 /* https://github.com/PrestaShop/PrestaShop/pull/38745 */
