@@ -324,7 +324,7 @@ class AdminSelfUpgradeController extends ModuleAdminController
             'translations' => [
                 'success' => $this->trans('SUCCESS'),
                 'failed' => $this->trans('FAILED'),
-            ]
+            ],
         ];
     }
 
