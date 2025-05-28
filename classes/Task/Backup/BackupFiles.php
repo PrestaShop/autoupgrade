@@ -50,7 +50,6 @@ class BackupFiles extends AbstractTask
 
         $backlog = Backlog::fromContents($this->container->getFileStorage()->load(UpgradeFileNames::FILES_TO_BACKUP_LIST));
 
-        $remainingFiles = $backlog->getRemainingTotal();
         if (!$backlog->getRemainingTotal()) {
             $this->next = TaskName::TASK_BACKUP_DATABASE;
             $this->logger->debug($this->translator->trans('All files have been added to archive.'));
