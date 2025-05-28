@@ -112,9 +112,6 @@ class BackupFiles extends AbstractTask
             return ExitCode::FAIL;
         }
 
-        if ($totalFilesToBackup) {
-            $this->logger->debug($this->translator->trans('%s Files to backup.', [$totalFilesToBackup]));
-        }
         $this->logger->info($this->translator->trans('%s files will be backup.', [$totalFilesToBackup]));
         $this->next = TaskName::TASK_BACKUP_FILES;
         $this->stepDone = false;
