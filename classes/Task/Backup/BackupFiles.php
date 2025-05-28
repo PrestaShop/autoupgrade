@@ -39,8 +39,55 @@ class BackupFiles extends AbstractTask
      */
     public function run(): int
     {
+        // The first call must init the list of files be backup.
+        if (!$this->container->getFileStorage()->exists(UpgradeFileNames::FILES_TO_BACKUP_LIST)) {
+            return $this->warmUp();
+        }
+
         $state = $this->container->getBackupState();
-        $this->stepDone = false;
+
+        $this->next = TaskName::TASK_BACKUP_FILES;
+
+        $backlog = Backlog::fromContents($this->container->getFileStorage()->load(UpgradeFileNames::FILES_TO_BACKUP_LIST));
+
+        $remainingFiles = $backlog->getRemainingTotal();
+        if (!$backlog->getRemainingTotal()) {
+            $this->next = TaskName::TASK_BACKUP_DATABASE;
+            $this->logger->debug($this->translator->trans('All files have been added to archive.'));
+            $this->logger->info($this->translator->trans('All files saved. Now backing up database'));
+            $this->stepDone = true;
+        } else {
+            $this->stepDone = false;
+            $res = $this->container->getZipAction()->compress($backlog, $this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $state->getBackupFilesFilename());
+            if (!$res) {
+                $this->next = TaskName::TASK_ERROR;
+                $this->logger->info($this->translator->trans('Unable to open archive'));
+
+                return ExitCode::FAIL;
+            }
+            $this->container->getFileStorage()->save($backlog->dump(), UpgradeFileNames::FILES_TO_BACKUP_LIST);
+
+            $this->logger->info($this->translator->trans('Backup files in progress. %d files left', [$backlog->getRemainingTotal()]));
+            $state->setProgressPercentage(
+                $this->container->getCompletionCalculator()->computePercentage($backlog, self::class, BackupDatabase::class)
+            );
+        }
+
+        return ExitCode::SUCCESS;
+    }
+
+    /**
+     * First call of this task needs a warmup, where we load the files list to be backup.
+     *
+     * @throws Exception
+     */
+    protected function warmUp(): int
+    {
+        $state = $this->container->getBackupState();
+        $state->setProgressPercentage(
+            $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
+        );
+
         $backupFilesFilename = $state->getBackupFilesFilename();
         if (empty($backupFilesFilename)) {
             $this->next = TaskName::TASK_ERROR;
@@ -50,53 +97,27 @@ class BackupFiles extends AbstractTask
             return ExitCode::FAIL;
         }
 
-        if (!$this->container->getFileStorage()->exists(UpgradeFileNames::FILES_TO_BACKUP_LIST)) {
-            $state->setProgressPercentage(
-                $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
-            );
+        $filesToBackup = $this->container->getFilesystemAdapter()->listFilesInDir($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH), 'backup', false);
 
-            /** @todo : only add files and dir listed in "originalPrestashopVersion" list */
-            $filesToBackup = $this->container->getFilesystemAdapter()->listFilesInDir($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH), 'backup', false);
-            $nbFilesToBackup = count($filesToBackup);
+        $totalFilesToBackup = count($filesToBackup);
+        $this->container->getFileStorage()->save(
+            (new Backlog($filesToBackup, $totalFilesToBackup))->dump(),
+            UpgradeFileNames::FILES_TO_BACKUP_LIST
+        );
 
-            $backlog = new Backlog($filesToBackup, $nbFilesToBackup);
-            if ($nbFilesToBackup) {
-                $this->logger->debug($this->translator->trans('%s Files to backup.', [$nbFilesToBackup]));
-            }
+        if ($totalFilesToBackup === 0) {
+            $this->logger->error($this->translator->trans('Unable to find files to backup.'));
+            $this->next = TaskName::TASK_ERROR;
 
-            // delete old backup, create new
-            if ($this->container->getFileSystem()->exists($this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $backupFilesFilename)) {
-                $this->container->getFileSystem()->remove($this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $backupFilesFilename);
-            }
-
-            $this->logger->debug($this->translator->trans('Backup files initialized in %s', [$backupFilesFilename]));
-        } else {
-            $backlog = Backlog::fromContents($this->container->getFileStorage()->load(UpgradeFileNames::FILES_TO_BACKUP_LIST));
+            return ExitCode::FAIL;
         }
 
+        if ($totalFilesToBackup) {
+            $this->logger->debug($this->translator->trans('%s Files to backup.', [$totalFilesToBackup]));
+        }
+        $this->logger->info($this->translator->trans('%s files will be backup.', [$totalFilesToBackup]));
         $this->next = TaskName::TASK_BACKUP_FILES;
-        $remainingFiles = $backlog->getRemainingTotal();
-        if ($remainingFiles) {
-            $this->logger->info($this->translator->trans('Backup files in progress. %d files left', [$remainingFiles]));
-            $this->stepDone = false;
-            $res = $this->container->getZipAction()->compress($backlog, $this->container->getProperty(UpgradeContainer::BACKUP_PATH) . DIRECTORY_SEPARATOR . $backupFilesFilename);
-            if (!$res) {
-                $this->next = TaskName::TASK_ERROR;
-                $this->logger->info($this->translator->trans('Unable to open archive'));
-
-                return ExitCode::FAIL;
-            }
-            $this->container->getFileStorage()->save($backlog->dump(), UpgradeFileNames::FILES_TO_BACKUP_LIST);
-            $state->setProgressPercentage(
-                $this->container->getCompletionCalculator()->computePercentage($backlog, self::class, BackupDatabase::class)
-            );
-        } else {
-            $this->stepDone = true;
-            $this->status = 'ok';
-            $this->next = TaskName::TASK_BACKUP_DATABASE;
-            $this->logger->debug($this->translator->trans('All files have been added to archive.'));
-            $this->logger->info($this->translator->trans('All files saved. Now backing up database'));
-        }
+        $this->stepDone = false;
 
         return ExitCode::SUCCESS;
     }
