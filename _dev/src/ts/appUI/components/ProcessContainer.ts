@@ -22,9 +22,11 @@ import DomLifecycle from '../../types/DomLifecycle';
 import { ProcessContainerCallbacks } from '../types/Process';
 import Process from '../utils/Process';
 import ProgressTracker from './ProgressTracker';
+import BrowserTab from './BrowserTab';
 
 export default class ProcessContainer implements DomLifecycle {
   #progressTracker: ProgressTracker = new ProgressTracker(this.#progressTrackerContainer);
+  #browserTab: BrowserTab = new BrowserTab();
 
   constructor(
     private readonly initialAction: string,
@@ -33,6 +35,7 @@ export default class ProcessContainer implements DomLifecycle {
 
   public mount = async (): Promise<void> => {
     this.#progressTracker.mount();
+    this.#browserTab.mount();
 
     const process = new Process({
       onProcessResponse: this.#onProcessResponse,
@@ -64,6 +67,7 @@ export default class ProcessContainer implements DomLifecycle {
 
   #onProcessResponse = (response: ApiResponseAction): void => {
     this.#progressTracker.updateProgress(response);
+    this.#browserTab.updatePercentProgress(response.nextParams.progressPercentage);
   };
 
   #onProcessEnd = async (response: ApiResponseAction): Promise<void> => {
@@ -71,6 +75,7 @@ export default class ProcessContainer implements DomLifecycle {
     if (response.error) {
       this.#onError(response);
     } else {
+      this.#browserTab.setSuccess();
       await api.post(this.#progressTrackerContainer.dataset.successRoute!);
     }
   };
@@ -79,6 +84,7 @@ export default class ProcessContainer implements DomLifecycle {
     this.#disableExitConfirmation();
     this.#progressTracker.updateProgress(response);
     this.#progressTracker.endProgress();
+    this.#browserTab.setError();
     this.#displayErrorAlert();
     this.#displayErrorButtons();
 
