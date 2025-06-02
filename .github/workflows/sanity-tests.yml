@@ -92,7 +92,6 @@ jobs:
           docker exec -t prestashop chmod 777 -R /var/www/html/var
 
       - name: Uninstall welcome module
-        if: matrix.PS_VERSION_START == '1.7.0.6' || matrix.PS_VERSION_START == '1.7.1.0' || matrix.PS_VERSION_START == '1.7.1.1' || matrix.PS_VERSION_START == '1.7.1.2'
         run: |
           docker exec -t prestashop php bin/console prestashop:module disable welcome
           docker exec -t prestashop chmod 777 -R /var/www/html/var
