@@ -39,7 +39,7 @@ class BackupFiles extends AbstractTask
      */
     public function run(): int
     {
-        // The first call must init the list of files be backup.
+        // The first call must init the list of files to backup.
         if (!$this->container->getFileStorage()->exists(UpgradeFileNames::FILES_TO_BACKUP_LIST)) {
             return $this->warmUp();
         }
@@ -111,7 +111,7 @@ class BackupFiles extends AbstractTask
             return ExitCode::FAIL;
         }
 
-        $this->logger->info($this->translator->trans('%s files will be backup.', [$totalFilesToBackup]));
+        $this->logger->info($this->translator->trans('%s files will be added to the backup.', [$totalFilesToBackup]));
         $this->next = TaskName::TASK_BACKUP_FILES;
         $this->stepDone = false;
 
