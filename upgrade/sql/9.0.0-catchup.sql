@@ -53,7 +53,8 @@ ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`descr
 INSERT INTO `PREFIX_hook` (`name`, `title`, `description`, `position`) VALUES
   ('actionAfterCreateFeatureFormHandler', 'Modify feature identifiable object data after creating it','This hook allows to modify feature identifiable object forms data after it was created', '1'),
   ('actionAfterUpdateFeatureFormHandler', 'Modify feature identifiable object data after updating it','This hook allows to modify feature identifiable object forms data after it was updated', '1'),
-  ('displayAdminOrderBottom', 'Admin Order Side Column Bottom','This hook displays content in the order view page at the bottom of the side column', '1')
+  ('displayAdminOrderBottom', 'Admin Order Side Column Bottom','This hook displays content in the order view page at the bottom of the side column', '1'),
+  ('actionFeatureFormBuilderModifier', 'Modify feature identifiable object form', 'This hook allows to modify feature identifiable object forms content by modifying form builder data or FormBuilder itself', '1')
 ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
 
 UPDATE `PREFIX_hook_module` AS hm
