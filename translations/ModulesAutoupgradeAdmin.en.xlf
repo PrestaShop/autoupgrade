@@ -1049,40 +1049,40 @@
         <target>Unable to create backup database file %s.</target>
         <note>classes/Task/Backup/BackupDatabase.php:352</note>
       </trans-unit>
-      <trans-unit id="189c2b1a17529c88f5d6f297a4b59ebe">
-        <source>Backup filename has not been set</source>
-        <target>Backup filename has not been set</target>
-        <note>classes/Task/Backup/BackupFiles.php:48</note>
-      </trans-unit>
-      <trans-unit id="48f95ff09327408a578e91655ed872a1">
-        <source>%s Files to backup.</source>
-        <target>%s Files to backup.</target>
-        <note>classes/Task/Backup/BackupFiles.php:64</note>
-      </trans-unit>
-      <trans-unit id="ae10eb1b240ad1b32e2a18e8c9694120">
-        <source>Backup files initialized in %s</source>
-        <target>Backup files initialized in %s</target>
-        <note>classes/Task/Backup/BackupFiles.php:72</note>
-      </trans-unit>
-      <trans-unit id="9bebecbf68b6ce5a6d656c5ea793b762">
-        <source>Backup files in progress. %d files left</source>
-        <target>Backup files in progress. %d files left</target>
-        <note>classes/Task/Backup/BackupFiles.php:80</note>
-      </trans-unit>
-      <trans-unit id="b31006b398a0fc315119a145aa1b0466">
-        <source>Unable to open archive</source>
-        <target>Unable to open archive</target>
-        <note>classes/Task/Backup/BackupFiles.php:85</note>
-      </trans-unit>
       <trans-unit id="f39b870765d50b64ba7a6facea83010d">
         <source>All files have been added to archive.</source>
         <target>All files have been added to archive.</target>
-        <note>classes/Task/Backup/BackupFiles.php:97</note>
+        <note>classes/Task/Backup/BackupFiles.php:55</note>
       </trans-unit>
       <trans-unit id="f36d7ee6cae92008008a95bf5898daf2">
         <source>All files saved. Now backing up database</source>
         <target>All files saved. Now backing up database</target>
-        <note>classes/Task/Backup/BackupFiles.php:98</note>
+        <note>classes/Task/Backup/BackupFiles.php:56</note>
+      </trans-unit>
+      <trans-unit id="b31006b398a0fc315119a145aa1b0466">
+        <source>Unable to open archive</source>
+        <target>Unable to open archive</target>
+        <note>classes/Task/Backup/BackupFiles.php:63</note>
+      </trans-unit>
+      <trans-unit id="9bebecbf68b6ce5a6d656c5ea793b762">
+        <source>Backup files in progress. %d files left</source>
+        <target>Backup files in progress. %d files left</target>
+        <note>classes/Task/Backup/BackupFiles.php:69</note>
+      </trans-unit>
+      <trans-unit id="189c2b1a17529c88f5d6f297a4b59ebe">
+        <source>Backup filename has not been set</source>
+        <target>Backup filename has not been set</target>
+        <note>classes/Task/Backup/BackupFiles.php:94</note>
+      </trans-unit>
+      <trans-unit id="01cbdf3c15b22c4e523c72ff9eed28ed">
+        <source>Unable to find files to backup.</source>
+        <target>Unable to find files to backup.</target>
+        <note>classes/Task/Backup/BackupFiles.php:108</note>
+      </trans-unit>
+      <trans-unit id="fe6475f6cb470a23f0cee929f9cb92b7">
+        <source>%s files will be added to the backup.</source>
+        <target>%s files will be added to the backup.</target>
+        <note>classes/Task/Backup/BackupFiles.php:114</note>
       </trans-unit>
       <trans-unit id="88b3ca1ea582b35668b5ed49bbf8206b">
         <source>Backup completed successfully.</source>
