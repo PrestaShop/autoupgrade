@@ -10,11 +10,11 @@
       "UPGRADE_CHANNEL": "online"
     },
     {
-      "comment": "1.7.6.9 -> 8.2.1 PHP 7.2 online"
+      "comment": "1.7.6.9 -> 8.2.0 PHP 7.2 online"
     },
     {
       "PS_VERSION_START": "1.7.6.9",
-      "PS_VERSION_END": "8.2.1",
+      "PS_VERSION_END": "8.2.0",
       "PHP_VERSION": "7.2",
       "UPGRADE_CHANNEL": "online"
     },
@@ -28,11 +28,11 @@
       "UPGRADE_CHANNEL": "online"
     },
     {
-      "comment": "1.7.7.8 -> 8.2.1 PHP 7.3 online"
+      "comment": "1.7.7.8 -> 8.2.0 PHP 7.3 online"
     },
     {
       "PS_VERSION_START": "1.7.7.8",
-      "PS_VERSION_END": "8.2.1",
+      "PS_VERSION_END": "8.2.0",
       "PHP_VERSION": "7.3",
       "UPGRADE_CHANNEL": "online"
     },
@@ -46,67 +46,31 @@
       "UPGRADE_CHANNEL": "online"
     },
     {
-      "comment": "1.7.8.11 -> 8.2.1 PHP 7.4 online"
+      "comment": "1.7.8.11 -> 8.2.0 PHP 7.4 online"
     },
     {
       "PS_VERSION_START": "1.7.8.11",
-      "PS_VERSION_END": "8.2.1",
+      "PS_VERSION_END": "8.2.0",
       "PHP_VERSION": "7.4",
       "UPGRADE_CHANNEL": "online"
     },
     {
-      "comment": "8.0.5 -> 8.2.1 PHP 8.1 online"
+      "comment": "8.0.5 -> 8.2.0 PHP 8.1 online"
     },
     {
       "PS_VERSION_START": "8.0.5",
-      "PS_VERSION_END": "9.0.0",
+      "PS_VERSION_END": "8.2.0",
       "PHP_VERSION": "8.1",
       "UPGRADE_CHANNEL": "online"
     },
     {
-      "comment": "8.1.7 -> 8.2.1 PHP 8.1 online"
+      "comment": "8.1.7 -> 8.2.0 PHP 8.0 online"
     },
     {
       "PS_VERSION_START": "8.1.7",
-      "PS_VERSION_END": "9.0.0",
+      "PS_VERSION_END": "8.2.0",
       "PHP_VERSION": "8.1",
       "UPGRADE_CHANNEL": "online"
-    },
-    {
-      "comment": "1.7.8.0 -> 1.7.8.10 PHP 7.2 local"
-    },
-    {
-      "PS_VERSION_START": "1.7.8.0",
-      "PS_VERSION_END": "1.7.8.10",
-      "PHP_VERSION": "7.2",
-      "UPGRADE_CHANNEL": "local"
-    },
-    {
-      "comment": "8.0.0 -> 8.0.5 PHP 7.3 local"
-    },
-    {
-      "PS_VERSION_START": "8.0.0",
-      "PS_VERSION_END": "8.0.5",
-      "PHP_VERSION": "7.3",
-      "UPGRADE_CHANNEL": "local"
-    },
-    {
-      "comment": "8.0.0 -> 8.1.7 PHP 7.4 local"
-    },
-    {
-      "PS_VERSION_START": "8.0.0",
-      "PS_VERSION_END": "8.1.7",
-      "PHP_VERSION": "7.4",
-      "UPGRADE_CHANNEL": "local"
-    },
-    {
-      "comment": "8.0.4 -> 9.0.0 PHP 8.1 local"
-    },
-    {
-      "PS_VERSION_START": "8.0.4",
-      "PS_VERSION_END": "9.0.0",
-      "PHP_VERSION": "8.1",
-      "UPGRADE_CHANNEL":  "local"
     }
   ]
 }
