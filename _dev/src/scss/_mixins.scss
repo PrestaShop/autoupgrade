@@ -129,3 +129,16 @@
     transform: translateY(2rem);
   }
 }
+
+// Skeleton
+%skeleton-gradient {
+  background: linear-gradient(90deg, rgb(221 221 221) 40%, rgb(238 238 238), rgb(221 221 221) 60%)
+    180% / 200% 100%;
+  animation: 2s ease-in-out 0s infinite normal none running skeleton-gradient-animation;
+}
+
+@keyframes skeleton-gradient-animation {
+  100% {
+    background-position-x: -20%;
+  }
+}

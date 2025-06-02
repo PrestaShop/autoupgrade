@@ -93,6 +93,19 @@ $spacers: (
       padding-block: $value !important;
     }
   }
+
+  // Stack utilities
+  .stack {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    @each $key, $value in $spacers {
+      &--gap-#{$key} {
+        gap: $value !important;
+      }
+    }
+  }
 }
 
 // stylelint-enable

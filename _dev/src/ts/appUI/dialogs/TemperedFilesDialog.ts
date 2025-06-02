@@ -1,4 +1,4 @@
-{#**
+/**
  * Copyright since 2007 PrestaShop SA and Contributors
  * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
  *
@@ -15,25 +15,14 @@
  * @author    PrestaShop SA and Contributors <contact@prestashop.com>
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
- *#}
-{% extends "@ModuleAutoUpgrade/components/dialog.html.twig" %}
+ */
+import DomLifecycle from '../../types/DomLifecycle';
+import Skeleton from '../components/Skeleton';
 
-{% set dialogSize = 'lg' %}
+export default class TemperedFilesDialog implements DomLifecycle {
+  mount = (): void => {
+    new Skeleton().mount();
+  };
 
-{% block dialog_extra_content %}
-  <div class="stack stack--gap-4" id="{{ container_id }}" data-skeleton="{{ content_action }}">
-    {% for skeletonScrollableList in 1..2 %}
-      <div class="skeleton-scrollable-list">
-        <div class="skeleton-scrollable-list__title skeleton skeleton--title"></div>
-
-        <div class="skeleton-scrollable-list__wrapper">
-          {% for skeletonParagraph in 1..5 %}
-            <div class="skeleton skeleton--paragraph"></div>
-          {% endfor %}
-        </div>
-      </div>
-    {% endfor %}
-  </div>
-{% endblock %}
-
-{% block dialog_footer %}{% endblock %}
+  beforeDestroy = (): void => {};
+}

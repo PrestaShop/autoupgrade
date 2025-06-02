@@ -1,4 +1,4 @@
-{#**
+/**
  * Copyright since 2007 PrestaShop SA and Contributors
  * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
  *
@@ -15,25 +15,23 @@
  * @author    PrestaShop SA and Contributors <contact@prestashop.com>
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
- *#}
-{% extends "@ModuleAutoUpgrade/components/dialog.html.twig" %}
+ */
+import { Mountable } from '../../types/DomLifecycle';
+import api from '../api/RequestHandler';
 
-{% set dialogSize = 'lg' %}
+export default class Skeleton implements Mountable {
+  mount = () => {
+    const skeletons = document.querySelectorAll('[data-skeleton]');
+    skeletons.forEach((skeleton) => {
+      this.#loadSkeletonContent(skeleton as HTMLElement);
+    });
+  };
 
-{% block dialog_extra_content %}
-  <div class="stack stack--gap-4" id="{{ container_id }}" data-skeleton="{{ content_action }}">
-    {% for skeletonScrollableList in 1..2 %}
-      <div class="skeleton-scrollable-list">
-        <div class="skeleton-scrollable-list__title skeleton skeleton--title"></div>
-
-        <div class="skeleton-scrollable-list__wrapper">
-          {% for skeletonParagraph in 1..5 %}
-            <div class="skeleton skeleton--paragraph"></div>
-          {% endfor %}
-        </div>
-      </div>
-    {% endfor %}
-  </div>
-{% endblock %}
-
-{% block dialog_footer %}{% endblock %}
+  #loadSkeletonContent = async (skeleton: HTMLElement): Promise<void> => {
+    const contentAction = skeleton?.dataset.skeleton;
+    if (!contentAction) {
+      throw new Error('Skeleton content action missing, cannot loading content.');
+    }
+    await api.post(contentAction);
+  };
+}

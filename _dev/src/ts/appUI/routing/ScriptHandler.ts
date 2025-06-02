@@ -33,6 +33,7 @@ import DeleteBackupDialog from '../dialogs/DeleteBackupDialog';
 import StartUpdateDialog from '../dialogs/StartUpdateDialog';
 import StartBackupDialog from '../dialogs/StartBackupDialog';
 import SendErrorReportDialog from '../dialogs/SendErrorReportDialog';
+import TemperedFilesDialog from '../dialogs/TemperedFilesDialog';
 
 import { ScriptType, ScriptsMatching, CurrentScripts } from '../types/scriptHandlerTypes';
 import { routeHandler } from '../main';
@@ -70,7 +71,8 @@ export default class ScriptHandler {
       'delete-backup-dialog': DeleteBackupDialog,
       'start-update-dialog': StartUpdateDialog,
       'start-backup-dialog': StartBackupDialog,
-      'send-error-report-dialog': SendErrorReportDialog
+      'send-error-report-dialog': SendErrorReportDialog,
+      'tempered-files-dialog': TemperedFilesDialog
     }
   };
 

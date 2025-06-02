@@ -16,24 +16,18 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  *#}
-{% extends "@ModuleAutoUpgrade/components/dialog.html.twig" %}
+{% if missing_files is defined and missing_files|length > 0 %}
+  {% include "@ModuleAutoUpgrade/components/scrollable-list.html.twig" with {
+    'title': 'List of files missing'|trans({}),
+    'items': missing_files,
+    'status': 'warning',
+  } %}
+{% endif %}
 
-{% set dialogSize = 'lg' %}
-
-{% block dialog_extra_content %}
-  <div class="stack stack--gap-4" id="{{ container_id }}" data-skeleton="{{ content_action }}">
-    {% for skeletonScrollableList in 1..2 %}
-      <div class="skeleton-scrollable-list">
-        <div class="skeleton-scrollable-list__title skeleton skeleton--title"></div>
-
-        <div class="skeleton-scrollable-list__wrapper">
-          {% for skeletonParagraph in 1..5 %}
-            <div class="skeleton skeleton--paragraph"></div>
-          {% endfor %}
-        </div>
-      </div>
-    {% endfor %}
-  </div>
-{% endblock %}
-
-{% block dialog_footer %}{% endblock %}
+{% if altered_files is defined and altered_files|length > 0 %}
+  {% include "@ModuleAutoUpgrade/components/scrollable-list.html.twig" with {
+    'title': 'List of files changed'|trans({}),
+    'items': altered_files,
+    'status': 'warning',
+  } %}
+{% endif %}

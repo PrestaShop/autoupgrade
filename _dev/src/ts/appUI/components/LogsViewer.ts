@@ -26,7 +26,6 @@ import { ApiError } from '../types/apiTypes';
 import { isHttpErrorCode } from '../api/axiosError';
 import ErrorPage from '../pages/ErrorPage';
 
-// TODO: clear the debounce on beforeDestroy
 export default class LogsViewer extends ComponentAbstract implements DomLifecycle {
   #logsIndexOffsets: Map<number, number> = new Map();
   #logsListHeight: number = this.#logsList.clientHeight;

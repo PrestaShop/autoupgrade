@@ -243,6 +243,18 @@ class UpdatePageVersionChoiceController extends AbstractPageWithStepController
             $this->getTemperedFilesDialog([
                 'title' => $this->upgradeContainer->getTranslator()->trans('List of core alterations'),
                 'message' => $this->upgradeContainer->getTranslator()->trans('Some core files have been altered, customization made on these files will be lost during the update.'),
+                'container_id' => PageSelectors::TEMPERED_FILES_CONTAINER_ID,
+                'content_action' => Routes::UPDATE_STEP_VERSION_CHOICE_CORE_TEMPERED_FILES_CONTENT,
+            ]),
+            ['addScript' => 'tempered-files-dialog']
+        );
+    }
+
+    public function coreTemperedFilesContent(): JsonResponse
+    {
+        return AjaxResponseBuilder::hydrationResponse(
+            PageSelectors::TEMPERED_FILES_CONTAINER_ID,
+            $this->getTemperedFilesDialogContent([
                 'missing_files' => $this->upgradeContainer->getUpgradeSelfCheck()->getCoreMissingFiles(),
                 'altered_files' => $this->upgradeContainer->getUpgradeSelfCheck()->getCoreAlteredFiles(),
             ])
@@ -256,6 +268,18 @@ class UpdatePageVersionChoiceController extends AbstractPageWithStepController
             $this->getTemperedFilesDialog([
                 'title' => $this->upgradeContainer->getTranslator()->trans('List of theme alterations'),
                 'message' => $this->upgradeContainer->getTranslator()->trans('Some theme files have been altered, customization made on these files will be lost during the update.'),
+                'container_id' => PageSelectors::TEMPERED_FILES_CONTAINER_ID,
+                'content_action' => Routes::UPDATE_STEP_VERSION_CHOICE_THEME_TEMPERED_FILES_CONTENT,
+            ]),
+            ['addScript' => 'tempered-files-dialog']
+        );
+    }
+
+    public function themeTemperedFilesContent(): JsonResponse
+    {
+        return AjaxResponseBuilder::hydrationResponse(
+            PageSelectors::TEMPERED_FILES_CONTAINER_ID,
+            $this->getTemperedFilesDialogContent([
                 'missing_files' => $this->upgradeContainer->getUpgradeSelfCheck()->getThemeMissingFiles(),
                 'altered_files' => $this->upgradeContainer->getUpgradeSelfCheck()->getThemeAlteredFiles(),
             ])
@@ -269,6 +293,17 @@ class UpdatePageVersionChoiceController extends AbstractPageWithStepController
     {
         return $this->getTwig()->render(
             '@ModuleAutoUpgrade/dialogs/dialog-tempered-files.html.twig',
+            $params
+        );
+    }
+
+    /**
+     * @param array<string,string|string[]> $params
+     */
+    private function getTemperedFilesDialogContent($params): string
+    {
+        return $this->getTwig()->render(
+            '@ModuleAutoUpgrade/dialogs/dialog-tempered-files-content.html.twig',
             $params
         );
     }

@@ -77,9 +77,17 @@ class RoutesConfig
                 'controller' => UpdatePageVersionChoiceController::class,
                 'method' => 'coreTemperedFilesDialog',
             ],
+            Routes::UPDATE_STEP_VERSION_CHOICE_CORE_TEMPERED_FILES_CONTENT => [
+                'controller' => UpdatePageVersionChoiceController::class,
+                'method' => 'coreTemperedFilesContent',
+            ],
             Routes::UPDATE_STEP_VERSION_CHOICE_THEME_TEMPERED_FILES_DIALOG => [
                 'controller' => UpdatePageVersionChoiceController::class,
                 'method' => 'themeTemperedFilesDialog',
+            ],
+            Routes::UPDATE_STEP_VERSION_CHOICE_THEME_TEMPERED_FILES_CONTENT => [
+                'controller' => UpdatePageVersionChoiceController::class,
+                'method' => 'themeTemperedFilesContent',
             ],
             /* step: update options */
             Routes::UPDATE_PAGE_UPDATE_OPTIONS => [
