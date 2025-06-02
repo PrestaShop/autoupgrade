@@ -21,7 +21,7 @@
 {% set dialogSize = 'lg' %}
 
 {% block dialog_extra_content %}
-  <div id="{{ container_id }}" data-skeleton="{{ content_action }}">
+  <div class="stack stack--gap-4" id="{{ container_id }}" data-skeleton="{{ content_action }}">
     {% for skeletonScrollableList in 1..2 %}
       <div class="skeleton-scrollable-list">
         <div class="skeleton-scrollable-list__title skeleton skeleton--title"></div>

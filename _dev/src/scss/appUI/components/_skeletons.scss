@@ -46,10 +46,6 @@ $e: ".skeleton";
       background-color: var(--#{$ua-prefix}muted-background-color);
       border-radius: var(--#{$ua-prefix}border-radius);
 
-      + #{$e}-scrollable-list {
-        margin-block-start: 1.5rem;
-      }
-
       &__title {
         margin-block-end: 1.875rem;
       }
