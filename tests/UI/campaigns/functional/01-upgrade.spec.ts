@@ -214,16 +214,6 @@ test.describe('Verify the New UI', () => {
     });
   }
 
-  // @todelete : Display new UI
-  test('should display the new interface', async () => {
-    const url = await modAutoupgradeBoMain.getCurrentURL(page);
-    const uurl = url.split('&token');
-    await modAutoupgradeBoMain.goTo(page, `${uurl[0]}&new-ui=1&route=home-page&token${uurl[1]}`);
-
-    const pageTitle = await modAutoupgradeBoMain.getPageTitle(page);
-    expect(pageTitle).toEqual(modAutoupgradeBoMain.pageTitle);
-  });
-
   test('should click on update your store radio button then get started', async () => {
     const isStepContentVisible = await modAutoupgradeBoMain.updateYourStore(page);
     expect(isStepContentVisible).toEqual(true);
