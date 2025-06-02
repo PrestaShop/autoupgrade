@@ -73,12 +73,14 @@ jobs:
       - name: Run functional tests
         working-directory: tests/UI/
         env:
+          URL_FO: 'http://localhost/'
+          PASSWD: 'prestashop'
           PS_VERSION: ${{ matrix.PS_VERSION_START }}
           DB_USER: prestashop
           DB_PASSWD: prestashop
           DB_NAME: prestashop
           DB_PREFIX: ps_
-        run: URL_FO='http://localhost/' npm run test:functional
+        run: npm run test:functional
 
       - name: Export Docker errors
         working-directory: tests/UI/
