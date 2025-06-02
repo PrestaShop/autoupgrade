@@ -50,7 +50,11 @@ export default class BrowserTab implements DomLifecycle {
 
   #setProcessEnd = (processEnd: string) => {
     this.#processEnd = processEnd;
-    this.#updateProgressTitle();
+    if (this.#documentHidden) {
+      this.#updateProgressTitle();
+    } else {
+      this.beforeDestroy();
+    }
   };
 
   #onVisibilityChange = () => {
