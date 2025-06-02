@@ -113,7 +113,7 @@ jobs:
           DB_PASSWD: prestashop
           DB_NAME: prestashop
           DB_PREFIX: ps_
-        run: npm run test:sanity
+        run: URL_FO='http://localhost/' npm run test:sanity
 
       - name: Rollback
         run: |
@@ -129,7 +129,7 @@ jobs:
           DB_PASSWD: prestashop
           DB_NAME: prestashop
           DB_PREFIX: ps_
-        run: npm run test:sanity
+        run: URL_FO='http://localhost:9999/' npm run test:sanity
 
       - name: Export Docker errors
         working-directory: tests/UI/

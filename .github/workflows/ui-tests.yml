@@ -78,7 +78,7 @@ jobs:
           DB_PASSWD: prestashop
           DB_NAME: prestashop
           DB_PREFIX: ps_
-        run: npm run test:functional
+        run: URL_FO='http://localhost/' npm run test:functional
 
       - name: Export Docker errors
         working-directory: tests/UI/
