@@ -147,9 +147,9 @@
         <target state="final">Nelze načíst verze Prestashopu z distribučního API.</target>
         <note>classes/Services/DistributionApiService.php:92</note>
       </trans-unit>
-      <trans-unit id="b31292cb62a2939eadca577f1f5115d7">
+      <trans-unit id="b31292cb62a2939eadca577f1f5115d7" approved="yes">
         <source>Unable to retrieve Update Assistant compatibilities from distribution API.</source>
-        <target state="needs-translation">Unable to retrieve Update Assistant compatibilities from distribution API.</target>
+        <target state="final">Z Distribution API se nepodařilo se získat informace o kompatibilitě modulu Update Assistant.</target>
         <note>classes/Services/DistributionApiService.php:124</note>
       </trans-unit>
       <trans-unit id="7f8f7ff0c4bb4599a45fa5b3708dd2c4" approved="yes">
@@ -664,9 +664,9 @@
         <target state="final">Soubory byly obnoveny. Nyní probíhá obnovení databáze...</target>
         <note>classes/Task/Restore/RestoreFiles.php:122</note>
       </trans-unit>
-      <trans-unit id="64ace91c75e6a8dcba8262e5215df07f">
+      <trans-unit id="64ace91c75e6a8dcba8262e5215df07f" approved="yes">
         <source>OPCache configuration will be changed for the duration of the process.</source>
-        <target state="needs-translation">OPCache configuration will be changed for the duration of the process.</target>
+        <target state="final">Konfigurace OPCache bude změněna po dobu trvání procesu.</target>
         <note>classes/Task/Runner/ChainedTasks.php:195</note>
       </trans-unit>
       <trans-unit id="435d516735dbf7f622c7d14585f66840" approved="yes">
