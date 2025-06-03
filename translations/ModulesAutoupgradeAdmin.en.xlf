@@ -17,6 +17,16 @@
         <target>The module %s requires PHP %s to work properly. Please upgrade your server configuration.</target>
         <note>controllers/admin/AdminSelfUpgradeController.php:263</note>
       </trans-unit>
+      <trans-unit id="d0749aaba8b833466dfcbb0428e4f89c">
+        <source>SUCCESS</source>
+        <target>SUCCESS</target>
+        <note>controllers/admin/AdminSelfUpgradeController.php:325</note>
+      </trans-unit>
+      <trans-unit id="b9e14d9b2886bcff408b85aefa780419">
+        <source>FAILED</source>
+        <target>FAILED</target>
+        <note>controllers/admin/AdminSelfUpgradeController.php:326</note>
+      </trans-unit>
       <trans-unit id="001c32426a6cfb48ebb848b13141593c">
         <source>Major version</source>
         <target>Major version</target>
