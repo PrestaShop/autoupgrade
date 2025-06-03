@@ -17,6 +17,16 @@
         <target state="final">De module %s vereist PHP %s om goed te werken. Upgrade je serverconfiguratie.</target>
         <note>controllers/admin/AdminSelfUpgradeController.php:263</note>
       </trans-unit>
+      <trans-unit id="d0749aaba8b833466dfcbb0428e4f89c">
+        <source>SUCCESS</source>
+        <target state="needs-translation">SUCCESS</target>
+        <note>controllers/admin/AdminSelfUpgradeController.php:325</note>
+      </trans-unit>
+      <trans-unit id="b9e14d9b2886bcff408b85aefa780419">
+        <source>FAILED</source>
+        <target state="needs-translation">FAILED</target>
+        <note>controllers/admin/AdminSelfUpgradeController.php:326</note>
+      </trans-unit>
       <trans-unit id="001c32426a6cfb48ebb848b13141593c" approved="yes">
         <source>Major version</source>
         <target state="final">Primaire versie</target>
@@ -45,12 +55,12 @@
       <trans-unit id="3e520d769e66a4dcdf43029803ab4e8e" approved="yes">
         <source>List of theme alterations</source>
         <target state="final">Lijst met themawijzigingen</target>
-        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:257</note>
+        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:269</note>
       </trans-unit>
       <trans-unit id="fa22ace14d701200f848374a39f3e88c" approved="yes">
         <source>Some theme files have been altered, customization made on these files will be lost during the update.</source>
         <target state="final">Sommige themabestanden zijn gewijzigd, aanpassingen aan deze bestanden gaan verloren tijdens de update.</target>
-        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:258</note>
+        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:270</note>
       </trans-unit>
       <trans-unit id="31098a445d00d6606542c429524f464f" approved="yes">
         <source>Unable to add %filename% to archive %archive%: %error%</source>
@@ -1049,40 +1059,40 @@
         <target state="final">Niet mogelijk om een reservekopie te nemen van database bestand %s.</target>
         <note>classes/Task/Backup/BackupDatabase.php:352</note>
       </trans-unit>
-      <trans-unit id="189c2b1a17529c88f5d6f297a4b59ebe" approved="yes">
-        <source>Backup filename has not been set</source>
-        <target state="final">Bestandsnaam van back-up is niet ingesteld</target>
-        <note>classes/Task/Backup/BackupFiles.php:48</note>
-      </trans-unit>
-      <trans-unit id="48f95ff09327408a578e91655ed872a1" approved="yes">
-        <source>%s Files to backup.</source>
-        <target state="final">%s bestanden voor reservekopie.</target>
-        <note>classes/Task/Backup/BackupFiles.php:64</note>
-      </trans-unit>
-      <trans-unit id="ae10eb1b240ad1b32e2a18e8c9694120" approved="yes">
-        <source>Backup files initialized in %s</source>
-        <target state="final">Beck-upbestanden gestart in %s</target>
-        <note>classes/Task/Backup/BackupFiles.php:72</note>
-      </trans-unit>
-      <trans-unit id="9bebecbf68b6ce5a6d656c5ea793b762" approved="yes">
-        <source>Backup files in progress. %d files left</source>
-        <target state="final">Reservekopie bestanden bezig. %d bestanden over</target>
-        <note>classes/Task/Backup/BackupFiles.php:80</note>
-      </trans-unit>
-      <trans-unit id="b31006b398a0fc315119a145aa1b0466" approved="yes">
-        <source>Unable to open archive</source>
-        <target state="final">Archief openen onmogelijk</target>
-        <note>classes/Task/Backup/BackupFiles.php:85</note>
-      </trans-unit>
       <trans-unit id="f39b870765d50b64ba7a6facea83010d" approved="yes">
         <source>All files have been added to archive.</source>
         <target state="final">Alle bestanden zijn toegevoegd aan het archief.</target>
-        <note>classes/Task/Backup/BackupFiles.php:97</note>
+        <note>classes/Task/Backup/BackupFiles.php:55</note>
       </trans-unit>
       <trans-unit id="f36d7ee6cae92008008a95bf5898daf2" approved="yes">
         <source>All files saved. Now backing up database</source>
         <target state="final">Alle bestanden opgeslagen. Nu bezig met reservekopie te maken van de database</target>
-        <note>classes/Task/Backup/BackupFiles.php:98</note>
+        <note>classes/Task/Backup/BackupFiles.php:56</note>
+      </trans-unit>
+      <trans-unit id="b31006b398a0fc315119a145aa1b0466" approved="yes">
+        <source>Unable to open archive</source>
+        <target state="final">Archief openen onmogelijk</target>
+        <note>classes/Task/Backup/BackupFiles.php:63</note>
+      </trans-unit>
+      <trans-unit id="9bebecbf68b6ce5a6d656c5ea793b762" approved="yes">
+        <source>Backup files in progress. %d files left</source>
+        <target state="final">Reservekopie bestanden bezig. %d bestanden over</target>
+        <note>classes/Task/Backup/BackupFiles.php:69</note>
+      </trans-unit>
+      <trans-unit id="189c2b1a17529c88f5d6f297a4b59ebe" approved="yes">
+        <source>Backup filename has not been set</source>
+        <target state="final">Bestandsnaam van back-up is niet ingesteld</target>
+        <note>classes/Task/Backup/BackupFiles.php:94</note>
+      </trans-unit>
+      <trans-unit id="01cbdf3c15b22c4e523c72ff9eed28ed">
+        <source>Unable to find files to backup.</source>
+        <target state="needs-translation">Unable to find files to backup.</target>
+        <note>classes/Task/Backup/BackupFiles.php:108</note>
+      </trans-unit>
+      <trans-unit id="fe6475f6cb470a23f0cee929f9cb92b7">
+        <source>%s files will be added to the backup.</source>
+        <target state="needs-translation">%s files will be added to the backup.</target>
+        <note>classes/Task/Backup/BackupFiles.php:114</note>
       </trans-unit>
       <trans-unit id="88b3ca1ea582b35668b5ed49bbf8206b" approved="yes">
         <source>Backup completed successfully.</source>
@@ -1334,9 +1344,9 @@
         <target state="final">Je staat op het punt om het bijwerken te starten, wil je doorgaan?</target>
         <note>views/templates/dialogs/dialog-update.html.twig:37</note>
       </trans-unit>
-      <trans-unit id="3cedd2741ced15002cb3c9429ab45f55" approved="yes">
-        <source>I have made my own backup and can restore it manually if a problem occur.</source>
-        <target state="final">Ik heb mijn eigen back-up gemaakt en kan deze handmatig herstellen als zich een probleem voordoet.</target>
+      <trans-unit id="f185f294f2e51bac7d0081abae8b2613">
+        <source>I have made my own backup and can restore it manually if a problem occurs.</source>
+        <target state="needs-translation">I have made my own backup and can restore it manually if a problem occurs.</target>
         <note>views/templates/dialogs/dialog-update.html.twig:47</note>
       </trans-unit>
       <trans-unit id="880d6ec7b06e1f403347a16afbca8335" approved="yes">
@@ -1392,12 +1402,12 @@
       <trans-unit id="2b3196ae5bc51de9273f565ca1fb9fef" approved="yes">
         <source>List of files missing</source>
         <target state="final">Lijst met ontbrekende bestanden</target>
-        <note>views/templates/dialogs/dialog-tempered-files.html.twig:26</note>
+        <note>views/templates/dialogs/dialog-tempered-files-content.html.twig:21</note>
       </trans-unit>
       <trans-unit id="845d6ad834a73165f8da00625a00dd76" approved="yes">
         <source>List of files changed</source>
         <target state="final">Lijst met gewijzigde bestanden</target>
-        <note>views/templates/dialogs/dialog-tempered-files.html.twig:34</note>
+        <note>views/templates/dialogs/dialog-tempered-files-content.html.twig:29</note>
       </trans-unit>
       <trans-unit id="fcfaee795fc8b429c1761004e00199a2">
         <source>Access the Module Manager?</source>
