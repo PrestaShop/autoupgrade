@@ -32,6 +32,7 @@ interface AutoUpgradeVariables {
   links: {
     help: string;
   };
+  translations: Record<string, string>;
 }
 
 declare global {
