@@ -1,4 +1,4 @@
-name: UI tests
+name: Upgrade UI tests
 on:
   ## Check each PR
   push:
@@ -23,7 +23,7 @@ jobs:
     name: Generate Matrix
     runs-on: ubuntu-latest
     env:
-      JSON_FILE: ${{ (github.event_name == 'schedule' || (github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'dev' && github.event.pull_request.base.ref == 'master')) && 'nightlyUI.json' || 'ui.json' }}
+      JSON_FILE: ${{ (github.event_name == 'schedule' || (github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'dev' && github.event.pull_request.base.ref == 'master')) && 'nightly-ui.json' || 'nightly-ui.json' }}
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
@@ -34,7 +34,7 @@ jobs:
         run: echo "matrix=$(jq -c '. | del(.include[] | select(has("comment")))' .github/workflows/ui-test/${{ env.JSON_FILE }})" >> $GITHUB_OUTPUT
 
   ui_test:
-    name: UI Tests
+    name: Upgrade UI
     runs-on: ubuntu-latest
     needs: ui_test_matrix
     strategy:
@@ -81,6 +81,18 @@ jobs:
           DB_NAME: prestashop
           DB_PREFIX: ps_
         run: npm run test:functional
+
+      - name: Run Sanity tests
+        working-directory: tests/UI/
+        env:
+          URL_FO: 'http://localhost/'
+          PASSWD: 'prestashop'
+          PS_VERSION: ${{ matrix.PS_VERSION_END }}
+          DB_USER: prestashop
+          DB_PASSWD: prestashop
+          DB_NAME: prestashop
+          DB_PREFIX: ps_
+        run: npm run test:sanity
 
       - name: Export Docker errors
         working-directory: tests/UI/

@@ -65,6 +65,11 @@ test.describe('Verify the New UI', () => {
     expect(pageTitle).toContain(boDashboardPage.pageTitle);
   });
 
+  test('should close update notification dialog', async () => {
+    const isDialogNotVisible = await boDashboardPage.closeDialogUpdateNotification(page);
+    expect(isDialogNotVisible).toEqual(true);
+  });
+
   // Steps to install module
   if (semver.lt(psVersion, '7.4.0')) {
     test('should go to \'Modules > Modules & Services\' page', async () => {
@@ -307,11 +312,25 @@ test.describe('Verify the New UI', () => {
     test.setTimeout(5000_000);
 
     const successMessage = await modAutoupgradeBoMain.checkUpdateSuccess(page);
-    expect(successMessage).toEqual(modAutoupgradeBoMain.updateSuccessMessage);
+    expect(successMessage).toContain(modAutoupgradeBoMain.updateSuccessMessage);
+    expect(successMessage).not.toContain(`${psVersion} `);
   });
 
   test('should check the title of the last step', async () => {
     const stepTitle = await modAutoupgradeBoMain.getStepTitle(page);
     expect(stepTitle).toEqual('Post-update checklist');
+  });
+
+  test('should login in BO after upgrade', async () => {
+    await modAutoupgradeBoMain.reloadPage(page);
+    await boLoginPage.successLogin(page, global.BO.EMAIL, global.BO.PASSWD);
+
+    const pageTitle = await modAutoupgradeBoMain.getPageTitle(page);
+    expect(pageTitle).toEqual(modAutoupgradeBoMain.pageTitle);
+  });
+
+  test(`should check that the shop version is not ${psVersion}`, async () => {
+    const shopVersion = await modAutoupgradeBoMain.getShopVersion(page);
+    expect(shopVersion).not.toContain(`${psVersion} `);
   });
 });

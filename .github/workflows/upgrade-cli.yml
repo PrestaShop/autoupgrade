@@ -1,4 +1,4 @@
-name: Sanity tests
+name: Upgrade CLI tests
 on:
   ## Check each PR
   push:
@@ -23,7 +23,7 @@ jobs:
     name: Generate Martrix
     runs-on: ubuntu-latest
     env:
-      JSON_FILE: ${{ (github.event_name == 'schedule' || (github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'dev' && github.event.pull_request.base.ref == 'master')) && 'nightlySanity.json' || 'sanity.json' }}
+      JSON_FILE: ${{ (github.event_name == 'schedule' || (github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'dev' && github.event.pull_request.base.ref == 'master')) && 'nightly.json' || 'ga.json' }}
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
@@ -34,7 +34,7 @@ jobs:
         run: echo "matrix=$(jq -c '. | del(.include[] | select(has("comment")))' .github/workflows/ui-test/${{ env.JSON_FILE }})" >> $GITHUB_OUTPUT
 
   ui_test:
-    name: Sanity Tests
+    name: Upgrade CLI
     runs-on: ubuntu-latest
     needs: ui_test_matrix
     strategy:
@@ -92,7 +92,7 @@ jobs:
           docker exec -t prestashop chmod 777 -R /var/www/html/var
 
       - name: Uninstall welcome module
-        if: matrix.PS_VERSION_START == '1.7.0.6' || matrix.PS_VERSION_START == '1.7.1.0' || matrix.PS_VERSION_START == '1.7.1.1' || matrix.PS_VERSION_START == '1.7.1.2' || matrix.PS_VERSION_START == '1.7.6.0' || matrix.PS_VERSION_START == '1.7.7.0' || matrix.PS_VERSION_START == '1.7.8.0'
+        if: matrix.PS_VERSION_END == '1.7.8.11'
         run: |
           docker exec -t prestashop php bin/console prestashop:module disable welcome
           docker exec -t prestashop chmod 777 -R /var/www/html/var
