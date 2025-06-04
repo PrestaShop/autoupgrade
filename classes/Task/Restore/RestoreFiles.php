@@ -69,7 +69,7 @@ class RestoreFiles extends AbstractTask
                 $vfile = str_replace($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH), '', $v);
                 $toRemove[] = str_replace($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH), '', $vfile);
 
-                if (!isset($fromArchive[$vfile]) && is_file($v)) {
+                if (!isset($fromArchive[$vfile]) && (is_file($v) || is_link($v))) {
                     $toRemoveOnly[$vfile] = str_replace($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH), '', $vfile);
                 }
             }
