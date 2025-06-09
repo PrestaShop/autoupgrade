@@ -19,7 +19,7 @@
       </trans-unit>
       <trans-unit id="001c32426a6cfb48ebb848b13141593c" approved="yes">
         <source>Major version</source>
-        <target state="final">Versión principal </target>
+        <target state="final">Versión mayor</target>
         <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:88</note>
       </trans-unit>
       <trans-unit id="c5439de366a407641018f189da1ad4a7" approved="yes">
