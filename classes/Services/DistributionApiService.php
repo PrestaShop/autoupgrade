@@ -33,11 +33,17 @@ class DistributionApiService
     private $translator;
 
     /**
+     * @var array<string, mixed>
+     */
+    private $apiEndpoint;
+
+    /**
      * @param Translator $translator
      */
     public function __construct(Translator $translator)
     {
         $this->translator = $translator;
+        $this->apiEndpoint = [];
     }
 
     /**
@@ -49,13 +55,17 @@ class DistributionApiService
      */
     public function getApiEndpoint(string $path)
     {
-        $response = @file_get_contents(self::API_URL . $path);
+        if (!isset($this->apiEndpoint[$path])) {
+            $response = @file_get_contents(self::API_URL . $path);
 
-        if (!$response) {
-            throw new DistributionApiException($this->translator->trans('Error when retrieving data from Distribution API'), DistributionApiException::API_NOT_CALLABLE_CODE);
+            if (!$response) {
+                throw new DistributionApiException($this->translator->trans('Error when retrieving data from Distribution API'), DistributionApiException::API_NOT_CALLABLE_CODE);
+            }
+
+            $this->apiEndpoint[$path] = json_decode($response, true);
         }
 
-        return json_decode($response, true);
+        return $this->apiEndpoint[$path];
     }
 
     /**
@@ -77,6 +87,39 @@ class DistributionApiService
         }
 
         throw new DistributionApiException($this->translator->trans('No version match in Distribution api for %s', [$targetVersion]), DistributionApiException::VERSION_NOT_FOUND_CODE);
+    }
+
+    /**
+     * @throws DistributionApiException
+     *
+     * @return PrestashopRelease|null
+     */
+    public function getRelease(string $version): ?PrestashopRelease
+    {
+        $data = $this->getApiEndpoint('/prestashop');
+
+        if (empty($data)) {
+            throw new DistributionApiException($this->translator->trans('Unable to retrieve Prestashop releases from distribution API.'), DistributionApiException::EMPTY_DATA_CODE);
+        }
+
+        foreach ($data as $versionInfo) {
+            if ($versionInfo['version'] === $version) {
+                return new PrestashopRelease(
+                    $versionInfo['version'],
+                    $versionInfo['stability'],
+                    $versionInfo['distribution'],
+                    $versionInfo['php_max_version'],
+                    $versionInfo['php_min_version'],
+                    $versionInfo['zip_download_url'],
+                    $versionInfo['xml_download_url'],
+                    $versionInfo['zip_md5'],
+                    $versionInfo['release_notes_url'],
+                    $versionInfo['distribution_version']
+                );
+            }
+        }
+
+        return null;
     }
 
     /**

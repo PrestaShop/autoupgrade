@@ -21,6 +21,8 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Xml;
 
+use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
+use PrestaShop\Module\AutoUpgrade\Services\DistributionApiService;
 use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\Upgrader;
 use SimpleXMLElement;
@@ -28,16 +30,17 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class FileLoader
 {
-    const BASE_URL_MD5_FILES = 'https://api.prestashop.com/xml/md5/';
-
     /** @var array<string, string> */
     private $version_md5 = [];
     /** @var Filesystem */
     private $filesystem;
+    /** @var DistributionApiService */
+    private $distributionApiService;
 
-    public function __construct(Filesystem $filesystem)
+    public function __construct(Filesystem $filesystem, DistributionApiService $distributionApiService)
     {
         $this->filesystem = $filesystem;
+        $this->distributionApiService = $distributionApiService;
     }
 
     /**
@@ -72,6 +75,7 @@ class FileLoader
      * and their respective md5sum.
      *
      * @return SimpleXMLElement|false if error
+     * @throws DistributionApiException
      */
     public function getXmlMd5File(?string $version, bool $refresh = false)
     {
@@ -79,7 +83,15 @@ class FileLoader
             return @simplexml_load_file($this->version_md5[$version]);
         }
 
-        return $this->getXmlFile(_PS_ROOT_DIR_ . '/config/xml/' . $version . '.xml', self::BASE_URL_MD5_FILES . $version . '.xml', $refresh);
+        $releaseInfo = $this->distributionApiService->getRelease($version);
+
+        if ($releaseInfo === null) {
+            return false;
+        }
+
+        $releaseXmlRemoteFile = $releaseInfo->getXmlDownloadUrl();
+
+        return $this->getXmlFile(_PS_ROOT_DIR_ . '/config/xml/' . $version . '.xml', $releaseXmlRemoteFile, $refresh);
     }
 
     public function addXmlMd5File(string $version, string $path): void
