@@ -233,9 +233,6 @@ class UpdateFiles extends AbstractTask
         if ($updateConfiguration->isChannelLocal()) {
             $archiveXml = $updateConfiguration->getLocalChannelXml();
             $this->container->getFileLoader()->addXmlMd5File($this->container->getUpgrader()->getDestinationVersion(), $this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $archiveXml);
-        } else {
-            // va chercher l'url xml
-            // telecharge et le met au bon endroit
         }
 
         // Get path to the folder with release we will use to upgrade and check if it's valid
