@@ -88,7 +88,7 @@ class UpdateNotificationConfiguration
         return $this->version;
     }
 
-    public function setReleaseNote(string $releaseNote): void
+    public function setReleaseNote(?string $releaseNote): void
     {
         $this->releaseNote = $releaseNote;
     }

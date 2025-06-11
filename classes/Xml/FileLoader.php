@@ -75,6 +75,7 @@ class FileLoader
      * and their respective md5sum.
      *
      * @return SimpleXMLElement|false if error
+     *
      * @throws DistributionApiException
      */
     public function getXmlMd5File(?string $version, bool $refresh = false)
