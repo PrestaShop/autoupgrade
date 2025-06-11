@@ -14,7 +14,7 @@
         "ext-zip": "*",
         "symfony/filesystem": "^3.0",
         "doctrine/collections": "^1.8",
-        "segmentio/analytics-php": "^1.8",
+        "segmentio/analytics-php": "^3.6",
         "symfony/dotenv": "^4.4",
         "symfony/http-foundation": "^4.4",
         "symfony/console": "^3.4",
