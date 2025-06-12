@@ -28,12 +28,21 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 
 class DistributionApiService
 {
+    public const PRESTASHOP_ENDPOINT = '/prestashop';
+    public const AUTOUPGRADE_ENDPOINT = '/autoupgrade';
     public const API_URL = 'https://api.prestashop-project.org';
+
+    /** @var array<string, string> */
+    private static $factories = [
+        self::PRESTASHOP_ENDPOINT   => 'createPrestashopReleaseCollection',
+        self::AUTOUPGRADE_ENDPOINT  => 'createAutoupgradeReleaseCollection',
+    ];
+
     /** @var Translator */
     private $translator;
 
     /**
-     * @var array<string, mixed>
+     * @var array{ '/prestashop'?: PrestashopRelease[], '/autoupgrade'?: AutoupgradeRelease[] }
      */
     private $apiEndpoint;
 
@@ -51,9 +60,9 @@ class DistributionApiService
      *
      * @param string $path
      *
-     * @return mixed|null
+     * @return PrestashopRelease[] | AutoupgradeRelease[]
      */
-    public function getApiEndpoint(string $path)
+    public function getApiEndpoint(string $path): array
     {
         if (!isset($this->apiEndpoint[$path])) {
             $response = @file_get_contents(self::API_URL . $path);
@@ -62,7 +71,18 @@ class DistributionApiService
                 throw new DistributionApiException($this->translator->trans('Error when retrieving data from Distribution API'), DistributionApiException::API_NOT_CALLABLE_CODE);
             }
 
-            $this->apiEndpoint[$path] = json_decode($response, true);
+            $jsonResponse = json_decode($response, true);
+
+            if (JSON_ERROR_NONE !== json_last_error()) {
+                throw new DistributionApiException(
+                    $this->translator->trans('Invalid JSON from Distribution API: %s', [json_last_error_msg()]),
+                    DistributionApiException::API_NOT_CALLABLE_CODE
+                );
+            }
+
+            $method = self::$factories[$path];
+
+            $this->apiEndpoint[$path] = $this->$method($jsonResponse);
         }
 
         return $this->apiEndpoint[$path];
@@ -75,13 +95,13 @@ class DistributionApiService
      */
     public function getPhpVersionRequirements(string $targetVersion): array
     {
-        $data = $this->getApiEndpoint('/prestashop');
+        $data = $this->getApiEndpoint(self::PRESTASHOP_ENDPOINT);
 
-        foreach ($data as $versionInfo) {
-            if ($versionInfo['version'] === $targetVersion) {
+        foreach ($data as $prestashopRelease) {
+            if ($prestashopRelease->getVersion() === $targetVersion) {
                 return [
-                    'php_min_version' => $versionInfo['php_min_version'],
-                    'php_max_version' => $versionInfo['php_max_version'],
+                    'php_min_version' => $prestashopRelease->getPhpMinVersion(),
+                    'php_max_version' => $prestashopRelease->getPhpMaxVersion(),
                 ];
             }
         }
@@ -96,26 +116,15 @@ class DistributionApiService
      */
     public function getRelease(string $version): ?PrestashopRelease
     {
-        $data = $this->getApiEndpoint('/prestashop');
+        $data = $this->getApiEndpoint(self::PRESTASHOP_ENDPOINT);
 
         if (empty($data)) {
-            throw new DistributionApiException($this->translator->trans('Unable to retrieve Prestashop releases from distribution API.'), DistributionApiException::EMPTY_DATA_CODE);
+            throw new DistributionApiException($this->translator->trans('Unable to retrieve Prestashop %s release from distribution API.', [$version]), DistributionApiException::EMPTY_DATA_CODE);
         }
 
-        foreach ($data as $versionInfo) {
-            if ($versionInfo['version'] === $version) {
-                return new PrestashopRelease(
-                    $versionInfo['version'],
-                    $versionInfo['stability'],
-                    $versionInfo['distribution'],
-                    $versionInfo['php_max_version'],
-                    $versionInfo['php_min_version'],
-                    $versionInfo['zip_download_url'],
-                    $versionInfo['xml_download_url'],
-                    $versionInfo['zip_md5'],
-                    $versionInfo['release_notes_url'],
-                    $versionInfo['distribution_version']
-                );
+        foreach ($data as $prestashopRelease) {
+            if ($prestashopRelease->getVersion() === $version) {
+                return $prestashopRelease;
             }
         }
 
@@ -129,12 +138,37 @@ class DistributionApiService
      */
     public function getReleases(): array
     {
-        $data = $this->getApiEndpoint('/prestashop');
+        $data = $this->getApiEndpoint(self::PRESTASHOP_ENDPOINT);
 
         if (empty($data)) {
             throw new DistributionApiException($this->translator->trans('Unable to retrieve Prestashop releases from distribution API.'), DistributionApiException::EMPTY_DATA_CODE);
         }
 
+        return $data;
+    }
+
+    /**
+     * @throws DistributionApiException
+     *
+     * @return AutoupgradeRelease[]
+     */
+    public function getAutoupgradeCompatibilities(): array
+    {
+        $data = $this->getApiEndpoint(self::AUTOUPGRADE_ENDPOINT);
+
+        if (empty($data)) {
+            throw new DistributionApiException($this->translator->trans('Unable to retrieve Update Assistant compatibilities from distribution API.'), DistributionApiException::EMPTY_DATA_CODE);
+        }
+
+        return $data;
+    }
+
+    /**
+     * @param mixed[] $data
+     * @return PrestashopRelease[]
+     */
+    private function createPrestashopReleaseCollection(array $data): array
+    {
         $releases = [];
         foreach ($data as $versionInfo) {
             $releases[] = new PrestashopRelease(
@@ -155,19 +189,13 @@ class DistributionApiService
     }
 
     /**
-     * @throws DistributionApiException
-     *
+     * @param array{ 'prestashop': mixed[] } $data
      * @return AutoupgradeRelease[]
      */
-    public function getAutoupgradeCompatibilities(): array
+    private function createAutoupgradeReleaseCollection(array $data): array
     {
-        $data = $this->getApiEndpoint('/autoupgrade');
-
-        if (empty($data) || empty($data['prestashop'])) {
-            throw new DistributionApiException($this->translator->trans('Unable to retrieve Update Assistant compatibilities from distribution API.'), DistributionApiException::EMPTY_DATA_CODE);
-        }
-
         $releases = [];
+
         foreach ($data['prestashop'] as $versionInfo) {
             $releases[] = new AutoupgradeRelease(
                 $versionInfo['prestashop_min'],
