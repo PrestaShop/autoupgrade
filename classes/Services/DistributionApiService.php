@@ -34,8 +34,8 @@ class DistributionApiService
 
     /** @var array<string, string> */
     private static $factories = [
-        self::PRESTASHOP_ENDPOINT   => 'createPrestashopReleaseCollection',
-        self::AUTOUPGRADE_ENDPOINT  => 'createAutoupgradeReleaseCollection',
+        self::PRESTASHOP_ENDPOINT => 'createPrestashopReleaseCollection',
+        self::AUTOUPGRADE_ENDPOINT => 'createAutoupgradeReleaseCollection',
     ];
 
     /** @var Translator */
@@ -60,7 +60,7 @@ class DistributionApiService
      *
      * @param string $path
      *
-     * @return PrestashopRelease[] | AutoupgradeRelease[]
+     * @return PrestashopRelease[]|AutoupgradeRelease[]
      */
     public function getApiEndpoint(string $path): array
     {
@@ -74,10 +74,7 @@ class DistributionApiService
             $jsonResponse = json_decode($response, true);
 
             if (JSON_ERROR_NONE !== json_last_error()) {
-                throw new DistributionApiException(
-                    $this->translator->trans('Invalid JSON from Distribution API: %s', [json_last_error_msg()]),
-                    DistributionApiException::API_NOT_CALLABLE_CODE
-                );
+                throw new DistributionApiException($this->translator->trans('Invalid JSON from Distribution API: %s', [json_last_error_msg()]), DistributionApiException::API_NOT_CALLABLE_CODE);
             }
 
             $method = self::$factories[$path];
@@ -110,9 +107,11 @@ class DistributionApiService
     }
 
     /**
-     * @throws DistributionApiException
+     * @param string $version
      *
      * @return PrestashopRelease|null
+     *
+     * @throws DistributionApiException
      */
     public function getRelease(string $version): ?PrestashopRelease
     {
@@ -165,6 +164,7 @@ class DistributionApiService
 
     /**
      * @param mixed[] $data
+     *
      * @return PrestashopRelease[]
      */
     private function createPrestashopReleaseCollection(array $data): array
@@ -190,6 +190,7 @@ class DistributionApiService
 
     /**
      * @param array{ 'prestashop': mixed[] } $data
+     *
      * @return AutoupgradeRelease[]
      */
     private function createAutoupgradeReleaseCollection(array $data): array
