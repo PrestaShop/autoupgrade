@@ -30,7 +30,7 @@ class DistributionApiService
 {
     public const PRESTASHOP_ENDPOINT = 'prestashop';
     public const AUTOUPGRADE_ENDPOINT = 'autoupgrade';
-    public const API_URL = 'https://integration-api.prestashop-project.org';
+    public const API_URL = 'https://api.prestashop-project.org';
 
     /** @var array<string, string> */
     private static $factories = [
