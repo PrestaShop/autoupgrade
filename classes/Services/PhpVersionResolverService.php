@@ -37,9 +37,6 @@ class PhpVersionResolverService
     /** @var string */
     private $currentPsVersion;
 
-    /**
-     * @param DistributionApiService $distributionApiService
-     */
     public function __construct(DistributionApiService $distributionApiService, string $currentPsVersion)
     {
         $this->distributionApiService = $distributionApiService;
