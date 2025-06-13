@@ -59,7 +59,7 @@
     },
     {
       "PS_VERSION_START": "8.0.5",
-      "PS_VERSION_END": "8.2.1",
+      "PS_VERSION_END": "9.0.0",
       "PHP_VERSION": "8.1",
       "UPGRADE_CHANNEL": "online"
     },
@@ -68,7 +68,7 @@
     },
     {
       "PS_VERSION_START": "8.1.7",
-      "PS_VERSION_END": "8.2.1",
+      "PS_VERSION_END": "9.0.0",
       "PHP_VERSION": "8.1",
       "UPGRADE_CHANNEL": "online"
     },

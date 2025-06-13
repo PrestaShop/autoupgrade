@@ -30,6 +30,14 @@ services:
         target: /var/www/html/modules/autoupgrade
     ports:
       - 80:80
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 2048M
+        reservations:
+          cpus: '1'
+          memory: 2048M
   mysql:
     image: mysql:5.7
     container_name: prestashop-mysql
