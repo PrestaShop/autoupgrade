@@ -61,18 +61,6 @@ jobs:
         run: |
           docker exec -t prestashop php modules/autoupgrade/bin/console backup:create admin-dev
 
-      - name: Download local ZIP and XML for local channel
-        if: matrix.UPGRADE_CHANNEL == 'local' && matrix.PS_VERSION_END != '9.0.0'
-        run: |
-          docker exec -t prestashop curl --fail -L https://github.com/PrestaShop/zip-archives/raw/main/prestashop_${{ matrix.PS_VERSION_END }}.zip -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.zip
-          docker exec -t prestashop curl --fail -L https://api.prestashop.com/xml/md5/${{ matrix.PS_VERSION_END }}.xml -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.xml
-
-      - name: Download local ZIP and XML for local channel in 9.0.0
-        if: matrix.PS_VERSION_END == '9.0.0'
-        run: |
-          docker exec -t prestashop curl --fail -L https://storage.googleapis.com/prestashop-core-nightly/nightly_9.0.x.zip -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.zip
-          docker exec -t prestashop curl --fail -L https://storage.googleapis.com/prestashop-core-nightly/nightly_9.0.x.xml -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.xml
-
       - name: Write configuration file
         run: |
           docker exec -t prestashop sh -c "echo '{
