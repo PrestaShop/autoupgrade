@@ -490,7 +490,7 @@
       <trans-unit id="75802ba44ba3369defd92ef897bf2f21">
         <source>Please remove %s by FTP</source>
         <target>Please remove %s by FTP</target>
-        <note>classes/Task/Update/UpdateComplete.php:100</note>
+        <note>classes/Task/Update/UpdateComplete.php:102</note>
       </trans-unit>
       <trans-unit id="1b24cc8e4bf3ac0babd1a96fbc83e369">
         <source>The temporary directory of modules has been emptied</source>
@@ -505,7 +505,7 @@
       <trans-unit id="d2b9f1e39aa8e96bb61f3a4bfe133f58">
         <source>%s removed</source>
         <target>%s removed</target>
-        <note>classes/Task/Update/UpdateComplete.php:98</note>
+        <note>classes/Task/Update/UpdateComplete.php:100</note>
       </trans-unit>
       <trans-unit id="cd818c1af28e4f3df2000686b150648d">
         <source>Starting update...</source>
