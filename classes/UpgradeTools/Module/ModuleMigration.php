@@ -40,15 +40,11 @@ class ModuleMigration
     /** @var Logger */
     private $logger;
 
-    /** @var string */
-    private $sandboxFolder;
-
-    public function __construct(Filesystem $filesystem, Translator $translator, Logger $logger, string $sandboxFolder)
+    public function __construct(Filesystem $filesystem, Translator $translator, Logger $logger)
     {
         $this->filesystem = $filesystem;
         $this->translator = $translator;
         $this->logger = $logger;
-        $this->sandboxFolder = $sandboxFolder;
     }
 
     public function needMigration(ModuleMigrationContext $moduleMigrationContext): bool
@@ -153,19 +149,22 @@ class ModuleMigration
     {
         $uniqueMethodName = $moduleMigrationContext->getModuleName() . '_' . $methodName;
 
-        $sandboxedFilePath = $this->sandboxFolder . DIRECTORY_SEPARATOR . $uniqueMethodName . '.php';
+        $updateDirectory = dirname($filePath);
+        $sandboxedFilePath = $updateDirectory . DIRECTORY_SEPARATOR . $uniqueMethodName . '.php';
 
         try {
             $this->filesystem->dumpFile($sandboxedFilePath, str_replace($methodName, $uniqueMethodName, file_get_contents($filePath)));
+
+            require_once $sandboxedFilePath;
+            if (!function_exists($uniqueMethodName)) {
+                throw (new UpgradeException($this->translator->trans('Method %s does not exist. Module %s disabled.', [$uniqueMethodName, $moduleMigrationContext->getModuleName()])))->setSeverity(UpgradeException::SEVERITY_WARNING);
+            }
+
+            return call_user_func($uniqueMethodName, $moduleMigrationContext->getModuleInstance());
         } catch (IOException $e) {
             throw (new UpgradeException($this->translator->trans('Could not write temporary file %s.', [$sandboxedFilePath])))->setSeverity(UpgradeException::SEVERITY_WARNING);
+        } finally {
+            $this->filesystem->remove($sandboxedFilePath);
         }
-
-        require_once $sandboxedFilePath;
-        if (!function_exists($uniqueMethodName)) {
-            throw (new UpgradeException($this->translator->trans('Method %s does not exist. Module %s disabled.', [$uniqueMethodName, $moduleMigrationContext->getModuleName()])))->setSeverity(UpgradeException::SEVERITY_WARNING);
-        }
-
-        return call_user_func($uniqueMethodName, $moduleMigrationContext->getModuleInstance());
     }
 }

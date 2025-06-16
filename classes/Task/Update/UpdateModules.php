@@ -62,7 +62,7 @@ class UpdateModules extends AbstractTask
         $moduleSourceList = new ModuleSourceAggregate($this->container->getModuleSourceProviders());
         $moduleDownloader = new ModuleDownloader($this->container->getDownloadService(), $this->translator, $this->logger, $this->container->getProperty(UpgradeContainer::TMP_MODULES_DIR));
         $moduleUnzipper = new ModuleUnzipper($this->translator, $this->container->getZipAction(), $modulesPath);
-        $moduleMigration = new ModuleMigration($this->container->getFileSystem(), $this->translator, $this->logger, $this->container->getProperty(UpgradeContainer::TMP_MODULES_DIR));
+        $moduleMigration = new ModuleMigration($this->container->getFileSystem(), $this->translator, $this->logger);
 
         if ($listModules->getRemainingTotal()) {
             $moduleInfos = $listModules->getNext();
