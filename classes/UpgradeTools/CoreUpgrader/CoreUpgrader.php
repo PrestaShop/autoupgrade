@@ -862,7 +862,7 @@ abstract class CoreUpgrader
     public function warmupCoreCache(): void
     {
         $rootPath = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH);
-        $command = 'php ' . $rootPath . '/bin/console cache:warmup --no-interaction --env=prod';
+        $command = 'php ' . $rootPath . '/bin/console cache:warmup --no-interaction --no-optional-warmers --env=prod';
         $output = [];
         $resultCode = 0;
 
