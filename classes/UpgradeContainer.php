@@ -528,7 +528,7 @@ class UpgradeContainer
     public function getFileLoader(): FileLoader
     {
         if (null === $this->fileLoader) {
-            $this->fileLoader = new FileLoader($this->getFileSystem());
+            $this->fileLoader = new FileLoader($this->getFileSystem(), $this->getDistributionApiService());
         }
 
         return $this->fileLoader;

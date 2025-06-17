@@ -676,7 +676,7 @@ class UpgradeSelfCheck
         $functions = [];
         foreach ([
                      'fopen', 'fclose', 'fread', 'fwrite', 'rename', 'file_exists', 'unlink', 'rmdir', 'mkdir', 'getcwd',
-                     'chdir', 'chmod',
+                     'chdir', 'chmod', 'symlink',
                  ] as $function) {
             if (!ConfigurationTest::test_system([$function])) {
                 $functions[] = $function;

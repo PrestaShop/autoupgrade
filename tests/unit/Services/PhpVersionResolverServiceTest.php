@@ -145,7 +145,7 @@ class PhpVersionResolverServiceTest extends TestCase
             ->willReturn(json_decode(@file_get_contents(__DIR__ . '/../../fixtures/api-distribution/empty_prestashop.json'), true));
 
         $this->expectException(DistributionApiException::class);
-        $this->expectExceptionMessage('Unable to retrieve Prestashop releases from distribution API.');
+        $this->expectExceptionMessage('Unable to retrieve "prestashop" data from distribution API.');
 
         $this->phpVersionResolverService->getPrestashopDestinationRelease(80000);
     }
@@ -159,12 +159,12 @@ class PhpVersionResolverServiceTest extends TestCase
     {
         $this->distributionApiService->method('getApiEndpoint')
             ->will($this->returnValueMap([
-                ['/prestashop', json_decode(@file_get_contents(__DIR__ . '/../../fixtures/api-distribution/prestashop.json'), true)],
-                ['/autoupgrade', json_decode(@file_get_contents(__DIR__ . '/../../fixtures/api-distribution/empty_autoupgrade.json'), true)],
+                [DistributionApiService::PRESTASHOP_ENDPOINT, json_decode(@file_get_contents(__DIR__ . '/../../fixtures/api-distribution/prestashop.json'), true)],
+                [DistributionApiService::AUTOUPGRADE_ENDPOINT, json_decode(@file_get_contents(__DIR__ . '/../../fixtures/api-distribution/empty_autoupgrade.json'), true)],
             ]));
 
         $this->expectException(DistributionApiException::class);
-        $this->expectExceptionMessage('Unable to retrieve Update Assistant compatibilities from distribution API.');
+        $this->expectExceptionMessage('Unable to retrieve "autoupgrade" data from distribution API.');
 
         $this->phpVersionResolverService->getPrestashopDestinationRelease(80000);
     }
@@ -223,8 +223,8 @@ class PhpVersionResolverServiceTest extends TestCase
     {
         $this->distributionApiService->method('getApiEndpoint')
             ->will($this->returnValueMap([
-                ['/prestashop', json_decode(@file_get_contents(__DIR__ . '/../../fixtures/api-distribution/prestashop.json'), true)],
-                ['/autoupgrade', json_decode(@file_get_contents(__DIR__ . '/../../fixtures/api-distribution/autoupgrade.json'), true)],
+                [DistributionApiService::PRESTASHOP_ENDPOINT, json_decode(@file_get_contents(__DIR__ . '/../../fixtures/api-distribution/prestashop.json'), true)],
+                [DistributionApiService::AUTOUPGRADE_ENDPOINT, json_decode(@file_get_contents(__DIR__ . '/../../fixtures/api-distribution/autoupgrade.json'), true)],
             ]));
 
         $this->assertEquals($expected, $this->phpVersionResolverService->getPrestashopDestinationRelease($input));
