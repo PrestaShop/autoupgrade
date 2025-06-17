@@ -66,6 +66,18 @@ class ErrorHandlerTest extends TestCase
         $this->assertSame(end($msgs), 'WARNING - ' . __FILE__ . ' line ' . $line . ' - Trololo');
     }
 
+    public function testAdminDirIsEscaped()
+    {
+        $this->logger->setSensitiveData(['my_admin' => '**admin_folder**']);
+        $this->errorHandler->enable();
+
+        ob_start();
+        $this->errorHandler->exceptionHandler(new Exception('Open /store/my_admin/wololo.php'));
+        $buffer = ob_get_clean();
+
+        $this->assertNotContains('my_admin', $buffer);
+    }
+
     /**
      * @dataProvider logProvider
      */
