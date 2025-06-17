@@ -855,22 +855,22 @@
       <trans-unit id="0ea1ca0772a9eb4ee22ecfb14406271d">
         <source>Error when retrieving data from Distribution API</source>
         <target>Error when retrieving data from Distribution API</target>
-        <note>classes/Services/DistributionApiService.php:55</note>
+        <note>classes/Services/DistributionApiService.php:70</note>
+      </trans-unit>
+      <trans-unit id="8749d103f0a98214ad61688208981068">
+        <source>Invalid JSON from Distribution API: %s</source>
+        <target>Invalid JSON from Distribution API: %s</target>
+        <note>classes/Services/DistributionApiService.php:76</note>
       </trans-unit>
       <trans-unit id="90983283d1e14aa535ea65a1f9033115">
         <source>No version match in Distribution api for %s</source>
         <target>No version match in Distribution api for %s</target>
-        <note>classes/Services/DistributionApiService.php:79</note>
+        <note>classes/Services/DistributionApiService.php:100</note>
       </trans-unit>
-      <trans-unit id="f7801f49915e2be6cdb6a920e41a9025">
-        <source>Unable to retrieve Prestashop releases from distribution API.</source>
-        <target>Unable to retrieve Prestashop releases from distribution API.</target>
-        <note>classes/Services/DistributionApiService.php:92</note>
-      </trans-unit>
-      <trans-unit id="b31292cb62a2939eadca577f1f5115d7">
-        <source>Unable to retrieve Update Assistant compatibilities from distribution API.</source>
-        <target>Unable to retrieve Update Assistant compatibilities from distribution API.</target>
-        <note>classes/Services/DistributionApiService.php:124</note>
+      <trans-unit id="3bbfcfd53991e59d1f0386d4246c3428">
+        <source>Unable to retrieve "%s" data from distribution API.</source>
+        <target>Unable to retrieve "%s" data from distribution API.</target>
+        <note>classes/Services/DistributionApiService.php:156</note>
       </trans-unit>
       <trans-unit id="7f8f7ff0c4bb4599a45fa5b3708dd2c4">
         <source>Download backup logs</source>
