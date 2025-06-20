@@ -69,13 +69,14 @@ class ErrorHandlerTest extends TestCase
     public function testAdminDirIsEscaped()
     {
         $this->logger->setSensitiveData(['my_admin' => '**admin_folder**']);
-        $this->errorHandler->enable();
 
         ob_start();
         $this->errorHandler->exceptionHandler(new Exception('Open /store/my_admin/wololo.php'));
-        $buffer = ob_get_clean();
+        ob_get_clean();
 
-        $this->assertNotContains('my_admin', $buffer);
+        $infos = $this->logger->getLogs();
+        $this->assertCount(1, $infos);
+        $this->assertNotContains('my_admin', end($infos));
     }
 
     /**
