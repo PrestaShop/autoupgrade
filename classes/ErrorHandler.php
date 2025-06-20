@@ -107,6 +107,10 @@ class ErrorHandler
     {
         $lastError = error_get_last();
         if ($lastError && in_array($lastError['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR], true)) {
+            // clean all php errors to got clean error handled by ourself
+            while (ob_get_level() > 0) {
+                ob_end_clean();
+            }
             // @phpstan-ignore isset.offset (Need to check if xdebug still defines this key)
             $trace = isset($lastError['backtrace']) ? var_export($lastError['backtrace'], true) : null;
             $this->report($lastError['file'], $lastError['line'], Logger::CRITICAL, $lastError['message'], $trace, true);
