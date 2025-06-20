@@ -116,10 +116,10 @@ class ErrorHandler
     /**
      * Create a json encoded.
      */
-    public function generateJsonLog(string $log): string
+    public function generateJsonLog(string $log, string $type): string
     {
         return json_encode([
-            'nextQuickInfo' => array_merge($this->logger->getLogs(), [$this->logger->cleanFromSensitiveData($log)]),
+            'nextQuickInfo' => array_merge($this->logger->getLogs(), [$type . ' - ' . $this->logger->cleanFromSensitiveData($log)]),
             'error' => true,
             'next' => 'error',
         ]);
@@ -137,7 +137,7 @@ class ErrorHandler
         if (!empty($trace)) {
             $log .= PHP_EOL . $trace;
         }
-        $jsonResponse = $this->generateJsonLog($log);
+        $jsonResponse = $this->generateJsonLog($log, Logger::$levels[$type]);
 
         try {
             $this->logger->log($type, $log);
