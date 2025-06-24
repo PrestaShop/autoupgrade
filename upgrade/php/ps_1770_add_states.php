@@ -30,8 +30,9 @@ function ps_1770_add_states()
         'SELECT id_country, id_zone FROM `' . _DB_PREFIX_ . 'country` WHERE iso_code = \'IN\''
     );
 
+    // No India, nothing to do
     if (empty($row)) {
-        return false;
+        return true;
     }
 
     $states = [
