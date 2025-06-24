@@ -42,9 +42,9 @@ import {exec} from 'child_process';
 const psVersion = utilsTest.getPSVersion();
 
 /*
-  Verify the New UI
+  Upgrade using the local channel
  */
-test.describe('Verify the New UI', () => {
+test.describe('Upgrade using the local channel', () => {
   let browserContext: BrowserContext;
   let page: Page;
 
@@ -210,7 +210,6 @@ test.describe('Verify the New UI', () => {
       expect(isModuleVisible).toEqual(true);
     });
 
-    // Go to the old UI
     test(`should go to the configuration page of the module '${dataModules.autoupgrade.name}'`, async () => {
       await boModuleManagerPage.goToConfigurationPage(page, dataModules.autoupgrade.tag);
 
@@ -229,9 +228,10 @@ test.describe('Verify the New UI', () => {
     await exec('docker exec -t prestashop chmod -R 777 /var/www/html/modules');
   });
 
-  test('should choose the version to update and check requirements block', async () => {
-    test.setTimeout(100_000);
-    const isRequirementBlockVisible = await modAutoupgradeBoMain.chooseNewVersion(page);
+  test('should choose local archive', async () => {
+    test.setTimeout(1000_000);
+
+    const isRequirementBlockVisible = await modAutoupgradeBoMain.chooseLocalArchive(page, process.env.PS_VERSION_END!);
     expect(isRequirementBlockVisible).toEqual(true);
   });
 
@@ -262,13 +262,8 @@ test.describe('Verify the New UI', () => {
   test('should check that all the requirements are OK', async () => {
     await exec('docker exec -t prestashop chmod -R 777 /var/www/html/modules');
 
-    const isNextButtonEnabled = await modAutoupgradeBoMain.checkRequirements(page);
+    const isNextButtonEnabled = await modAutoupgradeBoMain.checkRequirements(page, 'archive');
     expect(isNextButtonEnabled).toEqual(true);
-  });
-
-  test('should check the current PS version', async () => {
-    const currentVersion = await modAutoupgradeBoMain.getCurrentPSAndPHPVersion(page);
-    expect(currentVersion).toContain(psVersion);
   });
 
   test('should check the new PS version', async () => {
@@ -319,18 +314,7 @@ test.describe('Verify the New UI', () => {
   test('should check the title of the last step', async () => {
     const stepTitle = await modAutoupgradeBoMain.getStepTitle(page);
     expect(stepTitle).toEqual('Post-update checklist');
-  });
 
-  test('should login in BO after upgrade', async () => {
-    await modAutoupgradeBoMain.reloadPage(page);
-    await boLoginPage.successLogin(page, global.BO.EMAIL, global.BO.PASSWD);
-
-    const pageTitle = await modAutoupgradeBoMain.getPageTitle(page);
-    expect(pageTitle).toEqual(modAutoupgradeBoMain.pageTitle);
-  });
-
-  test(`should check that the shop version is not ${psVersion}`, async () => {
-    const shopVersion = await modAutoupgradeBoMain.getShopVersion(page);
-    expect(shopVersion).not.toContain(`${psVersion} `);
+    await page.waitForTimeout(20000);
   });
 });

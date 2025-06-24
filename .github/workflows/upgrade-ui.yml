@@ -20,7 +20,7 @@ env:
 jobs:
   ui_test_matrix:
     if: github.event.pull_request.draft == false
-    name: Generate Matrix
+    name: Update UI - Generate Matrix
     runs-on: ubuntu-latest
     env:
       JSON_FILE: ${{ (github.event_name == 'schedule' || (github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'dev' && github.event.pull_request.base.ref == 'master')) && 'nightly-ui.json' || 'nightly-ui.json' }}
@@ -56,12 +56,30 @@ jobs:
       - name: Composer install
         run: composer install
 
+      - name: Backup
+        run: |
+          docker exec -t prestashop php modules/autoupgrade/bin/console backup:create admin-dev
+
+      - name: Download local ZIP and XML for local channel
+        if: matrix.UPGRADE_CHANNEL == 'local' && matrix.PS_VERSION_END != '9.0.0'
+        run: |
+          docker exec -t prestashop curl --fail -L https://github.com/PrestaShop/zip-archives/raw/main/prestashop_${{ matrix.PS_VERSION_END }}.zip -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.zip
+          docker exec -t prestashop curl --fail -L https://api.prestashop.com/xml/md5/${{ matrix.PS_VERSION_END }}.xml -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.xml
+
+      - name: Download local ZIP and XML for local channel in 9.0.0
+        if: matrix.UPGRADE_CHANNEL == 'local' && matrix.PS_VERSION_END == '9.0.0'
+        run: |
+          docker exec -t prestashop curl --fail -L https://storage.googleapis.com/prestashop-core-nightly/nightly_9.0.x.zip -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.zip
+          docker exec -t prestashop curl --fail -L https://storage.googleapis.com/prestashop-core-nightly/nightly_9.0.x.xml -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.xml
+
       - name: Display new interface
         run: |
           docker exec -t prestashop bash -c 'apt-get update'
           docker exec -t prestashop bash -c 'curl -sL https://deb.nodesource.com/setup_20.x | bash -'
           docker exec -t prestashop bash -c 'apt-get install -y nodejs'
           docker exec -t prestashop bash -c 'cd /var/www/html/modules/autoupgrade/_dev && npm install && npm run vite:build'
+          docker exec -t prestashop chmod 777 -R /var/www/html/admin-dev/autoupgrade
+
       - name: Install dependencies
         working-directory: tests/UI/
         run: npm ci
@@ -70,17 +88,33 @@ jobs:
         working-directory: tests/UI/
         run: npx playwright install chromium --with-deps
 
-      - name: Run functional tests
+      - name: Upgrade online channel
+        if: matrix.UPGRADE_CHANNEL == 'online'
         working-directory: tests/UI/
         env:
           URL_FO: 'http://localhost/'
           PASSWD: 'prestashop'
           PS_VERSION: ${{ matrix.PS_VERSION_START }}
+          PS_VERSION_END: ${{ matrix.PS_VERSION_END }}
           DB_USER: prestashop
           DB_PASSWD: prestashop
           DB_NAME: prestashop
           DB_PREFIX: ps_
-        run: npm run test:functional
+        run: npm run test:upgradeOnline
+
+      - name: Upgrade local channel
+        if: matrix.UPGRADE_CHANNEL == 'local'
+        working-directory: tests/UI/
+        env:
+          URL_FO: 'http://localhost/'
+          PASSWD: 'prestashop'
+          PS_VERSION: ${{ matrix.PS_VERSION_START }}
+          PS_VERSION_END: ${{ matrix.PS_VERSION_END }}
+          DB_USER: prestashop
+          DB_PASSWD: prestashop
+          DB_NAME: prestashop
+          DB_PREFIX: ps_
+        run: npm run test:upgradeLocal
 
       - name: Run Sanity tests
         working-directory: tests/UI/
@@ -88,6 +122,7 @@ jobs:
           URL_FO: 'http://localhost/'
           PASSWD: 'prestashop'
           PS_VERSION: ${{ matrix.PS_VERSION_END }}
+          PS_VERSION_END: ${{ matrix.PS_VERSION_END }}
           DB_USER: prestashop
           DB_PASSWD: prestashop
           DB_NAME: prestashop

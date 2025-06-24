@@ -15,8 +15,10 @@
         "check:typescript": "tsc --build ./tsconfig.json",
         "// Sanity": "Scripts to run sanity tests",
         "test:sanity": "npx playwright test /sanity --workers 1",
-        "// Functional": "Scripts to run functional tests",
-        "test:functional": "npx playwright test /functional --workers 1"
+        "// upgradeOnline": "Scripts to run functional tests to upgrade online channel",
+        "test:upgradeOnline": "npx playwright test /functional/01_upgradeOnline.spec.ts --workers 1",
+        "// upgradeLocal": "Scripts to run functional tests to upgrade local channel",
+        "test:upgradeLocal": "npx playwright test /functional/02_upgradeLocal.spec.ts --workers 1"
     },
     "keywords": [],
     "devDependencies": {

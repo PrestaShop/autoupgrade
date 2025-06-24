@@ -55,7 +55,7 @@ test.describe('BO - Orders - Orders : Filter the Orders table by ID, REFERENCE, 
 
   // Steps
   test('should login in BO', async () => {
-    await boLoginPage.goTo(page, global.BO.URL);
+    await page.goto(global.BO.URL, {timeout: 50000});
     await boLoginPage.successLogin(page, global.BO.EMAIL, global.BO.PASSWD);
 
     const pageTitle = await boDashboardPage.getPageTitle(page);

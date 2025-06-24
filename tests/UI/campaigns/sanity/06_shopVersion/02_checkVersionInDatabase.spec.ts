@@ -30,8 +30,6 @@ import {
 
 let dbConnection: Connection;
 
-const psVersion = utilsTest.getPSVersion();
-
 test.describe('Check new shop version', () => {
   const dbPrefix: string = global.INSTALL.DB_PREFIX;
 
@@ -57,6 +55,6 @@ test.describe('Check new shop version', () => {
     const [resultRows]: [RowDataPacket[], FieldPacket[]] = await dbConnection.query(
       `SELECT value FROM ${dbPrefix}configuration WHERE name = 'PS_VERSION_DB'`,
     );
-    expect(resultRows[0].value).toContain(psVersion);
+    expect(resultRows[0].value).toEqual(process.env.PS_VERSION_END);
   });
 });

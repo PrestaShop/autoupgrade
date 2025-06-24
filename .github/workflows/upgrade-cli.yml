@@ -20,7 +20,7 @@ env:
 jobs:
   ui_test_matrix:
     if: github.event.pull_request.draft == false
-    name: Generate Martrix
+    name: Update CLI - Generate Martrix
     runs-on: ubuntu-latest
     env:
       JSON_FILE: ${{ (github.event_name == 'schedule' || (github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'dev' && github.event.pull_request.base.ref == 'master')) && 'nightly.json' || 'ga.json' }}
@@ -111,6 +111,7 @@ jobs:
           URL_FO: 'http://localhost/'
           PASSWD: 'prestashop'
           PS_VERSION: ${{ matrix.PS_VERSION_END }}
+          PS_VERSION_END: ${{ matrix.PS_VERSION_END }}
           DB_USER: prestashop
           DB_PASSWD: prestashop
           DB_NAME: prestashop
@@ -129,6 +130,7 @@ jobs:
           URL_FO: 'http://localhost/'
           PASSWD: 'prestashop'
           PS_VERSION: ${{ matrix.PS_VERSION_START }}
+          PS_VERSION_END: ${{ matrix.PS_VERSION_START }}
           DB_USER: prestashop
           DB_PASSWD: prestashop
           DB_NAME: prestashop
