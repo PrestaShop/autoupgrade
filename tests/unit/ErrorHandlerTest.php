@@ -66,19 +66,32 @@ class ErrorHandlerTest extends TestCase
         $this->assertSame(end($msgs), 'WARNING - ' . __FILE__ . ' line ' . $line . ' - Trololo');
     }
 
+    public function testAdminDirIsEscaped()
+    {
+        $this->logger->setSensitiveData(['my_admin' => '**admin_folder**']);
+
+        ob_start();
+        $this->errorHandler->exceptionHandler(new Exception('Open /store/my_admin/wololo.php'));
+        ob_get_clean();
+
+        $infos = $this->logger->getLogs();
+        $this->assertCount(1, $infos);
+        $this->assertNotContains('my_admin', end($infos));
+    }
+
     /**
      * @dataProvider logProvider
      */
-    public function testGeneratedJsonLog($log)
+    public function testGeneratedJsonLog($log, $type)
     {
-        $this->assertNotNull(json_decode($this->errorHandler->generateJsonLog($log)));
+        $this->assertNotNull(json_decode($this->errorHandler->generateJsonLog($log, $type)));
     }
 
     public function logProvider()
     {
         return [
-            ["/var/www/html/modules/autoupgrade/classes/Task/Upgrade/BackupFiles.php line 55 - Class 'PrestaShop\Module\AutoUpgrade\Task\Upgrade\UpgradeContainer' not found"],
-            ["/var/www/html/modules/autoupgrade/classes/Task/Upgrade/BackupDb.php line 105 - Can't use method return value in write context"],
+            ["/var/www/html/modules/autoupgrade/classes/Task/Upgrade/BackupFiles.php line 55 - Class 'PrestaShop\Module\AutoUpgrade\Task\Upgrade\UpgradeContainer' not found", 'WARNING'],
+            ["/var/www/html/modules/autoupgrade/classes/Task/Upgrade/BackupDb.php line 105 - Can't use method return value in write context", 'ALERT'],
         ];
     }
 }

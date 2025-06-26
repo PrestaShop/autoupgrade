@@ -38,7 +38,7 @@ abstract class Logger implements LoggerInterface
     /**
      * @var string[]
      */
-    protected static $levels = [
+    public static $levels = [
         self::DEBUG => 'DEBUG',
         self::INFO => 'INFO',
         self::NOTICE => 'NOTICE',
