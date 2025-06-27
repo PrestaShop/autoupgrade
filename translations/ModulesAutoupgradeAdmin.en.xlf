@@ -232,45 +232,45 @@
         <target>Unable to create directory %s.</target>
         <note>classes/ZipAction.php:173</note>
       </trans-unit>
-      <trans-unit id="f6a4e177e838e889a3c9785d5286b7a6">
-        <source>Could not extract link %file% from archive: %error%</source>
-        <target>Could not extract link %file% from archive: %error%</target>
-        <note>classes/ZipAction.php:195</note>
-      </trans-unit>
       <trans-unit id="c5d44aa12d9b83be6755df96442769a7">
         <source>Unknown extraction error (possible permission issue or filesystem error)</source>
         <target>Unknown extraction error (possible permission issue or filesystem error)</target>
-        <note>classes/ZipAction.php:207</note>
+        <note>classes/ZipAction.php:195</note>
       </trans-unit>
       <trans-unit id="f06d0a5ba06e08a923c0b98a2e60203b">
         <source>, but ignoring as source and destination appear identical</source>
         <target>, but ignoring as source and destination appear identical</target>
-        <note>classes/ZipAction.php:212</note>
+        <note>classes/ZipAction.php:200</note>
       </trans-unit>
       <trans-unit id="1d5458f6e759798c246772cc7d39ffb0">
         <source>Could not extract %file% from archive%nonCriticalIssueNotice%: %$issue%.</source>
         <target>Could not extract %file% from archive%nonCriticalIssueNotice%: %$issue%.</target>
-        <note>classes/ZipAction.php:216</note>
+        <note>classes/ZipAction.php:204</note>
+      </trans-unit>
+      <trans-unit id="f6a4e177e838e889a3c9785d5286b7a6">
+        <source>Could not extract link %file% from archive: %error%</source>
+        <target>Could not extract link %file% from archive: %error%</target>
+        <note>classes/ZipAction.php:229</note>
       </trans-unit>
       <trans-unit id="b6fadb405627a21f30cbe97d9f47d7a3">
         <source>Content of archive %zip% is extracted</source>
         <target>Content of archive %zip% is extracted</target>
-        <note>classes/ZipAction.php:234</note>
+        <note>classes/ZipAction.php:243</note>
       </trans-unit>
       <trans-unit id="206e6b8346294e90dc99fa4c130afbcc">
         <source>Unable to list archived files</source>
         <target>Unable to list archived files</target>
-        <note>classes/ZipAction.php:255</note>
+        <note>classes/ZipAction.php:264</note>
       </trans-unit>
       <trans-unit id="ced3e0d550ba1c19d14f9cf7080de9b6">
         <source>Unable to open archive %s: %s</source>
         <target>Unable to open archive %s: %s</target>
-        <note>classes/ZipAction.php:285</note>
+        <note>classes/ZipAction.php:294</note>
       </trans-unit>
       <trans-unit id="fe718bdde198efa66b9e3a9a5cf476e6">
         <source>File %filename% (size: %filesize%) has been skipped during backup.</source>
         <target>File %filename% (size: %filesize%) has been skipped during backup.</target>
-        <note>classes/ZipAction.php:352</note>
+        <note>classes/ZipAction.php:361</note>
       </trans-unit>
       <trans-unit id="ddfec814758f41dd73e219d374d1d15a">
         <source>Unable to retrieve the recommended releases of Update Assistant.</source>
@@ -470,32 +470,32 @@
       <trans-unit id="53983059bf39e1325bba11081ca40e97">
         <source>Keeping current theme</source>
         <target>Keeping current theme</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:753</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:748</note>
       </trans-unit>
       <trans-unit id="796b7c49e21f09173214f029c7f02f9d">
         <source>Switching to default theme.</source>
         <target>Switching to default theme.</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:758</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:753</note>
       </trans-unit>
       <trans-unit id="475d2ad61e3486ec4af224c5c701b668">
         <source>No RTL language detected, skipping RTL file update.</source>
         <target>No RTL language detected, skipping RTL file update.</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:775</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:770</note>
       </trans-unit>
       <trans-unit id="865502b07194399bc188582c6a3e266c">
         <source>Update the RTL files of back-office themes.</source>
         <target>Update the RTL files of back-office themes.</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:782</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:777</note>
       </trans-unit>
       <trans-unit id="751c05018f86933c195f46ec3ab55bf8">
         <source>Update the RTL files of front-office themes.</source>
         <target>Update the RTL files of front-office themes.</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:803</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:798</note>
       </trans-unit>
       <trans-unit id="3beb9b10d6bd297fde87d3ba5163975d">
         <source>PHP Impossible to generate RTL files for theme %s: %s</source>
         <target>PHP Impossible to generate RTL files for theme %s: %s</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:820</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:815</note>
       </trans-unit>
       <trans-unit id="badf6aad60d4a95b698028bc55aa3347">
         <source>Cleaning file cache</source>
@@ -512,12 +512,12 @@
  %s</source>
         <target>An error was raised when warming up the core cache: 
  %s</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:872</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:867</note>
       </trans-unit>
       <trans-unit id="068cba215a30b9ffbd27e680475be575">
         <source>Core cache has been generated to avoid dependency conflicts.</source>
         <target>Core cache has been generated to avoid dependency conflicts.</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:874</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:869</note>
       </trans-unit>
       <trans-unit id="b5ffb77b13ab03298982a49842ce78aa">
         <source>%lang% is not a valid iso code, skipping</source>
@@ -587,37 +587,37 @@
       <trans-unit id="ffecf7f010dec7170bcc2749d49c41ff">
         <source>No version present in database for module %s, all files for update will be applied.</source>
         <target>No version present in database for module %s, all files for update will be applied.</target>
-        <note>classes/UpgradeTools/Module/ModuleMigration.php:74</note>
+        <note>classes/UpgradeTools/Module/ModuleMigration.php:70</note>
       </trans-unit>
       <trans-unit id="b7158eb495a4a06e4a75736c3707e1da">
         <source>(%s/%s) Applying migration file %s.</source>
         <target>(%s/%s) Applying migration file %s.</target>
-        <note>classes/UpgradeTools/Module/ModuleMigration.php:108</note>
+        <note>classes/UpgradeTools/Module/ModuleMigration.php:104</note>
       </trans-unit>
       <trans-unit id="058ed3d02fc89ad3fe8acab223bec2f7">
         <source>Migration failed while running the file %s. Module %s disabled.</source>
         <target>Migration failed while running the file %s. Module %s disabled.</target>
-        <note>classes/UpgradeTools/Module/ModuleMigration.php:114</note>
+        <note>classes/UpgradeTools/Module/ModuleMigration.php:110</note>
       </trans-unit>
       <trans-unit id="f044ca443a1f50d889be336f90a355b7">
         <source>Unexpected issue when trying to upgrade module %s. Module %s disabled.</source>
         <target>Unexpected issue when trying to upgrade module %s. Module %s disabled.</target>
-        <note>classes/UpgradeTools/Module/ModuleMigration.php:121</note>
+        <note>classes/UpgradeTools/Module/ModuleMigration.php:117</note>
       </trans-unit>
       <trans-unit id="84d66da5dc8362f2103d65efdb405865">
         <source>Module %s version could not be updated. Database might be unavailable.</source>
         <target>Module %s version could not be updated. Database might be unavailable.</target>
-        <note>classes/UpgradeTools/Module/ModuleMigration.php:132</note>
-      </trans-unit>
-      <trans-unit id="094e7ea97940f72a1decb2dc4d79ebfd">
-        <source>Could not write temporary file %s.</source>
-        <target>Could not write temporary file %s.</target>
-        <note>classes/UpgradeTools/Module/ModuleMigration.php:161</note>
+        <note>classes/UpgradeTools/Module/ModuleMigration.php:128</note>
       </trans-unit>
       <trans-unit id="911a8f7a6f03e27072bf825463ac5a7e">
         <source>Method %s does not exist. Module %s disabled.</source>
         <target>Method %s does not exist. Module %s disabled.</target>
-        <note>classes/UpgradeTools/Module/ModuleMigration.php:166</note>
+        <note>classes/UpgradeTools/Module/ModuleMigration.php:160</note>
+      </trans-unit>
+      <trans-unit id="094e7ea97940f72a1decb2dc4d79ebfd">
+        <source>Could not write temporary file %s.</source>
+        <target>Could not write temporary file %s.</target>
+        <note>classes/UpgradeTools/Module/ModuleMigration.php:165</note>
       </trans-unit>
       <trans-unit id="212d17b84ed7ed05df35b5fb0c805eea">
         <source>Error when trying to extract module %s.</source>
