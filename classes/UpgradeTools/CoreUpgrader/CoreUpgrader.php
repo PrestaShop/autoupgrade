@@ -703,9 +703,6 @@ abstract class CoreUpgrader
     {
         $files = [
             $this->container->getProperty(UpgradeContainer::PS_ADMIN_PATH) . DIRECTORY_SEPARATOR . 'themes' . DIRECTORY_SEPARATOR . 'default' . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . 'controllers' . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . 'header.tpl',
-            _PS_ROOT_DIR_ . '/app/cache/dev/class_index.php',
-            _PS_ROOT_DIR_ . '/app/cache/prod/class_index.php',
-            _PS_ROOT_DIR_ . '/cache/class_index.php',
             _PS_ROOT_DIR_ . '/config/xml/blog-fr.xml',
             _PS_ROOT_DIR_ . '/config/xml/default_country_modules_list.xml',
             _PS_ROOT_DIR_ . '/config/xml/modules_list.xml',
@@ -714,8 +711,6 @@ abstract class CoreUpgrader
             _PS_ROOT_DIR_ . '/config/xml/tab_modules_list.xml',
             _PS_ROOT_DIR_ . '/config/xml/trusted_modules_list.xml',
             _PS_ROOT_DIR_ . '/config/xml/untrusted_modules_list.xml',
-            _PS_ROOT_DIR_ . '/var/cache/dev/class_index.php',
-            _PS_ROOT_DIR_ . '/var/cache/prod/class_index.php',
         ];
         foreach ($files as $path) {
             if ($this->fileSystem->exists($path)) {
