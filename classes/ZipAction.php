@@ -182,27 +182,15 @@ class ZipAction
             return false;
         }
 
+        /** @var int[] */
+        $deferredLinks = [];
+
         for ($i = 0; $i < $zip->numFiles; ++$i) {
             $nameIndex = $zip->getNameIndex($i);
             $zip->getExternalAttributesName($nameIndex, $opsys, $stat);
 
             if ($opsys === ZipArchive::OPSYS_UNIX && $this->isCompressedFileASymLink($stat, $nameIndex)) {
-                try {
-                    $this->filesystem->symlink($zip->getFromIndex($i), $to_dir . DIRECTORY_SEPARATOR . $nameIndex);
-                } catch (IOException $e) {
-                    $this->logger->warning(
-                        $this->translator->trans(
-                            'Could not extract link %file% from archive: %error%',
-                            [
-                                '%file%' => $nameIndex,
-                                '%error%' => $e->getMessage(),
-                            ]
-                        )
-                    );
-                    $zip->close();
-
-                    return false;
-                }
+                $deferredLinks[] = $i;
             } elseif (!$zip->extractTo($to_dir, [$nameIndex])) {
                 $issue = $zip->getStatusString() ?: $this->translator->trans('Unknown extraction error (possible permission issue or filesystem error)');
 
@@ -227,6 +215,27 @@ class ZipAction
 
                     return false;
                 }
+            }
+        }
+
+        foreach ($deferredLinks as $i) {
+            $nameIndex = $zip->getNameIndex($i);
+
+            try {
+                $this->filesystem->symlink($zip->getFromIndex($i), $to_dir . DIRECTORY_SEPARATOR . $nameIndex);
+            } catch (IOException $e) {
+                $this->logger->warning(
+                    $this->translator->trans(
+                        'Could not extract link %file% from archive: %error%',
+                        [
+                            '%file%' => $nameIndex,
+                            '%error%' => $e->getMessage(),
+                        ]
+                    )
+                );
+                $zip->close();
+
+                return false;
             }
         }
 
