@@ -314,7 +314,5 @@ test.describe('Upgrade using the local channel', () => {
   test('should check the title of the last step', async () => {
     const stepTitle = await modAutoupgradeBoMain.getStepTitle(page);
     expect(stepTitle).toEqual('Post-update checklist');
-
-    await page.waitForTimeout(20000);
   });
 });
