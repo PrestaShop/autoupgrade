@@ -107,6 +107,33 @@
       "PS_VERSION_END": "9.0.0",
       "PHP_VERSION": "8.1",
       "UPGRADE_CHANNEL":  "local"
+    },
+    {
+      "comment": "8.0.3 -> 9.0.0 PHP 8.2 local"
+    },
+    {
+      "PS_VERSION_START": "8.0.3",
+      "PS_VERSION_END": "9.0.0",
+      "PHP_VERSION": "8.2",
+      "UPGRADE_CHANNEL":  "local"
+    },
+    {
+      "comment": "8.1.0 -> 9.0.0 PHP 8.3 local"
+    },
+    {
+      "PS_VERSION_START": "8.1.0",
+      "PS_VERSION_END": "9.0.0",
+      "PHP_VERSION": "8.3",
+      "UPGRADE_CHANNEL":  "local"
+    },
+    {
+      "comment": "8.1.7 -> 9.0.0 PHP 8.4 local"
+    },
+    {
+      "PS_VERSION_START": "8.1.7",
+      "PS_VERSION_END": "9.0.0",
+      "PHP_VERSION": "8.4",
+      "UPGRADE_CHANNEL":  "local"
     }
   ]
 }
