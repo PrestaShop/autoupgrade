@@ -16,10 +16,6 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
-import {
-  // Import utils
-  utilsTest,
-} from '@prestashop-core/ui-testing';
 
 import {createConnection} from 'mysql2/promise';
 import type {Connection, FieldPacket, RowDataPacket} from 'mysql2/promise';
@@ -29,8 +25,6 @@ import {
 } from '@playwright/test';
 
 let dbConnection: Connection;
-
-const psVersion = utilsTest.getPSVersion();
 
 test.describe('Check new shop version', () => {
   const dbPrefix: string = global.INSTALL.DB_PREFIX;
@@ -57,6 +51,6 @@ test.describe('Check new shop version', () => {
     const [resultRows]: [RowDataPacket[], FieldPacket[]] = await dbConnection.query(
       `SELECT value FROM ${dbPrefix}configuration WHERE name = 'PS_VERSION_DB'`,
     );
-    expect(resultRows[0].value).toContain(psVersion);
+    expect(resultRows[0].value).toEqual(process.env.PS_VERSION_END);
   });
 });

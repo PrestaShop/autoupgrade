@@ -29,7 +29,7 @@ services:
         # Mount Path
         target: /var/www/html/modules/autoupgrade
     ports:
-      - 80:80
+      - "80:80"
     deploy:
       resources:
         limits:

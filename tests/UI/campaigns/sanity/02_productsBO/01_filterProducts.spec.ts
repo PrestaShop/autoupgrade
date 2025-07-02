@@ -23,7 +23,7 @@ import {
   boDashboardPage,
   boLoginPage,
   boProductsPage,
-  boNewExperimentalFeaturesPage,
+  boFeatureFlagPage,
   // Import data
   dataProducts,
   dataCategories,
@@ -87,10 +87,10 @@ test.describe('BO - Catalog - Products : Filter the products table by ID, Name, 
           boDashboardPage.advancedParametersLink,
           boDashboardPage.featureFlagLink,
         );
-        await boNewExperimentalFeaturesPage.closeSfToolBar(page);
+        await boFeatureFlagPage.closeSfToolBar(page);
 
-        const pageTitle = await boNewExperimentalFeaturesPage.getPageTitle(page);
-        await expect(pageTitle).toContain(boNewExperimentalFeaturesPage.pageTitle);
+        const pageTitle = await boFeatureFlagPage.getPageTitle(page);
+        await expect(pageTitle).toContain(boFeatureFlagPage.pageTitle);
       } else {
         test.skip();
       }
@@ -98,9 +98,9 @@ test.describe('BO - Catalog - Products : Filter the products table by ID, Name, 
 
     test('should enable product page V2', async () => {
       if (semver.gte(psVersion, '8.1.0') && isProductPageV1) {
-        const successMessage = await boNewExperimentalFeaturesPage.setFeatureFlag(
-          page, boNewExperimentalFeaturesPage.featureFlagProductPageV2, true);
-        await expect(successMessage).toContain(boNewExperimentalFeaturesPage.successfulUpdateMessage);
+        const successMessage = await boFeatureFlagPage.setFeatureFlag(
+          page, boFeatureFlagPage.featureFlagProductPageV2, true);
+        await expect(successMessage).toContain(boFeatureFlagPage.successfulUpdateMessage);
       } else {
         test.skip();
       }
