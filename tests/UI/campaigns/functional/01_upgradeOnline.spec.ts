@@ -319,6 +319,6 @@ test.describe('Upgrade using the online channel', () => {
     const stepTitle = await modAutoupgradeBoMain.getStepTitle(page);
     expect(stepTitle).toEqual('Post-update checklist');
 
-    await page.waitForTimeout(30000);
+    await page.waitForTimeout(20000);
   });
 });
