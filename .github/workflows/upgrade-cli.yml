@@ -23,7 +23,7 @@ jobs:
     name: Update CLI - Generate Martrix
     runs-on: ubuntu-latest
     env:
-      JSON_FILE: ${{ (github.event_name == 'schedule' || (github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'dev' && github.event.pull_request.base.ref == 'master')) && 'nightly.json' || 'ga.json' }}
+      JSON_FILE: ${{ (github.event_name == 'schedule' || (github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'dev' && github.event.pull_request.base.ref == 'master')) && 'nightly-cli.json' || 'pr-cli.json' }}
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:

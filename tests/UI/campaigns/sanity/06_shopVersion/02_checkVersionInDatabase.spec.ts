@@ -16,10 +16,6 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
-import {
-  // Import utils
-  utilsTest,
-} from '@prestashop-core/ui-testing';
 
 import {createConnection} from 'mysql2/promise';
 import type {Connection, FieldPacket, RowDataPacket} from 'mysql2/promise';
