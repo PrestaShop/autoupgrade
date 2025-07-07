@@ -223,6 +223,10 @@ class Autoupgrade extends Module
             return '';
         }
 
+        if (isset($this->context->controller->ajax) && $this->context->controller->ajax) {
+            return '';
+        }
+
         return (new \PrestaShop\Module\AutoUpgrade\Hooks\DisplayBackOfficeHeader($this->getUpgradeContainer()))->renderUpdateNotification();
     }
 
