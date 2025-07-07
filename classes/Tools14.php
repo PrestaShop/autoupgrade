@@ -168,49 +168,6 @@ class Tools14
         return in_array(ini_get('allow_url_fopen'), ['On', 'on', '1']) || !preg_match('/^https?:\/\//', $url);
     }
 
-    public static function file_get_contents(string $url, bool $use_include_path = false, $stream_context = null, int $curl_timeout = 5)
-    {
-        if (!extension_loaded('openssl') && strpos('https://', $url) === true) {
-            $url = str_replace('https', 'http', $url);
-        }
-        if ($stream_context == null && preg_match('/^https?:\/\//', $url)) {
-            $stream_context = @stream_context_create(['http' => ['timeout' => $curl_timeout, 'header' => "User-Agent:MyAgent/1.0\r\n"]]);
-        }
-        if (self::shouldUseFopen($url)) {
-            $var = @file_get_contents($url, $use_include_path, $stream_context);
-
-            /* PSCSX-3205 buffer output ? */
-            if (self::getValue('ajaxMode') && ob_get_level() && ob_get_length() > 0) {
-                ob_clean();
-            }
-
-            if ($var) {
-                return $var;
-            }
-        } elseif (function_exists('curl_init')) {
-            $curl = curl_init();
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($curl, CURLOPT_URL, $url);
-            curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 5);
-            curl_setopt($curl, CURLOPT_TIMEOUT, $curl_timeout);
-            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
-            $opts = stream_context_get_options($stream_context);
-            if (isset($opts['http']['method']) && self::strtolower($opts['http']['method']) == 'post') {
-                curl_setopt($curl, CURLOPT_POST, true);
-                if (isset($opts['http']['content'])) {
-                    parse_str($opts['http']['content'], $datas);
-                    curl_setopt($curl, CURLOPT_POSTFIELDS, $datas);
-                }
-            }
-            $content = curl_exec($curl);
-            curl_close($curl);
-
-            return $content;
-        }
-
-        return false;
-    }
-
     public static function nl2br(string $str): string
     {
         return str_replace(["\r\n", "\r", "\n"], '<br />', $str);
