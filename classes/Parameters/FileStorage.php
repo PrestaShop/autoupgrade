@@ -21,7 +21,6 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Parameters;
 
-use PrestaShop\Module\AutoUpgrade\Tools14;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -60,7 +59,7 @@ class FileStorage
         $config = [];
 
         if ($this->filesystem->exists($configFilePath)) {
-            $config = @unserialize(base64_decode(Tools14::file_get_contents($configFilePath)));
+            $config = @unserialize(base64_decode(file_get_contents($configFilePath)));
         }
 
         return $config;

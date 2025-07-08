@@ -23,7 +23,6 @@ namespace PrestaShop\Module\AutoUpgrade\Xml;
 
 use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
 use PrestaShop\Module\AutoUpgrade\Services\DistributionApiService;
-use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\Upgrader;
 use SimpleXMLElement;
 use Symfony\Component\Filesystem\Filesystem;
@@ -58,7 +57,7 @@ class FileLoader
         // End TODO
 
         if ($refresh || !$this->filesystem->exists($xml_localfile) || @filemtime($xml_localfile) < (time() - (3600 * Upgrader::DEFAULT_CHECK_VERSION_DELAY_HOURS))) {
-            $xml_string = Tools14::file_get_contents($xml_remotefile, false, stream_context_create(['http' => ['timeout' => 10]]));
+            $xml_string = file_get_contents($xml_remotefile, false, stream_context_create(['http' => ['timeout' => 10]]));
             $xml = @simplexml_load_string($xml_string);
             if ($xml !== false) {
                 $this->filesystem->dumpFile($xml_localfile, $xml_string);
