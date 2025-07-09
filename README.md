@@ -198,9 +198,9 @@ impact.
 
 You can configure the module behavior by setting the following environment variables on your server or in your `.htaccess` file::
 
-| Variable                                                    | Possible Values   | Default | Behavior                                                                                                                   |
-|-------------------------------------------------------------|-------------------|---------|----------------------------------------------------------------------------------------------------------------------------|
-| `AUTOUPGRADE_DISABLE_AVAILABLE_UPDATE_MODAL`                | `true`, `false`   | `true`  | `true` disables the update modal and short-circuits the entire check (no API call, no timestamp update, no modal display). |
+| Variable                                                    | Possible Values   | Default | Behavior                                                                                                            |
+|-------------------------------------------------------------|-------------------|---------|---------------------------------------------------------------------------------------------------------------------|
+| `AUTOUPGRADE_DISABLE_AVAILABLE_UPDATE_MODAL`                | `true`, `false`   | `true`  | `true` disables the update modal and shorts the entire check (no API call, no timestamp update, no modal display).  |
 
 ## Test module updates locally
 
