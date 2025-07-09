@@ -38,3 +38,8 @@ CREATE TABLE IF NOT EXISTS `PREFIX_shipment_product` (
   `quantity` int(10) DEFAULT NULL,
   PRIMARY KEY (id_shipment_product)
 ) ENGINE=ENGINE_TYPE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+ALTER TABLE `PREFIX_cart_rule_product_rule` MODIFY COLUMN `type` ENUM(
+    'products', 'categories', 'attributes',
+    'manufacturers', 'suppliers', 'combinations'
+) NOT NULL;
