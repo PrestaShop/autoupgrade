@@ -116,7 +116,7 @@ class DisplayBackOfficeHeader
     public function renderUpdateNotification(): string
     {
         $disableModal = getenv('AUTOUPGRADE_DISABLE_AVAILABLE_UPDATE_MODAL');
-        if ($disableModal !== false && filter_var($disableModal, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE)) {
+        if (filter_var($disableModal, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE)) {
             return $this->content;
         }
 

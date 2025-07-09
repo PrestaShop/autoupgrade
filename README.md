@@ -196,7 +196,7 @@ impact.
 
 ### Back Office Environment Variables
 
-You can configure module behavior by setting the following environment variables on your server or in your `.htaccess` file::
+You can configure the module behavior by setting the following environment variables on your server or in your `.htaccess` file::
 
 | Variable                                                    | Possible Values   | Default | Behavior                                                                                                                   |
 |-------------------------------------------------------------|-------------------|---------|----------------------------------------------------------------------------------------------------------------------------|
