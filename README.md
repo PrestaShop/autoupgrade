@@ -192,6 +192,15 @@ impact.
 | `backup:create`                             | `PS_AUTOUP_KEEP_IMAGES`                       | `--include-images`             | `true` (default), `false`, `'true'`, `'false'`, `'1'`, `'0'`, `1`, `0`, `'on'`, `'off'` | If enabled, retains all images in the backup. This operation can take a long time depending on the storage of your images                     |
 | `backup:restore`                            | no option available                           | `--backup`                     | Valid file name                                                                         | Specify the backup name to restore. The allowed values can be found with backup:list command)                                                 |
 | `backup:delete`                             | no option available                           | `--backup`                     | Valid file name                                                                         | Specify the backup name to delete. The allowed values can be found with backup:list command)                                                  |
+|                                             |                                               |                                |                                                                                         |                                                                                                                                               |
+
+### Back Office Environment Variables
+
+You can configure the module behavior by setting the following environment variables on your server or in your `.htaccess` file::
+
+| Variable                                                    | Possible Values   | Default | Behavior                                                                                                            |
+|-------------------------------------------------------------|-------------------|---------|---------------------------------------------------------------------------------------------------------------------|
+| `AUTOUPGRADE_DISABLE_AVAILABLE_UPDATE_MODAL`                | `true`, `false`   | `true`  | `true` disables the update modal and shorts the entire check (no API call, no timestamp update, no modal display).  |
 
 ## Test module updates locally
 
