@@ -48,7 +48,7 @@ const psVersion = utilsTest.getPSVersion();
 test.describe('Rollback', () => {
   let browserContext: BrowserContext;
   let page: Page;
-  let filePath: string|null;
+  let filePath: string | null;
 
   test.beforeAll(async ({browser}) => {
     browserContext = await browser.newContext();
@@ -296,7 +296,8 @@ test.describe('Rollback', () => {
         test.setTimeout(5000_000);
 
         const successMessage = await modAutoupgradeBoMain.startBackup(page);
-        expect(successMessage).toEqual('It is available at /your-admin-directory/autoupgrade/backup. You\'re ready to start the update now.');
+        expect(successMessage)
+          .toEqual('It is available at /your-admin-directory/autoupgrade/backup. You\'re ready to start the update now.');
       });
 
       test(`should go back to Update assistant page - ${index}`, async () => {
@@ -426,6 +427,8 @@ test.describe('Rollback', () => {
 
     test('should click on the button \'Delete selection\' and confirm', async () => {
       const isModalVisible = await modAutoupgradeBoMain.backupClickDeleteSelection(page);
+      expect(isModalVisible).toEqual(true);
+
       await modAutoupgradeBoMain.deleteBackup(page);
     });
 
