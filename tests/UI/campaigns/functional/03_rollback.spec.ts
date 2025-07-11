@@ -237,7 +237,11 @@ test.describe('Rollback', () => {
       test(`should choose the version to update and check requirements block - ${index}`, async () => {
         test.setTimeout(100_000);
         const isRequirementBlockVisible = await modAutoupgradeBoMain.chooseNewVersion(page);
-        expect(isRequirementBlockVisible).toEqual(true);
+        if (index === 1) {
+          expect(isRequirementBlockVisible).toEqual(true);
+        } else {
+          expect(isRequirementBlockVisible).toEqual(false);
+        }
       });
 
       if (index === 1) {
