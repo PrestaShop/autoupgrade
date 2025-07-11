@@ -1,0 +1,53 @@
+{
+  "include": [
+    {
+      "comment": "1.7.7.8 PHP 7.3"
+    },
+    {
+      "PS_VERSION_START": "1.7.7.8",
+      "PHP_VERSION": "7.3"
+    },
+    {
+      "comment": "8.0.3 PHP 7.3"
+    },
+    {
+      "PS_VERSION_START": "8.0.3",
+      "PHP_VERSION": "7.3"
+    },
+    {
+      "comment": "8.0.3 PHP 8.1"
+    },
+    {
+      "PS_VERSION_START": "8.0.3",
+      "PHP_VERSION": "8.1"
+    },
+    {
+      "comment": "8.2.1 PHP 8.1"
+    },
+    {
+      "PS_VERSION_START": "8.2.1",
+      "PHP_VERSION": "8.1"
+    },
+    {
+      "comment": "8.0.3 PHP 8.1"
+    },
+    {
+      "PS_VERSION_START": "8.0.3",
+      "PHP_VERSION": "8.1"
+    },
+    {
+      "comment": "8.0.3 PHP 7.3"
+    },
+    {
+      "PS_VERSION_START": "8.0.3",
+      "PHP_VERSION": "7.3"
+    },
+    {
+      "comment": "1.7.7.8 PHP 7.3"
+    },
+    {
+      "PS_VERSION_START": "1.7.7.8",
+      "PHP_VERSION": "7.3"
+    }
+  ]
+}
