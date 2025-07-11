@@ -90,7 +90,7 @@ test.describe('BO - Catalog - Products : Filter the products table by ID, Name, 
         await boFeatureFlagPage.closeSfToolBar(page);
 
         const pageTitle = await boFeatureFlagPage.getPageTitle(page);
-        await expect(pageTitle).toContain(boFeatureFlagPage.pageTitle);
+        await expect(pageTitle.toUpperCase()).toContain(boFeatureFlagPage.pageTitle.toUpperCase());
       } else {
         test.skip();
       }
