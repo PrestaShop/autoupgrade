@@ -20,7 +20,7 @@ env:
 jobs:
   ui_test_matrix:
     if: github.event.pull_request.draft == false
-    name: Update UI - Generate Matrix
+    name: Rollback UI - Generate Matrix
     runs-on: ubuntu-latest
     env:
       JSON_FILE: ${{ (github.event_name == 'schedule' || (github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'dev' && github.event.pull_request.base.ref == 'master')) && 'rollback-ui.json' || 'rollback-ui.json' }}
@@ -54,23 +54,8 @@ jobs:
           docker compose -f "docker-compose.yml" up -d --build
           bash -c 'while [[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost/)" != "200" ]]; do sleep 5; done'
       - name: Composer install
-        run: composer install
-
-      - name: Backup
         run: |
-          docker exec -t prestashop php modules/autoupgrade/bin/console backup:create admin-dev
-
-      - name: Download local ZIP and XML for local channel
-        if: matrix.UPGRADE_CHANNEL == 'local' && matrix.PS_VERSION_END != '9.0.0'
-        run: |
-          docker exec -t prestashop curl --fail -L https://github.com/PrestaShop/zip-archives/raw/main/prestashop_${{ matrix.PS_VERSION_END }}.zip -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.zip
-          docker exec -t prestashop curl --fail -L https://api.prestashop.com/xml/md5/${{ matrix.PS_VERSION_END }}.xml -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.xml
-
-      - name: Download local ZIP and XML for local channel in 9.0.0
-        if: matrix.UPGRADE_CHANNEL == 'local' && matrix.PS_VERSION_END == '9.0.0'
-        run: |
-          docker exec -t prestashop curl --fail -L https://storage.googleapis.com/prestashop-core-nightly/nightly_9.0.x.zip -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.zip
-          docker exec -t prestashop curl --fail -L https://storage.googleapis.com/prestashop-core-nightly/nightly_9.0.x.xml -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.xml
+          composer install
 
       - name: Display new interface
         run: |

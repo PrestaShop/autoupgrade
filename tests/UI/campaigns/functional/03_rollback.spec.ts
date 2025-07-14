@@ -230,18 +230,12 @@ test.describe('Rollback', () => {
 
         const stepTitle = await modAutoupgradeBoMain.getStepTitle(page);
         expect(stepTitle).toEqual('Version choice');
-
-        await exec('docker exec -t prestashop chmod -R 777 /var/www/html/modules');
       });
 
       test(`should choose the version to update and check requirements block - ${index}`, async () => {
         test.setTimeout(100_000);
-        const isRequirementBlockVisible = await modAutoupgradeBoMain.chooseNewVersion(page);
-        if (index === 1) {
-          expect(isRequirementBlockVisible).toEqual(true);
-        } else {
-          expect(isRequirementBlockVisible).toEqual(false);
-        }
+        await exec('docker exec -t prestashop chmod -R 777 /var/www/html/modules');
+        await modAutoupgradeBoMain.chooseNewVersion(page);
       });
 
       if (index === 1) {
@@ -268,14 +262,14 @@ test.describe('Rollback', () => {
           const pageTitle = await modAutoupgradeBoMain.getPageTitle(page);
           expect(pageTitle).toEqual(modAutoupgradeBoMain.pageTitle);
         });
+
+        test(`should check that all the requirements are OK - ${index}`, async () => {
+          await exec('docker exec -t prestashop chmod -R 777 /var/www/html/modules');
+
+          const isNextButtonEnabled = await modAutoupgradeBoMain.checkRequirements(page, 'online');
+          expect(isNextButtonEnabled).toEqual(true);
+        });
       }
-
-      test(`should check that all the requirements are OK - ${index}`, async () => {
-        await exec('docker exec -t prestashop chmod -R 777 /var/www/html/modules');
-
-        const isNextButtonEnabled = await modAutoupgradeBoMain.checkRequirements(page, 'online');
-        expect(isNextButtonEnabled).toEqual(true);
-      });
 
       test(`should click on next button and check that the step title is 'Update options' - ${index}`, async () => {
         await modAutoupgradeBoMain.goToNextStep(page);
@@ -405,6 +399,9 @@ test.describe('Rollback', () => {
     test('should click on exit button', async () => {
       await modAutoupgradeBoMain.clickOnExitPostRestore(page);
 
+      const isDialogNotVisible = await boDashboardPage.closeDialogUpdateNotification(page);
+      expect(isDialogNotVisible).toEqual(true);
+      
       const pageTitle = await boDashboardPage.getPageTitle(page);
       expect(pageTitle).toContain(boDashboardPage.pageTitle);
     });

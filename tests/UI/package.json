@@ -20,7 +20,7 @@
         "// upgradeLocal": "Scripts to run functional tests to upgrade local channel",
         "test:upgradeLocal": "npx playwright test /functional/02_upgradeLocal.spec.ts --workers 1",
         "// rollback": "Scripts to run functional tests to rollabck",
-        "test:rollback": "npx playwright test /functional/03_rollback.spec.ts --workers 1"
+        "test:rollback": "npx playwright test /functional/03_rollback.spec.ts --workers 1 --max-failures 1"
     },
     "keywords": [],
     "devDependencies": {
