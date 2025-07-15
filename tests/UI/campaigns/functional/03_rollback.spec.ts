@@ -401,7 +401,7 @@ test.describe('Rollback', () => {
 
       const isDialogNotVisible = await boDashboardPage.closeDialogUpdateNotification(page);
       expect(isDialogNotVisible).toEqual(true);
-      
+
       const pageTitle = await boDashboardPage.getPageTitle(page);
       expect(pageTitle).toContain(boDashboardPage.pageTitle);
     });
