@@ -68,7 +68,7 @@ jobs:
           docker exec -t prestashop curl --fail -L https://api.prestashop.com/xml/md5/${{ matrix.PS_VERSION_END }}.xml -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.xml
 
       - name: Download local ZIP and XML for local channel in 9.0.0
-        if: matrix.PHP_VERSION == '8.1'
+        if: matrix.UPGRADE_CHANNEL == 'local' && matrix.PHP_VERSION == '8.1'
         run: |
           docker exec -t prestashop curl --fail -L https://storage.googleapis.com/prestashop-core-nightly/nightly_9.0.x.zip -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.zip
           docker exec -t prestashop curl --fail -L https://storage.googleapis.com/prestashop-core-nightly/nightly_9.0.x.xml -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.xml
@@ -106,11 +106,19 @@ jobs:
         working-directory: tests/UI/
         run: npx playwright install chromium --with-deps
 
+      - name: Get PS version
+        if: matrix.UPGRADE_CHANNEL == 'online'
+        run: |
+          echo PS_VERSION_DB=$(docker exec -ti prestashop-mysql sh -c "mysql -pprestashop prestashop -e \"select value from ps_configuration where name LIKE 'PS_VERSION_DB'\" 2>&1 |
+          grep '[0-9]'") >> "$GITHUB_ENV"
+
       - name: Run Sanity tests
         working-directory: tests/UI/
         env:
           URL_FO: 'http://localhost/'
           PASSWD: 'prestashop'
+          PS_VERSION: ${{ matrix.PS_VERSION_END || PS_VERSION_DB }}
+          PS_VERSION_END: ${{ matrix.PS_VERSION_END || PS_VERSION_DB }}
           DB_USER: prestashop
           DB_PASSWD: prestashop
           DB_NAME: prestashop
