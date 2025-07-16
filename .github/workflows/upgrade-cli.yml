@@ -87,6 +87,14 @@ jobs:
           }' > modules/autoupgrade/config.json"
 
       - name: Update
+        if: matrix.UPGRADE_CHANNEL == 'online'
+        run: |
+          docker exec -t prestashop sh -c "echo 'memory_limit=1024M' > /usr/local/etc/php/conf.d/zz-memory-limit.ini"
+          docker exec -t prestashop php modules/autoupgrade/bin/console update:start --channel=${{ matrix.UPGRADE_CHANNEL }} admin-dev
+          docker exec -t prestashop chmod 777 -R /var/www/html/var
+
+      - name: Update
+        if: matrix.UPGRADE_CHANNEL == 'local'
         run: |
           docker exec -t prestashop sh -c "echo 'memory_limit=1024M' > /usr/local/etc/php/conf.d/zz-memory-limit.ini"
           docker exec -t prestashop php modules/autoupgrade/bin/console update:start --config-file-path=modules/autoupgrade/config.json --channel=${{ matrix.UPGRADE_CHANNEL }} admin-dev
@@ -107,18 +115,14 @@ jobs:
         run: npx playwright install chromium --with-deps
 
       - name: Get PS version
-        if: matrix.UPGRADE_CHANNEL == 'online'
-        run: |
-          echo PS_VERSION_DB=$(docker exec -ti prestashop-mysql sh -c "mysql -pprestashop prestashop -e \"select value from ps_configuration where name LIKE 'PS_VERSION_DB'\" 2>&1 |
-          grep '[0-9]'") >> "$GITHUB_ENV"
+          run: echo "PS_VERSION_DB=$(docker exec --tty prestashop-mysql sh -c "mysql -pprestashop prestashop -e \"select value from ps_configuration where name LIKE 'PS_VERSION_DB'\" 2>&1 | grep '[0-9]' | tr -d [:space:]")" >> "$GITHUB_ENV"
 
       - name: Run Sanity tests
         working-directory: tests/UI/
         env:
           URL_FO: 'http://localhost/'
           PASSWD: 'prestashop'
-          PS_VERSION: ${{ matrix.PS_VERSION_END || PS_VERSION_DB }}
-          PS_VERSION_END: ${{ matrix.PS_VERSION_END || PS_VERSION_DB }}
+          PS_VERSION: ${{ env.PS_VERSION_DB }}
           DB_USER: prestashop
           DB_PASSWD: prestashop
           DB_NAME: prestashop
@@ -136,6 +140,7 @@ jobs:
         env:
           URL_FO: 'http://localhost/'
           PASSWD: 'prestashop'
+          PS_VERSION: ${{ matrix.PS_VERSION_START }}
           DB_USER: prestashop
           DB_PASSWD: prestashop
           DB_NAME: prestashop
@@ -151,7 +156,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report-${{ matrix.PS_VERSION_START }}-${{ matrix.UPGRADE_CHANNEL }}-${{ matrix.PHP_VERSION }}
+          name: playwright-report-${{ matrix.PS_VERSION_START }}-${{ env.PS_VERSION_DB }}-${{ matrix.UPGRADE_CHANNEL }}-${{ matrix.PHP_VERSION }}
           path: |
             tests/UI/reports/
             tests/UI/report.json

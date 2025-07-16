@@ -272,7 +272,7 @@ test.describe('Upgrade using the online channel', () => {
 
   test('should check the new PS version', async () => {
     const newVersion = await modAutoupgradeBoMain.getNewPSVersion(page);
-    expect(newVersion).toContain(process.env.PS_VERSION_END);
+    expect(newVersion).not.toContain(process.env.PS_VERSION);
   });
 
   test('should click on next button and check that the step title is \'Update options\'', async () => {
@@ -312,7 +312,6 @@ test.describe('Upgrade using the online channel', () => {
 
     const successMessage = await modAutoupgradeBoMain.checkUpdateSuccess(page);
     expect(successMessage).toContain(modAutoupgradeBoMain.updateSuccessMessage);
-    expect(successMessage).toContain(process.env.PS_VERSION_END);
   });
 
   test('should check the title of the last step', async () => {

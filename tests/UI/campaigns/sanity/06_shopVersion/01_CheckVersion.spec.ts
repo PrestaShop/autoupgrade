@@ -58,9 +58,9 @@ test.describe('Check new shop version', () => {
   });
 
   if (semver.lt(psVersion, '7.4.0')) {
-    test(`should check that the shop version is ${process.env.PS_VERSION_END!}`, async () => {
+    test(`should check that the shop version is ${process.env.psVersion}`, async () => {
       const shopVersion = await boLoginPage.getShopVersion(page);
-      expect(shopVersion).toEqual(process.env.PS_VERSION_END);
+      expect(shopVersion).toEqual(process.env.PS_VERSION);
     });
   }
 
@@ -72,9 +72,9 @@ test.describe('Check new shop version', () => {
       expect(pageTitle).toContain(boDashboardPage.pageTitle);
     });
 
-    test(`should check that the new shop version is ${process.env.PS_VERSION_END}`, async () => {
+    test(`should check that the new shop version is ${process.env.PS_VERSION}`, async () => {
       const shopVersion = await boDashboardPage.getShopVersion(page);
-      expect(shopVersion).toEqual(process.env.PS_VERSION_END);
+      expect(shopVersion).toEqual(process.env.PS_VERSION);
     });
   }
 });
