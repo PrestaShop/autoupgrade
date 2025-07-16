@@ -75,7 +75,7 @@ jobs:
       - name: Display new interface
         run: |
           docker exec -t prestashop bash -c 'apt-get update'
-          docker exec -t prestashop bash -c 'curl -sL https://deb.nodesource.com/setup_20.x | bash -'
+          docker exec -t prestashop bash -c 'curl -sL https://deb.nodesource.com/setup_18.x | bash -'
           docker exec -t prestashop bash -c 'apt-get install -y nodejs'
           docker exec -t prestashop bash -c 'cd /var/www/html/modules/autoupgrade/_dev && npm install && npm run vite:build'
           docker exec -t prestashop chmod 777 -R /var/www/html/admin-dev/autoupgrade
