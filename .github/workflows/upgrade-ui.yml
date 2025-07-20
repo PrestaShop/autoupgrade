@@ -119,7 +119,8 @@ jobs:
         run: npm run test:upgradeLocal
 
       - name: Get PS version
-        run: echo "PS_VERSION_DB=$(docker exec --tty prestashop-mysql sh -c "mysql -pprestashop prestashop -e \"select value from ps_configuration where name LIKE 'PS_VERSION_DB'\" 2>&1 | grep '[0-9]' | tr -d [:space:]")" >> "$GITHUB_ENV"
+        run: |
+          echo "PS_VERSION_DB=$(docker exec --tty prestashop-mysql sh -c "mysql -pprestashop prestashop -e \"select value from ps_configuration where name LIKE 'PS_VERSION_DB'\" 2>&1 | grep '[0-9]' | tr -d [:space:]")" >> "$GITHUB_ENV"
 
       - name: Run Sanity tests
         working-directory: tests/UI/
