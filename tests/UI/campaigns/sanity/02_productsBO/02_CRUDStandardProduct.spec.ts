@@ -83,7 +83,6 @@ test.describe('BO - Catalog - Products : CRUD standard product', async () => {
 
     const pageTitle = await boDashboardPage.getPageTitle(page);
     expect(pageTitle).toContain(boDashboardPage.pageTitle);
-    console.log(psVersion);
   });
 
   test('should go to \'Catalog > Products\' page', async () => {
