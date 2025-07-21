@@ -74,12 +74,12 @@
       "UPGRADE_CHANNEL": "local"
     },
     {
-      "comment": "8.0.5 PHP 8.1 local"
+      "comment": "8.0.5 PHP 7.4 local"
     },
     {
       "PS_VERSION_START": "8.0.5",
       "PS_VERSION_END": "8.2.0",
-      "PHP_VERSION": "8.1",
+      "PHP_VERSION": "7.4",
       "UPGRADE_CHANNEL": "local"
     },
     {
