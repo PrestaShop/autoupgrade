@@ -62,18 +62,19 @@ jobs:
           docker exec -t prestashop php modules/autoupgrade/bin/console backup:create admin-dev
 
       - name: Download local ZIP and XML for local channel
-        if: matrix.UPGRADE_CHANNEL == 'local' && matrix.PS_VERSION_END != '9.0.0'
+        if: matrix.UPGRADE_CHANNEL == 'local' && matrix.PHP_VERSION != '8.1'
         run: |
           docker exec -t prestashop curl --fail -L https://github.com/PrestaShop/zip-archives/raw/main/prestashop_${{ matrix.PS_VERSION_END }}.zip -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.zip
           docker exec -t prestashop curl --fail -L https://api.prestashop.com/xml/md5/${{ matrix.PS_VERSION_END }}.xml -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.xml
 
       - name: Download local ZIP and XML for local channel in 9.0.0
-        if: matrix.PS_VERSION_END == '9.0.0'
+        if: matrix.UPGRADE_CHANNEL == 'local' && matrix.PHP_VERSION == '8.1'
         run: |
           docker exec -t prestashop curl --fail -L https://storage.googleapis.com/prestashop-core-nightly/nightly_9.0.x.zip -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.zip
           docker exec -t prestashop curl --fail -L https://storage.googleapis.com/prestashop-core-nightly/nightly_9.0.x.xml -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.xml
 
       - name: Write configuration file
+        if: matrix.UPGRADE_CHANNEL == 'local'
         run: |
           docker exec -t prestashop sh -c "echo '{
             \"channel\":\"${{ matrix.UPGRADE_CHANNEL }}\",
@@ -86,13 +87,21 @@ jobs:
           }' > modules/autoupgrade/config.json"
 
       - name: Update
+        if: matrix.UPGRADE_CHANNEL == 'online'
+        run: |
+          docker exec -t prestashop sh -c "echo 'memory_limit=1024M' > /usr/local/etc/php/conf.d/zz-memory-limit.ini"
+          docker exec -t prestashop php modules/autoupgrade/bin/console update:start --channel=${{ matrix.UPGRADE_CHANNEL }} admin-dev
+          docker exec -t prestashop chmod 777 -R /var/www/html/var
+
+      - name: Update
+        if: matrix.UPGRADE_CHANNEL == 'local'
         run: |
           docker exec -t prestashop sh -c "echo 'memory_limit=1024M' > /usr/local/etc/php/conf.d/zz-memory-limit.ini"
           docker exec -t prestashop php modules/autoupgrade/bin/console update:start --config-file-path=modules/autoupgrade/config.json --channel=${{ matrix.UPGRADE_CHANNEL }} admin-dev
           docker exec -t prestashop chmod 777 -R /var/www/html/var
 
       - name: Uninstall welcome module
-        if: matrix.PS_VERSION_END == '1.7.8.11'
+        if: matrix.PHP_VERSION == '7.1'
         run: |
           docker exec -t prestashop php bin/console prestashop:module disable welcome
           docker exec -t prestashop chmod 777 -R /var/www/html/var
@@ -105,13 +114,16 @@ jobs:
         working-directory: tests/UI/
         run: npx playwright install chromium --with-deps
 
+      - name: Get PS version
+        run: |
+          echo "PS_VERSION_DB=$(docker exec --tty prestashop-mysql sh -c "mysql -pprestashop prestashop -e \"select value from ps_configuration where name LIKE 'PS_VERSION_DB'\" 2>&1 | grep '[0-9]' | tr -d [:space:]")" >> "$GITHUB_ENV"
+
       - name: Run Sanity tests
         working-directory: tests/UI/
         env:
           URL_FO: 'http://localhost/'
           PASSWD: 'prestashop'
-          PS_VERSION: ${{ matrix.PS_VERSION_END }}
-          PS_VERSION_END: ${{ matrix.PS_VERSION_END }}
+          PS_VERSION: ${{ env.PS_VERSION_DB }}
           DB_USER: prestashop
           DB_PASSWD: prestashop
           DB_NAME: prestashop
@@ -130,7 +142,6 @@ jobs:
           URL_FO: 'http://localhost/'
           PASSWD: 'prestashop'
           PS_VERSION: ${{ matrix.PS_VERSION_START }}
-          PS_VERSION_END: ${{ matrix.PS_VERSION_START }}
           DB_USER: prestashop
           DB_PASSWD: prestashop
           DB_NAME: prestashop
@@ -146,7 +157,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report-${{ matrix.PS_VERSION_START }}-${{ matrix.PS_VERSION_END }}-${{ matrix.UPGRADE_CHANNEL }}-${{ matrix.PHP_VERSION }}
+          name: playwright-report-${{ matrix.PS_VERSION_START }}-${{ env.PS_VERSION_DB }}-${{ matrix.UPGRADE_CHANNEL }}-${{ matrix.PHP_VERSION }}
           path: |
             tests/UI/reports/
             tests/UI/report.json
@@ -175,7 +186,7 @@ jobs:
       - name: Download report
         uses: actions/download-artifact@v4
         with:
-          name: playwright-report-${{ matrix.PS_VERSION_START }}-${{ matrix.PS_VERSION_END }}-${{ matrix.UPGRADE_CHANNEL }}-${{ matrix.PHP_VERSION }}
+          name: playwright-report-${{ matrix.PS_VERSION_START }}-${{ env.PS_VERSION_DB }}-${{ matrix.UPGRADE_CHANNEL }}-${{ matrix.PHP_VERSION }}
           path: tests/UI/
 
       # Nightly : Rename file

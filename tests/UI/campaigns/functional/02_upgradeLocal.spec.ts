@@ -308,7 +308,7 @@ test.describe('Upgrade using the local channel', () => {
 
     const successMessage = await modAutoupgradeBoMain.checkUpdateSuccess(page);
     expect(successMessage).toContain(modAutoupgradeBoMain.updateSuccessMessage);
-    expect(successMessage).not.toContain(`${psVersion} `);
+    expect(successMessage).toContain(process.env.PS_VERSION_END);
   });
 
   test('should check the title of the last step', async () => {

@@ -72,13 +72,16 @@ jobs:
           docker exec -t prestashop curl --fail -L https://storage.googleapis.com/prestashop-core-nightly/nightly_9.0.x.zip -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.zip
           docker exec -t prestashop curl --fail -L https://storage.googleapis.com/prestashop-core-nightly/nightly_9.0.x.xml -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.xml
 
-      - name: Display new interface
+      - name: Install and build npm dependencies
         run: |
-          docker exec -t prestashop bash -c 'apt-get update'
-          docker exec -t prestashop bash -c 'curl -sL https://deb.nodesource.com/setup_20.x | bash -'
-          docker exec -t prestashop bash -c 'apt-get install -y nodejs'
-          docker exec -t prestashop bash -c 'cd /var/www/html/modules/autoupgrade/_dev && npm install && npm run vite:build'
+          npm install --prefix ./_dev
+          npm run vite:build --prefix ./_dev
           docker exec -t prestashop chmod 777 -R /var/www/html/admin-dev/autoupgrade
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
 
       - name: Install dependencies
         working-directory: tests/UI/
@@ -95,7 +98,6 @@ jobs:
           URL_FO: 'http://localhost/'
           PASSWD: 'prestashop'
           PS_VERSION: ${{ matrix.PS_VERSION_START }}
-          PS_VERSION_END: ${{ matrix.PS_VERSION_END }}
           DB_USER: prestashop
           DB_PASSWD: prestashop
           DB_NAME: prestashop
@@ -116,13 +118,16 @@ jobs:
           DB_PREFIX: ps_
         run: npm run test:upgradeLocal
 
+      - name: Get PS version
+        run: |
+          echo "PS_VERSION_DB=$(docker exec --tty prestashop-mysql sh -c "mysql -pprestashop prestashop -e \"select value from ps_configuration where name LIKE 'PS_VERSION_DB'\" 2>&1 | grep '[0-9]' | tr -d [:space:]")" >> "$GITHUB_ENV"
+
       - name: Run Sanity tests
         working-directory: tests/UI/
         env:
           URL_FO: 'http://localhost/'
           PASSWD: 'prestashop'
-          PS_VERSION: ${{ matrix.PS_VERSION_END }}
-          PS_VERSION_END: ${{ matrix.PS_VERSION_END }}
+          PS_VERSION: ${{ env.PS_VERSION_DB }}
           DB_USER: prestashop
           DB_PASSWD: prestashop
           DB_NAME: prestashop
@@ -138,7 +143,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report-${{ matrix.PS_VERSION_START }}-${{ matrix.PS_VERSION_END }}-${{ matrix.UPGRADE_CHANNEL }}-${{ matrix.PHP_VERSION }}
+          name: playwright-report-${{ matrix.PS_VERSION_START }}-${{ env.PS_VERSION_DB }}-${{ matrix.UPGRADE_CHANNEL }}-${{ matrix.PHP_VERSION }}
           path: |
             tests/UI/reports/
             tests/UI/report.json
@@ -167,7 +172,7 @@ jobs:
       - name: Download report
         uses: actions/download-artifact@v4
         with:
-          name: playwright-report-${{ matrix.PS_VERSION_START }}-${{ matrix.PS_VERSION_END }}-${{ matrix.UPGRADE_CHANNEL }}-${{ matrix.PHP_VERSION }}
+          name: playwright-report-${{ matrix.PS_VERSION_START }}-${{ env.PS_VERSION_DB }}-${{ matrix.UPGRADE_CHANNEL }}-${{ matrix.PHP_VERSION }}
           path: tests/UI/
 
       # Nightly : Rename file
