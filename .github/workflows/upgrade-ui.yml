@@ -172,7 +172,7 @@ jobs:
       - name: Download report
         uses: actions/download-artifact@v4
         with:
-          name: playwright-report-${{ matrix.PS_VERSION_START }}-${{ env.PS_VERSION_DB }}-${{ matrix.UPGRADE_CHANNEL }}-${{ matrix.PHP_VERSION }}
+          name: playwright-report-${{ matrix.PS_VERSION_START }}-${{ matrix.UPGRADE_CHANNEL }}-${{ matrix.PHP_VERSION }}
           path: tests/UI/
 
       # Nightly : Rename file
