@@ -70,8 +70,8 @@ jobs:
       - name: Download local ZIP and XML for local channel in 9.0.0
         if: matrix.UPGRADE_CHANNEL == 'local' && matrix.PHP_VERSION == '8.1'
         run: |
-          docker exec -t prestashop curl --fail -L https://storage.googleapis.com/prestashop-core-nightly/nightly_9.0.x.zip -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.zip
-          docker exec -t prestashop curl --fail -L https://storage.googleapis.com/prestashop-core-nightly/nightly_9.0.x.xml -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.xml
+          docker exec -t prestashop curl --fail -L https://storage.googleapis.com/prestashop-core-nightly/2025-07-11-9.0.x-prestashop_9.0.0.zip -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.zip
+          docker exec -t prestashop curl --fail -L https://storage.googleapis.com/prestashop-core-nightly/2025-07-11-9.0.x-prestashop_9.0.0.xml -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.xml
 
       - name: Write configuration file
         if: matrix.UPGRADE_CHANNEL == 'local'
@@ -157,7 +157,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report-${{ matrix.PS_VERSION_START }}-${{ env.PS_VERSION_DB }}-${{ matrix.UPGRADE_CHANNEL }}-${{ matrix.PHP_VERSION }}
+          name: playwright-report-${{ matrix.PS_VERSION_START }}-${{ matrix.PS_VERSION_END }}-${{ matrix.UPGRADE_CHANNEL }}-${{ matrix.PHP_VERSION }}
           path: |
             tests/UI/reports/
             tests/UI/report.json
@@ -186,7 +186,7 @@ jobs:
       - name: Download report
         uses: actions/download-artifact@v4
         with:
-          name: playwright-report-${{ matrix.PS_VERSION_START }}-${{ matrix.UPGRADE_CHANNEL }}-${{ matrix.PHP_VERSION }}
+          name: playwright-report-${{ matrix.PS_VERSION_START }}-${{ matrix.PS_VERSION_END }}-${{ matrix.UPGRADE_CHANNEL }}-${{ matrix.PHP_VERSION }}
           path: tests/UI/
 
       # Nightly : Rename file
@@ -196,7 +196,6 @@ jobs:
           mkdir -p nightly
           REPORT_NAME="${{ env.CAMPAIGN }}_$(date +%Y-%m-%d)-${{ matrix.PS_VERSION_START }}_(Channel:_${{ matrix.UPGRADE_CHANNEL }}_PHP:_${{ matrix.PHP_VERSION }})"
           mv report.json nightly/${REPORT_NAME}.json
-
       # Nightly : Auth GCP
       - name: "Nightly : Auth GCP"
         uses: google-github-actions/auth@v2
