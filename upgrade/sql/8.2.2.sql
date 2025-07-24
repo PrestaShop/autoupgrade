@@ -16,7 +16,10 @@ INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`
   -- https://github.com/PrestaShop/PrestaShop/pull/38691
   (NULL, 'displayCartExtraProductInfo','Extra information in shopping cart product line','This hook adds extra information to the product lines, in the shopping cart', '1'),
   -- https://github.com/PrestaShop/PrestaShop/pull/38772
-  (NULL, 'displayCustomerAccountTop','Customer account displayed in Front Office (Top part)','This hook displays new elements on the customer account page on Top', '1')
+  (NULL, 'displayCustomerAccountTop','Customer account displayed in Front Office (Top part)','This hook displays new elements on the customer account page on Top', '1'),
+  -- https://github.com/PrestaShop/PrestaShop/pull/39162
+  (NULL, 'actionOrderHasBeenShipped', 'Called when checking if an order has been shipped', 'Allows modules to override or react to the hasBeenShipped() method of the Order class.', '1'),
+  (NULL, 'actionOrderHasBeenDelivered', 'Called when checking if an order has been delivered', 'Allows modules to override or react to the hasBeenDelivered() method of the Order class.', '1')
 ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
 
 ALTER TABLE `PREFIX_product_shop` ADD INDEX `shop_tax` (`id_shop`, `id_tax_rules_group`);
