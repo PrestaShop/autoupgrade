@@ -110,8 +110,6 @@ class AdminSelfUpgradeController extends ModuleAdminController
 
         $this->db = Db::getInstance();
 
-        self::$currentIndex = $_SERVER['SCRIPT_NAME'] . (($controller = Tools14::getValue('controller')) ? '?controller=' . $controller : '');
-
         if (defined('_PS_ADMIN_DIR_')) {
             // Check that the Update assistant working directory is existing or create it
             if (!file_exists($this->autoupgradePath) && !@mkdir($this->autoupgradePath)) {
@@ -236,7 +234,7 @@ class AdminSelfUpgradeController extends ModuleAdminController
                 // delete the potential xml files we saved in config/xml (from last release and from current)
                 $upgrader->clearXmlMd5File($this->upgradeContainer->getProperty(UpgradeContainer::PS_VERSION));
                 $upgrader->clearXmlMd5File($upgrader->getDestinationVersion());
-                Tools14::redirectAdmin(self::$currentIndex . '&conf=5&token=' . Tools14::getValue('token'));
+                Tools14::redirectAdmin($this->context->link->getAdminLink('AdminSelfUpgrade', false) . '&conf=5&token=' . Tools14::getValue('token'));
             }
         }
     }
