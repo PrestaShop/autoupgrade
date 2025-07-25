@@ -229,13 +229,6 @@ class AdminSelfUpgradeController extends ModuleAdminController
                 $this->context->employee->id,
                 $this->context->language->iso_code
             );
-
-            if (isset($_GET['refreshCurrentVersion'])) {
-                // delete the potential xml files we saved in config/xml (from last release and from current)
-                $upgrader->clearXmlMd5File($this->upgradeContainer->getProperty(UpgradeContainer::PS_VERSION));
-                $upgrader->clearXmlMd5File($upgrader->getDestinationVersion());
-                Tools14::redirectAdmin($this->context->link->getAdminLink('AdminSelfUpgrade', false) . '&conf=5&token=' . Tools14::getValue('token'));
-            }
         }
     }
 
