@@ -69,8 +69,8 @@ jobs:
       - name: Download local ZIP and XML for local channel in 9.0.0
         if: matrix.UPGRADE_CHANNEL == 'local' && matrix.PS_VERSION_END == '9.0.0'
         run: |
-          docker exec -t prestashop curl --fail -L https://storage.googleapis.com/prestashop-core-nightly/2025-07-11-9.0.x-prestashop_9.0.0.zip -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.zip
-          docker exec -t prestashop curl --fail -L https://storage.googleapis.com/prestashop-core-nightly/2025-07-11-9.0.x-prestashop_9.0.0.xml -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.xml
+          docker exec -t prestashop curl --fail -L https://storage.googleapis.com/prestashop-core-nightly/2025-07-23-9.0.x-prestashop_9.0.0.zip -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.zip
+          docker exec -t prestashop curl --fail -L https://storage.googleapis.com/prestashop-core-nightly/2025-07-23-9.0.x-prestashop_9.0.0.xml -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.xml
 
       - name: Install and build npm dependencies
         run: |
