@@ -75,8 +75,8 @@ jobs:
       - name: Download local ZIP and XML for local channel in 9.0.0
         if: matrix.UPGRADE_CHANNEL == 'local' && matrix.PHP_VERSION == '8.1'
         run: |
-          docker exec -t prestashop curl --fail -L https://storage.googleapis.com/prestashop-core-nightly/${{ ui_test.date.outputs.YESTERDAY_DATE }}-9.0.x-prestashop_9.0.0.zip -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.zip
-          docker exec -t prestashop curl --fail -L https://storage.googleapis.com/prestashop-core-nightly/${{ ui_test.date.outputs.YESTERDAY_DATE }}-9.0.x-prestashop_9.0.0.xml -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.xml
+          docker exec -t prestashop curl --fail -L https://storage.googleapis.com/prestashop-core-nightly/${{ steps.date.outputs.YESTERDAY_DATE }}-9.0.x-prestashop_9.0.0.zip -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.zip
+          docker exec -t prestashop curl --fail -L https://storage.googleapis.com/prestashop-core-nightly/${{ steps.date.outputs.YESTERDAY_DATE }}-9.0.x-prestashop_9.0.0.xml -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.xml
 
       - name: Write configuration file
         if: matrix.UPGRADE_CHANNEL == 'local'
