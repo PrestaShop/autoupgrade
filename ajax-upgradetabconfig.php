@@ -19,8 +19,6 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 
-use PrestaShop\Module\AutoUpgrade\Tools14;
-
 /**
  * Set constants & general values used by the autoupgrade.
  *
@@ -49,7 +47,7 @@ function autoupgrade_init_container($callerFilePath)
     define('AUTOUPGRADE_MODULE_DIR', _PS_MODULE_DIR_ . 'autoupgrade' . DIRECTORY_SEPARATOR);
     require_once AUTOUPGRADE_MODULE_DIR . 'vendor/autoload.php';
 
-    $dir = Tools14::safeOutput(Tools14::getValue('dir'));
+    $dir = Tools::safeOutput(Tools::getValue('dir'));
     define('_PS_ADMIN_DIR_', _PS_ROOT_DIR_ . DIRECTORY_SEPARATOR . $dir);
 
     if (_PS_ADMIN_DIR_ !== realpath(_PS_ADMIN_DIR_)) {

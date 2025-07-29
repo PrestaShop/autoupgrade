@@ -13,6 +13,5 @@ parameters:
 		- ./../../ajax-upgradetabconfig.php
 		- ./../../autoupgrade.php
 	excludePaths:
-		- ./../../classes/Tools14.php
 		- ./../../classes/pclzip.lib.php
 	level: 6

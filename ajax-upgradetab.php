@@ -21,7 +21,6 @@
 
 use PrestaShop\Module\AutoUpgrade\Router\Router;
 use PrestaShop\Module\AutoUpgrade\Task\Runner\SingleTask;
-use PrestaShop\Module\AutoUpgrade\Tools14;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -46,7 +45,7 @@ if (!$container->getCookie()->check($_COOKIE)) {
 }
 
 $container->loadNecessaryClasses();
-$action = Tools14::getValue('action');
+$action = Tools::getValue('action');
 
 if (!empty($action)) {
     $controller = new SingleTask($container);

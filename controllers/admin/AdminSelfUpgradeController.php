@@ -21,7 +21,6 @@
 
 use PrestaShop\Module\AutoUpgrade\DocumentationLinks;
 use PrestaShop\Module\AutoUpgrade\Router\Router;
-use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\VersionUtils;
 use Symfony\Component\HttpFoundation\Request;
@@ -110,7 +109,7 @@ class AdminSelfUpgradeController extends ModuleAdminController
 
         $this->db = Db::getInstance();
 
-        self::$currentIndex = $_SERVER['SCRIPT_NAME'] . (($controller = Tools14::getValue('controller')) ? '?controller=' . $controller : '');
+        self::$currentIndex = $_SERVER['SCRIPT_NAME'] . (($controller = Tools::getValue('controller')) ? '?controller=' . $controller : '');
 
         if (defined('_PS_ADMIN_DIR_')) {
             // Check that the Update assistant working directory is existing or create it
@@ -236,7 +235,7 @@ class AdminSelfUpgradeController extends ModuleAdminController
                 // delete the potential xml files we saved in config/xml (from last release and from current)
                 $upgrader->clearXmlMd5File($this->upgradeContainer->getProperty(UpgradeContainer::PS_VERSION));
                 $upgrader->clearXmlMd5File($upgrader->getDestinationVersion());
-                Tools14::redirectAdmin(self::$currentIndex . '&conf=5&token=' . Tools14::getValue('token'));
+                Tools::redirectAdmin(self::$currentIndex . '&conf=5&token=' . Tools::getValue('token'));
             }
         }
     }

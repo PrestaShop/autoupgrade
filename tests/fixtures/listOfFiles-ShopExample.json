@@ -6224,7 +6224,6 @@
     "\/modules\/autoupgrade\/classes\/Task\/Upgrade\/UpgradeNow.php",
     "\/modules\/autoupgrade\/classes\/Task\/Upgrade\/index.php",
     "\/modules\/autoupgrade\/classes\/Task\/index.php",
-    "\/modules\/autoupgrade\/classes\/Tools14.php",
     "\/modules\/autoupgrade\/classes\/Twig\/Block\/ChannelInfoBlock.php",
     "\/modules\/autoupgrade\/classes\/Twig\/Block\/RollbackForm.php",
     "\/modules\/autoupgrade\/classes\/Twig\/Block\/UpgradeButtonBlock.php",
