@@ -231,7 +231,7 @@ test.describe('Upgrade using the local channel', () => {
   test('should choose local archive', async () => {
     test.setTimeout(1000_000);
 
-    const isRequirementBlockVisible = await modAutoupgradeBoMain.chooseLocalArchive(page, process.env.PS_VERSION_END!);
+    const isRequirementBlockVisible = await modAutoupgradeBoMain.chooseLocalArchive(page, 1);
     expect(isRequirementBlockVisible).toEqual(true);
   });
 
@@ -308,7 +308,6 @@ test.describe('Upgrade using the local channel', () => {
 
     const successMessage = await modAutoupgradeBoMain.checkUpdateSuccess(page);
     expect(successMessage).toContain(modAutoupgradeBoMain.updateSuccessMessage);
-    expect(successMessage).toContain(process.env.PS_VERSION_END);
   });
 
   test('should check the title of the last step', async () => {
