@@ -115,6 +115,9 @@ class DisplayBackOfficeHeader
      */
     public function renderUpdateNotification(): string
     {
+        // Temporarily disable this modal before better solution is found
+        return $this->content;
+
         $disableModal = getenv('AUTOUPGRADE_DISABLE_AVAILABLE_UPDATE_MODAL');
         if (filter_var($disableModal, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE)) {
             return $this->content;
