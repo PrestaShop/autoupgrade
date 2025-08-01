@@ -49,7 +49,9 @@
             {% elseif version_type == 'major' %}
               {{ 'Major releases introduce new features that may break backward compatibility, as well as new backward-compatible features and bug fixes.'|trans({}) }}
             {% endif %}
-            <a class="dialog-notification__link" href="{{ release_note }}" target="_blank">{{ 'See the update'|trans({}) }}</a>
+            {% if release_note is not empty %}
+              <a class="dialog-notification__link" href="{{ release_note }}" target="_blank">{{ 'See the update'|trans({}) }}</a>
+            {% endif %}
           </p>
         </div>
 
