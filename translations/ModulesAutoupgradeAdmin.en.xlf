@@ -1197,7 +1197,7 @@
       <trans-unit id="06933067aafd48425d67bcb01bba5cb6">
         <source>Update</source>
         <target>Update</target>
-        <note>views/templates/hooks/dialog-update-notification.html.twig:113</note>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:115</note>
       </trans-unit>
       <trans-unit id="13d3fd796fa75eea78ac8b6257fda2b6">
         <source>Post-update</source>
@@ -1207,27 +1207,27 @@
       <trans-unit id="21dc065f2d8653ebca37ec552d17b37e">
         <source>Unable to create the directory "%s"</source>
         <target>Unable to create the directory "%s"</target>
-        <note>controllers/admin/AdminSelfUpgradeController.php:159</note>
+        <note>controllers/admin/AdminSelfUpgradeController.php:156</note>
       </trans-unit>
       <trans-unit id="6215d33db0d099fcaae168dd4715135a">
         <source>Unable to write in the directory "%s"</source>
         <target>Unable to write in the directory "%s"</target>
-        <note>controllers/admin/AdminSelfUpgradeController.php:125</note>
+        <note>controllers/admin/AdminSelfUpgradeController.php:122</note>
       </trans-unit>
       <trans-unit id="f4eb320e09f7ef88a627229870458454">
         <source>The module %s requires PHP %s to work properly. Please upgrade your server configuration.</source>
         <target>The module %s requires PHP %s to work properly. Please upgrade your server configuration.</target>
-        <note>controllers/admin/AdminSelfUpgradeController.php:263</note>
+        <note>controllers/admin/AdminSelfUpgradeController.php:253</note>
       </trans-unit>
       <trans-unit id="d0749aaba8b833466dfcbb0428e4f89c">
         <source>SUCCESS</source>
         <target>SUCCESS</target>
-        <note>controllers/admin/AdminSelfUpgradeController.php:325</note>
+        <note>controllers/admin/AdminSelfUpgradeController.php:315</note>
       </trans-unit>
       <trans-unit id="b9e14d9b2886bcff408b85aefa780419">
         <source>FAILED</source>
         <target>FAILED</target>
-        <note>controllers/admin/AdminSelfUpgradeController.php:326</note>
+        <note>controllers/admin/AdminSelfUpgradeController.php:316</note>
       </trans-unit>
       <trans-unit id="001c32426a6cfb48ebb848b13141593c">
         <source>Major version</source>
@@ -1457,67 +1457,67 @@
       <trans-unit id="4923b1e1acea9d8d68e8341fc9191065">
         <source>See the update</source>
         <target>See the update</target>
-        <note>views/templates/hooks/dialog-update-notification.html.twig:52</note>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:53</note>
       </trans-unit>
       <trans-unit id="34b6cd75171affba6957e308dcbd92be">
         <source>Version</source>
         <target>Version</target>
-        <note>views/templates/hooks/dialog-update-notification.html.twig:58</note>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:60</note>
       </trans-unit>
       <trans-unit id="65842a77c93adc909117aa8bcd9cba60">
         <source>Type of improvements</source>
         <target>Type of improvements</target>
-        <note>views/templates/hooks/dialog-update-notification.html.twig:68</note>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:70</note>
       </trans-unit>
       <trans-unit id="fc95fedb22471990ecb3afbc23badc4a">
         <source>Bugs, security patches</source>
         <target>Bugs, security patches</target>
-        <note>views/templates/hooks/dialog-update-notification.html.twig:73</note>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:75</note>
       </trans-unit>
       <trans-unit id="a85e49f0a0baeee147f21c2ab87d0d41">
         <source>Bugs, security patches, new features</source>
         <target>Bugs, security patches, new features</target>
-        <note>views/templates/hooks/dialog-update-notification.html.twig:75</note>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:77</note>
       </trans-unit>
       <trans-unit id="b6d5d804eba0eb1e3eba27e2b231ed24">
         <source>New features, Improvements to existing features, Security and bug fixes</source>
         <target>New features, Improvements to existing features, Security and bug fixes</target>
-        <note>views/templates/hooks/dialog-update-notification.html.twig:77</note>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:79</note>
       </trans-unit>
       <trans-unit id="4bd9ef088a14b5f6fd9ef86e6f33037f">
         <source>Need help?</source>
         <target>Need help?</target>
-        <note>views/templates/hooks/dialog-update-notification.html.twig:84</note>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:86</note>
       </trans-unit>
       <trans-unit id="5abe12fb2b39a8244449ecae60f0c77f">
         <source>If you're having trouble performing the update, consider seeking help from the community or a qualified developer.</source>
         <target>If you're having trouble performing the update, consider seeking help from the community or a qualified developer.</target>
-        <note>views/templates/hooks/dialog-update-notification.html.twig:88</note>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:90</note>
       </trans-unit>
       <trans-unit id="c4a3e4914cdb81cab8c515737d2bc38a">
         <source>Find Support</source>
         <target>Find Support</target>
-        <note>views/templates/hooks/dialog-update-notification.html.twig:89</note>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:91</note>
       </trans-unit>
       <trans-unit id="7a4f0d12efdf9db50039b22cad69d84e">
         <source>Remind me later</source>
         <target>Remind me later</target>
-        <note>views/templates/hooks/dialog-update-notification.html.twig:97</note>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:99</note>
       </trans-unit>
       <trans-unit id="cb8f14fd3a41cfe1236a3c6b90077ca0">
         <source>7 days</source>
         <target>7 days</target>
-        <note>views/templates/hooks/dialog-update-notification.html.twig:101</note>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:103</note>
       </trans-unit>
       <trans-unit id="947d8520f04473da621f2718138f3bc6">
         <source>30 days</source>
         <target>30 days</target>
-        <note>views/templates/hooks/dialog-update-notification.html.twig:104</note>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:106</note>
       </trans-unit>
       <trans-unit id="a8edf9d8efdf30be6c6473396b947301">
         <source>Until the next version</source>
         <target>Until the next version</target>
-        <note>views/templates/hooks/dialog-update-notification.html.twig:107</note>
+        <note>views/templates/hooks/dialog-update-notification.html.twig:109</note>
       </trans-unit>
       <trans-unit id="8a862ffce3e06bbe655506fd73fe017c">
         <source>Something went wrong...</source>
