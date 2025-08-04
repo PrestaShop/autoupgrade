@@ -203,6 +203,7 @@ class ChecksumCompare
     protected function browseXmlAndCompare(SimpleXMLElement $node, array &$current_path = [], int $level = 1): void
     {
         foreach ($node as $child) {
+            // @phpstan-ignore function.alreadyNarrowedType (Looping on SimpleXMLElement variables brings nullable values before PHP 8)
             if (is_object($child) && $child->getName() === 'dir') {
                 $directoryName = (string) $child['name'];
                 if ($level === 1 && $directoryName === 'install') {
@@ -210,7 +211,9 @@ class ChecksumCompare
                 }
                 $current_path[$level] = $directoryName;
                 $this->browseXmlAndCompare($child, $current_path, $level + 1);
-            } elseif (is_object($child) && $child->getName() === 'md5file') {
+            }
+            // @phpstan-ignore function.alreadyNarrowedType (Looping on SimpleXMLElement variables brings nullable values before PHP 8)
+            elseif (is_object($child) && $child->getName() === 'md5file') {
                 // We will store only relative path.
                 // absolute path is only used for file_exists and compare
                 $relative_path = '';
@@ -242,6 +245,7 @@ class ChecksumCompare
     {
         $array = [];
         foreach ($node as $child) {
+            // @phpstan-ignore function.alreadyNarrowedType (Looping on SimpleXMLElement variables brings nullable values before PHP 8)
             if (is_object($child) && $child->getName() == 'dir') {
                 $dir = (string) $child['name'];
                 /**
@@ -251,7 +255,9 @@ class ChecksumCompare
                  */
                 $dir_content = $this->md5FileAsArray($child, $dir);
                 $array[$dir] = $dir_content;
-            } elseif (is_object($child) && $child->getName() == 'md5file') {
+            }
+            // @phpstan-ignore function.alreadyNarrowedType (Looping on SimpleXMLElement variables brings nullable values before PHP 8)
+            elseif (is_object($child) && $child->getName() == 'md5file') {
                 $array[(string) $child['name']] = (string) $child;
             }
         }

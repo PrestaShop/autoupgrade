@@ -35,6 +35,7 @@ class VersionUtils
      */
     public static function getHumanReadableVersionOf($versionInt)
     {
+        // @phpstan-ignore function.alreadyNarrowedType (Defined in PHPDoc but not checked on runtime)
         if (!is_int($versionInt)) {
             throw new InvalidArgumentException('Version must be an integer.');
         }
@@ -61,6 +62,7 @@ class VersionUtils
      */
     public static function getPhpVersionId($version)
     {
+        // @phpstan-ignore function.alreadyNarrowedType (Defined in PHPDoc but not checked on runtime)
         if (!is_string($version)) {
             throw new InvalidArgumentException('Version must be a string.');
         }
@@ -104,6 +106,7 @@ class VersionUtils
      */
     public static function isActualPHPVersionCompatible()
     {
+        // @phpstan-ignore greaterOrEqual.alwaysTrue (This code can be run with incompatible PHP versions)
         return PHP_VERSION_ID >= self::MODULE_COMPATIBLE_PHP_VERSION;
     }
 
@@ -135,6 +138,7 @@ class VersionUtils
      */
     public static function splitPrestaShopVersion($version)
     {
+        // @phpstan-ignore function.alreadyNarrowedType (Defined in PHPDoc but not checked on runtime)
         if (!is_string($version)) {
             throw new InvalidArgumentException('Version must be a string.');
         }

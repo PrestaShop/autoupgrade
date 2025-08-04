@@ -97,7 +97,8 @@ class LocalVersionFilesService
 
     /**
      * @param array<int, array{'version': string, 'filename': string}> $files
-     * @param array<string, array{'zip': string, 'xml': string}> $groupedByVersion
+     * @param self::TYPE_* $type
+     * @param array<string, array{'zip': string[], 'xml': string[]}> $groupedByVersion
      *
      * @return void
      */

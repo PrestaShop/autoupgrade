@@ -14,5 +14,8 @@ parameters:
 		- ./../../autoupgrade.php
 	excludePaths:
 		- ./../../classes/Tools14.php
-		- ./../../classes/pclzip.lib.php
+	ignoreErrors:
+		-
+			identifier: variable.undefined
+			path: ./../../classes/UpgradeTools/Translation.php
 	level: 6

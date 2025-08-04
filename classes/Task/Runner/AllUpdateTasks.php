@@ -45,8 +45,6 @@ class AllUpdateTasks extends ChainedTasks
      * > data: Loads an encoded array of data coming from another request.
      *
      * @param array<string, string> $options
-     *
-     * @throws Exception
      */
     public function setOptions(array $options): void
     {

@@ -75,10 +75,6 @@ function deactivate_custom_modules(): bool
         }
     }
 
-    if (!is_array($uninstallMe)) {
-        $uninstallMe = [$uninstallMe];
-    }
-
     foreach ($uninstallMe as $k => $v) {
         $uninstallMe[$k] = '"' . pSQL($v) . '"';
     }
