@@ -131,33 +131,10 @@ class Autoupgrade extends Module
             $ajaxTab->delete();
         }
 
-        // Remove the 'autoupgrade' working directory
-        $this->_cleanDirectoryExcept(_PS_ADMIN_DIR_ . DIRECTORY_SEPARATOR . 'autoupgrade', ['backup']);
+        // Remove the 'autoupgrade' admin directory except backups
+        $this->getUpgradeContainer()->getFilesystemAdapter()->clearDirectory(_PS_ADMIN_DIR_ . DIRECTORY_SEPARATOR . 'autoupgrade', ['backup']);
 
         return parent::uninstall();
-    }
-
-    /**
-     * @param string $directory
-     * @param string[] $excluded
-     *
-     * @return void
-     */
-    public function _cleanDirectoryExcept(string $directory, array $excluded = []): void
-    {
-        foreach (scandir($directory) as $item) {
-            if ($item === '.' || $item === '..' || in_array($item, $excluded, true)) {
-                continue;
-            }
-
-            $path = $directory . DIRECTORY_SEPARATOR . $item;
-
-            if (is_dir($path)) {
-                Tools::deleteDirectory($path);
-            } elseif (is_file($path)) {
-                Tools::deleteFile($path);
-            }
-        }
     }
 
     /**

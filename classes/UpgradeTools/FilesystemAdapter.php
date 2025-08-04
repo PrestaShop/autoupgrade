@@ -232,15 +232,17 @@ class FilesystemAdapter
     }
 
     /**
-     * Clears the contents of a given directory, optionally deleting the directory itself.
-     *
-     * @throws IOException if the removal of a file or directory fails
+     * Clears the contents of a given directory, excluding specified items,
+     * * optionally deleting the directory itself.
      *
      * @param string $folderToClear the absolute path of the directory to be cleared
+     * @param string[] $excluded list of file or directory names to exclude from deletion
      *
      * @return bool returns `true` if any files/folders were deleted, `false` otherwise
+     *
+     * @throws IOException if the removal of a file or directory fails
      */
-    public function clearDirectory(string $folderToClear): bool
+    public function clearDirectory(string $folderToClear, array $excluded = []): bool
     {
         $hasDeletedItems = false;
 
@@ -248,20 +250,25 @@ class FilesystemAdapter
             return $hasDeletedItems;
         }
 
+        $excluded[] = 'index.php';
+
         $directory = new FilesystemIterator(
             $folderToClear, FilesystemIterator::SKIP_DOTS | FilesystemIterator::CURRENT_AS_FILEINFO
         );
-        $filter = new CallbackFilterIterator($directory, function ($current) {
-            return $current->getFilename() !== 'index.php';
+
+        $filter = new CallbackFilterIterator($directory, function ($current) use ($excluded) {
+            return !in_array($current->getFilename(), $excluded, true);
         });
+
         $iterator = new IteratorIterator($filter);
 
         foreach ($iterator as $file) {
             $this->filesystem->remove($file);
+            $hasDeletedItems = true;
         }
 
         clearstatcache();
 
-        return (bool) iterator_count($iterator);
+        return $hasDeletedItems;
     }
 }
