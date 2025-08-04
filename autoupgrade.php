@@ -131,10 +131,33 @@ class Autoupgrade extends Module
             $ajaxTab->delete();
         }
 
-        // Remove the 1-click upgrade working directory
-        self::_removeDirectory(_PS_ADMIN_DIR_ . DIRECTORY_SEPARATOR . 'autoupgrade');
+        // Remove the 'autoupgrade' working directory
+        $this->_cleanDirectoryExcept(_PS_ADMIN_DIR_ . DIRECTORY_SEPARATOR . 'autoupgrade', ['backup']);
 
         return parent::uninstall();
+    }
+
+    /**
+     * @param string $directory
+     * @param string[] $excluded
+     *
+     * @return void
+     */
+    public function _cleanDirectoryExcept(string $directory, array $excluded = []): void
+    {
+        foreach (scandir($directory) as $item) {
+            if ($item === '.' || $item === '..' || in_array($item, $excluded, true)) {
+                continue;
+            }
+
+            $path = $directory . DIRECTORY_SEPARATOR . $item;
+
+            if (is_dir($path)) {
+                Tools::deleteDirectory($path);
+            } elseif (is_file($path)) {
+                Tools::deleteFile($path);
+            }
+        }
     }
 
     /**
@@ -157,29 +180,6 @@ class Autoupgrade extends Module
         $this->_errors[] = $error;
 
         return false;
-    }
-
-    /**
-     * @param string $dir
-     *
-     * @return void
-     */
-    private static function _removeDirectory($dir)
-    {
-        if ($handle = @opendir($dir)) {
-            while (false !== ($entry = @readdir($handle))) {
-                if ($entry != '.' && $entry != '..') {
-                    if (is_dir($dir . DIRECTORY_SEPARATOR . $entry) === true) {
-                        self::_removeDirectory($dir . DIRECTORY_SEPARATOR . $entry);
-                    } else {
-                        @unlink($dir . DIRECTORY_SEPARATOR . $entry);
-                    }
-                }
-            }
-
-            @closedir($handle);
-            @rmdir($dir);
-        }
     }
 
     /**
