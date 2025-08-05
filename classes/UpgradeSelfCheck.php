@@ -731,7 +731,7 @@ class UpgradeSelfCheck
                      'translations_dir', 'customizable_products_dir', 'virtual_products_dir', 'config_sf2_dir', 'config_dir',
                      'mails_dir', 'translations_sf2',
                  ] as $testKey) {
-            if (isset($tests[$testKey]) && !ConfigurationTest::{'test_' . $testKey}($tests[$testKey])) {
+            if (isset($tests[$testKey]) && method_exists(ConfigurationTest::class, 'test_' . $testKey) && !ConfigurationTest::{'test_' . $testKey}($tests[$testKey])) {
                 $directories[] = $tests[$testKey];
             }
         }

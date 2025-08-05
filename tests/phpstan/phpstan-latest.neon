@@ -15,3 +15,8 @@ parameters:
 			identifier: booleanAnd.rightAlwaysTrue
 			path: ./../../classes/UpgradeSelfCheck.php
 			count: 2
+		-
+			identifier: argument.type
+			path: ./../../autoupgrade.php
+			count: 1
+
