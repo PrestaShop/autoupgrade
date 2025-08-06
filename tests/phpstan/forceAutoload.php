@@ -27,3 +27,11 @@ require_once __DIR__ . '/../../vendor/twig/twig/src/Extension/AbstractExtension.
 require_once __DIR__ . '/../../vendor/twig/twig/src/Loader/LoaderInterface.php';
 require_once __DIR__ . '/../../vendor/twig/twig/src/Loader/ExistsLoaderInterface.php';
 require_once __DIR__ . '/../../vendor/twig/twig/src/Loader/SourceContextLoaderInterface.php';
+
+if (version_compare(_PS_VERSION_, '9.0.0', '>=')) {
+    // Use the libraries we use instead of the core ones in PHPStan context, when we are sure we don't rely
+    require_once __DIR__ . '/../../vendor/symfony/http-foundation/Request.php';
+    require_once __DIR__ . '/../../vendor/symfony/http-foundation/JsonResponse.php';
+
+    require_once __DIR__ . '/../../vendor/symfony/console/Command/Command.php';
+}

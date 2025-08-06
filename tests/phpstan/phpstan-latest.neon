@@ -7,10 +7,8 @@ parameters:
 		- ./../../classes/Twig/TransFilterExtension.php
 		- ./../../classes/UpgradeContainer.php
 	ignoreErrors:
-		- '#Call to method getContainer\(\) on an unknown class AdminKernel.#'
-		- '#Method PrestaShop\\Module\\AutoUpgrade\\UpgradeTools\\SymfonyAdapter::initKernel\(\) has invalid return type AdminKernel.#'
-		- '#Instantiated class AdminKernel not found\.#'
 		- "#^Parameter \\#1 \\$callback of function array_map expects \\(callable\\(int\\)\\: mixed\\)\\|null, 'add_quotes' given\\.$#"
+		- "#^Property .*ModuleAdapter::\\$commandBus .* does not accept Symfony\\\\Component\\\\DependencyInjection\\\\object\\|null.$#"
 		-
 			identifier: booleanAnd.rightAlwaysTrue
 			path: ./../../classes/UpgradeSelfCheck.php
@@ -19,4 +17,13 @@ parameters:
 			identifier: argument.type
 			path: ./../../autoupgrade.php
 			count: 1
-
+		-
+			# Some PrestaShop may not have the method PrestaShopAutoload::generateIndex
+			identifier: function.impossibleType
+			path: ./../../classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php
+			count: 1
+		-
+			# Abstract class check on AppKernel is not detected by PHPStan, hence the false positive
+			identifier: new.abstract
+			path: ./../../classes/UpgradeTools/SymfonyAdapter.php
+			count: 1

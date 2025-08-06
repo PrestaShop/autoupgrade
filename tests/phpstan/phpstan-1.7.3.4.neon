@@ -1,5 +1,6 @@
 includes:
 	- %currentWorkingDirectory%/tests/phpstan/phpstan.neon
+	- %currentWorkingDirectory%/tests/phpstan/phpstan-partial-pre-v9.neon
 
 parameters:
 	excludePaths:

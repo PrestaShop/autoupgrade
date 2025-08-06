@@ -1,0 +1,7 @@
+parameters:
+    ignoreErrors:
+        -
+            # Some PrestaShop may not have the method PrestaShopAutoload::generateIndex
+            identifier: function.alreadyNarrowedType
+            path: ./../../classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php
+            count: 1
