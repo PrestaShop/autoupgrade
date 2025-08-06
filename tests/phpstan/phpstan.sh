@@ -19,7 +19,7 @@ fi
 if [[ "$PS_VERSION" == 1.7* ]]; then
   BASE_IMAGE="prestashop/base:7.4-apache"
 else
-  BASE_IMAGE="prestashop/base:8.1-apache"
+  BASE_IMAGE="prestashop/base:8.4-apache"
 fi
 
 # Docker images prestashop/prestashop are used to get source files
