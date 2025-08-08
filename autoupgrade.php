@@ -131,8 +131,8 @@ class Autoupgrade extends Module
             $ajaxTab->delete();
         }
 
-        // Remove the 1-click upgrade working directory
-        self::_removeDirectory(_PS_ADMIN_DIR_ . DIRECTORY_SEPARATOR . 'autoupgrade');
+        // Remove the 'autoupgrade' admin directory except backups
+        $this->getUpgradeContainer()->getFilesystemAdapter()->clearDirectory(_PS_ADMIN_DIR_ . DIRECTORY_SEPARATOR . 'autoupgrade', ['backup']);
 
         return parent::uninstall();
     }
@@ -157,29 +157,6 @@ class Autoupgrade extends Module
         $this->_errors[] = $error;
 
         return false;
-    }
-
-    /**
-     * @param string $dir
-     *
-     * @return void
-     */
-    private static function _removeDirectory($dir)
-    {
-        if ($handle = @opendir($dir)) {
-            while (false !== ($entry = @readdir($handle))) {
-                if ($entry != '.' && $entry != '..') {
-                    if (is_dir($dir . DIRECTORY_SEPARATOR . $entry) === true) {
-                        self::_removeDirectory($dir . DIRECTORY_SEPARATOR . $entry);
-                    } else {
-                        @unlink($dir . DIRECTORY_SEPARATOR . $entry);
-                    }
-                }
-            }
-
-            @closedir($handle);
-            @rmdir($dir);
-        }
     }
 
     /**
