@@ -61,17 +61,19 @@ jobs:
         run: |
           docker exec -t prestashop php modules/autoupgrade/bin/console backup:create admin-dev
 
-      - name: Download local ZIP and XML for local channel
-        if: matrix.UPGRADE_CHANNEL == 'local' && matrix.PHP_VERSION != '8.1'
+      - name: Get URLs of PrestaShop zip and xml
+        if: matrix.UPGRADE_CHANNEL == 'local'
+        id: links
         run: |
-          docker exec -t prestashop curl --fail -L https://github.com/PrestaShop/zip-archives/raw/main/prestashop_${{ matrix.PS_VERSION_END }}.zip -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.zip
-          docker exec -t prestashop curl --fail -L https://api.prestashop.com/xml/md5/${{ matrix.PS_VERSION_END }}.xml -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.xml
+          wget -O prestashop_releases.json https://api.prestashop-project.org/prestashop
+          echo "zip=$(jq -r '. | map(select(.version | test("${{ matrix.PS_VERSION_END }}")))[0].zip_download_url' prestashop_releases.json)" >> $GITHUB_OUTPUT
+          echo "xml=$(jq -r '. | map(select(.version | test("${{ matrix.PS_VERSION_END }}")))[0].xml_download_url' prestashop_releases.json)" >> $GITHUB_OUTPUT
 
-      - name: Download local ZIP and XML for local channel in 9.0.0
-        if: matrix.UPGRADE_CHANNEL == 'local' && matrix.PHP_VERSION == '8.1'
+      - name: Download local ZIP and XML for local channel
+        if: matrix.UPGRADE_CHANNEL == 'local'
         run: |
-          docker exec -t prestashop curl --fail -L https://storage.googleapis.com/prestashop-core-nightly/2025-07-23-9.0.x-prestashop_9.0.0.zip -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.zip
-          docker exec -t prestashop curl --fail -L https://storage.googleapis.com/prestashop-core-nightly/2025-07-23-9.0.x-prestashop_9.0.0.xml -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.xml
+          docker exec -t prestashop curl --fail -L ${{ steps.links.outputs.zip }} -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.zip
+          docker exec -t prestashop curl --fail -L ${{ steps.links.outputs.xml }} -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.xml
 
       - name: Write configuration file
         if: matrix.UPGRADE_CHANNEL == 'local'
