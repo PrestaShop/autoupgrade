@@ -5,7 +5,7 @@
       <trans-unit id="ddfec814758f41dd73e219d374d1d15a">
         <source>Unable to retrieve the recommended releases of Update Assistant.</source>
         <target>Unable to retrieve the recommended releases of Update Assistant.</target>
-        <note>classes/Upgrader.php:137</note>
+        <note>classes/Upgrader.php:136</note>
       </trans-unit>
       <trans-unit id="435d516735dbf7f622c7d14585f66840">
         <source>Action %s skipped</source>
@@ -20,7 +20,7 @@
       <trans-unit id="8c4204265814594491ae20c9899a0fff">
         <source>Running opcache_reset</source>
         <target>Running opcache_reset</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:840</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:841</note>
       </trans-unit>
       <trans-unit id="222102295c3c6626ff141687b0f49b6b">
         <source>Nothing to restore</source>
@@ -455,7 +455,7 @@
       <trans-unit id="badf6aad60d4a95b698028bc55aa3347">
         <source>Cleaning file cache</source>
         <target>Cleaning file cache</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:838</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:839</note>
       </trans-unit>
       <trans-unit id="c5ada796f937732385b6594d7364b69a">
         <source>Updating database data and structure</source>
@@ -680,44 +680,44 @@
       <trans-unit id="53983059bf39e1325bba11081ca40e97">
         <source>Keeping current theme</source>
         <target>Keeping current theme</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:748</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:749</note>
       </trans-unit>
       <trans-unit id="796b7c49e21f09173214f029c7f02f9d">
         <source>Switching to default theme.</source>
         <target>Switching to default theme.</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:753</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:754</note>
       </trans-unit>
       <trans-unit id="475d2ad61e3486ec4af224c5c701b668">
         <source>No RTL language detected, skipping RTL file update.</source>
         <target>No RTL language detected, skipping RTL file update.</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:770</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:771</note>
       </trans-unit>
       <trans-unit id="865502b07194399bc188582c6a3e266c">
         <source>Update the RTL files of back-office themes.</source>
         <target>Update the RTL files of back-office themes.</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:777</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:778</note>
       </trans-unit>
       <trans-unit id="751c05018f86933c195f46ec3ab55bf8">
         <source>Update the RTL files of front-office themes.</source>
         <target>Update the RTL files of front-office themes.</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:798</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:799</note>
       </trans-unit>
       <trans-unit id="3beb9b10d6bd297fde87d3ba5163975d">
         <source>PHP Impossible to generate RTL files for theme %s: %s</source>
         <target>PHP Impossible to generate RTL files for theme %s: %s</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:815</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:816</note>
       </trans-unit>
       <trans-unit id="061a241a2e3b54e5546a13792de11b82">
         <source>An error was raised when warming up the core cache: 
  %s</source>
         <target>An error was raised when warming up the core cache: 
  %s</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:867</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:868</note>
       </trans-unit>
       <trans-unit id="068cba215a30b9ffbd27e680475be575">
         <source>Core cache has been generated to avoid dependency conflicts.</source>
         <target>Core cache has been generated to avoid dependency conflicts.</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:869</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:870</note>
       </trans-unit>
       <trans-unit id="b5ffb77b13ab03298982a49842ce78aa">
         <source>%lang% is not a valid iso code, skipping</source>
@@ -797,12 +797,12 @@
       <trans-unit id="2f6767f7a35a93e9462d6ec6a237fd0d">
         <source>%dir% does not exist or is not a directory.</source>
         <target>%dir% does not exist or is not a directory.</target>
-        <note>classes/UpgradeTools/Module/ModuleAdapter.php:136</note>
+        <note>classes/UpgradeTools/Module/ModuleAdapter.php:116</note>
       </trans-unit>
       <trans-unit id="0ffc32ecace92b6d10bd5247b54fff15">
         <source>%s does not exist or is not a directory.</source>
         <target>%s does not exist or is not a directory.</target>
-        <note>classes/UpgradeTools/Module/ModuleAdapter.php:136</note>
+        <note>classes/UpgradeTools/Module/ModuleAdapter.php:116</note>
       </trans-unit>
       <trans-unit id="de4c47f6bfc2283a2424f2e4610e06ea">
         <source>Download of source #%s has failed.</source>
