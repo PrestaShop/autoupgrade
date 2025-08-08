@@ -38,9 +38,6 @@ class ModuleAdapter
      */
     private $symfonyAdapter;
 
-    /** @var \PrestaShop\PrestaShop\Adapter\Module\ModuleDataUpdater */
-    private $moduleDataUpdater;
-
     /** @var \PrestaShop\PrestaShop\Core\CommandBus\CommandBusInterface */
     private $commandBus;
 
@@ -49,23 +46,6 @@ class ModuleAdapter
         $this->translator = $translator;
         $this->modulesPath = $modulesPath;
         $this->symfonyAdapter = $symfonyAdapter;
-    }
-
-    /**
-     * Available only from 1.7. Can't be called on PS 1.6.
-     *
-     * @return \PrestaShop\PrestaShop\Adapter\Module\ModuleDataUpdater
-     */
-    public function getModuleDataUpdater()
-    {
-        if (null === $this->moduleDataUpdater) {
-            $this->moduleDataUpdater = $this->symfonyAdapter
-                ->initKernel()
-                ->getContainer()
-                ->get('prestashop.core.module.updater');
-        }
-
-        return $this->moduleDataUpdater;
     }
 
     /**

@@ -98,7 +98,6 @@ class Upgrader
 
     /**
      * @throws DistributionApiException
-     * @throws UpgradeException
      */
     public function getOnlineDestinationRelease(): ?PrestashopRelease
     {

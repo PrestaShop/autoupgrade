@@ -15,6 +15,13 @@ if [ ! -f $PWD/tests/phpstan/phpstan-$PS_VERSION.neon ]; then
   exit 2
 fi
 
+# Determine the appropriate base image
+if [[ "$PS_VERSION" == 1.7* ]]; then
+  BASE_IMAGE="prestashop/base:7.4-apache"
+else
+  BASE_IMAGE="prestashop/base:8.4-apache"
+fi
+
 # Docker images prestashop/prestashop are used to get source files
 echo "Pull PrestaShop files (Tag ${PS_VERSION})"
 
@@ -35,7 +42,7 @@ docker run --rm --volumes-from temp-ps \
        -e _PS_ROOT_DIR_=/var/www/html \
        --workdir=/var/www/html/modules/autoupgrade \
        --entrypoint=/var/www/html/modules/autoupgrade/tests/vendor/bin/phpstan \
-       prestashop/base:7.4-apache \
+       "$BASE_IMAGE" \
        analyse \
        --configuration=/var/www/html/modules/autoupgrade/tests/phpstan/phpstan-$PS_VERSION.neon \
        "${@:2}"

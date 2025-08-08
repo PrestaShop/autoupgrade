@@ -141,7 +141,7 @@ class UpdatePageVersionChoiceController extends AbstractPageWithStepController
      * @return array{
      *                'requirements_ok': bool,
      *                'warnings':array<int, array{'message': string, 'list'?: array<string>}>,
-     *                'errors':array<int, array{'message': string, 'list'?: array<string>}>}}
+     *                'errors':array<int, array{'message': string, 'list'?: array<string>}>}
      *
      * @throws Exception
      */

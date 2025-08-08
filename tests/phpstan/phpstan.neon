@@ -14,5 +14,13 @@ parameters:
 		- ./../../autoupgrade.php
 	excludePaths:
 		- ./../../classes/Tools14.php
-		- ./../../classes/pclzip.lib.php
+	ignoreErrors:
+		-
+			# Ignoring this error is necessary, see https://github.com/phpstan/phpstan/issues/13353
+			identifier: variable.undefined
+			path: ./../../classes/UpgradeTools/Translation.php
+		-
+			# PHPStan is mixing slash and antislash in its tests
+			identifier: requireOnce.fileNotFound
+
 	level: 6

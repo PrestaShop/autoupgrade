@@ -243,6 +243,7 @@ class Autoupgrade extends Module
             !$this->initAutoloaderIfCompliant()
             || !class_exists(\PrestaShop\PrestaShop\Core\Action\ActionsBarButtonsCollection::class)
             || !class_exists(\PrestaShop\PrestaShop\Core\Action\ActionsBarButton::class)
+            // @phpstan-ignore instanceof.alwaysTrue (Depends on the PrestaShop version)
             || !($params['links'] instanceof \PrestaShop\PrestaShop\Core\Action\ActionsBarButtonsCollection)
         ) {
             return;

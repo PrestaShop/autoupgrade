@@ -163,7 +163,7 @@ class BackupFinder
     }
 
     /**
-     * @param array<mixed, array{timestamp: int}> $backups
+     * @param array<mixed, array{timestamp: int, datetime: string, version:string, filename: string}> $backups
      */
     public function sortBackupsByNewest(array &$backups): void
     {

@@ -1,5 +1,6 @@
 includes:
 	- %currentWorkingDirectory%/tests/phpstan/phpstan.neon
+	- %currentWorkingDirectory%/tests/phpstan/phpstan-partial-pre-v9.neon
 
 parameters:
 	excludePaths:
@@ -23,5 +24,9 @@ parameters:
 		- '#Parameter \$params of method Autoupgrade::hookDisplayBackOfficeEmployeeMenu\(\) has invalid type PrestaShop\\PrestaShop\\Core\\Action\\ActionsBarButtonsCollection.#'
 		-
 			identifier: booleanAnd.rightAlwaysTrue
+			path: ./../../classes/UpgradeSelfCheck.php
+			count: 1
+		-
+			identifier: staticMethod.notFound
 			path: ./../../classes/UpgradeSelfCheck.php
 			count: 1

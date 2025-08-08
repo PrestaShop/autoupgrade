@@ -688,7 +688,7 @@ class UpgradeContainer
         if (null === $this->translator) {
             $locale = null;
             $languageConfiguration = $this->getLanguageConfiguration();
-            // @phpstan-ignore booleanAnd.rightAlwaysTrue (If PrestaShop core is not instantiated properly, do not try to translate)
+            // @phpstan-ignore booleanAnd.rightAlwaysTrue, function.alreadyNarrowedType (If PrestaShop core is not instantiated properly, do not try to translate)
             if (method_exists('\Context', 'getContext') && \Context::getContext()->language) {
                 $newConfiguration = [
                     LanguageConfiguration::ISO_LANGUAGES => \Context::getContext()->language->iso_code,
@@ -1083,6 +1083,7 @@ class UpgradeContainer
     {
         $disabled = explode(',', ini_get('disable_functions'));
 
+        // @phpstan-ignore function.alreadyNarrowedType (Actually depends on the user configuration)
         if (in_array('opcache_reset', $disabled) || !is_callable('opcache_reset')) {
             return;
         }

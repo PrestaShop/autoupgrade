@@ -570,6 +570,7 @@ abstract class CoreUpgrader
             require_once _PS_ROOT_DIR_ . '/classes/Tools.php';
         }
 
+        // @phpstan-ignore function.alreadyNarrowedType (Some PrestaShop may not have this method)
         if (!class_exists('ToolsCore') || !method_exists('ToolsCore', 'generateHtaccess')) {
             return;
         }
