@@ -37,10 +37,6 @@ class PhpVersionResolverServiceTest extends TestCase
 
     public function setUp()
     {
-        if (PHP_VERSION_ID >= 80000) {
-            $this->markTestSkipped('An issue with this version of PHPUnit and PHP 8+ prevents this test to run.');
-        }
-
         $translator = $this->createMock(Translator::class);
         $translator->method('trans')
             ->willReturnCallback(function ($message, $parameters = []) {
@@ -131,7 +127,7 @@ class PhpVersionResolverServiceTest extends TestCase
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('The minimum version to use the module is PHP 7.1');
 
-        $this->phpVersionResolverService->getPrestashopDestinationRelease(50600);
+        $this->phpVersionResolverService->getPrestashopDestinationReleases(50600);
     }
 
     /**
@@ -147,7 +143,7 @@ class PhpVersionResolverServiceTest extends TestCase
         $this->expectException(DistributionApiException::class);
         $this->expectExceptionMessage('Unable to retrieve "prestashop" data from distribution API.');
 
-        $this->phpVersionResolverService->getPrestashopDestinationRelease(80000);
+        $this->phpVersionResolverService->getPrestashopDestinationReleases(80000);
     }
 
     /**
@@ -166,7 +162,7 @@ class PhpVersionResolverServiceTest extends TestCase
         $this->expectException(DistributionApiException::class);
         $this->expectExceptionMessage('Unable to retrieve "autoupgrade" data from distribution API.');
 
-        $this->phpVersionResolverService->getPrestashopDestinationRelease(80000);
+        $this->phpVersionResolverService->getPrestashopDestinationReleases(80000);
     }
 
     /**
@@ -175,40 +171,92 @@ class PhpVersionResolverServiceTest extends TestCase
     public function prestashopDestinationReleaseProvider(): array
     {
         return [
-            [999999, null],
-            [80100, new PrestashopRelease('8.2.1',
-                'stable',
-                'open_source',
-                '8.1',
-                '7.2.5',
-                'https://api.prestashop-project.org/assets/prestashop/8.2.1/prestashop.zip',
-                'https://api.prestashop-project.org/assets/prestashop/8.2.1/prestashop.xml',
-                '513bd62a9f9ad35a723f362d88c99790',
-                'https://build.prestashop-project.org/news/2025/prestashop-8-2-1-maintenance-release/',
-            null
-            )],
-            [70205, new PrestashopRelease('8.2.1',
-                'stable',
-                'open_source',
-                '8.1',
-                '7.2.5',
-                'https://api.prestashop-project.org/assets/prestashop/8.2.1/prestashop.zip',
-                'https://api.prestashop-project.org/assets/prestashop/8.2.1/prestashop.xml',
-                '513bd62a9f9ad35a723f362d88c99790',
-                'https://build.prestashop-project.org/news/2025/prestashop-8-2-1-maintenance-release/',
-            null
-            )],
-            [70103, new PrestashopRelease('1.7.8.11',
-                'stable',
-                'open_source',
-                '7.4',
-                '7.1.3',
-                'https://api.prestashop-project.org/assets/prestashop/1.7.8.11/prestashop.zip',
-                'https://api.prestashop-project.org/assets/prestashop/1.7.8.11/prestashop.xml',
-                'd29d55f89a2c44bef3d5c51b70e3a771',
-                'https://build.prestashop-project.org/news/2024/prestashop-1-7-8-11-maintenance-release/',
-                null
-            )],
+            [999999, []],
+            [80300, [
+                'max' => new PrestashopRelease('9.0.0',
+                    'stable',
+                    'classic',
+                    '8.4',
+                    '8.1',
+                    'https://api.prestashop-project.org/assets/prestashop-classic/9.0.0-1.0/prestashop.zip',
+                    'https://api.prestashop-project.org/assets/prestashop-classic/9.0.0-1.0/prestashop.xml',
+                    'd16ad2da1f7aa07958bc678a4036632f',
+                    'https://build.prestashop-project.org/news/2025/prestashop-9-0-available/',
+                    '1.0'
+                ),
+            ]],
+            [80100, [
+                'max' => new PrestashopRelease('9.0.0',
+                    'stable',
+                    'classic',
+                    '8.4',
+                    '8.1',
+                    'https://api.prestashop-project.org/assets/prestashop-classic/9.0.0-1.0/prestashop.zip',
+                    'https://api.prestashop-project.org/assets/prestashop-classic/9.0.0-1.0/prestashop.xml',
+                    'd16ad2da1f7aa07958bc678a4036632f',
+                    'https://build.prestashop-project.org/news/2025/prestashop-9-0-available/',
+                    '1.0'
+                ),
+                'recommended' => new PrestashopRelease('8.2.1',
+                    'stable',
+                    'open_source',
+                    '8.1',
+                    '7.2.5',
+                    'https://api.prestashop-project.org/assets/prestashop/8.2.1/prestashop.zip',
+                    'https://api.prestashop-project.org/assets/prestashop/8.2.1/prestashop.xml',
+                    '513bd62a9f9ad35a723f362d88c99790',
+                    'https://build.prestashop-project.org/news/2025/prestashop-8-2-1-maintenance-release/',
+                    null
+                ),
+            ]],
+            [70205, [
+                'max' => new PrestashopRelease('8.2.1',
+                    'stable',
+                    'open_source',
+                    '8.1',
+                    '7.2.5',
+                    'https://api.prestashop-project.org/assets/prestashop/8.2.1/prestashop.zip',
+                    'https://api.prestashop-project.org/assets/prestashop/8.2.1/prestashop.xml',
+                    '513bd62a9f9ad35a723f362d88c99790',
+                    'https://build.prestashop-project.org/news/2025/prestashop-8-2-1-maintenance-release/',
+                    null
+                ),
+                'recommended' => new PrestashopRelease('8.2.1',
+                    'stable',
+                    'open_source',
+                    '8.1',
+                    '7.2.5',
+                    'https://api.prestashop-project.org/assets/prestashop/8.2.1/prestashop.zip',
+                    'https://api.prestashop-project.org/assets/prestashop/8.2.1/prestashop.xml',
+                    '513bd62a9f9ad35a723f362d88c99790',
+                    'https://build.prestashop-project.org/news/2025/prestashop-8-2-1-maintenance-release/',
+                    null
+                ),
+            ]],
+            [70103, [
+                'max' => new PrestashopRelease('1.7.8.11',
+                    'stable',
+                    'open_source',
+                    '7.4',
+                    '7.1.3',
+                    'https://api.prestashop-project.org/assets/prestashop/1.7.8.11/prestashop.zip',
+                    'https://api.prestashop-project.org/assets/prestashop/1.7.8.11/prestashop.xml',
+                    'd29d55f89a2c44bef3d5c51b70e3a771',
+                    'https://build.prestashop-project.org/news/2024/prestashop-1-7-8-11-maintenance-release/',
+                    null
+                ),
+                'recommended' => new PrestashopRelease('1.7.8.11',
+                    'stable',
+                    'open_source',
+                    '7.4',
+                    '7.1.3',
+                    'https://api.prestashop-project.org/assets/prestashop/1.7.8.11/prestashop.zip',
+                    'https://api.prestashop-project.org/assets/prestashop/1.7.8.11/prestashop.xml',
+                    'd29d55f89a2c44bef3d5c51b70e3a771',
+                    'https://build.prestashop-project.org/news/2024/prestashop-1-7-8-11-maintenance-release/',
+                    null
+                ),
+            ]],
         ];
     }
 
@@ -227,6 +275,6 @@ class PhpVersionResolverServiceTest extends TestCase
                 [DistributionApiService::AUTOUPGRADE_ENDPOINT, json_decode(@file_get_contents(__DIR__ . '/../../fixtures/api-distribution/autoupgrade.json'), true)],
             ]));
 
-        $this->assertEquals($expected, $this->phpVersionResolverService->getPrestashopDestinationRelease($input));
+        $this->assertEquals($expected, $this->phpVersionResolverService->getPrestashopDestinationReleases($input));
     }
 }

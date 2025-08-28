@@ -32,6 +32,10 @@ class PhpVersionResolverService
     const COMPATIBILITY_VALID = 1;
     const COMPATIBILITY_UNKNOWN = 2;
 
+    const TEMPORARY_EXCLUDED_MAX_RECOMMENDED_VERSION = '9';
+    const AVAILABLE_RELEASE_MAX = 'max';
+    const AVAILABLE_RELEASE_RECOMMENDED = 'recommended';
+
     /** @var DistributionApiService */
     private $distributionApiService;
     /** @var string */
@@ -90,10 +94,12 @@ class PhpVersionResolverService
     }
 
     /**
+     * @return array<string, PrestaShopRelease>
+     *
      * @throws DistributionApiException
      * @throws LogicException
      */
-    public function getPrestashopDestinationRelease(int $currentPhpVersionId): ?PrestashopRelease
+    public function getPrestashopDestinationReleases(int $currentPhpVersionId): array
     {
         $currentPhpVersion = VersionUtils::getPhpMajorMinorVersionId($currentPhpVersionId);
 
@@ -144,14 +150,19 @@ class PhpVersionResolverService
             }
         }
 
-        /** @var PrestashopRelease $release */
+        // TODO: Will be improved later to return several options (minor or patch, major) instead of the current max / recommended.
+        // Currently limited to PS v8 with a temporary hardcoded value.
+        /** @var array<string, PrestaShopRelease> $release */
         $release = array_reduce($validReleases, function ($carry, $item) {
-            if ($carry === null || version_compare($item->getVersion(), $carry->getVersion()) > 0) {
-                return $item;
+            if (empty($carry[self::AVAILABLE_RELEASE_MAX]) || version_compare($item->getVersion(), $carry[self::AVAILABLE_RELEASE_MAX]->getVersion()) > 0) {
+                $carry[self::AVAILABLE_RELEASE_MAX] = $item;
+            }
+            if (version_compare($item->getVersion(), self::TEMPORARY_EXCLUDED_MAX_RECOMMENDED_VERSION, '<') && (empty($carry[self::AVAILABLE_RELEASE_RECOMMENDED]) || version_compare($item->getVersion(), $carry[self::AVAILABLE_RELEASE_RECOMMENDED]->getVersion()) > 0)) {
+                $carry[self::AVAILABLE_RELEASE_RECOMMENDED] = $item;
             }
 
             return $carry;
-        });
+        }, []);
 
         return $release;
     }
