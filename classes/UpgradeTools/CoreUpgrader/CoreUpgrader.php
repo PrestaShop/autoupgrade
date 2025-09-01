@@ -33,6 +33,7 @@ use PrestaShop\Module\AutoUpgrade\Log\LoggerInterface;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\ThemeAdapter;
+use PrestaShop\PrestaShop\Adapter\SymfonyContainer;
 use PrestaShop\PrestaShop\Core\CommandBus\CommandBusInterface;
 use PrestaShop\PrestaShop\Core\Domain\Theme\Command\AdaptThemeToRTLLanguagesCommand;
 use PrestaShop\PrestaShop\Core\Domain\Theme\ValueObject\ThemeName;
@@ -120,6 +121,8 @@ abstract class CoreUpgrader
         $this->runRecurrentQueries();
 
         $this->logger->info($this->container->getTranslator()->trans('Database update OK')); // no error!
+
+        $this->installAssets();
 
         $this->logger->info($this->container->getTranslator()->trans('Updating languages'));
         $this->upgradeLanguages();
@@ -868,5 +871,27 @@ abstract class CoreUpgrader
             throw new UpgradeException($this->container->getTranslator()->trans("An error was raised when warming up the core cache: \n %s", [implode("\n", $output)]));
         }
         $this->logger->debug($this->container->getTranslator()->trans('Core cache has been generated to avoid dependency conflicts.'));
+    }
+
+    /**
+     * PrestaShop 9.0.1 adds an helper function that runs "assets:install".
+     * It install some bundles assets via symlink or hard copy if symlink aren't possible in this environment.
+     */
+    private function installAssets(): void
+    {
+        $classPath = '\PrestaShop\PrestaShop\Adapter\Bundle\AssetsInstaller';
+        $containerClassPath = '\PrestaShop\PrestaShop\Adapter\SymfonyContainer';
+
+        if (!class_exists($classPath) || !class_exists($containerClassPath)) {
+            // Nothing to do if the class does not exist in the version we update to.
+            return;
+        }
+
+        $this->logger->info($this->container->getTranslator()->trans('Installing assets'));
+
+        /** @var \PrestaShop\PrestaShop\Adapter\Bundle\AssetsInstaller */
+        $service = SymfonyContainer::getInstance()
+            ->get($classPath);
+        $service->installAssets($this->container->getProperty(UpgradeContainer::PS_ADMIN_SUBDIR));
     }
 }
