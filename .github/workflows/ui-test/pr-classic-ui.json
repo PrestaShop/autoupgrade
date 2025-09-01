@@ -1,0 +1,12 @@
+{
+  "include": [
+    {
+      "comment": "1.7.7.8 PHP 7.3 online"
+    },
+    {
+      "PS_VERSION_START": "8.1.5-classic",
+      "PHP_VERSION": "8.1",
+      "UPGRADE_CHANNEL": "online"
+    }
+    ]
+}
