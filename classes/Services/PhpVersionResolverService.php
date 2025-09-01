@@ -154,10 +154,14 @@ class PhpVersionResolverService
         // Currently limited to PS v8 with a temporary hardcoded value.
         /** @var array<string, PrestaShopRelease> $release */
         $release = array_reduce($validReleases, function ($carry, $item) {
-            if (empty($carry[self::AVAILABLE_RELEASE_MAX]) || version_compare($item->getVersion(), $carry[self::AVAILABLE_RELEASE_MAX]->getVersion()) > 0) {
+            $isABetterMaxVersion = empty($carry[self::AVAILABLE_RELEASE_MAX]) || version_compare($item->getVersion(), $carry[self::AVAILABLE_RELEASE_MAX]->getVersion()) > 0;
+            $isABetterRecommendedVersion = empty($carry[self::AVAILABLE_RELEASE_RECOMMENDED]) || version_compare($item->getVersion(), $carry[self::AVAILABLE_RELEASE_RECOMMENDED]->getVersion()) > 0;
+            $isEligibleToRecommendation = version_compare($item->getVersion(), self::TEMPORARY_EXCLUDED_MAX_RECOMMENDED_VERSION, '<');
+
+            if ($isABetterMaxVersion) {
                 $carry[self::AVAILABLE_RELEASE_MAX] = $item;
             }
-            if (version_compare($item->getVersion(), self::TEMPORARY_EXCLUDED_MAX_RECOMMENDED_VERSION, '<') && (empty($carry[self::AVAILABLE_RELEASE_RECOMMENDED]) || version_compare($item->getVersion(), $carry[self::AVAILABLE_RELEASE_RECOMMENDED]->getVersion()) > 0)) {
+            if ($isEligibleToRecommendation && $isABetterRecommendedVersion) {
                 $carry[self::AVAILABLE_RELEASE_RECOMMENDED] = $item;
             }
 
