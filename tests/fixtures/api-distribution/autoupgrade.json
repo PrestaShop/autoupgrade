@@ -13,6 +13,17 @@
       }
     },
     {
+      "prestashop_min": "9.0.0",
+      "prestashop_max": "9.0.0",
+      "autoupgrade_recommended": {
+        "last_version": "7.3.0",
+        "download": {
+          "link": "https://github.com/PrestaShop/autoupgrade/releases/download/v7.3.0/autoupgrade-v7.3.0.zip",
+          "md5": "48ced9086bac4f2e2266c3d20505e58c"
+        }
+      }
+    },
+    {
       "prestashop_min": "1.6.0.0",
       "prestashop_max": "1.7.8.11",
       "autoupgrade_recommended": {

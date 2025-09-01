@@ -228,13 +228,12 @@ class DisplayBackOfficeHeader
     {
         $this->updateNotificationConfiguration->setTimestamp(time() + self::TIMESTAMP_30_DAYS);
 
-        if ($this->upgrader->isNewerVersionAvailableOnline()) {
-            $onlineDestination = $this->upgrader->getOnlineDestinationRelease();
-
-            $onlineVersion = $onlineDestination->getVersion();
+        $recommendedVersionOnline = $this->upgrader->getRecommendedOnlineDestinationRelease();
+        if ($recommendedVersionOnline) {
+            $onlineVersion = $recommendedVersionOnline->getVersion();
             $this->updateNotificationConfiguration->setVersion($onlineVersion);
 
-            $releaseNote = $onlineDestination->getReleaseNoteUrl();
+            $releaseNote = $recommendedVersionOnline->getReleaseNoteUrl();
             $this->updateNotificationConfiguration->setReleaseNote($releaseNote);
         }
 

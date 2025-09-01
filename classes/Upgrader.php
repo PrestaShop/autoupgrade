@@ -37,8 +37,8 @@ class Upgrader
 
     /** @var Translator */
     protected $translator;
-    /** @var PrestashopRelease */
-    private $onlineDestinationRelease;
+    /** @var array<string, PrestaShopRelease> */
+    private $onlineDestinationReleases;
     /** @var string */
     protected $currentPsVersion;
     /** @var PhpVersionResolverService */
@@ -89,24 +89,61 @@ class Upgrader
      */
     public function isNewerVersionAvailableOnline(): bool
     {
-        if ($this->getOnlineDestinationRelease() === null) {
+        $releaseOptions = $this->getOnlineDestinationReleases();
+        if (empty($releaseOptions)) {
             return false;
         }
 
-        return version_compare($this->currentPsVersion, $this->getOnlineDestinationRelease()->getVersion(), '<');
+        foreach ($releaseOptions as $release) {
+            if (version_compare($this->currentPsVersion, $release->getVersion(), '<')) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
+     * @deprecated To be replaced with a management of options (minor or patch, major)
+     *
      * @throws DistributionApiException
      */
     public function getOnlineDestinationRelease(): ?PrestashopRelease
     {
-        if ($this->onlineDestinationRelease !== null) {
-            return $this->onlineDestinationRelease;
-        }
-        $this->onlineDestinationRelease = $this->phpVersionResolverService->getPrestashopDestinationRelease(PHP_VERSION_ID);
+        return $this->getOnlineDestinationReleases()[PhpVersionResolverService::AVAILABLE_RELEASE_MAX] ?? null;
+    }
 
-        return $this->onlineDestinationRelease;
+    /**
+     * @return array<string, PrestaShopRelease>
+     *
+     * @throws DistributionApiException
+     */
+    public function getOnlineDestinationReleases(): array
+    {
+        if ($this->onlineDestinationReleases !== null) {
+            return $this->onlineDestinationReleases;
+        }
+        $this->onlineDestinationReleases = $this->phpVersionResolverService->getPrestashopDestinationReleases(PHP_VERSION_ID);
+
+        return $this->onlineDestinationReleases;
+    }
+
+    public function getRecommendedOnlineDestinationRelease(): ?PrestashopRelease
+    {
+        $releases = $this->getOnlineDestinationReleases();
+
+        if (empty($releases[PhpVersionResolverService::AVAILABLE_RELEASE_RECOMMENDED])) {
+            return null;
+        }
+
+        $candidate = $releases[PhpVersionResolverService::AVAILABLE_RELEASE_RECOMMENDED];
+
+        if (version_compare($this->currentPsVersion, $candidate->getVersion(), '>=')) {
+            // Do not suggest if the available version is older
+            return null;
+        }
+
+        return $candidate;
     }
 
     /**
@@ -120,7 +157,10 @@ class Upgrader
         if ($this->updateConfiguration->isChannelLocal()) {
             return $this->updateConfiguration->getLocalChannelVersion();
         } else {
-            return $this->getOnlineDestinationRelease() ? $this->getOnlineDestinationRelease()->getVersion() : null;
+            // TODO: To replace with a data stored in the update Configuration
+            return !empty($this->getOnlineDestinationReleases()[PhpVersionResolverService::AVAILABLE_RELEASE_MAX])
+                ? $this->getOnlineDestinationReleases()[PhpVersionResolverService::AVAILABLE_RELEASE_MAX]->getVersion()
+                : null;
         }
     }
 
