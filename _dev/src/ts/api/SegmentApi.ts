@@ -16,22 +16,29 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
-import { AnalyticsBrowser } from '@segment/analytics-next';
+import { Analytics as SAnalytics, AnalyticsBrowser } from '@segment/analytics-next';
 import { maskSensitiveInfoInUrl } from '../appUI/utils/urlUtils';
 
 class Analytics {
-  analytics: AnalyticsBrowser;
+  analytics!: SAnalytics;
   #isAutoTrackSet = false;
 
   /**
    * @description Initializes the Analytics class and loads the Segment analytics with the provided write key.
    */
   public constructor() {
-    this.analytics = AnalyticsBrowser.load(
+    AnalyticsBrowser.load(
       { writeKey: 'RM87m03McDSL4Fvm3GJ3piBPbAL3Fa2i' },
       { disableClientPersistence: true }
-    );
-    this.analytics.identify(window.AutoUpgradeVariables.anonymous_id);
+    )
+      .then(([analytics]) => {
+        this.analytics = analytics;
+        this.analytics.identify(window.AutoUpgradeVariables.anonymous_id);
+      })
+      .catch((error: Error) => {
+        console.error('[Analytics] Failed to initialize Segment.', error);
+      });
+
     this.#setupAutoTrack();
   }
 
@@ -42,17 +49,21 @@ class Analytics {
    * @description Tracks an event with optional properties.
    */
   public track = async (event: string, properties?: object) => {
-    await this.analytics.track(
-      event,
-      {
-        module: 'autoupgrade',
-        ...this.#getDefaultProperties(),
-        ...properties
-      },
-      {
-        page: this.#getMaskedPageData()
-      }
-    );
+    try {
+      await this.analytics?.track(
+        event,
+        {
+          module: 'autoupgrade',
+          ...this.#getDefaultProperties(),
+          ...properties
+        },
+        {
+          page: this.#getMaskedPageData()
+        }
+      );
+    } catch (error) {
+      console.error(`[Analytics] Failed to track event "${event}".`, error);
+    }
   };
 
   readonly #setupAutoTrack = () => {
