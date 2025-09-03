@@ -33,7 +33,6 @@ use PrestaShop\Module\AutoUpgrade\Log\LoggerInterface;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\ThemeAdapter;
-use PrestaShop\PrestaShop\Adapter\SymfonyContainer;
 use PrestaShop\PrestaShop\Core\CommandBus\CommandBusInterface;
 use PrestaShop\PrestaShop\Core\Domain\Theme\Command\AdaptThemeToRTLLanguagesCommand;
 use PrestaShop\PrestaShop\Core\Domain\Theme\ValueObject\ThemeName;
@@ -879,19 +878,27 @@ abstract class CoreUpgrader
      */
     private function installAssets(): void
     {
-        $classPath = '\PrestaShop\PrestaShop\Adapter\Bundle\AssetsInstaller';
-        $containerClassPath = '\PrestaShop\PrestaShop\Adapter\SymfonyContainer';
-
-        if (!class_exists($classPath) || !class_exists($containerClassPath)) {
+        if (!class_exists('PrestaShop\PrestaShop\Adapter\Bundle\AssetsInstaller')) {
             // Nothing to do if the class does not exist in the version we update to.
             return;
         }
 
         $this->logger->info($this->container->getTranslator()->trans('Installing assets'));
 
-        /** @var \PrestaShop\PrestaShop\Adapter\Bundle\AssetsInstaller */
-        $service = SymfonyContainer::getInstance()
-            ->get($classPath);
-        $service->installAssets($this->container->getProperty(UpgradeContainer::PS_ADMIN_SUBDIR));
+        // Calling PrestaShop\PrestaShop\Adapter\Bundle\AssetsInstaller::installAssets() is impossible at the time of writing of this method.
+        // Attempting to call it from Update Assistant v7 triggers a collision between the versions of the package smyfony/console provided
+        // by the core and Update Assistant. We run a basic exec to avoid it.
+
+        $rootPath = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH);
+        $adminSubDir = $this->container->getProperty(UpgradeContainer::PS_ADMIN_SUBDIR);
+        $command = 'php ' . $rootPath . '/bin/console assets:install --symlink --no-interaction --env=prod ' . $adminSubDir;
+        $output = [];
+        $resultCode = 0;
+
+        exec($command, $output, $resultCode);
+
+        if ($resultCode !== 0) {
+            throw new UpgradeException($this->container->getTranslator()->trans("An error was raised while installing assets: \n %s", [implode("\n", $output)]));
+        }
     }
 }
