@@ -805,7 +805,7 @@
       <trans-unit id="ddfec814758f41dd73e219d374d1d15a">
         <source>Unable to retrieve the recommended releases of Update Assistant.</source>
         <target>Unable to retrieve the recommended releases of Update Assistant.</target>
-        <note>classes/Upgrader.php:136</note>
+        <note>classes/Upgrader.php:176</note>
       </trans-unit>
       <trans-unit id="4d46d96c1ea641735ee0c26c6381c75e">
         <source>API keys not present in parameters, generating</source>
