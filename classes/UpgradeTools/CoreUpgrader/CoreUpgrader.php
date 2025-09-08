@@ -859,15 +859,11 @@ abstract class CoreUpgrader
      */
     public function warmupCoreCache(): void
     {
-        $rootPath = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH);
-        $command = 'php ' . $rootPath . '/bin/console cache:warmup --no-interaction --no-optional-warmers --env=prod';
-        $output = [];
-        $resultCode = 0;
+        $args = 'cache:warmup --no-interaction --no-optional-warmers --env=prod';
+        $result = $this->callCoreConsoleCommand($args);
 
-        exec($command, $output, $resultCode);
-
-        if ($resultCode !== 0) {
-            throw new UpgradeException($this->container->getTranslator()->trans("An error was raised when warming up the core cache: \n %s", [implode("\n", $output)]));
+        if ($result['returnCode'] !== 0) {
+            throw new UpgradeException($this->container->getTranslator()->trans("An error was raised when warming up the core cache: \n %s", [implode("\n", $result['output'])]));
         }
         $this->logger->debug($this->container->getTranslator()->trans('Core cache has been generated to avoid dependency conflicts.'));
     }
@@ -889,16 +885,38 @@ abstract class CoreUpgrader
         // Attempting to call it from Update Assistant v7 triggers a collision between the versions of the package symfony/console provided
         // by the core and Update Assistant. We run a basic exec to avoid it.
 
-        $rootPath = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH);
         $adminSubDir = $this->container->getProperty(UpgradeContainer::PS_ADMIN_SUBDIR);
-        $command = 'php ' . $rootPath . '/bin/console assets:install --symlink --no-interaction --env=prod ' . $adminSubDir;
-        $output = [];
-        $resultCode = 0;
+        $args = 'assets:install --symlink --no-interaction --env=prod ' . $adminSubDir;
+        $result = $this->callCoreConsoleCommand($args);
 
-        exec($command, $output, $resultCode);
-
-        if ($resultCode !== 0) {
-            throw new UpgradeException($this->container->getTranslator()->trans("A code %d was returned while installing assets: \n %s", [$resultCode, implode("\n", $output)]));
+        if ($result['returnCode'] !== 0) {
+            throw new UpgradeException($this->container->getTranslator()->trans("A code %d was returned while installing assets: \n %s", [$result['returnCode'], implode("\n", $result['output'])]));
         }
+    }
+
+    /**
+     * The shell may be very minimal on some hosts (e.g. dash on Debian/Ubuntu, or restricted shells in shared hosting).
+     * That often means the $PATH is stripped down and php is not found. So we try to rely first on the console file when it is executable.
+     *
+     * @return array{returnCode: int, output: string[]}
+     */
+    private function callCoreConsoleCommand(string $args)
+    {
+        $rootPath = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH);
+        $command = $rootPath . '/bin/console';
+
+        if (!is_executable($command)) {
+            $command = 'php ' . $command;
+        }
+
+        $output = [];
+        $returnCode = 0;
+
+        exec($command . ' ' . $args, $output, $returnCode);
+
+        return [
+            'returnCode' => $returnCode,
+            'output' => $output,
+        ];
     }
 }
