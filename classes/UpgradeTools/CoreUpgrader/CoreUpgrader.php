@@ -886,7 +886,7 @@ abstract class CoreUpgrader
         $this->logger->info($this->container->getTranslator()->trans('Installing assets'));
 
         // Calling PrestaShop\PrestaShop\Adapter\Bundle\AssetsInstaller::installAssets() is impossible at the time of writing of this method.
-        // Attempting to call it from Update Assistant v7 triggers a collision between the versions of the package smyfony/console provided
+        // Attempting to call it from Update Assistant v7 triggers a collision between the versions of the package symfony/console provided
         // by the core and Update Assistant. We run a basic exec to avoid it.
 
         $rootPath = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH);
