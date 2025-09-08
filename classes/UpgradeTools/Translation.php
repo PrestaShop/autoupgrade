@@ -22,7 +22,6 @@
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
 use PrestaShop\Module\AutoUpgrade\Log\LoggerInterface;
-use PrestaShop\Module\AutoUpgrade\Tools14;
 use Symfony\Component\Filesystem\Filesystem;
 
 class Translation
@@ -196,7 +195,7 @@ class Translation
         $replace = ['\\\\', '\\0', '\\n', '\\r', "\Z", "\'", '\"'];
         $str = str_replace($search, $replace, $str);
         if (!$html_ok) {
-            return strip_tags(Tools14::nl2br($str));
+            return strip_tags(nl2br($str));
         }
 
         return $str;

@@ -31,8 +31,8 @@ use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\Task\TaskName;
 use PrestaShop\Module\AutoUpgrade\Task\TaskType;
-use PrestaShop\Module\AutoUpgrade\Tools14;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
+use Symfony\Component\HttpFoundation\Request;
 
 class BackupDatabase extends AbstractTask
 {
@@ -73,6 +73,8 @@ class BackupDatabase extends AbstractTask
         $fp = false;
         $backupfile = null;
 
+        $httpHost = (Request::createFromGlobals())->getHttpHost();
+
         // MAIN BACKUP LOOP //
         $written = 0;
         while ($this->isRemainingTimeEnough($time_elapsed)
@@ -105,7 +107,7 @@ class BackupDatabase extends AbstractTask
                 // start init file
                 $fp = $this->openPartialBackupFile($backupfile);
 
-                $written += fwrite($fp, '/* Backup ' . $state->getDbStep() . ' for ' . Tools14::getHttpHost() . __PS_BASE_URI__ . "\n *  at " . date('r') . "\n */\n");
+                $written += fwrite($fp, '/* Backup ' . $state->getDbStep() . ' for ' . $httpHost . __PS_BASE_URI__ . "\n *  at " . date('r') . "\n */\n");
                 $written += fwrite($fp, "\n" . 'SET SESSION sql_mode = \'\';' . "\n\n");
                 $written += fwrite($fp, "\n" . 'SET NAMES \'utf8\';' . "\n\n");
                 $written += fwrite($fp, "\n" . 'SET FOREIGN_KEY_CHECKS=0;' . "\n\n");

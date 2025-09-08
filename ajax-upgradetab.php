@@ -21,7 +21,6 @@
 
 use PrestaShop\Module\AutoUpgrade\Router\Router;
 use PrestaShop\Module\AutoUpgrade\Task\Runner\SingleTask;
-use PrestaShop\Module\AutoUpgrade\Tools14;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -31,7 +30,12 @@ use Symfony\Component\HttpFoundation\Request;
  * Calling it from the module/autoupgrade folder will have unwanted consequences on the upgrade and your shop.
  */
 require_once realpath(dirname(__FILE__) . '/../../modules/autoupgrade') . '/ajax-upgradetabconfig.php';
-$container = autoupgrade_init_container(dirname(__FILE__));
+
+autoupgrade_require_autoload(dirname(__FILE__));
+
+$request = Request::createFromGlobals();
+
+$container = autoupgrade_init_container($request);
 
 (new \PrestaShop\Module\AutoUpgrade\ErrorHandler($container->getLogger()))->enable();
 
@@ -46,7 +50,7 @@ if (!$container->getCookie()->check($_COOKIE)) {
 }
 
 $container->loadNecessaryClasses();
-$action = Tools14::getValue('action');
+$action = $request->get('action');
 
 if (!empty($action)) {
     $controller = new SingleTask($container);
@@ -54,7 +58,7 @@ if (!empty($action)) {
     $controller->run();
     echo $controller->getJsonResponse();
 } else {
-    $response = (new Router($container))->handle(Request::createFromGlobals());
+    $response = (new Router($container))->handle($request);
     if ($response instanceof \Symfony\Component\HttpFoundation\Response) {
         $response->send();
     } else {
