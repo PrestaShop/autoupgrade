@@ -673,17 +673,24 @@ class UpgradeSelfCheck
         if (!class_exists(ConfigurationTest::class)) {
             return [];
         }
-        $functions = [];
-        foreach ([
-                     'fopen', 'fclose', 'fread', 'fwrite', 'rename', 'file_exists', 'unlink', 'rmdir', 'mkdir', 'getcwd',
-                     'chdir', 'chmod',
-                 ] as $function) {
+
+        $neededFunctions = [
+            'fopen', 'fclose', 'fread', 'fwrite', 'rename', 'file_exists', 'unlink', 'rmdir', 'mkdir', 'getcwd',
+            'chdir', 'chmod',
+        ];
+
+        if ($this->destinationVersion === '9.0.0') {
+            $neededFunctions[] = 'symlink';
+        }
+
+        $missingFunctions = [];
+        foreach ($neededFunctions as $function) {
             if (!ConfigurationTest::test_system([$function])) {
-                $functions[] = $function;
+                $missingFunctions[] = $function;
             }
         }
 
-        return $functions;
+        return $missingFunctions;
     }
 
     /**
