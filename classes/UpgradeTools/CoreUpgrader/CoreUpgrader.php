@@ -898,7 +898,7 @@ abstract class CoreUpgrader
         exec($command, $output, $resultCode);
 
         if ($resultCode !== 0) {
-            throw new UpgradeException($this->container->getTranslator()->trans("An error was raised while installing assets: \n %s", [implode("\n", $output)]));
+            throw new UpgradeException($this->container->getTranslator()->trans("A code %d was returned while installing assets: \n %s", [$resultCode, implode("\n", $output)]));
         }
     }
 }
