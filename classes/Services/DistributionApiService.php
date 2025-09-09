@@ -206,6 +206,7 @@ class DistributionApiService
                 $versionInfo['autoupgrade_recommended']['last_version'],
                 $versionInfo['autoupgrade_recommended']['download']['link'],
                 $versionInfo['autoupgrade_recommended']['download']['md5'],
+                $versionInfo['recommended'] ?? true,
                 $versionInfo['autoupgrade_recommended']['changelog'] ?? null
             );
         }

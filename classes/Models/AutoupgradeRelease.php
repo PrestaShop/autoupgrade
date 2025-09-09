@@ -33,6 +33,8 @@ class AutoupgradeRelease
     private $recommendedVersionLink;
     /** @var string */
     private $recommendedVersionMd5;
+    /** @var bool */
+    private $recommended;
     /** @var string|null */
     private $recommendedVersionChangelog;
 
@@ -42,6 +44,7 @@ class AutoupgradeRelease
         string $recommendedVersion,
         string $recommendedVersionLink,
         string $recommendedVersionMd5,
+        bool $recommended,
         ?string $recommendedVersionChangelog
     ) {
         $this->prestashopMinVersion = $prestashopMinVersion;
@@ -50,6 +53,7 @@ class AutoupgradeRelease
         $this->recommendedVersionLink = $recommendedVersionLink;
         $this->recommendedVersionMd5 = $recommendedVersionMd5;
         $this->recommendedVersionChangelog = $recommendedVersionChangelog;
+        $this->recommended = $recommended;
     }
 
     public function getPrestashopMinVersion(): string
@@ -80,5 +84,10 @@ class AutoupgradeRelease
     public function getRecommendedVersionChangelog(): ?string
     {
         return $this->recommendedVersionChangelog;
+    }
+
+    public function isRecommended(): bool
+    {
+        return $this->recommended;
     }
 }
