@@ -1038,10 +1038,13 @@ class UpgradeContainer
     public function loadNecessaryClasses(): void
     {
         // PrestaShop v9.0.0
-        class_exists(Table::class);
-        class_exists(TableStyle::class);
-        class_exists(Helper::class);
-        class_exists(ResponseHeaderBag::class);
+        if (php_sapi_name() === 'cli') {
+            class_exists(Table::class);
+            class_exists(TableStyle::class);
+            class_exists(Helper::class);
+        } else {
+            class_exists(ResponseHeaderBag::class);
+        }
     }
 
     /**

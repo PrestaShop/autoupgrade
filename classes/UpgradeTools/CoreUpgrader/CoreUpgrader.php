@@ -121,6 +121,8 @@ abstract class CoreUpgrader
 
         $this->logger->info($this->container->getTranslator()->trans('Database update OK')); // no error!
 
+        $this->installAssets();
+
         $this->logger->info($this->container->getTranslator()->trans('Updating languages'));
         $this->upgradeLanguages();
 
@@ -857,16 +859,64 @@ abstract class CoreUpgrader
      */
     public function warmupCoreCache(): void
     {
-        $rootPath = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH);
-        $command = 'php ' . $rootPath . '/bin/console cache:warmup --no-interaction --no-optional-warmers --env=prod';
-        $output = [];
-        $resultCode = 0;
+        $args = 'cache:warmup --no-interaction --no-optional-warmers --env=prod';
+        $result = $this->callCoreConsoleCommand($args);
 
-        exec($command, $output, $resultCode);
-
-        if ($resultCode !== 0) {
-            throw new UpgradeException($this->container->getTranslator()->trans("An error was raised when warming up the core cache: \n %s", [implode("\n", $output)]));
+        if ($result['returnCode'] !== 0) {
+            throw new UpgradeException($this->container->getTranslator()->trans("An error was raised when warming up the core cache: \n %s", [implode("\n", $result['output'])]));
         }
         $this->logger->debug($this->container->getTranslator()->trans('Core cache has been generated to avoid dependency conflicts.'));
+    }
+
+    /**
+     * PrestaShop 9.0.1 adds an helper function that runs "assets:install".
+     * It install some bundles assets via symlink or hard copy if symlink aren't possible in this environment.
+     */
+    private function installAssets(): void
+    {
+        if (!class_exists('PrestaShop\PrestaShop\Adapter\Bundle\AssetsInstaller')) {
+            // Nothing to do if the class does not exist in the version we update to.
+            return;
+        }
+
+        $this->logger->info($this->container->getTranslator()->trans('Installing assets'));
+
+        // Calling PrestaShop\PrestaShop\Adapter\Bundle\AssetsInstaller::installAssets() is impossible at the time of writing of this method.
+        // Attempting to call it from Update Assistant v7 triggers a collision between the versions of the package symfony/console provided
+        // by the core and Update Assistant. We run a basic exec to avoid it.
+
+        $adminSubDir = $this->container->getProperty(UpgradeContainer::PS_ADMIN_SUBDIR);
+        $args = 'assets:install --symlink --no-interaction --env=prod ' . $adminSubDir;
+        $result = $this->callCoreConsoleCommand($args);
+
+        if ($result['returnCode'] !== 0) {
+            throw new UpgradeException($this->container->getTranslator()->trans("A code %d was returned while installing assets: \n %s", [$result['returnCode'], implode("\n", $result['output'])]));
+        }
+    }
+
+    /**
+     * The shell may be very minimal on some hosts (e.g. dash on Debian/Ubuntu, or restricted shells in shared hosting).
+     * That often means the $PATH is stripped down and php is not found. So we try to rely first on the console file when it is executable.
+     *
+     * @return array{returnCode: int, output: string[]}
+     */
+    private function callCoreConsoleCommand(string $args)
+    {
+        $rootPath = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH);
+        $command = $rootPath . '/bin/console';
+
+        if (!is_executable($command)) {
+            $command = 'php ' . $command;
+        }
+
+        $output = [];
+        $returnCode = 0;
+
+        exec($command . ' ' . $args, $output, $returnCode);
+
+        return [
+            'returnCode' => $returnCode,
+            'output' => $output,
+        ];
     }
 }
