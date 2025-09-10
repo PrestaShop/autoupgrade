@@ -85,52 +85,52 @@
       <trans-unit id="52033453d4d673bae012b9c8ccb1e79c">
         <source>An error occurred while backing up. Unable to obtain the schema of %s</source>
         <target>An error occurred while backing up. Unable to obtain the schema of %s</target>
-        <note>classes/Task/Backup/BackupDatabase.php:127</note>
+        <note>classes/Task/Backup/BackupDatabase.php:129</note>
       </trans-unit>
       <trans-unit id="dcb7d833c69d6e0c3f009381c51f898e">
         <source>Error during database backup.</source>
         <target>Error during database backup.</target>
-        <note>classes/Task/Backup/BackupDatabase.php:128</note>
+        <note>classes/Task/Backup/BackupDatabase.php:130</note>
       </trans-unit>
       <trans-unit id="4d4c62fccb481224ff3a5c36b45de3fd">
         <source>%s table has been saved.</source>
         <target>%s table has been saved.</target>
-        <note>classes/Task/Backup/BackupDatabase.php:220</note>
+        <note>classes/Task/Backup/BackupDatabase.php:222</note>
       </trans-unit>
       <trans-unit id="71426d0545181d601dc135b78e74ac8f">
         <source>%s tables have been saved.</source>
         <target>%s tables have been saved.</target>
-        <note>classes/Task/Backup/BackupDatabase.php:240</note>
+        <note>classes/Task/Backup/BackupDatabase.php:242</note>
       </trans-unit>
       <trans-unit id="c2a086cb5c3373d7e11acbd3ace6a553">
         <source>Database backup: %s table(s) left...</source>
         <target>Database backup: %s table(s) left...</target>
-        <note>classes/Task/Backup/BackupDatabase.php:247</note>
+        <note>classes/Task/Backup/BackupDatabase.php:249</note>
       </trans-unit>
       <trans-unit id="10d423ad12429f952b0864b9f506551e">
         <source>Database backup done in filename %s.</source>
         <target>Database backup done in filename %s.</target>
-        <note>classes/Task/Backup/BackupDatabase.php:260</note>
+        <note>classes/Task/Backup/BackupDatabase.php:262</note>
       </trans-unit>
       <trans-unit id="555231214d7c729089e80f561e118f45">
         <source>Backup directory is not writable (%path%).</source>
         <target>Backup directory is not writable (%path%).</target>
-        <note>classes/Task/Backup/BackupDatabase.php:277</note>
+        <note>classes/Task/Backup/BackupDatabase.php:279</note>
       </trans-unit>
       <trans-unit id="d721e1d318aff72741125f97535b8ac7">
         <source>No valid tables were found to back up. Backup of database canceled.</source>
         <target>No valid tables were found to back up. Backup of database canceled.</target>
-        <note>classes/Task/Backup/BackupDatabase.php:293</note>
+        <note>classes/Task/Backup/BackupDatabase.php:295</note>
       </trans-unit>
       <trans-unit id="d12ae4e7f0d20f4a4ca357d48e42877e">
         <source>Backup file %s already exists. Operation aborted.</source>
         <target>Backup file %s already exists. Operation aborted.</target>
-        <note>classes/Task/Backup/BackupDatabase.php:338</note>
+        <note>classes/Task/Backup/BackupDatabase.php:340</note>
       </trans-unit>
       <trans-unit id="d82896159c60199272e5ea481a733eba">
         <source>Unable to create backup database file %s.</source>
         <target>Unable to create backup database file %s.</target>
-        <note>classes/Task/Backup/BackupDatabase.php:352</note>
+        <note>classes/Task/Backup/BackupDatabase.php:354</note>
       </trans-unit>
       <trans-unit id="b579142dc2ece4e07e8fcc1f99cd75c8">
         <source>Restoration process done. Congratulations! You can now reactivate your store.</source>
@@ -1104,17 +1104,17 @@
       <trans-unit id="3188ac0ee6355c23c3b26c3b5e71f3dd">
         <source>File %s does not exist, merge skipped.</source>
         <target>File %s does not exist, merge skipped.</target>
-        <note>classes/UpgradeTools/Translation.php:141</note>
+        <note>classes/UpgradeTools/Translation.php:140</note>
       </trans-unit>
       <trans-unit id="9e25d028554081cd5afb26eaf99dbd9e">
         <source>%variablename% variable missing in file %filename%. Merge skipped.</source>
         <target>%variablename% variable missing in file %filename%. Merge skipped.</target>
-        <note>classes/UpgradeTools/Translation.php:129</note>
+        <note>classes/UpgradeTools/Translation.php:128</note>
       </trans-unit>
       <trans-unit id="688481c74263a37393118aff2b012987">
         <source>%variablename% variable missing in file %filename%. File %filename% deleted and merge skipped.</source>
         <target>%variablename% variable missing in file %filename%. File %filename% deleted and merge skipped.</target>
-        <note>classes/UpgradeTools/Translation.php:153</note>
+        <note>classes/UpgradeTools/Translation.php:152</note>
       </trans-unit>
       <trans-unit id="fff77a9b7fadd2dd38b16678c8b000cf">
         <source>Unable to create directory %s: %s</source>
