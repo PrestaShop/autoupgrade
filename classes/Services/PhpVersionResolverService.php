@@ -162,10 +162,13 @@ class PhpVersionResolverService
 
             // Determine recommended release based on autoupgrade compatibilities
             foreach ($autoupgradeCompatibilities as $compatibility) {
-                if ($compatibility->isRecommended() && version_compare($compatibility->getPrestashopMaxVersion(), $releaseItem->getVersion(), '>=') && version_compare($compatibility->getPrestashopMinVersion(), $releaseItem->getVersion(), '<=')) {
-                    if ($recommendedRelease === null || version_compare($releaseItem->getVersion(), $recommendedRelease->getVersion(), '>')) {
-                        $recommendedRelease = $releaseItem;
-                    }
+                $isRecommndedRelease = $compatibility->isRecommended()
+                    && version_compare($compatibility->getPrestashopMaxVersion(), $releaseItem->getVersion(), '>=')
+                    && version_compare($compatibility->getPrestashopMinVersion(), $releaseItem->getVersion(), '<=')
+                    && ($recommendedRelease === null || version_compare($releaseItem->getVersion(), $recommendedRelease->getVersion(), '>'));
+
+                if ($isRecommndedRelease) {
+                    $recommendedRelease = $releaseItem;
                 }
             }
         }
