@@ -1,11 +1,11 @@
 {
   "include": [
     {
-      "comment": "8.0.4 PHP 7.4 online"
+      "comment": "8.1.5 PHP 8.1 online"
     },
     {
-      "PS_VERSION_START": "8.0.4-classic",
-      "PHP_VERSION": "7.4",
+      "PS_VERSION_START": "8.1.5-classic",
+      "PHP_VERSION": "8.1",
       "UPGRADE_CHANNEL": "online"
     }
     ]
