@@ -153,6 +153,7 @@ class PhpVersionResolverService
 
         $maxRelease = null;
         $recommendedRelease = null;
+        $fallbackRecommendedRelease = null;
 
         foreach ($validReleases as $releaseItem) {
             // Determine max release (latest version)
@@ -162,14 +163,21 @@ class PhpVersionResolverService
 
             // Determine recommended release based on autoupgrade compatibilities
             foreach ($autoupgradeCompatibilities as $compatibility) {
-                $isRecommndedRelease = $compatibility->isRecommended()
+                $isRecommendedRelease = $compatibility->isRecommended()
                     && version_compare($compatibility->getPrestashopMaxVersion(), $releaseItem->getVersion(), '>=')
                     && version_compare($compatibility->getPrestashopMinVersion(), $releaseItem->getVersion(), '<=')
                     && ($recommendedRelease === null || version_compare($releaseItem->getVersion(), $recommendedRelease->getVersion(), '>'));
 
-                if ($isRecommndedRelease) {
+                if ($isRecommendedRelease) {
                     $recommendedRelease = $releaseItem;
                 }
+            }
+
+            $updateType = VersionUtils::getUpdateType($this->currentPsVersion, $releaseItem->getVersion());
+            $isMinorOrPatchUpdate = $updateType === 'minor' || $updateType === 'patch';
+
+            if ($isMinorOrPatchUpdate) {
+                $fallbackRecommendedRelease = $releaseItem;
             }
         }
 
@@ -180,6 +188,8 @@ class PhpVersionResolverService
 
         if ($recommendedRelease !== null) {
             $releaseResult[self::AVAILABLE_RELEASE_RECOMMENDED] = $recommendedRelease;
+        } elseif ($fallbackRecommendedRelease !== null) {
+            $releaseResult[self::AVAILABLE_RELEASE_RECOMMENDED] = $fallbackRecommendedRelease;
         }
 
         return $releaseResult;
