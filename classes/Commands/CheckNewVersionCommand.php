@@ -80,12 +80,20 @@ class CheckNewVersionCommand extends AbstractCommand
                 return $b[$versionIndex] <=> $a[$versionIndex];
             });
 
-            $onlineRelease = $this->upgradeContainer->getUpgrader()->getOnlineDestinationRelease();
+            $onlineRecommendedRelease = $this->upgradeContainer->getUpgrader()->getOnlineRecommendedDestinationRelease();
 
-            if ($onlineRelease) {
-                $destinationVersion = $onlineRelease->getVersion();
+            if ($onlineRecommendedRelease) {
+                $destinationVersion = $onlineRecommendedRelease->getVersion();
                 $updateType = VersionUtils::getUpdateType($currentVersion, $destinationVersion);
-                array_unshift($rows, [$destinationVersion, UpgradeConfiguration::CHANNEL_ONLINE, $updateType, $onlineRelease->getReleaseNoteUrl()]);
+                array_unshift($rows, [$destinationVersion, UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED, $updateType, $onlineRecommendedRelease->getReleaseNoteUrl()]);
+            }
+
+            $onlineMaxRelease = $this->upgradeContainer->getUpgrader()->getOnlineMaxDestinationRelease();
+
+            if ($onlineMaxRelease) {
+                $destinationVersion = $onlineMaxRelease->getVersion();
+                $updateType = VersionUtils::getUpdateType($currentVersion, $destinationVersion);
+                array_unshift($rows, [$destinationVersion, UpgradeConfiguration::CHANNEL_ONLINE_MAX, $updateType, $onlineMaxRelease->getReleaseNoteUrl()]);
             }
 
             $table = new Table($output);

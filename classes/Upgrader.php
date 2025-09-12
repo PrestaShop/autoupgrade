@@ -94,21 +94,13 @@ class Upgrader
             return false;
         }
 
-        foreach ($releaseOptions as $release) {
-            if (version_compare($this->currentPsVersion, $release->getVersion(), '<')) {
-                return true;
-            }
-        }
-
-        return false;
+        return true;
     }
 
     /**
-     * @deprecated To be replaced with a management of options (minor or patch, major)
-     *
      * @throws DistributionApiException
      */
-    public function getOnlineDestinationRelease(): ?PrestashopRelease
+    public function getOnlineMaxDestinationRelease(): ?PrestashopRelease
     {
         return $this->getOnlineDestinationReleases()[PhpVersionResolverService::AVAILABLE_RELEASE_MAX] ?? null;
     }
@@ -128,7 +120,26 @@ class Upgrader
         return $this->onlineDestinationReleases;
     }
 
-    public function getRecommendedOnlineDestinationRelease(): ?PrestashopRelease
+    /**
+     * @throws DistributionApiException
+     * @throws UpgradeException
+     */
+    public function getOnlineDestinationRelease(): ?PrestaShopRelease
+    {
+        if ($this->updateConfiguration->isChannelOnlineMax()) {
+            return !empty($this->getOnlineDestinationReleases()[PhpVersionResolverService::AVAILABLE_RELEASE_MAX])
+                ? $this->getOnlineDestinationReleases()[PhpVersionResolverService::AVAILABLE_RELEASE_MAX]
+                : null;
+        } elseif ($this->updateConfiguration->isChannelOnlineRecommended()) {
+            return !empty($this->getOnlineDestinationReleases()[PhpVersionResolverService::AVAILABLE_RELEASE_RECOMMENDED])
+                ? $this->getOnlineDestinationReleases()[PhpVersionResolverService::AVAILABLE_RELEASE_RECOMMENDED]
+                : null;
+        }
+
+        return null;
+    }
+
+    public function getOnlineRecommendedDestinationRelease(): ?PrestashopRelease
     {
         $releases = $this->getOnlineDestinationReleases();
 
@@ -156,12 +167,17 @@ class Upgrader
     {
         if ($this->updateConfiguration->isChannelLocal()) {
             return $this->updateConfiguration->getLocalChannelVersion();
-        } else {
-            // TODO: To replace with a data stored in the update Configuration
+        } elseif ($this->updateConfiguration->isChannelOnlineMax()) {
             return !empty($this->getOnlineDestinationReleases()[PhpVersionResolverService::AVAILABLE_RELEASE_MAX])
                 ? $this->getOnlineDestinationReleases()[PhpVersionResolverService::AVAILABLE_RELEASE_MAX]->getVersion()
                 : null;
+        } elseif ($this->updateConfiguration->isChannelOnlineRecommended()) {
+            return !empty($this->getOnlineDestinationReleases()[PhpVersionResolverService::AVAILABLE_RELEASE_RECOMMENDED])
+                ? $this->getOnlineDestinationReleases()[PhpVersionResolverService::AVAILABLE_RELEASE_RECOMMENDED]->getVersion()
+                : null;
         }
+
+        return null;
     }
 
     /**

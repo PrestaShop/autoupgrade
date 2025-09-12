@@ -16,18 +16,22 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  *#}
+
+{% set radioValue = attribute(form_options, 'online_' ~ release_type ~ '_value') %}
+
 {% include "@ModuleAutoUpgrade/components/radio-card.html.twig" with {
-  radioCardId: form_options.online_value,
+  radioCardId: radioValue,
   radioName: form_fields.channel,
-  radioValue: form_options.online_value,
-  checked: current_values.channel == form_options.online_value,
+  radioValue: radioValue,
+  checked: current_values.channel == form_option_online_value,
   required: true,
-  message: "The maximum version of PrestaShop to which you can update your store, based on its PHP version."|trans({}),
+  message: next_release.message,
   archiveCard: false,
   enableRequirementsCheck: true,
   badgeLabel: next_release.badge_label,
   badgeStatus: next_release.badge_status,
   releaseNote: next_release.release_note,
-  requirements: online_requirements,
+  recommended: next_release.recommended,
+  requirements: requirements,
   title: "PrestaShop %version%"|trans({'%version%': next_release.version}),
 } %}

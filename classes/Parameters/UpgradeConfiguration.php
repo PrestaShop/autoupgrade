@@ -45,7 +45,8 @@ class UpgradeConfiguration extends ArrayCollection
     const BACKUP_COMPLETED = 'backup_completed';
     const INSTALLED_LANGUAGES = 'installed_languages';
 
-    const CHANNEL_ONLINE = 'online';
+    const CHANNEL_ONLINE_MAX = 'online_max';
+    const CHANNEL_ONLINE_RECOMMENDED = 'online_recommended';
     const CHANNEL_LOCAL = 'local';
 
     const UPGRADE_CONST_KEYS = [
@@ -72,7 +73,7 @@ class UpgradeConfiguration extends ArrayCollection
         self::INSTALLED_LANGUAGES,
     ];
 
-    const DEFAULT_CHANNEL = self::CHANNEL_ONLINE;
+    const DEFAULT_CHANNEL = self::CHANNEL_ONLINE_RECOMMENDED;
     const ONLINE_CHANNEL_ZIP = 'prestashop.zip';
 
     /**
@@ -142,7 +143,17 @@ class UpgradeConfiguration extends ArrayCollection
 
     public function isChannelOnline(): bool
     {
-        return $this->getChannelOrDefault() === UpgradeConfiguration::CHANNEL_ONLINE;
+        return $this->getChannelOrDefault() === UpgradeConfiguration::CHANNEL_ONLINE_MAX || $this->getChannelOrDefault() === UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED;
+    }
+
+    public function isChannelOnlineMax(): bool
+    {
+        return $this->getChannelOrDefault() === UpgradeConfiguration::CHANNEL_ONLINE_MAX;
+    }
+
+    public function isChannelOnlineRecommended(): bool
+    {
+        return $this->getChannelOrDefault() === UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED;
     }
 
     public function isBackupCompleted(): ?bool

@@ -45,7 +45,8 @@ class UpdatePageVersionChoiceController extends AbstractPageWithStepController
         UpgradeConfiguration::ARCHIVE_XML => UpgradeConfiguration::ARCHIVE_XML,
     ];
     const FORM_OPTIONS = [
-        'online_value' => UpgradeConfiguration::CHANNEL_ONLINE,
+        'online_max_value' => UpgradeConfiguration::CHANNEL_ONLINE_MAX,
+        'online_recommended_value' => UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED,
         'local_value' => UpgradeConfiguration::CHANNEL_LOCAL,
     ];
 
@@ -73,28 +74,42 @@ class UpdatePageVersionChoiceController extends AbstractPageWithStepController
     {
         $updateSteps = new Stepper($this->upgradeContainer->getTranslator(), TaskType::TASK_TYPE_UPDATE);
         $isNewerVersionAvailableOnline = $this->upgradeContainer->getUpgrader()->isNewerVersionAvailableOnline();
-        $onlineDestination = $this->upgradeContainer->getUpgrader()->getOnlineDestinationRelease();
+        $recommendedOnlineDestination = null;
+        $maxOnlineDestination = null;
+        $nextReleases = [];
 
         if ($isNewerVersionAvailableOnline) {
-            $updateType = VersionUtils::getUpdateType($this->getPsVersion(), $onlineDestination->getVersion());
-            $releaseNote = $this->upgradeContainer->getUpgrader()->getOnlineDestinationRelease()->getReleaseNoteUrl();
-        } else {
-            $updateType = null;
-            $releaseNote = null;
-        }
+            $recommendedOnlineDestination = $this->upgradeContainer->getUpgrader()->getOnlineRecommendedDestinationRelease();
 
-        switch ($updateType) {
-            case 'major':
-                $updateLabel = $this->upgradeContainer->getTranslator()->trans('Major version');
-                break;
-            case 'minor':
-                $updateLabel = $this->upgradeContainer->getTranslator()->trans('Minor version');
-                break;
-            case 'patch':
-                $updateLabel = $this->upgradeContainer->getTranslator()->trans('Patch version');
-                break;
-            default:
-                $updateLabel = null;
+            if ($recommendedOnlineDestination) {
+                $recommendedOnlineDestinatioUpdateType = VersionUtils::getUpdateType($this->getPsVersion(), $recommendedOnlineDestination->getVersion());
+                $recommendedOnlineDestinatioReleaseNote = $this->upgradeContainer->getUpgrader()->getOnlineRecommendedDestinationRelease()->getReleaseNoteUrl();
+                $recommendedUpdateLabel = $this->getUpdateTypeLabel($recommendedOnlineDestinatioUpdateType);
+                $nextReleases['recommended'] = [
+                    'version' => $recommendedOnlineDestination->getVersion(),
+                    'badge_label' => $recommendedUpdateLabel,
+                    'badge_status' => $recommendedOnlineDestinatioUpdateType,
+                    'release_note' => $recommendedOnlineDestinatioReleaseNote,
+                    'recommended' => true,
+                    'message' => $this->upgradeContainer->getTranslator()->trans('The recommended version of PrestaShop to which you can update your store, based on its PHP version.'),
+                ];
+            }
+
+            $maxOnlineDestination = $this->upgradeContainer->getUpgrader()->getOnlineMaxDestinationRelease();
+
+            if ($maxOnlineDestination && ($recommendedOnlineDestination === null || $maxOnlineDestination->getVersion() !== $recommendedOnlineDestination->getVersion())) {
+                $maxOnlineDestinatioUpdateType = VersionUtils::getUpdateType($this->getPsVersion(), $maxOnlineDestination->getVersion());
+                $maxOnlineDestinatioReleaseNote = $this->upgradeContainer->getUpgrader()->getOnlineMaxDestinationRelease()->getReleaseNoteUrl();
+                $maxUpdateLabel = $this->getUpdateTypeLabel($maxOnlineDestinatioUpdateType);
+                $nextReleases['max'] = [
+                    'version' => $maxOnlineDestination->getVersion(),
+                    'badge_label' => $maxUpdateLabel,
+                    'badge_status' => $maxOnlineDestinatioUpdateType,
+                    'release_note' => $maxOnlineDestinatioReleaseNote,
+                    'recommended' => false,
+                    'message' => $this->upgradeContainer->getTranslator()->trans('The maximum version of PrestaShop to which you can update your store, based on its PHP version.'),
+                ];
+            }
         }
 
         $upgradeConfiguration = $this->upgradeContainer->getUpdateConfiguration();
@@ -117,12 +132,7 @@ class UpdatePageVersionChoiceController extends AbstractPageWithStepController
                     'zip' => $localVersions['zip'],
                     'xml' => $localVersions['xml'],
                 ],
-                'next_release' => [
-                    'version' => $onlineDestination ? $onlineDestination->getVersion() : null,
-                    'badge_label' => $updateLabel,
-                    'badge_status' => $updateType,
-                    'release_note' => $releaseNote,
-                ],
+                'next_releases' => $nextReleases,
                 'form_version_choice_name' => self::FORM_NAME,
                 'form_route_to_save' => Routes::UPDATE_STEP_VERSION_CHOICE_SAVE_FORM,
                 'form_route_to_submit' => Routes::UPDATE_STEP_VERSION_CHOICE_SUBMIT_FORM,
@@ -135,6 +145,25 @@ class UpdatePageVersionChoiceController extends AbstractPageWithStepController
                 ],
             ]
         );
+    }
+
+    private function getUpdateTypeLabel(string $updateType): ?string
+    {
+        switch ($updateType) {
+            case 'major':
+                $updateLabel = $this->upgradeContainer->getTranslator()->trans('Major version');
+                break;
+            case 'minor':
+                $updateLabel = $this->upgradeContainer->getTranslator()->trans('Minor version');
+                break;
+            case 'patch':
+                $updateLabel = $this->upgradeContainer->getTranslator()->trans('Patch version');
+                break;
+            default:
+                $updateLabel = null;
+        }
+
+        return $updateLabel;
     }
 
     /**
@@ -205,7 +234,7 @@ class UpdatePageVersionChoiceController extends AbstractPageWithStepController
             $configurationStorage->save($updateConfiguration);
 
             if ($channel !== null) {
-                $params[$channel . '_requirements'] = $this->getRequirements();
+                $params['requirements'] = $this->getRequirements();
             }
         }
 
@@ -224,10 +253,25 @@ class UpdatePageVersionChoiceController extends AbstractPageWithStepController
             ));
         }
 
-        return AjaxResponseBuilder::hydrationResponse(PageSelectors::RADIO_CARD_ONLINE_PARENT_ID, $this->getTwig()->render(
+        if ($channel === UpgradeConfiguration::CHANNEL_ONLINE_MAX) {
+            $params['next_release'] = $params['next_releases']['max'];
+            $params['release_type'] = 'max';
+            $params['form_option_online_value'] = self::FORM_OPTIONS['online_max_value'];
+
+            return AjaxResponseBuilder::hydrationResponse(PageSelectors::RADIO_CARD_ONLINE_MAX_PARENT_ID, $this->getTwig()->render(
             '@ModuleAutoUpgrade/components/radio-card-online.html.twig',
             $params
         ));
+        } elseif ($channel === UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED) {
+            $params['next_release'] = $params['next_releases']['recommended'];
+            $params['release_type'] = 'recommended';
+            $params['form_option_online_value'] = self::FORM_OPTIONS['online_recommended_value'];
+
+            return AjaxResponseBuilder::hydrationResponse(PageSelectors::RADIO_CARD_ONLINE_RECOMMENDED_PARENT_ID, $this->getTwig()->render(
+            '@ModuleAutoUpgrade/components/radio-card-online.html.twig',
+            $params
+        ));
+        }
     }
 
     public function submit(): JsonResponse
