@@ -43,3 +43,6 @@ ALTER TABLE `PREFIX_cart_rule_product_rule` MODIFY COLUMN `type` ENUM(
     'products', 'categories', 'attributes',
     'manufacturers', 'suppliers', 'combinations'
 ) NOT NULL;
+
+/* PHP:add_column('log', 'hash', 'CHAR(32) DEFAULT NULL AFTER `id_employee`'); */;
+ALTER TABLE `PREFIX_log` ADD INDEX `hash` (`hash`);
