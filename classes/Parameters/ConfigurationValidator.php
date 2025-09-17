@@ -75,7 +75,11 @@ class ConfigurationValidator
 
     private function validateChannel(string $channel): ?string
     {
-        if ($channel !== UpgradeConfiguration::CHANNEL_LOCAL && $channel !== UpgradeConfiguration::CHANNEL_ONLINE_MAX && $channel !== UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED) {
+        if (!in_array($channel, [
+            UpgradeConfiguration::CHANNEL_LOCAL,
+            UpgradeConfiguration::CHANNEL_ONLINE,
+            UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED,
+        ], true)) {
             return $this->translator->trans('Unknown channel %s', [$channel]);
         }
 

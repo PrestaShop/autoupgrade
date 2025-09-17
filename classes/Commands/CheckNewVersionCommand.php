@@ -80,20 +80,19 @@ class CheckNewVersionCommand extends AbstractCommand
                 return $b[$versionIndex] <=> $a[$versionIndex];
             });
 
+            $onlineMaxRelease = $this->upgradeContainer->getUpgrader()->getOnlineMaxDestinationRelease();
             $onlineRecommendedRelease = $this->upgradeContainer->getUpgrader()->getOnlineRecommendedDestinationRelease();
+
+            if ($onlineMaxRelease && ($onlineRecommendedRelease === null || $onlineMaxRelease->getVersion() !== $onlineRecommendedRelease->getVersion())) {
+                $destinationVersion = $onlineMaxRelease->getVersion();
+                $updateType = VersionUtils::getUpdateType($currentVersion, $destinationVersion);
+                array_unshift($rows, [$destinationVersion, UpgradeConfiguration::CHANNEL_ONLINE, $updateType, $onlineMaxRelease->getReleaseNoteUrl()]);
+            }
 
             if ($onlineRecommendedRelease) {
                 $destinationVersion = $onlineRecommendedRelease->getVersion();
                 $updateType = VersionUtils::getUpdateType($currentVersion, $destinationVersion);
                 array_unshift($rows, [$destinationVersion, UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED, $updateType, $onlineRecommendedRelease->getReleaseNoteUrl()]);
-            }
-
-            $onlineMaxRelease = $this->upgradeContainer->getUpgrader()->getOnlineMaxDestinationRelease();
-
-            if ($onlineMaxRelease) {
-                $destinationVersion = $onlineMaxRelease->getVersion();
-                $updateType = VersionUtils::getUpdateType($currentVersion, $destinationVersion);
-                array_unshift($rows, [$destinationVersion, UpgradeConfiguration::CHANNEL_ONLINE_MAX, $updateType, $onlineMaxRelease->getReleaseNoteUrl()]);
             }
 
             $table = new Table($output);

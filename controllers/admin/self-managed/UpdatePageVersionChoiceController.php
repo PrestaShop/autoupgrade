@@ -45,7 +45,7 @@ class UpdatePageVersionChoiceController extends AbstractPageWithStepController
         UpgradeConfiguration::ARCHIVE_XML => UpgradeConfiguration::ARCHIVE_XML,
     ];
     const FORM_OPTIONS = [
-        'online_max_value' => UpgradeConfiguration::CHANNEL_ONLINE_MAX,
+        'online_value' => UpgradeConfiguration::CHANNEL_ONLINE,
         'online_recommended_value' => UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED,
         'local_value' => UpgradeConfiguration::CHANNEL_LOCAL,
     ];
@@ -82,14 +82,14 @@ class UpdatePageVersionChoiceController extends AbstractPageWithStepController
             $recommendedOnlineDestination = $this->upgradeContainer->getUpgrader()->getOnlineRecommendedDestinationRelease();
 
             if ($recommendedOnlineDestination) {
-                $recommendedOnlineDestinatioUpdateType = VersionUtils::getUpdateType($this->getPsVersion(), $recommendedOnlineDestination->getVersion());
-                $recommendedOnlineDestinatioReleaseNote = $this->upgradeContainer->getUpgrader()->getOnlineRecommendedDestinationRelease()->getReleaseNoteUrl();
-                $recommendedUpdateLabel = $this->getUpdateTypeLabel($recommendedOnlineDestinatioUpdateType);
-                $nextReleases['recommended'] = [
+                $recommendedOnlineDestinationUpdateType = VersionUtils::getUpdateType($this->getPsVersion(), $recommendedOnlineDestination->getVersion());
+                $recommendedOnlineDestinationReleaseNote = $this->upgradeContainer->getUpgrader()->getOnlineRecommendedDestinationRelease()->getReleaseNoteUrl();
+                $recommendedUpdateLabel = $this->getUpdateTypeLabel($recommendedOnlineDestinationUpdateType);
+                $nextReleases['online_recommended'] = [
                     'version' => $recommendedOnlineDestination->getVersion(),
                     'badge_label' => $recommendedUpdateLabel,
-                    'badge_status' => $recommendedOnlineDestinatioUpdateType,
-                    'release_note' => $recommendedOnlineDestinatioReleaseNote,
+                    'badge_status' => $recommendedOnlineDestinationUpdateType,
+                    'release_note' => $recommendedOnlineDestinationReleaseNote,
                     'recommended' => true,
                     'message' => $this->upgradeContainer->getTranslator()->trans('The recommended version of PrestaShop to which you can update your store, based on its PHP version.'),
                 ];
@@ -98,13 +98,13 @@ class UpdatePageVersionChoiceController extends AbstractPageWithStepController
             $maxOnlineDestination = $this->upgradeContainer->getUpgrader()->getOnlineMaxDestinationRelease();
 
             if ($maxOnlineDestination && ($recommendedOnlineDestination === null || $maxOnlineDestination->getVersion() !== $recommendedOnlineDestination->getVersion())) {
-                $maxOnlineDestinatioUpdateType = VersionUtils::getUpdateType($this->getPsVersion(), $maxOnlineDestination->getVersion());
+                $maxOnlineDestinationUpdateType = VersionUtils::getUpdateType($this->getPsVersion(), $maxOnlineDestination->getVersion());
                 $maxOnlineDestinatioReleaseNote = $this->upgradeContainer->getUpgrader()->getOnlineMaxDestinationRelease()->getReleaseNoteUrl();
-                $maxUpdateLabel = $this->getUpdateTypeLabel($maxOnlineDestinatioUpdateType);
-                $nextReleases['max'] = [
+                $maxUpdateLabel = $this->getUpdateTypeLabel($maxOnlineDestinationUpdateType);
+                $nextReleases['online'] = [
                     'version' => $maxOnlineDestination->getVersion(),
                     'badge_label' => $maxUpdateLabel,
-                    'badge_status' => $maxOnlineDestinatioUpdateType,
+                    'badge_status' => $maxOnlineDestinationUpdateType,
                     'release_note' => $maxOnlineDestinatioReleaseNote,
                     'recommended' => false,
                     'message' => $this->upgradeContainer->getTranslator()->trans('The maximum version of PrestaShop to which you can update your store, based on its PHP version.'),
@@ -253,18 +253,18 @@ class UpdatePageVersionChoiceController extends AbstractPageWithStepController
             ));
         }
 
-        if ($channel === UpgradeConfiguration::CHANNEL_ONLINE_MAX) {
-            $params['next_release'] = $params['next_releases']['max'];
-            $params['release_type'] = 'max';
-            $params['form_option_online_value'] = self::FORM_OPTIONS['online_max_value'];
+        if ($channel === UpgradeConfiguration::CHANNEL_ONLINE) {
+            $params['next_release'] = $params['next_releases']['online'];
+            $params['release_type'] = 'online';
+            $params['form_option_online_value'] = self::FORM_OPTIONS['online_value'];
 
-            return AjaxResponseBuilder::hydrationResponse(PageSelectors::RADIO_CARD_ONLINE_MAX_PARENT_ID, $this->getTwig()->render(
+            return AjaxResponseBuilder::hydrationResponse(PageSelectors::RADIO_CARD_ONLINE_PARENT_ID, $this->getTwig()->render(
             '@ModuleAutoUpgrade/components/radio-card-online.html.twig',
             $params
         ));
-        } elseif ($channel === UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED) {
-            $params['next_release'] = $params['next_releases']['recommended'];
-            $params['release_type'] = 'recommended';
+        } else {
+            $params['next_release'] = $params['next_releases']['online_recommended'];
+            $params['release_type'] = 'online_recommended';
             $params['form_option_online_value'] = self::FORM_OPTIONS['online_recommended_value'];
 
             return AjaxResponseBuilder::hydrationResponse(PageSelectors::RADIO_CARD_ONLINE_RECOMMENDED_PARENT_ID, $this->getTwig()->render(

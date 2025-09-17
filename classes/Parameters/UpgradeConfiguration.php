@@ -45,7 +45,7 @@ class UpgradeConfiguration extends ArrayCollection
     const BACKUP_COMPLETED = 'backup_completed';
     const INSTALLED_LANGUAGES = 'installed_languages';
 
-    const CHANNEL_ONLINE_MAX = 'online_max';
+    const CHANNEL_ONLINE = 'online';
     const CHANNEL_ONLINE_RECOMMENDED = 'online_recommended';
     const CHANNEL_LOCAL = 'local';
 
@@ -143,12 +143,7 @@ class UpgradeConfiguration extends ArrayCollection
 
     public function isChannelOnline(): bool
     {
-        return $this->getChannelOrDefault() === UpgradeConfiguration::CHANNEL_ONLINE_MAX || $this->getChannelOrDefault() === UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED;
-    }
-
-    public function isChannelOnlineMax(): bool
-    {
-        return $this->getChannelOrDefault() === UpgradeConfiguration::CHANNEL_ONLINE_MAX;
+        return $this->getChannelOrDefault() === UpgradeConfiguration::CHANNEL_ONLINE;
     }
 
     public function isChannelOnlineRecommended(): bool

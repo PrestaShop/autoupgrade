@@ -62,7 +62,7 @@ class UpdateComplete extends AbstractTask
         $latestPath = $this->container->getProperty(UpgradeContainer::TMP_FILES_PATH);
 
         if ($filesystem->exists($filePath)) {
-            if ($this->container->getUpdateConfiguration()->isChannelOnline()) {
+            if ($this->container->getUpdateConfiguration()->isChannelOnline() || $this->container->getUpdateConfiguration()->isChannelOnlineRecommended()) {
                 $this->removeFile($filePath);
             } else {
                 $this->logger->debug($this->translator->trans('Please remove %s by FTP', [$filePath]));

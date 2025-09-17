@@ -85,7 +85,6 @@ class Upgrader
 
     /**
      * @throws DistributionApiException
-     * @throws UpgradeException
      */
     public function isNewerVersionAvailableOnline(): bool
     {
@@ -126,7 +125,7 @@ class Upgrader
      */
     public function getOnlineDestinationRelease(): ?PrestaShopRelease
     {
-        if ($this->updateConfiguration->isChannelOnlineMax()) {
+        if ($this->updateConfiguration->isChannelOnline()) {
             return !empty($this->getOnlineDestinationReleases()[PhpVersionResolverService::AVAILABLE_RELEASE_MAX])
                 ? $this->getOnlineDestinationReleases()[PhpVersionResolverService::AVAILABLE_RELEASE_MAX]
                 : null;
@@ -167,14 +166,12 @@ class Upgrader
     {
         if ($this->updateConfiguration->isChannelLocal()) {
             return $this->updateConfiguration->getLocalChannelVersion();
-        } elseif ($this->updateConfiguration->isChannelOnlineMax()) {
-            return !empty($this->getOnlineDestinationReleases()[PhpVersionResolverService::AVAILABLE_RELEASE_MAX])
-                ? $this->getOnlineDestinationReleases()[PhpVersionResolverService::AVAILABLE_RELEASE_MAX]->getVersion()
-                : null;
-        } elseif ($this->updateConfiguration->isChannelOnlineRecommended()) {
-            return !empty($this->getOnlineDestinationReleases()[PhpVersionResolverService::AVAILABLE_RELEASE_RECOMMENDED])
-                ? $this->getOnlineDestinationReleases()[PhpVersionResolverService::AVAILABLE_RELEASE_RECOMMENDED]->getVersion()
-                : null;
+        } elseif ($this->updateConfiguration->isChannelOnline() || $this->updateConfiguration->isChannelOnlineRecommended()) {
+            $release = $this->getOnlineDestinationRelease();
+
+            if ($release) {
+                return $release->getVersion();
+            }
         }
 
         return null;

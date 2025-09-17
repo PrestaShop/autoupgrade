@@ -17,7 +17,7 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  *#}
 
-{% set radioValue = attribute(form_options, 'online_' ~ release_type ~ '_value') %}
+{% set radioValue = attribute(form_options, release_type ~ '_value') %}
 
 {% include "@ModuleAutoUpgrade/components/radio-card.html.twig" with {
   radioCardId: radioValue,
