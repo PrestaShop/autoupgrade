@@ -29,10 +29,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Install xmlstarlet
-        run: sudo apt install xmlstarlet
-      - name: Update config PS_SHOP_ENABLE to 1
-        run: xmlstarlet ed --inplace -u '/entity_configuration/entities/configuration[@id="PS_SHOP_ENABLE"]/value' -v 1 ${{ github.workspace }}/prestashop-release/prestashop/install-dev/data/xml/configuration.xml
       - name: Set matrix
         id: set-matrix
         run: echo "matrix=$(jq -c '. | del(.include[] | select(has("comment")))' .github/workflows/ui-test/${{ env.JSON_FILE }})" >> $GITHUB_OUTPUT
@@ -49,6 +45,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Install xmlstarlet
+        run: sudo apt install xmlstarlet
+
+      - name: Update config PS_SHOP_ENABLE to 1
+        run: xmlstarlet ed --inplace -u '/entity_configuration/entities/configuration[@id="PS_SHOP_ENABLE"]/value' -v 1 ${{ github.workspace }}/prestashop-release/prestashop/install-dev/data/xml/configuration.xml
 
       - name: Start containers
         working-directory: tests/UI/
