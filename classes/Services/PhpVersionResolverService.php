@@ -32,7 +32,6 @@ class PhpVersionResolverService
     const COMPATIBILITY_VALID = 1;
     const COMPATIBILITY_UNKNOWN = 2;
 
-    const TEMPORARY_EXCLUDED_MAX_RECOMMENDED_VERSION = '9';
     const AVAILABLE_RELEASE_MAX = 'max';
     const AVAILABLE_RELEASE_RECOMMENDED = 'recommended';
 
@@ -150,24 +149,49 @@ class PhpVersionResolverService
             }
         }
 
-        // TODO: Will be improved later to return several options (minor or patch, major) instead of the current max / recommended.
-        // Currently limited to PS v8 with a temporary hardcoded value.
-        /** @var array<string, PrestaShopRelease> $release */
-        $release = array_reduce($validReleases, function ($carry, $item) {
-            $isABetterMaxVersion = empty($carry[self::AVAILABLE_RELEASE_MAX]) || version_compare($item->getVersion(), $carry[self::AVAILABLE_RELEASE_MAX]->getVersion()) > 0;
-            $isABetterRecommendedVersion = empty($carry[self::AVAILABLE_RELEASE_RECOMMENDED]) || version_compare($item->getVersion(), $carry[self::AVAILABLE_RELEASE_RECOMMENDED]->getVersion()) > 0;
-            $isEligibleToRecommendation = version_compare($item->getVersion(), self::TEMPORARY_EXCLUDED_MAX_RECOMMENDED_VERSION, '<');
+        $releaseResult = [];
 
-            if ($isABetterMaxVersion) {
-                $carry[self::AVAILABLE_RELEASE_MAX] = $item;
-            }
-            if ($isEligibleToRecommendation && $isABetterRecommendedVersion) {
-                $carry[self::AVAILABLE_RELEASE_RECOMMENDED] = $item;
+        $maxRelease = null;
+        $recommendedRelease = null;
+        $fallbackRecommendedRelease = null;
+
+        foreach ($validReleases as $releaseItem) {
+            // Determine max release (latest version)
+            if ($maxRelease === null || version_compare($releaseItem->getVersion(), $maxRelease->getVersion(), '>')) {
+                $maxRelease = $releaseItem;
             }
 
-            return $carry;
-        }, []);
+            // Determine recommended release based on autoupgrade compatibilities
+            foreach ($autoupgradeCompatibilities as $compatibility) {
+                $isRecommendedRelease = $compatibility->isRecommended()
+                    && version_compare($compatibility->getPrestashopMaxVersion(), $releaseItem->getVersion(), '>=')
+                    && version_compare($compatibility->getPrestashopMinVersion(), $releaseItem->getVersion(), '<=')
+                    && ($recommendedRelease === null || version_compare($releaseItem->getVersion(), $recommendedRelease->getVersion(), '>'));
 
-        return $release;
+                if ($isRecommendedRelease) {
+                    $recommendedRelease = $releaseItem;
+                }
+            }
+
+            $updateType = VersionUtils::getUpdateType($this->currentPsVersion, $releaseItem->getVersion());
+            $isMinorOrPatchUpdate = $updateType === 'minor' || $updateType === 'patch';
+
+            if ($isMinorOrPatchUpdate) {
+                $fallbackRecommendedRelease = $releaseItem;
+            }
+        }
+
+        // Build result array only if releases are found
+        if ($maxRelease !== null) {
+            $releaseResult[self::AVAILABLE_RELEASE_MAX] = $maxRelease;
+        }
+
+        if ($recommendedRelease !== null) {
+            $releaseResult[self::AVAILABLE_RELEASE_RECOMMENDED] = $recommendedRelease;
+        } elseif ($fallbackRecommendedRelease !== null) {
+            $releaseResult[self::AVAILABLE_RELEASE_RECOMMENDED] = $fallbackRecommendedRelease;
+        }
+
+        return $releaseResult;
     }
 }
