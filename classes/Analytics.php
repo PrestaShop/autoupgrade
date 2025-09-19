@@ -117,6 +117,7 @@ class Analytics
                     'from_ps_version' => $this->states['update']->getCurrentVersion(),
                     'to_ps_version' => $this->states['update']->getDestinationVersion(),
                     'upgrade_channel' => $this->updateConfiguration->getChannel(),
+                    'update_type' => $this->updateConfiguration->getUpdateType(),
                     'disable_non_native_modules' => $this->updateConfiguration->shouldDeactivateCustomModules(),
                     'regenerate_customized_email_templates' => $this->updateConfiguration->shouldRegenerateMailTemplates(),
                 ];
