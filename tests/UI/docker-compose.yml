@@ -34,6 +34,16 @@ services:
         source: ./post-install/install-update.sh
        # Mount Path
         target: /usr/local/bin/install-update.sh
+      - type: bind
+        # Local Path
+        source: ./post-install/disable-welcome.sh
+        # Mount Path
+        target: /usr/local/bin/disable-welcome.sh
+      - type: bind
+        # Local Path
+        source: docker
+        # Mount Path
+        target: /tmp/pre-install-scripts
     ports:
       - "80:80"
     deploy:
