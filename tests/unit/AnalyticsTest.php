@@ -58,7 +58,7 @@ class AnalyticsTest extends TestCase
             UpgradeConfiguration::PS_AUTOUP_KEEP_IMAGES => false,
             UpgradeConfiguration::CHANNEL => UpgradeConfiguration::CHANNEL_LOCAL,
             UpgradeConfiguration::ARCHIVE_ZIP => 'zip.zip',
-            UpgradeConfiguration::UPDATE_TYPE => 'patch'
+            UpgradeConfiguration::UPDATE_TYPE => 'patch',
         ]);
         $configurationStorage->save($updateConfiguration);
 
@@ -110,7 +110,7 @@ class AnalyticsTest extends TestCase
                     'disable_non_native_modules' => false,
                     'regenerate_customized_email_templates' => true,
                     'regenerate_rtl_stylesheet' => false,
-                    'update_type' => 'patch'
+                    'update_type' => 'patch',
                 ],
             ],
             $analytics->getProperties(Analytics::WITH_UPDATE_PROPERTIES)
