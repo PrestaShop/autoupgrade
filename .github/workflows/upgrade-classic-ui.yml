@@ -46,12 +46,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install xmlstarlet
-        run: sudo apt install xmlstarlet
-
-      - name: Update config PS_SHOP_ENABLE to 1
-        run: xmlstarlet ed --inplace -u '/entity_configuration/entities/configuration[@id="PS_SHOP_ENABLE"]/value' -v 1 ${{ github.workspace }}/prestashop-release/prestashop/install-dev/data/xml/configuration.xml
-
       - name: Start containers
         working-directory: tests/UI/
         env:
@@ -59,6 +53,7 @@ jobs:
         run: |
           docker compose -f "docker-compose.yml" up -d --build
           bash -c 'while [[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost/)" != "200" ]]; do sleep 5; done'
+
       - name: Composer install
         run: composer install
 
