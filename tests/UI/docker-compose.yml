@@ -31,17 +31,17 @@ services:
         target: /var/www/html/modules/autoupgrade
       - type: bind
        # Local Path
-        source: ./post-install/install-update.sh
+        source: docker/post-install-scripts/install-update.sh
        # Mount Path
         target: /usr/local/bin/install-update.sh
       - type: bind
         # Local Path
-        source: ./post-install/disable-welcome.sh
+        source: docker/post-install-scripts/disable-welcome.sh
         # Mount Path
         target: /usr/local/bin/disable-welcome.sh
       - type: bind
         # Local Path
-        source: docker
+        source: docker/pre-install-scripts
         # Mount Path
         target: /tmp/pre-install-scripts
     ports:

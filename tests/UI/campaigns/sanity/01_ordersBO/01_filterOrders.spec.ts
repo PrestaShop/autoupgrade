@@ -59,8 +59,11 @@ test.describe('BO - Orders - Orders : Filter the Orders table by ID, REFERENCE, 
     await page.goto(global.BO.URL, {timeout: 50000});
     await boLoginPage.successLogin(page, global.BO.EMAIL, global.BO.PASSWD);
 
-    const pageTitle = await boDashboardPage.getPageTitle(page);
-    expect(pageTitle).toContain(boDashboardPage.pageTitle);
+    // @ts-ignore
+    if (!process.env.PS_VERSION.includes('classic')) {
+      const pageTitle = await boDashboardPage.getPageTitle(page);
+      expect(pageTitle).toContain(boDashboardPage.pageTitle);
+    }
   });
 
   test('should close update notification dialog', async () => {

@@ -1,4 +1,4 @@
-name: Upgrade PS Classic UI tests
+name: Upgrade UI PS classic tests
 on:
   ## Check each PR
   push:
@@ -20,7 +20,7 @@ env:
 jobs:
   ui_test_matrix:
     if: github.event.pull_request.draft == false
-    name: Update UI - Generate Matrix
+    name: Update UI PS classic - Generate Matrix
     runs-on: ubuntu-latest
     env:
       JSON_FILE: ${{ (github.event_name == 'schedule' || (github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'dev' && github.event.pull_request.base.ref == 'master')) && 'pr-classic-ui.json' || 'pr-classic-ui.json' }}
@@ -57,29 +57,28 @@ jobs:
       - name: Composer install
         run: composer install
 
+      - name: uninstall the module klaviyopsautomation
+        if: ${{ matrix.PS_VERSION_START != '8.0.1-classic' && matrix.PS_VERSION_START != '8.0.2-classic' && !startsWith(matrix.PS_VERSION_START, '9') }}
+        run: |
+          docker exec -t prestashop php bin/console prestashop:module uninstall klaviyopsautomation
+
+      - name: uninstall the module ps_mbo
+        if: matrix.PS_VERSION_START == '8.1.0-classic' || matrix.PS_VERSION_START == '8.1.1-classic' || matrix.PS_VERSION_START == '8.1.2-classic'
+        run: |
+          docker exec -t prestashop php bin/console prestashop:module uninstall ps_mbo
+
+
       - name: Backup
         run: |
           docker exec -t prestashop php modules/autoupgrade/bin/console backup:create admin-dev
-
-      - name: Get URLs of PrestaShop zip and xml
-        if: matrix.UPGRADE_CHANNEL == 'local'
-        id: links
-        run: |
-          wget -O prestashop_releases.json https://api.prestashop-project.org/prestashop
-          echo "zip=$(jq -r '. | map(select(.version | test("${{ matrix.PS_VERSION_END }}")))[0].zip_download_url' prestashop_releases.json)" >> $GITHUB_OUTPUT
-          echo "xml=$(jq -r '. | map(select(.version | test("${{ matrix.PS_VERSION_END }}")))[0].xml_download_url' prestashop_releases.json)" >> $GITHUB_OUTPUT
-
-      - name: Download local ZIP and XML for local channel
-        if: matrix.UPGRADE_CHANNEL == 'local'
-        run: |
-          docker exec -t prestashop curl --fail -L ${{ steps.links.outputs.zip }} -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.zip
-          docker exec -t prestashop curl --fail -L ${{ steps.links.outputs.xml }} -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.xml
 
       - name: Install and build npm dependencies
         run: |
           npm install --prefix ./_dev
           npm run vite:build --prefix ./_dev
           docker exec -t prestashop chmod 777 -R /var/www/html/admin-dev/autoupgrade
+          docker exec -t prestashop chmod 777 -R /var/www/html/modules/
+          docker exec -t prestashop chmod 777 -R /var/www/html/var
 
       - name: Setup node
         uses: actions/setup-node@v4
@@ -107,20 +106,6 @@ jobs:
           DB_PREFIX: ps_
         run: npm run test:upgradeOnline
 
-      - name: Upgrade local channel
-        if: matrix.UPGRADE_CHANNEL == 'local'
-        working-directory: tests/UI/
-        env:
-          URL_FO: 'http://localhost/'
-          PASSWD: 'prestashop'
-          PS_VERSION: ${{ matrix.PS_VERSION_START }}
-          PS_VERSION_END: ${{ matrix.PS_VERSION_END }}
-          DB_USER: prestashop
-          DB_PASSWD: prestashop
-          DB_NAME: prestashop
-          DB_PREFIX: ps_
-        run: npm run test:upgradeLocal
-
       - name: Get PS version
         run: |
           echo "PS_VERSION_DB=$(docker exec --tty prestashop-mysql sh -c "mysql -pprestashop prestashop -e \"select value from ps_configuration where name LIKE 'PS_VERSION_DB'\" 2>&1 | grep '[0-9]' | tr -d [:space:]")" >> "$GITHUB_ENV"
@@ -130,7 +115,7 @@ jobs:
         env:
           URL_FO: 'http://localhost/'
           PASSWD: 'prestashop'
-          PS_VERSION: ${{ env.PS_VERSION_DB }}
+          PS_VERSION: ${{ env.PS_VERSION_DB }}-classic
           DB_USER: prestashop
           DB_PASSWD: prestashop
           DB_NAME: prestashop

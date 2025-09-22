@@ -1,2 +1,0 @@
-apt install xmlstarlet
-xmlstarlet ed --inplace -u '/entity_configuration/entities/configuration[@id="PS_SHOP_ENABLE"]/value' -v 1 ${{ github.workspace }}/prestashop-release/prestashop/install-dev/data/xml/configuration.xml

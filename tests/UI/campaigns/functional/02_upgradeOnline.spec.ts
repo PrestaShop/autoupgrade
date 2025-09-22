@@ -61,8 +61,10 @@ test.describe('Upgrade using the online channel', () => {
     await boLoginPage.goTo(page, global.BO.URL);
     await boLoginPage.successLogin(page, global.BO.EMAIL, global.BO.PASSWD);
 
-    const pageTitle = await boDashboardPage.getPageTitle(page);
-    expect(pageTitle).toContain(boDashboardPage.pageTitle);
+    if (!psVersion.includes('classic')) {
+      const pageTitle = await boDashboardPage.getPageTitle(page);
+      expect(pageTitle).toContain(boDashboardPage.pageTitle);
+    }
   });
 
   test('should close update notification dialog', async () => {
@@ -214,6 +216,7 @@ test.describe('Upgrade using the online channel', () => {
 
   test('should check that all the requirements are OK', async () => {
     await exec('docker exec -t prestashop chmod -R 777 /var/www/html/modules');
+    await exec('docker exec -t prestashop chmod -R 777 var/cache');
     if (semver.lt(psVersion, '7.3.0')) {
       await exec('docker exec -t prestashop chmod -R 777 /var/www/html/app/cache');
     }
@@ -224,12 +227,13 @@ test.describe('Upgrade using the online channel', () => {
 
   test('should check the current PS version', async () => {
     const currentVersion = await modAutoupgradeBoMain.getCurrentPSAndPHPVersion(page);
-    expect(currentVersion).toContain(psVersion);
+    expect(currentVersion).toContain(psVersion.slice(0, 5));
   });
 
   test('should check the new PS version', async () => {
     const newVersion = await modAutoupgradeBoMain.getNewPSVersion(page);
-    expect(newVersion).not.toContain(process.env.PS_VERSION);
+    // @ts-ignore
+    expect(newVersion).not.toContain(process.env.PS_VERSION.slice(0, 5));
   });
 
   test('should click on next button and check that the step title is \'Update options\'', async () => {

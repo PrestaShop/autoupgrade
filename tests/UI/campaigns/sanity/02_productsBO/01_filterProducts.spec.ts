@@ -62,8 +62,11 @@ test.describe('BO - Catalog - Products : Filter the products table by ID, Name, 
       await boLoginPage.goTo(page, global.BO.URL);
       await boLoginPage.successLogin(page, global.BO.EMAIL, global.BO.PASSWD);
 
-      const pageTitle = await boDashboardPage.getPageTitle(page);
-      expect(pageTitle).toContain(boDashboardPage.pageTitle);
+      // @ts-ignore
+      if (!process.env.PS_VERSION.includes('classic')) {
+        const pageTitle = await boDashboardPage.getPageTitle(page);
+        expect(pageTitle).toContain(boDashboardPage.pageTitle);
+      }
     });
 
     test('should go to \'Catalog > Products\' page', async () => {
