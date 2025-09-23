@@ -61,6 +61,11 @@ class ZipAction
      */
     private $prodRootDir;
 
+    /**
+     * @var bool
+     */
+    private $isWinOs;
+
     public function __construct(Filesystem $filesystem, Translator $translator, LoggerInterface $logger, UpgradeConfiguration $updateConfiguration, string $prodRootDir)
     {
         $this->filesystem = $filesystem;
@@ -69,6 +74,7 @@ class ZipAction
         $this->prodRootDir = $prodRootDir;
         $this->configMaxNbFilesCompressedInARow = $updateConfiguration->getNumberOfFilesPerCall();
         $this->configMaxFileSizeAllowed = $updateConfiguration->getMaxFileToBackup();
+        $this->isWinOs = stripos(PHP_OS, 'WIN') === 0;
     }
 
     /**
@@ -222,7 +228,16 @@ class ZipAction
             $nameIndex = $zip->getNameIndex($i);
 
             try {
-                $this->filesystem->symlink($zip->getFromIndex($i), $to_dir . DIRECTORY_SEPARATOR . $nameIndex);
+                if ($this->isWinOs) {
+                    $path = $zip->getFromIndex($i);
+                    if (!file_exists(realpath($path))) {
+                        // The path does not exist, so we are using the path that was extracted from the ZIP archive.
+                        $path = $to_dir . DIRECTORY_SEPARATOR . $this->normalizeWinPath($path);
+                    }
+                    $this->filesystem->symlink($path, $to_dir . DIRECTORY_SEPARATOR . $nameIndex, true);
+                } else {
+                    $this->filesystem->symlink($zip->getFromIndex($i), $to_dir . DIRECTORY_SEPARATOR . $nameIndex);
+                }
             } catch (IOException $e) {
                 $this->logger->warning(
                     $this->translator->trans(
@@ -243,6 +258,32 @@ class ZipAction
         $this->logger->debug($this->translator->trans('Content of archive %zip% is extracted', ['%zip%' => $from_file]));
 
         return true;
+    }
+
+    /**
+     * Normalizes a Windows (or mixed) path into a clean and consistent format.
+     *
+     * @param string $path Path to normalize
+     *
+     * @return string Normalized path
+     */
+    private function normalizeWinPath(string $path): string
+    {
+        $parts = [];
+
+        foreach (explode('/', str_replace('\\', '/', $path)) as $segment) {
+            if ($segment === '' || $segment === '.') {
+                continue;
+            }
+
+            if ($segment === '..') {
+                array_pop($parts);
+            } else {
+                $parts[] = $segment;
+            }
+        }
+
+        return implode(DIRECTORY_SEPARATOR, $parts);
     }
 
     /**
