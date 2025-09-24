@@ -24,6 +24,8 @@ namespace PrestaShop\Module\AutoUpgrade\Commands;
 use Exception;
 use InvalidArgumentException;
 use PrestaShop\Module\AutoUpgrade\DocumentationLinks;
+use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
+use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
@@ -173,6 +175,43 @@ class UpdateCommand extends AbstractCommand
             if ($optionValue !== null) {
                 $this->consoleInputConfiguration[$configKey] = $optionValue;
             }
+        }
+
+        $this->calculateUpdateType();
+    }
+
+    /**
+     * @throws DistributionApiException
+     * @throws UpgradeException
+     */
+    private function calculateUpdateType(): void
+    {
+        $channel = $this->consoleInputConfiguration[UpgradeConfiguration::CHANNEL] ?? UpgradeConfiguration::DEFAULT_CHANNEL;
+        $currentVersion = $this->upgradeContainer->getProperty(UpgradeContainer::PS_VERSION);
+        $destinationVersion = null;
+
+        switch ($channel) {
+            case UpgradeConfiguration::CHANNEL_LOCAL:
+                if (isset($this->consoleInputConfiguration[UpgradeConfiguration::ARCHIVE_ZIP])) {
+                    $file = $this->consoleInputConfiguration[UpgradeConfiguration::ARCHIVE_ZIP];
+                    $fullFilePath = $this->upgradeContainer->getProperty(UpgradeContainer::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $file;
+                    try {
+                        $destinationVersion = $this->upgradeContainer->getPrestashopVersionService()->extractPrestashopVersionFromZip($fullFilePath);
+                        $this->consoleInputConfiguration[UpgradeConfiguration::ARCHIVE_VERSION_NUM] = $destinationVersion;
+                    } catch (Exception $e) {
+                    }
+                }
+                break;
+            case UpgradeConfiguration::CHANNEL_ONLINE:
+                $destinationVersion = $this->upgradeContainer->getUpgrader()->getOnlineMaxDestinationRelease()->getVersion();
+                break;
+            case UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED:
+                $destinationVersion = $this->upgradeContainer->getUpgrader()->getOnlineRecommendedDestinationRelease()->getVersion();
+                break;
+        }
+
+        if (isset($destinationVersion)) {
+            $this->consoleInputConfiguration[UpgradeConfiguration::UPDATE_TYPE] = VersionUtils::getUpdateType($currentVersion, $destinationVersion);
         }
     }
 
