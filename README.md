@@ -169,9 +169,10 @@ For more information on using commands, please refer to the [PrestaShop develope
 
 ## Channels
 
-There are 2 channels available for an update:
+There are 3 channels available for an update:
 
 * `online` - This channel corresponds to the official "online" update for your store, detected by PrestaShop APIs (major, minor or patch versions). This update is the most recent version of PrestaShop compatible with the PHP version of your server.
+* `online_recommended` - The recommended version of PrestaShop to which you can update your store, based on its PHP version.
 * `local` - This channel corresponds to the “local” update, displaying customized updates detected inside your server `[your-admin-dir]/autoupgrade/download` folder (based on .ZIP and .XML files).
 
 ## Configuration Parameters
@@ -182,7 +183,7 @@ impact.
 
 | Command                                     | Configuration file key                        | CLI option                     | Possible Values                                                                         | Description                                                                                                                                   |
 |---------------------------------------------|-----------------------------------------------|--------------------------------|-----------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
-| `update:start`                              | `channel`                                     | `--channel`                    | `online` (default), `local`                                                             | Defines the update channel to use. The `local` channel requires specific files to be placed in the download folder.                           |
+| `update:start`                              | `channel`                                     | `--channel`                    | `online`, `online_recommended` (default), `local`                                       | Defines the update channel to use. The `local` channel requires specific files to be placed in the download folder.                           |
 | `update:start`, `update:check-requirements` | `archive_zip`                                 | `--zip`                        | Valid file name                                                                         | Name of the `ZIP` file to use for an update via the archive channel. This file must be placed in `[your-admin-dir]/autoupgrade/download`.     |
 | `update:start`, `update:check-requirements` | `archive_xml`                                 | `--xml`                        | Valid file name                                                                         | Name of the `XML` file corresponding to the ZIP file for the archive channel. Must also be placed in `[your-admin-dir]/autoupgrade/download`. |
 | `update:start`                              | `PS_AUTOUP_CUSTOM_MOD_DESACT`                 | `--disable-non-native-modules` | `true` (default), `false`, `'true'`, `'false'`, `'1'`, `'0'`, `1`, `0`, `'on'`, `'off'` | If enabled, disables all non-native modules before the update, reducing the risk of compatibility issues.                                     |

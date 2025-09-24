@@ -39,6 +39,10 @@ export default class UpdatePageVersionChoice extends StepPage {
     this.#form.dispatchEvent(new Event('change'));
 
     this.#onlineCardParent?.addEventListener(Hydration.hydrationEventName, this.#handleHydrate);
+    this.#onlineRecommendedCardParent?.addEventListener(
+      Hydration.hydrationEventName,
+      this.#handleHydrate
+    );
     this.#localCardParent?.addEventListener(Hydration.hydrationEventName, this.#handleHydrate);
 
     this.#toggleNextButton();
@@ -50,6 +54,10 @@ export default class UpdatePageVersionChoice extends StepPage {
     this.#form.removeEventListener('change', this.#saveForm);
     this.#form.removeEventListener('submit', this.#handleSubmit);
     this.#onlineCardParent?.removeEventListener(
+      Hydration.hydrationEventName,
+      this.#toggleNextButton
+    );
+    this.#onlineRecommendedCardParent?.removeEventListener(
       Hydration.hydrationEventName,
       this.#toggleNextButton
     );
@@ -113,6 +121,7 @@ export default class UpdatePageVersionChoice extends StepPage {
 
     this.#localInputElement?.classList.remove(this.radioLoadingClass);
     this.#onlineInputElement?.classList.remove(this.radioLoadingClass);
+    this.#onlineRecommendedInputElement?.classList.remove(this.radioLoadingClass);
 
     const routeToSave = this.#form!.dataset.routeToSave;
 
@@ -124,6 +133,10 @@ export default class UpdatePageVersionChoice extends StepPage {
 
     if (this.#onlineInputIsChecked) {
       currentInputCheck = this.#onlineInputElement!;
+    }
+
+    if (this.#recommendedOnlineInputIsChecked) {
+      currentInputCheck = this.#onlineRecommendedInputElement!;
     }
 
     if (this.#localInputIsCheckAndFullFilled) {
@@ -147,7 +160,7 @@ export default class UpdatePageVersionChoice extends StepPage {
     }
 
     analytics.track('[SUE] Version choice submitted', {
-      upgrade_channel: this.#onlineInputIsChecked ? 'online' : 'local'
+      upgrade_channel: this.#localInputIsChecked ? 'local' : 'online'
     });
 
     await this.#sendForm(routeToSubmit);
@@ -169,6 +182,9 @@ export default class UpdatePageVersionChoice extends StepPage {
   get #currentChannelRequirementsAreOk(): boolean {
     if (this.#onlineInputIsChecked) {
       return this.#onlineInputElement!.dataset.requirementsAreOk === '1';
+    }
+    if (this.#recommendedOnlineInputIsChecked) {
+      return this.#onlineRecommendedInputElement!.dataset.requirementsAreOk === '1';
     }
     if (this.#localInputIsCheckAndFullFilled) {
       return this.#localInputElement!.dataset.requirementsAreOk === '1';
@@ -195,12 +211,26 @@ export default class UpdatePageVersionChoice extends StepPage {
     return document.getElementById('radio_card_online') as HTMLDivElement | undefined;
   }
 
+  get #onlineRecommendedCardParent(): HTMLDivElement | undefined {
+    return document.getElementById('radio_card_online_recommended') as HTMLDivElement | undefined;
+  }
+
   get #onlineInputElement(): HTMLInputElement | undefined {
     return this.#form?.elements.namedItem('online') as HTMLInputElement | undefined;
   }
 
+  get #onlineRecommendedInputElement(): HTMLInputElement | undefined {
+    return this.#form?.elements.namedItem('online_recommended') as HTMLInputElement | undefined;
+  }
+
   get #onlineInputIsChecked(): boolean {
     return (this.#onlineInputElement && this.#onlineInputElement.checked) || false;
+  }
+
+  get #recommendedOnlineInputIsChecked(): boolean {
+    return (
+      (this.#onlineRecommendedInputElement && this.#onlineRecommendedInputElement.checked) || false
+    );
   }
 
   // local option

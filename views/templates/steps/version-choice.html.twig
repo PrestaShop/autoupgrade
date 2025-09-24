@@ -118,10 +118,26 @@
       id="{{ form_version_choice_name }}"
       name="{{ form_version_choice_name }}"
     >
-      <div id="{{ radio_card_online_parent_id }}">
-        {% include "@ModuleAutoUpgrade/components/radio-card-online.html.twig" %}
-      </div>
+      {% if next_releases['online_recommended'] is defined and next_releases['online_recommended'] is not empty %}
+        <div id="{{ radio_card_online_recommended_parent_id }}">
+          {% include "@ModuleAutoUpgrade/components/radio-card-online.html.twig" with {
+            form_option_online_value: form_options.online_recommended_value,
+            next_release: next_releases['online_recommended'],
+            release_type: 'online_recommended'
+          } %}
+        </div>
+      {% endif %}
 
+      {% if next_releases['online'] is defined and next_releases['online'] is not empty %}
+        <div id="{{ radio_card_online_parent_id }}">
+          {% include "@ModuleAutoUpgrade/components/radio-card-online.html.twig" with {
+            form_option_online_value: form_options.online_value,
+            next_release: next_releases['online'],
+            release_type: 'online'
+          } %}
+        </div>
+      {% endif %}
+      
       {% if no_local_archive %}
         {% include "@ModuleAutoUpgrade/components/alert.html.twig" with {
           message: "Unlock the local update feature and manually update your store to your preferred upgrade by saving the archive and XML files of the PrestaShop version in the following directory on your server: %pathToLocalArchive%"|trans({

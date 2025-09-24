@@ -49,6 +49,11 @@
             {{ badgeLabel }}
           </span>
         {% endif %}
+        {% if recommended %}
+          <span class="radio-card__badge">
+            {{ 'Recommended'|trans({}) }}
+          </span>
+        {% endif %}
       </p>
 
       {% if releaseNote %}
