@@ -102,6 +102,11 @@ class UpdateCommand extends AbstractCommand
                 if (!$updateState->isInitialized()) {
                     $updateState->initDefault($this->upgradeContainer->getProperty(UpgradeContainer::PS_VERSION), $this->upgradeContainer->getUpgrader(), $this->upgradeContainer->getUpdateConfiguration());
                 }
+
+                $updateConfiguration = $this->upgradeContainer->getUpdateConfiguration();
+                if (!$updateConfiguration->get(UpgradeConfiguration::UPDATE_TYPE)) {
+                    $this->calculateUpdateTypeAfterConfigLoad();
+                }
             }
 
             $this->logger->debug('Configuration loaded successfully.');
@@ -187,7 +192,7 @@ class UpdateCommand extends AbstractCommand
     private function calculateUpdateTypeAfterConfigLoad(): void
     {
         $updateConfiguration = $this->upgradeContainer->getUpdateConfiguration();
-        $channel = $this->consoleInputConfiguration[UpgradeConfiguration::CHANNEL] ?? $updateConfiguration->getChannel();
+        $channel = $this->consoleInputConfiguration[UpgradeConfiguration::CHANNEL] ?? $updateConfiguration->getChannelOrDefault();
         $currentVersion = $this->upgradeContainer->getProperty(UpgradeContainer::PS_VERSION);
         $destinationVersion = null;
 
