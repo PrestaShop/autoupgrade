@@ -94,6 +94,7 @@ class UpdateCommand extends AbstractCommand
                 if ($exitCode !== ExitCode::SUCCESS) {
                     return $exitCode;
                 }
+                $this->calculateUpdateTypeAfterConfigLoad();
             } else {
                 $updateState = $this->upgradeContainer->getUpdateState();
                 // In the special case the user inits the process from a specific task that is not the initialization,
@@ -177,28 +178,30 @@ class UpdateCommand extends AbstractCommand
             }
         }
 
-        $this->calculateUpdateType();
     }
 
     /**
      * @throws DistributionApiException
      * @throws UpgradeException
+     * @throws Exception
      */
-    private function calculateUpdateType(): void
+    private function calculateUpdateTypeAfterConfigLoad(): void
     {
-        $channel = $this->consoleInputConfiguration[UpgradeConfiguration::CHANNEL] ?? UpgradeConfiguration::DEFAULT_CHANNEL;
+        $updateConfiguration = $this->upgradeContainer->getUpdateConfiguration();
+        $channel = $this->consoleInputConfiguration[UpgradeConfiguration::CHANNEL] ?? $updateConfiguration->getChannel();
         $currentVersion = $this->upgradeContainer->getProperty(UpgradeContainer::PS_VERSION);
         $destinationVersion = null;
 
         switch ($channel) {
             case UpgradeConfiguration::CHANNEL_LOCAL:
-                if (isset($this->consoleInputConfiguration[UpgradeConfiguration::ARCHIVE_ZIP])) {
-                    $file = $this->consoleInputConfiguration[UpgradeConfiguration::ARCHIVE_ZIP];
-                    $fullFilePath = $this->upgradeContainer->getProperty(UpgradeContainer::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $file;
+                $zipFile = $this->consoleInputConfiguration[UpgradeConfiguration::ARCHIVE_ZIP] ?? $updateConfiguration->getLocalChannelZip();
+                if ($zipFile) {
+                    $fullFilePath = $this->upgradeContainer->getProperty(UpgradeContainer::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $zipFile;
                     try {
                         $destinationVersion = $this->upgradeContainer->getPrestashopVersionService()->extractPrestashopVersionFromZip($fullFilePath);
-                        $this->consoleInputConfiguration[UpgradeConfiguration::ARCHIVE_VERSION_NUM] = $destinationVersion;
+                        $updateConfiguration->set(UpgradeConfiguration::ARCHIVE_VERSION_NUM, $destinationVersion);
                     } catch (Exception $e) {
+                        $this->logger->error('Unable to extract PrestaShop version from ZIP file: ' . $e->getMessage());
                     }
                 }
                 break;
@@ -211,7 +214,9 @@ class UpdateCommand extends AbstractCommand
         }
 
         if (isset($destinationVersion)) {
-            $this->consoleInputConfiguration[UpgradeConfiguration::UPDATE_TYPE] = VersionUtils::getUpdateType($currentVersion, $destinationVersion);
+            $updateType = VersionUtils::getUpdateType($currentVersion, $destinationVersion);
+            $updateConfiguration->set(UpgradeConfiguration::UPDATE_TYPE, $updateType);
+            $this->upgradeContainer->getConfigurationStorage()->save($updateConfiguration);
         }
     }
 
