@@ -94,7 +94,6 @@ class UpdateCommand extends AbstractCommand
                 if ($exitCode !== ExitCode::SUCCESS) {
                     return $exitCode;
                 }
-                $this->calculateUpdateTypeAfterConfigLoad();
             } else {
                 $updateState = $this->upgradeContainer->getUpdateState();
                 // In the special case the user inits the process from a specific task that is not the initialization,
@@ -104,10 +103,9 @@ class UpdateCommand extends AbstractCommand
                 }
 
                 $updateConfiguration = $this->upgradeContainer->getUpdateConfiguration();
-                if (!$updateConfiguration->get(UpgradeConfiguration::UPDATE_TYPE)) {
-                    $this->calculateUpdateTypeAfterConfigLoad();
-                }
             }
+
+            $this->calculateUpdateTypeAfterConfigLoad();
 
             $this->logger->debug('Configuration loaded successfully.');
             $this->logger->debug('Starting the update process.');
