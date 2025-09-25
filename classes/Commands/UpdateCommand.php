@@ -200,7 +200,7 @@ class UpdateCommand extends AbstractCommand
                         $destinationVersion = $this->upgradeContainer->getPrestashopVersionService()->extractPrestashopVersionFromZip($fullFilePath);
                         $updateConfiguration->set(UpgradeConfiguration::ARCHIVE_VERSION_NUM, $destinationVersion);
                     } catch (Exception $e) {
-                        $this->logger->error('Unable to extract PrestaShop version from ZIP file: ' . $e->getMessage());
+                        $this->logger->warning('Unable to extract PrestaShop version from ZIP file: ' . $e->getMessage());
                     }
                 }
                 break;
