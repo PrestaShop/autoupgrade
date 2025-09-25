@@ -177,7 +177,6 @@ class UpdateCommand extends AbstractCommand
                 $this->consoleInputConfiguration[$configKey] = $optionValue;
             }
         }
-
     }
 
     /**
