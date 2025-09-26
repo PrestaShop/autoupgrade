@@ -85,52 +85,52 @@
       <trans-unit id="52033453d4d673bae012b9c8ccb1e79c" approved="yes">
         <source>An error occurred while backing up. Unable to obtain the schema of %s</source>
         <target state="final">Une erreur est apparue lors de la sauvegarde. Impossible d'obtenir le schema de %s</target>
-        <note>classes/Task/Backup/BackupDatabase.php:127</note>
+        <note>classes/Task/Backup/BackupDatabase.php:129</note>
       </trans-unit>
       <trans-unit id="dcb7d833c69d6e0c3f009381c51f898e" approved="yes">
         <source>Error during database backup.</source>
         <target state="final">Erreur pendant la sauvegarde de la base de données</target>
-        <note>classes/Task/Backup/BackupDatabase.php:128</note>
+        <note>classes/Task/Backup/BackupDatabase.php:130</note>
       </trans-unit>
       <trans-unit id="4d4c62fccb481224ff3a5c36b45de3fd" approved="yes">
         <source>%s table has been saved.</source>
         <target state="final">La table %s a été sauvegardée.</target>
-        <note>classes/Task/Backup/BackupDatabase.php:220</note>
+        <note>classes/Task/Backup/BackupDatabase.php:222</note>
       </trans-unit>
       <trans-unit id="71426d0545181d601dc135b78e74ac8f" approved="yes">
         <source>%s tables have been saved.</source>
         <target state="final">%s tables ont été sauvegardées.</target>
-        <note>classes/Task/Backup/BackupDatabase.php:240</note>
+        <note>classes/Task/Backup/BackupDatabase.php:242</note>
       </trans-unit>
       <trans-unit id="c2a086cb5c3373d7e11acbd3ace6a553" approved="yes">
         <source>Database backup: %s table(s) left...</source>
         <target state="final">Sauvegarde de la base de données : %s table(s) restantes...</target>
-        <note>classes/Task/Backup/BackupDatabase.php:247</note>
+        <note>classes/Task/Backup/BackupDatabase.php:249</note>
       </trans-unit>
       <trans-unit id="10d423ad12429f952b0864b9f506551e" approved="yes">
         <source>Database backup done in filename %s.</source>
         <target state="final">Sauvegarde de la base de données effectuée avec le nom de fichier %s.</target>
-        <note>classes/Task/Backup/BackupDatabase.php:260</note>
+        <note>classes/Task/Backup/BackupDatabase.php:262</note>
       </trans-unit>
       <trans-unit id="555231214d7c729089e80f561e118f45" approved="yes">
         <source>Backup directory is not writable (%path%).</source>
         <target state="final">Chemin de sauvegarde interdit en écriture (%path%).</target>
-        <note>classes/Task/Backup/BackupDatabase.php:277</note>
+        <note>classes/Task/Backup/BackupDatabase.php:279</note>
       </trans-unit>
       <trans-unit id="d721e1d318aff72741125f97535b8ac7" approved="yes">
         <source>No valid tables were found to back up. Backup of database canceled.</source>
         <target state="final">Aucune table valide n'a été trouvée pour permettre la sauvegarde. La sauvegarde de la base de données a donc été annulée.</target>
-        <note>classes/Task/Backup/BackupDatabase.php:293</note>
+        <note>classes/Task/Backup/BackupDatabase.php:295</note>
       </trans-unit>
       <trans-unit id="d12ae4e7f0d20f4a4ca357d48e42877e" approved="yes">
         <source>Backup file %s already exists. Operation aborted.</source>
         <target state="final">Le fichier %s existe déjà. Opération annulée.</target>
-        <note>classes/Task/Backup/BackupDatabase.php:338</note>
+        <note>classes/Task/Backup/BackupDatabase.php:340</note>
       </trans-unit>
       <trans-unit id="d82896159c60199272e5ea481a733eba" approved="yes">
         <source>Unable to create backup database file %s.</source>
         <target state="final">Impossible de créer le fichier %s de sauvegarde de la base de données.</target>
-        <note>classes/Task/Backup/BackupDatabase.php:352</note>
+        <note>classes/Task/Backup/BackupDatabase.php:354</note>
       </trans-unit>
       <trans-unit id="b579142dc2ece4e07e8fcc1f99cd75c8" approved="yes">
         <source>Restoration process done. Congratulations! You can now reactivate your store.</source>
@@ -756,22 +756,22 @@
       <trans-unit id="494e9240706355902c051f7edbff16d8" approved="yes">
         <source>Unknown channel %s</source>
         <target state="final">Canal %s inconnu</target>
-        <note>classes/Parameters/ConfigurationValidator.php:79</note>
+        <note>classes/Parameters/ConfigurationValidator.php:83</note>
       </trans-unit>
       <trans-unit id="a1e2f27f691acb7eff72046d0c6d15b9" approved="yes">
         <source>No zip archive provided</source>
         <target state="final">Aucune archive zip fournie</target>
-        <note>classes/Parameters/ConfigurationValidator.php:88</note>
+        <note>classes/Parameters/ConfigurationValidator.php:92</note>
       </trans-unit>
       <trans-unit id="08ecdfa1e85ff7b6cc146b6a61690840" approved="yes">
         <source>No xml archive provided</source>
         <target state="final">Aucune archive xml fournie</target>
-        <note>classes/Parameters/ConfigurationValidator.php:97</note>
+        <note>classes/Parameters/ConfigurationValidator.php:101</note>
       </trans-unit>
       <trans-unit id="8f6819dd1d8ef2e214833f667fe994b0" approved="yes">
         <source>Value must be a boolean for %s</source>
         <target state="final">La valeur doit être un booléen pour %s</target>
-        <note>classes/Parameters/ConfigurationValidator.php:109</note>
+        <note>classes/Parameters/ConfigurationValidator.php:113</note>
       </trans-unit>
       <trans-unit id="80c25611ea9134bac1da1d91eb03544a" approved="yes">
         <source>Both 'xml' and 'zip' files attributes must be provided to use the local channel.</source>
@@ -806,7 +806,7 @@
       <trans-unit id="ddfec814758f41dd73e219d374d1d15a" approved="yes">
         <source>Unable to retrieve the recommended releases of Update Assistant.</source>
         <target state="final">Impossible de récupérer les versions recommandées d'Update Assistant.</target>
-        <note>classes/Upgrader.php:176</note>
+        <note>classes/Upgrader.php:189</note>
       </trans-unit>
       <trans-unit id="4d46d96c1ea641735ee0c26c6381c75e" approved="yes">
         <source>API keys not present in parameters, generating</source>
@@ -1105,17 +1105,17 @@
       <trans-unit id="3188ac0ee6355c23c3b26c3b5e71f3dd" approved="yes">
         <source>File %s does not exist, merge skipped.</source>
         <target state="final">Le fichier %s n'existe pas, la fusion a été ignorée.</target>
-        <note>classes/UpgradeTools/Translation.php:141</note>
+        <note>classes/UpgradeTools/Translation.php:140</note>
       </trans-unit>
       <trans-unit id="9e25d028554081cd5afb26eaf99dbd9e" approved="yes">
         <source>%variablename% variable missing in file %filename%. Merge skipped.</source>
         <target state="final">La variable %variablename% est manquante dans le fichier %filename%. Fusion ignorée.</target>
-        <note>classes/UpgradeTools/Translation.php:129</note>
+        <note>classes/UpgradeTools/Translation.php:128</note>
       </trans-unit>
       <trans-unit id="688481c74263a37393118aff2b012987" approved="yes">
         <source>%variablename% variable missing in file %filename%. File %filename% deleted and merge skipped.</source>
         <target state="final">La variable %variablename% est manquante dans le fichier %filename%. Fichier %filename% supprimé et fusion ignorée.</target>
-        <note>classes/UpgradeTools/Translation.php:153</note>
+        <note>classes/UpgradeTools/Translation.php:152</note>
       </trans-unit>
       <trans-unit id="fff77a9b7fadd2dd38b16678c8b000cf" approved="yes">
         <source>Unable to create directory %s: %s</source>
@@ -1242,40 +1242,50 @@
         <target state="needs-translation">FAILED</target>
         <note>controllers/admin/AdminSelfUpgradeController.php:316</note>
       </trans-unit>
+      <trans-unit id="b1a6ad8756c2f4d98bf70737d0aefcf0">
+        <source>The recommended version of PrestaShop to which you can update your store, based on its PHP version.</source>
+        <target state="needs-translation">The recommended version of PrestaShop to which you can update your store, based on its PHP version.</target>
+        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:94</note>
+      </trans-unit>
+      <trans-unit id="c810616e41e5c7d30bf8bfd118405833" approved="yes">
+        <source>The maximum version of PrestaShop to which you can update your store, based on its PHP version.</source>
+        <target state="final">La version maximale de PrestaShop vers laquelle vous pouvez mettre à jour votre boutique, en fonction de sa version PHP.</target>
+        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:110</note>
+      </trans-unit>
       <trans-unit id="001c32426a6cfb48ebb848b13141593c" approved="yes">
         <source>Major version</source>
         <target state="final">Version majeure</target>
-        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:88</note>
+        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:154</note>
       </trans-unit>
       <trans-unit id="c5439de366a407641018f189da1ad4a7" approved="yes">
         <source>Minor version</source>
         <target state="final">Version mineure</target>
-        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:91</note>
+        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:157</note>
       </trans-unit>
       <trans-unit id="8a0dd44f366bc5604b8329a87be5f933" approved="yes">
         <source>Patch version</source>
         <target state="final">Version corrective</target>
-        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:94</note>
+        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:160</note>
       </trans-unit>
       <trans-unit id="064903b5aa01cf4bc4e5c073d9917678" approved="yes">
         <source>List of core alterations</source>
         <target state="final">Liste des altérations du core</target>
-        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:244</note>
+        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:288</note>
       </trans-unit>
       <trans-unit id="673cc49de07389091a77d1872687cf64" approved="yes">
         <source>Some core files have been altered, customization made on these files will be lost during the update.</source>
         <target state="final">Certains fichiers du core ont été modifiés, les personnalisations effectuées sur ces fichiers seront perdues lors de la mise à jour.</target>
-        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:245</note>
+        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:289</note>
       </trans-unit>
       <trans-unit id="3e520d769e66a4dcdf43029803ab4e8e" approved="yes">
         <source>List of theme alterations</source>
         <target state="final">Liste des altérations du thème</target>
-        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:269</note>
+        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:313</note>
       </trans-unit>
       <trans-unit id="fa22ace14d701200f848374a39f3e88c" approved="yes">
         <source>Some theme files have been altered, customization made on these files will be lost during the update.</source>
         <target state="final">Certains fichiers du thème ont été modifiés, les personnalisations effectuées sur ces fichiers seront perdues lors de la mise à jour.</target>
-        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:270</note>
+        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:314</note>
       </trans-unit>
       <trans-unit id="c9cc8cce247e49bae79f15173ce97354" approved="yes">
         <source>Save</source>
@@ -1480,7 +1490,7 @@
       <trans-unit id="10ac3d04253ef7e1ddc73e6091c0cd55" approved="yes">
         <source>Next</source>
         <target state="final">Suivant</target>
-        <note>views/templates/steps/version-choice.html.twig:143</note>
+        <note>views/templates/steps/version-choice.html.twig:159</note>
       </trans-unit>
       <trans-unit id="c940aa73d021ae9e13f265237b0e4f96" approved="yes">
         <source>Welcome to PrestaShop Update Assistant</source>
@@ -1575,7 +1585,7 @@
       <trans-unit id="d4399327e9bb1d9fb589b58332f07d48" approved="yes">
         <source>Unlock the local update feature and manually update your store to your preferred upgrade by saving the archive and XML files of the PrestaShop version in the following directory on your server: %pathToLocalArchive%</source>
         <target state="final">Déverrouillez la fonctionnalité de mise à jour locale et mettez à jour manuellement votre boutique vers votre distribution personnalisée en enregistrant l'archive et le fichier XML de la version PrestaShop dans le répertoire suivant sur votre serveur : %pathToLocalArchive%</target>
-        <note>views/templates/steps/version-choice.html.twig:127</note>
+        <note>views/templates/steps/version-choice.html.twig:143</note>
       </trans-unit>
       <trans-unit id="34b3f55bce0f37bcd82294fbc4702aad" approved="yes">
         <source>You are already using the latest PrestaShop version available but you can update to the version of your choice from a local archive.</source>
@@ -2032,25 +2042,25 @@
         <target state="final">Supprimer la sélection</target>
         <note>views/templates/components/render-backup-selection.html.twig:47</note>
       </trans-unit>
-      <trans-unit id="c810616e41e5c7d30bf8bfd118405833" approved="yes">
-        <source>The maximum version of PrestaShop to which you can update your store, based on its PHP version.</source>
-        <target state="final">La version maximale de PrestaShop vers laquelle vous pouvez mettre à jour votre boutique, en fonction de sa version PHP.</target>
-        <note>views/templates/components/radio-card-online.html.twig:25</note>
-      </trans-unit>
       <trans-unit id="b9d4e763594017af5b607eb9e0034299" approved="yes">
         <source>PrestaShop %version%</source>
         <target state="final">PrestaShop %version%</target>
-        <note>views/templates/components/radio-card-online.html.twig:32</note>
+        <note>views/templates/components/radio-card-online.html.twig:36</note>
+      </trans-unit>
+      <trans-unit id="654866693fd91ce8e9764a218f569918">
+        <source>Recommended</source>
+        <target state="needs-translation">Recommended</target>
+        <note>views/templates/components/radio-card.html.twig:54</note>
       </trans-unit>
       <trans-unit id="fd27020a39b44ef689eb32970c365045" approved="yes">
         <source>Release note</source>
         <target state="final">Release note</target>
-        <note>views/templates/components/radio-card.html.twig:60</note>
+        <note>views/templates/components/radio-card.html.twig:65</note>
       </trans-unit>
       <trans-unit id="d63d0e3addadd645300c8e4909c7e3b1" approved="yes">
         <source>Checking requirements...</source>
         <target state="final">Vérification des prérequis...</target>
-        <note>views/templates/components/radio-card.html.twig:81</note>
+        <note>views/templates/components/radio-card.html.twig:86</note>
       </trans-unit>
     </body>
   </file>
