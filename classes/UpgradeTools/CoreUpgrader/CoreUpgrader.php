@@ -905,14 +905,15 @@ abstract class CoreUpgrader
         $rootPath = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH);
         $command = $rootPath . '/bin/console';
 
-        if (!is_executable($command)) {
-            $command = 'php ' . $command;
-        }
-
         $output = [];
         $returnCode = 0;
 
-        exec($command . ' ' . $args, $output, $returnCode);
+        exec('php ' . $command . ' ' . $args, $output, $returnCode);
+
+        // If PHP binary is not part of the $PATH, try relying directly on the console file.
+        if ($returnCode === 127 && is_executable($command)) {
+            exec($command . ' ' . $args, $output, $returnCode);
+        }
 
         return [
             'returnCode' => $returnCode,
