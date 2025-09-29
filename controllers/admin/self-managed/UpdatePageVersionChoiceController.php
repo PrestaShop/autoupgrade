@@ -222,6 +222,22 @@ class UpdatePageVersionChoiceController extends AbstractPageWithStepController
                 $requestConfig[UpgradeConfiguration::ARCHIVE_VERSION_NUM] = $this->upgradeContainer->getPrestashopVersionService()->extractPrestashopVersionFromZip($fullFilePath);
             }
 
+            switch ($channel) {
+                case UpgradeConfiguration::CHANNEL_LOCAL:
+                    $destinationVersion = $requestConfig[UpgradeConfiguration::ARCHIVE_VERSION_NUM];
+                    break;
+                case UpgradeConfiguration::CHANNEL_ONLINE:
+                    $destinationVersion = $this->upgradeContainer->getUpgrader()->getOnlineMaxDestinationRelease()->getVersion();
+                    break;
+                case UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED:
+                    $destinationVersion = $this->upgradeContainer->getUpgrader()->getOnlineRecommendedDestinationRelease()->getVersion();
+                    break;
+            }
+
+            if (isset($destinationVersion)) {
+                $requestConfig[UpgradeConfiguration::UPDATE_TYPE] = VersionUtils::getUpdateType($this->getPsVersion(), $destinationVersion);
+            }
+
             $configurationStorage = $this->upgradeContainer->getConfigurationStorage();
 
             $updateConfiguration = $this->upgradeContainer->getUpdateConfiguration();

@@ -39,6 +39,7 @@ class UpgradeConfiguration extends ArrayCollection
     const PS_AUTOUP_KEEP_IMAGES = 'PS_AUTOUP_KEEP_IMAGES';
     const PS_DISABLE_OVERRIDES = 'PS_DISABLE_OVERRIDES';
     const CHANNEL = 'channel';
+    const UPDATE_TYPE = 'update_type';
     const ARCHIVE_ZIP = 'archive_zip';
     const ARCHIVE_XML = 'archive_xml';
     const ARCHIVE_VERSION_NUM = 'archive_version_num';
@@ -56,6 +57,7 @@ class UpgradeConfiguration extends ArrayCollection
         self::PS_AUTOUP_KEEP_IMAGES,
         self::PS_DISABLE_OVERRIDES,
         self::CHANNEL,
+        self::UPDATE_TYPE,
         self::ARCHIVE_ZIP,
         self::ARCHIVE_XML,
         self::ARCHIVE_VERSION_NUM,
@@ -149,6 +151,14 @@ class UpgradeConfiguration extends ArrayCollection
     public function isChannelOnlineRecommended(): bool
     {
         return $this->getChannelOrDefault() === UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED;
+    }
+
+    /**
+     * @return 'major'|'minor'|'patch'
+     */
+    public function getUpdateType(): string
+    {
+        return $this->get(self::UPDATE_TYPE);
     }
 
     public function isBackupCompleted(): ?bool
