@@ -30,22 +30,22 @@
       <trans-unit id="064903b5aa01cf4bc4e5c073d9917678">
         <source>List of core alterations</source>
         <target>List of core alterations</target>
-        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:288</note>
+        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:304</note>
       </trans-unit>
       <trans-unit id="673cc49de07389091a77d1872687cf64">
         <source>Some core files have been altered, customization made on these files will be lost during the update.</source>
         <target>Some core files have been altered, customization made on these files will be lost during the update.</target>
-        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:289</note>
+        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:305</note>
       </trans-unit>
       <trans-unit id="3e520d769e66a4dcdf43029803ab4e8e">
         <source>List of theme alterations</source>
         <target>List of theme alterations</target>
-        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:313</note>
+        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:329</note>
       </trans-unit>
       <trans-unit id="fa22ace14d701200f848374a39f3e88c">
         <source>Some theme files have been altered, customization made on these files will be lost during the update.</source>
         <target>Some theme files have been altered, customization made on these files will be lost during the update.</target>
-        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:314</note>
+        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:330</note>
       </trans-unit>
       <trans-unit id="21dc065f2d8653ebca37ec552d17b37e">
         <source>Unable to create the directory "%s"</source>
