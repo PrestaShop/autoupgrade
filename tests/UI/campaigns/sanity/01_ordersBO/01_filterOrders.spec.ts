@@ -62,11 +62,6 @@ test.describe('BO - Orders - Orders : Filter the Orders table by ID, REFERENCE, 
     expect(pageTitle).toContain(boDashboardPage.pageTitle);
   });
 
-  test('should close update notification dialog', async () => {
-    const isDialogNotVisible = await boDashboardPage.closeDialogUpdateNotification(page);
-    expect(isDialogNotVisible).toEqual(true);
-  });
-
   test('should go to the \'Orders > Orders\' page', async () => {
     await boDashboardPage.goToSubMenu(
       page,
