@@ -31,6 +31,7 @@ import {
   boMaintenancePage,
   dataModules,
   modAutoupgradeBoMain,
+  modAutoupgradeBoModal,
 } from '@prestashop-core/ui-testing';
 
 import {
@@ -66,7 +67,7 @@ test.describe('Upgrade using the local channel', () => {
   });
 
   test('should close update notification dialog', async () => {
-    const isDialogNotVisible = await boDashboardPage.closeDialogUpdateNotification(page);
+    const isDialogNotVisible = await modAutoupgradeBoModal.closeDialogUpdateNotification(page);
     expect(isDialogNotVisible).toEqual(true);
   });
 
