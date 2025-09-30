@@ -21,6 +21,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
+use PrestaShop\Module\AutoUpgrade\Exceptions\CommandLineException;
 use RuntimeException;
 
 class CoreConsoleExecutable
@@ -76,6 +77,6 @@ class CoreConsoleExecutable
             }
         }
 
-        throw new RuntimeException('Could not find a valid way to call PrestaShop\'s bin/console. Check your environment PATH or add executable permission on the file.');
+        throw new CommandLineException('Could not find a valid way to call PrestaShop\'s bin/console. Check your environment PATH or add executable permission on the file.');
     }
 }
