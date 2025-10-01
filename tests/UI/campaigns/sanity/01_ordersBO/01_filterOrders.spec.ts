@@ -23,6 +23,7 @@ import {
   boDashboardPage,
   boLoginPage,
   boOrdersPage,
+  modAutoupgradeBoModal,
   // Import data
   dataOrders,
   dataOrderStatuses,
@@ -63,7 +64,7 @@ test.describe('BO - Orders - Orders : Filter the Orders table by ID, REFERENCE, 
   });
 
   test('should close update notification dialog', async () => {
-    const isDialogNotVisible = await boDashboardPage.closeDialogUpdateNotification(page);
+    const isDialogNotVisible = await modAutoupgradeBoModal.closeDialogUpdateNotification(page);
     expect(isDialogNotVisible).toEqual(true);
   });
 

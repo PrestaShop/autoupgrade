@@ -32,6 +32,7 @@ import {
   boMaintenancePage,
   dataModules,
   modAutoupgradeBoMain,
+  modAutoupgradeBoModal,
 } from '@prestashop-core/ui-testing';
 
 import {
@@ -69,7 +70,7 @@ test.describe('Rollback', () => {
     });
 
     test('should close update notification dialog', async () => {
-      const isDialogNotVisible = await boDashboardPage.closeDialogUpdateNotification(page);
+      const isDialogNotVisible = await modAutoupgradeBoModal.closeDialogUpdateNotification(page);
       expect(isDialogNotVisible).toEqual(true);
     });
 
@@ -399,7 +400,7 @@ test.describe('Rollback', () => {
     test('should click on exit button', async () => {
       await modAutoupgradeBoMain.clickOnExitPostRestore(page);
 
-      const isDialogNotVisible = await boDashboardPage.closeDialogUpdateNotification(page);
+      const isDialogNotVisible = await modAutoupgradeBoModal.closeDialogUpdateNotification(page);
       expect(isDialogNotVisible).toEqual(true);
 
       const pageTitle = await boDashboardPage.getPageTitle(page);
