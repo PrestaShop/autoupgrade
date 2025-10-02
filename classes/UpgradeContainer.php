@@ -55,6 +55,7 @@ use PrestaShop\Module\AutoUpgrade\Twig\AssetsEnvironment;
 use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension;
 use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension3;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\CacheCleaner;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreConsoleExecutable;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FileFilter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleAdapter;
@@ -205,6 +206,9 @@ class UpgradeContainer
 
     /** @var ConfigurationValidator */
     private $configurationValidator;
+
+    /** @var CoreConsoleExecutable */
+    private $coreConsoleExecutable;
 
     /** @var LocalChannelConfigurationValidator */
     private $localChannelConfigurationValidator;
@@ -943,6 +947,17 @@ class UpgradeContainer
         }
 
         return $this->configurationValidator;
+    }
+
+    public function getCoreConsoleExecutable(): CoreConsoleExecutable
+    {
+        if (null === $this->coreConsoleExecutable) {
+            $this->coreConsoleExecutable = new CoreConsoleExecutable(
+                $this->getProperty(self::PS_ROOT_PATH)
+            );
+        }
+
+        return $this->coreConsoleExecutable;
     }
 
     /**
