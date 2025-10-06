@@ -31,12 +31,12 @@ function add_index_if_not_exists(string $table, string $index, string $parameter
 {
     // Verify if we need to create unique key
     $keys = DbWrapper::executeS(
-        'SHOW KEYS FROM ' . _DB_PREFIX_ . $table . " WHERE Key_name='" . $index . "'"
+        'SHOW KEYS FROM `' . _DB_PREFIX_ . pSQL($table) . "` WHERE Key_name='" . pSQL($index) . "'"
     );
 
     if (!empty($keys)) {
         return true;
     }
 
-    return DbWrapper::execute('ALTER TABLE `' . _DB_PREFIX_ . $table . '` ADD INDEX `' . $index . '` ' . $parameters);
+    return DbWrapper::execute('ALTER TABLE `' . _DB_PREFIX_ . pSQL($table) . '` ADD INDEX `' . pSQL($index) . '` ' . pSQL($parameters));
 }
