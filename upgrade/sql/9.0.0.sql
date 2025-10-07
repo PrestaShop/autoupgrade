@@ -393,7 +393,9 @@ INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`
   (NULL, 'actionProductGetAttributesGroupsBefore', 'Triggers before getting product attributes groups', 'Allows to modify product attributes groups SQL query before they are retrieved from the database.', '1'),
   (NULL, 'actionProductGetAttributesGroupsAfter', 'Triggers after getting product attributes groups', 'Allows to modify product attributes groups after they are retrieved from the database.', '1'),
   (NULL, 'actionGetPdfRenderer', 'Provide a PDF renderer', 'This hook allows to provide a custom PDF renderer to generate PDF files', '1'),
-  (NULL, 'displayAdminStoreInformation', 'Display extra store information', 'This hook displays content in the Information page to add store information', '1')
+  (NULL, 'displayAdminStoreInformation', 'Display extra store information', 'This hook displays content in the Information page to add store information', '1'),
+  -- https://github.com/PrestaShop/PrestaShop/pull/34133
+  (NULL, 'actionSubmitAccountBefore', 'Before customer account creation', 'This hook is called before a customer account creation', '1')
 ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
 
 /* Auto generated hooks removed for version 9.0.0 */
@@ -430,6 +432,7 @@ ALTER TABLE `PREFIX_attachment_lang` MODIFY COLUMN `name` varchar(255) DEFAULT N
 /* Add id_product in customer message table */
 /* https://github.com/PrestaShop/PrestaShop/pull/37861 */
 /* PHP:add_column('customer_message', 'id_product', 'INT UNSIGNED DEFAULT NULL AFTER `id_employee`'); */;
+ALTER TABLE `PREFIX_customer_message` ADD INDEX `id_product` (`id_product`);
 
 /* Update Admin API tabs and roles */
 UPDATE `PREFIX_tab` SET `wording`='Admin API', `wording_domain`='Admin.Navigation.Menu', `class_name`='AdminAdminAPI', `route_name`='admin_api_index', `active`=1 WHERE `class_name`='AdminAuthorizationServer';
