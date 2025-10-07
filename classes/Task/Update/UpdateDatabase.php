@@ -70,6 +70,7 @@ class UpdateDatabase extends AbstractTask
                 return ExitCode::SUCCESS;
             }
             $this->container->getFileStorage()->clean(UpgradeFileNames::SQL_TO_EXECUTE_LIST);
+            $this->container->getSafeMode()->disable();
             $this->getCoreUpgrader()->finalizeCoreUpdate();
         } catch (UpgradeException $e) {
             $this->next = TaskName::TASK_ERROR;
@@ -113,7 +114,6 @@ class UpdateDatabase extends AbstractTask
             $this->container->getCacheCleaner()->cleanFolders();
         }
 
-        // Migrating settings file
         $this->container->initPrestaShopAutoloader();
         $this->container->initPrestaShopCore();
     }
@@ -129,6 +129,8 @@ class UpdateDatabase extends AbstractTask
         $this->container->getUpdateState()->setProgressPercentage(
             $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
         );
+
+        $this->container->getSafeMode()->enable();
 
         $this->getCoreUpgrader()->writeNewSettings();
 

@@ -59,6 +59,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreConsoleExecutable;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FileFilter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleAdapter;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\SafeMode;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\AbstractModuleSourceProvider;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\ComposerSourceProvider;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\LocalSourceProvider;
@@ -220,6 +221,9 @@ class UpgradeContainer
 
     /** @var PrestashopVersionService */
     private $prestashopVersionService;
+
+    /** @var SafeMode */
+    private $safeMode;
 
     /** @var UpgradeSelfCheck */
     private $upgradeSelfCheck;
@@ -641,6 +645,15 @@ class UpgradeContainer
         }
 
         return $this->restoreState;
+    }
+
+    public function getSafeMode(): SafeMode
+    {
+        if (null === $this->safeMode) {
+            $this->safeMode = new SafeMode($this->getDb());
+        }
+
+        return $this->safeMode;
     }
 
     public function getUpdateState(): UpdateState
