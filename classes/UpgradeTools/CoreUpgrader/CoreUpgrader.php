@@ -860,7 +860,7 @@ abstract class CoreUpgrader
     public function warmupCoreCache(): void
     {
         $args = 'cache:warmup --no-interaction --no-optional-warmers --env=prod';
-        $result = $this->callCoreConsoleCommand($args);
+        $result = $this->container->getCoreConsoleExecutable()->callCommand($args);
 
         if ($result['returnCode'] !== 0) {
             throw new UpgradeException($this->container->getTranslator()->trans("An error was raised when warming up the core cache: \n %s", [implode("\n", $result['output'])]));
@@ -887,36 +887,10 @@ abstract class CoreUpgrader
 
         $adminSubDir = $this->container->getProperty(UpgradeContainer::PS_ADMIN_SUBDIR);
         $args = 'assets:install --symlink --no-interaction --env=prod ' . $adminSubDir;
-        $result = $this->callCoreConsoleCommand($args);
+        $result = $this->container->getCoreConsoleExecutable()->callCommand($args);
 
         if ($result['returnCode'] !== 0) {
             throw new UpgradeException($this->container->getTranslator()->trans("A code %d was returned while installing assets: \n %s", [$result['returnCode'], implode("\n", $result['output'])]));
         }
-    }
-
-    /**
-     * The shell may be very minimal on some hosts (e.g. dash on Debian/Ubuntu, or restricted shells in shared hosting).
-     * That often means the $PATH is stripped down and php is not found. So we try to rely first on the console file when it is executable.
-     *
-     * @return array{returnCode: int, output: string[]}
-     */
-    private function callCoreConsoleCommand(string $args)
-    {
-        $rootPath = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH);
-        $command = $rootPath . '/bin/console';
-
-        if (!is_executable($command)) {
-            $command = 'php ' . $command;
-        }
-
-        $output = [];
-        $returnCode = 0;
-
-        exec($command . ' ' . $args, $output, $returnCode);
-
-        return [
-            'returnCode' => $returnCode,
-            'output' => $output,
-        ];
     }
 }
