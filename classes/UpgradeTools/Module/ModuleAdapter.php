@@ -91,7 +91,8 @@ class ModuleAdapter
      */
     public function getInstalledVersionOfModules(?array $filterOnModuleNames = null): array
     {
-        $sql = 'SELECT name, version FROM ' . _DB_PREFIX_ . 'module';
+        // Handle safe mode eventually enabled
+        $sql = 'SELECT REPLACE(`name`, "' . SafeMode::DISABLED_BY_SAFE_MODE . '", "") as name, version FROM ' . _DB_PREFIX_ . 'module';
 
         if (!empty($filterOnModuleNames)) {
             $sql .= ' WHERE name IN ("' . implode('", "', $filterOnModuleNames) . '")';

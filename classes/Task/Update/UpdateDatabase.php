@@ -70,7 +70,6 @@ class UpdateDatabase extends AbstractTask
                 return ExitCode::SUCCESS;
             }
             $this->container->getFileStorage()->clean(UpgradeFileNames::SQL_TO_EXECUTE_LIST);
-            $this->container->getSafeMode()->disable();
             $this->getCoreUpgrader()->finalizeCoreUpdate();
         } catch (UpgradeException $e) {
             $this->next = TaskName::TASK_ERROR;
@@ -130,6 +129,13 @@ class UpdateDatabase extends AbstractTask
             $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
         );
 
+        if ($this->container->getUpdateConfiguration()->shouldDeactivateCustomModules()) {
+            $this->logger->info($this->container->getTranslator()->trans('Disabling all non native modules'));
+            $this->getCoreUpgrader()->disableCustomModules();
+        } else {
+            $this->logger->info($this->container->getTranslator()->trans('Keeping non native modules enabled'));
+        }
+
         $this->container->getSafeMode()->enable();
 
         $this->getCoreUpgrader()->writeNewSettings();
@@ -142,13 +148,6 @@ class UpdateDatabase extends AbstractTask
         }
 
         $this->getCoreUpgrader()->setupUpdateEnvironment();
-
-        if ($this->container->getUpdateConfiguration()->shouldDeactivateCustomModules()) {
-            $this->logger->info($this->container->getTranslator()->trans('Disabling all non native modules'));
-            $this->getCoreUpgrader()->disableCustomModules();
-        } else {
-            $this->logger->info($this->container->getTranslator()->trans('Keeping non native modules enabled'));
-        }
 
         return ExitCode::SUCCESS;
     }

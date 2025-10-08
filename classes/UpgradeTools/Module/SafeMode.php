@@ -24,7 +24,7 @@ use Db;
 
 class SafeMode
 {
-    const DISABLE_FOR_SAFE_MODE = 442;
+    const DISABLED_BY_SAFE_MODE = 'UA|';
     const ENABLED = 1;
 
     /** @var Db */
@@ -41,8 +41,7 @@ class SafeMode
     public function enable(): void
     {
         $this->db->execute('UPDATE `' . _DB_PREFIX_ . 'module` m
-            SET m.`active` = ' . self::DISABLE_FOR_SAFE_MODE . '
-            WHERE m.`active` = ' . self::ENABLED
+            SET `name` = CONCAT("' . self::DISABLED_BY_SAFE_MODE . '", `name`)'
         );
     }
 
@@ -52,8 +51,7 @@ class SafeMode
     public function disable(): void
     {
         $this->db->execute('UPDATE `' . _DB_PREFIX_ . 'module` m
-            SET m.`active` = ' . self::ENABLED . '
-            WHERE m.`active` = ' . self::DISABLE_FOR_SAFE_MODE
+            SET `name` = REPLACE(`name`, "' . self::DISABLED_BY_SAFE_MODE . '", "")'
         );
     }
 }

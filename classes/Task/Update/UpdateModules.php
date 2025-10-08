@@ -154,6 +154,8 @@ class UpdateModules extends AbstractTask
             return ExitCode::FAIL;
         }
 
+        $this->container->getSafeMode()->disable();
+
         if ($total_modules_to_upgrade) {
             $this->logger->info($this->translator->trans('%s modules will be updated.', [$total_modules_to_upgrade]));
         }
