@@ -68,15 +68,16 @@ class CoreConsoleExecutable
         ];
 
         $returnCode = 0;
+        $output = [];
 
         foreach ($candidates as $candidate) {
-            exec($candidate, $null, $returnCode);
+            exec($candidate, $output, $returnCode);
 
             if (!$returnCode) {
                 return $candidate;
             }
         }
 
-        throw new CommandLineException('Could not find a valid way to call PrestaShop\'s bin/console. Check your environment PATH or add executable permission on the file.');
+        throw new CommandLineException("Could not find a valid way to call PrestaShop's bin/console. Check your environment PATH or add executable permission on the file.\n" . implode("\n", $output));
     }
 }
