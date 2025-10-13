@@ -7,7 +7,13 @@ INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`
   -- https://github.com/PrestaShop/PrestaShop/pull/39277
   (NULL, 'actionModifyHtmlPurifierConfig', 'Called when configuring HTMLPurifier', 'Allows modules to modify the HTMLPurifier definition by adding custom allowed HTML elements or attributes during Tools::purifyHTML().', '1'),
   -- https://github.com/PrestaShop/PrestaShop/pull/38487
-  (NULL, 'actionGetPdfTemplateObject', 'Get PDF template object', 'This hook allows to recieve a PDF template object from modules', '1')
+  (NULL, 'actionGetPdfTemplateObject', 'Get PDF template object', 'This hook allows to recieve a PDF template object from modules', '1'),
+  -- https://github.com/PrestaShop/PrestaShop/pull/39716
+  (NULL, 'additionalHtmlAttributesFormFields', '', '', '1'),
+  (NULL, 'actionGetCartRuleContextualValue', '', '', '1'),
+  (NULL, 'actionApplyCartRule', '', '', '1'),
+  (NULL, 'actionDatabaseLogsForm', 'Modify database logs options form content', 'This hook allows to modify database logs options form FormBuilder', '1'),
+  (NULL, 'actionDatabaseLogsSave', 'Modify database logs options form saved data', 'This hook allows to modify data of database logs options form after it was saved', '1')
 ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
 
 INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES
