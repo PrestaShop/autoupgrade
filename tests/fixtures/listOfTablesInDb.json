@@ -117,6 +117,15 @@
         "Tables_in_psreference (doge_%)": "doge_cart_rule_shop"
     },
     {
+        "Tables_in_psreference (doge_%)": "doge_cart_rule_type"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_cart_rule_type_lang"
+    },
+    {
+        "Tables_in_psreference (doge_%)": "doge_cart_rule_compatible_types"
+    },
+    {
         "Tables_in_psreference (doge_%)": "doge_category"
     },
     {
