@@ -14,6 +14,10 @@ parameters:
 			path: ./../../classes/UpgradeSelfCheck.php
 			count: 2
 		-
+			identifier: argument.type
+			path: ./../../autoupgrade.php
+			count: 1
+		-
 			# Some PrestaShop may not have the method PrestaShopAutoload::generateIndex
 			identifier: function.impossibleType
 			path: ./../../classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php
