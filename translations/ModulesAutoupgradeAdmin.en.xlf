@@ -50,27 +50,27 @@
       <trans-unit id="21dc065f2d8653ebca37ec552d17b37e">
         <source>Unable to create the directory "%s"</source>
         <target>Unable to create the directory "%s"</target>
-        <note>controllers/admin/AdminSelfUpgradeController.php:156</note>
+        <note>controllers/admin/AdminSelfUpgradeController.php:154</note>
       </trans-unit>
       <trans-unit id="6215d33db0d099fcaae168dd4715135a">
         <source>Unable to write in the directory "%s"</source>
         <target>Unable to write in the directory "%s"</target>
-        <note>controllers/admin/AdminSelfUpgradeController.php:122</note>
+        <note>controllers/admin/AdminSelfUpgradeController.php:120</note>
       </trans-unit>
       <trans-unit id="f4eb320e09f7ef88a627229870458454">
         <source>The module %s requires PHP %s to work properly. Please upgrade your server configuration.</source>
         <target>The module %s requires PHP %s to work properly. Please upgrade your server configuration.</target>
-        <note>controllers/admin/AdminSelfUpgradeController.php:253</note>
+        <note>controllers/admin/AdminSelfUpgradeController.php:251</note>
       </trans-unit>
       <trans-unit id="d0749aaba8b833466dfcbb0428e4f89c">
         <source>SUCCESS</source>
         <target>SUCCESS</target>
-        <note>controllers/admin/AdminSelfUpgradeController.php:315</note>
+        <note>controllers/admin/AdminSelfUpgradeController.php:313</note>
       </trans-unit>
       <trans-unit id="b9e14d9b2886bcff408b85aefa780419">
         <source>FAILED</source>
         <target>FAILED</target>
-        <note>controllers/admin/AdminSelfUpgradeController.php:316</note>
+        <note>controllers/admin/AdminSelfUpgradeController.php:314</note>
       </trans-unit>
       <trans-unit id="ed88d11e6f590319e0be757ac6a6f399">
         <source>An error occurred while formatting the backup name.</source>
