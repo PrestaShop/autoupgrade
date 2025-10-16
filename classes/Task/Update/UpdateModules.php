@@ -93,6 +93,9 @@ class UpdateModules extends AbstractTask
                     if (!$moduleMigration->needMigration($moduleMigrationContext)) {
                         $this->logger->info($this->translator->trans('Module %s does not need to be migrated. Module is up to date.', [$moduleInfos['name']]));
                     } else {
+                        // Container may be needed to run upgrade scripts
+                        $this->container->getSymfonyAdapter()->initKernel();
+
                         $moduleMigration->runMigration($moduleMigrationContext);
                     }
                     $moduleMigration->saveVersionInDb($moduleMigrationContext);
