@@ -96,12 +96,15 @@ function ps_901_set_unicity_on_image_type(): bool
 
     // Keep most recent values of duplicated image type related to active themes.
     // This request covers the case where different shops on a multi-environment have different themes, where we will keep the highest ID.
-    return DbWrapper::execute('DELETE from ' . _DB_PREFIX_ . 'image_type
+    // Subrequest is nested 2 times to avoid Error 1093 "You can't specify target table 'image_type' for update in FROM clause"
+    return DbWrapper::execute('DELETE FROM ' . _DB_PREFIX_ . 'image_type
         WHERE id_image_type NOT IN (
-            SELECT MAX(`id_image_type`)
-            FROM ' . _DB_PREFIX_ . 'image_type
-            WHERE `theme_name` IS NULL OR `theme_name` IN ("' . implode('", "', $themesList) . '")
-            GROUP BY `name`
+            SELECT `max_id_image_type` FROM (
+                SELECT MAX(`id_image_type`) AS `max_id_image_type`
+                FROM ' . _DB_PREFIX_ . 'image_type
+                WHERE `theme_name` IS NULL OR `theme_name` IN ("' . implode('", "', $themesList) . '")
+                GROUP BY `name`
+            ) AS derived
         )
     ');
 }
