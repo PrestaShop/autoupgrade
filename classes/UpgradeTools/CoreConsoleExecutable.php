@@ -71,7 +71,7 @@ class CoreConsoleExecutable
         $output = [];
 
         foreach ($candidates as $candidate) {
-            exec($candidate, $output, $returnCode);
+            exec($candidate . ' 2>&1', $output, $returnCode);
 
             if (!$returnCode) {
                 return $candidate;
