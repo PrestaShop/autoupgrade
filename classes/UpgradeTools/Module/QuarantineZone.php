@@ -22,7 +22,7 @@ namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\Module;
 
 use Db;
 
-class SafeMode
+class QuarantineZone
 {
     const DISABLED_BY_SAFE_MODE = 'UA|';
     const ENABLED = 1;
@@ -38,7 +38,7 @@ class SafeMode
     /**
      * Enable the safe mode of PrestaShop by preventing the execution of modules
      */
-    public function enable(): void
+    public function addAll(): void
     {
         $this->db->execute('UPDATE `' . _DB_PREFIX_ . 'module` m
             SET `name` = CONCAT("' . self::DISABLED_BY_SAFE_MODE . '", `name`)'
@@ -48,10 +48,18 @@ class SafeMode
     /**
      * Disabling the safe mode of PrestaShop by restoring modules state
      */
-    public function disable(): void
+    public function removeAll(): void
     {
         $this->db->execute('UPDATE `' . _DB_PREFIX_ . 'module` m
             SET `name` = REPLACE(`name`, "' . self::DISABLED_BY_SAFE_MODE . '", "")'
+        );
+    }
+
+    public function removeOne(string $moduleName): void
+    {
+        $this->db->execute('UPDATE `' . _DB_PREFIX_ . 'module` m
+            SET `name` = REPLACE(`name`, "' . self::DISABLED_BY_SAFE_MODE . '", "")
+            WHERE `name` LIKE "%' . pSQL($moduleName) . '"'
         );
     }
 }

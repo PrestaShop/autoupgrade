@@ -58,7 +58,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\CacheCleaner;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FileFilter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleAdapter;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\SafeMode;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\QuarantineZone;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\AbstractModuleSourceProvider;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\ComposerSourceProvider;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\LocalSourceProvider;
@@ -218,8 +218,8 @@ class UpgradeContainer
     /** @var PrestashopVersionService */
     private $prestashopVersionService;
 
-    /** @var SafeMode */
-    private $safeMode;
+    /** @var QuarantineZone */
+    private $quarantineZone;
 
     /** @var UpgradeSelfCheck */
     private $upgradeSelfCheck;
@@ -643,13 +643,13 @@ class UpgradeContainer
         return $this->restoreState;
     }
 
-    public function getSafeMode(): SafeMode
+    public function getQuarantineZone(): QuarantineZone
     {
-        if (null === $this->safeMode) {
-            $this->safeMode = new SafeMode($this->getDb());
+        if (null === $this->quarantineZone) {
+            $this->quarantineZone = new QuarantineZone($this->getDb());
         }
 
-        return $this->safeMode;
+        return $this->quarantineZone;
     }
 
     public function getUpdateState(): UpdateState
