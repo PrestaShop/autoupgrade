@@ -136,7 +136,7 @@ class UpdateDatabase extends AbstractTask
             $this->logger->info($this->container->getTranslator()->trans('Keeping non native modules enabled'));
         }
 
-        $this->container->getSafeMode()->enable();
+        $this->container->getQuarantineZone()->addAll();
 
         $this->getCoreUpgrader()->writeNewSettings();
 

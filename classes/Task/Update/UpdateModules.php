@@ -69,6 +69,7 @@ class UpdateModules extends AbstractTask
 
             try {
                 $this->logger->debug($this->translator->trans('Checking updates of module %module%...', ['%module%' => $moduleInfos['name']]));
+                $this->container->getQuarantineZone()->removeOne($moduleInfos['name']);
 
                 $moduleDownloaderContext = new ModuleDownloaderContext($moduleInfos);
                 $moduleSourceList->setSourcesIn($moduleDownloaderContext);
@@ -121,6 +122,9 @@ class UpdateModules extends AbstractTask
             $this->next = TaskName::TASK_UPDATE_MODULES;
             $this->logger->info($this->translator->trans('%s modules left to check.', [$modules_left]));
         } else {
+            // Remove all remaining modules from the quarantine
+            $this->container->getQuarantineZone()->removeAll();
+
             $this->stepDone = true;
             $this->status = 'ok';
             $this->next = TaskName::TASK_CLEAN_DATABASE;
@@ -150,8 +154,6 @@ class UpdateModules extends AbstractTask
 
             return ExitCode::FAIL;
         }
-
-        $this->container->getSafeMode()->disable();
 
         if ($total_modules_to_upgrade) {
             $this->logger->info($this->translator->trans('%s modules will be updated.', [$total_modules_to_upgrade]));
