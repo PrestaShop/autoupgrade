@@ -114,14 +114,14 @@ class CliLogger extends Logger
 
         $log = $this->formatLog($level, $message);
 
-        if ($level > self::ERROR) {
-            $this->err->writeln($log);
-        }
-
         if (!$this->isFiltered($level)) {
-            $this->out->writeln($log);
-            if ($level === self::INFO) {
-                $this->lastInfo = $log;
+            if ($level > self::ERROR) {
+                $this->err->writeln($log);
+            } else {
+                $this->out->writeln($log);
+                if ($level === self::INFO) {
+                    $this->lastInfo = $log;
+                }
             }
         }
 
