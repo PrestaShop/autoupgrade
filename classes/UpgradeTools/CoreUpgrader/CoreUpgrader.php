@@ -859,11 +859,15 @@ abstract class CoreUpgrader
      */
     public function warmupCoreCache(): void
     {
-        $args = 'cache:warmup --no-interaction --no-optional-warmers --env=prod';
-        $result = $this->container->getCoreConsoleExecutable()->callCommand($args);
+        $rootPath = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH);
+        $command = 'php ' . $rootPath . '/bin/console cache:warmup --no-interaction --no-optional-warmers --env=prod';
+        $output = [];
+        $resultCode = 0;
 
-        if ($result['returnCode'] !== 0) {
-            throw new UpgradeException($this->container->getTranslator()->trans("An error was raised when warming up the core cache: \n %s", [implode("\n", $result['output'])]));
+        exec($command, $output, $resultCode);
+
+        if ($resultCode !== 0) {
+            throw new UpgradeException($this->container->getTranslator()->trans("An error was raised when warming up the core cache: \n %s", [implode("\n", $output)]));
         }
         $this->logger->debug($this->container->getTranslator()->trans('Core cache has been generated to avoid dependency conflicts.'));
     }
