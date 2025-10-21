@@ -38,6 +38,9 @@ use PrestaShop\PrestaShop\Core\Domain\Theme\Command\AdaptThemeToRTLLanguagesComm
 use PrestaShop\PrestaShop\Core\Domain\Theme\ValueObject\ThemeName;
 use PrestaShop\PrestaShop\Core\Exception\CoreException;
 use PrestaShop\PrestaShop\Core\Localization\RTL\Processor as RtlStylesheetProcessor;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -887,14 +890,23 @@ abstract class CoreUpgrader
 
         // Calling PrestaShop\PrestaShop\Adapter\Bundle\AssetsInstaller::installAssets() is impossible at the time of writing of this method.
         // Attempting to call it from Update Assistant v7 triggers a collision between the versions of the package symfony/console provided
-        // by the core and Update Assistant. We run a basic exec to avoid it.
+        // by the core and Update Assistant. We duplicate the called method content and avoid PrestaShopApplication class.
 
         $adminSubDir = $this->container->getProperty(UpgradeContainer::PS_ADMIN_SUBDIR);
-        $args = 'assets:install --symlink --no-interaction --env=prod ' . $adminSubDir;
-        $result = $this->container->getCoreConsoleExecutable()->callCommand($args);
 
-        if ($result['returnCode'] !== 0) {
-            throw new UpgradeException($this->container->getTranslator()->trans("A code %d was returned while installing assets: \n %s", [$result['returnCode'], implode("\n", $result['output'])]));
+        $kernel = $this->container->getSymfonyAdapter()->initKernel();
+        $application = new Application($kernel);
+        $application->setAutoExit(false);
+
+        $output = new BufferedOutput();
+        $errorCode = $application->run(new ArrayInput([
+            'command' => 'assets:install',
+            'target' => $adminSubDir,
+            '--symlink' => function_exists('symlink'),
+        ]), $output);
+
+        if ($errorCode !== 0) {
+            throw new UpgradeException($this->container->getTranslator()->trans("A code %d was returned while installing assets: \n %s", [$errorCode, $output->fetch()]));
         }
     }
 }
