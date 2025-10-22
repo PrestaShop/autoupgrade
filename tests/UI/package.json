@@ -40,7 +40,7 @@
         "typescript": "^5.3.3"
     },
     "dependencies": {
-        "@playwright/test": "^1.44.0",
+        "@playwright/test": "^1.56.1",
         "@prestashop-core/ui-testing": "https://github.com/PrestaShop/ui-testing-library#main",
         "maildev": "^2.2.1",
         "mysql2": "^3.10.0",
