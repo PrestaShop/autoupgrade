@@ -50,7 +50,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.1'
+          php-version: '7.4'
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -61,11 +61,13 @@ jobs:
           path: vendor
           key: php-${{ hashFiles('composer.lock') }}
 
-      - name: Composer Install
-        run: composer install --prefer-dist
+      - run: composer install
+
+      - run: composer install
+        working-directory: ./tests
 
       - name: Run PHP-CS-Fixer
-        run: ./vendor/bin/php-cs-fixer fix --dry-run --diff --using-cache=no
+        run: ./tests/vendor/bin/php-cs-fixer fix --dry-run --diff --using-cache=no
 
   php-unit:
     strategy:

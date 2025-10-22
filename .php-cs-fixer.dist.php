@@ -7,6 +7,7 @@ $config
     ->getFinder()
     ->in(__DIR__)
     ->exclude('vendor')
+    ->exclude('tests/vendor')
     ->exclude('node_modules')
     ->exclude('storybook/var/cache')
     ->exclude('tests/fixtures/checksum-compare');
