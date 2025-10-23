@@ -43,7 +43,7 @@
 This module allows to update your store to a more recent version of PrestaShop. It can be used as a CLI tool or with a web assistant.
 The latest versions of the module are compatible with all PrestaShop 1.7 and higher releases.
 
-> [!IMPORTANT]  
+> [!IMPORTANT]
 > This module has a specific [Release Process][release-process]. If you do release a new version, make sure to follow it.
 
 ## Branches
@@ -87,7 +87,7 @@ If you download a ZIP archive that contains the source code or if you want to us
 * Enter into folder **autoupgrade** and run the command `composer install`  ([composer](https://getcomposer.org/)).
 * Enter into folder **autoupgrade/_dev** and run the commands `npm install` and `npm run vite:build` ([npm](https://docs.npmjs.com/)).
 * Create a new ZIP archive from the of **autoupgrade** folder.
-* Now you can install it in your store. For example, you can upload it using the dropzone in Module Manager back office page. 
+* Now you can install it in your store. For example, you can upload it using the dropzone in Module Manager back office page.
 
 ## Running an update on PrestaShop
 
@@ -110,7 +110,7 @@ $ php bin/console
 The requirements can be reviewed to confirm the store is safe to update:
 
 ```
-$ php bin/console update:check <your-admin-dir>
+$ php bin/console update:check-requirements <your-admin-dir>
 ```
 
 A backup of the store is created with:
