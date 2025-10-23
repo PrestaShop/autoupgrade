@@ -101,8 +101,6 @@ class UpdateCommand extends AbstractCommand
                 if (!$updateState->isInitialized()) {
                     $updateState->initDefault($this->upgradeContainer->getProperty(UpgradeContainer::PS_VERSION), $this->upgradeContainer->getUpgrader(), $this->upgradeContainer->getUpdateConfiguration());
                 }
-
-                $updateConfiguration = $this->upgradeContainer->getUpdateConfiguration();
             }
 
             $this->calculateUpdateTypeAfterConfigLoad();
@@ -208,10 +206,14 @@ class UpdateCommand extends AbstractCommand
                 }
                 break;
             case UpgradeConfiguration::CHANNEL_ONLINE:
-                $destinationVersion = $this->upgradeContainer->getUpgrader()->getOnlineMaxDestinationRelease()->getVersion();
+                $destinationVersion = $this->upgradeContainer->getUpgrader()->getOnlineMaxDestinationRelease()
+                    ? $this->upgradeContainer->getUpgrader()->getOnlineMaxDestinationRelease()->getVersion()
+                    : null;
                 break;
             case UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED:
-                $destinationVersion = $this->upgradeContainer->getUpgrader()->getOnlineRecommendedDestinationRelease()->getVersion();
+                $destinationVersion = $this->upgradeContainer->getUpgrader()->getOnlineRecommendedDestinationRelease()
+                    ? $this->upgradeContainer->getUpgrader()->getOnlineRecommendedDestinationRelease()->getVersion()
+                    : null;
                 break;
         }
 
