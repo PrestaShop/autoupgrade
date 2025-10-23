@@ -113,6 +113,12 @@ The requirements can be reviewed to confirm the store is safe to update:
 $ php bin/console update:check-requirements <your-admin-dir>
 ```
 
+To see which new versions are available for your installation use:
+
+```
+$ php bin/console update:check-new-version <your-admin-dir>
+```
+
 A backup of the store is created with:
 
 ```
