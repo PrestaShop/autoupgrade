@@ -24,7 +24,7 @@ use Db;
 
 class QuarantineZone
 {
-    const DISABLED_BY_SAFE_MODE = 'UA|';
+    const DISABLED_BY_SAFE_MODE = 'UA_';
     const ENABLED = 1;
 
     /** @var Db */
