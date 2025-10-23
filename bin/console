@@ -41,6 +41,10 @@ if (!is_dir(dirname(__DIR__).'/vendor')) {
     throw new LogicException('Dependencies are missing. Try running "composer install".');
 }
 
+if (PHP_VERSION_ID >= 80100) {
+    // Autoloaders are appended. This one must be loaded first.
+    require_once dirname(__DIR__).'/sub-vendors/php8/vendor/autoload.php';
+}
 require_once dirname(__DIR__).'/vendor/autoload.php';
 
 if (!defined('_PS_ROOT_DIR_')) {
