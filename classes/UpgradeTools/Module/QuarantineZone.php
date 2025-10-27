@@ -20,27 +20,19 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\Module;
 
-use Db;
+use PrestaShop\Module\AutoUpgrade\Database\DbWrapper;
 
 class QuarantineZone
 {
     const DISABLED_BY_SAFE_MODE = 'UA_';
     const ENABLED = 1;
 
-    /** @var Db */
-    private $db;
-
-    public function __construct(Db $db)
-    {
-        $this->db = $db;
-    }
-
     /**
      * Enable the safe mode of PrestaShop by preventing the execution of modules
      */
     public function addAll(): void
     {
-        $this->db->execute('UPDATE `' . _DB_PREFIX_ . 'module` m
+        DbWrapper::execute('UPDATE `' . _DB_PREFIX_ . 'module` m
             SET `name` = CONCAT("' . self::DISABLED_BY_SAFE_MODE . '", `name`)'
         );
     }
@@ -50,14 +42,14 @@ class QuarantineZone
      */
     public function removeAll(): void
     {
-        $this->db->execute('UPDATE `' . _DB_PREFIX_ . 'module` m
+        DbWrapper::execute('UPDATE `' . _DB_PREFIX_ . 'module` m
             SET `name` = REPLACE(`name`, "' . self::DISABLED_BY_SAFE_MODE . '", "")'
         );
     }
 
     public function removeOne(string $moduleName): void
     {
-        $this->db->execute('UPDATE `' . _DB_PREFIX_ . 'module` m
+        DbWrapper::execute('UPDATE `' . _DB_PREFIX_ . 'module` m
             SET `name` = REPLACE(`name`, "' . self::DISABLED_BY_SAFE_MODE . '", "")
             WHERE `name` LIKE "%' . pSQL($moduleName) . '"'
         );
