@@ -646,7 +646,7 @@ class UpgradeContainer
     public function getQuarantineZone(): QuarantineZone
     {
         if (null === $this->quarantineZone) {
-            $this->quarantineZone = new QuarantineZone($this->getDb());
+            $this->quarantineZone = new QuarantineZone();
         }
 
         return $this->quarantineZone;
