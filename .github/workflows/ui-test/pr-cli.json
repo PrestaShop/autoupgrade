@@ -65,6 +65,34 @@
       "UPGRADE_CHANNEL": "online"
     },
     {
+      "comment": "8.2.3 PHP 7.2 ~ 8.1 online"
+    },
+    {
+      "PS_VERSION_START": "8.2.3",
+      "PHP_VERSION": "7.2",
+      "UPGRADE_CHANNEL": "online"
+    },
+    {
+      "PS_VERSION_START": "8.2.3",
+      "PHP_VERSION": "7.3",
+      "UPGRADE_CHANNEL": "online"
+    },
+    {
+      "PS_VERSION_START": "8.2.3",
+      "PHP_VERSION": "7.4",
+      "UPGRADE_CHANNEL": "online"
+    },
+    {
+      "PS_VERSION_START": "8.2.3",
+      "PHP_VERSION": "8.0",
+      "UPGRADE_CHANNEL": "online"
+    },
+    {
+      "PS_VERSION_START": "8.2.3",
+      "PHP_VERSION": "8.1",
+      "UPGRADE_CHANNEL": "online"
+    },
+    {
       "comment": "8.0.5 PHP 8.1 local"
     },
     {
