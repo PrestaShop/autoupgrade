@@ -153,6 +153,7 @@ class ModuleMigration
         $sandboxedFilePath = $updateDirectory . DIRECTORY_SEPARATOR . $uniqueMethodName . '.php';
 
         try {
+            ob_start();
             $this->filesystem->dumpFile($sandboxedFilePath, str_replace($methodName, $uniqueMethodName, file_get_contents($filePath)));
 
             require_once $sandboxedFilePath;
@@ -165,6 +166,10 @@ class ModuleMigration
             throw (new UpgradeException($this->translator->trans('Could not write temporary file %s.', [$sandboxedFilePath])))->setSeverity(UpgradeException::SEVERITY_WARNING);
         } finally {
             $this->filesystem->remove($sandboxedFilePath);
+            // If the module echoed during the migration, we catch it in the logger.
+            // This avoids the error "headers already sent" as well if the next migration needs headers.
+            $this->logger->debug(ob_get_contents());
+            ob_end_clean();
         }
     }
 }
