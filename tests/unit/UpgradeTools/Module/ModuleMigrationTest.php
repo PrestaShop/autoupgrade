@@ -261,4 +261,22 @@ class ModuleMigrationTest extends TestCase
 
         $this->assertNull($this->moduleMigration->saveVersionInDb($moduleMigrationContext));
     }
+
+    public function testMigrationWithEchoThenHeadersSent()
+    {
+        $mymodule = new \fixtures\mymodule\mymodule();
+        $mymodule->version = '1.3.2';
+        $dbVersion = '1.3.0';
+
+        $moduleMigrationContext = new ModuleMigrationContext($mymodule, $dbVersion);
+
+        $this->logger->expects($this->exactly(2))
+            ->method('notice')
+            ->withConsecutive(
+                ['(1/2) Applying migration file upgrade-1.3.1.php.'],
+                ['(2/2) Applying migration file upgrade-1.3.2.php.']
+            );
+        $this->assertTrue($this->moduleMigration->needMigration($moduleMigrationContext));
+        $this->moduleMigration->runMigration($moduleMigrationContext);
+    }
 }
