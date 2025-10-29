@@ -128,7 +128,7 @@ $ php bin/console backup:create --config-file-path=[/path/to/config.json] <your-
 The update process can be launched with:
 
 ```
-$ php bin/console update:start --config-file-path=[/path/to/config.json] --chain <your-admin-dir>
+$ php bin/console update:start --config-file-path=[/path/to/config.json] <your-admin-dir>
 ```
 
 You can see all available parameters and options directly from the console by using the `--help` option with any command.
@@ -190,6 +190,7 @@ impact.
 | Command                                     | Configuration file key                        | CLI option                     | Possible Values                                                                         | Description                                                                                                                                   |
 |---------------------------------------------|-----------------------------------------------|--------------------------------|-----------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
 | `update:start`                              | `channel`                                     | `--channel`                    | `online`, `online_recommended` (default), `local`                                       | Defines the update channel to use. The `local` channel requires specific files to be placed in the download folder.                           |
+| `update:start`                              | `chain`                                       | `--chain`                      | `true` (default), `false`, `'true'`, `'false'`, `'1'`, `'0'`, `1`, `0`, `'on'`, `'off'` | True by default. Allows you to chain update commands automatically. The command will continue executing subsequent tasks without requiring manual intervention to restart the process. |
 | `update:start`, `update:check-requirements` | `archive_zip`                                 | `--zip`                        | Valid file name                                                                         | Name of the `ZIP` file to use for an update via the archive channel. This file must be placed in `[your-admin-dir]/autoupgrade/download`.     |
 | `update:start`, `update:check-requirements` | `archive_xml`                                 | `--xml`                        | Valid file name                                                                         | Name of the `XML` file corresponding to the ZIP file for the archive channel. Must also be placed in `[your-admin-dir]/autoupgrade/download`. |
 | `update:start`                              | `PS_AUTOUP_CUSTOM_MOD_DESACT`                 | `--disable-non-native-modules` | `true` (default), `false`, `'true'`, `'false'`, `'1'`, `'0'`, `1`, `0`, `'on'`, `'off'` | If enabled, disables all non-native modules before the update, reducing the risk of compatibility issues.                                     |
