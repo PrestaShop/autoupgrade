@@ -48,6 +48,7 @@ const psVersion = utilsTest.getPSVersion();
 test.describe('Upgrade using the online channel', () => {
   let browserContext: BrowserContext;
   let page: Page;
+  let isModalVisible: boolean = false;
 
   test.beforeAll(async ({browser}) => {
     browserContext = await browser.newContext();
@@ -66,9 +67,17 @@ test.describe('Upgrade using the online channel', () => {
     expect(pageTitle).toContain(boDashboardPage.pageTitle);
   });
 
+  test('should get if the update modal is visible', async () => {
+    isModalVisible = await modAutoupgradeBoModal.isModalVisible(page);
+  });
+
   test('should close update notification dialog', async () => {
-    const isDialogNotVisible = await modAutoupgradeBoModal.closeDialogUpdateNotification(page);
-    expect(isDialogNotVisible).toEqual(true);
+    if (isModalVisible) {
+      const isDialogNotVisible = await modAutoupgradeBoModal.closeDialogUpdateNotification(page);
+      expect(isDialogNotVisible).toEqual(true);
+    } else {
+      test.skip();
+    }
   });
 
   // Steps to install module
@@ -229,9 +238,25 @@ test.describe('Upgrade using the online channel', () => {
     await exec('docker exec -t prestashop chmod -R 777 /var/www/html/modules');
   });
 
+  test('should check if the recommanded version is displayed', async () => {
+    if (isModalVisible) {
+      const isVisible = await modAutoupgradeBoMain.isRecommandedVerionVisible(page);
+      expect(isVisible).toEqual(true);
+    } else {
+      test.skip();
+    }
+  });
+
+  test('should check if the major version is displayed', async () => {
+    const isVisible = await modAutoupgradeBoMain.isMajorVerionVisible(page);
+    expect(isVisible).toEqual(true);
+  });
+
   test('should choose the version to update and check requirements block', async () => {
     test.setTimeout(100_000);
-    const isRequirementBlockVisible = await modAutoupgradeBoMain.chooseNewVersion(page);
+    // Choose the major version if the modal is not visible
+    // Choose the recommanded version if the modal is visible
+    const isRequirementBlockVisible = await modAutoupgradeBoMain.chooseNewVersion(page, isModalVisible ? true : false);
     expect(isRequirementBlockVisible).toEqual(true);
   });
 

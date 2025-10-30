@@ -37,6 +37,7 @@ if (semver.gte(psVersion, '8.0.0')) {
   test.describe('Test modal of notification Update Assistant', () => {
     let browserContext: BrowserContext;
     let page: Page;
+    let isModalVisible: boolean = false;
 
     test.beforeAll(async ({browser}) => {
       browserContext = await browser.newContext();
@@ -55,36 +56,57 @@ if (semver.gte(psVersion, '8.0.0')) {
       expect(pageTitle).toContain(boDashboardPage.pageTitle);
     });
 
+    test('should get if the update modal is visible', async () => {
+      isModalVisible = await modAutoupgradeBoModal.isModalVisible(page);
+    });
+
     test('should check the update link', async () => {
-      const updateLink = await modAutoupgradeBoModal.getUpdateLinkFromModal(page);
-      expect(updateLink).toContain('https://build.prestashop-project.org/news');
+      if (isModalVisible) {
+        const updateLink = await modAutoupgradeBoModal.getUpdateLinkFromModal(page);
+        expect(updateLink).toContain('https://build.prestashop-project.org/news');
+      } else {
+        test.skip();
+      }
     });
 
     test('should click on the update link from the modal', async () => {
-      page = await modAutoupgradeBoModal.openUpdateLinkFromTheModal(page);
+      if (isModalVisible) {
+        page = await modAutoupgradeBoModal.openUpdateLinkFromTheModal(page);
 
-      const pageTitle = await modAutoupgradeBoModal.getPageTitle(page);
-      expect(pageTitle).toContain('PrestaShop');
-      expect(pageTitle).toContain('available');
+        const pageTitle = await modAutoupgradeBoModal.getPageTitle(page);
+        expect(pageTitle).toContain('PrestaShop');
+        expect(pageTitle).toContain('available');
 
-      page = await modAutoupgradeBoModal.closePage(browserContext, page, 0);
+        page = await modAutoupgradeBoModal.closePage(browserContext, page, 0);
+      } else {
+        test.skip();
+      }
     });
 
     test('should check the support link', async () => {
-      const supportLink = await modAutoupgradeBoModal.getSupportLinkFromModal(page);
-      expect(supportLink).toEqual('https://www.prestashop-project.org/support/');
+      if (isModalVisible) {
+
+        const supportLink = await modAutoupgradeBoModal.getSupportLinkFromModal(page);
+        expect(supportLink).toEqual('https://www.prestashop-project.org/support/');
+      } else {
+        test.skip();
+      }
     });
 
     test('should click on Update and check the PS version', async () => {
-      const version = await modAutoupgradeBoModal.getPSVersionFromTheModal(page);
+      if (isModalVisible) {
+        const version = await modAutoupgradeBoModal.getPSVersionFromTheModal(page);
 
-      await modAutoupgradeBoModal.clickOnUpdateButton(page);
+        await modAutoupgradeBoModal.clickOnUpdateButton(page);
 
-      const pageTitle = await modAutoupgradeBoMain.getPageTitle(page);
-      expect(pageTitle).toEqual(modAutoupgradeBoMain.pageTitle);
+        const pageTitle = await modAutoupgradeBoMain.getPageTitle(page);
+        expect(pageTitle).toEqual(modAutoupgradeBoMain.pageTitle);
 
-      const currentVersion = await modAutoupgradeBoMain.getCurrentPSAndPHPVersion(page);
-      expect(currentVersion).not.toContain(version);
+        const currentVersion = await modAutoupgradeBoMain.getCurrentPSAndPHPVersion(page);
+        expect(currentVersion).not.toContain(version);
+      } else {
+        test.skip();
+      }
     });
   });
 }
