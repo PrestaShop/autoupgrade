@@ -240,7 +240,7 @@ test.describe('Upgrade using the online channel', () => {
 
   test('should check if the recommanded version is displayed', async () => {
     if (isModalVisible) {
-      const isVisible = await modAutoupgradeBoMain.isRecommandedVerionVisible(page);
+      const isVisible = await modAutoupgradeBoMain.isRecommandedVersionVisible(page);
       expect(isVisible).toEqual(true);
     } else {
       test.skip();
@@ -248,7 +248,7 @@ test.describe('Upgrade using the online channel', () => {
   });
 
   test('should check if the major version is displayed', async () => {
-    const isVisible = await modAutoupgradeBoMain.isMajorVerionVisible(page);
+    const isVisible = await modAutoupgradeBoMain.isMajorVersionVisible(page);
     expect(isVisible).toEqual(true);
   });
 
@@ -256,7 +256,7 @@ test.describe('Upgrade using the online channel', () => {
     test.setTimeout(100_000);
     // Choose the major version if the modal is not visible
     // Choose the recommanded version if the modal is visible
-    const isRequirementBlockVisible = await modAutoupgradeBoMain.chooseNewVersion(page, isModalVisible ? true : false);
+    const isRequirementBlockVisible = await modAutoupgradeBoMain.chooseNewVersion(page, !!isModalVisible);
     expect(isRequirementBlockVisible).toEqual(true);
   });
 

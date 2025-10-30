@@ -85,7 +85,6 @@ if (semver.gte(psVersion, '8.0.0')) {
 
     test('should check the support link', async () => {
       if (isModalVisible) {
-
         const supportLink = await modAutoupgradeBoModal.getSupportLinkFromModal(page);
         expect(supportLink).toEqual('https://www.prestashop-project.org/support/');
       } else {
