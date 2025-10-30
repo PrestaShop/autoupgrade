@@ -27,8 +27,6 @@ import {
   boModuleManagerPage,
   boInstalledModulesPage,
   boModuleSelectionPage,
-  boModuleManagerUninstalledModulesPage,
-  boMarketplacePage,
   boMaintenancePage,
   dataModules,
   modAutoupgradeBoMain,
@@ -73,86 +71,6 @@ test.describe('Rollback', () => {
       const isDialogNotVisible = await modAutoupgradeBoModal.closeDialogUpdateNotification(page);
       expect(isDialogNotVisible).toEqual(true);
     });
-
-    // Steps to install module
-    if (semver.lt(psVersion, '7.4.0')) {
-      test('should go to \'Modules > Modules & Services\' page', async () => {
-        await boDashboardPage.goToSubMenu(
-          page,
-          boDashboardPage.modulesParentLink,
-          boDashboardPage.moduleManagerLink,
-        );
-        await boModuleManagerPage.closeSfToolBar(page);
-
-        const pageTitle = await boModuleSelectionPage.getPageTitle(page);
-        expect(pageTitle).toContain(boModuleSelectionPage.pageTitle);
-      });
-
-      test(`should install the module '${dataModules.autoupgrade.name}'`, async () => {
-        const successMessage = await boModuleSelectionPage.installModule(page, dataModules.autoupgrade.tag);
-        expect(successMessage).toEqual(boModuleSelectionPage.installMessageSuccessful(dataModules.autoupgrade.tag));
-      });
-    } else if (semver.lt(psVersion, '7.5.0')) {
-      test('should go to \'Modules > Modules & Services\' page', async () => {
-        await boDashboardPage.goToSubMenu(
-          page,
-          boDashboardPage.modulesParentLink,
-          boDashboardPage.moduleManagerLink,
-        );
-        await boModuleManagerPage.closeSfToolBar(page);
-
-        const pageTitle = await boInstalledModulesPage.getPageTitle(page);
-        expect(pageTitle).toContain(boInstalledModulesPage.pageTitle);
-      });
-
-      test('should go to Selection page', async () => {
-        await boInstalledModulesPage.goToSelectionPage(page);
-
-        const pageTitle = await boModuleSelectionPage.getPageTitle(page);
-        expect(pageTitle).toContain(boModuleSelectionPage.pageTitle);
-      });
-
-      test(`should install the module '${dataModules.autoupgrade.name}'`, async () => {
-        const successMessage = await boModuleSelectionPage.installModule(page, dataModules.autoupgrade.tag);
-        expect(successMessage).toEqual(boModuleSelectionPage.installMessageSuccessful(dataModules.autoupgrade.tag));
-      });
-    } else if (semver.lt(psVersion, '7.6.0')) {
-      test('should go to \'Modules > Marketplace\' page', async () => {
-        await boDashboardPage.goToSubMenu(
-          page,
-          boDashboardPage.modulesParentLink,
-          boDashboardPage.moduleCatalogueLink,
-        );
-        await boModuleManagerPage.closeSfToolBar(page);
-
-        const pageTitle = await boMarketplacePage.getPageTitle(page);
-        expect(pageTitle).toContain(boMarketplacePage.pageTitle);
-      });
-
-      test(`should install the module '${dataModules.autoupgrade.name}'`, async () => {
-        const successMessage = await boMarketplacePage.installModule(page, dataModules.autoupgrade.tag);
-        expect(successMessage).toEqual(boMarketplacePage.installMessageSuccessful(dataModules.autoupgrade.tag));
-      });
-    } else if (semver.lt(psVersion, '8.0.0')) {
-      test('should go to \'Modules > Module Manager\' page', async () => {
-        await boDashboardPage.goToSubMenu(
-          page,
-          boDashboardPage.modulesParentLink,
-          boDashboardPage.moduleManagerLink,
-        );
-        await boModuleManagerPage.closeSfToolBar(page);
-
-        const pageTitle = await boModuleManagerPage.getPageTitle(page);
-        expect(pageTitle).toContain(boModuleManagerPage.pageTitle);
-      });
-
-      test(`should install the module '${dataModules.autoupgrade.name}'`, async () => {
-        await boModuleManagerUninstalledModulesPage.goToTabUninstalledModules(page);
-
-        const isInstalled = await boModuleManagerUninstalledModulesPage.installModule(page, dataModules.autoupgrade.tag);
-        expect(isInstalled).toBeTruthy();
-      });
-    }
 
     // Steps to go to module configuration page
     if (semver.lt(psVersion, '7.4.0')) {
@@ -236,7 +154,8 @@ test.describe('Rollback', () => {
       test(`should choose the version to update and check requirements block - ${index}`, async () => {
         test.setTimeout(100_000);
         await exec('docker exec -t prestashop chmod -R 777 /var/www/html/modules');
-        await modAutoupgradeBoMain.chooseNewVersion(page);
+        const isVisible = await modAutoupgradeBoMain.isRecommandedVersionVisible(page);
+        await modAutoupgradeBoMain.chooseNewVersion(page, isVisible);
       });
 
       if (index === 1) {
