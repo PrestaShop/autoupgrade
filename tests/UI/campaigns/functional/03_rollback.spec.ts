@@ -86,6 +86,8 @@ test.describe('Rollback', () => {
       test(`should install the module '${dataModules.autoupgrade.name}'`, async () => {
         const successMessage = await boModuleSelectionPage.installModule(page, dataModules.autoupgrade.tag);
         expect(successMessage).toEqual(boModuleSelectionPage.installMessageSuccessful(dataModules.autoupgrade.tag));
+
+        await boDashboardPage.goToDashboardPage(page);
       });
     } else if (semver.lt(psVersion, '7.5.0')) {
       test('should go to \'Modules > Modules & Services\' page', async () => {
@@ -110,6 +112,8 @@ test.describe('Rollback', () => {
       test(`should install the module '${dataModules.autoupgrade.name}'`, async () => {
         const successMessage = await boModuleSelectionPage.installModule(page, dataModules.autoupgrade.tag);
         expect(successMessage).toEqual(boModuleSelectionPage.installMessageSuccessful(dataModules.autoupgrade.tag));
+
+        await boDashboardPage.goToDashboardPage(page);
       });
     } else if (semver.lt(psVersion, '7.6.0')) {
       test('should go to \'Modules > Marketplace\' page', async () => {
@@ -127,6 +131,8 @@ test.describe('Rollback', () => {
       test(`should install the module '${dataModules.autoupgrade.name}'`, async () => {
         const successMessage = await boMarketplacePage.installModule(page, dataModules.autoupgrade.tag);
         expect(successMessage).toEqual(boMarketplacePage.installMessageSuccessful(dataModules.autoupgrade.tag));
+
+        await boDashboardPage.goToDashboardPage(page);
       });
     } else if (semver.lt(psVersion, '8.0.0')) {
       test('should go to \'Modules > Module Manager\' page', async () => {
@@ -146,12 +152,12 @@ test.describe('Rollback', () => {
 
         const isInstalled = await boModuleManagerUninstalledModulesPage.installModule(page, dataModules.autoupgrade.tag);
         expect(isInstalled).toBeTruthy();
+
+        await boDashboardPage.goToDashboardPage(page);
       });
     }
 
     test('should close update notification dialog', async () => {
-      await boDashboardPage.goToDashboardPage(page);
-      
       const isDialogNotVisible = await modAutoupgradeBoModal.closeDialogUpdateNotification(page);
       expect(isDialogNotVisible).toEqual(true);
     });

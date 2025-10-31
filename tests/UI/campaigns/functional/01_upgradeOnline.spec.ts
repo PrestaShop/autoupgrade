@@ -84,6 +84,8 @@ test.describe('Upgrade using the online channel', () => {
     test(`should install the module '${dataModules.autoupgrade.name}'`, async () => {
       const successMessage = await boModuleSelectionPage.installModule(page, dataModules.autoupgrade.tag);
       expect(successMessage).toEqual(boModuleSelectionPage.installMessageSuccessful(dataModules.autoupgrade.tag));
+
+      await boDashboardPage.goToDashboardPage(page);
     });
   } else if (semver.lt(psVersion, '7.5.0')) {
     test('should go to \'Modules > Modules & Services\' page', async () => {
@@ -108,6 +110,8 @@ test.describe('Upgrade using the online channel', () => {
     test(`should install the module '${dataModules.autoupgrade.name}'`, async () => {
       const successMessage = await boModuleSelectionPage.installModule(page, dataModules.autoupgrade.tag);
       expect(successMessage).toEqual(boModuleSelectionPage.installMessageSuccessful(dataModules.autoupgrade.tag));
+
+      await boDashboardPage.goToDashboardPage(page);
     });
   } else if (semver.lt(psVersion, '7.6.0')) {
     test('should go to \'Modules > Marketplace\' page', async () => {
@@ -125,6 +129,8 @@ test.describe('Upgrade using the online channel', () => {
     test(`should install the module '${dataModules.autoupgrade.name}'`, async () => {
       const successMessage = await boMarketplacePage.installModule(page, dataModules.autoupgrade.tag);
       expect(successMessage).toEqual(boMarketplacePage.installMessageSuccessful(dataModules.autoupgrade.tag));
+
+      await boDashboardPage.goToDashboardPage(page);
     });
   } else if (semver.lt(psVersion, '8.0.0')) {
     test('should go to \'Modules > Module Manager\' page', async () => {
@@ -144,11 +150,12 @@ test.describe('Upgrade using the online channel', () => {
 
       const isInstalled = await boModuleManagerUninstalledModulesPage.installModule(page, dataModules.autoupgrade.tag);
       expect(isInstalled).toBeTruthy();
+
+      await boDashboardPage.goToDashboardPage(page);
     });
   }
 
   test('should get if the update modal is visible', async () => {
-    await boDashboardPage.goToDashboardPage(page);
     isModalVisible = await modAutoupgradeBoModal.isModalVisible(page);
   });
 
