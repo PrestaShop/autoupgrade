@@ -36,7 +36,7 @@ import {
   test, expect, Page, BrowserContext,
 } from '@playwright/test';
 import semver from 'semver';
-import {exec} from 'child_process';
+import {exec, execSync} from 'child_process';
 
 const psVersion = utilsTest.getPSVersion();
 
@@ -54,12 +54,12 @@ test.describe('Upgrade using the local channel', () => {
   test.afterAll(async () => {
     await page.close();
   });
-  test.use({storageState: undefined});
 
   // Steps
   test('should login in BO', async () => {
     await boLoginPage.goTo(page, global.BO.URL);
     await boLoginPage.successLogin(page, global.BO.EMAIL, global.BO.PASSWD);
+    execSync('bash ./scripts/post_install.sh', {stdio: 'inherit'});
 
     const pageTitle = await boDashboardPage.getPageTitle(page);
     expect(pageTitle).toContain(boDashboardPage.pageTitle);

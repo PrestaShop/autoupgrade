@@ -53,6 +53,7 @@ jobs:
         run: |
           docker compose -f "docker-compose.yml" up -d --build
           bash -c 'while [[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost/)" != "200" ]]; do sleep 5; done'
+
       - name: Composer install
         run: composer install
 
@@ -92,10 +93,6 @@ jobs:
       - name: Install Playwright Browsers
         working-directory: tests/UI/
         run: npx playwright install chromium --with-deps
-
-      - name: Install module Update assistant
-        if: startsWith(matrix.PS_VERSION_START, '1.7')
-        run: docker exec -t prestashop php bin/console prestashop:module install autoupgrade
 
       - name: Upgrade online channel
         if: matrix.UPGRADE_CHANNEL == 'online'

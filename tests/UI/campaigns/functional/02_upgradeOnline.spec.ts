@@ -36,7 +36,7 @@ import {
   test, expect, Page, BrowserContext,
 } from '@playwright/test';
 import semver from 'semver';
-import {exec} from 'child_process';
+import {exec, execSync} from 'child_process';
 
 const psVersion = utilsTest.getPSVersion();
 
@@ -49,13 +49,13 @@ test.describe('Upgrade using the online channel', () => {
   let isModalVisible: boolean = true;
 
   test.beforeAll(async ({browser}) => {
+    await execSync('bash ../../scripts/post_install.sh', {stdio: 'inherit'});
     browserContext = await browser.newContext();
     page = await browserContext.newPage();
   });
   test.afterAll(async () => {
     await page.close();
   });
-  test.use({storageState: undefined});
 
   // Steps
   test('should login in BO', async () => {
