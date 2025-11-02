@@ -55,6 +55,7 @@ test.describe('Upgrade using the online channel', () => {
   test.afterAll(async () => {
     await page.close();
   });
+  test.use({storageState: undefined});
 
   // Steps
   test('should login in BO', async () => {

@@ -56,6 +56,7 @@ test.describe('Rollback', () => {
   test.afterAll(async () => {
     await page.close();
   });
+  test.use({storageState: undefined});
 
   // Steps
   test.describe('Go to module configuration page', () => {

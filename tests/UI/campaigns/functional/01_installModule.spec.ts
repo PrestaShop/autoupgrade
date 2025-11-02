@@ -54,6 +54,8 @@ if (semver.lt(psVersion, '8.0.0')) {
       await page.close();
     });
 
+    test.use({storageState: undefined});
+
     // Steps
     test('should login in BO', async () => {
       await boLoginPage.goTo(page, global.BO.URL);
