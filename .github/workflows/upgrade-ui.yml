@@ -93,6 +93,10 @@ jobs:
         working-directory: tests/UI/
         run: npx playwright install chromium --with-deps
 
+      - name: Install module Update assistant
+        if: startsWith(matrix.PS_VERSION_START, '1.7')
+        run: docker exec -t prestashop php bin/console prestashop:module install autoupgrade
+
       - name: Upgrade online channel
         if: matrix.UPGRADE_CHANNEL == 'online'
         working-directory: tests/UI/
