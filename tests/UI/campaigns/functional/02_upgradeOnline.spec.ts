@@ -26,8 +26,6 @@ import {
   boModuleManagerPage,
   boInstalledModulesPage,
   boModuleSelectionPage,
-  boModuleManagerUninstalledModulesPage,
-  boMarketplacePage,
   boMaintenancePage,
   dataModules,
   modAutoupgradeBoMain,
@@ -43,11 +41,12 @@ import {exec} from 'child_process';
 const psVersion = utilsTest.getPSVersion();
 
 /*
-  Upgrade using the local channel
+  Upgrade using the online channel
  */
-test.describe('Upgrade using the local channel', () => {
+test.describe('Upgrade using the online channel', () => {
   let browserContext: BrowserContext;
   let page: Page;
+  let isModalVisible: boolean = true;
 
   test.beforeAll(async ({browser}) => {
     browserContext = await browser.newContext();
@@ -66,97 +65,56 @@ test.describe('Upgrade using the local channel', () => {
     expect(pageTitle).toContain(boDashboardPage.pageTitle);
   });
 
-  // Steps to install module
-  if (semver.lt(psVersion, '7.4.0')) {
-    test('should go to \'Modules > Modules & Services\' page', async () => {
-      await boDashboardPage.goToSubMenu(
-        page,
-        boDashboardPage.modulesParentLink,
-        boDashboardPage.moduleManagerLink,
-      );
-      await boModuleManagerPage.closeSfToolBar(page);
+  test('should get if the update modal is visible', async () => {
+    isModalVisible = await modAutoupgradeBoModal.isModalVisible(page);
+  });
 
-      const pageTitle = await boModuleSelectionPage.getPageTitle(page);
-      expect(pageTitle).toContain(boModuleSelectionPage.pageTitle);
-    });
+  test('should check the update link', async () => {
+    if (isModalVisible) {
+      const updateLink = await modAutoupgradeBoModal.getUpdateLinkFromModal(page);
+      expect(updateLink).toContain('https://build.prestashop-project.org/news');
+    } else {
+      test.skip();
+    }
+  });
 
-    test(`should install the module '${dataModules.autoupgrade.name}'`, async () => {
-      const successMessage = await boModuleSelectionPage.installModule(page, dataModules.autoupgrade.tag);
-      expect(successMessage).toEqual(boModuleSelectionPage.installMessageSuccessful(dataModules.autoupgrade.tag));
+  test('should click on the update link from the modal', async () => {
+    if (isModalVisible) {
+      page = await modAutoupgradeBoModal.openUpdateLinkFromTheModal(page);
 
-      await boDashboardPage.goToDashboardPage(page);
-    });
-  } else if (semver.lt(psVersion, '7.5.0')) {
-    test('should go to \'Modules > Modules & Services\' page', async () => {
-      await boDashboardPage.goToSubMenu(
-        page,
-        boDashboardPage.modulesParentLink,
-        boDashboardPage.moduleManagerLink,
-      );
-      await boModuleManagerPage.closeSfToolBar(page);
+      const pageTitle = await modAutoupgradeBoModal.getPageTitle(page);
+      expect(pageTitle).toContain('PrestaShop');
+      expect(pageTitle.toLowerCase()).toContain('available');
 
-      const pageTitle = await boInstalledModulesPage.getPageTitle(page);
-      expect(pageTitle).toContain(boInstalledModulesPage.pageTitle);
-    });
+      page = await modAutoupgradeBoModal.closePage(browserContext, page, 0);
+    } else {
+      test.skip();
+    }
+  });
 
-    test('should go to Selection page', async () => {
-      await boInstalledModulesPage.goToSelectionPage(page);
+  test('should check the support link', async () => {
+    if (isModalVisible) {
+      const supportLink = await modAutoupgradeBoModal.getSupportLinkFromModal(page);
+      expect(supportLink).toEqual('https://www.prestashop-project.org/support/');
+    } else {
+      test.skip();
+    }
+  });
 
-      const pageTitle = await boModuleSelectionPage.getPageTitle(page);
-      expect(pageTitle).toContain(boModuleSelectionPage.pageTitle);
-    });
+  test('should click on Update and check the PS version', async () => {
+    if (isModalVisible) {
+      const version = await modAutoupgradeBoModal.getPSVersionFromTheModal(page);
 
-    test(`should install the module '${dataModules.autoupgrade.name}'`, async () => {
-      const successMessage = await boModuleSelectionPage.installModule(page, dataModules.autoupgrade.tag);
-      expect(successMessage).toEqual(boModuleSelectionPage.installMessageSuccessful(dataModules.autoupgrade.tag));
+      await modAutoupgradeBoModal.clickOnUpdateButton(page);
 
-      await boDashboardPage.goToDashboardPage(page);
-    });
-  } else if (semver.lt(psVersion, '7.6.0')) {
-    test('should go to \'Modules > Marketplace\' page', async () => {
-      await boDashboardPage.goToSubMenu(
-        page,
-        boDashboardPage.modulesParentLink,
-        boDashboardPage.moduleCatalogueLink,
-      );
-      await boModuleManagerPage.closeSfToolBar(page);
+      const pageTitle = await modAutoupgradeBoMain.getPageTitle(page);
+      expect(pageTitle).toEqual(modAutoupgradeBoMain.pageTitle);
 
-      const pageTitle = await boMarketplacePage.getPageTitle(page);
-      expect(pageTitle).toContain(boMarketplacePage.pageTitle);
-    });
-
-    test(`should install the module '${dataModules.autoupgrade.name}'`, async () => {
-      const successMessage = await boMarketplacePage.installModule(page, dataModules.autoupgrade.tag);
-      expect(successMessage).toEqual(boMarketplacePage.installMessageSuccessful(dataModules.autoupgrade.tag));
-
-      await boDashboardPage.goToDashboardPage(page);
-    });
-  } else if (semver.lt(psVersion, '8.0.0')) {
-    test('should go to \'Modules > Module Manager\' page', async () => {
-      await boDashboardPage.goToSubMenu(
-        page,
-        boDashboardPage.modulesParentLink,
-        boDashboardPage.moduleManagerLink,
-      );
-      await boModuleManagerPage.closeSfToolBar(page);
-
-      const pageTitle = await boModuleManagerPage.getPageTitle(page);
-      expect(pageTitle).toContain(boModuleManagerPage.pageTitle);
-    });
-
-    test(`should install the module '${dataModules.autoupgrade.name}'`, async () => {
-      await boModuleManagerUninstalledModulesPage.goToTabUninstalledModules(page);
-
-      const isInstalled = await boModuleManagerUninstalledModulesPage.installModule(page, dataModules.autoupgrade.tag);
-      expect(isInstalled).toBeTruthy();
-
-      await boDashboardPage.goToDashboardPage(page);
-    });
-  }
-
-  test('should close update notification dialog', async () => {
-    const isDialogNotVisible = await modAutoupgradeBoModal.closeDialogUpdateNotification(page);
-    expect(isDialogNotVisible).toEqual(true);
+      const currentVersion = await modAutoupgradeBoMain.getCurrentPSAndPHPVersion(page);
+      expect(currentVersion).not.toContain(version);
+    } else {
+      test.skip();
+    }
   });
 
   // Steps to go to module configuration page
@@ -261,10 +219,21 @@ test.describe('Upgrade using the local channel', () => {
     await exec('docker exec -t prestashop chmod -R 777 /var/www/html/modules');
   });
 
-  test('should choose local archive', async () => {
-    test.setTimeout(1000_000);
+  test('should check if the recommanded version is displayed', async () => {
+    if (isModalVisible) {
+      const isVisible = await modAutoupgradeBoMain.isRecommandedVersionVisible(page);
+      expect(isVisible).toEqual(true);
+    } else {
+      test.skip();
+    }
+  });
 
-    const isRequirementBlockVisible = await modAutoupgradeBoMain.chooseLocalArchive(page, process.env.PS_VERSION_END!);
+  test('should choose the version to update and check requirements block', async () => {
+    test.setTimeout(100_000);
+    // Choose the major version if the modal is not visible
+    // Choose the recommanded version if the modal is visible
+    const isVisible = await modAutoupgradeBoMain.isRecommandedVersionVisible(page);
+    const isRequirementBlockVisible = await modAutoupgradeBoMain.chooseNewVersion(page, isVisible);
     expect(isRequirementBlockVisible).toEqual(true);
   });
 
@@ -299,9 +268,14 @@ test.describe('Upgrade using the local channel', () => {
     expect(isNextButtonEnabled).toEqual(true);
   });
 
+  test('should check the current PS version', async () => {
+    const currentVersion = await modAutoupgradeBoMain.getCurrentPSAndPHPVersion(page);
+    expect(currentVersion).toContain(psVersion);
+  });
+
   test('should check the new PS version', async () => {
     const newVersion = await modAutoupgradeBoMain.getNewPSVersion(page);
-    expect(newVersion).not.toContain(`${psVersion} `);
+    expect(newVersion).not.toContain(process.env.PS_VERSION);
   });
 
   test('should click on next button and check that the step title is \'Update options\'', async () => {
@@ -341,11 +315,12 @@ test.describe('Upgrade using the local channel', () => {
 
     const successMessage = await modAutoupgradeBoMain.checkUpdateSuccess(page);
     expect(successMessage).toContain(modAutoupgradeBoMain.updateSuccessMessage);
-    expect(successMessage).toContain(process.env.PS_VERSION_END);
   });
 
   test('should check the title of the last step', async () => {
     const stepTitle = await modAutoupgradeBoMain.getStepTitle(page);
     expect(stepTitle).toEqual('Post-update checklist');
+
+    await page.waitForTimeout(20000);
   });
 });

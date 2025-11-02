@@ -27,8 +27,6 @@ import {
   boInstalledModulesPage,
   boModuleManagerPage,
   boModuleSelectionPage,
-  boModuleManagerUninstalledModulesPage,
-  boMarketplacePage,
   boMaintenancePage,
   dataModules,
   modAutoupgradeBoMain,
@@ -68,94 +66,6 @@ test.describe('Rollback', () => {
       const pageTitle = await boDashboardPage.getPageTitle(page);
       expect(pageTitle).toContain(boDashboardPage.pageTitle);
     });
-
-    // Steps to install module
-    if (semver.lt(psVersion, '7.4.0')) {
-      test('should go to \'Modules > Modules & Services\' page', async () => {
-        await boDashboardPage.goToSubMenu(
-          page,
-          boDashboardPage.modulesParentLink,
-          boDashboardPage.moduleManagerLink,
-        );
-        await boModuleManagerPage.closeSfToolBar(page);
-
-        const pageTitle = await boModuleSelectionPage.getPageTitle(page);
-        expect(pageTitle).toContain(boModuleSelectionPage.pageTitle);
-      });
-
-      test(`should install the module '${dataModules.autoupgrade.name}'`, async () => {
-        const successMessage = await boModuleSelectionPage.installModule(page, dataModules.autoupgrade.tag);
-        expect(successMessage).toEqual(boModuleSelectionPage.installMessageSuccessful(dataModules.autoupgrade.tag));
-
-        await boDashboardPage.goToDashboardPage(page);
-      });
-    } else if (semver.lt(psVersion, '7.5.0')) {
-      test('should go to \'Modules > Modules & Services\' page', async () => {
-        await boDashboardPage.goToSubMenu(
-          page,
-          boDashboardPage.modulesParentLink,
-          boDashboardPage.moduleManagerLink,
-        );
-        await boModuleManagerPage.closeSfToolBar(page);
-
-        const pageTitle = await boInstalledModulesPage.getPageTitle(page);
-        expect(pageTitle).toContain(boInstalledModulesPage.pageTitle);
-      });
-
-      test('should go to Selection page', async () => {
-        await boInstalledModulesPage.goToSelectionPage(page);
-
-        const pageTitle = await boModuleSelectionPage.getPageTitle(page);
-        expect(pageTitle).toContain(boModuleSelectionPage.pageTitle);
-      });
-
-      test(`should install the module '${dataModules.autoupgrade.name}'`, async () => {
-        const successMessage = await boModuleSelectionPage.installModule(page, dataModules.autoupgrade.tag);
-        expect(successMessage).toEqual(boModuleSelectionPage.installMessageSuccessful(dataModules.autoupgrade.tag));
-
-        await boDashboardPage.goToDashboardPage(page);
-      });
-    } else if (semver.lt(psVersion, '7.6.0')) {
-      test('should go to \'Modules > Marketplace\' page', async () => {
-        await boDashboardPage.goToSubMenu(
-          page,
-          boDashboardPage.modulesParentLink,
-          boDashboardPage.moduleCatalogueLink,
-        );
-        await boModuleManagerPage.closeSfToolBar(page);
-
-        const pageTitle = await boMarketplacePage.getPageTitle(page);
-        expect(pageTitle).toContain(boMarketplacePage.pageTitle);
-      });
-
-      test(`should install the module '${dataModules.autoupgrade.name}'`, async () => {
-        const successMessage = await boMarketplacePage.installModule(page, dataModules.autoupgrade.tag);
-        expect(successMessage).toEqual(boMarketplacePage.installMessageSuccessful(dataModules.autoupgrade.tag));
-
-        await boDashboardPage.goToDashboardPage(page);
-      });
-    } else if (semver.lt(psVersion, '8.0.0')) {
-      test('should go to \'Modules > Module Manager\' page', async () => {
-        await boDashboardPage.goToSubMenu(
-          page,
-          boDashboardPage.modulesParentLink,
-          boDashboardPage.moduleManagerLink,
-        );
-        await boModuleManagerPage.closeSfToolBar(page);
-
-        const pageTitle = await boModuleManagerPage.getPageTitle(page);
-        expect(pageTitle).toContain(boModuleManagerPage.pageTitle);
-      });
-
-      test(`should install the module '${dataModules.autoupgrade.name}'`, async () => {
-        await boModuleManagerUninstalledModulesPage.goToTabUninstalledModules(page);
-
-        const isInstalled = await boModuleManagerUninstalledModulesPage.installModule(page, dataModules.autoupgrade.tag);
-        expect(isInstalled).toBeTruthy();
-
-        await boDashboardPage.goToDashboardPage(page);
-      });
-    }
 
     test('should close update notification dialog', async () => {
       const isDialogNotVisible = await modAutoupgradeBoModal.closeDialogUpdateNotification(page);
