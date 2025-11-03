@@ -48,6 +48,10 @@ test.describe('Upgrade using the local channel', () => {
   let page: Page;
 
   test.beforeAll(async ({browser}) => {
+    if (semver.lt(psVersion, '8.0.0')) {
+      execSync('docker exec -t prestashop chmod +x /usr/local/bin/post-install.sh');
+      execSync('docker compose exec prestashop /usr/local/bin/post-install.sh', {stdio: 'inherit'});
+    }
     browserContext = await browser.newContext();
     page = await browserContext.newPage();
   });
@@ -59,7 +63,6 @@ test.describe('Upgrade using the local channel', () => {
   test('should login in BO', async () => {
     await boLoginPage.goTo(page, global.BO.URL);
     await boLoginPage.successLogin(page, global.BO.EMAIL, global.BO.PASSWD);
-    execSync('bash ./scripts/post_install.sh', {stdio: 'inherit'});
 
     const pageTitle = await boDashboardPage.getPageTitle(page);
     expect(pageTitle).toContain(boDashboardPage.pageTitle);
