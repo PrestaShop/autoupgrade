@@ -50,3 +50,10 @@ ALTER TABLE `PREFIX_cart_rule_product_rule` MODIFY COLUMN `type` ENUM(
 ) NOT NULL;
 
 /* PHP:add_column('cart_rule_product_rule_group', 'type', 'ENUM("at_least_one_product_rule", "all_product_rules") NOT NULL DEFAULT "at_least_one_product_rule"'); */;
+
+/* Change available_date column from date to datetime to support datetime values in API */
+/* https://github.com/PrestaShop/PrestaShop/pull/39904 */
+ALTER TABLE `PREFIX_product` MODIFY COLUMN `available_date` datetime DEFAULT NULL;
+ALTER TABLE `PREFIX_product_shop` MODIFY COLUMN `available_date` datetime DEFAULT NULL;
+ALTER TABLE `PREFIX_product_attribute` MODIFY COLUMN `available_date` datetime DEFAULT NULL;
+ALTER TABLE `PREFIX_product_attribute_shop` MODIFY COLUMN `available_date` datetime DEFAULT NULL;
