@@ -41,5 +41,13 @@
             "PrestaShop\\Module\\AutoUpgrade\\": "classes/",
             "PrestaShop\\Module\\AutoUpgrade\\Controller\\": "controllers/admin/self-managed"
         }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "@composer install --working-dir=sub-vendors/php8"
+        ],
+        "post-update-cmd": [
+            "@composer update --working-dir=sub-vendors/php8"
+        ]
     }
 }

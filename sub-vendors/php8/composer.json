@@ -1,0 +1,26 @@
+{
+    "name": "prestashop/autoupgrade",
+    "description": "PrestaShop module autoupgrade (Variant of libraries for PHP 8)",
+    "homepage": "https://github.com/PrestaShop/autoupgrade",
+    "license": "AFL-3.0",
+    "authors": [
+        {
+            "name": "PrestaShop SA",
+            "email": "contact@prestashop.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.1",
+        "symfony/console": "^6.4"
+    },
+    "config": {
+        "preferred-install": "dist",
+        "platform-check": false,
+        "classmap-authoritative": true,
+        "platform": {
+            "php": "8.1.0"
+        },
+        "prepend-autoloader": false,
+        "optimize-autoloader": true
+    }
+}
