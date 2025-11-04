@@ -49,10 +49,6 @@ test.describe('Upgrade using the online channel', () => {
   let isModalVisible: boolean = true;
 
   test.beforeAll(async ({browser}) => {
-    if (semver.lt(psVersion, '8.0.0')) {
-      execSync('docker exec -t prestashop chmod +x /usr/local/bin/post-install.sh');
-      execSync('docker compose exec prestashop /usr/local/bin/post-install.sh', {stdio: 'inherit'});
-    }
     browserContext = await browser.newContext();
     page = await browserContext.newPage();
   });
