@@ -113,7 +113,6 @@ class UpdateDatabase extends AbstractTask
             $this->container->getCacheCleaner()->cleanFolders();
         }
 
-        // Migrating settings file
         $this->container->initPrestaShopAutoloader();
         $this->container->initPrestaShopCore();
     }
@@ -130,6 +129,15 @@ class UpdateDatabase extends AbstractTask
             $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
         );
 
+        if ($this->container->getUpdateConfiguration()->shouldDeactivateCustomModules()) {
+            $this->logger->info($this->container->getTranslator()->trans('Disabling all non native modules'));
+            $this->getCoreUpgrader()->disableCustomModules();
+        } else {
+            $this->logger->info($this->container->getTranslator()->trans('Keeping non native modules enabled'));
+        }
+
+        $this->container->getQuarantineZone()->addAll();
+
         $this->getCoreUpgrader()->writeNewSettings();
 
         $this->logger->info($this->container->getTranslator()->trans('Checking version validity'));
@@ -140,13 +148,6 @@ class UpdateDatabase extends AbstractTask
         }
 
         $this->getCoreUpgrader()->setupUpdateEnvironment();
-
-        if ($this->container->getUpdateConfiguration()->shouldDeactivateCustomModules()) {
-            $this->logger->info($this->container->getTranslator()->trans('Disabling all non native modules'));
-            $this->getCoreUpgrader()->disableCustomModules();
-        } else {
-            $this->logger->info($this->container->getTranslator()->trans('Keeping non native modules enabled'));
-        }
 
         return ExitCode::SUCCESS;
     }
