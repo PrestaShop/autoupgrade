@@ -1050,12 +1050,12 @@
       <trans-unit id="911a8f7a6f03e27072bf825463ac5a7e">
         <source>Method %s does not exist. Module %s disabled.</source>
         <target>Method %s does not exist. Module %s disabled.</target>
-        <note>classes/UpgradeTools/Module/ModuleMigration.php:160</note>
+        <note>classes/UpgradeTools/Module/ModuleMigration.php:161</note>
       </trans-unit>
       <trans-unit id="094e7ea97940f72a1decb2dc4d79ebfd">
         <source>Could not write temporary file %s.</source>
         <target>Could not write temporary file %s.</target>
-        <note>classes/UpgradeTools/Module/ModuleMigration.php:165</note>
+        <note>classes/UpgradeTools/Module/ModuleMigration.php:166</note>
       </trans-unit>
       <trans-unit id="212d17b84ed7ed05df35b5fb0c805eea">
         <source>Error when trying to extract module %s.</source>
