@@ -18,6 +18,7 @@ for i in {1..7}; do
                 echo "✅ Autoupgrade module installed and activated !\n";
                 exit(0);
             } else {
+                var_dump($module->getError());
                 echo "❌ Module installation failed.";
             }
         } else {
