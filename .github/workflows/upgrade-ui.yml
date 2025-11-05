@@ -105,7 +105,7 @@ jobs:
         working-directory: tests/UI/
         run: |
           npx playwright install chromium --with-deps
-          docker exec -t prestashop chmod 755 /var/www/html/modules/autoupgrade/tests/UI
+          docker exec -t prestashop chmod 755 /var/www/html/modules/autoupgrade/tests/UI/
 
       - name: Upgrade online channel
         if: matrix.UPGRADE_CHANNEL == 'online'
@@ -153,7 +153,7 @@ jobs:
       - name: Export Docker errors
         working-directory: tests/UI/
         if: always()
-        run: docker compose logs --no-color >& docker-compose.log
+        run: docker compose -u www-data logs --no-color >& docker-compose.log
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
