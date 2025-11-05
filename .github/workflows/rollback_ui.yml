@@ -57,13 +57,11 @@ jobs:
       - name: Install Update assistant module
         if: startsWith(matrix.PS_VERSION_START, '1.7')
         run: |
-          docker exec -u www-data -t prestashop chmod +x /usr/local/bin/install-update.sh
           docker exec -u www-data -t prestashop /usr/local/bin/install-update.sh
 
       - name: Disable ps_welcome
         if: startsWith(matrix.PS_VERSION_START, '1.7')
         run: |
-          docker exec -u www-data -t prestashop chmod +x /usr/local/bin/disable-welcome.sh
           docker exec -u www-data -t prestashop /usr/local/bin/disable-welcome.sh
 
       - name: Composer install

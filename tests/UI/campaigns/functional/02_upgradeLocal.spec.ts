@@ -36,7 +36,6 @@ import {
   test, expect, Page, BrowserContext,
 } from '@playwright/test';
 import semver from 'semver';
-import {exec, execSync} from 'child_process';
 
 const psVersion = utilsTest.getPSVersion();
 

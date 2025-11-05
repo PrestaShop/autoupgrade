@@ -62,7 +62,6 @@ test.describe('Rollback', () => {
     test('should login in BO', async () => {
       await boLoginPage.goTo(page, global.BO.URL);
       await boLoginPage.successLogin(page, global.BO.EMAIL, global.BO.PASSWD);
-      execSync('bash ./scripts/post_install.sh', {stdio: 'inherit'});
 
       const pageTitle = await boDashboardPage.getPageTitle(page);
       expect(pageTitle).toContain(boDashboardPage.pageTitle);

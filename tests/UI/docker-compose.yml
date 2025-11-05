@@ -38,7 +38,6 @@ services:
         source: ./post-install/disable-welcome.sh
         # Mount Path
         target: /usr/local/bin/disable-welcome.sh
-    user: "www-data"
     ports:
       - "80:80"
     deploy:
