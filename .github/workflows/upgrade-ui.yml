@@ -100,8 +100,9 @@ jobs:
         run: |
           npm ci
           docker exec -t prestashop ls -l /var/www/html/modules/
-          docker exec -t prestashop chown www-data:www-data -R /var/www/html/modules/
+          docker exec -t prestashop chown -R www-data:www-data /var/www/html/modules/
           docker exec -t prestashop ls -l /var/www/html/modules/
+          docker exec -t prestashop ls -l /var/www/html/modules/autoupgrade/tests/UI
 
       - name: Install Playwright Browsers
         working-directory: tests/UI/
@@ -120,7 +121,7 @@ jobs:
           DB_PASSWD: prestashop
           DB_NAME: prestashop
           DB_PREFIX: ps_
-        run: npm run test:upgradeOnline
+        run: sudo -u www-data npm run test:upgradeOnline
 
       - name: Upgrade local channel
         if: matrix.UPGRADE_CHANNEL == 'local'
