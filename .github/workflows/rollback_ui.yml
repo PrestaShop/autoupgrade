@@ -85,7 +85,7 @@ jobs:
         working-directory: tests/UI/
         run: |
           npx playwright install chromium --with-deps
-          docker exec -t prestashop chown 1001:www-data -R /var/www/html/modules/
+          docker exec -t prestashop chown www-data:www-data -R /var/www/html/modules/
 
       - name: Rollback
         working-directory: tests/UI/
