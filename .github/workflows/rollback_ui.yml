@@ -53,17 +53,31 @@ jobs:
         run: |
           docker compose -f "docker-compose.yml" up -d --build
           bash -c 'while [[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost/)" != "200" ]]; do sleep 5; done'
-      - name: Composer install
-        run: |
-          composer install
 
-      - name: Display new interface
+      - name: Install Update assistant module
+        if: startsWith(matrix.PS_VERSION_START, '1.7')
         run: |
-          docker exec -t prestashop bash -c 'apt-get update'
-          docker exec -t prestashop bash -c 'curl -sL https://deb.nodesource.com/setup_20.x | bash -'
-          docker exec -t prestashop bash -c 'apt-get install -y nodejs'
-          docker exec -t prestashop bash -c 'cd /var/www/html/modules/autoupgrade/_dev && npm install && npm run vite:build'
-          docker exec -t prestashop chmod 777 -R /var/www/html/admin-dev/autoupgrade
+          docker exec -u www-data -t prestashop chmod +x /usr/local/bin/install-update.sh
+          docker exec -u www-data -t prestashop /usr/local/bin/install-update.sh
+
+      - name: Disable ps_welcome
+        if: startsWith(matrix.PS_VERSION_START, '1.7')
+        run: |
+          docker exec -u www-data -t prestashop chmod +x /usr/local/bin/disable-welcome.sh
+          docker exec -u www-data -t prestashop /usr/local/bin/disable-welcome.sh
+
+      - name: Composer install
+        run: composer install
+
+      - name: Install and build npm dependencies
+        run: |
+          npm install --prefix ./_dev
+          npm run vite:build --prefix ./_dev
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
 
       - name: Install dependencies
         working-directory: tests/UI/

@@ -59,7 +59,7 @@ jobs:
 
       - name: Backup
         run: |
-          docker exec -t prestashop php modules/autoupgrade/bin/console backup:create admin-dev
+          docker exec -u www-data -t prestashop php modules/autoupgrade/bin/console backup:create admin-dev
 
       - name: Get URLs of PrestaShop zip and xml
         if: matrix.UPGRADE_CHANNEL == 'local'
@@ -72,13 +72,13 @@ jobs:
       - name: Download local ZIP and XML for local channel
         if: matrix.UPGRADE_CHANNEL == 'local'
         run: |
-          docker exec -t prestashop curl --fail -L ${{ steps.links.outputs.zip }} -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.zip
-          docker exec -t prestashop curl --fail -L ${{ steps.links.outputs.xml }} -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.xml
+          docker exec -u www-data -t prestashop curl --fail -L ${{ steps.links.outputs.zip }} -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.zip
+          docker exec -u www-data -t prestashop curl --fail -L ${{ steps.links.outputs.xml }} -o admin-dev/autoupgrade/download/prestashop_${{ matrix.PS_VERSION_END }}.xml
 
       - name: Write configuration file
         if: matrix.UPGRADE_CHANNEL == 'local'
         run: |
-          docker exec -t prestashop sh -c "echo '{
+          docker exec -u www-data -t prestashop sh -c "echo '{
             \"channel\":\"${{ matrix.UPGRADE_CHANNEL }}\",
             \"archive_zip\":\"prestashop_${{ matrix.PS_VERSION_END }}.zip\",
             \"archive_xml\":\"prestashop_${{ matrix.PS_VERSION_END }}.xml\",
@@ -91,22 +91,19 @@ jobs:
       - name: Update online
         if: matrix.UPGRADE_CHANNEL == 'online'
         run: |
-          docker exec -t prestashop sh -c "echo 'memory_limit=1024M' > /usr/local/etc/php/conf.d/zz-memory-limit.ini"
-          docker exec -t prestashop php modules/autoupgrade/bin/console update:start --channel=${{ matrix.UPGRADE_CHANNEL }} admin-dev
-          docker exec -t prestashop chmod 777 -R /var/www/html/var
+          docker exec -u www-data -t prestashop sh -c "echo 'memory_limit=1024M' > /usr/local/etc/php/conf.d/zz-memory-limit.ini"
+          docker exec -u www-data -t prestashop php modules/autoupgrade/bin/console update:start --channel=${{ matrix.UPGRADE_CHANNEL }} admin-dev
 
       - name: Update local
         if: matrix.UPGRADE_CHANNEL == 'local'
         run: |
-          docker exec -t prestashop sh -c "echo 'memory_limit=1024M' > /usr/local/etc/php/conf.d/zz-memory-limit.ini"
-          docker exec -t prestashop php modules/autoupgrade/bin/console update:start --config-file-path=modules/autoupgrade/config.json --channel=${{ matrix.UPGRADE_CHANNEL }} admin-dev
-          docker exec -t prestashop chmod 777 -R /var/www/html/var
+          docker exec -u www-data -t prestashop sh -c "echo 'memory_limit=1024M' > /usr/local/etc/php/conf.d/zz-memory-limit.ini"
+          docker exec -u www-data -t prestashop php modules/autoupgrade/bin/console update:start --config-file-path=modules/autoupgrade/config.json --channel=${{ matrix.UPGRADE_CHANNEL }} admin-dev
 
       - name: Uninstall welcome module
         if: matrix.PHP_VERSION == '7.1'
         run: |
-          docker exec -t prestashop php bin/console prestashop:module disable welcome
-          docker exec -t prestashop chmod 777 -R /var/www/html/var
+          docker exec -u www-data -t prestashop php bin/console prestashop:module disable welcome
 
       - name: Install dependencies
         working-directory: tests/UI/

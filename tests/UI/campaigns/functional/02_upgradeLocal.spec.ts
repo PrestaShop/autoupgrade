@@ -48,10 +48,6 @@ test.describe('Upgrade using the local channel', () => {
   let page: Page;
 
   test.beforeAll(async ({browser}) => {
-    if (semver.lt(psVersion, '8.0.0')) {
-      execSync('docker exec -t prestashop chmod +x /usr/local/bin/post-install.sh');
-      execSync('docker compose exec prestashop /usr/local/bin/post-install.sh', {stdio: 'inherit'});
-    }
     browserContext = await browser.newContext();
     page = await browserContext.newPage();
   });
@@ -171,8 +167,6 @@ test.describe('Upgrade using the local channel', () => {
 
     const stepTitle = await modAutoupgradeBoMain.getStepTitle(page);
     expect(stepTitle).toEqual('Version choice');
-
-    await exec('docker exec -t prestashop chmod -R 777 /var/www/html/modules');
   });
 
   test('should choose local archive', async () => {
@@ -207,8 +201,6 @@ test.describe('Upgrade using the local channel', () => {
   });
 
   test('should check that all the requirements are OK', async () => {
-    await exec('docker exec -t prestashop chmod -R 777 /var/www/html/modules');
-
     const isNextButtonEnabled = await modAutoupgradeBoMain.checkRequirements(page);
     expect(isNextButtonEnabled).toEqual(true);
   });

@@ -36,7 +36,6 @@ import {
   test, expect, Page, BrowserContext,
 } from '@playwright/test';
 import semver from 'semver';
-import {exec, execSync} from 'child_process';
 
 const psVersion = utilsTest.getPSVersion();
 
@@ -215,11 +214,9 @@ test.describe('Upgrade using the online channel', () => {
 
     const stepTitle = await modAutoupgradeBoMain.getStepTitle(page);
     expect(stepTitle).toEqual('Version choice');
-
-    await exec('docker exec -t prestashop chmod -R 777 /var/www/html/modules');
   });
 
-  test('should check if the recommanded version is displayed', async () => {
+  test('should check if the recommended version is displayed', async () => {
     if (isModalVisible) {
       const isVisible = await modAutoupgradeBoMain.isRecommandedVersionVisible(page);
       expect(isVisible).toEqual(true);
@@ -262,8 +259,6 @@ test.describe('Upgrade using the online channel', () => {
   });
 
   test('should check that all the requirements are OK', async () => {
-    await exec('docker exec -t prestashop chmod -R 777 /var/www/html/modules');
-
     const isNextButtonEnabled = await modAutoupgradeBoMain.checkRequirements(page);
     expect(isNextButtonEnabled).toEqual(true);
   });

@@ -26,8 +26,8 @@ for i in {1..7}; do
         }
     ')
 
+    echo "$result";
     if [[ $result == *"installed"* ]]; then
-      echo "Autoupgrade module installed and activated"
       break
     fi
 

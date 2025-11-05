@@ -50,10 +50,6 @@ test.describe('Rollback', () => {
   let filePath: string | null;
 
   test.beforeAll(async ({browser}) => {
-    if (semver.lt(psVersion, '8.0.0')) {
-      execSync('docker exec -t prestashop chmod +x /usr/local/bin/post-install.sh');
-      execSync('docker compose exec prestashop /usr/local/bin/post-install.sh', {stdio: 'inherit'});
-    }
     browserContext = await browser.newContext();
     page = await browserContext.newPage();
   });
@@ -158,7 +154,6 @@ test.describe('Rollback', () => {
 
       test(`should choose the version to update and check requirements block - ${index}`, async () => {
         test.setTimeout(100_000);
-        await exec('docker exec -t prestashop chmod -R 777 /var/www/html/modules');
         const isVisible = await modAutoupgradeBoMain.isRecommandedVersionVisible(page);
         await modAutoupgradeBoMain.chooseNewVersion(page, isVisible);
       });
@@ -189,8 +184,6 @@ test.describe('Rollback', () => {
         });
 
         test(`should check that all the requirements are OK - ${index}`, async () => {
-          await exec('docker exec -t prestashop chmod -R 777 /var/www/html/modules');
-
           const isNextButtonEnabled = await modAutoupgradeBoMain.checkRequirements(page);
           expect(isNextButtonEnabled).toEqual(true);
         });
