@@ -97,13 +97,14 @@ jobs:
 
       - name: Install dependencies
         working-directory: tests/UI/
-        run: npm ci
+        run: |
+          npm ci
+          docker exec -t prestashop ls -l /var/www/html/modules/
+          docker exec -t prestashop chown :www-data -R /var/www/html/modules/
 
       - name: Install Playwright Browsers
         working-directory: tests/UI/
-        run: |
-          npx playwright install chromium --with-deps
-          docker exec -t prestashop chown :www-data -R /var/www/html/modules/
+        run: npx playwright install chromium --with-deps
 
       - name: Upgrade online channel
         if: matrix.UPGRADE_CHANNEL == 'online'
