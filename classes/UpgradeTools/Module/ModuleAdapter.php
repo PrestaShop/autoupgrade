@@ -91,7 +91,7 @@ class ModuleAdapter
      */
     public function getInstalledVersionOfModules(?array $filterOnModuleNames = null): array
     {
-        // Handle safe mode eventually enabled
+        // Select on-the-fly modules that are in quarantine zone as well (Prefixed with the tag).
         $sql = 'SELECT REPLACE(`name`, "' . QuarantineZone::DISABLED_BY_SAFE_MODE . '", "") as name, version FROM ' . _DB_PREFIX_ . 'module';
 
         if (!empty($filterOnModuleNames)) {
