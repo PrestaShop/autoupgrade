@@ -91,7 +91,7 @@ jobs:
       - name: Update online
         if: matrix.UPGRADE_CHANNEL == 'online'
         run: |
-          docker exec -u www-data -t prestashop sh -c "echo 'memory_limit=1024M' > /usr/local/etc/php/conf.d/zz-memory-limit.ini"
+          docker exec -t prestashop sh -c "echo 'memory_limit=1024M' > /usr/local/etc/php/conf.d/zz-memory-limit.ini"
           docker exec -u www-data -t prestashop php modules/autoupgrade/bin/console update:start --channel=${{ matrix.UPGRADE_CHANNEL }} admin-dev
 
       - name: Update local
