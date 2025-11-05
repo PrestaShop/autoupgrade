@@ -52,7 +52,6 @@ jobs:
           PS_VERSION: ${{ env.PS_DOCKER }}
         run: |
           docker compose -f "docker-compose.yml" up -d --build
-          docker exec -t prestashop chown :www-data -R /var/www/html/modules/
           bash -c 'while [[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost/)" != "200" ]]; do sleep 5; done'
 
       - name: Install Update assistant module
@@ -84,7 +83,9 @@ jobs:
 
       - name: Install Playwright Browsers
         working-directory: tests/UI/
-        run: npx playwright install chromium --with-deps
+        run: |
+          npx playwright install chromium --with-deps
+          docker exec -t prestashop chown :www-data -R /var/www/html/modules/
 
       - name: Rollback
         working-directory: tests/UI/
