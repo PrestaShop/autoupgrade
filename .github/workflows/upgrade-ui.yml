@@ -104,8 +104,6 @@ jobs:
         working-directory: tests/UI/
         run: |
           npx playwright install chromium --with-deps
-          docker exec -t prestashop chown -R www-data:www-data /var/www/html/modules/
-          docker exec -t prestashop chmod 777 /var/www/html/modules/autoupgrade/tests/UI/
 
       - name: Upgrade online channel
         if: matrix.UPGRADE_CHANNEL == 'online'
@@ -122,6 +120,9 @@ jobs:
           mkdir -p /tmp/test-results
           mkdir -p tests/UI/reports
           chmod -R 777 tests/UI/reports
+          docker exec -t prestashop chown -R www-data:www-data /var/www/html/modules/
+          docker exec -t prestashop chmod 777 /var/www/html/modules/autoupgrade/tests/UI/
+          docker exec -t prestashop ls -l /var/www/html/modules/
           npm run test:upgradeOnline
 
       - name: Upgrade local channel
