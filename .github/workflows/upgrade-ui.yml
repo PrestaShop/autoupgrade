@@ -119,10 +119,7 @@ jobs:
         run: |
           mkdir -p /tmp/test-results
           mkdir -p tests/UI/reports
-          chmod -R 777 tests/UI/reports
-          docker exec -t prestashop chown -R www-data:www-data /var/www/html/modules/
           docker exec -t prestashop chmod 777 /var/www/html/modules/autoupgrade/tests/UI/
-          docker exec -t prestashop ls -l /var/www/html/modules/
           npm run test:upgradeOnline
 
       - name: Upgrade local channel
@@ -140,7 +137,7 @@ jobs:
         run: |
           mkdir -p /tmp/test-results
           mkdir -p tests/UI/reports
-          chmod -R 777 tests/UI/reports
+          docker exec -t prestashop chmod 777 /var/www/html/modules/autoupgrade/tests/UI/
           npm run test:upgradeLocal
 
       - name: Get PS version
@@ -162,7 +159,7 @@ jobs:
       - name: Export Docker errors
         working-directory: tests/UI/
         if: always()
-        run: docker compose -u www-data logs --no-color >& docker-compose.log
+        run: docker compose logs --no-color >& docker-compose.log
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
