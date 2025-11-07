@@ -14,13 +14,13 @@
         "// TypeScript Check": "Script to check typescript",
         "check:typescript": "tsc --build ./tsconfig.json",
         "// Sanity": "Scripts to run sanity tests",
-        "test:sanity": "npx playwright test /sanity --workers 1 --max-failures 1 --output=/tmp/test-results --reporter=\"json=/tmp/playwright-output/report.json,html=/tmp/playwright-output/reports\"",
+        "test:sanity": "npx playwright test /sanity --workers 1 --max-failures 1 --output=/tmp/test-results ",
         "// upgradeOnline": "Scripts to run functional tests to upgrade online channel",
-        "test:upgradeOnline": "npx playwright test /functional/01_upgradeOnline.spec.ts --workers 1 --max-failures 1 --output=/tmp/test-results --reporter=\"json=/tmp/playwright-output/report.json,html=/tmp/playwright-output/reports\"",
+        "test:upgradeOnline": "npx playwright test /functional/01_upgradeOnline.spec.ts --workers 1 --max-failures 1 --output=/tmp/test-results",
         "// upgradeLocal": "Scripts to run functional tests to upgrade local channel",
-        "test:upgradeLocal": "npx playwright test /functional/02_upgradeLocal.spec.ts --workers 1 --max-failures 1 --output=/tmp/test-results --reporter=\"json=/tmp/playwright-output/report.json,html=/tmp/playwright-output/reports\"",
+        "test:upgradeLocal": "npx playwright test /functional/02_upgradeLocal.spec.ts --workers 1 --max-failures 1 --output=/tmp/test-results",
         "// rollback": "Scripts to run functional tests to rollabck",
-        "test:rollback": "npx playwright test /functional/03_rollback.spec.ts --workers 1 --max-failures 1 --output=/tmp/test-results --reporter=\"json=/tmp/playwright-output/report.json,html=/tmp/playwright-output/reports\""
+        "test:rollback": "npx playwright test /functional/03_rollback.spec.ts --workers 1 --max-failures 1 --output=/tmp/test-results"
     },
     "keywords": [],
     "devDependencies": {

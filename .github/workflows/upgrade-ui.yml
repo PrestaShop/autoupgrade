@@ -119,7 +119,8 @@ jobs:
           DB_PREFIX: ps_
         run: |
           mkdir -p /tmp/test-results
-          mkdir -p /tmp/playwright-output
+          mkdir -p tests/UI/reports
+          chmod -R 777 tests/UI/reports
           npm run test:upgradeOnline
 
       - name: Upgrade local channel
@@ -136,7 +137,8 @@ jobs:
           DB_PREFIX: ps_
         run: |
           mkdir -p /tmp/test-results
-          mkdir -p /tmp/playwright-output
+          mkdir -p tests/UI/reports
+          chmod -R 777 tests/UI/reports
           npm run test:upgradeLocal
 
       - name: Get PS version
