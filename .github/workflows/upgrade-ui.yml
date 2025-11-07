@@ -106,12 +106,10 @@ jobs:
         run: |
           npx playwright install chromium --with-deps
           docker exec -t prestashop chmod 755 /var/www/html/modules/autoupgrade/tests/UI/
-          docker exec -t prestashop mkdir /home/runner/work/autoupgrade/tests/UI/test-results
-          docker exec -t prestashop ls -ld /home/runner/work/autoupgrade
 
       - name: Upgrade online channel
         if: matrix.UPGRADE_CHANNEL == 'online'
-        working-directory: tests/UI/
+        working-directory: /var/www/html/modules/autoupgrade/tests/UI/
         env:
           URL_FO: 'http://localhost/'
           PASSWD: 'prestashop'
