@@ -105,7 +105,7 @@ jobs:
         run: |
           npx playwright install chromium --with-deps
           docker exec -t prestashop chown -R www-data:www-data /var/www/html/modules/
-          docker exec -t prestashop chmod 755 /var/www/html/modules/autoupgrade/tests/UI/
+          docker exec -t prestashop chmod 777 /var/www/html/modules/autoupgrade/tests/UI/
 
       - name: Upgrade online channel
         if: matrix.UPGRADE_CHANNEL == 'online'
