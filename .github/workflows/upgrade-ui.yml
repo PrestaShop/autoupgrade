@@ -99,13 +99,12 @@ jobs:
         working-directory: tests/UI/
         run: |
           npm ci
-          docker exec -t prestashop chown -R www-data:www-data /var/www/html/modules/
 
       - name: Install Playwright Browsers
         working-directory: tests/UI/
         run: |
           npx playwright install chromium --with-deps
-          docker exec -t prestashop chmod 755 /var/www/html/modules/autoupgrade/tests/UI/
+          docker exec -t prestashop chown -R www-data:www-data /var/www/html/modules/
 
       - name: Upgrade online channel
         if: matrix.UPGRADE_CHANNEL == 'online'
@@ -118,9 +117,9 @@ jobs:
           DB_PASSWD: prestashop
           DB_NAME: prestashop
           DB_PREFIX: ps_
-          PLAYWRIGHT_OUTPUT_DIR: /tmp/test-results
         run: |
           mkdir -p /tmp/test-results
+          mkdir -p /tmp/playwright-output
           npm run test:upgradeOnline
 
       - name: Upgrade local channel
@@ -135,9 +134,9 @@ jobs:
           DB_PASSWD: prestashop
           DB_NAME: prestashop
           DB_PREFIX: ps_
-          PLAYWRIGHT_OUTPUT_DIR: /tmp/test-results
         run: |
           mkdir -p /tmp/test-results
+          mkdir -p /tmp/playwright-output
           npm run test:upgradeLocal
 
       - name: Get PS version

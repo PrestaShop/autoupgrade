@@ -113,7 +113,7 @@ jobs:
         working-directory: tests/UI/
         run: |
           npx playwright install chromium --with-deps
-          docker exec -t prestashop chown www-data:www-data -R /var/www/html/modules/
+          docker exec -t prestashop chown -R www-data:www-data /var/www/html/modules/
 
       - name: Get PS version
         run: |
@@ -129,13 +129,15 @@ jobs:
           DB_PASSWD: prestashop
           DB_NAME: prestashop
           DB_PREFIX: ps_
-        run: npm run test:sanity
+        run: |
+          mkdir -p /tmp/test-results
+          mkdir -p /tmp/playwright-output
+          npm run test:sanity
 
       - name: Rollback
         run: |
           backupName=$(docker exec -t prestashop bash -c "ls -td -- /var/www/html/admin-dev/autoupgrade/backup/*/ | head -n 1 | cut -d'/' -f8 | tr -d '\n'")
           docker exec -t prestashop php modules/autoupgrade/bin/console backup:restore --backup=$backupName admin-dev
-          docker exec -t prestashop chmod 777 -R /var/www/html/app
 
       - name: Run Sanity tests
         working-directory: tests/UI/
