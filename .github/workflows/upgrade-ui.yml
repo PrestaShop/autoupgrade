@@ -119,9 +119,9 @@ jobs:
           DB_NAME: prestashop
           DB_PREFIX: ps_
           PLAYWRIGHT_OUTPUT_DIR: /tmp/test-results
-          run: |
-            mkdir -p /tmp/test-results
-            npm run test:upgradeOnline
+        run: |
+          mkdir -p /tmp/test-results
+          npm run test:upgradeOnline
 
       - name: Upgrade local channel
         if: matrix.UPGRADE_CHANNEL == 'local'
