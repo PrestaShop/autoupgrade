@@ -109,7 +109,7 @@ jobs:
 
       - name: Upgrade online channel
         if: matrix.UPGRADE_CHANNEL == 'online'
-        working-directory: /var/www/html/modules/autoupgrade/tests/UI/
+        working-directory: tests/UI/
         env:
           URL_FO: 'http://localhost/'
           PASSWD: 'prestashop'
@@ -118,7 +118,10 @@ jobs:
           DB_PASSWD: prestashop
           DB_NAME: prestashop
           DB_PREFIX: ps_
-        run: npm run test:upgradeOnline
+          PLAYWRIGHT_OUTPUT_DIR: /tmp/test-results
+          run: |
+            mkdir -p /tmp/test-results
+            npm run test:upgradeOnline
 
       - name: Upgrade local channel
         if: matrix.UPGRADE_CHANNEL == 'local'
@@ -132,7 +135,10 @@ jobs:
           DB_PASSWD: prestashop
           DB_NAME: prestashop
           DB_PREFIX: ps_
-        run: npm run test:upgradeLocal
+          PLAYWRIGHT_OUTPUT_DIR: /tmp/test-results
+        run: |
+          mkdir -p /tmp/test-results
+          npm run test:upgradeLocal
 
       - name: Get PS version
         run: |
