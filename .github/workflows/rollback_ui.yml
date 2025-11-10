@@ -85,7 +85,6 @@ jobs:
         working-directory: tests/UI/
         run: |
           npx playwright install chromium --with-deps
-          docker exec -t prestashop chown -R www-data:www-data /var/www/html/modules/
 
       - name: Rollback
         working-directory: tests/UI/
@@ -99,7 +98,9 @@ jobs:
           DB_PREFIX: ps_
         run: |
           mkdir -p /tmp/test-results
-          mkdir -p /tmp/playwright-output
+          mkdir -p tests/UI/reports
+          docker exec -t prestashop chown -R www-data:www-data /var/www/html/modules/
+          docker exec -t prestashop chmod 777 /var/www/html/modules/autoupgrade/tests/UI/
           npm run test:rollback
 
       - name: Export Docker errors
