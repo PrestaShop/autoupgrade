@@ -50,27 +50,27 @@
       <trans-unit id="21dc065f2d8653ebca37ec552d17b37e" approved="yes">
         <source>Unable to create the directory "%s"</source>
         <target state="final">Impossible de créer le dossier "%s"</target>
-        <note>controllers/admin/AdminSelfUpgradeController.php:156</note>
+        <note>controllers/admin/AdminSelfUpgradeController.php:154</note>
       </trans-unit>
       <trans-unit id="6215d33db0d099fcaae168dd4715135a" approved="yes">
         <source>Unable to write in the directory "%s"</source>
         <target state="final">Impossible d'écrire dans le dossier "%s"</target>
-        <note>controllers/admin/AdminSelfUpgradeController.php:122</note>
+        <note>controllers/admin/AdminSelfUpgradeController.php:120</note>
       </trans-unit>
       <trans-unit id="f4eb320e09f7ef88a627229870458454" approved="yes">
         <source>The module %s requires PHP %s to work properly. Please upgrade your server configuration.</source>
         <target state="final">Le module %s nécessite PHP %s pour fonctionner correctement. Veuillez mettre à niveau la configuration de votre serveur.</target>
-        <note>controllers/admin/AdminSelfUpgradeController.php:253</note>
+        <note>controllers/admin/AdminSelfUpgradeController.php:251</note>
       </trans-unit>
       <trans-unit id="d0749aaba8b833466dfcbb0428e4f89c">
         <source>SUCCESS</source>
         <target state="needs-translation">SUCCESS</target>
-        <note>controllers/admin/AdminSelfUpgradeController.php:315</note>
+        <note>controllers/admin/AdminSelfUpgradeController.php:313</note>
       </trans-unit>
       <trans-unit id="b9e14d9b2886bcff408b85aefa780419">
         <source>FAILED</source>
         <target state="needs-translation">FAILED</target>
-        <note>controllers/admin/AdminSelfUpgradeController.php:316</note>
+        <note>controllers/admin/AdminSelfUpgradeController.php:314</note>
       </trans-unit>
       <trans-unit id="ed88d11e6f590319e0be757ac6a6f399" approved="yes">
         <source>An error occurred while formatting the backup name.</source>
@@ -1051,12 +1051,12 @@
       <trans-unit id="911a8f7a6f03e27072bf825463ac5a7e" approved="yes">
         <source>Method %s does not exist. Module %s disabled.</source>
         <target state="final">La méthode %s n'existe pas. Le module %s est désactivé.</target>
-        <note>classes/UpgradeTools/Module/ModuleMigration.php:160</note>
+        <note>classes/UpgradeTools/Module/ModuleMigration.php:161</note>
       </trans-unit>
       <trans-unit id="094e7ea97940f72a1decb2dc4d79ebfd" approved="yes">
         <source>Could not write temporary file %s.</source>
         <target state="final">Impossible d'écrire le fichier temporaire %s.</target>
-        <note>classes/UpgradeTools/Module/ModuleMigration.php:165</note>
+        <note>classes/UpgradeTools/Module/ModuleMigration.php:166</note>
       </trans-unit>
       <trans-unit id="212d17b84ed7ed05df35b5fb0c805eea" approved="yes">
         <source>Error when trying to extract module %s.</source>
