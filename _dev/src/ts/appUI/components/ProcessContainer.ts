@@ -23,6 +23,10 @@ import { ProcessContainerCallbacks } from '../types/Process';
 import Process from '../utils/Process';
 import ProgressTracker from './ProgressTracker';
 import BrowserTab from './BrowserTab';
+import {
+  disableFilteringOfRequestsToShop,
+  enableFilteringOfRequestsToShop
+} from '../api/ShopRequestsGuard';
 
 export default class ProcessContainer implements DomLifecycle {
   #progressTracker: ProgressTracker = new ProgressTracker(this.#progressTrackerContainer);
@@ -44,6 +48,7 @@ export default class ProcessContainer implements DomLifecycle {
     });
 
     this.#enableExitConfirmation();
+    enableFilteringOfRequestsToShop();
 
     await process.startProcess(this.initialAction);
   };
@@ -72,6 +77,7 @@ export default class ProcessContainer implements DomLifecycle {
 
   #onProcessEnd = async (response: ApiResponseAction): Promise<void> => {
     this.#disableExitConfirmation();
+    disableFilteringOfRequestsToShop();
     if (response.error) {
       this.#onError(response);
     } else {
@@ -82,6 +88,7 @@ export default class ProcessContainer implements DomLifecycle {
 
   #onError = (response: ApiResponseAction): void => {
     this.#disableExitConfirmation();
+    disableFilteringOfRequestsToShop();
     this.#progressTracker.updateProgress(response);
     this.#progressTracker.endProgress();
     this.#browserTab.setError();
