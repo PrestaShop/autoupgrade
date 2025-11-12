@@ -40,6 +40,12 @@ describe('ShopRequestsGuard', () => {
         urlShop:
           'http://localhost:8001/admin-dev/?controller=AdminSelfUpgrade&token=&route=restore-page-post-restore',
         expectedValue: true
+      },
+      {
+        urlRequest: 'https://api.prestashop-project.org/prestashop/stable',
+        urlShop:
+          'http://localhost:8001/admin-dev/?controller=AdminSelfUpgrade&token=&route=restore-page-post-restore',
+        expectedValue: true
       }
     ];
 
