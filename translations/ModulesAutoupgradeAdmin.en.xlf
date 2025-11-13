@@ -715,17 +715,17 @@
       <trans-unit id="cf131dfbf6e4bd352b1e5ed65b169b0e">
         <source>%s modules left to check.</source>
         <target>%s modules left to check.</target>
-        <note>classes/Task/Update/UpdateModules.php:122</note>
+        <note>classes/Task/Update/UpdateModules.php:125</note>
       </trans-unit>
       <trans-unit id="d47b7d2553af843c2c037185c0279268">
         <source>All modules have been updated.</source>
         <target>All modules have been updated.</target>
-        <note>classes/Task/Update/UpdateModules.php:127</note>
+        <note>classes/Task/Update/UpdateModules.php:130</note>
       </trans-unit>
       <trans-unit id="5775d9e6d353c11bc7c6fe21776d3b2c">
         <source>%s modules will be updated.</source>
         <target>%s modules will be updated.</target>
-        <note>classes/Task/Update/UpdateModules.php:155</note>
+        <note>classes/Task/Update/UpdateModules.php:158</note>
       </trans-unit>
       <trans-unit id="57d362fe2965e2071229eeaf44ae1f5b">
         <source>Temporary files directory has been emptied</source>
