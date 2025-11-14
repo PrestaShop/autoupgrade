@@ -81,7 +81,7 @@ test.describe('BO - Catalog - Products : Filter the products table by ID, Name, 
     });
 
     test('should go to \'Advanced Parameters > New & Experimental Features\' page', async () => {
-      if (semver.gte(psVersion, '8.1.0') && isProductPageV1) {
+      if (semver.gte(psVersion, '8.1.0') && semver.lt(psVersion, '9.0.0') && isProductPageV1) {
         await boDashboardPage.goToSubMenu(
           page,
           boDashboardPage.advancedParametersLink,
@@ -97,7 +97,7 @@ test.describe('BO - Catalog - Products : Filter the products table by ID, Name, 
     });
 
     test('should enable product page V2', async () => {
-      if (semver.gte(psVersion, '8.1.0') && isProductPageV1) {
+      if (semver.gte(psVersion, '8.1.0') && semver.lt(psVersion, '9.0.0') && isProductPageV1) {
         const successMessage = await boFeatureFlagPage.setFeatureFlag(
           page, boFeatureFlagPage.featureFlagProductPageV2, true);
         await expect(successMessage).toContain(boFeatureFlagPage.successfulUpdateMessage);
@@ -107,7 +107,7 @@ test.describe('BO - Catalog - Products : Filter the products table by ID, Name, 
     });
 
     test('should go back to \'Catalog > Products\' page', async () => {
-      if (semver.gte(psVersion, '8.1.0') && isProductPageV1) {
+      if (semver.gte(psVersion, '8.1.0') && semver.lt(psVersion, '9.0.0') && isProductPageV1) {
         await boDashboardPage.goToSubMenu(
           page,
           boDashboardPage.catalogParentLink,
