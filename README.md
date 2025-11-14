@@ -173,6 +173,18 @@ You can see all available parameters and options directly from the console by us
 
 For more information on using commands, please refer to the [PrestaShop developer documentation](https://devdocs.prestashop-project.org/8/basics/keeping-up-to-date/upgrade-module/upgrade-cli/#rollback-cli)
 
+## Check Modules Compatibility
+
+A command is available to verify module compatibility and detect available updates before performing a store update.
+
+Run the command from the root directory of the module:
+
+```
+php bin/console update:check-modules <your-admin-dir>
+```
+
+This command helps you review module compatibility before launching an update, giving you clearer visibility on potential issues or available updates.
+
 ## Channels
 
 There are 3 channels available for an update:
@@ -200,6 +212,8 @@ impact.
 | `backup:create`                             | `PS_AUTOUP_KEEP_IMAGES`                       | `--include-images`             | `true` (default), `false`, `'true'`, `'false'`, `'1'`, `'0'`, `1`, `0`, `'on'`, `'off'` | If enabled, retains all images in the backup. This operation can take a long time depending on the storage of your images                     |
 | `backup:restore`                            | no option available                           | `--backup`                     | Valid file name                                                                         | Specify the backup name to restore. The allowed values can be found with backup:list command)                                                 |
 | `backup:delete`                             | no option available                           | `--backup`                     | Valid file name                                                                         | Specify the backup name to delete. The allowed values can be found with backup:list command)                                                  |
+| `update:check-modules`                      | no option available                           | `--channel`                    | `online`, `online_recommended` (default), `local`                                       | Selects the update channel for module compatibility checks. The `local` channel requires specific files to be placed in the download folder.  |
+| `update:check-modules`                      | no option available                           | `--zip`                        | Valid file name                                                                         | Sets the ZIP archive in local mode for module checking.                                                                                       |
 |                                             |                                               |                                |                                                                                         |                                                                                                                                               |
 
 ### Back Office Environment Variables

@@ -42,6 +42,7 @@ use PrestaShop\Module\AutoUpgrade\Services\DistributionApiService;
 use PrestaShop\Module\AutoUpgrade\Services\DownloadService;
 use PrestaShop\Module\AutoUpgrade\Services\LocalVersionFilesService;
 use PrestaShop\Module\AutoUpgrade\Services\LogsService;
+use PrestaShop\Module\AutoUpgrade\Services\MarketplaceService;
 use PrestaShop\Module\AutoUpgrade\Services\PhpVersionResolverService;
 use PrestaShop\Module\AutoUpgrade\Services\PrestashopVersionService;
 use PrestaShop\Module\AutoUpgrade\Services\UpdateNotificationService;
@@ -247,6 +248,9 @@ class UpgradeContainer
 
     /** @var DownloadService */
     private $downloadService;
+
+    /** @var MarketplaceService */
+    private $marketplaceService;
 
     /** @var UrlGenerator */
     private $urlGenerator;
@@ -1019,6 +1023,18 @@ class UpgradeContainer
         }
 
         return $this->downloadService = new DownloadService($this->getTranslator(), $this->getLogger());
+    }
+
+    /**
+     * @return MarketplaceService
+     */
+    public function getMarketplaceService(): MarketplaceService
+    {
+        if (null !== $this->marketplaceService) {
+            return $this->marketplaceService;
+        }
+
+        return $this->marketplaceService = new MarketplaceService($this->getTranslator());
     }
 
     /**

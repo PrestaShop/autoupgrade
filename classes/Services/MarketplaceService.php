@@ -21,63 +21,42 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Services;
 
-use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\MarketplaceModule;
-use PrestaShop\Module\AutoUpgrade\Xml\FileLoader;
+use PrestaShop\Module\AutoUpgrade\Exceptions\MarketplaceApiException;
+use PrestaShop\Module\AutoUpgrade\Models\Module\Marketplace\Module;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 
 class MarketplaceService
 {
+    /** @var Translator */
+    private $translator;
+
     const ADDONS_API_URL = 'https://api.addons.prestashop.com';
 
-    /** @var FileLoader */
-    private $fileLoader;
-    /** @var string */
-    private $prestashopRootFolder;
-
-    public function __construct(FileLoader $fileLoader, string $prestashopRootFolder)
+    /**
+     * @param Translator $translator
+     */
+    public function __construct(Translator $translator)
     {
-        $this->prestashopRootFolder = $prestashopRootFolder;
-        $this->fileLoader = $fileLoader;
+        $this->translator = $translator;
     }
 
     /**
-     * @throws DistributionApiException
-     *
-     * @param string $endPoint
-     *
-     * @return MarketplaceModule[]|null
+     * @return Module|null
      */
-    public function listModule(string $prestashopVersion)
+    public function getModuleDetail(string $module)
     {
-         $postData = http_build_query([
-            'action' => 'native',
-            'iso_code' => 'all',
-            'method' => 'listing',
-            'version' => $prestashopVersion,
-        ]);
+        $response = @file_get_contents(self::ADDONS_API_URL . '/v2/products/' . $module);
 
-        $xml = $this->fileLoader->getXmlFile(
-            $this->prestashopRootFolder . '/config/xml/' . $prestashopVersion . '_modules_native_addons.xml',
-            self::ADDONS_API_URL . '/?' . $postData
-        );
-
-        if ($xml === false) {
-            return;
+        if (!$response) {
+            throw new MarketplaceApiException($this->translator->trans('Error when retrieving data from Distribution API'), MarketplaceApiException::API_NOT_CALLABLE_CODE);
         }
 
-        $modules = [];
+        $data = json_decode($response, true);
 
-        foreach ($xml as $moduleInXml) {
-            $id = (int) $moduleInXml->id;
-            $modules[$id] = new MarketplaceModule(
-                $id,
-                (string) $moduleInXml->name,
-                (string) $moduleInXml->compatibility->from,
-                (string) $moduleInXml->compatibility->to,
-                (string) $moduleInXml->version,
-            );
+        if (!$data || !is_array($data)) {
+            return null;
         }
 
-        return $modules;
+        return Module::fromArray($data);
     }
 }

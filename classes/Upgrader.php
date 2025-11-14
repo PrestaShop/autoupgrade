@@ -178,6 +178,20 @@ class Upgrader
     }
 
     /**
+     * @throws UpgradeException
+     */
+    public function getOnlineDestinationVersionForChannel(string $channel): string
+    {
+        if ($channel === UpgradeConfiguration::CHANNEL_ONLINE) {
+            return $this->getOnlineMaxDestinationRelease()->getVersion();
+        } elseif ($channel === UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED) {
+            return $this->getOnlineRecommendedDestinationRelease()->getVersion();
+        }
+
+        throw new UpgradeException(sprintf('Channel accepted: %s, %s', UpgradeConfiguration::CHANNEL_ONLINE, UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED));
+    }
+
+    /**
      * @throws DistributionApiException
      * @throws UpgradeException
      */
