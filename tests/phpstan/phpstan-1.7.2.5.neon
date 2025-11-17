@@ -26,6 +26,7 @@ parameters:
 		- '#Instantiated class AdminKernel not found\.#'
 		- "#^Parameter \\#1 \\$callback of function array_map expects \\(callable\\(int\\)\\: mixed\\)\\|null, 'add_quotes' given\\.$#"
 		- '#Parameter \$params of method Autoupgrade::hookDisplayBackOfficeEmployeeMenu\(\) has invalid type PrestaShop\\PrestaShop\\Core\\Action\\ActionsBarButtonsCollection.#'
+		- '#Parameter \#1 \$kernel of class Symfony\\Bundle\\FrameworkBundle\\Console\\Application constructor expects Symfony\\Component\\HttpKernel\\KernelInterface, AdminKernel\|AppKernel given.$#'
 		-
 			identifier: booleanAnd.rightAlwaysTrue
 			path: ./../../classes/UpgradeSelfCheck.php
