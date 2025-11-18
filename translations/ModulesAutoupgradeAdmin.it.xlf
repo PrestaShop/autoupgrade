@@ -1336,7 +1336,7 @@
       </trans-unit>
       <trans-unit id="ec1cf222806c00ea71fb3800dd34d039" approved="yes">
         <source>Current PHP version: %currentPhpVersion%</source>
-        <target state="final">Versione attuale di PrestaShop: %currentPhpVersion%</target>
+        <target state="final">Versione utilizzata di PHP: %currentPhpVersion%</target>
         <note>views/templates/steps/version-choice.html.twig:95</note>
       </trans-unit>
       <trans-unit id="d4399327e9bb1d9fb589b58332f07d48" approved="yes">
