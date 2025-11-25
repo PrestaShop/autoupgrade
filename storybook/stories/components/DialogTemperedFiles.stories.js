@@ -51,6 +51,8 @@ export const TemperedFiles = {
       "adminProjetX/themes/new-theme/public/meta.bundle.js",
       "adminProjetX/themes/new-theme/public/module.bundle.js",
     ],
+    container_id: 'tempered_files_container',
+    content_action: '#',
   },
   play: async () => {
     const dialog = document.querySelector(".dialog");

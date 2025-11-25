@@ -37,6 +37,7 @@ export const Local = {
     releaseNote: "",
     form_options: {
       online_value: false,
+      online_recommended_value: false,
       local_value: false,
     },
     form_fields: {
@@ -53,10 +54,11 @@ export const Local = {
       zip: ["archive1.zip", "archive2.zip", "archive3.zip"],
       xml: ["archive1.xml", "archive2.xml", "archive3.xml"],
     },
-    local_requirements: {
+    requirements: {
       requirements_ok: true,
       errors: [],
       warnings: [],
     },
+    recommended: true,
   },
 };

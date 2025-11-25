@@ -24,7 +24,7 @@ export default {
   title: "Components/Radio card",
 };
 
-export const Online = {
+export const OnlineRecommended = {
   args: {
     updateAssistantDocs:
       "https://devdocs.prestashop-project.org/8/basics/keeping-up-to-date/use-autoupgrade-module/",
@@ -32,7 +32,6 @@ export const Online = {
     disabledMessage: "",
     form_options: {
       online_value: false,
-      online_recommended_value: false,
       local_value: false,
     },
     form_fields: {
@@ -44,12 +43,12 @@ export const Online = {
       channel: "online",
     },
     next_release: {
-      badge_label: "Major version",
-      badge_status: "major",
+      badge_label: "Minor version",
+      badge_status: "minor",
       release_note: "https://github.com/PrestaShop/autoupgrade",
-      version: "9.0.0",
-      recommended: false,
-      message: 'The maximum version of PrestaShop to which you can update your store, based on its PHP version.',
+      version: "8.2.3",
+      recommended: true,
+      message: 'The recommended version of PrestaShop to which you can update your store, based on its PHP version.',
     },
     next_releases: {
       online: {
