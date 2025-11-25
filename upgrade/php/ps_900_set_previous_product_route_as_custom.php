@@ -28,10 +28,8 @@
  * If the route was customized, no need to do anything. We don't change anything for
  * multi shop either since it will be used it the merchant has already changed them.
  */
-function add_product_routes()
+function ps_900_set_previous_product_route_as_custom()
 {
-    Configuration::loadConfiguration();
-
     if (!Configuration::get('PS_ROUTE_product_rule', null, 0, 0)) {
         Configuration::updateGlobalValue('PS_ROUTE_product_rule', '{category:/}{id}{-:id_product_attribute}-{rewrite}{-:ean13}.html');
     }
