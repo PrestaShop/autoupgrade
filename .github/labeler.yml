@@ -1,0 +1,3 @@
+"Migration script":
+- changed-files:
+  - any-glob-to-any-file: [upgrade/php/*, upgrade/sql/*]
