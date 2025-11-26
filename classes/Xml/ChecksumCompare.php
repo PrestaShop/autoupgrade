@@ -226,7 +226,13 @@ class ChecksumCompare
                 $fullPath = str_replace('ps_root_dir', $this->prodPath, $fullPath);
 
                 // replace default admin dir by current one
-                $fullPath = str_replace($this->prodPath . DIRECTORY_SEPARATOR . 'admin', $this->adminPath, $fullPath);
+                // Add directory separator to ensure we only match the exact admin directory
+                // and not directories like admin-api, etc. (fixes #40035)
+                $fullPath = str_replace(
+                    $this->prodPath . DIRECTORY_SEPARATOR . 'admin' . DIRECTORY_SEPARATOR,
+                    $this->adminPath . DIRECTORY_SEPARATOR,
+                    $fullPath
+                );
 
                 if (!file_exists($fullPath) && !str_contains($fullPath, 'install' . DIRECTORY_SEPARATOR)) {
                     $this->addFileDifferences($relative_path, true);

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<checksum_list>
+	<ps_root_dir version="9.0.0">
+		<dir name="admin">
+			<md5file name="index.php">283b4dff1c55cbcfb624ca5a10cb808f</md5file>
+		</dir>
+		<dir name="admin-api">
+			<md5file name="index.php">96b9bb217e71f7dfa0b0cf1704860d25</md5file>
+			<md5file name=".htaccess">0a98f8777dddfd8cd380a1f4a66ae537</md5file>
+		</dir>
+	</ps_root_dir>
+</checksum_list>

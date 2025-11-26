@@ -102,4 +102,41 @@ class ChecksumCompareTest extends TestCase
 
         $this->assertEquals($expected, $tamperedFiles);
     }
+
+    /**
+     * Test that admin-api files are not incorrectly reported as missing
+     * when admin folder has been renamed (bug from issue #40035)
+     */
+    public function testAdminApiFilesNotReportedAsMissingWithCustomAdminFolder()
+    {
+        $fileSystemAdapter = $this->getMockBuilder(FilesystemAdapter::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $fileLoader = $this->getMockBuilder(FileLoader::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getXmlMd5File'])
+            ->getMock();
+
+        $xmlFile = @simplexml_load_file(__DIR__ . '/../../fixtures/checksum-compare/9.0.0.xml');
+
+        $fileLoader->method('getXmlMd5File')
+            ->willReturn($xmlFile);
+
+        // Use custom admin folder name to simulate real PrestaShop setup
+        $checksumCompare = new ChecksumCompare(
+            $fileLoader,
+            $fileSystemAdapter,
+            __DIR__ . '/../../fixtures/checksum-compare/9.0.0',
+            __DIR__ . '/../../fixtures/checksum-compare/9.0.0/admin120df7jyx6dk20p2ehq'
+        );
+        $tamperedFiles = $checksumCompare->getTamperedFilesOnShop('9.0.0');
+
+        // admin-api files should NOT be reported as missing
+        // The bug was that str_replace would match "admin" in "admin-api"
+        // and create incorrect paths like "admin120df7jyx6dk20p2ehq-api"
+        $missingFiles = $tamperedFiles[ChecksumCompare::CATEGORY_CORE][ChecksumCompare::FILE_MISSING];
+        $this->assertNotContains('admin-api/index.php', $missingFiles, 'admin-api files should not be reported as missing when admin folder is renamed');
+        $this->assertNotContains('admin-api/.htaccess', $missingFiles, 'admin-api files should not be reported as missing when admin folder is renamed');
+    }
 }
