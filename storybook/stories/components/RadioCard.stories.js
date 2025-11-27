@@ -58,6 +58,7 @@ export const Default = {
       update_value: "update",
       restore_value: "restore",
     },
+    recommended: false,
   },
 };
 
