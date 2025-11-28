@@ -73,7 +73,7 @@ class Unzip extends AbstractTask
         if (!$res) {
             $this->next = TaskName::TASK_ERROR;
             $this->setErrorFlag();
-            $this->logger->info($this->translator->trans(
+            $this->logger->error($this->translator->trans(
                 'Unable to extract %filepath% file into %destination% folder...',
                 [
                     '%filepath%' => $filepath,
@@ -95,7 +95,7 @@ class Unzip extends AbstractTask
             $subRes = $this->container->getZipAction()->extract($newZip, $destExtract);
             if (!$subRes) {
                 $this->next = TaskName::TASK_ERROR;
-                $this->logger->info($this->translator->trans(
+                $this->logger->error($this->translator->trans(
                     'Unable to extract %filepath% file into %destination% folder...',
                     [
                         '%filepath%' => $filepath,
