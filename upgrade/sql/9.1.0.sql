@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `PREFIX_shipment_product` (
 
 ALTER TABLE `PREFIX_cart_rule_product_rule` MODIFY COLUMN `type` ENUM(
     'products', 'categories', 'attributes',
-    'manufacturers', 'suppliers', 'combinations'
+    'manufacturers', 'suppliers', 'combinations', 'features'
 ) NOT NULL;
 
 /* PHP:add_column('cart_rule_product_rule_group', 'type', 'ENUM("at_least_one_product_rule", "all_product_rules") NOT NULL DEFAULT "at_least_one_product_rule"'); */;
