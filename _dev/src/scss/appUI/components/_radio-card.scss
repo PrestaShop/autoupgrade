@@ -192,7 +192,9 @@ $e: ".radio-card";
       font-size: 0.875rem;
       line-height: 1.4;
       color: var(--#{$ua-prefix}radio-card-release-color);
-      text-decoration: none;
+      // Disable text decoration for the link to maintain v9 compatibility
+      // stylelint-disable-next-line
+      text-decoration: none !important;
       transition: border-color 0.15s;
 
       &:hover {
