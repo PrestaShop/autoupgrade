@@ -95,7 +95,8 @@ class UpdateFiles extends AbstractTask
     /**
      * upgradeThisFile.
      *
-     * @param mixed $orig The absolute path to the file from the upgrade archive
+     * @param mixed $orig The absolute path to the file in the temp extraction directory structure.
+     *                    For deleted files, this path may not physically exist.
      *
      * @throws Exception
      */
@@ -276,6 +277,7 @@ class UpdateFiles extends AbstractTask
         // Admin folder name in this deleted files list is standard /admin/.
         // We will need to change it to our own admin folder name.
         $admin_dir = trim(str_replace($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH), '', $this->container->getProperty(UpgradeContainer::PS_ADMIN_PATH)), DIRECTORY_SEPARATOR);
+        $tmpFilesPath = $this->container->getProperty(UpgradeContainer::TMP_FILES_PATH);
         foreach ($diffFileList as $k => $path) {
             if (preg_match('#autoupgrade#', $path)) {
                 unset($diffFileList[$k]);
@@ -284,6 +286,10 @@ class UpdateFiles extends AbstractTask
                 // admin even in the middle of a path, not deleting some files as a result.
                 // Also, do not use DIRECTORY_SEPARATOR, keep forward slash, because the path come from the XML standardized.
                 $diffFileList[$k] = '/' . $admin_dir . substr($path, 6);
+            }
+            // Convert relative paths to absolute paths with the same structure as files from temp extraction directory
+            if (isset($diffFileList[$k])) {
+                $diffFileList[$k] = $tmpFilesPath . $diffFileList[$k];
             }
         }
 
