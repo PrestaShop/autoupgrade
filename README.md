@@ -133,7 +133,7 @@ $ php bin/console update:start --config-file-path=[/path/to/config.json] <your-a
 
 You can see all available parameters and options directly from the console by using the `--help` option with any command.
 
-For more information on using commands, please refer to the [PrestaShop developer documentation](https://devdocs.prestashop-project.org/8/basics/keeping-up-to-date/upgrade-module/upgrade-cli/)
+For more information on using commands, please refer to the [PrestaShop developer documentation](https://devdocs.prestashop-project.org/9/basics/keeping-up-to-date/update/update-from-the-cli/)
 
 ### Configuration file
 
@@ -171,7 +171,7 @@ $ php bin/console backup:restore --backup=[backup-name] <your-admin-dir>
 
 You can see all available parameters and options directly from the console by using the `--help` option with any command.
 
-For more information on using commands, please refer to the [PrestaShop developer documentation](https://devdocs.prestashop-project.org/8/basics/keeping-up-to-date/upgrade-module/upgrade-cli/#rollback-cli)
+For more information on using commands, please refer to the [PrestaShop developer documentation](https://devdocs.prestashop-project.org/9/basics/keeping-up-to-date/update/update-from-the-cli/#backuprestore-command)
 
 ## Channels
 
@@ -363,7 +363,7 @@ This module is released under the [Academic Free License 3.0][AFL-3.0]
 [report-issue]: https://github.com/PrestaShop/PrestaShop/issues/new/choose
 [prestashop]: https://www.prestashop-project.org/
 [prestashop-privacy]: https://www.prestashop-project.org/data-transparency/
-[contribution-guidelines]: https://devdocs.prestashop-project.org/8/contribute/contribution-guidelines/project-modules/
+[contribution-guidelines]: https://devdocs.prestashop-project.org/9/contribute/contribution-guidelines/project-modules/
 [AFL-3.0]: https://opensource.org/licenses/AFL-3.0
-[doc]: https://devdocs.prestashop-project.org/8/basics/keeping-up-to-date/upgrade-module/
+[doc]: https://devdocs.prestashop-project.org/9/basics/keeping-up-to-date/update/
 [release-process]: https://www.prestashop-project.org/maintainers-guide/processes/release/autoupgrade/
