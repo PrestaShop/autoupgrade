@@ -1,6 +1,10 @@
 SET SESSION sql_mode='';
 SET NAMES 'utf8mb4';
 
+/* Persist current product routes to avoid SEO issues after changing default routes in 9.0.0 */
+/* See https://github.com/PrestaShop/PrestaShop/pull/37467 */
+/* PHP:ps_900_set_previous_product_route_as_custom(); */;
+
 /* Add a file separator input to the sql manager settings - https://github.com/PrestaShop/PrestaShop/pull/35843 */
 /* Allow configuring maximum word difference - https://github.com/PrestaShop/PrestaShop/pull/37261 */
 /* PHP:add_configuration_if_not_exists('PS_DEBUG_COOKIE_NAME', ''); */;

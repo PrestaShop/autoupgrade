@@ -100,6 +100,10 @@ function deactivate_custom_modules80($moduleRepository): bool
 {
     $nonNativeModulesList = $moduleRepository->getNonNativeModules();
 
+    if (empty($nonNativeModulesList)) {
+        return true;
+    }
+
     $return = DbWrapper::execute(
         'UPDATE `' . _DB_PREFIX_ . 'module` SET `active` = 0 WHERE `name` IN (' . implode(',', array_map('add_quotes', $nonNativeModulesList)) . ')'
     );
