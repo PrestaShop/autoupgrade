@@ -126,10 +126,6 @@ class ModuleAdapter
             if (is_file($dir . $moduleInstalled['name'])) {
                 continue;
             }
-            // We don't have a file modules/mymodule/config.xml
-            if (!is_file($dir . $moduleInstalled['name'] . DIRECTORY_SEPARATOR . 'config.xml')) {
-                continue;
-            }
             // We don't have a file modules/mymodule/mymodule.php
             if (!is_file($dir . $moduleInstalled['name'] . DIRECTORY_SEPARATOR . $moduleInstalled['name'] . '.php')) {
                 continue;
