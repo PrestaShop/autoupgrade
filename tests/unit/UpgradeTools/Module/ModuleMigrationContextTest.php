@@ -26,11 +26,11 @@ class ModuleMigrationContextTest extends TestCase
     protected function setUp(): void
     {
         if (!defined('_PS_MODULE_DIR_')) {
-            define('_PS_MODULE_DIR_', __DIR__ . '/../../../fixtures/');
+            define('_PS_MODULE_DIR_', __DIR__ . '/../../../fixtures/modules/');
         }
 
-        require_once _PS_MODULE_DIR_ . 'Module.php';
-        require_once _PS_MODULE_DIR_ . 'modules/mymodule/mymodule.php';
+        require_once _PS_MODULE_DIR_ . '/../Module.php';
+        require_once _PS_MODULE_DIR_ . '/mymodule/mymodule.php';
     }
 
     public function testConstruct()
