@@ -210,15 +210,15 @@ class PhpVersionResolverServiceTest extends TestCase
                 ),
             ]],
             [80100, [
-                'max' => new PrestashopRelease('9.0.1',
+                'max' => new PrestashopRelease('9.0.2',
                     'stable',
                     'classic',
                     '8.4',
                     '8.1',
-                    'https://api.prestashop-project.org/assets/prestashop-classic/9.0.1-1.0/prestashop.zip',
-                    'https://api.prestashop-project.org/assets/prestashop-classic/9.0.1-1.0/prestashop.xml',
+                    'https://api.prestashop-project.org/assets/prestashop-classic/9.0.2-1.0/prestashop.zip',
+                    'https://api.prestashop-project.org/assets/prestashop-classic/9.0.2-1.0/prestashop.xml',
                     'd16ad2da1f7aa07958bc678a4036632f',
-                    'https://build.prestashop-project.org/news/2025/prestashop-9-0-1-available/',
+                    'https://build.prestashop-project.org/news/2025/prestashop-9-0-2-available/',
                     '1.0'
                 ),
                 'recommended' => new PrestashopRelease('8.2.1',
@@ -318,26 +318,26 @@ class PhpVersionResolverServiceTest extends TestCase
             ]));
 
         $this->assertEquals([
-                'max' => new PrestashopRelease('9.0.1',
+                'max' => new PrestashopRelease('9.0.2',
                     'stable',
                     'classic',
                     '8.4',
                     '8.1',
-                    'https://api.prestashop-project.org/assets/prestashop-classic/9.0.1-1.0/prestashop.zip',
-                    'https://api.prestashop-project.org/assets/prestashop-classic/9.0.1-1.0/prestashop.xml',
+                    'https://api.prestashop-project.org/assets/prestashop-classic/9.0.2-1.0/prestashop.zip',
+                    'https://api.prestashop-project.org/assets/prestashop-classic/9.0.2-1.0/prestashop.xml',
                     'd16ad2da1f7aa07958bc678a4036632f',
-                    'https://build.prestashop-project.org/news/2025/prestashop-9-0-1-available/',
+                    'https://build.prestashop-project.org/news/2025/prestashop-9-0-2-available/',
                     '1.0'
                 ),
-                'recommended' => new PrestashopRelease('9.0.1',
+                'recommended' => new PrestashopRelease('9.0.2',
                     'stable',
                     'classic',
                     '8.4',
                     '8.1',
-                    'https://api.prestashop-project.org/assets/prestashop-classic/9.0.1-1.0/prestashop.zip',
-                    'https://api.prestashop-project.org/assets/prestashop-classic/9.0.1-1.0/prestashop.xml',
+                    'https://api.prestashop-project.org/assets/prestashop-classic/9.0.2-1.0/prestashop.zip',
+                    'https://api.prestashop-project.org/assets/prestashop-classic/9.0.2-1.0/prestashop.xml',
                     'd16ad2da1f7aa07958bc678a4036632f',
-                    'https://build.prestashop-project.org/news/2025/prestashop-9-0-1-available/',
+                    'https://build.prestashop-project.org/news/2025/prestashop-9-0-2-available/',
                     '1.0'
                 ),
             ], $this->phpVersionResolverService->getPrestashopDestinationReleases(80100));
@@ -350,7 +350,7 @@ class PhpVersionResolverServiceTest extends TestCase
      */
     public function testValidGetPrestashopDestinationReleaseForv901()
     {
-        $this->phpVersionResolverService = new PhpVersionResolverService($this->distributionApiService, '9.0.1');
+        $this->phpVersionResolverService = new PhpVersionResolverService($this->distributionApiService, '9.0.2');
 
         $this->distributionApiService->method('getApiEndpoint')
             ->will($this->returnValueMap([
@@ -377,15 +377,15 @@ class PhpVersionResolverServiceTest extends TestCase
             ]));
 
         $this->assertEquals([
-                'max' => new PrestashopRelease('9.0.1',
+                'max' => new PrestashopRelease('9.0.2',
                     'stable',
                     'classic',
                     '8.4',
                     '8.1',
-                    'https://api.prestashop-project.org/assets/prestashop-classic/9.0.1-1.0/prestashop.zip',
-                    'https://api.prestashop-project.org/assets/prestashop-classic/9.0.1-1.0/prestashop.xml',
+                    'https://api.prestashop-project.org/assets/prestashop-classic/9.0.2-1.0/prestashop.zip',
+                    'https://api.prestashop-project.org/assets/prestashop-classic/9.0.2-1.0/prestashop.xml',
                     'd16ad2da1f7aa07958bc678a4036632f',
-                    'https://build.prestashop-project.org/news/2025/prestashop-9-0-1-available/',
+                    'https://build.prestashop-project.org/news/2025/prestashop-9-0-2-available/',
                     '1.0'
                 ),
                 'recommended' => new PrestashopRelease('8.2.1',

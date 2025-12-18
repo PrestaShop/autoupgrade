@@ -48,6 +48,18 @@
     "release_notes_url": "https:\/\/build.prestashop-project.org\/news\/2025\/prestashop-9-1-0-available\/"
   },
   {
+    "version": "9.0.2",
+    "distribution": "classic",
+    "distribution_version": "1.0",
+    "php_max_version": "8.4",
+    "php_min_version": "8.1",
+    "zip_download_url": "https:\/\/api.prestashop-project.org\/assets\/prestashop-classic\/9.0.2-1.0\/prestashop.zip",
+    "zip_md5": "d16ad2da1f7aa07958bc678a4036632f",
+    "xml_download_url": "https:\/\/api.prestashop-project.org\/assets\/prestashop-classic\/9.0.2-1.0\/prestashop.xml",
+    "stability": "stable",
+    "release_notes_url": "https:\/\/build.prestashop-project.org\/news\/2025\/prestashop-9-0-2-available\/"
+  },
+  {
     "version": "9.0.1",
     "distribution": "classic",
     "distribution_version": "1.0",

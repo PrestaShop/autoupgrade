@@ -176,7 +176,7 @@ class PhpVersionResolverService
             $updateType = VersionUtils::getUpdateType($this->currentPsVersion, $releaseItem->getVersion());
             $isMinorOrPatchUpdate = $updateType === 'minor' || $updateType === 'patch';
 
-            if ($isMinorOrPatchUpdate) {
+            if ($isMinorOrPatchUpdate && ($fallbackRecommendedRelease === null || version_compare($releaseItem->getVersion(), $fallbackRecommendedRelease->getVersion(), '>'))) {
                 $fallbackRecommendedRelease = $releaseItem;
             }
         }
