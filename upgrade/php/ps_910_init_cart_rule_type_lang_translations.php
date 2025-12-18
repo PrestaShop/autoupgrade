@@ -72,12 +72,12 @@ function ps_910_init_cart_rule_type_lang_translations()
             $description = pSQL($translator->trans($trans['description'], [], $domain, $lang['locale']));
 
             $updateQuery = sprintf(
-                'UPDATE `%scart_rule_type_lang` SET `name` = "%s", `description` = "%s" WHERE `id_cart_rule_type` = "%s" AND `id_lang` = "%s"',
+                'REPLACE INTO `%scart_rule_type_lang` VALUES (%s, %s, "%s", "%s")',
                 _DB_PREFIX_,
-                $name,
-                $description,
                 $id_cart_rule_type,
-                $lang['id_lang']
+                $lang['id_lang'],
+                $name,
+                $description
             );
             DbWrapper::execute($updateQuery);
         }
