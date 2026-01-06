@@ -29,6 +29,9 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * Calling it from the module/autoupgrade folder will have unwanted consequences on the upgrade and your shop.
  */
+ini_set('display_errors', '0');
+ob_start();
+
 require_once realpath(dirname(__FILE__) . '/../../modules/autoupgrade') . '/ajax-upgradetabconfig.php';
 
 autoupgrade_require_autoload(dirname(__FILE__));
@@ -56,9 +59,21 @@ if (!empty($action)) {
     $controller = new SingleTask($container);
     $controller->setOptions(['action' => $action]);
     $controller->run();
+
+    // Clear previous output to ensure the response is a valid JSON
+    if (ob_get_level() && ob_get_length() > 0) {
+        ob_clean();
+    }
+
     echo $controller->getJsonResponse();
 } else {
     $response = (new Router($container))->handle($request);
+
+    // Clear previous output to ensure the response is a valid JSON
+    if (ob_get_level() && ob_get_length() > 0) {
+        ob_clean();
+    }
+
     if ($response instanceof \Symfony\Component\HttpFoundation\Response) {
         $response->send();
     } else {

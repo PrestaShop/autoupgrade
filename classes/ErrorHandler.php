@@ -87,6 +87,9 @@ class ErrorHandler
                 break;
             case E_NOTICE:
             case E_USER_NOTICE:
+            case E_DEPRECATED:
+            case E_USER_DEPRECATED:
+            case E_STRICT:
                 $type = Logger::NOTICE;
                 break;
             default:
