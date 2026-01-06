@@ -23,12 +23,13 @@ use PrestaShop\Module\AutoUpgrade\Router\Router;
 use PrestaShop\Module\AutoUpgrade\Task\Runner\SingleTask;
 use Symfony\Component\HttpFoundation\Request;
 
-/**
+/*
  * This file is the entrypoint for all ajax requests during a upgrade, rollback or configuration.
  * In order to get the admin context, this file is copied to the admin/autoupgrade folder of your shop when the module configuration is reached.
  *
  * Calling it from the module/autoupgrade folder will have unwanted consequences on the upgrade and your shop.
  */
+
 ini_set('display_errors', '0');
 ob_start();
 
