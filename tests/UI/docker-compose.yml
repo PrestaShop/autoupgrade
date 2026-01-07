@@ -22,6 +22,7 @@ services:
       - DB_PASSWD=prestashop
       - DB_NAME=prestashop
       - DB_PREFIX=ps_
+      - PS_URL_TRACKING=0
     volumes:
       - type: bind
         # Local Path

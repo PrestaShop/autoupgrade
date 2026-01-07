@@ -153,7 +153,9 @@ class Analytics
 
     private function hasOptedOut(): bool
     {
-        return isset($_SERVER[self::URL_TRACKING_ENV_NAME])
-            && ((bool) $_SERVER[self::URL_TRACKING_ENV_NAME] === false || $_SERVER[self::URL_TRACKING_ENV_NAME] === 'false');
+        $trackingEnabled = getenv(self::URL_TRACKING_ENV_NAME);
+
+        return $trackingEnabled !== false
+            && ((bool) $trackingEnabled === false || $trackingEnabled === 'false');
     }
 }
