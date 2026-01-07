@@ -29,8 +29,9 @@ class Environment
      * Gets the value of an environment variable.
      * It checks for the variable in $_SERVER first, then falls back to getenv().
      *
-     * @param string $envName The name of the environment variable.
-     * @return mixed|null The value of the environment variable, or null if not found.
+     * @param string $envName the name of the environment variable
+     *
+     * @return mixed|null the value of the environment variable, or null if not found
      */
     public function getEnvValue(string $envName)
     {
@@ -47,7 +48,7 @@ class Environment
     }
 
     /**
-     * @return bool True if the user has opted out, false otherwise.
+     * @return bool true if the user has opted out, false otherwise
      */
     public function hasOptedOutAnalytics(): bool
     {
