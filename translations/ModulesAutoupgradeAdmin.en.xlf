@@ -700,32 +700,32 @@
       <trans-unit id="2b4da2b27a96bf23f0de18c59e9b1afe">
         <source>Module %module% is up-to-date.</source>
         <target>Module %module% is up-to-date.</target>
-        <note>classes/Task/Update/UpdateModules.php:77</note>
+        <note>classes/Task/Update/UpdateModules.php:78</note>
       </trans-unit>
       <trans-unit id="798df2395d946f1f5b75ef9f6d8d8b1e">
         <source>Retrieving the module instance of %s failed.</source>
         <target>Retrieving the module instance of %s failed.</target>
-        <note>classes/Task/Update/UpdateModules.php:88</note>
+        <note>classes/Task/Update/UpdateModules.php:89</note>
       </trans-unit>
       <trans-unit id="a5db680b38097b4289b24d4925b8368e">
         <source>Module %s does not need to be migrated. Module is up to date.</source>
         <target>Module %s does not need to be migrated. Module is up to date.</target>
-        <note>classes/Task/Update/UpdateModules.php:94</note>
+        <note>classes/Task/Update/UpdateModules.php:95</note>
       </trans-unit>
       <trans-unit id="cf131dfbf6e4bd352b1e5ed65b169b0e">
         <source>%s modules left to check.</source>
         <target>%s modules left to check.</target>
-        <note>classes/Task/Update/UpdateModules.php:125</note>
+        <note>classes/Task/Update/UpdateModules.php:126</note>
       </trans-unit>
       <trans-unit id="d47b7d2553af843c2c037185c0279268">
         <source>All modules have been updated.</source>
         <target>All modules have been updated.</target>
-        <note>classes/Task/Update/UpdateModules.php:130</note>
+        <note>classes/Task/Update/UpdateModules.php:134</note>
       </trans-unit>
       <trans-unit id="5775d9e6d353c11bc7c6fe21776d3b2c">
         <source>%s modules will be updated.</source>
         <target>%s modules will be updated.</target>
-        <note>classes/Task/Update/UpdateModules.php:158</note>
+        <note>classes/Task/Update/UpdateModules.php:162</note>
       </trans-unit>
       <trans-unit id="57d362fe2965e2071229eeaf44ae1f5b">
         <source>Temporary files directory has been emptied</source>
@@ -775,32 +775,32 @@
       <trans-unit id="c5ada796f937732385b6594d7364b69a">
         <source>Updating database data and structure</source>
         <target>Updating database data and structure</target>
-        <note>classes/Task/Update/UpdateDatabase.php:127</note>
-      </trans-unit>
-      <trans-unit id="956ef5a4e2df09d2f7415c9f1284d17c">
-        <source>Checking version validity</source>
-        <target>Checking version validity</target>
-        <note>classes/Task/Update/UpdateDatabase.php:135</note>
+        <note>classes/Task/Update/UpdateDatabase.php:126</note>
       </trans-unit>
       <trans-unit id="de4026a3fc9813c32f3a247370c29f54">
         <source>Disabling all non native modules</source>
         <target>Disabling all non native modules</target>
-        <note>classes/Task/Update/UpdateDatabase.php:145</note>
+        <note>classes/Task/Update/UpdateDatabase.php:133</note>
       </trans-unit>
       <trans-unit id="ffb63e7ff1e05430b4a292ac8651f1e4">
         <source>Keeping non native modules enabled</source>
         <target>Keeping non native modules enabled</target>
-        <note>classes/Task/Update/UpdateDatabase.php:148</note>
+        <note>classes/Task/Update/UpdateDatabase.php:136</note>
+      </trans-unit>
+      <trans-unit id="956ef5a4e2df09d2f7415c9f1284d17c">
+        <source>Checking version validity</source>
+        <target>Checking version validity</target>
+        <note>classes/Task/Update/UpdateDatabase.php:143</note>
       </trans-unit>
       <trans-unit id="a6f9db17fdafdd976f34333d8a217531">
         <source>Version to install is too old. Current version: %oldversion%. Version to install: %newversion%.</source>
         <target>Version to install is too old. Current version: %oldversion%. Version to install: %newversion%.</target>
-        <note>classes/Task/Update/UpdateDatabase.php:165</note>
+        <note>classes/Task/Update/UpdateDatabase.php:166</note>
       </trans-unit>
       <trans-unit id="37ce0f29c7377c827e7247fe5645a782">
         <source>You already have the %s version.</source>
         <target>You already have the %s version.</target>
-        <note>classes/Task/Update/UpdateDatabase.php:167</note>
+        <note>classes/Task/Update/UpdateDatabase.php:168</note>
       </trans-unit>
       <trans-unit id="435d516735dbf7f622c7d14585f66840">
         <source>Action %s skipped</source>
@@ -1015,12 +1015,12 @@
       <trans-unit id="2f6767f7a35a93e9462d6ec6a237fd0d">
         <source>%dir% does not exist or is not a directory.</source>
         <target>%dir% does not exist or is not a directory.</target>
-        <note>classes/UpgradeTools/Module/ModuleAdapter.php:116</note>
+        <note>classes/UpgradeTools/Module/ModuleAdapter.php:117</note>
       </trans-unit>
       <trans-unit id="0ffc32ecace92b6d10bd5247b54fff15">
         <source>%s does not exist or is not a directory.</source>
         <target>%s does not exist or is not a directory.</target>
-        <note>classes/UpgradeTools/Module/ModuleAdapter.php:116</note>
+        <note>classes/UpgradeTools/Module/ModuleAdapter.php:117</note>
       </trans-unit>
       <trans-unit id="ffecf7f010dec7170bcc2749d49c41ff">
         <source>No version present in database for module %s, all files for update will be applied.</source>
