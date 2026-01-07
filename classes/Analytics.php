@@ -21,6 +21,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade;
 
+use PrestaShop\Module\AutoUpgrade\Environment;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\State\RestoreState;
 use PrestaShop\Module\AutoUpgrade\State\UpdateState;
@@ -73,7 +74,7 @@ class Analytics
         $this->anonymousId = $anonymousUserId;
         $this->properties = $options['properties'] ?? [];
 
-        if ($this->hasOptedOut()) {
+        if ((new Environment())->hasOptedOutAnalytics()) {
             return;
         }
 
@@ -86,7 +87,7 @@ class Analytics
      */
     public function track(string $event, $propertiesType = self::WITH_COMMON_PROPERTIES): void
     {
-        if ($this->hasOptedOut()) {
+        if ((new Environment())->hasOptedOutAnalytics()) {
             return;
         }
 
@@ -149,13 +150,5 @@ class Analytics
                 ]
             ),
         ];
-    }
-
-    private function hasOptedOut(): bool
-    {
-        $trackingEnabled = getenv(self::URL_TRACKING_ENV_NAME);
-
-        return $trackingEnabled !== false
-            && ((bool) $trackingEnabled === false || $trackingEnabled === 'false');
     }
 }
