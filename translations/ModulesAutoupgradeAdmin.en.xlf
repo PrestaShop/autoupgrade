@@ -575,92 +575,92 @@
       <trans-unit id="9a2f2cf276ea9f79b31a815897c0e3e6">
         <source>%s ignored</source>
         <target>%s ignored</target>
-        <note>classes/Task/Update/UpdateFiles.php:116</note>
+        <note>classes/Task/Update/UpdateFiles.php:117</note>
       </trans-unit>
       <trans-unit id="806d4247967402b8667340da2916cf4c">
         <source>Created link %s to %s.</source>
         <target>Created link %s to %s.</target>
-        <note>classes/Task/Update/UpdateFiles.php:134</note>
+        <note>classes/Task/Update/UpdateFiles.php:135</note>
       </trans-unit>
       <trans-unit id="db72a2f164bdc2d7b668e34e594852cb">
         <source>Error while creating link %s: %s</source>
         <target>Error while creating link %s: %s</target>
-        <note>classes/Task/Update/UpdateFiles.php:139</note>
+        <note>classes/Task/Update/UpdateFiles.php:140</note>
       </trans-unit>
       <trans-unit id="ba4bea05b16daf8e0652a6048cf741c6">
         <source>File %1$s has been deleted.</source>
         <target>File %1$s has been deleted.</target>
-        <note>classes/Task/Update/UpdateFiles.php:147</note>
+        <note>classes/Task/Update/UpdateFiles.php:148</note>
       </trans-unit>
       <trans-unit id="cbfafdaa2e7968a86bd6a437027edfea">
         <source>Directory %1$s created.</source>
         <target>Directory %1$s created.</target>
-        <note>classes/Task/Update/UpdateFiles.php:152</note>
+        <note>classes/Task/Update/UpdateFiles.php:153</note>
       </trans-unit>
       <trans-unit id="47e555d00d52a54c20b5f936ee706fc8">
         <source>Error while creating directory %s: %s.</source>
         <target>Error while creating directory %s: %s.</target>
-        <note>classes/Task/Update/UpdateFiles.php:157</note>
+        <note>classes/Task/Update/UpdateFiles.php:158</note>
       </trans-unit>
       <trans-unit id="0a6c2db1b18cb6420ad40d46db8707de">
         <source>Directory %s already exists.</source>
         <target>Directory %s already exists.</target>
-        <note>classes/Task/Update/UpdateFiles.php:162</note>
+        <note>classes/Task/Update/UpdateFiles.php:163</note>
       </trans-unit>
       <trans-unit id="e33b6cbf66a4417503eac526d8a94626">
         <source>The translation files have been merged into file %s.</source>
         <target>The translation files have been merged into file %s.</target>
-        <note>classes/Task/Update/UpdateFiles.php:171</note>
+        <note>classes/Task/Update/UpdateFiles.php:172</note>
       </trans-unit>
       <trans-unit id="7cfde7149c7a53bbbe854a0562ac0807">
         <source>The translation files have not been merged into file %filename%. Switch to copy %filename%.</source>
         <target>The translation files have not been merged into file %filename%. Switch to copy %filename%.</target>
-        <note>classes/Task/Update/UpdateFiles.php:176</note>
+        <note>classes/Task/Update/UpdateFiles.php:177</note>
       </trans-unit>
       <trans-unit id="b8db10001e04b8f947415aeb8b8fd19f">
         <source>Copied %1$s.</source>
         <target>Copied %1$s.</target>
-        <note>classes/Task/Update/UpdateFiles.php:185</note>
+        <note>classes/Task/Update/UpdateFiles.php:186</note>
       </trans-unit>
       <trans-unit id="9c65b7a1b163ef55b0e169e244090de4">
         <source>Unable to copy %s, but ignoring as source and destination appear identical.</source>
         <target>Unable to copy %s, but ignoring as source and destination appear identical.</target>
-        <note>classes/Task/Update/UpdateFiles.php:195</note>
+        <note>classes/Task/Update/UpdateFiles.php:196</note>
       </trans-unit>
       <trans-unit id="4a6c74e011e44e5fb206a6dcedfc1185">
         <source>Error while copying file %s: %s</source>
         <target>Error while copying file %s: %s</target>
-        <note>classes/Task/Update/UpdateFiles.php:201</note>
+        <note>classes/Task/Update/UpdateFiles.php:202</note>
       </trans-unit>
       <trans-unit id="20aed4fb9f6ee15bc601227bbfb85acd">
         <source>Could not assert the folder %s contains a valid PrestaShop release, exiting.</source>
         <target>Could not assert the folder %s contains a valid PrestaShop release, exiting.</target>
-        <note>classes/Task/Update/UpdateFiles.php:241</note>
+        <note>classes/Task/Update/UpdateFiles.php:242</note>
       </trans-unit>
       <trans-unit id="312d54356778124e7ad6d8c7be6ff1a0">
         <source>A file may be missing, or the release is stored in a subfolder by mistake.</source>
         <target>A file may be missing, or the release is stored in a subfolder by mistake.</target>
-        <note>classes/Task/Update/UpdateFiles.php:242</note>
+        <note>classes/Task/Update/UpdateFiles.php:243</note>
       </trans-unit>
       <trans-unit id="fa5d2fc42275582a8b7be9935084ad45">
         <source>Generate diff file list between %s and %s.</source>
         <target>Generate diff file list between %s and %s.</target>
-        <note>classes/Task/Update/UpdateFiles.php:263</note>
+        <note>classes/Task/Update/UpdateFiles.php:264</note>
       </trans-unit>
       <trans-unit id="a845839e72a2af510180c93273119199">
         <source>Unable to generate diff file list between %s and %s.</source>
         <target>Unable to generate diff file list between %s and %s.</target>
-        <note>classes/Task/Update/UpdateFiles.php:266</note>
+        <note>classes/Task/Update/UpdateFiles.php:267</note>
       </trans-unit>
       <trans-unit id="b66f7c9b911acb4711e96eb7a7605bfb">
         <source>Unable to find files to update.</source>
         <target>Unable to find files to update.</target>
-        <note>classes/Task/Update/UpdateFiles.php:305</note>
+        <note>classes/Task/Update/UpdateFiles.php:311</note>
       </trans-unit>
       <trans-unit id="ee2e293c4bce5a37e5925743d549af8e">
         <source>%s files will be updated.</source>
         <target>%s files will be updated.</target>
-        <note>classes/Task/Update/UpdateFiles.php:310</note>
+        <note>classes/Task/Update/UpdateFiles.php:316</note>
       </trans-unit>
       <trans-unit id="64d7e13ba8bcd0c4a6977cf271577a03">
         <source>Shop updated to %s, but some warnings have been found.</source>
