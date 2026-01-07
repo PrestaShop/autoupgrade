@@ -50,3 +50,28 @@ ALTER TABLE `PREFIX_cart_rule_product_rule` MODIFY COLUMN `type` ENUM(
 ) NOT NULL;
 
 /* PHP:add_column('cart_rule_product_rule_group', 'type', 'ENUM("at_least_one_product_rule", "all_product_rules") NOT NULL DEFAULT "at_least_one_product_rule"'); */;
+
+/* Auto generated hooks added for version 9.1.0 */
+INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`) VALUES
+  (NULL, 'actionModuleUpgradeAfter', '', '', '1'),
+  (NULL, 'actionModuleEnable', '', '', '1'),
+  (NULL, 'actionModuleDisable', '', '', '1'),
+  (NULL, 'actionConfigurationUpdateValueBefore', '', '', '1'),
+  (NULL, 'actionAdminDuplicateDiscountBefore', '', '', '1'),
+  (NULL, 'actionAdminDuplicateDiscountAfter', '', '', '1'),
+  (NULL, 'actionFacetedSearchSetSupportedControllers', '', '', '1'),
+  (NULL, 'actionFacetedSearchFilters', '', '', '1'),
+  (NULL, 'actionMainMenuModifier', '', '', '1'),
+  (NULL, 'actionTagFormBuilderModifier', 'Modify tag identifiable object form', 'This hook allows to modify tag identifiable object forms content by modifying form builder data or FormBuilder itself', '1'),
+  (NULL, 'actionTagFormDataProviderData', 'Provide tag identifiable object form data for update', 'This hook allows to provide tag identifiable object form data which will prefill the form in update/edition page', '1'),
+  (NULL, 'actionTagFormDataProviderDefaultData', 'Provide tag identifiable object default form data for creation', 'This hook allows to provide tag identifiable object form data which will prefill the form in creation page', '1'),
+  (NULL, 'actionBeforeUpdateTagFormHandler', 'Modify tag identifiable object data before updating it', 'This hook allows to modify tag identifiable object forms data before it was updated', '1'),
+  (NULL, 'actionAfterUpdateTagFormHandler', 'Modify tag identifiable object data after updating it', 'This hook allows to modify tag identifiable object forms data after it was updated', '1'),
+  (NULL, 'actionBeforeCreateTagFormHandler', 'Modify tag identifiable object data before creating it', 'This hook allows to modify tag identifiable object forms data before it was created', '1'),
+  (NULL, 'actionAfterCreateTagFormHandler', 'Modify tag identifiable object data after creating it', 'This hook allows to modify tag identifiable object forms data after it was created', '1'),
+  (NULL, 'actionDiscountGridDefinitionModifier', 'Modify discount grid definition', 'This hook allows to alter discount grid columns, actions and filters', '1'),
+  (NULL, 'actionDiscountGridQueryBuilderModifier', 'Modify discount grid query builder', 'This hook allows to alter Doctrine query builder for discount grid', '1'),
+  (NULL, 'actionDiscountGridDataModifier', 'Modify discount grid data', 'This hook allows to modify discount grid data', '1'),
+  (NULL, 'actionDiscountGridFilterFormModifier', 'Modify discount grid filters', 'This hook allows to modify filters for discount grid', '1'),
+  (NULL, 'actionDiscountGridPresenterModifier', 'Modify discount grid template data', 'This hook allows to modify data which is about to be used in template for discount grid', '1')
+ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
