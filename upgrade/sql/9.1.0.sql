@@ -50,3 +50,12 @@ ALTER TABLE `PREFIX_cart_rule_product_rule` MODIFY COLUMN `type` ENUM(
 ) NOT NULL;
 
 /* PHP:add_column('cart_rule_product_rule_group', 'type', 'ENUM("at_least_one_product_rule", "all_product_rules") NOT NULL DEFAULT "at_least_one_product_rule"'); */;
+
+/* Add new indexes for better queries performance
+https://github.com/PrestaShop/PrestaShop/pull/39960 */
+CREATE INDEX `id_shop` ON `PREFIX_product_shop` (`id_shop`);
+CREATE INDEX `product_byshop` ON `PREFIX_stock_available` (
+  `id_product`, `id_shop`,
+  `id_shop_group`
+);
+CREATE INDEX `id_guestdateadd` ON `PREFIX_connections` (`id_guest`,`date_add`);
