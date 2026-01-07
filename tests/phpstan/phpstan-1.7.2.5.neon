@@ -28,6 +28,10 @@ parameters:
 		- '#Parameter \$params of method Autoupgrade::hookDisplayBackOfficeEmployeeMenu\(\) has invalid type PrestaShop\\PrestaShop\\Core\\Action\\ActionsBarButtonsCollection.#'
 		- '#Parameter \#1 \$kernel of class Symfony\\Bundle\\FrameworkBundle\\Console\\Application constructor expects Symfony\\Component\\HttpKernel\\KernelInterface, AdminKernel\|AppKernel given.$#'
 		-
+			message: '#Call to an undefined method Autoupgrade::get\(\)\.#'
+			path: ./../../autoupgrade.php
+			count: 1
+		-
 			identifier: booleanAnd.rightAlwaysTrue
 			path: ./../../classes/UpgradeSelfCheck.php
 			count: 1

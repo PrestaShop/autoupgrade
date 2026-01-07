@@ -56,6 +56,11 @@ class DisplayBackOfficeHeader
     private $container;
 
     /**
+     * @var Request
+     */
+    private $request;
+
+    /**
      * @var Upgrader
      */
     private $upgrader;
@@ -93,9 +98,10 @@ class DisplayBackOfficeHeader
     /**
      * @throws Exception
      */
-    public function __construct(UpgradeContainer $container)
+    public function __construct(UpgradeContainer $container, Request $request)
     {
         $this->container = $container;
+        $this->request = $request;
         $this->upgrader = $this->container->getUpgrader();
         $this->updateNotificationService = $this->container->getUpdateNotificationService();
         $this->updateNotificationConfiguration = $this->updateNotificationService->getUpdateNotificationConfiguration();
@@ -129,8 +135,7 @@ class DisplayBackOfficeHeader
 
         $this->addScriptsVariables();
 
-        $request = Request::createFromGlobals();
-        $this->addUIAssets($request);
+        $this->addUIAssets($this->request);
 
         if (!$this->isEmployeeDefaultController()) {
             return $this->content;

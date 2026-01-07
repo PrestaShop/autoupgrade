@@ -204,7 +204,10 @@ class Autoupgrade extends Module
             return '';
         }
 
-        return (new \PrestaShop\Module\AutoUpgrade\Hooks\DisplayBackOfficeHeader($this->getUpgradeContainer()))->renderUpdateNotification();
+        return (new \PrestaShop\Module\AutoUpgrade\Hooks\DisplayBackOfficeHeader(
+            $this->getUpgradeContainer(),
+            $this->getCurrentRequest()
+        ))->renderUpdateNotification();
     }
 
     /**
@@ -267,5 +270,27 @@ class Autoupgrade extends Module
         }
 
         return $this->container;
+    }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Request
+     */
+    public function getCurrentRequest()
+    {
+        // When possible, retrieve an existing instance of Request to avoid issues on pages with uploaded files.
+        // We are compatible with PS 1.7.0 BUT:
+        //  - Module::get() exists since PS 1.7.3.
+        //  - Service "request_stack" is found from PS 8.
+        if (version_compare(_PS_VERSION_, '8.0.0', '>=')) {
+            /** @var \Symfony\Component\HttpFoundation\RequestStack $requestStack */
+            $requestStack = $this->get('request_stack');
+            $request = $requestStack->getCurrentRequest();
+
+            if ($request) {
+                return $request;
+            }
+        }
+
+        return \Symfony\Component\HttpFoundation\Request::createFromGlobals();
     }
 }
