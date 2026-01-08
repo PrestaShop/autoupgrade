@@ -78,7 +78,8 @@ class AnalyticsTest extends TestCase
                         'regenerate_rtl_stylesheet' => false,
                     ],
                 ],
-            ]
+            ],
+            $this->container->getEnvironment()
         );
 
         $this->assertEquals([
