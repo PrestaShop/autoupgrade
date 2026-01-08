@@ -52,6 +52,14 @@ class EnvironmentTest extends TestCase
         $this->assertEquals('getenv_value', $environment->getEnvValue('TEST_VAR'));
     }
 
+    public function testGetEnvValueFromGetenvAndSuperglobal()
+    {
+        $_SERVER['TEST_VAR'] = 'server_value';
+        putenv('TEST_VAR=getenv_value');
+        $environment = new Environment();
+        $this->assertEquals('server_value', $environment->getEnvValue('TEST_VAR'));
+    }
+
     public function testGetEnvValueNotFound()
     {
         $environment = new Environment();
