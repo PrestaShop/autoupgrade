@@ -23,7 +23,6 @@ namespace PrestaShop\Module\AutoUpgrade;
 
 use Exception;
 use InvalidArgumentException;
-use PrestaShop\Module\AutoUpgrade\Environment;
 use PrestaShop\Module\AutoUpgrade\Backup\BackupFinder;
 use PrestaShop\Module\AutoUpgrade\Backup\BackupManager;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
