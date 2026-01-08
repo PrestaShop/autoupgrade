@@ -24,6 +24,7 @@ namespace PrestaShop\Module\AutoUpgrade;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\State\RestoreState;
 use PrestaShop\Module\AutoUpgrade\State\UpdateState;
+use PrestaShop\Module\AutoUpgrade\Environment;
 
 class Analytics
 {
@@ -58,6 +59,11 @@ class Analytics
     private $states;
 
     /**
+     * @var Environment
+     */
+    private $environment;
+
+    /**
      * @param array{'properties'?: array<int, array<string, mixed>>} $options
      * @param array{'restore': RestoreState, 'update': UpdateState} $states
      */
@@ -65,15 +71,17 @@ class Analytics
         UpgradeConfiguration $updateConfiguration,
         array $states,
         string $anonymousUserId,
-        array $options
+        array $options,
+        Environment $environment
     ) {
         $this->updateConfiguration = $updateConfiguration;
         $this->states = $states;
 
         $this->anonymousId = $anonymousUserId;
         $this->properties = $options['properties'] ?? [];
+        $this->environment = $environment;
 
-        if ((new Environment())->hasOptedOutAnalytics()) {
+        if ($this->environment->hasOptedOutAnalytics()) {
             return;
         }
 
@@ -86,7 +94,7 @@ class Analytics
      */
     public function track(string $event, $propertiesType = self::WITH_COMMON_PROPERTIES): void
     {
-        if ((new Environment())->hasOptedOutAnalytics()) {
+        if ($this->environment->hasOptedOutAnalytics()) {
             return;
         }
 
