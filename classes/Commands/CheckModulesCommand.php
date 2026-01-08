@@ -77,6 +77,8 @@ class CheckModulesCommand extends AbstractCommand
 
                 if (empty($zip)) {
                     $output->writeln('<error> ✗ Please specify the destination zip file using the zip option..</error>');
+
+                    return ExitCode::FAIL;
                 }
 
                 $fullFilePath = $this->upgradeContainer->getProperty(UpgradeContainer::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $zip;
@@ -87,6 +89,12 @@ class CheckModulesCommand extends AbstractCommand
 
                     return ExitCode::FAIL;
                 }
+            }
+
+            if ($targetPsVersion === null || version_compare($this->upgradeContainer->getCurrentPrestaShopVersion(), $targetPsVersion, '>=')) {
+                $output->writeln('<error>✗ You are already running a PrestaShop version equal to or higher than the latest available for update.</error>');
+                
+                return ExitCode::FAIL;
             }
 
             $modulesInstalled = $this->upgradeContainer->getModuleAdapter()->listModulesPresentInFolderAndInstalled();
