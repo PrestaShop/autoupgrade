@@ -92,7 +92,7 @@ class CheckModulesCommand extends AbstractCommand
             }
 
             if ($targetPsVersion === null || version_compare($this->upgradeContainer->getCurrentPrestaShopVersion(), $targetPsVersion, '>=')) {
-                $output->writeln('<error>✗ You are already running a PrestaShop version equal to or higher than the latest available for update.</error>');
+                $output->writeln('<error> ✗ You are already running a PrestaShop version equal to or higher than the latest available for update.</error>');
                 
                 return ExitCode::FAIL;
             }
@@ -138,7 +138,7 @@ class CheckModulesCommand extends AbstractCommand
                     $table->addRow([
                         $localModuleName,
                         $analysis['compatible'] ? '✓ Yes' : '✗ No',
-                         $analysis['update_available'] ? '✓ Yes' : '✗ No',
+                        $analysis['update_available'] ? '✓ Yes' : '✗ No',
                         $localVersion,
                         $analysis['compatible'] ? $analysis['compatible_release']->productVersion : '-',
                     ]);
