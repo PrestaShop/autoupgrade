@@ -93,7 +93,7 @@ class CheckModulesCommand extends AbstractCommand
 
             if ($targetPsVersion === null || version_compare($this->upgradeContainer->getCurrentPrestaShopVersion(), $targetPsVersion, '>=')) {
                 $output->writeln('<error> ✗ You are already running a PrestaShop version equal to or higher than the latest available for update.</error>');
-                
+
                 return ExitCode::FAIL;
             }
 

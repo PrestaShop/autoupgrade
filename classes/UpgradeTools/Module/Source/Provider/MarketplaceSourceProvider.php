@@ -23,6 +23,7 @@ namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider;
 
 use PrestaShop\Module\AutoUpgrade\Parameters\FileStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
+use PrestaShop\Module\AutoUpgrade\Services\MarketplaceService;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\ModuleSource;
 use PrestaShop\Module\AutoUpgrade\Xml\FileLoader;
 
@@ -31,8 +32,6 @@ use PrestaShop\Module\AutoUpgrade\Xml\FileLoader;
  */
 class MarketplaceSourceProvider extends AbstractModuleSourceProvider
 {
-    const ADDONS_API_URL = 'https://api.addons.prestashop.com';
-
     /** @var FileLoader */
     private $fileLoader;
 
@@ -70,7 +69,7 @@ class MarketplaceSourceProvider extends AbstractModuleSourceProvider
 
         $xml = $this->fileLoader->getXmlFile(
             $this->prestashopRootFolder . '/config/xml/modules_native_addons.xml',
-            self::ADDONS_API_URL . '/?' . $postData
+            MarketplaceService::ADDONS_API_URL . '/?' . $postData
         );
 
         if ($xml === false) {
@@ -83,7 +82,7 @@ class MarketplaceSourceProvider extends AbstractModuleSourceProvider
             $this->localModuleZips[] = new ModuleSource(
                 (string) $moduleInXml->name,
                 (string) $moduleInXml->version,
-                self::ADDONS_API_URL . '/?' . http_build_query([
+                MarketplaceService::ADDONS_API_URL . '/?' . http_build_query([
                     'id_module' => (string) $moduleInXml->id,
                     'method' => 'module',
                     'version' => $this->targetVersionOfPrestaShop,
