@@ -64,6 +64,7 @@ class AnalyticsTest extends TestCase
 
         $analytics = new Analytics(
             $updateConfiguration,
+            $this->container->getEnvironment(),
             $states,
             'somePathToAutoupgradeModule',
             [
@@ -78,8 +79,7 @@ class AnalyticsTest extends TestCase
                         'regenerate_rtl_stylesheet' => false,
                     ],
                 ],
-            ],
-            $this->container->getEnvironment()
+            ]
         );
 
         $this->assertEquals([

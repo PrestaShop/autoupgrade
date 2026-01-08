@@ -68,10 +68,10 @@ class Analytics
      */
     public function __construct(
         UpgradeConfiguration $updateConfiguration,
+        Environment $environment,
         array $states,
         string $anonymousUserId,
-        array $options,
-        Environment $environment
+        array $options
     ) {
         $this->updateConfiguration = $updateConfiguration;
         $this->states = $states;

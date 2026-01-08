@@ -352,6 +352,7 @@ class UpgradeContainer
             // But equal between two upgrade processes
             $this->analytics = new Analytics(
                 $this->getUpdateConfiguration(),
+                $this->getEnvironment(),
                 [
                     'update' => $this->getUpdateState(),
                     'restore' => $this->getRestoreState(),
@@ -369,8 +370,7 @@ class UpgradeContainer
                             'regenerate_rtl_stylesheet' => class_exists('\Language', false) ? $this->shouldUpdateRTLFiles() : null,
                         ],
                     ],
-                ],
-                $this->getEnvironment()
+                ]
             );
         }
 
