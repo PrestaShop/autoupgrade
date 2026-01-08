@@ -74,11 +74,16 @@ class CheckModulesCommand extends AbstractCommand
                 $targetPsVersion = $this->upgradeContainer->getUpgrader()->getOnlineDestinationVersionForChannel($channel);
             } else {
                 $zip = $input->getOption('zip');
+
+                if (empty($zip)) {
+                    $output->writeln('<error> ✗ Please specify the destination zip file using the zip option..</error>');
+                }
+
                 $fullFilePath = $this->upgradeContainer->getProperty(UpgradeContainer::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $zip;
                 try {
                     $targetPsVersion = $this->upgradeContainer->getPrestashopVersionService()->extractPrestashopVersionFromZip($fullFilePath);
                 } catch (Exception $exception) {
-                    $output->writeln('<error>  ✗ We couldn\'t find a PrestaShop version in the .zip file that was uploaded in your local archive. Please try again.</error>');
+                    $output->writeln('<error> ✗ We couldn\'t find a PrestaShop version in the .zip file that was uploaded in your local archive. Please try again.</error>');
 
                     return ExitCode::FAIL;
                 }
@@ -111,7 +116,7 @@ class CheckModulesCommand extends AbstractCommand
                     } catch (MarketplaceApiException $e) {
                         $table->addRow([
                         $localModuleName,
-                        '<error>  ✗ Unable to retrieve module informations</error>',
+                        '<error> ✗ Unable to retrieve module informations</error>',
                     ]);
                         continue;
                     }
