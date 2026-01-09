@@ -177,6 +177,7 @@ class DisplayBackOfficeHeader
             'php_version' => VersionUtils::getHumanReadableVersionOf(PHP_VERSION_ID),
             'anonymous_id' => $this->container->getProperty(UpgradeContainer::ANONYMOUS_USER_ID),
             'ps_version' => $this->container->getProperty(UpgradeContainer::PS_VERSION),
+            'has_opted_out_analytics' => $this->container->getEnvironment()->hasOptedOutAnalytics(),
             'bo_language' => $this->context->language->locale,
             'bo_timezone' => date_default_timezone_get(),
         ];
