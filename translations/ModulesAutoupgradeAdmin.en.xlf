@@ -85,7 +85,7 @@
       <trans-unit id="0ea1ca0772a9eb4ee22ecfb14406271d">
         <source>Error when retrieving data from Distribution API</source>
         <target>Error when retrieving data from Distribution API</target>
-        <note>classes/Services/DistributionApiService.php:70</note>
+        <note>classes/Services/MarketplaceService.php:51</note>
       </trans-unit>
       <trans-unit id="8749d103f0a98214ad61688208981068">
         <source>Invalid JSON from Distribution API: %s</source>
@@ -965,7 +965,7 @@
       <trans-unit id="ddfec814758f41dd73e219d374d1d15a">
         <source>Unable to retrieve the recommended releases of Update Assistant.</source>
         <target>Unable to retrieve the recommended releases of Update Assistant.</target>
-        <note>classes/Upgrader.php:189</note>
+        <note>classes/Upgrader.php:203</note>
       </trans-unit>
       <trans-unit id="fff77a9b7fadd2dd38b16678c8b000cf">
         <source>Unable to create directory %s: %s</source>
