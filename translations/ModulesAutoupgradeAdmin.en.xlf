@@ -65,12 +65,12 @@
       <trans-unit id="d0749aaba8b833466dfcbb0428e4f89c">
         <source>SUCCESS</source>
         <target>SUCCESS</target>
-        <note>controllers/admin/AdminSelfUpgradeController.php:313</note>
+        <note>controllers/admin/AdminSelfUpgradeController.php:314</note>
       </trans-unit>
       <trans-unit id="b9e14d9b2886bcff408b85aefa780419">
         <source>FAILED</source>
         <target>FAILED</target>
-        <note>controllers/admin/AdminSelfUpgradeController.php:314</note>
+        <note>controllers/admin/AdminSelfUpgradeController.php:315</note>
       </trans-unit>
       <trans-unit id="ed88d11e6f590319e0be757ac6a6f399">
         <source>An error occurred while formatting the backup name.</source>
