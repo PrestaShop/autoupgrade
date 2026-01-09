@@ -64,6 +64,7 @@ class AnalyticsTest extends TestCase
 
         $analytics = new Analytics(
             $updateConfiguration,
+            $this->container->getEnvironment(),
             $states,
             'somePathToAutoupgradeModule',
             [

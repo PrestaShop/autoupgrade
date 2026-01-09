@@ -33,6 +33,7 @@ interface AutoUpgradeVariables {
     help: string;
   };
   translations: Record<string, string>;
+  has_opted_out_analytics: boolean;
 }
 
 declare global {

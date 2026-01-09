@@ -28,6 +28,7 @@ window.AutoUpgradeVariables = {
   ps_version: '8.0.0',
   bo_language: 'fr-FR',
   bo_timezone: 'Europe/Paris',
+  has_opted_out_analytics: true,
   links: {
     help: 'https://devdocs.prestashop-project.org/8/basics/keeping-up-to-date/update-from-the-back-office'
   },

@@ -58,11 +58,17 @@ class Analytics
     private $states;
 
     /**
+     * @var Environment
+     */
+    private $environment;
+
+    /**
      * @param array{'properties'?: array<int, array<string, mixed>>} $options
      * @param array{'restore': RestoreState, 'update': UpdateState} $states
      */
     public function __construct(
         UpgradeConfiguration $updateConfiguration,
+        Environment $environment,
         array $states,
         string $anonymousUserId,
         array $options
@@ -72,8 +78,9 @@ class Analytics
 
         $this->anonymousId = $anonymousUserId;
         $this->properties = $options['properties'] ?? [];
+        $this->environment = $environment;
 
-        if ($this->hasOptedOut()) {
+        if ($this->environment->hasOptedOutAnalytics()) {
             return;
         }
 
@@ -86,7 +93,7 @@ class Analytics
      */
     public function track(string $event, $propertiesType = self::WITH_COMMON_PROPERTIES): void
     {
-        if ($this->hasOptedOut()) {
+        if ($this->environment->hasOptedOutAnalytics()) {
             return;
         }
 
@@ -149,13 +156,5 @@ class Analytics
                 ]
             ),
         ];
-    }
-
-    private function hasOptedOut(): bool
-    {
-        $trackingEnabled = getenv(self::URL_TRACKING_ENV_NAME);
-
-        return $trackingEnabled !== false
-            && ((bool) $trackingEnabled === false || $trackingEnabled === 'false');
     }
 }

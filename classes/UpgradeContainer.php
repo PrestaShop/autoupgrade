@@ -75,7 +75,7 @@ use Symfony\Component\Console\Helper\TableStyle;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use Twig\Environment;
+use Twig\Environment as TwigEnvironment;
 use Twig\Error\LoaderError;
 use Twig\Loader\FilesystemLoader;
 use Twig_Environment;
@@ -175,7 +175,7 @@ class UpgradeContainer
     /** @var CompletionCalculator */
     private $completionCalculator;
 
-    /** @var Twig_Environment|\Twig\Environment */
+    /** @var Twig_Environment|TwigEnvironment */
     private $twig;
 
     /** @var BackupState */
@@ -254,6 +254,9 @@ class UpgradeContainer
 
     /** @var UrlGenerator */
     private $urlGenerator;
+
+    /** @var Environment */
+    private $environment;
 
     /**
      * AdminSelfUpgrade::$autoupgradePath
@@ -353,24 +356,26 @@ class UpgradeContainer
             // But equal between two upgrade processes
             $this->analytics = new Analytics(
                 $this->getUpdateConfiguration(),
+                $this->getEnvironment(),
                 [
                     'update' => $this->getUpdateState(),
                     'restore' => $this->getRestoreState(),
                 ],
                 $this->getProperty(self::ANONYMOUS_USER_ID), [
-                'properties' => [
-                    Analytics::WITH_COMMON_PROPERTIES => [
-                        'ps_version' => $this->getProperty(self::PS_VERSION),
-                        'php_version' => VersionUtils::getHumanReadableVersionOf(PHP_VERSION_ID),
-                        'autoupgrade_version' => $this->getPrestaShopConfiguration()->getModuleVersion(),
-                        'php_context' => php_sapi_name() === 'cli' ? 'cli' : 'web',
+                    'properties' => [
+                        Analytics::WITH_COMMON_PROPERTIES => [
+                            'ps_version' => $this->getProperty(self::PS_VERSION),
+                            'php_version' => VersionUtils::getHumanReadableVersionOf(PHP_VERSION_ID),
+                            'autoupgrade_version' => $this->getPrestaShopConfiguration()->getModuleVersion(),
+                            'php_context' => php_sapi_name() === 'cli' ? 'cli' : 'web',
+                        ],
+                        Analytics::WITH_UPDATE_PROPERTIES => [
+                            'disable_all_overrides' => class_exists('\Configuration', false) ? UpgradeConfiguration::isOverrideAllowed() : null,
+                            'regenerate_rtl_stylesheet' => class_exists('\Language', false) ? $this->shouldUpdateRTLFiles() : null,
+                        ],
                     ],
-                    Analytics::WITH_UPDATE_PROPERTIES => [
-                        'disable_all_overrides' => class_exists('\Configuration', false) ? UpgradeConfiguration::isOverrideAllowed() : null,
-                        'regenerate_rtl_stylesheet' => class_exists('\Language', false) ? $this->shouldUpdateRTLFiles() : null,
-                    ],
-                ],
-            ]);
+                ]
+            );
         }
 
         return $this->analytics;
@@ -729,7 +734,7 @@ class UpgradeContainer
     /**
      * @throws LoaderError
      *
-     * @return Twig_Environment|Environment
+     * @return Twig_Environment|TwigEnvironment
      */
     public function getTwig()
     {
@@ -738,7 +743,7 @@ class UpgradeContainer
                 // We use Twig 3
                 $loader = new FilesystemLoader();
                 $loader->addPath(realpath(__DIR__ . '/..') . '/views/templates', 'ModuleAutoUpgrade');
-                $twig = new Environment($loader);
+                $twig = new TwigEnvironment($loader);
                 $twig->addExtension(new TransFilterExtension3($this->getTranslator()));
             } else {
                 // We use Twig 1
@@ -1059,6 +1064,18 @@ class UpgradeContainer
         }
 
         return $this->urlGenerator;
+    }
+
+    /**
+     * @return Environment
+     */
+    public function getEnvironment(): Environment
+    {
+        if (null === $this->environment) {
+            $this->environment = new Environment();
+        }
+
+        return $this->environment;
     }
 
     /**

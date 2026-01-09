@@ -27,6 +27,10 @@ class Analytics {
    * @description Initializes the Analytics class and loads the Segment analytics with the provided write key.
    */
   public constructor() {
+    if (window.AutoUpgradeVariables.has_opted_out_analytics) {
+      return;
+    }
+
     AnalyticsBrowser.load(
       { writeKey: 'RM87m03McDSL4Fvm3GJ3piBPbAL3Fa2i' },
       { disableClientPersistence: true }
