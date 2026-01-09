@@ -26,6 +26,7 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
+use PrestaShop\Module\AutoUpgrade\Commands\CheckModulesCommand;
 use PrestaShop\Module\AutoUpgrade\Commands\CheckNewVersionCommand;
 use PrestaShop\Module\AutoUpgrade\Commands\CheckRequirementsCommand;
 use PrestaShop\Module\AutoUpgrade\Commands\CreateBackupCommand;
@@ -65,6 +66,7 @@ $application->add(new CheckNewVersionCommand());
 $application->add(new CreateBackupCommand());
 $application->add(new ListBackupCommand());
 $application->add(new DeleteBackupCommand());
+$application->add(new CheckModulesCommand());
 
 $input = new ArgvInput();
 $output = new ConsoleOutput();
