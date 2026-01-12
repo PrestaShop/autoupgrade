@@ -69,7 +69,7 @@ class ModuleDownloaderTest extends TestCase
         $moduleContext = new ModuleDownloaderContext(['name' => 'mymodule', 'currentVersion' => '1.0.0']);
 
         $dummyProvider1 = (new ModuleSourceProviderMock())->setSources([
-            new ModuleSource('mymodule', '2.0.0', realpath(__DIR__ . '/../../../fixtures/mymodule'), false),
+            new ModuleSource('mymodule', '2.0.0', realpath(__DIR__ . '/../../../fixtures/modules/mymodule'), false),
             new ModuleSource('mymodule', '1.2.0', realpath(__DIR__ . '/../../../fixtures/ArchiveExample.zip'), false),
         ]);
         $moduleSourceList = new ModuleSourceAggregate([$dummyProvider1]);
@@ -78,7 +78,7 @@ class ModuleDownloaderTest extends TestCase
 
         $this->logger->expects($this->once())
             ->method('notice')
-            ->with('Module mymodule update files (1.0.0 => 2.0.0) have been fetched from ' . realpath(__DIR__ . '/../../../fixtures/mymodule') . '.');
+            ->with('Module mymodule update files (1.0.0 => 2.0.0) have been fetched from ' . realpath(__DIR__ . '/../../../fixtures/modules/mymodule') . '.');
 
         $this->moduleDownloader->downloadModule($moduleContext);
 
@@ -134,7 +134,7 @@ class ModuleDownloaderTest extends TestCase
             new ModuleSource('mymodule', '2.0.0', '/non-existing-folder', false),
         ]);
         $dummyProvider2 = (new ModuleSourceProviderMock())->setSources([
-            new ModuleSource('mymodule', '2.0.0', realpath(__DIR__ . '/../../../fixtures/mymodule'), false),
+            new ModuleSource('mymodule', '2.0.0', realpath(__DIR__ . '/../../../fixtures/modules/mymodule'), false),
         ]);
         $moduleSourceList = new ModuleSourceAggregate([$dummyProvider1, $dummyProvider2]);
 
@@ -149,7 +149,7 @@ class ModuleDownloaderTest extends TestCase
             );
         $this->logger->expects($this->once())
             ->method('notice')
-            ->with('Module mymodule update files (1.0.0 => 2.0.0) have been fetched from ' . realpath(__DIR__ . '/../../../fixtures/mymodule') . '.');
+            ->with('Module mymodule update files (1.0.0 => 2.0.0) have been fetched from ' . realpath(__DIR__ . '/../../../fixtures/modules/mymodule') . '.');
 
         $this->moduleDownloader->downloadModule($moduleContext);
     }

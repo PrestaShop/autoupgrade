@@ -54,10 +54,10 @@ class ModuleMigrationTest extends TestCase
         }
 
         if (!defined('_PS_MODULE_DIR_')) {
-            define('_PS_MODULE_DIR_', __DIR__ . '/../../../fixtures/');
+            define('_PS_MODULE_DIR_', __DIR__ . '/../../../fixtures/modules/');
         }
 
-        require_once _PS_MODULE_DIR_ . '/Module.php';
+        require_once _PS_MODULE_DIR_ . '/../Module.php';
         require_once _PS_MODULE_DIR_ . '/mymodule/mymodule.php';
 
         $translator = $this->createMock(Translator::class);
@@ -146,9 +146,9 @@ class ModuleMigrationTest extends TestCase
         $moduleMigrationContext = new ModuleMigrationContext($mymodule, $dbVersion);
 
         $this->assertEquals([
-            __DIR__ . '/../../../fixtures/mymodule/upgrade/install-1.0.1.php',
-            __DIR__ . '/../../../fixtures/mymodule/upgrade/upgrade-1.0.2.php',
-            __DIR__ . '/../../../fixtures/mymodule/upgrade/upgrade-1.1.php',
+            __DIR__ . '/../../../fixtures/modules/mymodule/upgrade/install-1.0.1.php',
+            __DIR__ . '/../../../fixtures/modules/mymodule/upgrade/upgrade-1.0.2.php',
+            __DIR__ . '/../../../fixtures/modules/mymodule/upgrade/upgrade-1.1.php',
         ], $this->moduleMigration->listUpgradeFiles($moduleMigrationContext));
     }
 
