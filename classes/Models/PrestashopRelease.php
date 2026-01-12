@@ -47,7 +47,7 @@ class PrestashopRelease
     public function __construct(
         string $version,
         string $stability,
-        string $distribution = null,
+        ?string $distribution = null,
         ?string $phpMaxVersion = null,
         ?string $phpMinVersion = null,
         ?string $zipDownloadUrl = null,

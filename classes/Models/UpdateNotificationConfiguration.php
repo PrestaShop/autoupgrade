@@ -47,7 +47,7 @@ class UpdateNotificationConfiguration
     /**
      * @param array{lastCheck: array{timestamp: int|null, version: string|null, releaseNote: string|null}, employees: array<array{employeeID: int, timestamp: int}>}|null $configuration
      */
-    public function __construct(array $configuration = null)
+    public function __construct(?array $configuration = null)
     {
         if ($configuration) {
             $lastCheck = $configuration['lastCheck'];
