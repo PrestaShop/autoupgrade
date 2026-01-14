@@ -98,6 +98,8 @@ class ModuleAdapter
             $sql .= ' WHERE name IN ("' . implode('", "', $filterOnModuleNames) . '")';
         }
 
+        $sql .= ' ORDER BY `name`';
+
         return \Db::getInstance()->executeS($sql);
     }
 
