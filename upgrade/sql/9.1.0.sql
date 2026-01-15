@@ -102,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `PREFIX_cart_rule_compatible_types` (
 ) ENGINE=ENGINE_TYPE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /* PHP:add_column('cart_rule', 'id_cart_rule_type', 'INT UNSIGNED DEFAULT NULL'); */;
-/* PHP:add_column('cart_rule', 'minimum_product_quantity', 'INT UNSIGNED NOT NULL DEFAULT 0 AFTER minimum_amount_shipping'); */;
+/* PHP:add_column('cart_rule', 'minimum_product_quantity', 'INT UNSIGNED NOT NULL DEFAULT 0'); */;
 /* PHP:add_index_if_not_exists('cart_rule', 'id_cart_rule_type', '(`id_cart_rule_type`)'); */;
 
 INSERT INTO `PREFIX_cart_rule_type` (`id_cart_rule_type`, `discount_type`, `is_core`, `active`, `date_add`, `date_upd`) VALUES
