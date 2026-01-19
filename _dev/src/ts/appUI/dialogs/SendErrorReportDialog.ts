@@ -44,7 +44,12 @@ export default class SendErrorReportDialog extends DialogAbstract {
 
   get #errorMessagePanelContents(): string {
     if (this.#responseContents) {
-      return `${this.#lastErrorMessage}\n\n${JSON.parse(this.#responseContents)?.nextQuickInfo?.join('\n\n')}`;
+      try {
+        return `${this.#lastErrorMessage}\n\n${JSON.parse(this.#responseContents)?.nextQuickInfo?.join('\n\n')}`;
+      } catch {
+        // Sometimes we can get a response from the server that is not a JSON. In that case:
+        // Do nothing
+      }
     }
 
     return this.#lastErrorMessage;
@@ -60,8 +65,11 @@ export default class SendErrorReportDialog extends DialogAbstract {
     return latestError;
   }
 
-  get #responseContents(): string | undefined {
-    return document.getElementById(ErrorPageBuilder.externalAdditionalContentsPanelId)?.textContent;
+  get #responseContents(): string | null {
+    return (
+      document.getElementById(ErrorPageBuilder.externalAdditionalContentsPanelId)?.textContent ||
+      null
+    );
   }
 
   onSubmit = async (event: SubmitEvent) => {
