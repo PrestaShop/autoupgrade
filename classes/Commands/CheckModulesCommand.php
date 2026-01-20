@@ -124,7 +124,7 @@ class CheckModulesCommand extends AbstractCommand
                     } catch (MarketplaceApiException $e) {
                         $table->addRow([
                         $localModuleName,
-                        '<error> ✗ Unable to retrieve module informations</error>',
+                        '<error>✗ Unable to retrieve module informations</error>',
                     ]);
                         continue;
                     }
