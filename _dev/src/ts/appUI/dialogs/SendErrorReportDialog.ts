@@ -45,7 +45,8 @@ export default class SendErrorReportDialog extends DialogAbstract {
   get #errorMessagePanelContents(): string {
     if (this.#responseContents) {
       try {
-        return `${this.#lastErrorMessage}\n\n${JSON.parse(this.#responseContents)?.nextQuickInfo?.join('\n\n')}`;
+        const loggedErrors = JSON.parse(this.#responseContents)?.nextQuickInfo?.join('\n\n');
+        return `${this.#lastErrorMessage}\n\n${loggedErrors}`;
       } catch {
         // Sometimes we can get a response from the server that is not a JSON. In that case:
         // Do nothing
