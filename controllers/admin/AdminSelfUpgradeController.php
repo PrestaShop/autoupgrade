@@ -271,7 +271,7 @@ class AdminSelfUpgradeController extends ModuleAdminController
         $this->content = $this->upgradeContainer->getTwig()->render('@ModuleAutoUpgrade/module-script-variables.html.twig', [
             'autoupgrade_variables' => $this->getScriptsVariables(),
         ]);
-        $request = Request::createFromGlobals();
+        $request = $this->module->getCurrentRequest();
         $this->addUIAssets($request);
 
         $response = (new Router($this->upgradeContainer))->handle($request);
