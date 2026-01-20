@@ -182,7 +182,7 @@ class UpdateFiles extends AbstractTask
             // upgrade exception were above. This part now process all files that have to be upgraded (means to modify or to remove)
             // delete before updating (and this will also remove deprecated files)
             try {
-                $this->container->getFileSystem()->copy($orig, $dest, true);
+                $this->container->getFileSystem()->rename($orig, $dest, true);
                 $this->logger->debug($this->translator->trans('Copied %1$s.', [$file]));
 
                 return true;
