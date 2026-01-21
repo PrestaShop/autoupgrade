@@ -16,22 +16,45 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
-// Global
-@use "typography";
+@use "../../variables" as *;
 
-// Specific
-@use "alert";
-@use "button";
-@use "button-copy";
-@use "check-requirements";
-@use "content";
-@use "dialog";
-@use "form";
-@use "local-archive";
-@use "logs";
-@use "privacy";
-@use "progress";
-@use "radio-card";
-@use "scrollable-list";
-@use "skeletons";
-@use "stepper";
+$e: ".copy-wrapper";
+
+#{$ua-id} {
+  #{$e} {
+    position: relative;
+
+    pre {
+      --#{$ua-prefix}contents-height: calc(5lh + (6 * 0.5rem));
+      max-height: var(--#{$ua-prefix}contents-height);
+      word-wrap: break-word;
+      white-space: pre-wrap;
+    }
+
+    &:hover {
+      .copy-button {
+        visibility: visible;
+      }
+    }
+
+    .copy-button {
+      position: absolute;
+      right: 0;
+      visibility: hidden;
+
+      .copied {
+        display: none;
+      }
+
+      &--copied {
+        .copy {
+          display: none;
+        }
+
+        .copied {
+          display: inline;
+        }
+      }
+    }
+  }
+}

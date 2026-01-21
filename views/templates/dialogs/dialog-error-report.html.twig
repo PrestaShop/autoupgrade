@@ -44,14 +44,7 @@
       <label for="errorMessage">
         {{ 'Error details'|trans({}) }}
       </label>
-      <textarea
-        disabled
-        class="form-control"
-        id="errorMessage"
-        name="error"
-        placeholder=""
-        rows="6"
-      ></textarea>
+      {% include "@ModuleAutoUpgrade/components/wrapper-copy.html.twig" with {'id': 'errorMessage'} %}
     </div>
 
     <div class="form-group">
