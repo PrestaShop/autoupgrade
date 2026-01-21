@@ -1391,10 +1391,10 @@
         <target>Privacy policy</target>
         <note>views/templates/components/privacy.html.twig:25</note>
       </trans-unit>
-      <trans-unit id="f685da009437ded5271e842075eaf743">
-        <source>Send error report</source>
-        <target>Send error report</target>
-        <note>views/templates/dialogs/dialog-error-report.html.twig:92</note>
+      <trans-unit id="879b829806e94a3e875f90138cd47609">
+        <source>View error report</source>
+        <target>View error report</target>
+        <note>views/templates/components/form-open-error-report.html.twig:26</note>
       </trans-unit>
       <trans-unit id="caef47f6ddf52575a8fe9e566b68dcd8">
         <source>Select the backup you want to restore to</source>
@@ -2016,9 +2016,9 @@
         <target>Learn more about your data and your rights</target>
         <note>views/templates/dialogs/dialog-error-report.html.twig:34</note>
       </trans-unit>
-      <trans-unit id="e20cbb947afcf84cf58de1358ee1068d">
-        <source>Error message</source>
-        <target>Error message</target>
+      <trans-unit id="67e284e328576a5bcae09651d55018b6">
+        <source>Error details</source>
+        <target>Error details</target>
         <note>views/templates/dialogs/dialog-error-report.html.twig:45</note>
       </trans-unit>
       <trans-unit id="ea5957193770106ccbb79106b47c06a6">
@@ -2040,6 +2040,11 @@
         <source>You can add details about the error here.</source>
         <target>You can add details about the error here.</target>
         <note>views/templates/dialogs/dialog-error-report.html.twig:78</note>
+      </trans-unit>
+      <trans-unit id="f685da009437ded5271e842075eaf743">
+        <source>Send error report</source>
+        <target>Send error report</target>
+        <note>views/templates/dialogs/dialog-error-report.html.twig:92</note>
       </trans-unit>
       <trans-unit id="b6cf8e12bbbeee058067ebf8c8dda7e2">
         <source>Delete backup</source>
