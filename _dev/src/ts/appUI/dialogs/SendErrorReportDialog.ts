@@ -30,7 +30,7 @@ export default class SendErrorReportDialog extends DialogAbstract {
     this.form.addEventListener('submit', this.onSubmit);
 
     const errorMessageArea: HTMLTextAreaElement = this.form.querySelector('#errorMessage')!;
-    errorMessageArea.value = this.#lastErrorMessage;
+    errorMessageArea.value = this.#errorMessagePanelContents;
   };
 
   get form(): HTMLFormElement {
@@ -40,6 +40,20 @@ export default class SendErrorReportDialog extends DialogAbstract {
     }
 
     return form;
+  }
+
+  get #errorMessagePanelContents(): string {
+    if (this.#responseContents) {
+      try {
+        const loggedErrors = JSON.parse(this.#responseContents)?.nextQuickInfo?.join('\n\n');
+        return `${this.#lastErrorMessage}\n\n${loggedErrors}`;
+      } catch {
+        // Sometimes we can get a response from the server that is not a JSON. In that case:
+        // Do nothing
+      }
+    }
+
+    return this.#lastErrorMessage;
   }
 
   get #lastErrorMessage(): string {
@@ -52,6 +66,13 @@ export default class SendErrorReportDialog extends DialogAbstract {
     return latestError;
   }
 
+  get #responseContents(): string | null {
+    return (
+      document.getElementById(ErrorPageBuilder.externalAdditionalContentsPanelId)?.textContent ||
+      null
+    );
+  }
+
   onSubmit = async (event: SubmitEvent) => {
     event.preventDefault();
 
@@ -59,9 +80,7 @@ export default class SendErrorReportDialog extends DialogAbstract {
       logs: this.#getLogs(),
       other: new Map<string, string>()
     };
-    const responseContents = document.getElementById(
-      ErrorPageBuilder.externalAdditionalContentsPanelId
-    )?.textContent;
+    const responseContents = this.#responseContents;
     if (responseContents) {
       attachments.other.set('response_raw.txt', responseContents);
     }
