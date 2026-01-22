@@ -23,14 +23,14 @@ export default class WrapperCopy implements DomLifecycle {
   readonly #elementClassWhenCopied = 'copy-button--copied';
   readonly #dataAttribute: string = 'targetId';
   public mount = () => {
-    document.addEventListener('click', (ev) => this.#onClick(ev));
+    document.addEventListener('click', this.#onClick);
   };
 
   public beforeDestroy = () => {
-    document.removeEventListener('click', (ev) => this.#onClick(ev));
+    document.removeEventListener('click', this.#onClick);
   };
 
-  async #onClick(ev: Event): Promise<void> {
+  readonly #onClick = async (ev: Event): Promise<void> => {
     const target = this.#getEventTargetIfCopyButton(ev);
 
     if (!target) {
@@ -45,10 +45,13 @@ export default class WrapperCopy implements DomLifecycle {
 
     const contentsTarget = document.getElementById(this.#getTargetIdOfCopyButton(target));
 
-    if (contentsTarget) {
-      await navigator.clipboard.writeText((contentsTarget as HTMLPreElement).innerText);
+    if (!contentsTarget) {
+      throw new Error(
+        `Target from ID #${this.#getTargetIdOfCopyButton(target)} cannot be found in the DOM.`
+      );
     }
-  }
+    await navigator.clipboard.writeText((contentsTarget as HTMLPreElement).innerText);
+  };
 
   #getEventTargetIfCopyButton(ev: Event): HTMLElement | null {
     const target = ev.target ? (ev.target as HTMLElement) : null;
