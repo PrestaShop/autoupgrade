@@ -38,6 +38,7 @@ export default class WrapperCopy implements DomLifecycle {
     }
 
     target.classList.add(this.#elementClassWhenCopied);
+    target.blur();
     setTimeout(() => {
       target.classList.remove(this.#elementClassWhenCopied);
     }, 1500);
