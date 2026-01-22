@@ -65,12 +65,12 @@
       <trans-unit id="d0749aaba8b833466dfcbb0428e4f89c" approved="yes">
         <source>SUCCESS</source>
         <target state="final">ÚSPĚCH</target>
-        <note>controllers/admin/AdminSelfUpgradeController.php:313</note>
+        <note>controllers/admin/AdminSelfUpgradeController.php:314</note>
       </trans-unit>
       <trans-unit id="b9e14d9b2886bcff408b85aefa780419" approved="yes">
         <source>FAILED</source>
         <target state="final">SELHÁNÍ</target>
-        <note>controllers/admin/AdminSelfUpgradeController.php:314</note>
+        <note>controllers/admin/AdminSelfUpgradeController.php:315</note>
       </trans-unit>
       <trans-unit id="ed88d11e6f590319e0be757ac6a6f399" approved="yes">
         <source>An error occurred while formatting the backup name.</source>
@@ -85,7 +85,7 @@
       <trans-unit id="0ea1ca0772a9eb4ee22ecfb14406271d" approved="yes">
         <source>Error when retrieving data from Distribution API</source>
         <target state="final">Chyba při načítání dat z Distribution API</target>
-        <note>classes/Services/DistributionApiService.php:70</note>
+        <note>classes/Services/MarketplaceService.php:51</note>
       </trans-unit>
       <trans-unit id="8749d103f0a98214ad61688208981068" approved="yes">
         <source>Invalid JSON from Distribution API: %s</source>
@@ -575,92 +575,92 @@
       <trans-unit id="9a2f2cf276ea9f79b31a815897c0e3e6" approved="yes">
         <source>%s ignored</source>
         <target state="final">%s ignorováno</target>
-        <note>classes/Task/Update/UpdateFiles.php:116</note>
+        <note>classes/Task/Update/UpdateFiles.php:117</note>
       </trans-unit>
       <trans-unit id="806d4247967402b8667340da2916cf4c" approved="yes">
         <source>Created link %s to %s.</source>
         <target state="final">Byl vytvořen odkaz %s na %s.</target>
-        <note>classes/Task/Update/UpdateFiles.php:134</note>
+        <note>classes/Task/Update/UpdateFiles.php:135</note>
       </trans-unit>
       <trans-unit id="db72a2f164bdc2d7b668e34e594852cb" approved="yes">
         <source>Error while creating link %s: %s</source>
         <target state="final">Chyba při vytváření odkazu %s: %s</target>
-        <note>classes/Task/Update/UpdateFiles.php:139</note>
+        <note>classes/Task/Update/UpdateFiles.php:140</note>
       </trans-unit>
       <trans-unit id="ba4bea05b16daf8e0652a6048cf741c6" approved="yes">
         <source>File %1$s has been deleted.</source>
         <target state="final">Soubor %1$s byl smazán.</target>
-        <note>classes/Task/Update/UpdateFiles.php:147</note>
+        <note>classes/Task/Update/UpdateFiles.php:148</note>
       </trans-unit>
       <trans-unit id="cbfafdaa2e7968a86bd6a437027edfea" approved="yes">
         <source>Directory %1$s created.</source>
         <target state="final">Adresář %1$s byl vytvořen.</target>
-        <note>classes/Task/Update/UpdateFiles.php:152</note>
+        <note>classes/Task/Update/UpdateFiles.php:153</note>
       </trans-unit>
       <trans-unit id="47e555d00d52a54c20b5f936ee706fc8" approved="yes">
         <source>Error while creating directory %s: %s.</source>
         <target state="final">Chyba při vytváření adresáře %s: %s.</target>
-        <note>classes/Task/Update/UpdateFiles.php:157</note>
+        <note>classes/Task/Update/UpdateFiles.php:158</note>
       </trans-unit>
       <trans-unit id="0a6c2db1b18cb6420ad40d46db8707de" approved="yes">
         <source>Directory %s already exists.</source>
         <target state="final">Adresář %s již existuje.</target>
-        <note>classes/Task/Update/UpdateFiles.php:162</note>
+        <note>classes/Task/Update/UpdateFiles.php:163</note>
       </trans-unit>
       <trans-unit id="e33b6cbf66a4417503eac526d8a94626" approved="yes">
         <source>The translation files have been merged into file %s.</source>
         <target state="final">Soubory s překlady byly sloučeny do souboru %s.</target>
-        <note>classes/Task/Update/UpdateFiles.php:171</note>
+        <note>classes/Task/Update/UpdateFiles.php:172</note>
       </trans-unit>
       <trans-unit id="7cfde7149c7a53bbbe854a0562ac0807" approved="yes">
         <source>The translation files have not been merged into file %filename%. Switch to copy %filename%.</source>
         <target state="final">Soubory s překlady nebyly sloučeny do souboru %filename%. Přepněte na kopii %filename%.</target>
-        <note>classes/Task/Update/UpdateFiles.php:176</note>
+        <note>classes/Task/Update/UpdateFiles.php:177</note>
       </trans-unit>
       <trans-unit id="b8db10001e04b8f947415aeb8b8fd19f" approved="yes">
         <source>Copied %1$s.</source>
         <target state="final">Zkopírováno %1$s.</target>
-        <note>classes/Task/Update/UpdateFiles.php:185</note>
+        <note>classes/Task/Update/UpdateFiles.php:186</note>
       </trans-unit>
       <trans-unit id="9c65b7a1b163ef55b0e169e244090de4" approved="yes">
         <source>Unable to copy %s, but ignoring as source and destination appear identical.</source>
         <target state="final">Nepodařilo se zkopírovat %s, ale ignoruji to, protože zdroj a cíl vypadají stejně.</target>
-        <note>classes/Task/Update/UpdateFiles.php:195</note>
+        <note>classes/Task/Update/UpdateFiles.php:196</note>
       </trans-unit>
       <trans-unit id="4a6c74e011e44e5fb206a6dcedfc1185" approved="yes">
         <source>Error while copying file %s: %s</source>
         <target state="final">Chyba při kopírování souboru %s: %s</target>
-        <note>classes/Task/Update/UpdateFiles.php:201</note>
+        <note>classes/Task/Update/UpdateFiles.php:202</note>
       </trans-unit>
       <trans-unit id="20aed4fb9f6ee15bc601227bbfb85acd" approved="yes">
         <source>Could not assert the folder %s contains a valid PrestaShop release, exiting.</source>
         <target state="final">Nepodařilo se ověřit, že ve složce %s je validní instalace PrestaShopu, končím.</target>
-        <note>classes/Task/Update/UpdateFiles.php:241</note>
+        <note>classes/Task/Update/UpdateFiles.php:242</note>
       </trans-unit>
       <trans-unit id="312d54356778124e7ad6d8c7be6ff1a0" approved="yes">
         <source>A file may be missing, or the release is stored in a subfolder by mistake.</source>
         <target state="final">Může chybět nějaký soubor, nebo je instalace omylem v nějaké podsložce.</target>
-        <note>classes/Task/Update/UpdateFiles.php:242</note>
+        <note>classes/Task/Update/UpdateFiles.php:243</note>
       </trans-unit>
       <trans-unit id="fa5d2fc42275582a8b7be9935084ad45" approved="yes">
         <source>Generate diff file list between %s and %s.</source>
         <target state="final">Generování seznamu rozdílů mezi %s a %s.</target>
-        <note>classes/Task/Update/UpdateFiles.php:263</note>
+        <note>classes/Task/Update/UpdateFiles.php:264</note>
       </trans-unit>
       <trans-unit id="a845839e72a2af510180c93273119199" approved="yes">
         <source>Unable to generate diff file list between %s and %s.</source>
         <target state="final">Nelze vygenerovat seznam rozdílů mezi %s a %s.</target>
-        <note>classes/Task/Update/UpdateFiles.php:266</note>
+        <note>classes/Task/Update/UpdateFiles.php:267</note>
       </trans-unit>
       <trans-unit id="b66f7c9b911acb4711e96eb7a7605bfb" approved="yes">
         <source>Unable to find files to update.</source>
         <target state="final">Nelze najít soubory pro aktualizaci.</target>
-        <note>classes/Task/Update/UpdateFiles.php:305</note>
+        <note>classes/Task/Update/UpdateFiles.php:311</note>
       </trans-unit>
       <trans-unit id="ee2e293c4bce5a37e5925743d549af8e" approved="yes">
         <source>%s files will be updated.</source>
         <target state="final">%s souborů bude aktualizováno.</target>
-        <note>classes/Task/Update/UpdateFiles.php:310</note>
+        <note>classes/Task/Update/UpdateFiles.php:316</note>
       </trans-unit>
       <trans-unit id="64d7e13ba8bcd0c4a6977cf271577a03" approved="yes">
         <source>Shop updated to %s, but some warnings have been found.</source>
@@ -685,7 +685,7 @@
       <trans-unit id="8c4204265814594491ae20c9899a0fff" approved="yes">
         <source>Running opcache_reset</source>
         <target state="final">Spouštím opcache_reset</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:843</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:846</note>
       </trans-unit>
       <trans-unit id="d2b9f1e39aa8e96bb61f3a4bfe133f58" approved="yes">
         <source>%s removed</source>
@@ -700,32 +700,32 @@
       <trans-unit id="2b4da2b27a96bf23f0de18c59e9b1afe" approved="yes">
         <source>Module %module% is up-to-date.</source>
         <target state="final">Modul %module% je aktuální.</target>
-        <note>classes/Task/Update/UpdateModules.php:77</note>
+        <note>classes/Task/Update/UpdateModules.php:78</note>
       </trans-unit>
       <trans-unit id="798df2395d946f1f5b75ef9f6d8d8b1e" approved="yes">
         <source>Retrieving the module instance of %s failed.</source>
         <target state="final">Načítání instance modulu %s se nezdařilo.</target>
-        <note>classes/Task/Update/UpdateModules.php:88</note>
+        <note>classes/Task/Update/UpdateModules.php:89</note>
       </trans-unit>
       <trans-unit id="a5db680b38097b4289b24d4925b8368e" approved="yes">
         <source>Module %s does not need to be migrated. Module is up to date.</source>
         <target state="final">Modul %s není potřeba migrovat, je aktuální.</target>
-        <note>classes/Task/Update/UpdateModules.php:94</note>
+        <note>classes/Task/Update/UpdateModules.php:95</note>
       </trans-unit>
       <trans-unit id="cf131dfbf6e4bd352b1e5ed65b169b0e" approved="yes">
         <source>%s modules left to check.</source>
         <target state="final">Zbývá aktualizovat %s modulů.</target>
-        <note>classes/Task/Update/UpdateModules.php:122</note>
+        <note>classes/Task/Update/UpdateModules.php:126</note>
       </trans-unit>
       <trans-unit id="d47b7d2553af843c2c037185c0279268" approved="yes">
         <source>All modules have been updated.</source>
         <target state="final">Všechny moduly byly aktualizovány.</target>
-        <note>classes/Task/Update/UpdateModules.php:127</note>
+        <note>classes/Task/Update/UpdateModules.php:134</note>
       </trans-unit>
       <trans-unit id="5775d9e6d353c11bc7c6fe21776d3b2c" approved="yes">
         <source>%s modules will be updated.</source>
         <target state="final">%s modulů bude aktualizováno.</target>
-        <note>classes/Task/Update/UpdateModules.php:155</note>
+        <note>classes/Task/Update/UpdateModules.php:162</note>
       </trans-unit>
       <trans-unit id="57d362fe2965e2071229eeaf44ae1f5b" approved="yes">
         <source>Temporary files directory has been emptied</source>
@@ -770,37 +770,37 @@
       <trans-unit id="badf6aad60d4a95b698028bc55aa3347" approved="yes">
         <source>Cleaning file cache</source>
         <target state="final">Čistím cache souborů</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:841</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:844</note>
       </trans-unit>
       <trans-unit id="c5ada796f937732385b6594d7364b69a" approved="yes">
         <source>Updating database data and structure</source>
         <target state="final">Aktualizuji data a strukturu databáze</target>
-        <note>classes/Task/Update/UpdateDatabase.php:127</note>
-      </trans-unit>
-      <trans-unit id="956ef5a4e2df09d2f7415c9f1284d17c" approved="yes">
-        <source>Checking version validity</source>
-        <target state="final">Kontrola platnosti verze</target>
-        <note>classes/Task/Update/UpdateDatabase.php:135</note>
+        <note>classes/Task/Update/UpdateDatabase.php:126</note>
       </trans-unit>
       <trans-unit id="de4026a3fc9813c32f3a247370c29f54" approved="yes">
         <source>Disabling all non native modules</source>
         <target state="final">Vypínám všechny externí moduly</target>
-        <note>classes/Task/Update/UpdateDatabase.php:145</note>
+        <note>classes/Task/Update/UpdateDatabase.php:133</note>
       </trans-unit>
       <trans-unit id="ffb63e7ff1e05430b4a292ac8651f1e4" approved="yes">
         <source>Keeping non native modules enabled</source>
         <target state="final">Nechávám externí moduly zapnuté</target>
-        <note>classes/Task/Update/UpdateDatabase.php:148</note>
+        <note>classes/Task/Update/UpdateDatabase.php:136</note>
+      </trans-unit>
+      <trans-unit id="956ef5a4e2df09d2f7415c9f1284d17c" approved="yes">
+        <source>Checking version validity</source>
+        <target state="final">Kontrola platnosti verze</target>
+        <note>classes/Task/Update/UpdateDatabase.php:143</note>
       </trans-unit>
       <trans-unit id="a6f9db17fdafdd976f34333d8a217531" approved="yes">
         <source>Version to install is too old. Current version: %oldversion%. Version to install: %newversion%.</source>
         <target state="final">Verze k instalaci je příliš stará. Aktuální verze: %oldversion%. Verze k instalaci: %newversion%.</target>
-        <note>classes/Task/Update/UpdateDatabase.php:165</note>
+        <note>classes/Task/Update/UpdateDatabase.php:166</note>
       </trans-unit>
       <trans-unit id="37ce0f29c7377c827e7247fe5645a782" approved="yes">
         <source>You already have the %s version.</source>
         <target state="final">Již máte verzi %s.</target>
-        <note>classes/Task/Update/UpdateDatabase.php:167</note>
+        <note>classes/Task/Update/UpdateDatabase.php:168</note>
       </trans-unit>
       <trans-unit id="435d516735dbf7f622c7d14585f66840" approved="yes">
         <source>Action %s skipped</source>
@@ -965,7 +965,7 @@
       <trans-unit id="ddfec814758f41dd73e219d374d1d15a" approved="yes">
         <source>Unable to retrieve the recommended releases of Update Assistant.</source>
         <target state="final">Nepodařilo se získat doporučené verze modulu Update Assistant.</target>
-        <note>classes/Upgrader.php:189</note>
+        <note>classes/Upgrader.php:203</note>
       </trans-unit>
       <trans-unit id="fff77a9b7fadd2dd38b16678c8b000cf" approved="yes">
         <source>Unable to create directory %s: %s</source>
@@ -1015,12 +1015,12 @@
       <trans-unit id="2f6767f7a35a93e9462d6ec6a237fd0d" approved="yes">
         <source>%dir% does not exist or is not a directory.</source>
         <target state="final">%dir% neexistuje, nebo se nejedná o složku.</target>
-        <note>classes/UpgradeTools/Module/ModuleAdapter.php:116</note>
+        <note>classes/UpgradeTools/Module/ModuleAdapter.php:119</note>
       </trans-unit>
       <trans-unit id="0ffc32ecace92b6d10bd5247b54fff15" approved="yes">
         <source>%s does not exist or is not a directory.</source>
         <target state="final">%s neexistuje, nebo se nejedná o složku.</target>
-        <note>classes/UpgradeTools/Module/ModuleAdapter.php:116</note>
+        <note>classes/UpgradeTools/Module/ModuleAdapter.php:119</note>
       </trans-unit>
       <trans-unit id="ffecf7f010dec7170bcc2749d49c41ff" approved="yes">
         <source>No version present in database for module %s, all files for update will be applied.</source>
@@ -1065,146 +1065,146 @@
       <trans-unit id="4e32fd9d99ee0c3370c870d4da3d31a9" approved="yes">
         <source>Running generic queries</source>
         <target state="final">Spouštím obecné dotazy</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:119</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:122</note>
       </trans-unit>
       <trans-unit id="589998cc1fe1a29f99a7bac84b1c121f" approved="yes">
         <source>Database update OK</source>
         <target state="final">Aktualizace databáze OK</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:122</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:125</note>
       </trans-unit>
       <trans-unit id="947d41a2e41f66e6a8581d2ab5726685" approved="yes">
         <source>Updating languages</source>
         <target state="final">Aktualizuji jazyky</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:126</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:129</note>
       </trans-unit>
       <trans-unit id="88bbbc84f51424b4b0c6da6aec2c2154" approved="yes">
         <source>Regenerating htaccess</source>
         <target state="final">Přegenerovávám htaccess</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:129</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:132</note>
       </trans-unit>
       <trans-unit id="128e1c61a1a4477ec05609569cc4d9d8" approved="yes">
         <source>Cleaning XML files</source>
         <target state="final">Čištění XML souborů</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:132</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:135</note>
       </trans-unit>
       <trans-unit id="12473a5949de1a1cd37806a14a56dbde" approved="yes">
         <source>Keeping overrides in place</source>
         <target state="final">Nechávám overridy na místě</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:136</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:139</note>
       </trans-unit>
       <trans-unit id="ed176ad3db6e004d4c272928acf3d0ac" approved="yes">
         <source>Disabling overrides</source>
         <target state="final">Vypínám overridy</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:138</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:141</note>
       </trans-unit>
       <trans-unit id="4afddec024bf8a4d5170ded7dc6c5665" approved="yes">
         <source>Warning detected during update.</source>
         <target state="final">Během aktualizace bylo zjištěno varování.</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:147</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:150</note>
       </trans-unit>
       <trans-unit id="a5b60046bfbbe89f0598a1a3b48e4bab" approved="yes">
         <source>Database update completed</source>
         <target state="final">Aktualizace databáze dokončena</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:149</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:152</note>
       </trans-unit>
       <trans-unit id="f25792b5b08a78dd01810297d219c10c" approved="yes">
         <source>Unable to find upgrade directory in the installation path.</source>
         <target state="final">V cestě pro instalaci nebylo možné nalézt složku pro aktualizaci.</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:269</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:272</note>
       </trans-unit>
       <trans-unit id="aae22c1ae9a2b451abca76ae8c5c79e8" approved="yes">
         <source>Error while loading SQL upgrade file "%s".</source>
         <target state="final">Chyba při načítání souboru aktualizace SQL "%s".</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:279</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:282</note>
       </trans-unit>
       <trans-unit id="8abd985d095a1282f6f01b98c121b41b" approved="yes">
         <source>Cannot find the SQL upgrade files. Please check that the %s folder is not empty.</source>
         <target state="final">Nebylo možné najít soubory s aktualizací SQL. Prosím zkontrolujte, zda není složka %s prázdná.</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:286</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:289</note>
       </trans-unit>
       <trans-unit id="10cdbccd344337ec910129a02cdfaac2" approved="yes">
         <source>Migration file: %s, Query: %s</source>
         <target state="final">Migrační soubor: %s, Dotaz: %s</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:514</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:517</note>
       </trans-unit>
       <trans-unit id="4541f052250eb4a4175730f1b2a9e556" approved="yes">
         <source>%s PHP - missing file %s</source>
         <target state="final">%s PHP - chybějící soubor %s</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:468</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:471</note>
       </trans-unit>
       <trans-unit id="b413563efb053e11acb49c7a239004bb" approved="yes">
         <source>%s PHP - Object Method call is forbidden (%s)</source>
         <target state="final">%s PHP - volání metody objektu je zakázáno (%s)</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:474</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:477</note>
       </trans-unit>
       <trans-unit id="bd996c5d2ed7b7ff38aef7377fc28b8a" approved="yes">
         <source>SQL %s table has been dropped.</source>
         <target state="final">SQL tabulka %s byla zahozena.</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:486</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:489</note>
       </trans-unit>
       <trans-unit id="a5f51c587cf3395667758cbdb04a5e0b" approved="yes">
         <source>The execution of the query failed: %s, %s</source>
         <target state="final">Provedení dotazu se nezdařilo: %s, %s</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:509</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:512</note>
       </trans-unit>
       <trans-unit id="fc1c5074f1d436f7827b3749ad05dc1d" approved="yes">
         <source>The execution of the query failed: %s, %s. This error code can be safely ignored.</source>
         <target state="final">Provedení dotazu selhalo: %s, %s. Tento chybový kód může být bezpečně ignorován.</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:513</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:516</note>
       </trans-unit>
       <trans-unit id="53983059bf39e1325bba11081ca40e97" approved="yes">
         <source>Keeping current theme</source>
         <target state="final">Nechávám současnou šablonu</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:751</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:754</note>
       </trans-unit>
       <trans-unit id="796b7c49e21f09173214f029c7f02f9d" approved="yes">
         <source>Switching to default theme.</source>
         <target state="final">Přepínání na výchozí šablonu.</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:756</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:759</note>
       </trans-unit>
       <trans-unit id="475d2ad61e3486ec4af224c5c701b668" approved="yes">
         <source>No RTL language detected, skipping RTL file update.</source>
         <target state="final">Nebyl nalezen žádný RTL jazyk, přeskakuji aktualizace souborů pro jazyky psané zprava.</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:773</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:776</note>
       </trans-unit>
       <trans-unit id="865502b07194399bc188582c6a3e266c" approved="yes">
         <source>Update the RTL files of back-office themes.</source>
         <target state="final">Aktualizovat RTL soubory administrace.</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:780</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:783</note>
       </trans-unit>
       <trans-unit id="751c05018f86933c195f46ec3ab55bf8" approved="yes">
         <source>Update the RTL files of front-office themes.</source>
         <target state="final">Aktualizovat RTL soubory šablon.</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:801</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:804</note>
       </trans-unit>
       <trans-unit id="3beb9b10d6bd297fde87d3ba5163975d" approved="yes">
         <source>PHP Impossible to generate RTL files for theme %s: %s</source>
         <target state="final">PHP: Nelze vygenerovat RTL soubory pro šablonu %s: %s</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:818</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:821</note>
       </trans-unit>
       <trans-unit id="061a241a2e3b54e5546a13792de11b82" approved="yes">
         <source>An error was raised when warming up the core cache: 
  %s</source>
         <target state="final">Došlo k chybě při zahřívání hlavní cache: 
 %s</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:866</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:873</note>
       </trans-unit>
       <trans-unit id="068cba215a30b9ffbd27e680475be575" approved="yes">
         <source>Core cache has been generated to avoid dependency conflicts.</source>
         <target state="final">Cache jádra byla vygenerována, aby se zabránilo konfliktům knihoven.</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:868</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:875</note>
       </trans-unit>
       <trans-unit id="9f945625e3bed4ad1a3705cc870621b3" approved="yes">
         <source>Installing assets</source>
         <target state="final">Instaluji součásti</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:882</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:889</note>
       </trans-unit>
       <trans-unit id="fda947e0147088b902c60871a248b020" approved="yes">
         <source>A code %d was returned while installing assets: 
  %s</source>
         <target state="final">Při instalaci prostředků byl vrácen kód %d:
 %s</target>
-        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:893</note>
+        <note>classes/UpgradeTools/CoreUpgrader/CoreUpgrader.php:909</note>
       </trans-unit>
       <trans-unit id="b5ffb77b13ab03298982a49842ce78aa" approved="yes">
         <source>%lang% is not a valid iso code, skipping</source>
@@ -1391,10 +1391,10 @@
         <target state="final">Zásady ochrany soukromí</target>
         <note>views/templates/components/privacy.html.twig:25</note>
       </trans-unit>
-      <trans-unit id="f685da009437ded5271e842075eaf743" approved="yes">
-        <source>Send error report</source>
-        <target state="final">Poslat chybové hlášení</target>
-        <note>views/templates/dialogs/dialog-error-report.html.twig:92</note>
+      <trans-unit id="879b829806e94a3e875f90138cd47609">
+        <source>View error report</source>
+        <target state="needs-translation">View error report</target>
+        <note>views/templates/components/form-open-error-report.html.twig:26</note>
       </trans-unit>
       <trans-unit id="caef47f6ddf52575a8fe9e566b68dcd8" approved="yes">
         <source>Select the backup you want to restore to</source>
@@ -2016,9 +2016,9 @@
         <target state="final">Zjistěte více o svých datech a právech</target>
         <note>views/templates/dialogs/dialog-error-report.html.twig:34</note>
       </trans-unit>
-      <trans-unit id="e20cbb947afcf84cf58de1358ee1068d" approved="yes">
-        <source>Error message</source>
-        <target state="final">Chybová zpráva</target>
+      <trans-unit id="67e284e328576a5bcae09651d55018b6">
+        <source>Error details</source>
+        <target state="needs-translation">Error details</target>
         <note>views/templates/dialogs/dialog-error-report.html.twig:45</note>
       </trans-unit>
       <trans-unit id="ea5957193770106ccbb79106b47c06a6" approved="yes">
@@ -2040,6 +2040,11 @@
         <source>You can add details about the error here.</source>
         <target state="final">Zde můžete přidat podrobnosti o chybě.</target>
         <note>views/templates/dialogs/dialog-error-report.html.twig:78</note>
+      </trans-unit>
+      <trans-unit id="f685da009437ded5271e842075eaf743" approved="yes">
+        <source>Send error report</source>
+        <target state="final">Poslat chybové hlášení</target>
+        <note>views/templates/dialogs/dialog-error-report.html.twig:92</note>
       </trans-unit>
       <trans-unit id="b6cf8e12bbbeee058067ebf8c8dda7e2" approved="yes">
         <source>Delete backup</source>
