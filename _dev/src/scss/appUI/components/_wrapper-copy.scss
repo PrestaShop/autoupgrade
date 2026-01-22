@@ -39,11 +39,11 @@ $e: ".wrapper-copy";
 
     &__button {
       position: absolute;
-      top: 2px;
-      right: 2px;
-      padding: 8px 10px;
+      top: 0.125rem;
+      right: 0.125rem;
+      padding: 0.5rem 0.625px;
       background-color: rgb(245 245 245 / 0.5);
-      backdrop-filter: blur(2px);
+      backdrop-filter: blur(0.125rem);
       visibility: hidden;
 
       .copied {
