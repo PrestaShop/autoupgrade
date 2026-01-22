@@ -18,26 +18,26 @@
  */
 @use "../../variables" as *;
 
-$e: ".copy-wrapper";
+$e: ".wrapper-copy";
 
 #{$ua-id} {
   #{$e} {
     position: relative;
 
-    pre {
+    &:hover {
+      #{$e}__button {
+        visibility: visible;
+      }
+    }
+
+    &__content {
       --#{$ua-prefix}contents-height: calc(5lh + (6 * 0.5rem));
       max-height: var(--#{$ua-prefix}contents-height);
       word-wrap: break-word;
       white-space: pre-wrap;
     }
 
-    &:hover {
-      .copy-button {
-        visibility: visible;
-      }
-    }
-
-    .copy-button {
+    &__button {
       position: absolute;
       top: 2px;
       right: 2px;

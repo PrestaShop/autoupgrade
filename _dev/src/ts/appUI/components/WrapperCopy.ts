@@ -19,8 +19,8 @@
 import DomLifecycle from '../../types/DomLifecycle';
 
 export default class WrapperCopy implements DomLifecycle {
-  readonly #elementClassToWatch = 'copy-button';
-  readonly #elementClassWhenCopied = 'copy-button--copied';
+  readonly #elementClassToWatch = 'wrapper-copy__button';
+  readonly #elementClassWhenCopied = 'wrapper-copy__button--copied';
   readonly #dataAttribute: string = 'targetId';
   public mount = () => {
     document.addEventListener('click', this.#onClick);

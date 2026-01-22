@@ -29,7 +29,7 @@ describe('WrapperCopy', () => {
 
   const createCopyButton = (targetId?: string): HTMLButtonElement => {
     const button = document.createElement('button');
-    button.className = 'copy-button';
+    button.className = 'wrapper-copy__button';
 
     if (targetId) {
       button.dataset.targetId = targetId;
@@ -111,7 +111,7 @@ describe('WrapperCopy', () => {
       button.click();
       await Promise.resolve();
 
-      expect(button.classList.contains('copy-button--copied')).toBe(true);
+      expect(button.classList.contains('wrapper-copy__button--copied')).toBe(true);
       expect(blurSpy).toHaveBeenCalled();
       expect(navigator.clipboard.writeText).toHaveBeenCalledWith('hello world');
     });
@@ -123,11 +123,11 @@ describe('WrapperCopy', () => {
       button.click();
       await Promise.resolve();
 
-      expect(button.classList.contains('copy-button--copied')).toBe(true);
+      expect(button.classList.contains('wrapper-copy__button--copied')).toBe(true);
 
       jest.advanceTimersByTime(1500);
 
-      expect(button.classList.contains('copy-button--copied')).toBe(false);
+      expect(button.classList.contains('wrapper-copy__button--copied')).toBe(false);
     });
 
     it('handles clicks on child elements via closest()', async () => {
