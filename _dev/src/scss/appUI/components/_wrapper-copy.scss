@@ -30,20 +30,31 @@ $e: ".wrapper-copy";
       }
     }
 
-    &__content {
+    &__pre {
       --#{$ua-prefix}contents-height: calc(5lh + (6 * 0.5rem));
       max-height: var(--#{$ua-prefix}contents-height);
-      word-wrap: break-word;
-      white-space: pre-wrap;
+      padding-block-start: 0;
+      white-space: inherit;
+    }
+
+    &__button-wrapper {
+      position: sticky;
+      top: 0.125rem;
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-end;
+      height: 1rem;
+    }
+
+    &__content {
+      display: block;
     }
 
     &__button {
-      position: absolute;
-      top: 0.125rem;
-      right: 0.125rem;
-      padding: 0.5rem 0.625px;
+      padding: 0.5rem 0.625rem;
       background-color: rgb(245 245 245 / 0.5);
       backdrop-filter: blur(0.125rem);
+      border-radius: 0.25rem;
       visibility: hidden;
 
       .copied {
