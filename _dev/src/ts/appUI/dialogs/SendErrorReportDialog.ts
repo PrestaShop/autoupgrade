@@ -22,15 +22,28 @@ import { logStore } from '../store/LogStore';
 import { formatLogsMessages } from '../utils/logsUtils';
 import DialogAbstract from './DialogAbstract';
 import ErrorPageBuilder from '../components/ErrorPageBuilder';
+import WrapperCopy from '../components/WrapperCopy';
 
 export default class SendErrorReportDialog extends DialogAbstract {
   protected readonly formId = 'form-error-feedback';
+  #wrapperCopy: WrapperCopy;
+
+  constructor() {
+    super();
+    this.#wrapperCopy = new WrapperCopy();
+  }
 
   public mount = (): void => {
     this.form.addEventListener('submit', this.onSubmit);
 
     const errorMessageArea: HTMLTextAreaElement = this.form.querySelector('#errorMessage')!;
-    errorMessageArea.value = this.#errorMessagePanelContents;
+    errorMessageArea.innerText = this.#errorMessagePanelContents;
+
+    this.#wrapperCopy.mount();
+  };
+
+  public beforeDestroy = (): void => {
+    this.#wrapperCopy.beforeDestroy();
   };
 
   get form(): HTMLFormElement {

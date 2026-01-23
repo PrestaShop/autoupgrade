@@ -81,12 +81,12 @@ describe('SendErrorReportDialog', () => {
     };
     initTemplateAndDialogWithResponse(JSON.stringify(responseContent));
 
-    const errorMessageArea: HTMLTextAreaElement | null = document.querySelector('#errorMessage');
+    const errorMessageArea: HTMLPreElement | null = document.querySelector('#errorMessage');
     expect(errorMessageArea).not.toBeNull();
     const expectedValue = `HTTP request failed. Route update-page-version-choice - Type: ERR_BAD_RESPONSE - HTTP Code 500
 
 CRITICAL - /var/www/html/modules/autoupgrade/classes/Services/DistributionApiService.php line 70 - PrestaShop\\Module\\AutoUpgrade\\Exceptions\\DistributionApiException: Error when retrieving data from Distribution API`;
-    expect(errorMessageArea?.value).toBe(expectedValue);
+    expect(errorMessageArea?.innerText).toBe(expectedValue);
   });
 
   it('should display several errors returned in the JSON', () => {
@@ -101,7 +101,7 @@ CRITICAL - /var/www/html/modules/autoupgrade/classes/Services/DistributionApiSer
     };
     initTemplateAndDialogWithResponse(JSON.stringify(responseContent));
 
-    const errorMessageArea: HTMLTextAreaElement | null = document.querySelector('#errorMessage');
+    const errorMessageArea: HTMLPreElement | null = document.querySelector('#errorMessage');
     expect(errorMessageArea).not.toBeNull();
     const expectedValue = `HTTP request failed. Route update-page-version-choice - Type: ERR_BAD_RESPONSE - HTTP Code 500
 
@@ -110,7 +110,7 @@ WARNING - /var/www/html/modules/autoupgrade/classes/Services/DistributionApiServ
 WARNING - /var/www/html/modules/autoupgrade/classes/Services/DistributionApiService.php line 67 - file_get_contents(https://api.prestashop-project.org/prestashop): Failed to open stream: no suitable wrapper could be found
 
 CRITICAL - /var/www/html/modules/autoupgrade/classes/Services/DistributionApiService.php line 70 - PrestaShop\\Module\\AutoUpgrade\\Exceptions\\DistributionApiException: Error when retrieving data from Distribution API`;
-    expect(errorMessageArea?.value).toBe(expectedValue);
+    expect(errorMessageArea?.innerText).toBe(expectedValue);
   });
 
   it('should only display the summary if there is no JSON to parse', () => {
@@ -118,10 +118,10 @@ CRITICAL - /var/www/html/modules/autoupgrade/classes/Services/DistributionApiSer
       'Oops, something went wrong\n\nTry to refresh this page or feel free to contact us if the problem persists.';
     initTemplateAndDialogWithResponse(responseContent);
 
-    const errorMessageArea: HTMLTextAreaElement | null = document.querySelector('#errorMessage');
+    const errorMessageArea: HTMLPreElement | null = document.querySelector('#errorMessage');
     expect(errorMessageArea).not.toBeNull();
     const expectedValue =
       'HTTP request failed. Route update-page-version-choice - Type: ERR_BAD_RESPONSE - HTTP Code 500';
-    expect(errorMessageArea?.value).toBe(expectedValue);
+    expect(errorMessageArea?.innerText).toBe(expectedValue);
   });
 });

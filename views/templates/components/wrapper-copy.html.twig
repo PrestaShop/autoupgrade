@@ -1,4 +1,4 @@
-/**
+{#**
  * Copyright since 2007 PrestaShop SA and Contributors
  * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
  *
@@ -15,23 +15,16 @@
  * @author    PrestaShop SA and Contributors <contact@prestashop.com>
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
- */
-// Global
-@use "typography";
+ *#}
+<div class="wrapper-copy">
+  <pre class="wrapper-copy__pre">
+    <div class="wrapper-copy__button-wrapper">
+      <button class="btn btn-link wrapper-copy__button" type="button" data-target-id="{{ id }}">
+        <span class="copy"><i class="material-icons">content_copy</i></span>
+        <span class="copied"><i class="material-icons">check</i></span>
+      </button>
+    </div>
 
-// Specific
-@use "alert";
-@use "button";
-@use "wrapper-copy";
-@use "check-requirements";
-@use "content";
-@use "dialog";
-@use "form";
-@use "local-archive";
-@use "logs";
-@use "privacy";
-@use "progress";
-@use "radio-card";
-@use "scrollable-list";
-@use "skeletons";
-@use "stepper";
+    <code class="wrapper-copy__content" id="{{ id }}"></code>
+  </pre>
+</div>
