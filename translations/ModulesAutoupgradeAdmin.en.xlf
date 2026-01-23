@@ -2024,27 +2024,27 @@
       <trans-unit id="ea5957193770106ccbb79106b47c06a6">
         <source>Email (optional)</source>
         <target>Email (optional)</target>
-        <note>views/templates/dialogs/dialog-error-report.html.twig:59</note>
+        <note>views/templates/dialogs/dialog-error-report.html.twig:52</note>
       </trans-unit>
       <trans-unit id="6832ac593617c3e5f61c82a20b0d9a3a">
         <source>Enter your email address</source>
         <target>Enter your email address</target>
-        <note>views/templates/dialogs/dialog-error-report.html.twig:66</note>
+        <note>views/templates/dialogs/dialog-error-report.html.twig:59</note>
       </trans-unit>
       <trans-unit id="0ba3309bf076bf416d0bb498fdfcb77f">
         <source>Description (optional)</source>
         <target>Description (optional)</target>
-        <note>views/templates/dialogs/dialog-error-report.html.twig:72</note>
+        <note>views/templates/dialogs/dialog-error-report.html.twig:65</note>
       </trans-unit>
       <trans-unit id="70570ccbf37717a289b3ac438d3cf0c4">
         <source>You can add details about the error here.</source>
         <target>You can add details about the error here.</target>
-        <note>views/templates/dialogs/dialog-error-report.html.twig:78</note>
+        <note>views/templates/dialogs/dialog-error-report.html.twig:71</note>
       </trans-unit>
       <trans-unit id="f685da009437ded5271e842075eaf743">
         <source>Send error report</source>
         <target>Send error report</target>
-        <note>views/templates/dialogs/dialog-error-report.html.twig:92</note>
+        <note>views/templates/dialogs/dialog-error-report.html.twig:85</note>
       </trans-unit>
       <trans-unit id="b6cf8e12bbbeee058067ebf8c8dda7e2">
         <source>Delete backup</source>
