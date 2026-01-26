@@ -1,3 +1,5 @@
+#!/bin/bash
+set +e
 
 for i in {1..7}; do
     echo "⏳ Attempting $i to install the autoupgrade module"
