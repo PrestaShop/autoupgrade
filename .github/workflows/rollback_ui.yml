@@ -63,6 +63,7 @@ jobs:
         if: startsWith(matrix.PS_VERSION_START, '1.7')
         run: |
           docker exec -t prestashop /usr/local/bin/disable-welcome.sh
+          docker exec -t prestashop chmod -R 777 /var/www/html/modules
 
       - name: Composer install
         run: |
