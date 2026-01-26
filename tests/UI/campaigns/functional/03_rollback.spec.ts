@@ -183,6 +183,8 @@ test.describe('Rollback', () => {
         });
 
         test(`should check that all the requirements are OK - ${index}`, async () => {
+          await exec('docker exec -t prestashop chmod -R 777 /var/www/html/modules');
+
           const isNextButtonEnabled = await modAutoupgradeBoMain.checkRequirements(page);
           expect(isNextButtonEnabled).toEqual(true);
         });

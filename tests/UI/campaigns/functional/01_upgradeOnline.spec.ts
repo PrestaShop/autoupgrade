@@ -36,6 +36,7 @@ import {
   test, expect, Page, BrowserContext,
 } from '@playwright/test';
 import semver from 'semver';
+import {exec} from 'child_process';
 
 const psVersion = utilsTest.getPSVersion();
 
@@ -259,6 +260,8 @@ test.describe('Upgrade using the online channel', () => {
   });
 
   test('should check that all the requirements are OK', async () => {
+    await exec('docker exec -t prestashop chmod -R 777 /var/www/html/modules');
+
     const isNextButtonEnabled = await modAutoupgradeBoMain.checkRequirements(page);
     expect(isNextButtonEnabled).toEqual(true);
   });
