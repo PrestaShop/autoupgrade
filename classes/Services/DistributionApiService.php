@@ -64,17 +64,7 @@ class DistributionApiService
      */
     public function getApiEndpoint(string $endPoint)
     {
-        if (ini_get('allow_url_fopen')) {
-            $response = @file_get_contents(self::API_URL . '/' . $endPoint);
-        } elseif (function_exists('curl_init')) {
-            $channel = curl_init(self::API_URL . '/' . $endPoint);
-            curl_setopt($channel, CURLOPT_FOLLOWLOCATION, true);
-            curl_setopt($channel, CURLOPT_RETURNTRANSFER, true);
-            $response = curl_exec($channel);
-            curl_close($channel);
-        } else {
-            $response = null;
-        }
+        $response = DownloadService::fetch($endPoint);
 
         if (!$response) {
             throw new DistributionApiException($this->translator->trans('Error when retrieving data from Distribution API'), DistributionApiException::API_NOT_CALLABLE_CODE);

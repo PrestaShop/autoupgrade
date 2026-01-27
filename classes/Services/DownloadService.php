@@ -77,6 +77,28 @@ class DownloadService
         if (!is_file($destinationPath) || filesize($destinationPath) === 0) {
             throw new IOException($this->translator->trans('The file could not be downloaded or is empty. Destination path: "%s", Source URL: "%s".', [$destinationPath, $downloadUrl]));
         }
+
+    }
+
+    /**
+     * Return the contents of a URL as a string.
+     * @param string $downloadUrl
+     * @return string|null Null is returned if fopen() can't open a URL and CURL isn't present.
+     */
+    static public function fetch(string $downloadUrl): mixed
+    {
+        if (ini_get('allow_url_fopen')) {
+            $response = @file_get_contents($downloadUrl);
+        } elseif (function_exists('curl_init')) {
+            $channel = curl_init($downloadUrl);
+            curl_setopt($channel, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($channel, CURLOPT_RETURNTRANSFER, true);
+            $response = curl_exec($channel);
+            curl_close($channel);
+        } else {
+            $response = null;
+        }
+        return $response;
     }
 
     private function wait(int $seconds): void
