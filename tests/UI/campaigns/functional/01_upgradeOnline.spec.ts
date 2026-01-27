@@ -261,6 +261,9 @@ test.describe('Upgrade using the online channel', () => {
 
   test('should check that all the requirements are OK', async () => {
     await exec('docker exec -t prestashop chmod -R 777 /var/www/html/modules');
+    if (semver.lt(psVersion, '7.3.0')) {
+      await exec('docker exec -t prestashop chmod -R 777 /var/www/html/app/cache');
+    }
 
     const isNextButtonEnabled = await modAutoupgradeBoMain.checkRequirements(page);
     expect(isNextButtonEnabled).toEqual(true);
