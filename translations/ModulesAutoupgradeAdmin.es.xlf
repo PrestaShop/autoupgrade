@@ -2024,27 +2024,27 @@
       <trans-unit id="ea5957193770106ccbb79106b47c06a6" approved="yes">
         <source>Email (optional)</source>
         <target state="final">Correo electrónico (opcional)</target>
-        <note>views/templates/dialogs/dialog-error-report.html.twig:59</note>
+        <note>views/templates/dialogs/dialog-error-report.html.twig:52</note>
       </trans-unit>
       <trans-unit id="6832ac593617c3e5f61c82a20b0d9a3a" approved="yes">
         <source>Enter your email address</source>
         <target state="final">Introduce tu dirección de correo electrónico</target>
-        <note>views/templates/dialogs/dialog-error-report.html.twig:66</note>
+        <note>views/templates/dialogs/dialog-error-report.html.twig:59</note>
       </trans-unit>
       <trans-unit id="0ba3309bf076bf416d0bb498fdfcb77f" approved="yes">
         <source>Description (optional)</source>
         <target state="final">Descripción (opcional)</target>
-        <note>views/templates/dialogs/dialog-error-report.html.twig:72</note>
+        <note>views/templates/dialogs/dialog-error-report.html.twig:65</note>
       </trans-unit>
       <trans-unit id="70570ccbf37717a289b3ac438d3cf0c4" approved="yes">
         <source>You can add details about the error here.</source>
         <target state="final">Puedes añadir detalles sobre el error aquí.</target>
-        <note>views/templates/dialogs/dialog-error-report.html.twig:78</note>
+        <note>views/templates/dialogs/dialog-error-report.html.twig:71</note>
       </trans-unit>
       <trans-unit id="f685da009437ded5271e842075eaf743" approved="yes">
         <source>Send error report</source>
         <target state="final">Enviar informe de errores</target>
-        <note>views/templates/dialogs/dialog-error-report.html.twig:92</note>
+        <note>views/templates/dialogs/dialog-error-report.html.twig:85</note>
       </trans-unit>
       <trans-unit id="b6cf8e12bbbeee058067ebf8c8dda7e2" approved="yes">
         <source>Delete backup</source>
