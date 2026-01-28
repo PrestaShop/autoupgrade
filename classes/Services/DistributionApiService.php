@@ -70,16 +70,17 @@ class DistributionApiService
             $downloader = new DownloadService($this->translator, new WebLogger());
             $response = $downloader->fetch($endPoint);
         } catch (IOException $exception) {
-            throw new ($this->translator->trans(
-                'Error when retrieving data from Distribution API',
+            throw new DistributionApiException($this->translator->trans('Error when retrieving data from Distribution API'),
                 DistributionApiException::API_NOT_CALLABLE_CODE
-            ));
+            );
         }
 
         $jsonResponse = json_decode($response, true);
 
         if (JSON_ERROR_NONE !== json_last_error()) {
-            throw new DistributionApiException($this->translator->trans('Invalid JSON from Distribution API: %s', [json_last_error_msg()]), DistributionApiException::API_NOT_CALLABLE_CODE);
+            throw new DistributionApiException($this->translator->trans(
+                'Invalid JSON from Distribution API: %s',
+                [json_last_error_msg()]), DistributionApiException::API_NOT_CALLABLE_CODE);
         }
 
         return $jsonResponse;
