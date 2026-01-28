@@ -70,7 +70,10 @@ class DistributionApiService
             $downloader = new DownloadService($this->translator, new WebLogger());
             $response = $downloader->fetch($endPoint);
         } catch (IOException $exception) {
-            throw new ($this->translator->trans('Error when retrieving data from Distribution API'), DistributionApiException::API_NOT_CALLABLE_CODE);
+            throw new ($this->translator->trans(
+                'Error when retrieving data from Distribution API',
+                DistributionApiException::API_NOT_CALLABLE_CODE
+            ));
         }
 
         $jsonResponse = json_decode($response, true);
