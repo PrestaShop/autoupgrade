@@ -83,9 +83,10 @@ class DownloadService
     /**
      * Return the contents of a URL as a string.
      * @param string $downloadUrl
-     * @return string|null Null is returned if fopen() can't open a URL and CURL isn't present.
+     * @return string
+     * @throws IOException
      */
-    static public function fetch(string $downloadUrl): mixed
+    public function fetch(string $downloadUrl): string
     {
         if (ini_get('allow_url_fopen')) {
             $response = @file_get_contents($downloadUrl);
@@ -96,7 +97,13 @@ class DownloadService
             $response = curl_exec($channel);
             curl_close($channel);
         } else {
-            $response = null;
+            $response = false;
+        }
+        if ($response === false) {
+            throw new IOException($this->translator->trans(
+                'The file could not be downloaded or is empty. Source URL: "%s".',
+                [$downloadUrl]
+            ));
         }
         return $response;
     }

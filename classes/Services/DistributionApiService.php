@@ -22,9 +22,11 @@
 namespace PrestaShop\Module\AutoUpgrade\Services;
 
 use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
+use PrestaShop\Module\AutoUpgrade\Log\WebLogger;
 use PrestaShop\Module\AutoUpgrade\Models\AutoupgradeRelease;
 use PrestaShop\Module\AutoUpgrade\Models\PrestashopRelease;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
+use Symfony\Component\Filesystem\Exception\IOException;
 
 class DistributionApiService
 {
@@ -64,10 +66,11 @@ class DistributionApiService
      */
     public function getApiEndpoint(string $endPoint)
     {
-        $response = DownloadService::fetch($endPoint);
-
-        if (!$response) {
-            throw new DistributionApiException($this->translator->trans('Error when retrieving data from Distribution API'), DistributionApiException::API_NOT_CALLABLE_CODE);
+        try {
+            $downloader = new DownloadService($this->translator, new WebLogger());
+            $response = $downloader->fetch($endPoint);
+        } catch (IOException $exception) {
+            throw new ($this->translator->trans('Error when retrieving data from Distribution API'), DistributionApiException::API_NOT_CALLABLE_CODE);
         }
 
         $jsonResponse = json_decode($response, true);
