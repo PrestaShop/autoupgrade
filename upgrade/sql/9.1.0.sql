@@ -13,6 +13,9 @@ INSERT INTO `PREFIX_feature_flag` (`name`, `type`, `label_wording`, `label_domai
   ('tag', 'env,dotenv,db', 'Tag', 'Admin.Advparameters.Feature', 'Enable / Disable the tag page.', 'Admin.Advparameters.Help', 0, 'beta'),
   ('improved_b2b', 'env,dotenv,db', 'Improved B2B', 'Admin.Advparameters.Feature', 'Enable / Disable the improved B2B mode. To use the feature activate the B2B mode in General Settings', 'Admin.Advparameters.Help', 0, 'beta');
 
+/* Remove obsolete feature flag from old removed cart rule migration */
+DELETE FROM `PREFIX_feature_flag` WHERE `name` IN ('cart_rule');
+
 /* Insert new shipment table */
 /* https://github.com/PrestaShop/PrestaShop/pull/38046 */
 CREATE TABLE IF NOT EXISTS `PREFIX_shipment` (
@@ -71,6 +74,9 @@ INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`
   (NULL, 'actionDiscountGridFilterFormModifier', 'Modify discount grid filters', 'This hook allows to modify filters for discount grid', '1'),
   (NULL, 'actionDiscountGridPresenterModifier', 'Modify discount grid template data', 'This hook allows to modify data which is about to be used in template for discount grid', '1')
 ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
+
+/* Remove obsolete hooks from old removed cart rule migration */
+DELETE FROM `PREFIX_hook` WHERE `name` IN ('actionCartRuleFormDataProviderData', 'actionCartRuleFormDataProviderDefaultData');
 
 /* Discount types for compatibility */
 CREATE TABLE IF NOT EXISTS `PREFIX_cart_rule_type` (
