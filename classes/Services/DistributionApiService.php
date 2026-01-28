@@ -64,7 +64,7 @@ class DistributionApiService
      */
     public function getApiEndpoint(string $endPoint)
     {
-        $response = @file_get_contents(self::API_URL . '/' . $endPoint);
+        $response = file_get_contents(self::API_URL . '/' . $endPoint);
 
         if (!$response) {
             throw new DistributionApiException($this->translator->trans('Error when retrieving data from Distribution API'), DistributionApiException::API_NOT_CALLABLE_CODE);
