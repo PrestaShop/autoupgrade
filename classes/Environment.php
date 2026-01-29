@@ -51,12 +51,4 @@ class Environment
     {
         return filter_var($this->getEnvValue($envName), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) ?? $default;
     }
-
-    /**
-     * @return bool true if the user has opted out, false otherwise
-     */
-    public function hasOptedOutAnalytics(): bool
-    {
-        return $this->getBoolean(self::URL_TRACKING_ENV_NAME, true);
-    }
 }

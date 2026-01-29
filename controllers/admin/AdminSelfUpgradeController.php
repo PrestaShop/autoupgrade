@@ -20,6 +20,7 @@
  */
 
 use PrestaShop\Module\AutoUpgrade\DocumentationLinks;
+use PrestaShop\Module\AutoUpgrade\Environment;
 use PrestaShop\Module\AutoUpgrade\Router\Router;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\VersionUtils;
@@ -304,7 +305,7 @@ class AdminSelfUpgradeController extends ModuleAdminController
             'php_version' => VersionUtils::getHumanReadableVersionOf(PHP_VERSION_ID),
             'anonymous_id' => $this->upgradeContainer->getProperty(UpgradeContainer::ANONYMOUS_USER_ID),
             'ps_version' => $currentPsVersion,
-            'has_opted_out_analytics' => $this->upgradeContainer->getEnvironment()->hasOptedOutAnalytics(),
+            'has_opted_out_analytics' => !$this->upgradeContainer->getEnvironment()->getBoolean(Environment::URL_TRACKING_ENV_NAME, true),
             'bo_language' => $this->context->language->locale,
             'bo_timezone' => date_default_timezone_get(),
             'links' => [

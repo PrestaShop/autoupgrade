@@ -73,22 +73,22 @@ class EnvironmentTest extends TestCase
     {
         $_SERVER[Environment::URL_TRACKING_ENV_NAME] = $value;
         $environment = new Environment();
-        $this->assertEquals($expected, $environment->hasOptedOutAnalytics());
+        $this->assertEquals($expected, !$environment->getBoolean(Environment::URL_TRACKING_ENV_NAME, true));
     }
 
     public function analyticsOptOutProvider()
     {
         return [
             'no value' => [null, true],
-            'false string' => ['false', true],
-            '0 string' => ['0', true],
-            'off string' => ['off', true],
-            'no string' => ['no', true],
-            'empty string' => ['', true],
-            'true string' => ['true', false],
-            '1 string' => ['1', false],
-            'on string' => ['on', false],
-            'yes string' => ['yes', false],
+            'false string' => ['false', false],
+            '0 string' => ['0', false],
+            'off string' => ['off', false],
+            'no string' => ['no', false],
+            'empty string' => ['', false],
+            'true string' => ['true', true],
+            '1 string' => ['1', true],
+            'on string' => ['on', true],
+            'yes string' => ['yes', true],
         ];
     }
 }
