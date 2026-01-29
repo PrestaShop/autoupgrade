@@ -29,6 +29,16 @@ services:
         source: ../../
         # Mount Path
         target: /var/www/html/modules/autoupgrade
+      - type: bind
+       # Local Path
+        source: ./post-install/install-update.sh
+       # Mount Path
+        target: /usr/local/bin/install-update.sh
+      - type: bind
+        # Local Path
+        source: ./post-install/disable-welcome.sh
+        # Mount Path
+        target: /usr/local/bin/disable-welcome.sh
     ports:
       - "80:80"
     deploy:
