@@ -131,8 +131,10 @@ class Autoupgrade extends Module
             $ajaxTab->delete();
         }
 
-        // Remove the 'autoupgrade' admin directory except backups
-        $this->getUpgradeContainer()->getFilesystemAdapter()->clearDirectory(_PS_ADMIN_DIR_ . DIRECTORY_SEPARATOR . 'autoupgrade', ['backup']);
+        if ($this->initAutoloaderIfCompliant()) {
+            // Remove the 'autoupgrade' admin directory except backups
+            $this->getUpgradeContainer()->getFilesystemAdapter()->clearDirectory(_PS_ADMIN_DIR_ . DIRECTORY_SEPARATOR . 'autoupgrade', ['backup']);
+        }
 
         return parent::uninstall();
     }
