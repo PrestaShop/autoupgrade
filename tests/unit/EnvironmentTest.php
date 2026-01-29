@@ -30,6 +30,10 @@ class EnvironmentTest extends TestCase
     {
         parent::setUp();
         $this->originalServer = $_SERVER;
+        // We need to unset the variables we are going to test to avoid side effects
+        unset($_SERVER['TEST_VAR']);
+        unset($_SERVER['TEST_BOOLEAN_VAR']);
+        putenv('TEST_VAR');
     }
 
     protected function tearDown(): void
@@ -67,28 +71,57 @@ class EnvironmentTest extends TestCase
     }
 
     /**
-     * @dataProvider analyticsOptOutProvider
+     * @dataProvider booleanFromStringProvider
      */
-    public function testHasOptedOutAnalytics($value, $expected)
+    public function testGetBooleanFromStringValue(string $value, bool $expected)
     {
-        $_SERVER[Environment::URL_TRACKING_ENV_NAME] = $value;
+        $envVarName = 'TEST_BOOLEAN_VAR';
+        $_SERVER[$envVarName] = $value;
         $environment = new Environment();
-        $this->assertEquals($expected, !$environment->getBoolean(Environment::URL_TRACKING_ENV_NAME, true));
+        // The default value should not affect the result here
+        $this->assertSame($expected, $environment->getBoolean($envVarName, false));
+        $this->assertSame($expected, $environment->getBoolean($envVarName, true));
     }
 
-    public function analyticsOptOutProvider()
+    public function booleanFromStringProvider(): array
     {
         return [
-            'no value' => [null, true],
             'false string' => ['false', false],
             '0 string' => ['0', false],
             'off string' => ['off', false],
             'no string' => ['no', false],
             'empty string' => ['', false],
+            'random string' => ['random_string', false],
             'true string' => ['true', true],
             '1 string' => ['1', true],
             'on string' => ['on', true],
             'yes string' => ['yes', true],
         ];
+    }
+
+    /**
+     * @dataProvider defaultValueProvider
+     */
+    public function testGetBooleanDefaultValue(bool $defaultToTest)
+    {
+        $environment = new Environment();
+        $this->assertSame($defaultToTest, $environment->getBoolean('NON_EXISTING_VAR', $defaultToTest));
+    }
+
+    public function defaultValueProvider(): array
+    {
+        return [
+            'default is true' => [true],
+            'default is false' => [false],
+        ];
+    }
+
+    public function testGetBooleanReturnsDefaultWhenValueIsNull()
+    {
+        $envVarName = 'TEST_BOOLEAN_VAR';
+        $_SERVER[$envVarName] = null;
+        $environment = new Environment();
+        $this->assertTrue($environment->getBoolean($envVarName, true));
+        $this->assertFalse($environment->getBoolean($envVarName, false));
     }
 }
