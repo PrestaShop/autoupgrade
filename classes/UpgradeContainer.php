@@ -25,6 +25,7 @@ use Exception;
 use InvalidArgumentException;
 use PrestaShop\Module\AutoUpgrade\Backup\BackupFinder;
 use PrestaShop\Module\AutoUpgrade\Backup\BackupManager;
+use PrestaShop\Module\AutoUpgrade\Environment as UpdateEnvironment;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
 use PrestaShop\Module\AutoUpgrade\Log\WebLogger;
 use PrestaShop\Module\AutoUpgrade\Parameters\ConfigurationStorage;
@@ -75,7 +76,7 @@ use Symfony\Component\Console\Helper\TableStyle;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use Twig\Environment as TwigEnvironment;
+use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Loader\FilesystemLoader;
 use Twig_Environment;
@@ -175,7 +176,7 @@ class UpgradeContainer
     /** @var CompletionCalculator */
     private $completionCalculator;
 
-    /** @var Twig_Environment|TwigEnvironment */
+    /** @var Twig_Environment|Environment */
     private $twig;
 
     /** @var BackupState */
@@ -255,7 +256,7 @@ class UpgradeContainer
     /** @var UrlGenerator */
     private $urlGenerator;
 
-    /** @var Environment */
+    /** @var UpdateEnvironment */
     private $environment;
 
     /**
@@ -734,7 +735,7 @@ class UpgradeContainer
     /**
      * @throws LoaderError
      *
-     * @return Twig_Environment|TwigEnvironment
+     * @return Twig_Environment|Environment
      */
     public function getTwig()
     {
@@ -743,7 +744,7 @@ class UpgradeContainer
                 // We use Twig 3
                 $loader = new FilesystemLoader();
                 $loader->addPath(realpath(__DIR__ . '/..') . '/views/templates', 'ModuleAutoUpgrade');
-                $twig = new TwigEnvironment($loader);
+                $twig = new Environment($loader);
                 $twig->addExtension(new TransFilterExtension3($this->getTranslator()));
             } else {
                 // We use Twig 1
@@ -1070,12 +1071,12 @@ class UpgradeContainer
     }
 
     /**
-     * @return Environment
+     * @return UpdateEnvironment
      */
-    public function getEnvironment(): Environment
+    public function getEnvironment(): UpdateEnvironment
     {
         if (null === $this->environment) {
-            $this->environment = new Environment();
+            $this->environment = new UpdateEnvironment();
         }
 
         return $this->environment;

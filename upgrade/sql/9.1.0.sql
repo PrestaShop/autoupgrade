@@ -115,3 +115,8 @@ INSERT INTO `PREFIX_cart_rule_type` (`id_cart_rule_type`, `discount_type`, `is_c
 ON DUPLICATE KEY UPDATE `discount_type` = VALUES(`discount_type`), `is_core` = VALUES(`is_core`), `active` = VALUES(`active`);
 
 /* PHP:ps_910_init_cart_rule_type_lang_translations(); */;
+
+/* Make quantity and quantity_per_user nullable in cart_rule table */
+/* https://github.com/PrestaShop/PrestaShop/pull/40330 */
+/* PHP:add_column('cart_rule', 'quantity', 'int(10) unsigned DEFAULT \'0\''); */;
+/* PHP:add_column('cart_rule', 'quantity_per_user', 'int(10) unsigned DEFAULT \'0\''); */;

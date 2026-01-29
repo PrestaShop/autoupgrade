@@ -1392,10 +1392,10 @@
         <target state="final">Politique de confidentialité</target>
         <note>views/templates/components/privacy.html.twig:25</note>
       </trans-unit>
-      <trans-unit id="f685da009437ded5271e842075eaf743" approved="yes">
-        <source>Send error report</source>
-        <target state="final">Envoyer un rapport d'erreur</target>
-        <note>views/templates/dialogs/dialog-error-report.html.twig:92</note>
+      <trans-unit id="879b829806e94a3e875f90138cd47609" approved="yes">
+        <source>View error report</source>
+        <target state="final">Voir le rapport d'erreur</target>
+        <note>views/templates/components/form-open-error-report.html.twig:26</note>
       </trans-unit>
       <trans-unit id="caef47f6ddf52575a8fe9e566b68dcd8" approved="yes">
         <source>Select the backup you want to restore to</source>
@@ -2017,9 +2017,9 @@
         <target state="final">En savoir plus sur vos données et vos droits</target>
         <note>views/templates/dialogs/dialog-error-report.html.twig:34</note>
       </trans-unit>
-      <trans-unit id="e20cbb947afcf84cf58de1358ee1068d" approved="yes">
-        <source>Error message</source>
-        <target state="final">Message d'erreur</target>
+      <trans-unit id="67e284e328576a5bcae09651d55018b6" approved="yes">
+        <source>Error details</source>
+        <target state="final">Détails de l'erreur</target>
         <note>views/templates/dialogs/dialog-error-report.html.twig:45</note>
       </trans-unit>
       <trans-unit id="ea5957193770106ccbb79106b47c06a6" approved="yes">
@@ -2041,6 +2041,11 @@
         <source>You can add details about the error here.</source>
         <target state="final">Vous pouvez ajouter des détails concernant l'erreur ici.</target>
         <note>views/templates/dialogs/dialog-error-report.html.twig:78</note>
+      </trans-unit>
+      <trans-unit id="f685da009437ded5271e842075eaf743" approved="yes">
+        <source>Send error report</source>
+        <target state="final">Envoyer un rapport d'erreur</target>
+        <note>views/templates/dialogs/dialog-error-report.html.twig:92</note>
       </trans-unit>
       <trans-unit id="b6cf8e12bbbeee058067ebf8c8dda7e2" approved="yes">
         <source>Delete backup</source>

@@ -35,7 +35,7 @@ class Autoupgrade extends Module
         $this->name = 'autoupgrade';
         $this->tab = 'administration';
         $this->author = 'PrestaShop';
-        $this->version = '7.5.0';
+        $this->version = '7.5.1';
         $this->need_instance = 1;
         $this->module_key = '926bc3e16738b7b834f37fc63d59dcf8';
 
@@ -131,8 +131,10 @@ class Autoupgrade extends Module
             $ajaxTab->delete();
         }
 
-        // Remove the 'autoupgrade' admin directory except backups
-        $this->getUpgradeContainer()->getFilesystemAdapter()->clearDirectory(_PS_ADMIN_DIR_ . DIRECTORY_SEPARATOR . 'autoupgrade', ['backup']);
+        if ($this->initAutoloaderIfCompliant()) {
+            // Remove the 'autoupgrade' admin directory except backups
+            $this->getUpgradeContainer()->getFilesystemAdapter()->clearDirectory(_PS_ADMIN_DIR_ . DIRECTORY_SEPARATOR . 'autoupgrade', ['backup']);
+        }
 
         return parent::uninstall();
     }

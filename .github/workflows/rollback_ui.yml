@@ -53,6 +53,18 @@ jobs:
         run: |
           docker compose -f "docker-compose.yml" up -d --build
           bash -c 'while [[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost/)" != "200" ]]; do sleep 5; done'
+
+      - name: Install Update assistant module
+        if: startsWith(matrix.PS_VERSION_START, '1.7')
+        run: |
+          docker exec -t prestashop /usr/local/bin/install-update.sh
+
+      - name: Disable ps_welcome
+        if: startsWith(matrix.PS_VERSION_START, '1.7')
+        run: |
+          docker exec -t prestashop /usr/local/bin/disable-welcome.sh
+          docker exec -t prestashop chmod -R 777 /var/www/html/modules
+
       - name: Composer install
         run: |
           composer install

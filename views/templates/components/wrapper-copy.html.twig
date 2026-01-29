@@ -16,13 +16,15 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  *#}
-<form
-  id="submit-error-report"
-  name="submit-error-report"
-  data-route-to-submit="{{ submit_error_report_route }}"
->
-  <button class="btn btn-lg btn-default" type="submit">
-    <i class="material-icons">send</i>
-    {{ 'View error report'|trans({}) }}
-  </button>
-</form>
+<div class="wrapper-copy">
+  <pre class="wrapper-copy__pre">
+    <div class="wrapper-copy__button-wrapper">
+      <button class="btn btn-link wrapper-copy__button" type="button" data-target-id="{{ id }}">
+        <span class="copy"><i class="material-icons">content_copy</i></span>
+        <span class="copied"><i class="material-icons">check</i></span>
+      </button>
+    </div>
+
+    <code class="wrapper-copy__content" id="{{ id }}"></code>
+  </pre>
+</div>
