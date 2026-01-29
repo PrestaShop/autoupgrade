@@ -63,6 +63,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\QuarantineZone;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\AbstractModuleSourceProvider;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\ComposerSourceProvider;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\DistributionApiSourceProvider;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\LocalSourceProvider;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\MarketplaceSourceProvider;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter;
@@ -606,8 +607,8 @@ class UpgradeContainer
             $this->moduleSourceProviders = [
                 new LocalSourceProvider($this->getProperty(self::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . 'modules', $this->getFileStorage()),
                 new MarketplaceSourceProvider($this->getUpdateState()->getDestinationVersion(), $this->getProperty(self::PS_ROOT_PATH), $this->getFileLoader(), $this->getFileStorage()),
+                new DistributionApiSourceProvider($this->getUpdateState()->getDestinationVersion(), $this->getDistributionApiService(), $this->getFileStorage()),
                 new ComposerSourceProvider($this->getProperty(self::TMP_FILES_PATH), $this->getComposerService(), $this->getFileStorage()),
-                // Other providers
             ];
         }
 

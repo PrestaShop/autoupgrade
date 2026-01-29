@@ -56,6 +56,18 @@ class DistributionApiService
     }
 
     /**
+     * @param string $prestashopVersion
+     *
+     * @return array<string, array{display_name: string, tab: string, description: string, author: string, version: string, prestashop_min_version: string, prestashop_max_version: string, download_url: string, icon: string}>
+     *
+     * @throws DistributionApiException
+     */
+    public function getModules(string $prestashopVersion): array
+    {
+        return $this->getApiEndpoint('modules/' . $prestashopVersion);
+    }
+
+    /**
      * @throws DistributionApiException
      *
      * @param string $endPoint
