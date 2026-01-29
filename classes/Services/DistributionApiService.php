@@ -34,6 +34,11 @@ class DistributionApiService
     public const AUTOUPGRADE_ENDPOINT = 'autoupgrade';
     public const API_URL = 'https://api.prestashop-project.org';
 
+    /**
+     * @var DownloadService
+     */
+    private $downloader;
+
     /** @var array<string, string> */
     private static $factories = [
         self::PRESTASHOP_ENDPOINT => 'createPrestashopReleaseCollection',
@@ -51,8 +56,9 @@ class DistributionApiService
     /**
      * @param Translator $translator
      */
-    public function __construct(Translator $translator)
+    public function __construct(Translator $translator, DownloadService $downloader)
     {
+        $this->downloader = $downloader;
         $this->translator = $translator;
         $this->endpointData = [];
     }
@@ -67,8 +73,7 @@ class DistributionApiService
     public function getApiEndpoint(string $endPoint)
     {
         try {
-            $downloader = new DownloadService($this->translator, new WebLogger());
-            $response = $downloader->fetch($endPoint);
+            $response = $this->downloader->fetch($endPoint);
         } catch (IOException $exception) {
             throw new DistributionApiException($this->translator->trans('Error when retrieving data from Distribution API'),
                 DistributionApiException::API_NOT_CALLABLE_CODE

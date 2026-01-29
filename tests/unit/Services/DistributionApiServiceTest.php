@@ -24,6 +24,7 @@ use PHPUnit\Framework\TestCase;
 use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
 use PrestaShop\Module\AutoUpgrade\Log\WebLogger;
 use PrestaShop\Module\AutoUpgrade\Services\DistributionApiService;
+use PrestaShop\Module\AutoUpgrade\Services\DownloadService;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 use Symfony\Component\Filesystem\Exception\IOException;
 
@@ -36,7 +37,10 @@ class DistributionApiServiceTest extends TestCase
 
     public function setUp()
     {
-        $this->distributionApiService = new DistributionApiService(new Translator(''));
+        $this->distributionApiService = new DistributionApiService(
+            new Translator(''),
+            new DownloadService(new Translator(''), new WebLogger())
+        );
     }
 
     public function testApiEndpointViaCurlFailed()

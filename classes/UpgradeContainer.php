@@ -844,7 +844,10 @@ class UpgradeContainer
     public function getDistributionApiService(): DistributionApiService
     {
         if (null === $this->distributionApiService) {
-            $this->distributionApiService = new DistributionApiService($this->getTranslator());
+            $this->distributionApiService = new DistributionApiService(
+                $this->getTranslator(),
+                $this->getDownloadService()
+            );
         }
 
         return $this->distributionApiService;
