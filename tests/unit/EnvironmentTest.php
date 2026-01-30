@@ -134,13 +134,6 @@ class EnvironmentTest extends TestCase
         putenv('TEST_BOOL');
 
         $env = new Environment();
-        // If the variable is missing, getEnvValue returns null.
-        // filter_var(null, ..., FILTER_NULL_ON_FAILURE) returns null.
-        // So it should return the default value.
-        // Wait, confirming filter_var(null) behavior...
-        // If filter_var(null) returns false (as "" converts to false), this test might fail for TRUE case.
-        // But with FILTER_NULL_ON_FAILURE, it should ideally be NULL.
-        // Let's test checking if defaults apply.
 
         $this->assertTrue($env->getBoolean('TEST_BOOL', true));
         $this->assertFalse($env->getBoolean('TEST_BOOL', false));
