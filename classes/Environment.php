@@ -39,7 +39,7 @@ class Environment
 
         if (isset($_SERVER[$envName])) {
             $envValue = $_SERVER[$envName];
-            // If the variable is defined, we will get a string back with the getEnv function; if false is returned, the variable was not found.
+        // If the variable is defined, we will get a string back with the getEnv function; if false is returned, the variable was not found.
         } elseif (getenv($envName) !== false) {
             $envValue = getenv($envName);
         }
