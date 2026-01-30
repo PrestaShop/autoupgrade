@@ -94,7 +94,7 @@
       "UPGRADE_CHANNEL": "online"
     },
     {
-      "comment": "1.7.8.10 -> 1.7.8.11 PHP 7.1 ~ 7.3 online"
+      "comment": "1.7.8.10 PHP 7.1 ~ 7.3 online"
     },
     {
       "PS_VERSION_START": "1.7.8.10",
