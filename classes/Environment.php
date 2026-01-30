@@ -39,7 +39,7 @@ class Environment
 
         if (isset($_SERVER[$envName])) {
             $envValue = $_SERVER[$envName];
-        // If the variable is defined, we will get a string back with the getEnv function; if false is returned, the variable was not found.
+            // If the variable is defined, we will get a string back with the getEnv function; if false is returned, the variable was not found.
         } elseif (getenv($envName) !== false) {
             $envValue = getenv($envName);
         }
@@ -49,6 +49,12 @@ class Environment
 
     public function getBoolean(string $envName, bool $default = false): bool
     {
-        return filter_var($this->getEnvValue($envName), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) ?? $default;
+        $value = $this->getEnvValue($envName);
+
+        if (null === $value) {
+            return $default;
+        }
+
+        return filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) ?? $default;
     }
 }
