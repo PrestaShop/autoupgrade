@@ -21,7 +21,6 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider;
 
-use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
 use PrestaShop\Module\AutoUpgrade\Parameters\FileStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Services\DistributionApiService;
@@ -56,19 +55,15 @@ class DistributionApiSourceProvider extends AbstractModuleSourceProvider
             return;
         }
 
-        try {
-            $modules = $this->distributionApiService->getModules($this->targetVersionOfPrestaShop);
-        } catch (DistributionApiException $e) {
-            return;
-        }
+        $modules = $this->distributionApiService->getModules($this->targetVersionOfPrestaShop);
 
         $this->localModuleZips = [];
 
-        foreach ($modules as $moduleName => $moduleData) {
+        foreach ($modules as $moduleData) {
             $this->localModuleZips[] = new ModuleSource(
-                (string) $moduleName,
-                (string) $moduleData['version'],
-                (string) $moduleData['download_url'],
+                $moduleData->getName(),
+                $moduleData->getVersion(),
+                $moduleData->getDownloadUrl(),
                 true
             );
         }

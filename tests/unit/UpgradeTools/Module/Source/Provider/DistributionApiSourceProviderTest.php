@@ -37,15 +37,27 @@ class DistributionApiSourceProviderTest extends TestCase
 
     public function testCacheGenerationWithData()
     {
-        $distributionApiService = $this->createMock(DistributionApiService::class);
-        $distributionApiService->method('getModules')->willReturn([
+        $distributionApiService = $this->createPartialMock(DistributionApiService::class, ['getApiEndpoint']);
+        $distributionApiService->method('getApiEndpoint')->willReturn([
             'autoupgrade' => [
                 'version' => '5.0.0',
                 'download_url' => 'https://example.com/autoupgrade.zip',
+                'display_name' => '',
+                'tab' => '',
+                'description' => '',
+                'author' => '',
+                'prestashop_min_version' => '',
+                'icon' => '',
             ],
             'ps_apiresources' => [
                 'version' => '1.0.0',
                 'download_url' => 'https://example.com/ps_apiresources.zip',
+                'display_name' => '',
+                'tab' => '',
+                'description' => '',
+                'author' => '',
+                'prestashop_min_version' => '',
+                'icon' => '',
             ],
         ]);
         $fileConfigurationStorageMock = $this->createMock(FileStorage::class);
