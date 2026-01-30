@@ -39,7 +39,7 @@ $e: ".wrapper-copy";
 
     &__button-wrapper {
       position: sticky;
-      top: 0.125rem;
+      top: 0.625rem;
       display: flex;
       align-items: flex-start;
       justify-content: flex-end;
@@ -55,6 +55,10 @@ $e: ".wrapper-copy";
 
       .copied {
         display: none;
+      }
+
+      &-icon {
+        font-size: 1rem !important;
       }
 
       &--copied {
