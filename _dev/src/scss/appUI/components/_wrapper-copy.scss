@@ -51,10 +51,6 @@ $e: ".wrapper-copy";
     }
 
     &__button {
-      padding: 0.5rem 0.625rem;
-      background-color: rgb(245 245 245 / 0.5);
-      backdrop-filter: blur(0.125rem);
-      border-radius: 0.25rem;
       visibility: hidden;
 
       .copied {
@@ -68,7 +64,6 @@ $e: ".wrapper-copy";
 
         .copied {
           display: inline;
-          color: var(--#{$ua-prefix}green-500);
         }
       }
     }
