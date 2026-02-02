@@ -90,17 +90,17 @@
       <trans-unit id="8749d103f0a98214ad61688208981068">
         <source>Invalid JSON from Distribution API: %s</source>
         <target>Invalid JSON from Distribution API: %s</target>
-        <note>classes/Services/DistributionApiService.php:76</note>
+        <note>classes/Services/DistributionApiService.php:79</note>
       </trans-unit>
       <trans-unit id="90983283d1e14aa535ea65a1f9033115">
         <source>No version match in Distribution api for %s</source>
         <target>No version match in Distribution api for %s</target>
-        <note>classes/Services/DistributionApiService.php:100</note>
+        <note>classes/Services/DistributionApiService.php:103</note>
       </trans-unit>
       <trans-unit id="3bbfcfd53991e59d1f0386d4246c3428">
         <source>Unable to retrieve "%s" data from distribution API.</source>
         <target>Unable to retrieve "%s" data from distribution API.</target>
-        <note>classes/Services/DistributionApiService.php:156</note>
+        <note>classes/Services/DistributionApiService.php:172</note>
       </trans-unit>
       <trans-unit id="7f8f7ff0c4bb4599a45fa5b3708dd2c4">
         <source>Download backup logs</source>
