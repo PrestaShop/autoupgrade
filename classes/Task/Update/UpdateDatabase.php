@@ -129,6 +129,7 @@ class UpdateDatabase extends AbstractTask
             $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
         );
 
+        /** @see https://github.com/PrestaShop/PrestaShop/pull/35313 */
         if (version_compare('9.0.0', $this->container->getUpdateState()->getDestinationVersion(), '>')) {
             if ($this->container->getUpdateConfiguration()->shouldDeactivateCustomModules()) {
                 $this->logger->info($this->container->getTranslator()->trans('Disabling all non native modules'));
