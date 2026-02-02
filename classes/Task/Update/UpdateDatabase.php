@@ -138,7 +138,6 @@ class UpdateDatabase extends AbstractTask
             }
         }
 
-
         $this->container->getQuarantineZone()->addAll();
 
         $this->getCoreUpgrader()->writeNewSettings();
