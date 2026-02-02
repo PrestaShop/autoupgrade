@@ -25,7 +25,7 @@
 {% endblock %}
 
 {% block content %}
-  <form 
+  <form
     class="update-options-page__field-list"
     action=""
     data-route-to-save="{{ form_route_to_save }}"
@@ -33,14 +33,16 @@
     id="update-options-page-form"
     name="update-options-page-form"
   >
-    {% include "@ModuleAutoUpgrade/components/render-switch.html.twig" with {
-      id: form_fields.deactive_non_native_modules.field,
-      name: form_fields.deactive_non_native_modules.field,
-      title: "Deactivate non-native modules"|trans({}),
-      description: "All the modules installed after creating your store are considered non-native modules. They might be incompatible with the new version of PrestaShop. We recommend deactivating them during the update."|trans({}),
-      value: form_fields.deactive_non_native_modules.value,
-      error_message: errors[form_fields.deactive_non_native_modules.field] is defined ? errors[form_fields.deactive_non_native_modules.field] : null,
-    } %}
+    {% if form_fields.deactive_non_native_modules.enabled %}
+      {% include "@ModuleAutoUpgrade/components/render-switch.html.twig" with {
+        id: form_fields.deactive_non_native_modules.field,
+        name: form_fields.deactive_non_native_modules.field,
+        title: "Deactivate non-native modules"|trans({}),
+        description: "All the modules installed after creating your store are considered non-native modules. They might be incompatible with the new version of PrestaShop. We recommend deactivating them during the update."|trans({}),
+        value: form_fields.deactive_non_native_modules.value,
+        error_message: errors[form_fields.deactive_non_native_modules.field] is defined ? errors[form_fields.deactive_non_native_modules.field] : null,
+      } %}
+    {% endif %}
 
     {% include "@ModuleAutoUpgrade/components/render-switch.html.twig" with {
       id: form_fields.regenerate_email_templates.field,

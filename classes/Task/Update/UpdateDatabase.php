@@ -129,12 +129,15 @@ class UpdateDatabase extends AbstractTask
             $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
         );
 
-        if ($this->container->getUpdateConfiguration()->shouldDeactivateCustomModules()) {
-            $this->logger->info($this->container->getTranslator()->trans('Disabling all non native modules'));
-            $this->getCoreUpgrader()->disableCustomModules();
-        } else {
-            $this->logger->info($this->container->getTranslator()->trans('Keeping non native modules enabled'));
+        if (version_compare('9.0.0', $this->container->getUpdateState()->getDestinationVersion(), '>')) {
+            if ($this->container->getUpdateConfiguration()->shouldDeactivateCustomModules()) {
+                $this->logger->info($this->container->getTranslator()->trans('Disabling all non native modules'));
+                $this->getCoreUpgrader()->disableCustomModules();
+            } else {
+                $this->logger->info($this->container->getTranslator()->trans('Keeping non native modules enabled'));
+            }
         }
+
 
         $this->container->getQuarantineZone()->addAll();
 
