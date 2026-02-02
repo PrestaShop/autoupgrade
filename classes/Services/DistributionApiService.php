@@ -231,7 +231,7 @@ class DistributionApiService
     }
 
     /**
-     * @param array<string, array{display_name: string, tab: string, description: string, author: string, version: string, prestashop_min_version: string|null, prestashop_max_version: string|null, download_url: string, icon: string}> $data
+     * @param array<string, array{display_name: ?string, tab: ?string, description: ?string, author: ?string, version: string, prestashop_min_version: ?string, prestashop_max_version: ?string, download_url: string, icon: string}> $data
      *
      * @return Module[]
      */
@@ -242,15 +242,15 @@ class DistributionApiService
         foreach ($data as $moduleInfoName => $moduleInfo) {
             $modules[] = new Module(
                 $moduleInfoName,
-                $moduleInfo['display_name'],
-                $moduleInfo['tab'],
-                $moduleInfo['description'],
-                $moduleInfo['author'],
                 $moduleInfo['version'],
-                $moduleInfo['prestashop_min_version'] ?? null,
-                $moduleInfo['prestashop_max_version'] ?? null,
                 $moduleInfo['download_url'],
-                $moduleInfo['icon']
+                $moduleInfo['icon'],
+                $moduleInfo['display_name'] ?? null,
+                $moduleInfo['tab'] ?? null,
+                $moduleInfo['description'] ?? null,
+                $moduleInfo['author'] ?? null,
+                $moduleInfo['prestashop_min_version'] ?? null,
+                $moduleInfo['prestashop_max_version'] ?? null
             );
         }
 

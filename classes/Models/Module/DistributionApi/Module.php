@@ -24,13 +24,13 @@ class Module
 {
     /** @var string */
     private $name;
-    /** @var string */
+    /** @var string|null */
     private $displayName;
-    /** @var string */
+    /** @var string|null */
     private $tab;
-    /** @var string */
+    /** @var string|null */
     private $description;
-    /** @var string */
+    /** @var string|null */
     private $author;
     /** @var string */
     private $version;
@@ -45,15 +45,15 @@ class Module
 
     public function __construct(
         string $name,
-        string $displayName,
-        string $tab,
-        string $description,
-        string $author,
         string $version,
-        ?string $prestashopMinVersion,
-        ?string $prestashopMaxVersion,
         string $downloadUrl,
-        string $icon
+        string $icon,
+        ?string $displayName,
+        ?string $tab,
+        ?string $description,
+        ?string $author,
+        ?string $prestashopMinVersion,
+        ?string $prestashopMaxVersion
     ) {
         $this->name = $name;
         $this->displayName = $displayName;
@@ -72,22 +72,22 @@ class Module
         return $this->name;
     }
 
-    public function getDisplayName(): string
+    public function getDisplayName(): ?string
     {
         return $this->displayName;
     }
 
-    public function getTab(): string
+    public function getTab(): ?string
     {
         return $this->tab;
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    public function getAuthor(): string
+    public function getAuthor(): ?string
     {
         return $this->author;
     }

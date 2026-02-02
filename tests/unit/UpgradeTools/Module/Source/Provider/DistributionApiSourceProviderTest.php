@@ -42,21 +42,11 @@ class DistributionApiSourceProviderTest extends TestCase
             'autoupgrade' => [
                 'version' => '5.0.0',
                 'download_url' => 'https://example.com/autoupgrade.zip',
-                'display_name' => '',
-                'tab' => '',
-                'description' => '',
-                'author' => '',
-                'prestashop_min_version' => '',
                 'icon' => '',
             ],
             'ps_apiresources' => [
                 'version' => '1.0.0',
                 'download_url' => 'https://example.com/ps_apiresources.zip',
-                'display_name' => '',
-                'tab' => '',
-                'description' => '',
-                'author' => '',
-                'prestashop_min_version' => '',
                 'icon' => '',
             ],
         ]);
