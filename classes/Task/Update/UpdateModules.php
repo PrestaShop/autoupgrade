@@ -30,14 +30,11 @@ use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\Task\TaskName;
 use PrestaShop\Module\AutoUpgrade\Task\TaskType;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleDownloader;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleDownloaderContext;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleMigration;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleMigrationContext;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleUnzipper;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleUnzipperContext;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleVersionAdapter;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\ModuleSourceAggregate;
 
 /**
  * Upgrade all partners modules according to the installed prestashop version.
@@ -59,8 +56,6 @@ class UpdateModules extends AbstractTask
 
         $modulesPath = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR;
 
-        $moduleSourceList = new ModuleSourceAggregate($this->container->getModuleSourceProviders());
-        $moduleDownloader = new ModuleDownloader($this->container->getDownloadService(), $this->translator, $this->logger, $this->container->getProperty(UpgradeContainer::TMP_MODULES_DIR));
         $moduleUnzipper = new ModuleUnzipper($this->translator, $this->container->getZipAction(), $modulesPath);
         $moduleMigration = new ModuleMigration($this->container->getFileSystem(), $this->translator, $this->logger);
 
@@ -68,17 +63,11 @@ class UpdateModules extends AbstractTask
             $moduleInfos = $listModules->getNext();
 
             try {
-                $this->logger->debug($this->translator->trans('Checking updates of module %module%...', ['%module%' => $moduleInfos['name']]));
                 $this->container->getQuarantineZone()->removeOne($moduleInfos['name']);
-
-                $moduleDownloaderContext = new ModuleDownloaderContext($moduleInfos);
-                $moduleSourceList->setSourcesIn($moduleDownloaderContext);
 
                 if (empty($moduleDownloaderContext->getUpdateSources())) {
                     $this->logger->debug($this->translator->trans('Module %module% is up-to-date.', ['%module%' => $moduleInfos['name']]));
                 } else {
-                    $moduleDownloader->downloadModule($moduleDownloaderContext);
-
                     $moduleUnzipperContext = new ModuleUnzipperContext($moduleDownloaderContext->getPathToModuleUpdate(), $moduleInfos['name']);
                     $moduleUnzipper->unzipModule($moduleUnzipperContext);
 

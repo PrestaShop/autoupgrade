@@ -47,6 +47,7 @@ class TaskName
     const TASK_UPDATE_COMPLETE = 'UpdateComplete';
     const TASK_CLEAN_DATABASE = 'CleanDatabase';
     const TASK_DOWNLOAD = 'Download';
+    const TASK_DOWNLOAD_MODULES = 'DownloadModules';
     const TASK_UNZIP = 'Unzip';
 
     // MISC

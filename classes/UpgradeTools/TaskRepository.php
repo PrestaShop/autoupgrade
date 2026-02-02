@@ -42,6 +42,7 @@ use PrestaShop\Module\AutoUpgrade\Task\Update\UpdateDatabase;
 use PrestaShop\Module\AutoUpgrade\Task\Update\UpdateFiles;
 use PrestaShop\Module\AutoUpgrade\Task\Update\UpdateInitialization;
 use PrestaShop\Module\AutoUpgrade\Task\Update\UpdateModules;
+use PrestaShop\Module\AutoUpgrade\Task\Update\DownloadModules;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 class TaskRepository
@@ -78,20 +79,23 @@ class TaskRepository
             // UPGRADE
             case TaskName::TASK_UPDATE_INITIALIZATION:
                 return new UpdateInitialization($container);
-            case TaskName::TASK_CLEAN_DATABASE:
-                return new CleanDatabase($container);
             case TaskName::TASK_DOWNLOAD:
                 return new Download($container);
-            case TaskName::TASK_UPDATE_COMPLETE:
-                return new UpdateComplete($container);
-            case TaskName::TASK_UPDATE_DATABASE:
-                return new UpdateDatabase($container);
-            case TaskName::TASK_UPDATE_FILES:
-                return new UpdateFiles($container);
-            case TaskName::TASK_UPDATE_MODULES:
-                return new UpdateModules($container);
             case TaskName::TASK_UNZIP:
                 return new Unzip($container);
+            case TaskName::TASK_DOWNLOAD_MODULES:
+                return new DownloadModules($container);
+            case TaskName::TASK_UPDATE_FILES:
+                return new UpdateFiles($container);
+            case TaskName::TASK_UPDATE_DATABASE:
+                return new UpdateDatabase($container);
+            case TaskName::TASK_UPDATE_MODULES:
+                return new UpdateModules($container);
+            case TaskName::TASK_CLEAN_DATABASE:
+                return new CleanDatabase($container);
+            case TaskName::TASK_UPDATE_COMPLETE:
+                return new UpdateComplete($container);
+
         }
         error_log('Unknown step ' . $step);
 

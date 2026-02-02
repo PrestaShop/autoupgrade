@@ -67,6 +67,15 @@ class UpgradeFileNames
     const SQL_TO_EXECUTE_LIST = 'sqlToExecute.list';
 
     /**
+     * during downloadModules process,
+     * this files contains the list of modules left to download in a serialized array.
+     * (this file is deleted in init() method if you reload the page).
+     *
+     * @var string
+     */
+    const MODULES_TO_DOWNLOAD_LIST = 'modulesToDownload.list';
+
+    /**
      * during upgradeModules process,
      * this files contains the list of modules left to upgrade in a serialized array.
      * (this file is deleted in init() method if you reload the page).
@@ -148,6 +157,7 @@ class UpgradeFileNames
         'STATE_FILENAME' => self::STATE_UPDATE_FILENAME,
         'FILES_TO_UPGRADE_LIST' => self::FILES_TO_UPGRADE_LIST,
         'FILES_TO_REMOVE_LIST' => self::FILES_TO_REMOVE_LIST,
+        'MODULES_TO_DOWNLOAD_LIST' => self::MODULES_TO_DOWNLOAD_LIST,
         'MODULES_TO_UPGRADE_LIST' => self::MODULES_TO_UPGRADE_LIST,
         'MODULE_SOURCE_PROVIDER_CACHE_LOCAL' => self::MODULE_SOURCE_PROVIDER_CACHE_LOCAL,
         'MODULE_SOURCE_PROVIDER_CACHE_COMPOSER' => self::MODULE_SOURCE_PROVIDER_CACHE_COMPOSER,

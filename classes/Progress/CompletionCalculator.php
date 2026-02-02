@@ -38,6 +38,7 @@ use PrestaShop\Module\AutoUpgrade\Task\Update\UpdateDatabase;
 use PrestaShop\Module\AutoUpgrade\Task\Update\UpdateFiles;
 use PrestaShop\Module\AutoUpgrade\Task\Update\UpdateInitialization;
 use PrestaShop\Module\AutoUpgrade\Task\Update\UpdateModules;
+use PrestaShop\Module\AutoUpgrade\Task\Update\DownloadModules;
 
 class CompletionCalculator
 {
@@ -58,7 +59,8 @@ class CompletionCalculator
             // Update
             UpdateInitialization::class => 0,
             Download::class => 10,
-            Unzip::class => 20,
+            Unzip::class => 15,
+            DownloadModules::class => 25,
             UpdateFiles::class => 40,
             UpdateDatabase::class => 60,
             UpdateModules::class => 80,
