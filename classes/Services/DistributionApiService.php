@@ -23,6 +23,7 @@ namespace PrestaShop\Module\AutoUpgrade\Services;
 
 use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
 use PrestaShop\Module\AutoUpgrade\Models\AutoupgradeRelease;
+use PrestaShop\Module\AutoUpgrade\Models\Module\DistributionApi\Module;
 use PrestaShop\Module\AutoUpgrade\Models\PrestashopRelease;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 
@@ -30,12 +31,14 @@ class DistributionApiService
 {
     public const PRESTASHOP_ENDPOINT = 'prestashop';
     public const AUTOUPGRADE_ENDPOINT = 'autoupgrade';
+    public const MODULES_ENDPOINT = 'modules/$1';
     public const API_URL = 'https://api.prestashop-project.org';
 
     /** @var array<string, string> */
     private static $factories = [
         self::PRESTASHOP_ENDPOINT => 'createPrestashopReleaseCollection',
         self::AUTOUPGRADE_ENDPOINT => 'createAutoupgradeReleaseCollection',
+        self::MODULES_ENDPOINT => 'createModuleUpdateCollection',
     ];
 
     /** @var Translator */
@@ -141,14 +144,27 @@ class DistributionApiService
     }
 
     /**
-     * @param self::PRESTASHOP_ENDPOINT|self::AUTOUPGRADE_ENDPOINT $endPoint
-     *
-     * @return AutoupgradeRelease[]|PrestashopRelease[]
+     * @return Module[]
      *
      * @throws DistributionApiException
      */
-    private function getEndpointData(string $endPoint): array
+    public function getModules(string $prestashopVersion): array
     {
+        return $this->getEndpointData(self::MODULES_ENDPOINT, ['$1' => $prestashopVersion]);
+    }
+
+    /**
+     * @param self::*_ENDPOINT $baseEndPoint
+     * @param mixed[] $params
+     *
+     * @return AutoupgradeRelease[]|PrestashopRelease[]|Module[]
+     *
+     * @throws DistributionApiException
+     */
+    private function getEndpointData(string $baseEndPoint, array $params = []): array
+    {
+        $endPoint = str_replace(array_keys($params), array_values($params), $baseEndPoint);
+
         if (!isset($this->endpointData[$endPoint])) {
             $jsonResponse = $this->getApiEndpoint($endPoint);
 
@@ -156,7 +172,7 @@ class DistributionApiService
                 throw new DistributionApiException($this->translator->trans('Unable to retrieve "%s" data from distribution API.', [$endPoint]), DistributionApiException::EMPTY_DATA_CODE);
             }
 
-            $method = self::$factories[$endPoint];
+            $method = self::$factories[$baseEndPoint];
 
             $this->endpointData[$endPoint] = $this->$method($jsonResponse);
         }
@@ -212,5 +228,32 @@ class DistributionApiService
         }
 
         return $releases;
+    }
+
+    /**
+     * @param array<string, array{display_name: ?string, tab: ?string, description: ?string, author: ?string, version: string, prestashop_min_version: ?string, prestashop_max_version: ?string, download_url: string, icon: string}> $data
+     *
+     * @return Module[]
+     */
+    private function createModuleUpdateCollection(array $data): array
+    {
+        $modules = [];
+
+        foreach ($data as $moduleInfoName => $moduleInfo) {
+            $modules[] = new Module(
+                $moduleInfoName,
+                $moduleInfo['version'],
+                $moduleInfo['download_url'],
+                $moduleInfo['icon'],
+                $moduleInfo['display_name'] ?? null,
+                $moduleInfo['tab'] ?? null,
+                $moduleInfo['description'] ?? null,
+                $moduleInfo['author'] ?? null,
+                $moduleInfo['prestashop_min_version'] ?? null,
+                $moduleInfo['prestashop_max_version'] ?? null
+            );
+        }
+
+        return $modules;
     }
 }
