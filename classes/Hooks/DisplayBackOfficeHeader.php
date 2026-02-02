@@ -24,6 +24,7 @@ use Context;
 use Employee;
 use Exception;
 use PrestaShop\Module\AutoUpgrade\DocumentationLinks;
+use PrestaShop\Module\AutoUpgrade\Environment;
 use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
 use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\Models\UpdateNotificationConfiguration;
@@ -182,7 +183,7 @@ class DisplayBackOfficeHeader
             'php_version' => VersionUtils::getHumanReadableVersionOf(PHP_VERSION_ID),
             'anonymous_id' => $this->container->getProperty(UpgradeContainer::ANONYMOUS_USER_ID),
             'ps_version' => $this->container->getProperty(UpgradeContainer::PS_VERSION),
-            'has_opted_out_analytics' => $this->container->getEnvironment()->hasOptedOutAnalytics(),
+            'has_opted_out_analytics' => !$this->container->getEnvironment()->getBoolean(Environment::URL_TRACKING_ENV_NAME, true),
             'bo_language' => $this->context->language->locale,
             'bo_timezone' => date_default_timezone_get(),
         ];

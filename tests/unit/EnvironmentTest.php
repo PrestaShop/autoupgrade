@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Copyright since 2007 PrestaShop SA and Contributors
  * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
@@ -18,6 +17,8 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
+
+namespace PrestaShop\Module\AutoUpgrade\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use PrestaShop\Module\AutoUpgrade\Environment;
@@ -38,57 +39,103 @@ class EnvironmentTest extends TestCase
         parent::tearDown();
     }
 
-    public function testGetEnvValueFromServer()
+    public function testGetEnvValuePrefersServerOverGetenv()
     {
         $_SERVER['TEST_VAR'] = 'server_value';
-        $environment = new Environment();
-        $this->assertEquals('server_value', $environment->getEnvValue('TEST_VAR'));
+        putenv('TEST_VAR=env_value');
+
+        $env = new Environment();
+        $this->assertSame('server_value', $env->getEnvValue('TEST_VAR'));
     }
 
-    public function testGetEnvValueFromGetenv()
+    public function testGetEnvValueFallsBackToGetenv()
     {
-        putenv('TEST_VAR=getenv_value');
-        $environment = new Environment();
-        $this->assertEquals('getenv_value', $environment->getEnvValue('TEST_VAR'));
+        if (isset($_SERVER['TEST_VAR'])) {
+            unset($_SERVER['TEST_VAR']);
+        }
+        putenv('TEST_VAR=env_value');
+
+        $env = new Environment();
+        $this->assertSame('env_value', $env->getEnvValue('TEST_VAR'));
     }
 
-    public function testGetEnvValueFromGetenvAndSuperglobal()
+    public function testGetEnvValueReturnsNullIfMissing()
     {
-        $_SERVER['TEST_VAR'] = 'server_value';
-        putenv('TEST_VAR=getenv_value');
-        $environment = new Environment();
-        $this->assertEquals('server_value', $environment->getEnvValue('TEST_VAR'));
-    }
+        if (isset($_SERVER['TEST_VAR'])) {
+            unset($_SERVER['TEST_VAR']);
+        }
+        putenv('TEST_VAR'); // Remove from env
 
-    public function testGetEnvValueNotFound()
-    {
-        $environment = new Environment();
-        $this->assertNull($environment->getEnvValue('NON_EXISTING_VAR'));
+        $env = new Environment();
+        $this->assertNull($env->getEnvValue('TEST_VAR'));
     }
 
     /**
-     * @dataProvider analyticsOptOutProvider
+     * @dataProvider validBooleanProvider
      */
-    public function testHasOptedOutAnalytics($value, $expected)
+    public function testGetBooleanWithValidValues($value, bool $expected)
     {
-        $_SERVER[Environment::URL_TRACKING_ENV_NAME] = $value;
-        $environment = new Environment();
-        $this->assertEquals($expected, $environment->hasOptedOutAnalytics());
+        $_SERVER['TEST_BOOL'] = $value;
+        $env = new Environment();
+
+        // Should return the expected boolean regardless of default
+        $this->assertSame($expected, $env->getBoolean('TEST_BOOL', false));
+        $this->assertSame($expected, $env->getBoolean('TEST_BOOL', true));
     }
 
-    public function analyticsOptOutProvider()
+    public function validBooleanProvider()
     {
         return [
-            'no value' => [null, true],
-            'false string' => ['false', true],
-            '0 string' => ['0', true],
-            'off string' => ['off', true],
-            'no string' => ['no', true],
-            'empty string' => ['', true],
-            'true string' => ['true', false],
-            '1 string' => ['1', false],
-            'on string' => ['on', false],
-            'yes string' => ['yes', false],
+            ['true', true],
+            ['1', true],
+            ['on', true],
+            ['yes', true],
+            ['TRUE', true],
+            ['Yes', true],
+            ['false', false],
+            ['0', false],
+            ['off', false],
+            ['no', false],
+            ['FALSE', false],
+            ['No', false],
+            ['', false], // Empty string evaluates to false
         ];
+    }
+
+    /**
+     * @dataProvider invalidBooleanProvider
+     */
+    public function testGetBooleanWithInvalidValuesReturnsDefault($invalidValue)
+    {
+        $_SERVER['TEST_BOOL'] = $invalidValue;
+        $env = new Environment();
+
+        // Invalid values should return the default value because they return NULL with FILTER_NULL_ON_FAILURE
+        $this->assertTrue($env->getBoolean('TEST_BOOL', true), "Failed asserting that invalid value '$invalidValue' returns default true");
+        $this->assertFalse($env->getBoolean('TEST_BOOL', false), "Failed asserting that invalid value '$invalidValue' returns default false");
+    }
+
+    public function invalidBooleanProvider()
+    {
+        return [
+            ['potatoes'],
+            ['not_a_bool'],
+            ['random'],
+            ['2'],
+            ['-1'],
+        ];
+    }
+
+    public function testGetBooleanReturnsDefaultWhenMissing()
+    {
+        if (isset($_SERVER['TEST_BOOL'])) {
+            unset($_SERVER['TEST_BOOL']);
+        }
+        putenv('TEST_BOOL');
+
+        $env = new Environment();
+
+        $this->assertTrue($env->getBoolean('TEST_BOOL', true));
+        $this->assertFalse($env->getBoolean('TEST_BOOL', false));
     }
 }

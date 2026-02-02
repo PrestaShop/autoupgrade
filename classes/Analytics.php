@@ -80,7 +80,7 @@ class Analytics
         $this->properties = $options['properties'] ?? [];
         $this->environment = $environment;
 
-        if ($this->environment->hasOptedOutAnalytics()) {
+        if (!$this->environment->getBoolean(Environment::URL_TRACKING_ENV_NAME, true)) {
             return;
         }
 
@@ -93,7 +93,7 @@ class Analytics
      */
     public function track(string $event, $propertiesType = self::WITH_COMMON_PROPERTIES): void
     {
-        if ($this->environment->hasOptedOutAnalytics()) {
+        if (!$this->environment->getBoolean(Environment::URL_TRACKING_ENV_NAME, true)) {
             return;
         }
 
