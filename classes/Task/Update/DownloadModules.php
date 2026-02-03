@@ -72,7 +72,7 @@ class DownloadModules extends AbstractTask
                         'pathToModuleUpdate' => $moduleDownloaderContext->getPathToModuleUpdate(),
                     ];
                     $moduleToUpgradeBacklog['backlog'][] = $moduleToUpgradeInfos;
-                    $moduleToUpgradeBacklog['initialTotal'] += 1;
+                    ++$moduleToUpgradeBacklog['initialTotal'];
 
                     $this->container->getFileStorage()->save(
                         $moduleToUpgradeBacklog,

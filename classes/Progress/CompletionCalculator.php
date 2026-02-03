@@ -32,13 +32,13 @@ use PrestaShop\Module\AutoUpgrade\Task\Restore\RestoreFiles;
 use PrestaShop\Module\AutoUpgrade\Task\Restore\RestoreInitialization;
 use PrestaShop\Module\AutoUpgrade\Task\Update\CleanDatabase;
 use PrestaShop\Module\AutoUpgrade\Task\Update\Download;
+use PrestaShop\Module\AutoUpgrade\Task\Update\DownloadModules;
 use PrestaShop\Module\AutoUpgrade\Task\Update\Unzip;
 use PrestaShop\Module\AutoUpgrade\Task\Update\UpdateComplete;
 use PrestaShop\Module\AutoUpgrade\Task\Update\UpdateDatabase;
 use PrestaShop\Module\AutoUpgrade\Task\Update\UpdateFiles;
 use PrestaShop\Module\AutoUpgrade\Task\Update\UpdateInitialization;
 use PrestaShop\Module\AutoUpgrade\Task\Update\UpdateModules;
-use PrestaShop\Module\AutoUpgrade\Task\Update\DownloadModules;
 
 class CompletionCalculator
 {

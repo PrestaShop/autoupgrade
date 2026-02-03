@@ -36,13 +36,13 @@ use PrestaShop\Module\AutoUpgrade\Task\Restore\RestoreInitialization;
 use PrestaShop\Module\AutoUpgrade\Task\TaskName;
 use PrestaShop\Module\AutoUpgrade\Task\Update\CleanDatabase;
 use PrestaShop\Module\AutoUpgrade\Task\Update\Download;
+use PrestaShop\Module\AutoUpgrade\Task\Update\DownloadModules;
 use PrestaShop\Module\AutoUpgrade\Task\Update\Unzip;
 use PrestaShop\Module\AutoUpgrade\Task\Update\UpdateComplete;
 use PrestaShop\Module\AutoUpgrade\Task\Update\UpdateDatabase;
 use PrestaShop\Module\AutoUpgrade\Task\Update\UpdateFiles;
 use PrestaShop\Module\AutoUpgrade\Task\Update\UpdateInitialization;
 use PrestaShop\Module\AutoUpgrade\Task\Update\UpdateModules;
-use PrestaShop\Module\AutoUpgrade\Task\Update\DownloadModules;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 class TaskRepository
@@ -95,7 +95,6 @@ class TaskRepository
                 return new CleanDatabase($container);
             case TaskName::TASK_UPDATE_COMPLETE:
                 return new UpdateComplete($container);
-
         }
         error_log('Unknown step ' . $step);
 

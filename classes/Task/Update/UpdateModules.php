@@ -48,7 +48,7 @@ class UpdateModules extends AbstractTask
      */
     public function run(): int
     {
-        if ( $this->container->getUpdateState()->getProgressPercentage() < $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)) {
+        if ($this->container->getUpdateState()->getProgressPercentage() < $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)) {
             $this->warmUp();
         }
 
@@ -108,7 +108,7 @@ class UpdateModules extends AbstractTask
         if ($modulesLeft) {
             $this->stepDone = false;
             $this->next = TaskName::TASK_UPDATE_MODULES;
-                $this->logger->info($this->translator->trans('%s modules left to update.', [$modulesLeft]));
+            $this->logger->info($this->translator->trans('%s modules left to update.', [$modulesLeft]));
         } else {
             // Remove all remaining modules from the quarantine
             $this->container->getQuarantineZone()->removeAll();
