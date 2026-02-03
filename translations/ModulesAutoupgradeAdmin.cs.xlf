@@ -1491,14 +1491,14 @@
         <target state="final">Průběh je {progress_percentage}%</target>
         <note>views/templates/components/progress-bar.html.twig:22</note>
       </trans-unit>
-      <trans-unit id="5fb63579fc981698f97d55bfecb213ea">
+      <trans-unit id="5fb63579fc981698f97d55bfecb213ea" approved="yes">
         <source>Copy</source>
-        <target state="needs-translation">Copy</target>
+        <target state="final">Zkopírovat</target>
         <note>views/templates/components/wrapper-copy.html.twig:23</note>
       </trans-unit>
-      <trans-unit id="6d6db52799620de23c1e87d00abde8c4">
+      <trans-unit id="6d6db52799620de23c1e87d00abde8c4" approved="yes">
         <source>Copied!</source>
-        <target state="needs-translation">Copied!</target>
+        <target state="final">Zkopírováno!</target>
         <note>views/templates/components/wrapper-copy.html.twig:24</note>
       </trans-unit>
       <trans-unit id="12b7e9bd62f15c5f79030a36509eedf0" approved="yes">
