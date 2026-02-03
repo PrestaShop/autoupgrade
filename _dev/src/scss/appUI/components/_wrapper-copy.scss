@@ -39,7 +39,7 @@ $e: ".wrapper-copy";
 
     &__button-wrapper {
       position: sticky;
-      top: 0.125rem;
+      top: 0.625rem;
       display: flex;
       align-items: flex-start;
       justify-content: flex-end;
@@ -51,14 +51,24 @@ $e: ".wrapper-copy";
     }
 
     &__button {
-      padding: 0.5rem 0.625rem;
-      background-color: rgb(245 245 245 / 0.5);
-      backdrop-filter: blur(0.125rem);
-      border-radius: 0.25rem;
       visibility: hidden;
+
+      .copy,
+      .copied {
+        gap: 0 0.25rem;
+        align-items: center;
+      }
+
+      .copy {
+        display: inline-flex;
+      }
 
       .copied {
         display: none;
+      }
+
+      &-icon {
+        font-size: 1rem !important;
       }
 
       &--copied {
@@ -67,8 +77,7 @@ $e: ".wrapper-copy";
         }
 
         .copied {
-          display: inline;
-          color: var(--#{$ua-prefix}green-500);
+          display: inline-flex;
         }
       }
     }

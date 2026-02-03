@@ -19,9 +19,9 @@
 <div class="wrapper-copy">
   <pre class="wrapper-copy__pre">
     <div class="wrapper-copy__button-wrapper">
-      <button class="btn btn-link wrapper-copy__button" type="button" data-target-id="{{ id }}">
-        <span class="copy"><i class="material-icons">content_copy</i></span>
-        <span class="copied"><i class="material-icons">check</i></span>
+      <button class="btn btn-default btn-sm wrapper-copy__button" type="button" data-target-id="{{ id }}">
+        <span class="copy"><i class="wrapper-copy__button-icon material-icons">content_copy</i> {{ 'Copy'|trans({}) }}</span>
+        <span class="copied"><i class="wrapper-copy__button-icon material-icons">check</i> {{ 'Copied!'|trans({}) }}</span>
       </button>
     </div>
 
