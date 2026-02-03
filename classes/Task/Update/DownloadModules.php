@@ -150,4 +150,21 @@ class DownloadModules extends AbstractTask
 
         return ExitCode::SUCCESS;
     }
+
+    private function handleException(UpgradeException $e): void
+    {
+        if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {
+            $this->next = TaskName::TASK_ERROR;
+            $this->setErrorFlag();
+            $this->logger->error($e->getMessage());
+        }
+        if ($e->getSeverity() === UpgradeException::SEVERITY_WARNING) {
+            $this->logger->warning($e->getMessage());
+            $this->container->getUpdateState()->setWarningDetected(true);
+        }
+
+        foreach ($e->getQuickInfos() as $log) {
+            $this->logger->warning($log);
+        }
+    }
 }
