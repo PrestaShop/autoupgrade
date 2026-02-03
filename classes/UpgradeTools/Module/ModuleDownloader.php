@@ -88,7 +88,7 @@ class ModuleDownloader
         $destinationPath = $this->downloadFolder;
 
         if ($moduleSource->isZipped()) {
-            $destinationPath .= '/' . $moduleDownloaderContext->getModuleName() . '.zip';
+            $destinationPath .= $moduleDownloaderContext->getModuleName() . '.zip';
             $this->downloadService->downloadWithRetry($moduleSource->getPath(), $destinationPath);
         } else {
             // Module contents is already unzipped.

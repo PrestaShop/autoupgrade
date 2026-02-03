@@ -40,7 +40,10 @@ class DownloadModules extends AbstractTask
 
     public function run(): int
     {
-        if (!$this->container->getFileStorage()->exists(UpgradeFileNames::MODULES_TO_DOWNLOAD_LIST)) {
+        if (
+            !$this->container->getFileStorage()->exists(UpgradeFileNames::MODULES_TO_DOWNLOAD_LIST)
+            || !$this->container->getFileStorage()->exists(UpgradeFileNames::MODULES_TO_UPGRADE_LIST)
+        ) {
             return $this->warmUp();
         }
 
@@ -62,7 +65,19 @@ class DownloadModules extends AbstractTask
                     $this->logger->debug($this->translator->trans('No update available for %module%.', ['%module%' => $moduleInfos['name']]));
                 } else {
                     $moduleDownloader->downloadModule($moduleDownloaderContext);
-                    // TODO: add module to MODULES_TO_UPGRADE_LIST backlog
+
+                    $moduleToUpgradeBacklog = Backlog::fromContents($this->container->getFileStorage()->load(UpgradeFileNames::MODULES_TO_UPGRADE_LIST))->dump();
+                    $moduleToUpgradeInfos = [
+                        'name' => $moduleInfos['name'],
+                        'pathToModuleUpdate' => $moduleDownloaderContext->getPathToModuleUpdate(),
+                    ];
+                    $moduleToUpgradeBacklog['backlog'][] = $moduleToUpgradeInfos;
+                    $moduleToUpgradeBacklog['initialTotal'] += 1;
+
+                    $this->container->getFileStorage()->save(
+                        $moduleToUpgradeBacklog,
+                        UpgradeFileNames::MODULES_TO_UPGRADE_LIST
+                    );
                 }
             } catch (UpgradeException $e) {
                 $this->handleException($e);
@@ -114,6 +129,11 @@ class DownloadModules extends AbstractTask
             $this->container->getFileStorage()->save(
                 (new Backlog($modulesToDownload, $totalModulesToDownload))->dump(),
                 UpgradeFileNames::MODULES_TO_DOWNLOAD_LIST
+            );
+
+            $this->container->getFileStorage()->save(
+                (new Backlog([], 0))->dump(),
+                UpgradeFileNames::MODULES_TO_UPGRADE_LIST
             );
         } catch (UpgradeException $e) {
             $this->handleException($e);

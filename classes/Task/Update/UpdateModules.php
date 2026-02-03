@@ -48,8 +48,8 @@ class UpdateModules extends AbstractTask
      */
     public function run(): int
     {
-        if (!$this->container->getFileStorage()->exists(UpgradeFileNames::MODULES_TO_UPGRADE_LIST)) {
-            return $this->warmUp();
+        if ( $this->container->getUpdateState()->getProgressPercentage() < $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)) {
+            $this->warmUp();
         }
 
         $listModules = Backlog::fromContents($this->container->getFileStorage()->load(UpgradeFileNames::MODULES_TO_UPGRADE_LIST));
@@ -65,31 +65,27 @@ class UpdateModules extends AbstractTask
             try {
                 $this->container->getQuarantineZone()->removeOne($moduleInfos['name']);
 
-                if (empty($moduleDownloaderContext->getUpdateSources())) {
-                    $this->logger->debug($this->translator->trans('Module %module% is up-to-date.', ['%module%' => $moduleInfos['name']]));
-                } else {
-                    $moduleUnzipperContext = new ModuleUnzipperContext($moduleDownloaderContext->getPathToModuleUpdate(), $moduleInfos['name']);
-                    $moduleUnzipper->unzipModule($moduleUnzipperContext);
+                $moduleUnzipperContext = new ModuleUnzipperContext($moduleInfos['pathToModuleUpdate'], $moduleInfos['name']);
+                $moduleUnzipper->unzipModule($moduleUnzipperContext);
 
-                    $dbVersion = (new ModuleVersionAdapter())->get($moduleInfos['name']);
-                    $module = \Module::getInstanceByName($moduleInfos['name']);
+                $dbVersion = (new ModuleVersionAdapter())->get($moduleInfos['name']);
+                $module = \Module::getInstanceByName($moduleInfos['name']);
 
-                    if (!($module instanceof \Module)) {
-                        throw (new UpgradeException($this->translator->trans('Retrieving the module instance of %s failed.', [$moduleInfos['name']])))->setSeverity(UpgradeException::SEVERITY_WARNING);
-                    }
-
-                    $moduleMigrationContext = new ModuleMigrationContext($module, $dbVersion);
-
-                    if (!$moduleMigration->needMigration($moduleMigrationContext)) {
-                        $this->logger->info($this->translator->trans('Module %s does not need to be migrated. Module is up to date.', [$moduleInfos['name']]));
-                    } else {
-                        // Container may be needed to run upgrade scripts
-                        $this->container->getSymfonyAdapter()->initKernel();
-
-                        $moduleMigration->runMigration($moduleMigrationContext);
-                    }
-                    $moduleMigration->saveVersionInDb($moduleMigrationContext);
+                if (!($module instanceof \Module)) {
+                    throw (new UpgradeException($this->translator->trans('Retrieving the module instance of %s failed.', [$moduleInfos['name']])))->setSeverity(UpgradeException::SEVERITY_WARNING);
                 }
+
+                $moduleMigrationContext = new ModuleMigrationContext($module, $dbVersion);
+
+                if (!$moduleMigration->needMigration($moduleMigrationContext)) {
+                    $this->logger->info($this->translator->trans('Module %s does not need to be migrated. Module is now up to date.', [$moduleInfos['name']]));
+                } else {
+                    // Container may be needed to run upgrade scripts
+                    $this->container->getSymfonyAdapter()->initKernel();
+
+                    $moduleMigration->runMigration($moduleMigrationContext);
+                }
+                $moduleMigration->saveVersionInDb($moduleMigrationContext);
             } catch (UpgradeException $e) {
                 $this->handleException($e);
                 if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {
@@ -97,22 +93,22 @@ class UpdateModules extends AbstractTask
                 }
             } finally {
                 // Cleanup of module assets
-                if (!empty($moduleDownloaderContext) && !empty($moduleDownloaderContext->getPathToModuleUpdate())) {
-                    $this->container->getFileSystem()->remove([$moduleDownloaderContext->getPathToModuleUpdate()]);
+                if (!empty($moduleInfos['pathToModuleUpdate'])) {
+                    $this->container->getFileSystem()->remove([$moduleInfos['pathToModuleUpdate']]);
                 }
             }
         }
 
-        $modules_left = $listModules->getRemainingTotal();
+        $modulesLeft = $listModules->getRemainingTotal();
         $this->container->getUpdateState()->setProgressPercentage(
             $this->container->getCompletionCalculator()->computePercentage($listModules, self::class, CleanDatabase::class)
         );
         $this->container->getFileStorage()->save($listModules->dump(), UpgradeFileNames::MODULES_TO_UPGRADE_LIST);
 
-        if ($modules_left) {
+        if ($modulesLeft) {
             $this->stepDone = false;
             $this->next = TaskName::TASK_UPDATE_MODULES;
-            $this->logger->info($this->translator->trans('%s modules left to check.', [$modules_left]));
+                $this->logger->info($this->translator->trans('%s modules left to update.', [$modulesLeft]));
         } else {
             // Remove all remaining modules from the quarantine
             $this->container->getQuarantineZone()->removeAll();
@@ -132,23 +128,24 @@ class UpdateModules extends AbstractTask
             $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
         );
 
-        try {
-            $modulesToUpgrade = $this->container->getModuleAdapter()->listModulesPresentInFolderAndInstalled();
-            $modulesToUpgrade = array_reverse($modulesToUpgrade);
-            $total_modules_to_upgrade = count($modulesToUpgrade);
-
-            $this->container->getFileStorage()->save(
-                (new Backlog($modulesToUpgrade, $total_modules_to_upgrade))->dump(),
-                UpgradeFileNames::MODULES_TO_UPGRADE_LIST
-            );
-        } catch (UpgradeException $e) {
-            $this->handleException($e);
+        if (!$this->container->getFileStorage()->exists(UpgradeFileNames::MODULES_TO_UPGRADE_LIST)) {
+            $this->setErrorFlag();
+            $this->logger->error($this->translator->trans('Modules to upgrade list is missing.'));
 
             return ExitCode::FAIL;
         }
 
-        if ($total_modules_to_upgrade) {
-            $this->logger->info($this->translator->trans('%s modules will be updated.', [$total_modules_to_upgrade]));
+        $moduleToUpgradeBacklog = Backlog::fromContents($this->container->getFileStorage()->load(UpgradeFileNames::MODULES_TO_UPGRADE_LIST));
+
+        if ($moduleToUpgradeBacklog->getInitialTotal()) {
+            $this->logger->info($this->translator->trans('%s modules will be updated.', [$moduleToUpgradeBacklog->getInitialTotal()]));
+        } else {
+            $this->container->getQuarantineZone()->removeAll();
+
+            $this->stepDone = true;
+            $this->status = 'ok';
+            $this->next = TaskName::TASK_CLEAN_DATABASE;
+            $this->logger->info($this->translator->trans('All modules have been updated.'));
         }
 
         $this->stepDone = false;
