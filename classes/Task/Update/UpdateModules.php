@@ -110,13 +110,7 @@ class UpdateModules extends AbstractTask
             $this->next = TaskName::TASK_UPDATE_MODULES;
             $this->logger->info($this->translator->trans('%s modules left to update.', [$modulesLeft]));
         } else {
-            // Remove all remaining modules from the quarantine
-            $this->container->getQuarantineZone()->removeAll();
-
-            $this->stepDone = true;
-            $this->status = 'ok';
-            $this->next = TaskName::TASK_CLEAN_DATABASE;
-            $this->logger->info($this->translator->trans('All modules have been updated.'));
+            $this->doneStep();
         }
 
         return ExitCode::SUCCESS;
@@ -139,17 +133,12 @@ class UpdateModules extends AbstractTask
 
         if ($moduleToUpgradeBacklog->getInitialTotal()) {
             $this->logger->info($this->translator->trans('%s modules will be updated.', [$moduleToUpgradeBacklog->getInitialTotal()]));
+
+            $this->stepDone = false;
+            $this->next = TaskName::TASK_UPDATE_MODULES;
         } else {
-            $this->container->getQuarantineZone()->removeAll();
-
-            $this->stepDone = true;
-            $this->status = 'ok';
-            $this->next = TaskName::TASK_CLEAN_DATABASE;
-            $this->logger->info($this->translator->trans('All modules have been updated.'));
+            $this->doneStep();
         }
-
-        $this->stepDone = false;
-        $this->next = TaskName::TASK_UPDATE_MODULES;
 
         return ExitCode::SUCCESS;
     }
@@ -160,6 +149,17 @@ class UpdateModules extends AbstractTask
     public function init(): void
     {
         $this->container->initPrestaShopCore();
+    }
+
+    private function doneStep(): void
+    {
+        // Remove all remaining modules from the quarantine
+        $this->container->getQuarantineZone()->removeAll();
+
+        $this->stepDone = true;
+        $this->status = 'ok';
+        $this->next = TaskName::TASK_CLEAN_DATABASE;
+        $this->logger->info($this->translator->trans('All modules have been updated.'));
     }
 
     private function handleException(UpgradeException $e): void
