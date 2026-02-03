@@ -1491,6 +1491,16 @@
         <target>Progress is {progress_percentage}%</target>
         <note>views/templates/components/progress-bar.html.twig:22</note>
       </trans-unit>
+      <trans-unit id="5fb63579fc981698f97d55bfecb213ea">
+        <source>Copy</source>
+        <target>Copy</target>
+        <note>views/templates/components/wrapper-copy.html.twig:23</note>
+      </trans-unit>
+      <trans-unit id="6d6db52799620de23c1e87d00abde8c4">
+        <source>Copied!</source>
+        <target>Copied!</target>
+        <note>views/templates/components/wrapper-copy.html.twig:24</note>
+      </trans-unit>
       <trans-unit id="12b7e9bd62f15c5f79030a36509eedf0">
         <source>Warning summary</source>
         <target>Warning summary</target>
