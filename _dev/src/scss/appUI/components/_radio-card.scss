@@ -85,6 +85,9 @@ $e: ".radio-card";
       #{$e}__check-requirements {
         display: none;
       }
+      #{$e}__message-bottom {
+        display: none;
+      }
     }
 
     &__loader-wrapper {
@@ -181,6 +184,10 @@ $e: ".radio-card";
       color: var(--#{$ua-prefix}radio-card-message-color);
       word-break: break-word;
       word-wrap: break-word;
+    }
+
+    &__message-bottom {
+      margin-top: 0.75rem;
     }
 
     &__release-note {
