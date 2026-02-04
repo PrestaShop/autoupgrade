@@ -105,7 +105,7 @@ class UpdatePageUpdateOptionsController extends AbstractPageWithStepController
                 'form_fields' => [
                     'deactive_non_native_modules' => [
                         // Starting from v9.0.0, this field has no effect. Services are now loaded regardless of the module's state, so this setting is no longer relevant.
-                        'enabled' => version_compare('9.0.0', $this->upgradeContainer->getUpgrader()->getDestinationVersion(), '>'),
+                        'visible' => version_compare('9.0.0', $this->upgradeContainer->getUpgrader()->getDestinationVersion(), '>'),
                         'field' => UpgradeConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT,
                         'value' => $updateConfiguration->shouldDeactivateCustomModules(),
                     ],

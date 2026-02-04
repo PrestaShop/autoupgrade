@@ -33,7 +33,7 @@
     id="update-options-page-form"
     name="update-options-page-form"
   >
-    {% if form_fields.deactive_non_native_modules.enabled %}
+    {% if form_fields.deactive_non_native_modules.visible %}
       {% include "@ModuleAutoUpgrade/components/render-switch.html.twig" with {
         id: form_fields.deactive_non_native_modules.field,
         name: form_fields.deactive_non_native_modules.field,
