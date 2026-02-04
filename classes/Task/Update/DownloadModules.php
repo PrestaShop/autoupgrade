@@ -38,6 +38,9 @@ class DownloadModules extends AbstractTask
 {
     const TASK_TYPE = TaskType::TASK_TYPE_UPDATE;
 
+    /**
+     * @throws Exception
+     */
     public function run(): int
     {
         if (
@@ -115,6 +118,9 @@ class DownloadModules extends AbstractTask
         $this->container->initPrestaShopCore();
     }
 
+    /**
+     * @throws Exception
+     */
     private function warmUp(): int
     {
         $this->container->getUpdateState()->setProgressPercentage(
@@ -142,29 +148,12 @@ class DownloadModules extends AbstractTask
         }
 
         if ($totalModulesToDownload) {
-            $this->logger->info($this->translator->trans('%s modules will be downloaded.', [$totalModulesToDownload]));
+            $this->logger->info($this->translator->trans('%s installed modules will be checked.', [$totalModulesToDownload]));
         }
 
         $this->stepDone = false;
         $this->next = TaskName::TASK_DOWNLOAD_MODULES;
 
         return ExitCode::SUCCESS;
-    }
-
-    private function handleException(UpgradeException $e): void
-    {
-        if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {
-            $this->next = TaskName::TASK_ERROR;
-            $this->setErrorFlag();
-            $this->logger->error($e->getMessage());
-        }
-        if ($e->getSeverity() === UpgradeException::SEVERITY_WARNING) {
-            $this->logger->warning($e->getMessage());
-            $this->container->getUpdateState()->setWarningDetected(true);
-        }
-
-        foreach ($e->getQuickInfos() as $log) {
-            $this->logger->warning($log);
-        }
     }
 }
