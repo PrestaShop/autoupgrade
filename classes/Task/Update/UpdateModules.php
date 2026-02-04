@@ -49,7 +49,7 @@ class UpdateModules extends AbstractTask
     public function run(): int
     {
         if ($this->container->getUpdateState()->getProgressPercentage() < $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)) {
-            $this->warmUp();
+            return $this->warmUp();
         }
 
         $listModules = Backlog::fromContents($this->container->getFileStorage()->load(UpgradeFileNames::MODULES_TO_UPGRADE_LIST));
@@ -78,7 +78,7 @@ class UpdateModules extends AbstractTask
                 $moduleMigrationContext = new ModuleMigrationContext($module, $dbVersion);
 
                 if (!$moduleMigration->needMigration($moduleMigrationContext)) {
-                    $this->logger->info($this->translator->trans('Module %s does not need to be migrated. Module is now up to date.', [$moduleInfos['name']]));
+                    $this->logger->info($this->translator->trans('Module %s does not need to be migrated. Module is up to date.', [$moduleInfos['name']]));
                 } else {
                     // Container may be needed to run upgrade scripts
                     $this->container->getSymfonyAdapter()->initKernel();
@@ -108,7 +108,7 @@ class UpdateModules extends AbstractTask
         if ($modulesLeft) {
             $this->stepDone = false;
             $this->next = TaskName::TASK_UPDATE_MODULES;
-            $this->logger->info($this->translator->trans('%s modules left to update.', [$modulesLeft]));
+            $this->logger->info($this->translator->trans('%s modules updates to apply.', [$modulesLeft]));
         } else {
             $this->doneStep();
         }
@@ -123,8 +123,9 @@ class UpdateModules extends AbstractTask
         );
 
         if (!$this->container->getFileStorage()->exists(UpgradeFileNames::MODULES_TO_UPGRADE_LIST)) {
+            $this->next = TaskName::TASK_ERROR;
             $this->setErrorFlag();
-            $this->logger->error($this->translator->trans('Modules to upgrade list is missing.'));
+            $this->logger->error($this->translator->trans('The list of modules to upgrade is missing. Did you run the step DownloadModules?'));
 
             return ExitCode::FAIL;
         }
@@ -160,22 +161,5 @@ class UpdateModules extends AbstractTask
         $this->status = 'ok';
         $this->next = TaskName::TASK_CLEAN_DATABASE;
         $this->logger->info($this->translator->trans('All modules have been updated.'));
-    }
-
-    private function handleException(UpgradeException $e): void
-    {
-        if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {
-            $this->next = TaskName::TASK_ERROR;
-            $this->setErrorFlag();
-            $this->logger->error($e->getMessage());
-        }
-        if ($e->getSeverity() === UpgradeException::SEVERITY_WARNING) {
-            $this->logger->warning($e->getMessage());
-            $this->container->getUpdateState()->setWarningDetected(true);
-        }
-
-        foreach ($e->getQuickInfos() as $log) {
-            $this->logger->warning($log);
-        }
     }
 }
