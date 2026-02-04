@@ -50,27 +50,27 @@
       <trans-unit id="21dc065f2d8653ebca37ec552d17b37e" approved="yes">
         <source>Unable to create the directory "%s"</source>
         <target state="final">No se puede crear el directorio "%s"</target>
-        <note>controllers/admin/AdminSelfUpgradeController.php:154</note>
+        <note>controllers/admin/AdminSelfUpgradeController.php:155</note>
       </trans-unit>
       <trans-unit id="6215d33db0d099fcaae168dd4715135a" approved="yes">
         <source>Unable to write in the directory "%s"</source>
         <target state="final">No se puede escribir en el directorio "%s"</target>
-        <note>controllers/admin/AdminSelfUpgradeController.php:120</note>
+        <note>controllers/admin/AdminSelfUpgradeController.php:121</note>
       </trans-unit>
       <trans-unit id="f4eb320e09f7ef88a627229870458454" approved="yes">
         <source>The module %s requires PHP %s to work properly. Please upgrade your server configuration.</source>
         <target state="final">El módulo %s requiere PHP %s para funcionar correctamente. Actualiza la configuración de tu servidor.</target>
-        <note>controllers/admin/AdminSelfUpgradeController.php:251</note>
+        <note>controllers/admin/AdminSelfUpgradeController.php:252</note>
       </trans-unit>
       <trans-unit id="d0749aaba8b833466dfcbb0428e4f89c">
         <source>SUCCESS</source>
         <target state="needs-translation">SUCCESS</target>
-        <note>controllers/admin/AdminSelfUpgradeController.php:314</note>
+        <note>controllers/admin/AdminSelfUpgradeController.php:315</note>
       </trans-unit>
       <trans-unit id="b9e14d9b2886bcff408b85aefa780419">
         <source>FAILED</source>
         <target state="needs-translation">FAILED</target>
-        <note>controllers/admin/AdminSelfUpgradeController.php:315</note>
+        <note>controllers/admin/AdminSelfUpgradeController.php:316</note>
       </trans-unit>
       <trans-unit id="ed88d11e6f590319e0be757ac6a6f399" approved="yes">
         <source>An error occurred while formatting the backup name.</source>
@@ -90,17 +90,17 @@
       <trans-unit id="8749d103f0a98214ad61688208981068">
         <source>Invalid JSON from Distribution API: %s</source>
         <target state="needs-translation">Invalid JSON from Distribution API: %s</target>
-        <note>classes/Services/DistributionApiService.php:76</note>
+        <note>classes/Services/DistributionApiService.php:79</note>
       </trans-unit>
       <trans-unit id="90983283d1e14aa535ea65a1f9033115" approved="yes">
         <source>No version match in Distribution api for %s</source>
         <target state="final">No hay coincidencia de versión en la API de distribución para %s</target>
-        <note>classes/Services/DistributionApiService.php:100</note>
+        <note>classes/Services/DistributionApiService.php:103</note>
       </trans-unit>
       <trans-unit id="3bbfcfd53991e59d1f0386d4246c3428">
         <source>Unable to retrieve "%s" data from distribution API.</source>
         <target state="needs-translation">Unable to retrieve "%s" data from distribution API.</target>
-        <note>classes/Services/DistributionApiService.php:156</note>
+        <note>classes/Services/DistributionApiService.php:172</note>
       </trans-unit>
       <trans-unit id="7f8f7ff0c4bb4599a45fa5b3708dd2c4" approved="yes">
         <source>Download backup logs</source>
@@ -1491,6 +1491,16 @@
         <target state="final">El progreso es {progress_percentage}%</target>
         <note>views/templates/components/progress-bar.html.twig:22</note>
       </trans-unit>
+      <trans-unit id="5fb63579fc981698f97d55bfecb213ea">
+        <source>Copy</source>
+        <target state="needs-translation">Copy</target>
+        <note>views/templates/components/wrapper-copy.html.twig:23</note>
+      </trans-unit>
+      <trans-unit id="6d6db52799620de23c1e87d00abde8c4">
+        <source>Copied!</source>
+        <target state="needs-translation">Copied!</target>
+        <note>views/templates/components/wrapper-copy.html.twig:24</note>
+      </trans-unit>
       <trans-unit id="12b7e9bd62f15c5f79030a36509eedf0" approved="yes">
         <source>Warning summary</source>
         <target state="final">Resumen de advertencia</target>
@@ -2024,27 +2034,27 @@
       <trans-unit id="ea5957193770106ccbb79106b47c06a6" approved="yes">
         <source>Email (optional)</source>
         <target state="final">Correo electrónico (opcional)</target>
-        <note>views/templates/dialogs/dialog-error-report.html.twig:59</note>
+        <note>views/templates/dialogs/dialog-error-report.html.twig:52</note>
       </trans-unit>
       <trans-unit id="6832ac593617c3e5f61c82a20b0d9a3a" approved="yes">
         <source>Enter your email address</source>
         <target state="final">Introduce tu dirección de correo electrónico</target>
-        <note>views/templates/dialogs/dialog-error-report.html.twig:66</note>
+        <note>views/templates/dialogs/dialog-error-report.html.twig:59</note>
       </trans-unit>
       <trans-unit id="0ba3309bf076bf416d0bb498fdfcb77f" approved="yes">
         <source>Description (optional)</source>
         <target state="final">Descripción (opcional)</target>
-        <note>views/templates/dialogs/dialog-error-report.html.twig:72</note>
+        <note>views/templates/dialogs/dialog-error-report.html.twig:65</note>
       </trans-unit>
       <trans-unit id="70570ccbf37717a289b3ac438d3cf0c4" approved="yes">
         <source>You can add details about the error here.</source>
         <target state="final">Puedes añadir detalles sobre el error aquí.</target>
-        <note>views/templates/dialogs/dialog-error-report.html.twig:78</note>
+        <note>views/templates/dialogs/dialog-error-report.html.twig:71</note>
       </trans-unit>
       <trans-unit id="f685da009437ded5271e842075eaf743" approved="yes">
         <source>Send error report</source>
         <target state="final">Enviar informe de errores</target>
-        <note>views/templates/dialogs/dialog-error-report.html.twig:92</note>
+        <note>views/templates/dialogs/dialog-error-report.html.twig:85</note>
       </trans-unit>
       <trans-unit id="b6cf8e12bbbeee058067ebf8c8dda7e2" approved="yes">
         <source>Delete backup</source>
