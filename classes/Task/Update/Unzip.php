@@ -123,7 +123,7 @@ class Unzip extends AbstractTask
             }
         }
 
-        $this->next = TaskName::TASK_UPDATE_FILES;
+        $this->next = TaskName::TASK_DOWNLOAD_MODULES;
         $this->logger->info($this->translator->trans('File extraction complete. Now updating files...'));
 
         $this->container->getFileSystem()->remove($newZip);
