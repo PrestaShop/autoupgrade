@@ -27,8 +27,8 @@ use InvalidArgumentException;
 use Language;
 use ParseError;
 use PrestaShop\Module\AutoUpgrade\Database\MysqlErrorCode;
-use PrestaShop\Module\AutoUpgrade\Exceptions\UpdateDatabaseException;
 use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
+use PrestaShop\Module\AutoUpgrade\Exceptions\UpdateDatabaseException;
 use PrestaShop\Module\AutoUpgrade\Log\LoggerInterface;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
@@ -263,8 +263,8 @@ abstract class CoreUpgrader
 
     /**
      * @return array<string, string>
-     *@throws ProcessException
      *
+     *@throws ProcessException
      */
     protected function getUpgradeSqlFilesListToApply(string $upgrade_dir_sql, string $oldversion): array
     {
@@ -301,8 +301,8 @@ abstract class CoreUpgrader
 
     /**
      * @return array<array{'version':string,'query':string}>
-     *@throws ProcessException
      *
+     *@throws ProcessException
      */
     public function getSqlContentList(string $originVersion): array
     {
