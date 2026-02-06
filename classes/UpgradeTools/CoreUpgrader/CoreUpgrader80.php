@@ -57,8 +57,8 @@ class CoreUpgrader80 extends CoreUpgrader
 
     /**
      * @param array<string, mixed> $lang
-     *@throws Exception
      *
+     * @throws Exception
      * @throws ProcessException
      */
     protected function upgradeLanguage($lang): void
