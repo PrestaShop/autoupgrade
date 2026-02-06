@@ -472,6 +472,31 @@
         <target>Configuration successfully updated.</target>
         <note>classes/Task/Miscellaneous/UpdateConfig.php:174</note>
       </trans-unit>
+      <trans-unit id="78c6e760441165ec762746a0ab4b64cd">
+        <source>Checking updates of module %module%...</source>
+        <target>Checking updates of module %module%...</target>
+        <note>classes/Task/Update/DownloadModules.php:62</note>
+      </trans-unit>
+      <trans-unit id="02aa88e95ec55e649bdb3527659cd788">
+        <source>No update available for %module%.</source>
+        <target>No update available for %module%.</target>
+        <note>classes/Task/Update/DownloadModules.php:68</note>
+      </trans-unit>
+      <trans-unit id="cf131dfbf6e4bd352b1e5ed65b169b0e">
+        <source>%s modules left to check.</source>
+        <target>%s modules left to check.</target>
+        <note>classes/Task/Update/DownloadModules.php:102</note>
+      </trans-unit>
+      <trans-unit id="85519994af600a9ec6170ac135104983">
+        <source>All modules have been downloaded.</source>
+        <target>All modules have been downloaded.</target>
+        <note>classes/Task/Update/DownloadModules.php:107</note>
+      </trans-unit>
+      <trans-unit id="211ecce5ac08f8152a2f1ee960bf6cb0">
+        <source>%s installed modules will be checked.</source>
+        <target>%s installed modules will be checked.</target>
+        <note>classes/Task/Update/DownloadModules.php:151</note>
+      </trans-unit>
       <trans-unit id="cd818c1af28e4f3df2000686b150648d">
         <source>Starting update...</source>
         <target>Starting update...</target>
@@ -692,40 +717,35 @@
         <target>%s removed</target>
         <note>classes/Task/Update/UpdateComplete.php:100</note>
       </trans-unit>
-      <trans-unit id="78c6e760441165ec762746a0ab4b64cd">
-        <source>Checking updates of module %module%...</source>
-        <target>Checking updates of module %module%...</target>
-        <note>classes/Task/Update/UpdateModules.php:71</note>
-      </trans-unit>
-      <trans-unit id="2b4da2b27a96bf23f0de18c59e9b1afe">
-        <source>Module %module% is up-to-date.</source>
-        <target>Module %module% is up-to-date.</target>
-        <note>classes/Task/Update/UpdateModules.php:78</note>
-      </trans-unit>
       <trans-unit id="798df2395d946f1f5b75ef9f6d8d8b1e">
         <source>Retrieving the module instance of %s failed.</source>
         <target>Retrieving the module instance of %s failed.</target>
-        <note>classes/Task/Update/UpdateModules.php:89</note>
+        <note>classes/Task/Update/UpdateModules.php:75</note>
       </trans-unit>
       <trans-unit id="a5db680b38097b4289b24d4925b8368e">
         <source>Module %s does not need to be migrated. Module is up to date.</source>
         <target>Module %s does not need to be migrated. Module is up to date.</target>
-        <note>classes/Task/Update/UpdateModules.php:95</note>
+        <note>classes/Task/Update/UpdateModules.php:81</note>
       </trans-unit>
-      <trans-unit id="cf131dfbf6e4bd352b1e5ed65b169b0e">
-        <source>%s modules left to check.</source>
-        <target>%s modules left to check.</target>
-        <note>classes/Task/Update/UpdateModules.php:126</note>
+      <trans-unit id="b17649adf2e759eb5db22e0c91958eaa">
+        <source>%s modules updates to apply.</source>
+        <target>%s modules updates to apply.</target>
+        <note>classes/Task/Update/UpdateModules.php:111</note>
       </trans-unit>
-      <trans-unit id="d47b7d2553af843c2c037185c0279268">
-        <source>All modules have been updated.</source>
-        <target>All modules have been updated.</target>
-        <note>classes/Task/Update/UpdateModules.php:134</note>
+      <trans-unit id="cfd6bda6fb64bc6b8d8a8337d2ba2a42">
+        <source>The list of modules to upgrade is missing. Did you run the step DownloadModules?</source>
+        <target>The list of modules to upgrade is missing. Did you run the step DownloadModules?</target>
+        <note>classes/Task/Update/UpdateModules.php:128</note>
       </trans-unit>
       <trans-unit id="5775d9e6d353c11bc7c6fe21776d3b2c">
         <source>%s modules will be updated.</source>
         <target>%s modules will be updated.</target>
-        <note>classes/Task/Update/UpdateModules.php:162</note>
+        <note>classes/Task/Update/UpdateModules.php:136</note>
+      </trans-unit>
+      <trans-unit id="d47b7d2553af843c2c037185c0279268">
+        <source>All modules have been updated.</source>
+        <target>All modules have been updated.</target>
+        <note>classes/Task/Update/UpdateModules.php:163</note>
       </trans-unit>
       <trans-unit id="57d362fe2965e2071229eeaf44ae1f5b">
         <source>Temporary files directory has been emptied</source>
@@ -805,7 +825,7 @@
       <trans-unit id="435d516735dbf7f622c7d14585f66840">
         <source>Action %s skipped</source>
         <target>Action %s skipped</target>
-        <note>classes/Task/AbstractTask.php:185</note>
+        <note>classes/Task/AbstractTask.php:203</note>
       </trans-unit>
       <trans-unit id="30da45f850d1f1a2b42f215836382f19">
         <source>Database restoration done.</source>
