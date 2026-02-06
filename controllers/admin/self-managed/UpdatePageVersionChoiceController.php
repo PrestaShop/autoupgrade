@@ -117,6 +117,7 @@ class UpdatePageVersionChoiceController extends AbstractPageWithStepController
         $noLocalArchive = empty($localVersions['zip']) && empty($localVersions['xml']);
         $currentPsVersion = $this->upgradeContainer->getProperty(UpgradeContainer::PS_VERSION);
         $currentMajorVersion = VersionUtils::splitPrestaShopVersion($currentPsVersion)['major'];
+        $currentUpdateAssistantMinorVersion = VersionUtils::splitPrestaShopVersion($this->upgradeContainer->getPrestaShopConfiguration()->getModuleVersion())['minor'];
 
         return array_merge(
             $updateSteps->getStepParams($this::CURRENT_STEP),
@@ -128,6 +129,7 @@ class UpdatePageVersionChoiceController extends AbstractPageWithStepController
                 'assets_base_path' => $this->upgradeContainer->getAssetsEnvironment()->getAssetsBaseUrl($this->request),
                 'current_prestashop_version' => $this->getPsVersion(),
                 'current_php_version' => VersionUtils::getHumanReadableVersionOf(PHP_VERSION_ID),
+                'known_issues_discussions_url' => DocumentationLinks::getDiscussionsAboutKnownIssuesUrl($currentUpdateAssistantMinorVersion),
                 'local_archives' => [
                     'zip' => $localVersions['zip'],
                     'xml' => $localVersions['xml'],

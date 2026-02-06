@@ -24,69 +24,73 @@ class DocumentationLinks
 {
     public const DEV_DOC_BASE_VERSION = '8';
 
-    /** @return string */
-    public static function getDevDocUrl(string $prestashopVersion = self::DEV_DOC_BASE_VERSION)
+    public static function getDevDocUrl(string $prestashopVersion = self::DEV_DOC_BASE_VERSION): string
     {
         return "https://devdocs.prestashop-project.org/{$prestashopVersion}";
     }
 
-    /** @return string */
-    public static function getDevDocUpToDateUrl(string $prestashopVersion = self::DEV_DOC_BASE_VERSION)
+    public static function getDevDocUpToDateUrl(string $prestashopVersion = self::DEV_DOC_BASE_VERSION): string
     {
         return self::getDevDocUrl($prestashopVersion) . '/basics/keeping-up-to-date';
     }
 
-    /** @return string */
-    public static function getDevDocUpdateAssistantUrl(string $prestashopVersion = self::DEV_DOC_BASE_VERSION)
+    public static function getDevDocUpdateAssistantUrl(string $prestashopVersion = self::DEV_DOC_BASE_VERSION): string
     {
         return self::getDevDocUpToDateUrl($prestashopVersion) . '/update';
     }
 
-    /** @return string */
-    public static function getDevDocUpdateAssistantCliUrl(string $prestashopVersion = self::DEV_DOC_BASE_VERSION)
+    public static function getDevDocUpdateAssistantCliUrl(string $prestashopVersion = self::DEV_DOC_BASE_VERSION): string
     {
         return self::getDevDocUpdateAssistantUrl($prestashopVersion) . '/update-from-the-cli';
     }
 
-    /** @return string */
-    public static function getDevDocUpdateAssistantWebUrl(string $prestashopVersion = self::DEV_DOC_BASE_VERSION)
+    public static function getDevDocUpdateAssistantWebUrl(string $prestashopVersion = self::DEV_DOC_BASE_VERSION): string
     {
         return self::getDevDocUpdateAssistantUrl($prestashopVersion) . '/update-from-the-back-office';
     }
 
-    /** @return string */
-    public static function getDevDocUpdateAssistantPostUpdateUrl(string $prestashopVersion = self::DEV_DOC_BASE_VERSION)
+    public static function getDevDocUpdateAssistantPostUpdateUrl(string $prestashopVersion = self::DEV_DOC_BASE_VERSION): string
     {
         return self::getDevDocUpdateAssistantUrl($prestashopVersion) . '/post-update-checklist';
     }
 
-    /** @return string */
-    public static function getDevDocUpdateAssistantPostRestoreUrl(string $prestashopVersion = self::DEV_DOC_BASE_VERSION)
+    public static function getDevDocUpdateAssistantPostRestoreUrl(string $prestashopVersion = self::DEV_DOC_BASE_VERSION): string
     {
         return self::getDevDocUpdateAssistantUrl($prestashopVersion) . '/post-restore-checklist';
     }
 
-    /** @return string */
-    public static function getPrestashopProjectUrl()
+    public static function getPrestashopProjectUrl(): string
     {
         return 'https://www.prestashop-project.org';
     }
 
-    /** @return string */
-    public static function getPrestashopProjectDataTransparencyUrl()
+    public static function getPrestashopProjectDataTransparencyUrl(): string
     {
         return self::getPrestashopProjectUrl() . '/data-transparency';
     }
 
-    /** @return string */
-    public static function getFindSupportUrl()
+    public static function getFindSupportUrl(): string
     {
         return 'https://www.prestashop-project.org/support/';
     }
 
-    /** @return string */
-    public static function getPrestashopReleasesUrl()
+    public static function getPrestashopReleasesUrl(): string
     {
         return 'https://build.prestashop-project.org/tag/releases/';
+    }
+
+    public static function getRepositoryUrl(): string
+    {
+        return 'https://github.com/PrestaShop/autoupgrade';
+    }
+
+    public static function getDiscussionsAboutKnownIssuesUrl(?string $impactedVersion = null): string
+    {
+        $discussionsQuery = ['is:open'];
+        if ($impactedVersion) {
+            $discussionsQuery[] = 'label:"Impacts: ' . $impactedVersion . '"';
+        }
+
+        return self::getRepositoryUrl() . '/discussions/categories/known-issues?' . http_build_query(['discussions_q' => implode(' ', $discussionsQuery)]);
     }
 }

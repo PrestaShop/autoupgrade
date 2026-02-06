@@ -91,6 +91,12 @@
           {% include "@ModuleAutoUpgrade/components/check-requirements.html.twig" %}
         </div>
       {% endif %}
-    {% endif %}
+        <p class="radio-card__message-bottom">
+          {{ "Need a hand? Check [1]Update Assistant GitHub repository[/1]."|trans({
+            '[1]' : '<a class="link" href="' ~ known_issues_discussions_url ~ '" target="_blank">',
+            '[/1]' : '</a>',
+          })|raw }}
+        </p>
+      {% endif %}
   </div>
 </label>
