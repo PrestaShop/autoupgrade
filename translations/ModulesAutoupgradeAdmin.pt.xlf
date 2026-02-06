@@ -15,37 +15,37 @@
       <trans-unit id="001c32426a6cfb48ebb848b13141593c" approved="yes">
         <source>Major version</source>
         <target state="final">Versão principal</target>
-        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:154</note>
+        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:156</note>
       </trans-unit>
       <trans-unit id="c5439de366a407641018f189da1ad4a7" approved="yes">
         <source>Minor version</source>
         <target state="final">Versão menor</target>
-        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:157</note>
+        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:159</note>
       </trans-unit>
       <trans-unit id="8a0dd44f366bc5604b8329a87be5f933" approved="yes">
         <source>Patch version</source>
         <target state="final">Versão de patch</target>
-        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:160</note>
+        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:162</note>
       </trans-unit>
       <trans-unit id="064903b5aa01cf4bc4e5c073d9917678" approved="yes">
         <source>List of core alterations</source>
         <target state="final">Lista de alterações principais</target>
-        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:304</note>
+        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:306</note>
       </trans-unit>
       <trans-unit id="673cc49de07389091a77d1872687cf64" approved="yes">
         <source>Some core files have been altered, customization made on these files will be lost during the update.</source>
         <target state="final">Alguns ficheiros principais foram alterados, a personalização feita nesses ficheiros será perdida durante a atualização.</target>
-        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:305</note>
+        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:307</note>
       </trans-unit>
       <trans-unit id="3e520d769e66a4dcdf43029803ab4e8e" approved="yes">
         <source>List of theme alterations</source>
         <target state="final">Lista de alterações de tema</target>
-        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:329</note>
+        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:331</note>
       </trans-unit>
       <trans-unit id="fa22ace14d701200f848374a39f3e88c" approved="yes">
         <source>Some theme files have been altered, customization made on these files will be lost during the update.</source>
         <target state="final">Alguns ficheiros de tema foram alterados, a personalização feita nesses ficheiros será perdida durante a atualização.</target>
-        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:330</note>
+        <note>controllers/admin/self-managed/UpdatePageVersionChoiceController.php:332</note>
       </trans-unit>
       <trans-unit id="21dc065f2d8653ebca37ec552d17b37e" approved="yes">
         <source>Unable to create the directory "%s"</source>
@@ -1405,6 +1405,11 @@
         <source>Checking requirements...</source>
         <target state="final">A verificar os requisitos...</target>
         <note>views/templates/components/radio-card.html.twig:86</note>
+      </trans-unit>
+      <trans-unit id="3708306fafb324c17953c27ca6c90cd3">
+        <source>Need a hand? Check [1]Update Assistant GitHub repository[/1].</source>
+        <target state="needs-translation">Need a hand? Check [1]Update Assistant GitHub repository[/1].</target>
+        <note>views/templates/components/radio-card.html.twig:95</note>
       </trans-unit>
       <trans-unit id="56c34c6410dd45c5cec44149ad0ce037" approved="yes">
         <source>Privacy policy</source>
