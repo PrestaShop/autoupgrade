@@ -23,7 +23,7 @@ jobs:
     name: Update UI PS classic - Generate Matrix
     runs-on: ubuntu-latest
     env:
-      JSON_FILE: ${{ (github.event_name == 'schedule' || (github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'dev' && github.event.pull_request.base.ref == 'master')) && 'pr-classic-ui.json' || 'pr-classic-ui.json' }}
+      JSON_FILE: ${{ (github.event_name == 'schedule' || (github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'dev' && github.event.pull_request.base.ref == 'master')) && 'nightly-classic-ui.json' || 'pr-classic-ui.json' }}
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:

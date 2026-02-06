@@ -25,8 +25,6 @@ import {
   boOrdersViewBasePage,
   // Import data
   dataOrderStatuses,
-  // Import utils
-  utilsTest,
 } from '@prestashop-core/ui-testing';
 
 import {
