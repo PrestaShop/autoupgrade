@@ -21,7 +21,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader;
 
-use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
+use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
 
 /**
  * Class used to modify the core of PrestaShop, on the files are copied on the filesystem.
@@ -38,7 +38,7 @@ class CoreUpgrader17 extends CoreUpgrader
     }
 
     /**
-     * @throws UpgradeException
+     * @throws ProcessException
      * @throws \Exception
      */
     protected function upgradeLanguage($lang): void
@@ -53,7 +53,7 @@ class CoreUpgrader17 extends CoreUpgrader
         $errorsLanguage = [];
 
         if (!\Language::downloadLanguagePack($isoCode, _PS_VERSION_, $errorsLanguage)) {
-            throw new UpgradeException($this->container->getTranslator()->trans('Download of the language pack %lang% failed. %details%', ['%lang%' => $isoCode, '%details%' => implode('; ', $errorsLanguage)]));
+            throw new ProcessException($this->container->getTranslator()->trans('Download of the language pack %lang% failed. %details%', ['%lang%' => $isoCode, '%details%' => implode('; ', $errorsLanguage)]));
         }
 
         $lang_pack = \Language::getLangDetails($isoCode);
@@ -64,7 +64,7 @@ class CoreUpgrader17 extends CoreUpgrader
         }
 
         if (!empty($errorsLanguage)) {
-            throw new UpgradeException($this->container->getTranslator()->trans('Error while updating translations for the language pack %lang%. %details%', ['%lang%' => $isoCode, '%details%' => implode('; ', $errorsLanguage)]));
+            throw new ProcessException($this->container->getTranslator()->trans('Error while updating translations for the language pack %lang%. %details%', ['%lang%' => $isoCode, '%details%' => implode('; ', $errorsLanguage)]));
         }
         \Language::loadLanguages();
 

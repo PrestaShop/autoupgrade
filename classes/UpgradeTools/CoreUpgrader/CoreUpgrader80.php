@@ -23,7 +23,7 @@ declare(strict_types=1);
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader;
 
 use Exception;
-use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
+use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
 use PrestaShop\PrestaShop\Adapter\Module\Repository\ModuleRepository;
 use PrestaShop\PrestaShop\Core\CommandBus\CommandBusInterface;
 use PrestaShop\PrestaShop\Core\Domain\MailTemplate\Command\GenerateThemeMailTemplatesCommand;
@@ -56,10 +56,10 @@ class CoreUpgrader80 extends CoreUpgrader
     }
 
     /**
-     * @throws UpgradeException
-     * @throws Exception
-     *
      * @param array<string, mixed> $lang
+     *@throws Exception
+     *
+     * @throws ProcessException
      */
     protected function upgradeLanguage($lang): void
     {
@@ -74,7 +74,7 @@ class CoreUpgrader80 extends CoreUpgrader
 
         $this->logger->debug($this->container->getTranslator()->trans('Downloading language pack for %lang%', ['%lang%' => $isoCode]));
         if (!\Language::downloadLanguagePack($isoCode, _PS_VERSION_, $errorsLanguage)) {
-            throw new UpgradeException($this->container->getTranslator()->trans('Download of the language pack %lang% failed. %details%', ['%lang%' => $isoCode, '%details%' => implode('; ', $errorsLanguage)]));
+            throw new ProcessException($this->container->getTranslator()->trans('Download of the language pack %lang% failed. %details%', ['%lang%' => $isoCode, '%details%' => implode('; ', $errorsLanguage)]));
         }
 
         $this->logger->debug($this->container->getTranslator()->trans('Installing %lang% language pack', ['%lang%' => $isoCode]));
@@ -102,12 +102,12 @@ class CoreUpgrader80 extends CoreUpgrader
             try {
                 $commandBus->handle($generateCommand);
             } catch (CoreException $e) {
-                throw new UpgradeException($this->container->getTranslator()->trans('Cannot generate email templates: %s.', [$e->getMessage()]));
+                throw new ProcessException($this->container->getTranslator()->trans('Cannot generate email templates: %s.', [$e->getMessage()]));
             }
         }
 
         if (!empty($errorsLanguage)) {
-            throw new UpgradeException($this->container->getTranslator()->trans('Error while updating translations for the language pack %lang%. %details%', ['%lang%' => $isoCode, '%details%' => implode('; ', $errorsLanguage)]));
+            throw new ProcessException($this->container->getTranslator()->trans('Error while updating translations for the language pack %lang%. %details%', ['%lang%' => $isoCode, '%details%' => implode('; ', $errorsLanguage)]));
         }
         \Language::loadLanguages();
 

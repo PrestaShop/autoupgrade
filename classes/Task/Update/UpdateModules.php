@@ -22,7 +22,7 @@
 namespace PrestaShop\Module\AutoUpgrade\Task\Update;
 
 use Exception;
-use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
+use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Progress\Backlog;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
@@ -72,7 +72,7 @@ class UpdateModules extends AbstractTask
                 $module = \Module::getInstanceByName($moduleInfos['name']);
 
                 if (!($module instanceof \Module)) {
-                    throw (new UpgradeException($this->translator->trans('Retrieving the module instance of %s failed.', [$moduleInfos['name']])))->setSeverity(UpgradeException::SEVERITY_WARNING);
+                    throw (new ProcessException($this->translator->trans('Retrieving the module instance of %s failed.', [$moduleInfos['name']])))->setSeverity(ProcessException::SEVERITY_WARNING);
                 }
 
                 $moduleMigrationContext = new ModuleMigrationContext($module, $dbVersion);
@@ -86,9 +86,9 @@ class UpdateModules extends AbstractTask
                     $moduleMigration->runMigration($moduleMigrationContext);
                 }
                 $moduleMigration->saveVersionInDb($moduleMigrationContext);
-            } catch (UpgradeException $e) {
+            } catch (ProcessException $e) {
                 $this->handleException($e);
-                if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {
+                if ($e->getSeverity() === ProcessException::SEVERITY_ERROR) {
                     return ExitCode::FAIL;
                 }
             } finally {

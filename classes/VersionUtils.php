@@ -22,7 +22,7 @@
 namespace PrestaShop\Module\AutoUpgrade;
 
 use InvalidArgumentException;
-use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
+use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
 
 class VersionUtils
 {
@@ -113,7 +113,7 @@ class VersionUtils
     /**
      * @return 'major'|'minor'|'patch'
      *
-     * @throws UpgradeException
+     * @throws ProcessException
      */
     public static function getUpdateType(string $originVersion, string $destinationVersion)
     {
@@ -128,7 +128,7 @@ class VersionUtils
             return 'patch';
         }
 
-        throw new UpgradeException('Versions are identical');
+        throw new ProcessException('Versions are identical');
     }
 
     /**

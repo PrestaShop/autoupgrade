@@ -28,7 +28,7 @@ use Language;
 use ParseError;
 use PrestaShop\Module\AutoUpgrade\Database\MysqlErrorCode;
 use PrestaShop\Module\AutoUpgrade\Exceptions\UpdateDatabaseException;
-use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
+use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
 use PrestaShop\Module\AutoUpgrade\Log\LoggerInterface;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
@@ -105,7 +105,7 @@ abstract class CoreUpgrader
     }
 
     /**
-     * @throws UpgradeException
+     * @throws ProcessException
      * @throws Exception
      */
     public function setupUpdateEnvironment(): void
@@ -115,7 +115,7 @@ abstract class CoreUpgrader
     }
 
     /**
-     * @throws UpgradeException
+     * @throws ProcessException
      */
     public function finalizeCoreUpdate(): void
     {
@@ -262,14 +262,14 @@ abstract class CoreUpgrader
     }
 
     /**
-     * @throws UpgradeException
-     *
      * @return array<string, string>
+     *@throws ProcessException
+     *
      */
     protected function getUpgradeSqlFilesListToApply(string $upgrade_dir_sql, string $oldversion): array
     {
         if (!$this->fileSystem->exists($upgrade_dir_sql)) {
-            throw new UpgradeException($this->container->getTranslator()->trans('Unable to find upgrade directory in the installation path.'));
+            throw new ProcessException($this->container->getTranslator()->trans('Unable to find upgrade directory in the installation path.'));
         }
 
         $upgradeFiles = $neededUpgradeFiles = [];
@@ -279,14 +279,14 @@ abstract class CoreUpgrader
                     continue;
                 }
                 if (!is_readable($upgrade_dir_sql . $file)) {
-                    throw new UpgradeException($this->container->getTranslator()->trans('Error while loading SQL upgrade file "%s".', [$file]));
+                    throw new ProcessException($this->container->getTranslator()->trans('Error while loading SQL upgrade file "%s".', [$file]));
                 }
                 $upgradeFiles[] = str_replace('.sql', '', $file);
             }
             closedir($handle);
         }
         if (empty($upgradeFiles)) {
-            throw new UpgradeException($this->container->getTranslator()->trans('Cannot find the SQL upgrade files. Please check that the %s folder is not empty.', [$upgrade_dir_sql]));
+            throw new ProcessException($this->container->getTranslator()->trans('Cannot find the SQL upgrade files. Please check that the %s folder is not empty.', [$upgrade_dir_sql]));
         }
         natcasesort($upgradeFiles);
 
@@ -300,9 +300,9 @@ abstract class CoreUpgrader
     }
 
     /**
-     * @throws UpgradeException
-     *
      * @return array<array{'version':string,'query':string}>
+     *@throws ProcessException
+     *
      */
     public function getSqlContentList(string $originVersion): array
     {
@@ -734,7 +734,7 @@ abstract class CoreUpgrader
     }
 
     /**
-     * @throws UpgradeException
+     * @throws ProcessException
      * @throws Exception
      */
     protected function updateTheme(): void
@@ -744,7 +744,7 @@ abstract class CoreUpgrader
     }
 
     /**
-     * @throws UpgradeException
+     * @throws ProcessException
      * @throws \Exception
      */
     protected function switchToDefaultTheme(): void
@@ -766,7 +766,7 @@ abstract class CoreUpgrader
         );
 
         if ($themeErrors !== true) {
-            throw new UpgradeException($themeErrors);
+            throw new ProcessException($themeErrors);
         }
     }
 
@@ -870,7 +870,7 @@ abstract class CoreUpgrader
         exec($command, $output, $resultCode);
 
         if ($resultCode !== 0) {
-            throw new UpgradeException($this->container->getTranslator()->trans("An error was raised when warming up the core cache: \n %s", [implode("\n", $output)]));
+            throw new ProcessException($this->container->getTranslator()->trans("An error was raised when warming up the core cache: \n %s", [implode("\n", $output)]));
         }
         $this->logger->debug($this->container->getTranslator()->trans('Core cache has been generated to avoid dependency conflicts.'));
     }
@@ -906,7 +906,7 @@ abstract class CoreUpgrader
         ]), $output);
 
         if ($errorCode !== 0) {
-            throw new UpgradeException($this->container->getTranslator()->trans("A code %d was returned while installing assets: \n %s", [$errorCode, $output->fetch()]));
+            throw new ProcessException($this->container->getTranslator()->trans("A code %d was returned while installing assets: \n %s", [$errorCode, $output->fetch()]));
         }
     }
 }

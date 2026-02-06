@@ -23,7 +23,7 @@ namespace unit\Services;
 use LogicException;
 use PHPUnit\Framework\TestCase;
 use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
-use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
+use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
 use PrestaShop\Module\AutoUpgrade\Models\PrestashopRelease;
 use PrestaShop\Module\AutoUpgrade\Services\DistributionApiService;
 use PrestaShop\Module\AutoUpgrade\Services\PhpVersionResolverService;
@@ -118,7 +118,7 @@ class PhpVersionResolverServiceTest extends TestCase
     }
 
     /**
-     * @throws UpgradeException
+     * @throws ProcessException
      * @throws DistributionApiException
      * @throws LogicException
      */
@@ -131,7 +131,7 @@ class PhpVersionResolverServiceTest extends TestCase
     }
 
     /**
-     * @throws UpgradeException
+     * @throws ProcessException
      * @throws DistributionApiException
      * @throws LogicException
      */
@@ -147,7 +147,7 @@ class PhpVersionResolverServiceTest extends TestCase
     }
 
     /**
-     * @throws UpgradeException
+     * @throws ProcessException
      * @throws DistributionApiException
      * @throws LogicException
      */
@@ -285,7 +285,7 @@ class PhpVersionResolverServiceTest extends TestCase
     }
 
     /**
-     * @throws UpgradeException
+     * @throws ProcessException
      * @throws DistributionApiException
      * @throws LogicException
      *
@@ -303,7 +303,7 @@ class PhpVersionResolverServiceTest extends TestCase
     }
 
     /**
-     * @throws UpgradeException
+     * @throws ProcessException
      * @throws DistributionApiException
      * @throws LogicException
      */
@@ -344,7 +344,7 @@ class PhpVersionResolverServiceTest extends TestCase
     }
 
     /**
-     * @throws UpgradeException
+     * @throws ProcessException
      * @throws DistributionApiException
      * @throws LogicException
      */
@@ -362,7 +362,7 @@ class PhpVersionResolverServiceTest extends TestCase
     }
 
     /**
-     * @throws UpgradeException
+     * @throws ProcessException
      * @throws DistributionApiException
      * @throws LogicException
      */

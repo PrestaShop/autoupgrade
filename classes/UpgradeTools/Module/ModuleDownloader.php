@@ -22,7 +22,7 @@ namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\Module;
 
 use Exception;
 use LogicException;
-use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
+use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
 use PrestaShop\Module\AutoUpgrade\Services\DownloadService;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
@@ -51,7 +51,7 @@ class ModuleDownloader
     }
 
     /**
-     * @throws UpgradeException
+     * @throws ProcessException
      */
     public function downloadModule(ModuleDownloaderContext $moduleDownloaderContext): void
     {
@@ -73,12 +73,12 @@ class ModuleDownloader
 
         if (!$downloadSuccessful) {
             $message = $this->translator->trans('All download attempts have failed. The module %s has been disabled. You can try to update it manually afterwards.', [$moduleDownloaderContext->getModuleName()]);
-            throw (new UpgradeException($message))->setSeverity(UpgradeException::SEVERITY_WARNING);
+            throw (new ProcessException($message))->setSeverity(ProcessException::SEVERITY_WARNING);
         }
     }
 
     /**
-     * @throws UpgradeException
+     * @throws ProcessException
      */
     private function attemptDownload(ModuleDownloaderContext $moduleDownloaderContext, int $index): void
     {
@@ -108,19 +108,19 @@ class ModuleDownloader
     }
 
     /**
-     * @throws UpgradeException If download content is invalid
+     * @throws ProcessException If download content is invalid
      */
     private function assertDownloadedContentsIsValid(string $destinationPath): void
     {
         if (is_file($destinationPath)) {
             // Arbitrary size value checking the zip file has at least a file in it.
             if (filesize($destinationPath) <= 300) {
-                throw (new UpgradeException($this->translator->trans('The received module archive is empty.')))->setSeverity(UpgradeException::SEVERITY_WARNING);
+                throw (new ProcessException($this->translator->trans('The received module archive is empty.')))->setSeverity(ProcessException::SEVERITY_WARNING);
             }
 
             $downloadedFile = fopen($destinationPath, 'r');
             if (!$downloadedFile || fread($downloadedFile, 5) == '<?xml') {
-                throw (new UpgradeException($this->translator->trans('Invalid contents from provider (Got an XML file).')))->setSeverity(UpgradeException::SEVERITY_WARNING);
+                throw (new ProcessException($this->translator->trans('Invalid contents from provider (Got an XML file).')))->setSeverity(ProcessException::SEVERITY_WARNING);
             }
             fclose($downloadedFile);
         }

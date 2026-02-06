@@ -19,7 +19,7 @@
  */
 
 use PHPUnit\Framework\TestCase;
-use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
+use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
 use PrestaShop\Module\AutoUpgrade\Services\DownloadService;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleDownloader;
@@ -175,7 +175,7 @@ class ModuleDownloaderTest extends TestCase
 
         $this->downloadService
             ->method('downloadWithRetry')
-            ->willThrowException(new UpgradeException('Invalid contents from provider (Got an XML file).'));
+            ->willThrowException(new ProcessException('Invalid contents from provider (Got an XML file).'));
 
         $this->moduleDownloader->downloadModule($moduleContext);
     }

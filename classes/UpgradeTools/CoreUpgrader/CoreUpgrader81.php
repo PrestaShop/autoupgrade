@@ -22,13 +22,13 @@ declare(strict_types=1);
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader;
 
-use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
+use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 class CoreUpgrader81 extends CoreUpgrader80
 {
     /**
-     * @throws UpgradeException
+     * @throws ProcessException
      */
     public function writeNewSettings(): void
     {
@@ -50,7 +50,7 @@ class CoreUpgrader81 extends CoreUpgrader80
             $parametersContent = sprintf('<?php return %s;', var_export($parameters, true));
             $this->logger->debug($this->container->getTranslator()->trans('Updating parameters file'));
             if (!file_put_contents($parametersPath, $parametersContent)) {
-                throw new UpgradeException($this->container->getTranslator()->trans('Unable to migrate parameters'));
+                throw new ProcessException($this->container->getTranslator()->trans('Unable to migrate parameters'));
             }
 
             if (function_exists('opcache_invalidate')) {

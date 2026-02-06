@@ -26,7 +26,7 @@ use ConfigurationTest;
 use Context;
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
-use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
+use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Services\PhpVersionResolverService;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
@@ -179,7 +179,7 @@ class UpgradeSelfCheck
     /**
      * @return array<int, bool>
      *
-     * @throws UpgradeException
+     * @throws ProcessException
      */
     public function getWarnings(): array
     {
@@ -215,7 +215,7 @@ class UpgradeSelfCheck
      *
      * @return array{'message': string, 'list'?: array<string>}
      *
-     * @throws UpgradeException
+     * @throws ProcessException
      * @throws DistributionApiException
      */
     public function getRequirementWording(int $requirement, bool $isWebVersion = false): array
@@ -564,7 +564,7 @@ class UpgradeSelfCheck
     }
 
     /**
-     * @throws UpgradeException
+     * @throws ProcessException
      */
     public function isModuleVersionLatest(): bool
     {
@@ -785,7 +785,7 @@ class UpgradeSelfCheck
     }
 
     /**
-     * @throws UpgradeException
+     * @throws ProcessException
      */
     private function checkModuleVersionIsLastest(): bool
     {

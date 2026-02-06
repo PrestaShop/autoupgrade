@@ -198,7 +198,7 @@ class ModuleMigrationTest extends TestCase
 
         $this->moduleMigration->needMigration($moduleMigrationContext);
 
-        $this->expectException(\PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException::class);
+        $this->expectException(\PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException::class);
         $this->expectExceptionMessage('Method mymodule_upgrade_module_1_2_0 does not exist. Module mymodule disabled.');
 
         $this->moduleMigration->runMigration($moduleMigrationContext);
@@ -214,7 +214,7 @@ class ModuleMigrationTest extends TestCase
 
         $this->moduleMigration->needMigration($moduleMigrationContext);
 
-        $this->expectException(\PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException::class);
+        $this->expectException(\PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException::class);
         $this->expectExceptionMessage('Migration failed while running the file upgrade-1.2.1.php. Module mymodule disabled.');
 
         $this->moduleMigration->runMigration($moduleMigrationContext);
@@ -230,7 +230,7 @@ class ModuleMigrationTest extends TestCase
 
         $this->moduleMigration->needMigration($moduleMigrationContext);
 
-        $this->expectException(\PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException::class);
+        $this->expectException(\PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException::class);
         $this->expectExceptionMessage('Unexpected issue when trying to upgrade module mymodule. Module mymodule disabled.');
 
         $this->moduleMigration->runMigration($moduleMigrationContext);
@@ -256,7 +256,7 @@ class ModuleMigrationTest extends TestCase
 
         $moduleMigrationContext = new ModuleMigrationContext($mymodule, $dbVersion);
 
-        $this->expectException(\PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException::class);
+        $this->expectException(\PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException::class);
         $this->expectExceptionMessage('Module mymodule version could not be updated. Database might be unavailable.');
 
         $this->assertNull($this->moduleMigration->saveVersionInDb($moduleMigrationContext));
