@@ -264,7 +264,7 @@ abstract class CoreUpgrader
     /**
      * @return array<string, string>
      *
-     *@throws ProcessException
+     * @throws ProcessException
      */
     protected function getUpgradeSqlFilesListToApply(string $upgrade_dir_sql, string $oldversion): array
     {
@@ -302,7 +302,7 @@ abstract class CoreUpgrader
     /**
      * @return array<array{'version':string,'query':string}>
      *
-     *@throws ProcessException
+     * @throws ProcessException
      */
     public function getSqlContentList(string $originVersion): array
     {
