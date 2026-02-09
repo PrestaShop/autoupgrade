@@ -36,10 +36,10 @@ class ModuleUpgradeCompatibility
     private $latestRelease; // ou un objet Version
 
     public function __construct(
-        bool     $isCompatible,
-        bool     $hasUpdateAvailable,
+        bool $isCompatible,
+        bool $hasUpdateAvailable,
         ?Release $compatibleRelease,
-        Release  $latestRelease
+        Release $latestRelease
     ) {
         $this->isCompatible = $isCompatible;
         $this->hasUpdateAvailable = $hasUpdateAvailable;

@@ -151,7 +151,7 @@ class UninstallModules extends AbstractTask
             $this->container->getFileStorage()->save(
                 [
                     'backlog' => $moduleToUninstallList,
-                    'initialTotal' => $totalModuleToUninstall
+                    'initialTotal' => $totalModuleToUninstall,
                 ],
                 UpgradeFileNames::MODULES_TO_UNINSTALL_LIST
             );
