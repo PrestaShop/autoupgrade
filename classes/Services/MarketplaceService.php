@@ -64,7 +64,7 @@ class MarketplaceService
     }
 
     /**
-     * @description allows you to get compatibility information for a module based on the target version of PrestaShop.
+     * Allows you to get compatibility information for a module based on the target version of PrestaShop.
      */
     public function findCompatibleModuleUpgrade(
         Module $module,
@@ -91,7 +91,6 @@ class MarketplaceService
             return new ModuleUpgradeCompatibility(
                 false,
                 false,
-                null,
                 $latestRelease
             );
         }
@@ -104,8 +103,8 @@ class MarketplaceService
         return new ModuleUpgradeCompatibility(
             true,
             version_compare($bestCompatible->productVersion, $localModuleVersion, '>'),
-            $bestCompatible,
-            $latestRelease
+            $latestRelease,
+            $bestCompatible
         );
     }
 }

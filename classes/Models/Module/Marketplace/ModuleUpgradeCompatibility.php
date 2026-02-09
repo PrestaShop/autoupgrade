@@ -29,22 +29,22 @@ class ModuleUpgradeCompatibility
     /** @var bool */
     private $hasUpdateAvailable;
 
-    /** @var Release|null */
-    private $compatibleRelease;
-
     /** @var Release */
     private $latestRelease;
+
+    /** @var Release|null */
+    private $compatibleRelease;
 
     public function __construct(
         bool $isCompatible,
         bool $hasUpdateAvailable,
-        ?Release $compatibleRelease,
-        Release $latestRelease
+        Release $latestRelease,
+        ?Release $compatibleRelease = null
     ) {
         $this->isCompatible = $isCompatible;
         $this->hasUpdateAvailable = $hasUpdateAvailable;
-        $this->compatibleRelease = $compatibleRelease;
         $this->latestRelease = $latestRelease;
+        $this->compatibleRelease = $compatibleRelease;
     }
 
     public function isCompatible(): bool

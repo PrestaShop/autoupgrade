@@ -130,7 +130,7 @@ class UninstallModules extends AbstractTask
 
             $marketPlaceService = $this->container->getMarketplaceService();
 
-            $moduleToUninstallList = [];
+            $modulesToUninstallList = [];
 
             foreach ($modulesList as $module) {
                 try {
@@ -143,7 +143,7 @@ class UninstallModules extends AbstractTask
                     );
 
                     if (!$moduleCompatibility->isCompatible()) {
-                        $moduleToUninstallList[] = $module['name'];
+                        $modulesToUninstallList[] = $module['name'];
                     }
                 } catch (MarketplaceApiException $e) {
                     $this->logger->warning($this->translator->trans('Unable to retrieve module %s information. Ignored.', [$module['name']]));
@@ -153,12 +153,12 @@ class UninstallModules extends AbstractTask
                 }
             }
 
-            $totalModuleToUninstall = count($moduleToUninstallList);
+            $totalModulesToUninstall = count($modulesToUninstallList);
 
             $this->container->getFileStorage()->save(
                 [
-                    'backlog' => $moduleToUninstallList,
-                    'initialTotal' => $totalModuleToUninstall,
+                    'backlog' => $modulesToUninstallList,
+                    'initialTotal' => $totalModulesToUninstall,
                 ],
                 UpgradeFileNames::MODULES_TO_UNINSTALL_LIST
             );
@@ -168,8 +168,8 @@ class UninstallModules extends AbstractTask
             return ExitCode::FAIL;
         }
 
-        if ($totalModuleToUninstall) {
-            $this->logger->info($this->translator->trans('%s installed modules will be uninstalled.', [$totalModuleToUninstall]));
+        if ($totalModulesToUninstall) {
+            $this->logger->info($this->translator->trans('%nbOfModules% incompatible modules with PrestaShop %version% will be uninstalled.', ['%nbOfModules%' => $totalModulesToUninstall, '%version%' => $targetVersion]));
         }
 
         $this->stepDone = false;
