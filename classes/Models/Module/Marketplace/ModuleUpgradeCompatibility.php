@@ -33,7 +33,7 @@ class ModuleUpgradeCompatibility
     private $compatibleRelease;
 
     /** @var Release */
-    private $latestRelease; // ou un objet Version
+    private $latestRelease;
 
     public function __construct(
         bool $isCompatible,
