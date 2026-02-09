@@ -22,7 +22,7 @@
 namespace PrestaShop\Module\AutoUpgrade\Task\Update;
 
 use Exception;
-use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
+use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Progress\Backlog;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
@@ -82,9 +82,9 @@ class DownloadModules extends AbstractTask
                         UpgradeFileNames::MODULES_TO_UPGRADE_LIST
                     );
                 }
-            } catch (UpgradeException $e) {
+            } catch (ProcessException $e) {
                 $this->handleException($e);
-                if ($e->getSeverity() === UpgradeException::SEVERITY_ERROR) {
+                if ($e->getSeverity() === ProcessException::SEVERITY_ERROR) {
                     return ExitCode::FAIL;
                 }
             }
@@ -141,7 +141,7 @@ class DownloadModules extends AbstractTask
                 (new Backlog([], 0))->dump(),
                 UpgradeFileNames::MODULES_TO_UPGRADE_LIST
             );
-        } catch (UpgradeException $e) {
+        } catch (ProcessException $e) {
             $this->handleException($e);
 
             return ExitCode::FAIL;

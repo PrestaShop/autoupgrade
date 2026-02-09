@@ -19,7 +19,7 @@
  */
 
 use PHPUnit\Framework\TestCase;
-use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
+use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
@@ -221,7 +221,7 @@ class ModuleAdapterTest extends TestCase
             }
         };
 
-        $this->expectException(UpgradeException::class);
+        $this->expectException(ProcessException::class);
         $this->expectExceptionMessage('does not exist or is not a directory');
 
         $moduleAdapter->listModulesPresentInFolderAndInstalled();

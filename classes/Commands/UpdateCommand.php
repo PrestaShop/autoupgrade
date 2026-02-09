@@ -25,7 +25,7 @@ use Exception;
 use InvalidArgumentException;
 use PrestaShop\Module\AutoUpgrade\DocumentationLinks;
 use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
-use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
+use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
@@ -182,7 +182,7 @@ class UpdateCommand extends AbstractCommand
 
     /**
      * @throws DistributionApiException
-     * @throws UpgradeException
+     * @throws ProcessException
      * @throws Exception
      */
     private function calculateUpdateTypeAfterConfigLoad(): void

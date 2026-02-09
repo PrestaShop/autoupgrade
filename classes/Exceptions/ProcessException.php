@@ -23,7 +23,7 @@ namespace PrestaShop\Module\AutoUpgrade\Exceptions;
 
 use Exception;
 
-class UpgradeException extends Exception
+class ProcessException extends Exception
 {
     const SEVERITY_ERROR = 1;
     const SEVERITY_WARNING = 2;
@@ -58,7 +58,7 @@ class UpgradeException extends Exception
         return $this->severity;
     }
 
-    public function addQuickInfo(string $quickInfo): UpgradeException
+    public function addQuickInfo(string $quickInfo): ProcessException
     {
         $this->quickInfos[] = $quickInfo;
 
@@ -70,14 +70,14 @@ class UpgradeException extends Exception
      *
      * @return $this
      */
-    public function setQuickInfos(array $quickInfos): UpgradeException
+    public function setQuickInfos(array $quickInfos): ProcessException
     {
         $this->quickInfos = $quickInfos;
 
         return $this;
     }
 
-    public function setSeverity(int $severity): UpgradeException
+    public function setSeverity(int $severity): ProcessException
     {
         $this->severity = $severity;
 

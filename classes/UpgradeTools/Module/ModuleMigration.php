@@ -22,7 +22,7 @@
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\Module;
 
 use LogicException;
-use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
+use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 use Symfony\Component\Filesystem\Exception\IOException;
@@ -92,7 +92,7 @@ class ModuleMigration
 
     /**
      * @throws LogicException
-     * @throws UpgradeException
+     * @throws ProcessException
      */
     public function runMigration(ModuleMigrationContext $moduleMigrationContext): void
     {
@@ -107,25 +107,25 @@ class ModuleMigration
 
             try {
                 if (!$this->loadAndCallFunction($migrationFilePath, $methodName, $moduleMigrationContext)) {
-                    throw (new UpgradeException($this->translator->trans('Migration failed while running the file %s. Module %s disabled.', [basename($migrationFilePath), $moduleMigrationContext->getModuleName()])))->setSeverity(UpgradeException::SEVERITY_WARNING);
+                    throw (new ProcessException($this->translator->trans('Migration failed while running the file %s. Module %s disabled.', [basename($migrationFilePath), $moduleMigrationContext->getModuleName()])))->setSeverity(ProcessException::SEVERITY_WARNING);
                 }
-            } catch (UpgradeException $e) {
+            } catch (ProcessException $e) {
                 $moduleMigrationContext->getModuleInstance()->disable();
                 throw $e;
             } catch (Throwable $t) {
                 $moduleMigrationContext->getModuleInstance()->disable();
-                throw (new UpgradeException($this->translator->trans('Unexpected issue when trying to upgrade module %s. Module %s disabled.', [$moduleMigrationContext->getModuleName(), $moduleMigrationContext->getModuleName()]), 0, $t))->setSeverity(UpgradeException::SEVERITY_WARNING);
+                throw (new ProcessException($this->translator->trans('Unexpected issue when trying to upgrade module %s. Module %s disabled.', [$moduleMigrationContext->getModuleName(), $moduleMigrationContext->getModuleName()]), 0, $t))->setSeverity(ProcessException::SEVERITY_WARNING);
             }
         }
     }
 
     /**
-     * @throws UpgradeException
+     * @throws ProcessException
      */
     public function saveVersionInDb(ModuleMigrationContext $moduleMigrationContext): void
     {
         if (!\Module::upgradeModuleVersion($moduleMigrationContext->getModuleName(), $moduleMigrationContext->getLocalVersion())) {
-            throw (new UpgradeException($this->translator->trans('Module %s version could not be updated. Database might be unavailable.', [$moduleMigrationContext->getModuleName()]), 0))->setSeverity(UpgradeException::SEVERITY_WARNING);
+            throw (new ProcessException($this->translator->trans('Module %s version could not be updated. Database might be unavailable.', [$moduleMigrationContext->getModuleName()]), 0))->setSeverity(ProcessException::SEVERITY_WARNING);
         }
     }
 
@@ -143,7 +143,7 @@ class ModuleMigration
     /**
      * Loads the migration file and calls the specified method using eval.
      *
-     * @throws UpgradeException
+     * @throws ProcessException
      */
     private function loadAndCallFunction(string $filePath, string $methodName, ModuleMigrationContext $moduleMigrationContext): bool
     {
@@ -158,12 +158,12 @@ class ModuleMigration
 
             require_once $sandboxedFilePath;
             if (!function_exists($uniqueMethodName)) {
-                throw (new UpgradeException($this->translator->trans('Method %s does not exist. Module %s disabled.', [$uniqueMethodName, $moduleMigrationContext->getModuleName()])))->setSeverity(UpgradeException::SEVERITY_WARNING);
+                throw (new ProcessException($this->translator->trans('Method %s does not exist. Module %s disabled.', [$uniqueMethodName, $moduleMigrationContext->getModuleName()])))->setSeverity(ProcessException::SEVERITY_WARNING);
             }
 
             return call_user_func($uniqueMethodName, $moduleMigrationContext->getModuleInstance());
         } catch (IOException $e) {
-            throw (new UpgradeException($this->translator->trans('Could not write temporary file %s.', [$sandboxedFilePath])))->setSeverity(UpgradeException::SEVERITY_WARNING);
+            throw (new ProcessException($this->translator->trans('Could not write temporary file %s.', [$sandboxedFilePath])))->setSeverity(ProcessException::SEVERITY_WARNING);
         } finally {
             $this->filesystem->remove($sandboxedFilePath);
             // If the module echoed during the migration, we catch it in the logger.

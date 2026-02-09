@@ -23,7 +23,7 @@ namespace PrestaShop\Module\AutoUpgrade\Commands;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
-use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
+use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
@@ -116,7 +116,7 @@ class CheckRequirementsCommand extends AbstractCommand
 
     /**
      * @throws DistributionApiException
-     * @throws UpgradeException
+     * @throws ProcessException
      */
     private function processRequirementWarnings(): void
     {

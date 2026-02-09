@@ -21,7 +21,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Services;
 
-use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
+use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 use Symfony\Component\Filesystem\Exception\IOException;
@@ -44,7 +44,7 @@ class DownloadService
     }
 
     /**
-     * @throws UpgradeException
+     * @throws ProcessException
      */
     public function downloadWithRetry(string $downloadUrl, string $destinationPath, int $retryCount = self::MAX_DOWNLOAD_TRY, int $delayInSeconds = self::WAIT_BETWEEN_RETRY_IN_SECONDS): void
     {
@@ -66,7 +66,7 @@ class DownloadService
             }
         }
 
-        throw new UpgradeException($this->translator->trans('All download attempts have failed.'));
+        throw new ProcessException($this->translator->trans('All download attempts have failed.'));
     }
 
     public function download(string $downloadUrl, string $destinationPath): void

@@ -24,7 +24,7 @@ namespace PrestaShop\Module\AutoUpgrade\Task\Backup;
 use Exception;
 use PDO;
 use PrestaShop\Module\AutoUpgrade\Database\TableFilter;
-use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
+use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Progress\Backlog;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
@@ -292,7 +292,7 @@ class BackupDatabase extends AbstractTask
         );
 
         if (empty($listOfTables)) {
-            throw (new UpgradeException($this->translator->trans('No valid tables were found to back up. Backup of database canceled.')))->setSeverity(UpgradeException::SEVERITY_ERROR);
+            throw (new ProcessException($this->translator->trans('No valid tables were found to back up. Backup of database canceled.')))->setSeverity(ProcessException::SEVERITY_ERROR);
         }
 
         $tablesToBackup = new Backlog($listOfTables, count($listOfTables));
@@ -337,7 +337,7 @@ class BackupDatabase extends AbstractTask
     {
         // Figure out what compression is available and open the file
         if ($this->container->getFileSystem()->exists($backupfile)) {
-            throw (new UpgradeException($this->translator->trans('Backup file %s already exists. Operation aborted.', [$backupfile])))->setSeverity(UpgradeException::SEVERITY_ERROR);
+            throw (new ProcessException($this->translator->trans('Backup file %s already exists. Operation aborted.', [$backupfile])))->setSeverity(ProcessException::SEVERITY_ERROR);
         }
 
         if (function_exists('bzopen')) {
@@ -351,7 +351,7 @@ class BackupDatabase extends AbstractTask
         }
 
         if ($fp === false) {
-            throw (new UpgradeException($this->translator->trans('Unable to create backup database file %s.', [addslashes($backupfile)])))->setSeverity(UpgradeException::SEVERITY_ERROR);
+            throw (new ProcessException($this->translator->trans('Unable to create backup database file %s.', [addslashes($backupfile)])))->setSeverity(ProcessException::SEVERITY_ERROR);
         }
 
         return $fp;

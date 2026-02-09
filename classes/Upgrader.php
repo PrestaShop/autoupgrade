@@ -22,7 +22,7 @@
 namespace PrestaShop\Module\AutoUpgrade;
 
 use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
-use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
+use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
 use PrestaShop\Module\AutoUpgrade\Models\PrestashopRelease;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Services\DistributionApiService;
@@ -72,7 +72,7 @@ class Upgrader
 
     /**
      * @throws DistributionApiException
-     * @throws UpgradeException
+     * @throws ProcessException
      */
     public function isLastVersion(): bool
     {
@@ -121,7 +121,7 @@ class Upgrader
 
     /**
      * @throws DistributionApiException
-     * @throws UpgradeException
+     * @throws ProcessException
      */
     public function getOnlineDestinationRelease(): ?PrestaShopRelease
     {
@@ -160,7 +160,7 @@ class Upgrader
      * @return ?string Prestashop destination version or null if no compatible version found
      *
      * @throws DistributionApiException
-     * @throws UpgradeException
+     * @throws ProcessException
      */
     public function getDestinationVersion(): ?string
     {
@@ -178,7 +178,7 @@ class Upgrader
     }
 
     /**
-     * @throws UpgradeException
+     * @throws ProcessException
      */
     public function getOnlineDestinationVersionForChannel(string $channel): ?string
     {
@@ -188,19 +188,19 @@ class Upgrader
             return $this->getOnlineRecommendedDestinationRelease() ? $this->getOnlineRecommendedDestinationRelease()->getVersion() : null;
         }
 
-        throw new UpgradeException(sprintf('Channel accepted: %s, %s', UpgradeConfiguration::CHANNEL_ONLINE, UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED));
+        throw new ProcessException(sprintf('Channel accepted: %s, %s', UpgradeConfiguration::CHANNEL_ONLINE, UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED));
     }
 
     /**
      * @throws DistributionApiException
-     * @throws UpgradeException
+     * @throws ProcessException
      */
     public function getLatestCompatibleModuleVersion(): string
     {
         $autoupgradeReleases = $this->distributionApiService->getAutoupgradeCompatibilities();
 
         if (empty($autoupgradeReleases)) {
-            throw new UpgradeException($this->translator->trans('Unable to retrieve the recommended releases of Update Assistant.'));
+            throw new ProcessException($this->translator->trans('Unable to retrieve the recommended releases of Update Assistant.'));
         }
 
         $destinationVersion = $this->getDestinationVersion();

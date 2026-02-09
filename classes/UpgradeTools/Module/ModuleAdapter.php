@@ -21,7 +21,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\Module;
 
-use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
+use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 use PrestaShop\PrestaShop\Adapter\Module\Repository\ModuleRepository;
@@ -108,7 +108,7 @@ class ModuleAdapter
      *
      * @return array<array{name:string, currentVersion:string}> Module available on the local filesystem and installed
      *
-     * @throws UpgradeException
+     * @throws ProcessException
      */
     public function listModulesPresentInFolderAndInstalled(): array
     {
@@ -116,7 +116,7 @@ class ModuleAdapter
         $dir = $this->modulesPath;
 
         if (!is_dir($dir)) {
-            throw (new UpgradeException($this->translator->trans('%dir% does not exist or is not a directory.', ['%dir%' => $dir])))->addQuickInfo($this->translator->trans('%s does not exist or is not a directory.', [$dir]))->setSeverity(UpgradeException::SEVERITY_ERROR);
+            throw (new ProcessException($this->translator->trans('%dir% does not exist or is not a directory.', ['%dir%' => $dir])))->addQuickInfo($this->translator->trans('%s does not exist or is not a directory.', [$dir]))->setSeverity(ProcessException::SEVERITY_ERROR);
         }
 
         foreach ($this->getInstalledVersionOfModules() as $moduleInstalled) {

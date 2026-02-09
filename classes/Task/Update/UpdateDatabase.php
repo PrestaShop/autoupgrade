@@ -22,7 +22,7 @@
 namespace PrestaShop\Module\AutoUpgrade\Task\Update;
 
 use Exception;
-use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
+use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Progress\Backlog;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
@@ -71,7 +71,7 @@ class UpdateDatabase extends AbstractTask
             }
             $this->container->getFileStorage()->clean(UpgradeFileNames::SQL_TO_EXECUTE_LIST);
             $this->getCoreUpgrader()->finalizeCoreUpdate();
-        } catch (UpgradeException $e) {
+        } catch (ProcessException $e) {
             $this->next = TaskName::TASK_ERROR;
             $this->setErrorFlag();
             foreach ($e->getQuickInfos() as $log) {
@@ -118,7 +118,7 @@ class UpdateDatabase extends AbstractTask
     }
 
     /**
-     * @throws UpgradeException
+     * @throws ProcessException
      * @throws Exception
      */
     protected function warmUp(): int
@@ -156,7 +156,7 @@ class UpdateDatabase extends AbstractTask
     }
 
     /**
-     * @throws UpgradeException
+     * @throws ProcessException
      */
     protected function checkVersionIsNewer(): void
     {
@@ -166,9 +166,9 @@ class UpdateDatabase extends AbstractTask
         $versionCompare = version_compare($destinationVersion, $currentVersion);
 
         if ($versionCompare === -1) {
-            throw new UpgradeException($this->container->getTranslator()->trans('Version to install is too old. Current version: %oldversion%. Version to install: %newversion%.', ['%oldversion%' => $currentVersion, '%newversion%' => $destinationVersion]));
+            throw new ProcessException($this->container->getTranslator()->trans('Version to install is too old. Current version: %oldversion%. Version to install: %newversion%.', ['%oldversion%' => $currentVersion, '%newversion%' => $destinationVersion]));
         } elseif ($versionCompare === 0) {
-            throw new UpgradeException($this->container->getTranslator()->trans('You already have the %s version.', [$destinationVersion]));
+            throw new ProcessException($this->container->getTranslator()->trans('You already have the %s version.', [$destinationVersion]));
         }
     }
 

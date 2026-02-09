@@ -23,7 +23,7 @@ namespace PrestaShop\Module\AutoUpgrade\Task\Update;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
-use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
+use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\Task\TaskName;
@@ -83,7 +83,7 @@ class Download extends AbstractTask
 
     /**
      * @throws DistributionApiException
-     * @throws UpgradeException
+     * @throws ProcessException
      * @throws Exception
      */
     public function downloadArchive(): void
@@ -102,7 +102,7 @@ class Download extends AbstractTask
                 $this->logger->error($this->translator->trans('Download complete but MD5 sum does not match (%s).', [$md5file]));
                 $this->next = TaskName::TASK_ERROR;
             }
-        } catch (UpgradeException $e) {
+        } catch (ProcessException $e) {
             $this->logger->error($this->translator->trans('The .zip archive could not be downloaded. The update is currently impossible. Please try again later.'));
             $this->next = TaskName::TASK_ERROR;
         }

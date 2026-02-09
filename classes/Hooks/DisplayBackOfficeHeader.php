@@ -26,7 +26,7 @@ use Exception;
 use PrestaShop\Module\AutoUpgrade\DocumentationLinks;
 use PrestaShop\Module\AutoUpgrade\Environment;
 use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
-use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
+use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
 use PrestaShop\Module\AutoUpgrade\Models\UpdateNotificationConfiguration;
 use PrestaShop\Module\AutoUpgrade\Services\UpdateNotificationService;
 use PrestaShop\Module\AutoUpgrade\Twig\PageSelectors;
@@ -115,7 +115,7 @@ class DisplayBackOfficeHeader
      * @return string
      *
      * @throws DistributionApiException
-     * @throws UpgradeException
+     * @throws ProcessException
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
@@ -229,7 +229,7 @@ class DisplayBackOfficeHeader
 
     /**
      * @throws DistributionApiException
-     * @throws UpgradeException
+     * @throws ProcessException
      */
     private function checkNewerVersion(): void
     {
@@ -255,7 +255,7 @@ class DisplayBackOfficeHeader
     /**
      * @return array<string, mixed>
      *
-     * @throws UpgradeException
+     * @throws ProcessException
      */
     private function getParams(): array
     {

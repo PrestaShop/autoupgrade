@@ -191,7 +191,7 @@ class Autoupgrade extends Module
      * @return string
      *
      * @throws \PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException
-     * @throws \PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException
+     * @throws \PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
