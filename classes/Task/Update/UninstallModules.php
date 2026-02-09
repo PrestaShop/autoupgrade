@@ -50,7 +50,7 @@ class UninstallModules extends AbstractTask
             $moduleName = $listModules->getNext();
 
             try {
-                $this->logger->debug($this->translator->trans('Uninstalling module %module%...', ['%module%' => $moduleName]));
+                $this->logger->info($this->translator->trans('Uninstalling module %module%...', ['%module%' => $moduleName]));
 
                 $module = \Module::getInstanceByName($moduleName);
 
@@ -58,9 +58,16 @@ class UninstallModules extends AbstractTask
                     throw (new ProcessException($this->translator->trans('Retrieving the module instance of %s failed.', [$moduleName])))->setSeverity(ProcessException::SEVERITY_WARNING);
                 }
 
-                $module->uninstall();
+                try {
+                    $module->uninstall();
+                } catch (\Throwable $e) {
+                    throw (new ProcessException($this->translator->trans('An error occurred while uninstalling the module %s. Uninstall it manually then try again.', [$moduleName])))
+                        ->addQuickInfo($e)
+                        ->setSeverity(ProcessException::SEVERITY_ERROR);
+                }
 
-                $this->logger->debug($this->translator->trans('Module %module% is uninstalled.', ['%module%' => $moduleName]));
+
+                $this->logger->info($this->translator->trans('Module %module% is uninstalled.', ['%module%' => $moduleName]));
             } catch (ProcessException $e) {
                 $this->handleException($e);
                 if ($e->getSeverity() === ProcessException::SEVERITY_ERROR) {
