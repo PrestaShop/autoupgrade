@@ -21,6 +21,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
+use Exception;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\Backup\BackupComplete;
 use PrestaShop\Module\AutoUpgrade\Task\Backup\BackupDatabase;
@@ -37,6 +38,7 @@ use PrestaShop\Module\AutoUpgrade\Task\TaskName;
 use PrestaShop\Module\AutoUpgrade\Task\Update\CleanDatabase;
 use PrestaShop\Module\AutoUpgrade\Task\Update\Download;
 use PrestaShop\Module\AutoUpgrade\Task\Update\DownloadModules;
+use PrestaShop\Module\AutoUpgrade\Task\Update\UninstallModules;
 use PrestaShop\Module\AutoUpgrade\Task\Update\Unzip;
 use PrestaShop\Module\AutoUpgrade\Task\Update\UpdateComplete;
 use PrestaShop\Module\AutoUpgrade\Task\Update\UpdateDatabase;
@@ -47,6 +49,9 @@ use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 class TaskRepository
 {
+    /**
+     * @throws Exception
+     */
     public static function get(string $step, UpgradeContainer $container): AbstractTask
     {
         switch ($step) {
@@ -85,6 +90,8 @@ class TaskRepository
                 return new Unzip($container);
             case TaskName::TASK_DOWNLOAD_MODULES:
                 return new DownloadModules($container);
+            case TaskName::TASK_UNINSTALL_MODULES:
+                return new UninstallModules($container);
             case TaskName::TASK_UPDATE_FILES:
                 return new UpdateFiles($container);
             case TaskName::TASK_UPDATE_DATABASE:

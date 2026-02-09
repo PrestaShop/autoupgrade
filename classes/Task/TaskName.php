@@ -41,14 +41,15 @@ class TaskName
 
     // UPDATE
     const TASK_UPDATE_INITIALIZATION = 'UpdateInitialization';
+    const TASK_DOWNLOAD = 'Download';
+    const TASK_UNZIP = 'Unzip';
+    const TASK_DOWNLOAD_MODULES = 'DownloadModules';
+    const TASK_UNINSTALL_MODULES = 'UninstallModules';
     const TASK_UPDATE_FILES = 'UpdateFiles';
     const TASK_UPDATE_DATABASE = 'UpdateDatabase';
     const TASK_UPDATE_MODULES = 'UpdateModules';
-    const TASK_UPDATE_COMPLETE = 'UpdateComplete';
     const TASK_CLEAN_DATABASE = 'CleanDatabase';
-    const TASK_DOWNLOAD = 'Download';
-    const TASK_DOWNLOAD_MODULES = 'DownloadModules';
-    const TASK_UNZIP = 'Unzip';
+    const TASK_UPDATE_COMPLETE = 'UpdateComplete';
 
     // MISC
     const TASK_UPDATE_CONFIG = 'UpdateConfig';

@@ -85,6 +85,15 @@ class UpgradeFileNames
     const MODULES_TO_UPGRADE_LIST = 'modulesToUpgrade.list';
 
     /**
+     * during upgradeModules process,
+     * this files contains the list of modules left to uninstall in a serialized array.
+     * (this file is deleted in init() method if you reload the page).
+     *
+     * @var string
+     */
+    const MODULES_TO_UNINSTALL_LIST = 'modulesToUninstall.list';
+
+    /**
      * during backupFiles process,
      * this files contains the list of files left to save in a serialized array.
      * (this file is deleted in init() method if you reload the page).
@@ -159,6 +168,7 @@ class UpgradeFileNames
         'FILES_TO_REMOVE_LIST' => self::FILES_TO_REMOVE_LIST,
         'MODULES_TO_DOWNLOAD_LIST' => self::MODULES_TO_DOWNLOAD_LIST,
         'MODULES_TO_UPGRADE_LIST' => self::MODULES_TO_UPGRADE_LIST,
+        'MODULES_TO_UNINSTALL_LIST' => self::MODULES_TO_UNINSTALL_LIST,
         'MODULE_SOURCE_PROVIDER_CACHE_LOCAL' => self::MODULE_SOURCE_PROVIDER_CACHE_LOCAL,
         'MODULE_SOURCE_PROVIDER_CACHE_COMPOSER' => self::MODULE_SOURCE_PROVIDER_CACHE_COMPOSER,
         'MODULE_SOURCE_PROVIDER_CACHE_MARKETPLACE_API' => self::MODULE_SOURCE_PROVIDER_CACHE_MARKETPLACE_API,
