@@ -61,11 +61,8 @@ class UninstallModules extends AbstractTask
                 try {
                     $module->uninstall();
                 } catch (\Throwable $e) {
-                    throw (new ProcessException($this->translator->trans('An error occurred while uninstalling the module %s. Uninstall it manually then try again.', [$moduleName])))
-                        ->addQuickInfo($e)
-                        ->setSeverity(ProcessException::SEVERITY_ERROR);
+                    throw (new ProcessException($this->translator->trans('An error occurred while uninstalling the module %s. Uninstall it manually then try again.', [$moduleName])))->addQuickInfo($e)->setSeverity(ProcessException::SEVERITY_ERROR);
                 }
-
 
                 $this->logger->info($this->translator->trans('Module %module% is uninstalled.', ['%module%' => $moduleName]));
             } catch (ProcessException $e) {
