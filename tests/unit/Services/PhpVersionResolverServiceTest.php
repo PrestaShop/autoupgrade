@@ -26,6 +26,7 @@ use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
 use PrestaShop\Module\AutoUpgrade\Exceptions\UpgradeException;
 use PrestaShop\Module\AutoUpgrade\Models\PrestashopRelease;
 use PrestaShop\Module\AutoUpgrade\Services\DistributionApiService;
+use PrestaShop\Module\AutoUpgrade\Services\DownloadService;
 use PrestaShop\Module\AutoUpgrade\Services\PhpVersionResolverService;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 use PrestaShop\Module\AutoUpgrade\VersionUtils;
@@ -43,8 +44,9 @@ class PhpVersionResolverServiceTest extends TestCase
                 return vsprintf($message, $parameters);
             });
 
+        $downloadService = $this->createMock(DownloadService::class);
         $this->distributionApiService = $this->getMockBuilder(DistributionApiService::class)
-            ->setConstructorArgs([$translator])
+            ->setConstructorArgs([$translator, $downloadService])
             ->setMethods(['getPhpVersionRequirements', 'getApiEndpoint'])
             ->getMock();
 
