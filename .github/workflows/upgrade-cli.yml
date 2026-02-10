@@ -57,6 +57,12 @@ jobs:
       - name: Composer install
         run: composer install
 
+      - name: Delete welcome module
+        if: matrix.PHP_VERSION == '7.1'
+        run: |
+          docker exec -t prestashop rm -rf /var/www/html/modules/welcome/
+          docker exec -t prestashop chmod 777 -R /var/www/html/var
+
       - name: Backup
         run: |
           docker exec -t prestashop php modules/autoupgrade/bin/console backup:create admin-dev
@@ -100,12 +106,6 @@ jobs:
         run: |
           docker exec -t prestashop sh -c "echo 'memory_limit=1024M' > /usr/local/etc/php/conf.d/zz-memory-limit.ini"
           docker exec -t prestashop php modules/autoupgrade/bin/console update:start --config-file-path=modules/autoupgrade/config.json --channel=${{ matrix.UPGRADE_CHANNEL }} admin-dev
-          docker exec -t prestashop chmod 777 -R /var/www/html/var
-
-      - name: Uninstall welcome module
-        if: matrix.PHP_VERSION == '7.1'
-        run: |
-          docker exec -t prestashop php bin/console prestashop:module disable welcome
           docker exec -t prestashop chmod 777 -R /var/www/html/var
 
       - name: Install dependencies

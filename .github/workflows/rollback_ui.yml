@@ -59,11 +59,11 @@ jobs:
         run: |
           docker exec -t prestashop /usr/local/bin/install-update.sh
 
-      - name: Disable ps_welcome
-        if: startsWith(matrix.PS_VERSION_START, '1.7')
+      - name: Delete welcome module
+        if: startsWith(matrix.PS_VERSION_START, '1.7') || matrix.PS_VERSION_START == 8.0.0
         run: |
-          docker exec -t prestashop /usr/local/bin/disable-welcome.sh
-          docker exec -t prestashop chmod -R 777 /var/www/html/modules
+          docker exec -t prestashop rm -rf /var/www/html/modules/welcome/
+          docker exec -t prestashop chmod 777 -R /var/www/html/var
 
       - name: Composer install
         run: |
