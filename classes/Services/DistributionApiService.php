@@ -22,7 +22,6 @@
 namespace PrestaShop\Module\AutoUpgrade\Services;
 
 use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
-use PrestaShop\Module\AutoUpgrade\Log\WebLogger;
 use PrestaShop\Module\AutoUpgrade\Models\AutoupgradeRelease;
 use PrestaShop\Module\AutoUpgrade\Models\PrestashopRelease;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
