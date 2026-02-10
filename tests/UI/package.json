@@ -16,9 +16,9 @@
         "// Sanity": "Scripts to run sanity tests",
         "test:sanity": "npx playwright test /sanity --workers 1 --max-failures 1",
         "// upgradeOnline": "Scripts to run functional tests to upgrade online channel",
-        "test:upgradeOnline": "npx playwright test /functional/01_upgradeOnline.spec.ts --workers 1 --max-failures 1 --output=/tmp/test-results",
+        "test:upgradeOnline": "npx playwright test /functional/00_uninstallWelcome.spec.ts /functional/01_upgradeOnline.spec.ts --workers 1 --max-failures 1 --output=/tmp/test-results",
         "// upgradeLocal": "Scripts to run functional tests to upgrade local channel",
-        "test:upgradeLocal": "npx playwright test /functional/02_upgradeLocal.spec.ts --workers 1 --max-failures 1 --output=/tmp/test-results",
+        "test:upgradeLocal": "npx playwright test /functional/00_uninstallWelcome.spec.ts /functional/02_upgradeLocal.spec.ts --workers 1 --max-failures 1 --output=/tmp/test-results",
         "// rollback": "Scripts to run functional tests to rollabck",
         "test:rollback": "npx playwright test /functional/03_rollback.spec.ts --workers 1 --max-failures 1 --output=/tmp/test-results"
     },
