@@ -59,13 +59,13 @@ class CompletionCalculator
 
             // Update
             UpdateInitialization::class => 0,
-            Download::class => 10,
-            Unzip::class => 15,
-            DownloadModules::class => 25,
-            UninstallModules::class => 30,
-            UpdateFiles::class => 40,
+            Download::class => 1,
+            Unzip::class => 4,
+            DownloadModules::class => 8,
+            UninstallModules::class => 16,
+            UpdateFiles::class => 24,
             UpdateDatabase::class => 60,
-            UpdateModules::class => 80,
+            UpdateModules::class => 89,
             CleanDatabase::class => 100,
             UpdateComplete::class => 100,
 
