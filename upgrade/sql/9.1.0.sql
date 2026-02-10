@@ -122,3 +122,9 @@ ON DUPLICATE KEY UPDATE `discount_type` = VALUES(`discount_type`), `is_core` = V
 /* https://github.com/PrestaShop/PrestaShop/pull/40330 */
 /* PHP:add_column('cart_rule', 'quantity', 'int(10) unsigned DEFAULT \'0\''); */;
 /* PHP:add_column('cart_rule', 'quantity_per_user', 'int(10) unsigned DEFAULT \'0\''); */;
+
+/* New hooks implemented in https://github.com/PrestaShop/PrestaShop/pull/40730 */
+INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`) VALUES
+  (NULL, 'actionOverrideShippingFreePrice', 'Override price that determines free shipping', 'Allows modules to override the free shipping price and return their custom value, for example to specify it by zone or other criteria.', '1'),
+  (NULL, 'actionOverrideShippingFreeWeight', 'Override weight that determines free shipping', 'Allows modules to override the free shipping weight and return their custom value, for example to specify it by zone or other criteria.', '1')
+ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
