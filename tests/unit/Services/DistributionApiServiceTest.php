@@ -87,5 +87,4 @@ class DistributionApiServiceTest extends TestCase
         $result = $this->distributionApiService->getApiEndpoint(self::VALID_JSON);
         $this->assertTrue(is_array($result));
     }
-
 }

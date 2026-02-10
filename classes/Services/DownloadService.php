@@ -77,13 +77,15 @@ class DownloadService
         if (!is_file($destinationPath) || filesize($destinationPath) === 0) {
             throw new IOException($this->translator->trans('The file could not be downloaded or is empty. Destination path: "%s", Source URL: "%s".', [$destinationPath, $downloadUrl]));
         }
-
     }
 
     /**
      * Return the contents of a URL as a string.
+     *
      * @param string $downloadUrl
+     *
      * @return string
+     *
      * @throws IOException
      */
     public function fetch(string $downloadUrl): string
@@ -100,11 +102,9 @@ class DownloadService
             $response = false;
         }
         if ($response === false) {
-            throw new IOException($this->translator->trans(
-                'The file could not be downloaded or is empty. Source URL: "%s".',
-                [$downloadUrl]
-            ));
+            throw new IOException($this->translator->trans('The file could not be downloaded or is empty. Source URL: "%s".', [$downloadUrl]));
         }
+
         return $response;
     }
 

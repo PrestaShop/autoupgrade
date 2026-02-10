@@ -72,5 +72,4 @@ class DownloadServiceTest extends TestCase
         $result = $this->downloadService->fetch(self::VALID_URL);
         $this->assertNotEmpty($result);
     }
-
 }
