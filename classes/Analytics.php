@@ -103,12 +103,10 @@ class Analytics
             $this->getProperties($propertiesType)
         );
 
-        if (count($extraProperties)) {
-            $dataToSend['properties'] = array_merge(
-                $dataToSend['properties'],
-                $extraProperties
-            );
-        }
+        $dataToSend['properties'] = array_merge(
+            $dataToSend['properties'],
+            $extraProperties
+        );
 
         \Segment::track($dataToSend);
         \Segment::flush();
