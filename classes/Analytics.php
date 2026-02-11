@@ -90,17 +90,24 @@ class Analytics
     /**
      * @param string $event
      * @param self::WITH_*_PROPERTIES $propertiesType
+     * @param string|null $failingStep
      */
-    public function track(string $event, $propertiesType = self::WITH_COMMON_PROPERTIES): void
+    public function track(string $event, $propertiesType = self::WITH_COMMON_PROPERTIES, ?string $failingStep = null): void
     {
         if (!$this->environment->getBoolean(Environment::URL_TRACKING_ENV_NAME, true)) {
             return;
         }
 
-        \Segment::track(array_merge(
+        $dataToSend = array_merge(
             ['event' => '[SUE] ' . $event],
             $this->getProperties($propertiesType)
-        ));
+        );
+
+        if ($failingStep) {
+            $dataToSend['properties']['failing_step'] = $failingStep;
+        }
+
+        \Segment::track($dataToSend);
         \Segment::flush();
     }
 

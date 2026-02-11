@@ -263,13 +263,13 @@ class UpdateFiles extends AbstractTask
         $originVersion = $state->getCurrentVersion();
         $this->logger->debug($this->translator->trans('Generate diff file list between %s and %s.', [$originVersion, $destinationVersion]));
         $diffFileList = $this->container->getChecksumCompare()->getFilesDiffBetweenVersions($originVersion, $destinationVersion);
-        if (!is_array($diffFileList)) {
+//        if (!is_array($diffFileList)) {
             $this->logger->error($this->translator->trans('Unable to generate diff file list between %s and %s.', [$originVersion, $destinationVersion]));
             $this->next = TaskName::TASK_ERROR;
             $this->setErrorFlag();
 
             return ExitCode::FAIL;
-        }
+//        }
         // $diffFileList now contains an array with a list of changed and deleted files.
         // We only keep list of files to delete. The modified files will be listed in listFilesToUpgrade below.
         $diffFileList = $diffFileList['deleted'];
