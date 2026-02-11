@@ -85,7 +85,7 @@
       <trans-unit id="0ea1ca0772a9eb4ee22ecfb14406271d">
         <source>Error when retrieving data from Distribution API</source>
         <target state="needs-translation">Error when retrieving data from Distribution API</target>
-        <note>classes/Services/MarketplaceService.php:51</note>
+        <note>classes/Services/MarketplaceService.php:54</note>
       </trans-unit>
       <trans-unit id="8749d103f0a98214ad61688208981068">
         <source>Invalid JSON from Distribution API: %s</source>
@@ -687,6 +687,51 @@
         <target state="final">%s bestanden worden bijgewerkt.</target>
         <note>classes/Task/Update/UpdateFiles.php:316</note>
       </trans-unit>
+      <trans-unit id="5574e4f4b972ec0bf397c923464d9867">
+        <source>Uninstalling module %module%...</source>
+        <target state="needs-translation">Uninstalling module %module%...</target>
+        <note>classes/Task/Update/UninstallModules.php:53</note>
+      </trans-unit>
+      <trans-unit id="798df2395d946f1f5b75ef9f6d8d8b1e" approved="yes">
+        <source>Retrieving the module instance of %s failed.</source>
+        <target state="final">Ophalen van het module-exemplaar van %s is mislukt.</target>
+        <note>classes/Task/Update/UpdateModules.php:77</note>
+      </trans-unit>
+      <trans-unit id="a4a6e7a30a31bf426e8110f90baf8392">
+        <source>An error occurred while uninstalling the module %s. Uninstall it manually then try again.</source>
+        <target state="needs-translation">An error occurred while uninstalling the module %s. Uninstall it manually then try again.</target>
+        <note>classes/Task/Update/UninstallModules.php:64</note>
+      </trans-unit>
+      <trans-unit id="669a840ddbeb05836c2c8fe43ee39473">
+        <source>Module %module% is uninstalled.</source>
+        <target state="needs-translation">Module %module% is uninstalled.</target>
+        <note>classes/Task/Update/UninstallModules.php:67</note>
+      </trans-unit>
+      <trans-unit id="dafc4ac0ed65db9809cdb89934c3597f">
+        <source>%s modules left to uninstall.</source>
+        <target state="needs-translation">%s modules left to uninstall.</target>
+        <note>classes/Task/Update/UninstallModules.php:85</note>
+      </trans-unit>
+      <trans-unit id="48ac69e05d5b01cc058467d6a2ceba05">
+        <source>All modules have been uninstalled.</source>
+        <target state="needs-translation">All modules have been uninstalled.</target>
+        <note>classes/Task/Update/UninstallModules.php:90</note>
+      </trans-unit>
+      <trans-unit id="a69ed524ced858a2d790fdaccb139cb0">
+        <source>Checking modules compatibility with PrestaShop %s and uninstalling incompatible ones.</source>
+        <target state="needs-translation">Checking modules compatibility with PrestaShop %s and uninstalling incompatible ones.</target>
+        <note>classes/Task/Update/UninstallModules.php:115</note>
+      </trans-unit>
+      <trans-unit id="4e10cc2dd0db877fa0499eda7148974f">
+        <source>Unable to retrieve module %s information. Ignored.</source>
+        <target state="needs-translation">Unable to retrieve module %s information. Ignored.</target>
+        <note>classes/Task/Update/UninstallModules.php:146</note>
+      </trans-unit>
+      <trans-unit id="1bb3417aa4ddeb45d58d8cfa775c0a25">
+        <source>%nbOfModules% incompatible modules with PrestaShop %version% will be uninstalled.</source>
+        <target state="needs-translation">%nbOfModules% incompatible modules with PrestaShop %version% will be uninstalled.</target>
+        <note>classes/Task/Update/UninstallModules.php:167</note>
+      </trans-unit>
       <trans-unit id="64d7e13ba8bcd0c4a6977cf271577a03" approved="yes">
         <source>Shop updated to %s, but some warnings have been found.</source>
         <target state="final">Winkel bijgewerkt naar %s, maar er zijn enkele waarschuwingen gevonden.</target>
@@ -717,35 +762,35 @@
         <target state="final">%s verwijderd</target>
         <note>classes/Task/Update/UpdateComplete.php:100</note>
       </trans-unit>
-      <trans-unit id="798df2395d946f1f5b75ef9f6d8d8b1e" approved="yes">
-        <source>Retrieving the module instance of %s failed.</source>
-        <target state="final">Ophalen van het module-exemplaar van %s is mislukt.</target>
-        <note>classes/Task/Update/UpdateModules.php:75</note>
+      <trans-unit id="b5a70dbba513a87e5c63004a7b2497c6">
+        <source>Starting update module %module%...</source>
+        <target state="needs-translation">Starting update module %module%...</target>
+        <note>classes/Task/Update/UpdateModules.php:66</note>
       </trans-unit>
       <trans-unit id="a5db680b38097b4289b24d4925b8368e" approved="yes">
         <source>Module %s does not need to be migrated. Module is up to date.</source>
         <target state="final">Module %s hoeft niet te worden gemigreerd. Module is actueel.</target>
-        <note>classes/Task/Update/UpdateModules.php:81</note>
+        <note>classes/Task/Update/UpdateModules.php:83</note>
       </trans-unit>
       <trans-unit id="b17649adf2e759eb5db22e0c91958eaa">
         <source>%s modules updates to apply.</source>
         <target state="needs-translation">%s modules updates to apply.</target>
-        <note>classes/Task/Update/UpdateModules.php:111</note>
+        <note>classes/Task/Update/UpdateModules.php:113</note>
       </trans-unit>
       <trans-unit id="cfd6bda6fb64bc6b8d8a8337d2ba2a42">
         <source>The list of modules to upgrade is missing. Did you run the step DownloadModules?</source>
         <target state="needs-translation">The list of modules to upgrade is missing. Did you run the step DownloadModules?</target>
-        <note>classes/Task/Update/UpdateModules.php:128</note>
+        <note>classes/Task/Update/UpdateModules.php:130</note>
       </trans-unit>
       <trans-unit id="5775d9e6d353c11bc7c6fe21776d3b2c" approved="yes">
         <source>%s modules will be updated.</source>
         <target state="final">%s modules zullen worden bijgewerkt.</target>
-        <note>classes/Task/Update/UpdateModules.php:136</note>
+        <note>classes/Task/Update/UpdateModules.php:138</note>
       </trans-unit>
       <trans-unit id="d47b7d2553af843c2c037185c0279268" approved="yes">
         <source>All modules have been updated.</source>
         <target state="final">Alle modules zijn bijgewerkt.</target>
-        <note>classes/Task/Update/UpdateModules.php:163</note>
+        <note>classes/Task/Update/UpdateModules.php:165</note>
       </trans-unit>
       <trans-unit id="57d362fe2965e2071229eeaf44ae1f5b" approved="yes">
         <source>Temporary files directory has been emptied</source>
