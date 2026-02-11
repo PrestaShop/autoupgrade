@@ -23,6 +23,7 @@ namespace PrestaShop\Module\AutoUpgrade\Services;
 
 use PrestaShop\Module\AutoUpgrade\Exceptions\MarketplaceApiException;
 use PrestaShop\Module\AutoUpgrade\Models\Module\Marketplace\Module;
+use PrestaShop\Module\AutoUpgrade\Models\Module\Marketplace\ModuleUpgradeCompatibility;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 
 class MarketplaceService
@@ -42,6 +43,8 @@ class MarketplaceService
 
     /**
      * @return Module|null
+     *
+     * @throws MarketplaceApiException
      */
     public function getModuleDetail(string $module)
     {
@@ -58,5 +61,50 @@ class MarketplaceService
         }
 
         return Module::fromArray($data);
+    }
+
+    /**
+     * Allows you to get compatibility information for a module based on the target version of PrestaShop.
+     */
+    public function findCompatibleModuleUpgrade(
+        Module $module,
+        string $psTargetVersion,
+        string $localModuleVersion
+    ): ModuleUpgradeCompatibility {
+        $releases = $module->technicalInfo->releases;
+
+        $compatibleReleases = [];
+        $latestRelease = null;
+
+        foreach ($releases as $release) {
+            if (!$latestRelease || version_compare($release->productVersion, $latestRelease->productVersion, '>')) {
+                $latestRelease = $release;
+            }
+
+            if (version_compare($psTargetVersion, $release->compatibleFrom, '>=') &&
+                version_compare($psTargetVersion, $release->compatibleTo, '<=')) {
+                $compatibleReleases[] = $release;
+            }
+        }
+
+        if (empty($compatibleReleases)) {
+            return new ModuleUpgradeCompatibility(
+                false,
+                false,
+                $latestRelease
+            );
+        }
+
+        usort($compatibleReleases, function ($a, $b) {
+            return version_compare($b->productVersion, $a->productVersion);
+        });
+        $bestCompatible = $compatibleReleases[0];
+
+        return new ModuleUpgradeCompatibility(
+            true,
+            version_compare($bestCompatible->productVersion, $localModuleVersion, '>'),
+            $latestRelease,
+            $bestCompatible
+        );
     }
 }

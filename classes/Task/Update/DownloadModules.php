@@ -92,7 +92,7 @@ class DownloadModules extends AbstractTask
 
         $modulesLeft = $listModules->getRemainingTotal();
         $this->container->getUpdateState()->setProgressPercentage(
-            $this->container->getCompletionCalculator()->computePercentage($listModules, self::class, UpdateFiles::class)
+            $this->container->getCompletionCalculator()->computePercentage($listModules, self::class, UninstallModules::class)
         );
         $this->container->getFileStorage()->save($listModules->dump(), UpgradeFileNames::MODULES_TO_DOWNLOAD_LIST);
 
@@ -103,7 +103,7 @@ class DownloadModules extends AbstractTask
         } else {
             $this->stepDone = true;
             $this->status = 'ok';
-            $this->next = TaskName::TASK_UPDATE_FILES;
+            $this->next = TaskName::TASK_UNINSTALL_MODULES;
             $this->logger->info($this->translator->trans('All modules have been downloaded.'));
         }
 

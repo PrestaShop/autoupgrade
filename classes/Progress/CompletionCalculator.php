@@ -33,6 +33,7 @@ use PrestaShop\Module\AutoUpgrade\Task\Restore\RestoreInitialization;
 use PrestaShop\Module\AutoUpgrade\Task\Update\CleanDatabase;
 use PrestaShop\Module\AutoUpgrade\Task\Update\Download;
 use PrestaShop\Module\AutoUpgrade\Task\Update\DownloadModules;
+use PrestaShop\Module\AutoUpgrade\Task\Update\UninstallModules;
 use PrestaShop\Module\AutoUpgrade\Task\Update\Unzip;
 use PrestaShop\Module\AutoUpgrade\Task\Update\UpdateComplete;
 use PrestaShop\Module\AutoUpgrade\Task\Update\UpdateDatabase;
@@ -61,6 +62,7 @@ class CompletionCalculator
             Download::class => 10,
             Unzip::class => 15,
             DownloadModules::class => 25,
+            UninstallModules::class => 30,
             UpdateFiles::class => 40,
             UpdateDatabase::class => 60,
             UpdateModules::class => 80,

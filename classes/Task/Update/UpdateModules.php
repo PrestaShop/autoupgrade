@@ -63,6 +63,8 @@ class UpdateModules extends AbstractTask
             $moduleInfos = $listModules->getNext();
 
             try {
+                $this->logger->debug($this->translator->trans('Starting update module %module%...', ['%module%' => $moduleInfos['name']]));
+
                 $this->container->getQuarantineZone()->removeOne($moduleInfos['name']);
 
                 $moduleUnzipperContext = new ModuleUnzipperContext($moduleInfos['pathToModuleUpdate'], $moduleInfos['name']);
