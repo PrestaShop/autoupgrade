@@ -90,17 +90,25 @@ class Analytics
     /**
      * @param string $event
      * @param self::WITH_*_PROPERTIES $propertiesType
+     * @param array<string, mixed> $extraProperties
      */
-    public function track(string $event, $propertiesType = self::WITH_COMMON_PROPERTIES): void
+    public function track(string $event, $propertiesType = self::WITH_COMMON_PROPERTIES, array $extraProperties = []): void
     {
         if (!$this->environment->getBoolean(Environment::URL_TRACKING_ENV_NAME, true)) {
             return;
         }
 
-        \Segment::track(array_merge(
+        $dataToSend = array_merge(
             ['event' => '[SUE] ' . $event],
             $this->getProperties($propertiesType)
-        ));
+        );
+
+        $dataToSend['properties'] = array_merge(
+            $dataToSend['properties'],
+            $extraProperties
+        );
+
+        \Segment::track($dataToSend);
         \Segment::flush();
     }
 

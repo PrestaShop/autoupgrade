@@ -29,6 +29,7 @@ use PrestaShop\Module\AutoUpgrade\Log\Logger;
 use PrestaShop\Module\AutoUpgrade\Task\Runner\ChainedTasks;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
+use ReflectionClass;
 
 abstract class AbstractTask
 {
@@ -150,7 +151,8 @@ abstract class AbstractTask
 
             $this->container->getAnalytics()->track(
                 ucfirst(static::TASK_TYPE) . ' Failed',
-                $propertiesType
+                $propertiesType,
+                ['failing_step' => (new ReflectionClass($this))->getShortName()]
             );
         }
     }
