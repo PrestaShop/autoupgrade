@@ -34,7 +34,7 @@ class CompletionCalculatorTest extends TestCase
         $completionCalculator = new CompletionCalculator();
 
         $this->assertSame(0, $completionCalculator->getBasePercentageOfTask(UpdateInitialization::class));
-        $this->assertSame(80, $completionCalculator->getBasePercentageOfTask(UpdateModules::class));
+        $this->assertSame(89, $completionCalculator->getBasePercentageOfTask(UpdateModules::class));
         $this->assertSame(33, $completionCalculator->getBasePercentageOfTask(RestoreFiles::class));
 
         $this->expectException(InvalidArgumentException::class);
@@ -49,21 +49,21 @@ class CompletionCalculatorTest extends TestCase
         $backlog = new Backlog(['stuff', 'stuff', 'stuff'], 3);
 
         $this->assertSame(
-            40,
+            24,
             $completionCalculator->computePercentage($backlog, UpdateFiles::class, UpdateDatabase::class)
         );
 
         $backlog->getNext();
 
         $this->assertSame(
-            46,
+            36,
             $completionCalculator->computePercentage($backlog, UpdateFiles::class, UpdateDatabase::class)
         );
 
         $backlog->getNext();
 
         $this->assertSame(
-            53,
+            48,
             $completionCalculator->computePercentage($backlog, UpdateFiles::class, UpdateDatabase::class)
         );
 
