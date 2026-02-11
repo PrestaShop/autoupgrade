@@ -100,8 +100,7 @@ class Analytics
 
         $dataToSend = array_merge(
             ['event' => '[SUE] ' . $event],
-            $this->getProperties($propertiesType),
-            $extraProperties
+            $this->getProperties($propertiesType)
         );
 
         if (count($extraProperties)) {
