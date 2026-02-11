@@ -90,7 +90,7 @@ class Analytics
     /**
      * @param string $event
      * @param self::WITH_*_PROPERTIES $propertiesType
-     * @param array<string, mixed>|null $extraProperties
+     * @param array<string, mixed> $extraProperties
      */
     public function track(string $event, $propertiesType = self::WITH_COMMON_PROPERTIES, array $extraProperties = []): void
     {
