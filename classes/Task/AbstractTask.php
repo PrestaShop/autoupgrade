@@ -151,7 +151,7 @@ abstract class AbstractTask
             $this->container->getAnalytics()->track(
                 ucfirst(static::TASK_TYPE) . ' Failed',
                 $propertiesType,
-                (new \ReflectionClass($this))->getShortName()
+                ['failing_step' => (new \ReflectionClass($this))->getShortName()]
             );
         }
     }

@@ -90,9 +90,9 @@ class Analytics
     /**
      * @param string $event
      * @param self::WITH_*_PROPERTIES $propertiesType
-     * @param string|null $failingStep
+     * @param array<string, mixed>|null $extraProperties
      */
-    public function track(string $event, $propertiesType = self::WITH_COMMON_PROPERTIES, ?string $failingStep = null): void
+    public function track(string $event, $propertiesType = self::WITH_COMMON_PROPERTIES, array $extraProperties = []): void
     {
         if (!$this->environment->getBoolean(Environment::URL_TRACKING_ENV_NAME, true)) {
             return;
@@ -100,11 +100,15 @@ class Analytics
 
         $dataToSend = array_merge(
             ['event' => '[SUE] ' . $event],
-            $this->getProperties($propertiesType)
+            $this->getProperties($propertiesType),
+            $extraProperties
         );
 
-        if ($failingStep) {
-            $dataToSend['properties']['failing_step'] = $failingStep;
+        if (count($extraProperties)) {
+            $dataToSend['properties'] = array_merge(
+                $dataToSend['properties'],
+                $extraProperties
+            );
         }
 
         \Segment::track($dataToSend);
