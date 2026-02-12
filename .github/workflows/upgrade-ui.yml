@@ -65,11 +65,13 @@ jobs:
 
       - name: Install Update assistant module for PS version > 1.7.3
         if: >
-            startsWith(matrix.PS_VERSION_START, '1.7') &&
-          !(startsWith(matrix.PS_VERSION_START, '1.7.3') ||
-            startsWith(matrix.PS_VERSION_START, '1.7.2') ||
+          startsWith(matrix.PS_VERSION_START, '1.7') &&
+          !(
+            startsWith(matrix.PS_VERSION_START, '1.7.0') ||
             startsWith(matrix.PS_VERSION_START, '1.7.1') ||
-            startsWith(matrix.PS_VERSION_START, '1.7.0'))
+            startsWith(matrix.PS_VERSION_START, '1.7.2') ||
+            startsWith(matrix.PS_VERSION_START, '1.7.3')
+          )
         run: |
           docker exec -t prestashop php bin/console prestashop:module install autoupgrade
 
