@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🚀 Idea / Feature request
+    url: https://github.com/PrestaShop/autoupgrade/discussions/new?category=ideas
+    about: Suggest an idea to improve Autoupgrade module
+  - name: 🙏 I need help
+    url: https://www.prestashop-project.org/support/
+    about: If you have questions or need help
