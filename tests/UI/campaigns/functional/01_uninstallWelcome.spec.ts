@@ -41,7 +41,7 @@ const psVersion = utilsTest.getPSVersion();
 /*
   Uninstall welcome module
  */
-if (semver.lt(psVersion, '8.0.1')) {
+if (semver.lt(psVersion, '8.0.0')) {
   test.describe('Uninstall welcome module', () => {
     let browserContext: BrowserContext;
     let page: Page;
