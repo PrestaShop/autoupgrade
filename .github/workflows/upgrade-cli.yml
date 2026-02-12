@@ -58,7 +58,7 @@ jobs:
         run: composer install
 
       - name: Delete welcome module
-        if: startsWith(matrix.PS_VERSION_START, '1.7') || matrix.PS_VERSION_START == '8.0.0'
+        if: startsWith(matrix.PS_VERSION_START, '1.7')
         run: |
           docker exec -t prestashop rm -rf /var/www/html/modules/welcome/
 
