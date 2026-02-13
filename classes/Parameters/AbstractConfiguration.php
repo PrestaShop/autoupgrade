@@ -17,6 +17,7 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
+
 namespace PrestaShop\Module\AutoUpgrade\Parameters;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -62,9 +63,9 @@ abstract class AbstractConfiguration extends ArrayCollection
      * If the value is missing or not a valid boolean (e.g., an invalid string),
      * it falls back to the defined default value.
      *
-     * @param string $const The configuration key to evaluate.
+     * @param string $const the configuration key to evaluate
      *
-     * @return bool The resolved boolean value or the fallback default.
+     * @return bool the resolved boolean value or the fallback default
      */
     protected function computeBooleanConfiguration(string $const): bool
     {

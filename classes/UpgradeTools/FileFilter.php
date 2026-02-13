@@ -64,9 +64,9 @@ class FileFilter
     public function __construct(
         UpdateConfiguration $updateConfiguration,
         BackupConfiguration $backupConfiguration,
-        ComposerService     $composerService,
-        string              $rootDir,
-        string              $autoupgradeDir = 'autoupgrade'
+        ComposerService $composerService,
+        string $rootDir,
+        string $autoupgradeDir = 'autoupgrade'
     ) {
         $this->updateConfiguration = $updateConfiguration;
         $this->backupConfiguration = $backupConfiguration;

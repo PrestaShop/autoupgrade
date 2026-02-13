@@ -75,10 +75,10 @@ class Analytics
     public function __construct(
         UpdateConfiguration $updateConfiguration,
         BackupConfiguration $backupConfiguration,
-        Environment         $environment,
-        array               $states,
-        string              $anonymousUserId,
-        array               $options
+        Environment $environment,
+        array $states,
+        string $anonymousUserId,
+        array $options
     ) {
         $this->updateConfiguration = $updateConfiguration;
         $this->backupConfiguration = $backupConfiguration;

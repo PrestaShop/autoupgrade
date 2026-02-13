@@ -53,13 +53,13 @@ class Upgrader
     protected $distributionApiService;
 
     public function __construct(
-        Translator                $translator,
+        Translator $translator,
         PhpVersionResolverService $phpRequirementService,
-        UpdateConfiguration       $updateConfiguration,
-        Filesystem                $filesystem,
-        FileLoader                $fileLoader,
-        DistributionApiService    $distributionApiService,
-        string                    $currentPsVersion
+        UpdateConfiguration $updateConfiguration,
+        Filesystem $filesystem,
+        FileLoader $fileLoader,
+        DistributionApiService $distributionApiService,
+        string $currentPsVersion
     ) {
         $this->translator = $translator;
         $this->phpVersionResolverService = $phpRequirementService;

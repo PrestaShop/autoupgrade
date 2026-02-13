@@ -129,10 +129,10 @@ class UpgradeSelfCheck
     const MODULES_REQUIRE_ATTENTION = 23;
 
     public function __construct(
-        Upgrader                  $upgrader,
-        UpdateConfiguration       $updateConfiguration,
-        PrestashopConfiguration   $prestashopConfiguration,
-        Translator                $translator,
+        Upgrader $upgrader,
+        UpdateConfiguration $updateConfiguration,
+        PrestashopConfiguration $prestashopConfiguration,
+        Translator $translator,
         PhpVersionResolverService $phpRequirementService,
         ChecksumCompare $checksumCompare,
         ModuleAdapter $moduleAdapter,
