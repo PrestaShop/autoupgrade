@@ -20,7 +20,7 @@
 use PHPUnit\Framework\TestCase;
 use PrestaShop\Module\AutoUpgrade\Analytics;
 use PrestaShop\Module\AutoUpgrade\Parameters\FileStorage;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfiguration;
 use PrestaShop\Module\AutoUpgrade\State\RestoreState;
 use PrestaShop\Module\AutoUpgrade\State\UpdateState;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
@@ -57,7 +57,7 @@ class AnalyticsTest extends TestCase
             UpgradeConfiguration::PS_AUTOUP_CHANGE_DEFAULT_THEME => true,
             UpgradeConfiguration::PS_AUTOUP_REGEN_EMAIL => true,
             UpgradeConfiguration::PS_AUTOUP_KEEP_IMAGES => false,
-            UpgradeConfiguration::CHANNEL => UpgradeConfiguration::CHANNEL_LOCAL,
+            UpgradeConfiguration::CHANNEL => UpdateConfiguration::CHANNEL_LOCAL,
             UpgradeConfiguration::ARCHIVE_ZIP => 'zip.zip',
             UpgradeConfiguration::UPDATE_TYPE => 'patch',
         ]);

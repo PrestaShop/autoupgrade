@@ -29,7 +29,7 @@ use PrestaShop\Module\AutoUpgrade\Commands\CheckModulesCommand;
 use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
 use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
 use PrestaShop\Module\AutoUpgrade\Models\Module\Marketplace\ModuleUpgradeCompatibility;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfiguration;
 use PrestaShop\Module\AutoUpgrade\Router\Routes;
 use PrestaShop\Module\AutoUpgrade\Services\PhpVersionResolverService;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleAdapter;
@@ -88,7 +88,7 @@ class UpgradeSelfCheck
     private $destinationVersion;
     /** @var PrestashopConfiguration */
     private $prestashopConfiguration;
-    /** @var UpgradeConfiguration */
+    /** @var UpdateConfiguration */
     private $updateConfiguration;
     /** @var PhpVersionResolverService */
     private $phpRequirementService;
@@ -129,10 +129,10 @@ class UpgradeSelfCheck
     const MODULES_REQUIRE_ATTENTION = 23;
 
     public function __construct(
-        Upgrader $upgrader,
-        UpgradeConfiguration $updateConfiguration,
-        PrestashopConfiguration $prestashopConfiguration,
-        Translator $translator,
+        Upgrader                  $upgrader,
+        UpdateConfiguration       $updateConfiguration,
+        PrestashopConfiguration   $prestashopConfiguration,
+        Translator                $translator,
         PhpVersionResolverService $phpRequirementService,
         ChecksumCompare $checksumCompare,
         ModuleAdapter $moduleAdapter,

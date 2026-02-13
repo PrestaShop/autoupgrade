@@ -20,7 +20,7 @@
  */
 
 use PHPUnit\Framework\TestCase;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Parameters\BackupConfiguration;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 class FilesystemAdapterTest extends TestCase
@@ -72,8 +72,8 @@ class FilesystemAdapterTest extends TestCase
     public function testListFilesInDirForBackupWithImages()
     {
         $configurationStorage = $this->container->getConfigurationStorage();
-        $configuration = $this->container->getUpdateConfiguration();
-        $configuration->merge([UpgradeConfiguration::PS_AUTOUP_KEEP_IMAGES => true]);
+        $configuration = $this->container->getBackupConfiguration();
+        $configuration->merge([BackupConfiguration::PS_AUTOUP_KEEP_IMAGES => true]);
         $configurationStorage->save($configuration);
 
         $expected = $this->loadFixtureAndAddPrefixToFilePaths(
@@ -93,8 +93,8 @@ class FilesystemAdapterTest extends TestCase
     public function testListFilesInDirForBackupWithoutImages()
     {
         $configurationStorage = $this->container->getConfigurationStorage();
-        $configuration = $this->container->getUpdateConfiguration();
-        $configuration->merge([UpgradeConfiguration::PS_AUTOUP_KEEP_IMAGES => false]);
+        $configuration = $this->container->getBackupConfiguration();
+        $configuration->merge([BackupConfiguration::PS_AUTOUP_KEEP_IMAGES => false]);
         $configurationStorage->save($configuration);
 
         $expected = $this->loadFixtureAndAddPrefixToFilePaths(

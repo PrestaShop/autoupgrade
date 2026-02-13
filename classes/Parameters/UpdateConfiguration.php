@@ -31,7 +31,7 @@ use UnexpectedValueException;
  *
  * @extends ArrayCollection<string, mixed>
  */
-class UpgradeConfiguration extends AbstractConfiguration
+class UpdateConfiguration extends AbstractConfiguration
 {
     const PS_AUTOUP_CUSTOM_MOD_DESACT = 'PS_AUTOUP_CUSTOM_MOD_DESACT';
     const PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS = 'PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS';
@@ -123,7 +123,7 @@ class UpgradeConfiguration extends AbstractConfiguration
     /**
      * Get channel selected on config panel (Minor, major ...).
      *
-     * @return UpgradeConfiguration::CHANNEL_*|null
+     * @return UpdateConfiguration::CHANNEL_*|null
      */
     public function getChannel(): ?string
     {
@@ -131,7 +131,7 @@ class UpgradeConfiguration extends AbstractConfiguration
     }
 
     /**
-     * @return UpgradeConfiguration::CHANNEL_*
+     * @return UpdateConfiguration::CHANNEL_*
      */
     public function getChannelOrDefault(): string
     {
@@ -140,17 +140,17 @@ class UpgradeConfiguration extends AbstractConfiguration
 
     public function isChannelLocal(): bool
     {
-        return $this->getChannelOrDefault() === UpgradeConfiguration::CHANNEL_LOCAL;
+        return $this->getChannelOrDefault() === UpdateConfiguration::CHANNEL_LOCAL;
     }
 
     public function isChannelOnline(): bool
     {
-        return $this->getChannelOrDefault() === UpgradeConfiguration::CHANNEL_ONLINE;
+        return $this->getChannelOrDefault() === UpdateConfiguration::CHANNEL_ONLINE;
     }
 
     public function isChannelOnlineRecommended(): bool
     {
-        return $this->getChannelOrDefault() === UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED;
+        return $this->getChannelOrDefault() === UpdateConfiguration::CHANNEL_ONLINE_RECOMMENDED;
     }
 
     /**

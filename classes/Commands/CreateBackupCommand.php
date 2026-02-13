@@ -22,7 +22,7 @@
 namespace PrestaShop\Module\AutoUpgrade\Commands;
 
 use Exception;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Parameters\BackupConfiguration;
 use PrestaShop\Module\AutoUpgrade\Task\Runner\AllBackupTasks;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -55,7 +55,7 @@ class CreateBackupCommand extends AbstractCommand
             $includeImage = $input->getOption('include-images');
 
             if ($includeImage !== null) {
-                $this->consoleInputConfiguration[UpgradeConfiguration::PS_AUTOUP_KEEP_IMAGES] = $includeImage;
+                $this->consoleInputConfiguration[BackupConfiguration::PS_AUTOUP_KEEP_IMAGES] = $includeImage;
             }
 
             $this->loadConfiguration($configPath);

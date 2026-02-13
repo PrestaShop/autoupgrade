@@ -22,7 +22,7 @@
 namespace PrestaShop\Module\AutoUpgrade;
 
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfiguration;
 use PrestaShop\Module\AutoUpgrade\State\AbstractState;
 
 /**
@@ -63,9 +63,9 @@ class AjaxResponse
     const RESPONSE_FORMAT = 'json';
 
     /**
-     * @var UpgradeConfiguration
+     * @var UpdateConfiguration
      */
-    private $upgradeConfiguration;
+    private $updateConfiguration;
 
     /**
      * @var Logger
@@ -101,7 +101,7 @@ class AjaxResponse
                 $this->state->export(),
                 [
                     'typeResult' => self::RESPONSE_FORMAT,
-                    'config' => $this->upgradeConfiguration->toArray(),
+                    'config' => $this->updateConfiguration->toArray(),
                 ]
             ),
         ];
@@ -145,9 +145,9 @@ class AjaxResponse
         return $this->nextParams;
     }
 
-    public function getUpgradeConfiguration(): UpgradeConfiguration
+    public function getUpdateConfiguration(): UpdateConfiguration
     {
-        return $this->upgradeConfiguration;
+        return $this->updateConfiguration;
     }
 
     // SETTERS
@@ -183,9 +183,9 @@ class AjaxResponse
         return $this;
     }
 
-    public function setUpgradeConfiguration(UpgradeConfiguration $upgradeConfiguration): AjaxResponse
+    public function setUpdateConfiguration(UpdateConfiguration $updateConfiguration): AjaxResponse
     {
-        $this->upgradeConfiguration = $upgradeConfiguration;
+        $this->updateConfiguration = $updateConfiguration;
 
         return $this;
     }

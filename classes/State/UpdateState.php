@@ -21,7 +21,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\State;
 
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfiguration;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Upgrader;
 
@@ -64,7 +64,7 @@ class UpdateState extends AbstractState
         return UpgradeFileNames::STATE_UPDATE_FILENAME;
     }
 
-    public function initDefault(string $currentVersion, Upgrader $upgrader, UpgradeConfiguration $updateConfiguration): void
+    public function initDefault(string $currentVersion, Upgrader $upgrader, UpdateConfiguration $updateConfiguration): void
     {
         $this->disableSave = true;
         $this->setInstalledLanguagesIso($updateConfiguration->getInstalledLanguagesIsoCode());

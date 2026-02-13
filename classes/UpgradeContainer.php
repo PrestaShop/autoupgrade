@@ -37,7 +37,7 @@ use PrestaShop\Module\AutoUpgrade\Parameters\LanguageConfiguration;
 use PrestaShop\Module\AutoUpgrade\Parameters\LocalChannelConfigurationValidator;
 use PrestaShop\Module\AutoUpgrade\Parameters\RestoreConfiguration;
 use PrestaShop\Module\AutoUpgrade\Parameters\RestoreConfigurationValidator;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfiguration;
 use PrestaShop\Module\AutoUpgrade\Progress\CompletionCalculator;
 use PrestaShop\Module\AutoUpgrade\Router\UrlGenerator;
 use PrestaShop\Module\AutoUpgrade\Services\ComposerService;
@@ -151,7 +151,7 @@ class UpgradeContainer
     /** @var ConfigurationStorage */
     private $configurationStorage;
 
-    /** @var UpgradeConfiguration */
+    /** @var UpdateConfiguration */
     private $updateConfiguration;
 
     /** @var BackupConfiguration */
@@ -389,7 +389,7 @@ class UpgradeContainer
                             'php_context' => php_sapi_name() === 'cli' ? 'cli' : 'web',
                         ],
                         Analytics::WITH_UPDATE_PROPERTIES => [
-                            'disable_all_overrides' => class_exists('\Configuration', false) ? UpgradeConfiguration::isOverrideAllowed() : null,
+                            'disable_all_overrides' => class_exists('\Configuration', false) ? UpdateConfiguration::isOverrideAllowed() : null,
                             'regenerate_rtl_stylesheet' => class_exists('\Language', false) ? $this->shouldUpdateRTLFiles() : null,
                         ],
                     ],
@@ -821,7 +821,7 @@ class UpgradeContainer
     /**
      * @throws Exception
      */
-    public function getUpdateConfiguration(): UpgradeConfiguration
+    public function getUpdateConfiguration(): UpdateConfiguration
     {
         if (null === $this->updateConfiguration) {
             $this->updateConfiguration = $this->getConfigurationStorage()->loadUpdateConfiguration();

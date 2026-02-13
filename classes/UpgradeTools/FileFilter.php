@@ -23,14 +23,14 @@ namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
 use DirectoryIterator;
 use PrestaShop\Module\AutoUpgrade\Parameters\BackupConfiguration;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfiguration;
 use PrestaShop\Module\AutoUpgrade\Services\ComposerService;
 use SplFileInfo;
 
 class FileFilter
 {
     /**
-     * @var UpgradeConfiguration
+     * @var UpdateConfiguration
      */
     protected $updateConfiguration;
 
@@ -62,11 +62,11 @@ class FileFilter
     ];
 
     public function __construct(
-        UpgradeConfiguration $updateConfiguration,
+        UpdateConfiguration $updateConfiguration,
         BackupConfiguration $backupConfiguration,
-        ComposerService $composerService,
-        string $rootDir,
-        string $autoupgradeDir = 'autoupgrade'
+        ComposerService     $composerService,
+        string              $rootDir,
+        string              $autoupgradeDir = 'autoupgrade'
     ) {
         $this->updateConfiguration = $updateConfiguration;
         $this->backupConfiguration = $backupConfiguration;

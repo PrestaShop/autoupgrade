@@ -22,7 +22,7 @@
 namespace PrestaShop\Module\AutoUpgrade\Task\Miscellaneous;
 
 use Exception;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfiguration;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\Task\TaskName;
@@ -52,32 +52,32 @@ class UpdateConfig extends AbstractTask
         $configurationData = $this->getConfigurationData();
         $config = [];
 
-        $upgradeKeysAssoc = array_fill_keys(UpgradeConfiguration::UPGRADE_CONST_KEYS, true);
+        $upgradeKeysAssoc = array_fill_keys(UpdateConfiguration::UPGRADE_CONST_KEYS, true);
         $diff = array_diff_key($configurationData, $upgradeKeysAssoc);
 
         foreach ($diff as $key => $configDiff) {
             $this->logger->warning($this->translator->trans("Unknown configuration key '%s', Ignoring.", [$key]));
         }
 
-        foreach (UpgradeConfiguration::UPGRADE_CONST_KEYS as $key) {
+        foreach (UpdateConfiguration::UPGRADE_CONST_KEYS as $key) {
             if (!isset($configurationData[$key])) {
                 continue;
             }
             // The PS_DISABLE_OVERRIDES variable must only be updated on the database side
-            if ($key === UpgradeConfiguration::PS_DISABLE_OVERRIDES) {
-                UpgradeConfiguration::updatePSDisableOverrides((bool) $configurationData[$key]);
+            if ($key === UpdateConfiguration::PS_DISABLE_OVERRIDES) {
+                UpdateConfiguration::updatePSDisableOverrides((bool) $configurationData[$key]);
             } else {
                 $config[$key] = $configurationData[$key];
             }
         }
 
         // If no channel is specified, and there is a configuration relating to archive files, we deduce that the channel is local
-        $archiveFilesConfExist = isset($config[UpgradeConfiguration::ARCHIVE_XML]) || isset($config[UpgradeConfiguration::ARCHIVE_ZIP]);
-        if (!isset($config[UpgradeConfiguration::CHANNEL]) && $archiveFilesConfExist) {
-            $config[UpgradeConfiguration::CHANNEL] = UpgradeConfiguration::CHANNEL_LOCAL;
+        $archiveFilesConfExist = isset($config[UpdateConfiguration::ARCHIVE_XML]) || isset($config[UpdateConfiguration::ARCHIVE_ZIP]);
+        if (!isset($config[UpdateConfiguration::CHANNEL]) && $archiveFilesConfExist) {
+            $config[UpdateConfiguration::CHANNEL] = UpdateConfiguration::CHANNEL_LOCAL;
         }
 
-        $isLocal = $config[UpgradeConfiguration::CHANNEL] === UpgradeConfiguration::CHANNEL_LOCAL;
+        $isLocal = $config[UpdateConfiguration::CHANNEL] === UpdateConfiguration::CHANNEL_LOCAL;
 
         $error = $this->container->getConfigurationValidator()->validate($config);
 
@@ -93,10 +93,10 @@ class UpdateConfig extends AbstractTask
         }
 
         if ($isLocal) {
-            $file = $config[UpgradeConfiguration::ARCHIVE_ZIP];
+            $file = $config[UpdateConfiguration::ARCHIVE_ZIP];
             $fullFilePath = $this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $file;
             try {
-                $config[UpgradeConfiguration::ARCHIVE_VERSION_NUM] = $this->container->getPrestashopVersionService()->extractPrestashopVersionFromZip($fullFilePath);
+                $config[UpdateConfiguration::ARCHIVE_VERSION_NUM] = $this->container->getPrestashopVersionService()->extractPrestashopVersionFromZip($fullFilePath);
                 $this->logger->info($this->translator->trans('Update process will use archive.'));
             } catch (Exception $exception) {
                 $this->setErrorFlag();

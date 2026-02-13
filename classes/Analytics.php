@@ -22,7 +22,7 @@
 namespace PrestaShop\Module\AutoUpgrade;
 
 use PrestaShop\Module\AutoUpgrade\Parameters\BackupConfiguration;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfiguration;
 use PrestaShop\Module\AutoUpgrade\State\RestoreState;
 use PrestaShop\Module\AutoUpgrade\State\UpdateState;
 
@@ -49,7 +49,7 @@ class Analytics
     private $properties;
 
     /**
-     * @var UpgradeConfiguration
+     * @var UpdateConfiguration
      */
     private $updateConfiguration;
 
@@ -73,12 +73,12 @@ class Analytics
      * @param array{'restore': RestoreState, 'update': UpdateState} $states
      */
     public function __construct(
-        UpgradeConfiguration $updateConfiguration,
+        UpdateConfiguration $updateConfiguration,
         BackupConfiguration $backupConfiguration,
-        Environment $environment,
-        array $states,
-        string $anonymousUserId,
-        array $options
+        Environment         $environment,
+        array               $states,
+        string              $anonymousUserId,
+        array               $options
     ) {
         $this->updateConfiguration = $updateConfiguration;
         $this->backupConfiguration = $backupConfiguration;

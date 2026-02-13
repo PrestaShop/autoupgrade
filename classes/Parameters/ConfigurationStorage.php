@@ -35,9 +35,9 @@ class ConfigurationStorage
         $this->storage = $storage;
     }
 
-    public function loadUpdateConfiguration(): UpgradeConfiguration
+    public function loadUpdateConfiguration(): UpdateConfiguration
     {
-        return new UpgradeConfiguration($this->storage->load(UpgradeFileNames::UPDATE_CONFIG_FILENAME));
+        return new UpdateConfiguration($this->storage->load(UpgradeFileNames::UPDATE_CONFIG_FILENAME));
     }
 
     public function loadBackupConfiguration(): BackupConfiguration
@@ -56,14 +56,14 @@ class ConfigurationStorage
     }
 
     /**
-     * @param UpgradeConfiguration|RestoreConfiguration|LanguageConfiguration $config
+     * @param UpdateConfiguration|RestoreConfiguration|LanguageConfiguration $config
      *
      * @return bool
      */
     public function save(ArrayCollection $config): bool
     {
         switch (get_class($config)) {
-            case UpgradeConfiguration::class:
+            case UpdateConfiguration::class:
                 $fileName = UpgradeFileNames::UPDATE_CONFIG_FILENAME;
                 break;
             case BackupConfiguration::class:

@@ -24,7 +24,7 @@ namespace PrestaShop\Module\AutoUpgrade\Controller;
 use Exception;
 use PrestaShop\Module\AutoUpgrade\AjaxResponseBuilder;
 use PrestaShop\Module\AutoUpgrade\Parameters\BackupConfiguration;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfiguration;
 use PrestaShop\Module\AutoUpgrade\Router\Routes;
 use PrestaShop\Module\AutoUpgrade\Task\TaskType;
 use PrestaShop\Module\AutoUpgrade\Twig\Events;
@@ -92,7 +92,7 @@ class UpdatePageBackupOptionsController extends AbstractPageWithStepController
     public function startUpdate(): JsonResponse
     {
         $updateConfiguration = $this->upgradeContainer->getUpdateConfiguration();
-        $updateConfiguration->merge([UpgradeConfiguration::BACKUP_COMPLETED => false]);
+        $updateConfiguration->merge([UpdateConfiguration::BACKUP_COMPLETED => false]);
         $this->upgradeContainer->getConfigurationStorage()->save($updateConfiguration);
 
         return AjaxResponseBuilder::nextRouteResponse(Routes::UPDATE_STEP_UPDATE);

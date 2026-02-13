@@ -21,20 +21,20 @@
 namespace Parameters;
 
 use PHPUnit\Framework\TestCase;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfiguration;
 
 class UpgradeConfigurationTest extends TestCase
 {
     public function testUpdateConfigurationConfigIsFilledWithPrestaShopOne(): void
     {
-        $updateConfiguration = new UpgradeConfiguration();
+        $updateConfiguration = new UpdateConfiguration();
 
         $this->assertFalse($updateConfiguration->hasAllTheShopConfiguration());
 
         // We can't use the class PrestaShopConfiguration directly because of its reliance on the Core.
         // Reproduce its alterations below:
         $updateConfiguration->merge([
-            UpgradeConfiguration::INSTALLED_LANGUAGES => ['fr', 'de', 'jp'],
+            UpdateConfiguration::INSTALLED_LANGUAGES => ['fr', 'de', 'jp'],
         ]);
 
         $this->assertTrue($updateConfiguration->hasAllTheShopConfiguration());

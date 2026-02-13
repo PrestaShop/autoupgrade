@@ -22,7 +22,7 @@ namespace Parameters;
 
 use PHPUnit\Framework\TestCase;
 use PrestaShop\Module\AutoUpgrade\Parameters\ConfigurationValidator;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfiguration;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 
 class ConfigurationValidatorTest extends TestCase
@@ -43,10 +43,10 @@ class ConfigurationValidatorTest extends TestCase
 
     public function testValidateChannelSuccess()
     {
-        $result = $this->validator->validate([UpgradeConfiguration::CHANNEL => 'online']);
+        $result = $this->validator->validate([UpdateConfiguration::CHANNEL => 'online']);
         $this->assertEmpty($result);
 
-        $result = $this->validator->validate([UpgradeConfiguration::CHANNEL => 'local']);
+        $result = $this->validator->validate([UpdateConfiguration::CHANNEL => 'local']);
         $this->assertEmpty($result);
     }
 
@@ -54,57 +54,57 @@ class ConfigurationValidatorTest extends TestCase
     {
         $channel = 'toto';
 
-        $result = $this->validator->validate([UpgradeConfiguration::CHANNEL => $channel]);
+        $result = $this->validator->validate([UpdateConfiguration::CHANNEL => $channel]);
         $this->assertEquals([
             [
                 'message' => 'Unknown channel ' . $channel,
-                'target' => UpgradeConfiguration::CHANNEL,
+                'target' => UpdateConfiguration::CHANNEL,
             ],
         ], $result);
     }
 
     public function testValidateZipSuccess()
     {
-        $result = $this->validator->validate([UpgradeConfiguration::ARCHIVE_ZIP => 'prestashop.zip']);
+        $result = $this->validator->validate([UpdateConfiguration::ARCHIVE_ZIP => 'prestashop.zip']);
         $this->assertEmpty($result);
 
-        $result = $this->validator->validate([UpgradeConfiguration::CHANNEL => 'local', UpgradeConfiguration::ARCHIVE_ZIP => 'prestashop.zip']);
+        $result = $this->validator->validate([UpdateConfiguration::CHANNEL => 'local', UpdateConfiguration::ARCHIVE_ZIP => 'prestashop.zip']);
         $this->assertEmpty($result);
 
-        $result = $this->validator->validate([UpgradeConfiguration::CHANNEL => 'online', UpgradeConfiguration::ARCHIVE_ZIP => '']);
+        $result = $this->validator->validate([UpdateConfiguration::CHANNEL => 'online', UpdateConfiguration::ARCHIVE_ZIP => '']);
         $this->assertEmpty($result);
     }
 
     public function testValidateZipFail()
     {
-        $result = $this->validator->validate([UpgradeConfiguration::CHANNEL => 'local', UpgradeConfiguration::ARCHIVE_ZIP => '']);
+        $result = $this->validator->validate([UpdateConfiguration::CHANNEL => 'local', UpdateConfiguration::ARCHIVE_ZIP => '']);
         $this->assertEquals([
             [
                 'message' => 'No zip archive provided',
-                'target' => UpgradeConfiguration::ARCHIVE_ZIP,
+                'target' => UpdateConfiguration::ARCHIVE_ZIP,
             ],
         ], $result);
     }
 
     public function testValidateXmlSuccess()
     {
-        $result = $this->validator->validate([UpgradeConfiguration::ARCHIVE_XML => 'prestashop.xml']);
+        $result = $this->validator->validate([UpdateConfiguration::ARCHIVE_XML => 'prestashop.xml']);
         $this->assertEmpty($result);
 
-        $result = $this->validator->validate([UpgradeConfiguration::CHANNEL => 'local', UpgradeConfiguration::ARCHIVE_XML => 'prestashop.xml']);
+        $result = $this->validator->validate([UpdateConfiguration::CHANNEL => 'local', UpdateConfiguration::ARCHIVE_XML => 'prestashop.xml']);
         $this->assertEmpty($result);
 
-        $result = $this->validator->validate([UpgradeConfiguration::CHANNEL => 'online', UpgradeConfiguration::ARCHIVE_XML => '']);
+        $result = $this->validator->validate([UpdateConfiguration::CHANNEL => 'online', UpdateConfiguration::ARCHIVE_XML => '']);
         $this->assertEmpty($result);
     }
 
     public function testValidateXmlFail()
     {
-        $result = $this->validator->validate([UpgradeConfiguration::CHANNEL => 'local', UpgradeConfiguration::ARCHIVE_XML => '']);
+        $result = $this->validator->validate([UpdateConfiguration::CHANNEL => 'local', UpdateConfiguration::ARCHIVE_XML => '']);
         $this->assertEquals([
             [
                 'message' => 'No xml archive provided',
-                'target' => UpgradeConfiguration::ARCHIVE_XML,
+                'target' => UpdateConfiguration::ARCHIVE_XML,
             ],
         ], $result);
     }
@@ -114,26 +114,26 @@ class ConfigurationValidatorTest extends TestCase
         $validValues = ['1', '0', 'true', 'false', 'on', 'off', true, false];
 
         foreach ($validValues as $value) {
-            $result = $this->validator->validate([UpgradeConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT => $value]);
+            $result = $this->validator->validate([UpdateConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT => $value]);
             $this->assertEmpty($result);
         }
     }
 
     public function testValidateBoolFail()
     {
-        $result = $this->validator->validate([UpgradeConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT => 'toto']);
+        $result = $this->validator->validate([UpdateConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT => 'toto']);
         $this->assertEquals([
             [
-                'message' => 'Value must be a boolean for ' . UpgradeConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT,
-                'target' => UpgradeConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT,
+                'message' => 'Value must be a boolean for ' . UpdateConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT,
+                'target' => UpdateConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT,
             ],
         ], $result);
 
-        $result = $this->validator->validate([UpgradeConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT => '']);
+        $result = $this->validator->validate([UpdateConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT => '']);
         $this->assertEquals([
             [
-                'message' => 'Value must be a boolean for ' . UpgradeConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT,
-                'target' => UpgradeConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT,
+                'message' => 'Value must be a boolean for ' . UpdateConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT,
+                'target' => UpdateConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT,
             ],
         ], $result);
     }
@@ -141,19 +141,19 @@ class ConfigurationValidatorTest extends TestCase
     public function testValidateMultipleInputFail()
     {
         $result = $this->validator->validate([
-            UpgradeConfiguration::CHANNEL => 'local',
-            UpgradeConfiguration::ARCHIVE_ZIP => '',
-            UpgradeConfiguration::ARCHIVE_XML => '',
+            UpdateConfiguration::CHANNEL => 'local',
+            UpdateConfiguration::ARCHIVE_ZIP => '',
+            UpdateConfiguration::ARCHIVE_XML => '',
         ]);
 
         $this->assertEquals([
             [
                 'message' => 'No zip archive provided',
-                'target' => UpgradeConfiguration::ARCHIVE_ZIP,
+                'target' => UpdateConfiguration::ARCHIVE_ZIP,
             ],
             [
                 'message' => 'No xml archive provided',
-                'target' => UpgradeConfiguration::ARCHIVE_XML,
+                'target' => UpdateConfiguration::ARCHIVE_XML,
             ],
         ], $result);
     }

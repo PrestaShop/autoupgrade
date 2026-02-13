@@ -27,22 +27,22 @@ class ConfigurationValidator extends AbstractConfigurationValidator
     {
         $errors = [];
 
-        $isLocal = isset($array[UpgradeConfiguration::CHANNEL]) && $array[UpgradeConfiguration::CHANNEL] === UpgradeConfiguration::CHANNEL_LOCAL;
+        $isLocal = isset($array[UpdateConfiguration::CHANNEL]) && $array[UpdateConfiguration::CHANNEL] === UpdateConfiguration::CHANNEL_LOCAL;
 
         foreach ($array as $key => $value) {
             switch ($key) {
-                case UpgradeConfiguration::CHANNEL:
+                case UpdateConfiguration::CHANNEL:
                     $error = $this->validateChannel($value);
                     break;
-                case UpgradeConfiguration::ARCHIVE_ZIP:
+                case UpdateConfiguration::ARCHIVE_ZIP:
                     $error = $this->validateArchiveZip($value, $isLocal);
                     break;
-                case UpgradeConfiguration::ARCHIVE_XML:
+                case UpdateConfiguration::ARCHIVE_XML:
                     $error = $this->validateArchiveXml($value, $isLocal);
                     break;
-                case UpgradeConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT:
-                case UpgradeConfiguration::PS_AUTOUP_REGEN_EMAIL:
-                case UpgradeConfiguration::PS_DISABLE_OVERRIDES:
+                case UpdateConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT:
+                case UpdateConfiguration::PS_AUTOUP_REGEN_EMAIL:
+                case UpdateConfiguration::PS_DISABLE_OVERRIDES:
                     $error = $this->validateBool($value, $key);
                     break;
                 default:
@@ -64,9 +64,9 @@ class ConfigurationValidator extends AbstractConfigurationValidator
     private function validateChannel(string $channel): ?string
     {
         if (!in_array($channel, [
-            UpgradeConfiguration::CHANNEL_LOCAL,
-            UpgradeConfiguration::CHANNEL_ONLINE,
-            UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED,
+            UpdateConfiguration::CHANNEL_LOCAL,
+            UpdateConfiguration::CHANNEL_ONLINE,
+            UpdateConfiguration::CHANNEL_ONLINE_RECOMMENDED,
         ], true)) {
             return $this->translator->trans('Unknown channel %s', [$channel]);
         }

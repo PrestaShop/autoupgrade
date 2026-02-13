@@ -25,7 +25,7 @@ use Context;
 use Exception;
 use PrestaShop\Module\AutoUpgrade\AjaxResponseBuilder;
 use PrestaShop\Module\AutoUpgrade\DocumentationLinks;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfiguration;
 use PrestaShop\Module\AutoUpgrade\Router\Routes;
 use PrestaShop\Module\AutoUpgrade\Task\TaskType;
 use PrestaShop\Module\AutoUpgrade\Twig\PageSelectors;
@@ -41,14 +41,14 @@ class UpdatePageVersionChoiceController extends AbstractPageWithStepController
     const CURRENT_STEP = UpdateSteps::STEP_VERSION_CHOICE;
     const FORM_NAME = 'version_choice';
     const FORM_FIELDS = [
-        UpgradeConfiguration::CHANNEL => UpgradeConfiguration::CHANNEL,
-        UpgradeConfiguration::ARCHIVE_ZIP => UpgradeConfiguration::ARCHIVE_ZIP,
-        UpgradeConfiguration::ARCHIVE_XML => UpgradeConfiguration::ARCHIVE_XML,
+        UpdateConfiguration::CHANNEL => UpdateConfiguration::CHANNEL,
+        UpdateConfiguration::ARCHIVE_ZIP => UpdateConfiguration::ARCHIVE_ZIP,
+        UpdateConfiguration::ARCHIVE_XML => UpdateConfiguration::ARCHIVE_XML,
     ];
     const FORM_OPTIONS = [
-        'online_value' => UpgradeConfiguration::CHANNEL_ONLINE,
-        'online_recommended_value' => UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED,
-        'local_value' => UpgradeConfiguration::CHANNEL_LOCAL,
+        'online_value' => UpdateConfiguration::CHANNEL_ONLINE,
+        'online_recommended_value' => UpdateConfiguration::CHANNEL_ONLINE_RECOMMENDED,
+        'local_value' => UpdateConfiguration::CHANNEL_LOCAL,
     ];
 
     protected function getPageTemplate(): string
@@ -220,25 +220,25 @@ class UpdatePageVersionChoiceController extends AbstractPageWithStepController
 
         if (empty($errors)) {
             if ($isLocal) {
-                $file = $requestConfig[UpgradeConfiguration::ARCHIVE_ZIP];
+                $file = $requestConfig[UpdateConfiguration::ARCHIVE_ZIP];
                 $fullFilePath = $this->upgradeContainer->getProperty(UpgradeContainer::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $file;
-                $requestConfig[UpgradeConfiguration::ARCHIVE_VERSION_NUM] = $this->upgradeContainer->getPrestashopVersionService()->extractPrestashopVersionFromZip($fullFilePath);
+                $requestConfig[UpdateConfiguration::ARCHIVE_VERSION_NUM] = $this->upgradeContainer->getPrestashopVersionService()->extractPrestashopVersionFromZip($fullFilePath);
             }
 
             switch ($channel) {
-                case UpgradeConfiguration::CHANNEL_LOCAL:
-                    $destinationVersion = $requestConfig[UpgradeConfiguration::ARCHIVE_VERSION_NUM];
+                case UpdateConfiguration::CHANNEL_LOCAL:
+                    $destinationVersion = $requestConfig[UpdateConfiguration::ARCHIVE_VERSION_NUM];
                     break;
-                case UpgradeConfiguration::CHANNEL_ONLINE:
+                case UpdateConfiguration::CHANNEL_ONLINE:
                     $destinationVersion = $this->upgradeContainer->getUpgrader()->getOnlineMaxDestinationRelease()->getVersion();
                     break;
-                case UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED:
+                case UpdateConfiguration::CHANNEL_ONLINE_RECOMMENDED:
                     $destinationVersion = $this->upgradeContainer->getUpgrader()->getOnlineRecommendedDestinationRelease()->getVersion();
                     break;
             }
 
             if (isset($destinationVersion)) {
-                $requestConfig[UpgradeConfiguration::UPDATE_TYPE] = VersionUtils::getUpdateType($this->getPsVersion(), $destinationVersion);
+                $requestConfig[UpdateConfiguration::UPDATE_TYPE] = VersionUtils::getUpdateType($this->getPsVersion(), $destinationVersion);
             }
 
             $configurationStorage = $this->upgradeContainer->getConfigurationStorage();
@@ -272,7 +272,7 @@ class UpdatePageVersionChoiceController extends AbstractPageWithStepController
             ));
         }
 
-        if ($channel === UpgradeConfiguration::CHANNEL_ONLINE) {
+        if ($channel === UpdateConfiguration::CHANNEL_ONLINE) {
             $params['next_release'] = $params['next_releases']['online'];
             $params['release_type'] = 'online';
             $params['form_option_online_value'] = self::FORM_OPTIONS['online_value'];
