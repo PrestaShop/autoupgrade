@@ -64,6 +64,7 @@ jobs:
           startsWith(matrix.PS_VERSION_START, '1.7.0')
         run: |
           docker exec -t prestashop /usr/local/bin/install-update.sh
+          docker exec -t prestashop chmod -R 777 /var/www/html/modules
 
       - name: Install Update assistant module for PS version > 1.7.3
         if: >
@@ -77,6 +78,7 @@ jobs:
         run: |
           docker exec -t prestashop php bin/console prestashop:module install autoupgrade
           docker exec -t prestashop chmod -R 777 /var/www/html/var/cache
+          docker exec -t prestashop chmod -R 777 /var/www/html/modules
 
       - name: Backup
         run: |
