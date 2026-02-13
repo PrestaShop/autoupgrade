@@ -61,6 +61,12 @@ jobs:
         if: startsWith(matrix.PS_VERSION_START, '1.7')
         run: |
           docker exec -t prestashop rm -rf /var/www/html/modules/welcome/
+          docker exec -ti prestashop-mysql mysql -pprestashop prestashop -e "
+          DELETE FROM ps_tab_lang WHERE id_tab IN (SELECT id_tab FROM ps_tab WHERE class_name = 'AdminWelcome');
+          DELETE FROM ps_tab WHERE class_name = 'AdminWelcome';
+          DELETE FROM ps_module_shop WHERE id_module = (SELECT id_module FROM ps_module WHERE name = 'welcome');
+          DELETE FROM ps_hook_module WHERE id_module = (SELECT id_module FROM ps_module WHERE name = 'welcome');
+          DELETE FROM ps_module WHERE name = 'welcome';"
 
       - name: Backup
         run: |
