@@ -137,7 +137,7 @@ if (semver.lt(psVersion, '8.0.0')) {
         expect(isModuleVisible).toEqual(true);
       });
 
-      test(`should uninstall the module '${dataModules.autoupgrade.name}'`, async () => {
+      test(`should uninstall the module '${dataModules.welcome.name}'`, async () => {
         const successMessage = await boModuleManagerPage.setActionInModule(page, dataModules.welcome, 'uninstall');
         expect(successMessage).toEqual(boModuleManagerAlertsPage.uninstallModuleSuccessMessage(dataModules.welcome.tag));
       });
