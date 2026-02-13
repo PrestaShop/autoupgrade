@@ -1,7 +1,5 @@
 <?php
 
-use Doctrine\Common\Collections\ArrayCollection;
-
 /**
  * Copyright since 2007 PrestaShop SA and Contributors
  * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
@@ -26,13 +24,16 @@ namespace PrestaShop\Module\AutoUpgrade\Parameters;
 class BackupConfiguration extends AbstractConfiguration
 {
     const PS_AUTOUP_KEEP_IMAGES = 'PS_AUTOUP_KEEP_IMAGES';
+    const PS_AUTOUP_MAX_ZIP_SIZE = 'PS_AUTOUP_MAX_ZIP_SIZE';
 
     const BACKUP_CONST_KEYS = [
         self::PS_AUTOUP_KEEP_IMAGES,
+        self::PS_AUTOUP_MAX_ZIP_SIZE,
     ];
 
     const PS_CONST_DEFAULT_VALUE = [
         self::PS_AUTOUP_KEEP_IMAGES => true,
+        self::PS_AUTOUP_MAX_ZIP_SIZE => 3215645641,
     ];
 
     /**

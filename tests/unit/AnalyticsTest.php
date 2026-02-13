@@ -20,6 +20,7 @@
 use PHPUnit\Framework\TestCase;
 use PrestaShop\Module\AutoUpgrade\Analytics;
 use PrestaShop\Module\AutoUpgrade\Parameters\FileStorage;
+use PrestaShop\Module\AutoUpgrade\Parameters\BackupConfiguration;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfiguration;
 use PrestaShop\Module\AutoUpgrade\State\RestoreState;
 use PrestaShop\Module\AutoUpgrade\State\UpdateState;
@@ -63,8 +64,15 @@ class AnalyticsTest extends TestCase
         ]);
         $configurationStorage->save($updateConfiguration);
 
+        $backupConfiguration = $configurationStorage->loadBackupConfiguration();
+        $backupConfiguration->merge([
+            BackupConfiguration::PS_AUTOUP_KEEP_IMAGES => false,
+        ]);
+        $configurationStorage->save($backupConfiguration);
+
         $analytics = new Analytics(
             $updateConfiguration,
+            $backupConfiguration,
             $this->container->getEnvironment(),
             $states,
             'somePathToAutoupgradeModule',
