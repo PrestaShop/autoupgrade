@@ -40,6 +40,11 @@ class ConfigurationStorage
         return new UpgradeConfiguration($this->storage->load(UpgradeFileNames::UPDATE_CONFIG_FILENAME));
     }
 
+    public function loadBackupConfiguration(): BackupConfiguration
+    {
+        return new BackupConfiguration($this->storage->load(UpgradeFileNames::BACKUP_CONFIG_FILENAME));
+    }
+
     public function loadRestoreConfiguration(): RestoreConfiguration
     {
         return new RestoreConfiguration($this->storage->load(UpgradeFileNames::RESTORE_CONFIG_FILENAME));
@@ -60,6 +65,9 @@ class ConfigurationStorage
         switch (get_class($config)) {
             case UpgradeConfiguration::class:
                 $fileName = UpgradeFileNames::UPDATE_CONFIG_FILENAME;
+                break;
+            case BackupConfiguration::class:
+                $fileName = UpgradeFileNames::BACKUP_CONFIG_FILENAME;
                 break;
             case RestoreConfiguration::class:
                 $fileName = UpgradeFileNames::RESTORE_CONFIG_FILENAME;

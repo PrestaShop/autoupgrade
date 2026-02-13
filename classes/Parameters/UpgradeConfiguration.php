@@ -31,13 +31,12 @@ use UnexpectedValueException;
  *
  * @extends ArrayCollection<string, mixed>
  */
-class UpgradeConfiguration extends ArrayCollection
+class UpgradeConfiguration extends AbstractConfiguration
 {
     const PS_AUTOUP_CUSTOM_MOD_DESACT = 'PS_AUTOUP_CUSTOM_MOD_DESACT';
     const PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS = 'PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS';
     const PS_AUTOUP_CHANGE_DEFAULT_THEME = 'PS_AUTOUP_CHANGE_DEFAULT_THEME';
     const PS_AUTOUP_REGEN_EMAIL = 'PS_AUTOUP_REGEN_EMAIL';
-    const PS_AUTOUP_KEEP_IMAGES = 'PS_AUTOUP_KEEP_IMAGES';
     const PS_DISABLE_OVERRIDES = 'PS_DISABLE_OVERRIDES';
     const CHANNEL = 'channel';
     const UPDATE_TYPE = 'update_type';
@@ -56,7 +55,6 @@ class UpgradeConfiguration extends ArrayCollection
         self::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS,
         self::PS_AUTOUP_CHANGE_DEFAULT_THEME,
         self::PS_AUTOUP_REGEN_EMAIL,
-        self::PS_AUTOUP_KEEP_IMAGES,
         self::PS_DISABLE_OVERRIDES,
         self::CHANNEL,
         self::UPDATE_TYPE,
@@ -70,7 +68,6 @@ class UpgradeConfiguration extends ArrayCollection
         self::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS => true,
         self::PS_AUTOUP_CHANGE_DEFAULT_THEME => false,
         self::PS_AUTOUP_REGEN_EMAIL => true,
-        self::PS_AUTOUP_KEEP_IMAGES => true,
         self::BACKUP_COMPLETED => null,
     ];
 
@@ -210,14 +207,6 @@ class UpgradeConfiguration extends ArrayCollection
     }
 
     /**
-     * @return bool True if the autoupgrade module backup should include the images
-     */
-    public function shouldBackupImages(): bool
-    {
-        return $this->computeBooleanConfiguration(self::PS_AUTOUP_KEEP_IMAGES);
-    }
-
-    /**
      * @return bool True if non-native modules must be disabled during upgrade
      */
     public function shouldDeactivateCustomModules(): bool
@@ -248,20 +237,6 @@ class UpgradeConfiguration extends ArrayCollection
         return $this->computeBooleanConfiguration(self::PS_AUTOUP_CHANGE_DEFAULT_THEME);
     }
 
-    private function computeBooleanConfiguration(string $const): bool
-    {
-        $currentValue = $this->get($const);
-        $defaultValue = self::PS_CONST_DEFAULT_VALUE[$const];
-
-        if ($currentValue === null) {
-            return $defaultValue;
-        }
-
-        $currentValue = filter_var($currentValue, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-
-        return $currentValue !== null ? $currentValue : $defaultValue;
-    }
-
     public static function isOverrideAllowed(): bool
     {
         return !Configuration::get(self::PS_DISABLE_OVERRIDES);
@@ -282,20 +257,6 @@ class UpgradeConfiguration extends ArrayCollection
             self::updateDisabledOverride($value, $id_shop);
         }
         self::updateDisabledOverride($value);
-    }
-
-    /**
-     * @param array<string, mixed> $array
-     *
-     * @return void
-     *
-     * @throws UnexpectedValueException
-     */
-    public function merge(array $array = []): void
-    {
-        foreach ($array as $key => $value) {
-            $this->set($key, $value);
-        }
     }
 
     public function hasAllTheShopConfiguration(): bool

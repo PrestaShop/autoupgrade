@@ -21,25 +21,8 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Parameters;
 
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
-
-class ConfigurationValidator
+class ConfigurationValidator extends AbstractConfigurationValidator
 {
-    /**
-     * @var Translator
-     */
-    private $translator;
-
-    public function __construct(Translator $translator)
-    {
-        $this->translator = $translator;
-    }
-
-    /**
-     * @param array<string, mixed> $array
-     *
-     * @return array<array{'message': string, 'target': string}>
-     */
     public function validate(array $array = []): array
     {
         $errors = [];
@@ -59,10 +42,10 @@ class ConfigurationValidator
                     break;
                 case UpgradeConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT:
                 case UpgradeConfiguration::PS_AUTOUP_REGEN_EMAIL:
-                case UpgradeConfiguration::PS_AUTOUP_KEEP_IMAGES:
                 case UpgradeConfiguration::PS_DISABLE_OVERRIDES:
                     $error = $this->validateBool($value, $key);
                     break;
+                default:
             }
 
             if (isset($error)) {
@@ -104,18 +87,6 @@ class ConfigurationValidator
     {
         if ($isLocal && empty($xml)) {
             return $this->translator->trans('No xml archive provided');
-        }
-
-        return null;
-    }
-
-    /**
-     * @param string|bool $boolValue
-     */
-    private function validateBool($boolValue, string $key): ?string
-    {
-        if (!is_bool($boolValue) && ($boolValue === '' || filter_var($boolValue, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) === null)) {
-            return $this->translator->trans('Value must be a boolean for %s', [$key]);
         }
 
         return null;

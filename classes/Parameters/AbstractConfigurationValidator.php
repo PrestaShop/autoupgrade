@@ -17,19 +17,36 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
-
 namespace PrestaShop\Module\AutoUpgrade\Parameters;
 
-class RestoreConfiguration extends AbstractConfiguration
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
+
+abstract class AbstractConfigurationValidator
 {
-    const BACKUP_NAME = 'BACKUP_NAME';
+    /** @var Translator */
+    protected $translator;
 
-    const RESTORE_CONST_KEYS = [
-        self::BACKUP_NAME,
-    ];
-
-    public function getBackupName(): ?string
+    public function __construct(Translator $translator)
     {
-        return $this->get(self::BACKUP_NAME);
+        $this->translator = $translator;
+    }
+
+    /**
+     * @param array<string, mixed> $array
+     *
+     * @return array<array{'message': string, 'target': string}>
+     */
+    abstract public function validate(array $array = []): array;
+
+    /**
+     * @param string|bool $boolValue
+     */
+    protected function validateBool($boolValue, string $key): ?string
+    {
+        if (!is_bool($boolValue) && ($boolValue === '' || filter_var($boolValue, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) === null)) {
+            return $this->translator->trans('Value must be a boolean for %s', [$key]);
+        }
+
+        return null;
     }
 }

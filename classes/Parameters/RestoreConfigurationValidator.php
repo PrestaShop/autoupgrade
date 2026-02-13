@@ -23,13 +23,8 @@ namespace PrestaShop\Module\AutoUpgrade\Parameters;
 use PrestaShop\Module\AutoUpgrade\Backup\BackupFinder;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 
-class RestoreConfigurationValidator
+class RestoreConfigurationValidator extends AbstractConfigurationValidator
 {
-    /**
-     * @var Translator
-     */
-    private $translator;
-
     /**
      * @var BackupFinder
      */
@@ -37,15 +32,11 @@ class RestoreConfigurationValidator
 
     public function __construct(Translator $translator, BackupFinder $backupFinder)
     {
-        $this->translator = $translator;
+        parent::_construct($translator);
+
         $this->backupFinder = $backupFinder;
     }
 
-    /**
-     * @param array<string, mixed> $array
-     *
-     * @return array<array{'message': string, 'target': string}>
-     */
     public function validate(array $array = []): array
     {
         $errors = [];

@@ -1,4 +1,7 @@
 <?php
+
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * Copyright since 2007 PrestaShop SA and Contributors
  * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
@@ -20,16 +23,23 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Parameters;
 
-class RestoreConfiguration extends AbstractConfiguration
+class BackupConfiguration extends AbstractConfiguration
 {
-    const BACKUP_NAME = 'BACKUP_NAME';
+    const PS_AUTOUP_KEEP_IMAGES = 'PS_AUTOUP_KEEP_IMAGES';
 
-    const RESTORE_CONST_KEYS = [
-        self::BACKUP_NAME,
+    const BACKUP_CONST_KEYS = [
+        self::PS_AUTOUP_KEEP_IMAGES,
     ];
 
-    public function getBackupName(): ?string
+    const PS_CONST_DEFAULT_VALUE = [
+        self::PS_AUTOUP_KEEP_IMAGES => true,
+    ];
+
+    /**
+     * @return bool True if the autoupgrade module backup should include the images
+     */
+    public function shouldBackupImages(): bool
     {
-        return $this->get(self::BACKUP_NAME);
+        return $this->computeBooleanConfiguration(self::PS_AUTOUP_KEEP_IMAGES);
     }
 }

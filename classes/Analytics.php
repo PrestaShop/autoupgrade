@@ -21,6 +21,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade;
 
+use PrestaShop\Module\AutoUpgrade\Parameters\BackupConfiguration;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\State\RestoreState;
 use PrestaShop\Module\AutoUpgrade\State\UpdateState;
@@ -53,6 +54,11 @@ class Analytics
     private $updateConfiguration;
 
     /**
+     * @var BackupConfiguration
+     */
+    private $backupConfiguration;
+
+    /**
      * @var array{'restore': RestoreState, 'update': UpdateState}
      */
     private $states;
@@ -68,12 +74,14 @@ class Analytics
      */
     public function __construct(
         UpgradeConfiguration $updateConfiguration,
+        BackupConfiguration $backupConfiguration,
         Environment $environment,
         array $states,
         string $anonymousUserId,
         array $options
     ) {
         $this->updateConfiguration = $updateConfiguration;
+        $this->backupConfiguration = $backupConfiguration;
         $this->states = $states;
 
         $this->anonymousId = $anonymousUserId;
@@ -122,7 +130,7 @@ class Analytics
         switch ($type) {
             case self::WITH_BACKUP_PROPERTIES:
                 $additionalProperties = [
-                    'backup_images' => $this->updateConfiguration->shouldBackupImages(),
+                    'backup_images' => $this->backupConfiguration->shouldBackupImages(),
                 ];
                 $upgradeProperties = $this->properties[self::WITH_BACKUP_PROPERTIES] ?? [];
                 $additionalProperties = array_merge($upgradeProperties, $additionalProperties);

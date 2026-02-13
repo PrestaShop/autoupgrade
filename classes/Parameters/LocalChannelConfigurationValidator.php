@@ -24,13 +24,8 @@ use Exception;
 use PrestaShop\Module\AutoUpgrade\Services\PrestashopVersionService;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 
-class LocalChannelConfigurationValidator
+class LocalChannelConfigurationValidator extends AbstractConfigurationValidator
 {
-    /**
-     * @var Translator
-     */
-    private $translator;
-
     /**
      * @var PrestashopVersionService
      */
@@ -53,7 +48,8 @@ class LocalChannelConfigurationValidator
 
     public function __construct(Translator $translator, PrestashopVersionService $versionService, string $downloadPath)
     {
-        $this->translator = $translator;
+        parent::_construction($translator);
+
         $this->downloadPath = $downloadPath;
         $this->versionService = $versionService;
     }

@@ -28,6 +28,8 @@ use PrestaShop\Module\AutoUpgrade\Backup\BackupManager;
 use PrestaShop\Module\AutoUpgrade\Environment as UpdateEnvironment;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
 use PrestaShop\Module\AutoUpgrade\Log\WebLogger;
+use PrestaShop\Module\AutoUpgrade\Parameters\BackupConfiguration;
+use PrestaShop\Module\AutoUpgrade\Parameters\BackupConfigurationValidator;
 use PrestaShop\Module\AutoUpgrade\Parameters\ConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\ConfigurationValidator;
 use PrestaShop\Module\AutoUpgrade\Parameters\FileStorage;
@@ -152,6 +154,9 @@ class UpgradeContainer
     /** @var UpgradeConfiguration */
     private $updateConfiguration;
 
+    /** @var BackupConfiguration */
+    private $backupConfiguration;
+
     /** @var RestoreConfiguration */
     private $restoreConfiguration;
 
@@ -214,6 +219,9 @@ class UpgradeContainer
 
     /** @var LocalChannelConfigurationValidator */
     private $localChannelConfigurationValidator;
+
+    /** @var BackupConfigurationValidator */
+    private $backupConfigurationValidator;
 
     /**
      * @var RestoreConfigurationValidator
@@ -356,13 +364,17 @@ class UpgradeContainer
         return $this->getProperty(self::TMP_RELEASES_DIR) . $fileName;
     }
 
+    /**
+     * @throws Exception
+     */
     public function getAnalytics(): Analytics
     {
         if (null === $this->analytics) {
-            // The identifier shoudl be a value a value always different between two shops
-            // But equal between two upgrade processes
+            // The identifier should be a value a value always different between two shops
+            // But equal between two update processes
             $this->analytics = new Analytics(
                 $this->getUpdateConfiguration(),
+                $this->getBackupConfiguration(),
                 $this->getEnvironment(),
                 [
                     'update' => $this->getUpdateState(),
@@ -486,6 +498,7 @@ class UpgradeContainer
         if (null === $this->fileFilter) {
             $this->fileFilter = new FileFilter(
                 $this->getUpdateConfiguration(),
+                $this->getBackupConfiguration(),
                 $this->getComposerService(),
                 $this->getProperty(self::PS_ROOT_PATH)
             );
@@ -820,6 +833,18 @@ class UpgradeContainer
     /**
      * @throws Exception
      */
+    public function getBackupConfiguration(): BackupConfiguration
+    {
+        if (null === $this->backupConfiguration) {
+            $this->backupConfiguration = $this->getConfigurationStorage()->loadBackupConfiguration();
+        }
+
+        return $this->backupConfiguration;
+    }
+
+    /**
+     * @throws Exception
+     */
     public function getRestoreConfiguration(): RestoreConfiguration
     {
         if (null === $this->restoreConfiguration) {
@@ -977,7 +1002,7 @@ class UpgradeContainer
     }
 
     /**
-     * @return ConfigurationValidator
+     * @throws Exception
      */
     public function getConfigurationValidator(): ConfigurationValidator
     {
@@ -991,7 +1016,7 @@ class UpgradeContainer
     }
 
     /**
-     * @return LocalChannelConfigurationValidator
+     * @throws Exception
      */
     public function getLocalChannelConfigurationValidator(): LocalChannelConfigurationValidator
     {
@@ -1006,6 +1031,23 @@ class UpgradeContainer
         return $this->localChannelConfigurationValidator;
     }
 
+    /**
+     * @throws Exception
+     */
+    public function getBackupConfigurationValidator(): BackupConfigurationValidator
+    {
+        if (null === $this->backupConfigurationValidator) {
+            $this->backupConfigurationValidator = new BackupConfigurationValidator(
+                $this->getTranslator()
+            );
+        }
+
+        return $this->backupConfigurationValidator;
+    }
+
+    /**
+     * @throws Exception
+     */
     public function getRestoreConfigurationValidator(): RestoreConfigurationValidator
     {
         if (null === $this->restoreConfigurationValidator) {

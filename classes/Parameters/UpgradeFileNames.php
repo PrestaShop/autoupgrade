@@ -44,6 +44,8 @@ class UpgradeFileNames
      */
     const UPDATE_CONFIG_FILENAME = 'update_config.var';
 
+    const BACKUP_CONFIG_FILENAME = 'backup_config.var';
+
     const RESTORE_CONFIG_FILENAME = 'restore_config.var';
 
     const LANGUAGE_CONFIG_FILENAME = 'language_config.var';
