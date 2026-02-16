@@ -48,7 +48,7 @@ class LocalChannelConfigurationValidator extends AbstractConfigurationValidator
 
     public function __construct(Translator $translator, PrestashopVersionService $versionService, string $downloadPath)
     {
-        parent::_construction($translator);
+        parent::__construct($translator);
 
         $this->downloadPath = $downloadPath;
         $this->versionService = $versionService;

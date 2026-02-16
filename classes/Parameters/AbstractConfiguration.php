@@ -21,6 +21,7 @@
 namespace PrestaShop\Module\AutoUpgrade\Parameters;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use UnexpectedValueException;
 
 /**
  * Abstract for module configurations.

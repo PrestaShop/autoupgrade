@@ -32,7 +32,7 @@ class RestoreConfigurationValidator extends AbstractConfigurationValidator
 
     public function __construct(Translator $translator, BackupFinder $backupFinder)
     {
-        parent::_construct($translator);
+        parent::__construct($translator);
 
         $this->backupFinder = $backupFinder;
     }
