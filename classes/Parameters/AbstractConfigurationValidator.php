@@ -27,7 +27,7 @@ abstract class AbstractConfigurationValidator
     /** @var Translator */
     protected $translator;
 
-    function __construct(Translator $translator)
+    public function __construct(Translator $translator)
     {
         $this->translator = $translator;
     }
