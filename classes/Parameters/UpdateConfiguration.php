@@ -67,7 +67,7 @@ class UpdateConfiguration extends AbstractConfiguration
         self::PS_AUTOUP_CHANGE_DEFAULT_THEME => false,
         self::PS_AUTOUP_REGEN_EMAIL => true,
         self::BACKUP_COMPLETED => null,
-        self::MAX_FILES_PER_CALL => 400
+        self::MAX_FILES_PER_CALL => 400,
     ];
 
     const CONFIGURATION_KEYS_ABOUT_SHOP = [

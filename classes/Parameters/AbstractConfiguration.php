@@ -90,6 +90,7 @@ abstract class AbstractConfiguration extends ArrayCollection
      * it falls back to the defined default value.
      *
      * @param string $const the configuration key to evaluate
+     *
      * @return int the resolved int value or the fallback default
      */
     protected function computeIntConfiguration(string $const): int

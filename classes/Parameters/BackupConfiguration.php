@@ -28,7 +28,7 @@ class BackupConfiguration extends AbstractConfiguration
 {
     const PS_AUTOUP_KEEP_IMAGES = 'PS_AUTOUP_KEEP_IMAGES';
     const MAX_FILES_PER_CALL = 'max_files_per_call';
-    CONST MAX_FILE_SIZE = 'max_file_size';
+    const MAX_FILE_SIZE = 'max_file_size';
     const MAX_SQL_SIZE_TO_WRITE_PER_CALL = 'max_sql_size_to_write_per_call';
 
     const BACKUP_CONST_KEYS = [
