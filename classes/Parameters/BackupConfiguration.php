@@ -29,17 +29,20 @@ class BackupConfiguration extends AbstractConfiguration
     const PS_AUTOUP_KEEP_IMAGES = 'PS_AUTOUP_KEEP_IMAGES';
     const MAX_FILES_PER_CALL = 'max_files_per_call';
     CONST MAX_FILE_SIZE = 'max_file_size';
+    const MAX_SQL_SIZE_TO_WRITE_PER_CALL = 'max_sql_size_to_write_per_call';
 
     const BACKUP_CONST_KEYS = [
         self::PS_AUTOUP_KEEP_IMAGES,
         self::MAX_FILES_PER_CALL,
         self::MAX_FILE_SIZE,
+        self::MAX_SQL_SIZE_TO_WRITE_PER_CALL,
     ];
 
     const PS_CONST_DEFAULT_VALUE = [
         self::PS_AUTOUP_KEEP_IMAGES => true,
         self::MAX_FILES_PER_CALL => 400,
         self::MAX_FILE_SIZE => 15728640,
+        self::MAX_SQL_SIZE_TO_WRITE_PER_CALL => 4194304,
     ];
 
     /**
@@ -64,5 +67,13 @@ class BackupConfiguration extends AbstractConfiguration
     public function getMaxFileSize(): int
     {
         return $this->computeIntConfiguration(self::MAX_FILE_SIZE);
+    }
+
+    /**
+     * @return int Kind of reference for SQL file creation, giving a file size before another request is needed
+     */
+    public function getMaxSqlSizeToWritePerCall(): int
+    {
+        return $this->computeIntConfiguration(self::MAX_SQL_SIZE_TO_WRITE_PER_CALL);
     }
 }

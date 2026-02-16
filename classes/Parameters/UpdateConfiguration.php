@@ -78,15 +78,6 @@ class UpdateConfiguration extends AbstractConfiguration
     const ONLINE_CHANNEL_ZIP = 'prestashop.zip';
 
     /**
-     * Performance settings, if your server has a low memory size, lower these values.
-     *
-     * @var array<string, int>
-     */
-    private const PERFORMANCE_VALUES = [
-        'maxWrittenAllowed' => 4194304, // bytes
-    ];
-
-    /**
      * Get the name of the new release archive.
      */
     public function getLocalChannelZip(): ?string
@@ -176,14 +167,6 @@ class UpdateConfiguration extends AbstractConfiguration
     public function getMaxFilesPerCall(): int
     {
         return $this->computeIntConfiguration(self::MAX_FILES_PER_CALL);
-    }
-
-    /**
-     * @return int Kind of reference for SQL file creation, giving a file size before another request is needed
-     */
-    public function getMaxSizeToWritePerCall(): int
-    {
-        return $this::PERFORMANCE_VALUES['maxWrittenAllowed'];
     }
 
     /**
