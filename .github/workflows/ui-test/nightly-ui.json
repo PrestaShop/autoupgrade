@@ -25,10 +25,10 @@
       "UPGRADE_CHANNEL": "online"
     },
     {
-      "comment": "1.7.3.4 PHP 7.1 online"
+      "comment": "1.7.3.0 PHP 7.1 online"
     },
     {
-      "PS_VERSION_START": "1.7.3.4",
+      "PS_VERSION_START": "1.7.3.0",
       "PHP_VERSION": "7.1",
       "UPGRADE_CHANNEL": "online"
     },

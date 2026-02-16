@@ -54,12 +54,6 @@ jobs:
           docker compose -f "docker-compose.yml" up -d --build
           bash -c 'while [[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost/)" != "200" ]]; do sleep 5; done'
 
-      - name: Install Update assistant module
-        if: startsWith(matrix.PS_VERSION_START, '1.7')
-        run: |
-          docker exec -t prestashop chmod -R 777 /var/www/html/modules
-          docker exec -t prestashop /usr/local/bin/install-update.sh
-
       - name: Composer install
         run: composer install
 
@@ -86,6 +80,28 @@ jobs:
           npm install --prefix ./_dev
           npm run vite:build --prefix ./_dev
           docker exec -t prestashop chmod 777 -R /var/www/html/admin-dev/autoupgrade
+          docker exec -t prestashop chmod 777 -R /var/www/html/modules
+
+      - name: Install Update assistant module for PS version < 1.7.4
+        if: startsWith(matrix.PS_VERSION_START, '1.7.3') ||
+          startsWith(matrix.PS_VERSION_START, '1.7.2') ||
+          startsWith(matrix.PS_VERSION_START, '1.7.1') ||
+          startsWith(matrix.PS_VERSION_START, '1.7.0')
+        run: |
+          docker exec -t prestashop /usr/local/bin/install-update.sh
+
+      - name: Install Update assistant module for PS version > 1.7.3
+        if: >
+          startsWith(matrix.PS_VERSION_START, '1.7') &&
+          !(
+            startsWith(matrix.PS_VERSION_START, '1.7.0') ||
+            startsWith(matrix.PS_VERSION_START, '1.7.1') ||
+            startsWith(matrix.PS_VERSION_START, '1.7.2') ||
+            startsWith(matrix.PS_VERSION_START, '1.7.3')
+          )
+        run: |
+          docker exec -t prestashop php bin/console prestashop:module install autoupgrade
+          docker exec -t prestashop chmod 777 -R /var/www/html/var/cache
 
       - name: Setup node
         uses: actions/setup-node@v4

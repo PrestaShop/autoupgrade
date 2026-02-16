@@ -41,7 +41,7 @@ const psVersion = utilsTest.getPSVersion();
 /*
   Uninstall welcome module
  */
-if (semver.lt(psVersion, '8.0.1')) {
+if (semver.lt(psVersion, '8.0.0')) {
   test.describe('Uninstall welcome module', () => {
     let browserContext: BrowserContext;
     let page: Page;
@@ -137,7 +137,7 @@ if (semver.lt(psVersion, '8.0.1')) {
         expect(isModuleVisible).toEqual(true);
       });
 
-      test(`should uninstall the module '${dataModules.autoupgrade.name}'`, async () => {
+      test(`should uninstall the module '${dataModules.welcome.name}'`, async () => {
         const successMessage = await boModuleManagerPage.setActionInModule(page, dataModules.welcome, 'uninstall');
         expect(successMessage).toEqual(boModuleManagerAlertsPage.uninstallModuleSuccessMessage(dataModules.welcome.tag));
       });

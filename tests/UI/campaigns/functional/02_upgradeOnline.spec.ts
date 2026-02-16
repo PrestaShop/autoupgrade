@@ -46,7 +46,7 @@ const psVersion = utilsTest.getPSVersion();
 test.describe('Upgrade using the online channel', () => {
   let browserContext: BrowserContext;
   let page: Page;
-  let isModalVisible: boolean = true;
+  const isModalVisible: boolean = true;
 
   test.beforeAll(async ({browser}) => {
     browserContext = await browser.newContext();
@@ -65,56 +65,9 @@ test.describe('Upgrade using the online channel', () => {
     expect(pageTitle).toContain(boDashboardPage.pageTitle);
   });
 
-  test('should get if the update modal is visible', async () => {
-    isModalVisible = await modAutoupgradeBoModal.isModalVisible(page);
-  });
-
-  test('should check the update link', async () => {
-    if (isModalVisible) {
-      const updateLink = await modAutoupgradeBoModal.getUpdateLinkFromModal(page);
-      expect(updateLink).toContain('https://build.prestashop-project.org/news');
-    } else {
-      test.skip();
-    }
-  });
-
-  test('should click on the update link from the modal', async () => {
-    if (isModalVisible) {
-      page = await modAutoupgradeBoModal.openUpdateLinkFromTheModal(page);
-
-      const pageTitle = await modAutoupgradeBoModal.getPageTitle(page);
-      expect(pageTitle).toContain('PrestaShop');
-      expect(pageTitle.toLowerCase()).toContain('available');
-
-      page = await modAutoupgradeBoModal.closePage(browserContext, page, 0);
-    } else {
-      test.skip();
-    }
-  });
-
-  test('should check the support link', async () => {
-    if (isModalVisible) {
-      const supportLink = await modAutoupgradeBoModal.getSupportLinkFromModal(page);
-      expect(supportLink).toEqual('https://www.prestashop-project.org/support/');
-    } else {
-      test.skip();
-    }
-  });
-
-  test('should click on Update and check the PS version', async () => {
-    if (isModalVisible) {
-      const version = await modAutoupgradeBoModal.getPSVersionFromTheModal(page);
-
-      await modAutoupgradeBoModal.clickOnUpdateButton(page);
-
-      const pageTitle = await modAutoupgradeBoMain.getPageTitle(page);
-      expect(pageTitle).toEqual(modAutoupgradeBoMain.pageTitle);
-
-      const currentVersion = await modAutoupgradeBoMain.getCurrentPSAndPHPVersion(page);
-      expect(currentVersion).not.toContain(version);
-    } else {
-      test.skip();
-    }
+  test('should close update notification dialog', async () => {
+    const isDialogNotVisible = await modAutoupgradeBoModal.closeDialogUpdateNotification(page);
+    expect(isDialogNotVisible).toEqual(true);
   });
 
   // Steps to go to module configuration page
