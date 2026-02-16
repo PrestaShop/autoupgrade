@@ -59,9 +59,7 @@ jobs:
 
       - name: Enable shop
         run: |
-          apt-get update
-          apt-get install -y --no-install-recommends xmlstarlet
-          xmlstarlet ed --inplace -u '/entity_configuration/entities/configuration[@id="PS_SHOP_ENABLE"]/value' -v 1 /var/www/html/install/data/xml/configuration.xml
+          docker exec -t prestashop /usr/local/bin/classic.sh
 
       - name: uninstall the module klaviyopsautomation
         if: ${{ matrix.PS_VERSION_START != '8.0.1-classic' && matrix.PS_VERSION_START != '8.0.2-classic' && !startsWith(matrix.PS_VERSION_START, '9') }}
@@ -72,7 +70,6 @@ jobs:
         if: matrix.PS_VERSION_START == '8.1.0-classic' || matrix.PS_VERSION_START == '8.1.1-classic' || matrix.PS_VERSION_START == '8.1.2-classic'
         run: |
           docker exec -t prestashop php bin/console prestashop:module uninstall ps_mbo
-
 
       - name: Backup
         run: |
