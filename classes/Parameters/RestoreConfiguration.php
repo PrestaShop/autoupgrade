@@ -26,13 +26,27 @@ namespace PrestaShop\Module\AutoUpgrade\Parameters;
 class RestoreConfiguration extends AbstractConfiguration
 {
     const BACKUP_NAME = 'BACKUP_NAME';
+    const SECONDS_PER_CALL = 'seconds_per_call';
 
     const RESTORE_CONST_KEYS = [
         self::BACKUP_NAME,
+        self::SECONDS_PER_CALL,
+    ];
+
+    const PS_CONST_DEFAULT_VALUE = [
+        self::SECONDS_PER_CALL => 6,
     ];
 
     public function getBackupName(): ?string
     {
         return $this->get(self::BACKUP_NAME);
+    }
+
+    /**
+     * @return int Number of seconds allowed before having to make another request
+     */
+    public function getSecondsPerCall(): int
+    {
+        return $this->computeIntConfiguration(self::SECONDS_PER_CALL);
     }
 }

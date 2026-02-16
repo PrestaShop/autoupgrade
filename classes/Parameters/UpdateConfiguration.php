@@ -83,7 +83,6 @@ class UpdateConfiguration extends AbstractConfiguration
      * @var array<string, int>
      */
     private const PERFORMANCE_VALUES = [
-        'loopTime' => 6, // seconds
         'maxBackupFileSize' => 15728640, // bytes
         'maxWrittenAllowed' => 4194304, // bytes
     ];
@@ -178,14 +177,6 @@ class UpdateConfiguration extends AbstractConfiguration
     public function getMaxFilesPerCall(): int
     {
         return $this->computeIntConfiguration(self::MAX_FILES_PER_CALL);
-    }
-
-    /**
-     * @return int Number of seconds allowed before having to make another request
-     */
-    public function getTimePerCall(): int
-    {
-        return $this::PERFORMANCE_VALUES['loopTime'];
     }
 
     /**
