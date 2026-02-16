@@ -33,7 +33,7 @@ class RestoreConfiguration extends AbstractConfiguration
         self::SECONDS_PER_CALL,
     ];
 
-    const PS_CONST_DEFAULT_VALUE = [
+    const DEFAULT_VALUES = [
         self::SECONDS_PER_CALL => 6,
     ];
 

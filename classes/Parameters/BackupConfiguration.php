@@ -38,7 +38,7 @@ class BackupConfiguration extends AbstractConfiguration
         self::MAX_SQL_SIZE_TO_WRITE_PER_CALL,
     ];
 
-    const PS_CONST_DEFAULT_VALUE = [
+    const DEFAULT_VALUES = [
         self::PS_AUTOUP_KEEP_IMAGES => true,
         self::MAX_FILES_PER_CALL => 400,
         self::MAX_FILE_SIZE => 15728640,

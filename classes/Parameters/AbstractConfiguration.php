@@ -33,14 +33,14 @@ abstract class AbstractConfiguration extends ArrayCollection
     /**
      * @var array<string, mixed>
      */
-    const PS_CONST_DEFAULT_VALUE = [];
+    const DEFAULT_VALUES = [];
 
     /**
      * @return mixed
      */
     protected function getDefaultValue(string $const)
     {
-        return static::PS_CONST_DEFAULT_VALUE[$const] ?? null;
+        return static::DEFAULT_VALUES[$const] ?? null;
     }
 
     /**

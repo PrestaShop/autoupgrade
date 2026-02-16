@@ -61,7 +61,7 @@ class UpdateConfiguration extends AbstractConfiguration
         self::MAX_FILES_PER_CALL,
     ];
 
-    const PS_CONST_DEFAULT_VALUE = [
+    const DEFAULT_VALUES = [
         self::PS_AUTOUP_CUSTOM_MOD_DESACT => true,
         self::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS => true,
         self::PS_AUTOUP_CHANGE_DEFAULT_THEME => false,
