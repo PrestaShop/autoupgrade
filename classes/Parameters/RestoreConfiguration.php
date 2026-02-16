@@ -20,6 +20,9 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Parameters;
 
+/**
+ * Contains the restore process configuration.
+ */
 class RestoreConfiguration extends AbstractConfiguration
 {
     const BACKUP_NAME = 'BACKUP_NAME';

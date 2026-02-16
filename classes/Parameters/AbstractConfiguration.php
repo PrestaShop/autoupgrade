@@ -39,7 +39,7 @@ abstract class AbstractConfiguration extends ArrayCollection
      */
     protected function getDefaultValue(string $const)
     {
-        return $this->PS_CONST_DEFAULT_VALUE[$const];
+        return static::PS_CONST_DEFAULT_VALUE[$const] ?? null;
     }
 
     /**

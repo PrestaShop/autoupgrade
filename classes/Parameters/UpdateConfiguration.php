@@ -22,13 +22,10 @@
 namespace PrestaShop\Module\AutoUpgrade\Parameters;
 
 use Configuration;
-use Doctrine\Common\Collections\ArrayCollection;
 use Shop;
 
 /**
- * Contains the module configuration (form params).
- *
- * @extends ArrayCollection<string, mixed>
+ * Contains the update process configuration.
  */
 class UpdateConfiguration extends AbstractConfiguration
 {
