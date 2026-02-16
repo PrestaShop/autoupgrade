@@ -981,6 +981,7 @@ class UpgradeContainer
                 $this->getTranslator(),
                 $this->getLogger(),
                 $this->getUpdateConfiguration(),
+                $this->getBackupConfiguration(),
                 $this->getProperty(self::PS_ROOT_PATH));
         }
 

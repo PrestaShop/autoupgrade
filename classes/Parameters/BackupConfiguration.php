@@ -27,13 +27,16 @@ namespace PrestaShop\Module\AutoUpgrade\Parameters;
 class BackupConfiguration extends AbstractConfiguration
 {
     const PS_AUTOUP_KEEP_IMAGES = 'PS_AUTOUP_KEEP_IMAGES';
+    const MAX_FILES_PER_CALL = 'max_files_per_call';
 
     const BACKUP_CONST_KEYS = [
         self::PS_AUTOUP_KEEP_IMAGES,
+        self::MAX_FILES_PER_CALL,
     ];
 
     const PS_CONST_DEFAULT_VALUE = [
         self::PS_AUTOUP_KEEP_IMAGES => true,
+        self::MAX_FILES_PER_CALL => 400,
     ];
 
     /**
@@ -42,5 +45,13 @@ class BackupConfiguration extends AbstractConfiguration
     public function shouldBackupImages(): bool
     {
         return $this->computeBooleanConfiguration(self::PS_AUTOUP_KEEP_IMAGES);
+    }
+
+    /**
+     * @return int Number of files to handle in a single call to avoid timeouts
+     */
+    public function getMaxFilesPerCall(): int
+    {
+        return $this->computeIntConfiguration(self::MAX_FILES_PER_CALL);
     }
 }

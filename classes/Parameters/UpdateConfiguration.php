@@ -41,6 +41,7 @@ class UpdateConfiguration extends AbstractConfiguration
     const ARCHIVE_VERSION_NUM = 'archive_version_num';
     const BACKUP_COMPLETED = 'backup_completed';
     const INSTALLED_LANGUAGES = 'installed_languages';
+    const MAX_FILES_PER_CALL = 'max_files_per_call';
 
     const CHANNEL_ONLINE = 'online';
     const CHANNEL_ONLINE_RECOMMENDED = 'online_recommended';
@@ -57,6 +58,7 @@ class UpdateConfiguration extends AbstractConfiguration
         self::ARCHIVE_ZIP,
         self::ARCHIVE_XML,
         self::ARCHIVE_VERSION_NUM,
+        self::MAX_FILES_PER_CALL,
     ];
 
     const PS_CONST_DEFAULT_VALUE = [
@@ -65,6 +67,7 @@ class UpdateConfiguration extends AbstractConfiguration
         self::PS_AUTOUP_CHANGE_DEFAULT_THEME => false,
         self::PS_AUTOUP_REGEN_EMAIL => true,
         self::BACKUP_COMPLETED => null,
+        self::MAX_FILES_PER_CALL => 400
     ];
 
     const CONFIGURATION_KEYS_ABOUT_SHOP = [
@@ -80,7 +83,6 @@ class UpdateConfiguration extends AbstractConfiguration
      * @var array<string, int>
      */
     private const PERFORMANCE_VALUES = [
-        'loopFiles' => 400, // files
         'loopTime' => 6, // seconds
         'maxBackupFileSize' => 15728640, // bytes
         'maxWrittenAllowed' => 4194304, // bytes
@@ -173,9 +175,9 @@ class UpdateConfiguration extends AbstractConfiguration
     /**
      * @return int Number of files to handle in a single call to avoid timeouts
      */
-    public function getNumberOfFilesPerCall(): int
+    public function getMaxFilesPerCall(): int
     {
-        return $this::PERFORMANCE_VALUES['loopFiles'];
+        return $this->computeIntConfiguration(self::MAX_FILES_PER_CALL);
     }
 
     /**

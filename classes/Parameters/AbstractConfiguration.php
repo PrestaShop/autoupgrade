@@ -81,4 +81,28 @@ abstract class AbstractConfiguration extends ArrayCollection
 
         return $currentValue !== null ? $currentValue : $defaultValue;
     }
+
+    /**
+     * Resolves a configuration value into a integer.
+     *
+     * This method attempts to retrieve the value for a given configuration key.
+     * If the value is missing or not a valid int (e.g., an invalid string),
+     * it falls back to the defined default value.
+     *
+     * @param string $const the configuration key to evaluate
+     * @return int the resolved int value or the fallback default
+     */
+    protected function computeIntConfiguration(string $const): int
+    {
+        $currentValue = $this->get($const);
+        $defaultValue = $this->getDefaultValue($const);
+
+        if ($currentValue === null) {
+            return $defaultValue;
+        }
+
+        $currentValue = filter_var($currentValue, FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
+
+        return $currentValue !== null ? $currentValue : $defaultValue;
+    }
 }
