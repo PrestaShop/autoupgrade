@@ -28,15 +28,18 @@ class BackupConfiguration extends AbstractConfiguration
 {
     const PS_AUTOUP_KEEP_IMAGES = 'PS_AUTOUP_KEEP_IMAGES';
     const MAX_FILES_PER_CALL = 'max_files_per_call';
+    CONST MAX_FILE_SIZE = 'max_file_size';
 
     const BACKUP_CONST_KEYS = [
         self::PS_AUTOUP_KEEP_IMAGES,
         self::MAX_FILES_PER_CALL,
+        self::MAX_FILE_SIZE,
     ];
 
     const PS_CONST_DEFAULT_VALUE = [
         self::PS_AUTOUP_KEEP_IMAGES => true,
         self::MAX_FILES_PER_CALL => 400,
+        self::MAX_FILE_SIZE => 15728640,
     ];
 
     /**
@@ -53,5 +56,13 @@ class BackupConfiguration extends AbstractConfiguration
     public function getMaxFilesPerCall(): int
     {
         return $this->computeIntConfiguration(self::MAX_FILES_PER_CALL);
+    }
+
+    /**
+     * @return int Max file size allowed in backup
+     */
+    public function getMaxFileSize(): int
+    {
+        return $this->computeIntConfiguration(self::MAX_FILE_SIZE);
     }
 }

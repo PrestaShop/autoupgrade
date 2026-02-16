@@ -83,7 +83,6 @@ class UpdateConfiguration extends AbstractConfiguration
      * @var array<string, int>
      */
     private const PERFORMANCE_VALUES = [
-        'maxBackupFileSize' => 15728640, // bytes
         'maxWrittenAllowed' => 4194304, // bytes
     ];
 
@@ -185,14 +184,6 @@ class UpdateConfiguration extends AbstractConfiguration
     public function getMaxSizeToWritePerCall(): int
     {
         return $this::PERFORMANCE_VALUES['maxWrittenAllowed'];
-    }
-
-    /**
-     * @return int Max file size allowed in backup
-     */
-    public function getMaxFileToBackup(): int
-    {
-        return $this::PERFORMANCE_VALUES['maxBackupFileSize'];
     }
 
     /**
