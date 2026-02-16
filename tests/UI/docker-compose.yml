@@ -34,11 +34,6 @@ services:
         source: docker/post-install-scripts/install-update.sh
        # Mount Path
         target: /usr/local/bin/install-update.sh
-      - type: bind
-       # Local Path
-        source: docker/pre-install-scripts/classic.sh
-       # Mount Path
-        target: /usr/local/bin/classic.sh
     ports:
       - "80:80"
     deploy:
