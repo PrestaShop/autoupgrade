@@ -65,7 +65,7 @@ class AnalyticsTest extends TestCase
 
         $backupConfiguration = $configurationStorage->loadBackupConfiguration();
         $backupConfiguration->merge([
-            BackupConfiguration::PS_AUTOUP_KEEP_IMAGES => false,
+            BackupConfiguration::KEEP_IMAGES => false,
         ]);
         $configurationStorage->save($backupConfiguration);
 

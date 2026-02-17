@@ -73,7 +73,7 @@ class FilesystemAdapterTest extends TestCase
     {
         $configurationStorage = $this->container->getConfigurationStorage();
         $configuration = $this->container->getBackupConfiguration();
-        $configuration->merge([BackupConfiguration::PS_AUTOUP_KEEP_IMAGES => true]);
+        $configuration->merge([BackupConfiguration::KEEP_IMAGES => true]);
         $configurationStorage->save($configuration);
 
         $expected = $this->loadFixtureAndAddPrefixToFilePaths(
@@ -94,7 +94,7 @@ class FilesystemAdapterTest extends TestCase
     {
         $configurationStorage = $this->container->getConfigurationStorage();
         $configuration = $this->container->getBackupConfiguration();
-        $configuration->merge([BackupConfiguration::PS_AUTOUP_KEEP_IMAGES => false]);
+        $configuration->merge([BackupConfiguration::KEEP_IMAGES => false]);
         $configurationStorage->save($configuration);
 
         $expected = $this->loadFixtureAndAddPrefixToFilePaths(

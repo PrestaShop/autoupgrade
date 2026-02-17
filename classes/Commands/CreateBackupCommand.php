@@ -55,7 +55,7 @@ class CreateBackupCommand extends AbstractCommand
             $includeImage = $input->getOption('include-images');
 
             if ($includeImage !== null) {
-                $this->consoleInputConfiguration[BackupConfiguration::PS_AUTOUP_KEEP_IMAGES] = $includeImage;
+                $this->consoleInputConfiguration[BackupConfiguration::KEEP_IMAGES] = $includeImage;
             }
 
             $this->loadConfiguration($configPath);

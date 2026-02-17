@@ -160,7 +160,7 @@ Here is an example of the different fields that can be found in it:
   "disable_non_native_modules": 1,
   "PS_AUTOUP_CHANGE_DEFAULT_THEME": 0,
   "regenerate_email_templates": 1,
-  "PS_AUTOUP_KEEP_IMAGES": 1,
+  "keep_images": 1,
   "disable_overrides": 1
 }
 ```
@@ -220,7 +220,7 @@ impact.
 | `update:start`                                                      | (DEPRECATED) `PS_AUTOUP_CHANGE_DEFAULT_THEME` | no option available            | `true`, `false` (default), `'true'`, `'false'`, `'1'`, `'0'`, `1`, `0`, `'on'`, `'off'` | If enabled, forces the use of the default PrestaShop theme after the update. If disabled, retains the current theme.                          |
 | `update:start`                                                      | `regenerate_email_templates`                       | `--regenerate-email-templates` | `true` (default), `false`, `'true'`, `'false'`, `'1'`, `'0'`, `1`, `0`, `'on'`, `'off'` | If enabled, keeps the store's customized email templates. Otherwise, the templates are replaced with the default ones.                        |
 | `update:start`                                                      | `disable_overrides`                        | `--disable-all-overrides`      | `true` (default), `false`, `'true'`, `'false'`, `'1'`, `'0'`, `1`, `0`, `'on'`, `'off'` | If enabled, disables all PHP overrides in PrestaShop, ensuring better compatibility during the update process.                                |
-| `backup:create`                                                     | `PS_AUTOUP_KEEP_IMAGES`                       | `--include-images`             | `true` (default), `false`, `'true'`, `'false'`, `'1'`, `'0'`, `1`, `0`, `'on'`, `'off'` | If enabled, retains all images in the backup. This operation can take a long time depending on the storage of your images                     |
+| `backup:create`                                                     | `keep_images`                       | `--include-images`             | `true` (default), `false`, `'true'`, `'false'`, `'1'`, `'0'`, `1`, `0`, `'on'`, `'off'` | If enabled, retains all images in the backup. This operation can take a long time depending on the storage of your images                     |
 | `backup:restore`                                                    | no option available                           | `--backup`                     | Valid file name                                                                         | Specify the backup name to restore. The allowed values can be found with backup:list command)                                                 |
 | `backup:delete`                                                     | no option available                           | `--backup`                     | Valid file name                                                                         | Specify the backup name to delete. The allowed values can be found with backup:list command)                                                  |
 |                                                                     |                                               |                                |                                                                                         |                                                                                                                                               |

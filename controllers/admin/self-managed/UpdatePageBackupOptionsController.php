@@ -107,7 +107,7 @@ class UpdatePageBackupOptionsController extends AbstractPageWithStepController
         $backupConfiguration = $this->upgradeContainer->getBackupConfiguration();
 
         $config = [
-            BackupConfiguration::PS_AUTOUP_KEEP_IMAGES => $this->request->request->getBoolean(BackupConfiguration::PS_AUTOUP_KEEP_IMAGES, false),
+            BackupConfiguration::KEEP_IMAGES => $this->request->request->getBoolean(BackupConfiguration::KEEP_IMAGES, false),
         ];
 
         $errors = $this->upgradeContainer->getBackupConfigurationValidator()->validate($config);
@@ -147,7 +147,7 @@ class UpdatePageBackupOptionsController extends AbstractPageWithStepController
 
                 'form_fields' => [
                     'include_images' => [
-                        'field' => BackupConfiguration::PS_AUTOUP_KEEP_IMAGES,
+                        'field' => BackupConfiguration::KEEP_IMAGES,
                         'value' => $this->upgradeContainer->getBackupConfiguration()->shouldBackupImages(),
                     ],
                 ],

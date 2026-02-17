@@ -38,7 +38,7 @@ export const Backup = {
     filename: "backup.zip",
     form_fields: {
       include_images: {
-        field: "PS_AUTOUP_KEEP_IMAGES",
+        field: "keep_images",
         value: true,
       },
     },

@@ -95,7 +95,7 @@ jobs:
             \"archive_xml\":\"prestashop_${{ matrix.PS_VERSION_END }}.xml\",
             \"disable_non_native_modules\":\"true\",
             \"PS_AUTOUP_CHANGE_DEFAULT_THEME\":\"false\",
-            \"PS_AUTOUP_KEEP_IMAGES\":\"true\",
+            \"keep_images\":\"true\",
             \"disable_overrides\":\"true\"
           }' > modules/autoupgrade/config.json"
 

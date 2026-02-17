@@ -30,7 +30,7 @@ class BackupConfigurationValidator extends AbstractConfigurationValidator
         foreach ($array as $key => $value) {
             // we let it like this for the future if we need to validate more fields for backup
             switch ($key) {
-                case BackupConfiguration::PS_AUTOUP_KEEP_IMAGES:
+                case BackupConfiguration::KEEP_IMAGES:
                     $error = $this->validateBool($value, $key);
                     break;
                 case BackupConfiguration::MAX_FILES_PER_CALL:
