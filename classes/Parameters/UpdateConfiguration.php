@@ -32,6 +32,9 @@ class UpdateConfiguration extends AbstractConfiguration
     /** @deprecated this configuration is no longer used by update process */
     const PS_AUTOUP_CHANGE_DEFAULT_THEME = 'PS_AUTOUP_CHANGE_DEFAULT_THEME';
 
+    /** PrestaShop configuration variable to disable or not overrides */
+    const PS_DISABLE_OVERRIDES = 'PS_DISABLE_OVERRIDES';
+
     const PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS = 'PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS';
     const DISABLE_NON_NATIVE_MODULES = 'disable_non_native_modules';
     const REGENERATE_EMAIL_TEMPLATES = 'regenerate_email_templates';
@@ -204,15 +207,15 @@ class UpdateConfiguration extends AbstractConfiguration
 
     public static function isOverrideAllowed(): bool
     {
-        return !Configuration::get(self::DISABLE_OVERRIDES);
+        return !Configuration::get(self::PS_DISABLE_OVERRIDES);
     }
 
     public static function updateDisabledOverride(bool $value, ?int $shopId = null): void
     {
         if ($shopId) {
-            Configuration::updateValue(self::DISABLE_OVERRIDES, $value, false, null, (int) $shopId);
+            Configuration::updateValue(self::PS_DISABLE_OVERRIDES, $value, false, null, (int) $shopId);
         } else {
-            Configuration::updateGlobalValue(self::DISABLE_OVERRIDES, $value);
+            Configuration::updateGlobalValue(self::PS_DISABLE_OVERRIDES, $value);
         }
     }
 
