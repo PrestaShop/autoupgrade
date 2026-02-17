@@ -21,7 +21,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Parameters;
 
-class ConfigurationValidator extends AbstractConfigurationValidator
+class UpdateConfigurationValidator extends AbstractConfigurationValidator
 {
     public function validate(array $array = []): array
     {

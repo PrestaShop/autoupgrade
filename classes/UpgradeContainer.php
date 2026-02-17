@@ -31,7 +31,7 @@ use PrestaShop\Module\AutoUpgrade\Log\WebLogger;
 use PrestaShop\Module\AutoUpgrade\Parameters\BackupConfiguration;
 use PrestaShop\Module\AutoUpgrade\Parameters\BackupConfigurationValidator;
 use PrestaShop\Module\AutoUpgrade\Parameters\ConfigurationStorage;
-use PrestaShop\Module\AutoUpgrade\Parameters\ConfigurationValidator;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfigurationValidator;
 use PrestaShop\Module\AutoUpgrade\Parameters\FileStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\LanguageConfiguration;
 use PrestaShop\Module\AutoUpgrade\Parameters\LocalChannelConfigurationValidator;
@@ -214,7 +214,7 @@ class UpgradeContainer
     /** @var AssetsEnvironment */
     private $assetsEnvironment;
 
-    /** @var ConfigurationValidator */
+    /** @var UpdateConfigurationValidator */
     private $configurationValidator;
 
     /** @var LocalChannelConfigurationValidator */
@@ -1004,10 +1004,10 @@ class UpgradeContainer
     /**
      * @throws Exception
      */
-    public function getConfigurationValidator(): ConfigurationValidator
+    public function getConfigurationValidator(): UpdateConfigurationValidator
     {
         if (null === $this->configurationValidator) {
-            $this->configurationValidator = new ConfigurationValidator(
+            $this->configurationValidator = new UpdateConfigurationValidator(
                 $this->getTranslator()
             );
         }

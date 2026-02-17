@@ -21,13 +21,13 @@
 namespace Parameters;
 
 use PHPUnit\Framework\TestCase;
-use PrestaShop\Module\AutoUpgrade\Parameters\ConfigurationValidator;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfigurationValidator;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfiguration;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 
 class ConfigurationValidatorTest extends TestCase
 {
-    /** @var ConfigurationValidator */
+    /** @var UpdateConfigurationValidator */
     private $validator;
 
     protected function setUp()
@@ -38,7 +38,7 @@ class ConfigurationValidatorTest extends TestCase
             return sprintf($string, ...$params);
         });
 
-        $this->validator = new ConfigurationValidator($translator);
+        $this->validator = new UpdateConfigurationValidator($translator);
     }
 
     public function testValidateChannelSuccess()
