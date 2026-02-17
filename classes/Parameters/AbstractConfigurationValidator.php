@@ -50,4 +50,16 @@ abstract class AbstractConfigurationValidator
 
         return null;
     }
+
+    /**
+     * @param string|int $intValue
+     */
+    protected function validateInt($intValue, string $key): ?string
+    {
+        if (!is_int($intValue) && ($intValue === '' || filter_var($intValue, FILTER_VALIDATE_INT) === false)) {
+            return $this->translator->trans('Value must be an integer for %s', [$key]);
+        }
+
+        return null;
+    }
 }

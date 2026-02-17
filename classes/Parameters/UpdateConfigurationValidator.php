@@ -45,6 +45,9 @@ class UpdateConfigurationValidator extends AbstractConfigurationValidator
                 case UpdateConfiguration::PS_DISABLE_OVERRIDES:
                     $error = $this->validateBool($value, $key);
                     break;
+                case UpdateConfiguration::MAX_FILES_PER_CALL:
+                    $error = $this->validateInt($value, $key);
+                    break;
                 default:
             }
 

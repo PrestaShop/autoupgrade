@@ -33,6 +33,11 @@ class BackupConfigurationValidator extends AbstractConfigurationValidator
                 case BackupConfiguration::PS_AUTOUP_KEEP_IMAGES:
                     $error = $this->validateBool($value, $key);
                     break;
+                case BackupConfiguration::MAX_FILES_PER_CALL:
+                case BackupConfiguration::MAX_FILE_SIZE:
+                case BackupConfiguration::MAX_SQL_SIZE_TO_WRITE_PER_CALL:
+                    $error = $this->validateInt($value, $key);
+                    break;
                 default:
             }
 

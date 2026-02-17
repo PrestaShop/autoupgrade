@@ -59,6 +59,16 @@ class RestoreConfigurationValidator extends AbstractConfigurationValidator
             ];
         }
 
+        if (isset($array[RestoreConfiguration::SECONDS_PER_CALL])) {
+            $secondPerCallErrors = $this->validateInt($array[RestoreConfiguration::SECONDS_PER_CALL], RestoreConfiguration::SECONDS_PER_CALL);
+            if ($secondPerCallErrors) {
+                $errors[] = [
+                    'message' => $secondPerCallErrors,
+                    'target' => RestoreConfiguration::SECONDS_PER_CALL,
+                ];
+            }
+        }
+
         return $errors;
     }
 
