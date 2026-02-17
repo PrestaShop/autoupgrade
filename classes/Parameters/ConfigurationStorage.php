@@ -56,7 +56,7 @@ class ConfigurationStorage
     }
 
     /**
-     * @param UpdateConfiguration|RestoreConfiguration|LanguageConfiguration $config
+     * @param UpdateConfiguration|BackupConfiguration|RestoreConfiguration|LanguageConfiguration $config
      *
      * @return bool
      */
