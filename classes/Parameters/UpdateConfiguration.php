@@ -31,6 +31,7 @@ class UpdateConfiguration extends AbstractConfiguration
 {
     const DISABLE_NON_NATIVE_MODULES = 'disable_non_native_modules';
     const PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS = 'PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS';
+    /** @deprecated this configuration is no longer used by update process */
     const PS_AUTOUP_CHANGE_DEFAULT_THEME = 'PS_AUTOUP_CHANGE_DEFAULT_THEME';
     const PS_AUTOUP_REGEN_EMAIL = 'PS_AUTOUP_REGEN_EMAIL';
     const PS_DISABLE_OVERRIDES = 'PS_DISABLE_OVERRIDES';
