@@ -21,8 +21,6 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Parameters;
 
-use Doctrine\Common\Collections\ArrayCollection;
-
 class ConfigurationStorage
 {
     /**
@@ -60,7 +58,7 @@ class ConfigurationStorage
      *
      * @return bool
      */
-    public function save(ArrayCollection $config): bool
+    public function save(AbstractConfiguration $config): bool
     {
         switch (get_class($config)) {
             case UpdateConfiguration::class:
