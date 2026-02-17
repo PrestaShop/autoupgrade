@@ -60,7 +60,7 @@ class UpdatePageUpdateOptionsController extends AbstractPageWithStepController
         $config = [
             UpdateConfiguration::DISABLE_NON_NATIVE_MODULES => $this->request->request->getBoolean(UpdateConfiguration::DISABLE_NON_NATIVE_MODULES, false),
             UpdateConfiguration::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS => $this->request->request->getBoolean(UpdateConfiguration::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS, false),
-            UpdateConfiguration::PS_AUTOUP_REGEN_EMAIL => $this->request->request->getBoolean(UpdateConfiguration::PS_AUTOUP_REGEN_EMAIL, false),
+            UpdateConfiguration::REGENERATE_EMAIL_TEMPLATES => $this->request->request->getBoolean(UpdateConfiguration::REGENERATE_EMAIL_TEMPLATES, false),
             UpdateConfiguration::PS_DISABLE_OVERRIDES => $this->request->request->getBoolean(UpdateConfiguration::PS_DISABLE_OVERRIDES, false),
         ];
 
@@ -115,7 +115,7 @@ class UpdatePageUpdateOptionsController extends AbstractPageWithStepController
                         'value' => $updateConfiguration->shouldUninstallNonCompatibleModules(),
                     ],
                     'regenerate_email_templates' => [
-                        'field' => UpdateConfiguration::PS_AUTOUP_REGEN_EMAIL,
+                        'field' => UpdateConfiguration::REGENERATE_EMAIL_TEMPLATES,
                         'value' => $updateConfiguration->shouldRegenerateMailTemplates(),
                     ],
                     'disable_all_overrides' => [

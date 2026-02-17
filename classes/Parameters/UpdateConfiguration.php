@@ -29,11 +29,12 @@ use Shop;
  */
 class UpdateConfiguration extends AbstractConfiguration
 {
-    const DISABLE_NON_NATIVE_MODULES = 'disable_non_native_modules';
-    const PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS = 'PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS';
     /** @deprecated this configuration is no longer used by update process */
     const PS_AUTOUP_CHANGE_DEFAULT_THEME = 'PS_AUTOUP_CHANGE_DEFAULT_THEME';
-    const PS_AUTOUP_REGEN_EMAIL = 'PS_AUTOUP_REGEN_EMAIL';
+
+    const PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS = 'PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS';
+    const DISABLE_NON_NATIVE_MODULES = 'disable_non_native_modules';
+    const REGENERATE_EMAIL_TEMPLATES = 'regenerate_email_templates';
     const PS_DISABLE_OVERRIDES = 'PS_DISABLE_OVERRIDES';
     const CHANNEL = 'channel';
     const UPDATE_TYPE = 'update_type';
@@ -52,7 +53,7 @@ class UpdateConfiguration extends AbstractConfiguration
         self::DISABLE_NON_NATIVE_MODULES,
         self::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS,
         self::PS_AUTOUP_CHANGE_DEFAULT_THEME,
-        self::PS_AUTOUP_REGEN_EMAIL,
+        self::REGENERATE_EMAIL_TEMPLATES,
         self::PS_DISABLE_OVERRIDES,
         self::CHANNEL,
         self::UPDATE_TYPE,
@@ -66,7 +67,7 @@ class UpdateConfiguration extends AbstractConfiguration
         self::DISABLE_NON_NATIVE_MODULES => true,
         self::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS => true,
         self::PS_AUTOUP_CHANGE_DEFAULT_THEME => false,
-        self::PS_AUTOUP_REGEN_EMAIL => true,
+        self::REGENERATE_EMAIL_TEMPLATES => true,
         self::BACKUP_COMPLETED => null,
         self::MAX_FILES_PER_CALL => 400,
     ];
@@ -188,7 +189,7 @@ class UpdateConfiguration extends AbstractConfiguration
      */
     public function shouldRegenerateMailTemplates(): bool
     {
-        return $this->computeBooleanConfiguration(self::PS_AUTOUP_REGEN_EMAIL);
+        return $this->computeBooleanConfiguration(self::REGENERATE_EMAIL_TEMPLATES);
     }
 
     /**

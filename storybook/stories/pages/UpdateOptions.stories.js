@@ -39,7 +39,7 @@ export const UpdateOptions = {
         value: true,
       },
       regenerate_email_templates: {
-        field: "PS_AUTOUP_REGEN_EMAIL",
+        field: "regenerate_email_templates",
         value: true,
       },
       disable_all_overrides: {
@@ -52,7 +52,7 @@ export const UpdateOptions = {
     form_route_to_save: "update-step-update-options-save-option",
     form_route_to_submit: "update-step-update-options-submit-form",
     error: {
-      PS_AUTOUP_REGEN_EMAIL:
+      regenerate_email_templates:
         "Example of an error that occured when switching the value!",
     },
     data_transparency_link:

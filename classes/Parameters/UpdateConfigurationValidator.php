@@ -41,7 +41,7 @@ class UpdateConfigurationValidator extends AbstractConfigurationValidator
                     $error = $this->validateArchiveXml($value, $isLocal);
                     break;
                 case UpdateConfiguration::DISABLE_NON_NATIVE_MODULES:
-                case UpdateConfiguration::PS_AUTOUP_REGEN_EMAIL:
+                case UpdateConfiguration::REGENERATE_EMAIL_TEMPLATES:
                 case UpdateConfiguration::PS_DISABLE_OVERRIDES:
                     $error = $this->validateBool($value, $key);
                     break;

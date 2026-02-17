@@ -53,13 +53,13 @@ class AnalyticsTest extends TestCase
         $configurationStorage = $this->container->getConfigurationStorage();
         $updateConfiguration = $configurationStorage->loadUpdateConfiguration();
         $updateConfiguration->merge([
-            UpgradeConfiguration::DISABLE_NON_NATIVE_MODULES => false,
-            UpgradeConfiguration::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS => true,
-            UpgradeConfiguration::PS_AUTOUP_CHANGE_DEFAULT_THEME => true,
-            UpgradeConfiguration::PS_AUTOUP_REGEN_EMAIL => true,
-            UpgradeConfiguration::CHANNEL => UpdateConfiguration::CHANNEL_LOCAL,
-            UpgradeConfiguration::ARCHIVE_ZIP => 'zip.zip',
-            UpgradeConfiguration::UPDATE_TYPE => 'patch',
+            UpdateConfiguration::DISABLE_NON_NATIVE_MODULES => false,
+            UpdateConfiguration::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS => true,
+            UpdateConfiguration::PS_AUTOUP_CHANGE_DEFAULT_THEME => true,
+            UpdateConfiguration::REGENERATE_EMAIL_TEMPLATES => true,
+            UpdateConfiguration::CHANNEL => UpdateConfiguration::CHANNEL_LOCAL,
+            UpdateConfiguration::ARCHIVE_ZIP => 'zip.zip',
+            UpdateConfiguration::UPDATE_TYPE => 'patch',
         ]);
         $configurationStorage->save($updateConfiguration);
 
