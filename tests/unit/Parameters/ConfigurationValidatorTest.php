@@ -114,26 +114,26 @@ class ConfigurationValidatorTest extends TestCase
         $validValues = ['1', '0', 'true', 'false', 'on', 'off', true, false];
 
         foreach ($validValues as $value) {
-            $result = $this->validator->validate([UpdateConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT => $value]);
+            $result = $this->validator->validate([UpdateConfiguration::DISABLE_NON_NATIVE_MODULES => $value]);
             $this->assertEmpty($result);
         }
     }
 
     public function testValidateBoolFail()
     {
-        $result = $this->validator->validate([UpdateConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT => 'toto']);
+        $result = $this->validator->validate([UpdateConfiguration::DISABLE_NON_NATIVE_MODULES => 'toto']);
         $this->assertEquals([
             [
-                'message' => 'Value must be a boolean for ' . UpdateConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT,
-                'target' => UpdateConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT,
+                'message' => 'Value must be a boolean for ' . UpdateConfiguration::DISABLE_NON_NATIVE_MODULES,
+                'target' => UpdateConfiguration::DISABLE_NON_NATIVE_MODULES,
             ],
         ], $result);
 
-        $result = $this->validator->validate([UpdateConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT => '']);
+        $result = $this->validator->validate([UpdateConfiguration::DISABLE_NON_NATIVE_MODULES => '']);
         $this->assertEquals([
             [
-                'message' => 'Value must be a boolean for ' . UpdateConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT,
-                'target' => UpdateConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT,
+                'message' => 'Value must be a boolean for ' . UpdateConfiguration::DISABLE_NON_NATIVE_MODULES,
+                'target' => UpdateConfiguration::DISABLE_NON_NATIVE_MODULES,
             ],
         ], $result);
     }

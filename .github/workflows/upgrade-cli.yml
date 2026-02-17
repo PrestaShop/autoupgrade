@@ -93,7 +93,7 @@ jobs:
             \"channel\":\"${{ matrix.UPGRADE_CHANNEL }}\",
             \"archive_zip\":\"prestashop_${{ matrix.PS_VERSION_END }}.zip\",
             \"archive_xml\":\"prestashop_${{ matrix.PS_VERSION_END }}.xml\",
-            \"PS_AUTOUP_CUSTOM_MOD_DESACT\":\"true\",
+            \"disable_non_native_modules\":\"true\",
             \"PS_AUTOUP_CHANGE_DEFAULT_THEME\":\"false\",
             \"PS_AUTOUP_KEEP_IMAGES\":\"true\",
             \"PS_DISABLE_OVERRIDES\":\"true\"

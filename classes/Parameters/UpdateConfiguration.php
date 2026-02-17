@@ -29,7 +29,7 @@ use Shop;
  */
 class UpdateConfiguration extends AbstractConfiguration
 {
-    const PS_AUTOUP_CUSTOM_MOD_DESACT = 'PS_AUTOUP_CUSTOM_MOD_DESACT';
+    const DISABLE_NON_NATIVE_MODULES = 'disable_non_native_modules';
     const PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS = 'PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS';
     const PS_AUTOUP_CHANGE_DEFAULT_THEME = 'PS_AUTOUP_CHANGE_DEFAULT_THEME';
     const PS_AUTOUP_REGEN_EMAIL = 'PS_AUTOUP_REGEN_EMAIL';
@@ -48,7 +48,7 @@ class UpdateConfiguration extends AbstractConfiguration
     const CHANNEL_LOCAL = 'local';
 
     const UPGRADE_CONST_KEYS = [
-        self::PS_AUTOUP_CUSTOM_MOD_DESACT,
+        self::DISABLE_NON_NATIVE_MODULES,
         self::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS,
         self::PS_AUTOUP_CHANGE_DEFAULT_THEME,
         self::PS_AUTOUP_REGEN_EMAIL,
@@ -62,7 +62,7 @@ class UpdateConfiguration extends AbstractConfiguration
     ];
 
     const DEFAULT_VALUES = [
-        self::PS_AUTOUP_CUSTOM_MOD_DESACT => true,
+        self::DISABLE_NON_NATIVE_MODULES => true,
         self::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS => true,
         self::PS_AUTOUP_CHANGE_DEFAULT_THEME => false,
         self::PS_AUTOUP_REGEN_EMAIL => true,
@@ -174,7 +174,7 @@ class UpdateConfiguration extends AbstractConfiguration
      */
     public function shouldDeactivateCustomModules(): bool
     {
-        return $this->computeBooleanConfiguration(self::PS_AUTOUP_CUSTOM_MOD_DESACT);
+        return $this->computeBooleanConfiguration(self::DISABLE_NON_NATIVE_MODULES);
     }
 
     public function shouldUninstallNonCompatibleModules(): bool

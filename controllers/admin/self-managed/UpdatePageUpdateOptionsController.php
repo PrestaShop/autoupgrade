@@ -58,7 +58,7 @@ class UpdatePageUpdateOptionsController extends AbstractPageWithStepController
         $updateConfiguration = $this->upgradeContainer->getUpdateConfiguration();
 
         $config = [
-            UpdateConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT => $this->request->request->getBoolean(UpdateConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT, false),
+            UpdateConfiguration::DISABLE_NON_NATIVE_MODULES => $this->request->request->getBoolean(UpdateConfiguration::DISABLE_NON_NATIVE_MODULES, false),
             UpdateConfiguration::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS => $this->request->request->getBoolean(UpdateConfiguration::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS, false),
             UpdateConfiguration::PS_AUTOUP_REGEN_EMAIL => $this->request->request->getBoolean(UpdateConfiguration::PS_AUTOUP_REGEN_EMAIL, false),
             UpdateConfiguration::PS_DISABLE_OVERRIDES => $this->request->request->getBoolean(UpdateConfiguration::PS_DISABLE_OVERRIDES, false),
@@ -107,7 +107,7 @@ class UpdatePageUpdateOptionsController extends AbstractPageWithStepController
                     'deactive_non_native_modules' => [
                         // Starting from v9.0.0, this field has no effect. Services are now loaded regardless of the module's state, so this setting is no longer relevant.
                         'visible' => version_compare('9.0.0', $this->upgradeContainer->getUpgrader()->getDestinationVersion(), '>'),
-                        'field' => UpdateConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT,
+                        'field' => UpdateConfiguration::DISABLE_NON_NATIVE_MODULES,
                         'value' => $updateConfiguration->shouldDeactivateCustomModules(),
                     ],
                     'uninstall_incompatible_modules' => [

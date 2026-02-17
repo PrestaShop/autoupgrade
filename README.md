@@ -157,7 +157,7 @@ Here is an example of the different fields that can be found in it:
   "channel": "local",
   "archive_zip": "prestashop_8.0.0.zip",
   "archive_xml": "prestashop_8.0.0.xml",
-  "PS_AUTOUP_CUSTOM_MOD_DESACT": 1,
+  "disable_non_native_modules": 1,
   "PS_AUTOUP_CHANGE_DEFAULT_THEME": 0,
   "PS_AUTOUP_REGEN_EMAIL": 1,
   "PS_AUTOUP_KEEP_IMAGES": 1,
@@ -216,7 +216,7 @@ impact.
 | `update:start`                                                      | `chain`                                       | `--chain`                      | `true` (default), `false`, `'true'`, `'false'`, `'1'`, `'0'`, `1`, `0`, `'on'`, `'off'` | True by default. Allows you to chain update commands automatically. The command will continue executing subsequent tasks without requiring manual intervention to restart the process. |
 | `update:start`, `update:check-requirements`, `update:check-modules` | `archive_zip`                                 | `--zip`                        | Valid file name                                                                         | Name of the `ZIP` file to use for an update via the archive channel. This file must be placed in `[your-admin-dir]/autoupgrade/download`.     |
 | `update:start`, `update:check-requirements`, `update:check-modules` | `archive_xml`                                 | `--xml`                        | Valid file name                                                                         | Name of the `XML` file corresponding to the ZIP file for the archive channel. Must also be placed in `[your-admin-dir]/autoupgrade/download`. |
-| `update:start`                                                      | `PS_AUTOUP_CUSTOM_MOD_DESACT`                 | `--disable-non-native-modules` | `true` (default), `false`, `'true'`, `'false'`, `'1'`, `'0'`, `1`, `0`, `'on'`, `'off'` | If enabled, disables all non-native modules before the update, reducing the risk of compatibility issues.                                     |
+| `update:start`                                                      | `disable_non_native_modules`                 | `--disable-non-native-modules` | `true` (default), `false`, `'true'`, `'false'`, `'1'`, `'0'`, `1`, `0`, `'on'`, `'off'` | If enabled, disables all non-native modules before the update, reducing the risk of compatibility issues.                                     |
 | `update:start`                                                      | (DEPRECATED) `PS_AUTOUP_CHANGE_DEFAULT_THEME` | no option available            | `true`, `false` (default), `'true'`, `'false'`, `'1'`, `'0'`, `1`, `0`, `'on'`, `'off'` | If enabled, forces the use of the default PrestaShop theme after the update. If disabled, retains the current theme.                          |
 | `update:start`                                                      | `PS_AUTOUP_REGEN_EMAIL`                       | `--regenerate-email-templates` | `true` (default), `false`, `'true'`, `'false'`, `'1'`, `'0'`, `1`, `0`, `'on'`, `'off'` | If enabled, keeps the store's customized email templates. Otherwise, the templates are replaced with the default ones.                        |
 | `update:start`                                                      | `PS_DISABLE_OVERRIDES`                        | `--disable-all-overrides`      | `true` (default), `false`, `'true'`, `'false'`, `'1'`, `'0'`, `1`, `0`, `'on'`, `'off'` | If enabled, disables all PHP overrides in PrestaShop, ensuring better compatibility during the update process.                                |
@@ -286,7 +286,7 @@ The following steps will be executed during the update:
 2. **Download**: Download the appropriate archive for your PHP version.
 3. **Unzip**: Unzip the downloaded archive.
 4. **DownloadModules**: Find and download the most up-to-date release available for each installed modules from local sources, composer or from the Prestashop marketplace. They will be applied after the store update.
-5. **UninstallModules**: Uninstall all modules that are not compatible with the updated version of PrestaShop. 
+5. **UninstallModules**: Uninstall all modules that are not compatible with the updated version of PrestaShop.
 6. **UpdateFiles**: Now the current content is saved, it can alter the store content. This step will run several time. The first call will initialize the files list, then the next ones will copy a part of this list.
 7. **UpdateDatabase**: This step runs all the update SQL files available for the destination version. Then, it will run some additional steps, such as cache deletion, language update…
 8. **UpdateModules**: This step updates the modules files and executes potential migrations.

@@ -182,7 +182,7 @@ class UpdateCommand extends AbstractCommand
             UpdateConfiguration::CHANNEL => 'channel',
             UpdateConfiguration::ARCHIVE_ZIP => 'zip',
             UpdateConfiguration::ARCHIVE_XML => 'xml',
-            UpdateConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT => 'disable-non-native-modules',
+            UpdateConfiguration::DISABLE_NON_NATIVE_MODULES => 'disable-non-native-modules',
             UpgradeConfiguration::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS => 'uninstall-incompatible-modules',
             UpdateConfiguration::PS_AUTOUP_REGEN_EMAIL => 'regenerate-email-templates',
             UpdateConfiguration::PS_DISABLE_OVERRIDES => 'disable-all-overrides',

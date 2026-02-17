@@ -35,7 +35,7 @@ export const UpdateOptions = {
     },
     form_fields: {
       deactive_non_native_modules: {
-        field: "PS_AUTOUP_CUSTOM_MOD_DESACT",
+        field: "disable_non_native_modules",
         value: true,
       },
       regenerate_email_templates: {

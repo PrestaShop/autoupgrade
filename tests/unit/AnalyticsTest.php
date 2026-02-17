@@ -53,11 +53,10 @@ class AnalyticsTest extends TestCase
         $configurationStorage = $this->container->getConfigurationStorage();
         $updateConfiguration = $configurationStorage->loadUpdateConfiguration();
         $updateConfiguration->merge([
-            UpgradeConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT => false,
+            UpgradeConfiguration::DISABLE_NON_NATIVE_MODULES => false,
             UpgradeConfiguration::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS => true,
             UpgradeConfiguration::PS_AUTOUP_CHANGE_DEFAULT_THEME => true,
             UpgradeConfiguration::PS_AUTOUP_REGEN_EMAIL => true,
-            UpgradeConfiguration::PS_AUTOUP_KEEP_IMAGES => false,
             UpgradeConfiguration::CHANNEL => UpdateConfiguration::CHANNEL_LOCAL,
             UpgradeConfiguration::ARCHIVE_ZIP => 'zip.zip',
             UpgradeConfiguration::UPDATE_TYPE => 'patch',
