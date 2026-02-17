@@ -51,7 +51,7 @@ class MarketplaceService
         $response = file_get_contents(self::ADDONS_API_URL . '/v2/products/' . $module);
 
         if (!$response) {
-            throw new MarketplaceApiException($this->translator->trans('Error when retrieving data from Distribution API'), MarketplaceApiException::API_NOT_CALLABLE_CODE);
+            throw new MarketplaceApiException($this->translator->trans('Error when retrieving data from Marketplace API'), MarketplaceApiException::API_NOT_CALLABLE_CODE);
         }
 
         $data = json_decode($response, true);

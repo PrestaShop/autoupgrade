@@ -134,7 +134,7 @@ class UninstallModules extends AbstractTask
                     $moduleDetails = $marketPlaceService->getModuleDetail($module['name']);
 
                     if ($moduleDetails === null) {
-                        throw new MarketplaceApiException($this->translator->trans('Unable to retrieve module %s information. Ignored.', [$module['name']]), MarketingApiException::EMPTY_DATA_CODE);
+                        throw new MarketplaceApiException($this->translator->trans('Unable to retrieve module %s information. Ignored.', [$module['name']]), MarketplaceApiException::EMPTY_DATA_CODE);
                     }
 
                     $moduleCompatibility = $marketPlaceService->findCompatibleModuleUpgrade(
