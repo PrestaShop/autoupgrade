@@ -42,7 +42,7 @@ class UpdateConfigurationValidator extends AbstractConfigurationValidator
                     break;
                 case UpdateConfiguration::DISABLE_NON_NATIVE_MODULES:
                 case UpdateConfiguration::REGENERATE_EMAIL_TEMPLATES:
-                case UpdateConfiguration::PS_DISABLE_OVERRIDES:
+                case UpdateConfiguration::DISABLE_OVERRIDES:
                     $error = $this->validateBool($value, $key);
                     break;
                 case UpdateConfiguration::MAX_FILES_PER_CALL:

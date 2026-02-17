@@ -63,8 +63,8 @@ class UpdateConfig extends AbstractTask
             if (!isset($configurationData[$key])) {
                 continue;
             }
-            // The PS_DISABLE_OVERRIDES variable must only be updated on the database side
-            if ($key === UpdateConfiguration::PS_DISABLE_OVERRIDES) {
+            // The DISABLE_OVERRIDES variable must only be updated on the database side
+            if ($key === UpdateConfiguration::DISABLE_OVERRIDES) {
                 UpdateConfiguration::updatePSDisableOverrides((bool) $configurationData[$key]);
             } else {
                 $config[$key] = $configurationData[$key];

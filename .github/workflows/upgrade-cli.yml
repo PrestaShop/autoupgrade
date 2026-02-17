@@ -96,7 +96,7 @@ jobs:
             \"disable_non_native_modules\":\"true\",
             \"PS_AUTOUP_CHANGE_DEFAULT_THEME\":\"false\",
             \"PS_AUTOUP_KEEP_IMAGES\":\"true\",
-            \"PS_DISABLE_OVERRIDES\":\"true\"
+            \"disable_overrides\":\"true\"
           }' > modules/autoupgrade/config.json"
 
       - name: Update online

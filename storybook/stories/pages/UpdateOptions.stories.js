@@ -43,7 +43,7 @@ export const UpdateOptions = {
         value: true,
       },
       disable_all_overrides: {
-        field: "PS_DISABLE_OVERRIDES",
+        field: "disable_overrides",
         value: false,
       },
     },

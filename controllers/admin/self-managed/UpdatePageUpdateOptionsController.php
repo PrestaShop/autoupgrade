@@ -61,7 +61,7 @@ class UpdatePageUpdateOptionsController extends AbstractPageWithStepController
             UpdateConfiguration::DISABLE_NON_NATIVE_MODULES => $this->request->request->getBoolean(UpdateConfiguration::DISABLE_NON_NATIVE_MODULES, false),
             UpdateConfiguration::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS => $this->request->request->getBoolean(UpdateConfiguration::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS, false),
             UpdateConfiguration::REGENERATE_EMAIL_TEMPLATES => $this->request->request->getBoolean(UpdateConfiguration::REGENERATE_EMAIL_TEMPLATES, false),
-            UpdateConfiguration::PS_DISABLE_OVERRIDES => $this->request->request->getBoolean(UpdateConfiguration::PS_DISABLE_OVERRIDES, false),
+            UpdateConfiguration::DISABLE_OVERRIDES => $this->request->request->getBoolean(UpdateConfiguration::DISABLE_OVERRIDES, false),
         ];
 
         $errors = $this->upgradeContainer->getConfigurationValidator()->validate($config);
@@ -69,7 +69,7 @@ class UpdatePageUpdateOptionsController extends AbstractPageWithStepController
         if (empty($errors)) {
             // One specific option requires the Core to store the value in database.
             $this->upgradeContainer->initPrestaShopCore();
-            UpdateConfiguration::updatePSDisableOverrides($config[UpdateConfiguration::PS_DISABLE_OVERRIDES]);
+            UpdateConfiguration::updatePSDisableOverrides($config[UpdateConfiguration::DISABLE_OVERRIDES]);
 
             $updateConfiguration->merge($config);
             $this->upgradeContainer->getConfigurationStorage()->save($updateConfiguration);
@@ -119,7 +119,7 @@ class UpdatePageUpdateOptionsController extends AbstractPageWithStepController
                         'value' => $updateConfiguration->shouldRegenerateMailTemplates(),
                     ],
                     'disable_all_overrides' => [
-                        'field' => UpdateConfiguration::PS_DISABLE_OVERRIDES,
+                        'field' => UpdateConfiguration::DISABLE_OVERRIDES,
                         'value' => !$updateConfiguration->isOverrideAllowed(),
                     ],
                 ],

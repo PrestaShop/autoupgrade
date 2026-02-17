@@ -185,7 +185,7 @@ class UpdateCommand extends AbstractCommand
             UpdateConfiguration::DISABLE_NON_NATIVE_MODULES => 'disable-non-native-modules',
             UpgradeConfiguration::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS => 'uninstall-incompatible-modules',
             UpdateConfiguration::REGENERATE_EMAIL_TEMPLATES => 'regenerate-email-templates',
-            UpdateConfiguration::PS_DISABLE_OVERRIDES => 'disable-all-overrides',
+            UpdateConfiguration::DISABLE_OVERRIDES => 'disable-all-overrides',
         ];
         foreach ($options as $configKey => $optionName) {
             $optionValue = $input->getOption($optionName);
