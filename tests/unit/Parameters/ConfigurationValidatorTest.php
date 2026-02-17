@@ -21,8 +21,8 @@
 namespace Parameters;
 
 use PHPUnit\Framework\TestCase;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfigurationValidator;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfiguration;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfigurationValidator;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 
 class ConfigurationValidatorTest extends TestCase
