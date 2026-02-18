@@ -51,25 +51,26 @@ jobs:
         env:
           PS_VERSION: ${{ env.PS_DOCKER }}
         run: |
-          docker compose -f "docker-compose.yml" up --build
+          docker compose -f "docker-compose.yml" up -d --build
           bash -c 'while [[ "$(curl -L -s -o /dev/null -w %{http_code} http://localhost/)" != "200" ]]; do sleep 5; done'
 
       - name: Composer install
         run: composer install
 
-      - name: Enable shop
-        run: |
-          docker exec -t prestashop-mysql mysql -uprestashop -pprestashop prestashop -e "UPDATE ps_configuration SET value=1 WHERE name='PS_SHOP_ENABLE';"
-
       - name: uninstall the module klaviyopsautomation
-        if: ${{ matrix.PS_VERSION_START != '8.0.1-classic' && matrix.PS_VERSION_START != '8.0.2-classic' && !startsWith(matrix.PS_VERSION_START, '9') }}
+        if: ${{ !startsWith(matrix.PS_VERSION_START, '8.0') && !startsWith(matrix.PS_VERSION_START, '9') }}
         run: |
           docker exec -t prestashop php bin/console prestashop:module uninstall klaviyopsautomation
 
       - name: uninstall the module ps_mbo
-        if: matrix.PS_VERSION_START == '8.1.0-classic' || matrix.PS_VERSION_START == '8.1.1-classic' || matrix.PS_VERSION_START == '8.1.2-classic'
+        if: startsWith(matrix.PS_VERSION_START, '8.1')
         run: |
           docker exec -t prestashop php bin/console prestashop:module uninstall ps_mbo
+
+      - name: uninstall the module ps_edition_basic
+        if: ${{ startsWith(matrix.PS_VERSION_START, '8.1') || startsWith(matrix.PS_VERSION_START, '8.2') }}
+        run: |
+          docker exec -t prestashop php bin/console prestashop:module uninstall ps_edition_basic
 
       - name: Backup
         run: |
