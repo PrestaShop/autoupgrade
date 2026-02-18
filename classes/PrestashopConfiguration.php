@@ -125,9 +125,9 @@ class PrestashopConfiguration
         );
     }
 
-    public function fillInUpdateConfiguration(UpdateConfiguration $upgradeConfiguration): void
+    public function fillInUpdateConfiguration(UpdateConfiguration $updateConfiguration): void
     {
-        $upgradeConfiguration->merge([
+        $updateConfiguration->merge([
             UpdateConfiguration::INSTALLED_LANGUAGES => $this->getInstalledLanguages(),
         ]);
     }
