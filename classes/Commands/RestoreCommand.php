@@ -76,9 +76,7 @@ class RestoreCommand extends AbstractBackupCommand
                 }
             }
 
-            if ($backup !== null) {
-                $this->consoleInputConfiguration[RestoreConfiguration::BACKUP_NAME] = $backup;
-            }
+            $this->consoleInputConfiguration[RestoreConfiguration::BACKUP_NAME] = $backup;
 
             $loader = new RestoreConfigurationLoader($this->upgradeContainer);
             $this->loadConfiguration($loader, $configPath);
