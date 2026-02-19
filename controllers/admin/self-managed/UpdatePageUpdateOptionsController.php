@@ -64,7 +64,7 @@ class UpdatePageUpdateOptionsController extends AbstractPageWithStepController
             UpdateConfiguration::DISABLE_OVERRIDES => $this->request->request->getBoolean(UpdateConfiguration::DISABLE_OVERRIDES, false),
         ];
 
-        $errors = $this->upgradeContainer->getConfigurationValidator()->validate($config);
+        $errors = $this->upgradeContainer->getUpdateConfigurationValidator()->validate($config);
 
         if (empty($errors)) {
             // One specific option requires the Core to store the value in database.

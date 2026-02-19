@@ -210,7 +210,7 @@ class UpdatePageVersionChoiceController extends AbstractPageWithStepController
 
         $this->upgradeContainer->initPrestaShopCore();
 
-        $errors = $this->upgradeContainer->getConfigurationValidator()->validate($requestConfig);
+        $errors = $this->upgradeContainer->getUpdateConfigurationValidator()->validate($requestConfig);
 
         if ($isLocal && empty($errors)) {
             $errors = $this->upgradeContainer->getLocalChannelConfigurationValidator()->validate($requestConfig);

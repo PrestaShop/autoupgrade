@@ -215,7 +215,7 @@ class UpgradeContainer
     private $assetsEnvironment;
 
     /** @var UpdateConfigurationValidator */
-    private $configurationValidator;
+    private $updateConfigurationValidator;
 
     /** @var LocalChannelConfigurationValidator */
     private $localChannelConfigurationValidator;
@@ -1004,15 +1004,15 @@ class UpgradeContainer
     /**
      * @throws Exception
      */
-    public function getConfigurationValidator(): UpdateConfigurationValidator
+    public function getUpdateConfigurationValidator(): UpdateConfigurationValidator
     {
-        if (null === $this->configurationValidator) {
-            $this->configurationValidator = new UpdateConfigurationValidator(
+        if (null === $this->updateConfigurationValidator) {
+            $this->updateConfigurationValidator = new UpdateConfigurationValidator(
                 $this->getTranslator()
             );
         }
 
-        return $this->configurationValidator;
+        return $this->updateConfigurationValidator;
     }
 
     /**
