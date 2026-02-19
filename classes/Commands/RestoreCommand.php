@@ -23,6 +23,7 @@ namespace PrestaShop\Module\AutoUpgrade\Commands;
 
 use Exception;
 use InvalidArgumentException;
+use PrestaShop\Module\AutoUpgrade\Commands\Loader\RestoreConfigurationLoader;
 use PrestaShop\Module\AutoUpgrade\DocumentationLinks;
 use PrestaShop\Module\AutoUpgrade\Parameters\RestoreConfiguration;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
@@ -49,6 +50,7 @@ class RestoreCommand extends AbstractBackupCommand
                 'See https://devdocs.prestashop-project.org/8/basics/keeping-up-to-date/upgrade-module/upgrade-cli/#rollback-cli for more details'
             )
             ->addArgument('admin-dir', InputArgument::REQUIRED, 'The admin directory name.')
+            ->addOption('config-file-path', null, InputOption::VALUE_REQUIRED, 'Configuration file location.')
             ->addOption('backup', null, InputOption::VALUE_REQUIRED, 'Specify the backup name to restore (this can be found in your folder <admin directory>/autoupgrade/backup/)');
     }
 
@@ -59,7 +61,7 @@ class RestoreCommand extends AbstractBackupCommand
     {
         try {
             $this->setupEnvironment($input, $output);
-
+            $configPath = $input->getOption('config-file-path');
             $backup = $input->getOption('backup');
 
             if (!$backup) {
@@ -73,10 +75,15 @@ class RestoreCommand extends AbstractBackupCommand
                     return ExitCode::SUCCESS;
                 }
             }
+
+            if ($backup !== null) {
+                $this->consoleInputConfiguration[RestoreConfiguration::BACKUP_NAME] = $backup;
+            }
+
+            $loader = new RestoreConfigurationLoader($this->upgradeContainer);
+            $this->loadConfiguration($loader, $configPath);
+
             $controller = new AllRestoreTasks($this->upgradeContainer);
-            $controller->setOptions([
-                RestoreConfiguration::BACKUP_NAME => $backup,
-            ]);
             $controller->init();
             $exitCode = $controller->run();
 

@@ -22,6 +22,7 @@
 namespace PrestaShop\Module\AutoUpgrade\Commands;
 
 use Exception;
+use PrestaShop\Module\AutoUpgrade\Commands\Loader\BackupConfigurationLoader;
 use PrestaShop\Module\AutoUpgrade\Parameters\BackupConfiguration;
 use PrestaShop\Module\AutoUpgrade\Task\Runner\AllBackupTasks;
 use Symfony\Component\Console\Input\InputArgument;
@@ -58,7 +59,8 @@ class CreateBackupCommand extends AbstractCommand
                 $this->consoleInputConfiguration[BackupConfiguration::KEEP_IMAGES] = $includeImage;
             }
 
-            $this->loadConfiguration($configPath);
+            $loader = new BackupConfigurationLoader($this->upgradeContainer, $this->logger, $this->upgradeContainer->getTranslator());
+            $this->loadConfiguration($loader, $configPath);
 
             $controller = new AllBackupTasks($this->upgradeContainer);
             $controller->init();

@@ -55,10 +55,6 @@ class TaskRepository
     public static function get(string $step, UpgradeContainer $container): AbstractTask
     {
         switch ($step) {
-            // MISCELLANEOUS (upgrade configuration, checks etc.)
-            case TaskName::TASK_UPDATE_CONFIG:
-                return new UpdateConfig($container);
-
             // RESTORE
             case TaskName::TASK_RESTORE_INITIALIZATION:
                 return new RestoreInitialization($container);

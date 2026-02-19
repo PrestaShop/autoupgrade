@@ -50,7 +50,4 @@ class TaskName
     const TASK_UPDATE_MODULES = 'UpdateModules';
     const TASK_CLEAN_DATABASE = 'CleanDatabase';
     const TASK_UPDATE_COMPLETE = 'UpdateComplete';
-
-    // MISC
-    const TASK_UPDATE_CONFIG = 'UpdateConfig';
 }

@@ -23,6 +23,7 @@ namespace PrestaShop\Module\AutoUpgrade\Commands;
 
 use Exception;
 use InvalidArgumentException;
+use PrestaShop\Module\AutoUpgrade\Commands\Loader\UpdateConfigurationLoader;
 use PrestaShop\Module\AutoUpgrade\DocumentationLinks;
 use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
 use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
@@ -96,8 +97,8 @@ class UpdateCommand extends AbstractCommand
                 $this->processConsoleInputConfiguration($input);
 
                 $configPath = $input->getOption('config-file-path');
-                $exitCode = $this->loadConfiguration($configPath);
-
+                $loader = new UpdateConfigurationLoader($this->upgradeContainer, $this->logger, $this->upgradeContainer->getTranslator());
+                $exitCode = $this->loadConfiguration($loader, $configPath);
                 if ($exitCode !== ExitCode::SUCCESS) {
                     return $exitCode;
                 }
