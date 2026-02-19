@@ -21,7 +21,6 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Commands\Loader;
 
-use Exception;
 use PrestaShop\Module\AutoUpgrade\Parameters\BackupConfiguration;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\Task\TaskType;
