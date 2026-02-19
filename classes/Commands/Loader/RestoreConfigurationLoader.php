@@ -60,10 +60,4 @@ class RestoreConfigurationLoader extends AbstractConfigurationLoader
 
         return $this->writeConfig($config);
     }
-
-    /**
-     * @param array<string, mixed> $config
-     *
-     * @throws Exception
-     */
 }

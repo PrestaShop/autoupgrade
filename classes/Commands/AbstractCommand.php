@@ -23,8 +23,8 @@ namespace PrestaShop\Module\AutoUpgrade\Commands;
 
 use Exception;
 use InvalidArgumentException;
-use PrestaShop\Module\AutoUpgrade\ErrorHandler;
 use PrestaShop\Module\AutoUpgrade\Commands\Loader\AbstractConfigurationLoader;
+use PrestaShop\Module\AutoUpgrade\ErrorHandler;
 use PrestaShop\Module\AutoUpgrade\Log\CliLogger;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
@@ -95,9 +95,6 @@ abstract class AbstractCommand extends Command
         $this->upgradeContainer->getWorkspace()->init($moduleDir);
     }
 
-    /**
-     * @throws Exception
-     */
     /**
      * @throws Exception
      */
