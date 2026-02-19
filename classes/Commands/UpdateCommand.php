@@ -97,7 +97,7 @@ class UpdateCommand extends AbstractCommand
                 $this->processConsoleInputConfiguration($input);
 
                 $configPath = $input->getOption('config-file-path');
-                $loader = new UpdateConfigurationLoader($this->upgradeContainer, $this->logger, $this->upgradeContainer->getTranslator());
+                $loader = new UpdateConfigurationLoader($this->upgradeContainer);
                 $exitCode = $this->loadConfiguration($loader, $configPath);
                 if ($exitCode !== ExitCode::SUCCESS) {
                     return $exitCode;

@@ -59,7 +59,7 @@ class CreateBackupCommand extends AbstractCommand
                 $this->consoleInputConfiguration[BackupConfiguration::KEEP_IMAGES] = $includeImage;
             }
 
-            $loader = new BackupConfigurationLoader($this->upgradeContainer, $this->logger, $this->upgradeContainer->getTranslator());
+            $loader = new BackupConfigurationLoader($this->upgradeContainer);
             $this->loadConfiguration($loader, $configPath);
 
             $controller = new AllBackupTasks($this->upgradeContainer);

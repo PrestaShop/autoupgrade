@@ -130,13 +130,11 @@ abstract class AbstractConfigurationLoader
                     break;
             }
 
-            if ($this->container->getAnalytics()) {
-                $this->container->getAnalytics()->track(
-                    ucfirst(static::TASK_TYPE) . ' Failed',
-                    $propertiesType,
-                    ['failing_step' => (new \ReflectionClass($this))->getShortName()]
-                );
-            }
+            $this->container->getAnalytics()->track(
+                ucfirst(static::TASK_TYPE) . ' Failed',
+                $propertiesType,
+                ['failing_step' => (new \ReflectionClass($this))->getShortName()]
+            );
         }
     }
 }
