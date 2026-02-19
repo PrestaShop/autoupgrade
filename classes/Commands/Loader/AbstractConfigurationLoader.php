@@ -77,34 +77,35 @@ abstract class AbstractConfigurationLoader
      */
     protected function writeConfig(array $config): int
     {
-        $configurationStorage = $this->container->getConfigurationStorage();
-        $classConfig = null;
+        if (static::TASK_TYPE) {
+            $configurationStorage = $this->container->getConfigurationStorage();
+            $classConfig = null;
 
-        switch (static::TASK_TYPE) {
-            case TaskType::TASK_TYPE_UPDATE:
-                $classConfig = $this->container->getUpdateConfiguration();
-                break;
-            case TaskType::TASK_TYPE_BACKUP:
-                $classConfig = $this->container->getBackupConfiguration();
-                break;
-            case TaskType::TASK_TYPE_RESTORE:
-                $classConfig = $this->container->getRestoreConfiguration();
-                break;
-            default:
-                throw new Exception('Unknown task type');
-        }
+            switch (static::TASK_TYPE) {
+                case TaskType::TASK_TYPE_UPDATE:
+                    $classConfig = $this->container->getUpdateConfiguration();
+                    break;
+                case TaskType::TASK_TYPE_BACKUP:
+                    $classConfig = $this->container->getBackupConfiguration();
+                    break;
+                case TaskType::TASK_TYPE_RESTORE:
+                    $classConfig = $this->container->getRestoreConfiguration();
+                    break;
+                default:
+            }
 
-        $classConfig->merge($config);
+            $classConfig->merge($config);
 
-        $this->logger->info($this->translator->trans('Configuration successfully updated.'));
-        $this->logger->debug('Configuration update: ' . json_encode($classConfig->toArray(), JSON_PRETTY_PRINT));
+            $this->logger->info($this->translator->trans('Configuration successfully updated.'));
+            $this->logger->debug('Configuration update: ' . json_encode($classConfig->toArray(), JSON_PRETTY_PRINT));
 
-        if (!$configurationStorage->save($classConfig)) {
-            $errorMessage = $this->translator->trans('Error on saving configuration');
-            $this->logger->error($errorMessage);
-            $this->setErrorFlag();
+            if (!$configurationStorage->save($classConfig)) {
+                $errorMessage = $this->translator->trans('Error on saving configuration');
+                $this->logger->error($errorMessage);
+                $this->setErrorFlag();
 
-            return ExitCode::FAIL;
+                return ExitCode::FAIL;
+            }
         }
 
         return ExitCode::SUCCESS;
@@ -128,6 +129,7 @@ abstract class AbstractConfigurationLoader
                 case TaskType::TASK_TYPE_RESTORE:
                     $propertiesType = Analytics::WITH_RESTORE_PROPERTIES;
                     break;
+                default:
             }
 
             $this->container->getAnalytics()->track(
