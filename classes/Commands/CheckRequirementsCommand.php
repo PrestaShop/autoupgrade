@@ -22,7 +22,6 @@
 namespace PrestaShop\Module\AutoUpgrade\Commands;
 
 use Exception;
-use PrestaShop\Module\AutoUpgrade\Commands\Loader\UpdateConfigurationLoader;
 use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
 use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfiguration;

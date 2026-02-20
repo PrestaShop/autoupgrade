@@ -25,6 +25,9 @@ use Exception;
 use InvalidArgumentException;
 use PrestaShop\Module\AutoUpgrade\Backup\BackupFinder;
 use PrestaShop\Module\AutoUpgrade\Backup\BackupManager;
+use PrestaShop\Module\AutoUpgrade\Commands\Loader\BackupConfigurationLoader;
+use PrestaShop\Module\AutoUpgrade\Commands\Loader\RestoreConfigurationLoader;
+use PrestaShop\Module\AutoUpgrade\Commands\Loader\UpdateConfigurationLoader;
 use PrestaShop\Module\AutoUpgrade\Environment as UpdateEnvironment;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
 use PrestaShop\Module\AutoUpgrade\Log\WebLogger;
@@ -86,9 +89,6 @@ use Twig\Error\LoaderError;
 use Twig\Loader\FilesystemLoader;
 use Twig_Environment;
 use Twig_Loader_Filesystem;
-use PrestaShop\Module\AutoUpgrade\Commands\Loader\UpdateConfigurationLoader;
-use PrestaShop\Module\AutoUpgrade\Commands\Loader\BackupConfigurationLoader;
-use PrestaShop\Module\AutoUpgrade\Commands\Loader\RestoreConfigurationLoader;
 
 /**
  * Class responsible of the easy (& Lazy) loading of the different services

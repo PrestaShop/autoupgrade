@@ -23,7 +23,6 @@ namespace PrestaShop\Module\AutoUpgrade\Commands;
 
 use Exception;
 use InvalidArgumentException;
-use PrestaShop\Module\AutoUpgrade\Commands\Loader\RestoreConfigurationLoader;
 use PrestaShop\Module\AutoUpgrade\DocumentationLinks;
 use PrestaShop\Module\AutoUpgrade\Parameters\RestoreConfiguration;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;

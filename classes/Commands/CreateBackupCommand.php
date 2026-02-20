@@ -22,7 +22,6 @@
 namespace PrestaShop\Module\AutoUpgrade\Commands;
 
 use Exception;
-use PrestaShop\Module\AutoUpgrade\Commands\Loader\BackupConfigurationLoader;
 use PrestaShop\Module\AutoUpgrade\Parameters\BackupConfiguration;
 use PrestaShop\Module\AutoUpgrade\Task\Runner\AllBackupTasks;
 use Symfony\Component\Console\Input\InputArgument;
