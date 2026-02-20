@@ -44,7 +44,7 @@ class CreateBackupCommand extends AbstractCommand
             ->addOption('include-images', null, InputOption::VALUE_REQUIRED, 'Include, or not, images in the store backup.')
             ->addOption('max-files-per-call', null, InputOption::VALUE_REQUIRED, 'Number of files to handle in a single call to avoid timeouts')
             ->addOption('max-file-size', null, InputOption::VALUE_REQUIRED, 'Max file size allowed in backup')
-            ->addOption('max-sql-size-to-write-per-call', null, InputOption::VALUE_REQUIRED, 'Kind of reference for SQL file creation, giving a file size before another request is needed')
+            ->addOption('max-sql-size', null, InputOption::VALUE_REQUIRED, 'Reference for SQL file creation, giving a file size before another request is needed')
             ->addArgument('admin-dir', InputArgument::REQUIRED, 'The admin directory name.');
     }
 
@@ -56,11 +56,13 @@ class CreateBackupCommand extends AbstractCommand
         try {
             $this->setupEnvironment($input, $output);
             $configPath = $input->getOption('config-file-path');
-            $includeImage = $input->getOption('include-images');
 
-            if ($includeImage !== null) {
-                $this->consoleInputConfiguration[BackupConfiguration::KEEP_IMAGES] = $includeImage;
-            }
+            $this->processConsoleInputConfiguration($input, [
+                BackupConfiguration::KEEP_IMAGES => 'include-images',
+                BackupConfiguration::MAX_FILES_PER_CALL => 'max-files-per-call',
+                BackupConfiguration::MAX_FILE_SIZE => 'max-file-size',
+                BackupConfiguration::MAX_SQL_SIZE_TO_WRITE_PER_CALL => 'max-sql-size',
+            ]);
 
             $loader = new BackupConfigurationLoader($this->upgradeContainer);
             $this->loadConfiguration($loader, $configPath);

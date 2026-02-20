@@ -136,4 +136,18 @@ abstract class AbstractCommand extends Command
 
         return ExitCode::SUCCESS;
     }
+
+    /**
+     * @param InputInterface $input
+     * @param array<string, string> $options
+     */
+    protected function processConsoleInputConfiguration(InputInterface $input, array $options): void
+    {
+        foreach ($options as $configKey => $optionName) {
+            $optionValue = $input->getOption($optionName);
+            if ($optionValue !== null) {
+                $this->consoleInputConfiguration[$configKey] = $optionValue;
+            }
+        }
+    }
 }
