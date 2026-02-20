@@ -102,7 +102,7 @@ class BackupConfigurationLoaderTest extends TestCase
 
         $backupConfigurationValidatorMock = $this->getMockBuilder(BackupConfigurationValidator::class)->disableOriginalConstructor()->getMock();
         $backupConfigurationValidatorMock->expects($this->once())->method('validate')->willReturn([
-            ['message' => 'Invalid choice']
+            ['message' => 'Invalid choice'],
         ]);
         $this->upgradeContainerMock->method('getBackupConfigurationValidator')->willReturn($backupConfigurationValidatorMock);
 

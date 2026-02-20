@@ -165,7 +165,6 @@ class UpdateConfigurationLoaderTest extends TestCase
             ->getMock();
         $this->upgradeContainerMock->method('getConfigurationStorage')->willReturn($configurationStorageMock);
 
-
         $inputOptions = [
             'invalid_key' => 'value',
             UpdateConfiguration::CHANNEL => UpdateConfiguration::CHANNEL_MINOR, // A valid key
@@ -270,7 +269,7 @@ class UpdateConfigurationLoaderTest extends TestCase
 
         $updateConfigurationValidatorMock = $this->getMockBuilder(UpdateConfigurationValidator::class)->disableOriginalConstructor()->getMock();
         $updateConfigurationValidatorMock->expects($this->once())->method('validate')->willReturn([
-            ['message' => 'Invalid channel selected.']
+            ['message' => 'Invalid channel selected.'],
         ]);
         $this->upgradeContainerMock->method('getUpdateConfigurationValidator')->willReturn($updateConfigurationValidatorMock);
 

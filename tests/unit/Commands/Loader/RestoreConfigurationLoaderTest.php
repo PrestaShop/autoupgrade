@@ -102,7 +102,7 @@ class RestoreConfigurationLoaderTest extends TestCase
 
         $restoreConfigurationValidatorMock = $this->getMockBuilder(RestoreConfigurationValidator::class)->disableOriginalConstructor()->getMock();
         $restoreConfigurationValidatorMock->expects($this->once())->method('validate')->willReturn([
-            ['message' => 'Invalid choice']
+            ['message' => 'Invalid choice'],
         ]);
         $this->upgradeContainerMock->method('getRestoreConfigurationValidator')->willReturn($restoreConfigurationValidatorMock);
 
