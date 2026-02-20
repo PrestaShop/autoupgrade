@@ -25,7 +25,7 @@ namespace PrestaShop\Module\AutoUpgrade\Parameters;
  */
 class RestoreConfiguration extends AbstractConfiguration
 {
-    const BACKUP_NAME = 'BACKUP_NAME';
+    const BACKUP_NAME = 'backup_name';
     const SECONDS_PER_CALL = 'seconds_per_call';
 
     const RESTORE_CONST_KEYS = [
