@@ -64,7 +64,7 @@ class CreateBackupCommand extends AbstractCommand
                 BackupConfiguration::MAX_SQL_SIZE_TO_WRITE_PER_CALL => 'max-sql-size',
             ]);
 
-            $loader = new BackupConfigurationLoader($this->upgradeContainer);
+            $loader = $this->upgradeContainer->getBackupConfigurationLoader();
             $this->loadConfiguration($loader, $configPath);
 
             $controller = new AllBackupTasks($this->upgradeContainer);

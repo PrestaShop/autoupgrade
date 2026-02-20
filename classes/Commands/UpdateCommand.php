@@ -106,7 +106,7 @@ class UpdateCommand extends AbstractCommand
                     UpdateConfiguration::MAX_FILES_PER_CALL => 'max-files-per-call',
                 ]);
                 $configPath = $input->getOption('config-file-path');
-                $loader = new UpdateConfigurationLoader($this->upgradeContainer);
+                $loader = $this->upgradeContainer->getUpdateConfigurationLoader();
                 $exitCode = $this->loadConfiguration($loader, $configPath);
                 if ($exitCode !== ExitCode::SUCCESS) {
                     return $exitCode;

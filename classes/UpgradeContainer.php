@@ -86,6 +86,9 @@ use Twig\Error\LoaderError;
 use Twig\Loader\FilesystemLoader;
 use Twig_Environment;
 use Twig_Loader_Filesystem;
+use PrestaShop\Module\AutoUpgrade\Commands\Loader\UpdateConfigurationLoader;
+use PrestaShop\Module\AutoUpgrade\Commands\Loader\BackupConfigurationLoader;
+use PrestaShop\Module\AutoUpgrade\Commands\Loader\RestoreConfigurationLoader;
 
 /**
  * Class responsible of the easy (& Lazy) loading of the different services
@@ -154,11 +157,20 @@ class UpgradeContainer
     /** @var UpdateConfiguration */
     private $updateConfiguration;
 
+    /** @var UpdateConfigurationLoader */
+    private $updateConfigurationLoader;
+
     /** @var BackupConfiguration */
     private $backupConfiguration;
 
+    /** @var BackupConfigurationLoader */
+    private $backupConfigurationLoader;
+
     /** @var RestoreConfiguration */
     private $restoreConfiguration;
+
+    /** @var RestoreConfigurationLoader */
+    private $restoreConfigurationLoader;
 
     /** @var LanguageConfiguration */
     private $languageConfiguration;
@@ -833,6 +845,18 @@ class UpgradeContainer
     /**
      * @throws Exception
      */
+    public function getUpdateConfigurationLoader(): UpdateConfigurationLoader
+    {
+        if (null === $this->updateConfigurationLoader) {
+            $this->updateConfigurationLoader = new UpdateConfigurationLoader($this, $this->getLogger(), $this->getTranslator());
+        }
+
+        return $this->updateConfigurationLoader;
+    }
+
+    /**
+     * @throws Exception
+     */
     public function getBackupConfiguration(): BackupConfiguration
     {
         if (null === $this->backupConfiguration) {
@@ -845,6 +869,18 @@ class UpgradeContainer
     /**
      * @throws Exception
      */
+    public function getBackupConfigurationLoader(): BackupConfigurationLoader
+    {
+        if (null === $this->backupConfigurationLoader) {
+            $this->backupConfigurationLoader = new BackupConfigurationLoader($this, $this->getLogger(), $this->getTranslator());
+        }
+
+        return $this->backupConfigurationLoader;
+    }
+
+    /**
+     * @throws Exception
+     */
     public function getRestoreConfiguration(): RestoreConfiguration
     {
         if (null === $this->restoreConfiguration) {
@@ -852,6 +888,18 @@ class UpgradeContainer
         }
 
         return $this->restoreConfiguration;
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getRestoreConfigurationLoader(): RestoreConfigurationLoader
+    {
+        if (null === $this->restoreConfigurationLoader) {
+            $this->restoreConfigurationLoader = new RestoreConfigurationLoader($this, $this->getLogger(), $this->getTranslator());
+        }
+
+        return $this->restoreConfigurationLoader;
     }
 
     public function getUpdateNotificationService(): UpdateNotificationService

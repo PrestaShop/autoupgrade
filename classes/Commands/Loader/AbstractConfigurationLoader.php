@@ -45,14 +45,11 @@ abstract class AbstractConfigurationLoader
      */
     const TASK_TYPE = null;
 
-    /**
-     * @throws Exception
-     */
-    public function __construct(UpgradeContainer $container)
+    public function __construct(UpgradeContainer $container, Logger $logger, Translator $translator)
     {
         $this->container = $container;
-        $this->logger = $this->container->getLogger();
-        $this->translator = $this->container->getTranslator();
+        $this->logger = $logger;
+        $this->translator = $translator;
     }
 
     /**
@@ -91,7 +88,6 @@ abstract class AbstractConfigurationLoader
                 case TaskType::TASK_TYPE_RESTORE:
                     $classConfig = $this->container->getRestoreConfiguration();
                     break;
-                default:
             }
 
             $classConfig->merge($config);
@@ -129,7 +125,6 @@ abstract class AbstractConfigurationLoader
                 case TaskType::TASK_TYPE_RESTORE:
                     $propertiesType = Analytics::WITH_RESTORE_PROPERTIES;
                     break;
-                default:
             }
 
             $this->container->getAnalytics()->track(

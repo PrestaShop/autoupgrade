@@ -84,7 +84,7 @@ class RestoreCommand extends AbstractBackupCommand
                 $this->consoleInputConfiguration[RestoreConfiguration::SECONDS_PER_CALL] = $secondsPerCall;
             }
 
-            $loader = new RestoreConfigurationLoader($this->upgradeContainer);
+            $loader = $this->upgradeContainer->getRestoreConfigurationLoader();
             $this->loadConfiguration($loader, $configPath);
 
             $controller = new AllRestoreTasks($this->upgradeContainer);
