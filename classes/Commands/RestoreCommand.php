@@ -51,7 +51,8 @@ class RestoreCommand extends AbstractBackupCommand
             )
             ->addArgument('admin-dir', InputArgument::REQUIRED, 'The admin directory name.')
             ->addOption('config-file-path', null, InputOption::VALUE_REQUIRED, 'Configuration file location.')
-            ->addOption('backup', null, InputOption::VALUE_REQUIRED, 'Specify the backup name to restore (this can be found in your folder <admin directory>/autoupgrade/backup/)');
+            ->addOption('backup', null, InputOption::VALUE_REQUIRED, 'Specify the backup name to restore (this can be found in your folder <admin directory>/autoupgrade/backup/)')
+            ->addOption('seconds-per-call', null, InputOption::VALUE_REQUIRED, 'Number of seconds allowed before having to make another request');
     }
 
     /**
@@ -77,6 +78,11 @@ class RestoreCommand extends AbstractBackupCommand
             }
 
             $this->consoleInputConfiguration[RestoreConfiguration::BACKUP_NAME] = $backup;
+
+            $secondsPerCall = $input->getOption('seconds-per-call');
+            if ($secondsPerCall) {
+                $this->consoleInputConfiguration[RestoreConfiguration::SECONDS_PER_CALL] = $secondsPerCall;
+            }
 
             $loader = new RestoreConfigurationLoader($this->upgradeContainer);
             $this->loadConfiguration($loader, $configPath);
