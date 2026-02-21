@@ -870,7 +870,7 @@
       <trans-unit id="435d516735dbf7f622c7d14585f66840" approved="yes">
         <source>Action %s skipped</source>
         <target state="final">Acción %s omitida</target>
-        <note>classes/Task/AbstractTask.php:203</note>
+        <note>classes/Task/AbstractTask.php:205</note>
       </trans-unit>
       <trans-unit id="30da45f850d1f1a2b42f215836382f19" approved="yes">
         <source>Database restoration done.</source>
