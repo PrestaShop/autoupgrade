@@ -1,3 +1,6 @@
+SET SESSION sql_mode='';
+SET NAMES 'utf8mb4';
+
 -- https://github.com/PrestaShop/PrestaShop/pull/40224
 INSERT INTO `PREFIX_feature_flag` (`name`, `type`, `label_wording`, `label_domain`, `description_wording`, `description_domain`, `state`, `stability`) VALUES
   ('improved_b2b', 'env,dotenv,db', 'Improved B2B', 'Admin.Advparameters.Feature', 'Enable / Disable the improved B2B mode. To use the feature activate the B2B mode in General Settings', 'Admin.Advparameters.Help', 0, 'beta');
@@ -108,6 +111,9 @@ CREATE TABLE IF NOT EXISTS `PREFIX_b2b_role_authorization_role` (
   KEY `b2b_role_authorization_role_role_idx` (`id_role`),
   KEY `b2b_role_authorization_role_auth_role_idx` (`id_authorization_role`)
 ) ENGINE=ENGINE_TYPE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Change date_to field to make it nullable in cart_rule, see https://github.com/PrestaShop/PrestaShop/pull/40867
+ALTER TABLE `PREFIX_cart_rule` CHANGE `date_to` `date_to` datetime DEFAULT NULL;
 
 -- https://github.com/PrestaShop/PrestaShop/pull/41028
 /* PHP:ps_920_business_entities_tabs(); */;
