@@ -145,8 +145,7 @@ CREATE TABLE `PREFIX_business_entity`
     INDEX                      `business_entity_enterprise_id_idx` (`enterprise_id`),
     INDEX                      `business_entity_external_ref_idx` (`external_ref`),
     PRIMARY KEY (`id_business_entity`)
-) ENGINE = ENGINE_TYPE
-  DEFAULT CHARSET = utf8mb4 COLLATION;
+) ENGINE=ENGINE_TYPE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `PREFIX_customer_b2b`
 (
@@ -158,8 +157,7 @@ CREATE TABLE `PREFIX_customer_b2b`
     `updated_at`      DATETIME NOT NULL,
     UNIQUE INDEX `uniq_customer_b2b_customer` (`id_customer`),
     PRIMARY KEY (`id_customer_b2b`)
-) ENGINE = ENGINE_TYPE
-  DEFAULT CHARSET = utf8mb4 COLLATION;
+) ENGINE=ENGINE_TYPE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `PREFIX_business_entity_customer_b2b`
 (
@@ -174,8 +172,7 @@ CREATE TABLE `PREFIX_business_entity_customer_b2b`
     INDEX                             `business_entity_customer_b2b_customer_idx` (`id_customer_b2b`),
     INDEX                             `business_entity_customer_b2b_role_idx` (`id_role_b2b`),
     PRIMARY KEY (`id_business_entity_customer_b2b`)
-) ENGINE = ENGINE_TYPE
-  DEFAULT CHARSET = utf8mb4 COLLATION;
+) ENGINE=ENGINE_TYPE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `PREFIX_business_entity_identifier`
 (
@@ -188,8 +185,7 @@ CREATE TABLE `PREFIX_business_entity_identifier`
     INDEX                `business_entity_identifier_id_business_identifier_idx` (`id_business_identifier`),
     INDEX                `business_entity_identifier_value_idx` (`value`),
     PRIMARY KEY (`id_identifier`)
-) ENGINE = ENGINE_TYPE
-  DEFAULT CHARSET = utf8mb4 COLLATION;
+) ENGINE=ENGINE_TYPE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `PREFIX_business_identifier`
 (
@@ -197,8 +193,7 @@ CREATE TABLE `PREFIX_business_identifier`
     `unremovable`    TINYINT(1)                                 NOT NULL DEFAULT 0,
     `deleted`        TINYINT(1)                                 NOT NULL DEFAULT 0,
     PRIMARY KEY (`id_business_identifier`)
-) ENGINE = ENGINE_TYPE
-  DEFAULT CHARSET = utf8mb4 COLLATION;
+) ENGINE=ENGINE_TYPE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `PREFIX_business_entity_address`
 (
@@ -207,8 +202,7 @@ CREATE TABLE `PREFIX_business_entity_address`
     `address_type`       ENUM ('both','invoice','delivery') NOT NULL DEFAULT 'both',
     PRIMARY KEY (`id_business_entity`, `id_address`),
     INDEX                `business_entity_address_address_idx` (`id_address`)
-) ENGINE = ENGINE_TYPE
-  DEFAULT CHARSET = utf8mb4 COLLATION;
+) ENGINE=ENGINE_TYPE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `PREFIX_b2b_role`
 (
@@ -216,8 +210,7 @@ CREATE TABLE `PREFIX_b2b_role`
     `role`    VARCHAR(64) NOT NULL,
     UNIQUE INDEX `uniq_b2b_role` (`role`),
     PRIMARY KEY (`id_role`)
-) ENGINE = ENGINE_TYPE
-  DEFAULT CHARSET = utf8mb4 COLLATION;
+) ENGINE=ENGINE_TYPE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `PREFIX_b2b_role_authorization_role`
 (
@@ -226,5 +219,4 @@ CREATE TABLE `PREFIX_b2b_role_authorization_role`
     PRIMARY KEY (`id_role`, `id_authorization_role`),
     INDEX                   `b2b_role_authorization_role_role_idx` (`id_role`),
     INDEX                   `b2b_role_authorization_role_auth_role_idx` (`id_authorization_role`)
-) ENGINE = ENGINE_TYPE
-  DEFAULT CHARSET = utf8mb4 COLLATION;
+) ENGINE=ENGINE_TYPE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
