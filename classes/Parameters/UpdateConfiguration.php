@@ -46,7 +46,7 @@ class UpdateConfiguration extends AbstractConfiguration
     const ARCHIVE_VERSION_NUM = 'archive_version_num';
     const BACKUP_COMPLETED = 'backup_completed';
     const INSTALLED_LANGUAGES = 'installed_languages';
-    const MAX_FILES_PER_CALL = 'max_files_per_call';
+    const MAX_FILES_PER_BATCH = 'max_files_per_call';
 
     const CHANNEL_ONLINE = 'online';
     const CHANNEL_ONLINE_RECOMMENDED = 'online_recommended';
@@ -63,7 +63,7 @@ class UpdateConfiguration extends AbstractConfiguration
         self::ARCHIVE_ZIP,
         self::ARCHIVE_XML,
         self::ARCHIVE_VERSION_NUM,
-        self::MAX_FILES_PER_CALL,
+        self::MAX_FILES_PER_BATCH,
     ];
 
     const DEFAULT_VALUES = [
@@ -72,7 +72,7 @@ class UpdateConfiguration extends AbstractConfiguration
         self::PS_AUTOUP_CHANGE_DEFAULT_THEME => false,
         self::REGENERATE_EMAIL_TEMPLATES => true,
         self::BACKUP_COMPLETED => null,
-        self::MAX_FILES_PER_CALL => 400,
+        self::MAX_FILES_PER_BATCH => 400,
     ];
 
     const CONFIGURATION_KEYS_ABOUT_SHOP = [
@@ -171,7 +171,7 @@ class UpdateConfiguration extends AbstractConfiguration
      */
     public function getMaxFilesPerCall(): int
     {
-        return $this->computeIntConfiguration(self::MAX_FILES_PER_CALL);
+        return $this->computeIntConfiguration(self::MAX_FILES_PER_BATCH);
     }
 
     /**

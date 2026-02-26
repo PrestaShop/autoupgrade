@@ -41,7 +41,7 @@ class CreateBackupCommand extends AbstractCommand
             ->setHelp('This command triggers the creation of the files and database backup.')
             ->addOption('config-file-path', null, InputOption::VALUE_REQUIRED, 'Configuration file location.')
             ->addOption('include-images', null, InputOption::VALUE_REQUIRED, 'Include, or not, images in the store backup.')
-            ->addOption('max-files-per-call', null, InputOption::VALUE_REQUIRED, 'Number of files to handle in a single call to avoid timeouts')
+            ->addOption('max-files-per-batch', null, InputOption::VALUE_REQUIRED, 'Number of files to handle in a single call to avoid timeouts')
             ->addOption('max-file-size', null, InputOption::VALUE_REQUIRED, 'Max file size allowed in backup')
             ->addOption('max-sql-size', null, InputOption::VALUE_REQUIRED, 'Reference for SQL file creation, giving a file size before another request is needed')
             ->addArgument('admin-dir', InputArgument::REQUIRED, 'The admin directory name.');
@@ -58,7 +58,7 @@ class CreateBackupCommand extends AbstractCommand
 
             $this->processConsoleInputConfiguration($input, [
                 BackupConfiguration::KEEP_IMAGES => 'include-images',
-                BackupConfiguration::MAX_FILES_PER_CALL => 'max-files-per-call',
+                BackupConfiguration::MAX_FILES_PER_BATCH => 'max-files-per-batch',
                 BackupConfiguration::MAX_FILE_SIZE => 'max-file-size',
                 BackupConfiguration::MAX_SQL_SIZE_TO_WRITE_PER_CALL => 'max-sql-size',
             ]);

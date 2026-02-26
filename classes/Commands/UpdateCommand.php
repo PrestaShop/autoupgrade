@@ -65,7 +65,7 @@ class UpdateCommand extends AbstractCommand
             ->addOption('disable-all-overrides', null, InputOption::VALUE_REQUIRED, 'Overriding is a way to replace business behaviors (class files and controller files) to target only one method or as many as you need. This option disables all classes & controllers overrides, allowing you to avoid conflicts during and after updates (1 for yes, 0 for no)')
             ->addOption('config-file-path', null, InputOption::VALUE_REQUIRED, 'Configuration file location for update.')
             ->addOption('action', null, InputOption::VALUE_REQUIRED, 'Advanced users only. Sets the step you want to start from. Only the "' . TaskName::TASK_UPDATE_INITIALIZATION . '" task updates the configuration. (Default: ' . TaskName::TASK_UPDATE_INITIALIZATION . ', see ' . DocumentationLinks::getDevDocUpdateAssistantCliUrl() . ' for other values available)')
-            ->addOption('max-files-per-call', null, InputOption::VALUE_REQUIRED, 'Number of files to handle in a single call to avoid timeouts');
+            ->addOption('max-files-per-batch', null, InputOption::VALUE_REQUIRED, 'Number of files to handle in a single call to avoid timeouts');
     }
 
     /**
@@ -102,7 +102,7 @@ class UpdateCommand extends AbstractCommand
                     UpdateConfiguration::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS => 'uninstall-incompatible-modules',
                     UpdateConfiguration::REGENERATE_EMAIL_TEMPLATES => 'regenerate-email-templates',
                     UpdateConfiguration::DISABLE_OVERRIDES => 'disable-all-overrides',
-                    UpdateConfiguration::MAX_FILES_PER_CALL => 'max-files-per-call',
+                    UpdateConfiguration::MAX_FILES_PER_BATCH => 'max-files-per-batch',
                 ]);
                 $configPath = $input->getOption('config-file-path');
                 $loader = $this->upgradeContainer->getUpdateConfigurationLoader();
