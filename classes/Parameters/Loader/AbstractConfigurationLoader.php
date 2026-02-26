@@ -23,8 +23,8 @@ namespace PrestaShop\Module\AutoUpgrade\Parameters\Loader;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
-use PrestaShop\Module\AutoUpgrade\Parameters\Validator\AbstractConfigurationValidator;
 use PrestaShop\Module\AutoUpgrade\Parameters\ConfigurationStorage;
+use PrestaShop\Module\AutoUpgrade\Parameters\Validator\AbstractConfigurationValidator;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;

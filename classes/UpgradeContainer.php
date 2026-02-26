@@ -854,7 +854,7 @@ class UpgradeContainer
                 $this->getConfigurationStorage(),
                 [
                     'updateConfigurationValidator' => $this->getUpdateConfigurationValidator(),
-                    'localChannelConfigurationValidator' => $this->getLocalChannelConfigurationValidator()
+                    'localChannelConfigurationValidator' => $this->getLocalChannelConfigurationValidator(),
                 ]
             );
         }
@@ -885,7 +885,7 @@ class UpgradeContainer
                 $this->getTranslator(),
                 $this->getConfigurationStorage(),
                 [
-                    'backupConfigurationValidator' => $this->getBackupConfigurationValidator()
+                    'backupConfigurationValidator' => $this->getBackupConfigurationValidator(),
                 ]
             );
         }
@@ -916,7 +916,7 @@ class UpgradeContainer
                 $this->getTranslator(),
                 $this->getConfigurationStorage(),
                 [
-                    'restoreConfigurationValidator' => $this->getRestoreConfigurationValidator()
+                    'restoreConfigurationValidator' => $this->getRestoreConfigurationValidator(),
                 ]
             );
         }
