@@ -70,10 +70,10 @@ class UpdateConfigurationLoader extends AbstractConfigurationLoader
         $isLocal = ($config[UpdateConfiguration::CHANNEL] ?? null) === UpdateConfiguration::CHANNEL_LOCAL;
 
         // Validate configuration
-        $error = $this->container->getUpdateConfigurationValidator()->validate($config);
+        $error = $this->configurationValdiators['updateConfigurationValidator']->validate($config);
 
         if ($isLocal && empty($error)) {
-            $error = $this->container->getLocalChannelConfigurationValidator()->validate($config);
+            $error = $this->configurationValdiators['localChannelConfigurationValidator']->validate($config);
         }
 
         if (!empty($error)) {

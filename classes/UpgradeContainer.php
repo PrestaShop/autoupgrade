@@ -848,7 +848,15 @@ class UpgradeContainer
     public function getUpdateConfigurationLoader(): UpdateConfigurationLoader
     {
         if (null === $this->updateConfigurationLoader) {
-            $this->updateConfigurationLoader = new UpdateConfigurationLoader($this, $this->getLogger(), $this->getTranslator());
+            $this->updateConfigurationLoader = new UpdateConfigurationLoader(
+                $this->getLogger(),
+                $this->getTranslator(),
+                $this->getConfigurationStorage(),
+                [
+                    'updateConfigurationValidator' => $this->getUpdateConfigurationValidator(),
+                    'localChannelConfigurationValidator' => $this->getLocalChannelConfigurationValidator()
+                ]
+            );
         }
 
         return $this->updateConfigurationLoader;
@@ -872,7 +880,14 @@ class UpgradeContainer
     public function getBackupConfigurationLoader(): BackupConfigurationLoader
     {
         if (null === $this->backupConfigurationLoader) {
-            $this->backupConfigurationLoader = new BackupConfigurationLoader($this, $this->getLogger(), $this->getTranslator());
+            $this->backupConfigurationLoader = new BackupConfigurationLoader(
+                $this->getLogger(),
+                $this->getTranslator(),
+                $this->getConfigurationStorage(),
+                [
+                    'backupConfigurationValidator' => $this->getBackupConfigurationValidator()
+                ]
+            );
         }
 
         return $this->backupConfigurationLoader;
@@ -896,7 +911,14 @@ class UpgradeContainer
     public function getRestoreConfigurationLoader(): RestoreConfigurationLoader
     {
         if (null === $this->restoreConfigurationLoader) {
-            $this->restoreConfigurationLoader = new RestoreConfigurationLoader($this, $this->getLogger(), $this->getTranslator());
+            $this->restoreConfigurationLoader = new RestoreConfigurationLoader(
+                $this->getLogger(),
+                $this->getTranslator(),
+                $this->getConfigurationStorage(),
+                [
+                    'restoreConfigurationValidator' => $this->getRestoreConfigurationValidator()
+                ]
+            );
         }
 
         return $this->restoreConfigurationLoader;

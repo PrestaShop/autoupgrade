@@ -23,26 +23,32 @@ namespace PrestaShop\Module\AutoUpgrade\Parameters\Loader;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
+use PrestaShop\Module\AutoUpgrade\Parameters\Validator\AbstractConfigurationValidator;
+use PrestaShop\Module\AutoUpgrade\Parameters\ConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 
 abstract class AbstractConfigurationLoader
 {
-    /** @var UpgradeContainer */
-    protected $container;
-
     /** @var Logger */
     protected $logger;
 
     /** @var Translator */
     protected $translator;
 
-    public function __construct(UpgradeContainer $container, Logger $logger, Translator $translator)
+    /** @var ConfigurationStorage */
+    protected $configurationStorage;
+
+    /** @var array<string, AbstractConfigurationValidator> */
+    protected $configurationValidators;
+
+    public function __construct(Logger $logger, Translator $translator, ConfigurationStorage $configurationStorage, array $configurationValidators)
     {
-        $this->container = $container;
         $this->logger = $logger;
         $this->translator = $translator;
+        $this->configurationStorage = $configurationStorage;
+        $this->configurationValidators = $configurationValidators;
     }
 
     /**
@@ -67,18 +73,17 @@ abstract class AbstractConfigurationLoader
      */
     protected function writeConfig(array $config): int
     {
-        $configurationStorage = $this->container->getConfigurationStorage();
         $classConfig = null;
 
         switch (static::class) {
             case UpdateConfigurationLoader::class:
-                $classConfig = $this->container->getUpdateConfiguration();
+                $classConfig = $this->configurationStorage->getUpdateConfiguration();
                 break;
             case BackupConfigurationLoader::class:
-                $classConfig = $this->container->getBackupConfiguration();
+                $classConfig = $this->configurationStorage->getBackupConfiguration();
                 break;
             case RestoreConfigurationLoader::class:
-                $classConfig = $this->container->getRestoreConfiguration();
+                $classConfig = $this->configurationStorage->getRestoreConfiguration();
                 break;
         }
 
@@ -87,7 +92,7 @@ abstract class AbstractConfigurationLoader
         $this->logger->info($this->translator->trans('Configuration successfully updated.'));
         $this->logger->debug('Configuration update: ' . json_encode($classConfig->toArray(), JSON_PRETTY_PRINT));
 
-        if (!$configurationStorage->save($classConfig)) {
+        if (!$this->configurationStorage->save($classConfig)) {
             $errorMessage = $this->translator->trans('Error on saving configuration');
             $this->logger->error($errorMessage);
 

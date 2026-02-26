@@ -44,7 +44,7 @@ class BackupConfigurationLoader extends AbstractConfigurationLoader
         }
 
         // Validate configuration
-        $error = $this->container->getBackupConfigurationValidator()->validate($config);
+        $error = $this->configurationValdiators['backupConfigurationValidator']->validate($config);
 
         if (!empty($error)) {
             $errorMessage = reset($error)['message'];
