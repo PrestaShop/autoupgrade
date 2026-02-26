@@ -23,7 +23,6 @@ namespace PrestaShop\Module\AutoUpgrade\Parameters\Loader;
 
 use PrestaShop\Module\AutoUpgrade\Parameters\BackupConfiguration;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
-use PrestaShop\Module\AutoUpgrade\Task\TaskType;
 
 class BackupConfigurationLoader extends AbstractConfigurationLoader
 {

@@ -24,7 +24,6 @@ namespace PrestaShop\Module\AutoUpgrade\Parameters\Loader;
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfiguration;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
-use PrestaShop\Module\AutoUpgrade\Task\TaskType;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 class UpdateConfigurationLoader extends AbstractConfigurationLoader
