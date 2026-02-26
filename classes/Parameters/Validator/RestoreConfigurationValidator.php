@@ -60,12 +60,12 @@ class RestoreConfigurationValidator extends AbstractConfigurationValidator
             ];
         }
 
-        if (isset($array[RestoreConfiguration::SECONDS_PER_CALL])) {
-            $secondPerCallErrors = $this->validateInt($array[RestoreConfiguration::SECONDS_PER_CALL], RestoreConfiguration::SECONDS_PER_CALL);
+        if (isset($array[RestoreConfiguration::MAX_SECONDS_PER_BATCH])) {
+            $secondPerCallErrors = $this->validateInt($array[RestoreConfiguration::MAX_SECONDS_PER_BATCH], RestoreConfiguration::MAX_SECONDS_PER_BATCH);
             if ($secondPerCallErrors) {
                 $errors[] = [
                     'message' => $secondPerCallErrors,
-                    'target' => RestoreConfiguration::SECONDS_PER_CALL,
+                    'target' => RestoreConfiguration::MAX_SECONDS_PER_BATCH,
                 ];
             }
         }
