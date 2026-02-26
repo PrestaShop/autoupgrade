@@ -68,7 +68,7 @@ class ZipAction
         $this->logger = $logger;
         $this->prodRootDir = $prodRootDir;
         $this->configMaxNbFilesCompressedInARow = $backupConfiguration->getMaxFilesPerBatch();
-        $this->configMaxFileSizeAllowed = $backupConfiguration->getMaxFileSize();
+        $this->configMaxFileSizeAllowed = $backupConfiguration->getMaxFileSizeAllowed();
     }
 
     /**
