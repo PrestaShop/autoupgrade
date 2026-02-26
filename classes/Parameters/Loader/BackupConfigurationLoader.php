@@ -27,8 +27,6 @@ use PrestaShop\Module\AutoUpgrade\Task\TaskType;
 
 class BackupConfigurationLoader extends AbstractConfigurationLoader
 {
-    const TASK_TYPE = TaskType::TASK_TYPE_BACKUP;
-
     public function load(array $inputOptions): int
     {
         $config = [];
@@ -52,7 +50,6 @@ class BackupConfigurationLoader extends AbstractConfigurationLoader
         if (!empty($error)) {
             $errorMessage = reset($error)['message'];
             $this->logger->error($errorMessage);
-            $this->setErrorFlag();
 
             return ExitCode::FAIL;
         }

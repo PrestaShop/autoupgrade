@@ -29,8 +29,6 @@ use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 class UpdateConfigurationLoader extends AbstractConfigurationLoader
 {
-    const TASK_TYPE = TaskType::TASK_TYPE_UPDATE;
-
     public function initialize(): void
     {
         $updateConfiguration = $this->container->getUpdateConfiguration();
@@ -82,7 +80,6 @@ class UpdateConfigurationLoader extends AbstractConfigurationLoader
         if (!empty($error)) {
             $errorMessage = reset($error)['message'];
             $this->logger->error($errorMessage);
-            $this->setErrorFlag();
 
             return ExitCode::FAIL;
         }
@@ -97,7 +94,6 @@ class UpdateConfigurationLoader extends AbstractConfigurationLoader
             } catch (Exception $exception) {
                 $errorMessage = $this->translator->trans('We couldn\'t find a PrestaShop version in the .zip file that was uploaded in your local archive. Please try again.');
                 $this->logger->error($errorMessage);
-                $this->setErrorFlag();
 
                 return ExitCode::FAIL;
             }

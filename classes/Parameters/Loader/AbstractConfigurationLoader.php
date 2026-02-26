@@ -22,10 +22,8 @@
 namespace PrestaShop\Module\AutoUpgrade\Parameters\Loader;
 
 use Exception;
-use PrestaShop\Module\AutoUpgrade\Analytics;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
-use PrestaShop\Module\AutoUpgrade\Task\TaskType;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 
@@ -39,11 +37,6 @@ abstract class AbstractConfigurationLoader
 
     /** @var Translator */
     protected $translator;
-
-    /**
-     * @var TaskType::TASK_TYPE_*|null
-     */
-    const TASK_TYPE = null;
 
     public function __construct(UpgradeContainer $container, Logger $logger, Translator $translator)
     {
@@ -74,64 +67,33 @@ abstract class AbstractConfigurationLoader
      */
     protected function writeConfig(array $config): int
     {
-        if (static::TASK_TYPE) {
-            $configurationStorage = $this->container->getConfigurationStorage();
-            $classConfig = null;
+        $configurationStorage = $this->container->getConfigurationStorage();
+        $classConfig = null;
 
-            switch (static::TASK_TYPE) {
-                case TaskType::TASK_TYPE_UPDATE:
-                    $classConfig = $this->container->getUpdateConfiguration();
-                    break;
-                case TaskType::TASK_TYPE_BACKUP:
-                    $classConfig = $this->container->getBackupConfiguration();
-                    break;
-                case TaskType::TASK_TYPE_RESTORE:
-                    $classConfig = $this->container->getRestoreConfiguration();
-                    break;
-            }
+        switch (static::class) {
+            case UpdateConfigurationLoader::class:
+                $classConfig = $this->container->getUpdateConfiguration();
+                break;
+            case BackupConfigurationLoader::class:
+                $classConfig = $this->container->getBackupConfiguration();
+                break;
+            case RestoreConfigurationLoader::class:
+                $classConfig = $this->container->getRestoreConfiguration();
+                break;
+        }
 
-            $classConfig->merge($config);
+        $classConfig->merge($config);
 
-            $this->logger->info($this->translator->trans('Configuration successfully updated.'));
-            $this->logger->debug('Configuration update: ' . json_encode($classConfig->toArray(), JSON_PRETTY_PRINT));
+        $this->logger->info($this->translator->trans('Configuration successfully updated.'));
+        $this->logger->debug('Configuration update: ' . json_encode($classConfig->toArray(), JSON_PRETTY_PRINT));
 
-            if (!$configurationStorage->save($classConfig)) {
-                $errorMessage = $this->translator->trans('Error on saving configuration');
-                $this->logger->error($errorMessage);
-                $this->setErrorFlag();
+        if (!$configurationStorage->save($classConfig)) {
+            $errorMessage = $this->translator->trans('Error on saving configuration');
+            $this->logger->error($errorMessage);
 
-                return ExitCode::FAIL;
-            }
+            return ExitCode::FAIL;
         }
 
         return ExitCode::SUCCESS;
-    }
-
-    /**
-     * @throws Exception
-     */
-    protected function setErrorFlag(): void
-    {
-        if (static::TASK_TYPE) {
-            $propertiesType = null;
-
-            switch (static::TASK_TYPE) {
-                case TaskType::TASK_TYPE_UPDATE:
-                    $propertiesType = Analytics::WITH_UPDATE_PROPERTIES;
-                    break;
-                case TaskType::TASK_TYPE_BACKUP:
-                    $propertiesType = Analytics::WITH_BACKUP_PROPERTIES;
-                    break;
-                case TaskType::TASK_TYPE_RESTORE:
-                    $propertiesType = Analytics::WITH_RESTORE_PROPERTIES;
-                    break;
-            }
-
-            $this->container->getAnalytics()->track(
-                ucfirst(static::TASK_TYPE) . ' Failed',
-                $propertiesType,
-                ['failing_step' => (new \ReflectionClass($this))->getShortName()]
-            );
-        }
     }
 }
