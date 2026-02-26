@@ -27,7 +27,7 @@ namespace PrestaShop\Module\AutoUpgrade\Parameters;
 class BackupConfiguration extends AbstractConfiguration
 {
     const KEEP_IMAGES = 'keep_images';
-    const MAX_FILES_PER_BATCH = 'max_files_per_call';
+    const MAX_FILES_PER_BATCH = 'max_files_per_batch';
     const MAX_FILE_SIZE = 'max_file_size';
     const MAX_SQL_SIZE_TO_WRITE_PER_CALL = 'max_sql_size_to_write_per_call';
 
@@ -56,7 +56,7 @@ class BackupConfiguration extends AbstractConfiguration
     /**
      * @return int Number of files to handle in a single call to avoid timeouts
      */
-    public function getMaxFilesPerCall(): int
+    public function getMaxFilesPerBatch(): int
     {
         return $this->computeIntConfiguration(self::MAX_FILES_PER_BATCH);
     }

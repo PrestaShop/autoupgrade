@@ -46,7 +46,7 @@ class UpdateConfiguration extends AbstractConfiguration
     const ARCHIVE_VERSION_NUM = 'archive_version_num';
     const BACKUP_COMPLETED = 'backup_completed';
     const INSTALLED_LANGUAGES = 'installed_languages';
-    const MAX_FILES_PER_BATCH = 'max_files_per_call';
+    const MAX_FILES_PER_BATCH = 'max_files_per_batch';
 
     const CHANNEL_ONLINE = 'online';
     const CHANNEL_ONLINE_RECOMMENDED = 'online_recommended';
@@ -169,7 +169,7 @@ class UpdateConfiguration extends AbstractConfiguration
     /**
      * @return int Number of files to handle in a single call to avoid timeouts
      */
-    public function getMaxFilesPerCall(): int
+    public function getMaxFilesPerBatch(): int
     {
         return $this->computeIntConfiguration(self::MAX_FILES_PER_BATCH);
     }
