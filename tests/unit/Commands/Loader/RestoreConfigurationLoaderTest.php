@@ -22,8 +22,8 @@ namespace PrestaShop\Module\AutoUpgrade\Tests\Unit\Commands\Loader;
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
-use PrestaShop\Module\AutoUpgrade\Commands\Loader\RestoreConfigurationLoader;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
+use PrestaShop\Module\AutoUpgrade\Parameters\Loader\RestoreConfigurationLoader;
 use PrestaShop\Module\AutoUpgrade\Parameters\RestoreConfiguration;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;

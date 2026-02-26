@@ -22,9 +22,9 @@ namespace PrestaShop\Module\AutoUpgrade\Tests\Unit\Commands\Loader;
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
-use PrestaShop\Module\AutoUpgrade\Commands\Loader\BackupConfigurationLoader;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
 use PrestaShop\Module\AutoUpgrade\Parameters\BackupConfiguration;
+use PrestaShop\Module\AutoUpgrade\Parameters\Loader\BackupConfigurationLoader;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\Validation\BackupConfigurationValidator;
