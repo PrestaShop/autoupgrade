@@ -100,7 +100,7 @@ abstract class AbstractCommand extends Command
      */
     protected function loadConfiguration(AbstractConfigurationLoader $loader, ?string $configPath): int
     {
-        $loader->initialize();
+        $loader->initialize($this->upgradeContainer);
 
         $configurationData = [];
 

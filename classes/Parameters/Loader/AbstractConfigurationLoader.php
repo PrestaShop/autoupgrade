@@ -48,9 +48,9 @@ abstract class AbstractConfigurationLoader
     /**
      * @throws Exception
      */
-    public function initialize(): void
+    public function initialize(UpgradeContainer $upgradeContainer): void
     {
-        $this->container->initPrestaShopCore();
+        $upgradeContainer->initPrestaShopCore();
     }
 
     /**

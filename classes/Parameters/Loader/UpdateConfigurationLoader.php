@@ -28,14 +28,14 @@ use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 class UpdateConfigurationLoader extends AbstractConfigurationLoader
 {
-    public function initialize(): void
+    public function initialize(UpgradeContainer $upgradeContainer): void
     {
-        $updateConfiguration = $this->container->getUpdateConfiguration();
+        $updateConfiguration = $upgradeContainer->getUpdateConfiguration();
         if (!$updateConfiguration->hasAllTheShopConfiguration()) {
-            $this->container->initPrestaShopCore();
-            $this->container->getPrestaShopConfiguration()->fillInUpdateConfiguration($updateConfiguration);
+            $upgradeContainer->initPrestaShopCore();
+            $upgradeContainer->getPrestaShopConfiguration()->fillInUpdateConfiguration($updateConfiguration);
         }
-        $this->container->getConfigurationStorage()->save($updateConfiguration);
+        $upgradeContainer->getConfigurationStorage()->save($updateConfiguration);
     }
 
     public function load(array $inputOptions): int
