@@ -22,12 +22,34 @@
 namespace PrestaShop\Module\AutoUpgrade\Parameters\Loader;
 
 use Exception;
+use PrestaShop\Module\AutoUpgrade\Log\Logger;
+use PrestaShop\Module\AutoUpgrade\Parameters\ConfigurationStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfiguration;
+use PrestaShop\Module\AutoUpgrade\Parameters\Validator\AbstractConfigurationValidator;
+use PrestaShop\Module\AutoUpgrade\Services\PrestashopVersionService;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 
 class UpdateConfigurationLoader extends AbstractConfigurationLoader
 {
+    /** @var string */
+    private $downloadPath;
+
+    /** @var PrestashopVersionService */
+    private $prestashopVersionService;
+
+    /**
+     * @param array<string, AbstractConfigurationValidator> $configurationValidators
+     */
+    public function __construct(Logger $logger, Translator $translator, ConfigurationStorage $configurationStorage, array $configurationValidators, string $downloadPath, PrestashopVersionService $prestashopVersionService)
+    {
+        parent::__construct($logger, $translator, $configurationStorage, $configurationValidators);
+
+        $this->downloadPath = $downloadPath;
+        $this->prestashopVersionService = $prestashopVersionService;
+    }
+
     public function initialize(UpgradeContainer $upgradeContainer): void
     {
         $updateConfiguration = $upgradeContainer->getUpdateConfiguration();
@@ -70,10 +92,10 @@ class UpdateConfigurationLoader extends AbstractConfigurationLoader
         $isLocal = ($config[UpdateConfiguration::CHANNEL] ?? null) === UpdateConfiguration::CHANNEL_LOCAL;
 
         // Validate configuration
-        $error = $this->configurationValdiators['updateConfigurationValidator']->validate($config);
+        $error = $this->configurationValidators['updateConfigurationValidator']->validate($config);
 
         if ($isLocal && empty($error)) {
-            $error = $this->configurationValdiators['localChannelConfigurationValidator']->validate($config);
+            $error = $this->configurationValidators['localChannelConfigurationValidator']->validate($config);
         }
 
         if (!empty($error)) {
@@ -86,9 +108,9 @@ class UpdateConfigurationLoader extends AbstractConfigurationLoader
         // Handle local archive version extraction
         if ($isLocal) {
             $file = $config[UpdateConfiguration::ARCHIVE_ZIP];
-            $fullFilePath = $this->container->getProperty(UpgradeContainer::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $file;
+            $fullFilePath = $this->downloadPath . DIRECTORY_SEPARATOR . $file;
             try {
-                $config[UpdateConfiguration::ARCHIVE_VERSION_NUM] = $this->container->getPrestashopVersionService()->extractPrestashopVersionFromZip($fullFilePath);
+                $config[UpdateConfiguration::ARCHIVE_VERSION_NUM] = $this->prestashopVersionService->extractPrestashopVersionFromZip($fullFilePath);
                 $this->logger->info($this->translator->trans('Update process will use archive.'));
             } catch (Exception $exception) {
                 $errorMessage = $this->translator->trans('We couldn\'t find a PrestaShop version in the .zip file that was uploaded in your local archive. Please try again.');

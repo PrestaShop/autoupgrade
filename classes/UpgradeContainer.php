@@ -855,7 +855,9 @@ class UpgradeContainer
                 [
                     'updateConfigurationValidator' => $this->getUpdateConfigurationValidator(),
                     'localChannelConfigurationValidator' => $this->getLocalChannelConfigurationValidator(),
-                ]
+                ],
+                $this->getProperty(UpgradeContainer::DOWNLOAD_PATH),
+                $this->getPrestaShopVersionService()
             );
         }
 

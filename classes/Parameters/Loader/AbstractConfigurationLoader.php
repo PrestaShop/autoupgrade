@@ -43,6 +43,9 @@ abstract class AbstractConfigurationLoader
     /** @var array<string, AbstractConfigurationValidator> */
     protected $configurationValidators;
 
+    /**
+     * @param array<string, AbstractConfigurationValidator> $configurationValidators
+     */
     public function __construct(Logger $logger, Translator $translator, ConfigurationStorage $configurationStorage, array $configurationValidators)
     {
         $this->logger = $logger;
@@ -77,13 +80,13 @@ abstract class AbstractConfigurationLoader
 
         switch (static::class) {
             case UpdateConfigurationLoader::class:
-                $classConfig = $this->configurationStorage->getUpdateConfiguration();
+                $classConfig = $this->configurationStorage->loadUpdateConfiguration();
                 break;
             case BackupConfigurationLoader::class:
-                $classConfig = $this->configurationStorage->getBackupConfiguration();
+                $classConfig = $this->configurationStorage->loadBackupConfiguration();
                 break;
             case RestoreConfigurationLoader::class:
-                $classConfig = $this->configurationStorage->getRestoreConfiguration();
+                $classConfig = $this->configurationStorage->loadRestoreConfiguration();
                 break;
         }
 

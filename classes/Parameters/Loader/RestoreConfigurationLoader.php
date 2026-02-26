@@ -44,7 +44,7 @@ class RestoreConfigurationLoader extends AbstractConfigurationLoader
         }
 
         // Validate configuration
-        $error = $this->configurationValdiators['restoreConfigurationValidator']->validate($config);
+        $error = $this->configurationValidators['restoreConfigurationValidator']->validate($config);
 
         if (!empty($error)) {
             $errorMessage = reset($error)['message'];
