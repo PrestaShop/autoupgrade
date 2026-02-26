@@ -18,9 +18,10 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 
-namespace PrestaShop\Module\AutoUpgrade\Parameters;
+namespace PrestaShop\Module\AutoUpgrade\Parameters\Validator;
 
 use Exception;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfiguration;
 use PrestaShop\Module\AutoUpgrade\Services\PrestashopVersionService;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 

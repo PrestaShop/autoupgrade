@@ -19,8 +19,8 @@
  */
 
 use PHPUnit\Framework\TestCase;
-use PrestaShop\Module\AutoUpgrade\Parameters\LocalChannelConfigurationValidator;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfiguration;
+use PrestaShop\Module\AutoUpgrade\Parameters\Validator\LocalChannelConfigurationValidator;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 class LocalChannelConfigurationValidatorTest extends TestCase
