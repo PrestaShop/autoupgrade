@@ -37,7 +37,7 @@ class BackupConfigurationValidator extends AbstractConfigurationValidator
                     break;
                 case BackupConfiguration::MAX_FILES_PER_BATCH:
                 case BackupConfiguration::MAX_FILE_SIZE_ALLOWED:
-                case BackupConfiguration::MAX_SQL_SIZE_TO_WRITE_PER_CALL:
+                case BackupConfiguration::MAX_SQL_SIZE_TO_WRITE_PER_BATCH:
                     $error = $this->validateInt($value, $key);
                     break;
                 default:

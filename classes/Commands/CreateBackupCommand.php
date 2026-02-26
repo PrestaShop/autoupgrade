@@ -43,7 +43,7 @@ class CreateBackupCommand extends AbstractCommand
             ->addOption('include-images', null, InputOption::VALUE_REQUIRED, 'Include, or not, images in the store backup.')
             ->addOption('max-files-per-batch', null, InputOption::VALUE_REQUIRED, 'Number of files to handle in a single call to avoid timeouts')
             ->addOption('max-file-size-allowed', null, InputOption::VALUE_REQUIRED, 'Max file size allowed in backup')
-            ->addOption('max-sql-size', null, InputOption::VALUE_REQUIRED, 'Reference for SQL file creation, giving a file size before another request is needed')
+            ->addOption('max-sql-size-to-write-per-batch', null, InputOption::VALUE_REQUIRED, 'Reference for SQL file creation, giving a file size before another request is needed')
             ->addArgument('admin-dir', InputArgument::REQUIRED, 'The admin directory name.');
     }
 
@@ -60,7 +60,7 @@ class CreateBackupCommand extends AbstractCommand
                 BackupConfiguration::KEEP_IMAGES => 'include-images',
                 BackupConfiguration::MAX_FILES_PER_BATCH => 'max-files-per-batch',
                 BackupConfiguration::MAX_FILE_SIZE_ALLOWED => 'max-file-size-allowed',
-                BackupConfiguration::MAX_SQL_SIZE_TO_WRITE_PER_CALL => 'max-sql-size',
+                BackupConfiguration::MAX_SQL_SIZE_TO_WRITE_PER_BATCH => 'max-sql-size-to-write-per-batch',
             ]);
 
             $loader = $this->upgradeContainer->getBackupConfigurationLoader();

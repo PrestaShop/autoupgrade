@@ -29,20 +29,20 @@ class BackupConfiguration extends AbstractConfiguration
     const KEEP_IMAGES = 'keep_images';
     const MAX_FILES_PER_BATCH = 'max_files_per_batch';
     const MAX_FILE_SIZE_ALLOWED = 'max_file_size_allowed';
-    const MAX_SQL_SIZE_TO_WRITE_PER_CALL = 'max_sql_size_to_write_per_call';
+    const MAX_SQL_SIZE_TO_WRITE_PER_BATCH = 'max_sql_size_to_write_per_batch';
 
     const BACKUP_CONST_KEYS = [
         self::KEEP_IMAGES,
         self::MAX_FILES_PER_BATCH,
         self::MAX_FILE_SIZE_ALLOWED,
-        self::MAX_SQL_SIZE_TO_WRITE_PER_CALL,
+        self::MAX_SQL_SIZE_TO_WRITE_PER_BATCH,
     ];
 
     const DEFAULT_VALUES = [
         self::KEEP_IMAGES => true,
         self::MAX_FILES_PER_BATCH => 400,
         self::MAX_FILE_SIZE_ALLOWED => 15728640,
-        self::MAX_SQL_SIZE_TO_WRITE_PER_CALL => 4194304,
+        self::MAX_SQL_SIZE_TO_WRITE_PER_BATCH => 4194304,
     ];
 
     /**
@@ -72,8 +72,8 @@ class BackupConfiguration extends AbstractConfiguration
     /**
      * @return int Kind of reference for SQL file creation, giving a file size before another request is needed
      */
-    public function getMaxSqlSizeToWritePerCall(): int
+    public function getMaxSqlSizeToWritePerBatch(): int
     {
-        return $this->computeIntConfiguration(self::MAX_SQL_SIZE_TO_WRITE_PER_CALL);
+        return $this->computeIntConfiguration(self::MAX_SQL_SIZE_TO_WRITE_PER_BATCH);
     }
 }
