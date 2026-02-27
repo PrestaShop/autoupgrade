@@ -58,7 +58,7 @@ class ModuleUnzipper
         // Module is already unzipped, we make the actual move in the modules folder.
         if (is_dir($updatedModulePath)) {
             $filesystem = new Filesystem();
-            $filesystem->mirror($updatedModulePath, $this->modulesFolder);
+            $filesystem->mirror($updatedModulePath, $this->modulesFolder . DIRECTORY_SEPARATOR . $moduleUnzipperContext->getModuleName());
         }
     }
 }

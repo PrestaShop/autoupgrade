@@ -90,13 +90,14 @@ class ModuleDownloader
         if ($moduleSource->isZipped()) {
             $destinationPath .= $moduleDownloaderContext->getModuleName() . '.zip';
             $this->downloadService->downloadWithRetry($moduleSource->getPath(), $destinationPath);
+            $this->assertDownloadedContentsIsValid($destinationPath);
         } else {
             // Module contents is already unzipped.
             // We move it first in the sandbox folder to make sure all the files can be read.
-            $filesystem->mirror($moduleSource->getPath(), $this->downloadFolder);
+            $destinationPath .= $moduleDownloaderContext->getModuleName();
+            $filesystem->mirror($moduleSource->getPath(), $destinationPath);
         }
 
-        $this->assertDownloadedContentsIsValid($destinationPath);
         $moduleDownloaderContext->setPathToModuleUpdate($destinationPath);
 
         $this->logger->notice($this->translator->trans('Module %s update files (%s => %s) have been fetched from %s.', [
