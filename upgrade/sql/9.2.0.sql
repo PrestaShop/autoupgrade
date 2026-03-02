@@ -97,3 +97,4 @@ CREATE TABLE `PREFIX_b2b_role_authorization_role`
 
 -- https://github.com/PrestaShop/PrestaShop/pull/41028
 /* PHP:ps_920_business_entities_tabs(); */;
+ALTER TABLE `PREFIX_shipment` ADD COLUMN `deleted` TINYINT(1) NOT NULL DEFAULT 0;
