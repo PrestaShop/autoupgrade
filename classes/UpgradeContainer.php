@@ -154,20 +154,11 @@ class UpgradeContainer
     /** @var ConfigurationStorage */
     private $configurationStorage;
 
-    /** @var UpdateConfiguration */
-    private $updateConfiguration;
-
     /** @var UpdateConfigurationLoader */
     private $updateConfigurationLoader;
 
-    /** @var BackupConfiguration */
-    private $backupConfiguration;
-
     /** @var BackupConfigurationLoader */
     private $backupConfigurationLoader;
-
-    /** @var RestoreConfiguration */
-    private $restoreConfiguration;
 
     /** @var RestoreConfigurationLoader */
     private $restoreConfigurationLoader;
@@ -835,11 +826,7 @@ class UpgradeContainer
      */
     public function getUpdateConfiguration(): UpdateConfiguration
     {
-        if (null === $this->updateConfiguration) {
-            $this->updateConfiguration = $this->getConfigurationStorage()->loadUpdateConfiguration();
-        }
-
-        return $this->updateConfiguration;
+        return $this->getConfigurationStorage()->loadUpdateConfiguration();
     }
 
     /**
@@ -869,11 +856,7 @@ class UpgradeContainer
      */
     public function getBackupConfiguration(): BackupConfiguration
     {
-        if (null === $this->backupConfiguration) {
-            $this->backupConfiguration = $this->getConfigurationStorage()->loadBackupConfiguration();
-        }
-
-        return $this->backupConfiguration;
+        return $this->getConfigurationStorage()->loadBackupConfiguration();
     }
 
     /**
@@ -900,11 +883,7 @@ class UpgradeContainer
      */
     public function getRestoreConfiguration(): RestoreConfiguration
     {
-        if (null === $this->restoreConfiguration) {
-            $this->restoreConfiguration = $this->getConfigurationStorage()->loadRestoreConfiguration();
-        }
-
-        return $this->restoreConfiguration;
+        return $this->getConfigurationStorage()->loadRestoreConfiguration();
     }
 
     /**
