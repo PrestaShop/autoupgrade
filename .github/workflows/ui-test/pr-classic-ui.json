@@ -1,0 +1,36 @@
+{
+  "include": [
+    {
+      "comment": "8.0.1 PHP 8.1 online"
+    },
+    {
+      "PS_VERSION_START": "8.0.1-classic",
+      "PHP_VERSION": "8.1",
+      "UPGRADE_CHANNEL": "online"
+    },
+    {
+      "comment": "8.1.7 PHP 8.1 online"
+    },
+    {
+      "PS_VERSION_START": "8.1.7-classic",
+      "PHP_VERSION": "8.1",
+      "UPGRADE_CHANNEL": "online"
+    },
+    {
+      "comment": "8.2.1 PHP 8.1 online"
+    },
+    {
+      "PS_VERSION_START": "8.2.1-classic",
+      "PHP_VERSION": "8.1",
+      "UPGRADE_CHANNEL": "online"
+    },
+    {
+      "comment": "9.0.0 PHP 8.4 online"
+    },
+    {
+      "PS_VERSION_START": "9.0.0-1.0-classic",
+      "PHP_VERSION": "8.4",
+      "UPGRADE_CHANNEL": "online"
+    }
+  ]
+}

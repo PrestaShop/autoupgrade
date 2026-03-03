@@ -31,9 +31,14 @@ services:
         target: /var/www/html/modules/autoupgrade
       - type: bind
        # Local Path
-        source: ./post-install/install-update.sh
+        source: ./docker/installModule
        # Mount Path
         target: /usr/local/bin/install-update.sh
+      - type: bind
+        # Local Path
+        source: docker/enableShop
+        # Mount Path
+        target: /tmp/post-install-scripts
     ports:
       - "80:80"
     deploy:

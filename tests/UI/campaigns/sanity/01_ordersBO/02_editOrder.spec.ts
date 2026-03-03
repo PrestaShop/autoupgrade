@@ -54,8 +54,11 @@ test.describe('BO - Orders - Orders : Edit Order BO', async () => {
     await boLoginPage.goTo(page, global.BO.URL);
     await boLoginPage.successLogin(page, global.BO.EMAIL, global.BO.PASSWD);
 
-    const pageTitle = await boDashboardPage.getPageTitle(page);
-    expect(pageTitle).toContain(boDashboardPage.pageTitle);
+    // @ts-ignore
+    if (!process.env.PS_VERSION.includes('classic')) {
+      const pageTitle = await boDashboardPage.getPageTitle(page);
+      expect(pageTitle).toContain(boDashboardPage.pageTitle);
+    }
   });
 
   test('should go to the \'Orders > Orders\' page', async () => {

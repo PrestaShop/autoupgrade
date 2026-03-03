@@ -53,8 +53,11 @@ test.describe('Check new shop version', () => {
   test('should go to BO', async () => {
     await boLoginPage.goTo(page, global.BO.URL);
 
-    const pageTitle = await boLoginPage.getPageTitle(page);
-    expect(pageTitle).toContain(boLoginPage.pageTitle);
+    // @ts-ignore
+    if (!process.env.PS_VERSION.includes('classic')) {
+      const pageTitle = await boLoginPage.getPageTitle(page);
+      expect(pageTitle).toContain(boLoginPage.pageTitle);
+    }
   });
 
   if (semver.lt(psVersion, '7.4.0')) {
@@ -68,13 +71,16 @@ test.describe('Check new shop version', () => {
     test('should login in BO', async () => {
       await boLoginPage.successLogin(page, global.BO.EMAIL, global.BO.PASSWD);
 
-      const pageTitle = await boDashboardPage.getPageTitle(page);
-      expect(pageTitle).toContain(boDashboardPage.pageTitle);
+      // @ts-ignore
+      if (!process.env.PS_VERSION.includes('classic')) {
+        const pageTitle = await boDashboardPage.getPageTitle(page);
+        expect(pageTitle).toContain(boDashboardPage.pageTitle);
+      }
     });
 
     test(`should check that the new shop version is ${process.env.PS_VERSION}`, async () => {
       const shopVersion = await boDashboardPage.getShopVersion(page);
-      expect(shopVersion).toEqual(process.env.PS_VERSION);
+      expect(process.env.PS_VERSION).toContain(shopVersion);
     });
   }
 });

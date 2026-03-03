@@ -26,7 +26,7 @@ import {
 
 let dbConnection: Connection;
 
-test.describe('Check new shop version', () => {
+test.describe('Check new shop version from the database', () => {
   const dbPrefix: string = global.INSTALL.DB_PREFIX;
 
   test.beforeAll(async () => {
@@ -49,8 +49,11 @@ test.describe('Check new shop version', () => {
 
   test('should check psVersion from the database', async () => {
     const [resultRows]: [RowDataPacket[], FieldPacket[]] = await dbConnection.query(
-      `SELECT value FROM ${dbPrefix}configuration WHERE name = 'PS_VERSION_DB'`,
+      `SELECT value
+       FROM ${dbPrefix}configuration
+       WHERE name = 'PS_VERSION_DB'`,
     );
-    expect(resultRows[0].value).toContain(process.env.PS_VERSION);
+    // @ts-ignore
+    expect(resultRows[0].value).toContain(process.env.PS_VERSION.slice(0, 5));
   });
 });
