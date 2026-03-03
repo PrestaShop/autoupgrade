@@ -21,20 +21,15 @@
 use PrestaShop\Module\AutoUpgrade\Database\DbWrapper;
 
 /**
- * Add Checkout tab under Design > Look & Feel for one-page checkout configuration.
- *
- * @return void
+ * Add Checkout tab under Design for one-page checkout configuration.
  *
  * @throws \PrestaShop\Module\AutoUpgrade\Exceptions\UpdateDatabaseException
  */
 function ps_920_add_checkout_tab()
 {
     include_once __DIR__ . '/add_new_tab.php';
-
-    // Add AdminCheckout tab under AdminParentThemes (Look & Feel)
     add_new_tab_17('AdminCheckout', 'en:Checkout', 0, false, 'AdminParentThemes');
 
-    // Update tab with additional metadata
     DbWrapper::execute(
         'UPDATE `' . _DB_PREFIX_ . 'tab` SET
             `active` = 1,
