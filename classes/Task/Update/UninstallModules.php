@@ -99,6 +99,8 @@ class UninstallModules extends AbstractTask
     public function init(): void
     {
         $this->container->initPrestaShopCore();
+        // Container may be needed on uninstallation if the module loads services.
+        $this->container->getSymfonyAdapter()->initKernel();
     }
 
     /**
