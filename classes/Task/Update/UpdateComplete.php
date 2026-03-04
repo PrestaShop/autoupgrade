@@ -73,9 +73,6 @@ class UpdateComplete extends AbstractTask
             $this->removeFile($latestPath);
         }
 
-        // removing config files
-        $this->container->getFileStorage()->clean(UpgradeFileNames::UPDATE_CONFIG_FILENAME);
-
         // removing temporary files
         $tmpModulePath = $this->container->getProperty(UpgradeContainer::TMP_MODULES_PATH);
         if ($this->container->getFilesystemAdapter()->clearDirectory($tmpModulePath)) {
@@ -84,6 +81,9 @@ class UpdateComplete extends AbstractTask
 
         $this->container->getFileStorage()->cleanAllUpdateFiles();
         $this->container->getAnalytics()->track('Upgrade Succeeded', Analytics::WITH_UPDATE_PROPERTIES);
+
+        // removing config files
+        $this->container->getFileStorage()->clean(UpgradeFileNames::UPDATE_CONFIG_FILENAME);
 
         $this->logger->info($this->translator->trans('Running opcache_reset'));
         $this->container->resetOpcache();
