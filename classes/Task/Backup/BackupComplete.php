@@ -24,6 +24,7 @@ namespace PrestaShop\Module\AutoUpgrade\Task\Backup;
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Analytics;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfiguration;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\Task\TaskName;
@@ -51,6 +52,8 @@ class BackupComplete extends AbstractTask
         $this->container->getConfigurationStorage()->save($updateConfiguration);
 
         $this->container->getAnalytics()->track('Backup Succeeded', Analytics::WITH_BACKUP_PROPERTIES);
+
+        $this->container->getFileStorage()->clean(UpgradeFileNames::BACKUP_CONFIG_FILENAME);
 
         $this->logger->info($this->translator->trans('Backup completed successfully.'));
 
