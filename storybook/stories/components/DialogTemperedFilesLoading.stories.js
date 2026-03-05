@@ -17,40 +17,20 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 
-import DialogTemperedFiles from "../../../views/templates/dialogs/dialog-tempered-files.html.twig";
+import DialogTamperedFiles from "../../../views/templates/dialogs/dialog-tempered-files.html.twig";
 import { Default as Dialog } from "./Dialog.stories";
 
 export default {
-  title: "Components/Dialog",
-  component: DialogTemperedFiles,
+  title: "Components/Dialog/TamperedFiles",
+  component: DialogTamperedFiles,
 };
 
-export const TemperedFiles = {
+export const Loading = {
   args: {
     ...Dialog.args,
     title: "List of core alterations",
     message:
       "Some core files have been altered, customization made on these files will be lost during the update.",
-    missing_files: [
-      "adminProjetX/autoupgrade/index.php",
-      "adminProjetX/backups/index.php",
-      "config/xml/.htaccess",
-      "config/xml/themes/index.php",
-    ],
-    altered_files: [
-      "adminProjetX/themes/new-theme/public/tax.bundle.js",
-      "adminProjetX/themes/new-theme/public/order_return_states_form.bundle.js",
-      "adminProjetX/themes/new-theme/public/carrier.bundle.js",
-      "adminProjetX/themes/new-theme/public/create_product_default_theme.css",
-      "adminProjetX/themes/new-theme/public/meta.bundle.js",
-      "adminProjetX/themes/new-theme/public/module.bundle.js",
-      "adminProjetX/themes/new-theme/public/tax.bundle.js",
-      "adminProjetX/themes/new-theme/public/order_return_states_form.bundle.js",
-      "adminProjetX/themes/new-theme/public/carrier.bundle.js",
-      "adminProjetX/themes/new-theme/public/create_product_default_theme.css",
-      "adminProjetX/themes/new-theme/public/meta.bundle.js",
-      "adminProjetX/themes/new-theme/public/module.bundle.js",
-    ],
     container_id: 'tempered_files_container',
     content_action: '#',
   },
