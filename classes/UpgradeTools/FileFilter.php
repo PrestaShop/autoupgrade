@@ -165,10 +165,7 @@ class FileFilter
                 if (!$fileinfo->isDir() || $fileinfo->isDot()) {
                     continue;
                 }
-                if (!in_array($fileinfo->getFilename(), $nativeModules)) {
-                    continue;
-                }
-                if (!(new SplFileInfo($this->rootDir . '/modules/' . $fileinfo->getFilename() . '/vendor'))->isDir()) {
+                if (in_array($fileinfo->getFilename(), $nativeModules) && !(new SplFileInfo($this->rootDir . '/modules/' . $fileinfo->getFilename() . '/vendor'))->isDir()) {
                     // If a vendor folder is found in the module, this means it has been upgraded or manually installed
                     // and can be ignored during the upgrade process
                     continue;

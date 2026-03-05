@@ -26,8 +26,10 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class BackupFinderTest extends TestCase
 {
-    /** string */
+    /** @var string */
     private static $pathToBackup;
+    /** @var string */
+    private static $systemTimezone;
     /** @var Translator */
     private $translator;
 
@@ -42,6 +44,9 @@ class BackupFinderTest extends TestCase
         // Create directory of a fake shop & release
         self::$pathToBackup = sys_get_temp_dir() . '/BackupFinderFolder';
         self::createTreeStructureFromJsonFile(__DIR__ . '/../../fixtures/list-of-files/backup-folder.json', self::$pathToBackup);
+
+        self::$systemTimezone = date_default_timezone_get();
+        date_default_timezone_set('GMT');
     }
 
     public function testListingOfBackups()
@@ -60,6 +65,7 @@ class BackupFinderTest extends TestCase
     public static function tearDownAfterClass()
     {
         (new Filesystem())->remove(self::$pathToBackup);
+        date_default_timezone_set(self::$systemTimezone);
     }
 
     private static function createTreeStructureFromJsonFile($fixturePath, $destinationPath)

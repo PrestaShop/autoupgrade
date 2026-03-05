@@ -19,13 +19,26 @@
  */
 use PHPUnit\Framework\TestCase;
 use PrestaShop\Module\AutoUpgrade\PrestashopConfiguration;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleAdapter;
 use Symfony\Component\Filesystem\Filesystem;
 
 class PrestaShopConfigurationTest extends TestCase
 {
+    protected function setUp()
+    {
+        parent::setUp();
+
+        if (PHP_VERSION_ID >= 80000) {
+            $this->markTestSkipped('An issue with this version of PHPUnit and PHP 8+ prevents this test to run.');
+        }
+    }
+
     public function testPrestaShopVersionInFile()
     {
-        $class = new PrestashopConfiguration(new Filesystem(), __DIR__);
+        $moduleAdapter = $this->getMockBuilder(ModuleAdapter::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $class = new PrestashopConfiguration(new Filesystem(), $moduleAdapter, __DIR__);
         $content = "<?php
 define('_DB_SERVER_', '127.0.0.1:3306');
 define('_DB_NAME_', 'prestashop');
@@ -51,7 +64,10 @@ define('_RIJNDAEL_IV_', 'fdfd==');";
      */
     public function testPrestaShopVersionInAppKernel()
     {
-        $class = new PrestashopConfiguration(new Filesystem(), __DIR__);
+        $moduleAdapter = $this->getMockBuilder(ModuleAdapter::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $class = new PrestashopConfiguration(new Filesystem(), $moduleAdapter, __DIR__);
         $this->assertSame(
             '1.7.6.0',
             $class->findPrestaShopVersionInFile(

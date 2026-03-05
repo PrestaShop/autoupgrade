@@ -124,12 +124,7 @@ class ModuleAdapter
             if ($moduleInstalled['name'] === 'autoupgrade') {
                 continue;
             }
-            // We have a file modules/mymodule
-            if (is_file($dir . $moduleInstalled['name'])) {
-                continue;
-            }
-            // We don't have a file modules/mymodule/mymodule.php
-            if (!is_file($dir . $moduleInstalled['name'] . DIRECTORY_SEPARATOR . $moduleInstalled['name'] . '.php')) {
+            if (!$this->isFolderContainingModule($dir . $moduleInstalled['name'])) {
                 continue;
             }
 
@@ -140,5 +135,38 @@ class ModuleAdapter
         }
 
         return $list;
+    }
+
+    /**
+     * Check the folder matches the contents of a module.
+     * The file config.xml is not checked because it is not mandatory for a working module.
+     */
+    public function isFolderContainingModule(string $folder): bool
+    {
+        if (!is_dir($folder)) {
+            return false;
+        }
+
+        $expectedModuleName = basename($folder);
+        // A valid module contains a file mymodule/mymodule.php
+        return is_file($folder . DIRECTORY_SEPARATOR . $expectedModuleName . '.php');
+    }
+
+    /**
+     * Loads the config.xml from a module folder and get the version stored in there.
+     */
+    public function getVersionFromConfigXmlInFolder(string $moduleFolder): ?string
+    {
+        $configXmlPath = $moduleFolder . DIRECTORY_SEPARATOR . 'config.xml';
+        if (!file_exists($configXmlPath)) {
+            return null;
+        }
+
+        $xml = simplexml_load_file($configXmlPath);
+        if (!$xml || empty($xml->version)) {
+            return null;
+        }
+
+        return $xml->version;
     }
 }

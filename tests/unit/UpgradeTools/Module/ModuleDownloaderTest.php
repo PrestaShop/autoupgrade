@@ -61,7 +61,7 @@ class ModuleDownloaderTest extends TestCase
             });
 
         $this->logger = $this->createMock(Logger::class);
-        $this->moduleDownloader = new ModuleDownloader($this->downloadService, $translator, $this->logger, sys_get_temp_dir() . '/fakeDownloaderDestination');
+        $this->moduleDownloader = new ModuleDownloader($this->downloadService, $translator, $this->logger, sys_get_temp_dir() . '/fakeDownloaderDestination/');
     }
 
     public function testModuleDownloaderSucceedsOnFirstTryWithLocalFile()
@@ -83,7 +83,7 @@ class ModuleDownloaderTest extends TestCase
         $this->moduleDownloader->downloadModule($moduleContext);
 
         // Only the first download should have run
-        $this->assertEquals('/tmp/fakeDownloaderDestination', $moduleContext->getPathToModuleUpdate());
+        $this->assertEquals('/tmp/fakeDownloaderDestination/mymodule', $moduleContext->getPathToModuleUpdate());
     }
 
     public function testModuleDownloaderSucceedsOnFirstTryWithRemoteFile()

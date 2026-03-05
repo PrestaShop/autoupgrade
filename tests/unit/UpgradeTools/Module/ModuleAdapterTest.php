@@ -227,6 +227,21 @@ class ModuleAdapterTest extends TestCase
         $moduleAdapter->listModulesPresentInFolderAndInstalled();
     }
 
+    public function testFolderContainingModule()
+    {
+        $moduleAdapter = $this->createModuleAdapterWithInstalledModules([]);
+        $this->assertTrue($moduleAdapter->isFolderContainingModule($this->fixturesPath . 'mymodule'));
+        $this->assertFalse($moduleAdapter->isFolderContainingModule($this->fixturesPath . 'not_a_module'));
+    }
+
+    public function testVersionFromConfigXmlInFolder()
+    {
+        $moduleAdapter = $this->createModuleAdapterWithInstalledModules([]);
+        $this->assertEquals('7.5.1', $moduleAdapter->getVersionFromConfigXmlInFolder($this->fixturesPath . 'another_module'));
+        $this->assertNull($moduleAdapter->getVersionFromConfigXmlInFolder($this->fixturesPath . 'mymodule'));
+        $this->assertNull($moduleAdapter->getVersionFromConfigXmlInFolder($this->fixturesPath . 'not_a_module'));
+    }
+
     /**
      * Helper method to create a ModuleAdapter with mocked getInstalledVersionOfModules
      *

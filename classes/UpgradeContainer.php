@@ -66,6 +66,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\ComposerSo
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\DistributionApiSourceProvider;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\LocalSourceProvider;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\MarketplaceSourceProvider;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\PrestaShopArchiveSourceProvider;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\SymfonyAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translation;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
@@ -609,6 +610,7 @@ class UpgradeContainer
                 new MarketplaceSourceProvider($this->getUpdateState()->getDestinationVersion(), $this->getProperty(self::PS_ROOT_PATH), $this->getFileLoader(), $this->getFileStorage()),
                 new DistributionApiSourceProvider($this->getUpdateState()->getDestinationVersion(), $this->getDistributionApiService(), $this->getFileStorage()),
                 new ComposerSourceProvider($this->getProperty(self::TMP_FILES_PATH), $this->getComposerService(), $this->getFileStorage()),
+                new PrestaShopArchiveSourceProvider($this->getProperty(self::TMP_FILES_PATH), $this->getComposerService(), $this->getFileStorage(), $this->getModuleAdapter()),
             ];
         }
 
@@ -770,6 +772,7 @@ class UpgradeContainer
         if (null === $this->prestashopConfiguration) {
             $this->prestashopConfiguration = new PrestashopConfiguration(
                 $this->getFileSystem(),
+                $this->getModuleAdapter(),
                 $this->getProperty(self::PS_ROOT_PATH)
             );
         }

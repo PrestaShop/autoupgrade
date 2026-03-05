@@ -23,29 +23,27 @@ namespace PrestaShop\Module\AutoUpgrade;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleAdapter;
 use Symfony\Component\Filesystem\Filesystem;
 
 class PrestashopConfiguration
 {
-    /**
-     * @var Filesystem
-     */
-    private $filesystem;
     // Variables used for cache
-    /**
-     * @var string
-     */
+    /** @var string */
     private $moduleVersion;
 
     // Variables from main class
-    /**
-     * @var string
-     */
+    /** @var Filesystem */
+    private $filesystem;
+    /** @var ModuleAdapter */
+    private $moduleAdapter;
+    /** @var string */
     private $psRootDir;
 
-    public function __construct(Filesystem $filesystem, string $psRootDir)
+    public function __construct(Filesystem $filesystem, ModuleAdapter $moduleAdapter, string $psRootDir)
     {
         $this->filesystem = $filesystem;
+        $this->moduleAdapter = $moduleAdapter;
         $this->psRootDir = $psRootDir;
     }
 
@@ -59,13 +57,9 @@ class PrestashopConfiguration
         }
 
         // TODO: to be moved as property class in order to make tests possible
-        $path = _PS_ROOT_DIR_ . '/modules/autoupgrade/config.xml';
+        $path = _PS_ROOT_DIR_ . '/modules/autoupgrade';
 
-        if ($this->filesystem->exists($path)
-            && $xml_module_version = simplexml_load_file($path)
-        ) {
-            $this->moduleVersion = (string) $xml_module_version->version;
-        }
+        $this->moduleVersion = $this->moduleAdapter->getVersionFromConfigXmlInFolder($path);
 
         return $this->moduleVersion;
     }
