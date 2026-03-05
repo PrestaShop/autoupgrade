@@ -314,17 +314,17 @@
       <trans-unit id="88a8e935ad1b255eae2a4c490886b83a">
         <source><![CDATA[Module %s update files (%s => %s) have been fetched from %s.]]></source>
         <target><![CDATA[Module %s update files (%s => %s) have been fetched from %s.]]></target>
-        <note>classes/UpgradeTools/Module/ModuleDownloader.php:102</note>
+        <note>classes/UpgradeTools/Module/ModuleDownloader.php:103</note>
       </trans-unit>
       <trans-unit id="83e483e14240bf9d88eff9fa253133ca">
         <source>The received module archive is empty.</source>
         <target>The received module archive is empty.</target>
-        <note>classes/UpgradeTools/Module/ModuleDownloader.php:118</note>
+        <note>classes/UpgradeTools/Module/ModuleDownloader.php:119</note>
       </trans-unit>
       <trans-unit id="7a0dd1e622442e88dc5c8cf1520997b4">
         <source>Invalid contents from provider (Got an XML file).</source>
         <target>Invalid contents from provider (Got an XML file).</target>
-        <note>classes/UpgradeTools/Module/ModuleDownloader.php:123</note>
+        <note>classes/UpgradeTools/Module/ModuleDownloader.php:124</note>
       </trans-unit>
       <trans-unit id="ffecf7f010dec7170bcc2749d49c41ff">
         <source>No version present in database for module %s, all files for update will be applied.</source>
