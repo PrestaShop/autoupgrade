@@ -19,48 +19,40 @@
 
 import DialogTamperedFilesContents from "../../../views/templates/dialogs/dialog-tempered-files-content.html.twig";
 import DialogTamperedFiles from "../../../views/templates/dialogs/dialog-tempered-files.html.twig";
+import Dialog from '../../../views/templates/components/dialog.html.twig';
 import { twig } from '@sensiolabs/storybook-symfony-webpack5';
 
 export default {
-  title: "Components/Dialog/TamperedFiles",
+  title: "Components/Dialog/ModulesReport",
   render: (args) => ({
     components: {DialogTamperedFiles, DialogTamperedFilesContents},
     template: twig`
-      <twig:dialogs:dialog-tempered-files>
+      <twig:dialogs:dialog-modules-report>
         {% block dialog_extra_content %}
-          {{ component('dialogs:dialog-tempered-files-content', { missing_files: missing_files, altered_files: altered_files }) }}
+          {{ component('dialogs:dialog-modules-report-content', { incompatible_modules: incompatible_modules, uncertain_modules: uncertain_modules, module_manager_url: module_manager_url, prestashop_version: prestashop_version }) }}
         {% endblock %}
-      </twig:dialogs:dialog-tempered-files>
+      </twig:dialogs:dialog-modules-report>
     `,
   }),
 };
 
 export const Loaded = {
   args: {
-    title: "List of core alterations",
-    message:
-      "Some core files have been altered, customization made on these files will be lost during the update.",
-    missing_files: [
-      "adminProjetX/autoupgrade/index.php",
-      "adminProjetX/backups/index.php",
-      "config/xml/.htaccess",
-      "config/xml/themes/index.php",
+    title: "Some modules require your attention",
+    incompatible_modules: [
+      "ps_edition_basic",
     ],
-    altered_files: [
-      "adminProjetX/themes/new-theme/public/tax.bundle.js",
-      "adminProjetX/themes/new-theme/public/order_return_states_form.bundle.js",
-      "adminProjetX/themes/new-theme/public/carrier.bundle.js",
-      "adminProjetX/themes/new-theme/public/create_product_default_theme.css",
-      "adminProjetX/themes/new-theme/public/meta.bundle.js",
-      "adminProjetX/themes/new-theme/public/module.bundle.js",
-      "adminProjetX/themes/new-theme/public/tax.bundle.js",
-      "adminProjetX/themes/new-theme/public/order_return_states_form.bundle.js",
-      "adminProjetX/themes/new-theme/public/carrier.bundle.js",
-      "adminProjetX/themes/new-theme/public/create_product_default_theme.css",
-      "adminProjetX/themes/new-theme/public/meta.bundle.js",
-      "adminProjetX/themes/new-theme/public/module.bundle.js",
+    uncertain_modules: [
+      'test_module_404',
+      'test_module_405',
+      'test_module_406',
+      'test_module_407',
+      'wololo',
+      'ps_welcome',
     ],
-    container_id: 'tempered_files_container',
+    prestashop_version: '9.3.0',
+    module_manager_url: '#',
+    container_id: 'modules_report_container',
     content_action: '#',
   },
   play: async () => {

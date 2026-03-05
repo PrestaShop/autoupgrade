@@ -1,0 +1,38 @@
+{#**
+ * Copyright since 2007 PrestaShop SA and Contributors
+ * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License version 3.0
+ * that is bundled with this package in the file LICENSE.md.
+ * It is also available through the world-wide-web at this URL:
+ * https://opensource.org/licenses/AFL-3.0
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@prestashop.com so we can send you a copy immediately.
+ *
+ * @author    PrestaShop SA and Contributors <contact@prestashop.com>
+ * @copyright Since 2007 PrestaShop SA and Contributors
+ * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
+ *#}
+{% if incompatible_modules is defined and incompatible_modules|length > 0 %}
+  {% include "@ModuleAutoUpgrade/components/scrollable-list.html.twig" with {
+    'title': 'Incompatible modules'|trans({}),
+    'description': 'These modules are known to be incompatible with PrestaShop %version%. They will be uninstalled before updating the store.'|trans({'%version%': prestashop_version}),
+    'items': incompatible_modules,
+    'status': 'error',
+  } %}
+{% endif %}
+
+{% if uncertain_modules is defined and uncertain_modules|length > 0 %}
+  {% include "@ModuleAutoUpgrade/components/scrollable-list.html.twig" with {
+    'title': 'Uncertain modules'|trans({}),
+    'description': 'The compatibility of the following modules with the destination version of PrestaShop cannot be checked. It could be because they are homemade or have been unlisted from the Marketplace. Please review them via the [1]Module Manager[/1].'|trans({
+      '[1]' : '<a class="link" href="' ~ module_manager_url ~'" target="_blank">',
+      '[/1]' : '</a>',
+    }),
+    'items': uncertain_modules,
+    'status': 'warning',
+  } %}
+{% endif %}

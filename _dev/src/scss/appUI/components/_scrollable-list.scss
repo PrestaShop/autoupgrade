@@ -22,18 +22,36 @@ $e: ".scrollable-list";
 
 #{$ua-id} {
   #{$e} {
-    --#{$ua-prefix}scrollable-list-background-color: var(--#{$ua-prefix}muted-background-color);
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    padding: 1.5rem;
-    background-color: var(--#{$ua-prefix}scrollable-list-background-color);
-    border-radius: var(--#{$ua-prefix}border-radius);
+    padding-bottom: 1.5rem;
 
     &__header {
       display: flex;
       gap: 1rem;
       align-items: center;
+
+      &[class*="--"] {
+        padding-inline-start: 1.75rem;
+        background-repeat: no-repeat;
+        background-position: left -0.125rem;
+        background-size: 1.5rem 1.5rem;
+        font-size: 0.875rem;
+        line-height: 1.4;
+      }
+
+      &--success {
+        background-image: url("@img/check.svg");
+      }
+
+      &--warning {
+        background-image: url("@img/warning.svg");
+      }
+
+      &--error {
+        background-image: url("@img/close.svg");
+      }
     }
 
     &__count {
@@ -46,13 +64,17 @@ $e: ".scrollable-list";
     }
 
     &__scroll {
+      --#{$ua-prefix}scrollable-list-background-color: var(--#{$ua-prefix}muted-background-color);
+
       --#{$ua-prefix}scrollable-list-height: calc(6lh + (5 * 0.5rem));
       display: flex;
       flex-direction: column;
       flex-grow: 1;
       gap: 0.5rem;
       max-height: var(--#{$ua-prefix}scrollable-list-height);
+      padding: 1.5rem;
       overflow-y: auto;
+      background-color: var(--#{$ua-prefix}scrollable-list-background-color);
       border-radius: var(--#{$ua-prefix}border-radius);
       font-size: 0.875rem;
       line-height: 1.25rem;
