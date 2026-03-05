@@ -144,7 +144,7 @@ jobs:
 
   nightly:
     name: Nightly Report
-    if: ${{ github.event_name == 'schedule' }}
+    if: ${{ github.event_name == 'schedule' && always() }}
     needs:
       - ui_test_matrix
       - ui_test
