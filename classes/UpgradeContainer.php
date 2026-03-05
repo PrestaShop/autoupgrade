@@ -882,6 +882,8 @@ class UpgradeContainer
                 $this->getTranslator(),
                 $this->getPhpVersionResolverService(),
                 $this->getChecksumCompare(),
+                $this->getModuleAdapter(),
+                $this->getMarketplaceService(),
                 $this->psRootDir,
                 $this->adminDir,
                 $this->getProperty(UpgradeContainer::WORKSPACE_PATH),

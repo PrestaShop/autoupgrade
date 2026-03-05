@@ -25,10 +25,14 @@ use Configuration;
 use ConfigurationTest;
 use Context;
 use Exception;
+use PrestaShop\Module\AutoUpgrade\Commands\CheckModulesCommand;
 use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
+use PrestaShop\Module\AutoUpgrade\Exceptions\MarketplaceApiException;
 use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Services\MarketplaceService;
 use PrestaShop\Module\AutoUpgrade\Services\PhpVersionResolverService;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 use PrestaShop\Module\AutoUpgrade\Xml\ChecksumCompare;
 use Shop;
@@ -91,6 +95,10 @@ class UpgradeSelfCheck
     private $translator;
     /** @var ChecksumCompare */
     private $checksumCompare;
+    /** @var ModuleAdapter */
+    private $moduleAdapter;
+    /** @var MarketplaceService */
+    private $marketplaceService;
 
     // Errors const
     const PHP_COMPATIBILITY_INVALID = 0;
@@ -117,6 +125,7 @@ class UpgradeSelfCheck
     const CORE_TEMPERED_FILES_LIST_NOT_EMPTY = 20;
     const THEME_TEMPERED_FILES_LIST_NOT_EMPTY = 21;
     const DESTINATION_VERSION_IS_NOT_SUPPORTED = 22;
+    const MODULES_REQUIRE_ATTENTION = 23;
 
     public function __construct(
         Upgrader $upgrader,
@@ -125,6 +134,8 @@ class UpgradeSelfCheck
         Translator $translator,
         PhpVersionResolverService $phpRequirementService,
         ChecksumCompare $checksumCompare,
+        ModuleAdapter $moduleAdapter,
+        MarketplaceService $marketplaceService,
         string $prodRootPath,
         string $adminPath,
         string $autoUpgradePath,
@@ -136,6 +147,8 @@ class UpgradeSelfCheck
         $this->translator = $translator;
         $this->phpRequirementService = $phpRequirementService;
         $this->checksumCompare = $checksumCompare;
+        $this->moduleAdapter = $moduleAdapter;
+        $this->marketplaceService = $marketplaceService;
         $this->prodRootPath = $prodRootPath;
         $this->adminPath = $adminPath;
         $this->autoUpgradePath = $autoUpgradePath;
@@ -197,6 +210,7 @@ class UpgradeSelfCheck
             self::DESTINATION_VERSION_IS_NOT_SUPPORTED => empty($this->getLatestCompatibleModuleVersion()),
             self::THEME_TEMPERED_FILES_LIST_NOT_EMPTY => $isThemeTemperedFileListNotEmpty,
             self::CORE_TEMPERED_FILES_LIST_NOT_EMPTY => $isCoreTemperedFileListNotEmpty,
+            self::MODULES_REQUIRE_ATTENTION => $this->checkModuleRequiresAttention(),
         ];
 
         if (!$warnings[self::DESTINATION_VERSION_IS_NOT_SUPPORTED]) {
@@ -417,6 +431,21 @@ class UpgradeSelfCheck
             case self::TEMPERED_FILES_UNKNOWN:
                 return [
                     'message' => $this->translator->trans('We were unable to fetch missing or altered files. In these conditions, your store cannot be updated to avoid any further bugs.'),
+                ];
+
+            case self::MODULES_REQUIRE_ATTENTION:
+                if ($isWebVersion) {
+                    $params = [
+                        '[1]' => '<a class="link" href="#update-step-version-choice-modules-dialog">',
+                        '[/1]' => '</a>',
+                    ];
+                    $message = $this->translator->trans('Some modules require your attention. [1]See the details[/1].', $params);
+                } else {
+                    $message = $this->translator->trans('Some modules require your attention. Run bin/console %command%', ['%command%' => CheckModulesCommand::getDefaultName()]);
+                }
+
+                return [
+                    'message' => $message,
                 ];
 
             default:
@@ -744,6 +773,35 @@ class UpgradeSelfCheck
         }
 
         return $directories;
+    }
+
+    /**
+     * This function returns as soon as a module that requires attention (manual check or incompatible) is found.
+     */
+    public function checkModuleRequiresAttention(): bool
+    {
+        $modulesInstalled = $this->moduleAdapter->listModulesPresentInFolderAndInstalled();
+        
+        foreach ($modulesInstalled as $localModule) {
+            $localModuleName = $localModule['name'];
+            $localVersion = $localModule['currentVersion'];
+
+            try {
+                $moduleDetails = $this->marketplaceService->getModuleDetail($localModuleName);
+            } catch (MarketplaceApiException $e) {
+                return true;
+            }
+            $moduleCompatibility = $this->marketplaceService->findCompatibleModuleUpgrade(
+                $moduleDetails,
+                $this->destinationVersion,
+                $localVersion
+            );
+
+            if (!$moduleCompatibility->isCompatible()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
