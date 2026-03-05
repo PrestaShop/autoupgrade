@@ -33,6 +33,7 @@ class PageSelectors
     public const DOWNLOAD_LOGS_PARENT_ID = 'download_logs';
     public const NOTIFICATION_PARENT_ID = 'update_assistant_notification';
     public const TEMPERED_FILES_CONTAINER_ID = 'tempered_files_container';
+    public const MODULES_REPORT_CONTAINER_ID = 'modules_report_container';
 
     /**
      * @return array<string, string>

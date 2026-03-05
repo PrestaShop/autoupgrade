@@ -30,6 +30,7 @@ use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
 use PrestaShop\Module\AutoUpgrade\Exceptions\MarketplaceApiException;
 use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Router\Routes;
 use PrestaShop\Module\AutoUpgrade\Services\MarketplaceService;
 use PrestaShop\Module\AutoUpgrade\Services\PhpVersionResolverService;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleAdapter;
@@ -99,6 +100,10 @@ class UpgradeSelfCheck
     private $moduleAdapter;
     /** @var MarketplaceService */
     private $marketplaceService;
+
+    // Some compatibility checks may return quickly to display a message in the list
+    const COMPLETE_SEARCH = 'complete';
+    const QUICK_SEARCH = 'quick';
 
     // Errors const
     const PHP_COMPATIBILITY_INVALID = 0;
@@ -401,7 +406,7 @@ class UpgradeSelfCheck
             case self::CORE_TEMPERED_FILES_LIST_NOT_EMPTY:
                 if ($isWebVersion) {
                     $params = [
-                        '[1]' => '<a class="link" href="#update-step-version-choice-core-tempered-files-dialog">',
+                        '[1]' => '<a class="link" href="#' . Routes::UPDATE_STEP_VERSION_CHOICE_CORE_TEMPERED_FILES_DIALOG . '">',
                         '[/1]' => '</a>',
                     ];
                     $message = $this->translator->trans('Some core files have been altered or removed. Any changes made to these files may be overwritten during the update. [1]See the list of changes[/1].', $params);
@@ -416,7 +421,7 @@ class UpgradeSelfCheck
             case self::THEME_TEMPERED_FILES_LIST_NOT_EMPTY:
                 if ($isWebVersion) {
                     $params = [
-                        '[1]' => '<a class="link" href="#update-step-version-choice-theme-tempered-files-dialog">',
+                        '[1]' => '<a class="link" href="#' . Routes::UPDATE_STEP_VERSION_CHOICE_THEME_TEMPERED_FILES_DIALOG . '">',
                         '[/1]' => '</a>',
                     ];
                     $message = $this->translator->trans('Some theme files have been altered or removed. Any changes made to these files may be overwritten during the update. [1]See the list of changes[/1].', $params);
@@ -436,7 +441,7 @@ class UpgradeSelfCheck
             case self::MODULES_REQUIRE_ATTENTION:
                 if ($isWebVersion) {
                     $params = [
-                        '[1]' => '<a class="link" href="#update-step-version-choice-modules-dialog">',
+                        '[1]' => '<a class="link" href="#' . Routes::UPDATE_STEP_VERSION_CHOICE_MODULES_REPORT_DIALOG . '">',
                         '[/1]' => '</a>',
                     ];
                     $message = $this->translator->trans('Some modules require your attention. [1]See the details[/1].', $params);
@@ -776,12 +781,18 @@ class UpgradeSelfCheck
     }
 
     /**
-     * This function returns as soon as a module that requires attention (manual check or incompatible) is found.
+     * @param self::*_SEARCH $mode
+     *
+     * @return array{incompatible_modules: string[], uncertain_modules: string[]}
      */
-    public function checkModuleRequiresAttention(): bool
+    public function getModulesRequiringAttention($mode = self::COMPLETE_SEARCH): array
     {
+        $result = [
+            'incompatible_modules' => [],
+            'uncertain_modules' => [],
+        ];
         $modulesInstalled = $this->moduleAdapter->listModulesPresentInFolderAndInstalled();
-        
+
         foreach ($modulesInstalled as $localModule) {
             $localModuleName = $localModule['name'];
             $localVersion = $localModule['currentVersion'];
@@ -789,7 +800,12 @@ class UpgradeSelfCheck
             try {
                 $moduleDetails = $this->marketplaceService->getModuleDetail($localModuleName);
             } catch (MarketplaceApiException $e) {
-                return true;
+                $result['uncertain_modules'][] = $localModule['name'];
+
+                if ($mode === self::QUICK_SEARCH) {
+                    return $result;
+                }
+                continue;
             }
             $moduleCompatibility = $this->marketplaceService->findCompatibleModuleUpgrade(
                 $moduleDetails,
@@ -798,10 +814,25 @@ class UpgradeSelfCheck
             );
 
             if (!$moduleCompatibility->isCompatible()) {
-                return true;
+                $result['incompatible_modules'][] = $localModule['name'];
+
+                if ($mode === self::QUICK_SEARCH) {
+                    return $result;
+                }
             }
         }
-        return false;
+
+        return $result;
+    }
+
+    /**
+     * This function allows to return as soon as a module that requires attention (manual check or incompatible) is found.
+     */
+    public function checkModuleRequiresAttention(): bool
+    {
+        $moduleRequiringAttention = $this->getModulesRequiringAttention(self::QUICK_SEARCH);
+
+        return !empty($moduleRequiringAttention['uncertain_modules']) || !empty($moduleRequiringAttention['incompatible_modules']);
     }
 
     /**

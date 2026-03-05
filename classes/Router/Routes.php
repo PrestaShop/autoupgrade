@@ -36,6 +36,8 @@ class Routes
     const UPDATE_STEP_VERSION_CHOICE_CORE_TEMPERED_FILES_CONTENT = 'update-step-version-choice-core-tempered-files-content';
     const UPDATE_STEP_VERSION_CHOICE_THEME_TEMPERED_FILES_DIALOG = 'update-step-version-choice-theme-tempered-files-dialog';
     const UPDATE_STEP_VERSION_CHOICE_THEME_TEMPERED_FILES_CONTENT = 'update-step-version-choice-theme-tempered-files-content';
+    const UPDATE_STEP_VERSION_CHOICE_MODULES_REPORT_DIALOG = 'update-step-version-choice-modules_report-dialog';
+    const UPDATE_STEP_VERSION_CHOICE_MODULES_REPORT_CONTENT = 'update-step-version-choice-modules_report-content';
 
     /* step: update options */
     const UPDATE_PAGE_UPDATE_OPTIONS = 'update-page-update-options';
