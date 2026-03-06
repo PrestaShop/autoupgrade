@@ -93,10 +93,10 @@ export default defineConfig({
           }
 
           if (/\.(webp|png|jpe?g|gif|svg)$/.test(assetName)) {
-            return 'img/[name].[extname]';
+            return 'img/[name][extname]';
           }
 
-          return 'assets/[name].[extname]';
+          return 'assets/[name][extname]';
         }
       }
     },

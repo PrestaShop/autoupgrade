@@ -29,11 +29,13 @@
     <p>{{ description|raw }}</p>
   {% endif %}
 
-  <div class="scrollable-list__scroll">
-    {% for item in items %}
-      <p class="scrollable-list__item">
-        {{ item }}
-      </p>
-    {% endfor %}
+  <div class="scrollable-list__scroll-wrapper">
+    <div class="scrollable-list__scroll">
+      {% for item in items %}
+        <p class="scrollable-list__item">
+          {{ item }}
+        </p>
+      {% endfor %}
+    </div>
   </div>
 </div>

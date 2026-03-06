@@ -136,6 +136,11 @@ $e: ".dialog";
       gap: 0.5rem;
     }
 
+    &--sm {
+      width: 600px;
+      max-width: calc(100% - 2rem);
+    }
+
     &--md {
       width: 904px;
       max-width: calc(100% - 2rem);

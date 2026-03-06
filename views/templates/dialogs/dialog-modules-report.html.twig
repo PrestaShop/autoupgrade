@@ -18,7 +18,7 @@
  *#}
 {% extends "@ModuleAutoUpgrade/components/dialog.html.twig" %}
 
-{% set dialogSize = 'lg' %}
+{% set dialogSize = 'sm' %}
 
 {% block dialog_content %}{% endblock %}
 
@@ -27,6 +27,8 @@
     {% for skeletonScrollableList in 1..2 %}
       <div class="skeleton-scrollable-list">
         <div class="skeleton-scrollable-list__title skeleton skeleton--title"></div>
+
+        <div class="skeleton-scrollable-list__description skeleton skeleton--paragraph"></div>
 
         <div class="skeleton-scrollable-list__wrapper">
           {% for skeletonParagraph in 1..5 %}

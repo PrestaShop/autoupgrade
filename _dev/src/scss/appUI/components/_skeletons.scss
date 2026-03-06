@@ -42,19 +42,21 @@ $e: ".skeleton";
 
     // Scrollable list
     &-scrollable-list {
-      padding: 1rem;
-      background-color: var(--#{$ua-prefix}muted-background-color);
-      border-radius: var(--#{$ua-prefix}border-radius);
-
       &__title {
-        margin-block-end: 1.875rem;
+        margin-block-end: 1rem;
+      }
+
+      &__description {
+        margin-block-end: 1rem;
       }
 
       &__wrapper {
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
-        padding-inline: 1.875rem;
+        padding: 1rem;
+        background-color: var(--#{$ua-prefix}muted-background-color);
+        border-radius: var(--#{$ua-prefix}border-radius);
       }
     }
   }
