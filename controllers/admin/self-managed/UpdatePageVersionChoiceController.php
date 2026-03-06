@@ -309,7 +309,7 @@ class UpdatePageVersionChoiceController extends AbstractPageWithStepController
                 'container_id' => PageSelectors::TEMPERED_FILES_CONTAINER_ID,
                 'content_action' => Routes::UPDATE_STEP_VERSION_CHOICE_CORE_TEMPERED_FILES_CONTENT,
             ]),
-            ['addScript' => 'tempered-files-dialog']
+            ['addScript' => 'skeleton-dialog']
         );
     }
 
@@ -336,8 +336,7 @@ class UpdatePageVersionChoiceController extends AbstractPageWithStepController
                     'content_action' => Routes::UPDATE_STEP_VERSION_CHOICE_MODULES_REPORT_CONTENT,
                 ]
             ),
-            // Reuse existing script for tampered files modal
-            ['addScript' => 'tempered-files-dialog']
+            ['addScript' => 'skeleton-dialog']
         );
     }
 
@@ -379,7 +378,7 @@ class UpdatePageVersionChoiceController extends AbstractPageWithStepController
                 'container_id' => PageSelectors::TEMPERED_FILES_CONTAINER_ID,
                 'content_action' => Routes::UPDATE_STEP_VERSION_CHOICE_THEME_TEMPERED_FILES_CONTENT,
             ]),
-            ['addScript' => 'tempered-files-dialog']
+            ['addScript' => 'skeleton-dialog']
         );
     }
 

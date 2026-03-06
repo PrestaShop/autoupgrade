@@ -33,7 +33,7 @@ import DeleteBackupDialog from '../dialogs/DeleteBackupDialog';
 import StartUpdateDialog from '../dialogs/StartUpdateDialog';
 import StartBackupDialog from '../dialogs/StartBackupDialog';
 import SendErrorReportDialog from '../dialogs/SendErrorReportDialog';
-import TemperedFilesDialog from '../dialogs/TemperedFilesDialog';
+import SkeletonDialog from '../dialogs/SkeletonDialog';
 
 import { ScriptType, ScriptsMatching, CurrentScripts } from '../types/scriptHandlerTypes';
 import { routeHandler } from '../main';
@@ -72,7 +72,7 @@ export default class ScriptHandler {
       'start-update-dialog': StartUpdateDialog,
       'start-backup-dialog': StartBackupDialog,
       'send-error-report-dialog': SendErrorReportDialog,
-      'tempered-files-dialog': TemperedFilesDialog
+      'skeleton-dialog': SkeletonDialog
     }
   };
 
