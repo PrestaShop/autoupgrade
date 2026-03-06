@@ -28,7 +28,9 @@ $e: ".scrollable-list";
     gap: 1rem;
 
     &__header {
-      &--success, &--warning, &--error {
+      &--success,
+      &--warning,
+      &--error {
         padding-inline-start: 1.75rem;
         background-repeat: no-repeat;
         background-position: left -0.125rem;
