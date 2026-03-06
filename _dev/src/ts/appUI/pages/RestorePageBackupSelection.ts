@@ -28,12 +28,12 @@ export default class RestorePageBackupSelection extends StepPage {
 
   public mount = () => {
     this.initStepper();
-    this.#form.addEventListener('change', this.#saveForm.bind(this));
+    this.#form.addEventListener('change', this.#saveForm);
     this.#form.addEventListener('submit', this.#handleSubmit);
   };
 
   public beforeDestroy = () => {
-    this.#form.removeEventListener('change', this.#saveForm.bind(this));
+    this.#form.removeEventListener('change', this.#saveForm);
     this.#form.removeEventListener('submit', this.#handleSubmit);
   };
 
