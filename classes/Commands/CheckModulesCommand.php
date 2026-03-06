@@ -22,7 +22,7 @@
 namespace PrestaShop\Module\AutoUpgrade\Commands;
 
 use Exception;
-use PrestaShop\Module\AutoUpgrade\Exceptions\MarketplaceApiException;
+use PrestaShop\Module\AutoUpgrade\Models\Module\Marketplace\ModuleUpgradeCompatibility;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
@@ -117,59 +117,90 @@ class CheckModulesCommand extends AbstractCommand
             }
 
             $modulesInstalled = $this->upgradeContainer->getModuleAdapter()->listModulesPresentInFolderAndInstalled();
-            $marketplaceService = $this->upgradeContainer->getMarketplaceService();
+            $updateSelfCheck = $this->upgradeContainer->getUpgradeSelfCheck();
 
             if (!empty($modulesInstalled)) {
                 $progressIndicator = new ProgressIndicator($output);
                 $output->writeln(sprintf('Prestashop version: %s', $targetPsVersion));
+
                 $progressIndicator->start('Retrieving modules informations, please wait...');
+                $checkResults = $updateSelfCheck->getModulesRequiringAttention();
+                $progressIndicator->finish('Retrieving modules informations: Done.');
 
-                $table = new Table($output);
-                $table->setHeaders([
-                    'Module',
-                    'Compatible',
-                    'Update available',
-                    'Local version',
-                    'Update version available',
-                ]);
-
-                foreach ($modulesInstalled as $localModule) {
-                    $progressIndicator->advance();
-                    $localModuleName = $localModule['name'];
-                    $localVersion = $localModule['currentVersion'];
-
-                    try {
-                        $moduleDetails = $marketplaceService->getModuleDetail($localModuleName);
-                    } catch (MarketplaceApiException $e) {
-                        $table->addRow([
-                        $localModuleName,
-                        '<error>✗ Unable to retrieve module information</error>',
-                    ]);
-                        continue;
-                    }
-
-                    $moduleCompatibility = $marketplaceService->findCompatibleModuleUpgrade(
-                        $moduleDetails,
-                        $targetPsVersion,
-                        $localVersion
-                    );
-
-                    $table->addRow([
-                        $localModuleName,
-                        $moduleCompatibility->isCompatible() ? '✓ Yes' : '✗ No',
-                        $moduleCompatibility->hasUpdateAvailable() ? '✓ Yes' : '✗ No',
-                        $localVersion,
-                        $moduleCompatibility->isCompatible() ? $moduleCompatibility->getCompatibleRelease()->productVersion : '-',
-                    ]);
+                if ($output->isVerbose()) {
+                    $this->renderDetailedTable($output, $modulesInstalled, $checkResults);
                 }
-                $progressIndicator->finish('Result:');
-                $table->render();
+                $this->renderLists($output, $checkResults, $targetPsVersion);
             }
 
             return ExitCode::SUCCESS;
         } catch (Exception $e) {
             $this->logger->error("An error occurred during the check process:\n" . $e);
             throw $e;
+        }
+    }
+
+    /**
+     * @param array<array{name: string, currentVersion: string}> $modulesInstalled
+     * @param array{incompatible_modules: string[], uncertain_modules: string[], compatibility: array<string, ?ModuleUpgradeCompatibility>} $checkResults
+     */
+    private function renderDetailedTable(OutputInterface $output, array $modulesInstalled, array $checkResults): void
+    {
+        $output->writeln('Result:');
+
+        $table = new Table($output);
+        $table->setHeaders([
+            'Module',
+            'Compatible',
+            'Update available',
+            'Local version',
+            'Update version available',
+        ]);
+
+        foreach ($modulesInstalled as $localModule) {
+            $localModuleName = $localModule['name'];
+            $localVersion = $localModule['currentVersion'];
+
+            $moduleCompatibility = $checkResults['compatibility'][$localModuleName];
+
+            if (!$moduleCompatibility) {
+                $table->addRow([
+                    $localModuleName,
+                    '<error>✗ Unable to retrieve module information</error>',
+                ]);
+                continue;
+            }
+
+            $table->addRow([
+                $localModuleName,
+                $moduleCompatibility->isCompatible() ? '✓ Yes' : '✗ No',
+                $moduleCompatibility->hasUpdateAvailable() ? '✓ Yes' : '✗ No',
+                $localVersion,
+                $moduleCompatibility->isCompatible() ? $moduleCompatibility->getCompatibleRelease()->productVersion : '-',
+            ]);
+        }
+        $table->render();
+    }
+
+    /**
+     * @param array{incompatible_modules: string[], uncertain_modules: string[], compatibility: array<string, ?ModuleUpgradeCompatibility>} $checkResults
+     */
+    private function renderLists(OutputInterface $output, array $checkResults, string $targetPsVersion): void
+    {
+        if (!empty($checkResults['incompatible_modules'])) {
+            $output->writeln("\t<error>✘</error> " . count($checkResults['incompatible_modules']) . ' incompatible modules');
+            $output->writeln("\t  These modules are known to be incompatible with PrestaShop $targetPsVersion. They will be uninstalled before updating the store:");
+            foreach ($checkResults['incompatible_modules'] as $module) {
+                $output->writeln("\t\t" . $module);
+            }
+        }
+
+        if (!empty($checkResults['uncertain_modules'])) {
+            $output->writeln("\t<warning>⚠</warning> " . count($checkResults['uncertain_modules']) . ' uncertain modules');
+            $output->writeln("\t  The compatibility of the following modules with the destination version of PrestaShop cannot be checked. It could be because they are homemade or have been unlisted from the Marketplace. Please review them via the Module Manager:");
+            foreach ($checkResults['uncertain_modules'] as $module) {
+                $output->writeln("\t\t" . $module);
+            }
         }
     }
 }

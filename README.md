@@ -114,6 +114,12 @@ The requirements can be reviewed to confirm the store is safe to update:
 $ php bin/console update:check-requirements <your-admin-dir>
 ```
 
+Modules that require an action before or during the update are listed with:
+
+```
+$ php bin/console update:check-modules <your-admin-dir>
+```
+
 To see which new versions are available for your installation use:
 
 ```
@@ -176,7 +182,7 @@ For more information on using commands, please refer to the [PrestaShop develope
 
 ## Check Modules Compatibility
 
-A command is available to verify module compatibility and detect available updates before performing a store update.
+A command helps you review module compatibility before launching an update, giving you clearer visibility on the actions needed or planned.
 
 Run the command from the root directory of the module:
 
@@ -184,7 +190,7 @@ Run the command from the root directory of the module:
 php bin/console update:check-modules <your-admin-dir>
 ```
 
-This command helps you review module compatibility before launching an update, giving you clearer visibility on potential issues or available updates.
+Running as verbose shows the compatibility details based on the Marketplace API.
 
 ## Channels
 
