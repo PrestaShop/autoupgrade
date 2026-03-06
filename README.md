@@ -32,11 +32,12 @@
 13. [Linting and Testing](#linting-and-testing)
     - [Backend](#backend)
     - [Frontend](#frontend)
-14. [Documentation](#documentation)
-15. [Contributing](#contributing)
+14. [Local development](#local-development)
+15. [Documentation](#documentation)
+16. [Contributing](#contributing)
     - [Reporting issues](#reporting-issues)
     - [Translations](#translations)
-16. [License](#license)
+17. [License](#license)
 
 ## About
 
@@ -350,6 +351,11 @@ All frontend commands should be executed from the `_dev` directory.
 - `npm run lint` ⮕ Runs **ESLint** and **Prettier** to perform static code analysis and automatic formatting of your JavaScript code. Add `:fix` to the command to automatically fix fixable issues.
 
 - `npm run stylelint` ⮕ Runs **Stylelint** to lint and format your SCSS files. You can append `:fix` to automatically resolve solvable formatting issues.
+
+## Local development
+
+To work on the module locally, you can spin up a full PrestaShop environment using Docker.
+See https://github.com/PrestaShop/docker-templates/tree/master/autoupgrade-stack
 
 ## Documentation
 
