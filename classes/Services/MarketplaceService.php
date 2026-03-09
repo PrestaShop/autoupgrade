@@ -42,11 +42,9 @@ class MarketplaceService
     }
 
     /**
-     * @return Module
-     *
      * @throws MarketplaceApiException
      */
-    public function getModuleDetail(string $module)
+    public function getModuleDetail(string $module): Module
     {
         $response = file_get_contents(self::ADDONS_API_URL . '/v2/products/' . $module);
 
