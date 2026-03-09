@@ -42,7 +42,7 @@ class MarketplaceService
     }
 
     /**
-     * @return Module|null
+     * @return Module
      *
      * @throws MarketplaceApiException
      */
@@ -57,7 +57,7 @@ class MarketplaceService
         $data = json_decode($response, true);
 
         if (!$data || !is_array($data)) {
-            return null;
+            throw new MarketplaceApiException($this->translator->trans('Unable to retrieve module %s information. Ignored.', [$module]), MarketplaceApiException::EMPTY_DATA_CODE);
         }
 
         return Module::fromArray($data);
