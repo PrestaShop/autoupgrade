@@ -35,4 +35,4 @@ parameters:
 		-
 			identifier: staticMethod.notFound
 			path: ./../../classes/UpgradeSelfCheck.php
-			count: 1
+			count: 2

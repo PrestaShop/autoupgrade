@@ -89,6 +89,14 @@ class RoutesConfig
                 'controller' => UpdatePageVersionChoiceController::class,
                 'method' => 'themeTemperedFilesContent',
             ],
+            Routes::UPDATE_STEP_VERSION_CHOICE_MODULES_REPORT_DIALOG => [
+                'controller' => UpdatePageVersionChoiceController::class,
+                'method' => 'moduleReportDialog',
+            ],
+            Routes::UPDATE_STEP_VERSION_CHOICE_MODULES_REPORT_CONTENT => [
+                'controller' => UpdatePageVersionChoiceController::class,
+                'method' => 'moduleReportContent',
+            ],
             /* step: update options */
             Routes::UPDATE_PAGE_UPDATE_OPTIONS => [
                 'controller' => UpdatePageUpdateOptionsController::class,

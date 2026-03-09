@@ -85,7 +85,7 @@ $e-logs: ".logs";
       padding-inline: 2.75rem 1rem;
       background-repeat: no-repeat;
       background-position: left center;
-      background-size: 1.5rem 1.5rem;
+      background-size: 1.375rem 1.375rem;
       font-size: 0.875rem;
       line-height: 1.4rem;
       word-break: break-word;
@@ -100,7 +100,7 @@ $e-logs: ".logs";
       }
 
       &--error {
-        background-image: url("@img/close.svg");
+        background-image: url("@img/error.svg");
       }
 
       &--pointed {

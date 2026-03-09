@@ -21,6 +21,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Controller;
 
+use Context;
 use Exception;
 use PrestaShop\Module\AutoUpgrade\AjaxResponseBuilder;
 use PrestaShop\Module\AutoUpgrade\DocumentationLinks;
@@ -308,7 +309,7 @@ class UpdatePageVersionChoiceController extends AbstractPageWithStepController
                 'container_id' => PageSelectors::TEMPERED_FILES_CONTAINER_ID,
                 'content_action' => Routes::UPDATE_STEP_VERSION_CHOICE_CORE_TEMPERED_FILES_CONTENT,
             ]),
-            ['addScript' => 'tempered-files-dialog']
+            ['addScript' => 'skeleton-dialog']
         );
     }
 
@@ -323,6 +324,50 @@ class UpdatePageVersionChoiceController extends AbstractPageWithStepController
         );
     }
 
+    public function moduleReportDialog(): JsonResponse
+    {
+        return AjaxResponseBuilder::hydrationResponse(
+            PageSelectors::DIALOG_PARENT_ID,
+            $this->getTwig()->render(
+                '@ModuleAutoUpgrade/dialogs/dialog-modules-report.html.twig',
+                [
+                    'title' => $this->upgradeContainer->getTranslator()->trans('Some modules require your attention'),
+                    'container_id' => PageSelectors::MODULES_REPORT_CONTAINER_ID,
+                    'content_action' => Routes::UPDATE_STEP_VERSION_CHOICE_MODULES_REPORT_CONTENT,
+                ]
+            ),
+            ['addScript' => 'skeleton-dialog']
+        );
+    }
+
+    public function moduleReportContent(): JsonResponse
+    {
+        $this->upgradeContainer->initPrestaShopCore();
+
+        // All the different versions of PrestaShop require a different controller name to the Module Manager.
+        // The existing names in the database plus the management of redirect requires us to use different values, because:
+        // - With AdminModulesSf on PS 1.7, we get the proper module/manage, then AdminLogin without the next parameter,
+        // - With AdminModules on PS 9, we get the AdminLogin login page with the next paramater, but then a missing controller error.
+        $destinationController = version_compare($this->upgradeContainer->getProperty(UpgradeContainer::PS_VERSION), '9', '>=')
+            ? 'AdminModulesSf' : 'AdminModules';
+        $moduleManagerLink = Context::getContext()->link->getAdminLink($destinationController);
+
+        $modulesRequiringAttention = $this->upgradeContainer->getUpgradeSelfCheck()->getModulesRequiringAttention();
+
+        return AjaxResponseBuilder::hydrationResponse(
+            PageSelectors::MODULES_REPORT_CONTAINER_ID,
+            $this->getTwig()->render(
+                '@ModuleAutoUpgrade/dialogs/dialog-modules-report-content.html.twig',
+                [
+                    'incompatible_modules' => $modulesRequiringAttention['incompatible_modules'],
+                    'uncertain_modules' => $modulesRequiringAttention['uncertain_modules'],
+                    'prestashop_version' => $this->upgradeContainer->getUpgrader()->getDestinationVersion(),
+                    'module_manager_url' => $moduleManagerLink,
+                ]
+            )
+        );
+    }
+
     public function themeTemperedFilesDialog(): JsonResponse
     {
         return AjaxResponseBuilder::hydrationResponse(
@@ -333,7 +378,7 @@ class UpdatePageVersionChoiceController extends AbstractPageWithStepController
                 'container_id' => PageSelectors::TEMPERED_FILES_CONTAINER_ID,
                 'content_action' => Routes::UPDATE_STEP_VERSION_CHOICE_THEME_TEMPERED_FILES_CONTENT,
             ]),
-            ['addScript' => 'tempered-files-dialog']
+            ['addScript' => 'skeleton-dialog']
         );
     }
 

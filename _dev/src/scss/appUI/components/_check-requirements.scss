@@ -48,7 +48,7 @@ $e: ".check-requirements";
       padding-inline-start: 1.75rem;
       background-repeat: no-repeat;
       background-position: left -0.125rem;
-      background-size: 1.5rem 1.5rem;
+      background-size: 1.375rem 1.375rem;
       font-size: 0.875rem;
       line-height: 1.4;
 
@@ -61,7 +61,7 @@ $e: ".check-requirements";
       }
 
       &--error {
-        background-image: url("@img/close.svg");
+        background-image: url("@img/error.svg");
       }
     }
 

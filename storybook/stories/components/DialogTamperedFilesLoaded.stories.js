@@ -17,17 +17,26 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 
-import DialogTemperedFiles from "../../../views/templates/dialogs/dialog-tempered-files.html.twig";
-import { Default as Dialog } from "./Dialog.stories";
+import DialogTamperedFilesContents from "../../../views/templates/dialogs/dialog-tempered-files-content.html.twig";
+import DialogTamperedFiles from "../../../views/templates/dialogs/dialog-tempered-files.html.twig";
+import { twig } from '@sensiolabs/storybook-symfony-webpack5';
 
 export default {
-  title: "Components/Dialog",
-  component: DialogTemperedFiles,
+  title: "Components/Dialog/TamperedFiles",
+  render: (args) => ({
+    components: {DialogTamperedFiles, DialogTamperedFilesContents},
+    template: twig`
+      <twig:dialogs:dialog-tempered-files>
+        {% block dialog_extra_content %}
+          {{ component('dialogs:dialog-tempered-files-content', { missing_files: missing_files, altered_files: altered_files }) }}
+        {% endblock %}
+      </twig:dialogs:dialog-tempered-files>
+    `,
+  }),
 };
 
-export const TemperedFiles = {
+export const Loaded = {
   args: {
-    ...Dialog.args,
     title: "List of core alterations",
     message:
       "Some core files have been altered, customization made on these files will be lost during the update.",

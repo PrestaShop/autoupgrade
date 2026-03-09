@@ -1,4 +1,4 @@
-{#**
+/**
  * Copyright since 2007 PrestaShop SA and Contributors
  * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
  *
@@ -15,27 +15,27 @@
  * @author    PrestaShop SA and Contributors <contact@prestashop.com>
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
- *#}
-<div class="scrollable-list">
-  {% if title is defined and title is not empty %}
-    <div class="scrollable-list__header {% if status is defined and status is not empty %}scrollable-list__header--{{ status }}{% endif %}">
-      <p class="h3">
-        {{ title }} ({{ items|length }})
-      </p>
-    </div>
-  {% endif %}
+ */
 
-  {% if description is defined and description is not empty %}
-    <p>{{ description|raw }}</p>
-  {% endif %}
+import DialogTamperedFiles from "../../../views/templates/dialogs/dialog-tempered-files.html.twig";
+import { Default as Dialog } from "./Dialog.stories";
 
-  <div class="scrollable-list__scroll-wrapper">
-    <div class="scrollable-list__scroll">
-      {% for item in items %}
-        <p class="scrollable-list__item">
-          {{ item }}
-        </p>
-      {% endfor %}
-    </div>
-  </div>
-</div>
+export default {
+  title: "Components/Dialog/TamperedFiles",
+  component: DialogTamperedFiles,
+};
+
+export const Loading = {
+  args: {
+    ...Dialog.args,
+    title: "List of core alterations",
+    message:
+      "Some core files have been altered, customization made on these files will be lost during the update.",
+    container_id: 'tempered_files_container',
+    content_action: '#',
+  },
+  play: async () => {
+    const dialog = document.querySelector(".dialog");
+    dialog.showModal();
+  },
+};
