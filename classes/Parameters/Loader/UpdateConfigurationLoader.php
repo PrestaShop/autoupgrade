@@ -77,7 +77,11 @@ class UpdateConfigurationLoader extends AbstractConfigurationLoader
             }
             // The DISABLE_OVERRIDES variable must only be updated on the database side
             if ($key === UpdateConfiguration::DISABLE_OVERRIDES) {
-                UpdateConfiguration::updatePSDisableOverrides((bool) $inputOptions[$key]);
+                $validatedBool = filter_var($inputOptions[$key], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+
+                if ($validatedBool !== null) {
+                    UpdateConfiguration::updatePSDisableOverrides($validatedBool);
+                }
             } else {
                 $config[$key] = $inputOptions[$key];
             }
