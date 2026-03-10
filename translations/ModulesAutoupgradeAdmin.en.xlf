@@ -926,11 +926,6 @@
         <target>Checking modules compatibility with PrestaShop %s and uninstalling incompatible ones.</target>
         <note>classes/Task/Update/UninstallModules.php:115</note>
       </trans-unit>
-      <trans-unit id="4e10cc2dd0db877fa0499eda7148974f">
-        <source>Unable to retrieve module %s information. Ignored.</source>
-        <target>Unable to retrieve module %s information. Ignored.</target>
-        <note>classes/Task/Update/UninstallModules.php:146</note>
-      </trans-unit>
       <trans-unit id="1bb3417aa4ddeb45d58d8cfa775c0a25">
         <source>%nbOfModules% incompatible modules with PrestaShop %version% will be uninstalled.</source>
         <target>%nbOfModules% incompatible modules with PrestaShop %version% will be uninstalled.</target>
@@ -1331,10 +1326,15 @@
         <target>Download update logs</target>
         <note>classes/Services/LogsService.php:117</note>
       </trans-unit>
-      <trans-unit id="0ea1ca0772a9eb4ee22ecfb14406271d">
-        <source>Error when retrieving data from Distribution API</source>
-        <target>Error when retrieving data from Distribution API</target>
-        <note>classes/Services/DistributionApiService.php:73</note>
+      <trans-unit id="3a0cb36199a59d91de6c734a4863a03e">
+        <source>Error when retrieving data from Marketplace API</source>
+        <target>Error when retrieving data from Marketplace API</target>
+        <note>classes/Services/MarketplaceService.php:52</note>
+      </trans-unit>
+      <trans-unit id="4e10cc2dd0db877fa0499eda7148974f">
+        <source>Unable to retrieve module %s information. Ignored.</source>
+        <target>Unable to retrieve module %s information. Ignored.</target>
+        <note>classes/Services/MarketplaceService.php:58</note>
       </trans-unit>
       <trans-unit id="708a3f63d9d379278db1b2bb25f7b79b">
         <source>Download attempt %d/%d failed: %s</source>
@@ -1350,6 +1350,11 @@
         <source>The file could not be downloaded or is empty. Destination path: "%s", Source URL: "%s".</source>
         <target>The file could not be downloaded or is empty. Destination path: "%s", Source URL: "%s".</target>
         <note>classes/Services/DownloadService.php:78</note>
+      </trans-unit>
+      <trans-unit id="0ea1ca0772a9eb4ee22ecfb14406271d">
+        <source>Error when retrieving data from Distribution API</source>
+        <target>Error when retrieving data from Distribution API</target>
+        <note>classes/Services/DistributionApiService.php:73</note>
       </trans-unit>
       <trans-unit id="8749d103f0a98214ad61688208981068">
         <source>Invalid JSON from Distribution API: %s</source>
