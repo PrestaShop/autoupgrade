@@ -165,6 +165,10 @@ abstract class AbstractTask
 
     protected function handleException(ProcessException $e): void
     {
+        foreach ($e->getQuickInfos() as $log) {
+            $this->logger->warning($log);
+        }
+
         if ($e->getSeverity() === ProcessException::SEVERITY_ERROR) {
             $this->next = TaskName::TASK_ERROR;
             $this->setErrorFlag();
@@ -173,10 +177,6 @@ abstract class AbstractTask
         if ($e->getSeverity() === ProcessException::SEVERITY_WARNING) {
             $this->logger->warning($e->getMessage());
             $this->container->getUpdateState()->setWarningDetected(true);
-        }
-
-        foreach ($e->getQuickInfos() as $log) {
-            $this->logger->warning($log);
         }
     }
 
