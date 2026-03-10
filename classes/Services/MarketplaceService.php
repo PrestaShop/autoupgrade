@@ -42,22 +42,20 @@ class MarketplaceService
     }
 
     /**
-     * @return Module|null
-     *
      * @throws MarketplaceApiException
      */
-    public function getModuleDetail(string $module)
+    public function getModuleDetail(string $module): Module
     {
         $response = file_get_contents(self::ADDONS_API_URL . '/v2/products/' . $module);
 
         if (!$response) {
-            throw new MarketplaceApiException($this->translator->trans('Error when retrieving data from Distribution API'), MarketplaceApiException::API_NOT_CALLABLE_CODE);
+            throw new MarketplaceApiException($this->translator->trans('Error when retrieving data from Marketplace API'), MarketplaceApiException::API_NOT_CALLABLE_CODE);
         }
 
         $data = json_decode($response, true);
 
         if (!$data || !is_array($data)) {
-            return null;
+            throw new MarketplaceApiException($this->translator->trans('Unable to retrieve module %s information. Ignored.', [$module]), MarketplaceApiException::EMPTY_DATA_CODE);
         }
 
         return Module::fromArray($data);

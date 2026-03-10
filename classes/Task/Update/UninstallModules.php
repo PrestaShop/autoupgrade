@@ -143,7 +143,7 @@ class UninstallModules extends AbstractTask
                         $modulesToUninstallList[] = $module['name'];
                     }
                 } catch (MarketplaceApiException $e) {
-                    $this->logger->warning($this->translator->trans('Unable to retrieve module %s information. Ignored.', [$module['name']]));
+                    $this->logger->warning($e);
                     $this->container->getUpdateState()->setWarningDetected(true);
                 }
             }
