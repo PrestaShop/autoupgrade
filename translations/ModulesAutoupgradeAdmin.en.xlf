@@ -924,12 +924,12 @@
       <trans-unit id="a69ed524ced858a2d790fdaccb139cb0">
         <source>Checking modules compatibility with PrestaShop %s and uninstalling incompatible ones.</source>
         <target>Checking modules compatibility with PrestaShop %s and uninstalling incompatible ones.</target>
-        <note>classes/Task/Update/UninstallModules.php:115</note>
+        <note>classes/Task/Update/UninstallModules.php:117</note>
       </trans-unit>
       <trans-unit id="1bb3417aa4ddeb45d58d8cfa775c0a25">
         <source>%nbOfModules% incompatible modules with PrestaShop %version% will be uninstalled.</source>
         <target>%nbOfModules% incompatible modules with PrestaShop %version% will be uninstalled.</target>
-        <note>classes/Task/Update/UninstallModules.php:167</note>
+        <note>classes/Task/Update/UninstallModules.php:169</note>
       </trans-unit>
       <trans-unit id="b5a70dbba513a87e5c63004a7b2497c6">
         <source>Starting update module %module%...</source>
