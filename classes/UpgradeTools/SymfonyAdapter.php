@@ -59,6 +59,8 @@ class SymfonyAdapter
             }
 
             $kernel->boot();
+            // Starting from PrestaShop 9, some parts of the new context are defined by event listeners on kernel.request.
+            // We may have to trigger it with dummy data in the future.
         }
 
         return $kernel;
