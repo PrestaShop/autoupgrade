@@ -23,6 +23,7 @@ namespace PrestaShop\Module\AutoUpgrade\Task\Update;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Analytics;
+use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
@@ -46,12 +47,14 @@ class UpdateInitialization extends AbstractTask
         $this->logger->info($this->translator->trans('Starting update...'));
         $this->container->getFileStorage()->cleanAllUpdateFiles();
 
-        $this->container->getUpdateState()->initDefault(
+        $updateState = $this->container->getUpdateState();
+
+        $updateState->initDefault(
             $this->container->getProperty(UpgradeContainer::PS_VERSION),
             $this->container->getUpgrader(),
             $this->container->getUpdateConfiguration()
         );
-        $this->container->getUpdateState()->setProgressPercentage(
+        $updateState->setProgressPercentage(
             $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
         );
 
@@ -63,7 +66,19 @@ class UpdateInitialization extends AbstractTask
             return ExitCode::SUCCESS;
         }
 
-        $this->logger->info($this->translator->trans('Destination version: %s', [$this->container->getUpdateState()->getDestinationVersion()]));
+        $this->logger->info($this->translator->trans('Destination version: %s', [$updateState->getDestinationVersion()]));
+
+        /**
+         * We rely on a method that checks the PHP version required for our PrestaShop version to determine if it's an official release.
+         * (if the PrestaShop version isn't found, an error is thrown)
+         * If it's not the case, we disable module uninstallation because we can't properly check their compatibility.
+         */
+        try {
+            $this->container->getDistributionApiService()->getPhpVersionRequirements($updateState->getDestinationVersion());
+        } catch(DistributionApiException $e) {
+            $updateState->setSkipUninstallModule(true);
+        }
+
 
         switch ($this->container->getUpdateConfiguration()->getChannelOrDefault()) {
             case UpgradeConfiguration::CHANNEL_LOCAL:

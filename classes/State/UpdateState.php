@@ -43,6 +43,11 @@ class UpdateState extends AbstractState
     protected $destinationVersion;
 
     /**
+     * @var bool Determining if we can proceed to uninstall module step (only if destination version is know by Distribution API)
+     */
+    protected $skipUninstallModule = false;
+
+    /**
      * installedLanguagesIso is an array of iso_code of each installed languages.
      *
      * @var string[]
@@ -91,6 +96,19 @@ class UpdateState extends AbstractState
     public function setDestinationVersion(?string $destinationVersion): self
     {
         $this->destinationVersion = $destinationVersion;
+        $this->save();
+
+        return $this;
+    }
+
+    public function getSkipUninstallModule(): bool
+    {
+        return $this->skipUninstallModule;
+    }
+
+    public function setSkipUninstallModule(bool $skipUninstallModule): self
+    {
+        $this->skipUninstallModule = $skipUninstallModule;
         $this->save();
 
         return $this;
