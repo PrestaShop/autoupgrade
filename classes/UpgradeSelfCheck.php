@@ -215,7 +215,6 @@ class UpgradeSelfCheck
             self::DESTINATION_VERSION_IS_NOT_SUPPORTED => empty($this->getLatestCompatibleModuleVersion()),
             self::THEME_TEMPERED_FILES_LIST_NOT_EMPTY => $isThemeTemperedFileListNotEmpty,
             self::CORE_TEMPERED_FILES_LIST_NOT_EMPTY => $isCoreTemperedFileListNotEmpty,
-            self::MODULES_REQUIRE_ATTENTION => $this->checkModuleRequiresAttention(),
         ];
 
         if (!$warnings[self::DESTINATION_VERSION_IS_NOT_SUPPORTED]) {
@@ -224,6 +223,10 @@ class UpgradeSelfCheck
 
         if ($this->updateConfiguration->isChannelLocal()) {
             $warnings[self::PHP_COMPATIBILITY_UNKNOWN] = $this->getPhpRequirementsState() === PhpVersionResolverService::COMPATIBILITY_UNKNOWN;
+        }
+
+        if($warnings[self::PHP_COMPATIBILITY_UNKNOWN]) {
+            $warnings[self::MODULES_REQUIRE_ATTENTION] = $this->checkModuleRequiresAttention();
         }
 
         return array_filter($warnings);

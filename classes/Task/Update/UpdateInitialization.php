@@ -25,6 +25,7 @@ use Exception;
 use PrestaShop\Module\AutoUpgrade\Analytics;
 use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Services\PhpVersionResolverService;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\Task\TaskName;
@@ -66,19 +67,18 @@ class UpdateInitialization extends AbstractTask
             return ExitCode::SUCCESS;
         }
 
-        $this->logger->info($this->translator->trans('Destination version: %s', [$updateState->getDestinationVersion()]));
+        $destinationVersion = $updateState->getDestinationVersion();
+
+        $this->logger->info($this->translator->trans('Destination version: %s', [$destinationVersion]));
 
         /**
-         * We rely on a method that checks the PHP version required for our PrestaShop version to determine if it's an official release.
-         * (if the PrestaShop version isn't found, an error is thrown)
-         * If it's not the case, we disable module uninstallation because we can't properly check their compatibility.
+         * We use the same method as UpgradeSelfCheck to determine if the target version is known. If it isn't, we skip the uninstallation step (otherwise, it would cause a mass uninstallation of all modules that are not up to date).
          */
-        try {
-            $this->container->getDistributionApiService()->getPhpVersionRequirements($updateState->getDestinationVersion());
-        } catch(DistributionApiException $e) {
+        $phpRequirementsState = $this->container->getPhpVersionResolverService()->getPhpRequirementsState(PHP_VERSION_ID, $destinationVersion);
+
+        if ($phpRequirementsState === PhpVersionResolverService::COMPATIBILITY_UNKNOWN) {
             $updateState->setSkipUninstallModule(true);
         }
-
 
         switch ($this->container->getUpdateConfiguration()->getChannelOrDefault()) {
             case UpgradeConfiguration::CHANNEL_LOCAL:
