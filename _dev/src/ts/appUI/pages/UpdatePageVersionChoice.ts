@@ -33,8 +33,9 @@ export default class UpdatePageVersionChoice extends StepPage {
     this.initStepper();
     if (!this.#form) return;
 
-    this.#form.addEventListener('change', this.#saveForm.bind(this));
+    this.#form.addEventListener('change', this.#saveForm);
     this.#form.addEventListener('submit', this.#handleSubmit);
+    this.#form.addEventListener('click', this.#onFormClick);
 
     this.#form.dispatchEvent(new Event('change'));
 
@@ -46,29 +47,20 @@ export default class UpdatePageVersionChoice extends StepPage {
     this.#localCardParent?.addEventListener(Hydration.hydrationEventName, this.#handleHydrate);
 
     this.#toggleNextButton();
-    this.#addListenerToCheckRequirementsAgainButtons();
   };
 
   public beforeDestroy = () => {
     if (!this.#form) return;
     this.#form.removeEventListener('change', this.#saveForm);
     this.#form.removeEventListener('submit', this.#handleSubmit);
-    this.#onlineCardParent?.removeEventListener(
-      Hydration.hydrationEventName,
-      this.#toggleNextButton
-    );
+    this.#form.removeEventListener('click', this.#onFormClick);
+
+    this.#onlineCardParent?.removeEventListener(Hydration.hydrationEventName, this.#handleHydrate);
     this.#onlineRecommendedCardParent?.removeEventListener(
       Hydration.hydrationEventName,
-      this.#toggleNextButton
+      this.#handleHydrate
     );
-    this.#localCardParent?.removeEventListener(
-      Hydration.hydrationEventName,
-      this.#toggleNextButton
-    );
-    this.#checkRequirementsAgainButtons?.forEach((element) => {
-      element.removeEventListener('click', this.#saveForm);
-    });
-    this.#requirementsListContainer?.removeEventListener('click', this.#onClickDialogLink);
+    this.#localCardParent?.removeEventListener(Hydration.hydrationEventName, this.#handleHydrate);
   };
 
   #sendForm = async (routeToSend: string) => {
@@ -76,16 +68,20 @@ export default class UpdatePageVersionChoice extends StepPage {
     await api.post(routeToSend, formData);
   };
 
-  #addListenerToCheckRequirementsAgainButtons = () => {
-    if (this.#checkRequirementsAgainButtons?.length) {
-      this.#checkRequirementsAgainButtons.forEach((element) => {
-        element.addEventListener('click', this.#saveForm);
-      });
-    }
-  };
+  readonly #onFormClick = (event: MouseEvent) => {
+    const target = event.target as HTMLElement;
 
-  #addListenerToRequirementsLinks = () => {
-    this.#requirementsListContainer?.addEventListener('click', this.#onClickDialogLink);
+    // Delegate links with additional contents to display
+    if (target.tagName === 'A' && (target as HTMLAnchorElement).hash) {
+      this.#onClickDialogLink(event);
+      return;
+    }
+
+    // Delegate "Check requirements again" button
+    const button = target.closest('button[data-action="check-requirements-again"]');
+    if (button) {
+      this.#saveForm();
+    }
   };
 
   #onClickDialogLink = async (event: MouseEvent) => {
@@ -104,8 +100,6 @@ export default class UpdatePageVersionChoice extends StepPage {
 
   #handleHydrate = () => {
     this.#toggleNextButton();
-    this.#addListenerToCheckRequirementsAgainButtons();
-    this.#addListenerToRequirementsLinks();
   };
 
   #toggleNextButton = () => {
@@ -190,20 +184,6 @@ export default class UpdatePageVersionChoice extends StepPage {
       return this.#localInputElement!.dataset.requirementsAreOk === '1';
     }
     return false;
-  }
-
-  get #requirementsListContainer(): HTMLDivElement | null | undefined {
-    return this.#form?.querySelector('[data-slot-component="requirements"]');
-  }
-
-  get #checkRequirementsAgainButtons(): HTMLButtonElement[] | undefined {
-    return this.#form
-      ? (Array.from(this.#form.elements).filter(
-          (element): element is HTMLButtonElement =>
-            element instanceof HTMLButtonElement &&
-            element.dataset.action === 'check-requirements-again'
-        ) as HTMLButtonElement[])
-      : undefined;
   }
 
   // online option
