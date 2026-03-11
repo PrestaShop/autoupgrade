@@ -112,7 +112,7 @@ class UninstallModules extends AbstractTask
             $this->stepDone = true;
             $this->status = 'ok';
             $this->next = TaskName::TASK_UPDATE_FILES;
-            $this->logger->info($this->translator->trans('Since this version of PrestaShop is not an official release, the module compatibility check for uninstallation cannot be performed. Proceed to the next step.'));
+            $this->logger->info($this->translator->trans('Since this version of PrestaShop is not released to the public, the module compatibility check for uninstallation cannot be performed. Skipping to the next step.'));
 
             return ExitCode::SUCCESS;
         }
