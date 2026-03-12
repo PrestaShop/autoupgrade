@@ -24,6 +24,7 @@ namespace PrestaShop\Module\AutoUpgrade\Task\Update;
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Analytics;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Services\PhpVersionResolverService;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\Task\TaskName;
@@ -46,12 +47,14 @@ class UpdateInitialization extends AbstractTask
         $this->logger->info($this->translator->trans('Starting update...'));
         $this->container->getFileStorage()->cleanAllUpdateFiles();
 
-        $this->container->getUpdateState()->initDefault(
+        $updateState = $this->container->getUpdateState();
+
+        $updateState->initDefault(
             $this->container->getProperty(UpgradeContainer::PS_VERSION),
             $this->container->getUpgrader(),
             $this->container->getUpdateConfiguration()
         );
-        $this->container->getUpdateState()->setProgressPercentage(
+        $updateState->setProgressPercentage(
             $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
         );
 
@@ -63,7 +66,18 @@ class UpdateInitialization extends AbstractTask
             return ExitCode::SUCCESS;
         }
 
-        $this->logger->info($this->translator->trans('Destination version: %s', [$this->container->getUpdateState()->getDestinationVersion()]));
+        $destinationVersion = $updateState->getDestinationVersion();
+
+        $this->logger->info($this->translator->trans('Destination version: %s', [$destinationVersion]));
+
+        /**
+         * We use the same method as UpgradeSelfCheck to determine if the target version is known. If it isn't, we skip the uninstallation step (otherwise, it would cause a mass uninstallation of all modules that are not up to date).
+         */
+        $phpRequirementsState = $this->container->getPhpVersionResolverService()->getPhpRequirementsState(PHP_VERSION_ID, $destinationVersion);
+
+        if ($phpRequirementsState === PhpVersionResolverService::COMPATIBILITY_UNKNOWN) {
+            $updateState->setSkipUninstallModule(true);
+        }
 
         switch ($this->container->getUpdateConfiguration()->getChannelOrDefault()) {
             case UpgradeConfiguration::CHANNEL_LOCAL:

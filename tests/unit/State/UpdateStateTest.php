@@ -46,7 +46,7 @@ class UpdateStateTest extends TestCase
             'destinationVersion' => '9.0.0',
             'installedLanguagesIso' => [],
             'warningDetected' => false,
-
+            'skipUninstallModule' => false,
             'progressPercentage' => 20,
         ];
 
