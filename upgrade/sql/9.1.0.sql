@@ -206,7 +206,6 @@ CREATE TABLE `PREFIX_business_entity_address`
     `id_business_entity` INT UNSIGNED                       NOT NULL,
     `id_address`         INT UNSIGNED                       NOT NULL,
     `address_type`       ENUM ('both','invoice','delivery') NOT NULL DEFAULT 'both',
-    `default`            TINYINT(1)                         NOT NULL DEFAULT 0,
     PRIMARY KEY (`id_business_entity`, `id_address`),
     INDEX                `business_entity_address_address_idx` (`id_address`)
 ) ENGINE=ENGINE_TYPE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
