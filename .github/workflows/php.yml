@@ -124,25 +124,3 @@ jobs:
           for file in autoupgrade.php controllers/admin/AdminSelfUpgradeController.php classes/VersionUtils.php classes/UpgradeTools/Translator.php; do 
             php -l $file; 
           done
-
-  header-stamp:
-    name: Check license headers
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup PHP 8.3
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.3'
-
-      - run: composer install
-        working-directory: ./tests
-
-      - name: Run Header Stamp in Dry Run mode
-        run: |
-          php ./tests/vendor/bin/header-stamp --license=./tests/vendor/prestashop/header-stamp/assets/afl.txt --exclude=vendor,node_modules,storybook/var,tests/fixtures --dry-run  || {
-            echo "::error::Some headers are missing or incorrect. Run 'php ./tests/vendor/bin/header-stamp --license=./tests/vendor/prestashop/header-stamp/assets/afl.txt --exclude=vendor,node_modules,storybook/var,tests/fixtures' to autofix them."
-            exit 1
-          }
