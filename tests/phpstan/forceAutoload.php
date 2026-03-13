@@ -4,7 +4,7 @@
  * LICENSE.md file that was distributed with this source code.
  */
 
-/**
+/*
  * This module usually runs without relying of PrestaShop classes.
  * During the initialization of PHPStan in a module context, PrestaShop Autoloader is always called
  * to make sure module calls are known.
