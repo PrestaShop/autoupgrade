@@ -28,7 +28,7 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Set matrix
         id: set-matrix
         run: echo "matrix=$(jq -c '. | del(.include[] | select(has("comment")))' .github/workflows/ui-test/${{ env.JSON_FILE }})" >> $GITHUB_OUTPUT
@@ -44,7 +44,7 @@ jobs:
       PS_DOCKER: ${{ matrix.PS_VERSION_START }}-${{ matrix.PHP_VERSION }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Start containers
         working-directory: tests/UI/
@@ -104,7 +104,7 @@ jobs:
           docker exec -t prestashop chmod 777 -R /var/www/html/var/cache
 
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: '20.x'
 
@@ -165,7 +165,7 @@ jobs:
         run: docker compose logs --no-color >& docker-compose.log
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: playwright-report-${{ matrix.PS_VERSION_START }}-${{ matrix.PS_VERSION_END }}-${{ matrix.UPGRADE_CHANNEL }}-${{ matrix.PHP_VERSION }}
@@ -190,12 +190,12 @@ jobs:
       id-token: 'write'
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       - name: Download report
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: playwright-report-${{ matrix.PS_VERSION_START }}-${{ matrix.PS_VERSION_END }}-${{ matrix.UPGRADE_CHANNEL }}-${{ matrix.PHP_VERSION }}
           path: tests/UI/
@@ -209,14 +209,14 @@ jobs:
           mv report.json nightly/${REPORT_NAME}.json
       # Nightly : Auth GCP
       - name: "Nightly : Auth GCP"
-        uses: google-github-actions/auth@v2
+        uses: google-github-actions/auth@v3
         with:
           credentials_json: ${{ secrets.GC_SERVICE_KEY }}
           project_id: ${{ secrets.GC_PROJECT_ID }}
 
       # Nightly : Setup GCP
       - name: "Nightly : Setup GCP"
-        uses: google-github-actions/setup-gcloud@v2
+        uses: google-github-actions/setup-gcloud@v3
 
       # Nightly : Upload to Google Cloud Storage (GCS)
       - name: "Nightly : Upload to Google Cloud Storage (GCS)"
