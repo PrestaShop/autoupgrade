@@ -19,11 +19,10 @@ excludedFiles:
   - '.github'
   - '.composer'
   - 'composer.json'
+  - 'package.json'
+  - 'package-lock.json'
   # tests
   - 'tests/fixtures'
-  # dev folders
-  - '_dev/package.json'
-  - '_dev/package-lock.json'
   # dependencies
   - 'vendor'
   - 'node_modules'
