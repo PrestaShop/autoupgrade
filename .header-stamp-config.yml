@@ -1,4 +1,4 @@
-license: ../.header-stamp-afl3-license.txt
+license: .header-stamp-afl3-license.txt
 discriminationString:
   # New discriminator since 9.1
   - For the full copyright and license information

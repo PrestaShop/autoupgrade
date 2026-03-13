@@ -22,6 +22,6 @@ jobs:
       - name: Run Header Stamp in Dry Run mode
         run: |
           composer header-stamp || {
-            echo "::error::Some headers are missing or incorrect. Run 'composer header-stamp-fix' inside 'tests' folder to autofix them."
+            echo "::error::Some headers are missing or incorrect. Run 'composer header-stamp-fix' to autofix them."
             exit 1
           }
