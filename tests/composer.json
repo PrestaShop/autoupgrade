@@ -1,5 +1,5 @@
 {
-    "license": "AFL-3.0",
+    "license": "OSL-3.0",
     "authors": [
         {
             "name": "PrestaShop SA",
@@ -9,7 +9,7 @@
     "require-dev": {
         "phpstan/phpstan": "^2.1",
         "prestashop/php-dev-tools": "^5",
-        "prestashop/header-stamp": "^2.4"
+        "prestashop/header-stamp": "^3.1"
     },
     "config": {
         "platform": {
