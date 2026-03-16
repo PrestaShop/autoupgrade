@@ -25,6 +25,7 @@ use Exception;
 use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
 use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
 use Symfony\Component\Console\Input\InputArgument;
@@ -59,6 +60,7 @@ class CheckRequirementsCommand extends AbstractCommand
     {
         try {
             $this->setupEnvironment($input, $output);
+            $this->upgradeContainer->getFileStorage()->clean(UpgradeFileNames::UPDATE_CONFIG_FILENAME);
             $this->output = $output;
 
             $options = [
